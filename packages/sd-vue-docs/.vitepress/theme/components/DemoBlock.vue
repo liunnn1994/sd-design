@@ -8,7 +8,9 @@
   type ReplModule = typeof import('@vue/repl');
   type ReplStore = ReturnType<ReplModule['useStore']>;
 
-  const SD_VERSION = '1.0.0-alpha.1';
+  declare const __SD_WEB_VUE_VERSION__: string;
+
+  const SD_VERSION = __SD_WEB_VUE_VERSION__;
 
   const props = defineProps<{
     code: string;
@@ -55,7 +57,7 @@
   const previewOptions = computed(() => ({
     headHTML: [
       `<link rel="stylesheet" href="https://unpkg.com/@sd-design/web-vue@${SD_VERSION}/dist/sd.css">`,
-      '<style>body{margin:0;padding:16px;}body[sd-theme="dark"]{background:#141414;color:#f2f3f5;}<\/style>',
+      `<style>body{margin:0;padding:16px;}body[sd-theme="dark"]{background:#141414;color:#f2f3f5;}</style>`,
       `<script>window.__ARCO_THEME__=${JSON.stringify(replTheme.value)};document.addEventListener('DOMContentLoaded',function(){if(window.__ARCO_THEME__==='dark'){document.body.setAttribute('sd-theme','dark');}else{document.body.removeAttribute('sd-theme');}});<\/script>`,
     ].join(''),
     customCode: {

@@ -6,6 +6,8 @@ import { defineConfig } from 'vitepress';
 const currentDir = dirname(fileURLToPath(import.meta.url));
 const packageRoot = resolve(currentDir, '..');
 const componentsRoot = resolve(packageRoot, '..', 'web-vue', 'components');
+const webVuePackagePath = resolve(packageRoot, '..', 'web-vue', 'package.json');
+const webVueVersion = JSON.parse(readFileSync(webVuePackagePath, 'utf8')).version as string;
 
 const categoryOrder = ['通用', '布局', '数据展示', '数据输入', '反馈', '导航', '其他'];
 
@@ -58,6 +60,9 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
   vite: {
+    define: {
+      __SD_WEB_VUE_VERSION__: JSON.stringify(webVueVersion),
+    },
     optimizeDeps: {
       exclude: ['@vue/repl'],
     },
@@ -69,6 +74,7 @@ export default defineConfig({
     nav: [
       { text: '开始使用', link: '/guide/start' },
       { text: '组件', link: '/components/button/' },
+      { text: webVueVersion, link: '/' },
     ],
     sidebar: {
       '/guide/': [
@@ -94,6 +100,5 @@ export default defineConfig({
       prev: '上一页',
       next: '下一页',
     },
-    arcoVersion: '1.0.0-alpha.1',
   },
 });
