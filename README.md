@@ -17,7 +17,6 @@
 - packages/sd-vue-scripts：内部脚手架与构建工具，封装组件库和站点的构建逻辑。
 - packages/vite-plugin-sd-vue-docs：将 Markdown 文档转换为 Vue 页面内容的内部 Vite 插件。
 - packages/sd-changelog：变更日志解析工具，供文档和发布流程复用。
-- packages/web-vue-storybook：组件 Storybook 工程。
 
 根目录脚本主要用于串联这些内部包。第一次运行前，需要先把内部工具包编译出来，否则 workspace bin 无法正确工作。
 
