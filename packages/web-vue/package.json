@@ -29,6 +29,9 @@
   "module": "es/index.js",
   "types": "es/index.d.ts",
   "unpkg": "dist/sd-vue.min.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "init": "pnpm run icongen && pnpm run lessgen && sd-vue-scripts build:component",
     "start": "sd-vue-scripts dev:component",
@@ -66,7 +69,9 @@
     "@babel/preset-env": "^7.29.2",
     "@babel/preset-typescript": "^7.28.5",
     "@sd-design/sd-vue-scripts": "workspace:*",
+    "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/exec": "^7.1.0",
     "@semantic-release/github": "^12.0.6",
     "@semantic-release/release-notes-generator": "^14.1.0",
     "@types/jest": "^30.0.0",

@@ -43,6 +43,8 @@ jobs:
         with:
           node-version-file: 'package.json'
           cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@sdata'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -60,5 +62,6 @@ jobs:
         working-directory: packages/web-vue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: pnpm exec semantic-release
