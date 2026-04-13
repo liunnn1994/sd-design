@@ -8,7 +8,7 @@
 
 </div>
 
-# 基础架构
+## 基础架构
 
 本仓库是一个基于 pnpm workspace 的 monorepo，核心包都位于 packages 目录下。
 
@@ -20,14 +20,14 @@
 
 根目录脚本主要用于串联这些内部包。第一次运行前，需要先把内部工具包编译出来，否则 workspace bin 无法正确工作。
 
-# 环境要求
+## 环境要求
 
 - Node.js >= 24.14.1
 - pnpm >= 10.33.0
 
 如果 Node 版本低于推荐值，脚本通常仍可运行，但会看到 engine warning。
 
-# 快速开始
+## 快速开始
 
 首次安装或依赖升级后，建议按下面顺序执行：
 
@@ -42,7 +42,7 @@ pnpm run start
 - `pnpm run init` 会先构建内部工具包，再安装依赖，并执行 `@sd-design/web-vue` 的初始化流程。
 - `pnpm run start` 会启动 VitePress 文档站开发服务；如果默认端口被占用，Vite 会自动切换到下一个可用端口。
 
-# 常用命令
+## 常用命令
 
 ```bash
 # 初始化内部工具链和组件产物
@@ -73,7 +73,7 @@ pnpm run storybook
 pnpm run clean
 ```
 
-# 文档编写
+## 文档编写
 
 - 组件文档源文件位于 `packages/web-vue/components/<component>/README.zh-CN.md`。
 - 组件示例源文件位于 `packages/web-vue/components/<component>/__demo__/*.md`，其中 ` ```vue ` 代码块会被迁移脚本提取为可运行示例。
@@ -81,16 +81,12 @@ pnpm run clean
 - 每次修改组件 README、示例或指南后，执行 `pnpm --filter @sd-design/sd-vue-docs run docs:prepare` 重新生成页面。
 - 日常开发使用 `pnpm run start`，产线验证使用 `pnpm run build:site`。
 
-# 维护说明
+## 维护说明
 
 - 如果升级内部工具链后文档站出现启动或打包异常，优先重新执行 `pnpm run init`。
 - 根脚本 `upgrade:*` 用于批量升级依赖、engines、browserslist 和技能清单，适合做仓库级维护，不适合日常开发流程。
 
-# License
-
-[GNU Affero General Public License v3.0](./LICENSE)
-
-# 支持版本
+## 浏览器兼容性
 
 <!-- browserslist:start -->
 
@@ -104,3 +100,7 @@ pnpm run clean
 - ios_saf>=17.0
 - safari>=17.0
 <!-- browserslist:end -->
+
+# License
+
+[GNU Affero General Public License v3.0](./LICENSE)

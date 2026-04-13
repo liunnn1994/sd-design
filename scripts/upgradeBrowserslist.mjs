@@ -1,9 +1,11 @@
 import { uniq } from 'es-toolkit';
 import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 const README_PATH = 'README.md';
-const SECTION_TITLE = '# 支持版本';
+const START_PATH = resolve(process.cwd(), 'packages/sd-vue-docs/guide-source/start.zh-CN.md');
+const SECTION_TITLE = '## 浏览器兼容性';
 const GENERATED_START = '<!-- browserslist:start -->';
 const GENERATED_END = '<!-- browserslist:end -->';
 
@@ -14,10 +16,14 @@ function main() {
   const condensedBrowsers = condenseBrowsers(browsers);
   const markdown = buildMarkdown(condensedBrowsers);
   const readmeContent = readFileSync(README_PATH, 'utf8');
+  const startContent = readFileSync(START_PATH, 'utf8');
   const nextReadmeContent = upsertSupportSection(readmeContent, markdown);
+  const nextStartContent = upsertSupportSection(startContent, markdown);
 
   writeFileSync(README_PATH, nextReadmeContent, 'utf8');
+  writeFileSync(START_PATH, nextStartContent, 'utf8');
   console.log('README 支持版本已更新');
+  console.log('开始使用文档支持版本已更新');
   console.log(markdown);
 }
 
