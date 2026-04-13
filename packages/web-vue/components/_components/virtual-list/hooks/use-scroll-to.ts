@@ -1,12 +1,13 @@
 import { toRefs, computed } from 'vue';
-import { getIndexByStartLoc } from '../utils/algorithm';
+
+import { InternalDataItem, VirtualItemKey, ScrollOptions } from '../interface';
 import {
   getScrollPercentage,
   getRangeIndex,
   getItemRelativeTop,
   getCompareItemRelativeTop,
 } from '../utils';
-import { InternalDataItem, VirtualItemKey, ScrollOptions } from '../interface';
+import { getIndexByStartLoc } from '../utils/algorithm';
 
 export interface RelativeScroll {
   itemIndex: number;
@@ -48,8 +49,7 @@ export function useScrollTo(props: {
   const fixScrollTo = (relativeScroll: RelativeScroll) => {
     if (!viewportRef.value) return null;
 
-    const { itemIndex: compareItemIndex, relativeTop: compareItemRelativeTop } =
-      relativeScroll;
+    const { itemIndex: compareItemIndex, relativeTop: compareItemRelativeTop } = relativeScroll;
 
     const { scrollHeight, clientHeight } = viewportRef.value;
     const originScrollTop = scrollTop.value;
@@ -73,7 +73,7 @@ export function useScrollTo(props: {
       const { itemIndex, itemOffsetPtg, startIndex, endIndex } = getRangeIndex(
         scrollPtg,
         itemCount.value,
-        visibleCount.value
+        visibleCount.value,
       );
 
       if (startIndex <= compareItemIndex && compareItemIndex <= endIndex) {
@@ -137,8 +137,8 @@ export function useScrollTo(props: {
       'index' in options
         ? (options.index as number)
         : 'key' in options
-        ? data.value.findIndex((item) => item.key === options.key)
-        : 0;
+          ? data.value.findIndex((item) => item.key === options.key)
+          : 0;
     const item = data.value[index];
 
     if (!item) {
@@ -183,9 +183,7 @@ export function useScrollTo(props: {
       return {
         itemIndex: index,
         relativeTop:
-          align === 'top'
-            ? 0
-            : clientHeight - getItemHeightOrDefaultByIndex.value(index),
+          align === 'top' ? 0 : clientHeight - getItemHeightOrDefaultByIndex.value(index),
         startIndex: Math.max(0, index - visibleCount.value),
         endIndex: Math.min(itemCount.value - 1, index + visibleCount.value),
       };

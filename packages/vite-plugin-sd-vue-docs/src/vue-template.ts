@@ -61,8 +61,8 @@ export const getDemoVue = ({
   code: string;
 }) => `<template>
   <code-block id="${id}" :title="getMessage(${getTemplateString(
-  title['zh-CN']
-)}, ${getTemplateString(title['en-US'])})">
+    title['zh-CN'],
+  )}, ${getTemplateString(title['en-US'])})">
     <template v-if="locale === 'zh-CN'" #description>
       ${description['zh-CN'] ?? ''}
     </template>

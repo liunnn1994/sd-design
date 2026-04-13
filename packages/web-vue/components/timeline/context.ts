@@ -1,6 +1,8 @@
 import { InjectionKey } from 'vue';
-import { Direction } from '../_utils/constant';
+
 import type { ModeType, LabelPositionType } from './interface';
+
+import { Direction } from '../_utils/constant';
 
 export interface TimelineContext {
   items: number[];
@@ -10,5 +12,4 @@ export interface TimelineContext {
   mode: ModeType;
 }
 
-export const timelineInjectionKey: InjectionKey<TimelineContext> =
-  Symbol('SDTimeline');
+export const timelineInjectionKey: InjectionKey<TimelineContext> = Symbol('SDTimeline');

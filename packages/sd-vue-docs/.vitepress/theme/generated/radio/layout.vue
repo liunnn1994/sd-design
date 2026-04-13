@@ -21,15 +21,15 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const checkedValue = ref('1');
+  export default {
+    setup() {
+      const checkedValue = ref('1');
 
-    return {
-      checkedValue,
-    };
-  },
-};
+      return {
+        checkedValue,
+      };
+    },
+  };
 </script>

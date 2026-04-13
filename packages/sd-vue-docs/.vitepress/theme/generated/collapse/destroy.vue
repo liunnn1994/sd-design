@@ -10,7 +10,11 @@
       <div>Beijing Toutiao Technology Co., Ltd.</div>
       <div>Beijing Toutiao Technology Co., Ltd.</div>
     </a-collapse-item>
-    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="3" :show-expand-icon="false">
+    <a-collapse-item
+      header="Beijing Toutiao Technology Co., Ltd."
+      key="3"
+      :show-expand-icon="false"
+    >
       <div>Beijing Toutiao Technology Co., Ltd.</div>
       <div>Beijing Toutiao Technology Co., Ltd.</div>
       <div>Beijing Toutiao Technology Co., Ltd.</div>

@@ -8,9 +8,11 @@ import {
   cloneVNode,
   watch,
 } from 'vue';
+
 import ResizeObserver from 'resize-observer-polyfill';
-import { getFirstComponent } from '../_utils/vue-utils';
+
 import { isComponentInstance } from '../_utils/is';
+import { getFirstComponent } from '../_utils/vue-utils';
 
 export default defineComponent({
   name: 'ResizeObserver',
@@ -27,9 +29,7 @@ export default defineComponent({
     const componentRef = ref<HTMLElement | ComponentPublicInstance>();
 
     const element = computed<HTMLElement>(() =>
-      isComponentInstance(componentRef.value)
-        ? componentRef.value.$el
-        : componentRef.value
+      isComponentInstance(componentRef.value) ? componentRef.value.$el : componentRef.value,
     );
 
     const createResizeObserver = (target: HTMLElement) => {
@@ -72,7 +72,7 @@ export default defineComponent({
           {
             ref: componentRef,
           },
-          true
+          true,
         );
       }
 

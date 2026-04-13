@@ -1,4 +1,5 @@
 import { Slot, VNode } from 'vue';
+
 import { VirtualListProps } from '../_components/virtual-list-v2/interface';
 import { Size } from '../_utils/constant';
 
@@ -159,7 +160,7 @@ export type CheckableType =
       info: {
         level: number;
         isLeaf: boolean;
-      }
+      },
     ) => boolean);
 export type SelectableType = CheckableType;
 
@@ -170,10 +171,7 @@ export interface TreeProps {
   multiple: boolean;
   checkable: CheckableType;
   draggable: boolean;
-  allowDrop?: (options: {
-    dropNode: TreeNodeData;
-    dropPosition: DropPosition;
-  }) => boolean;
+  allowDrop?: (options: { dropNode: TreeNodeData; dropPosition: DropPosition }) => boolean;
   selectable: SelectableType;
   checkStrictly: boolean;
   checkedStrategy: CheckedStrategy;
@@ -208,7 +206,7 @@ export interface TreeProps {
       selectedNodes: TreeNodeData[];
       node?: TreeNodeData;
       e?: Event;
-    }
+    },
   ) => void;
   onCheck?: (
     checkedKeys: TreeNodeKey[],
@@ -219,7 +217,7 @@ export interface TreeProps {
       halfCheckedKeys: TreeNodeKey[];
       halfCheckedNodes: TreeNodeData[];
       e?: Event;
-    }
+    },
   ) => void;
   onExpand?: (
     expandedKeys: TreeNodeKey[],
@@ -228,7 +226,7 @@ export interface TreeProps {
       expandedNodes: TreeNodeData[];
       node: TreeNodeData;
       e?: Event;
-    }
+    },
   ) => void;
   onDragStart?: (e: DragEvent, node: TreeNodeData) => void;
   onDragEnd?: (e: DragEvent, node: TreeNodeData) => void;

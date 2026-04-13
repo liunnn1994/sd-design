@@ -1,14 +1,15 @@
 import { PropType, computed, defineComponent, ref } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import { hexToRgb, rgbToHsv } from '../_utils/color';
-import { Color, HSV } from './interface';
-import { useI18n } from '../locale';
+
 import useState from '../_hooks/use-state';
-import ControlBar from './control-bar';
-import Palette from './palette';
+import { hexToRgb, rgbToHsv } from '../_utils/color';
+import { getPrefixCls } from '../_utils/global-config';
+import { useI18n } from '../locale';
 import Select from '../select';
-import InputRgb from './input-rgb';
+import ControlBar from './control-bar';
 import InputHex from './input-hex';
+import InputRgb from './input-rgb';
+import { Color, HSV } from './interface';
+import Palette from './palette';
 
 export default defineComponent({
   name: 'Panel',
@@ -73,10 +74,7 @@ export default defineComponent({
           style={{ backgroundColor: color }}
           onClick={() => onHexInputChange(color)}
         >
-          <div
-            class={`${prefixCls}-block`}
-            style={{ backgroundColor: color }}
-          />
+          <div class={`${prefixCls}-block`} style={{ backgroundColor: color }} />
         </div>
       );
     };
@@ -86,13 +84,9 @@ export default defineComponent({
         <div class={`${prefixCls}-colors-text`}>{text}</div>
         <div class={`${prefixCls}-colors-wrapper`}>
           {colors?.length ? (
-            <div class={`${prefixCls}-colors-list`}>
-              {colors.map(renderColorBlock)}
-            </div>
+            <div class={`${prefixCls}-colors-list`}>{colors.map(renderColorBlock)}</div>
           ) : (
-            <span class={`${prefixCls}-colors-empty`}>
-              {t('colorPicker.empty')}
-            </span>
+            <span class={`${prefixCls}-colors-empty`}>{t('colorPicker.empty')}</span>
           )}
         </div>
       </div>
@@ -102,10 +96,8 @@ export default defineComponent({
       if (props.showHistory || props.showPreset) {
         return (
           <div class={`${prefixCls}-panel-colors`}>
-            {props.showHistory &&
-              renderColorSection(t('colorPicker.history'), props.historyColors)}
-            {props.showPreset &&
-              renderColorSection(t('colorPicker.preset'), props.presetColors)}
+            {props.showHistory && renderColorSection(t('colorPicker.history'), props.historyColors)}
+            {props.showPreset && renderColorSection(t('colorPicker.preset'), props.presetColors)}
           </div>
         );
       }
@@ -131,9 +123,7 @@ export default defineComponent({
                 x={hsv.value.h}
                 color={props.color}
                 colorString={props.colorString}
-                onChange={(h) =>
-                  props.onHsvChange?.({ h, s: hsv.value.s, v: hsv.value.v })
-                }
+                onChange={(h) => props.onHsvChange?.({ h, s: hsv.value.s, v: hsv.value.v })}
               />
               {!props.disabledAlpha && (
                 <ControlBar
@@ -145,10 +135,7 @@ export default defineComponent({
                 />
               )}
             </div>
-            <div
-              class={`${prefixCls}-preview`}
-              style={{ backgroundColor: props.colorString }}
-            />
+            <div class={`${prefixCls}-preview`} style={{ backgroundColor: props.colorString }} />
           </div>
           <div class={`${prefixCls}-input-wrapper`}>
             <Select

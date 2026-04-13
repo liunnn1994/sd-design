@@ -24,13 +24,13 @@ Support two-way binding through `v-model`
   </a-space>
 </template>
 <script>
-export default {
-  data() {
-    return {
-      value: Date.now(),
-      rangeValue: [Date.now(), Date.now()],
-    }
-  }
-}
+  export default {
+    data() {
+      return {
+        value: Date.now(),
+        rangeValue: [Date.now(), Date.now()],
+      };
+    },
+  };
 </script>
 ```

@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Trigger from '../index';
 
 describe('Trigger', () => {
@@ -15,9 +16,7 @@ describe('Trigger', () => {
 
     await wrapper.find('button').trigger('click');
 
-    expect(document.body.innerHTML).toContain(
-      '<div id="popup-content">Popup Content</div>'
-    );
+    expect(document.body.innerHTML).toContain('<div id="popup-content">Popup Content</div>');
   });
 
   test('default visible correctly', async () => {
@@ -31,8 +30,6 @@ describe('Trigger', () => {
       },
     });
 
-    expect(document.body.innerHTML).toContain(
-      '<div id="popup-content">Popup Content</div>'
-    );
+    expect(document.body.innerHTML).toContain('<div id="popup-content">Popup Content</div>');
   });
 });

@@ -17,7 +17,6 @@ Use `fallback-option` to customize the display effect of the value of the option
 ---
 
 ```vue
-
 <template>
   <a-space direction="vertical" size="large">
     <a-tree-select
@@ -67,21 +66,21 @@ Use `fallback-option` to customize the display effect of the value of the option
 </template>
 
 <script>
-export default {
-  setup() {
-    return {
-      treeData,
-      fallback(key) {
-        return {
-          key,
-          title: `++${key}++`
-        }
-      }
-    }
-  }
-}
+  export default {
+    setup() {
+      return {
+        treeData,
+        fallback(key) {
+          return {
+            key,
+            title: `++${key}++`,
+          };
+        },
+      };
+    },
+  };
 
-const treeData = [
+  const treeData = [
     {
       key: 'node1',
       title: 'Trunk1',

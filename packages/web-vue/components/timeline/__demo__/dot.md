@@ -20,12 +20,8 @@ The color and type of the node can be set through the attributes `dotColor`, `do
 <template>
   <div :style="{ display: 'flex' }">
     <a-timeline :style="{ marginRight: '40px' }">
-      <a-timeline-item label="2020-04-12" dotColor="#00B42A">
-        The first milestone
-      </a-timeline-item>
-      <a-timeline-item label="2020-05-17">
-        The second milestone
-      </a-timeline-item>
+      <a-timeline-item label="2020-04-12" dotColor="#00B42A"> The first milestone </a-timeline-item>
+      <a-timeline-item label="2020-05-17"> The second milestone </a-timeline-item>
       <a-timeline-item label="2020-06-22">
         <template #dot>
           <IconClockCircle :style="{ fontSize: '12px', color: '#F53F3F' }" />
@@ -84,10 +80,10 @@ The color and type of the node can be set through the attributes `dotColor`, `do
 </template>
 
 <script>
-import { IconCheck } from '@sd-design/web-vue/es/icon';
+  import { IconCheck } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: { IconCheck },
-};
+  export default {
+    components: { IconCheck },
+  };
 </script>
 ```

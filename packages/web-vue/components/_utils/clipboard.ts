@@ -7,9 +7,7 @@ export const clipboard = async (text: string) => {
       return;
     } catch (err) {
       // eslint-disable-next-line no-console
-      console.error(
-        err ?? new DOMException('The request is not allowed', 'NotAllowedError')
-      );
+      console.error(err ?? new DOMException('The request is not allowed', 'NotAllowedError'));
     }
   }
 

@@ -1,8 +1,10 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Tabs from './tabs';
 import _TabPane from './tab-pane.vue';
+import _Tabs from './tabs';
 
 const Tabs = Object.assign(_Tabs, {
   TabPane: _TabPane,

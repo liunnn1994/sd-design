@@ -1,15 +1,16 @@
 import { defineComponent, inject, PropType } from 'vue';
-import { FileItem, ListType } from './interfaces';
-import Progress from '../progress';
-import Tooltip from '../tooltip';
+
+import { getPrefixCls } from '../_utils/global-config';
+import IconCheck from '../icon/icon-check';
 import IconPause from '../icon/icon-pause';
 import IconPlayArrowFill from '../icon/icon-play-arrow-fill';
 import IconUpload from '../icon/icon-upload';
-import IconCheck from '../icon/icon-check';
-import { getProgressStatus } from './utils';
-import { getPrefixCls } from '../_utils/global-config';
 import { useI18n } from '../locale';
+import Progress from '../progress';
+import Tooltip from '../tooltip';
 import { uploadInjectionKey } from './context';
+import { FileItem, ListType } from './interfaces';
+import { getProgressStatus } from './utils';
 
 export default defineComponent({
   name: 'UploadProgress',
@@ -37,8 +38,7 @@ export default defineComponent({
             onClick={() => uploadCtx?.onUpload(props.file)}
           >
             {(uploadCtx?.showRetryButton &&
-              (uploadCtx?.slots['retry-icon']?.() ??
-                uploadCtx?.customIcon?.retryIcon?.())) ||
+              (uploadCtx?.slots['retry-icon']?.() ?? uploadCtx?.customIcon?.retryIcon?.())) ||
             props.listType === 'picture-card' ? (
               <IconUpload />
             ) : (
@@ -50,8 +50,9 @@ export default defineComponent({
       if (props.file.status === 'done') {
         return (
           <span class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-success`]}>
-            {uploadCtx?.slots['success-icon']?.() ??
-              uploadCtx?.customIcon?.successIcon?.() ?? <IconCheck />}
+            {uploadCtx?.slots['success-icon']?.() ?? uploadCtx?.customIcon?.successIcon?.() ?? (
+              <IconCheck />
+            )}
           </span>
         );
       }
@@ -62,8 +63,9 @@ export default defineComponent({
               class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-start`]}
               onClick={() => uploadCtx?.onUpload(props.file)}
             >
-              {uploadCtx?.slots['start-icon']?.() ??
-                uploadCtx?.customIcon?.startIcon?.() ?? <IconPlayArrowFill />}
+              {uploadCtx?.slots['start-icon']?.() ?? uploadCtx?.customIcon?.startIcon?.() ?? (
+                <IconPlayArrowFill />
+              )}
             </span>
           </Tooltip>
         );
@@ -75,8 +77,9 @@ export default defineComponent({
               class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-cancel`]}
               onClick={() => uploadCtx?.onAbort(props.file)}
             >
-              {uploadCtx?.slots['cancel-icon']?.() ??
-                uploadCtx?.customIcon?.cancelIcon?.() ?? <IconPause />}
+              {uploadCtx?.slots['cancel-icon']?.() ?? uploadCtx?.customIcon?.cancelIcon?.() ?? (
+                <IconPause />
+              )}
             </span>
           </Tooltip>
         )

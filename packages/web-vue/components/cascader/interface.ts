@@ -1,11 +1,9 @@
 import { RenderFunction } from 'vue';
-import { TagProps } from '../tag';
-import { BaseType, FieldString } from '../_utils/types';
 
-export type CascaderBaseValue =
-  | BaseType
-  | Record<string, any>
-  | (BaseType | Record<string, any>)[];
+import { BaseType, FieldString } from '../_utils/types';
+import { TagProps } from '../tag';
+
+export type CascaderBaseValue = BaseType | Record<string, any> | (BaseType | Record<string, any>)[];
 
 export interface CascaderOption {
   /**

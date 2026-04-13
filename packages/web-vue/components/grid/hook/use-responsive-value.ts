@@ -1,4 +1,5 @@
 import { computed, Ref } from 'vue';
+
 import { isNumber, isObject } from '../../_utils/is';
 import { responsiveArray } from '../../_utils/responsive-observe';
 import { ResponsiveValue } from '../interface';
@@ -13,7 +14,7 @@ export function useResponsiveValue(
     lg?: number | { [key: string]: any };
     xl?: number | { [key: string]: any };
     xxl?: number | { [key: string]: any };
-  }>
+  }>,
 ) {
   const value = computed(() => {
     const { val, key, xs, sm, md, lg, xl, xxl } = props.value;

@@ -101,8 +101,8 @@
     background-color: @badge-color-dot-bg_error;
   }
 
-  @colors: red, orangered, orange, gold, lime, green, cyan, sdblue, purple,
-    pinkpurple, magenta, gray;
+  @colors: red, orangered, orange, gold, lime, green, cyan, sdblue, purple, pinkpurple, magenta,
+    gray;
 
   .for(@data, @i: 1) when(@i =< length(@data)) {
     @color-name: extract(@data, @i);
@@ -157,8 +157,8 @@
   transform: translate(50%, -50%) scale(1, 1);
   transform-origin: center;
   opacity: 1;
-  transition: opacity @transition-duration-3
-      @transition-timing-function-overshoot,
+  transition:
+    opacity @transition-duration-3 @transition-timing-function-overshoot,
     transform @transition-duration-3 @transition-timing-function-overshoot;
 }
 
@@ -172,7 +172,7 @@
   transform: translate(50%, -50%) scale(0.2, 0.2);
   transform-origin: center;
   opacity: 0;
-  transition: opacity @transition-duration-3
-      @transition-timing-function-overshoot,
+  transition:
+    opacity @transition-duration-3 @transition-timing-function-overshoot,
     transform @transition-duration-3 @transition-timing-function-overshoot;
 }

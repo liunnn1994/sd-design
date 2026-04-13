@@ -31,15 +31,13 @@
   display: inline-flex;
   align-items: center;
   margin-bottom: @message-margin-bottom;
-  padding: @message-padding-top @message-padding-right @message-padding-bottom
-    @message-padding-left;
+  padding: @message-padding-top @message-padding-right @message-padding-bottom @message-padding-left;
   overflow: hidden;
   line-height: 1;
   text-align: center;
   list-style: none;
   background-color: @message-normal-color-bg;
-  border: @message-border-width @message-border-style
-    @message-normal-color-border;
+  border: @message-border-width @message-border-style @message-normal-color-border;
   border-radius: @message-border-radius;
   box-shadow: @shadow2-down;
   transition: all @transition-duration-1 @transition-timing-function-linear;
@@ -51,7 +49,8 @@
     color: @message-normal-color-icon;
     font-size: @message-font-size-icon;
     vertical-align: middle;
-    animation: ~'@{prefix}-msg-fade' @transition-duration-1 @transition-timing-function-linear,
+    animation:
+      ~'@{prefix}-msg-fade' @transition-duration-1 @transition-timing-function-linear,
       ~'@{prefix}-msg-fade' @transition-duration-4 @transition-timing-function-overshoot;
   }
 

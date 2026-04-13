@@ -1,5 +1,8 @@
 import type { App, AppContext } from 'vue';
 import { createVNode, nextTick, render } from 'vue';
+
+import type { DrawerConfig, DrawerMethod, DrawerUpdateConfig } from './interface';
+
 import { getOverlay } from '../_utils/dom';
 import { getComponentPrefix, setGlobalConfig } from '../_utils/global-config';
 import { isFunction } from '../_utils/is';
@@ -7,11 +10,6 @@ import { omit } from '../_utils/omit';
 import { SDOptions } from '../_utils/types';
 import { getSlotFunction } from '../_utils/vue-utils';
 import _Drawer from './drawer.vue';
-import type {
-  DrawerConfig,
-  DrawerMethod,
-  DrawerUpdateConfig,
-} from './interface';
 
 const open = (config: DrawerConfig, appContext?: AppContext) => {
   let container: HTMLElement | null = getOverlay('drawer');
@@ -94,16 +92,10 @@ const open = (config: DrawerConfig, appContext?: AppContext) => {
     },
     {
       default: getSlotFunction(config.content),
-      header:
-        typeof config.header !== 'boolean'
-          ? getSlotFunction(config.header)
-          : undefined,
+      header: typeof config.header !== 'boolean' ? getSlotFunction(config.header) : undefined,
       title: getSlotFunction(config.title),
-      footer:
-        typeof config.footer !== 'boolean'
-          ? getSlotFunction(config.footer)
-          : undefined,
-    }
+      footer: typeof config.footer !== 'boolean' ? getSlotFunction(config.footer) : undefined,
+    },
   );
 
   if (appContext ?? Drawer._context) {

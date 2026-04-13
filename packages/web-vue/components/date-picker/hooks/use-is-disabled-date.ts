@@ -1,12 +1,9 @@
 import { computed, toRefs } from 'vue';
+
 import { Dayjs } from 'dayjs';
-import {
-  DisabledDate,
-  DisabledTime,
-  RangeDisabledDate,
-  RangeDisabledTime,
-} from '../interface';
+
 import { getDateValue } from '../../_utils/date';
+import { DisabledDate, DisabledTime, RangeDisabledDate, RangeDisabledTime } from '../interface';
 
 interface IsDisabledProps {
   mode?: string;
@@ -18,17 +15,14 @@ interface IsDisabledProps {
 
 export default function useIsDisabledDate(props: IsDisabledProps) {
   const { mode, showTime, disabledDate, disabledTime, isRange } = toRefs(props);
-  const needCheckTime = computed(
-    () => mode?.value === 'date' && showTime?.value
-  );
+  const needCheckTime = computed(() => mode?.value === 'date' && showTime?.value);
   const isDisabledDate = computed(() => {
     return (current: Dayjs, type: 'start' | 'end') => {
       if (!disabledDate?.value) return false;
 
       const dateValue = getDateValue(current);
 
-      if (isRange?.value)
-        return (disabledDate.value as RangeDisabledDate)(dateValue, type);
+      if (isRange?.value) return (disabledDate.value as RangeDisabledDate)(dateValue, type);
       return (disabledDate.value as DisabledDate)(dateValue);
     };
   });
@@ -60,8 +54,7 @@ export default function useIsDisabledDate(props: IsDisabledProps) {
   return function isDisabled(value: Dayjs | undefined, type?: 'start' | 'end') {
     return (
       value &&
-      (isDisabledDate.value(value, type || 'start') ||
-        isDisabledTime.value(value, type || 'start'))
+      (isDisabledDate.value(value, type || 'start') || isDisabledTime.value(value, type || 'start'))
     );
   };
 }

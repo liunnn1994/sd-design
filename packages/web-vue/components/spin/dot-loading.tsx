@@ -1,4 +1,5 @@
 import { defineComponent } from 'vue';
+
 import { getPrefixCls } from '../_utils/global-config';
 
 const DOT_NUMBER = 5;

@@ -1,3 +1,3 @@
 <template>
-  <a-rate grading/>
+  <a-rate grading />
 </template>

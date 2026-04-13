@@ -26,10 +26,10 @@ $END$
 </template>
 
 <script>
-import { IconSync } from '@sd-design/web-vue/es/icon';
+  import { IconSync } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: { IconSync }
-};
+  export default {
+    components: { IconSync },
+  };
 </script>
 ```

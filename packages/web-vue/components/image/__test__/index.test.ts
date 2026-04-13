@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Image from '../index';
 import getScale from '../utils/get-scale';
 
@@ -45,9 +46,7 @@ describe('Image', () => {
     });
     await wrapper.vm.onImgLoaded();
 
-    expect(wrapper.find('.sd-image-footer-caption-title').text()).toBe(
-      'My title'
-    );
+    expect(wrapper.find('.sd-image-footer-caption-title').text()).toBe('My title');
   });
 
   test('Should show preview on click', async () => {
@@ -85,13 +84,9 @@ describe('Image', () => {
     const wrapper = await getPreviewInstance();
     const imageElement = wrapper.find('.sd-image-preview-img');
     await imageElement.trigger('mousedown');
-    expect(imageElement.attributes('class')).toContain(
-      'sd-image-preview-img-moving'
-    );
+    expect(imageElement.attributes('class')).toContain('sd-image-preview-img-moving');
     await map.mouseup({ preventDefault: () => {} });
-    expect(imageElement.attributes('class')).not.toContain(
-      'sd-image-preview-img-moving'
-    );
+    expect(imageElement.attributes('class')).not.toContain('sd-image-preview-img-moving');
     Object.defineProperty(window, 'addEventListener', {
       value: _addEventListener,
     });
@@ -99,57 +94,43 @@ describe('Image', () => {
 
   test('Preview fullscreen should work', async () => {
     const wrapper = await getPreviewInstance();
-    const fullscreenAction = wrapper.findAll(
-      '.sd-image-preview-toolbar-action'
-    )[0];
+    const fullscreenAction = wrapper.findAll('.sd-image-preview-toolbar-action')[0];
     await fullscreenAction.trigger('click');
-    expect(
-      wrapper.find('.sd-image-preview-img-container').attributes('style')
-    ).not.toContain('scale(1, 1)');
+    expect(wrapper.find('.sd-image-preview-img-container').attributes('style')).not.toContain(
+      'scale(1, 1)',
+    );
   });
 
   test('Preview rotate right should work', async () => {
     const wrapper = await getPreviewInstance();
-    const rotateRightAction = wrapper.findAll(
-      '.sd-image-preview-toolbar-action'
-    )[1];
+    const rotateRightAction = wrapper.findAll('.sd-image-preview-toolbar-action')[1];
     await rotateRightAction.trigger('click');
-    expect(
-      wrapper.find('.sd-image-preview-img').attributes('style')
-    ).toContain('rotate(90deg)');
+    expect(wrapper.find('.sd-image-preview-img').attributes('style')).toContain('rotate(90deg)');
   });
 
   test('Preview rotate left should work', async () => {
     const wrapper = await getPreviewInstance();
-    const rotateLeftAction = wrapper.findAll(
-      '.sd-image-preview-toolbar-action'
-    )[2];
+    const rotateLeftAction = wrapper.findAll('.sd-image-preview-toolbar-action')[2];
     await rotateLeftAction.trigger('click');
-    expect(
-      wrapper.find('.sd-image-preview-img').attributes('style')
-    ).toContain('rotate(270deg)');
+    expect(wrapper.find('.sd-image-preview-img').attributes('style')).toContain('rotate(270deg)');
   });
 
   test('Preview zoom in should work', async () => {
     const wrapper = await getPreviewInstance();
-    const zoomInAction = wrapper.findAll(
-      '.sd-image-preview-toolbar-action'
-    )[3];
+    const zoomInAction = wrapper.findAll('.sd-image-preview-toolbar-action')[3];
     await zoomInAction.trigger('click');
-    expect(
-      wrapper.find('.sd-image-preview-img-container').attributes('style')
-    ).toContain('scale(1.1, 1.1)');
+    expect(wrapper.find('.sd-image-preview-img-container').attributes('style')).toContain(
+      'scale(1.1, 1.1)',
+    );
   });
 
   test('Preview zoom out should work', async () => {
     const wrapper = await getPreviewInstance();
-    const zoomOutAction = wrapper.findAll(
-      '.sd-image-preview-toolbar-action'
-    )[4];
+    const zoomOutAction = wrapper.findAll('.sd-image-preview-toolbar-action')[4];
     await zoomOutAction.trigger('click');
-    expect(
-      wrapper.find('.sd-image-preview-img-container').attributes('style')
-    ).toContain('scale(0.9, 0.9)');
+    expect(wrapper.find('.sd-image-preview-img-container').attributes('style')).toContain(
+      'scale(0.9, 0.9)',
+    );
   });
 
   // PreviewGroup

@@ -1,14 +1,16 @@
 import { defineComponent, computed, PropType } from 'vue';
+
 import { Dayjs } from 'dayjs';
-import Select from '../select';
+
+import { getNow } from '../_utils/date';
+import { getPrefixCls } from '../_utils/global-config';
+import { isArray } from '../_utils/is';
 import Button from '../button';
-import Radio from '../radio';
 import IconLeft from '../icon/icon-left';
 import IconRight from '../icon/icon-right';
-import { getNow } from '../_utils/date';
-import { isArray } from '../_utils/is';
-import { getPrefixCls } from '../_utils/global-config';
 import { useI18n } from '../locale';
+import Radio from '../radio';
+import Select from '../select';
 
 export default defineComponent({
   name: 'Header',

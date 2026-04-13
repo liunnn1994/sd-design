@@ -1,11 +1,12 @@
 import type { ComponentPublicInstance, Ref } from 'vue';
 import { nextTick, provide, reactive, ref, watch } from 'vue';
-import { FilterOption, SelectOption, SelectFieldNames } from '../interface';
+
 import { VirtualListRef } from '../../_components/virtual-list-v2/interface';
 import { getRelativeRect } from '../../_utils/dom';
-import { useOptions } from './use-options';
 import { KEYBOARD_KEY, getKeyDownHandler } from '../../_utils/keyboard';
 import { selectInjectionKey } from '../context';
+import { FilterOption, SelectOption, SelectFieldNames } from '../interface';
+import { useOptions } from './use-options';
 
 export const useSelect = ({
   multiple,
@@ -93,8 +94,7 @@ export const useSelect = ({
     }
 
     const activeIndex = enabledOptionKeys.value.indexOf(activeKey.value);
-    const nextIndex =
-      (_length + activeIndex + (direction === 'up' ? -1 : 1)) % _length;
+    const nextIndex = (_length + activeIndex + (direction === 'up' ? -1 : 1)) % _length;
     return enabledOptionKeys.value[nextIndex];
   };
 
@@ -129,9 +129,7 @@ export const useSelect = ({
       // get last value key
       const current = valueKeys.value[valueKeys.value.length - 1];
       let _activeKey =
-        defaultActiveFirstOption?.value ?? true
-          ? enabledOptionKeys.value[0]
-          : undefined;
+        (defaultActiveFirstOption?.value ?? true) ? enabledOptionKeys.value[0] : undefined;
       if (enabledOptionKeys.value.includes(current)) {
         _activeKey = current;
       }
@@ -201,7 +199,7 @@ export const useSelect = ({
           }
         },
       ],
-    ])
+    ]),
   );
 
   provide(
@@ -219,7 +217,7 @@ export const useSelect = ({
       getNextSlotOptionIndex,
       addSlotOptionInfo,
       removeSlotOptionInfo,
-    })
+    }),
   );
 
   return {

@@ -1,17 +1,19 @@
 import { computed, defineComponent, PropType, ref, toRefs, watch } from 'vue';
+
 import NP from 'number-precision';
-import { getPrefixCls } from '../_utils/global-config';
-import { isNumber, isUndefined } from '../_utils/is';
-import IconUp from '../icon/icon-up';
-import IconDown from '../icon/icon-down';
-import IconPlus from '../icon/icon-plus';
-import IconMinus from '../icon/icon-minus';
-import SDButton from '../button';
-import SDInput from '../input';
-import { Size } from '../_utils/constant';
+
 import { useFormItem } from '../_hooks/use-form-item';
 import { useSize } from '../_hooks/use-size';
+import { Size } from '../_utils/constant';
+import { getPrefixCls } from '../_utils/global-config';
+import { isNumber, isUndefined } from '../_utils/is';
 import { getKeyDownHandler, KEYBOARD_KEY } from '../_utils/keyboard';
+import SDButton from '../button';
+import IconDown from '../icon/icon-down';
+import IconMinus from '../icon/icon-minus';
+import IconPlus from '../icon/icon-plus';
+import IconUp from '../icon/icon-up';
+import SDInput from '../input';
 
 type StepMethods = 'minus' | 'plus';
 
@@ -165,26 +167,26 @@ export default defineComponent({
      * @param { number | undefined } value
      * @param {Event} ev
      */
-    'change': (value: number | undefined, ev: Event) => true,
+    change: (value: number | undefined, ev: Event) => true,
     /**
      * @zh 输入框获取焦点时触发
      * @en Triggered when the input gets focus
      * @param {FocusEvent} ev
      */
-    'focus': (ev: FocusEvent) => true,
+    focus: (ev: FocusEvent) => true,
     /**
      * @zh 输入框失去焦点时触发
      * @en Triggered when the input box loses focus
      * @param {FocusEvent} ev
      */
-    'blur': (ev: FocusEvent) => true,
+    blur: (ev: FocusEvent) => true,
     /**
      * @zh 用户点击清除按钮时触发
      * @en Triggered when the user clicks the clear button
      * @param {Event} ev
      * @version 2.23.0
      */
-    'clear': (ev: Event) => true,
+    clear: (ev: Event) => true,
     /**
      * @zh 输入时触发
      * @en Triggered on input
@@ -193,14 +195,14 @@ export default defineComponent({
      * @param {Event} ev
      * @version 2.27.0
      */
-    'input': (value: number | undefined, inputValue: string, ev: Event) => true,
+    input: (value: number | undefined, inputValue: string, ev: Event) => true,
     /**
      * @zh 按下键盘时触发
      * @en Triggered on keydown
      * @param {MouseEvent} ev
      * @version 2.56.0
      */
-    'keydown': (ev: KeyboardEvent) => true,
+    keydown: (ev: KeyboardEvent) => true,
   },
   /**
    * @zh 前缀
@@ -276,12 +278,8 @@ export default defineComponent({
       return Number.isNaN(number) ? undefined : number;
     });
 
-    const isMin = ref(
-      isNumber(valueNumber.value) && valueNumber.value <= props.min
-    );
-    const isMax = ref(
-      isNumber(valueNumber.value) && valueNumber.value >= props.max
-    );
+    const isMin = ref(isNumber(valueNumber.value) && valueNumber.value <= props.min);
+    const isMax = ref(isNumber(valueNumber.value) && valueNumber.value >= props.max);
 
     // 步长重复定时器
     let repeatTimer = 0;
@@ -306,9 +304,7 @@ export default defineComponent({
         value = props.max;
       }
 
-      return isNumber(mergedPrecision.value)
-        ? NP.round(value, mergedPrecision.value)
-        : value;
+      return isNumber(mergedPrecision.value) ? NP.round(value, mergedPrecision.value) : value;
     };
 
     const updateNumberStatus = (number: number | undefined) => {
@@ -344,7 +340,7 @@ export default defineComponent({
       () => {
         handleExceedRange();
         updateNumberStatus(valueNumber.value);
-      }
+      },
     );
 
     const nextStep = (method: StepMethods, event: Event) => {
@@ -369,11 +365,7 @@ export default defineComponent({
       emit('change', nextValue, event);
     };
 
-    const handleStepButton = (
-      event: Event,
-      method: StepMethods,
-      needRepeat = false
-    ) => {
+    const handleStepButton = (event: Event, method: StepMethods, needRepeat = false) => {
       event.preventDefault();
 
       if (props.readOnly) return;
@@ -386,7 +378,7 @@ export default defineComponent({
       if (needRepeat) {
         repeatTimer = window.setTimeout(
           () => (event.target as HTMLElement).dispatchEvent(event),
-          repeatTimer ? SPEED : FIRST_DELAY
+          repeatTimer ? SPEED : FIRST_DELAY,
         );
       }
     };
@@ -448,7 +440,7 @@ export default defineComponent({
             !props.readOnly && nextStep('minus', ev);
           },
         ],
-      ])
+      ]),
     );
 
     const onKeyDown = (event: KeyboardEvent) => {
@@ -466,7 +458,7 @@ export default defineComponent({
           _value.value = getStringValue(value);
           updateNumberStatus(value);
         }
-      }
+      },
     );
 
     const renderSuffix = () => {
@@ -475,16 +467,13 @@ export default defineComponent({
       }
       return (
         <>
-          {slots.suffix && (
-            <div class={`${prefixCls}-suffix`}>{slots.suffix?.()}</div>
-          )}
+          {slots.suffix && <div class={`${prefixCls}-suffix`}>{slots.suffix?.()}</div>}
           <div class={`${prefixCls}-step`}>
             <button
               class={[
                 `${prefixCls}-step-button`,
                 {
-                  [`${prefixCls}-step-button-disabled`]:
-                    mergedDisabled.value || isMax.value,
+                  [`${prefixCls}-step-button-disabled`]: mergedDisabled.value || isMax.value,
                 },
               ]}
               type="button"
@@ -500,8 +489,7 @@ export default defineComponent({
               class={[
                 `${prefixCls}-step-button`,
                 {
-                  [`${prefixCls}-step-button-disabled`]:
-                    mergedDisabled.value || isMin.value,
+                  [`${prefixCls}-step-button-disabled`]: mergedDisabled.value || isMin.value,
                 },
               ]}
               type="button"
@@ -591,7 +579,7 @@ export default defineComponent({
           readonly={props.readOnly}
           error={props.error}
           inputAttrs={{
-            'role': 'spinbutton',
+            role: 'spinbutton',
             'aria-valuemax': props.max,
             'aria-valuemin': props.min,
             'aria-valuenow': _value.value,

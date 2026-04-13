@@ -1,7 +1,8 @@
-import { InlineConfig } from 'vite';
-import { globSync } from 'glob';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import { globSync } from 'glob';
+import { InlineConfig } from 'vite';
+
 import external from '../plugins/vite-plugin-external';
 import vueExportHelper from '../plugins/vite-plugin-vue-export-helper';
 

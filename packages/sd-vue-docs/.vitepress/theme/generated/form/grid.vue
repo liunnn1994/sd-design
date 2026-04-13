@@ -34,21 +34,21 @@
 </template>
 
 <script>
-import { reactive } from 'vue';
+  import { reactive } from 'vue';
 
-export default {
-  setup() {
-    const form = reactive({
-      value1: '',
-      value2: '',
-      value3: '',
-      value4: '',
-      value5: '',
-    })
+  export default {
+    setup() {
+      const form = reactive({
+        value1: '',
+        value2: '',
+        value3: '',
+        value4: '',
+        value5: '',
+      });
 
-    return {
-      form,
-    }
-  },
-}
+      return {
+        form,
+      };
+    },
+  };
 </script>

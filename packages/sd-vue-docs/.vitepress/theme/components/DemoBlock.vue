@@ -48,20 +48,20 @@
     imports: {
       vue: 'https://esm.sh/vue@3.5.20',
       '@vue/shared': 'https://esm.sh/@vue/shared@3.5.20',
-      '@sd-design/web-vue': `https://esm.sh/@sd-design/web-vue@${SD_VERSION}?external=vue`,
-      '@sd-design/web-vue/es/icon': `https://esm.sh/@sd-design/web-vue@${SD_VERSION}/es/icon?external=vue`,
-      '@sd-design/web-vue/': `https://esm.sh/@sd-design/web-vue@${SD_VERSION}/`,
+      '@sdata/web-vue': `https://esm.sh/@sdata/web-vue@${SD_VERSION}?external=vue`,
+      '@sdata/web-vue/es/icon': `https://esm.sh/@sdata/web-vue@${SD_VERSION}/es/icon?external=vue`,
+      '@sdata/web-vue/': `https://esm.sh/@sdata/web-vue@${SD_VERSION}/`,
     },
   };
 
   const previewOptions = computed(() => ({
     headHTML: [
-      `<link rel="stylesheet" href="https://unpkg.com/@sd-design/web-vue@${SD_VERSION}/dist/sd.css">`,
+      `<link rel="stylesheet" href="https://unpkg.com/@sdata/web-vue@${SD_VERSION}/dist/sd.css">`,
       `<style>body{margin:0;padding:16px;}body[sd-theme="dark"]{background:#141414;color:#f2f3f5;}</style>`,
       `<script>window.__ARCO_THEME__=${JSON.stringify(replTheme.value)};document.addEventListener('DOMContentLoaded',function(){if(window.__ARCO_THEME__==='dark'){document.body.setAttribute('sd-theme','dark');}else{document.body.removeAttribute('sd-theme');}});<\/script>`,
     ].join(''),
     customCode: {
-      importCode: `import SDVue from '@sd-design/web-vue';\nimport SDVueIcon from '@sd-design/web-vue/es/icon';`,
+      importCode: `import SDVue from '@sdata/web-vue';\nimport SDVueIcon from '@sdata/web-vue/es/icon';`,
       useCode: `app.use(SDVue);\napp.use(SDVueIcon);\nif (window.__ARCO_THEME__ === 'dark') { document.body.setAttribute('sd-theme', 'dark'); } else { document.body.removeAttribute('sd-theme'); }`,
     },
   }));

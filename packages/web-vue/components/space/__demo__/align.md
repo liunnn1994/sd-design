@@ -20,7 +20,7 @@ There are 4 built-in alignment methods, namely `start` `center` `end` `baseline`
 <template>
   <div>
     <div style="marginBottom: 20px">
-      <a-radio-group v-model="align" type='button'>
+      <a-radio-group v-model="align" type="button">
         <a-radio value="start">start</a-radio>
         <a-radio value="center">center</a-radio>
         <a-radio value="end">end</a-radio>
@@ -30,19 +30,17 @@ There are 4 built-in alignment methods, namely `start` `center` `end` `baseline`
     <a-space :align="align" style="backgroundColor: var(--color-fill-2);padding: 10px;">
       <a-typography-text>Space:</a-typography-text>
       <a-button type="primary">Item2</a-button>
-      <a-card title='Card'>
-        Card content
-      </a-card>
+      <a-card title="Card"> Card content </a-card>
     </a-space>
   </div>
 </template>
 <script>
-export default {
-  data() {
-    return {
-      align: 'center',
-    }
-  }
-};
+  export default {
+    data() {
+      return {
+        align: 'center',
+      };
+    },
+  };
 </script>
 ```

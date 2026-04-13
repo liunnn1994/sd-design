@@ -12,7 +12,7 @@
     <a-input
       v-if="showInput"
       ref="inputRef"
-      :style="{ width: '90px'}"
+      :style="{ width: '90px' }"
       size="mini"
       v-model.trim="inputVal"
       @keyup.enter="handleAdd"
@@ -37,46 +37,46 @@
 </template>
 
 <script>
-import { ref, nextTick } from 'vue';
+  import { ref, nextTick } from 'vue';
 
-export default {
-  setup() {
-    const tags = ref(['Tag 1', 'Tag 2', 'Tag 3']);
-    const inputRef = ref(null);
-    const showInput = ref(false);
-    const inputVal = ref('');
+  export default {
+    setup() {
+      const tags = ref(['Tag 1', 'Tag 2', 'Tag 3']);
+      const inputRef = ref(null);
+      const showInput = ref(false);
+      const inputVal = ref('');
 
-    const handleEdit = () => {
-      showInput.value = true;
+      const handleEdit = () => {
+        showInput.value = true;
 
-      nextTick(() => {
-        if (inputRef.value) {
-          inputRef.value.focus();
+        nextTick(() => {
+          if (inputRef.value) {
+            inputRef.value.focus();
+          }
+        });
+      };
+
+      const handleAdd = () => {
+        if (inputVal.value) {
+          tags.value.push(inputVal.value);
+          inputVal.value = '';
         }
-      });
-    };
+        showInput.value = false;
+      };
 
-    const handleAdd = () => {
-      if (inputVal.value) {
-        tags.value.push(inputVal.value);
-        inputVal.value = '';
-      }
-      showInput.value = false;
-    };
+      const handleRemove = (key) => {
+        tags.value = tags.value.filter((tag) => tag !== key);
+      };
 
-    const handleRemove = (key) => {
-      tags.value = tags.value.filter((tag) => tag !== key);
-    };
-
-    return {
-      tags,
-      inputRef,
-      showInput,
-      inputVal,
-      handleEdit,
-      handleAdd,
-      handleRemove,
-    };
-  },
-};
+      return {
+        tags,
+        inputRef,
+        showInput,
+        inputVal,
+        handleEdit,
+        handleAdd,
+        handleRemove,
+      };
+    },
+  };
 </script>

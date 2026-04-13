@@ -1,15 +1,16 @@
-/* eslint-disable no-await-in-loop */
-import path from 'path';
+import chalk from 'chalk';
 import fs from 'fs-extra';
 import { globSync } from 'glob';
+/* eslint-disable no-await-in-loop */
+import path from 'path';
 import { ComponentDoc, parse as parseComponent } from 'vue-docgen-api';
-import chalk from 'chalk';
-import print from './utils/print';
-import templates from './templates';
-import parseInterface from './utils/parse-interface';
-import { getTemplate, toKebabCase } from './utils';
-import parseMaterial from './utils/parse-material';
+
 import { slotTagHandler } from './slot-tag-handler';
+import templates from './templates';
+import { getTemplate, toKebabCase } from './utils';
+import parseInterface from './utils/parse-interface';
+import parseMaterial from './utils/parse-material';
+import print from './utils/print';
 
 const MD_TEMPLATE = 'TEMPLATE.md';
 const MD_TARGET = 'README.zh-CN.md';
@@ -21,14 +22,8 @@ const TEMPLATE_GLOB = `components/*/${MD_TEMPLATE}`;
 type ComponentDocType = ComponentDoc | ComponentDoc[];
 type ApiType = 'component' | 'interface';
 
-const getApiTmpl = (
-  componentDoc: ComponentDocType,
-  type: ApiType,
-  lang: string
-) => {
-  const componentDocList = Array.isArray(componentDoc)
-    ? componentDoc
-    : [componentDoc];
+const getApiTmpl = (componentDoc: ComponentDocType, type: ApiType, lang: string) => {
+  const componentDocList = Array.isArray(componentDoc) ? componentDoc : [componentDoc];
 
   const res: string[] = [];
 
@@ -40,9 +35,7 @@ const getApiTmpl = (
       let title = displayName;
 
       if (type === 'component') {
-        title = tags?.noBrackets
-          ? displayName
-          : `<${toKebabCase(displayName)}>`;
+        title = tags?.noBrackets ? displayName : `<${toKebabCase(displayName)}>`;
         title = `\`${title}\` ${suffix}`;
       }
 
@@ -61,13 +54,10 @@ const getApiTmpl = (
 
     const propsTmpl = getTmpl(
       'Props',
-      templates.props(props || [], { isInterface: type === 'interface' }, lang)
+      templates.props(props || [], { isInterface: type === 'interface' }, lang),
     );
     const eventsTmpl = getTmpl('Events', templates.events(events || [], lang));
-    const methodsTmpl = getTmpl(
-      'Methods',
-      templates.methods(methods || [], lang)
-    );
+    const methodsTmpl = getTmpl('Methods', templates.methods(methods || [], lang));
     const slotsTmpl = getTmpl('Slots', templates.slots(slots || [], lang));
 
     res.push(`\n${propsTmpl}${eventsTmpl}${methodsTmpl}${slotsTmpl}\n`);
@@ -115,13 +105,7 @@ const replacePlaceholderToDoc = async ({
   return result;
 };
 
-const docgen = async ({
-  input,
-  components,
-}: {
-  input?: string;
-  components?: string[];
-}) => {
+const docgen = async ({ input, components }: { input?: string; components?: string[] }) => {
   const files = [];
 
   if (input) {
@@ -194,7 +178,7 @@ const docgen = async ({
 
     enResult = enResult.replace(
       /```yaml\n.+?```\n/s,
-      (match) => `${match}\n*Auto translate by google.*\n`
+      (match) => `${match}\n*Auto translate by google.*\n`,
     );
 
     zhResult = await parseMaterial(zhResult, {
@@ -224,9 +208,7 @@ const docgen = async ({
         const componentName = getComponentNameFormDir(dirname);
 
         print.success(
-          `${chalk.black.bgGreen.bold(
-            `Generate README of component ${componentName} Success!`
-          )}`
+          `${chalk.black.bgGreen.bold(`Generate README of component ${componentName} Success!`)}`,
         );
       }
     } catch (err) {

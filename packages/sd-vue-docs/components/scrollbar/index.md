@@ -1,6 +1,6 @@
 ---
-title: "scrollbar"
-outline: "deep"
+title: 'scrollbar'
+outline: 'deep'
 ---
 
 ```yaml
@@ -11,28 +11,27 @@ title: 滚动条 Scrollbar
 description: 用于替换浏览器默认滚动条样式。
 ```
 
-
-
-
 ### `<scrollbar>` Props
 
-|参数名|描述|类型|默认值|
-|---|---|---|:---:|
-|type|类型|`'track' \| 'embed'`|`'embed'`|
-|outer-class|外层的类名|`string\|object\|array`|`-`|
-|outer-style|外层的样式|`StyleValue`|`-`|
+| 参数名      | 描述       | 类型                    |  默认值   |
+| ----------- | ---------- | ----------------------- | :-------: |
+| type        | 类型       | `'track' \| 'embed'`    | `'embed'` |
+| outer-class | 外层的类名 | `string\|object\|array` |    `-`    |
+| outer-style | 外层的样式 | `StyleValue`            |    `-`    |
+
 ### `<scrollbar>` Events
 
-|事件名|描述|参数|
-|---|---|---|
-|scroll|滚动时触发|-|
+| 事件名 | 描述       | 参数 |
+| ------ | ---------- | ---- |
+| scroll | 滚动时触发 | -    |
+
 ### `<scrollbar>` Methods
 
-|方法名|描述|参数|返回值|版本|
-|---|---|---|---|:---|
-|scrollTo|滚动|options: `number \| {left?: number;top?: number}`<br>y: `number`|-||
-|scrollTop|纵向滚动|top: `number`|-|2.40.0|
-|scrollLeft|横向滚动|left: `number`|-|2.40.0|
+| 方法名 | 描述 | 参数 | 返回值 | 版本 |
+| --- | --- | --- | --- | :-- |
+| scrollTo | 滚动 | options: `number \| {left?: number;top?: number}`<br>y: `number` | - |  |
+| scrollTop | 纵向滚动 | top: `number` | - | 2.40.0 |
+| scrollLeft | 横向滚动 | left: `number` | - | 2.40.0 |
 
 <script setup lang="ts">
 import basicDemo from '../../.vitepress/theme/generated/scrollbar/basic.vue';
@@ -47,19 +46,12 @@ const typeDescription = "设置 `type` 属性改变滚动条类型，`track` 类
 
 ## 示例
 
+<DemoBlock :title="basicTitle" :description="basicDescription" :code="basicSource"
 
-<DemoBlock
-  :title="basicTitle"
-  :description="basicDescription"
-  :code="basicSource"
->
-  <basicDemo />
-</DemoBlock>
+>   <basicDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="typeTitle"
-  :description="typeDescription"
-  :code="typeSource"
->
-  <typeDemo />
-</DemoBlock>
+<DemoBlock :title="typeTitle" :description="typeDescription" :code="typeSource"
+
+>   <typeDemo />
+> </DemoBlock>

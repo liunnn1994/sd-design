@@ -15,7 +15,7 @@ export default ({ name }: { name: string }): InlineConfig => {
       minify: false,
       reportCompressedSize: false,
       rollupOptions: {
-        external: ['vue', '@sd-design/web-vue', '@sd-design/web-vue/es/icon'],
+        external: ['vue', '@sdata/web-vue', '@sdata/web-vue/es/icon'],
         output: [
           {
             format: 'umd',
@@ -24,8 +24,8 @@ export default ({ name }: { name: string }): InlineConfig => {
             sourcemap: true,
             globals: {
               vue: 'Vue',
-              '@sd-design/web-vue': 'SDVue',
-              '@sd-design/web-vue/es/icon': 'SDVueIcon',
+              '@sdata/web-vue': 'SDVue',
+              '@sdata/web-vue/es/icon': 'SDVueIcon',
             },
           },
           {
@@ -35,8 +35,8 @@ export default ({ name }: { name: string }): InlineConfig => {
             sourcemap: true,
             globals: {
               vue: 'Vue',
-              '@sd-design/web-vue': 'SDVue',
-              '@sd-design/web-vue/es/icon': 'SDVueIcon',
+              '@sdata/web-vue': 'SDVue',
+              '@sdata/web-vue/es/icon': 'SDVueIcon',
             },
             // @ts-ignore
             plugins: [terser()],

@@ -1,16 +1,10 @@
-import { InlineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
-import svgLoader from 'vite-svg-loader';
 import { terser } from 'rollup-plugin-terser';
+import { InlineConfig } from 'vite';
+import svgLoader from 'vite-svg-loader';
 
-const getConfig = ({
-  input,
-  name,
-}: {
-  input: string;
-  name: string;
-}): InlineConfig => {
+const getConfig = ({ input, name }: { input: string; name: string }): InlineConfig => {
   return {
     mode: 'production',
     build: {
@@ -19,11 +13,7 @@ const getConfig = ({
       emptyOutDir: true,
       minify: false,
       rollupOptions: {
-        external: [
-          'vue',
-          '@sd-design/web-vue',
-          '@sd-design/web-vue/es/icon',
-        ],
+        external: ['vue', '@sdata/web-vue', '@sdata/web-vue/es/icon'],
         output: [
           {
             format: 'es',
@@ -39,9 +29,9 @@ const getConfig = ({
             sourcemap: true,
             name,
             globals: {
-              'vue': 'Vue',
-              '@sd-design/web-vue': 'SDVue',
-              '@sd-design/web-vue/es/icon': 'SDVueIcon',
+              vue: 'Vue',
+              '@sdata/web-vue': 'SDVue',
+              '@sdata/web-vue/es/icon': 'SDVueIcon',
             },
             // @ts-ignore
             plugins: [terser()],

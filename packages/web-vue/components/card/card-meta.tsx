@@ -1,9 +1,10 @@
 import { defineComponent, inject, onMounted } from 'vue';
+
 import { getPrefixCls } from '../_utils/global-config';
 import { CardContext, cardInjectionKey } from './context';
 
 export const SIZES = ['default', 'small'] as const;
-export type SizeType = typeof SIZES[number];
+export type SizeType = (typeof SIZES)[number];
 
 export default defineComponent({
   name: 'CardMeta',
@@ -57,11 +58,7 @@ export default defineComponent({
         <div class={prefixCls}>
           {(hasTitle || hasDesc) && (
             <div class={`${prefixCls}-content`}>
-              {hasTitle && (
-                <div class={`${prefixCls}-title`}>
-                  {slots.title?.() ?? props.title}
-                </div>
-              )}
+              {hasTitle && <div class={`${prefixCls}-title`}>{slots.title?.() ?? props.title}</div>}
               {hasDesc && (
                 <div class={`${prefixCls}-description`}>
                   {slots.description?.() ?? props.description}
@@ -78,12 +75,8 @@ export default defineComponent({
                 },
               ]}
             >
-              {slots.avatar && (
-                <div class={`${prefixCls}-avatar`}>{slots.avatar()}</div>
-              )}
-              {context &&
-                context.slots.actions &&
-                context.renderActions(context.slots.actions())}
+              {slots.avatar && <div class={`${prefixCls}-avatar`}>{slots.avatar()}</div>}
+              {context && context.slots.actions && context.renderActions(context.slots.actions())}
             </div>
           )}
         </div>

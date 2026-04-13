@@ -1,8 +1,9 @@
 import { defineComponent, computed, PropType, toRefs, watch } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
+
 import { hsvToRgb } from '../_utils/color';
-import { Color } from './interface';
+import { getPrefixCls } from '../_utils/global-config';
 import { useControlBlock } from './hooks/use-control-block';
+import { Color } from './interface';
 
 export default defineComponent({
   name: 'Palette',

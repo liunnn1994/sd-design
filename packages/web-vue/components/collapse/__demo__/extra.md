@@ -44,18 +44,18 @@ The extra node on the far right can be set by `extra`. `extra` click to set `sto
 </template>
 
 <script>
-import { Message } from '@sd-design/web-vue';
+  import { Message } from '@sdata/web-vue';
 
-export default {
-  setup() {
-    const sayHello = () => {
-      Message.info('hello');
-    };
+  export default {
+    setup() {
+      const sayHello = () => {
+        Message.info('hello');
+      };
 
-    return {
-      sayHello,
-    };
-  },
-};
+      return {
+        sayHello,
+      };
+    },
+  };
 </script>
 ```

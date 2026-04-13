@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Cascader from '../cascader.vue';
 
 const options = [
@@ -127,20 +128,14 @@ describe('Cascader', () => {
     const dropdown = wrapper.findComponent({ name: 'BaseCascaderPanel' });
 
     await input.trigger('keydown', { key: 'ArrowDown' });
-    expect(dropdown.find('.sd-cascader-option-active').text()).toBe(
-      'Beijing'
-    );
+    expect(dropdown.find('.sd-cascader-option-active').text()).toBe('Beijing');
 
     await input.trigger('keydown', { key: 'ArrowRight' });
     expect(dropdown.findAll('.sd-cascader-panel-column')).toHaveLength(2);
-    expect(dropdown.findAll('.sd-cascader-option-active')[1].text()).toBe(
-      'ChaoYang'
-    );
+    expect(dropdown.findAll('.sd-cascader-option-active')[1].text()).toBe('ChaoYang');
 
     await input.trigger('keydown', { key: 'ArrowDown' });
-    expect(dropdown.findAll('.sd-cascader-option-active')[1].text()).toBe(
-      'Haidian'
-    );
+    expect(dropdown.findAll('.sd-cascader-option-active')[1].text()).toBe('Haidian');
 
     await input.trigger('keydown', { key: 'Enter' });
     expect(wrapper.emitted('change')?.[0]).toEqual(['haidian']);

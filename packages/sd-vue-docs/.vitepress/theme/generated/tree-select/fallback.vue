@@ -47,21 +47,21 @@
 </template>
 
 <script>
-export default {
-  setup() {
-    return {
-      treeData,
-      fallback(key) {
-        return {
-          key,
-          title: `++${key}++`
-        }
-      }
-    }
-  }
-}
+  export default {
+    setup() {
+      return {
+        treeData,
+        fallback(key) {
+          return {
+            key,
+            title: `++${key}++`,
+          };
+        },
+      };
+    },
+  };
 
-const treeData = [
+  const treeData = [
     {
       key: 'node1',
       title: 'Trunk1',

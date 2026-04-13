@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import { IconPlus, IconDelete } from '@sd-design/web-vue/es/icon';
+  import { IconPlus, IconDelete } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: { IconPlus, IconDelete }
-};
+  export default {
+    components: { IconPlus, IconDelete },
+  };
 </script>

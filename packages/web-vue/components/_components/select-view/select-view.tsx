@@ -1,19 +1,21 @@
 import type { ComponentPublicInstance, PropType } from 'vue';
 import { computed, defineComponent, ref, toRefs, watch } from 'vue';
+
 import type { Data } from '../../_utils/types';
-import { getPrefixCls } from '../../_utils/global-config';
-import { Size } from '../../_utils/constant';
-import { isArray } from '../../_utils/is';
-import FeedbackIcon from '../feedback-icon.vue';
-import InputLabel from '../input-label/input-label';
-import InputTag from '../../input-tag';
-import IconHover from '../icon-hover.vue';
-import IconDown from '../../icon/icon-down';
-import IconLoading from '../../icon/icon-loading';
-import IconClose from '../../icon/icon-close';
-import IconSearch from '../../icon/icon-search';
+
 import { useFormItem } from '../../_hooks/use-form-item';
 import { useSize } from '../../_hooks/use-size';
+import { Size } from '../../_utils/constant';
+import { getPrefixCls } from '../../_utils/global-config';
+import { isArray } from '../../_utils/is';
+import IconClose from '../../icon/icon-close';
+import IconDown from '../../icon/icon-down';
+import IconLoading from '../../icon/icon-loading';
+import IconSearch from '../../icon/icon-search';
+import InputTag from '../../input-tag';
+import FeedbackIcon from '../feedback-icon.vue';
+import IconHover from '../icon-hover.vue';
+import InputLabel from '../input-label/input-label';
 import { SelectViewValue } from './interface';
 
 export default defineComponent({
@@ -99,14 +101,12 @@ export default defineComponent({
     const componentRef = ref<ComponentPublicInstance>();
     const inputRef = computed<HTMLInputElement>(
       // @ts-ignore
-      () => componentRef.value?.inputRef
+      () => componentRef.value?.inputRef,
     );
 
     const isEmptyValue = computed(() => props.modelValue.length === 0);
     const enabledInput = computed(() => props.allowSearch || props.allowCreate);
-    const showClearBtn = computed(
-      () => props.allowClear && !props.disabled && !isEmptyValue.value
-    );
+    const showClearBtn = computed(() => props.allowClear && !props.disabled && !isEmptyValue.value);
 
     const handleFocus = (ev: FocusEvent) => {
       emit('focus', ev);
@@ -156,11 +156,7 @@ export default defineComponent({
     );
 
     watch(opened, (opened) => {
-      if (
-        !opened &&
-        inputRef.value &&
-        inputRef.value.isSameNode(document.activeElement)
-      ) {
+      if (!opened && inputRef.value && inputRef.value.isSameNode(document.activeElement)) {
         inputRef.value.blur();
       }
     });

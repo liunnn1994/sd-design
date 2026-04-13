@@ -1,8 +1,10 @@
-import { Dayjs } from 'dayjs';
 import { computed, toRefs } from 'vue';
-import { Cell, IsSameTime, Mode } from '../interface';
+
+import { Dayjs } from 'dayjs';
+
 import { getNow, getSortedDayjsArray } from '../../_utils/date';
 import { isDayjs } from '../../_utils/is';
+import { Cell, IsSameTime, Mode } from '../interface';
 
 interface CellClassNameProps {
   prefixCls: string;
@@ -18,7 +20,7 @@ export default function useCellClassName(props: CellClassNameProps) {
   const sortedRangeValues = computed(() =>
     rangeValues?.value && rangeValues.value.every(isDayjs)
       ? getSortedDayjsArray(rangeValues.value)
-      : rangeValues?.value
+      : rangeValues?.value,
   );
   const rangeStart = computed(() => sortedRangeValues.value?.[0]);
   const rangeEnd = computed(() => sortedRangeValues.value?.[1]);
@@ -37,14 +39,9 @@ export default function useCellClassName(props: CellClassNameProps) {
       }
 
       const isRangeStart =
-        isInView &&
-        rangeStart.value &&
-        isSameTime(cellData.value, rangeStart.value);
+        isInView && rangeStart.value && isSameTime(cellData.value, rangeStart.value);
 
-      const isRangeEnd =
-        isInView &&
-        rangeEnd.value &&
-        isSameTime(cellData.value, rangeEnd.value);
+      const isRangeEnd = isInView && rangeEnd.value && isSameTime(cellData.value, rangeEnd.value);
 
       const isInRange =
         isInView &&
@@ -52,12 +49,7 @@ export default function useCellClassName(props: CellClassNameProps) {
         rangeEnd.value &&
         (isRangeStart ||
           isRangeEnd ||
-          cellData.value.isBetween(
-            rangeStart.value,
-            rangeEnd.value,
-            null,
-            '[]'
-          ));
+          cellData.value.isBetween(rangeStart.value, rangeEnd.value, null, '[]'));
 
       return [
         `${prefixCls}-cell`,

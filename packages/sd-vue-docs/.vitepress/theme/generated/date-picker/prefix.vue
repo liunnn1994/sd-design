@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <a-date-picker style="width: 300px;">
+      <a-date-picker style="width: 300px">
         <template #prefix>
           <IconInfoCircle />
         </template>
@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import { IconInfoCircle } from '@sd-design/web-vue/es/icon';
+  import { IconInfoCircle } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: { IconInfoCircle },
-};
+  export default {
+    components: { IconInfoCircle },
+  };
 </script>

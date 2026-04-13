@@ -1,11 +1,12 @@
 import { computed, defineComponent, PropType, ref } from 'vue';
-import { getFiles, loopDirectory } from './utils';
-import { useI18n } from '../locale';
+
 import { getPrefixCls } from '../_utils/global-config';
-import IconPlus from '../icon/icon-plus';
-import Button from '../button';
-import IconUpload from '../icon/icon-upload';
 import { isFunction, isPromise } from '../_utils/is';
+import Button from '../button';
+import IconPlus from '../icon/icon-plus';
+import IconUpload from '../icon/icon-upload';
+import { useI18n } from '../locale';
+import { getFiles, loopDirectory } from './utils';
 
 export default defineComponent({
   name: 'UploadButton',
@@ -153,11 +154,7 @@ export default defineComponent({
       }
 
       return (
-        <Button
-          type="primary"
-          v-slots={{ icon: () => <IconUpload /> }}
-          disabled={props.disabled}
-        >
+        <Button type="primary" v-slots={{ icon: () => <IconUpload /> }} disabled={props.disabled}>
           {t('upload.buttonText')}
         </Button>
       );

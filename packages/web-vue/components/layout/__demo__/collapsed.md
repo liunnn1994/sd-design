@@ -19,11 +19,7 @@ After setting the `trigger` property of `Menu.Sider` to `null`, the built-in tri
 ```vue
 <template>
   <a-layout class="layout-demo">
-    <a-layout-sider
-      hide-trigger
-      collapsible
-      :collapsed="collapsed"
-    >
+    <a-layout-sider hide-trigger collapsible :collapsed="collapsed">
       <div class="logo" />
       <a-menu
         :defaultOpenKeys="['1']"
@@ -89,78 +85,73 @@ After setting the `trigger` property of `Menu.Sider` to `null`, the built-in tri
   </a-layout>
 </template>
 <script>
-import { defineComponent, ref } from 'vue';
-import { Message} from '@sd-design/web-vue';
-import {
-  IconCaretRight,
-  IconCaretLeft,
-  IconHome,
-  IconCalendar,
-} from '@sd-design/web-vue/es/icon';
+  import { defineComponent, ref } from 'vue';
+  import { Message } from '@sdata/web-vue';
+  import { IconCaretRight, IconCaretLeft, IconHome, IconCalendar } from '@sdata/web-vue/es/icon';
 
-export default defineComponent({
-  components: {
-    IconCaretRight,
-    IconCaretLeft,
-    IconHome,
-    IconCalendar,
-  },
-  setup() {
-    const collapsed = ref(false);
-    const onCollapse = () => {
-      collapsed.value = !collapsed.value;
-    };
-    return {
-      collapsed,
-      onCollapse,
-      onClickMenuItem(key) {
-        Message.info({ content: `You select ${key}`, showIcon: true });
-      }
-    };
-  },
-});
+  export default defineComponent({
+    components: {
+      IconCaretRight,
+      IconCaretLeft,
+      IconHome,
+      IconCalendar,
+    },
+    setup() {
+      const collapsed = ref(false);
+      const onCollapse = () => {
+        collapsed.value = !collapsed.value;
+      };
+      return {
+        collapsed,
+        onCollapse,
+        onClickMenuItem(key) {
+          Message.info({ content: `You select ${key}`, showIcon: true });
+        },
+      };
+    },
+  });
 </script>
 <style scoped>
-.layout-demo {
-  height: 500px;
-  background: var(--color-fill-2);
-  border: 1px solid var(--color-border);
-}
-.layout-demo :deep(.sd-layout-sider) .logo {
-  height: 32px;
-  margin: 12px 8px;
-  background: rgba(255, 255, 255, 0.2);
-}
-.layout-demo :deep(.sd-layout-sider-light) .logo{
-  background: var(--color-fill-2);
-}
-.layout-demo :deep(.sd-layout-header)  {
-  height: 64px;
-  line-height: 64px;
-  background: var(--color-bg-3);
-}
-.layout-demo :deep(.sd-layout-footer) {
-  height: 48px;
-  color: var(--color-text-2);
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 48px;
-}
-.layout-demo :deep(.sd-layout-content) {
-  color: var(--color-text-2);
-  font-weight: 400;
-  font-size: 14px;
-  background: var(--color-bg-3);
-}
-.layout-demo :deep(.sd-layout-footer),
-.layout-demo :deep(.sd-layout-content)  {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: var(--color-white);
-  font-size: 16px;
-  font-stretch: condensed;
-  text-align: center;
-}
+  .layout-demo {
+    height: 500px;
+    background: var(--color-fill-2);
+    border: 1px solid var(--color-border);
+  }
+  .layout-demo :deep(.sd-layout-sider) .logo {
+    height: 32px;
+    margin: 12px 8px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+  .layout-demo :deep(.sd-layout-sider-light) .logo {
+    background: var(--color-fill-2);
+  }
+  .layout-demo :deep(.sd-layout-header) {
+    height: 64px;
+    line-height: 64px;
+    background: var(--color-bg-3);
+  }
+  .layout-demo :deep(.sd-layout-footer) {
+    height: 48px;
+    color: var(--color-text-2);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 48px;
+  }
+  .layout-demo :deep(.sd-layout-content) {
+    color: var(--color-text-2);
+    font-weight: 400;
+    font-size: 14px;
+    background: var(--color-bg-3);
+  }
+  .layout-demo :deep(.sd-layout-footer),
+  .layout-demo :deep(.sd-layout-content) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--color-white);
+    font-size: 16px;
+    font-stretch: condensed;
+    text-align: center;
+  }
 </style>
 ```

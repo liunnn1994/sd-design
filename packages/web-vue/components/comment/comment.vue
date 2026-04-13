@@ -37,108 +37,109 @@
   </div>
 </template>
 <script>
-import { defineComponent, computed } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import { hasPropOrSlot } from '../_utils/use-prop-or-slot';
-import { isString } from '../_utils/is';
+  import { defineComponent, computed } from 'vue';
 
-export default defineComponent({
-  name: 'Comment',
-  props: {
-    /**
-     * @zh 作者名
-     * @en Display as the comment author
-     */
-    author: {
-      type: String,
+  import { getPrefixCls } from '../_utils/global-config';
+  import { isString } from '../_utils/is';
+  import { hasPropOrSlot } from '../_utils/use-prop-or-slot';
+
+  export default defineComponent({
+    name: 'Comment',
+    props: {
+      /**
+       * @zh 作者名
+       * @en Display as the comment author
+       */
+      author: {
+        type: String,
+      },
+      /**
+       * @zh 头像
+       * @en Display as the comment avatar
+       */
+      avatar: {
+        type: String,
+      },
+      /**
+       * @zh 评论内容
+       * @en The content of the comment
+       */
+      content: {
+        type: String,
+      },
+      /**
+       * @zh 时间描述
+       * @en Display as the comment datetime
+       */
+      datetime: {
+        type: String,
+      },
+      /**
+       * @zh 靠左/靠右 展示 datetime 和 actions
+       * @en Alignment of `datetime` and `actions`
+       * @values 'left', 'right', { datetime?: "left" | "right"; actions?: "left" | "right" }
+       * */
+      align: {
+        type: [String, Object],
+        default: 'left',
+      },
     },
     /**
      * @zh 头像
-     * @en Display as the comment avatar
+     * @en Avatar
+     * @slot avatar
      */
-    avatar: {
-      type: String,
-    },
     /**
-     * @zh 评论内容
-     * @en The content of the comment
+     * @zh 作者
+     * @en Author name
+     * @slot author
      */
-    content: {
-      type: String,
-    },
     /**
      * @zh 时间描述
-     * @en Display as the comment datetime
+     * @en Datetime info
+     * @slot datetime
      */
-    datetime: {
-      type: String,
-    },
     /**
-     * @zh 靠左/靠右 展示 datetime 和 actions
-     * @en Alignment of `datetime` and `actions`
-     * @values 'left', 'right', { datetime?: "left" | "right"; actions?: "left" | "right" }
-     * */
-    align: {
-      type: [String, Object],
-      default: 'left',
-    },
-  },
-  /**
-   * @zh 头像
-   * @en Avatar
-   * @slot avatar
-   */
-  /**
-   * @zh 作者
-   * @en Author name
-   * @slot author
-   */
-  /**
-   * @zh 时间描述
-   * @en Datetime info
-   * @slot datetime
-   */
-  /**
-   * @zh 评论内容
-   * @en Comment content
-   * @slot content
-   */
-  /**
-   * @zh 操作列表
-   * @en Action list
-   * @slot actions
-   */
+     * @zh 评论内容
+     * @en Comment content
+     * @slot content
+     */
+    /**
+     * @zh 操作列表
+     * @en Action list
+     * @slot actions
+     */
 
-  setup(props, { slots }) {
-    const prefixCls = getPrefixCls('comment');
+    setup(props, { slots }) {
+      const prefixCls = getPrefixCls('comment');
 
-    const [hasAuthor, hasAvatar, hasContent, hasDatetime] = [
-      'author',
-      'avatar',
-      'content',
-      'datetime',
-    ].map((propName) => hasPropOrSlot(props, slots, propName));
+      const [hasAuthor, hasAvatar, hasContent, hasDatetime] = [
+        'author',
+        'avatar',
+        'content',
+        'datetime',
+      ].map((propName) => hasPropOrSlot(props, slots, propName));
 
-    const computedAlign = computed(() => {
-      const { align } = props;
+      const computedAlign = computed(() => {
+        const { align } = props;
+        return {
+          ...(isString(align)
+            ? {
+                datetime: align,
+                actions: align,
+              }
+            : align),
+        };
+      });
+
       return {
-        ...(isString(align)
-          ? {
-              datetime: align,
-              actions: align,
-            }
-          : align),
+        prefixCls,
+        hasAuthor,
+        hasAvatar,
+        hasContent,
+        hasDatetime,
+        computedAlign,
       };
-    });
-
-    return {
-      prefixCls,
-      hasAuthor,
-      hasAvatar,
-      hasContent,
-      hasDatetime,
-      computedAlign,
-    };
-  },
-});
+    },
+  });
 </script>

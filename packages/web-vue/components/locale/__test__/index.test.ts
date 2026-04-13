@@ -1,11 +1,9 @@
-import path from 'path';
 import glob from 'glob';
+import path from 'path';
+
 import zhCN from '../lang/zh-cn';
 
-function hasEqualStructure(
-  obj1: Record<string, unknown>,
-  obj2: Record<string, unknown>
-) {
+function hasEqualStructure(obj1: Record<string, unknown>, obj2: Record<string, unknown>) {
   return Object.keys(obj1).every((key) => {
     const v = obj1[key];
 

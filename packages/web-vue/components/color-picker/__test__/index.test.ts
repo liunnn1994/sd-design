@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import ColorPicker from '../index';
 
 describe('ColorPicker', () => {
@@ -9,9 +10,7 @@ describe('ColorPicker', () => {
       },
     });
     const colorPickerElement = wrapper.find('.sd-color-picker');
-    expect(colorPickerElement.classes()).toContain(
-      `sd-color-picker-size-mini`
-    );
+    expect(colorPickerElement.classes()).toContain(`sd-color-picker-size-mini`);
   });
 
   test('Whether the disabled is rendered correctly', () => {
@@ -21,8 +20,6 @@ describe('ColorPicker', () => {
       },
     });
     const colorPickerElement = wrapper.find('.sd-color-picker');
-    expect(colorPickerElement.classes()).toContain(
-      `sd-color-picker-disabled`
-    );
+    expect(colorPickerElement.classes()).toContain(`sd-color-picker-disabled`);
   });
 });

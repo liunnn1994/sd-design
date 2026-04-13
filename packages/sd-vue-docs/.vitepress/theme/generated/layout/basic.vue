@@ -1,12 +1,12 @@
 <template>
   <div class="layout-demo">
-    <a-layout style="height: 400px;">
+    <a-layout style="height: 400px">
       <a-layout-header>Header</a-layout-header>
       <a-layout-content>Content</a-layout-content>
       <a-layout-footer>Footer</a-layout-footer>
     </a-layout>
     <br />
-    <a-layout style="height: 400px;">
+    <a-layout style="height: 400px">
       <a-layout-header>Header</a-layout-header>
       <a-layout>
         <a-layout-sider theme="dark">Sider</a-layout-sider>
@@ -15,7 +15,7 @@
       <a-layout-footer>Footer</a-layout-footer>
     </a-layout>
     <br />
-    <a-layout style="height: 400px;">
+    <a-layout style="height: 400px">
       <a-layout-header>Header</a-layout-header>
       <a-layout>
         <a-layout-content>Content</a-layout-content>
@@ -24,11 +24,11 @@
       <a-layout-footer>Footer</a-layout-footer>
     </a-layout>
     <br />
-    <a-layout style="height: 400px;">
+    <a-layout style="height: 400px">
       <a-layout-header>Header</a-layout-header>
       <a-layout>
-        <a-layout-sider style="width: 64px;">Sider</a-layout-sider>
-        <a-layout-sider style="width: 206px; margin-left: 1px;">Sider</a-layout-sider>
+        <a-layout-sider style="width: 64px">Sider</a-layout-sider>
+        <a-layout-sider style="width: 206px; margin-left: 1px">Sider</a-layout-sider>
         <a-layout-content>Content</a-layout-content>
       </a-layout>
       <a-layout-footer>Footer</a-layout-footer>
@@ -36,32 +36,31 @@
   </div>
 </template>
 <style scoped>
-.layout-demo :deep(.sd-layout-header),
-.layout-demo :deep(.sd-layout-footer),
-.layout-demo :deep(.sd-layout-sider-children),
-.layout-demo :deep(.sd-layout-content) {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: var(--color-white);
-  font-size: 16px;
-  font-stretch: condensed;
-  text-align: center;
-}
+  .layout-demo :deep(.sd-layout-header),
+  .layout-demo :deep(.sd-layout-footer),
+  .layout-demo :deep(.sd-layout-sider-children),
+  .layout-demo :deep(.sd-layout-content) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--color-white);
+    font-size: 16px;
+    font-stretch: condensed;
+    text-align: center;
+  }
 
+  .layout-demo :deep(.sd-layout-header),
+  .layout-demo :deep(.sd-layout-footer) {
+    height: 64px;
+    background-color: var(--color-primary-light-4);
+  }
 
-.layout-demo :deep(.sd-layout-header),
-.layout-demo :deep(.sd-layout-footer) {
-  height: 64px;
-  background-color: var(--color-primary-light-4);
-}
+  .layout-demo :deep(.sd-layout-sider) {
+    width: 206px;
+    background-color: var(--color-primary-light-3);
+  }
 
-.layout-demo :deep(.sd-layout-sider) {
-  width: 206px;
-  background-color: var(--color-primary-light-3);
-}
-
-.layout-demo :deep(.sd-layout-content) {
-  background-color: rgb(var(--sdblue-6));
-}
+  .layout-demo :deep(.sd-layout-content) {
+    background-color: rgb(var(--sdblue-6));
+  }
 </style>

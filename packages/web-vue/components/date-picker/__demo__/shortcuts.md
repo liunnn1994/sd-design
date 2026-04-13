@@ -23,7 +23,7 @@ Use `shortcuts` to preset time for quick selection.
     :shortcuts="[
       {
         label: '2 hours later',
-        value: () => dayjs().add(2, 'hour')
+        value: () => dayjs().add(2, 'hour'),
       },
       {
         label: 'a week later',
@@ -90,13 +90,13 @@ Use `shortcuts` to preset time for quick selection.
   />
 </template>
 <script>
-import dayjs from 'dayjs';
-export default {
-  setup() {
-    return {
-      dayjs
-    }
-  }
-}
+  import dayjs from 'dayjs';
+  export default {
+    setup() {
+      return {
+        dayjs,
+      };
+    },
+  };
 </script>
 ```

@@ -1,4 +1,5 @@
 import { InjectionKey } from 'vue';
+
 import { AvatarShape } from './interface';
 
 export interface AvatarGroupContext {
@@ -9,5 +10,4 @@ export interface AvatarGroupContext {
   total: number;
 }
 
-export const avatarGroupInjectionKey: InjectionKey<AvatarGroupContext> =
-  Symbol('SDAvatarGroup');
+export const avatarGroupInjectionKey: InjectionKey<AvatarGroupContext> = Symbol('SDAvatarGroup');

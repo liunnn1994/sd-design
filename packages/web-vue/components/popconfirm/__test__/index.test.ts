@@ -1,5 +1,6 @@
-import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
+import { nextTick } from 'vue';
+
 import Popconfirm from '../index';
 
 describe('Popconfirm', () => {

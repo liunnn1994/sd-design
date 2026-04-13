@@ -1,4 +1,5 @@
 import type { InjectionKey, Slots } from 'vue';
+
 import { CustomIcon, FileItem, ListType } from './interfaces';
 
 export interface UploadContext {
@@ -20,5 +21,4 @@ export interface UploadContext {
   onPreview: (fileItem: FileItem) => void;
 }
 
-export const uploadInjectionKey: InjectionKey<UploadContext> =
-  Symbol('SDUpload');
+export const uploadInjectionKey: InjectionKey<UploadContext> = Symbol('SDUpload');

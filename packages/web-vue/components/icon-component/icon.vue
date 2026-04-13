@@ -5,44 +5,45 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, CSSProperties } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import { isNumber } from '../_utils/is';
+  import { computed, defineComponent, CSSProperties } from 'vue';
 
-export default defineComponent({
-  name: 'Icon',
-  props: {
-    type: String,
-    size: [Number, String],
-    rotate: Number,
-    spin: Boolean,
-  },
-  setup(props) {
-    const prefixCls = getPrefixCls('icon');
+  import { getPrefixCls } from '../_utils/global-config';
+  import { isNumber } from '../_utils/is';
 
-    const innerStyle = computed(() => {
-      const styles: CSSProperties = {};
-      if (props.size) {
-        styles.fontSize = isNumber(props.size) ? `${props.size}px` : props.size;
-      }
-      if (props.rotate) {
-        styles.transform = `rotate(${props.rotate}deg)`;
-      }
-      return styles;
-    });
+  export default defineComponent({
+    name: 'Icon',
+    props: {
+      type: String,
+      size: [Number, String],
+      rotate: Number,
+      spin: Boolean,
+    },
+    setup(props) {
+      const prefixCls = getPrefixCls('icon');
 
-    const cls = computed(() => [
-      prefixCls,
-      {
-        [`${prefixCls}-loading`]: props.spin,
-      },
-      props.type,
-    ]);
+      const innerStyle = computed(() => {
+        const styles: CSSProperties = {};
+        if (props.size) {
+          styles.fontSize = isNumber(props.size) ? `${props.size}px` : props.size;
+        }
+        if (props.rotate) {
+          styles.transform = `rotate(${props.rotate}deg)`;
+        }
+        return styles;
+      });
 
-    return {
-      cls,
-      innerStyle,
-    };
-  },
-});
+      const cls = computed(() => [
+        prefixCls,
+        {
+          [`${prefixCls}-loading`]: props.spin,
+        },
+        props.type,
+      ]);
+
+      return {
+        cls,
+        innerStyle,
+      };
+    },
+  });
 </script>

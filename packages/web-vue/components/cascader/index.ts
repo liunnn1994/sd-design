@@ -1,8 +1,10 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Cascader from './cascader.vue';
 import _CascaderPanel from './cascader-panel.vue';
+import _Cascader from './cascader.vue';
 
 const Cascader = Object.assign(_Cascader, {
   CascaderPanel: _CascaderPanel,

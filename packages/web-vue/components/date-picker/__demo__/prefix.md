@@ -41,10 +41,10 @@ The prefix of the input box can be set through the `prefix` slot
 </template>
 
 <script>
-import { IconInfoCircle } from '@sd-design/web-vue/es/icon';
+  import { IconInfoCircle } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: { IconInfoCircle },
-};
+  export default {
+    components: { IconInfoCircle },
+  };
 </script>
 ```

@@ -55,20 +55,20 @@
 </template>
 
 <style scoped>
-.grid-demo .sd-col {
-  height: 48px;
-  color: var(--color-white);
-}
-.grid-demo .sd-col > div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-.grid-demo .sd-col:nth-child(2n) > div {
-  background-color: rgba(var(--sdblue-6), 0.9);
-}
-.grid-demo .sd-col:nth-child(2n + 1) > div {
-  background-color: var(--color-primary-light-4);
-}
+  .grid-demo .sd-col {
+    height: 48px;
+    color: var(--color-white);
+  }
+  .grid-demo .sd-col > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  .grid-demo .sd-col:nth-child(2n) > div {
+    background-color: rgba(var(--sdblue-6), 0.9);
+  }
+  .grid-demo .sd-col:nth-child(2n + 1) > div {
+    background-color: var(--color-primary-light-4);
+  }
 </style>

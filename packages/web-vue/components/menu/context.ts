@@ -1,8 +1,8 @@
 import { InjectionKey, VNodeTypes } from 'vue';
+
 import { InternalMenuProps, MenuData } from './interface';
 
-export const MenuInjectionKey: InjectionKey<MenuContext> =
-  Symbol('MenuInjectionKey');
+export const MenuInjectionKey: InjectionKey<MenuContext> = Symbol('MenuInjectionKey');
 
 export type MenuContext = Readonly<
   Pick<
@@ -28,8 +28,7 @@ export type MenuContext = Readonly<
   }
 >;
 
-export const LevelInjectionKey: InjectionKey<LevelContext> =
-  Symbol('LevelInjectionKey');
+export const LevelInjectionKey: InjectionKey<LevelContext> = Symbol('LevelInjectionKey');
 
 export type LevelContext = Readonly<{
   level: number;
@@ -37,8 +36,9 @@ export type LevelContext = Readonly<{
 
 export type MenuMapType = Map<string, string[]>;
 
-export const DataCollectorInjectionKey: InjectionKey<DataCollectorContext> =
-  Symbol('DataCollectorInjectionKey');
+export const DataCollectorInjectionKey: InjectionKey<DataCollectorContext> = Symbol(
+  'DataCollectorInjectionKey',
+);
 
 export type DataCollectorContext = Readonly<{
   collectSubMenu: (key: string, children: MenuData, isReport?: boolean) => void;

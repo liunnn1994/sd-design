@@ -1,10 +1,6 @@
 <template>
   <a-space :size="20">
-    <a-image
-      width="400"
-      height="300"
-      src="some-error.png"
-    />
+    <a-image width="400" height="300" src="some-error.png" />
     <a-image
       width="400"
       height="300"

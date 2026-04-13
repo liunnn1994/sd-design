@@ -1,10 +1,12 @@
 import type { Ref } from 'vue';
 import { computed, ref } from 'vue';
+
 import type { BaseType, EmitFn2 } from '../../_utils/types';
 import type { TableDataWithRaw, TableRowSelection } from '../interface';
+
+import { union } from '../../_utils/array';
 import { TableData } from '../interface';
 import { getLeafKeys } from '../utils';
-import { union } from '../../_utils/array';
 
 export const useRowSelection = ({
   selectedKeys,
@@ -21,37 +23,24 @@ export const useRowSelection = ({
   currentAllEnabledRowKeys: Ref<BaseType[]>;
   emit: EmitFn2<{
     'update:selectedKeys': (rowKeys: BaseType[]) => true;
-    'select': (
-      rowKeys: BaseType[],
-      rowKey: BaseType,
-      record: TableData
-    ) => true;
-    'selectAll': (checked: boolean) => true;
-    'selectionChange': (rowKeys: BaseType[]) => true;
+    select: (rowKeys: BaseType[], rowKey: BaseType, record: TableData) => true;
+    selectAll: (checked: boolean) => true;
+    selectionChange: (rowKeys: BaseType[]) => true;
   }>;
 }) => {
   const isRadio = computed(() => rowSelection.value?.type === 'radio');
   const _selectedRowKeys = ref(
-    defaultSelectedKeys.value ??
-      rowSelection.value?.defaultSelectedRowKeys ??
-      []
+    defaultSelectedKeys.value ?? rowSelection.value?.defaultSelectedRowKeys ?? [],
   );
   const selectedRowKeys = computed(
-    () =>
-      selectedKeys.value ??
-      rowSelection.value?.selectedRowKeys ??
-      _selectedRowKeys.value
+    () => selectedKeys.value ?? rowSelection.value?.selectedRowKeys ?? _selectedRowKeys.value,
   );
   const currentSelectedRowKeys = computed(() =>
-    selectedRowKeys.value.filter((key) => currentAllRowKeys.value.includes(key))
+    selectedRowKeys.value.filter((key) => currentAllRowKeys.value.includes(key)),
   );
 
   const handleSelectAll = (checked: boolean) => {
-    const newKeys = union(
-      selectedRowKeys.value,
-      currentAllEnabledRowKeys.value,
-      !checked
-    );
+    const newKeys = union(selectedRowKeys.value, currentAllEnabledRowKeys.value, !checked);
     _selectedRowKeys.value = newKeys;
 
     emit('selectAll', checked);
@@ -88,11 +77,7 @@ export const useRowSelection = ({
   };
 
   const selectAll = (checked = true) => {
-    const newKeys = union(
-      selectedRowKeys.value,
-      currentAllEnabledRowKeys.value,
-      !checked
-    );
+    const newKeys = union(selectedRowKeys.value, currentAllEnabledRowKeys.value, !checked);
     _selectedRowKeys.value = newKeys;
 
     emit('selectionChange', newKeys);

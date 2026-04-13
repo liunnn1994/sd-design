@@ -42,53 +42,51 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import useMenuContext from './hooks/use-menu-context';
-import useMenu from './hooks/use-menu';
-import useLevel from './hooks/use-level';
-import MenuIndent from './indent.vue';
-import ExpandTransition from '../_components/transition/expand-transition.vue';
+  import { computed, defineComponent } from 'vue';
 
-export default defineComponent({
-  name: 'SubMenuInline',
-  components: {
-    MenuIndent,
-    ExpandTransition,
-  },
-  props: {
-    title: {
-      type: String,
-    },
-    isChildrenSelected: {
-      type: Boolean,
-    },
-  },
-  setup(props) {
-    const { key } = useMenu();
-    const { level } = useLevel({
-      provideNextLevel: true,
-    });
-    const menuContext = useMenuContext();
-    const menuPrefixCls = computed(() => menuContext.prefixCls);
-    const prefixCls = computed(() => `${menuPrefixCls.value}-inline`);
-    const classNames = computed(() => [prefixCls.value]);
-    const isSelected = computed(() => props.isChildrenSelected);
-    const isOpen = computed(
-      () => (menuContext.openKeys || []).indexOf(key.value) > -1
-    );
+  import ExpandTransition from '../_components/transition/expand-transition.vue';
+  import useLevel from './hooks/use-level';
+  import useMenu from './hooks/use-menu';
+  import useMenuContext from './hooks/use-menu-context';
+  import MenuIndent from './indent.vue';
 
-    return {
-      prefixCls,
-      menuPrefixCls,
-      classNames,
-      level,
-      isSelected,
-      isOpen,
-      onHeaderClick: () => {
-        menuContext.onSubMenuClick &&
-          menuContext.onSubMenuClick(key.value, level.value);
+  export default defineComponent({
+    name: 'SubMenuInline',
+    components: {
+      MenuIndent,
+      ExpandTransition,
+    },
+    props: {
+      title: {
+        type: String,
       },
-    };
-  },
-});
+      isChildrenSelected: {
+        type: Boolean,
+      },
+    },
+    setup(props) {
+      const { key } = useMenu();
+      const { level } = useLevel({
+        provideNextLevel: true,
+      });
+      const menuContext = useMenuContext();
+      const menuPrefixCls = computed(() => menuContext.prefixCls);
+      const prefixCls = computed(() => `${menuPrefixCls.value}-inline`);
+      const classNames = computed(() => [prefixCls.value]);
+      const isSelected = computed(() => props.isChildrenSelected);
+      const isOpen = computed(() => (menuContext.openKeys || []).indexOf(key.value) > -1);
+
+      return {
+        prefixCls,
+        menuPrefixCls,
+        classNames,
+        level,
+        isSelected,
+        isOpen,
+        onHeaderClick: () => {
+          menuContext.onSubMenuClick && menuContext.onSubMenuClick(key.value, level.value);
+        },
+      };
+    },
+  });
 </script>

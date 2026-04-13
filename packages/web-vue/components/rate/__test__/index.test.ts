@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Rate from '../index';
 
 describe('Rate', () => {

@@ -5,17 +5,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
+  import { defineComponent } from 'vue';
 
-export default defineComponent({
-  name: 'InputGroup',
-  setup() {
-    const prefixCls = getPrefixCls('input-group');
+  import { getPrefixCls } from '../_utils/global-config';
 
-    return {
-      prefixCls,
-    };
-  },
-});
+  export default defineComponent({
+    name: 'InputGroup',
+    setup() {
+      const prefixCls = getPrefixCls('input-group');
+
+      return {
+        prefixCls,
+      };
+    },
+  });
 </script>

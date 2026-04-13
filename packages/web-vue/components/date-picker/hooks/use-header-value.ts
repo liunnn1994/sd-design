@@ -1,5 +1,7 @@
-import { Dayjs } from 'dayjs';
 import { computed, reactive, ComputedRef, toRefs, watch, ref } from 'vue';
+
+import { Dayjs } from 'dayjs';
+
 import { getDayjsValue, getNow, methods } from '../../_utils/date';
 import { Mode, HeaderOperations, CalendarValue } from '../interface';
 import usePanelSpan from './use-panel-span';
@@ -20,32 +22,24 @@ export default function useHeaderValue(props: HeaderValueProps): {
   resetHeaderValue: (emitChange?: boolean) => void;
   getDefaultLocalValue: () => Dayjs;
 } {
-  const { mode, value, defaultValue, selectedValue, format, onChange } =
-    toRefs(props);
+  const { mode, value, defaultValue, selectedValue, format, onChange } = toRefs(props);
 
   const computedMode = computed(() => mode?.value || 'date');
 
   const { span, superSpan } = usePanelSpan(
     reactive({
       mode: computedMode,
-    })
+    }),
   );
 
   const isSame = (current: Dayjs, target: Dayjs) => {
-    const unit =
-      computedMode.value === 'date' || computedMode.value === 'week'
-        ? 'M'
-        : 'y';
+    const unit = computedMode.value === 'date' || computedMode.value === 'week' ? 'M' : 'y';
     return current.isSame(target, unit);
   };
 
-  const computedValue = computed(() =>
-    getDayjsValue(value?.value, format.value)
-  );
+  const computedValue = computed(() => getDayjsValue(value?.value, format.value));
 
-  const computedDefaultValue = computed(() =>
-    getDayjsValue(defaultValue?.value, format.value)
-  );
+  const computedDefaultValue = computed(() => getDayjsValue(defaultValue?.value, format.value));
 
   const localValue = ref(computedDefaultValue.value || getNow());
   const headerValue = computed(() => computedValue.value || localValue.value);
@@ -71,7 +65,7 @@ export default function useHeaderValue(props: HeaderValueProps): {
     () => selectedValue?.value,
     (newVal) => {
       setHeaderValue(newVal);
-    }
+    },
   );
 
   function getDefaultLocalValue() {

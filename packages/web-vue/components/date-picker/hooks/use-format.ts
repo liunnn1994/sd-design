@@ -1,4 +1,5 @@
 import { computed, toRefs } from 'vue';
+
 import { isFunction } from '../../_utils/is';
 import { Mode, FormatFunc, ValueFormat } from '../interface';
 
@@ -44,29 +45,20 @@ export function getDefaultValueFormat(mode: Mode = 'date', showTime = false) {
 }
 
 export default function useFormat(props: FormatProps) {
-  const {
-    format: propFormat,
-    mode,
-    showTime,
-    valueFormat: propValueFormat,
-  } = toRefs(props);
+  const { format: propFormat, mode, showTime, valueFormat: propValueFormat } = toRefs(props);
 
   const format = computed(
     () =>
       (!isFunction(propFormat?.value) && propFormat?.value) ||
-      getDefaultFormat(mode?.value, showTime?.value)
+      getDefaultFormat(mode?.value, showTime?.value),
   );
 
   const valueFormat = computed(
-    () =>
-      propValueFormat?.value ||
-      getDefaultValueFormat(mode?.value, showTime?.value)
+    () => propValueFormat?.value || getDefaultValueFormat(mode?.value, showTime?.value),
   );
 
   const parseValueFormat = computed(() =>
-    ['timestamp', 'Date'].includes(valueFormat.value)
-      ? format.value
-      : valueFormat.value
+    ['timestamp', 'Date'].includes(valueFormat.value) ? format.value : valueFormat.value,
   );
 
   return {

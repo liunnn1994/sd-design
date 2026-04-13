@@ -21,7 +21,11 @@ When you need to display a large image, you can pass a smaller image to `loader`
   <div>
     <a-button
       type="primary"
-      @click="() => {timestamp = Date.now()}"
+      @click="
+        () => {
+          timestamp = Date.now();
+        }
+      "
       style="margin-bottom: 20px;"
     >
       reload
@@ -43,15 +47,15 @@ When you need to display a large image, you can pass a smaller image to `loader`
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const timestamp = ref('');
-    return {
-      timestamp,
-    }
-  }
-}
+  export default {
+    setup() {
+      const timestamp = ref('');
+      return {
+        timestamp,
+      };
+    },
+  };
 </script>
 ```

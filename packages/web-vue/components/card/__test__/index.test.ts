@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Card from '../index';
 
 const { Meta, Grid } = Card;

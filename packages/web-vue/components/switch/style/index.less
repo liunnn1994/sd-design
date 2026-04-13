@@ -2,17 +2,11 @@
 
 @switch-prefix-cls: ~'@{prefix}-switch';
 
-@switch-size-default-gap: (
-  (@switch-size-default - @switch-size-dot-default) / 2
-);
+@switch-size-default-gap: ((@switch-size-default - @switch-size-dot-default) / 2);
 @switch-size-small-gap: ((@switch-size-small - @switch-size-dot-small) / 2);
 
-@switch-size-default-line-gap: (
-  (@switch-size-default - @switch-line-size-dot-default) / 2
-);
-@switch-size-small-line-gap: (
-  (@switch-size-small - @switch-line-size-dot-small) / 2
-);
+@switch-size-default-line-gap: ((@switch-size-default - @switch-line-size-dot-default) / 2);
+@switch-size-small-line-gap: ((@switch-size-small - @switch-line-size-dot-small) / 2);
 
 .switch-slide-text-enter-from {
   left: -100% !important;
@@ -52,8 +46,7 @@
   border-radius: (@switch-size-default / 2);
   outline: none;
   cursor: pointer;
-  transition: background-color @transition-duration-2
-    @transition-timing-function-standard;
+  transition: background-color @transition-duration-2 @transition-timing-function-standard;
 
   &-handle {
     position: absolute;
@@ -228,8 +221,7 @@
       height: @switch-line-height-bg-line;
       background-color: @switch-color-bg_off;
       border-radius: (@switch-line-height-bg-line / 2);
-      transition: background-color @transition-duration-2
-        @transition-timing-function-standard;
+      transition: background-color @transition-duration-2 @transition-timing-function-standard;
       content: '';
     }
   }
@@ -325,8 +317,6 @@
   }
 
   &-type-line&-small&-checked &-handle {
-    left: calc(
-      100% - @switch-line-size-dot-small - @switch-size-small-line-gap
-    );
+    left: calc(100% - @switch-line-size-dot-small - @switch-size-small-line-gap);
   }
 }

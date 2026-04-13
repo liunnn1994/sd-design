@@ -25,17 +25,17 @@ Color can be customized through color. In addition, you can customize the color 
 </template>
 
 <script>
-export default {
-  setup() {
-    const color = {
-      2: 'red',
-      4: 'green',
-      5: 'blue'
-    }
-    return {
-      color
-    }
-  },
-}
+  export default {
+    setup() {
+      const color = {
+        2: 'red',
+        4: 'green',
+        5: 'blue',
+      };
+      return {
+        color,
+      };
+    },
+  };
 </script>
 ```

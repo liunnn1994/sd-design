@@ -55,56 +55,52 @@ It divides the text paragraphs of different chapters, the default is a horizonta
 </template>
 
 <script>
-import {
-  IconImage,
-  IconUser,
-  IconPen,
-} from '@sd-design/web-vue/es/icon';
+  import { IconImage, IconUser, IconPen } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: {
-    IconImage,
-    IconUser,
-    IconPen,
-  },
-};
+  export default {
+    components: {
+      IconImage,
+      IconUser,
+      IconPen,
+    },
+  };
 </script>
 
 <style scoped>
-.divider-demo {
-  box-sizing: border-box;
-  width: 560px;
-  padding: 24px;
-  border: 30px solid rgb(var(--gray-2));
-}
-.half-divider {
-  left: 55px;
-  width: calc(100% - 55px);
-  min-width: auto;
-  margin: 16px 0;
-}
-.flex-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.flex-box .avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  margin-right: 16px;
-  color: var(--color-text-2);
-  font-size: 16px;
-  background-color: var(--color-fill-3);
-  border-radius: 50%;
-}
-.flex-box .content {
-  flex: 1;
-  color: var(--color-text-2);
-  font-size: 12px;
-  line-height: 20px;
-}
+  .divider-demo {
+    box-sizing: border-box;
+    width: 560px;
+    padding: 24px;
+    border: 30px solid rgb(var(--gray-2));
+  }
+  .half-divider {
+    left: 55px;
+    width: calc(100% - 55px);
+    min-width: auto;
+    margin: 16px 0;
+  }
+  .flex-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .flex-box .avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-right: 16px;
+    color: var(--color-text-2);
+    font-size: 16px;
+    background-color: var(--color-fill-3);
+    border-radius: 50%;
+  }
+  .flex-box .content {
+    flex: 1;
+    color: var(--color-text-2);
+    font-size: 12px;
+    line-height: 20px;
+  }
 </style>
 ```

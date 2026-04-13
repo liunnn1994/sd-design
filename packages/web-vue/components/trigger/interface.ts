@@ -1,4 +1,5 @@
 import { CSSProperties } from 'vue';
+
 import { TriggerEvent, TriggerPosition } from '../_utils/constant';
 
 export type TriggerPopupTranslate =

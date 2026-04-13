@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 评论 Comment
 description: 展示评论信息
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,15 +19,16 @@ meta:
 title: Comment
 description: Display a comment.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/align.md
+@import ./**demo**/align.md
 
-@import ./__demo__/nest.md
+@import ./**demo**/nest.md
 
-@import ./__demo__/editor.md
+@import ./**demo**/editor.md
 
 ## API
 

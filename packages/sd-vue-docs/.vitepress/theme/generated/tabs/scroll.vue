@@ -12,13 +12,13 @@
       <a-radio value="center">center</a-radio>
       <a-radio value="end">end</a-radio>
     </a-radio-group>
-    <a-button @click="changeActive"> Change: {{activeKey}}</a-button>
+    <a-button @click="changeActive"> Change: {{ activeKey }}</a-button>
   </a-space>
   <a-tabs
     v-model:activeKey="activeKey"
     :position="position"
     :scrollPosition="scrollPosition"
-    style="width: 100%;height: 300px;margin-top: 20px"
+    style="width: 100%; height: 300px; margin-top: 20px"
   >
     <a-tab-pane v-for="tab in tabs" :key="tab.key" :title="tab.title">
       {{ tab.content }}
@@ -27,32 +27,32 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const position = ref('top');
-    const scrollPosition = ref('auto');
-    const activeKey = ref('Tab1');
-    const tabs = Array.from({ length: 30 }, (v, i) => {
+  export default {
+    setup() {
+      const position = ref('top');
+      const scrollPosition = ref('auto');
+      const activeKey = ref('Tab1');
+      const tabs = Array.from({ length: 30 }, (v, i) => {
+        return {
+          key: `Tab${i + 1}`,
+          title: `Tab ${i + 1}`,
+          content: `Content of Tab Panel ${i + 1}`,
+        };
+      });
+
+      const changeActive = () => {
+        activeKey.value = `Tab${Math.floor(Math.random() * 30) + 1}`;
+      };
+
       return {
-        key: `Tab${i + 1}`,
-        title: `Tab ${i + 1}`,
-        content: `Content of Tab Panel ${i + 1}`
-      }
-    });
-
-    const changeActive = () => {
-      activeKey.value = `Tab${Math.floor(Math.random() * 30) + 1}`;
-    }
-
-    return {
-      tabs,
-      position,
-      scrollPosition,
-      activeKey,
-      changeActive
-    }
-  },
-}
+        tabs,
+        position,
+        scrollPosition,
+        activeKey,
+        changeActive,
+      };
+    },
+  };
 </script>

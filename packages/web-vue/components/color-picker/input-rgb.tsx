@@ -1,10 +1,11 @@
 import { defineComponent, PropType, toRefs } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import { Color, HSV, RGB } from './interface';
+
 import { rgbToHsv } from '../_utils/color';
+import { getPrefixCls } from '../_utils/global-config';
 import { InputGroup } from '../input';
 import InputNumber from '../input-number';
 import InputAlpha from './input-alpha';
+import { Color, HSV, RGB } from './interface';
 
 export default defineComponent({
   name: 'InputRgb',

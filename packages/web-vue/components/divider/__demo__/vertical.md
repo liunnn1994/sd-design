@@ -28,11 +28,11 @@ Specify the `direction` as `vertical` to use the vertical Divider which cannot c
 </template>
 
 <style scoped>
-.divider-demo {
-  box-sizing: border-box;
-  width: 560px;
-  padding: 24px;
-  border: 30px solid rgb(var(--gray-2));
-}
+  .divider-demo {
+    box-sizing: border-box;
+    width: 560px;
+    padding: 24px;
+    border: 30px solid rgb(var(--gray-2));
+  }
 </style>
 ```

@@ -1,10 +1,11 @@
 import { CSSProperties } from 'vue';
+
 import { Size } from '../_utils/constant';
 import { SelectProps } from '../select';
 
 export const PAGE_ITEM_TYPES = ['page', 'more', 'previous', 'next'] as const;
 
-export type PageItemType = typeof PAGE_ITEM_TYPES[number];
+export type PageItemType = (typeof PAGE_ITEM_TYPES)[number];
 
 export interface PaginationProps {
   total?: number;

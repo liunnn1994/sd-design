@@ -1,41 +1,34 @@
 #!/usr/bin/env node
 
-import path from 'path';
-import fs from 'fs-extra';
 import { Command } from 'commander';
-import icongen from './scripts/icongen';
-import lessgen from './scripts/lessgen';
-import docgen from './scripts/docgen';
-import dtsgen from './scripts/dtsgen';
-import devComponent from './scripts/dev-component';
-import devSite from './scripts/dev-site';
+import fs from 'fs-extra';
+import path from 'path';
+
 import buildComponent from './scripts/build-component';
-import buildStyle from './scripts/build-style';
-import buildSite from './scripts/build-site';
 import buildMaterial from './scripts/build-material';
 import buildMaterialLibrary from './scripts/build-material-library';
-import test from './scripts/test';
-// import screentshotTest from './scripts/test/screentshot';
-import changelog from './scripts/changelog';
+import buildSite from './scripts/build-site';
+import buildStyle from './scripts/build-style';
+import devComponent from './scripts/dev-component';
+import devSite from './scripts/dev-site';
+import docgen from './scripts/docgen';
+import dtsgen from './scripts/dtsgen';
+import icongen from './scripts/icongen';
 import jsongen from './scripts/jsongen';
+import lessgen from './scripts/lessgen';
+import test from './scripts/test';
 
 const program = new Command();
 
-const packageContent = fs.readFileSync(
-  path.resolve(__dirname, '../package.json'),
-  'utf8'
-);
+const packageContent = fs.readFileSync(path.resolve(__dirname, '../package.json'), 'utf8');
 const packageData: any = JSON.parse(packageContent);
 
-program
-  .version(packageData.version)
-  .name('sd-vue-scripts')
-  .usage('command [options]');
+program.version(packageData.version).name('sd-vue-scripts').usage('command [options]');
 
 program
   .command('docgen')
   .description(
-    'generate document of component. e.g. sd-scripts-vue docgen --components menu,affix,button'
+    'generate document of component. e.g. sd-scripts-vue docgen --components menu,affix,button',
   )
   .option('-i, --input <filename>', 'specified input file')
   .option('-c, --components <names>', 'component name(s) joined by comma(,)')
@@ -61,10 +54,7 @@ program
 program
   .command('dtsgen <files>')
   .description('emit .d.ts files for vue files.')
-  .option(
-    '-o, --outDir <direname>',
-    'Specify an output folder for all emitted files'
-  )
+  .option('-o, --outDir <direname>', 'Specify an output folder for all emitted files')
   .action((files, options) => {
     dtsgen(files, options);
   });
@@ -128,24 +118,6 @@ program
   .action(async ({ components }) => {
     components = typeof components === 'string' ? components.split(',') : [];
     await test(components, program.args.slice(1));
-  });
-
-// program
-//   .command('test:screenshot')
-//   .description('run test:screenshot for components.')
-//   .option('-d, --domain <domain>', 'gen screentshots')
-//   .option('-o, --outDir <outDir>', 'gen screentshots')
-//   .action(async ({ domain, outDir }) => {
-//     await screentshotTest(domain, outDir);
-//   });
-
-program
-  .command('changelog')
-  .description(
-    'Obtain and organize changelog information through the git repository.'
-  )
-  .action(async () => {
-    await changelog();
   });
 
 program

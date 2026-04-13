@@ -1,9 +1,11 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Skeleton from './skeleton.vue';
 import _SkeletonLine from './line.vue';
 import _SkeletonShape from './shape.vue';
+import _Skeleton from './skeleton.vue';
 
 const Skeleton = Object.assign(_Skeleton, {
   Line: _SkeletonLine,

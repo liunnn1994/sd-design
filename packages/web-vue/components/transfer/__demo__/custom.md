@@ -17,7 +17,6 @@ Customize the rendering content of the options through the `item` slot.
 ---
 
 ```vue
-
 <template>
   <a-transfer :data="data" :default-value="value">
     <template #item="{ label }">
@@ -28,22 +27,24 @@ Customize the rendering content of the options through the `item` slot.
 </template>
 
 <script>
-export default {
-  setup() {
-    const data = Array(8).fill(undefined).map((_, index) => {
-      return {
-        value: `option${index + 1}`,
-        label: `Option ${index + 1}`,
-        disabled: index === 1
-      }
-    });
-    const value = ['option1', 'option3', 'option5'];
+  export default {
+    setup() {
+      const data = Array(8)
+        .fill(undefined)
+        .map((_, index) => {
+          return {
+            value: `option${index + 1}`,
+            label: `Option ${index + 1}`,
+            disabled: index === 1,
+          };
+        });
+      const value = ['option1', 'option3', 'option5'];
 
-    return {
-      data,
-      value
-    }
-  },
-}
+      return {
+        data,
+        value,
+      };
+    },
+  };
 </script>
 ```

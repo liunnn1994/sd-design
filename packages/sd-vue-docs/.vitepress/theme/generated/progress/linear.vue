@@ -8,8 +8,8 @@
         '100%': 'rgb(var(--success-6))',
       }"
     />
-    <br/>
-    <br/>
+    <br />
+    <br />
 
     <a-progress
       :percent="1"
@@ -19,8 +19,8 @@
         '100%': 'rgb(var(--success-6))',
       }"
     />
-    <br/>
-    <br/>
+    <br />
+    <br />
     <a-space size="large">
       <a-progress
         type="circle"

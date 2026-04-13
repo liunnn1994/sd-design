@@ -45,196 +45,187 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  nextTick,
-  ref,
-  toRefs,
-  PropType,
-} from 'vue';
-import { useSize } from './hooks/use-size';
-import VirtualListItem from './virtual-list-item';
-import { getPrefixCls } from '../../_utils/global-config';
-import { ScrollOptions, VirtualItemKey } from './interface';
-import { isNumber, isObject } from '../../_utils/is';
+  import { computed, defineComponent, nextTick, ref, toRefs, PropType } from 'vue';
 
-export default defineComponent({
-  name: 'VirtualList',
-  components: { VirtualListItem },
-  props: {
-    height: {
-      type: [Number, String],
-      default: 200,
-    },
-    data: {
-      type: Array as PropType<Record<string, any>[]>,
-      default: () => [],
-    },
-    threshold: {
-      type: Number,
-      default: 0,
-    },
-    itemKey: {
-      type: [String, Function] as PropType<
-        string | ((item: Record<string, any>) => VirtualItemKey)
-      >,
-      default: 'key',
-    },
-    fixedSize: {
-      type: Boolean,
-      default: false,
-    },
-    estimatedSize: {
-      type: Number,
-      default: 30,
-    },
-    buffer: {
-      type: Number,
-      default: 10,
-    },
-    component: {
-      type: [String, Object],
-      default: 'div',
-    },
-    listAttrs: {
-      type: Object,
-    },
-    contentAttrs: {
-      type: Object,
-    },
-    paddingPosition: {
-      type: String,
-      default: 'content',
-    },
-  },
-  emits: {
-    scroll: (ev: Event) => true,
-    reachBottom: (ev: Event) => true,
-  },
-  setup(props, { emit }) {
-    const { data, itemKey, fixedSize, estimatedSize, buffer, height } =
-      toRefs(props);
-    const prefixCls = getPrefixCls('virtual-list');
-    const getItemKey = (item: Record<string, any>, index: number) => {
-      if (typeof itemKey.value === 'function') {
-        return itemKey.value(item);
-      }
+  import { getPrefixCls } from '../../_utils/global-config';
+  import { isNumber, isObject } from '../../_utils/is';
+  import { useSize } from './hooks/use-size';
+  import { ScrollOptions, VirtualItemKey } from './interface';
+  import VirtualListItem from './virtual-list-item';
 
-      return (item[itemKey.value] ?? index) as VirtualItemKey;
-    };
+  export default defineComponent({
+    name: 'VirtualList',
+    components: { VirtualListItem },
+    props: {
+      height: {
+        type: [Number, String],
+        default: 200,
+      },
+      data: {
+        type: Array as PropType<Record<string, any>[]>,
+        default: () => [],
+      },
+      threshold: {
+        type: Number,
+        default: 0,
+      },
+      itemKey: {
+        type: [String, Function] as PropType<
+          string | ((item: Record<string, any>) => VirtualItemKey)
+        >,
+        default: 'key',
+      },
+      fixedSize: {
+        type: Boolean,
+        default: false,
+      },
+      estimatedSize: {
+        type: Number,
+        default: 30,
+      },
+      buffer: {
+        type: Number,
+        default: 10,
+      },
+      component: {
+        type: [String, Object],
+        default: 'div',
+      },
+      listAttrs: {
+        type: Object,
+      },
+      contentAttrs: {
+        type: Object,
+      },
+      paddingPosition: {
+        type: String,
+        default: 'content',
+      },
+    },
+    emits: {
+      scroll: (ev: Event) => true,
+      reachBottom: (ev: Event) => true,
+    },
+    setup(props, { emit }) {
+      const { data, itemKey, fixedSize, estimatedSize, buffer, height } = toRefs(props);
+      const prefixCls = getPrefixCls('virtual-list');
+      const getItemKey = (item: Record<string, any>, index: number) => {
+        if (typeof itemKey.value === 'function') {
+          return itemKey.value(item);
+        }
 
-    const mergedComponent = computed(() => {
-      if (isObject(props.component)) {
+        return (item[itemKey.value] ?? index) as VirtualItemKey;
+      };
+
+      const mergedComponent = computed(() => {
+        if (isObject(props.component)) {
+          return {
+            container: 'div',
+            list: 'div',
+            content: 'div',
+            ...props.component,
+          };
+        }
         return {
-          container: 'div',
+          container: props.component,
           list: 'div',
           content: 'div',
-          ...props.component,
         };
-      }
-      return {
-        container: props.component,
-        list: 'div',
-        content: 'div',
-      };
-    });
+      });
 
-    const containerRef = ref<HTMLElement>();
-    const contentRef = ref<HTMLElement>();
+      const containerRef = ref<HTMLElement>();
+      const contentRef = ref<HTMLElement>();
 
-    const style = computed(() => {
-      return {
-        height: isNumber(height.value) ? `${height.value}px` : height.value,
-        overflow: 'auto',
-      };
-    });
+      const style = computed(() => {
+        return {
+          height: isNumber(height.value) ? `${height.value}px` : height.value,
+          overflow: 'auto',
+        };
+      });
 
-    const dataKeys = computed(() =>
-      data.value.map((item: any, index) => getItemKey(item, index))
-    );
+      const dataKeys = computed(() =>
+        data.value.map((item: any, index) => getItemKey(item, index)),
+      );
 
-    const {
-      frontPadding,
-      behindPadding,
-      start,
-      end,
-      getStartByScroll,
-      setItemSize,
-      hasItemSize,
-      setStart,
-      getScrollOffset,
-    } = useSize({
-      dataKeys,
-      contentRef,
-      fixedSize,
-      estimatedSize,
-      buffer,
-    });
+      const {
+        frontPadding,
+        behindPadding,
+        start,
+        end,
+        getStartByScroll,
+        setItemSize,
+        hasItemSize,
+        setStart,
+        getScrollOffset,
+      } = useSize({
+        dataKeys,
+        contentRef,
+        fixedSize,
+        estimatedSize,
+        buffer,
+      });
 
-    const currentList = computed(() => {
-      if (props.threshold && data.value.length <= props.threshold) {
-        return data.value;
-      }
+      const currentList = computed(() => {
+        if (props.threshold && data.value.length <= props.threshold) {
+          return data.value;
+        }
 
-      return data.value.slice(start.value, end.value);
-    });
+        return data.value.slice(start.value, end.value);
+      });
 
-    const onScroll = (ev: Event) => {
-      const { scrollTop, scrollHeight, offsetHeight } =
-        ev.target as HTMLElement;
-      const _start = getStartByScroll(scrollTop);
-      if (_start !== start.value) {
-        setStart(_start);
-        nextTick(() => {
-          scrollTo(scrollTop);
-        });
-      }
-      emit('scroll', ev);
-      const bottom = Math.floor(scrollHeight - (scrollTop + offsetHeight));
-      if (bottom <= 0) {
-        emit('reachBottom', ev);
-      }
-    };
-
-    const scrollTo = (options: ScrollOptions) => {
-      if (containerRef.value) {
-        if (isNumber(options)) {
-          containerRef.value.scrollTop = options;
-        } else {
-          const { align = 'top' } = options;
-          const _index =
-            options.index ?? dataKeys.value.indexOf(options.key ?? '');
-          setStart(_index - buffer.value);
-          containerRef.value.scrollTop = getScrollOffset(_index);
+      const onScroll = (ev: Event) => {
+        const { scrollTop, scrollHeight, offsetHeight } = ev.target as HTMLElement;
+        const _start = getStartByScroll(scrollTop);
+        if (_start !== start.value) {
+          setStart(_start);
           nextTick(() => {
-            if (containerRef.value) {
-              const _scrollTop = getScrollOffset(_index);
-              if (_scrollTop !== containerRef.value.scrollTop) {
-                containerRef.value.scrollTop = _scrollTop;
-              }
-            }
+            scrollTo(scrollTop);
           });
         }
-      }
-    };
+        emit('scroll', ev);
+        const bottom = Math.floor(scrollHeight - (scrollTop + offsetHeight));
+        if (bottom <= 0) {
+          emit('reachBottom', ev);
+        }
+      };
 
-    return {
-      prefixCls,
-      containerRef,
-      contentRef,
-      frontPadding,
-      currentList,
-      behindPadding,
-      getItemKey,
-      onScroll,
-      setItemSize,
-      hasItemSize,
-      start,
-      scrollTo,
-      style,
-      mergedComponent,
-    };
-  },
-});
+      const scrollTo = (options: ScrollOptions) => {
+        if (containerRef.value) {
+          if (isNumber(options)) {
+            containerRef.value.scrollTop = options;
+          } else {
+            const { align = 'top' } = options;
+            const _index = options.index ?? dataKeys.value.indexOf(options.key ?? '');
+            setStart(_index - buffer.value);
+            containerRef.value.scrollTop = getScrollOffset(_index);
+            nextTick(() => {
+              if (containerRef.value) {
+                const _scrollTop = getScrollOffset(_index);
+                if (_scrollTop !== containerRef.value.scrollTop) {
+                  containerRef.value.scrollTop = _scrollTop;
+                }
+              }
+            });
+          }
+        }
+      };
+
+      return {
+        prefixCls,
+        containerRef,
+        contentRef,
+        frontPadding,
+        currentList,
+        behindPadding,
+        getItemKey,
+        onScroll,
+        setItemSize,
+        hasItemSize,
+        start,
+        scrollTo,
+        style,
+        mergedComponent,
+      };
+    },
+  });
 </script>

@@ -1,31 +1,19 @@
 import { Ref } from 'vue';
+
 import { Size } from '../_utils/constant';
 
-export const VALIDATE_STATUSES = [
-  'success',
-  'warning',
-  'error',
-  'validating',
-] as const;
-export type ValidateStatus = typeof VALIDATE_STATUSES[number];
+export const VALIDATE_STATUSES = ['success', 'warning', 'error', 'validating'] as const;
+export type ValidateStatus = (typeof VALIDATE_STATUSES)[number];
 
 export const VALIDATE_TRIGGERS = ['change', 'input', 'focus', 'blur'] as const;
-export type ValidateTrigger = typeof VALIDATE_TRIGGERS[number];
+export type ValidateTrigger = (typeof VALIDATE_TRIGGERS)[number];
 
 export interface FieldRule<FieldValue = any> {
   /**
    * @zh 校验的值的类型，默认为 `'string'`
    * @en The type of the value to be checked, the default is `'string'`
    */
-  type?:
-    | 'string'
-    | 'number'
-    | 'boolean'
-    | 'array'
-    | 'object'
-    | 'email'
-    | 'url'
-    | 'ip';
+  type?: 'string' | 'number' | 'boolean' | 'array' | 'object' | 'email' | 'url' | 'ip';
   /**
    * @zh 是否必填
    * @en Is it required
@@ -127,10 +115,7 @@ export interface FieldRule<FieldValue = any> {
    * @param value
    * @param callback
    */
-  validator?: (
-    value: FieldValue | undefined,
-    callback: (error?: string) => void
-  ) => void;
+  validator?: (value: FieldValue | undefined, callback: (error?: string) => void) => void;
 }
 
 export interface FieldData {

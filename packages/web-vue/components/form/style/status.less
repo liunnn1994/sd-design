@@ -17,7 +17,9 @@
   }
 
   .@{input-prefix-cls}-wrapper:not(.@{input-prefix-cls}-disabled).@{input-prefix-cls}-focus,
-  .@{textarea-prefix-cls}-wrapper:not(.@{textarea-prefix-cls}-disabled).@{textarea-prefix-cls}-focus {
+  .@{textarea-prefix-cls}-wrapper:not(
+      .@{textarea-prefix-cls}-disabled
+    ).@{textarea-prefix-cls}-focus {
     background-color: ~'@{form-color-bg_@{status}_focus}';
     border-color: ~'@{form-color-border_@{status}_focus}';
     box-shadow: 0 0 0 ~'@{form-size-shadow_@{status}_focus}' ~'@{form-color-shadow_@{status}_focus}';
@@ -39,7 +41,9 @@
     }
   }
 
-  .@{select-view-prefix-cls}:not(.@{select-view-prefix-cls}-disabled).@{select-view-prefix-cls}-focus,
+  .@{select-view-prefix-cls}:not(
+      .@{select-view-prefix-cls}-disabled
+    ).@{select-view-prefix-cls}-focus,
   .@{input-prefix-cls}:not(.@{input-prefix-cls}-disabled).@{input-prefix-cls}-focus {
     background-color: ~'@{form-color-bg_@{status}_focus}';
     border-color: ~'@{form-color-border_@{status}_focus}';
@@ -64,7 +68,8 @@
     &:hover {
       border-color: ~'@{form-color-border_@{status}_focus}';
       background-color: ~'@{form-color-bg_@{status}_focus}';
-      box-shadow: 0 0 0 ~'@{form-size-shadow_@{status}_focus}' ~'@{form-color-shadow_@{status}_focus}';
+      box-shadow: 0 0 0 ~'@{form-size-shadow_@{status}_focus}'
+        ~'@{form-color-shadow_@{status}_focus}';
     }
   }
 }

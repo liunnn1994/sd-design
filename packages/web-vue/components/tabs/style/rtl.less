@@ -82,8 +82,7 @@
   .@{tabs-prefix-cls}-nav-type-text {
     .@{tabs-prefix-cls}-header-title {
       &:not(:first-of-type)::before {
-        right: -(@tabs-text-margin-title-horizontal +
-              (@tabs-text-size-separator-width / 2));
+        right: -(@tabs-text-margin-title-horizontal + (@tabs-text-size-separator-width / 2));
         left: initial;
       }
     }
@@ -95,8 +94,8 @@
       margin-left: 0;
 
       &::before {
-        right: -(@tabs-capsule-margin-title-horizontal / 2) - (@tabs-capsule-size-separator-width /
-              2);
+        right: -(@tabs-capsule-margin-title-horizontal / 2) -
+          (@tabs-capsule-size-separator-width / 2);
         left: initial;
       }
     }

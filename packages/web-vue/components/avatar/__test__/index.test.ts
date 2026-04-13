@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Avatar from '../index';
 
 const { Group: AvatarGroup } = Avatar;

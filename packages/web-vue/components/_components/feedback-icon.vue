@@ -8,37 +8,35 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import IconLoading from '../icon/icon-loading';
-import IconCheckCircleFill from '../icon/icon-check-circle-fill';
-import IconExclamationCircleFill from '../icon/icon-exclamation-circle-fill';
-import IconCloseCircleFill from '../icon/icon-close-circle-fill';
-import { getPrefixCls } from '../_utils/global-config';
+  import { computed, defineComponent } from 'vue';
 
-export default defineComponent({
-  name: 'FeedbackIcon',
-  components: {
-    IconLoading,
-    IconCheckCircleFill,
-    IconExclamationCircleFill,
-    IconCloseCircleFill,
-  },
-  props: {
-    type: {
-      type: String,
+  import { getPrefixCls } from '../_utils/global-config';
+  import IconCheckCircleFill from '../icon/icon-check-circle-fill';
+  import IconCloseCircleFill from '../icon/icon-close-circle-fill';
+  import IconExclamationCircleFill from '../icon/icon-exclamation-circle-fill';
+  import IconLoading from '../icon/icon-loading';
+
+  export default defineComponent({
+    name: 'FeedbackIcon',
+    components: {
+      IconLoading,
+      IconCheckCircleFill,
+      IconExclamationCircleFill,
+      IconCloseCircleFill,
     },
-  },
-  setup(props) {
-    const prefixCls = getPrefixCls('feedback-icon');
+    props: {
+      type: {
+        type: String,
+      },
+    },
+    setup(props) {
+      const prefixCls = getPrefixCls('feedback-icon');
 
-    const cls = computed(() => [
-      prefixCls,
-      `${prefixCls}-status-${props.type}`,
-    ]);
+      const cls = computed(() => [prefixCls, `${prefixCls}-status-${props.type}`]);
 
-    return {
-      cls,
-    };
-  },
-});
+      return {
+        cls,
+      };
+    },
+  });
 </script>

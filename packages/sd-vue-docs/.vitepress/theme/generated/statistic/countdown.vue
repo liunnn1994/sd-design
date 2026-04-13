@@ -1,11 +1,7 @@
 <template>
   <a-row>
     <a-col :flex="1">
-      <a-countdown
-        title="Countdown"
-        :value="now + 1000 * 60 * 60 * 2"
-        :now="now"
-      />
+      <a-countdown title="Countdown" :value="now + 1000 * 60 * 60 * 2" :now="now" />
     </a-col>
     <a-col :flex="1">
       <a-countdown
@@ -38,23 +34,24 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import { Message } from '@sd-design/web-vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const now = Date.now();
-    const start = ref(false);
+  import { Message } from '@sdata/web-vue';
 
-    const handleFinish = () => {
-      Message.info('Finish');
-    };
+  export default {
+    setup() {
+      const now = Date.now();
+      const start = ref(false);
 
-    return {
-      now,
-      start,
-      handleFinish,
-    };
-  },
-};
+      const handleFinish = () => {
+        Message.info('Finish');
+      };
+
+      return {
+        now,
+        start,
+        handleFinish,
+      };
+    },
+  };
 </script>

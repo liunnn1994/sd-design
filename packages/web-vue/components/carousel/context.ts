@@ -2,11 +2,7 @@ import { InjectionKey } from 'vue';
 
 export interface CarouselContext {
   items: number[];
-  slideTo: (info: {
-    targetIndex: number;
-    isNegative: boolean;
-    isManual: boolean;
-  }) => void;
+  slideTo: (info: { targetIndex: number; isNegative: boolean; isManual: boolean }) => void;
   mergedIndexes: {
     mergedIndex: number;
     mergedPrevIndex: number;
@@ -19,5 +15,4 @@ export interface CarouselContext {
   moveSpeed: number;
 }
 
-export const carouselInjectionKey: InjectionKey<CarouselContext> =
-  Symbol('SDCarousel');
+export const carouselInjectionKey: InjectionKey<CarouselContext> = Symbol('SDCarousel');

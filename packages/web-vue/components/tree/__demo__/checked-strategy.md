@@ -19,25 +19,23 @@ Add `checkedStrategy` to set the return value when selected.
 ```vue
 <template>
   <a-radio-group
-    type='button'
+    type="button"
     v-model="checkedStrategy"
-    @change="(value) => {
-      checkedKeys = []
-    }"
+    @change="
+      (value) => {
+        checkedKeys = [];
+      }
+    "
   >
-    <a-radio
-      v-for="item in strategyOptions"
-      :key="item?.value"
-      :value="item?.value"
-    >
+    <a-radio v-for="item in strategyOptions" :key="item?.value" :value="item?.value">
       {{ item?.label }}
     </a-radio>
   </a-radio-group>
-  <br/>
+  <br />
   <a-typography-text style="margin: 24px 0; display: inline-block;">
     Current: {{ checkedKeys?.join(' , ') }}
   </a-typography-text>
-  <br/>
+  <br />
   <a-tree
     :checkable="true"
     v-model:checked-keys="checkedKeys"
@@ -63,9 +61,9 @@ Add `checkedStrategy` to set the return value when selected.
           children: [
             {
               title: 'Leaf',
-              key: '0-0-2-1'
-            }
-          ]
+              key: '0-0-2-1',
+            },
+          ],
         },
       ],
     },
@@ -85,7 +83,7 @@ Add `checkedStrategy` to set the return value when selected.
               title: 'Leaf',
               key: '0-1-1-2',
             },
-          ]
+          ],
         },
         {
           title: 'Leaf',
@@ -98,16 +96,16 @@ Add `checkedStrategy` to set the return value when selected.
   const strategyOptions = [
     {
       value: 'all',
-      label: 'show all'
+      label: 'show all',
     },
     {
       value: 'parent',
-      label: 'show parent'
+      label: 'show parent',
     },
     {
       value: 'child',
-      label: 'show child'
-    }
+      label: 'show child',
+    },
   ];
 
   export default {
@@ -120,8 +118,8 @@ Add `checkedStrategy` to set the return value when selected.
         strategyOptions,
         checkedStrategy,
         checkedKeys,
-      }
-    }
-  }
+      };
+    },
+  };
 </script>
 ```

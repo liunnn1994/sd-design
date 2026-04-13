@@ -20,24 +20,24 @@
 </template>
 
 <script>
-import { Modal } from '@sd-design/web-vue';
+  import { Modal } from '@sdata/web-vue';
 
-export default {
-  setup() {
-    const beforeRemove = (file) => {
-      return new Promise((resolve, reject) => {
-        Modal.confirm({
-          title: 'on-before-remove',
-          content: `确认删除 ${file.name}`,
-          onOk: () => resolve(true),
-          onCancel: () => reject('cancel'),
+  export default {
+    setup() {
+      const beforeRemove = (file) => {
+        return new Promise((resolve, reject) => {
+          Modal.confirm({
+            title: 'on-before-remove',
+            content: `确认删除 ${file.name}`,
+            onOk: () => resolve(true),
+            onCancel: () => reject('cancel'),
+          });
         });
-      });
-    };
+      };
 
-    return {
-      beforeRemove
-    }
-  },
-};
+      return {
+        beforeRemove,
+      };
+    },
+  };
 </script>

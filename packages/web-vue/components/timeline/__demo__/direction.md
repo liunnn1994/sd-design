@@ -37,9 +37,7 @@ You can set the display horizontal timeline through `direction`
           />
           <div :style="{ marginBottom: '12px' }">
             Toutiao
-            <div :style="{ fontSize: '12px', color: '#4E5969' }">
-              Founded in 2012
-            </div>
+            <div :style="{ fontSize: '12px', color: '#4E5969' }"> Founded in 2012 </div>
           </div>
         </a-row>
       </a-timeline-item>
@@ -52,9 +50,7 @@ You can set the display horizontal timeline through `direction`
           />
           <div :style="{ marginBottom: '12px' }">
             Xigua Video
-            <div :style="{ fontSize: '12px', color: '#4E5969' }">
-              Founded in 2017
-            </div>
+            <div :style="{ fontSize: '12px', color: '#4E5969' }"> Founded in 2017 </div>
           </div>
         </a-row>
       </a-timeline-item>
@@ -67,9 +63,7 @@ You can set the display horizontal timeline through `direction`
           />
           <div :style="{ marginBottom: '12px' }">
             Pipidance
-            <div :style="{ fontSize: '12px', color: '#4E5969' }">
-              Founded in 2018
-            </div>
+            <div :style="{ fontSize: '12px', color: '#4E5969' }"> Founded in 2018 </div>
           </div>
         </a-row>
       </a-timeline-item>
@@ -78,21 +72,21 @@ You can set the display horizontal timeline through `direction`
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const mode = ref('top');
+  export default {
+    setup() {
+      const mode = ref('top');
 
-    const onChange = (_mode) => {
-      mode.value = _mode;
-    };
+      const onChange = (_mode) => {
+        mode.value = _mode;
+      };
 
-    return {
-      mode,
-      onChange
-    }
-  },
-};
+      return {
+        mode,
+        onChange,
+      };
+    },
+  };
 </script>
 ```

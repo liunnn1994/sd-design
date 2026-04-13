@@ -19,7 +19,7 @@ Four sizes (small, default, large, huge) can be selected through `size`. The hei
 ```vue
 <template>
   <div style="margin-bottom: 20px;">
-    <a-radio-group v-model="size" type='button'>
+    <a-radio-group v-model="size" type="button">
       <a-radio value="mini">mini</a-radio>
       <a-radio value="small">small</a-radio>
       <a-radio value="medium">medium</a-radio>

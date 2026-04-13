@@ -1,5 +1,7 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _Radio from './radio';
 import _RadioGroup from './radio-group';

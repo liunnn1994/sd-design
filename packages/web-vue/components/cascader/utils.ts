@@ -1,18 +1,8 @@
 import { Ref } from 'vue';
-import {
-  CascaderOption,
-  CascaderOptionInfo,
-  CascaderFieldNames,
-} from './interface';
-import {
-  isArray,
-  isNull,
-  isNumber,
-  isObject,
-  isString,
-  isUndefined,
-} from '../_utils/is';
+
+import { isArray, isNull, isNumber, isObject, isString, isUndefined } from '../_utils/is';
 import { BaseType, UnionType } from '../_utils/types';
+import { CascaderOption, CascaderOptionInfo, CascaderFieldNames } from './interface';
 
 export const getOptionInfos = (
   options: CascaderOption[],
@@ -38,14 +28,14 @@ export const getOptionInfos = (
     lazyLoadOptions: Record<string, CascaderOption[]>;
     valueKey: Ref<string>;
     fieldNames: Required<CascaderFieldNames>;
-  }
+  },
 ) => {
   let totalLevel = 0;
 
   const travelOptions = (
     options: CascaderOption[],
     parent?: CascaderOptionInfo,
-    level?: number
+    level?: number,
   ) => {
     const parentPath = parent?.path ?? [];
     totalLevel = Math.max(totalLevel, level ?? 1);
@@ -85,19 +75,11 @@ export const getOptionInfos = (
 
       if (item[fieldNames.children]) {
         data.isLeaf = false;
-        data.children = travelOptions(
-          item[fieldNames.children],
-          data,
-          (level ?? 1) + 1
-        );
+        data.children = travelOptions(item[fieldNames.children], data, (level ?? 1) + 1);
       } else if (enabledLazyLoad && !data.isLeaf) {
         data.isLeaf = false;
         if (lazyLoadOptions[key]) {
-          data.children = travelOptions(
-            lazyLoadOptions[key],
-            data,
-            (level ?? 1) + 1
-          );
+          data.children = travelOptions(lazyLoadOptions[key], data, (level ?? 1) + 1);
         }
       } else {
         data.isLeaf = true;
@@ -139,10 +121,7 @@ export const getOptionInfos = (
   return result;
 };
 
-export const getCheckedStatus = (
-  option: CascaderOptionInfo,
-  valueMap?: Map<string, unknown>
-) => {
+export const getCheckedStatus = (option: CascaderOptionInfo, valueMap?: Map<string, unknown>) => {
   let checked = false;
   let indeterminate = false;
 
@@ -152,19 +131,13 @@ export const getCheckedStatus = (
     }
   } else {
     const reg = new RegExp(`^${option.key}(-|$)`);
-    const checkedLeafOptionNumber = Array.from(valueMap?.keys() ?? []).reduce(
-      (pre, key) => {
-        if (reg.test(key)) {
-          return pre + 1;
-        }
-        return pre;
-      },
-      0
-    );
-    if (
-      checkedLeafOptionNumber > 0 &&
-      checkedLeafOptionNumber >= (option.totalLeafOptions ?? 1)
-    ) {
+    const checkedLeafOptionNumber = Array.from(valueMap?.keys() ?? []).reduce((pre, key) => {
+      if (reg.test(key)) {
+        return pre + 1;
+      }
+      return pre;
+    }, 0);
+    if (checkedLeafOptionNumber > 0 && checkedLeafOptionNumber >= (option.totalLeafOptions ?? 1)) {
       checked = true;
     } else if (checkedLeafOptionNumber > 0) {
       indeterminate = true;
@@ -207,10 +180,7 @@ export const getLeafOptionInfos = (option: CascaderOptionInfo) => {
 
 export const getValueKey = (
   value: UnionType | UnionType[],
-  {
-    valueKey,
-    leafOptionValueMap,
-  }: { valueKey: string; leafOptionValueMap: Map<BaseType, string> }
+  { valueKey, leafOptionValueMap }: { valueKey: string; leafOptionValueMap: Map<BaseType, string> },
 ): string => {
   if (isArray(value)) {
     return value
@@ -226,7 +196,7 @@ export const getValueKey = (
 
 export const getValidValues = (
   value: UnionType | UnionType[] | UnionType[][] | undefined,
-  { multiple, pathMode }: { multiple: boolean; pathMode: boolean }
+  { multiple, pathMode }: { multiple: boolean; pathMode: boolean },
 ): UnionType[] | UnionType[][] => {
   if (!isArray(value)) {
     return isUndefined(value) || isNull(value) || value === '' ? [] : [value];
@@ -252,7 +222,7 @@ export const getKeysFromValue = (
     pathMode: boolean;
     leafOptionMap: Map<string | number, CascaderOptionInfo>;
     leafOptionValueMap: Map<string | number, CascaderOptionInfo>;
-  }
+  },
 ) => {
   const keys: string[] = [];
   if (!pathMode) {

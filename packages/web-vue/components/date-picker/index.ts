@@ -1,11 +1,13 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _DatePicker from './pickers/date-picker';
-import _WeekPicker from './pickers/week-picker';
 import _MonthPicker from './pickers/month-picker';
-import _YearPicker from './pickers/year-picker';
 import _QuarterPicker from './pickers/quarter-picker';
+import _WeekPicker from './pickers/week-picker';
+import _YearPicker from './pickers/year-picker';
 import _RangePicker from './range-picker.vue';
 
 export type { ShortcutType } from './interface';

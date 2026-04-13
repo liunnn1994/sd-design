@@ -1,7 +1,8 @@
 import { mount } from '@vue/test-utils';
 import { nextTick, reactive, ref } from 'vue';
-import Table from '../table';
+
 import { TableChangeExtra, TableColumnData, TableData } from '../interface';
+import Table from '../table';
 
 const demoData = [
   {
@@ -84,7 +85,7 @@ describe('Table', () => {
     const handleChange = (
       data: TableData[],
       extra: TableChangeExtra,
-      currentDataSource: TableData[]
+      currentDataSource: TableData[],
     ) => {
       testSortRes = { data, extra, currentDataSource };
     };

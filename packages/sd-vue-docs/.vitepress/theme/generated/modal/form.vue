@@ -1,6 +1,11 @@
 <template>
   <a-button @click="handleClick">Open Form Modal</a-button>
-  <a-modal v-model:visible="visible" title="Modal Form" @cancel="handleCancel" @before-ok="handleBeforeOk">
+  <a-modal
+    v-model:visible="visible"
+    title="Modal Form"
+    @cancel="handleCancel"
+    @before-ok="handleBeforeOk"
+  >
     <a-form :model="form">
       <a-form-item field="name" label="Name">
         <a-input v-model="form.name" />
@@ -18,38 +23,38 @@
 </template>
 
 <script>
-import { reactive, ref } from 'vue';
+  import { reactive, ref } from 'vue';
 
-export default {
-  setup() {
-    const visible = ref(false);
-    const form = reactive({
-      name: '',
-      post: ''
-    });
+  export default {
+    setup() {
+      const visible = ref(false);
+      const form = reactive({
+        name: '',
+        post: '',
+      });
 
-    const handleClick = () => {
-      visible.value = true;
-    };
-    const handleBeforeOk = (done) => {
-      console.log(form)
-      window.setTimeout(() => {
-        done()
-        // prevent close
-        // done(false)
-      }, 3000)
-    };
-    const handleCancel = () => {
-      visible.value = false;
-    }
+      const handleClick = () => {
+        visible.value = true;
+      };
+      const handleBeforeOk = (done) => {
+        console.log(form);
+        window.setTimeout(() => {
+          done();
+          // prevent close
+          // done(false)
+        }, 3000);
+      };
+      const handleCancel = () => {
+        visible.value = false;
+      };
 
-    return {
-      visible,
-      form,
-      handleClick,
-      handleBeforeOk,
-      handleCancel
-    }
-  },
-}
+      return {
+        visible,
+        form,
+        handleClick,
+        handleBeforeOk,
+        handleCancel,
+      };
+    },
+  };
 </script>

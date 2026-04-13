@@ -1,13 +1,7 @@
 <template>
   <a-transfer :data="data" :default-value="value">
     <template
-      #source-title="{
-        countTotal,
-        countSelected,
-        checked,
-        indeterminate,
-        onSelectAllChange,
-      }"
+      #source-title="{ countTotal, countSelected, checked, indeterminate, onSelectAllChange }"
     >
       <div :style="styleHeader">
         Source Title {{ countSelected }}-{{ countTotal }}
@@ -29,31 +23,31 @@
 </template>
 
 <script>
-import { IconDelete } from '@sd-design/web-vue/es/icon';
+  import { IconDelete } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: { IconDelete },
-  setup() {
-    const data = Array(8)
-      .fill(undefined)
-      .map((_, index) => ({
-        value: `option${index + 1}`,
-        label: `Option ${index + 1}`,
-      }));
-    const value = ['option1', 'option3', 'option5'];
+  export default {
+    components: { IconDelete },
+    setup() {
+      const data = Array(8)
+        .fill(undefined)
+        .map((_, index) => ({
+          value: `option${index + 1}`,
+          label: `Option ${index + 1}`,
+        }));
+      const value = ['option1', 'option3', 'option5'];
 
-    const styleHeader = {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      paddingRight: '8px'
-    };
+      const styleHeader = {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingRight: '8px',
+      };
 
-    return {
-      styleHeader,
-      data,
-      value,
-    };
-  },
-};
+      return {
+        styleHeader,
+        data,
+        value,
+      };
+    },
+  };
 </script>

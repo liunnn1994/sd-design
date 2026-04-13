@@ -4,6 +4,7 @@
 // 3. 带回 am pm 的大小写格式
 
 import { computed, toRefs } from 'vue';
+
 import { getColumnsFromFormat } from '../utils';
 
 interface FormatProps {
@@ -13,11 +14,7 @@ interface FormatProps {
 }
 
 export default function useTimeFormat(props: FormatProps) {
-  const {
-    format: propFormat,
-    use12Hours: propUse12Hours,
-    defaultFormat,
-  } = toRefs(props);
+  const { format: propFormat, use12Hours: propUse12Hours, defaultFormat } = toRefs(props);
 
   const format = computed(() => {
     let res = propFormat?.value || defaultFormat?.value;
@@ -31,9 +28,7 @@ export default function useTimeFormat(props: FormatProps) {
   const list = computed(() => configFromFormat.value.list);
   const formatUse12Hours = computed(() => configFromFormat.value.use12Hours);
 
-  const computedUse12Hours = computed(
-    () => !!(propUse12Hours?.value || formatUse12Hours.value)
-  );
+  const computedUse12Hours = computed(() => !!(propUse12Hours?.value || formatUse12Hours.value));
 
   return {
     columns: list,

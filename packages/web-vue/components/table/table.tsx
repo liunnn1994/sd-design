@@ -1,9 +1,4 @@
-import type {
-  ComponentPublicInstance,
-  CSSProperties,
-  PropType,
-  Slot,
-} from 'vue';
+import type { ComponentPublicInstance, CSSProperties, PropType, Slot } from 'vue';
 import {
   computed,
   defineComponent,
@@ -16,18 +11,9 @@ import {
   watch,
   watchEffect,
 } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
+
 import type { Size } from '../_utils/constant';
-import {
-  isArray,
-  isFunction,
-  isNull,
-  isNumber,
-  isObject,
-  isString,
-  isUndefined,
-} from '../_utils/is';
-import { debounce } from '../_utils/debounce';
+import type { BaseType } from '../_utils/types';
 import type {
   TableBorder,
   TableChangeExtra,
@@ -41,45 +27,52 @@ import type {
   TablePagePosition,
   TableRowSelection,
 } from './interface';
-import {
-  getGroupColumns,
-  mapArrayWithChildren,
-  mapRawTableData,
-} from './utils';
-import { useRowSelection } from './hooks/use-row-selection';
-import { useExpand } from './hooks/use-expand';
-import { usePagination } from './hooks/use-pagination';
-import IconPlus from '../icon/icon-plus';
-import IconMinus from '../icon/icon-minus';
-import Spin from '../spin';
-import Pagination, { PaginationProps } from '../pagination';
-import Empty from '../empty';
-import ColGroup from './table-col-group.vue';
-import Thead from './table-thead';
-import Tbody from './table-tbody';
-import Tr from './table-tr';
-import Th from './table-th';
-import Td from './table-td';
-import OperationTh from './table-operation-th';
-import OperationTd from './table-operation-td';
-import VirtualList from '../_components/virtual-list-v2';
+
+import ClientOnly from '../_components/client-only';
 import ResizeObserver from '../_components/resize-observer';
+import VirtualList from '../_components/virtual-list-v2';
 import { VirtualListProps } from '../_components/virtual-list-v2/interface';
+import { useChildrenComponents } from '../_hooks/use-children-components';
+import { useComponentRef } from '../_hooks/use-component-ref';
+import { useScrollbar } from '../_hooks/use-scrollbar';
+import { debounce } from '../_utils/debounce';
+import { getValueByPath, setValueByPath } from '../_utils/get-value-by-path';
+import { getPrefixCls } from '../_utils/global-config';
+import {
+  isArray,
+  isFunction,
+  isNull,
+  isNumber,
+  isObject,
+  isString,
+  isUndefined,
+} from '../_utils/is';
 import { omit } from '../_utils/omit';
 import { configProviderInjectionKey } from '../config-provider/context';
-import { useDrag } from './hooks/use-drag';
-import { useColumnResize } from './hooks/use-column-resize';
-import { tableInjectionKey } from './context';
-import { useFilter } from './hooks/use-filter';
-import { useSorter } from './hooks/use-sorter';
-import ClientOnly from '../_components/client-only';
-import { useSpan } from './hooks/use-span';
-import { useChildrenComponents } from '../_hooks/use-children-components';
+import Empty from '../empty';
+import IconMinus from '../icon/icon-minus';
+import IconPlus from '../icon/icon-plus';
+import Pagination, { PaginationProps } from '../pagination';
 import Scrollbar, { ScrollbarProps } from '../scrollbar';
-import { useComponentRef } from '../_hooks/use-component-ref';
-import type { BaseType } from '../_utils/types';
-import { useScrollbar } from '../_hooks/use-scrollbar';
-import { getValueByPath, setValueByPath } from '../_utils/get-value-by-path';
+import Spin from '../spin';
+import { tableInjectionKey } from './context';
+import { useColumnResize } from './hooks/use-column-resize';
+import { useDrag } from './hooks/use-drag';
+import { useExpand } from './hooks/use-expand';
+import { useFilter } from './hooks/use-filter';
+import { usePagination } from './hooks/use-pagination';
+import { useRowSelection } from './hooks/use-row-selection';
+import { useSorter } from './hooks/use-sorter';
+import { useSpan } from './hooks/use-span';
+import ColGroup from './table-col-group.vue';
+import OperationTd from './table-operation-td';
+import OperationTh from './table-operation-th';
+import Tbody from './table-tbody';
+import Td from './table-td';
+import Th from './table-th';
+import Thead from './table-thead';
+import Tr from './table-tr';
+import { getGroupColumns, mapArrayWithChildren, mapRawTableData } from './utils';
 
 const DEFAULT_BORDERED = {
   wrapper: true,
@@ -139,8 +132,7 @@ export default defineComponent({
      */
     size: {
       type: String as PropType<Size>,
-      default: () =>
-        inject(configProviderInjectionKey, undefined)?.size ?? 'large',
+      default: () => inject(configProviderInjectionKey, undefined)?.size ?? 'large',
     },
     /**
      * @zh 表格的 table-layout 属性设置为 fixed，设置为 fixed 后，表格的宽度不会被内容撑开超出 100%。
@@ -295,10 +287,7 @@ export default defineComponent({
      */
     rowClass: {
       type: [String, Array, Object, Function] as PropType<
-        | string
-        | any[]
-        | Record<string, any>
-        | ((record: TableData, rowIndex: number) => any)
+        string | any[] | Record<string, any> | ((record: TableData, rowIndex: number) => any)
       >,
     },
     /**
@@ -327,11 +316,7 @@ export default defineComponent({
      */
     summary: {
       type: [Boolean, Function] as PropType<
-        | boolean
-        | ((params: {
-            columns: TableColumnData[];
-            data: TableData[];
-          }) => TableData[])
+        boolean | ((params: { columns: TableColumnData[]; data: TableData[] }) => TableData[])
       >,
     },
     /**
@@ -436,13 +421,13 @@ export default defineComponent({
      * @param {string | number} rowKey
      * @param {TableData} record
      */
-    'expand': (rowKey: string | number, record: TableData) => true,
+    expand: (rowKey: string | number, record: TableData) => true,
     /**
      * @zh 已展开的数据行发生改变时触发
      * @en Triggered when the expanded data row changes
      * @param {(string | number)[]} rowKeys
      */
-    'expandedChange': (rowKeys: (string | number)[]) => true,
+    expandedChange: (rowKeys: (string | number)[]) => true,
     /**
      * @zh 点击行选择器时触发
      * @en Triggered when the row selector is clicked
@@ -450,49 +435,45 @@ export default defineComponent({
      * @param {string | number} rowKey
      * @param {TableData} record
      */
-    'select': (
-      rowKeys: (string | number)[],
-      rowKey: string | number,
-      record: TableData
-    ) => true,
+    select: (rowKeys: (string | number)[], rowKey: string | number, record: TableData) => true,
     /**
      * @zh 点击全选选择器时触发
      * @en Triggered when the select all selector is clicked
      * @param {boolean} checked
      */
-    'selectAll': (checked: boolean) => true,
+    selectAll: (checked: boolean) => true,
     /**
      * @zh 已选择的数据行发生改变时触发
      * @en Triggered when the selected data row changes
      * @param {(string | number)[]} rowKeys
      */
-    'selectionChange': (rowKeys: (string | number)[]) => true,
+    selectionChange: (rowKeys: (string | number)[]) => true,
     /**
      * @zh 排序规则发生改变时触发
      * @en Triggered when the collation changes
      * @param {string} dataIndex
      * @param {string} direction
      */
-    'sorterChange': (dataIndex: string, direction: string) => true,
+    sorterChange: (dataIndex: string, direction: string) => true,
     /**
      * @zh 过滤选项发生改变时触发
      * @en Triggered when the filter options are changed
      * @param {string} dataIndex
      * @param {string[]} filteredValues
      */
-    'filterChange': (dataIndex: string, filteredValues: string[]) => true,
+    filterChange: (dataIndex: string, filteredValues: string[]) => true,
     /**
      * @zh 表格分页发生改变时触发
      * @en Triggered when the table pagination changes
      * @param {number} page
      */
-    'pageChange': (page: number) => true,
+    pageChange: (page: number) => true,
     /**
      * @zh 表格每页数据数量发生改变时触发
      * @en Triggered when the number of data per page of the table changes
      * @param {number} pageSize
      */
-    'pageSizeChange': (pageSize: number) => true,
+    pageSizeChange: (pageSize: number) => true,
     /**
      * @zh 表格数据发生变化时触发
      * @en Triggered when table data changes
@@ -501,11 +482,7 @@ export default defineComponent({
      * @param {TableData[]} currentData
      * @version 2.40.0 增加 currentData
      */
-    'change': (
-      data: TableData[],
-      extra: TableChangeExtra,
-      currentData: TableData[]
-    ) => true,
+    change: (data: TableData[], extra: TableChangeExtra, currentData: TableData[]) => true,
     /**
      * @zh 单元格 hover 进入时触发
      * @en Triggered when hovering into a cell
@@ -513,8 +490,7 @@ export default defineComponent({
      * @param {TableColumnData} column
      * @param {Event} ev
      */
-    'cellMouseEnter': (record: TableData, column: TableColumnData, ev: Event) =>
-      true,
+    cellMouseEnter: (record: TableData, column: TableColumnData, ev: Event) => true,
     /**
      * @zh 单元格 hover 退出时触发
      * @en Triggered when hovering out of a cell
@@ -522,8 +498,7 @@ export default defineComponent({
      * @param {TableColumnData} column
      * @param {Event} ev
      */
-    'cellMouseLeave': (record: TableData, column: TableColumnData, ev: Event) =>
-      true,
+    cellMouseLeave: (record: TableData, column: TableColumnData, ev: Event) => true,
     /**
      * @zh 点击单元格时触发
      * @en Triggered when a cell is clicked
@@ -531,22 +506,21 @@ export default defineComponent({
      * @param {TableColumnData} column
      * @param {Event} ev
      */
-    'cellClick': (record: TableData, column: TableColumnData, ev: Event) =>
-      true,
+    cellClick: (record: TableData, column: TableColumnData, ev: Event) => true,
     /**
      * @zh 点击行数据时触发
      * @en Triggered when row data is clicked
      * @param {TableData} record
      * @param {Event} ev
      */
-    'rowClick': (record: TableData, ev: Event) => true,
+    rowClick: (record: TableData, ev: Event) => true,
     /**
      * @zh 点击表头数据时触发
      * @en Triggered when the header data is clicked
      * @param {TableColumnData} column
      * @param {Event} ev
      */
-    'headerClick': (column: TableColumnData, ev: Event) => true,
+    headerClick: (column: TableColumnData, ev: Event) => true,
     /**
      * @zh 调整列宽时触发
      * @en Triggered when column width is adjusted
@@ -554,14 +528,14 @@ export default defineComponent({
      * @param {number} width
      * @version 2.28.0
      */
-    'columnResize': (dataIndex: string, width: number) => true,
+    columnResize: (dataIndex: string, width: number) => true,
     /**
      * @zh 双击行数据时触发
      * @en Triggered when row data is double clicked
      * @param {TableData} record
      * @param {Event} ev
      */
-    'rowDblclick': (record: TableData, ev: Event) => true,
+    rowDblclick: (record: TableData, ev: Event) => true,
     /**
      * @zh 双击单元格时触发
      * @en Triggered when a cell is double clicked
@@ -569,15 +543,14 @@ export default defineComponent({
      * @param {TableColumnData} column
      * @param {Event} ev
      */
-    'cellDblclick': (record: TableData, column: TableColumnData, ev: Event) =>
-      true,
+    cellDblclick: (record: TableData, column: TableColumnData, ev: Event) => true,
     /**
      * @zh 右击行数据时触发
      * @en Triggered when row data is right clicked
      * @param {TableData} record
      * @param {Event} ev
      */
-    'rowContextmenu': (record: TableData, ev: Event) => true,
+    rowContextmenu: (record: TableData, ev: Event) => true,
     /**
      * @zh 右击单元格时触发
      * @en Triggered when a cell is right clicked
@@ -585,11 +558,7 @@ export default defineComponent({
      * @param {TableColumnData} column
      * @param {Event} ev
      */
-    'cellContextmenu': (
-      record: TableData,
-      column: TableColumnData,
-      ev: Event
-    ) => true,
+    cellContextmenu: (record: TableData, column: TableColumnData, ev: Event) => true,
   },
   /**
    * @zh 表格列定义。启用时会屏蔽 columns 属性
@@ -710,9 +679,7 @@ export default defineComponent({
       return { ...DEFAULT_BORDERED, wrapper: props.bordered };
     });
     const { children, components } = useChildrenComponents('TableColumn');
-    const checkStrictly = computed(
-      () => rowSelection.value?.checkStrictly ?? true
-    );
+    const checkStrictly = computed(() => rowSelection.value?.checkStrictly ?? true);
 
     const { displayScrollbar, scrollbarProps } = useScrollbar(scrollbar);
 
@@ -727,14 +694,10 @@ export default defineComponent({
     const summaryRef = ref<HTMLElement>();
     const thRefs = ref<Record<string, HTMLElement>>({});
 
-    const { componentRef: contentComRef, elementRef: contentRef } =
-      useComponentRef('containerRef');
-    const { componentRef: tbodyComRef, elementRef: tbodyRef } =
-      useComponentRef('containerRef');
-    const { componentRef: virtualComRef, elementRef: virtualRef } =
-      useComponentRef('viewportRef');
-    const { componentRef: theadComRef, elementRef: theadRef } =
-      useComponentRef('containerRef');
+    const { componentRef: contentComRef, elementRef: contentRef } = useComponentRef('containerRef');
+    const { componentRef: tbodyComRef, elementRef: tbodyRef } = useComponentRef('containerRef');
+    const { componentRef: virtualComRef, elementRef: virtualRef } = useComponentRef('viewportRef');
+    const { componentRef: theadComRef, elementRef: theadRef } = useComponentRef('containerRef');
     const containerElement = computed(() => {
       if (splitTable.value) {
         if (isVirtualList.value) {
@@ -750,7 +713,7 @@ export default defineComponent({
         isScroll.value.y ||
         props.stickyHeader ||
         isVirtualList.value ||
-        (isScroll.value.x && flattenData.value.length === 0)
+        (isScroll.value.x && flattenData.value.length === 0),
     );
 
     const slotColumnMap = reactive(new Map<number, TableColumnData>());
@@ -774,28 +737,19 @@ export default defineComponent({
     const dataColumns = ref<TableColumnData[]>([]);
     const groupColumns = ref<TableColumnData[][]>([]);
 
-    const { resizingColumn, columnWidth, handleThMouseDown } = useColumnResize(
-      thRefs,
-      emit
-    );
+    const { resizingColumn, columnWidth, handleThMouseDown } = useColumnResize(thRefs, emit);
 
     watch(
       [columns, slotColumns, columnWidth],
       ([columns, slotColumns]) => {
-        const result = getGroupColumns(
-          slotColumns ?? columns ?? [],
-          dataColumnMap,
-          columnWidth
-        );
+        const result = getGroupColumns(slotColumns ?? columns ?? [], dataColumnMap, columnWidth);
         dataColumns.value = result.dataColumns;
         groupColumns.value = result.groupColumns;
       },
-      { immediate: true, deep: true }
+      { immediate: true, deep: true },
     );
 
-    const isPaginationTop = computed(() =>
-      ['tl', 'top', 'tr'].includes(props.pagePosition)
-    );
+    const isPaginationTop = computed(() => ['tl', 'top', 'tr'].includes(props.pagePosition));
 
     const hasLeftFixedColumn = ref(false);
     const hasRightFixedColumn = ref(false);
@@ -805,11 +759,7 @@ export default defineComponent({
       let _hasLeftFixedColumn = false;
       let _hasRightFixedColumn = false;
       let _hasLeftFixedDataColumns = false;
-      if (
-        props.rowSelection?.fixed ||
-        props.expandable?.fixed ||
-        props.draggable?.fixed
-      ) {
+      if (props.rowSelection?.fixed || props.expandable?.fixed || props.draggable?.fixed) {
         _hasLeftFixedColumn = true;
       }
       for (const column of dataColumns.value) {
@@ -840,9 +790,7 @@ export default defineComponent({
       return false;
     });
 
-    const handleChange = (
-      type: 'pagination' | 'sorter' | 'filter' | 'drag'
-    ) => {
+    const handleChange = (type: 'pagination' | 'sorter' | 'filter' | 'drag') => {
       const extra: TableChangeExtra = {
         type,
         page: page.value,
@@ -854,10 +802,7 @@ export default defineComponent({
       emit('change', flattenRawData.value, extra, sortedData.value);
     };
 
-    const handleFilterChange = (
-      dataIndex: string,
-      filteredValues: string[]
-    ) => {
+    const handleFilterChange = (dataIndex: string, filteredValues: string[]) => {
       _filters.value = {
         ...computedFilters.value,
         [dataIndex]: filteredValues,
@@ -867,10 +812,7 @@ export default defineComponent({
       handleChange('filter');
     };
 
-    const handleSorterChange = (
-      dataIndex: string,
-      direction: 'ascend' | 'descend' | ''
-    ) => {
+    const handleSorterChange = (dataIndex: string, direction: 'ascend' | 'descend' | '') => {
       _sorter.value = direction
         ? {
             field: dataIndex,
@@ -882,12 +824,10 @@ export default defineComponent({
       handleChange('sorter');
     };
 
-    const { _filters, computedFilters, resetFilters, clearFilters } = useFilter(
-      {
-        columns: dataColumns,
-        onFilterChange: handleFilterChange,
-      }
-    );
+    const { _filters, computedFilters, resetFilters, clearFilters } = useFilter({
+      columns: dataColumns,
+      onFilterChange: handleFilterChange,
+    });
     const { _sorter, computedSorter, resetSorters, clearSorters } = useSorter({
       columns: dataColumns,
       onSorterChange: handleSorterChange,
@@ -980,10 +920,7 @@ export default defineComponent({
 
     const lazyLoadData = reactive<Record<string, TableData[]>>({});
 
-    const addLazyLoadData = (
-      children: TableData[] | undefined,
-      record: TableDataWithRaw
-    ) => {
+    const addLazyLoadData = (children: TableData[] | undefined, record: TableDataWithRaw) => {
       if (children) {
         lazyLoadData[record.key] = children;
       }
@@ -1042,7 +979,7 @@ export default defineComponent({
               ? props.hideExpandButtonOnEmpty
                 ? record.children.length > 0
                 : true
-              : props.loadMore && !record.isLeaf
+              : props.loadMore && !record.isLeaf,
           );
 
           result.push(record);
@@ -1081,10 +1018,7 @@ export default defineComponent({
               const valueA = getValueByPath(a.raw, field);
               const valueB = getValueByPath(b.raw, field);
 
-              if (
-                column.sortable?.sorter &&
-                isFunction(column.sortable.sorter)
-              ) {
+              if (column.sortable?.sorter && isFunction(column.sortable.sorter)) {
                 return column.sortable.sorter(a.raw, b.raw, {
                   dataIndex: field,
                   direction,
@@ -1107,8 +1041,7 @@ export default defineComponent({
           // same level drag
           if (
             sourcePath.length === targetPath.length &&
-            sourcePath.slice(0, -1).toString() ===
-              targetPath.slice(0, -1).toString()
+            sourcePath.slice(0, -1).toString() === targetPath.slice(0, -1).toString()
           ) {
             let children = data;
             for (let i = 0; i < sourcePath.length; i++) {
@@ -1136,12 +1069,9 @@ export default defineComponent({
       return data;
     });
 
-    const { page, pageSize, handlePageChange, handlePageSizeChange } =
-      usePagination(props, emit);
+    const { page, pageSize, handlePageChange, handlePageSizeChange } = usePagination(props, emit);
 
-    const onlyCurrent = computed(
-      () => rowSelection.value?.onlyCurrent ?? false
-    );
+    const onlyCurrent = computed(() => rowSelection.value?.onlyCurrent ?? false);
 
     watch(page, (cur, pre) => {
       if (cur !== pre && onlyCurrent.value) {
@@ -1153,7 +1083,7 @@ export default defineComponent({
       if (props.pagination && sortedData.value.length > pageSize.value) {
         return sortedData.value.slice(
           (page.value - 1) * pageSize.value,
-          page.value * pageSize.value
+          page.value * pageSize.value,
         );
       }
       return sortedData.value;
@@ -1162,33 +1092,36 @@ export default defineComponent({
     const flattenRawData = computed(() => mapRawTableData(flattenData.value));
 
     const getSummaryData = () => {
-      return dataColumns.value.reduce((per, column, index) => {
-        if (column.dataIndex) {
-          if (index === 0) {
-            setValueByPath(per, column.dataIndex, props.summaryText, {
-              addPath: true,
-            });
-          } else {
-            let count = 0;
-            let isNotNumber = false;
-            flattenData.value.forEach((data) => {
-              if (column.dataIndex) {
-                const _number = getValueByPath(data.raw, column.dataIndex);
-                if (isNumber(_number)) {
-                  count += _number;
-                } else if (!isUndefined(_number) && !isNull(_number)) {
-                  isNotNumber = true;
+      return dataColumns.value.reduce(
+        (per, column, index) => {
+          if (column.dataIndex) {
+            if (index === 0) {
+              setValueByPath(per, column.dataIndex, props.summaryText, {
+                addPath: true,
+              });
+            } else {
+              let count = 0;
+              let isNotNumber = false;
+              flattenData.value.forEach((data) => {
+                if (column.dataIndex) {
+                  const _number = getValueByPath(data.raw, column.dataIndex);
+                  if (isNumber(_number)) {
+                    count += _number;
+                  } else if (!isUndefined(_number) && !isNull(_number)) {
+                    isNotNumber = true;
+                  }
                 }
-              }
-            });
-            setValueByPath(per, column.dataIndex, isNotNumber ? '' : count, {
-              addPath: true,
-            });
+              });
+              setValueByPath(per, column.dataIndex, isNotNumber ? '' : count, {
+                addPath: true,
+              });
+            }
           }
-        }
 
-        return per;
-      }, {} as Record<string, any>);
+          return per;
+        },
+        {} as Record<string, any>,
+      );
     };
 
     const getTableDataWithRaw = (data?: TableData[]): TableDataWithRaw[] => {
@@ -1210,7 +1143,7 @@ export default defineComponent({
             props.summary({
               columns: dataColumns.value,
               data: flattenRawData.value,
-            })
+            }),
           );
         }
         return getTableDataWithRaw([getSummaryData()]);
@@ -1269,9 +1202,7 @@ export default defineComponent({
     };
 
     const handleScroll = (e: Event) => {
-      if (
-        (e.target as HTMLDivElement).scrollLeft !== containerScrollLeft.value
-      ) {
+      if ((e.target as HTMLDivElement).scrollLeft !== containerScrollLeft.value) {
         containerScrollLeft.value = (e.target as HTMLDivElement).scrollLeft;
       }
       setAlignPosition();
@@ -1300,11 +1231,7 @@ export default defineComponent({
       emit('rowContextmenu', record.raw, ev);
     };
 
-    const handleCellClick = (
-      record: TableDataWithRaw,
-      column: TableColumnData,
-      ev: Event
-    ) => {
+    const handleCellClick = (record: TableDataWithRaw, column: TableColumnData, ev: Event) => {
       emit('cellClick', record.raw, column, ev);
     };
 
@@ -1312,28 +1239,24 @@ export default defineComponent({
       (record: TableDataWithRaw, column: TableColumnData, ev: Event) => {
         emit('cellMouseEnter', record.raw, column, ev);
       },
-      30
+      30,
     );
 
     const handleCellMouseLeave = debounce(
       (record: TableDataWithRaw, column: TableColumnData, ev: Event) => {
         emit('cellMouseLeave', record.raw, column, ev);
       },
-      30
+      30,
     );
 
-    const handleCellDblclick = (
-      record: TableDataWithRaw,
-      column: TableColumnData,
-      ev: Event
-    ) => {
+    const handleCellDblclick = (record: TableDataWithRaw, column: TableColumnData, ev: Event) => {
       emit('cellDblclick', record.raw, column, ev);
     };
 
     const handleCellContextmenu = (
       record: TableDataWithRaw,
       column: TableColumnData,
-      ev: Event
+      ev: Event,
     ) => {
       emit('cellContextmenu', record.raw, column, ev);
     };
@@ -1344,8 +1267,7 @@ export default defineComponent({
 
     const operations = computed(() => {
       const operations: TableOperationColumn[] = [];
-      const hasFixedColumn =
-        hasLeftFixedColumn.value || hasRightFixedColumn.value;
+      const hasFixedColumn = hasLeftFixedColumn.value || hasRightFixedColumn.value;
       let dragHandle: TableOperationColumn | undefined;
       let expand: TableOperationColumn | undefined;
       let selection: TableOperationColumn | undefined;
@@ -1372,10 +1294,7 @@ export default defineComponent({
 
       if (props.rowSelection) {
         selection = {
-          name:
-            props.rowSelection.type === 'radio'
-              ? 'selection-radio'
-              : 'selection-checkbox',
+          name: props.rowSelection.type === 'radio' ? 'selection-radio' : 'selection-checkbox',
           title: props.rowSelection.title,
           width: props.rowSelection.width,
           fixed: props.rowSelection.fixed || hasFixedColumn,
@@ -1399,9 +1318,7 @@ export default defineComponent({
     const headerStyle = computed(() => {
       if (isScroll.value.x) {
         const style: CSSProperties = {
-          width: isNumber(props.scroll?.x)
-            ? `${props.scroll?.x}px`
-            : props.scroll?.x,
+          width: isNumber(props.scroll?.x) ? `${props.scroll?.x}px` : props.scroll?.x,
         };
         if (props.scroll?.minWidth) {
           style.minWidth = isNumber(props.scroll.minWidth)
@@ -1416,9 +1333,7 @@ export default defineComponent({
     const contentStyle = computed(() => {
       if (isScroll.value.x && flattenData.value.length > 0) {
         const style: CSSProperties = {
-          width: isNumber(props.scroll?.x)
-            ? `${props.scroll?.x}px`
-            : props.scroll?.x,
+          width: isNumber(props.scroll?.x) ? `${props.scroll?.x}px` : props.scroll?.x,
         };
         if (props.scroll?.minWidth) {
           style.minWidth = isNumber(props.scroll.minWidth)
@@ -1459,7 +1374,7 @@ export default defineComponent({
         onSorterChange: handleSorterChange,
         onFilterChange: handleFilterChange,
         onThMouseDown: handleThMouseDown,
-      })
+      }),
     );
 
     const cls = computed(() => [
@@ -1468,20 +1383,15 @@ export default defineComponent({
       {
         [`${prefixCls}-border`]: bordered.value.wrapper,
         [`${prefixCls}-border-cell`]: bordered.value.cell,
-        [`${prefixCls}-border-header-cell`]:
-          !bordered.value.cell && bordered.value.headerCell,
-        [`${prefixCls}-border-body-cell`]:
-          !bordered.value.cell && bordered.value.bodyCell,
+        [`${prefixCls}-border-header-cell`]: !bordered.value.cell && bordered.value.headerCell,
+        [`${prefixCls}-border-body-cell`]: !bordered.value.cell && bordered.value.bodyCell,
         [`${prefixCls}-stripe`]: props.stripe,
         [`${prefixCls}-hover`]: props.hoverable,
         [`${prefixCls}-dragging`]: dragState.dragging,
         [`${prefixCls}-type-selection`]: Boolean(props.rowSelection),
         [`${prefixCls}-empty`]: props.data && flattenData.value.length === 0,
         [`${prefixCls}-layout-fixed`]:
-          props.tableLayoutFixed ||
-          isScroll.value.x ||
-          splitTable.value ||
-          hasEllipsis.value,
+          props.tableLayoutFixed || isScroll.value.x || splitTable.value || hasEllipsis.value,
       },
     ]);
 
@@ -1548,15 +1458,14 @@ export default defineComponent({
     });
 
     const spinProps = computed(() =>
-      isObject(props.loading) ? props.loading : { loading: props.loading }
+      isObject(props.loading) ? props.loading : { loading: props.loading },
     );
 
     const renderEmpty = () => {
       return (
         <Tr empty>
           <Td colSpan={dataColumns.value.length + operations.value.length}>
-            {slots.empty?.() ??
-              configCtx?.slots.empty?.({ component: 'table' }) ?? <Empty />}
+            {slots.empty?.() ?? configCtx?.slots.empty?.({ component: 'table' }) ?? <Empty />}
           </Td>
         </Tr>
       );
@@ -1579,13 +1488,11 @@ export default defineComponent({
     const allColumns = computed(() =>
       ([] as (TableColumnData | TableOperationColumn)[]).concat(
         operations.value,
-        dataColumns.value
-      )
+        dataColumns.value,
+      ),
     );
 
-    const spanColumns = computed(() =>
-      props.spanAll ? allColumns.value : dataColumns.value
-    );
+    const spanColumns = computed(() => (props.spanAll ? allColumns.value : dataColumns.value));
 
     const { tableSpan, removedCells } = useSpan({
       spanMethod,
@@ -1593,12 +1500,11 @@ export default defineComponent({
       columns: spanColumns,
     });
 
-    const { tableSpan: tableSummarySpan, removedCells: removedSummaryCells } =
-      useSpan({
-        spanMethod: summarySpanMethod,
-        data: summaryData,
-        columns: allColumns,
-      });
+    const { tableSpan: tableSummarySpan, removedCells: removedSummaryCells } = useSpan({
+      spanMethod: summarySpanMethod,
+      data: summaryData,
+      columns: allColumns,
+    });
 
     const getVirtualColumnStyle = (name: string | undefined) => {
       if (!isVirtualList.value || !name || !thWidth.value[name]) {
@@ -1617,9 +1523,7 @@ export default defineComponent({
           key={`table-summary-${rowIndex}`}
           class={[
             `${prefixCls}-tr-summary`,
-            isFunction(props.rowClass)
-              ? props.rowClass(record.raw, rowIndex)
-              : props.rowClass,
+            isFunction(props.rowClass) ? props.rowClass(record.raw, rowIndex) : props.rowClass,
           ]}
           // @ts-ignore
           onClick={(ev: Event) => handleRowClick(record, ev)}
@@ -1647,9 +1551,7 @@ export default defineComponent({
             );
           })}
           {dataColumns.value.map((column, index) => {
-            const cellId = `${rowIndex}-${operations.value.length + index}-${
-              record.key
-            }`;
+            const cellId = `${rowIndex}-${operations.value.length + index}-${record.key}`;
             const [rowspan, colspan] = tableSummarySpan.value[cellId] ?? [1, 1];
 
             if (removedSummaryCells.value.includes(cellId)) {
@@ -1676,18 +1578,10 @@ export default defineComponent({
                 summary
                 // @ts-ignore
                 onClick={(ev: Event) => handleCellClick(record, column, ev)}
-                onDblclick={(ev: Event) =>
-                  handleCellDblclick(record, column, ev)
-                }
-                onMouseenter={(ev: Event) =>
-                  handleCellMouseEnter(record, column, ev)
-                }
-                onMouseleave={(ev: Event) =>
-                  handleCellMouseLeave(record, column, ev)
-                }
-                onContextmenu={(ev: Event) =>
-                  handleCellContextmenu(record, column, ev)
-                }
+                onDblclick={(ev: Event) => handleCellDblclick(record, column, ev)}
+                onMouseenter={(ev: Event) => handleCellMouseEnter(record, column, ev)}
+                onMouseleave={(ev: Event) => handleCellMouseLeave(record, column, ev)}
+                onContextmenu={(ev: Event) => handleCellContextmenu(record, column, ev)}
               />
             );
           })}
@@ -1698,20 +1592,13 @@ export default defineComponent({
     const renderSummary = () => {
       if (summaryData.value && summaryData.value.length > 0) {
         return (
-          <tfoot>
-            {summaryData.value.map((data, index) =>
-              renderSummaryRow(data, index)
-            )}
-          </tfoot>
+          <tfoot>{summaryData.value.map((data, index) => renderSummaryRow(data, index))}</tfoot>
         );
       }
       return null;
     };
 
-    const renderExpandBtn = (
-      record: TableDataWithRaw,
-      stopPropagation = true
-    ) => {
+    const renderExpandBtn = (record: TableDataWithRaw, stopPropagation = true) => {
       const currentKey = record.key;
       const expanded = expandedRowKeys.value.includes(currentKey);
 
@@ -1745,7 +1632,7 @@ export default defineComponent({
         indexPath: number[];
         allowDrag: boolean;
         expandContent: any;
-      }
+      },
     ) => {
       if (record.hasSubtree) {
         if (record.children?.length === 0 && showEmptyTree.value) {
@@ -1757,7 +1644,7 @@ export default defineComponent({
             indentSize,
             indexPath,
             allowDrag,
-          })
+          }),
         );
       }
 
@@ -1767,9 +1654,7 @@ export default defineComponent({
         return (
           <Tr key={`${record.key}-expand`} expand>
             <Td
-              isFixedExpand={
-                hasLeftFixedColumn.value || hasRightFixedColumn.value
-              }
+              isFixedExpand={hasLeftFixedColumn.value || hasRightFixedColumn.value}
               containerWidth={scrollContainer?.clientWidth}
               colSpan={dataColumns.value.length + operations.value.length}
             >
@@ -1789,7 +1674,7 @@ export default defineComponent({
         indentSize = 0,
         indexPath,
         allowDrag = true,
-      }: { indentSize?: number; indexPath?: number[]; allowDrag?: boolean } = {}
+      }: { indentSize?: number; indexPath?: number[]; allowDrag?: boolean } = {},
     ): JSX.Element => {
       const currentKey = record.key;
       const currentPath = (indexPath ?? []).concat(rowIndex);
@@ -1842,15 +1727,11 @@ export default defineComponent({
                 [`${prefixCls}-tr-draggable`]: dragType.value === 'row',
                 [`${prefixCls}-tr-drag`]: isDragTarget,
               },
-              isFunction(props.rowClass)
-                ? props.rowClass(record.raw, rowIndex)
-                : props.rowClass,
+              isFunction(props.rowClass) ? props.rowClass(record.raw, rowIndex) : props.rowClass,
             ]}
             rowIndex={rowIndex}
             record={record}
-            checked={
-              props.rowSelection && selectedRowKeys.value?.includes(currentKey)
-            }
+            checked={props.rowSelection && selectedRowKeys.value?.includes(currentKey)}
             // @ts-ignore
             onClick={(ev: Event) => handleRowClick(record, ev)}
             onDblclick={(ev: Event) => handleRowDblclick(record, ev)}
@@ -1861,7 +1742,7 @@ export default defineComponent({
             {operations.value.map((operation, index) => {
               const cellId = `${rowIndex}-${index}-${record.key}`;
               const [rowspan, colspan] = props.spanAll
-                ? tableSpan.value[cellId] ?? [1, 1]
+                ? (tableSpan.value[cellId] ?? [1, 1])
                 : [1, 1];
 
               if (props.spanAll && removedCells.value.includes(cellId)) {
@@ -1903,9 +1784,7 @@ export default defineComponent({
                 index === 0
                   ? {
                       showExpandBtn: record.hasSubtree,
-                      indentSize: record.hasSubtree
-                        ? indentSize - 20
-                        : indentSize,
+                      indentSize: record.hasSubtree ? indentSize - 20 : indentSize,
                     }
                   : {};
 
@@ -1929,18 +1808,10 @@ export default defineComponent({
                   {...extraProps}
                   // @ts-ignore
                   onClick={(ev: Event) => handleCellClick(record, column, ev)}
-                  onDblclick={(ev: Event) =>
-                    handleCellDblclick(record, column, ev)
-                  }
-                  onMouseenter={(ev: Event) =>
-                    handleCellMouseEnter(record, column, ev)
-                  }
-                  onMouseleave={(ev: Event) =>
-                    handleCellMouseLeave(record, column, ev)
-                  }
-                  onContextmenu={(ev: Event) =>
-                    handleCellContextmenu(record, column, ev)
-                  }
+                  onDblclick={(ev: Event) => handleCellDblclick(record, column, ev)}
+                  onMouseenter={(ev: Event) => handleCellMouseEnter(record, column, ev)}
+                  onMouseleave={(ev: Event) => handleCellMouseLeave(record, column, ev)}
+                  onContextmenu={(ev: Event) => handleCellContextmenu(record, column, ev)}
                 />
               );
             })}
@@ -1957,9 +1828,7 @@ export default defineComponent({
     };
 
     const renderBody = () => {
-      const hasSubData = flattenData.value.some((record) =>
-        Boolean(record.hasSubtree)
-      );
+      const hasSubData = flattenData.value.some((record) => Boolean(record.hasSubtree));
 
       return (
         <Tbody
@@ -1969,7 +1838,7 @@ export default defineComponent({
         >
           {flattenData.value.length > 0
             ? flattenData.value.map((record, index) =>
-                renderRecord(record, index, { indentSize: hasSubData ? 20 : 0 })
+                renderRecord(record, index, { indentSize: hasSubData ? 20 : 0 }),
               )
             : renderEmpty()}
         </Tbody>
@@ -1993,17 +1862,14 @@ export default defineComponent({
                   operationColumn={operation}
                   operations={operations.value}
                   selectAll={Boolean(
-                    operation.name === 'selection-checkbox' &&
-                      props.rowSelection?.showCheckedAll
+                    operation.name === 'selection-checkbox' && props.rowSelection?.showCheckedAll,
                   )}
                   rowSpan={groupColumns.value.length}
                 />
               ))}
             {row.map((column, index) => {
               const resizable =
-                props.columnResizable &&
-                Boolean(column.dataIndex) &&
-                index < row.length - 1;
+                props.columnResizable && Boolean(column.dataIndex) && index < row.length - 1;
 
               return (
                 <Th
@@ -2030,9 +1896,7 @@ export default defineComponent({
 
     const renderContent = () => {
       if (splitTable.value) {
-        const top = isNumber(props.stickyHeader)
-          ? `${props.stickyHeader}px`
-          : undefined;
+        const top = isNumber(props.stickyHeader) ? `${props.stickyHeader}px` : undefined;
 
         const mergeOuterClass = [scrollbarProps.value?.outerClass];
         if (props.stickyHeader) {
@@ -2051,8 +1915,7 @@ export default defineComponent({
                 class={[
                   `${prefixCls}-header`,
                   {
-                    [`${prefixCls}-header-sticky`]:
-                      props.stickyHeader && !displayScrollbar.value,
+                    [`${prefixCls}-header-sticky`]: props.stickyHeader && !displayScrollbar.value,
                   },
                 ]}
                 style={{
@@ -2088,13 +1951,8 @@ export default defineComponent({
               {isVirtualList.value && flattenData.value.length ? (
                 <VirtualList
                   v-slots={{
-                    item: ({
-                      item,
-                      index,
-                    }: {
-                      item: TableDataWithRaw;
-                      index: number;
-                    }) => renderRecord(item, index),
+                    item: ({ item, index }: { item: TableDataWithRaw; index: number }) =>
+                      renderRecord(item, index),
                   }}
                   ref={(ins: any) => {
                     if (ins?.$el) tbodyRef.value = ins.$el;
@@ -2120,9 +1978,7 @@ export default defineComponent({
                   ref={tbodyComRef}
                   class={`${prefixCls}-body`}
                   style={{
-                    maxHeight: isNumber(props.scroll?.y)
-                      ? `${props.scroll?.y}px`
-                      : '100%',
+                    maxHeight: isNumber(props.scroll?.y) ? `${props.scroll?.y}px` : '100%',
                   }}
                   {...(scrollbar.value
                     ? {
@@ -2192,18 +2048,14 @@ export default defineComponent({
             />
             {props.showHeader && renderHeader()}
             {renderBody()}
-            {summaryData.value &&
-              summaryData.value.length > 0 &&
-              renderSummary()}
+            {summaryData.value && summaryData.value.length > 0 && renderSummary()}
           </table>
         </ResizeObserver>
       );
     };
 
     const renderTable = (content?: Slot) => {
-      const style = props.scroll?.maxHeight
-        ? { maxHeight: props.scroll.maxHeight }
-        : undefined;
+      const style = props.scroll?.maxHeight ? { maxHeight: props.scroll.maxHeight } : undefined;
 
       const Component = displayScrollbar.value ? Scrollbar : 'div';
 
@@ -2225,11 +2077,7 @@ export default defineComponent({
               onScroll={handleScroll}
             >
               {content ? (
-                <table
-                  class={`${prefixCls}-element`}
-                  cellpadding={0}
-                  cellspacing={0}
-                >
+                <table class={`${prefixCls}-element`} cellpadding={0} cellspacing={0}>
                   {content()}
                 </table>
               ) : (
@@ -2237,21 +2085,14 @@ export default defineComponent({
               )}
             </Component>
           </div>
-          {slots.footer && (
-            <div class={`${prefixCls}-footer`}>{slots.footer()}</div>
-          )}
+          {slots.footer && <div class={`${prefixCls}-footer`}>{slots.footer()}</div>}
         </>
       );
     };
 
     const renderPagination = () => {
       const paginationProps = isObject(props.pagination)
-        ? omit(props.pagination, [
-            'current',
-            'pageSize',
-            'defaultCurrent',
-            'defaultPageSize',
-          ])
+        ? omit(props.pagination, ['current', 'pageSize', 'defaultCurrent', 'defaultPageSize'])
         : {};
 
       return (

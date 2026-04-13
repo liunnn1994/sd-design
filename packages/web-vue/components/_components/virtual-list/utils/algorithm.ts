@@ -15,12 +15,7 @@ import { VirtualItemKey } from '../interface';
  * [5]: 9
  * [6]: 3
  */
-export function getIndexByStartLoc(
-  min: number,
-  max: number,
-  start: number,
-  index: number
-): number {
+export function getIndexByStartLoc(min: number, max: number, start: number, index: number): number {
   const beforeCount = start - min;
   const afterCount = max - start;
   const balanceCount = Math.min(beforeCount, afterCount) * 2;
@@ -48,7 +43,7 @@ export function getIndexByStartLoc(
 export function findListDiffIndex<T>(
   originList: T[],
   targetList: T[],
-  getKey: (item: T, index: number) => VirtualItemKey
+  getKey: (item: T, index: number) => VirtualItemKey,
 ): { index: number; multiple: boolean } | null {
   const originLen = originList.length;
   const targetLen = targetList.length;

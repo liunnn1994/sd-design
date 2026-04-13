@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 分页 Pagination
 description: 采用分页控制单页内的信息数量，也可进行页面跳转。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,25 +19,26 @@ meta:
 title: Pagination
 description: Use paging to control the amount of information in a single page, and page jumps can also be performed.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/ellipsis.md
+@import ./**demo**/ellipsis.md
 
-@import ./__demo__/page-size.md
+@import ./**demo**/page-size.md
 
-@import ./__demo__/jumper.md
+@import ./**demo**/jumper.md
 
-@import ./__demo__/size.md
+@import ./**demo**/size.md
 
-@import ./__demo__/simple.md
+@import ./**demo**/simple.md
 
-@import ./__demo__/total.md
+@import ./**demo**/total.md
 
-@import ./__demo__/all.md
+@import ./**demo**/all.md
 
-@import ./__demo__/custom.md
+@import ./**demo**/custom.md
 
 ## API
 

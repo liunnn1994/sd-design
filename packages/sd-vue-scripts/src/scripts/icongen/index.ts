@@ -1,18 +1,13 @@
-import path from 'path';
 import fs from 'fs-extra';
 import { globSync } from 'glob';
-import { optimize } from 'svgo';
 import { JSDOM } from 'jsdom';
-import paths from '../../utils/paths';
+import path from 'path';
+import { optimize } from 'svgo';
+
 import { toKebabCase, toPascalCase } from '../../utils/convert-case';
+import paths from '../../utils/paths';
 import svgoConfig from './svgo.config';
-import {
-  getSDVueIcon,
-  getComponentIndex,
-  getIconVue,
-  getIndex,
-  getType,
-} from './vue-template';
+import { getSDVueIcon, getComponentIndex, getIconVue, getIndex, getType } from './vue-template';
 
 interface IconData {
   title: string;
@@ -90,7 +85,7 @@ async function buildIconComponent(data: IconData[]) {
               } else {
                 console.log(`Build ${item.componentName} Success!`);
               }
-            }
+            },
           );
         }
       }
@@ -109,7 +104,7 @@ async function buildIconComponent(data: IconData[]) {
           } else {
             console.log(`Build ${item.componentName} Success!`);
           }
-        }
+        },
       );
     }
   }
@@ -124,50 +119,36 @@ function buildIndex(data: IconData[]) {
     for (const item of iconData.list) {
       components.push(item.componentName);
       imports.push(`import ${item.componentName} from './${item.name}';`);
-      exports.push(
-        `export { default as ${item.componentName} } from './${item.name}';`
-      );
+      exports.push(`export { default as ${item.componentName} } from './${item.name}';`);
     }
   }
 
   const arcoContent = getSDVueIcon({ imports, components });
   const indexContent = getIndex({ exports });
 
-  fs.outputFile(
-    path.resolve(paths.iconComponents, 'sd-vue-icon.ts'),
-    arcoContent,
-    (err) => {
-      if (err) {
-        console.log(`Build SDVueIcon Failed: ${err}`);
-      } else {
-        console.log('Build SDVueIcon Success!');
-      }
+  fs.outputFile(path.resolve(paths.iconComponents, 'sd-vue-icon.ts'), arcoContent, (err) => {
+    if (err) {
+      console.log(`Build SDVueIcon Failed: ${err}`);
+    } else {
+      console.log('Build SDVueIcon Success!');
     }
-  );
+  });
 
-  fs.outputFile(
-    path.resolve(paths.iconComponents, 'index.ts'),
-    indexContent,
-    (err) => {
-      if (err) {
-        console.log(`Build Index Failed: ${err}`);
-      } else {
-        console.log('Build Index Success!');
-      }
+  fs.outputFile(path.resolve(paths.iconComponents, 'index.ts'), indexContent, (err) => {
+    if (err) {
+      console.log(`Build Index Failed: ${err}`);
+    } else {
+      console.log('Build Index Success!');
     }
-  );
+  });
 
-  fs.outputFile(
-    path.resolve(paths.icon, 'icons.json'),
-    JSON.stringify(data, null, 2),
-    (err) => {
-      if (err) {
-        console.log(`Build JSON Failed: ${err}`);
-      } else {
-        console.log('Build JSON Success!');
-      }
+  fs.outputFile(path.resolve(paths.icon, 'icons.json'), JSON.stringify(data, null, 2), (err) => {
+    if (err) {
+      console.log(`Build JSON Failed: ${err}`);
+    } else {
+      console.log('Build JSON Success!');
     }
-  );
+  });
 }
 
 function buildType(data: IconData[]) {
@@ -175,24 +156,20 @@ function buildType(data: IconData[]) {
   for (const iconData of data) {
     for (const item of iconData.list) {
       exports.push(
-        `${item.componentName}: typeof import('@sd-design/web-vue/es/icon')['${item.componentName}'];`
+        `${item.componentName}: typeof import('@sdata/web-vue/es/icon')['${item.componentName}'];`,
       );
     }
   }
 
   const typeContent = getType({ exports });
 
-  fs.outputFile(
-    path.resolve(paths.iconComponents, 'icon-components.ts'),
-    typeContent,
-    (err) => {
-      if (err) {
-        console.log(`Build Type Failed: ${err}`);
-      } else {
-        console.log('Build Type Success!');
-      }
+  fs.outputFile(path.resolve(paths.iconComponents, 'icon-components.ts'), typeContent, (err) => {
+    if (err) {
+      console.log(`Build Type Failed: ${err}`);
+    } else {
+      console.log('Build Type Success!');
     }
-  );
+  });
 }
 
 const icongen = async () => {

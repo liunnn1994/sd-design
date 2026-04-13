@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 图片轮播 Carousel
 description: 用于展示多张图片、视频或内嵌框架等内容的循环播放，支持系统自动播放或用户手动切换。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,19 +19,20 @@ meta:
 title: Carousel
 description: Carousel is used to display multiple pictures, videos, or embedded frames and other content in a loop, and supports automatic playback or manual switching by the user.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/auto.md
+@import ./**demo**/auto.md
 
-@import ./__demo__/indicator.md
+@import ./**demo**/indicator.md
 
-@import ./__demo__/direction.md
+@import ./**demo**/direction.md
 
-@import ./__demo__/card.md
+@import ./**demo**/card.md
 
-@import ./__demo__/fade.md
+@import ./**demo**/fade.md
 
 ## API
 

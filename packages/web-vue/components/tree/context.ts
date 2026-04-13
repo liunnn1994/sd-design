@@ -1,4 +1,5 @@
 import { InjectionKey, Slot } from 'vue';
+
 import type {
   Node,
   DropPosition,
@@ -8,8 +9,7 @@ import type {
   FilterTreeNode,
 } from './interface';
 
-export const TreeInjectionKey: InjectionKey<TreeContext> =
-  Symbol('TreeInjectionKey');
+export const TreeInjectionKey: InjectionKey<TreeContext> = Symbol('TreeInjectionKey');
 
 export type TreeContext = Readonly<{
   treeProps: TreeProps;

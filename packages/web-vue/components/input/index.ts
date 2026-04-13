@@ -1,10 +1,12 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _Input from './input';
-import _InputSearch from './input-search';
-import _InputPassword from './input-password.vue';
 import _InputGroup from './input-group.vue';
+import _InputPassword from './input-password.vue';
+import _InputSearch from './input-search';
 
 const Input = Object.assign(_Input, {
   Search: _InputSearch,
@@ -26,10 +28,6 @@ export type InputSearchInstance = InstanceType<typeof _InputSearch>;
 export type InputPasswordInstance = InstanceType<typeof _InputPassword>;
 export type InputGroupInstance = InstanceType<typeof _InputGroup>;
 
-export {
-  _InputSearch as InputSearch,
-  _InputPassword as InputPassword,
-  _InputGroup as InputGroup,
-};
+export { _InputSearch as InputSearch, _InputPassword as InputPassword, _InputGroup as InputGroup };
 
 export default Input;

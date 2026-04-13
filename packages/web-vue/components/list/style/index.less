@@ -40,9 +40,7 @@
 
       // 在存在列表嵌套的时候，通过 > 限定 size 仅对其直接子元素生效，避免影响被嵌套的列表的样式
       .@{list-prefix-cls}-content-wrapper .@{list-prefix-cls}-footer,
-      .@{list-prefix-cls}-content-wrapper
-        .@{list-prefix-cls}-content
-        > .@{list-prefix-cls}-item,
+      .@{list-prefix-cls}-content-wrapper .@{list-prefix-cls}-content > .@{list-prefix-cls}-item,
       .@{list-prefix-cls}-content-wrapper
         .@{list-prefix-cls}-content
         .@{list-prefix-cls}-col

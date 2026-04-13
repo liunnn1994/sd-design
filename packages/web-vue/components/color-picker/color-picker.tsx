@@ -1,17 +1,13 @@
 import { defineComponent, PropType, computed, watch } from 'vue';
+
+import useState from '../_hooks/use-state';
+import { formatInputToHSVA, hsvToRgb, rgbaToHex, rgbToHex } from '../_utils/color';
 import { Size } from '../_utils/constant';
 import { getPrefixCls } from '../_utils/global-config';
+import Trigger, { TriggerProps } from '../trigger';
 import { colors } from './colors';
 import { HSV } from './interface';
 import Panel from './panel';
-import Trigger, { TriggerProps } from '../trigger';
-import useState from '../_hooks/use-state';
-import {
-  formatInputToHSVA,
-  hsvToRgb,
-  rgbaToHex,
-  rgbToHex,
-} from '../_utils/color';
 
 export default defineComponent({
   name: 'ColorPicker',
@@ -121,7 +117,7 @@ export default defineComponent({
      * @en Triggered when the color value changes
      * @param {string} value
      */
-    'change': (value: string) => true,
+    change: (value: string) => true,
     /**
      * @zh 颜色面板展开和收起时触发
      * @en Triggered when the color panel is expanded and collapsed
@@ -158,7 +154,7 @@ export default defineComponent({
             v: value.v,
           });
         }
-      }
+      },
     );
 
     const color = computed(() => {
@@ -214,18 +210,9 @@ export default defineComponent({
             [`${prefixCls}-disabled`]: props.disabled,
           }}
         >
-          <div
-            class={`${prefixCls}-preview`}
-            style={{ backgroundColor: formatValue.value }}
-          />
-          {props.showText && (
-            <div class={`${prefixCls}-value`}>{formatValue.value}</div>
-          )}
-          <input
-            class={`${prefixCls}-input`}
-            value={formatValue.value}
-            disabled={props.disabled}
-          />
+          <div class={`${prefixCls}-preview`} style={{ backgroundColor: formatValue.value }} />
+          {props.showText && <div class={`${prefixCls}-value`}>{formatValue.value}</div>}
+          <input class={`${prefixCls}-input`} value={formatValue.value} disabled={props.disabled} />
         </div>
       );
     };

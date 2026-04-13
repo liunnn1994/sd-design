@@ -1,14 +1,11 @@
-import fs from 'fs-extra';
 import fg from 'fast-glob';
+import fs from 'fs-extra';
 import path from 'path';
-import {
-  ComponentDoc,
-  ParamTag,
-  parse as parseComponent,
-} from 'vue-docgen-api';
+import { ComponentDoc, ParamTag, parse as parseComponent } from 'vue-docgen-api';
+
 import { toKebabCase } from '../../utils/convert-case';
-import { slotTagHandler } from '../docgen/slot-tag-handler';
 import { getPackage } from '../../utils/get-package';
+import { slotTagHandler } from '../docgen/slot-tag-handler';
 
 const getComponentsFromTemplates = async () => {
   const templates = await fg('components/**/TEMPLATE.md');
@@ -24,7 +21,7 @@ const getComponentsFromTemplates = async () => {
           components.push(path.resolve(dirname, match[1]));
         }
       });
-    })
+    }),
   );
 
   return components;
@@ -68,7 +65,7 @@ const resolveComponent = (doc: ComponentDoc) => {
               });
               return pre;
             },
-            { zh: '', en: '' }
+            { zh: '', en: '' },
           );
 
           return {
@@ -89,7 +86,7 @@ const resolveComponent = (doc: ComponentDoc) => {
               }
               return pre;
             },
-            { zh: '', en: '' }
+            { zh: '', en: '' },
           );
 
           return {
@@ -97,10 +94,8 @@ const resolveComponent = (doc: ComponentDoc) => {
             description,
           };
         })
-        .filter(
-          (item: any) =>
-            Boolean(item.description.en) && !/^update:/.test(item.name)
-        ) ?? [],
+        .filter((item: any) => Boolean(item.description.en) && !item.name.startsWith('update:')) ??
+      [],
     slots:
       doc.slots
         ?.map((descriptor: any) => {
@@ -113,7 +108,7 @@ const resolveComponent = (doc: ComponentDoc) => {
               }
               return pre;
             },
-            { zh: '', en: '' }
+            { zh: '', en: '' },
           );
 
           return {
@@ -168,21 +163,17 @@ const transformToVetur = (components: ComponentData[]) => {
   };
 };
 
-const transformToWebTypes = (
-  components: ComponentData[],
-  { version }: { version: string }
-) => {
+const transformToWebTypes = (components: ComponentData[], { version }: { version: string }) => {
   const json = {
-    $schema:
-      'https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json',
+    $schema: 'https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json',
     framework: 'vue',
-    name: '@sd-design/web-vue',
+    name: '@sdata/web-vue',
     version,
     contributions: {
       html: {
         'types-syntax': 'typescript',
         'description-markup': 'markdown',
-        'tags': [],
+        tags: [],
       },
     },
   };
@@ -229,7 +220,7 @@ const jsongen = async () => {
       // eslint-disable-next-line no-await-in-loop
       await parseComponent(item, {
         addScriptHandlers: [slotTagHandler],
-      })
+      }),
     );
     if (/date-picker\/picker/.test(item)) {
       datePickerBase = doc;
@@ -260,11 +251,11 @@ const jsongen = async () => {
 
   await fs.writeFile(
     path.resolve(process.cwd(), 'json/vetur-tags.json'),
-    JSON.stringify(tags, null, 2)
+    JSON.stringify(tags, null, 2),
   );
   await fs.writeFile(
     path.resolve(process.cwd(), 'json/vetur-attributes.json'),
-    JSON.stringify(attributes, null, 2)
+    JSON.stringify(attributes, null, 2),
   );
 
   // @ts-ignore
@@ -272,7 +263,7 @@ const jsongen = async () => {
 
   await fs.writeFile(
     path.resolve(process.cwd(), 'json/web-types.json'),
-    JSON.stringify(web, null, 2)
+    JSON.stringify(web, null, 2),
   );
 };
 

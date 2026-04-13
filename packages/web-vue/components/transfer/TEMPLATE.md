@@ -22,19 +22,19 @@ description: A two-column multi-select component that moves elements from one co
 
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/search.md
+@import ./**demo**/search.md
 
-@import ./__demo__/one-way.md
+@import ./**demo**/one-way.md
 
-@import ./__demo__/custom.md
+@import ./**demo**/custom.md
 
-@import ./__demo__/simple.md
+@import ./**demo**/simple.md
 
-@import ./__demo__/tree.md
+@import ./**demo**/tree.md
 
-@import ./__demo__/custom-header.md
+@import ./**demo**/custom-header.md
 
 ## API
 

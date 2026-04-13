@@ -1,4 +1,5 @@
 import { computed, ComputedRef, Ref, ref } from 'vue';
+
 import { CascaderOptionInfo } from '../interface';
 
 export const useSelectedPath = (
@@ -13,7 +14,7 @@ export const useSelectedPath = (
     filteredLeafOptions: ComputedRef<CascaderOptionInfo[]>;
     showSearchPanel?: ComputedRef<boolean>;
     expandChild: Ref<boolean>;
-  }
+  },
 ) => {
   // active node key
   const activeKey = ref<string>();
@@ -50,9 +51,7 @@ export const useSelectedPath = (
       return filteredLeafOptions.value.filter((item) => !item.disabled);
     }
     if (activeOption.value && activeOption.value.parent) {
-      return activeOption.value.parent.children?.filter(
-        (item) => !item.disabled
-      );
+      return activeOption.value.parent.children?.filter((item) => !item.disabled);
     }
     return options.value.filter((item) => !item.disabled);
   });
@@ -73,9 +72,7 @@ export const useSelectedPath = (
 
     if (activeKey.value) {
       const enabledIndex =
-        enabledOptions.value?.findIndex(
-          (item) => item.key === activeKey.value
-        ) ?? 0;
+        enabledOptions.value?.findIndex((item) => item.key === activeKey.value) ?? 0;
       if (direction === 'next') {
         return enabledOptions.value?.[(_length + enabledIndex + 1) % _length];
       }

@@ -20,8 +20,7 @@
 
   &-with-marks {
     margin-bottom: @slider-spacing-margin-bottom_with-mark;
-    padding: @slider-spacing-padding_width-mark_vertical
-      @slider-spacing-padding_width-mark;
+    padding: @slider-spacing-padding_width-mark_vertical @slider-spacing-padding_width-mark;
   }
 
   &-vertical&-with-marks {
@@ -147,8 +146,7 @@
       background: @slider-color-button-bg;
       border: @slider-border-size-button solid @slider-color-button-border;
       border-radius: 50%;
-      transition: all @transition-duration-3
-        @transition-timing-function-overshoot;
+      transition: all @transition-duration-3 @transition-timing-function-overshoot;
       content: '';
     }
 
@@ -156,9 +154,7 @@
     &:hover {
       &::after {
         box-shadow: @slider-shadow-button_active;
-        transform: scale(
-          (unit(@slider-size-button-width_active / @slider-size-button-width))
-        );
+        transform: scale((unit(@slider-size-button-width_active / @slider-size-button-width)));
       }
     }
 

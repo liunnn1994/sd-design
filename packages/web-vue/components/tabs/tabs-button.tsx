@@ -1,12 +1,14 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent } from 'vue';
+
+import type { Direction } from '../_utils/constant';
+
 import IconHover from '../_components/icon-hover.vue';
+import { getPrefixCls } from '../_utils/global-config';
+import IconDown from '../icon/icon-down';
 import IconLeft from '../icon/icon-left';
 import IconRight from '../icon/icon-right';
 import IconUp from '../icon/icon-up';
-import IconDown from '../icon/icon-down';
-import type { Direction } from '../_utils/constant';
-import { getPrefixCls } from '../_utils/global-config';
 
 type ButtonTypes = 'previous' | 'next';
 
@@ -56,14 +58,10 @@ export default defineComponent({
       prefixCls,
       {
         [`${prefixCls}-disabled`]: props.disabled,
-        [`${prefixCls}-left`]:
-          props.direction === 'horizontal' && props.type === 'previous',
-        [`${prefixCls}-right`]:
-          props.direction === 'horizontal' && props.type === 'next',
-        [`${prefixCls}-up`]:
-          props.direction === 'vertical' && props.type === 'previous',
-        [`${prefixCls}-down`]:
-          props.direction === 'vertical' && props.type === 'next',
+        [`${prefixCls}-left`]: props.direction === 'horizontal' && props.type === 'previous',
+        [`${prefixCls}-right`]: props.direction === 'horizontal' && props.type === 'next',
+        [`${prefixCls}-up`]: props.direction === 'vertical' && props.type === 'previous',
+        [`${prefixCls}-down`]: props.direction === 'vertical' && props.type === 'next',
       },
     ]);
 

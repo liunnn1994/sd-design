@@ -26,30 +26,24 @@ The position of the tab bar can be customized through the `position` property.
       <a-radio value="left">Left</a-radio>
     </a-radio-group>
     <a-tabs :position="position">
-      <a-tab-pane key="1" title="Tab 1">
-        Content of Tab Panel 1
-      </a-tab-pane>
-      <a-tab-pane key="2" title="Tab 2">
-        Content of Tab Panel 2
-      </a-tab-pane>
-      <a-tab-pane key="3" title="Tab 3">
-        Content of Tab Panel 3
-      </a-tab-pane>
+      <a-tab-pane key="1" title="Tab 1"> Content of Tab Panel 1 </a-tab-pane>
+      <a-tab-pane key="2" title="Tab 2"> Content of Tab Panel 2 </a-tab-pane>
+      <a-tab-pane key="3" title="Tab 3"> Content of Tab Panel 3 </a-tab-pane>
     </a-tabs>
   </a-space>
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const position = ref('top');
+  export default {
+    setup() {
+      const position = ref('top');
 
-    return {
-      position
-    }
-  },
-}
+      return {
+        position,
+      };
+    },
+  };
 </script>
 ```

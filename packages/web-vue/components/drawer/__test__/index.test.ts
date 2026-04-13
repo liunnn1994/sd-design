@@ -1,5 +1,6 @@
-import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
+import { nextTick } from 'vue';
+
 import Drawer from '../drawer.vue';
 
 describe('Drawer', () => {

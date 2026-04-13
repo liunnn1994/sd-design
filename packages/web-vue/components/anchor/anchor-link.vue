@@ -10,53 +10,54 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, onMounted, ref } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import { anchorInjectionKey } from './context';
+  import { computed, defineComponent, inject, onMounted, ref } from 'vue';
 
-export default defineComponent({
-  name: 'AnchorLink',
-  props: {
-    /**
-     * @zh 锚点链接的文本内容
-     * @en The text content of the anchor link
-     */
-    title: String,
-    /**
-     * @zh 锚点链接的地址
-     * @en The address of the anchor link
-     */
-    href: String,
-  },
-  setup(props) {
-    const prefixCls = getPrefixCls('anchor');
-    const linkCls = `${prefixCls}-link`;
-    const linkRef = ref<HTMLElement>();
+  import { getPrefixCls } from '../_utils/global-config';
+  import { anchorInjectionKey } from './context';
 
-    const context = inject(anchorInjectionKey, undefined);
+  export default defineComponent({
+    name: 'AnchorLink',
+    props: {
+      /**
+       * @zh 锚点链接的文本内容
+       * @en The text content of the anchor link
+       */
+      title: String,
+      /**
+       * @zh 锚点链接的地址
+       * @en The address of the anchor link
+       */
+      href: String,
+    },
+    setup(props) {
+      const prefixCls = getPrefixCls('anchor');
+      const linkCls = `${prefixCls}-link`;
+      const linkRef = ref<HTMLElement>();
 
-    onMounted(() => {
-      if (props.href && linkRef.value) {
-        context?.addLink(props.href, linkRef.value);
-      }
-    });
+      const context = inject(anchorInjectionKey, undefined);
 
-    const cls = computed(() => [
-      `${linkCls}-item`,
-      {
-        [`${linkCls}-active`]: context?.currentLink === props.href,
-      },
-    ]);
+      onMounted(() => {
+        if (props.href && linkRef.value) {
+          context?.addLink(props.href, linkRef.value);
+        }
+      });
 
-    const handleClick = (e: MouseEvent) => context?.handleClick(e, props.href);
+      const cls = computed(() => [
+        `${linkCls}-item`,
+        {
+          [`${linkCls}-active`]: context?.currentLink === props.href,
+        },
+      ]);
 
-    return {
-      prefixCls,
-      linkCls,
-      cls,
-      linkRef,
-      handleClick,
-    };
-  },
-});
+      const handleClick = (e: MouseEvent) => context?.handleClick(e, props.href);
+
+      return {
+        prefixCls,
+        linkCls,
+        cls,
+        linkRef,
+        handleClick,
+      };
+    },
+  });
 </script>

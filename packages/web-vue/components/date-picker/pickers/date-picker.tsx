@@ -1,4 +1,5 @@
 import { defineComponent, PropType } from 'vue';
+
 import { TimePickerProps } from '../../time-picker/interface';
 import { DisabledTimeProps, WeekStart } from '../interface';
 import Picker from '../picker.vue';
@@ -25,9 +26,7 @@ export default defineComponent({
      * @en Display the format of the date, refer to [String Parsing Format](#string-parsing-format)
      */
     format: {
-      type: [String, Function] as PropType<
-        string | ((current: Date) => string)
-      >,
+      type: [String, Function] as PropType<string | ((current: Date) => string)>,
     },
     /**
      * @zh 每周的第一天开始于周几，0 - 周日，1 - 周一，以此类推。

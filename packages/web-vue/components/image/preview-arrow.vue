@@ -35,30 +35,31 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import IconLeft from '../icon/icon-left';
-import IconRight from '../icon/icon-right';
+  import { defineComponent } from 'vue';
 
-export default defineComponent({
-  name: 'ImagePreviewArrow',
-  components: {
-    IconLeft,
-    IconRight,
-  },
-  props: {
-    onPrev: {
-      type: Function,
+  import { getPrefixCls } from '../_utils/global-config';
+  import IconLeft from '../icon/icon-left';
+  import IconRight from '../icon/icon-right';
+
+  export default defineComponent({
+    name: 'ImagePreviewArrow',
+    components: {
+      IconLeft,
+      IconRight,
     },
-    onNext: {
-      type: Function,
+    props: {
+      onPrev: {
+        type: Function,
+      },
+      onNext: {
+        type: Function,
+      },
     },
-  },
-  setup() {
-    const prefixCls = getPrefixCls('image-preview-arrow');
-    return {
-      prefixCls,
-    };
-  },
-});
+    setup() {
+      const prefixCls = getPrefixCls('image-preview-arrow');
+      return {
+        prefixCls,
+      };
+    },
+  });
 </script>

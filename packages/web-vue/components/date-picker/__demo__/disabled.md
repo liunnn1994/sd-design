@@ -18,11 +18,7 @@ Disabled.
 
 ```vue
 <template>
-  <a-date-picker
-    defaultValue="2020-08-08"
-    disabled
-    style="width: 200px; margin-bottom: 20px;"
-  />
+  <a-date-picker defaultValue="2020-08-08" disabled style="width: 200px; margin-bottom: 20px;" />
   <br />
   <a-range-picker
     :defaultValue="['2020-08-08', '2020-08-18']"
@@ -45,13 +41,13 @@ Disabled.
   />
 </template>
 <script>
-import dayjs from 'dayjs';
-export default {
-  setup() {
-    return {
-      dayjs
-    };
-  }
-}
+  import dayjs from 'dayjs';
+  export default {
+    setup() {
+      return {
+        dayjs,
+      };
+    },
+  };
 </script>
 ```

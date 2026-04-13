@@ -1,12 +1,14 @@
 import { defineComponent, PropType, ref, toRefs } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import IconHover from '../_components/icon-hover.vue';
-import IconSearch from '../icon/icon-search';
-import IconLoading from '../icon/icon-loading';
-import Button, { ButtonProps } from '../button';
-import Input from './input';
+
 import type { Size } from '../_utils/constant';
+
+import IconHover from '../_components/icon-hover.vue';
 import { useSize } from '../_hooks/use-size';
+import { getPrefixCls } from '../_utils/global-config';
+import Button, { ButtonProps } from '../button';
+import IconLoading from '../icon/icon-loading';
+import IconSearch from '../icon/icon-search';
+import Input from './input';
 
 export default defineComponent({
   name: 'InputSearch',
@@ -105,8 +107,7 @@ export default defineComponent({
       if (props.buttonText || slots['button-default'] || slots['button-icon']) {
         _slots = {
           default:
-            slots['button-default'] ??
-            (props.buttonText ? () => props.buttonText : undefined),
+            slots['button-default'] ?? (props.buttonText ? () => props.buttonText : undefined),
           icon: slots['button-icon'],
         };
       } else {

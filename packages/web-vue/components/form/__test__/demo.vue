@@ -24,27 +24,28 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import Form from '../index';
-import Input from '../../input';
+  import { defineComponent } from 'vue';
 
-const FormItem = Form.Item;
+  import Input from '../../input';
+  import Form from '../index';
 
-export default defineComponent({
-  name: 'BasicDemo',
-  components: {
-    AForm: Form,
-    AFormItem: FormItem,
-    AInput: Input,
-  },
-  data() {
-    return {
-      form: {
-        name: '',
-        post: '',
-      },
-    };
-  },
-  methods: {},
-});
+  const FormItem = Form.Item;
+
+  export default defineComponent({
+    name: 'BasicDemo',
+    components: {
+      AForm: Form,
+      AFormItem: FormItem,
+      AInput: Input,
+    },
+    data() {
+      return {
+        form: {
+          name: '',
+          post: '',
+        },
+      };
+    },
+    methods: {},
+  });
 </script>

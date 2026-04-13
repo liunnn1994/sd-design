@@ -1,4 +1,5 @@
 import { defineComponent } from 'vue';
+
 import { isServerRendering } from '../_utils/dom';
 import Icon from './icon.vue';
 
@@ -30,11 +31,7 @@ export const addFromIconFontCn = (options: IconFontOptions) => {
     },
     setup(props, { slots }) {
       return () => {
-        const children = props.type ? (
-          <use xlinkHref={`#${props.type}`} />
-        ) : (
-          slots.default?.()
-        );
+        const children = props.type ? <use xlinkHref={`#${props.type}`} /> : slots.default?.();
 
         return (
           <Icon {...props} {...extraProps}>

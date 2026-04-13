@@ -1,16 +1,10 @@
 import { CSSProperties, RenderFunction, Slots, VNodeChild } from 'vue';
+
 import { BaseType, ClassName, Data } from '../_utils/types';
 import { TriggerProps } from '../trigger';
 
-export const TABLE_PAGE_POSITION = [
-  'tl',
-  'top',
-  'tr',
-  'bl',
-  'bottom',
-  'br',
-] as const;
-export type TablePagePosition = typeof TABLE_PAGE_POSITION[number];
+export const TABLE_PAGE_POSITION = ['tl', 'top', 'tr', 'bl', 'bottom', 'br'] as const;
+export type TablePagePosition = (typeof TABLE_PAGE_POSITION)[number];
 
 export interface TableData {
   /**
@@ -67,7 +61,7 @@ export interface TableSortable {
     | ((
         a: TableData,
         b: TableData,
-        extra: { dataIndex: string; direction: 'ascend' | 'descend' }
+        extra: { dataIndex: string; direction: 'ascend' | 'descend' },
       ) => number)
     | boolean;
   /**
@@ -260,11 +254,7 @@ export interface TableColumnData {
    * @zh 自定义列单元格的渲染
    * @en Customize the rendering of column cells
    */
-  render?: (data: {
-    record: TableData;
-    column: TableColumnData;
-    rowIndex: number;
-  }) => VNodeChild;
+  render?: (data: { record: TableData; column: TableColumnData; rowIndex: number }) => VNodeChild;
   /**
    * @zh 设置当前列的渲染插槽的名字。插槽参数同 #cell
    * @en Sets the name of the render slot for the current column. Slot parameters are the same as #cell
@@ -430,11 +420,7 @@ export interface TableDraggable {
   fixed?: boolean;
 }
 
-export type OperationName =
-  | 'selection-checkbox'
-  | 'selection-radio'
-  | 'expand'
-  | 'drag-handle';
+export type OperationName = 'selection-checkbox' | 'selection-radio' | 'expand' | 'drag-handle';
 
 export interface TableOperationColumn {
   name: OperationName | string;

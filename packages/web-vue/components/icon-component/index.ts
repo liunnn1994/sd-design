@@ -1,8 +1,10 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Icon from './icon.vue';
 import { addFromIconFontCn } from './add-from-icon-font-cn';
+import _Icon from './icon.vue';
 
 const Icon = Object.assign(_Icon, {
   addFromIconFontCn,

@@ -9,11 +9,7 @@ import {
   provide,
   reactive,
 } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import CarouselIndicator from './carousel-indicator.vue';
-import CarouselArrow from './carousel-arrow.vue';
-import { carouselInjectionKey } from './context';
-import { isNumber, isObject } from '../_utils/is';
+
 import type {
   CarouselArrowType,
   CarouselAutoPlayConfig,
@@ -21,8 +17,14 @@ import type {
   CarouselIndicatorType,
   CarouselTriggerEvent,
 } from './interface';
-import { Direction } from '../_utils/constant';
+
 import { useChildrenComponents } from '../_hooks/use-children-components';
+import { Direction } from '../_utils/constant';
+import { getPrefixCls } from '../_utils/global-config';
+import { isNumber, isObject } from '../_utils/is';
+import CarouselArrow from './carousel-arrow.vue';
+import CarouselIndicator from './carousel-indicator.vue';
+import { carouselInjectionKey } from './context';
 
 const DEFAULT_AUTO_PLAY = {
   interval: 3000,
@@ -160,11 +162,10 @@ export default defineComponent({
      * @param {number} prevIndex
      * @param {boolean} isManual
      */
-    'change': (index: number, prevIndex: number, isManual: boolean) => true,
+    change: (index: number, prevIndex: number, isManual: boolean) => true,
   },
   setup(props, { emit, slots }) {
-    const { current, animationName, moveSpeed, transitionTimingFunction } =
-      toRefs(props);
+    const { current, animationName, moveSpeed, transitionTimingFunction } = toRefs(props);
     const prefixCls = getPrefixCls('carousel');
 
     const isPause = ref(false);
@@ -219,8 +220,7 @@ export default defineComponent({
     watchEffect(() => {
       const { interval } = computedAutoPlay.value || {};
       const { mergedNextIndex } = mergedIndexes.value;
-      const shouldInterval =
-        components.value?.length > 1 && !isPause.value && Boolean(interval);
+      const shouldInterval = components.value?.length > 1 && !isPause.value && Boolean(interval);
       clearTimer();
       if (shouldInterval) {
         intervalTimer = window.setInterval(() => {
@@ -298,10 +298,7 @@ export default defineComponent({
     });
 
     const cls = computed(() => {
-      return [
-        prefixCls,
-        `${prefixCls}-indicator-position-${props.indicatorPosition}`,
-      ];
+      return [prefixCls, `${prefixCls}-indicator-position-${props.indicatorPosition}`];
     });
 
     const contentCls = computed(() => {

@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Grid from '../index';
 
 const { Row, Col } = Grid;

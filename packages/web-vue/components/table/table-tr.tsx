@@ -1,4 +1,5 @@
 import { computed, defineComponent, createVNode, PropType } from 'vue';
+
 import { getPrefixCls } from '../_utils/global-config';
 import { TableDataWithRaw } from './interface';
 
@@ -41,7 +42,7 @@ export default defineComponent({
         { class: cls.value },
         {
           default: slots.default,
-        }
+        },
       );
     };
   },

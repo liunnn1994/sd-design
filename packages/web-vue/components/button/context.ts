@@ -1,4 +1,5 @@
 import { InjectionKey } from 'vue';
+
 import { Size, Status } from '../_utils/constant';
 import { ButtonTypes } from './constants';
 
@@ -10,5 +11,4 @@ export interface ButtonGroupContext {
   shape: 'square' | 'round' | 'circle' | undefined;
 }
 
-export const buttonGroupInjectionKey: InjectionKey<ButtonGroupContext> =
-  Symbol('SDButtonGroup');
+export const buttonGroupInjectionKey: InjectionKey<ButtonGroupContext> = Symbol('SDButtonGroup');

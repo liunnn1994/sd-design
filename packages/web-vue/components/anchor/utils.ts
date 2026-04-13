@@ -1,5 +1,6 @@
 // @ts-ignore
 import BTween from 'b-tween';
+
 import { isFunction } from '../_utils/is';
 
 export function slide(el: HTMLElement, top: number, cb: () => void): void {

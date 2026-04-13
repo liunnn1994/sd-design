@@ -14,14 +14,14 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const trigger = ref('click');
-    return {
-      trigger,
-    };
-  },
-};
+  export default {
+    setup() {
+      const trigger = ref('click');
+      return {
+        trigger,
+      };
+    },
+  };
 </script>

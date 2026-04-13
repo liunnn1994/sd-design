@@ -5,14 +5,15 @@
       key: 'value',
       title: 'label',
       children: 'items',
-      icon: 'customIcon'
+      icon: 'customIcon',
     }"
     :data="treeData"
   />
 </template>
 <script>
   import { h } from 'vue';
-  import { IconStar, IconDriveFile } from '@sd-design/web-vue/es/icon';
+
+  import { IconStar, IconDriveFile } from '@sdata/web-vue/es/icon';
   export default {
     data() {
       return {
@@ -43,13 +44,13 @@
                     {
                       label: 'Leaf',
                       customIcon: () => h(IconStar),
-                      value: '0-0-2-1-0-0'
-                    }
-                  ]
+                      value: '0-0-2-1-0-0',
+                    },
+                  ],
                 },
               ],
-            }
-          ]
+            },
+          ],
         },
       ],
     },
@@ -64,8 +65,8 @@
             {
               label: 'Leaf',
               value: '0-1-1-0',
-            }
-          ]
+            },
+          ],
         },
       ],
     },

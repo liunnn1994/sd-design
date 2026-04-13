@@ -18,66 +18,71 @@ The first submenu can be expanded on selection by setting `expand-child`
 
 ```vue
 <template>
-  <a-cascader :options="options" :style="{width:'320px'}" placeholder="Please select ..." expand-child/>
+  <a-cascader
+    :options="options"
+    :style="{ width: '320px' }"
+    placeholder="Please select ..."
+    expand-child
+  />
 </template>
 
 <script>
-export default {
-  setup() {
-    const options = [
-      {
-        value: 'beijing',
-        label: 'Beijing',
-        children: [
-          {
-            value: 'chaoyang',
-            label: 'ChaoYang',
-            children: [
-              {
-                value: 'datunli',
-                label: 'Datunli',
-              },
-            ],
-          },
-          {
-            value: 'haidian',
-            label: 'Haidian',
-          },
-          {
-            value: 'dongcheng',
-            label: 'Dongcheng',
-          },
-          {
-            value: 'xicheng',
-            label: 'Xicheng',
-            children: [
-              {
-                value: 'jinrongjie',
-                label: 'Jinrongjie',
-              },
-              {
-                value: 'tianqiao',
-                label: 'Tianqiao',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        value: 'shanghai',
-        label: 'Shanghai',
-        children: [
-          {
-            value: 'huangpu',
-            label: 'Huangpu',
-          },
-        ],
-      },
-    ];
-    return {
-      options
-    }
-  },
-}
+  export default {
+    setup() {
+      const options = [
+        {
+          value: 'beijing',
+          label: 'Beijing',
+          children: [
+            {
+              value: 'chaoyang',
+              label: 'ChaoYang',
+              children: [
+                {
+                  value: 'datunli',
+                  label: 'Datunli',
+                },
+              ],
+            },
+            {
+              value: 'haidian',
+              label: 'Haidian',
+            },
+            {
+              value: 'dongcheng',
+              label: 'Dongcheng',
+            },
+            {
+              value: 'xicheng',
+              label: 'Xicheng',
+              children: [
+                {
+                  value: 'jinrongjie',
+                  label: 'Jinrongjie',
+                },
+                {
+                  value: 'tianqiao',
+                  label: 'Tianqiao',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          value: 'shanghai',
+          label: 'Shanghai',
+          children: [
+            {
+              value: 'huangpu',
+              label: 'Huangpu',
+            },
+          ],
+        },
+      ];
+      return {
+        options,
+      };
+    },
+  };
 </script>
 ```

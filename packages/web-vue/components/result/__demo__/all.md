@@ -38,12 +38,12 @@ All features
 </template>
 
 <script>
-import { IconFaceFrownFill } from '@sd-design/web-vue/es/icon';
+  import { IconFaceFrownFill } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: {
-    IconFaceFrownFill
-  },
-}
+  export default {
+    components: {
+      IconFaceFrownFill,
+    },
+  };
 </script>
 ```

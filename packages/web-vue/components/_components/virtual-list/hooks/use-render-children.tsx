@@ -1,4 +1,5 @@
 import { toRefs, VNode, cloneVNode, watch } from 'vue';
+
 import { ItemSlot, InternalDataItem, VirtualItemKey } from '../interface';
 
 const findElement = (node: any) => {
@@ -17,7 +18,7 @@ export function useRenderChildren(
   },
   events: {
     onItemResize?: (height: HTMLElement, key: VirtualItemKey) => void;
-  } = {}
+  } = {},
 ) {
   const { internalData, visibleData, itemRender } = toRefs(props);
   const itemRenderCache: Map<VirtualItemKey, VNode> = new Map();
@@ -47,7 +48,7 @@ export function useRenderChildren(
             onVnodeUpdated() {
               resizeHandler();
             },
-          })
+          }),
         );
       }
       return itemRenderCache.get(key);

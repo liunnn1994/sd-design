@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import ResizeBox from '..';
 
 describe('ResizeBox', () => {
@@ -88,9 +89,7 @@ describe('ResizeBox', () => {
     map.mousemove({ pageX: 0, pageY: endPos });
     expect(wrapper.emitted('update:height')[0][0]).toEqual(result);
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.element.getAttribute('style')).toContain(
-        `height: ${result}px`
-      );
+      expect(wrapper.element.getAttribute('style')).toContain(`height: ${result}px`);
       done();
     });
   });
@@ -120,9 +119,7 @@ describe('ResizeBox', () => {
     map.mousemove({ pageX: endPos, pageY: 0 });
     expect(wrapper.emitted('update:width')[0][0]).toEqual(result);
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.element.getAttribute('style')).toContain(
-        `width: ${result}px`
-      );
+      expect(wrapper.element.getAttribute('style')).toContain(`width: ${result}px`);
       done();
     });
   });
@@ -152,9 +149,7 @@ describe('ResizeBox', () => {
     map.mousemove({ pageX: 0, pageY: endPos });
     expect(wrapper.emitted('update:height')[0][0]).toEqual(result);
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.element.getAttribute('style')).toContain(
-        `height: ${result}px`
-      );
+      expect(wrapper.element.getAttribute('style')).toContain(`height: ${result}px`);
       done();
     });
   });
@@ -184,9 +179,7 @@ describe('ResizeBox', () => {
     map.mousemove({ pageX: endPos, pageY: 0 });
     expect(wrapper.emitted('update:width')[0][0]).toEqual(result);
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.element.getAttribute('style')).toContain(
-        `width: ${result}px`
-      );
+      expect(wrapper.element.getAttribute('style')).toContain(`width: ${result}px`);
       done();
     });
   });
@@ -196,9 +189,7 @@ describe('ResizeBox', () => {
     const trigger = wrapper.findComponent({ name: 'ResizeTrigger' });
     trigger.vm.$emit('resize', { contentRect: { width: 100 } });
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.element.getAttribute('style')).toContain(
-        'padding-right: 100px'
-      );
+      expect(wrapper.element.getAttribute('style')).toContain('padding-right: 100px');
       done();
     });
   });

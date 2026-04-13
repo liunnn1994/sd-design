@@ -40,12 +40,8 @@ The `actions` slot can be used to display the bottom button group.
     </template>
     <a-card-meta title="Card Title" description="This is the description">
       <template #avatar>
-        <div
-          :style="{ display: 'flex', alignItems: 'center', color: '#1D2129' }"
-        >
-          <a-avatar :size="24" :style="{ marginRight: '8px' }">
-            A
-          </a-avatar>
+        <div :style="{ display: 'flex', alignItems: 'center', color: '#1D2129' }">
+          <a-avatar :size="24" :style="{ marginRight: '8px' }"> A </a-avatar>
           <a-typography-text>Username</a-typography-text>
         </div>
       </template>
@@ -54,28 +50,24 @@ The `actions` slot can be used to display the bottom button group.
 </template>
 
 <script>
-import {
-  IconThumbUp,
-  IconShareInternal,
-  IconMore,
-} from '@sd-design/web-vue/es/icon';
+  import { IconThumbUp, IconShareInternal, IconMore } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: { IconThumbUp, IconShareInternal, IconMore },
-};
+  export default {
+    components: { IconThumbUp, IconShareInternal, IconMore },
+  };
 </script>
 <style scoped>
-.icon-hover {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  transition: all 0.1s;
-}
-.icon-hover:hover {
-  background-color: rgb(var(--gray-2));
-}
+  .icon-hover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    transition: all 0.1s;
+  }
+  .icon-hover:hover {
+    background-color: rgb(var(--gray-2));
+  }
 </style>
 ```

@@ -60,7 +60,9 @@
   }
 
   .@{picker-prefix-cls}-row-week:hover
-    .@{picker-prefix-cls}-cell:not(.@{picker-prefix-cls}-cell-week):not(.@{picker-prefix-cls}-cell-selected):not(.@{picker-prefix-cls}-cell-range-start):not(.@{picker-prefix-cls}-cell-range-end) {
+    .@{picker-prefix-cls}-cell:not(.@{picker-prefix-cls}-cell-week):not(
+      .@{picker-prefix-cls}-cell-selected
+    ):not(.@{picker-prefix-cls}-cell-range-start):not(.@{picker-prefix-cls}-cell-range-end) {
     .@{picker-prefix-cls}-date-value {
       background-color: @picker-panel-color-bg-cell_hover;
     }

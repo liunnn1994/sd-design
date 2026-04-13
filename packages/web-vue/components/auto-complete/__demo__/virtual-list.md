@@ -28,21 +28,21 @@ How to use the virtual list.
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      data: [],
-    };
-  },
-  methods: {
-    handleSearch(value) {
-      if (value) {
-        this.data = [...Array(5000)].map((_, index) => `${value}-${index}`);
-      } else {
-        this.data = [];
-      }
+  export default {
+    data() {
+      return {
+        data: [],
+      };
     },
-  },
-};
+    methods: {
+      handleSearch(value) {
+        if (value) {
+          this.data = [...Array(5000)].map((_, index) => `${value}-${index}`);
+        } else {
+          this.data = [];
+        }
+      },
+    },
+  };
 </script>
 ```

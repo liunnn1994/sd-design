@@ -9,26 +9,27 @@
   </span>
 </template>
 <script>
-import { defineComponent, toRef } from 'vue';
-import useMenuContext from './hooks/use-menu-context';
-import { getPrefixCls } from '../_utils/global-config';
+  import { defineComponent, toRef } from 'vue';
 
-export default defineComponent({
-  name: 'MenuIndent',
-  props: {
-    level: {
-      type: Number,
-      default: 1,
+  import { getPrefixCls } from '../_utils/global-config';
+  import useMenuContext from './hooks/use-menu-context';
+
+  export default defineComponent({
+    name: 'MenuIndent',
+    props: {
+      level: {
+        type: Number,
+        default: 1,
+      },
     },
-  },
-  setup() {
-    const prefixCls = getPrefixCls('menu');
-    const menuContext = useMenuContext();
+    setup() {
+      const prefixCls = getPrefixCls('menu');
+      const menuContext = useMenuContext();
 
-    return {
-      prefixCls,
-      levelIndent: toRef(menuContext, 'levelIndent'),
-    };
-  },
-});
+      return {
+        prefixCls,
+        levelIndent: toRef(menuContext, 'levelIndent'),
+      };
+    },
+  });
 </script>

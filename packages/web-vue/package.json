@@ -1,5 +1,5 @@
 {
-  "name": "@sd-design/web-vue",
+  "name": "@sdata/web-vue",
   "version": "0.0.0",
   "description": "SD Design Vue: A Vue.js 3 UI Library",
   "keywords": [
@@ -45,7 +45,6 @@
     "test": "sd-vue-scripts test --coverage",
     "test:update": "sd-vue-scripts test --coverage -u",
     "test:screenshot": "sd-vue-scripts test:screenshot -o ./__screenshots__/",
-    "changelog": "sd-vue-scripts changelog",
     "lint-staged": "npx lint-staged"
   },
   "dependencies": {
@@ -67,6 +66,9 @@
     "@babel/preset-env": "^7.29.2",
     "@babel/preset-typescript": "^7.28.5",
     "@sd-design/sd-vue-scripts": "workspace:*",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/github": "^12.0.6",
+    "@semantic-release/release-notes-generator": "^14.1.0",
     "@types/jest": "^30.0.0",
     "@typescript-eslint/eslint-plugin": "^8.58.1",
     "@typescript-eslint/parser": "^8.58.1",
@@ -81,6 +83,7 @@
     "eslint-plugin-vue": "^10.8.0",
     "jest": "^30.3.0",
     "prettier": "^3.8.2",
+    "semantic-release": "^25.0.3",
     "stylelint": "^17.7.0",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-rational-order": "^0.1.2",

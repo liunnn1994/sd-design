@@ -1,6 +1,6 @@
 ---
-title: "radio"
-outline: "deep"
+title: 'radio'
+outline: 'deep'
 ---
 
 ```yaml
@@ -11,74 +11,62 @@ title: 单选框 Radio
 description: 在一组相关且互斥数据中，用户仅能选择一个选项。
 ```
 
-
-
-
-
-
-
-
-
-
 ## API
-
 
 ### `<radio>` Props
 
-|参数名|描述|类型|默认值|
-|---|---|---|:---:|
-|model-value **(v-model)**|绑定值|`string \| number \| boolean`|`-`|
-|default-checked|默认是否选中（非受控状态）|`boolean`|`false`|
-|value|选项的 `value`|`string \| number \| boolean`|`true`|
-|type|单选的类型|`'radio' \| 'button'`|`'radio'`|
-|disabled|是否禁用|`boolean`|`false`|
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| model-value **(v-model)** | 绑定值 | `string \| number \| boolean` | `-` |
+| default-checked | 默认是否选中（非受控状态） | `boolean` | `false` |
+| value | 选项的 `value` | `string \| number \| boolean` | `true` |
+| type | 单选的类型 | `'radio' \| 'button'` | `'radio'` |
+| disabled | 是否禁用 | `boolean` | `false` |
+
 ### `<radio>` Events
 
-|事件名|描述|参数|
-|---|---|---|
-|change|值改变时触发|value: ` string \| number \| boolean `<br>ev: `Event`|
+| 事件名 | 描述         | 参数                                                |
+| ------ | ------------ | --------------------------------------------------- |
+| change | 值改变时触发 | value: `string \| number \| boolean`<br>ev: `Event` |
+
 ### `<radio>` Slots
 
-|插槽名|描述|参数|版本|
-|---|:---:|---|:---|
-|radio|自定义单选框|checked: `boolean`<br>disabled: `boolean`|2.18.0|
-
-
-
+| 插槽名 |     描述     | 参数                                      | 版本   |
+| ------ | :----------: | ----------------------------------------- | :----- |
+| radio  | 自定义单选框 | checked: `boolean`<br>disabled: `boolean` | 2.18.0 |
 
 ### `<radio-group>` Props
 
-|参数名|描述|类型|默认值|版本|
-|---|---|---|:---:|:---|
-|model-value **(v-model)**|绑定值|`string \| number \| boolean`|`-`||
-|default-value|默认值（非受控状态）|`string \| number \| boolean`|`''`||
-|type|单选框组的类型|`'radio' \| 'button'`|`'radio'`||
-|size|单选框组的尺寸|`'mini' \| 'small' \| 'medium' \| 'large'`|`-`||
-|options|选项|`Array<string \| number \| RadioOption>`|`-`|2.27.0|
-|direction|单选框组的方向|`'horizontal' \| 'vertical'`|`'horizontal'`||
-|disabled|是否禁用|`boolean`|`false`||
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| model-value **(v-model)** | 绑定值 | `string \| number \| boolean` | `-` |  |
+| default-value | 默认值（非受控状态） | `string \| number \| boolean` | `''` |  |
+| type | 单选框组的类型 | `'radio' \| 'button'` | `'radio'` |  |
+| size | 单选框组的尺寸 | `'mini' \| 'small' \| 'medium' \| 'large'` | `-` |  |
+| options | 选项 | `Array<string \| number \| RadioOption>` | `-` | 2.27.0 |
+| direction | 单选框组的方向 | `'horizontal' \| 'vertical'` | `'horizontal'` |  |
+| disabled | 是否禁用 | `boolean` | `false` |  |
+
 ### `<radio-group>` Events
 
-|事件名|描述|参数|
-|---|---|---|
-|change|值改变时触发|value: ` string \| number \| boolean `|
+| 事件名 | 描述         | 参数                                 |
+| ------ | ------------ | ------------------------------------ |
+| change | 值改变时触发 | value: `string \| number \| boolean` |
+
 ### `<radio-group>` Slots
 
-|插槽名|描述|参数|版本|
-|---|:---:|---|:---|
-|radio|自定义单选框|checked: `boolean`<br>disabled: `boolean`|2.27.0|
-|label|radio 文案内容|data: `RadioOption`|2.27.0|
-
-
-
+| 插槽名 |      描述      | 参数                                      | 版本   |
+| ------ | :------------: | ----------------------------------------- | :----- |
+| radio  |  自定义单选框  | checked: `boolean`<br>disabled: `boolean` | 2.27.0 |
+| label  | radio 文案内容 | data: `RadioOption`                       | 2.27.0 |
 
 ### RadioOption
 
-|参数名|描述|类型|默认值|
-|---|---|---|:---:|
-|label|文案|`RenderContent`|`-`|
-|value|选项的 `value`|`string \| number`|`-`|
-|disabled|是否禁用|`boolean`|`false`|
+| 参数名   | 描述           | 类型               | 默认值  |
+| -------- | -------------- | ------------------ | :-----: |
+| label    | 文案           | `RenderContent`    |   `-`   |
+| value    | 选项的 `value` | `string \| number` |   `-`   |
+| disabled | 是否禁用       | `boolean`          | `false` |
 
 <script setup lang="ts">
 import basicDemo from '../../.vitepress/theme/generated/radio/basic.vue';
@@ -121,75 +109,47 @@ const sizeDescription = "按钮类型的单选框组分为 `mini`、`small`、`m
 
 ## 示例
 
+<DemoBlock :title="basicTitle" :description="basicDescription" :code="basicSource"
 
-<DemoBlock
-  :title="basicTitle"
-  :description="basicDescription"
-  :code="basicSource"
->
-  <basicDemo />
-</DemoBlock>
+>   <basicDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="buttonTitle"
-  :description="buttonDescription"
-  :code="buttonSource"
->
-  <buttonDemo />
-</DemoBlock>
+<DemoBlock :title="buttonTitle" :description="buttonDescription" :code="buttonSource"
 
-<DemoBlock
-  :title="controlTitle"
-  :description="controlDescription"
-  :code="controlSource"
->
-  <controlDemo />
-</DemoBlock>
+>   <buttonDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="customTitle"
-  :description="customDescription"
-  :code="customSource"
->
-  <customDemo />
-</DemoBlock>
+<DemoBlock :title="controlTitle" :description="controlDescription" :code="controlSource"
 
-<DemoBlock
-  :title="directionTitle"
-  :description="directionDescription"
-  :code="directionSource"
->
-  <directionDemo />
-</DemoBlock>
+>   <controlDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="groupTitle"
-  :description="groupDescription"
-  :code="groupSource"
->
-  <groupDemo />
-</DemoBlock>
+<DemoBlock :title="customTitle" :description="customDescription" :code="customSource"
 
-<DemoBlock
-  :title="layoutTitle"
-  :description="layoutDescription"
-  :code="layoutSource"
->
-  <layoutDemo />
-</DemoBlock>
+>   <customDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="optionsTitle"
-  :description="optionsDescription"
-  :code="optionsSource"
->
-  <optionsDemo />
-</DemoBlock>
+<DemoBlock :title="directionTitle" :description="directionDescription" :code="directionSource"
 
-<DemoBlock
-  :title="sizeTitle"
-  :description="sizeDescription"
-  :code="sizeSource"
->
-  <sizeDemo />
-</DemoBlock>
+>   <directionDemo />
+> </DemoBlock>
+
+<DemoBlock :title="groupTitle" :description="groupDescription" :code="groupSource"
+
+>   <groupDemo />
+> </DemoBlock>
+
+<DemoBlock :title="layoutTitle" :description="layoutDescription" :code="layoutSource"
+
+>   <layoutDemo />
+> </DemoBlock>
+
+<DemoBlock :title="optionsTitle" :description="optionsDescription" :code="optionsSource"
+
+>   <optionsDemo />
+> </DemoBlock>
+
+<DemoBlock :title="sizeTitle" :description="sizeDescription" :code="sizeSource"
+
+>   <sizeDemo />
+> </DemoBlock>

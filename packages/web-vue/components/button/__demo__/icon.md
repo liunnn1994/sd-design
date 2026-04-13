@@ -35,10 +35,10 @@ Buttons can be embedded with icons. When only icons are set, the width and heigh
 </template>
 
 <script>
-import { IconPlus, IconDelete } from '@sd-design/web-vue/es/icon';
+  import { IconPlus, IconDelete } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: { IconPlus, IconDelete }
-};
+  export default {
+    components: { IconPlus, IconDelete },
+  };
 </script>
 ```

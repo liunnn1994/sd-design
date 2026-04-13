@@ -38,8 +38,7 @@ export interface ImagePreviewProps {
   onClose?: () => void;
 }
 
-export interface ImagePreviewGroupProps
-  extends Omit<ImagePreviewProps, 'src' | 'onClose'> {
+export interface ImagePreviewGroupProps extends Omit<ImagePreviewProps, 'src' | 'onClose'> {
   srcList?: string[];
   current?: number;
   defaultCurrent: number;

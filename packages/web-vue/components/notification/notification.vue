@@ -1,11 +1,7 @@
 <template>
   <li
     role="alert"
-    :class="[
-      prefixCls,
-      `${prefixCls}-${type}`,
-      { [`${prefixCls}-closable`]: closable },
-    ]"
+    :class="[prefixCls, `${prefixCls}-${type}`, { [`${prefixCls}-closable`]: closable }]"
   >
     <div v-if="showIcon" :class="`${prefixCls}-left`">
       <div :class="`${prefixCls}-icon`">
@@ -41,86 +37,87 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from 'vue';
-import { defineComponent, onMounted, onUnmounted, onUpdated } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import { MessageType } from '../_utils/constant';
-import AIconHover from '../_components/icon-hover.vue';
-import IconClose from '../icon/icon-close';
-import IconInfoCircleFill from '../icon/icon-info-circle-fill';
-import IconCheckCircleFill from '../icon/icon-check-circle-fill';
-import IconExclamationCircleFill from '../icon/icon-exclamation-circle-fill';
-import IconCloseCircleFill from '../icon/icon-close-circle-fill';
+  import type { PropType } from 'vue';
+  import { defineComponent, onMounted, onUnmounted, onUpdated } from 'vue';
 
-export default defineComponent({
-  name: 'Notification',
-  components: {
-    AIconHover,
-    IconInfoCircleFill,
-    IconCheckCircleFill,
-    IconExclamationCircleFill,
-    IconCloseCircleFill,
-    IconClose,
-  },
-  props: {
-    type: {
-      type: String as PropType<MessageType>,
-      default: 'info',
-    },
-    showIcon: {
-      type: Boolean,
-      default: true,
-    },
-    closable: {
-      type: Boolean,
-      default: false,
-    },
-    duration: {
-      type: Number,
-      default: 3000,
-    },
-    resetOnUpdate: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['close'],
-  setup(props, context) {
-    const prefixCls = getPrefixCls('notification');
-    let timer = 0;
+  import AIconHover from '../_components/icon-hover.vue';
+  import { MessageType } from '../_utils/constant';
+  import { getPrefixCls } from '../_utils/global-config';
+  import IconCheckCircleFill from '../icon/icon-check-circle-fill';
+  import IconClose from '../icon/icon-close';
+  import IconCloseCircleFill from '../icon/icon-close-circle-fill';
+  import IconExclamationCircleFill from '../icon/icon-exclamation-circle-fill';
+  import IconInfoCircleFill from '../icon/icon-info-circle-fill';
 
-    const handleClose = () => {
-      context.emit('close');
-    };
+  export default defineComponent({
+    name: 'Notification',
+    components: {
+      AIconHover,
+      IconInfoCircleFill,
+      IconCheckCircleFill,
+      IconExclamationCircleFill,
+      IconCloseCircleFill,
+      IconClose,
+    },
+    props: {
+      type: {
+        type: String as PropType<MessageType>,
+        default: 'info',
+      },
+      showIcon: {
+        type: Boolean,
+        default: true,
+      },
+      closable: {
+        type: Boolean,
+        default: false,
+      },
+      duration: {
+        type: Number,
+        default: 3000,
+      },
+      resetOnUpdate: {
+        type: Boolean,
+        default: false,
+      },
+    },
+    emits: ['close'],
+    setup(props, context) {
+      const prefixCls = getPrefixCls('notification');
+      let timer = 0;
 
-    onMounted(() => {
-      if (props.duration > 0) {
-        timer = window.setTimeout(handleClose, props.duration);
-      }
-    });
+      const handleClose = () => {
+        context.emit('close');
+      };
 
-    onUpdated(() => {
-      if (props.resetOnUpdate) {
-        if (timer) {
-          window.clearTimeout(timer);
-          timer = 0;
-        }
+      onMounted(() => {
         if (props.duration > 0) {
           timer = window.setTimeout(handleClose, props.duration);
         }
-      }
-    });
+      });
 
-    onUnmounted(() => {
-      if (timer) {
-        window.clearTimeout(timer);
-      }
-    });
+      onUpdated(() => {
+        if (props.resetOnUpdate) {
+          if (timer) {
+            window.clearTimeout(timer);
+            timer = 0;
+          }
+          if (props.duration > 0) {
+            timer = window.setTimeout(handleClose, props.duration);
+          }
+        }
+      });
 
-    return {
-      prefixCls,
-      handleClose,
-    };
-  },
-});
+      onUnmounted(() => {
+        if (timer) {
+          window.clearTimeout(timer);
+        }
+      });
+
+      return {
+        prefixCls,
+        handleClose,
+      };
+    },
+  });
 </script>

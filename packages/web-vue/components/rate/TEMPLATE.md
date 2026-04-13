@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 评分 Rate
 description: 用于评分或打星的组件。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,23 +19,24 @@ meta:
 title: Rate
 description: The component used for scoring or starring.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/half.md
+@import ./**demo**/half.md
 
-@import ./__demo__/color.md
+@import ./**demo**/color.md
 
-@import ./__demo__/readonly.md
+@import ./**demo**/readonly.md
 
-@import ./__demo__/clear.md
+@import ./**demo**/clear.md
 
-@import ./__demo__/character.md
+@import ./**demo**/character.md
 
-@import ./__demo__/count.md
+@import ./**demo**/count.md
 
-@import ./__demo__/grading.md
+@import ./**demo**/grading.md
 
 ## API
 

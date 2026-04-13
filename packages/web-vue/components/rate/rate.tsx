@@ -1,20 +1,14 @@
-import {
-  computed,
-  defineComponent,
-  PropType,
-  ref,
-  toRef,
-  toRefs,
-  watch,
-} from 'vue';
+import { computed, defineComponent, PropType, ref, toRef, toRefs, watch } from 'vue';
+
 import NP from 'number-precision';
-import IconStarFill from '../icon/icon-star-fill';
+
+import { useFormItem } from '../_hooks/use-form-item';
+import { getPrefixCls } from '../_utils/global-config';
+import { isNull, isObject, isString, isUndefined } from '../_utils/is';
+import IconFaceFrownFill from '../icon/icon-face-frown-fill';
 import IconFaceMehFill from '../icon/icon-face-meh-fill';
 import IconFaceSmileFill from '../icon/icon-face-smile-fill';
-import IconFaceFrownFill from '../icon/icon-face-frown-fill';
-import { getPrefixCls } from '../_utils/global-config';
-import { useFormItem } from '../_hooks/use-form-item';
-import { isNull, isObject, isString, isUndefined } from '../_utils/is';
+import IconStarFill from '../icon/icon-star-fill';
 
 export default defineComponent({
   name: 'Rate',
@@ -100,13 +94,13 @@ export default defineComponent({
      * @en Trigger when the value changes
      * @property {number} value
      */
-    'change': (value: number) => true,
+    change: (value: number) => true,
     /**
      * @zh 鼠标移动到数值上时触发
      * @en Triggered when the mouse moves over the value
      * @property {number} value
      */
-    'hoverChange': (value: number) => true,
+    hoverChange: (value: number) => true,
   },
   /**
    * @zh 符号
@@ -142,13 +136,9 @@ export default defineComponent({
       return hoverIndex.value || fixedValue;
     });
 
-    const mergedDisabled = computed(
-      () => _mergedDisabled.value || props.readonly
-    );
+    const mergedDisabled = computed(() => _mergedDisabled.value || props.readonly);
 
-    const indexArray = computed<undefined[]>(() => [
-      ...Array(props.grading ? 5 : props.count),
-    ]);
+    const indexArray = computed<undefined[]>(() => [...Array(props.grading ? 5 : props.count)]);
 
     const customColor = computed(() => {
       if (isString(props.color)) {
@@ -222,7 +212,7 @@ export default defineComponent({
 
     const getAriaProps = (index: number, isHalf = false) => {
       return {
-        'role': 'radio',
+        role: 'radio',
         'aria-checked': index + (isHalf ? 0.5 : 1) <= computedValue.value,
         'aria-setsize': indexArray.value.length,
         'aria-posinset': index + (isHalf ? 0.5 : 1),
@@ -254,16 +244,12 @@ export default defineComponent({
             onClick: () => handleClick(index, false),
           };
 
-      const style = animation.value
-        ? { animationDelay: `${50 * index}ms` }
-        : undefined;
+      const style = animation.value ? { animationDelay: `${50 * index}ms` } : undefined;
 
       const parseDisplayIndex = Math.ceil(displayIndex.value) - 1;
 
       const leftStyle =
-        customColor.value &&
-        props.allowHalf &&
-        index + 0.5 === displayIndex.value
+        customColor.value && props.allowHalf && index + 0.5 === displayIndex.value
           ? { color: customColor.value[parseDisplayIndex] }
           : undefined;
       const rightStyle =
@@ -274,11 +260,9 @@ export default defineComponent({
       const cls = [
         `${prefixCls}-character`,
         {
-          [`${prefixCls}-character-half`]:
-            props.allowHalf && index + 0.5 === displayIndex.value,
+          [`${prefixCls}-character-half`]: props.allowHalf && index + 0.5 === displayIndex.value,
           [`${prefixCls}-character-full`]: index + 1 <= displayIndex.value,
-          [`${prefixCls}-character-scale`]:
-            animation.value && index + 1 < computedValue.value,
+          [`${prefixCls}-character-scale`]: animation.value && index + 1 < computedValue.value,
         },
       ];
 

@@ -1,7 +1,8 @@
-import { InlineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import { InlineConfig } from 'vite';
 import svgLoader from 'vite-svg-loader';
+
 import external from '../plugins/vite-plugin-external';
 import vueExportHelper from '../plugins/vite-plugin-vue-export-helper';
 

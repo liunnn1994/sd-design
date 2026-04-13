@@ -1,8 +1,10 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Form from './form.vue';
 import _FormItem from './form-item.vue';
+import _Form from './form.vue';
 
 const Form = Object.assign(_Form, {
   Item: _FormItem,

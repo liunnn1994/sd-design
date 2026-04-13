@@ -9,16 +9,8 @@
       <a-col :span="12">
         <a-form-item label="gap">
           <a-input-group>
-            <a-input-number
-              v-model="form.gap[0]"
-              placeholder="gap[x]"
-              :min="0"
-            />
-            <a-input-number
-              v-model="form.gap[1]"
-              placeholder="gap[y]"
-              :min="0"
-            />
+            <a-input-number v-model="form.gap[0]" placeholder="gap[x]" :min="0" />
+            <a-input-number v-model="form.gap[1]" placeholder="gap[y]" :min="0" />
           </a-input-group>
         </a-form-item>
       </a-col>
@@ -57,17 +49,15 @@
       <a-typography-title :heading="5"> Design system </a-typography-title>
       <a-typography>
         <a-typography-paragraph>
-          A design is a plan or specification for the construction of an object
-          or system or for the implementation of an activity or process, or the
-          result of that plan or specification in the form of a prototype,
-          product or process. The verb to design expresses the process of
+          A design is a plan or specification for the construction of an object or system or for the
+          implementation of an activity or process, or the result of that plan or specification in
+          the form of a prototype, product or process. The verb to design expresses the process of
           developing a design.
         </a-typography-paragraph>
         <a-typography-paragraph>
-          A design is a plan or specification for the construction of an object
-          or system or for the implementation of an activity or process, or the
-          result of that plan or specification in the form of a prototype,
-          product or process. The verb to design expresses the process of
+          A design is a plan or specification for the construction of an object or system or for the
+          implementation of an activity or process, or the result of that plan or specification in
+          the form of a prototype, product or process. The verb to design expresses the process of
           developing a design.
         </a-typography-paragraph>
       </a-typography>
@@ -80,22 +70,22 @@
 </template>
 
 <script>
-import { reactive } from 'vue';
+  import { reactive } from 'vue';
 
-export default {
-  setup() {
-    const form = reactive({
-      rotate: 0,
-      gap: [50, 50],
-      offset: [],
-      font: { fontSize: 16 },
-      zIndex: 6,
-      repeat: true,
-      staggered: true,
-    });
-    return {
-      form,
-    };
-  },
-};
+  export default {
+    setup() {
+      const form = reactive({
+        rotate: 0,
+        gap: [50, 50],
+        offset: [],
+        font: { fontSize: 16 },
+        zIndex: 6,
+        repeat: true,
+        staggered: true,
+      });
+      return {
+        form,
+      };
+    },
+  };
 </script>

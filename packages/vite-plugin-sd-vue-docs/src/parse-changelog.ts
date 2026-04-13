@@ -1,4 +1,5 @@
 import { Token } from 'marked';
+
 import marked from './marked';
 
 const getType = (text: string) => {

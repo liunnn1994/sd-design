@@ -19,7 +19,11 @@
     border-radius: @picker-panel-cell-boundary-border-radius;
   }
 
-  .@{prefix}-picker-cell:not(.@{prefix}-picker-cell-selected):not(.@{prefix}-picker-cell-range-start):not(.@{prefix}-picker-cell-range-end):not(.@{prefix}-picker-cell-disabled):not(.@{prefix}-picker-cell-week)
+  .@{prefix}-picker-cell:not(.@{prefix}-picker-cell-selected):not(
+      .@{prefix}-picker-cell-range-start
+    ):not(.@{prefix}-picker-cell-range-end):not(.@{prefix}-picker-cell-disabled):not(
+      .@{prefix}-picker-cell-week
+    )
     .@{prefix}-picker-date-value:hover {
     border-radius: @picker-panel-cell-boundary-border-radius;
   }

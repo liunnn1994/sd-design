@@ -37,8 +37,7 @@
 // 节点的样式
 .@{timeline-prefix-cls}-item {
   &&-last {
-    > .@{timeline-prefix-cls}-item-dot-wrapper
-      .@{timeline-prefix-cls}-item-dot-line {
+    > .@{timeline-prefix-cls}-item-dot-wrapper .@{timeline-prefix-cls}-item-dot-line {
       display: none;
     }
   }
@@ -96,10 +95,12 @@
   &-dot-line {
     // bottom: -7px;
     position: absolute;
-    top: 1.5715 * (@timeline-font-content-size / 2) +
-      (@timeline-dot-size-width / 2) + @timeline-vertical-margin-line-top;
-    bottom: -(1.5715 * (@timeline-font-content-size / 2) -
-          (@timeline-dot-size-width / 2) - @timeline-vertical-margin-line-bottom);
+    top: 1.5715 * (@timeline-font-content-size / 2) + (@timeline-dot-size-width / 2) +
+      @timeline-vertical-margin-line-top;
+    bottom: -(
+        1.5715 * (@timeline-font-content-size / 2) - (@timeline-dot-size-width / 2) -
+          @timeline-vertical-margin-line-bottom
+      );
     left: 50%;
     box-sizing: border-box;
     width: @timeline-size-line-width;
@@ -131,10 +132,8 @@
       > .@{timeline-item-prefix-cls}-content-wrapper {
         left: 50%;
         width: 50%;
-        margin-left: @timeline-vertical-margin-content-left +
-          @timeline-dot-size-width;
-        padding-right: @timeline-vertical-margin-content-left +
-          @timeline-dot-size-width;
+        margin-left: @timeline-vertical-margin-content-left + @timeline-dot-size-width;
+        padding-right: @timeline-vertical-margin-content-left + @timeline-dot-size-width;
       }
     }
 

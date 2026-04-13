@@ -1,12 +1,13 @@
 import { computed, defineComponent, PropType, toRefs } from 'vue';
-import { omit } from '../../_utils/omit';
-import { INPUT_EVENTS, Size } from '../../_utils/constant';
-import pick from '../../_utils/pick';
-import { getPrefixCls } from '../../_utils/global-config';
-import { useInput } from '../../_hooks/use-input';
-import { SelectViewValue } from '../select-view/interface';
+
 import { useFormItem } from '../../_hooks/use-form-item';
+import { useInput } from '../../_hooks/use-input';
 import { useSize } from '../../_hooks/use-size';
+import { INPUT_EVENTS, Size } from '../../_utils/constant';
+import { getPrefixCls } from '../../_utils/global-config';
+import { omit } from '../../_utils/omit';
+import pick from '../../_utils/pick';
+import { SelectViewValue } from '../select-view/interface';
 
 export default defineComponent({
   name: 'InputLabel',
@@ -31,8 +32,7 @@ export default defineComponent({
   },
   emits: ['update:inputValue', 'inputValueChange', 'focus', 'blur'],
   setup(props, { attrs, emit, slots }) {
-    const { size, disabled, error, inputValue, uninjectFormItemContext } =
-      toRefs(props);
+    const { size, disabled, error, inputValue, uninjectFormItemContext } = toRefs(props);
     const prefixCls = props.baseCls ?? getPrefixCls('input-label');
     const {
       mergedSize: _mergedSize,
@@ -66,9 +66,7 @@ export default defineComponent({
 
     const mergedFocused = computed(() => props.focused ?? _focused.value);
 
-    const showInput = computed(
-      () => (props.enabledInput && _focused.value) || !props.modelValue
-    );
+    const showInput = computed(() => (props.enabledInput && _focused.value) || !props.modelValue);
 
     const formatLabel = () => {
       if (props.modelValue) {
@@ -113,9 +111,7 @@ export default defineComponent({
         title={formatLabel()}
         onMousedown={handleMousedown}
       >
-        {slots.prefix && (
-          <span class={`${prefixCls}-prefix`}>{slots.prefix()}</span>
-        )}
+        {slots.prefix && <span class={`${prefixCls}-prefix`}>{slots.prefix()}</span>}
         <input
           {...inputAttrs.value}
           ref={inputRef}
@@ -146,9 +142,7 @@ export default defineComponent({
         >
           {renderLabel()}
         </span>
-        {slots.suffix && (
-          <span class={`${prefixCls}-suffix`}>{slots.suffix()}</span>
-        )}
+        {slots.suffix && <span class={`${prefixCls}-suffix`}>{slots.suffix()}</span>}
       </span>
     );
 

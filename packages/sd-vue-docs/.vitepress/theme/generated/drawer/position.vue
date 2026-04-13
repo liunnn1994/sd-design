@@ -5,7 +5,7 @@
     <a-radio value="bottom">Bottom</a-radio>
     <a-radio value="left">Left</a-radio>
   </a-radio-group>
-  <div :style="{marginTop: '20px'}">
+  <div :style="{ marginTop: '20px' }">
     <a-button type="primary" @click="handleClick">Open Drawer</a-button>
   </div>
   <a-drawer
@@ -17,38 +17,39 @@
     @cancel="handleCancel"
     unmountOnClose
   >
-    <template #title>
-      Title
-    </template>
-    <div>You can customize modal body text by the current situation. This modal will be closed immediately once you press the OK button.</div>
+    <template #title> Title </template>
+    <div
+      >You can customize modal body text by the current situation. This modal will be closed
+      immediately once you press the OK button.</div
+    >
   </a-drawer>
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const visible = ref(false);
-    const position = ref('right');
+  export default {
+    setup() {
+      const visible = ref(false);
+      const position = ref('right');
 
-    const handleClick = () => {
-      visible.value = true;
-    };
-    const handleOk = () => {
-      visible.value = false;
-    };
-    const handleCancel = () => {
-      visible.value = false;
-    }
+      const handleClick = () => {
+        visible.value = true;
+      };
+      const handleOk = () => {
+        visible.value = false;
+      };
+      const handleCancel = () => {
+        visible.value = false;
+      };
 
-    return {
-      visible,
-      position,
-      handleClick,
-      handleOk,
-      handleCancel
-    }
-  },
-};
+      return {
+        visible,
+        position,
+        handleClick,
+        handleOk,
+        handleCancel,
+      };
+    },
+  };
 </script>

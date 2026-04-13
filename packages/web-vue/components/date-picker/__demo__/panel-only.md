@@ -34,13 +34,13 @@ Only use panel, hide input selection.
   </div>
 </template>
 <script>
-export default {
-  data() {
-    return {
-      pickerValue: null,
-      rangePickerValue: null,
-    };
-  }
-};
+  export default {
+    data() {
+      return {
+        pickerValue: null,
+        rangePickerValue: null,
+      };
+    },
+  };
 </script>
 ```

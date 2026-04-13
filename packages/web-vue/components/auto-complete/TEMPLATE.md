@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 自动补全 AutoComplete
 description: 输入框的自动补全功能。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,13 +19,14 @@ meta:
 title: AutoComplete
 description: The auto-complete function of the input.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/strict.md
+@import ./**demo**/strict.md
 
-@import ./__demo__/footer.md
+@import ./**demo**/footer.md
 
 ## API
 

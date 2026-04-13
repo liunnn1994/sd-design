@@ -10,19 +10,21 @@ import {
   watch,
   inject,
 } from 'vue';
-import { updateScrollOffset } from './utils';
-import { getPrefixCls } from '../_utils/global-config';
+
 import type { Direction } from '../_utils/constant';
-import TabsTab from './tabs-tab.vue';
+import type { TabData, TabsType, ScrollPosition } from './interface';
+
+import IconHover from '../_components/icon-hover.vue';
+import ResizeObserver from '../_components/resize-observer';
+import { off, on } from '../_utils/dom';
+import { getPrefixCls } from '../_utils/global-config';
+import { isUndefined, isNumber } from '../_utils/is';
+import { configProviderInjectionKey } from '../config-provider/context';
+import IconPlus from '../icon/icon-plus';
 import TabsButton from './tabs-button';
 import TabsNavInk from './tabs-nav-ink.vue';
-import type { TabData, TabsType, ScrollPosition } from './interface';
-import IconHover from '../_components/icon-hover.vue';
-import IconPlus from '../icon/icon-plus';
-import ResizeObserver from '../_components/resize-observer';
-import { isUndefined, isNumber } from '../_utils/is';
-import { off, on } from '../_utils/dom';
-import { configProviderInjectionKey } from '../config-provider/context';
+import TabsTab from './tabs-tab.vue';
+import { updateScrollOffset } from './utils';
 
 export default defineComponent({
   name: 'TabsNav',
@@ -77,8 +79,7 @@ export default defineComponent({
   },
   emits: ['click', 'add', 'delete'],
   setup(props, { emit, slots }) {
-    const { tabs, activeKey, activeIndex, direction, scrollPosition } =
-      toRefs(props);
+    const { tabs, activeKey, activeIndex, direction, scrollPosition } = toRefs(props);
     const prefixCls = getPrefixCls('tabs-nav');
     const configCtx = inject(configProviderInjectionKey, undefined);
     const rtl = computed(() => configCtx?.rtl ?? false);
@@ -92,14 +93,11 @@ export default defineComponent({
       }
       return undefined;
     });
-    const isRtlHorizontal = computed(
-      () => rtl.value && direction.value === 'horizontal'
-    );
+    const isRtlHorizontal = computed(() => rtl.value && direction.value === 'horizontal');
     const inkRef = ref<InstanceType<typeof TabsNavInk>>();
 
     const mergedEditable = computed(
-      () =>
-        props.editable && ['line', 'card', 'card-gutter'].includes(props.type)
+      () => props.editable && ['line', 'card', 'card-gutter'].includes(props.type),
     );
     const isScroll = ref(false);
     const wrapperLength = ref(0);
@@ -174,9 +172,7 @@ export default defineComponent({
         tabPosition = listWidth - offsetLeft - tabSize;
       } else {
         // 对于 LTR 模式或垂直方向，直接使用标准偏移
-        tabPosition = isHorizontal
-          ? activeTabRef.value.offsetLeft
-          : activeTabRef.value.offsetTop;
+        tabPosition = isHorizontal ? activeTabRef.value.offsetLeft : activeTabRef.value.offsetTop;
       }
 
       const marginSide = isHorizontal
@@ -185,11 +181,11 @@ export default defineComponent({
             ? 'marginLeft'
             : 'marginRight'
           : scrollPosition.value === 'end'
-          ? 'marginRight'
-          : 'marginLeft'
+            ? 'marginRight'
+            : 'marginLeft'
         : scrollPosition.value === 'end'
-        ? 'marginBottom'
-        : 'marginTop';
+          ? 'marginBottom'
+          : 'marginTop';
 
       const tabStyle = window.getComputedStyle(activeTabRef.value);
       const tabMargin = parseFloat(tabStyle[marginSide]) || 0;
@@ -245,8 +241,7 @@ export default defineComponent({
     };
 
     const handleButtonClick = (type: string) => {
-      const scrollDirection =
-        (type === 'previous') !== isRtlHorizontal.value ? -1 : 1;
+      const scrollDirection = (type === 'previous') !== isRtlHorizontal.value ? -1 : 1;
       const nextOffset = offset.value + scrollDirection * wrapperLength.value;
 
       setOffset(nextOffset);
@@ -292,10 +287,7 @@ export default defineComponent({
         return null;
       }
       return (
-        <div
-          class={`${prefixCls}-add-btn`}
-          onClick={(ev: Event) => emit('add', ev)}
-        >
+        <div class={`${prefixCls}-add-btn`} onClick={(ev: Event) => emit('add', ev)}>
           <IconHover>
             <IconPlus />
           </IconHover>

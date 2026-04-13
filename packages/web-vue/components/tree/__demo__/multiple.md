@@ -21,22 +21,18 @@ Add `:multiple="true"` to `Tree` to enable multiple selection.
   <a-checkbox
     style="marginBottom: 24px;"
     v-model="multiple"
-    @change="() => {
-      selectedKeys = [];
-    }"
+    @change="
+      () => {
+        selectedKeys = [];
+      }
+    "
   >
     multiple
   </a-checkbox>
-  <br/>
-  <a-typography-text>
-    Current: {{ selectedKeys?.join(' , ') }}
-  </a-typography-text>
-  <br/>
-  <a-tree
-    v-model:selected-keys="selectedKeys"
-    :multiple="multiple"
-    :data="treeData"
-  />
+  <br />
+  <a-typography-text> Current: {{ selectedKeys?.join(' , ') }} </a-typography-text>
+  <br />
+  <a-tree v-model:selected-keys="selectedKeys" :multiple="multiple" :data="treeData" />
 </template>
 <script>
   import { ref } from 'vue';
@@ -60,9 +56,9 @@ Add `:multiple="true"` to `Tree` to enable multiple selection.
               children: [
                 {
                   title: 'Leaf',
-                  key: '0-0-2-1'
-                }
-              ]
+                  key: '0-0-2-1',
+                },
+              ],
             },
           ],
         },
@@ -82,7 +78,7 @@ Add `:multiple="true"` to `Tree` to enable multiple selection.
                   title: 'Leaf',
                   key: '0-1-1-2',
                 },
-              ]
+              ],
             },
             {
               title: 'Leaf',
@@ -98,6 +94,6 @@ Add `:multiple="true"` to `Tree` to enable multiple selection.
         treeData,
       };
     },
-  }
+  };
 </script>
 ```

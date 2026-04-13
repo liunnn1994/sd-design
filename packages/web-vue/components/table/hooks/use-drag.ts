@@ -1,4 +1,5 @@
 import { computed, reactive, Ref } from 'vue';
+
 import { TableDraggable } from '../interface';
 
 export const useDrag = (draggable: Ref<TableDraggable | undefined>) => {
@@ -32,7 +33,7 @@ export const useDrag = (draggable: Ref<TableDraggable | undefined>) => {
     ev: DragEvent,
     sourceKey: string,
     sourcePath: number[],
-    data: Record<string, unknown>
+    data: Record<string, unknown>,
   ) => {
     if (ev.dataTransfer) {
       ev.dataTransfer.effectAllowed = 'move';

@@ -19,59 +19,59 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, toRefs, CSSProperties } from 'vue';
+  import { defineComponent, computed, toRefs, CSSProperties } from 'vue';
 
-export default defineComponent({
-  name: 'VirtualListFiller',
-  props: {
-    height: {
-      type: Number,
+  export default defineComponent({
+    name: 'VirtualListFiller',
+    props: {
+      height: {
+        type: Number,
+      },
+      offset: {
+        type: Number,
+      },
+      disabled: {
+        type: Boolean,
+      },
+      type: String,
+      outerAttrs: Object,
+      innerAttrs: Object,
     },
-    offset: {
-      type: Number,
-    },
-    disabled: {
-      type: Boolean,
-    },
-    type: String,
-    outerAttrs: Object,
-    innerAttrs: Object,
-  },
-  setup(props) {
-    const { height, offset } = toRefs(props);
+    setup(props) {
+      const { height, offset } = toRefs(props);
 
-    const outerStyle = computed<CSSProperties>(() =>
-      offset.value !== undefined
-        ? {
-            height: `${height.value}px`,
-            position: 'relative',
-            zIndex: 0,
-          }
-        : {}
-    );
+      const outerStyle = computed<CSSProperties>(() =>
+        offset.value !== undefined
+          ? {
+              height: `${height.value}px`,
+              position: 'relative',
+              zIndex: 0,
+            }
+          : {},
+      );
 
-    const innerStyle = computed<CSSProperties>(() => {
-      const commonStyle: CSSProperties = {
-        display: 'flex',
-        flexDirection: 'column',
+      const innerStyle = computed<CSSProperties>(() => {
+        const commonStyle: CSSProperties = {
+          display: 'flex',
+          flexDirection: 'column',
+        };
+
+        return offset.value !== undefined
+          ? {
+              ...commonStyle,
+              transform: `translateY(${offset.value}px)`,
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              top: 0,
+            }
+          : commonStyle;
+      });
+
+      return {
+        outerStyle,
+        innerStyle,
       };
-
-      return offset.value !== undefined
-        ? {
-            ...commonStyle,
-            transform: `translateY(${offset.value}px)`,
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: 0,
-          }
-        : commonStyle;
-    });
-
-    return {
-      outerStyle,
-      innerStyle,
-    };
-  },
-});
+    },
+  });
 </script>

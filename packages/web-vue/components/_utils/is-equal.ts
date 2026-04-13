@@ -1,6 +1,6 @@
 export const isEqualObject = (
   obj: Record<string, unknown> | undefined,
-  other: Record<string, unknown> | undefined
+  other: Record<string, unknown> | undefined,
 ) => {
   if (!obj || !other) {
     return false;
@@ -15,10 +15,7 @@ export const isEqualObject = (
   return true;
 };
 
-export const isEqualArray = (
-  arr: unknown[] | undefined,
-  other: unknown[] | undefined
-) => {
+export const isEqualArray = (arr: unknown[] | undefined, other: unknown[] | undefined) => {
   if (!arr || !other) {
     return false;
   }
@@ -40,10 +37,7 @@ export const isEqual = (a: unknown, b: unknown) => {
     return false;
   }
   if (type === '[object Object]') {
-    return isEqualObject(
-      a as Record<string, unknown>,
-      b as Record<string, unknown>
-    );
+    return isEqualObject(a as Record<string, unknown>, b as Record<string, unknown>);
   }
   if (type === '[object Array]') {
     return isEqualArray(a as unknown[], b as unknown[]);

@@ -8,30 +8,31 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
+  import { defineComponent } from 'vue';
 
-export default defineComponent({
-  name: 'Dgroup',
-  props: {
+  import { getPrefixCls } from '../_utils/global-config';
+
+  export default defineComponent({
+    name: 'Dgroup',
+    props: {
+      /**
+       * @zh 分组标题
+       * @en Group title
+       */
+      title: String,
+    },
     /**
      * @zh 分组标题
      * @en Group title
+     * @slot title
+     * @version 2.10.0
      */
-    title: String,
-  },
-  /**
-   * @zh 分组标题
-   * @en Group title
-   * @slot title
-   * @version 2.10.0
-   */
-  setup() {
-    const prefixCls = getPrefixCls('dropdown-group');
+    setup() {
+      const prefixCls = getPrefixCls('dropdown-group');
 
-    return {
-      prefixCls,
-    };
-  },
-});
+      return {
+        prefixCls,
+      };
+    },
+  });
 </script>

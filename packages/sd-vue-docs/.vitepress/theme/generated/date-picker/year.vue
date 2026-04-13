@@ -1,3 +1,3 @@
 <template>
-  <a-year-picker style="width: 200px;" />
+  <a-year-picker style="width: 200px" />
 </template>

@@ -50,7 +50,8 @@
     bottom: initial;
     left: initial;
     width: @tabs-line-size-ink-stroke;
-    transition: top @transition-duration-2 @transition-timing-function-standard,
+    transition:
+      top @transition-duration-2 @transition-timing-function-standard,
       height @transition-duration-2 @transition-timing-function-standard;
   }
 
@@ -148,8 +149,7 @@
   &-vertical&-type-card,
   &-vertical&-type-card-gutter {
     > .@{tabs-prefix-cls}-content {
-      border: @tabs-card-border-content-width solid
-        @tabs-line-color-header-border;
+      border: @tabs-card-border-content-width solid @tabs-line-color-header-border;
       border-left: none;
     }
   }

@@ -63,13 +63,13 @@ Set `:allow-search="true"` to enable the search function. You can only search in
           children: [
             {
               title: 'Leaf 0-0-1-1',
-              key: '0-0-1-1'
+              key: '0-0-1-1',
             },
             {
               title: 'Leaf 0-0-1-2',
-              key: '0-0-1-2'
-            }
-          ]
+              key: '0-0-1-2',
+            },
+          ],
         },
       ],
     },
@@ -84,8 +84,8 @@ Set `:allow-search="true"` to enable the search function. You can only search in
             {
               title: 'Leaf 0-1-1-0',
               key: '0-1-1-0',
-            }
-          ]
+            },
+          ],
         },
         {
           title: 'Branch 0-1-2',
@@ -94,8 +94,8 @@ Set `:allow-search="true"` to enable the search function. You can only search in
             {
               title: 'Leaf 0-1-2-0',
               key: '0-1-2-0',
-            }
-          ]
+            },
+          ],
         },
       ],
     },

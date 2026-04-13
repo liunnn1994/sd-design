@@ -9,10 +9,10 @@
 </template>
 
 <style scoped>
-.divider-demo {
-  box-sizing: border-box;
-  width: 560px;
-  padding: 24px;
-  border: 30px solid rgb(var(--gray-2));
-}
+  .divider-demo {
+    box-sizing: border-box;
+    width: 560px;
+    padding: 24px;
+    border: 30px solid rgb(var(--gray-2));
+  }
 </style>

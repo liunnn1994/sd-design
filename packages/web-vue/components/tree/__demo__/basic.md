@@ -50,8 +50,8 @@ Give each node a globally unique `key` (required), and the `title` is the conten
             {
               title: 'Leaf',
               key: '0-0-0-1',
-            }
-          ]
+            },
+          ],
         },
         {
           title: 'Branch 0-0-1',
@@ -61,7 +61,7 @@ Give each node a globally unique `key` (required), and the `title` is the conten
               title: 'Leaf',
               key: '0-0-1-0',
             },
-          ]
+          ],
         },
       ],
     },

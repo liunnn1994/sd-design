@@ -13,7 +13,8 @@
 
 .@{prefix}-icon-loading,
 .@{prefix}-icon-spin {
-  animation: ~'@{prefix}-loading-circle' @transition-duration-loading infinite @transition-timing-function-linear;
+  animation: ~'@{prefix}-loading-circle' @transition-duration-loading infinite
+    @transition-timing-function-linear;
 }
 
 @keyframes ~'@{prefix}-loading-circle' {
@@ -41,8 +42,7 @@
     box-sizing: border-box;
     background-color: @color-transparent;
     border-radius: @icon-hover-border-radius;
-    transition: background-color @transition-duration-1
-      @transition-timing-function-linear;
+    transition: background-color @transition-duration-1 @transition-timing-function-linear;
     content: '';
   }
 

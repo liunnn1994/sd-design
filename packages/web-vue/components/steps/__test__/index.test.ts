@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Steps from '../index';
 
 describe('Steps', () => {
@@ -8,10 +9,7 @@ describe('Steps', () => {
         changeable: true,
       },
       slots: {
-        default:
-          '<a-step>Step1</a-step>' +
-          '<a-step>Step2</a-step>' +
-          '<a-step>Step3</a-step>',
+        default: '<a-step>Step1</a-step>' + '<a-step>Step2</a-step>' + '<a-step>Step3</a-step>',
       },
       global: {
         plugins: [Steps],

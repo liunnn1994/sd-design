@@ -70,7 +70,7 @@ function sanitizeGuideContent(content, pageName) {
 
   return content.replace(
     '## 原理和内置颜色\n\n可参考 [暗黑模式](https://sd.design/react/docs/palette) 和 [颜色](https://sd.design/react/docs/palette)',
-    '## 原理和内置颜色\n\n暗黑模式通过组件库提供的主题变量和 body 上的 sd-theme 属性协同生效，建议在业务项目中统一封装主题切换入口。'
+    '## 原理和内置颜色\n\n暗黑模式通过组件库提供的主题变量和 body 上的 sd-theme 属性协同生效，建议在业务项目中统一封装主题切换入口。',
   );
 }
 
@@ -141,7 +141,11 @@ async function writeComponentPages() {
       const demoSections = [];
 
       for (const demoImport of demoImports) {
-        const demoSourcePath = resolve(sourceComponentsRoot, componentName, demoImport.replace('./', ''));
+        const demoSourcePath = resolve(
+          sourceComponentsRoot,
+          componentName,
+          demoImport.replace('./', ''),
+        );
         const demoSource = await readFile(demoSourcePath, 'utf8');
         const demo = parseDemoFile(demoSource);
 
@@ -149,10 +153,18 @@ async function writeComponentPages() {
           continue;
         }
 
-        const baseName = slugToName(relative(resolve(sourceComponentsRoot, componentName, '__demo__'), demoSourcePath).replace(extname(demoSourcePath), ''));
+        const baseName = slugToName(
+          relative(
+            resolve(sourceComponentsRoot, componentName, '__demo__'),
+            demoSourcePath,
+          ).replace(extname(demoSourcePath), ''),
+        );
         const componentImportName = `${baseName}Demo`;
         const sourceImportName = `${baseName}Source`;
-        const generatedVuePath = resolve(demoDir, `${relative(resolve(sourceComponentsRoot, componentName, '__demo__'), demoSourcePath).replace(extname(demoSourcePath), '')}.vue`);
+        const generatedVuePath = resolve(
+          demoDir,
+          `${relative(resolve(sourceComponentsRoot, componentName, '__demo__'), demoSourcePath).replace(extname(demoSourcePath), '')}.vue`,
+        );
 
         await mkdir(dirname(generatedVuePath), { recursive: true });
         await writeFile(generatedVuePath, `${demo.code}\n`, 'utf8');
@@ -163,7 +175,7 @@ async function writeComponentPages() {
         scriptImports.push(`import ${sourceImportName} from '${componentImportPath}?raw';`);
 
         demoSections.push(
-          `## ${demo.title}\n\n${sanitizeInternalLinks(demo.description)}\n\n<DemoBlock :code="${sourceImportName}">\n  <${componentImportName} />\n</DemoBlock>`
+          `## ${demo.title}\n\n${sanitizeInternalLinks(demo.description)}\n\n<DemoBlock :code="${sourceImportName}">\n  <${componentImportName} />\n</DemoBlock>`,
         );
       }
 

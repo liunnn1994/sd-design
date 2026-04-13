@@ -22,17 +22,16 @@ Range selection can be turned on by setting `range`, at this time `modelValue` i
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const value = ref([5, 10]);
+  export default {
+    setup() {
+      const value = ref([5, 10]);
 
-    return {
-      value
-    }
-
-  }
-}
+      return {
+        value,
+      };
+    },
+  };
 </script>
 ```

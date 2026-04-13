@@ -1,9 +1,11 @@
-import { Dayjs } from 'dayjs';
 import { computed, toRefs, watch } from 'vue';
+
+import { Dayjs } from 'dayjs';
+
+import useState from '../../_hooks/use-state';
 import { getDayjsValue } from '../../_utils/date';
 import { isUndefined } from '../../_utils/is';
 import { CalendarValue } from '../interface';
-import useState from '../../_hooks/use-state';
 
 interface PickerStateProps {
   modelValue: CalendarValue | undefined;
@@ -27,8 +29,8 @@ export default function usePickerState(props: PickerStateProps) {
     !isUndefined(computedModelValue.value)
       ? computedModelValue.value
       : !isUndefined(computedDefaultValue.value)
-      ? computedDefaultValue.value
-      : undefined
+        ? computedDefaultValue.value
+        : undefined,
   );
 
   watch(computedModelValue, () => {
@@ -38,9 +40,7 @@ export default function usePickerState(props: PickerStateProps) {
   });
 
   // 混合的最终值：如果外部有传的话，就用外部的值，不然就使用内部维护的值
-  const mergeValue = computed(
-    () => computedModelValue.value || localValue.value
-  );
+  const mergeValue = computed(() => computedModelValue.value || localValue.value);
 
   return {
     value: mergeValue,

@@ -1,19 +1,15 @@
 import { computed, defineComponent, inject, PropType, VNode } from 'vue';
-import { TableDataWithRaw, TableOperationColumn } from './interface';
+
 import { getPrefixCls } from '../_utils/global-config';
-import {
-  getLeafKeys,
-  getOperationFixedCls,
-  getOperationStyle,
-  getSelectionStatus,
-} from './utils';
-import Checkbox from '../checkbox';
-import Radio from '../radio';
-import IconPlus from '../icon/icon-plus';
-import IconMinus from '../icon/icon-minus';
-import IconDragDotVertical from '../icon/icon-drag-dot-vertical';
-import { TableContext, tableInjectionKey } from './context';
 import { BaseType } from '../_utils/types';
+import Checkbox from '../checkbox';
+import IconDragDotVertical from '../icon/icon-drag-dot-vertical';
+import IconMinus from '../icon/icon-minus';
+import IconPlus from '../icon/icon-plus';
+import Radio from '../radio';
+import { TableContext, tableInjectionKey } from './context';
+import { TableDataWithRaw, TableOperationColumn } from './interface';
+import { getLeafKeys, getOperationFixedCls, getOperationStyle, getSelectionStatus } from './utils';
 
 export default defineComponent({
   name: 'OperationTd',
@@ -44,9 +40,7 @@ export default defineComponent({
       type: Array as PropType<BaseType[]>,
     },
     renderExpandBtn: {
-      type: Function as PropType<
-        (record: TableDataWithRaw, stopPropagation?: boolean) => VNode
-      >,
+      type: Function as PropType<(record: TableDataWithRaw, stopPropagation?: boolean) => VNode>,
     },
     colSpan: {
       type: Number,
@@ -65,21 +59,16 @@ export default defineComponent({
   setup(props, { emit, slots }) {
     const prefixCls = getPrefixCls('table');
     const tableCtx = inject<Partial<TableContext>>(tableInjectionKey, {});
-    const style = computed(() =>
-      getOperationStyle(props.operationColumn, props.operations)
-    );
+    const style = computed(() => getOperationStyle(props.operationColumn, props.operations));
 
     const cls = computed(() => [
       `${prefixCls}-td`,
       `${prefixCls}-operation`,
       {
-        [`${prefixCls}-checkbox`]:
-          props.operationColumn.name === 'selection-checkbox',
-        [`${prefixCls}-radio`]:
-          props.operationColumn.name === 'selection-radio',
+        [`${prefixCls}-checkbox`]: props.operationColumn.name === 'selection-checkbox',
+        [`${prefixCls}-radio`]: props.operationColumn.name === 'selection-radio',
         [`${prefixCls}-expand`]: props.operationColumn.name === 'expand',
-        [`${prefixCls}-drag-handle`]:
-          props.operationColumn.name === 'drag-handle',
+        [`${prefixCls}-drag-handle`]: props.operationColumn.name === 'drag-handle',
       },
       ...getOperationFixedCls(prefixCls, props.operationColumn),
     ]);
@@ -87,7 +76,7 @@ export default defineComponent({
     const leafKeys = computed(() => getLeafKeys(props.record));
 
     const selectionStatus = computed(() =>
-      getSelectionStatus(tableCtx.currentSelectedRowKeys ?? [], leafKeys.value)
+      getSelectionStatus(tableCtx.currentSelectedRowKeys ?? [], leafKeys.value),
     );
 
     const renderContent = () => {
@@ -107,9 +96,7 @@ export default defineComponent({
               indeterminate={selectionStatus.value.indeterminate}
               disabled={Boolean(props.record.disabled)}
               uninjectGroupContext
-              onChange={(checked) =>
-                tableCtx.onSelectAllLeafs?.(props.record, checked as boolean)
-              }
+              onChange={(checked) => tableCtx.onSelectAllLeafs?.(props.record, checked as boolean)}
               // @ts-ignore
               onClick={(ev: Event) => ev.stopPropagation()}
             />
@@ -121,9 +108,7 @@ export default defineComponent({
             modelValue={props.selectedRowKeys?.includes(value) ?? false}
             disabled={Boolean(props.record.disabled)}
             uninjectGroupContext
-            onChange={(checked) =>
-              tableCtx.onSelect?.(checked as boolean, props.record)
-            }
+            onChange={(checked) => tableCtx.onSelect?.(checked as boolean, props.record)}
             // @ts-ignore
             onClick={(ev: Event) => ev.stopPropagation()}
           />
@@ -136,9 +121,7 @@ export default defineComponent({
             modelValue={props.selectedRowKeys?.includes(value) ?? false}
             disabled={Boolean(props.record.disabled)}
             uninjectGroupContext
-            onChange={(checked) =>
-              tableCtx.onSelect?.(checked as boolean, props.record)
-            }
+            onChange={(checked) => tableCtx.onSelect?.(checked as boolean, props.record)}
             // @ts-ignore
             onClick={(ev: Event) => ev.stopPropagation()}
           />

@@ -1,9 +1,11 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Select from './select';
-import _Option from './option.vue';
 import _Optgroup from './optgroup.vue';
+import _Option from './option.vue';
+import _Select from './select';
 
 const Select = Object.assign(_Select, {
   Option: _Option,

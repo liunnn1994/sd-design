@@ -1,6 +1,7 @@
 import { App } from 'vue';
-import { SDOptions } from '../_utils/types';
+
 import { getComponentPrefix, setGlobalConfig } from '../_utils/global-config';
+import { SDOptions } from '../_utils/types';
 import _Tree from './tree.vue';
 
 export type { TreeNodeData, TreeFieldNames } from './interface';

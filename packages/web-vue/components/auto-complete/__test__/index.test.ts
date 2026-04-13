@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import AutoComplete from '../index';
 
 describe('AutoComplete', () => {

@@ -1,4 +1,5 @@
 import { SlotDescriptor } from 'vue-docgen-api';
+
 import { escapeCharacter, toKebabCase } from '../utils';
 
 type SlotBinding = NonNullable<SlotDescriptor['bindings']>[number];
@@ -20,9 +21,7 @@ const bindingsTmpl = (bindings: SlotDescriptor['bindings']): string => {
 };
 
 const tmpl = (slots: SlotDescriptor[], lang: string) => {
-  const displayableSlots = slots.filter(
-    (slot) => slot.description || lang in (slot.tags ?? {})
-  );
+  const displayableSlots = slots.filter((slot) => slot.description || lang in (slot.tags ?? {}));
   const hasVersion = displayableSlots.some((slot) => slot?.tags?.version);
   const content = displayableSlots
     .map((slot) => {
@@ -33,7 +32,7 @@ const tmpl = (slots: SlotDescriptor[], lang: string) => {
       }
 
       let lineContent = `|${toKebabCase(name)}|${escapeCharacter(
-        description || ''
+        description || '',
       )}|${escapeCharacter(bindingsTmpl(bindings)) || '-'}|`;
 
       if (hasVersion) {

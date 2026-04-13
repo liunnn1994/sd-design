@@ -1,18 +1,13 @@
-import {
-  defineComponent,
-  PropType,
-  provide,
-  reactive,
-  computed,
-  toRefs,
-} from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
+import { defineComponent, PropType, provide, reactive, computed, toRefs } from 'vue';
+
 import type { ModeType, LabelPositionType } from './interface';
+
+import { useChildrenComponents } from '../_hooks/use-children-components';
+import { Direction } from '../_utils/constant';
+import { getPrefixCls } from '../_utils/global-config';
+import Spin from '../spin';
 import { timelineInjectionKey } from './context';
 import Item from './item.vue';
-import Spin from '../spin';
-import { Direction } from '../_utils/constant';
-import { useChildrenComponents } from '../_hooks/use-children-components';
 
 export default defineComponent({
   name: 'Timeline',
@@ -111,7 +106,7 @@ export default defineComponent({
             lineType="dashed"
           >
             {props.pending !== true && <div>{props.pending}</div>}
-          </Item>
+          </Item>,
         );
       } else {
         children.value = slots.default?.();

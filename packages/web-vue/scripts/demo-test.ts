@@ -1,6 +1,8 @@
-import path from 'path';
-import glob from 'glob';
 import { mount, config } from '@vue/test-utils';
+
+import glob from 'glob';
+import path from 'path';
+
 import SDVue from '../components';
 import SDVueIcon from '../components/icon';
 import 'core-js/stable';
@@ -34,10 +36,7 @@ config.global.plugins = [SDVue, SDVueIcon];
 function demoTest(component: string) {
   describe(`<${component}> demo:`, () => {
     const files = glob.sync(`components/${component}/__demo__/*.md`);
-    const table = files.map((filename) => [
-      path.basename(filename, '.md'),
-      filename,
-    ]);
+    const table = files.map((filename) => [path.basename(filename, '.md'), filename]);
 
     test.each(table)('render [%s] correctly', async (_, filename) => {
       const demo = await import(`../${filename}`);

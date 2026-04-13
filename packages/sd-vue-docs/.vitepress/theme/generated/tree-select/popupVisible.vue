@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-bottom: 24px;">
+  <div style="margin-bottom: 24px">
     <a-button type="primary" @click="onClick">toggle</a-button>
   </div>
   <a-tree-select

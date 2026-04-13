@@ -1,7 +1,8 @@
-import ora from 'ora';
 import chalk from 'chalk';
-import { build, InlineConfig } from 'vite';
+import ora from 'ora';
 import { RollupWatcher } from 'rollup';
+import { build, InlineConfig } from 'vite';
+
 import config from '../../configs/vite.dev';
 
 const run = async () => {

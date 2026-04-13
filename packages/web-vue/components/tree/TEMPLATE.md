@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 树 Tree
 description: 对于文件夹、分类目录、组织架构等层级较多的内容，树可以清楚显示他们的层级关系，并具有展开、收起、选择等交互功能。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,39 +19,40 @@ meta:
 title: Tree
 description: For content with many levels, such as folders, catalogs, and organizational structures, the tree can clearly show their hierarchical relationship, and has interactive functions such as expanding, collapsing, and selecting.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/block-node.md
+@import ./**demo**/block-node.md
 
-@import ./__demo__/multiple.md
+@import ./**demo**/multiple.md
 
-@import ./__demo__/checkable.md
+@import ./**demo**/checkable.md
 
-@import ./__demo__/control.md
+@import ./**demo**/control.md
 
-@import ./__demo__/load-more.md
+@import ./**demo**/load-more.md
 
-@import ./__demo__/draggable.md
+@import ./**demo**/draggable.md
 
-@import ./__demo__/checked-strategy.md
+@import ./**demo**/checked-strategy.md
 
-@import ./__demo__/show-line.md
+@import ./**demo**/show-line.md
 
-@import ./__demo__/size.md
+@import ./**demo**/size.md
 
-@import ./__demo__/node-icon.md
+@import ./**demo**/node-icon.md
 
-@import ./__demo__/render-extra.md
+@import ./**demo**/render-extra.md
 
-@import ./__demo__/icons.md
+@import ./**demo**/icons.md
 
-@import ./__demo__/virtual.md
+@import ./**demo**/virtual.md
 
-@import ./__demo__/search.md
+@import ./**demo**/search.md
 
-@import ./__demo__/field-names.md
+@import ./**demo**/field-names.md
 
 ## API
 
@@ -55,4 +60,4 @@ description: For content with many levels, such as folders, catalogs, and organi
 
 %%INTERFACE(interface.ts)%%
 
-%%INTERFACE(../_components/virtual-list-v2/interface.ts)%%
+%%INTERFACE(../\_components/virtual-list-v2/interface.ts)%%

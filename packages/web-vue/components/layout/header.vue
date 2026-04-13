@@ -5,23 +5,24 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
+  import { defineComponent } from 'vue';
 
-export default defineComponent({
-  name: 'LayoutHeader',
-  /**
-   * @zh 内容
-   * @en Content
-   * @slot default
-   */
-  setup() {
-    const prefixCls = getPrefixCls('layout-header');
-    const classNames = [prefixCls];
+  import { getPrefixCls } from '../_utils/global-config';
 
-    return {
-      classNames,
-    };
-  },
-});
+  export default defineComponent({
+    name: 'LayoutHeader',
+    /**
+     * @zh 内容
+     * @en Content
+     * @slot default
+     */
+    setup() {
+      const prefixCls = getPrefixCls('layout-header');
+      const classNames = [prefixCls];
+
+      return {
+        classNames,
+      };
+    },
+  });
 </script>

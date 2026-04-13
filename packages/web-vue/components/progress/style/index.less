@@ -62,7 +62,8 @@
       border-radius: 100px;
       background-color: @progress-line-color-inner-bg;
       position: relative;
-      transition: width 0.6s @transition-timing-function-standard,
+      transition:
+        width 0.6s @transition-timing-function-standard,
         background 0.3s @transition-timing-function-standard;
       max-width: 100%;
 
@@ -92,8 +93,7 @@
           transparent 75%
         );
         background-size: 400% 100%;
-        animation: ~'@{prefix}-progress-loading' 1.5s @transition-timing-function-standard
-          infinite;
+        animation: ~'@{prefix}-progress-loading' 1.5s @transition-timing-function-standard infinite;
       }
     }
 
@@ -269,7 +269,8 @@
 
     &-bar {
       stroke: @progress-circle-color-path-stroke;
-      transition: stroke-dashoffset 0.6s @transition-timing-function-linear 0s,
+      transition:
+        stroke-dashoffset 0.6s @transition-timing-function-linear 0s,
         stroke 0.6s @transition-timing-function-linear;
     }
   }

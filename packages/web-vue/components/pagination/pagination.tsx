@@ -1,18 +1,20 @@
 import type { PropType, CSSProperties } from 'vue';
 import { computed, defineComponent, reactive, ref, toRefs, watch } from 'vue';
+
 import type { Data } from '../_utils/types';
-import { getPrefixCls } from '../_utils/global-config';
+import type { PageItemType } from './interface';
+
+import { useSize } from '../_hooks/use-size';
 import { Size } from '../_utils/constant';
-import Pager from './page-item.vue';
-import StepPager from './page-item-step.vue';
+import { getPrefixCls } from '../_utils/global-config';
+import { isNumber } from '../_utils/is';
+import { useI18n } from '../locale';
+import { SelectProps } from '../select';
 import EllipsisPager from './page-item-ellipsis.vue';
+import StepPager from './page-item-step.vue';
+import Pager from './page-item.vue';
 import PageJumper from './page-jumper.vue';
 import PageOptions from './page-options.vue';
-import { useI18n } from '../locale';
-import { isNumber } from '../_utils/is';
-import type { PageItemType } from './interface';
-import { SelectProps } from '../select';
-import { useSize } from '../_hooks/use-size';
 
 export default defineComponent({
   name: 'Pagination',
@@ -181,13 +183,13 @@ export default defineComponent({
      * @en Triggered when page number changes
      * @param {number} current
      */
-    'change': (current: number) => true,
+    change: (current: number) => true,
     /**
      * @zh 数据条数改变时触发
      * @en Triggered when the number of data items changes
      * @param {number} pageSize
      */
-    'pageSizeChange': (pageSize: number) => true,
+    pageSizeChange: (pageSize: number) => true,
   },
   /**
    * @zh 分页按钮
@@ -219,8 +221,7 @@ export default defineComponent({
   setup(props, { emit, slots }) {
     const prefixCls = getPrefixCls('pagination');
     const { t } = useI18n();
-    const { disabled, pageItemStyle, activePageItemStyle, size } =
-      toRefs(props);
+    const { disabled, pageItemStyle, activePageItemStyle, size } = toRefs(props);
     const { mergedSize } = useSize(size);
 
     const _current = ref(props.defaultCurrent);
@@ -228,9 +229,7 @@ export default defineComponent({
     const computedCurrent = computed(() => props.current ?? _current.value);
     const computedPageSize = computed(() => props.pageSize ?? _pageSize.value);
 
-    const pages = computed(() =>
-      Math.ceil(props.total / computedPageSize.value)
-    );
+    const pages = computed(() => Math.ceil(props.total / computedPageSize.value));
 
     const handleClick = (page: number) => {
       // when pageJumper blur and input.value is undefined, page is illegal
@@ -287,13 +286,7 @@ export default defineComponent({
         );
       }
 
-      return (
-        <Pager
-          v-slots={{ default: slots['page-item'] }}
-          {...props}
-          {...pagerProps}
-        />
-      );
+      return <Pager v-slots={{ default: slots['page-item'] }} {...props} {...pagerProps} />;
     };
 
     const pageList = computed(() => {
@@ -313,15 +306,12 @@ export default defineComponent({
           hasLeftEllipsis = true;
           left = Math.min(
             computedCurrent.value - props.bufferSize,
-            pages.value - 2 * props.bufferSize
+            pages.value - 2 * props.bufferSize,
           );
         }
         if (computedCurrent.value < pages.value - (props.bufferSize + 1)) {
           hasRightEllipsis = true;
-          right = Math.max(
-            computedCurrent.value + props.bufferSize,
-            2 * props.bufferSize + 1
-          );
+          right = Math.max(computedCurrent.value + props.bufferSize, 2 * props.bufferSize + 1);
         }
 
         if (hasLeftEllipsis) {
@@ -330,7 +320,7 @@ export default defineComponent({
             getPageItemElement('more', {
               key: 'left-ellipsis-pager',
               step: -(props.bufferSize * 2 + 1),
-            })
+            }),
           );
         }
 
@@ -343,13 +333,13 @@ export default defineComponent({
             getPageItemElement('more', {
               key: 'right-ellipsis-pager',
               step: props.bufferSize * 2 + 1,
-            })
+            }),
           );
           pageList.push(
             getPageItemElement('page', {
               key: pages.value,
               pageNumber: pages.value,
-            })
+            }),
           );
         }
       }
@@ -391,11 +381,7 @@ export default defineComponent({
 
     // When the number of data items changes, recalculate the page number
     watch(computedPageSize, (curPageSize, prePageSize) => {
-      if (
-        props.autoAdjust &&
-        curPageSize !== prePageSize &&
-        computedCurrent.value > 1
-      ) {
+      if (props.autoAdjust && curPageSize !== prePageSize && computedCurrent.value > 1) {
         const index = prePageSize * (computedCurrent.value - 1) + 1;
         const newPage = Math.ceil(index / curPageSize);
         if (newPage !== computedCurrent.value) {
@@ -438,8 +424,7 @@ export default defineComponent({
         <div class={cls.value}>
           {props.showTotal && (
             <span class={`${prefixCls}-total`}>
-              {slots.total?.({ total: props.total }) ??
-                t('pagination.total', props.total)}
+              {slots.total?.({ total: props.total }) ?? t('pagination.total', props.total)}
             </span>
           )}
           {renderPager()}

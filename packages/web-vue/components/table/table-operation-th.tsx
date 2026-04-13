@@ -1,10 +1,11 @@
 import { computed, defineComponent, inject, PropType } from 'vue';
-import { getOperationFixedCls, getOperationStyle } from './utils';
+
 import { getPrefixCls } from '../_utils/global-config';
-import Checkbox from '../checkbox';
-import { TableOperationColumn } from './interface';
 import { isFunction } from '../_utils/is';
+import Checkbox from '../checkbox';
 import { TableContext, tableInjectionKey } from './context';
+import { TableOperationColumn } from './interface';
+import { getOperationFixedCls, getOperationStyle } from './utils';
 
 export default defineComponent({
   name: 'OperationTh',
@@ -37,7 +38,7 @@ export default defineComponent({
 
       const currentSelectedEnabledRowKeys =
         tableCtx.currentSelectedRowKeys?.filter(
-          (key) => tableCtx.currentAllEnabledRowKeys?.includes(key) ?? true
+          (key) => tableCtx.currentAllEnabledRowKeys?.includes(key) ?? true,
         ) ?? [];
 
       const selectedNumber = currentSelectedEnabledRowKeys.length;
@@ -81,9 +82,7 @@ export default defineComponent({
       return null;
     };
 
-    const style = computed(() =>
-      getOperationStyle(props.operationColumn, props.operations)
-    );
+    const style = computed(() => getOperationStyle(props.operationColumn, props.operations));
 
     const cls = computed(() => [
       `${prefixCls}-th`,

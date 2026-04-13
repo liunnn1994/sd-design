@@ -1,11 +1,12 @@
 import { defineComponent, inject, PropType } from 'vue';
-import { CascaderOptionInfo } from './interface';
+
 import { getPrefixCls } from '../_utils/global-config';
 import { configProviderInjectionKey } from '../config-provider/context';
 import Empty from '../empty';
+import Scrollbar from '../scrollbar';
 import Spin from '../spin';
 import CascaderOption from './cascader-option';
-import Scrollbar from '../scrollbar';
+import { CascaderOptionInfo } from './interface';
 
 export default defineComponent({
   name: 'CascaderSearchPanel',
@@ -31,8 +32,7 @@ export default defineComponent({
       if (props.options.length === 0) {
         return (
           <div class={`${prefixCls}-list-empty`}>
-            {slots.empty?.() ??
-              configCtx?.slots.empty?.({ component: 'cascader' }) ?? <Empty />}
+            {slots.empty?.() ?? configCtx?.slots.empty?.({ component: 'cascader' }) ?? <Empty />}
           </div>
         );
       }

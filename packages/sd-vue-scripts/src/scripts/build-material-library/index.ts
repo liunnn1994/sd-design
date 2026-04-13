@@ -1,6 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { build } from 'vite';
+
 import config from '../../configs/vite.material.library';
 import getUmdConfig from '../../configs/vite.material.library.umd';
 import { getPackage } from '../../utils/get-package';

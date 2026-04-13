@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 验证码输入 VerificationCode
 description: 验证码输入组件
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,14 +19,10 @@ meta:
 title: VerificationCode
 description: Verification code input component.
 ```
+
 ---
 
-@import ./__demo__/basic.md
-@import ./__demo__/status.md
-@import ./__demo__/masked.md
-@import ./__demo__/separator.md
-@import ./__demo__/form.md
-@import ./__demo__/formatter.md
+@import ./**demo**/basic.md @import ./**demo**/status.md @import ./**demo**/masked.md @import ./**demo**/separator.md @import ./**demo**/form.md @import ./**demo**/formatter.md
 
 ## API
 

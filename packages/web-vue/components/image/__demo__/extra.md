@@ -19,17 +19,29 @@ The component provides a named slot `extra` for users to customize additional co
 ```vue
 <template>
   <a-image
-    src='https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a8c8cdb109cb051163646151a4a5083b.png~tplv-uwbnlip3yd-webp.webp'
-    title='A user’s avatar'
-    description='Present by SD Design'
+    src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a8c8cdb109cb051163646151a4a5083b.png~tplv-uwbnlip3yd-webp.webp"
+    title="A user’s avatar"
+    description="Present by SD Design"
     width="260"
     style="margin-right: 67px; vertical-align: top;"
     :preview-visible="visible1"
-    @preview-visible-change="() => { visible1= false }"
+    @preview-visible-change="
+      () => {
+        visible1 = false;
+      }
+    "
   >
     <template #extra>
       <div class="actions">
-        <span class="action" @click="() => { visible1 = true }"><icon-eye /></span>
+        <span
+          class="action"
+          @click="
+            () => {
+              visible1 = true;
+            }
+          "
+          ><icon-eye
+        /></span>
         <span class="action" @click="onDownLoad"><icon-download /></span>
         <a-tooltip content="A user’s avatar">
           <span class="action"><icon-info-circle /></span>
@@ -38,17 +50,29 @@ The component provides a named slot `extra` for users to customize additional co
     </template>
   </a-image>
   <a-image
-    src='https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a8c8cdb109cb051163646151a4a5083b.png~tplv-uwbnlip3yd-webp.webp'
-    title='A user’s avatar'
-    description='Present by SD Design'
+    src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a8c8cdb109cb051163646151a4a5083b.png~tplv-uwbnlip3yd-webp.webp"
+    title="A user’s avatar"
+    description="Present by SD Design"
     width="260"
     footer-position="outer"
     :preview-visible="visible2"
-    @preview-visible-change="() => { visible2 = false }"
+    @preview-visible-change="
+      () => {
+        visible2 = false;
+      }
+    "
   >
     <template #extra>
       <div class="actions actions-outer">
-        <span class="action" @click="() => { visible2 = true }"><icon-eye /></span>
+        <span
+          class="action"
+          @click="
+            () => {
+              visible2 = true;
+            }
+          "
+          ><icon-eye
+        /></span>
         <span class="action" @click="onDownLoad"><icon-download /></span>
         <a-tooltip content="A user’s avatar">
           <span class="action"><icon-info-circle /></span>
@@ -59,11 +83,13 @@ The component provides a named slot `extra` for users to customize additional co
 </template>
 <script>
   import { ref } from 'vue';
-  import { IconEye, IconDownload, IconInfoCircle } from '@sd-design/web-vue/es/icon';
+  import { IconEye, IconDownload, IconInfoCircle } from '@sdata/web-vue/es/icon';
 
   export default {
     components: {
-      IconEye, IconDownload, IconInfoCircle
+      IconEye,
+      IconDownload,
+      IconInfoCircle,
     },
     setup() {
       const visible1 = ref(false);
@@ -75,9 +101,9 @@ The component provides a named slot `extra` for users to customize additional co
         onDownLoad() {
           console.log('download');
         },
-      }
-    }
-  }
+      };
+    },
+  };
 </script>
 <style scoped>
   .actions {
@@ -97,7 +123,7 @@ The component provides a named slot `extra` for users to customize additional co
   }
 
   .action:hover {
-    background: rgba(0,0,0,.5);
+    background: rgba(0, 0, 0, 0.5);
   }
   .actions-outer {
     .action {

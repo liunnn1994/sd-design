@@ -1,6 +1,7 @@
 import { Dayjs } from 'dayjs';
-import { isArray } from '../../_utils/is';
+
 import { getNow } from '../../_utils/date';
+import { isArray } from '../../_utils/is';
 
 function getDateValue(date?: Dayjs[], index?: number) {
   if (!date) {
@@ -43,18 +44,13 @@ export default function useClassName({
 
     const rangeAvailable = isInView && panel;
 
-    const isRangeStart =
-      rangeAvailable && rangeStart && isSameTime(cellDateObj.time, rangeStart);
-    const isRangeEnd =
-      rangeAvailable && rangeEnd && isSameTime(cellDateObj.time, rangeEnd);
+    const isRangeStart = rangeAvailable && rangeStart && isSameTime(cellDateObj.time, rangeStart);
+    const isRangeEnd = rangeAvailable && rangeEnd && isSameTime(cellDateObj.time, rangeEnd);
 
-    const nearRangeStart =
-      hoverRangeStart && rangeStart && hoverRangeStart.isBefore(rangeStart);
-    const nearRangeEnd =
-      rangeEnd && hoverRangeEnd && hoverRangeEnd.isAfter(rangeEnd);
+    const nearRangeStart = hoverRangeStart && rangeStart && hoverRangeStart.isBefore(rangeStart);
+    const nearRangeEnd = rangeEnd && hoverRangeEnd && hoverRangeEnd.isAfter(rangeEnd);
 
-    const isHoverNearRange =
-      (nearRangeStart && isRangeStart) || (nearRangeEnd && isRangeEnd);
+    const isHoverNearRange = (nearRangeStart && isRangeStart) || (nearRangeEnd && isRangeEnd);
 
     let isToday = isSameTime(cellDateObj.time, getNow());
 
@@ -67,24 +63,18 @@ export default function useClassName({
       {
         [`${prefixCls}-cell-in-view`]: isInView,
         [`${prefixCls}-cell-today`]: isToday,
-        [`${prefixCls}-cell-selected`]:
-          mergedValue && isSameTime(cellDateObj.time, mergedValue),
+        [`${prefixCls}-cell-selected`]: mergedValue && isSameTime(cellDateObj.time, mergedValue),
         [`${prefixCls}-cell-range-start`]: isRangeStart,
         [`${prefixCls}-cell-range-end`]: isRangeEnd,
         [`${prefixCls}-cell-in-range`]:
           rangeAvailable && isInRange(cellDateObj.time, rangeStart, rangeEnd),
         [`${prefixCls}-cell-in-range-near-hover`]: isHoverNearRange,
         [`${prefixCls}-cell-hover-range-start`]:
-          rangeAvailable &&
-          hoverRangeStart &&
-          isSameTime(cellDateObj.time, hoverRangeStart),
+          rangeAvailable && hoverRangeStart && isSameTime(cellDateObj.time, hoverRangeStart),
         [`${prefixCls}-cell-hover-range-end`]:
-          rangeAvailable &&
-          hoverRangeEnd &&
-          isSameTime(cellDateObj.time, hoverRangeEnd),
+          rangeAvailable && hoverRangeEnd && isSameTime(cellDateObj.time, hoverRangeEnd),
         [`${prefixCls}-cell-hover-in-range`]:
-          rangeAvailable &&
-          isInRange(cellDateObj.time, hoverRangeStart, hoverRangeEnd),
+          rangeAvailable && isInRange(cellDateObj.time, hoverRangeStart, hoverRangeEnd),
         [`${prefixCls}-cell-disabled`]: disabled,
       },
     ];

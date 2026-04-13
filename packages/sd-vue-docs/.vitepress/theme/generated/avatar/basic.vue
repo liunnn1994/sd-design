@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import { IconUser } from '@sd-design/web-vue/es/icon';
+  import { IconUser } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: { IconUser },
-};
+  export default {
+    components: { IconUser },
+  };
 </script>

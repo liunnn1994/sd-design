@@ -19,7 +19,7 @@ You can monitor the scroll event of the drop-down menu through `dropdown-scroll`
 ```vue
 <template>
   <a-select
-    :style="{width:'320px'}"
+    :style="{ width: '320px' }"
     default-value="Beijing"
     placeholder="Please select ..."
     @dropdown-scroll="handleScroll"
@@ -36,20 +36,20 @@ You can monitor the scroll event of the drop-down menu through `dropdown-scroll`
 </template>
 
 <script>
-export default {
-  setup() {
-    const handleScroll = (ev) => {
-      console.log('scroll', ev)
-    }
-    const handleReachBottom = (ev) => {
-      console.log('reach the bottom', ev)
-    }
+  export default {
+    setup() {
+      const handleScroll = (ev) => {
+        console.log('scroll', ev);
+      };
+      const handleReachBottom = (ev) => {
+        console.log('reach the bottom', ev);
+      };
 
-    return {
-      handleScroll,
-      handleReachBottom
-    }
-  },
-}
+      return {
+        handleScroll,
+        handleReachBottom,
+      };
+    },
+  };
 </script>
 ```

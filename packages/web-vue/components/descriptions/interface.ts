@@ -19,11 +19,7 @@ export interface DescData {
   span?: number;
 }
 
-export type DescLayout =
-  | 'horizontal'
-  | 'vertical'
-  | 'inline-horizontal'
-  | 'inline-vertical';
+export type DescLayout = 'horizontal' | 'vertical' | 'inline-horizontal' | 'inline-vertical';
 
 export interface DescItemData {
   index: number;

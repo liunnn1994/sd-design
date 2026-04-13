@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Collapse from '../index';
 
 const CollapseItem = Collapse.Item;

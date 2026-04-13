@@ -6,15 +6,15 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const value = ref('');
+  export default {
+    setup() {
+      const value = ref('');
 
-    return {
-      value
-    }
-  },
-}
+      return {
+        value,
+      };
+    },
+  };
 </script>

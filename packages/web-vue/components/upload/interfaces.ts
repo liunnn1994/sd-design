@@ -118,9 +118,7 @@ export interface RequestOption {
    * @zh 附加的请求信息
    * @en Additional requested information
    * */
-  data?:
-    | Record<string, string | Blob>
-    | ((fileItem: FileItem) => Record<string, string | Blob>);
+  data?: Record<string, string | Blob> | ((fileItem: FileItem) => Record<string, string | Blob>);
   /**
    * @zh 是否携带cookie信息
    * @en Whether to carry cookie information

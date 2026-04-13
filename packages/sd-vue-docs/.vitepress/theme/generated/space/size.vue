@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div style="marginBottom: 20px">
-      <a-radio-group v-model="size" type='button'>
+    <div style="marginbottom: 20px">
+      <a-radio-group v-model="size" type="button">
         <a-radio value="mini">mini</a-radio>
         <a-radio value="small">small</a-radio>
         <a-radio value="medium">medium</a-radio>
@@ -16,11 +16,11 @@
   </div>
 </template>
 <script>
-export default {
-  data() {
-    return {
-      size: 'medium',
-    }
-  }
-};
+  export default {
+    data() {
+      return {
+        size: 'medium',
+      };
+    },
+  };
 </script>

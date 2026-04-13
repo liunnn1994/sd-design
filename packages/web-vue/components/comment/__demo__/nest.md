@@ -61,30 +61,30 @@ Comments can be nested.
 </template>
 
 <script>
-import { IconHeart, IconMessage, IconStar } from '@sd-design/web-vue/es/icon';
+  import { IconHeart, IconMessage, IconStar } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: {
-    IconHeart,
-    IconMessage,
-    IconStar,
-  },
-};
+  export default {
+    components: {
+      IconHeart,
+      IconMessage,
+      IconStar,
+    },
+  };
 </script>
 
 <style scoped>
-.action {
-  display: inline-block;
-  padding: 0 4px;
-  color: var(--color-text-1);
-  line-height: 24px;
-  background: transparent;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: all 0.1s ease;
-}
-.action:hover {
-  background: var(--color-fill-3);
-}
+  .action {
+    display: inline-block;
+    padding: 0 4px;
+    color: var(--color-text-1);
+    line-height: 24px;
+    background: transparent;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+  }
+  .action:hover {
+    background: var(--color-fill-3);
+  }
 </style>
 ```

@@ -27,9 +27,7 @@ Basic usage. Just specify `count` or `content slot` to display the badge.
     </a-badge>
     <a-badge :dotStyle="{ height: '16px', width: '16px', fontSize: '14px' }">
       <template #content>
-        <IconClockCircle
-          :style="{ verticalAlign: 'middle', color: 'var(--color-text-2)' }"
-        />
+        <IconClockCircle :style="{ verticalAlign: 'middle', color: 'var(--color-text-2)' }" />
       </template>
       <a-avatar shape="square" />
     </a-badge>
@@ -37,10 +35,10 @@ Basic usage. Just specify `count` or `content slot` to display the badge.
 </template>
 
 <script>
-import { IconClockCircle } from '@sd-design/web-vue/es/icon';
+  import { IconClockCircle } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: { IconClockCircle },
-};
+  export default {
+    components: { IconClockCircle },
+  };
 </script>
 ```

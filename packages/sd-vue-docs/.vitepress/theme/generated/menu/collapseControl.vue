@@ -44,37 +44,40 @@
   </div>
 </template>
 <script>
-import { ref } from 'vue';
-import {
-  IconMenuFold,
-  IconMenuUnfold,
-  IconApps,
-  IconBug,
-  IconBulb,
-} from '@sd-design/web-vue/es/icon';
+  import { ref } from 'vue';
 
-export default {
-  components: {
+  import {
     IconMenuFold,
     IconMenuUnfold,
     IconApps,
     IconBug,
     IconBulb,
-  },
-  setup() {
-    const collapsed = ref(false);
-    return {
-      collapsed,
-      toggleCollapse: () => { collapsed.value = !collapsed.value; },
-    }
-  }
-};
+  } from '@sdata/web-vue/es/icon';
+
+  export default {
+    components: {
+      IconMenuFold,
+      IconMenuUnfold,
+      IconApps,
+      IconBug,
+      IconBulb,
+    },
+    setup() {
+      const collapsed = ref(false);
+      return {
+        collapsed,
+        toggleCollapse: () => {
+          collapsed.value = !collapsed.value;
+        },
+      };
+    },
+  };
 </script>
 <style scoped>
-.menu-demo {
-  box-sizing: border-box;
-  width: 100%;
-  padding: 40px;
-  background-color: var(--color-neutral-2);
-}
+  .menu-demo {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 40px;
+    background-color: var(--color-neutral-2);
+  }
 </style>

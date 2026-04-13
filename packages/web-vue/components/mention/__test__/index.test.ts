@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Mention from '../index';
 
 describe('Mention', () => {
@@ -12,9 +13,7 @@ describe('Mention', () => {
     await input.trigger('focusin');
     await input.setValue('@');
 
-    expect(
-      wrapper.findComponent({ name: 'SelectDropdown' }).html()
-    ).toMatchSnapshot();
+    expect(wrapper.findComponent({ name: 'SelectDropdown' }).html()).toMatchSnapshot();
   });
 
   test('should select value', async () => {
@@ -28,13 +27,9 @@ describe('Mention', () => {
     await input.setValue('@');
     const dropdown = wrapper.findComponent({ name: 'SelectDropdown' });
     await input.trigger('keydown', { key: 'ArrowDown' });
-    expect(dropdown.find('.sd-select-option-active').text()).toBe(
-      'Bytedesign'
-    );
+    expect(dropdown.find('.sd-select-option-active').text()).toBe('Bytedesign');
     await input.trigger('keydown', { key: 'ArrowUp' });
-    expect(dropdown.find('.sd-select-option-active').text()).toBe(
-      'Bytedance'
-    );
+    expect(dropdown.find('.sd-select-option-active').text()).toBe('Bytedance');
     await input.trigger('keydown', { key: 'Enter' });
     expect(wrapper.emitted('change')?.[1]).toEqual(['@Bytedance']);
   });

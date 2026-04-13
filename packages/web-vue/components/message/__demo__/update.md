@@ -22,21 +22,21 @@ Update the message content and reset the timer by setting the `duration` propert
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      index: 0
-    }
-  },
-  methods: {
-    handleClick() {
-      this.$message.info({
-        id: 'myInfo',
-        content: `This is an info message ${this.$data.index++}`,
-        duration: 2000
-      })
-    }
-  }
-};
+  export default {
+    data() {
+      return {
+        index: 0,
+      };
+    },
+    methods: {
+      handleClick() {
+        this.$message.info({
+          id: 'myInfo',
+          content: `This is an info message ${this.$data.index++}`,
+          duration: 2000,
+        });
+      },
+    },
+  };
 </script>
 ```

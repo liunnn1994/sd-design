@@ -168,11 +168,12 @@
   &-cell-selected &-date-value {
     color: @picker-panel-color-text-cell_selected;
     background-color: @picker-panel-color-bg-cell_selected;
-    transition: background-color @transition-duration-1
-      @transition-timing-function-linear;
+    transition: background-color @transition-duration-1 @transition-timing-function-linear;
   }
 
-  &-cell-in-view:not(&-cell-selected):not(&-cell-range-start):not(&-cell-range-end):not(&-cell-disabled):not(&-cell-week)
+  &-cell-in-view:not(&-cell-selected):not(&-cell-range-start):not(&-cell-range-end):not(
+      &-cell-disabled
+    ):not(&-cell-week)
     &-date-value:hover {
     color: @picker-panel-color-text-cell_hover;
     background-color: @picker-panel-color-bg-cell_hover;

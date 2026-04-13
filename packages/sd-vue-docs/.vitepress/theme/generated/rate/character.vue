@@ -1,8 +1,8 @@
 <template>
   <a-rate :default-value="2">
     <template #character="{ index }">
-      <icon-check v-if="index < 3"/>
-      <icon-close v-else/>
+      <icon-check v-if="index < 3" />
+      <icon-close v-else />
     </template>
   </a-rate>
 </template>

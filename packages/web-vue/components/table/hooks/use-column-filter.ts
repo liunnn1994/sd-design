@@ -1,8 +1,10 @@
 import type { Ref } from 'vue';
 import { computed, ref, watch } from 'vue';
-import { isArray } from '../../_utils/is';
-import type { TableColumnData } from '../interface';
+
 import type { TableContext } from '../context';
+import type { TableColumnData } from '../interface';
+
+import { isArray } from '../../_utils/is';
 
 export const useColumnFilter = ({
   column,
@@ -20,9 +22,7 @@ export const useColumnFilter = ({
 
   const filterPopupVisible = ref(false);
   const isFilterActive = computed(() => filterValue.value.length > 0);
-  const isMultipleFilter = computed(() =>
-    Boolean(column.value.filterable?.multiple)
-  );
+  const isMultipleFilter = computed(() => Boolean(column.value.filterable?.multiple));
   const columnFilterValue = ref<string[]>(filterValue.value);
 
   watch(filterValue, (value) => {
@@ -49,11 +49,7 @@ export const useColumnFilter = ({
 
   const handleFilterConfirm = (ev: Event) => {
     if (column.value.dataIndex) {
-      tableCtx.onFilterChange?.(
-        column.value.dataIndex,
-        columnFilterValue.value,
-        ev
-      );
+      tableCtx.onFilterChange?.(column.value.dataIndex, columnFilterValue.value, ev);
     }
     handleFilterPopupVisibleChange(false);
   };
@@ -61,11 +57,7 @@ export const useColumnFilter = ({
   const handleFilterReset = (ev: Event) => {
     setFilterValue([]);
     if (column.value.dataIndex) {
-      tableCtx.onFilterChange?.(
-        column.value.dataIndex,
-        columnFilterValue.value,
-        ev
-      );
+      tableCtx.onFilterChange?.(column.value.dataIndex, columnFilterValue.value, ev);
     }
     handleFilterPopupVisibleChange(false);
   };

@@ -1,15 +1,12 @@
 import type { PropType } from 'vue';
 import { defineComponent, TransitionGroup } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import { toKebabCase } from '../_utils/convert-case';
-import Notification from './notification.vue';
-import {
-  NOTIFICATION_POSITION,
-  NotificationItem,
-  NotificationPosition,
-} from './interface';
+
 import usePopupManager from '../_hooks/use-popup-manager';
+import { toKebabCase } from '../_utils/convert-case';
+import { getPrefixCls } from '../_utils/global-config';
 import { getSlotFunction } from '../_utils/vue-utils';
+import { NOTIFICATION_POSITION, NotificationItem, NotificationPosition } from './interface';
+import Notification from './notification.vue';
 
 export default defineComponent({
   name: 'NotificationList',

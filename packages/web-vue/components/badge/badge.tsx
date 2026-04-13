@@ -8,6 +8,7 @@ import {
   inject,
   ComputedRef,
 } from 'vue';
+
 import { getPrefixCls } from '../_utils/global-config';
 import { configProviderInjectionKey } from '../config-provider/context';
 
@@ -28,13 +29,7 @@ export const COLORS = [
 
 export type ColorType = (typeof COLORS)[number];
 
-export const BADGE_STATUSES = [
-  'normal',
-  'processing',
-  'success',
-  'warning',
-  'danger',
-] as const;
+export const BADGE_STATUSES = ['normal', 'processing', 'success', 'warning', 'danger'] as const;
 export type BadgeStatus = (typeof BADGE_STATUSES)[number];
 
 export default defineComponent({
@@ -104,8 +99,7 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    const { status, color, dotStyle, offset, text, dot, maxCount, count } =
-      toRefs(props);
+    const { status, color, dotStyle, offset, text, dot, maxCount, count } = toRefs(props);
     const prefixCls = getPrefixCls('badge');
     const configCtx = inject(configProviderInjectionKey, undefined);
     const rtl = computed(() => configCtx?.rtl ?? false);
@@ -128,8 +122,7 @@ export default defineComponent({
         computedDotStyle.marginTop = `${topOffset}px`;
       }
       const computedColorStyle =
-        !color?.value ||
-        COLORS.includes(color?.value as (typeof COLORS)[number])
+        !color?.value || COLORS.includes(color?.value as (typeof COLORS)[number])
           ? {}
           : { backgroundColor: color.value };
       const mergedStyle = {
@@ -179,9 +172,7 @@ export default defineComponent({
               ]}
               style={mergedStyle}
             />
-            {textValue && (
-              <span class={`${prefixCls}-status-text`}>{textValue}</span>
-            )}
+            {textValue && <span class={`${prefixCls}-status-text`}>{textValue}</span>}
           </span>
         );
       }
@@ -205,9 +196,7 @@ export default defineComponent({
       return (
         <span class={`${prefixCls}-number`} style={mergedStyle}>
           <span>
-            {maxCount.value && countValue > maxCount.value
-              ? `${maxCount.value}+`
-              : countValue}
+            {maxCount.value && countValue > maxCount.value ? `${maxCount.value}+` : countValue}
           </span>
         </span>
       );

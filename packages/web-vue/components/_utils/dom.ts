@@ -1,4 +1,5 @@
 import { VNode } from 'vue';
+
 import { isString } from './is';
 
 export const NOOP = () => {
@@ -25,7 +26,7 @@ export const getDocumentSize = (): Size => {
       html.scrollHeight,
       html.offsetHeight,
       topBody?.scrollHeight || 0,
-      topBody?.clientHeight || 0
+      topBody?.clientHeight || 0,
     ),
     width: Math.max(
       body.scrollWidth,
@@ -34,7 +35,7 @@ export const getDocumentSize = (): Size => {
       html.scrollWidth,
       html.offsetWidth,
       topBody?.scrollWidth || 0,
-      topBody?.clientWidth || 0
+      topBody?.clientWidth || 0,
     ),
   };
 };
@@ -54,13 +55,9 @@ export const on = (() => {
     element: HTMLElement | Window,
     event: K,
     handler: (ev: HTMLElementEventMap[K]) => void,
-    options: boolean | AddEventListenerOptions = false
+    options: boolean | AddEventListenerOptions = false,
   ) => {
-    element.addEventListener(
-      event,
-      handler as EventListenerOrEventListenerObject,
-      options
-    );
+    element.addEventListener(event, handler as EventListenerOrEventListenerObject, options);
   };
 })();
 
@@ -72,13 +69,9 @@ export const off = (() => {
     element: HTMLElement | Window,
     type: K,
     handler: (ev: HTMLElementEventMap[K]) => void,
-    options: boolean | EventListenerOptions = false
+    options: boolean | EventListenerOptions = false,
   ) => {
-    element.removeEventListener(
-      type,
-      handler as EventListenerOrEventListenerObject,
-      options
-    );
+    element.removeEventListener(type, handler as EventListenerOrEventListenerObject, options);
   };
 })();
 
@@ -104,34 +97,24 @@ export const contains = (root: Node | null | undefined, ele: Node | null) => {
   return false;
 };
 
-export const OVERLAY_TYPES = [
-  'modal',
-  'message',
-  'notification',
-  'drawer',
-] as const;
+export const OVERLAY_TYPES = ['modal', 'message', 'notification', 'drawer'] as const;
 
-export const getOverlay = (type: typeof OVERLAY_TYPES[number]) => {
+export const getOverlay = (type: (typeof OVERLAY_TYPES)[number]) => {
   const popper = document.createElement('div');
   popper.setAttribute('class', `sd-overlay sd-overlay-${type}`);
   return popper;
 };
 
-export const querySelector = (
-  selectors: string,
-  container?: Document | HTMLElement
-) => {
+export const querySelector = (selectors: string, container?: Document | HTMLElement) => {
   if (isServerRendering) {
     return NOOP();
   }
-  return (
-    (container ?? document).querySelector<HTMLElement>(selectors) ?? undefined
-  );
+  return (container ?? document).querySelector<HTMLElement>(selectors) ?? undefined;
 };
 
 export const getElement = (
   target: string | HTMLElement | undefined,
-  container?: Document | HTMLElement
+  container?: Document | HTMLElement,
 ): HTMLElement | undefined => {
   if (isString(target)) {
     const selector = target[0] === '#' ? `[id='${target.slice(1)}']` : target;

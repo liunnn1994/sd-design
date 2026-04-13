@@ -1,5 +1,6 @@
-import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
+import { nextTick } from 'vue';
+
 import Modal from '../index';
 import ModalComponent from '../modal.vue';
 

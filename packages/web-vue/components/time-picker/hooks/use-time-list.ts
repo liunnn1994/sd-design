@@ -1,21 +1,21 @@
 // 生成时分秒的列数据，用于展示选项
 
 import { toRefs, computed, ComputedRef } from 'vue';
+
 import { padStart } from '../../_utils/pad';
 import { PanelProps, TimeList } from '../interface';
 import { getColumnsFromFormat } from '../utils';
 
-interface TimeListProps
-  extends Pick<
-    PanelProps,
-    | 'format'
-    | 'step'
-    | 'use12Hours'
-    | 'disabledHours'
-    | 'disabledMinutes'
-    | 'disabledSeconds'
-    | 'hideDisabledOptions'
-  > {
+interface TimeListProps extends Pick<
+  PanelProps,
+  | 'format'
+  | 'step'
+  | 'use12Hours'
+  | 'disabledHours'
+  | 'disabledMinutes'
+  | 'disabledSeconds'
+  | 'hideDisabledOptions'
+> {
   selectedHour: number | undefined;
   selectedMinute: number | undefined;
   selectedSecond: number | undefined;
@@ -88,8 +88,7 @@ export default function useTimeList(props: TimeListProps): {
   // 秒
   const seconds = computed(() => {
     const { second: secondStep = 1 } = step?.value || {};
-    const disabledList =
-      disabledSeconds?.value?.(selectedHour.value, selectedMinute.value) || [];
+    const disabledList = disabledSeconds?.value?.(selectedHour.value, selectedMinute.value) || [];
     let list = [];
     for (let i = 0; i < 60; i += secondStep) {
       list.push(i);

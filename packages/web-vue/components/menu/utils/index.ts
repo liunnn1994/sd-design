@@ -1,11 +1,10 @@
 import { Fragment, isVNode, VNode, Component, Slots } from 'vue';
+
 import { isArray } from '../../_utils/is';
 import { ShapeFlags } from '../../_utils/vue-utils';
 
 export function isFragmentChildren(children: VNode[]) {
-  return (
-    isArray(children) && children.length === 1 && children[0].type === Fragment
-  );
+  return isArray(children) && children.length === 1 && children[0].type === Fragment;
 }
 
 export function isVNodeComponent(vNode: VNode) {
@@ -20,10 +19,7 @@ export function isSlotChildren(vNode: VNode) {
   return !!isVNode(vNode) && vNode.shapeFlag & ShapeFlags.SLOTS_CHILDREN;
 }
 
-export function isChildrenSelected(
-  children: VNode[] | undefined,
-  keys: string[]
-): boolean {
+export function isChildrenSelected(children: VNode[] | undefined, keys: string[]): boolean {
   if (!isArray(children) || !children.length) return false;
 
   for (let i = 0; i < children.length; i++) {
@@ -47,10 +43,7 @@ export function isChildrenSelected(
       }
     }
 
-    if (
-      isArrayChildren(child) &&
-      isChildrenSelected(child.children as VNode[], keys)
-    ) {
+    if (isArrayChildren(child) && isChildrenSelected(child.children as VNode[], keys)) {
       return true;
     }
   }

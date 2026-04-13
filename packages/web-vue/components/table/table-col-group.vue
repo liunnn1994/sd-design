@@ -11,9 +11,8 @@
       :key="`sd-col-${item.dataIndex}`"
       :style="
         fixedWidth(
-          (columnWidth && item.dataIndex && columnWidth[item.dataIndex]) ||
-            item.width,
-          item.minWidth
+          (columnWidth && item.dataIndex && columnWidth[item.dataIndex]) || item.width,
+          item.minWidth,
         )
       "
     />
@@ -21,42 +20,43 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
-import { TableColumnData, TableOperationColumn } from './interface';
+  import { defineComponent, PropType } from 'vue';
 
-export default defineComponent({
-  name: 'ColGroup',
-  props: {
-    dataColumns: {
-      type: Array as PropType<TableColumnData[]>,
-      required: true,
+  import { TableColumnData, TableOperationColumn } from './interface';
+
+  export default defineComponent({
+    name: 'ColGroup',
+    props: {
+      dataColumns: {
+        type: Array as PropType<TableColumnData[]>,
+        required: true,
+      },
+      operations: {
+        type: Array as PropType<TableOperationColumn[]>,
+        required: true,
+      },
+      columnWidth: {
+        type: Object as PropType<Record<string, number>>,
+      },
     },
-    operations: {
-      type: Array as PropType<TableOperationColumn[]>,
-      required: true,
+    setup() {
+      const fixedWidth = (width?: number, minWidth?: number) => {
+        if (width) {
+          const min = Math.max(width, minWidth || 0);
+          return {
+            width: `${width}px`,
+            minWidth: `${min}px`,
+            maxWidth: `${width}px`,
+          };
+        }
+        if (minWidth) {
+          return { minWidth: `${minWidth}px` };
+        }
+        return undefined;
+      };
+      return {
+        fixedWidth,
+      };
     },
-    columnWidth: {
-      type: Object as PropType<Record<string, number>>,
-    },
-  },
-  setup() {
-    const fixedWidth = (width?: number, minWidth?: number) => {
-      if (width) {
-        const min = Math.max(width, minWidth || 0);
-        return {
-          width: `${width}px`,
-          minWidth: `${min}px`,
-          maxWidth: `${width}px`,
-        };
-      }
-      if (minWidth) {
-        return { minWidth: `${minWidth}px` };
-      }
-      return undefined;
-    };
-    return {
-      fixedWidth,
-    };
-  },
-});
+  });
 </script>

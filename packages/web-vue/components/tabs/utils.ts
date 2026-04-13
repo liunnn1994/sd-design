@@ -12,7 +12,7 @@ export const getDiffRect = (node: HTMLElement, parentNode: HTMLElement) => {
 
 export const updateScrollOffset = (
   parentNode: HTMLElement,
-  direction: 'horizontal' | 'vertical'
+  direction: 'horizontal' | 'vertical',
 ) => {
   const { scrollTop, scrollLeft } = parentNode;
 

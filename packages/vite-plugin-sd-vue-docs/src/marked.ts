@@ -1,9 +1,11 @@
-import { marked, Tokens } from 'marked';
+import { parse } from '@vue/compiler-sfc';
+
 import yaml from 'js-yaml';
+import { marked, Tokens } from 'marked';
+import path from 'path';
 import Prism from 'prismjs';
 import loadLanguages from 'prismjs/components/index';
-import { parse } from '@vue/compiler-sfc';
-import path from 'path';
+
 import { FileImportToken, I18nDescriptionToken } from './interface';
 
 const languages = ['shell', 'js', 'ts', 'jsx', 'tsx', 'less', 'diff'];
@@ -42,17 +44,13 @@ function highlightCode(code: string, lang?: string) {
       });
     }
 
-    let highlighted = Prism.highlight(
-      htmlContent,
-      Prism.languages.html,
-      'html'
-    );
+    let highlighted = Prism.highlight(htmlContent, Prism.languages.html, 'html');
     if (script?.content) {
       const scriptLang = script.lang ?? 'js';
       const highlightedScript = Prism.highlight(
         script.content,
         Prism.languages[scriptLang],
-        scriptLang
+        scriptLang,
       );
       highlighted = highlighted.replace('$script$', highlightedScript);
     }
@@ -62,12 +60,9 @@ function highlightCode(code: string, lang?: string) {
         const highlightedStyle = Prism.highlight(
           style.content,
           Prism.languages[styleLang],
-          styleLang
+          styleLang,
         );
-        highlighted = highlighted.replace(
-          `$style-${index}$`,
-          highlightedStyle
-        );
+        highlighted = highlighted.replace(`$style-${index}$`, highlightedStyle);
       });
     }
 
@@ -163,7 +158,7 @@ marked.use({
       if (token.depth === 2) {
         const anchor = token.text.replace(/\s+/g, '-');
         return `<anchor-head level="${token.depth}" href="${escapeHtml(
-          anchor
+          anchor,
         )}">${content}</anchor-head>`;
       }
       return `<h${token.depth} id="${escapeHtml(token.text)}">${content}</h${token.depth}>`;
@@ -196,9 +191,7 @@ marked.use({
         return token.text;
       }
 
-      let out = `<img src="${escapeHtml(href)}" alt="${escapeHtml(
-        token.text ?? ''
-      )}"`;
+      let out = `<img src="${escapeHtml(href)}" alt="${escapeHtml(token.text ?? '')}"`;
 
       if (token.title) {
         out += ` title="${escapeHtml(token.title)}"`;

@@ -36,10 +36,8 @@
 
     // 带有返回按钮时，避免 overflow:hidden 导致返回按钮hover状态背景色显示不全
     &-with-back {
-      margin-left: (@page-header-size-back-icon / 2) -
-        (@page-header-size-back-icon-bg_hover / 2);
-      padding-left: (@page-header-size-back-icon-bg_hover / 2) -
-        (@page-header-size-back-icon / 2);
+      margin-left: (@page-header-size-back-icon / 2) - (@page-header-size-back-icon-bg_hover / 2);
+      padding-left: (@page-header-size-back-icon-bg_hover / 2) - (@page-header-size-back-icon / 2);
     }
   }
 
@@ -90,15 +88,13 @@
 
   // 内容区
   &-content {
-    padding: @page-header-padding-content-vertical
-      @page-header-padding-content-horizontal;
-    border-top: @page-header-border-header-width
-      @page-header-border-header-style @page-header-color-header-border;
+    padding: @page-header-padding-content-vertical @page-header-padding-content-horizontal;
+    border-top: @page-header-border-header-width @page-header-border-header-style
+      @page-header-color-header-border;
   }
 
   &-footer {
-    padding: @page-header-padding-vertical @page-header-padding-right 0
-      @page-header-padding-left;
+    padding: @page-header-padding-vertical @page-header-padding-right 0 @page-header-padding-left;
   }
 
   &-with-breadcrumb {

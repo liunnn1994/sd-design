@@ -5,9 +5,7 @@ interface PopupOverflowHiddenProps {
   hidden: boolean;
 }
 
-export default function usePopupOverflowHidden(
-  props: PopupOverflowHiddenProps
-) {
+export default function usePopupOverflowHidden(props: PopupOverflowHiddenProps) {
   const { container, hidden } = toRefs(props);
 
   let needResetContainerStyle = false;
@@ -15,8 +13,7 @@ export default function usePopupOverflowHidden(
 
   const getScrollBarWidth = (element: HTMLElement) => {
     return element.tagName === 'BODY'
-      ? window.innerWidth -
-          (document.body.clientWidth || document.documentElement.clientWidth)
+      ? window.innerWidth - (document.body.clientWidth || document.documentElement.clientWidth)
       : element.offsetWidth - element.clientWidth;
   };
 

@@ -17,18 +17,22 @@ Use the `strict` attribute to specify that the matching is strictly case sensiti
 ---
 
 ```vue
-
 <template>
-  <a-auto-complete :data="data" :style="{width:'360px'}" placeholder="please enter something" strict />
+  <a-auto-complete
+    :data="data"
+    :style="{ width: '360px' }"
+    placeholder="please enter something"
+    strict
+  />
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      data: ['Beijing', 'Shanghai', 'Chengdu', 'WuHan']
-    }
-  },
-}
+  export default {
+    data() {
+      return {
+        data: ['Beijing', 'Shanghai', 'Chengdu', 'WuHan'],
+      };
+    },
+  };
 </script>
 ```

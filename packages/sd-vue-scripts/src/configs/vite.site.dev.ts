@@ -1,9 +1,10 @@
-import path from 'path';
-import { defineConfig, InlineConfig } from 'vite';
+import vueDocs from '@sd-design/vite-plugin-sd-vue-docs';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
-import vueDocs from '@sd-design/vite-plugin-sd-vue-docs';
+import path from 'path';
+import { defineConfig, InlineConfig } from 'vite';
 import svgLoader from 'vite-svg-loader';
+
 import paths from '../utils/paths';
 
 const root = process.cwd();
@@ -34,10 +35,5 @@ export default defineConfig({
       },
     ],
   },
-  plugins: [
-    vueDocs(),
-    vue(),
-    vueJsx(),
-    svgLoader({ svgoConfig: {} }),
-  ],
+  plugins: [vueDocs(), vue(), vueJsx(), svgLoader({ svgoConfig: {} })],
 }) as InlineConfig;

@@ -18,72 +18,77 @@ Allow clear.
 
 ```vue
 <template>
-  <a-cascader :options="options" v-model="value" :style="{width:'320px'}" placeholder="Please select ..."
-              allow-clear />
+  <a-cascader
+    :options="options"
+    v-model="value"
+    :style="{ width: '320px' }"
+    placeholder="Please select ..."
+    allow-clear
+  />
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const value = ref('datunli');
+  export default {
+    setup() {
+      const value = ref('datunli');
 
-    const options = [
-      {
-        value: 'beijing',
-        label: 'Beijing',
-        children: [
-          {
-            value: 'chaoyang',
-            label: 'ChaoYang',
-            children: [
-              {
-                value: 'datunli',
-                label: 'Datunli',
-              },
-            ],
-          },
-          {
-            value: 'haidian',
-            label: 'Haidian',
-          },
-          {
-            value: 'dongcheng',
-            label: 'Dongcheng',
-          },
-          {
-            value: 'xicheng',
-            label: 'Xicheng',
-            children: [
-              {
-                value: 'jinrongjie',
-                label: 'Jinrongjie',
-              },
-              {
-                value: 'tianqiao',
-                label: 'Tianqiao',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        value: 'shanghai',
-        label: 'Shanghai',
-        children: [
-          {
-            value: 'huangpu',
-            label: 'Huangpu',
-          },
-        ],
-      },
-    ];
-    return {
-      value,
-      options
-    }
-  },
-}
+      const options = [
+        {
+          value: 'beijing',
+          label: 'Beijing',
+          children: [
+            {
+              value: 'chaoyang',
+              label: 'ChaoYang',
+              children: [
+                {
+                  value: 'datunli',
+                  label: 'Datunli',
+                },
+              ],
+            },
+            {
+              value: 'haidian',
+              label: 'Haidian',
+            },
+            {
+              value: 'dongcheng',
+              label: 'Dongcheng',
+            },
+            {
+              value: 'xicheng',
+              label: 'Xicheng',
+              children: [
+                {
+                  value: 'jinrongjie',
+                  label: 'Jinrongjie',
+                },
+                {
+                  value: 'tianqiao',
+                  label: 'Tianqiao',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          value: 'shanghai',
+          label: 'Shanghai',
+          children: [
+            {
+              value: 'huangpu',
+              label: 'Huangpu',
+            },
+          ],
+        },
+      ];
+      return {
+        value,
+        options,
+      };
+    },
+  };
 </script>
 ```

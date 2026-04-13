@@ -18,7 +18,7 @@ The entire form can be disabled through the `disabled` attribute.
 
 ```vue
 <template>
-  <a-form :model="form" :style="{width:'600px'}" disabled>
+  <a-form :model="form" :style="{ width: '600px' }" disabled>
     <a-form-item field="name" label="Username">
       <a-input v-model="form.name" placeholder="please enter your username..." />
     </a-form-item>
@@ -26,9 +26,7 @@ The entire form can be disabled through the `disabled` attribute.
       <a-input v-model="form.post" placeholder="please enter your post..." />
     </a-form-item>
     <a-form-item field="isRead">
-      <a-checkbox v-model="form.isRead">
-        I have read the manual
-      </a-checkbox>
+      <a-checkbox v-model="form.isRead"> I have read the manual </a-checkbox>
     </a-form-item>
     <a-form-item>
       <a-button>Submit</a-button>
@@ -38,20 +36,20 @@ The entire form can be disabled through the `disabled` attribute.
 </template>
 
 <script>
-import { reactive } from 'vue';
+  import { reactive } from 'vue';
 
-export default {
-  setup() {
-    const form = reactive({
-      name: '',
-      post: '',
-      isRead: false,
-    })
+  export default {
+    setup() {
+      const form = reactive({
+        name: '',
+        post: '',
+        isRead: false,
+      });
 
-    return {
-      form,
-    }
-  },
-}
+      return {
+        form,
+      };
+    },
+  };
 </script>
 ```

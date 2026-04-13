@@ -1,7 +1,9 @@
 import { ref, reactive, inject, computed } from 'vue';
+
+import type { SDI18nMessages, SDLang } from './interface';
+
 import { isString } from '../_utils/is';
 import { configProviderInjectionKey } from '../config-provider/context';
-import type { SDI18nMessages, SDLang } from './interface';
 import zhCN from './lang/zh-cn';
 
 const LOCALE = ref('zh-CN');
@@ -18,7 +20,7 @@ export const addI18nMessages = (
   messages: SDI18nMessages,
   options?: {
     overwrite?: boolean;
-  }
+  },
 ) => {
   for (const key of Object.keys(messages)) {
     if (!I18N_MESSAGES[key] || options?.overwrite) {
@@ -50,9 +52,7 @@ export const getLocale = () => {
 // 仅内部使用
 export const useI18n = () => {
   const configProvider = inject(configProviderInjectionKey, undefined);
-  const i18nMessage = computed<SDLang>(
-    () => configProvider?.locale ?? I18N_MESSAGES[LOCALE.value]
-  );
+  const i18nMessage = computed<SDLang>(() => configProvider?.locale ?? I18N_MESSAGES[LOCALE.value]);
   const locale = computed(() => i18nMessage.value.locale);
 
   const transform = (key: string, ...args: any[]): string => {

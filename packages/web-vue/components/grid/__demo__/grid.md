@@ -17,7 +17,6 @@ A layout component implemented by CSS-based Grid layout, supports folding, and c
 ---
 
 ```vue
-
 <template>
   <div style="margin-bottom: 20px;">
     <a-typography-text>折叠：</a-typography-text>
@@ -39,34 +38,34 @@ A layout component implemented by CSS-based Grid layout, supports folding, and c
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const collapsed = ref(false);
+  export default {
+    setup() {
+      const collapsed = ref(false);
 
-    return {
-      collapsed
-    }
-  },
-}
+      return {
+        collapsed,
+      };
+    },
+  };
 </script>
 
 <style scoped>
-.grid-demo-grid .demo-item,
-.grid-demo-grid .demo-suffix {
-  height: 48px;
-  line-height: 48px;
-  color: var(--color-white);
-  text-align: center;
-}
+  .grid-demo-grid .demo-item,
+  .grid-demo-grid .demo-suffix {
+    height: 48px;
+    line-height: 48px;
+    color: var(--color-white);
+    text-align: center;
+  }
 
-.grid-demo-grid .demo-item:nth-child(2n) {
-  background-color: rgba(var(--sdblue-6), 0.9);
-}
+  .grid-demo-grid .demo-item:nth-child(2n) {
+    background-color: rgba(var(--sdblue-6), 0.9);
+  }
 
-.grid-demo-grid .demo-item:nth-child(2n + 1) {
-  background-color: var(--color-primary-light-4);
-}
+  .grid-demo-grid .demo-item:nth-child(2n + 1) {
+    background-color: var(--color-primary-light-4);
+  }
 </style>
 ```

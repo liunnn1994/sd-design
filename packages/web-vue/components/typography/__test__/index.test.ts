@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Typography from '../index';
 
 const { Paragraph } = Typography;
@@ -8,15 +9,11 @@ const LINE_HEIGHT = 16;
 const _getComputedStyle = window.getComputedStyle;
 const _getHtmlOffsetHeight = Object.getOwnPropertyDescriptor(
   HTMLElement.prototype,
-  'offsetHeight'
+  'offsetHeight',
 )?.get;
-const _getInnerText = Object.getOwnPropertyDescriptor(
-  HTMLElement.prototype,
-  'innerText'
-)?.get;
+const _getInnerText = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'innerText')?.get;
 
-const sleep = (timeout = 0) =>
-  new Promise((resolve) => setTimeout(resolve, timeout));
+const sleep = (timeout = 0) => new Promise((resolve) => setTimeout(resolve, timeout));
 
 describe('Typography', () => {
   beforeAll(() => {
@@ -68,9 +65,7 @@ describe('Typography', () => {
     const copyIconWrapper = wrapper.find('.sd-typography-operation-copy');
     expect(copyIconWrapper.exists()).toBe(true);
     await copyIconWrapper.trigger('click');
-    expect(wrapper.find('.sd-typography-operation-copied').exists()).toBe(
-      true
-    );
+    expect(wrapper.find('.sd-typography-operation-copied').exists()).toBe(true);
   });
 
   test('Paragraph should support editable', async () => {
@@ -89,8 +84,7 @@ describe('Typography', () => {
   });
 
   test('Paragraph should support ellipsis', async () => {
-    const text =
-      'A design is a plan or specification for the construction'.repeat(10);
+    const text = 'A design is a plan or specification for the construction'.repeat(10);
     const wrapper = mount(Paragraph, {
       slots: {
         default: text,

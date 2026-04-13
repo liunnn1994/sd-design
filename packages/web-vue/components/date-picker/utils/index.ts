@@ -1,4 +1,5 @@
 import { Dayjs } from 'dayjs';
+
 import { isArray, isDayjs, isUndefined } from '../../_utils/is';
 import { CalendarValue, DisabledDate, Mode } from '../interface';
 
@@ -7,7 +8,7 @@ export function newArray<T>(length: number) {
 }
 
 export function normalizeRangeValue(
-  value: (CalendarValue | undefined)[] | CalendarValue | undefined
+  value: (CalendarValue | undefined)[] | CalendarValue | undefined,
 ) {
   if (isUndefined(value)) {
     return undefined;
@@ -16,24 +17,18 @@ export function normalizeRangeValue(
 }
 
 export function isCompleteRangeValue(
-  value: Array<Dayjs | undefined> | undefined
+  value: Array<Dayjs | undefined> | undefined,
 ): value is [Dayjs, Dayjs] {
   return !!value && isDayjs(value[0]) && isDayjs(value[1]);
 }
 
 export function isValidRangeValue(
-  value: Array<Dayjs | undefined> | undefined
+  value: Array<Dayjs | undefined> | undefined,
 ): value is undefined | [] | [Dayjs, Dayjs] {
-  return (
-    isUndefined(value) || value.length === 0 || isCompleteRangeValue(value)
-  );
+  return isUndefined(value) || value.length === 0 || isCompleteRangeValue(value);
 }
 
-export function mergeValueWithTime(
-  defaultValue: Dayjs,
-  dateValue?: Dayjs,
-  timeValue?: Dayjs
-) {
+export function mergeValueWithTime(defaultValue: Dayjs, dateValue?: Dayjs, timeValue?: Dayjs) {
   const dateVal = dateValue || defaultValue;
   const timeVal = timeValue || defaultValue;
   return timeVal
@@ -45,7 +40,7 @@ export function mergeValueWithTime(
 export function isDisabledDate(
   cellDate: Dayjs,
   disabledDate?: DisabledDate,
-  mode: Mode = 'date'
+  mode: Mode = 'date',
 ): boolean {
   if (typeof disabledDate !== 'function') return false;
 

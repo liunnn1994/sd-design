@@ -37,43 +37,44 @@
   </div>
 </template>
 <script>
-import { ref } from 'vue';
-import { Message } from '@sd-design/web-vue';
-import {
-  IconMenuFold,
-  IconMenuUnfold,
-  IconApps,
-  IconBug,
-  IconBulb,
-} from '@sd-design/web-vue/es/icon';
+  import { ref } from 'vue';
 
-export default {
-  components: {
+  import { Message } from '@sdata/web-vue';
+  import {
     IconMenuFold,
     IconMenuUnfold,
     IconApps,
     IconBug,
     IconBulb,
-  },
-  setup() {
-    return {
-      onCollapse(val, type) {
-        const content = type === 'responsive' ? '触发响应式收缩' : '点击触发收缩';
-        Message.info({
-          content,
-          duration: 2000,
-        });
-      }
-    };
-  }
-};
+  } from '@sdata/web-vue/es/icon';
+
+  export default {
+    components: {
+      IconMenuFold,
+      IconMenuUnfold,
+      IconApps,
+      IconBug,
+      IconBulb,
+    },
+    setup() {
+      return {
+        onCollapse(val, type) {
+          const content = type === 'responsive' ? '触发响应式收缩' : '点击触发收缩';
+          Message.info({
+            content,
+            duration: 2000,
+          });
+        },
+      };
+    },
+  };
 </script>
 <style scoped>
-.menu-demo {
-  box-sizing: border-box;
-  width: 100%;
-  height: 600px;
-  padding: 40px;
-  background-color: var(--color-neutral-2);
-}
+  .menu-demo {
+    box-sizing: border-box;
+    width: 100%;
+    height: 600px;
+    padding: 40px;
+    background-color: var(--color-neutral-2);
+  }
 </style>

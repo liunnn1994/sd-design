@@ -57,8 +57,7 @@
       background-color: @radio-color-bg;
       border-radius: @radio-border-radius;
       transform: scale(1);
-      transition: transform @transition-duration-3
-        @transition-timing-function-overshoot;
+      transition: transform @transition-duration-3 @transition-timing-function-overshoot;
       content: '';
     }
   }
@@ -169,7 +168,8 @@
   &:not(:first-of-type)::before {
     position: absolute;
     top: 50%;
-    left: -((@radio-button-spacing - @radio-button-size-separator-width) / 2) - @radio-button-size-separator-width;
+    left: -((@radio-button-spacing - @radio-button-size-separator-width) / 2) -
+      @radio-button-size-separator-width;
     display: block;
     width: @radio-button-size-separator-width;
     height: @radio-button-size-separator-height;

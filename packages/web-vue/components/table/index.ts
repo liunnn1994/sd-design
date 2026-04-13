@@ -1,13 +1,15 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { getComponentPrefix, setGlobalConfig } from '../_utils/global-config';
 import _Table from './table';
-import _Thead from './table-thead';
-import _Tbody from './table-tbody';
-import _Tr from './table-tr';
-import _Th from './table-th';
-import _Td from './table-td';
 import _Column from './table-column';
+import _Tbody from './table-tbody';
+import _Td from './table-td';
+import _Th from './table-th';
+import _Thead from './table-thead';
+import _Tr from './table-tr';
 
 const Table = Object.assign(_Table, {
   Thead: _Thead,

@@ -1,5 +1,7 @@
 import { Slot, VNode } from 'vue';
+
 import { Dayjs } from 'dayjs';
+
 import { TimePickerProps } from '../time-picker/interface';
 
 export type CalendarValue = Date | string | number;
@@ -36,14 +38,8 @@ export type FormatFunc = (current: Date) => string;
 export type IsSameTime = (current: Dayjs, target: Dayjs) => boolean;
 export type DisabledDate = (current: Date) => boolean;
 export type DisabledTime = (current: Date) => DisabledTimeProps;
-export type RangeDisabledDate = (
-  current: Date,
-  type: 'start' | 'end'
-) => boolean;
-export type RangeDisabledTime = (
-  current: Date,
-  type: 'start' | 'end'
-) => DisabledTimeProps;
+export type RangeDisabledDate = (current: Date, type: 'start' | 'end') => boolean;
+export type RangeDisabledTime = (current: Date, type: 'start' | 'end') => DisabledTimeProps;
 
 export type Mode = 'date' | 'year' | 'quarter' | 'month' | 'week';
 

@@ -107,13 +107,7 @@ export default defineComponent({
               ></ellipse>
             </g>
             <g transform="matrix(0.185726,-0.107229,-1.84168e-18,0.247635,313.509,417.329)">
-              <ellipse
-                cx="1566.31"
-                cy="1372.3"
-                rx="4"
-                ry="3.464"
-                style="fill: white;"
-              ></ellipse>
+              <ellipse cx="1566.31" cy="1372.3" rx="4" ry="3.464" style="fill: white;"></ellipse>
             </g>
             <g transform="matrix(0.185726,-0.107229,-1.84168e-18,0.247635,316.512,415.595)">
               <ellipse
@@ -216,13 +210,7 @@ export default defineComponent({
               ></ellipse>
             </g>
             <g transform="matrix(0.185726,-0.107229,-1.84168e-18,0.247635,310.507,396.759)">
-              <ellipse
-                cx="1566.31"
-                cy="1372.3"
-                rx="4"
-                ry="3.464"
-                style="fill: white;"
-              ></ellipse>
+              <ellipse cx="1566.31" cy="1372.3" rx="4" ry="3.464" style="fill: white;"></ellipse>
             </g>
             <g transform="matrix(0.185726,-0.107229,-1.84168e-18,0.247635,313.509,395.025)">
               <ellipse
@@ -325,13 +313,7 @@ export default defineComponent({
               ></rect>
             </g>
             <g transform="matrix(0.185726,-0.107229,-1.84168e-18,0.247635,307.505,373.782)">
-              <ellipse
-                cx="1566.31"
-                cy="1372.3"
-                rx="4"
-                ry="3.464"
-                style="fill: white;"
-              ></ellipse>
+              <ellipse cx="1566.31" cy="1372.3" rx="4" ry="3.464" style="fill: white;"></ellipse>
             </g>
             <g transform="matrix(0.185726,-0.107229,-1.84168e-18,0.247635,310.507,372.049)">
               <ellipse
@@ -480,14 +462,8 @@ export default defineComponent({
             gradientUnits="userSpaceOnUse"
             gradientTransform="matrix(-118.47,-106.79,210.785,-180.125,69.2121,1372.7)"
           >
-            <stop
-              offset="0"
-              style="stop-color: rgb(64, 128, 255); stop-opacity: 1;"
-            ></stop>
-            <stop
-              offset="1"
-              style="stop-color: rgb(64, 128, 255); stop-opacity: 1;"
-            ></stop>
+            <stop offset="0" style="stop-color: rgb(64, 128, 255); stop-opacity: 1;"></stop>
+            <stop offset="1" style="stop-color: rgb(64, 128, 255); stop-opacity: 1;"></stop>
           </linearGradient>
           <image
             id="_Image13"

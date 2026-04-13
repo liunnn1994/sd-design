@@ -1,6 +1,6 @@
 ---
-title: "collapse"
-outline: "deep"
+title: 'collapse'
+outline: 'deep'
 ---
 
 ```yaml
@@ -11,59 +11,47 @@ title: 折叠面板 Collapse
 description: 可以折叠 / 展开的内容区域。
 ```
 
-
-
-
-
-
-
-
-
-
 ## API
-
 
 ### `<collapse>` Props
 
-|参数名|描述|类型|默认值|版本|
-|---|---|---|:---:|:---|
-|active-key **(v-model)**|当前展开的面板的 `key`|`(string \| number)[]`|`-`||
-|default-active-key|默认展开的面板的 `key` （非受控模式）|`(string \| number)[]`|`[]`||
-|accordion|是否开启手风琴模式|`boolean`|`false`||
-|show-expand-icon|是否显示展开图标|`boolean`|`-`|2.33.0|
-|expand-icon-position|展开图标显示的位置|`'left' \| 'right'`|`'left'`||
-|bordered|是否显示边框|`boolean`|`true`||
-|destroy-on-hide|是否在隐藏时销毁内容|`boolean`|`false`|2.27.0|
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| active-key **(v-model)** | 当前展开的面板的 `key` | `(string \| number)[]` | `-` |  |
+| default-active-key | 默认展开的面板的 `key` （非受控模式） | `(string \| number)[]` | `[]` |  |
+| accordion | 是否开启手风琴模式 | `boolean` | `false` |  |
+| show-expand-icon | 是否显示展开图标 | `boolean` | `-` | 2.33.0 |
+| expand-icon-position | 展开图标显示的位置 | `'left' \| 'right'` | `'left'` |  |
+| bordered | 是否显示边框 | `boolean` | `true` |  |
+| destroy-on-hide | 是否在隐藏时销毁内容 | `boolean` | `false` | 2.27.0 |
+
 ### `<collapse>` Events
 
-|事件名|描述|参数|
-|---|---|---|
-|change|展开的面板发生改变时触发|activeKey: `(string \| number)[]`<br>ev: `Event`|
-
-
-
+| 事件名 | 描述                     | 参数                                             |
+| ------ | ------------------------ | ------------------------------------------------ |
+| change | 展开的面板发生改变时触发 | activeKey: `(string \| number)[]`<br>ev: `Event` |
 
 ### `<collapse-item>` Props
 
-|参数名|描述|类型|默认值|版本|
-|---|---|---|:---:|:---|
-|header|面板的标题|`string`|`-`||
-|disabled|是否禁用|`boolean`|`false`||
-|show-expand-icon|是否显示展开图标|`boolean`|`true`||
-|destroy-on-hide|是否在隐藏时销毁内容|`boolean`|`false`|2.27.0|
+| 参数名           | 描述                 | 类型      | 默认值  | 版本   |
+| ---------------- | -------------------- | --------- | :-----: | :----- |
+| header           | 面板的标题           | `string`  |   `-`   |        |
+| disabled         | 是否禁用             | `boolean` | `false` |        |
+| show-expand-icon | 是否显示展开图标     | `boolean` | `true`  |        |
+| destroy-on-hide  | 是否在隐藏时销毁内容 | `boolean` | `false` | 2.27.0 |
+
 ### `<collapse-item>` Slots
 
-|插槽名|描述|参数|版本|
-|---|:---:|---|:---|
-|extra|额外内容|-||
-|expand-icon|展开图标|active: `boolean`<br>disabled: `boolean`<br>position: `'left' \| 'right'`|2.33.0|
-|header|面板的标题|-||
-
-
+| 插槽名 | 描述 | 参数 | 版本 |
+| --- | :-: | --- | :-- |
+| extra | 额外内容 | - |  |
+| expand-icon | 展开图标 | active: `boolean`<br>disabled: `boolean`<br>position: `'left' \| 'right'` | 2.33.0 |
+| header | 面板的标题 | - |  |
 
 ## FAQ
 
 ### `<CollapseItem>` 组件的 `key` 属性为必填
+
 在 `<Collapse>` 组件中每个 `<CollapseItem>` 都需要指定唯一的 `key` 属性，`key` 对应 `activeKey` 中的值。
 
 <script setup lang="ts">
@@ -92,7 +80,7 @@ const expandIconSource = "<template>\n  <a-collapse :default-active-key=\"['1', 
 const expandIconTitle = "Expand Icon.Md";
 const expandIconDescription = "为展开项自定义展开图标";
 import extraDemo from '../../.vitepress/theme/generated/collapse/extra.vue';
-const extraSource = "<template>\n  <a-collapse>\n    <a-collapse-item header=\"Beijing Toutiao Technology Co., Ltd.\" key=\"1\">\n      <template #extra>\n        <icon-copy />\n      <\/template>\n      <div>Beijing Toutiao Technology Co., Ltd.<\/div>\n      <div>Beijing Toutiao Technology Co., Ltd.<\/div>\n    <\/a-collapse-item>\n    <a-collapse-item header=\"Beijing Toutiao Technology Co., Ltd.\" :key=\"2\">\n      <template #extra>\n        <a-button type=\"primary\" size=\"mini\" @click.stop=\"sayHello\">hello<\/a-button>\n      <\/template>\n      <div>Beijing Toutiao Technology Co., Ltd.<\/div>\n      <div>Beijing Toutiao Technology Co., Ltd.<\/div>\n    <\/a-collapse-item>\n    <a-collapse-item header=\"Beijing Toutiao Technology Co., Ltd.\" key=\"3\">\n      <template #extra>\n        <a-tag size=\"small\">city<\/a-tag>\n      <\/template>\n      <div>Beijing Toutiao Technology Co., Ltd.<\/div>\n      <div>Beijing Toutiao Technology Co., Ltd.<\/div>\n    <\/a-collapse-item>\n  <\/a-collapse>\n<\/template>\n\n<script>\nimport { Message } from '@sd-design/web-vue';\n\nexport default {\n  setup() {\n    const sayHello = () => {\n      Message.info('hello');\n    };\n\n    return {\n      sayHello,\n    };\n  },\n};\n<\/script>";
+const extraSource = "<template>\n  <a-collapse>\n    <a-collapse-item header=\"Beijing Toutiao Technology Co., Ltd.\" key=\"1\">\n      <template #extra>\n        <icon-copy />\n      <\/template>\n      <div>Beijing Toutiao Technology Co., Ltd.<\/div>\n      <div>Beijing Toutiao Technology Co., Ltd.<\/div>\n    <\/a-collapse-item>\n    <a-collapse-item header=\"Beijing Toutiao Technology Co., Ltd.\" :key=\"2\">\n      <template #extra>\n        <a-button type=\"primary\" size=\"mini\" @click.stop=\"sayHello\">hello<\/a-button>\n      <\/template>\n      <div>Beijing Toutiao Technology Co., Ltd.<\/div>\n      <div>Beijing Toutiao Technology Co., Ltd.<\/div>\n    <\/a-collapse-item>\n    <a-collapse-item header=\"Beijing Toutiao Technology Co., Ltd.\" key=\"3\">\n      <template #extra>\n        <a-tag size=\"small\">city<\/a-tag>\n      <\/template>\n      <div>Beijing Toutiao Technology Co., Ltd.<\/div>\n      <div>Beijing Toutiao Technology Co., Ltd.<\/div>\n    <\/a-collapse-item>\n  <\/a-collapse>\n<\/template>\n\n<script>\nimport { Message } from '@sdata/web-vue';\n\nexport default {\n  setup() {\n    const sayHello = () => {\n      Message.info('hello');\n    };\n\n    return {\n      sayHello,\n    };\n  },\n};\n<\/script>";
 const extraTitle = "Extra.Md";
 const extraDescription = "通过 `extra` 可以设置额外节点。`extra` 单击可以以设置 `stop` 修饰符，以阻止当前项目展开。";
 import iconPositionDemo from '../../.vitepress/theme/generated/collapse/iconPosition.vue';
@@ -107,75 +95,47 @@ const nestedDescription = "面板多层嵌套。";
 
 ## 示例
 
+<DemoBlock :title="accordionTitle" :description="accordionDescription" :code="accordionSource"
 
-<DemoBlock
-  :title="accordionTitle"
-  :description="accordionDescription"
-  :code="accordionSource"
->
-  <accordionDemo />
-</DemoBlock>
+>   <accordionDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="basicTitle"
-  :description="basicDescription"
-  :code="basicSource"
->
-  <basicDemo />
-</DemoBlock>
+<DemoBlock :title="basicTitle" :description="basicDescription" :code="basicSource"
 
-<DemoBlock
-  :title="borderLessTitle"
-  :description="borderLessDescription"
-  :code="borderLessSource"
->
-  <borderLessDemo />
-</DemoBlock>
+>   <basicDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="customTitle"
-  :description="customDescription"
-  :code="customSource"
->
-  <customDemo />
-</DemoBlock>
+<DemoBlock :title="borderLessTitle" :description="borderLessDescription" :code="borderLessSource"
 
-<DemoBlock
-  :title="destroyTitle"
-  :description="destroyDescription"
-  :code="destroySource"
->
-  <destroyDemo />
-</DemoBlock>
+>   <borderLessDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="expandIconTitle"
-  :description="expandIconDescription"
-  :code="expandIconSource"
->
-  <expandIconDemo />
-</DemoBlock>
+<DemoBlock :title="customTitle" :description="customDescription" :code="customSource"
 
-<DemoBlock
-  :title="extraTitle"
-  :description="extraDescription"
-  :code="extraSource"
->
-  <extraDemo />
-</DemoBlock>
+>   <customDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="iconPositionTitle"
-  :description="iconPositionDescription"
-  :code="iconPositionSource"
->
-  <iconPositionDemo />
-</DemoBlock>
+<DemoBlock :title="destroyTitle" :description="destroyDescription" :code="destroySource"
 
-<DemoBlock
-  :title="nestedTitle"
-  :description="nestedDescription"
-  :code="nestedSource"
->
-  <nestedDemo />
-</DemoBlock>
+>   <destroyDemo />
+> </DemoBlock>
+
+<DemoBlock :title="expandIconTitle" :description="expandIconDescription" :code="expandIconSource"
+
+>   <expandIconDemo />
+> </DemoBlock>
+
+<DemoBlock :title="extraTitle" :description="extraDescription" :code="extraSource"
+
+>   <extraDemo />
+> </DemoBlock>
+
+<DemoBlock :title="iconPositionTitle" :description="iconPositionDescription" :code="iconPositionSource"
+
+>   <iconPositionDemo />
+> </DemoBlock>
+
+<DemoBlock :title="nestedTitle" :description="nestedDescription" :code="nestedSource"
+
+>   <nestedDemo />
+> </DemoBlock>

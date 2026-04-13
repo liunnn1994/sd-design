@@ -1,5 +1,5 @@
-
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -9,7 +9,9 @@ description: 划分内容区域，对模块做分隔。
 ```
 
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -17,13 +19,14 @@ meta:
 title: Divider
 description: Divide the content area and separate the modules.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/with-text.md
+@import ./**demo**/with-text.md
 
-@import ./__demo__/vertical.md
+@import ./**demo**/vertical.md
 
 ## API
 

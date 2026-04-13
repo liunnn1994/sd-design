@@ -8,12 +8,13 @@ import {
   TransitionProps,
   watch,
 } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import { CollapseContext, collapseKey } from './context';
+
 import IconHover from '../_components/icon-hover.vue';
-import IconCaretRight from '../icon/icon-caret-right';
-import IconCaretLeft from '../icon/icon-caret-left';
+import { getPrefixCls } from '../_utils/global-config';
 import { isNumber } from '../_utils/is';
+import IconCaretLeft from '../icon/icon-caret-left';
+import IconCaretRight from '../icon/icon-caret-right';
+import { CollapseContext, collapseKey } from './context';
 
 export default defineComponent({
   name: 'CollapseItem',
@@ -79,16 +80,12 @@ export default defineComponent({
         ? instance.vnode.key
         : String(instance?.vnode.key ?? '');
     const isActive = computed(() => collapseCtx.activeKeys?.includes(key));
-    const mergedDestroyOnHide = computed(
-      () => collapseCtx.destroyOnHide || props.destroyOnHide
-    );
+    const mergedDestroyOnHide = computed(() => collapseCtx.destroyOnHide || props.destroyOnHide);
     const mergedShowExpandIcon = computed(
-      () => collapseCtx?.showExpandIcon ?? props.showExpandIcon
+      () => collapseCtx?.showExpandIcon ?? props.showExpandIcon,
     );
     const mounted = ref(mergedDestroyOnHide.value ? isActive.value : true);
-    const expandIconPosition = computed(
-      () => collapseCtx?.expandIconPosition ?? 'left'
-    );
+    const expandIconPosition = computed(() => collapseCtx?.expandIconPosition ?? 'left');
 
     const handleClick = (e: MouseEvent) => {
       if (!props.disabled) {
@@ -139,8 +136,7 @@ export default defineComponent({
 
     const iconCls = computed(() => [
       {
-        [`${prefixCls}-icon-right`]:
-          collapseCtx?.expandIconPosition === 'right',
+        [`${prefixCls}-icon-right`]: collapseCtx?.expandIconPosition === 'right',
       },
     ]);
 
@@ -160,11 +156,7 @@ export default defineComponent({
 
     const expandIconRender = () =>
       mergedShowExpandIcon.value && (
-        <icon-hover
-          prefix={prefixCls}
-          class={iconCls.value}
-          disabled={props.disabled}
-        >
+        <icon-hover prefix={prefixCls} class={iconCls.value} disabled={props.disabled}>
           {(slots['expand-icon'] ?? collapseCtx?.slots?.['expand-icon'])?.({
             active: isActive.value,
             disabled: props.disabled,
@@ -185,12 +177,8 @@ export default defineComponent({
             onClick={handleClick}
           >
             {expandIconRender()}
-            <div class={`${prefixCls}-header-title`}>
-              {slots.header?.() ?? props.header}
-            </div>
-            {slots.extra && (
-              <div class={`${prefixCls}-header-extra`}>{slots.extra?.()}</div>
-            )}
+            <div class={`${prefixCls}-header-title`}>{slots.header?.() ?? props.header}</div>
+            {slots.extra && <div class={`${prefixCls}-header-extra`}>{slots.extra?.()}</div>}
           </div>
           <Transition name="collapse-slider" {...transitionEvents}>
             <div v-show={isActive.value} role="region" class={contentCls.value}>

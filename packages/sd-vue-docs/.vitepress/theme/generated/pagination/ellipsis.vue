@@ -1,3 +1,3 @@
 <template>
-  <a-pagination :total="200"/>
+  <a-pagination :total="200" />
 </template>

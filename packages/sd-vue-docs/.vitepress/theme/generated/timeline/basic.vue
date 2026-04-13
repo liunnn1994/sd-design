@@ -3,11 +3,7 @@
     <a-typography-text :style="{ verticalAlign: 'middle', marginRight: '8px' }">
       Reverse
     </a-typography-text>
-    <a-radio-group
-      @change="onChange"
-      style="{ marginBottom: '30px' }"
-      :modelValue="isReverse"
-    >
+    <a-radio-group @change="onChange" style="{ marginBottom: '30px' }" :modelValue="isReverse">
       <a-radio :value="false">No Reverse</a-radio>
       <a-radio :value="true">Reverse</a-radio>
     </a-radio-group>
@@ -20,20 +16,20 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const isReverse = ref(false);
+  export default {
+    setup() {
+      const isReverse = ref(false);
 
-    const onChange = (bool) => {
-      isReverse.value = bool;
-    };
+      const onChange = (bool) => {
+        isReverse.value = bool;
+      };
 
-    return {
-      isReverse,
-      onChange
-    }
-  },
-};
+      return {
+        isReverse,
+        onChange,
+      };
+    },
+  };
 </script>

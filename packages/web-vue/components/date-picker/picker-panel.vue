@@ -34,10 +34,7 @@
           v-bind="commonPanelProps"
         />
         <YearPanel v-else-if="mode === 'year'" v-bind="commonPanelProps" />
-        <QuarterPanel
-          v-else-if="mode === 'quarter'"
-          v-bind="commonPanelProps"
-        />
+        <QuarterPanel v-else-if="mode === 'quarter'" v-bind="commonPanelProps" />
         <DatePanel
           v-else
           v-bind="commonPanelProps"
@@ -52,9 +49,7 @@
         />
         <PanelFooter
           :prefix-cls="prefixCls"
-          :show-today-btn="
-            showNowBtn && !(showConfirmBtn || showShortcutsInBottom)
-          "
+          :show-today-btn="showNowBtn && !(showConfirmBtn || showShortcutsInBottom)"
           :show-confirm-btn="showConfirmBtn"
           :confirm-btn-disabled="confirmBtnDisabled"
           @todayBtnClick="onTodayBtnClick"
@@ -73,291 +68,280 @@
   </div>
 </template>
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  PropType,
-  reactive,
-  toRefs,
-  watch,
-} from 'vue';
-import { Dayjs } from 'dayjs';
-import { isFunction } from '../_utils/is';
-import { getDayjsValue, getNow } from '../_utils/date';
-import {
-  CalendarValue,
-  DisabledDate,
-  DisabledTime,
-  HeaderIcons,
-  HeaderOperations,
-  ShortcutType,
-  WeekStart,
-} from './interface';
-import PanelShortcuts from './panels/shortcuts.vue';
-import DatePanel from './panels/date/index.vue';
-import WeekPanel from './panels/week/index.vue';
-import MonthPanel from './panels/month/index.vue';
-import YearPanel from './panels/year/index.vue';
-import QuarterPanel from './panels/quarter/index.vue';
-import PanelFooter from './panels/footer.vue';
-import { TimePickerProps } from '../time-picker/interface';
-import RenderFunction, { RenderFunc } from '../_components/render-function';
-import useHeaderValue from './hooks/use-header-value';
+  import { computed, defineComponent, PropType, reactive, toRefs, watch } from 'vue';
 
-export default defineComponent({
-  name: 'DatePikerPanel',
-  components: {
-    DatePanel,
-    PanelShortcuts,
-    PanelFooter,
-    WeekPanel,
-    MonthPanel,
-    YearPanel,
-    QuarterPanel,
-    RenderFunction,
-  },
-  props: {
-    mode: {
-      type: String,
-    },
-    headerMode: {
-      type: String as PropType<'year' | 'month'>,
-    },
-    prefixCls: {
-      type: String,
-      required: true,
-    },
-    value: {
-      type: Object as PropType<Dayjs>,
-    },
-    headerValue: {
-      type: Object as PropType<Dayjs>,
-      required: true,
-    },
-    timePickerValue: {
-      type: Object as PropType<Dayjs>,
-    },
-    showTime: {
-      type: Boolean,
-    },
-    showConfirmBtn: {
-      type: Boolean,
-    },
-    shortcuts: {
-      type: Array as PropType<ShortcutType[]>,
-      default: () => [],
-    },
-    shortcutsPosition: {
-      type: String as PropType<'left' | 'bottom' | 'right'>,
-      default: 'bottom',
-    },
-    format: {
-      type: String,
-      required: true,
-    },
-    dayStartOfWeek: {
-      type: Number as PropType<WeekStart>,
-      default: 0,
-    },
-    disabledDate: {
-      type: Function as PropType<DisabledDate>,
-    },
-    disabledTime: {
-      type: Function as PropType<DisabledTime>,
-    },
-    timePickerProps: {
-      type: Object as PropType<Partial<TimePickerProps>>,
-    },
-    extra: {
-      type: Function as PropType<RenderFunc>,
-    },
-    dateRender: {
-      type: Function as PropType<RenderFunc>,
-    },
-    hideTrigger: {
-      type: Boolean,
-    },
-    confirmBtnDisabled: {
-      type: Boolean,
-    },
-    showNowBtn: {
-      type: Boolean,
-    },
-    headerIcons: {
-      type: Object as PropType<HeaderIcons>,
-      default: () => ({}),
-    },
-    headerOperations: {
-      type: Object as PropType<HeaderOperations>,
-    },
-    abbreviation: {
-      type: Boolean,
-    },
-  },
-  emits: [
-    'cell-click',
-    'time-picker-select',
-    'shortcut-click',
-    'shortcut-mouse-enter',
-    'shortcut-mouse-leave',
-    'confirm',
-    'today-btn-click',
-    'header-label-click',
-    'header-select',
-    'month-header-click',
-  ],
-  setup(props, { emit }) {
-    const {
-      prefixCls,
-      shortcuts,
-      shortcutsPosition,
-      format,
-      value,
-      disabledDate,
-      hideTrigger,
-      showNowBtn,
-      dateRender,
-      showConfirmBtn,
-      headerValue,
-      headerIcons,
-      headerOperations,
-      headerMode,
-    } = toRefs(props);
+  import { Dayjs } from 'dayjs';
 
-    const hasShortcuts = computed(() =>
-      Boolean(shortcuts.value && shortcuts.value.length)
-    );
+  import RenderFunction, { RenderFunc } from '../_components/render-function';
+  import { getDayjsValue, getNow } from '../_utils/date';
+  import { isFunction } from '../_utils/is';
+  import { TimePickerProps } from '../time-picker/interface';
+  import useHeaderValue from './hooks/use-header-value';
+  import {
+    CalendarValue,
+    DisabledDate,
+    DisabledTime,
+    HeaderIcons,
+    HeaderOperations,
+    ShortcutType,
+    WeekStart,
+  } from './interface';
+  import DatePanel from './panels/date/index.vue';
+  import PanelFooter from './panels/footer.vue';
+  import MonthPanel from './panels/month/index.vue';
+  import QuarterPanel from './panels/quarter/index.vue';
+  import PanelShortcuts from './panels/shortcuts.vue';
+  import WeekPanel from './panels/week/index.vue';
+  import YearPanel from './panels/year/index.vue';
 
-    const showShortcutsNowBtn = computed(
-      () => showNowBtn.value && showConfirmBtn.value && !hasShortcuts.value
-    );
-
-    const showShortcuts = computed(
-      () => showShortcutsNowBtn.value || hasShortcuts.value
-    );
-
-    const showShortcutsInLeft = computed(
-      () => showShortcuts.value && shortcutsPosition.value === 'left'
-    );
-
-    const showShortcutsInRight = computed(
-      () => showShortcuts.value && shortcutsPosition.value === 'right'
-    );
-
-    const showShortcutsInBottom = computed(
-      () => showShortcuts.value && shortcutsPosition.value === 'bottom'
-    );
-
-    const classNames = computed(() => [
-      `${prefixCls.value}-container`,
-      {
-        [`${prefixCls.value}-container-panel-only`]: hideTrigger.value,
-        [`${prefixCls.value}-container-shortcuts-placement-left`]:
-          showShortcutsInLeft.value,
-        [`${prefixCls.value}-container-shortcuts-placement-right`]:
-          showShortcutsInRight.value,
+  export default defineComponent({
+    name: 'DatePikerPanel',
+    components: {
+      DatePanel,
+      PanelShortcuts,
+      PanelFooter,
+      WeekPanel,
+      MonthPanel,
+      YearPanel,
+      QuarterPanel,
+      RenderFunction,
+    },
+    props: {
+      mode: {
+        type: String,
       },
-    ]);
-
-    const footerValue = computed(() => value?.value || getNow());
-
-    const {
-      headerValue: headerPanelHeaderValue,
-      setHeaderValue: setHeaderPanelHeaderValue,
-      headerOperations: headerPanelHeaderOperations,
-    } = useHeaderValue(
-      reactive({
-        mode: headerMode,
+      headerMode: {
+        type: String as PropType<'year' | 'month'>,
+      },
+      prefixCls: {
+        type: String,
+        required: true,
+      },
+      value: {
+        type: Object as PropType<Dayjs>,
+      },
+      headerValue: {
+        type: Object as PropType<Dayjs>,
+        required: true,
+      },
+      timePickerValue: {
+        type: Object as PropType<Dayjs>,
+      },
+      showTime: {
+        type: Boolean,
+      },
+      showConfirmBtn: {
+        type: Boolean,
+      },
+      shortcuts: {
+        type: Array as PropType<ShortcutType[]>,
+        default: () => [],
+      },
+      shortcutsPosition: {
+        type: String as PropType<'left' | 'bottom' | 'right'>,
+        default: 'bottom',
+      },
+      format: {
+        type: String,
+        required: true,
+      },
+      dayStartOfWeek: {
+        type: Number as PropType<WeekStart>,
+        default: 0,
+      },
+      disabledDate: {
+        type: Function as PropType<DisabledDate>,
+      },
+      disabledTime: {
+        type: Function as PropType<DisabledTime>,
+      },
+      timePickerProps: {
+        type: Object as PropType<Partial<TimePickerProps>>,
+      },
+      extra: {
+        type: Function as PropType<RenderFunc>,
+      },
+      dateRender: {
+        type: Function as PropType<RenderFunc>,
+      },
+      hideTrigger: {
+        type: Boolean,
+      },
+      confirmBtnDisabled: {
+        type: Boolean,
+      },
+      showNowBtn: {
+        type: Boolean,
+      },
+      headerIcons: {
+        type: Object as PropType<HeaderIcons>,
+        default: () => ({}),
+      },
+      headerOperations: {
+        type: Object as PropType<HeaderOperations>,
+      },
+      abbreviation: {
+        type: Boolean,
+      },
+    },
+    emits: [
+      'cell-click',
+      'time-picker-select',
+      'shortcut-click',
+      'shortcut-mouse-enter',
+      'shortcut-mouse-leave',
+      'confirm',
+      'today-btn-click',
+      'header-label-click',
+      'header-select',
+      'month-header-click',
+    ],
+    setup(props, { emit }) {
+      const {
+        prefixCls,
+        shortcuts,
+        shortcutsPosition,
         format,
-      })
-    );
+        value,
+        disabledDate,
+        hideTrigger,
+        showNowBtn,
+        dateRender,
+        showConfirmBtn,
+        headerValue,
+        headerIcons,
+        headerOperations,
+        headerMode,
+      } = toRefs(props);
 
-    watch(headerValue, (val) => {
-      setHeaderPanelHeaderValue(val);
-    });
+      const hasShortcuts = computed(() => Boolean(shortcuts.value && shortcuts.value.length));
 
-    function getShortcutValue(shortcut: ShortcutType) {
-      const { value } = shortcut;
-      return getDayjsValue(
-        (isFunction(value) ? value() : value) as CalendarValue,
-        shortcut.format || format.value
+      const showShortcutsNowBtn = computed(
+        () => showNowBtn.value && showConfirmBtn.value && !hasShortcuts.value,
       );
-    }
 
-    function onShortcutClick(shortcut: ShortcutType) {
-      emit('shortcut-click', getShortcutValue(shortcut), shortcut);
-    }
-    function onShortcutMouseEnter(shortcut: ShortcutType) {
-      emit('shortcut-mouse-enter', getShortcutValue(shortcut));
-    }
-    function onShortcutMouseLeave(shortcut: ShortcutType) {
-      emit('shortcut-mouse-leave', getShortcutValue(shortcut));
-    }
+      const showShortcuts = computed(() => showShortcutsNowBtn.value || hasShortcuts.value);
 
-    function onPanelSelect(date: Dayjs) {
-      emit('cell-click', date);
-    }
-    function onTimePickerSelect(time: Dayjs) {
-      emit('time-picker-select', time);
-    }
+      const showShortcutsInLeft = computed(
+        () => showShortcuts.value && shortcutsPosition.value === 'left',
+      );
 
-    function onTodayBtnClick() {
-      emit('today-btn-click', getNow());
-    }
+      const showShortcutsInRight = computed(
+        () => showShortcuts.value && shortcutsPosition.value === 'right',
+      );
 
-    function onConfirmBtnClick() {
-      emit('confirm');
-    }
+      const showShortcutsInBottom = computed(
+        () => showShortcuts.value && shortcutsPosition.value === 'bottom',
+      );
 
-    function onPanelHeaderLabelClick(type: 'year' | 'month') {
-      emit('header-label-click', type);
-    }
+      const classNames = computed(() => [
+        `${prefixCls.value}-container`,
+        {
+          [`${prefixCls.value}-container-panel-only`]: hideTrigger.value,
+          [`${prefixCls.value}-container-shortcuts-placement-left`]: showShortcutsInLeft.value,
+          [`${prefixCls.value}-container-shortcuts-placement-right`]: showShortcutsInRight.value,
+        },
+      ]);
 
-    function onHeaderPanelSelect(date: Dayjs) {
-      emit('header-select', date);
-    }
+      const footerValue = computed(() => value?.value || getNow());
 
-    function onMonthHeaderLabelClick() {
-      emit('month-header-click');
-    }
+      const {
+        headerValue: headerPanelHeaderValue,
+        setHeaderValue: setHeaderPanelHeaderValue,
+        headerOperations: headerPanelHeaderOperations,
+      } = useHeaderValue(
+        reactive({
+          mode: headerMode,
+          format,
+        }),
+      );
 
-    const shortcutsProps = reactive({
-      prefixCls,
-      shortcuts,
-      showNowBtn: showShortcutsNowBtn,
-      onItemClick: onShortcutClick,
-      onItemMouseEnter: onShortcutMouseEnter,
-      onItemMouseLeave: onShortcutMouseLeave,
-      onNowClick: onTodayBtnClick,
-    });
+      watch(headerValue, (val) => {
+        setHeaderPanelHeaderValue(val);
+      });
 
-    const commonPanelProps = reactive({
-      value,
-      headerValue,
-      headerIcons,
-      headerOperations,
-      disabledDate,
-      dateRender,
-      onSelect: onPanelSelect,
-      onHeaderLabelClick: onPanelHeaderLabelClick,
-    });
+      function getShortcutValue(shortcut: ShortcutType) {
+        const { value } = shortcut;
+        return getDayjsValue(
+          (isFunction(value) ? value() : value) as CalendarValue,
+          shortcut.format || format.value,
+        );
+      }
 
-    return {
-      classNames,
-      showShortcutsInLeft,
-      showShortcutsInRight,
-      showShortcutsInBottom,
-      shortcutsProps,
-      commonPanelProps,
-      footerValue,
-      onTodayBtnClick,
-      onConfirmBtnClick,
-      onTimePickerSelect,
-      onHeaderPanelSelect,
-      headerPanelHeaderValue,
-      headerPanelHeaderOperations,
-      onMonthHeaderLabelClick,
-    };
-  },
-});
+      function onShortcutClick(shortcut: ShortcutType) {
+        emit('shortcut-click', getShortcutValue(shortcut), shortcut);
+      }
+      function onShortcutMouseEnter(shortcut: ShortcutType) {
+        emit('shortcut-mouse-enter', getShortcutValue(shortcut));
+      }
+      function onShortcutMouseLeave(shortcut: ShortcutType) {
+        emit('shortcut-mouse-leave', getShortcutValue(shortcut));
+      }
+
+      function onPanelSelect(date: Dayjs) {
+        emit('cell-click', date);
+      }
+      function onTimePickerSelect(time: Dayjs) {
+        emit('time-picker-select', time);
+      }
+
+      function onTodayBtnClick() {
+        emit('today-btn-click', getNow());
+      }
+
+      function onConfirmBtnClick() {
+        emit('confirm');
+      }
+
+      function onPanelHeaderLabelClick(type: 'year' | 'month') {
+        emit('header-label-click', type);
+      }
+
+      function onHeaderPanelSelect(date: Dayjs) {
+        emit('header-select', date);
+      }
+
+      function onMonthHeaderLabelClick() {
+        emit('month-header-click');
+      }
+
+      const shortcutsProps = reactive({
+        prefixCls,
+        shortcuts,
+        showNowBtn: showShortcutsNowBtn,
+        onItemClick: onShortcutClick,
+        onItemMouseEnter: onShortcutMouseEnter,
+        onItemMouseLeave: onShortcutMouseLeave,
+        onNowClick: onTodayBtnClick,
+      });
+
+      const commonPanelProps = reactive({
+        value,
+        headerValue,
+        headerIcons,
+        headerOperations,
+        disabledDate,
+        dateRender,
+        onSelect: onPanelSelect,
+        onHeaderLabelClick: onPanelHeaderLabelClick,
+      });
+
+      return {
+        classNames,
+        showShortcutsInLeft,
+        showShortcutsInRight,
+        showShortcutsInBottom,
+        shortcutsProps,
+        commonPanelProps,
+        footerValue,
+        onTodayBtnClick,
+        onConfirmBtnClick,
+        onTimePickerSelect,
+        onHeaderPanelSelect,
+        headerPanelHeaderValue,
+        headerPanelHeaderOperations,
+        onMonthHeaderLabelClick,
+      };
+    },
+  });
 </script>

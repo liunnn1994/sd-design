@@ -3,21 +3,21 @@
 </template>
 
 <script>
-import { Drawer } from '@sd-design/web-vue';
+  import { Drawer } from '@sdata/web-vue';
 
-export default {
-  setup() {
-    const handleClick = () => {
-      Drawer.open({
-        title: 'Info Title',
-        content: 'This is an info message',
-        width: 340
-      });
-    };
+  export default {
+    setup() {
+      const handleClick = () => {
+        Drawer.open({
+          title: 'Info Title',
+          content: 'This is an info message',
+          width: 340,
+        });
+      };
 
-    return {
-      handleClick,
-    }
-  },
-}
+      return {
+        handleClick,
+      };
+    },
+  };
 </script>

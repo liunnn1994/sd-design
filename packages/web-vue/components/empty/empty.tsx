@@ -1,8 +1,9 @@
 import { defineComponent, inject } from 'vue';
+
 import { getPrefixCls } from '../_utils/global-config';
+import { configProviderInjectionKey } from '../config-provider/context';
 import IconEmpty from '../icon/icon-empty';
 import { useI18n } from '../locale';
-import { configProviderInjectionKey } from '../config-provider/context';
 
 export default defineComponent({
   name: 'Empty',

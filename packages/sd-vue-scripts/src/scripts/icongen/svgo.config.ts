@@ -16,13 +16,7 @@ const options: Config = {
     {
       name: 'removeAttrs',
       params: {
-        attrs: [
-          'class',
-          'style',
-          'stroke-width',
-          'stroke-linecap',
-          'stroke-linejoin',
-        ],
+        attrs: ['class', 'style', 'stroke-width', 'stroke-linecap', 'stroke-linejoin'],
       },
     },
     {

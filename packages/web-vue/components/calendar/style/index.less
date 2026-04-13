@@ -8,8 +8,7 @@
 
   &-header {
     display: flex;
-    padding: @calendar-header-padding-vertical
-      @calendar-header-padding-horizontal;
+    padding: @calendar-header-padding-vertical @calendar-header-padding-horizontal;
 
     &-left {
       position: relative;
@@ -349,7 +348,9 @@
   }
 
   &-panel
-    &-cell:not(&-cell-selected):not(&-cell-range-start):not(&-cell-range-end):not(&-cell-hover-range-start):not(&-cell-hover-range-end):not(&-cell-disabled):not(&-cell-week)
+    &-cell:not(&-cell-selected):not(&-cell-range-start):not(&-cell-range-end):not(
+      &-cell-hover-range-start
+    ):not(&-cell-hover-range-end):not(&-cell-disabled):not(&-cell-week)
     &-date-value:hover {
     color: @calendar-panel-color-text-cell_hover;
     background-color: @calendar-panel-color-bg-cell_hover;
@@ -357,7 +358,9 @@
   }
 
   &-panel&-mode-year
-    &-cell:not(&-cell-selected):not(&-cell-range-start):not(&-cell-range-end):not(&-cell-hover-range-start):not(&-cell-hover-range-end):not(&-cell-disabled)
+    &-cell:not(&-cell-selected):not(&-cell-range-start):not(&-cell-range-end):not(
+      &-cell-hover-range-start
+    ):not(&-cell-hover-range-end):not(&-cell-disabled)
     &-date-value:hover {
     border-radius: (@calendar-panel-year-cell-circle-height / 2);
   }

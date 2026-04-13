@@ -9,10 +9,10 @@
 </template>
 
 <style scoped lang="less">
-.wrapper{
-  width: 400px;
-  padding: 20px;
-  border: 1px solid var(~'--color-border');
-  border-radius: 4px;
-}
+  .wrapper {
+    width: 400px;
+    padding: 20px;
+    border: 1px solid var(~'--color-border');
+    border-radius: 4px;
+  }
 </style>

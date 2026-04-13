@@ -1,11 +1,12 @@
 import { defineComponent, inject, PropType, TransitionGroup } from 'vue';
-import { configProviderInjectionKey } from '../config-provider/context';
-import { CascaderOptionInfo } from './interface';
+
+import { VirtualListProps } from '../_components/virtual-list-v2/interface';
 import { getPrefixCls } from '../_utils/global-config';
+import { configProviderInjectionKey } from '../config-provider/context';
 import Empty from '../empty';
 import Spin from '../spin';
-import { VirtualListProps } from '../_components/virtual-list-v2/interface';
 import CascaderColumn from './cascader-column';
+import { CascaderOptionInfo } from './interface';
 
 export default defineComponent({
   name: 'BaseCascaderPanel',
@@ -36,10 +37,7 @@ export default defineComponent({
     const configCtx = inject(configProviderInjectionKey, undefined);
 
     const renderEmpty = () => {
-      return (
-        slots.empty?.() ??
-        configCtx?.slots.empty?.({ component: 'cascader' }) ?? <Empty />
-      );
+      return slots.empty?.() ?? configCtx?.slots.empty?.({ component: 'cascader' }) ?? <Empty />;
     };
 
     const renderContent = () => {
@@ -47,10 +45,7 @@ export default defineComponent({
         return (
           <div
             key="panel-column-loading"
-            class={[
-              `${prefixCls}-panel-column`,
-              `${prefixCls}-panel-column-loading`,
-            ]}
+            class={[`${prefixCls}-panel-column`, `${prefixCls}-panel-column-loading`]}
           >
             <Spin />
           </div>

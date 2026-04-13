@@ -33,31 +33,31 @@ The button can be in the loading state by setting `loading`. The button in the l
 </template>
 
 <script>
-import { ref } from 'vue';
-import { IconPlus } from '@sd-design/web-vue/es/icon';
+  import { ref } from 'vue';
+  import { IconPlus } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: {
-    IconPlus
-  },
-  setup() {
-    const loading1 = ref(false);
-    const loading2 = ref(false);
+  export default {
+    components: {
+      IconPlus,
+    },
+    setup() {
+      const loading1 = ref(false);
+      const loading2 = ref(false);
 
-    const handleClick1 = () => {
-      loading1.value = !loading1.value
-    }
-    const handleClick2 = () => {
-      loading2.value = !loading2.value
-    }
+      const handleClick1 = () => {
+        loading1.value = !loading1.value;
+      };
+      const handleClick2 = () => {
+        loading2.value = !loading2.value;
+      };
 
-    return {
-      loading1,
-      loading2,
-      handleClick1,
-      handleClick2
-    }
-  }
-}
+      return {
+        loading1,
+        loading2,
+        handleClick1,
+        handleClick2,
+      };
+    },
+  };
 </script>
 ```

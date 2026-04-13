@@ -19,11 +19,11 @@ Transfer breadcrumb data through `routes`. If you want to customize bread crumbs
 ```vue
 <template>
   <a-space direction="vertical">
-    <a-breadcrumb :routes="routes"/>
+    <a-breadcrumb :routes="routes" />
     <a-breadcrumb :routes="routes">
-      <template #item-render="{route, paths}">
+      <template #item-render="{ route, paths }">
         <a-link :href="paths.join('/')">
-          {{route.label}}
+          {{ route.label }}
         </a-link>
       </template>
     </a-breadcrumb>
@@ -31,25 +31,25 @@ Transfer breadcrumb data through `routes`. If you want to customize bread crumbs
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      routes: [
-        {
-          path: '/',
-          label: 'Home'
-        },
-        {
-          path: '/channel',
-          label: 'Channel',
-        },
-        {
-          path: '/news',
-          label: 'News'
-        },
-      ],
-    }
-  }
-}
+  export default {
+    data() {
+      return {
+        routes: [
+          {
+            path: '/',
+            label: 'Home',
+          },
+          {
+            path: '/channel',
+            label: 'Channel',
+          },
+          {
+            path: '/news',
+            label: 'News',
+          },
+        ],
+      };
+    },
+  };
 </script>
 ```

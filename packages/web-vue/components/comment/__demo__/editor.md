@@ -47,28 +47,28 @@ Use with replay
 </template>
 
 <script>
-import { IconMessage } from '@sd-design/web-vue/es/icon';
+  import { IconMessage } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: {
-    IconMessage,
-  },
-};
+  export default {
+    components: {
+      IconMessage,
+    },
+  };
 </script>
 
 <style scoped>
-.action {
-  display: inline-block;
-  padding: 0 4px;
-  color: var(--color-text-1);
-  line-height: 24px;
-  background: transparent;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: all 0.1s ease;
-}
-.action:hover {
-  background: var(--color-fill-3);
-}
+  .action {
+    display: inline-block;
+    padding: 0 4px;
+    color: var(--color-text-1);
+    line-height: 24px;
+    background: transparent;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+  }
+  .action:hover {
+    background: var(--color-fill-3);
+  }
 </style>
 ```

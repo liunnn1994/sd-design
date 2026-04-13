@@ -21,11 +21,13 @@ The `treeCheckable` property can display checkbox.
   <div style="marginBottom: 24px;">
     <a-checkbox
       v-model="treeCheckStrictly"
-      @change="() => {
-        selected = [];
-      }"
+      @change="
+        () => {
+          selected = [];
+        }
+      "
     >
-    treeCheckStrictly
+      treeCheckStrictly
     </a-checkbox>
   </div>
   <a-tree-select
@@ -74,9 +76,9 @@ The `treeCheckable` property can display checkbox.
             {
               title: 'Leaf 0-0-2-1',
               value: 'Leaf 0-0-2-1',
-              key: '0-0-2-1'
-            }
-          ]
+              key: '0-0-2-1',
+            },
+          ],
         },
       ],
     },
@@ -100,9 +102,9 @@ The `treeCheckable` property can display checkbox.
               title: 'Leaf 0-1-1-2',
               value: 'Leaf 0-1-1-2',
               key: '0-1-1-2',
-              disabled: true
+              disabled: true,
             },
-          ]
+          ],
         },
         {
           title: 'Leaf 0-1-2',

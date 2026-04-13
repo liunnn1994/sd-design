@@ -1,9 +1,13 @@
-module.exports = {
+export default {
   extends: ['@commitlint/config-conventional'],
   rules: {
-    'subject-case': [0],
+    'header-max-length': [1, 'always', 128],
+    'body-max-length': [1, 'always', 1000],
+    'footer-max-length': [1, 'always', 1000],
+    'body-max-line-length': [1, 'always', 1000],
+    'footer-max-line-length': [1, 'always', 1000],
     'type-enum': [
-      2,
+      1,
       'always',
       [
         'build',
@@ -12,11 +16,13 @@ module.exports = {
         'docs',
         'feat',
         'fix',
-        'enhance',
+        'perf',
         'refactor',
         'revert',
         'style',
         'test',
+        'wip',
+        'release',
       ],
     ],
   },

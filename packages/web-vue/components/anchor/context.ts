@@ -7,5 +7,4 @@ export interface AnchorContext {
   handleClick: (e: MouseEvent, hash?: string) => void;
 }
 
-export const anchorInjectionKey: InjectionKey<AnchorContext> =
-  Symbol('SDAnchor');
+export const anchorInjectionKey: InjectionKey<AnchorContext> = Symbol('SDAnchor');

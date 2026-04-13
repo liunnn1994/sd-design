@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 级联选择 Cascader
 description: 指在选择器选项数量较多时，采用多级分类的方式将选项进行分隔。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,37 +19,38 @@ meta:
 title: Cascader
 description: Refers to the use of multi-level classification to separate the options when the number of selector options is large.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/clear.md
+@import ./**demo**/clear.md
 
-@import ./__demo__/disabled.md
+@import ./**demo**/disabled.md
 
-@import ./__demo__/format.md
+@import ./**demo**/format.md
 
-@import ./__demo__/multiple.md
+@import ./**demo**/multiple.md
 
-@import ./__demo__/check-strictly.md
+@import ./**demo**/check-strictly.md
 
-@import ./__demo__/loading.md
+@import ./**demo**/loading.md
 
-@import ./__demo__/lazy-load.md
+@import ./**demo**/lazy-load.md
 
-@import ./__demo__/search.md
+@import ./**demo**/search.md
 
-@import ./__demo__/path.md
+@import ./**demo**/path.md
 
-@import ./__demo__/fallback.md
+@import ./**demo**/fallback.md
 
-@import ./__demo__/field-names.md
+@import ./**demo**/field-names.md
 
-@import ./__demo__/expand.md
+@import ./**demo**/expand.md
 
-@import ./__demo__/panel.md
+@import ./**demo**/panel.md
 
-@import ./__demo__/virtual.md
+@import ./**demo**/virtual.md
 
 ## API
 

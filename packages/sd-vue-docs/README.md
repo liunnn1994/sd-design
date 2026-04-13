@@ -33,7 +33,30 @@
 ## 常用命令
 
 ```bash
+# 根目录：同时运行组件 watch 和文档站
+pnpm run dev
+
+# 根目录：显式全量开发入口
+pnpm run dev:all
+
+# 根目录：只启动文档站
+pnpm run dev:docs
+
+# 根目录：CI 构建文档站所在的全量构建流程
+pnpm run build:ci
+
+# 根目录：发版前全量校验
+pnpm run release:check
+
+# 包目录或根目录 filter 调用：生成文档页面
 pnpm --filter @sd-design/sd-vue-docs run docs:prepare
+
+# 包目录或根目录 filter 调用：启动文档站
 pnpm --filter @sd-design/sd-vue-docs run docs:dev
+
+# 根目录：仅构建文档站
+pnpm run build:docs
+
+# 包目录或根目录 filter 调用：构建文档站
 pnpm --filter @sd-design/sd-vue-docs run docs:build
 ```

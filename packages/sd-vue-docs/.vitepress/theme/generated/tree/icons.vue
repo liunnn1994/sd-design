@@ -1,6 +1,6 @@
 <template>
   <a-tree :data="treeData" show-line>
-     <template #switcher-icon="node, { isLeaf }">
+    <template #switcher-icon="node, { isLeaf }">
       <IconDown v-if="!isLeaf" />
       <IconStar v-if="isLeaf" />
     </template>
@@ -9,12 +9,13 @@
 
 <script>
   import { h } from 'vue';
-  import { IconDriveFile, IconDown, IconStar } from '@sd-design/web-vue/es/icon';
+
+  import { IconDriveFile, IconDown, IconStar } from '@sdata/web-vue/es/icon';
 
   export default {
     components: {
       IconDown,
-      IconStar
+      IconStar,
     },
     setup() {
       return {

@@ -6,5 +6,6 @@
       minute: 5,
       second: 10,
     }"
-    style="width: 194px;" />
+    style="width: 194px"
+  />
 </template>

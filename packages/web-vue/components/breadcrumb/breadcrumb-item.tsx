@@ -1,11 +1,12 @@
 import { computed, defineComponent, inject, PropType, ref } from 'vue';
+
 import { getPrefixCls } from '../_utils/global-config';
-import IconMore from '../icon/icon-more';
+import Dropdown, { Doption, DropDownProps } from '../dropdown';
 import IconDown from '../icon/icon-down';
+import IconMore from '../icon/icon-more';
 import IconObliqueLine from '../icon/icon-oblique-line';
 import { breadcrumbInjectKey } from './context';
 import { BreadcrumbRoute } from './interface';
-import Dropdown, { Doption, DropDownProps } from '../dropdown';
 
 export default defineComponent({
   name: 'BreadcrumbItem',
@@ -60,10 +61,7 @@ export default defineComponent({
 
     const show = computed(() => {
       if (breadcrumbCtx && breadcrumbCtx.needHide) {
-        if (
-          props.index > 1 &&
-          props.index <= breadcrumbCtx.total - breadcrumbCtx.maxCount
-        ) {
+        if (props.index > 1 && props.index <= breadcrumbCtx.total - breadcrumbCtx.maxCount) {
           return false;
         }
       }
@@ -78,7 +76,7 @@ export default defineComponent({
     });
 
     const showSeparator = computed(() =>
-      breadcrumbCtx ? props.index < breadcrumbCtx.total - 1 : true
+      breadcrumbCtx ? props.index < breadcrumbCtx.total - 1 : true,
     );
 
     const handleVisibleChange = (visible: boolean) => {
@@ -108,13 +106,11 @@ export default defineComponent({
               [`${prefixCls}-with-dropdown`]: props.droplist || slots.droplist,
             },
           ]}
-          {...(displayMore.value
-            ? { 'aria-label': 'ellipses of breadcrumb items' }
-            : undefined)}
+          {...(displayMore.value ? { 'aria-label': 'ellipses of breadcrumb items' } : undefined)}
           {...attrs}
         >
           {displayMore.value
-            ? breadcrumbCtx?.slots['more-icon']?.() ?? <IconMore />
+            ? (breadcrumbCtx?.slots['more-icon']?.() ?? <IconMore />)
             : slots.default?.()}
           {(props.droplist || slots.droplist) && (
             <span
@@ -136,9 +132,7 @@ export default defineComponent({
     const renderDropdownContent = () => {
       return (
         slots.droplist?.() ??
-        props.droplist?.map((item) => (
-          <Doption value={item.path}>{item.label}</Doption>
-        ))
+        props.droplist?.map((item) => <Doption value={item.path}>{item.label}</Doption>)
       );
     };
 

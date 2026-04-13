@@ -1,11 +1,4 @@
-import {
-  unref,
-  watch,
-  getCurrentScope,
-  onScopeDispose,
-  Ref,
-  ComponentPublicInstance,
-} from 'vue';
+import { unref, watch, getCurrentScope, onScopeDispose, Ref, ComponentPublicInstance } from 'vue';
 
 export const defaultWindow = typeof window !== 'undefined' ? window : undefined;
 
@@ -14,12 +7,7 @@ export interface MutationObserverOptions extends MutationObserverInit {
 }
 
 export type MaybeRef<T> = T | Ref<T>;
-export type MaybeElement =
-  | HTMLElement
-  | SVGElement
-  | ComponentPublicInstance
-  | undefined
-  | null;
+export type MaybeElement = HTMLElement | SVGElement | ComponentPublicInstance | undefined | null;
 export type UnRefElementReturn<T extends MaybeElement = MaybeElement> =
   T extends ComponentPublicInstance
     ? Exclude<MaybeElement, ComponentPublicInstance>
@@ -27,9 +15,7 @@ export type UnRefElementReturn<T extends MaybeElement = MaybeElement> =
 
 export type Fn = () => void;
 
-export function unrefElement<T extends MaybeElement>(
-  elRef: MaybeRef<T>
-): UnRefElementReturn<T> {
+export function unrefElement<T extends MaybeElement>(elRef: MaybeRef<T>): UnRefElementReturn<T> {
   const plain = unref(elRef);
   return (plain as ComponentPublicInstance)?.$el ?? plain;
 }
@@ -45,7 +31,7 @@ export function tryOnScopeDispose(fn: Fn): boolean {
 export function useMutationObserver(
   target: MaybeRef<MaybeElement>,
   callback: MutationCallback,
-  options: MutationObserverOptions = {}
+  options: MutationObserverOptions = {},
 ) {
   const { window = defaultWindow, ...mutationOptions } = options;
   const isSupported = window && 'MutationObserver' in window;
@@ -68,7 +54,7 @@ export function useMutationObserver(
         observer.observe(el, mutationOptions);
       }
     },
-    { immediate: true }
+    { immediate: true },
   );
 
   const stop = () => {

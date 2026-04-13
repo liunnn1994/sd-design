@@ -6,11 +6,7 @@
       :hoverable="index % 2 === 0"
       :style="{ width: '25%' }"
     >
-      <a-card
-        class="card-demo"
-        title="SD Card"
-        :bordered="false"
-      >
+      <a-card class="card-demo" title="SD Card" :bordered="false">
         <template #extra>
           <a-link>More</a-link>
         </template>
@@ -22,10 +18,10 @@
   </a-card>
 </template>
 <style scoped>
-.card-demo {
-  width: 100%;
-}
-.card-demo :deep(.sd-card-header) {
-  border: none;
-}
+  .card-demo {
+    width: 100%;
+  }
+  .card-demo :deep(.sd-card-header) {
+    border: none;
+  }
 </style>

@@ -1,27 +1,14 @@
 import type { PropType } from 'vue';
-import {
-  defineComponent,
-  provide,
-  reactive,
-  toRefs,
-  ref,
-  computed,
-  watch,
-} from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import { Size, Direction } from '../_utils/constant';
-import { radioGroupKey, RadioType } from './context';
-import {
-  isFunction,
-  isNull,
-  isNumber,
-  isString,
-  isUndefined,
-} from '../_utils/is';
+import { defineComponent, provide, reactive, toRefs, ref, computed, watch } from 'vue';
+
 import { useFormItem } from '../_hooks/use-form-item';
+import { useSize } from '../_hooks/use-size';
+import { Size, Direction } from '../_utils/constant';
+import { getPrefixCls } from '../_utils/global-config';
+import { isFunction, isNull, isNumber, isString, isUndefined } from '../_utils/is';
+import { radioGroupKey, RadioType } from './context';
 import { RadioOption } from './interface';
 import Radio from './radio';
-import { useSize } from '../_hooks/use-size';
 
 export default defineComponent({
   name: 'RadioGroup',
@@ -93,7 +80,7 @@ export default defineComponent({
      * @en Trigger when the value changes
      * @property { string | number | boolean } value
      */
-    'change': (value: string | number | boolean, ev: Event) => true,
+    change: (value: string | number | boolean, ev: Event) => true,
   },
   /**
    * @zh radio 文案内容
@@ -156,7 +143,7 @@ export default defineComponent({
         disabled: mergedDisabled,
         slots,
         handleChange,
-      })
+      }),
     );
 
     watch(computedValue, (cur) => {
@@ -191,8 +178,8 @@ export default defineComponent({
           {slots.label
             ? slots.label({ data: option })
             : isFunction(option.label)
-            ? option.label()
-            : option.label}
+              ? option.label()
+              : option.label}
         </Radio>
       ));
     };

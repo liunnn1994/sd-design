@@ -24,7 +24,11 @@ Loading
   <div>
     <a-button
       type="primary"
-      @click="() => {timestamp = Date.now()}"
+      @click="
+        () => {
+          timestamp = Date.now();
+        }
+      "
       style="margin-bottom: 20px;"
     >
       reload
@@ -43,7 +47,7 @@ Loading
     style="marginLeft: 67px"
   >
     <template #loader>
-      <div class="loader-animate"/>
+      <div class="loader-animate" />
     </template>
   </a-image>
 </template>
@@ -54,9 +58,9 @@ Loading
       const timestamp = ref('');
       return {
         timestamp,
-      }
-    }
-  }
+      };
+    },
+  };
 </script>
 <style scoped>
   .loader-animate {

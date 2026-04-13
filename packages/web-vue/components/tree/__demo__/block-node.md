@@ -6,8 +6,7 @@ title:
 
 ## zh-CN
 
-节点占据一整行。
----
+## 节点占据一整行。
 
 ## en-US
 
@@ -44,8 +43,8 @@ The treeNode occupy the remaining horizontal space.
             {
               title: 'Leaf',
               key: '0-0-0-1',
-            }
-          ]
+            },
+          ],
         },
         {
           title: 'Branch 0-0-1',
@@ -55,11 +54,10 @@ The treeNode occupy the remaining horizontal space.
               title: 'Leaf',
               key: '0-0-1-0',
             },
-          ]
+          ],
         },
       ],
     },
   ];
 </script>
 ```
-

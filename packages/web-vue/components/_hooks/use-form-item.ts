@@ -1,6 +1,7 @@
 import { computed, inject, Ref, toRef } from 'vue';
-import { FormItemContext, formItemInjectionKey } from '../form/context';
+
 import { Size } from '../_utils/constant';
+import { FormItemContext, formItemInjectionKey } from '../form/context';
 
 export const useFormItem = ({
   size,
@@ -20,9 +21,7 @@ export const useFormItem = ({
 
   const mergedSize = computed(() => size?.value ?? formItemCtx.size);
 
-  const mergedDisabled = computed(
-    () => disabled?.value || formItemCtx.disabled
-  );
+  const mergedDisabled = computed(() => disabled?.value || formItemCtx.disabled);
 
   const mergedError = computed(() => error?.value || formItemCtx.error);
 

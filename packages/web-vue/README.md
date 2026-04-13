@@ -41,23 +41,23 @@
 
 # 安装
 
-[npm package](https://www.npmjs.com/package/@sd-design/web-vue)
+[npm package](https://www.npmjs.com/package/@sdata/web-vue)
 
 ```bash
 // npm
-npm install @sd-design/web-vue
+npm install @sdata/web-vue
 
 // yarn
-yarn add @sd-design/web-vue
+yarn add @sdata/web-vue
 ```
 
 # 例子
 
 ```typescript
 import { createApp } from 'vue';
-import SDVue from '@sd-design/web-vue';
+import SDVue from '@sdata/web-vue';
 import App from './App.vue';
-import '@sd-design/web-vue/dist/sd.css';
+import '@sdata/web-vue/dist/sd.css';
 
 const app = createApp(App);
 app.use(SDVue);
@@ -66,35 +66,69 @@ app.mount('#app');
 
 ## 开发
 
-1. 使用 `npm install -g` 安装 `lerna` 和 `yarn` 等基础包
+当前仓库使用 pnpm workspace 管理，多包联调建议在仓库根目录执行：
 
-2. 使用 `yarn install` 安装 `workspaces` 中各个包的依赖（如果遇到 `YN0018` 错误，可以使用 `YARN_CHECKSUM_BEHAVIOR=update yarn` 进行安装）
+```bash
+pnpm install
+pnpm run init
+pnpm run dev
+```
 
-3. 使用 `npm run init` 初始化项目
+常用命令：
+
+```bash
+# 根目录：启动组件库 watch + 文档站
+pnpm run dev
+
+# 根目录：显式全量开发入口
+pnpm run dev:all
+
+# 根目录：仅启动组件库开发构建
+pnpm run dev:component
+
+# 根目录：打包整个项目
+pnpm run build
+
+# 根目录：显式全量构建入口
+pnpm run build:all
+
+# 根目录：仅打包组件库
+pnpm run build:component
+
+# 根目录：重新生成组件文档元数据
+pnpm run docgen
+
+# 根目录：运行测试
+pnpm run test
+
+# 根目录：运行组件测试和截图测试
+pnpm run test:all
+
+# 根目录：CI 检查
+pnpm run check:ci
+
+# 根目录：CI 构建入口
+pnpm run build:ci
+
+# 根目录：CI 测试入口
+pnpm run test:ci
+
+# 根目录：发版前全量校验
+pnpm run release:check
+```
+
+如果只想在组件包内执行命令，也可以直接运行：
+
+```bash
+pnpm --filter @sdata/web-vue run start
+pnpm --filter @sdata/web-vue run build
+```
 
 # 相关链接
 
-- [官网](https://sd.design/)
-- [暗黑模式](https://sd.design/vue/docs/dark)
-- [主题配置](https://sd.design/vue/docs/theme)
+- [暗黑模式](https://69dcb47c8b4208264c6e77c6--sensational-caramel-b44e12.netlify.app/guide/dark)
+- [主题配置](https://69dcb47c8b4208264c6e77c6--sensational-caramel-b44e12.netlify.app/guide/theme)
 - [Figma 设计资源](https://www.figma.com/file/FVu1DydEeXvJqXrkOb90Oi/SD Design%E7%BB%84%E4%BB%B6%E8%AE%BE%E8%AE%A1_2.0?node-id=5472%3A308)
-- [Awesome SD](https://github.com/sd-design/awesome-arco)
-
-# 生态
-
-| 项目           | 介绍                                                          |
-| -------------- | ------------------------------------------------------------- |
-| [React 组件库] | 基于 [SD Design](https://sd.design/) 的 React UI 组件库。 |
-| [风格配置平台] | 精确到组件级的主题视觉配置平台                                |
-| [物料平台]     | 丰富可共享的业务定制物料，让效率突破猛进                      |
-| [图标平台]     | 一站式图标管理平台                                            |
-| [SD Pro]     | 快速构建中后台的前端解决方案                                  |
-
-[React 组件库]: https://sd.design/react/docs/start
-[风格配置平台]: https://sd.design/themes
-[物料平台]: https://sd.design/material
-[图标平台]: https://sd.design/iconbox
-[SD Pro]: https://sd.design/pro/
 
 # 参与贡献
 

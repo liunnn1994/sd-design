@@ -9,7 +9,7 @@
     "docs:preview": "vitepress preview"
   },
   "dependencies": {
-    "@sd-design/web-vue": "workspace:*",
+    "@sdata/web-vue": "workspace:*",
     "@vue/repl": "^4.7.2",
     "markdown-it": "^14.1.1",
     "vitepress": "^2.0.0-alpha.17"

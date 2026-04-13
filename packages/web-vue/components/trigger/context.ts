@@ -7,5 +7,4 @@ export interface TriggerContext {
   removeChildRef: (ref: any) => void;
 }
 
-export const triggerInjectionKey: InjectionKey<TriggerContext> =
-  Symbol('SDTrigger');
+export const triggerInjectionKey: InjectionKey<TriggerContext> = Symbol('SDTrigger');

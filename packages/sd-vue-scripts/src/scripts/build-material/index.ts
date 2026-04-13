@@ -1,8 +1,9 @@
-import path from 'path';
 import fs from 'fs-extra';
 import { globSync } from 'glob';
 import less from 'less';
+import path from 'path';
 import { build } from 'vite';
+
 import getConfig from '../../configs/vite.material.prod';
 import styleConfig from '../../configs/vite.material.style';
 import { getUserConfig } from '../../utils/config';
@@ -17,17 +18,13 @@ async function buildLess() {
   } catch {
     // 不存在产物时，通过index.less构建
     const lessContent = fs.readFileSync('src/style/index.less', 'utf8');
-    less.render(
-      lessContent,
-      { paths: [path.resolve(process.cwd(), 'src')] },
-      (err, result) => {
-        if (err) {
-          console.log(err);
-        } else if (result && result.css) {
-          fs.writeFileSync('dist/css/index.css', result.css);
-        }
+    less.render(lessContent, { paths: [path.resolve(process.cwd(), 'src')] }, (err, result) => {
+      if (err) {
+        console.log(err);
+      } else if (result && result.css) {
+        fs.writeFileSync('dist/css/index.css', result.css);
       }
-    );
+    });
   }
 }
 

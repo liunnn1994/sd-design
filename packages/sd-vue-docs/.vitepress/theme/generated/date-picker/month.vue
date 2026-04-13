@@ -1,3 +1,3 @@
 <template>
-  <a-month-picker style="width: 200px;" />
+  <a-month-picker style="width: 200px" />
 </template>

@@ -18,11 +18,7 @@ The basic usage of RangePicker.
 
 ```vue
 <template>
-  <a-range-picker
-    @change="onChange"
-    @select="onSelect"
-    style="width: 254px; marginBottom: 20px;"
-  />
+  <a-range-picker @change="onChange" @select="onSelect" style="width: 254px; marginBottom: 20px;" />
   <br />
   <a-range-picker
     mode="week"
@@ -55,7 +51,7 @@ The basic usage of RangePicker.
   <a-range-picker
     showTime
     :time-picker-props="{
-    defaultValue:['00:00:00','00:00:00']
+      defaultValue: ['00:00:00', '00:00:00'],
     }"
     @change="onChange"
     @select="onSelect"
@@ -63,17 +59,17 @@ The basic usage of RangePicker.
   />
 </template>
 <script>
-export default {
-  setup() {
-    return {
-      onSelect(dateString, date) {
-        console.log('onSelect', dateString, date);
-      },
-      onChange(dateString, date) {
-        console.log('onChange: ', dateString, date);
-      },
-    };
-  },
-}
+  export default {
+    setup() {
+      return {
+        onSelect(dateString, date) {
+          console.log('onSelect', dateString, date);
+        },
+        onChange(dateString, date) {
+          console.log('onChange: ', dateString, date);
+        },
+      };
+    },
+  };
 </script>
 ```

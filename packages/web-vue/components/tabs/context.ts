@@ -1,4 +1,5 @@
 import { InjectionKey } from 'vue';
+
 import { TabData, TabTriggerEvent } from './interface';
 
 export interface TabsContext {

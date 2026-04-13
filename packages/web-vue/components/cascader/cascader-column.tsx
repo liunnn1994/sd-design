@@ -1,12 +1,13 @@
 import { defineComponent, inject, PropType, ref } from 'vue';
-import { configProviderInjectionKey } from '../config-provider/context';
-import { CascaderOptionInfo } from './interface';
-import CascaderOption from './cascader-option';
-import { getPrefixCls } from '../_utils/global-config';
-import Empty from '../empty';
-import Scrollbar from '../scrollbar';
+
 import VirtualList from '../_components/virtual-list-v2';
 import { VirtualListProps } from '../_components/virtual-list-v2/interface';
+import { getPrefixCls } from '../_utils/global-config';
+import { configProviderInjectionKey } from '../config-provider/context';
+import Empty from '../empty';
+import Scrollbar from '../scrollbar';
+import CascaderOption from './cascader-option';
+import { CascaderOptionInfo } from './interface';
 
 export default defineComponent({
   name: 'CascaderColumn',
@@ -41,18 +42,12 @@ export default defineComponent({
     const isVirtual = ref(Boolean(props.virtualListProps));
 
     const renderEmpty = () => {
-      return (
-        slots.empty?.() ??
-        configCtx?.slots.empty?.({ component: 'cascader' }) ?? <Empty />
-      );
+      return slots.empty?.() ?? configCtx?.slots.empty?.({ component: 'cascader' }) ?? <Empty />;
     };
 
     return () => {
       return (
-        <div
-          class={`${prefixCls}-panel-column`}
-          style={{ zIndex: props.totalLevel - props.level }}
-        >
+        <div class={`${prefixCls}-panel-column`} style={{ zIndex: props.totalLevel - props.level }}>
           {props.column.length === 0 ? (
             <Scrollbar class={`${prefixCls}-column-content`}>
               <div class={`${prefixCls}-list-empty`}>{renderEmpty()}</div>
@@ -69,10 +64,7 @@ export default defineComponent({
                     <CascaderOption
                       key={item.key}
                       option={item}
-                      active={
-                        props.selectedPath.includes(item.key) ||
-                        item.key === props.activeKey
-                      }
+                      active={props.selectedPath.includes(item.key) || item.key === props.activeKey}
                       multiple={props.multiple}
                       checkStrictly={props.checkStrictly}
                     />
@@ -88,9 +80,7 @@ export default defineComponent({
                   `${prefixCls}-list`,
                   {
                     [`${prefixCls}-list-multiple`]: Boolean(props?.multiple),
-                    [`${prefixCls}-list-strictly`]: Boolean(
-                      props?.checkStrictly
-                    ),
+                    [`${prefixCls}-list-strictly`]: Boolean(props?.checkStrictly),
                   },
                 ]}
               >
@@ -99,10 +89,7 @@ export default defineComponent({
                     <CascaderOption
                       key={item.key}
                       option={item}
-                      active={
-                        props.selectedPath.includes(item.key) ||
-                        item.key === props.activeKey
-                      }
+                      active={props.selectedPath.includes(item.key) || item.key === props.activeKey}
                       multiple={props.multiple}
                       checkStrictly={props.checkStrictly}
                     />

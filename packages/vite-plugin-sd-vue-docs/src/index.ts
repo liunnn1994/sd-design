@@ -1,13 +1,9 @@
 import type { Plugin } from 'vite';
-import { transformChangelog, transformDemo, transformMain } from './markdown';
+
 import { getDescriptor } from './descriptor';
-import {
-  getFrontMatter,
-  getVueId,
-  isDemoMarkdown,
-  isVirtualModule,
-} from './utils';
+import { transformChangelog, transformDemo, transformMain } from './markdown';
 import marked from './marked';
+import { getFrontMatter, getVueId, isDemoMarkdown, isVirtualModule } from './utils';
 
 function callPluginTransform(plugin: Plugin, ctx: any, code: string, id: string) {
   const hook = plugin.transform as any;

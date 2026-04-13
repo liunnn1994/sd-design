@@ -1,4 +1,5 @@
 import { Ref, ref } from 'vue';
+
 import { off, on } from '../../_utils/dom';
 
 export const useDraggable = ({
@@ -25,26 +26,19 @@ export const useDraggable = ({
 
   const getInitialPosition = () => {
     if (wrapperRef.value && modalRef.value) {
-      const { top: wrapperTop, left: wrapperLeft } =
-        wrapperRef.value.getBoundingClientRect();
-      const { clientWidth: wrapperWidth, clientHeight: wrapperHeight } =
-        wrapperRef.value;
-      const { top, left, width, height } =
-        modalRef.value.getBoundingClientRect();
+      const { top: wrapperTop, left: wrapperLeft } = wrapperRef.value.getBoundingClientRect();
+      const { clientWidth: wrapperWidth, clientHeight: wrapperHeight } = wrapperRef.value;
+      const { top, left, width, height } = modalRef.value.getBoundingClientRect();
 
       // subtract the top prop value when the alignCenter is false
       const offsetTop = alignCenter.value ? 0 : modalRef.value?.offsetTop;
       const initialX = left - wrapperLeft;
       const initialY = top - wrapperTop - offsetTop;
-      if (
-        initialX !== initialPosition.value?.[0] ||
-        initialY !== initialPosition.value?.[1]
-      ) {
+      if (initialX !== initialPosition.value?.[0] || initialY !== initialPosition.value?.[1]) {
         initialPosition.value = [initialX, initialY];
       }
       const maxX = wrapperWidth > width ? wrapperWidth - width : 0;
-      const maxY =
-        wrapperHeight > height ? wrapperHeight - height - offsetTop : 0;
+      const maxY = wrapperHeight > height ? wrapperHeight - height - offsetTop : 0;
       if (maxX !== maxPosition.value[0] || maxY !== maxPosition.value[1]) {
         maxPosition.value = [maxX, maxY];
       }

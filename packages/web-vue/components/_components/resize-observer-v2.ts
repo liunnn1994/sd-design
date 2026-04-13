@@ -1,5 +1,7 @@
 import { defineComponent, onBeforeUnmount, watch } from 'vue';
+
 import ResizeObserver from 'resize-observer-polyfill';
+
 import { useFirstElement } from '../_hooks/use-first-element';
 
 export default defineComponent({

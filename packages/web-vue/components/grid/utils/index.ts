@@ -1,16 +1,10 @@
 import { GridItemData } from '../interface';
 
-export function resolveItemData(
-  cols: number,
-  props: GridItemData
-): GridItemData {
+export function resolveItemData(cols: number, props: GridItemData): GridItemData {
   const originSpan = props.span ?? 1;
   const originOffset = props.offset ?? 0;
   const offset = Math.min(originOffset, cols);
-  const span = Math.min(
-    offset > 0 ? originSpan + originOffset : originSpan,
-    cols
-  );
+  const span = Math.min(offset > 0 ? originSpan + originOffset : originSpan, cols);
   return {
     span,
     offset,
@@ -66,7 +60,7 @@ export function setItemVisible({
     }
 
     overflow = itemDataList.some(
-      (item, index) => !item.suffix && !displayIndexList.includes(index)
+      (item, index) => !item.suffix && !displayIndexList.includes(index),
     );
   } else {
     displayIndexList = itemDataList.map((_, index) => index);

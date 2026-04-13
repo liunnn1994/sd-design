@@ -9,14 +9,15 @@ import {
   computed,
   inject,
 } from 'vue';
+
 import { getPrefixCls } from '../_utils/global-config';
-import { AvatarShape } from './interface';
-import Avatar from './avatar.vue';
+import { getAllElements } from '../_utils/vue-utils';
+import { configProviderInjectionKey } from '../config-provider/context';
 import Popover from '../popover';
 import { TriggerProps } from '../trigger';
-import { getAllElements } from '../_utils/vue-utils';
+import Avatar from './avatar.vue';
 import { avatarGroupInjectionKey } from './context';
-import { configProviderInjectionKey } from '../config-provider/context';
+import { AvatarShape } from './interface';
 
 const AvatarGroup = defineComponent({
   name: 'AvatarGroup',
@@ -93,15 +94,13 @@ const AvatarGroup = defineComponent({
         zIndexAscend,
         total,
         rtl,
-      })
+      }),
     );
 
     return () => {
       const children = getAllElements(slots.default?.() ?? []);
-      const avatarsToRender =
-        props.maxCount > 0 ? children.slice(0, props.maxCount) : children;
-      const avatarsInPopover =
-        props.maxCount > 0 ? children.slice(props.maxCount) : [];
+      const avatarsToRender = props.maxCount > 0 ? children.slice(0, props.maxCount) : children;
+      const avatarsInPopover = props.maxCount > 0 ? children.slice(props.maxCount) : [];
 
       if (total.value !== children.length) {
         total.value = children.length;
@@ -117,10 +116,7 @@ const AvatarGroup = defineComponent({
               }}
               {...props.maxPopoverTriggerProps}
             >
-              <Avatar
-                class={`${prefixCls}-max-count-avatar`}
-                style={props.maxStyle}
-              >
+              <Avatar class={`${prefixCls}-max-count-avatar`} style={props.maxStyle}>
                 +{avatarsInPopover.length}
               </Avatar>
             </Popover>

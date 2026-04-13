@@ -1,12 +1,13 @@
-import path from 'path';
-import fs from 'fs-extra';
-import less from 'less';
 import CleanCSS from 'clean-css';
+import fs from 'fs-extra';
 import { globSync } from 'glob';
+import less from 'less';
+import path from 'path';
 import { build } from 'vite';
+
+import config from '../../configs/vite.prod.style';
 // import ora from 'ora';
 import paths from '../../utils/paths';
-import config from '../../configs/vite.prod.style';
 import lessgen from '../lessgen';
 
 const run = async ({ material }: { material: boolean }) => {
@@ -33,27 +34,18 @@ const run = async ({ material }: { material: boolean }) => {
         lessContent,
         {
           filename,
-          paths: [
-            paths.resolvePath(`components/${path.dirname(filename)}`),
-            paths.root,
-          ],
+          paths: [paths.resolvePath(`components/${path.dirname(filename)}`), paths.root],
         },
         (err, result) => {
           if (err) {
             console.log(err);
           } else if (result && result.css) {
             const cssFilename = filename.replace('.less', '.css');
-            fs.writeFileSync(
-              paths.resolvePath(`es/${cssFilename}`),
-              result.css
-            );
-            fs.writeFileSync(
-              paths.resolvePath(`lib/${cssFilename}`),
-              result.css
-            );
+            fs.writeFileSync(paths.resolvePath(`es/${cssFilename}`), result.css);
+            fs.writeFileSync(paths.resolvePath(`lib/${cssFilename}`), result.css);
             console.log(`${filename} build success`);
           }
-        }
+        },
       );
     }
   }
@@ -73,19 +65,16 @@ const run = async ({ material }: { material: boolean }) => {
 
   fs.writeFileSync(
     paths.resolvePath(material ? 'dist/index.less' : 'dist/sd.less'),
-    "@import '../es/index.less';\n\n"
+    "@import '../es/index.less';\n\n",
   );
 
-  fs.writeFileSync(
-    paths.resolvePath(material ? 'dist/index.css' : 'dist/sd.css'),
-    result.css
-  );
+  fs.writeFileSync(paths.resolvePath(material ? 'dist/index.css' : 'dist/sd.css'), result.css);
 
   const compress = new CleanCSS().minify(result.css);
 
   fs.writeFileSync(
     paths.resolvePath(material ? 'dist/index.min.css' : 'dist/sd.min.css'),
-    compress.styles
+    compress.styles,
   );
 
   console.log(`target build success`);

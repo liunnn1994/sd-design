@@ -105,8 +105,7 @@
 
   &-body {
     position: relative;
-    padding: @modal-default-padding-content-vertical
-      @modal-default-padding-horizontal;
+    padding: @modal-default-padding-content-vertical @modal-default-padding-horizontal;
     overflow: auto;
     color: @modal-color-content-text;
     font-size: @modal-font-content-size;
@@ -116,8 +115,7 @@
     flex-shrink: 0;
     box-sizing: border-box;
     width: 100%;
-    padding: @modal-default-padding-footer-vertical
-      @modal-default-padding-horizontal;
+    padding: @modal-default-padding-footer-vertical @modal-default-padding-horizontal;
     text-align: right;
     border-top: @border-1 solid @modal-color-border;
 
@@ -165,8 +163,7 @@
 // 简洁模式
 .@{modal-prefix-cls}-simple {
   width: @modal-simple-size-width;
-  padding: @modal-simple-padding-top @modal-simple-padding-horizontal
-    @modal-simple-padding-bottom;
+  padding: @modal-simple-padding-top @modal-simple-padding-horizontal @modal-simple-padding-bottom;
 
   .@{modal-prefix-cls}-header,
   .@{modal-prefix-cls}-footer {
@@ -232,8 +229,8 @@
 
 .zoom-modal-enter-active,
 .zoom-modal-appear-active {
-  transition: opacity @transition-duration-4
-      @transition-timing-function-overshoot,
+  transition:
+    opacity @transition-duration-4 @transition-timing-function-overshoot,
     transform @transition-duration-4 @transition-timing-function-overshoot;
 }
 
@@ -248,8 +245,8 @@
 }
 
 .zoom-modal-leave-active {
-  transition: opacity @transition-duration-4
-      @transition-timing-function-overshoot,
+  transition:
+    opacity @transition-duration-4 @transition-timing-function-overshoot,
     transform @transition-duration-4 @transition-timing-function-overshoot;
 }
 
@@ -265,8 +262,7 @@
 
 .fade-modal-enter-active,
 .fade-modal-appear-active {
-  transition: opacity @transition-duration-4
-    @transition-timing-function-overshoot;
+  transition: opacity @transition-duration-4 @transition-timing-function-overshoot;
 }
 
 .fade-modal-leave-from {
@@ -278,6 +274,5 @@
 }
 
 .fade-modal-leave-active {
-  transition: opacity @transition-duration-4
-    @transition-timing-function-overshoot;
+  transition: opacity @transition-duration-4 @transition-timing-function-overshoot;
 }

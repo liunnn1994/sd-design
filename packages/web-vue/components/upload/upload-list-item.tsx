@@ -1,18 +1,19 @@
 import { defineComponent, inject, PropType } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
+
 import IconHover from '../_components/icon-hover.vue';
-import UploadProgress from './upload-progress';
-import { FileItem, ListType } from './interfaces';
-import Tooltip from '../tooltip';
+import { getPrefixCls } from '../_utils/global-config';
 import IconDelete from '../icon/icon-delete';
-import IconFile from '../icon/icon-file';
-import IconFilePdf from '../icon/icon-file-pdf';
-import IconFileImage from '../icon/icon-file-image';
-import IconFileVideo from '../icon/icon-file-video';
-import IconFileAudio from '../icon/icon-file-audio';
 import IconExclamationCircleFill from '../icon/icon-exclamation-circle-fill';
+import IconFile from '../icon/icon-file';
+import IconFileAudio from '../icon/icon-file-audio';
+import IconFileImage from '../icon/icon-file-image';
+import IconFilePdf from '../icon/icon-file-pdf';
+import IconFileVideo from '../icon/icon-file-video';
 import { useI18n } from '../locale';
+import Tooltip from '../tooltip';
 import { uploadInjectionKey } from './context';
+import { FileItem, ListType } from './interfaces';
+import UploadProgress from './upload-progress';
 
 export default defineComponent({
   name: 'UploadListItem',
@@ -43,9 +44,7 @@ export default defineComponent({
           type = 'image';
         } else if (['mp4', 'm2v', 'mkv', 'm4v', 'mov'].includes(extension)) {
           type = 'video';
-        } else if (
-          ['mp3', 'wav', 'wmv', 'm4a', 'acc', 'flac'].includes(extension)
-        ) {
+        } else if (['mp3', 'wav', 'wmv', 'm4a', 'acc', 'flac'].includes(extension)) {
           type = 'audio';
         }
       }
@@ -74,9 +73,7 @@ export default defineComponent({
                 <img
                   src={props.file.url}
                   alt={props.file.name}
-                  {...(uploadCtx?.imageLoading
-                    ? { loading: uploadCtx.imageLoading }
-                    : undefined)}
+                  {...(uploadCtx?.imageLoading ? { loading: uploadCtx.imageLoading } : undefined)}
                 />
               )}
             </span>
@@ -94,19 +91,14 @@ export default defineComponent({
                 class={`${itemCls}-name-link`}
                 target="_blank"
                 href={props.file.url}
-                {...(uploadCtx?.download
-                  ? { download: props.file.name }
-                  : undefined)}
+                {...(uploadCtx?.download ? { download: props.file.name } : undefined)}
               >
                 {uploadCtx?.slots['file-name']?.({ fileItem: props.file }) ??
                   uploadCtx?.customIcon?.fileName?.(props.file) ??
                   props.file.name}
               </a>
             ) : (
-              <span
-                class={`${itemCls}-name-text`}
-                onClick={() => uploadCtx?.onPreview(props.file)}
-              >
+              <span class={`${itemCls}-name-text`} onClick={() => uploadCtx?.onPreview(props.file)}>
                 {uploadCtx?.slots['file-name']?.({ fileItem: props.file }) ??
                   uploadCtx?.customIcon?.fileName?.(props.file) ??
                   props.file.name}
@@ -114,13 +106,10 @@ export default defineComponent({
             )}
             {props.file.status === 'error' && (
               <Tooltip content={t('upload.error')}>
-                <span
-                  class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-error`]}
-                >
-                  {uploadCtx?.slots['error-icon']?.() ??
-                    uploadCtx?.customIcon?.errorIcon?.() ?? (
-                      <IconExclamationCircleFill />
-                    )}
+                <span class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-error`]}>
+                  {uploadCtx?.slots['error-icon']?.() ?? uploadCtx?.customIcon?.errorIcon?.() ?? (
+                    <IconExclamationCircleFill />
+                  )}
                 </span>
               </Tooltip>
             )}
@@ -133,11 +122,10 @@ export default defineComponent({
               // @ts-ignore
               onClick={() => uploadCtx?.onRemove?.(props.file)}
             >
-              <span
-                class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-remove`]}
-              >
-                {uploadCtx?.slots['remove-icon']?.() ??
-                  uploadCtx?.customIcon?.removeIcon?.() ?? <IconDelete />}
+              <span class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-remove`]}>
+                {uploadCtx?.slots['remove-icon']?.() ?? uploadCtx?.customIcon?.removeIcon?.() ?? (
+                  <IconDelete />
+                )}
               </span>
             </IconHover>
           </span>

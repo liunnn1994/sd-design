@@ -1,29 +1,30 @@
 <script setup lang="ts">
-import { onMounted, watch } from 'vue';
-import { useData } from 'vitepress';
+  import { onMounted, watch } from 'vue';
 
-const { isDark } = useData();
+  import { useData } from 'vitepress';
 
-const syncTheme = (dark: boolean) => {
-  if (typeof document === 'undefined') {
-    return;
-  }
+  const { isDark } = useData();
 
-  if (dark) {
-    document.body.setAttribute('sd-theme', 'dark');
-    return;
-  }
+  const syncTheme = (dark: boolean) => {
+    if (typeof document === 'undefined') {
+      return;
+    }
 
-  document.body.removeAttribute('sd-theme');
-};
+    if (dark) {
+      document.body.setAttribute('sd-theme', 'dark');
+      return;
+    }
 
-onMounted(() => {
-  syncTheme(isDark.value);
-});
+    document.body.removeAttribute('sd-theme');
+  };
 
-watch(isDark, (dark) => {
-  syncTheme(dark);
-});
+  onMounted(() => {
+    syncTheme(isDark.value);
+  });
+
+  watch(isDark, (dark) => {
+    syncTheme(dark);
+  });
 </script>
 
 <template>

@@ -7,6 +7,7 @@ import {
   onMounted,
   ref,
 } from 'vue';
+
 import { getFirstComponent } from '../../_utils/vue-utils';
 
 export default defineComponent({
@@ -45,7 +46,7 @@ export default defineComponent({
           {
             ref: itemRef,
           },
-          true
+          true,
         );
       }
 

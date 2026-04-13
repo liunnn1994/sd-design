@@ -22,10 +22,10 @@ Basic usage
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { Message} from '@sd-design/web-vue';
+  import { ref } from 'vue';
+  import { Message } from '@sdata/web-vue';
 
-const value = ref('654321');
-const onFinish = (value) => Message.info(`Verification code: ${value}`);
+  const value = ref('654321');
+  const onFinish = (value) => Message.info(`Verification code: ${value}`);
 </script>
 ```

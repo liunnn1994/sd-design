@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 标签输入框 InputTag
 description: 用来输入标签。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,15 +19,16 @@ meta:
 title: InputTag
 description: Used to enter the label.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/status.md
+@import ./**demo**/status.md
 
-@import ./__demo__/max.md
+@import ./**demo**/max.md
 
-@import ./__demo__/size.md
+@import ./**demo**/size.md
 
 ## API
 

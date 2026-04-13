@@ -17,7 +17,7 @@
       </template>
     </a-dropdown>
     <a-dropdown @select="handleSelect" :popup-max-height="false">
-      <a-button>No Max Height <icon-down/></a-button>
+      <a-button>No Max Height <icon-down /></a-button>
       <template #content>
         <a-doption>Option 1</a-doption>
         <a-doption disabled>Option 2</a-doption>
@@ -34,21 +34,21 @@
 </template>
 
 <script>
-export default {
-  setup() {
-    const handleSelect = (v) => {
-      console.log(v)
-    };
+  export default {
+    setup() {
+      const handleSelect = (v) => {
+        console.log(v);
+      };
 
-    return {
-      handleSelect
-    }
-  },
-}
+      return {
+        handleSelect,
+      };
+    },
+  };
 </script>
 
 <style>
-.sd-dropdown-open .sd-icon-down {
-  transform: rotate(180deg);
-}
+  .sd-dropdown-open .sd-icon-down {
+    transform: rotate(180deg);
+  }
 </style>

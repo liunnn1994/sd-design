@@ -1,24 +1,16 @@
 <template>
   <div>
-    <a-switch v-model="rtlType" style="margin-bottom: 20px;">
-      <template #checked>
-        RTL
-      </template>
-      <template #unchecked>
-        LTR
-      </template>
+    <a-switch v-model="rtlType" style="margin-bottom: 20px">
+      <template #checked> RTL </template>
+      <template #unchecked> LTR </template>
     </a-switch>
     <a-config-provider :rtl="rtlType">
-      <a-tabs :default-active-key="2" style="margin-bottom: 20px;">
-        <a-tab-pane
-          v-for="i in 36"
-          :key="i"
-          :title="`Tab ${i}`"
-        >
+      <a-tabs :default-active-key="2" style="margin-bottom: 20px">
+        <a-tab-pane v-for="i in 36" :key="i" :title="`Tab ${i}`">
           Content of Tab Panel {{ i }}
         </a-tab-pane>
       </a-tabs>
-      <a-space :direction="'vertical'" style="width: 100%;">
+      <a-space :direction="'vertical'" style="width: 100%">
         <a-space :size="40">
           <a-badge :count="9">
             <a-avatar shape="square" />
@@ -28,9 +20,7 @@
           </a-badge>
           <a-badge :dotStyle="{ height: '16px', width: '16px', fontSize: '14px' }">
             <template #content>
-              <IconClockCircle
-                :style="{ verticalAlign: 'middle', color: 'var(--color-text-2)' }"
-              />
+              <IconClockCircle :style="{ verticalAlign: 'middle', color: 'var(--color-text-2)' }" />
             </template>
             <a-avatar shape="square" />
           </a-badge>
@@ -44,15 +34,15 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const rtlType = ref(true);
+  export default {
+    setup() {
+      const rtlType = ref(true);
 
-    return {
-      rtlType,
-    };
-  },
-};
+      return {
+        rtlType,
+      };
+    },
+  };
 </script>

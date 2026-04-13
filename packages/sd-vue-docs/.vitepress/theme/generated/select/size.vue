@@ -6,14 +6,24 @@
       <a-radio value="medium">Medium</a-radio>
       <a-radio value="large">Large</a-radio>
     </a-radio-group>
-    <a-select default-value="Beijing" :style="{width:'320px'}" :size="size" placeholder="Please select ...">
+    <a-select
+      default-value="Beijing"
+      :style="{ width: '320px' }"
+      :size="size"
+      placeholder="Please select ..."
+    >
       <a-option>Beijing</a-option>
       <a-option>Shanghai</a-option>
       <a-option>Guangzhou</a-option>
       <a-option disabled>Disabled</a-option>
     </a-select>
-    <a-select :default-value="['Beijing','Shanghai']" :style="{width:'320px'}" :size="size"
-              placeholder="Please select ..." multiple>
+    <a-select
+      :default-value="['Beijing', 'Shanghai']"
+      :style="{ width: '320px' }"
+      :size="size"
+      placeholder="Please select ..."
+      multiple
+    >
       <a-option>Beijing</a-option>
       <a-option>Shanghai</a-option>
       <a-option>Guangzhou</a-option>
@@ -26,15 +36,15 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const size = ref('medium');
+  export default {
+    setup() {
+      const size = ref('medium');
 
-    return {
-      size
-    }
-  },
-}
+      return {
+        size,
+      };
+    },
+  };
 </script>

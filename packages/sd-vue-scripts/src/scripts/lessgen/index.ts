@@ -1,6 +1,7 @@
-import path from 'path';
 import fs from 'fs-extra';
 import { globSync } from 'glob';
+import path from 'path';
+
 import paths from '../../utils/paths';
 
 const lessgen = () => {

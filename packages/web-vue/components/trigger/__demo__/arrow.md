@@ -37,12 +37,12 @@ title:
 </template>
 
 <style scoped>
-.demo-arrow {
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
-  padding: 10px;
-  width: 200px;
-  background-color: var(--color-bg-popup);
-  border-radius: 4px;
-}
+  .demo-arrow {
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+    padding: 10px;
+    width: 200px;
+    background-color: var(--color-bg-popup);
+    border-radius: 4px;
+  }
 </style>
 ```

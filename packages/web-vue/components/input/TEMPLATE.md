@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 输入框 Input
 description: 基本表单组件，并在原生控件基础上进行了功能扩展，可以组合使用。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,29 +19,30 @@ meta:
 title: Input
 description: Basic form components have been expanded on the basis of native controls and can be used in combination.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/status.md
+@import ./**demo**/status.md
 
-@import ./__demo__/size.md
+@import ./**demo**/size.md
 
-@import ./__demo__/prefix.md
+@import ./**demo**/prefix.md
 
-@import ./__demo__/prepend.md
+@import ./**demo**/prepend.md
 
-@import ./__demo__/word-limit.md
+@import ./**demo**/word-limit.md
 
-@import ./__demo__/group.md
+@import ./**demo**/group.md
 
-@import ./__demo__/search.md
+@import ./**demo**/search.md
 
-@import ./__demo__/search-button.md
+@import ./**demo**/search-button.md
 
-@import ./__demo__/search-loading.md
+@import ./**demo**/search-loading.md
 
-@import ./__demo__/password.md
+@import ./**demo**/password.md
 
 ## API
 

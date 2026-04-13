@@ -1,13 +1,14 @@
 import type { ComponentPublicInstance, PropType } from 'vue';
-import {
-  computed,
-  defineComponent,
-  nextTick,
-  ref,
-  toRefs,
-  watch,
-  watchEffect,
-} from 'vue';
+import { computed, defineComponent, nextTick, ref, toRefs, watch, watchEffect } from 'vue';
+
+import { SelectViewValue } from '../_components/select-view/interface';
+import SelectView from '../_components/select-view/select-view';
+import VirtualList from '../_components/virtual-list-v2';
+import { VirtualListProps } from '../_components/virtual-list-v2/interface';
+import { useFormItem } from '../_hooks/use-form-item';
+import { useTrigger } from '../_hooks/use-trigger';
+import { Size } from '../_utils/constant';
+import { debounce } from '../_utils/debounce';
 import { getPrefixCls } from '../_utils/global-config';
 import {
   isArray,
@@ -20,19 +21,11 @@ import {
   isBoolean,
   isUndefined,
 } from '../_utils/is';
-import {
-  getKeyFromValue,
-  isGroupOptionInfo,
-  isValidOption,
-  hasEmptyStringKey,
-} from './utils';
-import Trigger, { TriggerProps } from '../trigger';
-import SelectView from '../_components/select-view/select-view';
-import { Size } from '../_utils/constant';
 import { Data } from '../_utils/types';
-import SelectDropdown from './select-dropdown.vue';
-import Option from './option.vue';
-import OptGroup from './optgroup.vue';
+import { TagData } from '../input-tag';
+import { ScrollbarProps } from '../scrollbar';
+import Trigger, { TriggerProps } from '../trigger';
+import { useSelect } from './hooks/use-select';
 import {
   OptionValueWithKey,
   SelectFieldNames,
@@ -41,15 +34,10 @@ import {
   SelectOptionGroupInfo,
   SelectOptionInfo,
 } from './interface';
-import VirtualList from '../_components/virtual-list-v2';
-import { VirtualListProps } from '../_components/virtual-list-v2/interface';
-import { useSelect } from './hooks/use-select';
-import { TagData } from '../input-tag';
-import { useTrigger } from '../_hooks/use-trigger';
-import { useFormItem } from '../_hooks/use-form-item';
-import { debounce } from '../_utils/debounce';
-import { SelectViewValue } from '../_components/select-view/interface';
-import { ScrollbarProps } from '../scrollbar';
+import OptGroup from './optgroup.vue';
+import Option from './option.vue';
+import SelectDropdown from './select-dropdown.vue';
+import { getKeyFromValue, isGroupOptionInfo, isValidOption, hasEmptyStringKey } from './utils';
 
 const DEFAULT_FIELD_NAMES = {
   value: 'value',
@@ -172,9 +160,7 @@ export default defineComponent({
      * @defaultValue false (single) \| true (multiple)
      */
     allowSearch: {
-      type: [Boolean, Object] as PropType<
-        boolean | { retainInputValue?: boolean }
-      >,
+      type: [Boolean, Object] as PropType<boolean | { retainInputValue?: boolean }>,
       default: (props: Data) => Boolean(props.multiple),
     },
     /**
@@ -257,9 +243,7 @@ export default defineComponent({
      * @en Option data
      */
     options: {
-      type: Array as PropType<
-        (string | number | boolean | SelectOptionData | SelectOptionGroup)[]
-      >,
+      type: Array as PropType<(string | number | boolean | SelectOptionData | SelectOptionGroup)[]>,
       default: () => [],
     },
     /**
@@ -292,10 +276,7 @@ export default defineComponent({
      */
     fallbackOption: {
       type: [Boolean, Function] as PropType<
-        | boolean
-        | ((
-            value: string | number | boolean | Record<string, unknown>
-          ) => SelectOptionData)
+        boolean | ((value: string | number | boolean | Record<string, unknown>) => SelectOptionData)
       >,
       default: true,
     },
@@ -385,7 +366,7 @@ export default defineComponent({
         | number
         | boolean
         | Record<string, any>
-        | (string | number | boolean | Record<string, any>)[]
+        | (string | number | boolean | Record<string, any>)[],
     ) => true,
     'update:inputValue': (inputValue: string) => true,
     'update:popupVisible': (visible: boolean) => true,
@@ -394,55 +375,53 @@ export default defineComponent({
      * @en Triggered when the value changes
      * @param { string | number | boolean | Record<string, any> | (string | number | boolean | Record<string, any>)[] } value
      */
-    'change': (
+    change: (
       value:
         | string
         | number
         | boolean
         | Record<string, any>
-        | (string | number | boolean | Record<string, any>)[]
+        | (string | number | boolean | Record<string, any>)[],
     ) => true,
     /**
      * @zh 输入框的值发生改变时触发
      * @en Triggered when the value of the input changes
      * @param {string} inputValue
      */
-    'inputValueChange': (inputValue: string) => true,
+    inputValueChange: (inputValue: string) => true,
     /**
      * @zh 下拉框的显示状态改变时触发
      * @en Triggered when the display state of the drop-down box changes
      * @param {boolean} visible
      */
-    'popupVisibleChange': (visible: boolean) => true,
+    popupVisibleChange: (visible: boolean) => true,
     /**
      * @zh 点击清除按钮时触发
      * @en Triggered when the clear button is clicked
      */
-    'clear': (ev: Event) => true,
+    clear: (ev: Event) => true,
     /**
      * @zh 点击标签的删除按钮时触发
      * @en Triggered when the delete button of the label is clicked
      * @param {string | number | boolean | Record<string, any> | undefined} removed
      */
-    'remove': (
-      removed: string | number | boolean | Record<string, any> | undefined
-    ) => true,
+    remove: (removed: string | number | boolean | Record<string, any> | undefined) => true,
     /**
      * @zh 用户搜索时触发
      * @en Triggered when the user searches
      * @param {string} inputValue
      */
-    'search': (inputValue: string) => true,
+    search: (inputValue: string) => true,
     /**
      * @zh 下拉菜单发生滚动时触发
      * @en Triggered when the drop-down scrolls
      */
-    'dropdownScroll': (ev: Event) => true,
+    dropdownScroll: (ev: Event) => true,
     /**
      * @zh 下拉菜单滚动到底部时触发
      * @en Triggered when the drop-down menu is scrolled to the bottom
      */
-    'dropdownReachBottom': (ev: Event) => true,
+    dropdownReachBottom: (ev: Event) => true,
     /**
      * @zh 多选超出限制时触发
      * @en Triggered when multiple selection exceeds the limit
@@ -450,10 +429,8 @@ export default defineComponent({
      * @param {Event} ev
      * @version 2.18.0
      */
-    'exceedLimit': (
-      value: string | number | boolean | Record<string, any> | undefined,
-      ev: Event
-    ) => true,
+    exceedLimit: (value: string | number | boolean | Record<string, any> | undefined, ev: Event) =>
+      true,
   },
   /**
    * @zh 选项为空时的显示内容
@@ -532,17 +509,14 @@ export default defineComponent({
       defaultActiveFirstOption,
     } = toRefs(props);
     const prefixCls = getPrefixCls('select');
-    const { mergedSize, mergedDisabled, mergedError, eventHandlers } =
-      useFormItem({
-        size,
-        disabled,
-        error,
-      });
+    const { mergedSize, mergedDisabled, mergedError, eventHandlers } = useFormItem({
+      size,
+      disabled,
+      error,
+    });
     const component = computed(() => (props.virtualListProps ? 'div' : 'li'));
     const retainInputValue = computed(
-      () =>
-        isObject(props.allowSearch) &&
-        Boolean(props.allowSearch.retainInputValue)
+      () => isObject(props.allowSearch) && Boolean(props.allowSearch.retainInputValue),
     );
     const formatLabel = computed(() => {
       if (isFunction(props.formatLabel)) {
@@ -573,12 +547,9 @@ export default defineComponent({
       const mergedValue = props.modelValue ?? _value.value;
       const valueArray = isArray(mergedValue)
         ? mergedValue
-        : mergedValue ||
-          isNumber(mergedValue) ||
-          isString(mergedValue) ||
-          isBoolean(mergedValue)
-        ? [mergedValue]
-        : [];
+        : mergedValue || isNumber(mergedValue) || isString(mergedValue) || isBoolean(mergedValue)
+          ? [mergedValue]
+          : [];
       return valueArray.map((value) => ({
         value,
         key: getKeyFromValue(value, props.valueKey),
@@ -590,9 +561,7 @@ export default defineComponent({
       }
     });
 
-    const computedValueKeys = computed(() =>
-      computedValueObjects.value.map((obj) => obj.key)
-    );
+    const computedValueKeys = computed(() => computedValueObjects.value.map((obj) => obj.key));
 
     const mergedFieldNames = computed(() => ({
       ...DEFAULT_FIELD_NAMES,
@@ -617,16 +586,14 @@ export default defineComponent({
 
     // extra value and option
     const getFallBackOption = (
-      value: string | number | boolean | Record<string, unknown>
+      value: string | number | boolean | Record<string, unknown>,
     ): SelectOptionData => {
       if (isFunction(props.fallbackOption)) {
         return props.fallbackOption(value);
       }
       return {
         [mergedFieldNames.value.value]: value,
-        [mergedFieldNames.value.label]: String(
-          isObject(value) ? value[valueKey?.value] : value
-        ),
+        [mergedFieldNames.value.label]: String(isObject(value) ? value[valueKey?.value] : value),
       };
     };
 
@@ -666,14 +633,11 @@ export default defineComponent({
       extraValueObjects.value.map((obj) => {
         let optionInfo = getFallBackOption(obj.value);
         const extraOptionRawInfo = _selectedOption.value?.[obj.key];
-        if (
-          !isUndefined(extraOptionRawInfo) &&
-          !isEmptyObject(extraOptionRawInfo)
-        ) {
+        if (!isUndefined(extraOptionRawInfo) && !isEmptyObject(extraOptionRawInfo)) {
           optionInfo = { ...optionInfo, ...extraOptionRawInfo };
         }
         return optionInfo;
-      })
+      }),
     );
 
     nextTick(() => {
@@ -694,9 +658,7 @@ export default defineComponent({
 
     // input value
     const _inputValue = ref('');
-    const computedInputValue = computed(
-      () => props.inputValue ?? _inputValue.value
-    );
+    const computedInputValue = computed(() => props.inputValue ?? _inputValue.value);
 
     // clear input value when close dropdown
     watch(computedPopupVisible, (visible) => {
@@ -710,9 +672,7 @@ export default defineComponent({
       if (!props.multiple) {
         return (
           optionInfoMap.get(valueKeys[0])?.value ??
-          (hasEmptyStringKey(optionInfoMap)
-            ? (undefined as unknown as string)
-            : '')
+          (hasEmptyStringKey(optionInfoMap) ? (undefined as unknown as string) : '')
         );
       }
       return valueKeys.map((key) => optionInfoMap.get(key)?.value ?? '');
@@ -738,10 +698,7 @@ export default defineComponent({
       if (props.multiple) {
         if (!computedValueKeys.value.includes(key)) {
           if (enabledOptionKeys.value.includes(key)) {
-            if (
-              props.limit > 0 &&
-              computedValueKeys.value.length >= props.limit
-            ) {
+            if (props.limit > 0 && computedValueKeys.value.length >= props.limit) {
               const info = optionInfoMap.get(key);
               emit('exceedLimit', info?.value, ev);
             } else {
@@ -750,9 +707,7 @@ export default defineComponent({
             }
           }
         } else {
-          const valueKeys = computedValueKeys.value.filter(
-            (_key) => _key !== key
-          );
+          const valueKeys = computedValueKeys.value.filter((_key) => _key !== key);
           updateValue(valueKeys);
         }
         if (!retainInputValue.value) {
@@ -801,9 +756,7 @@ export default defineComponent({
 
     const handleClear = (e: Event) => {
       e?.stopPropagation();
-      const newKeys = computedValueKeys.value.filter(
-        (key) => optionInfoMap.get(key)?.disabled
-      );
+      const newKeys = computedValueKeys.value.filter((key) => optionInfoMap.get(key)?.disabled);
       updateValue(newKeys);
       updateInputValue('');
       emit('clear', e);
@@ -817,32 +770,27 @@ export default defineComponent({
       emit('dropdownReachBottom', e);
     };
 
-    const {
-      validOptions,
-      optionInfoMap,
-      validOptionInfos,
-      enabledOptionKeys,
-      handleKeyDown,
-    } = useSelect({
-      multiple,
-      options,
-      extraOptions,
-      inputValue: computedInputValue,
-      filterOption,
-      showExtraOptions,
-      component,
-      valueKey,
-      fieldNames,
-      loading,
-      popupVisible: computedPopupVisible,
-      valueKeys: computedValueKeys,
-      dropdownRef,
-      optionRefs,
-      virtualListRef,
-      defaultActiveFirstOption,
-      onSelect: handleSelect,
-      onPopupVisibleChange: handlePopupVisibleChange,
-    });
+    const { validOptions, optionInfoMap, validOptionInfos, enabledOptionKeys, handleKeyDown } =
+      useSelect({
+        multiple,
+        options,
+        extraOptions,
+        inputValue: computedInputValue,
+        filterOption,
+        showExtraOptions,
+        component,
+        valueKey,
+        fieldNames,
+        loading,
+        popupVisible: computedPopupVisible,
+        valueKeys: computedValueKeys,
+        dropdownRef,
+        optionRefs,
+        virtualListRef,
+        defaultActiveFirstOption,
+        onSelect: handleSelect,
+        onPopupVisibleChange: handlePopupVisibleChange,
+      });
 
     const selectViewValue = computed(() => {
       const result: SelectViewValue[] = [];
@@ -854,9 +802,7 @@ export default defineComponent({
             value: item.key,
             label:
               optionInfo?.label ??
-              String(
-                isObject(item.value) ? item.value[valueKey?.value] : item.value
-              ),
+              String(isObject(item.value) ? item.value[valueKey?.value] : item.value),
             closable: !optionInfo?.disabled,
             tagProps: optionInfo?.tagProps,
           });
@@ -876,9 +822,7 @@ export default defineComponent({
       return () => optionInfo.label;
     };
 
-    const renderOption = (
-      optionInfo: SelectOptionInfo | SelectOptionGroupInfo
-    ) => {
+    const renderOption = (optionInfo: SelectOptionInfo | SelectOptionGroupInfo) => {
       if (isGroupOptionInfo(optionInfo)) {
         return (
           <OptGroup key={optionInfo.key} label={optionInfo.label}>
@@ -921,27 +865,21 @@ export default defineComponent({
         <SelectDropdown
           ref={dropdownRef}
           v-slots={{
-            'default': () => [
-              ...(slots.default?.() ?? []),
-              ...validOptions.value.map(renderOption),
-            ],
+            default: () => [...(slots.default?.() ?? []), ...validOptions.value.map(renderOption)],
             'virtual-list': () => (
               <VirtualList
                 {...props.virtualListProps}
                 ref={virtualListRef}
                 data={validOptions.value}
                 v-slots={{
-                  item: ({
-                    item,
-                  }: {
-                    item: SelectOptionInfo | SelectOptionGroupInfo;
-                  }) => renderOption(item),
+                  item: ({ item }: { item: SelectOptionInfo | SelectOptionGroupInfo }) =>
+                    renderOption(item),
                 }}
               />
             ),
-            'empty': slots.empty,
-            'header': slots.header,
-            'footer': slots.footer,
+            empty: slots.empty,
+            header: slots.header,
+            footer: slots.footer,
           }}
           loading={props.loading}
           empty={validOptionInfos.value.length === 0}
@@ -959,10 +897,7 @@ export default defineComponent({
       if ((slots.label || isFunction(props.formatLabel)) && data) {
         const optionInfo = optionInfoMap.get(data.value as string);
         if (optionInfo?.raw) {
-          return (
-            slots.label?.({ data: optionInfo.raw }) ??
-            props.formatLabel?.(optionInfo.raw)
-          );
+          return slots.label?.({ data: optionInfo.raw }) ?? props.formatLabel?.(optionInfo.raw);
         }
       }
       return data?.label ?? '';
@@ -990,8 +925,8 @@ export default defineComponent({
         {slots.trigger?.() ?? (
           <SelectView
             v-slots={{
-              'label': renderLabel,
-              'prefix': slots.prefix,
+              label: renderLabel,
+              prefix: slots.prefix,
               'arrow-icon': slots['arrow-icon'],
               'loading-icon': slots['loading-icon'],
               'search-icon': slots['search-icon'],

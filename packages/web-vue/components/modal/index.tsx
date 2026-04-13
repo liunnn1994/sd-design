@@ -1,14 +1,16 @@
 import type { App, AppContext } from 'vue';
 import { nextTick, createVNode, render } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
-import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
+import type { ModalConfig, ModalMethod, ModalUpdateConfig } from './interface';
+
 import { MESSAGE_TYPES } from '../_utils/constant';
 import { getOverlay } from '../_utils/dom';
+import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import { isFunction } from '../_utils/is';
-import _Modal from './modal.vue';
-import type { ModalConfig, ModalMethod, ModalUpdateConfig } from './interface';
 import { omit } from '../_utils/omit';
 import { getSlotFunction } from '../_utils/vue-utils';
+import _Modal from './modal.vue';
 
 const open = (config: ModalConfig, appContext?: AppContext) => {
   let container: HTMLElement | null = getOverlay('modal');
@@ -91,11 +93,8 @@ const open = (config: ModalConfig, appContext?: AppContext) => {
     {
       default: getSlotFunction(config.content),
       title: getSlotFunction(config.title),
-      footer:
-        typeof config.footer !== 'boolean'
-          ? getSlotFunction(config.footer)
-          : undefined,
-    }
+      footer: typeof config.footer !== 'boolean' ? getSlotFunction(config.footer) : undefined,
+    },
   );
 
   if (appContext ?? Modal._context) {
@@ -118,19 +117,22 @@ const modal: ModalMethod = {
 
     return open(_config, appContext);
   },
-  ...MESSAGE_TYPES.reduce((pre, value) => {
-    pre[value] = (config: ModalConfig, appContext?: AppContext) => {
-      const _config = {
-        simple: true,
-        hideCancel: true,
-        messageType: value,
-        ...config,
+  ...MESSAGE_TYPES.reduce(
+    (pre, value) => {
+      pre[value] = (config: ModalConfig, appContext?: AppContext) => {
+        const _config = {
+          simple: true,
+          hideCancel: true,
+          messageType: value,
+          ...config,
+        };
+        return open(_config, appContext);
       };
-      return open(_config, appContext);
-    };
 
-    return pre;
-  }, {} as Pick<ModalMethod, 'info' | 'success' | 'warning' | 'error'>),
+      return pre;
+    },
+    {} as Pick<ModalMethod, 'info' | 'success' | 'warning' | 'error'>,
+  ),
 };
 
 const Modal = Object.assign(_Modal, {
@@ -144,8 +146,7 @@ const Modal = Object.assign(_Modal, {
     const modalWithContext = {} as ModalMethod;
 
     for (const key of Object.keys(modal) as (keyof ModalMethod)[]) {
-      modalWithContext[key] = (config, appContext = app._context) =>
-        modal[key](config, appContext);
+      modalWithContext[key] = (config, appContext = app._context) => modal[key](config, appContext);
     }
 
     app.config.globalProperties.$modal = modalWithContext;

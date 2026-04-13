@@ -27,7 +27,7 @@ The selected value supports two-way binding.
 </template>
 <script>
   import { h, ref } from 'vue';
-  import { IconCalendar } from '@sd-design/web-vue/es/icon';
+  import { IconCalendar } from '@sdata/web-vue/es/icon';
 
   export default {
     setup() {

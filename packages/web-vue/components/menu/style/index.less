@@ -299,8 +299,7 @@
     .@{menu-prefix-cls}-inner {
       display: flex;
       align-items: center;
-      padding: @menu-horizontal-padding-vertical
-        @menu-horizontal-padding-horizontal;
+      padding: @menu-horizontal-padding-vertical @menu-horizontal-padding-horizontal;
     }
 
     .@{menu-prefix-cls}-item,
@@ -419,8 +418,7 @@
   &-inline-content {
     height: auto;
     overflow: hidden;
-    transition: height @transition-duration-2
-      @transition-timing-function-standard;
+    transition: height @transition-duration-2 @transition-timing-function-standard;
 
     &-hide {
       height: 0;
@@ -558,16 +556,14 @@
 
   &-group {
     &:first-child &-title {
-      padding-top: @dropdown-group-title-padding-top -
-        @dropdown-padding-vertical;
+      padding-top: @dropdown-group-title-padding-top - @dropdown-padding-vertical;
     }
   }
 
   &-group-title {
     box-sizing: border-box;
     width: 100%;
-    padding: @dropdown-group-title-padding-top
-      @dropdown-group-title-padding-horizontal 0
+    padding: @dropdown-group-title-padding-top @dropdown-group-title-padding-horizontal 0
       @dropdown-group-title-padding-horizontal;
     color: @dropdown-group-title-color-text;
     font-size: @dropdown-group-title-font-size;

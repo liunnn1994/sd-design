@@ -35,46 +35,38 @@ The position of the label text can be set by `labelPosition`.
       </a-radio-group>
     </a-row>
     <a-timeline :mode="mode" :labelPosition="pos">
-      <a-timeline-item label="2017-03-10" dotColor="#52C419">
-        The first milestone
-      </a-timeline-item>
-      <a-timeline-item
-        label="2018-05-12"
-        dotColor="#F5222D"
-        labelPosition="same"
-      >
+      <a-timeline-item label="2017-03-10" dotColor="#52C419"> The first milestone </a-timeline-item>
+      <a-timeline-item label="2018-05-12" dotColor="#F5222D" labelPosition="same">
         The second milestone
       </a-timeline-item>
-      <a-timeline-item label="2020-09-30" position="bottom">
-        The third milestone
-      </a-timeline-item>
+      <a-timeline-item label="2020-09-30" position="bottom"> The third milestone </a-timeline-item>
     </a-timeline>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const mode = ref('left');
-    const pos = ref('same');
+  export default {
+    setup() {
+      const mode = ref('left');
+      const pos = ref('same');
 
-    const onLabelPositionChange = (_pos) => {
-      pos.value = _pos;
-    };
+      const onLabelPositionChange = (_pos) => {
+        pos.value = _pos;
+      };
 
-    const onModeChange = (_mode) => {
-      mode.value = _mode;
-    };
+      const onModeChange = (_mode) => {
+        mode.value = _mode;
+      };
 
-    return {
-      mode,
-      pos,
-      onLabelPositionChange,
-      onModeChange
-    }
-  },
-};
+      return {
+        mode,
+        pos,
+        onLabelPositionChange,
+        onModeChange,
+      };
+    },
+  };
 </script>
 ```

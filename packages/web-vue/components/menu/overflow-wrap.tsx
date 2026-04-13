@@ -7,12 +7,14 @@ import {
   VNode,
   VNodeNormalizedChildren,
 } from 'vue';
+
 import ResizeObserver from 'resize-observer-polyfill';
+
 import { getStyle } from '../_utils/style';
+import { unFragment } from '../_utils/vue-utils';
 import useMenuContext from './hooks/use-menu-context';
 import { SubMenuProps } from './interface';
 import SubMenu from './sub-menu';
-import { unFragment } from '../_utils/vue-utils';
 
 const OVERFLOW_THRESHOLD = 10;
 
@@ -41,9 +43,7 @@ export default defineComponent({
     function computeLastVisibleIndex() {
       const wrapperElement = refWrapper.value as HTMLDivElement;
       const wrapperWidth = getNodeWidth(wrapperElement);
-      const childNodeList = [].slice.call(
-        wrapperElement.children
-      ) as HTMLElement[];
+      const childNodeList = [].slice.call(wrapperElement.children) as HTMLElement[];
 
       let menuItemIndex = 0;
       let currentRightWidth = 0;
@@ -54,8 +54,7 @@ export default defineComponent({
         const node = childNodeList[i];
         const classNames = node.className.split(' ');
         const isOverflowSubMenu = classNames.indexOf(overflowSubMenuClass) > -1;
-        const isOverflowSubMenuMirror =
-          classNames.indexOf(overflowSubMenuMirrorClass) > -1;
+        const isOverflowSubMenuMirror = classNames.indexOf(overflowSubMenuMirrorClass) > -1;
 
         // 忽略 overflowSubMenu 的宽度，其宽度测量交由 overflowSubMenuMirror
         if (isOverflowSubMenu) {
@@ -74,10 +73,7 @@ export default defineComponent({
 
         currentRightWidth += nodeWidth;
 
-        if (
-          currentRightWidth + overflowSubMenuWidth + OVERFLOW_THRESHOLD >
-          wrapperWidth
-        ) {
+        if (currentRightWidth + overflowSubMenuWidth + OVERFLOW_THRESHOLD > wrapperWidth) {
           lastVisibleIndex.value = menuItemIndex - 1;
           return;
         }
@@ -92,11 +88,9 @@ export default defineComponent({
     onMounted(() => {
       computeLastVisibleIndex();
 
-      refResizeObserver.value = new ResizeObserver(
-        (entries: ResizeObserverEntry[]) => {
-          entries.forEach(computeLastVisibleIndex);
-        }
-      );
+      refResizeObserver.value = new ResizeObserver((entries: ResizeObserverEntry[]) => {
+        entries.forEach(computeLastVisibleIndex);
+      });
 
       if (refWrapper.value) {
         refResizeObserver.value.observe(refWrapper.value);
@@ -113,7 +107,7 @@ export default defineComponent({
         options?: {
           isMirror?: boolean;
           props?: Partial<SubMenuProps>;
-        }
+        },
       ): JSX.Element => {
         const { isMirror = false, props = {} } = options || {};
         return (
@@ -141,16 +135,11 @@ export default defineComponent({
             child,
             lastVisibleIndex.value !== null && index > lastVisibleIndex.value
               ? { class: overflowMenuItemClass }
-              : { class: '' }
+              : { class: '' },
           );
 
-          if (
-            lastVisibleIndex.value !== null &&
-            index === lastVisibleIndex.value + 1
-          ) {
-            const overflowMenuItems = children
-              .slice(index)
-              .map((child) => cloneVNode(child));
+          if (lastVisibleIndex.value !== null && index === lastVisibleIndex.value + 1) {
+            const overflowMenuItems = children.slice(index).map((child) => cloneVNode(child));
 
             overflowSubMenu = renderSubMenu(overflowMenuItems);
           }

@@ -60,65 +60,60 @@
   </div>
 </template>
 <script>
-import {
-  IconBug,
-  IconBulb,
-  IconClose,
-  IconMessage,
-} from '@sd-design/web-vue/es/icon';
+  import { IconBug, IconBulb, IconClose, IconMessage } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: {
-    IconBug,
-    IconBulb,
-    IconClose,
-    IconMessage,
-  },
-  data() {
-    return {
-      popupVisible1: false,
-      popupVisible2: false,
-    };
-  }
-};
+  export default {
+    components: {
+      IconBug,
+      IconBulb,
+      IconClose,
+      IconMessage,
+    },
+    data() {
+      return {
+        popupVisible1: false,
+        popupVisible2: false,
+      };
+    },
+  };
 </script>
 <style scoped>
-.menu-demo {
-  box-sizing: border-box;
-  width: 660px;
-  height: 300px;
-  padding: 40px;
-  background-color: var(--color-fill-2);
-  position: relative;
-}
-.button-trigger {
-  position: absolute;
-  bottom: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  color: var(--color-white);
-  font-size: 14px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.1s;
-}
-/* button left */
-.button-trigger:nth-child(1) {
-  left: 150px;
-  background-color: var(--color-neutral-5);
-}
-.button-trigger:nth-child(1).button-trigger-active {
-  background-color: var(--color-neutral-4);
-}
-/* button right */
-.button-trigger:nth-child(2) {
-  left: 372px;
-  background-color: rgb(var(--sdblue-6));
-}
-.button-trigger:nth-child(3).button-trigger-active {
-  background-color: var(--color-primary-light-4);
-}
+  .menu-demo {
+    box-sizing: border-box;
+    width: 660px;
+    height: 300px;
+    padding: 40px;
+    background-color: var(--color-fill-2);
+    position: relative;
+  }
+  .button-trigger {
+    position: absolute;
+    bottom: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: var(--color-white);
+    font-size: 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.1s;
+  }
+  /* button left */
+  .button-trigger:nth-child(1) {
+    left: 150px;
+    background-color: var(--color-neutral-5);
+  }
+  .button-trigger:nth-child(1).button-trigger-active {
+    background-color: var(--color-neutral-4);
+  }
+  /* button right */
+  .button-trigger:nth-child(2) {
+    left: 372px;
+    background-color: rgb(var(--sdblue-6));
+  }
+  .button-trigger:nth-child(3).button-trigger-active {
+    background-color: var(--color-primary-light-4);
+  }
 </style>

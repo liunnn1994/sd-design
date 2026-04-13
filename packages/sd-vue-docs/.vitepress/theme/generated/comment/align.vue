@@ -19,9 +19,7 @@
         </span>
         {{ 3 + (star ? 1 : 0) }}
       </span>
-      <span class="action" key="reply">
-        <IconMessage /> Reply
-      </span>
+      <span class="action" key="reply"> <IconMessage /> Reply </span>
     </template>
     <template #avatar>
       <a-avatar>
@@ -33,66 +31,66 @@
     </template>
     <template #content>
       <div>
-        A design is a plan or specification for the construction of an object or
-        system or for the implementation of an activity or process, or the
-        result of that plan or specification in the form of a prototype, product
-        or process.
+        A design is a plan or specification for the construction of an object or system or for the
+        implementation of an activity or process, or the result of that plan or specification in the
+        form of a prototype, product or process.
       </div>
     </template>
   </a-comment>
 </template>
 
 <script>
-import { ref } from 'vue';
-import {
-  IconHeart,
-  IconMessage,
-  IconStar,
-  IconStarFill,
-  IconHeartFill,
-} from '@sd-design/web-vue/es/icon';
+  import { ref } from 'vue';
 
-export default {
-  components: {
+  import {
     IconHeart,
     IconMessage,
     IconStar,
     IconStarFill,
     IconHeartFill,
-  },
-  setup() {
-    const like = ref(false);
-    const star = ref(false);
-    const onLikeChange = () => {
-      like.value = !like.value;
-    };
-    const onStarChange = () => {
-      star.value = !star.value;
-    };
+  } from '@sdata/web-vue/es/icon';
 
-    return {
-      like,
-      star,
-      onLikeChange,
-      onStarChange
-    }
-  },
-};
+  export default {
+    components: {
+      IconHeart,
+      IconMessage,
+      IconStar,
+      IconStarFill,
+      IconHeartFill,
+    },
+    setup() {
+      const like = ref(false);
+      const star = ref(false);
+      const onLikeChange = () => {
+        like.value = !like.value;
+      };
+      const onStarChange = () => {
+        star.value = !star.value;
+      };
+
+      return {
+        like,
+        star,
+        onLikeChange,
+        onStarChange,
+      };
+    },
+  };
 </script>
 
 <style scoped>
-.action {
-  display: inline-block;
-  padding: 0 4px;
-  color: var(--color-text-1);
-  line-height: 24px;
-  background: transparent;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: all 0.1s ease;
-}
+  .action {
+    display: inline-block;
+    padding: 0 4px;
+    color: var(--color-text-1);
+    line-height: 24px;
+    background: transparent;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+  }
 
-.action:hover {
-  background: var(--color-fill-3);
-}
+  .action:hover {
+    background: var(--color-fill-3);
+  }
 </style>

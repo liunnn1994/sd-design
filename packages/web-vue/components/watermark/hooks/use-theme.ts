@@ -1,4 +1,5 @@
 import { Ref, ref } from 'vue';
+
 import { useMutationObserver } from './use-mutation-observer';
 
 const THEME_TOKEN = 'sd-theme';
@@ -8,26 +9,21 @@ const Theme = {
 };
 
 export const useTheme = (callback?: () => void) => {
-  const theme: Ref<typeof Theme[keyof typeof Theme]> = ref(Theme.Light);
+  const theme: Ref<(typeof Theme)[keyof typeof Theme]> = ref(Theme.Light);
 
-  const setTheme = (value: typeof Theme[keyof typeof Theme]) => {
+  const setTheme = (value: (typeof Theme)[keyof typeof Theme]) => {
     theme.value = value;
   };
 
   const getTheme = (element: HTMLElement) => {
-    return element.getAttribute(THEME_TOKEN) === Theme.Dark
-      ? Theme.Dark
-      : Theme.Light;
+    return element.getAttribute(THEME_TOKEN) === Theme.Dark ? Theme.Dark : Theme.Light;
   };
 
   useMutationObserver(
     document.body,
     (mutations) => {
       for (const mutation of mutations) {
-        if (
-          mutation.type === 'attributes' &&
-          mutation.attributeName === THEME_TOKEN
-        ) {
+        if (mutation.type === 'attributes' && mutation.attributeName === THEME_TOKEN) {
           setTheme(getTheme(mutation.target as HTMLElement));
           callback?.();
           break;
@@ -40,7 +36,7 @@ export const useTheme = (callback?: () => void) => {
       subtree: false,
       childList: false,
       characterData: false,
-    }
+    },
   );
 
   setTheme(getTheme(document.body));

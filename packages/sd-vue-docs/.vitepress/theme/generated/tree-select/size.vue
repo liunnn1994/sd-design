@@ -1,6 +1,6 @@
 <template>
-  <div style="margin-bottom: 20px;">
-    <a-radio-group v-model="size" type='button'>
+  <div style="margin-bottom: 20px">
+    <a-radio-group v-model="size" type="button">
       <a-radio value="mini">mini</a-radio>
       <a-radio value="small">small</a-radio>
       <a-radio value="medium">medium</a-radio>
@@ -12,7 +12,7 @@
     :size="size"
     :data="treeData"
     placeholder="Please select ..."
-    style="width: 300px;"
+    style="width: 300px"
   ></a-tree-select>
 </template>
 <script>

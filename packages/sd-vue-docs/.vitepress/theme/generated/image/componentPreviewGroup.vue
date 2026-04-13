@@ -14,21 +14,21 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const visible = ref(false)
-    const current = ref(3);
-    const onClick = () => {
-      visible.value = true;
-    };
+  export default {
+    setup() {
+      const visible = ref(false);
+      const current = ref(3);
+      const onClick = () => {
+        visible.value = true;
+      };
 
-    return {
-      visible,
-      current,
-      onClick,
-    };
-  },
-}
+      return {
+        visible,
+        current,
+        onClick,
+      };
+    },
+  };
 </script>

@@ -35,51 +35,51 @@ Dynamically set the number of columns occupied by each item through parameters s
 </template>
 
 <script>
-const dataSource = [
-  {
-    title: 'Platform',
-    data: ['iOS', 'Android', 'Web'],
-  },
-  {
-    title: 'Framework',
-    data: ['Angular', 'Vue', 'React'],
-  },
-  {
-    title: 'Language',
-    data: ['C++', 'JavaScript', 'Python'],
-  },
-  {
-    title: 'Component',
-    data: ['Button', 'Breadcrumb', 'Transfer'],
-  },
-  {
-    title: 'Design',
-    data: ['Figma', 'Sketch', 'Adobe XD'],
-  },
-  {
-    title: 'Plugin',
-    data: ['Edu Tools', 'BashSupport', 'GitToolBox'],
-  },
-  {
-    title: 'Platform',
-    data: ['iOS', 'Android', 'Web'],
-  },
-  {
-    title: 'Framework',
-    data: ['Angular', 'Vue', 'React'],
-  },
-  {
-    title: 'Language',
-    data: ['C++', 'JavaScript', 'Python'],
-  },
-];
+  const dataSource = [
+    {
+      title: 'Platform',
+      data: ['iOS', 'Android', 'Web'],
+    },
+    {
+      title: 'Framework',
+      data: ['Angular', 'Vue', 'React'],
+    },
+    {
+      title: 'Language',
+      data: ['C++', 'JavaScript', 'Python'],
+    },
+    {
+      title: 'Component',
+      data: ['Button', 'Breadcrumb', 'Transfer'],
+    },
+    {
+      title: 'Design',
+      data: ['Figma', 'Sketch', 'Adobe XD'],
+    },
+    {
+      title: 'Plugin',
+      data: ['Edu Tools', 'BashSupport', 'GitToolBox'],
+    },
+    {
+      title: 'Platform',
+      data: ['iOS', 'Android', 'Web'],
+    },
+    {
+      title: 'Framework',
+      data: ['Angular', 'Vue', 'React'],
+    },
+    {
+      title: 'Language',
+      data: ['C++', 'JavaScript', 'Python'],
+    },
+  ];
 
-export default {
-  setup() {
-    return {
-      dataSource
-    }
-  }
-}
+  export default {
+    setup() {
+      return {
+        dataSource,
+      };
+    },
+  };
 </script>
 ```

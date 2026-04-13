@@ -32,10 +32,10 @@ Button is divided into three shapes: `square` - **rectangular (default)**, `circ
   </a-space>
 </template>
 <script>
-import { IconPlus } from '@sd-design/web-vue/es/icon';
+  import { IconPlus } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: { IconPlus }
-};
+  export default {
+    components: { IconPlus },
+  };
 </script>
 ```

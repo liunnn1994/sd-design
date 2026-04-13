@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 标签 Tag
 description: 用于信息的选择、筛选、分类。用户通过标签进行信息反馈和交互操作。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,25 +19,26 @@ meta:
 title: Tag
 description: Used for the selection, screening and classification of information. Users use tags for information feedback and interactive operations.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/closeable.md
+@import ./**demo**/closeable.md
 
-@import ./__demo__/dynamically.md
+@import ./**demo**/dynamically.md
 
-@import ./__demo__/checkable.md
+@import ./**demo**/checkable.md
 
-@import ./__demo__/color.md
+@import ./**demo**/color.md
 
-@import ./__demo__/size.md
+@import ./**demo**/size.md
 
-@import ./__demo__/loading.md
+@import ./**demo**/loading.md
 
-@import ./__demo__/icon.md
+@import ./**demo**/icon.md
 
-@import ./__demo__/bordered.md
+@import ./**demo**/bordered.md
 
 ## API
 

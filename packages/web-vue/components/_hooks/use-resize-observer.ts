@@ -1,5 +1,7 @@
 import { Ref } from 'vue';
+
 import ResizeObserver from 'resize-observer-polyfill';
+
 import { isFunction } from '../_utils/is';
 
 export const useResizeObserver = ({

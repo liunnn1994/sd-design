@@ -1,8 +1,10 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Steps from './steps.vue';
 import _StepsStep from './step.vue';
+import _Steps from './steps.vue';
 
 const Steps = Object.assign(_Steps, {
   Step: _StepsStep,

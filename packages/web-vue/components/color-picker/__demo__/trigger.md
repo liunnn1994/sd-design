@@ -28,13 +28,13 @@ You can set the properties of the trigger through `trigger-props`.
 </template>
 
 <script setup>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-const triggerProps = ref({
-  popupVisible: false,
-  unmountOnClose: true,
-  renderToBody: false,
-  position: 'rt'
-})
+  const triggerProps = ref({
+    popupVisible: false,
+    unmountOnClose: true,
+    renderToBody: false,
+    position: 'rt',
+  });
 </script>
 ```

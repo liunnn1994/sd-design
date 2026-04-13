@@ -1,13 +1,10 @@
 import type { Ref } from 'vue';
 import { computed, reactive, ref, watch } from 'vue';
-import type {
-  FilterOption,
-  SelectOption,
-  SelectOptionInfo,
-  SelectFieldNames,
-} from '../interface';
-import { getOptionInfos, getValidOptions, isValidOption } from '../utils';
+
+import type { FilterOption, SelectOption, SelectOptionInfo, SelectFieldNames } from '../interface';
+
 import { isNumber } from '../../_utils/is';
+import { getOptionInfos, getValidOptions, isValidOption } from '../utils';
 
 const DEFAULT_FIELD_NAMES = {
   value: 'value',
@@ -46,7 +43,7 @@ export const useOptions = ({
         return a.index - b.index;
       }
       return 0;
-    })
+    }),
   );
 
   const propOptionData = computed(() => {
@@ -82,12 +79,7 @@ export const useOptions = ({
   const optionInfoMap = reactive(new Map<string, SelectOptionInfo>());
 
   watch(
-    [
-      sortedSlotOptionInfos,
-      options ?? ref([]),
-      extraOptions ?? ref([]),
-      valueKey ?? ref('value'),
-    ],
+    [sortedSlotOptionInfos, options ?? ref([]), extraOptions ?? ref([]), valueKey ?? ref('value')],
     () => {
       optionInfoMap.clear();
 
@@ -107,7 +99,7 @@ export const useOptions = ({
         }
       });
     },
-    { immediate: true, deep: true }
+    { immediate: true, deep: true },
   );
 
   const validOptions = computed(() => {
@@ -120,7 +112,7 @@ export const useOptions = ({
         ...getValidOptions(extraOptionData.value.optionInfos, {
           inputValue: inputValue?.value,
           filterOption: filterOption?.value,
-        })
+        }),
       );
     }
     return options;
@@ -128,23 +120,18 @@ export const useOptions = ({
 
   const validOptionInfos = computed(() =>
     Array.from(optionInfoMap.values()).filter((optionInfo) => {
-      if (
-        optionInfo.origin === 'extraOptions' &&
-        showExtraOptions?.value === false
-      ) {
+      if (optionInfo.origin === 'extraOptions' && showExtraOptions?.value === false) {
         return false;
       }
       return isValidOption(optionInfo, {
         inputValue: inputValue?.value,
         filterOption: filterOption?.value,
       });
-    })
+    }),
   );
 
   const enabledOptionKeys = computed(() =>
-    validOptionInfos.value
-      .filter((optionInfo) => !optionInfo.disabled)
-      .map((info) => info.key)
+    validOptionInfos.value.filter((optionInfo) => !optionInfo.disabled).map((info) => info.key),
   );
 
   const getNextSlotOptionIndex = () => slotOptionInfoMap.size;

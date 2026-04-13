@@ -10,21 +10,22 @@ import {
   toRefs,
   nextTick,
 } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import { INPUT_EVENTS, Size } from '../_utils/constant';
-import { Backspace, Enter } from '../_utils/keycode';
-import { getValueData } from './utils';
-import Tag from '../tag';
-import IconHover from '../_components/icon-hover.vue';
-import IconClose from '../icon/icon-close';
-import { InputTagFieldNames, TagData } from './interface';
-import { omit } from '../_utils/omit';
-import pick from '../_utils/pick';
-import ResizeObserver from '../_components/resize-observer';
+
 import FeedbackIcon from '../_components/feedback-icon.vue';
+import IconHover from '../_components/icon-hover.vue';
+import ResizeObserver from '../_components/resize-observer';
 import { useFormItem } from '../_hooks/use-form-item';
 import { useSize } from '../_hooks/use-size';
+import { INPUT_EVENTS, Size } from '../_utils/constant';
+import { getPrefixCls } from '../_utils/global-config';
 import { isNull, isObject, isUndefined } from '../_utils/is';
+import { Backspace, Enter } from '../_utils/keycode';
+import { omit } from '../_utils/omit';
+import pick from '../_utils/pick';
+import IconClose from '../icon/icon-close';
+import Tag from '../tag';
+import { InputTagFieldNames, TagData } from './interface';
+import { getValueData } from './utils';
 
 const DEFAULT_FIELD_NAMES = {
   value: 'value',
@@ -126,9 +127,7 @@ export default defineComponent({
      * @en Whether to keep the content of the input box
      */
     retainInputValue: {
-      type: [Boolean, Object] as PropType<
-        boolean | { create?: boolean; blur?: boolean }
-      >,
+      type: [Boolean, Object] as PropType<boolean | { create?: boolean; blur?: boolean }>,
       default: false,
     },
     /**
@@ -179,46 +178,46 @@ export default defineComponent({
      * @param {(string | number | TagData)[]} value
      * @param {Event} ev
      */
-    'change': (value: (string | number | TagData)[], ev: Event) => true,
+    change: (value: (string | number | TagData)[], ev: Event) => true,
     /**
      * @zh 输入值发生改变时触发
      * @en Trigger when the input value changes
      * @param {string} inputValue
      * @param {Event} ev
      */
-    'inputValueChange': (inputValue: string, ev: Event) => true,
+    inputValueChange: (inputValue: string, ev: Event) => true,
     /**
      * @zh 按下回车键时触发
      * @en Triggered when the enter key is pressed
      * @param {string} inputValue
      * @param {KeyboardEvent} ev
      */
-    'pressEnter': (inputValue: string, ev: KeyboardEvent) => true,
+    pressEnter: (inputValue: string, ev: KeyboardEvent) => true,
     /**
      * @zh 点击标签的删除按钮时触发
      * @en Triggered when the delete button of the label is clicked
      * @param {string | number} removed
      * @param {Event} ev
      */
-    'remove': (removed: string | number, ev: Event) => true,
+    remove: (removed: string | number, ev: Event) => true,
     /**
      * @zh 点击清除按钮时触发
      * @en Triggered when the clear button is clicked
      * @param {MouseEvent} ev
      */
-    'clear': (ev: MouseEvent) => true,
+    clear: (ev: MouseEvent) => true,
     /**
      * @zh 输入框获取焦点时触发
      * @en Triggered when the input box gets focus
      * @param {FocusEvent} ev
      */
-    'focus': (ev: FocusEvent) => true,
+    focus: (ev: FocusEvent) => true,
     /**
      * @zh 输入框失去焦点时触发
      * @en Triggered when the input box loses focus
      * @param {FocusEvent} ev
      */
-    'blur': (ev: FocusEvent) => true,
+    blur: (ev: FocusEvent) => true,
   },
   /**
    * @zh 后缀元素
@@ -237,8 +236,7 @@ export default defineComponent({
    * @binding {TagData} data
    */
   setup(props, { emit, slots, attrs }) {
-    const { size, disabled, error, uninjectFormItemContext, modelValue } =
-      toRefs(props);
+    const { size, disabled, error, uninjectFormItemContext, modelValue } = toRefs(props);
     const prefixCls = props.baseCls || getPrefixCls('input-tag');
     const inputRef = ref<HTMLInputElement>();
     const mirrorRef = ref<HTMLElement>();
@@ -301,10 +299,7 @@ export default defineComponent({
         updateInputValue(value, ev);
 
         nextTick(() => {
-          if (
-            inputRef.value &&
-            computedInputValue.value !== inputRef.value.value
-          ) {
+          if (inputRef.value && computedInputValue.value !== inputRef.value.value) {
             inputRef.value.value = computedInputValue.value;
           }
         });
@@ -315,9 +310,7 @@ export default defineComponent({
     };
 
     const computedValue = computed(() => props.modelValue ?? _value.value);
-    const computedInputValue = computed(
-      () => props.inputValue ?? _inputValue.value
-    );
+    const computedInputValue = computed(() => props.inputValue ?? _inputValue.value);
 
     watch(modelValue, (value) => {
       if (isUndefined(value) || isNull(value)) {
@@ -339,19 +332,14 @@ export default defineComponent({
         updateInputValue(value, ev);
 
         nextTick(() => {
-          if (
-            inputRef.value &&
-            computedInputValue.value !== inputRef.value.value
-          ) {
+          if (inputRef.value && computedInputValue.value !== inputRef.value.value) {
             inputRef.value.value = computedInputValue.value;
           }
         });
       }
     };
 
-    const valueData = computed(() =>
-      getValueData(computedValue.value, mergedFieldNames.value)
-    );
+    const valueData = computed(() => getValueData(computedValue.value, mergedFieldNames.value));
 
     const tags = computed(() => {
       if (props.maxTagCount > 0) {
@@ -397,16 +385,13 @@ export default defineComponent({
         !mergedDisabled.value &&
         !props.readonly &&
         props.allowClear &&
-        Boolean(computedValue.value.length)
+        Boolean(computedValue.value.length),
     );
 
     const handlePressEnter = (e: KeyboardEvent) => {
       if (computedInputValue.value) {
         e.preventDefault();
-        if (
-          props.uniqueValue &&
-          computedValue.value?.includes(computedInputValue.value)
-        ) {
+        if (props.uniqueValue && computedValue.value?.includes(computedInputValue.value)) {
           emit('pressEnter', computedInputValue.value, e);
           return;
         }
@@ -448,11 +433,7 @@ export default defineComponent({
         return;
       }
       const keyCode = e.key || e.code;
-      if (
-        !isComposition.value &&
-        computedInputValue.value &&
-        keyCode === Enter.key
-      ) {
+      if (!isComposition.value && computedInputValue.value && keyCode === Enter.key) {
         handlePressEnter(e);
       }
       if (
@@ -489,11 +470,7 @@ export default defineComponent({
     };
 
     watch(computedInputValue, (value) => {
-      if (
-        inputRef.value &&
-        !isComposition.value &&
-        value !== inputRef.value.value
-      ) {
+      if (inputRef.value && !isComposition.value && value !== inputRef.value.value) {
         inputRef.value.value = value;
       }
     });
@@ -509,8 +486,7 @@ export default defineComponent({
         [`${prefixCls}-readonly`]: props.readonly,
         [`${prefixCls}-has-tag`]: tags.value.length > 0,
         [`${prefixCls}-has-prefix`]: Boolean(slots.prefix),
-        [`${prefixCls}-has-suffix`]:
-          Boolean(slots.suffix) || showClearBtn.value || feedback.value,
+        [`${prefixCls}-has-suffix`]: Boolean(slots.suffix) || showClearBtn.value || feedback.value,
         [`${prefixCls}-has-placeholder`]: !computedValue.value.length,
       },
     ]);
@@ -519,23 +495,15 @@ export default defineComponent({
     const inputAttrs = computed(() => pick(attrs, INPUT_EVENTS));
 
     const render = () => (
-      <span
-        class={cls.value}
-        onMousedown={handleMousedown}
-        {...wrapperAttrs.value}
-      >
+      <span class={cls.value} onMousedown={handleMousedown} {...wrapperAttrs.value}>
         <ResizeObserver onResize={handleResize}>
           <span ref={mirrorRef} class={`${prefixCls}-mirror`}>
             {tags.value.length > 0
               ? compositionValue.value || computedInputValue.value
-              : compositionValue.value ||
-                computedInputValue.value ||
-                props.placeholder}
+              : compositionValue.value || computedInputValue.value || props.placeholder}
           </span>
         </ResizeObserver>
-        {slots.prefix && (
-          <span class={`${prefixCls}-prefix`}>{slots.prefix()}</span>
-        )}
+        {slots.prefix && <span class={`${prefixCls}-prefix`}>{slots.prefix()}</span>}
         <TransitionGroup
           tag="span"
           name="input-tag-zoom"
@@ -551,17 +519,13 @@ export default defineComponent({
             <Tag
               key={`tag-${item.value}`}
               class={`${prefixCls}-tag`}
-              closable={
-                !mergedDisabled.value && !props.readonly && item.closable
-              }
+              closable={!mergedDisabled.value && !props.readonly && item.closable}
               visible
               nowrap={props.tagNowrap}
               {...item.tagProps}
               onClose={(ev: MouseEvent) => handleRemove(item.value, index, ev)}
             >
-              {slots.tag?.({ data: item.raw }) ??
-                props.formatTag?.(item.raw) ??
-                item.label}
+              {slots.tag?.({ data: item.raw }) ?? props.formatTag?.(item.raw) ?? item.label}
             </Tag>
           ))}
           <input
@@ -570,9 +534,7 @@ export default defineComponent({
             key="input-tag-input"
             class={`${prefixCls}-input`}
             style={inputStyle}
-            placeholder={
-              tags.value.length === 0 ? props.placeholder : undefined
-            }
+            placeholder={tags.value.length === 0 ? props.placeholder : undefined}
             disabled={mergedDisabled.value}
             readonly={props.readonly || props.disabledInput}
             onInput={handleInput}

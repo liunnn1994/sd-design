@@ -14,9 +14,7 @@ export interface SDGlobalConfig {
   classPrefix?: string;
 }
 
-type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
-  k: infer I
-) => void
+type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void
   ? I
   : never;
 
@@ -29,7 +27,7 @@ export type EmitFn<T> = (event: T, ...args: any[]) => void;
 
 export type EmitFn2<
   Options = Record<string, any>,
-  Event extends keyof Options = keyof Options
+  Event extends keyof Options = keyof Options,
 > = UnionToIntersection<
   {
     [key in Event]: Options[key] extends (...args: infer Args) => any
@@ -45,10 +43,7 @@ export type SFCWithInstall<T, D = Record<string, never>> = T &
     install: (app: App, opt?: SDOptions) => void;
   };
 
-export type ClassName =
-  | string
-  | Record<string, boolean>
-  | (string | Record<string, boolean>)[];
+export type ClassName = string | Record<string, boolean> | (string | Record<string, boolean>)[];
 
 export type FieldString<T> = {
   [K in keyof T]?: string;

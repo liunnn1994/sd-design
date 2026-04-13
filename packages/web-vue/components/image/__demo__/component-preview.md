@@ -26,20 +26,20 @@ title:
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const visible = ref(false)
-    const onClick = () => {
-      visible.value = true;
-    };
+  export default {
+    setup() {
+      const visible = ref(false);
+      const onClick = () => {
+        visible.value = true;
+      };
 
-    return {
-      visible,
-      onClick,
-    };
-  },
-};
+      return {
+        visible,
+        onClick,
+      };
+    },
+  };
 </script>
 ```

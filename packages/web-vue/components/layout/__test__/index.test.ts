@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Layout from '../index';
 
 const { Sider } = Layout;
@@ -34,14 +35,10 @@ describe('Layout', () => {
         collapsible: true,
       },
     });
-    expect(wrapper.find('.sd-layout-sider').attributes('style')).toContain(
-      'width: 200px'
-    );
+    expect(wrapper.find('.sd-layout-sider').attributes('style')).toContain('width: 200px');
     const collapseTrigger = wrapper.find('.sd-layout-sider-trigger');
     await collapseTrigger.trigger('click');
-    expect(wrapper.find('.sd-layout-sider').attributes('style')).toContain(
-      'width: 48px'
-    );
+    expect(wrapper.find('.sd-layout-sider').attributes('style')).toContain('width: 48px');
     expect(wrapper.emitted('collapse')).toHaveLength(1);
   });
 });

@@ -7,5 +7,4 @@ export interface TransferContext {
   onSelect: (value: string[]) => void;
 }
 
-export const transferInjectionKey: InjectionKey<TransferContext> =
-  Symbol('SDTransfer');
+export const transferInjectionKey: InjectionKey<TransferContext> = Symbol('SDTransfer');

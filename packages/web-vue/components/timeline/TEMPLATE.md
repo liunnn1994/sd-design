@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 时间轴 Timeline
 description: 按照时间顺序或倒序规则的展示信息内容。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,27 +19,28 @@ meta:
 title: Timeline
 description: Display information content in chronological or reverse order.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/icon.md
+@import ./**demo**/icon.md
 
-@import ./__demo__/dot.md
+@import ./**demo**/dot.md
 
-@import ./__demo__/type.md
+@import ./**demo**/type.md
 
-@import ./__demo__/pending.md
+@import ./**demo**/pending.md
 
-@import ./__demo__/mode.md
+@import ./**demo**/mode.md
 
-@import ./__demo__/vertical.md
+@import ./**demo**/vertical.md
 
-@import ./__demo__/direction.md
+@import ./**demo**/direction.md
 
-@import ./__demo__/label.md
+@import ./**demo**/label.md
 
-@import ./__demo__/custom.md
+@import ./**demo**/custom.md
 
 ## API
 

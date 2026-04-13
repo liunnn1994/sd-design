@@ -18,9 +18,7 @@
         <template #title>Navigation 1</template>
         <a-menu-item key="0_0">Menu 1</a-menu-item>
         <a-menu-item key="0_1">Menu 2</a-menu-item>
-        <a-menu-item key="0_2" disabled>
-          Menu 3
-        </a-menu-item>
+        <a-menu-item key="0_2" disabled> Menu 3 </a-menu-item>
       </a-sub-menu>
       <a-sub-menu key="1">
         <template #icon><IconBug></IconBug></template>
@@ -40,35 +38,35 @@
   </div>
 </template>
 <script>
-import {
-  IconMenuFold,
-  IconMenuUnfold,
-  IconApps,
-  IconBug,
-  IconBulb,
-} from '@sd-design/web-vue/es/icon';
-
-export default {
-  components: {
+  import {
     IconMenuFold,
     IconMenuUnfold,
     IconApps,
     IconBug,
     IconBulb,
-  },
-  data() {
-    return {
-      width: 240
-    }
-  }
-};
+  } from '@sdata/web-vue/es/icon';
+
+  export default {
+    components: {
+      IconMenuFold,
+      IconMenuUnfold,
+      IconApps,
+      IconBug,
+      IconBulb,
+    },
+    data() {
+      return {
+        width: 240,
+      };
+    },
+  };
 </script>
 <style scoped>
-.menu-demo {
-  box-sizing: border-box;
-  width: 100%;
-  height: 600px;
-  padding: 40px;
-  background-color: var(--color-neutral-2);
-}
+  .menu-demo {
+    box-sizing: border-box;
+    width: 100%;
+    height: 600px;
+    padding: 40px;
+    background-color: var(--color-neutral-2);
+  }
 </style>

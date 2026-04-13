@@ -18,12 +18,7 @@ Draggable nodes.
 
 ```vue
 <template>
-  <a-checkbox
-    v-model="checked"
-    style="margin-bottom: 20px;"
-  >
-    checkable
-  </a-checkbox>
+  <a-checkbox v-model="checked" style="margin-bottom: 20px;"> checkable </a-checkbox>
   <a-tree
     class="tree-demo"
     draggable
@@ -74,9 +69,9 @@ Draggable nodes.
               arr.splice(dropPosition < 0 ? index : index + 1, 0, dragNode);
             });
           }
-        }
+        },
       };
-    }
+    },
   };
 
   const defaultTreeData = [
@@ -96,9 +91,9 @@ Draggable nodes.
             {
               draggable: false,
               title: 'Leaf 0-0-2-1 (Drag disabled)',
-              key: '0-0-2-1'
-            }
-          ]
+              key: '0-0-2-1',
+            },
+          ],
         },
       ],
     },
@@ -119,7 +114,7 @@ Draggable nodes.
               title: 'Leaf 0-1-1-2',
               key: '0-1-1-2',
             },
-          ]
+          ],
         },
         {
           title: 'Leaf 0-1-2',
@@ -127,22 +122,22 @@ Draggable nodes.
         },
       ],
     },
-  ]
+  ];
 </script>
 <style scoped>
-.tree-demo :deep(.tree-node-dropover) > :deep(.sd-tree-node-title),
-.tree-demo :deep(.tree-node-dropover) > :deep(.sd-tree-node-title):hover, {
-  animation: blinkBg 0.4s 2;
-}
-
-@keyframes blinkBg {
-  0% {
-    background-color: transparent;
+  .tree-demo :deep(.tree-node-dropover) > :deep(.sd-tree-node-title),
+  .tree-demo :deep(.tree-node-dropover) > :deep(.sd-tree-node-title):hover {
+    animation: blinkBg 0.4s 2;
   }
 
-  100% {
-    background-color: var(--color-primary-light-1);
+  @keyframes blinkBg {
+    0% {
+      background-color: transparent;
+    }
+
+    100% {
+      background-color: var(--color-primary-light-1);
+    }
   }
-}
 </style>
 ```

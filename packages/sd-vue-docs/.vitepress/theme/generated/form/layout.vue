@@ -1,5 +1,5 @@
 <template>
-  <a-space direction="vertical" size="large" :style="{width: '600px'}">
+  <a-space direction="vertical" size="large" :style="{ width: '600px' }">
     <a-radio-group v-model="layout" type="button">
       <a-radio value="horizontal">horizontal</a-radio>
       <a-radio value="vertical">vertical</a-radio>
@@ -13,9 +13,7 @@
         <a-input v-model="form.post" placeholder="please enter your post..." />
       </a-form-item>
       <a-form-item field="isRead">
-        <a-checkbox v-model="form.isRead">
-          I have read the manual
-        </a-checkbox>
+        <a-checkbox v-model="form.isRead"> I have read the manual </a-checkbox>
       </a-form-item>
       <a-form-item>
         <a-button>Submit</a-button>
@@ -28,21 +26,21 @@
 </template>
 
 <script>
-import { reactive, ref } from 'vue';
+  import { reactive, ref } from 'vue';
 
-export default {
-  setup() {
-    const layout = ref('horizontal')
-    const form = reactive({
-      name: '',
-      post: '',
-      isRead: false,
-    })
+  export default {
+    setup() {
+      const layout = ref('horizontal');
+      const form = reactive({
+        name: '',
+        post: '',
+        isRead: false,
+      });
 
-    return {
-      layout,
-      form,
-    }
-  },
-}
+      return {
+        layout,
+        form,
+      };
+    },
+  };
 </script>

@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Transfer from '../index';
 
 describe('Transfer', () => {
@@ -14,9 +15,7 @@ describe('Transfer', () => {
       },
     });
 
-    const options = wrapper.findAll(
-      '.sd-transfer-list-item .sd-checkbox-target'
-    );
+    const options = wrapper.findAll('.sd-transfer-list-item .sd-checkbox-target');
     await options[0].setValue();
     const moveButton = wrapper.findComponent({ name: 'Button' });
     await moveButton.trigger('click');
@@ -35,12 +34,8 @@ describe('Transfer', () => {
       },
     });
 
-    const checkAll = wrapper.find(
-      '.sd-transfer-view-header .sd-checkbox-target'
-    );
+    const checkAll = wrapper.find('.sd-transfer-view-header .sd-checkbox-target');
     await checkAll.setValue();
-    expect(wrapper.emitted('select')[0]).toEqual([
-      ['option1', 'option2', 'option3', 'option4'],
-    ]);
+    expect(wrapper.emitted('select')[0]).toEqual([['option1', 'option2', 'option3', 'option4']]);
   });
 });

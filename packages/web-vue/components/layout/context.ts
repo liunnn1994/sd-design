@@ -5,9 +5,8 @@ export interface LayoutSiderContext {
   onSiderUnMount?: (id: string) => void;
 }
 
-export const LayoutSiderInjectionKey: InjectionKey<LayoutSiderContext> = Symbol(
-  'LayoutSiderInjectionKey'
-);
+export const LayoutSiderInjectionKey: InjectionKey<LayoutSiderContext> =
+  Symbol('LayoutSiderInjectionKey');
 
 export interface SiderContext {
   theme: string;
@@ -15,5 +14,4 @@ export interface SiderContext {
   collapsedWidth: string | number;
 }
 
-export const SiderInjectionKey: InjectionKey<SiderContext> =
-  Symbol('SiderInjectionKey');
+export const SiderInjectionKey: InjectionKey<SiderContext> = Symbol('SiderInjectionKey');

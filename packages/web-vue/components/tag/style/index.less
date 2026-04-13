@@ -3,8 +3,8 @@
 
 @tag-prefix-cls: ~'@{prefix}-tag';
 
-@colors: red, orangered, orange, gold, lime, green, cyan, blue, sdblue, purple,
-  pinkpurple, magenta, gray;
+@colors: red, orangered, orange, gold, lime, green, cyan, blue, sdblue, purple, pinkpurple, magenta,
+  gray;
 
 .@{tag-prefix-cls} {
   display: inline-flex;
@@ -15,8 +15,7 @@
   color: @tag-default-color-text;
   font-weight: @tag-text-font-weight;
   font-size: @tag-size-default-font-size;
-  line-height: @tag-size-default - @tag-border-width * 2 - @tag-padding-vertical *
-    2;
+  line-height: @tag-size-default - @tag-border-width * 2 - @tag-padding-vertical * 2;
   vertical-align: middle;
   border: @tag-border-width @tag-border-type transparent;
   border-radius: @tag-border-radius;

@@ -1,6 +1,7 @@
 import { InjectionKey } from 'vue';
-import { StepData, StepStatus, StepsType } from './interface';
+
 import { Direction } from '../_utils/constant';
+import { StepData, StepStatus, StepsType } from './interface';
 
 export interface StepsContext {
   current: number;
@@ -16,5 +17,4 @@ export interface StepsContext {
   parentCls: string;
 }
 
-export const stepsInjectionKey: InjectionKey<StepsContext> =
-  Symbol('SDSteps');
+export const stepsInjectionKey: InjectionKey<StepsContext> = Symbol('SDSteps');

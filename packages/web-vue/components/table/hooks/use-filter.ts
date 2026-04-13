@@ -1,6 +1,8 @@
 import type { Ref } from 'vue';
 import { computed, ref, watch } from 'vue';
+
 import type { Filters, TableColumnData } from '../interface';
+
 import { isEqual } from '../../_utils/is-equal';
 
 export const useFilter = ({
@@ -23,8 +25,7 @@ export const useFilter = ({
     const filters: Filters = {};
     for (const item of columns.value) {
       if (item.dataIndex) {
-        const value =
-          item.filterable?.filteredValue ?? _filters.value[item.dataIndex];
+        const value = item.filterable?.filteredValue ?? _filters.value[item.dataIndex];
         if (value) {
           filters[item.dataIndex] = value;
         }

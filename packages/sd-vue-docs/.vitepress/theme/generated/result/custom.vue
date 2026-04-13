@@ -12,11 +12,11 @@
   </a-result>
 </template>
 <script>
-import { IconFaceSmileFill } from '@sd-design/web-vue/es/icon';
+  import { IconFaceSmileFill } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: {
-    IconFaceSmileFill
-  },
-}
+  export default {
+    components: {
+      IconFaceSmileFill,
+    },
+  };
 </script>

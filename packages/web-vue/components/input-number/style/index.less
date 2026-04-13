@@ -114,7 +114,9 @@
 
     // 修正 InputNumber 未激活 hover 时 StepButton 的 hover 背景色
     &.@{input-prefix-cls}-wrapper:not(.@{input-prefix-cls}-focus) {
-      .@{input-number-prefix-cls}-step-button:not(.@{input-number-prefix-cls}-step-button-disabled):hover {
+      .@{input-number-prefix-cls}-step-button:not(
+          .@{input-number-prefix-cls}-step-button-disabled
+        ):hover {
         background-color: @input-number-step-button-color-bg_default_active;
       }
     }

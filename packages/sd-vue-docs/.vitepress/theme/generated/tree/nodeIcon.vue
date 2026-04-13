@@ -7,11 +7,12 @@
 </template>
 <script>
   import { h } from 'vue';
-  import { IconStar, IconDriveFile } from '@sd-design/web-vue/es/icon';
+
+  import { IconStar, IconDriveFile } from '@sdata/web-vue/es/icon';
 
   export default {
     components: {
-      IconStar
+      IconStar,
     },
     setup() {
       return {

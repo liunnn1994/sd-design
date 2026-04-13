@@ -14,32 +14,34 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from 'vue';
-import { defineComponent } from 'vue';
-import type { Size } from '../_utils/constant';
-import { getPrefixCls } from '../_utils/global-config';
+  import type { PropType } from 'vue';
+  import { defineComponent } from 'vue';
 
-export default defineComponent({
-  name: 'IconHover',
-  props: {
-    prefix: {
-      type: String,
-    },
-    size: {
-      type: String as PropType<Size>,
-      default: 'medium',
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  setup() {
-    const prefixCls = getPrefixCls('icon-hover');
+  import type { Size } from '../_utils/constant';
 
-    return {
-      prefixCls,
-    };
-  },
-});
+  import { getPrefixCls } from '../_utils/global-config';
+
+  export default defineComponent({
+    name: 'IconHover',
+    props: {
+      prefix: {
+        type: String,
+      },
+      size: {
+        type: String as PropType<Size>,
+        default: 'medium',
+      },
+      disabled: {
+        type: Boolean,
+        default: false,
+      },
+    },
+    setup() {
+      const prefixCls = getPrefixCls('icon-hover');
+
+      return {
+        prefixCls,
+      };
+    },
+  });
 </script>

@@ -1,10 +1,11 @@
 import originDayjs, { Dayjs, OpUnitType, UnitType } from 'dayjs';
+import AdvancedFormat from 'dayjs/plugin/advancedFormat';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import isBetween from 'dayjs/plugin/isBetween';
-import weekOfYear from 'dayjs/plugin/weekOfYear';
-import AdvancedFormat from 'dayjs/plugin/advancedFormat';
-import weekYear from 'dayjs/plugin/weekYear';
 import QuarterOfYear from 'dayjs/plugin/quarterOfYear';
+import weekOfYear from 'dayjs/plugin/weekOfYear';
+import weekYear from 'dayjs/plugin/weekYear';
+
 import { isDayjs, isArray, isQuarter } from './is';
 import 'dayjs/locale/zh-cn';
 
@@ -92,12 +93,9 @@ export function getSortedDayjsArray(values: Dayjs[]) {
 
 export function isValueChange(
   prevValue: Dayjs | (Dayjs | undefined)[] | undefined,
-  currentValue: Dayjs | (Dayjs | undefined)[] | undefined
+  currentValue: Dayjs | (Dayjs | undefined)[] | undefined,
 ) {
-  const isDifference = (
-    value1: Dayjs | undefined,
-    value2: Dayjs | undefined
-  ) => {
+  const isDifference = (value1: Dayjs | undefined, value2: Dayjs | undefined) => {
     if (value1 === undefined && value2 === undefined) {
       return false;
     }
@@ -115,8 +113,7 @@ export function isValueChange(
 
   if (isArray(currentValue) && isArray(prevValue)) {
     return (
-      isDifference(currentValue[0], prevValue[0]) ||
-      isDifference(currentValue[1], prevValue[1])
+      isDifference(currentValue[0], prevValue[0]) || isDifference(currentValue[1], prevValue[1])
     );
   }
 
@@ -130,30 +127,24 @@ export function isValueChange(
 type DateValue = Date | string | number;
 
 export function getDayjsValue(time: DateValue, format: string): Dayjs;
-export function getDayjsValue(
-  time: DateValue | undefined,
-  format: string
-): Dayjs | undefined;
+export function getDayjsValue(time: DateValue | undefined, format: string): Dayjs | undefined;
 export function getDayjsValue(time: DateValue[], format: string): Dayjs[];
-export function getDayjsValue(
-  time: DateValue[] | undefined,
-  format: string
-): Dayjs[] | undefined;
+export function getDayjsValue(time: DateValue[] | undefined, format: string): Dayjs[] | undefined;
 export function getDayjsValue(
   time: (DateValue | undefined)[],
-  format: string
+  format: string,
 ): (Dayjs | undefined)[];
 export function getDayjsValue(
   time: (DateValue | undefined)[] | undefined,
-  format: string
+  format: string,
 ): (Dayjs | undefined)[] | undefined;
 export function getDayjsValue(
   time: DateValue | (DateValue | undefined)[] | undefined,
-  format: string
+  format: string,
 ): Dayjs | (Dayjs | undefined)[] | undefined;
 export function getDayjsValue(
   time: DateValue | DateValue[] | (DateValue | undefined)[] | undefined,
-  format: string
+  format: string,
 ) {
   const parseQuarterToMonth = (value: string) => {
     const reg = /(Q1)|(Q2)|(Q3)|(Q4)/;
@@ -192,21 +183,15 @@ export function getDayjsValue(
 export function getDateValue(value: Dayjs): Date;
 export function getDateValue(value: Dayjs | undefined): Date | undefined;
 export function getDateValue(value: Dayjs[]): Date[];
+export function getDateValue(value: (Dayjs | undefined)[]): (Date | undefined)[];
 export function getDateValue(
-  value: (Dayjs | undefined)[]
-): (Date | undefined)[];
-export function getDateValue(
-  value: (Dayjs | undefined)[] | undefined
+  value: (Dayjs | undefined)[] | undefined,
 ): (Date | undefined)[] | undefined;
+export function getDateValue(value: Dayjs | (Dayjs | undefined)[]): Date | (Date | undefined)[];
 export function getDateValue(
-  value: Dayjs | (Dayjs | undefined)[]
-): Date | (Date | undefined)[];
-export function getDateValue(
-  value: Dayjs | (Dayjs | undefined)[] | undefined
+  value: Dayjs | (Dayjs | undefined)[] | undefined,
 ): Date | (Date | undefined)[] | undefined;
-export function getDateValue(
-  value: Dayjs | Dayjs[] | (Dayjs | undefined)[] | undefined
-) {
+export function getDateValue(value: Dayjs | Dayjs[] | (Dayjs | undefined)[] | undefined) {
   const formatValue = (t: Dayjs | undefined) => (t ? t.toDate() : undefined);
 
   if (isArray(value)) {
@@ -220,10 +205,9 @@ export function initializeDateLocale(localeName: string, weekStart: number) {
   dayjs.locale({ ...dayjs.Ls[localeName.toLocaleLowerCase()], weekStart });
 }
 
-export function pickDataAttributes<
-  T extends Record<string, any>,
-  K extends keyof T
->(obj: T): { [key in K]: any } {
+export function pickDataAttributes<T extends Record<string, any>, K extends keyof T>(
+  obj: T,
+): { [key in K]: any } {
   const clone = {} as { [key in K]: any };
 
   obj &&

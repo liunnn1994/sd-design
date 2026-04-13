@@ -1,12 +1,8 @@
 import NP from 'number-precision';
-import {
-  FileItem,
-  FileStatus,
-  RequestOption,
-  UploadRequest,
-} from './interfaces';
+
 import { NOOP } from '../_utils/dom';
 import { isArray, isFunction } from '../_utils/is';
+import { FileItem, FileStatus, RequestOption, UploadRequest } from './interfaces';
 
 const getResponse = (xhr: XMLHttpRequest) => {
   const res = xhr.responseText || xhr.response;
@@ -174,7 +170,7 @@ const isAcceptFile = (file: File, accept?: string | string[]): boolean => {
 export const loopDirectory = (
   itemList: DataTransferItemList,
   accept: string | undefined,
-  callback: (files: File[]) => void
+  callback: (files: File[]) => void,
 ) => {
   const files: File[] = [];
 
@@ -228,8 +224,7 @@ export const loopDirectory = (
   [].slice
     .call(itemList)
     .forEach(
-      (item: DataTransferItem) =>
-        item.webkitGetAsEntry && _loopDirectory(item.webkitGetAsEntry())
+      (item: DataTransferItem) => item.webkitGetAsEntry && _loopDirectory(item.webkitGetAsEntry()),
     );
 };
 

@@ -9,5 +9,4 @@ export interface CheckboxGroupContext {
   handleChange: (value: Array<string | number | boolean>, e: Event) => void;
 }
 
-export const checkboxGroupKey: InjectionKey<CheckboxGroupContext> =
-  Symbol('SDCheckboxGroup');
+export const checkboxGroupKey: InjectionKey<CheckboxGroupContext> = Symbol('SDCheckboxGroup');

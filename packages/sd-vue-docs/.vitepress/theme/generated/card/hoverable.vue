@@ -7,11 +7,7 @@
       Card content <br />
       Card content
     </a-card>
-    <a-card
-      class="card-demo"
-      title="Custom hover style"
-      hoverable
-    >
+    <a-card class="card-demo" title="Custom hover style" hoverable>
       <template #extra>
         <a-link>More</a-link>
       </template>
@@ -21,12 +17,12 @@
   </div>
 </template>
 <style scoped>
-.card-demo {
-  width: 360px;
-  margin-left: 24px;
-  transition-property: all;
-}
-.card-demo:hover {
-  transform: translateY(-4px);
-}
+  .card-demo {
+    width: 360px;
+    margin-left: 24px;
+    transition-property: all;
+  }
+  .card-demo:hover {
+    transform: translateY(-4px);
+  }
 </style>

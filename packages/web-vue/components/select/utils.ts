@@ -1,10 +1,3 @@
-import {
-  isBoolean,
-  isFunction,
-  isNumber,
-  isObject,
-  isString,
-} from '../_utils/is';
 import type {
   FilterOption,
   SelectOptionGroup,
@@ -16,14 +9,14 @@ import type {
   SelectFieldNames,
 } from './interface';
 
-export const isGroupOption = (
-  option: SelectOption
-): option is SelectOptionGroup => {
+import { isBoolean, isFunction, isNumber, isObject, isString } from '../_utils/is';
+
+export const isGroupOption = (option: SelectOption): option is SelectOptionGroup => {
   return isObject(option) && 'isGroup' in option;
 };
 
 export const isGroupOptionInfo = (
-  option: SelectOptionInfo | SelectOptionGroupInfo
+  option: SelectOptionInfo | SelectOptionGroupInfo,
 ): option is SelectOptionGroupInfo => {
   return isObject(option) && 'isGroup' in option;
 };
@@ -31,10 +24,7 @@ export const isGroupOptionInfo = (
 export const getValueString = (value: SelectOptionValue, valueKey = 'value') =>
   String(isObject(value) ? value[valueKey] : value);
 
-export const getKeyFromValue = (
-  value?: SelectOptionValue,
-  valueKey = 'value'
-) => {
+export const getKeyFromValue = (value?: SelectOptionValue, valueKey = 'value') => {
   if (isObject(value)) {
     return `__arco__option__object__${value[valueKey]}`;
   }
@@ -44,9 +34,7 @@ export const getKeyFromValue = (
   return '';
 };
 
-export const hasEmptyStringKey = (
-  optionInfoMap: Map<string, SelectOptionInfo>
-) => {
+export const hasEmptyStringKey = (optionInfoMap: Map<string, SelectOptionInfo>) => {
   return optionInfoMap.has(`__arco__option__string-`);
 };
 
@@ -62,7 +50,7 @@ export const createOptionInfo = (
     fieldNames: Required<SelectFieldNames>;
     origin: 'slot' | 'options' | 'extraOptions';
     index?: number;
-  }
+  },
 ): SelectOptionInfo => {
   if (isObject(option)) {
     const value = option[fieldNames.value];
@@ -106,7 +94,7 @@ export const getOptionInfos = (
     fieldNames: Required<SelectFieldNames>;
     origin: 'options' | 'extraOptions';
     optionInfoMap: Map<string, SelectOptionInfo>;
-  }
+  },
 ) => {
   const infos: (SelectOptionInfo | SelectOptionGroupInfo)[] = [];
 
@@ -140,14 +128,10 @@ export const getOptionInfos = (
   return infos;
 };
 
-export const createOptionInfoMap = (
-  optionInfos: (SelectOptionInfo | SelectOptionGroupInfo)[]
-) => {
+export const createOptionInfoMap = (optionInfos: (SelectOptionInfo | SelectOptionGroupInfo)[]) => {
   const optionInfoMap = new Map<string, SelectOptionInfo>();
 
-  const travel = (
-    optionInfos: (SelectOptionInfo | SelectOptionGroupInfo)[]
-  ) => {
+  const travel = (optionInfos: (SelectOptionInfo | SelectOptionGroupInfo)[]) => {
     for (const item of optionInfos) {
       if (isGroupOptionInfo(item)) {
         travel(item.options ?? []);
@@ -170,11 +154,9 @@ export const getValidOptions = (
   }: {
     inputValue?: string;
     filterOption?: FilterOption;
-  }
+  },
 ) => {
-  const travel = (
-    optionInfos: (SelectOptionInfo | SelectOptionGroupInfo)[]
-  ) => {
+  const travel = (optionInfos: (SelectOptionInfo | SelectOptionGroupInfo)[]) => {
     const options: (SelectOptionInfo | SelectOptionGroupInfo)[] = [];
 
     for (const item of optionInfos) {
@@ -201,16 +183,14 @@ export const isValidOption = (
   }: {
     inputValue?: string;
     filterOption?: FilterOption;
-  }
+  },
 ) => {
   if (isFunction(filterOption)) {
     return !inputValue || filterOption(inputValue, optionInfo.raw);
   }
 
   if (filterOption) {
-    return optionInfo.label
-      .toLowerCase()
-      .includes((inputValue ?? '').toLowerCase());
+    return optionInfo.label.toLowerCase().includes((inputValue ?? '').toLowerCase());
   }
 
   return true;

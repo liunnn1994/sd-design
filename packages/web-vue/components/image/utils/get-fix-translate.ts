@@ -3,7 +3,7 @@ export default function getFixTranslate(
   imgRect: DOMRect,
   translateX: number,
   translateY: number,
-  scale: number
+  scale: number,
 ): [number, number] {
   let fixTranslateX = translateX;
   let fixTranslateY = translateY;

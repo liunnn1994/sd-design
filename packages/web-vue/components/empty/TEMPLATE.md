@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 空状态 Empty
 description: 指当前场景没有对应的数据内容，呈现出的一种状态。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,11 +19,12 @@ meta:
 title: Empty
 description: Refers to a state in which the current scene has no corresponding data content.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/custom.md
+@import ./**demo**/custom.md
 
 ## API
 

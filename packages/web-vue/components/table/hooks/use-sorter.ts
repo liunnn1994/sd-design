@@ -1,7 +1,9 @@
 import type { Ref } from 'vue';
 import { computed, ref, watch } from 'vue';
-import { isString } from '../../_utils/is';
+
 import type { Sorter, TableColumnData } from '../interface';
+
+import { isString } from '../../_utils/is';
 import { isEqual } from '../../_utils/is-equal';
 
 export const useSorter = ({
@@ -9,10 +11,7 @@ export const useSorter = ({
   onSorterChange,
 }: {
   columns: Ref<TableColumnData[]>;
-  onSorterChange: (
-    dataIndex: string,
-    direction: 'ascend' | 'descend' | ''
-  ) => void;
+  onSorterChange: (dataIndex: string, direction: 'ascend' | 'descend' | '') => void;
 }) => {
   const _sorter = ref<Sorter | undefined>(getDefaultSorter(columns.value));
 
@@ -30,8 +29,8 @@ export const useSorter = ({
         const direction = isString(item.sortable.sortOrder)
           ? item.sortable.sortOrder
           : _sorter.value?.field === item.dataIndex
-          ? _sorter.value.direction
-          : '';
+            ? _sorter.value.direction
+            : '';
         if (direction) {
           return {
             field: item.dataIndex,

@@ -1,22 +1,18 @@
 <template>
   <a-config-provider :locale="locale">
-    <a-radio-group
-      type="button"
-      v-model="localeType"
-      :options="localeOptions"
-    ></a-radio-group>
+    <a-radio-group type="button" v-model="localeType" :options="localeOptions"></a-radio-group>
     <div>
       <a-pagination
         :total="50"
         show-total
         show-jumper
         show-page-size
-        style="margin-top: 20px; margin-bottom: 20px;"
+        style="margin-top: 20px; margin-bottom: 20px"
       />
     </div>
-    <a-space :size="20" style="margin-bottom: 20px;">
-      <a-range-picker style="width: 300px;" />
-      <a-time-picker type="time-range" style="width: 300px;" />
+    <a-space :size="20" style="margin-bottom: 20px">
+      <a-range-picker style="width: 300px" />
+      <a-time-picker type="time-range" style="width: 300px" />
       <a-popconfirm content="Are you sure you want to delete?">
         <a-button type="primary">Popconfirm</a-button>
       </a-popconfirm>
@@ -25,49 +21,50 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue';
-import zhCN from '@sd-design/web-vue/es/locale/lang/zh-cn';
-import enUS from '@sd-design/web-vue/es/locale/lang/en-us';
-import esES from '@sd-design/web-vue/es/locale/lang/es-es';
-import jaJP from '@sd-design/web-vue/es/locale/lang/ja-jp';
-import idID from '@sd-design/web-vue/es/locale/lang/id-id';
-import frFR from '@sd-design/web-vue/es/locale/lang/fr-fr';
-import ptPT from '@sd-design/web-vue/es/locale/lang/pt-pt';
-import deDE from '@sd-design/web-vue/es/locale/lang/de-de';
-import koKR from '@sd-design/web-vue/es/locale/lang/ko-kr';
-import itIT from '@sd-design/web-vue/es/locale/lang/it-it';
-import thTH from '@sd-design/web-vue/es/locale/lang/th-th';
-import viVN from '@sd-design/web-vue/es/locale/lang/vi-vn';
-import nlNL from '@sd-design/web-vue/es/locale/lang/nl-nl';
+  import { ref, computed } from 'vue';
 
-const locales = {
-  'zh-CN': zhCN,
-  'en-US': enUS,
-  'es-ES': esES,
-  'ja-JP': jaJP,
-  'id-ID': idID,
-  'fr-FR': frFR,
-  'pt-PT': ptPT,
-  'de-DE': deDE,
-  'ko-KR': koKR,
-  'it-IT': itIT,
-  'th-TH': thTH,
-  'vi-VN': viVN,
-  'nl-NL': nlNL,
-};
+  import deDE from '@sdata/web-vue/es/locale/lang/de-de';
+  import enUS from '@sdata/web-vue/es/locale/lang/en-us';
+  import esES from '@sdata/web-vue/es/locale/lang/es-es';
+  import frFR from '@sdata/web-vue/es/locale/lang/fr-fr';
+  import idID from '@sdata/web-vue/es/locale/lang/id-id';
+  import itIT from '@sdata/web-vue/es/locale/lang/it-it';
+  import jaJP from '@sdata/web-vue/es/locale/lang/ja-jp';
+  import koKR from '@sdata/web-vue/es/locale/lang/ko-kr';
+  import nlNL from '@sdata/web-vue/es/locale/lang/nl-nl';
+  import ptPT from '@sdata/web-vue/es/locale/lang/pt-pt';
+  import thTH from '@sdata/web-vue/es/locale/lang/th-th';
+  import viVN from '@sdata/web-vue/es/locale/lang/vi-vn';
+  import zhCN from '@sdata/web-vue/es/locale/lang/zh-cn';
 
-export default {
-  setup() {
-    const localeType = ref('es-ES');
-    const locale = computed(() => {
-      return locales[localeType.value] || zhCN;
-    });
+  const locales = {
+    'zh-CN': zhCN,
+    'en-US': enUS,
+    'es-ES': esES,
+    'ja-JP': jaJP,
+    'id-ID': idID,
+    'fr-FR': frFR,
+    'pt-PT': ptPT,
+    'de-DE': deDE,
+    'ko-KR': koKR,
+    'it-IT': itIT,
+    'th-TH': thTH,
+    'vi-VN': viVN,
+    'nl-NL': nlNL,
+  };
 
-    return {
-      localeType,
-      locale,
-      localeOptions: Object.keys(locales),
-    };
-  },
-};
+  export default {
+    setup() {
+      const localeType = ref('es-ES');
+      const locale = computed(() => {
+        return locales[localeType.value] || zhCN;
+      });
+
+      return {
+        localeType,
+        locale,
+        localeOptions: Object.keys(locales),
+      };
+    },
+  };
 </script>

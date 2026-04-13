@@ -1,6 +1,6 @@
+import { Node } from '../interface';
 import { getFlattenTreeData, getKey2TreeNode } from '../utils';
 import { generateTreeData } from '../utils/tree-data';
-import { Node } from '../interface';
 
 describe('tree-data', () => {
   const data = [

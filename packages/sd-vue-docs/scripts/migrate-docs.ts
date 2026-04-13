@@ -13,15 +13,7 @@ const generatedDemoRoot = path.resolve(docsRoot, '.vitepress', 'theme', 'generat
 
 const guideFiles = ['start.zh-CN.md', 'theme.zh-CN.md', 'dark.zh-CN.md', 'faq.zh-CN.md'];
 
-const categoryOrder = [
-  '通用',
-  '布局',
-  '导航',
-  '数据录入',
-  '数据展示',
-  '反馈',
-  '其他',
-];
+const categoryOrder = ['通用', '布局', '导航', '数据录入', '数据展示', '反馈', '其他'];
 
 await fs.rm(guideRoot, { recursive: true, force: true });
 await fs.rm(componentDocsRoot, { recursive: true, force: true });
@@ -50,7 +42,7 @@ async function writeGuidePages() {
       });
 
       await fs.writeFile(outputPath, `${content}\n${sanitizeInternalLinks(body).trim()}\n`);
-    })
+    }),
   );
 }
 
@@ -81,7 +73,9 @@ async function writeComponentPages() {
     ]);
 
     const demoContent = await buildDemoBlocks(componentName, demosDir, outputDemoDir);
-    const transformedBody = sanitizeInternalLinks(removeDemoImports(removeFrontmatterHeadings(body)).trim());
+    const transformedBody = sanitizeInternalLinks(
+      removeDemoImports(removeFrontmatterHeadings(body)).trim(),
+    );
     const pageContent = [
       serializeFrontmatter({ title, description, outline: 'deep' }),
       transformedBody,
@@ -97,7 +91,8 @@ async function writeComponentPages() {
   }
 
   return result.sort((left, right) => {
-    const categoryDelta = categoryOrder.indexOf(left.category) - categoryOrder.indexOf(right.category);
+    const categoryDelta =
+      categoryOrder.indexOf(left.category) - categoryOrder.indexOf(right.category);
 
     if (categoryDelta !== 0) {
       return categoryDelta;
@@ -142,24 +137,31 @@ async function buildDemoBlocks(componentName: string, demosDir: string, outputDe
     scriptLines.push(`const ${titleVarName} = ${toJsStringLiteral(demo.title)};`);
     scriptLines.push(`const ${descriptionVarName} = ${toJsStringLiteral(demo.description)};`);
 
-    blocks.push([
-      `<DemoBlock`,
-      `  :title="${titleVarName}"`,
-      `  :description="${descriptionVarName}"`,
-      `  :code="${sourceVarName}"`,
-      `>`,
-      `  <${demo.componentVarName} />`,
-      `</DemoBlock>`,
-    ].join('\n'));
+    blocks.push(
+      [
+        `<DemoBlock`,
+        `  :title="${titleVarName}"`,
+        `  :description="${descriptionVarName}"`,
+        `  :code="${sourceVarName}"`,
+        `>`,
+        `  <${demo.componentVarName} />`,
+        `</DemoBlock>`,
+      ].join('\n'),
+    );
   }
 
   return {
-    scriptBlock: scriptLines.length > 0 ? ['<script setup lang="ts">', ...scriptLines, '</script>'].join('\n') : '',
+    scriptBlock:
+      scriptLines.length > 0
+        ? ['<script setup lang="ts">', ...scriptLines, '</script>'].join('\n')
+        : '',
     blocks,
   };
 }
 
-async function writeComponentIndex(entries: Array<{ name: string; title: string; category: string; description: string }>) {
+async function writeComponentIndex(
+  entries: Array<{ name: string; title: string; category: string; description: string }>,
+) {
   const groups = new Map<string, Array<{ name: string; title: string; description: string }>>();
 
   for (const entry of entries) {
@@ -173,7 +175,8 @@ async function writeComponentIndex(entries: Array<{ name: string; title: string;
     .map((category) => {
       const items = groups.get(category) || [];
       const lines = items.map(
-        (item) => `- [${item.title}](/components/${item.name}/)${item.description ? ` - ${item.description}` : ''}`
+        (item) =>
+          `- [${item.title}](/components/${item.name}/)${item.description ? ` - ${item.description}` : ''}`,
       );
 
       return [`## ${category}`, ...lines].join('\n');
@@ -215,9 +218,7 @@ function extractDemoDescription(content: string) {
   const localized = withoutCode.match(/##\s+zh-CN\s*([\s\S]*?)(?:\n+---\n+##\s+en-US|$)/i);
   const chineseSection = localized ? localized[1] : removeHeadingLines(withoutCode);
 
-  return chineseSection
-    .replace(/^[-\s]+|[-\s]+$/g, '')
-    .trim();
+  return chineseSection.replace(/^[-\s]+|[-\s]+$/g, '').trim();
 }
 
 function splitFrontmatter(content: string) {
@@ -237,7 +238,10 @@ function splitFrontmatter(content: string) {
     }
 
     const key = line.slice(0, separator).trim();
-    const value = line.slice(separator + 1).trim().replace(/^['"]|['"]$/g, '');
+    const value = line
+      .slice(separator + 1)
+      .trim()
+      .replace(/^['"]|['"]$/g, '');
     frontmatter[key] = value;
   }
 
@@ -264,9 +268,7 @@ function sanitizeInternalLinks(content: string) {
     .replace(/\/react\/components/gi, '/components')
     .replace(/\]\((\.\/)?CHANGELOG\.zh-CN\.md\)/gi, '')
     .replace(/\/components\/([A-Z][A-Za-z0-9]+)(\/index)?/g, (_, name: string) => {
-      const kebabName = name
-        .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
-        .toLowerCase();
+      const kebabName = name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
 
       return `/components/${kebabName}/`;
     })
@@ -315,9 +317,7 @@ function toGuideTitle(fileName: string) {
 }
 
 function toReadableName(value: string) {
-  return value
-    .replace(/[-_]/g, ' ')
-    .replace(/\b\w/g, (char) => char.toUpperCase());
+  return value.replace(/[-_]/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
 function toSafeIdentifier(value: string) {
@@ -331,7 +331,9 @@ function toSafeIdentifier(value: string) {
     })
     .join('');
 
-  return /^[0-9]/.test(identifier) ? `demo${identifier[0].toUpperCase()}${identifier.slice(1)}` : identifier || 'demoExample';
+  return /^[0-9]/.test(identifier)
+    ? `demo${identifier[0].toUpperCase()}${identifier.slice(1)}`
+    : identifier || 'demoExample';
 }
 
 function normalizeDescription(value: string) {
@@ -339,9 +341,7 @@ function normalizeDescription(value: string) {
 }
 
 function toJsStringLiteral(value: string) {
-  return JSON.stringify(value)
-    .replace(/<\//g, '<\\/')
-    .replace(/<!--/g, '<\\!--');
+  return JSON.stringify(value).replace(/<\//g, '<\\/').replace(/<!--/g, '<\\!--');
 }
 
 async function listDirectories(targetDir: string) {

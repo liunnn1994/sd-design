@@ -1,4 +1,5 @@
 import type { InjectionKey } from 'vue';
+
 import type { FilterOption, SelectOptionInfo } from './interface';
 
 export interface SelectContext {
@@ -16,5 +17,4 @@ export interface SelectContext {
   removeSlotOptionInfo: (id: number) => void;
 }
 
-export const selectInjectionKey: InjectionKey<SelectContext> =
-  Symbol('SDSelectContext');
+export const selectInjectionKey: InjectionKey<SelectContext> = Symbol('SDSelectContext');

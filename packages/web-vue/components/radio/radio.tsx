@@ -1,20 +1,13 @@
 import type { PropType } from 'vue';
-import {
-  computed,
-  defineComponent,
-  ref,
-  inject,
-  watch,
-  nextTick,
-  toRef,
-  toRefs,
-} from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import IconHover from '../_components/icon-hover.vue';
+import { computed, defineComponent, ref, inject, watch, nextTick, toRef, toRefs } from 'vue';
+
 import type { RadioType } from './context';
-import { radioGroupKey } from './context';
-import { isNull, isUndefined } from '../_utils/is';
+
+import IconHover from '../_components/icon-hover.vue';
 import { useFormItem } from '../_hooks/use-form-item';
+import { getPrefixCls } from '../_utils/global-config';
+import { isNull, isUndefined } from '../_utils/is';
+import { radioGroupKey } from './context';
 
 export default defineComponent({
   name: 'Radio',
@@ -78,7 +71,7 @@ export default defineComponent({
      * @param { string | number | boolean } value
      * @param {Event} ev
      */
-    'change': (value: string | number | boolean, ev: Event) => true,
+    change: (value: string | number | boolean, ev: Event) => true,
   },
   /**
    * @zh 自定义单选框
@@ -103,9 +96,7 @@ export default defineComponent({
 
     const isGroup = computed(() => radioGroupCtx?.name === 'SDRadioGroup');
     const mergedType = computed(() => radioGroupCtx?.type ?? props.type);
-    const mergedDisabled = computed(
-      () => radioGroupCtx?.disabled || _mergedDisabled.value
-    );
+    const mergedDisabled = computed(() => radioGroupCtx?.disabled || _mergedDisabled.value);
 
     const computedChecked = computed(() => {
       if (isGroup.value) {
@@ -163,10 +154,7 @@ export default defineComponent({
       }
 
       nextTick(() => {
-        if (
-          inputRef.value &&
-          inputRef.value.checked !== computedChecked.value
-        ) {
+        if (inputRef.value && inputRef.value.checked !== computedChecked.value) {
           inputRef.value.checked = computedChecked.value;
         }
       });
@@ -188,9 +176,7 @@ export default defineComponent({
         >
           <span class={`${prefixCls}-icon`} />
         </icon-hover>
-        {slots.default && (
-          <span class={`${prefixCls}-label`}>{slots.default()}</span>
-        )}
+        {slots.default && <span class={`${prefixCls}-label`}>{slots.default()}</span>}
       </>
     );
 
@@ -209,14 +195,12 @@ export default defineComponent({
           onBlur={handleBlur}
         />
         {mergedType.value === 'radio' ? (
-          (slots.radio ?? radioGroupCtx?.slots?.radio)?.({
+          ((slots.radio ?? radioGroupCtx?.slots?.radio)?.({
             checked: computedChecked.value,
             disabled: mergedDisabled.value,
-          }) ?? defaultRadio()
+          }) ?? defaultRadio())
         ) : (
-          <span class={`${prefixCls}-button-content`}>
-            {slots.default && slots.default()}
-          </span>
+          <span class={`${prefixCls}-button-content`}>{slots.default && slots.default()}</span>
         )}
       </label>
     );

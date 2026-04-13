@@ -42,11 +42,7 @@ Set the position of the expanded icon through the `expand-icon-position` propert
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
       </a-collapse-item>
-      <a-collapse-item
-        header="Beijing Toutiao Technology Co., Ltd."
-        key="2"
-        disabled
-      >
+      <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="2" disabled>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
@@ -61,18 +57,18 @@ Set the position of the expanded icon through the `expand-icon-position` propert
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const position = ref('left');
-    const hideIcon = ref(false);
+  export default {
+    setup() {
+      const position = ref('left');
+      const hideIcon = ref(false);
 
-    return {
-      position,
-      hideIcon,
-    };
-  },
-};
+      return {
+        position,
+        hideIcon,
+      };
+    },
+  };
 </script>
 ```

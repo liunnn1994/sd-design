@@ -6,23 +6,16 @@ title:
 
 ## zh-CN
 
-
-
 ---
 
 ## en-US
 
-
-
 ---
 
 ```vue
-<template>
-
-</template>
+<template></template>
 
 <script>
-export default {
-}
+  export default {};
 </script>
 ```

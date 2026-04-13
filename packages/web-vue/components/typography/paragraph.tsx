@@ -1,4 +1,5 @@
 import { computed, defineComponent, PropType, toRefs } from 'vue';
+
 import { getPrefixCls } from '../_utils/global-config';
 import Base from './base';
 
@@ -25,9 +26,7 @@ export default defineComponent({
   setup(props) {
     const { blockquote, spacing } = toRefs(props);
     const prefixCls = getPrefixCls('typography');
-    const component = computed(() =>
-      blockquote?.value ? 'blockquote' : 'div'
-    );
+    const component = computed(() => (blockquote?.value ? 'blockquote' : 'div'));
     const classNames = computed(() => [
       {
         [`${prefixCls}-spacing-close`]: spacing?.value === 'close',
@@ -41,13 +40,6 @@ export default defineComponent({
   },
   render() {
     const { component, classNames } = this;
-    return (
-      <Base
-        class={classNames}
-        {...this.$attrs}
-        component={component}
-        v-slots={this.$slots}
-      />
-    );
+    return <Base class={classNames} {...this.$attrs} component={component} v-slots={this.$slots} />;
   },
 });

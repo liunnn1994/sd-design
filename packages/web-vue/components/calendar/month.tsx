@@ -1,10 +1,12 @@
 import { defineComponent, toRefs, PropType, computed } from 'vue';
+
 import { Dayjs } from 'dayjs';
+
 import { dayjs, methods } from '../_utils/date';
-import { padStart } from '../_utils/pad';
-import Week from './week';
-import useCellClassName from './hooks/useCellClassName';
 import { getPrefixCls } from '../_utils/global-config';
+import { padStart } from '../_utils/pad';
+import useCellClassName from './hooks/useCellClassName';
+import Week from './week';
 
 const allDaysInOnePage = 6 * 7;
 
@@ -28,7 +30,7 @@ const getTimeObj = (time: Dayjs) => {
 
 export function getAllDaysByTime(
   time: Dayjs,
-  { dayStartOfWeek = 0, isWeek }: { dayStartOfWeek: 0 | 1; isWeek: boolean }
+  { dayStartOfWeek = 0, isWeek }: { dayStartOfWeek: 0 | 1; isWeek: boolean },
 ) {
   const current = getTimeObj(time);
 
@@ -36,8 +38,7 @@ export function getAllDaysByTime(
     .fill(null)
     .map(() => ({}));
   // current.start.day is 0 for Sunday
-  const startIndex =
-    dayStartOfWeek === 0 ? current.start.day : (current.start.day || 7) - 1;
+  const startIndex = dayStartOfWeek === 0 ? current.start.day : (current.start.day || 7) - 1;
   flatRows[startIndex] = {
     ...current.start,
     isCurrent: true,
@@ -129,9 +130,8 @@ export default defineComponent({
         innerMode: props.mode,
         rangeValues: [],
         hoverRangeValues: [],
-        isSameTime: (current: Dayjs, target: Dayjs) =>
-          current.isSame(target, 'day'),
-      })
+        isSameTime: (current: Dayjs, target: Dayjs) => current.isSame(target, 'day'),
+      }),
     );
 
     function renderDays(row: any[]) {
@@ -145,11 +145,7 @@ export default defineComponent({
           const tdDivProps = !props.isWeek ? { onClick: onClickHandler } : {};
 
           return (
-            <div
-              key={index}
-              class={getCellClassName.value(col, false)}
-              {...tdProps}
-            >
+            <div key={index} class={getCellClassName.value(col, false)} {...tdProps}>
               {slots.default ? (
                 slots.default?.({
                   year: col.year,
@@ -176,9 +172,7 @@ export default defineComponent({
           const rowWeek = props.value.week();
           const selectedWeek =
             props.value &&
-            col.weekRows.find(
-              (r: any) => r.year === rowYear && r.month === rowMonth
-            ) &&
+            col.weekRows.find((r: any) => r.year === rowYear && r.month === rowMonth) &&
             rowWeek === col.weekOfYear;
           return (
             <div
@@ -209,14 +203,12 @@ export default defineComponent({
         {
           dayStartOfWeek: props.dayStartOfWeek,
           isWeek: props.isWeek,
-        }
+        },
       );
     }
 
     return () => (
-      <div
-        class={props.cell ? `${prefixCls}-month-cell` : `${prefixCls}-month`}
-      >
+      <div class={props.cell ? `${prefixCls}-month-cell` : `${prefixCls}-month`}>
         <Week
           value={props.value}
           selectHandler={props.selectHandler}

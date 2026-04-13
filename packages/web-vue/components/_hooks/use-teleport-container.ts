@@ -1,4 +1,5 @@
 import { onMounted, Ref, ref, watch } from 'vue';
+
 import { getElement } from '../_utils/dom';
 
 export const useTeleportContainer = ({
@@ -17,14 +18,9 @@ export const useTeleportContainer = ({
 
   const getContainer = () => {
     const element = getElement(popupContainer.value);
-    const _teleportContainer = element
-      ? popupContainer.value
-      : defaultContainer;
+    const _teleportContainer = element ? popupContainer.value : defaultContainer;
     const _containerElement =
-      element ??
-      (documentContainer
-        ? document.documentElement
-        : getElement(defaultContainer));
+      element ?? (documentContainer ? document.documentElement : getElement(defaultContainer));
     if (_teleportContainer !== teleportContainer.value) {
       teleportContainer.value = _teleportContainer;
     }

@@ -1,22 +1,11 @@
 import type { InjectionKey, Slots } from 'vue';
+
 import { BaseType } from '../_utils/types';
-import {
-  Filters,
-  Sorter,
-  TableColumnData,
-  TableData,
-  TableDataWithRaw,
-} from './interface';
+import { Filters, Sorter, TableColumnData, TableData, TableDataWithRaw } from './interface';
 
 export interface TableContext {
-  loadMore?: (
-    record: TableData,
-    done: (children?: TableData[]) => void
-  ) => void;
-  addLazyLoadData: (
-    children: TableData[] | undefined,
-    record: TableDataWithRaw
-  ) => void;
+  loadMore?: (record: TableData, done: (children?: TableData[]) => void) => void;
+  addLazyLoadData: (children: TableData[] | undefined, record: TableDataWithRaw) => void;
   slots: Slots;
   sorter: Sorter | undefined;
   currentAllEnabledRowKeys: BaseType[];
@@ -31,16 +20,8 @@ export interface TableContext {
   onSelect: (checked: boolean, record: TableDataWithRaw) => void;
   onSelectAllLeafs: (record: TableDataWithRaw, checked: boolean) => void;
 
-  onSorterChange: (
-    dataIndex: string,
-    direction: 'ascend' | 'descend' | '',
-    ev: Event
-  ) => void;
-  onFilterChange: (
-    dataIndex: string,
-    filteredValues: string[],
-    ev: Event
-  ) => void;
+  onSorterChange: (dataIndex: string, direction: 'ascend' | 'descend' | '', ev: Event) => void;
+  onFilterChange: (dataIndex: string, filteredValues: string[], ev: Event) => void;
   onThMouseDown: (dataIndex: string, ev: MouseEvent) => void;
 }
 
@@ -49,8 +30,6 @@ export interface TableColumnContext {
   removeChild: (id: number) => void;
 }
 
-export const tableInjectionKey: InjectionKey<TableContext> =
-  Symbol('SDTable');
+export const tableInjectionKey: InjectionKey<TableContext> = Symbol('SDTable');
 
-export const tableColumnInjectionKey: InjectionKey<TableColumnContext> =
-  Symbol('SDTableColumn');
+export const tableColumnInjectionKey: InjectionKey<TableColumnContext> = Symbol('SDTableColumn');

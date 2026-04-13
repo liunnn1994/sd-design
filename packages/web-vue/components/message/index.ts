@@ -1,15 +1,11 @@
 import type { App, AppContext, Ref } from 'vue';
 import { createVNode, render, ref, reactive } from 'vue';
+
 import { MESSAGE_TYPES, MessageType } from '../_utils/constant';
 import { getOverlay } from '../_utils/dom';
 import { isFunction, isString, isUndefined } from '../_utils/is';
+import { MessageConfig, MessageItem, MessageMethod, MessagePosition } from './interface';
 import MessageList from './message-list';
-import {
-  MessageConfig,
-  MessageItem,
-  MessageMethod,
-  MessagePosition,
-} from './interface';
 
 type _MessageConfig = MessageConfig & {
   type: MessageType | 'loading' | 'normal';
@@ -141,8 +137,7 @@ const Message = {
     } as MessageMethod;
 
     for (const key of types) {
-      _message[key] = (config, appContext = app._context) =>
-        message[key](config, appContext);
+      _message[key] = (config, appContext = app._context) => message[key](config, appContext);
     }
 
     app.config.globalProperties.$message = _message;

@@ -6,7 +6,7 @@ title:
 
 ## zh-CN
 
-节点的图标 `loadingIcon`,  `switcherIcon`，同时支持在 `tree` 和 `node` 两个纬度上定制，其中 `node` 的优先级较高。
+节点的图标 `loadingIcon`, `switcherIcon`，同时支持在 `tree` 和 `node` 两个纬度上定制，其中 `node` 的优先级较高。
 
 ---
 
@@ -19,7 +19,7 @@ The node icons `loadingIcon`, `switcherIcon`, support customization at the two l
 ```vue
 <template>
   <a-tree :data="treeData" show-line>
-     <template #switcher-icon="node, { isLeaf }">
+    <template #switcher-icon="node, { isLeaf }">
       <IconDown v-if="!isLeaf" />
       <IconStar v-if="isLeaf" />
     </template>
@@ -28,12 +28,12 @@ The node icons `loadingIcon`, `switcherIcon`, support customization at the two l
 
 <script>
   import { h } from 'vue';
-  import { IconDriveFile, IconDown, IconStar } from '@sd-design/web-vue/es/icon';
+  import { IconDriveFile, IconDown, IconStar } from '@sdata/web-vue/es/icon';
 
   export default {
     components: {
       IconDown,
-      IconStar
+      IconStar,
     },
     setup() {
       return {

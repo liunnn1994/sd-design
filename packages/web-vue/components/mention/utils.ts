@@ -3,10 +3,7 @@ export const getTextBeforeSelection = (element: HTMLInputElement) => {
   return value.slice(0, selectionStart);
 };
 
-export const getLastMeasureIndex = (
-  text: string,
-  prefix: string | string[]
-) => {
+export const getLastMeasureIndex = (text: string, prefix: string | string[]) => {
   const _prefix = ([] as string[]).concat(prefix);
   return _prefix.reduce(
     (pre, value) => {
@@ -22,7 +19,7 @@ export const getLastMeasureIndex = (
     {
       location: -1,
       prefix: '',
-    }
+    },
   );
 };
 

@@ -13,22 +13,22 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const checked1 = ref(false);
-    const checked2 = ref(false);
+  export default {
+    setup() {
+      const checked1 = ref(false);
+      const checked2 = ref(false);
 
-    const handleSetCheck = () => {
-      checked2.value = !checked2.value;
-    };
+      const handleSetCheck = () => {
+        checked2.value = !checked2.value;
+      };
 
-    return {
-      checked1,
-      checked2,
-      handleSetCheck,
-    };
-  },
-};
+      return {
+        checked1,
+        checked2,
+        handleSetCheck,
+      };
+    },
+  };
 </script>

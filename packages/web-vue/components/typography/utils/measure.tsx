@@ -1,13 +1,12 @@
 import { createApp, VNodeTypes } from 'vue';
+
 import { EllipsisInternalConfig } from '../interface';
 
 let ellipsisContainer: HTMLElement;
 
 function styleToString(style: CSSStyleDeclaration) {
   const styleNames: string[] = Array.prototype.slice.apply(style);
-  return styleNames
-    .map((name) => `${name}: ${style.getPropertyValue(name)};`)
-    .join('');
+  return styleNames.map((name) => `${name}: ${style.getPropertyValue(name)};`).join('');
 }
 
 function pxToNumber(value: string | null): number {
@@ -22,7 +21,7 @@ export default (
   originElement: HTMLElement,
   ellipsisConfig: EllipsisInternalConfig,
   operations: VNodeTypes | VNodeTypes[],
-  fullText: string
+  fullText: string,
 ) => {
   if (!ellipsisContainer) {
     ellipsisContainer = document.createElement('div');
@@ -35,9 +34,7 @@ export default (
   const styleString = styleToString(originStyle);
   const lineHeight = pxToNumber(originStyle.lineHeight);
   const maxHeight = Math.round(
-    lineHeight * rows +
-      pxToNumber(originStyle.paddingTop) +
-      pxToNumber(originStyle.paddingBottom)
+    lineHeight * rows + pxToNumber(originStyle.paddingTop) + pxToNumber(originStyle.paddingBottom),
   );
 
   ellipsisContainer.setAttribute('style', styleString);
@@ -62,7 +59,7 @@ export default (
   vm.mount(ellipsisContainer);
 
   const operationsChildNodes = Array.prototype.slice.apply(
-    ellipsisContainer.childNodes[0].cloneNode(true).childNodes
+    ellipsisContainer.childNodes[0].cloneNode(true).childNodes,
   );
 
   vm.unmount();
@@ -93,12 +90,7 @@ export default (
   }
 
   // 寻找最多的文字
-  function measureText(
-    textNode: Text,
-    startLoc = 0,
-    endLoc = fullText.length,
-    lastSuccessLoc = 0
-  ) {
+  function measureText(textNode: Text, startLoc = 0, endLoc = fullText.length, lastSuccessLoc = 0) {
     const midLoc = Math.floor((startLoc + endLoc) / 2);
     const currentText = fullText.slice(0, midLoc);
     textNode.textContent = currentText;

@@ -1,7 +1,8 @@
 import { defineComponent, PropType, toRefs, computed } from 'vue';
+
 import { getPrefixCls } from '../_utils/global-config';
-import { Color } from './interface';
 import { useControlBlock } from './hooks/use-control-block';
+import { Color } from './interface';
 
 export default defineComponent({
   name: 'ControlBar',
@@ -46,10 +47,7 @@ export default defineComponent({
           <div class={`${prefixCls}-control-bar-bg`}>
             <div
               ref={blockRef}
-              class={[
-                `${prefixCls}-control-bar`,
-                `${prefixCls}-control-bar-alpha`,
-              ]}
+              class={[`${prefixCls}-control-bar`, `${prefixCls}-control-bar-alpha`]}
               style={{
                 background: `linear-gradient(to right, rgba(0, 0, 0, 0), rgb(${rgb.value.r}, ${rgb.value.g}, ${rgb.value.b}))`,
               }}

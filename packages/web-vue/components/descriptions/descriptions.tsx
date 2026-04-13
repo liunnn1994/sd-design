@@ -1,13 +1,15 @@
 import type { PropType, VNode, CSSProperties } from 'vue';
 import { computed, defineComponent, isVNode, toRefs } from 'vue';
+
 import type { Size, TextAlign } from '../_utils/constant';
+
+import { useSize } from '../_hooks/use-size';
 import { getPrefixCls } from '../_utils/global-config';
 import { isFunction, isObject } from '../_utils/is';
-import { DescData, RenderData } from './interface';
 import { getAllElements, isSlotsChildren } from '../_utils/vue-utils';
-import { useResponsiveState } from '../grid/hook/use-responsive-state';
 import { ResponsiveValue } from '../grid';
-import { useSize } from '../_hooks/use-size';
+import { useResponsiveState } from '../grid/hook/use-responsive-state';
+import { DescData, RenderData } from './interface';
 
 export default defineComponent({
   name: 'Descriptions',
@@ -38,9 +40,7 @@ export default defineComponent({
      * @en Arrangement of descriptions
      */
     layout: {
-      type: String as PropType<
-        'horizontal' | 'vertical' | 'inline-horizontal' | 'inline-vertical'
-      >,
+      type: String as PropType<'horizontal' | 'vertical' | 'inline-horizontal' | 'inline-vertical'>,
       default: 'horizontal',
     },
     /**
@@ -48,9 +48,7 @@ export default defineComponent({
      *  @en Alignment position of text
      */
     align: {
-      type: [String, Object] as PropType<
-        TextAlign | { label?: TextAlign; value?: TextAlign }
-      >,
+      type: [String, Object] as PropType<TextAlign | { label?: TextAlign; value?: TextAlign }>,
       default: 'left',
     },
     /**
@@ -123,10 +121,10 @@ export default defineComponent({
     const computedColumn = useResponsiveState(column, 3, true);
 
     const labelAlign = computed(
-      () => (isObject(props.align) ? props.align.label : props.align) ?? 'left'
+      () => (isObject(props.align) ? props.align.label : props.align) ?? 'left',
     );
     const valueAlign = computed(
-      () => (isObject(props.align) ? props.align.value : props.align) ?? 'left'
+      () => (isObject(props.align) ? props.align.value : props.align) ?? 'left',
     );
 
     const labelStyle = computed<CSSProperties>(() => ({
@@ -156,7 +154,7 @@ export default defineComponent({
       data.forEach((item) => {
         const itemSpan = Math.min(
           (isVNode(item) ? item.props?.span : item.span) ?? 1,
-          computedColumn.value
+          computedColumn.value,
         );
 
         // add item to new row
@@ -184,8 +182,7 @@ export default defineComponent({
     const renderLabel = (item: DescData | VNode, index: number) => {
       if (isVNode(item)) {
         return (
-          (isSlotsChildren(item, item.children) && item.children.label?.()) ||
-          item.props?.label
+          (isSlotsChildren(item, item.children) && item.children.label?.()) || item.props?.label
         );
       }
       return (
@@ -210,10 +207,7 @@ export default defineComponent({
           {data.map((item, index) => (
             <td
               key={`label-${index}`}
-              class={[
-                `${prefixCls}-item-label`,
-                `${prefixCls}-item-label-block`,
-              ]}
+              class={[`${prefixCls}-item-label`, `${prefixCls}-item-label-block`]}
               style={labelStyle.value}
               colspan={item.span}
             >
@@ -225,10 +219,7 @@ export default defineComponent({
           {data.map((item, index) => (
             <td
               key={`value-${index}`}
-              class={[
-                `${prefixCls}-item-value`,
-                `${prefixCls}-item-value-block`,
-              ]}
+              class={[`${prefixCls}-item-value`, `${prefixCls}-item-value-block`]}
               style={valueStyle.value}
               colspan={item.span}
             >
@@ -244,19 +235,13 @@ export default defineComponent({
         {data.map((item) => (
           <>
             <td
-              class={[
-                `${prefixCls}-item-label`,
-                `${prefixCls}-item-label-block`,
-              ]}
+              class={[`${prefixCls}-item-label`, `${prefixCls}-item-label-block`]}
               style={labelStyle.value}
             >
               {renderLabel(item.data, index)}
             </td>
             <td
-              class={[
-                `${prefixCls}-item-value`,
-                `${prefixCls}-item-value-block`,
-              ]}
+              class={[`${prefixCls}-item-value`, `${prefixCls}-item-value-block`]}
               style={valueStyle.value}
               colspan={item.span * 2 - 1}
             >
@@ -270,25 +255,15 @@ export default defineComponent({
     const renderInlineItems = (data: RenderData[], index: number) => (
       <tr class={`${prefixCls}-row`} key={`inline-${index}`}>
         {data.map((item, index) => (
-          <td
-            key={`item-${index}`}
-            class={`${prefixCls}-item`}
-            colspan={item.span}
-          >
+          <td key={`item-${index}`} class={`${prefixCls}-item`} colspan={item.span}>
             <div
-              class={[
-                `${prefixCls}-item-label`,
-                `${prefixCls}-item-label-inline`,
-              ]}
+              class={[`${prefixCls}-item-label`, `${prefixCls}-item-label-inline`]}
               style={labelStyle.value}
             >
               {renderLabel(item.data, index)}
             </div>
             <div
-              class={[
-                `${prefixCls}-item-value`,
-                `${prefixCls}-item-value-inline`,
-              ]}
+              class={[`${prefixCls}-item-value`, `${prefixCls}-item-value-inline`]}
               style={valueStyle.value}
             >
               {renderValue(item.data, index)}
@@ -338,9 +313,7 @@ export default defineComponent({
           {renderTitle()}
           <div class={`${prefixCls}-body`}>
             <table class={`${prefixCls}-table`}>
-              <tbody>
-                {_groupedData.map((data, index) => renderItems(data, index))}
-              </tbody>
+              <tbody>{_groupedData.map((data, index) => renderItems(data, index))}</tbody>
             </table>
           </div>
         </div>

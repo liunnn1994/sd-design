@@ -1,19 +1,12 @@
 import type { PropType } from 'vue';
-import {
-  computed,
-  defineComponent,
-  inject,
-  nextTick,
-  ref,
-  toRefs,
-  watch,
-} from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
+import { computed, defineComponent, inject, nextTick, ref, toRefs, watch } from 'vue';
+
 import IconHover from '../_components/icon-hover.vue';
-import IconCheck from './icon-check';
+import { useFormItem } from '../_hooks/use-form-item';
+import { getPrefixCls } from '../_utils/global-config';
 import { isArray, isNull, isUndefined } from '../_utils/is';
 import { checkboxGroupKey } from './context';
-import { useFormItem } from '../_hooks/use-form-item';
+import IconCheck from './icon-check';
 
 export default defineComponent({
   name: 'Checkbox',
@@ -28,9 +21,7 @@ export default defineComponent({
      * @vModel
      */
     modelValue: {
-      type: [Boolean, Array] as PropType<
-        boolean | Array<string | number | boolean>
-      >,
+      type: [Boolean, Array] as PropType<boolean | Array<string | number | boolean>>,
       default: undefined,
     },
     /**
@@ -71,16 +62,14 @@ export default defineComponent({
     },
   },
   emits: {
-    'update:modelValue': (value: boolean | (string | number | boolean)[]) =>
-      true,
+    'update:modelValue': (value: boolean | (string | number | boolean)[]) => true,
     /**
      * @zh 值改变时触发
      * @en Trigger when the value changes
      * @param { boolean | (string | number | boolean)[] } value
      * @param {Event} ev
      */
-    'change': (value: boolean | (string | number | boolean)[], ev: Event) =>
-      true,
+    change: (value: boolean | (string | number | boolean)[], ev: Event) => true,
   },
   /**
    * @zh 自定义复选框
@@ -104,9 +93,7 @@ export default defineComponent({
 
     const _checked = ref(props.defaultChecked);
     const computedValue = computed(() =>
-      isGroup
-        ? checkboxGroupCtx?.computedValue
-        : props.modelValue ?? _checked.value
+      isGroup ? checkboxGroupCtx?.computedValue : (props.modelValue ?? _checked.value),
     );
     const computedChecked = computed<boolean>(() => {
       return isArray(computedValue.value)
@@ -117,7 +104,7 @@ export default defineComponent({
       () =>
         checkboxGroupCtx?.disabled ||
         _mergedDisabled?.value ||
-        (!computedChecked.value && checkboxGroupCtx?.isMaxed)
+        (!computedChecked.value && checkboxGroupCtx?.isMaxed),
     );
 
     const handleClick = (ev: Event) => {
@@ -148,10 +135,7 @@ export default defineComponent({
       }
 
       nextTick(() => {
-        if (
-          checkboxRef.value &&
-          checkboxRef.value.checked !== computedChecked.value
-        ) {
+        if (checkboxRef.value && checkboxRef.value.checked !== computedChecked.value) {
           checkboxRef.value.checked = computedChecked.value;
         }
       });
@@ -229,15 +213,11 @@ export default defineComponent({
             disabled={mergedDisabled.value || computedChecked.value}
           >
             <div class={`${prefixCls}-icon`}>
-              {computedChecked.value && (
-                <IconCheck class={`${prefixCls}-icon-check`} />
-              )}
+              {computedChecked.value && <IconCheck class={`${prefixCls}-icon-check`} />}
             </div>
           </IconHover>
         )}
-        {slots.default && (
-          <span class={`${prefixCls}-label`}>{slots.default()}</span>
-        )}
+        {slots.default && <span class={`${prefixCls}-label`}>{slots.default()}</span>}
       </label>
     );
   },

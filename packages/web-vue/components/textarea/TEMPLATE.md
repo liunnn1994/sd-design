@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 文本域 Textarea
 description: 多行纯文本编辑控件，适用于评论或反馈表单中的一段意见。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,15 +19,16 @@ meta:
 title: Textarea
 description: Multi-line plain text edit control, suitable for a paragraph of opinion in the comment or feedback form.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/status.md
+@import ./**demo**/status.md
 
-@import ./__demo__/word-limit.md
+@import ./**demo**/word-limit.md
 
-@import ./__demo__/auto-size.md
+@import ./**demo**/auto-size.md
 
 ## API
 

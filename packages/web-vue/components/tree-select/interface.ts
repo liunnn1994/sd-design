@@ -1,4 +1,6 @@
 import { CSSProperties } from 'vue';
+
+import { Size } from '../_utils/constant';
 import {
   TreeFieldNames,
   TreeNodeData,
@@ -8,31 +10,19 @@ import {
   CheckedStrategy,
 } from '../tree/interface';
 import { TriggerProps } from '../trigger';
-import { Size } from '../_utils/constant';
 
 export interface LabelValue {
   value: TreeNodeKey;
   label: string | number;
 }
 
-export type TreeSelectValue =
-  | TreeNodeKey
-  | TreeNodeKey[]
-  | LabelValue
-  | LabelValue[];
+export type TreeSelectValue = TreeNodeKey | TreeNodeKey[] | LabelValue | LabelValue[];
 
-export type FilterTreeNode = (
-  searchKey: string,
-  nodeData: TreeNodeData
-) => boolean;
+export type FilterTreeNode = (searchKey: string, nodeData: TreeNodeData) => boolean;
 
-export type FallbackOption =
-  | boolean
-  | ((key: TreeNodeKey) => TreeNodeData | boolean);
+export type FallbackOption = boolean | ((key: TreeNodeKey) => TreeNodeData | boolean);
 
-export type ChangeHandler = (
-  selectedValue: TreeSelectValue | undefined
-) => void;
+export type ChangeHandler = (selectedValue: TreeSelectValue | undefined) => void;
 
 export type PopupVisibleChangeHandler = (popupVisible: boolean) => void;
 

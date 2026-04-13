@@ -1,24 +1,22 @@
 <template>
-  <a-button type="primary" @click="handleNotification">
-    Open Notification
-  </a-button>
+  <a-button type="primary" @click="handleNotification"> Open Notification </a-button>
 </template>
 
 <script>
-import { Notification } from '@sd-design/web-vue';
+  import { Notification } from '@sdata/web-vue';
 
-export default {
-  setup() {
-    const handleNotification = () => {
-      Notification.info({
-        title: 'Notification',
-        content: 'This is a notification!',
-        closable: true,
-        style: { width: '500px' }
-      })
-    }
+  export default {
+    setup() {
+      const handleNotification = () => {
+        Notification.info({
+          title: 'Notification',
+          content: 'This is a notification!',
+          closable: true,
+          style: { width: '500px' },
+        });
+      };
 
-    return { handleNotification }
-  }
-}
+      return { handleNotification };
+    },
+  };
 </script>

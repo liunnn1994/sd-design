@@ -14,24 +14,21 @@ title:
 
 Customize the return value through the `treeCheckStrategy` property.
 
-
 ---
 
 ```vue
 <template>
   <div style="margin-bottom: 24px;">
     <a-radio-group
-      type='button'
+      type="button"
       v-model="treeCheckedStrategy"
-      @change="(value) => {
-        selected = []
-      }"
+      @change="
+        (value) => {
+          selected = [];
+        }
+      "
     >
-      <a-radio
-        v-for="item in strategyOptions"
-        :key="item?.value"
-        :value="item?.value"
-      >
+      <a-radio v-for="item in strategyOptions" :key="item?.value" :value="item?.value">
         {{ item?.label }}
       </a-radio>
     </a-radio-group>
@@ -67,16 +64,16 @@ Customize the return value through the `treeCheckStrategy` property.
   const strategyOptions = [
     {
       value: 'all',
-      label: 'show all'
+      label: 'show all',
     },
     {
       value: 'parent',
-      label: 'show parent'
+      label: 'show parent',
     },
     {
       value: 'child',
-      label: 'show child'
-    }
+      label: 'show child',
+    },
   ];
 
   const treeData = [
@@ -98,9 +95,9 @@ Customize the return value through the `treeCheckStrategy` property.
             {
               title: 'Leaf 0-0-2-1',
               value: 'Leaf 0-0-2-1',
-              key: '0-0-2-1'
-            }
-          ]
+              key: '0-0-2-1',
+            },
+          ],
         },
       ],
     },
@@ -124,9 +121,9 @@ Customize the return value through the `treeCheckStrategy` property.
               title: 'Leaf 0-1-1-2',
               value: 'Leaf 0-1-1-2',
               key: '0-1-1-2',
-              disabled: true
+              disabled: true,
             },
-          ]
+          ],
         },
         {
           title: 'Leaf 0-1-2',

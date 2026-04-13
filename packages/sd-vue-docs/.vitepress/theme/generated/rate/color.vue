@@ -6,16 +6,16 @@
 </template>
 
 <script>
-export default {
-  setup() {
-    const color = {
-      2: 'red',
-      4: 'green',
-      5: 'blue'
-    }
-    return {
-      color
-    }
-  },
-}
+  export default {
+    setup() {
+      const color = {
+        2: 'red',
+        4: 'green',
+        5: 'blue',
+      };
+      return {
+        color,
+      };
+    },
+  };
 </script>

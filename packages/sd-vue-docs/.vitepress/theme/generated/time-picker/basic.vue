@@ -1,3 +1,3 @@
 <template>
-  <a-time-picker style="width: 194px;" />
+  <a-time-picker style="width: 194px" />
 </template>

@@ -1,4 +1,5 @@
 import { computed, inject, provide, reactive, Ref, isRef } from 'vue';
+
 import { LevelInjectionKey } from '../context';
 
 export function provideLevel(level: Ref<number> | number) {
@@ -7,7 +8,7 @@ export function provideLevel(level: Ref<number> | number) {
     LevelInjectionKey,
     reactive({
       level: computedLevel,
-    })
+    }),
   );
 }
 

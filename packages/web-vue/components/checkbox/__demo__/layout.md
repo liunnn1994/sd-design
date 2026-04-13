@@ -40,16 +40,16 @@ We can use `<a-checkbox>` and `<a-grid>` in `<a-checkbox-group>`, to implement c
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const checkedValue = ref(['1', '2']);
+  export default {
+    setup() {
+      const checkedValue = ref(['1', '2']);
 
-    return {
-      checkedValue,
-    };
-  },
-};
+      return {
+        checkedValue,
+      };
+    },
+  };
 </script>
 ```

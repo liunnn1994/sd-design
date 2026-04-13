@@ -17,11 +17,7 @@
         <IconEdit />
       </template>
     </a-avatar>
-    <a-avatar
-      @click="toast"
-      shape="square"
-      :style="{ backgroundColor: '#FFC72E' }"
-    >
+    <a-avatar @click="toast" shape="square" :style="{ backgroundColor: '#FFC72E' }">
       <IconUser />
       <template #trigger-icon>
         <IconEdit />
@@ -40,14 +36,14 @@
 </template>
 
 <script>
-import { IconCamera, IconEdit, IconUser } from '@sd-design/web-vue/es/icon';
+  import { IconCamera, IconEdit, IconUser } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: { IconCamera, IconEdit },
-  methods: {
-    toast() {
-      this.$message.info('Uploading...');
+  export default {
+    components: { IconCamera, IconEdit },
+    methods: {
+      toast() {
+        this.$message.info('Uploading...');
+      },
     },
-  },
-};
+  };
 </script>

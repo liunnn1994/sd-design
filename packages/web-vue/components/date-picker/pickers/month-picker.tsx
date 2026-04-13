@@ -1,4 +1,5 @@
 import { defineComponent, PropType } from 'vue';
+
 import Picker from '../picker.vue';
 
 export default defineComponent({

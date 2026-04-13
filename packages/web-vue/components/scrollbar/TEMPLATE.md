@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 滚动条 Scrollbar
 description: 用于替换浏览器默认滚动条样式。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,10 +19,11 @@ meta:
 title: Scrollbar
 description: Used to replace the browser default scroll bar style.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/type.md
+@import ./**demo**/type.md
 
 %%API(scrollbar.vue)%%

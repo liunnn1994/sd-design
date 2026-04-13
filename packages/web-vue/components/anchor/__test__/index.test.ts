@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Anchor from '../index';
 
 describe('Anchor', () => {

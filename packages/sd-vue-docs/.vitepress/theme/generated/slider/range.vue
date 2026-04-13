@@ -3,16 +3,15 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const value = ref([5, 10]);
+  export default {
+    setup() {
+      const value = ref([5, 10]);
 
-    return {
-      value
-    }
-
-  }
-}
+      return {
+        value,
+      };
+    },
+  };
 </script>

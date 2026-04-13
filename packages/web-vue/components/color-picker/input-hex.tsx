@@ -1,10 +1,11 @@
 import { defineComponent, PropType, toRefs, watch } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import { Color, HSV } from './interface';
-import { hexToRgb, rgbToHsv } from '../_utils/color';
+
 import useState from '../_hooks/use-state';
+import { hexToRgb, rgbToHsv } from '../_utils/color';
+import { getPrefixCls } from '../_utils/global-config';
 import Input, { InputGroup } from '../input';
 import InputAlpha from './input-alpha';
+import { Color, HSV } from './interface';
 
 export default defineComponent({
   name: 'InputHex',

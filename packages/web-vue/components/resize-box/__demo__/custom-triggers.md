@@ -26,20 +26,24 @@ The content of trigger in all directions can be customized through the slot `res
       <div
         :class="[
           `resizebox-demo`,
-          `resizebox-demo-${direction === 'right' ? 'vertical' : 'horizontal'}`
+          `resizebox-demo-${direction === 'right' ? 'vertical' : 'horizontal'}`,
         ]"
       >
-        <div class="resizebox-demo-line"/>
+        <div class="resizebox-demo-line" />
       </div>
     </template>
-    <a-typography-paragraph>We are building the future of content discovery and creation.</a-typography-paragraph>
+    <a-typography-paragraph
+      >We are building the future of content discovery and creation.</a-typography-paragraph
+    >
     <a-divider />
     <a-typography-paragraph>
       ByteDance's content platforms enable people to enjoy content powered by AI technology. We
       inform, entertain, and inspire people across language, culture and geography.
     </a-typography-paragraph>
     <a-divider>ByteDance</a-divider>
-    <a-typography-paragraph>Yiming Zhang is the founder and CEO of ByteDance.</a-typography-paragraph>
+    <a-typography-paragraph
+      >Yiming Zhang is the founder and CEO of ByteDance.</a-typography-paragraph
+    >
   </a-resize-box>
 </template>
 
@@ -59,7 +63,7 @@ The content of trigger in all directions can be customized through the slot `res
     height: 6px;
     border: 1px solid rgb(var(--sdblue-6));
     content: '';
-}
+  }
   .resizebox-demo-line {
     flex: 1;
     background-color: rgb(var(--sdblue-6));

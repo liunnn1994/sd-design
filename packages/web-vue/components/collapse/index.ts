@@ -1,8 +1,10 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Collapse from './collapse.vue';
 import _CollapseItem from './collapse-item';
+import _Collapse from './collapse.vue';
 
 const Collapse = Object.assign(_Collapse, {
   Item: _CollapseItem,

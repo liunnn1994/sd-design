@@ -17,7 +17,6 @@ Click to upload user's avatar, and validate size and format of picture with befo
 ---
 
 ```vue
-
 <template>
   <a-space direction="vertical" :style="{ width: '100%' }">
     <a-upload
@@ -33,10 +32,7 @@ Click to upload user's avatar, and validate size and format of picture with befo
             file && file.status === 'error' ? ' sd-upload-list-item-error' : ''
           }`"
         >
-          <div
-            class="sd-upload-list-picture custom-upload-avatar"
-            v-if="file && file.url"
-          >
+          <div class="sd-upload-list-picture custom-upload-avatar" v-if="file && file.url">
             <img :src="file.url" />
             <div class="sd-upload-list-picture-mask">
               <IconEdit />
@@ -67,29 +63,29 @@ Click to upload user's avatar, and validate size and format of picture with befo
 </template>
 
 <script>
-import { IconEdit, IconPlus } from '@sd-design/web-vue/es/icon';
-import { ref } from 'vue';
+  import { IconEdit, IconPlus } from '@sdata/web-vue/es/icon';
+  import { ref } from 'vue';
 
-export default {
-  components: {IconPlus, IconEdit},
-  setup() {
-    const file = ref();
+  export default {
+    components: { IconPlus, IconEdit },
+    setup() {
+      const file = ref();
 
-    const onChange = (_, currentFile) => {
-      file.value = {
-        ...currentFile,
-        // url: URL.createObjectURL(currentFile.file),
+      const onChange = (_, currentFile) => {
+        file.value = {
+          ...currentFile,
+          // url: URL.createObjectURL(currentFile.file),
+        };
       };
-    };
-    const onProgress = (currentFile) => {
-      file.value = currentFile;
-    };
-    return {
-      file,
-      onChange,
-      onProgress
-    }
-  },
-};
+      const onProgress = (currentFile) => {
+        file.value = currentFile;
+      };
+      return {
+        file,
+        onChange,
+        onProgress,
+      };
+    },
+  };
 </script>
 ```

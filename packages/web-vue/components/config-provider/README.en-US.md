@@ -6,37 +6,34 @@ title: ConfigProvider
 description: Configure in the outermost layer of the application, set once, and take effect globally. Generally used to set functions such as internationalized languages.
 ```
 
-*Auto translate by google.*
+_Auto translate by google._
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/empty.md
+@import ./**demo**/empty.md
 
-@import ./__demo__/rtl.md
+@import ./**demo**/rtl.md
 
 ## API
 
-
 ### `<config-provider>` Props
 
-|Attribute|Description|Type|Default|version|
-|---|---|---|:---:|:---|
-|prefix-cls|Component classname prefix|`string`|`'sd'`||
-|locale|Configure language pack|`SDLang`|`-`||
-|size|Size|`Size`|`-`|2.14.0|
-|global|Is global effect|`boolean`|`false`|2.25.0|
-|scroll-to-close|Whether to close the popover when scrolling|`boolean`|`false`|2.46.0|
-|exchange-time|Whether to exchange time|`boolean`|`true`|2.48.0|
-|rtl|View starts from the right and ends on the left|`boolean`|`false`||
+| Attribute | Description | Type | Default | version |
+| --- | --- | --- | :-: | :-- |
+| prefix-cls | Component classname prefix | `string` | `'sd'` |  |
+| locale | Configure language pack | `SDLang` | `-` |  |
+| size | Size | `Size` | `-` | 2.14.0 |
+| global | Is global effect | `boolean` | `false` | 2.25.0 |
+| scroll-to-close | Whether to close the popover when scrolling | `boolean` | `false` | 2.46.0 |
+| exchange-time | Whether to exchange time | `boolean` | `true` | 2.48.0 |
+| rtl | View starts from the right and ends on the left | `boolean` | `false` |  |
+
 ### `<config-provider>` Slots
 
-|Slot Name|Description|Parameters|version|
-|---|---|---|:---|
-|loading|Custom loading element|-|2.28.0|
-|empty|Custom empty element|component: `string`|2.28.0|
-
-
-
+| Slot Name | Description            | Parameters          | version |
+| --------- | ---------------------- | ------------------- | :------ |
+| loading   | Custom loading element | -                   | 2.28.0  |
+| empty     | Custom empty element   | component: `string` | 2.28.0  |
 
 ## FAQ
 

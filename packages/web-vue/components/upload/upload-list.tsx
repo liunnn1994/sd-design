@@ -1,9 +1,10 @@
 import { computed, defineComponent, PropType, TransitionGroup } from 'vue';
+
 import { getPrefixCls } from '../_utils/global-config';
+import { isFunction } from '../_utils/is';
+import { FileItem, ListType } from './interfaces';
 import UploadListItem from './upload-list-item';
 import UploadPictureItem from './upload-picture-item';
-import { FileItem, ListType } from './interfaces';
-import { isFunction } from '../_utils/is';
 
 export default defineComponent({
   name: 'UploadList',
@@ -24,10 +25,7 @@ export default defineComponent({
   setup(props, { slots }) {
     const prefixCls = getPrefixCls('upload');
 
-    const cls = computed(() => [
-      `${prefixCls}-list`,
-      `${prefixCls}-list-type-${props.listType}`,
-    ]);
+    const cls = computed(() => [`${prefixCls}-list`, `${prefixCls}-list-type-${props.listType}`]);
 
     const renderItem = (fileItem: FileItem, index: number) => {
       if (isFunction(slots['upload-item'])) {
@@ -37,13 +35,7 @@ export default defineComponent({
       if (props.listType === 'picture-card') {
         return <UploadPictureItem file={fileItem} key={`item-${index}`} />;
       }
-      return (
-        <UploadListItem
-          file={fileItem}
-          listType={props.listType}
-          key={`item-${index}`}
-        />
-      );
+      return <UploadListItem file={fileItem} listType={props.listType} key={`item-${index}`} />;
     };
 
     return () => (

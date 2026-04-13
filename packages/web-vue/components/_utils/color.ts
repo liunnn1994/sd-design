@@ -85,7 +85,7 @@ export const convertHexToDecimal = (h: string): number => {
 };
 
 export const formatInputToRgb = (
-  color: string
+  color: string,
 ): { r: number; g: number; b: number; a?: number } | false => {
   let match = matchers.rgb.exec(color);
   if (match) {

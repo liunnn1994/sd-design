@@ -12,28 +12,27 @@ import {
   onMounted,
   onUpdated,
 } from 'vue';
+
+import ResizeObserver from '../_components/resize-observer';
+import useMergeState from '../_hooks/use-merge-state';
+import { clipboard } from '../_utils/clipboard';
 import { getPrefixCls } from '../_utils/global-config';
 import { isObject } from '../_utils/is';
-import { BaseProps, EllipsisConfig, EllipsisInternalConfig } from './interface';
-import EditContent from './edit-content.vue';
-import Operations from './operations.vue';
-import ResizeObserver from '../_components/resize-observer';
 import { omit } from '../_utils/omit';
-import useMergeState from '../_hooks/use-merge-state';
-import measure from './utils/measure';
-import { clipboard } from '../_utils/clipboard';
-import getInnerText from './utils/getInnerText';
 import { caf, raf } from '../_utils/raf';
-import Tooltip from '../tooltip';
 import Popover from '../popover';
+import Tooltip from '../tooltip';
+import EditContent from './edit-content.vue';
+import { BaseProps, EllipsisConfig, EllipsisInternalConfig } from './interface';
+import Operations from './operations.vue';
+import getInnerText from './utils/getInnerText';
+import measure from './utils/measure';
 
 interface BaseInternalProps extends BaseProps {
   component: keyof HTMLElementTagNameMap;
 }
 
-function getComponentTags<K extends keyof HTMLElementTagNameMap>(
-  props: BaseInternalProps
-): K[] {
+function getComponentTags<K extends keyof HTMLElementTagNameMap>(props: BaseInternalProps): K[] {
   const { bold, mark, underline, delete: propDelete, code } = props;
   const componentTags = [];
 
@@ -59,8 +58,7 @@ function getComponentTags<K extends keyof HTMLElementTagNameMap>(
 function Wrap(props: BaseInternalProps, children: VNodeTypes) {
   const { mark } = props;
   const componentTags = getComponentTags(props);
-  const markStyle =
-    isObject(mark) && mark.color ? { backgroundColor: mark.color } : {};
+  const markStyle = isObject(mark) && mark.color ? { backgroundColor: mark.color } : {};
 
   return componentTags.reduce((content, Tag) => {
     const attrs = Tag === 'mark' ? { style: markStyle } : {};
@@ -68,16 +66,11 @@ function Wrap(props: BaseInternalProps, children: VNodeTypes) {
   }, children);
 }
 
-function normalizeEllipsisConfig(
-  config: EllipsisConfig
-): EllipsisInternalConfig {
+function normalizeEllipsisConfig(config: EllipsisConfig): EllipsisInternalConfig {
   const showTooltip = !!config.showTooltip;
   const TooltipComponent =
-    isObject(config.showTooltip) && config.showTooltip.type === 'popover'
-      ? Popover
-      : Tooltip;
-  const tooltipProps =
-    (isObject(config.showTooltip) && config.showTooltip.props) || {};
+    isObject(config.showTooltip) && config.showTooltip.type === 'popover' ? Popover : Tooltip;
+  const tooltipProps = (isObject(config.showTooltip) && config.showTooltip.props) || {};
 
   return {
     rows: 1,
@@ -109,9 +102,7 @@ export default defineComponent({
      * @en Text type
      */
     type: {
-      type: String as PropType<
-        'primary' | 'secondary' | 'success' | 'danger' | 'warning'
-      >,
+      type: String as PropType<'primary' | 'secondary' | 'success' | 'danger' | 'warning'>,
     },
     /**
      * @zh 粗体
@@ -240,38 +231,38 @@ export default defineComponent({
      * @zh 开始编辑
      * @en Edit start
      */
-    'editStart': () => true,
+    editStart: () => true,
     /**
      * @zh 编辑内容变化
      * @en Edit content change
      * @param {string} text
      */
-    'change': (text: string) => true,
+    change: (text: string) => true,
     'update:editText': (text: string) => true,
     /**
      * @zh 编辑结束
      * @en Edit end
      */
-    'editEnd': () => true,
+    editEnd: () => true,
     'update:editing': (editing: boolean) => true,
     /**
      * @zh 复制
      * @en Copy
      * @param {string} text
      */
-    'copy': (text: string) => true,
+    copy: (text: string) => true,
     /**
      * @zh 省略变化事件
      * @en Ellipsis change
      * @param {boolean} isEllipsis
      */
-    'ellipsis': (isEllipsis: boolean) => true,
+    ellipsis: (isEllipsis: boolean) => true,
     /**
      * @zh 展开收起事件
      * @en Expand collapse event
      * @param {boolean} expanded
      */
-    'expand': (expanded: boolean) => true,
+    expand: (expanded: boolean) => true,
   },
   /**
    * @zh 自定义复制按钮的 tooltip 内容
@@ -321,7 +312,7 @@ export default defineComponent({
       defaultEditing.value,
       reactive({
         value: propEditing,
-      })
+      }),
     );
     const mergeEditing = computed(() => editable.value && editing.value);
 
@@ -371,9 +362,7 @@ export default defineComponent({
     const expanded = ref(false);
     const ellipsisText = ref('');
     const ellipsisConfig = computed<EllipsisInternalConfig>(() =>
-      normalizeEllipsisConfig(
-        (isObject(ellipsis.value) && ellipsis.value) || {}
-      )
+      normalizeEllipsisConfig((isObject(ellipsis.value) && ellipsis.value) || {}),
     );
     let rafId: number = null as any;
 
@@ -438,7 +427,7 @@ export default defineComponent({
         wrapperRef.value,
         ellipsisConfig.value,
         renderOperations(!!ellipsisConfig.value.expandable),
-        fullText.value
+        fullText.value,
       );
 
       if (isEllipsis.value !== ellipsis) {
@@ -471,7 +460,7 @@ export default defineComponent({
       () => ellipsisConfig.value.rows,
       () => {
         resizeOnNextFrame();
-      }
+      },
     );
 
     watch(ellipsis, (newVal) => {
@@ -503,8 +492,7 @@ export default defineComponent({
 
     const calTooltip = () => {
       if (wrapperRef.value && contentRef.value) {
-        const _show =
-          contentRef.value.offsetHeight > wrapperRef.value.offsetHeight;
+        const _show = contentRef.value.offsetHeight > wrapperRef.value.offsetHeight;
         if (_show !== showCSSTooltip.value) {
           showCSSTooltip.value = _show;
           emit('ellipsis', _show);
@@ -518,9 +506,9 @@ export default defineComponent({
       }
 
       return {
-        'overflow': 'hidden',
+        overflow: 'hidden',
         'text-overflow': 'ellipsis',
-        'display': '-webkit-box',
+        display: '-webkit-box',
         '-webkit-line-clamp': ellipsisConfig.value.rows,
         '-webkit-box-orient': 'vertical',
       };
@@ -546,17 +534,11 @@ export default defineComponent({
         );
       }
 
-      const {
-        suffix,
-        ellipsisStr,
-        showTooltip,
-        tooltipProps,
-        TooltipComponent,
-      } = ellipsisConfig.value;
+      const { suffix, ellipsisStr, showTooltip, tooltipProps, TooltipComponent } =
+        ellipsisConfig.value;
       const showEllipsis = isEllipsis.value && !expanded.value;
 
-      const titleAttrs =
-        showEllipsis && !showTooltip ? { title: fullText.value } : {};
+      const titleAttrs = showEllipsis && !showTooltip ? { title: fullText.value } : {};
       const Component = component.value;
 
       if (ellipsisConfig.value.css) {
@@ -602,12 +584,7 @@ export default defineComponent({
 
       return (
         <ResizeObserver onResize={() => resizeOnNextFrame()}>
-          <Component
-            class={classNames.value}
-            ref={wrapperRef}
-            {...titleAttrs}
-            {...attrs}
-          >
+          <Component class={classNames.value} ref={wrapperRef} {...titleAttrs} {...attrs}>
             {showEllipsis && showTooltip ? (
               <TooltipComponent
                 {...tooltipProps}

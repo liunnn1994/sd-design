@@ -1,8 +1,10 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Statistic from './statistic.vue';
 import _Countdown from './countdown.vue';
+import _Statistic from './statistic.vue';
 
 const Statistic = Object.assign(_Statistic, {
   Countdown: _Countdown,

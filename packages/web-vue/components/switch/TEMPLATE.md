@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 开关 Switch
 description: 互斥性的操作控件，用户可打开或关闭某个功能。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,27 +19,28 @@ meta:
 title: Switch
 description: Mutually exclusive operation controls, users can turn on or turn off a certain function.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/type.md
+@import ./**demo**/type.md
 
-@import ./__demo__/size.md
+@import ./**demo**/size.md
 
-@import ./__demo__/disabled.md
+@import ./**demo**/disabled.md
 
-@import ./__demo__/color.md
+@import ./**demo**/color.md
 
-@import ./__demo__/value.md
+@import ./**demo**/value.md
 
-@import ./__demo__/change-intercept.md
+@import ./**demo**/change-intercept.md
 
-@import ./__demo__/loading.md
+@import ./**demo**/loading.md
 
-@import ./__demo__/text.md
+@import ./**demo**/text.md
 
-@import ./__demo__/icon.md
+@import ./**demo**/icon.md
 
 ## API
 

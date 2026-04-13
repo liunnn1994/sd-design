@@ -1,8 +1,10 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Timeline from './timeline';
 import _TimelineItem from './item.vue';
+import _Timeline from './timeline';
 
 const Timeline = Object.assign(_Timeline, {
   Item: _TimelineItem,

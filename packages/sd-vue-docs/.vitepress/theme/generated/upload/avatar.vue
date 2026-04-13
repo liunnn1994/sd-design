@@ -10,13 +10,10 @@
       <template #upload-button>
         <div
           :class="`sd-upload-list-item${
-            file && file.status === 'error' ? ' sd-upload-list-item-error' : ''
+            file && file.status === 'error' ? 'sd-upload-list-item-error' : ''
           }`"
         >
-          <div
-            class="sd-upload-list-picture custom-upload-avatar"
-            v-if="file && file.url"
-          >
+          <div class="sd-upload-list-picture custom-upload-avatar" v-if="file && file.url">
             <img :src="file.url" />
             <div class="sd-upload-list-picture-mask">
               <IconEdit />
@@ -47,28 +44,29 @@
 </template>
 
 <script>
-import { IconEdit, IconPlus } from '@sd-design/web-vue/es/icon';
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  components: {IconPlus, IconEdit},
-  setup() {
-    const file = ref();
+  import { IconEdit, IconPlus } from '@sdata/web-vue/es/icon';
 
-    const onChange = (_, currentFile) => {
-      file.value = {
-        ...currentFile,
-        // url: URL.createObjectURL(currentFile.file),
+  export default {
+    components: { IconPlus, IconEdit },
+    setup() {
+      const file = ref();
+
+      const onChange = (_, currentFile) => {
+        file.value = {
+          ...currentFile,
+          // url: URL.createObjectURL(currentFile.file),
+        };
       };
-    };
-    const onProgress = (currentFile) => {
-      file.value = currentFile;
-    };
-    return {
-      file,
-      onChange,
-      onProgress
-    }
-  },
-};
+      const onProgress = (currentFile) => {
+        file.value = currentFile;
+      };
+      return {
+        file,
+        onChange,
+        onProgress,
+      };
+    },
+  };
 </script>

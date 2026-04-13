@@ -19,8 +19,7 @@
 
   &-item {
     box-sizing: border-box;
-    border-bottom: @collapse-title-border-width solid
-      @collapse-item-color-border;
+    border-bottom: @collapse-title-border-width solid @collapse-item-color-border;
 
     &-active {
       > .@{collapse-prefix-cls}-item-header {
@@ -36,8 +35,7 @@
           transform: rotate(90deg);
         }
 
-        .@{collapse-prefix-cls}-item-icon-right
-          .@{collapse-prefix-cls}-item-expand-icon {
+        .@{collapse-prefix-cls}-item-icon-right .@{collapse-prefix-cls}-item-expand-icon {
           transform: rotate(-90deg);
         }
       }
@@ -63,13 +61,13 @@
 
       &-left {
         padding-right: @collapse-title-padding-horizontal;
-        padding-left: @collapse-title-padding-horizontal +
-          @collapse-expand-icon-size-bg + @collapse-expand-icon-spacing-text;
+        padding-left: @collapse-title-padding-horizontal + @collapse-expand-icon-size-bg +
+          @collapse-expand-icon-spacing-text;
       }
 
       &-right {
-        padding-right: @collapse-title-padding-horizontal +
-          @collapse-expand-icon-size-bg + @collapse-expand-icon-spacing-text;
+        padding-right: @collapse-title-padding-horizontal + @collapse-expand-icon-size-bg +
+          @collapse-expand-icon-spacing-text;
         padding-left: @collapse-title-padding-horizontal;
 
         + .@{collapse-prefix-cls}-item-content {
@@ -120,15 +118,14 @@
       color: @collapse-color-expand-icon;
       font-size: @collapse-expand-icon-size;
       vertical-align: middle;
-      transition: transform @transition-duration-2
-        @transition-timing-function-standard;
+      transition: transform @transition-duration-2 @transition-timing-function-standard;
     }
 
     &-content {
       position: relative;
       padding-right: @collapse-title-padding-horizontal;
-      padding-left: @collapse-title-padding-horizontal +
-        @collapse-expand-icon-size-bg + @collapse-expand-icon-spacing-text;
+      padding-left: @collapse-title-padding-horizontal + @collapse-expand-icon-size-bg +
+        @collapse-expand-icon-spacing-text;
       overflow: hidden;
       color: @collapse-content-color-text;
       font-size: @collapse-content-font-size;

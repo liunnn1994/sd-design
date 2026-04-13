@@ -17,7 +17,6 @@ custom icon
 ---
 
 ```vue
-
 <template>
   <div>
     <div style="margin-bottom: 20px;">
@@ -51,30 +50,30 @@ custom icon
 </template>
 
 <script>
-import { h, ref } from 'vue';
-import { IconUpload, IconFileAudio, IconClose, IconFaceFrownFill } from '@sd-design/web-vue/es/icon';
+  import { h, ref } from 'vue';
+  import { IconUpload, IconFileAudio, IconClose, IconFaceFrownFill } from '@sdata/web-vue/es/icon';
 
-export default {
-  setup() {
-    const type = ref('text');
-    const getCustomIcon = () => {
-      return {
-        retryIcon: () => h(IconUpload),
-        cancelIcon: () => h(IconClose),
-        fileIcon: () => h(IconFileAudio),
-        removeIcon: () => h(IconClose),
-        errorIcon: () => h(IconFaceFrownFill),
-        fileName: (file) => {
-          return `文件名： ${file.name}`
-        },
+  export default {
+    setup() {
+      const type = ref('text');
+      const getCustomIcon = () => {
+        return {
+          retryIcon: () => h(IconUpload),
+          cancelIcon: () => h(IconClose),
+          fileIcon: () => h(IconFileAudio),
+          removeIcon: () => h(IconClose),
+          errorIcon: () => h(IconFaceFrownFill),
+          fileName: (file) => {
+            return `文件名： ${file.name}`;
+          },
+        };
       };
-    };
 
-    return {
-      type,
-      getCustomIcon
-    }
-  },
-};
+      return {
+        type,
+        getCustomIcon,
+      };
+    },
+  };
 </script>
 ```

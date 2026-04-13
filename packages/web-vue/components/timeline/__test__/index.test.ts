@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Timeline from '../index';
 
 const { Item } = Timeline;
@@ -38,8 +39,6 @@ describe('Timeline', () => {
       },
     });
     const dot = wrapper.find('.sd-timeline-item-dot');
-    expect(dot.attributes('style')).toContain(
-      'background-color: rgb(10, 180, 42)'
-    );
+    expect(dot.attributes('style')).toContain('background-color: rgb(10, 180, 42)');
   });
 });

@@ -1,4 +1,5 @@
 import { InlineConfig } from 'vite';
+
 import cssjs from '../plugins/vite-plugin-cssjs';
 
 const config: InlineConfig = {

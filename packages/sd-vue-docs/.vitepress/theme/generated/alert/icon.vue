@@ -8,17 +8,13 @@
     </a-col>
     <a-col :span="12">
       <a-alert type="warning" :show-icon="false">
-        <template #title>
-          Warning
-        </template>
+        <template #title> Warning </template>
         This is an warning alert.
       </a-alert>
     </a-col>
     <a-col :span="12">
       <a-alert type="error" :show-icon="false">
-        <template #title>
-          Error
-        </template>
+        <template #title> Error </template>
         This is an error alert.
       </a-alert>
     </a-col>

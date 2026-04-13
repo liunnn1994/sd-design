@@ -1,5 +1,6 @@
 import BTween from 'b-tween';
 import { Dayjs } from 'dayjs';
+
 import { dayjs } from '../../_utils/date';
 import { isArray, isUndefined, isDayjs } from '../../_utils/is';
 import { TimePickerProps } from '../interface';
@@ -46,22 +47,19 @@ export function scrollTo(element: HTMLElement, to: number, duration: number) {
         },
       });
       tween.start();
-    })
+    }),
   );
 }
 
 export function getFormattedValue(time: Dayjs, format: string): string;
-export function getFormattedValue(
-  time: Dayjs | undefined,
-  format: string
-): string | undefined;
+export function getFormattedValue(time: Dayjs | undefined, format: string): string | undefined;
 export function getFormattedValue(
   time: Array<Dayjs | undefined> | undefined,
-  format: string
+  format: string,
 ): Array<string | undefined> | undefined;
 export function getFormattedValue(
   time: Dayjs | Array<Dayjs | undefined> | undefined,
-  format: string
+  format: string,
 ): string | Array<string | undefined> | undefined {
   const formatValue = (time: any): any => {
     if (isArray(time)) {
@@ -79,18 +77,13 @@ export function getFormattedValue(
 export function isValidRangeValue(value: any): value is undefined | Dayjs[] {
   if (isUndefined(value)) return true;
   if (!isArray(value)) return false;
-  return (
-    value.length === 0 ||
-    (value.length === 2 && isDayjs(value[0]) && isDayjs(value[1]))
-  );
+  return value.length === 0 || (value.length === 2 && isDayjs(value[0]) && isDayjs(value[1]));
 }
 
 export function isValidInputValue(time: string, format: string): boolean {
   if (!time) return false;
 
-  return (
-    typeof time === 'string' && dayjs(time, format).format(format) === time
-  );
+  return typeof time === 'string' && dayjs(time, format).format(format) === time;
 }
 
 export function isDisabledTime(
@@ -103,7 +96,7 @@ export function isDisabledTime(
     disabledHours: TimePickerProps['disabledHours'];
     disabledMinutes: TimePickerProps['disabledMinutes'];
     disabledSeconds: TimePickerProps['disabledSeconds'];
-  }
+  },
 ) {
   if (!value) return false;
 

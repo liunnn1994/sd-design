@@ -1,4 +1,5 @@
 import { StyleValue } from 'vue';
+
 import { Breakpoint } from '../_utils/responsive-observe';
 import { Data } from '../_utils/types';
 import { TriggerProps } from '../trigger';

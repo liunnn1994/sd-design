@@ -4,11 +4,11 @@
     :fieldNames="{
       key: 'value',
       title: 'label',
-      children: 'items'
+      children: 'items',
     }"
     :data="treeData"
     placeholder="Please select ..."
-    style="width: 300px;"
+    style="width: 300px"
   ></a-tree-select>
 </template>
 <script>
@@ -40,13 +40,13 @@
                   items: [
                     {
                       label: 'Leaf',
-                      value: '0-0-2-1-0-0'
-                    }
-                  ]
+                      value: '0-0-2-1-0-0',
+                    },
+                  ],
                 },
               ],
-            }
-          ]
+            },
+          ],
         },
       ],
     },
@@ -61,8 +61,8 @@
             {
               label: 'Leaf',
               value: '0-1-1-0',
-            }
-          ]
+            },
+          ],
         },
       ],
     },

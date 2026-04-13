@@ -28,7 +28,7 @@ Load nodes dynamically.
       const treeData = ref([
         {
           title: 'Trunk 0-0',
-          key: '0-0'
+          key: '0-0',
         },
         {
           title: 'Trunk 0-1',
@@ -36,8 +36,8 @@ Load nodes dynamically.
           children: [
             {
               title: 'Branch 0-1-1',
-              key: '0-1-1'
-            }
+              key: '0-1-1',
+            },
           ],
         },
       ]);
@@ -45,9 +45,7 @@ Load nodes dynamically.
       const loadMore = (nodeData) => {
         return new Promise((resolve) => {
           setTimeout(() => {
-            nodeData.children = [
-              { title: `leaf`, key: `${nodeData.key}-1`, isLeaf: true },
-            ];
+            nodeData.children = [{ title: `leaf`, key: `${nodeData.key}-1`, isLeaf: true }];
             resolve();
           }, 1000);
         });
@@ -57,8 +55,7 @@ Load nodes dynamically.
         treeData,
         loadMore,
       };
-    }
-  }
-
+    },
+  };
 </script>
 ```

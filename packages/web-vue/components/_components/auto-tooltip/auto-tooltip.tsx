@@ -1,7 +1,8 @@
 import { defineComponent, onMounted, onUpdated, ref } from 'vue';
+
+import { getPrefixCls } from '../../_utils/global-config';
 import Tooltip from '../../tooltip';
 import ResizeObserver from '../resize-observer-v2';
-import { getPrefixCls } from '../../_utils/global-config';
 
 export default defineComponent({
   name: 'AutoTooltip',
@@ -21,8 +22,7 @@ export default defineComponent({
 
     const calTooltip = () => {
       if (containerRef.value && contentRef.value) {
-        const _show =
-          contentRef.value.offsetWidth > containerRef.value.offsetWidth;
+        const _show = contentRef.value.offsetWidth > containerRef.value.offsetWidth;
         if (_show !== showTooltip.value) {
           showTooltip.value = _show;
         }
@@ -30,10 +30,7 @@ export default defineComponent({
     };
 
     const getText = () => {
-      if (
-        contentRef.value?.textContent &&
-        contentRef.value.textContent !== text.value
-      ) {
+      if (contentRef.value?.textContent && contentRef.value.textContent !== text.value) {
         text.value = contentRef.value.textContent;
       }
     };
@@ -68,19 +65,13 @@ export default defineComponent({
     return () => {
       if (showTooltip.value) {
         return (
-          <Tooltip
-            content={text.value}
-            onResize={onResize}
-            {...props.tooltipProps}
-          >
+          <Tooltip content={text.value} onResize={onResize} {...props.tooltipProps}>
             {renderContent()}
           </Tooltip>
         );
       }
 
-      return (
-        <ResizeObserver onResize={onResize}>{renderContent()}</ResizeObserver>
-      );
+      return <ResizeObserver onResize={onResize}>{renderContent()}</ResizeObserver>;
     };
   },
 });

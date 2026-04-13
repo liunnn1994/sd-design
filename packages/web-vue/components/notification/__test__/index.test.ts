@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Notification from '../index';
 import NotificationList from '../notification-list';
 
@@ -56,9 +57,7 @@ describe('Notification', () => {
     await addBtn.trigger('click');
     await addBtn.trigger('click');
     expect(document.querySelectorAll('.sd-notification')).toHaveLength(2);
-    (
-      document.querySelector('.sd-notification-close-btn') as HTMLElement
-    )?.click();
+    (document.querySelector('.sd-notification-close-btn') as HTMLElement)?.click();
 
     await wrapper.find('#clear').trigger('click');
     expect(document.querySelectorAll('.sd-notification')).toHaveLength(0);
@@ -100,12 +99,8 @@ describe('Notification', () => {
 
     const button = wrapper.find('button');
     await button.trigger('click');
-    expect(document.querySelector('.sd-notification')?.textContent).toBe(
-      'Info Message 1'
-    );
+    expect(document.querySelector('.sd-notification')?.textContent).toBe('Info Message 1');
     await button.trigger('click');
-    expect(document.querySelector('.sd-notification')?.textContent).toBe(
-      'Info Message 2'
-    );
+    expect(document.querySelector('.sd-notification')?.textContent).toBe('Info Message 2');
   });
 });

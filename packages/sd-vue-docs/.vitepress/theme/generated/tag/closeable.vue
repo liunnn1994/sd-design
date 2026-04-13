@@ -3,7 +3,7 @@
     <a-tag closable>Tag</a-tag>
     <a-tag closable>
       <template #icon>
-        <icon-star/>
+        <icon-star />
       </template>
       Tag
     </a-tag>

@@ -1,6 +1,6 @@
 ---
-title: "page-header"
-outline: "deep"
+title: 'page-header'
+outline: 'deep'
 ---
 
 ```yaml
@@ -11,34 +11,31 @@ title: 页头 PageHeader
 description: 页头位于页容器顶部，起到了内容概览和引导页级操作的作用。包括面包屑、标题等内容。
 ```
 
-
-
-
-
 ## API
-
 
 ### `<page-header>` Props
 
-|参数名|描述|类型|默认值|
-|---|---|---|:---:|
-|title|页头的主标题|`string`|`-`|
-|subtitle|页头的次标题|`string`|`-`|
-|show-back|是否显示返回按钮|`boolean`|`true`|
+| 参数名    | 描述             | 类型      | 默认值 |
+| --------- | ---------------- | --------- | :----: |
+| title     | 页头的主标题     | `string`  |  `-`   |
+| subtitle  | 页头的次标题     | `string`  |  `-`   |
+| show-back | 是否显示返回按钮 | `boolean` | `true` |
+
 ### `<page-header>` Events
 
-|事件名|描述|参数|
-|---|---|---|
-|back|点击返回按钮时触发|event: `Event`|
+| 事件名 | 描述               | 参数           |
+| ------ | ------------------ | -------------- |
+| back   | 点击返回按钮时触发 | event: `Event` |
+
 ### `<page-header>` Slots
 
-|插槽名|描述|参数|版本|
-|---|:---:|---|:---|
-|breadcrumb|面包屑|-||
-|back-icon|返回按钮|-|2.36.0|
-|title|主标题|-||
-|subtitle|次标题|-||
-|extra|额外的展示内容|-||
+| 插槽名     |      描述      | 参数 | 版本   |
+| ---------- | :------------: | ---- | :----- |
+| breadcrumb |     面包屑     | -    |        |
+| back-icon  |    返回按钮    | -    | 2.36.0 |
+| title      |     主标题     | -    |        |
+| subtitle   |     次标题     | -    |        |
+| extra      | 额外的展示内容 | -    |        |
 
 <script setup lang="ts">
 import basicDemo from '../../.vitepress/theme/generated/page-header/basic.vue';
@@ -61,35 +58,22 @@ const transparentDescription = "默认是没有底色的，如果有需要可以
 
 ## 示例
 
+<DemoBlock :title="basicTitle" :description="basicDescription" :code="basicSource"
 
-<DemoBlock
-  :title="basicTitle"
-  :description="basicDescription"
-  :code="basicSource"
->
-  <basicDemo />
-</DemoBlock>
+>   <basicDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="breadcrumbTitle"
-  :description="breadcrumbDescription"
-  :code="breadcrumbSource"
->
-  <breadcrumbDemo />
-</DemoBlock>
+<DemoBlock :title="breadcrumbTitle" :description="breadcrumbDescription" :code="breadcrumbSource"
 
-<DemoBlock
-  :title="contentTitle"
-  :description="contentDescription"
-  :code="contentSource"
->
-  <contentDemo />
-</DemoBlock>
+>   <breadcrumbDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="transparentTitle"
-  :description="transparentDescription"
-  :code="transparentSource"
->
-  <transparentDemo />
-</DemoBlock>
+<DemoBlock :title="contentTitle" :description="contentDescription" :code="contentSource"
+
+>   <contentDemo />
+> </DemoBlock>
+
+<DemoBlock :title="transparentTitle" :description="transparentDescription" :code="transparentSource"
+
+>   <transparentDemo />
+> </DemoBlock>

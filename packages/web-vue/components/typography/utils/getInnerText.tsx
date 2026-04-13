@@ -2,9 +2,7 @@ import { createApp, VNodeTypes } from 'vue';
 
 let container: HTMLDivElement | null;
 
-export default function getInnerText(
-  node: VNodeTypes | VNodeTypes[] | undefined
-): string {
+export default function getInnerText(node: VNodeTypes | VNodeTypes[] | undefined): string {
   if (!node) return '';
 
   if (!container) {

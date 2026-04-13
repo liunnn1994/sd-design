@@ -1,17 +1,14 @@
 import type { CSSProperties, VNode } from 'vue';
-import {
-  TableColumnData,
-  TableDataWithRaw,
-  TableOperationColumn,
-} from './interface';
+
 import { isArray, isNull, isUndefined } from '../_utils/is';
+import { BaseType } from '../_utils/types';
 import {
   resolveProps,
   isNamedComponent,
   isSlotsChildren,
   isArrayChildren,
 } from '../_utils/vue-utils';
-import { BaseType } from '../_utils/types';
+import { TableColumnData, TableDataWithRaw, TableOperationColumn } from './interface';
 
 const getDataColumnsNumber = (columns: TableColumnData[]): number => {
   let count = 0;
@@ -67,15 +64,13 @@ const setParentFixed = (column: TableColumnData, fixed: 'left' | 'right') => {
 export const getGroupColumns = (
   columns: TableColumnData[],
   columnMap: Map<string, TableColumnData>,
-  columnWidth: Record<string, number>
+  columnWidth: Record<string, number>,
 ) => {
   const totalHeaderRows = getTotalHeaderRows(columns);
 
   columnMap.clear();
   const dataColumns: TableColumnData[] = [];
-  const groupColumns: TableColumnData[][] = [...Array(totalHeaderRows)].map(
-    () => []
-  );
+  const groupColumns: TableColumnData[][] = [...Array(totalHeaderRows)].map(() => []);
 
   // For recording
   let lastLeftFixedIndex: number | undefined;
@@ -91,7 +86,7 @@ export const getGroupColumns = (
       level?: number;
       parent?: TableColumnData;
       fixed?: 'left' | 'right';
-    } = {}
+    } = {},
   ) => {
     for (const item of columns) {
       const cell: TableColumnData = { ...item, parent };
@@ -151,10 +146,7 @@ export const getGroupColumns = (
   return { dataColumns, groupColumns };
 };
 
-const getOperationColumnIndex = (
-  operations: TableOperationColumn[],
-  name: string
-) => {
+const getOperationColumnIndex = (operations: TableOperationColumn[], name: string) => {
   for (let i = 0; i < operations.length; i++) {
     if (operations[i].name === name) {
       return i;
@@ -165,7 +157,7 @@ const getOperationColumnIndex = (
 
 export const getOperationFixedNumber = (
   column: TableOperationColumn,
-  operations: TableOperationColumn[]
+  operations: TableOperationColumn[],
 ) => {
   const index = getOperationColumnIndex(operations, column.name);
   if (index <= 0) {
@@ -181,8 +173,7 @@ export const getOperationFixedNumber = (
 };
 
 const getFirstDataColumn = (column: TableColumnData): TableColumnData => {
-  if (column.children && column.children.length > 0)
-    return getFirstDataColumn(column.children[0]);
+  if (column.children && column.children.length > 0) return getFirstDataColumn(column.children[0]);
   return column;
 };
 
@@ -201,7 +192,7 @@ export const getFixedNumber = (
   }: {
     dataColumns: TableColumnData[];
     operations: TableOperationColumn[];
-  }
+  },
 ) => {
   let count = 0;
 
@@ -233,10 +224,7 @@ export const getFixedNumber = (
   return count;
 };
 
-export const getOperationFixedCls = (
-  prefixCls: string,
-  column: TableOperationColumn
-): any[] => {
+export const getOperationFixedCls = (prefixCls: string, column: TableOperationColumn): any[] => {
   if (column.fixed) {
     return [
       `${prefixCls}-col-fixed-left`,
@@ -250,10 +238,7 @@ export const getOperationFixedCls = (
 
 export const getFixedCls = (
   prefixCls: string,
-  column: Pick<
-    TableColumnData,
-    'fixed' | 'isLastLeftFixed' | 'isFirstRightFixed'
-  >
+  column: Pick<TableColumnData, 'fixed' | 'isLastLeftFixed' | 'isFirstRightFixed'>,
 ): any[] => {
   if (column.fixed === 'left') {
     return [
@@ -282,7 +267,7 @@ export const getStyle = (
   }: {
     dataColumns: TableColumnData[];
     operations: TableOperationColumn[];
-  }
+  },
 ): CSSProperties => {
   if (column.fixed) {
     const offset = `${getFixedNumber(column, { dataColumns, operations })}px`;
@@ -300,7 +285,7 @@ export const getStyle = (
 
 export const getOperationStyle = (
   column: TableOperationColumn,
-  operations: TableOperationColumn[]
+  operations: TableOperationColumn[],
 ) => {
   if (column.fixed) {
     return {
@@ -342,9 +327,9 @@ export const getColumnsFromSlot = (vns: VNode[]) => {
   return columns;
 };
 
-export function mapArrayWithChildren<
-  T extends Array<{ [key: string]: any; children?: T }>
->(arr: T): T {
+export function mapArrayWithChildren<T extends Array<{ [key: string]: any; children?: T }>>(
+  arr: T,
+): T {
   return arr.map((item) => {
     const newItem = { ...item };
     if (newItem.children) {
@@ -354,9 +339,7 @@ export function mapArrayWithChildren<
   }) as T;
 }
 
-export function mapRawTableData<T extends TableDataWithRaw[]>(
-  arr: T
-): TableDataWithRaw['raw'][] {
+export function mapRawTableData<T extends TableDataWithRaw[]>(arr: T): TableDataWithRaw['raw'][] {
   return arr.map((item) => {
     const rawItem = item.raw;
     if (item.children && rawItem.children) {
@@ -380,15 +363,10 @@ export const getLeafKeys = (record: TableDataWithRaw) => {
   return keys;
 };
 
-export const getSelectionStatus = (
-  selectedRowKeys: BaseType[],
-  leafKeys: BaseType[]
-) => {
+export const getSelectionStatus = (selectedRowKeys: BaseType[], leafKeys: BaseType[]) => {
   let checked = false;
   let indeterminate = false;
-  const selectedLeafKeys = leafKeys.filter((key) =>
-    selectedRowKeys.includes(key)
-  );
+  const selectedLeafKeys = leafKeys.filter((key) => selectedRowKeys.includes(key));
   if (selectedLeafKeys.length > 0) {
     if (selectedLeafKeys.length >= leafKeys.length) {
       checked = true;

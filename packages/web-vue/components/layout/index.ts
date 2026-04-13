@@ -1,10 +1,12 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Layout from './layout.vue';
-import _LayoutHeader from './header.vue';
 import _LayoutContent from './content.vue';
 import _LayoutFooter from './footer.vue';
+import _LayoutHeader from './header.vue';
+import _Layout from './layout.vue';
 import _LayoutSider from './sider.vue';
 
 const Layout = Object.assign(_Layout, {

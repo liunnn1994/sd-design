@@ -4,5 +4,4 @@ export interface ZIndexContext {
   zIndex: number;
 }
 
-export const zIndexInjectionKey: InjectionKey<ZIndexContext> =
-  Symbol('SDZIndex');
+export const zIndexInjectionKey: InjectionKey<ZIndexContext> = Symbol('SDZIndex');

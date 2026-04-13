@@ -1,6 +1,6 @@
 ---
-title: "card"
-outline: "deep"
+title: 'card'
+outline: 'deep'
 ---
 
 ```yaml
@@ -11,68 +11,54 @@ title: 卡片 Card
 description: 将信息分类后分标题、详情等区域聚合展现，一般作为简洁介绍或者信息的大盘和入口。
 ```
 
-
-
-
-
-
-
-
-
-
 ## API
-
 
 ### `<card>` Props
 
-|参数名|描述|类型|默认值|
-|---|---|---|:---:|
-|bordered|是否有边框|`boolean`|`true`|
-|loading|是否为加载中|`boolean`|`false`|
-|hoverable|是否可悬浮|`boolean`|`false`|
-|size|卡片尺寸|`'medium' \| 'small'`|`'medium'`|
-|header-style|自定义标题区域样式|`CSSProperties`|`() => ({})`|
-|body-style|内容区域自定义样式|`CSSProperties`|`() => ({})`|
-|title|卡片标题|`string`|`-`|
-|extra|卡片右上角的操作区域|`string`|`-`|
+| 参数名       | 描述                 | 类型                  |    默认值    |
+| ------------ | -------------------- | --------------------- | :----------: |
+| bordered     | 是否有边框           | `boolean`             |    `true`    |
+| loading      | 是否为加载中         | `boolean`             |   `false`    |
+| hoverable    | 是否可悬浮           | `boolean`             |   `false`    |
+| size         | 卡片尺寸             | `'medium' \| 'small'` |  `'medium'`  |
+| header-style | 自定义标题区域样式   | `CSSProperties`       | `() => ({})` |
+| body-style   | 内容区域自定义样式   | `CSSProperties`       | `() => ({})` |
+| title        | 卡片标题             | `string`              |     `-`      |
+| extra        | 卡片右上角的操作区域 | `string`              |     `-`      |
+
 ### `<card>` Slots
 
-|插槽名|描述|参数|
-|---|:---:|---|
-|actions|卡片底部的操作组|-|
-|cover|卡片封面|-|
-|extra|卡片右上角的操作区域|-|
-|title|卡片标题|-|
-
-
-
+| 插槽名  |         描述         | 参数 |
+| ------- | :------------------: | ---- |
+| actions |   卡片底部的操作组   | -    |
+| cover   |       卡片封面       | -    |
+| extra   | 卡片右上角的操作区域 | -    |
+| title   |       卡片标题       | -    |
 
 ### `<card-meta>` Props
 
-|参数名|描述|类型|默认值|
-|---|---|---|:---:|
-|title|标题|`string`|`-`|
-|description|描述|`string`|`-`|
+| 参数名      | 描述 | 类型     | 默认值 |
+| ----------- | ---- | -------- | :----: |
+| title       | 标题 | `string` |  `-`   |
+| description | 描述 | `string` |  `-`   |
+
 ### `<card-meta>` Slots
 
-|插槽名|描述|参数|
-|---|:---:|---|
-|description|描述|-|
-|title|标题|-|
-|avatar|头像|-|
-
-
-
+| 插槽名      | 描述 | 参数 |
+| ----------- | :--: | ---- |
+| description | 描述 | -    |
+| title       | 标题 | -    |
+| avatar      | 头像 | -    |
 
 ### `<card-grid>` Props
 
-|参数名|描述|类型|默认值|
-|---|---|---|:---:|
-|hoverable|是否可以悬浮|`boolean`|`false`|
+| 参数名    | 描述         | 类型      | 默认值  |
+| --------- | ------------ | --------- | :-----: |
+| hoverable | 是否可以悬浮 | `boolean` | `false` |
 
 <script setup lang="ts">
 import actionsDemo from '../../.vitepress/theme/generated/card/actions.vue';
-const actionsSource = "<template>\n  <a-card :style=\"{ width: '360px' }\">\n    <template #actions>\n      <span class=\"icon-hover\"> <IconThumbUp /> <\/span>\n      <span class=\"icon-hover\"> <IconShareInternal /> <\/span>\n      <span class=\"icon-hover\"> <IconMore /> <\/span>\n    <\/template>\n    <template #cover>\n      <div\n        :style=\"{\n          height: '204px',\n          overflow: 'hidden',\n        }\"\n      >\n        <img\n          :style=\"{ width: '100%', transform: 'translateY(-20px)' }\"\n          alt=\"dessert\"\n          src=\"https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a20012a2d4d5b9db43dfc6a01fe508c0.png~tplv-uwbnlip3yd-webp.webp\"\n        />\n      <\/div>\n    <\/template>\n    <a-card-meta title=\"Card Title\" description=\"This is the description\">\n      <template #avatar>\n        <div\n          :style=\"{ display: 'flex', alignItems: 'center', color: '#1D2129' }\"\n        >\n          <a-avatar :size=\"24\" :style=\"{ marginRight: '8px' }\">\n            A\n          <\/a-avatar>\n          <a-typography-text>Username<\/a-typography-text>\n        <\/div>\n      <\/template>\n    <\/a-card-meta>\n  <\/a-card>\n<\/template>\n\n<script>\nimport {\n  IconThumbUp,\n  IconShareInternal,\n  IconMore,\n} from '@sd-design/web-vue/es/icon';\n\nexport default {\n  components: { IconThumbUp, IconShareInternal, IconMore },\n};\n<\/script>\n<style scoped>\n.icon-hover {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 50%;\n  transition: all 0.1s;\n}\n.icon-hover:hover {\n  background-color: rgb(var(--gray-2));\n}\n<\/style>";
+const actionsSource = "<template>\n  <a-card :style=\"{ width: '360px' }\">\n    <template #actions>\n      <span class=\"icon-hover\"> <IconThumbUp /> <\/span>\n      <span class=\"icon-hover\"> <IconShareInternal /> <\/span>\n      <span class=\"icon-hover\"> <IconMore /> <\/span>\n    <\/template>\n    <template #cover>\n      <div\n        :style=\"{\n          height: '204px',\n          overflow: 'hidden',\n        }\"\n      >\n        <img\n          :style=\"{ width: '100%', transform: 'translateY(-20px)' }\"\n          alt=\"dessert\"\n          src=\"https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a20012a2d4d5b9db43dfc6a01fe508c0.png~tplv-uwbnlip3yd-webp.webp\"\n        />\n      <\/div>\n    <\/template>\n    <a-card-meta title=\"Card Title\" description=\"This is the description\">\n      <template #avatar>\n        <div\n          :style=\"{ display: 'flex', alignItems: 'center', color: '#1D2129' }\"\n        >\n          <a-avatar :size=\"24\" :style=\"{ marginRight: '8px' }\">\n            A\n          <\/a-avatar>\n          <a-typography-text>Username<\/a-typography-text>\n        <\/div>\n      <\/template>\n    <\/a-card-meta>\n  <\/a-card>\n<\/template>\n\n<script>\nimport {\n  IconThumbUp,\n  IconShareInternal,\n  IconMore,\n} from '@sdata/web-vue/es/icon';\n\nexport default {\n  components: { IconThumbUp, IconShareInternal, IconMore },\n};\n<\/script>\n<style scoped>\n.icon-hover {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 50%;\n  transition: all 0.1s;\n}\n.icon-hover:hover {\n  background-color: rgb(var(--gray-2));\n}\n<\/style>";
 const actionsTitle = "Actions.Md";
 const actionsDescription = "`actions` slot 可以用于展示底部按钮组。";
 import basicDemo from '../../.vitepress/theme/generated/card/basic.vue';
@@ -111,75 +97,47 @@ const rowDescription = "在系统概览页面常常和栅格进行配合。";
 
 ## 示例
 
+<DemoBlock :title="actionsTitle" :description="actionsDescription" :code="actionsSource"
 
-<DemoBlock
-  :title="actionsTitle"
-  :description="actionsDescription"
-  :code="actionsSource"
->
-  <actionsDemo />
-</DemoBlock>
+>   <actionsDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="basicTitle"
-  :description="basicDescription"
-  :code="basicSource"
->
-  <basicDemo />
-</DemoBlock>
+<DemoBlock :title="basicTitle" :description="basicDescription" :code="basicSource"
 
-<DemoBlock
-  :title="borderedTitle"
-  :description="borderedDescription"
-  :code="borderedSource"
->
-  <borderedDemo />
-</DemoBlock>
+>   <basicDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="contentTitle"
-  :description="contentDescription"
-  :code="contentSource"
->
-  <contentDemo />
-</DemoBlock>
+<DemoBlock :title="borderedTitle" :description="borderedDescription" :code="borderedSource"
 
-<DemoBlock
-  :title="gridTitle"
-  :description="gridDescription"
-  :code="gridSource"
->
-  <gridDemo />
-</DemoBlock>
+>   <borderedDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="hoverableTitle"
-  :description="hoverableDescription"
-  :code="hoverableSource"
->
-  <hoverableDemo />
-</DemoBlock>
+<DemoBlock :title="contentTitle" :description="contentDescription" :code="contentSource"
 
-<DemoBlock
-  :title="innerTitle"
-  :description="innerDescription"
-  :code="innerSource"
->
-  <innerDemo />
-</DemoBlock>
+>   <contentDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="metaTitle"
-  :description="metaDescription"
-  :code="metaSource"
->
-  <metaDemo />
-</DemoBlock>
+<DemoBlock :title="gridTitle" :description="gridDescription" :code="gridSource"
 
-<DemoBlock
-  :title="rowTitle"
-  :description="rowDescription"
-  :code="rowSource"
->
-  <rowDemo />
-</DemoBlock>
+>   <gridDemo />
+> </DemoBlock>
+
+<DemoBlock :title="hoverableTitle" :description="hoverableDescription" :code="hoverableSource"
+
+>   <hoverableDemo />
+> </DemoBlock>
+
+<DemoBlock :title="innerTitle" :description="innerDescription" :code="innerSource"
+
+>   <innerDemo />
+> </DemoBlock>
+
+<DemoBlock :title="metaTitle" :description="metaDescription" :code="metaSource"
+
+>   <metaDemo />
+> </DemoBlock>
+
+<DemoBlock :title="rowTitle" :description="rowDescription" :code="rowSource"
+
+>   <rowDemo />
+> </DemoBlock>

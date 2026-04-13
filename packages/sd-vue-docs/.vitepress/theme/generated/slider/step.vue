@@ -8,23 +8,28 @@
         <a-switch v-model="data.showTicks" />
       </a-form-item>
     </a-form>
-    <a-slider :default-value="20" :style="{ width: '300px' }" :step="data.step" :show-ticks="data.showTicks" />
+    <a-slider
+      :default-value="20"
+      :style="{ width: '300px' }"
+      :step="data.step"
+      :show-ticks="data.showTicks"
+    />
   </a-space>
 </template>
 
 <script>
-import { reactive } from 'vue';
+  import { reactive } from 'vue';
 
-export default {
-  setup() {
-    const data = reactive({
-      step: 5,
-      showTicks: true
-    });
+  export default {
+    setup() {
+      const data = reactive({
+        step: 5,
+        showTicks: true,
+      });
 
-    return {
-      data
-    }
-  },
-}
+      return {
+        data,
+      };
+    },
+  };
 </script>

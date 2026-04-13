@@ -9,14 +9,9 @@
   >
     <template #item="{ item, index }">
       <a-list-item :key="index">
-        <a-list-item-meta
-          :title="item.title"
-          :description="item.description"
-        >
+        <a-list-item-meta :title="item.title" :description="item.description">
           <template #avatar>
-            <a-avatar shape="square">
-              A
-            </a-avatar>
+            <a-avatar shape="square"> A </a-avatar>
           </template>
         </a-list-item-meta>
       </a-list-item>
@@ -25,21 +20,25 @@
 </template>
 
 <script>
-import { reactive } from 'vue';
+  import { reactive } from 'vue';
 
-export default {
-  setup() {
-    const list = reactive(Array(10000).fill(null).map((_, index) => {
-      const prefix = `0000${index}`.slice(-5);
+  export default {
+    setup() {
+      const list = reactive(
+        Array(10000)
+          .fill(null)
+          .map((_, index) => {
+            const prefix = `0000${index}`.slice(-5);
+            return {
+              title: 'Beijing Bytedance Technology Co., Ltd.',
+              description: `(${prefix}) Beijing ByteDance Technology Co., Ltd. is an enterprise located in China.`,
+            };
+          }),
+      );
+
       return {
-        title: 'Beijing Bytedance Technology Co., Ltd.',
-        description: `(${prefix}) Beijing ByteDance Technology Co., Ltd. is an enterprise located in China.`,
+        list,
       };
-    }))
-
-    return {
-      list
-    }
-  },
-}
+    },
+  };
 </script>

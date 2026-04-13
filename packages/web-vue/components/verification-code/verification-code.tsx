@@ -1,9 +1,10 @@
 import { PropType, VNode, computed, defineComponent, ref, watch } from 'vue';
+
 import { Size } from '../_utils/constant';
 import { getPrefixCls } from '../_utils/global-config';
-import SDInput from '../input';
 import { isExist, isFunction, isString } from '../_utils/is';
 import { Backspace, ArrowLeft, ArrowRight } from '../_utils/keycode';
+import SDInput from '../input';
 
 export default defineComponent({
   name: 'VerificationCode',
@@ -85,13 +86,13 @@ export default defineComponent({
      * @en Triggered when the value changes
      * @param { string } value
      */
-    'change': (value: string) => true,
+    change: (value: string) => true,
     /**
      * @zh 填充完成时触发
      * @en Triggered when the filling is complete
      * @param { string } value
      */
-    'finish': (value: string) => true,
+    finish: (value: string) => true,
     /**
      * @zh 输入时触发
      * @en Triggered on input
@@ -99,7 +100,7 @@ export default defineComponent({
      * @param { number } index
      * @param {Event} ev
      */
-    'input': (inputValue: string, index: number, ev: Event) => true,
+    input: (inputValue: string, index: number, ev: Event) => true,
   },
   setup(props, { emit }) {
     const prefixCls = getPrefixCls('verification-code');
@@ -161,11 +162,7 @@ export default defineComponent({
         if (index + i >= props.length) return;
 
         if (isFunction(props.formatter)) {
-          const result = props.formatter(
-            char,
-            index + i,
-            innerValue.value.join('')
-          );
+          const result = props.formatter(char, index + i, innerValue.value.join(''));
           if (result === false) {
             index -= 1;
             return;

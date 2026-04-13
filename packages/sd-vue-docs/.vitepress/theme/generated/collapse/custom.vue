@@ -16,18 +16,18 @@
 </template>
 
 <script>
-export default {
-  setup() {
-    const customStyle = {
-      borderRadius: '6px',
-      marginBottom: '18px',
-      border: 'none',
-      overflow: 'hidden',
-    }
+  export default {
+    setup() {
+      const customStyle = {
+        borderRadius: '6px',
+        marginBottom: '18px',
+        border: 'none',
+        overflow: 'hidden',
+      };
 
-    return {
-      customStyle
-    }
-  }
-}
+      return {
+        customStyle,
+      };
+    },
+  };
 </script>

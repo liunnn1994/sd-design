@@ -21,21 +21,21 @@
       function searchData(keyword) {
         const loop = (data) => {
           const result = [];
-          data.forEach(item => {
+          data.forEach((item) => {
             if (item.title.toLowerCase().indexOf(keyword.toLowerCase()) > -1) {
-              result.push({...item});
+              result.push({ ...item });
             } else if (item.children) {
               const filterData = loop(item.children);
               if (filterData.length) {
                 result.push({
                   ...item,
-                  children: filterData
-                })
+                  children: filterData,
+                });
               }
             }
-          })
+          });
           return result;
-        }
+        };
 
         return loop(defaultTreeData);
       }
@@ -45,7 +45,7 @@
         setTimeout(() => {
           loading.value = false;
           treeData.value = searchData(searchKey);
-        }, 200)
+        }, 200);
       };
 
       return {
@@ -67,13 +67,13 @@
           children: [
             {
               title: 'Leaf 0-0-1-1',
-              key: '0-0-1-1'
+              key: '0-0-1-1',
             },
             {
               title: 'Leaf 0-0-1-2',
-              key: '0-0-1-2'
-            }
-          ]
+              key: '0-0-1-2',
+            },
+          ],
         },
       ],
     },
@@ -88,8 +88,8 @@
             {
               title: 'Leaf 0-1-1-0',
               key: '0-1-1-0',
-            }
-          ]
+            },
+          ],
         },
         {
           title: 'Branch 0-1-2',
@@ -98,8 +98,8 @@
             {
               title: 'Leaf 0-1-2-0',
               key: '0-1-2-0',
-            }
-          ]
+            },
+          ],
         },
       ],
     },

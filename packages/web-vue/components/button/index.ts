@@ -1,8 +1,10 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Button from './button.vue';
 import _ButtonGroup from './button-group.vue';
+import _Button from './button.vue';
 
 const Button = Object.assign(_Button, {
   Group: _ButtonGroup,

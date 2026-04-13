@@ -1,31 +1,24 @@
-import {
-  computed,
-  defineComponent,
-  inject,
-  isVNode,
-  onMounted,
-  PropType,
-  ref,
-  toRefs,
-} from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import { configProviderInjectionKey } from '../config-provider/context';
-import Spin from '../spin';
-import Grid from '../grid';
-import Pagination, { PaginationProps } from '../pagination';
-import Empty from '../empty';
-import VirtualList from '../_components/virtual-list-v2';
+import { computed, defineComponent, inject, isVNode, onMounted, PropType, ref, toRefs } from 'vue';
+
 import type {
   ScrollIntoViewOptions,
   VirtualListProps,
 } from '../_components/virtual-list-v2/interface';
-import { usePagination } from './use-pagination';
-import { omit } from '../_utils/omit';
-import { getAllElements } from '../_utils/vue-utils';
-import Scrollbar, { ScrollbarProps } from '../scrollbar';
+
+import VirtualList from '../_components/virtual-list-v2';
 import { useComponentRef } from '../_hooks/use-component-ref';
 import { useScrollbar } from '../_hooks/use-scrollbar';
+import { getPrefixCls } from '../_utils/global-config';
 import { isNumber } from '../_utils/is';
+import { omit } from '../_utils/omit';
+import { getAllElements } from '../_utils/vue-utils';
+import { configProviderInjectionKey } from '../config-provider/context';
+import Empty from '../empty';
+import Grid from '../grid';
+import Pagination, { PaginationProps } from '../pagination';
+import Scrollbar, { ScrollbarProps } from '../scrollbar';
+import Spin from '../spin';
+import { usePagination } from './use-pagination';
 
 export default defineComponent({
   name: 'List',
@@ -180,8 +173,7 @@ export default defineComponent({
     const { scrollbar } = toRefs(props);
     const prefixCls = getPrefixCls('list');
     const configCtx = inject(configProviderInjectionKey, undefined);
-    const { componentRef, elementRef: listRef } =
-      useComponentRef('containerRef');
+    const { componentRef, elementRef: listRef } = useComponentRef('containerRef');
     const isVirtualList = computed(() => props.virtualListProps);
     const { displayScrollbar, scrollbarProps } = useScrollbar(scrollbar);
     let preScrollTop = 0;
@@ -205,8 +197,9 @@ export default defineComponent({
       }
     });
 
-    const { current, pageSize, handlePageChange, handlePageSizeChange } =
-      usePagination(props, { emit });
+    const { current, pageSize, handlePageChange, handlePageSizeChange } = usePagination(props, {
+      emit,
+    });
 
     const getCurrentPageItems = (data: unknown[]) => {
       if (!props.paginationProps) {
@@ -232,11 +225,7 @@ export default defineComponent({
           const nextIndex = i + rowSize;
           const rowIndex = Math.floor(i / rowSize);
           items.push(
-            <Grid.Row
-              key={rowIndex}
-              class={`${prefixCls}-row`}
-              gutter={props.gridProps.gutter}
-            >
+            <Grid.Row key={rowIndex} class={`${prefixCls}-row`} gutter={props.gridProps.gutter}>
               {currentPageItems.slice(i, nextIndex).map((item, index) => (
                 <Grid.Col
                   key={`${rowIndex}-${index}`}
@@ -246,7 +235,7 @@ export default defineComponent({
                   {isVNode(item) ? item : slots.item?.({ item, index })}
                 </Grid.Col>
               ))}
-            </Grid.Row>
+            </Grid.Row>,
           );
         }
         return items;
@@ -271,7 +260,7 @@ export default defineComponent({
       const currentPageItems = getCurrentPageItems(data);
 
       return currentPageItems.map((item, index) =>
-        isVNode(item) ? item : slots.item?.({ item, index })
+        isVNode(item) ? item : slots.item?.({ item, index }),
       );
     };
 
@@ -321,9 +310,7 @@ export default defineComponent({
 
     const contentStyle = computed(() => {
       if (props.maxHeight) {
-        const maxHeight = isNumber(props.maxHeight)
-          ? `${props.maxHeight}px`
-          : props.maxHeight;
+        const maxHeight = isNumber(props.maxHeight) ? `${props.maxHeight}px` : props.maxHeight;
         return { maxHeight, overflowY: 'auto' };
       }
       return undefined;
@@ -373,10 +360,7 @@ export default defineComponent({
         return null;
       }
 
-      return (
-        slots.empty?.() ??
-        configCtx?.slots.empty?.({ component: 'list' }) ?? <Empty />
-      );
+      return slots.empty?.() ?? configCtx?.slots.empty?.({ component: 'list' }) ?? <Empty />;
     };
 
     const render = () => {
@@ -393,9 +377,7 @@ export default defineComponent({
               onScroll={handleScroll}
             >
               <div class={`${prefixCls}-content-wrapper`}>
-                {slots.header && (
-                  <div class={`${prefixCls}-header`}>{slots.header()}</div>
-                )}
+                {slots.header && <div class={`${prefixCls}-header`}>{slots.header()}</div>}
                 {isVirtualList.value && !props.gridProps ? (
                   <>
                     {renderVirtualList()}
@@ -407,9 +389,7 @@ export default defineComponent({
                     {renderScrollLoading()}
                   </div>
                 )}
-                {slots.footer && (
-                  <div class={`${prefixCls}-footer`}>{slots.footer()}</div>
-                )}
+                {slots.footer && <div class={`${prefixCls}-footer`}>{slots.footer()}</div>}
               </div>
             </Component>
             {renderPagination()}

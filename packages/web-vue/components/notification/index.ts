@@ -1,15 +1,16 @@
 import type { App, AppContext, Ref } from 'vue';
 import { createVNode, render, reactive, ref } from 'vue';
+
 import { MESSAGE_TYPES, MessageType } from '../_utils/constant';
 import { getOverlay } from '../_utils/dom';
 import { isFunction, isString, isUndefined } from '../_utils/is';
-import NotificationList from './notification-list';
 import {
   NotificationConfig,
   NotificationItem,
   NotificationMethod,
   NotificationPosition,
 } from './interface';
+import NotificationList from './notification-list';
 
 type _NotificationConfig = NotificationConfig & {
   type: MessageType;
@@ -125,10 +126,7 @@ const notification = MESSAGE_TYPES.reduce((pre, value) => {
     const _config: _NotificationConfig = { type: value, ...config };
     const { position = 'topRight' } = _config;
     if (!notificationInstance[position]) {
-      notificationInstance[position] = new NotificationManger(
-        _config,
-        appContext
-      );
+      notificationInstance[position] = new NotificationManger(_config, appContext);
     }
     return notificationInstance[position]!.add(_config);
   };
@@ -166,10 +164,6 @@ const Notification = {
   _context: null as AppContext | null,
 };
 
-export type {
-  NotificationMethod,
-  NotificationConfig,
-  NotificationReturn,
-} from './interface';
+export type { NotificationMethod, NotificationConfig, NotificationReturn } from './interface';
 
 export default Notification;

@@ -8,10 +8,7 @@
         {{ datePickerT('datePicker.today') }}
       </Link>
     </div>
-    <div
-      v-if="$slots.btn || showConfirmBtn"
-      :class="`${prefixCls}-footer-btn-wrapper`"
-    >
+    <div v-if="$slots.btn || showConfirmBtn" :class="`${prefixCls}-footer-btn-wrapper`">
       <slot name="btn" />
       <Button
         v-if="showConfirmBtn"
@@ -28,44 +25,45 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import Link from '../../link';
-import Button from '../../button';
-import useInjectDatePickerTransform from '../hooks/use-inject-datepicker-transform';
+  import { defineComponent } from 'vue';
 
-export default defineComponent({
-  name: 'PanelFooter',
-  components: {
-    Link,
-    Button,
-  },
-  props: {
-    prefixCls: {
-      type: String,
-      required: true,
+  import Button from '../../button';
+  import Link from '../../link';
+  import useInjectDatePickerTransform from '../hooks/use-inject-datepicker-transform';
+
+  export default defineComponent({
+    name: 'PanelFooter',
+    components: {
+      Link,
+      Button,
     },
-    showTodayBtn: {
-      type: Boolean,
-    },
-    showConfirmBtn: {
-      type: Boolean,
-    },
-    confirmBtnDisabled: {
-      type: Boolean,
-    },
-  },
-  emits: ['today-btn-click', 'confirm-btn-click'],
-  setup(_, { emit }) {
-    const datePickerT = useInjectDatePickerTransform();
-    return {
-      datePickerT,
-      onTodayClick: () => {
-        emit('today-btn-click');
+    props: {
+      prefixCls: {
+        type: String,
+        required: true,
       },
-      onConfirmBtnClick: () => {
-        emit('confirm-btn-click');
+      showTodayBtn: {
+        type: Boolean,
       },
-    };
-  },
-});
+      showConfirmBtn: {
+        type: Boolean,
+      },
+      confirmBtnDisabled: {
+        type: Boolean,
+      },
+    },
+    emits: ['today-btn-click', 'confirm-btn-click'],
+    setup(_, { emit }) {
+      const datePickerT = useInjectDatePickerTransform();
+      return {
+        datePickerT,
+        onTodayClick: () => {
+          emit('today-btn-click');
+        },
+        onConfirmBtnClick: () => {
+          emit('confirm-btn-click');
+        },
+      };
+    },
+  });
 </script>

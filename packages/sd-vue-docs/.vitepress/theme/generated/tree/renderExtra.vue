@@ -1,13 +1,9 @@
 <template>
   <div style="width: 500px; padding: 2px; overflow: auto">
-    <a-tree
-      :blockNode="true"
-      :checkable="true"
-      :data="treeData"
-    >
+    <a-tree :blockNode="true" :checkable="true" :data="treeData">
       <template #extra="nodeData">
         <IconPlus
-          style="position: absolute; right: 8px; font-size: 12px; top: 10px; color: #3370ff;"
+          style="position: absolute; right: 8px; font-size: 12px; top: 10px; color: #3370ff"
           @click="() => onIconClick(nodeData)"
         />
       </template>
@@ -15,27 +11,27 @@
   </div>
 </template>
 <script>
- import {ref} from 'vue';
- import { IconPlus } from '@sd-design/web-vue/es/icon';
+  import { ref } from 'vue';
 
- export default {
-   components: {
-     IconPlus,
-   },
-   setup() {
-     function onIconClick(nodeData) {
-      const children = nodeData.children || []
-      children.push({
-        title: 'new tree node',
-        key: nodeData.key + '-' + (children.length + 1)
-      })
-      nodeData.children = children
+  import { IconPlus } from '@sdata/web-vue/es/icon';
 
-      treeData.value = [...treeData.value];
-    }
+  export default {
+    components: {
+      IconPlus,
+    },
+    setup() {
+      function onIconClick(nodeData) {
+        const children = nodeData.children || [];
+        children.push({
+          title: 'new tree node',
+          key: nodeData.key + '-' + (children.length + 1),
+        });
+        nodeData.children = children;
 
-    const treeData = ref(
-      [
+        treeData.value = [...treeData.value];
+      }
+
+      const treeData = ref([
         {
           title: 'Trunk',
           key: '0-0',
@@ -50,9 +46,9 @@
               children: [
                 {
                   title: 'Leaf',
-                  key: '0-0-2-1'
-                }
-              ]
+                  key: '0-0-2-1',
+                },
+              ],
             },
           ],
         },
@@ -72,7 +68,7 @@
                   title: 'Leaf',
                   key: '0-1-1-2',
                 },
-              ]
+              ],
             },
             {
               title: 'Leaf',
@@ -80,13 +76,12 @@
             },
           ],
         },
-      ]
-    );
+      ]);
 
-    return {
-      onIconClick,
-      treeData,
-    };
-   }
- };
+      return {
+        onIconClick,
+        treeData,
+      };
+    },
+  };
 </script>

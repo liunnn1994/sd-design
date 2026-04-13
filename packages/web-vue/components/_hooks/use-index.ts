@@ -1,5 +1,6 @@
 import type { Ref } from 'vue';
 import { computed, onMounted, onUpdated, ref, watch } from 'vue';
+
 import { isUndefined } from '../_utils/is';
 
 export const useIndex = ({
@@ -30,9 +31,7 @@ export const useIndex = ({
 
   const getIndex = () => {
     if (isUndefined(index?.value) && parent.value && itemRef.value) {
-      const index = Array.from(parent.value.querySelectorAll(selector)).indexOf(
-        itemRef.value
-      );
+      const index = Array.from(parent.value.querySelectorAll(selector)).indexOf(itemRef.value);
       if (index !== _index.value) {
         _index.value = index;
       }

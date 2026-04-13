@@ -1,4 +1,6 @@
 import { InjectionKey } from 'vue';
+
+import { Size } from '../_utils/constant';
 import { Data } from '../_utils/types';
 import {
   FieldData,
@@ -7,7 +9,6 @@ import {
   ValidatedError,
   ValidateStatus,
 } from './interface';
-import { Size } from '../_utils/constant';
 
 export interface FormContext {
   layout: string;
@@ -26,7 +27,7 @@ export interface FormContext {
   removeField: (field: FormItemInfo) => void;
   validateField: (
     field: string | string[],
-    callback?: (errors: undefined | Record<string, ValidatedError>) => void
+    callback?: (errors: undefined | Record<string, ValidatedError>) => void,
   ) => Promise<undefined | Record<string, ValidatedError>>;
   setLabelWidth: (width: number, uid?: number) => void;
   removeLabelWidth: (uid?: number) => void;
@@ -43,7 +44,7 @@ export interface FormItemContext {
   feedback: string | undefined;
   updateValidateState: (
     field: string,
-    { status, message }: { status: ValidateStatus | ''; message: string }
+    { status, message }: { status: ValidateStatus | ''; message: string },
   ) => void;
 }
 
@@ -58,8 +59,5 @@ export interface FormItemInfo {
   setField: (data: FieldData) => void;
 }
 
-export const formItemInjectionKey: InjectionKey<FormItemContext> = Symbol(
-  'SDFormItemContext'
-);
-export const formInjectionKey: InjectionKey<FormContext> =
-  Symbol('SDFormContext');
+export const formItemInjectionKey: InjectionKey<FormItemContext> = Symbol('SDFormItemContext');
+export const formInjectionKey: InjectionKey<FormContext> = Symbol('SDFormContext');

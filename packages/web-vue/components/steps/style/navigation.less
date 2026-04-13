@@ -2,9 +2,7 @@
 
 // Navigation
 .@{steps-prefix-cls} {
-  &-mode-navigation&-label-horizontal
-    &-item:not(:last-child)
-    &-item-title::after {
+  &-mode-navigation&-label-horizontal &-item:not(:last-child) &-item-title::after {
     display: none;
   }
 
@@ -49,8 +47,7 @@
     width: @steps-navigation-size-arrow;
     height: @steps-navigation-size-arrow;
     background-color: var(~'@{sd-cssvars-prefix}-color-bg-2');
-    border: @steps-navigation-size-arrow-line-width solid
-      @steps-navigation-color-arrow;
+    border: @steps-navigation-size-arrow-line-width solid @steps-navigation-color-arrow;
     border-bottom: none;
     border-left: none;
     -webkit-transform: rotate(45deg);

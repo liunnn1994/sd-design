@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 折叠列表 OverflowList
 description:
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,13 +19,13 @@ meta:
 title: List
 description:
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/from.md
+@import ./**demo**/from.md
 
 ## API
 
 %%API(overflow-list.tsx)%%
-

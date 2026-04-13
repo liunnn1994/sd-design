@@ -16,13 +16,15 @@
 
   &-size-@{size}&-border &-item-label-block,
   &-size-@{size}&-border &-item-value-block {
-    padding: ~'@{descriptions-border-item-size-@{size}-padding-vertical}' ~'@{descriptions-border-item-size-@{size}-padding-horizontal}';
+    padding: ~'@{descriptions-border-item-size-@{size}-padding-vertical}'
+      ~'@{descriptions-border-item-size-@{size}-padding-horizontal}';
   }
 
   &-size-@{size}&-border&-layout-inline-vertical &-item {
     @_descriptions-padding-vertical: ~'descriptions-border-item-size-@{size}-padding-vertical';
 
-    padding: @@_descriptions-padding-vertical + 5px ~'@{descriptions-border-item-size-@{size}-padding-horizontal}';
+    padding: @@_descriptions-padding-vertical + 5px
+      ~'@{descriptions-border-item-size-@{size}-padding-horizontal}';
   }
 }
 
@@ -109,14 +111,12 @@
 
   &-border &-body {
     overflow: hidden;
-    border: @descriptions-border-width @descriptions-border-style
-      @descriptions-color-border;
+    border: @descriptions-border-width @descriptions-border-style @descriptions-color-border;
     border-radius: @descriptions-border-radius;
   }
 
   &-border &-row:not(:last-child) {
-    border-bottom: @descriptions-border-width @descriptions-border-style
-      @descriptions-color-border;
+    border-bottom: @descriptions-border-width @descriptions-border-style @descriptions-color-border;
   }
 
   &-border &-item,
@@ -124,8 +124,7 @@
   &-border &-item-value-block {
     padding: @descriptions-border-item-size-default-padding-vertical
       @descriptions-border-item-size-default-padding-horizontal;
-    border-right: @descriptions-border-width @descriptions-border-style
-      @descriptions-color-border;
+    border-right: @descriptions-border-width @descriptions-border-style @descriptions-color-border;
   }
 
   &-border &-item-label-block {

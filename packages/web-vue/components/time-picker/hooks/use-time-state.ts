@@ -1,9 +1,11 @@
-import { Dayjs } from 'dayjs';
 import { computed, toRefs, watch } from 'vue';
+
+import { Dayjs } from 'dayjs';
+
+import useState from '../../_hooks/use-state';
 import { getDayjsValue } from '../../_utils/date';
 import { isArray, isUndefined } from '../../_utils/is';
 import { TimeValue } from '../interface';
-import useState from '../../_hooks/use-state';
 
 export default function useTimeState(props: {
   modelValue: TimeValue | TimeValue[] | undefined;
@@ -41,14 +43,12 @@ export default function useTimeState(props: {
     return getDayjsValue(time, format.value);
   });
 
-  const [localValue, setLocalValue] = useState<
-    Dayjs | Array<Dayjs | undefined> | undefined
-  >(
+  const [localValue, setLocalValue] = useState<Dayjs | Array<Dayjs | undefined> | undefined>(
     !isUndefined(computedModelValue.value)
       ? computedModelValue.value
       : !isUndefined(computedDefaultValue.value)
-      ? computedDefaultValue.value
-      : getLocalEmptyValue()
+        ? computedDefaultValue.value
+        : getLocalEmptyValue(),
   );
 
   watch(computedModelValue, () => {
@@ -58,17 +58,15 @@ export default function useTimeState(props: {
   });
 
   // 混合的最终值：如果外部有传的话，就用外部的值，不然就使用内部维护的值
-  const computedValue = computed(
-    () => computedModelValue.value || localValue.value
-  );
+  const computedValue = computed(() => computedModelValue.value || localValue.value);
 
   // 用于操作过程中 panel 展示的值
   // 1. 跟随最终值变化
   // 2. 面板选择后手动更新
   // 3. 输入框输入格式正确后手动更新
-  const [panelValue, setPanelValue] = useState<
-    Dayjs | Array<Dayjs | undefined> | undefined
-  >(computedValue.value);
+  const [panelValue, setPanelValue] = useState<Dayjs | Array<Dayjs | undefined> | undefined>(
+    computedValue.value,
+  );
 
   watch([computedValue], () => {
     setPanelValue(computedValue.value);
@@ -78,9 +76,7 @@ export default function useTimeState(props: {
   // 1. 最终值变化后置空
   // 2. 面板选择后置空
   // 3. 输入框变化后手动更新
-  const [inputValue, setInputValue] = useState<
-    string | Array<string | undefined> | undefined
-  >();
+  const [inputValue, setInputValue] = useState<string | Array<string | undefined> | undefined>();
   watch([panelValue], () => {
     setInputValue(undefined);
   });

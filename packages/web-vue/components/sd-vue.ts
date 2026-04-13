@@ -1,6 +1,8 @@
 import type { App, Plugin } from 'vue';
+
 import type { SDOptions } from './_utils/types';
-import { addI18nMessages, useLocale, getLocale } from './locale';
+
+import { useFormItem } from './_hooks/use-form-item';
 import Affix from './affix';
 import Alert from './alert';
 import Anchor, { AnchorLink } from './anchor';
@@ -29,37 +31,25 @@ import DatePicker, {
 import Descriptions, { DescriptionsItem } from './descriptions';
 import Divider from './divider';
 import Drawer from './drawer';
-import Dropdown, {
-  Doption,
-  Dgroup,
-  Dsubmenu,
-  DropdownButton,
-} from './dropdown';
+import Dropdown, { Doption, Dgroup, Dsubmenu, DropdownButton } from './dropdown';
 import Empty from './empty';
 import Form, { FormItem } from './form';
 import Grid, { Row, Col, GridItem } from './grid';
 import Icon from './icon-component';
-import Image, {
-  ImagePreview,
-  ImagePreviewAction,
-  ImagePreviewGroup,
-} from './image';
+import Image, { ImagePreview, ImagePreviewAction, ImagePreviewGroup } from './image';
 import Input, { InputGroup, InputSearch, InputPassword } from './input';
 import InputNumber from './input-number';
 import InputTag from './input-tag';
-import Layout, {
-  LayoutHeader,
-  LayoutContent,
-  LayoutFooter,
-  LayoutSider,
-} from './layout';
+import Layout, { LayoutHeader, LayoutContent, LayoutFooter, LayoutSider } from './layout';
 import Link from './link';
 import List, { ListItem, ListItemMeta } from './list';
+import { addI18nMessages, useLocale, getLocale } from './locale';
 import Mention from './mention';
 import Menu, { MenuItem, MenuItemGroup, SubMenu } from './menu';
 import Message from './message';
 import Modal from './modal';
 import Notification from './notification';
+import OverflowList from './overflow-list';
 import PageHeader from './page-header';
 import Pagination from './pagination';
 import Popconfirm from './popconfirm';
@@ -90,17 +80,10 @@ import Transfer from './transfer';
 import Tree from './tree';
 import TreeSelect from './tree-select';
 import Trigger from './trigger';
-import Typography, {
-  TypographyParagraph,
-  TypographyTitle,
-  TypographyText,
-} from './typography';
+import Typography, { TypographyParagraph, TypographyTitle, TypographyText } from './typography';
 import Upload from './upload';
-import OverflowList from './overflow-list';
 import VerificationCode from './verification-code';
 import Watermark from './watermark';
-
-import { useFormItem } from './_hooks/use-form-item';
 
 const components: Record<string, Plugin> = {
   Button,

@@ -1,4 +1,5 @@
 import { ComponentPublicInstance, onMounted, ref, watch } from 'vue';
+
 import { isComponentInstance } from '../_utils/is';
 
 export const useComponentRef = (name: string) => {

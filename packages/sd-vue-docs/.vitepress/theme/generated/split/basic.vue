@@ -1,10 +1,11 @@
 <template>
   <div>
-    <a-split :style="{
+    <a-split
+      :style="{
         height: '200px',
         width: '100%',
         minWidth: '500px',
-        border: '1px solid var(--color-border)'
+        border: '1px solid var(--color-border)',
       }"
       v-model:size="size"
       min="80px"
@@ -19,11 +20,11 @@
   </div>
 </template>
 <script>
-export default {
-  data() {
-    return {
-      size: 0.5
-    }
-  }
-}
+  export default {
+    data() {
+      return {
+        size: 0.5,
+      };
+    },
+  };
 </script>

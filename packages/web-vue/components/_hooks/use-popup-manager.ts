@@ -55,7 +55,7 @@ export default function usePopupManager(
   }: {
     visible?: Ref<boolean>;
     runOnMounted?: boolean;
-  } = {}
+  } = {},
 ) {
   const zIndex = ref(0);
 
@@ -85,7 +85,7 @@ export default function usePopupManager(
     },
     {
       immediate: true,
-    }
+    },
   );
 
   if (runOnMounted) {

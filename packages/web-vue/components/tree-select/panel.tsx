@@ -1,10 +1,11 @@
 import { computed, defineComponent, PropType, ref, toRefs, Slots } from 'vue';
+
+import { useScrollbar } from '../_hooks/use-scrollbar';
+import { getPrefixCls } from '../_utils/global-config';
+import { Scrollbar } from '../index';
+import { ScrollbarProps } from '../scrollbar';
 import Tree from '../tree';
 import { TreeProps, TreeNodeKey } from '../tree/interface';
-import { useScrollbar } from '../_hooks/use-scrollbar';
-import { ScrollbarProps } from '../scrollbar';
-import { Scrollbar } from '../index';
-import { getPrefixCls } from '../_utils/global-config';
 
 export default defineComponent({
   name: 'TreeSelectPanel',
@@ -75,10 +76,7 @@ export default defineComponent({
     return () => {
       if (displayScrollbar.value) {
         return (
-          <Scrollbar
-            class={`${prefixCls}-tree-wrapper`}
-            {...scrollbarProps.value}
-          >
+          <Scrollbar class={`${prefixCls}-tree-wrapper`} {...scrollbarProps.value}>
             {renderTree()}
           </Scrollbar>
         );

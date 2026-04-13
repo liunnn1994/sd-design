@@ -1,20 +1,13 @@
 import type { PropType } from 'vue';
-import {
-  computed,
-  defineComponent,
-  provide,
-  reactive,
-  ref,
-  toRefs,
-  watch,
-} from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import { Direction } from '../_utils/constant';
-import { checkboxGroupKey } from './context';
+import { computed, defineComponent, provide, reactive, ref, toRefs, watch } from 'vue';
+
 import { useFormItem } from '../_hooks/use-form-item';
-import { CheckboxOption } from './interface';
-import Checkbox from './checkbox';
+import { Direction } from '../_utils/constant';
+import { getPrefixCls } from '../_utils/global-config';
 import { isFunction, isNumber, isString, isArray } from '../_utils/is';
+import Checkbox from './checkbox';
+import { checkboxGroupKey } from './context';
+import { CheckboxOption } from './interface';
 
 export default defineComponent({
   name: 'CheckboxGroup',
@@ -77,7 +70,7 @@ export default defineComponent({
      * @param {(string | number | boolean)[]} value
      * @param {Event} ev
      */
-    'change': (value: (string | number | boolean)[], ev: Event) => true,
+    change: (value: (string | number | boolean)[], ev: Event) => true,
   },
   /**
    * @zh checkbox 文案内容
@@ -103,10 +96,10 @@ export default defineComponent({
 
     const _value = ref(props.defaultValue);
     const computedValue = computed(() =>
-      isArray(props.modelValue) ? props.modelValue : _value.value
+      isArray(props.modelValue) ? props.modelValue : _value.value,
     );
     const isMaxed = computed(() =>
-      props.max === undefined ? false : computedValue.value.length >= props.max
+      props.max === undefined ? false : computedValue.value.length >= props.max,
     );
 
     const options = computed(() => {
@@ -137,13 +130,10 @@ export default defineComponent({
         isMaxed,
         slots,
         handleChange,
-      })
+      }),
     );
 
-    const cls = computed(() => [
-      prefixCls,
-      `${prefixCls}-direction-${props.direction}`,
-    ]);
+    const cls = computed(() => [prefixCls, `${prefixCls}-direction-${props.direction}`]);
 
     watch(
       () => props.modelValue,
@@ -153,7 +143,7 @@ export default defineComponent({
         } else {
           _value.value = [];
         }
-      }
+      },
     );
 
     const renderOptions = () => {
@@ -170,8 +160,8 @@ export default defineComponent({
             {slots.label
               ? slots.label({ data: option })
               : isFunction(option.label)
-              ? option.label()
-              : option.label}
+                ? option.label()
+                : option.label}
           </Checkbox>
         );
       });

@@ -12,53 +12,54 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from 'vue';
-import { useI18n } from '../locale';
-import { getPrefixCls } from '../_utils/global-config';
-import SDSelect from '../select';
+  import { computed, defineComponent, PropType } from 'vue';
 
-export default defineComponent({
-  name: 'PageOptions',
-  components: {
-    SDSelect,
-  },
-  props: {
-    sizeOptions: {
-      type: Array,
-      required: true,
-    },
-    pageSize: Number,
-    disabled: Boolean,
-    size: {
-      type: String,
-    },
-    onChange: {
-      type: Function as PropType<(value: number) => void>,
-    },
-    selectProps: {
-      type: Object,
-    },
-  },
-  emits: ['change'],
-  setup(props, { emit }) {
-    const prefixCls = getPrefixCls('pagination-options');
-    const { t } = useI18n();
-    const options = computed(() =>
-      props.sizeOptions.map((value) => ({
-        value,
-        label: `${value} ${t('pagination.countPerPage')}`,
-      }))
-    );
+  import { getPrefixCls } from '../_utils/global-config';
+  import { useI18n } from '../locale';
+  import SDSelect from '../select';
 
-    const handleChange = (value: string) => {
-      emit('change', value);
-    };
+  export default defineComponent({
+    name: 'PageOptions',
+    components: {
+      SDSelect,
+    },
+    props: {
+      sizeOptions: {
+        type: Array,
+        required: true,
+      },
+      pageSize: Number,
+      disabled: Boolean,
+      size: {
+        type: String,
+      },
+      onChange: {
+        type: Function as PropType<(value: number) => void>,
+      },
+      selectProps: {
+        type: Object,
+      },
+    },
+    emits: ['change'],
+    setup(props, { emit }) {
+      const prefixCls = getPrefixCls('pagination-options');
+      const { t } = useI18n();
+      const options = computed(() =>
+        props.sizeOptions.map((value) => ({
+          value,
+          label: `${value} ${t('pagination.countPerPage')}`,
+        })),
+      );
 
-    return {
-      prefixCls,
-      options,
-      handleChange,
-    };
-  },
-});
+      const handleChange = (value: string) => {
+        emit('change', value);
+      };
+
+      return {
+        prefixCls,
+        options,
+        handleChange,
+      };
+    },
+  });
 </script>

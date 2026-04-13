@@ -1,12 +1,8 @@
 import { computed, ref, toRefs, watchEffect, watch } from 'vue';
+
 import { isArray, isFunction, isObject } from '../../_utils/is';
+import { Key2TreeNode, TreeFieldNames, TreeNodeData, TreeNodeKey } from '../../tree/interface';
 import { FallbackOption, LabelValue, TreeSelectValue } from '../interface';
-import {
-  Key2TreeNode,
-  TreeFieldNames,
-  TreeNodeData,
-  TreeNodeKey,
-} from '../../tree/interface';
 
 function isLabelValue(value: TreeNodeKey | LabelValue): value is LabelValue {
   return isObject(value);
@@ -56,15 +52,10 @@ export default function useSelectedState(props: {
   function normalizeValue(value: TreeSelectValue) {
     const validValue = (isArray(value) ? value : [value]).filter(isValidValue);
 
-    return multiple?.value || treeCheckable?.value
-      ? validValue
-      : validValue.slice(0, 1);
+    return multiple?.value || treeCheckable?.value ? validValue : validValue.slice(0, 1);
   }
 
-  function getLabelValues(
-    value: (TreeNodeKey | LabelValue)[],
-    originValue?: LabelValue[]
-  ) {
+  function getLabelValues(value: (TreeNodeKey | LabelValue)[], originValue?: LabelValue[]) {
     const res: LabelValue[] = [];
     const validValue = value ? value.filter(isValidValue) : [];
 
@@ -126,10 +117,7 @@ export default function useSelectedState(props: {
 
   const normalizeDefaultValue = normalizeValue(defaultValue?.value ?? []);
   const defaultKeys = getKeys(normalizeDefaultValue);
-  const defaultLabelValues = getLabelValues(
-    defaultKeys,
-    getLabelValues(normalizeDefaultValue)
-  );
+  const defaultLabelValues = getLabelValues(defaultKeys, getLabelValues(normalizeDefaultValue));
   const localValueKeys = ref(defaultKeys || []);
   const localValue = ref(defaultLabelValues);
   watch(localValueKeys, () => {
@@ -140,12 +128,8 @@ export default function useSelectedState(props: {
     localValue.value = value || [];
   });
 
-  const selectedKeys = computed(
-    () => computedModelValueKeys.value ?? localValueKeys.value
-  );
-  const selectedValue = computed(
-    () => computedModelValue.value ?? localValue.value
-  );
+  const selectedKeys = computed(() => computedModelValueKeys.value ?? localValueKeys.value);
+  const selectedValue = computed(() => computedModelValue.value ?? localValue.value);
 
   return {
     selectedKeys,

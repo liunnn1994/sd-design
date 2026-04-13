@@ -1,5 +1,7 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _Upload from './upload';
 
@@ -14,12 +16,6 @@ const Upload = Object.assign(_Upload, {
 
 export type UploadInstance = InstanceType<typeof _Upload>;
 
-export type {
-  FileStatus,
-  FileItem,
-  CustomIcon,
-  RequestOption,
-  UploadRequest,
-} from './interfaces';
+export type { FileStatus, FileItem, CustomIcon, RequestOption, UploadRequest } from './interfaces';
 
 export default Upload;

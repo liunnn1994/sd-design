@@ -19,18 +19,17 @@ Show how to achieve the search tree effect.
 ```vue
 <template>
   <div>
-    <a-input-search
-      style="margin-bottom: 8px; max-width: 240px"
-      v-model="searchKey"
-    />
+    <a-input-search style="margin-bottom: 8px; max-width: 240px" v-model="searchKey" />
     <a-tree :data="treeData">
       <template #title="nodeData">
-        <template v-if="index = getMatchIndex(nodeData?.title), index < 0">{{ nodeData?.title }}</template>
+        <template v-if="((index = getMatchIndex(nodeData?.title)), index < 0)">{{
+          nodeData?.title
+        }}</template>
         <span v-else>
           {{ nodeData?.title?.substr(0, index) }}
           <span style="color: var(--color-primary-light-4);">
-            {{ nodeData?.title?.substr(index, searchKey.length) }}
-          </span>{{ nodeData?.title?.substr(index + searchKey.length) }}
+            {{ nodeData?.title?.substr(index, searchKey.length) }} </span
+          >{{ nodeData?.title?.substr(index + searchKey.length) }}
         </span>
       </template>
     </a-tree>
@@ -50,13 +49,13 @@ Show how to achieve the search tree effect.
           children: [
             {
               title: 'Leaf 0-0-1-1',
-              key: '0-0-1-1'
+              key: '0-0-1-1',
             },
             {
               title: 'Leaf 0-0-1-2',
-              key: '0-0-1-2'
-            }
-          ]
+              key: '0-0-1-2',
+            },
+          ],
         },
       ],
     },
@@ -71,8 +70,8 @@ Show how to achieve the search tree effect.
             {
               title: 'Leaf 0-1-1-0',
               key: '0-1-1-0',
-            }
-          ]
+            },
+          ],
         },
         {
           title: 'Branch 0-1-2',
@@ -81,8 +80,8 @@ Show how to achieve the search tree effect.
             {
               title: 'Leaf 0-1-2-0',
               key: '0-1-2-0',
-            }
-          ]
+            },
+          ],
         },
       ],
     },
@@ -94,26 +93,26 @@ Show how to achieve the search tree effect.
       const treeData = computed(() => {
         if (!searchKey.value) return originTreeData;
         return searchData(searchKey.value);
-      })
+      });
 
       function searchData(keyword) {
         const loop = (data) => {
           const result = [];
-          data.forEach(item => {
+          data.forEach((item) => {
             if (item.title.toLowerCase().indexOf(keyword.toLowerCase()) > -1) {
-              result.push({...item});
+              result.push({ ...item });
             } else if (item.children) {
               const filterData = loop(item.children);
               if (filterData.length) {
                 result.push({
                   ...item,
-                  children: filterData
-                })
+                  children: filterData,
+                });
               }
             }
-          })
+          });
           return result;
-        }
+        };
 
         return loop(originTreeData);
       }
@@ -127,8 +126,8 @@ Show how to achieve the search tree effect.
         searchKey,
         treeData,
         getMatchIndex,
-      }
-    }
-  }
+      };
+    },
+  };
 </script>
 ```

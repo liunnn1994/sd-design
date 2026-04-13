@@ -69,13 +69,7 @@ export function getCheckedStateByCheck(options: {
   indeterminateKeys: TreeNodeKey[];
   checkStrictly?: boolean;
 }) {
-  const {
-    node,
-    checked,
-    checkedKeys,
-    indeterminateKeys,
-    checkStrictly = false,
-  } = options;
+  const { node, checked, checkedKeys, indeterminateKeys, checkStrictly = false } = options;
 
   const { key } = node;
   const checkedKeySet = new Set(checkedKeys);
@@ -108,8 +102,7 @@ export function getCheckedStateByInitKeys(options: {
   checkStrictly?: boolean;
   onlyCheckLeaf?: boolean;
 }) {
-  const { initCheckedKeys, key2TreeNode, checkStrictly, onlyCheckLeaf } =
-    options;
+  const { initCheckedKeys, key2TreeNode, checkStrictly, onlyCheckLeaf } = options;
 
   const checkedKeySet = new Set<TreeNodeKey>();
   const childCheckedKeySet = new Set<TreeNodeKey>();
@@ -118,11 +111,7 @@ export function getCheckedStateByInitKeys(options: {
   if (!checkStrictly) {
     initCheckedKeys.forEach((key) => {
       const node = key2TreeNode.get(key);
-      if (
-        !node ||
-        childCheckedKeySet.has(key) ||
-        (onlyCheckLeaf && node.children?.length)
-      ) {
+      if (!node || childCheckedKeySet.has(key) || (onlyCheckLeaf && node.children?.length)) {
         return;
       }
       // 处理子节点

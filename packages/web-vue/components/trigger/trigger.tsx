@@ -16,8 +16,24 @@ import {
   toRefs,
   onDeactivated,
 } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
+
 import type { TriggerEvent, TriggerPosition } from '../_utils/constant';
+
+import ClientOnly from '../_components/client-only';
+import ResizeObserver from '../_components/resize-observer-v2';
+import { useFirstElement } from '../_hooks/use-first-element';
+import usePickSlots from '../_hooks/use-pick-slots';
+import usePopupManager from '../_hooks/use-popup-manager';
+import { useResizeObserver } from '../_hooks/use-resize-observer';
+import { useTeleportContainer } from '../_hooks/use-teleport-container';
+import { off, on } from '../_utils/dom';
+import { getPrefixCls } from '../_utils/global-config';
+import { omit } from '../_utils/omit';
+import { throttleByRaf } from '../_utils/throttle-by-raf';
+import { isEmptyChildren, mergeFirstChild } from '../_utils/vue-utils';
+import { configProviderInjectionKey } from '../config-provider/context';
+import { triggerInjectionKey } from './context';
+import { TriggerPopupTranslate } from './interface';
 import {
   getArrowStyle,
   getPopupStyle,
@@ -25,20 +41,6 @@ import {
   getScrollElements,
   getTransformOrigin,
 } from './utils';
-import ResizeObserver from '../_components/resize-observer-v2';
-import { off, on } from '../_utils/dom';
-import { isEmptyChildren, mergeFirstChild } from '../_utils/vue-utils';
-import usePickSlots from '../_hooks/use-pick-slots';
-import { triggerInjectionKey } from './context';
-import { throttleByRaf } from '../_utils/throttle-by-raf';
-import usePopupManager from '../_hooks/use-popup-manager';
-import { useResizeObserver } from '../_hooks/use-resize-observer';
-import ClientOnly from '../_components/client-only';
-import { useTeleportContainer } from '../_hooks/use-teleport-container';
-import { TriggerPopupTranslate } from './interface';
-import { configProviderInjectionKey } from '../config-provider/context';
-import { useFirstElement } from '../_hooks/use-first-element';
-import { omit } from '../_utils/omit';
 
 const TRIGGER_EVENTS = [
   'onClick',
@@ -346,21 +348,21 @@ export default defineComponent({
      * @en Emitted when the status of the popup changes
      * @param {boolean} visible
      */
-    'popupVisibleChange': (visible: boolean) => true,
+    popupVisibleChange: (visible: boolean) => true,
     /**
      * @zh 弹出框显示后（动画结束）触发
      * @en Triggered after the trigger is shown (the animation ends)
      * @version 2.18.0
      */
-    'show': () => true,
+    show: () => true,
     /**
      * @zh 弹出框隐藏后（动画结束）触发
      * @en Triggered after the popup is hidden (the animation ends)
      * @version 2.18.0
      */
-    'hide': () => true,
+    hide: () => true,
     // for internal
-    'resize': () => true,
+    resize: () => true,
   },
   /**
    * @zh 弹出框内容
@@ -373,9 +375,7 @@ export default defineComponent({
     const popupAttrs = computed(() => omit(attrs, TRIGGER_EVENTS));
     const configCtx = inject(configProviderInjectionKey, undefined);
 
-    const triggerMethods = computed(() =>
-      ([] as Array<TriggerEvent>).concat(props.trigger)
-    );
+    const triggerMethods = computed(() => ([] as Array<TriggerEvent>).concat(props.trigger));
     // 用于多个trigger嵌套时，保持打开状态
     const childrenRefs = new Set<Ref<HTMLElement>>();
     const triggerCtx = inject(triggerInjectionKey, undefined);
@@ -398,9 +398,7 @@ export default defineComponent({
     let scrollPosition: [number, number] | null = null;
     let windowScrollPosition: [number, number] | null = null;
 
-    const computedVisible = computed(
-      () => props.popupVisible ?? popupVisible.value
-    );
+    const computedVisible = computed(() => props.popupVisible ?? popupVisible.value);
 
     const { teleportContainer, containerRef } = useTeleportContainer({
       popupContainer,
@@ -464,7 +462,7 @@ export default defineComponent({
           translate: props.popupTranslate,
           customStyle: props.popupStyle,
           autoFitPosition: props.autoFitPosition,
-        }
+        },
       );
       if (props.autoFitTransformOrigin) {
         transformStyle.value = {
@@ -483,14 +481,9 @@ export default defineComponent({
       popupStyle.value = style;
       if (props.showArrow) {
         nextTick(() => {
-          arrowStyle.value = getArrowStyle(
-            position,
-            triggerRect,
-            getPopupRect(),
-            {
-              customStyle: props.arrowStyle,
-            }
-          );
+          arrowStyle.value = getArrowStyle(position, triggerRect, getPopupRect(), {
+            customStyle: props.arrowStyle,
+          });
         });
       }
     };
@@ -534,10 +527,7 @@ export default defineComponent({
       if (triggerMethods.value.includes('click')) {
         updateMousePosition(e);
         changeVisible(!computedVisible.value);
-      } else if (
-        triggerMethods.value.includes('contextMenu') &&
-        computedVisible.value
-      ) {
+      } else if (triggerMethods.value.includes('contextMenu') && computedVisible.value) {
         changeVisible(false);
       }
     };
@@ -619,7 +609,7 @@ export default defineComponent({
         onMouseleave: handleMouseLeaveWithContext,
         addChildRef,
         removeChildRef,
-      })
+      }),
     );
 
     // 外部事件
@@ -652,10 +642,7 @@ export default defineComponent({
       changeVisible(false);
     };
 
-    const isExceedThreshold = (
-      oldPosition: [number, number],
-      element: HTMLElement
-    ) => {
+    const isExceedThreshold = (oldPosition: [number, number], element: HTMLElement) => {
       const [scrollTop, scrollLeft] = oldPosition;
       const { scrollTop: newScrollTop, scrollLeft: newScrollLeft } = element;
       return (
@@ -765,7 +752,7 @@ export default defineComponent({
         if (computedVisible.value) {
           updatePopupStyle();
         }
-      }
+      },
     );
 
     const { createResizeObserver, destroyResizeObserver } = useResizeObserver({
@@ -857,28 +844,18 @@ export default defineComponent({
       return (
         <>
           {props.autoFixPosition ? (
-            <ResizeObserver onResize={onTargetResize}>
-              {children.value}
-            </ResizeObserver>
+            <ResizeObserver onResize={onTargetResize}>{children.value}</ResizeObserver>
           ) : (
             children.value
           )}
           <ClientOnly>
-            <Teleport
-              to={teleportContainer.value}
-              disabled={!props.renderToBody}
-            >
-              {(!props.unmountOnClose ||
-                computedVisible.value ||
-                mounted.value) &&
+            <Teleport to={teleportContainer.value} disabled={!props.renderToBody}>
+              {(!props.unmountOnClose || computedVisible.value || mounted.value) &&
                 !hidePopup.value && (
                   <ResizeObserver onResize={handleResize}>
                     <div
                       ref={popupRef}
-                      class={[
-                        `${prefixCls}-popup`,
-                        `${prefixCls}-position-${popupPosition.value}`,
-                      ]}
+                      class={[`${prefixCls}-popup`, `${prefixCls}-position-${popupPosition.value}`]}
                       style={{
                         ...popupStyle.value,
                         zIndex: zIndex.value,

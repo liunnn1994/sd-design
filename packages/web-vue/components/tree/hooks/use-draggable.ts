@@ -1,4 +1,5 @@
 import { ref, toRefs } from 'vue';
+
 import { throttleByRaf } from '../../_utils/throttle-by-raf';
 import { DropPosition, TreeNodeKey } from '../interface';
 import useTreeContext from './use-tree-context';
@@ -24,8 +25,7 @@ export default function useDraggable(props: {
     const gapHeight = rect.height / 4;
     const diff = pageY - offsetY;
 
-    dropPosition.value =
-      diff < gapHeight ? -1 : diff < rect.height - gapHeight ? 0 : 1;
+    dropPosition.value = diff < gapHeight ? -1 : diff < rect.height - gapHeight ? 0 : 1;
     isAllowDrop.value = treeContext.allowDrop
       ? treeContext.allowDrop(key.value, dropPosition.value)
       : true;
@@ -38,7 +38,7 @@ export default function useDraggable(props: {
     dropPosition,
     setDragStatus(
       status: 'dragStart' | 'dragOver' | 'dragLeave' | 'dragEnd' | 'drop',
-      e: DragEvent
+      e: DragEvent,
     ) {
       switch (status) {
         case 'dragStart':
@@ -65,8 +65,7 @@ export default function useDraggable(props: {
           treeContext.onDragLeave && treeContext.onDragLeave(key.value, e);
           break;
         case 'drop':
-          treeContext.onDrop &&
-            treeContext.onDrop(key.value, dropPosition.value, e);
+          treeContext.onDrop && treeContext.onDrop(key.value, dropPosition.value, e);
           isDragOver.value = false;
           dropPosition.value = 0;
           updateDropPosition.cancel();

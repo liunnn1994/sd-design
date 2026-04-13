@@ -41,97 +41,89 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import IconInfo from '../icon/icon-info';
-import IconCheck from '../icon/icon-check';
-import IconExclamation from '../icon/icon-exclamation';
-import IconClose from '../icon/icon-close';
-import ResultForbidden from './403';
-import ResultNotFound from './404';
-import ResultServerError from './500';
+  import { defineComponent, PropType } from 'vue';
 
-const RESULT_STATUS = [
-  'info',
-  'success',
-  'warning',
-  'error',
-  '403',
-  '404',
-  '500',
-  null,
-] as const;
+  import { getPrefixCls } from '../_utils/global-config';
+  import IconCheck from '../icon/icon-check';
+  import IconClose from '../icon/icon-close';
+  import IconExclamation from '../icon/icon-exclamation';
+  import IconInfo from '../icon/icon-info';
+  import ResultForbidden from './403';
+  import ResultNotFound from './404';
+  import ResultServerError from './500';
 
-type ResultStatus = typeof RESULT_STATUS[number];
+  const RESULT_STATUS = ['info', 'success', 'warning', 'error', '403', '404', '500', null] as const;
 
-export default defineComponent({
-  name: 'Result',
-  components: {
-    IconInfo,
-    IconCheck,
-    IconExclamation,
-    IconClose,
-    ResultForbidden,
-    ResultNotFound,
-    ResultServerError,
-  },
-  props: {
-    /**
-     * @zh 结果页显示的状态
-     * @en The status displayed on the result page
-     * @values 'info','success','warning','error','403','404','500', null
-     */
-    status: {
-      type: String as PropType<ResultStatus>,
-      default: 'info',
-      validator: (value: any) => {
-        return RESULT_STATUS.includes(value);
+  type ResultStatus = (typeof RESULT_STATUS)[number];
+
+  export default defineComponent({
+    name: 'Result',
+    components: {
+      IconInfo,
+      IconCheck,
+      IconExclamation,
+      IconClose,
+      ResultForbidden,
+      ResultNotFound,
+      ResultServerError,
+    },
+    props: {
+      /**
+       * @zh 结果页显示的状态
+       * @en The status displayed on the result page
+       * @values 'info','success','warning','error','403','404','500', null
+       */
+      status: {
+        type: String as PropType<ResultStatus>,
+        default: 'info',
+        validator: (value: any) => {
+          return RESULT_STATUS.includes(value);
+        },
       },
+      /**
+       * @zh 标题内容
+       * @en Title
+       */
+      title: String,
+      /**
+       * @zh 子标题内容
+       * @en Subtitle
+       */
+      subtitle: String,
     },
     /**
-     * @zh 标题内容
-     * @en Title
+     * @zh 图标
+     * @en Icon
+     * @slot icon
      */
-    title: String,
     /**
-     * @zh 子标题内容
-     * @en Subtitle
+     * @zh 标题
+     * @en Title
+     * @slot title
      */
-    subtitle: String,
-  },
-  /**
-   * @zh 图标
-   * @en Icon
-   * @slot icon
-   */
-  /**
-   * @zh 标题
-   * @en Title
-   * @slot title
-   */
-  /**
-   * @zh 副标题
-   * @en Subtitle
-   * @slot subtitle
-   */
-  /**
-   * @zh 操作区
-   * @en Extra
-   * @slot extra
-   * @version 2.8.0
-   */
-  /**
-   * @zh 默认插槽
-   * @en Default
-   * @slot default
-   * @version 2.8.0
-   */
-  setup() {
-    const prefixCls = getPrefixCls('result');
+    /**
+     * @zh 副标题
+     * @en Subtitle
+     * @slot subtitle
+     */
+    /**
+     * @zh 操作区
+     * @en Extra
+     * @slot extra
+     * @version 2.8.0
+     */
+    /**
+     * @zh 默认插槽
+     * @en Default
+     * @slot default
+     * @version 2.8.0
+     */
+    setup() {
+      const prefixCls = getPrefixCls('result');
 
-    return {
-      prefixCls,
-    };
-  },
-});
+      return {
+        prefixCls,
+      };
+    },
+  });
 </script>

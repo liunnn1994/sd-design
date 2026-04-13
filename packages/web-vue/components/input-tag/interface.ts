@@ -1,5 +1,5 @@
-import { TagProps } from '../tag';
 import { FieldString } from '../_utils/types';
+import { TagProps } from '../tag';
 
 export interface TagData {
   /**

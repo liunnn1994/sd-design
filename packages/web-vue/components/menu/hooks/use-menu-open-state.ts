@@ -1,4 +1,5 @@
 import { computed, toRefs, watch, onMounted, ref } from 'vue';
+
 import { isUndefined } from '../../_utils/is';
 import { MenuData } from '../interface';
 
@@ -59,8 +60,8 @@ export default function useMenuOpenState(props: MenuOpenStateProps) {
     !isUndefined(modelValue.value)
       ? modelValue.value
       : !isUndefined(defaultValue.value)
-      ? defaultValue.value
-      : []
+        ? defaultValue.value
+        : [],
   );
   const setLocalValue = (val: string[]) => {
     localValue.value = val;
@@ -77,14 +78,10 @@ export default function useMenuOpenState(props: MenuOpenStateProps) {
     mountedSubMenuKeys = [...subMenuKeys.value];
     let newOpenKeys: string[] = [];
     if (autoOpen.value) {
-      newOpenKeys = accordion.value
-        ? subMenuKeys.value.slice(0, 1)
-        : [...subMenuKeys.value];
+      newOpenKeys = accordion.value ? subMenuKeys.value.slice(0, 1) : [...subMenuKeys.value];
     }
     if (autoOpenSelected.value) {
-      const pathList = selectedKeys.value.map((key) =>
-        getPath(menuData.value, key)
-      );
+      const pathList = selectedKeys.value.map((key) => getPath(menuData.value, key));
       if (pathList.length && (!autoOpen.value || accordion.value)) {
         newOpenKeys = accordion.value
           ? pathList[0]
@@ -99,9 +96,7 @@ export default function useMenuOpenState(props: MenuOpenStateProps) {
   let hasTriggered = false;
   watch(subMenuKeys, (currentKeys, prevKeys = []) => {
     if (hasTriggered || !isSameKeys(currentKeys, mountedSubMenuKeys)) {
-      const newOpenKeys = openKeys.value.filter((key) =>
-        currentKeys.includes(key)
-      );
+      const newOpenKeys = openKeys.value.filter((key) => currentKeys.includes(key));
       if (autoOpen.value) {
         const keysAdded = currentKeys.filter((key) => !prevKeys.includes(key));
         newOpenKeys.push(...keysAdded);

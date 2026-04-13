@@ -1,6 +1,8 @@
 import { computed, CSSProperties, PropType, defineComponent } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
+
 import type { Direction } from '../_utils/constant';
+
+import { getPrefixCls } from '../_utils/global-config';
 import { isNumber, isUndefined } from '../_utils/is';
 
 export default defineComponent({
@@ -55,19 +57,17 @@ export default defineComponent({
     const mergedStyles = computed(() => {
       const styles: CSSProperties = {};
       if (props.size) {
-        styles[
-          isHorizontal.value ? 'border-bottom-width' : 'border-left-width'
-        ] = isNumber(props.size) ? `${props.size}px` : props.size;
+        styles[isHorizontal.value ? 'border-bottom-width' : 'border-left-width'] = isNumber(
+          props.size,
+        )
+          ? `${props.size}px`
+          : props.size;
       }
       if (props.type) {
-        styles[
-          isHorizontal.value ? 'border-bottom-style' : 'border-left-style'
-        ] = props.type;
+        styles[isHorizontal.value ? 'border-bottom-style' : 'border-left-style'] = props.type;
       }
       if (!isUndefined(props.margin)) {
-        const margin = isNumber(props.margin)
-          ? `${props.margin}px`
-          : props.margin;
+        const margin = isNumber(props.margin) ? `${props.margin}px` : props.margin;
         styles.margin = isHorizontal.value ? `${margin} 0` : `0 ${margin}`;
       }
 
@@ -87,12 +87,7 @@ export default defineComponent({
       return (
         <div role="separator" class={classNames} style={mergedStyles.value}>
           {children && props.direction === 'horizontal' && (
-            <span
-              class={[
-                `${prefixCls}-text`,
-                `${prefixCls}-text-${props.orientation}`,
-              ]}
-            >
+            <span class={[`${prefixCls}-text`, `${prefixCls}-text-${props.orientation}`]}>
               {children}
             </span>
           )}

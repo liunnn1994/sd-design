@@ -1,10 +1,12 @@
 <template>
   <a-checkbox
-    style="marginBottom: 24px;"
+    style="marginbottom: 24px"
     v-model="checkStrictly"
-    @change="() => {
-      checkedKeys = [];
-    }"
+    @change="
+      () => {
+        checkedKeys = [];
+      }
+    "
   >
     checkStrictly
   </a-checkbox>
@@ -20,16 +22,16 @@
 
   export default {
     setup() {
-    const checkedKeys = ref([]);
-    const checkStrictly = ref(false);
+      const checkedKeys = ref([]);
+      const checkStrictly = ref(false);
 
       return {
         checkedKeys,
         checkStrictly,
         treeData,
-      }
-    }
-  }
+      };
+    },
+  };
 
   const treeData = [
     {
@@ -47,14 +49,14 @@
           children: [
             {
               title: 'Leaf',
-              key: '0-0-2-1'
+              key: '0-0-2-1',
             },
             {
               title: 'Leaf',
               key: '0-0-2-2',
-              disableCheckbox: true
-            }
-          ]
+              disableCheckbox: true,
+            },
+          ],
         },
       ],
     },
@@ -74,7 +76,7 @@
               title: 'Leaf ',
               key: '0-1-1-2',
             },
-          ]
+          ],
         },
         {
           title: 'Leaf',

@@ -1,6 +1,6 @@
 ---
-title: "overflow-list"
-outline: "deep"
+title: 'overflow-list'
+outline: 'deep'
 ---
 
 ```yaml
@@ -11,28 +11,27 @@ title: 折叠列表 OverflowList
 description:
 ```
 
-
-
 ## API
-
 
 ### `<overflow-list>` Props
 
-|参数名|描述|类型|默认值|
-|---|---|---|:---:|
-|min|最少展示的元素个数|`number`|`0`|
-|margin|项目间隔|`number`|`8`|
-|from|折叠方向|`'start' \| 'end'`|`'end'`|
+| 参数名 | 描述               | 类型               | 默认值  |
+| ------ | ------------------ | ------------------ | :-----: |
+| min    | 最少展示的元素个数 | `number`           |   `0`   |
+| margin | 项目间隔           | `number`           |   `8`   |
+| from   | 折叠方向           | `'start' \| 'end'` | `'end'` |
+
 ### `<overflow-list>` Events
 
-|事件名|描述|参数|
-|---|---|---|
-|change|溢出数量改变时触发|value: `number`|
+| 事件名 | 描述               | 参数            |
+| ------ | ------------------ | --------------- |
+| change | 溢出数量改变时触发 | value: `number` |
+
 ### `<overflow-list>` Slots
 
-|插槽名|描述|参数|
-|---|:---:|---|
-|overflow|折叠元素|number: `number`|
+| 插槽名   |   描述   | 参数             |
+| -------- | :------: | ---------------- |
+| overflow | 折叠元素 | number: `number` |
 
 <script setup lang="ts">
 import basicDemo from '../../.vitepress/theme/generated/overflow-list/basic.vue';
@@ -47,19 +46,12 @@ const fromDescription = "通过 `from` 属性可以设置折叠的方向。";
 
 ## 示例
 
+<DemoBlock :title="basicTitle" :description="basicDescription" :code="basicSource"
 
-<DemoBlock
-  :title="basicTitle"
-  :description="basicDescription"
-  :code="basicSource"
->
-  <basicDemo />
-</DemoBlock>
+>   <basicDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="fromTitle"
-  :description="fromDescription"
-  :code="fromSource"
->
-  <fromDemo />
-</DemoBlock>
+<DemoBlock :title="fromTitle" :description="fromDescription" :code="fromSource"
+
+>   <fromDemo />
+> </DemoBlock>

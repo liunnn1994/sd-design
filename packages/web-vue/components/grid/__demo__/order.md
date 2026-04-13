@@ -37,17 +37,17 @@ Sort elements by `order`.
 </template>
 
 <style scoped>
-.grid-demo .sd-col {
-  height: 48px;
-  line-height: 48px;
-  color: var(--color-white);
-  text-align: center;
-}
-.grid-demo .sd-col:nth-child(2n) {
-  background-color: rgba(var(--sdblue-6), 0.9);
-}
-.grid-demo .sd-col:nth-child(2n + 1) {
-  background-color: var(--color-primary-light-4);
-}
+  .grid-demo .sd-col {
+    height: 48px;
+    line-height: 48px;
+    color: var(--color-white);
+    text-align: center;
+  }
+  .grid-demo .sd-col:nth-child(2n) {
+    background-color: rgba(var(--sdblue-6), 0.9);
+  }
+  .grid-demo .sd-col:nth-child(2n + 1) {
+    background-color: var(--color-primary-light-4);
+  }
 </style>
 ```

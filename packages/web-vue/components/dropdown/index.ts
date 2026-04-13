@@ -1,11 +1,13 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Dropdown from './dropdown.vue';
-import _DropdownOption from './dropdown-option.vue';
-import _DropdownGroup from './dropdown-group.vue';
-import _DropdownSubmenu from './dropdown-submenu.vue';
 import _DropdownButton from './dropdown-button.vue';
+import _DropdownGroup from './dropdown-group.vue';
+import _DropdownOption from './dropdown-option.vue';
+import _DropdownSubmenu from './dropdown-submenu.vue';
+import _Dropdown from './dropdown.vue';
 
 const Dropdown = Object.assign(_Dropdown, {
   Option: _DropdownOption,
@@ -30,13 +32,7 @@ export type DropdownGroupInstance = InstanceType<typeof _DropdownGroup>;
 export type DropdownSubmenuInstance = InstanceType<typeof _DropdownSubmenu>;
 export type DropdownButtonInstance = InstanceType<typeof _DropdownButton>;
 
-export type {
-  DropDownProps,
-  DropdownOption,
-  DOption,
-  DGroup,
-  DSubmenu,
-} from './interface';
+export type { DropDownProps, DropdownOption, DOption, DGroup, DSubmenu } from './interface';
 
 export {
   _DropdownOption as Doption,

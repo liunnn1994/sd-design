@@ -3,24 +3,26 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import { Modal } from '@sd-design/web-vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const handleClick = () => {
-      Modal.confirm({
-        title: 'Confirm deletion',
-        content: 'Are you sure you want to delete the 3 selected items? Once you press the delete button, the items will be deleted immediately. You can’t undo this action.',
-        okButtonProps: {
-          status: 'danger'
-        }
-      })
-    };
+  import { Modal } from '@sdata/web-vue';
 
-    return {
-      handleClick
-    }
-  },
-}
+  export default {
+    setup() {
+      const handleClick = () => {
+        Modal.confirm({
+          title: 'Confirm deletion',
+          content:
+            'Are you sure you want to delete the 3 selected items? Once you press the delete button, the items will be deleted immediately. You can’t undo this action.',
+          okButtonProps: {
+            status: 'danger',
+          },
+        });
+      };
+
+      return {
+        handleClick,
+      };
+    },
+  };
 </script>

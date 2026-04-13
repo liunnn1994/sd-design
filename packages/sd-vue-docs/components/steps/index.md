@@ -1,6 +1,6 @@
 ---
-title: "steps"
-outline: "deep"
+title: 'steps'
+outline: 'deep'
 ---
 
 ```yaml
@@ -11,57 +11,44 @@ title: 步骤条 Steps
 description: 明示任务流程和当前完成程度，引导用户按照步骤完成任务。
 ```
 
-
-
-
-
-
-
-
-
-
-
-
 ## API
-
 
 ### `<steps>` Props
 
-|参数名|描述|类型|默认值|
-|---|---|---|:---:|
-|type|步骤条的类型|`'default' \| 'arrow' \| 'dot' \| 'navigation'`|`'default'`|
-|direction|步骤条的显示方向|`'horizontal' \| 'vertical'`|`'horizontal'`|
-|label-placement|标签描述文字放置的位置|`'horizontal' \| 'vertical'`|`'horizontal'`|
-|current **(v-model)**|当前步骤数|`number`|`-`|
-|default-current|默认的步骤数（非受控状态）|`number`|`1`|
-|status|当前步骤的状态|`'wait' \| 'process' \| 'finish' \| 'error'`|`'process'`|
-|line-less|是否使用无连接线样式|`boolean`|`false`|
-|small|是否使用小型步骤条|`boolean`|`false`|
-|changeable|是否可以点击切换|`boolean`|`false`|
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| type | 步骤条的类型 | `'default' \| 'arrow' \| 'dot' \| 'navigation'` | `'default'` |
+| direction | 步骤条的显示方向 | `'horizontal' \| 'vertical'` | `'horizontal'` |
+| label-placement | 标签描述文字放置的位置 | `'horizontal' \| 'vertical'` | `'horizontal'` |
+| current **(v-model)** | 当前步骤数 | `number` | `-` |
+| default-current | 默认的步骤数（非受控状态） | `number` | `1` |
+| status | 当前步骤的状态 | `'wait' \| 'process' \| 'finish' \| 'error'` | `'process'` |
+| line-less | 是否使用无连接线样式 | `boolean` | `false` |
+| small | 是否使用小型步骤条 | `boolean` | `false` |
+| changeable | 是否可以点击切换 | `boolean` | `false` |
+
 ### `<steps>` Events
 
-|事件名|描述|参数|
-|---|---|---|
-|change|步骤数发生改变时触发|step: `number`<br>ev: `Event`|
-
-
-
+| 事件名 | 描述                 | 参数                          |
+| ------ | -------------------- | ----------------------------- |
+| change | 步骤数发生改变时触发 | step: `number`<br>ev: `Event` |
 
 ### `<step>` Props
 
-|参数名|描述|类型|默认值|
-|---|---|---|:---:|
-|title|步骤的标题|`string`|`-`|
-|description|步骤的描述信息|`string`|`-`|
-|status|步骤的状态|`'wait' \| 'process' \| 'finish' \| 'error'`|`-`|
-|disabled|是否禁用|`boolean`|`false`|
+| 参数名      | 描述           | 类型                                         | 默认值  |
+| ----------- | -------------- | -------------------------------------------- | :-----: |
+| title       | 步骤的标题     | `string`                                     |   `-`   |
+| description | 步骤的描述信息 | `string`                                     |   `-`   |
+| status      | 步骤的状态     | `'wait' \| 'process' \| 'finish' \| 'error'` |   `-`   |
+| disabled    | 是否禁用       | `boolean`                                    | `false` |
+
 ### `<step>` Slots
 
-|插槽名|描述|参数|
-|---|:---:|---|
-|node|节点|step: `number`<br>status: `string`|
-|icon|图标|step: `number`<br>status: `string`|
-|description|描述内容|-|
+| 插槽名      |   描述   | 参数                               |
+| ----------- | :------: | ---------------------------------- |
+| node        |   节点   | step: `number`<br>status: `string` |
+| icon        |   图标   | step: `number`<br>status: `string` |
+| description | 描述内容 | -                                  |
 
 <script setup lang="ts">
 import arrowDemo from '../../.vitepress/theme/generated/steps/arrow.vue';
@@ -124,115 +111,72 @@ const verticalDescription = "竖直方向的步骤条。";
 
 ## 示例
 
+<DemoBlock :title="arrowTitle" :description="arrowDescription" :code="arrowSource"
 
-<DemoBlock
-  :title="arrowTitle"
-  :description="arrowDescription"
-  :code="arrowSource"
->
-  <arrowDemo />
-</DemoBlock>
+>   <arrowDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="basicTitle"
-  :description="basicDescription"
-  :code="basicSource"
->
-  <basicDemo />
-</DemoBlock>
+<DemoBlock :title="basicTitle" :description="basicDescription" :code="basicSource"
 
-<DemoBlock
-  :title="changeableTitle"
-  :description="changeableDescription"
-  :code="changeableSource"
->
-  <changeableDemo />
-</DemoBlock>
+>   <basicDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="customNodeTitle"
-  :description="customNodeDescription"
-  :code="customNodeSource"
->
-  <customNodeDemo />
-</DemoBlock>
+<DemoBlock :title="changeableTitle" :description="changeableDescription" :code="changeableSource"
 
-<DemoBlock
-  :title="descriptionTitle"
-  :description="descriptionDescription"
-  :code="descriptionSource"
->
-  <descriptionDemo />
-</DemoBlock>
+>   <changeableDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="dotTitle"
-  :description="dotDescription"
-  :code="dotSource"
->
-  <dotDemo />
-</DemoBlock>
+<DemoBlock :title="customNodeTitle" :description="customNodeDescription" :code="customNodeSource"
 
-<DemoBlock
-  :title="errorTitle"
-  :description="errorDescription"
-  :code="errorSource"
->
-  <errorDemo />
-</DemoBlock>
+>   <customNodeDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="iconTitle"
-  :description="iconDescription"
-  :code="iconSource"
->
-  <iconDemo />
-</DemoBlock>
+<DemoBlock :title="descriptionTitle" :description="descriptionDescription" :code="descriptionSource"
 
-<DemoBlock
-  :title="labelPlacementTitle"
-  :description="labelPlacementDescription"
-  :code="labelPlacementSource"
->
-  <labelPlacementDemo />
-</DemoBlock>
+>   <descriptionDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="lineLessTitle"
-  :description="lineLessDescription"
-  :code="lineLessSource"
->
-  <lineLessDemo />
-</DemoBlock>
+<DemoBlock :title="dotTitle" :description="dotDescription" :code="dotSource"
 
-<DemoBlock
-  :title="navigationTitle"
-  :description="navigationDescription"
-  :code="navigationSource"
->
-  <navigationDemo />
-</DemoBlock>
+>   <dotDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="smallArrowTitle"
-  :description="smallArrowDescription"
-  :code="smallArrowSource"
->
-  <smallArrowDemo />
-</DemoBlock>
+<DemoBlock :title="errorTitle" :description="errorDescription" :code="errorSource"
 
-<DemoBlock
-  :title="smallTitle"
-  :description="smallDescription"
-  :code="smallSource"
->
-  <smallDemo />
-</DemoBlock>
+>   <errorDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="verticalTitle"
-  :description="verticalDescription"
-  :code="verticalSource"
->
-  <verticalDemo />
-</DemoBlock>
+<DemoBlock :title="iconTitle" :description="iconDescription" :code="iconSource"
+
+>   <iconDemo />
+> </DemoBlock>
+
+<DemoBlock :title="labelPlacementTitle" :description="labelPlacementDescription" :code="labelPlacementSource"
+
+>   <labelPlacementDemo />
+> </DemoBlock>
+
+<DemoBlock :title="lineLessTitle" :description="lineLessDescription" :code="lineLessSource"
+
+>   <lineLessDemo />
+> </DemoBlock>
+
+<DemoBlock :title="navigationTitle" :description="navigationDescription" :code="navigationSource"
+
+>   <navigationDemo />
+> </DemoBlock>
+
+<DemoBlock :title="smallArrowTitle" :description="smallArrowDescription" :code="smallArrowSource"
+
+>   <smallArrowDemo />
+> </DemoBlock>
+
+<DemoBlock :title="smallTitle" :description="smallDescription" :code="smallSource"
+
+>   <smallDemo />
+> </DemoBlock>
+
+<DemoBlock :title="verticalTitle" :description="verticalDescription" :code="verticalSource"
+
+>   <verticalDemo />
+> </DemoBlock>

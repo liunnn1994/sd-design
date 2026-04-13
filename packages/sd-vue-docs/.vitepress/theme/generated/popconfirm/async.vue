@@ -4,10 +4,10 @@
     <template #content>
       <a-form>
         <a-form-item label="Name">
-          <a-input/>
+          <a-input />
         </a-form-item>
         <a-form-item label="Post">
-          <a-input/>
+          <a-input />
         </a-form-item>
       </a-form>
     </template>
@@ -15,21 +15,21 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-const visible = ref(false)
+  const visible = ref(false);
 
-const handleClick = () => {
-  visible.value = true;
-}
+  const handleClick = () => {
+    visible.value = true;
+  };
 
-const handleBeforeOk = (done) => {
-  window.setTimeout(() => {
-    done()
-  }, 3000)
-}
+  const handleBeforeOk = (done) => {
+    window.setTimeout(() => {
+      done();
+    }, 3000);
+  };
 
-const handleCancel = () => {
-  visible.value = false;
-}
+  const handleCancel = () => {
+    visible.value = false;
+  };
 </script>

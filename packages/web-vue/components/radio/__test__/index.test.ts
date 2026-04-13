@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Radio from '../index';
 
 describe('Radio', () => {
@@ -30,9 +31,7 @@ describe('Radio', () => {
   test('should emit change event in group', async () => {
     const wrapper = mount(Radio.Group, {
       slots: {
-        default:
-          '<a-radio value="1">Option1</a-radio>' +
-          '<a-radio value="2">Option2</a-radio>',
+        default: '<a-radio value="1">Option1</a-radio>' + '<a-radio value="2">Option2</a-radio>',
       },
       global: {
         plugins: [Radio],

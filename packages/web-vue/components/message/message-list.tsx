@@ -1,10 +1,11 @@
 import type { PropType } from 'vue';
 import { defineComponent, TransitionGroup } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import Message from './message.vue';
-import { MessageItem, MessagePosition } from './interface';
+
 import usePopupManager from '../_hooks/use-popup-manager';
+import { getPrefixCls } from '../_utils/global-config';
 import { getSlotFunction } from '../_utils/vue-utils';
+import { MessageItem, MessagePosition } from './interface';
+import Message from './message.vue';
 
 export default defineComponent({
   name: 'MessageList',

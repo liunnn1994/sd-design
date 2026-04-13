@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Select from '../index';
 
 describe('Select', () => {
@@ -26,9 +27,7 @@ describe('Select', () => {
     const dropdown = wrapper.findComponent({ name: 'SelectDropdown' });
     await input.trigger('keydown', { key: 'ArrowUp' });
 
-    expect(dropdown.find('.sd-select-option-active').text()).toBe(
-      'Guangzhou'
-    );
+    expect(dropdown.find('.sd-select-option-active').text()).toBe('Guangzhou');
 
     await input.trigger('keydown', { key: 'ArrowDown' });
 

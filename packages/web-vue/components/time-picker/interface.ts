@@ -9,10 +9,7 @@ export interface BasePanelProps {
   step?: { hour?: number; minute?: number; second?: number };
   disabledHours?: () => number[];
   disabledMinutes?: (selectedHour?: number) => number[];
-  disabledSeconds?: (
-    selectedHour?: number,
-    selectedMinute?: number
-  ) => number[];
+  disabledSeconds?: (selectedHour?: number, selectedMinute?: number) => number[];
   hideDisabledOptions: boolean;
 }
 

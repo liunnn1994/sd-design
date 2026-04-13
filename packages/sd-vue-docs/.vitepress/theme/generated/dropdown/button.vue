@@ -25,11 +25,10 @@
       </template>
     </a-dropdown-button>
   </a-space>
-
 </template>
 
 <style>
-.sd-dropdown-open .sd-icon-down {
-  transform: rotate(180deg);
-}
+  .sd-dropdown-open .sd-icon-down {
+    transform: rotate(180deg);
+  }
 </style>

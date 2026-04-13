@@ -12,8 +12,7 @@ title:
 
 ## en-US
 
-Use `justify` for horizontal layout
----
+## Use `justify` for horizontal layout
 
 ```vue
 <template>
@@ -97,24 +96,24 @@ Use `justify` for horizontal layout
 </template>
 
 <style scoped>
-.grid-demo {
-  background-color: var(--color-fill-2);
-  margin-bottom: 40px;
-}
-.grid-demo:last-child {
-  margin-bottom: 0px;
-}
-.grid-demo .sd-col {
-  height: 48px;
-  line-height: 48px;
-  color: var(--color-white);
-  text-align: center;
-}
-.grid-demo .sd-col:nth-child(2n) {
-  background-color: rgba(var(--sdblue-6), 0.9);
-}
-.grid-demo .sd-col:nth-child(2n + 1) {
-  background-color: var(--color-primary-light-4);
-}
+  .grid-demo {
+    background-color: var(--color-fill-2);
+    margin-bottom: 40px;
+  }
+  .grid-demo:last-child {
+    margin-bottom: 0px;
+  }
+  .grid-demo .sd-col {
+    height: 48px;
+    line-height: 48px;
+    color: var(--color-white);
+    text-align: center;
+  }
+  .grid-demo .sd-col:nth-child(2n) {
+    background-color: rgba(var(--sdblue-6), 0.9);
+  }
+  .grid-demo .sd-col:nth-child(2n + 1) {
+    background-color: var(--color-primary-light-4);
+  }
 </style>
 ```

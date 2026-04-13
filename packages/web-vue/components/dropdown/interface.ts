@@ -1,4 +1,5 @@
 import { Slot, Slots } from 'vue';
+
 import { TriggerEvent, TriggerPosition } from '../_utils/constant';
 
 export type DropdownPosition = 'top' | 'tl' | 'tr' | 'bottom' | 'bl' | 'br';

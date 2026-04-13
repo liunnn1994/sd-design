@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Comment from '../index';
 
 describe('Comment', () => {
@@ -50,10 +51,7 @@ describe('Comment', () => {
   test('Slot actions should work', () => {
     const wrapper = mount(Comment, {
       slots: {
-        actions: [
-          `<div class='custom-action'/>`,
-          `<div class='custom-action'/>`,
-        ],
+        actions: [`<div class='custom-action'/>`, `<div class='custom-action'/>`],
       },
     });
     const actionsWrapper = wrapper.find('.sd-comment-actions');
@@ -72,9 +70,7 @@ describe('Comment', () => {
       },
     });
     const actionsWrapper = wrapper.find('.sd-comment-actions');
-    expect(actionsWrapper.classes()).toContain(
-      'sd-comment-actions-align-right'
-    );
+    expect(actionsWrapper.classes()).toContain('sd-comment-actions-align-right');
   });
 
   test('Align with object format should also work', () => {
@@ -91,9 +87,7 @@ describe('Comment', () => {
       },
     });
     const actionsWrapper = wrapper.find('.sd-comment-actions');
-    expect(actionsWrapper.classes()).toContain(
-      'sd-comment-actions-align-right'
-    );
+    expect(actionsWrapper.classes()).toContain('sd-comment-actions-align-right');
     const titleWrapper = wrapper.find('.sd-comment-title');
     expect(titleWrapper.classes()).toContain('sd-comment-title-align-right');
   });

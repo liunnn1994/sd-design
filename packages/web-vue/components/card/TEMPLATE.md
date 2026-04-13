@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 卡片 Card
 description: 将信息分类后分标题、详情等区域聚合展现，一般作为简洁介绍或者信息的大盘和入口。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,25 +19,26 @@ meta:
 title: Card
 description: Card is generally used as a concise introduction or a large plate and entrance of information.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/hoverable.md
+@import ./**demo**/hoverable.md
 
-@import ./__demo__/bordered.md
+@import ./**demo**/bordered.md
 
-@import ./__demo__/content.md
+@import ./**demo**/content.md
 
-@import ./__demo__/meta.md
+@import ./**demo**/meta.md
 
-@import ./__demo__/row.md
+@import ./**demo**/row.md
 
-@import ./__demo__/grid.md
+@import ./**demo**/grid.md
 
-@import ./__demo__/inner.md
+@import ./**demo**/inner.md
 
-@import ./__demo__/actions.md
+@import ./**demo**/actions.md
 
 ## API
 

@@ -1,6 +1,6 @@
 ---
-title: "resize-box"
-outline: "deep"
+title: 'resize-box'
+outline: 'deep'
 ---
 
 ```yaml
@@ -11,34 +11,31 @@ title: 伸缩框 ResizeBox
 description: 伸缩框组件。
 ```
 
-
-
-
-
 ## API
-
 
 ### `<resize-box>` Props
 
-|参数名|描述|类型|默认值|
-|---|---|---|:---:|
-|width **(v-model)**|宽度|`number`|`-`|
-|height **(v-model)**|高度|`number`|`-`|
-|component|伸缩框的 html 标签|`string`|`'div'`|
-|directions|可以进行伸缩的边，有上、下、左、右可以使用|`('left' \| 'right' \| 'top' \| 'bottom')[]`|`['right']`|
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| width **(v-model)** | 宽度 | `number` | `-` |
+| height **(v-model)** | 高度 | `number` | `-` |
+| component | 伸缩框的 html 标签 | `string` | `'div'` |
+| directions | 可以进行伸缩的边，有上、下、左、右可以使用 | `('left' \| 'right' \| 'top' \| 'bottom')[]` | `['right']` |
+
 ### `<resize-box>` Events
 
-|事件名|描述|参数|
-|---|---|---|
-|moving-start|拖拽开始时触发|ev: `MouseEvent`|
-|moving|拖拽时触发|size: `{ width: number; height: number; }`<br>ev: `MouseEvent`|
-|moving-end|拖拽结束时触发|ev: `MouseEvent`|
+| 事件名       | 描述           | 参数                                                           |
+| ------------ | -------------- | -------------------------------------------------------------- |
+| moving-start | 拖拽开始时触发 | ev: `MouseEvent`                                               |
+| moving       | 拖拽时触发     | size: `{ width: number; height: number; }`<br>ev: `MouseEvent` |
+| moving-end   | 拖拽结束时触发 | ev: `MouseEvent`                                               |
+
 ### `<resize-box>` Slots
 
-|插槽名|描述|参数|
-|---|:---:|---|
-|resize-trigger|伸缩杆的内容|direction: `'left' \| 'right' \| 'top' \| 'bottom'`|
-|resize-trigger-icon|伸缩杆的图标|direction: `'left' \| 'right' \| 'top' \| 'bottom'`|
+| 插槽名              |     描述     | 参数                                                |
+| ------------------- | :----------: | --------------------------------------------------- |
+| resize-trigger      | 伸缩杆的内容 | direction: `'left' \| 'right' \| 'top' \| 'bottom'` |
+| resize-trigger-icon | 伸缩杆的图标 | direction: `'left' \| 'right' \| 'top' \| 'bottom'` |
 
 <script setup lang="ts">
 import basicDemo from '../../.vitepress/theme/generated/resize-box/basic.vue';
@@ -61,35 +58,22 @@ const layoutDescription = "[Layout](/react/components/ResizeBox) 组件中集成
 
 ## 示例
 
+<DemoBlock :title="basicTitle" :description="basicDescription" :code="basicSource"
 
-<DemoBlock
-  :title="basicTitle"
-  :description="basicDescription"
-  :code="basicSource"
->
-  <basicDemo />
-</DemoBlock>
+>   <basicDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="controlledTitle"
-  :description="controlledDescription"
-  :code="controlledSource"
->
-  <controlledDemo />
-</DemoBlock>
+<DemoBlock :title="controlledTitle" :description="controlledDescription" :code="controlledSource"
 
-<DemoBlock
-  :title="customTriggersTitle"
-  :description="customTriggersDescription"
-  :code="customTriggersSource"
->
-  <customTriggersDemo />
-</DemoBlock>
+>   <controlledDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="layoutTitle"
-  :description="layoutDescription"
-  :code="layoutSource"
->
-  <layoutDemo />
-</DemoBlock>
+<DemoBlock :title="customTriggersTitle" :description="customTriggersDescription" :code="customTriggersSource"
+
+>   <customTriggersDemo />
+> </DemoBlock>
+
+<DemoBlock :title="layoutTitle" :description="layoutDescription" :code="layoutSource"
+
+>   <layoutDemo />
+> </DemoBlock>

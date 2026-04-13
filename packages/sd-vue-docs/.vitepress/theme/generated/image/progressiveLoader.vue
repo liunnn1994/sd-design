@@ -2,8 +2,12 @@
   <div>
     <a-button
       type="primary"
-      @click="() => {timestamp = Date.now()}"
-      style="margin-bottom: 20px;"
+      @click="
+        () => {
+          timestamp = Date.now();
+        }
+      "
+      style="margin-bottom: 20px"
     >
       reload
     </a-button>
@@ -17,21 +21,21 @@
       <img
         width="200"
         src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a8c8cdb109cb051163646151a4a5083b.png~tplv-uwbnlip3yd-webp.webp"
-        style="filter: blur(5px);"
+        style="filter: blur(5px)"
       />
     </template>
   </a-image>
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const timestamp = ref('');
-    return {
-      timestamp,
-    }
-  }
-}
+  export default {
+    setup() {
+      const timestamp = ref('');
+      return {
+        timestamp,
+      };
+    },
+  };
 </script>

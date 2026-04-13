@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+
 import Textarea from '../index';
 
 describe('Textarea', () => {

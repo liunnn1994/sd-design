@@ -65,10 +65,7 @@ export const useSize = ({
   };
 
   onMounted(() => {
-    const firstRangeTotalSize = Array.from(sizeMap.values()).reduce(
-      (pre, value) => pre + value,
-      0
-    );
+    const firstRangeTotalSize = Array.from(sizeMap.values()).reduce((pre, value) => pre + value, 0);
     if (firstRangeTotalSize > 0) {
       firstRangeAverageSize.value = firstRangeTotalSize / sizeMap.size;
     }

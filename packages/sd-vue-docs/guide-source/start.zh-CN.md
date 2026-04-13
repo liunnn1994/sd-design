@@ -15,18 +15,18 @@ vue >= 3.2.0
 
 ```shell
 # npm
-npm install --save-dev @sd-design/web-vue
+npm install --save-dev @sdata/web-vue
 # yarn
-yarn add --dev @sd-design/web-vue
+yarn add --dev @sdata/web-vue
 ```
 
 ## 完整引入
 
 ```ts
 import { createApp } from 'vue';
-import SDVue from '@sd-design/web-vue';
+import SDVue from '@sdata/web-vue';
 import App from './App.vue';
-import '@sd-design/web-vue/dist/sd.css';
+import '@sdata/web-vue/dist/sd.css';
 
 const app = createApp(App);
 app.use(SDVue);
@@ -35,9 +35,7 @@ app.mount('#app');
 
 ## 按需加载（模板）
 
-如果使用模板方式进行开发，可以使用 [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components) 和 [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import) 这两款插件来开启按需加载及自动导入的支持。
-插件会自动解析模板中的使用到的组件，并导入组件和对应的样式文件。
-需要组件库 `version >= 2.11.0`。
+如果使用模板方式进行开发，可以使用 [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components) 和 [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import) 这两款插件来开启按需加载及自动导入的支持。插件会自动解析模板中的使用到的组件，并导入组件和对应的样式文件。需要组件库 `version >= 2.11.0`。
 
 ```ts
 import { defineConfig } from 'vite';
@@ -63,7 +61,7 @@ export default defineConfig({
 });
 ```
 
-注意：这种方法并不会处理用户在 script 中手动导入的组件，比如 Message 组件，用户仍需要手动导入组件对应的样式文件，例如 `@sd-design/web-vue/es/message/style/css.js`。
+注意：这种方法并不会处理用户在 script 中手动导入的组件，比如 Message 组件，用户仍需要手动导入组件对应的样式文件，例如 `@sdata/web-vue/es/message/style/css.js`。
 
 ## 按需加载与组件库主题（SD 插件）
 
@@ -90,9 +88,9 @@ export default defineConfig({
 
 ```ts
 import { createApp } from 'vue';
-import SDVue from '@sd-design/web-vue';
+import SDVue from '@sdata/web-vue';
 import App from './App.vue';
-import '@sd-design/web-vue/dist/sd.css';
+import '@sdata/web-vue/dist/sd.css';
 
 const app = createApp(App);
 app.use(SDVue, {
@@ -103,11 +101,12 @@ app.mount('#app');
 
 ## 导入组件
 
-组件库在 `2.44.3` 版本为了兼容 nuxt3 环境，增加 `exports` 配置。这个配置会对组件库的导入产生一定影响，使用中建议从 `@sd-design/web-vue` 和 `@sd-design/web-vue/es/icon` 导入组件库和图标。
+组件库在 `2.44.3` 版本为了兼容 nuxt3 环境，增加 `exports` 配置。这个配置会对组件库的导入产生一定影响，使用中建议从 `@sdata/web-vue` 和 `@sdata/web-vue/es/icon` 导入组件库和图标。
 
 ## 浏览器兼容性
 
 <!-- browserslist:start -->
+
 以下版本号基于当前 [Browserslist 配置](https://web.dev/baseline?hl=zh-cn)自动生成：
 
 - and_chr>=118

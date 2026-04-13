@@ -22,11 +22,7 @@ Add the `showLine` property to `Tree` to display the connecting line.
     <a-typography-text>showLine</a-typography-text>
     <a-switch v-model="showLine" style="margin-left: 12px" />
   </div>
-  <a-tree
-    :default-selected-keys="['0-0-1']"
-    :data="treeData"
-    :show-line="showLine"
-  />
+  <a-tree :default-selected-keys="['0-0-1']" :data="treeData" :show-line="showLine" />
 </template>
 <script>
   import { ref } from 'vue';

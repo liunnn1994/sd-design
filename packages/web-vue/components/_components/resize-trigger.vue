@@ -15,48 +15,49 @@
   </ResizeObserver>
 </template>
 <script lang="tsx">
-import { computed, defineComponent, PropType, toRefs } from 'vue';
-import IconDragDot from '../icon/icon-drag-dot';
-import IconDragDotVertical from '../icon/icon-drag-dot-vertical';
-import ResizeObserver from './resize-observer';
+  import { computed, defineComponent, PropType, toRefs } from 'vue';
 
-export default defineComponent({
-  name: 'ResizeTrigger',
-  components: {
-    ResizeObserver,
-    IconDragDot,
-    IconDragDotVertical,
-  },
-  props: {
-    prefixCls: {
-      type: String,
-      required: true,
+  import IconDragDot from '../icon/icon-drag-dot';
+  import IconDragDotVertical from '../icon/icon-drag-dot-vertical';
+  import ResizeObserver from './resize-observer';
+
+  export default defineComponent({
+    name: 'ResizeTrigger',
+    components: {
+      ResizeObserver,
+      IconDragDot,
+      IconDragDotVertical,
     },
-    direction: {
-      type: String as PropType<'horizontal' | 'vertical'>,
-      default: 'horizontal',
-    },
-  },
-  emits: ['resize'],
-  setup(props, { emit }) {
-    const { direction, prefixCls } = toRefs(props);
-    const isHorizontal = computed(() => direction?.value === 'horizontal');
-    const classNames = computed(() => [
-      prefixCls.value,
-      {
-        [`${prefixCls.value}-horizontal`]: isHorizontal.value,
-        [`${prefixCls.value}-vertical`]: !isHorizontal.value,
+    props: {
+      prefixCls: {
+        type: String,
+        required: true,
       },
-    ]);
-    const onResize = (entry: ResizeObserverEntry) => {
-      emit('resize', entry);
-    };
+      direction: {
+        type: String as PropType<'horizontal' | 'vertical'>,
+        default: 'horizontal',
+      },
+    },
+    emits: ['resize'],
+    setup(props, { emit }) {
+      const { direction, prefixCls } = toRefs(props);
+      const isHorizontal = computed(() => direction?.value === 'horizontal');
+      const classNames = computed(() => [
+        prefixCls.value,
+        {
+          [`${prefixCls.value}-horizontal`]: isHorizontal.value,
+          [`${prefixCls.value}-vertical`]: !isHorizontal.value,
+        },
+      ]);
+      const onResize = (entry: ResizeObserverEntry) => {
+        emit('resize', entry);
+      };
 
-    return {
-      classNames,
-      onResize,
-      isHorizontal,
-    };
-  },
-});
+      return {
+        classNames,
+        onResize,
+        isHorizontal,
+      };
+    },
+  });
 </script>

@@ -1,8 +1,10 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Avatar from './avatar.vue';
 import _AvatarGroup from './avatar-group';
+import _Avatar from './avatar.vue';
 
 const Avatar = Object.assign(_Avatar, {
   Group: _AvatarGroup,

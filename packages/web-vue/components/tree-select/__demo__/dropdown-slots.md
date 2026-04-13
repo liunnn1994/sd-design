@@ -19,7 +19,7 @@ Custom Tree Select the header and footer of the drop-down box.
 ```vue
 <template>
   <a-form layout="inline" :model="form">
-   <a-form-item label="empty">
+    <a-form-item label="empty">
       <a-switch v-model="form.empty" />
     </a-form-item>
     <a-form-item label="showHeaderOnEmpty">
@@ -37,11 +37,11 @@ Custom Tree Select the header and footer of the drop-down box.
     :show-footer-on-empty="form.showFooterOnEmpty"
   >
     <template #header>
-      <div style="padding: 6px 12px;" >
+      <div style="padding: 6px 12px;">
         <a-checkbox value="1">All</a-checkbox>
       </div>
     </template>
-      <template #footer>
+    <template #footer>
       <div style="padding: 6px 0; text-align: center;">
         <a-button>Click Me</a-button>
       </div>
@@ -50,7 +50,7 @@ Custom Tree Select the header and footer of the drop-down box.
 </template>
 <script>
   import { h, reactive, computed } from 'vue';
-  import { IconCalendar } from '@sd-design/web-vue/es/icon';
+  import { IconCalendar } from '@sdata/web-vue/es/icon';
 
   export default {
     setup() {

@@ -1,6 +1,7 @@
 import { getCurrentInstance, ref, onUpdated, Ref } from 'vue';
-import { generateKey } from '../utils/tree-data';
+
 import { TreeNodeKey } from '../interface';
+import { generateKey } from '../utils/tree-data';
 
 export default function useNodeKey(): Ref<TreeNodeKey> {
   const instance = getCurrentInstance();

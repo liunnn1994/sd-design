@@ -1,4 +1,5 @@
 import { defineComponent, PropType } from 'vue';
+
 import { getPrefixCls } from '../_utils/global-config';
 import InputNumber from '../input-number';
 

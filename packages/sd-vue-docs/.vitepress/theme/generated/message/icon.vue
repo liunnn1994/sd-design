@@ -3,17 +3,18 @@
 </template>
 
 <script>
-import { h } from 'vue';
-import { IconFaceSmileFill } from '@sd-design/web-vue/es/icon';
+  import { h } from 'vue';
 
-export default {
-  methods: {
-    handleClick() {
-      this.$message.info({
-        content: 'This is an info message!',
-        icon: () => h(IconFaceSmileFill)
-      });
-    }
-  }
-}
+  import { IconFaceSmileFill } from '@sdata/web-vue/es/icon';
+
+  export default {
+    methods: {
+      handleClick() {
+        this.$message.info({
+          content: 'This is an info message!',
+          icon: () => h(IconFaceSmileFill),
+        });
+      },
+    },
+  };
 </script>

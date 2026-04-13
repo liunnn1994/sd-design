@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 触发器 Trigger
 description: 用于对元素添加 hover, click, focus 等事件，并且弹出下拉框。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,21 +19,22 @@ meta:
 title: Trigger
 description: Used to add hover, click, focus and other events to the element, and pop up a dropdown.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/nest.md
+@import ./**demo**/nest.md
 
-@import ./__demo__/triggers.md
+@import ./**demo**/triggers.md
 
-@import ./__demo__/align-point.md
+@import ./**demo**/align-point.md
 
-@import ./__demo__/scroll.md
+@import ./**demo**/scroll.md
 
-@import ./__demo__/arrow.md
+@import ./**demo**/arrow.md
 
-@import ./__demo__/translate.md
+@import ./**demo**/translate.md
 
 ## API
 
@@ -38,12 +43,11 @@ description: Used to add hover, click, focus and other events to the element, an
 ## Type
 
 ```ts
-type TriggerPopupTranslate =
-  | [number, number]
-  | { [key in TriggerPosition]?: [number, number] };
+type TriggerPopupTranslate = [number, number] | { [key in TriggerPosition]?: [number, number] };
 ```
 
 ## zh-CN
+
 ## FAQ
 
 ### 关于弹出框的挂载位置
@@ -59,6 +63,7 @@ type TriggerPopupTranslate =
 ---
 
 ## en-US
+
 ## FAQ
 
 ### About the mount location of the pop-up box

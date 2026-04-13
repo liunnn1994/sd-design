@@ -1,12 +1,8 @@
 <template>
-  <a-tree-select
-    :data="treeData"
-    default-value="node1"
-    @change="onChange"
-  >
+  <a-tree-select :data="treeData" default-value="node1" @change="onChange">
     <template #trigger>
       <a-typography-paragraph style="width: 300px">
-        You selected: <a href='javascript: void(0)'>{{ text }}</a>
+        You selected: <a href="javascript: void(0)">{{ text }}</a>
       </a-typography-paragraph>
     </template>
   </a-tree-select>
@@ -61,7 +57,7 @@
               key: 'node7',
               title: 'node7',
             },
-          ]
+          ],
         },
       ],
     },

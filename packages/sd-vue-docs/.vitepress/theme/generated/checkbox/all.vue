@@ -1,6 +1,7 @@
 <template>
   <a-space direction="vertical">
-    <a-checkbox :model-value="checkedAll" :indeterminate="indeterminate" @change="handleChangeAll">Check All
+    <a-checkbox :model-value="checkedAll" :indeterminate="indeterminate" @change="handleChangeAll"
+      >Check All
     </a-checkbox>
     <a-checkbox-group v-model="data" @change="handleChange">
       <a-checkbox value="1">Option 1</a-checkbox>
@@ -11,45 +12,45 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const indeterminate = ref(false)
-    const checkedAll = ref(false)
-    const data = ref([])
+  export default {
+    setup() {
+      const indeterminate = ref(false);
+      const checkedAll = ref(false);
+      const data = ref([]);
 
-    const handleChangeAll = (value) => {
-      indeterminate.value = false;
-      if (value) {
-        checkedAll.value = true;
-        data.value = ['1', '2', '3']
-      } else {
-        checkedAll.value = false;
-        data.value = []
-      }
-    }
-
-    const handleChange = (values) => {
-      if (values.length === 3) {
-        checkedAll.value = true
+      const handleChangeAll = (value) => {
         indeterminate.value = false;
-      } else if (values.length === 0) {
-        checkedAll.value = false
-        indeterminate.value = false;
-      } else {
-        checkedAll.value = false
-        indeterminate.value = true;
-      }
-    }
+        if (value) {
+          checkedAll.value = true;
+          data.value = ['1', '2', '3'];
+        } else {
+          checkedAll.value = false;
+          data.value = [];
+        }
+      };
 
-    return {
-      indeterminate,
-      checkedAll,
-      data,
-      handleChangeAll,
-      handleChange
-    }
-  },
-}
+      const handleChange = (values) => {
+        if (values.length === 3) {
+          checkedAll.value = true;
+          indeterminate.value = false;
+        } else if (values.length === 0) {
+          checkedAll.value = false;
+          indeterminate.value = false;
+        } else {
+          checkedAll.value = false;
+          indeterminate.value = true;
+        }
+      };
+
+      return {
+        indeterminate,
+        checkedAll,
+        data,
+        handleChangeAll,
+        handleChange,
+      };
+    },
+  };
 </script>

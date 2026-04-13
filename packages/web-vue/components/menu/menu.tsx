@@ -1,14 +1,8 @@
-import {
-  computed,
-  defineComponent,
-  inject,
-  PropType,
-  provide,
-  toRefs,
-} from 'vue';
+import { computed, defineComponent, inject, PropType, provide, toRefs } from 'vue';
+
 import { SiderInjectionKey } from '../layout/context';
-import { LevelInjectionKey, MenuInjectionKey } from './context';
 import BaseMenu from './base-menu.vue';
+import { LevelInjectionKey, MenuInjectionKey } from './context';
 import OverflowWrap from './overflow-wrap';
 
 export default defineComponent({
@@ -32,9 +26,7 @@ export default defineComponent({
 
     const siderContext = inject(SiderInjectionKey, undefined);
     const siderCollapsed = computed(() => siderContext?.collapsed || false);
-    const theme = computed(
-      () => propTheme?.value || siderContext?.theme || 'light'
-    );
+    const theme = computed(() => propTheme?.value || siderContext?.theme || 'light');
 
     // 截断上下文
     provide(MenuInjectionKey, undefined as any);

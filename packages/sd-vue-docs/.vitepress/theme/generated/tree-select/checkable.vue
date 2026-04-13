@@ -1,12 +1,14 @@
 <template>
-  <div style="marginBottom: 24px;">
+  <div style="marginbottom: 24px">
     <a-checkbox
       v-model="treeCheckStrictly"
-      @change="() => {
-        selected = [];
-      }"
+      @change="
+        () => {
+          selected = [];
+        }
+      "
     >
-    treeCheckStrictly
+      treeCheckStrictly
     </a-checkbox>
   </div>
   <a-tree-select
@@ -17,7 +19,7 @@
     :tree-check-strictly="treeCheckStrictly"
     :data="treeData"
     placeholder="Please select ..."
-    style="width: 300px;"
+    style="width: 300px"
   ></a-tree-select>
 </template>
 <script>
@@ -55,9 +57,9 @@
             {
               title: 'Leaf 0-0-2-1',
               value: 'Leaf 0-0-2-1',
-              key: '0-0-2-1'
-            }
-          ]
+              key: '0-0-2-1',
+            },
+          ],
         },
       ],
     },
@@ -81,9 +83,9 @@
               title: 'Leaf 0-1-1-2',
               value: 'Leaf 0-1-1-2',
               key: '0-1-1-2',
-              disabled: true
+              disabled: true,
             },
-          ]
+          ],
         },
         {
           title: 'Leaf 0-1-2',

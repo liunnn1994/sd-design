@@ -1,15 +1,15 @@
-import { assertDirectiveLiteral } from '@babel/types';
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
+
+import { assertDirectiveLiteral } from '@babel/types';
+
 import Carousel from '../index';
 
 const { Item } = Carousel;
 
 const assertActiveAtIndex = (wrapper: any, index: number) => {
   const items = wrapper.findAll('.sd-carousel-indicator-item');
-  const isActiveAtIndex = items[index]
-    ?.classes()
-    .includes('sd-carousel-indicator-item-active');
+  const isActiveAtIndex = items[index]?.classes().includes('sd-carousel-indicator-item-active');
   expect(isActiveAtIndex).toBe(true);
 };
 

@@ -1,10 +1,11 @@
 import { App } from 'vue';
-import { SDOptions } from '../_utils/types';
+
 import { getComponentPrefix, setGlobalConfig } from '../_utils/global-config';
+import { SDOptions } from '../_utils/types';
 import _Image from './image.vue';
-import _ImagePreview from './preview.vue';
-import _ImagePreviewGroup from './preview-group.vue';
 import _ImagePreviewAction from './preview-action';
+import _ImagePreviewGroup from './preview-group.vue';
+import _ImagePreview from './preview.vue';
 
 const Image = Object.assign(_Image, {
   Preview: _ImagePreview,
@@ -15,23 +16,15 @@ const Image = Object.assign(_Image, {
 
     app.component(componentPrefix + _Image.name, _Image);
     app.component(componentPrefix + _ImagePreview.name, _ImagePreview);
-    app.component(
-      componentPrefix + _ImagePreviewGroup.name,
-      _ImagePreviewGroup
-    );
-    app.component(
-      componentPrefix + _ImagePreviewAction.name,
-      _ImagePreviewAction
-    );
+    app.component(componentPrefix + _ImagePreviewGroup.name, _ImagePreviewGroup);
+    app.component(componentPrefix + _ImagePreviewAction.name, _ImagePreviewAction);
   },
 });
 
 export type ImageInstance = InstanceType<typeof _Image>;
 export type ImagePreviewInstance = InstanceType<typeof _ImagePreview>;
 export type ImagePreviewGroupInstance = InstanceType<typeof _ImagePreviewGroup>;
-export type ImagePreviewActionInstance = InstanceType<
-  typeof _ImagePreviewAction
->;
+export type ImagePreviewActionInstance = InstanceType<typeof _ImagePreviewAction>;
 
 export {
   _ImagePreview as ImagePreview,

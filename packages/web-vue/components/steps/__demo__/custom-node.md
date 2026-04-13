@@ -17,15 +17,9 @@ Basic usage of the step bar.
 ---
 
 ```vue
-
 <template>
   <div>
-    <a-steps
-      changeable
-      label-placement="vertical"
-      :current="current"
-      @change="setCurrent"
-    >
+    <a-steps changeable label-placement="vertical" :current="current" @change="setCurrent">
       <a-step description="This is a description">
         Succeeded
         <template v-slot:node="slotProps">
@@ -43,7 +37,7 @@ Basic usage of the step bar.
         </template>
       </a-step>
       <a-step description="This is a description"
-      >Pending
+        >Pending
         <template v-slot:node="slotProps">
           <a-popover content="step tip" :popup-visible="current === 3">
             <span>{{ slotProps.step }}</span>
@@ -67,31 +61,31 @@ Basic usage of the step bar.
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const current = ref(1);
+  export default {
+    setup() {
+      const current = ref(1);
 
-    const onPrev = () => {
-      current.value = Math.max(1, current.value - 1);
-    };
+      const onPrev = () => {
+        current.value = Math.max(1, current.value - 1);
+      };
 
-    const onNext = () => {
-      current.value = Math.min(3, current.value + 1);
-    };
+      const onNext = () => {
+        current.value = Math.min(3, current.value + 1);
+      };
 
-    const setCurrent = (current) => {
-      current.value = current;
-    };
+      const setCurrent = (current) => {
+        current.value = current;
+      };
 
-    return {
-      current,
-      onPrev,
-      onNext,
-      setCurrent
-    }
-  },
-};
+      return {
+        current,
+        onPrev,
+        onNext,
+        setCurrent,
+      };
+    },
+  };
 </script>
 ```

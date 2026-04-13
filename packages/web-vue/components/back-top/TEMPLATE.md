@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 返回顶部 BackTop
 description: 可一键返回顶部的按钮。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,11 +19,12 @@ meta:
 title: BackTop
 description: A button to return to the top with one click.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/custom.md
+@import ./**demo**/custom.md
 
 ## API
 

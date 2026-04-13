@@ -3,14 +3,14 @@
 </template>
 
 <script>
-export default {
-  methods: {
-    handleClick(){
-      this.$message.info({
-        content:'This is an info message!',
-        closable: true
-      })
-    }
-  }
-};
+  export default {
+    methods: {
+      handleClick() {
+        this.$message.info({
+          content: 'This is an info message!',
+          closable: true,
+        });
+      },
+    },
+  };
 </script>

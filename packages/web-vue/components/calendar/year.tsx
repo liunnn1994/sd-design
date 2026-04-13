@@ -1,11 +1,13 @@
 import { defineComponent, computed, toRefs, inject, PropType } from 'vue';
+
 import { Dayjs } from 'dayjs';
-import { padStart } from '../_utils/pad';
+
 import { dayjs } from '../_utils/date';
-import Month from './month';
-import useCellClassName from './hooks/useCellClassName';
 import { getPrefixCls } from '../_utils/global-config';
+import { padStart } from '../_utils/pad';
 import { useI18n } from '../locale';
+import useCellClassName from './hooks/useCellClassName';
+import Month from './month';
 
 const MONTHS = [
   'January',
@@ -88,9 +90,8 @@ export default defineComponent({
         innerMode: props.mode,
         rangeValues: [],
         hoverRangeValues: [],
-        isSameTime: (current: Dayjs, target: Dayjs) =>
-          current.isSame(target, 'month'),
-      })
+        isSameTime: (current: Dayjs, target: Dayjs) => current.isSame(target, 'month'),
+      }),
     );
     const { t } = useI18n();
     const showYear = computed(() => props.pageShowData.year());
@@ -101,9 +102,7 @@ export default defineComponent({
         {mg.map((row, rowIndex) => (
           <div class={`${prefixCls}-year-row`} key={rowIndex}>
             {row.map((col: any) => {
-              const time = dayjs(
-                `${showYear.value}-${padStart(col.value + 1, 2, '0')}-01`
-              );
+              const time = dayjs(`${showYear.value}-${padStart(col.value + 1, 2, '0')}-01`);
               // const disabled =
               //   typeof disabledDate === 'function' && disabledDate(time);
               const divProps = props.panel
@@ -111,10 +110,7 @@ export default defineComponent({
                 : {};
 
               return (
-                <div
-                  key={col.value}
-                  class={getCellClassName.value({ ...col, time }, false)}
-                >
+                <div key={col.value} class={getCellClassName.value({ ...col, time }, false)}>
                   {props.panel ? (
                     <div class={`${prefixCls}-date`} {...divProps}>
                       <div class={`${prefixCls}-date-value`}>

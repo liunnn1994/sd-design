@@ -1,4 +1,5 @@
 import { computed, defineComponent, PropType, toRefs } from 'vue';
+
 import Base from './base';
 
 export default defineComponent({
@@ -16,9 +17,7 @@ export default defineComponent({
   },
   setup(props) {
     const { heading } = toRefs(props);
-    const component = computed(
-      () => `h${heading?.value}` as keyof HTMLElementTagNameMap
-    );
+    const component = computed(() => `h${heading?.value}` as keyof HTMLElementTagNameMap);
 
     return {
       component,
@@ -26,8 +25,6 @@ export default defineComponent({
   },
   render() {
     const { component } = this;
-    return (
-      <Base {...this.$attrs} component={component} v-slots={this.$slots} />
-    );
+    return <Base {...this.$attrs} component={component} v-slots={this.$slots} />;
   },
 });

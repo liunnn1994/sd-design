@@ -10,21 +10,17 @@ import {
   inject,
   onMounted,
 } from 'vue';
+
 import type { Direction, Size } from '../_utils/constant';
-import type {
-  TabsPosition,
-  TabsType,
-  TabData,
-  TabTriggerEvent,
-  ScrollPosition,
-} from './interface';
-import { getPrefixCls } from '../_utils/global-config';
-import TabsNav from './tabs-nav';
-import { tabsInjectionKey } from './context';
-import { isUndefined } from '../_utils/is';
-import { useSize } from '../_hooks/use-size';
+import type { TabsPosition, TabsType, TabData, TabTriggerEvent, ScrollPosition } from './interface';
+
 import { useChildrenComponents } from '../_hooks/use-children-components';
+import { useSize } from '../_hooks/use-size';
+import { getPrefixCls } from '../_utils/global-config';
+import { isUndefined } from '../_utils/is';
 import { configProviderInjectionKey } from '../config-provider/context';
+import { tabsInjectionKey } from './context';
+import TabsNav from './tabs-nav';
 
 export default defineComponent({
   name: 'Tabs',
@@ -184,24 +180,24 @@ export default defineComponent({
      * @en Triggered when the current tag value changes
      * @property { string | number } key
      */
-    'change': (key: string | number) => true,
+    change: (key: string | number) => true,
     /**
      * @zh 用户点击标签时触发
      * @en Triggered when the user clicks on the tab
      * @property { string | number } key
      */
-    'tabClick': (key: string | number, ev: Event) => true,
+    tabClick: (key: string | number, ev: Event) => true,
     /**
      * @zh 用户点击增加按钮时触发
      * @en Triggered when the user clicks the add button
      */
-    'add': (ev: Event) => true,
+    add: (ev: Event) => true,
     /**
      * @zh 用户点击删除按钮时触发
      * @en Triggered when the user clicks the delete button
      * @property { string | number } key
      */
-    'delete': (key: string | number, ev: Event) => true,
+    delete: (key: string | number, ev: Event) => true,
   },
   /**
    * @zh 选项卡额外内容
@@ -213,12 +209,10 @@ export default defineComponent({
     const prefixCls = getPrefixCls('tabs');
     const { mergedSize } = useSize(size);
     const mergedPosition = computed(() =>
-      props.direction === 'vertical' ? 'left' : props.position
+      props.direction === 'vertical' ? 'left' : props.position,
     );
     const mergedDirection = computed(() =>
-      ['left', 'right'].includes(mergedPosition.value)
-        ? 'vertical'
-        : 'horizontal'
+      ['left', 'right'].includes(mergedPosition.value) ? 'vertical' : 'horizontal',
     );
     const { children, components } = useChildrenComponents('TabPane');
 
@@ -268,7 +262,7 @@ export default defineComponent({
         addItem,
         removeItem,
         trigger,
-      })
+      }),
     );
 
     const handleChange = (key: string | number) => {

@@ -42,14 +42,12 @@
   position: relative;
   display: flex;
   box-sizing: border-box;
-  width: @notification-width + @notification-padding-right +
+  width: @notification-width + @notification-padding-right + @notification-padding-left;
+  padding: @notification-padding-top @notification-padding-right @notification-padding-bottom
     @notification-padding-left;
-  padding: @notification-padding-top @notification-padding-right
-    @notification-padding-bottom @notification-padding-left;
   overflow: hidden;
   background-color: @notification-normal-color-bg;
-  border: @notification-border-width @notification-border-style
-    @notification-normal-color-border;
+  border: @notification-border-width @notification-border-style @notification-normal-color-border;
   border-radius: @notification-border-radius;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   opacity: 1;
@@ -194,8 +192,7 @@
 
 .slide-left-notification-enter-active,
 .slide-left-notification-appear-active {
-  transition: transform @transition-duration-4
-    @transition-timing-function-overshoot;
+  transition: transform @transition-duration-4 @transition-timing-function-overshoot;
 }
 
 .slide-left-notification-leave-from {
@@ -227,8 +224,7 @@
 
 .slide-right-notification-enter-active,
 .slide-right-notification-appear-active {
-  transition: transform @transition-duration-4
-    @transition-timing-function-overshoot;
+  transition: transform @transition-duration-4 @transition-timing-function-overshoot;
 }
 
 .slide-right-notification-leave-from {

@@ -30,18 +30,18 @@ Limit the maximum number of items that can be checked by setting `max`.
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const value1 = ref(['Plain 1']);
-    const plainOptions = ['Plain 1', 'Plain 2', 'Plain 3', 'Plain 4'];
+  export default {
+    setup() {
+      const value1 = ref(['Plain 1']);
+      const plainOptions = ['Plain 1', 'Plain 2', 'Plain 3', 'Plain 4'];
 
-    return {
-      plainOptions,
-      value1,
-    };
-  },
-};
+      return {
+        plainOptions,
+        value1,
+      };
+    },
+  };
 </script>
 ```

@@ -24,8 +24,7 @@
   border-radius: @table-border-radius-expand-button;
   outline: none;
   cursor: pointer;
-  transition: background-color @transition-duration-1
-    @transition-timing-function-linear;
+  transition: background-color @transition-duration-1 @transition-timing-function-linear;
 
   &:hover {
     color: @table-color-expand-icon_hover;
@@ -69,7 +68,8 @@
   // sub table
   .@{table-prefix-cls}-tr-expand .@{table-cls-td} .@{table-prefix-cls} {
     margin: ~'-@{table-size-@{size}-padding-vertical}' ~'-@{table-size-@{size}-padding-horizontal}'
-      ~'calc(-@{table-size-@{size}-padding-vertical} - @{table-border-width})' ~'-@{table-size-@{size}-padding-horizontal}';
+      ~'calc(-@{table-size-@{size}-padding-vertical} - @{table-border-width})'
+      ~'-@{table-size-@{size}-padding-horizontal}';
   }
 
   // editor row
@@ -237,8 +237,7 @@
     width: @table-size-shadow-wrapper-width;
     box-shadow: none;
     transform: translateX(-100%);
-    transition: box-shadow @transition-duration-1
-      @transition-timing-function-linear;
+    transition: box-shadow @transition-duration-1 @transition-timing-function-linear;
     content: '';
     pointer-events: none;
   }
@@ -374,8 +373,7 @@
   }
 
   &-th {
-    transition: background-color @transition-duration-1
-      @transition-timing-function-linear;
+    transition: background-color @transition-duration-1 @transition-timing-function-linear;
   }
 
   &-cell-with-sorter {
@@ -541,8 +539,7 @@
       width: @table-size-shadow-wrapper-width;
       height: 100%;
       box-shadow: none;
-      transition: box-shadow @transition-duration-1
-        @transition-timing-function-linear;
+      transition: box-shadow @transition-duration-1 @transition-timing-function-linear;
       content: '';
       pointer-events: none;
     }
@@ -707,9 +704,13 @@
   // stripe: true
   &-stripe {
     &:not(.@{table-prefix-cls}-dragging)
-      .@{table-cls-tr}:not(.@{table-prefix-cls}-tr-empty):not(.@{table-prefix-cls}-tr-summary):nth-child(even),
+      .@{table-cls-tr}:not(.@{table-prefix-cls}-tr-empty):not(
+        .@{table-prefix-cls}-tr-summary
+      ):nth-child(even),
     .@{table-cls-tr}-drag {
-      .@{table-cls-td}:not(.@{table-prefix-cls}-col-fixed-left):not(.@{table-prefix-cls}-col-fixed-right) {
+      .@{table-cls-td}:not(.@{table-prefix-cls}-col-fixed-left):not(
+          .@{table-prefix-cls}-col-fixed-right
+        ) {
         background-color: @table-color-bg-body-stripe-row;
       }
 
@@ -735,9 +736,13 @@
 
   &-hover {
     &:not(.@{table-prefix-cls}-dragging)
-      .@{table-cls-tr}:not(.@{table-prefix-cls}-tr-empty):not(.@{table-prefix-cls}-tr-summary):hover,
+      .@{table-cls-tr}:not(.@{table-prefix-cls}-tr-empty):not(
+        .@{table-prefix-cls}-tr-summary
+      ):hover,
     .@{table-cls-tr}-drag {
-      .@{table-cls-td}:not(.@{table-prefix-cls}-col-fixed-left):not(.@{table-prefix-cls}-col-fixed-right) {
+      .@{table-cls-td}:not(.@{table-prefix-cls}-col-fixed-left):not(
+          .@{table-prefix-cls}-col-fixed-right
+        ) {
         background-color: @table-color-bg-body-row_hover;
       }
 
@@ -757,7 +762,9 @@
     }
 
     .@{table-cls-tr}-expand:not(.@{table-prefix-cls}-tr-empty):hover {
-      .@{table-cls-td}:not(.@{table-prefix-cls}-col-fixed-left):not(.@{table-prefix-cls}-col-fixed-right) {
+      .@{table-cls-td}:not(.@{table-prefix-cls}-col-fixed-left):not(
+          .@{table-prefix-cls}-col-fixed-right
+        ) {
         background-color: @table-color-bg-expand-content_hover;
       }
     }
@@ -765,7 +772,9 @@
     // 去除嵌套子表格的 hover 效果
     .@{table-prefix-cls}-tr-expand .@{table-cls-td} & {
       .@{table-cls-tr}:not(.@{table-prefix-cls}-tr-empty) {
-        .@{table-cls-td}:not(.@{table-prefix-cls}-col-fixed-left):not(.@{table-prefix-cls}-col-fixed-right) {
+        .@{table-cls-td}:not(.@{table-prefix-cls}-col-fixed-left):not(
+            .@{table-prefix-cls}-col-fixed-right
+          ) {
           background-color: transparent;
         }
 

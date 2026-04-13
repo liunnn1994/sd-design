@@ -1,17 +1,15 @@
 <template>
-  <div style="margin-bottom: 24px;">
+  <div style="margin-bottom: 24px">
     <a-radio-group
-      type='button'
+      type="button"
       v-model="treeCheckedStrategy"
-      @change="(value) => {
-        selected = []
-      }"
+      @change="
+        (value) => {
+          selected = [];
+        }
+      "
     >
-      <a-radio
-        v-for="item in strategyOptions"
-        :key="item?.value"
-        :value="item?.value"
-      >
+      <a-radio v-for="item in strategyOptions" :key="item?.value" :value="item?.value">
         {{ item?.label }}
       </a-radio>
     </a-radio-group>
@@ -24,7 +22,7 @@
     :tree-checked-strategy="treeCheckedStrategy"
     :data="treeData"
     placeholder="Please select ..."
-    style="width: 300px;"
+    style="width: 300px"
   ></a-tree-select>
 </template>
 <script>
@@ -47,16 +45,16 @@
   const strategyOptions = [
     {
       value: 'all',
-      label: 'show all'
+      label: 'show all',
     },
     {
       value: 'parent',
-      label: 'show parent'
+      label: 'show parent',
     },
     {
       value: 'child',
-      label: 'show child'
-    }
+      label: 'show child',
+    },
   ];
 
   const treeData = [
@@ -78,9 +76,9 @@
             {
               title: 'Leaf 0-0-2-1',
               value: 'Leaf 0-0-2-1',
-              key: '0-0-2-1'
-            }
-          ]
+              key: '0-0-2-1',
+            },
+          ],
         },
       ],
     },
@@ -104,9 +102,9 @@
               title: 'Leaf 0-1-1-2',
               value: 'Leaf 0-1-1-2',
               key: '0-1-1-2',
-              disabled: true
+              disabled: true,
             },
-          ]
+          ],
         },
         {
           title: 'Leaf 0-1-2',

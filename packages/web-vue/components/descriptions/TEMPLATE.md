@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 描述列表 Descriptions
 description: 一般用于详情页的信息展示。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,19 +19,20 @@ meta:
 title: Descriptions
 description: Generally used for the information display of the detail page.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/single.md
+@import ./**demo**/single.md
 
-@import ./__demo__/align.md
+@import ./**demo**/align.md
 
-@import ./__demo__/bordered.md
+@import ./**demo**/bordered.md
 
-@import ./__demo__/layout.md
+@import ./**demo**/layout.md
 
-@import ./__demo__/example.md
+@import ./**demo**/example.md
 
 ## API
 

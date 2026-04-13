@@ -35,9 +35,7 @@ const stringifyCodeKey = (k: CodeKey) => {
   });
 };
 
-export const getKeyDownHandler = (
-  codeKeyMap: Map<CodeKey | string, (e: Event) => void>
-) => {
+export const getKeyDownHandler = (codeKeyMap: Map<CodeKey | string, (e: Event) => void>) => {
   const map: Record<string, (e: Event) => void> = {};
 
   codeKeyMap.forEach((callback, codeKey) => {

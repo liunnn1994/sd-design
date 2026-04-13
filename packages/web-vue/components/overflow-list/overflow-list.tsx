@@ -1,17 +1,11 @@
 import type { PropType, VNode } from 'vue';
-import {
-  computed,
-  defineComponent,
-  mergeProps,
-  onMounted,
-  ref,
-  watch,
-} from 'vue';
+import { computed, defineComponent, mergeProps, onMounted, ref, watch } from 'vue';
+
 import ResizeObserver from '../_components/resize-observer-v2';
-import { getAllElements } from '../_utils/vue-utils';
-import { getPrefixCls } from '../_utils/global-config';
-import Tag from '../tag';
 import { getReverse } from '../_utils/array';
+import { getPrefixCls } from '../_utils/global-config';
+import { getAllElements } from '../_utils/vue-utils';
+import Tag from '../tag';
 
 export default defineComponent({
   name: 'OverflowList',
@@ -87,10 +81,7 @@ export default defineComponent({
     const onResize = () => {
       if (listRef.value && children.value && spacerRef.value) {
         const spacerWidth = spacerRef.value.offsetWidth;
-        if (
-          spacerWidth > 1 &&
-          (overflowNumber.value === 0 || spacerWidth < nextWidth.value)
-        ) {
+        if (spacerWidth > 1 && (overflowNumber.value === 0 || spacerWidth < nextWidth.value)) {
           return;
         }
 
@@ -137,15 +128,11 @@ export default defineComponent({
     });
 
     const renderOverflow = () => {
-      const style = isStart.value
-        ? { marginRight: `${props.margin}px` }
-        : undefined;
+      const style = isStart.value ? { marginRight: `${props.margin}px` } : undefined;
 
       return (
         <div ref={overflowRef} class={`${prefixCls}-overflow`} style={style}>
-          {slots.overflow?.({ number: overflowNumber.value }) ?? (
-            <Tag>+{overflowNumber.value}</Tag>
-          )}
+          {slots.overflow?.({ number: overflowNumber.value }) ?? <Tag>+{overflowNumber.value}</Tag>}
         </div>
       );
     };

@@ -8,11 +8,12 @@ import {
   ref,
   toRefs,
 } from 'vue';
+
 import { getPrefixCls } from '../_utils/global-config';
-import { breadcrumbInjectKey } from './context';
 import { getAllElements } from '../_utils/vue-utils';
-import { BreadcrumbRoute } from './interface';
 import BreadcrumbItem from './breadcrumb-item';
+import { breadcrumbInjectKey } from './context';
+import { BreadcrumbRoute } from './interface';
 
 export default defineComponent({
   name: 'Breadcrumb',
@@ -76,9 +77,7 @@ export default defineComponent({
 
     const total = ref(0);
 
-    const needHide = computed(
-      () => maxCount.value > 0 && total.value > maxCount.value + 1
-    );
+    const needHide = computed(() => maxCount.value > 0 && total.value > maxCount.value + 1);
 
     provide(
       breadcrumbInjectKey,
@@ -88,19 +87,18 @@ export default defineComponent({
         separator,
         needHide,
         slots,
-      })
+      }),
     );
 
     const defaultItemRender = (
       route: BreadcrumbRoute,
       routes: BreadcrumbRoute[],
-      paths: string[]
+      paths: string[],
     ) => {
       if (routes.indexOf(route) === routes.length - 1) {
         return <span>{route.label}</span>;
       }
-      const href =
-        props.customUrl?.(paths) ?? `#/${paths.join('/').replace(/^\//, '')}`;
+      const href = props.customUrl?.(paths) ?? `#/${paths.join('/').replace(/^\//, '')}`;
 
       return <a href={href}>{route.label}</a>;
     };
@@ -119,11 +117,7 @@ export default defineComponent({
         // array copy
         const currentPaths = [...paths];
         return (
-          <BreadcrumbItem
-            key={route.path || route.label}
-            index={idx}
-            droplist={route.children}
-          >
+          <BreadcrumbItem key={route.path || route.label} index={idx} droplist={route.children}>
             {slots['item-render']?.({
               route,
               routes: origin,

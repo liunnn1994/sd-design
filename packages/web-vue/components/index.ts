@@ -16,17 +16,9 @@ export type { BackTopInstance } from './back-top';
 export { default as Badge } from './badge';
 export type { BadgeInstance } from './badge';
 export { default as Breadcrumb, BreadcrumbItem } from './breadcrumb';
-export type {
-  BreadcrumbInstance,
-  BreadcrumbItemInstance,
-  BreadcrumbRoute,
-} from './breadcrumb';
+export type { BreadcrumbInstance, BreadcrumbItemInstance, BreadcrumbRoute } from './breadcrumb';
 export { default as Button, ButtonGroup } from './button';
-export type {
-  ButtonInstance,
-  ButtonGroupInstance,
-  ButtonProps,
-} from './button';
+export type { ButtonInstance, ButtonGroupInstance, ButtonProps } from './button';
 export { default as Card, CardGrid, CardMeta } from './card';
 export { default as Calendar } from './calendar';
 export type { CardGridInstance, CardInstance, CardMetaInstance } from './card';
@@ -40,11 +32,7 @@ export type {
   CascaderOption,
 } from './cascader';
 export { default as Checkbox, CheckboxGroup } from './checkbox';
-export type {
-  CheckboxGroupInstance,
-  CheckboxInstance,
-  CheckboxOption,
-} from './checkbox';
+export type { CheckboxGroupInstance, CheckboxInstance, CheckboxOption } from './checkbox';
 export { default as Collapse, CollapseItem } from './collapse';
 export type { CollapseInstance, CollapseItemInstance } from './collapse';
 export { default as Comment } from './comment';
@@ -71,26 +59,11 @@ export type {
   YearPickerInstance,
 } from './date-picker';
 export { default as Descriptions, DescriptionsItem } from './descriptions';
-export type {
-  DescData,
-  DescriptionsInstance,
-  DescriptionsItemInstance,
-} from './descriptions';
+export type { DescData, DescriptionsInstance, DescriptionsItemInstance } from './descriptions';
 export { default as Divider } from './divider';
 export { default as Drawer } from './drawer';
-export type {
-  DrawerConfig,
-  DrawerInstance,
-  DrawerMethod,
-  DrawerReturn,
-} from './drawer';
-export {
-  default as Dropdown,
-  Dgroup,
-  Doption,
-  DropdownButton,
-  Dsubmenu,
-} from './dropdown';
+export type { DrawerConfig, DrawerInstance, DrawerMethod, DrawerReturn } from './drawer';
+export { default as Dropdown, Dgroup, Doption, DropdownButton, Dsubmenu } from './dropdown';
 export type {
   DGroup,
   DOption,
@@ -129,24 +102,14 @@ export type {
 } from './grid';
 export { default as Icon } from './icon-component';
 export type { IconInstance, IconProps } from './icon-component';
-export {
-  default as Image,
-  ImagePreviewAction,
-  ImagePreview,
-  ImagePreviewGroup,
-} from './image';
+export { default as Image, ImagePreviewAction, ImagePreview, ImagePreviewGroup } from './image';
 export type {
   ImageInstance,
   ImagePreviewActionInstance,
   ImagePreviewInstance,
   ImagePreviewGroupInstance,
 } from './image';
-export {
-  default as Input,
-  InputGroup,
-  InputPassword,
-  InputSearch,
-} from './input';
+export { default as Input, InputGroup, InputPassword, InputSearch } from './input';
 export type {
   InputGroupInstance,
   InputInstance,
@@ -156,11 +119,7 @@ export type {
 export { default as InputNumber } from './input-number';
 export type { InputNumberInstance } from './input-number';
 export { default as InputTag } from './input-tag';
-export type {
-  InputTagFieldNames,
-  InputTagInstance,
-  TagData,
-} from './input-tag';
+export type { InputTagFieldNames, InputTagInstance, TagData } from './input-tag';
 export {
   default as Layout,
   LayoutContent,
@@ -180,11 +139,7 @@ export type {
 export { default as Link } from './link';
 export type { LinkInstance } from './link';
 export { default as List, ListItem, ListItemMeta } from './list';
-export type {
-  ListInstance,
-  ListItemInstance,
-  ListItemMetaInstance,
-} from './list';
+export type { ListInstance, ListItemInstance, ListItemMetaInstance } from './list';
 export { default as Mention } from './mention';
 export type { MentionInstance } from './mention';
 export { default as Menu, MenuItem, MenuItemGroup, SubMenu } from './menu';
@@ -199,11 +154,7 @@ export type { MessageMethod, MessageConfig, MessageReturn } from './message';
 export { default as Modal } from './modal';
 export type { ModalMethod, ModalConfig, ModalReturn } from './modal';
 export { default as Notification } from './notification';
-export type {
-  NotificationMethod,
-  NotificationConfig,
-  NotificationReturn,
-} from './notification';
+export type { NotificationMethod, NotificationConfig, NotificationReturn } from './notification';
 export { default as PageHeader } from './page-header';
 export type { PageHeaderInstance } from './page-header';
 export { default as Pagination } from './pagination';
@@ -237,11 +188,7 @@ export type {
   SelectProps,
 } from './select';
 export { default as Skeleton, SkeletonLine, SkeletonShape } from './skeleton';
-export type {
-  SkeletonInstance,
-  SkeletonLineInstance,
-  SkeletonShapeInstance,
-} from './skeleton';
+export type { SkeletonInstance, SkeletonLineInstance, SkeletonShapeInstance } from './skeleton';
 export { default as Slider } from './slider';
 export type { SliderInstance } from './slider';
 export { default as Space } from './space';
@@ -256,15 +203,7 @@ export { default as Steps, Step } from './steps';
 export type { StepsInstance, StepsStepInstance } from './steps';
 export { default as Switch } from './switch';
 export type { SwitchInstance } from './switch';
-export {
-  default as Table,
-  Thead,
-  Td,
-  Th,
-  Tr,
-  Tbody,
-  TableColumn,
-} from './table';
+export { default as Table, Thead, Td, Th, Tr, Tbody, TableColumn } from './table';
 export type {
   TableBorder,
   TableChangeExtra,

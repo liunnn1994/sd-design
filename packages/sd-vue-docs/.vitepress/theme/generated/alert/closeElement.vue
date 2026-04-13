@@ -10,9 +10,7 @@
     </a-col>
     <a-col :span="12">
       <a-alert closable>
-        <template #close-element>
-          Close
-        </template>
+        <template #close-element> Close </template>
         This is an info alert.
       </a-alert>
     </a-col>

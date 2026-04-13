@@ -12,8 +12,7 @@ title:
 
 ## en-US
 
-By setting the `flex` property of the `Col` component, you can configure the flex layout arbitrarily.
----
+## By setting the `flex` property of the `Col` component, you can configure the flex layout arbitrarily.
 
 ```vue
 <template>
@@ -50,19 +49,19 @@ By setting the `flex` property of the `Col` component, you can configure the fle
 </template>
 
 <style scoped>
-.grid-demo .sd-col {
-  height: 48px;
-  line-height: 48px;
-  color: var(--color-white);
-  text-align: center;
-}
+  .grid-demo .sd-col {
+    height: 48px;
+    line-height: 48px;
+    color: var(--color-white);
+    text-align: center;
+  }
 
-.grid-demo .sd-col:nth-child(2n + 1) {
-  background-color: var(--color-primary-light-4);
-}
+  .grid-demo .sd-col:nth-child(2n + 1) {
+    background-color: var(--color-primary-light-4);
+  }
 
-.grid-demo .sd-col:nth-child(2n) {
-  background-color: rgba(var(--sdblue-6), 0.9);
-}
+  .grid-demo .sd-col:nth-child(2n) {
+    background-color: rgba(var(--sdblue-6), 0.9);
+  }
 </style>
 ```

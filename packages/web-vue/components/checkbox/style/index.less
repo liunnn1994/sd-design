@@ -43,8 +43,7 @@
     width: @checkbox-mask-height;
     height: @checkbox-mask-height;
     background-color: @checkbox-mask-color-bg;
-    border: @checkbox-mask-border-width @checkbox-mask-border-style
-      @checkbox-mask-color-border;
+    border: @checkbox-mask-border-width @checkbox-mask-border-style @checkbox-mask-color-border;
     border-radius: @checkbox-mask-border-radius;
     user-select: none;
 
@@ -76,15 +75,14 @@
 
   &:hover &-icon {
     border-color: @checkbox-mask-color-border_hover;
-    transition: border-color @transition-duration-1
-        @transition-timing-function-linear,
+    transition:
+      border-color @transition-duration-1 @transition-timing-function-linear,
       transform @transition-duration-3 @transition-timing-function-overshoot;
   }
 
   &-checked:hover &-icon,
   &-indeterminate:hover &-icon {
-    transition: transform @transition-duration-3
-      @transition-timing-function-overshoot;
+    transition: transform @transition-duration-3 @transition-timing-function-overshoot;
   }
 
   &-checked &-icon {
@@ -93,8 +91,7 @@
 
     &-check {
       transform: scale(1);
-      transition: transform @transition-duration-3
-        @transition-timing-function-overshoot;
+      transition: transform @transition-duration-3 @transition-timing-function-overshoot;
     }
   }
 
@@ -108,8 +105,7 @@
 
     &::after {
       transform: translateX(-50%) translateY(-50%) scale(1);
-      transition: transform @transition-duration-3
-        @transition-timing-function-overshoot;
+      transition: transform @transition-duration-3 @transition-timing-function-overshoot;
     }
   }
 

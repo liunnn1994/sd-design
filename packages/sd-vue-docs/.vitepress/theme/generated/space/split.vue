@@ -4,10 +4,10 @@
       <a-divider direction="vertical" :margin="0" />
     </template>
     <a-button type="primary">Item1</a-button>
-    <a-tag v-if="show" color='sdblue'>Tag</a-tag>
+    <a-tag v-if="show" color="sdblue">Tag</a-tag>
     <a-button type="primary">Item2</a-button>
     <a-button type="primary">Item3</a-button>
-    <a-switch v-model="show"/>
+    <a-switch v-model="show" />
   </a-space>
   <a-divider />
   <a-space>
@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue';
 
-const show = ref(false)
+  const show = ref(false);
 </script>

@@ -100,8 +100,7 @@
     position: relative;
     display: inline-block;
     white-space: nowrap;
-    transition: transform @transition-duration-2
-      @transition-timing-function-standard;
+    transition: transform @transition-duration-2 @transition-timing-function-standard;
   }
 
   &-nav-extra {
@@ -165,7 +164,8 @@
     bottom: 0;
     height: @tabs-line-size-ink-stroke;
     background-color: @tabs-line-color-ink-bg;
-    transition: left @transition-duration-2 @transition-timing-function-standard,
+    transition:
+      left @transition-duration-2 @transition-timing-function-standard,
       width @transition-duration-2 @transition-timing-function-standard;
 
     &.@{tabs-prefix-cls}-header-ink-no-animation {
@@ -211,8 +211,8 @@
         background-color: @tabs-line-color-title-bg;
         border-radius: @tabs-line-border-radius;
         opacity: 1;
-        transition: background-color @transition-duration-2
-            @transition-timing-function-linear,
+        transition:
+          background-color @transition-duration-2 @transition-timing-function-linear,
           opacity @transition-duration-2 @transition-timing-function-linear;
         content: '';
       }
@@ -250,9 +250,7 @@
   }
 
   // headerPadding=false & type === line/text & horizontal
-  &-nav-type-line&-nav-horizontal
-    &-nav-tab-list-no-padding
-    > &-tab:first-of-type,
+  &-nav-type-line&-nav-horizontal &-nav-tab-list-no-padding > &-tab:first-of-type,
   &-nav-text&-nav-horizontal &-nav-tab-list-no-padding > &-tab:first-of-type {
     margin-left: 0;
   }
@@ -270,16 +268,15 @@
         [] @tabs-card-padding-title-horizontal;
       font-size: @tabs-size-default-font-size_card;
       border: @tabs-card-border-width solid @tabs-card-color-title-border;
-      transition: padding @transition-duration-2
-          @transition-timing-function-linear,
+      transition:
+        padding @transition-duration-2 @transition-timing-function-linear,
         color @transition-duration-2 @transition-timing-function-linear;
 
       &-closable {
         padding-right: @tabs-card-padding-title-right_editable;
       }
 
-      &-closable:not(.@{tabs-prefix-cls}-tab-active):hover
-        .@{prefix}-icon-hover:hover::before {
+      &-closable:not(.@{tabs-prefix-cls}-tab-active):hover .@{prefix}-icon-hover:hover::before {
         background-color: @tabs-card-color-close-icon-bg_hover;
       }
 
@@ -369,11 +366,7 @@
 
     .@{tabs-prefix-cls}-tab {
       position: relative;
-      margin: 0
-        (
-          @tabs-text-margin-title-horizontal +
-            (@tabs-text-size-separator-width / 2)
-        );
+      margin: 0 (@tabs-text-margin-title-horizontal + (@tabs-text-size-separator-width / 2));
       padding: .get-title-padding(
           @tabs-size-default-header-height_text,
           @tabs-size-default-font-size,
@@ -386,8 +379,7 @@
       &:not(:first-of-type)::before {
         position: absolute;
         top: 50%;
-        left: -(@tabs-text-margin-title-horizontal +
-              (@tabs-text-size-separator-width / 2));
+        left: -(@tabs-text-margin-title-horizontal + (@tabs-text-size-separator-width / 2));
         display: block;
         width: @tabs-text-size-separator-width;
         height: @tabs-text-size-separator-height;
@@ -484,8 +476,7 @@
     }
 
     .@{tabs-prefix-cls}-nav-tab-list {
-      padding: @tabs-capsule-padding-header-vertical
-        @tabs-capsule-padding-header-horizontal;
+      padding: @tabs-capsule-padding-header-vertical @tabs-capsule-padding-header-horizontal;
       line-height: 1;
       background-color: @tabs-capsule-color-header-bg;
       border-radius: @tabs-capsule-border-header-radius;
@@ -496,8 +487,7 @@
       padding: 0 @tabs-capsule-padding-title-horizontal - 2;
       font-size: @tabs-size-default-font-size_capsule;
       line-height: (
-        @tabs-size-default-header-height_capsule -
-          @tabs-capsule-padding-header-vertical * 2
+        @tabs-size-default-header-height_capsule - @tabs-capsule-padding-header-vertical * 2
       );
       background-color: @tabs-capsule-color-title-bg;
 
@@ -524,23 +514,20 @@
       }
     }
 
-    &.@{tabs-prefix-cls}-nav-horizontal
-      .@{tabs-prefix-cls}-tab:not(:first-of-type) {
+    &.@{tabs-prefix-cls}-nav-horizontal .@{tabs-prefix-cls}-tab:not(:first-of-type) {
       margin-left: @tabs-capsule-margin-title-horizontal;
 
       &::before {
         position: absolute;
         top: 50%;
-        left: -(@tabs-capsule-margin-title-horizontal / 2) - (
-            @tabs-capsule-size-separator-width / 2
-          ) - 2;
+        left: -(@tabs-capsule-margin-title-horizontal / 2) -
+          (@tabs-capsule-size-separator-width / 2) - 2;
         display: block;
         width: @tabs-capsule-size-separator-width;
         height: @tabs-capsule-size-separator-height;
         background-color: @tabs-capsule-color-separator-bg;
         transform: translateY(-50%);
-        transition: all @transition-duration-2
-          @transition-timing-function-linear;
+        transition: all @transition-duration-2 @transition-timing-function-linear;
         content: '';
       }
     }
@@ -587,8 +574,7 @@
   &-type-card,
   &-type-card-gutter {
     > .@{tabs-prefix-cls}-content {
-      border: @tabs-card-border-content-width solid
-        @tabs-line-color-header-border;
+      border: @tabs-card-border-content-width solid @tabs-line-color-header-border;
       border-top: none;
     }
   }
@@ -630,12 +616,7 @@
         padding-bottom: @padding;
         font-size: @@font-size;
 
-        @padding: .get-title-padding(
-            @@height,
-            @@font-size,
-            @tabs-padding-title-text-vertical
-          )
-          [];
+        @padding: .get-title-padding(@@height, @@font-size, @tabs-padding-title-text-vertical) [];
       }
 
       .@{tabs-prefix-cls}-nav-extra {
@@ -690,12 +671,7 @@
       @rounded-height: ~'tabs-size-@{size}-header-height_rounded';
 
       .@{tabs-prefix-cls}-tab {
-        padding-top: .get-title-padding(
-            @@rounded-height,
-            @@rounded-font-size,
-            0
-          )
-          [];
+        padding-top: .get-title-padding(@@rounded-height, @@rounded-font-size, 0) [];
         padding-bottom: $padding-top;
         font-size: @@rounded-font-size;
       }

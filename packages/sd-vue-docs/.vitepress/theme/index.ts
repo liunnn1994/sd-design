@@ -1,9 +1,12 @@
-import SDVue from '@sd-design/web-vue';
-import SDVueIcon from '@sd-design/web-vue/es/icon';
-import '../../../web-vue/components/index.less';
-import { h } from 'vue';
 import type { Theme } from 'vitepress';
+
+import { h } from 'vue';
+
+import '../../../web-vue/components/index.less';
+import SDVue from '@sdata/web-vue';
+import SDVueIcon from '@sdata/web-vue/es/icon';
 import DefaultTheme from 'vitepress/theme';
+
 import DemoBlock from './components/DemoBlock.vue';
 import ThemeBridge from './components/ThemeBridge.vue';
 import './style.css';

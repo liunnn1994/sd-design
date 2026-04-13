@@ -1,5 +1,7 @@
 import { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _Split from './split.vue';
 

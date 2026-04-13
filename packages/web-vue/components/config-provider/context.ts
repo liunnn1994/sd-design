@@ -1,6 +1,7 @@
 import { InjectionKey, Slots } from 'vue';
-import { SDLang } from '../locale/interface';
+
 import { Size } from '../_utils/constant';
+import { SDLang } from '../locale/interface';
 
 export interface ConfigProvider {
   slots: Slots;
@@ -13,5 +14,4 @@ export interface ConfigProvider {
   rtl?: boolean;
 }
 
-export const configProviderInjectionKey: InjectionKey<ConfigProvider> =
-  Symbol('SDConfigProvider');
+export const configProviderInjectionKey: InjectionKey<ConfigProvider> = Symbol('SDConfigProvider');

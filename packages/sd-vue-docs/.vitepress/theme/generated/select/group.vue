@@ -1,6 +1,6 @@
 <template>
   <a-space direction="vertical" size="large">
-    <a-select :style="{width:'320px'}" placeholder="Please select ...">
+    <a-select :style="{ width: '320px' }" placeholder="Please select ...">
       <a-optgroup label="Group-1">
         <a-option>Beijing</a-option>
         <a-option>Shanghai</a-option>
@@ -15,7 +15,7 @@
         <a-option>Wuhan</a-option>
       </a-optgroup>
     </a-select>
-    <a-select :style="{width:'320px'}" placeholder="Please select ..." multiple>
+    <a-select :style="{ width: '320px' }" placeholder="Please select ..." multiple>
       <a-optgroup label="Group-1">
         <a-option>Beijing</a-option>
         <a-option>Shanghai</a-option>

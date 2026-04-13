@@ -18,12 +18,7 @@ DatePicker has a default value.
 
 ```vue
 <template>
-  <a-date-picker
-    defaultValue="2019-06-03"
-    @select="onSelect"
-    @change="onChange"
-    :style="style"
-  />
+  <a-date-picker defaultValue="2019-06-03" @select="onSelect" @change="onChange" :style="style" />
   <a-date-picker
     defaultValue="2019-06-03"
     :format="(value) => `custom format: ${dayjs(value).format('YYYY-MM-DD')}`"
@@ -38,18 +33,8 @@ DatePicker has a default value.
     @change="onChange"
     :style="style"
   />
-  <a-year-picker
-    defaultValue="2019"
-    @select="onSelect"
-    @change="onChange"
-    :style="style"
-  />
-  <a-month-picker
-    defaultValue="2019-06"
-    @select="onSelect"
-    @change="onChange"
-    :style="style"
-  />
+  <a-year-picker defaultValue="2019" @select="onSelect" @change="onChange" :style="style" />
+  <a-month-picker defaultValue="2019-06" @select="onSelect" @change="onChange" :style="style" />
   <a-week-picker
     :defaultValue="dayjs('2019-08-02')"
     @select="onSelect"
@@ -72,21 +57,21 @@ DatePicker has a default value.
   />
 </template>
 <script>
-import dayjs from 'dayjs';
+  import dayjs from 'dayjs';
 
-export default {
-  setup() {
-    return {
-      dayjs,
-      onSelect(dateString, date) {
-        console.log('onSelect', dateString, date);
-      },
-      onChange(dateString, date) {
-        console.log('onChange: ', dateString, date);
-      },
-      style: { width: '200px', marginBottom: '24px', marginRight: '24px' }
-    }
-  }
-}
+  export default {
+    setup() {
+      return {
+        dayjs,
+        onSelect(dateString, date) {
+          console.log('onSelect', dateString, date);
+        },
+        onChange(dateString, date) {
+          console.log('onChange: ', dateString, date);
+        },
+        style: { width: '200px', marginBottom: '24px', marginRight: '24px' },
+      };
+    },
+  };
 </script>
 ```

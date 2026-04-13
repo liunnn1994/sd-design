@@ -1,6 +1,7 @@
 import { computed, defineComponent, PropType, toRefs } from 'vue';
-import { BaseProps } from './interface';
+
 import Base from './base';
+import { BaseProps } from './interface';
 
 export default defineComponent({
   name: 'TypographyText',
@@ -23,12 +24,7 @@ export default defineComponent({
     const { ellipsis, component } = this;
 
     return (
-      <Base
-        {...this.$attrs}
-        ellipsis={ellipsis}
-        component={component}
-        v-slots={this.$slots}
-      />
+      <Base {...this.$attrs} ellipsis={ellipsis} component={component} v-slots={this.$slots} />
     );
   },
 });

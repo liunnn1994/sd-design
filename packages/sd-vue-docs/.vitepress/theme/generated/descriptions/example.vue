@@ -5,35 +5,19 @@
     </a-form-item>
 
     <a-form-item label="layout">
-      <a-radio-group
-        v-model="form.layout"
-        type="button"
-        :options="layoutOptions"
-      />
+      <a-radio-group v-model="form.layout" type="button" :options="layoutOptions" />
     </a-form-item>
 
     <a-form-item label="table-layout">
-      <a-radio-group
-        v-model="form.tableLayout"
-        type="button"
-        :options="['auto', 'fixed']"
-      />
+      <a-radio-group v-model="form.tableLayout" type="button" :options="['auto', 'fixed']" />
     </a-form-item>
 
     <a-form-item label="column">
-      <a-radio-group
-        v-model="form.column"
-        type="button"
-        :options="columnOptions"
-      />
+      <a-radio-group v-model="form.column" type="button" :options="columnOptions" />
     </a-form-item>
 
     <a-form-item label="firstSpan">
-      <a-radio-group
-        v-model="form.firstSpan"
-        type="button"
-        :options="firstSpanOptions"
-      />
+      <a-radio-group v-model="form.firstSpan" type="button" :options="firstSpanOptions" />
     </a-form-item>
   </a-form>
   <div style="margin-top: 20px">
@@ -46,8 +30,9 @@
       bordered
     >
       <a-descriptions-item label="Item1" :span="form.firstSpan">
-        <div>Span：{{form.firstSpan}}
-          <span v-if="form.firstSpan > form.column" style="color: red;">
+        <div
+          >Span：{{ form.firstSpan }}
+          <span v-if="form.firstSpan > form.column" style="color: red">
             Exceeds Column, set to Column size
           </span>
         </div>
@@ -62,23 +47,18 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+  import { reactive } from 'vue';
 
-const form = reactive({
-  size: 'medium',
-  layout: 'horizontal',
-  column: 4,
-  tableLayout: 'auto',
-  firstSpan: 2
-});
+  const form = reactive({
+    size: 'medium',
+    layout: 'horizontal',
+    column: 4,
+    tableLayout: 'auto',
+    firstSpan: 2,
+  });
 
-const layoutOptions = [
-  'horizontal',
-  'inline-horizontal',
-  'vertical',
-  'inline-vertical',
-];
-const columnOptions = [1, 2, 3, 4, 5];
-const firstSpanOptions = [1, 2, 3, 4, 5];
-const sizeOptions = ['mini', 'small', 'medium', 'large'];
+  const layoutOptions = ['horizontal', 'inline-horizontal', 'vertical', 'inline-vertical'];
+  const columnOptions = [1, 2, 3, 4, 5];
+  const firstSpanOptions = [1, 2, 3, 4, 5];
+  const sizeOptions = ['mini', 'small', 'medium', 'large'];
 </script>

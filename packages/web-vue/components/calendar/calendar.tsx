@@ -1,21 +1,16 @@
 import { defineComponent, computed, toRefs, PropType, ref } from 'vue';
+
 import { Dayjs, UnitType } from 'dayjs';
-import Month, { getAllDaysByTime } from './month';
-import Year from './year';
-import Header from './header';
-import {
-  getDayjsValue,
-  getNow,
-  methods,
-  pickDataAttributes,
-} from '../_utils/date';
+
+import { getDayjsValue, getNow, methods, pickDataAttributes } from '../_utils/date';
 import { getPrefixCls } from '../_utils/global-config';
 import { useI18n } from '../locale';
+import Header from './header';
+import Month, { getAllDaysByTime } from './month';
+import Year from './year';
 
 function getFormat(mode: 'day' | 'week' | 'month' | 'year', panel?: boolean) {
-  return mode === 'month' || (mode === 'year' && !panel)
-    ? 'YYYY-MM-DD'
-    : 'YYYY-MM';
+  return mode === 'month' || (mode === 'year' && !panel) ? 'YYYY-MM-DD' : 'YYYY-MM';
 }
 
 // const defaultProps: CalendarProps = {
@@ -98,13 +93,13 @@ export default defineComponent({
      * @en Emitted when the button is clicked
      * @property {Date} date
      */
-    'change': (date: Date) => true,
+    change: (date: Date) => true,
     /**
      * @zh 日期面板改变时触发
      * @en Emitted when the button is clicked
      * @property {Date} date
      */
-    'panelChange': (date: Date) => true,
+    panelChange: (date: Date) => true,
   },
   /**
    * @zh 自定义单元格内容
@@ -208,13 +203,10 @@ export default defineComponent({
 
     const cls = computed(() => [
       prefixCls,
-      computedMode.value === 'month'
-        ? `${prefixCls}-mode-month`
-        : `${prefixCls}-mode-year`,
+      computedMode.value === 'month' ? `${prefixCls}-mode-month` : `${prefixCls}-mode-year`,
       {
         [`${prefixCls}-panel`]:
-          props.panel &&
-          (computedMode.value === 'month' || computedMode.value === 'year'),
+          props.panel && (computedMode.value === 'month' || computedMode.value === 'year'),
       },
     ]);
 

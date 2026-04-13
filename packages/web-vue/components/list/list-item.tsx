@@ -1,6 +1,8 @@
 import { defineComponent, PropType } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
+
 import type { Direction } from '../_utils/constant';
+
+import { getPrefixCls } from '../_utils/global-config';
 
 export default defineComponent({
   name: 'ListItem',

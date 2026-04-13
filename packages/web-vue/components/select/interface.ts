@@ -1,17 +1,12 @@
 import type { RenderFunction } from 'vue';
-import { FieldString } from '../_utils/types';
-import { Size } from '../_utils/constant';
+
 import { VirtualListProps } from '../_components/virtual-list-v2/interface';
+import { Size } from '../_utils/constant';
+import { FieldString } from '../_utils/types';
 import { TriggerProps } from '../trigger';
 
 export interface SelectProps {
-  options?: (
-    | string
-    | number
-    | boolean
-    | SelectOptionData
-    | SelectOptionGroup
-  )[];
+  options?: (string | number | boolean | SelectOptionData | SelectOptionGroup)[];
   multiple?: boolean;
   modelValue?:
     | string
@@ -41,17 +36,13 @@ export interface SelectProps {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
   unmountOnClose?: boolean;
-  filterOption?:
-    | boolean
-    | ((inputValue: string, option: SelectOptionData) => boolean);
+  filterOption?: boolean | ((inputValue: string, option: SelectOptionData) => boolean);
   virtualListProps?: VirtualListProps;
   triggerProps?: TriggerProps;
   formatLabel?: (data: SelectOptionData) => string;
   fallbackOption?:
     | boolean
-    | ((
-        value: string | number | boolean | Record<string, unknown>
-      ) => SelectOptionData);
+    | ((value: string | number | boolean | Record<string, unknown>) => SelectOptionData);
   showExtraOptions?: boolean;
   valueKey?: string;
   searchDelay?: number;
@@ -61,11 +52,7 @@ export interface SelectProps {
   showFooterOnEmpty?: boolean;
 }
 
-export type SelectOptionValue =
-  | string
-  | number
-  | boolean
-  | Record<string, unknown>;
+export type SelectOptionValue = string | number | boolean | Record<string, unknown>;
 
 export interface OptionValueWithKey {
   value: SelectOptionValue;
@@ -128,12 +115,7 @@ export interface SelectOptionGroup {
  * @zh 选项
  * @en Option
  */
-export type SelectOption =
-  | string
-  | number
-  | boolean
-  | SelectOptionData
-  | SelectOptionGroup;
+export type SelectOption = string | number | boolean | SelectOptionData | SelectOptionGroup;
 
 export interface SelectOptionInfo extends SelectOptionData {
   raw: Record<string, unknown>;
@@ -153,6 +135,4 @@ export interface SelectOptionGroupInfo extends SelectOptionGroup {
  * @zh 筛选
  * @en Filter
  */
-export type FilterOption =
-  | boolean
-  | ((inputValue: string, option: SelectOptionData) => boolean);
+export type FilterOption = boolean | ((inputValue: string, option: SelectOptionData) => boolean);

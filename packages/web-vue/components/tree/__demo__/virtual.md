@@ -16,11 +16,7 @@ By specifying `virtualListProps` to turn on the virtual list, high performance c
 
 ```vue
 <template>
-  <a-button
-    type="primary"
-    :style="{ marginBottom: '20px' }"
-    @click="scrollIntoView"
-  >
+  <a-button type="primary" :style="{ marginBottom: '20px' }" @click="scrollIntoView">
     Scroll to 0-0-2-2, i.e. the 26th.
   </a-button>
   <a-tree
@@ -44,10 +40,10 @@ By specifying `virtualListProps` to turn on the virtual list, high performance c
         treeData,
         scrollIntoView() {
           treeRef.value && treeRef.value.scrollIntoView({ key: '0-0-2-2' });
-        }
-      }
-    }
-  }
+        },
+      };
+    },
+  };
 
   function loop(path = '0', level = 2) {
     const list = [];

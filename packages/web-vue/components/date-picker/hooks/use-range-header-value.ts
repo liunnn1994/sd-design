@@ -1,10 +1,12 @@
-import { Dayjs } from 'dayjs';
 import { computed, nextTick, reactive, toRefs, watch } from 'vue';
-import pick from '../../_utils/pick';
+
+import { Dayjs } from 'dayjs';
+
 import { getSortedDayjsArray, methods } from '../../_utils/date';
+import pick from '../../_utils/pick';
 import { CalendarValue, Mode } from '../interface';
-import usePanelSpan from './use-panel-span';
 import useHeaderValue from './use-header-value';
+import usePanelSpan from './use-panel-span';
 
 interface RangeHeaderValueProps {
   mode: Mode;
@@ -33,13 +35,12 @@ export default function useRangeHeaderValue(props: RangeHeaderValueProps) {
 
   const unit = computed(() => (isDateOrWeek.value ? 'M' : 'y'));
 
-  const isSame = (current: Dayjs, target: Dayjs) =>
-    current.isSame(target, unit.value);
+  const isSame = (current: Dayjs, target: Dayjs) => current.isSame(target, unit.value);
 
   const { span, superSpan } = usePanelSpan(
     reactive({
       mode,
-    })
+    }),
   );
 
   const startMode = computed(() => startHeaderMode?.value || mode.value);
@@ -69,7 +70,7 @@ export default function useRangeHeaderValue(props: RangeHeaderValueProps) {
       onChange: (newVal: Dayjs) => {
         emitChange([newVal, endHeaderValue.value]);
       },
-    })
+    }),
   );
 
   const {
@@ -87,7 +88,7 @@ export default function useRangeHeaderValue(props: RangeHeaderValueProps) {
       onChange: (newVal: Dayjs) => {
         emitChange([startHeaderValue.value, newVal]);
       },
-    })
+    }),
   );
 
   const setHeaderValue = (newVal: Dayjs[]) => {
@@ -154,15 +155,13 @@ export default function useRangeHeaderValue(props: RangeHeaderValueProps) {
   /** ************* 以下为操作 ****************** */
 
   const canShortenMonth = computed(() =>
-    methods
-      .add(startHeaderValue.value, span.value, 'M')
-      .isBefore(endHeaderValue.value, unit.value)
+    methods.add(startHeaderValue.value, span.value, 'M').isBefore(endHeaderValue.value, unit.value),
   );
 
   const canShortenYear = computed(() =>
     methods
       .add(startHeaderValue.value, superSpan.value, 'M')
-      .isBefore(endHeaderValue.value, unit.value)
+      .isBefore(endHeaderValue.value, unit.value),
   );
 
   const computedStartHeaderOperations = computed(() => {

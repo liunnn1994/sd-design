@@ -1,17 +1,18 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref, nextTick, toRefs, watch } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import { INPUT_EVENTS, Size } from '../_utils/constant';
+
 import FeedbackIcon from '../_components/feedback-icon.vue';
-import { Enter } from '../_utils/keycode';
 import IconHover from '../_components/icon-hover.vue';
-import IconClose from '../icon/icon-close';
-import { omit } from '../_utils/omit';
-import pick from '../_utils/pick';
-import { isFunction, isNull, isObject, isUndefined } from '../_utils/is';
+import { useCursor } from '../_hooks/use-cursor';
 import { useFormItem } from '../_hooks/use-form-item';
 import { useSize } from '../_hooks/use-size';
-import { useCursor } from '../_hooks/use-cursor';
+import { INPUT_EVENTS, Size } from '../_utils/constant';
+import { getPrefixCls } from '../_utils/global-config';
+import { isFunction, isNull, isObject, isUndefined } from '../_utils/is';
+import { Enter } from '../_utils/keycode';
+import { omit } from '../_utils/omit';
+import pick from '../_utils/pick';
+import IconClose from '../icon/icon-close';
 
 export default defineComponent({
   name: 'Input',
@@ -81,9 +82,7 @@ export default defineComponent({
      * @en Enter the maximum length of the value, the errorOnly attribute was added in version 2.12.0
      */
     maxLength: {
-      type: [Number, Object] as PropType<
-        number | { length: number; errorOnly?: boolean }
-      >,
+      type: [Number, Object] as PropType<number | { length: number; errorOnly?: boolean }>,
       default: 0,
     },
     /**
@@ -143,38 +142,38 @@ export default defineComponent({
      * @param {string} value
      * @param {Event} ev
      */
-    'input': (value: string, ev: Event) => true,
+    input: (value: string, ev: Event) => true,
     /**
      * @zh 仅在输入框失焦或按下回车时触发
      * @en Only triggered when the input box is out of focus or when you press Enter
      * @param {string} value
      * @param {Event} ev
      */
-    'change': (value: string, ev: Event) => true,
+    change: (value: string, ev: Event) => true,
     /**
      * @zh 用户按下回车时触发
      * @en Triggered when the user presses enter
      * @param {KeyboardEvent} ev
      */
-    'pressEnter': (ev: KeyboardEvent) => true,
+    pressEnter: (ev: KeyboardEvent) => true,
     /**
      * @zh 用户点击清除按钮时触发
      * @en Triggered when the user clicks the clear button
      * @param {MouseEvent} ev
      */
-    'clear': (ev: MouseEvent) => true,
+    clear: (ev: MouseEvent) => true,
     /**
      * @zh 输入框获取焦点时触发
      * @en Triggered when the input box gets focus
      * @param {FocusEvent} ev
      */
-    'focus': (ev: FocusEvent) => true,
+    focus: (ev: FocusEvent) => true,
     /**
      * @zh 输入框失去焦点时触发
      * @en Triggered when the input box loses focus
      * @param {FocusEvent} ev
      */
-    'blur': (ev: FocusEvent) => true,
+    blur: (ev: FocusEvent) => true,
   },
   /**
    * @zh 前缀元素
@@ -232,7 +231,7 @@ export default defineComponent({
         props.allowClear &&
         !props.readonly &&
         !mergedDisabled.value &&
-        Boolean(computedValue.value)
+        Boolean(computedValue.value),
     );
 
     // 输入法相关
@@ -253,13 +252,13 @@ export default defineComponent({
         _mergedError.value ||
         Boolean(
           isObject(props.maxLength) &&
-            props.maxLength.errorOnly &&
-            valueLength.value > maxLength.value
-        )
+          props.maxLength.errorOnly &&
+          valueLength.value > maxLength.value,
+        ),
     );
 
     const maxLengthErrorOnly = computed(
-      () => isObject(props.maxLength) && Boolean(props.maxLength.errorOnly)
+      () => isObject(props.maxLength) && Boolean(props.maxLength.errorOnly),
     );
 
     const maxLength = computed(() => {
@@ -275,14 +274,8 @@ export default defineComponent({
     });
 
     const updateValue = (value: string) => {
-      if (
-        maxLength.value &&
-        !maxLengthErrorOnly.value &&
-        getValueLength(value) > maxLength.value
-      ) {
-        value =
-          props.wordSlice?.(value, maxLength.value) ??
-          value.slice(0, defaultMaxLength.value);
+      if (maxLength.value && !maxLengthErrorOnly.value && getValueLength(value) > maxLength.value) {
+        value = props.wordSlice?.(value, maxLength.value) ?? value.slice(0, defaultMaxLength.value);
       }
 
       _value.value = value;
@@ -318,8 +311,7 @@ export default defineComponent({
     };
 
     const handleComposition = (e: CompositionEvent) => {
-      const { value, selectionStart, selectionEnd } =
-        e.target as HTMLInputElement;
+      const { value, selectionStart, selectionEnd } = e.target as HTMLInputElement;
 
       if (e.type === 'compositionend') {
         isComposition.value = false;
@@ -412,10 +404,7 @@ export default defineComponent({
       },
     ]);
 
-    const cls = computed(() => [
-      prefixCls,
-      `${prefixCls}-size-${mergedSize.value}`,
-    ]);
+    const cls = computed(() => [prefixCls, `${prefixCls}-size-${mergedSize.value}`]);
 
     const wrapperAttrs = computed(() => omit(attrs, INPUT_EVENTS));
     const inputAttrs = computed(() => pick(attrs, INPUT_EVENTS));
@@ -436,9 +425,7 @@ export default defineComponent({
         onMousedown={handleMousedown}
         {...(!hasOuter ? wrapperAttrs.value : undefined)}
       >
-        {slots.prefix && (
-          <span class={`${prefixCls}-prefix`}>{slots.prefix()}</span>
-        )}
+        {slots.prefix && <span class={`${prefixCls}-prefix`}>{slots.prefix()}</span>}
         <input
           ref={inputRef}
           class={cls.value}

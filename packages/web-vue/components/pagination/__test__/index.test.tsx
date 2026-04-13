@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { nextTick, ref } from 'vue';
+
 import Pagination from '../pagination';
 
 describe('Pagination', () => {

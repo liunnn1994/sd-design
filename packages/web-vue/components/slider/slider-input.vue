@@ -25,43 +25,44 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
-import InputNumber from '../input-number';
-import { getPrefixCls } from '../_utils/global-config';
+  import { defineComponent, PropType } from 'vue';
 
-export default defineComponent({
-  name: 'SliderInput',
-  components: {
-    InputNumber,
-  },
-  props: {
-    modelValue: {
-      type: Array,
-      required: true,
-    },
-    min: {
-      type: Number,
-    },
-    max: {
-      type: Number,
-    },
-    step: {
-      type: Number,
-    },
-    disabled: {
-      type: Boolean,
-    },
-    range: {
-      type: Boolean,
-    },
-  },
-  emits: ['startChange', 'endChange'],
-  setup(props, { emit }) {
-    const prefixCls = getPrefixCls('slider');
+  import { getPrefixCls } from '../_utils/global-config';
+  import InputNumber from '../input-number';
 
-    return {
-      prefixCls,
-    };
-  },
-});
+  export default defineComponent({
+    name: 'SliderInput',
+    components: {
+      InputNumber,
+    },
+    props: {
+      modelValue: {
+        type: Array,
+        required: true,
+      },
+      min: {
+        type: Number,
+      },
+      max: {
+        type: Number,
+      },
+      step: {
+        type: Number,
+      },
+      disabled: {
+        type: Boolean,
+      },
+      range: {
+        type: Boolean,
+      },
+    },
+    emits: ['startChange', 'endChange'],
+    setup(props, { emit }) {
+      const prefixCls = getPrefixCls('slider');
+
+      return {
+        prefixCls,
+      };
+    },
+  });
 </script>

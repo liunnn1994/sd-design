@@ -35,7 +35,8 @@
   border: @input-border-width solid @input-color-border;
   border-radius: @input-border-radius;
   cursor: text;
-  transition: color @transition-duration-1 @transition-timing-function-linear,
+  transition:
+    color @transition-duration-1 @transition-timing-function-linear,
     border-color @transition-duration-1 @transition-timing-function-linear,
     background-color @transition-duration-1 @transition-timing-function-linear;
 
@@ -87,8 +88,7 @@
     z-index: 1;
     background-color: @input-color-bg_error_focus;
     border-color: @input-color-border_error_focus;
-    box-shadow: 0 0 0 @input-size-shadow_error_focus
-      @input-color-shadow_error_focus;
+    box-shadow: 0 0 0 @input-size-shadow_error_focus @input-color-shadow_error_focus;
   }
 
   // 前后缀样式
@@ -127,8 +127,7 @@
 
     > svg {
       position: relative;
-      transition: color @transition-duration-1
-        @transition-timing-function-linear;
+      transition: color @transition-duration-1 @transition-timing-function-linear;
     }
   }
 

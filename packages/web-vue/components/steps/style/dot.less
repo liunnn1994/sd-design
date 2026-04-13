@@ -63,8 +63,7 @@
   }
 
   &-mode-dot&-horizontal &-item-active &-item-node {
-    margin-top: -((@steps-dot-size-item-icon-active - @steps-dot-size-item-icon) /
-          2);
+    margin-top: -((@steps-dot-size-item-icon-active - @steps-dot-size-item-icon) / 2);
     margin-left: @steps-dot-item-icon-margin-left -
       ((@steps-dot-size-item-icon-active - @steps-dot-size-item-icon) / 2);
   }
@@ -151,7 +150,8 @@
   }
 
   &-mode-dot&-vertical &-item-title {
-    margin-top: @steps-dot-vertical-item-dot-margin-top + (@steps-dot-size-item-icon / 2) - (@steps-size-default / 2);
+    margin-top: @steps-dot-vertical-item-dot-margin-top + (@steps-dot-size-item-icon / 2) -
+      (@steps-size-default / 2);
   }
 
   &-mode-dot&-vertical &-item-description {
@@ -165,9 +165,7 @@
     box-sizing: border-box;
     width: 1px;
     height: 100%;
-    padding-top: (
-      @steps-dot-size-item-icon + 4px + @steps-dot-size-item-icon-gap
-    );
+    padding-top: (@steps-dot-size-item-icon + 4px + @steps-dot-size-item-icon-gap);
     padding-bottom: 2px;
     background-color: transparent;
     transform: translateX(-50%);
@@ -181,9 +179,7 @@
     }
   }
 
-  &-mode-dot&-vertical
-    &-item:not(:last-child)&-item-process
-    &-item-tail::after {
+  &-mode-dot&-vertical &-item:not(:last-child)&-item-process &-item-tail::after {
     background-color: @steps-dot-color-item-tail_wait;
   }
 
@@ -191,9 +187,7 @@
     background-color: @steps-dot-color-item-tail_process;
   }
 
-  &-mode-dot&-vertical
-    &-item:not(:last-child)&-item-next-error
-    &-item-tail::after {
+  &-mode-dot&-vertical &-item:not(:last-child)&-item-next-error &-item-tail::after {
     background-color: @steps-dot-color-item-tail_error;
   }
 
@@ -203,8 +197,6 @@
 
   &-mode-dot&-vertical &-item-active &-item-node {
     margin-top: @steps-dot-vertical-item-dot-margin-top-active;
-    margin-left: -((
-            @steps-dot-size-item-icon-active - @steps-dot-size-item-icon
-          ) / 2);
+    margin-left: -((@steps-dot-size-item-icon-active - @steps-dot-size-item-icon) / 2);
   }
 }

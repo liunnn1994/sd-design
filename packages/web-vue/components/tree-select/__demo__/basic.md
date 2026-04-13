@@ -26,7 +26,7 @@ Basic usage example.
 </template>
 <script>
   import { h } from 'vue';
-  import { IconCalendar } from '@sd-design/web-vue/es/icon';
+  import { IconCalendar } from '@sdata/web-vue/es/icon';
 
   export default {
     setup() {

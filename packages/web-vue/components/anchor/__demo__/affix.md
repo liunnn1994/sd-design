@@ -19,7 +19,7 @@ Use the `affix` component to fix the anchor point within the page.
 ```vue
 <template>
   <a-affix :offsetTop="80">
-    <a-anchor :style="{backgroundColor: 'var(--color-bg-1)'}">
+    <a-anchor :style="{ backgroundColor: 'var(--color-bg-1)' }">
       <a-anchor-link href="#basic">Basic</a-anchor-link>
       <a-anchor-link href="#line-less">LineLess Mode</a-anchor-link>
       <a-anchor-link href="#affix">

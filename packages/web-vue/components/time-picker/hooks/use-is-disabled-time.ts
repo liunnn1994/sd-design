@@ -1,4 +1,5 @@
 import { Dayjs } from 'dayjs';
+
 import { isArray } from '../../_utils/is';
 import { TimePickerProps } from '../interface';
 import { isDisabledTime } from '../utils';
@@ -17,8 +18,6 @@ export default function useIsDisabledTime(props: {
   };
 
   return (value: Array<Dayjs | undefined> | Dayjs | undefined) => {
-    return isArray(value)
-      ? value.some((i) => isDisabled(i))
-      : isDisabled(value);
+    return isArray(value) ? value.some((i) => isDisabled(i)) : isDisabled(value);
   };
 }

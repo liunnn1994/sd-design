@@ -4,14 +4,7 @@ export type Breakpoint = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 export type BreakpointMap = Partial<Record<Breakpoint, string>>;
 export type ScreenMap = Partial<Record<Breakpoint, boolean>>;
 
-export const responsiveArray: Breakpoint[] = [
-  'xxl',
-  'xl',
-  'lg',
-  'md',
-  'sm',
-  'xs',
-];
+export const responsiveArray: Breakpoint[] = ['xxl', 'xl', 'lg', 'md', 'sm', 'xs'];
 
 export const responsiveMap: BreakpointMap = {
   xs: '(max-width: 575px)',
@@ -22,10 +15,7 @@ export const responsiveMap: BreakpointMap = {
   xxl: '(min-width: 1600px)',
 };
 
-type SubscribeFunc = (
-  screens: ScreenMap,
-  breakpointChecked: Breakpoint
-) => void;
+type SubscribeFunc = (screens: ScreenMap, breakpointChecked: Breakpoint) => void;
 
 type MediaQueryResult = { matches: boolean };
 
@@ -83,50 +73,46 @@ const responsiveObserve: {
     }
   },
   unregister() {
-    (Object.keys(responsiveMap) as Breakpoint[]).forEach(
-      (screen: Breakpoint) => {
-        const matchMediaQuery = responsiveMap[screen];
-        if (!matchMediaQuery) return;
-        const handler = this.matchHandlers[matchMediaQuery];
-        if (handler && handler.mql && handler.listener) {
-          if (handler.mql.removeEventListener) {
-            handler.mql.removeEventListener('change', handler.listener);
-          } else {
-            handler.mql.removeListener(handler.listener);
-          }
+    (Object.keys(responsiveMap) as Breakpoint[]).forEach((screen: Breakpoint) => {
+      const matchMediaQuery = responsiveMap[screen];
+      if (!matchMediaQuery) return;
+      const handler = this.matchHandlers[matchMediaQuery];
+      if (handler && handler.mql && handler.listener) {
+        if (handler.mql.removeEventListener) {
+          handler.mql.removeEventListener('change', handler.listener);
+        } else {
+          handler.mql.removeListener(handler.listener);
         }
       }
-    );
+    });
   },
   register() {
-    (Object.keys(responsiveMap) as Breakpoint[]).forEach(
-      (screen: Breakpoint) => {
-        const matchMediaQuery = responsiveMap[screen];
-        if (!matchMediaQuery) return;
-        const listener = ({ matches }: MediaQueryResult) => {
-          this.dispatch(
-            {
-              ...screens,
-              [screen]: matches,
-            },
-            screen
-          );
-        };
-        const mql = window.matchMedia(matchMediaQuery);
-        if (mql.addEventListener) {
-          mql.addEventListener('change', listener);
-        } else {
-          mql.addListener(listener);
-        }
-
-        this.matchHandlers[matchMediaQuery] = {
-          mql,
-          listener,
-        };
-
-        listener(mql);
+    (Object.keys(responsiveMap) as Breakpoint[]).forEach((screen: Breakpoint) => {
+      const matchMediaQuery = responsiveMap[screen];
+      if (!matchMediaQuery) return;
+      const listener = ({ matches }: MediaQueryResult) => {
+        this.dispatch(
+          {
+            ...screens,
+            [screen]: matches,
+          },
+          screen,
+        );
+      };
+      const mql = window.matchMedia(matchMediaQuery);
+      if (mql.addEventListener) {
+        mql.addEventListener('change', listener);
+      } else {
+        mql.addListener(listener);
       }
-    );
+
+      this.matchHandlers[matchMediaQuery] = {
+        mql,
+        listener,
+      };
+
+      listener(mql);
+    });
   },
 };
 

@@ -1,28 +1,16 @@
-import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
+import { nextTick } from 'vue';
+
 import Tooltip from '../index';
 
 describe('Tooltip', () => {
   test('should render tooltip', async () => {
     const wrapper = mount(
       {
-        template: [
-          'top',
-          'tl',
-          'tr',
-          'bottom',
-          'bl',
-          'br',
-          'left',
-          'lt',
-          'lb',
-          'right',
-          'rt',
-          'rb',
-        ]
+        template: ['top', 'tl', 'tr', 'bottom', 'bl', 'br', 'left', 'lt', 'lb', 'right', 'rt', 'rb']
           .map(
             (item) =>
-              `<a-tooltip content="content" :default-popup-visible="true" position="${item}" :render-to-body="false"><button>Button</button></a-tooltip>`
+              `<a-tooltip content="content" :default-popup-visible="true" position="${item}" :render-to-body="false"><button>Button</button></a-tooltip>`,
           )
           .join('/n'),
       },
@@ -30,7 +18,7 @@ describe('Tooltip', () => {
         global: {
           plugins: [Tooltip],
         },
-      }
+      },
     );
 
     await nextTick();

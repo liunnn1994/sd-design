@@ -18,18 +18,15 @@ Support `v-model` for two-way data binding.
 
 ```vue
 <template>
-  <a-time-picker
-    style="width: 194px"
-    v-model="value"
-  />
+  <a-time-picker style="width: 194px" v-model="value" />
 </template>
 <script>
   export default {
     data() {
       return {
-        value: null
-      }
-    }
-  }
+        value: null,
+      };
+    },
+  };
 </script>
 ```

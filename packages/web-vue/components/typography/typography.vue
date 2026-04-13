@@ -3,17 +3,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
+  import { defineComponent } from 'vue';
 
-export default defineComponent({
-  name: 'Typography',
-  setup() {
-    const prefixCls = getPrefixCls('typography');
+  import { getPrefixCls } from '../_utils/global-config';
 
-    return {
-      classNames: [prefixCls],
-    };
-  },
-});
+  export default defineComponent({
+    name: 'Typography',
+    setup() {
+      const prefixCls = getPrefixCls('typography');
+
+      return {
+        classNames: [prefixCls],
+      };
+    },
+  });
 </script>

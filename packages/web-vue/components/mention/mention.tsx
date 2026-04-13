@@ -10,29 +10,22 @@ import {
   nextTick,
   toRef,
 } from 'vue';
-import SDTextarea from '../textarea';
-import SDInput from '../input';
-import Trigger from '../trigger';
-import SelectDropdown from '../select/select-dropdown.vue';
-import Option from '../select/option.vue';
-import { MeasureInfo } from './interface';
-import {
-  getLastMeasureIndex,
-  getTextBeforeSelection,
-  isValidSearch,
-} from './utils';
-import {
-  SelectOptionData,
-  SelectOptionGroup,
-  SelectOptionInfo,
-} from '../select/interface';
-import { getPrefixCls } from '../_utils/global-config';
-import { getSizeStyles } from '../textarea/utils';
+
 import ResizeObserver from '../_components/resize-observer';
-import { isFunction, isNull, isUndefined } from '../_utils/is';
-import { useSelect } from '../select/hooks/use-select';
-import { getKeyFromValue } from '../select/utils';
 import { useFormItem } from '../_hooks/use-form-item';
+import { getPrefixCls } from '../_utils/global-config';
+import { isFunction, isNull, isUndefined } from '../_utils/is';
+import SDInput from '../input';
+import { useSelect } from '../select/hooks/use-select';
+import { SelectOptionData, SelectOptionGroup, SelectOptionInfo } from '../select/interface';
+import Option from '../select/option.vue';
+import SelectDropdown from '../select/select-dropdown.vue';
+import { getKeyFromValue } from '../select/utils';
+import SDTextarea from '../textarea';
+import { getSizeStyles } from '../textarea/utils';
+import Trigger from '../trigger';
+import { MeasureInfo } from './interface';
+import { getLastMeasureIndex, getTextBeforeSelection, isValidSearch } from './utils';
 
 export default defineComponent({
   name: 'Mention',
@@ -57,9 +50,7 @@ export default defineComponent({
      * @en Data for automatic completion
      */
     data: {
-      type: Array as PropType<
-        (string | number | SelectOptionData | SelectOptionGroup)[]
-      >,
+      type: Array as PropType<(string | number | SelectOptionData | SelectOptionGroup)[]>,
       default: () => [],
     },
     /**
@@ -111,41 +102,40 @@ export default defineComponent({
      * @en Triggered when the value changes
      * @property {string} value
      */
-    'change': (value: string) => true,
+    change: (value: string) => true,
     /**
      * @zh 动态搜索时触发，2.47.0 版本增加 prefix 参数
      * @en Trigger on dynamic search prefix, version 2.47.0 adds prefix param
      * @property {string} value
      * @property {string} prefix
      */
-    'search': (value: string, prefix: string) => true,
+    search: (value: string, prefix: string) => true,
     /**
      * @zh 选择下拉选项时触发
      * @en Triggered when the drop-down option is selected
      * @property {string | number | Record<string, any> | undefined} value
      */
-    'select': (value: string | number | Record<string, any> | undefined) =>
-      true,
+    select: (value: string | number | Record<string, any> | undefined) => true,
     /**
      * @zh 用户点击清除按钮时触发
      * @en Triggered when the user clicks the clear button
      * @version 2.23.0
      */
-    'clear': (ev: Event) => true,
+    clear: (ev: Event) => true,
     /**
      * @zh 文本框获取焦点时触发
      * @en Emitted when the text box gets focus
      * @param {FocusEvent} ev
      * @version 2.42.0
      */
-    'focus': (ev: FocusEvent) => true,
+    focus: (ev: FocusEvent) => true,
     /**
      * @zh 文本框失去焦点时触发
      * @en Emitted when the text box loses focus
      * @param {FocusEvent} ev
      * @version 2.42.0
      */
-    'blur': (ev: FocusEvent) => true,
+    blur: (ev: FocusEvent) => true,
   },
   /**
    * @zh 选项内容
@@ -176,7 +166,7 @@ export default defineComponent({
     });
 
     const computedValueKeys = computed(() =>
-      computedValue.value ? [getKeyFromValue(computedValue.value)] : []
+      computedValue.value ? [getKeyFromValue(computedValue.value)] : [],
     );
     const measureInfo = ref<MeasureInfo>({
       measuring: false,
@@ -203,9 +193,7 @@ export default defineComponent({
       const text = getTextBeforeSelection(e.target as HTMLInputElement);
       const lastMeasure = getLastMeasureIndex(text, props.prefix);
       if (lastMeasure.location > -1) {
-        const measureText = text.slice(
-          lastMeasure.location + lastMeasure.prefix.length
-        );
+        const measureText = text.slice(lastMeasure.location + lastMeasure.prefix.length);
         if (isValidSearch(measureText, props.split)) {
           _popupVisible.value = true;
           measureInfo.value = {
@@ -236,10 +224,7 @@ export default defineComponent({
 
     const _popupVisible = ref(false);
     const computedPopupVisible = computed(
-      () =>
-        _popupVisible.value &&
-        measureInfo.value.measuring &&
-        validOptionInfos.value.length > 0
+      () => _popupVisible.value && measureInfo.value.measuring && validOptionInfos.value.length > 0,
     );
 
     const handleResize = () => {
@@ -253,47 +238,37 @@ export default defineComponent({
     const handleSelect = (key: string, e: Event) => {
       const { value } = optionInfoMap.get(key) ?? {};
       const measureStart = measureInfo.value.location;
-      const measureEnd =
-        measureInfo.value.location + measureInfo.value.text.length;
+      const measureEnd = measureInfo.value.location + measureInfo.value.text.length;
       let head = _value.value.slice(0, measureStart);
       let tail = _value.value.slice(measureEnd + 1);
       // 如过匹配内容之前或者之后已经存在内容，需要添加分割字符
-      head +=
-        !head || head.endsWith(props.split) || head.endsWith('\n')
-          ? ''
-          : props.split;
+      head += !head || head.endsWith(props.split) || head.endsWith('\n') ? '' : props.split;
       tail =
-        (!tail || tail.startsWith(props.split) || tail.startsWith('\n')
-          ? ''
-          : props.split) + tail;
+        (!tail || tail.startsWith(props.split) || tail.startsWith('\n') ? '' : props.split) + tail;
 
       const match = `${measureInfo.value.prefix}${value}`;
       const nextValue = `${head}${match}${tail}`;
 
       _value.value = nextValue;
-      emit(
-        'select',
-        value as string | number | Record<string, any> | undefined
-      );
+      emit('select', value as string | number | Record<string, any> | undefined);
       emit('update:modelValue', nextValue);
       emit('change', nextValue);
       resetMeasureInfo();
       eventHandlers.value?.onChange?.();
     };
 
-    const { validOptions, optionInfoMap, validOptionInfos, handleKeyDown } =
-      useSelect({
-        options: data,
-        inputValue: measureText,
-        filterOption,
-        popupVisible: computedPopupVisible,
-        valueKeys: computedValueKeys,
-        dropdownRef,
-        optionRefs,
-        onSelect: handleSelect,
-        onPopupVisibleChange: handlePopupVisibleChange,
-        enterToOpen: false,
-      });
+    const { validOptions, optionInfoMap, validOptionInfos, handleKeyDown } = useSelect({
+      options: data,
+      inputValue: measureText,
+      filterOption,
+      popupVisible: computedPopupVisible,
+      valueKeys: computedValueKeys,
+      dropdownRef,
+      optionRefs,
+      onSelect: handleSelect,
+      onPopupVisibleChange: handlePopupVisibleChange,
+      enterToOpen: false,
+    });
 
     const mirrorStyle = ref();
 
@@ -336,9 +311,7 @@ export default defineComponent({
     const renderDropdown = () => {
       return (
         <SelectDropdown ref={dropdownRef}>
-          {validOptions.value.map((info) =>
-            renderOption(info as SelectOptionInfo)
-          )}
+          {validOptions.value.map((info) => renderOption(info as SelectOptionInfo))}
         </SelectDropdown>
       );
     };
@@ -387,28 +360,23 @@ export default defineComponent({
                 onKeydown={handleKeyDown}
               />
             </ResizeObserver>
-            {measureInfo.value.measuring &&
-              validOptionInfos.value.length > 0 && (
-                <div
-                  ref={mirrorRef}
-                  style={mirrorStyle.value}
-                  class={`${prefixCls}-measure`}
+            {measureInfo.value.measuring && validOptionInfos.value.length > 0 && (
+              <div ref={mirrorRef} style={mirrorStyle.value} class={`${prefixCls}-measure`}>
+                {computedValue.value?.slice(0, measureInfo.value.location)}
+                <Trigger
+                  v-slots={{ content: renderDropdown }}
+                  trigger="focus"
+                  position="bl"
+                  popupOffset={4}
+                  preventFocus={true}
+                  popupVisible={computedPopupVisible.value}
+                  clickToClose={false}
+                  onPopupVisibleChange={handlePopupVisibleChange}
                 >
-                  {computedValue.value?.slice(0, measureInfo.value.location)}
-                  <Trigger
-                    v-slots={{ content: renderDropdown }}
-                    trigger="focus"
-                    position="bl"
-                    popupOffset={4}
-                    preventFocus={true}
-                    popupVisible={computedPopupVisible.value}
-                    clickToClose={false}
-                    onPopupVisibleChange={handlePopupVisibleChange}
-                  >
-                    <span>@</span>
-                  </Trigger>
-                </div>
-              )}
+                  <span>@</span>
+                </Trigger>
+              </div>
+            )}
           </div>
         );
       }

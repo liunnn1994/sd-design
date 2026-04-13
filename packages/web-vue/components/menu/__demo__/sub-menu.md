@@ -25,7 +25,7 @@ Multiple sub-items can be embedded in the menu, and the items that are opened by
       :default-selected-keys="['0_1']"
       show-collapse-button
     >
-    <a-menu-item key="0_0_0" data-obj="1">Menu 1</a-menu-item>
+      <a-menu-item key="0_0_0" data-obj="1">Menu 1</a-menu-item>
       <a-sub-menu key="0">
         <template #icon><icon-apps></icon-apps></template>
         <template #title>Navigation 1</template>
@@ -56,31 +56,31 @@ Multiple sub-items can be embedded in the menu, and the items that are opened by
   </div>
 </template>
 <script>
-import {
-  IconMenuFold,
-  IconMenuUnfold,
-  IconApps,
-  IconBug,
-  IconBulb,
-} from '@sd-design/web-vue/es/icon';
-
-export default {
-  components: {
+  import {
     IconMenuFold,
     IconMenuUnfold,
     IconApps,
     IconBug,
     IconBulb,
-  },
-};
+  } from '@sdata/web-vue/es/icon';
+
+  export default {
+    components: {
+      IconMenuFold,
+      IconMenuUnfold,
+      IconApps,
+      IconBug,
+      IconBulb,
+    },
+  };
 </script>
 <style scoped>
-.menu-demo {
-  box-sizing: border-box;
-  width: 100%;
-  height: 600px;
-  padding: 40px;
-  background-color: var(--color-neutral-2);
-}
+  .menu-demo {
+    box-sizing: border-box;
+    width: 100%;
+    height: 600px;
+    padding: 40px;
+    background-color: var(--color-neutral-2);
+  }
 </style>
 ```

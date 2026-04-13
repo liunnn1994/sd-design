@@ -8,5 +8,4 @@ export interface BreadcrumbContext {
   slots: Slots;
 }
 
-export const breadcrumbInjectKey: InjectionKey<BreadcrumbContext> =
-  Symbol('SDBreadcrumb');
+export const breadcrumbInjectKey: InjectionKey<BreadcrumbContext> = Symbol('SDBreadcrumb');

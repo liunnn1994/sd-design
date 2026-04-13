@@ -8,23 +8,24 @@ import {
   toRef,
   watch,
 } from 'vue';
-import SDInput from '../input';
-import Trigger, { TriggerProps } from '../trigger';
+
+import VirtualList from '../_components/virtual-list-v2';
+import { VirtualListProps } from '../_components/virtual-list-v2/interface';
+import { useFormItem } from '../_hooks/use-form-item';
 import { getPrefixCls } from '../_utils/global-config';
+import { isFunction, isNull, isUndefined } from '../_utils/is';
+import SDInput from '../input';
+import { useSelect } from '../select/hooks/use-select';
 import {
   SelectOptionInfo,
   FilterOption,
   SelectOptionData,
   SelectOptionGroup,
 } from '../select/interface';
-import { isFunction, isNull, isUndefined } from '../_utils/is';
-import SelectDropdown from '../select/select-dropdown.vue';
 import Option from '../select/option.vue';
-import { useSelect } from '../select/hooks/use-select';
+import SelectDropdown from '../select/select-dropdown.vue';
 import { getKeyFromValue } from '../select/utils';
-import { useFormItem } from '../_hooks/use-form-item';
-import VirtualList from '../_components/virtual-list-v2';
-import { VirtualListProps } from '../_components/virtual-list-v2/interface';
+import Trigger, { TriggerProps } from '../trigger';
 
 export default defineComponent({
   name: 'AutoComplete',
@@ -60,9 +61,7 @@ export default defineComponent({
      * @en Data used for auto-complete
      */
     data: {
-      type: Array as PropType<
-        (string | number | SelectOptionData | SelectOptionGroup)[]
-      >,
+      type: Array as PropType<(string | number | SelectOptionData | SelectOptionGroup)[]>,
       default: () => [],
     },
     /**
@@ -70,9 +69,7 @@ export default defineComponent({
      * @en Mount container for popup
      */
     popupContainer: {
-      type: [String, Object] as PropType<
-        string | HTMLElement | null | undefined
-      >,
+      type: [String, Object] as PropType<string | HTMLElement | null | undefined>,
     },
     /**
      * @zh 是否为严格校验模式
@@ -124,40 +121,40 @@ export default defineComponent({
      * @en Emitted when the value changes
      * @property {string} value
      */
-    'change': (value: string) => true,
+    change: (value: string) => true,
     /**
      * @zh 用户搜索时触发
      * @en Emitted when the user searches
      * @property {string} value
      */
-    'search': (value: string) => true,
+    search: (value: string) => true,
     /**
      * @zh 选择选项时触发
      * @en Emitted when an option is selected
      * @property {string} value
      */
-    'select': (value: string) => true,
+    select: (value: string) => true,
     /**
      * @zh 用户点击清除按钮时触发
      * @en Triggered when the user clicks the clear button
      * @param {Event} ev
      * @version 2.23.0
      */
-    'clear': (ev: Event) => true,
+    clear: (ev: Event) => true,
     /**
      * @zh 下拉菜单发生滚动时触发
      * @en Triggered when the drop-down scrolls
      * @param {Event} ev
      * @version 2.52.0
      */
-    'dropdownScroll': (ev: Event) => true,
+    dropdownScroll: (ev: Event) => true,
     /**
      * @zh 下拉菜单滚动到底部时触发
      * @en Triggered when the drop-down menu is scrolled to the bottom
      * @param {Event} ev
      * @version 2.52.0
      */
-    'dropdownReachBottom': (ev: Event) => true,
+    dropdownReachBottom: (ev: Event) => true,
   },
   /**
    * @zh 弹出框的页脚
@@ -189,7 +186,7 @@ export default defineComponent({
     });
 
     const computedValueKeys = computed(() =>
-      computedValue.value ? [getKeyFromValue(computedValue.value)] : []
+      computedValue.value ? [getKeyFromValue(computedValue.value)] : [],
     );
     const { data } = toRefs(props);
     const dropdownRef = ref();
@@ -197,7 +194,7 @@ export default defineComponent({
 
     const _popupVisible = ref(false);
     const computedPopupVisible = computed(
-      () => _popupVisible.value && validOptionInfos.value.length > 0
+      () => _popupVisible.value && validOptionInfos.value.length > 0,
     );
 
     // VirtualList
@@ -208,10 +205,7 @@ export default defineComponent({
       _popupVisible.value = popupVisible;
     };
 
-    const strictFilterOption = (
-      inputValue: string,
-      option: SelectOptionData
-    ) => {
+    const strictFilterOption = (inputValue: string, option: SelectOptionData) => {
       return Boolean(option.label?.includes(inputValue));
     };
 
@@ -262,19 +256,18 @@ export default defineComponent({
       emit('dropdownReachBottom', e);
     };
 
-    const { validOptions, optionInfoMap, validOptionInfos, handleKeyDown } =
-      useSelect({
-        options: data,
-        inputValue: computedValue,
-        filterOption: mergedFilterOption,
-        popupVisible: computedPopupVisible,
-        valueKeys: computedValueKeys,
-        component,
-        dropdownRef,
-        optionRefs,
-        onSelect: handleSelect,
-        onPopupVisibleChange: handlePopupVisibleChange,
-      });
+    const { validOptions, optionInfoMap, validOptionInfos, handleKeyDown } = useSelect({
+      options: data,
+      inputValue: computedValue,
+      filterOption: mergedFilterOption,
+      popupVisible: computedPopupVisible,
+      valueKeys: computedValueKeys,
+      component,
+      dropdownRef,
+      optionRefs,
+      onSelect: handleSelect,
+      onPopupVisibleChange: handlePopupVisibleChange,
+    });
 
     const getOptionContentFunc = (item: SelectOptionInfo) => {
       if (isFunction(slots.option) && item.value) {
@@ -311,10 +304,8 @@ export default defineComponent({
           ref={dropdownRef}
           class={`${prefixCls}-dropdown`}
           v-slots={{
-            'default': () => [
-              ...validOptions.value.map((info) =>
-                renderOption(info as SelectOptionInfo)
-              ),
+            default: () => [
+              ...validOptions.value.map((info) => renderOption(info as SelectOptionInfo)),
             ],
             'virtual-list': () => (
               <VirtualList
@@ -322,12 +313,11 @@ export default defineComponent({
                 ref={virtualListRef}
                 data={validOptions.value}
                 v-slots={{
-                  item: ({ item }: { item: SelectOptionInfo }) =>
-                    renderOption(item),
+                  item: ({ item }: { item: SelectOptionInfo }) => renderOption(item),
                 }}
               />
             ),
-            'footer': slots.footer,
+            footer: slots.footer,
           }}
           virtualList={Boolean(props.virtualListProps)}
           onScroll={handleDropdownScroll}

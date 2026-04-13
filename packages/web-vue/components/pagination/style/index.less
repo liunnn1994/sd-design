@@ -64,10 +64,9 @@
       color: @pagination-color-item-text_active;
       background-color: @pagination-color-bg-item_active;
       border-color: @pagination-color-item-border_active;
-      transition: color @transition-duration-2
-          @transition-timing-function-linear,
-        background-color @transition-duration-2
-          @transition-timing-function-linear;
+      transition:
+        color @transition-duration-2 @transition-timing-function-linear,
+        background-color @transition-duration-2 @transition-timing-function-linear;
     }
 
     &-disabled,
@@ -189,8 +188,7 @@
     }
 
     &-total-page {
-      margin-right: @pagination-simple-margin-next-left -
-        @pagination-simple-margin-prev-right;
+      margin-right: @pagination-simple-margin-next-left - @pagination-simple-margin-prev-right;
     }
   }
 

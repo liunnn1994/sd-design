@@ -1,6 +1,6 @@
 ---
-title: "date-picker"
-outline: "deep"
+title: 'date-picker'
+outline: 'deep'
 ---
 
 ```yaml
@@ -11,235 +11,195 @@ title: 日期选择器 DatePicker
 description: 选择日期。支持年、月、周、日类型，支持范围选择等。
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## API
-
 
 ### `Common` Props
 
-|参数名|描述|类型|默认值|版本|
-|---|---|---|:---:|:---|
-|locale|国际化配置，用于覆盖locale中的 `datePicker` 字段|`Record<string, any>`|`-`||
-|hide-trigger|没有触发元素，只显示选择面板|`boolean`|`false`||
-|allow-clear|是否允许清除|`boolean`|`true`||
-|readonly|是否为只读|`boolean`|`false`||
-|error|是否为错误状态|`boolean`|`false`||
-|size|日期选择器的尺寸|`'mini' \| 'small' \| 'medium' \| 'large'`|`'medium'`||
-|shortcuts|预设时间范围快捷选择|`ShortcutType[]`|`[]`||
-|shortcuts-position|预设范围在面板上的位置，默认放在下方，侧边一般用于大量预设时间的场景|`'left' \| 'bottom' \| 'right'`|`'bottom'`||
-|position|弹出的框的位置|`'top' \| 'tl' \| 'tr' \| 'bottom' \| 'bl' \| 'br'`|`'bl'`||
-|popup-visible|控制弹出框的打开或者关闭状态|`boolean`|`-`||
-|default-popup-visible|默认弹出框是打开或者关闭|`boolean`|`false`||
-|trigger-props|可以传入 `Trigger` 组件的参数|`TriggerProps`|`-`||
-|unmount-on-close|是否在隐藏的时候销毁DOM结构|`boolean`|`false`||
-|placeholder|提示文案|`string`|`-`||
-|disabled|是否禁用|`boolean`|`false`||
-|disabled-date|不可选取的日期|`(current?: Date) => boolean`|`-`||
-|disabled-time|不可选取的时间|`(current: Date) => DisabledTimeProps`|`-`||
-|picker-value **(v-model)**|面板显示的日期|`Date \| string \| number`|`-`||
-|default-picker-value|面板默认显示的日期|`Date \| string \| number`|`-`||
-|popup-container|弹出框的挂载容器|`string \| HTMLElement`|`-`||
-|value-format|值的格式，对 `value` `defaultValue` `pickerValue` `defaultPickerValue` 以及事件中的返回值生效，支持设置为时间戳，Date 和字符串（参考[字符串解析格式](#字符串解析格式)）。如果没有指定，将格式化为字符串，格式同 `format`。|`'timestamp' \| 'Date' \| string`|`-`|2.16.0|
-|preview-shortcut|是否要预览快捷选择的结果|`boolean`|`true`|2.28.0|
-|show-confirm-btn|是否显示确认按钮，`showTime = true` 的时候始终显示。|`boolean`|`false`|2.29.0|
-|disabled-input|是否禁止键盘输入日期|`boolean`|`false`|2.43.0|
-|abbreviation|是否启用缩写|`boolean`|`true`|2.45.0|
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| locale | 国际化配置，用于覆盖locale中的 `datePicker` 字段 | `Record<string, any>` | `-` |  |
+| hide-trigger | 没有触发元素，只显示选择面板 | `boolean` | `false` |  |
+| allow-clear | 是否允许清除 | `boolean` | `true` |  |
+| readonly | 是否为只读 | `boolean` | `false` |  |
+| error | 是否为错误状态 | `boolean` | `false` |  |
+| size | 日期选择器的尺寸 | `'mini' \| 'small' \| 'medium' \| 'large'` | `'medium'` |  |
+| shortcuts | 预设时间范围快捷选择 | `ShortcutType[]` | `[]` |  |
+| shortcuts-position | 预设范围在面板上的位置，默认放在下方，侧边一般用于大量预设时间的场景 | `'left' \| 'bottom' \| 'right'` | `'bottom'` |  |
+| position | 弹出的框的位置 | `'top' \| 'tl' \| 'tr' \| 'bottom' \| 'bl' \| 'br'` | `'bl'` |  |
+| popup-visible | 控制弹出框的打开或者关闭状态 | `boolean` | `-` |  |
+| default-popup-visible | 默认弹出框是打开或者关闭 | `boolean` | `false` |  |
+| trigger-props | 可以传入 `Trigger` 组件的参数 | `TriggerProps` | `-` |  |
+| unmount-on-close | 是否在隐藏的时候销毁DOM结构 | `boolean` | `false` |  |
+| placeholder | 提示文案 | `string` | `-` |  |
+| disabled | 是否禁用 | `boolean` | `false` |  |
+| disabled-date | 不可选取的日期 | `(current?: Date) => boolean` | `-` |  |
+| disabled-time | 不可选取的时间 | `(current: Date) => DisabledTimeProps` | `-` |  |
+| picker-value **(v-model)** | 面板显示的日期 | `Date \| string \| number` | `-` |  |
+| default-picker-value | 面板默认显示的日期 | `Date \| string \| number` | `-` |  |
+| popup-container | 弹出框的挂载容器 | `string \| HTMLElement` | `-` |  |
+| value-format | 值的格式，对 `value` `defaultValue` `pickerValue` `defaultPickerValue` 以及事件中的返回值生效，支持设置为时间戳，Date 和字符串（参考[字符串解析格式](#字符串解析格式)）。如果没有指定，将格式化为字符串，格式同 `format`。 | `'timestamp' \| 'Date' \| string` | `-` | 2.16.0 |
+| preview-shortcut | 是否要预览快捷选择的结果 | `boolean` | `true` | 2.28.0 |
+| show-confirm-btn | 是否显示确认按钮，`showTime = true` 的时候始终显示。 | `boolean` | `false` | 2.29.0 |
+| disabled-input | 是否禁止键盘输入日期 | `boolean` | `false` | 2.43.0 |
+| abbreviation | 是否启用缩写 | `boolean` | `true` | 2.45.0 |
+
 ### `Common` Events
 
-|事件名|描述|参数|
-|---|---|---|
-|change|组件值发生改变|value: `Date \| string \| number \| undefined`<br>date: `Date \| undefined`<br>dateString: `string \| undefined`|
-|select|选中日期发生改变但组件值未改变|value: `Date \| string \| number`<br>date: `Date`<br>dateString: `string`|
-|popup-visible-change|打开或关闭弹出框|visible: `boolean`|
-|ok|点击确认按钮|value: `Date \| string \| number`<br>date: `Date`<br>dateString: `string`|
-|clear|点击清除按钮|-|
-|select-shortcut|点击快捷选项|shortcut: `ShortcutType`|
-|picker-value-change|面板日期改变|value: `Date \| string \| number`<br>date: `Date`<br>dateString: `string`|
+| 事件名 | 描述 | 参数 |
+| --- | --- | --- |
+| change | 组件值发生改变 | value: `Date \| string \| number \| undefined`<br>date: `Date \| undefined`<br>dateString: `string \| undefined` |
+| select | 选中日期发生改变但组件值未改变 | value: `Date \| string \| number`<br>date: `Date`<br>dateString: `string` |
+| popup-visible-change | 打开或关闭弹出框 | visible: `boolean` |
+| ok | 点击确认按钮 | value: `Date \| string \| number`<br>date: `Date`<br>dateString: `string` |
+| clear | 点击清除按钮 | - |
+| select-shortcut | 点击快捷选项 | shortcut: `ShortcutType` |
+| picker-value-change | 面板日期改变 | value: `Date \| string \| number`<br>date: `Date`<br>dateString: `string` |
+
 ### `Common` Slots
 
-|插槽名|描述|参数|版本|
-|---|:---:|---|:---|
-|prefix|输入框前缀|-|2.41.0|
-|suffix-icon|输入框后缀图标|-||
-|icon-next-double|双箭头往后翻页图标|-||
-|icon-prev-double|双箭头往前翻页图标|-||
-|icon-next|单箭头往后翻页图标|-||
-|icon-prev|单箭头往前翻页图标|-||
-|cell|自定义日期单元格的内容|date: `Date`||
-|extra|额外的页脚|-||
-
-
-
+| 插槽名           |          描述          | 参数         | 版本   |
+| ---------------- | :--------------------: | ------------ | :----- |
+| prefix           |       输入框前缀       | -            | 2.41.0 |
+| suffix-icon      |     输入框后缀图标     | -            |        |
+| icon-next-double |   双箭头往后翻页图标   | -            |        |
+| icon-prev-double |   双箭头往前翻页图标   | -            |        |
+| icon-next        |   单箭头往后翻页图标   | -            |        |
+| icon-prev        |   单箭头往前翻页图标   | -            |        |
+| cell             | 自定义日期单元格的内容 | date: `Date` |        |
+| extra            |       额外的页脚       | -            |        |
 
 ### `<date-picker>` Props
 
-|参数名|描述|类型|默认值|版本|
-|---|---|---|:---:|:---|
-|model-value **(v-model)**|绑定值|`Date \| string \| number`|`-`||
-|default-value|默认值|`Date \| string \| number`|`-`||
-|format|展示日期的格式，参考[字符串解析格式](#字符串解析格式)|`string \| ((current: Date) => string)`|`-`||
-|day-start-of-week|每周的第一天开始于周几，0 - 周日，1 - 周一，以此类推。|`0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6`|`0`|2-6 from 2.21.0|
-|show-time|是否增加时间选择|`boolean`|`false`||
-|time-picker-props|时间显示的参数，参考 [TimePickerProps](/components/time-picker/)|`Partial<TimePickerProps>`|`-`||
-|disabled|是否禁用|`boolean`|`false`||
-|disabled-date|不可选取的日期|`(current?: Date) => boolean`|`-`||
-|disabled-time|不可选取的时间|`(current: Date) => DisabledTimeProps`|`-`||
-|show-now-btn|是否显示 `showTime` 时，选择当前时间的按钮|`boolean`|`true`||
-
-
-
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| model-value **(v-model)** | 绑定值 | `Date \| string \| number` | `-` |  |
+| default-value | 默认值 | `Date \| string \| number` | `-` |  |
+| format | 展示日期的格式，参考[字符串解析格式](#字符串解析格式) | `string \| ((current: Date) => string)` | `-` |  |
+| day-start-of-week | 每周的第一天开始于周几，0 - 周日，1 - 周一，以此类推。 | `0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6` | `0` | 2-6 from 2.21.0 |
+| show-time | 是否增加时间选择 | `boolean` | `false` |  |
+| time-picker-props | 时间显示的参数，参考 [TimePickerProps](/components/time-picker/) | `Partial<TimePickerProps>` | `-` |  |
+| disabled | 是否禁用 | `boolean` | `false` |  |
+| disabled-date | 不可选取的日期 | `(current?: Date) => boolean` | `-` |  |
+| disabled-time | 不可选取的时间 | `(current: Date) => DisabledTimeProps` | `-` |  |
+| show-now-btn | 是否显示 `showTime` 时，选择当前时间的按钮 | `boolean` | `true` |  |
 
 ### `<month-picker>` Props
 
-|参数名|描述|类型|默认值|
-|---|---|---|:---:|
-|model-value **(v-model)**|绑定值|`Date \| string \| number`|`-`|
-|default-value|默认值|`Date \| string \| number`|`-`|
-|format|展示日期的格式，参考[字符串解析格式](#字符串解析格式)|`string`|`'YYYY-MM'`|
-
-
-
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| model-value **(v-model)** | 绑定值 | `Date \| string \| number` | `-` |
+| default-value | 默认值 | `Date \| string \| number` | `-` |
+| format | 展示日期的格式，参考[字符串解析格式](#字符串解析格式) | `string` | `'YYYY-MM'` |
 
 ### `<year-picker>` Props
 
-|参数名|描述|类型|默认值|
-|---|---|---|:---:|
-|model-value **(v-model)**|绑定值|`Date \| string \| number`|`-`|
-|default-value|默认值|`Date \| string \| number`|`-`|
-|format|展示日期的格式，参考[字符串解析格式](#字符串解析格式)|`string`|`'YYYY'`|
-
-
-
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| model-value **(v-model)** | 绑定值 | `Date \| string \| number` | `-` |
+| default-value | 默认值 | `Date \| string \| number` | `-` |
+| format | 展示日期的格式，参考[字符串解析格式](#字符串解析格式) | `string` | `'YYYY'` |
 
 ### `<quarter-picker>` Props
 
-|参数名|描述|类型|默认值|版本|
-|---|---|---|:---:|:---|
-|model-value **(v-model)**|绑定值|`Date \| string \| number`|`-`||
-|default-value|默认值|`Date \| string \| number`|`-`||
-|format|展示日期的格式，参考[字符串解析格式](#字符串解析格式)|`string`|`'YYYY-[Q]Q'`||
-|value-format|值的格式，对 `value` `defaultValue` `pickerValue` `defaultPickerValue` 以及事件中的返回值生效，支持设置为时间戳，Date 和字符串（参考[字符串解析格式](#字符串解析格式)）。|`string`|`'YYYY-MM'`|2.16.0|
-
-
-
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| model-value **(v-model)** | 绑定值 | `Date \| string \| number` | `-` |  |
+| default-value | 默认值 | `Date \| string \| number` | `-` |  |
+| format | 展示日期的格式，参考[字符串解析格式](#字符串解析格式) | `string` | `'YYYY-[Q]Q'` |  |
+| value-format | 值的格式，对 `value` `defaultValue` `pickerValue` `defaultPickerValue` 以及事件中的返回值生效，支持设置为时间戳，Date 和字符串（参考[字符串解析格式](#字符串解析格式)）。 | `string` | `'YYYY-MM'` | 2.16.0 |
 
 ### `<week-picker>` Props
 
-|参数名|描述|类型|默认值|版本|
-|---|---|---|:---:|:---|
-|model-value **(v-model)**|绑定值|`Date \| string \| number`|`-`||
-|default-value|默认值|`Date \| string \| number`|`-`||
-|format|展示日期的格式，参考[字符串解析格式](#字符串解析格式)|`string`|`'gggg-wo'`||
-|value-format|值的格式，对 `value` `defaultValue` `pickerValue` `defaultPickerValue` 以及事件中的返回值生效，支持设置为时间戳，Date 和字符串（参考[字符串解析格式](#字符串解析格式)）。|`string`|`'YYYY-MM-DD'`|2.16.0|
-|day-start-of-week|每周的第一天开始于周几，0 - 周日，1 - 周一，以此类推。|`0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6`|`0`|2-6 from 2.21.0|
-
-
-
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| model-value **(v-model)** | 绑定值 | `Date \| string \| number` | `-` |  |
+| default-value | 默认值 | `Date \| string \| number` | `-` |  |
+| format | 展示日期的格式，参考[字符串解析格式](#字符串解析格式) | `string` | `'gggg-wo'` |  |
+| value-format | 值的格式，对 `value` `defaultValue` `pickerValue` `defaultPickerValue` 以及事件中的返回值生效，支持设置为时间戳，Date 和字符串（参考[字符串解析格式](#字符串解析格式)）。 | `string` | `'YYYY-MM-DD'` | 2.16.0 |
+| day-start-of-week | 每周的第一天开始于周几，0 - 周日，1 - 周一，以此类推。 | `0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6` | `0` | 2-6 from 2.21.0 |
 
 ### `<range-picker>` Props
 
-|参数名|描述|类型|默认值|版本|
-|---|---|---|:---:|:---|
-|mode|范围选择器的类型|`'date' \| 'year' \| 'quarter' \| 'month' \| 'week'`|`'date'`||
-|model-value **(v-model)**|绑定值|`(Date \| string \| number)[]`|`-`||
-|default-value|默认值|`(Date \| string \| number)[]`|`-`||
-|picker-value|默认面板显示的日期|`(Date \| string \| number)[]`|`-`||
-|default-picker-value|面板显示的日期|`(Date \| string \| number)[]`|`-`||
-|disabled|是否禁用|`boolean \| boolean[]`|`false`||
-|day-start-of-week|每周的第一天开始于周几，0 - 周日，1 - 周一，以此类推。|`0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6`|`0`|2-6 from 2.21.0|
-|format|展示日期的格式，参考[字符串解析格式](#字符串解析格式)|`string`|`-`||
-|value-format|值的格式，对 `value` `defaultValue` `pickerValue` `defaultPickerValue` 以及事件中的返回值生效，支持设置为时间戳，Date 和字符串（参考[字符串解析格式](#字符串解析格式)）。如果没有指定，将格式化为字符串，格式同 `format`。|`'timestamp' \| 'Date' \| string`|`-`|2.16.0|
-|show-time|是否增加时间选择|`boolean`|`false`||
-|time-picker-props|时间显示的参数，参考 [TimePickerProps](/components/time-picker/)|`Partial<TimePickerProps>`|`-`||
-|placeholder|提示文案|`string[]`|`-`||
-|disabled-date|不可选的日期|`(current: Date, type: 'start' \| 'end') => boolean`|`-`||
-|disabled-time|不可选取的时间|`(current: Date, type: 'start' \| 'end') => DisabledTimeProps`|`-`||
-|separator|范围选择器输入框内的分割符号|`string`|`-`||
-|exchange-time|时间是否会交换，默认情况下时间会影响和参与开始和结束值的排序，如果要固定时间顺序，可将其关闭。|`boolean`|`true`|2.25.0|
-|disabled-input|是否禁止键盘输入日期|`boolean`|`false`|2.43.0|
-|abbreviation|是否启用缩写|`boolean`|`true`||
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| mode | 范围选择器的类型 | `'date' \| 'year' \| 'quarter' \| 'month' \| 'week'` | `'date'` |  |
+| model-value **(v-model)** | 绑定值 | `(Date \| string \| number)[]` | `-` |  |
+| default-value | 默认值 | `(Date \| string \| number)[]` | `-` |  |
+| picker-value | 默认面板显示的日期 | `(Date \| string \| number)[]` | `-` |  |
+| default-picker-value | 面板显示的日期 | `(Date \| string \| number)[]` | `-` |  |
+| disabled | 是否禁用 | `boolean \| boolean[]` | `false` |  |
+| day-start-of-week | 每周的第一天开始于周几，0 - 周日，1 - 周一，以此类推。 | `0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6` | `0` | 2-6 from 2.21.0 |
+| format | 展示日期的格式，参考[字符串解析格式](#字符串解析格式) | `string` | `-` |  |
+| value-format | 值的格式，对 `value` `defaultValue` `pickerValue` `defaultPickerValue` 以及事件中的返回值生效，支持设置为时间戳，Date 和字符串（参考[字符串解析格式](#字符串解析格式)）。如果没有指定，将格式化为字符串，格式同 `format`。 | `'timestamp' \| 'Date' \| string` | `-` | 2.16.0 |
+| show-time | 是否增加时间选择 | `boolean` | `false` |  |
+| time-picker-props | 时间显示的参数，参考 [TimePickerProps](/components/time-picker/) | `Partial<TimePickerProps>` | `-` |  |
+| placeholder | 提示文案 | `string[]` | `-` |  |
+| disabled-date | 不可选的日期 | `(current: Date, type: 'start' \| 'end') => boolean` | `-` |  |
+| disabled-time | 不可选取的时间 | `(current: Date, type: 'start' \| 'end') => DisabledTimeProps` | `-` |  |
+| separator | 范围选择器输入框内的分割符号 | `string` | `-` |  |
+| exchange-time | 时间是否会交换，默认情况下时间会影响和参与开始和结束值的排序，如果要固定时间顺序，可将其关闭。 | `boolean` | `true` | 2.25.0 |
+| disabled-input | 是否禁止键盘输入日期 | `boolean` | `false` | 2.43.0 |
+| abbreviation | 是否启用缩写 | `boolean` | `true` |  |
+
 ### `<range-picker>` Events
 
-|事件名|描述|参数|
-|---|---|---|
-|change|组件值发生改变|value: `(Date \| string \| number \| undefined)[] \| undefined`<br>date: `(Date \| undefined)[] \| undefined`<br>dateString: `(string \| undefined)[] \| undefined`|
-|select|选中日期发生改变但组件值未改变|value: `(Date \| string \| number \| undefined)[]`<br>date: `(Date \| undefined)[]`<br>dateString: `(string \| undefined)[]`|
-|popup-visible-change|打开或关闭弹出框|visible: `boolean`|
-|ok|点击确认按钮|value: `Date \| string \| number[]`<br>date: `Date[]`<br>dateString: `string[]`|
-|clear|点击清除按钮|-|
-|select-shortcut|点击快捷选项|shortcut: `ShortcutType`|
-|picker-value-change|面板日期改变|value: `Date \| string \| number[]`<br>date: `Date[]`<br>dateString: `string[]`|
-
-
-
+| 事件名 | 描述 | 参数 |
+| --- | --- | --- |
+| change | 组件值发生改变 | value: `(Date \| string \| number \| undefined)[] \| undefined`<br>date: `(Date \| undefined)[] \| undefined`<br>dateString: `(string \| undefined)[] \| undefined` |
+| select | 选中日期发生改变但组件值未改变 | value: `(Date \| string \| number \| undefined)[]`<br>date: `(Date \| undefined)[]`<br>dateString: `(string \| undefined)[]` |
+| popup-visible-change | 打开或关闭弹出框 | visible: `boolean` |
+| ok | 点击确认按钮 | value: `Date \| string \| number[]`<br>date: `Date[]`<br>dateString: `string[]` |
+| clear | 点击清除按钮 | - |
+| select-shortcut | 点击快捷选项 | shortcut: `ShortcutType` |
+| picker-value-change | 面板日期改变 | value: `Date \| string \| number[]`<br>date: `Date[]`<br>dateString: `string[]` |
 
 ### ShortcutType
 
-|参数名|描述|类型|默认值|
-|---|---|---|:---:|
-|label|选项的内容|`string \| number \| (() => VNode)`|`-`|
-|value|选项值|`(Date \| string \| number)    \| (Date \| string \| number)[]    \| (() => (Date \| string \| number) \| (Date \| string \| number)[])`|`-`|
-|format|解析值所使用的格式，参考[字符串解析格式](#字符串解析格式)|`string`|`-`|
-
-
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| label | 选项的内容 | `string \| number \| (() => VNode)` | `-` |
+| value | 选项值 | `(Date \| string \| number)    \| (Date \| string \| number)[]    \| (() => (Date \| string \| number) \| (Date \| string \| number)[])` | `-` |
+| format | 解析值所使用的格式，参考[字符串解析格式](#字符串解析格式) | `string` | `-` |
 
 ### 字符串解析格式
 
-格式|输出|描述
----|---|---:
-`YY`|21|两位数的年份
-`YYYY`|2021|四位数年份
-`M`|1-12|月份，从 1 开始
-`MM`|01-12|月份，两位数
-`MMM`|Jan-Dec|缩写的月份名称
-`MMMM`|January-December|完整的月份名称
-`D`|1-31|月份里的一天
-`DD`|01-31|月份里的一天，两位数
-`d`|0-6|一周中的一天，星期天是 0
-`dd`|Su-Sa|最简写的一周中一天的名称
-`ddd`|Sun-Sat|简写的一周中一天的名称
-`dddd`|Sunday-Saturday|一周中一天的名称
-`H`|0-23|小时
-`HH`|00-23|小时，两位数
-`h`|1-12|小时, 12 小时制
-`hh`|01-12|小时, 12 小时制, 两位数
-`m`|0-59|分钟
-`mm`|00-59|分钟，两位数
-`s`|0-59|秒
-`ss`|00-59|秒，两位数
-`S`|0-9|数百毫秒，一位数
-`SS`|00-99|几十毫秒，两位数
-`SSS`|000-999|毫秒，三位数字
-`Z`|-5:00|UTC 的偏移量
-`ZZ`|-0500|UTC 的偏移量，数字前面加上 0
-`A`|AM PM|-
-`a`|am pm|-
-`Do`|1st... 3st|带序号的月份中的某天
-`X`|1410715640.579|Unix 时间戳
-`x`|1410715640579|Unix 毫秒时间戳
+| 格式   | 输出             |                         描述 |
+| ------ | ---------------- | ---------------------------: |
+| `YY`   | 21               |                 两位数的年份 |
+| `YYYY` | 2021             |                   四位数年份 |
+| `M`    | 1-12             |              月份，从 1 开始 |
+| `MM`   | 01-12            |                 月份，两位数 |
+| `MMM`  | Jan-Dec          |               缩写的月份名称 |
+| `MMMM` | January-December |               完整的月份名称 |
+| `D`    | 1-31             |                 月份里的一天 |
+| `DD`   | 01-31            |         月份里的一天，两位数 |
+| `d`    | 0-6              |     一周中的一天，星期天是 0 |
+| `dd`   | Su-Sa            |     最简写的一周中一天的名称 |
+| `ddd`  | Sun-Sat          |       简写的一周中一天的名称 |
+| `dddd` | Sunday-Saturday  |             一周中一天的名称 |
+| `H`    | 0-23             |                         小时 |
+| `HH`   | 00-23            |                 小时，两位数 |
+| `h`    | 1-12             |              小时, 12 小时制 |
+| `hh`   | 01-12            |      小时, 12 小时制, 两位数 |
+| `m`    | 0-59             |                         分钟 |
+| `mm`   | 00-59            |                 分钟，两位数 |
+| `s`    | 0-59             |                           秒 |
+| `ss`   | 00-59            |                   秒，两位数 |
+| `S`    | 0-9              |             数百毫秒，一位数 |
+| `SS`   | 00-99            |             几十毫秒，两位数 |
+| `SSS`  | 000-999          |               毫秒，三位数字 |
+| `Z`    | -5:00            |                 UTC 的偏移量 |
+| `ZZ`   | -0500            | UTC 的偏移量，数字前面加上 0 |
+| `A`    | AM PM            |                            - |
+| `a`    | am pm            |                            - |
+| `Do`   | 1st... 3st       |         带序号的月份中的某天 |
+| `X`    | 1410715640.579   |                  Unix 时间戳 |
+| `x`    | 1410715640579    |              Unix 毫秒时间戳 |
 
 ## FAQ
 
 ### 关于 `locale` 字段
+
 可以使用组件库提供的语言包配置 `locale` 字段。
 
 <script setup lang="ts">
@@ -284,7 +244,7 @@ const panelOnlySource = "<template>\n  <div>\n    <a-date-picker\n      default-
 const panelOnlyTitle = "Panel Only.Md";
 const panelOnlyDescription = "只用选择面板，不显示输入框。";
 import prefixDemo from '../../.vitepress/theme/generated/date-picker/prefix.vue';
-const prefixSource = "<template>\n  <div>\n    <div>\n      <a-date-picker style=\"width: 300px;\">\n        <template #prefix>\n          <IconInfoCircle />\n        <\/template>\n      <\/a-date-picker>\n    <\/div>\n    <a-range-picker\n      showTime\n      :defaultValue=\"['2019-08-08 00:00:00', '2019-08-18 00:00:00']\"\n      @select=\"onSelect\"\n      @change=\"onChange\"\n      :style=\"{ width: '400px', marginTop: '20px' }\"\n    >\n      <template #prefix>\n        <IconInfoCircle />\n      <\/template>\n    <\/a-range-picker>\n  <\/div>\n<\/template>\n\n<script>\nimport { IconInfoCircle } from '@sd-design/web-vue/es/icon';\n\nexport default {\n  components: { IconInfoCircle },\n};\n<\/script>";
+const prefixSource = "<template>\n  <div>\n    <div>\n      <a-date-picker style=\"width: 300px;\">\n        <template #prefix>\n          <IconInfoCircle />\n        <\/template>\n      <\/a-date-picker>\n    <\/div>\n    <a-range-picker\n      showTime\n      :defaultValue=\"['2019-08-08 00:00:00', '2019-08-18 00:00:00']\"\n      @select=\"onSelect\"\n      @change=\"onChange\"\n      :style=\"{ width: '400px', marginTop: '20px' }\"\n    >\n      <template #prefix>\n        <IconInfoCircle />\n      <\/template>\n    <\/a-range-picker>\n  <\/div>\n<\/template>\n\n<script>\nimport { IconInfoCircle } from '@sdata/web-vue/es/icon';\n\nexport default {\n  components: { IconInfoCircle },\n};\n<\/script>";
 const prefixTitle = "Prefix.Md";
 const prefixDescription = "通过 `prefix` 插槽可以设置输入框前缀";
 import quarterDemo from '../../.vitepress/theme/generated/date-picker/quarter.vue';
@@ -327,163 +287,102 @@ const yearDescription = "年份输入器的基础使用。";
 
 ## 示例
 
+<DemoBlock :title="basicTitle" :description="basicDescription" :code="basicSource"
 
-<DemoBlock
-  :title="basicTitle"
-  :description="basicDescription"
-  :code="basicSource"
->
-  <basicDemo />
-</DemoBlock>
+>   <basicDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="controlTitle"
-  :description="controlDescription"
-  :code="controlSource"
->
-  <controlDemo />
-</DemoBlock>
+<DemoBlock :title="controlTitle" :description="controlDescription" :code="controlSource"
 
-<DemoBlock
-  :title="dateRenderTitle"
-  :description="dateRenderDescription"
-  :code="dateRenderSource"
->
-  <dateRenderDemo />
-</DemoBlock>
+>   <controlDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="defaultValueTitle"
-  :description="defaultValueDescription"
-  :code="defaultValueSource"
->
-  <defaultValueDemo />
-</DemoBlock>
+<DemoBlock :title="dateRenderTitle" :description="dateRenderDescription" :code="dateRenderSource"
 
-<DemoBlock
-  :title="disabledDateAdvanceTitle"
-  :description="disabledDateAdvanceDescription"
-  :code="disabledDateAdvanceSource"
->
-  <disabledDateAdvanceDemo />
-</DemoBlock>
+>   <dateRenderDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="disabledDateTitle"
-  :description="disabledDateDescription"
-  :code="disabledDateSource"
->
-  <disabledDateDemo />
-</DemoBlock>
+<DemoBlock :title="defaultValueTitle" :description="defaultValueDescription" :code="defaultValueSource"
 
-<DemoBlock
-  :title="disabledTitle"
-  :description="disabledDescription"
-  :code="disabledSource"
->
-  <disabledDemo />
-</DemoBlock>
+>   <defaultValueDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="extraTitle"
-  :description="extraDescription"
-  :code="extraSource"
->
-  <extraDemo />
-</DemoBlock>
+<DemoBlock :title="disabledDateAdvanceTitle" :description="disabledDateAdvanceDescription" :code="disabledDateAdvanceSource"
 
-<DemoBlock
-  :title="monthTitle"
-  :description="monthDescription"
-  :code="monthSource"
->
-  <monthDemo />
-</DemoBlock>
+>   <disabledDateAdvanceDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="panelOnlyTitle"
-  :description="panelOnlyDescription"
-  :code="panelOnlySource"
->
-  <panelOnlyDemo />
-</DemoBlock>
+<DemoBlock :title="disabledDateTitle" :description="disabledDateDescription" :code="disabledDateSource"
 
-<DemoBlock
-  :title="prefixTitle"
-  :description="prefixDescription"
-  :code="prefixSource"
->
-  <prefixDemo />
-</DemoBlock>
+>   <disabledDateDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="quarterTitle"
-  :description="quarterDescription"
-  :code="quarterSource"
->
-  <quarterDemo />
-</DemoBlock>
+<DemoBlock :title="disabledTitle" :description="disabledDescription" :code="disabledSource"
 
-<DemoBlock
-  :title="rangeTitle"
-  :description="rangeDescription"
-  :code="rangeSource"
->
-  <rangeDemo />
-</DemoBlock>
+>   <disabledDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="shortcutsPositionTitle"
-  :description="shortcutsPositionDescription"
-  :code="shortcutsPositionSource"
->
-  <shortcutsPositionDemo />
-</DemoBlock>
+<DemoBlock :title="extraTitle" :description="extraDescription" :code="extraSource"
 
-<DemoBlock
-  :title="shortcutsTitle"
-  :description="shortcutsDescription"
-  :code="shortcutsSource"
->
-  <shortcutsDemo />
-</DemoBlock>
+>   <extraDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="showtimeTitle"
-  :description="showtimeDescription"
-  :code="showtimeSource"
->
-  <showtimeDemo />
-</DemoBlock>
+<DemoBlock :title="monthTitle" :description="monthDescription" :code="monthSource"
 
-<DemoBlock
-  :title="sizeTitle"
-  :description="sizeDescription"
-  :code="sizeSource"
->
-  <sizeDemo />
-</DemoBlock>
+>   <monthDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="triggerElementTitle"
-  :description="triggerElementDescription"
-  :code="triggerElementSource"
->
-  <triggerElementDemo />
-</DemoBlock>
+<DemoBlock :title="panelOnlyTitle" :description="panelOnlyDescription" :code="panelOnlySource"
 
-<DemoBlock
-  :title="weekTitle"
-  :description="weekDescription"
-  :code="weekSource"
->
-  <weekDemo />
-</DemoBlock>
+>   <panelOnlyDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="yearTitle"
-  :description="yearDescription"
-  :code="yearSource"
->
-  <yearDemo />
-</DemoBlock>
+<DemoBlock :title="prefixTitle" :description="prefixDescription" :code="prefixSource"
+
+>   <prefixDemo />
+> </DemoBlock>
+
+<DemoBlock :title="quarterTitle" :description="quarterDescription" :code="quarterSource"
+
+>   <quarterDemo />
+> </DemoBlock>
+
+<DemoBlock :title="rangeTitle" :description="rangeDescription" :code="rangeSource"
+
+>   <rangeDemo />
+> </DemoBlock>
+
+<DemoBlock :title="shortcutsPositionTitle" :description="shortcutsPositionDescription" :code="shortcutsPositionSource"
+
+>   <shortcutsPositionDemo />
+> </DemoBlock>
+
+<DemoBlock :title="shortcutsTitle" :description="shortcutsDescription" :code="shortcutsSource"
+
+>   <shortcutsDemo />
+> </DemoBlock>
+
+<DemoBlock :title="showtimeTitle" :description="showtimeDescription" :code="showtimeSource"
+
+>   <showtimeDemo />
+> </DemoBlock>
+
+<DemoBlock :title="sizeTitle" :description="sizeDescription" :code="sizeSource"
+
+>   <sizeDemo />
+> </DemoBlock>
+
+<DemoBlock :title="triggerElementTitle" :description="triggerElementDescription" :code="triggerElementSource"
+
+>   <triggerElementDemo />
+> </DemoBlock>
+
+<DemoBlock :title="weekTitle" :description="weekDescription" :code="weekSource"
+
+>   <weekDemo />
+> </DemoBlock>
+
+<DemoBlock :title="yearTitle" :description="yearDescription" :code="yearSource"
+
+>   <yearDemo />
+> </DemoBlock>

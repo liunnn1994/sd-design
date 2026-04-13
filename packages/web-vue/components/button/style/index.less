@@ -72,8 +72,7 @@
       background: #fff;
       border-radius: inherit;
       opacity: 0.4;
-      transition: opacity @transition-duration-1
-        @transition-timing-function-linear;
+      transition: opacity @transition-duration-1 @transition-timing-function-linear;
       content: '';
       pointer-events: none;
     }
@@ -93,7 +92,8 @@
   .normal() {
     color: ~'@{btn-@{type}-color-text}';
     background-color: ~'@{btn-@{type}-color-bg}';
-    border: @btn-size-default-border-width ~'@{btn-@{type}-border-style}' ~'@{btn-@{type}-color-border}';
+    border: @btn-size-default-border-width ~'@{btn-@{type}-border-style}'
+      ~'@{btn-@{type}-color-border}';
   }
 
   .@{btn-prefix-cls}-@{type},
@@ -124,7 +124,8 @@
     &.@{btn-prefix-cls}-disabled {
       color: ~'@{btn-@{type}-color-text_disabled}';
       background-color: ~'@{btn-@{type}-color-bg_disabled}';
-      border: @btn-size-default-border-width ~'@{btn-@{type}-border-style}' ~'@{btn-@{type}-color-border_disabled}';
+      border: @btn-size-default-border-width ~'@{btn-@{type}-border-style}'
+        ~'@{btn-@{type}-color-border_disabled}';
       cursor: not-allowed;
     }
   }
@@ -163,7 +164,8 @@
     &.@{btn-prefix-cls}-disabled {
       color: ~'@{btn-@{type}-color-text_@{status}_disabled}';
       background-color: ~'@{btn-@{type}-color-bg_@{status}_disabled}';
-      border: @btn-size-default-border-width ~'@{btn-@{type}-border-style}' ~'@{btn-@{type}-color-border_@{status}_disabled}';
+      border: @btn-size-default-border-width ~'@{btn-@{type}-border-style}'
+        ~'@{btn-@{type}-color-border_@{status}_disabled}';
     }
   }
 }

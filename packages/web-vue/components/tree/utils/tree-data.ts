@@ -1,5 +1,5 @@
-import { omit } from '../../_utils/omit';
 import { isFunction, isUndefined } from '../../_utils/is';
+import { omit } from '../../_utils/omit';
 import {
   TreeNodeData,
   Node,
@@ -39,10 +39,7 @@ function getBoolean(val1: boolean | undefined, val2: boolean | undefined) {
   return !!(isUndefined(val1) ? val2 : val1);
 }
 
-function mapObject<K, T = any>(
-  obj: T,
-  nameMap?: Partial<Record<keyof K, string>>
-): K {
+function mapObject<K, T = any>(obj: T, nameMap?: Partial<Record<keyof K, string>>): K {
   const _obj: Record<string, any> = { ...obj };
 
   if (nameMap) {
@@ -85,9 +82,7 @@ function generateNode(options: NodeOptions): Node {
   const { fieldNames } = treeProps || {};
 
   const mapTreeNodeData = mapObject<TreeNodeData>(treeNodeData, fieldNames);
-  const isLeaf = treeProps.loadMore
-    ? !!mapTreeNodeData.isLeaf
-    : !mapTreeNodeData.children?.length;
+  const isLeaf = treeProps.loadMore ? !!mapTreeNodeData.isLeaf : !mapTreeNodeData.children?.length;
   const level = parentNode ? parentNode.level + 1 : 0;
 
   const treeNodeProps = {
@@ -126,18 +121,13 @@ function generateNode(options: NodeOptions): Node {
     treeNodeData,
     parent: parentNode,
     parentKey: parentNode?.key,
-    pathParentKeys: parentNode
-      ? [...parentNode.pathParentKeys, parentNode.key as TreeNodeKey]
-      : [],
+    pathParentKeys: parentNode ? [...parentNode.pathParentKeys, parentNode.key as TreeNodeKey] : [],
   };
 
   return node;
 }
 
-export function generateTreeData(
-  treeData: TreeNodeData[],
-  treeProps: TreeProps
-) {
+export function generateTreeData(treeData: TreeNodeData[], treeProps: TreeProps) {
   function preOrder(tree: TreeNodeData[] | undefined, parentNode?: Node) {
     if (!tree) return undefined;
 
@@ -155,7 +145,7 @@ export function generateTreeData(
         treeNodeData[
           (fieldNames?.children || 'children') as keyof TreeNodeData
         ] as TreeNodeData['children'],
-        node
+        node,
       );
       nodes.push(node);
     });

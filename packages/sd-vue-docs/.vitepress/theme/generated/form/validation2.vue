@@ -1,5 +1,11 @@
 <template>
-  <a-form ref="formRef" :rules="rules" :model="form" :style="{width:'600px'}" @submit="handleSubmit">
+  <a-form
+    ref="formRef"
+    :rules="rules"
+    :model="form"
+    :style="{ width: '600px' }"
+    @submit="handleSubmit"
+  >
     <a-form-item field="name" label="Username" validate-trigger="blur">
       <a-input v-model="form.name" placeholder="please enter your username..." />
     </a-form-item>
@@ -32,93 +38,93 @@
 </template>
 
 <script>
-import { reactive } from 'vue';
+  import { reactive } from 'vue';
 
-export default {
-  setup() {
-    const handleSubmit = ({values, errors}) => {
-      console.log('values:', values, '\nerrors:', errors)
-    }
+  export default {
+    setup() {
+      const handleSubmit = ({ values, errors }) => {
+        console.log('values:', values, '\nerrors:', errors);
+      };
 
-    const form = reactive({
-      name: '',
-      password: '',
-      password2: '',
-      email: '',
-      ip: '192.168.2.1',
-      url: '',
-      match: ''
-    });
+      const form = reactive({
+        name: '',
+        password: '',
+        password2: '',
+        email: '',
+        ip: '192.168.2.1',
+        url: '',
+        match: '',
+      });
 
-    const rules = {
-      name: [
-        {
-          required: true,
-          message:'name is required',
-        },
-      ],
-      password: [
-        {
-          required: true,
-          message:'password is required',
-        },
-      ],
-      password2: [
-        {
-          required: true,
-          message:'password is required',
-        },
-        {
-          validator: (value, cb) => {
-            if (value !== form.password) {
-              cb('two passwords do not match')
-            } else {
-              cb()
-            }
-          }
-        }
-      ],
-      email: [
-        {
-          type: 'email',
-          required: true,
-        }
-      ],
-      ip: [
-        {
-          type: 'ip',
-          required: true,
-        }
-      ],
-      url: [
-        {
-          type: 'url',
-          required: true,
-        }
-      ],
-      match: [
-        {
-          required: true,
-          validator: (value, cb) => {
-            return new Promise((resolve) => {
-              if (!value) {
-                cb('Please enter match')
+      const rules = {
+        name: [
+          {
+            required: true,
+            message: 'name is required',
+          },
+        ],
+        password: [
+          {
+            required: true,
+            message: 'password is required',
+          },
+        ],
+        password2: [
+          {
+            required: true,
+            message: 'password is required',
+          },
+          {
+            validator: (value, cb) => {
+              if (value !== form.password) {
+                cb('two passwords do not match');
+              } else {
+                cb();
               }
-              if (value !== 'match') {
-                cb('match must be match!')
-              }
-              resolve()
-            })
-          }
-        }
-      ],
-    }
+            },
+          },
+        ],
+        email: [
+          {
+            type: 'email',
+            required: true,
+          },
+        ],
+        ip: [
+          {
+            type: 'ip',
+            required: true,
+          },
+        ],
+        url: [
+          {
+            type: 'url',
+            required: true,
+          },
+        ],
+        match: [
+          {
+            required: true,
+            validator: (value, cb) => {
+              return new Promise((resolve) => {
+                if (!value) {
+                  cb('Please enter match');
+                }
+                if (value !== 'match') {
+                  cb('match must be match!');
+                }
+                resolve();
+              });
+            },
+          },
+        ],
+      };
 
-    return {
-      form,
-      rules,
-      handleSubmit
-    }
-  },
-}
+      return {
+        form,
+        rules,
+        handleSubmit,
+      };
+    },
+  };
 </script>

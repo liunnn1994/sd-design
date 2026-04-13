@@ -7,21 +7,23 @@
     }"
   >
     <template #preview-actions>
-      <a-image-preview-action name="下载" @click="download"><icon-download /></a-image-preview-action>
+      <a-image-preview-action name="下载" @click="download"
+        ><icon-download
+      /></a-image-preview-action>
     </template>
   </a-image>
 </template>
 
 <script>
-export default {
-  setup() {
-    const download = () => {
-      console.log('点击下载图片')
-    };
+  export default {
+    setup() {
+      const download = () => {
+        console.log('点击下载图片');
+      };
 
-    return {
-      download
-    }
-  },
-}
+      return {
+        download,
+      };
+    },
+  };
 </script>

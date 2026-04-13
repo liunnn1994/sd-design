@@ -1,8 +1,10 @@
 import type { App } from 'vue';
+
 import type { SDOptions } from '../_utils/types';
+
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Anchor from './anchor.vue';
 import _AnchorLink from './anchor-link.vue';
+import _Anchor from './anchor.vue';
 
 const Anchor = Object.assign(_Anchor, {
   Link: _AnchorLink,

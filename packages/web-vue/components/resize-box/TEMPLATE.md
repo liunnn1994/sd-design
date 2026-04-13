@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 伸缩框 ResizeBox
 description: 伸缩框组件。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,15 +19,16 @@ meta:
 title: ResizeBox
 description: Telescopic frame components.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/controlled.md
+@import ./**demo**/controlled.md
 
-@import ./__demo__/layout.md
+@import ./**demo**/layout.md
 
-@import ./__demo__/custom-triggers.md
+@import ./**demo**/custom-triggers.md
 
 ## API
 

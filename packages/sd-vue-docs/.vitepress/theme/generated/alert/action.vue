@@ -1,5 +1,5 @@
 <template>
-  <a-space direction="vertical" size="large" style="width: 100%;">
+  <a-space direction="vertical" size="large" style="width: 100%">
     <a-alert closable>
       This is an info alert.
       <template #action>

@@ -1,10 +1,10 @@
 <template>
   <a-date-picker
-    style="width: 300px; margin-bottom: 24px; margin-right: 24px;"
+    style="width: 300px; margin-bottom: 24px; margin-right: 24px"
     :shortcuts="[
       {
         label: '2 hours later',
-        value: () => dayjs().add(2, 'hour')
+        value: () => dayjs().add(2, 'hour'),
       },
       {
         label: 'a week later',
@@ -18,7 +18,7 @@
     show-time
   />
   <a-month-picker
-    style="width: 300px; margin-bottom: 24px; margin-right: 24px;"
+    style="width: 300px; margin-bottom: 24px; margin-right: 24px"
     :shortcuts="[
       {
         label: 'last month',
@@ -35,7 +35,7 @@
     ]"
   />
   <a-range-picker
-    style="width: 400px; margin-bottom: 24px; margin-right: 24px;"
+    style="width: 400px; margin-bottom: 24px; margin-right: 24px"
     :shortcuts="[
       {
         label: 'next 7 days',
@@ -53,7 +53,7 @@
   />
   <a-range-picker
     mode="month"
-    style="width: 300px; margin-bottom: 24px;"
+    style="width: 300px; margin-bottom: 24px"
     :shortcuts="[
       {
         label: 'next 6 months',
@@ -71,12 +71,12 @@
   />
 </template>
 <script>
-import dayjs from 'dayjs';
-export default {
-  setup() {
-    return {
-      dayjs
-    }
-  }
-}
+  import dayjs from 'dayjs';
+  export default {
+    setup() {
+      return {
+        dayjs,
+      };
+    },
+  };
 </script>

@@ -1,9 +1,6 @@
 <template>
   <a-space align="start">
-    <a-slider
-      :default-value="50"
-      direction="vertical"
-    />
+    <a-slider :default-value="50" direction="vertical" />
 
     <a-slider
       direction="vertical"

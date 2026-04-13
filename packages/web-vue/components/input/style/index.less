@@ -101,15 +101,13 @@
 }
 
 .@{input-prefix-cls}-prepend {
-  border-right: @input-border-addon-separator-width solid
-    @input-color-addon-border;
+  border-right: @input-border-addon-separator-width solid @input-color-addon-border;
 
   .addon(before, @input-size-default-height, @input-size-default-font-size);
 }
 
 .@{input-prefix-cls}-append {
-  border-left: @input-border-addon-separator-width solid
-    @input-color-addon-border;
+  border-left: @input-border-addon-separator-width solid @input-color-addon-border;
 
   .addon(after, @input-size-default-height, @input-size-default-font-size);
 }

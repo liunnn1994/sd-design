@@ -18,9 +18,9 @@ The display content of the select box can be customized through the `#label` slo
 
 ```vue
 <template>
-  <a-select default-value="Beijing" :style="{width:'320px'}" placeholder="Please select ...">
+  <a-select default-value="Beijing" :style="{ width: '320px' }" placeholder="Please select ...">
     <template #label="{ data }">
-      <span><icon-plus/>{{data?.label}}</span>
+      <span><icon-plus />{{ data?.label }}</span>
     </template>
     <a-option>Beijing</a-option>
     <a-option>Shanghai</a-option>
@@ -30,10 +30,10 @@ The display content of the select box can be customized through the `#label` slo
 </template>
 
 <script>
-import { IconPlus } from '@sd-design/web-vue/es/icon';
+  import { IconPlus } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: { IconPlus }
-};
+  export default {
+    components: { IconPlus },
+  };
 </script>
 ```

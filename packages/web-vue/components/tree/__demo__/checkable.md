@@ -21,9 +21,11 @@ Add the `checkable` attribute to display the checkbox, and you can use `defaultC
   <a-checkbox
     style="marginBottom: 24px;"
     v-model="checkStrictly"
-    @change="() => {
-      checkedKeys = [];
-    }"
+    @change="
+      () => {
+        checkedKeys = [];
+      }
+    "
   >
     checkStrictly
   </a-checkbox>
@@ -39,16 +41,16 @@ Add the `checkable` attribute to display the checkbox, and you can use `defaultC
 
   export default {
     setup() {
-    const checkedKeys = ref([]);
-    const checkStrictly = ref(false);
+      const checkedKeys = ref([]);
+      const checkStrictly = ref(false);
 
       return {
         checkedKeys,
         checkStrictly,
         treeData,
-      }
-    }
-  }
+      };
+    },
+  };
 
   const treeData = [
     {
@@ -66,14 +68,14 @@ Add the `checkable` attribute to display the checkbox, and you can use `defaultC
           children: [
             {
               title: 'Leaf',
-              key: '0-0-2-1'
+              key: '0-0-2-1',
             },
             {
               title: 'Leaf',
               key: '0-0-2-2',
-              disableCheckbox: true
-            }
-          ]
+              disableCheckbox: true,
+            },
+          ],
         },
       ],
     },
@@ -93,7 +95,7 @@ Add the `checkable` attribute to display the checkbox, and you can use `defaultC
               title: 'Leaf ',
               key: '0-1-1-2',
             },
-          ]
+          ],
         },
         {
           title: 'Leaf',

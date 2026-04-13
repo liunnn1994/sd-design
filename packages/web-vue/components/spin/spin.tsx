@@ -1,9 +1,10 @@
 import { cloneVNode, computed, defineComponent, inject } from 'vue';
+
 import { getPrefixCls } from '../_utils/global-config';
-import IconLoading from '../icon/icon-loading';
-import DotLoading from './dot-loading';
 import { getFirstComponent } from '../_utils/vue-utils';
 import { configProviderInjectionKey } from '../config-provider/context';
+import IconLoading from '../icon/icon-loading';
+import DotLoading from './dot-loading';
 
 export default defineComponent({
   name: 'Spin',
@@ -96,9 +97,7 @@ export default defineComponent({
               {renderIcon()}
             </div>
           )}
-          {hasTip && (
-            <div class={`${prefixCls}-tip`}>{slots.tip?.() ?? props.tip}</div>
-          )}
+          {hasTip && <div class={`${prefixCls}-tip`}>{slots.tip?.() ?? props.tip}</div>}
         </>
       );
     };

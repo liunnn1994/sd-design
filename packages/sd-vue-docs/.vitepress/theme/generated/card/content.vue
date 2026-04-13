@@ -7,13 +7,8 @@
         justifyContent: 'space-between',
       }"
     >
-      <span
-        :style="{ display: 'flex', alignItems: 'center', color: '#1D2129' }"
-      >
-        <a-avatar
-          :style="{ marginRight: '8px', backgroundColor: '#165DFF' }"
-          :size="28"
-        >
+      <span :style="{ display: 'flex', alignItems: 'center', color: '#1D2129' }">
+        <a-avatar :style="{ marginRight: '8px', backgroundColor: '#165DFF' }" :size="28">
           A
         </a-avatar>
         <a-typography-text>Username</a-typography-text>

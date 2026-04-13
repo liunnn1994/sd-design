@@ -18,11 +18,7 @@ A basic comment component with author, avatar, time and actions.
 
 ```vue
 <template>
-  <a-comment
-    author="Socrates"
-    content="Comment body content."
-    datetime="1 hour"
-  >
+  <a-comment author="Socrates" content="Comment body content." datetime="1 hour">
     <template #actions>
       <span class="action" key="heart" @click="onLikeChange">
         <span v-if="like">
@@ -42,9 +38,7 @@ A basic comment component with author, avatar, time and actions.
         </span>
         {{ 3 + (star ? 1 : 0) }}
       </span>
-      <span class="action" key="reply">
-        <IconMessage /> Reply
-      </span>
+      <span class="action" key="reply"> <IconMessage /> Reply </span>
     </template>
     <template #avatar>
       <a-avatar>
@@ -58,55 +52,55 @@ A basic comment component with author, avatar, time and actions.
 </template>
 
 <script>
-import { ref } from 'vue';
-import {
-  IconHeart,
-  IconMessage,
-  IconStar,
-  IconStarFill,
-  IconHeartFill,
-} from '@sd-design/web-vue/es/icon';
-
-export default {
-  components: {
+  import { ref } from 'vue';
+  import {
     IconHeart,
     IconMessage,
     IconStar,
     IconStarFill,
     IconHeartFill,
-  },
-  setup() {
-    const like = ref(false);
-    const star = ref(false);
-    const onLikeChange = () => {
-      like.value = !like.value;
-    };
-    const onStarChange = () => {
-      star.value = !star.value;
-    };
+  } from '@sdata/web-vue/es/icon';
 
-    return {
-      like,
-      star,
-      onLikeChange,
-      onStarChange
-    }
-  },
-};
+  export default {
+    components: {
+      IconHeart,
+      IconMessage,
+      IconStar,
+      IconStarFill,
+      IconHeartFill,
+    },
+    setup() {
+      const like = ref(false);
+      const star = ref(false);
+      const onLikeChange = () => {
+        like.value = !like.value;
+      };
+      const onStarChange = () => {
+        star.value = !star.value;
+      };
+
+      return {
+        like,
+        star,
+        onLikeChange,
+        onStarChange,
+      };
+    },
+  };
 </script>
 <style scoped>
-.action {
-  display: inline-block;
-  padding: 0 4px;
-  color: var(--color-text-1);
-  line-height: 24px;
-  background: transparent;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: all 0.1s ease;
-}
-.action:hover {
-  background: var(--color-fill-3);
-}
+  .action {
+    display: inline-block;
+    padding: 0 4px;
+    color: var(--color-text-1);
+    line-height: 24px;
+    background: transparent;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+  }
+  .action:hover {
+    background: var(--color-fill-3);
+  }
 </style>
 ```

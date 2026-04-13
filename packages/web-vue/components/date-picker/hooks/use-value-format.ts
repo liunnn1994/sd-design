@@ -1,5 +1,7 @@
-import { Dayjs } from 'dayjs';
 import { toRefs } from 'vue';
+
+import { Dayjs } from 'dayjs';
+
 import { CalendarValue, ValueFormat } from '../interface';
 
 export function getReturnValue(date: Dayjs, format: ValueFormat) {
@@ -18,17 +20,11 @@ export function useReturnValue(props: { format: ValueFormat }) {
   return (date: Dayjs) => getReturnValue(date, format.value);
 }
 
-export function getReturnRangeValue(
-  dates: Dayjs[],
-  format: ValueFormat
-): CalendarValue[];
+export function getReturnRangeValue(dates: Dayjs[], format: ValueFormat): CalendarValue[];
 export function getReturnRangeValue(
   dates: (Dayjs | undefined)[],
-  format: ValueFormat
+  format: ValueFormat,
 ): (CalendarValue | undefined)[];
-export function getReturnRangeValue(
-  dates: (Dayjs | undefined)[],
-  format: ValueFormat
-) {
+export function getReturnRangeValue(dates: (Dayjs | undefined)[], format: ValueFormat) {
   return dates.map((date) => (date ? getReturnValue(date, format) : undefined));
 }

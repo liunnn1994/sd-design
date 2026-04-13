@@ -1,9 +1,6 @@
 import { Node } from '../interface';
 import { getFlattenTreeData, getKey2TreeNode } from '../utils';
-import {
-  getCheckedStateByCheck,
-  getCheckedStateByInitKeys,
-} from '../utils/check-utils';
+import { getCheckedStateByCheck, getCheckedStateByInitKeys } from '../utils/check-utils';
 import { generateTreeData } from '../utils/tree-data';
 
 describe('checkUtils', () => {

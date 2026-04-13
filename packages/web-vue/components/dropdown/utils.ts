@@ -1,4 +1,7 @@
 import { Slots, VNode } from 'vue';
+
+import { isArray, isObject } from '../_utils/is';
+import { omit } from '../_utils/omit';
 import {
   getChildrenString,
   isArrayChildren,
@@ -7,8 +10,6 @@ import {
   resolveProps,
 } from '../_utils/vue-utils';
 import { DropdownOption, DGroup, DSubmenu } from './interface';
-import { isArray, isObject } from '../_utils/is';
-import { omit } from '../_utils/omit';
 
 export const isGroup = (option: DropdownOption): option is DGroup => {
   return isObject(option) && 'isGroup' in option;
@@ -54,9 +55,7 @@ export const travelDropDownChildren = (children: VNode[]): DropdownOption[] => {
       options.push({
         _props: props,
         _slots: slots,
-        value:
-          props.value ??
-          getChildrenString((child.children as Slots).default?.() ?? []),
+        value: props.value ?? getChildrenString((child.children as Slots).default?.() ?? []),
         disabled: props.disabled,
       });
     } else if (isNamedComponent(child, 'Dsubmenu')) {
@@ -65,17 +64,13 @@ export const travelDropDownChildren = (children: VNode[]): DropdownOption[] => {
       options.push({
         _props: omit(props, ['trigger', 'position', 'triggerProps']),
         isSubmenu: true,
-        value:
-          props.value ??
-          getChildrenString((child.children as Slots).default?.() ?? []),
+        value: props.value ?? getChildrenString((child.children as Slots).default?.() ?? []),
         disabled: props.disabled,
         footer: (child.children as Slots).footer,
         render: (child.children as Slots).default,
         trigger: props.trigger,
         position: props.position,
-        children: travelDropDownChildren(
-          (child.children as Slots).content?.() ?? []
-        ),
+        children: travelDropDownChildren((child.children as Slots).content?.() ?? []),
       });
     } else if (isArrayChildren(child, child.children)) {
       options.push(...travelDropDownChildren(child.children));

@@ -20,11 +20,7 @@ The basic usage of the countdown component `countdown`.
 <template>
   <a-row>
     <a-col :flex="1">
-      <a-countdown
-        title="Countdown"
-        :value="now + 1000 * 60 * 60 * 2"
-        :now="now"
-      />
+      <a-countdown title="Countdown" :value="now + 1000 * 60 * 60 * 2" :now="now" />
     </a-col>
     <a-col :flex="1">
       <a-countdown
@@ -57,24 +53,24 @@ The basic usage of the countdown component `countdown`.
 </template>
 
 <script>
-import { ref } from 'vue';
-import { Message } from '@sd-design/web-vue';
+  import { ref } from 'vue';
+  import { Message } from '@sdata/web-vue';
 
-export default {
-  setup() {
-    const now = Date.now();
-    const start = ref(false);
+  export default {
+    setup() {
+      const now = Date.now();
+      const start = ref(false);
 
-    const handleFinish = () => {
-      Message.info('Finish');
-    };
+      const handleFinish = () => {
+        Message.info('Finish');
+      };
 
-    return {
-      now,
-      start,
-      handleFinish,
-    };
-  },
-};
+      return {
+        now,
+        start,
+        handleFinish,
+      };
+    },
+  };
 </script>
 ```

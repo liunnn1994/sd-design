@@ -22,9 +22,7 @@ export function getScrollPercentage({
   clientHeight: number;
 }) {
   const scrollLength = scrollHeight - clientHeight;
-  return scrollLength
-    ? getValidScrollTop(scrollTop, scrollLength) / scrollLength
-    : 0;
+  return scrollLength ? getValidScrollTop(scrollTop, scrollLength) / scrollLength : 0;
 }
 
 /**
@@ -47,11 +45,7 @@ export function getLocationItem(scrollPtg: number, itemCount: number) {
 /**
  * 计算需要渲染的元素的开始下标、结束下标和用于定位的元素下标
  */
-export function getRangeIndex(
-  scrollPtg: number,
-  itemCount: number,
-  visibleCount: number
-) {
+export function getRangeIndex(scrollPtg: number, itemCount: number, visibleCount: number) {
   const { index, offsetPtg } = getLocationItem(scrollPtg, itemCount);
 
   const beforeCount = Math.ceil(scrollPtg * visibleCount);

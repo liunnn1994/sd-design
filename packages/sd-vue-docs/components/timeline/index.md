@@ -1,6 +1,6 @@
 ---
-title: "timeline"
-outline: "deep"
+title: 'timeline'
+outline: 'deep'
 ---
 
 ```yaml
@@ -11,53 +11,41 @@ title: 时间轴 Timeline
 description: 按照时间顺序或倒序规则的展示信息内容。
 ```
 
-
-
-
-
-
-
-
-
-
-
 ## API
-
 
 ### `<timeline>` Props
 
-|参数名|描述|类型|默认值|
-|---|---|---|:---:|
-|reverse|是否倒序|`boolean`|`false`|
-|direction|时间轴方向|`'horizontal' \| 'vertical'`|`'vertical'`|
-|mode|时间轴的展示类型：时间轴在左侧，时间轴在右侧, 交替出现。|`'left' \| 'right' \| 'top' \| 'bottom' \| 'alternate'`|`'left'`|
-|pending|是否展示幽灵节点，设置为 true 时候只展示幽灵节点。传入ReactNode时，会作为节点内容展示。|`boolean\|string`|`-`|
-|label-position|设置标签文本的位置|`'relative' \| 'same'`|`'same'`|
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| reverse | 是否倒序 | `boolean` | `false` |
+| direction | 时间轴方向 | `'horizontal' \| 'vertical'` | `'vertical'` |
+| mode | 时间轴的展示类型：时间轴在左侧，时间轴在右侧, 交替出现。 | `'left' \| 'right' \| 'top' \| 'bottom' \| 'alternate'` | `'left'` |
+| pending | 是否展示幽灵节点，设置为 true 时候只展示幽灵节点。传入ReactNode时，会作为节点内容展示。 | `boolean\|string` | `-` |
+| label-position | 设置标签文本的位置 | `'relative' \| 'same'` | `'same'` |
+
 ### `<timeline>` Slots
 
-|插槽名|描述|参数|
-|---|:---:|---|
-|dot|幽灵节点|-|
-
-
-
+| 插槽名 |   描述   | 参数 |
+| ------ | :------: | ---- |
+| dot    | 幽灵节点 | -    |
 
 ### `<timeline-item>` Props
 
-|参数名|描述|类型|默认值|
-|---|---|---|:---:|
-|dot-color|节点颜色|`string`|`-`|
-|dot-type|节点类型：空心圆/实心圆|`'hollow' \| 'solid'`|`'solid'`|
-|line-type|时间轴类型：实线/虚线/点状线|`'solid' \| 'dashed' \| 'dotted'`|`'solid'`|
-|line-color|时间轴颜色|`string`|`-`|
-|label|标签文本|`string`|`-`|
-|position|Item 位置|`PositionType`|`-`|
+| 参数名     | 描述                         | 类型                              |  默认值   |
+| ---------- | ---------------------------- | --------------------------------- | :-------: |
+| dot-color  | 节点颜色                     | `string`                          |    `-`    |
+| dot-type   | 节点类型：空心圆/实心圆      | `'hollow' \| 'solid'`             | `'solid'` |
+| line-type  | 时间轴类型：实线/虚线/点状线 | `'solid' \| 'dashed' \| 'dotted'` | `'solid'` |
+| line-color | 时间轴颜色                   | `string`                          |    `-`    |
+| label      | 标签文本                     | `string`                          |    `-`    |
+| position   | Item 位置                    | `PositionType`                    |    `-`    |
+
 ### `<timeline-item>` Slots
 
-|插槽名|描述|参数|版本|
-|---|:---:|---|:---|
-|dot|自定义节点|-||
-|label|自定义标签|-|2.50.0|
+| 插槽名 |    描述    | 参数 | 版本   |
+| ------ | :--------: | ---- | :----- |
+| dot    | 自定义节点 | -    |        |
+| label  | 自定义标签 | -    | 2.50.0 |
 
 <script setup lang="ts">
 import basicDemo from '../../.vitepress/theme/generated/timeline/basic.vue';
@@ -73,11 +61,11 @@ const directionSource = "<template>\n  <div>\n    <a-row align=\"center\" :style
 const directionTitle = "Direction.Md";
 const directionDescription = "可以通过 `direction` 设置展示横向时间轴";
 import dotDemo from '../../.vitepress/theme/generated/timeline/dot.vue';
-const dotSource = "<template>\n  <div :style=\"{ display: 'flex' }\">\n    <a-timeline :style=\"{ marginRight: '40px' }\">\n      <a-timeline-item label=\"2020-04-12\" dotColor=\"#00B42A\">\n        The first milestone\n      <\/a-timeline-item>\n      <a-timeline-item label=\"2020-05-17\">\n        The second milestone\n      <\/a-timeline-item>\n      <a-timeline-item label=\"2020-06-22\">\n        <template #dot>\n          <IconClockCircle :style=\"{ fontSize: '12px', color: '#F53F3F' }\" />\n        <\/template>\n        The third milestone\n      <\/a-timeline-item>\n      <a-timeline-item label=\"2020-06-22\" dotColor=\"var(--color-fill-4)\">\n        The third milestone\n      <\/a-timeline-item>\n    <\/a-timeline>\n\n    <a-timeline :style=\"{ marginRight: '40px' }\">\n      <a-timeline-item label=\"2020-04-12\">\n        <template #dot>\n          <IconCheck\n            :style=\"{\n              fontSize: '12px',\n              padding: '2px',\n              boxSizing: 'border-box',\n              borderRadius: '50%',\n              backgroundColor: 'var(--color-primary-light-1)',\n            }\"\n          />\n        <\/template>\n        The first milestone\n      <\/a-timeline-item>\n      <a-timeline-item label=\"2020-05-17\">\n        <template #dot>\n          <IconCheck\n            :style=\"{\n              fontSize: '12px',\n              padding: '2px',\n              boxSizing: 'border-box',\n              borderRadius: '50%',\n              backgroundColor: 'var(--color-primary-light-1)',\n            }\"\n          />\n        <\/template>\n      <\/a-timeline-item>\n      <a-timeline-item label=\"2020-06-22\">The third milestone<\/a-timeline-item>\n      <a-timeline-item label=\"2020-06-22\" dotColor=\"var(--color-fill-4)\">\n        The third milestone\n      <\/a-timeline-item>\n    <\/a-timeline>\n\n    <a-timeline>\n      <a-timeline-item label=\"2020-04-12\">The first milestone<\/a-timeline-item>\n      <a-timeline-item label=\"2020-05-17\" dotColor=\"var(--color-fill-4)\">\n        The second milestone\n      <\/a-timeline-item>\n      <a-timeline-item label=\"2020-06-22\" dotColor=\"var(--color-fill-4)\">\n        The third milestone\n      <\/a-timeline-item>\n    <\/a-timeline>\n  <\/div>\n<\/template>\n\n<script>\nimport { IconCheck } from '@sd-design/web-vue/es/icon';\n\nexport default {\n  components: { IconCheck },\n};\n<\/script>";
+const dotSource = "<template>\n  <div :style=\"{ display: 'flex' }\">\n    <a-timeline :style=\"{ marginRight: '40px' }\">\n      <a-timeline-item label=\"2020-04-12\" dotColor=\"#00B42A\">\n        The first milestone\n      <\/a-timeline-item>\n      <a-timeline-item label=\"2020-05-17\">\n        The second milestone\n      <\/a-timeline-item>\n      <a-timeline-item label=\"2020-06-22\">\n        <template #dot>\n          <IconClockCircle :style=\"{ fontSize: '12px', color: '#F53F3F' }\" />\n        <\/template>\n        The third milestone\n      <\/a-timeline-item>\n      <a-timeline-item label=\"2020-06-22\" dotColor=\"var(--color-fill-4)\">\n        The third milestone\n      <\/a-timeline-item>\n    <\/a-timeline>\n\n    <a-timeline :style=\"{ marginRight: '40px' }\">\n      <a-timeline-item label=\"2020-04-12\">\n        <template #dot>\n          <IconCheck\n            :style=\"{\n              fontSize: '12px',\n              padding: '2px',\n              boxSizing: 'border-box',\n              borderRadius: '50%',\n              backgroundColor: 'var(--color-primary-light-1)',\n            }\"\n          />\n        <\/template>\n        The first milestone\n      <\/a-timeline-item>\n      <a-timeline-item label=\"2020-05-17\">\n        <template #dot>\n          <IconCheck\n            :style=\"{\n              fontSize: '12px',\n              padding: '2px',\n              boxSizing: 'border-box',\n              borderRadius: '50%',\n              backgroundColor: 'var(--color-primary-light-1)',\n            }\"\n          />\n        <\/template>\n      <\/a-timeline-item>\n      <a-timeline-item label=\"2020-06-22\">The third milestone<\/a-timeline-item>\n      <a-timeline-item label=\"2020-06-22\" dotColor=\"var(--color-fill-4)\">\n        The third milestone\n      <\/a-timeline-item>\n    <\/a-timeline>\n\n    <a-timeline>\n      <a-timeline-item label=\"2020-04-12\">The first milestone<\/a-timeline-item>\n      <a-timeline-item label=\"2020-05-17\" dotColor=\"var(--color-fill-4)\">\n        The second milestone\n      <\/a-timeline-item>\n      <a-timeline-item label=\"2020-06-22\" dotColor=\"var(--color-fill-4)\">\n        The third milestone\n      <\/a-timeline-item>\n    <\/a-timeline>\n  <\/div>\n<\/template>\n\n<script>\nimport { IconCheck } from '@sdata/web-vue/es/icon';\n\nexport default {\n  components: { IconCheck },\n};\n<\/script>";
 const dotTitle = "Dot.Md";
 const dotDescription = "可以通过属性 `dotColor`, `dotType` 设置节点的颜色以及节点类型。同时可通过 `dot` 直接传入 DOM 自定义节点样式。优先级高于 `dotColor` 和 `dotType`";
 import iconDemo from '../../.vitepress/theme/generated/timeline/icon.vue';
-const iconSource = "<template>\n  <a-timeline>\n    <a-timeline-item label=\"2017-03-10\" dotColor=\"#00B42A\">\n      The first milestone\n    <\/a-timeline-item>\n    <a-timeline-item label=\"2018-05-22\">The second milestone<\/a-timeline-item>\n    <a-timeline-item label=\"2020-06-22\" dotColor=\"#F53F3F\">\n      The third milestone\n      <IconExclamationCircleFill\n        :style=\"{ color: 'F53F3F', fontSize: '12px', marginLeft: '4px' }\"\n      />\n    <\/a-timeline-item>\n    <a-timeline-item label=\"2020-09-30\" dotColor=\"#C9CDD4\">\n      The fourth milestone\n    <\/a-timeline-item>\n  <\/a-timeline>\n<\/template>\n\n<script>\nimport { IconExclamationCircleFill } from '@sd-design/web-vue/es/icon';\n\nexport default {\n  components: { IconExclamationCircleFill },\n};\n<\/script>";
+const iconSource = "<template>\n  <a-timeline>\n    <a-timeline-item label=\"2017-03-10\" dotColor=\"#00B42A\">\n      The first milestone\n    <\/a-timeline-item>\n    <a-timeline-item label=\"2018-05-22\">The second milestone<\/a-timeline-item>\n    <a-timeline-item label=\"2020-06-22\" dotColor=\"#F53F3F\">\n      The third milestone\n      <IconExclamationCircleFill\n        :style=\"{ color: 'F53F3F', fontSize: '12px', marginLeft: '4px' }\"\n      />\n    <\/a-timeline-item>\n    <a-timeline-item label=\"2020-09-30\" dotColor=\"#C9CDD4\">\n      The fourth milestone\n    <\/a-timeline-item>\n  <\/a-timeline>\n<\/template>\n\n<script>\nimport { IconExclamationCircleFill } from '@sdata/web-vue/es/icon';\n\nexport default {\n  components: { IconExclamationCircleFill },\n};\n<\/script>";
 const iconTitle = "Icon.Md";
 const iconDescription = "自定义节点内容";
 import labelDemo from '../../.vitepress/theme/generated/timeline/label.vue';
@@ -89,7 +77,7 @@ const modeSource = "<template>\n  <a-row justify=\"space-between\">\n    <a-time
 const modeTitle = "Mode.Md";
 const modeDescription = "设置 `mode=alternate`时将会交替展示内容。同时可以通过设置 `TimelineItem` 的 `positon`属性控制时间轴节点的位置.";
 import pendingDemo from '../../.vitepress/theme/generated/timeline/pending.vue';
-const pendingSource = "<template>\n  <a-row align=\"center\" :style=\"{ marginBottom: '24px' }\">\n    <a-checkbox\n      :checked=\"!!pendingProps.direction\"\n      @change=\"(v) => onChange({ direction: v ? 'horizontal' : '' })\"\n    >\n      horizontal &nbsp; &nbsp;\n    <\/a-checkbox>\n    <a-checkbox\n      :checked=\"!!pendingProps.reverse\"\n      @change=\"(v) => onChange({ reverse: v })\"\n    >\n      reverse &nbsp; &nbsp;\n    <\/a-checkbox>\n    <a-checkbox\n      :checked=\"!!pendingProps.pending\"\n      @change=\"\n        (v) => onChange({ pending: v ? 'This is a pending dot' : false })\n      \"\n    >\n      pending &nbsp; &nbsp;\n    <\/a-checkbox>\n\n    <a-checkbox\n      :checked=\"!!pendingProps.hasPendingDot\"\n      @change=\"(v) => onChange({ hasPendingDot: v })\"\n    >\n      custom pendingDot\n    <\/a-checkbox>\n  <\/a-row>\n  <a-timeline v-bind=\"pendingProps\">\n    <template v-if=\"pendingProps.hasPendingDot\" #dot>\n      <IconFire :style=\"{ color: '#e70a0a' }\" />\n    <\/template>\n    <a-timeline-item label=\"2017-03-10\" dotColor=\"#52C419\">\n      The first milestone\n    <\/a-timeline-item>\n    <a-timeline-item label=\"2018-05-12\" dotColor=\"#F5222D\">\n      The second milestone\n    <\/a-timeline-item>\n    <a-timeline-item label=\"2020-09-30\">The third milestone<\/a-timeline-item>\n  <\/a-timeline>\n<\/template>\n\n<script>\nimport { ref } from 'vue';\nimport { IconFire } from '@sd-design/web-vue/es/icon';\n\nexport default {\n  components: {\n    IconFire,\n  },\n  setup() {\n    const pendingProps = ref({});\n\n    const onChange = (newProps) => {\n      pendingProps.value = {\n        ...pendingProps.value,\n        ...newProps,\n      };\n    };\n\n    return {\n      pendingProps,\n      onChange\n    }\n  },\n};\n<\/script>";
+const pendingSource = "<template>\n  <a-row align=\"center\" :style=\"{ marginBottom: '24px' }\">\n    <a-checkbox\n      :checked=\"!!pendingProps.direction\"\n      @change=\"(v) => onChange({ direction: v ? 'horizontal' : '' })\"\n    >\n      horizontal &nbsp; &nbsp;\n    <\/a-checkbox>\n    <a-checkbox\n      :checked=\"!!pendingProps.reverse\"\n      @change=\"(v) => onChange({ reverse: v })\"\n    >\n      reverse &nbsp; &nbsp;\n    <\/a-checkbox>\n    <a-checkbox\n      :checked=\"!!pendingProps.pending\"\n      @change=\"\n        (v) => onChange({ pending: v ? 'This is a pending dot' : false })\n      \"\n    >\n      pending &nbsp; &nbsp;\n    <\/a-checkbox>\n\n    <a-checkbox\n      :checked=\"!!pendingProps.hasPendingDot\"\n      @change=\"(v) => onChange({ hasPendingDot: v })\"\n    >\n      custom pendingDot\n    <\/a-checkbox>\n  <\/a-row>\n  <a-timeline v-bind=\"pendingProps\">\n    <template v-if=\"pendingProps.hasPendingDot\" #dot>\n      <IconFire :style=\"{ color: '#e70a0a' }\" />\n    <\/template>\n    <a-timeline-item label=\"2017-03-10\" dotColor=\"#52C419\">\n      The first milestone\n    <\/a-timeline-item>\n    <a-timeline-item label=\"2018-05-12\" dotColor=\"#F5222D\">\n      The second milestone\n    <\/a-timeline-item>\n    <a-timeline-item label=\"2020-09-30\">The third milestone<\/a-timeline-item>\n  <\/a-timeline>\n<\/template>\n\n<script>\nimport { ref } from 'vue';\nimport { IconFire } from '@sdata/web-vue/es/icon';\n\nexport default {\n  components: {\n    IconFire,\n  },\n  setup() {\n    const pendingProps = ref({});\n\n    const onChange = (newProps) => {\n      pendingProps.value = {\n        ...pendingProps.value,\n        ...newProps,\n      };\n    };\n\n    return {\n      pendingProps,\n      onChange\n    }\n  },\n};\n<\/script>";
 const pendingTitle = "Pending.Md";
 const pendingDescription = "当任务状态正在发生，还在记录过程中，可用幽灵节点来表示当前的时间节点，通过`slot#pending-dot`定制其轴点。";
 import typeDemo from '../../.vitepress/theme/generated/timeline/type.vue';
@@ -104,83 +92,52 @@ const verticalDescription = "竖直方向的时间轴。";
 
 ## 示例
 
+<DemoBlock :title="basicTitle" :description="basicDescription" :code="basicSource"
 
-<DemoBlock
-  :title="basicTitle"
-  :description="basicDescription"
-  :code="basicSource"
->
-  <basicDemo />
-</DemoBlock>
+>   <basicDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="customTitle"
-  :description="customDescription"
-  :code="customSource"
->
-  <customDemo />
-</DemoBlock>
+<DemoBlock :title="customTitle" :description="customDescription" :code="customSource"
 
-<DemoBlock
-  :title="directionTitle"
-  :description="directionDescription"
-  :code="directionSource"
->
-  <directionDemo />
-</DemoBlock>
+>   <customDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="dotTitle"
-  :description="dotDescription"
-  :code="dotSource"
->
-  <dotDemo />
-</DemoBlock>
+<DemoBlock :title="directionTitle" :description="directionDescription" :code="directionSource"
 
-<DemoBlock
-  :title="iconTitle"
-  :description="iconDescription"
-  :code="iconSource"
->
-  <iconDemo />
-</DemoBlock>
+>   <directionDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="labelTitle"
-  :description="labelDescription"
-  :code="labelSource"
->
-  <labelDemo />
-</DemoBlock>
+<DemoBlock :title="dotTitle" :description="dotDescription" :code="dotSource"
 
-<DemoBlock
-  :title="modeTitle"
-  :description="modeDescription"
-  :code="modeSource"
->
-  <modeDemo />
-</DemoBlock>
+>   <dotDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="pendingTitle"
-  :description="pendingDescription"
-  :code="pendingSource"
->
-  <pendingDemo />
-</DemoBlock>
+<DemoBlock :title="iconTitle" :description="iconDescription" :code="iconSource"
 
-<DemoBlock
-  :title="typeTitle"
-  :description="typeDescription"
-  :code="typeSource"
->
-  <typeDemo />
-</DemoBlock>
+>   <iconDemo />
+> </DemoBlock>
 
-<DemoBlock
-  :title="verticalTitle"
-  :description="verticalDescription"
-  :code="verticalSource"
->
-  <verticalDemo />
-</DemoBlock>
+<DemoBlock :title="labelTitle" :description="labelDescription" :code="labelSource"
+
+>   <labelDemo />
+> </DemoBlock>
+
+<DemoBlock :title="modeTitle" :description="modeDescription" :code="modeSource"
+
+>   <modeDemo />
+> </DemoBlock>
+
+<DemoBlock :title="pendingTitle" :description="pendingDescription" :code="pendingSource"
+
+>   <pendingDemo />
+> </DemoBlock>
+
+<DemoBlock :title="typeTitle" :description="typeDescription" :code="typeSource"
+
+>   <typeDemo />
+> </DemoBlock>
+
+<DemoBlock :title="verticalTitle" :description="verticalDescription" :code="verticalSource"
+
+>   <verticalDemo />
+> </DemoBlock>

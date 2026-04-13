@@ -1,4 +1,5 @@
 import { nextTick, ref, toRefs, watch, watchEffect } from 'vue';
+
 import { off, on } from '../../_utils/dom';
 import getFixTranslate from '../utils/get-fix-translate';
 
@@ -29,7 +30,7 @@ export default function useImageDrag(props: ImageDragProps) {
       imgRect,
       translate.value[0],
       translate.value[1],
-      scale.value
+      scale.value,
     );
     if (x !== translate.value[0] || y !== translate.value[1]) {
       translate.value = [x, y];

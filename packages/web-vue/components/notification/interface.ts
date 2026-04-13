@@ -1,49 +1,33 @@
 import { AppContext, CSSProperties, RenderFunction } from 'vue';
-import { ClassName, RenderContent } from '../_utils/types';
+
 import { MessageType } from '../_utils/constant';
+import { ClassName, RenderContent } from '../_utils/types';
 
-export const NOTIFICATION_POSITION = [
-  'topLeft',
-  'topRight',
-  'bottomLeft',
-  'bottomRight',
-] as const;
+export const NOTIFICATION_POSITION = ['topLeft', 'topRight', 'bottomLeft', 'bottomRight'] as const;
 
-export type NotificationPosition = typeof NOTIFICATION_POSITION[number];
+export type NotificationPosition = (typeof NOTIFICATION_POSITION)[number];
 
 export interface NotificationMethod {
   /**
    * @zh 显示信息提醒框
    * @en Show info notification
    */
-  info: (
-    config: string | NotificationConfig,
-    appContext?: AppContext
-  ) => NotificationReturn;
+  info: (config: string | NotificationConfig, appContext?: AppContext) => NotificationReturn;
   /**
    * @zh 显示成功提醒框
    * @en Show success notification
    */
-  success: (
-    config: string | NotificationConfig,
-    appContext?: AppContext
-  ) => NotificationReturn;
+  success: (config: string | NotificationConfig, appContext?: AppContext) => NotificationReturn;
   /**
    * @zh 显示警告提醒框
    * @en Show warning notification
    */
-  warning: (
-    config: string | NotificationConfig,
-    appContext?: AppContext
-  ) => NotificationReturn;
+  warning: (config: string | NotificationConfig, appContext?: AppContext) => NotificationReturn;
   /**
    * @zh 显示错误提醒框
    * @en Show error notification
    */
-  error: (
-    config: string | NotificationConfig,
-    appContext?: AppContext
-  ) => NotificationReturn;
+  error: (config: string | NotificationConfig, appContext?: AppContext) => NotificationReturn;
   /**
    * @zh 清除对应 `id` 的提醒框
    * @en remove the notification for the corresponding `id`

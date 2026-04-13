@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -6,8 +7,11 @@ meta:
 title: 数值显示 Statistic
 description: 突出展示某个或某组数字、带描述的统计类数据。
 ```
+
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -15,15 +19,16 @@ meta:
 title: Statistic
 description: Highlight a certain number or group of numbers and statistical data with descriptions.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/prefix.md
+@import ./**demo**/prefix.md
 
-@import ./__demo__/animation.md
+@import ./**demo**/animation.md
 
-@import ./__demo__/countdown.md
+@import ./**demo**/countdown.md
 
 ## API
 

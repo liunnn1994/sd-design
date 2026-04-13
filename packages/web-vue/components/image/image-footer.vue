@@ -4,11 +4,7 @@
       <div v-if="title" :class="`${prefixCls}-caption-title`" :title="title">
         {{ title }}
       </div>
-      <div
-        v-if="description"
-        :class="`${prefixCls}-caption-description`"
-        :title="description"
-      >
+      <div v-if="description" :class="`${prefixCls}-caption-description`" :title="description">
         {{ description }}
       </div>
     </div>
@@ -18,25 +14,26 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
+  import { defineComponent } from 'vue';
 
-export default defineComponent({
-  name: 'ImageFooter',
-  props: {
-    title: {
-      type: String,
-    },
-    description: {
-      type: String,
-    },
-  },
-  setup() {
-    const prefixCls = getPrefixCls('image-footer');
+  import { getPrefixCls } from '../_utils/global-config';
 
-    return {
-      prefixCls,
-    };
-  },
-});
+  export default defineComponent({
+    name: 'ImageFooter',
+    props: {
+      title: {
+        type: String,
+      },
+      description: {
+        type: String,
+      },
+    },
+    setup() {
+      const prefixCls = getPrefixCls('image-footer');
+
+      return {
+        prefixCls,
+      };
+    },
+  });
 </script>

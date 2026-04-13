@@ -27,12 +27,12 @@ Customize icons and pictures through the `image` slot, or modify the text throug
 </template>
 
 <script>
-import { IconExclamationCircleFill } from '@sd-design/web-vue/es/icon';
+  import { IconExclamationCircleFill } from '@sdata/web-vue/es/icon';
 
-export default {
-  components: {
-    IconExclamationCircleFill
-  },
-}
+  export default {
+    components: {
+      IconExclamationCircleFill,
+    },
+  };
 </script>
 ```

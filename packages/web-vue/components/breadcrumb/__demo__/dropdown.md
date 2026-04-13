@@ -19,12 +19,10 @@ use `droplist` or `routes` settings dropdown menu
 ```vue
 <template>
   <a-space direction="vertical">
-    <a-breadcrumb :routes="routes"/>
+    <a-breadcrumb :routes="routes" />
     <a-breadcrumb>
       <a-breadcrumb-item>Home</a-breadcrumb-item>
-      <a-breadcrumb-item :droplist="droplist">
-        Channel
-      </a-breadcrumb-item>
+      <a-breadcrumb-item :droplist="droplist"> Channel </a-breadcrumb-item>
       <a-breadcrumb-item>News</a-breadcrumb-item>
     </a-breadcrumb>
     <a-breadcrumb>
@@ -55,45 +53,45 @@ use `droplist` or `routes` settings dropdown menu
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      routes: [
-        {
-          path: '/',
-          label: 'Home'
-        },
-        {
-          path: '/channel',
-          label: 'Channel',
-          children: [
-            {
-              path: '/users',
-              label: 'Users',
-            },
-            {
-              path: '/permission',
-              label: 'Permission',
-            }
-          ]
-        },
-        {
-          path: '/news',
-          label: 'News'
-        },
-      ],
-      droplist: [
-        {
-          path: '/goods',
-          label: 'Goods',
-        },
-        {
-          path: '/wallet',
-          label: 'Wallet',
-        }
-      ]
-    }
-  }
-}
+  export default {
+    data() {
+      return {
+        routes: [
+          {
+            path: '/',
+            label: 'Home',
+          },
+          {
+            path: '/channel',
+            label: 'Channel',
+            children: [
+              {
+                path: '/users',
+                label: 'Users',
+              },
+              {
+                path: '/permission',
+                label: 'Permission',
+              },
+            ],
+          },
+          {
+            path: '/news',
+            label: 'News',
+          },
+        ],
+        droplist: [
+          {
+            path: '/goods',
+            label: 'Goods',
+          },
+          {
+            path: '/wallet',
+            label: 'Wallet',
+          },
+        ],
+      };
+    },
+  };
 </script>
 ```

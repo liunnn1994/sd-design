@@ -8,11 +8,12 @@ import {
   toRefs,
   CSSProperties,
 } from 'vue';
+
+import { useSize } from '../_hooks/use-size';
 import { getPrefixCls } from '../_utils/global-config';
+import { getAllElements } from '../_utils/vue-utils';
 import Spin from '../spin';
 import { cardInjectionKey } from './context';
-import { getAllElements } from '../_utils/vue-utils';
-import { useSize } from '../_hooks/use-size';
 
 export default defineComponent({
   name: 'Card',
@@ -158,32 +159,21 @@ export default defineComponent({
         <div class={cls.value}>
           {(hasTitle || hasExtra) && (
             <div
-              class={[
-                `${prefixCls}-header`,
-                { [`${prefixCls}-header-no-title`]: !hasTitle },
-              ]}
+              class={[`${prefixCls}-header`, { [`${prefixCls}-header-no-title`]: !hasTitle }]}
               style={props.headerStyle}
             >
               {hasTitle && (
-                <div class={`${prefixCls}-header-title`}>
-                  {slots.title?.() ?? props.title}
-                </div>
+                <div class={`${prefixCls}-header-title`}>{slots.title?.() ?? props.title}</div>
               )}
               {hasExtra && (
-                <div class={`${prefixCls}-header-extra`}>
-                  {slots.extra?.() ?? props.extra}
-                </div>
+                <div class={`${prefixCls}-header-extra`}>{slots.extra?.() ?? props.extra}</div>
               )}
             </div>
           )}
-          {slots.cover && (
-            <div class={`${prefixCls}-cover`}>{slots.cover()}</div>
-          )}
+          {slots.cover && <div class={`${prefixCls}-cover`}>{slots.cover()}</div>}
           <div class={`${prefixCls}-body`} style={props.bodyStyle}>
             {props.loading ? <Spin /> : slots.default?.()}
-            {slots.actions &&
-              !cardContext.hasMeta &&
-              renderActions(slots.actions())}
+            {slots.actions && !cardContext.hasMeta && renderActions(slots.actions())}
           </div>
         </div>
       );

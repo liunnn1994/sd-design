@@ -1,17 +1,14 @@
-import path from 'path';
 import fs from 'fs-extra';
-import { isCode, isFileImport, isI18nDescription, toPascalCase } from './utils';
-import marked from './marked';
-import { getDemoVue, getMainVue } from './vue-template';
+import path from 'path';
+
 import { createDescriptor } from './descriptor';
 import { I18nData } from './interface';
+import marked from './marked';
 import { parseChangelog } from './parse-changelog';
+import { isCode, isFileImport, isI18nDescription, toPascalCase } from './utils';
+import { getDemoVue, getMainVue } from './vue-template';
 
-export const transformMain = (
-  tokens: any[],
-  filename: string,
-  frontMatter: any
-) => {
+export const transformMain = (tokens: any[], filename: string, frontMatter: any) => {
   const imports: string[] = [];
   const components: string[] = [];
 
@@ -23,9 +20,7 @@ export const transformMain = (
       components.push(componentName);
     }
   }
-  const changelog = /en-US/.test(filename)
-    ? './CHANGELOG.md'
-    : './CHANGELOG.zh-CN.md';
+  const changelog = /en-US/.test(filename) ? './CHANGELOG.md' : './CHANGELOG.zh-CN.md';
   try {
     fs.accessSync(path.resolve(path.dirname(filename), changelog));
     imports.push(`import _changelog from '${changelog}';`);
@@ -37,11 +32,7 @@ export const transformMain = (
   return getMainVue({ html, imports, components, data: frontMatter });
 };
 
-export const transformDemo = (
-  tokens: any[],
-  filename: string,
-  frontMatter?: any
-) => {
+export const transformDemo = (tokens: any[], filename: string, frontMatter?: any) => {
   const basename = path.basename(filename, '.md');
   const virtualPath = `/@virtual${filename}`;
   const data = {

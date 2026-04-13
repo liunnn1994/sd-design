@@ -17,7 +17,6 @@ Support scrolling operation via scroll wheel or touch pad. And you can set the s
 ---
 
 ```vue
-
 <template>
   <a-space direction="vertical" size="large">
     <a-radio-group v-model="position" type="button">
@@ -32,7 +31,7 @@ Support scrolling operation via scroll wheel or touch pad. And you can set the s
       <a-radio value="center">center</a-radio>
       <a-radio value="end">end</a-radio>
     </a-radio-group>
-    <a-button @click="changeActive"> Change: {{activeKey}}</a-button>
+    <a-button @click="changeActive"> Change: {{ activeKey }}</a-button>
   </a-space>
   <a-tabs
     v-model:activeKey="activeKey"
@@ -47,33 +46,33 @@ Support scrolling operation via scroll wheel or touch pad. And you can set the s
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const position = ref('top');
-    const scrollPosition = ref('auto');
-    const activeKey = ref('Tab1');
-    const tabs = Array.from({ length: 30 }, (v, i) => {
+  export default {
+    setup() {
+      const position = ref('top');
+      const scrollPosition = ref('auto');
+      const activeKey = ref('Tab1');
+      const tabs = Array.from({ length: 30 }, (v, i) => {
+        return {
+          key: `Tab${i + 1}`,
+          title: `Tab ${i + 1}`,
+          content: `Content of Tab Panel ${i + 1}`,
+        };
+      });
+
+      const changeActive = () => {
+        activeKey.value = `Tab${Math.floor(Math.random() * 30) + 1}`;
+      };
+
       return {
-        key: `Tab${i + 1}`,
-        title: `Tab ${i + 1}`,
-        content: `Content of Tab Panel ${i + 1}`
-      }
-    });
-
-    const changeActive = () => {
-      activeKey.value = `Tab${Math.floor(Math.random() * 30) + 1}`;
-    }
-
-    return {
-      tabs,
-      position,
-      scrollPosition,
-      activeKey,
-      changeActive
-    }
-  },
-}
+        tabs,
+        position,
+        scrollPosition,
+        activeKey,
+        changeActive,
+      };
+    },
+  };
 </script>
 ```

@@ -1,6 +1,6 @@
-import props from './props';
 import events from './events';
 import methods from './methods';
+import props from './props';
 import slots from './slots';
 
 export default {

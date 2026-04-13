@@ -1,6 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { build } from 'vite';
+
 import config from '../../configs/vite.prod';
 import getUmdConfig from '../../configs/vite.prod.umd';
 
@@ -13,7 +14,7 @@ async function run({ umd = false }) {
     path.resolve(process.cwd(), 'es/icon'),
     {
       overwrite: true,
-    }
+    },
   );
 
   if (umd) {

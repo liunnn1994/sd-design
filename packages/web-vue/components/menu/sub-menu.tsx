@@ -1,12 +1,13 @@
 import { computed, defineComponent, PropType, toRef, toRefs } from 'vue';
-import SubMenuInline from './sub-menu-inline.vue';
-import SubMenuPop from './sub-menu-pop.vue';
-import useMenu from './hooks/use-menu';
-import useLevel from './hooks/use-level';
+
 import IconDown from '../icon/icon-down';
 import IconRight from '../icon/icon-right';
+import useLevel from './hooks/use-level';
+import useMenu from './hooks/use-menu';
 import useMenuContext from './hooks/use-menu-context';
 import useMenuDataCollector from './hooks/use-menu-data-collector';
+import SubMenuInline from './sub-menu-inline.vue';
+import SubMenuPop from './sub-menu-pop.vue';
 
 export default defineComponent({
   name: 'SubMenu',
@@ -30,9 +31,7 @@ export default defineComponent({
      * @en Whether to force the use of pop-up mode, `level` indicates the level of the current submenu
      */
     popup: {
-      type: [Boolean, Function] as PropType<
-        boolean | ((level: number) => boolean)
-      >,
+      type: [Boolean, Function] as PropType<boolean | ((level: number) => boolean)>,
       default: false,
     },
     /**
@@ -97,9 +96,7 @@ export default defineComponent({
         return false;
       };
 
-      return (
-        checkSelected(subMenuKeys.value) || checkSelected(menuItemKeys.value)
-      );
+      return checkSelected(subMenuKeys.value) || checkSelected(menuItemKeys.value);
     });
 
     return {
@@ -127,13 +124,9 @@ export default defineComponent({
     const _slots = {
       ...this.$slots,
       'expand-icon-down':
-        this.$slots['expand-icon-down'] ||
-        expandIconDown ||
-        (() => [<IconDown />]),
+        this.$slots['expand-icon-down'] || expandIconDown || (() => [<IconDown />]),
       'expand-icon-right':
-        this.$slots['expand-icon-right'] ||
-        expandIconRight ||
-        (() => [<IconRight />]),
+        this.$slots['expand-icon-right'] || expandIconRight || (() => [<IconRight />]),
     };
     return computedPopup ? (
       <SubMenuPop

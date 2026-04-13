@@ -1,15 +1,8 @@
-import {
-  computed,
-  CSSProperties,
-  defineComponent,
-  PropType,
-  Comment,
-  Fragment,
-  inject,
-} from 'vue';
+import { computed, CSSProperties, defineComponent, PropType, Comment, Fragment, inject } from 'vue';
+
+import { getPrefixCls } from '../_utils/global-config';
 import { isArray, isNumber } from '../_utils/is';
 import { getAllElements } from '../_utils/vue-utils';
-import { getPrefixCls } from '../_utils/global-config';
 import { configProviderInjectionKey } from '../config-provider/context';
 
 type SpaceSize = number | 'mini' | 'small' | 'medium' | 'large';
@@ -70,7 +63,7 @@ export default defineComponent({
     const rtl = computed(() => configCtx?.rtl ?? false);
 
     const mergedAlign = computed(
-      () => props.align ?? (props.direction === 'horizontal' ? 'center' : '')
+      () => props.align ?? (props.direction === 'horizontal' ? 'center' : ''),
     );
 
     const cls = computed(() => [
@@ -104,9 +97,7 @@ export default defineComponent({
 
     const getSpaceStyle = computed(() => {
       const style: CSSProperties = {};
-      const sizeArray = isArray(props.size)
-        ? props.size
-        : [props.size, props.size];
+      const sizeArray = isArray(props.size) ? props.size : [props.size, props.size];
       const [colGap, rowGap] = sizeArray.map(getSize);
 
       style.columnGap = `${colGap}px`;
@@ -116,7 +107,7 @@ export default defineComponent({
 
     return () => {
       const children = getAllElements(slots.default?.(), true).filter(
-        (item) => item.type !== Comment
+        (item) => item.type !== Comment,
       );
 
       return (

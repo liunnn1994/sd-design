@@ -32,11 +32,7 @@ Enable `feedback` to allow some input components to display current state inform
       <a-radio value="large">large</a-radio>
     </a-radio-group>
   </a-space>
-  <a-form
-    :model="form"
-    :style="{ width: '600px', marginTop: '20px' }"
-    :size="size"
-  >
+  <a-form :model="form" :style="{ width: '600px', marginTop: '20px' }" :size="size">
     <a-form-item
       field="name"
       label="Username"
@@ -45,10 +41,7 @@ Enable `feedback` to allow some input components to display current state inform
       :validate-status="status"
       feedback
     >
-      <a-input
-        v-model="form.name"
-        placeholder="please enter your username..."
-      />
+      <a-input v-model="form.name" placeholder="please enter your username..." />
     </a-form-item>
     <a-form-item
       field="post"
@@ -58,10 +51,7 @@ Enable `feedback` to allow some input components to display current state inform
       :validate-status="status"
       feedback
     >
-      <a-input-number
-        v-model="form.post"
-        placeholder="please enter your post..."
-      />
+      <a-input-number v-model="form.post" placeholder="please enter your post..." />
     </a-form-item>
     <a-form-item
       field="tags"
@@ -71,10 +61,7 @@ Enable `feedback` to allow some input components to display current state inform
       :validate-status="status"
       feedback
     >
-      <a-input-tag
-        v-model="form.tags"
-        placeholder="please enter your post..."
-      />
+      <a-input-tag v-model="form.tags" placeholder="please enter your post..." />
     </a-form-item>
     <a-form-item
       field="section"
@@ -104,25 +91,25 @@ Enable `feedback` to allow some input components to display current state inform
 </template>
 
 <script>
-import { reactive, ref } from 'vue';
+  import { reactive, ref } from 'vue';
 
-export default {
-  setup() {
-    const status = ref('success');
-    const size = ref('medium');
-    const form = reactive({
-      name: '',
-      post: undefined,
-      tags: ['tag1'],
-      section: '',
-    });
+  export default {
+    setup() {
+      const status = ref('success');
+      const size = ref('medium');
+      const form = reactive({
+        name: '',
+        post: undefined,
+        tags: ['tag1'],
+        section: '',
+      });
 
-    return {
-      status,
-      size,
-      form,
-    };
-  },
-};
+      return {
+        status,
+        size,
+        form,
+      };
+    },
+  };
 </script>
 ```

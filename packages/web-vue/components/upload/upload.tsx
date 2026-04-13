@@ -1,28 +1,16 @@
 import type { PropType } from 'vue';
-import {
-  defineComponent,
-  provide,
-  reactive,
-  ref,
-  toRefs,
-  watch,
-  computed,
-} from 'vue';
+import { defineComponent, provide, reactive, ref, toRefs, watch, computed } from 'vue';
+
+import type { CustomIcon, FileItem, ListType, RequestOption, UploadRequest } from './interfaces';
+
+import { useFormItem } from '../_hooks/use-form-item';
 import { getPrefixCls } from '../_utils/global-config';
 import { isBoolean, isFunction, isObject } from '../_utils/is';
-import type {
-  CustomIcon,
-  FileItem,
-  ListType,
-  RequestOption,
-  UploadRequest,
-} from './interfaces';
-import { isImage, uploadRequest } from './utils';
+import { ImagePreviewGroup } from '../image';
+import { uploadInjectionKey } from './context';
 import UploadButton from './upload-button';
 import UploadList from './upload-list';
-import { uploadInjectionKey } from './context';
-import { ImagePreviewGroup } from '../image';
-import { useFormItem } from '../_hooks/use-form-item';
+import { isImage, uploadRequest } from './utils';
 
 export default defineComponent({
   name: 'Upload',
@@ -104,8 +92,7 @@ export default defineComponent({
      */
     data: {
       type: [Object, Function] as PropType<
-        | Record<string, string | Blob>
-        | ((fileItem: FileItem) => Record<string, string | Blob>)
+        Record<string, string | Blob> | ((fileItem: FileItem) => Record<string, string | Blob>)
       >,
     },
     /**
@@ -113,9 +100,7 @@ export default defineComponent({
      * @en Uploaded file name
      */
     name: {
-      type: [String, Function] as PropType<
-        string | ((fileItem: FileItem) => string)
-      >,
+      type: [String, Function] as PropType<string | ((fileItem: FileItem) => string)>,
     },
     /**
      * @zh 上传请求是否携带 cookie
@@ -189,9 +174,7 @@ export default defineComponent({
      * @version 2.11.0
      */
     showUploadButton: {
-      type: [Boolean, Object] as PropType<
-        boolean | { showOnExceedLimit: boolean }
-      >,
+      type: [Boolean, Object] as PropType<boolean | { showOnExceedLimit: boolean }>,
       default: true,
     },
     /**
@@ -243,9 +226,7 @@ export default defineComponent({
      * @en Get the key of the image URL in the Response. After opening, it will replace the pre-load image with the uploaded image
      */
     responseUrlKey: {
-      type: [String, Function] as PropType<
-        string | ((fileItem: FileItem) => string)
-      >,
+      type: [String, Function] as PropType<string | ((fileItem: FileItem) => string)>,
     },
     /**
      * @zh 自定义图标
@@ -267,9 +248,7 @@ export default defineComponent({
      * @en Trigger before uploading a file
      */
     onBeforeUpload: {
-      type: Function as PropType<
-        (file: File) => boolean | Promise<boolean | File>
-      >,
+      type: Function as PropType<(file: File) => boolean | Promise<boolean | File>>,
     },
     /**
      * @zh 移除文件前触发
@@ -294,39 +273,39 @@ export default defineComponent({
      * @param {FileItem[]} fileList
      * @param {File[]} files
      */
-    'exceedLimit': (fileList: FileItem[], files: File[]) => true,
+    exceedLimit: (fileList: FileItem[], files: File[]) => true,
     /**
      * @zh 上传的文件状态发生改变时触发
      * @en Triggered when the status of the uploaded file changes
      * @param {FileItem[]} fileList
      * @param {fileItem} fileItem
      */
-    'change': (fileList: FileItem[], fileItem: FileItem) => true,
+    change: (fileList: FileItem[], fileItem: FileItem) => true,
     /**
      * @zh 上传中的文件进度改变时触发
      * @en Triggered when the uploading file progress changes
      * @param {fileItem} fileItem
      * @param {ProgressEvent} ev
      */
-    'progress': (fileItem: FileItem, ev?: ProgressEvent) => true,
+    progress: (fileItem: FileItem, ev?: ProgressEvent) => true,
     /**
      * @zh 点击图片预览时的触发
      * @en Trigger when the image preview is clicked
      * @param {FileItem} fileItem
      */
-    'preview': (fileItem: FileItem) => true,
+    preview: (fileItem: FileItem) => true,
     /**
      * @zh 上传成功时触发
      * @en Triggered when upload is successful
      * @param {FileItem} fileItem
      */
-    'success': (fileItem: FileItem) => true,
+    success: (fileItem: FileItem) => true,
     /**
      * @zh 上传失败时触发
      * @en Triggered when upload fails
      * @param {FileItem} fileItem
      */
-    'error': (fileItem: FileItem) => true,
+    error: (fileItem: FileItem) => true,
   },
   /**
    * @zh 上传列表的项目
@@ -442,8 +421,7 @@ export default defineComponent({
           ...data,
           uid: data.uid ?? `${Date.now()}${index}`,
           status,
-          percent:
-            data.percent ?? (['error', 'init'].indexOf(status) > -1 ? 0 : 1),
+          percent: data.percent ?? (['error', 'init'].indexOf(status) > -1 ? 0 : 1),
         });
         fileMap.set(fileItem.uid, fileItem);
         return fileItem;
@@ -459,7 +437,7 @@ export default defineComponent({
           checkFileList(fileList);
         }
       },
-      { immediate: true, deep: true }
+      { immediate: true, deep: true },
     );
 
     const updateFileList = (file: FileItem) => {
@@ -601,10 +579,7 @@ export default defineComponent({
     };
 
     const uploadFiles = (files: File[]) => {
-      if (
-        props.limit > 0 &&
-        _fileList.value.length + files.length > props.limit
-      ) {
+      if (props.limit > 0 && _fileList.value.length + files.length > props.limit) {
         emit('exceedLimit', _fileList.value, files);
         return;
       }
@@ -683,7 +658,7 @@ export default defineComponent({
         onAbort: abort,
         onRemove: handleRemove,
         onPreview: handlePreview,
-      })
+      }),
     );
 
     const mergedAccept = computed(() => {
@@ -713,10 +688,7 @@ export default defineComponent({
           hide={
             !props.showUploadButton ||
             (isMax.value &&
-              !(
-                isObject(props.showUploadButton) &&
-                props.showUploadButton.showOnExceedLimit
-              ))
+              !(isObject(props.showUploadButton) && props.showUploadButton.showOnExceedLimit))
           }
           accept={mergedAccept.value}
           onButtonClick={props.onButtonClick}
@@ -748,9 +720,7 @@ export default defineComponent({
     };
 
     const imageList = computed(() =>
-      _fileList.value
-        .filter((item) => Boolean(item.url))
-        .map((item) => item.url as string)
+      _fileList.value.filter((item) => Boolean(item.url)).map((item) => item.url as string),
     );
 
     const render = () => {
@@ -759,12 +729,7 @@ export default defineComponent({
       }
 
       return (
-        <div
-          class={[
-            `${prefixCls}-wrapper`,
-            `${prefixCls}-wrapper-type-${props.listType}`,
-          ]}
-        >
+        <div class={[`${prefixCls}-wrapper`, `${prefixCls}-wrapper-type-${props.listType}`]}>
           {props.imagePreview && imageList.value.length > 0 && (
             <ImagePreviewGroup
               srcList={imageList.value}
@@ -775,9 +740,7 @@ export default defineComponent({
               onVisibleChange={handleImagePreviewVisibleChange}
             />
           )}
-          {props.listType !== 'picture-card' &&
-            props.showUploadButton &&
-            renderButton()}
+          {props.listType !== 'picture-card' && props.showUploadButton && renderButton()}
           <UploadList
             v-slots={{
               'upload-button': renderButton,

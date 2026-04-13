@@ -615,14 +615,8 @@ export default defineComponent({
             gradientUnits="userSpaceOnUse"
             gradientTransform="matrix(-2.64571,4.04098,-4.04098,-2.64571,1167.67,799.269)"
           >
-            <stop
-              offset="0"
-              style={{ stopColor: 'rgb(248, 248, 248)', stopOpacity: 1 }}
-            />
-            <stop
-              offset="1"
-              style={{ stopColor: 'rgb(248, 248, 248)', stopOpacity: 1 }}
-            />
+            <stop offset="0" style={{ stopColor: 'rgb(248, 248, 248)', stopOpacity: 1 }} />
+            <stop offset="1" style={{ stopColor: 'rgb(248, 248, 248)', stopOpacity: 1 }} />
           </linearGradient>
         </defs>
       </svg>

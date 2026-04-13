@@ -12,36 +12,37 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import { IconEdit } from '@sd-design/web-vue/es/icon';
+  import { ref } from 'vue';
 
-export default {
-  components: {
-    IconEdit,
-  },
-  setup() {
-    const loading1 = ref(false);
-    const loading2 = ref(false);
+  import { IconEdit } from '@sdata/web-vue/es/icon';
 
-    const handleClick1 = () => {
-      loading1.value = true;
-      setTimeout(() => {
-        loading1.value = false;
-      }, 3000);
-    }
-    const handleClick2 = () => {
-      loading2.value = true;
-      setTimeout(() => {
-        loading2.value = false;
-      }, 3000);
-    }
+  export default {
+    components: {
+      IconEdit,
+    },
+    setup() {
+      const loading1 = ref(false);
+      const loading2 = ref(false);
 
-    return {
-      loading1,
-      loading2,
-      handleClick1,
-      handleClick2,
-    };
-  }
-}
+      const handleClick1 = () => {
+        loading1.value = true;
+        setTimeout(() => {
+          loading1.value = false;
+        }, 3000);
+      };
+      const handleClick2 = () => {
+        loading2.value = true;
+        setTimeout(() => {
+          loading2.value = false;
+        }, 3000);
+      };
+
+      return {
+        loading1,
+        loading2,
+        handleClick1,
+        handleClick2,
+      };
+    },
+  };
 </script>

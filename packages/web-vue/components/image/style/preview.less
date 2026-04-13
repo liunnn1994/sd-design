@@ -76,8 +76,7 @@
     left: 50%;
     display: flex;
     align-items: flex-start;
-    padding: @image-preview-spacing-toolbar-vertical
-      @image-preview-spacing-toolbar-horizontal;
+    padding: @image-preview-spacing-toolbar-vertical @image-preview-spacing-toolbar-horizontal;
     background-color: @image-preview-color-toolbar-bg;
     border-radius: @image-preview-radius-toolbar;
     transform: translateX(-50%);
@@ -217,11 +216,9 @@
 }
 
 .image-fade-enter-active {
-  transition: opacity @transition-duration-4
-    @transition-timing-function-overshoot;
+  transition: opacity @transition-duration-4 @transition-timing-function-overshoot;
 }
 
 .image-fade-leave-active {
-  transition: opacity @transition-duration-4
-    @transition-timing-function-overshoot;
+  transition: opacity @transition-duration-4 @transition-timing-function-overshoot;
 }

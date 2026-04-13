@@ -1,13 +1,11 @@
 import { computed, ref, watch, toRefs } from 'vue';
+
 import { InternalDataItem, VirtualItemKey } from '../interface';
 
 // 默认的元素高度
 const DEFAULT_ITEM_HEIGHT = 32;
 
-export function useItemHeight(props: {
-  estimatedItemHeight?: number;
-  data: InternalDataItem[];
-}) {
+export function useItemHeight(props: { estimatedItemHeight?: number; data: InternalDataItem[] }) {
   const { estimatedItemHeight: propEstimatedItemHeight, data } = toRefs(props);
   const itemHeightCacheMap = ref<Map<VirtualItemKey, number>>(new Map());
   const estimatedItemHeight = ref(propEstimatedItemHeight?.value);
@@ -17,21 +15,15 @@ export function useItemHeight(props: {
   watch(itemLength, () => {
     if (itemLength.value && !estimatedItemHeight.value) {
       estimatedItemHeight.value =
-        [...itemHeightCacheMap.value.entries()].reduce(
-          (sum, [, height]) => sum + height,
-          0
-        ) / itemLength.value;
+        [...itemHeightCacheMap.value.entries()].reduce((sum, [, height]) => sum + height, 0) /
+        itemLength.value;
     }
   });
 
-  const itemHeight = computed(
-    () => estimatedItemHeight.value || DEFAULT_ITEM_HEIGHT
-  );
+  const itemHeight = computed(() => estimatedItemHeight.value || DEFAULT_ITEM_HEIGHT);
 
   // 只计算一次最小高度，避免抖动
-  const minItemHeight = computed(() =>
-    Math.min(itemHeight.value, DEFAULT_ITEM_HEIGHT)
-  );
+  const minItemHeight = computed(() => Math.min(itemHeight.value, DEFAULT_ITEM_HEIGHT));
 
   // 总高度只需要一个范围，无需准确值
   const totalHeight = computed(() => itemHeight.value * data.value.length);

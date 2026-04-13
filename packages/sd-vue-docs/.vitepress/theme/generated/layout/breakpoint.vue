@@ -50,11 +50,7 @@
     </a-layout-sider>
     <a-layout>
       <a-layout-header>
-        <a-menu
-          :openKeys="['1']"
-          :selectedKeys="['0_2']"
-          mode='horizontal'
-        >
+        <a-menu :openKeys="['1']" :selectedKeys="['0_2']" mode="horizontal">
           <a-menu-item key="0_1" disabled>
             <IconHome />
             Menu 1
@@ -102,78 +98,76 @@
   </a-layout>
 </template>
 <script>
-import { defineComponent, ref } from 'vue';
-import { Message } from '@sd-design/web-vue';
-import {
-  IconHome,
-  IconCalendar,
-} from '@sd-design/web-vue/es/icon';
+  import { defineComponent, ref } from 'vue';
 
-export default defineComponent({
-  components: {
-    IconHome,
-    IconCalendar,
-  },
-  setup() {
-    const collapsed = ref(false);
-    const onCollapse = (val, type) => {
-      const content = type === 'responsive' ? '触发响应式收缩' : '点击触发收缩';
-      Message.info({
-        content,
-        duration: 2000,
-      });
-      collapsed.value = val;
-    }
-    return {
-      collapsed,
-      onCollapse,
-      onClickMenuItem(key) {
-        Message.info({ content: `You select ${key}`, showIcon: true });
-      }
-    };
-  }
-});
+  import { Message } from '@sdata/web-vue';
+  import { IconHome, IconCalendar } from '@sdata/web-vue/es/icon';
+
+  export default defineComponent({
+    components: {
+      IconHome,
+      IconCalendar,
+    },
+    setup() {
+      const collapsed = ref(false);
+      const onCollapse = (val, type) => {
+        const content = type === 'responsive' ? '触发响应式收缩' : '点击触发收缩';
+        Message.info({
+          content,
+          duration: 2000,
+        });
+        collapsed.value = val;
+      };
+      return {
+        collapsed,
+        onCollapse,
+        onClickMenuItem(key) {
+          Message.info({ content: `You select ${key}`, showIcon: true });
+        },
+      };
+    },
+  });
 </script>
 <style scoped>
-.layout-demo {
-  height: 500px;
-  background: var(--color-fill-2);
-  border: 1px solid var(--color-border);
-}
-.layout-demo :deep(.sd-layout-sider) .logo {
-  height: 32px;
-  margin: 12px 8px;
-  background: rgba(255, 255, 255, 0.2);
-}
-.layout-demo :deep(.sd-layout-sider-light) .logo{
-  background: var(--color-fill-2);
-}
-.layout-demo :deep(.sd-layout-header)  {
-  height: 64px;
-  line-height: 64px;
-  background: var(--color-bg-3);
-}
-.layout-demo :deep(.sd-layout-footer) {
-  height: 48px;
-  color: var(--color-text-2);
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 48px;
-}
-.layout-demo :deep(.sd-layout-content) {
-  color: var(--color-text-2);
-  font-weight: 400;
-  font-size: 14px;
-  background: var(--color-bg-3);
-}
-.layout-demo :deep(.sd-layout-footer),
-.layout-demo :deep(.sd-layout-content)  {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: var(--color-white);
-  font-size: 16px;
-  font-stretch: condensed;
-  text-align: center;
-}
+  .layout-demo {
+    height: 500px;
+    background: var(--color-fill-2);
+    border: 1px solid var(--color-border);
+  }
+  .layout-demo :deep(.sd-layout-sider) .logo {
+    height: 32px;
+    margin: 12px 8px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+  .layout-demo :deep(.sd-layout-sider-light) .logo {
+    background: var(--color-fill-2);
+  }
+  .layout-demo :deep(.sd-layout-header) {
+    height: 64px;
+    line-height: 64px;
+    background: var(--color-bg-3);
+  }
+  .layout-demo :deep(.sd-layout-footer) {
+    height: 48px;
+    color: var(--color-text-2);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 48px;
+  }
+  .layout-demo :deep(.sd-layout-content) {
+    color: var(--color-text-2);
+    font-weight: 400;
+    font-size: 14px;
+    background: var(--color-bg-3);
+  }
+  .layout-demo :deep(.sd-layout-footer),
+  .layout-demo :deep(.sd-layout-content) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--color-white);
+    font-size: 16px;
+    font-stretch: condensed;
+    text-align: center;
+  }
 </style>

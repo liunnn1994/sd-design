@@ -1,4 +1,5 @@
 import { toRefs, ref, watchEffect, computed } from 'vue';
+
 import { TreeNodeKey, Key2TreeNode } from '../interface';
 import { getCheckedStateByInitKeys } from '../utils/check-utils';
 
@@ -43,8 +44,9 @@ export default function useCheckedState(props: {
 
   watchEffect(() => {
     if (propCheckedKeys.value) {
-      [computedCheckedKeys.value, computedIndeterminateKeys.value] =
-        getStateByKeys(propCheckedKeys.value);
+      [computedCheckedKeys.value, computedIndeterminateKeys.value] = getStateByKeys(
+        propCheckedKeys.value,
+      );
     } else if (isInitialized.value) {
       computedCheckedKeys.value = undefined;
       computedIndeterminateKeys.value = undefined;
@@ -57,9 +59,7 @@ export default function useCheckedState(props: {
   });
 
   return {
-    checkedKeys: computed(
-      () => computedCheckedKeys.value || localCheckedKeys.value
-    ),
+    checkedKeys: computed(() => computedCheckedKeys.value || localCheckedKeys.value),
     indeterminateKeys: computed(() => {
       if (checkStrictly.value && halfCheckedKeys.value) {
         return halfCheckedKeys.value;
@@ -69,7 +69,7 @@ export default function useCheckedState(props: {
     setCheckedState(
       newCheckedKeys: TreeNodeKey[],
       newIndeterminateKeys: TreeNodeKey[],
-      reinitialize = false
+      reinitialize = false,
     ) {
       if (reinitialize) {
         init(newCheckedKeys);

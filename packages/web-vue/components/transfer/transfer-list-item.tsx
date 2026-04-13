@@ -1,10 +1,11 @@
 import { computed, defineComponent, inject, PropType } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
+
 import IconHover from '../_components/icon-hover.vue';
+import { getPrefixCls } from '../_utils/global-config';
 import Checkbox from '../checkbox';
 import IconClose from '../icon/icon-close';
-import { TransferItem } from './interface';
 import { transferInjectionKey } from './context';
+import { TransferItem } from './interface';
 
 export default defineComponent({
   name: 'TransferListItem',
@@ -33,10 +34,7 @@ export default defineComponent({
 
     const handleClick = () => {
       if (props.simple && !props.disabled) {
-        transferCtx?.moveTo(
-          [props.data.value],
-          props.type === 'target' ? 'source' : 'target'
-        );
+        transferCtx?.moveTo([props.data.value], props.type === 'target' ? 'source' : 'target');
       }
     };
 
@@ -66,9 +64,7 @@ export default defineComponent({
             class={[`${prefixCls}-content`, `${prefixCls}-checkbox`]}
             modelValue={transferCtx?.selected}
             value={props.data.value}
-            onChange={(value: unknown) =>
-              transferCtx?.onSelect(value as string[])
-            }
+            onChange={(value: unknown) => transferCtx?.onSelect(value as string[])}
             uninjectGroupContext
             disabled={props.disabled}
           >

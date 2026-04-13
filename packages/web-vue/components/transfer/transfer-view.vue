@@ -57,11 +57,7 @@
           :selected-keys="transferCtx?.selected"
           :on-select="transferCtx?.onSelect"
         >
-          <list
-            :class="`${prefixCls}-list`"
-            :bordered="false"
-            :scrollbar="false"
-          >
+          <list :class="`${prefixCls}-list`" :bordered="false" :scrollbar="false">
             <transfer-list-item
               v-for="item of filteredData"
               :key="item.value"
@@ -80,121 +76,117 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, PropType, ref } from 'vue';
-import { getPrefixCls } from '../_utils/global-config';
-import Checkbox from '../checkbox';
-import IconHover from '../_components/icon-hover.vue';
-import IconDelete from '../icon/icon-delete';
-import Input from '../input';
-import List from '../list';
-import TransferListItem from './transfer-list-item';
-import { DataInfo, TransferItem } from './interface';
-import { transferInjectionKey } from './context';
-import Scrollbar from '../scrollbar';
-import Empty from '../empty/empty';
+  import { computed, defineComponent, inject, PropType, ref } from 'vue';
 
-export default defineComponent({
-  name: 'TransferView',
-  components: {
-    Empty,
-    Checkbox,
-    IconHover,
-    IconDelete,
-    InputSearch: Input.Search,
-    List,
-    TransferListItem,
-    Scrollbar,
-  },
-  props: {
-    type: {
-      type: String as PropType<'source' | 'target'>,
-    },
-    dataInfo: {
-      type: Object as PropType<DataInfo>,
-      required: true,
-    },
-    title: String,
-    data: {
-      type: Array as PropType<TransferItem[]>,
-      required: true,
-    },
-    disabled: Boolean,
-    allowClear: Boolean,
-    selected: {
-      type: Array as PropType<string[]>,
-      required: true,
-    },
-    showSearch: Boolean,
-    showSelectAll: Boolean,
-    simple: Boolean,
-    inputSearchProps: {
-      type: Object,
-    },
-  },
-  emits: ['search'],
-  setup(props, { emit }) {
-    const prefixCls = getPrefixCls('transfer-view');
-    const filter = ref('');
-    const transferCtx = inject(transferInjectionKey, undefined);
-    const countSelected = computed(() => props.dataInfo.selected.length);
-    const countRendered = computed(() => props.dataInfo.data.length);
+  import IconHover from '../_components/icon-hover.vue';
+  import { getPrefixCls } from '../_utils/global-config';
+  import Checkbox from '../checkbox';
+  import Empty from '../empty/empty';
+  import IconDelete from '../icon/icon-delete';
+  import Input from '../input';
+  import List from '../list';
+  import Scrollbar from '../scrollbar';
+  import { transferInjectionKey } from './context';
+  import { DataInfo, TransferItem } from './interface';
+  import TransferListItem from './transfer-list-item';
 
-    const checked = computed(
-      () =>
-        props.dataInfo.selected.length > 0 &&
-        props.dataInfo.selected.length === props.dataInfo.allValidValues.length
-    );
-    const indeterminate = computed(
-      () =>
-        props.dataInfo.selected.length > 0 &&
-        props.dataInfo.selected.length < props.dataInfo.allValidValues.length
-    );
+  export default defineComponent({
+    name: 'TransferView',
+    components: {
+      Empty,
+      Checkbox,
+      IconHover,
+      IconDelete,
+      InputSearch: Input.Search,
+      List,
+      TransferListItem,
+      Scrollbar,
+    },
+    props: {
+      type: {
+        type: String as PropType<'source' | 'target'>,
+      },
+      dataInfo: {
+        type: Object as PropType<DataInfo>,
+        required: true,
+      },
+      title: String,
+      data: {
+        type: Array as PropType<TransferItem[]>,
+        required: true,
+      },
+      disabled: Boolean,
+      allowClear: Boolean,
+      selected: {
+        type: Array as PropType<string[]>,
+        required: true,
+      },
+      showSearch: Boolean,
+      showSelectAll: Boolean,
+      simple: Boolean,
+      inputSearchProps: {
+        type: Object,
+      },
+    },
+    emits: ['search'],
+    setup(props, { emit }) {
+      const prefixCls = getPrefixCls('transfer-view');
+      const filter = ref('');
+      const transferCtx = inject(transferInjectionKey, undefined);
+      const countSelected = computed(() => props.dataInfo.selected.length);
+      const countRendered = computed(() => props.dataInfo.data.length);
 
-    const handleSelectAllChange = (checked: boolean) => {
-      if (checked) {
-        transferCtx?.onSelect([
-          ...props.selected,
-          ...props.dataInfo.allValidValues,
-        ]);
-      } else {
-        transferCtx?.onSelect(
-          props.selected.filter(
-            (value) => !props.dataInfo.allValidValues.includes(value)
-          )
-        );
-      }
-    };
+      const checked = computed(
+        () =>
+          props.dataInfo.selected.length > 0 &&
+          props.dataInfo.selected.length === props.dataInfo.allValidValues.length,
+      );
+      const indeterminate = computed(
+        () =>
+          props.dataInfo.selected.length > 0 &&
+          props.dataInfo.selected.length < props.dataInfo.allValidValues.length,
+      );
 
-    const filteredData = computed(() =>
-      props.dataInfo.data.filter((item) => {
-        if (filter.value) {
-          return item.label.includes(filter.value);
+      const handleSelectAllChange = (checked: boolean) => {
+        if (checked) {
+          transferCtx?.onSelect([...props.selected, ...props.dataInfo.allValidValues]);
+        } else {
+          transferCtx?.onSelect(
+            props.selected.filter((value) => !props.dataInfo.allValidValues.includes(value)),
+          );
         }
-        return true;
-      })
-    );
+      };
 
-    const handleSearch = (value: string) => {
-      emit('search', value, props.type);
-    };
+      const filteredData = computed(() =>
+        props.dataInfo.data.filter((item) => {
+          if (filter.value) {
+            return item.label.includes(filter.value);
+          }
+          return true;
+        }),
+      );
 
-    const handleClear = () => {
-      transferCtx?.moveTo(props.dataInfo.allValidValues, 'source');
-    };
+      const handleSearch = (value: string) => {
+        emit('search', value, props.type);
+      };
 
-    return {
-      prefixCls,
-      filteredData,
-      filter,
-      checked,
-      indeterminate,
-      countSelected,
-      countRendered,
-      handleSelectAllChange,
-      handleSearch,
-      handleClear,
-      transferCtx,
-    };
-  },
-});
+      const handleClear = () => {
+        transferCtx?.moveTo(props.dataInfo.allValidValues, 'source');
+      };
+
+      return {
+        prefixCls,
+        filteredData,
+        filter,
+        checked,
+        indeterminate,
+        countSelected,
+        countRendered,
+        handleSelectAllChange,
+        handleSearch,
+        handleClear,
+        transferCtx,
+      };
+    },
+  });
 </script>

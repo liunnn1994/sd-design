@@ -1,6 +1,7 @@
 import { onMounted, onUpdated, ref } from 'vue';
-import { getFirstElementFromChildren } from '../_utils/vue-utils';
+
 import { SlotChildren } from '../_utils/types';
+import { getFirstElementFromChildren } from '../_utils/vue-utils';
 
 export const useFirstElement = () => {
   // only save VNodes reference, not use ref

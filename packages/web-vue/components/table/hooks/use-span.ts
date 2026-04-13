@@ -1,10 +1,6 @@
 import { computed, Ref, ref } from 'vue';
-import {
-  TableColumnData,
-  TableData,
-  TableDataWithRaw,
-  TableOperationColumn,
-} from '../interface';
+
+import { TableColumnData, TableData, TableDataWithRaw, TableOperationColumn } from '../interface';
 
 export const useSpan = ({
   spanMethod,
@@ -25,7 +21,7 @@ export const useSpan = ({
 }) => {
   const flattenTableSpan = (
     tableData: TableDataWithRaw[],
-    span: Record<string, [number, number]>
+    span: Record<string, [number, number]>,
   ) => {
     tableData?.forEach((record, rowIndex) => {
       if (record.hasSubtree && record.children?.length) {
@@ -50,8 +46,7 @@ export const useSpan = ({
                   `${rowIndex}-${columnIndex}-${record.key}` !==
                     `${rowIndex + r}-${columnIndex + c}-${key}`
                 ) {
-                  spanzero.value[`${rowIndex + r}-${columnIndex + c}-${key}`] =
-                    [0, 0];
+                  spanzero.value[`${rowIndex + r}-${columnIndex + c}-${key}`] = [0, 0];
                 }
               });
             }

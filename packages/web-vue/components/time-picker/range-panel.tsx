@@ -1,5 +1,7 @@
-import { Dayjs } from 'dayjs';
 import { computed, defineComponent, PropType, ref, toRefs, watch } from 'vue';
+
+import { Dayjs } from 'dayjs';
+
 import { isUndefined } from '../_utils/is';
 import { RangePanelProps } from './interface';
 import Panel from './panel.vue';
@@ -29,12 +31,11 @@ export default defineComponent({
     });
 
     const displayValue = computed(() =>
-      value?.value ? value.value[localDisplayIndex.value] : undefined
+      value?.value ? value.value[localDisplayIndex.value] : undefined,
     );
 
     function onSelect(selectedValue: Dayjs) {
-      const newValue =
-        isUndefined(value) || isUndefined(value?.value) ? [] : [...value.value];
+      const newValue = isUndefined(value) || isUndefined(value?.value) ? [] : [...value.value];
       newValue[localDisplayIndex.value] = selectedValue;
       emit('select', newValue);
     }

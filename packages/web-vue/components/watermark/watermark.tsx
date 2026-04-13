@@ -9,12 +9,13 @@ import {
   toRefs,
   watch,
 } from 'vue';
+
 import { getPrefixCls } from '../_utils/global-config';
-import { WatermarkFont } from './interface';
+import { isArray } from '../_utils/is';
 import { useMutationObserver } from './hooks/use-mutation-observer';
 import { useTheme } from './hooks/use-theme';
+import { WatermarkFont } from './interface';
 import { styleToString, canvasToGray } from './utils';
-import { isArray } from '../_utils/is';
 
 export default defineComponent({
   name: 'Watermark',
@@ -128,8 +129,7 @@ export default defineComponent({
     },
   },
   setup(props, { slots, attrs }) {
-    const { width, height, image, rotate, alpha, repeat, grayscale } =
-      toRefs(props);
+    const { width, height, image, rotate, alpha, repeat, grayscale } = toRefs(props);
     const prefixCls = getPrefixCls('watermark');
     const ratio = window.devicePixelRatio || 1;
     const containerRef = shallowRef<HTMLDivElement>();
@@ -141,15 +141,11 @@ export default defineComponent({
     const fontStyle = computed(() => props.font?.fontStyle ?? 'normal');
     const fontFamily = computed(() => props.font?.fontFamily ?? 'sans-serif');
     const textAlign = computed(() => props.font?.textAlign ?? 'center');
-    const contents = computed(() =>
-      isArray(props.content) ? props.content : [props.content]
-    );
+    const contents = computed(() => (isArray(props.content) ? props.content : [props.content]));
     const color = computed(
       () =>
         props.font?.color ??
-        (theme.value === 'dark'
-          ? 'rgba(255, 255, 255, 0.15)'
-          : 'rgba(0, 0, 0, 0.15)')
+        (theme.value === 'dark' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.15)'),
     );
 
     // Watermark position related
@@ -193,7 +189,7 @@ export default defineComponent({
             ...markStyle.value,
             backgroundImage: `url('${base64}')`,
             backgroundSize: `${width}px`,
-          })
+          }),
         );
         containerRef.value?.append(newWatermarkEle);
         watermarkMap.value.set(containerRef.value, newWatermarkEle);
@@ -205,18 +201,11 @@ export default defineComponent({
       let defaultHeight = 28;
       if (!image.value && ctx.measureText) {
         ctx.font = `${fontSize.value}px ${fontFamily.value}`;
-        const widths = contents.value.map(
-          (item) => ctx.measureText(item!).width
-        );
+        const widths = contents.value.map((item) => ctx.measureText(item!).width);
         defaultWidth = Math.ceil(Math.max(...widths));
-        defaultHeight =
-          fontSize.value * contents.value.length +
-          (contents.value.length - 1) * 3;
+        defaultHeight = fontSize.value * contents.value.length + (contents.value.length - 1) * 3;
       }
-      return [
-        width.value ?? defaultWidth,
-        height.value ?? defaultHeight,
-      ] as const;
+      return [width.value ?? defaultWidth, height.value ?? defaultHeight] as const;
     };
 
     const renderWatermark = () => {
@@ -256,7 +245,7 @@ export default defineComponent({
             canvasWidth,
             canvasHeight,
             canvasWidth,
-            canvasHeight
+            canvasHeight,
           );
         }
         grayscale.value && canvasToGray(canvas);
@@ -280,27 +269,19 @@ export default defineComponent({
         ctx.textBaseline = 'top';
         ctx.translate(realMarkWidth / 2, 0);
         contents.value?.forEach((item, index) => {
-          ctx.fillText(
-            item ?? '',
-            drawX,
-            drawY + index * (mergedFontSize + 3 * ratio)
-          );
+          ctx.fillText(item ?? '', drawX, drawY + index * (mergedFontSize + 3 * ratio));
         });
         drawImage();
       }
     };
 
-    const isWatermarkEle = (ele: any) =>
-      Array.from(watermarkMap.value.values()).includes(ele);
+    const isWatermarkEle = (ele: any) => Array.from(watermarkMap.value.values()).includes(ele);
 
     const handleMutations = (mutations: MutationRecord[]) => {
       if (!props.antiTamper) return;
       for (const mutation of mutations) {
-        const isRemoved = Array.from(mutation.removedNodes).some((node) =>
-          isWatermarkEle(node)
-        );
-        const isModified =
-          mutation.type === 'attributes' && isWatermarkEle(mutation.target);
+        const isRemoved = Array.from(mutation.removedNodes).some((node) => isWatermarkEle(node));
+        const isModified = mutation.type === 'attributes' && isWatermarkEle(mutation.target);
 
         if (isRemoved || isModified) {
           renderWatermark();

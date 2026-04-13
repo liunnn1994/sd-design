@@ -1,4 +1,5 @@
 ## zh-CN
+
 ```yaml
 meta:
   type: 组件
@@ -8,7 +9,9 @@ description: 栅格可以有效的保证页面的一致性、逻辑性、加强�
 ```
 
 ---
+
 ## en-US
+
 ```yaml
 meta:
   type: Component
@@ -16,29 +19,30 @@ meta:
 title: Grid
 description: Grid can effectively ensure the consistency and logic of the page, strengthen teamwork and unity.
 ```
+
 ---
 
-@import ./__demo__/basic.md
+@import ./**demo**/basic.md
 
-@import ./__demo__/offset.md
+@import ./**demo**/offset.md
 
-@import ./__demo__/gutter.md
+@import ./**demo**/gutter.md
 
-@import ./__demo__/flex-justify.md
+@import ./**demo**/flex-justify.md
 
-@import ./__demo__/flex-align.md
+@import ./**demo**/flex-align.md
 
-@import ./__demo__/order.md
+@import ./**demo**/order.md
 
-@import ./__demo__/adaptation.md
+@import ./**demo**/adaptation.md
 
-@import ./__demo__/adaptation-object.md
+@import ./**demo**/adaptation-object.md
 
-@import ./__demo__/flex.md
+@import ./**demo**/flex.md
 
-@import ./__demo__/grid.md
+@import ./**demo**/grid.md
 
-@import ./__demo__/grid-responsive.md
+@import ./**demo**/grid-responsive.md
 
 ## API
 
@@ -51,4 +55,3 @@ description: Grid can effectively ensure the consistency and logic of the page, 
 %%API(grid-item.vue)%%
 
 %%INTERFACE(interface.ts)%%
-

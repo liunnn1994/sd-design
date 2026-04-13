@@ -23,7 +23,7 @@ You can customize `treeData` by `fieldNames`.
     :fieldNames="{
       key: 'value',
       title: 'label',
-      children: 'items'
+      children: 'items',
     }"
     :data="treeData"
     placeholder="Please select ..."
@@ -59,13 +59,13 @@ You can customize `treeData` by `fieldNames`.
                   items: [
                     {
                       label: 'Leaf',
-                      value: '0-0-2-1-0-0'
-                    }
-                  ]
+                      value: '0-0-2-1-0-0',
+                    },
+                  ],
                 },
               ],
-            }
-          ]
+            },
+          ],
         },
       ],
     },
@@ -80,12 +80,11 @@ You can customize `treeData` by `fieldNames`.
             {
               label: 'Leaf',
               value: '0-1-1-0',
-            }
-          ]
+            },
+          ],
         },
       ],
     },
   ];
 </script>
 ```
-

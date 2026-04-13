@@ -1,14 +1,16 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, inject, ref } from 'vue';
-import Checkbox from '../checkbox';
-import Radio from '../radio';
-import { getPrefixCls } from '../_utils/global-config';
+
 import type { CascaderOption, CascaderOptionInfo } from './interface';
-import IconRight from '../icon/icon-right';
-import IconLoading from '../icon/icon-loading';
-import { getCheckedStatus, getOptionLabel } from './utils';
+
+import { getPrefixCls } from '../_utils/global-config';
 import { isFunction } from '../_utils/is';
+import Checkbox from '../checkbox';
+import IconLoading from '../icon/icon-loading';
+import IconRight from '../icon/icon-right';
+import Radio from '../radio';
 import { CascaderContext, cascaderInjectionKey } from './context';
+import { getCheckedStatus, getOptionLabel } from './utils';
 
 export default defineComponent({
   name: 'CascaderOption',
@@ -25,10 +27,7 @@ export default defineComponent({
   },
   setup(props) {
     const prefixCls = getPrefixCls('cascader-option');
-    const cascaderCtx = inject<Partial<CascaderContext>>(
-      cascaderInjectionKey,
-      {}
-    );
+    const cascaderCtx = inject<Partial<CascaderContext>>(cascaderInjectionKey, {});
 
     const isLoading = ref(false);
     const events: Record<string, any> = {};
@@ -52,9 +51,7 @@ export default defineComponent({
     };
 
     if (!props.option.disabled) {
-      events.onMouseenter = [
-        () => cascaderCtx.setActiveKey?.(props.option.key),
-      ];
+      events.onMouseenter = [() => cascaderCtx.setActiveKey?.(props.option.key)];
       events.onMouseleave = () => cascaderCtx.setActiveKey?.();
       events.onClick = [];
       if (cascaderCtx.expandTrigger === 'hover') {
@@ -91,9 +88,8 @@ export default defineComponent({
     const renderLabelContent = () => {
       if (props.pathLabel) {
         return (
-          cascaderCtx?.formatLabel?.(
-            props.option.path.map((item) => item.raw)
-          ) ?? getOptionLabel(props.option)
+          cascaderCtx?.formatLabel?.(props.option.path.map((item) => item.raw)) ??
+          getOptionLabel(props.option)
         );
       }
       if (cascaderCtx.slots?.option) {
@@ -135,10 +131,7 @@ export default defineComponent({
             onChange={(value: any, ev: Event) => {
               ev.stopPropagation();
               handlePathChange(ev);
-              cascaderCtx.onClickOption?.(
-                props.option,
-                !checkedStatus.value.checked
-              );
+              cascaderCtx.onClickOption?.(props.option, !checkedStatus.value.checked);
             }}
             // @ts-ignore
             onClick={(ev: Event) => ev.stopPropagation()}
