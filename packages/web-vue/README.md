@@ -140,4 +140,4 @@ pnpm --filter @sdata/web-vue run build
 
 # License
 
-[MIT 协议](./LICENSE)
+[GNU Affero General Public License v3.0](../../LICENSE)
