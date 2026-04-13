@@ -57,12 +57,12 @@ The content of trigger in all directions can be customized through the slot `res
   .resizebox-demo::after {
     width: 6px;
     height: 6px;
-    border: 1px solid rgb(var(--arcoblue-6));
+    border: 1px solid rgb(var(--sdblue-6));
     content: '';
 }
   .resizebox-demo-line {
     flex: 1;
-    background-color: rgb(var(--arcoblue-6));
+    background-color: rgb(var(--sdblue-6));
   }
   .resizebox-demo-vertical {
     flex-direction: column;

@@ -24,9 +24,9 @@ describe('InputTag', () => {
     });
     const tags = wrapper.findAllComponents({ name: 'Tag' });
     expect(tags).toHaveLength(3);
-    await tags[1].find('.arco-tag-close-btn').trigger('click');
+    await tags[1].find('.sd-tag-close-btn').trigger('click');
     expect(wrapper.emitted('remove')).toHaveLength(1);
-    await wrapper.find('.arco-input-tag-clear-btn').trigger('click');
+    await wrapper.find('.sd-input-tag-clear-btn').trigger('click');
     expect(wrapper.emitted('clear')).toHaveLength(1);
   });
 });

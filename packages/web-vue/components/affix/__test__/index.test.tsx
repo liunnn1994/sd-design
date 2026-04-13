@@ -56,11 +56,11 @@ describe('Affix Render', () => {
         default: '<div>abc</div>'
       }
     });
-    expect(wrapper.find('.arco-affix').exists()).toBe(false);
+    expect(wrapper.find('.sd-affix').exists()).toBe(false);
     moveWrapper({ top: -100 });
     await nextTick();
     expect(wrapper.emitted('change')).toHaveLength(1);
-    expect(wrapper.find('.arco-affix').exists()).toBe(true);
+    expect(wrapper.find('.sd-affix').exists()).toBe(true);
   });
 
   it('Should support bottom', async () => {
@@ -72,10 +72,10 @@ describe('Affix Render', () => {
         offsetBottom: 20
       }
     });
-    expect(wrapper.find('.arco-affix').exists()).toBe(false);
+    expect(wrapper.find('.sd-affix').exists()).toBe(false);
     moveWrapper({ bottom: 2500 });
     await nextTick();
     expect(wrapper.emitted('change')).toHaveLength(1);
-    expect(wrapper.find('.arco-affix').exists()).toBe(true);
+    expect(wrapper.find('.sd-affix').exists()).toBe(true);
   });
 });

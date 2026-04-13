@@ -52,7 +52,7 @@ Modal提供的全局方法，可以通过以下三种方法使用：
 
 ```ts
 import { createApp } from 'vue'
-import { Modal } from '@arco-design/web-vue';
+import { Modal } from '@sd-design/web-vue';
 
 const app = createApp(App);
 Modal._context = app._context;
@@ -72,7 +72,7 @@ When used by import, the component has no way to obtain the current Vue Context.
 
 ```ts
 import { createApp } from 'vue'
-import { Modal } from '@arco-design/web-vue';
+import { Modal } from '@sd-design/web-vue';
 
 const app = createApp(App);
 Modal._context = app._context;

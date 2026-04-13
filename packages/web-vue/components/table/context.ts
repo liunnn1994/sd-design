@@ -50,7 +50,7 @@ export interface TableColumnContext {
 }
 
 export const tableInjectionKey: InjectionKey<TableContext> =
-  Symbol('ArcoTable');
+  Symbol('SDTable');
 
 export const tableColumnInjectionKey: InjectionKey<TableColumnContext> =
-  Symbol('ArcoTableColumn');
+  Symbol('SDTableColumn');

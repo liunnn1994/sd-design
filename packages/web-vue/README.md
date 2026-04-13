@@ -1,15 +1,16 @@
 <div align="center">
-  <a href="https://arco.design" target="_blank">
-    <img alt="Arco Design Logo" width="200" src="https://avatars.githubusercontent.com/u/64576149?s=200&v=4"/>
+  <a href="https://sd.design" target="_blank">
+    <img alt="SD Design Logo" width="200" src="https://avatars.githubusercontent.com/u/64576149?s=200&v=4"/>
   </a>
 </div>
+
 <div align="center">
-  <h1>Arco Design</h1>
+  <h1>SD Design</h1>
 </div>
 
 <div align="center">
 
-A comprehensive Vue UI components library based on the [Arco Design](https://arco.design/) system.
+基于 [SD Design](https://sd.design/) 的 Vue UI 组件库。
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/liunnn1994/sd-design/blob/main/LICENSE)
 
@@ -17,93 +18,92 @@ A comprehensive Vue UI components library based on the [Arco Design](https://arc
 
 <div align="center">
 
-English | [简体中文](./README.zh-CN.md)
+[English](./README.md) | 简体中文
 
 </div>
 
-# Features
+# 特性
 
-## Comprehensive
+## 全面
 
-With more than 60 crafted components that you can use out of the box.
+60 多个开箱即用的高质量组件, 可以覆盖绝大部份的业务场景。
 
-## Customizable theme
+## 主题配置
 
-Extensive theme tokens can be customized to build your own theme. Two ways of customization are supported:
+海量的样式 tokens, 支持全局以及组件级别的主题配置。有以下 2 种方式可以定制主题：
 
-- [With less-loader](https://arco.design/vue/docs/theme)
-- [Design Lab](https://arco.design/themes) - Recommended!
+- [Less-loader](https://sd.design/vue/docs/theme)
+- [风格配置平台](https://sd.design/themes) - 推荐!
 
-## TypeScript friendly
+## TypeScript 友好
 
-All components are written in TypeScript so it's type friendly.
+所有组件都是用 TypeScript 编写的，所以天然的类型友好。
 
-# Installation
+# 安装
 
-Available as an [npm package](https://www.npmjs.com/package/@arco-design/web-vue)
+[npm package](https://www.npmjs.com/package/@sd-design/web-vue)
 
 ```bash
-// with npm
-npm install @arco-design/web-vue
+// npm
+npm install @sd-design/web-vue
 
-// with yarn
-yarn add @arco-design/web-vue
+// yarn
+yarn add @sd-design/web-vue
 ```
 
-# Examples
+# 例子
 
 ```typescript
 import { createApp } from 'vue';
-import ArcoVue from '@arco-design/web-vue';
+import SDVue from '@sd-design/web-vue';
 import App from './App.vue';
-import '@arco-design/web-vue/dist/arco.css';
+import '@sd-design/web-vue/dist/sd.css';
 
 const app = createApp(App);
-app.use(ArcoVue);
+app.use(SDVue);
 app.mount('#app');
 ```
 
-## Development
+## 开发
 
-1. Use `npm install` to install basic packages such as `lerna` and `yarn`
+1. 使用 `npm install -g` 安装 `lerna` 和 `yarn` 等基础包
 
-2. Use `yarn install` to install the dependencies of each package in `workspaces` (If you encounter a `YN0018` error, you can use `YARN_CHECKSUM_BEHAVIOR=update yarn` to install)
+2. 使用 `yarn install` 安装 `workspaces` 中各个包的依赖（如果遇到 `YN0018` 错误，可以使用 `YARN_CHECKSUM_BEHAVIOR=update yarn` 进行安装）
 
-3. Use `npm run init` to initialize the project
+3. 使用 `npm run init` 初始化项目
 
-# Useful Links
+# 相关链接
 
-- [Documentation website](https://arco.design/)
-- [Dark mode](https://arco.design/vue/docs/dark)
-- [Theme customization](https://arco.design/vue/docs/theme)
-- [Figma component library](https://www.figma.com/file/FVu1DydEeXvJqXrkOb90Oi/ArcoDesign%E7%BB%84%E4%BB%B6%E8%AE%BE%E8%AE%A1_2.0?node-id=5472%3A308)
-- [Awesome Arco](https://github.com/arco-design/awesome-arco)
+- [官网](https://sd.design/)
+- [暗黑模式](https://sd.design/vue/docs/dark)
+- [主题配置](https://sd.design/vue/docs/theme)
+- [Figma 设计资源](https://www.figma.com/file/FVu1DydEeXvJqXrkOb90Oi/SD Design%E7%BB%84%E4%BB%B6%E8%AE%BE%E8%AE%A1_2.0?node-id=5472%3A308)
+- [Awesome SD](https://github.com/sd-design/awesome-arco)
 
-# Ecosystems
+# 生态
 
-| Project                   | Description                                                                                                 |
-| ------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| [React Component Library] | A comprehensive React UI components library based on the Arco Design system                                 |
-| [Design Lab]              | A platform to create and manage your themes with ease.                                                      |
-| [Material Market]         | A platform that provides massive high-quality customized materials to greatly boost development efficiency. |
-| [Icon Box]                | One-stop platform to manage your icons.                                                                     |
-| [Arco Pro]                | A solution to quickly building applications from scratch.                                                   |
+| 项目           | 介绍                                                          |
+| -------------- | ------------------------------------------------------------- |
+| [React 组件库] | 基于 [SD Design](https://sd.design/) 的 React UI 组件库。 |
+| [风格配置平台] | 精确到组件级的主题视觉配置平台                                |
+| [物料平台]     | 丰富可共享的业务定制物料，让效率突破猛进                      |
+| [图标平台]     | 一站式图标管理平台                                            |
+| [SD Pro]     | 快速构建中后台的前端解决方案                                  |
 
-[React Component Library]: https://arco.design/react/docs/start
-[Design Lab]: https://arco.design/themes
-[Material Market]: https://arco.design/material
-[Icon Box]: https://arco.design/iconbox
-[Arco Pro]: https://arco.design/pro/
+[React 组件库]: https://sd.design/react/docs/start
+[风格配置平台]: https://sd.design/themes
+[物料平台]: https://sd.design/material
+[图标平台]: https://sd.design/iconbox
+[SD Pro]: https://sd.design/pro/
 
-# Contributing
+# 参与贡献
 
-Developers interested in contributing should read the [Code of Conduct](./CODE_OF_CONDUCT.md) and
-the [Contributing Guide](./CONTRIBUTING.md).
+贡献之前请先阅读 [行为准则](./CODE_OF_CONDUCT.md) 和 [贡献指南](./CONTRIBUTING.zh-CN.md)。
 
-Thank you to all the people who already contributed to ArcoDesign!
+感谢所有为 SD Design 做过贡献的人!
 
-<a href="https://github.com/liunnn1994/sd-design/graphs/contributors"><img src="https://contrib.rocks/image?repo=arco-design/arco-design-vue" /></a>
+<a href="https://github.com/liunnn1994/sd-design/graphs/contributors"><img src="https://contrib.rocks/image?repo=sd-design/sd-design" /></a>
 
 # License
 
-Ths project is [MIT licensed](./LICENSE).
+[MIT 协议](./LICENSE)

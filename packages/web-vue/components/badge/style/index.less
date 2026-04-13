@@ -35,7 +35,7 @@
   }
 
   &-custom-dot {
-    background-color: var(~'@{arco-cssvars-prefix}-color-bg-2');
+    background-color: var(~'@{sd-cssvars-prefix}-color-bg-2');
   }
 
   &-number,
@@ -48,7 +48,7 @@
     font-size: @badge-font-count-size;
     line-height: @badge-size-count-height;
     background-color: @badge-color-count-bg;
-    box-shadow: 0 0 0 2px var(~'@{arco-cssvars-prefix}-color-bg-2');
+    box-shadow: 0 0 0 2px var(~'@{sd-cssvars-prefix}-color-bg-2');
   }
 
   &-dot {
@@ -56,7 +56,7 @@
     height: @badge-size-dot-width;
     background-color: @badge-color-count-bg;
     border-radius: @radius-circle;
-    box-shadow: 0 0 0 2px var(~'@{arco-cssvars-prefix}-color-bg-2');
+    box-shadow: 0 0 0 2px var(~'@{sd-cssvars-prefix}-color-bg-2');
   }
 
   &-no-children &-dot,
@@ -101,7 +101,7 @@
     background-color: @badge-color-dot-bg_error;
   }
 
-  @colors: red, orangered, orange, gold, lime, green, cyan, arcoblue, purple,
+  @colors: red, orangered, orange, gold, lime, green, cyan, sdblue, purple,
     pinkpurple, magenta, gray;
 
   .for(@data, @i: 1) when(@i =< length(@data)) {

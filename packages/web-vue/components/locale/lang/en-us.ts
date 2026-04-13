@@ -1,8 +1,8 @@
 // @ts-ignore
 import { DefaultValidateMessage } from 'b-validate';
-import { ArcoCalendarLang, ArcoLang } from '../interface';
+import { SDCalendarLang, SDLang } from '../interface';
 
-const calendarLang: ArcoCalendarLang = {
+const calendarLang: SDCalendarLang = {
   formatYear: 'YYYY',
   formatMonth: 'MMM YYYY',
   today: 'Today',
@@ -66,7 +66,7 @@ const calendarLang: ArcoCalendarLang = {
   },
 };
 
-const lang: ArcoLang = {
+const lang: SDLang = {
   locale: 'en-US',
   empty: {
     description: 'No Data',

@@ -39,7 +39,7 @@ If the avatar content is text, the font size will be automatically adjusted to f
 <script>
 import { computed, ref } from 'vue';
 
-const list = ['B', 'Arco', 'Design', 'Tom', 'AD'];
+const list = ['B', 'SD', 'Design', 'Tom', 'AD'];
 export default {
   setup() {
     const index = ref(0);

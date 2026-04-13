@@ -1,10 +1,10 @@
 {
-  "name": "@arco-design/web-vue-storybook",
+  "name": "@sd-design/web-vue-storybook",
   "version": "1.0.0",
   "private": true,
-  "description": "The storybook of Arco Design Vue 2.0",
-  "author": "wangchen <wangchen.flsion@bytedance.com>",
+  "description": "The storybook of SD Design Vue",
   "license": "MIT",
+  "author": "wangchen <wangchen.flsion@bytedance.com>",
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"

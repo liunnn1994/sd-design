@@ -50,7 +50,7 @@ Custom Tree Select the header and footer of the drop-down box.
 </template>
 <script>
   import { h, reactive, computed } from 'vue';
-  import { IconCalendar } from '@arco-design/web-vue/es/icon';
+  import { IconCalendar } from '@sd-design/web-vue/es/icon';
 
   export default {
     setup() {

@@ -44,7 +44,7 @@ Customize icon node. If true, the default icon will be displayed.
 </template>
 
 <script>
-  import { IconEdit } from '@arco-design/web-vue/es/icon';
+  import { IconEdit } from '@sd-design/web-vue/es/icon';
 
   export default {
     components: { IconEdit }

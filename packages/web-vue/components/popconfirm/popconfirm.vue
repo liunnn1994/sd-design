@@ -31,14 +31,14 @@
         </span>
       </div>
       <div :class="`${prefixCls}-footer`">
-        <arco-button
+        <sd-button
           size="mini"
           v-bind="cancelButtonProps"
           @click="handleCancel"
         >
           {{ cancelText || t('popconfirm.cancelText') }}
-        </arco-button>
-        <arco-button
+        </sd-button>
+        <sd-button
           type="primary"
           size="mini"
           v-bind="okButtonProps"
@@ -46,7 +46,7 @@
           @click="handleOk"
         >
           {{ okText || t('popconfirm.okText') }}
-        </arco-button>
+        </sd-button>
       </div>
     </template>
   </trigger>
@@ -61,7 +61,7 @@ import IconInfoCircleFill from '../icon/icon-info-circle-fill';
 import IconCheckCircleFill from '../icon/icon-check-circle-fill';
 import IconExclamationCircleFill from '../icon/icon-exclamation-circle-fill';
 import IconCloseCircleFill from '../icon/icon-close-circle-fill';
-import ArcoButton, { ButtonProps } from '../button';
+import SDButton, { ButtonProps } from '../button';
 import Trigger from '../trigger';
 import { useI18n } from '../locale';
 import { ClassName } from '../_utils/types';
@@ -70,7 +70,7 @@ import { isBoolean, isFunction, isPromise } from '../_utils/is';
 export default defineComponent({
   name: 'Popconfirm',
   components: {
-    ArcoButton,
+    SDButton,
     Trigger,
     IconInfoCircleFill,
     IconCheckCircleFill,

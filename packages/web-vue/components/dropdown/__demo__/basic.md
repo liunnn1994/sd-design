@@ -6,7 +6,7 @@ title:
 
 ## zh-CN
 
-下拉菜单的基本用法。下拉菜单开启后会为触发元素添加 `arco-dropdown-open` 类名。
+下拉菜单的基本用法。下拉菜单开启后会为触发元素添加 `sd-dropdown-open` 类名。
 
 ---
 
@@ -67,7 +67,7 @@ export default {
 </script>
 
 <style>
-.arco-dropdown-open .arco-icon-down {
+.sd-dropdown-open .sd-icon-down {
   transform: rotate(180deg);
 }
 </style>

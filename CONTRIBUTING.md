@@ -18,7 +18,7 @@
 
 ## 报告 Issues
 
-我们使用 [Github issues](https://github.com/liunnn1994/sd-design/issues) 进行 bug 报告和新 feature 建议。在报告 bug 之前，请确保已经搜索过类似的 [问题](https://github.com/liunnn1994/sd-design/issues)，因为它们可能已经得到解答或正在被修复。新问题应通过 [问题助手](https://arco.design/issue-helper?repo=arco-design-vue) 提交。对于 bug 报告，请包含可用于重现问题的代码。对于新 feature 建议，请指出你想要的更改以及期望的行为。
+我们使用 [Github issues](https://github.com/liunnn1994/sd-design/issues) 进行 bug 报告和新 feature 建议。在报告 bug 之前，请确保已经搜索过类似的 [问题](https://github.com/liunnn1994/sd-design/issues)，因为它们可能已经得到解答或正在被修复。对于 bug 报告，请包含可用于重现问题的代码。对于新 feature 建议，请指出你想要的更改以及期望的行为。
 
 ## 提交 Pull Request
 
@@ -38,7 +38,7 @@
 1. Fork [此仓库](https://github.com/liunnn1994/sd-design)，从 `main` 创建分支。新功能实现请发 pull request 到 `feature` 分支。其他更改发到 `main` 分支。
 
 ```bash
-git clone git@github.com:arco-design/arco-design-vue.git
+git clone git@github.com:liunnn1994/sd-design.git
 ```
 
 2. 安装 `workspaces` 中各个包的依赖。
@@ -100,9 +100,9 @@ Commit messages 请遵循[conventional-changelog 标准](https://www.conventiona
 
 1. `web-vue`: Vue 组件库
 2. `vue-site`: Vue 组件库文档站
-3. `arco-vue-scripts`: Vue 组件库脚本
-4. `arco-vue-md-loader`: Vue 组件库中 markdown 文档的 webpack loader
-5. `arco-vue-site-nav`: Vue 组件库文档站的顶部导航栏(使用 React 物料)
+3. `sd-vue-scripts`: Vue 组件库脚本
+4. `sd-vue-md-loader`: Vue 组件库中 markdown 文档的 webpack loader
+5. `sd-vue-site-nav`: Vue 组件库文档站的顶部导航栏(使用 React 物料)
 
 ### Web-Vue 组件目录
 

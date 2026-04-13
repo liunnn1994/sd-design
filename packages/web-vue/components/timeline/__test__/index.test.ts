@@ -10,7 +10,7 @@ describe('Timeline', () => {
         reverse: true,
       },
     });
-    expect(wrapper.classes()).toContain('arco-timeline-is-reverse');
+    expect(wrapper.classes()).toContain('sd-timeline-is-reverse');
   });
 
   test('Should work with timeline item', () => {
@@ -27,7 +27,7 @@ describe('Timeline', () => {
         `,
       },
     });
-    expect(wrapper.findAll('.arco-timeline-item').length).toBe(2);
+    expect(wrapper.findAll('.sd-timeline-item').length).toBe(2);
   });
 
   test('Dot type and dot color should work for timeline item', () => {
@@ -37,7 +37,7 @@ describe('Timeline', () => {
         dotColor: 'rgb(10, 180, 42)',
       },
     });
-    const dot = wrapper.find('.arco-timeline-item-dot');
+    const dot = wrapper.find('.sd-timeline-item-dot');
     expect(dot.attributes('style')).toContain(
       'background-color: rgb(10, 180, 42)'
     );

@@ -28,7 +28,7 @@ The system overview page often cooperates with the grid.
   >
     <a-row :gutter="20" :style="{ marginBottom: '20px' }">
       <a-col :span="8">
-        <a-card title="Arco Card" :bordered="false" :style="{ width: '100%' }">
+        <a-card title="SD Card" :bordered="false" :style="{ width: '100%' }">
           <template #extra>
             <a-link>More</a-link>
           </template>
@@ -36,7 +36,7 @@ The system overview page often cooperates with the grid.
         </a-card>
       </a-col>
       <a-col :span="8">
-        <a-card title="Arco Card" :bordered="false" :style="{ width: '100%' }">
+        <a-card title="SD Card" :bordered="false" :style="{ width: '100%' }">
           <template #extra>
             <a-link>More</a-link>
           </template>
@@ -44,7 +44,7 @@ The system overview page often cooperates with the grid.
         </a-card>
       </a-col>
       <a-col :span="8">
-        <a-card title="Arco Card" :bordered="false" :style="{ width: '100%' }">
+        <a-card title="SD Card" :bordered="false" :style="{ width: '100%' }">
           <template #extra>
             <a-link>More</a-link>
           </template>
@@ -54,7 +54,7 @@ The system overview page often cooperates with the grid.
     </a-row>
     <a-row :gutter="20">
       <a-col :span="16">
-        <a-card title="Arco Card" :bordered="false" :style="{ width: '100%' }">
+        <a-card title="SD Card" :bordered="false" :style="{ width: '100%' }">
           <template #extra>
             <a-link>More</a-link>
           </template>
@@ -62,7 +62,7 @@ The system overview page often cooperates with the grid.
         </a-card>
       </a-col>
       <a-col :span="8">
-        <a-card title="Arco Card" :bordered="false" :style="{ width: '100%' }">
+        <a-card title="SD Card" :bordered="false" :style="{ width: '100%' }">
           <template #extra>
             <a-link>More</a-link>
           </template>

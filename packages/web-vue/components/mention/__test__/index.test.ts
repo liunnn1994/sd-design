@@ -28,11 +28,11 @@ describe('Mention', () => {
     await input.setValue('@');
     const dropdown = wrapper.findComponent({ name: 'SelectDropdown' });
     await input.trigger('keydown', { key: 'ArrowDown' });
-    expect(dropdown.find('.arco-select-option-active').text()).toBe(
+    expect(dropdown.find('.sd-select-option-active').text()).toBe(
       'Bytedesign'
     );
     await input.trigger('keydown', { key: 'ArrowUp' });
-    expect(dropdown.find('.arco-select-option-active').text()).toBe(
+    expect(dropdown.find('.sd-select-option-active').text()).toBe(
       'Bytedance'
     );
     await input.trigger('keydown', { key: 'Enter' });

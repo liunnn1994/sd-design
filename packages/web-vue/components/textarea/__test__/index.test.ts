@@ -13,11 +13,11 @@ describe('Textarea', () => {
     const textarea = wrapper.find('textarea');
     await textarea.trigger('focus');
     await textarea.setValue('textarea');
-    expect(wrapper.find('.arco-textarea-word-limit').text()).toBe('8/10');
+    expect(wrapper.find('.sd-textarea-word-limit').text()).toBe('8/10');
     await textarea.setValue('textareatextarea');
-    expect(wrapper.find('.arco-textarea-word-limit').text()).toBe('10/10');
+    expect(wrapper.find('.sd-textarea-word-limit').text()).toBe('10/10');
     expect(textarea.element.value).toBe('textareate');
-    await wrapper.find('.arco-textarea-clear-btn').trigger('click');
+    await wrapper.find('.sd-textarea-clear-btn').trigger('click');
     expect(textarea.element.value).toBe('');
   });
 });

@@ -24,7 +24,7 @@ You can add operation buttons by specifying the `btn` field.
 </template>
 
 <script lang="jsx">
-import { Notification, Space, Button } from '@arco-design/web-vue';
+import { Notification, Space, Button } from '@sd-design/web-vue';
 
 export default {
   setup() {

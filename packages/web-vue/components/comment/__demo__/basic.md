@@ -65,7 +65,7 @@ import {
   IconStar,
   IconStarFill,
   IconHeartFill,
-} from '@arco-design/web-vue/es/icon';
+} from '@sd-design/web-vue/es/icon';
 
 export default {
   components: {

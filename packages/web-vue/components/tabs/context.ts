@@ -10,4 +10,4 @@ export interface TabsContext {
   trigger: TabTriggerEvent;
 }
 
-export const tabsInjectionKey: InjectionKey<TabsContext> = Symbol('ArcoTabs');
+export const tabsInjectionKey: InjectionKey<TabsContext> = Symbol('SDTabs');

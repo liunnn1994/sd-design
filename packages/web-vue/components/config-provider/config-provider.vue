@@ -12,7 +12,7 @@ import {
   getCurrentInstance,
 } from 'vue';
 import { configProviderInjectionKey } from './context';
-import { ArcoLang } from '../locale/interface';
+import { SDLang } from '../locale/interface';
 import { Size } from '../_utils/constant';
 
 export default defineComponent({
@@ -24,14 +24,14 @@ export default defineComponent({
      */
     prefixCls: {
       type: String,
-      default: 'arco',
+      default: 'sd',
     },
     /**
      * @zh 配置语言包
      * @en Configure language pack
      */
     locale: {
-      type: Object as PropType<ArcoLang>,
+      type: Object as PropType<SDLang>,
     },
     /**
      * @zh 大小

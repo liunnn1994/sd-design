@@ -33,7 +33,7 @@ This is an example including paging, content on the right, and list operations.
         </template>
         <template #extra>
           <div className="image-area">
-            <img alt="arco-design" :src="item.imageSrc" />
+            <img alt="sd-design" :src="item.imageSrc" />
           </div>
         </template>
         <a-list-item-meta
@@ -106,7 +106,7 @@ export default {
   width: 100%;
 }
 
-.list-demo-action-layout .arco-list-item-action .arco-icon {
+.list-demo-action-layout .sd-list-item-action .sd-icon {
   margin: 0 4px;
 }
 </style>

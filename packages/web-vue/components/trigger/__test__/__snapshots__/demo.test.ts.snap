@@ -7,15 +7,15 @@ exports[`<trigger> demo: render [align-point] correctly 1`] = `
 `;
 
 exports[`<trigger> demo: render [arrow] correctly 1`] = `
-"<div class=\\"arco-space arco-space-horizontal arco-space-align-center\\" style=\\"column-gap: 8px; row-gap: 8px;\\">
+"<div class=\\"sd-space sd-space-horizontal sd-space-align-center\\" style=\\"column-gap: 8px; row-gap: 8px;\\">
   <!---->
-  <div class=\\"arco-space-item\\"><button class=\\"arco-btn arco-btn-secondary arco-btn-shape-square arco-btn-size-medium arco-btn-status-normal\\" type=\\"button\\">
+  <div class=\\"sd-space-item\\"><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal\\" type=\\"button\\">
       <!--v-if-->Click Me
     </button>
     <!---->
   </div>
   <!---->
-  <div class=\\"arco-space-item\\"><button class=\\"arco-btn arco-btn-secondary arco-btn-shape-square arco-btn-size-medium arco-btn-status-normal\\" type=\\"button\\">
+  <div class=\\"sd-space-item\\"><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal\\" type=\\"button\\">
       <!--v-if-->Click Me (Arrow)
     </button>
     <!---->
@@ -24,33 +24,33 @@ exports[`<trigger> demo: render [arrow] correctly 1`] = `
 `;
 
 exports[`<trigger> demo: render [basic] correctly 1`] = `
-"<div class=\\"arco-space arco-space-horizontal arco-space-align-center\\" style=\\"column-gap: 8px; row-gap: 8px;\\">
+"<div class=\\"sd-space sd-space-horizontal sd-space-align-center\\" style=\\"column-gap: 8px; row-gap: 8px;\\">
   <!---->
-  <div class=\\"arco-space-item\\"><span>Hover Me</span>
+  <div class=\\"sd-space-item\\"><span>Hover Me</span>
     <!---->
   </div>
   <!---->
-  <div class=\\"arco-space-item\\"><button class=\\"arco-btn arco-btn-secondary arco-btn-shape-square arco-btn-size-medium arco-btn-status-normal\\" type=\\"button\\">
+  <div class=\\"sd-space-item\\"><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal\\" type=\\"button\\">
       <!--v-if-->Click Me
     </button>
     <!---->
   </div>
   <!---->
-  <div class=\\"arco-space-item\\"><span class=\\"arco-input-wrapper\\"><!----><input class=\\"arco-input arco-input-size-medium\\" type=\\"text\\" placeholder=\\"Focus on me\\" value=\\"\\"><!----><!----></span>
+  <div class=\\"sd-space-item\\"><span class=\\"sd-input-wrapper\\"><!----><input class=\\"sd-input sd-input-size-medium\\" type=\\"text\\" placeholder=\\"Focus on me\\" value=\\"\\"><!----><!----></span>
     <!---->
   </div>
 </div>"
 `;
 
 exports[`<trigger> demo: render [nest] correctly 1`] = `
-"<button class=\\"arco-btn arco-btn-secondary arco-btn-shape-square arco-btn-size-medium arco-btn-status-normal\\" type=\\"button\\">
+"<button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal\\" type=\\"button\\">
   <!--v-if-->Click Me
 </button>"
 `;
 
 exports[`<trigger> demo: render [scroll] correctly 1`] = `
 "<div style=\\"height: 100px; overflow-y: scroll;\\">
-  <div style=\\"height: 200px;\\"><button class=\\"arco-btn arco-btn-secondary arco-btn-shape-square arco-btn-size-medium arco-btn-status-normal\\" type=\\"button\\" style=\\"margin-top: 80px;\\">
+  <div style=\\"height: 200px;\\"><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal\\" type=\\"button\\" style=\\"margin-top: 80px;\\">
       <!--v-if-->Click Me
     </button>
     <!---->
@@ -59,21 +59,21 @@ exports[`<trigger> demo: render [scroll] correctly 1`] = `
 `;
 
 exports[`<trigger> demo: render [translate] correctly 1`] = `
-"<div class=\\"arco-space arco-space-horizontal arco-space-align-center\\" style=\\"column-gap: 8px; row-gap: 8px;\\">
+"<div class=\\"sd-space sd-space-horizontal sd-space-align-center\\" style=\\"column-gap: 8px; row-gap: 8px;\\">
   <!---->
-  <div class=\\"arco-space-item\\"><button class=\\"arco-btn arco-btn-secondary arco-btn-shape-square arco-btn-size-medium arco-btn-status-normal\\" type=\\"button\\">
+  <div class=\\"sd-space-item\\"><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal\\" type=\\"button\\">
       <!--v-if-->BOTTOM
     </button>
     <!---->
   </div>
   <!---->
-  <div class=\\"arco-space-item\\"><button class=\\"arco-btn arco-btn-secondary arco-btn-shape-square arco-btn-size-medium arco-btn-status-normal\\" type=\\"button\\">
+  <div class=\\"sd-space-item\\"><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal\\" type=\\"button\\">
       <!--v-if-->BOTTOM OFFSET[100, 20]
     </button>
     <!---->
   </div>
   <!---->
-  <div class=\\"arco-space-item\\"><button class=\\"arco-btn arco-btn-secondary arco-btn-shape-square arco-btn-size-medium arco-btn-status-normal\\" type=\\"button\\">
+  <div class=\\"sd-space-item\\"><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal\\" type=\\"button\\">
       <!--v-if-->BOTTOM OFFSET[-100, 20]
     </button>
     <!---->
@@ -81,4 +81,4 @@ exports[`<trigger> demo: render [translate] correctly 1`] = `
 </div>"
 `;
 
-exports[`<trigger> demo: render [triggers] correctly 1`] = `"<span class=\\"arco-input-wrapper\\"><!----><input class=\\"arco-input arco-input-size-medium\\" type=\\"text\\" placeholder=\\"Click/Hover/Focus on me\\" value=\\"\\"><!----><!----></span>"`;
+exports[`<trigger> demo: render [triggers] correctly 1`] = `"<span class=\\"sd-input-wrapper\\"><!----><input class=\\"sd-input sd-input-size-medium\\" type=\\"text\\" placeholder=\\"Click/Hover/Focus on me\\" value=\\"\\"><!----><!----></span>"`;

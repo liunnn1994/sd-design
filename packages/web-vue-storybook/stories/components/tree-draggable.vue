@@ -120,7 +120,7 @@ const defaultTreeData = [
 </script>
 <style scoped lang="less">
 .tree-demo {
-  :deep(.tree-node-dropover) > :deep(.arco-tree-node-title) {
+  :deep(.tree-node-dropover) > :deep(.sd-tree-node-title) {
     &,
     &:hover {
       animation: blinkBg 0.4s 2;

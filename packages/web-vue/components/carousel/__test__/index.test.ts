@@ -6,10 +6,10 @@ import Carousel from '../index';
 const { Item } = Carousel;
 
 const assertActiveAtIndex = (wrapper: any, index: number) => {
-  const items = wrapper.findAll('.arco-carousel-indicator-item');
+  const items = wrapper.findAll('.sd-carousel-indicator-item');
   const isActiveAtIndex = items[index]
     ?.classes()
-    .includes('arco-carousel-indicator-item-active');
+    .includes('sd-carousel-indicator-item-active');
   expect(isActiveAtIndex).toBe(true);
 };
 
@@ -82,7 +82,7 @@ describe('Carousel', () => {
       },
     });
     await nextTick();
-    const nextIndicator = wrapper.find('.arco-carousel-arrow-right');
+    const nextIndicator = wrapper.find('.sd-carousel-arrow-right');
     assertActiveAtIndex(wrapper, 0);
     nextIndicator.trigger('click');
     await nextTick();
@@ -104,7 +104,7 @@ describe('Carousel', () => {
       },
     });
     await nextTick();
-    const indicators = wrapper.findAll('.arco-carousel-indicator-item');
+    const indicators = wrapper.findAll('.sd-carousel-indicator-item');
     indicators[2].trigger('click');
     await nextTick();
     assertActiveAtIndex(wrapper, 2);
@@ -178,8 +178,8 @@ describe('Carousel', () => {
       },
     });
     await nextTick();
-    expect(wrapper.find('.arco-carousel-indicator-slider').exists()).toBe(true);
-    wrapper.find('.arco-carousel-indicator-slider').trigger('click');
+    expect(wrapper.find('.sd-carousel-indicator-slider').exists()).toBe(true);
+    wrapper.find('.sd-carousel-indicator-slider').trigger('click');
     expect(wrapper.emitted()).toHaveProperty('click');
   });
 });

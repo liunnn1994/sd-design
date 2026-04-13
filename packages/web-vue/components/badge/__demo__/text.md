@@ -37,7 +37,7 @@ Customize the content.
 </template>
 
 <script>
-import { IconUser } from '@arco-design/web-vue/es/icon';
+import { IconUser } from '@sd-design/web-vue/es/icon';
 
 export default {
   components: { IconUser },

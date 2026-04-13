@@ -36,7 +36,7 @@ The filter menu content can be customized through the slot.
 
 <script>
 import { reactive, h } from 'vue';
-import { IconSearch } from '@arco-design/web-vue/es/icon';
+import { IconSearch } from '@sd-design/web-vue/es/icon';
 
 export default {
   setup() {

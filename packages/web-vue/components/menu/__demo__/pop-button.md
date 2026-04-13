@@ -84,7 +84,7 @@ import {
   IconBulb,
   IconClose,
   IconMessage,
-} from '@arco-design/web-vue/es/icon';
+} from '@sd-design/web-vue/es/icon';
 
 export default {
   components: {
@@ -135,7 +135,7 @@ export default {
 /* button right */
 .button-trigger:nth-child(2) {
   left: 372px;
-  background-color: rgb(var(--arcoblue-6));
+  background-color: rgb(var(--sdblue-6));
 }
 .button-trigger:nth-child(3).button-trigger-active {
   background-color: var(--color-primary-light-4);

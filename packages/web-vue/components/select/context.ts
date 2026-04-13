@@ -17,4 +17,4 @@ export interface SelectContext {
 }
 
 export const selectInjectionKey: InjectionKey<SelectContext> =
-  Symbol('ArcoSelectContext');
+  Symbol('SDSelectContext');

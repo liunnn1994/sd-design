@@ -26,7 +26,7 @@ $END$
 </template>
 
 <script>
-import { IconSync } from '@arco-design/web-vue/es/icon';
+import { IconSync } from '@sd-design/web-vue/es/icon';
 
 export default {
   components: { IconSync }

@@ -4,7 +4,7 @@ import Comment from '../index';
 describe('Comment', () => {
   test('Should have prefix', () => {
     const wrapper = mount(Comment);
-    expect(wrapper.classes()).toContain('arco-comment');
+    expect(wrapper.classes()).toContain('sd-comment');
   });
 
   test('Content prop should work', () => {
@@ -13,7 +13,7 @@ describe('Comment', () => {
         content: 'hello world',
       },
     });
-    const contentElement = wrapper.find('.arco-comment-content');
+    const contentElement = wrapper.find('.sd-comment-content');
     expect(contentElement.text()).toContain('hello world');
   });
 
@@ -23,7 +23,7 @@ describe('Comment', () => {
         content: '<div>hello world</div>',
       },
     });
-    const contentElement = wrapper.find('.arco-comment-content');
+    const contentElement = wrapper.find('.sd-comment-content');
     expect(contentElement.text()).toContain('hello world');
   });
 
@@ -33,7 +33,7 @@ describe('Comment', () => {
         author: 'Stephen',
       },
     });
-    const authorElement = wrapper.find('.arco-comment-author');
+    const authorElement = wrapper.find('.sd-comment-author');
     expect(authorElement.text()).toContain('Stephen');
   });
 
@@ -43,7 +43,7 @@ describe('Comment', () => {
         datetime: '1 hour',
       },
     });
-    const dateTimeElement = wrapper.find('.arco-comment-datetime');
+    const dateTimeElement = wrapper.find('.sd-comment-datetime');
     expect(dateTimeElement.text()).toContain('1 hour');
   });
 
@@ -56,7 +56,7 @@ describe('Comment', () => {
         ],
       },
     });
-    const actionsWrapper = wrapper.find('.arco-comment-actions');
+    const actionsWrapper = wrapper.find('.sd-comment-actions');
     expect(actionsWrapper.exists()).toBe(true);
     const actions = actionsWrapper.findAll('.custom-action');
     expect(actions.length).toBe(2);
@@ -71,9 +71,9 @@ describe('Comment', () => {
         align: 'right',
       },
     });
-    const actionsWrapper = wrapper.find('.arco-comment-actions');
+    const actionsWrapper = wrapper.find('.sd-comment-actions');
     expect(actionsWrapper.classes()).toContain(
-      'arco-comment-actions-align-right'
+      'sd-comment-actions-align-right'
     );
   });
 
@@ -90,11 +90,11 @@ describe('Comment', () => {
         },
       },
     });
-    const actionsWrapper = wrapper.find('.arco-comment-actions');
+    const actionsWrapper = wrapper.find('.sd-comment-actions');
     expect(actionsWrapper.classes()).toContain(
-      'arco-comment-actions-align-right'
+      'sd-comment-actions-align-right'
     );
-    const titleWrapper = wrapper.find('.arco-comment-title');
-    expect(titleWrapper.classes()).toContain('arco-comment-title-align-right');
+    const titleWrapper = wrapper.find('.sd-comment-title');
+    expect(titleWrapper.classes()).toContain('sd-comment-title-align-right');
   });
 });

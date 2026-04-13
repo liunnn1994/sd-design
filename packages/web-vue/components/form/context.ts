@@ -59,7 +59,7 @@ export interface FormItemInfo {
 }
 
 export const formItemInjectionKey: InjectionKey<FormItemContext> = Symbol(
-  'ArcoFormItemContext'
+  'SDFormItemContext'
 );
 export const formInjectionKey: InjectionKey<FormContext> =
-  Symbol('ArcoFormContext');
+  Symbol('SDFormContext');

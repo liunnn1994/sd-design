@@ -18,7 +18,7 @@ Other card components can be nested in the card.
 
 ```vue
 <template>
-  <a-card title="Arco Card">
+  <a-card title="SD Card">
     <a-card :style="{ marginBottom: '20px' }" title="Inner Card Title">
       <template #extra>
         <a-link>More</a-link>

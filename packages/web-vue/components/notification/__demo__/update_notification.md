@@ -24,7 +24,7 @@ Specifying `id` to update the existing notification.
 </template>
 
 <script>
-import { Notification } from '@arco-design/web-vue';
+import { Notification } from '@sd-design/web-vue';
 
 export default {
   setup() {

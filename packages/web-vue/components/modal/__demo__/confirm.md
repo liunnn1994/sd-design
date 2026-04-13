@@ -23,7 +23,7 @@ Use Modal.confirm() to quickly pop up a confirmation modal dialog.
 
 <script>
 import { ref } from 'vue';
-import { Modal } from '@arco-design/web-vue';
+import { Modal } from '@sd-design/web-vue';
 
 export default {
   setup() {

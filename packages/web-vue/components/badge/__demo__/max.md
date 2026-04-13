@@ -51,7 +51,7 @@ If the count is larger than `max-count`, the `${max-count}+` will be displayed. 
 </template>
 
 <script>
-import { IconUser } from '@arco-design/web-vue/es/icon';
+import { IconUser } from '@sd-design/web-vue/es/icon';
 
 export default {
   components: { IconUser },

@@ -24,7 +24,7 @@ The function will be executed before each file upload. Uploading will be aborted
 </template>
 
 <script>
-import { Modal } from '@arco-design/web-vue';
+import { Modal } from '@sd-design/web-vue';
 
 export default {
   setup() {

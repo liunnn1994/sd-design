@@ -33,7 +33,7 @@ description: Used for the selection, screening and classification of information
 
 |Attribute|Description|Type|Default|version|
 |---|---|---|:---:|:---|
-|color|Label color|`'red' \| 'orangered' \| 'orange' \| 'gold' \| 'lime' \| 'green' \| 'cyan' \| 'blue' \| 'arcoblue' \| 'purple' \| 'pinkpurple' \| 'magenta' \| 'gray'`|`-`||
+|color|Label color|`'red' \| 'orangered' \| 'orange' \| 'gold' \| 'lime' \| 'green' \| 'cyan' \| 'blue' \| 'sdblue' \| 'purple' \| 'pinkpurple' \| 'magenta' \| 'gray'`|`-`||
 |size|Label size|`'small' \| 'medium' \| 'large'`|`'medium'`||
 |bordered|Whether the tag is bordered|`boolean`|`false`|2.33.0|
 |visible **(v-model)**|Whether the tag is visible|`boolean`|`-`||

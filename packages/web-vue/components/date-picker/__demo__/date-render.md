@@ -20,8 +20,8 @@ Use the named slot `cell` to customize the date cell.
 <template>
   <a-date-picker>
     <template #cell="{ date }">
-      <div class="arco-picker-date">
-        <div class="arco-picker-date-value" :style="getCellStyle(date)">
+      <div class="sd-picker-date">
+        <div class="sd-picker-date-value" :style="getCellStyle(date)">
           {{ date.getDate() }}
         </div>
       </div>
@@ -33,7 +33,7 @@ export default {
   setup() {
     const highlightDates = [6, 14, 22];
     const highlightStyle = {
-      border: '1px solid rgb(var(--arcoblue-6))',
+      border: '1px solid rgb(var(--sdblue-6))',
     };
     return {
       getCellStyle(date) {

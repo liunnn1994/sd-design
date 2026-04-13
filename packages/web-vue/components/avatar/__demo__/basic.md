@@ -23,7 +23,7 @@ The basic use of avatars. If the avatar is text, the font size will be automatic
     <a-avatar :style="{ backgroundColor: '#3370ff' }">
       <IconUser />
     </a-avatar>
-    <a-avatar :style="{ backgroundColor: '#14a9f8' }">Arco</a-avatar>
+    <a-avatar :style="{ backgroundColor: '#14a9f8' }">SD</a-avatar>
     <a-avatar :style="{ backgroundColor: '#00d0b6' }">Design</a-avatar>
     <a-avatar>
       <img
@@ -35,7 +35,7 @@ The basic use of avatars. If the avatar is text, the font size will be automatic
 </template>
 
 <script>
-import { IconUser } from '@arco-design/web-vue/es/icon';
+import { IconUser } from '@sd-design/web-vue/es/icon';
 
 export default {
   components: { IconUser },

@@ -4,21 +4,21 @@ exports[`<anchor> demo: render [affix] correctly 1`] = `
 "<div>
   <!--v-if-->
   <div class=\\"\\">
-    <div class=\\"arco-anchor\\">
-      <div class=\\"arco-anchor-line-slider\\"></div>
-      <ul class=\\"arco-anchor-list\\">
-        <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#basic\\">Basic</a>
+    <div class=\\"sd-anchor\\">
+      <div class=\\"sd-anchor-line-slider\\"></div>
+      <ul class=\\"sd-anchor-list\\">
+        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#basic\\">Basic</a>
           <!--v-if-->
         </li>
-        <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#line-less\\">LineLess Mode</a>
+        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#line-less\\">LineLess Mode</a>
           <!--v-if-->
         </li>
-        <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#affix\\"> Affix </a>
-          <ul class=\\"arco-anchor-sublist\\">
-            <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#boundary\\">Scroll Boundary</a>
+        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#affix\\"> Affix </a>
+          <ul class=\\"sd-anchor-sublist\\">
+            <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#boundary\\">Scroll Boundary</a>
               <!--v-if-->
             </li>
-            <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#hash\\">Hash mode</a>
+            <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#hash\\">Hash mode</a>
               <!--v-if-->
             </li>
           </ul>
@@ -30,21 +30,21 @@ exports[`<anchor> demo: render [affix] correctly 1`] = `
 `;
 
 exports[`<anchor> demo: render [basic] correctly 1`] = `
-"<div class=\\"arco-anchor\\">
-  <div class=\\"arco-anchor-line-slider\\"></div>
-  <ul class=\\"arco-anchor-list\\">
-    <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#basic\\">Basic</a>
+"<div class=\\"sd-anchor\\">
+  <div class=\\"sd-anchor-line-slider\\"></div>
+  <ul class=\\"sd-anchor-list\\">
+    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#basic\\">Basic</a>
       <!--v-if-->
     </li>
-    <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#line-less\\">LineLess Mode</a>
+    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#line-less\\">LineLess Mode</a>
       <!--v-if-->
     </li>
-    <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#affix\\"> Affix </a>
-      <ul class=\\"arco-anchor-sublist\\">
-        <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#boundary\\">Scroll Boundary</a>
+    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#affix\\"> Affix </a>
+      <ul class=\\"sd-anchor-sublist\\">
+        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#boundary\\">Scroll Boundary</a>
           <!--v-if-->
         </li>
-        <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#hash\\">Hash mode</a>
+        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#hash\\">Hash mode</a>
           <!--v-if-->
         </li>
       </ul>
@@ -54,21 +54,21 @@ exports[`<anchor> demo: render [basic] correctly 1`] = `
 `;
 
 exports[`<anchor> demo: render [boundary] correctly 1`] = `
-"<div class=\\"arco-anchor\\">
-  <div class=\\"arco-anchor-line-slider\\"></div>
-  <ul class=\\"arco-anchor-list\\">
-    <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#basic\\">Basic</a>
+"<div class=\\"sd-anchor\\">
+  <div class=\\"sd-anchor-line-slider\\"></div>
+  <ul class=\\"sd-anchor-list\\">
+    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#basic\\">Basic</a>
       <!--v-if-->
     </li>
-    <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#line-less\\">LineLess Mode</a>
+    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#line-less\\">LineLess Mode</a>
       <!--v-if-->
     </li>
-    <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#affix\\"> Affix </a>
-      <ul class=\\"arco-anchor-sublist\\">
-        <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#boundary\\">Scroll Boundary</a>
+    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#affix\\"> Affix </a>
+      <ul class=\\"sd-anchor-sublist\\">
+        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#boundary\\">Scroll Boundary</a>
           <!--v-if-->
         </li>
-        <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#hash\\">Hash mode</a>
+        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#hash\\">Hash mode</a>
           <!--v-if-->
         </li>
       </ul>
@@ -78,21 +78,21 @@ exports[`<anchor> demo: render [boundary] correctly 1`] = `
 `;
 
 exports[`<anchor> demo: render [hash] correctly 1`] = `
-"<div class=\\"arco-anchor\\">
-  <div class=\\"arco-anchor-line-slider\\"></div>
-  <ul class=\\"arco-anchor-list\\">
-    <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#basic\\">Basic</a>
+"<div class=\\"sd-anchor\\">
+  <div class=\\"sd-anchor-line-slider\\"></div>
+  <ul class=\\"sd-anchor-list\\">
+    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#basic\\">Basic</a>
       <!--v-if-->
     </li>
-    <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#line-less\\">LineLess Mode</a>
+    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#line-less\\">LineLess Mode</a>
       <!--v-if-->
     </li>
-    <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#affix\\"> Affix </a>
-      <ul class=\\"arco-anchor-sublist\\">
-        <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#boundary\\">Scroll Boundary</a>
+    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#affix\\"> Affix </a>
+      <ul class=\\"sd-anchor-sublist\\">
+        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#boundary\\">Scroll Boundary</a>
           <!--v-if-->
         </li>
-        <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#hash\\">Hash mode</a>
+        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#hash\\">Hash mode</a>
           <!--v-if-->
         </li>
       </ul>
@@ -102,21 +102,21 @@ exports[`<anchor> demo: render [hash] correctly 1`] = `
 `;
 
 exports[`<anchor> demo: render [line-less] correctly 1`] = `
-"<div class=\\"arco-anchor arco-anchor-line-less\\">
+"<div class=\\"sd-anchor sd-anchor-line-less\\">
   <!--v-if-->
-  <ul class=\\"arco-anchor-list\\">
-    <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#basic\\">Basic</a>
+  <ul class=\\"sd-anchor-list\\">
+    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#basic\\">Basic</a>
       <!--v-if-->
     </li>
-    <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#line-less\\">LineLess Mode</a>
+    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#line-less\\">LineLess Mode</a>
       <!--v-if-->
     </li>
-    <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#affix\\"> Affix </a>
-      <ul class=\\"arco-anchor-sublist\\">
-        <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#boundary\\">Scroll Boundary</a>
+    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#affix\\"> Affix </a>
+      <ul class=\\"sd-anchor-sublist\\">
+        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#boundary\\">Scroll Boundary</a>
           <!--v-if-->
         </li>
-        <li class=\\"arco-anchor-link-item\\"><a class=\\"arco-anchor-link\\" href=\\"#hash\\">Hash mode</a>
+        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#hash\\">Hash mode</a>
           <!--v-if-->
         </li>
       </ul>

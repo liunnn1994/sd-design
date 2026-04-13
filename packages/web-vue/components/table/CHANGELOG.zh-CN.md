@@ -293,7 +293,7 @@ changelog: true
 
 ### ⚠️ 重点注意
 
-- 由于功能需要，`arco-table-cell` 改为 flex 布局，且在表格内容外新增 `arco-table-td-content` 包裹层，如有自定义样式请留意 DOM 结构的改变 ([#1248](https://github.com/liunnn1994/sd-design/pull/1248))
+- 由于功能需要，`sd-table-cell` 改为 flex 布局，且在表格内容外新增 `sd-table-td-content` 包裹层，如有自定义样式请留意 DOM 结构的改变 ([#1248](https://github.com/liunnn1994/sd-design/pull/1248))
 
 ### 🆕 新增功能
 

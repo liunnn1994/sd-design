@@ -75,21 +75,21 @@
               </div>
               <div v-if="footer" :class="`${prefixCls}-footer`">
                 <slot name="footer">
-                  <arco-button
+                  <sd-button
                     v-if="!hideCancel"
                     v-bind="cancelButtonProps"
                     @click="handleCancel"
                   >
                     {{ cancelDisplayText }}
-                  </arco-button>
-                  <arco-button
+                  </sd-button>
+                  <sd-button
                     type="primary"
                     v-bind="okButtonProps"
                     :loading="mergedOkLoading"
                     @click="handleOk"
                   >
                     {{ okDisplayText }}
-                  </arco-button>
+                  </sd-button>
                 </slot>
               </div>
             </div>
@@ -115,7 +115,7 @@ import { getPrefixCls } from '../_utils/global-config';
 import { MessageType } from '../_utils/constant';
 import ClientOnly from '../_components/client-only';
 import IconHover from '../_components/icon-hover.vue';
-import ArcoButton, { ButtonProps } from '../button';
+import SDButton, { ButtonProps } from '../button';
 import IconClose from '../icon/icon-close';
 import IconInfoCircleFill from '../icon/icon-info-circle-fill';
 import IconCheckCircleFill from '../icon/icon-check-circle-fill';
@@ -134,7 +134,7 @@ export default defineComponent({
   name: 'Modal',
   components: {
     ClientOnly,
-    ArcoButton,
+    SDButton,
     IconHover,
     IconClose,
     IconInfoCircleFill,

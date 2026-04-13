@@ -1,7 +1,7 @@
 import { PropType, VNode, computed, defineComponent, ref, watch } from 'vue';
 import { Size } from '../_utils/constant';
 import { getPrefixCls } from '../_utils/global-config';
-import ArcoInput from '../input';
+import SDInput from '../input';
 import { isExist, isFunction, isString } from '../_utils/is';
 import { Backspace, ArrowLeft, ArrowRight } from '../_utils/keycode';
 
@@ -221,7 +221,7 @@ export default defineComponent({
         <div class={prefixCls}>
           {innerValue.value.map((c, i) => (
             <>
-              <ArcoInput
+              <SDInput
                 key={i}
                 ref={(el: any) => (inputRefList.value[i] = el)}
                 type={type.value}

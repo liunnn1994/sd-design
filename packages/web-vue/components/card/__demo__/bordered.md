@@ -27,7 +27,7 @@ Set `bordered` to `false` to use borderless cards.
       backgroundColor: 'var(--color-fill-2)',
     }"
   >
-    <a-card :style="{ width: '360px' }" title="Arco Card" :bordered="false">
+    <a-card :style="{ width: '360px' }" title="SD Card" :bordered="false">
       <template #extra>
         <a-link>More</a-link>
       </template>

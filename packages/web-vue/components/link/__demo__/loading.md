@@ -33,7 +33,7 @@ The link can be in the loading state by setting `loading`. The link in the loadi
 
 <script>
 import { ref } from 'vue';
-import { IconEdit } from '@arco-design/web-vue/es/icon';
+import { IconEdit } from '@sd-design/web-vue/es/icon';
 
 export default {
   components: {

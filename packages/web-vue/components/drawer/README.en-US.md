@@ -85,7 +85,7 @@ When used by import, the component has no way to obtain the current Vue Context.
 
 ```ts
 import { createApp } from 'vue'
-import { Drawer } from '@arco-design/web-vue';
+import { Drawer } from '@sd-design/web-vue';
 
 const app = createApp(App);
 Drawer._context = app._context;

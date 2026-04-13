@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<mention> demo: render [basic] correctly 1`] = `
-"<div class=\\"arco-space arco-space-vertical\\" style=\\"column-gap: 24px; row-gap: 24px; width: 100%;\\">
+"<div class=\\"sd-space sd-space-vertical\\" style=\\"column-gap: 24px; row-gap: 24px; width: 100%;\\">
   <!---->
-  <div class=\\"arco-space-item\\"><span class=\\"arco-input-wrapper\\"><!----><input class=\\"arco-input arco-input-size-medium\\" type=\\"text\\" placeholder=\\"enter something\\" value=\\"\\"><!----><!----></span>
+  <div class=\\"sd-space-item\\"><span class=\\"sd-input-wrapper\\"><!----><input class=\\"sd-input sd-input-size-medium\\" type=\\"text\\" placeholder=\\"enter something\\" value=\\"\\"><!----><!----></span>
     <!---->
   </div>
   <!---->
-  <div class=\\"arco-space-item\\">
-    <div class=\\"arco-mention\\">
-      <div class=\\"arco-textarea-wrapper\\">
-        <!--v-if--><textarea class=\\"arco-textarea\\" placeholder=\\"enter something\\" value=\\"\\"></textarea>
+  <div class=\\"sd-space-item\\">
+    <div class=\\"sd-mention\\">
+      <div class=\\"sd-textarea-wrapper\\">
+        <!--v-if--><textarea class=\\"sd-textarea\\" placeholder=\\"enter something\\" value=\\"\\"></textarea>
         <!--v-if-->
         <!--v-if-->
       </div>
@@ -21,17 +21,17 @@ exports[`<mention> demo: render [basic] correctly 1`] = `
 `;
 
 exports[`<mention> demo: render [prefix] correctly 1`] = `
-"<div class=\\"arco-space arco-space-vertical\\" style=\\"column-gap: 24px; row-gap: 24px; width: 100%;\\">
+"<div class=\\"sd-space sd-space-vertical\\" style=\\"column-gap: 24px; row-gap: 24px; width: 100%;\\">
   <!---->
-  <div class=\\"arco-space-item\\"><span class=\\"arco-input-wrapper\\"><!----><input class=\\"arco-input arco-input-size-medium\\" type=\\"text\\" placeholder=\\"input @\\" value=\\"\\"><!----><!----></span>
+  <div class=\\"sd-space-item\\"><span class=\\"sd-input-wrapper\\"><!----><input class=\\"sd-input sd-input-size-medium\\" type=\\"text\\" placeholder=\\"input @\\" value=\\"\\"><!----><!----></span>
     <!---->
   </div>
   <!---->
-  <div class=\\"arco-space-item\\"><span class=\\"arco-input-wrapper\\"><!----><input class=\\"arco-input arco-input-size-medium\\" type=\\"text\\" placeholder=\\"input #\\" value=\\"\\"><!----><!----></span>
+  <div class=\\"sd-space-item\\"><span class=\\"sd-input-wrapper\\"><!----><input class=\\"sd-input sd-input-size-medium\\" type=\\"text\\" placeholder=\\"input #\\" value=\\"\\"><!----><!----></span>
     <!---->
   </div>
   <!---->
-  <div class=\\"arco-space-item\\"><span class=\\"arco-input-wrapper\\"><!----><input class=\\"arco-input arco-input-size-medium\\" type=\\"text\\" placeholder=\\"input $\\" value=\\"\\"><!----><!----></span>
+  <div class=\\"sd-space-item\\"><span class=\\"sd-input-wrapper\\"><!----><input class=\\"sd-input sd-input-size-medium\\" type=\\"text\\" placeholder=\\"input $\\" value=\\"\\"><!----><!----></span>
     <!---->
   </div>
 </div>"

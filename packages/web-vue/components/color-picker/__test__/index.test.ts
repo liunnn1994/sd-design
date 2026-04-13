@@ -8,9 +8,9 @@ describe('ColorPicker', () => {
         size: 'mini',
       },
     });
-    const colorPickerElement = wrapper.find('.arco-color-picker');
+    const colorPickerElement = wrapper.find('.sd-color-picker');
     expect(colorPickerElement.classes()).toContain(
-      `arco-color-picker-size-mini`
+      `sd-color-picker-size-mini`
     );
   });
 
@@ -20,9 +20,9 @@ describe('ColorPicker', () => {
         disabled: true,
       },
     });
-    const colorPickerElement = wrapper.find('.arco-color-picker');
+    const colorPickerElement = wrapper.find('.sd-color-picker');
     expect(colorPickerElement.classes()).toContain(
-      `arco-color-picker-disabled`
+      `sd-color-picker-disabled`
     );
   });
 });

@@ -193,7 +193,7 @@ importers:
         specifier: ^4.9.5
         version: 4.9.5
 
-  packages/arco-changelog:
+  packages/sd-changelog:
     dependencies:
       axios:
         specifier: '>=1.15.0'
@@ -272,9 +272,9 @@ importers:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@25.6.0)(typescript@4.9.5)
 
-  packages/arco-vue-docs:
+  packages/sd-vue-docs:
     dependencies:
-      '@arco-design/web-vue':
+      '@sd-design/web-vue':
         specifier: workspace:*
         version: link:../web-vue
       '@vue/repl':
@@ -287,11 +287,8 @@ importers:
         specifier: ^2.0.0-alpha.17
         version: 2.0.0-alpha.17(@types/node@25.6.0)(axios@1.15.0)(jiti@2.6.1)(less@4.6.4)(lightningcss@1.32.0)(nprogress@0.2.0)(postcss@8.5.9)(terser@5.46.1)(typescript@4.9.5)(yaml@2.8.3)
 
-  packages/arco-vue-scripts:
+  packages/sd-vue-scripts:
     dependencies:
-      '@arco-design/vite-plugin-arco-vue-docs':
-        specifier: workspace:*
-        version: link:../vite-plugin-arco-vue-docs
       '@babel/core':
         specifier: ^7.29.0
         version: 7.29.0
@@ -310,6 +307,9 @@ importers:
       '@babel/preset-typescript':
         specifier: ^7.28.5
         version: 7.28.5(@babel/core@7.29.0)
+      '@sd-design/vite-plugin-sd-vue-docs':
+        specifier: workspace:*
+        version: link:../vite-plugin-sd-vue-docs
       '@vitejs/plugin-vue':
         specifier: ^6.0.5
         version: 6.0.5(vite@8.0.8(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(less@4.6.4)(terser@5.46.1)(yaml@2.8.3))(vue@3.5.32(typescript@4.9.5))
@@ -375,7 +375,7 @@ importers:
         version: 4.0.1
       ts-jest:
         specifier: ^26.5.6
-        version: 26.5.6(jest@30.3.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.0))(node-notifier@8.0.2))(typescript@4.9.5)
+        version: 26.5.6(jest@30.3.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.0))(node-notifier@8.0.2)(ts-node@10.9.2(@types/node@25.6.0)(typescript@4.9.5)))(typescript@4.9.5)
       ts-morph:
         specifier: ^11.0.3
         version: 11.0.3
@@ -396,7 +396,7 @@ importers:
         version: 4.79.2(vue@3.5.32(typescript@4.9.5))
       vue-jest:
         specifier: 5.0.0-alpha.10
-        version: 5.0.0-alpha.10(@babel/core@7.29.0)(babel-jest@30.3.0(@babel/core@7.29.0))(jest@30.3.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.0))(node-notifier@8.0.2))(ts-jest@26.5.6(jest@30.3.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.0))(node-notifier@8.0.2))(typescript@4.9.5))(typescript@4.9.5)(vue@3.5.32(typescript@4.9.5))
+        version: 5.0.0-alpha.10(@babel/core@7.29.0)(babel-jest@30.3.0(@babel/core@7.29.0))(jest@30.3.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.0))(node-notifier@8.0.2)(ts-node@10.9.2(@types/node@25.6.0)(typescript@4.9.5)))(ts-jest@26.5.6(jest@30.3.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.0))(node-notifier@8.0.2)(ts-node@10.9.2(@types/node@25.6.0)(typescript@4.9.5)))(typescript@4.9.5))(typescript@4.9.5)(vue@3.5.32(typescript@4.9.5))
     devDependencies:
       '@babel/types':
         specifier: ^7.29.0
@@ -456,7 +456,7 @@ importers:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@25.6.0)(typescript@4.9.5)
 
-  packages/vite-plugin-arco-vue-docs:
+  packages/vite-plugin-sd-vue-docs:
     dependencies:
       '@vitejs/plugin-vue':
         specifier: ^6.0.5
@@ -544,9 +544,6 @@ importers:
         specifier: ^3.1.0
         version: 3.5.32(typescript@4.9.5)
     devDependencies:
-      '@arco-design/arco-vue-scripts':
-        specifier: workspace:*
-        version: link:../arco-vue-scripts
       '@babel/core':
         specifier: ^7.29.0
         version: 7.29.0
@@ -565,6 +562,9 @@ importers:
       '@babel/preset-typescript':
         specifier: ^7.28.5
         version: 7.28.5(@babel/core@7.29.0)
+      '@sd-design/sd-vue-scripts':
+        specifier: workspace:*
+        version: link:../sd-vue-scripts
       '@types/jest':
         specifier: ^30.0.0
         version: 30.0.0
@@ -627,7 +627,7 @@ importers:
         version: 4.9.5
       vue-jest:
         specifier: 5.0.0-alpha.10
-        version: 5.0.0-alpha.10(@babel/core@7.29.0)(babel-jest@30.3.0(@babel/core@7.29.0))(jest@30.3.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.0))(node-notifier@8.0.2))(ts-jest@26.5.6(jest@30.3.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.0))(node-notifier@8.0.2))(typescript@4.9.5))(typescript@4.9.5)(vue@3.5.32(typescript@4.9.5))
+        version: 5.0.0-alpha.10(@babel/core@7.29.0)(babel-jest@30.3.0(@babel/core@7.29.0))(jest@30.3.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.0))(node-notifier@8.0.2)(ts-node@10.9.2(@types/node@25.6.0)(typescript@4.9.5)))(ts-jest@26.5.6(jest@30.3.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.0))(node-notifier@8.0.2)(ts-node@10.9.2(@types/node@25.6.0)(typescript@4.9.5)))(typescript@4.9.5))(typescript@4.9.5)(vue@3.5.32(typescript@4.9.5))
 
   packages/web-vue-storybook:
     devDependencies:
@@ -20175,7 +20175,7 @@ snapshots:
 
   ts-dedent@2.2.0: {}
 
-  ts-jest@26.5.6(jest@30.3.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.0))(node-notifier@8.0.2))(typescript@4.9.5):
+  ts-jest@26.5.6(jest@30.3.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.0))(node-notifier@8.0.2)(ts-node@10.9.2(@types/node@25.6.0)(typescript@4.9.5)))(typescript@4.9.5):
     dependencies:
       bs-logger: 0.2.6
       buffer-from: 1.1.2
@@ -20782,7 +20782,7 @@ snapshots:
     dependencies:
       vue: 3.5.32(typescript@4.9.5)
 
-  vue-jest@5.0.0-alpha.10(@babel/core@7.29.0)(babel-jest@30.3.0(@babel/core@7.29.0))(jest@30.3.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.0))(node-notifier@8.0.2))(ts-jest@26.5.6(jest@30.3.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.0))(node-notifier@8.0.2))(typescript@4.9.5))(typescript@4.9.5)(vue@3.5.32(typescript@4.9.5)):
+  vue-jest@5.0.0-alpha.10(@babel/core@7.29.0)(babel-jest@30.3.0(@babel/core@7.29.0))(jest@30.3.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.0))(node-notifier@8.0.2)(ts-node@10.9.2(@types/node@25.6.0)(typescript@4.9.5)))(ts-jest@26.5.6(jest@30.3.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.0))(node-notifier@8.0.2)(ts-node@10.9.2(@types/node@25.6.0)(typescript@4.9.5)))(typescript@4.9.5))(typescript@4.9.5)(vue@3.5.32(typescript@4.9.5)):
     dependencies:
       '@babel/core': 7.29.0
       '@babel/plugin-transform-modules-commonjs': 7.28.6(@babel/core@7.29.0)
@@ -20795,7 +20795,7 @@ snapshots:
       tsconfig: 7.0.0
       vue: 3.5.32(typescript@4.9.5)
     optionalDependencies:
-      ts-jest: 26.5.6(jest@30.3.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.0))(node-notifier@8.0.2))(typescript@4.9.5)
+      ts-jest: 26.5.6(jest@30.3.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.0))(node-notifier@8.0.2)(ts-node@10.9.2(@types/node@25.6.0)(typescript@4.9.5)))(typescript@4.9.5)
       typescript: 4.9.5
     transitivePeerDependencies:
       - supports-color

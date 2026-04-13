@@ -8,4 +8,4 @@ export interface AnchorContext {
 }
 
 export const anchorInjectionKey: InjectionKey<AnchorContext> =
-  Symbol('ArcoAnchor');
+  Symbol('SDAnchor');

@@ -41,7 +41,7 @@ Omit multiple lines of text when there is insufficient space.
     </a-typography-paragraph>
     <a-typography-paragraph
       :ellipsis="{
-        suffix: '--Arco Design',
+        suffix: '--SD Design',
         rows: 2,
         expandable: true,
         showTooltip: {
@@ -59,7 +59,7 @@ Omit multiple lines of text when there is insufficient space.
     </a-typography-paragraph>
     <a-typography-paragraph
       :ellipsis="{
-        suffix: '--Arco Design',
+        suffix: '--SD Design',
         rows: 3,
         expandable: true,
       }"

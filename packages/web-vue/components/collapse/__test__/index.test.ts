@@ -18,7 +18,7 @@ describe('Collapse', () => {
       },
     });
 
-    const headers = wrapper.findAll('.arco-collapse-item-header');
+    const headers = wrapper.findAll('.sd-collapse-item-header');
     await headers[1].trigger('click');
     expect(wrapper.emitted('change')).toBeUndefined();
     await headers[2].trigger('click');

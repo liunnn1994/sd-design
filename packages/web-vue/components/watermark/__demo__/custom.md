@@ -71,7 +71,7 @@ Customize the watermark.
       </a-col>
     </a-row>
   </a-form>
-  <a-watermark content="arco.design" v-bind="form">
+  <a-watermark content="sd.design" v-bind="form">
     <div style="width: 100%; border: 1px solid #e5e6eb; box-sizing: border-box">
       <a-typography-title :heading="5"> Design system </a-typography-title>
       <a-typography>

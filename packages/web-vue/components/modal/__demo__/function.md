@@ -23,7 +23,7 @@ Use the modal by function.
 
 <script>
 import { h } from 'vue';
-import { Modal, Button } from '@arco-design/web-vue';
+import { Modal, Button } from '@sd-design/web-vue';
 
 const ModalContent = {
   setup() {

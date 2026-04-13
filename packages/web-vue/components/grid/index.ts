@@ -1,5 +1,5 @@
 import type { App } from 'vue';
-import type { ArcoOptions } from '../_utils/types';
+import type { SDOptions } from '../_utils/types';
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _GridRow from './grid-row.vue';
 import _GridCol from './grid-col.vue';
@@ -10,7 +10,7 @@ const Grid = Object.assign(_Grid, {
   Row: _GridRow,
   Col: _GridCol,
   Item: _GridItem,
-  install: (app: App, options?: ArcoOptions) => {
+  install: (app: App, options?: SDOptions) => {
     setGlobalConfig(app, options);
     const componentPrefix = getComponentPrefix(options);
 

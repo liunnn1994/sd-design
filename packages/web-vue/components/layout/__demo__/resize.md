@@ -32,10 +32,10 @@ By `resizeDirections`, you can use the mouse to drag the sidebar to zoom in and 
   </div>
 </template>
 <style scoped>
-.layout-demo :deep(.arco-layout-header),
-.layout-demo :deep(.arco-layout-footer),
-.layout-demo :deep(.arco-layout-sider-children),
-.layout-demo :deep(.arco-layout-content) {
+.layout-demo :deep(.sd-layout-header),
+.layout-demo :deep(.sd-layout-footer),
+.layout-demo :deep(.sd-layout-sider-children),
+.layout-demo :deep(.sd-layout-content) {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -46,13 +46,13 @@ By `resizeDirections`, you can use the mouse to drag the sidebar to zoom in and 
 }
 
 
-.layout-demo :deep(.arco-layout-header),
-.layout-demo :deep(.arco-layout-footer) {
+.layout-demo :deep(.sd-layout-header),
+.layout-demo :deep(.sd-layout-footer) {
   height: 64px;
   background-color: var(--color-primary-light-4);
 }
 
-.layout-demo :deep(.arco-layout-sider) {
+.layout-demo :deep(.sd-layout-sider) {
   width: 206px;
   background-color: var(--color-primary-light-3);
   min-width: 150px;
@@ -60,8 +60,8 @@ By `resizeDirections`, you can use the mouse to drag the sidebar to zoom in and 
   height: 200px;
 }
 
-.layout-demo :deep(.arco-layout-content) {
-  background-color: rgb(var(--arcoblue-6));
+.layout-demo :deep(.sd-layout-content) {
+  background-color: rgb(var(--sdblue-6));
 }
 </style>
 ```

@@ -15,7 +15,7 @@ describe('Transfer', () => {
     });
 
     const options = wrapper.findAll(
-      '.arco-transfer-list-item .arco-checkbox-target'
+      '.sd-transfer-list-item .sd-checkbox-target'
     );
     await options[0].setValue();
     const moveButton = wrapper.findComponent({ name: 'Button' });
@@ -36,7 +36,7 @@ describe('Transfer', () => {
     });
 
     const checkAll = wrapper.find(
-      '.arco-transfer-view-header .arco-checkbox-target'
+      '.sd-transfer-view-header .sd-checkbox-target'
     );
     await checkAll.setValue();
     expect(wrapper.emitted('select')[0]).toEqual([

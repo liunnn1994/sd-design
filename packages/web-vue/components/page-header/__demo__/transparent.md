@@ -18,12 +18,15 @@ The default is no background color, if necessary, you can set a different backgr
 
 ```vue
 <template>
-  <div :style="{
-    backgroundImage: 'radial-gradient(var(--color-fill-3) 1px, rgba(0, 0, 0, 0) 1px)',
-    backgroundSize: '16px 16px',
-    padding: '28px',
-  }">
-    <a-page-header title="ArcoDesign" subtitle="ArcoDesign Vue 2.0">
+  <div
+    :style="{
+      backgroundImage:
+        'radial-gradient(var(--color-fill-3) 1px, rgba(0, 0, 0, 0) 1px)',
+      backgroundSize: '16px 16px',
+      padding: '28px',
+    }"
+  >
+    <a-page-header title="SD Design" subtitle="SD Design Vue">
       <template #breadcrumb>
         <a-breadcrumb>
           <a-breadcrumb-item>Home</a-breadcrumb-item>

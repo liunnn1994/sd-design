@@ -23,7 +23,7 @@ Set `icon` to customize the icon.
 
 <script>
 import { h } from 'vue';
-import { IconFaceSmileFill } from '@arco-design/web-vue/es/icon';
+import { IconFaceSmileFill } from '@sd-design/web-vue/es/icon';
 
 export default {
   methods: {

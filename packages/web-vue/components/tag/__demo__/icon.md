@@ -37,7 +37,7 @@ An icon can be added to the tag through the `icon` slot.
       </template>
       Twitter
     </a-tag>
-    <a-tag color="arcoblue">
+    <a-tag color="sdblue">
       <template #icon>
         <icon-facebook/>
       </template>

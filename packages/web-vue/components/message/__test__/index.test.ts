@@ -55,11 +55,11 @@ describe('Message', () => {
     const addBtn = wrapper.find('#add');
     await addBtn.trigger('click');
     await addBtn.trigger('click');
-    expect(document.querySelectorAll('.arco-message')).toHaveLength(2);
-    (document.querySelector('.arco-message-close-btn') as HTMLElement)?.click();
+    expect(document.querySelectorAll('.sd-message')).toHaveLength(2);
+    (document.querySelector('.sd-message-close-btn') as HTMLElement)?.click();
 
     await wrapper.find('#clear').trigger('click');
-    expect(document.querySelectorAll('.arco-message')).toHaveLength(0);
+    expect(document.querySelectorAll('.sd-message')).toHaveLength(0);
   });
 
   test('should emit close event', async () => {
@@ -76,7 +76,7 @@ describe('Message', () => {
       },
     });
 
-    await wrapper.find('.arco-message-close-btn').trigger('click');
+    await wrapper.find('.sd-message-close-btn').trigger('click');
     expect(wrapper.emitted('close')).toHaveLength(1);
   });
 
@@ -98,11 +98,11 @@ describe('Message', () => {
 
     const button = wrapper.find('button');
     await button.trigger('click');
-    expect(document.querySelector('.arco-message')?.textContent).toBe(
+    expect(document.querySelector('.sd-message')?.textContent).toBe(
       'Info Message 1'
     );
     await button.trigger('click');
-    expect(document.querySelector('.arco-message')?.textContent).toBe(
+    expect(document.querySelector('.sd-message')?.textContent).toBe(
       'Info Message 2'
     );
   });

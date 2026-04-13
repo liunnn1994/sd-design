@@ -57,14 +57,14 @@ set `breakpoint` for responsive contraction.
 </template>
 <script>
 import { ref } from 'vue';
-import { Message } from '@arco-design/web-vue';
+import { Message } from '@sd-design/web-vue';
 import {
   IconMenuFold,
   IconMenuUnfold,
   IconApps,
   IconBug,
   IconBulb,
-} from '@arco-design/web-vue/es/icon';
+} from '@sd-design/web-vue/es/icon';
 
 export default {
   components: {

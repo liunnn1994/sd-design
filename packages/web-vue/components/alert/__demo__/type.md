@@ -43,7 +43,7 @@ There are four types of warnings: `info`, `success`, `warning`, and `error`. Ver
 </template>
 
 <script>
-import { IconExclamationCircleFill } from '@arco-design/web-vue/es/icon';
+import { IconExclamationCircleFill } from '@sd-design/web-vue/es/icon';
 
 export default {
   components: { IconExclamationCircleFill }

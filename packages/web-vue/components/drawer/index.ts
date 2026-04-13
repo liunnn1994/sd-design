@@ -4,7 +4,7 @@ import { getOverlay } from '../_utils/dom';
 import { getComponentPrefix, setGlobalConfig } from '../_utils/global-config';
 import { isFunction } from '../_utils/is';
 import { omit } from '../_utils/omit';
-import { ArcoOptions } from '../_utils/types';
+import { SDOptions } from '../_utils/types';
 import { getSlotFunction } from '../_utils/vue-utils';
 import _Drawer from './drawer.vue';
 import type {
@@ -121,7 +121,7 @@ const open = (config: DrawerConfig, appContext?: AppContext) => {
 
 const Drawer = Object.assign(_Drawer, {
   open,
-  install: (app: App, options?: ArcoOptions) => {
+  install: (app: App, options?: SDOptions) => {
     setGlobalConfig(app, options);
     const componentPrefix = getComponentPrefix(options);
 

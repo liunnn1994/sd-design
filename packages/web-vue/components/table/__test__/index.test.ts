@@ -62,11 +62,11 @@ describe('Table', () => {
       },
     });
     await nextTick();
-    let content = wrapper.find('.arco-table-td-content').element.innerHTML;
+    let content = wrapper.find('.sd-table-td-content').element.innerHTML;
     expect(content).toBe('Jane Doe5');
     data.pop();
     await nextTick();
-    content = wrapper.find('.arco-table-td-content').element.innerHTML;
+    content = wrapper.find('.sd-table-td-content').element.innerHTML;
     expect(content).toBe('Jane Doe4');
   });
 
@@ -99,7 +99,7 @@ describe('Table', () => {
       },
     });
     await nextTick();
-    wrapper.find('.arco-table-cell-with-sorter').trigger('click');
+    wrapper.find('.sd-table-cell-with-sorter').trigger('click');
     expect(testSortRes.data[0].key).toBe('1');
     expect(testSortRes.extra.sorter?.direction).toBe('ascend');
     expect(testSortRes.currentDataSource).toBeTruthy();
@@ -107,7 +107,7 @@ describe('Table', () => {
     expect(testSortRes.currentDataSource[0].key).toBe('1');
     expect(testSortRes.currentDataSource[4].key).toBe('5');
     await nextTick();
-    wrapper.find('.arco-table-cell-with-sorter').trigger('click');
+    wrapper.find('.sd-table-cell-with-sorter').trigger('click');
     expect(testSortRes.data[0].key).toBe('5');
     expect(testSortRes.extra.sorter?.direction).toBe('descend');
     expect(testSortRes.currentDataSource).toBeTruthy();

@@ -64,7 +64,7 @@ When the task state is happening and the recording is still in progress, ghost n
 
 <script>
 import { ref } from 'vue';
-import { IconFire } from '@arco-design/web-vue/es/icon';
+import { IconFire } from '@sd-design/web-vue/es/icon';
 
 export default {
   components: {

@@ -55,13 +55,13 @@ describe('Notification', () => {
     const addBtn = wrapper.find('#add');
     await addBtn.trigger('click');
     await addBtn.trigger('click');
-    expect(document.querySelectorAll('.arco-notification')).toHaveLength(2);
+    expect(document.querySelectorAll('.sd-notification')).toHaveLength(2);
     (
-      document.querySelector('.arco-notification-close-btn') as HTMLElement
+      document.querySelector('.sd-notification-close-btn') as HTMLElement
     )?.click();
 
     await wrapper.find('#clear').trigger('click');
-    expect(document.querySelectorAll('.arco-notification')).toHaveLength(0);
+    expect(document.querySelectorAll('.sd-notification')).toHaveLength(0);
   });
 
   test('should emit close event', async () => {
@@ -78,7 +78,7 @@ describe('Notification', () => {
       },
     });
 
-    await wrapper.find('.arco-notification-close-btn').trigger('click');
+    await wrapper.find('.sd-notification-close-btn').trigger('click');
     expect(wrapper.emitted('close')).toHaveLength(1);
   });
 
@@ -100,11 +100,11 @@ describe('Notification', () => {
 
     const button = wrapper.find('button');
     await button.trigger('click');
-    expect(document.querySelector('.arco-notification')?.textContent).toBe(
+    expect(document.querySelector('.sd-notification')?.textContent).toBe(
       'Info Message 1'
     );
     await button.trigger('click');
-    expect(document.querySelector('.arco-notification')?.textContent).toBe(
+    expect(document.querySelector('.sd-notification')?.textContent).toBe(
       'Info Message 2'
     );
   });

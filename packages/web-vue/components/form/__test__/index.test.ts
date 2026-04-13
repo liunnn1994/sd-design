@@ -24,7 +24,7 @@ describe('Form', () => {
     await nameInput.setValue('test');
     await nameInput.trigger('blur');
 
-    expect(wrapper.find('.arco-form-item-message').text()).toBe(
+    expect(wrapper.find('.sd-form-item-message').text()).toBe(
       'name should up 6 chars'
     );
   });

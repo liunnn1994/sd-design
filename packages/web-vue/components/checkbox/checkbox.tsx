@@ -97,7 +97,7 @@ export default defineComponent({
     const checkboxGroupCtx = !props.uninjectGroupContext
       ? inject(checkboxGroupKey, undefined)
       : undefined;
-    const isGroup = checkboxGroupCtx?.name === 'ArcoCheckboxGroup';
+    const isGroup = checkboxGroupCtx?.name === 'SDCheckboxGroup';
     const { mergedDisabled: _mergedDisabled, eventHandlers } = useFormItem({
       disabled,
     });

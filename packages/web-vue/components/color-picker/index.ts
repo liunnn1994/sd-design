@@ -1,10 +1,10 @@
 import type { App } from 'vue';
-import type { ArcoOptions } from '../_utils/types';
+import type { SDOptions } from '../_utils/types';
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _ColorPicker from './color-picker';
 
 const ColorPicker = Object.assign(_ColorPicker, {
-  install: (app: App, options?: ArcoOptions) => {
+  install: (app: App, options?: SDOptions) => {
     setGlobalConfig(app, options);
     const componentPrefix = getComponentPrefix(options);
 

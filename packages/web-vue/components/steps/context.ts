@@ -17,4 +17,4 @@ export interface StepsContext {
 }
 
 export const stepsInjectionKey: InjectionKey<StepsContext> =
-  Symbol('ArcoSteps');
+  Symbol('SDSteps');

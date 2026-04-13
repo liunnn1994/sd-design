@@ -1,5 +1,5 @@
 import type { App } from 'vue';
-import type { ArcoOptions } from '../_utils/types';
+import type { SDOptions } from '../_utils/types';
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _Typography from './typography.vue';
 import _TypographyParagraph from './paragraph';
@@ -12,7 +12,7 @@ const Typography = Object.assign(_Typography, {
   Paragraph: _TypographyParagraph,
   Title: _TypographyTitle,
   Text: _TypographyText,
-  install: (app: App, options?: ArcoOptions) => {
+  install: (app: App, options?: SDOptions) => {
     setGlobalConfig(app, options);
     const componentPrefix = getComponentPrefix(options);
 

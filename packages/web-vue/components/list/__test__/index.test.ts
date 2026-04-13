@@ -8,7 +8,7 @@ describe('List', () => {
         data: [],
       },
     });
-    const empty = wrapper.find('.arco-empty').exists();
+    const empty = wrapper.find('.sd-empty').exists();
     expect(empty).toBe(true);
   });
 });

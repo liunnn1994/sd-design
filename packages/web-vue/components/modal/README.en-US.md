@@ -98,7 +98,7 @@ When used by import, the component has no way to obtain the current Vue Context.
 
 ```ts
 import { createApp } from 'vue'
-import { Modal } from '@arco-design/web-vue';
+import { Modal } from '@sd-design/web-vue';
 
 const app = createApp(App);
 Modal._context = app._context;

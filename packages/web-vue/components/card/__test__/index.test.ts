@@ -6,7 +6,7 @@ const { Meta, Grid } = Card;
 describe('Card', () => {
   test('Should have prefix', () => {
     const wrapper = mount(Card);
-    expect(wrapper.classes()).toContain('arco-card');
+    expect(wrapper.classes()).toContain('sd-card');
   });
 
   test('Title should work', () => {
@@ -15,7 +15,7 @@ describe('Card', () => {
         title: 'Card title',
       },
     });
-    const titleElement = wrapper.find('.arco-card-header-title');
+    const titleElement = wrapper.find('.sd-card-header-title');
     expect(titleElement.text()).toContain('Card title');
   });
 
@@ -35,7 +35,7 @@ describe('Card', () => {
         title: 'Card meta title',
       },
     });
-    const titleElement = wrapper.find('.arco-card-meta-title');
+    const titleElement = wrapper.find('.sd-card-meta-title');
     expect(titleElement.text()).toContain('Card meta title');
   });
 
@@ -45,8 +45,8 @@ describe('Card', () => {
         default: [Card, Card, Card],
       },
     });
-    expect(wrapper.classes()).toContain('arco-card-grid');
-    const cards = wrapper.findAll('.arco-card');
+    expect(wrapper.classes()).toContain('sd-card-grid');
+    const cards = wrapper.findAll('.sd-card');
     expect(cards.length).toBe(3);
   });
 });

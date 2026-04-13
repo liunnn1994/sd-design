@@ -33,7 +33,7 @@ describe('Image', () => {
       },
     });
     await wrapper.vm.onImgLoadError();
-    expect(wrapper.find('.arco-image-error').exists()).toBe(true);
+    expect(wrapper.find('.sd-image-error').exists()).toBe(true);
   });
 
   test('Footer should work', async () => {
@@ -45,7 +45,7 @@ describe('Image', () => {
     });
     await wrapper.vm.onImgLoaded();
 
-    expect(wrapper.find('.arco-image-footer-caption-title').text()).toBe(
+    expect(wrapper.find('.sd-image-footer-caption-title').text()).toBe(
       'My title'
     );
   });
@@ -66,9 +66,9 @@ describe('Image', () => {
   // Preview
   test('Preview should close on mask click', async () => {
     const wrapper = await getPreviewInstance();
-    const maskWrapper = wrapper.find('.arco-image-preview-wrapper');
+    const maskWrapper = wrapper.find('.sd-image-preview-wrapper');
     await maskWrapper.trigger('click');
-    expect(wrapper.find('.arco-image-preview-wrapper').exists()).toBe(false);
+    expect(wrapper.find('.sd-image-preview-wrapper').exists()).toBe(false);
   });
 
   test('Preview should be able to move', async () => {
@@ -83,14 +83,14 @@ describe('Image', () => {
       delete map[event];
     });
     const wrapper = await getPreviewInstance();
-    const imageElement = wrapper.find('.arco-image-preview-img');
+    const imageElement = wrapper.find('.sd-image-preview-img');
     await imageElement.trigger('mousedown');
     expect(imageElement.attributes('class')).toContain(
-      'arco-image-preview-img-moving'
+      'sd-image-preview-img-moving'
     );
     await map.mouseup({ preventDefault: () => {} });
     expect(imageElement.attributes('class')).not.toContain(
-      'arco-image-preview-img-moving'
+      'sd-image-preview-img-moving'
     );
     Object.defineProperty(window, 'addEventListener', {
       value: _addEventListener,
@@ -100,55 +100,55 @@ describe('Image', () => {
   test('Preview fullscreen should work', async () => {
     const wrapper = await getPreviewInstance();
     const fullscreenAction = wrapper.findAll(
-      '.arco-image-preview-toolbar-action'
+      '.sd-image-preview-toolbar-action'
     )[0];
     await fullscreenAction.trigger('click');
     expect(
-      wrapper.find('.arco-image-preview-img-container').attributes('style')
+      wrapper.find('.sd-image-preview-img-container').attributes('style')
     ).not.toContain('scale(1, 1)');
   });
 
   test('Preview rotate right should work', async () => {
     const wrapper = await getPreviewInstance();
     const rotateRightAction = wrapper.findAll(
-      '.arco-image-preview-toolbar-action'
+      '.sd-image-preview-toolbar-action'
     )[1];
     await rotateRightAction.trigger('click');
     expect(
-      wrapper.find('.arco-image-preview-img').attributes('style')
+      wrapper.find('.sd-image-preview-img').attributes('style')
     ).toContain('rotate(90deg)');
   });
 
   test('Preview rotate left should work', async () => {
     const wrapper = await getPreviewInstance();
     const rotateLeftAction = wrapper.findAll(
-      '.arco-image-preview-toolbar-action'
+      '.sd-image-preview-toolbar-action'
     )[2];
     await rotateLeftAction.trigger('click');
     expect(
-      wrapper.find('.arco-image-preview-img').attributes('style')
+      wrapper.find('.sd-image-preview-img').attributes('style')
     ).toContain('rotate(270deg)');
   });
 
   test('Preview zoom in should work', async () => {
     const wrapper = await getPreviewInstance();
     const zoomInAction = wrapper.findAll(
-      '.arco-image-preview-toolbar-action'
+      '.sd-image-preview-toolbar-action'
     )[3];
     await zoomInAction.trigger('click');
     expect(
-      wrapper.find('.arco-image-preview-img-container').attributes('style')
+      wrapper.find('.sd-image-preview-img-container').attributes('style')
     ).toContain('scale(1.1, 1.1)');
   });
 
   test('Preview zoom out should work', async () => {
     const wrapper = await getPreviewInstance();
     const zoomOutAction = wrapper.findAll(
-      '.arco-image-preview-toolbar-action'
+      '.sd-image-preview-toolbar-action'
     )[4];
     await zoomOutAction.trigger('click');
     expect(
-      wrapper.find('.arco-image-preview-img-container').attributes('style')
+      wrapper.find('.sd-image-preview-img-container').attributes('style')
     ).toContain('scale(0.9, 0.9)');
   });
 
@@ -161,10 +161,10 @@ describe('Image', () => {
         renderToBody: false,
       },
     });
-    const rightIcon = wrapper.find('.arco-image-preview-arrow-right');
+    const rightIcon = wrapper.find('.sd-image-preview-arrow-right');
     await rightIcon.trigger('click');
     expect(wrapper.emitted('change')![0]).toContain(1);
-    const leftIcon = wrapper.find('.arco-image-preview-arrow-left');
+    const leftIcon = wrapper.find('.sd-image-preview-arrow-left');
     await leftIcon.trigger('click');
     expect(wrapper.emitted('change')![1]).toContain(0);
   });

@@ -1,5 +1,5 @@
 import type { App } from 'vue';
-import type { ArcoOptions } from '../_utils/types';
+import type { SDOptions } from '../_utils/types';
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _List from './list';
 import _ListItem from './list-item';
@@ -9,7 +9,7 @@ const List = Object.assign(_List, {
   Item: Object.assign(_ListItem, {
     Meta: _ListItemMeta,
   }),
-  install: (app: App, options?: ArcoOptions) => {
+  install: (app: App, options?: SDOptions) => {
     setGlobalConfig(app, options);
     const componentPrefix = getComponentPrefix(options);
 

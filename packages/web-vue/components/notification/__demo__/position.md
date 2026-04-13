@@ -27,7 +27,7 @@ Notification has 4 different positions, `Top Left`, `Top Right (default)`, `Bott
 </template>
 
 <script>
-import { Notification } from '@arco-design/web-vue';
+import { Notification } from '@sd-design/web-vue';
 
 export default {
   setup() {

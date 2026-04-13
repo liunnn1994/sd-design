@@ -21,8 +21,8 @@ description: Configure in the outermost layer of the application, set once, and 
 
 |Attribute|Description|Type|Default|version|
 |---|---|---|:---:|:---|
-|prefix-cls|Component classname prefix|`string`|`'arco'`||
-|locale|Configure language pack|`ArcoLang`|`-`||
+|prefix-cls|Component classname prefix|`string`|`'sd'`||
+|locale|Configure language pack|`SDLang`|`-`||
 |size|Size|`Size`|`-`|2.14.0|
 |global|Is global effect|`boolean`|`false`|2.25.0|
 |scroll-to-close|Whether to close the popover when scrolling|`boolean`|`false`|2.46.0|

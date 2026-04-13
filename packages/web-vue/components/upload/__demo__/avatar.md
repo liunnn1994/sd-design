@@ -29,16 +29,16 @@ Click to upload user's avatar, and validate size and format of picture with befo
     >
       <template #upload-button>
         <div
-          :class="`arco-upload-list-item${
-            file && file.status === 'error' ? ' arco-upload-list-item-error' : ''
+          :class="`sd-upload-list-item${
+            file && file.status === 'error' ? ' sd-upload-list-item-error' : ''
           }`"
         >
           <div
-            class="arco-upload-list-picture custom-upload-avatar"
+            class="sd-upload-list-picture custom-upload-avatar"
             v-if="file && file.url"
           >
             <img :src="file.url" />
-            <div class="arco-upload-list-picture-mask">
+            <div class="sd-upload-list-picture-mask">
               <IconEdit />
             </div>
             <a-progress
@@ -54,8 +54,8 @@ Click to upload user's avatar, and validate size and format of picture with befo
               }"
             />
           </div>
-          <div class="arco-upload-picture-card" v-else>
-            <div class="arco-upload-picture-card-text">
+          <div class="sd-upload-picture-card" v-else>
+            <div class="sd-upload-picture-card-text">
               <IconPlus />
               <div style="margin-top: 10px; font-weight: 600">Upload</div>
             </div>
@@ -67,7 +67,7 @@ Click to upload user's avatar, and validate size and format of picture with befo
 </template>
 
 <script>
-import { IconEdit, IconPlus } from '@arco-design/web-vue/es/icon';
+import { IconEdit, IconPlus } from '@sd-design/web-vue/es/icon';
 import { ref } from 'vue';
 
 export default {

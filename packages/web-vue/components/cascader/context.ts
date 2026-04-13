@@ -18,4 +18,4 @@ export interface CascaderContext {
 }
 
 export const cascaderInjectionKey: InjectionKey<CascaderContext> =
-  Symbol('ArcoCascader');
+  Symbol('SDCascader');

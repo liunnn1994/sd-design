@@ -48,7 +48,7 @@ const COLORS = [
   'lime',
   'green',
   'cyan',
-  'arcoblue',
+  'sdblue',
   'purple',
   'pinkpurple',
   'magenta',

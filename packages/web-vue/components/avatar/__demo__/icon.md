@@ -59,7 +59,7 @@ You can customize the interactive button through `trigger-icon` and `trigger-typ
 </template>
 
 <script>
-import { IconCamera, IconEdit, IconUser } from '@arco-design/web-vue/es/icon';
+import { IconCamera, IconEdit, IconUser } from '@sd-design/web-vue/es/icon';
 
 export default {
   components: { IconCamera, IconEdit },

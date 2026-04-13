@@ -52,7 +52,7 @@ custom icon
 
 <script>
 import { h, ref } from 'vue';
-import { IconUpload, IconFileAudio, IconClose, IconFaceFrownFill } from '@arco-design/web-vue/es/icon';
+import { IconUpload, IconFileAudio, IconClose, IconFaceFrownFill } from '@sd-design/web-vue/es/icon';
 
 export default {
   setup() {

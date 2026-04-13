@@ -50,7 +50,6 @@
     ".npmrc",
     "*-lock.json",
     ".browserslistrc",
-    "arco-components.d.ts",
     ".sonarlint",
     "vendor/**",
   ],

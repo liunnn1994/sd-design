@@ -9,4 +9,4 @@ export interface BreadcrumbContext {
 }
 
 export const breadcrumbInjectKey: InjectionKey<BreadcrumbContext> =
-  Symbol('ArcoBreadcrumb');
+  Symbol('SDBreadcrumb');

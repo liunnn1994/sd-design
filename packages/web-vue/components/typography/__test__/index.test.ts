@@ -65,10 +65,10 @@ describe('Typography', () => {
         default: 'my text',
       },
     });
-    const copyIconWrapper = wrapper.find('.arco-typography-operation-copy');
+    const copyIconWrapper = wrapper.find('.sd-typography-operation-copy');
     expect(copyIconWrapper.exists()).toBe(true);
     await copyIconWrapper.trigger('click');
-    expect(wrapper.find('.arco-typography-operation-copied').exists()).toBe(
+    expect(wrapper.find('.sd-typography-operation-copied').exists()).toBe(
       true
     );
   });
@@ -82,10 +82,10 @@ describe('Typography', () => {
         default: 'my text',
       },
     });
-    const editIconWrapper = wrapper.find('.arco-typography-operation-edit');
+    const editIconWrapper = wrapper.find('.sd-typography-operation-edit');
     expect(editIconWrapper.exists()).toBe(true);
     await editIconWrapper.trigger('click');
-    expect(wrapper.find('.arco-typography-edit-content').exists()).toBe(true);
+    expect(wrapper.find('.sd-typography-edit-content').exists()).toBe(true);
   });
 
   test('Paragraph should support ellipsis', async () => {
@@ -103,7 +103,7 @@ describe('Typography', () => {
       },
     });
     await sleep(200);
-    const moreElement = wrapper.find('.arco-typography-operation-expand');
+    const moreElement = wrapper.find('.sd-typography-operation-expand');
     expect(moreElement.exists()).toBe(true);
     expect(wrapper.text()).toContain('...');
     await moreElement.trigger('click');

@@ -7,7 +7,7 @@ export const TAG_COLORS = [
   'green',
   'cyan',
   'blue',
-  'arcoblue',
+  'sdblue',
   'purple',
   'pinkpurple',
   'magenta',

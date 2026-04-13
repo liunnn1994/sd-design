@@ -9,7 +9,7 @@ describe('Select', () => {
       },
     });
 
-    await wrapper.find('.arco-select-view').trigger('click');
+    await wrapper.find('.sd-select-view').trigger('click');
 
     expect(document.body.outerHTML).toMatchSnapshot();
   });
@@ -26,13 +26,13 @@ describe('Select', () => {
     const dropdown = wrapper.findComponent({ name: 'SelectDropdown' });
     await input.trigger('keydown', { key: 'ArrowUp' });
 
-    expect(dropdown.find('.arco-select-option-active').text()).toBe(
+    expect(dropdown.find('.sd-select-option-active').text()).toBe(
       'Guangzhou'
     );
 
     await input.trigger('keydown', { key: 'ArrowDown' });
 
-    expect(dropdown.find('.arco-select-option-active').text()).toBe('Beijing');
+    expect(dropdown.find('.sd-select-option-active').text()).toBe('Beijing');
 
     await input.trigger('keydown', { key: 'Enter' });
 
@@ -49,7 +49,7 @@ describe('Select', () => {
     const input = wrapper.find('input');
     await input.trigger('click');
     const dropdown = wrapper.findComponent({ name: 'SelectDropdown' });
-    const options = dropdown.findAll('.arco-select-option');
+    const options = dropdown.findAll('.sd-select-option');
     await options[0].trigger('mouseenter');
     await options[0].trigger('mouseleave');
     await options[1].trigger('mouseenter');
@@ -70,7 +70,7 @@ describe('Select', () => {
     await input.trigger('click');
     await input.setValue('sh');
     const dropdown = wrapper.findComponent({ name: 'SelectDropdown' });
-    const option = dropdown.find('.arco-select-option');
+    const option = dropdown.find('.sd-select-option');
     expect(option.text()).toBe('Shanghai');
   });
 

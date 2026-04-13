@@ -11,4 +11,4 @@ export interface ButtonGroupContext {
 }
 
 export const buttonGroupInjectionKey: InjectionKey<ButtonGroupContext> =
-  Symbol('ArcoButtonGroup');
+  Symbol('SDButtonGroup');

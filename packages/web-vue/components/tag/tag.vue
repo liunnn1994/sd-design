@@ -47,7 +47,7 @@ export default defineComponent({
     /**
      * @zh 标签的颜色
      * @en Label color
-     * @values 'red','orangered','orange','gold','lime','green','cyan','blue','arcoblue','purple','pinkpurple','magenta','gray'
+     * @values 'red','orangered','orange','gold','lime','green','cyan','blue','sdblue','purple','pinkpurple','magenta','gray'
      */
     color: {
       type: String as PropType<TagColor | string>,

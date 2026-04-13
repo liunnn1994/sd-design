@@ -11,4 +11,4 @@ export interface TimelineContext {
 }
 
 export const timelineInjectionKey: InjectionKey<TimelineContext> =
-  Symbol('ArcoTimeline');
+  Symbol('SDTimeline');

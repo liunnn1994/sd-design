@@ -1,6 +1,6 @@
-import { ArcoCalendarLang, ArcoLang } from '../interface';
+import { SDCalendarLang, SDLang } from '../interface';
 
-const calendarLang: ArcoCalendarLang = {
+const calendarLang: SDCalendarLang = {
   formatYear: 'YYYY',
   formatMonth: 'MMM YYYY',
   today: 'Hari ini',
@@ -64,7 +64,7 @@ const calendarLang: ArcoCalendarLang = {
   },
 };
 
-const lang: ArcoLang = {
+const lang: SDLang = {
   locale: 'id-ID',
   empty: {
     description: 'Tidak ada data',

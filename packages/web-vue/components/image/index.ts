@@ -1,5 +1,5 @@
 import { App } from 'vue';
-import { ArcoOptions } from '../_utils/types';
+import { SDOptions } from '../_utils/types';
 import { getComponentPrefix, setGlobalConfig } from '../_utils/global-config';
 import _Image from './image.vue';
 import _ImagePreview from './preview.vue';
@@ -9,7 +9,7 @@ import _ImagePreviewAction from './preview-action';
 const Image = Object.assign(_Image, {
   Preview: _ImagePreview,
   PreviewGroup: _ImagePreviewGroup,
-  install: (app: App, options?: ArcoOptions) => {
+  install: (app: App, options?: SDOptions) => {
     setGlobalConfig(app, options);
     const componentPrefix = getComponentPrefix(options);
 

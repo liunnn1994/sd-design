@@ -29,8 +29,8 @@ Need to set up `closable: true`, Custom elements use the `closeIconElement`, onl
 </template>
 
 <script lang="jsx">
-import { Notification, Button } from '@arco-design/web-vue';
-import { IconCloseCircle } from '@arco-design/web-vue/es/icon';
+import { Notification, Button } from '@sd-design/web-vue';
+import { IconCloseCircle } from '@sd-design/web-vue/es/icon';
 
 export default {
   setup() {

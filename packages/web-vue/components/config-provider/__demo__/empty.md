@@ -46,7 +46,7 @@ Empty state elements can be customized globally via the `empty` slot.
 </template>
 
 <script>
-import { IconTrophy } from '@arco-design/web-vue/es/icon';
+import { IconTrophy } from '@sd-design/web-vue/es/icon';
 
 export default {
   components: {

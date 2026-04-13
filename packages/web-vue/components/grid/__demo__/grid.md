@@ -62,7 +62,7 @@ export default {
 }
 
 .grid-demo-grid .demo-item:nth-child(2n) {
-  background-color: rgba(var(--arcoblue-6), 0.9);
+  background-color: rgba(var(--sdblue-6), 0.9);
 }
 
 .grid-demo-grid .demo-item:nth-child(2n + 1) {

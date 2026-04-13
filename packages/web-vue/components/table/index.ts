@@ -1,5 +1,5 @@
 import type { App } from 'vue';
-import type { ArcoOptions } from '../_utils/types';
+import type { SDOptions } from '../_utils/types';
 import { getComponentPrefix, setGlobalConfig } from '../_utils/global-config';
 import _Table from './table';
 import _Thead from './table-thead';
@@ -16,7 +16,7 @@ const Table = Object.assign(_Table, {
   Th: _Th,
   Td: _Td,
   Column: _Column,
-  install: (app: App, options?: ArcoOptions) => {
+  install: (app: App, options?: SDOptions) => {
     setGlobalConfig(app, options);
     const componentPrefix = getComponentPrefix(options);
 

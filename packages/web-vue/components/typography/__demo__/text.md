@@ -20,7 +20,7 @@ Different styles of text.
 <template>
 <a-space direction="vertical" :size="10">
     <a-typography-text>
-      Arco Design
+      SD Design
     </a-typography-text>
     <a-typography-text type="secondary">
       Secondary

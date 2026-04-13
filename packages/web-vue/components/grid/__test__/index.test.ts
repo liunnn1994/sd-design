@@ -31,7 +31,7 @@ describe('Grid', () => {
         default: [Col, Col, Col],
       },
     });
-    const cols = wrapper.findAll('.arco-col');
+    const cols = wrapper.findAll('.sd-col');
     expect(cols).toHaveLength(3);
   });
 

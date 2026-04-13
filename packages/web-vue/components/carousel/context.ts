@@ -20,4 +20,4 @@ export interface CarouselContext {
 }
 
 export const carouselInjectionKey: InjectionKey<CarouselContext> =
-  Symbol('ArcoCarousel');
+  Symbol('SDCarousel');

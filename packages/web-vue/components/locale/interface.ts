@@ -1,4 +1,4 @@
-export interface ArcoCalendarLang {
+export interface SDCalendarLang {
   formatYear: string;
   formatMonth: string;
   today: string;
@@ -109,12 +109,12 @@ export interface ValidateMessage {
   };
 }
 
-export interface ArcoLang {
+export interface SDLang {
   locale: string;
   empty: {
     description: string;
   };
-  calendar: ArcoCalendarLang;
+  calendar: SDCalendarLang;
   drawer: {
     okText: string;
     cancelText: string;
@@ -149,9 +149,9 @@ export interface ArcoLang {
     error: string;
   };
   datePicker: {
-    view: ArcoCalendarLang['view'];
-    month: ArcoCalendarLang['month'];
-    week: ArcoCalendarLang['week'];
+    view: SDCalendarLang['view'];
+    month: SDCalendarLang['month'];
+    week: SDCalendarLang['week'];
     placeholder: {
       date: string;
       week: string;
@@ -202,4 +202,4 @@ export interface ArcoLang {
   };
 }
 
-export type ArcoI18nMessages = Record<string, ArcoLang>;
+export type SDI18nMessages = Record<string, SDLang>;

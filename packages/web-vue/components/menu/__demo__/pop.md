@@ -53,7 +53,7 @@ import {
   IconApps,
   IconBug,
   IconBulb,
-} from '@arco-design/web-vue/es/icon';
+} from '@sd-design/web-vue/es/icon';
 
 export default {
   components: {
@@ -72,25 +72,25 @@ export default {
   background-color: var(--color-neutral-2);
 }
 
-.menu-demo .arco-menu {
+.menu-demo .sd-menu {
   width: 200px;
   height: 100%;
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
 }
 
-.menu-demo .arco-menu :deep(.arco-menu-collapse-button) {
+.menu-demo .sd-menu :deep(.sd-menu-collapse-button) {
   width: 32px;
   height: 32px;
   border-radius: 50%;
 }
 
-.menu-demo .arco-menu:not(.arco-menu-collapsed) :deep(.arco-menu-collapse-button) {
+.menu-demo .sd-menu:not(.sd-menu-collapsed) :deep(.sd-menu-collapse-button) {
   right: 0;
   bottom: 8px;
   transform: translateX(50%);
 }
 
-.menu-demo .arco-menu:not(.arco-menu-collapsed)::before {
+.menu-demo .sd-menu:not(.sd-menu-collapsed)::before {
   content: '';
   position: absolute;
   right: 0;
@@ -103,7 +103,7 @@ export default {
   transform: translateX(50%);
 }
 
-.menu-demo .arco-menu.arco-menu-collapsed {
+.menu-demo .sd-menu.sd-menu-collapsed {
   width: 48px;
   height: auto;
   padding-top: 24px;
@@ -111,7 +111,7 @@ export default {
   border-radius: 22px;
 }
 
-.menu-demo .arco-menu.arco-menu-collapsed :deep(.arco-menu-collapse-button) {
+.menu-demo .sd-menu.sd-menu-collapsed :deep(.sd-menu-collapse-button) {
   right: 8px;
   bottom: 8px;
 }

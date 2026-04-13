@@ -8,4 +8,4 @@ export interface TransferContext {
 }
 
 export const transferInjectionKey: InjectionKey<TransferContext> =
-  Symbol('ArcoTransfer');
+  Symbol('SDTransfer');

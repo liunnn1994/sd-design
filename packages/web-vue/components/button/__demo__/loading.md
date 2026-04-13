@@ -34,7 +34,7 @@ The button can be in the loading state by setting `loading`. The button in the l
 
 <script>
 import { ref } from 'vue';
-import { IconPlus } from '@arco-design/web-vue/es/icon';
+import { IconPlus } from '@sd-design/web-vue/es/icon';
 
 export default {
   components: {

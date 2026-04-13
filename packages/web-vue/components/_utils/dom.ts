@@ -113,7 +113,7 @@ export const OVERLAY_TYPES = [
 
 export const getOverlay = (type: typeof OVERLAY_TYPES[number]) => {
   const popper = document.createElement('div');
-  popper.setAttribute('class', `arco-overlay arco-overlay-${type}`);
+  popper.setAttribute('class', `sd-overlay sd-overlay-${type}`);
   return popper;
 };
 

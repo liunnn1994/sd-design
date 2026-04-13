@@ -293,7 +293,7 @@ changelog: true
 
 ### ⚠️ Important Attention
 
-- Due to functional requirements, `arco-table-cell` has been changed to flex layout, and the `arco-table-td-content` wrapper layer has been added outside the table content. If you have custom styles, please pay attention to the changes in the DOM structure ([#1248](https://github.com/liunnn1994/sd-design/pull/1248))
+- Due to functional requirements, `sd-table-cell` has been changed to flex layout, and the `sd-table-td-content` wrapper layer has been added outside the table content. If you have custom styles, please pay attention to the changes in the DOM structure ([#1248](https://github.com/liunnn1994/sd-design/pull/1248))
 
 ### 🆕 Feature
 

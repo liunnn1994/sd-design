@@ -130,8 +130,8 @@ Draggable nodes.
   ]
 </script>
 <style scoped>
-.tree-demo :deep(.tree-node-dropover) > :deep(.arco-tree-node-title),
-.tree-demo :deep(.tree-node-dropover) > :deep(.arco-tree-node-title):hover, {
+.tree-demo :deep(.tree-node-dropover) > :deep(.sd-tree-node-title),
+.tree-demo :deep(.tree-node-dropover) > :deep(.sd-tree-node-title):hover, {
   animation: blinkBg 0.4s 2;
 }
 

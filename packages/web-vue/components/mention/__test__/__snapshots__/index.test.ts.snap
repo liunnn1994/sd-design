@@ -1,23 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Mention mention correctly 1`] = `
-"<div class=\\"arco-select-dropdown\\">
+"<div class=\\"sd-select-dropdown\\">
   <!--v-if-->
   <!--v-if-->
   <!--v-if-->
-  <div class=\\"arco-scrollbar arco-scrollbar-type-embed\\">
-    <div class=\\"arco-scrollbar-container arco-select-dropdown-list-wrapper\\">
-      <ul class=\\"arco-select-dropdown-list\\">
-        <li class=\\"arco-select-option arco-select-option-active\\">
-          <!--v-if--><span class=\\"arco-select-option-content\\">Bytedance</span>
+  <div class=\\"sd-scrollbar sd-scrollbar-type-embed\\">
+    <div class=\\"sd-scrollbar-container sd-select-dropdown-list-wrapper\\">
+      <ul class=\\"sd-select-dropdown-list\\">
+        <li class=\\"sd-select-option sd-select-option-active\\">
+          <!--v-if--><span class=\\"sd-select-option-content\\">Bytedance</span>
           <!--v-if-->
         </li>
-        <li class=\\"arco-select-option\\">
-          <!--v-if--><span class=\\"arco-select-option-content\\">Bytedesign</span>
+        <li class=\\"sd-select-option\\">
+          <!--v-if--><span class=\\"sd-select-option-content\\">Bytedesign</span>
           <!--v-if-->
         </li>
-        <li class=\\"arco-select-option\\">
-          <!--v-if--><span class=\\"arco-select-option-content\\">Bytenumner</span>
+        <li class=\\"sd-select-option\\">
+          <!--v-if--><span class=\\"sd-select-option-content\\">Bytenumner</span>
           <!--v-if-->
         </li>
       </ul>

@@ -21,4 +21,4 @@ export interface UploadContext {
 }
 
 export const uploadInjectionKey: InjectionKey<UploadContext> =
-  Symbol('ArcoUpload');
+  Symbol('SDUpload');

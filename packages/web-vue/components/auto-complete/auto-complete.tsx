@@ -8,7 +8,7 @@ import {
   toRef,
   watch,
 } from 'vue';
-import ArcoInput from '../input';
+import SDInput from '../input';
 import Trigger, { TriggerProps } from '../trigger';
 import { getPrefixCls } from '../_utils/global-config';
 import {
@@ -352,7 +352,7 @@ export default defineComponent({
         {...props.triggerProps}
         onPopupVisibleChange={handlePopupVisibleChange}
       >
-        <ArcoInput
+        <SDInput
           v-slots={slots}
           ref={inputRef}
           {...attrs}

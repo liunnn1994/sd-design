@@ -6,7 +6,7 @@ const { Group: AvatarGroup } = Avatar;
 describe('Avatar', () => {
   test('Should have prefix', () => {
     const wrapper = mount(Avatar);
-    expect(wrapper.classes()).toContain('arco-avatar');
+    expect(wrapper.classes()).toContain('sd-avatar');
   });
 
   test('Size should work', () => {
@@ -15,7 +15,7 @@ describe('Avatar', () => {
         size: 100,
       },
     });
-    const avatar = wrapper.find('.arco-avatar');
+    const avatar = wrapper.find('.sd-avatar');
     expect(avatar.attributes('style')).toContain('width: 100px');
   });
 
@@ -44,10 +44,10 @@ describe('Avatar', () => {
         triggerType: 'mask',
       },
     });
-    let triggerElement = wrapper.find('.arco-avatar-trigger-icon-mask');
+    let triggerElement = wrapper.find('.sd-avatar-trigger-icon-mask');
     expect(triggerElement.exists()).toBe(true);
     await wrapper.setProps({ triggerType: 'button' });
-    triggerElement = wrapper.find('.arco-avatar-trigger-icon-button');
+    triggerElement = wrapper.find('.sd-avatar-trigger-icon-button');
     expect(triggerElement.exists()).toBe(true);
   });
 
@@ -57,8 +57,8 @@ describe('Avatar', () => {
         default: [Avatar, Avatar],
       },
     });
-    expect(group.classes()).toContain('arco-avatar-group');
-    const avatars = group.findAll('.arco-avatar');
+    expect(group.classes()).toContain('sd-avatar-group');
+    const avatars = group.findAll('.sd-avatar');
     expect(avatars.length).toBe(2);
   });
 
@@ -71,7 +71,7 @@ describe('Avatar', () => {
         maxCount: 1,
       },
     });
-    const avatars = group.findAll('.arco-avatar');
+    const avatars = group.findAll('.sd-avatar');
     // one more for +x
     expect(avatars.length).toBe(1 + 1);
   });

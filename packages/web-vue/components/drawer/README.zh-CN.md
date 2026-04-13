@@ -83,7 +83,7 @@ Drawer 提供的全局方法，可以通过以下三种方法使用：
 
 ```ts
 import { createApp } from 'vue'
-import { Drawer } from '@arco-design/web-vue';
+import { Drawer } from '@sd-design/web-vue';
 
 const app = createApp(App);
 Drawer._context = app._context;

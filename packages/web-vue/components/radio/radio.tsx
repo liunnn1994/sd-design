@@ -101,7 +101,7 @@ export default defineComponent({
     const inputRef = ref<HTMLInputElement | null>(null);
     const _checked = ref(props.defaultChecked);
 
-    const isGroup = computed(() => radioGroupCtx?.name === 'ArcoRadioGroup');
+    const isGroup = computed(() => radioGroupCtx?.name === 'SDRadioGroup');
     const mergedType = computed(() => radioGroupCtx?.type ?? props.type);
     const mergedDisabled = computed(
       () => radioGroupCtx?.disabled || _mergedDisabled.value

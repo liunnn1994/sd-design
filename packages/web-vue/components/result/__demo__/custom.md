@@ -31,7 +31,7 @@ Custom Status. You need to set the Icon property
   </a-result>
 </template>
 <script>
-import { IconFaceSmileFill } from '@arco-design/web-vue/es/icon';
+import { IconFaceSmileFill } from '@sd-design/web-vue/es/icon';
 
 export default {
   components: {

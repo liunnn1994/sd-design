@@ -5,11 +5,11 @@ describe('PageHeader', () => {
   test('should emit back event', async () => {
     const wrapper = mount(PageHeader, {
       props: {
-        title: 'ArcoDesign',
+        title: 'SD Design',
       },
     });
 
-    await wrapper.find('.arco-page-header-back-btn').trigger('click');
+    await wrapper.find('.sd-page-header-back-btn').trigger('click');
     expect(wrapper.emitted('back')).toHaveLength(1);
   });
 });

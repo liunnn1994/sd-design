@@ -29,7 +29,7 @@ The message defaults to enable `simple` and `hideCancel` by default, if you want
 </template>
 
 <script>
-import { Modal } from '@arco-design/web-vue';
+import { Modal } from '@sd-design/web-vue';
 
 export default {
   setup() {

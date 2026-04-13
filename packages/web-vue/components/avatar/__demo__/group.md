@@ -23,7 +23,7 @@ Use `Avatar.Group` to group a list of avatars. `size` can be used to specify the
       <a-avatar :style="{ backgroundColor: '#7BC616' }">A</a-avatar>
       <a-avatar :style="{ backgroundColor: '#14C9C9' }">B</a-avatar>
       <a-avatar :style="{ backgroundColor: '#168CFF' }">C</a-avatar>
-      <a-avatar :style="{ backgroundColor: '#FF7D00' }">Arco</a-avatar>
+      <a-avatar :style="{ backgroundColor: '#FF7D00' }">SD</a-avatar>
       <a-avatar :style="{ backgroundColor: '#FFC72E' }">Design</a-avatar>
     </a-avatar-group>
 
@@ -31,7 +31,7 @@ Use `Avatar.Group` to group a list of avatars. `size` can be used to specify the
       <a-avatar :style="{ backgroundColor: '#7BC616' }">A</a-avatar>
       <a-avatar :style="{ backgroundColor: '#14C9C9' }">B</a-avatar>
       <a-avatar :style="{ backgroundColor: '#168CFF' }">C</a-avatar>
-      <a-avatar :style="{ backgroundColor: '#FF7D00' }">Arco</a-avatar>
+      <a-avatar :style="{ backgroundColor: '#FF7D00' }">SD</a-avatar>
       <a-avatar :style="{ backgroundColor: '#FFC72E' }">Design</a-avatar>
     </a-avatar-group>
 
@@ -39,7 +39,7 @@ Use `Avatar.Group` to group a list of avatars. `size` can be used to specify the
       <a-avatar :style="{ backgroundColor: '#7BC616' }">A</a-avatar>
       <a-avatar :style="{ backgroundColor: '#14C9C9' }">B</a-avatar>
       <a-avatar :style="{ backgroundColor: '#168CFF' }">C</a-avatar>
-      <a-avatar :style="{ backgroundColor: '#FF7D00' }">Arco</a-avatar>
+      <a-avatar :style="{ backgroundColor: '#FF7D00' }">SD</a-avatar>
       <a-avatar :style="{ backgroundColor: '#FFC72E' }">Design</a-avatar>
     </a-avatar-group>
   </a-space>

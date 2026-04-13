@@ -6,8 +6,8 @@ import IconUp from '../icon/icon-up';
 import IconDown from '../icon/icon-down';
 import IconPlus from '../icon/icon-plus';
 import IconMinus from '../icon/icon-minus';
-import ArcoButton from '../button';
-import ArcoInput from '../input';
+import SDButton from '../button';
+import SDInput from '../input';
 import { Size } from '../_utils/constant';
 import { useFormItem } from '../_hooks/use-form-item';
 import { useSize } from '../_hooks/use-size';
@@ -528,7 +528,7 @@ export default defineComponent({
 
     const renderPrependButton = () => {
       return (
-        <ArcoButton
+        <SDButton
           size={mergedSize.value}
           // @ts-ignore
           tabindex="-1"
@@ -545,7 +545,7 @@ export default defineComponent({
 
     const renderAppendButton = () => {
       return (
-        <ArcoButton
+        <SDButton
           size={mergedSize.value}
           // @ts-ignore
           tabindex="-1"
@@ -577,7 +577,7 @@ export default defineComponent({
             };
 
       return (
-        <ArcoInput
+        <SDInput
           key={`__arco__${props.mode}`}
           v-slots={_slots}
           ref={inputRef}

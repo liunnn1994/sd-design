@@ -1,16 +1,16 @@
 import type { App, RenderFunction } from 'vue';
 import { VNode } from 'vue';
 
-export interface ArcoOptions {
+export interface SDOptions {
   classPrefix?: string;
   componentPrefix?: string;
 }
 
-export interface ArcoIconOptions {
+export interface SDIconOptions {
   iconPrefix?: string;
 }
 
-export interface ArcoGlobalConfig {
+export interface SDGlobalConfig {
   classPrefix?: string;
 }
 
@@ -42,7 +42,7 @@ export type EmitType<T> = T | T[];
 
 export type SFCWithInstall<T, D = Record<string, never>> = T &
   D & {
-    install: (app: App, opt?: ArcoOptions) => void;
+    install: (app: App, opt?: SDOptions) => void;
   };
 
 export type ClassName =

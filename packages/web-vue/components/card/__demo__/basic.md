@@ -19,7 +19,7 @@ Conventional content containers can hold text, lists, pictures, and paragraphs, 
 ```vue
 <template>
   <div :style="{ display: 'flex' }">
-    <a-card :style="{ width: '360px' }" title="Arco Card">
+    <a-card :style="{ width: '360px' }" title="SD Card">
       <template #extra>
         <a-link>More</a-link>
       </template>

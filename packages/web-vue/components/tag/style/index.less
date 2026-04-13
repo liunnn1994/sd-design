@@ -3,7 +3,7 @@
 
 @tag-prefix-cls: ~'@{prefix}-tag';
 
-@colors: red, orangered, orange, gold, lime, green, cyan, blue, arcoblue, purple,
+@colors: red, orangered, orange, gold, lime, green, cyan, blue, sdblue, purple,
   pinkpurple, magenta, gray;
 
 .@{tag-prefix-cls} {
@@ -135,20 +135,20 @@
   }
 }
 
-@{arco-theme-tag}[arco-theme='dark'] {
+@{sd-theme-tag}[sd-theme='dark'] {
   .@{tag-prefix-cls}-checked {
     color: rgba(255, 255, 255, 0.9);
   }
 
   each(@colors, {
     .@{tag-prefix-cls}-checked.@{tag-prefix-cls}-@{value} {
-      background-color: ~'rgba(var(@{arco-cssvars-prefix}-@{value}-6), 0.2)';
+      background-color: ~'rgba(var(@{sd-cssvars-prefix}-@{value}-6), 0.2)';
 
-      .icon-hover-bg(@tag-prefix-cls, ~'rgba(var(@{arco-cssvars-prefix}-@{value}-6), 0.35)');
+      .icon-hover-bg(@tag-prefix-cls, ~'rgba(var(@{sd-cssvars-prefix}-@{value}-6), 0.35)');
     }
 
     .@{tag-prefix-cls}-checkable.@{tag-prefix-cls}-checked.@{tag-prefix-cls}-@{value}:hover {
-      background-color: ~'rgba(var(@{arco-cssvars-prefix}-@{value}-6), 0.35)';
+      background-color: ~'rgba(var(@{sd-cssvars-prefix}-@{value}-6), 0.35)';
     }
   });
 }

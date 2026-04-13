@@ -21,7 +21,7 @@ describe('Tabs', () => {
 
     await nextTick();
 
-    await wrapper.findAll('.arco-tabs-tab')[1].trigger('click');
+    await wrapper.findAll('.sd-tabs-tab')[1].trigger('click');
 
     expect(wrapper.emitted('change')?.[0]).toEqual(['2']);
   });
@@ -46,9 +46,9 @@ describe('Tabs', () => {
 
     await nextTick();
 
-    await wrapper.find('.arco-tabs-nav-add-btn').trigger('click');
+    await wrapper.find('.sd-tabs-nav-add-btn').trigger('click');
     expect(wrapper.emitted('add')).toHaveLength(1);
-    await wrapper.find('.arco-tabs-tab-close-btn').trigger('click');
+    await wrapper.find('.sd-tabs-tab-close-btn').trigger('click');
     expect(wrapper.emitted('delete')).toHaveLength(1);
   });
 });

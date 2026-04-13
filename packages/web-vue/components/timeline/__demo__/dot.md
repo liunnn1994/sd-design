@@ -84,7 +84,7 @@ The color and type of the node can be set through the attributes `dotColor`, `do
 </template>
 
 <script>
-import { IconCheck } from '@arco-design/web-vue/es/icon';
+import { IconCheck } from '@sd-design/web-vue/es/icon';
 
 export default {
   components: { IconCheck },

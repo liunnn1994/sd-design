@@ -29,7 +29,7 @@ Message提供的全局方法，可以通过以下三种方法使用：
 
 ```ts
 import { createApp } from 'vue'
-import { Message } from '@arco-design/web-vue';
+import { Message } from '@sd-design/web-vue';
 
 const app = createApp(App);
 Message._context = app._context;

@@ -58,7 +58,7 @@ The basic usage of the countdown component `countdown`.
 
 <script>
 import { ref } from 'vue';
-import { Message } from '@arco-design/web-vue';
+import { Message } from '@sd-design/web-vue';
 
 export default {
   setup() {

@@ -90,13 +90,13 @@ After setting the `trigger` property of `Menu.Sider` to `null`, the built-in tri
 </template>
 <script>
 import { defineComponent, ref } from 'vue';
-import { Message} from '@arco-design/web-vue';
+import { Message} from '@sd-design/web-vue';
 import {
   IconCaretRight,
   IconCaretLeft,
   IconHome,
   IconCalendar,
-} from '@arco-design/web-vue/es/icon';
+} from '@sd-design/web-vue/es/icon';
 
 export default defineComponent({
   components: {
@@ -126,34 +126,34 @@ export default defineComponent({
   background: var(--color-fill-2);
   border: 1px solid var(--color-border);
 }
-.layout-demo :deep(.arco-layout-sider) .logo {
+.layout-demo :deep(.sd-layout-sider) .logo {
   height: 32px;
   margin: 12px 8px;
   background: rgba(255, 255, 255, 0.2);
 }
-.layout-demo :deep(.arco-layout-sider-light) .logo{
+.layout-demo :deep(.sd-layout-sider-light) .logo{
   background: var(--color-fill-2);
 }
-.layout-demo :deep(.arco-layout-header)  {
+.layout-demo :deep(.sd-layout-header)  {
   height: 64px;
   line-height: 64px;
   background: var(--color-bg-3);
 }
-.layout-demo :deep(.arco-layout-footer) {
+.layout-demo :deep(.sd-layout-footer) {
   height: 48px;
   color: var(--color-text-2);
   font-weight: 400;
   font-size: 14px;
   line-height: 48px;
 }
-.layout-demo :deep(.arco-layout-content) {
+.layout-demo :deep(.sd-layout-content) {
   color: var(--color-text-2);
   font-weight: 400;
   font-size: 14px;
   background: var(--color-bg-3);
 }
-.layout-demo :deep(.arco-layout-footer),
-.layout-demo :deep(.arco-layout-content)  {
+.layout-demo :deep(.sd-layout-footer),
+.layout-demo :deep(.sd-layout-content)  {
   display: flex;
   flex-direction: column;
   justify-content: center;

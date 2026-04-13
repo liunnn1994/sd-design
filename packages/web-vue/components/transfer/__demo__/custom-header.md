@@ -48,7 +48,7 @@ Customize the rendering content of the title bar through the `source-title` and 
 </template>
 
 <script>
-import { IconDelete } from '@arco-design/web-vue/es/icon';
+import { IconDelete } from '@sd-design/web-vue/es/icon';
 
 export default {
   components: { IconDelete },

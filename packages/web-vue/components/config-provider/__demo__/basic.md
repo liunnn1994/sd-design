@@ -45,19 +45,19 @@ Set the basic usage of internationalized languages.
 
 <script>
 import { ref, computed } from 'vue';
-import zhCN from '@arco-design/web-vue/es/locale/lang/zh-cn';
-import enUS from '@arco-design/web-vue/es/locale/lang/en-us';
-import esES from '@arco-design/web-vue/es/locale/lang/es-es';
-import jaJP from '@arco-design/web-vue/es/locale/lang/ja-jp';
-import idID from '@arco-design/web-vue/es/locale/lang/id-id';
-import frFR from '@arco-design/web-vue/es/locale/lang/fr-fr';
-import ptPT from '@arco-design/web-vue/es/locale/lang/pt-pt';
-import deDE from '@arco-design/web-vue/es/locale/lang/de-de';
-import koKR from '@arco-design/web-vue/es/locale/lang/ko-kr';
-import itIT from '@arco-design/web-vue/es/locale/lang/it-it';
-import thTH from '@arco-design/web-vue/es/locale/lang/th-th';
-import viVN from '@arco-design/web-vue/es/locale/lang/vi-vn';
-import nlNL from '@arco-design/web-vue/es/locale/lang/nl-nl';
+import zhCN from '@sd-design/web-vue/es/locale/lang/zh-cn';
+import enUS from '@sd-design/web-vue/es/locale/lang/en-us';
+import esES from '@sd-design/web-vue/es/locale/lang/es-es';
+import jaJP from '@sd-design/web-vue/es/locale/lang/ja-jp';
+import idID from '@sd-design/web-vue/es/locale/lang/id-id';
+import frFR from '@sd-design/web-vue/es/locale/lang/fr-fr';
+import ptPT from '@sd-design/web-vue/es/locale/lang/pt-pt';
+import deDE from '@sd-design/web-vue/es/locale/lang/de-de';
+import koKR from '@sd-design/web-vue/es/locale/lang/ko-kr';
+import itIT from '@sd-design/web-vue/es/locale/lang/it-it';
+import thTH from '@sd-design/web-vue/es/locale/lang/th-th';
+import viVN from '@sd-design/web-vue/es/locale/lang/vi-vn';
+import nlNL from '@sd-design/web-vue/es/locale/lang/nl-nl';
 
 const locales = {
   'zh-CN': zhCN,

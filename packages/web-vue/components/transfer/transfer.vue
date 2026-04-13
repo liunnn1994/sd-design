@@ -22,7 +22,7 @@
       </template>
     </transfer-view>
     <div v-if="!simple" :class="[`${prefixCls}-operations`]">
-      <arco-button
+      <sd-button
         tabindex="-1"
         aria-label="Move selected right"
         size="small"
@@ -33,8 +33,8 @@
         <template #icon>
           <slot name="to-target-icon"> <icon-right /> </slot>
         </template>
-      </arco-button>
-      <arco-button
+      </sd-button>
+      <sd-button
         v-if="!oneWay"
         tabindex="-1"
         aria-label="Move selected left"
@@ -46,7 +46,7 @@
         <template #icon>
           <slot name="to-source-icon"><icon-left /></slot>
         </template>
-      </arco-button>
+      </sd-button>
     </div>
     <transfer-view
       type="target"
@@ -84,7 +84,7 @@ import {
   toRef,
 } from 'vue';
 import { getPrefixCls } from '../_utils/global-config';
-import ArcoButton from '../button';
+import SDButton from '../button';
 import TransferView from './transfer-view.vue';
 import IconLeft from '../icon/icon-left';
 import IconRight from '../icon/icon-right';
@@ -95,7 +95,7 @@ import { useFormItem } from '../_hooks/use-form-item';
 export default defineComponent({
   name: 'Transfer',
   components: {
-    ArcoButton,
+    SDButton,
     TransferView,
     IconLeft,
     IconRight,

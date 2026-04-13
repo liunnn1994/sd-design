@@ -1,6 +1,6 @@
 import type { App, AppContext } from 'vue';
 import { nextTick, createVNode, render } from 'vue';
-import type { ArcoOptions } from '../_utils/types';
+import type { SDOptions } from '../_utils/types';
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import { MESSAGE_TYPES } from '../_utils/constant';
 import { getOverlay } from '../_utils/dom';
@@ -135,7 +135,7 @@ const modal: ModalMethod = {
 
 const Modal = Object.assign(_Modal, {
   ...modal,
-  install: (app: App, options?: ArcoOptions) => {
+  install: (app: App, options?: SDOptions) => {
     setGlobalConfig(app, options);
     const componentPrefix = getComponentPrefix(options);
 

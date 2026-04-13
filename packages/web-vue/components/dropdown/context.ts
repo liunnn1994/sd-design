@@ -9,4 +9,4 @@ export interface DropdownContext {
 }
 
 export const dropdownInjectionKey: InjectionKey<DropdownContext> =
-  Symbol('ArcoDropdown');
+  Symbol('SDDropdown');

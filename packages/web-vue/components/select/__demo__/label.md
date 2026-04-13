@@ -30,7 +30,7 @@ The display content of the select box can be customized through the `#label` slo
 </template>
 
 <script>
-import { IconPlus } from '@arco-design/web-vue/es/icon';
+import { IconPlus } from '@sd-design/web-vue/es/icon';
 
 export default {
   components: { IconPlus }

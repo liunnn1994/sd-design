@@ -10,4 +10,4 @@ export interface AvatarGroupContext {
 }
 
 export const avatarGroupInjectionKey: InjectionKey<AvatarGroupContext> =
-  Symbol('ArcoAvatarGroup');
+  Symbol('SDAvatarGroup');

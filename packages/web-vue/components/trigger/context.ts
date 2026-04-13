@@ -8,4 +8,4 @@ export interface TriggerContext {
 }
 
 export const triggerInjectionKey: InjectionKey<TriggerContext> =
-  Symbol('ArcoTrigger');
+  Symbol('SDTrigger');

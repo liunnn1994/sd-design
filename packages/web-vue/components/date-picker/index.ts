@@ -1,5 +1,5 @@
 import type { App } from 'vue';
-import type { ArcoOptions } from '../_utils/types';
+import type { SDOptions } from '../_utils/types';
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _DatePicker from './pickers/date-picker';
 import _WeekPicker from './pickers/week-picker';
@@ -16,7 +16,7 @@ const DatePicker = Object.assign(_DatePicker, {
   YearPicker: _YearPicker,
   QuarterPicker: _QuarterPicker,
   RangePicker: _RangePicker,
-  install: (app: App, options?: ArcoOptions) => {
+  install: (app: App, options?: SDOptions) => {
     setGlobalConfig(app, options);
     const componentPrefix = getComponentPrefix(options);
 

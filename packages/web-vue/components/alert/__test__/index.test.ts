@@ -9,7 +9,7 @@ describe('Alert', () => {
       },
     });
 
-    const closeBtn = wrapper.find('.arco-alert-close-btn');
+    const closeBtn = wrapper.find('.sd-alert-close-btn');
     await closeBtn.trigger('click');
     expect(wrapper.emitted('close')).toHaveLength(1);
   });
@@ -18,15 +18,15 @@ describe('Alert', () => {
     const wrapper = mount(Alert)
 
     await wrapper.setProps({ type: 'info' })
-    expect(wrapper.find('.arco-alert-info').exists()).not.toBe(null)
+    expect(wrapper.find('.sd-alert-info').exists()).not.toBe(null)
 
     await wrapper.setProps({ type: 'success' })
-    expect(wrapper.find('.arco-alert-success').exists()).not.toBe(null)
+    expect(wrapper.find('.sd-alert-success').exists()).not.toBe(null)
 
     await wrapper.setProps({ type: 'warning' })
-    expect(wrapper.find('.arco-alert-warning').exists()).not.toBe(null)
+    expect(wrapper.find('.sd-alert-warning').exists()).not.toBe(null)
 
     await wrapper.setProps({ type: 'error' })
-    expect(wrapper.find('.arco-alert-error').exists()).not.toBe(null)
+    expect(wrapper.find('.sd-alert-error').exists()).not.toBe(null)
   })
 });

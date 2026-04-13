@@ -39,7 +39,7 @@ export default {
       'green',
       'cyan',
       'blue',
-      'arcoblue',
+      'sdblue',
       'purple',
       'pinkpurple',
       'magenta',

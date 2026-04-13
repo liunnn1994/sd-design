@@ -1,8 +1,8 @@
 import path from 'path';
 import glob from 'glob';
 import { mount, config } from '@vue/test-utils';
-import ArcoVue from '../components';
-import ArcoVueIcon from '../components/icon';
+import SDVue from '../components';
+import SDVueIcon from '../components/icon';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
@@ -29,7 +29,7 @@ jest.mock('resize-observer-polyfill', () => ({
   })),
 }));
 
-config.global.plugins = [ArcoVue, ArcoVueIcon];
+config.global.plugins = [SDVue, SDVueIcon];
 
 function demoTest(component: string) {
   describe(`<${component}> demo:`, () => {

@@ -13,10 +13,10 @@
 本仓库是一个基于 pnpm workspace 的 monorepo，核心包都位于 packages 目录下。
 
 - packages/web-vue：Vue 组件库本体，包含组件源码、构建脚本、文档元数据生成和测试。
-- packages/arco-vue-docs：VitePress 文档站，负责文档迁移脚本、开发调试和生产打包。
-- packages/arco-vue-scripts：内部脚手架与构建工具，封装组件库和站点的构建逻辑。
-- packages/vite-plugin-arco-vue-docs：将 Markdown 文档转换为 Vue 页面内容的内部 Vite 插件。
-- packages/arco-changelog：变更日志解析工具，供文档和发布流程复用。
+- packages/sd-vue-docs：VitePress 文档站，负责文档迁移脚本、开发调试和生产打包。
+- packages/sd-vue-scripts：内部脚手架与构建工具，封装组件库和站点的构建逻辑。
+- packages/vite-plugin-sd-vue-docs：将 Markdown 文档转换为 Vue 页面内容的内部 Vite 插件。
+- packages/sd-changelog：变更日志解析工具，供文档和发布流程复用。
 - packages/web-vue-storybook：组件 Storybook 工程。
 
 根目录脚本主要用于串联这些内部包。第一次运行前，需要先把内部工具包编译出来，否则 workspace bin 无法正确工作。
@@ -40,7 +40,7 @@ pnpm run start
 
 其中：
 
-- `pnpm run init` 会先构建内部工具包，再安装依赖，并执行 `@arco-design/web-vue` 的初始化流程。
+- `pnpm run init` 会先构建内部工具包，再安装依赖，并执行 `@sd-design/web-vue` 的初始化流程。
 - `pnpm run start` 会启动 VitePress 文档站开发服务；如果默认端口被占用，Vite 会自动切换到下一个可用端口。
 
 # 常用命令
@@ -78,8 +78,8 @@ pnpm run clean
 
 - 组件文档源文件位于 `packages/web-vue/components/<component>/README.zh-CN.md`。
 - 组件示例源文件位于 `packages/web-vue/components/<component>/__demo__/*.md`，其中 ` ```vue ` 代码块会被迁移脚本提取为可运行示例。
-- 指南页源文件位于 `packages/arco-vue-docs/guide-source/*.zh-CN.md`。
-- 每次修改组件 README、示例或指南后，执行 `pnpm --filter @arco-design/arco-vue-docs run docs:prepare` 重新生成页面。
+- 指南页源文件位于 `packages/sd-vue-docs/guide-source/*.zh-CN.md`。
+- 每次修改组件 README、示例或指南后，执行 `pnpm --filter @sd-design/sd-vue-docs run docs:prepare` 重新生成页面。
 - 日常开发使用 `pnpm run start`，产线验证使用 `pnpm run build:site`。
 
 # 维护说明

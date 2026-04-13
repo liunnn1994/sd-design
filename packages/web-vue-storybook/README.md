@@ -1,6 +1,6 @@
-# `@arco-design/web-vue-storybook`
+# `@sd-design/web-vue-storybook`
 
-The storybook of Arco Design Vue
+The storybook of SD Design Vue
 
 ## Usage
 

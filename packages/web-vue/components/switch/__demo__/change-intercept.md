@@ -26,7 +26,7 @@ Set the `beforeChange` function, and the return value of the function will be us
 </template>
 
 <script>
-import { Message } from '@arco-design/web-vue';
+import { Message } from '@sd-design/web-vue';
 
 export default {
   setup() {

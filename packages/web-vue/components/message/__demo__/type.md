@@ -45,7 +45,7 @@ There are 6 different types of global prompts, namely: `info`, `success`, `warni
 
 <script>
 import { h } from 'vue';
-import { IconExclamationCircleFill } from '@arco-design/web-vue/es/icon';
+import { IconExclamationCircleFill } from '@sd-design/web-vue/es/icon';
 
 export default {
   setup() {

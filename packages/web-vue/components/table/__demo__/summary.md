@@ -58,7 +58,7 @@ export default {
         summaryCellStyle: (record) => {
           if (record.salary > 100000) {
             return {
-              backgroundColor: 'rgb(var(--arcoblue-6))',
+              backgroundColor: 'rgb(var(--sdblue-6))',
               color: '#fff'
             }
           }

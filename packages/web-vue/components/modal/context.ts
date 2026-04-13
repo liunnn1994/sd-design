@@ -5,4 +5,4 @@ export interface ZIndexContext {
 }
 
 export const zIndexInjectionKey: InjectionKey<ZIndexContext> =
-  Symbol('ArcoZIndex');
+  Symbol('SDZIndex');

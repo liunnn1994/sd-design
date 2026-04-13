@@ -90,7 +90,7 @@ export default {
       salary: 22000,
       birthday: '1992-02-11',
       city: 'Paris',
-      road: 'Arco',
+      road: 'SD',
       no: '67',
       phone: '12345678',
       email: 'kevin.sandra@example.com'

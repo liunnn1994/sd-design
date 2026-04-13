@@ -34,12 +34,12 @@ describe('Layout', () => {
         collapsible: true,
       },
     });
-    expect(wrapper.find('.arco-layout-sider').attributes('style')).toContain(
+    expect(wrapper.find('.sd-layout-sider').attributes('style')).toContain(
       'width: 200px'
     );
-    const collapseTrigger = wrapper.find('.arco-layout-sider-trigger');
+    const collapseTrigger = wrapper.find('.sd-layout-sider-trigger');
     await collapseTrigger.trigger('click');
-    expect(wrapper.find('.arco-layout-sider').attributes('style')).toContain(
+    expect(wrapper.find('.sd-layout-sider').attributes('style')).toContain(
       'width: 48px'
     );
     expect(wrapper.emitted('collapse')).toHaveLength(1);

@@ -8,8 +8,8 @@ describe('Divider', () => {
         direction: 'horizontal',
       },
     });
-    expect(wrapper.find('.arco-divider-horizontal').exists()).toBe(true);
+    expect(wrapper.find('.sd-divider-horizontal').exists()).toBe(true);
     await wrapper.setProps({ direction: 'vertical' });
-    expect(wrapper.find('.arco-divider-vertical').exists()).toBe(true);
+    expect(wrapper.find('.sd-divider-vertical').exists()).toBe(true);
   });
 });

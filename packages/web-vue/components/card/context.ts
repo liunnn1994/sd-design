@@ -7,4 +7,4 @@ export interface CardContext {
   renderActions: (vns: VNode[]) => JSX.Element;
 }
 
-export const cardInjectionKey: InjectionKey<CardContext> = Symbol('ArcoCard');
+export const cardInjectionKey: InjectionKey<CardContext> = Symbol('SDCard');

@@ -20,7 +20,7 @@ describe('Input', () => {
     });
     const input = wrapper.find('input');
     expect(input.element.value).toBe('test');
-    await wrapper.find('.arco-input-clear-btn').trigger('click');
+    await wrapper.find('.sd-input-clear-btn').trigger('click');
     expect(input.element.value).toBe('');
   });
 });

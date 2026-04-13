@@ -27,7 +27,7 @@ Use `Card.Grid` to use the card content segmentation mode.
     >
       <a-card
         class="card-demo"
-        title="Arco Card"
+        title="SD Card"
         :bordered="false"
       >
         <template #extra>
@@ -44,7 +44,7 @@ Use `Card.Grid` to use the card content segmentation mode.
 .card-demo {
   width: 100%;
 }
-.card-demo :deep(.arco-card-header) {
+.card-demo :deep(.sd-card-header) {
   border: none;
 }
 </style>
