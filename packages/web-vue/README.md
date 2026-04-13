@@ -10,15 +10,7 @@
 
 <div align="center">
 
-基于 [SD Design](https://sd.design/) 的 Vue UI 组件库。
-
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/liunnn1994/sd-design/blob/main/LICENSE)
-
-</div>
-
-<div align="center">
-
-[English](./README.md) | 简体中文
+基于 [Arco Design](https://arco.design/) 的 Vue UI 组件库。
 
 </div>
 
@@ -32,8 +24,8 @@
 
 海量的样式 tokens, 支持全局以及组件级别的主题配置。有以下 2 种方式可以定制主题：
 
-- [Less-loader](https://sd.design/vue/docs/theme)
-- [风格配置平台](https://sd.design/themes) - 推荐!
+- [Less-loader](https://arco.design/vue/docs/theme)
+- [风格配置平台](https://arco.design/themes) - 推荐!
 
 ## TypeScript 友好
 
