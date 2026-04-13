@@ -1,6 +1,9 @@
 /**
  * @type {import('semantic-release').GlobalConfig}
  */
+const githubReleaseBodyTemplate =
+  "<% const notes = nextRelease.notes || ''; const maxLength = 120000; const suffix = '\\n\\n...\\n\\nRelease notes were truncated to fit the GitHub Release body limit. See CHANGELOG.md for the full entry.'; %><%= notes.length > maxLength ? notes.slice(0, maxLength - suffix.length) + suffix : notes %>";
+
 export default {
   branches: ['main'],
   plugins: [
@@ -9,7 +12,7 @@ export default {
     [
       '@semantic-release/changelog',
       {
-        changelogFile: 'packages/web-vue/CHANGELOG.md',
+        changelogFile: 'CHANGELOG.md',
       },
     ],
     [
@@ -20,9 +23,17 @@ export default {
       },
     ],
     [
+      '@semantic-release/git',
+      {
+        assets: ['CHANGELOG.md', 'package.json'],
+        message: 'chore(release): ${nextRelease.version} [skip ci]',
+      },
+    ],
+    [
       '@semantic-release/github',
       {
         assets: [],
+        releaseBodyTemplate: githubReleaseBodyTemplate,
       },
     ],
   ],
