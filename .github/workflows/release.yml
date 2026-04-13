@@ -46,6 +46,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Init
+        run: pnpm run init
+
       - name: Build sd-vue-scripts
         run: pnpm --filter @sd-design/sd-vue-scripts run build
 
