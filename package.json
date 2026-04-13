@@ -18,8 +18,8 @@
   "workspaces": [
     "packages/*"
   ],
-  "author": "ArcoDesign Team",
-  "license": "MIT",
+  "author": "SData FE Team",
+  "license": "AGPL-3.0-only",
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^12.1.4",
