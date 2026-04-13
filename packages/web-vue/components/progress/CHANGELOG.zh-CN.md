@@ -8,8 +8,7 @@ changelog: true
 
 ### 💎 功能优化
 
-- 优化分割点的展示逻辑 ([#1755](https://github.com/arco-design/arco-design-vue/pull/1755))
-
+- 优化分割点的展示逻辑 ([#1755](https://github.com/liunnn1994/sd-design/pull/1755))
 
 ## 2.12.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复显示数值精度问题 ([#447](https://github.com/arco-design/arco-design-vue/pull/447))
-
+- 修复显示数值精度问题 ([#447](https://github.com/liunnn1994/sd-design/pull/447))
 
 ## 2.7.0
 
@@ -26,5 +24,4 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 增加 `track-color` 属性 ([#277](https://github.com/arco-design/arco-design-vue/pull/277))
-
+- 增加 `track-color` 属性 ([#277](https://github.com/liunnn1994/sd-design/pull/277))

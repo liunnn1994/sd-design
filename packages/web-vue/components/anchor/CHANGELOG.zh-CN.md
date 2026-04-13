@@ -8,5 +8,4 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复加载后不会定位到 hash 位置的问题 ([#400](https://github.com/arco-design/arco-design-vue/pull/400))
-
+- 修复加载后不会定位到 hash 位置的问题 ([#400](https://github.com/liunnn1994/sd-design/pull/400))

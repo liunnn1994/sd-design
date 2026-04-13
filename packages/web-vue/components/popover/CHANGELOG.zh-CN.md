@@ -8,5 +8,4 @@ changelog: true
 
 ### 💅 样式更新
 
-- 优化显示动画 ([#733](https://github.com/arco-design/arco-design-vue/pull/733))
-
+- 优化显示动画 ([#733](https://github.com/liunnn1994/sd-design/pull/733))

@@ -6,16 +6,14 @@ changelog: true
 
 `2024-10-25`
 
-
 ## 2.54.3
 
 `2024-01-19`
 
 ### 🐛 BugFix
 
-- adjust incorrect type definitions and documentation ([#2924](https://github.com/arco-design/arco-design-vue/pull/2924))
-- fix spelling mistakes ([#2924](https://github.com/arco-design/arco-design-vue/pull/2924))
-
+- adjust incorrect type definitions and documentation ([#2924](https://github.com/liunnn1994/sd-design/pull/2924))
+- fix spelling mistakes ([#2924](https://github.com/liunnn1994/sd-design/pull/2924))
 
 ## 2.50.0
 
@@ -23,12 +21,11 @@ changelog: true
 
 ### 🆕 Feature
 
-- Support keyboard shortcuts, mouse wheel operation and a series of functions ([#2616](https://github.com/arco-design/arco-design-vue/pull/2616))
+- Support keyboard shortcuts, mouse wheel operation and a series of functions ([#2616](https://github.com/liunnn1994/sd-design/pull/2616))
 
 ### 🆎 TypeScript
 
-- added  image-preview-action type definition ([#2625](https://github.com/arco-design/arco-design-vue/pull/2625))
-
+- added image-preview-action type definition ([#2625](https://github.com/liunnn1994/sd-design/pull/2625))
 
 ## 2.48.1
 
@@ -36,8 +33,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- icon not centered without alt or description in error state ([#2563](https://github.com/arco-design/arco-design-vue/pull/2563))
-
+- icon not centered without alt or description in error state ([#2563](https://github.com/liunnn1994/sd-design/pull/2563))
 
 ## 2.46.0
 
@@ -45,8 +41,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add actions slot ([#2389](https://github.com/arco-design/arco-design-vue/pull/2389))
-
+- add actions slot ([#2389](https://github.com/liunnn1994/sd-design/pull/2389))
 
 ## 2.45.1
 
@@ -54,8 +49,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix `sizeStyle` failure issue ([#2327](https://github.com/arco-design/arco-design-vue/pull/2327))
-
+- Fix `sizeStyle` failure issue ([#2327](https://github.com/liunnn1994/sd-design/pull/2327))
 
 ## 2.41.0
 
@@ -63,8 +57,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the bug that the image id may not be collected and cause preview errors ([#1992](https://github.com/arco-design/arco-design-vue/pull/1992))
-
+- Fix the bug that the image id may not be collected and cause preview errors ([#1992](https://github.com/liunnn1994/sd-design/pull/1992))
 
 ## 2.37.3
 
@@ -72,8 +65,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- do not display toolbar when actions layout is empty ([#1668](https://github.com/arco-design/arco-design-vue/pull/1668))
-
+- do not display toolbar when actions layout is empty ([#1668](https://github.com/liunnn1994/sd-design/pull/1668))
 
 ## 2.36.0
 
@@ -81,9 +73,8 @@ changelog: true
 
 ### 🆕 Feature
 
-- hideFooter adds a new parameter to support the display of footer in an error state ([#1595](https://github.com/arco-design/arco-design-vue/pull/1595))
-- Add fit prop ([#1534](https://github.com/arco-design/arco-design-vue/pull/1534))
-
+- hideFooter adds a new parameter to support the display of footer in an error state ([#1595](https://github.com/liunnn1994/sd-design/pull/1595))
+- Add fit prop ([#1534](https://github.com/liunnn1994/sd-design/pull/1534))
 
 ## 2.35.2
 
@@ -91,8 +82,7 @@ changelog: true
 
 ### 💅 Style
 
-- Fix the problem that the close button icon is in the wrong position in preview mode ([#1577](https://github.com/arco-design/arco-design-vue/pull/1577))
-
+- Fix the problem that the close button icon is in the wrong position in preview mode ([#1577](https://github.com/liunnn1994/sd-design/pull/1577))
 
 ## 2.23.0
 
@@ -100,12 +90,11 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add footer-class attribute ([#953](https://github.com/arco-design/arco-design-vue/pull/953))
+- Add footer-class attribute ([#953](https://github.com/liunnn1994/sd-design/pull/953))
 
 ### 💅 Style
 
-- Fix the rounded corner style problem at the bottom of the footer area ([#953](https://github.com/arco-design/arco-design-vue/pull/953))
-
+- Fix the rounded corner style problem at the bottom of the footer area ([#953](https://github.com/liunnn1994/sd-design/pull/953))
 
 ## 2.17.0
 
@@ -113,13 +102,12 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add slot `actions` for custom preview action items ([#679](https://github.com/arco-design/arco-design-vue/pull/679))
+- Add slot `actions` for custom preview action items ([#679](https://github.com/liunnn1994/sd-design/pull/679))
 
 ### 🐛 BugFix
 
-- Fix the problem of wrong rotation direction ([#678](https://github.com/arco-design/arco-design-vue/pull/678))
-- Fix the problem that the `Tooltip` of the action item is covered ([#677](https://github.com/arco-design/arco-design-vue/pull/677))
-
+- Fix the problem of wrong rotation direction ([#678](https://github.com/liunnn1994/sd-design/pull/678))
+- Fix the problem that the `Tooltip` of the action item is covered ([#677](https://github.com/liunnn1994/sd-design/pull/677))
 
 ## 2.14.0
 
@@ -127,8 +115,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- the`Image.PreviewGroup` component should collect `previewProps.src` first ([#522](https://github.com/arco-design/arco-design-vue/pull/522))
-
+- the`Image.PreviewGroup` component should collect `previewProps.src` first ([#522](https://github.com/liunnn1994/sd-design/pull/522))
 
 ## 2.4.0
 
@@ -136,8 +123,7 @@ changelog: true
 
 ### 💅 Style
 
-- set the max size of error to fit parent ([#160](https://github.com/arco-design/arco-design-vue/pull/160))
-
+- set the max size of error to fit parent ([#160](https://github.com/liunnn1994/sd-design/pull/160))
 
 ## 2.1.1
 
@@ -145,8 +131,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the height limit of the img is invalid ([#115](https://github.com/arco-design/arco-design-vue/pull/115))
-
+- Fix the problem that the height limit of the img is invalid ([#115](https://github.com/liunnn1994/sd-design/pull/115))
 
 ## 2.1.0
 
@@ -154,5 +139,4 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add a slot named error-icon to support custom error status icon ([#85](https://github.com/arco-design/arco-design-vue/pull/85))
-
+- Add a slot named error-icon to support custom error status icon ([#85](https://github.com/liunnn1994/sd-design/pull/85))

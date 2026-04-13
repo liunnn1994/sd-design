@@ -1,20 +1,20 @@
 import { InlineConfig } from 'vite';
-import glob from 'glob';
+import { globSync } from 'glob';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import external from '../plugins/vite-plugin-external';
 import vueExportHelper from '../plugins/vite-plugin-vue-export-helper';
 
-const langFiles = glob.sync('components/locale/lang/*.ts');
+const langFiles = globSync('components/locale/lang/*.ts');
 
 const config: InlineConfig = {
   mode: 'production',
   build: {
-    target: 'modules',
+    target: 'es2015',
     outDir: 'es',
     emptyOutDir: false,
     minify: false,
-    brotliSize: false,
+    reportCompressedSize: false,
     rollupOptions: {
       input: ['components/index.ts', 'components/icon/index.ts', ...langFiles],
       output: [
@@ -26,7 +26,7 @@ const config: InlineConfig = {
           preserveModulesRoot: 'components',
         },
         {
-          format: 'commonjs',
+          format: 'cjs',
           dir: 'lib',
           entryFileNames: '[name].js',
           preserveModules: true,

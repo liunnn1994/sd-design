@@ -8,11 +8,11 @@ import vueExportHelper from '../plugins/vite-plugin-vue-export-helper';
 const config: InlineConfig = {
   mode: 'production',
   build: {
-    target: 'modules',
+    target: 'es2015',
     outDir: 'es',
     emptyOutDir: false,
     minify: false,
-    brotliSize: false,
+    reportCompressedSize: false,
     rollupOptions: {
       input: 'components/index.ts',
       output: [
@@ -24,7 +24,7 @@ const config: InlineConfig = {
           preserveModulesRoot: 'components',
         },
         {
-          format: 'commonjs',
+          format: 'cjs',
           dir: 'lib',
           entryFileNames: '[name].js',
           preserveModules: true,

@@ -8,5 +8,4 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 属性 `min` `max` 支持设置 px ([#607](https://github.com/arco-design/arco-design-vue/pull/607))
-
+- 属性 `min` `max` 支持设置 px ([#607](https://github.com/liunnn1994/sd-design/pull/607))

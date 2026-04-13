@@ -8,8 +8,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Optimize the `click` event of the component, and perform encapsulation and transparent transmission in the component ([#2030](https://github.com/arco-design/arco-design-vue/pull/2030))
-
+- Optimize the `click` event of the component, and perform encapsulation and transparent transmission in the component ([#2030](https://github.com/liunnn1994/sd-design/pull/2030))
 
 ## 2.38.1
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Replace the flying book icon ([#1835](https://github.com/arco-design/arco-design-vue/pull/1835))
-
+- Replace the flying book icon ([#1835](https://github.com/liunnn1994/sd-design/pull/1835))
 
 ## 2.35.0
 
@@ -26,9 +24,8 @@ changelog: true
 
 ### 🆕 Feature
 
-- support rotate prop ([#1490](https://github.com/arco-design/arco-design-vue/pull/1490))
-- Icon list supports type filtering and name search ([#1490](https://github.com/arco-design/arco-design-vue/pull/1490))
-
+- support rotate prop ([#1490](https://github.com/liunnn1994/sd-design/pull/1490))
+- Icon list supports type filtering and name search ([#1490](https://github.com/liunnn1994/sd-design/pull/1490))
 
 ## 2.25.0
 
@@ -36,9 +33,8 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `attachment`, `archive`, `calendar-clock`, `palette`, `launch` icons ([#1017](https://github.com/arco-design/arco-design-vue/pull/1017))
+- Added `attachment`, `archive`, `calendar-clock`, `palette`, `launch` icons ([#1017](https://github.com/liunnn1994/sd-design/pull/1017))
 
 ### 🐛 BugFix
 
-- Fixed `link`, `image-close`, `lock`, `unlock`, `sync` icons ([#1017](https://github.com/arco-design/arco-design-vue/pull/1017))
-
+- Fixed `link`, `image-close`, `lock`, `unlock`, `sync` icons ([#1017](https://github.com/liunnn1994/sd-design/pull/1017))

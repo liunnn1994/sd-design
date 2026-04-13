@@ -14,7 +14,7 @@ const getConfig = ({
   return {
     mode: 'production',
     build: {
-      target: 'modules',
+      target: 'es2015',
       outDir: 'dist',
       emptyOutDir: true,
       minify: false,
@@ -26,11 +26,11 @@ const getConfig = ({
         ],
         output: [
           {
-            format: 'module',
+            format: 'es',
             entryFileNames: 'index.esm.js',
           },
           {
-            format: 'commonjs',
+            format: 'cjs',
             entryFileNames: 'index.cjs.js',
           },
           {

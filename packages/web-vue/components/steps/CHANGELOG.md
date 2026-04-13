@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of index error when Steps and Step components are not in direct parent-child relationship ([#959](https://github.com/arco-design/arco-design-vue/pull/959))
-
+- Fix the problem of index error when Steps and Step components are not in direct parent-child relationship ([#959](https://github.com/liunnn1994/sd-design/pull/959))
 
 ## 2.18.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Use Context to optimize components ([#772](https://github.com/arco-design/arco-design-vue/pull/772))
-
+- Use Context to optimize components ([#772](https://github.com/liunnn1994/sd-design/pull/772))
 
 ## 2.14.2
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that small can be enabled in dot mode ([#536](https://github.com/arco-design/arco-design-vue/pull/536))
-
+- Fix the problem that small can be enabled in dot mode ([#536](https://github.com/liunnn1994/sd-design/pull/536))
 
 ## 2.13.0
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 💅 Style
 
-- Fix the wrong connection color problem in the next step ([#477](https://github.com/arco-design/arco-design-vue/pull/477))
-
+- Fix the wrong connection color problem in the next step ([#477](https://github.com/liunnn1994/sd-design/pull/477))
 
 ## 2.9.0
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add title props ([#316](https://github.com/arco-design/arco-design-vue/pull/316))
-
+- add title props ([#316](https://github.com/liunnn1994/sd-design/pull/316))
 
 ## 2.7.0
 
@@ -53,8 +48,7 @@ changelog: true
 
 ### 💅 Style
 
-- Fix the problem of the connection color of the vertical step bar ([#276](https://github.com/arco-design/arco-design-vue/pull/276))
-
+- Fix the problem of the connection color of the vertical step bar ([#276](https://github.com/liunnn1994/sd-design/pull/276))
 
 ## 2.6.1
 
@@ -62,5 +56,4 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the `status` attribute in the `<step>` component does not take effect ([#209](https://github.com/arco-design/arco-design-vue/pull/209))
-
+- Fix the problem that the `status` attribute in the `<step>` component does not take effect ([#209](https://github.com/liunnn1994/sd-design/pull/209))

@@ -8,13 +8,11 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix  modes not taking effect ([#3281](https://github.com/arco-design/arco-design-vue/pull/3281))
-
+- fix modes not taking effect ([#3281](https://github.com/liunnn1994/sd-design/pull/3281))
 
 ## 2.53.3
 
 `2023-11-24`
-
 
 ## 2.53.0
 
@@ -22,8 +20,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `header` and `default` slots ([#2674](https://github.com/arco-design/arco-design-vue/pull/2674))
-
+- Added `header` and `default` slots ([#2674](https://github.com/liunnn1994/sd-design/pull/2674))
 
 ## 2.44.2
 
@@ -31,8 +28,7 @@ changelog: true
 
 ### 💅 Style
 
-- fix some style problems ([#2239](https://github.com/arco-design/arco-design-vue/pull/2239))
-
+- fix some style problems ([#2239](https://github.com/liunnn1994/sd-design/pull/2239))
 
 ## 2.44.1
 
@@ -42,12 +38,10 @@ changelog: true
 
 - **calendar:** fix the wrong import path problem
 
-
 ## 2.44.0
 
 `2023-03-10`
 
 ### 🆕 Feature
 
-- New calendar component ([#2217](https://github.com/arco-design/arco-design-vue/pull/2217))
-
+- New calendar component ([#2217](https://github.com/liunnn1994/sd-design/pull/2217))

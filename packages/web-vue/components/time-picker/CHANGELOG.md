@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- TriggerProps property not correctly passed through ([#3178](https://github.com/arco-design/arco-design-vue/pull/3178))
-
+- TriggerProps property not correctly passed through ([#3178](https://github.com/liunnn1994/sd-design/pull/3178))
 
 ## 2.55.3
 
@@ -17,9 +16,8 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix issue with read-only mode still being editable ([#3173](https://github.com/arco-design/arco-design-vue/pull/3173))
-- Added `placeholder` type definition ([#3173](https://github.com/arco-design/arco-design-vue/pull/3173))
-
+- Fix issue with read-only mode still being editable ([#3173](https://github.com/liunnn1994/sd-design/pull/3173))
+- Added `placeholder` type definition ([#3173](https://github.com/liunnn1994/sd-design/pull/3173))
 
 ## 2.44.6
 
@@ -27,8 +25,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the bubbling behavior of the clear event. ([#2271](https://github.com/arco-design/arco-design-vue/pull/2271))
-
+- Fix the bubbling behavior of the clear event. ([#2271](https://github.com/liunnn1994/sd-design/pull/2271))
 
 ## 2.41.0
 
@@ -36,8 +33,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- `time-picker` supports prefix slots ([#1997](https://github.com/arco-design/arco-design-vue/pull/1997))
-
+- `time-picker` supports prefix slots ([#1997](https://github.com/liunnn1994/sd-design/pull/1997))
 
 ## 2.35.1
 
@@ -45,5 +41,4 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix default value of size property in time-picker ([#1513](https://github.com/arco-design/arco-design-vue/pull/1513))
-
+- Fix default value of size property in time-picker ([#1513](https://github.com/liunnn1994/sd-design/pull/1513))

@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of missing related component styles when importing on demand ([#2682](https://github.com/arco-design/arco-design-vue/pull/2682))
-
+- Fix the problem of missing related component styles when importing on demand ([#2682](https://github.com/liunnn1994/sd-design/pull/2682))
 
 ## 2.49.2
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- enhanced typography styles for handling long words ([#2583](https://github.com/arco-design/arco-design-vue/pull/2583))
-
+- enhanced typography styles for handling long words ([#2583](https://github.com/liunnn1994/sd-design/pull/2583))
 
 ## 2.41.0
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fixed ellipsis invalidation with parent container setting `white-space: nowrap` ([#1995](https://github.com/arco-design/arco-design-vue/pull/1995))
-
+- Fixed ellipsis invalidation with parent container setting `white-space: nowrap` ([#1995](https://github.com/liunnn1994/sd-design/pull/1995))
 
 ## 2.37.0
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Omit mode adds support for CSS mode (experimental) ([#1635](https://github.com/arco-design/arco-design-vue/pull/1635))
-
+- Omit mode adds support for CSS mode (experimental) ([#1635](https://github.com/liunnn1994/sd-design/pull/1635))
 
 ## 2.33.1
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- cancel click propagation of suffix icon ([#1411](https://github.com/arco-design/arco-design-vue/pull/1411))
-
+- cancel click propagation of suffix icon ([#1411](https://github.com/liunnn1994/sd-design/pull/1411))
 
 ## 2.32.0
 
@@ -53,8 +48,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `tooltip-props` class property ([#1338](https://github.com/arco-design/arco-design-vue/pull/1338))
-
+- Added `tooltip-props` class property ([#1338](https://github.com/liunnn1994/sd-design/pull/1338))
 
 ## 2.27.0
 
@@ -62,8 +56,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix the problem that event `edit-end` triggered twice when press enter ([#1122](https://github.com/arco-design/arco-design-vue/pull/1122))
-
+- fix the problem that event `edit-end` triggered twice when press enter ([#1122](https://github.com/liunnn1994/sd-design/pull/1122))
 
 ## 2.24.0
 
@@ -71,8 +64,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fixed the warning of `slots.default` ([#980](https://github.com/arco-design/arco-design-vue/pull/980))
-
+- fixed the warning of `slots.default` ([#980](https://github.com/liunnn1994/sd-design/pull/980))
 
 ## 2.22.0
 
@@ -80,8 +72,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix the problem that copy does not work ([#915](https://github.com/arco-design/arco-design-vue/pull/915))
-
+- fix the problem that copy does not work ([#915](https://github.com/liunnn1994/sd-design/pull/915))
 
 ## 2.20.0
 
@@ -89,8 +80,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix `ellipsisText` not updating ([#833](https://github.com/arco-design/arco-design-vue/pull/833))
-
+- Fix `ellipsisText` not updating ([#833](https://github.com/liunnn1994/sd-design/pull/833))
 
 ## 2.16.0
 
@@ -98,12 +88,11 @@ changelog: true
 
 ### 🆕 Feature
 
-- add property `copy-delay` support customize the delay time for the disappearance of copy success status ([#632](https://github.com/arco-design/arco-design-vue/pull/632))
+- add property `copy-delay` support customize the delay time for the disappearance of copy success status ([#632](https://github.com/liunnn1994/sd-design/pull/632))
 
 ### 🐛 BugFix
 
-- Fix the problem of warning in JSX usage ([#591](https://github.com/arco-design/arco-design-vue/pull/591))
-
+- Fix the problem of warning in JSX usage ([#591](https://github.com/liunnn1994/sd-design/pull/591))
 
 ## 2.2.0
 
@@ -111,5 +100,4 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fixed the problem of unable input ([#121](https://github.com/arco-design/arco-design-vue/pull/121))
-
+- Fixed the problem of unable input ([#121](https://github.com/liunnn1994/sd-design/pull/121))

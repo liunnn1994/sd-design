@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fixes the issue related to the layout distribution of span ([#3409](https://github.com/arco-design/arco-design-vue/pull/3409))
-
+- fixes the issue related to the layout distribution of span ([#3409](https://github.com/liunnn1994/sd-design/pull/3409))
 
 ## 2.53.0
 
@@ -17,13 +16,11 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of invalid `span` attribute of `DescriptionsItem` component ([#2765](https://github.com/arco-design/arco-design-vue/pull/2765))
-
+- Fix the problem of invalid `span` attribute of `DescriptionsItem` component ([#2765](https://github.com/liunnn1994/sd-design/pull/2765))
 
 ## 2.39.0
 
 `2022-11-18`
-
 
 ## 2.38.0-beta.1
 
@@ -31,8 +28,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- The `layout-fixed` of the table style in the description. The width will be evenly distributed when it's set to `fixed`. ([#1670](https://github.com/arco-design/arco-design-vue/pull/1670))
-
+- The `layout-fixed` of the table style in the description. The width will be evenly distributed when it's set to `fixed`. ([#1670](https://github.com/liunnn1994/sd-design/pull/1670))
 
 ## 2.20.0
 
@@ -40,8 +36,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- The `column` property supports reactive configuration ([#839](https://github.com/arco-design/arco-design-vue/pull/839))
-
+- The `column` property supports reactive configuration ([#839](https://github.com/liunnn1994/sd-design/pull/839))
 
 ## 2.19.0
 
@@ -49,8 +44,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of error when `data` is empty data ([#812](https://github.com/arco-design/arco-design-vue/pull/812))
-
+- Fix the problem of error when `data` is empty data ([#812](https://github.com/liunnn1994/sd-design/pull/812))
 
 ## 2.18.0-beta.2
 
@@ -58,8 +52,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `descriptions-item` component ([#739](https://github.com/arco-design/arco-design-vue/pull/739))
-
+- Added `descriptions-item` component ([#739](https://github.com/liunnn1994/sd-design/pull/739))
 
 ## 2.13.0
 
@@ -67,8 +60,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- The index and data parameters are added to the Value and Label slots ([#470](https://github.com/arco-design/arco-design-vue/pull/470))
-
+- The index and data parameters are added to the Value and Label slots ([#470](https://github.com/liunnn1994/sd-design/pull/470))
 
 ## 2.7.0
 
@@ -76,9 +68,8 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add the `align` prop ([#268](https://github.com/arco-design/arco-design-vue/pull/268))
+- Add the `align` prop ([#268](https://github.com/liunnn1994/sd-design/pull/268))
 
 ### 💅 Style
 
-- Modify the style of the value area to support line-wrapping text ([#269](https://github.com/arco-design/arco-design-vue/pull/269))
-
+- Modify the style of the value area to support line-wrapping text ([#269](https://github.com/liunnn1994/sd-design/pull/269))

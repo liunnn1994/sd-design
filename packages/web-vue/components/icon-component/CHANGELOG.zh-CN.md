@@ -8,8 +8,7 @@ changelog: true
 
 ### 💎 功能优化
 
-- 优化组件 `click` 事件，在组件中进行封装透传 ([#2030](https://github.com/arco-design/arco-design-vue/pull/2030))
-
+- 优化组件 `click` 事件，在组件中进行封装透传 ([#2030](https://github.com/liunnn1994/sd-design/pull/2030))
 
 ## 2.38.1
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 💎 功能优化
 
-- 替换飞书图标 ([#1835](https://github.com/arco-design/arco-design-vue/pull/1835))
-
+- 替换飞书图标 ([#1835](https://github.com/liunnn1994/sd-design/pull/1835))
 
 ## 2.35.0
 
@@ -26,9 +24,8 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 支持旋转属性 ([#1490](https://github.com/arco-design/arco-design-vue/pull/1490))
-- 图标列表支持类型筛选和名称搜索 ([#1490](https://github.com/arco-design/arco-design-vue/pull/1490))
-
+- 支持旋转属性 ([#1490](https://github.com/liunnn1994/sd-design/pull/1490))
+- 图标列表支持类型筛选和名称搜索 ([#1490](https://github.com/liunnn1994/sd-design/pull/1490))
 
 ## 2.25.0
 
@@ -36,9 +33,8 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 增加 `attachment`, `archive`, `calendar-clock`, `palette`, `launch` 图标 ([#1017](https://github.com/arco-design/arco-design-vue/pull/1017))
+- 增加 `attachment`, `archive`, `calendar-clock`, `palette`, `launch` 图标 ([#1017](https://github.com/liunnn1994/sd-design/pull/1017))
 
 ### 🐛 问题修复
 
-- 修正 `link`, `image-close`,`lock`, `unlock`,`sync` 图标 ([#1017](https://github.com/arco-design/arco-design-vue/pull/1017))
-
+- 修正 `link`, `image-close`,`lock`, `unlock`,`sync` 图标 ([#1017](https://github.com/liunnn1994/sd-design/pull/1017))

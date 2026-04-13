@@ -8,12 +8,11 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add bodyClass and bodyStyle ([#3437](https://github.com/arco-design/arco-design-vue/pull/3437))
+- Add bodyClass and bodyStyle ([#3437](https://github.com/liunnn1994/sd-design/pull/3437))
 
 ### 💎 Enhancement
 
-- fix re-throw error in onBeforeOk for proper error handling ([#3407](https://github.com/arco-design/arco-design-vue/pull/3407))
-
+- fix re-throw error in onBeforeOk for proper error handling ([#3407](https://github.com/liunnn1994/sd-design/pull/3407))
 
 ## 2.45.3
 
@@ -21,8 +20,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Add onOk & onCancel event parameters ([#2358](https://github.com/arco-design/arco-design-vue/pull/2358))
-
+- Add onOk & onCancel event parameters ([#2358](https://github.com/liunnn1994/sd-design/pull/2358))
 
 ## 2.43.2
 
@@ -30,8 +28,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- add update method of function call ([#2155](https://github.com/arco-design/arco-design-vue/pull/2155))
-
+- add update method of function call ([#2155](https://github.com/liunnn1994/sd-design/pull/2155))
 
 ## 2.43.0
 
@@ -39,8 +36,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add `before-open` and `before-close` events ([#2064](https://github.com/arco-design/arco-design-vue/pull/2064))
-
+- add `before-open` and `before-close` events ([#2064](https://github.com/liunnn1994/sd-design/pull/2064))
 
 ## 2.38.0
 
@@ -48,8 +44,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that closing does not unload internal components in function calls ([#1778](https://github.com/arco-design/arco-design-vue/pull/1778))
-
+- Fix the problem that closing does not unload internal components in function calls ([#1778](https://github.com/liunnn1994/sd-design/pull/1778))
 
 ## 2.37.4
 
@@ -57,8 +52,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- fix drawer close problem ([#1696](https://github.com/arco-design/arco-design-vue/pull/1696))
-
+- fix drawer close problem ([#1696](https://github.com/liunnn1994/sd-design/pull/1696))
 
 ## 2.36.1
 
@@ -66,13 +60,11 @@ changelog: true
 
 ### 💎 Enhancement
 
-- The on-before-ok property supports function returning a Promise ([#1623](https://github.com/arco-design/arco-design-vue/pull/1623))
-
+- The on-before-ok property supports function returning a Promise ([#1623](https://github.com/liunnn1994/sd-design/pull/1623))
 
 ## 2.35.2
 
 `2022-08-29`
-
 
 ## 2.34.0
 
@@ -80,8 +72,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add function call ([#1409](https://github.com/arco-design/arco-design-vue/pull/1409))
-
+- add function call ([#1409](https://github.com/liunnn1994/sd-design/pull/1409))
 
 ## 2.33.0
 
@@ -89,8 +80,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add header prop and slot ([#1399](https://github.com/arco-design/arco-design-vue/pull/1399))
-
+- add header prop and slot ([#1399](https://github.com/liunnn1994/sd-design/pull/1399))
 
 ## 2.19.0
 
@@ -98,8 +88,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `hide-cancel` attribute ([#803](https://github.com/arco-design/arco-design-vue/pull/803))
-
+- Added `hide-cancel` attribute ([#803](https://github.com/liunnn1994/sd-design/pull/803))
 
 ## 2.15.0
 
@@ -107,8 +96,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `escToClose` property and enabled by default ([#577](https://github.com/arco-design/arco-design-vue/pull/577))
-
+- Added `escToClose` property and enabled by default ([#577](https://github.com/liunnn1994/sd-design/pull/577))
 
 ## 2.14.0
 
@@ -116,8 +104,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Hide the title bar when title and closable are not set ([#515](https://github.com/arco-design/arco-design-vue/pull/515))
-
+- Hide the title bar when title and closable are not set ([#515](https://github.com/liunnn1994/sd-design/pull/515))
 
 ## 2.12.0
 
@@ -125,8 +112,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add unmount-on-close attribute ([#449](https://github.com/arco-design/arco-design-vue/pull/449))
-
+- Add unmount-on-close attribute ([#449](https://github.com/liunnn1994/sd-design/pull/449))
 
 ## 2.11.0
 
@@ -134,8 +120,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add property  `footer` ([#394](https://github.com/arco-design/arco-design-vue/pull/394))
-
+- add property `footer` ([#394](https://github.com/liunnn1994/sd-design/pull/394))
 
 ## 2.9.0
 
@@ -143,8 +128,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- `Drawer` supports okButtonProps & cancelButtonProps ([#325](https://github.com/arco-design/arco-design-vue/pull/325))
-
+- `Drawer` supports okButtonProps & cancelButtonProps ([#325](https://github.com/liunnn1994/sd-design/pull/325))
 
 ## 2.8.0
 
@@ -152,8 +136,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the drawer is still in the fixed layout when setting the popup-container property ([#297](https://github.com/arco-design/arco-design-vue/pull/297))
-
+- Fix the problem that the drawer is still in the fixed layout when setting the popup-container property ([#297](https://github.com/liunnn1994/sd-design/pull/297))
 
 ## 2.7.0
 
@@ -161,12 +144,11 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `on-before-ok` and `on-before-cancel` property events ([#229](https://github.com/arco-design/arco-design-vue/pull/229))
+- Added `on-before-ok` and `on-before-cancel` property events ([#229](https://github.com/liunnn1994/sd-design/pull/229))
 
 ### 🐛 BugFix
 
-- Fix the issue of initial triggering of the `open` event ([#267](https://github.com/arco-design/arco-design-vue/pull/267))
-
+- Fix the issue of initial triggering of the `open` event ([#267](https://github.com/liunnn1994/sd-design/pull/267))
 
 ## 2.4.0
 
@@ -174,8 +156,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- `width` and `height` added support for character types ([#172](https://github.com/arco-design/arco-design-vue/pull/172))
-
+- `width` and `height` added support for character types ([#172](https://github.com/liunnn1994/sd-design/pull/172))
 
 ## 2.0.3
 
@@ -183,5 +164,4 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of the wrong type of the main button ([#30](https://github.com/arco-design/arco-design-vue/pull/30))
-
+- Fix the problem of the wrong type of the main button ([#30](https://github.com/liunnn1994/sd-design/pull/30))

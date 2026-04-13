@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix split margin ([#1864](https://github.com/arco-design/arco-design-vue/pull/1864))
-
+- fix split margin ([#1864](https://github.com/liunnn1994/sd-design/pull/1864))
 
 ## 2.38.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add `split` slot ([#1774](https://github.com/arco-design/arco-design-vue/pull/1774))
-
+- add `split` slot ([#1774](https://github.com/liunnn1994/sd-design/pull/1774))
 
 ## 2.30.1
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 💅 Style
 
-- Items that use flex layout only in landscape mode ([#1277](https://github.com/arco-design/arco-design-vue/pull/1277))
-
+- Items that use flex layout only in landscape mode ([#1277](https://github.com/liunnn1994/sd-design/pull/1277))
 
 ## 2.30.0
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 💅 Style
 
-- space-item is modified to flex layout to solve the problem of vertical centering of inline elements ([#1273](https://github.com/arco-design/arco-design-vue/pull/1273))
-
+- space-item is modified to flex layout to solve the problem of vertical centering of inline elements ([#1273](https://github.com/liunnn1994/sd-design/pull/1273))
 
 ## 2.29.1
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the child component uses the key to fail ([#1223](https://github.com/arco-design/arco-design-vue/pull/1223))
-
+- Fix the problem that the child component uses the key to fail ([#1223](https://github.com/liunnn1994/sd-design/pull/1223))
 
 ## 2.25.1
 
@@ -53,8 +48,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix size attribute type detection problem ([#1052](https://github.com/arco-design/arco-design-vue/pull/1052))
-
+- Fix size attribute type detection problem ([#1052](https://github.com/liunnn1994/sd-design/pull/1052))
 
 ## 2.11.0
 
@@ -62,8 +56,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add property `fill` ([#415](https://github.com/arco-design/arco-design-vue/pull/415))
-
+- add property `fill` ([#415](https://github.com/liunnn1994/sd-design/pull/415))
 
 ## 2.9.0
 
@@ -71,5 +64,4 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of rendering v-if nodes ([#318](https://github.com/arco-design/arco-design-vue/pull/318))
-
+- Fix the problem of rendering v-if nodes ([#318](https://github.com/liunnn1994/sd-design/pull/318))

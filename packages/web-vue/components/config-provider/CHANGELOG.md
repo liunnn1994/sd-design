@@ -8,8 +8,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add `exchangeTime` property ([#2529](https://github.com/arco-design/arco-design-vue/pull/2529))
-
+- Add `exchangeTime` property ([#2529](https://github.com/liunnn1994/sd-design/pull/2529))
 
 ## 2.47.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- empty slots add component attribute ([#2448](https://github.com/arco-design/arco-design-vue/pull/2448))
-
+- empty slots add component attribute ([#2448](https://github.com/liunnn1994/sd-design/pull/2448))
 
 ## 2.28.0
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `empty` and `loading` slots ([#1180](https://github.com/arco-design/arco-design-vue/pull/1180))
-
+- Added `empty` and `loading` slots ([#1180](https://github.com/liunnn1994/sd-design/pull/1180))
 
 ## 2.25.1
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the setting of the size attribute is invalid in some components ([#1051](https://github.com/arco-design/arco-design-vue/pull/1051))
-
+- Fix the problem that the setting of the size attribute is invalid in some components ([#1051](https://github.com/liunnn1994/sd-design/pull/1051))
 
 ## 2.25.0
 
@@ -44,9 +40,8 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add updateAtScroll property ([#1015](https://github.com/arco-design/arco-design-vue/pull/1015))
-- add property `global` ([#933](https://github.com/arco-design/arco-design-vue/pull/933))
-
+- Add updateAtScroll property ([#1015](https://github.com/liunnn1994/sd-design/pull/1015))
+- add property `global` ([#933](https://github.com/liunnn1994/sd-design/pull/933))
 
 ## 2.14.1
 
@@ -54,8 +49,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of loading styles on demand ([#526](https://github.com/arco-design/arco-design-vue/pull/526))
-
+- Fix the problem of loading styles on demand ([#526](https://github.com/liunnn1994/sd-design/pull/526))
 
 ## 2.14.0
 
@@ -63,5 +57,4 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add `size` prop ([#513](https://github.com/arco-design/arco-design-vue/pull/513))
-
+- Add `size` prop ([#513](https://github.com/liunnn1994/sd-design/pull/513))

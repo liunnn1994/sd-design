@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix  adaptive height issue with divider ([#2561](https://github.com/arco-design/arco-design-vue/pull/2561))
-
+- fix adaptive height issue with divider ([#2561](https://github.com/liunnn1994/sd-design/pull/2561))
 
 ## 2.46.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that margin cannot be set to 0 ([#2390](https://github.com/arco-design/arco-design-vue/pull/2390))
-
+- Fix the problem that margin cannot be set to 0 ([#2390](https://github.com/liunnn1994/sd-design/pull/2390))
 
 ## 2.44.2
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the dividing line is displayed incorrectly ([#2205](https://github.com/arco-design/arco-design-vue/pull/2205))
-
+- Fix the problem that the dividing line is displayed incorrectly ([#2205](https://github.com/liunnn1994/sd-design/pull/2205))
 
 ## 2.39.2
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the style is wrong when setting size ([#1905](https://github.com/arco-design/arco-design-vue/pull/1905))
-
+- Fix the problem that the style is wrong when setting size ([#1905](https://github.com/liunnn1994/sd-design/pull/1905))
 
 ## 2.35.0
 
@@ -44,6 +40,5 @@ changelog: true
 
 ### 🆕 Feature
 
-- support split line width and style ([#1473](https://github.com/arco-design/arco-design-vue/pull/1473))
-- support split line margin ([#1473](https://github.com/arco-design/arco-design-vue/pull/1473))
-
+- support split line width and style ([#1473](https://github.com/liunnn1994/sd-design/pull/1473))
+- support split line margin ([#1473](https://github.com/liunnn1994/sd-design/pull/1473))

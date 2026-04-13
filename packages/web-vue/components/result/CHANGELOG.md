@@ -8,8 +8,7 @@ changelog: true
 
 ### 💅 Style
 
-- Fix 500 image misalignment issues ([#2578](https://github.com/arco-design/arco-design-vue/pull/2578))
-
+- Fix 500 image misalignment issues ([#2578](https://github.com/liunnn1994/sd-design/pull/2578))
 
 ## 2.8.0
 
@@ -17,5 +16,4 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `extra` slot and `default` slot ([#302](https://github.com/arco-design/arco-design-vue/pull/302))
-
+- Added `extra` slot and `default` slot ([#302](https://github.com/liunnn1994/sd-design/pull/302))

@@ -1,140 +1,135 @@
+# 贡献指南
 
-> English | [简体中文](./CONTRIBUTING.zh-CN.md)
-# Contributing
+感谢你的宝贵时间。你的贡献将使这个项目变得更好！在提交贡献之前，请务必花点时间阅读下面的入门指南。
 
-Thank you for taking your time to contribute and make this project better! Here are some guidelines to help you get started. Please make sure to take a moment and read through them before submitting your contributions.
+## 行为准则
 
-## Code of Conduct
+该项目有一份 [行为准则](./CODE_OF_CONDUCT.md)，希望参与项目的贡献者都能严格遵守。
 
-This project is governed by the [Contributor Covenant Code of Conduct](./CODE_OF_CONDUCT.md). By participating, you are expected to adhere to it.
+## 透明的开发
 
-## Open Development
+所有工作都直接透明地在 GitHub 上进行。核心团队成员和外部贡献者的 pull requests 都需要经过相同的 review 流程。
 
-All work happens directly on GitHub. Both core team members and external contributors send pull requests which go through the same review process.
+## 语义化版本
 
-## Semantic Versioning
+该项目遵循语义化版本。我们对重要的漏洞修复发布修订号，对新特性或不重要的变更发布次版本号，对重大且不兼容的变更发布主版本号。
 
-This project follows semantic versioning. We release patch versions for bug fixes or other changes that do not change the behavior of the API, minor versions for new features that are backward-compatible, and major versions for any breaking changes.
+每个重大更改都将记录在 changelog 中。
 
-Every significant change is documented in the changelog file.
+## 报告 Issues
 
-## Reporting Issues
+我们使用 [Github issues](https://github.com/liunnn1994/sd-design/issues) 进行 bug 报告和新 feature 建议。在报告 bug 之前，请确保已经搜索过类似的 [问题](https://github.com/liunnn1994/sd-design/issues)，因为它们可能已经得到解答或正在被修复。新问题应通过 [问题助手](https://arco.design/issue-helper?repo=arco-design-vue) 提交。对于 bug 报告，请包含可用于重现问题的代码。对于新 feature 建议，请指出你想要的更改以及期望的行为。
 
-We use [Github issues](https://github.com/arco-design/arco-design-vue/issues) for bug reports and feature requests. Before reporting an issue, please make sure you have searched for similar [issues](https://github.com/arco-design/arco-design-vue/issues) as they may have been already answered or being fixed. A new issue should be submitted via [issue helper](https://arco.design/issue-helper?repo=arco-design-vue). For bug reporting, please include the minimum code that can be used to reproduce the problem. For feature request, please specify what changes you want and what behavior you expect.
+## 提交 Pull Request
 
-## Sending a pull request
-This project uses [pnpm](https://pnpm.io/) for package management. Please install Yarn before development.
+本项目使用 [pnpm](https://pnpm.io/zh/) 进行多包管理，请在开发前准备好开发环境。
 
-### Contribution Process
+### 共建流程
 
-- **Claim an Issue**: Create an issue on GitHub and claim it (or directly claim an existing issue) to let others know you are working on it, preventing duplicate efforts.
-- **Development**: After preparing for development, proceed with bug fixes or feature implementation.
-- **Add Unit Tests**: Write unit tests for your code changes and ensure all test cases pass, aiming for reasonable test coverage.
-- **Update Snapshots**: If your changes affect the component’s DOM structure, class names, or add/remove demos, update the snapshots accordingly.
-- **Generate Documentation**: If the component API is modified, run `pnpm run docgen` to regenerate the documentation.
-- **Submit a Pull Request**
+- 认领 issue： 在 github 建立 issue 并认领（或直接认领已有 issue），告知大家自己正在修复，避免重复工作。
+- 项目开发：在完成开发前准备后，进行 bug 修复或功能开发。
+- 添加单测：针对代码变动添加单元测试，确认测试用例通过，尽量保证一定的测试覆盖率。
+- 更新快照：如果涉及到组件 dom 层级变动，类名增删或新增/删除了 Demo，快照需要重新生成更新。
+- 文档生成：组件 API 存在调整时需执行 `pnpm run docgen` 重新生成文档。
+- 提交 PR
 
-### Development
+### 开发
 
-1. Fork [this repository](https://github.com/arco-design/arco-design-vue) and create a branch from `main`.
-   - For new features, submit a pull request to the `feature` branch.
-   - For other changes, submit to the `main` branch.
+1. Fork [此仓库](https://github.com/liunnn1994/sd-design)，从 `main` 创建分支。新功能实现请发 pull request 到 `feature` 分支。其他更改发到 `main` 分支。
 
 ```bash
 git clone git@github.com:arco-design/arco-design-vue.git
 ```
 
-2. Install the dependencies of each package in `workspaces`.
+2. 安装 `workspaces` 中各个包的依赖。
 
 ```bash
 pnpm install
 ```
 
-3. Initialize the project.
+3. 初始化项目
 
 ```bash
 pnpm run init
 ```
 
-4. Start and preview the site.
+4. 启动和预览站点
 
 ```bash
 pnpm run start
 ```
 
 ```bash
-# Start Storybook (optional, as debugging can also be done on the official website)
+# 启动 storybook 。 这里启动不启动都可以，官网也可以调试组件
 pnpm run storybook
 ```
 
-5. Make changes to the codebase. If applicable, ensure that you have written the corresponding tests.
-6. Make sure all tests pass after running `pnpm run test`.
-7. Commit your changes, adhering to the [Commit Guidelines](#commit-guidelines).
-8. Open a new pull request, [referencing corresponding issues](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword) if available.
+5. 对代码库进行更改。如果适用的话，请确保写了相应的测试。
+6. 确认执行 `pnpm run test` 后所有的测试都是通过的。
+7. 提交 git commit, 请同时遵守 [Commit 规范](#commit-指南)。
+8. 提交 pull request, 如果有对应的 issue，请进行[关联](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword)。
 
+## Commit 指南
 
-## Commit Guidelines
-
-Commit messages are required to follow the [conventional-changelog standard](https://www.conventionalcommits.org/en/v1.0.0/):
+Commit messages 请遵循[conventional-changelog 标准](https://www.conventionalcommits.org/en/v1.0.0/)：
 
 ```bash
-<type>[optional scope]: <description>
+<类型>[可选 范围]: <描述>
 
-[optional body]
+[可选 正文]
 
-[optional footer(s)]
+[可选 脚注]
 ```
 
-### Commit types
+### Commit 类型
 
-The following is a list of commit types:
+以下是 commit 类型列表:
 
-- feat: A new feature or functionality
-- fix: A bug fix
-- docs: Documentation only changes
-- style: Code formatting or component style changes
-- refactor: Code changes that neither fixes a bug nor adds a feature.
-- perf: Improve performance.
-- test: Add missing or correct existing tests.
-- chore: Other commits that don’t modify src or test files.
+- feat: 新特性或功能
+- fix: 缺陷修复
+- docs: 文档更新
+- style: 代码风格或者组件样式更新
+- refactor: 代码重构，不引入新功能和缺陷修复
+- perf: 性能优化
+- test: 单元测试
+- chore: 其他不修改 src 或测试文件的提交
 
+## Web-Vue 项目结构
 
-## Arco-Vue Repository Structure
+本仓库多包管理，包括以下 packages：
 
-This repository is managed by pnpm workspace and includes the following packages:
+1. `web-vue`: Vue 组件库
+2. `vue-site`: Vue 组件库文档站
+3. `arco-vue-scripts`: Vue 组件库脚本
+4. `arco-vue-md-loader`: Vue 组件库中 markdown 文档的 webpack loader
+5. `arco-vue-site-nav`: Vue 组件库文档站的顶部导航栏(使用 React 物料)
 
-1. `web-vue`: UI component library
-2. `vue-site`: Component documentation site
-3. `arco-vue-scripts`: Component scripts
-4. `arco-vue-md-loader`: Webpack loader for markdown parsing
-5. `arco-vue-site-nav`: Navigation bar of documentation site (using React materials)
-
-### Web-Vue Component Directory
+### Web-Vue 组件目录
 
 > components/componentName
 
 ```
-├── README.zh-CN.md (Note:Don't edit this file, it's generated by script)
-├── README.en-US.md (Note:Don't edit this file, it's generated by script)
-├── TEMPLATE.md (Template used to generate README file)
+├── README.zh-CN.md (注意：不要编辑这个文件，它是由脚本自动生成的)
+├── README.en-US.md (注意：不要编辑这个文件，它是由脚本自动生成的)
+├── TEMPLATE.md (用于生成 README 文件的模板)
 ├── __test__
 │   ├── __snapshots__
-│   │   └── demo.test.js.snap (Snapshot)
-│   ├── demo.test.ts (Snapshot test)
-│   └── index.test.ts (Unit test)
-├── __demo__ (Demos for each component)
+│   │   └── demo.test.js.snap
+│   ├── demo.test.ts (快照测试)
+│   └── index.test.ts (单元测试)
+├── __demo__ (组件演示)
 │   ├── basic.md
 │   └── advanced.md
-├── index.tsx(Component export)
+├── index.tsx(组件导出)
 └── style
-    └── index.less(Component style)
-    └── index.ts (Component style entry)
+    └── index.less(组件样式)
+    └── index.ts (组件样式导出)
 ```
 
-Please note that if you make changes that will affect README (e.g. API changes), make sure to run `npm run docgen` to update README of the component.
+请注意: 如果进行了会影响 README 的变更(例如 API 变更)，请确保运行 `pnpm run docgen` 来更新组件的 README。
 
-For scripts related to the component library, please run under the `web-vue` directory.
+组件库的相关操作在`web-vue`目录下操作.
 
 ## License
 
-By contributing your code to the repository, you agree to license your contribution under the [MIT license](./LICENSE).
+[MIT 协议](./LICENSE).

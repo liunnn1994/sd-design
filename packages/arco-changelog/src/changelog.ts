@@ -1,4 +1,4 @@
-import marked, { Tokens } from 'marked';
+import { marked, Tokens } from 'marked';
 import { invertKeyValues } from './utils/invert';
 import { ChangelogData } from './interface';
 
@@ -25,34 +25,40 @@ export const getChangelogList = (
   const match = _content.match(rule)?.[1];
   if (!match) return undefined;
   const tokens = marked.lexer(match);
-  const table = tokens.filter(
-    (token) => token.type === 'table'
-  )[0] as Tokens.Table;
+  const table = tokens.find(
+    (token): token is Tokens.Table => token.type === 'table'
+  );
   if (!table) return undefined;
 
   const keys = table.header.map((header) => {
-    return _keyDict[header];
+    return _keyDict[header.text];
   });
 
-  return table.cells.reduce((list, cur) => {
-    const data = cur.reduce(
-      (data, value, index) => {
+  return table.rows.reduce((list, row) => {
+    const data = row.reduce(
+      (item, cell, index) => {
         const key = keys[index];
+        const value = cell.text;
+
+        if (!key) {
+          return item;
+        }
+
         if (key === 'type') {
-          data[key] = _typeDict[value];
+          item[key] = _typeDict[value];
         } else if (key === 'issues') {
-          data[key] = value
+          item[key] = value
             .split(',')
             .map((item) => item.match(/#\d+/)?.[0])
             .filter((item) => Boolean(item)) as string[];
         } else {
-          data[key] = value;
+          item[key] = value;
         }
 
-        return data;
+        return item;
       },
       {
-        type: defaultType,
+        type: defaultType ?? '',
         pr: config.pr,
       } as ChangelogData
     );

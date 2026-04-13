@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fixed an issue where message positioning would be affected by layout and would not be displayed ([#3406](https://github.com/arco-design/arco-design-vue/pull/3406))
-
+- Fixed an issue where message positioning would be affected by layout and would not be displayed ([#3406](https://github.com/liunnn1994/sd-design/pull/3406))
 
 ## 2.41.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add `normal` type ([#2009](https://github.com/arco-design/arco-design-vue/pull/2009))
-
+- Add `normal` type ([#2009](https://github.com/liunnn1994/sd-design/pull/2009))
 
 ## 2.39.0
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add `resetOnHover` property to pause and restart timing when the mouse moves in ([#1841](https://github.com/arco-design/arco-design-vue/pull/1841))
-
+- Add `resetOnHover` property to pause and restart timing when the mouse moves in ([#1841](https://github.com/liunnn1994/sd-design/pull/1841))
 
 ## 2.27.0
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the clear method has an error when called multiple times ([#1095](https://github.com/arco-design/arco-design-vue/pull/1095))
-
+- Fix the problem that the clear method has an error when called multiple times ([#1095](https://github.com/liunnn1994/sd-design/pull/1095))
 
 ## 2.18.0-beta.2
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fixed the problem of destroying an error when calling at the same time ([#705](https://github.com/arco-design/arco-design-vue/pull/705))
-
+- Fixed the problem of destroying an error when calling at the same time ([#705](https://github.com/liunnn1994/sd-design/pull/705))
 
 ## 2.16.0
 
@@ -53,8 +48,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix type warning when using loading type ([#635](https://github.com/arco-design/arco-design-vue/pull/635))
-
+- fix type warning when using loading type ([#635](https://github.com/liunnn1994/sd-design/pull/635))
 
 ## 2.10.0
 
@@ -62,8 +56,7 @@ changelog: true
 
 ### 💅 Style
 
-- Use flex layout to display message ([#354](https://github.com/arco-design/arco-design-vue/pull/354))
-
+- Use flex layout to display message ([#354](https://github.com/liunnn1994/sd-design/pull/354))
 
 ## 2.3.0
 
@@ -71,6 +64,5 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `onClose` callback method ([#149](https://github.com/arco-design/arco-design-vue/pull/149))
-- Added `loading` method ([#149](https://github.com/arco-design/arco-design-vue/pull/149))
-
+- Added `onClose` callback method ([#149](https://github.com/liunnn1994/sd-design/pull/149))
+- Added `loading` method ([#149](https://github.com/liunnn1994/sd-design/pull/149))

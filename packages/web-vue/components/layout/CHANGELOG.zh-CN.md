@@ -8,5 +8,4 @@ changelog: true
 
 ### 🆎 类型修正
 
-- 增加 ts 类型导出 ([#1571](https://github.com/arco-design/arco-design-vue/pull/1571))
-
+- 增加 ts 类型导出 ([#1571](https://github.com/liunnn1994/sd-design/pull/1571))

@@ -8,8 +8,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- overflow quantity changes event ([#1287](https://github.com/arco-design/arco-design-vue/pull/1287))
-
+- overflow quantity changes event ([#1287](https://github.com/liunnn1994/sd-design/pull/1287))
 
 ## 2.37.1
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `OverflowList` component ([#1634](https://github.com/arco-design/arco-design-vue/pull/1634))
-
+- Added `OverflowList` component ([#1634](https://github.com/liunnn1994/sd-design/pull/1634))
 
 ## 2.30.1-beta.1
 
@@ -26,5 +24,4 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `OverflowList` component ([#1221](https://github.com/arco-design/arco-design-vue/pull/1221))
-
+- Added `OverflowList` component ([#1221](https://github.com/liunnn1994/sd-design/pull/1221))

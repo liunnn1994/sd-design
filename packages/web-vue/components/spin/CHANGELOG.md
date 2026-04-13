@@ -8,9 +8,8 @@ changelog: true
 
 ### 🆕 Feature
 
-- add hideIcon property ([#2303](https://github.com/arco-design/arco-design-vue/pull/2303))
-- add tip slot ([#2303](https://github.com/arco-design/arco-design-vue/pull/2303))
-
+- add hideIcon property ([#2303](https://github.com/liunnn1994/sd-design/pull/2303))
+- add tip slot ([#2303](https://github.com/liunnn1994/sd-design/pull/2303))
 
 ## 2.38.0-beta.1
 
@@ -18,8 +17,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that size is invalid ([#1717](https://github.com/arco-design/arco-design-vue/pull/1717))
-
+- Fix the problem that size is invalid ([#1717](https://github.com/liunnn1994/sd-design/pull/1717))
 
 ## 2.35.1
 
@@ -27,8 +25,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the spin problem caused by the increase of the z-index of fixed-column ([#1533](https://github.com/arco-design/arco-design-vue/pull/1533))
-
+- Fix the spin problem caused by the increase of the z-index of fixed-column ([#1533](https://github.com/liunnn1994/sd-design/pull/1533))
 
 ## 2.9.0
 
@@ -36,8 +33,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that switching states in container mode causes sub-components to reload ([#320](https://github.com/arco-design/arco-design-vue/pull/320))
-
+- Fix the problem that switching states in container mode causes sub-components to reload ([#320](https://github.com/liunnn1994/sd-design/pull/320))
 
 ## 2.1.0
 
@@ -45,5 +41,4 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add size prop and icon & element slot ([#86](https://github.com/arco-design/arco-design-vue/pull/86))
-
+- Add size prop and icon & element slot ([#86](https://github.com/liunnn1994/sd-design/pull/86))

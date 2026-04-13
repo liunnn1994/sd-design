@@ -9,15 +9,29 @@ import {
 } from './utils';
 import marked from './marked';
 
+function callPluginTransform(plugin: Plugin, ctx: any, code: string, id: string) {
+  const hook = plugin.transform as any;
+
+  if (typeof hook === 'function') {
+    return hook.call(ctx, code, id);
+  }
+
+  if (hook && typeof hook === 'object' && typeof hook.handler === 'function') {
+    return hook.handler.call(ctx, code, id);
+  }
+
+  return null;
+}
+
 export default function vueMdPlugin(): Plugin {
   let vuePlugin: Plugin | undefined;
 
   return {
     name: 'vite:arco-vue-docs',
     enforce: 'pre',
-    configResolved(resolvedConfig) {
+    configResolved(resolvedConfig: any) {
       // 获取vue插件，在hotUpload中使用
-      vuePlugin = resolvedConfig.plugins.find((p) => p.name === 'vite:vue');
+      vuePlugin = resolvedConfig.plugins.find((p: any) => p.name === 'vite:vue');
     },
     resolveId(id: string) {
       // 遇到虚拟md模块，直接返回id
@@ -26,7 +40,7 @@ export default function vueMdPlugin(): Plugin {
       }
       return null;
     },
-    load(id) {
+    load(id: string) {
       // 遇到虚拟md模块，直接返回缓存的内容
       if (isVirtualModule(id)) {
         return getDescriptor(id);
@@ -41,7 +55,7 @@ export default function vueMdPlugin(): Plugin {
         return this.error('Not found plugin [vite:vue]');
       }
       if (isVirtualModule(id)) {
-        return vuePlugin.transform?.call(this, code, getVueId(id));
+        return callPluginTransform(vuePlugin, this, code, getVueId(id));
       }
 
       const tokens = marked.lexer(code);
@@ -55,10 +69,10 @@ export default function vueMdPlugin(): Plugin {
         ? transformDemo(tokens, id, frontMatter)
         : transformMain(tokens, id, frontMatter);
 
-      return vuePlugin.transform?.call(this, vueCode, getVueId(id));
+      return callPluginTransform(vuePlugin, this, vueCode, getVueId(id));
     },
 
-    async handleHotUpdate(ctx) {
+    async handleHotUpdate(ctx: any) {
       if (!ctx.file.endsWith('.md') || !vuePlugin) {
         return undefined;
       }

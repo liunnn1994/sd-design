@@ -8,8 +8,7 @@ changelog: true
 
 ### 🆎 TypeScript
 
-- Fix the ts error problem when the `value` attribute uses a boolean value ([#2373](https://github.com/arco-design/arco-design-vue/pull/2373))
-
+- Fix the ts error problem when the `value` attribute uses a boolean value ([#2373](https://github.com/liunnn1994/sd-design/pull/2373))
 
 ## 2.43.2
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fixed checkbox retaining hover style when deselected ([#2124](https://github.com/arco-design/arco-design-vue/pull/2124))
-
+- Fixed checkbox retaining hover style when deselected ([#2124](https://github.com/liunnn1994/sd-design/pull/2124))
 
 ## 2.41.1
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🆎 TypeScript
 
-- Fix missing type for `value` values ([#2029](https://github.com/arco-design/arco-design-vue/pull/2029))
-
+- Fix missing type for `value` values ([#2029](https://github.com/liunnn1994/sd-design/pull/2029))
 
 ## 2.41.0
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Set to empty array if `modevalue` is not an array ([#1940](https://github.com/arco-design/arco-design-vue/pull/1940))
-
+- Set to empty array if `modevalue` is not an array ([#1940](https://github.com/liunnn1994/sd-design/pull/1940))
 
 ## 2.38.0
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the state is not cleared when clearing model-value ([#1794](https://github.com/arco-design/arco-design-vue/pull/1794))
-
+- Fix the problem that the state is not cleared when clearing model-value ([#1794](https://github.com/liunnn1994/sd-design/pull/1794))
 
 ## 2.36.0
 
@@ -53,8 +48,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add max prop, support setting the maximum number of items that can be checked ([#1540](https://github.com/arco-design/arco-design-vue/pull/1540))
-
+- Add max prop, support setting the maximum number of items that can be checked ([#1540](https://github.com/liunnn1994/sd-design/pull/1540))
 
 ## 2.27.0
 
@@ -62,9 +56,8 @@ changelog: true
 
 ### 🆕 Feature
 
-- `checkbox-group` adds `checkbox` slot ([#1087](https://github.com/arco-design/arco-design-vue/pull/1087))
-- `checkbox-group` supports `options` attribute to configure child elements ([#1058](https://github.com/arco-design/arco-design-vue/pull/1058))
-
+- `checkbox-group` adds `checkbox` slot ([#1087](https://github.com/liunnn1994/sd-design/pull/1087))
+- `checkbox-group` supports `options` attribute to configure child elements ([#1058](https://github.com/liunnn1994/sd-design/pull/1058))
 
 ## 2.25.1
 
@@ -72,8 +65,7 @@ changelog: true
 
 ### 💅 Style
 
-- Fixed the issue that the hover style would still change in the disabled state ([#1040](https://github.com/arco-design/arco-design-vue/pull/1040))
-
+- Fixed the issue that the hover style would still change in the disabled state ([#1040](https://github.com/liunnn1994/sd-design/pull/1040))
 
 ## 2.18.0
 
@@ -81,8 +73,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add checkbox slot, you can customize the checkbox ([#769](https://github.com/arco-design/arco-design-vue/pull/769))
-
+- Add checkbox slot, you can customize the checkbox ([#769](https://github.com/liunnn1994/sd-design/pull/769))
 
 ## 2.18.0-beta.1
 
@@ -90,5 +81,4 @@ changelog: true
 
 ### ⚠️ Important Attention
 
-- Outer wrapping DOM changed from span to label ([#697](https://github.com/arco-design/arco-design-vue/pull/697))
-
+- Outer wrapping DOM changed from span to label ([#697](https://github.com/liunnn1994/sd-design/pull/697))

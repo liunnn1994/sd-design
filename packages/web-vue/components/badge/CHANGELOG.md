@@ -8,13 +8,11 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that components fail when customizing `prefix-cls` ([#2476](https://github.com/arco-design/arco-design-vue/pull/2476))
-
+- Fix the problem that components fail when customizing `prefix-cls` ([#2476](https://github.com/liunnn1994/sd-design/pull/2476))
 
 ## 2.40.1
 
 `2022-12-23`
-
 
 ## 2.12.0
 
@@ -22,5 +20,4 @@ changelog: true
 
 ### 💎 Enhancement
 
-- No longer render the logo when count is 0 ([#445](https://github.com/arco-design/arco-design-vue/pull/445))
-
+- No longer render the logo when count is 0 ([#445](https://github.com/liunnn1994/sd-design/pull/445))

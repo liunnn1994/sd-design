@@ -1,7 +1,7 @@
 <!--
   Thanks so much for your PR and contribution.
 
-  Before submitting, please make sure to follow the Pull Request Guidelines: https://github.com/arco-design/arco-design-vue/blob/main/CONTRIBUTING.md
+  Before submitting, please make sure to follow the Pull Request Guidelines: https://github.com/liunnn1994/sd-design/blob/main/CONTRIBUTING.md
 -->
 
 <!-- Put an `x` in "[ ]" to check a box) -->
@@ -40,9 +40,9 @@
 
 ## Changelog
 
-| Component | Changelog(CN) | Changelog(EN) | Related issues |
-| --------- | ------------- | ------------- | -------------- |
-|  upload  |    新增 `bundle-upload` 属性，支持捆绑上传    |  Added `bundle-upload` property to support bundle upload   |  Close #647  |
+| Component | Changelog(CN)                           | Changelog(EN)                                           | Related issues |
+| --------- | --------------------------------------- | ------------------------------------------------------- | -------------- |
+| upload    | 新增 `bundle-upload` 属性，支持捆绑上传 | Added `bundle-upload` property to support bundle upload | Close #647     |
 
 <!-- If there are multiple types, you can add the `Type` column in the Changelog, the value of the column is the same as `Types of changes` -->
 
@@ -51,7 +51,7 @@
 - [ ] Test suite passes (`npm run test`)
 - [ ] Provide changelog for relevant changes (e.g. bug fixes and new features) if applicable.
 - [ ] Changes are submitted to the appropriate branch (e.g. features should be submitted to `feature` branch and others
-  should be submitted to `main` branch)
+      should be submitted to `main` branch)
 
 ## Other information
 

@@ -1,0 +1,10 @@
+[tools]
+node = "24.14.1"
+
+[hooks]
+postinstall = "npx corepack enable"
+
+[settings]
+experimental = true
+
+

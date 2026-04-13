@@ -6,7 +6,7 @@ import {
   ScriptTarget,
   SourceFile,
 } from 'ts-morph';
-import glob from 'glob';
+import { globSync } from 'glob';
 import { parse } from '@vue/compiler-sfc';
 
 export async function build(input: string, options?: { outDir?: string }) {
@@ -41,7 +41,7 @@ export async function build(input: string, options?: { outDir?: string }) {
       outDir: path.resolve(root, options.outDir),
     });
   }
-  const files = glob.sync(input, {
+  const files = globSync(input, {
     ignore: /components\/icon/.test(input)
       ? ['**/__test__/*', '**/__demo__/*']
       : ['**/__test__/*', '**/__demo__/*', 'components/icon/**/*'],

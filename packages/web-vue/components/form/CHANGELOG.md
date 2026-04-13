@@ -8,13 +8,11 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix where form id attribute was consumed and could not be propagated ([#3450](https://github.com/arco-design/arco-design-vue/pull/3450))
-
+- fix where form id attribute was consumed and could not be propagated ([#3450](https://github.com/liunnn1994/sd-design/pull/3450))
 
 ## 2.54.0
 
 `2023-12-15`
-
 
 ## 2.51.2
 
@@ -22,8 +20,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- scroll-to-first-error throws error in nested form items ([#2707](https://github.com/arco-design/arco-design-vue/pull/2707))
-
+- scroll-to-first-error throws error in nested form items ([#2707](https://github.com/liunnn1994/sd-design/pull/2707))
 
 ## 2.51.0
 
@@ -31,8 +28,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add scroll into view to the field ([#2680](https://github.com/arco-design/arco-design-vue/pull/2680))
-
+- add scroll into view to the field ([#2680](https://github.com/liunnn1994/sd-design/pull/2680))
 
 ## 2.44.2
 
@@ -40,12 +36,11 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the array format is not supported in the field attribute ([#2242](https://github.com/arco-design/arco-design-vue/pull/2242))
+- Fix the problem that the array format is not supported in the field attribute ([#2242](https://github.com/liunnn1994/sd-design/pull/2242))
 
 ### 💎 Enhancement
 
-- Add Chinese inspection information ([#2240](https://github.com/arco-design/arco-design-vue/pull/2240))
-
+- Add Chinese inspection information ([#2240](https://github.com/liunnn1994/sd-design/pull/2240))
 
 ## 2.43.2
 
@@ -53,8 +48,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix invalidation of validateStatus of FormItem ([#2158](https://github.com/arco-design/arco-design-vue/pull/2158))
-
+- Fix invalidation of validateStatus of FormItem ([#2158](https://github.com/liunnn1994/sd-design/pull/2158))
 
 ## 2.41.0
 
@@ -62,9 +56,8 @@ changelog: true
 
 ### 🆕 Feature
 
-- `form-item` supports tooltip property ([#1991](https://github.com/arco-design/arco-design-vue/pull/1991))
-- `form-item` supports asteriskPosition property ([#1991](https://github.com/arco-design/arco-design-vue/pull/1991))
-
+- `form-item` supports tooltip property ([#1991](https://github.com/liunnn1994/sd-design/pull/1991))
+- `form-item` supports asteriskPosition property ([#1991](https://github.com/liunnn1994/sd-design/pull/1991))
 
 ## 2.40.0
 
@@ -72,8 +65,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the bug that `validate-status` attribute of `Form` component does not take effect in `date-picker` component. ([#1928](https://github.com/arco-design/arco-design-vue/pull/1928))
-
+- Fix the bug that `validate-status` attribute of `Form` component does not take effect in `date-picker` component. ([#1928](https://github.com/liunnn1994/sd-design/pull/1928))
 
 ## 2.38.0
 
@@ -81,8 +73,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Do not modify the original object data of the rule ([#1779](https://github.com/arco-design/arco-design-vue/pull/1779))
-
+- Do not modify the original object data of the rule ([#1779](https://github.com/liunnn1994/sd-design/pull/1779))
 
 ## 2.33.1
 
@@ -90,8 +81,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix form-item content may exceed limit width ([#1437](https://github.com/arco-design/arco-design-vue/pull/1437))
-
+- Fix form-item content may exceed limit width ([#1437](https://github.com/liunnn1994/sd-design/pull/1437))
 
 ## 2.31.0
 
@@ -99,8 +89,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added parameter support for resetFields and clearValidate methods ([#1305](https://github.com/arco-design/arco-design-vue/pull/1305))
-
+- Added parameter support for resetFields and clearValidate methods ([#1305](https://github.com/liunnn1994/sd-design/pull/1305))
 
 ## 2.22.0
 
@@ -108,12 +97,11 @@ changelog: true
 
 ### 🆕 Feature
 
-- Rendering elements that support modifying form item labels ([#919](https://github.com/arco-design/arco-design-vue/pull/919))
+- Rendering elements that support modifying form item labels ([#919](https://github.com/liunnn1994/sd-design/pull/919))
 
 ### 💅 Style
 
-- Form item content style increases maximum width to prevent overflow ([#919](https://github.com/arco-design/arco-design-vue/pull/919))
-
+- Form item content style increases maximum width to prevent overflow ([#919](https://github.com/liunnn1994/sd-design/pull/919))
 
 ## 2.20.1
 
@@ -121,8 +109,7 @@ changelog: true
 
 ### 💅 Style
 
-- Fix `form-item` asterisk compatibility with windicss ([#854](https://github.com/arco-design/arco-design-vue/pull/854))
-
+- Fix `form-item` asterisk compatibility with windicss ([#854](https://github.com/liunnn1994/sd-design/pull/854))
 
 ## 2.19.0
 
@@ -130,9 +117,8 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the `field` property of `form-item` is invalid when there is an array in it ([#807](https://github.com/arco-design/arco-design-vue/pull/807))
-- Fixed the issue that some component functions are still available after `disabled` is enabled ([#807](https://github.com/arco-design/arco-design-vue/pull/807))
-
+- Fix the problem that the `field` property of `form-item` is invalid when there is an array in it ([#807](https://github.com/liunnn1994/sd-design/pull/807))
+- Fixed the issue that some component functions are still available after `disabled` is enabled ([#807](https://github.com/liunnn1994/sd-design/pull/807))
 
 ## 2.18.0
 
@@ -140,8 +126,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of reset method invalid in nested data ([#768](https://github.com/arco-design/arco-design-vue/pull/768))
-
+- Fix the problem of reset method invalid in nested data ([#768](https://github.com/liunnn1994/sd-design/pull/768))
 
 ## 2.18.0-beta.2
 
@@ -149,12 +134,11 @@ changelog: true
 
 ### 💎 Enhancement
 
-- When `auto-label-width` is enabled, label wrapping is not allowed to prevent calculation errors after wrapping ([#738](https://github.com/arco-design/arco-design-vue/pull/738))
+- When `auto-label-width` is enabled, label wrapping is not allowed to prevent calculation errors after wrapping ([#738](https://github.com/liunnn1994/sd-design/pull/738))
 
 ### 🆕 Feature
 
-- Validated error info add label property ([#724](https://github.com/arco-design/arco-design-vue/pull/724))
-
+- Validated error info add label property ([#724](https://github.com/liunnn1994/sd-design/pull/724))
 
 ## 2.18.0-beta.1
 
@@ -162,8 +146,7 @@ changelog: true
 
 ### ⚠️ Important Attention
 
-- <form-item> component refactoring to use context to manage input components. If the user has a custom input component, you can refer to the `custom input component` example to change. ([#697](https://github.com/arco-design/arco-design-vue/pull/697))
-
+- <form-item> component refactoring to use context to manage input components. If the user has a custom input component, you can refer to the `custom input component` example to change. ([#697](https://github.com/liunnn1994/sd-design/pull/697))
 
 ## 2.16.0
 
@@ -171,8 +154,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added feedback icon function for forms and corresponding input components ([#622](https://github.com/arco-design/arco-design-vue/pull/622))
-
+- Added feedback icon function for forms and corresponding input components ([#622](https://github.com/liunnn1994/sd-design/pull/622))
 
 ## 2.14.2
 
@@ -180,8 +162,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Label-col uses flex layout to solve the problem of wrong height under mini size ([#536](https://github.com/arco-design/arco-design-vue/pull/536))
-
+- Label-col uses flex layout to solve the problem of wrong height under mini size ([#536](https://github.com/liunnn1994/sd-design/pull/536))
 
 ## 2.14.1
 
@@ -189,8 +170,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of the default size and style of the form ([#526](https://github.com/arco-design/arco-design-vue/pull/526))
-
+- Fix the problem of the default size and style of the form ([#526](https://github.com/liunnn1994/sd-design/pull/526))
 
 ## 2.13.0
 
@@ -198,18 +178,17 @@ changelog: true
 
 ### ⚠️ Important Attention
 
-- The `form-item` component adds a new `content-wrapper` div element to wrap the original `content` div element to support the new layout ([#488](https://github.com/arco-design/arco-design-vue/pull/488))
+- The `form-item` component adds a new `content-wrapper` div element to wrap the original `content` div element to support the new layout ([#488](https://github.com/liunnn1994/sd-design/pull/488))
 
 ### 🆕 Feature
 
-- Added `autoLabelWidth` property to support adaptive label width ([#486](https://github.com/arco-design/arco-design-vue/pull/486))
-- Added `labelColFlex` property to support label width setting ([#486](https://github.com/arco-design/arco-design-vue/pull/486))
-- Add `mergeProps` attribute, support custom attributes and event override ([#486](https://github.com/arco-design/arco-design-vue/pull/486))
+- Added `autoLabelWidth` property to support adaptive label width ([#486](https://github.com/liunnn1994/sd-design/pull/486))
+- Added `labelColFlex` property to support label width setting ([#486](https://github.com/liunnn1994/sd-design/pull/486))
+- Add `mergeProps` attribute, support custom attributes and event override ([#486](https://github.com/liunnn1994/sd-design/pull/486))
 
 ### 🐛 BugFix
 
-- Fix the problem that the help content of the form item is displayed incorrectly ([#480](https://github.com/arco-design/arco-design-vue/pull/480))
-
+- Fix the problem that the help content of the form item is displayed incorrectly ([#480](https://github.com/liunnn1994/sd-design/pull/480))
 
 ## 2.10.0
 
@@ -217,8 +196,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- `form-item` adds layout and class name related attributes ([#361](https://github.com/arco-design/arco-design-vue/pull/361))
-
+- `form-item` adds layout and class name related attributes ([#361](https://github.com/liunnn1994/sd-design/pull/361))
 
 ## 2.8.0
 
@@ -226,8 +204,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of invalid setting of null value in `setFields` method ([#311](https://github.com/arco-design/arco-design-vue/pull/311))
-
+- Fix the problem of invalid setting of null value in `setFields` method ([#311](https://github.com/liunnn1994/sd-design/pull/311))
 
 ## 2.7.0
 
@@ -235,8 +212,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add `rules` prop ([#271](https://github.com/arco-design/arco-design-vue/pull/271))
-
+- Add `rules` prop ([#271](https://github.com/liunnn1994/sd-design/pull/271))
 
 ## 2.6.1
 
@@ -244,8 +220,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the additional content style of the form does not take effect ([#208](https://github.com/arco-design/arco-design-vue/pull/208))
-
+- Fix the problem that the additional content style of the form does not take effect ([#208](https://github.com/liunnn1994/sd-design/pull/208))
 
 ## 2.4.0
 
@@ -253,8 +228,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the input of null in the `filed` field causes an error to be reported ([#173](https://github.com/arco-design/arco-design-vue/pull/173))
-
+- Fix the problem that the input of null in the `filed` field causes an error to be reported ([#173](https://github.com/liunnn1994/sd-design/pull/173))
 
 ## 2.3.0
 
@@ -262,8 +236,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add `setFields` method ([#150](https://github.com/arco-design/arco-design-vue/pull/150))
-
+- Add `setFields` method ([#150](https://github.com/liunnn1994/sd-design/pull/150))
 
 ## 2.1.0
 
@@ -271,5 +244,4 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add `hideAsterisk` prop ([#94](https://github.com/arco-design/arco-design-vue/pull/94))
-
+- Add `hideAsterisk` prop ([#94](https://github.com/liunnn1994/sd-design/pull/94))

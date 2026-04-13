@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复竖向自适应高度 ([#2561](https://github.com/arco-design/arco-design-vue/pull/2561))
-
+- 修复竖向自适应高度 ([#2561](https://github.com/liunnn1994/sd-design/pull/2561))
 
 ## 2.46.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复 margin 无法设置为 0 的问题 ([#2390](https://github.com/arco-design/arco-design-vue/pull/2390))
-
+- 修复 margin 无法设置为 0 的问题 ([#2390](https://github.com/liunnn1994/sd-design/pull/2390))
 
 ## 2.44.2
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复分割线展示错误的问题 ([#2205](https://github.com/arco-design/arco-design-vue/pull/2205))
-
+- 修复分割线展示错误的问题 ([#2205](https://github.com/liunnn1994/sd-design/pull/2205))
 
 ## 2.39.2
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复设置 size 时，样式错误的问题 ([#1905](https://github.com/arco-design/arco-design-vue/pull/1905))
-
+- 修复设置 size 时，样式错误的问题 ([#1905](https://github.com/liunnn1994/sd-design/pull/1905))
 
 ## 2.35.0
 
@@ -44,6 +40,5 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 分割线宽度及样式设置 ([#1473](https://github.com/arco-design/arco-design-vue/pull/1473))
-- 分割线边距设置 ([#1473](https://github.com/arco-design/arco-design-vue/pull/1473))
-
+- 分割线宽度及样式设置 ([#1473](https://github.com/liunnn1994/sd-design/pull/1473))
+- 分割线边距设置 ([#1473](https://github.com/liunnn1994/sd-design/pull/1473))

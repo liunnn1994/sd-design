@@ -8,8 +8,7 @@ changelog: true
 
 ### 💅 Style
 
-- Optimized display animation, consistent with the react version ([#733](https://github.com/arco-design/arco-design-vue/pull/733))
-
+- Optimized display animation, consistent with the react version ([#733](https://github.com/liunnn1994/sd-design/pull/733))
 
 ## 2.17.0
 
@@ -17,5 +16,4 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the issue of losing trigger style when loading on demand ([#674](https://github.com/arco-design/arco-design-vue/pull/674))
-
+- Fix the issue of losing trigger style when loading on demand ([#674](https://github.com/liunnn1994/sd-design/pull/674))

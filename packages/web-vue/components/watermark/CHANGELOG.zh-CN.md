@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复字体颜色不生效问题 ([#2942](https://github.com/arco-design/arco-design-vue/pull/2942))
-
+- 修复字体颜色不生效问题 ([#2942](https://github.com/liunnn1994/sd-design/pull/2942))
 
 ## 2.54.1
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 水印字体色跟随主题变化 ([#2790](https://github.com/arco-design/arco-design-vue/pull/2790))
-
+- 水印字体色跟随主题变化 ([#2790](https://github.com/liunnn1994/sd-design/pull/2790))
 
 ## 2.53.2
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复样式按需加载报错问题 ([#2787](https://github.com/arco-design/arco-design-vue/pull/2787))
-
+- 修复样式按需加载报错问题 ([#2787](https://github.com/liunnn1994/sd-design/pull/2787))
 
 ## 2.53.1
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复组件入口未暴露问题 ([#2782](https://github.com/arco-design/arco-design-vue/pull/2782))
-
+- 修复组件入口未暴露问题 ([#2782](https://github.com/liunnn1994/sd-design/pull/2782))
 
 ## 2.53.0
 
@@ -44,6 +40,4 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 新增水印组件 ([#2741](https://github.com/arco-design/arco-design-vue/pull/2741))
-
-
+- 新增水印组件 ([#2741](https://github.com/liunnn1994/sd-design/pull/2741))

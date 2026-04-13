@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that `value-style` cannot modify the font size in digital content ([#2600](https://github.com/arco-design/arco-design-vue/pull/2600))
-
+- Fix the problem that `value-style` cannot modify the font size in digital content ([#2600](https://github.com/liunnn1994/sd-design/pull/2600))
 
 ## 2.32.0
 
@@ -17,7 +16,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- support custom value style prop ([#1320](https://github.com/arco-design/arco-design-vue/pull/1320))
+- support custom value style prop ([#1320](https://github.com/liunnn1994/sd-design/pull/1320))
 
 ## 2.28.0
 
@@ -25,8 +24,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add the `placeholder` attribute to display when there is no value ([#1179](https://github.com/arco-design/arco-design-vue/pull/1179))
-
+- Add the `placeholder` attribute to display when there is no value ([#1179](https://github.com/liunnn1994/sd-design/pull/1179))
 
 ## 2.14.2
 
@@ -34,8 +32,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix dynamic assignment issue ([#534](https://github.com/arco-design/arco-design-vue/pull/534))
-
+- fix dynamic assignment issue ([#534](https://github.com/liunnn1994/sd-design/pull/534))
 
 ## 2.14.0
 
@@ -43,8 +40,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- value supports responsive modification ([#514](https://github.com/arco-design/arco-design-vue/pull/514))
-
+- value supports responsive modification ([#514](https://github.com/liunnn1994/sd-design/pull/514))
 
 ## 2.10.0
 
@@ -52,5 +48,4 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that it does not take effect when precision is 0 ([#357](https://github.com/arco-design/arco-design-vue/pull/357))
-
+- Fix the problem that it does not take effect when precision is 0 ([#357](https://github.com/liunnn1994/sd-design/pull/357))

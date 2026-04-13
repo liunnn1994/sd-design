@@ -8,5 +8,4 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复粘贴时`formatter`未生效 ([#3110](https://github.com/arco-design/arco-design-vue/pull/3110))
-
+- 修复粘贴时`formatter`未生效 ([#3110](https://github.com/liunnn1994/sd-design/pull/3110))

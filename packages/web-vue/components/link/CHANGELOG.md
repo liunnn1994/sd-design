@@ -8,8 +8,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Use the flex layout method to solve the centering problem when the icon size is inconsistent ([#1702](https://github.com/arco-design/arco-design-vue/pull/1702))
-
+- Use the flex layout method to solve the centering problem when the icon size is inconsistent ([#1702](https://github.com/liunnn1994/sd-design/pull/1702))
 
 ## 2.37.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add loading prop ([#1616](https://github.com/arco-design/arco-design-vue/pull/1616))
-
+- add loading prop ([#1616](https://github.com/liunnn1994/sd-design/pull/1616))
 
 ## 2.12.0
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add click event ([#450](https://github.com/arco-design/arco-design-vue/pull/450))
-
+- Add click event ([#450](https://github.com/liunnn1994/sd-design/pull/450))
 
 ## 2.7.0
 
@@ -35,5 +32,4 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add icon setting via `icon` property/slot property or slot ([#226](https://github.com/arco-design/arco-design-vue/pull/226))
-
+- Add icon setting via `icon` property/slot property or slot ([#226](https://github.com/liunnn1994/sd-design/pull/226))

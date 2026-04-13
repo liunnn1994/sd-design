@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the update duration fails ([#2106](https://github.com/arco-design/arco-design-vue/pull/2106))
-
+- Fix the problem that the update duration fails ([#2106](https://github.com/liunnn1994/sd-design/pull/2106))
 
 ## 2.38.0-beta.1
 
@@ -17,13 +16,12 @@ changelog: true
 
 ### 🆕 Feature
 
-- notification and  notification listspace style adjustment ([#1676](https://github.com/arco-design/arco-design-vue/pull/1676))
-- `showIcon` not working ([#1676](https://github.com/arco-design/arco-design-vue/pull/1676))
-- support custom close icon & close element ([#1676](https://github.com/arco-design/arco-design-vue/pull/1676))
-- support custom style ([#1676](https://github.com/arco-design/arco-design-vue/pull/1676))
-- temove the notification corresponding to `id` ([#1676](https://github.com/arco-design/arco-design-vue/pull/1676))
-- demo ([#1676](https://github.com/arco-design/arco-design-vue/pull/1676))
-
+- notification and notification listspace style adjustment ([#1676](https://github.com/liunnn1994/sd-design/pull/1676))
+- `showIcon` not working ([#1676](https://github.com/liunnn1994/sd-design/pull/1676))
+- support custom close icon & close element ([#1676](https://github.com/liunnn1994/sd-design/pull/1676))
+- support custom style ([#1676](https://github.com/liunnn1994/sd-design/pull/1676))
+- temove the notification corresponding to `id` ([#1676](https://github.com/liunnn1994/sd-design/pull/1676))
+- demo ([#1676](https://github.com/liunnn1994/sd-design/pull/1676))
 
 ## 2.25.0
 
@@ -31,8 +29,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add footer prop ([#1029](https://github.com/arco-design/arco-design-vue/pull/1029))
-
+- Add footer prop ([#1029](https://github.com/liunnn1994/sd-design/pull/1029))
 
 ## 2.3.0
 
@@ -40,5 +37,4 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `onClose` callback method ([#149](https://github.com/arco-design/arco-design-vue/pull/149))
-
+- Added `onClose` callback method ([#149](https://github.com/liunnn1994/sd-design/pull/149))

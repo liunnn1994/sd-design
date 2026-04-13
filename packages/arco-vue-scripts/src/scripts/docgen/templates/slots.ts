@@ -1,9 +1,11 @@
 import { SlotDescriptor } from 'vue-docgen-api';
 import { escapeCharacter, toKebabCase } from '../utils';
 
+type SlotBinding = NonNullable<SlotDescriptor['bindings']>[number];
+
 const bindingsTmpl = (bindings: SlotDescriptor['bindings']): string => {
   return (bindings || [])
-    .map((binding: SlotDescriptor['bindings'][number]) => {
+    .map((binding: SlotBinding) => {
       const { type, name, description } = binding;
       const res = [];
       name && res.push(name);

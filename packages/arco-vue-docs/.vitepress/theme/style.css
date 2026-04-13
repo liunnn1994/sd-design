@@ -1,0 +1,38 @@
+:root {
+  color-scheme: light;
+  /* 核心：将正文内容的最大宽度设为 100% */
+  --vp-content-width: 100%;
+
+  /* 如果你希望内容直接贴边，可以调整内边距变量 */
+  --vp-layout-max-width: 100% !important;
+}
+
+.vp-doc .custom-block {
+  border-radius: 12px;
+}
+
+@media (min-width: 960px) {
+  .VPCenter {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* 调整主要内容区域容器 */
+  .VPContent.has-sidebar {
+    padding-right: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* 具体的文档容器 */
+  .container {
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  /* 文档正文部分 */
+  .content-container {
+    max-width: 100% !important;
+  }
+}

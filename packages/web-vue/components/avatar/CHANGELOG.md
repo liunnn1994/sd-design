@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix partial avatars not displaying in the avatar group popover ([#2925](https://github.com/arco-design/arco-design-vue/pull/2925))
-
+- fix partial avatars not displaying in the avatar group popover ([#2925](https://github.com/liunnn1994/sd-design/pull/2925))
 
 ## 2.52.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added new `ObjectFit` prop ([#2691](https://github.com/arco-design/arco-design-vue/pull/2691))
-
+- Added new `ObjectFit` prop ([#2691](https://github.com/liunnn1994/sd-design/pull/2691))
 
 ## 2.40.0
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add image-url attribute to support the use of image URLs ([#1810](https://github.com/arco-design/arco-design-vue/pull/1810))
-
+- Add image-url attribute to support the use of image URLs ([#1810](https://github.com/liunnn1994/sd-design/pull/1810))
 
 ## 2.21.0
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fixed an issue where a warning message would appear when there was no content ([#870](https://github.com/arco-design/arco-design-vue/pull/870))
-
+- Fixed an issue where a warning message would appear when there was no content ([#870](https://github.com/liunnn1994/sd-design/pull/870))
 
 ## 2.18.0
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Use Context to optimize components ([#773](https://github.com/arco-design/arco-design-vue/pull/773))
-
+- Use Context to optimize components ([#773](https://github.com/liunnn1994/sd-design/pull/773))
 
 ## 2.7.0
 
@@ -53,5 +48,4 @@ changelog: true
 
 ### 🆕 Feature
 
-- supports `maxStyle` and `maxPopoverTriggerProps` properties. ([#242](https://github.com/arco-design/arco-design-vue/pull/242))
-
+- supports `maxStyle` and `maxPopoverTriggerProps` properties. ([#242](https://github.com/liunnn1994/sd-design/pull/242))

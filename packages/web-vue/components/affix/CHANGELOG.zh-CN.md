@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复组件在 SSR 下报错的问题 ([#879](https://github.com/arco-design/arco-design-vue/pull/879))
-
+- 修复组件在 SSR 下报错的问题 ([#879](https://github.com/liunnn1994/sd-design/pull/879))
 
 ## 2.12.0
 
@@ -17,5 +16,4 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复与 anchor 组件组合使用，显示 warning 的问题 ([#448](https://github.com/arco-design/arco-design-vue/pull/448))
-
+- 修复与 anchor 组件组合使用，显示 warning 的问题 ([#448](https://github.com/liunnn1994/sd-design/pull/448))

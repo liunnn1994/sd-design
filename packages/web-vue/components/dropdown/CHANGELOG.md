@@ -8,8 +8,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add hide-on-select props ([#2078](https://github.com/arco-design/arco-design-vue/pull/2078))
-
+- add hide-on-select props ([#2078](https://github.com/liunnn1994/sd-design/pull/2078))
 
 ## 2.36.1
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Don't fire click event when option is disabled ([#1611](https://github.com/arco-design/arco-design-vue/pull/1611))
-
+- Don't fire click event when option is disabled ([#1611](https://github.com/liunnn1994/sd-design/pull/1611))
 
 ## 2.34.0
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add new prop for icon slot: `popup-visible` ([#1430](https://github.com/arco-design/arco-design-vue/pull/1430))
-
+- add new prop for icon slot: `popup-visible` ([#1430](https://github.com/liunnn1994/sd-design/pull/1430))
 
 ## 2.29.0
 
@@ -35,9 +32,8 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `popup-max-height` property ([#1203](https://github.com/arco-design/arco-design-vue/pull/1203))
-- Added icon slot to submenu ([#1203](https://github.com/arco-design/arco-design-vue/pull/1203))
-
+- Added `popup-max-height` property ([#1203](https://github.com/liunnn1994/sd-design/pull/1203))
+- Added icon slot to submenu ([#1203](https://github.com/liunnn1994/sd-design/pull/1203))
 
 ## 2.20.2
 
@@ -45,8 +41,7 @@ changelog: true
 
 ### 💅 Style
 
-- Fixed vertical centering of icons in options ([#862](https://github.com/arco-design/arco-design-vue/pull/862))
-
+- Fixed vertical centering of icons in options ([#862](https://github.com/liunnn1994/sd-design/pull/862))
 
 ## 2.18.0-beta.1
 
@@ -54,8 +49,7 @@ changelog: true
 
 ### ⚠️ Important Attention
 
-- The <doption> component modifies the vertical centering layout using flex ([#688](https://github.com/arco-design/arco-design-vue/pull/688))
-
+- The <doption> component modifies the vertical centering layout using flex ([#688](https://github.com/liunnn1994/sd-design/pull/688))
 
 ## 2.16.1
 
@@ -63,8 +57,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- `<dropdown-button>` component completes dropdown related properties ([#637](https://github.com/arco-design/arco-design-vue/pull/637))
-
+- `<dropdown-button>` component completes dropdown related properties ([#637](https://github.com/liunnn1994/sd-design/pull/637))
 
 ## 2.16.0
 
@@ -72,11 +65,10 @@ changelog: true
 
 ### 🆕 Feature
 
-- Use context to refactor components to support nested use ([#608](https://github.com/arco-design/arco-design-vue/pull/608))
-- value adds support for object ([#608](https://github.com/arco-design/arco-design-vue/pull/608))
-- Added `dropdown-button` component ([#608](https://github.com/arco-design/arco-design-vue/pull/608))
-- When the dropdown is open, add a class name to the trigger element ([#608](https://github.com/arco-design/arco-design-vue/pull/608))
-
+- Use context to refactor components to support nested use ([#608](https://github.com/liunnn1994/sd-design/pull/608))
+- value adds support for object ([#608](https://github.com/liunnn1994/sd-design/pull/608))
+- Added `dropdown-button` component ([#608](https://github.com/liunnn1994/sd-design/pull/608))
+- When the dropdown is open, add a class name to the trigger element ([#608](https://github.com/liunnn1994/sd-design/pull/608))
 
 ## 2.14.0
 
@@ -84,8 +76,7 @@ changelog: true
 
 ### 💅 Style
 
-- fix option suffix style issue ([#523](https://github.com/arco-design/arco-design-vue/pull/523))
-
+- fix option suffix style issue ([#523](https://github.com/liunnn1994/sd-design/pull/523))
 
 ## 2.11.1
 
@@ -93,8 +84,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that Group is unavailable when using JSX ([#427](https://github.com/arco-design/arco-design-vue/pull/427))
-
+- Fix the problem that Group is unavailable when using JSX ([#427](https://github.com/liunnn1994/sd-design/pull/427))
 
 ## 2.10.1
 
@@ -102,8 +92,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix <doption> component disabled failure and attribute inheritance issues ([#385](https://github.com/arco-design/arco-design-vue/pull/385))
-
+- Fix <doption> component disabled failure and attribute inheritance issues ([#385](https://github.com/liunnn1994/sd-design/pull/385))
 
 ## 2.10.0
 
@@ -111,8 +100,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add footer slot ([#350](https://github.com/arco-design/arco-design-vue/pull/350))
-
+- Add footer slot ([#350](https://github.com/liunnn1994/sd-design/pull/350))
 
 ## 2.7.0
 
@@ -120,5 +108,4 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add `disabled` prop ([#270](https://github.com/arco-design/arco-design-vue/pull/270))
-
+- Add `disabled` prop ([#270](https://github.com/liunnn1994/sd-design/pull/270))

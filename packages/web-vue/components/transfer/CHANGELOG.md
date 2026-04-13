@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix disabled behavior in transfer simple mode ([#3067](https://github.com/arco-design/arco-design-vue/pull/3067))
-
+- fix disabled behavior in transfer simple mode ([#3067](https://github.com/liunnn1994/sd-design/pull/3067))
 
 ## 2.54.6
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix disabled props not working ([#2996](https://github.com/arco-design/arco-design-vue/pull/2996))
-
+- fix disabled props not working ([#2996](https://github.com/liunnn1994/sd-design/pull/2996))
 
 ## 2.52.0
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add an action icon slot ([#2708](https://github.com/arco-design/arco-design-vue/pull/2708))
-
+- add an action icon slot ([#2708](https://github.com/liunnn1994/sd-design/pull/2708))
 
 ## 2.50.1
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Increase the configuration properties of the search box ([#2656](https://github.com/arco-design/arco-design-vue/pull/2656))
-
+- Increase the configuration properties of the search box ([#2656](https://github.com/liunnn1994/sd-design/pull/2656))
 
 ## 2.46.1
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix transfer item can be selected when disabled ([#2445](https://github.com/arco-design/arco-design-vue/pull/2445))
-
+- fix transfer item can be selected when disabled ([#2445](https://github.com/liunnn1994/sd-design/pull/2445))
 
 ## 2.45.0
 
@@ -53,8 +48,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add custom header slots ([#2314](https://github.com/arco-design/arco-design-vue/pull/2314))
-
+- add custom header slots ([#2314](https://github.com/liunnn1994/sd-design/pull/2314))
 
 ## 2.44.6
 
@@ -62,8 +56,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix title ellipsis failure ([#2278](https://github.com/arco-design/arco-design-vue/pull/2278))
-
+- Fix title ellipsis failure ([#2278](https://github.com/liunnn1994/sd-design/pull/2278))
 
 ## 2.39.0
 
@@ -71,10 +64,9 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added panel slot to allow custom content ([#1873](https://github.com/arco-design/arco-design-vue/pull/1873))
-- internally replaced with a virtual scrollbar ([#1873](https://github.com/arco-design/arco-design-vue/pull/1873))
-- can hide select all checkbox ([#1845](https://github.com/arco-design/arco-design-vue/pull/1845))
-
+- Added panel slot to allow custom content ([#1873](https://github.com/liunnn1994/sd-design/pull/1873))
+- internally replaced with a virtual scrollbar ([#1873](https://github.com/liunnn1994/sd-design/pull/1873))
+- can hide select all checkbox ([#1845](https://github.com/liunnn1994/sd-design/pull/1845))
 
 ## 2.38.0-beta.1
 
@@ -82,8 +74,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix can't scroll problem ([#1723](https://github.com/arco-design/arco-design-vue/pull/1723))
-
+- Fix can't scroll problem ([#1723](https://github.com/liunnn1994/sd-design/pull/1723))
 
 ## 2.34.0
 
@@ -91,8 +82,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- item slot adds value attribute ([#1447](https://github.com/arco-design/arco-design-vue/pull/1447))
-
+- item slot adds value attribute ([#1447](https://github.com/liunnn1994/sd-design/pull/1447))
 
 ## 2.20.1
 
@@ -100,8 +90,7 @@ changelog: true
 
 ### 💅 Style
 
-- Fix the problem that the omission is not displayed after the option exceeds the width ([#854](https://github.com/arco-design/arco-design-vue/pull/854))
-
+- Fix the problem that the omission is not displayed after the option exceeds the width ([#854](https://github.com/liunnn1994/sd-design/pull/854))
 
 ## 2.18.0-beta.3
 
@@ -109,8 +98,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix list display issue ([#744](https://github.com/arco-design/arco-design-vue/pull/744))
-
+- Fix list display issue ([#744](https://github.com/liunnn1994/sd-design/pull/744))
 
 ## 2.17.0
 
@@ -118,5 +106,4 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix search function should check option label ([#659](https://github.com/arco-design/arco-design-vue/pull/659))
-
+- Fix search function should check option label ([#659](https://github.com/liunnn1994/sd-design/pull/659))

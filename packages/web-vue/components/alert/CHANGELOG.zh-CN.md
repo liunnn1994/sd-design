@@ -8,8 +8,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 新增 `center` 属性 ([#2464](https://github.com/arco-design/arco-design-vue/pull/2464))
-
+- 新增 `center` 属性 ([#2464](https://github.com/liunnn1994/sd-design/pull/2464))
 
 ## 2.41.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 增加 `normal` 类型 ([#2009](https://github.com/arco-design/arco-design-vue/pull/2009))
-
+- 增加 `normal` 类型 ([#2009](https://github.com/liunnn1994/sd-design/pull/2009))
 
 ## 2.36.0
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 支持自定义关闭元素 ([#1544](https://github.com/arco-design/arco-design-vue/pull/1544))
-
+- 支持自定义关闭元素 ([#1544](https://github.com/liunnn1994/sd-design/pull/1544))
 
 ## 2.3.0
 
@@ -35,9 +32,8 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 增加 `#action` 插槽 ([#148](https://github.com/arco-design/arco-design-vue/pull/148))
+- 增加 `#action` 插槽 ([#148](https://github.com/liunnn1994/sd-design/pull/148))
 
 ### 🐛 问题修复
 
-- 修复组件导出名字错误的问题 ([#142](https://github.com/arco-design/arco-design-vue/pull/142))
-
+- 修复组件导出名字错误的问题 ([#142](https://github.com/liunnn1994/sd-design/pull/142))

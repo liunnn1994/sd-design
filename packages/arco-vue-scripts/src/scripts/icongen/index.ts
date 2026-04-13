@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs-extra';
-import glob from 'glob';
+import { globSync } from 'glob';
 import { optimize } from 'svgo';
 import { JSDOM } from 'jsdom';
 import paths from '../../utils/paths';
@@ -44,7 +44,7 @@ function getSVGData(): IconData[] {
       type: key,
       list: [],
     };
-    const files = glob.sync(`${toKebabCase(key)}/**/*.svg`, {
+    const files = globSync(`${toKebabCase(key)}/**/*.svg`, {
       cwd: paths.iconSvgs,
       absolute: true,
     });

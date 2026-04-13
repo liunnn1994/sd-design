@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix not inheriting the injected size ([#3267](https://github.com/arco-design/arco-design-vue/pull/3267))
-
+- fix not inheriting the injected size ([#3267](https://github.com/liunnn1994/sd-design/pull/3267))
 
 ## 2.38.1
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix `radio-group` state not reset when resetting value ([#1813](https://github.com/arco-design/arco-design-vue/pull/1813))
-
+- Fix `radio-group` state not reset when resetting value ([#1813](https://github.com/liunnn1994/sd-design/pull/1813))
 
 ## 2.38.0
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the state is not cleared when clearing model-value ([#1794](https://github.com/arco-design/arco-design-vue/pull/1794))
-
+- Fix the problem that the state is not cleared when clearing model-value ([#1794](https://github.com/liunnn1994/sd-design/pull/1794))
 
 ## 2.27.0
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- `radio-group` support  `options` prop ([#1090](https://github.com/arco-design/arco-design-vue/pull/1090))
-
+- `radio-group` support `options` prop ([#1090](https://github.com/liunnn1994/sd-design/pull/1090))
 
 ## 2.18.0
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add radio slot, you can customize the radio ([#769](https://github.com/arco-design/arco-design-vue/pull/769))
-
+- Add radio slot, you can customize the radio ([#769](https://github.com/liunnn1994/sd-design/pull/769))
 
 ## 2.18.0-beta.1
 
@@ -53,8 +48,7 @@ changelog: true
 
 ### ⚠️ Important Attention
 
-- Outer wrapping DOM changed from span to label ([#697](https://github.com/arco-design/arco-design-vue/pull/697))
-
+- Outer wrapping DOM changed from span to label ([#697](https://github.com/liunnn1994/sd-design/pull/697))
 
 ## 2.8.0
 
@@ -62,5 +56,4 @@ changelog: true
 
 ### 💅 Style
 
-- Remove the selected bold effect in button mode ([#308](https://github.com/arco-design/arco-design-vue/pull/308))
-
+- Remove the selected bold effect in button mode ([#308](https://github.com/liunnn1994/sd-design/pull/308))

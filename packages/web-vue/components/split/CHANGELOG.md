@@ -8,5 +8,4 @@ changelog: true
 
 ### 🆕 Feature
 
-- Attributes `min` and `max` support setting pixel values ([#607](https://github.com/arco-design/arco-design-vue/pull/607))
-
+- Attributes `min` and `max` support setting pixel values ([#607](https://github.com/liunnn1994/sd-design/pull/607))

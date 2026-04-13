@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 解决 `vue` 保留属性警告 ([#2997](https://github.com/arco-design/arco-design-vue/pull/2997))
-
+- 解决 `vue` 保留属性警告 ([#2997](https://github.com/liunnn1994/sd-design/pull/2997))
 
 ## 2.38.0-beta.1
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🆎 类型修正
 
-- 修复 `collapse-item` 的 key 属性定义，允许 number ([#1743](https://github.com/arco-design/arco-design-vue/pull/1743))
-
+- 修复 `collapse-item` 的 key 属性定义，允许 number ([#1743](https://github.com/liunnn1994/sd-design/pull/1743))
 
 ## 2.37.4
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 💅 样式更新
 
-- 当expand-icon在右侧时,调整collapse-item-content的padding ([#1680](https://github.com/arco-design/arco-design-vue/pull/1680))
-
+- 当 expand-icon 在右侧时,调整 collapse-item-content 的 padding ([#1680](https://github.com/liunnn1994/sd-design/pull/1680))
 
 ## 2.33.0
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 支持自定义展开图标 ([#1344](https://github.com/arco-design/arco-design-vue/pull/1344))
-
+- 支持自定义展开图标 ([#1344](https://github.com/liunnn1994/sd-design/pull/1344))
 
 ## 2.27.0
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 增加 destroyOnHide 属性，默认不会在隐藏时销毁内容 ([#1100](https://github.com/arco-design/arco-design-vue/pull/1100))
-
+- 增加 destroyOnHide 属性，默认不会在隐藏时销毁内容 ([#1100](https://github.com/liunnn1994/sd-design/pull/1100))
 
 ## 2.26.0
 
@@ -53,8 +48,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复 `showExpandIcon` 属性失效的问题 ([#1060](https://github.com/arco-design/arco-design-vue/pull/1060))
-
+- 修复 `showExpandIcon` 属性失效的问题 ([#1060](https://github.com/liunnn1994/sd-design/pull/1060))
 
 ## 2.10.0
 
@@ -62,8 +56,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- key增加对number的支持 ([#358](https://github.com/arco-design/arco-design-vue/pull/358))
-
+- key 增加对 number 的支持 ([#358](https://github.com/liunnn1994/sd-design/pull/358))
 
 ## 2.0.3
 

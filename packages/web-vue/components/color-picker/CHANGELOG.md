@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix shaking issue when selecting color with v-model ([#3180](https://github.com/arco-design/arco-design-vue/pull/3180))
-
+- fix shaking issue when selecting color with v-model ([#3180](https://github.com/liunnn1994/sd-design/pull/3180))
 
 ## 2.55.2
 
@@ -17,12 +16,11 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix color-picker style import ([#3052](https://github.com/arco-design/arco-design-vue/pull/3052))
+- fix color-picker style import ([#3052](https://github.com/liunnn1994/sd-design/pull/3052))
 
 ### 💅 Style
 
-- Optimize color control bar background fillet style ([#3116](https://github.com/arco-design/arco-design-vue/pull/3116))
-
+- Optimize color control bar background fillet style ([#3116](https://github.com/liunnn1994/sd-design/pull/3116))
 
 ## 2.55.1
 
@@ -30,9 +28,8 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix v-model not working ([#3030](https://github.com/arco-design/arco-design-vue/pull/3030))
-- Fix copywriting errors ([#3028](https://github.com/arco-design/arco-design-vue/pull/3028))
-
+- fix v-model not working ([#3030](https://github.com/liunnn1994/sd-design/pull/3030))
+- Fix copywriting errors ([#3028](https://github.com/liunnn1994/sd-design/pull/3028))
 
 ## 2.55.0
 
@@ -40,5 +37,4 @@ changelog: true
 
 ### 🆕 Feature
 
-- add color-picker component ([#2958](https://github.com/arco-design/arco-design-vue/pull/2958))
-
+- add color-picker component ([#2958](https://github.com/liunnn1994/sd-design/pull/2958))

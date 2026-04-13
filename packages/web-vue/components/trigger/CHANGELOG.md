@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix animation direction for position popup ([#3045](https://github.com/arco-design/arco-design-vue/pull/3045))
-
+- fix animation direction for position popup ([#3045](https://github.com/liunnn1994/sd-design/pull/3045))
 
 ## 2.46.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add scrollToClose prop ([#2414](https://github.com/arco-design/arco-design-vue/pull/2414))
-
+- add scrollToClose prop ([#2414](https://github.com/liunnn1994/sd-design/pull/2414))
 
 ## 2.44.7
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of reporting errors in iframe ([#2300](https://github.com/arco-design/arco-design-vue/pull/2300))
-
+- Fix the problem of reporting errors in iframe ([#2300](https://github.com/liunnn1994/sd-design/pull/2300))
 
 ## 2.44.6
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Optimize the problem that the popup position is not accurate in ShadowRoot ([#2273](https://github.com/arco-design/arco-design-vue/pull/2273))
-
+- Optimize the problem that the popup position is not accurate in ShadowRoot ([#2273](https://github.com/liunnn1994/sd-design/pull/2273))
 
 ## 2.38.0-beta.2
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of wrong arrow positioning in windows ([#1480](https://github.com/arco-design/arco-design-vue/pull/1480))
-
+- Fix the problem of wrong arrow positioning in windows ([#1480](https://github.com/liunnn1994/sd-design/pull/1480))
 
 ## 2.35.1
 
@@ -53,8 +48,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Optimize the use of KeepAlive, close the pop-up layer when caching ([#1529](https://github.com/arco-design/arco-design-vue/pull/1529))
-
+- Optimize the use of KeepAlive, close the pop-up layer when caching ([#1529](https://github.com/liunnn1994/sd-design/pull/1529))
 
 ## 2.32.0
 
@@ -62,8 +56,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Events can no longer be fired during popover animations ([#1337](https://github.com/arco-design/arco-design-vue/pull/1337))
-
+- Events can no longer be fired during popover animations ([#1337](https://github.com/liunnn1994/sd-design/pull/1337))
 
 ## 2.29.1
 
@@ -71,8 +64,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- No longer blocks right-click default events by default ([#1231](https://github.com/arco-design/arco-design-vue/pull/1231))
-
+- No longer blocks right-click default events by default ([#1231](https://github.com/liunnn1994/sd-design/pull/1231))
 
 ## 2.27.0
 
@@ -80,9 +72,8 @@ changelog: true
 
 ### 💎 Enhancement
 
-- When the right button is triggered, click the trigger element to close the drop-down box ([#1111](https://github.com/arco-design/arco-design-vue/pull/1111))
-- Support pop-up component nesting ([#1111](https://github.com/arco-design/arco-design-vue/pull/1111))
-
+- When the right button is triggered, click the trigger element to close the drop-down box ([#1111](https://github.com/liunnn1994/sd-design/pull/1111))
+- Support pop-up component nesting ([#1111](https://github.com/liunnn1994/sd-design/pull/1111))
 
 ## 2.21.0
 
@@ -90,8 +81,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the outermost `div` is not hidden when it is not unmounted ([#871](https://github.com/arco-design/arco-design-vue/pull/871))
-
+- Fix the problem that the outermost `div` is not hidden when it is not unmounted ([#871](https://github.com/liunnn1994/sd-design/pull/871))
 
 ## 2.18.0-beta.2
 
@@ -99,12 +89,11 @@ changelog: true
 
 ### ⚠️ Important Attention
 
-- Add a layer of `wrapper div` to the pop-up layer to provide support for tranform animation ([#732](https://github.com/arco-design/arco-design-vue/pull/732))
+- Add a layer of `wrapper div` to the pop-up layer to provide support for tranform animation ([#732](https://github.com/liunnn1994/sd-design/pull/732))
 
 ### 🆕 Feature
 
-- Added `show` and `hide` events ([#731](https://github.com/arco-design/arco-design-vue/pull/731))
-
+- Added `show` and `hide` events ([#731](https://github.com/liunnn1994/sd-design/pull/731))
 
 ## 2.17.0
 
@@ -112,8 +101,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Optimize the position of the arrow after auto-adjusting the position ([#655](https://github.com/arco-design/arco-design-vue/pull/655))
-
+- Optimize the position of the arrow after auto-adjusting the position ([#655](https://github.com/liunnn1994/sd-design/pull/655))
 
 ## 2.14.0
 
@@ -121,8 +109,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the arrow position of the popup box is wrong in some cases ([#518](https://github.com/arco-design/arco-design-vue/pull/518))
-
+- Fix the problem that the arrow position of the popup box is wrong in some cases ([#518](https://github.com/liunnn1994/sd-design/pull/518))
 
 ## 2.11.0
 
@@ -130,9 +117,8 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of the wrong position of the pop-up layer caused by the change of container size ([#406](https://github.com/arco-design/arco-design-vue/pull/406))
-- Fix the problem that the pop-up layer is closed due to the hover method in nested use ([#406](https://github.com/arco-design/arco-design-vue/pull/406))
-
+- Fix the problem of the wrong position of the pop-up layer caused by the change of container size ([#406](https://github.com/liunnn1994/sd-design/pull/406))
+- Fix the problem that the pop-up layer is closed due to the hover method in nested use ([#406](https://github.com/liunnn1994/sd-design/pull/406))
 
 ## 2.10.1
 
@@ -140,9 +126,8 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the pop-up layer size change will not trigger the update ([#382](https://github.com/arco-design/arco-design-vue/pull/382))
-- Fix the problem that the position and adaptation in `align-point` mode do not take effect ([#382](https://github.com/arco-design/arco-design-vue/pull/382))
-
+- Fix the problem that the pop-up layer size change will not trigger the update ([#382](https://github.com/liunnn1994/sd-design/pull/382))
+- Fix the problem that the position and adaptation in `align-point` mode do not take effect ([#382](https://github.com/liunnn1994/sd-design/pull/382))
 
 ## 2.6.1
 
@@ -150,8 +135,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of triggering errors when nesting different types of `<trigger>` ([#244](https://github.com/arco-design/arco-design-vue/pull/244))
-
+- Fix the problem of triggering errors when nesting different types of `<trigger>` ([#244](https://github.com/liunnn1994/sd-design/pull/244))
 
 ## 2.6.0
 
@@ -159,8 +143,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add `prevent-focus` property ([#197](https://github.com/arco-design/arco-design-vue/pull/197))
-
+- Add `prevent-focus` property ([#197](https://github.com/liunnn1994/sd-design/pull/197))
 
 ## 2.4.0
 
@@ -168,8 +151,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of `<svg>` element positioning error ([#162](https://github.com/arco-design/arco-design-vue/pull/162))
-
+- Fix the problem of `<svg>` element positioning error ([#162](https://github.com/liunnn1994/sd-design/pull/162))
 
 ## 2.2.0
 
@@ -177,8 +159,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of invalid state switching of `disabled` ([#126](https://github.com/arco-design/arco-design-vue/pull/126))
-
+- Fix the problem of invalid state switching of `disabled` ([#126](https://github.com/liunnn1994/sd-design/pull/126))
 
 ## 2.1.0
 
@@ -186,5 +167,4 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Move the `outsideClickHandler` to the `document` ([#76](https://github.com/arco-design/arco-design-vue/pull/76))
-
+- Move the `outsideClickHandler` to the `document` ([#76](https://github.com/liunnn1994/sd-design/pull/76))

@@ -8,8 +8,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- fix color transition effect in selected menu item ([#3192](https://github.com/arco-design/arco-design-vue/pull/3192))
-
+- fix color transition effect in selected menu item ([#3192](https://github.com/liunnn1994/sd-design/pull/3192))
 
 ## 2.54.5
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix warning “Invalid prop name: key is a reserved property.” ([#2978](https://github.com/arco-design/arco-design-vue/pull/2978))
-
+- Fix warning “Invalid prop name: key is a reserved property.” ([#2978](https://github.com/liunnn1994/sd-design/pull/2978))
 
 ## 2.43.0
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix the hotreload problem ([#2091](https://github.com/arco-design/arco-design-vue/pull/2091))
-
+- fix the hotreload problem ([#2091](https://github.com/liunnn1994/sd-design/pull/2091))
 
 ## 2.34.1
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fixed an issue where the popup attribute caused warnings in newer versions of Chrome ([#1487](https://github.com/arco-design/arco-design-vue/pull/1487))
-
+- Fixed an issue where the popup attribute caused warnings in newer versions of Chrome ([#1487](https://github.com/liunnn1994/sd-design/pull/1487))
 
 ## 2.31.0
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- the horizontal menu cannot be expanded after being collapsed ([#1297](https://github.com/arco-design/arco-design-vue/pull/1297))
-
+- the horizontal menu cannot be expanded after being collapsed ([#1297](https://github.com/liunnn1994/sd-design/pull/1297))
 
 ## 2.25.1
 
@@ -53,8 +48,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the collected menu data is incomplete ([#1034](https://github.com/arco-design/arco-design-vue/pull/1034))
-
+- Fix the problem that the collected menu data is incomplete ([#1034](https://github.com/liunnn1994/sd-design/pull/1034))
 
 ## 2.25.0
 
@@ -62,8 +56,7 @@ changelog: true
 
 ### 💅 Style
 
-- Popup menu icon increased margin-right ([#1029](https://github.com/arco-design/arco-design-vue/pull/1029))
-
+- Popup menu icon increased margin-right ([#1029](https://github.com/liunnn1994/sd-design/pull/1029))
 
 ## 2.24.0
 
@@ -71,8 +64,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix the problem that `auto-scroll-into-view` is invalid ([#966](https://github.com/arco-design/arco-design-vue/pull/966))
-
+- fix the problem that `auto-scroll-into-view` is invalid ([#966](https://github.com/liunnn1994/sd-design/pull/966))
 
 ## 2.23.0
 
@@ -80,8 +72,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Support set the set the maximum height of popover by `popup-max-height` ([#949](https://github.com/arco-design/arco-design-vue/pull/949))
-
+- Support set the set the maximum height of popover by `popup-max-height` ([#949](https://github.com/liunnn1994/sd-design/pull/949))
 
 ## 2.22.1
 
@@ -89,8 +80,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fixed the problem that the height of menu icon is wrong ([#928](https://github.com/arco-design/arco-design-vue/pull/928))
-
+- Fixed the problem that the height of menu icon is wrong ([#928](https://github.com/liunnn1994/sd-design/pull/928))
 
 ## 2.22.0
 
@@ -98,8 +88,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- The icon in the popup box is not aligned with the text ([#889](https://github.com/arco-design/arco-design-vue/pull/889))
-
+- The icon in the popup box is not aligned with the text ([#889](https://github.com/liunnn1994/sd-design/pull/889))
 
 ## 2.21.0
 
@@ -107,8 +96,7 @@ changelog: true
 
 ### 💅 Style
 
-- fix the indentation of menu item is wrapped ([#866](https://github.com/arco-design/arco-design-vue/pull/866))
-
+- fix the indentation of menu item is wrapped ([#866](https://github.com/liunnn1994/sd-design/pull/866))
 
 ## 2.18.0
 
@@ -116,8 +104,7 @@ changelog: true
 
 ### 💅 Style
 
-- the icon of sub-menu are not centered in vertically ([#767](https://github.com/arco-design/arco-design-vue/pull/767))
-
+- the icon of sub-menu are not centered in vertically ([#767](https://github.com/liunnn1994/sd-design/pull/767))
 
 ## 2.18.0-beta.1
 
@@ -125,8 +112,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Responsive collapsed support ([#700](https://github.com/arco-design/arco-design-vue/pull/700))
-
+- Responsive collapsed support ([#700](https://github.com/liunnn1994/sd-design/pull/700))
 
 ## 2.11.0
 
@@ -134,12 +120,11 @@ changelog: true
 
 ### 🆕 Feature
 
-- add icon slot for`sub-menu` and `menu-item` ([#412](https://github.com/arco-design/arco-design-vue/pull/412))
+- add icon slot for`sub-menu` and `menu-item` ([#412](https://github.com/liunnn1994/sd-design/pull/412))
 
 ### 💅 Style
 
-- Fix the problem of height overflow when the sidebar is collapsible ([#416](https://github.com/arco-design/arco-design-vue/pull/416))
-
+- Fix the problem of height overflow when the sidebar is collapsible ([#416](https://github.com/liunnn1994/sd-design/pull/416))
 
 ## 2.10.0
 
@@ -147,8 +132,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix the problem that the width of the menu cannot fill the parent element ([#346](https://github.com/arco-design/arco-design-vue/pull/346))
-
+- fix the problem that the width of the menu cannot fill the parent element ([#346](https://github.com/liunnn1994/sd-design/pull/346))
 
 ## 2.8.0
 
@@ -156,8 +140,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add prop    auto-open-selected ([#306](https://github.com/arco-design/arco-design-vue/pull/306))
-
+- add prop auto-open-selected ([#306](https://github.com/liunnn1994/sd-design/pull/306))
 
 ## 2.7.0
 
@@ -165,9 +148,8 @@ changelog: true
 
 ### 🐛 BugFix
 
-- the prop trigger-props take no effect ([#265](https://github.com/arco-design/arco-design-vue/pull/265))
-- Horizontal menu items are not displayed normally when they are collapsed and then expanded ([#264](https://github.com/arco-design/arco-design-vue/pull/264))
-
+- the prop trigger-props take no effect ([#265](https://github.com/liunnn1994/sd-design/pull/265))
+- Horizontal menu items are not displayed normally when they are collapsed and then expanded ([#264](https://github.com/liunnn1994/sd-design/pull/264))
 
 ## 2.6.0
 
@@ -175,8 +157,7 @@ changelog: true
 
 ### 💅 Style
 
-- pop menu adapts to dark theme ([#193](https://github.com/arco-design/arco-design-vue/pull/193))
-
+- pop menu adapts to dark theme ([#193](https://github.com/liunnn1994/sd-design/pull/193))
 
 ## 2.3.0
 
@@ -184,8 +165,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the parent menu is not selected when nesting custom components ([#147](https://github.com/arco-design/arco-design-vue/pull/147))
-
+- Fix the problem that the parent menu is not selected when nesting custom components ([#147](https://github.com/liunnn1994/sd-design/pull/147))
 
 ## 2.1.1
 
@@ -193,5 +173,4 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Change the default expansion method of pop-up `menu` to hover ([#111](https://github.com/arco-design/arco-design-vue/pull/111))
-
+- Change the default expansion method of pop-up `menu` to hover ([#111](https://github.com/liunnn1994/sd-design/pull/111))

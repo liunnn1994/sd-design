@@ -8,8 +8,7 @@ changelog: true
 
 ### 🆎 类型修正
 
-- 更新headerStyle与bodyStyle的类型 ([#3268](https://github.com/arco-design/arco-design-vue/pull/3268))
-
+- 更新 headerStyle 与 bodyStyle 的类型 ([#3268](https://github.com/liunnn1994/sd-design/pull/3268))
 
 ## 2.10.1
 
@@ -17,5 +16,4 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复 slots 内容存在不更新的问题 ([#380](https://github.com/arco-design/arco-design-vue/pull/380))
-
+- 修复 slots 内容存在不更新的问题 ([#380](https://github.com/liunnn1994/sd-design/pull/380))

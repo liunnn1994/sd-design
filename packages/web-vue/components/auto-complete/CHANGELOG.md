@@ -8,8 +8,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add dropdown scroll event ([#2635](https://github.com/arco-design/arco-design-vue/pull/2635))
-
+- add dropdown scroll event ([#2635](https://github.com/liunnn1994/sd-design/pull/2635))
 
 ## 2.50.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add virtual list support ([#2596](https://github.com/arco-design/arco-design-vue/pull/2596))
-
+- add virtual list support ([#2596](https://github.com/liunnn1994/sd-design/pull/2596))
 
 ## 2.40.0
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add focus and blur methods ([#1809](https://github.com/arco-design/arco-design-vue/pull/1809))
-
+- Add focus and blur methods ([#1809](https://github.com/liunnn1994/sd-design/pull/1809))
 
 ## 2.34.0
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add `footer` slot ([#1445](https://github.com/arco-design/arco-design-vue/pull/1445))
-
+- add `footer` slot ([#1445](https://github.com/liunnn1994/sd-design/pull/1445))
 
 ## 2.23.0
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added allow-clear property and event ([#951](https://github.com/arco-design/arco-design-vue/pull/951))
-
+- Added allow-clear property and event ([#951](https://github.com/liunnn1994/sd-design/pull/951))
 
 ## 2.13.0
 
@@ -53,8 +48,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Increase input slot and option slot support ([#482](https://github.com/arco-design/arco-design-vue/pull/482))
-
+- Increase input slot and option slot support ([#482](https://github.com/liunnn1994/sd-design/pull/482))
 
 ## 2.8.0
 
@@ -62,5 +56,4 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that disabled is unavailable ([#310](https://github.com/arco-design/arco-design-vue/pull/310))
-
+- Fix the problem that disabled is unavailable ([#310](https://github.com/liunnn1994/sd-design/pull/310))

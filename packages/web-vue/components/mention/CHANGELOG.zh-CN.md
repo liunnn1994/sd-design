@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复在text-area下disabled属性无法正常工作的问题 ([#2723](https://github.com/arco-design/arco-design-vue/pull/2723))
-
+- 修复在 text-area 下 disabled 属性无法正常工作的问题 ([#2723](https://github.com/liunnn1994/sd-design/pull/2723))
 
 ## 2.47.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- search 事件增加 `prefix` 属性 ([#2356](https://github.com/arco-design/arco-design-vue/pull/2356))
-
+- search 事件增加 `prefix` 属性 ([#2356](https://github.com/liunnn1994/sd-design/pull/2356))
 
 ## 2.42.0
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 增加focus与blur方法 ([#2022](https://github.com/arco-design/arco-design-vue/pull/2022))
-
+- 增加 focus 与 blur 方法 ([#2022](https://github.com/liunnn1994/sd-design/pull/2022))
 
 ## 2.41.0
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复 textarea 模式下回车键失效的问题 ([#2013](https://github.com/arco-design/arco-design-vue/pull/2013))
-
+- 修复 textarea 模式下回车键失效的问题 ([#2013](https://github.com/liunnn1994/sd-design/pull/2013))
 
 ## 2.29.1
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复按需加载时丢失 textarea 样式的问题 ([#1227](https://github.com/arco-design/arco-design-vue/pull/1227))
-
+- 修复按需加载时丢失 textarea 样式的问题 ([#1227](https://github.com/liunnn1994/sd-design/pull/1227))
 
 ## 2.29.0
 
@@ -53,8 +48,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复 textarea 模式下输入后光标移动的问题 ([#1204](https://github.com/arco-design/arco-design-vue/pull/1204))
-
+- 修复 textarea 模式下输入后光标移动的问题 ([#1204](https://github.com/liunnn1994/sd-design/pull/1204))
 
 ## 2.23.0
 
@@ -62,8 +56,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 增加 allow-clear 属性和事件 ([#951](https://github.com/arco-design/arco-design-vue/pull/951))
-
+- 增加 allow-clear 属性和事件 ([#951](https://github.com/liunnn1994/sd-design/pull/951))
 
 ## 2.22.1
 
@@ -71,8 +64,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复开发环境下出现警告提示的问题 ([#925](https://github.com/arco-design/arco-design-vue/pull/925))
-
+- 修复开发环境下出现警告提示的问题 ([#925](https://github.com/liunnn1994/sd-design/pull/925))
 
 ## 2.22.0
 
@@ -80,8 +72,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复 v-model 双向绑定在选择值时错误的问题 ([#908](https://github.com/arco-design/arco-design-vue/pull/908))
-
+- 修复 v-model 双向绑定在选择值时错误的问题 ([#908](https://github.com/liunnn1994/sd-design/pull/908))
 
 ## 2.13.0
 
@@ -89,9 +80,8 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 增加 input 中的插槽和 option 插槽支持 ([#482](https://github.com/arco-design/arco-design-vue/pull/482))
-- 文本域类型下的下拉菜单跟随提示文字显示 ([#482](https://github.com/arco-design/arco-design-vue/pull/482))
-
+- 增加 input 中的插槽和 option 插槽支持 ([#482](https://github.com/liunnn1994/sd-design/pull/482))
+- 文本域类型下的下拉菜单跟随提示文字显示 ([#482](https://github.com/liunnn1994/sd-design/pull/482))
 
 ## 2.7.0
 
@@ -99,5 +89,4 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 增加 `type`  属性 ([#205](https://github.com/arco-design/arco-design-vue/pull/205))
-
+- 增加 `type` 属性 ([#205](https://github.com/liunnn1994/sd-design/pull/205))

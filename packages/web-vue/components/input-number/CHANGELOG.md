@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix readonly not working in button mode ([#3314](https://github.com/arco-design/arco-design-vue/pull/3314))
-
+- fix readonly not working in button mode ([#3314](https://github.com/liunnn1994/sd-design/pull/3314))
 
 ## 2.56.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added 'keydown' event to disable default behavior ([#3248](https://github.com/arco-design/arco-design-vue/pull/3248))
-
+- Added 'keydown' event to disable default behavior ([#3248](https://github.com/liunnn1994/sd-design/pull/3248))
 
 ## 2.54.6
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix overlap between step button and suffix/append ([#3005](https://github.com/arco-design/arco-design-vue/pull/3005))
-
+- fix overlap between step button and suffix/append ([#3005](https://github.com/liunnn1994/sd-design/pull/3005))
 
 ## 2.54.5
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix v-model not working ([#2961](https://github.com/arco-design/arco-design-vue/pull/2961))
-
+- fix v-model not working ([#2961](https://github.com/liunnn1994/sd-design/pull/2961))
 
 ## 2.54.4
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix change event triggering mechanism ([#2915](https://github.com/arco-design/arco-design-vue/pull/2915))
-
+- Fix change event triggering mechanism ([#2915](https://github.com/liunnn1994/sd-design/pull/2915))
 
 ## 2.52.0
 
@@ -53,8 +48,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add `input-attrs` attribute ([#2716](https://github.com/arco-design/arco-design-vue/pull/2716))
-
+- Add `input-attrs` attribute ([#2716](https://github.com/liunnn1994/sd-design/pull/2716))
 
 ## 2.50.2
 
@@ -62,8 +56,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Optimize the long-press effect of the step button ([#2668](https://github.com/arco-design/arco-design-vue/pull/2668))
-
+- Optimize the long-press effect of the step button ([#2668](https://github.com/liunnn1994/sd-design/pull/2668))
 
 ## 2.49.0
 
@@ -71,8 +64,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add slots for input-number box value manipulation icons ([#2560](https://github.com/arco-design/arco-design-vue/pull/2560))
-
+- add slots for input-number box value manipulation icons ([#2560](https://github.com/liunnn1994/sd-design/pull/2560))
 
 ## 2.47.0
 
@@ -80,8 +72,7 @@ changelog: true
 
 ### ⚠️ Important Attention
 
-- `hide-button` also takes effect when `mode="button"` ([#2461](https://github.com/arco-design/arco-design-vue/pull/2461))
-
+- `hide-button` also takes effect when `mode="button"` ([#2461](https://github.com/liunnn1994/sd-design/pull/2461))
 
 ## 2.43.2
 
@@ -89,7 +80,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix display step button in disabled state ([#2169](https://github.com/arco-design/arco-design-vue/pull/2169))
+- fix display step button in disabled state ([#2169](https://github.com/liunnn1994/sd-design/pull/2169))
 
 ## 2.42.1
 
@@ -97,8 +88,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix step-button is not properly disabled or enabled when min or max is changed ([#1777](https://github.com/arco-design/arco-design-vue/pull/1777))
-
+- fix step-button is not properly disabled or enabled when min or max is changed ([#1777](https://github.com/liunnn1994/sd-design/pull/1777))
 
 ## 2.34.0
 
@@ -106,8 +96,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Support `read-only` prop ([#1408](https://github.com/arco-design/arco-design-vue/pull/1408))
-
+- Support `read-only` prop ([#1408](https://github.com/liunnn1994/sd-design/pull/1408))
 
 ## 2.32.1
 
@@ -115,8 +104,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that '0' will be omitted after setting precision ([#1368](https://github.com/arco-design/arco-design-vue/pull/1368))
-
+- Fix the problem that '0' will be omitted after setting precision ([#1368](https://github.com/liunnn1994/sd-design/pull/1368))
 
 ## 2.32.0
 
@@ -124,8 +112,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix clear error outside of form ([#1329](https://github.com/arco-design/arco-design-vue/pull/1329))
-
+- fix clear error outside of form ([#1329](https://github.com/liunnn1994/sd-design/pull/1329))
 
 ## 2.29.1
 
@@ -133,8 +120,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Add keyboard event, show step button when focused ([#1224](https://github.com/arco-design/arco-design-vue/pull/1224))
-
+- Add keyboard event, show step button when focused ([#1224](https://github.com/liunnn1994/sd-design/pull/1224))
 
 ## 2.29.0
 
@@ -142,8 +128,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fixed the issue that clear did not trigger form validation ([#1204](https://github.com/arco-design/arco-design-vue/pull/1204))
-
+- Fixed the issue that clear did not trigger form validation ([#1204](https://github.com/liunnn1994/sd-design/pull/1204))
 
 ## 2.27.0
 
@@ -151,8 +136,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added modelEvent property and input event ([#1115](https://github.com/arco-design/arco-design-vue/pull/1115))
-
+- Added modelEvent property and input event ([#1115](https://github.com/liunnn1994/sd-design/pull/1115))
 
 ## 2.25.1
 
@@ -160,8 +144,7 @@ changelog: true
 
 ### 💅 Style
 
-- Fix the display position of the clear button ([#1048](https://github.com/arco-design/arco-design-vue/pull/1048))
-
+- Fix the display position of the clear button ([#1048](https://github.com/liunnn1994/sd-design/pull/1048))
 
 ## 2.25.0
 
@@ -169,8 +152,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the error attribute is invalid ([#1026](https://github.com/arco-design/arco-design-vue/pull/1026))
-
+- Fix the problem that the error attribute is invalid ([#1026](https://github.com/liunnn1994/sd-design/pull/1026))
 
 ## 2.22.0
 
@@ -178,8 +160,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fixed display error when switching `mode` ([#909](https://github.com/arco-design/arco-design-vue/pull/909))
-
+- Fixed display error when switching `mode` ([#909](https://github.com/liunnn1994/sd-design/pull/909))
 
 ## 2.14.3
 
@@ -187,8 +168,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the cursor position changes when inputting ([#552](https://github.com/arco-design/arco-design-vue/pull/552))
-
+- Fix the problem that the cursor position changes when inputting ([#552](https://github.com/liunnn1994/sd-design/pull/552))
 
 ## 2.12.0
 
@@ -196,12 +176,11 @@ changelog: true
 
 ### ⚠️ Important Attention
 
-- Modify the change event to be triggered only when out of focus and press Enter to solve the problem that the control cannot be input ([#452](https://github.com/arco-design/arco-design-vue/pull/452))
+- Modify the change event to be triggered only when out of focus and press Enter to solve the problem that the control cannot be input ([#452](https://github.com/liunnn1994/sd-design/pull/452))
 
 ### 🆕 Feature
 
-- Add support for input slot ([#451](https://github.com/arco-design/arco-design-vue/pull/451))
-
+- Add support for input slot ([#451](https://github.com/liunnn1994/sd-design/pull/451))
 
 ## 2.11.0
 
@@ -209,8 +188,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of displaying errors when `model-value` is 0 ([#407](https://github.com/arco-design/arco-design-vue/pull/407))
-
+- Fix the problem of displaying errors when `model-value` is 0 ([#407](https://github.com/liunnn1994/sd-design/pull/407))
 
 ## 2.10.0
 
@@ -218,8 +196,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of repeatable input of `-` and `.` ([#359](https://github.com/arco-design/arco-design-vue/pull/359))
-
+- Fix the problem of repeatable input of `-` and `.` ([#359](https://github.com/liunnn1994/sd-design/pull/359))
 
 ## 2.8.0
 
@@ -227,8 +204,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the button does not add size in button mode ([#293](https://github.com/arco-design/arco-design-vue/pull/293))
-
+- Fix the problem that the button does not add size in button mode ([#293](https://github.com/liunnn1994/sd-design/pull/293))
 
 ## 2.1.1
 
@@ -236,8 +212,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of inputting the negative sign error ([#114](https://github.com/arco-design/arco-design-vue/pull/114))
-
+- Fix the problem of inputting the negative sign error ([#114](https://github.com/liunnn1994/sd-design/pull/114))
 
 ## 2.1.0
 
@@ -245,5 +220,4 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of invalid accuracy ([#93](https://github.com/arco-design/arco-design-vue/pull/93))
-
+- Fix the problem of invalid accuracy ([#93](https://github.com/liunnn1994/sd-design/pull/93))

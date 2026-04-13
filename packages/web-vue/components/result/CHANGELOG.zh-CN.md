@@ -8,8 +8,7 @@ changelog: true
 
 ### 💅 样式更新
 
-- 修复 500 图片错位问题 ([#2578](https://github.com/arco-design/arco-design-vue/pull/2578))
-
+- 修复 500 图片错位问题 ([#2578](https://github.com/liunnn1994/sd-design/pull/2578))
 
 ## 2.8.0
 
@@ -17,5 +16,4 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 增加 `extra` 插槽和 `default` 插槽 ([#302](https://github.com/arco-design/arco-design-vue/pull/302))
-
+- 增加 `extra` 插槽和 `default` 插槽 ([#302](https://github.com/liunnn1994/sd-design/pull/302))

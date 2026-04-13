@@ -8,8 +8,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- fix re-throw error in onBeforeOk for proper error handling ([#3407](https://github.com/arco-design/arco-design-vue/pull/3407))
-
+- fix re-throw error in onBeforeOk for proper error handling ([#3407](https://github.com/liunnn1994/sd-design/pull/3407))
 
 ## 2.36.1
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- The on-before-ok property supports function returning a Promise ([#1623](https://github.com/arco-design/arco-design-vue/pull/1623))
-
+- The on-before-ok property supports function returning a Promise ([#1623](https://github.com/liunnn1994/sd-design/pull/1623))
 
 ## 2.32.1
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 💅 Style
 
-- Fix the problem that the icons under different types are black by default ([#1366](https://github.com/arco-design/arco-design-vue/pull/1366))
-
+- Fix the problem that the icons under different types are black by default ([#1366](https://github.com/liunnn1994/sd-design/pull/1366))
 
 ## 2.18.0-beta.2
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 💅 Style
 
-- Optimize display animation ([#733](https://github.com/arco-design/arco-design-vue/pull/733))
-
+- Optimize display animation ([#733](https://github.com/liunnn1994/sd-design/pull/733))
 
 ## 2.10.1
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 💅 Style
 
-- Fix the component style problem, and adjust the default size of the button to `mini`, which is consistent with React ([#390](https://github.com/arco-design/arco-design-vue/pull/390))
-
+- Fix the component style problem, and adjust the default size of the button to `mini`, which is consistent with React ([#390](https://github.com/liunnn1994/sd-design/pull/390))
 
 ## 2.7.0
 
@@ -53,8 +48,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `on-before-ok` and `on-before-cancel` property events ([#229](https://github.com/arco-design/arco-design-vue/pull/229))
-
+- Added `on-before-ok` and `on-before-cancel` property events ([#229](https://github.com/liunnn1994/sd-design/pull/229))
 
 ## 2.1.1
 
@@ -62,5 +56,4 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the parameters of the `ok/cancel` button are lost ([#105](https://github.com/arco-design/arco-design-vue/pull/105))
-
+- Fix the problem that the parameters of the `ok/cancel` button are lost ([#105](https://github.com/liunnn1994/sd-design/pull/105))

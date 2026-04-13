@@ -8,12 +8,12 @@ export default ({ name }: { name: string }): InlineConfig => {
   return {
     mode: 'production',
     build: {
-      target: 'modules',
+      target: 'es2015',
       outDir: 'dist',
       emptyOutDir: false,
       sourcemap: true,
       minify: false,
-      brotliSize: false,
+      reportCompressedSize: false,
       rollupOptions: {
         external: [
           'vue',

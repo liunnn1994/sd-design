@@ -8,5 +8,4 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the hash position will not be located after loading ([#400](https://github.com/arco-design/arco-design-vue/pull/400))
-
+- Fix the problem that the hash position will not be located after loading ([#400](https://github.com/liunnn1994/sd-design/pull/400))

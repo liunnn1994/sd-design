@@ -8,8 +8,7 @@ changelog: true
 
 ### 💎 功能优化
 
-- 溢出数量改变事件 ([#1287](https://github.com/arco-design/arco-design-vue/pull/1287))
-
+- 溢出数量改变事件 ([#1287](https://github.com/liunnn1994/sd-design/pull/1287))
 
 ## 2.37.1
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 新增 `OverflowList` 组件 ([#1634](https://github.com/arco-design/arco-design-vue/pull/1634))
-
+- 新增 `OverflowList` 组件 ([#1634](https://github.com/liunnn1994/sd-design/pull/1634))
 
 ## 2.30.1-beta.1
 
@@ -26,5 +24,4 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 新增 `OverflowList` 组件 ([#1221](https://github.com/arco-design/arco-design-vue/pull/1221))
-
+- 新增 `OverflowList` 组件 ([#1221](https://github.com/liunnn1994/sd-design/pull/1221))

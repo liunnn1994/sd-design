@@ -8,5 +8,4 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix formatter not being applied during paste ([#3110](https://github.com/arco-design/arco-design-vue/pull/3110))
-
+- fix formatter not being applied during paste ([#3110](https://github.com/liunnn1994/sd-design/pull/3110))

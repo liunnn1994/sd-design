@@ -8,8 +8,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add `center` prop ([#2464](https://github.com/arco-design/arco-design-vue/pull/2464))
-
+- add `center` prop ([#2464](https://github.com/liunnn1994/sd-design/pull/2464))
 
 ## 2.41.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add `normal` type ([#2009](https://github.com/arco-design/arco-design-vue/pull/2009))
-
+- Add `normal` type ([#2009](https://github.com/liunnn1994/sd-design/pull/2009))
 
 ## 2.36.0
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- suport custom close element ([#1544](https://github.com/arco-design/arco-design-vue/pull/1544))
-
+- suport custom close element ([#1544](https://github.com/liunnn1994/sd-design/pull/1544))
 
 ## 2.3.0
 
@@ -35,9 +32,8 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add `#action` slot ([#148](https://github.com/arco-design/arco-design-vue/pull/148))
+- Add `#action` slot ([#148](https://github.com/liunnn1994/sd-design/pull/148))
 
 ### 🐛 BugFix
 
-- Fix the problem of incorrect name export by alert ([#142](https://github.com/arco-design/arco-design-vue/pull/142))
-
+- Fix the problem of incorrect name export by alert ([#142](https://github.com/liunnn1994/sd-design/pull/142))

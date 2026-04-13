@@ -8,8 +8,7 @@ changelog: true
 
 ### 💅 样式更新
 
-- 优化显示动画，同 react 版本保持一致 ([#733](https://github.com/arco-design/arco-design-vue/pull/733))
-
+- 优化显示动画，同 react 版本保持一致 ([#733](https://github.com/liunnn1994/sd-design/pull/733))
 
 ## 2.17.0
 
@@ -17,5 +16,4 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复按需加载时丢失 trigger 样式的问题 ([#674](https://github.com/arco-design/arco-design-vue/pull/674))
-
+- 修复按需加载时丢失 trigger 样式的问题 ([#674](https://github.com/liunnn1994/sd-design/pull/674))

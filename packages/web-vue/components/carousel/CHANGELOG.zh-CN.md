@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复 `Carousel` 透明背景图片无法遮罩上一张图片的问题 ([#1901](https://github.com/arco-design/arco-design-vue/pull/1901))
-
+- 修复 `Carousel` 透明背景图片无法遮罩上一张图片的问题 ([#1901](https://github.com/liunnn1994/sd-design/pull/1901))
 
 ## 2.26.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复 `trigger` 和 `autoPlay` 属性设置失效的问题 ([#1059](https://github.com/arco-design/arco-design-vue/pull/1059))
-
+- 修复 `trigger` 和 `autoPlay` 属性设置失效的问题 ([#1059](https://github.com/liunnn1994/sd-design/pull/1059))
 
 ## 2.10.0
 
@@ -26,5 +24,4 @@ changelog: true
 
 ### 🐛 问题修复
 
-- out 子项内未隐藏 ([#343](https://github.com/arco-design/arco-design-vue/pull/343))
-
+- out 子项内未隐藏 ([#343](https://github.com/liunnn1994/sd-design/pull/343))

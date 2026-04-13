@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复树折叠动画不生效问题 ([#3234](https://github.com/arco-design/arco-design-vue/pull/3234))
-
+- 修复树折叠动画不生效问题 ([#3234](https://github.com/liunnn1994/sd-design/pull/3234))
 
 ## 2.55.1
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 💅 样式更新
 
-- 修复scrollHeight计算异常问题 ([#3044](https://github.com/arco-design/arco-design-vue/pull/3044))
-
+- 修复 scrollHeight 计算异常问题 ([#3044](https://github.com/liunnn1994/sd-design/pull/3044))
 
 ## 2.55.0
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- `title` 插槽新增 `title` 参数 ([#3024](https://github.com/arco-design/arco-design-vue/pull/3024))
-
+- `title` 插槽新增 `title` 参数 ([#3024](https://github.com/liunnn1994/sd-design/pull/3024))
 
 ## 2.54.6
 
@@ -35,13 +32,11 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 解决无效的属性名称控制台警告问题 ([#2995](https://github.com/arco-design/arco-design-vue/pull/2995))
-
+- 解决无效的属性名称控制台警告问题 ([#2995](https://github.com/liunnn1994/sd-design/pull/2995))
 
 ## 2.54.3
 
 `2024-01-19`
-
 
 ## 2.45.0
 
@@ -49,8 +44,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 树节点增加 data-level 和 data-key 数据属性 ([#2192](https://github.com/arco-design/arco-design-vue/pull/2192))
-
+- 树节点增加 data-level 和 data-key 数据属性 ([#2192](https://github.com/liunnn1994/sd-design/pull/2192))
 
 ## 2.44.2
 
@@ -58,8 +52,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 调整 select 和 update:selectedKeys, check 和 update:checkedKeys 的触发顺序 ([#2228](https://github.com/arco-design/arco-design-vue/pull/2228))
-
+- 调整 select 和 update:selectedKeys, check 和 update:checkedKeys 的触发顺序 ([#2228](https://github.com/liunnn1994/sd-design/pull/2228))
 
 ## 2.34.0
 
@@ -67,8 +60,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 给 slot 添加节点状态信息 ([#1469](https://github.com/arco-design/arco-design-vue/pull/1469))
-
+- 给 slot 添加节点状态信息 ([#1469](https://github.com/liunnn1994/sd-design/pull/1469))
 
 ## 2.33.0
 
@@ -76,9 +68,8 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复子树展开动画中为处理过滤数据的问题 ([#1397](https://github.com/arco-design/arco-design-vue/pull/1397))
-- 修复设置 defaultExpandSelected 失效的问题 ([#1362](https://github.com/arco-design/arco-design-vue/pull/1362))
-
+- 修复子树展开动画中为处理过滤数据的问题 ([#1397](https://github.com/liunnn1994/sd-design/pull/1397))
+- 修复设置 defaultExpandSelected 失效的问题 ([#1362](https://github.com/liunnn1994/sd-design/pull/1362))
 
 ## 2.32.0
 
@@ -86,8 +77,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复点击半选状态的节点显示错误的问题 ([#1331](https://github.com/arco-design/arco-design-vue/pull/1331))
-
+- 修复点击半选状态的节点显示错误的问题 ([#1331](https://github.com/liunnn1994/sd-design/pull/1331))
 
 ## 2.27.0
 
@@ -95,14 +85,13 @@ changelog: true
 
 ### 🆕 新增功能
 
-- `checkable` 支持函数格式 ([#1119](https://github.com/arco-design/arco-design-vue/pull/1119))
-- `seleable` 支持函数格式 ([#1119](https://github.com/arco-design/arco-design-vue/pull/1119))
-- 新增属性 `actionOnNodeClick`，可用于开启点击节点触发展开 ([#1119](https://github.com/arco-design/arco-design-vue/pull/1119))
+- `checkable` 支持函数格式 ([#1119](https://github.com/liunnn1994/sd-design/pull/1119))
+- `seleable` 支持函数格式 ([#1119](https://github.com/liunnn1994/sd-design/pull/1119))
+- 新增属性 `actionOnNodeClick`，可用于开启点击节点触发展开 ([#1119](https://github.com/liunnn1994/sd-design/pull/1119))
 
 ### 🐛 问题修复
 
-- 修复当 key 为 number 的时候，expandAll 失败的问题 ([#1113](https://github.com/arco-design/arco-design-vue/pull/1113))
-
+- 修复当 key 为 number 的时候，expandAll 失败的问题 ([#1113](https://github.com/liunnn1994/sd-design/pull/1113))
 
 ## 2.25.0
 
@@ -110,8 +99,7 @@ changelog: true
 
 ### 💎 功能优化
 
-- 调用方法操作单个节点的时候在回调参数重增加目标节点信息 ([#1021](https://github.com/arco-design/arco-design-vue/pull/1021))
-
+- 调用方法操作单个节点的时候在回调参数重增加目标节点信息 ([#1021](https://github.com/liunnn1994/sd-design/pull/1021))
 
 ## 2.24.0
 
@@ -119,8 +107,7 @@ changelog: true
 
 ### 🆎 类型修正
 
-- `FieldNames` 修改为 `TreeFieldNames` ([#977](https://github.com/arco-design/arco-design-vue/pull/977))
-
+- `FieldNames` 修改为 `TreeFieldNames` ([#977](https://github.com/liunnn1994/sd-design/pull/977))
 
 ## 2.21.0
 
@@ -128,17 +115,16 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 新增配置项 `onlyCheckLeaf` ([#876](https://github.com/arco-design/arco-design-vue/pull/876))
-- 支持关闭展开时的动效 ([#867](https://github.com/arco-design/arco-design-vue/pull/867))
+- 新增配置项 `onlyCheckLeaf` ([#876](https://github.com/liunnn1994/sd-design/pull/876))
+- 支持关闭展开时的动效 ([#867](https://github.com/liunnn1994/sd-design/pull/867))
 
 ### 💅 样式更新
 
-- 修复连接线显示错乱的问题 ([#865](https://github.com/arco-design/arco-design-vue/pull/865))
+- 修复连接线显示错乱的问题 ([#865](https://github.com/liunnn1994/sd-design/pull/865))
 
 ### 🆎 类型修正
 
-- 增加filednames的自定义icon功能 ([#848](https://github.com/arco-design/arco-design-vue/pull/848))
-
+- 增加 filednames 的自定义 icon 功能 ([#848](https://github.com/liunnn1994/sd-design/pull/848))
 
 ## 2.20.1
 
@@ -146,8 +132,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复新版本中展开事件名称错误的问题 ([#853](https://github.com/arco-design/arco-design-vue/pull/853))
-
+- 修复新版本中展开事件名称错误的问题 ([#853](https://github.com/liunnn1994/sd-design/pull/853))
 
 ## 2.20.0
 
@@ -155,8 +140,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 添加树的实例方法 ([#837](https://github.com/arco-design/arco-design-vue/pull/837))
-
+- 添加树的实例方法 ([#837](https://github.com/liunnn1994/sd-design/pull/837))
 
 ## 2.19.0
 
@@ -164,13 +148,12 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 支持设置半选节点 ([#809](https://github.com/arco-design/arco-design-vue/pull/809))
-- 实例上新增可调用的方法:  `getCheckedNodes` `getSelectedNodes` `getExpandedNodes` `getHalfCheckedNodes` ([#809](https://github.com/arco-design/arco-design-vue/pull/809))
+- 支持设置半选节点 ([#809](https://github.com/liunnn1994/sd-design/pull/809))
+- 实例上新增可调用的方法: `getCheckedNodes` `getSelectedNodes` `getExpandedNodes` `getHalfCheckedNodes` ([#809](https://github.com/liunnn1994/sd-design/pull/809))
 
 ### 🐛 问题修复
 
-- 修复当节点找不到的时候组件渲染出错的问题 ([#800](https://github.com/arco-design/arco-design-vue/pull/800))
-
+- 修复当节点找不到的时候组件渲染出错的问题 ([#800](https://github.com/liunnn1994/sd-design/pull/800))
 
 ## 2.18.0-beta.2
 
@@ -178,8 +161,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 新增插槽 `icon` 用于全局定制节点图标 ([#710](https://github.com/arco-design/arco-design-vue/pull/710))
-
+- 新增插槽 `icon` 用于全局定制节点图标 ([#710](https://github.com/liunnn1994/sd-design/pull/710))
 
 ## 2.9.0
 
@@ -187,8 +169,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 新增属性 `default-expand-selected` `default-expand-checked` `auto-expand-parent` ([#322](https://github.com/arco-design/arco-design-vue/pull/322))
-
+- 新增属性 `default-expand-selected` `default-expand-checked` `auto-expand-parent` ([#322](https://github.com/liunnn1994/sd-design/pull/322))
 
 ## 2.8.0
 
@@ -196,8 +177,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 动态加载节点后更新勾选状态 ([#206](https://github.com/arco-design/arco-design-vue/pull/206))
-
+- 动态加载节点后更新勾选状态 ([#206](https://github.com/liunnn1994/sd-design/pull/206))
 
 ## 2.7.0
 
@@ -205,8 +185,7 @@ changelog: true
 
 ### 💅 样式更新
 
-- 让树节点的内容垂直居中 ([#260](https://github.com/arco-design/arco-design-vue/pull/260))
-
+- 让树节点的内容垂直居中 ([#260](https://github.com/liunnn1994/sd-design/pull/260))
 
 ## 2.4.0
 
@@ -214,8 +193,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- `key` 支持 `number`  类型 ([#169](https://github.com/arco-design/arco-design-vue/pull/169))
-
+- `key` 支持 `number` 类型 ([#169](https://github.com/liunnn1994/sd-design/pull/169))
 
 ## 2.3.0
 
@@ -223,5 +201,4 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复设置  `default-checked-keys` 无效的问题 ([#131](https://github.com/arco-design/arco-design-vue/pull/131))
-
+- 修复设置 `default-checked-keys` 无效的问题 ([#131](https://github.com/liunnn1994/sd-design/pull/131))

@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复头像组气泡中部分头像不显示问题 ([#2925](https://github.com/arco-design/arco-design-vue/pull/2925))
-
+- 修复头像组气泡中部分头像不显示问题 ([#2925](https://github.com/liunnn1994/sd-design/pull/2925))
 
 ## 2.52.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 添加了新的 `ObjectFit` 属性 ([#2691](https://github.com/arco-design/arco-design-vue/pull/2691))
-
+- 添加了新的 `ObjectFit` 属性 ([#2691](https://github.com/liunnn1994/sd-design/pull/2691))
 
 ## 2.40.0
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 增加 image-url 属性，支持使用图片地址 ([#1810](https://github.com/arco-design/arco-design-vue/pull/1810))
-
+- 增加 image-url 属性，支持使用图片地址 ([#1810](https://github.com/liunnn1994/sd-design/pull/1810))
 
 ## 2.21.0
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复没有内容时会出现警告提示的问题 ([#870](https://github.com/arco-design/arco-design-vue/pull/870))
-
+- 修复没有内容时会出现警告提示的问题 ([#870](https://github.com/liunnn1994/sd-design/pull/870))
 
 ## 2.18.0
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 💎 功能优化
 
-- 使用 Context 方式优化组件 ([#773](https://github.com/arco-design/arco-design-vue/pull/773))
-
+- 使用 Context 方式优化组件 ([#773](https://github.com/liunnn1994/sd-design/pull/773))
 
 ## 2.7.0
 
@@ -53,5 +48,4 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 支持 `maxStyle` 和 `maxPopoverTriggerProps` 属性 ([#242](https://github.com/arco-design/arco-design-vue/pull/242))
-
+- 支持 `maxStyle` 和 `maxPopoverTriggerProps` 属性 ([#242](https://github.com/liunnn1994/sd-design/pull/242))

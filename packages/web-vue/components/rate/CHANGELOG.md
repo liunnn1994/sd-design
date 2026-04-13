@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix missing icon elements in `nuxt` ([#2930](https://github.com/arco-design/arco-design-vue/pull/2930))
-
+- Fix missing icon elements in `nuxt` ([#2930](https://github.com/liunnn1994/sd-design/pull/2930))
 
 ## 2.18.0
 
@@ -17,5 +16,4 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add color attribute ([#770](https://github.com/arco-design/arco-design-vue/pull/770))
-
+- Add color attribute ([#770](https://github.com/liunnn1994/sd-design/pull/770))

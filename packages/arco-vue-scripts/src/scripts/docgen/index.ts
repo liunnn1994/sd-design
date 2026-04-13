@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 import path from 'path';
 import fs from 'fs-extra';
-import glob from 'glob';
+import { globSync } from 'glob';
 import { ComponentDoc, parse as parseComponent } from 'vue-docgen-api';
 import chalk from 'chalk';
 import print from './utils/print';
@@ -134,7 +134,7 @@ const docgen = async ({
     }
   } else {
     // 读取组件列表
-    const templates = glob.sync(TEMPLATE_GLOB, { absolute: true });
+    const templates = globSync(TEMPLATE_GLOB, { absolute: true });
     if (components && components.length > 0) {
       const reg = new RegExp(components.join('|'));
       for (const template of templates) {

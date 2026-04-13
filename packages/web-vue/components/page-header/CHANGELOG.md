@@ -8,8 +8,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- support custom back icon ([#1499](https://github.com/arco-design/arco-design-vue/pull/1499))
-
+- support custom back icon ([#1499](https://github.com/liunnn1994/sd-design/pull/1499))
 
 ## 2.6.1
 
@@ -17,5 +16,4 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the dividing line is still displayed when there is no subtitle ([#224](https://github.com/arco-design/arco-design-vue/pull/224))
-
+- Fix the problem that the dividing line is still displayed when there is no subtitle ([#224](https://github.com/liunnn1994/sd-design/pull/224))

@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the transparent background image of `Carousel` cannot cover the previous image ([#1901](https://github.com/arco-design/arco-design-vue/pull/1901))
-
+- Fix the problem that the transparent background image of `Carousel` cannot cover the previous image ([#1901](https://github.com/liunnn1994/sd-design/pull/1901))
 
 ## 2.26.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fixed `trigger` and `autoPlay` property settings not working ([#1059](https://github.com/arco-design/arco-design-vue/pull/1059))
-
+- Fixed `trigger` and `autoPlay` property settings not working ([#1059](https://github.com/liunnn1994/sd-design/pull/1059))
 
 ## 2.10.0
 
@@ -26,5 +24,4 @@ changelog: true
 
 ### 🐛 BugFix
 
-- The out subitem is not hidden ([#343](https://github.com/arco-design/arco-design-vue/pull/343))
-
+- The out subitem is not hidden ([#343](https://github.com/liunnn1994/sd-design/pull/343))

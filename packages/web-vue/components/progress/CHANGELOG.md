@@ -8,8 +8,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Optimize the display logic of split points ([#1755](https://github.com/arco-design/arco-design-vue/pull/1755))
-
+- Optimize the display logic of split points ([#1755](https://github.com/liunnn1994/sd-design/pull/1755))
 
 ## 2.12.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the display value precision problem ([#447](https://github.com/arco-design/arco-design-vue/pull/447))
-
+- Fix the display value precision problem ([#447](https://github.com/liunnn1994/sd-design/pull/447))
 
 ## 2.7.0
 
@@ -26,5 +24,4 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add `track-color` prop ([#277](https://github.com/arco-design/arco-design-vue/pull/277))
-
+- Add `track-color` prop ([#277](https://github.com/liunnn1994/sd-design/pull/277))

@@ -8,5 +8,4 @@ changelog: true
 
 ### 💅 Style
 
-- Optimize display animation ([#733](https://github.com/arco-design/arco-design-vue/pull/733))
-
+- Optimize display animation ([#733](https://github.com/liunnn1994/sd-design/pull/733))

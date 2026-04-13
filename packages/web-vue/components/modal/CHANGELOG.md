@@ -8,8 +8,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- fix re-throw error in onBeforeOk for proper error handling ([#3407](https://github.com/arco-design/arco-design-vue/pull/3407))
-
+- fix re-throw error in onBeforeOk for proper error handling ([#3407](https://github.com/liunnn1994/sd-design/pull/3407))
 
 ## 2.54.6
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 💅 Style
 
-- fix fade-modal transition effect works on enter state ([#3007](https://github.com/arco-design/arco-design-vue/pull/3007))
-
+- fix fade-modal transition effect works on enter state ([#3007](https://github.com/liunnn1994/sd-design/pull/3007))
 
 ## 2.50.0
 
@@ -26,12 +24,11 @@ changelog: true
 
 ### 💎 Enhancement
 
-- add hide-title prop, support hide title ([#2605](https://github.com/arco-design/arco-design-vue/pull/2605))
+- add hide-title prop, support hide title ([#2605](https://github.com/liunnn1994/sd-design/pull/2605))
 
 ### 🆎 TypeScript
 
-- Complete missing properties in ModalConfig ([#2628](https://github.com/arco-design/arco-design-vue/pull/2628))
-
+- Complete missing properties in ModalConfig ([#2628](https://github.com/liunnn1994/sd-design/pull/2628))
 
 ## 2.50.0
 
@@ -39,7 +36,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- add hide-title prop, support hide title ([#2605](https://github.com/arco-design/arco-design-vue/pull/2605))
+- add hide-title prop, support hide title ([#2605](https://github.com/liunnn1994/sd-design/pull/2605))
 
 ## 2.47.0
 
@@ -47,8 +44,7 @@ changelog: true
 
 ### ⚠️ Important Attention
 
-- fix modal confirm missing warning icon in the title ([#2465](https://github.com/arco-design/arco-design-vue/pull/2465))
-
+- fix modal confirm missing warning icon in the title ([#2465](https://github.com/liunnn1994/sd-design/pull/2465))
 
 ## 2.46.2
 
@@ -56,8 +52,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix can not set width attribute ([#2467](https://github.com/arco-design/arco-design-vue/pull/2467))
-
+- fix can not set width attribute ([#2467](https://github.com/liunnn1994/sd-design/pull/2467))
 
 ## 2.46.1
 
@@ -65,18 +60,16 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix modal drag error when define top prop ([#2446](https://github.com/arco-design/arco-design-vue/pull/2446))
-- Fix the problem that there is no full screen when `width` and `fullscreen` are set at the same time ([#2441](https://github.com/arco-design/arco-design-vue/pull/2441))
+- fix modal drag error when define top prop ([#2446](https://github.com/liunnn1994/sd-design/pull/2446))
+- Fix the problem that there is no full screen when `width` and `fullscreen` are set at the same time ([#2441](https://github.com/liunnn1994/sd-design/pull/2441))
 
 ### 🆎 TypeScript
 
-- fix onOk & onCancel type error in function call ([#2426](https://github.com/arco-design/arco-design-vue/pull/2426))
-
+- fix onOk & onCancel type error in function call ([#2426](https://github.com/liunnn1994/sd-design/pull/2426))
 
 ## 2.45.2
 
 `2023-04-21`
-
 
 ## 2.43.2
 
@@ -84,13 +77,11 @@ changelog: true
 
 ### 💎 Enhancement
 
-- add update method of function call ([#2155](https://github.com/arco-design/arco-design-vue/pull/2155))
-
+- add update method of function call ([#2155](https://github.com/liunnn1994/sd-design/pull/2155))
 
 ## 2.40.0
 
 `2022-12-09`
-
 
 ## 2.38.0
 
@@ -98,9 +89,8 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that z-index does not take effect when custom style ([#1796](https://github.com/arco-design/arco-design-vue/pull/1796))
-- Fix the problem that closing does not unload internal components in function calls ([#1778](https://github.com/arco-design/arco-design-vue/pull/1778))
-
+- Fix the problem that z-index does not take effect when custom style ([#1796](https://github.com/liunnn1994/sd-design/pull/1796))
+- Fix the problem that closing does not unload internal components in function calls ([#1778](https://github.com/liunnn1994/sd-design/pull/1778))
 
 ## 2.38.0-beta.2
 
@@ -110,15 +100,13 @@ changelog: true
 
 - **modal:** Fixed the problem that the unloading of incoming subcomponents would not be triggered under the function call
 
-
 ## 2.38.0-beta.1
 
 `2022-10-14`
 
 ### 💎 Enhancement
 
-- Functional calls can set the renderToBody parameter ([#1682](https://github.com/arco-design/arco-design-vue/pull/1682))
-
+- Functional calls can set the renderToBody parameter ([#1682](https://github.com/liunnn1994/sd-design/pull/1682))
 
 ## 2.37.4
 
@@ -126,8 +114,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- fix modal close problem ([#1696](https://github.com/arco-design/arco-design-vue/pull/1696))
-
+- fix modal close problem ([#1696](https://github.com/liunnn1994/sd-design/pull/1696))
 
 ## 2.36.1
 
@@ -135,8 +122,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- The on-before-ok property supports function returning a Promise ([#1623](https://github.com/arco-design/arco-design-vue/pull/1623))
-
+- The on-before-ok property supports function returning a Promise ([#1623](https://github.com/liunnn1994/sd-design/pull/1623))
 
 ## 2.34.0
 
@@ -144,8 +130,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- support hide footer in function call ([#1410](https://github.com/arco-design/arco-design-vue/pull/1410))
-
+- support hide footer in function call ([#1410](https://github.com/liunnn1994/sd-design/pull/1410))
 
 ## 2.33.1
 
@@ -153,8 +138,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the default title class name is wrong ([#1413](https://github.com/arco-design/arco-design-vue/pull/1413))
-
+- Fix the problem that the default title class name is wrong ([#1413](https://github.com/liunnn1994/sd-design/pull/1413))
 
 ## 2.33.0
 
@@ -162,8 +146,7 @@ changelog: true
 
 ### 💅 Style
 
-- Fix the problem that the footer button is not centered ([#1391](https://github.com/arco-design/arco-design-vue/pull/1391))
-
+- Fix the problem that the footer button is not centered ([#1391](https://github.com/liunnn1994/sd-design/pull/1391))
 
 ## 2.32.0
 
@@ -171,8 +154,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fixed the problem that when the modal box exceeds the size of the screen, the position of the modal will be misaligned ([#1336](https://github.com/arco-design/arco-design-vue/pull/1336))
-
+- Fixed the problem that when the modal box exceeds the size of the screen, the position of the modal will be misaligned ([#1336](https://github.com/liunnn1994/sd-design/pull/1336))
 
 ## 2.31.0
 
@@ -180,8 +162,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add bodyClass and bodyStyle ([#1303](https://github.com/arco-design/arco-design-vue/pull/1303))
-
+- Add bodyClass and bodyStyle ([#1303](https://github.com/liunnn1994/sd-design/pull/1303))
 
 ## 2.30.0
 
@@ -189,8 +170,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Reset overflow setting on component unmount ([#1262](https://github.com/arco-design/arco-design-vue/pull/1262))
-
+- Reset overflow setting on component unmount ([#1262](https://github.com/liunnn1994/sd-design/pull/1262))
 
 ## 2.27.0
 
@@ -198,12 +178,11 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of position offset when opening full screen after dragging ([#1070](https://github.com/arco-design/arco-design-vue/pull/1070))
+- Fix the problem of position offset when opening full screen after dragging ([#1070](https://github.com/liunnn1994/sd-design/pull/1070))
 
 ### 🆎 TypeScript
 
-- Complete missing properties in ModalConfig ([#1120](https://github.com/arco-design/arco-design-vue/pull/1120))
-
+- Complete missing properties in ModalConfig ([#1120](https://github.com/liunnn1994/sd-design/pull/1120))
 
 ## 2.26.0
 
@@ -211,8 +190,7 @@ changelog: true
 
 ### 💅 Style
 
-- Add `overflow: auto` to the body layer ([#1030](https://github.com/arco-design/arco-design-vue/pull/1030))
-
+- Add `overflow: auto` to the body layer ([#1030](https://github.com/liunnn1994/sd-design/pull/1030))
 
 ## 2.25.0
 
@@ -220,8 +198,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- When closing with `esc`, only the topmost popup will be closed ([#1018](https://github.com/arco-design/arco-design-vue/pull/1018))
-
+- When closing with `esc`, only the topmost popup will be closed ([#1018](https://github.com/liunnn1994/sd-design/pull/1018))
 
 ## 2.24.0
 
@@ -229,16 +206,15 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add animation name attribute ([#985](https://github.com/arco-design/arco-design-vue/pull/985))
+- Add animation name attribute ([#985](https://github.com/liunnn1994/sd-design/pull/985))
 
 ### 🐛 BugFix
 
-- Fixed an issue where the body would not be locked in some cases ([#968](https://github.com/arco-design/arco-design-vue/pull/968))
+- Fixed an issue where the body would not be locked in some cases ([#968](https://github.com/liunnn1994/sd-design/pull/968))
 
 ### 💅 Style
 
-- Fix the issue that the scroll bar flashes when the animation is in full screen ([#985](https://github.com/arco-design/arco-design-vue/pull/985))
-
+- Fix the issue that the scroll bar flashes when the animation is in full screen ([#985](https://github.com/liunnn1994/sd-design/pull/985))
 
 ## 2.23.0
 
@@ -246,12 +222,11 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Fix the problem that the body is not locked when the scroll bar is floating ([#945](https://github.com/arco-design/arco-design-vue/pull/945))
+- Fix the problem that the body is not locked when the scroll bar is floating ([#945](https://github.com/liunnn1994/sd-design/pull/945))
 
 ### 💅 Style
 
-- Fix the problem that title-align is left-aligned invalid in simple mode ([#945](https://github.com/arco-design/arco-design-vue/pull/945))
-
+- Fix the problem that title-align is left-aligned invalid in simple mode ([#945](https://github.com/liunnn1994/sd-design/pull/945))
 
 ## 2.22.0
 
@@ -259,8 +234,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix auto width and drag error when `align-center="false"` ([#918](https://github.com/arco-design/arco-design-vue/pull/918))
-
+- Fix auto width and drag error when `align-center="false"` ([#918](https://github.com/liunnn1994/sd-design/pull/918))
 
 ## 2.21.0
 
@@ -268,8 +242,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the bug that the enter key triggers modal display multiple times ([#860](https://github.com/arco-design/arco-design-vue/pull/860))
-
+- Fix the bug that the enter key triggers modal display multiple times ([#860](https://github.com/liunnn1994/sd-design/pull/860))
 
 ## 2.20.0
 
@@ -277,8 +250,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fixed `close` function returning wrong in create method ([#840](https://github.com/arco-design/arco-design-vue/pull/840))
-
+- Fixed `close` function returning wrong in create method ([#840](https://github.com/liunnn1994/sd-design/pull/840))
 
 ## 2.19.0
 
@@ -286,9 +258,8 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add `draggable` property to support draggable ([#802](https://github.com/arco-design/arco-design-vue/pull/802))
-- Added `fullscreen` property to support full screen display ([#802](https://github.com/arco-design/arco-design-vue/pull/802))
-
+- Add `draggable` property to support draggable ([#802](https://github.com/liunnn1994/sd-design/pull/802))
+- Added `fullscreen` property to support full screen display ([#802](https://github.com/liunnn1994/sd-design/pull/802))
 
 ## 2.18.0-beta.2
 
@@ -296,8 +267,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Optimize click mask layer off ([#737](https://github.com/arco-design/arco-design-vue/pull/737))
-
+- Optimize click mask layer off ([#737](https://github.com/liunnn1994/sd-design/pull/737))
 
 ## 2.17.0
 
@@ -305,8 +275,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `title-align` attribute ([#673](https://github.com/arco-design/arco-design-vue/pull/673))
-
+- Added `title-align` attribute ([#673](https://github.com/liunnn1994/sd-design/pull/673))
 
 ## 2.16.0
 
@@ -314,12 +283,11 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `before-open` and `before-close` events ([#628](https://github.com/arco-design/arco-design-vue/pull/628))
+- Added `before-open` and `before-close` events ([#628](https://github.com/liunnn1994/sd-design/pull/628))
 
 ### 🐛 BugFix
 
-- Fix style file missing `<button>` component style reference ([#635](https://github.com/arco-design/arco-design-vue/pull/635))
-
+- Fix style file missing `<button>` component style reference ([#635](https://github.com/liunnn1994/sd-design/pull/635))
 
 ## 2.15.0
 
@@ -327,8 +295,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `escToClose` property and enabled by default ([#577](https://github.com/arco-design/arco-design-vue/pull/577))
-
+- Added `escToClose` property and enabled by default ([#577](https://github.com/liunnn1994/sd-design/pull/577))
 
 ## 2.12.2
 
@@ -336,9 +303,8 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of invalid modalStyle ([#459](https://github.com/arco-design/arco-design-vue/pull/459))
-- Fix the problem that the flex layout causes vertical centering and incomplete display beyond the height ([#459](https://github.com/arco-design/arco-design-vue/pull/459))
-
+- Fix the problem of invalid modalStyle ([#459](https://github.com/liunnn1994/sd-design/pull/459))
+- Fix the problem that the flex layout causes vertical centering and incomplete display beyond the height ([#459](https://github.com/liunnn1994/sd-design/pull/459))
 
 ## 2.12.0
 
@@ -346,12 +312,11 @@ changelog: true
 
 ### ⚠️ Important Attention
 
-- Modify the way the wrapper layer displays modal, and add the `width` and `top` attributes ([#454](https://github.com/arco-design/arco-design-vue/pull/454))
+- Modify the way the wrapper layer displays modal, and add the `width` and `top` attributes ([#454](https://github.com/liunnn1994/sd-design/pull/454))
 
 ### 🐛 BugFix
 
-- Fix the problem that the button content cannot be modified dynamically ([#453](https://github.com/arco-design/arco-design-vue/pull/453))
-
+- Fix the problem that the button content cannot be modified dynamically ([#453](https://github.com/liunnn1994/sd-design/pull/453))
 
 ## 2.11.0
 
@@ -359,9 +324,8 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the `alignCenter` property does not take effect ([#384](https://github.com/arco-design/arco-design-vue/pull/384))
-- The `alignCenter` property of the adjustment component defaults to `true` ([#384](https://github.com/arco-design/arco-design-vue/pull/384))
-
+- Fix the problem that the `alignCenter` property does not take effect ([#384](https://github.com/liunnn1994/sd-design/pull/384))
+- The `alignCenter` property of the adjustment component defaults to `true` ([#384](https://github.com/liunnn1994/sd-design/pull/384))
 
 ## 2.10.1
 
@@ -369,8 +333,7 @@ changelog: true
 
 ### 🆎 TypeScript
 
-- `ModalConfig` adds `simple` attribute annotation ([#389](https://github.com/arco-design/arco-design-vue/pull/389))
-
+- `ModalConfig` adds `simple` attribute annotation ([#389](https://github.com/liunnn1994/sd-design/pull/389))
 
 ## 2.10.0
 
@@ -378,9 +341,8 @@ changelog: true
 
 ### 💅 Style
 
-- Fix the problem of modal information display mode error ([#351](https://github.com/arco-design/arco-design-vue/pull/351))
-- The title bar close button is not displayed in simple mode ([#351](https://github.com/arco-design/arco-design-vue/pull/351))
-
+- Fix the problem of modal information display mode error ([#351](https://github.com/liunnn1994/sd-design/pull/351))
+- The title bar close button is not displayed in simple mode ([#351](https://github.com/liunnn1994/sd-design/pull/351))
 
 ## 2.7.0
 
@@ -388,12 +350,11 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `on-before-ok` and `on-before-cancel` property events ([#229](https://github.com/arco-design/arco-design-vue/pull/229))
+- Added `on-before-ok` and `on-before-cancel` property events ([#229](https://github.com/liunnn1994/sd-design/pull/229))
 
 ### 🐛 BugFix
 
-- Fix the issue of initial triggering of the `open` event ([#267](https://github.com/arco-design/arco-design-vue/pull/267))
-
+- Fix the issue of initial triggering of the `open` event ([#267](https://github.com/liunnn1994/sd-design/pull/267))
 
 ## 2.4.0
 
@@ -401,8 +362,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Manage the zIndex of the popup ([#167](https://github.com/arco-design/arco-design-vue/pull/167))
-
+- Manage the zIndex of the popup ([#167](https://github.com/liunnn1994/sd-design/pull/167))
 
 ## 2.1.1
 
@@ -410,8 +370,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the `title` attribute does not take effect ([#116](https://github.com/arco-design/arco-design-vue/pull/116))
-
+- Fix the problem that the `title` attribute does not take effect ([#116](https://github.com/liunnn1994/sd-design/pull/116))
 
 ## 2.0.3
 
@@ -419,5 +378,4 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of the wrong type of the main button ([#30](https://github.com/arco-design/arco-design-vue/pull/30))
-
+- Fix the problem of the wrong type of the main button ([#30](https://github.com/liunnn1994/sd-design/pull/30))

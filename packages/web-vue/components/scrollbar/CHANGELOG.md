@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix ts declaration error for emits ([#2077](https://github.com/arco-design/arco-design-vue/pull/2077))
-
+- fix ts declaration error for emits ([#2077](https://github.com/liunnn1994/sd-design/pull/2077))
 
 ## 2.40.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add scrollLeft and scrollTop methods ([#1909](https://github.com/arco-design/arco-design-vue/pull/1909))
-
+- Add scrollLeft and scrollTop methods ([#1909](https://github.com/liunnn1994/sd-design/pull/1909))
 
 ## 2.37.2
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix styling issues in Firefox ([#1655](https://github.com/arco-design/arco-design-vue/pull/1655))
-
+- Fix styling issues in Firefox ([#1655](https://github.com/liunnn1994/sd-design/pull/1655))
 
 ## 2.37.1
 
@@ -35,9 +32,8 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add virtual scrollbar component ([#1634](https://github.com/arco-design/arco-design-vue/pull/1634))
-- Table, select, list components replace virtual scroll bars ([#1634](https://github.com/arco-design/arco-design-vue/pull/1634))
-
+- Add virtual scrollbar component ([#1634](https://github.com/liunnn1994/sd-design/pull/1634))
+- Table, select, list components replace virtual scroll bars ([#1634](https://github.com/liunnn1994/sd-design/pull/1634))
 
 ## 2.30.1-beta.1
 
@@ -45,6 +41,5 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add virtual scrollbar component ([#1098](https://github.com/arco-design/arco-design-vue/pull/1098))
-- Table, select, list components replace virtual scroll bars ([#1098](https://github.com/arco-design/arco-design-vue/pull/1098))
-
+- Add virtual scrollbar component ([#1098](https://github.com/liunnn1994/sd-design/pull/1098))
+- Table, select, list components replace virtual scroll bars ([#1098](https://github.com/liunnn1994/sd-design/pull/1098))

@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fixed Drag change slider value not working on mobile side ([#3343](https://github.com/arco-design/arco-design-vue/pull/3343))
-
+- Fixed Drag change slider value not working on mobile side ([#3343](https://github.com/liunnn1994/sd-design/pull/3343))
 
 ## 2.44.2
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of model-value binding error in range mode ([#2241](https://github.com/arco-design/arco-design-vue/pull/2241))
-
+- Fix the problem of model-value binding error in range mode ([#2241](https://github.com/liunnn1994/sd-design/pull/2241))
 
 ## 2.42.1
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Optimize the automatic repair of invalid input in the digital input box ([#1952](https://github.com/arco-design/arco-design-vue/pull/1952))
-
+- Optimize the automatic repair of invalid input in the digital input box ([#1952](https://github.com/liunnn1994/sd-design/pull/1952))
 
 ## 2.42.0
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- add show-tooltip props ([#2037](https://github.com/arco-design/arco-design-vue/pull/2037))
-
+- add show-tooltip props ([#2037](https://github.com/liunnn1994/sd-design/pull/2037))
 
 ## 2.38.1
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix the slider show wrong position when set min value ([#1826](https://github.com/arco-design/arco-design-vue/pull/1826))
-
+- fix the slider show wrong position when set min value ([#1826](https://github.com/liunnn1994/sd-design/pull/1826))
 
 ## 2.18.0
 
@@ -53,8 +48,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that change will not be triggered when the input box is changed ([#775](https://github.com/arco-design/arco-design-vue/pull/775))
-
+- Fix the problem that change will not be triggered when the input box is changed ([#775](https://github.com/liunnn1994/sd-design/pull/775))
 
 ## 2.1.0
 
@@ -62,5 +56,4 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fixed the problem that the right click did not release the drag event ([#97](https://github.com/arco-design/arco-design-vue/pull/97))
-
+- Fixed the problem that the right click did not release the drag event ([#97](https://github.com/liunnn1994/sd-design/pull/97))

@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix custom empty slot not working in some cases ([#3315](https://github.com/arco-design/arco-design-vue/pull/3315))
-
+- fix custom empty slot not working in some cases ([#3315](https://github.com/liunnn1994/sd-design/pull/3315))
 
 ## 2.54.0
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- Modifying `multiple` and `pathMode` will trigger changes in the binding value ([#2867](https://github.com/arco-design/arco-design-vue/pull/2867))
-
+- Modifying `multiple` and `pathMode` will trigger changes in the binding value ([#2867](https://github.com/liunnn1994/sd-design/pull/2867))
 
 ## 2.51.1
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- fix empty state in Cascader Virtual list ([#2686](https://github.com/arco-design/arco-design-vue/pull/2686))
-
+- fix empty state in Cascader Virtual list ([#2686](https://github.com/liunnn1994/sd-design/pull/2686))
 
 ## 2.49.0
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add virtual list support ([#2577](https://github.com/arco-design/arco-design-vue/pull/2577))
-
+- Add virtual list support ([#2577](https://github.com/liunnn1994/sd-design/pull/2577))
 
 ## 2.46.0
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- support full path search ([#2363](https://github.com/arco-design/arco-design-vue/pull/2363))
-
+- support full path search ([#2363](https://github.com/liunnn1994/sd-design/pull/2363))
 
 ## 2.45.1
 
@@ -53,13 +48,11 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the abnormal display of search results when the width of the control is short ([#2326](https://github.com/arco-design/arco-design-vue/pull/2326))
-
+- Fix the abnormal display of search results when the width of the control is short ([#2326](https://github.com/liunnn1994/sd-design/pull/2326))
 
 ## 2.40.0
 
 `2022-12-09`
-
 
 ## 2.38.0-beta.2
 
@@ -67,8 +60,7 @@ changelog: true
 
 ### 💎 Enhancement
 
-- When the submenus are all disabled when optimizing multi-selection, the parent prohibits the selection ([#1771](https://github.com/arco-design/arco-design-vue/pull/1771))
-
+- When the submenus are all disabled when optimizing multi-selection, the parent prohibits the selection ([#1771](https://github.com/liunnn1994/sd-design/pull/1771))
 
 ## 2.34.1
 
@@ -76,8 +68,7 @@ changelog: true
 
 ### 💅 Style
 
-- Fix style issue when dropdown panel is empty ([#1483](https://github.com/arco-design/arco-design-vue/pull/1483))
-
+- Fix style issue when dropdown panel is empty ([#1483](https://github.com/liunnn1994/sd-design/pull/1483))
 
 ## 2.33.1
 
@@ -85,9 +76,8 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fixed the wrong position of the horizontal scroll bar of the search drop-down menu ([#1438](https://github.com/arco-design/arco-design-vue/pull/1438))
-- Fix the problem that the cursor cannot be used after inputting content in search mode ([#1438](https://github.com/arco-design/arco-design-vue/pull/1438))
-
+- Fixed the wrong position of the horizontal scroll bar of the search drop-down menu ([#1438](https://github.com/liunnn1994/sd-design/pull/1438))
+- Fix the problem that the cursor cannot be used after inputting content in search mode ([#1438](https://github.com/liunnn1994/sd-design/pull/1438))
 
 ## 2.29.1
 
@@ -95,12 +85,11 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the value of the number type fails to match ([#1230](https://github.com/arco-design/arco-design-vue/pull/1230))
+- Fix the problem that the value of the number type fails to match ([#1230](https://github.com/liunnn1994/sd-design/pull/1230))
 
 ### 💎 Enhancement
 
-- cascader-panel adds keyboard events ([#1230](https://github.com/arco-design/arco-design-vue/pull/1230))
-
+- cascader-panel adds keyboard events ([#1230](https://github.com/liunnn1994/sd-design/pull/1230))
 
 ## 2.29.0
 
@@ -108,18 +97,17 @@ changelog: true
 
 ### ⚠️ Important Attention
 
-- Exposed parameter changed from CascaderOptionInfo to CascaderOption. Internal data is no longer included, user data is not affected ([#1201](https://github.com/arco-design/arco-design-vue/pull/1201))
+- Exposed parameter changed from CascaderOptionInfo to CascaderOption. Internal data is no longer included, user data is not affected ([#1201](https://github.com/liunnn1994/sd-design/pull/1201))
 
 ### 🆕 Feature
 
-- Option value supports object format, add `value-key` attribute ([#1201](https://github.com/arco-design/arco-design-vue/pull/1201))
-- Add the `fallback` attribute to customize the display of options that do not exist ([#1201](https://github.com/arco-design/arco-design-vue/pull/1201))
-- Add the `expand-child` property to expand the submenu ([#1201](https://github.com/arco-design/arco-design-vue/pull/1201))
+- Option value supports object format, add `value-key` attribute ([#1201](https://github.com/liunnn1994/sd-design/pull/1201))
+- Add the `fallback` attribute to customize the display of options that do not exist ([#1201](https://github.com/liunnn1994/sd-design/pull/1201))
+- Add the `expand-child` property to expand the submenu ([#1201](https://github.com/liunnn1994/sd-design/pull/1201))
 
 ### 💎 Enhancement
 
-- Optimize submenu expansion logic and keyboard events ([#1201](https://github.com/arco-design/arco-design-vue/pull/1201))
-
+- Optimize submenu expansion logic and keyboard events ([#1201](https://github.com/liunnn1994/sd-design/pull/1201))
 
 ## 2.28.0
 
@@ -127,9 +115,8 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the multi-selection state is displayed incorrectly in the case of lazy loading ([#1177](https://github.com/arco-design/arco-design-vue/pull/1177))
-- Fix the problem that the lazy loading function is called multiple times when the selection box is clicked ([#1177](https://github.com/arco-design/arco-design-vue/pull/1177))
-
+- Fix the problem that the multi-selection state is displayed incorrectly in the case of lazy loading ([#1177](https://github.com/liunnn1994/sd-design/pull/1177))
+- Fix the problem that the lazy loading function is called multiple times when the selection box is clicked ([#1177](https://github.com/liunnn1994/sd-design/pull/1177))
 
 ## 2.25.2
 
@@ -137,8 +124,7 @@ changelog: true
 
 ### 💅 Style
 
-- Fixed the width of the search drop-down menu when it was blank ([#1056](https://github.com/arco-design/arco-design-vue/pull/1056))
-
+- Fixed the width of the search drop-down menu when it was blank ([#1056](https://github.com/liunnn1994/sd-design/pull/1056))
 
 ## 2.24.0
 
@@ -146,8 +132,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the half-selected state of the checkbox is displayed incorrectly ([#963](https://github.com/arco-design/arco-design-vue/pull/963))
-
+- Fix the problem that the half-selected state of the checkbox is displayed incorrectly ([#963](https://github.com/liunnn1994/sd-design/pull/963))
 
 ## 2.23.0
 
@@ -155,13 +140,12 @@ changelog: true
 
 ### 🆕 Feature
 
-- add empty slot ([#952](https://github.com/arco-design/arco-design-vue/pull/952))
+- add empty slot ([#952](https://github.com/liunnn1994/sd-design/pull/952))
 
 ### 🐛 BugFix
 
-- Fix the problem that lazy loaded isLeaf is invalid in version 2.22.0 ([#952](https://github.com/arco-design/arco-design-vue/pull/952))
-- Fixed an issue where the options property could not trigger an update in some cases ([#952](https://github.com/arco-design/arco-design-vue/pull/952))
-
+- Fix the problem that lazy loaded isLeaf is invalid in version 2.22.0 ([#952](https://github.com/liunnn1994/sd-design/pull/952))
+- Fixed an issue where the options property could not trigger an update in some cases ([#952](https://github.com/liunnn1994/sd-design/pull/952))
 
 ## 2.22.0
 
@@ -169,8 +153,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `field-names` attribute to allow custom fields ([#912](https://github.com/arco-design/arco-design-vue/pull/912))
-
+- Added `field-names` attribute to allow custom fields ([#912](https://github.com/liunnn1994/sd-design/pull/912))
 
 ## 2.20.0
 
@@ -178,12 +161,11 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add `cascader-panel` component ([#842](https://github.com/arco-design/arco-design-vue/pull/842))
+- Add `cascader-panel` component ([#842](https://github.com/liunnn1994/sd-design/pull/842))
 
 ### 🐛 BugFix
 
-- Fix the problem that the selected path of the drop-down menu may not match the current value ([#843](https://github.com/arco-design/arco-design-vue/pull/843))
-
+- Fix the problem that the selected path of the drop-down menu may not match the current value ([#843](https://github.com/liunnn1994/sd-design/pull/843))
 
 ## 2.18.0
 
@@ -191,8 +173,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `#option`, `#label` slots ([#781](https://github.com/arco-design/arco-design-vue/pull/781))
-
+- Added `#option`, `#label` slots ([#781](https://github.com/liunnn1994/sd-design/pull/781))
 
 ## 2.18.0-beta.2
 
@@ -200,13 +181,12 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `search-delay` property and defaulted to `500ms` ([#729](https://github.com/arco-design/arco-design-vue/pull/729))
-- Add the `search-option-only-label` attribute and modify the default display path label of the options in the search drop-down menu ([#729](https://github.com/arco-design/arco-design-vue/pull/729))
+- Added `search-delay` property and defaulted to `500ms` ([#729](https://github.com/liunnn1994/sd-design/pull/729))
+- Add the `search-option-only-label` attribute and modify the default display path label of the options in the search drop-down menu ([#729](https://github.com/liunnn1994/sd-design/pull/729))
 
 ### 🐛 BugFix
 
-- Fix the problem that the selection box display is not updated after the option is updated ([#727](https://github.com/arco-design/arco-design-vue/pull/727))
-
+- Fix the problem that the selection box display is not updated after the option is updated ([#727](https://github.com/liunnn1994/sd-design/pull/727))
 
 ## 2.18.0-beta.1
 
@@ -214,9 +194,8 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fixed an issue where disabled items could still be selected via radio selectors in strict mode ([#701](https://github.com/arco-design/arco-design-vue/pull/701))
-- Fixed an issue where search results in strict mode did not include path options ([#701](https://github.com/arco-design/arco-design-vue/pull/701))
-
+- Fixed an issue where disabled items could still be selected via radio selectors in strict mode ([#701](https://github.com/liunnn1994/sd-design/pull/701))
+- Fixed an issue where search results in strict mode did not include path options ([#701](https://github.com/liunnn1994/sd-design/pull/701))
 
 ## 2.16.0
 
@@ -224,8 +203,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fixed an issue where the search could not be selected in `check-strictly` mode ([#627](https://github.com/arco-design/arco-design-vue/pull/627))
-
+- Fixed an issue where the search could not be selected in `check-strictly` mode ([#627](https://github.com/liunnn1994/sd-design/pull/627))
 
 ## 2.15.0
 
@@ -233,8 +211,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add loading prop ([#558](https://github.com/arco-design/arco-design-vue/pull/558))
-
+- Add loading prop ([#558](https://github.com/liunnn1994/sd-design/pull/558))
 
 ## 2.13.0
 
@@ -242,8 +219,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Added `load-more` attribute to support lazy loading of data ([#476](https://github.com/arco-design/arco-design-vue/pull/476))
-
+- Added `load-more` attribute to support lazy loading of data ([#476](https://github.com/liunnn1994/sd-design/pull/476))
 
 ## 2.11.0
 
@@ -251,8 +227,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem that the level totalLevel is calculated incorrectly ([#399](https://github.com/arco-design/arco-design-vue/pull/399))
-
+- Fix the problem that the level totalLevel is calculated incorrectly ([#399](https://github.com/liunnn1994/sd-design/pull/399))
 
 ## 2.10.1
 
@@ -260,8 +235,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Fix the problem of counting errors when there is an empty sub-menu in multi-select mode ([#388](https://github.com/arco-design/arco-design-vue/pull/388))
-
+- Fix the problem of counting errors when there is an empty sub-menu in multi-select mode ([#388](https://github.com/liunnn1994/sd-design/pull/388))
 
 ## 2.10.0
 
@@ -269,12 +243,11 @@ changelog: true
 
 ### 💎 Enhancement
 
-- When the input box is editable, clicking will not close the drop-down menu ([#348](https://github.com/arco-design/arco-design-vue/pull/348))
+- When the input box is editable, clicking will not close the drop-down menu ([#348](https://github.com/liunnn1994/sd-design/pull/348))
 
 ### 🆕 Feature
 
-- Add checkStrictly prop ([#349](https://github.com/arco-design/arco-design-vue/pull/349))
-
+- Add checkStrictly prop ([#349](https://github.com/liunnn1994/sd-design/pull/349))
 
 ## 2.8.0
 
@@ -282,12 +255,11 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add support for `tagProps` ([#307](https://github.com/arco-design/arco-design-vue/pull/307))
+- Add support for `tagProps` ([#307](https://github.com/liunnn1994/sd-design/pull/307))
 
 ### 💅 Style
 
-- Remove the option to select the bold effect ([#308](https://github.com/arco-design/arco-design-vue/pull/308))
-
+- Remove the option to select the bold effect ([#308](https://github.com/liunnn1994/sd-design/pull/308))
 
 ## 2.6.0
 
@@ -295,8 +267,7 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add `trigger-props` property ([#197](https://github.com/arco-design/arco-design-vue/pull/197))
-
+- Add `trigger-props` property ([#197](https://github.com/liunnn1994/sd-design/pull/197))
 
 ## 2.5.0
 
@@ -304,8 +275,7 @@ changelog: true
 
 ### ⚠️ Important Attention
 
-- Move the custom rendering of `options.label` added in 2.4.0 to `options.render` ([#183](https://github.com/arco-design/arco-design-vue/pull/183))
-
+- Move the custom rendering of `options.label` added in 2.4.0 to `options.render` ([#183](https://github.com/liunnn1994/sd-design/pull/183))
 
 ## 2.4.0
 
@@ -313,9 +283,8 @@ changelog: true
 
 ### 🆕 Feature
 
-- Add `options.value` number type and `options.label` custom rendering support ([#176](https://github.com/arco-design/arco-design-vue/pull/176))
+- Add `options.value` number type and `options.label` custom rendering support ([#176](https://github.com/liunnn1994/sd-design/pull/176))
 
 ### 🐛 BugFix
 
-- Fix the problem that the search input box cannot be scrolled ([#175](https://github.com/arco-design/arco-design-vue/pull/175))
-
+- Fix the problem that the search input box cannot be scrolled ([#175](https://github.com/liunnn1994/sd-design/pull/175))

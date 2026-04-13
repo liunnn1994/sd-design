@@ -8,8 +8,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复 simple 模式下禁用失效 ([#3067](https://github.com/arco-design/arco-design-vue/pull/3067))
-
+- 修复 simple 模式下禁用失效 ([#3067](https://github.com/liunnn1994/sd-design/pull/3067))
 
 ## 2.54.6
 
@@ -17,8 +16,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复 disabled 属性不生效问题 ([#2996](https://github.com/arco-design/arco-design-vue/pull/2996))
-
+- 修复 disabled 属性不生效问题 ([#2996](https://github.com/liunnn1994/sd-design/pull/2996))
 
 ## 2.52.0
 
@@ -26,8 +24,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 增加操作图标插槽 ([#2708](https://github.com/arco-design/arco-design-vue/pull/2708))
-
+- 增加操作图标插槽 ([#2708](https://github.com/liunnn1994/sd-design/pull/2708))
 
 ## 2.50.1
 
@@ -35,8 +32,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 增加搜索框的配置属性 ([#2656](https://github.com/arco-design/arco-design-vue/pull/2656))
-
+- 增加搜索框的配置属性 ([#2656](https://github.com/liunnn1994/sd-design/pull/2656))
 
 ## 2.46.1
 
@@ -44,8 +40,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复穿梭框选项被禁用时仍可以点击以及全选/半选在存在被禁用选项时错误 ([#2445](https://github.com/arco-design/arco-design-vue/pull/2445))
-
+- 修复穿梭框选项被禁用时仍可以点击以及全选/半选在存在被禁用选项时错误 ([#2445](https://github.com/liunnn1994/sd-design/pull/2445))
 
 ## 2.45.0
 
@@ -53,8 +48,7 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 添加自定义标题栏插槽 ([#2314](https://github.com/arco-design/arco-design-vue/pull/2314))
-
+- 添加自定义标题栏插槽 ([#2314](https://github.com/liunnn1994/sd-design/pull/2314))
 
 ## 2.44.6
 
@@ -62,8 +56,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复 title 部分 ellipsis 失效 ([#2278](https://github.com/arco-design/arco-design-vue/pull/2278))
-
+- 修复 title 部分 ellipsis 失效 ([#2278](https://github.com/liunnn1994/sd-design/pull/2278))
 
 ## 2.39.0
 
@@ -71,10 +64,9 @@ changelog: true
 
 ### 🆕 新增功能
 
-- 新增面板插槽，允许自定义内容 ([#1873](https://github.com/arco-design/arco-design-vue/pull/1873))
-- 内部替换为虚拟滚动条 ([#1873](https://github.com/arco-design/arco-design-vue/pull/1873))
-- 可以隐藏全选勾选框 ([#1845](https://github.com/arco-design/arco-design-vue/pull/1845))
-
+- 新增面板插槽，允许自定义内容 ([#1873](https://github.com/liunnn1994/sd-design/pull/1873))
+- 内部替换为虚拟滚动条 ([#1873](https://github.com/liunnn1994/sd-design/pull/1873))
+- 可以隐藏全选勾选框 ([#1845](https://github.com/liunnn1994/sd-design/pull/1845))
 
 ## 2.38.0-beta.1
 
@@ -82,8 +74,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复无法滚动问题 ([#1723](https://github.com/arco-design/arco-design-vue/pull/1723))
-
+- 修复无法滚动问题 ([#1723](https://github.com/liunnn1994/sd-design/pull/1723))
 
 ## 2.34.0
 
@@ -91,8 +82,7 @@ changelog: true
 
 ### 💎 功能优化
 
-- item 插槽增加 value 属性 ([#1447](https://github.com/arco-design/arco-design-vue/pull/1447))
-
+- item 插槽增加 value 属性 ([#1447](https://github.com/liunnn1994/sd-design/pull/1447))
 
 ## 2.20.1
 
@@ -100,8 +90,7 @@ changelog: true
 
 ### 💅 样式更新
 
-- 修复选项超出宽度后没有显示省略的问题 ([#854](https://github.com/arco-design/arco-design-vue/pull/854))
-
+- 修复选项超出宽度后没有显示省略的问题 ([#854](https://github.com/liunnn1994/sd-design/pull/854))
 
 ## 2.18.0-beta.3
 
@@ -109,8 +98,7 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复列表显示问题 ([#744](https://github.com/arco-design/arco-design-vue/pull/744))
-
+- 修复列表显示问题 ([#744](https://github.com/liunnn1994/sd-design/pull/744))
 
 ## 2.17.0
 
@@ -118,5 +106,4 @@ changelog: true
 
 ### 🐛 问题修复
 
-- 修复搜索功能应该检查选项的问题 ([#659](https://github.com/arco-design/arco-design-vue/pull/659))
-
+- 修复搜索功能应该检查选项的问题 ([#659](https://github.com/liunnn1994/sd-design/pull/659))

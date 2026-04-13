@@ -6,15 +6,13 @@ changelog: true
 
 `2022-10-28`
 
-
 ## 2.33.0
 
 `2022-07-08`
 
 ### 🆕 Feature
 
-- support `bordered`  show border ([#1342](https://github.com/arco-design/arco-design-vue/pull/1342))
-
+- support `bordered` show border ([#1342](https://github.com/liunnn1994/sd-design/pull/1342))
 
 ## 2.32.0
 
@@ -22,8 +20,7 @@ changelog: true
 
 ### 💅 Style
 
-- Firefox overflow style compatibility ([#1317](https://github.com/arco-design/arco-design-vue/pull/1317))
-
+- Firefox overflow style compatibility ([#1317](https://github.com/liunnn1994/sd-design/pull/1317))
 
 ## 2.25.0
 
@@ -31,8 +28,7 @@ changelog: true
 
 ### 🆎 TypeScript
 
-- Fix TagProps issues ([#1024](https://github.com/arco-design/arco-design-vue/pull/1024))
-
+- Fix TagProps issues ([#1024](https://github.com/liunnn1994/sd-design/pull/1024))
 
 ## 2.21.0
 
@@ -40,8 +36,7 @@ changelog: true
 
 ### 🐛 BugFix
 
-- Remove `mini` size type ([#860](https://github.com/arco-design/arco-design-vue/pull/860))
-
+- Remove `mini` size type ([#860](https://github.com/liunnn1994/sd-design/pull/860))
 
 ## 2.15.0
 
@@ -49,5 +44,4 @@ changelog: true
 
 ### 💅 Style
 
-- Fix checkable state style bug ([#570](https://github.com/arco-design/arco-design-vue/pull/570))
-
+- Fix checkable state style bug ([#570](https://github.com/liunnn1994/sd-design/pull/570))
