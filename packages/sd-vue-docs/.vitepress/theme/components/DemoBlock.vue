@@ -1,160 +1,164 @@
 <script setup lang="ts">
-import '@vue/repl/style.css';
-import MarkdownIt from 'markdown-it';
-import { computed, getCurrentInstance, markRaw, ref, shallowRef, watch } from 'vue';
-import { useData } from 'vitepress';
+  import '@vue/repl/style.css';
+  import { computed, getCurrentInstance, markRaw, ref, shallowRef, watch } from 'vue';
 
-type ReplModule = typeof import('@vue/repl');
-type ReplStore = ReturnType<ReplModule['useStore']>;
+  import MarkdownIt from 'markdown-it';
+  import { useData } from 'vitepress';
 
-const ARCO_VERSION = '2.58.0-beta.1';
+  type ReplModule = typeof import('@vue/repl');
+  type ReplStore = ReturnType<ReplModule['useStore']>;
 
-const props = defineProps<{
-  code: string;
-  title?: string;
-  description?: string;
-}>();
+  const SD_VERSION = '1.0.0-alpha.1';
 
-const { isDark } = useData();
-const expanded = shallowRef(false);
-const loading = shallowRef(false);
-const loadError = shallowRef('');
-const replComponent = shallowRef<unknown>(null);
-const editorComponent = shallowRef<unknown>(null);
-const replStore = shallowRef<ReplStore | null>(null);
-const instanceUid = getCurrentInstance()?.uid ?? Math.round(Math.random() * 1e9);
+  const props = defineProps<{
+    code: string;
+    title?: string;
+    description?: string;
+  }>();
 
-const markdown = new MarkdownIt({
-  html: false,
-  linkify: true,
-  breaks: true,
-});
+  const { isDark } = useData();
+  const expanded = shallowRef(false);
+  const loading = shallowRef(false);
+  const loadError = shallowRef('');
+  const replComponent = shallowRef<unknown>(null);
+  const editorComponent = shallowRef<unknown>(null);
+  const replStore = shallowRef<ReplStore | null>(null);
+  const instanceUid = getCurrentInstance()?.uid ?? Math.round(Math.random() * 1e9);
 
-const normalizedCode = computed(() => props.code.trim());
-const normalizedDescription = computed(() => props.description?.trim() ?? '');
-const replMainFile = computed(() => `src/demo-${instanceUid}.vue`);
-const descriptionHtml = computed(() => {
-  if (!normalizedDescription.value) {
-    return '';
-  }
+  const markdown = new MarkdownIt({
+    html: false,
+    linkify: true,
+    breaks: true,
+  });
 
-  return markdown.render(normalizedDescription.value);
-});
-const replTheme = computed(() => (isDark.value ? 'dark' : 'light'));
-const importMap = {
-  imports: {
-    vue: 'https://esm.sh/vue@3.5.20',
-    '@vue/shared': 'https://esm.sh/@vue/shared@3.5.20',
-    '@sd-design/web-vue': `https://esm.sh/@sd-design/web-vue@${ARCO_VERSION}?external=vue`,
-    '@sd-design/web-vue/es/icon': `https://esm.sh/@sd-design/web-vue@${ARCO_VERSION}/es/icon?external=vue`,
-    '@sd-design/web-vue/': `https://esm.sh/@sd-design/web-vue@${ARCO_VERSION}/`,
-  },
-};
+  const normalizedCode = computed(() => props.code.trim());
+  const normalizedDescription = computed(() => props.description?.trim() ?? '');
+  const replMainFile = computed(() => `src/demo-${instanceUid}.vue`);
+  const descriptionHtml = computed(() => {
+    if (!normalizedDescription.value) {
+      return '';
+    }
 
-const previewOptions = computed(() => ({
-  headHTML: [
-    `<link rel="stylesheet" href="https://unpkg.com/@sd-design/web-vue@${ARCO_VERSION}/dist/sd.css">`,
-    '<style>body{margin:0;padding:16px;}body[sd-theme="dark"]{background:#141414;color:#f2f3f5;}<\/style>',
-    `<script>window.__ARCO_THEME__=${JSON.stringify(replTheme.value)};document.addEventListener('DOMContentLoaded',function(){if(window.__ARCO_THEME__==='dark'){document.body.setAttribute('sd-theme','dark');}else{document.body.removeAttribute('sd-theme');}});<\/script>`,
-  ].join(''),
-  customCode: {
-    importCode: `import SDVue from '@sd-design/web-vue';\nimport SDVueIcon from '@sd-design/web-vue/es/icon';`,
-    useCode: `app.use(SDVue);\napp.use(SDVueIcon);\nif (window.__ARCO_THEME__ === 'dark') { document.body.setAttribute('sd-theme', 'dark'); } else { document.body.removeAttribute('sd-theme'); }`,
-  },
-}),);
-
-function applySafeVirtualFs(store: ReplStore) {
-  const target = 'value' in store.sfcOptions ? store.sfcOptions.value : store.sfcOptions;
-
-  target.script ||= {};
-  target.script.fs = {
-    fileExists(file: unknown) {
-      if (typeof file !== 'string' || file.length === 0) {
-        return false;
-      }
-
-      const normalizedFile = file.startsWith('/') ? file.slice(1) : file;
-      return Boolean(store.files[normalizedFile]);
-    },
-    readFile(file: unknown) {
-      if (typeof file !== 'string' || file.length === 0) {
-        return '';
-      }
-
-      const normalizedFile = file.startsWith('/') ? file.slice(1) : file;
-      return store.files[normalizedFile]?.code ?? '';
+    return markdown.render(normalizedDescription.value);
+  });
+  const replTheme = computed(() => (isDark.value ? 'dark' : 'light'));
+  const importMap = {
+    imports: {
+      vue: 'https://esm.sh/vue@3.5.20',
+      '@vue/shared': 'https://esm.sh/@vue/shared@3.5.20',
+      '@sd-design/web-vue': `https://esm.sh/@sd-design/web-vue@${SD_VERSION}?external=vue`,
+      '@sd-design/web-vue/es/icon': `https://esm.sh/@sd-design/web-vue@${SD_VERSION}/es/icon?external=vue`,
+      '@sd-design/web-vue/': `https://esm.sh/@sd-design/web-vue@${SD_VERSION}/`,
     },
   };
-}
 
-watch(normalizedCode, (code) => {
-  replStore.value?.setFiles(
-    {
-      [replMainFile.value]: code,
-      'import-map.json': JSON.stringify(importMap, null, 2),
+  const previewOptions = computed(() => ({
+    headHTML: [
+      `<link rel="stylesheet" href="https://unpkg.com/@sd-design/web-vue@${SD_VERSION}/dist/sd.css">`,
+      '<style>body{margin:0;padding:16px;}body[sd-theme="dark"]{background:#141414;color:#f2f3f5;}<\/style>',
+      `<script>window.__ARCO_THEME__=${JSON.stringify(replTheme.value)};document.addEventListener('DOMContentLoaded',function(){if(window.__ARCO_THEME__==='dark'){document.body.setAttribute('sd-theme','dark');}else{document.body.removeAttribute('sd-theme');}});<\/script>`,
+    ].join(''),
+    customCode: {
+      importCode: `import SDVue from '@sd-design/web-vue';\nimport SDVueIcon from '@sd-design/web-vue/es/icon';`,
+      useCode: `app.use(SDVue);\napp.use(SDVueIcon);\nif (window.__ARCO_THEME__ === 'dark') { document.body.setAttribute('sd-theme', 'dark'); } else { document.body.removeAttribute('sd-theme'); }`,
     },
-    replMainFile.value
-  );
-});
+  }));
 
-watch(isDark, () => {
-  if (!expanded.value) {
-    return;
+  function applySafeVirtualFs(store: ReplStore) {
+    const target = 'value' in store.sfcOptions ? store.sfcOptions.value : store.sfcOptions;
+
+    target.script ||= {};
+    target.script.fs = {
+      fileExists(file: unknown) {
+        if (typeof file !== 'string' || file.length === 0) {
+          return false;
+        }
+
+        const normalizedFile = file.startsWith('/') ? file.slice(1) : file;
+        return Boolean(store.files[normalizedFile]);
+      },
+      readFile(file: unknown) {
+        if (typeof file !== 'string' || file.length === 0) {
+          return '';
+        }
+
+        const normalizedFile = file.startsWith('/') ? file.slice(1) : file;
+        return store.files[normalizedFile]?.code ?? '';
+      },
+    };
   }
 
-  replStore.value?.setFiles(
-    {
-      [replMainFile.value]: normalizedCode.value,
-      'import-map.json': JSON.stringify(importMap, null, 2),
-    },
-    replMainFile.value
-  );
-});
+  watch(normalizedCode, (code) => {
+    replStore.value?.setFiles(
+      {
+        [replMainFile.value]: code,
+        'import-map.json': JSON.stringify(importMap, null, 2),
+      },
+      replMainFile.value,
+    );
+  });
 
-async function ensureReplLoaded() {
-  if (replStore.value || loading.value) {
-    return;
-  }
+  watch(isDark, () => {
+    if (!expanded.value) {
+      return;
+    }
 
-  loading.value = true;
-  loadError.value = '';
-
-  try {
-    const [repl, monaco] = await Promise.all([import('@vue/repl'), import('@vue/repl/monaco-editor')]);
-    const { Repl, useStore } = repl;
-    const store = useStore({
-      mainFile: ref(replMainFile.value),
-      showOutput: ref(false),
-      outputMode: ref('preview'),
-    });
-
-    await store.setFiles(
+    replStore.value?.setFiles(
       {
         [replMainFile.value]: normalizedCode.value,
         'import-map.json': JSON.stringify(importMap, null, 2),
       },
-      replMainFile.value
+      replMainFile.value,
     );
+  });
 
-    applySafeVirtualFs(store);
+  async function ensureReplLoaded() {
+    if (replStore.value || loading.value) {
+      return;
+    }
 
-    replComponent.value = markRaw(Repl);
-    editorComponent.value = markRaw(monaco.default);
-    replStore.value = store;
-  } catch (error) {
-    loadError.value = error instanceof Error ? error.message : '编辑器加载失败';
-  } finally {
-    loading.value = false;
+    loading.value = true;
+    loadError.value = '';
+
+    try {
+      const [repl, monaco] = await Promise.all([
+        import('@vue/repl'),
+        import('@vue/repl/monaco-editor'),
+      ]);
+      const { Repl, useStore } = repl;
+      const store = useStore({
+        mainFile: ref(replMainFile.value),
+        showOutput: ref(false),
+        outputMode: ref('preview'),
+      });
+
+      await store.setFiles(
+        {
+          [replMainFile.value]: normalizedCode.value,
+          'import-map.json': JSON.stringify(importMap, null, 2),
+        },
+        replMainFile.value,
+      );
+
+      applySafeVirtualFs(store);
+
+      replComponent.value = markRaw(Repl);
+      editorComponent.value = markRaw(monaco.default);
+      replStore.value = store;
+    } catch (error) {
+      loadError.value = error instanceof Error ? error.message : '编辑器加载失败';
+    } finally {
+      loading.value = false;
+    }
   }
-}
 
-async function toggleCode() {
-  expanded.value = !expanded.value;
+  async function toggleCode() {
+    expanded.value = !expanded.value;
 
-  if (expanded.value) {
-    await ensureReplLoaded();
+    if (expanded.value) {
+      await ensureReplLoaded();
+    }
   }
-}
 </script>
 
 <template>
@@ -178,7 +182,9 @@ async function toggleCode() {
     </div>
     <div v-if="expanded" class="demo-block__editor">
       <div v-if="loading" class="demo-block__state">正在加载编辑器...</div>
-      <div v-else-if="loadError" class="demo-block__state demo-block__state--error">{{ loadError }}</div>
+      <div v-else-if="loadError" class="demo-block__state demo-block__state--error">{{
+        loadError
+      }}</div>
       <ClientOnly v-else-if="replComponent && editorComponent && replStore">
         <component
           :is="replComponent"
@@ -199,88 +205,88 @@ async function toggleCode() {
 </template>
 
 <style scoped>
-.demo-block {
-  margin: 20px 0 28px;
-  overflow: hidden;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 14px;
-  background: var(--vp-c-bg);
-}
+  .demo-block {
+    margin: 20px 0 28px;
+    overflow: hidden;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 14px;
+    background: var(--vp-c-bg);
+  }
 
-.demo-block__preview {
-  padding: 24px;
-  border-bottom: 1px solid var(--vp-c-divider);
-}
+  .demo-block__preview {
+    padding: 24px;
+    border-bottom: 1px solid var(--vp-c-divider);
+  }
 
-.demo-block__meta {
-  padding: 18px 20px 0;
-}
+  .demo-block__meta {
+    padding: 18px 20px 0;
+  }
 
-.demo-block__title {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--vp-c-text-1);
-}
+  .demo-block__title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--vp-c-text-1);
+  }
 
-.demo-block__description {
-  margin: 8px 0 0;
-  color: var(--vp-c-text-2);
-  line-height: 1.6;
-}
+  .demo-block__description {
+    margin: 8px 0 0;
+    color: var(--vp-c-text-2);
+    line-height: 1.6;
+  }
 
-.demo-block__description :deep(p) {
-  margin: 0;
-}
+  .demo-block__description :deep(p) {
+    margin: 0;
+  }
 
-.demo-block__description :deep(code) {
-  padding: 0.15rem 0.35rem;
-  border-radius: 6px;
-  background: var(--vp-c-bg-soft);
-}
+  .demo-block__description :deep(code) {
+    padding: 0.15rem 0.35rem;
+    border-radius: 6px;
+    background: var(--vp-c-bg-soft);
+  }
 
-.demo-block__description :deep(hr) {
-  display: none;
-}
+  .demo-block__description :deep(hr) {
+    display: none;
+  }
 
-.demo-block__toolbar {
-  display: flex;
-  justify-content: flex-end;
-  padding: 10px 14px;
-  border-top: 1px solid var(--vp-c-divider);
-  background: var(--vp-c-bg);
-}
+  .demo-block__toolbar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 14px;
+    border-top: 1px solid var(--vp-c-divider);
+    background: var(--vp-c-bg);
+  }
 
-.demo-block__button {
-  border: 0;
-  background: transparent;
-  color: var(--vp-c-brand-1);
-  cursor: pointer;
-  font: inherit;
-}
+  .demo-block__button {
+    border: 0;
+    background: transparent;
+    color: var(--vp-c-brand-1);
+    cursor: pointer;
+    font: inherit;
+  }
 
-.demo-block__fallback,
-.demo-block__state {
-  color: var(--vp-c-text-2);
-}
+  .demo-block__fallback,
+  .demo-block__state {
+    color: var(--vp-c-text-2);
+  }
 
-.demo-block__state {
-  padding: 20px;
-  border-top: 1px solid var(--vp-c-divider);
-}
+  .demo-block__state {
+    padding: 20px;
+    border-top: 1px solid var(--vp-c-divider);
+  }
 
-.demo-block__state--error {
-  color: #c73636;
-}
+  .demo-block__state--error {
+    color: #c73636;
+  }
 
-.demo-block__editor {
-  border-top: 1px solid var(--vp-c-divider);
-}
+  .demo-block__editor {
+    border-top: 1px solid var(--vp-c-divider);
+  }
 
-.demo-block__editor :deep(.vue-repl) {
-  height: 520px;
-}
+  .demo-block__editor :deep(.vue-repl) {
+    height: 520px;
+  }
 
-.demo-block__editor :deep(.vue-repl, .vue-repl pre, .vue-repl code) {
-  font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
-}
+  .demo-block__editor :deep(.vue-repl, .vue-repl pre, .vue-repl code) {
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  }
 </style>

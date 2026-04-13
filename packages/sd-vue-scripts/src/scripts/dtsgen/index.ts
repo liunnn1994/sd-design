@@ -1,19 +1,13 @@
-import path from 'path';
-import fs from 'fs-extra';
-import {
-  ModuleResolutionKind,
-  Project,
-  ScriptTarget,
-  SourceFile,
-} from 'ts-morph';
-import { globSync } from 'glob';
 import { parse } from '@vue/compiler-sfc';
+
+import fs from 'fs-extra';
+import { globSync } from 'glob';
+import path from 'path';
+import { ModuleResolutionKind, Project, ScriptTarget, SourceFile } from 'ts-morph';
 
 export async function build(input: string, options?: { outDir?: string }) {
   const root = process.cwd();
-  const tsConfigFilePath = fs.existsSync('tsconfig.json')
-    ? 'tsconfig.json'
-    : undefined;
+  const tsConfigFilePath = fs.existsSync('tsconfig.json') ? 'tsconfig.json' : undefined;
   const project = new Project({
     compilerOptions: {
       allowJs: true,
@@ -22,6 +16,7 @@ export async function build(input: string, options?: { outDir?: string }) {
       strict: true,
       target: ScriptTarget.ES2015,
       moduleResolution: ModuleResolutionKind.NodeJs,
+      ignoreDeprecations: '6.0',
       isolatedModules: true,
       esModuleInterop: true,
       skipLibCheck: true,
@@ -30,7 +25,9 @@ export async function build(input: string, options?: { outDir?: string }) {
     tsConfigFilePath,
     skipAddingFilesFromTsConfig: true,
   });
-  const isComponents = /^components/.test(input);
+  addAmbientDeclarations(project, root);
+
+  const isComponents = input.startsWith('components');
   if (isComponents) {
     project.compilerOptions.set({
       rootDir: path.resolve(root, 'components'),
@@ -50,10 +47,7 @@ export async function build(input: string, options?: { outDir?: string }) {
 
   await Promise.all(
     files.map(async (file) => {
-      const content = await fs.promises.readFile(
-        path.resolve(root, file),
-        'utf8'
-      );
+      const content = await fs.promises.readFile(path.resolve(root, file), 'utf8');
       if (file.endsWith('.vue')) {
         const sfc = parse(content);
         const { script, scriptSetup } = sfc.descriptor;
@@ -66,7 +60,7 @@ export async function build(input: string, options?: { outDir?: string }) {
           }
           const sourceFile = project.createSourceFile(
             path.relative(root, file).replace('.vue', isTSX ? '.tsx' : '.ts'),
-            scriptContent
+            scriptContent,
           );
           if (sourceFile) {
             removeVueSpecifier(sourceFile);
@@ -74,30 +68,30 @@ export async function build(input: string, options?: { outDir?: string }) {
           }
         }
       } else {
-        const sourceFile = project.createSourceFile(
-          path.relative(root, file),
-          content,
-          {
-            overwrite: true,
-          }
-        );
+        const sourceFile = project.createSourceFile(path.relative(root, file), content, {
+          overwrite: true,
+        });
         if (sourceFile) {
           removeVueSpecifier(sourceFile);
           sourceFiles.push(sourceFile);
         }
       }
-    })
+    }),
   );
+
+  project.resolveSourceFileDependencies();
 
   try {
     await Promise.all(
       sourceFiles.map(async (sourceFile) => {
         // eslint-disable-next-line no-console
         console.log(`Transform start: ${sourceFile.getFilePath()}`);
-        const diagnostics = sourceFile.getPreEmitDiagnostics();
-        // eslint-disable-next-line no-console
-        console.log(project.formatDiagnosticsWithColorAndContext(diagnostics));
         const emitOutput = sourceFile.getEmitOutput();
+        if (emitOutput.getEmitSkipped()) {
+          const diagnostics = sourceFile.getPreEmitDiagnostics();
+          // eslint-disable-next-line no-console
+          console.log(project.formatDiagnosticsWithColorAndContext(diagnostics));
+        }
         const outputFiles = emitOutput.getOutputFiles();
         await Promise.all(
           outputFiles.map(async (outputFile) => {
@@ -106,12 +100,34 @@ export async function build(input: string, options?: { outDir?: string }) {
             await fs.writeFile(filepath, outputFile.getText(), 'utf8');
             // eslint-disable-next-line no-console
             console.log(`Emitted ${filepath}`);
-          })
+          }),
         );
-      })
+      }),
     );
   } catch {}
 }
+
+const addAmbientDeclarations = (project: Project, root: string) => {
+  const declarationFiles = [
+    ...globSync('*.d.ts', {
+      cwd: root,
+      ignore: ['node_modules/**', 'dist/**', 'es/**', 'lib/**'],
+    }),
+    ...globSync('src/**/*.d.ts', {
+      cwd: root,
+      ignore: ['node_modules/**', 'dist/**', 'es/**', 'lib/**'],
+    }),
+  ];
+
+  declarationFiles.forEach((file) => {
+    const filePath = path.resolve(root, file);
+    const content = fs.readFileSync(filePath, 'utf8');
+
+    project.createSourceFile(path.relative(root, filePath), content, {
+      overwrite: true,
+    });
+  });
+};
 
 const removeVueSpecifier = (sourceFile: SourceFile) => {
   const imports = sourceFile.getImportDeclarations();

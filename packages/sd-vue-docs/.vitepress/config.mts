@@ -94,6 +94,6 @@ export default defineConfig({
       prev: '上一页',
       next: '下一页',
     },
-    arcoVersion: '2.58.0-beta.1',
+    arcoVersion: '1.0.0-alpha.1',
   },
 });
