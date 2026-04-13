@@ -7,7 +7,7 @@
     "vue"
   ],
   "homepage": "https://sd.design/vue",
-  "license": "MIT",
+  "license": "AGPL-3.0-only",
   "author": "SData FE Team",
   "repository": {
     "type": "git",
