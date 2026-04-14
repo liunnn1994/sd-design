@@ -4,10 +4,17 @@
   import type { Component } from 'vue';
   import { computed, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue';
 
-  import vueSharedModuleUrl from '../../browser-repl/vue-shared.ts?url';
-  import vueModuleUrl from '../../browser-repl/vue.ts?url';
+  import vueSharedModuleSource from '../../browser-repl/vue-shared.ts?raw';
+  import vueModuleSource from '../../browser-repl/vue.ts?raw';
 
   type ReplComponent = (typeof import('@vue/repl'))['Repl'];
+
+  function createJavaScriptDataUrl(source: string) {
+    return `data:text/javascript;charset=utf-8,${encodeURIComponent(source)}`;
+  }
+
+  const vueSharedModuleUrl = createJavaScriptDataUrl(vueSharedModuleSource);
+  const vueModuleUrl = createJavaScriptDataUrl(vueModuleSource);
 
   const props = defineProps<{
     source: string;

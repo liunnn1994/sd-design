@@ -11,7 +11,20 @@ const { source, mainFile } = Astro.props;
 
 <div class="demo-block not-content">
   <div class="demo-block__preview">
-    <slot />
+    <div class="demo-block__preview-skeleton" aria-hidden="true">
+      <span
+        class="demo-block__preview-skeleton-bar demo-block__preview-skeleton-bar--hero"
+      ></span>
+      <span
+        class="demo-block__preview-skeleton-bar demo-block__preview-skeleton-bar--wide"
+      ></span>
+      <span
+        class="demo-block__preview-skeleton-bar demo-block__preview-skeleton-bar--medium"
+      ></span>
+    </div>
+    <div class="demo-block__preview-content">
+      <slot />
+    </div>
   </div>
   <DemoEditor client:visible source={source} mainFile={mainFile} />
 </div>
@@ -26,11 +39,72 @@ const { source, mainFile } = Astro.props;
   }
 
   .demo-block__preview {
+    position: relative;
     padding: 1.5rem;
     border-bottom: 1px solid var(--sl-color-gray-5);
     background:
       linear-gradient(180deg, rgb(255 255 255 / 0.75), rgb(248 250 252 / 0.95)),
       var(--sl-color-bg);
+  }
+
+  .demo-block__preview-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .demo-block__preview-skeleton {
+    position: absolute;
+    inset: 1.5rem;
+    display: grid;
+    align-content: start;
+    gap: 0.75rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+  }
+
+  .demo-block__preview-skeleton::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 1rem;
+    background: linear-gradient(
+      90deg,
+      rgb(148 163 184 / 0.08),
+      rgb(255 255 255 / 0.45),
+      rgb(148 163 184 / 0.08)
+    );
+    background-size: 200% 100%;
+    animation: demo-block-preview-shimmer 1.2s linear infinite;
+  }
+
+  .demo-block__preview-skeleton-bar {
+    display: block;
+    height: 0.875rem;
+    border-radius: 999px;
+    background: rgb(148 163 184 / 0.2);
+  }
+
+  .demo-block__preview-skeleton-bar--hero {
+    width: min(16rem, 88%);
+    height: 3.75rem;
+    border-radius: 1rem;
+  }
+
+  .demo-block__preview-skeleton-bar--wide {
+    width: min(20rem, 96%);
+  }
+
+  .demo-block__preview-skeleton-bar--medium {
+    width: min(12rem, 72%);
+  }
+
+  .demo-block__preview:has(astro-island[ssr]) {
+    min-height: 9.5rem;
+  }
+
+  .demo-block__preview:has(astro-island[ssr]) .demo-block__preview-skeleton {
+    opacity: 1;
   }
 
   :root[data-theme='dark'] .demo-block {
@@ -41,5 +115,28 @@ const { source, mainFile } = Astro.props;
     background:
       linear-gradient(180deg, rgb(15 23 42 / 0.3), rgb(15 23 42 / 0.6)),
       var(--sl-color-bg);
+  }
+
+  :root[data-theme='dark'] .demo-block__preview-skeleton::before {
+    background: linear-gradient(
+      90deg,
+      rgb(51 65 85 / 0.18),
+      rgb(148 163 184 / 0.2),
+      rgb(51 65 85 / 0.18)
+    );
+  }
+
+  :root[data-theme='dark'] .demo-block__preview-skeleton-bar {
+    background: rgb(148 163 184 / 0.16);
+  }
+
+  @keyframes demo-block-preview-shimmer {
+    from {
+      background-position: 200% 0;
+    }
+
+    to {
+      background-position: -200% 0;
+    }
   }
 </style>
