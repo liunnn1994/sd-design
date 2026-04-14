@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/liunnn1994/sd-design/compare/v1.2.0...v1.3.0) (2026-04-14)
+
+
+### Features
+
+* 移除 scripts 减少复杂度 ([655ee6c](https://github.com/liunnn1994/sd-design/commit/655ee6cdf622325ea738a6b233a7a7104d569092))
+
 # [1.2.0](https://github.com/liunnn1994/sd-design/compare/v1.1.0...v1.2.0) (2026-04-14)
 
 ### Features
