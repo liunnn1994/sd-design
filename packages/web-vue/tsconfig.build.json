@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "noCheck": true,
+    "declarationMap": false,
+    "allowArbitraryExtensions": true,
+    "outDir": ".temp-types",
+    "rootDir": "."
+  },
+  "include": ["components/**/*", "global.d.ts"],
+  "exclude": ["node_modules", "dist", "lib", "es", "json", "**/__test__/**/*", "**/__demo__/**/*"]
+}

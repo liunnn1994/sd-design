@@ -8,7 +8,12 @@ import _MenuItemGroup from './item-group.vue';
 import _Menu from './menu';
 import _MenuSubMenu from './sub-menu';
 
-const Menu = Object.assign(_Menu, {
+const Menu: typeof _Menu & {
+  Item: typeof _MenuItem;
+  ItemGroup: typeof _MenuItemGroup;
+  SubMenu: typeof _MenuSubMenu;
+  install: (app: App, options?: SDOptions) => void;
+} = Object.assign(_Menu, {
   Item: _MenuItem,
   ItemGroup: _MenuItemGroup,
   SubMenu: _MenuSubMenu,

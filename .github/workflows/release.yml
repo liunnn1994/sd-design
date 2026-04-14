@@ -11,7 +11,6 @@ on:
       - package.json
       - pnpm-lock.yaml
       - pnpm-workspace.yaml
-      - packages/sd-vue-scripts/**
       - packages/sd-vue-docs/**
       - packages/web-vue/**
   workflow_dispatch:
@@ -53,9 +52,6 @@ jobs:
 
       - name: Init
         run: pnpm run init
-
-      - name: Build sd-vue-scripts
-        run: pnpm --filter @sd-design/sd-vue-scripts run build
 
       - name: Build web-vue
         run: pnpm --filter @sdata/web-vue run build

@@ -168,7 +168,13 @@ const install = (app: App, options?: SDOptions) => {
   }
 };
 
-const SDVue = {
+const SDVue: Record<string, unknown> & {
+  install: typeof install;
+  addI18nMessages: typeof addI18nMessages;
+  useLocale: typeof useLocale;
+  getLocale: typeof getLocale;
+  useFormItem: typeof useFormItem;
+} = {
   ...components,
   // Historical reason
   Alter: Alert,

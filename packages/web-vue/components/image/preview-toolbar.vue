@@ -19,7 +19,7 @@
   import { getPrefixCls } from '../_utils/global-config';
   import PreviewAction from './preview-action';
 
-  interface ActionType {
+  export interface ActionType {
     key: string;
     name: string;
     content: RenderFunc;

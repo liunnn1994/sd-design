@@ -16,9 +16,8 @@
 
 - packages/web-vue：Vue 组件库本体，包含组件源码、构建脚本、文档元数据生成和测试。
 - packages/sd-vue-docs：Astro Starlight 文档站，负责当前文档站的开发、构建、MDX 内容和在线示例编辑能力。
-- packages/sd-vue-scripts：内部脚手架与构建工具，封装组件库构建、测试和辅助生成逻辑。
 
-根目录脚本主要用于串联这些内部包。第一次运行前，需要先把内部工具包编译出来，否则 workspace bin 无法正确工作。
+根目录脚本主要用于串联组件库和文档站两个包，不再需要单独构建内部工具包。
 
 ## 环境要求
 
@@ -39,16 +38,16 @@ pnpm run dev
 
 其中：
 
-- `pnpm run init` 会先构建内部工具包，再安装依赖，并执行 `@sdata/web-vue` 的初始化流程。
+- `pnpm run init` 会执行 `@sdata/web-vue` 的初始化流程，生成图标、样式入口和基础组件产物。
 - `pnpm run dev` 会同时启动组件库 watch 构建和文档站开发服务。
 - `pnpm run dev:all` 是 `pnpm run dev` 的全量显式入口，适合脚本编排或新同学快速理解流程。
 - `pnpm run dev:docs` 只启动文档站。
-- `pnpm run check:ci` 适合作为常规 CI 入口；`pnpm run release:check` 在此基础上再补截图测试，适合发版前全量校验。
+- `pnpm run check:ci` 适合作为常规 CI 入口；`pnpm run release:check` 复用同一套发布前校验。
 
 ## 常用命令
 
 ```bash
-# 初始化内部工具链和组件产物
+# 初始化组件产物
 pnpm run init
 
 # 同时启动组件库 watch 和文档站开发环境
@@ -63,14 +62,11 @@ pnpm run dev:component
 # 仅启动文档站开发环境
 pnpm run dev:docs
 
-# 打包整个项目（内部工具包 + 组件库 + 文档站）
+# 打包整个项目（组件库 + 文档站）
 pnpm run build
 
 # 与 build 等价的全量构建入口
 pnpm run build:all
-
-# 仅构建内部工具包
-pnpm run build:tools
 
 # 打包组件库
 pnpm run build:component
@@ -114,7 +110,7 @@ pnpm run build:ci
 # CI 测试入口
 pnpm run test:ci
 
-# 发版前全量校验：CI 检查 + 截图测试
+# 发版前全量校验
 pnpm run release:check
 
 # 运行组件库测试
@@ -123,11 +119,8 @@ pnpm run test
 # 仅运行组件测试
 pnpm run test:component
 
-# 全量测试：组件测试 + 截图测试
+# 全量测试
 pnpm run test:all
-
-# 运行截图测试
-pnpm run test:screenshot
 
 # 清理 dist 和 node_modules
 pnpm run clean
@@ -143,11 +136,11 @@ pnpm run clean
 - 联调时优先使用 `pnpm run dev`；只调文档站可使用 `pnpm run dev:docs`。
 - 产线构建验证优先使用 `pnpm run build`；如果只验证站点可使用 `pnpm run build:docs`。
 - 日常本地自检优先使用 `pnpm run check`，CI 或发版前验证优先使用 `pnpm run check:ci`。
-- 需要带截图测试的发版前校验时，优先使用 `pnpm run release:check`。
+- 需要发版前全量校验时，优先使用 `pnpm run release:check`。
 
 ## 维护说明
 
-- 如果升级内部工具链后文档站出现启动或打包异常，优先重新执行 `pnpm run init`。
+- 如果组件产物更新后文档站出现启动或打包异常，优先重新执行 `pnpm run init`。
 - 根脚本 `upgrade:*` 用于批量升级依赖、engines、browserslist 和技能清单，适合做仓库级维护，不适合日常开发流程。
 
 ## 浏览器兼容性

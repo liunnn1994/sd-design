@@ -1,4 +1,5 @@
 import { computed, defineComponent, PropType, toRef, toRefs } from 'vue';
+import type { DefineComponent } from 'vue';
 
 import IconDown from '../icon/icon-down';
 import IconRight from '../icon/icon-right';
@@ -9,7 +10,7 @@ import useMenuDataCollector from './hooks/use-menu-data-collector';
 import SubMenuInline from './sub-menu-inline.vue';
 import SubMenuPop from './sub-menu-pop.vue';
 
-export default defineComponent({
+const SubMenu: DefineComponent = defineComponent({
   name: 'SubMenu',
   props: {
     /**
@@ -149,3 +150,5 @@ export default defineComponent({
     );
   },
 });
+
+export default SubMenu;

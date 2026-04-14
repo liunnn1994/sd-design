@@ -100,7 +100,6 @@ Commit messages 请遵循[conventional-changelog 标准](https://www.conventiona
 
 1. `web-vue`: Vue 组件库
 2. `sd-vue-docs`: Astro Starlight 文档站
-3. `sd-vue-scripts`: Vue 组件库脚本
 
 ### Web-Vue 组件目录
 

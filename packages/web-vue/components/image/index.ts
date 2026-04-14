@@ -7,7 +7,11 @@ import _ImagePreviewAction from './preview-action';
 import _ImagePreviewGroup from './preview-group.vue';
 import _ImagePreview from './preview.vue';
 
-const Image = Object.assign(_Image, {
+const Image: typeof _Image & {
+  Preview: typeof _ImagePreview;
+  PreviewGroup: typeof _ImagePreviewGroup;
+  install: (app: App, options?: SDOptions) => void;
+} = Object.assign(_Image, {
   Preview: _ImagePreview,
   PreviewGroup: _ImagePreviewGroup,
   install: (app: App, options?: SDOptions) => {

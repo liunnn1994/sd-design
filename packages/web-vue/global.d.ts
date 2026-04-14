@@ -25,4 +25,9 @@ declare global {
   }
 }
 
-declare module '*.less';
+declare module '*.less' {
+  const content: string;
+  export default content;
+}
+
+declare module 'b-tween';

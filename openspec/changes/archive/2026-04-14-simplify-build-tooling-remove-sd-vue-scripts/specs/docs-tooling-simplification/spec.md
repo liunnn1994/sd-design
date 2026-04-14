@@ -1,18 +1,4 @@
-## ADDED Requirements
-
-### Requirement: MDX SHALL become the editable source of truth for docs
-
-The system SHALL store migrated documentation pages as Markdown or MDX files directly under the Starlight docs content tree so maintainers can modify the final pages without re-running a docgen-style page generator.
-
-#### Scenario: A maintainer edits a migrated page
-
-- **WHEN** a maintainer updates a generated Starlight document after migration
-- **THEN** the change is applied by editing the page file directly rather than editing an intermediate generated output
-
-#### Scenario: The docs site is built
-
-- **WHEN** the docs package build command runs
-- **THEN** it consumes the Starlight content tree directly without executing the legacy docs:prepare workflow
+## MODIFIED Requirements
 
 ### Requirement: Legacy doc generation scripts MUST be removed from the active workflow
 
