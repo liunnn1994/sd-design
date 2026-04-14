@@ -6,11 +6,14 @@ on:
       - main
     paths:
       - .github/workflows/release.yml
+      - netlify.toml
       - .npmrc
       - package.json
       - pnpm-lock.yaml
       - pnpm-workspace.yaml
       - packages/sd-vue-scripts/**
+      - packages/sd-vue-docs/**
+      - packages/vite-plugin-sd-vue-docs/**
       - packages/web-vue/**
   workflow_dispatch:
 
@@ -65,3 +68,11 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: pnpm exec semantic-release
+
+      - name: Trigger Netlify docs build hook
+        if: success()
+        env:
+          NETLIFY_BUILD_HOOK_URL: ${{ secrets.NETLIFY_BUILD_HOOK_URL }}
+        run: |
+          test -n "$NETLIFY_BUILD_HOOK_URL" || { echo 'Missing NETLIFY_BUILD_HOOK_URL secret'; exit 1; }
+          curl -X POST -fsS "$NETLIFY_BUILD_HOOK_URL"
