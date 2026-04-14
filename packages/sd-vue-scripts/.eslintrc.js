@@ -13,7 +13,6 @@ module.exports = {
     'airbnb-base',
     'plugin:@typescript-eslint/recommended',
     'plugin:import/typescript',
-    'plugin:prettier/recommended',
   ],
   settings: {
     'import/resolver': {
@@ -23,7 +22,6 @@ module.exports = {
     },
   },
   rules: {
-    'prettier/prettier': 1,
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
     '@typescript-eslint/no-non-null-assertion': 0,

@@ -1,5 +1,5 @@
 <template>
-  <a-space style="margin-bottom: 20px;">
+  <a-space style="margin-bottom: 20px">
     <a-switch v-model="disabled" />
     Disabled: {{ disabled }}
   </a-space>
@@ -19,6 +19,7 @@
 
 <script lang="ts">
   import { h, reactive, ref } from 'vue';
+
   import { Form, FormItem, useFormItem } from '@sdata/web-vue';
 
   const MyInput = {

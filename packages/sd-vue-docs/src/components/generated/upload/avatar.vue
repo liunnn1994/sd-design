@@ -10,7 +10,7 @@
       <template #upload-button>
         <div
           :class="`sd-upload-list-item${
-            file && file.status === 'error' ? ' sd-upload-list-item-error' : ''
+            file && file.status === 'error' ? 'sd-upload-list-item-error' : ''
           }`"
         >
           <div class="sd-upload-list-picture custom-upload-avatar" v-if="file && file.url">
@@ -44,8 +44,9 @@
 </template>
 
 <script>
-  import { IconEdit, IconPlus } from '@sdata/web-vue/es/icon/index.js';
   import { ref } from 'vue';
+
+  import { IconEdit, IconPlus } from '@sdata/web-vue/es/icon/index.js';
 
   export default {
     components: { IconPlus, IconEdit },

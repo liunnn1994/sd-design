@@ -18,12 +18,12 @@
     :show-footer-on-empty="form.showFooterOnEmpty"
   >
     <template #header>
-      <div style="padding: 6px 12px;">
+      <div style="padding: 6px 12px">
         <a-checkbox value="1">All</a-checkbox>
       </div>
     </template>
     <template #footer>
-      <div style="padding: 6px 0; text-align: center;">
+      <div style="padding: 6px 0; text-align: center">
         <a-button>Click Me</a-button>
       </div>
     </template>
@@ -31,6 +31,7 @@
 </template>
 <script>
   import { h, reactive, computed } from 'vue';
+
   import { IconCalendar } from '@sdata/web-vue/es/icon/index.js';
 
   export default {

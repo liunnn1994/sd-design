@@ -6,7 +6,7 @@
     :title="title"
     :description="description"
     footerPosition="outer"
-    style="margin-left: 67px; vertical-align: top;"
+    style="margin-left: 67px; vertical-align: top"
   />
 </template>
 

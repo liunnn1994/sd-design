@@ -70,7 +70,7 @@ export default defineComponent({
      * @param {(string | number | boolean)[]} value
      * @param {Event} ev
      */
-    change: (value: (string | number | boolean)[], ev: Event) => true,
+    'change': (value: (string | number | boolean)[], ev: Event) => true,
   },
   /**
    * @zh checkbox 文案内容

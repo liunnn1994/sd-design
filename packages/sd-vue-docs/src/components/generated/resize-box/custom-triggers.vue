@@ -1,7 +1,7 @@
 <template>
   <a-resize-box
     :directions="['right', 'bottom']"
-    style="width: 500px; min-width: 100px; max-width: 100%; height: 200px; text-align: center;"
+    style="width: 500px; min-width: 100px; max-width: 100%; height: 200px; text-align: center"
   >
     <template #resize-trigger="{ direction }">
       <div

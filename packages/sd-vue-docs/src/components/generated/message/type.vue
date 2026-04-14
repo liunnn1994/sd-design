@@ -39,6 +39,7 @@
 
 <script>
   import { h } from 'vue';
+
   import { IconExclamationCircleFill } from '@sdata/web-vue/es/icon/index.js';
 
   export default {

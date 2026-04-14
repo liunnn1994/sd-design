@@ -43,9 +43,7 @@ type Option = string | number | SelectOptionData | SelectOptionGroup;
  * @zh 筛选
  * @en Filter
  */
-type FilterOption =
-  | boolean
-  | ((inputValue: string, option: SelectOptionData) => boolean);
+type FilterOption = boolean | ((inputValue: string, option: SelectOptionData) => boolean);
 ```
 
 %%INTERFACE(interface.ts)%%
@@ -75,40 +73,40 @@ type FilterOption =
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const value = ref();
-    const data = [
-      {
-        value: 'beijing',
-        label: 'Beijing',
-        key: 'extra1',
-      },
-      {
-        value: 'shanghai',
-        label: 'Shanghai',
-        key: 'extra2',
-      },
-      {
-        value: 'guangzhou',
-        label: 'Guangzhou',
-        key: 'extra3',
-      },
-      {
-        value: 'chengdu',
-        label: 'Chengdu',
-        key: 'extra4',
-      },
-    ];
+  export default {
+    setup() {
+      const value = ref();
+      const data = [
+        {
+          value: 'beijing',
+          label: 'Beijing',
+          key: 'extra1',
+        },
+        {
+          value: 'shanghai',
+          label: 'Shanghai',
+          key: 'extra2',
+        },
+        {
+          value: 'guangzhou',
+          label: 'Guangzhou',
+          key: 'extra3',
+        },
+        {
+          value: 'chengdu',
+          label: 'Chengdu',
+          key: 'extra4',
+        },
+      ];
 
-    return {
-      value,
-      data,
-    };
-  },
-};
+      return {
+        value,
+        data,
+      };
+    },
+  };
 </script>
 ```
 
@@ -145,40 +143,40 @@ For example, when I need to specify `key` as a unique identifier:
 </template>
 
 <script>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-export default {
-  setup() {
-    const value = ref();
-    const data = [
-      {
-        value: 'beijing',
-        label: 'Beijing',
-        key: 'extra1',
-      },
-      {
-        value: 'shanghai',
-        label: 'Shanghai',
-        key: 'extra2',
-      },
-      {
-        value: 'guangzhou',
-        label: 'Guangzhou',
-        key: 'extra3',
-      },
-      {
-        value: 'chengdu',
-        label: 'Chengdu',
-        key: 'extra4',
-      },
-    ];
+  export default {
+    setup() {
+      const value = ref();
+      const data = [
+        {
+          value: 'beijing',
+          label: 'Beijing',
+          key: 'extra1',
+        },
+        {
+          value: 'shanghai',
+          label: 'Shanghai',
+          key: 'extra2',
+        },
+        {
+          value: 'guangzhou',
+          label: 'Guangzhou',
+          key: 'extra3',
+        },
+        {
+          value: 'chengdu',
+          label: 'Chengdu',
+          key: 'extra4',
+        },
+      ];
 
-    return {
-      value,
-      data,
-    };
-  },
-};
+      return {
+        value,
+        data,
+      };
+    },
+  };
 </script>
 ```
 

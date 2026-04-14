@@ -157,7 +157,7 @@ export default {
     const text = ref('');
     return () =>
       h(CustomInput, {
-        modelValue: text.value,
+        'modelValue': text.value,
         'onUpdate:modelValue': (value) => {
           text.value = value;
         },

@@ -8,7 +8,7 @@
         }}</template>
         <span v-else>
           {{ nodeData?.title?.substr(0, index) }}
-          <span style="color: var(--color-primary-light-4);">
+          <span style="color: var(--color-primary-light-4)">
             {{ nodeData?.title?.substr(index, searchKey.length) }} </span
           >{{ nodeData?.title?.substr(index + searchKey.length) }}
         </span>

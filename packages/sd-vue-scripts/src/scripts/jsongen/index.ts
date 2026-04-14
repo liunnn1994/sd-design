@@ -173,7 +173,7 @@ const transformToWebTypes = (components: ComponentData[], { version }: { version
       html: {
         'types-syntax': 'typescript',
         'description-markup': 'markdown',
-        tags: [],
+        'tags': [],
       },
     },
   };

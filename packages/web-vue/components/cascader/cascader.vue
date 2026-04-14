@@ -424,7 +424,7 @@
        * @en Triggered when the selected value changes
        * @property {string | number | (string | number | (string | number)[])[] | undefined} value
        */
-      change: (
+      'change': (
         value:
           | string
           | number
@@ -437,36 +437,36 @@
        * @en Triggered when the input value changes
        * @property {string} value
        */
-      inputValueChange: (value: string) => true,
+      'inputValueChange': (value: string) => true,
       /**
        * @zh 点击清除按钮时触发
        * @en Triggered when the clear button is clicked
        */
-      clear: () => true,
+      'clear': () => true,
       /**
        * @zh 用户搜索时触发
        * @en Triggered when the user searches
        * @property {string} value
        */
-      search: (value: string) => true,
+      'search': (value: string) => true,
       /**
        * @zh 下拉框的显示状态改变时触发
        * @en Triggered when the display state of the dropdown changes
        * @property {boolean} visible
        */
-      popupVisibleChange: (visible: boolean) => true,
+      'popupVisibleChange': (visible: boolean) => true,
       /**
        * @zh 获得焦点时触发
        * @en Triggered when focus
        * @param {FocusEvent} ev
        */
-      focus: (ev: FocusEvent) => true,
+      'focus': (ev: FocusEvent) => true,
       /**
        * @zh 失去焦点时触发
        * @en Triggered when blur
        * @param {FocusEvent} ev
        */
-      blur: (ev: FocusEvent) => true,
+      'blur': (ev: FocusEvent) => true,
     },
     /**
      * @zh 选择框的箭头图标

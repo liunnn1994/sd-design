@@ -206,8 +206,8 @@ tags: [vue3, animation, css, transition, style-binding, state, interactive]
   const themeStyles = computed(() => ({
     '--bg-color': isDark.value ? '#1a1a1a' : '#ffffff',
     '--text-color': isDark.value ? '#ffffff' : '#1a1a1a',
-    backgroundColor: 'var(--bg-color)',
-    color: 'var(--text-color)',
+    'backgroundColor': 'var(--bg-color)',
+    'color': 'var(--text-color)',
   }));
 
   function toggleTheme() {

@@ -210,7 +210,7 @@ type RemoveMapsPrefixFromObj<T> = {
 interface ApiData {
   'maps:longitude': string;
   'maps:latitude': string;
-  city: string;
+  'city': string;
 }
 
 type Cleaned = RemoveMapsPrefixFromObj<ApiData>;

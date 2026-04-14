@@ -18,8 +18,8 @@ export const useExpand = ({
   allRowKeys: Ref<BaseType[]>;
   emit: EmitFn2<{
     'update:expandedKeys': (rowKeys: BaseType[]) => true;
-    expand: (rowKey: BaseType, record: TableData) => true;
-    expandedChange: (rowKeys: BaseType[]) => true;
+    'expand': (rowKey: BaseType, record: TableData) => true;
+    'expandedChange': (rowKeys: BaseType[]) => true;
   }>;
 }) => {
   const getDefaultExpandedRowKeys = (): BaseType[] => {

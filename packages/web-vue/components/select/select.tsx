@@ -375,7 +375,7 @@ export default defineComponent({
      * @en Triggered when the value changes
      * @param { string | number | boolean | Record<string, any> | (string | number | boolean | Record<string, any>)[] } value
      */
-    change: (
+    'change': (
       value:
         | string
         | number
@@ -388,40 +388,40 @@ export default defineComponent({
      * @en Triggered when the value of the input changes
      * @param {string} inputValue
      */
-    inputValueChange: (inputValue: string) => true,
+    'inputValueChange': (inputValue: string) => true,
     /**
      * @zh 下拉框的显示状态改变时触发
      * @en Triggered when the display state of the drop-down box changes
      * @param {boolean} visible
      */
-    popupVisibleChange: (visible: boolean) => true,
+    'popupVisibleChange': (visible: boolean) => true,
     /**
      * @zh 点击清除按钮时触发
      * @en Triggered when the clear button is clicked
      */
-    clear: (ev: Event) => true,
+    'clear': (ev: Event) => true,
     /**
      * @zh 点击标签的删除按钮时触发
      * @en Triggered when the delete button of the label is clicked
      * @param {string | number | boolean | Record<string, any> | undefined} removed
      */
-    remove: (removed: string | number | boolean | Record<string, any> | undefined) => true,
+    'remove': (removed: string | number | boolean | Record<string, any> | undefined) => true,
     /**
      * @zh 用户搜索时触发
      * @en Triggered when the user searches
      * @param {string} inputValue
      */
-    search: (inputValue: string) => true,
+    'search': (inputValue: string) => true,
     /**
      * @zh 下拉菜单发生滚动时触发
      * @en Triggered when the drop-down scrolls
      */
-    dropdownScroll: (ev: Event) => true,
+    'dropdownScroll': (ev: Event) => true,
     /**
      * @zh 下拉菜单滚动到底部时触发
      * @en Triggered when the drop-down menu is scrolled to the bottom
      */
-    dropdownReachBottom: (ev: Event) => true,
+    'dropdownReachBottom': (ev: Event) => true,
     /**
      * @zh 多选超出限制时触发
      * @en Triggered when multiple selection exceeds the limit
@@ -429,8 +429,10 @@ export default defineComponent({
      * @param {Event} ev
      * @version 2.18.0
      */
-    exceedLimit: (value: string | number | boolean | Record<string, any> | undefined, ev: Event) =>
-      true,
+    'exceedLimit': (
+      value: string | number | boolean | Record<string, any> | undefined,
+      ev: Event,
+    ) => true,
   },
   /**
    * @zh 选项为空时的显示内容
@@ -865,7 +867,10 @@ export default defineComponent({
         <SelectDropdown
           ref={dropdownRef}
           v-slots={{
-            default: () => [...(slots.default?.() ?? []), ...validOptions.value.map(renderOption)],
+            'default': () => [
+              ...(slots.default?.() ?? []),
+              ...validOptions.value.map(renderOption),
+            ],
             'virtual-list': () => (
               <VirtualList
                 {...props.virtualListProps}
@@ -877,9 +882,9 @@ export default defineComponent({
                 }}
               />
             ),
-            empty: slots.empty,
-            header: slots.header,
-            footer: slots.footer,
+            'empty': slots.empty,
+            'header': slots.header,
+            'footer': slots.footer,
           }}
           loading={props.loading}
           empty={validOptionInfos.value.length === 0}
@@ -925,8 +930,8 @@ export default defineComponent({
         {slots.trigger?.() ?? (
           <SelectView
             v-slots={{
-              label: renderLabel,
-              prefix: slots.prefix,
+              'label': renderLabel,
+              'prefix': slots.prefix,
               'arrow-icon': slots['arrow-icon'],
               'loading-icon': slots['loading-icon'],
               'search-icon': slots['search-icon'],

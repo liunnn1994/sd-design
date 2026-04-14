@@ -33,9 +33,7 @@ description: It is used for data collection, display, analysis and processing, a
 ```ts
 type Filters = Record<string, string[]>;
 
-type Sorter =
-  | { filed: string; direction: 'ascend' | 'descend' }
-  | Record<string, never>;
+type Sorter = { filed: string; direction: 'ascend' | 'descend' } | Record<string, never>;
 ```
 
 %%INTERFACE(interface.ts)%%

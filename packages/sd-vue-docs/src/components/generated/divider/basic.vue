@@ -8,7 +8,7 @@
     <a-divider :size="2" style="border-bottom-style: dotted" />
     <p>A design is a plan or specification for the construction of an object.</p>
   </div>
-  <div class="divider-demo" style="marginTop: 48px">
+  <div class="divider-demo" style="margintop: 48px">
     <div class="flex-box">
       <span class="avatar"><IconImage /></span>
       <div class="content">

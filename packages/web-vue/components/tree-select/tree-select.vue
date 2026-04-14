@@ -429,7 +429,7 @@
        * @en Trigger when the value changes
        * @param {string | number | LabelValue | Array<string | number> | LabelValue[] | undefined} value
        */
-      change: (
+      'change': (
         value: string | number | LabelValue | Array<string | number> | LabelValue[] | undefined,
       ) => true,
       'update:modelValue': (
@@ -448,19 +448,19 @@
        * @en Triggered when the search value changes
        * @param {string} searchKey
        */
-      search: (searchKey: string) => true,
+      'search': (searchKey: string) => true,
       /**
        * @zh 点击清除时触发
        * @en Triggered when clear is clicked
        * */
-      clear: () => true,
+      'clear': () => true,
       /**
        * @zh 输入框的值发生改变时触发
        * @en Triggered when the value of the input changes
        * @param {string} inputValue
        * @version 2.55.0
        */
-      inputValueChange: (inputValue: string) => true,
+      'inputValueChange': (inputValue: string) => true,
     },
     /**
      * @zh 自定义触发元素

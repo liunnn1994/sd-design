@@ -26,7 +26,7 @@
         </template>
       </a-step>
     </a-steps>
-    <div style="margin-top: 20px; text-align: center;">
+    <div style="margin-top: 20px; text-align: center">
       <a-space size="large">
         <a-button type="secondary" :disabled="current <= 1" @click="onPrev">
           <IconLeft />

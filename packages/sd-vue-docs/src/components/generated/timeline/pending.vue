@@ -35,6 +35,7 @@
 
 <script>
   import { ref } from 'vue';
+
   import { IconFire } from '@sdata/web-vue/es/icon/index.js';
 
   export default {

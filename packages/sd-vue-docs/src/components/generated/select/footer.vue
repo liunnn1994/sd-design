@@ -13,7 +13,7 @@
       <a-option>Shenzhen</a-option>
       <a-option>Wuhan</a-option>
       <template #footer>
-        <div style="padding: 6px 0; text-align: center;">
+        <div style="padding: 6px 0; text-align: center">
           <a-button>Click Me</a-button>
         </div>
       </template>
@@ -32,7 +32,7 @@
       <a-option>Shenzhen</a-option>
       <a-option>Wuhan</a-option>
       <template #footer>
-        <div style="padding: 6px 0; text-align: center;">
+        <div style="padding: 6px 0; text-align: center">
           <a-button>Click Me</a-button>
         </div>
       </template>

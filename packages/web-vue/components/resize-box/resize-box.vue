@@ -109,20 +109,20 @@
        * @en Triggered when dragging starts
        * @param {MouseEvent} ev
        */
-      movingStart: (ev: MouseEvent) => true,
+      'movingStart': (ev: MouseEvent) => true,
       /**
        * @zh 拖拽时触发
        * @en Triggered when dragging
        * @param {{ width: number; height: number; }} size
        * @param {MouseEvent} ev
        */
-      moving: (size: { width: number; height: number }, ev: MouseEvent) => true,
+      'moving': (size: { width: number; height: number }, ev: MouseEvent) => true,
       /**
        * @zh 拖拽结束时触发
        * @en Triggered when the drag ends
        * @param {MouseEvent} ev
        */
-      movingEnd: (ev: MouseEvent) => true,
+      'movingEnd': (ev: MouseEvent) => true,
     },
     /**
      * @zh 伸缩杆的内容

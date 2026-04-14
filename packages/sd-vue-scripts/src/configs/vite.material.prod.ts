@@ -29,7 +29,7 @@ const getConfig = ({ input, name }: { input: string; name: string }): InlineConf
             sourcemap: true,
             name,
             globals: {
-              vue: 'Vue',
+              'vue': 'Vue',
               '@sdata/web-vue': 'SDVue',
               '@sdata/web-vue/es/icon': 'SDVueIcon',
             },

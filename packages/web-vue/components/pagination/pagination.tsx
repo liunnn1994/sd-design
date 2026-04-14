@@ -183,13 +183,13 @@ export default defineComponent({
      * @en Triggered when page number changes
      * @param {number} current
      */
-    change: (current: number) => true,
+    'change': (current: number) => true,
     /**
      * @zh 数据条数改变时触发
      * @en Triggered when the number of data items changes
      * @param {number} pageSize
      */
-    pageSizeChange: (pageSize: number) => true,
+    'pageSizeChange': (pageSize: number) => true,
   },
   /**
    * @zh 分页按钮

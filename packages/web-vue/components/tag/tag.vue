@@ -147,14 +147,14 @@
        * @en Emitted when the close button is clicked
        * @param {MouseEvent} ev
        */
-      close: (ev: MouseEvent) => true,
+      'close': (ev: MouseEvent) => true,
       /**
        * @zh 用户选中时触发（仅在可选中模式下触发）
        * @en Emitted when the user check (emit only in the checkable mode)
        * @param {boolean} checked
        * @param {MouseEvent} ev
        */
-      check: (checked: boolean, ev: MouseEvent) => true,
+      'check': (checked: boolean, ev: MouseEvent) => true,
     },
     /**
      * @zh 图标

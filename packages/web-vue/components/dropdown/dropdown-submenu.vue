@@ -117,7 +117,7 @@
        * @en Triggered when the display status of the drop-down box changes
        * @property {boolean} visible
        */
-      popupVisibleChange: (visible: boolean) => true,
+      'popupVisibleChange': (visible: boolean) => true,
     },
     /**
      * @zh 子菜单内容

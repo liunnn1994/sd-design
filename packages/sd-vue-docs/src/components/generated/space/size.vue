@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="marginBottom: 20px">
+    <div style="marginbottom: 20px">
       <a-radio-group v-model="size" type="button">
         <a-radio value="mini">mini</a-radio>
         <a-radio value="small">small</a-radio>

@@ -21,7 +21,6 @@ module.exports = {
     'plugin:import/recommended',
     'plugin:import/typescript',
     'plugin:vue/vue3-recommended',
-    'plugin:prettier/recommended',
   ],
   settings: {
     'import/resolver': {
@@ -31,12 +30,10 @@ module.exports = {
     },
   },
   rules: {
-    'prettier/prettier': 1,
     // To close Vue, you must specify prop default
     'vue/require-default-prop': 0,
     'vue/singleline-html-element-content-newline': 0,
     'vue/max-attributes-per-line': 0,
-    // Add void ele in prettier
     'vue/html-self-closing': 0,
     '@typescript-eslint/no-explicit-any': 0,
     // TODO: Temporarily closed

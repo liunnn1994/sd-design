@@ -180,24 +180,24 @@ export default defineComponent({
      * @en Triggered when the current tag value changes
      * @property { string | number } key
      */
-    change: (key: string | number) => true,
+    'change': (key: string | number) => true,
     /**
      * @zh 用户点击标签时触发
      * @en Triggered when the user clicks on the tab
      * @property { string | number } key
      */
-    tabClick: (key: string | number, ev: Event) => true,
+    'tabClick': (key: string | number, ev: Event) => true,
     /**
      * @zh 用户点击增加按钮时触发
      * @en Triggered when the user clicks the add button
      */
-    add: (ev: Event) => true,
+    'add': (ev: Event) => true,
     /**
      * @zh 用户点击删除按钮时触发
      * @en Triggered when the user clicks the delete button
      * @property { string | number } key
      */
-    delete: (key: string | number, ev: Event) => true,
+    'delete': (key: string | number, ev: Event) => true,
   },
   /**
    * @zh 选项卡额外内容

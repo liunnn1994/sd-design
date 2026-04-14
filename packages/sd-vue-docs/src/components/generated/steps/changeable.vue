@@ -14,7 +14,7 @@
         color: '#C2C7CC',
       }"
     >
-      <div style="line-height: 160px;">Step{{ current }} Content</div>
+      <div style="line-height: 160px">Step{{ current }} Content</div>
       <a-space size="large">
         <a-button type="secondary" :disabled="current <= 1" @click="onPrev">
           <IconLeft /> Back

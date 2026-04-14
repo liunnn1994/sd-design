@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-bottom: 20px;">
+  <div style="margin-bottom: 20px">
     <a-typography-text>折叠：</a-typography-text>
     <a-switch :checked="collapsed" @click="collapsed = !collapsed" />
   </div>

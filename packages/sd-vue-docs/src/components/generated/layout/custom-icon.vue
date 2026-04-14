@@ -48,8 +48,8 @@
       </template>
     </a-layout-sider>
     <a-layout>
-      <a-layout-header style="padding-left: 20px;"> Header </a-layout-header>
-      <a-layout style="padding: 0 24px;">
+      <a-layout-header style="padding-left: 20px"> Header </a-layout-header>
+      <a-layout style="padding: 0 24px">
         <a-breadcrumb :style="{ margin: '16px 0' }">
           <a-breadcrumb-item>Home</a-breadcrumb-item>
           <a-breadcrumb-item>List</a-breadcrumb-item>
@@ -63,8 +63,14 @@
 </template>
 <script>
   import { defineComponent } from 'vue';
+
   import { Message } from '@sdata/web-vue';
-  import { IconCaretRight, IconCaretLeft, IconHome, IconCalendar } from '@sdata/web-vue/es/icon/index.js';
+  import {
+    IconCaretRight,
+    IconCaretLeft,
+    IconHome,
+    IconCalendar,
+  } from '@sdata/web-vue/es/icon/index.js';
 
   export default defineComponent({
     components: {

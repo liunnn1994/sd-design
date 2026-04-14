@@ -1,5 +1,5 @@
 <template>
-  <a-button-group style="margin-bottom: 20px;">
+  <a-button-group style="margin-bottom: 20px">
     <a-button type="primary" @click="toggleChecked">
       {{ checkedKeys?.length ? 'deselect all' : 'select all' }}
     </a-button>

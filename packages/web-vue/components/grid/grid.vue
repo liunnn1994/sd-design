@@ -76,7 +76,7 @@
       const classNames = computed(() => [prefixCls]);
       const style = computed(() => [
         {
-          gap: `${rowGap.value}px ${colGap.value}px`,
+          'gap': `${rowGap.value}px ${colGap.value}px`,
           'grid-template-columns': `repeat(${cols.value}, minmax(0px, 1fr))`,
         },
       ]);

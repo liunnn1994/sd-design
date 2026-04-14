@@ -162,7 +162,7 @@ export default defineComponent({
      * @param {number} prevIndex
      * @param {boolean} isManual
      */
-    change: (index: number, prevIndex: number, isManual: boolean) => true,
+    'change': (index: number, prevIndex: number, isManual: boolean) => true,
   },
   setup(props, { emit, slots }) {
     const { current, animationName, moveSpeed, transitionTimingFunction } = toRefs(props);

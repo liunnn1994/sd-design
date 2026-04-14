@@ -1,5 +1,5 @@
 <template>
-  <div style="marginBottom: 24px;">
+  <div style="marginbottom: 24px">
     <a-checkbox
       v-model="treeCheckStrictly"
       @change="
@@ -19,7 +19,7 @@
     :tree-check-strictly="treeCheckStrictly"
     :data="treeData"
     placeholder="Please select ..."
-    style="width: 300px;"
+    style="width: 300px"
   ></a-tree-select>
 </template>
 <script>

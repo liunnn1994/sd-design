@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <a-time-picker style="width: 194px;">
+      <a-time-picker style="width: 194px">
         <template #prefix>
           <IconInfoCircle />
         </template> </a-time-picker

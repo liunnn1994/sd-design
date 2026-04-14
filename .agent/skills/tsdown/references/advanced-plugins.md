@@ -169,7 +169,7 @@ export default defineConfig({
   plugins: [
     replace({
       'process.env.NODE_ENV': JSON.stringify('production'),
-      __VERSION__: JSON.stringify('1.0.0'),
+      '__VERSION__': JSON.stringify('1.0.0'),
     }),
   ],
 });

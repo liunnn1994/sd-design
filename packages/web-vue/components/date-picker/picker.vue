@@ -341,7 +341,7 @@
        * @param {Date | undefined} date
        * @param {string | undefined} dateString
        */
-      change: (
+      'change': (
         value: CalendarValue | undefined,
         date: Date | undefined,
         dateString: string | undefined,
@@ -354,7 +354,7 @@
        * @param {Date} date
        * @param {string} dateString
        */
-      select: (
+      'select': (
         value: CalendarValue | undefined,
         date: Date | undefined,
         dateString: string | undefined,
@@ -373,7 +373,7 @@
        * @param {Date} date
        * @param {string} dateString
        */
-      ok: (
+      'ok': (
         value: CalendarValue | undefined,
         date: Date | undefined,
         dateString: string | undefined,
@@ -382,7 +382,7 @@
        * @zh 点击清除按钮
        * @en Click the clear button
        */
-      clear: () => true,
+      'clear': () => true,
       /**
        * @zh 点击快捷选项
        * @en Click on the shortcut option

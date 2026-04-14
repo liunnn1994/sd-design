@@ -167,26 +167,26 @@ export default defineComponent({
      * @param { number | undefined } value
      * @param {Event} ev
      */
-    change: (value: number | undefined, ev: Event) => true,
+    'change': (value: number | undefined, ev: Event) => true,
     /**
      * @zh 输入框获取焦点时触发
      * @en Triggered when the input gets focus
      * @param {FocusEvent} ev
      */
-    focus: (ev: FocusEvent) => true,
+    'focus': (ev: FocusEvent) => true,
     /**
      * @zh 输入框失去焦点时触发
      * @en Triggered when the input box loses focus
      * @param {FocusEvent} ev
      */
-    blur: (ev: FocusEvent) => true,
+    'blur': (ev: FocusEvent) => true,
     /**
      * @zh 用户点击清除按钮时触发
      * @en Triggered when the user clicks the clear button
      * @param {Event} ev
      * @version 2.23.0
      */
-    clear: (ev: Event) => true,
+    'clear': (ev: Event) => true,
     /**
      * @zh 输入时触发
      * @en Triggered on input
@@ -195,14 +195,14 @@ export default defineComponent({
      * @param {Event} ev
      * @version 2.27.0
      */
-    input: (value: number | undefined, inputValue: string, ev: Event) => true,
+    'input': (value: number | undefined, inputValue: string, ev: Event) => true,
     /**
      * @zh 按下键盘时触发
      * @en Triggered on keydown
      * @param {MouseEvent} ev
      * @version 2.56.0
      */
-    keydown: (ev: KeyboardEvent) => true,
+    'keydown': (ev: KeyboardEvent) => true,
   },
   /**
    * @zh 前缀
@@ -579,7 +579,7 @@ export default defineComponent({
           readonly={props.readOnly}
           error={props.error}
           inputAttrs={{
-            role: 'spinbutton',
+            'role': 'spinbutton',
             'aria-valuemax': props.max,
             'aria-valuemin': props.min,
             'aria-valuenow': _value.value,

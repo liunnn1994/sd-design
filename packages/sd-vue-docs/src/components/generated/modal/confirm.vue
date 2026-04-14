@@ -4,6 +4,7 @@
 
 <script>
   import { ref } from 'vue';
+
   import { Modal } from '@sdata/web-vue';
 
   export default {

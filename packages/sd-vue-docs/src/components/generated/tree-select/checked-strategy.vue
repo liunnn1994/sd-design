@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-bottom: 24px;">
+  <div style="margin-bottom: 24px">
     <a-radio-group
       type="button"
       v-model="treeCheckedStrategy"
@@ -22,7 +22,7 @@
     :tree-checked-strategy="treeCheckedStrategy"
     :data="treeData"
     placeholder="Please select ..."
-    style="width: 300px;"
+    style="width: 300px"
   ></a-tree-select>
 </template>
 <script>

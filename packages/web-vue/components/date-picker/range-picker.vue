@@ -317,7 +317,7 @@
        * @param {(Date | undefined)[] | undefined} date
        * @param {(string | undefined)[] | undefined} dateString
        */
-      change: (
+      'change': (
         value: (CalendarValue | undefined)[] | undefined,
         date: (Date | undefined)[] | undefined,
         dateString: (string | undefined)[] | undefined,
@@ -334,7 +334,7 @@
        * @param {(Date | undefined)[]} date
        * @param {(string | undefined)[]} dateString
        */
-      select: (
+      'select': (
         value: (CalendarValue | undefined)[],
         date: (Date | undefined)[],
         dateString: (string | undefined)[],
@@ -359,14 +359,14 @@
        * @param {Date[]} date
        * @param {string[]} dateString
        */
-      ok: (value: CalendarValue[], date: Date[], dateString: string[]) => {
+      'ok': (value: CalendarValue[], date: Date[], dateString: string[]) => {
         return true;
       },
       /**
        * @zh 点击清除按钮
        * @en Click the clear button
        */
-      clear: () => {
+      'clear': () => {
         return true;
       },
       /**

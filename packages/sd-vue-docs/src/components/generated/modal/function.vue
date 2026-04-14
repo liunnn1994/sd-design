@@ -4,6 +4,7 @@
 
 <script>
   import { h } from 'vue';
+
   import { Modal, Button } from '@sdata/web-vue';
 
   const ModalContent = {

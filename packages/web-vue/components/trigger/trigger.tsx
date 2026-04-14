@@ -348,21 +348,21 @@ export default defineComponent({
      * @en Emitted when the status of the popup changes
      * @param {boolean} visible
      */
-    popupVisibleChange: (visible: boolean) => true,
+    'popupVisibleChange': (visible: boolean) => true,
     /**
      * @zh 弹出框显示后（动画结束）触发
      * @en Triggered after the trigger is shown (the animation ends)
      * @version 2.18.0
      */
-    show: () => true,
+    'show': () => true,
     /**
      * @zh 弹出框隐藏后（动画结束）触发
      * @en Triggered after the popup is hidden (the animation ends)
      * @version 2.18.0
      */
-    hide: () => true,
+    'hide': () => true,
     // for internal
-    resize: () => true,
+    'resize': () => true,
   },
   /**
    * @zh 弹出框内容

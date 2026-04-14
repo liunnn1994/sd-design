@@ -94,13 +94,13 @@ export default defineComponent({
      * @en Trigger when the value changes
      * @property {number} value
      */
-    change: (value: number) => true,
+    'change': (value: number) => true,
     /**
      * @zh 鼠标移动到数值上时触发
      * @en Triggered when the mouse moves over the value
      * @property {number} value
      */
-    hoverChange: (value: number) => true,
+    'hoverChange': (value: number) => true,
   },
   /**
    * @zh 符号
@@ -212,7 +212,7 @@ export default defineComponent({
 
     const getAriaProps = (index: number, isHalf = false) => {
       return {
-        role: 'radio',
+        'role': 'radio',
         'aria-checked': index + (isHalf ? 0.5 : 1) <= computedValue.value,
         'aria-setsize': indexArray.value.length,
         'aria-posinset': index + (isHalf ? 0.5 : 1),

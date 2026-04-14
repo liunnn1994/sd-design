@@ -308,7 +308,7 @@
        * @param {Array<string | number>} selectedKeys
        * @param {{ selected?: boolean; selectedNodes: TreeNodeData[]; node?: TreeNodeData; e?: Event; }} data
        */
-      select: (
+      'select': (
         selectedKeys: (string | number)[],
         data: {
           selected?: boolean;
@@ -324,7 +324,7 @@
        * @param {Array<string | number>} checkedKeys
        * @param {{ checked?: boolean; checkedNodes: TreeNodeData[]; node?: TreeNodeData; e?: Event; halfCheckedKeys: (string | number)[]; halfCheckedNodes: TreeNodeData[]; }} data
        */
-      check: (
+      'check': (
         checkedKeys: (string | number)[],
         data: {
           checked?: boolean;
@@ -343,7 +343,7 @@
        * @param {Array<string | number>} expandKeys
        * @param {{ expanded?: boolean; expandNodes: TreeNodeData[]; node?: TreeNodeData; e?: Event; }} data
        */
-      expand: (
+      'expand': (
         expandKeys: (string | number)[],
         data: {
           expanded?: boolean;
@@ -359,34 +359,34 @@
        * @param {DragEvent} ev
        * @param {TreeNodeData} node
        */
-      dragStart: (ev: DragEvent, node: TreeNodeData) => true,
+      'dragStart': (ev: DragEvent, node: TreeNodeData) => true,
       /**
        * @zh 节点结束拖拽
        * @en Node end drag
        * @param {DragEvent} ev
        * @param {TreeNodeData} node
        */
-      dragEnd: (ev: DragEvent, node: TreeNodeData) => true,
+      'dragEnd': (ev: DragEvent, node: TreeNodeData) => true,
       /**
        * @zh 节点被拖拽至可释放目标
        * @en The node is dragged to the releasable target
        * @param {DragEvent} ev
        * @param {TreeNodeData} node
        */
-      dragOver: (ev: DragEvent, node: TreeNodeData) => true,
+      'dragOver': (ev: DragEvent, node: TreeNodeData) => true,
       /**
        * @zh 节点离开可释放目标
        * @en Node leaves to release the target
        * @param {DragEvent} ev
        * @param {TreeNodeData} node
        */
-      dragLeave: (ev: DragEvent, node: TreeNodeData) => true,
+      'dragLeave': (ev: DragEvent, node: TreeNodeData) => true,
       /**
        * @zh 节点在可释放目标上释放
        * @en The node is released on a releasable target
        * @param {{ e: DragEvent; dragNode: TreeNodeData; dropNode: TreeNodeData; dropPosition: number; }} data
        */
-      drop: (data: {
+      'drop': (data: {
         e: DragEvent;
         dragNode: TreeNodeData;
         dropNode: TreeNodeData;

@@ -101,7 +101,7 @@
        * @param {number} step
        * @param {Event} ev
        */
-      change: (step: number, ev: Event) => true,
+      'change': (step: number, ev: Event) => true,
     },
     setup(props, { emit, slots }) {
       const { type, lineLess } = toRefs(props);

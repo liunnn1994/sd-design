@@ -145,17 +145,17 @@
        * @zh 开始拖拽之前触发
        * @en Triggered before dragging
        * */
-      moveStart: (ev: MouseEvent) => true,
+      'moveStart': (ev: MouseEvent) => true,
       /**
        * @zh 拖拽时触发
        * @en Triggered when dragging
        */
-      moving: (ev: MouseEvent) => true,
+      'moving': (ev: MouseEvent) => true,
       /**
        * @zh 拖拽结束之后触发
        * @en Triggered after dragging ends
        */
-      moveEnd: (ev: MouseEvent) => true,
+      'moveEnd': (ev: MouseEvent) => true,
       'update:size': (size: number | string) => true,
     },
     /**

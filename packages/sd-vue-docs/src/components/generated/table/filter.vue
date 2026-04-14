@@ -18,6 +18,7 @@
 
 <script>
   import { reactive, h } from 'vue';
+
   import { IconSearch } from '@sdata/web-vue/es/icon/index.js';
 
   export default {

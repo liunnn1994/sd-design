@@ -293,7 +293,7 @@
        * @param {string | Array<string | undefined> | undefined} timeString
        * @param {date | Array<date | undefined> | undefined} time
        */
-      change: (
+      'change': (
         timeString: string | Array<string | undefined> | undefined,
         time: Date | Array<Date | undefined> | undefined,
       ) => true,
@@ -304,7 +304,7 @@
        * @param {string | Array<string | undefined>} timeString
        * @param {Date | Array<Date | undefined>} time
        */
-      select: (
+      'select': (
         timeString: string | Array<string | undefined>,
         time: Date | Array<Date | undefined>,
       ) => true,
@@ -312,7 +312,7 @@
        * @zh 点击清除按钮
        * @en Click the clear button
        * */
-      clear: () => true,
+      'clear': () => true,
       /**
        * @zh 弹出框展开和收起
        * @en Pop-up box expand and collapse

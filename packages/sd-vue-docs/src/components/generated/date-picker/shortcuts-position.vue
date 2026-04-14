@@ -1,21 +1,21 @@
 <template>
   <a-date-picker
-    style="width: 254px; margin-bottom: 20px; margin-right: 24px;"
+    style="width: 254px; margin-bottom: 20px; margin-right: 24px"
     shortcuts-position="left"
     :shortcuts="shortcuts"
   />
   <a-range-picker
-    style="width: 300px; margin-bottom: 20px;"
+    style="width: 300px; margin-bottom: 20px"
     shortcuts-position="left"
     :shortcuts="rangeShortcuts"
   />
   <br />
   <a-date-picker
-    style="width: 254px; margin-right: 24px;"
+    style="width: 254px; margin-right: 24px"
     shortcuts-position="right"
     :shortcuts="shortcuts"
   />
-  <a-range-picker style="width: 300px;" shortcuts-position="right" :shortcuts="rangeShortcuts" />
+  <a-range-picker style="width: 300px" shortcuts-position="right" :shortcuts="rangeShortcuts" />
 </template>
 <script>
   import dayjs from 'dayjs';

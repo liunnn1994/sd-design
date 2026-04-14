@@ -32,7 +32,7 @@
       <a-descriptions-item label="Item1" :span="form.firstSpan">
         <div
           >Span：{{ form.firstSpan }}
-          <span v-if="form.firstSpan > form.column" style="color: red;">
+          <span v-if="form.firstSpan > form.column" style="color: red">
             Exceeds Column, set to Column size
           </span>
         </div>

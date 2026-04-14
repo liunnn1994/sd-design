@@ -29,9 +29,7 @@ description: Used to add hover, click, focus and other events to the element, an
 ## Type
 
 ```ts
-type TriggerPopupTranslate =
-  | [number, number]
-  | { [key in TriggerPosition]?: [number, number] };
+type TriggerPopupTranslate = [number, number] | { [key in TriggerPosition]?: [number, number] };
 ```
 
 ## zh-CN

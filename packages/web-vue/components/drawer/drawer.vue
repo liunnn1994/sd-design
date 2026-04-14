@@ -308,35 +308,35 @@
        * @en Triggered when the OK button is clicked
        * @property {MouseEvent} ev
        */
-      ok: (e: Event) => true,
+      'ok': (e: Event) => true,
       /**
        * @zh 点击取消、关闭按钮时触发
        * @en Triggered when the cancel or close button is clicked
        * @property {MouseEvent | KeyboardEvent} ev
        */
-      cancel: (e: Event) => true,
+      'cancel': (e: Event) => true,
       /**
        * @zh 抽屉打开后（动画结束）触发
        * @en Triggered after the drawer is opened (the animation ends)
        */
-      open: () => true,
+      'open': () => true,
       /**
        * @zh 抽屉关闭后（动画结束）触发
        * @en Triggered when the drawer is closed (the animation ends)
        */
-      close: () => true,
+      'close': () => true,
       /**
        * @zh 对话框打开前触发
        * @en Triggered before drawer is opened
        * @version 2.43.0
        */
-      beforeOpen: () => true,
+      'beforeOpen': () => true,
       /**
        * @zh 对话框关闭前触发
        * @en Triggered before drawer is closed
        * @version 2.43.0
        */
-      beforeClose: () => true,
+      'beforeClose': () => true,
     },
     /**
      * @zh 标题

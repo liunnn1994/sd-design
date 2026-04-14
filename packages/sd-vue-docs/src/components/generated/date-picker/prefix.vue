@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <a-date-picker style="width: 300px;">
+      <a-date-picker style="width: 300px">
         <template #prefix>
           <IconInfoCircle />
         </template>

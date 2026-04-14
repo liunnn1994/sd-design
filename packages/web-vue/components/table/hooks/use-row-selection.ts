@@ -23,9 +23,9 @@ export const useRowSelection = ({
   currentAllEnabledRowKeys: Ref<BaseType[]>;
   emit: EmitFn2<{
     'update:selectedKeys': (rowKeys: BaseType[]) => true;
-    select: (rowKeys: BaseType[], rowKey: BaseType, record: TableData) => true;
-    selectAll: (checked: boolean) => true;
-    selectionChange: (rowKeys: BaseType[]) => true;
+    'select': (rowKeys: BaseType[], rowKey: BaseType, record: TableData) => true;
+    'selectAll': (checked: boolean) => true;
+    'selectionChange': (rowKeys: BaseType[]) => true;
   }>;
 }) => {
   const isRadio = computed(() => rowSelection.value?.type === 'radio');

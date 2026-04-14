@@ -1,16 +1,16 @@
 <template>
   <div>
-    <a-switch v-model="rtlType" style="margin-bottom: 20px;">
+    <a-switch v-model="rtlType" style="margin-bottom: 20px">
       <template #checked> RTL </template>
       <template #unchecked> LTR </template>
     </a-switch>
     <a-config-provider :rtl="rtlType">
-      <a-tabs :default-active-key="2" style="margin-bottom: 20px;">
+      <a-tabs :default-active-key="2" style="margin-bottom: 20px">
         <a-tab-pane v-for="i in 36" :key="i" :title="`Tab ${i}`">
           Content of Tab Panel {{ i }}
         </a-tab-pane>
       </a-tabs>
-      <a-space :direction="'vertical'" style="width: 100%;">
+      <a-space :direction="'vertical'" style="width: 100%">
         <a-space :size="40">
           <a-badge :count="9">
             <a-avatar shape="square" />

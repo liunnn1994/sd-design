@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="margin-bottom: 20px;">
+    <div style="margin-bottom: 20px">
       <a-space>
         <span>Type: </span>
         <a-radio-group v-model="type">
@@ -32,7 +32,13 @@
 
 <script>
   import { h, ref } from 'vue';
-  import { IconUpload, IconFileAudio, IconClose, IconFaceFrownFill } from '@sdata/web-vue/es/icon/index.js';
+
+  import {
+    IconUpload,
+    IconFileAudio,
+    IconClose,
+    IconFaceFrownFill,
+  } from '@sdata/web-vue/es/icon/index.js';
 
   export default {
     setup() {

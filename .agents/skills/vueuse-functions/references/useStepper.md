@@ -67,10 +67,10 @@ const {
   'billing-address': {
     title: 'Billing address',
   },
-  terms: {
+  'terms': {
     title: 'Terms',
   },
-  payment: {
+  'payment': {
     title: 'Payment',
   },
 });

@@ -15,6 +15,7 @@
 
 <script>
   import { ref } from 'vue';
+
   import { IconPlus } from '@sdata/web-vue/es/icon/index.js';
 
   export default {

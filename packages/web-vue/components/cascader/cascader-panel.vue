@@ -158,7 +158,7 @@
        * @en Triggered when the selected value changes
        * @property {string | number | (string | number | (string | number)[])[] | undefined} value
        */
-      change: (
+      'change': (
         value:
           | string
           | number

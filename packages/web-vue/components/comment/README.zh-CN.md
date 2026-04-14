@@ -10,13 +10,13 @@ description: 展示评论信息
 
 ### `<comment>` Props
 
-| 参数名   | 描述                               | 类型                                                                                 |  默认值  |
-| -------- | ---------------------------------- | ------------------------------------------------------------------------------------ | :------: |
-| author   | 作者名                             | `string`                                                                             |   `-`    |
-| avatar   | 头像                               | `string`                                                                             |   `-`    |
-| content  | 评论内容                           | `string`                                                                             |   `-`    |
-| datetime | 时间描述                           | `string`                                                                             |   `-`    |
-| align    | 靠左/靠右 展示 datetime 和 actions | `'left' \| 'right' \| { datetime?: "left" \| "right"; actions?: "left" \| "right" }` | `'left'` |
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| author | 作者名 | `string` | `-` |
+| avatar | 头像 | `string` | `-` |
+| content | 评论内容 | `string` | `-` |
+| datetime | 时间描述 | `string` | `-` |
+| align | 靠左/靠右 展示 datetime 和 actions | `'left' \| 'right' \| { datetime?: "left" \| "right"; actions?: "left" \| "right" }` | `'left'` |
 
 ### `<comment>` Slots
 

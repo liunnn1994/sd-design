@@ -1,5 +1,5 @@
 <template>
-  <a-checkbox v-model="checked" style="margin-bottom: 20px;"> checkable </a-checkbox>
+  <a-checkbox v-model="checked" style="margin-bottom: 20px"> checkable </a-checkbox>
   <a-tree
     class="tree-demo"
     draggable

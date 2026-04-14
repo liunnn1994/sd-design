@@ -153,7 +153,7 @@ const vTooltip = {
   getSSRProps(binding) {
     return {
       'data-tooltip': binding.value,
-      class: 'has-tooltip',
+      'class': 'has-tooltip',
     };
   },
 };

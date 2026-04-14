@@ -48,7 +48,7 @@
   }));
   const importMap = computed(() => ({
     imports: {
-      vue: vueModuleUrl,
+      'vue': vueModuleUrl,
       '@vue/shared': vueSharedModuleUrl,
       '@sdata/web-vue': '/vendor/sd-web-vue/es/index.js',
       '@sdata/web-vue/es/icon': '/vendor/sd-web-vue/es/icon/index.js',

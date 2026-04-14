@@ -9,6 +9,7 @@
 
 <script>
   import { h } from 'vue';
+
   import { IconDriveFile, IconDown, IconStar } from '@sdata/web-vue/es/icon/index.js';
 
   export default {

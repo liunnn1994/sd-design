@@ -189,7 +189,7 @@
        * @en Trigger when the value changes
        * @param {number | [number, number]} value
        */
-      change: (value: number | [number, number]) => true,
+      'change': (value: number | [number, number]) => true,
     },
     setup(props, { emit }) {
       const { modelValue } = toRefs(props);

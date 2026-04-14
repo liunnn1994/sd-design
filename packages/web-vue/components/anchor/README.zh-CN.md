@@ -10,13 +10,13 @@ description: 通过锚点可快速找到信息内容在当前页面的位置。
 
 ### `<anchor>` Props
 
-| 参数名           | 描述                                                                         | 类型                                                  |  默认值   |
-| ---------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------- | :-------: |
-| boundary         | 滚动边界值，设置该值为数字后，将会在距离滚动容器 `boundary` 距离时停止滚动。 | `'start' \| 'end' \| 'center' \| 'nearest' \| number` | `'start'` |
-| line-less        | 是否显示左侧轴线                                                             | `boolean`                                             |  `false`  |
-| scroll-container | 滚动容器                                                                     | `string \| HTMLElement \| Window`                     |    `-`    |
-| change-hash      | 是否改变hash。设置为 `false` 时点击锚点不会改变页面的 hash                   | `boolean`                                             |  `true`   |
-| smooth           | 是否使用平滑滚动                                                             | `boolean`                                             |  `true`   |
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| boundary | 滚动边界值，设置该值为数字后，将会在距离滚动容器 `boundary` 距离时停止滚动。 | `'start' \| 'end' \| 'center' \| 'nearest' \| number` | `'start'` |
+| line-less | 是否显示左侧轴线 | `boolean` | `false` |
+| scroll-container | 滚动容器 | `string \| HTMLElement \| Window` | `-` |
+| change-hash | 是否改变hash。设置为 `false` 时点击锚点不会改变页面的 hash | `boolean` | `true` |
+| smooth | 是否使用平滑滚动 | `boolean` | `true` |
 
 ### `<anchor>` Events
 

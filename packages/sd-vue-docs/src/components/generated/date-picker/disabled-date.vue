@@ -1,21 +1,21 @@
 <template>
   <div>
     <a-date-picker
-      style="width: 200px; margin-right: 24px; margin-bottom: 24px;"
+      style="width: 200px; margin-right: 24px; margin-bottom: 24px"
       :disabledDate="(current) => dayjs(current).isBefore(dayjs())"
     />
     <a-range-picker
-      style="width: 360px; margin-right: 24px; margin-bottom: 24px;"
+      style="width: 360px; margin-right: 24px; margin-bottom: 24px"
       :disabledDate="(current) => dayjs(current).isBefore(dayjs())"
     />
     <a-date-picker
-      style="width: 200px; margin-right: 24px; margin-bottom: 24px;"
+      style="width: 200px; margin-right: 24px; margin-bottom: 24px"
       show-time
       :disabledDate="(current) => dayjs(current).isBefore(dayjs())"
       :disabledTime="getDisabledTime"
     />
     <a-range-picker
-      style="width: 360px; margin-bottom: 24px;"
+      style="width: 360px; margin-bottom: 24px"
       show-time
       :timePickerProps="{ hideDisabledOptions: true }"
       :disabledDate="(current) => dayjs(current).isBefore(dayjs())"

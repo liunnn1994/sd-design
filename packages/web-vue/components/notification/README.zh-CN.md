@@ -28,33 +28,33 @@ Notification._context = app._context;
 
 ### NotificationMethod
 
-| 参数名  | 描述                   | 类型                                                                                             | 默认值 |
-| ------- | ---------------------- | ------------------------------------------------------------------------------------------------ | :----: |
-| info    | 显示信息提醒框         | `(    config: string \| NotificationConfig,    appContext?: AppContext  ) => NotificationReturn` |  `-`   |
-| success | 显示成功提醒框         | `(    config: string \| NotificationConfig,    appContext?: AppContext  ) => NotificationReturn` |  `-`   |
-| warning | 显示警告提醒框         | `(    config: string \| NotificationConfig,    appContext?: AppContext  ) => NotificationReturn` |  `-`   |
-| error   | 显示错误提醒框         | `(    config: string \| NotificationConfig,    appContext?: AppContext  ) => NotificationReturn` |  `-`   |
-| remove  | 清除对应 `id` 的提醒框 | `(id: string) => void`                                                                           |  `-`   |
-| clear   | 清除全部提醒框         | `(position?: NotificationPosition) => void`                                                      |  `-`   |
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| info | 显示信息提醒框 | `(    config: string \| NotificationConfig,    appContext?: AppContext  ) => NotificationReturn` | `-` |
+| success | 显示成功提醒框 | `(    config: string \| NotificationConfig,    appContext?: AppContext  ) => NotificationReturn` | `-` |
+| warning | 显示警告提醒框 | `(    config: string \| NotificationConfig,    appContext?: AppContext  ) => NotificationReturn` | `-` |
+| error | 显示错误提醒框 | `(    config: string \| NotificationConfig,    appContext?: AppContext  ) => NotificationReturn` | `-` |
+| remove | 清除对应 `id` 的提醒框 | `(id: string) => void` | `-` |
+| clear | 清除全部提醒框 | `(position?: NotificationPosition) => void` | `-` |
 
 ### NotificationConfig
 
-| 参数名           | 描述                        | 类型                                                 | 默认值  | 版本   |
-| ---------------- | --------------------------- | ---------------------------------------------------- | :-----: | :----- |
-| content          | 内容                        | `RenderContent`                                      |   `-`   |        |
-| title            | 标题                        | `RenderContent`                                      |   `-`   |        |
-| icon             | 图标                        | `RenderFunction`                                     |   `-`   |        |
-| id               | 唯一id                      | `string`                                             |   `-`   |        |
-| style            | 样式                        | `CSSProperties`                                      |   `-`   |        |
-| class            | 样式类名                    | `ClassName`                                          |   `-`   |        |
-| position         | 位置                        | `'topLeft'\|'topRight'\|'bottomLeft'\|'bottomRight'` |   `-`   |        |
-| showIcon         | 是否显示图标                | `boolean`                                            | `true`  |        |
-| closable         | 是否可关闭                  | `boolean`                                            | `false` |        |
-| duration         | 显示的持续时间，单位为 `ms` | `number`                                             | `3000`  |        |
-| footer           | 底部内容                    | `RenderFunction`                                     |   `-`   | 2.25.0 |
-| closeIcon        | 关闭按钮图标                | `RenderFunction`                                     |   `-`   |        |
-| closeIconElement | 关闭按钮元素                | `RenderFunction`                                     |   `-`   |        |
-| onClose          | 关闭时的回调函数            | `(id: number \| string) => void`                     |   `-`   |        |
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| content | 内容 | `RenderContent` | `-` |  |
+| title | 标题 | `RenderContent` | `-` |  |
+| icon | 图标 | `RenderFunction` | `-` |  |
+| id | 唯一id | `string` | `-` |  |
+| style | 样式 | `CSSProperties` | `-` |  |
+| class | 样式类名 | `ClassName` | `-` |  |
+| position | 位置 | `'topLeft'\|'topRight'\|'bottomLeft'\|'bottomRight'` | `-` |  |
+| showIcon | 是否显示图标 | `boolean` | `true` |  |
+| closable | 是否可关闭 | `boolean` | `false` |  |
+| duration | 显示的持续时间，单位为 `ms` | `number` | `3000` |  |
+| footer | 底部内容 | `RenderFunction` | `-` | 2.25.0 |
+| closeIcon | 关闭按钮图标 | `RenderFunction` | `-` |  |
+| closeIconElement | 关闭按钮元素 | `RenderFunction` | `-` |  |
+| onClose | 关闭时的回调函数 | `(id: number \| string) => void` | `-` |  |
 
 ### NotificationReturn
 

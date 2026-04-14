@@ -5,17 +5,23 @@ description: 用作头像显示，可以为图片、图标或字符形式展示�
 
 import DemoBlock from '../../../../components/docs/DemoBlock.astro';
 import AvatarBasicDemo from '../../../../components/generated/avatar/basic.vue';
-export const avatarBasicSource = "<template>\n  <a-space size=\"large\">\n    <a-avatar>A</a-avatar>\n    <a-avatar :style=\"{ backgroundColor: '#3370ff' }\">\n      <IconUser />\n    </a-avatar>\n    <a-avatar :style=\"{ backgroundColor: '#14a9f8' }\">SD</a-avatar>\n    <a-avatar :style=\"{ backgroundColor: '#00d0b6' }\">Design</a-avatar>\n    <a-avatar>\n      <img\n        alt=\"avatar\"\n        src=\"https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp\"\n      />\n    </a-avatar>\n  </a-space>\n</template>\n\n<script>\n  import { IconUser } from '@sdata/web-vue/es/icon/index.js';\n\n  export default {\n    components: { IconUser },\n  };\n</script>";
+export const avatarBasicSource =
+  '<template>\n  <a-space size="large">\n    <a-avatar>A</a-avatar>\n    <a-avatar :style="{ backgroundColor: \'#3370ff\' }">\n      <IconUser />\n    </a-avatar>\n    <a-avatar :style="{ backgroundColor: \'#14a9f8\' }">SD</a-avatar>\n    <a-avatar :style="{ backgroundColor: \'#00d0b6\' }">Design</a-avatar>\n    <a-avatar>\n      <img\n        alt="avatar"\n        src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"\n      />\n    </a-avatar>\n  </a-space>\n</template>\n\n<script>\n  import { IconUser } from \'@sdata/web-vue/es/icon/index.js\';\n\n  export default {\n    components: { IconUser },\n  };\n</script>';
 import AvatarFitDemo from '../../../../components/generated/avatar/fit.vue';
-export const avatarFitSource = "<template>\n  <a-avatar\n    :style=\"{\n      marginRight: '24px',\n      verticalAlign: 'middle',\n      backgroundColor: '#14a9f8',\n    }\"\n  >\n    {{ text }}\n  </a-avatar>\n  <a-button type=\"secondary\" @click=\"onClick\" :style=\"{ verticalAlign: 'middle' }\">\n    Change\n  </a-button>\n</template>\n\n<script>\n  import { computed, ref } from 'vue';\n\n  const list = ['B', 'SD', 'Design', 'Tom', 'AD'];\n  export default {\n    setup() {\n      const index = ref(0);\n      const text = computed(() => list[index.value]);\n\n      const onClick = () => {\n        index.value = index.value >= list.length - 1 ? 0 : index.value + 1;\n      };\n\n      return {\n        text,\n        onClick,\n      };\n    },\n  };\n</script>";
+export const avatarFitSource =
+  "<template>\n  <a-avatar\n    :style=\"{\n      marginRight: '24px',\n      verticalAlign: 'middle',\n      backgroundColor: '#14a9f8',\n    }\"\n  >\n    {{ text }}\n  </a-avatar>\n  <a-button type=\"secondary\" @click=\"onClick\" :style=\"{ verticalAlign: 'middle' }\">\n    Change\n  </a-button>\n</template>\n\n<script>\n  import { computed, ref } from 'vue';\n\n  const list = ['B', 'SD', 'Design', 'Tom', 'AD'];\n  export default {\n    setup() {\n      const index = ref(0);\n      const text = computed(() => list[index.value]);\n\n      const onClick = () => {\n        index.value = index.value >= list.length - 1 ? 0 : index.value + 1;\n      };\n\n      return {\n        text,\n        onClick,\n      };\n    },\n  };\n</script>";
 import AvatarGroupDemo from '../../../../components/generated/avatar/group.vue';
-export const avatarGroupSource = "<template>\n  <a-space :size=\"32\">\n    <a-avatar-group>\n      <a-avatar :style=\"{ backgroundColor: '#7BC616' }\">A</a-avatar>\n      <a-avatar :style=\"{ backgroundColor: '#14C9C9' }\">B</a-avatar>\n      <a-avatar :style=\"{ backgroundColor: '#168CFF' }\">C</a-avatar>\n      <a-avatar :style=\"{ backgroundColor: '#FF7D00' }\">SD</a-avatar>\n      <a-avatar :style=\"{ backgroundColor: '#FFC72E' }\">Design</a-avatar>\n    </a-avatar-group>\n\n    <a-avatar-group :size=\"24\">\n      <a-avatar :style=\"{ backgroundColor: '#7BC616' }\">A</a-avatar>\n      <a-avatar :style=\"{ backgroundColor: '#14C9C9' }\">B</a-avatar>\n      <a-avatar :style=\"{ backgroundColor: '#168CFF' }\">C</a-avatar>\n      <a-avatar :style=\"{ backgroundColor: '#FF7D00' }\">SD</a-avatar>\n      <a-avatar :style=\"{ backgroundColor: '#FFC72E' }\">Design</a-avatar>\n    </a-avatar-group>\n\n    <a-avatar-group :size=\"24\" :max-count=\"3\">\n      <a-avatar :style=\"{ backgroundColor: '#7BC616' }\">A</a-avatar>\n      <a-avatar :style=\"{ backgroundColor: '#14C9C9' }\">B</a-avatar>\n      <a-avatar :style=\"{ backgroundColor: '#168CFF' }\">C</a-avatar>\n      <a-avatar :style=\"{ backgroundColor: '#FF7D00' }\">SD</a-avatar>\n      <a-avatar :style=\"{ backgroundColor: '#FFC72E' }\">Design</a-avatar>\n    </a-avatar-group>\n  </a-space>\n</template>";
+export const avatarGroupSource =
+  '<template>\n  <a-space :size="32">\n    <a-avatar-group>\n      <a-avatar :style="{ backgroundColor: \'#7BC616\' }">A</a-avatar>\n      <a-avatar :style="{ backgroundColor: \'#14C9C9\' }">B</a-avatar>\n      <a-avatar :style="{ backgroundColor: \'#168CFF\' }">C</a-avatar>\n      <a-avatar :style="{ backgroundColor: \'#FF7D00\' }">SD</a-avatar>\n      <a-avatar :style="{ backgroundColor: \'#FFC72E\' }">Design</a-avatar>\n    </a-avatar-group>\n\n    <a-avatar-group :size="24">\n      <a-avatar :style="{ backgroundColor: \'#7BC616\' }">A</a-avatar>\n      <a-avatar :style="{ backgroundColor: \'#14C9C9\' }">B</a-avatar>\n      <a-avatar :style="{ backgroundColor: \'#168CFF\' }">C</a-avatar>\n      <a-avatar :style="{ backgroundColor: \'#FF7D00\' }">SD</a-avatar>\n      <a-avatar :style="{ backgroundColor: \'#FFC72E\' }">Design</a-avatar>\n    </a-avatar-group>\n\n    <a-avatar-group :size="24" :max-count="3">\n      <a-avatar :style="{ backgroundColor: \'#7BC616\' }">A</a-avatar>\n      <a-avatar :style="{ backgroundColor: \'#14C9C9\' }">B</a-avatar>\n      <a-avatar :style="{ backgroundColor: \'#168CFF\' }">C</a-avatar>\n      <a-avatar :style="{ backgroundColor: \'#FF7D00\' }">SD</a-avatar>\n      <a-avatar :style="{ backgroundColor: \'#FFC72E\' }">Design</a-avatar>\n    </a-avatar-group>\n  </a-space>\n</template>';
 import AvatarIconDemo from '../../../../components/generated/avatar/icon.vue';
-export const avatarIconSource = "<template>\n  <a-space size=\"large\">\n    <a-avatar\n      :trigger-icon-style=\"{ color: '#3491FA' }\"\n      :auto-fix-font-size=\"false\"\n      @click=\"toast\"\n      :style=\"{ backgroundColor: '#168CFF' }\"\n    >\n      A\n      <template #trigger-icon>\n        <IconCamera />\n      </template>\n    </a-avatar>\n    <a-avatar @click=\"toast\" :style=\"{ backgroundColor: '#14C9C9' }\">\n      <IconUser />\n      <template #trigger-icon>\n        <IconEdit />\n      </template>\n    </a-avatar>\n    <a-avatar @click=\"toast\" shape=\"square\" :style=\"{ backgroundColor: '#FFC72E' }\">\n      <IconUser />\n      <template #trigger-icon>\n        <IconEdit />\n      </template>\n    </a-avatar>\n    <a-avatar trigger-type=\"mask\">\n      <img\n        alt=\"avatar\"\n        src=\"https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp\"\n      />\n      <template #trigger-icon>\n        <IconEdit />\n      </template>\n    </a-avatar>\n  </a-space>\n</template>\n\n<script>\n  import { IconCamera, IconEdit, IconUser } from '@sdata/web-vue/es/icon/index.js';\n\n  export default {\n    components: { IconCamera, IconEdit },\n    methods: {\n      toast() {\n        this.$message.info('Uploading...');\n      },\n    },\n  };\n</script>";
+export const avatarIconSource =
+  '<template>\n  <a-space size="large">\n    <a-avatar\n      :trigger-icon-style="{ color: \'#3491FA\' }"\n      :auto-fix-font-size="false"\n      @click="toast"\n      :style="{ backgroundColor: \'#168CFF\' }"\n    >\n      A\n      <template #trigger-icon>\n        <IconCamera />\n      </template>\n    </a-avatar>\n    <a-avatar @click="toast" :style="{ backgroundColor: \'#14C9C9\' }">\n      <IconUser />\n      <template #trigger-icon>\n        <IconEdit />\n      </template>\n    </a-avatar>\n    <a-avatar @click="toast" shape="square" :style="{ backgroundColor: \'#FFC72E\' }">\n      <IconUser />\n      <template #trigger-icon>\n        <IconEdit />\n      </template>\n    </a-avatar>\n    <a-avatar trigger-type="mask">\n      <img\n        alt="avatar"\n        src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"\n      />\n      <template #trigger-icon>\n        <IconEdit />\n      </template>\n    </a-avatar>\n  </a-space>\n</template>\n\n<script>\n  import { IconCamera, IconEdit, IconUser } from \'@sdata/web-vue/es/icon/index.js\';\n\n  export default {\n    components: { IconCamera, IconEdit },\n    methods: {\n      toast() {\n        this.$message.info(\'Uploading...\');\n      },\n    },\n  };\n</script>';
 import AvatarImageUrlDemo from '../../../../components/generated/avatar/image-url.vue';
-export const avatarImageUrlSource = "<template>\n  <a-space size=\"large\">\n    <a-avatar\n      imageUrl=\"https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp\"\n    >\n    </a-avatar>\n    加载失败:\n    <a-avatar\n      imageUrl=\"https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9123.png~tplv-uwbnlip3yd-webp.webp\"\n    >\n    </a-avatar>\n  </a-space>\n</template>";
+export const avatarImageUrlSource =
+  '<template>\n  <a-space size="large">\n    <a-avatar\n      imageUrl="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"\n    >\n    </a-avatar>\n    加载失败:\n    <a-avatar\n      imageUrl="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9123.png~tplv-uwbnlip3yd-webp.webp"\n    >\n    </a-avatar>\n  </a-space>\n</template>';
 import AvatarSizeDemo from '../../../../components/generated/avatar/size.vue';
-export const avatarSizeSource = "<template>\n  <a-space size=\"large\" direction=\"vertical\">\n    <a-space size=\"large\">\n      <a-avatar :size=\"64\">SD</a-avatar>\n      <a-avatar :size=\"40\">SD</a-avatar>\n      <a-avatar :size=\"32\">SD</a-avatar>\n      <a-avatar :size=\"24\">SD</a-avatar>\n    </a-space>\n    <a-space size=\"large\">\n      <a-avatar :size=\"64\" shape=\"square\">SD</a-avatar>\n      <a-avatar :size=\"40\" shape=\"square\">SD</a-avatar>\n      <a-avatar :size=\"32\" shape=\"square\">SD</a-avatar>\n      <a-avatar :size=\"24\" shape=\"square\">SD</a-avatar>\n    </a-space>\n  </a-space>\n</template>";
+export const avatarSizeSource =
+  '<template>\n  <a-space size="large" direction="vertical">\n    <a-space size="large">\n      <a-avatar :size="64">SD</a-avatar>\n      <a-avatar :size="40">SD</a-avatar>\n      <a-avatar :size="32">SD</a-avatar>\n      <a-avatar :size="24">SD</a-avatar>\n    </a-space>\n    <a-space size="large">\n      <a-avatar :size="64" shape="square">SD</a-avatar>\n      <a-avatar :size="40" shape="square">SD</a-avatar>\n      <a-avatar :size="32" shape="square">SD</a-avatar>\n      <a-avatar :size="24" shape="square">SD</a-avatar>\n    </a-space>\n  </a-space>\n</template>';
 
 ### 基本用法
 
@@ -23,7 +29,7 @@ export const avatarSizeSource = "<template>\n  <a-space size=\"large\" direction
 
 <DemoBlock source={avatarBasicSource} mainFile="src/avatar-basic.vue">
 
-  <AvatarBasicDemo client:only="vue" />
+<AvatarBasicDemo client:only="vue" />
 
 </DemoBlock>
 
@@ -33,7 +39,7 @@ export const avatarSizeSource = "<template>\n  <a-space size=\"large\" direction
 
 <DemoBlock source={avatarFitSource} mainFile="src/avatar-fit.vue">
 
-  <AvatarFitDemo client:only="vue" />
+<AvatarFitDemo client:only="vue" />
 
 </DemoBlock>
 
@@ -43,7 +49,7 @@ export const avatarSizeSource = "<template>\n  <a-space size=\"large\" direction
 
 <DemoBlock source={avatarGroupSource} mainFile="src/avatar-group.vue">
 
-  <AvatarGroupDemo client:only="vue" />
+<AvatarGroupDemo client:only="vue" />
 
 </DemoBlock>
 
@@ -53,7 +59,7 @@ export const avatarSizeSource = "<template>\n  <a-space size=\"large\" direction
 
 <DemoBlock source={avatarIconSource} mainFile="src/avatar-icon.vue">
 
-  <AvatarIconDemo client:only="vue" />
+<AvatarIconDemo client:only="vue" />
 
 </DemoBlock>
 
@@ -63,7 +69,7 @@ export const avatarSizeSource = "<template>\n  <a-space size=\"large\" direction
 
 <DemoBlock source={avatarImageUrlSource} mainFile="src/avatar-image-url.vue">
 
-  <AvatarImageUrlDemo client:only="vue" />
+<AvatarImageUrlDemo client:only="vue" />
 
 </DemoBlock>
 
@@ -73,7 +79,7 @@ export const avatarSizeSource = "<template>\n  <a-space size=\"large\" direction
 
 <DemoBlock source={avatarSizeSource} mainFile="src/avatar-size.vue">
 
-  <AvatarSizeDemo client:only="vue" />
+<AvatarSizeDemo client:only="vue" />
 
 </DemoBlock>
 

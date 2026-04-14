@@ -95,7 +95,7 @@
        * @param {(string | number)[]} activeKey
        * @param {Event} ev
        */
-      change: (activeKey: (string | number)[], ev: Event) => true,
+      'change': (activeKey: (string | number)[], ev: Event) => true,
     },
     setup(props, { emit, slots }) {
       const { expandIconPosition, destroyOnHide, showExpandIcon } = toRefs(props);

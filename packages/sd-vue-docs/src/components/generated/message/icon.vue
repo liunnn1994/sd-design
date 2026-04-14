@@ -4,6 +4,7 @@
 
 <script>
   import { h } from 'vue';
+
   import { IconFaceSmileFill } from '@sdata/web-vue/es/icon/index.js';
 
   export default {

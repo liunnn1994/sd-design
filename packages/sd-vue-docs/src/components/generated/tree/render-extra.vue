@@ -3,7 +3,7 @@
     <a-tree :blockNode="true" :checkable="true" :data="treeData">
       <template #extra="nodeData">
         <IconPlus
-          style="position: absolute; right: 8px; font-size: 12px; top: 10px; color: #3370ff;"
+          style="position: absolute; right: 8px; font-size: 12px; top: 10px; color: #3370ff"
           @click="() => onIconClick(nodeData)"
         />
       </template>
@@ -12,6 +12,7 @@
 </template>
 <script>
   import { ref } from 'vue';
+
   import { IconPlus } from '@sdata/web-vue/es/icon/index.js';
 
   export default {

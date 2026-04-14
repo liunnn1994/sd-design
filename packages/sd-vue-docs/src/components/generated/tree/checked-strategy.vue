@@ -13,7 +13,7 @@
     </a-radio>
   </a-radio-group>
   <br />
-  <a-typography-text style="margin: 24px 0; display: inline-block;">
+  <a-typography-text style="margin: 24px 0; display: inline-block">
     Current: {{ checkedKeys?.join(' , ') }}
   </a-typography-text>
   <br />

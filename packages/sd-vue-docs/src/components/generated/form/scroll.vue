@@ -8,7 +8,7 @@
   </a-space>
   <a-form
     ref="formRef"
-    style="width: 500px;height: 300px;margin-top:20px;padding-right: 16px;overflow: auto"
+    style="width: 500px; height: 300px; margin-top: 20px; padding-right: 16px; overflow: auto"
     :model="form"
     :scrollToFirstError="true"
   >

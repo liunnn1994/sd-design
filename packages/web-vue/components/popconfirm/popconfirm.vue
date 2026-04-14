@@ -207,17 +207,17 @@
        * @en Triggered when the visible or hidden state of the bubble confirmation box changes
        * @param {boolean} visible
        */
-      popupVisibleChange: (visible: boolean) => true,
+      'popupVisibleChange': (visible: boolean) => true,
       /**
        * @zh 点击确认按钮时触发
        * @en Triggered when the confirm button is clicked
        */
-      ok: () => true,
+      'ok': () => true,
       /**
        * @zh 点击取消按钮时触发
        * @en Triggered when the cancel button is clicked
        */
-      cancel: () => true,
+      'cancel': () => true,
     },
     /**
      * @zh 内容

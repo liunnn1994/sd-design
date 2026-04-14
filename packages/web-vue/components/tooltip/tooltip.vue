@@ -136,7 +136,7 @@
        * @en Emitted when the tooltip display status changes
        * @param {boolean} visible
        */
-      popupVisibleChange: (visible: boolean) => true,
+      'popupVisibleChange': (visible: boolean) => true,
     },
     /**
      * @zh 内容

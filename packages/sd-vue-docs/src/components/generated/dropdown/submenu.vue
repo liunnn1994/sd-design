@@ -15,7 +15,7 @@
               <a-doption>Option 2-3</a-doption>
             </template>
             <template #footer>
-              <div style="padding: 6px; text-align: center;">
+              <div style="padding: 6px; text-align: center">
                 <a-button>Click</a-button>
               </div>
             </template>

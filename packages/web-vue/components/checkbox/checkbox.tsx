@@ -69,7 +69,7 @@ export default defineComponent({
      * @param { boolean | (string | number | boolean)[] } value
      * @param {Event} ev
      */
-    change: (value: boolean | (string | number | boolean)[], ev: Event) => true,
+    'change': (value: boolean | (string | number | boolean)[], ev: Event) => true,
   },
   /**
    * @zh 自定义复选框

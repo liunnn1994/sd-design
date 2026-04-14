@@ -1,6 +1,6 @@
 <template>
   <a-range-picker
-    style="width: 300px;"
+    style="width: 300px"
     @select="onSelect"
     @popupVisibleChange="onPopupVisibleChange"
     :disabledDate="disabledDate"

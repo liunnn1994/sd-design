@@ -131,7 +131,7 @@
        * @en Triggered when the text bubble display status changes
        * @param {boolean} visible
        */
-      popupVisibleChange: (visible: boolean) => true,
+      'popupVisibleChange': (visible: boolean) => true,
     },
     /**
      * @zh 标题

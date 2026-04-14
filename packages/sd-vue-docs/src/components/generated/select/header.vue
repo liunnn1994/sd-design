@@ -13,7 +13,7 @@
       <a-option>Shenzhen</a-option>
       <a-option>Wuhan</a-option>
       <template #header>
-        <div style="padding: 6px 12px;">
+        <div style="padding: 6px 12px">
           <a-checkbox value="1">全选</a-checkbox>
         </div>
       </template>
@@ -33,7 +33,7 @@
       <a-option>Shenzhen</a-option>
       <a-option>Wuhan</a-option>
       <template #header>
-        <div style="padding: 6px 12px;">
+        <div style="padding: 6px 12px">
           <a-checkbox value="1">全选</a-checkbox>
         </div>
       </template>

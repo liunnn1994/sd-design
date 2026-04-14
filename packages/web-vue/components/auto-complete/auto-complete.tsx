@@ -121,40 +121,40 @@ export default defineComponent({
      * @en Emitted when the value changes
      * @property {string} value
      */
-    change: (value: string) => true,
+    'change': (value: string) => true,
     /**
      * @zh 用户搜索时触发
      * @en Emitted when the user searches
      * @property {string} value
      */
-    search: (value: string) => true,
+    'search': (value: string) => true,
     /**
      * @zh 选择选项时触发
      * @en Emitted when an option is selected
      * @property {string} value
      */
-    select: (value: string) => true,
+    'select': (value: string) => true,
     /**
      * @zh 用户点击清除按钮时触发
      * @en Triggered when the user clicks the clear button
      * @param {Event} ev
      * @version 2.23.0
      */
-    clear: (ev: Event) => true,
+    'clear': (ev: Event) => true,
     /**
      * @zh 下拉菜单发生滚动时触发
      * @en Triggered when the drop-down scrolls
      * @param {Event} ev
      * @version 2.52.0
      */
-    dropdownScroll: (ev: Event) => true,
+    'dropdownScroll': (ev: Event) => true,
     /**
      * @zh 下拉菜单滚动到底部时触发
      * @en Triggered when the drop-down menu is scrolled to the bottom
      * @param {Event} ev
      * @version 2.52.0
      */
-    dropdownReachBottom: (ev: Event) => true,
+    'dropdownReachBottom': (ev: Event) => true,
   },
   /**
    * @zh 弹出框的页脚
@@ -304,7 +304,7 @@ export default defineComponent({
           ref={dropdownRef}
           class={`${prefixCls}-dropdown`}
           v-slots={{
-            default: () => [
+            'default': () => [
               ...validOptions.value.map((info) => renderOption(info as SelectOptionInfo)),
             ],
             'virtual-list': () => (
@@ -317,7 +317,7 @@ export default defineComponent({
                 }}
               />
             ),
-            footer: slots.footer,
+            'footer': slots.footer,
           }}
           virtualList={Boolean(props.virtualListProps)}
           onScroll={handleDropdownScroll}

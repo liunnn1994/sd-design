@@ -34,7 +34,7 @@
     :defaultValue="['2019-08', '2020-06']"
     @select="onSelect"
     @change="onChange"
-    style="width: 300px; marginBottom: 24px;"
+    style="width: 300px; marginbottom: 24px"
   />
 </template>
 <script>

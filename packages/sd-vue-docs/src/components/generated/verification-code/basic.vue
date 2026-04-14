@@ -4,6 +4,7 @@
 
 <script setup>
   import { ref } from 'vue';
+
   import { Message } from '@sdata/web-vue';
 
   const value = ref('654321');

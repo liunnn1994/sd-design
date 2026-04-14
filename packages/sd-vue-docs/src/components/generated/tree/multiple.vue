@@ -1,6 +1,6 @@
 <template>
   <a-checkbox
-    style="marginBottom: 24px;"
+    style="marginbottom: 24px"
     v-model="multiple"
     @change="
       () => {

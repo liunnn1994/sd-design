@@ -4,7 +4,7 @@
     title="A user’s avatar"
     description="Present by SD Design"
     width="260"
-    style="margin-right: 67px; vertical-align: top;"
+    style="margin-right: 67px; vertical-align: top"
     :preview-visible="visible1"
     @preview-visible-change="
       () => {
@@ -64,6 +64,7 @@
 </template>
 <script>
   import { ref } from 'vue';
+
   import { IconEye, IconDownload, IconInfoCircle } from '@sdata/web-vue/es/icon/index.js';
 
   export default {

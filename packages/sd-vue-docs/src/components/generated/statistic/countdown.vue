@@ -35,6 +35,7 @@
 
 <script>
   import { ref } from 'vue';
+
   import { Message } from '@sdata/web-vue';
 
   export default {

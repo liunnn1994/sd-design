@@ -12,7 +12,7 @@ export const useTrigger = ({
   defaultPopupVisible?: Ref<boolean>;
   emit: EmitFn2<{
     'update:popupVisible': (visible: boolean) => true;
-    popupVisibleChange: (visible: boolean) => true;
+    'popupVisibleChange': (visible: boolean) => true;
   }>;
 }) => {
   const _popupVisible = ref(defaultPopupVisible?.value ?? false);

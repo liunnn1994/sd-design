@@ -252,7 +252,11 @@ const total = computed(() => items.value.reduce((sum, item) => sum + item.price,
 ```vue
 <template>
   <button
-    :class="{ btn: true, 'btn-primary': type === 'primary' && !disabled, 'btn-disabled': disabled }"
+    :class="{
+      'btn': true,
+      'btn-primary': type === 'primary' && !disabled,
+      'btn-disabled': disabled,
+    }"
   >
     {{ label }}
   </button>
@@ -272,7 +276,7 @@ const total = computed(() => items.value.reduce((sum, item) => sum + item.price,
   });
 
   const buttonClasses = computed(() => ({
-    btn: true,
+    'btn': true,
     [`btn-${props.type}`]: !props.disabled,
     'btn-disabled': props.disabled,
   }));

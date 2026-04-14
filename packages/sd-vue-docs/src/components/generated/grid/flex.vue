@@ -1,5 +1,5 @@
 <template>
-  <a-row class="grid-demo" style="margin-bottom: 16px;">
+  <a-row class="grid-demo" style="margin-bottom: 16px">
     <a-col flex="100px">
       <div>100px</div>
     </a-col>
@@ -7,7 +7,7 @@
       <div>auto</div>
     </a-col>
   </a-row>
-  <a-row class="grid-demo" style="margin-bottom: 16px;">
+  <a-row class="grid-demo" style="margin-bottom: 16px">
     <a-col flex="100px">
       <div>100px</div>
     </a-col>
@@ -18,7 +18,7 @@
       <div>100px</div>
     </a-col>
   </a-row>
-  <a-row class="grid-demo" style="margin-bottom: 16px;">
+  <a-row class="grid-demo" style="margin-bottom: 16px">
     <a-col :flex="3">
       <div>3 / 12</div>
     </a-col>

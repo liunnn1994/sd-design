@@ -231,38 +231,38 @@ export default defineComponent({
      * @zh 开始编辑
      * @en Edit start
      */
-    editStart: () => true,
+    'editStart': () => true,
     /**
      * @zh 编辑内容变化
      * @en Edit content change
      * @param {string} text
      */
-    change: (text: string) => true,
+    'change': (text: string) => true,
     'update:editText': (text: string) => true,
     /**
      * @zh 编辑结束
      * @en Edit end
      */
-    editEnd: () => true,
+    'editEnd': () => true,
     'update:editing': (editing: boolean) => true,
     /**
      * @zh 复制
      * @en Copy
      * @param {string} text
      */
-    copy: (text: string) => true,
+    'copy': (text: string) => true,
     /**
      * @zh 省略变化事件
      * @en Ellipsis change
      * @param {boolean} isEllipsis
      */
-    ellipsis: (isEllipsis: boolean) => true,
+    'ellipsis': (isEllipsis: boolean) => true,
     /**
      * @zh 展开收起事件
      * @en Expand collapse event
      * @param {boolean} expanded
      */
-    expand: (expanded: boolean) => true,
+    'expand': (expanded: boolean) => true,
   },
   /**
    * @zh 自定义复制按钮的 tooltip 内容
@@ -506,9 +506,9 @@ export default defineComponent({
       }
 
       return {
-        overflow: 'hidden',
+        'overflow': 'hidden',
         'text-overflow': 'ellipsis',
-        display: '-webkit-box',
+        'display': '-webkit-box',
         '-webkit-line-clamp': ellipsisConfig.value.rows,
         '-webkit-box-orient': 'vertical',
       };

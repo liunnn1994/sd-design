@@ -23,7 +23,7 @@ export default ({ name }: { name: string }): InlineConfig => {
             entryFileNames: `index.js`,
             sourcemap: true,
             globals: {
-              vue: 'Vue',
+              'vue': 'Vue',
               '@sdata/web-vue': 'SDVue',
               '@sdata/web-vue/es/icon': 'SDVueIcon',
             },
@@ -34,7 +34,7 @@ export default ({ name }: { name: string }): InlineConfig => {
             entryFileNames: `index.min.js`,
             sourcemap: true,
             globals: {
-              vue: 'Vue',
+              'vue': 'Vue',
               '@sdata/web-vue': 'SDVue',
               '@sdata/web-vue/es/icon': 'SDVueIcon',
             },

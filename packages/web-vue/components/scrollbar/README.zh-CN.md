@@ -22,8 +22,8 @@ description: 用于替换浏览器默认滚动条样式。
 
 ### `<scrollbar>` Methods
 
-| 方法名     | 描述     | 参数                                                             | 返回值 | 版本   |
-| ---------- | -------- | ---------------------------------------------------------------- | ------ | :----- |
-| scrollTo   | 滚动     | options: `number \| {left?: number;top?: number}`<br>y: `number` | -      |        |
-| scrollTop  | 纵向滚动 | top: `number`                                                    | -      | 2.40.0 |
-| scrollLeft | 横向滚动 | left: `number`                                                   | -      | 2.40.0 |
+| 方法名 | 描述 | 参数 | 返回值 | 版本 |
+| --- | --- | --- | --- | :-- |
+| scrollTo | 滚动 | options: `number \| {left?: number;top?: number}`<br>y: `number` | - |  |
+| scrollTop | 纵向滚动 | top: `number` | - | 2.40.0 |
+| scrollLeft | 横向滚动 | left: `number` | - | 2.40.0 |

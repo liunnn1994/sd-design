@@ -18,7 +18,7 @@
     v-model:activeKey="activeKey"
     :position="position"
     :scrollPosition="scrollPosition"
-    style="width: 100%;height: 300px;margin-top: 20px"
+    style="width: 100%; height: 300px; margin-top: 20px"
   >
     <a-tab-pane v-for="tab in tabs" :key="tab.key" :title="tab.title">
       {{ tab.content }}

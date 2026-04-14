@@ -117,7 +117,7 @@ export default defineComponent({
      * @en Triggered when the color value changes
      * @param {string} value
      */
-    change: (value: string) => true,
+    'change': (value: string) => true,
     /**
      * @zh 颜色面板展开和收起时触发
      * @en Triggered when the color panel is expanded and collapsed

@@ -93,13 +93,13 @@ export default defineComponent({
      * @en Emitted when the button is clicked
      * @property {Date} date
      */
-    change: (date: Date) => true,
+    'change': (date: Date) => true,
     /**
      * @zh 日期面板改变时触发
      * @en Emitted when the button is clicked
      * @property {Date} date
      */
-    panelChange: (date: Date) => true,
+    'panelChange': (date: Date) => true,
   },
   /**
    * @zh 自定义单元格内容

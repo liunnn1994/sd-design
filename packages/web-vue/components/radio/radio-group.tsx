@@ -80,7 +80,7 @@ export default defineComponent({
      * @en Trigger when the value changes
      * @property { string | number | boolean } value
      */
-    change: (value: string | number | boolean, ev: Event) => true,
+    'change': (value: string | number | boolean, ev: Event) => true,
   },
   /**
    * @zh radio 文案内容

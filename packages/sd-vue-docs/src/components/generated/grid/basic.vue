@@ -1,6 +1,6 @@
 <template>
   <div class="grid-demo-background">
-    <a-space direction="vertical" :size="16" style="display: block;">
+    <a-space direction="vertical" :size="16" style="display: block">
       <a-row class="grid-demo">
         <a-col :span="24">
           <div>24 - 100%</div>

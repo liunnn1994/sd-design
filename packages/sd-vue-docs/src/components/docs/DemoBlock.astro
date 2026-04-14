@@ -1,5 +1,5 @@
 ---
-import DemoEditor from './DemoEditor.vue';
+import DemoEditor from "./DemoEditor.vue";
 
 interface Props {
   source: string;
@@ -64,7 +64,7 @@ const { source, mainFile } = Astro.props;
   }
 
   .demo-block__preview-skeleton::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     border-radius: 1rem;
@@ -107,17 +107,17 @@ const { source, mainFile } = Astro.props;
     opacity: 1;
   }
 
-  :root[data-theme='dark'] .demo-block {
+  :root[data-theme="dark"] .demo-block {
     box-shadow: none;
   }
 
-  :root[data-theme='dark'] .demo-block__preview {
+  :root[data-theme="dark"] .demo-block__preview {
     background:
       linear-gradient(180deg, rgb(15 23 42 / 0.3), rgb(15 23 42 / 0.6)),
       var(--sl-color-bg);
   }
 
-  :root[data-theme='dark'] .demo-block__preview-skeleton::before {
+  :root[data-theme="dark"] .demo-block__preview-skeleton::before {
     background: linear-gradient(
       90deg,
       rgb(51 65 85 / 0.18),
@@ -126,7 +126,7 @@ const { source, mainFile } = Astro.props;
     );
   }
 
-  :root[data-theme='dark'] .demo-block__preview-skeleton-bar {
+  :root[data-theme="dark"] .demo-block__preview-skeleton-bar {
     background: rgb(148 163 184 / 0.16);
   }
 

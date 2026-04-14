@@ -6,7 +6,7 @@
     placeholder="please enter something"
   >
     <template #footer>
-      <div style="padding: 6px 0; text-align: center;">
+      <div style="padding: 6px 0; text-align: center">
         <a-button>Click Me</a-button>
       </div>
     </template>

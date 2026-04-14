@@ -4,6 +4,7 @@
   "semi": true,
   "vueIndentScriptAndStyle": true,
   "singleQuote": true,
+  "quoteProps": "consistent",
   "trailingComma": "all",
   "proseWrap": "never",
   "htmlWhitespaceSensitivity": "strict",

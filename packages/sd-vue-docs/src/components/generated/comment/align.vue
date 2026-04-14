@@ -41,6 +41,7 @@
 
 <script>
   import { ref } from 'vue';
+
   import {
     IconHeart,
     IconMessage,

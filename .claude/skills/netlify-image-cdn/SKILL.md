@@ -16,7 +16,7 @@ Every Netlify site has a built-in `/.netlify/images` endpoint for on-the-fly ima
 ## Query Parameters
 
 | Param | Description | Values |
-|---|---|---|
+| --- | --- | --- |
 | `url` | Source image path (required) | Relative path or absolute URL |
 | `w` | Width in pixels | Any positive integer |
 | `h` | Height in pixels | Any positive integer |

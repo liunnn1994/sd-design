@@ -108,14 +108,14 @@
        * @en Triggered when the display status of the drop-down box changes
        * @param {boolean} visible
        */
-      popupVisibleChange: (visible: boolean) => true,
+      'popupVisibleChange': (visible: boolean) => true,
       /**
        * @zh 用户选择时触发
        * @en Triggered when the user selects
        * @param {string | number | Record<string, any> | undefined } value
        * @param {Event} ev
        */
-      select: (value: string | number | Record<string, any> | undefined, ev: Event) => true,
+      'select': (value: string | number | Record<string, any> | undefined, ev: Event) => true,
     },
     /**
      * @zh 内容
