@@ -106,6 +106,71 @@
       "sourceType": "github",
       "computedHash": "6b5fd49587616ca1e594e9c6b11bc1cef5eb0b2d137c307de54a8a650770f4ce"
     },
+    "netlify-ai-gateway": {
+      "source": "netlify/context-and-tools",
+      "sourceType": "github",
+      "computedHash": "04c886f8a4cb608c0751744a887f4292b11c1a720e4f3cebca54c7b2a2c119c7"
+    },
+    "netlify-blobs": {
+      "source": "netlify/context-and-tools",
+      "sourceType": "github",
+      "computedHash": "0188e47c193c93e07829719470b2c6435d6034a6cf00157a329eb7d9ce0bb090"
+    },
+    "netlify-caching": {
+      "source": "netlify/context-and-tools",
+      "sourceType": "github",
+      "computedHash": "7d95ae3b693cd2d4a853670a0bcae4c592fa5a12852d17bdd0b8a0fced4d1e59"
+    },
+    "netlify-cli-and-deploy": {
+      "source": "netlify/context-and-tools",
+      "sourceType": "github",
+      "computedHash": "fbfda7a4bcff8ec5413272362a57373b4a059f05930a37759cdafa5559ee2d6f"
+    },
+    "netlify-config": {
+      "source": "netlify/context-and-tools",
+      "sourceType": "github",
+      "computedHash": "83dcef461e6d4d43a6a529e55e53e1bb3a3c0542d63a6a60ccf0d99955b0c7a6"
+    },
+    "netlify-db": {
+      "source": "netlify/context-and-tools",
+      "sourceType": "github",
+      "computedHash": "8ace840e8c7ee0fff99ac8e7d43262c869f6d1ebe3e4488bffc3360b47cc3793"
+    },
+    "netlify-deploy": {
+      "source": "netlify/context-and-tools",
+      "sourceType": "github",
+      "computedHash": "d3509ef502373c6d02e624c1e1c8948480a44d2a19ad7591eea9b3a01d5953c4"
+    },
+    "netlify-edge-functions": {
+      "source": "netlify/context-and-tools",
+      "sourceType": "github",
+      "computedHash": "f89343e7ed95384904f3fe0bcdb12a653df4a22e33c7bd59b07b9360af33d73e"
+    },
+    "netlify-forms": {
+      "source": "netlify/context-and-tools",
+      "sourceType": "github",
+      "computedHash": "47610eea475c4c53d4ebbb251ea4366ed2d3a286d98cd0009ebca2cf5b19197b"
+    },
+    "netlify-frameworks": {
+      "source": "netlify/context-and-tools",
+      "sourceType": "github",
+      "computedHash": "3eb8ca219e36a39fd8b7d7e9e77bcaafaba8b861e0ff1b3d6f98a0c0be6d6022"
+    },
+    "netlify-functions": {
+      "source": "netlify/context-and-tools",
+      "sourceType": "github",
+      "computedHash": "4285baefe3164ee2711ca175465c3d27ae4c31df6ed0cc46b28e2e8d75e668a8"
+    },
+    "netlify-identity": {
+      "source": "netlify/context-and-tools",
+      "sourceType": "github",
+      "computedHash": "1793e0569a6c4bf12a4b8a5a06dfbd06c0277b324dd9e33fffa695cbb5a7df83"
+    },
+    "netlify-image-cdn": {
+      "source": "netlify/context-and-tools",
+      "sourceType": "github",
+      "computedHash": "7a817d222d8356582affb1c93604515983c83c357475cf75471b2c5ae0ba5933"
+    },
     "node": {
       "source": "mcollina/skills",
       "sourceType": "github",
