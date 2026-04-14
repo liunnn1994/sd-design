@@ -22,20 +22,6 @@ description: Used to add hover, click, focus and other events to the element, an
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/nest.md
-
-@import ./**demo**/triggers.md
-
-@import ./**demo**/align-point.md
-
-@import ./**demo**/scroll.md
-
-@import ./**demo**/arrow.md
-
-@import ./**demo**/translate.md
-
 ## API
 
 %%API(trigger.tsx)%%
@@ -43,7 +29,9 @@ description: Used to add hover, click, focus and other events to the element, an
 ## Type
 
 ```ts
-type TriggerPopupTranslate = [number, number] | { [key in TriggerPosition]?: [number, number] };
+type TriggerPopupTranslate =
+  | [number, number]
+  | { [key in TriggerPosition]?: [number, number] };
 ```
 
 ## zh-CN

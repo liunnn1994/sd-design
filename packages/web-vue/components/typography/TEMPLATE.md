@@ -22,18 +22,6 @@ description: Used to display titles, paragraphs, and text content.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/title.md
-
-@import ./**demo**/text.md
-
-@import ./**demo**/paragraph.md
-
-@import ./**demo**/operations.md
-
-@import ./**demo**/ellipsis.md
-
 ## API
 
 %%API(typography.vue)%%

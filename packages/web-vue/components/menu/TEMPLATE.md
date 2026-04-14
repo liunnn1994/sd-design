@@ -22,22 +22,6 @@ description: Organize, arrange, and display a list of options.
 
 ---
 
-@import ./**demo**/horizontal.md
-
-@import ./**demo**/dark-horizontal.md
-
-@import ./**demo**/collapse-control.md
-
-@import ./**demo**/breakpoint.md
-
-@import ./**demo**/sub-menu.md
-
-@import ./**demo**/size.md
-
-@import ./**demo**/pop.md
-
-@import ./**demo**/pop-button.md
-
 ## API
 
 %%API(base-menu.vue)%%

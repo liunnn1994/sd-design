@@ -22,22 +22,6 @@ description: When there are too many commands on the page, the alternative comma
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/position.md
-
-@import ./**demo**/trigger.md
-
-@import ./**demo**/button.md
-
-@import ./**demo**/group.md
-
-@import ./**demo**/submenu.md
-
-@import ./**demo**/context-menu.md
-
-@import ./**demo**/icon.md
-
 `<dropdown>` 组件继承 `<trigger>` 组件的全部属性
 
 ## API

@@ -22,18 +22,6 @@ description: Set the spacing between components.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/vertical.md
-
-@import ./**demo**/size.md
-
-@import ./**demo**/align.md
-
-@import ./**demo**/wrap.md
-
-@import ./**demo**/split.md
-
 ## API
 
 %%API(space.tsx)%%

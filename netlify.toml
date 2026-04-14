@@ -1,7 +1,7 @@
 [build]
 base = "."
-command = "pnpm install --frozen-lockfile && pnpm run init && pnpm --filter @sd-design/sd-vue-docs run docs:build"
-publish = "packages/sd-vue-docs/.vitepress/dist"
+command = "pnpm install --frozen-lockfile && pnpm run init && pnpm run build:docs"
+publish = "packages/sd-vue-docs/dist"
 
 [build.environment]
 COREPACK_ENABLE_AUTO_PIN = "1"

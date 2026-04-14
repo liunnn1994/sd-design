@@ -22,42 +22,6 @@ description: When users need to select one or more from a group of similar data,
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/clear.md
-
-@import ./**demo**/multiple.md
-
-@import ./**demo**/size.md
-
-@import ./**demo**/loading.md
-
-@import ./**demo**/header.md
-
-@import ./**demo**/footer.md
-
-@import ./**demo**/border.md
-
-@import ./**demo**/create.md
-
-@import ./**demo**/search.md
-
-@import ./**demo**/scroll.md
-
-@import ./**demo**/fallback.md
-
-@import ./**demo**/remote.md
-
-@import ./**demo**/group.md
-
-@import ./**demo**/label.md
-
-@import ./**demo**/linkage.md
-
-@import ./**demo**/field-names.md
-
-@import ./**demo**/virtual-list.md
-
 ## API
 
 %%API(select.tsx)%%
@@ -79,7 +43,9 @@ type Option = string | number | SelectOptionData | SelectOptionGroup;
  * @zh 筛选
  * @en Filter
  */
-type FilterOption = boolean | ((inputValue: string, option: SelectOptionData) => boolean);
+type FilterOption =
+  | boolean
+  | ((inputValue: string, option: SelectOptionData) => boolean);
 ```
 
 %%INTERFACE(interface.ts)%%
@@ -109,40 +75,40 @@ type FilterOption = boolean | ((inputValue: string, option: SelectOptionData) =>
 </template>
 
 <script>
-  import { ref } from 'vue';
+import { ref } from 'vue';
 
-  export default {
-    setup() {
-      const value = ref();
-      const data = [
-        {
-          value: 'beijing',
-          label: 'Beijing',
-          key: 'extra1',
-        },
-        {
-          value: 'shanghai',
-          label: 'Shanghai',
-          key: 'extra2',
-        },
-        {
-          value: 'guangzhou',
-          label: 'Guangzhou',
-          key: 'extra3',
-        },
-        {
-          value: 'chengdu',
-          label: 'Chengdu',
-          key: 'extra4',
-        },
-      ];
+export default {
+  setup() {
+    const value = ref();
+    const data = [
+      {
+        value: 'beijing',
+        label: 'Beijing',
+        key: 'extra1',
+      },
+      {
+        value: 'shanghai',
+        label: 'Shanghai',
+        key: 'extra2',
+      },
+      {
+        value: 'guangzhou',
+        label: 'Guangzhou',
+        key: 'extra3',
+      },
+      {
+        value: 'chengdu',
+        label: 'Chengdu',
+        key: 'extra4',
+      },
+    ];
 
-      return {
-        value,
-        data,
-      };
-    },
-  };
+    return {
+      value,
+      data,
+    };
+  },
+};
 </script>
 ```
 
@@ -179,40 +145,40 @@ For example, when I need to specify `key` as a unique identifier:
 </template>
 
 <script>
-  import { ref } from 'vue';
+import { ref } from 'vue';
 
-  export default {
-    setup() {
-      const value = ref();
-      const data = [
-        {
-          value: 'beijing',
-          label: 'Beijing',
-          key: 'extra1',
-        },
-        {
-          value: 'shanghai',
-          label: 'Shanghai',
-          key: 'extra2',
-        },
-        {
-          value: 'guangzhou',
-          label: 'Guangzhou',
-          key: 'extra3',
-        },
-        {
-          value: 'chengdu',
-          label: 'Chengdu',
-          key: 'extra4',
-        },
-      ];
+export default {
+  setup() {
+    const value = ref();
+    const data = [
+      {
+        value: 'beijing',
+        label: 'Beijing',
+        key: 'extra1',
+      },
+      {
+        value: 'shanghai',
+        label: 'Shanghai',
+        key: 'extra2',
+      },
+      {
+        value: 'guangzhou',
+        label: 'Guangzhou',
+        key: 'extra3',
+      },
+      {
+        value: 'chengdu',
+        label: 'Chengdu',
+        key: 'extra4',
+      },
+    ];
 
-      return {
-        value,
-        data,
-      };
-    },
-  };
+    return {
+      value,
+      data,
+    };
+  },
+};
 </script>
 ```
 

@@ -22,10 +22,6 @@ description: A button to return to the top with one click.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/custom.md
-
 ## API
 
 %%API(back-top.vue)%%

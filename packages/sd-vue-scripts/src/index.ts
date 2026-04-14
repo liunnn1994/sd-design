@@ -7,11 +7,8 @@ import path from 'path';
 import buildComponent from './scripts/build-component';
 import buildMaterial from './scripts/build-material';
 import buildMaterialLibrary from './scripts/build-material-library';
-import buildSite from './scripts/build-site';
 import buildStyle from './scripts/build-style';
 import devComponent from './scripts/dev-component';
-import devSite from './scripts/dev-site';
-import docgen from './scripts/docgen';
 import dtsgen from './scripts/dtsgen';
 import icongen from './scripts/icongen';
 import jsongen from './scripts/jsongen';
@@ -24,18 +21,6 @@ const packageContent = fs.readFileSync(path.resolve(__dirname, '../package.json'
 const packageData: any = JSON.parse(packageContent);
 
 program.version(packageData.version).name('sd-vue-scripts').usage('command [options]');
-
-program
-  .command('docgen')
-  .description(
-    'generate document of component. e.g. sd-scripts-vue docgen --components menu,affix,button',
-  )
-  .option('-i, --input <filename>', 'specified input file')
-  .option('-c, --components <names>', 'component name(s) joined by comma(,)')
-  .action(({ input, components }) => {
-    components = typeof components === 'string' ? components.split(',') : [];
-    docgen({ input, components });
-  });
 
 program
   .command('icongen')
@@ -67,13 +52,6 @@ program
   });
 
 program
-  .command('dev:site')
-  .description('start vite server for development.')
-  .action(async () => {
-    await devSite();
-  });
-
-program
   .command('build:component')
   .description('build production files.')
   .option('-u, --umd', 'build with UMD file')
@@ -87,13 +65,6 @@ program
   .option('-M, --material', 'generate style for material')
   .action(async ({ material }) => {
     await buildStyle({ material });
-  });
-
-program
-  .command('build:site')
-  .description('build document site.')
-  .action(async () => {
-    await buildSite();
   });
 
 program

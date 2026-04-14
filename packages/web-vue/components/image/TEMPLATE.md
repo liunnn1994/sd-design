@@ -22,28 +22,6 @@ description: Used to show and preview pictures.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/caption.md
-
-@import ./**demo**/extra.md
-
-@import ./**demo**/error.md
-
-@import ./**demo**/loader.md
-
-@import ./**demo**/progressive-loader.md
-
-@import ./**demo**/custom-preview-actions.md
-
-@import ./**demo**/preview-group.md
-
-@import ./**demo**/component-preview.md
-
-@import ./**demo**/component-preview-group.md
-
-@import ./**demo**/preview-popup-container.md
-
 ## API
 
 %%API(image.vue)%%

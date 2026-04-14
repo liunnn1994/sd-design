@@ -22,24 +22,6 @@ description: Button is a command component that can initiate an instant operatio
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/icon.md
-
-@import ./**demo**/shape.md
-
-@import ./**demo**/size.md
-
-@import ./**demo**/status.md
-
-@import ./**demo**/disabled.md
-
-@import ./**demo**/loading.md
-
-@import ./**demo**/long.md
-
-@import ./**demo**/group.md
-
 ## API
 
 %%API(button.vue)%%

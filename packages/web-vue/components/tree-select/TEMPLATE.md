@@ -22,38 +22,6 @@ description: The tree structure data can be selected.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/label-in-value.md
-
-@import ./**demo**/control.md
-
-@import ./**demo**/load-more.md
-
-@import ./**demo**/search.md
-
-@import ./**demo**/search-remote.md
-
-@import ./**demo**/size.md
-
-@import ./**demo**/dropdown-slots.md
-
-@import ./**demo**/trigger-element.md
-
-@import ./**demo**/multiple.md
-
-@import ./**demo**/checkable.md
-
-@import ./**demo**/checked-strategy.md
-
-@import ./**demo**/popup-visible.md
-
-@import ./**demo**/field-names.md
-
-@import ./**demo**/virtual.md
-
-@import ./**demo**/fallback.md
-
 ## API
 
 %%API(tree-select.vue)%%

@@ -1,0 +1,158 @@
+---
+title: 数据穿梭框 Transfer
+description: 两栏布局的多选组件，将元素从一栏即时移到另一栏。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import TransferBasicDemo from '../../../../components/generated/transfer/basic.vue';
+export const transferBasicSource =
+  "<template>\n  <a-transfer :data=\"data\" :default-value=\"value\" />\n</template>\n\n<script>\n  export default {\n    setup() {\n      const data = Array(8)\n        .fill(undefined)\n        .map((_, index) => ({\n          value: `option${index + 1}`,\n          label: `Option ${index + 1}`,\n        }));\n      const value = ['option1', 'option3', 'option5'];\n\n      return {\n        data,\n        value,\n      };\n    },\n  };\n</script>";
+import TransferCustomHeaderDemo from '../../../../components/generated/transfer/custom-header.vue';
+export const transferCustomHeaderSource =
+  '<template>\n  <a-transfer :data="data" :default-value="value">\n    <template\n      #source-title="{ countTotal, countSelected, checked, indeterminate, onSelectAllChange }"\n    >\n      <div :style="styleHeader">\n        Source Title {{ countSelected }}-{{ countTotal }}\n        <a-checkbox\n          :model-value="checked"\n          :indeterminate="indeterminate"\n          @change="onSelectAllChange"\n        />\n      </div>\n    </template>\n\n    <template #target-title="{ countTotal, countSelected, onClear }">\n      <div :style="styleHeader">\n        Target Title {{ countSelected }}-{{ countTotal }}\n        <IconDelete @click="onClear" />\n      </div>\n    </template>\n  </a-transfer>\n</template>\n\n<script>\n  import { IconDelete } from \'@sdata/web-vue/es/icon/index.js\';\n\n  export default {\n    components: { IconDelete },\n    setup() {\n      const data = Array(8)\n        .fill(undefined)\n        .map((_, index) => ({\n          value: `option${index + 1}`,\n          label: `Option ${index + 1}`,\n        }));\n      const value = [\'option1\', \'option3\', \'option5\'];\n\n      const styleHeader = {\n        display: \'flex\',\n        alignItems: \'center\',\n        justifyContent: \'space-between\',\n        paddingRight: \'8px\',\n      };\n\n      return {\n        styleHeader,\n        data,\n        value,\n      };\n    },\n  };\n</script>';
+import TransferCustomDemo from '../../../../components/generated/transfer/custom.vue';
+export const transferCustomSource =
+  '<template>\n  <a-transfer :data="data" :default-value="value">\n    <template #item="{ label }">\n      <icon-up />\n      {{ label }}\n    </template>\n  </a-transfer>\n</template>\n\n<script>\n  export default {\n    setup() {\n      const data = Array(8)\n        .fill(undefined)\n        .map((_, index) => {\n          return {\n            value: `option${index + 1}`,\n            label: `Option ${index + 1}`,\n            disabled: index === 1,\n          };\n        });\n      const value = [\'option1\', \'option3\', \'option5\'];\n\n      return {\n        data,\n        value,\n      };\n    },\n  };\n</script>';
+import TransferOneWayDemo from '../../../../components/generated/transfer/one-way.vue';
+export const transferOneWaySource =
+  "<template>\n  <a-transfer :data=\"data\" :default-value=\"value\" one-way />\n</template>\n\n<script>\n  export default {\n    setup() {\n      const data = Array(8)\n        .fill(undefined)\n        .map((_, index) => ({\n          value: `option${index + 1}`,\n          label: `Option ${index + 1}`,\n        }));\n      const value = ['option1', 'option3', 'option5'];\n\n      return {\n        data,\n        value,\n      };\n    },\n  };\n</script>";
+import TransferPaginationDemo from '../../../../components/generated/transfer/pagination.vue';
+export const transferPaginationSource =
+  '<template></template>\n\n<script>\n  export default {};\n</script>';
+import TransferSearchDemo from '../../../../components/generated/transfer/search.vue';
+export const transferSearchSource =
+  "<template>\n  <a-transfer\n    show-search\n    :data=\"data\"\n    :default-value=\"value\"\n    :source-input-search-props=\"{\n      placeholder: 'source item search',\n    }\"\n    :target-input-search-props=\"{\n      placeholder: 'target item search',\n    }\"\n  />\n</template>\n\n<script>\n  export default {\n    setup() {\n      const data = Array(8)\n        .fill(undefined)\n        .map((_, index) => ({\n          value: `option${index + 1}`,\n          label: `Option ${index + 1}`,\n        }));\n      const value = ['option1', 'option3', 'option5'];\n\n      return {\n        data,\n        value,\n      };\n    },\n  };\n</script>";
+import TransferSimpleDemo from '../../../../components/generated/transfer/simple.vue';
+export const transferSimpleSource =
+  "<template>\n  <a-transfer :data=\"data\" :default-value=\"value\" simple />\n</template>\n\n<script>\n  export default {\n    setup() {\n      const data = Array(8)\n        .fill(undefined)\n        .map((_, index) => ({\n          value: `option${index + 1}`,\n          label: `Option ${index + 1}`,\n        }));\n      const value = ['option1', 'option3', 'option5'];\n\n      return {\n        data,\n        value,\n      };\n    },\n  };\n</script>";
+import TransferTreeDemo from '../../../../components/generated/transfer/tree.vue';
+export const transferTreeSource =
+  "<template>\n  <a-transfer :data=\"transferData\" :default-value=\"value\">\n    <template #source=\"{ data, selectedKeys, onSelect }\">\n      <a-tree\n        :checkable=\"true\"\n        checked-strategy=\"child\"\n        :checked-keys=\"selectedKeys\"\n        :data=\"getTreeData(data)\"\n        @check=\"onSelect\"\n      />\n    </template>\n  </a-transfer>\n</template>\n\n<script>\n  export default {\n    setup() {\n      const treeData = [\n        {\n          title: 'Trunk 0-0',\n          key: '0-0',\n          children: [\n            {\n              title: 'Leaf 0-0-1',\n              key: '0-0-1',\n            },\n            {\n              title: 'Branch 0-0-2',\n              key: '0-0-2',\n              children: [\n                {\n                  title: 'Leaf 0-0-2-1',\n                  key: '0-0-2-1',\n                },\n                {\n                  title: 'Leaf 0-0-2-2',\n                  key: '0-0-2-2',\n                },\n              ],\n            },\n          ],\n        },\n        {\n          title: 'Trunk 0-1',\n          key: '0-1',\n          children: [\n            {\n              title: 'Branch 0-1-1',\n              key: '0-1-1',\n              children: [\n                {\n                  title: 'Leaf 0-1-1-1',\n                  key: '0-1-1-1',\n                },\n                {\n                  title: 'Leaf 0-1-1-2',\n                  key: '0-1-1-2',\n                },\n              ],\n            },\n            {\n              title: 'Leaf 0-1-2',\n              key: '0-1-2',\n            },\n          ],\n        },\n      ];\n\n      const getTransferData = (treeData = [], transferDataSource = []) => {\n        treeData.forEach((item) => {\n          if (item.children) getTransferData(item.children, transferDataSource);\n          else transferDataSource.push({ label: item.title, value: item.key });\n        });\n        return transferDataSource;\n      };\n\n      const getTreeData = (data = []) => {\n        const values = data.map((item) => item.value);\n\n        const travel = (_treeData = []) => {\n          const treeDataSource = [];\n          _treeData.forEach((item) => {\n            if (item.children || values.includes(item.key)) {\n              treeDataSource.push({\n                title: item.title,\n                key: item.key,\n                children: travel(item.children),\n              });\n            }\n          });\n          return treeDataSource;\n        };\n\n        return travel(treeData);\n      };\n\n      const transferData = getTransferData(treeData);\n\n      const value = ['0-0-2-1'];\n\n      return {\n        transferData,\n        value,\n        getTreeData,\n      };\n    },\n  };\n</script>";
+
+### 基本使用
+
+数据穿梭框的基本用法。
+
+<DemoBlock source={transferBasicSource} mainFile="src/transfer-basic.vue">
+
+<TransferBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义标题栏
+
+通过 `source-title` ,`target-title` 插槽自定义标题栏的渲染内容
+
+<DemoBlock source={transferCustomHeaderSource} mainFile="src/transfer-custom-header.vue">
+
+<TransferCustomHeaderDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义选项渲染
+
+通过 `item` 插槽自定义选项的渲染内容。
+
+<DemoBlock source={transferCustomSource} mainFile="src/transfer-custom.vue">
+
+<TransferCustomDemo client:only="vue" />
+
+</DemoBlock>
+
+### 单向
+
+通过设置 `one-way` ，使用单向模式的穿梭框。
+
+<DemoBlock source={transferOneWaySource} mainFile="src/transfer-one-way.vue">
+
+<TransferOneWayDemo client:only="vue" />
+
+</DemoBlock>
+
+### 分页
+
+## en-US
+
+<DemoBlock source={transferPaginationSource} mainFile="src/transfer-pagination.vue">
+
+<TransferPaginationDemo client:only="vue" />
+
+</DemoBlock>
+
+### 搜索
+
+通过设置 `show-search` 来使用带搜索框的穿梭框，可以自定义搜索函数。
+
+<DemoBlock source={transferSearchSource} mainFile="src/transfer-search.vue">
+
+<TransferSearchDemo client:only="vue" />
+
+</DemoBlock>
+
+### 简单模式
+
+通过设置 `simple` 来开启简单模式，点击选项即可移动。
+
+<DemoBlock source={transferSimpleSource} mainFile="src/transfer-simple.vue">
+
+<TransferSimpleDemo client:only="vue" />
+
+</DemoBlock>
+
+### 树型穿梭框
+
+通过穿梭框自定义接口可以实现树型穿梭框。
+
+<DemoBlock source={transferTreeSource} mainFile="src/transfer-tree.vue">
+
+<TransferTreeDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### `<transfer>` Props
+
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| data | 穿梭框的数据 | `TransferItem[]` | `[]` |  |
+| model-value **(v-model)** | 目标选择框中的值 | `string[]` | `-` |  |
+| default-value | 目标选择框中默认的值（非受控状态） | `string[]` | `[]` |  |
+| selected **(v-model)** | 选中的选项值 | `string[]` | `-` |  |
+| default-selected | 默认选中的选项值（非受控状态） | `string[]` | `[]` |  |
+| disabled | 是否禁用 | `boolean` | `false` |  |
+| simple | 是否开启简单模式（点击选项即移动） | `boolean` | `false` |  |
+| one-way | 是否开启单向模式（仅可移动到目标选择框） | `boolean` | `false` |  |
+| show-search | 是否显示搜索框 | `boolean` | `false` |  |
+| show-select-all | 是否展示全选勾选框 | `boolean` | `true` | 2.39.0 |
+| title | 源选择框和目标选择框的标题 | `string[]` | `['Source', 'Target']` |  |
+| source-input-search-props | 源选择框的搜索框配置 | `object` | `-` | 2.51.1 |
+| target-input-search-props | 目标选择框的搜索框配置 | `object` | `-` | 2.51.1 |
+
+### `<transfer>` Events
+
+| 事件名 | 描述                     | 参数                                            |
+| ------ | ------------------------ | ----------------------------------------------- |
+| change | 目标选择框的值改变时触发 | value: `string[]`                               |
+| select | 选中的值改变时触发       | selected: `string[]`                            |
+| search | 用户搜索时触发           | value: `string`<br />type: `'target'\|'source'` |
+
+### `<transfer>` Slots
+
+| 插槽名 | 描述 | 参数 | 版本 |
+| --- | :-: | --- | :-- |
+| source | 源面板 | data: `TransferItem[]`<br />selectedKeys: `string[]`<br />onSelect: `(value: string[]) => void` | 2.39.0 |
+| source-title | 源标题插槽 | countTotal: `number`<br />countSelected: `number`<br />searchValue: `string`<br />checked: `boolean`<br />indeterminate: `boolean`<br />onSelectAllChange: `(checked:boolean) => void`<br />onClear: `() => void` | 2.45.0 |
+| to-target-icon | 移至目标图标插槽 | - | 2.52.0 |
+| to-source-icon | 移至源图标插槽 | - | 2.52.0 |
+| target | 目标面板 | data: `TransferItem[]`<br />selectedKeys: `string[]`<br />onSelect: `(value: string[]) => void` | 2.39.0 |
+| target-title | 目标标题插槽 | countTotal: `number`<br />countSelected: `number`<br />searchValue: `string`<br />checked: `boolean`<br />indeterminate: `boolean`<br />onSelectAllChange: `(checked:boolean) => void`<br />onClear: `() => void` | 2.45.0 |
+| item | 选项 | value: `string`<br />label: `string` |  |
+
+### TransferItem
+
+| 参数名   | 描述       | 类型      | 默认值  |
+| -------- | ---------- | --------- | :-----: |
+| value    | 选项的值   | `string`  |   `-`   |
+| label    | 选项的标签 | `string`  |   `-`   |
+| disabled | 是否禁用   | `boolean` | `false` |

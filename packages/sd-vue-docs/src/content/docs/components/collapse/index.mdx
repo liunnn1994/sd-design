@@ -1,0 +1,166 @@
+---
+title: 折叠面板 Collapse
+description: 可以折叠 / 展开的内容区域。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import CollapseAccordionDemo from '../../../../components/generated/collapse/accordion.vue';
+export const collapseAccordionSource =
+  '<template>\n  <a-collapse :default-active-key="[1]" accordion>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="1">\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="2">\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="3">\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n  </a-collapse>\n</template>';
+import CollapseBasicDemo from '../../../../components/generated/collapse/basic.vue';
+export const collapseBasicSource =
+  '<template>\n  <a-collapse :default-active-key="[\'1\', 2]">\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="1">\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." :key="2" disabled>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="3">\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n  </a-collapse>\n</template>';
+import CollapseBorderLessDemo from '../../../../components/generated/collapse/border-less.vue';
+export const collapseBorderLessSource =
+  '<template>\n  <a-collapse :default-active-key="[\'1\']" :bordered="false">\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="1">\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="2" disabled>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="3">\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n  </a-collapse>\n</template>';
+import CollapseCustomDemo from '../../../../components/generated/collapse/custom.vue';
+export const collapseCustomSource =
+  '<template>\n  <a-collapse :default-active-key="[\'1\', 2]" :bordered="false">\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." :style="customStyle" key="1">\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." :style="customStyle" :key="2">\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." :style="customStyle" key="3">\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n  </a-collapse>\n</template>\n\n<script>\n  export default {\n    setup() {\n      const customStyle = {\n        borderRadius: \'6px\',\n        marginBottom: \'18px\',\n        border: \'none\',\n        overflow: \'hidden\',\n      };\n\n      return {\n        customStyle,\n      };\n    },\n  };\n</script>';
+import CollapseDestroyDemo from '../../../../components/generated/collapse/destroy.vue';
+export const collapseDestroySource =
+  '<template>\n  <a-collapse :default-active-key="[\'1\', 2]" destroy-on-hide>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="1">\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." :key="2">\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n    <a-collapse-item\n      header="Beijing Toutiao Technology Co., Ltd."\n      key="3"\n      :show-expand-icon="false"\n    >\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n  </a-collapse>\n</template>';
+import CollapseExpandIconDemo from '../../../../components/generated/collapse/expand-icon.vue';
+export const collapseExpandIconSource =
+  '<template>\n  <a-collapse :default-active-key="[\'1\', 2]">\n    <template #expand-icon="{ active }">\n      <icon-face-smile-fill v-if="active" />\n      <icon-face-frown-fill v-else />\n    </template>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="1">\n      <template #expand-icon="{ active }">\n        <icon-double-down v-if="active" />\n        <icon-double-right v-else />\n      </template>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." :key="2">\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="3">\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n  </a-collapse>\n</template>';
+import CollapseExtraDemo from '../../../../components/generated/collapse/extra.vue';
+export const collapseExtraSource =
+  '<template>\n  <a-collapse>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="1">\n      <template #extra>\n        <icon-copy />\n      </template>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." :key="2">\n      <template #extra>\n        <a-button type="primary" size="mini" @click.stop="sayHello">hello</a-button>\n      </template>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="3">\n      <template #extra>\n        <a-tag size="small">city</a-tag>\n      </template>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n  </a-collapse>\n</template>\n\n<script>\n  import { Message } from \'@sdata/web-vue\';\n\n  export default {\n    setup() {\n      const sayHello = () => {\n        Message.info(\'hello\');\n      };\n\n      return {\n        sayHello,\n      };\n    },\n  };\n</script>';
+import CollapseIconPositionDemo from '../../../../components/generated/collapse/icon-position.vue';
+export const collapseIconPositionSource =
+  '<template>\n  <a-space direction="vertical" :style="{ width: \'100%\' }">\n    <a-space>\n      <a-radio-group type="button" v-model="position">\n        <a-radio value="left">Left</a-radio>\n        <a-radio value="right">Right</a-radio>\n      </a-radio-group>\n      <a-checkbox v-model="hideIcon">Hide Expand Icon</a-checkbox>\n    </a-space>\n    <a-collapse\n      :default-active-key="[\'1\']"\n      :expand-icon-position="position"\n      :show-expand-icon="!hideIcon"\n    >\n      <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="1">\n        <template #expand-icon>\n          <icon-plus />\n        </template>\n        <template #extra>\n          <a-tag size="small">city</a-tag>\n        </template>\n        <div>Beijing Toutiao Technology Co., Ltd.</div>\n        <div>Beijing Toutiao Technology Co., Ltd.</div>\n        <div>Beijing Toutiao Technology Co., Ltd.</div>\n      </a-collapse-item>\n      <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="2" disabled>\n        <div>Beijing Toutiao Technology Co., Ltd.</div>\n        <div>Beijing Toutiao Technology Co., Ltd.</div>\n        <div>Beijing Toutiao Technology Co., Ltd.</div>\n      </a-collapse-item>\n      <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="3">\n        <div>Beijing Toutiao Technology Co., Ltd.</div>\n        <div>Beijing Toutiao Technology Co., Ltd.</div>\n        <div>Beijing Toutiao Technology Co., Ltd.</div>\n      </a-collapse-item>\n    </a-collapse>\n  </a-space>\n</template>\n\n<script>\n  import { ref } from \'vue\';\n\n  export default {\n    setup() {\n      const position = ref(\'left\');\n      const hideIcon = ref(false);\n\n      return {\n        position,\n        hideIcon,\n      };\n    },\n  };\n</script>';
+import CollapseNestedDemo from '../../../../components/generated/collapse/nested.vue';
+export const collapseNestedSource =
+  '<template>\n  <a-collapse :default-active-key="[\'1\', 2]" destroy-on-hide>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="1">\n      <a-collapse :default-active-key="[\'1.1\']" destroy-on-hide>\n        <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="1.1">\n          <div>Beijing Toutiao Technology Co., Ltd.</div>\n        </a-collapse-item>\n        <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="1.2">\n          <div>Beijing Toutiao Technology Co., Ltd.</div>\n        </a-collapse-item>\n      </a-collapse>\n    </a-collapse-item>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." :key="2">\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="3">\n      <div>Beijing Toutiao Technology Co., Ltd.</div>\n    </a-collapse-item>\n  </a-collapse>\n</template>';
+
+### 手风琴模式
+
+通过 `accordion` 开启手风琴模式，同时只能打开一个面板。
+
+<DemoBlock source={collapseAccordionSource} mainFile="src/collapse-accordion.vue">
+
+<CollapseAccordionDemo client:only="vue" />
+
+</DemoBlock>
+
+### 基本用法
+
+用于将复杂的内容区域分组和隐藏，可折叠或展开。默认可以展开多个面板。
+
+<DemoBlock source={collapseBasicSource} mainFile="src/collapse-basic.vue">
+
+<CollapseBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 无边框模式
+
+通过设置 `bordered="false"` 隐藏边框。
+
+<DemoBlock source={collapseBorderLessSource} mainFile="src/collapse-border-less.vue">
+
+<CollapseBorderLessDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义样式
+
+自定义面板样式。
+
+<DemoBlock source={collapseCustomSource} mainFile="src/collapse-custom.vue">
+
+<CollapseCustomDemo client:only="vue" />
+
+</DemoBlock>
+
+### 隐藏时销毁
+
+通过设置 `destroy-on-hide` 可以让面板内容在隐藏时销毁。
+
+<DemoBlock source={collapseDestroySource} mainFile="src/collapse-destroy.vue">
+
+<CollapseDestroyDemo client:only="vue" />
+
+</DemoBlock>
+
+### 展开图标
+
+为展开项自定义展开图标
+
+<DemoBlock source={collapseExpandIconSource} mainFile="src/collapse-expand-icon.vue">
+
+<CollapseExpandIconDemo client:only="vue" />
+
+</DemoBlock>
+
+### 额外节点
+
+通过 `extra` 可以设置额外节点。`extra` 单击可以以设置 `stop` 修饰符，以阻止当前项目展开。
+
+<DemoBlock source={collapseExtraSource} mainFile="src/collapse-extra.vue">
+
+<CollapseExtraDemo client:only="vue" />
+
+</DemoBlock>
+
+### 展开图标位置
+
+通过 `expand-icon-position` 属性设置展开图标的位置。
+
+<DemoBlock source={collapseIconPositionSource} mainFile="src/collapse-icon-position.vue">
+
+<CollapseIconPositionDemo client:only="vue" />
+
+</DemoBlock>
+
+### 嵌套面板
+
+面板多层嵌套。
+
+<DemoBlock source={collapseNestedSource} mainFile="src/collapse-nested.vue">
+
+<CollapseNestedDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### `<collapse>` Props
+
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| active-key **(v-model)** | 当前展开的面板的 `key` | `(string \| number)[]` | `-` |  |
+| default-active-key | 默认展开的面板的 `key` （非受控模式） | `(string \| number)[]` | `[]` |  |
+| accordion | 是否开启手风琴模式 | `boolean` | `false` |  |
+| show-expand-icon | 是否显示展开图标 | `boolean` | `-` | 2.33.0 |
+| expand-icon-position | 展开图标显示的位置 | `'left' \| 'right'` | `'left'` |  |
+| bordered | 是否显示边框 | `boolean` | `true` |  |
+| destroy-on-hide | 是否在隐藏时销毁内容 | `boolean` | `false` | 2.27.0 |
+
+### `<collapse>` Events
+
+| 事件名 | 描述                     | 参数                                               |
+| ------ | ------------------------ | -------------------------------------------------- |
+| change | 展开的面板发生改变时触发 | activeKey: `(string \| number)[]`<br />ev: `Event` |
+
+### `<collapse-item>` Props
+
+| 参数名           | 描述                 | 类型      | 默认值  | 版本   |
+| ---------------- | -------------------- | --------- | :-----: | :----- |
+| header           | 面板的标题           | `string`  |   `-`   |        |
+| disabled         | 是否禁用             | `boolean` | `false` |        |
+| show-expand-icon | 是否显示展开图标     | `boolean` | `true`  |        |
+| destroy-on-hide  | 是否在隐藏时销毁内容 | `boolean` | `false` | 2.27.0 |
+
+### `<collapse-item>` Slots
+
+| 插槽名 | 描述 | 参数 | 版本 |
+| --- | :-: | --- | :-- |
+| extra | 额外内容 | - |  |
+| expand-icon | 展开图标 | active: `boolean`<br />disabled: `boolean`<br />position: `'left' \| 'right'` | 2.33.0 |
+| header | 面板的标题 | - |  |
+
+## FAQ
+
+### `<CollapseItem>` 组件的 `key` 属性为必填
+
+在 `<Collapse>` 组件中每个 `<CollapseItem>` 都需要指定唯一的 `key` 属性，`key` 对应 `activeKey` 中的值。

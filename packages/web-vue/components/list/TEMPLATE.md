@@ -22,24 +22,6 @@ description: The most basic list display, which can carry text, lists, pictures,
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/size.md
-
-@import ./**demo**/meta.md
-
-@import ./**demo**/actions.md
-
-@import ./**demo**/actions-layout.md
-
-@import ./**demo**/grid.md
-
-@import ./**demo**/responsive-grid.md
-
-@import ./**demo**/scroll.md
-
-@import ./**demo**/virtual-list.md
-
 ## API
 
 %%API(list.tsx)%%

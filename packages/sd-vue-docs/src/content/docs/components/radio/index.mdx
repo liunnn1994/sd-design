@@ -1,0 +1,180 @@
+---
+title: 单选框 Radio
+description: 在一组相关且互斥数据中，用户仅能选择一个选项。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import RadioBasicDemo from '../../../../components/generated/radio/basic.vue';
+export const radioBasicSource =
+  '<template>\n  <a-space size="large">\n    <a-radio value="radio">Radio</a-radio>\n    <a-radio value="disabled radio" :default-checked="true" disabled>Disabled Radio</a-radio>\n  </a-space>\n</template>';
+import RadioButtonDemo from '../../../../components/generated/radio/button.vue';
+export const radioButtonSource =
+  '<template>\n  <a-radio-group type="button">\n    <a-radio value="Beijing">Beijing</a-radio>\n    <a-radio value="Shanghai">Shanghai</a-radio>\n    <a-radio value="Guangzhou">Guangzhou</a-radio>\n    <a-radio value="Shenzhen">Shenzhen</a-radio>\n  </a-radio-group>\n</template>';
+import RadioControlDemo from '../../../../components/generated/radio/control.vue';
+export const radioControlSource =
+  '<template>\n  <a-space size="large">\n    <a-radio v-model="checked1">v-model</a-radio>\n    <a-radio :model-value="true">binding "true"</a-radio>\n    <a-radio :model-value="checked2">binding value2</a-radio>\n    <a-radio :default-checked="true">uncontrolled state</a-radio>\n  </a-space>\n  <div :style="{ marginTop: \'20px\' }">\n    <a-space size="large">\n      <a-button type="primary" @click="handleSetCheck">\n        {{ checked2 ? \'uncheck\' : \'check\' }} value2\n      </a-button>\n      <a-button @click="handleReset"> reset all </a-button>\n    </a-space>\n  </div>\n</template>\n\n<script>\n  import { ref } from \'vue\';\n\n  export default {\n    setup() {\n      const checked1 = ref(false);\n      const checked2 = ref(false);\n\n      const handleSetCheck = () => {\n        checked2.value = !checked2.value;\n      };\n\n      const handleReset = () => {\n        checked1.value = false;\n        checked2.value = false;\n      };\n\n      return {\n        checked1,\n        checked2,\n        handleSetCheck,\n        handleReset,\n      };\n    },\n  };\n</script>';
+import RadioCustomDemo from '../../../../components/generated/radio/custom.vue';
+export const radioCustomSource =
+  '<template>\n  <a-radio-group default-value="1">\n    <a-radio value="1">\n      <template #radio="{ checked }">\n        <a-tag :checked="checked" checkable>This is a tag radio 1</a-tag>\n      </template>\n    </a-radio>\n    <a-radio value="2">\n      <template #radio="{ checked }">\n        <a-tag :checked="checked" checkable>This is a tag radio 2</a-tag>\n      </template>\n    </a-radio>\n    <a-radio value="3">\n      <template #radio="{ checked }">\n        <a-tag :checked="checked" checkable>This is a tag radio 3</a-tag>\n      </template>\n    </a-radio>\n  </a-radio-group>\n\n  <div :style="{ marginTop: \'20px\' }">\n    <a-radio-group>\n      <template v-for="item in 2" :key="item">\n        <a-radio :value="item">\n          <template #radio="{ checked }">\n            <a-space\n              align="start"\n              class="custom-radio-card"\n              :class="{ \'custom-radio-card-checked\': checked }"\n            >\n              <div className="custom-radio-card-mask">\n                <div className="custom-radio-card-mask-dot" />\n              </div>\n              <div>\n                <div className="custom-radio-card-title"> radio Card {{ item }} </div>\n                <a-typography-text type="secondary"> this is a text </a-typography-text>\n              </div>\n            </a-space>\n          </template>\n        </a-radio>\n      </template>\n    </a-radio-group>\n  </div>\n</template>\n\n<style scoped>\n  .custom-radio-card {\n    padding: 10px 16px;\n    border: 1px solid var(--color-border-2);\n    border-radius: 4px;\n    width: 250px;\n    box-sizing: border-box;\n  }\n\n  .custom-radio-card-mask {\n    height: 14px;\n    width: 14px;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    border-radius: 100%;\n    border: 1px solid var(--color-border-2);\n    box-sizing: border-box;\n  }\n\n  .custom-radio-card-mask-dot {\n    width: 8px;\n    height: 8px;\n    border-radius: 100%;\n  }\n\n  .custom-radio-card-title {\n    color: var(--color-text-1);\n    font-size: 14px;\n    font-weight: bold;\n    margin-bottom: 8px;\n  }\n\n  .custom-radio-card:hover,\n  .custom-radio-card-checked,\n  .custom-radio-card:hover .custom-radio-card-mask,\n  .custom-radio-card-checked .custom-radio-card-mask {\n    border-color: rgb(var(--primary-6));\n  }\n\n  .custom-radio-card-checked {\n    background-color: var(--color-primary-light-1);\n  }\n\n  .custom-radio-card:hover .custom-radio-card-title,\n  .custom-radio-card-checked .custom-radio-card-title {\n    color: rgb(var(--primary-6));\n  }\n\n  .custom-radio-card-checked .custom-radio-card-mask-dot {\n    background-color: rgb(var(--primary-6));\n  }\n</style>';
+import RadioDirectionDemo from '../../../../components/generated/radio/direction.vue';
+export const radioDirectionSource =
+  '<template>\n  <a-radio-group direction="vertical">\n    <a-radio value="A">A</a-radio>\n    <a-radio value="B">B</a-radio>\n    <a-radio value="C">C</a-radio>\n    <a-radio value="D">D</a-radio>\n  </a-radio-group>\n</template>';
+import RadioGroupDemo from '../../../../components/generated/radio/group.vue';
+export const radioGroupSource =
+  '<template>\n  <a-space direction="vertical" size="large">\n    <a-radio-group>\n      <a-radio value="A">A</a-radio>\n      <a-radio value="B">B</a-radio>\n      <a-radio value="C">C</a-radio>\n      <a-radio value="D">D</a-radio>\n    </a-radio-group>\n    <a-radio-group>\n      <a-radio value="A">A</a-radio>\n      <a-radio value="B">B</a-radio>\n      <a-radio value="C">C</a-radio>\n      <a-radio value="D" disabled>D</a-radio>\n    </a-radio-group>\n  </a-space>\n</template>';
+import RadioLayoutDemo from '../../../../components/generated/radio/layout.vue';
+export const radioLayoutSource =
+  '<template>\n  <a-radio-group v-model="checkedValue">\n    <a-grid :cols="3" :colGap="24" :rowGap="16">\n      <a-grid-item>\n        <a-radio value="1">Option 1</a-radio>\n      </a-grid-item>\n      <a-grid-item>\n        <a-radio value="2" disabled>Option 2</a-radio>\n      </a-grid-item>\n      <a-grid-item>\n        <a-radio value="3">Option 3</a-radio>\n      </a-grid-item>\n      <a-grid-item>\n        <a-radio value="4">Option 4</a-radio>\n      </a-grid-item>\n      <a-grid-item>\n        <a-radio value="5">Option 5</a-radio>\n      </a-grid-item>\n    </a-grid>\n  </a-radio-group>\n</template>\n\n<script>\n  import { ref } from \'vue\';\n\n  export default {\n    setup() {\n      const checkedValue = ref(\'1\');\n\n      return {\n        checkedValue,\n      };\n    },\n  };\n</script>';
+import RadioOptionsDemo from '../../../../components/generated/radio/options.vue';
+export const radioOptionsSource =
+  "<template>\n  <a-space direction=\"vertical\" size=\"large\">\n    <a-radio-group v-model=\"value1\" :options=\"plainOptions\" />\n    <a-radio-group v-model=\"value2\" :options=\"options\" />\n    <a-radio-group v-model=\"value2\" :options=\"options\">\n      <template #label=\"{ data }\">\n        <a-tag>{{ data.label }}</a-tag>\n      </template>\n    </a-radio-group>\n  </a-space>\n</template>\n\n<script>\n  import { ref } from 'vue';\n\n  export default {\n    setup() {\n      const value1 = ref('plain 1');\n      const plainOptions = ['plain 1', 'plain 2', 'plain 3'];\n\n      const value2 = ref('1');\n      const options = [\n        { label: 'option 1', value: '1' },\n        { label: 'option 2', value: '2' },\n        { label: 'option 3', value: '3', disabled: true },\n      ];\n\n      return {\n        plainOptions,\n        options,\n        value1,\n        value2,\n      };\n    },\n  };\n</script>";
+import RadioSizeDemo from '../../../../components/generated/radio/size.vue';
+export const radioSizeSource =
+  '<template>\n  <a-space direction="vertical" size="large">\n    <a-radio-group type="button" size="mini">\n      <a-radio value="Beijing">Beijing</a-radio>\n      <a-radio value="Shanghai">Shanghai</a-radio>\n      <a-radio value="Guangzhou">Guangzhou</a-radio>\n      <a-radio value="Shenzhen">Shenzhen</a-radio>\n    </a-radio-group>\n    <a-radio-group type="button" size="small">\n      <a-radio value="Beijing">Beijing</a-radio>\n      <a-radio value="Shanghai">Shanghai</a-radio>\n      <a-radio value="Guangzhou">Guangzhou</a-radio>\n      <a-radio value="Shenzhen">Shenzhen</a-radio>\n    </a-radio-group>\n    <a-radio-group type="button">\n      <a-radio value="Beijing">Beijing</a-radio>\n      <a-radio value="Shanghai">Shanghai</a-radio>\n      <a-radio value="Guangzhou">Guangzhou</a-radio>\n      <a-radio value="Shenzhen">Shenzhen</a-radio>\n    </a-radio-group>\n    <a-radio-group type="button" size="large">\n      <a-radio value="Beijing">Beijing</a-radio>\n      <a-radio value="Shanghai">Shanghai</a-radio>\n      <a-radio value="Guangzhou">Guangzhou</a-radio>\n      <a-radio value="Shenzhen">Shenzhen</a-radio>\n    </a-radio-group>\n  </a-space>\n</template>';
+
+### 基本用法
+
+单选框的基本用法。
+
+<DemoBlock source={radioBasicSource} mainFile="src/radio-basic.vue">
+
+<RadioBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 按钮类型的单选框组
+
+通过指定 `type="button"` ，可以显示按钮类型的单选框组。
+
+<DemoBlock source={radioButtonSource} mainFile="src/radio-button.vue">
+
+<RadioButtonDemo client:only="vue" />
+
+</DemoBlock>
+
+### 受控
+
+通过 `v-model` (`model-value`) 属性控制是否选中
+
+<DemoBlock source={radioControlSource} mainFile="src/radio-control.vue">
+
+<RadioControlDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义单选框
+
+使用 #radio 插槽自定义复选框的展示
+
+<DemoBlock source={radioCustomSource} mainFile="src/radio-custom.vue">
+
+<RadioCustomDemo client:only="vue" />
+
+</DemoBlock>
+
+### 单选框组方向
+
+通过设置 `direction="vertical"` 可以展示竖直的单选框组。
+
+<DemoBlock source={radioDirectionSource} mainFile="src/radio-direction.vue">
+
+<RadioDirectionDemo client:only="vue" />
+
+</DemoBlock>
+
+### 单选框组
+
+通过 `<a-radio-group>` 组件展示单选框组。
+
+<DemoBlock source={radioGroupSource} mainFile="src/radio-group.vue">
+
+<RadioGroupDemo client:only="vue" />
+
+</DemoBlock>
+
+### 布局
+
+使用 `<a-radio-group>` 传入 `<a-radio>`，配合 `<a-grid>` 组件实现灵活的布局。
+
+<DemoBlock source={radioLayoutSource} mainFile="src/radio-layout.vue">
+
+<RadioLayoutDemo client:only="vue" />
+
+</DemoBlock>
+
+### 单选框组选项
+
+`a-radio-group` 通过 `options` 属性设置子元素
+
+<DemoBlock source={radioOptionsSource} mainFile="src/radio-options.vue">
+
+<RadioOptionsDemo client:only="vue" />
+
+</DemoBlock>
+
+### 按钮类型单选框组的尺寸
+
+按钮类型的单选框组分为 `mini`、`small`、`medium`、`large` 四种尺寸。
+
+<DemoBlock source={radioSizeSource} mainFile="src/radio-size.vue">
+
+<RadioSizeDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### `<radio>` Props
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| model-value **(v-model)** | 绑定值 | `string \| number \| boolean` | `-` |
+| default-checked | 默认是否选中（非受控状态） | `boolean` | `false` |
+| value | 选项的 `value` | `string \| number \| boolean` | `true` |
+| type | 单选的类型 | `'radio' \| 'button'` | `'radio'` |
+| disabled | 是否禁用 | `boolean` | `false` |
+
+### `<radio>` Events
+
+| 事件名 | 描述         | 参数                                                  |
+| ------ | ------------ | ----------------------------------------------------- |
+| change | 值改变时触发 | value: `string \| number \| boolean`<br />ev: `Event` |
+
+### `<radio>` Slots
+
+| 插槽名 |     描述     | 参数                                        | 版本   |
+| ------ | :----------: | ------------------------------------------- | :----- |
+| radio  | 自定义单选框 | checked: `boolean`<br />disabled: `boolean` | 2.18.0 |
+
+### `<radio-group>` Props
+
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| model-value **(v-model)** | 绑定值 | `string \| number \| boolean` | `-` |  |
+| default-value | 默认值（非受控状态） | `string \| number \| boolean` | `''` |  |
+| type | 单选框组的类型 | `'radio' \| 'button'` | `'radio'` |  |
+| size | 单选框组的尺寸 | `'mini' \| 'small' \| 'medium' \| 'large'` | `-` |  |
+| options | 选项 | `Array<string \| number \| RadioOption>` | `-` | 2.27.0 |
+| direction | 单选框组的方向 | `'horizontal' \| 'vertical'` | `'horizontal'` |  |
+| disabled | 是否禁用 | `boolean` | `false` |  |
+
+### `<radio-group>` Events
+
+| 事件名 | 描述         | 参数                                 |
+| ------ | ------------ | ------------------------------------ |
+| change | 值改变时触发 | value: `string \| number \| boolean` |
+
+### `<radio-group>` Slots
+
+| 插槽名 |      描述      | 参数                                        | 版本   |
+| ------ | :------------: | ------------------------------------------- | :----- |
+| radio  |  自定义单选框  | checked: `boolean`<br />disabled: `boolean` | 2.27.0 |
+| label  | radio 文案内容 | data: `RadioOption`                         | 2.27.0 |
+
+### RadioOption
+
+| 参数名   | 描述           | 类型               | 默认值  |
+| -------- | -------------- | ------------------ | :-----: |
+| label    | 文案           | `RenderContent`    |   `-`   |
+| value    | 选项的 `value` | `string \| number` |   `-`   |
+| disabled | 是否禁用       | `boolean`          | `false` |

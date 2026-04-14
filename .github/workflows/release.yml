@@ -13,7 +13,6 @@ on:
       - pnpm-workspace.yaml
       - packages/sd-vue-scripts/**
       - packages/sd-vue-docs/**
-      - packages/vite-plugin-sd-vue-docs/**
       - packages/web-vue/**
   workflow_dispatch:
 

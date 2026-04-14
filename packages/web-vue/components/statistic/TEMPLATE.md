@@ -22,14 +22,6 @@ description: Highlight a certain number or group of numbers and statistical data
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/prefix.md
-
-@import ./**demo**/animation.md
-
-@import ./**demo**/countdown.md
-
 ## API
 
 %%API(statistic.vue)%%

@@ -6,24 +6,6 @@ title: 卡片 Card
 description: 将信息分类后分标题、详情等区域聚合展现，一般作为简洁介绍或者信息的大盘和入口。
 ```
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/hoverable.md
-
-@import ./**demo**/bordered.md
-
-@import ./**demo**/content.md
-
-@import ./**demo**/meta.md
-
-@import ./**demo**/row.md
-
-@import ./**demo**/grid.md
-
-@import ./**demo**/inner.md
-
-@import ./**demo**/actions.md
-
 ## API
 
 ### `<card>` Props

@@ -22,8 +22,6 @@ description: Used for select and display colors.
 
 ---
 
-@import ./**demo**/basic.md @import ./**demo**/size.md @import ./**demo**/disabled.md @import ./**demo**/format.md @import ./**demo**/colors.md @import ./**demo**/trigger.md @import ./**demo**/trigger-element.md @import ./**demo**/only-panel.md
-
 ## API
 
 %%API(color-picker.tsx)%%

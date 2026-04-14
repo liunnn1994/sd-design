@@ -22,10 +22,6 @@ description: Divide the panel into two parts.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/nested.md
-
 ## API
 
 %%API(split.vue)%%

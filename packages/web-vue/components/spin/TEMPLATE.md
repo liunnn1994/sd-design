@@ -22,18 +22,6 @@ description: Used for the loading state of pages and blocks-when a part of the p
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/size.md
-
-@import ./**demo**/dot.md
-
-@import ./**demo**/container.md
-
-@import ./**demo**/tip.md
-
-@import ./**demo**/icon.md
-
 ## API
 
 %%API(spin.tsx)%%

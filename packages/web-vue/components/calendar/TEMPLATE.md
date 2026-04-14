@@ -22,8 +22,6 @@ description: Calendar Component.
 
 ---
 
-@import ./**demo**/basic.md
-
 ## API
 
 %%API(calendar.tsx)%%

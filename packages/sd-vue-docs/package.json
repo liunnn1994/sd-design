@@ -1,17 +1,29 @@
 {
   "name": "@sd-design/sd-vue-docs",
+  "version": "0.0.1",
   "private": true,
-  "description": "SD Design 内网组件文档（VitePress）",
+  "description": "SD Design 文档站",
+  "type": "module",
   "scripts": {
-    "docs:prepare": "bun run ./scripts/migrate-docs.ts",
-    "docs:dev": "pnpm run docs:prepare && vitepress dev",
-    "docs:build": "pnpm run docs:prepare && vitepress build",
-    "docs:preview": "vitepress preview"
+    "dev": "pnpm run docs:vendor && astro dev",
+    "start": "pnpm run docs:vendor && astro dev",
+    "build": "pnpm run docs:vendor && astro build",
+    "preview": "pnpm run docs:vendor && astro preview",
+    "astro": "astro",
+    "docs:vendor": "node ./scripts/sync-vendor.mjs"
   },
   "dependencies": {
+    "@astrojs/mdx": "^5.0.3",
+    "@astrojs/starlight": "^0.38.3",
+    "@astrojs/vue": "^6.0.1",
     "@sdata/web-vue": "workspace:*",
     "@vue/repl": "^4.7.2",
-    "markdown-it": "^14.1.1",
-    "vitepress": "^2.0.0-alpha.17"
+    "astro": "^6.0.1",
+    "sharp": "^0.34.5",
+    "vite": "^7.3.2",
+    "vue": "^3.5.32"
+  },
+  "devDependencies": {
+    "rolldown": "1.0.0-rc.15"
   }
 }

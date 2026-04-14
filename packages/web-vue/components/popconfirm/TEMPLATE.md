@@ -22,14 +22,6 @@ description: Click on the element and a popconfirm will pop up.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/custom.md
-
-@import ./**demo**/position.md
-
-@import ./**demo**/type.md
-
 `<popconfirm>` 组件继承 `<trigger>` 组件的全部属性
 
 ## API

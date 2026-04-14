@@ -22,12 +22,6 @@ description: Configure in the outermost layer of the application, set once, and 
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/empty.md
-
-@import ./**demo**/rtl.md
-
 ## API
 
 %%API(config-provider.vue)%%

@@ -22,20 +22,6 @@ description: A two-column multi-select component that moves elements from one co
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/search.md
-
-@import ./**demo**/one-way.md
-
-@import ./**demo**/custom.md
-
-@import ./**demo**/simple.md
-
-@import ./**demo**/tree.md
-
-@import ./**demo**/custom-header.md
-
 ## API
 
 %%API(transfer.vue)%%

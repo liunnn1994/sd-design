@@ -22,22 +22,6 @@ description: The component used for scoring or starring.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/half.md
-
-@import ./**demo**/color.md
-
-@import ./**demo**/readonly.md
-
-@import ./**demo**/clear.md
-
-@import ./**demo**/character.md
-
-@import ./**demo**/count.md
-
-@import ./**demo**/grading.md
-
 ## API
 
 %%API(rate.tsx)%%

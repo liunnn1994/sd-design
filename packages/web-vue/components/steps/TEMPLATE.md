@@ -22,28 +22,6 @@ description: Clearly indicate the task flow and the current degree of completion
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/description.md
-
-@import ./**demo**/label-placement.md
-
-@import ./**demo**/error.md
-
-@import ./**demo**/icon.md
-
-@import ./**demo**/line-less.md
-
-@import ./**demo**/vertical.md
-
-@import ./**demo**/arrow.md
-
-@import ./**demo**/dot.md
-
-@import ./**demo**/navigation.md
-
-@import ./**demo**/changeable.md
-
 ## API
 
 %%API(steps.vue)%%

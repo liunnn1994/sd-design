@@ -22,16 +22,6 @@ description: The basic style of the link.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/status.md
-
-@import ./**demo**/hoverable.md
-
-@import ./**demo**/icon.md
-
-@import ./**demo**/loading.md
-
 ## API
 
 %%API(link.vue)%%

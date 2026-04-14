@@ -22,8 +22,4 @@ description: Used to replace the browser default scroll bar style.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/type.md
-
 %%API(scrollbar.vue)%%

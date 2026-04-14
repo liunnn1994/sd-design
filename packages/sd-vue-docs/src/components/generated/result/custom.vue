@@ -1,0 +1,22 @@
+<template>
+  <a-result :status="null" title="This is title content" subtitle="This is subtitle content">
+    <template #icon>
+      <IconFaceSmileFill />
+    </template>
+    <template #extra>
+      <a-space>
+        <a-button type="secondary">Again</a-button>
+        <a-button type="primary">Back</a-button>
+      </a-space>
+    </template>
+  </a-result>
+</template>
+<script>
+  import { IconFaceSmileFill } from '@sdata/web-vue/es/icon/index.js';
+
+  export default {
+    components: {
+      IconFaceSmileFill,
+    },
+  };
+</script>

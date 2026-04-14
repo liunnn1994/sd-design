@@ -6,34 +6,18 @@ title: 警告提示 Alert
 description: 向用户显示警告的信息时，通过警告提示，展现需要关注的信息。
 ```
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/type.md
-
-@import ./**demo**/title.md
-
-@import ./**demo**/closable.md
-
-@import ./**demo**/close-element.md
-
-@import ./**demo**/icon.md
-
-@import ./**demo**/action.md
-
-@import ./**demo**/banner.md
-
 ## API
 
 ### `<alert>` Props
 
-| 参数名 | 描述 | 类型 | 默认值 |
-| --- | --- | --- | :-: |
-| type | 警告提示的类型。2.41.0 新增 `normal` 类型 | `info \| success \| warning \| error \| normal` | `'info'` |
-| show-icon | 是否展示图标 | `boolean` | `true` |
-| closable | 是否展示关闭按钮 | `boolean` | `false` |
-| title | 警告提示的标题 | `string` | `-` |
-| banner | 是否作为顶部公告使用（去除边框和圆角） | `boolean` | `false` |
-| center | 内容是否居中显示 | `boolean` | `false` |
+| 参数名    | 描述                                      | 类型                                            |  默认值  |
+| --------- | ----------------------------------------- | ----------------------------------------------- | :------: |
+| type      | 警告提示的类型。2.41.0 新增 `normal` 类型 | `info \| success \| warning \| error \| normal` | `'info'` |
+| show-icon | 是否展示图标                              | `boolean`                                       |  `true`  |
+| closable  | 是否展示关闭按钮                          | `boolean`                                       | `false`  |
+| title     | 警告提示的标题                            | `string`                                        |   `-`    |
+| banner    | 是否作为顶部公告使用（去除边框和圆角）    | `boolean`                                       | `false`  |
+| center    | 内容是否居中显示                          | `boolean`                                       | `false`  |
 
 ### `<alert>` Events
 

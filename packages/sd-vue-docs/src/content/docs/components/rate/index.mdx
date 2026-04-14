@@ -1,0 +1,136 @@
+---
+title: 评分 Rate
+description: 用于评分或打星的组件。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import RateBasicDemo from '../../../../components/generated/rate/basic.vue';
+export const rateBasicSource = '<template>\n  <a-rate />\n</template>';
+import RateCharacterDemo from '../../../../components/generated/rate/character.vue';
+export const rateCharacterSource =
+  '<template>\n  <a-rate :default-value="2">\n    <template #character="{ index }">\n      <icon-check v-if="index < 3" />\n      <icon-close v-else />\n    </template>\n  </a-rate>\n</template>';
+import RateClearDemo from '../../../../components/generated/rate/clear.vue';
+export const rateClearSource =
+  '<template>\n  <a-rate :default-value="3" allow-clear />\n</template>';
+import RateColorDemo from '../../../../components/generated/rate/color.vue';
+export const rateColorSource =
+  '<template>\n  <a-space direction="vertical">\n    <a-rate color="red" />\n    <a-rate :color="color" />\n  </a-space>\n</template>\n\n<script>\n  export default {\n    setup() {\n      const color = {\n        2: \'red\',\n        4: \'green\',\n        5: \'blue\',\n      };\n      return {\n        color,\n      };\n    },\n  };\n</script>';
+import RateCountDemo from '../../../../components/generated/rate/count.vue';
+export const rateCountSource = '<template>\n  <a-rate :count="10" />\n</template>';
+import RateGradingDemo from '../../../../components/generated/rate/grading.vue';
+export const rateGradingSource = '<template>\n  <a-rate grading />\n</template>';
+import RateHalfDemo from '../../../../components/generated/rate/half.vue';
+export const rateHalfSource =
+  '<template>\n  <a-rate :default-value="2.5" allow-half />\n</template>';
+import RateReadonlyDemo from '../../../../components/generated/rate/readonly.vue';
+export const rateReadonlySource =
+  '<template>\n  <a-rate :default-value="4" readonly />\n</template>';
+
+### 基本用法
+
+评分组件基本用法。
+
+<DemoBlock source={rateBasicSource} mainFile="src/rate-basic.vue">
+
+<RateBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义评分字符
+
+可以将星星替换为其他字符，比如表情、字母，数字，字体图标甚至中文。
+
+<DemoBlock source={rateCharacterSource} mainFile="src/rate-character.vue">
+
+<RateCharacterDemo client:only="vue" />
+
+</DemoBlock>
+
+### 支持清除
+
+通过设置 `allow-clear` 来允许清除评分。
+
+<DemoBlock source={rateClearSource} mainFile="src/rate-clear.vue">
+
+<RateClearDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义颜色
+
+通过 color 可以自定义颜色。另外可以通过对象形式自定义不同分值时的颜色。
+
+<DemoBlock source={rateColorSource} mainFile="src/rate-color.vue">
+
+<RateColorDemo client:only="vue" />
+
+</DemoBlock>
+
+### 任意长度的评分
+
+通过指定 `count` 来指定任意长度的评分组件。
+
+<DemoBlock source={rateCountSource} mainFile="src/rate-count.vue">
+
+<RateCountDemo client:only="vue" />
+
+</DemoBlock>
+
+### 笑脸分级
+
+通过 `grading` 使用笑脸分级。
+
+<DemoBlock source={rateGradingSource} mainFile="src/rate-grading.vue">
+
+<RateGradingDemo client:only="vue" />
+
+</DemoBlock>
+
+### 半选
+
+指定 `allow-half` 来开启半选。
+
+<DemoBlock source={rateHalfSource} mainFile="src/rate-half.vue">
+
+<RateHalfDemo client:only="vue" />
+
+</DemoBlock>
+
+### 只读模式
+
+通过设置 `readonly` 属性让评分组件为只读状态。
+
+<DemoBlock source={rateReadonlySource} mainFile="src/rate-readonly.vue">
+
+<RateReadonlyDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### `<rate>` Props
+
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| count | 评分的总数 | `number` | `5` |  |
+| model-value **(v-model)** | 绑定值 | `number` | `-` |  |
+| default-value | 默认值 | `number` | `0` |  |
+| allow-half | 是否允许半选 | `boolean` | `false` |  |
+| allow-clear | 是否允许清除 | `boolean` | `false` |  |
+| grading | 是否开启笑脸分级 | `boolean` | `false` |  |
+| readonly | 是否为只读状态 | `boolean` | `false` |  |
+| disabled | 是否禁用 | `boolean` | `false` |  |
+| color | 颜色 | `string \| Record<string, string>` | `-` | 2.18.0 |
+
+### `<rate>` Events
+
+| 事件名       | 描述                   | 参数            |
+| ------------ | ---------------------- | --------------- |
+| change       | 值改变时触发           | value: `number` |
+| hover-change | 鼠标移动到数值上时触发 | value: `number` |
+
+### `<rate>` Slots
+
+| 插槽名    | 描述 | 参数            |
+| --------- | :--: | --------------- |
+| character | 符号 | index: `number` |

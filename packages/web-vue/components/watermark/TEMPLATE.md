@@ -22,14 +22,6 @@ description: Used to Add a watermark to a specified area.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/multiline.md
-
-@import ./**demo**/image.md
-
-@import ./**demo**/custom.md
-
 ## API
 
 %%API(watermark.tsx)%%

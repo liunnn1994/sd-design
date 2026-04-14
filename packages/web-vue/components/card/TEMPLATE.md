@@ -22,24 +22,6 @@ description: Card is generally used as a concise introduction or a large plate a
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/hoverable.md
-
-@import ./**demo**/bordered.md
-
-@import ./**demo**/content.md
-
-@import ./**demo**/meta.md
-
-@import ./**demo**/row.md
-
-@import ./**demo**/grid.md
-
-@import ./**demo**/inner.md
-
-@import ./**demo**/actions.md
-
 ## API
 
 %%API(card.tsx)%%

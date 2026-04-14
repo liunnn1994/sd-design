@@ -6,10 +6,6 @@ title: 空状态 Empty
 description: 指当前场景没有对应的数据内容，呈现出的一种状态。
 ```
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/custom.md
-
 ## API
 
 ### `<empty>` Props

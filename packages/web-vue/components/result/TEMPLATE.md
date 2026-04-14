@@ -22,24 +22,6 @@ description: It is used to feed back the processing results of a series of opera
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/success.md
-
-@import ./**demo**/warning.md
-
-@import ./**demo**/error.md
-
-@import ./**demo**/403.md
-
-@import ./**demo**/404.md
-
-@import ./**demo**/500.md
-
-@import ./**demo**/custom.md
-
-@import ./**demo**/all.md
-
 ## API
 
 %%API(result.vue)%%

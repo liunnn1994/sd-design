@@ -22,38 +22,6 @@ description: For content with many levels, such as folders, catalogs, and organi
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/block-node.md
-
-@import ./**demo**/multiple.md
-
-@import ./**demo**/checkable.md
-
-@import ./**demo**/control.md
-
-@import ./**demo**/load-more.md
-
-@import ./**demo**/draggable.md
-
-@import ./**demo**/checked-strategy.md
-
-@import ./**demo**/show-line.md
-
-@import ./**demo**/size.md
-
-@import ./**demo**/node-icon.md
-
-@import ./**demo**/render-extra.md
-
-@import ./**demo**/icons.md
-
-@import ./**demo**/virtual.md
-
-@import ./**demo**/search.md
-
-@import ./**demo**/field-names.md
-
 ## API
 
 %%API(tree.vue)%%

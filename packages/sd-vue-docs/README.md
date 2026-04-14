@@ -1,62 +1,83 @@
 # @sd-design/sd-vue-docs
 
-基于 VitePress 的中文组件文档站。
+基于 Astro Starlight 的 SD Design 简体中文文档站。
 
-## 目录说明
+## 目录架构
 
-- `guide-source/*.zh-CN.md`：指南原始文档，迁移脚本会生成到 `guide/*.md`
-- `components/`：迁移后生成的组件文档，请勿手工维护
-- `.vitepress/theme/generated/`：从 `__demo__` 提取出来的 Vue 示例文件，请勿手工维护
-- `scripts/migrate-docs.ts`：文档迁移与页面生成脚本
+```text
+packages/sd-vue-docs/
+├── astro.config.mjs                 # Astro/Starlight 站点配置
+├── public/
+│   └── vendor/                      # 在线示例运行时依赖，构建前自动生成，不提交 Git
+├── scripts/
+│   └── sync-vendor.mjs              # 同步在线示例运行时依赖
+├── src/
+│   ├── browser-repl/                # Vue REPL 使用的浏览器模块桥接
+│   ├── components/
+│   │   ├── docs/                    # 文档专用组件，如 DemoBlock / DemoEditor
+│   │   └── generated/               # 迁移脚本输出的示例 Vue 组件
+│   ├── content/
+│   │   └── docs/                    # 当前站点最终文档源，组件页和指南页直接在这里维护
+│   ├── generated/                   # 迁移脚本输出的侧边栏和迁移清单
+│   ├── pages/
+│   │   └── _app.ts                  # Astro Vue app 入口，注册组件库插件
+│   └── styles/                      # 站点全局样式
+├── package.json
+└── README.md
+```
 
-## 组件文档怎么写
+## 维护边界
 
-组件文档统一从组件包内的中文 README 和 demo 源文件生成。
+- `src/content/docs/**/*.mdx` 是当前文档站的最终页面源文件，页面级调整优先直接修改这里。
+- `src/components/generated/` 和 `src/generated/` 是文档站依赖的生成文件，通常不手工维护。
+- `public/vendor/` 仅用于在线示例运行时依赖，由构建或开发命令自动补齐。
 
-1. 在 `packages/web-vue/components/<component>/README.zh-CN.md` 中维护组件说明、API、使用注意事项。
-2. 在 `packages/web-vue/components/<component>/__demo__/*.md` 中维护示例。
-3. 每个 demo 文件必须包含一个 ` ```vue ` 代码块，迁移脚本会把它提取成可运行示例。
-4. demo 的中文说明请写在 `## zh-CN` 段落中；如果存在英文段落，当前站点会自动忽略。
-5. 不要手工修改 `packages/sd-vue-docs/components/**` 和 `.vitepress/theme/generated/**`，这些文件会在 `docs:prepare` 时被重建。
+## 开发说明
 
-## 指南文档怎么写
+### 首次准备
 
-指南文档统一维护在 `guide-source/` 下，目前保留：
-
-- `start.zh-CN.md`
-- `theme.zh-CN.md`
-- `dark.zh-CN.md`
-- `faq.zh-CN.md`
-
-修改后执行一次生成命令即可同步到最终页面。
-
-## 常用命令
+在仓库根目录执行：
 
 ```bash
-# 根目录：同时运行组件 watch 和文档站
-pnpm run dev
-
-# 根目录：显式全量开发入口
-pnpm run dev:all
-
-# 根目录：只启动文档站
-pnpm run dev:docs
-
-# 根目录：CI 构建文档站所在的全量构建流程
-pnpm run build:ci
-
-# 根目录：发版前全量校验
-pnpm run release:check
-
-# 包目录或根目录 filter 调用：生成文档页面
-pnpm --filter @sd-design/sd-vue-docs run docs:prepare
-
-# 包目录或根目录 filter 调用：启动文档站
-pnpm --filter @sd-design/sd-vue-docs run docs:dev
-
-# 根目录：仅构建文档站
-pnpm run build:docs
-
-# 包目录或根目录 filter 调用：构建文档站
-pnpm --filter @sd-design/sd-vue-docs run docs:build
+pnpm install
+pnpm run init
 ```
+
+`pnpm run init` 会先构建内部工具包和组件库产物，文档站的在线示例依赖这些产物。
+
+### 日常开发
+
+```bash
+# 启动文档站开发环境
+# 命令会先补齐 public/vendor/ 运行时依赖，再启动 Astro dev server
+pnpm --filter @sd-design/sd-vue-docs run dev
+
+# 仅补齐在线示例运行时依赖，不重写 MDX 页面
+pnpm --filter @sd-design/sd-vue-docs run docs:vendor
+```
+
+推荐流程：
+
+1. 页面细调、排版、链接、额外说明直接改 `src/content/docs/**/*.mdx`。
+2. 日常启动直接用 `dev`，命令只会补齐在线示例依赖，不会改写文档内容。
+3. 组件库产物变化后，如在线示例资源缺失，可单独执行 `docs:vendor`。
+
+## 打包说明
+
+```bash
+# 生产构建
+# 命令会先补齐 public/vendor/，再执行 astro build
+pnpm --filter @sd-design/sd-vue-docs run build
+
+# 本地预览构建产物
+pnpm --filter @sd-design/sd-vue-docs run preview
+```
+
+仓库根目录常用入口：
+
+```bash
+pnpm run dev:docs
+pnpm run build:docs
+```
+
+Netlify 当前也已经切到 `packages/sd-vue-docs/dist` 作为发布目录。

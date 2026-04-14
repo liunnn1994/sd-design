@@ -22,16 +22,6 @@ description: Pin the page elements to the visible range. When the content area i
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/top.md
-
-@import ./**demo**/bottom.md
-
-@import ./**demo**/fix-change.md
-
-@import ./**demo**/container.md
-
 ## API
 
 %%API(affix.vue)%%

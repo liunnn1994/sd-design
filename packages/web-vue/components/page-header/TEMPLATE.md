@@ -22,14 +22,6 @@ description: The page header is located at the top of the page container and ser
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/breadcrumb.md
-
-@import ./**demo**/transparent.md
-
-@import ./**demo**/content.md
-
 ## API
 
 %%API(page-header.vue)%%

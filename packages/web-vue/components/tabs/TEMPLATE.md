@@ -22,24 +22,6 @@ description: Organize content in the same view. You can view the content of one 
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/icon.md
-
-@import ./**demo**/position.md
-
-@import ./**demo**/type.md
-
-@import ./**demo**/lazy.md
-
-@import ./**demo**/extra.md
-
-@import ./**demo**/editable.md
-
-@import ./**demo**/trigger.md
-
-@import ./**demo**/scroll.md
-
 ## API
 
 %%API(tabs.tsx)%%

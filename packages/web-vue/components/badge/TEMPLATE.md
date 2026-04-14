@@ -22,20 +22,6 @@ description: Badge normally appears in the upper right corner of the icon or tex
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/alone.md
-
-@import ./**demo**/dot.md
-
-@import ./**demo**/text.md
-
-@import ./**demo**/max.md
-
-@import ./**demo**/status.md
-
-@import ./**demo**/color.md
-
 ## API
 
 %%API(badge.tsx)%%

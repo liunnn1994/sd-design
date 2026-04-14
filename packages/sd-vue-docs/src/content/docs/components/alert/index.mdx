@@ -1,0 +1,139 @@
+---
+title: 警告提示 Alert
+description: 向用户显示警告的信息时，通过警告提示，展现需要关注的信息。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import AlertActionDemo from '../../../../components/generated/alert/action.vue';
+export const alertActionSource =
+  '<template>\n  <a-space direction="vertical" size="large" style="width: 100%;">\n    <a-alert closable>\n      This is an info alert.\n      <template #action>\n        <a-button size="small" type="primary">Detail</a-button>\n      </template>\n    </a-alert>\n    <a-alert title="Example" closable>\n      This is an info alert.\n      <template #action>\n        <a-button size="small" type="primary">Detail</a-button>\n      </template>\n    </a-alert>\n  </a-space>\n</template>';
+import AlertBannerDemo from '../../../../components/generated/alert/banner.vue';
+export const alertBannerSource =
+  '<template>\n  <a-alert banner center>This is an info alert.</a-alert>\n</template>';
+import AlertBasicDemo from '../../../../components/generated/alert/basic.vue';
+export const alertBasicSource =
+  '<template>\n  <a-alert>This is an info alert.</a-alert>\n</template>';
+import AlertClosableDemo from '../../../../components/generated/alert/closable.vue';
+export const alertClosableSource =
+  '<template>\n  <a-row :gutter="[40, 20]">\n    <a-col :span="12">\n      <a-alert closable>This is an info alert.</a-alert>\n    </a-col>\n    <a-col :span="12">\n      <a-alert type="success" closable>This is an success alert.</a-alert>\n    </a-col>\n    <a-col :span="12">\n      <a-alert type="warning" closable>\n        <template #title> Warning </template>\n        This is an warning alert.\n      </a-alert>\n    </a-col>\n    <a-col :span="12">\n      <a-alert type="error" closable>\n        <template #title> Error </template>\n        This is an error alert.\n      </a-alert>\n    </a-col>\n  </a-row>\n</template>';
+import AlertCloseElementDemo from '../../../../components/generated/alert/close-element.vue';
+export const alertCloseElementSource =
+  '<template>\n  <a-row :gutter="[40, 20]">\n    <a-col :span="12">\n      <a-alert closable>\n        <template #close-element>\n          <icon-close-circle />\n        </template>\n        This is an info alert.\n      </a-alert>\n    </a-col>\n    <a-col :span="12">\n      <a-alert closable>\n        <template #close-element> Close </template>\n        This is an info alert.\n      </a-alert>\n    </a-col>\n  </a-row>\n</template>';
+import AlertIconDemo from '../../../../components/generated/alert/icon.vue';
+export const alertIconSource =
+  '<template>\n  <a-row :gutter="[40, 20]">\n    <a-col :span="12">\n      <a-alert :show-icon="false">This is an info alert.</a-alert>\n    </a-col>\n    <a-col :span="12">\n      <a-alert type="success" :show-icon="false">This is an success alert.</a-alert>\n    </a-col>\n    <a-col :span="12">\n      <a-alert type="warning" :show-icon="false">\n        <template #title> Warning </template>\n        This is an warning alert.\n      </a-alert>\n    </a-col>\n    <a-col :span="12">\n      <a-alert type="error" :show-icon="false">\n        <template #title> Error </template>\n        This is an error alert.\n      </a-alert>\n    </a-col>\n  </a-row>\n</template>';
+import AlertTitleDemo from '../../../../components/generated/alert/title.vue';
+export const alertTitleSource =
+  '<template>\n  <a-row :gutter="[40, 20]">\n    <a-col :span="12">\n      <a-alert title="Info">This is an info alert.</a-alert>\n    </a-col>\n    <a-col :span="12">\n      <a-alert title="Success" type="success">This is an success alert.</a-alert>\n    </a-col>\n    <a-col :span="12">\n      <a-alert type="warning">\n        <template #title> Warning </template>\n        This is an warning alert.\n      </a-alert>\n    </a-col>\n    <a-col :span="12">\n      <a-alert type="error">\n        <template #title> Error </template>\n        This is an error alert.\n      </a-alert>\n    </a-col>\n  </a-row>\n</template>';
+import AlertTypeDemo from '../../../../components/generated/alert/type.vue';
+export const alertTypeSource =
+  '<template>\n  <a-row :gutter="[40, 20]">\n    <a-col :span="12">\n      <a-alert>This is an info alert.</a-alert>\n    </a-col>\n    <a-col :span="12">\n      <a-alert type="success">This is an success alert.</a-alert>\n    </a-col>\n    <a-col :span="12">\n      <a-alert type="warning">This is an warning alert.</a-alert>\n    </a-col>\n    <a-col :span="12">\n      <a-alert type="error">This is an error alert.</a-alert>\n    </a-col>\n    <a-col :span="12">\n      <a-alert type="normal">\n        <template #icon>\n          <icon-exclamation-circle-fill />\n        </template>\n        This is an normal alert.\n      </a-alert>\n    </a-col>\n  </a-row>\n</template>\n\n<script>\n  import { IconExclamationCircleFill } from \'@sdata/web-vue/es/icon/index.js\';\n\n  export default {\n    components: { IconExclamationCircleFill },\n  };\n</script>';
+
+### 操作项
+
+通过 `#action` 插槽自定义操作按钮
+
+<DemoBlock source={alertActionSource} mainFile="src/alert-action.vue">
+
+<AlertActionDemo client:only="vue" />
+
+</DemoBlock>
+
+### 顶部公告
+
+通过设置 `banner`，可将警告提示作为顶部公告使用（去除边框和圆角）。
+
+<DemoBlock source={alertBannerSource} mainFile="src/alert-banner.vue">
+
+<AlertBannerDemo client:only="vue" />
+
+</DemoBlock>
+
+### 基本用法
+
+展现需要关注的信息，适用于简短的警告提示。
+
+<DemoBlock source={alertBasicSource} mainFile="src/alert-basic.vue">
+
+<AlertBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 可关闭
+
+通过设置 `closable`，可开启关闭按钮。
+
+<DemoBlock source={alertClosableSource} mainFile="src/alert-closable.vue">
+
+<AlertClosableDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义关闭元素
+
+指定 `close-element` slot，自定义关闭元素。
+
+<DemoBlock source={alertCloseElementSource} mainFile="src/alert-close-element.vue">
+
+<AlertCloseElementDemo client:only="vue" />
+
+</DemoBlock>
+
+### 隐藏图标
+
+通过设置 `:show-icon="false"` 来隐藏图标。
+
+<DemoBlock source={alertIconSource} mainFile="src/alert-icon.vue">
+
+<AlertIconDemo client:only="vue" />
+
+</DemoBlock>
+
+### 提示标题
+
+通过设置 `title` 可以给警告提示添加标题。
+
+<DemoBlock source={alertTitleSource} mainFile="src/alert-title.vue">
+
+<AlertTitleDemo client:only="vue" />
+
+</DemoBlock>
+
+### 提示类型
+
+警告提示有 `info`、`success`、`warning`、`error` 四种类型。2.41.0 版本新增 `normal` 类型，此类型下默认不展示图标。
+
+<DemoBlock source={alertTypeSource} mainFile="src/alert-type.vue">
+
+<AlertTypeDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### `<alert>` Props
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| type | 警告提示的类型。2.41.0 新增 `normal` 类型 | `info \| success \| warning \| error \| normal` | `'info'` |
+| show-icon | 是否展示图标 | `boolean` | `true` |
+| closable | 是否展示关闭按钮 | `boolean` | `false` |
+| title | 警告提示的标题 | `string` | `-` |
+| banner | 是否作为顶部公告使用（去除边框和圆角） | `boolean` | `false` |
+| center | 内容是否居中显示 | `boolean` | `false` |
+
+### `<alert>` Events
+
+| 事件名      | 描述               | 参数             |
+| ----------- | ------------------ | ---------------- |
+| close       | 点击关闭按钮时触发 | ev: `MouseEvent` |
+| after-close | 关闭动画结束后触发 | -                |
+
+### `<alert>` Slots
+
+| 插槽名        |   描述   | 参数 | 版本   |
+| ------------- | :------: | ---- | :----- |
+| icon          |   图标   | -    |        |
+| title         |   标题   | -    |        |
+| action        |  操作项  | -    |        |
+| close-element | 关闭元素 | -    | 2.36.0 |

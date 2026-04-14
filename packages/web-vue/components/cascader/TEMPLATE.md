@@ -22,36 +22,6 @@ description: Refers to the use of multi-level classification to separate the opt
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/clear.md
-
-@import ./**demo**/disabled.md
-
-@import ./**demo**/format.md
-
-@import ./**demo**/multiple.md
-
-@import ./**demo**/check-strictly.md
-
-@import ./**demo**/loading.md
-
-@import ./**demo**/lazy-load.md
-
-@import ./**demo**/search.md
-
-@import ./**demo**/path.md
-
-@import ./**demo**/fallback.md
-
-@import ./**demo**/field-names.md
-
-@import ./**demo**/expand.md
-
-@import ./**demo**/panel.md
-
-@import ./**demo**/virtual.md
-
 ## API
 
 %%API(cascader.vue)%%

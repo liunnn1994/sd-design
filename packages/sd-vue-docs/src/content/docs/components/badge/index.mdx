@@ -1,0 +1,112 @@
+---
+title: 徽标数 Badge
+description: 一般出现在图标或文字的右上角。提供及时、重要的信息提示。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import BadgeAloneDemo from '../../../../components/generated/badge/alone.vue';
+export const badgeAloneSource =
+  '<template>\n  <a-space :size="40">\n    <a-badge :count="2" />\n    <a-badge :count="2" :dotStyle="{ background: \'#E5E6EB\', color: \'#86909C\' }" />\n    <a-badge :count="16" />\n    <a-badge :count="1000" :max-count="99" />\n  </a-space>\n</template>';
+import BadgeBasicDemo from '../../../../components/generated/badge/basic.vue';
+export const badgeBasicSource =
+  '<template>\n  <a-space :size="40">\n    <a-badge :count="9">\n      <a-avatar shape="square" />\n    </a-badge>\n    <a-badge :count="9" dot :dotStyle="{ width: \'10px\', height: \'10px\' }">\n      <a-avatar shape="square" />\n    </a-badge>\n    <a-badge :dotStyle="{ height: \'16px\', width: \'16px\', fontSize: \'14px\' }">\n      <template #content>\n        <IconClockCircle :style="{ verticalAlign: \'middle\', color: \'var(--color-text-2)\' }" />\n      </template>\n      <a-avatar shape="square" />\n    </a-badge>\n  </a-space>\n</template>\n\n<script>\n  import { IconClockCircle } from \'@sdata/web-vue/es/icon/index.js\';\n\n  export default {\n    components: { IconClockCircle },\n  };\n</script>';
+import BadgeColorDemo from '../../../../components/generated/badge/color.vue';
+export const badgeColorSource =
+  "<template>\n  <div>\n    <a-badge\n      v-for=\"color in colors\"\n      :key=\"color\"\n      :color=\"color\"\n      :text=\"color\"\n      :style=\"{ marginRight: '24px' }\"\n    />\n  </div>\n  <br />\n  <div>\n    <a-badge\n      v-for=\"color in customColors\"\n      :key=\"color\"\n      :color=\"color\"\n      :text=\"color\"\n      :style=\"{ marginRight: '24px' }\"\n    />\n  </div>\n</template>\n\n<script>\n  const COLORS = [\n    'red',\n    'orangered',\n    'orange',\n    'gold',\n    'lime',\n    'green',\n    'cyan',\n    'sdblue',\n    'purple',\n    'pinkpurple',\n    'magenta',\n    'gray',\n  ];\n\n  const COLORS_CUSTOM = [\n    '#F53F3F',\n    '#7816FF',\n    '#00B42A',\n    '#165DFF',\n    '#FF7D00',\n    '#EB0AA4',\n    '#7BC616',\n    '#86909C',\n    '#B71DE8',\n    '#0FC6C2',\n    '#FFB400',\n    '#168CFF',\n    '#FF5722',\n  ];\n  export default {\n    data() {\n      return {\n        colors: COLORS,\n        customColors: COLORS_CUSTOM,\n      };\n    },\n  };\n</script>";
+import BadgeDotDemo from '../../../../components/generated/badge/dot.vue';
+export const badgeDotSource =
+  '<template>\n  <a-space :size="40">\n    <a-badge :count="9" dot :offset="[6, -2]">\n      <a href="#">Link</a>\n    </a-badge>\n    <a-badge :count="9" dot :offset="[2, -2]">\n      <IconNotification :style="{ color: \'#888\', fontSize: \'18px\', verticalAlign: \'-3px\' }" />\n    </a-badge>\n  </a-space>\n</template>\n\n<script>\n  import { IconNotification } from \'@sdata/web-vue/es/icon/index.js\';\n\n  export default {\n    components: { IconNotification },\n  };\n</script>';
+import BadgeMaxDemo from '../../../../components/generated/badge/max.vue';
+export const badgeMaxSource =
+  '<template>\n  <a-space :size="40">\n    <a-badge :max-count="10" :count="0">\n      <a-avatar shape="square">\n        <span>\n          <IconUser />\n        </span>\n      </a-avatar>\n    </a-badge>\n    <a-badge :max-count="10" :count="100">\n      <a-avatar shape="square">\n        <span>\n          <IconUser />\n        </span>\n      </a-avatar>\n    </a-badge>\n    <a-badge :count="100">\n      <a-avatar shape="square">\n        <span>\n          <IconUser />\n        </span>\n      </a-avatar>\n    </a-badge>\n    <a-badge :max-count="999" :count="1000">\n      <a-avatar shape="square">\n        <span>\n          <IconUser />\n        </span>\n      </a-avatar>\n    </a-badge>\n  </a-space>\n</template>\n\n<script>\n  import { IconUser } from \'@sdata/web-vue/es/icon/index.js\';\n\n  export default {\n    components: { IconUser },\n  };\n</script>';
+import BadgeStatusDemo from '../../../../components/generated/badge/status.vue';
+export const badgeStatusSource =
+  '<template>\n  <a-space size="large" direction="vertical">\n    <a-space size="large">\n      <a-badge status="normal" />\n      <a-badge status="processing" />\n      <a-badge status="success" />\n      <a-badge status="warning" />\n      <a-badge status="danger" />\n    </a-space>\n    <a-space size="large">\n      <a-badge status="normal" text="Normal" />\n      <a-badge status="processing" text="Processing" />\n      <a-badge status="success" text="Success" />\n      <a-badge status="warning" text="Warning" />\n      <a-badge status="danger" text="Danger" />\n    </a-space>\n  </a-space>\n</template>';
+import BadgeTextDemo from '../../../../components/generated/badge/text.vue';
+export const badgeTextSource =
+  '<template>\n  <a-space :size="40">\n    <a-badge text="NEW">\n      <a-avatar shape="square">\n        <span>\n          <IconUser />\n        </span>\n      </a-avatar>\n    </a-badge>\n    <a-badge text="HOT">\n      <a-avatar shape="square">\n        <span>\n          <IconUser />\n        </span>\n      </a-avatar>\n    </a-badge>\n  </a-space>\n</template>\n\n<script>\n  import { IconUser } from \'@sdata/web-vue/es/icon/index.js\';\n\n  export default {\n    components: { IconUser },\n  };\n</script>';
+
+### 独立使用
+
+`default slot` 为空时，将会独立展示徽标。
+
+<DemoBlock source={badgeAloneSource} mainFile="src/badge-alone.vue">
+
+<BadgeAloneDemo client:only="vue" />
+
+</DemoBlock>
+
+### 基本用法
+
+基本用法。只需指定 `count`或者 `content slot`，即可显示徽标。
+
+<DemoBlock source={badgeBasicSource} mainFile="src/badge-basic.vue">
+
+<BadgeBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 颜色
+
+我们提供多种预设色彩的徽标样式。如果预设值不能满足你的需求，`color` 字段也可以设置自定义色值。
+
+<DemoBlock source={badgeColorSource} mainFile="src/badge-color.vue">
+
+<BadgeColorDemo client:only="vue" />
+
+</DemoBlock>
+
+### 小红点
+
+设置 `dot`，即可只显示小红点而不显示数字。`count > 0` 时才显示。
+
+<DemoBlock source={badgeDotSource} mainFile="src/badge-dot.vue">
+
+<BadgeDotDemo client:only="vue" />
+
+</DemoBlock>
+
+### 最大值
+
+设置 `max-count`，可以限制最大显示的徽标数值，超过将会加 `+` 后缀。`max-count` 默认为 `99`。
+
+<DemoBlock source={badgeMaxSource} mainFile="src/badge-max.vue">
+
+<BadgeMaxDemo client:only="vue" />
+
+</DemoBlock>
+
+### 状态点
+
+设置 `status`，可以得到不同的状态点。`normal - 正常` `processing - 进行中` `success - 成功` `warning - 提醒` `danger - 危险`。
+
+<DemoBlock source={badgeStatusSource} mainFile="src/badge-status.vue">
+
+<BadgeStatusDemo client:only="vue" />
+
+</DemoBlock>
+
+### 文本内容
+
+设置 `text`，可设置自定义提示内容。
+
+<DemoBlock source={badgeTextSource} mainFile="src/badge-text.vue">
+
+<BadgeTextDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### `<badge>` Props
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| text | 自定义提示内容 | `string` | `-` |
+| dot | 显示为小红点 | `boolean` | `false` |
+| dot-style | 徽标的样式 | `object` | `-` |
+| max-count | 徽标最大显示数值，如果count超过这个数值会显示为maxCount | `number` | `99` |
+| offset | 设置徽标位置的偏移 | `number[]` | `[]` |
+| color | 内置的一些颜色 | `ColorType \| string` | `-` |
+| status | 徽标的状态类型 | `'normal' \| 'processing' \| 'success' \| 'warning' \| 'danger'` | `-` |
+| count | 徽标显示的数字 | `number` | `-` |

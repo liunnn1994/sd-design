@@ -15,9 +15,8 @@
 本仓库是一个基于 pnpm workspace 的 monorepo，核心包都位于 packages 目录下。
 
 - packages/web-vue：Vue 组件库本体，包含组件源码、构建脚本、文档元数据生成和测试。
-- packages/sd-vue-docs：VitePress 文档站，负责文档迁移脚本、开发调试和生产打包。
-- packages/sd-vue-scripts：内部脚手架与构建工具，封装组件库和站点的构建逻辑。
-- packages/vite-plugin-sd-vue-docs：将 Markdown 文档转换为 Vue 页面内容的内部 Vite 插件。
+- packages/sd-vue-docs：Astro Starlight 文档站，负责当前文档站的开发、构建、MDX 内容和在线示例编辑能力。
+- packages/sd-vue-scripts：内部脚手架与构建工具，封装组件库构建、测试和辅助生成逻辑。
 
 根目录脚本主要用于串联这些内部包。第一次运行前，需要先把内部工具包编译出来，否则 workspace bin 无法正确工作。
 
@@ -41,9 +40,9 @@ pnpm run dev
 其中：
 
 - `pnpm run init` 会先构建内部工具包，再安装依赖，并执行 `@sdata/web-vue` 的初始化流程。
-- `pnpm run dev` 会同时启动组件库 watch 构建和 VitePress 文档站开发服务。
+- `pnpm run dev` 会同时启动组件库 watch 构建和文档站开发服务。
 - `pnpm run dev:all` 是 `pnpm run dev` 的全量显式入口，适合脚本编排或新同学快速理解流程。
-- `pnpm run dev:docs` 只启动文档站；`pnpm run start` 作为兼容别名，行为与 `pnpm run dev:docs` 一致。
+- `pnpm run dev:docs` 只启动文档站。
 - `pnpm run check:ci` 适合作为常规 CI 入口；`pnpm run release:check` 在此基础上再补截图测试，适合发版前全量校验。
 
 ## 常用命令
@@ -78,9 +77,6 @@ pnpm run build:component
 
 # 打包文档站
 pnpm run build:docs
-
-# 重新生成组件文档元数据
-pnpm run docgen
 
 # 格式化整个仓库
 pnpm run format
@@ -139,10 +135,11 @@ pnpm run clean
 
 ## 文档编写
 
-- 组件文档源文件位于 `packages/web-vue/components/<component>/README.zh-CN.md`。
-- 组件示例源文件位于 `packages/web-vue/components/<component>/__demo__/*.md`，其中 ` ```vue ` 代码块会被迁移脚本提取为可运行示例。
-- 指南页源文件位于 `packages/sd-vue-docs/guide-source/*.zh-CN.md`。
-- 每次修改组件 README、示例或指南后，执行 `pnpm --filter @sd-design/sd-vue-docs run docs:prepare` 重新生成页面。
+- 组件文档最终页面位于 `packages/sd-vue-docs/src/content/docs/components/**/index.mdx`。
+- 指南页最终页面位于 `packages/sd-vue-docs/src/content/docs/guides/*.mdx`。
+- 组件说明的历史来源仍可追溯到 `packages/web-vue/components/<component>/README.zh-CN.md`。
+- 组件示例源码位于 `packages/web-vue/components/<component>/__demo__/*.md`，在线编辑器展示的 Vue 示例组件已固化在文档站源码中。
+- 页面级调整、排版、链接和指南内容统一直接修改 `packages/sd-vue-docs/src/content/docs/**/*.mdx`。
 - 联调时优先使用 `pnpm run dev`；只调文档站可使用 `pnpm run dev:docs`。
 - 产线构建验证优先使用 `pnpm run build`；如果只验证站点可使用 `pnpm run build:docs`。
 - 日常本地自检优先使用 `pnpm run check`，CI 或发版前验证优先使用 `pnpm run check:ci`。
@@ -166,8 +163,5 @@ pnpm run clean
 - firefox>=118
 - ios_saf>=17.0
 - safari>=17.0
+
 <!-- browserslist:end -->
-
-# License
-
-[GNU Affero General Public License v3.0](./LICENSE)

@@ -22,24 +22,6 @@ description: In a set of data, the user can select one or more data through the 
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/control.md
-
-@import ./**demo**/disabled.md
-
-@import ./**demo**/group.md
-
-@import ./**demo**/options.md
-
-@import ./**demo**/limit.md
-
-@import ./**demo**/all.md
-
-@import ./**demo**/layout.md
-
-@import ./**demo**/custom.md
-
 ## API
 
 %%API(checkbox.tsx)%%

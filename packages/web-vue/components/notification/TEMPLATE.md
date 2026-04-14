@@ -22,22 +22,6 @@ description: Globally display notification reminders to convey information to us
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/type.md
-
-@import ./**demo**/position.md
-
-@import ./**demo**/update_notification.md
-
-@import ./**demo**/update_duration.md
-
-@import ./**demo**/btn.md
-
-@import ./**demo**/custom-close.md
-
-@import ./**demo**/style.md
-
 ## API
 
 %%API(notification.vue)%%

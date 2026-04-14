@@ -22,10 +22,6 @@ description:
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/from.md
-
 ## API
 
 %%API(overflow-list.tsx)%%

@@ -22,12 +22,6 @@ description: Use gray to place the data being loaded.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/type.md
-
-@import ./**demo**/animation.md
-
 ## API
 
 %%API(skeleton.vue)%%

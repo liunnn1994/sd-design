@@ -6,10 +6,6 @@ title: 折叠列表 OverflowList
 description:
 ```
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/from.md
-
 ## API
 
 ### `<overflow-list>` Props

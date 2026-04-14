@@ -22,18 +22,6 @@ description: Carousel is used to display multiple pictures, videos, or embedded 
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/auto.md
-
-@import ./**demo**/indicator.md
-
-@import ./**demo**/direction.md
-
-@import ./**demo**/card.md
-
-@import ./**demo**/fade.md
-
 ## API
 
 %%API(carousel.tsx)%%

@@ -22,54 +22,6 @@ description: It is used for data collection, display, analysis and processing, a
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/row-selection.md
-
-@import ./**demo**/radio.md
-
-@import ./**demo**/expand.md
-
-@import ./**demo**/ellipsis.md
-
-@import ./**demo**/subtree.md
-
-@import ./**demo**/lazy-load.md
-
-@import ./**demo**/props.md
-
-@import ./**demo**/sort.md
-
-@import ./**demo**/filter.md
-
-@import ./**demo**/scroll.md
-
-@import ./**demo**/fixed.md
-
-@import ./**demo**/span.md
-
-@import ./**demo**/sticky.md
-
-@import ./**demo**/summary.md
-
-@import ./**demo**/resize.md
-
-@import ./**demo**/drag-row.md
-
-@import ./**demo**/drag-handle.md
-
-@import ./**demo**/group.md
-
-@import ./**demo**/fixed-group.md
-
-@import ./**demo**/editable.md
-
-@import ./**demo**/custom.md
-
-@import ./**demo**/custom-dom.md
-
-@import ./**demo**/virtual-list.md
-
 ## API
 
 %%API(table.tsx)%%
@@ -81,7 +33,9 @@ description: It is used for data collection, display, analysis and processing, a
 ```ts
 type Filters = Record<string, string[]>;
 
-type Sorter = { filed: string; direction: 'ascend' | 'descend' } | Record<string, never>;
+type Sorter =
+  | { filed: string; direction: 'ascend' | 'descend' }
+  | Record<string, never>;
 ```
 
 %%INTERFACE(interface.ts)%%

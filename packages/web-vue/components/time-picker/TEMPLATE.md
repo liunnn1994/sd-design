@@ -22,30 +22,6 @@ description: Select the time on the pop-up panel to conveniently complete the ti
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/rangepicker.md
-
-@import ./**demo**/control.md
-
-@import ./**demo**/default-value.md
-
-@import ./**demo**/size.md
-
-@import ./**demo**/disabled.md
-
-@import ./**demo**/disabled-time.md
-
-@import ./**demo**/disable-confirm.md
-
-@import ./**demo**/format.md
-
-@import ./**demo**/step.md
-
-@import ./**demo**/extra.md
-
-@import ./**demo**/use-12-hours.md
-
 ## API
 
 %%API(time-picker.vue)%%

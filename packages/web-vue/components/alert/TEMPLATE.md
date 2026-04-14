@@ -22,22 +22,6 @@ description: When warning information is displayed to the user, the warning prom
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/type.md
-
-@import ./**demo**/title.md
-
-@import ./**demo**/closable.md
-
-@import ./**demo**/close-element.md
-
-@import ./**demo**/icon.md
-
-@import ./**demo**/action.md
-
-@import ./**demo**/banner.md
-
 ## API
 
 %%API(alert.vue)%%

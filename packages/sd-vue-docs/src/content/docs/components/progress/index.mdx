@@ -1,0 +1,128 @@
+---
+title: 进度条 Progress
+description: 给予用户当前系统执行中任务运行状态的反馈，多用于运行一段时间的场景，有效减轻用户在等待中产生的焦虑感。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import ProgressBasicDemo from '../../../../components/generated/progress/basic.vue';
+export const progressBasicSource =
+  '<template>\n  <a-progress :percent="0.2" :style="{ width: \'50%\' }" />\n  <br />\n  <br />\n  <a-progress :percent="0.3" :style="{ width: \'50%\' }">\n    <template v-slot:text="scope"> 进度 {{ scope.percent * 100 }}% </template>\n  </a-progress>\n</template>';
+import ProgressCircleDemo from '../../../../components/generated/progress/circle.vue';
+export const progressCircleSource =
+  '<template>\n  <a-space size="large">\n    <a-progress type="circle" :percent="percent" />\n    <a-progress type="circle" status="warning" :percent="percent" />\n    <a-progress type="circle" status="danger" :percent="percent" />\n    <a-progress type="circle" status="success" :percent="percent" />\n  </a-space>\n  <div :style="{ marginTop: \'20px\' }">\n    <a-slider v-model="percent" :max="1" :step="0.1" :style="{ width: \'150px\' }" />\n  </div>\n</template>\n\n<script>\n  import { ref } from \'vue\';\n\n  export default {\n    setup() {\n      const percent = ref(0.2);\n\n      return {\n        percent,\n      };\n    },\n  };\n</script>';
+import ProgressLinearDemo from '../../../../components/generated/progress/linear.vue';
+export const progressLinearSource =
+  "<template>\n  <div>\n    <a-progress\n      :percent=\"0.8\"\n      :style=\"{ width: '50%' }\"\n      :color=\"{\n        '0%': 'rgb(var(--primary-6))',\n        '100%': 'rgb(var(--success-6))',\n      }\"\n    />\n    <br />\n    <br />\n\n    <a-progress\n      :percent=\"1\"\n      :style=\"{ width: '50%' }\"\n      :color=\"{\n        '0%': 'rgb(var(--primary-6))',\n        '100%': 'rgb(var(--success-6))',\n      }\"\n    />\n    <br />\n    <br />\n    <a-space size=\"large\">\n      <a-progress\n        type=\"circle\"\n        :percent=\"0.8\"\n        :style=\"{ width: '50%' }\"\n        :color=\"{\n          '0%': 'rgb(var(--primary-6))',\n          '100%': 'rgb(var(--success-6))',\n        }\"\n      />\n\n      <a-progress\n        type=\"circle\"\n        :percent=\"1\"\n        :style=\"{ width: '50%' }\"\n        :color=\"{\n          '0%': 'rgb(var(--primary-6))',\n          '100%': 'rgb(var(--success-6))',\n        }\"\n      />\n    </a-space>\n  </div>\n</template>";
+import ProgressMiniDemo from '../../../../components/generated/progress/mini.vue';
+export const progressMiniSource =
+  '<template>\n  <a-space size="large" :style="{ width: \'100%\' }">\n    <a-progress size="mini" :percent="percent" />\n    <a-progress size="mini" status="warning" :percent="percent" />\n    <a-progress size="mini" status="danger" :percent="percent" />\n    <a-progress size="mini" status="success" :percent="percent" />\n  </a-space>\n  <a-space size="large" :style="{ width: \'100%\', marginTop: \'20px\' }">\n    <a-progress type="circle" size="mini" :percent="percent" />\n    <a-progress type="circle" size="mini" status="warning" :percent="percent" />\n    <a-progress type="circle" size="mini" status="danger" :percent="percent" />\n    <a-progress type="circle" size="mini" status="success" :percent="percent" />\n  </a-space>\n  <div :style="{ marginTop: \'20px\' }">\n    <a-slider v-model="percent" :max="1" :step="0.1" :style="{ width: \'150px\' }" />\n  </div>\n</template>\n\n<script>\n  import { ref } from \'vue\';\n\n  export default {\n    setup() {\n      const percent = ref(0.2);\n\n      return {\n        percent,\n      };\n    },\n  };\n</script>';
+import ProgressSizeDemo from '../../../../components/generated/progress/size.vue';
+export const progressSizeSource =
+  '<template>\n  <a-space direction="vertical" size="large" :style="{ width: \'50%\' }">\n    <a-radio-group v-model="size" type="button">\n      <a-radio value="small">Small</a-radio>\n      <a-radio value="medium">Medium</a-radio>\n      <a-radio value="large">Large</a-radio>\n    </a-radio-group>\n    <a-progress :size="size" :percent="0.2" />\n    <a-progress status="warning" :size="size" :percent="0.2" />\n    <a-progress status="danger" :size="size" :percent="0.2" />\n    <a-space>\n      <a-progress type="circle" :size="size" :percent="0.2" />\n      <a-progress type="circle" status="warning" :size="size" :percent="0.2" />\n      <a-progress type="circle" status="danger" :size="size" :percent="0.2" />\n    </a-space>\n  </a-space>\n</template>\n\n<script>\n  import { ref } from \'vue\';\n\n  export default {\n    setup() {\n      return {\n        size: ref(\'medium\'),\n      };\n    },\n  };\n</script>';
+import ProgressStatusDemo from '../../../../components/generated/progress/status.vue';
+export const progressStatusSource =
+  '<template>\n  <a-space direction="vertical" :style="{ width: \'50%\' }">\n    <a-progress :percent="percent" />\n    <a-progress status="warning" :percent="percent" />\n    <a-progress status="danger" :percent="percent" />\n  </a-space>\n  <div :style="{ marginTop: \'20px\' }">\n    <a-slider v-model="percent" :max="1" :step="0.1" :style="{ width: \'150px\' }" />\n  </div>\n</template>\n\n<script>\n  import { ref } from \'vue\';\n\n  export default {\n    setup() {\n      const percent = ref(0.2);\n\n      return {\n        percent,\n      };\n    },\n  };\n</script>';
+import ProgressStepsDemo from '../../../../components/generated/progress/steps.vue';
+export const progressStepsSource =
+  '<template>\n  <div :style="{ width: \'50%\' }">\n    <a-progress :steps="3" :percent="0.3" />\n    <a-progress :steps="5" status="warning" :percent="1" />\n    <a-progress :steps="3" size="small" :percent="0.3" />\n  </div>\n</template>';
+import ProgressTrackcolorDemo from '../../../../components/generated/progress/trackcolor.vue';
+export const progressTrackcolorSource =
+  '<template>\n  <div :style="{ width: \'50%\' }">\n    <a-progress\n      :percent="0.4"\n      trackColor="var(--color-primary-light-1)"\n      style="margin-bottom: 20px;"\n    />\n    <a-progress\n      :percent="0.4"\n      :steps="4"\n      trackColor="var(--color-primary-light-1)"\n      style="margin-bottom: 20px;"\n    />\n    <a-progress\n      :percent="0.4"\n      type="circle"\n      trackColor="var(--color-primary-light-1)"\n      style="margin-bottom: 20px;"\n    />\n  </div>\n</template>';
+
+### 基本用法
+
+简单的进度条。
+
+<DemoBlock source={progressBasicSource} mainFile="src/progress-basic.vue">
+
+<ProgressBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 环形进度条
+
+设置 `type="circle"` 将会展示环形进度条。
+
+<DemoBlock source={progressCircleSource} mainFile="src/progress-circle.vue">
+
+<ProgressCircleDemo client:only="vue" />
+
+</DemoBlock>
+
+### 渐变进度条
+
+`color` 传入对象时， 会作为 `linear-gradient` 的属性值设置渐变色。
+
+<DemoBlock source={progressLinearSource} mainFile="src/progress-linear.vue">
+
+<ProgressLinearDemo client:only="vue" />
+
+</DemoBlock>
+
+### 迷你进度条
+
+设置 `size="mini"` 展示微型进度条。
+
+<DemoBlock source={progressMiniSource} mainFile="src/progress-mini.vue">
+
+<ProgressMiniDemo client:only="vue" />
+
+</DemoBlock>
+
+### 进度条大小
+
+通过 `size` 设置进度条的大小
+
+<DemoBlock source={progressSizeSource} mainFile="src/progress-size.vue">
+
+<ProgressSizeDemo client:only="vue" />
+
+</DemoBlock>
+
+### 进度条状态
+
+通过 `status` 指定进度条状态
+
+<DemoBlock source={progressStatusSource} mainFile="src/progress-status.vue">
+
+<ProgressStatusDemo client:only="vue" />
+
+</DemoBlock>
+
+### 步骤进度条
+
+通过设置 `steps` 展示步骤进度条。
+
+<DemoBlock source={progressStepsSource} mainFile="src/progress-steps.vue">
+
+<ProgressStepsDemo client:only="vue" />
+
+</DemoBlock>
+
+### 剩余进度条的颜色
+
+可以通过 trackColor 设置剩余进度条的颜色
+
+<DemoBlock source={progressTrackcolorSource} mainFile="src/progress-trackcolor.vue">
+
+<ProgressTrackcolorDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### `<progress>` Props
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| type | 进度条的类型 | `'line' \| 'circle'` | `'line'` |
+| size | 进度条的大小 | `'mini' \| 'small' \| 'medium' \| 'large'` | `'medium'` |
+| percent | 进度条当前的百分比 | `number` | `0` |
+| steps | 开启步骤条模式，并设置步骤数 | `number` | `0` |
+| animation | 是否开启过渡动画 | `boolean` | `false` |
+| stroke-width | 进度条的线宽 | `number` | `-` |
+| width | 进度条的长度 | `number\|string` | `-` |
+| color | 进度条的颜色 | `string\|object` | `-` |
+| track-color | 进度条的轨道颜色 | `string` | `-` |
+| show-text | 是否显示文字 | `boolean` | `true` |
+| status | 进度条状态 | `'normal' \| 'success' \| 'warning' \| 'danger'` | `-` |

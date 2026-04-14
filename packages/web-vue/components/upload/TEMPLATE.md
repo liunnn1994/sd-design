@@ -22,34 +22,6 @@ description: Users can transfer files or submit corresponding content.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/avatar.md
-
-@import ./**demo**/upload-list.md
-
-@import ./**demo**/picture-card.md
-
-@import ./**demo**/draggable.md
-
-@import ./**demo**/picture-list.md
-
-@import ./**demo**/submit.md
-
-@import ./**demo**/before-upload.md
-
-@import ./**demo**/before-remove.md
-
-@import ./**demo**/limit.md
-
-@import ./**demo**/custom-button.md
-
-@import ./**demo**/custom-icon.md
-
-@import ./**demo**/request.md
-
-@import ./**demo**/directory.md
-
 ## API
 
 %%API(upload.tsx)%%

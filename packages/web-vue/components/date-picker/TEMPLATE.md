@@ -22,44 +22,6 @@ description: Choose a date. Support year, month, week, day type, support range s
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/month.md
-
-@import ./**demo**/year.md
-
-@import ./**demo**/quarter.md
-
-@import ./**demo**/week.md
-
-@import ./**demo**/showtime.md
-
-@import ./**demo**/range.md
-
-@import ./**demo**/default-value.md
-
-@import ./**demo**/disabled-date.md
-
-@import ./**demo**/shortcuts.md
-
-@import ./**demo**/shortcuts-position.md
-
-@import ./**demo**/disabled-date-advance.md
-
-@import ./**demo**/size.md
-
-@import ./**demo**/extra.md
-
-@import ./**demo**/disabled.md
-
-@import ./**demo**/date-render.md
-
-@import ./**demo**/control.md
-
-@import ./**demo**/trigger-element.md
-
-@import ./**demo**/panel-only.md
-
 ## API
 
 %%API(picker.vue)%%

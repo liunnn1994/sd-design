@@ -22,24 +22,6 @@ description: Open a floating layer on the current page to carry related operatio
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/async.md
-
-@import ./**demo**/function.md
-
-@import ./**demo**/notice.md
-
-@import ./**demo**/width.md
-
-@import ./**demo**/custom.md
-
-@import ./**demo**/form.md
-
-@import ./**demo**/draggable.md
-
-@import ./**demo**/fullscreen.md
-
 ## API
 
 %%API(modal.vue)%%

@@ -1,0 +1,90 @@
+---
+title: 链接 Link
+description: 链接的基本样式。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import LinkBasicDemo from '../../../../components/generated/link/basic.vue';
+export const linkBasicSource =
+  '<template>\n  <a-space>\n    <a-link href="link">Link</a-link>\n    <a-link href="link" disabled>Link</a-link>\n  </a-space>\n</template>';
+import LinkHoverableDemo from '../../../../components/generated/link/hoverable.vue';
+export const linkHoverableSource =
+  '<template>\n  <a-space>\n    <a-link href="link" :hoverable="false">Link</a-link>\n    <a-link href="link" status="danger" :hoverable="false">Link</a-link>\n  </a-space>\n</template>';
+import LinkIconDemo from '../../../../components/generated/link/icon.vue';
+export const linkIconSource =
+  '<template>\n  <div>\n    <a-space>\n      <a-link href="link" icon>Link</a-link>\n      <a-link href="link" disabled icon>Link</a-link>\n    </a-space>\n  </div>\n  <div>\n    <a-space>\n      <a-link href="link">\n        <template #icon>\n          <icon-edit />\n        </template>\n        Link\n      </a-link>\n      <a-link href="link" disabled>\n        <template #icon>\n          <icon-edit />\n        </template>\n        Link\n      </a-link>\n    </a-space>\n  </div>\n</template>\n\n<script>\n  import { IconEdit } from \'@sdata/web-vue/es/icon/index.js\';\n\n  export default {\n    components: { IconEdit },\n  };\n</script>';
+import LinkLoadingDemo from '../../../../components/generated/link/loading.vue';
+export const linkLoadingSource =
+  '<template>\n  <a-space>\n    <a-link loading>Link</a-link>\n    <a-link :loading="loading1" @click="handleClick1">Link</a-link>\n    <a-link :loading="loading2" @click="handleClick2">\n      <template #icon>\n        <icon-edit />\n      </template>\n      Link\n    </a-link>\n  </a-space>\n</template>\n\n<script>\n  import { ref } from \'vue\';\n  import { IconEdit } from \'@sdata/web-vue/es/icon/index.js\';\n\n  export default {\n    components: {\n      IconEdit,\n    },\n    setup() {\n      const loading1 = ref(false);\n      const loading2 = ref(false);\n\n      const handleClick1 = () => {\n        loading1.value = true;\n        setTimeout(() => {\n          loading1.value = false;\n        }, 3000);\n      };\n      const handleClick2 = () => {\n        loading2.value = true;\n        setTimeout(() => {\n          loading2.value = false;\n        }, 3000);\n      };\n\n      return {\n        loading1,\n        loading2,\n        handleClick1,\n        handleClick2,\n      };\n    },\n  };\n</script>';
+import LinkStatusDemo from '../../../../components/generated/link/status.vue';
+export const linkStatusSource =
+  '<template>\n  <a-space direction="vertical">\n    <a-space>\n      <a-link href="link">Normal Link</a-link>\n      <a-link href="link" disabled>Normal Link</a-link>\n    </a-space>\n    <a-space>\n      <a-link href="link" status="success">Success Link</a-link>\n      <a-link href="link" status="success" disabled>Success Link</a-link>\n    </a-space>\n    <a-space>\n      <a-link href="link" status="warning">Warning Link</a-link>\n      <a-link href="link" status="warning" disabled>Warning Link</a-link>\n    </a-space>\n    <a-space>\n      <a-link href="link" status="danger">Danger Link</a-link>\n      <a-link href="link" status="danger" disabled>Danger Link</a-link>\n    </a-space>\n  </a-space>\n</template>';
+
+### 基本用法
+
+链接的基本用法。
+
+<DemoBlock source={linkBasicSource} mainFile="src/link-basic.vue">
+
+<LinkBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 悬浮状态底色
+
+可以通过 hoverable 属性设置是否在悬浮状态时隐藏底色。
+
+<DemoBlock source={linkHoverableSource} mainFile="src/link-hoverable.vue">
+
+<LinkHoverableDemo client:only="vue" />
+
+</DemoBlock>
+
+### 图标
+
+通过 `icon` 设置带图标的链接，设置为 `true` 时候显示默认图标。
+
+<DemoBlock source={linkIconSource} mainFile="src/link-icon.vue">
+
+<LinkIconDemo client:only="vue" />
+
+</DemoBlock>
+
+### 加载中状态
+
+通过设置 `loading` 可以让链接处于加载中状态。处于加载中状态的链接不会触发点击事件。
+
+<DemoBlock source={linkLoadingSource} mainFile="src/link-loading.vue">
+
+<LinkLoadingDemo client:only="vue" />
+
+</DemoBlock>
+
+### 链接的状态
+
+链接的状态分为 `normal` - **正常（默认）**、`success` - **成功**、`warning` - **警告**、`danger` - **危险**四种。
+
+<DemoBlock source={linkStatusSource} mainFile="src/link-status.vue">
+
+<LinkStatusDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### `<link>` Props
+
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| href | 链接地址 | `string` | `-` |  |
+| status | 链接的状态 | `'normal' \| 'warning' \| 'success' \| 'danger'` | `'normal'` |  |
+| hoverable | 鼠标悬浮时存在底色 | `boolean` | `true` | 2.7.0 |
+| icon | 图标 | `boolean` | `false` | 2.7.0 |
+| loading | 链接是否为加载中状态 | `boolean` | `false` | 2.37.0 |
+| disabled | 链接是否禁用 | `boolean` | `false` |  |
+
+### `<link>` Events
+
+| 事件名 | 描述       | 参数             |
+| ------ | ---------- | ---------------- |
+| click  | 点击时触发 | ev: `MouseEvent` |

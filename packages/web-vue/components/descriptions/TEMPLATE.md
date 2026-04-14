@@ -22,18 +22,6 @@ description: Generally used for the information display of the detail page.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/single.md
-
-@import ./**demo**/align.md
-
-@import ./**demo**/bordered.md
-
-@import ./**demo**/layout.md
-
-@import ./**demo**/example.md
-
 ## API
 
 %%API(descriptions.tsx)%%

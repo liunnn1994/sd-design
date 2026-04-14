@@ -22,16 +22,6 @@ description: Through the anchor point, you can quickly find the position of the 
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/line-less.md
-
-@import ./**demo**/affix.md
-
-@import ./**demo**/boundary.md
-
-@import ./**demo**/hash.md
-
 ## API
 
 %%API(anchor.vue)%%

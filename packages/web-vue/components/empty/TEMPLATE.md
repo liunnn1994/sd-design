@@ -22,10 +22,6 @@ description: Refers to a state in which the current scene has no corresponding d
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/custom.md
-
 ## API
 
 %%API(empty.tsx)%%

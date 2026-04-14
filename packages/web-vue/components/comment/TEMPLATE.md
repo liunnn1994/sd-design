@@ -22,14 +22,6 @@ description: Display a comment.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/align.md
-
-@import ./**demo**/nest.md
-
-@import ./**demo**/editor.md
-
 ## API
 
 %%API(comment.vue)%%

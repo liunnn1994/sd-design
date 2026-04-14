@@ -6,68 +6,44 @@ title: 时间选择器 TimePicker
 description: 在弹出面板上选择时间，以便捷完成时间输入的控件。
 ```
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/rangepicker.md
-
-@import ./**demo**/control.md
-
-@import ./**demo**/default-value.md
-
-@import ./**demo**/size.md
-
-@import ./**demo**/disabled.md
-
-@import ./**demo**/disabled-time.md
-
-@import ./**demo**/disable-confirm.md
-
-@import ./**demo**/format.md
-
-@import ./**demo**/step.md
-
-@import ./**demo**/extra.md
-
-@import ./**demo**/use-12-hours.md
-
 ## API
 
 ### `<time-picker>` Props
 
-| 参数名 | 描述 | 类型 | 默认值 |
-| --- | --- | --- | :-: |
-| type | 选择器类型 | `'time' \| 'time-range'` | `'time'` |
-| model-value **(v-model)** | 绑定值 | `string \| number \| Date \| Array<string \| number \| Date>` | `-` |
-| default-value | 默认值 | `string \| number \| Date \| Array<string \| number \| Date>` | `-` |
-| disabled | 是否禁用 | `boolean` | `false` |
-| allow-clear | 是否允许清除 | `boolean` | `true` |
-| readonly | 是否为只读模式 | `boolean` | `false` |
-| error | 是否为错误状态 | `boolean` | `false` |
-| format | 展示日期的格式，参考[字符串解析格式](#字符串解析格式) | `string` | `'HH:mm:ss'` |
-| placeholder | 提示文案 | `string \| string[]` | `-` |
-| size | 输入框尺寸 | `'mini' \| 'small' \| 'medium' \| 'large'` | `'medium'` |
-| popup-container | 弹出框的挂载容器 | `string \| HTMLElement` | `-` |
-| use12-hours | 12 小时制 | `boolean` | `false` |
-| step | 设置 时 / 分 / 秒 的选择间隔 | `{  hour?: number;  minute?: number;  second?: number;}` | `-` |
-| disabled-hours | 禁用的部分小时选项 | `() => number[]` | `-` |
-| disabled-minutes | 禁用的部分分钟选项 | `(selectedHour?: number) => number[]` | `-` |
-| disabled-seconds | 禁用的部分秒数选项 | `(selectedHour?: number, selectedMinute?: number) => number[]` | `-` |
-| hide-disabled-options | 隐藏禁止选择的选项 | `boolean` | `false` |
-| disable-confirm | 禁用确认步骤，开启后直接点选时间不需要点击确认按钮 | `boolean` | `false` |
-| position | 弹出的位置 | `'top' \| 'tl' \| 'tr' \| 'bottom' \| 'bl' \| 'br'` | `'bl'` |
-| popup-visible **(v-model)** | 控制弹出框打开或者关闭 | `boolean` | `-` |
-| default-popup-visible | 弹出框默认打开或者关闭 | `boolean` | `false` |
-| trigger-props | 可以传入 `Trigger` 组件的参数 | `TriggerProps` | `-` |
-| unmount-on-close | 是否在关闭后销毁 dom 结构 | `boolean` | `false` |
+| 参数名                      | 描述                                                  | 类型                                                           |    默认值    |
+| --------------------------- | ----------------------------------------------------- | -------------------------------------------------------------- | :----------: |
+| type                        | 选择器类型                                            | `'time' \| 'time-range'`                                       |   `'time'`   |
+| model-value **(v-model)**   | 绑定值                                                | `string \| number \| Date \| Array<string \| number \| Date>`  |     `-`      |
+| default-value               | 默认值                                                | `string \| number \| Date \| Array<string \| number \| Date>`  |     `-`      |
+| disabled                    | 是否禁用                                              | `boolean`                                                      |   `false`    |
+| allow-clear                 | 是否允许清除                                          | `boolean`                                                      |    `true`    |
+| readonly                    | 是否为只读模式                                        | `boolean`                                                      |   `false`    |
+| error                       | 是否为错误状态                                        | `boolean`                                                      |   `false`    |
+| format                      | 展示日期的格式，参考[字符串解析格式](#字符串解析格式) | `string`                                                       | `'HH:mm:ss'` |
+| placeholder                 | 提示文案                                              | `string \| string[]`                                           |     `-`      |
+| size                        | 输入框尺寸                                            | `'mini' \| 'small' \| 'medium' \| 'large'`                     |  `'medium'`  |
+| popup-container             | 弹出框的挂载容器                                      | `string \| HTMLElement`                                        |     `-`      |
+| use12-hours                 | 12 小时制                                             | `boolean`                                                      |   `false`    |
+| step                        | 设置 时 / 分 / 秒 的选择间隔                          | `{  hour?: number;  minute?: number;  second?: number;}`       |     `-`      |
+| disabled-hours              | 禁用的部分小时选项                                    | `() => number[]`                                               |     `-`      |
+| disabled-minutes            | 禁用的部分分钟选项                                    | `(selectedHour?: number) => number[]`                          |     `-`      |
+| disabled-seconds            | 禁用的部分秒数选项                                    | `(selectedHour?: number, selectedMinute?: number) => number[]` |     `-`      |
+| hide-disabled-options       | 隐藏禁止选择的选项                                    | `boolean`                                                      |   `false`    |
+| disable-confirm             | 禁用确认步骤，开启后直接点选时间不需要点击确认按钮    | `boolean`                                                      |   `false`    |
+| position                    | 弹出的位置                                            | `'top' \| 'tl' \| 'tr' \| 'bottom' \| 'bl' \| 'br'`            |    `'bl'`    |
+| popup-visible **(v-model)** | 控制弹出框打开或者关闭                                | `boolean`                                                      |     `-`      |
+| default-popup-visible       | 弹出框默认打开或者关闭                                | `boolean`                                                      |   `false`    |
+| trigger-props               | 可以传入 `Trigger` 组件的参数                         | `TriggerProps`                                                 |     `-`      |
+| unmount-on-close            | 是否在关闭后销毁 dom 结构                             | `boolean`                                                      |   `false`    |
 
 ### `<time-picker>` Events
 
-| 事件名 | 描述 | 参数 |
-| --- | --- | --- |
-| change | 组件值发生改变 | timeString: `string \| Array<string \| undefined> \| undefined`<br>time: `date \| Array<date \| undefined> \| undefined` |
-| select | 选择时间但未触发组件值变化 | timeString: `string \| Array<string \| undefined>`<br>time: `Date \| Array<Date \| undefined>` |
-| clear | 点击清除按钮 | - |
-| popup-visible-change | 弹出框展开和收起 | visible: `boolean` |
+| 事件名               | 描述                       | 参数                                                                                                                     |
+| -------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| change               | 组件值发生改变             | timeString: `string \| Array<string \| undefined> \| undefined`<br>time: `date \| Array<date \| undefined> \| undefined` |
+| select               | 选择时间但未触发组件值变化 | timeString: `string \| Array<string \| undefined>`<br>time: `Date \| Array<Date \| undefined>`                           |
+| clear                | 点击清除按钮               | -                                                                                                                        |
+| popup-visible-change | 弹出框展开和收起           | visible: `boolean`                                                                                                       |
 
 ### `<time-picker>` Slots
 

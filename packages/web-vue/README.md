@@ -87,9 +87,6 @@ pnpm run build:all
 # 根目录：仅打包组件库
 pnpm run build:component
 
-# 根目录：重新生成组件文档元数据
-pnpm run docgen
-
 # 根目录：运行测试
 pnpm run test
 
@@ -118,8 +115,8 @@ pnpm --filter @sdata/web-vue run build
 
 # 相关链接
 
-- [暗黑模式](https://69dcb47c8b4208264c6e77c6--sensational-caramel-b44e12.netlify.app/guide/dark)
-- [主题配置](https://69dcb47c8b4208264c6e77c6--sensational-caramel-b44e12.netlify.app/guide/theme)
+- [暗黑模式](https://69dcb47c8b4208264c6e77c6--sensational-caramel-b44e12.netlify.app/guides/dark)
+- [主题配置](https://69dcb47c8b4208264c6e77c6--sensational-caramel-b44e12.netlify.app/guides/theme)
 - [Figma 设计资源](https://www.figma.com/file/FVu1DydEeXvJqXrkOb90Oi/SD Design%E7%BB%84%E4%BB%B6%E8%AE%BE%E8%AE%A1_2.0?node-id=5472%3A308)
 
 # 参与贡献

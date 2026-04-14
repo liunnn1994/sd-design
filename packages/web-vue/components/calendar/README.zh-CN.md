@@ -6,8 +6,6 @@ title: 日历 Calendar
 description: 日历组件。
 ```
 
-@import ./**demo**/basic.md
-
 ## API
 
 ### `<calendar>` Props

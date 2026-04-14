@@ -1,0 +1,137 @@
+---
+title: 颜色选择器 ColorPicker
+description: 用于选择和展示颜色
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import ColorPickerBasicDemo from '../../../../components/generated/color-picker/basic.vue';
+export const colorPickerBasicSource =
+  '<template>\n  <a-space>\n    <a-color-picker v-model="value" />\n    <a-color-picker defaultValue="#165DFF" showText disabledAlpha />\n  </a-space>\n</template>\n\n<script setup>\n  import { ref } from \'vue\';\n  const value = ref(\'#165DFF\');\n</script>';
+import ColorPickerColorsDemo from '../../../../components/generated/color-picker/colors.vue';
+export const colorPickerColorsSource =
+  '<template>\n  <a-color-picker\n    defaultValue="#165DFF"\n    :historyColors="history"\n    showHistory\n    showPreset\n    @popup-visible-change="addHistory"\n  />\n</template>\n\n<script setup>\n  import { ref } from \'vue\';\n\n  const history = ref([\'#165DFF\']);\n  const addHistory = (visible, color) => {\n    if (!visible) {\n      const index = history.value.indexOf(color);\n      if (index !== -1) {\n        history.value.splice(index, 1);\n      }\n      history.value.unshift(color);\n    }\n  };\n</script>';
+import ColorPickerDisabledDemo from '../../../../components/generated/color-picker/disabled.vue';
+export const colorPickerDisabledSource =
+  '<template>\n  <a-space>\n    <a-color-picker defaultValue="#165DFF" disabled />\n    <a-color-picker defaultValue="#165DFF" showText disabled />\n  </a-space>\n</template>';
+import ColorPickerFormatDemo from '../../../../components/generated/color-picker/format.vue';
+export const colorPickerFormatSource =
+  '<template>\n  <a-space direction="vertical">\n    <a-radio-group type="button" v-model="format">\n      <a-radio v-for="item in formatList" :value="item">{{ item }}</a-radio>\n    </a-radio-group>\n    <a-color-picker defaultValue="#165DFF" :format="format" showText />\n  </a-space>\n</template>\n\n<script setup>\n  import { ref } from \'vue\';\n\n  const format = ref(\'hex\');\n  const formatList = [\'hex\', \'rgb\'];\n</script>';
+import ColorPickerOnlyPanelDemo from '../../../../components/generated/color-picker/only-panel.vue';
+export const colorPickerOnlyPanelSource =
+  '<template>\n  <a-space :size="32">\n    <a-color-picker defaultValue="#165DFF" hideTrigger showHistory showPreset />\n    <a-color-picker defaultValue="#12D2AC" disabled hideTrigger showPreset />\n  </a-space>\n</template>';
+import ColorPickerSizeDemo from '../../../../components/generated/color-picker/size.vue';
+export const colorPickerSizeSource =
+  '<template>\n  <a-space>\n    <a-color-picker defaultValue="#165DFF" size="mini" />\n    <a-color-picker defaultValue="#165DFF" size="small" />\n    <a-color-picker defaultValue="#165DFF" size="medium" />\n    <a-color-picker defaultValue="#165DFF" size="large" />\n  </a-space>\n</template>';
+import ColorPickerTriggerElementDemo from '../../../../components/generated/color-picker/trigger-element.vue';
+export const colorPickerTriggerElementSource =
+  '<template>\n  <a-space>\n    <a-color-picker v-model="value" size="mini">\n      <a-tag :color="value">\n        <template #icon>\n          <icon-bg-colors style="color: #fff" />\n        </template>\n        {{ value }}\n      </a-tag>\n    </a-color-picker>\n  </a-space>\n</template>\n\n<script setup>\n  import { ref } from \'vue\';\n\n  const value = ref(\'#165DFF\');\n</script>';
+import ColorPickerTriggerDemo from '../../../../components/generated/color-picker/trigger.vue';
+export const colorPickerTriggerSource =
+  '<template>\n  <a-space direction="vertical">\n    <a-switch v-model="triggerProps.popupVisible">\n      <template #checked> ON </template>\n      <template #unchecked>OFF</template>\n    </a-switch>\n    <a-color-picker defaultValue="#165DFF" :trigger-props="triggerProps" />\n  </a-space>\n</template>\n\n<script setup>\n  import { ref } from \'vue\';\n\n  const triggerProps = ref({\n    popupVisible: false,\n    unmountOnClose: true,\n    renderToBody: false,\n    position: \'rt\',\n  });\n</script>';
+
+### 基本使用
+
+基本用法
+
+<DemoBlock source={colorPickerBasicSource} mainFile="src/color-picker-basic.vue">
+
+<ColorPickerBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 预设颜色和历史颜色
+
+通过 `showPreset` 和 `showHistory` 开启预设颜色和历史颜色区域。历史颜色需要用户自行控制展示内容。
+
+<DemoBlock source={colorPickerColorsSource} mainFile="src/color-picker-colors.vue">
+
+<ColorPickerColorsDemo client:only="vue" />
+
+</DemoBlock>
+
+### 禁用
+
+设置 `disabled` 禁用选择器。
+
+<DemoBlock source={colorPickerDisabledSource} mainFile="src/color-picker-disabled.vue">
+
+<ColorPickerDisabledDemo client:only="vue" />
+
+</DemoBlock>
+
+### 颜色格式
+
+通过 `format` 设置颜色值的格式，支持 `hex` 和 `rgb`。
+
+<DemoBlock source={colorPickerFormatSource} mainFile="src/color-picker-format.vue">
+
+<ColorPickerFormatDemo client:only="vue" />
+
+</DemoBlock>
+
+### 只使用面板
+
+只用颜色选择面板。
+
+<DemoBlock source={colorPickerOnlyPanelSource} mainFile="src/color-picker-only-panel.vue">
+
+<ColorPickerOnlyPanelDemo client:only="vue" />
+
+</DemoBlock>
+
+### 尺寸
+
+颜色选择器定义了四种尺寸（`mini`,`small`, `medium`, `large`），分别为 24px，28px，32px，36px。
+
+<DemoBlock source={colorPickerSizeSource} mainFile="src/color-picker-size.vue">
+
+<ColorPickerSizeDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义触发元素
+
+自定义触发元素。
+
+<DemoBlock source={colorPickerTriggerElementSource} mainFile="src/color-picker-trigger-element.vue">
+
+<ColorPickerTriggerElementDemo client:only="vue" />
+
+</DemoBlock>
+
+### 触发器
+
+可以通过 `trigger-props` 设置触发器的所有属性。
+
+<DemoBlock source={colorPickerTriggerSource} mainFile="src/color-picker-trigger.vue">
+
+<ColorPickerTriggerDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### `<color-picker>` Props
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| model-value **(v-model)** | 绑定值 | `string` | `-` |
+| default-value | 默认值（非受控状态） | `string` | `-` |
+| format | 颜色值的格式 | `'hex' \| 'rgb'` | `-` |
+| size | 尺寸 | `'mini' \| 'small' \| 'medium' \| 'large'` | `'medium'` |
+| show-text | 显示颜色值 | `boolean` | `false` |
+| show-history | 显示历史颜色 | `boolean` | `false` |
+| show-preset | 显示预设颜色 | `boolean` | `false` |
+| disabled | 禁用 | `boolean` | `false` |
+| disabled-alpha | 禁用透明通道 | `boolean` | `false` |
+| hide-trigger | 没有触发元素，只显示颜色面板 | `boolean` | `false` |
+| trigger-props | 接受所有 [Trigger](/components/trigger/) 组件的Props | `Partial<TriggerProps>` | `-` |
+| history-colors | 历史颜色的颜色数组 | `string[]` | `-` |
+| preset-colors | 预设颜色的颜色数组 | `string[]` | `() => colors` |
+
+### `<color-picker>` Events
+
+| 事件名               | 描述                     | 参数                                    |
+| -------------------- | ------------------------ | --------------------------------------- |
+| change               | 颜色值改变时触发         | value: `string`                         |
+| popup-visible-change | 颜色面板展开和收起时触发 | visible: `boolean`<br />value: `string` |

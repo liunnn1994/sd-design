@@ -1,0 +1,54 @@
+---
+title: 滚动条 Scrollbar
+description: 用于替换浏览器默认滚动条样式。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import ScrollbarBasicDemo from '../../../../components/generated/scrollbar/basic.vue';
+export const scrollbarBasicSource =
+  '<template>\n  <a-scrollbar style="height:200px;overflow: auto;">\n    <div style="height: 2000px;width: 2000px; background-color: var(--color-primary-light-4);"\n      >Content</div\n    >\n  </a-scrollbar>\n</template>';
+import ScrollbarTypeDemo from '../../../../components/generated/scrollbar/type.vue';
+export const scrollbarTypeSource =
+  '<template>\n  <a-scrollbar type="track" style="height:200px;overflow: auto;">\n    <div style="height: 2000px;width: 2000px; background-color: var(--color-primary-light-4);"\n      >Content</div\n    >\n  </a-scrollbar>\n</template>\n\n<script>\n  export default {};\n</script>';
+
+### 基本用法
+
+滚动条组件基本用法。scrollbar 的默认插槽需要唯一的子元素。
+
+<DemoBlock source={scrollbarBasicSource} mainFile="src/scrollbar-basic.vue">
+
+<ScrollbarBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 滚动条类型
+
+设置 `type` 属性改变滚动条类型，`track` 类型会显示滚动条轨道。
+
+<DemoBlock source={scrollbarTypeSource} mainFile="src/scrollbar-type.vue">
+
+<ScrollbarTypeDemo client:only="vue" />
+
+</DemoBlock>
+
+### `<scrollbar>` Props
+
+| 参数名      | 描述       | 类型                    |  默认值   |
+| ----------- | ---------- | ----------------------- | :-------: |
+| type        | 类型       | `'track' \| 'embed'`    | `'embed'` |
+| outer-class | 外层的类名 | `string\|object\|array` |    `-`    |
+| outer-style | 外层的样式 | `StyleValue`            |    `-`    |
+
+### `<scrollbar>` Events
+
+| 事件名 | 描述       | 参数 |
+| ------ | ---------- | ---- |
+| scroll | 滚动时触发 | -    |
+
+### `<scrollbar>` Methods
+
+| 方法名 | 描述 | 参数 | 返回值 | 版本 |
+| --- | --- | --- | --- | :-- |
+| scrollTo | 滚动 | options: `number \| {left?: number;top?: number}`<br />y: `number` | - |  |
+| scrollTop | 纵向滚动 | top: `number` | - | 2.40.0 |
+| scrollLeft | 横向滚动 | left: `number` | - | 2.40.0 |

@@ -22,22 +22,6 @@ description: Give users feedback on the running status of tasks in the current s
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/status.md
-
-@import ./**demo**/circle.md
-
-@import ./**demo**/mini.md
-
-@import ./**demo**/size.md
-
-@import ./**demo**/linear.md
-
-@import ./**demo**/steps.md
-
-@import ./**demo**/trackColor.md
-
 ## API
 
 %%API(progress.vue)%%

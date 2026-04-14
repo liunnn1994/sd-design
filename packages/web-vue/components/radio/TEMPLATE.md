@@ -22,24 +22,6 @@ description: In a set of related and mutually exclusive data, the user can only 
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/control.md
-
-@import ./**demo**/group.md
-
-@import ./**demo**/options.md
-
-@import ./**demo**/direction.md
-
-@import ./**demo**/button.md
-
-@import ./**demo**/size.md
-
-@import ./**demo**/layout.md
-
-@import ./**demo**/custom.md
-
 ## API
 
 %%API(radio.tsx)%%

@@ -1,0 +1,162 @@
+---
+title: 按钮 Button
+description: 按钮是一种命令组件，可发起一个即时操作。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import ButtonBasicDemo from '../../../../components/generated/button/basic.vue';
+export const buttonBasicSource =
+  '<template>\n  <a-space>\n    <a-button type="primary">Primary</a-button>\n    <a-button>Secondary</a-button>\n    <a-button type="dashed">Dashed</a-button>\n    <a-button type="outline">Outline</a-button>\n    <a-button type="text">Text</a-button>\n  </a-space>\n</template>';
+import ButtonDisabledDemo from '../../../../components/generated/button/disabled.vue';
+export const buttonDisabledSource =
+  '<template>\n  <a-space direction="vertical">\n    <a-space>\n      <a-button type="primary" disabled>Primary</a-button>\n      <a-button disabled>Default</a-button>\n      <a-button type="dashed" disabled>Dashed</a-button>\n      <a-button type="outline" disabled>Outline</a-button>\n      <a-button type="text" disabled>Text</a-button>\n    </a-space>\n    <a-space>\n      <a-button type="primary" status="success" disabled>Primary</a-button>\n      <a-button status="success" disabled>Default</a-button>\n      <a-button type="dashed" status="success" disabled>Dashed</a-button>\n      <a-button type="outline" status="success" disabled>Outline</a-button>\n      <a-button type="text" status="success" disabled>Text</a-button>\n    </a-space>\n    <a-space>\n      <a-button type="primary" status="warning" disabled>Primary</a-button>\n      <a-button status="warning" disabled>Default</a-button>\n      <a-button type="dashed" status="warning" disabled>Dashed</a-button>\n      <a-button type="outline" status="warning" disabled>Outline</a-button>\n      <a-button type="text" status="warning" disabled>Text</a-button>\n    </a-space>\n    <a-space>\n      <a-button type="primary" status="danger" disabled>Primary</a-button>\n      <a-button status="danger" disabled>Default</a-button>\n      <a-button type="dashed" status="danger" disabled>Dashed</a-button>\n      <a-button type="outline" status="danger" disabled>Outline</a-button>\n      <a-button type="text" status="danger" disabled>Text</a-button>\n    </a-space>\n  </a-space>\n</template>';
+import ButtonGroupDemo from '../../../../components/generated/button/group.vue';
+export const buttonGroupSource =
+  '<template>\n  <a-space direction="vertical">\n    <a-button-group>\n      <a-button>Publish</a-button>\n      <a-button>\n        <template #icon>\n          <icon-down />\n        </template>\n      </a-button>\n    </a-button-group>\n    <a-button-group>\n      <a-button>Publish</a-button>\n      <a-button>\n        <template #icon>\n          <icon-more />\n        </template>\n      </a-button>\n    </a-button-group>\n    <a-button-group>\n      <a-button type="primary">\n        <icon-left />\n        Prev\n      </a-button>\n      <a-button type="primary">\n        Next\n        <icon-right />\n      </a-button>\n    </a-button-group>\n    <a-space size="large">\n      <a-button-group type="primary">\n        <a-button> copy </a-button>\n        <a-button> cut </a-button>\n        <a-button> find </a-button>\n      </a-button-group>\n      <a-button-group type="primary" status="warning">\n        <a-button>\n          <template #icon><icon-heart-fill /></template>\n        </a-button>\n        <a-button>\n          <template #icon><icon-star-fill /></template>\n        </a-button>\n        <a-button>\n          <template #icon><icon-thumb-up-fill /></template>\n        </a-button>\n      </a-button-group>\n      <a-button-group size="small" disabled>\n        <a-button> prev </a-button>\n        <a-button> next </a-button>\n      </a-button-group>\n    </a-space>\n  </a-space>\n</template>';
+import ButtonIconDemo from '../../../../components/generated/button/icon.vue';
+export const buttonIconSource =
+  '<template>\n  <a-space>\n    <a-button type="primary">\n      <template #icon>\n        <icon-plus />\n      </template>\n    </a-button>\n    <a-button type="primary">\n      <template #icon>\n        <icon-delete />\n      </template>\n      <!-- Use the default slot to avoid extra spaces -->\n      <template #default>Delete</template>\n    </a-button>\n  </a-space>\n</template>\n\n<script>\n  import { IconPlus, IconDelete } from \'@sdata/web-vue/es/icon/index.js\';\n\n  export default {\n    components: { IconPlus, IconDelete },\n  };\n</script>';
+import ButtonLoadingDemo from '../../../../components/generated/button/loading.vue';
+export const buttonLoadingSource =
+  '<template>\n  <a-space>\n    <a-button type="primary" loading>Primary</a-button>\n    <a-button loading>Default</a-button>\n    <a-button type="dashed" loading>Dashed</a-button>\n    <a-button type="primary" :loading="loading1" @click="handleClick1">Click Me</a-button>\n    <a-button type="primary" :loading="loading2" @click="handleClick2">\n      <template #icon>\n        <icon-plus />\n      </template>\n      Click Me\n    </a-button>\n  </a-space>\n</template>\n\n<script>\n  import { ref } from \'vue\';\n  import { IconPlus } from \'@sdata/web-vue/es/icon/index.js\';\n\n  export default {\n    components: {\n      IconPlus,\n    },\n    setup() {\n      const loading1 = ref(false);\n      const loading2 = ref(false);\n\n      const handleClick1 = () => {\n        loading1.value = !loading1.value;\n      };\n      const handleClick2 = () => {\n        loading2.value = !loading2.value;\n      };\n\n      return {\n        loading1,\n        loading2,\n        handleClick1,\n        handleClick2,\n      };\n    },\n  };\n</script>';
+import ButtonLongDemo from '../../../../components/generated/button/long.vue';
+export const buttonLongSource =
+  '<template>\n  <a-space class="wrapper" direction="vertical">\n    <a-button type="primary" long>Primary</a-button>\n    <a-button long>Default</a-button>\n    <a-button type="dashed" long>Dashed</a-button>\n    <a-button type="outline" long>Outline</a-button>\n    <a-button type="text" long>Text</a-button>\n  </a-space>\n</template>\n\n<style scoped lang="less">\n  .wrapper {\n    width: 400px;\n    padding: 20px;\n    border: 1px solid var(~\'--color-border\');\n    border-radius: 4px;\n  }\n</style>';
+import ButtonShapeDemo from '../../../../components/generated/button/shape.vue';
+export const buttonShapeSource =
+  '<template>\n  <a-space>\n    <a-button type="primary">Square</a-button>\n    <a-button type="primary" shape="round">Round</a-button>\n    <a-button type="primary">\n      <template #icon>\n        <icon-plus />\n      </template>\n    </a-button>\n    <a-button type="primary" shape="circle">\n      <icon-plus />\n    </a-button>\n  </a-space>\n</template>\n<script>\n  import { IconPlus } from \'@sdata/web-vue/es/icon/index.js\';\n\n  export default {\n    components: { IconPlus },\n  };\n</script>';
+import ButtonSizeDemo from '../../../../components/generated/button/size.vue';
+export const buttonSizeSource =
+  '<template>\n  <a-space>\n    <a-button type="primary" size="mini">Mini</a-button>\n    <a-button type="primary" size="small">Small</a-button>\n    <a-button type="primary">Medium</a-button>\n    <a-button type="primary" size="large">Large</a-button>\n  </a-space>\n</template>';
+import ButtonStatusDemo from '../../../../components/generated/button/status.vue';
+export const buttonStatusSource =
+  '<template>\n  <a-space direction="vertical">\n    <a-space>\n      <a-button type="primary" status="success">Primary</a-button>\n      <a-button status="success">Default</a-button>\n      <a-button type="dashed" status="success">Dashed</a-button>\n      <a-button type="outline" status="success">Outline</a-button>\n      <a-button type="text" status="success">Text</a-button>\n    </a-space>\n    <a-space>\n      <a-button type="primary" status="warning">Primary</a-button>\n      <a-button status="warning">Default</a-button>\n      <a-button type="dashed" status="warning">Dashed</a-button>\n      <a-button type="outline" status="warning">Outline</a-button>\n      <a-button type="text" status="warning">Text</a-button>\n    </a-space>\n    <a-space>\n      <a-button type="primary" status="danger">Primary</a-button>\n      <a-button status="danger">Default</a-button>\n      <a-button type="dashed" status="danger">Dashed</a-button>\n      <a-button type="outline" status="danger">Outline</a-button>\n      <a-button type="text" status="danger">Text</a-button>\n    </a-space>\n  </a-space>\n</template>';
+
+### 基本用法
+
+按钮分为 `primary` - **主要按钮**、`secondary` - **次要按钮（默认）**、`dashed` - **虚线按钮**、`outline` - **线形按钮**、`text` - **文本按钮**五种类型。
+
+<DemoBlock source={buttonBasicSource} mainFile="src/button-basic.vue">
+
+<ButtonBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 禁用状态
+
+按钮的禁用状态。
+
+<DemoBlock source={buttonDisabledSource} mainFile="src/button-disabled.vue">
+
+<ButtonDisabledDemo client:only="vue" />
+
+</DemoBlock>
+
+### 组合按钮
+
+通过 `<a-button-group>` 组件使按钮以组合方式出现。可用在同级多项操作中。
+
+<DemoBlock source={buttonGroupSource} mainFile="src/button-group.vue">
+
+<ButtonGroupDemo client:only="vue" />
+
+</DemoBlock>
+
+### 图标按钮
+
+按钮可以嵌入图标。在只设置图标时，按钮的宽高相等。
+
+<DemoBlock source={buttonIconSource} mainFile="src/button-icon.vue">
+
+<ButtonIconDemo client:only="vue" />
+
+</DemoBlock>
+
+### 加载中状态
+
+通过设置 `loading` 可以让按钮处于加载中状态。处于加载中状态的按钮不会触发点击事件。
+
+<DemoBlock source={buttonLoadingSource} mainFile="src/button-loading.vue">
+
+<ButtonLoadingDemo client:only="vue" />
+
+</DemoBlock>
+
+### 长按钮
+
+通过设置 `long` 属性，使按钮的宽度跟随容器的宽度。
+
+<DemoBlock source={buttonLongSource} mainFile="src/button-long.vue">
+
+<ButtonLongDemo client:only="vue" />
+
+</DemoBlock>
+
+### 按钮形状
+
+按钮分为 `square` - **长方形（默认）**、`circle` - **圆形**、`round` - **全圆角**三种形状。
+
+<DemoBlock source={buttonShapeSource} mainFile="src/button-shape.vue">
+
+<ButtonShapeDemo client:only="vue" />
+
+</DemoBlock>
+
+### 按钮尺寸
+
+按钮分为 `mini`、`small`、`medium`、`large` 四种尺寸。高度分别为：`24px`、`28px`、`32px`、`36px`。推荐（默认）尺寸为 `medium`。可在不同场景及不同业务需求选择适合尺寸。
+
+<DemoBlock source={buttonSizeSource} mainFile="src/button-size.vue">
+
+<ButtonSizeDemo client:only="vue" />
+
+</DemoBlock>
+
+### 按钮状态
+
+按钮的状态分为 `normal` - **正常（默认）**、`success` - **成功**、`warning` - **警告**、`danger` - **危险**四种，可以与按钮类型同时使用。
+
+<DemoBlock source={buttonStatusSource} mainFile="src/button-status.vue">
+
+<ButtonStatusDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### `<button>` Props
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| type | 按钮的类型，分为五种：次要按钮、主要按钮、虚框按钮、线性按钮、文字按钮。 | `ButtonTypes` | `'secondary'` |
+| shape | 按钮的形状 | `BorderShape` | `-` |
+| status | 按钮的状态 | `'normal' \| 'warning' \| 'success' \| 'danger'` | `'normal'` |
+| size | 按钮的尺寸 | `'mini' \| 'small' \| 'medium' \| 'large'` | `'medium'` |
+| long | 按钮的宽度是否随容器自适应。 | `boolean` | `false` |
+| loading | 按钮是否为加载中状态 | `boolean` | `false` |
+| disabled | 按钮是否禁用 | `boolean` | `false` |
+| html-type | 设置 `button` 的原生 `type` 属性，可选值参考 [HTML标准](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type '_blank') | `HTMLButtonElement['type']` | `'button'` |
+| autofocus | 设置 `button` 的原生 `autofocus` 属性，可选值参考 [HTML标准](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type '_blank') | `boolean` | `false` |
+| href | 设置跳转链接。设置此属性时，按钮渲染为a标签。 | `string` | `-` |
+
+### `<button>` Events
+
+| 事件名 | 描述           | 参数             |
+| ------ | -------------- | ---------------- |
+| click  | 点击按钮时触发 | ev: `MouseEvent` |
+
+### `<button>` Slots
+
+| 插槽名 | 描述 | 参数 |
+| ------ | :--: | ---- |
+| icon   | 图标 | -    |
+
+### `<button-group>` Props
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| type | 按钮的类型，分为五种：次要按钮、主要按钮、虚框按钮、线性按钮、文字按钮。 | `ButtonTypes` | `-` |
+| status | 按钮的状态 | `'normal' \| 'warning' \| 'success' \| 'danger'` | `-` |
+| shape | 按钮的形状 | `BorderShape` | `-` |
+| size | 按钮的尺寸 | `'mini' \| 'small' \| 'medium' \| 'large'` | `-` |
+| disabled | 全部子按钮是否禁用 | `boolean` | `false` |

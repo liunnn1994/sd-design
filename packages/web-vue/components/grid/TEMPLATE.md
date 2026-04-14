@@ -22,28 +22,6 @@ description: Grid can effectively ensure the consistency and logic of the page, 
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/offset.md
-
-@import ./**demo**/gutter.md
-
-@import ./**demo**/flex-justify.md
-
-@import ./**demo**/flex-align.md
-
-@import ./**demo**/order.md
-
-@import ./**demo**/adaptation.md
-
-@import ./**demo**/adaptation-object.md
-
-@import ./**demo**/flex.md
-
-@import ./**demo**/grid.md
-
-@import ./**demo**/grid-responsive.md
-
 ## API
 
 %%API(grid-row.vue)%%

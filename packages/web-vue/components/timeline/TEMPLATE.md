@@ -22,26 +22,6 @@ description: Display information content in chronological or reverse order.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/icon.md
-
-@import ./**demo**/dot.md
-
-@import ./**demo**/type.md
-
-@import ./**demo**/pending.md
-
-@import ./**demo**/mode.md
-
-@import ./**demo**/vertical.md
-
-@import ./**demo**/direction.md
-
-@import ./**demo**/label.md
-
-@import ./**demo**/custom.md
-
 ## API
 
 %%API(timeline.tsx)%%

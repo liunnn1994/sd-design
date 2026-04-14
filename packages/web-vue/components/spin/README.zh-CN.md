@@ -6,18 +6,6 @@ title: 加载中 Spin
 description: 用于页面和区块的加载中状态 - 页面局部处于等待异步数据或正在渲染过程时，合适的加载动效会有效缓解用户的焦虑。
 ```
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/size.md
-
-@import ./**demo**/dot.md
-
-@import ./**demo**/container.md
-
-@import ./**demo**/tip.md
-
-@import ./**demo**/icon.md
-
 ## API
 
 ### `<spin>` Props

@@ -22,14 +22,6 @@ description: Multi-line plain text edit control, suitable for a paragraph of opi
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/status.md
-
-@import ./**demo**/word-limit.md
-
-@import ./**demo**/auto-size.md
-
 ## API
 
 %%API(textarea.vue)%%

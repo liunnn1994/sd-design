@@ -22,14 +22,6 @@ description: Telescopic frame components.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/controlled.md
-
-@import ./**demo**/layout.md
-
-@import ./**demo**/custom-triggers.md
-
 ## API
 
 %%API(resize-box.vue)%%

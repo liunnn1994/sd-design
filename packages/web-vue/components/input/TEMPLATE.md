@@ -22,28 +22,6 @@ description: Basic form components have been expanded on the basis of native con
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/status.md
-
-@import ./**demo**/size.md
-
-@import ./**demo**/prefix.md
-
-@import ./**demo**/prepend.md
-
-@import ./**demo**/word-limit.md
-
-@import ./**demo**/group.md
-
-@import ./**demo**/search.md
-
-@import ./**demo**/search-button.md
-
-@import ./**demo**/search-loading.md
-
-@import ./**demo**/password.md
-
 ## API
 
 %%API(input.tsx)%%

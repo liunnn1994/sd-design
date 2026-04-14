@@ -22,18 +22,6 @@ description: Lightweight global feedback triggered by user actions.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/type.md
-
-@import ./**demo**/icon.md
-
-@import ./**demo**/position.md
-
-@import ./**demo**/closeable.md
-
-@import ./**demo**/update.md
-
 ## zh-CN
 
 ### `Message` 全局方法

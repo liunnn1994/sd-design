@@ -1,0 +1,172 @@
+---
+title: 开关 Switch
+description: 互斥性的操作控件，用户可打开或关闭某个功能。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import SwitchBasicDemo from '../../../../components/generated/switch/basic.vue';
+export const switchBasicSource = '<template>\n  <a-switch />\n</template>';
+import SwitchChangeInterceptDemo from '../../../../components/generated/switch/change-intercept.vue';
+export const switchChangeInterceptSource =
+  '<template>\n  <a-space size="large">\n    <a-switch :beforeChange="handleChangeIntercept" />\n    <a-switch type="round" :beforeChange="handleChangeIntercept2" />\n    <a-switch type="line" :beforeChange="handleChangeIntercept3" />\n  </a-space>\n</template>\n\n<script>\n  import { Message } from \'@sdata/web-vue\';\n\n  export default {\n    setup() {\n      const handleChangeIntercept = async (newValue) => {\n        await new Promise((resolve) => setTimeout(resolve, 1000));\n        return true;\n      };\n\n      const handleChangeIntercept2 = async (newValue) => {\n        await new Promise((resolve) => setTimeout(resolve, 500));\n        if (!newValue) {\n          Message.error("OH, You can\'t change");\n          return false;\n        }\n        return true;\n      };\n\n      const handleChangeIntercept3 = async (newValue) => {\n        await new Promise((_, reject) =>\n          setTimeout(() => {\n            Message.error(\'OH, Something went wrong\');\n            reject();\n          }, 1000),\n        );\n        return true;\n      };\n\n      return {\n        handleChangeIntercept,\n        handleChangeIntercept2,\n        handleChangeIntercept3,\n      };\n    },\n  };\n</script>';
+import SwitchColorDemo from '../../../../components/generated/switch/color.vue';
+export const switchColorSource =
+  '<template>\n  <a-switch checked-color="#F53F3F" unchecked-color="#14C9C9" />\n</template>';
+import SwitchDisabledDemo from '../../../../components/generated/switch/disabled.vue';
+export const switchDisabledSource =
+  '<template>\n  <a-space size="large">\n    <a-switch disabled />\n    <a-switch :default-checked="true" disabled />\n    <a-switch type="round" disabled />\n    <a-switch :default-checked="true" type="round" disabled />\n    <a-switch type="line" disabled />\n    <a-switch :default-checked="true" type="line" disabled />\n  </a-space>\n</template>';
+import SwitchIconDemo from '../../../../components/generated/switch/icon.vue';
+export const switchIconSource =
+  '<template>\n  <a-space size="large">\n    <a-switch>\n      <template #checked-icon>\n        <icon-check />\n      </template>\n      <template #unchecked-icon>\n        <icon-close />\n      </template>\n    </a-switch>\n    <a-switch type="round">\n      <template #checked-icon>\n        <icon-check />\n      </template>\n      <template #unchecked-icon>\n        <icon-close />\n      </template>\n    </a-switch>\n    <a-switch type="line">\n      <template #checked-icon>\n        <icon-check />\n      </template>\n      <template #unchecked-icon>\n        <icon-close />\n      </template>\n    </a-switch>\n  </a-space>\n</template>';
+import SwitchLoadingDemo from '../../../../components/generated/switch/loading.vue';
+export const switchLoadingSource =
+  '<template>\n  <a-space size="large">\n    <a-switch loading />\n    <a-switch type="round" loading />\n    <a-switch type="line" loading />\n  </a-space>\n</template>';
+import SwitchSizeDemo from '../../../../components/generated/switch/size.vue';
+export const switchSizeSource =
+  '<template>\n  <a-space size="large">\n    <a-switch />\n    <a-switch size="small" />\n  </a-space>\n</template>';
+import SwitchTextDemo from '../../../../components/generated/switch/text.vue';
+export const switchTextSource =
+  '<template>\n  <a-space size="large">\n    <a-switch>\n      <template #checked> ON </template>\n      <template #unchecked> OFF </template>\n    </a-switch>\n    <a-switch type="round">\n      <template #checked> ON </template>\n      <template #unchecked> OFF </template>\n    </a-switch>\n  </a-space>\n</template>';
+import SwitchTypeDemo from '../../../../components/generated/switch/type.vue';
+export const switchTypeSource =
+  '<template>\n  <a-space size="large">\n    <a-switch />\n    <a-switch type="round" />\n    <a-switch type="line" />\n  </a-space>\n</template>';
+import SwitchValueDemo from '../../../../components/generated/switch/value.vue';
+export const switchValueSource =
+  '<template>\n  <a-space direction="vertical" size="large">\n    <a-switch v-model="value" checked-value="yes" unchecked-value="no" />\n    <div>Current Value: {{ value }}</div>\n  </a-space>\n</template>\n\n<script>\n  import { ref } from \'vue\';\n\n  export default {\n    setup() {\n      const value = ref(\'\');\n\n      return {\n        value,\n      };\n    },\n  };\n</script>';
+
+### 基本用法
+
+开关的基本用法。
+
+<DemoBlock source={switchBasicSource} mainFile="src/switch-basic.vue">
+
+<SwitchBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 切换拦截
+
+设置 `beforeChange` 函数，函数的返回值将用于判断是否阻止切换。
+
+<DemoBlock source={switchChangeInterceptSource} mainFile="src/switch-change-intercept.vue">
+
+<SwitchChangeInterceptDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义开关的颜色
+
+通过 `checked-color` 和 `unchecked-color` 可以自定义开关的颜色。
+
+<DemoBlock source={switchColorSource} mainFile="src/switch-color.vue">
+
+<SwitchColorDemo client:only="vue" />
+
+</DemoBlock>
+
+### 禁用状态
+
+禁用开关。
+
+<DemoBlock source={switchDisabledSource} mainFile="src/switch-disabled.vue">
+
+<SwitchDisabledDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义图标
+
+自定义开关按钮上显示的图标。
+
+<DemoBlock source={switchIconSource} mainFile="src/switch-icon.vue">
+
+<SwitchIconDemo client:only="vue" />
+
+</DemoBlock>
+
+### 加载中状态
+
+通过设置 `loading` 使开关处于加载中状态，此时开关不可点击。
+
+<DemoBlock source={switchLoadingSource} mainFile="src/switch-loading.vue">
+
+<SwitchLoadingDemo client:only="vue" />
+
+</DemoBlock>
+
+### 开关尺寸
+
+开关分为 `small`、`medium` 两种尺寸。
+
+<DemoBlock source={switchSizeSource} mainFile="src/switch-size.vue">
+
+<SwitchSizeDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义文案
+
+自定义开关的打开/关闭状态的文字。
+
+<DemoBlock source={switchTextSource} mainFile="src/switch-text.vue">
+
+<SwitchTextDemo client:only="vue" />
+
+</DemoBlock>
+
+### 开关类型
+
+开关分为 `circle` - **圆形（默认）**、`round` - **圆角**、`line` - **线性**三种类型。
+
+<DemoBlock source={switchTypeSource} mainFile="src/switch-type.vue">
+
+<SwitchTypeDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义开关的值
+
+通过 `checked-value` 和 `unchecked-value` 可以自定义开关的值。
+
+<DemoBlock source={switchValueSource} mainFile="src/switch-value.vue">
+
+<SwitchValueDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### `<switch>` Props
+
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| model-value **(v-model)** | 绑定值 | `string\|number\|boolean` | `-` |  |
+| default-checked | 默认选中状态（非受控状态） | `boolean` | `false` |  |
+| disabled | 是否禁用 | `boolean` | `false` |  |
+| loading | 是否为加载中状态 | `boolean` | `false` |  |
+| type | 开关的类型 | `'circle' \| 'round' \| 'line'` | `'circle'` |  |
+| size | 开关的大小 | `'small' \| 'medium'` | `'medium'` |  |
+| checked-value | 选中时的值 | `string\|number\|boolean` | `true` | 2.12.0 |
+| unchecked-value | 未选中时的值 | `string\|number\|boolean` | `false` | 2.12.0 |
+| checked-color | 选中时的开关颜色 | `string` | `-` | 2.12.0 |
+| unchecked-color | 未选中时的开关颜色 | `string` | `-` | 2.12.0 |
+| before-change | switch 状态改变前的钩子， 返回 false 或者返回 Promise 且被 reject 则停止切换。 | `(  newValue: string \| number \| boolean) => Promise<boolean \| void> \| boolean \| void` | `-` | 2.37.0 |
+| checked-text | 打开状态时的文案（`type='line'`和`size='small'`时不生效） | `string` | `-` | 2.45.0 |
+| unchecked-text | 关闭状态时的文案（`type='line'`和`size='small'`时不生效） | `string` | `-` | 2.45.0 |
+
+### `<switch>` Events
+
+| 事件名 | 描述               | 参数                                                  |
+| ------ | ------------------ | ----------------------------------------------------- |
+| change | 值改变时触发       | value: `boolean \| string \| number`<br />ev: `Event` |
+| focus  | 组件获得焦点时触发 | ev: `FocusEvent`                                      |
+| blur   | 组件失去焦点时触发 | ev: `FocusEvent`                                      |
+
+### `<switch>` Slots
+
+| 插槽名         |                           描述                            | 参数 |
+| -------------- | :-------------------------------------------------------: | ---- |
+| checked-icon   |                 打开状态时，按钮上的图标                  | -    |
+| unchecked-icon |                 关闭状态时，按钮上的图标                  | -    |
+| checked        | 打开状态时的文案（`type='line'`和`size='small'`时不生效） | -    |
+| unchecked      | 关闭状态时的文案（`type='line'`和`size='small'`时不生效） | -    |

@@ -22,14 +22,6 @@ description: Used to enter the label.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/status.md
-
-@import ./**demo**/max.md
-
-@import ./**demo**/size.md
-
 ## API
 
 %%API(input-tag.tsx)%%

@@ -22,34 +22,6 @@ description: A form with data collection, verification and submission functions,
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/layout.md
-
-@import ./**demo**/extra.md
-
-@import ./**demo**/nest.md
-
-@import ./**demo**/grid.md
-
-@import ./**demo**/auto-width.md
-
-@import ./**demo**/validation.md
-
-@import ./**demo**/validation2.md
-
-@import ./**demo**/status.md
-
-@import ./**demo**/dynamic.md
-
-@import ./**demo**/disabled.md
-
-@import ./**demo**/async.md
-
-@import ./**demo**/custom.md
-
-@import ./**demo**/scroll.md
-
 ## API
 
 %%API(form.vue)%%

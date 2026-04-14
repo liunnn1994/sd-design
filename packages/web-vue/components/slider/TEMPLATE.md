@@ -22,22 +22,6 @@ description: Sliding input device, showing current value and selectable range.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/disabled.md
-
-@import ./**demo**/step.md
-
-@import ./**demo**/marks.md
-
-@import ./**demo**/range.md
-
-@import ./**demo**/input.md
-
-@import ./**demo**/vertical.md
-
-@import ./**demo**/tooltip.md
-
 ## API
 
 %%API(slider.vue)%%

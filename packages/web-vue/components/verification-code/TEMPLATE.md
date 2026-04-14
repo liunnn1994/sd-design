@@ -22,8 +22,6 @@ description: Verification code input component.
 
 ---
 
-@import ./**demo**/basic.md @import ./**demo**/status.md @import ./**demo**/masked.md @import ./**demo**/separator.md @import ./**demo**/form.md @import ./**demo**/formatter.md
-
 ## API
 
 %%API(verification-code.tsx)%%

@@ -1,0 +1,47 @@
+---
+title: 空状态 Empty
+description: 指当前场景没有对应的数据内容，呈现出的一种状态。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import EmptyBasicDemo from '../../../../components/generated/empty/basic.vue';
+export const emptyBasicSource = '<template>\n  <a-empty />\n</template>';
+import EmptyCustomDemo from '../../../../components/generated/empty/custom.vue';
+export const emptyCustomSource =
+  "<template>\n  <a-empty>\n    <template #image>\n      <icon-exclamation-circle-fill />\n    </template>\n    No data, please reload!\n  </a-empty>\n</template>\n\n<script>\n  import { IconExclamationCircleFill } from '@sdata/web-vue/es/icon/index.js';\n\n  export default {\n    components: {\n      IconExclamationCircleFill,\n    },\n  };\n</script>";
+
+### 基本用法
+
+空状态组件的基本用法。
+
+<DemoBlock source={emptyBasicSource} mainFile="src/empty-basic.vue">
+
+<EmptyBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义图片和文案
+
+通过 `image` 插槽自定义图标、图片，或通过内容修改文案。
+
+<DemoBlock source={emptyCustomSource} mainFile="src/empty-custom.vue">
+
+<EmptyCustomDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### `<empty>` Props
+
+| 参数名             | 描述                         | 类型      | 默认值  | 版本   |
+| ------------------ | ---------------------------- | --------- | :-----: | :----- |
+| description        | 描述内容                     | `string`  |   `-`   |        |
+| img-src            | 自定义图片的地址             | `string`  |   `-`   |        |
+| in-config-provider | 是否在 ConfigProvider 中使用 | `boolean` | `false` | 2.47.0 |
+
+### `<empty>` Slots
+
+| 插槽名 |   描述    | 参数 |
+| ------ | :-------: | ---- |
+| image  | 图片/图标 | -    |

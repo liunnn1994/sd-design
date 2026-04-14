@@ -1,0 +1,135 @@
+---
+title: 滑动输入条 Slider
+description: 滑动型输入器，展示当前值和可选范围。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import SliderBasicDemo from '../../../../components/generated/slider/basic.vue';
+export const sliderBasicSource =
+  '<template>\n  <a-slider :default-value="50" :style="{ width: \'200px\' }" />\n</template>';
+import SliderDisabledDemo from '../../../../components/generated/slider/disabled.vue';
+export const sliderDisabledSource =
+  '<template>\n  <a-slider :default-value="50" :style="{ width: \'200px\' }" disabled />\n</template>';
+import SliderInputDemo from '../../../../components/generated/slider/input.vue';
+export const sliderInputSource =
+  '<template>\n  <a-space direction="vertical" size="large">\n    <a-slider :default-value="10" :style="{ width: \'300px\' }" show-input />\n    <a-slider :default-value="[10, 20]" :style="{ width: \'380px\' }" range show-input />\n  </a-space>\n</template>';
+import SliderMarksDemo from '../../../../components/generated/slider/marks.vue';
+export const sliderMarksSource =
+  "<template>\n  <a-slider :default-value=\"5\" :style=\"{ width: '300px' }\" :max=\"15\" :marks=\"marks\" />\n</template>\n\n<script>\n  export default {\n    setup() {\n      const marks = {\n        0: '0km',\n        5: '5km',\n        10: '10km',\n        15: '15km',\n      };\n      return {\n        marks,\n      };\n    },\n  };\n</script>";
+import SliderRangeDemo from '../../../../components/generated/slider/range.vue';
+export const sliderRangeSource =
+  '<template>\n  <a-slider v-model="value" :style="{ width: \'300px\' }" range />\n</template>\n\n<script>\n  import { ref } from \'vue\';\n\n  export default {\n    setup() {\n      const value = ref([5, 10]);\n\n      return {\n        value,\n      };\n    },\n  };\n</script>';
+import SliderStepDemo from '../../../../components/generated/slider/step.vue';
+export const sliderStepSource =
+  '<template>\n  <a-space direction="vertical" size="large">\n    <a-form :model="data" layout="inline">\n      <a-form-item label="Step" field="step">\n        <a-input-number :style="{ width: \'100px\' }" v-model="data.step" />\n      </a-form-item>\n      <a-form-item label="Show steps" field="showTicks">\n        <a-switch v-model="data.showTicks" />\n      </a-form-item>\n    </a-form>\n    <a-slider\n      :default-value="20"\n      :style="{ width: \'300px\' }"\n      :step="data.step"\n      :show-ticks="data.showTicks"\n    />\n  </a-space>\n</template>\n\n<script>\n  import { reactive } from \'vue\';\n\n  export default {\n    setup() {\n      const data = reactive({\n        step: 5,\n        showTicks: true,\n      });\n\n      return {\n        data,\n      };\n    },\n  };\n</script>';
+import SliderTooltipDemo from '../../../../components/generated/slider/tooltip.vue';
+export const sliderTooltipSource =
+  '<template>\n  <a-slider :min="0" :max="50" :style="{ width: \'200px\' }" :format-tooltip="formatter" />\n</template>\n\n<script>\n  export default {\n    setup() {\n      const formatter = (value) => {\n        return `${Math.round((value / 50) * 100)}%`;\n      };\n\n      return {\n        formatter,\n      };\n    },\n  };\n</script>';
+import SliderVerticalDemo from '../../../../components/generated/slider/vertical.vue';
+export const sliderVerticalSource =
+  '<template>\n  <a-space align="start">\n    <a-slider :default-value="50" direction="vertical" />\n\n    <a-slider\n      direction="vertical"\n      :default-value="5"\n      :style="{ width: \'300px\' }"\n      :max="15"\n      :marks="{\n        5: \'5km\',\n        10: \'10km\',\n      }"\n    />\n  </a-space>\n</template>';
+
+### 基本用法
+
+滑动输入条的基本用法。
+
+<DemoBlock source={sliderBasicSource} mainFile="src/slider-basic.vue">
+
+<SliderBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 禁用状态
+
+禁用滑动输入条。
+
+<DemoBlock source={sliderDisabledSource} mainFile="src/slider-disabled.vue">
+
+<SliderDisabledDemo client:only="vue" />
+
+</DemoBlock>
+
+### 显示输入框
+
+当设置 `show-input` 时，将显示输入框。
+
+<DemoBlock source={sliderInputSource} mainFile="src/slider-input.vue">
+
+<SliderInputDemo client:only="vue" />
+
+</DemoBlock>
+
+### 添加文本标签
+
+通过设置 `marks` 可以添加文本标签。
+
+<DemoBlock source={sliderMarksSource} mainFile="src/slider-marks.vue">
+
+<SliderMarksDemo client:only="vue" />
+
+</DemoBlock>
+
+### 范围选择
+
+通过设置 `range` 可开启范围选择，此时 `modelValue` 为数组。
+
+<DemoBlock source={sliderRangeSource} mainFile="src/slider-range.vue">
+
+<SliderRangeDemo client:only="vue" />
+
+</DemoBlock>
+
+### 设置步长
+
+通过 `step` 设置步长，默认步长为 1。建议设置能够被 `max-min` 整除的值，否则会出现可选最大值小于 `max` 的情况。当设置 `show-ticks` 时，显示步长刻度线。
+
+<DemoBlock source={sliderStepSource} mainFile="src/slider-step.vue">
+
+<SliderStepDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义提示
+
+通过设置 `format-tooltip` 可以自定义提示文字。
+
+<DemoBlock source={sliderTooltipSource} mainFile="src/slider-tooltip.vue">
+
+<SliderTooltipDemo client:only="vue" />
+
+</DemoBlock>
+
+### 竖直滑动条
+
+设置 `direction="vertical"` ，将会显示竖直的滑动条。
+
+<DemoBlock source={sliderVerticalSource} mainFile="src/slider-vertical.vue">
+
+<SliderVerticalDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### `<slider>` Props
+
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| model-value **(v-model)** | 绑定值 | `number \| [number, number]` | `-` |  |
+| default-value | 默认值（非受控状态） | `number \| [number, number]` | `0` |  |
+| step | 滑动的步长 | `number` | `1` |  |
+| min | 滑动范围的最小值 | `number` | `0` |  |
+| marks | 设置显示的标签 | `Record<number, string>` | `-` |  |
+| max | 滑动范围的最大值 | `number` | `100` |  |
+| direction | 滑动输入条的方向 | `Direction` | `'horizontal'` |  |
+| disabled | 是否禁用 | `boolean` | `false` |  |
+| show-ticks | 是否显示刻度线 | `boolean` | `false` |  |
+| show-input | 是否显示输入框 | `boolean` | `false` |  |
+| range | 是否开启范围选择 | `boolean` | `false` |  |
+| show-tooltip | 是否显示tooltip | `boolean` | `true` | 2.42.0 |
+
+### `<slider>` Events
+
+| 事件名 | 描述         | 参数                                |
+| ------ | ------------ | ----------------------------------- |
+| change | 值改变时触发 | value: `number \| [number, number]` |

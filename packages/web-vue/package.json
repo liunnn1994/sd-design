@@ -35,7 +35,6 @@
   "scripts": {
     "init": "pnpm run icongen && pnpm run lessgen && sd-vue-scripts build:component",
     "start": "sd-vue-scripts dev:component",
-    "docgen": "sd-vue-scripts docgen",
     "icongen": "sd-vue-scripts icongen && pnpm run dtsgen:icon",
     "lessgen": "sd-vue-scripts lessgen",
     "jsongen": "sd-vue-scripts jsongen",

@@ -30,7 +30,7 @@
 - 项目开发：在完成开发前准备后，进行 bug 修复或功能开发。
 - 添加单测：针对代码变动添加单元测试，确认测试用例通过，尽量保证一定的测试覆盖率。
 - 更新快照：如果涉及到组件 dom 层级变动，类名增删或新增/删除了 Demo，快照需要重新生成更新。
-- 文档生成：组件 API 存在调整时需执行 `pnpm run docgen` 重新生成文档。
+- 文档维护：如组件 API、示例或说明变更，请同步更新对应 README、demo 以及文档站中的 MDX 页面。
 - 提交 PR
 
 ### 开发
@@ -99,19 +99,17 @@ Commit messages 请遵循[conventional-changelog 标准](https://www.conventiona
 本仓库多包管理，包括以下 packages：
 
 1. `web-vue`: Vue 组件库
-2. `vue-site`: Vue 组件库文档站
+2. `sd-vue-docs`: Astro Starlight 文档站
 3. `sd-vue-scripts`: Vue 组件库脚本
-4. `sd-vue-md-loader`: Vue 组件库中 markdown 文档的 webpack loader
-5. `sd-vue-site-nav`: Vue 组件库文档站的顶部导航栏(使用 React 物料)
 
 ### Web-Vue 组件目录
 
 > components/componentName
 
 ```
-├── README.zh-CN.md (注意：不要编辑这个文件，它是由脚本自动生成的)
-├── README.en-US.md (注意：不要编辑这个文件，它是由脚本自动生成的)
-├── TEMPLATE.md (用于生成 README 文件的模板)
+├── README.zh-CN.md (组件中文说明)
+├── README.en-US.md (组件英文说明)
+├── TEMPLATE.md (历史模板文件，如仍保留请谨慎调整)
 ├── __test__
 │   ├── __snapshots__
 │   │   └── demo.test.js.snap
@@ -126,7 +124,7 @@ Commit messages 请遵循[conventional-changelog 标准](https://www.conventiona
     └── index.ts (组件样式导出)
 ```
 
-请注意: 如果进行了会影响 README 的变更(例如 API 变更)，请确保运行 `pnpm run docgen` 来更新组件的 README。
+请注意: 如果进行了会影响组件说明文档的变更(例如 API、示例、说明文本调整)，请同步检查组件 README 与文档站页面是否一致。
 
 组件库的相关操作在`web-vue`目录下操作.
 

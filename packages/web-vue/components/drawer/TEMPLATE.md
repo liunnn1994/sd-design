@@ -22,18 +22,6 @@ description: A drawer-like panel that slides out from the side of the screen aft
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/position.md
-
-@import ./**demo**/custom.md
-
-@import ./**demo**/nested.md
-
-@import ./**demo**/popup-container.md
-
-@import ./**demo**/function.md
-
 ## API
 
 %%API(drawer.vue)%%

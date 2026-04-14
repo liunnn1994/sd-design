@@ -4,26 +4,55 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const README_PATH = 'README.md';
-const START_PATH = resolve(process.cwd(), 'packages/sd-vue-docs/guide-source/start.zh-CN.md');
+const DOCS_START_PATH = resolve(
+  process.cwd(),
+  'packages/sd-vue-docs/src/content/docs/guides/start.mdx',
+);
 const SECTION_TITLE = '## 浏览器兼容性';
-const GENERATED_START = '<!-- browserslist:start -->';
-const GENERATED_END = '<!-- browserslist:end -->';
+// 注释的开头和结尾，md 和 mdx 不一样
+const [MD_COMMENT_START, MD_COMMENT_END, MDX_COMMENT_START, MDX_COMMENT_END] = [
+  '<!-- ',
+  ' -->',
+  '{/* ',
+  ' */}',
+];
+const GENERATED_START = 'browserslist:start';
+const GENERATED_END = 'browserslist:end';
 
 main();
 
 function main() {
   const browsers = loadBrowserslistTargets();
   const condensedBrowsers = condenseBrowsers(browsers);
-  const markdown = buildMarkdown(condensedBrowsers);
+  const markdown = buildMarkdown(
+    condensedBrowsers,
+    `${MD_COMMENT_START}${GENERATED_START}${MD_COMMENT_END}`,
+    `${MD_COMMENT_START}${GENERATED_END}${MD_COMMENT_END}`,
+  );
+  const markdownX = buildMarkdown(
+    condensedBrowsers,
+    `${MDX_COMMENT_START}${GENERATED_START}${MDX_COMMENT_END}`,
+    `${MDX_COMMENT_START}${GENERATED_END}${MDX_COMMENT_END}`,
+  );
   const readmeContent = readFileSync(README_PATH, 'utf8');
-  const startContent = readFileSync(START_PATH, 'utf8');
-  const nextReadmeContent = upsertSupportSection(readmeContent, markdown);
-  const nextStartContent = upsertSupportSection(startContent, markdown);
+  const docsStartContent = readFileSync(DOCS_START_PATH, 'utf8');
+  const nextReadmeContent = upsertSupportSection(
+    readmeContent,
+    markdown,
+    `${MD_COMMENT_START}${GENERATED_START}${MD_COMMENT_END}`,
+    `${MD_COMMENT_START}${GENERATED_END}${MD_COMMENT_END}`,
+  );
+  const nextDocsStartContent = upsertSupportSection(
+    docsStartContent,
+    markdownX,
+    `${MDX_COMMENT_START}${GENERATED_START}${MDX_COMMENT_END}`,
+    `${MDX_COMMENT_START}${GENERATED_END}${MDX_COMMENT_END}`,
+  );
 
   writeFileSync(README_PATH, nextReadmeContent, 'utf8');
-  writeFileSync(START_PATH, nextStartContent, 'utf8');
+  writeFileSync(DOCS_START_PATH, nextDocsStartContent, 'utf8');
   console.log('README 支持版本已更新');
-  console.log('开始使用文档支持版本已更新');
+  console.log('站点开始使用页面支持版本已更新');
   console.log(markdown);
 }
 
@@ -144,19 +173,21 @@ function compareVersions(leftVersion, rightVersion) {
   return 0;
 }
 
-function buildMarkdown(browsers) {
+function buildMarkdown(browsers, generateStart, generateEnd) {
   const lines = [
-    GENERATED_START,
+    `${generateStart}`,
+    '',
     '以下版本号基于当前 [Browserslist 配置](https://web.dev/baseline?hl=zh-cn)自动生成：',
     '',
     ...browsers.map(([name, version]) => `- ${name}>=${version}`),
-    GENERATED_END,
+    '',
+    `${generateEnd}`,
   ];
 
   return lines.join('\n');
 }
 
-function upsertSupportSection(readmeContent, markdown) {
+function upsertSupportSection(readmeContent, markdown, generateStart, generateEnd) {
   const headingIndex = readmeContent.indexOf(SECTION_TITLE);
 
   if (headingIndex === -1) {
@@ -164,7 +195,7 @@ function upsertSupportSection(readmeContent, markdown) {
   }
 
   const markerPattern = new RegExp(
-    `${escapeRegExp(GENERATED_START)}[\\s\\S]*?${escapeRegExp(GENERATED_END)}`,
+    `${escapeRegExp(generateStart)}[\\s\\S]*?${escapeRegExp(generateEnd)}`,
   );
 
   if (markerPattern.test(readmeContent)) {

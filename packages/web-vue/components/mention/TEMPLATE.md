@@ -22,10 +22,6 @@ description: Used to mention someone or something in the input, often used for p
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/prefix.md
-
 ## API
 
 %%API(mention.tsx)%%

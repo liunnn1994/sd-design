@@ -22,14 +22,6 @@ description: A tooltip that popup when the mouse hovers, focus, or click on a co
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/mini.md
-
-@import ./**demo**/position.md
-
-@import ./**demo**/color.md
-
 `<tooltip>` 组件继承 `<trigger>` 组件的全部属性
 
 ## API

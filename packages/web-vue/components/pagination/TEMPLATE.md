@@ -22,24 +22,6 @@ description: Use paging to control the amount of information in a single page, a
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/ellipsis.md
-
-@import ./**demo**/page-size.md
-
-@import ./**demo**/jumper.md
-
-@import ./**demo**/size.md
-
-@import ./**demo**/simple.md
-
-@import ./**demo**/total.md
-
-@import ./**demo**/all.md
-
-@import ./**demo**/custom.md
-
 ## API
 
 %%API(pagination.tsx)%%

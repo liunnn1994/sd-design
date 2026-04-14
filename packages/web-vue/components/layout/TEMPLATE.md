@@ -22,16 +22,6 @@ description: The basic layout framework of the page is often used nested with co
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/custom-icon.md
-
-@import ./**demo**/collapsed.md
-
-@import ./**demo**/breakpoint.md
-
-@import ./**demo**/resize.md
-
 ## API
 
 %%API(layout.vue)%%

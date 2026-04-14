@@ -6,12 +6,6 @@ title: 骨架屏 Skeleton
 description: 将加载中的数据用灰色占位。
 ```
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/type.md
-
-@import ./**demo**/animation.md
-
 ## API
 
 ### `<skeleton>` Props

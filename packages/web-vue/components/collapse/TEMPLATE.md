@@ -22,24 +22,6 @@ description: The content area that can be collapsed/expanded.
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/accordion.md
-
-@import ./**demo**/nested.md
-
-@import ./**demo**/border-less.md
-
-@import ./**demo**/extra.md
-
-@import ./**demo**/expand-icon.md
-
-@import ./**demo**/custom.md
-
-@import ./**demo**/icon-position.md
-
-@import ./**demo**/destroy.md
-
 ## API
 
 %%API(collapse.vue)%%

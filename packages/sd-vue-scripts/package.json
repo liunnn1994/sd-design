@@ -25,7 +25,6 @@
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/preset-env": "^7.29.2",
     "@babel/preset-typescript": "^7.28.5",
-    "@sd-design/vite-plugin-sd-vue-docs": "workspace:*",
     "@vitejs/plugin-vue": "^6.0.6",
     "@vitejs/plugin-vue-jsx": "^5.1.5",
     "@vue/babel-plugin-jsx": "^2.0.1",

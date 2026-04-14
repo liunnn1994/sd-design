@@ -22,20 +22,6 @@ description: Breadcrumb is an auxiliary navigation mode used to identify the pos
 
 ---
 
-@import ./**demo**/basic.md
-
-@import ./**demo**/separator.md
-
-@import ./**demo**/size.md
-
-@import ./**demo**/icon.md
-
-@import ./**demo**/routes.md
-
-@import ./**demo**/dropdown.md
-
-@import ./**demo**/ellipsis.md
-
 ## API
 
 %%API(breadcrumb.tsx)%%

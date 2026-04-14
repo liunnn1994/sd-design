@@ -1,0 +1,51 @@
+@layer sd-vue, starlight.base, starlight.reset, starlight.core, starlight.content, starlight.components, starlight.utils;
+
+:root {
+  --sl-color-accent-low: #e6f4ff;
+  --sl-color-accent: #1476ff;
+  --sl-color-accent-high: #0d4fbf;
+  --sl-content-width: min(1100px, calc(100vw - 3rem));
+  --sl-text-5: #667085;
+  --sl-border-radius-large: 1rem;
+}
+
+:root[data-theme='dark'] {
+  --sl-color-accent-low: #10233f;
+  --sl-color-accent: #61a8ff;
+  --sl-color-accent-high: #d7e8ff;
+}
+
+body {
+  background:
+    radial-gradient(circle at top, rgb(20 118 255 / 0.08), transparent 30%),
+    linear-gradient(180deg, #f8fbff 0%, #ffffff 18%);
+}
+
+:root[data-theme='dark'] body {
+  background:
+    radial-gradient(circle at top, rgb(97 168 255 / 0.12), transparent 28%),
+    linear-gradient(180deg, #07111f 0%, #0b1220 18%);
+}
+
+.hero {
+  position: relative;
+}
+
+.sl-markdown-content .not-content {
+  margin: 1.5rem 0;
+}
+
+.sl-markdown-content h2,
+.sl-markdown-content h3 {
+  scroll-margin-top: 5rem;
+}
+
+.sl-markdown-content table code,
+.sl-markdown-content p code,
+.sl-markdown-content li code {
+  border-radius: 0.45rem;
+}
+
+.sidebar-content summary {
+  display: flex;
+}
