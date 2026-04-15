@@ -34,6 +34,7 @@ function createDemoMarkdownPlugin(): PluginOption {
       if (!id.includes('/__demo__/') || !id.endsWith('.md')) {
         return null;
       }
+
       const regex = /```vue\r?\n([\s\S]*?)```/;
       const match = regex.exec(code);
       if (!match) {
@@ -92,14 +93,7 @@ function createRunConfig() {
         cache: false,
       },
       'task:build-module': {
-        command:
-          'vp run clean:outputs && vp run task:build-module-es && vp run task:build-module-cjs',
-      },
-      'task:build-module-es': {
-        command: 'vite build --config vite.config.ts --mode build-module-es',
-      },
-      'task:build-module-cjs': {
-        command: 'vite build --config vite.config.ts --mode build-module-cjs',
+        command: 'vp run clean:outputs && vite build --config vite.config.ts --mode build-module',
       },
       'task:build-umd-component': {
         command: 'vite build --config vite.config.ts --mode build-umd-component',
@@ -127,30 +121,37 @@ function createRunConfig() {
   };
 }
 
-function createModuleBuildConfig(format: 'es' | 'cjs'): UserConfig {
-  const outputDir = format === 'es' ? 'es' : 'lib';
-
+function createModuleBuildConfig(): UserConfig {
   return {
     mode: 'production',
     build: {
       target: 'es2015',
-      outDir: outputDir,
+      outDir: 'es',
       emptyOutDir: false,
       minify: false,
       reportCompressedSize: false,
       rollupOptions: {
         input: ['components/index.ts', 'components/icon/index.ts', ...langFiles],
-        output: {
-          format,
-          dir: outputDir,
-          entryFileNames: '[name].js',
-          preserveModules: true,
-          preserveModulesRoot: 'components',
-        },
+        output: [
+          {
+            format: 'es',
+            dir: 'es',
+            entryFileNames: '[name].js',
+            preserveModules: true,
+            preserveModulesRoot: 'components',
+          },
+          {
+            format: 'cjs',
+            dir: 'lib',
+            entryFileNames: '[name].js',
+            preserveModules: true,
+            preserveModulesRoot: 'components',
+          },
+        ],
       },
       lib: {
         entry: 'components/index.ts',
-        formats: [format],
+        formats: ['es', 'cjs'],
       },
     },
     plugins: [externalPlugin(), vue(), vueJsx(), vueExportHelperPlugin()],
@@ -345,23 +346,7 @@ export default defineConfig(({ mode }) => {
 
   if (mode === 'build-module') {
     return {
-      ...createModuleBuildConfig('es'),
-      run,
-      test,
-    } as any;
-  }
-
-  if (mode === 'build-module-es') {
-    return {
-      ...createModuleBuildConfig('es'),
-      run,
-      test,
-    } as any;
-  }
-
-  if (mode === 'build-module-cjs') {
-    return {
-      ...createModuleBuildConfig('cjs'),
+      ...createModuleBuildConfig(),
       run,
       test,
     } as any;
