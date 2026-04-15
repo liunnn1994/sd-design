@@ -71,7 +71,7 @@ export const useSelect = ({
 
   watch(enabledOptionKeys, (enabledKeys) => {
     if (!activeKey.value || !enabledKeys.includes(activeKey.value)) {
-      // eslint-disable-next-line prefer-destructuring
+      // oxlint-disable-next-line prefer-destructuring
       activeKey.value = enabledKeys[0];
     }
   });

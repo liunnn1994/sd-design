@@ -104,7 +104,7 @@ export default function useRangeHeaderValue(props: RangeHeaderValueProps) {
   };
 
   function getFixedValue(values: Dayjs[]) {
-    // eslint-disable-next-line prefer-const
+    // oxlint-disable-next-line prefer-const
     let [header0, header1] = getSortedDayjsArray(values);
 
     const nextHeader = methods.add(header0, span.value, 'M');

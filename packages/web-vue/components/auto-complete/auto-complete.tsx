@@ -304,9 +304,7 @@ export default defineComponent({
           ref={dropdownRef}
           class={`${prefixCls}-dropdown`}
           v-slots={{
-            'default': () => [
-              ...validOptions.value.map((info) => renderOption(info as SelectOptionInfo)),
-            ],
+            'default': () => validOptions.value.map((info) => renderOption(info as SelectOptionInfo)),
             'virtual-list': () => (
               <VirtualList
                 {...props.virtualListProps}

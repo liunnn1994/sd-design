@@ -847,7 +847,7 @@
                 }
               } catch (err) {
                 loadingKeys.value = loadingKeys.value.filter((v) => v !== key);
-                // eslint-disable-next-line no-console
+                // oxlint-disable-next-line no-console
                 console.error('[tree]load data error: ', err);
               }
             }

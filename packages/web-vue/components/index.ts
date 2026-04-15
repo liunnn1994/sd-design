@@ -280,4 +280,4 @@ export type { WatermarkInstance } from './watermark';
 // hooks
 export { useFormItem } from './_hooks/use-form-item';
 // components.d.ts
-export type {} from './components';
+

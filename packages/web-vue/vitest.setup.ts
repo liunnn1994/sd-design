@@ -27,7 +27,7 @@ config.global.plugins = [SDVue, SDVueIcon];
 config.global.config = {
   ...config.global.config,
   globalProperties: {
-    ...(config.global.config?.globalProperties ?? {}),
+    ...config.global.config?.globalProperties,
     $sd: {
       classPrefix: 'sd',
     },

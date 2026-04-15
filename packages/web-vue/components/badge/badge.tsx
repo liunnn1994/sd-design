@@ -113,7 +113,7 @@ export default defineComponent({
     ]);
 
     const computedStyleRef = computed(() => {
-      const computedDotStyle = { ...(dotStyle?.value || {}) };
+      const computedDotStyle = { ...dotStyle?.value };
       const [leftOffset, topOffset] = offset?.value || [];
       if (leftOffset) {
         computedDotStyle.marginRight = `${-leftOffset}px`;

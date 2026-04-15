@@ -421,7 +421,7 @@
       const handleOk = async (e: Event) => {
         const currentPromiseNumber = promiseNumber;
         const closed = await new Promise<boolean>(
-          // eslint-disable-next-line no-async-promise-executor
+          // oxlint-disable-next-line no-async-promise-executor
           async (resolve) => {
             if (isFunction(props.onBeforeOk)) {
               let result = props.onBeforeOk((closed = true) => resolve(closed));
@@ -520,7 +520,7 @@
       const style = computed(() => {
         const style: CSSProperties = {
           [props.placement]: 0,
-          ...(props.drawerStyle ?? {}),
+          ...props.drawerStyle,
         };
         if (['right', 'left'].includes(props.placement)) {
           style.width = isNumber(props.width) ? `${props.width}px` : props.width;

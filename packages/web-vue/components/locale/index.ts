@@ -35,7 +35,7 @@ export const addI18nMessages = (
  */
 export const useLocale = (locale: string) => {
   if (!I18N_MESSAGES[locale]) {
-    // eslint-disable-next-line no-console
+    // oxlint-disable-next-line no-console
     console.warn(`use ${locale} failed! Please add ${locale} first`);
     return;
   }

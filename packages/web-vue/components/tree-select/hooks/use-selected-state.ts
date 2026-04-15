@@ -88,7 +88,7 @@ export default function useSelectedState(props: {
 
         res.push({
           ...(isLabelValue(item) ? item : {}),
-          ...(originValueItem || {}),
+          ...originValueItem,
           value: key,
           label:
             getLabel(item) ??

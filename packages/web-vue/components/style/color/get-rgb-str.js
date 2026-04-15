@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// oxlint-disable-next-line @typescript-eslint/no-var-requires
 const { getRgbStr } = require('@arco-design/color');
 
 module.exports = {

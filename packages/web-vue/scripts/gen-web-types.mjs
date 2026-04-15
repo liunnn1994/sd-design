@@ -1,3 +1,4 @@
+// oxlint-disable no-console
 import fg from 'fast-glob';
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';

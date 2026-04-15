@@ -18,7 +18,7 @@
         onEnter(el: HTMLDivElement) {
           const endHeight = `${el.scrollHeight}px`;
           el.style.height = props.expanded ? '0' : endHeight;
-          // eslint-disable-next-line no-unused-expressions
+          // oxlint-disable-next-line no-unused-expressions
           el.offsetHeight;
           el.style.height = props.expanded ? endHeight : '0';
         },

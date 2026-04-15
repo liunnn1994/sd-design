@@ -264,7 +264,7 @@
       const handleOk = async () => {
         const currentPromiseNumber = promiseNumber;
         const closed = await new Promise<boolean>(
-          // eslint-disable-next-line no-async-promise-executor
+          // oxlint-disable-next-line no-async-promise-executor
           async (resolve) => {
             if (isFunction(props.onBeforeOk)) {
               let result = props.onBeforeOk((closed = true) => resolve(closed));

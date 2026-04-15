@@ -10,14 +10,14 @@ import { isDayjs, isArray, isQuarter } from './is';
 import 'dayjs/locale/zh-cn';
 
 const overwriteIsDayjs = (_: any, Dayjs: any, dayjs: any) => {
-  // eslint-disable-next-line func-names
+  // oxlint-disable-next-line func-names
   dayjs = function (date: Dayjs, c: any) {
     if (isDayjs(date)) {
       return date.clone();
     }
     const cfg = typeof c === 'object' ? c : {};
     cfg.date = date;
-    cfg.args = arguments; // eslint-disable-line prefer-rest-params
+    cfg.args = arguments; // oxlint-disable-line prefer-rest-params
     return new Dayjs(cfg);
   };
 

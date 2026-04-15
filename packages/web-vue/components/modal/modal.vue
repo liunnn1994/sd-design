@@ -531,7 +531,7 @@
       const handleOk = async (e: Event) => {
         const currentPromiseNumber = promiseNumber;
         const closed = await new Promise<boolean>(
-          // eslint-disable-next-line no-async-promise-executor
+          // oxlint-disable-next-line no-async-promise-executor
           async (resolve) => {
             if (isFunction(props.onBeforeOk)) {
               let result = props.onBeforeOk((closed = true) => resolve(closed));
@@ -674,7 +674,7 @@
 
       const mergedModalStyle = computed(() => {
         const style: CSSProperties = {
-          ...(props.modalStyle ?? {}),
+          ...props.modalStyle,
         };
         // 修复设置width属性后，全屏无法生效的问题
         if (props.width && !props.fullscreen) {

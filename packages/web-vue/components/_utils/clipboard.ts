@@ -6,7 +6,7 @@ export const clipboard = async (text: string) => {
       await navigator.clipboard.writeText(text);
       return;
     } catch (err) {
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.error(err ?? new DOMException('The request is not allowed', 'NotAllowedError'));
     }
   }
@@ -27,7 +27,7 @@ export const clipboard = async (text: string) => {
   try {
     window.document.execCommand('copy');
   } catch (err) {
-    // eslint-disable-next-line no-console
+    // oxlint-disable-next-line no-console
     console.error(`execCommand Error: ${err}`);
   }
 

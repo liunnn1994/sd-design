@@ -1,5 +1,5 @@
 // pick item from object
-// eslint-disable-next-line @typescript-eslint/ban-types
+// oxlint-disable-next-line @typescript-eslint/ban-types
 export default function pick<T extends object, K extends keyof T>(
   obj: T,
   keys: Array<K | string>,

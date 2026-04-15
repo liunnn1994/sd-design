@@ -50,7 +50,7 @@
         const stepsLength = Math.floor((props.max - props.min) / props.step);
         for (let i = 0; i <= stepsLength; i++) {
           const stepVal = NP.plus(i * props.step, props.min);
-          // eslint-disable-next-line no-continue
+          // oxlint-disable-next-line no-continue
           if (stepVal <= props.min || stepVal >= props.max) continue;
           steps.push({
             key: stepVal,

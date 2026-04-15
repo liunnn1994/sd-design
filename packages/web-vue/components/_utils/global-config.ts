@@ -16,7 +16,7 @@ export const getComponentPrefix = (options?: SDOptions) => {
 export const setGlobalConfig = (app: App, options?: SDOptions): void => {
   if (options?.classPrefix) {
     app.config.globalProperties[GLOBAL_CONFIG_NAME] = {
-      ...(app.config.globalProperties[GLOBAL_CONFIG_NAME] ?? {}),
+      ...app.config.globalProperties[GLOBAL_CONFIG_NAME],
       classPrefix: options.classPrefix,
     };
   }

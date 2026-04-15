@@ -38,7 +38,7 @@ describe('Locale', () => {
     );
 
     for (const [item, loadLanguage] of languages) {
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       const lang = await loadLanguage();
       expect(lang.default).toMatchStructure(zhCN);
     }

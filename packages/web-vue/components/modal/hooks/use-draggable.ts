@@ -70,13 +70,13 @@ export const useDraggable = ({
       let x = initialPosition.value[0] + diffX;
       let y = initialPosition.value[1] + diffY;
 
-      // eslint-disable-next-line prefer-destructuring
+      // oxlint-disable-next-line prefer-destructuring
       if (x < minPosition.value[0]) x = minPosition.value[0];
-      // eslint-disable-next-line prefer-destructuring
+      // oxlint-disable-next-line prefer-destructuring
       if (x > maxPosition.value[0]) x = maxPosition.value[0];
-      // eslint-disable-next-line prefer-destructuring
+      // oxlint-disable-next-line prefer-destructuring
       if (y < minPosition.value[1]) y = minPosition.value[1];
-      // eslint-disable-next-line prefer-destructuring
+      // oxlint-disable-next-line prefer-destructuring
       if (y > maxPosition.value[1]) y = maxPosition.value[1];
 
       position.value = [x, y];

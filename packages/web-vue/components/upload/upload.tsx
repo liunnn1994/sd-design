@@ -594,7 +594,7 @@ export default defineComponent({
               }
             })
             .catch((err) => {
-              // eslint-disable-next-line no-console
+              // oxlint-disable-next-line no-console
               console.error(err);
             });
         } else {
@@ -619,7 +619,7 @@ export default defineComponent({
             }
           })
           .catch((err) => {
-            // eslint-disable-next-line no-console
+            // oxlint-disable-next-line no-console
             console.error(err);
           });
       } else {

@@ -54,7 +54,7 @@ export default defineComponent({
           block: 'nearest',
           scrollMode: 'if-needed',
           boundary: document.documentElement,
-          ...(menuContext.scrollConfig || {}),
+          ...menuContext.scrollConfig,
         });
       }
     }
