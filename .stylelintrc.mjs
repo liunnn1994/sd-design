@@ -11,9 +11,9 @@ export default {
   ignoreFiles: [
     'packages/sd-vue-docs/public/vendor/**',
     'packages/sd-vue-docs/src/components/generated/**',
-    'packages/web-vue/dist/**',
     'packages/web-vue/es/**',
     'packages/web-vue/lib/**',
+    '**/dist/**',
     'packages/web-vue/components/_components/input-label/style/token.less',
   ],
   overrides: [

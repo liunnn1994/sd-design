@@ -4,8 +4,7 @@
   import type { Component } from 'vue';
   import { computed, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue';
 
-  import vueSharedModuleSource from '../../browser-repl/vue-shared.ts?raw';
-  import vueModuleSource from '../../browser-repl/vue.ts?raw';
+  import vueRuntimeSource from 'vue/dist/vue.runtime.esm-browser.js?raw';
 
   type ReplComponent = (typeof import('@vue/repl'))['Repl'];
 
@@ -13,8 +12,7 @@
     return `data:text/javascript;charset=utf-8,${encodeURIComponent(source)}`;
   }
 
-  const vueSharedModuleUrl = createJavaScriptDataUrl(vueSharedModuleSource);
-  const vueModuleUrl = createJavaScriptDataUrl(vueModuleSource);
+  const vueModuleUrl = createJavaScriptDataUrl(vueRuntimeSource);
 
   const props = defineProps<{
     source: string;
@@ -49,7 +47,6 @@
   const importMap = computed(() => ({
     imports: {
       'vue': vueModuleUrl,
-      '@vue/shared': vueSharedModuleUrl,
       '@sdata/web-vue': '/vendor/sd-web-vue/es/index.js',
       '@sdata/web-vue/es/icon': '/vendor/sd-web-vue/es/icon/index.js',
       '@sdata/web-vue/': '/vendor/sd-web-vue/',
