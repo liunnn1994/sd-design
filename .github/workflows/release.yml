@@ -49,6 +49,8 @@ jobs:
           pnpm run install:ci
 
       - name: Build web-vue
+        env:
+          NODE_OPTIONS: '--max-old-space-size=4096'
         run: pnpm run build:component --verbose
 
       - name: Release web-vue
