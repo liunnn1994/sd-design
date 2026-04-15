@@ -49,7 +49,7 @@ jobs:
           pnpm run install:ci
 
       - name: Build web-vue
-        run: pnpm run build:component
+        run: pnpm run build:component --verbose
 
       - name: Release web-vue
         working-directory: packages/web-vue
