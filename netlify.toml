@@ -1,6 +1,6 @@
 [build]
 base = "."
-command = "pnpm install --frozen-lockfile && pnpm run build:docs"
+command = "corepack enable && pnpm install --frozen-lockfile && pnpm run build:docs"
 publish = "packages/sd-vue-docs/dist"
 
 [build.environment]

@@ -34,11 +34,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6
-        with:
-          run_install: false
-
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
@@ -48,7 +43,11 @@ jobs:
           scope: '@sdata'
 
       - name: Install dependencies
-        run: pnpm run install:ci
+        run: |
+          corepack enable
+          node -v
+          pnpm -v
+          pnpm run install:ci
 
       - name: Build web-vue
         run: pnpm run build:component
