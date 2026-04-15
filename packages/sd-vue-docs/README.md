@@ -40,16 +40,13 @@ packages/sd-vue-docs/
 
 ```bash
 pnpm install
-pnpm run init
 ```
-
-`pnpm run init` 会先构建内部工具包和组件库产物，文档站的在线示例依赖这些产物。
 
 ### 日常开发
 
 ```bash
 # 启动文档站开发环境
-# 命令会先补齐 public/vendor/ 运行时依赖，再启动 Astro dev server
+# 命令会先构建 web-vue 模块产物、补齐 public/vendor/ 运行时依赖，再启动 Astro dev server
 pnpm --filter @sd-design/sd-vue-docs run dev
 
 # 仅补齐在线示例运行时依赖，不重写 MDX 页面
@@ -60,13 +57,13 @@ pnpm --filter @sd-design/sd-vue-docs run docs:vendor
 
 1. 页面细调、排版、链接、额外说明直接改 `src/content/docs/**/*.mdx`。
 2. 日常启动直接用 `dev`，命令只会补齐在线示例依赖，不会改写文档内容。
-3. 组件库产物变化后，如在线示例资源缺失，可单独执行 `docs:vendor`。
+3. 组件库产物变化后，如在线示例资源缺失，可单独执行 `docs:vendor`，它会自动先准备 web-vue 模块产物。
 
 ## 打包说明
 
 ```bash
 # 生产构建
-# 命令会先补齐 public/vendor/，再执行 astro build
+# 命令会先准备 web-vue 模块产物并补齐 public/vendor/，再执行 astro build
 pnpm --filter @sd-design/sd-vue-docs run build
 
 # 本地预览构建产物

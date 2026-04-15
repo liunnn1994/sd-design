@@ -6,11 +6,15 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm run docs:vendor && astro dev",
+    "dev:serve": "astro dev",
     "start": "pnpm run docs:vendor && astro dev",
     "build": "pnpm run docs:vendor && astro build",
+    "build:site": "astro build",
     "preview": "pnpm run docs:vendor && astro preview",
     "astro": "astro",
-    "docs:vendor": "node ./scripts/sync-vendor.mjs"
+    "docs:prepare": "pnpm --filter @sdata/web-vue run build:module",
+    "docs:vendor": "pnpm run docs:prepare && pnpm run docs:vendor:only",
+    "docs:vendor:only": "node ./scripts/sync-vendor.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.3",

@@ -19,14 +19,7 @@ const maps = {
 
 const svgoConfig = {
   plugins: [
-    {
-      name: 'preset-default',
-      params: {
-        overrides: {
-          removeViewBox: false,
-        },
-      },
-    },
+    'preset-default',
     'removeStyleElement',
     'removeScripts',
     'removeDimensions',

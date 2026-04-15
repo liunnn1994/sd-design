@@ -33,7 +33,6 @@
     "access": "public"
   },
   "scripts": {
-    "init": "pnpm run build:module",
     "predev": "pnpm run icongen && pnpm run lessgen",
     "dev": "vp run task:dev-component",
     "start": "pnpm run dev",
@@ -48,7 +47,7 @@
     "prebuild:style": "pnpm run lessgen",
     "build:style": "vp run task:build-style",
     "prebuild:dts": "pnpm run icongen",
-    "build:dts": "vp run task:build-dts",
+    "build:dts": "node ./scripts/build-dts.mjs",
     "dtsgen": "pnpm run build:dts",
     "test": "vp test run",
     "test:update": "vp test run -u",

@@ -50,9 +50,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Init
-        run: pnpm run init
-
       - name: Build web-vue
         run: pnpm --filter @sdata/web-vue run build
 

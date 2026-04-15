@@ -69,7 +69,6 @@ app.mount("#app");
 
 ```bash
 pnpm install
-pnpm run init
 pnpm run dev
 ```
 

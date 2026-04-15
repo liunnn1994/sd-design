@@ -32,13 +32,11 @@
 
 ```bash
 pnpm install
-pnpm run init
 pnpm run dev
 ```
 
 其中：
 
-- `pnpm run init` 会执行 `@sdata/web-vue` 的初始化流程，生成图标、样式入口和基础组件产物。
 - `pnpm run dev` 会同时启动组件库 watch 构建和文档站开发服务。
 - `pnpm run dev:all` 是 `pnpm run dev` 的全量显式入口，适合脚本编排或新同学快速理解流程。
 - `pnpm run dev:docs` 只启动文档站。
@@ -47,9 +45,6 @@ pnpm run dev
 ## 常用命令
 
 ```bash
-# 初始化组件产物
-pnpm run init
-
 # 同时启动组件库 watch 和文档站开发环境
 pnpm run dev
 
@@ -140,7 +135,7 @@ pnpm run clean
 
 ## 维护说明
 
-- 如果组件产物更新后文档站出现启动或打包异常，优先重新执行 `pnpm run init`。
+- 文档站相关命令会自动准备 web-vue 模块产物和 vendor 资源，不需要再手工执行额外初始化步骤。
 - 根脚本 `upgrade:*` 用于批量升级依赖、engines、browserslist 和技能清单，适合做仓库级维护，不适合日常开发流程。
 
 ## 浏览器兼容性

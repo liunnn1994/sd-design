@@ -47,13 +47,7 @@ git clone git@github.com:liunnn1994/sd-design.git
 pnpm install
 ```
 
-3. 初始化项目
-
-```bash
-pnpm run init
-```
-
-4. 启动和预览站点
+3. 启动和预览站点
 
 ```bash
 pnpm run start
@@ -64,10 +58,10 @@ pnpm run start
 pnpm run storybook
 ```
 
-5. 对代码库进行更改。如果适用的话，请确保写了相应的测试。
-6. 确认执行 `pnpm run test` 后所有的测试都是通过的。
-7. 提交 git commit, 请同时遵守 [Commit 规范](#commit-指南)。
-8. 提交 pull request, 如果有对应的 issue，请进行[关联](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword)。
+4. 对代码库进行更改。如果适用的话，请确保写了相应的测试。
+5. 确认执行 `pnpm run test` 后所有的测试都是通过的。
+6. 提交 git commit, 请同时遵守 [Commit 规范](#commit-指南)。
+7. 提交 pull request, 如果有对应的 issue，请进行[关联](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword)。
 
 ## Commit 指南
 

@@ -5,8 +5,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 import CleanCSS from 'clean-css';
 import { globSync } from 'glob';
 import less from 'less';
-import { spawn } from 'node:child_process';
-import { cp, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite-plus';
@@ -115,7 +114,7 @@ function createRunConfig() {
         command: 'vite build --config vite.config.ts --mode build-style',
       },
       'task:build-dts': {
-        command: 'vite build --config vite.config.ts --mode build-dts',
+        command: 'node ./scripts/build-dts.mjs',
       },
     },
   };
@@ -292,72 +291,6 @@ function createStyleBuildConfig(): UserConfig {
   };
 }
 
-async function runVueTsc() {
-  await new Promise<void>((resolve, reject) => {
-    const child = spawn('pnpm', ['exec', 'vue-tsc', '-p', 'tsconfig.build.json'], {
-      cwd: packageRoot,
-      stdio: 'inherit',
-      shell: true,
-    });
-
-    child.on('exit', (code) => {
-      if (code === 0) {
-        resolve();
-        return;
-      }
-
-      reject(new Error(`vue-tsc exited with code ${code}`));
-    });
-    child.on('error', reject);
-  });
-}
-
-async function moveDirectoryContents(sourceDir: string, targetDir: string) {
-  const entries = await readdir(sourceDir, { withFileTypes: true });
-
-  await mkdir(targetDir, { recursive: true });
-
-  for (const entry of entries) {
-    const sourcePath = path.resolve(sourceDir, entry.name);
-    const targetPath = path.resolve(targetDir, entry.name);
-    await cp(sourcePath, targetPath, { recursive: true, force: true });
-  }
-}
-
-async function emitDeclarationFiles() {
-  await rm(resolveFromRoot('.temp-types'), { recursive: true, force: true });
-  await runVueTsc();
-  await moveDirectoryContents(resolveFromRoot('.temp-types', 'components'), resolveFromRoot('es'));
-  await rm(resolveFromRoot('.temp-types'), { recursive: true, force: true });
-}
-
-function createDtsPlugin(): PluginOption {
-  return {
-    name: 'sd-declaration-build',
-    async buildStart() {
-      await emitDeclarationFiles();
-    },
-  };
-}
-
-function createDtsBuildConfig(): UserConfig {
-  return {
-    mode: 'production',
-    build: {
-      write: false,
-      emptyOutDir: false,
-      lib: {
-        entry: 'components/index.ts',
-        formats: ['es'],
-      },
-      rollupOptions: {
-        external: ['vue'],
-      },
-    },
-    plugins: [createDtsPlugin()],
-  };
-}
-
 function createDevBuildConfig(): UserConfig {
   return {
     mode: 'development',
@@ -453,14 +386,6 @@ export default defineConfig(({ mode }) => {
   if (mode === 'build-style') {
     return {
       ...createStyleBuildConfig(),
-      run,
-      test,
-    } as any;
-  }
-
-  if (mode === 'build-dts') {
-    return {
-      ...createDtsBuildConfig(),
       run,
       test,
     } as any;
