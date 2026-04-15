@@ -68,3 +68,8 @@ jobs:
         run: |
           test -n "$NETLIFY_BUILD_HOOK_URL" || { echo 'Missing NETLIFY_BUILD_HOOK_URL secret'; exit 1; }
           curl -X POST -fsS "$NETLIFY_BUILD_HOOK_URL"
+
+      - name: Show error
+        if: failure()
+        run: |
+          pnpm vp run --last-details

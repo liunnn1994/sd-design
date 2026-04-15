@@ -18,7 +18,7 @@
     "build": "vp run build:all",
     "build:all": "pnpm --filter @sdata/web-vue run build && pnpm --filter @sd-design/sd-vue-docs run docs:vendor:only && pnpm --filter @sd-design/sd-vue-docs run build:site",
     "build:docs": "vp run --filter @sd-design/sd-vue-docs build",
-    "build:component": "vp run --last-details --filter @sdata/web-vue build",
+    "build:component": "vp run --filter @sdata/web-vue build",
     "format": "oxfmt .",
     "format:all": "pnpm run format",
     "format:check": "oxfmt --check .",
