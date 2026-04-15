@@ -1,2 +1,12 @@
 packages:
   - 'packages/*'
+
+onlyBuiltDependencies:
+  - 'core-js'
+  - 'core-js-pure'
+  - 'esbuild'
+  - 'sharp'
+  - 'simple-git-hooks'
+  - 'unrs-resolver'
+  - 'vue-demi'
+  - 'vue-inbrowser-compiler-demi'

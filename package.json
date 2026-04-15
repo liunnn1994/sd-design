@@ -86,18 +86,5 @@
   "engines": {
     "node": "~24.14.1"
   },
-  "packageManager": "pnpm@10.33.0",
-  "pnpm": {
-    "overrides": {},
-    "onlyBuiltDependencies": [
-      "core-js",
-      "core-js-pure",
-      "esbuild",
-      "sharp",
-      "simple-git-hooks",
-      "unrs-resolver",
-      "vue-demi",
-      "vue-inbrowser-compiler-demi"
-    ]
-  }
+  "packageManager": "pnpm@10.33.0"
 }

@@ -48,10 +48,10 @@ jobs:
           scope: '@sdata'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm run install:ci
 
       - name: Build web-vue
-        run: pnpm --filter @sdata/web-vue run build
+        run: pnpm run build:component
 
       - name: Release web-vue
         working-directory: packages/web-vue
