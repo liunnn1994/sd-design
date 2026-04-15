@@ -155,14 +155,14 @@ type FilterOption = boolean | ((inputValue: string, option: SelectOptionData) =>
 
 ```vue
 <template>
-  <a-select
+  <sd-select
     v-model="value"
     :style="{ width: '320px' }"
     placeholder="Please select ..."
     value-key="key"
   >
-    <a-option v-for="item of data" :value="item" :label="item.label" />
-  </a-select>
+    <sd-option v-for="item of data" :value="item" :label="item.label" />
+  </sd-select>
 </template>
 
 <script>
@@ -208,5 +208,5 @@ type FilterOption = boolean | ((inputValue: string, option: SelectOptionData) =>
 `Select` 组件默认没有开启容器滚动的事件监听功能，如果遇到在滚动容器中下拉菜单分离的问题，可以手动开启内部 `Trigger` 组件的 `updateAtScroll` 功能。如果是在全局环境中存在此种情况，可以使用 `ConfigProvider` 组件默认开启此属性。
 
 ```vue
-<a-select :trigger-props="{ updateAtScroll: true }"></a-select>
+<sd-select :trigger-props="{ updateAtScroll: true }"></sd-select>
 ```

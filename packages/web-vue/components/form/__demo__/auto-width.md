@@ -18,20 +18,20 @@ Set `auto-label-width` to enable automatic label width. It only takes effect und
 
 ```vue
 <template>
-  <a-form :model="form" :style="{ width: '600px' }" auto-label-width @submit="handleSubmit">
-    <a-form-item field="name" label="Username">
-      <a-input v-model="form.name" placeholder="please enter your username..." />
-    </a-form-item>
-    <a-form-item field="post" label="Post">
-      <a-input v-model="form.post" placeholder="please enter your post..." />
-    </a-form-item>
-    <a-form-item field="isRead">
-      <a-checkbox v-model="form.isRead"> I have read the manual </a-checkbox>
-    </a-form-item>
-    <a-form-item>
-      <a-button html-type="submit">Submit</a-button>
-    </a-form-item>
-  </a-form>
+  <sd-form :model="form" :style="{ width: '600px' }" auto-label-width @submit="handleSubmit">
+    <sd-form-item field="name" label="Username">
+      <sd-input v-model="form.name" placeholder="please enter your username..." />
+    </sd-form-item>
+    <sd-form-item field="post" label="Post">
+      <sd-input v-model="form.post" placeholder="please enter your post..." />
+    </sd-form-item>
+    <sd-form-item field="isRead">
+      <sd-checkbox v-model="form.isRead"> I have read the manual </sd-checkbox>
+    </sd-form-item>
+    <sd-form-item>
+      <sd-button html-type="submit">Submit</sd-button>
+    </sd-form-item>
+  </sd-form>
   {{ form }}
 </template>
 

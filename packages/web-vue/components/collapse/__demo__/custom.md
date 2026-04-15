@@ -18,20 +18,20 @@ custom panels styles.
 
 ```vue
 <template>
-  <a-collapse :default-active-key="['1', 2]" :bordered="false">
-    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." :style="customStyle" key="1">
+  <sd-collapse :default-active-key="['1', 2]" :bordered="false">
+    <sd-collapse-item header="Beijing Toutiao Technology Co., Ltd." :style="customStyle" key="1">
       <div>Beijing Toutiao Technology Co., Ltd.</div>
       <div>Beijing Toutiao Technology Co., Ltd.</div>
-    </a-collapse-item>
-    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." :style="customStyle" :key="2">
+    </sd-collapse-item>
+    <sd-collapse-item header="Beijing Toutiao Technology Co., Ltd." :style="customStyle" :key="2">
       <div>Beijing Toutiao Technology Co., Ltd.</div>
       <div>Beijing Toutiao Technology Co., Ltd.</div>
-    </a-collapse-item>
-    <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." :style="customStyle" key="3">
+    </sd-collapse-item>
+    <sd-collapse-item header="Beijing Toutiao Technology Co., Ltd." :style="customStyle" key="3">
       <div>Beijing Toutiao Technology Co., Ltd.</div>
       <div>Beijing Toutiao Technology Co., Ltd.</div>
-    </a-collapse-item>
-  </a-collapse>
+    </sd-collapse-item>
+  </sd-collapse>
 </template>
 
 <script>

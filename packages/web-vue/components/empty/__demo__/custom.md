@@ -18,12 +18,12 @@ Customize icons and pictures through the `image` slot, or modify the text throug
 
 ```vue
 <template>
-  <a-empty>
+  <sd-empty>
     <template #image>
       <icon-exclamation-circle-fill />
     </template>
     No data, please reload!
-  </a-empty>
+  </sd-empty>
 </template>
 
 <script>

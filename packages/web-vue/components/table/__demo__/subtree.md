@@ -18,11 +18,11 @@ An example of tree data display, when there is a `children` field in `data`, it 
 
 ```vue
 <template>
-  <a-space>
+  <sd-space>
     <span>checkStrictly:</span>
-    <a-switch v-model="rowSelection.checkStrictly" />
-  </a-space>
-  <a-table
+    <sd-switch v-model="rowSelection.checkStrictly" />
+  </sd-space>
+  <sd-table
     :columns="columns"
     :data="data"
     v-model:expandedKeys="expandedKeys"

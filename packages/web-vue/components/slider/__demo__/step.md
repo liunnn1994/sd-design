@@ -18,22 +18,22 @@ Set the step size by `step`, the default step size is 1. It is recommended to se
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large">
-    <a-form :model="data" layout="inline">
-      <a-form-item label="Step" field="step">
-        <a-input-number :style="{ width: '100px' }" v-model="data.step" />
-      </a-form-item>
-      <a-form-item label="Show steps" field="showTicks">
-        <a-switch v-model="data.showTicks" />
-      </a-form-item>
-    </a-form>
-    <a-slider
+  <sd-space direction="vertical" size="large">
+    <sd-form :model="data" layout="inline">
+      <sd-form-item label="Step" field="step">
+        <sd-input-number :style="{ width: '100px' }" v-model="data.step" />
+      </sd-form-item>
+      <sd-form-item label="Show steps" field="showTicks">
+        <sd-switch v-model="data.showTicks" />
+      </sd-form-item>
+    </sd-form>
+    <sd-slider
       :default-value="20"
       :style="{ width: '300px' }"
       :step="data.step"
       :show-ticks="data.showTicks"
     />
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

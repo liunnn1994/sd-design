@@ -19,25 +19,25 @@ A complete example of the header.
 ```vue
 <template>
   <div :style="{ background: 'var(--color-fill-2)', padding: '28px' }">
-    <a-page-header :style="{ background: 'var(--color-bg-2)' }" title="SD Design">
+    <sd-page-header :style="{ background: 'var(--color-bg-2)' }" title="SD Design">
       <template #breadcrumb>
-        <a-breadcrumb>
-          <a-breadcrumb-item>Home</a-breadcrumb-item>
-          <a-breadcrumb-item>Channel</a-breadcrumb-item>
-          <a-breadcrumb-item>News</a-breadcrumb-item>
-        </a-breadcrumb>
+        <sd-breadcrumb>
+          <sd-breadcrumb-item>Home</sd-breadcrumb-item>
+          <sd-breadcrumb-item>Channel</sd-breadcrumb-item>
+          <sd-breadcrumb-item>News</sd-breadcrumb-item>
+        </sd-breadcrumb>
       </template>
       <template #subtitle>
-        <a-space>
+        <sd-space>
           <span>SD Design Vue</span>
-          <a-tag color="red" size="small">Default</a-tag>
-        </a-space>
+          <sd-tag color="red" size="small">Default</sd-tag>
+        </sd-space>
       </template>
       <template #extra>
-        <a-space>
-          <a-button>Cancel</a-button>
-          <a-button type="primary">Save</a-button>
-        </a-space>
+        <sd-space>
+          <sd-button>Cancel</sd-button>
+          <sd-button type="primary">Save</sd-button>
+        </sd-space>
       </template>
       <p> For other uses, see Design </p>
       <p>
@@ -53,7 +53,7 @@ A complete example of the header.
         diagrams, and sewing patterns.Major examples of designs include architectural
         blueprints,engineering drawings, business processes, circuit diagrams, and sewing patterns.
       </p>
-    </a-page-header>
+    </sd-page-header>
   </div>
 </template>
 

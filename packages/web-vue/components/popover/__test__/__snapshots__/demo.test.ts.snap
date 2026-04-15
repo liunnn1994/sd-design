@@ -1,65 +1,65 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`<popover> demo: render [basic] correctly 1`] = `
-"<button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal\\" type=\\"button\\">
+exports[`<popover> demo: > render [basic] correctly 1`] = `
+<button class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
   <!--v-if-->Hover
-</button>"
+</button>
 `;
 
-exports[`<popover> demo: render [position] correctly 1`] = `
-"<div style=\\"position: relative; width: 440px; height: 280px;\\"><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button\\" type=\\"button\\" style=\\"position: absolute; top: 0px; left: 70px;\\">
+exports[`<popover> demo: > render [position] correctly 1`] = `
+<div data-v-eb2a0ca8="" style="position: relative; width: 440px; height: 280px;"><button data-v-eb2a0ca8="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 0px; left: 70px;">
     <!--v-if-->TL
   </button>
-  <!----><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button\\" type=\\"button\\" style=\\"position: absolute; top: 0px; left: 180px;\\">
+  <!----><button data-v-eb2a0ca8="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 0px; left: 180px;">
     <!--v-if-->TOP
   </button>
-  <!----><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button\\" type=\\"button\\" style=\\"position: absolute; top: 0px; left: 290px;\\">
+  <!----><button data-v-eb2a0ca8="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 0px; left: 290px;">
     <!--v-if-->TR
   </button>
-  <!----><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button\\" type=\\"button\\" style=\\"position: absolute; top: 240px; left: 70px;\\">
+  <!----><button data-v-eb2a0ca8="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 240px; left: 70px;">
     <!--v-if-->BL
   </button>
-  <!----><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button\\" type=\\"button\\" style=\\"position: absolute; top: 240px; left: 180px;\\">
+  <!----><button data-v-eb2a0ca8="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 240px; left: 180px;">
     <!--v-if-->BOTTOM
   </button>
-  <!----><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button\\" type=\\"button\\" style=\\"position: absolute; top: 240px; left: 290px;\\">
+  <!----><button data-v-eb2a0ca8="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 240px; left: 290px;">
     <!--v-if-->BR
   </button>
-  <!----><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button\\" type=\\"button\\" style=\\"position: absolute; top: 60px; left: 10px;\\">
+  <!----><button data-v-eb2a0ca8="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 60px; left: 10px;">
     <!--v-if-->LT
   </button>
-  <!----><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button\\" type=\\"button\\" style=\\"position: absolute; top: 120px; left: 10px;\\">
+  <!----><button data-v-eb2a0ca8="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 120px; left: 10px;">
     <!--v-if-->LEFT
   </button>
-  <!----><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button\\" type=\\"button\\" style=\\"position: absolute; top: 180px; left: 10px;\\">
+  <!----><button data-v-eb2a0ca8="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 180px; left: 10px;">
     <!--v-if-->LB
   </button>
-  <!----><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button\\" type=\\"button\\" style=\\"position: absolute; top: 60px; left: 350px;\\">
+  <!----><button data-v-eb2a0ca8="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 60px; left: 350px;">
     <!--v-if-->RT
   </button>
-  <!----><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button\\" type=\\"button\\" style=\\"position: absolute; top: 120px; left: 350px;\\">
+  <!----><button data-v-eb2a0ca8="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 120px; left: 350px;">
     <!--v-if-->RIGHT
   </button>
-  <!----><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button\\" type=\\"button\\" style=\\"position: absolute; top: 180px; left: 350px;\\">
+  <!----><button data-v-eb2a0ca8="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 180px; left: 350px;">
     <!--v-if-->RB
   </button>
   <!---->
-</div>"
+</div>
 `;
 
-exports[`<popover> demo: render [trigger] correctly 1`] = `
-"<div class=\\"sd-space sd-space-horizontal sd-space-align-center\\" style=\\"column-gap: 8px; row-gap: 8px;\\">
+exports[`<popover> demo: > render [trigger] correctly 1`] = `
+<div class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 8px; row-gap: 8px;">
   <!---->
-  <div class=\\"sd-space-item\\"><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal\\" type=\\"button\\">
+  <div class="sd-space-item"><button class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
       <!--v-if-->Hover Me
     </button>
     <!---->
   </div>
   <!---->
-  <div class=\\"sd-space-item\\"><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal\\" type=\\"button\\">
+  <div class="sd-space-item"><button class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
       <!--v-if-->Click Me
     </button>
     <!---->
   </div>
-</div>"
+</div>
 `;

@@ -6,20 +6,20 @@ title:
 
 ## zh-CN
 
-`<a-image-preview-group>` 可单独使用，需控制 `visible` 。在图片的展示上分为两种场景，一是通过 `defaultCurrent` 指定第一张展示的图片；二是控制 `current` 来决定当前显示的是第几张图片。
+`<sd-image-preview-group>` 可单独使用，需控制 `visible` 。在图片的展示上分为两种场景，一是通过 `defaultCurrent` 指定第一张展示的图片；二是控制 `current` 来决定当前显示的是第几张图片。
 
 ---
 
 ## en-US
 
-`<a-image-preview-group>` can be used alone, you need to control `visible` by yourself. The image display is divided into two scenes: First, the first image to be displayed can be specified by `defaultCurrent`. Second, to control which image is currently displayed by `current`.
+`<sd-image-preview-group>` can be used alone, you need to control `visible` by yourself. The image display is divided into two scenes: First, the first image to be displayed can be specified by `defaultCurrent`. Second, to control which image is currently displayed by `current`.
 
 ---
 
 ```vue
 <template>
-  <a-button type="primary" @click="onClick">Click me to preview multiple image</a-button>
-  <a-image-preview-group
+  <sd-button type="primary" @click="onClick">Click me to preview multiple image</sd-button>
+  <sd-image-preview-group
     v-model:visible="visible"
     v-model:current="current"
     infinite

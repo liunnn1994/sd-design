@@ -18,7 +18,7 @@ title:
 
 ```vue
 <template>
-  <a-table :columns="columns" :data="data" @change="handleChange" :draggable="{}"></a-table>
+  <sd-table :columns="columns" :data="data" @change="handleChange" :draggable="{}"></sd-table>
 </template>
 
 <script>

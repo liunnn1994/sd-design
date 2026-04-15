@@ -15,6 +15,6 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["components/**/*", "icon/**/*", "*.d.ts"],
+  "include": ["components/**/*", "icon/**/*", "*.d.ts", "vitest.setup.ts"],
   "exclude": ["node_modules", "dist", "lib", "es", "json", "**/__tests__/**/*"]
 }

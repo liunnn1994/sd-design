@@ -18,10 +18,10 @@ Display the step bar of navigation type by setting `type="navigation"`.
 
 ```vue
 <template>
-  <a-steps type="navigation">
-    <a-step>Succeeded</a-step>
-    <a-step>Processing</a-step>
-    <a-step>Pending</a-step>
-  </a-steps>
+  <sd-steps type="navigation">
+    <sd-step>Succeeded</sd-step>
+    <sd-step>Processing</sd-step>
+    <sd-step>Pending</sd-step>
+  </sd-steps>
 </template>
 ```

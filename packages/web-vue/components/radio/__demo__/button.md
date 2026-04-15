@@ -18,11 +18,11 @@ By specifying `type="button"`, a radio group of button types can be displayed.
 
 ```vue
 <template>
-  <a-radio-group type="button">
-    <a-radio value="Beijing">Beijing</a-radio>
-    <a-radio value="Shanghai">Shanghai</a-radio>
-    <a-radio value="Guangzhou">Guangzhou</a-radio>
-    <a-radio value="Shenzhen">Shenzhen</a-radio>
-  </a-radio-group>
+  <sd-radio-group type="button">
+    <sd-radio value="Beijing">Beijing</sd-radio>
+    <sd-radio value="Shanghai">Shanghai</sd-radio>
+    <sd-radio value="Guangzhou">Guangzhou</sd-radio>
+    <sd-radio value="Shenzhen">Shenzhen</sd-radio>
+  </sd-radio-group>
 </template>
 ```

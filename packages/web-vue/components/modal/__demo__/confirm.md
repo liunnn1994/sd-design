@@ -18,7 +18,7 @@ Use Modal.confirm() to quickly pop up a confirmation modal dialog.
 
 ```vue
 <template>
-  <a-button type="primary" @click="handleClick">Confirm</a-button>
+  <sd-button type="primary" @click="handleClick">Confirm</sd-button>
 </template>
 
 <script>

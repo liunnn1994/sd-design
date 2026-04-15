@@ -18,7 +18,7 @@ Enable single selection mode by setting `rowSelection.type='radio'`.
 
 ```vue
 <template>
-  <a-table :columns="columns" :data="data" :row-selection="rowSelection" />
+  <sd-table :columns="columns" :data="data" :row-selection="rowSelection" />
 </template>
 
 <script>

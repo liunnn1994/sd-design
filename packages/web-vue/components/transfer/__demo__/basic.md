@@ -18,7 +18,7 @@ Basic usage of the transfer.
 
 ```vue
 <template>
-  <a-transfer :data="data" :default-value="value" />
+  <sd-transfer :data="data" :default-value="value" />
 </template>
 
 <script>

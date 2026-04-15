@@ -6,37 +6,37 @@ title:
 
 ## zh-CN
 
-使用 `<a-radio-group>` 传入 `<a-radio>`，配合 `<a-grid>` 组件实现灵活的布局。
+使用 `<sd-radio-group>` 传入 `<sd-radio>`，配合 `<sd-grid>` 组件实现灵活的布局。
 
 ---
 
 ## en-US
 
-We can use `<a-radio>` and `<a-grid>` in `<a-radio-group>`, to implement complex layout.
+We can use `<sd-radio>` and `<sd-grid>` in `<sd-radio-group>`, to implement complex layout.
 
 ---
 
 ```vue
 <template>
-  <a-radio-group v-model="checkedValue">
-    <a-grid :cols="3" :colGap="24" :rowGap="16">
-      <a-grid-item>
-        <a-radio value="1">Option 1</a-radio>
-      </a-grid-item>
-      <a-grid-item>
-        <a-radio value="2" disabled>Option 2</a-radio>
-      </a-grid-item>
-      <a-grid-item>
-        <a-radio value="3">Option 3</a-radio>
-      </a-grid-item>
-      <a-grid-item>
-        <a-radio value="4">Option 4</a-radio>
-      </a-grid-item>
-      <a-grid-item>
-        <a-radio value="5">Option 5</a-radio>
-      </a-grid-item>
-    </a-grid>
-  </a-radio-group>
+  <sd-radio-group v-model="checkedValue">
+    <sd-grid :cols="3" :colGap="24" :rowGap="16">
+      <sd-grid-item>
+        <sd-radio value="1">Option 1</sd-radio>
+      </sd-grid-item>
+      <sd-grid-item>
+        <sd-radio value="2" disabled>Option 2</sd-radio>
+      </sd-grid-item>
+      <sd-grid-item>
+        <sd-radio value="3">Option 3</sd-radio>
+      </sd-grid-item>
+      <sd-grid-item>
+        <sd-radio value="4">Option 4</sd-radio>
+      </sd-grid-item>
+      <sd-grid-item>
+        <sd-radio value="5">Option 5</sd-radio>
+      </sd-grid-item>
+    </sd-grid>
+  </sd-radio-group>
 </template>
 
 <script>

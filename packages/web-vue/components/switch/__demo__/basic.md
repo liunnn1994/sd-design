@@ -18,6 +18,6 @@ Basic usage of switch.
 
 ```vue
 <template>
-  <a-switch />
+  <sd-switch />
 </template>
 ```

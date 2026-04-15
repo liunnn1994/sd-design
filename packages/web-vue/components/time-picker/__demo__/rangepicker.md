@@ -18,7 +18,7 @@ Select time range.
 
 ```vue
 <template>
-  <a-time-picker
+  <sd-time-picker
     type="time-range"
     @select="(valueString, value) => print('onSelect:', valueString, value)"
     @change="(valueString, value) => print('onChange:', valueString, value)"

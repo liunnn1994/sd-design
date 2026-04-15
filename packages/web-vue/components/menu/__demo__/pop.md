@@ -19,33 +19,33 @@ Specify `mode` as `pop` to use floating menu.
 ```vue
 <template>
   <div class="menu-demo">
-    <a-menu mode="pop" showCollapseButton>
-      <a-menu-item key="1">
+    <sd-menu mode="pop" showCollapseButton>
+      <sd-menu-item key="1">
         <template #icon><icon-apps></icon-apps></template>
         Navigation 1
-      </a-menu-item>
-      <a-sub-menu key="2">
+      </sd-menu-item>
+      <sd-sub-menu key="2">
         <template #icon><icon-bug></icon-bug></template>
         <template #title>Navigation 2</template>
-        <a-menu-item key="2_0">Beijing</a-menu-item>
-        <a-menu-item key="2_1">Shanghai</a-menu-item>
-        <a-menu-item key="2_2">Guangzhou</a-menu-item>
-      </a-sub-menu>
-      <a-sub-menu key="3">
+        <sd-menu-item key="2_0">Beijing</sd-menu-item>
+        <sd-menu-item key="2_1">Shanghai</sd-menu-item>
+        <sd-menu-item key="2_2">Guangzhou</sd-menu-item>
+      </sd-sub-menu>
+      <sd-sub-menu key="3">
         <template #icon><icon-bulb></icon-bulb></template>
         <template #title>Navigation 3</template>
-        <a-menu-item key="3_0">Wuhan</a-menu-item>
-        <a-menu-item key="3_1">Chengdu</a-menu-item>
-      </a-sub-menu>
-      <a-menu-item key="4">
+        <sd-menu-item key="3_0">Wuhan</sd-menu-item>
+        <sd-menu-item key="3_1">Chengdu</sd-menu-item>
+      </sd-sub-menu>
+      <sd-menu-item key="4">
         <template #icon><icon-safe></icon-safe></template>
         Navigation 4
-      </a-menu-item>
-      <a-menu-item key="5">
+      </sd-menu-item>
+      <sd-menu-item key="5">
         <template #icon><icon-fire></icon-fire></template>
         Navigation 5
-      </a-menu-item>
-    </a-menu>
+      </sd-menu-item>
+    </sd-menu>
   </div>
 </template>
 <script>

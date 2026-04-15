@@ -18,7 +18,7 @@ Specifying `id` to update the existing notification.
 
 ```vue
 <template>
-  <a-button type="primary" @click="handleNotification"> Open Notification </a-button>
+  <sd-button type="primary" @click="handleNotification"> Open Notification </sd-button>
 </template>
 
 <script>

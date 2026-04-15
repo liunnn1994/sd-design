@@ -18,19 +18,19 @@ Different styles of text.
 
 ```vue
 <template>
-  <a-space direction="vertical" :size="10">
-    <a-typography-text> SD Design </a-typography-text>
-    <a-typography-text type="secondary"> Secondary </a-typography-text>
-    <a-typography-text type="primary"> Primary </a-typography-text>
-    <a-typography-text type="success"> Success </a-typography-text>
-    <a-typography-text type="warning"> Warning </a-typography-text>
-    <a-typography-text type="danger"> Danger </a-typography-text>
-    <a-typography-text bold> Bold </a-typography-text>
-    <a-typography-text disabled> Disabled </a-typography-text>
-    <a-typography-text mark> Mark </a-typography-text>
-    <a-typography-text underline> Underline </a-typography-text>
-    <a-typography-text delete> Line through </a-typography-text>
-    <a-typography-text code> Code snippet </a-typography-text>
-  </a-space>
+  <sd-space direction="vertical" :size="10">
+    <sd-typography-text> SD Design </sd-typography-text>
+    <sd-typography-text type="secondary"> Secondary </sd-typography-text>
+    <sd-typography-text type="primary"> Primary </sd-typography-text>
+    <sd-typography-text type="success"> Success </sd-typography-text>
+    <sd-typography-text type="warning"> Warning </sd-typography-text>
+    <sd-typography-text type="danger"> Danger </sd-typography-text>
+    <sd-typography-text bold> Bold </sd-typography-text>
+    <sd-typography-text disabled> Disabled </sd-typography-text>
+    <sd-typography-text mark> Mark </sd-typography-text>
+    <sd-typography-text underline> Underline </sd-typography-text>
+    <sd-typography-text delete> Line through </sd-typography-text>
+    <sd-typography-text code> Code snippet </sd-typography-text>
+  </sd-space>
 </template>
 ```

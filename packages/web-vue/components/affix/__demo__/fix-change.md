@@ -18,9 +18,9 @@ Callback when the fixed state changes.
 
 ```vue
 <template>
-  <a-affix :offsetBottom="80" @change="onChange">
-    <a-button type="primary">80px to affix bottom</a-button>
-  </a-affix>
+  <sd-affix :offsetBottom="80" @change="onChange">
+    <sd-button type="primary">80px to affix bottom</sd-button>
+  </sd-affix>
 </template>
 <script>
   import { defineComponent } from 'vue';

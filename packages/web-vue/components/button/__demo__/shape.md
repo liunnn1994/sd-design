@@ -18,18 +18,18 @@ Button is divided into three shapes: `square` - **rectangular (default)**, `circ
 
 ```vue
 <template>
-  <a-space>
-    <a-button type="primary">Square</a-button>
-    <a-button type="primary" shape="round">Round</a-button>
-    <a-button type="primary">
+  <sd-space>
+    <sd-button type="primary">Square</sd-button>
+    <sd-button type="primary" shape="round">Round</sd-button>
+    <sd-button type="primary">
       <template #icon>
         <icon-plus />
       </template>
-    </a-button>
-    <a-button type="primary" shape="circle">
+    </sd-button>
+    <sd-button type="primary" shape="circle">
       <icon-plus />
-    </a-button>
-  </a-space>
+    </sd-button>
+  </sd-space>
 </template>
 <script>
   import { IconPlus } from '@sdata/web-vue/es/icon';

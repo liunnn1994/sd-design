@@ -18,7 +18,7 @@ Custom upload request can be realized through `custom-request`.
 
 ```vue
 <template>
-  <a-upload :custom-request="customRequest" />
+  <sd-upload :custom-request="customRequest" />
 </template>
 
 <script>

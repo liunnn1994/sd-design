@@ -19,15 +19,15 @@ Setting the scroll property enables table scrolling. x refers to the actual widt
 ```vue
 <template>
   <div style="margin-bottom: 20px">
-    <a-switch v-model="scrollbar" />
+    <sd-switch v-model="scrollbar" />
     Virtual Scrollbar
   </div>
-  <a-table :columns="columns" :data="data" :scroll="scroll" :scrollbar="scrollbar" />
-  <a-split direction="vertical" :default-size="0.9" :style="{ height: '500px', marginTop: '30px' }">
+  <sd-table :columns="columns" :data="data" :scroll="scroll" :scrollbar="scrollbar" />
+  <sd-split direction="vertical" :default-size="0.9" :style="{ height: '500px', marginTop: '30px' }">
     <template #first>
-      <a-table :columns="columns" :data="data" :scroll="scrollPercent" :scrollbar="scrollbar" />
+      <sd-table :columns="columns" :data="data" :scroll="scrollPercent" :scrollbar="scrollbar" />
     </template>
-  </a-split>
+  </sd-split>
 </template>
 
 <script>

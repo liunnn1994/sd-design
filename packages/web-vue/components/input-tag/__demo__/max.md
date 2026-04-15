@@ -18,7 +18,7 @@ Set the maximum number of display labels.
 
 ```vue
 <template>
-  <a-input-tag
+  <sd-input-tag
     :default-value="['one', 'two', 'three', 'four']"
     :style="{ width: '380px' }"
     placeholder="Please Enter"

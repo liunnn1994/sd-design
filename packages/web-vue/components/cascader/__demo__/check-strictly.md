@@ -18,15 +18,15 @@ Set the attribute `check-strictly`, turn on any selectable mode, and click any n
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large">
-    <a-cascader
+  <sd-space direction="vertical" size="large">
+    <sd-cascader
       :options="options"
       default-value="beijing"
       :style="{ width: '320px' }"
       placeholder="Please select ..."
       check-strictly
     />
-    <a-cascader
+    <sd-cascader
       :options="options"
       :default-value="['beijing']"
       :style="{ width: '320px' }"
@@ -34,7 +34,7 @@ Set the attribute `check-strictly`, turn on any selectable mode, and click any n
       multiple
       check-strictly
     />
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

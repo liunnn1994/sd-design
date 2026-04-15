@@ -18,7 +18,7 @@ List with border and background color.
 
 ```vue
 <template>
-  <a-descriptions :data="data" title="User Info" bordered />
+  <sd-descriptions :data="data" title="User Info" bordered />
 </template>
 
 <script>

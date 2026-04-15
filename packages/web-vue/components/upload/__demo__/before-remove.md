@@ -18,8 +18,8 @@ The function will be executed before each file remove. Removing will be aborted 
 
 ```vue
 <template>
-  <a-space direction="vertical" :style="{ width: '100%' }">
-    <a-upload
+  <sd-space direction="vertical" :style="{ width: '100%' }">
+    <sd-upload
       action="/"
       :default-file-list="[
         {
@@ -35,7 +35,7 @@ The function will be executed before each file remove. Removing will be aborted 
       ]"
       @before-remove="beforeRemove"
     />
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

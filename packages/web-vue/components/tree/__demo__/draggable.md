@@ -18,8 +18,8 @@ Draggable nodes.
 
 ```vue
 <template>
-  <a-checkbox v-model="checked" style="margin-bottom: 20px;"> checkable </a-checkbox>
-  <a-tree
+  <sd-checkbox v-model="checked" style="margin-bottom: 20px;"> checkable </sd-checkbox>
+  <sd-tree
     class="tree-demo"
     draggable
     blockNode

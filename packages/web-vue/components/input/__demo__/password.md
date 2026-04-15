@@ -18,16 +18,16 @@ Used to enter a password.
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large">
-    <a-switch v-model="visibility" />
-    <a-input-password
+  <sd-space direction="vertical" size="large">
+    <sd-switch v-model="visibility" />
+    <sd-input-password
       v-model:visibility="visibility"
       placeholder="Please enter something"
       :style="{ width: '320px' }"
       :defaultVisibility="false"
       allow-clear
     />
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

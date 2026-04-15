@@ -18,23 +18,23 @@ Specify the trigger method by `trigger`.
 
 ```vue
 <template>
-  <a-space size="large">
-    <a-dropdown>
-      <a-button>Click Me</a-button>
+  <sd-space size="large">
+    <sd-dropdown>
+      <sd-button>Click Me</sd-button>
       <template #content>
-        <a-doption>Option 1</a-doption>
-        <a-doption>Option 2</a-doption>
-        <a-doption>Option 3</a-doption>
+        <sd-doption>Option 1</sd-doption>
+        <sd-doption>Option 2</sd-doption>
+        <sd-doption>Option 3</sd-doption>
       </template>
-    </a-dropdown>
-    <a-dropdown trigger="hover">
-      <a-button>Hover Me</a-button>
+    </sd-dropdown>
+    <sd-dropdown trigger="hover">
+      <sd-button>Hover Me</sd-button>
       <template #content>
-        <a-doption>Option 1</a-doption>
-        <a-doption>Option 2</a-doption>
-        <a-doption>Option 3</a-doption>
+        <sd-doption>Option 1</sd-doption>
+        <sd-doption>Option 2</sd-doption>
+        <sd-doption>Option 3</sd-doption>
       </template>
-    </a-dropdown>
-  </a-space>
+    </sd-dropdown>
+  </sd-space>
 </template>
 ```

@@ -1,24 +1,24 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`<anchor> demo: render [affix] correctly 1`] = `
-"<div>
+exports[`<anchor> demo: > render [affix] correctly 1`] = `
+<div>
   <!--v-if-->
-  <div class=\\"\\">
-    <div class=\\"sd-anchor\\">
-      <div class=\\"sd-anchor-line-slider\\"></div>
-      <ul class=\\"sd-anchor-list\\">
-        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#basic\\">Basic</a>
+  <div class="">
+    <div class="sd-anchor" style="background-color: var(--color-bg-1);">
+      <div class="sd-anchor-line-slider"></div>
+      <ul class="sd-anchor-list">
+        <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#basic">Basic</a>
           <!--v-if-->
         </li>
-        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#line-less\\">LineLess Mode</a>
+        <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#line-less">LineLess Mode</a>
           <!--v-if-->
         </li>
-        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#affix\\"> Affix </a>
-          <ul class=\\"sd-anchor-sublist\\">
-            <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#boundary\\">Scroll Boundary</a>
+        <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#affix"> Affix </a>
+          <ul class="sd-anchor-sublist">
+            <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#boundary">Scroll Boundary</a>
               <!--v-if-->
             </li>
-            <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#hash\\">Hash mode</a>
+            <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#hash">Hash mode</a>
               <!--v-if-->
             </li>
           </ul>
@@ -26,101 +26,101 @@ exports[`<anchor> demo: render [affix] correctly 1`] = `
       </ul>
     </div>
   </div>
-</div>"
+</div>
 `;
 
-exports[`<anchor> demo: render [basic] correctly 1`] = `
-"<div class=\\"sd-anchor\\">
-  <div class=\\"sd-anchor-line-slider\\"></div>
-  <ul class=\\"sd-anchor-list\\">
-    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#basic\\">Basic</a>
+exports[`<anchor> demo: > render [basic] correctly 1`] = `
+<div class="sd-anchor">
+  <div class="sd-anchor-line-slider"></div>
+  <ul class="sd-anchor-list">
+    <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#basic">Basic</a>
       <!--v-if-->
     </li>
-    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#line-less\\">LineLess Mode</a>
+    <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#line-less">LineLess Mode</a>
       <!--v-if-->
     </li>
-    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#affix\\"> Affix </a>
-      <ul class=\\"sd-anchor-sublist\\">
-        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#boundary\\">Scroll Boundary</a>
+    <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#affix"> Affix </a>
+      <ul class="sd-anchor-sublist">
+        <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#boundary">Scroll Boundary</a>
           <!--v-if-->
         </li>
-        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#hash\\">Hash mode</a>
+        <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#hash">Hash mode</a>
           <!--v-if-->
         </li>
       </ul>
     </li>
   </ul>
-</div>"
+</div>
 `;
 
-exports[`<anchor> demo: render [boundary] correctly 1`] = `
-"<div class=\\"sd-anchor\\">
-  <div class=\\"sd-anchor-line-slider\\"></div>
-  <ul class=\\"sd-anchor-list\\">
-    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#basic\\">Basic</a>
+exports[`<anchor> demo: > render [boundary] correctly 1`] = `
+<div class="sd-anchor">
+  <div class="sd-anchor-line-slider"></div>
+  <ul class="sd-anchor-list">
+    <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#basic">Basic</a>
       <!--v-if-->
     </li>
-    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#line-less\\">LineLess Mode</a>
+    <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#line-less">LineLess Mode</a>
       <!--v-if-->
     </li>
-    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#affix\\"> Affix </a>
-      <ul class=\\"sd-anchor-sublist\\">
-        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#boundary\\">Scroll Boundary</a>
+    <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#affix"> Affix </a>
+      <ul class="sd-anchor-sublist">
+        <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#boundary">Scroll Boundary</a>
           <!--v-if-->
         </li>
-        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#hash\\">Hash mode</a>
+        <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#hash">Hash mode</a>
           <!--v-if-->
         </li>
       </ul>
     </li>
   </ul>
-</div>"
+</div>
 `;
 
-exports[`<anchor> demo: render [hash] correctly 1`] = `
-"<div class=\\"sd-anchor\\">
-  <div class=\\"sd-anchor-line-slider\\"></div>
-  <ul class=\\"sd-anchor-list\\">
-    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#basic\\">Basic</a>
+exports[`<anchor> demo: > render [hash] correctly 1`] = `
+<div class="sd-anchor">
+  <div class="sd-anchor-line-slider"></div>
+  <ul class="sd-anchor-list">
+    <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#basic">Basic</a>
       <!--v-if-->
     </li>
-    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#line-less\\">LineLess Mode</a>
+    <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#line-less">LineLess Mode</a>
       <!--v-if-->
     </li>
-    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#affix\\"> Affix </a>
-      <ul class=\\"sd-anchor-sublist\\">
-        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#boundary\\">Scroll Boundary</a>
+    <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#affix"> Affix </a>
+      <ul class="sd-anchor-sublist">
+        <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#boundary">Scroll Boundary</a>
           <!--v-if-->
         </li>
-        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#hash\\">Hash mode</a>
+        <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#hash">Hash mode</a>
           <!--v-if-->
         </li>
       </ul>
     </li>
   </ul>
-</div>"
+</div>
 `;
 
-exports[`<anchor> demo: render [line-less] correctly 1`] = `
-"<div class=\\"sd-anchor sd-anchor-line-less\\">
+exports[`<anchor> demo: > render [line-less] correctly 1`] = `
+<div class="sd-anchor sd-anchor-line-less">
   <!--v-if-->
-  <ul class=\\"sd-anchor-list\\">
-    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#basic\\">Basic</a>
+  <ul class="sd-anchor-list">
+    <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#basic">Basic</a>
       <!--v-if-->
     </li>
-    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#line-less\\">LineLess Mode</a>
+    <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#line-less">LineLess Mode</a>
       <!--v-if-->
     </li>
-    <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#affix\\"> Affix </a>
-      <ul class=\\"sd-anchor-sublist\\">
-        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#boundary\\">Scroll Boundary</a>
+    <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#affix"> Affix </a>
+      <ul class="sd-anchor-sublist">
+        <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#boundary">Scroll Boundary</a>
           <!--v-if-->
         </li>
-        <li class=\\"sd-anchor-link-item\\"><a class=\\"sd-anchor-link\\" href=\\"#hash\\">Hash mode</a>
+        <li class="sd-anchor-link-item"><a class="sd-anchor-link" href="#hash">Hash mode</a>
           <!--v-if-->
         </li>
       </ul>
     </li>
   </ul>
-</div>"
+</div>
 `;

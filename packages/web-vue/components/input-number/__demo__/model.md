@@ -18,7 +18,7 @@ By default, the number input box will modify the bound value when blur or press 
 
 ```vue
 <template>
-  <a-input-number
+  <sd-input-number
     v-model="value"
     :style="{ width: '320px' }"
     placeholder="Please Enter"

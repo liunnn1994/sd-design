@@ -18,7 +18,7 @@ If the avatar content is text, the font size will be automatically adjusted to f
 
 ```vue
 <template>
-  <a-avatar
+  <sd-avatar
     :style="{
       marginRight: '24px',
       verticalAlign: 'middle',
@@ -26,10 +26,10 @@ If the avatar content is text, the font size will be automatically adjusted to f
     }"
   >
     {{ text }}
-  </a-avatar>
-  <a-button type="secondary" @click="onClick" :style="{ verticalAlign: 'middle' }">
+  </sd-avatar>
+  <sd-button type="secondary" @click="onClick" :style="{ verticalAlign: 'middle' }">
     Change
-  </a-button>
+  </sd-button>
 </template>
 
 <script>

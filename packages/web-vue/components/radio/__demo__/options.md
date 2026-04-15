@@ -18,15 +18,15 @@ title:
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large">
-    <a-radio-group v-model="value1" :options="plainOptions" />
-    <a-radio-group v-model="value2" :options="options" />
-    <a-radio-group v-model="value2" :options="options">
+  <sd-space direction="vertical" size="large">
+    <sd-radio-group v-model="value1" :options="plainOptions" />
+    <sd-radio-group v-model="value2" :options="options" />
+    <sd-radio-group v-model="value2" :options="options">
       <template #label="{ data }">
-        <a-tag>{{ data.label }}</a-tag>
+        <sd-tag>{{ data.label }}</sd-tag>
       </template>
-    </a-radio-group>
-  </a-space>
+    </sd-radio-group>
+  </sd-space>
 </template>
 
 <script>

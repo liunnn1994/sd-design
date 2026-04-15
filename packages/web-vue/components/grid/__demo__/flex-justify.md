@@ -18,80 +18,80 @@ title:
 <template>
   <div>
     <p>Arrange left</p>
-    <a-row class="grid-demo" justify="start">
-      <a-col :span="4">
+    <sd-row class="grid-demo" justify="start">
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-      <a-col :span="4">
+      </sd-col>
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-      <a-col :span="4">
+      </sd-col>
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-      <a-col :span="4">
+      </sd-col>
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-    </a-row>
+      </sd-col>
+    </sd-row>
     <p>Arrange center</p>
-    <a-row class="grid-demo" justify="center">
-      <a-col :span="4">
+    <sd-row class="grid-demo" justify="center">
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-      <a-col :span="4">
+      </sd-col>
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-      <a-col :span="4">
+      </sd-col>
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-      <a-col :span="4">
+      </sd-col>
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-    </a-row>
+      </sd-col>
+    </sd-row>
     <p>Arrange right</p>
-    <a-row class="grid-demo" justify="end">
-      <a-col :span="4">
+    <sd-row class="grid-demo" justify="end">
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-      <a-col :span="4">
+      </sd-col>
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-      <a-col :span="4">
+      </sd-col>
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-      <a-col :span="4">
+      </sd-col>
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-    </a-row>
+      </sd-col>
+    </sd-row>
     <p>Space around</p>
-    <a-row class="grid-demo" justify="space-around">
-      <a-col :span="4">
+    <sd-row class="grid-demo" justify="space-around">
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-      <a-col :span="4">
+      </sd-col>
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-      <a-col :span="4">
+      </sd-col>
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-      <a-col :span="4">
+      </sd-col>
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-    </a-row>
+      </sd-col>
+    </sd-row>
     <p>Space between</p>
-    <a-row class="grid-demo" justify="space-between">
-      <a-col :span="4">
+    <sd-row class="grid-demo" justify="space-between">
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-      <a-col :span="4">
+      </sd-col>
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-      <a-col :span="4">
+      </sd-col>
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-      <a-col :span="4">
+      </sd-col>
+      <sd-col :span="4">
         <div>col - 4</div>
-      </a-col>
-    </a-row>
+      </sd-col>
+    </sd-row>
   </div>
 </template>
 

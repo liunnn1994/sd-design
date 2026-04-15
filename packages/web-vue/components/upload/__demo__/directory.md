@@ -18,8 +18,8 @@ Upload directory
 
 ```vue
 <template>
-  <a-space direction="vertical" :style="{ width: '100%' }">
-    <a-upload action="/" directory />
-  </a-space>
+  <sd-space direction="vertical" :style="{ width: '100%' }">
+    <sd-upload action="/" directory />
+  </sd-space>
 </template>
 ```

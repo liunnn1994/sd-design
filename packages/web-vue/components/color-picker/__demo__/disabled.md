@@ -18,9 +18,9 @@ Set `disabled` to disable the selector.
 
 ```vue
 <template>
-  <a-space>
-    <a-color-picker defaultValue="#165DFF" disabled />
-    <a-color-picker defaultValue="#165DFF" showText disabled />
-  </a-space>
+  <sd-space>
+    <sd-color-picker defaultValue="#165DFF" disabled />
+    <sd-color-picker defaultValue="#165DFF" showText disabled />
+  </sd-space>
 </template>
 ```

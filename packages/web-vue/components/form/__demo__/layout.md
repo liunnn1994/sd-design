@@ -18,30 +18,30 @@ The form supports three layout methods: `horizontal`, `vertical` and `inline`.
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large" :style="{ width: '600px' }">
-    <a-radio-group v-model="layout" type="button">
-      <a-radio value="horizontal">horizontal</a-radio>
-      <a-radio value="vertical">vertical</a-radio>
-      <a-radio value="inline">inline</a-radio>
-    </a-radio-group>
-    <a-form :model="form" :layout="layout">
-      <a-form-item field="name" label="Username">
-        <a-input v-model="form.name" placeholder="please enter your username..." />
-      </a-form-item>
-      <a-form-item field="post" label="Post">
-        <a-input v-model="form.post" placeholder="please enter your post..." />
-      </a-form-item>
-      <a-form-item field="isRead">
-        <a-checkbox v-model="form.isRead"> I have read the manual </a-checkbox>
-      </a-form-item>
-      <a-form-item>
-        <a-button>Submit</a-button>
-      </a-form-item>
-    </a-form>
+  <sd-space direction="vertical" size="large" :style="{ width: '600px' }">
+    <sd-radio-group v-model="layout" type="button">
+      <sd-radio value="horizontal">horizontal</sd-radio>
+      <sd-radio value="vertical">vertical</sd-radio>
+      <sd-radio value="inline">inline</sd-radio>
+    </sd-radio-group>
+    <sd-form :model="form" :layout="layout">
+      <sd-form-item field="name" label="Username">
+        <sd-input v-model="form.name" placeholder="please enter your username..." />
+      </sd-form-item>
+      <sd-form-item field="post" label="Post">
+        <sd-input v-model="form.post" placeholder="please enter your post..." />
+      </sd-form-item>
+      <sd-form-item field="isRead">
+        <sd-checkbox v-model="form.isRead"> I have read the manual </sd-checkbox>
+      </sd-form-item>
+      <sd-form-item>
+        <sd-button>Submit</sd-button>
+      </sd-form-item>
+    </sd-form>
     <div>
       {{ form }}
     </div>
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

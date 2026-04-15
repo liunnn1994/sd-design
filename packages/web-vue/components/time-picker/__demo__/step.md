@@ -18,7 +18,7 @@ By setting `step`, you can customize the step length of the hour, minute, and se
 
 ```vue
 <template>
-  <a-time-picker
+  <sd-time-picker
     defaultValue="10:25:30"
     :step="{
       hour: 2,

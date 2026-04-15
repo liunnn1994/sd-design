@@ -18,7 +18,7 @@ The component provides a named slot `extra` for users to customize additional co
 
 ```vue
 <template>
-  <a-image
+  <sd-image
     src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a8c8cdb109cb051163646151a4a5083b.png~tplv-uwbnlip3yd-webp.webp"
     title="A user’s avatar"
     description="Present by SD Design"
@@ -43,13 +43,13 @@ The component provides a named slot `extra` for users to customize additional co
           ><icon-eye
         /></span>
         <span class="action" @click="onDownLoad"><icon-download /></span>
-        <a-tooltip content="A user’s avatar">
+        <sd-tooltip content="A user’s avatar">
           <span class="action"><icon-info-circle /></span>
-        </a-tooltip>
+        </sd-tooltip>
       </div>
     </template>
-  </a-image>
-  <a-image
+  </sd-image>
+  <sd-image
     src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a8c8cdb109cb051163646151a4a5083b.png~tplv-uwbnlip3yd-webp.webp"
     title="A user’s avatar"
     description="Present by SD Design"
@@ -74,12 +74,12 @@ The component provides a named slot `extra` for users to customize additional co
           ><icon-eye
         /></span>
         <span class="action" @click="onDownLoad"><icon-download /></span>
-        <a-tooltip content="A user’s avatar">
+        <sd-tooltip content="A user’s avatar">
           <span class="action"><icon-info-circle /></span>
-        </a-tooltip>
+        </sd-tooltip>
       </div>
     </template>
-  </a-image>
+  </sd-image>
 </template>
 <script>
   import { ref } from 'vue';

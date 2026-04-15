@@ -18,12 +18,12 @@ Move the mouse in or click to pop up bubbles, which can operate on the elements 
 
 ```vue
 <template>
-  <a-popover title="Title">
-    <a-button>Hover</a-button>
+  <sd-popover title="Title">
+    <sd-button>Hover</sd-button>
     <template #content>
       <p>Here is the text content</p>
       <p>Here is the text content</p>
     </template>
-  </a-popover>
+  </sd-popover>
 </template>
 ```

@@ -18,39 +18,39 @@ Configure the grid list through the `grid` property.
 
 ```vue
 <template>
-  <a-list :gridProps="{ gutter: 0, span: 6 }" :bordered="false">
-    <a-list-item>
-      <a-list>
+  <sd-list :gridProps="{ gutter: 0, span: 6 }" :bordered="false">
+    <sd-list-item>
+      <sd-list>
         <template #header>Platform</template>
-        <a-list-item>iOS</a-list-item>
-        <a-list-item>Android</a-list-item>
-        <a-list-item>Web</a-list-item>
-      </a-list>
-    </a-list-item>
-    <a-list-item>
-      <a-list>
+        <sd-list-item>iOS</sd-list-item>
+        <sd-list-item>Android</sd-list-item>
+        <sd-list-item>Web</sd-list-item>
+      </sd-list>
+    </sd-list-item>
+    <sd-list-item>
+      <sd-list>
         <template #header>Framework</template>
-        <a-list-item>Angular</a-list-item>
-        <a-list-item>Vue</a-list-item>
-        <a-list-item>React</a-list-item>
-      </a-list>
-    </a-list-item>
-    <a-list-item>
-      <a-list>
+        <sd-list-item>Angular</sd-list-item>
+        <sd-list-item>Vue</sd-list-item>
+        <sd-list-item>React</sd-list-item>
+      </sd-list>
+    </sd-list-item>
+    <sd-list-item>
+      <sd-list>
         <template #header>Language</template>
-        <a-list-item>C++</a-list-item>
-        <a-list-item>JavaScript</a-list-item>
-        <a-list-item>Python</a-list-item>
-      </a-list>
-    </a-list-item>
-    <a-list-item>
-      <a-list>
+        <sd-list-item>C++</sd-list-item>
+        <sd-list-item>JavaScript</sd-list-item>
+        <sd-list-item>Python</sd-list-item>
+      </sd-list>
+    </sd-list-item>
+    <sd-list-item>
+      <sd-list>
         <template #header>Component</template>
-        <a-list-item>Button</a-list-item>
-        <a-list-item>Breadcrumb</a-list-item>
-        <a-list-item>Transfer</a-list-item>
-      </a-list>
-    </a-list-item>
-  </a-list>
+        <sd-list-item>Button</sd-list-item>
+        <sd-list-item>Breadcrumb</sd-list-item>
+        <sd-list-item>Transfer</sd-list-item>
+      </sd-list>
+    </sd-list-item>
+  </sd-list>
 </template>
 ```

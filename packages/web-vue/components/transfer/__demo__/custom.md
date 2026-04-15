@@ -18,12 +18,12 @@ Customize the rendering content of the options through the `item` slot.
 
 ```vue
 <template>
-  <a-transfer :data="data" :default-value="value">
+  <sd-transfer :data="data" :default-value="value">
     <template #item="{ label }">
       <icon-up />
       {{ label }}
     </template>
-  </a-transfer>
+  </sd-transfer>
 </template>
 
 <script>

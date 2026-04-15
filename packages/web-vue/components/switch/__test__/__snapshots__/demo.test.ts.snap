@@ -1,145 +1,145 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`<switch> demo: render [basic] correctly 1`] = `
-"<button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-circle\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+exports[`<switch> demo: > render [basic] correctly 1`] = `
+<button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-circle"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
   <!--v-if-->
-</button>"
+</button>
 `;
 
-exports[`<switch> demo: render [change-intercept] correctly 1`] = `
-"<div class=\\"sd-space sd-space-horizontal sd-space-align-center\\" style=\\"column-gap: 24px; row-gap: 24px;\\">
+exports[`<switch> demo: > render [change-intercept] correctly 1`] = `
+<div class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 24px; row-gap: 24px;">
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-circle\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-circle"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-round\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-round"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-line\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-line"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
-</div>"
+</div>
 `;
 
-exports[`<switch> demo: render [color] correctly 1`] = `
-"<button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-circle\\" style=\\"background-color: rgb(20, 201, 201);\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+exports[`<switch> demo: > render [color] correctly 1`] = `
+<button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-circle" style="background-color: rgb(20, 201, 201);"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
   <!--v-if-->
-</button>"
+</button>
 `;
 
-exports[`<switch> demo: render [disabled] correctly 1`] = `
-"<div class=\\"sd-space sd-space-horizontal sd-space-align-center\\" style=\\"column-gap: 24px; row-gap: 24px;\\">
+exports[`<switch> demo: > render [disabled] correctly 1`] = `
+<div class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 24px; row-gap: 24px;">
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-circle sd-switch-disabled\\" disabled=\\"\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-circle sd-switch-disabled" disabled=""><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"true\\" class=\\"sd-switch sd-switch-type-circle sd-switch-checked sd-switch-disabled\\" disabled=\\"\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="true" class="sd-switch sd-switch-type-circle sd-switch-checked sd-switch-disabled" disabled=""><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-round sd-switch-disabled\\" disabled=\\"\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-round sd-switch-disabled" disabled=""><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"true\\" class=\\"sd-switch sd-switch-type-round sd-switch-checked sd-switch-disabled\\" disabled=\\"\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="true" class="sd-switch sd-switch-type-round sd-switch-checked sd-switch-disabled" disabled=""><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-line sd-switch-disabled\\" disabled=\\"\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-line sd-switch-disabled" disabled=""><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"true\\" class=\\"sd-switch sd-switch-type-line sd-switch-checked sd-switch-disabled\\" disabled=\\"\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="true" class="sd-switch sd-switch-type-line sd-switch-checked sd-switch-disabled" disabled=""><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
-</div>"
+</div>
 `;
 
-exports[`<switch> demo: render [icon] correctly 1`] = `
-"<div class=\\"sd-space sd-space-horizontal sd-space-align-center\\" style=\\"column-gap: 24px; row-gap: 24px;\\">
+exports[`<switch> demo: > render [icon] correctly 1`] = `
+<div class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 24px; row-gap: 24px;">
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-circle\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-close\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M9.857 9.858 24 24m0 0 14.142 14.142M24 24 38.142 9.858M24 24 9.857 38.142\\"></path></svg></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-circle"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-close" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M9.857 9.858 24 24m0 0 14.142 14.142M24 24 38.142 9.858M24 24 9.857 38.142"></path></svg></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-round\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-close\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M9.857 9.858 24 24m0 0 14.142 14.142M24 24 38.142 9.858M24 24 9.857 38.142\\"></path></svg></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-round"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-close" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M9.857 9.858 24 24m0 0 14.142 14.142M24 24 38.142 9.858M24 24 9.857 38.142"></path></svg></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-line\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-close\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M9.857 9.858 24 24m0 0 14.142 14.142M24 24 38.142 9.858M24 24 9.857 38.142\\"></path></svg></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-line"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-close" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M9.857 9.858 24 24m0 0 14.142 14.142M24 24 38.142 9.858M24 24 9.857 38.142"></path></svg></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
-</div>"
+</div>
 `;
 
-exports[`<switch> demo: render [loading] correctly 1`] = `
-"<div class=\\"sd-space sd-space-horizontal sd-space-align-center\\" style=\\"column-gap: 24px; row-gap: 24px;\\">
+exports[`<switch> demo: > render [loading] correctly 1`] = `
+<div class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 24px; row-gap: 24px;">
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-circle sd-switch-loading\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-loading\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M42 24c0 9.941-8.059 18-18 18S6 33.941 6 24 14.059 6 24 6\\"></path></svg></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-circle sd-switch-loading"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-loading" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M42 24c0 9.941-8.059 18-18 18S6 33.941 6 24 14.059 6 24 6"></path></svg></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-round sd-switch-loading\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-loading\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M42 24c0 9.941-8.059 18-18 18S6 33.941 6 24 14.059 6 24 6\\"></path></svg></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-round sd-switch-loading"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-loading" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M42 24c0 9.941-8.059 18-18 18S6 33.941 6 24 14.059 6 24 6"></path></svg></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-line sd-switch-loading\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-loading\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M42 24c0 9.941-8.059 18-18 18S6 33.941 6 24 14.059 6 24 6\\"></path></svg></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-line sd-switch-loading"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-loading" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M42 24c0 9.941-8.059 18-18 18S6 33.941 6 24 14.059 6 24 6"></path></svg></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
-</div>"
+</div>
 `;
 
-exports[`<switch> demo: render [size] correctly 1`] = `
-"<div class=\\"sd-space sd-space-horizontal sd-space-align-center\\" style=\\"column-gap: 24px; row-gap: 24px;\\">
+exports[`<switch> demo: > render [size] correctly 1`] = `
+<div class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 24px; row-gap: 24px;">
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-circle\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-circle"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-circle sd-switch-small\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-circle sd-switch-small"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
-</div>"
+</div>
 `;
 
-exports[`<switch> demo: render [text] correctly 1`] = `
-"<div class=\\"sd-space sd-space-horizontal sd-space-align-center\\" style=\\"column-gap: 24px; row-gap: 24px;\\">
+exports[`<switch> demo: > render [text] correctly 1`] = `
+<div class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 24px; row-gap: 24px;">
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-circle\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  --><span class=\\"sd-switch-text-holder\\"> OFF </span><span class=\\"sd-switch-text\\"> OFF </span></button></div>
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-circle"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  --><span class="sd-switch-text-holder"> OFF </span><span class="sd-switch-text"> OFF </span></button></div>
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-round\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  --><span class=\\"sd-switch-text-holder\\"> OFF </span><span class=\\"sd-switch-text\\"> OFF </span></button></div>
-</div>"
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-round"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  --><span class="sd-switch-text-holder"> OFF </span><span class="sd-switch-text"> OFF </span></button></div>
+</div>
 `;
 
-exports[`<switch> demo: render [type] correctly 1`] = `
-"<div class=\\"sd-space sd-space-horizontal sd-space-align-center\\" style=\\"column-gap: 24px; row-gap: 24px;\\">
+exports[`<switch> demo: > render [type] correctly 1`] = `
+<div class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 24px; row-gap: 24px;">
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-circle\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-circle"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-round\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-round"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-line\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-line"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
-</div>"
+</div>
 `;
 
-exports[`<switch> demo: render [value] correctly 1`] = `
-"<div class=\\"sd-space sd-space-vertical\\" style=\\"column-gap: 24px; row-gap: 24px;\\">
+exports[`<switch> demo: > render [value] correctly 1`] = `
+<div class="sd-space sd-space-vertical" style="column-gap: 24px; row-gap: 24px;">
   <!---->
-  <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"false\\" class=\\"sd-switch sd-switch-type-circle\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+  <div class="sd-space-item"><button type="button" role="switch" aria-checked="false" class="sd-switch sd-switch-type-circle"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
       <!--v-if-->
     </button></div>
   <!---->
-  <div class=\\"sd-space-item\\">
+  <div class="sd-space-item">
     <div>Current Value: </div>
   </div>
-</div>"
+</div>
 `;

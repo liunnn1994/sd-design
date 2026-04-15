@@ -18,6 +18,6 @@ Enable drag and drop support by setting `draggable`.
 
 ```vue
 <template>
-  <a-upload draggable action="/" />
+  <sd-upload draggable action="/" />
 </template>
 ```

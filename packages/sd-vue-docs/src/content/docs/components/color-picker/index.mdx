@@ -6,28 +6,28 @@ description: 用于选择和展示颜色
 import DemoBlock from '../../../../components/docs/DemoBlock.astro';
 import ColorPickerBasicDemo from '../../../../components/generated/color-picker/basic.vue';
 export const colorPickerBasicSource =
-  '<template>\n  <a-space>\n    <a-color-picker v-model="value" />\n    <a-color-picker defaultValue="#165DFF" showText disabledAlpha />\n  </a-space>\n</template>\n\n<script setup>\n  import { ref } from \'vue\';\n  const value = ref(\'#165DFF\');\n</script>';
+  '<template>\n  <sd-space>\n    <sd-color-picker v-model="value" />\n    <sd-color-picker defaultValue="#165DFF" showText disabledAlpha />\n  </sd-space>\n</template>\n\n<script setup>\n  import { ref } from \'vue\';\n  const value = ref(\'#165DFF\');\n</script>';
 import ColorPickerColorsDemo from '../../../../components/generated/color-picker/colors.vue';
 export const colorPickerColorsSource =
-  '<template>\n  <a-color-picker\n    defaultValue="#165DFF"\n    :historyColors="history"\n    showHistory\n    showPreset\n    @popup-visible-change="addHistory"\n  />\n</template>\n\n<script setup>\n  import { ref } from \'vue\';\n\n  const history = ref([\'#165DFF\']);\n  const addHistory = (visible, color) => {\n    if (!visible) {\n      const index = history.value.indexOf(color);\n      if (index !== -1) {\n        history.value.splice(index, 1);\n      }\n      history.value.unshift(color);\n    }\n  };\n</script>';
+  '<template>\n  <sd-color-picker\n    defaultValue="#165DFF"\n    :historyColors="history"\n    showHistory\n    showPreset\n    @popup-visible-change="addHistory"\n  />\n</template>\n\n<script setup>\n  import { ref } from \'vue\';\n\n  const history = ref([\'#165DFF\']);\n  const addHistory = (visible, color) => {\n    if (!visible) {\n      const index = history.value.indexOf(color);\n      if (index !== -1) {\n        history.value.splice(index, 1);\n      }\n      history.value.unshift(color);\n    }\n  };\n</script>';
 import ColorPickerDisabledDemo from '../../../../components/generated/color-picker/disabled.vue';
 export const colorPickerDisabledSource =
-  '<template>\n  <a-space>\n    <a-color-picker defaultValue="#165DFF" disabled />\n    <a-color-picker defaultValue="#165DFF" showText disabled />\n  </a-space>\n</template>';
+  '<template>\n  <sd-space>\n    <sd-color-picker defaultValue="#165DFF" disabled />\n    <sd-color-picker defaultValue="#165DFF" showText disabled />\n  </sd-space>\n</template>';
 import ColorPickerFormatDemo from '../../../../components/generated/color-picker/format.vue';
 export const colorPickerFormatSource =
-  '<template>\n  <a-space direction="vertical">\n    <a-radio-group type="button" v-model="format">\n      <a-radio v-for="item in formatList" :value="item">{{ item }}</a-radio>\n    </a-radio-group>\n    <a-color-picker defaultValue="#165DFF" :format="format" showText />\n  </a-space>\n</template>\n\n<script setup>\n  import { ref } from \'vue\';\n\n  const format = ref(\'hex\');\n  const formatList = [\'hex\', \'rgb\'];\n</script>';
+  '<template>\n  <sd-space direction="vertical">\n    <sd-radio-group type="button" v-model="format">\n      <sd-radio v-for="item in formatList" :value="item">{{ item }}</sd-radio>\n    </sd-radio-group>\n    <sd-color-picker defaultValue="#165DFF" :format="format" showText />\n  </sd-space>\n</template>\n\n<script setup>\n  import { ref } from \'vue\';\n\n  const format = ref(\'hex\');\n  const formatList = [\'hex\', \'rgb\'];\n</script>';
 import ColorPickerOnlyPanelDemo from '../../../../components/generated/color-picker/only-panel.vue';
 export const colorPickerOnlyPanelSource =
-  '<template>\n  <a-space :size="32">\n    <a-color-picker defaultValue="#165DFF" hideTrigger showHistory showPreset />\n    <a-color-picker defaultValue="#12D2AC" disabled hideTrigger showPreset />\n  </a-space>\n</template>';
+  '<template>\n  <sd-space :size="32">\n    <sd-color-picker defaultValue="#165DFF" hideTrigger showHistory showPreset />\n    <sd-color-picker defaultValue="#12D2AC" disabled hideTrigger showPreset />\n  </sd-space>\n</template>';
 import ColorPickerSizeDemo from '../../../../components/generated/color-picker/size.vue';
 export const colorPickerSizeSource =
-  '<template>\n  <a-space>\n    <a-color-picker defaultValue="#165DFF" size="mini" />\n    <a-color-picker defaultValue="#165DFF" size="small" />\n    <a-color-picker defaultValue="#165DFF" size="medium" />\n    <a-color-picker defaultValue="#165DFF" size="large" />\n  </a-space>\n</template>';
+  '<template>\n  <sd-space>\n    <sd-color-picker defaultValue="#165DFF" size="mini" />\n    <sd-color-picker defaultValue="#165DFF" size="small" />\n    <sd-color-picker defaultValue="#165DFF" size="medium" />\n    <sd-color-picker defaultValue="#165DFF" size="large" />\n  </sd-space>\n</template>';
 import ColorPickerTriggerElementDemo from '../../../../components/generated/color-picker/trigger-element.vue';
 export const colorPickerTriggerElementSource =
-  '<template>\n  <a-space>\n    <a-color-picker v-model="value" size="mini">\n      <a-tag :color="value">\n        <template #icon>\n          <icon-bg-colors style="color: #fff" />\n        </template>\n        {{ value }}\n      </a-tag>\n    </a-color-picker>\n  </a-space>\n</template>\n\n<script setup>\n  import { ref } from \'vue\';\n\n  const value = ref(\'#165DFF\');\n</script>';
+  '<template>\n  <sd-space>\n    <sd-color-picker v-model="value" size="mini">\n      <sd-tag :color="value">\n        <template #icon>\n          <icon-bg-colors style="color: #fff" />\n        </template>\n        {{ value }}\n      </sd-tag>\n    </sd-color-picker>\n  </sd-space>\n</template>\n\n<script setup>\n  import { ref } from \'vue\';\n\n  const value = ref(\'#165DFF\');\n</script>';
 import ColorPickerTriggerDemo from '../../../../components/generated/color-picker/trigger.vue';
 export const colorPickerTriggerSource =
-  '<template>\n  <a-space direction="vertical">\n    <a-switch v-model="triggerProps.popupVisible">\n      <template #checked> ON </template>\n      <template #unchecked>OFF</template>\n    </a-switch>\n    <a-color-picker defaultValue="#165DFF" :trigger-props="triggerProps" />\n  </a-space>\n</template>\n\n<script setup>\n  import { ref } from \'vue\';\n\n  const triggerProps = ref({\n    popupVisible: false,\n    unmountOnClose: true,\n    renderToBody: false,\n    position: \'rt\',\n  });\n</script>';
+  '<template>\n  <sd-space direction="vertical">\n    <sd-switch v-model="triggerProps.popupVisible">\n      <template #checked> ON </template>\n      <template #unchecked>OFF</template>\n    </sd-switch>\n    <sd-color-picker defaultValue="#165DFF" :trigger-props="triggerProps" />\n  </sd-space>\n</template>\n\n<script setup>\n  import { ref } from \'vue\';\n\n  const triggerProps = ref({\n    popupVisible: false,\n    unmountOnClose: true,\n    renderToBody: false,\n    position: \'rt\',\n  });\n</script>';
 
 ### 基本使用
 

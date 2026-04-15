@@ -20,17 +20,17 @@ The prefix of the input box can be set through the `prefix` slot
 <template>
   <div>
     <div>
-      <a-time-picker style="width: 194px;">
+      <sd-time-picker style="width: 194px;">
         <template #prefix>
           <IconInfoCircle />
-        </template> </a-time-picker
+        </template> </sd-time-picker
     ></div>
     <div>
-      <a-time-picker type="time-range" style="width: 252px; margin-top: 20px">
+      <sd-time-picker type="time-range" style="width: 252px; margin-top: 20px">
         <template #prefix>
           <IconInfoCircle />
         </template>
-      </a-time-picker>
+      </sd-time-picker>
     </div>
   </div>
 </template>

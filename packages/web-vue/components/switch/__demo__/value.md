@@ -18,10 +18,10 @@ The value of the switch can be customized through `checked-value` and `unchecked
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large">
-    <a-switch v-model="value" checked-value="yes" unchecked-value="no" />
+  <sd-space direction="vertical" size="large">
+    <sd-switch v-model="value" checked-value="yes" unchecked-value="no" />
     <div>Current Value: {{ value }}</div>
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

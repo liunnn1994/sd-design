@@ -18,16 +18,16 @@ Control whether the check box is selected
 
 ```vue
 <template>
-  <a-space size="large">
-    <a-checkbox v-model="checked1">v-model</a-checkbox>
-    <a-checkbox :model-value="true">binding value</a-checkbox>
-    <a-checkbox :model-value="checked2">binding value2</a-checkbox>
-    <a-checkbox :default-checked="true">uncontrolled state</a-checkbox>
-  </a-space>
+  <sd-space size="large">
+    <sd-checkbox v-model="checked1">v-model</sd-checkbox>
+    <sd-checkbox :model-value="true">binding value</sd-checkbox>
+    <sd-checkbox :model-value="checked2">binding value2</sd-checkbox>
+    <sd-checkbox :default-checked="true">uncontrolled state</sd-checkbox>
+  </sd-space>
   <div :style="{ marginTop: '20px' }">
-    <a-button type="primary" @click="handleSetCheck">
+    <sd-button type="primary" @click="handleSetCheck">
       {{ checked2 ? 'uncheck' : 'check' }} value2
-    </a-button>
+    </sd-button>
   </div>
 </template>
 

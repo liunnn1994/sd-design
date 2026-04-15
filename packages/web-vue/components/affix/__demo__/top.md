@@ -18,8 +18,8 @@ When the page scrolls or the browser window changes, the element is fixed when i
 
 ```vue
 <template>
-  <a-affix :offsetTop="80">
-    <a-button type="primary">80px to affix top</a-button>
-  </a-affix>
+  <sd-affix :offsetTop="80">
+    <sd-button type="primary">80px to affix top</sd-button>
+  </sd-affix>
 </template>
 ```

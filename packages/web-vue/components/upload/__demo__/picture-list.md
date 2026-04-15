@@ -18,7 +18,7 @@ Enable the picture list mode by setting `list-type="picture"`.
 
 ```vue
 <template>
-  <a-upload list-type="picture" action="/" :default-file-list="fileList" />
+  <sd-upload list-type="picture" action="/" :default-file-list="fileList" />
 </template>
 
 <script>

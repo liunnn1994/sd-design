@@ -18,10 +18,10 @@ Set the basic usage of internationalized languages.
 
 ```vue
 <template>
-  <a-config-provider :locale="locale">
-    <a-radio-group type="button" v-model="localeType" :options="localeOptions"></a-radio-group>
+  <sd-config-provider :locale="locale">
+    <sd-radio-group type="button" v-model="localeType" :options="localeOptions"></sd-radio-group>
     <div>
-      <a-pagination
+      <sd-pagination
         :total="50"
         show-total
         show-jumper
@@ -29,14 +29,14 @@ Set the basic usage of internationalized languages.
         style="margin-top: 20px; margin-bottom: 20px;"
       />
     </div>
-    <a-space :size="20" style="margin-bottom: 20px;">
-      <a-range-picker style="width: 300px;" />
-      <a-time-picker type="time-range" style="width: 300px;" />
-      <a-popconfirm content="Are you sure you want to delete?">
-        <a-button type="primary">Popconfirm</a-button>
-      </a-popconfirm>
-    </a-space>
-  </a-config-provider>
+    <sd-space :size="20" style="margin-bottom: 20px;">
+      <sd-range-picker style="width: 300px;" />
+      <sd-time-picker type="time-range" style="width: 300px;" />
+      <sd-popconfirm content="Are you sure you want to delete?">
+        <sd-button type="primary">Popconfirm</sd-button>
+      </sd-popconfirm>
+    </sd-space>
+  </sd-config-provider>
 </template>
 
 <script>

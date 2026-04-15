@@ -18,6 +18,6 @@ Used to show the status of loading.
 
 ```vue
 <template>
-  <a-spin />
+  <sd-spin />
 </template>
 ```

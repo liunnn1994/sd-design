@@ -18,8 +18,8 @@ Use with forms to implement verification.
 
 ```vue
 <template>
-  <a-form ref="formRef" :model="form" style="width: 300px">
-    <a-form-item
+  <sd-form ref="formRef" :model="form" style="width: 300px">
+    <sd-form-item
       field="code"
       label="code"
       :rules="[
@@ -28,12 +28,12 @@ Use with forms to implement verification.
         { match: /^\d+$/, message: 'Must be numeric' },
       ]"
     >
-      <a-verification-code v-model="form.code" style="width: 300px" @finish="onFinish" />
-    </a-form-item>
-    <a-form-item>
-      <a-button style="width: 60px" type="primary" size="large" htmlType="submit">Submit</a-button>
-    </a-form-item>
-  </a-form>
+      <sd-verification-code v-model="form.code" style="width: 300px" @finish="onFinish" />
+    </sd-form-item>
+    <sd-form-item>
+      <sd-button style="width: 60px" type="primary" size="large" htmlType="submit">Submit</sd-button>
+    </sd-form-item>
+  </sd-form>
 </template>
 
 <script setup>

@@ -18,7 +18,7 @@ Turn on the simple mode by setting `simple`, and click the option to move.
 
 ```vue
 <template>
-  <a-transfer :data="data" :default-value="value" simple />
+  <sd-transfer :data="data" :default-value="value" simple />
 </template>
 
 <script>

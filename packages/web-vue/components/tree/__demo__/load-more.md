@@ -18,7 +18,7 @@ Load nodes dynamically.
 
 ```vue
 <template>
-  <a-tree :data="treeData" :load-more="loadMore" />
+  <sd-tree :data="treeData" :load-more="loadMore" />
 </template>
 <script>
   import { ref } from 'vue';

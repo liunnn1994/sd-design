@@ -18,8 +18,8 @@ Show extra content.
 
 ```vue
 <template>
-  <a-time-picker style="width: 194px;">
+  <sd-time-picker style="width: 194px;">
     <template #extra> Extra Footer </template>
-  </a-time-picker>
+  </sd-time-picker>
 </template>
 ```

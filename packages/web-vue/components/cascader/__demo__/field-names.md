@@ -18,7 +18,7 @@ The format of the data in `options` can be customized through the `field-names` 
 
 ```vue
 <template>
-  <a-cascader
+  <sd-cascader
     :options="options"
     :field-names="fieldNames"
     :style="{ width: '320px' }"

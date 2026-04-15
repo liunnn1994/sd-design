@@ -19,14 +19,14 @@ Conventional content containers can hold text, lists, pictures, and paragraphs, 
 ```vue
 <template>
   <div :style="{ display: 'flex' }">
-    <a-card :style="{ width: '360px' }" title="SD Card">
+    <sd-card :style="{ width: '360px' }" title="SD Card">
       <template #extra>
-        <a-link>More</a-link>
+        <sd-link>More</sd-link>
       </template>
       ByteDance's core product, Toutiao ("Headlines"), is a content platform in China and around the
       world. Toutiao started out as a news recommendation engine and gradually evolved into a
       platform delivering content in various formats.
-    </a-card>
+    </sd-card>
   </div>
 </template>
 ```

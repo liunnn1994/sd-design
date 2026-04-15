@@ -18,11 +18,11 @@ ColorPicker defines four sizes (`mini`, `small`, `medium`, `large`), which are 2
 
 ```vue
 <template>
-  <a-space>
-    <a-color-picker defaultValue="#165DFF" size="mini" />
-    <a-color-picker defaultValue="#165DFF" size="small" />
-    <a-color-picker defaultValue="#165DFF" size="medium" />
-    <a-color-picker defaultValue="#165DFF" size="large" />
-  </a-space>
+  <sd-space>
+    <sd-color-picker defaultValue="#165DFF" size="mini" />
+    <sd-color-picker defaultValue="#165DFF" size="small" />
+    <sd-color-picker defaultValue="#165DFF" size="medium" />
+    <sd-color-picker defaultValue="#165DFF" size="large" />
+  </sd-space>
 </template>
 ```

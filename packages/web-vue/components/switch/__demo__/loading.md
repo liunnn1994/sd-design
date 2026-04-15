@@ -18,10 +18,10 @@ The switch is in the loading state by setting `loading`, and the switch cannot b
 
 ```vue
 <template>
-  <a-space size="large">
-    <a-switch loading />
-    <a-switch type="round" loading />
-    <a-switch type="line" loading />
-  </a-space>
+  <sd-space size="large">
+    <sd-switch loading />
+    <sd-switch type="round" loading />
+    <sd-switch type="line" loading />
+  </sd-space>
 </template>
 ```

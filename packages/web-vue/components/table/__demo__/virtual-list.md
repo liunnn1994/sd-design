@@ -18,7 +18,7 @@ Set `virtual-list-props` to enable the virtual list function. Currently, there a
 
 ```vue
 <template>
-  <a-table
+  <sd-table
     :columns="columns"
     :data="data"
     :row-selection="rowSelection"

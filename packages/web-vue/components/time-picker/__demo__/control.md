@@ -18,7 +18,7 @@ Support `v-model` for two-way data binding.
 
 ```vue
 <template>
-  <a-time-picker style="width: 194px" v-model="value" />
+  <sd-time-picker style="width: 194px" v-model="value" />
 </template>
 <script>
   export default {

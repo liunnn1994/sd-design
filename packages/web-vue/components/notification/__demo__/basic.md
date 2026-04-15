@@ -18,8 +18,8 @@ Basic usage of notification.
 
 ```vue
 <template>
-  <a-space>
-    <a-button
+  <sd-space>
+    <sd-button
       type="primary"
       @click="
         () =>
@@ -30,9 +30,9 @@ Basic usage of notification.
       "
     >
       Open Notification
-    </a-button>
-    <a-button @click="handleNotification"> Open Notification </a-button>
-  </a-space>
+    </sd-button>
+    <sd-button @click="handleNotification"> Open Notification </sd-button>
+  </sd-space>
 </template>
 
 <script>

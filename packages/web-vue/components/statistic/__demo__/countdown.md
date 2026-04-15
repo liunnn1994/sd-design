@@ -18,29 +18,29 @@ The basic usage of the countdown component `countdown`.
 
 ```vue
 <template>
-  <a-row>
-    <a-col :flex="1">
-      <a-countdown title="Countdown" :value="now + 1000 * 60 * 60 * 2" :now="now" />
-    </a-col>
-    <a-col :flex="1">
-      <a-countdown
+  <sd-row>
+    <sd-col :flex="1">
+      <sd-countdown title="Countdown" :value="now + 1000 * 60 * 60 * 2" :now="now" />
+    </sd-col>
+    <sd-col :flex="1">
+      <sd-countdown
         title="Milliseconds"
         :value="now + 1000 * 60 * 60 * 2"
         :now="now"
         format="HH:mm:ss.SSS"
       />
-    </a-col>
-    <a-col :flex="1">
-      <a-countdown
+    </sd-col>
+    <sd-col :flex="1">
+      <sd-countdown
         title="Days"
         :value="now + 1000 * 60 * 60 * 24 * 4"
         :now="now"
         format="D 天 H 时 m 分 s 秒"
       />
-    </a-col>
-  </a-row>
-  <a-space direction="vertical" style="margin-top: 10px">
-    <a-countdown
+    </sd-col>
+  </sd-row>
+  <sd-space direction="vertical" style="margin-top: 10px">
+    <sd-countdown
       title="Trigger on finish"
       :value="Date.now() + 5 * 1000"
       format="mm:ss.SSS"
@@ -48,8 +48,8 @@ The basic usage of the countdown component `countdown`.
       :start="start"
       @finish="handleFinish"
     />
-    <a-button @click="start = true" type="primary">Start</a-button>
-  </a-space>
+    <sd-button @click="start = true" type="primary">Start</sd-button>
+  </sd-space>
 </template>
 
 <script>

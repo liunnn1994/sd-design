@@ -18,7 +18,7 @@ Listen to the `search` event, get the data in the event processing function and 
 
 ```vue
 <template>
-  <a-tree-select
+  <sd-tree-select
     :allow-search="true"
     :allow-clear="true"
     :disable-filter="true"
@@ -27,7 +27,7 @@ Listen to the `search` event, get the data in the event processing function and 
     style="width: 300px"
     placeholder="Please select ..."
     @search="onSearch"
-  ></a-tree-select>
+  ></sd-tree-select>
 </template>
 <script>
   import { ref } from 'vue';

@@ -16,24 +16,24 @@ title:
 
 ```vue
 <template>
-  <a-space>
-    <a-trigger trigger="click">
-      <a-button>Click Me</a-button>
+  <sd-space>
+    <sd-trigger trigger="click">
+      <sd-button>Click Me</sd-button>
       <template #content>
         <div class="demo-arrow">
-          <a-empty />
+          <sd-empty />
         </div>
       </template>
-    </a-trigger>
-    <a-trigger trigger="click" show-arrow>
-      <a-button>Click Me (Arrow)</a-button>
+    </sd-trigger>
+    <sd-trigger trigger="click" show-arrow>
+      <sd-button>Click Me (Arrow)</sd-button>
       <template #content>
         <div class="demo-arrow">
-          <a-empty />
+          <sd-empty />
         </div>
       </template>
-    </a-trigger>
-  </a-space>
+    </sd-trigger>
+  </sd-space>
 </template>
 
 <style scoped>

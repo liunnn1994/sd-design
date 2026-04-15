@@ -32,11 +32,8 @@ describe('Checkbox', () => {
     const wrapper = mount(Checkbox.Group, {
       slots: {
         default:
-          '<a-checkbox value="1">Option1</a-checkbox>' +
-          '<a-checkbox value="2">Option2</a-checkbox>',
-      },
-      global: {
-        plugins: [Checkbox],
+          '<sd-checkbox value="1">Option1</sd-checkbox>' +
+          '<sd-checkbox value="2">Option2</sd-checkbox>',
       },
     });
 

@@ -16,36 +16,36 @@ title:
 
 ```vue
 <template>
-  <a-trigger trigger="click">
-    <a-button>Click Me</a-button>
+  <sd-trigger trigger="click">
+    <sd-button>Click Me</sd-button>
     <template #content>
       <div class="trigger-demo-nest">
-        <a-empty />
-        <a-trigger position="right">
-          <a-button>Hover Me</a-button>
+        <sd-empty />
+        <sd-trigger position="right">
+          <sd-button>Hover Me</sd-button>
           <template #content>
             <div class="trigger-demo-nest">
-              <a-empty />
-              <a-trigger trigger="click" position="right">
-                <a-button>Click Me</a-button>
+              <sd-empty />
+              <sd-trigger trigger="click" position="right">
+                <sd-button>Click Me</sd-button>
                 <template #content>
                   <div class="trigger-demo-nest">
-                    <a-empty />
-                    <a-trigger position="right">
-                      <a-button>Hover Me</a-button>
+                    <sd-empty />
+                    <sd-trigger position="right">
+                      <sd-button>Hover Me</sd-button>
                       <template #content>
-                        <a-empty class="trigger-demo-nest" />
+                        <sd-empty class="trigger-demo-nest" />
                       </template>
-                    </a-trigger>
+                    </sd-trigger>
                   </div>
                 </template>
-              </a-trigger>
+              </sd-trigger>
             </div>
           </template>
-        </a-trigger>
+        </sd-trigger>
       </div>
     </template>
-  </a-trigger>
+  </sd-trigger>
 </template>
 
 <style scoped>

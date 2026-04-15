@@ -18,7 +18,7 @@ You can set whether to switch automatically through `autoPlay`. You can set `mov
 
 ```vue
 <template>
-  <a-carousel
+  <sd-carousel
     :style="{
       width: '600px',
       height: '240px',
@@ -27,15 +27,15 @@ You can set whether to switch automatically through `autoPlay`. You can set `mov
     indicator-type="dot"
     show-arrow="hover"
   >
-    <a-carousel-item v-for="image in images">
+    <sd-carousel-item v-for="image in images">
       <img
         :src="image"
         :style="{
           width: '100%',
         }"
       />
-    </a-carousel-item>
-  </a-carousel>
+    </sd-carousel-item>
+  </sd-carousel>
 </template>
 
 <script>

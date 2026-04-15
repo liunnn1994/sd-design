@@ -18,6 +18,6 @@ Can be used for multi-line input.
 
 ```vue
 <template>
-  <a-textarea placeholder="Please enter something" allow-clear />
+  <sd-textarea placeholder="Please enter something" allow-clear />
 </template>
 ```

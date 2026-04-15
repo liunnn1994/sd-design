@@ -5,7 +5,7 @@ import type { SDOptions } from './types';
 
 import { configProviderInjectionKey } from '../config-provider/context';
 
-const COMPONENT_PREFIX = 'A';
+const COMPONENT_PREFIX = 'Sd';
 const CLASS_PREFIX = 'sd';
 const GLOBAL_CONFIG_NAME = '$sd';
 

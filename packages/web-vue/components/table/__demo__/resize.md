@@ -18,7 +18,7 @@ Enable column resizing using the `column-resizable` property. It is recommended 
 
 ```vue
 <template>
-  <a-table :columns="columns" :data="data" column-resizable :bordered="{ cell: true }"></a-table>
+  <sd-table :columns="columns" :data="data" column-resizable :bordered="{ cell: true }"></sd-table>
 </template>
 
 <script>

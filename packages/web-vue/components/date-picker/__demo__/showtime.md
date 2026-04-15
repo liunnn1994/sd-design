@@ -18,7 +18,7 @@ Use `showTime` to select a date with time.
 
 ```vue
 <template>
-  <a-date-picker
+  <sd-date-picker
     style="width: 220px; margin: 0 24px 24px 0;"
     show-time
     :time-picker-props="{ defaultValue: '09:09:06' }"
@@ -27,7 +27,7 @@ Use `showTime` to select a date with time.
     @select="onSelect"
     @ok="onOk"
   />
-  <a-date-picker
+  <sd-date-picker
     style="width: 220px; margin: 0 24px 24px 0;"
     show-time
     format="YYYY-MM-DD hh:mm"
@@ -35,7 +35,7 @@ Use `showTime` to select a date with time.
     @select="onSelect"
     @ok="onOk"
   />
-  <a-range-picker
+  <sd-range-picker
     style="width: 360px; margin: 0 24px 24px 0;"
     show-time
     :time-picker-props="{ defaultValue: ['00:00:00', '09:09:06'] }"

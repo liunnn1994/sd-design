@@ -19,14 +19,14 @@ By `resizeDirections`, you can use the mouse to drag the sidebar to zoom in and 
 ```vue
 <template>
   <div class="layout-demo">
-    <a-layout>
-      <a-layout-header>Header</a-layout-header>
-      <a-layout>
-        <a-layout-sider :resize-directions="['right']"> Sider </a-layout-sider>
-        <a-layout-content>Content</a-layout-content>
-      </a-layout>
-      <a-layout-footer>Footer</a-layout-footer>
-    </a-layout>
+    <sd-layout>
+      <sd-layout-header>Header</sd-layout-header>
+      <sd-layout>
+        <sd-layout-sider :resize-directions="['right']"> Sider </sd-layout-sider>
+        <sd-layout-content>Content</sd-layout-content>
+      </sd-layout>
+      <sd-layout-footer>Footer</sd-layout-footer>
+    </sd-layout>
   </div>
 </template>
 <style scoped>

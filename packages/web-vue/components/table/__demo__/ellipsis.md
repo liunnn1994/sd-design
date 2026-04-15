@@ -18,7 +18,7 @@ Enable `ellipsis` property to display ellipsis, and also enable `tooltip` to use
 
 ```vue
 <template>
-  <a-table :columns="columns" :data="data" />
+  <sd-table :columns="columns" :data="data" />
 </template>
 
 <script>

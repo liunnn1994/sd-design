@@ -18,7 +18,7 @@ How to use the virtual list.
 
 ```vue
 <template>
-  <a-select
+  <sd-select
     :style="{ width: '320px' }"
     :options="options"
     placeholder="Please select ..."

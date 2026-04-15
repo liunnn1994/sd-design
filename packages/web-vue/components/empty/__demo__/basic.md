@@ -18,6 +18,6 @@ Basic usage of empty component.
 
 ```vue
 <template>
-  <a-empty />
+  <sd-empty />
 </template>
 ```

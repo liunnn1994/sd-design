@@ -16,16 +16,16 @@ title:
 
 ```vue
 <template>
-  <a-trigger trigger="click" align-point>
+  <sd-trigger trigger="click" align-point>
     <div class="demo-point-trigger">
       <div>Click Me</div>
     </div>
     <template #content>
       <div class="demo-point">
-        <a-empty />
+        <sd-empty />
       </div>
     </template>
-  </a-trigger>
+  </sd-trigger>
 </template>
 
 <style scoped>

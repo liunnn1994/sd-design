@@ -18,30 +18,30 @@ By setting `allow-search`, you can make the selector support searching for optio
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large">
-    <a-select :style="{ width: '320px' }" placeholder="Please select ..." allow-search>
-      <a-option>Beijing</a-option>
-      <a-option>Shanghai</a-option>
-      <a-option>Guangzhou</a-option>
-      <a-option disabled>Disabled</a-option>
-      <a-option>Shenzhen</a-option>
-      <a-option>Chengdu</a-option>
-      <a-option>Wuhan</a-option>
-    </a-select>
-    <a-select
+  <sd-space direction="vertical" size="large">
+    <sd-select :style="{ width: '320px' }" placeholder="Please select ..." allow-search>
+      <sd-option>Beijing</sd-option>
+      <sd-option>Shanghai</sd-option>
+      <sd-option>Guangzhou</sd-option>
+      <sd-option disabled>Disabled</sd-option>
+      <sd-option>Shenzhen</sd-option>
+      <sd-option>Chengdu</sd-option>
+      <sd-option>Wuhan</sd-option>
+    </sd-select>
+    <sd-select
       :style="{ width: '320px' }"
       placeholder="Please select ..."
       :allow-search="{ retainInputValue: true }"
     >
-      <a-option>Beijing</a-option>
-      <a-option>Shanghai</a-option>
-      <a-option>Guangzhou</a-option>
-      <a-option disabled>Disabled</a-option>
-      <a-option>Shenzhen</a-option>
-      <a-option>Chengdu</a-option>
-      <a-option>Wuhan</a-option>
-    </a-select>
-    <a-select
+      <sd-option>Beijing</sd-option>
+      <sd-option>Shanghai</sd-option>
+      <sd-option>Guangzhou</sd-option>
+      <sd-option disabled>Disabled</sd-option>
+      <sd-option>Shenzhen</sd-option>
+      <sd-option>Chengdu</sd-option>
+      <sd-option>Wuhan</sd-option>
+    </sd-select>
+    <sd-select
       :options="options"
       :style="{ width: '320px' }"
       :loading="loading"
@@ -49,7 +49,7 @@ By setting `allow-search`, you can make the selector support searching for optio
       multiple
       @search="handleSearch"
     />
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

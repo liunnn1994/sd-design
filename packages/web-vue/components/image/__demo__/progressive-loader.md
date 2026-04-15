@@ -19,7 +19,7 @@ When you need to display a large image, you can pass a smaller image to `loader`
 ```vue
 <template>
   <div>
-    <a-button
+    <sd-button
       type="primary"
       @click="
         () => {
@@ -29,9 +29,9 @@ When you need to display a large image, you can pass a smaller image to `loader`
       style="margin-bottom: 20px;"
     >
       reload
-    </a-button>
+    </sd-button>
   </div>
-  <a-image
+  <sd-image
     width="200"
     height="200"
     :src="`https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a8c8cdb109cb051163646151a4a5083b.png~tplv-uwbnlip3yd-webp.webp?timestamp=${timestamp}`"
@@ -43,7 +43,7 @@ When you need to display a large image, you can pass a smaller image to `loader`
         style="filter: blur(5px);"
       />
     </template>
-  </a-image>
+  </sd-image>
 </template>
 
 <script>

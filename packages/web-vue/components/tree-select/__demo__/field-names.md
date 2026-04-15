@@ -18,7 +18,7 @@ You can customize `treeData` by `fieldNames`.
 
 ```vue
 <template>
-  <a-tree-select
+  <sd-tree-select
     default-value="0-0-1"
     :fieldNames="{
       key: 'value',
@@ -28,7 +28,7 @@ You can customize `treeData` by `fieldNames`.
     :data="treeData"
     placeholder="Please select ..."
     style="width: 300px;"
-  ></a-tree-select>
+  ></sd-tree-select>
 </template>
 <script>
   export default {

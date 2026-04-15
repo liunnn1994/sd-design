@@ -20,18 +20,18 @@ Built-in 4 sizes, `mini-4px` `small-8px (default)` `medium-16px` `large-24px`, a
 <template>
   <div>
     <div style="marginBottom: 20px">
-      <a-radio-group v-model="size" type="button">
-        <a-radio value="mini">mini</a-radio>
-        <a-radio value="small">small</a-radio>
-        <a-radio value="medium">medium</a-radio>
-        <a-radio value="large">large</a-radio>
-      </a-radio-group>
+      <sd-radio-group v-model="size" type="button">
+        <sd-radio value="mini">mini</sd-radio>
+        <sd-radio value="small">small</sd-radio>
+        <sd-radio value="medium">medium</sd-radio>
+        <sd-radio value="large">large</sd-radio>
+      </sd-radio-group>
     </div>
-    <a-space :size="size">
-      <a-button type="primary">Item1</a-button>
-      <a-button type="primary">Item2</a-button>
-      <a-button type="primary">Item3</a-button>
-    </a-space>
+    <sd-space :size="size">
+      <sd-button type="primary">Item1</sd-button>
+      <sd-button type="primary">Item2</sd-button>
+      <sd-button type="primary">Item3</sd-button>
+    </sd-space>
   </div>
 </template>
 <script>

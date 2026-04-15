@@ -18,15 +18,15 @@ The graphic skeleton screen is divided into two shapes: `square`, `circle`, and 
 
 ```vue
 <template>
-  <a-skeleton>
-    <a-space size="large">
-      <a-skeleton-shape size="small" />
-      <a-skeleton-shape />
-      <a-skeleton-shape size="large" />
-      <a-skeleton-shape shape="circle" size="small" />
-      <a-skeleton-shape shape="circle" />
-      <a-skeleton-shape shape="circle" size="large" />
-    </a-space>
-  </a-skeleton>
+  <sd-skeleton>
+    <sd-space size="large">
+      <sd-skeleton-shape size="small" />
+      <sd-skeleton-shape />
+      <sd-skeleton-shape size="large" />
+      <sd-skeleton-shape shape="circle" size="small" />
+      <sd-skeleton-shape shape="circle" />
+      <sd-skeleton-shape shape="circle" size="large" />
+    </sd-space>
+  </sd-skeleton>
 </template>
 ```

@@ -33,7 +33,7 @@ const isLanguageTag = (title) => ['zh', 'en'].includes(title);
 
 const resolveComponent = (doc) => {
   return {
-    name: toKebabCase(`a${doc.displayName}`),
+    name: toKebabCase(`sd${doc.displayName}`),
     props:
       doc.props
         ?.map((descriptor) => {

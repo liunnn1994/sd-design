@@ -18,21 +18,21 @@ Set the size of the progress bar through `size`
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large" :style="{ width: '50%' }">
-    <a-radio-group v-model="size" type="button">
-      <a-radio value="small">Small</a-radio>
-      <a-radio value="medium">Medium</a-radio>
-      <a-radio value="large">Large</a-radio>
-    </a-radio-group>
-    <a-progress :size="size" :percent="0.2" />
-    <a-progress status="warning" :size="size" :percent="0.2" />
-    <a-progress status="danger" :size="size" :percent="0.2" />
-    <a-space>
-      <a-progress type="circle" :size="size" :percent="0.2" />
-      <a-progress type="circle" status="warning" :size="size" :percent="0.2" />
-      <a-progress type="circle" status="danger" :size="size" :percent="0.2" />
-    </a-space>
-  </a-space>
+  <sd-space direction="vertical" size="large" :style="{ width: '50%' }">
+    <sd-radio-group v-model="size" type="button">
+      <sd-radio value="small">Small</sd-radio>
+      <sd-radio value="medium">Medium</sd-radio>
+      <sd-radio value="large">Large</sd-radio>
+    </sd-radio-group>
+    <sd-progress :size="size" :percent="0.2" />
+    <sd-progress status="warning" :size="size" :percent="0.2" />
+    <sd-progress status="danger" :size="size" :percent="0.2" />
+    <sd-space>
+      <sd-progress type="circle" :size="size" :percent="0.2" />
+      <sd-progress type="circle" status="warning" :size="size" :percent="0.2" />
+      <sd-progress type="circle" status="danger" :size="size" :percent="0.2" />
+    </sd-space>
+  </sd-space>
 </template>
 
 <script>

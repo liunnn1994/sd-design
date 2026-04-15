@@ -16,36 +16,36 @@ title:
 
 ```vue
 <template>
-  <a-row class="grid-demo" style="margin-bottom: 16px;">
-    <a-col flex="100px">
+  <sd-row class="grid-demo" style="margin-bottom: 16px;">
+    <sd-col flex="100px">
       <div>100px</div>
-    </a-col>
-    <a-col flex="auto">
+    </sd-col>
+    <sd-col flex="auto">
       <div>auto</div>
-    </a-col>
-  </a-row>
-  <a-row class="grid-demo" style="margin-bottom: 16px;">
-    <a-col flex="100px">
+    </sd-col>
+  </sd-row>
+  <sd-row class="grid-demo" style="margin-bottom: 16px;">
+    <sd-col flex="100px">
       <div>100px</div>
-    </a-col>
-    <a-col flex="auto">
+    </sd-col>
+    <sd-col flex="auto">
       <div>auto</div>
-    </a-col>
-    <a-col flex="100px">
+    </sd-col>
+    <sd-col flex="100px">
       <div>100px</div>
-    </a-col>
-  </a-row>
-  <a-row class="grid-demo" style="margin-bottom: 16px;">
-    <a-col :flex="3">
+    </sd-col>
+  </sd-row>
+  <sd-row class="grid-demo" style="margin-bottom: 16px;">
+    <sd-col :flex="3">
       <div>3 / 12</div>
-    </a-col>
-    <a-col :flex="4">
+    </sd-col>
+    <sd-col :flex="4">
       <div>4 / 12</div>
-    </a-col>
-    <a-col :flex="5">
+    </sd-col>
+    <sd-col :flex="5">
       <div>5 / 12</div>
-    </a-col>
-  </a-row>
+    </sd-col>
+  </sd-row>
 </template>
 
 <style scoped>

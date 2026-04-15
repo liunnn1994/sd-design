@@ -18,7 +18,7 @@ Use the named slot `cell` to customize the date cell.
 
 ```vue
 <template>
-  <a-date-picker>
+  <sd-date-picker>
     <template #cell="{ date }">
       <div class="sd-picker-date">
         <div class="sd-picker-date-value" :style="getCellStyle(date)">
@@ -26,7 +26,7 @@ Use the named slot `cell` to customize the date cell.
         </div>
       </div>
     </template>
-  </a-date-picker>
+  </sd-date-picker>
 </template>
 <script>
   export default {

@@ -18,31 +18,31 @@ The radio buttons of the button type have four sizes of `mini`, `small`, `medium
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large">
-    <a-radio-group type="button" size="mini">
-      <a-radio value="Beijing">Beijing</a-radio>
-      <a-radio value="Shanghai">Shanghai</a-radio>
-      <a-radio value="Guangzhou">Guangzhou</a-radio>
-      <a-radio value="Shenzhen">Shenzhen</a-radio>
-    </a-radio-group>
-    <a-radio-group type="button" size="small">
-      <a-radio value="Beijing">Beijing</a-radio>
-      <a-radio value="Shanghai">Shanghai</a-radio>
-      <a-radio value="Guangzhou">Guangzhou</a-radio>
-      <a-radio value="Shenzhen">Shenzhen</a-radio>
-    </a-radio-group>
-    <a-radio-group type="button">
-      <a-radio value="Beijing">Beijing</a-radio>
-      <a-radio value="Shanghai">Shanghai</a-radio>
-      <a-radio value="Guangzhou">Guangzhou</a-radio>
-      <a-radio value="Shenzhen">Shenzhen</a-radio>
-    </a-radio-group>
-    <a-radio-group type="button" size="large">
-      <a-radio value="Beijing">Beijing</a-radio>
-      <a-radio value="Shanghai">Shanghai</a-radio>
-      <a-radio value="Guangzhou">Guangzhou</a-radio>
-      <a-radio value="Shenzhen">Shenzhen</a-radio>
-    </a-radio-group>
-  </a-space>
+  <sd-space direction="vertical" size="large">
+    <sd-radio-group type="button" size="mini">
+      <sd-radio value="Beijing">Beijing</sd-radio>
+      <sd-radio value="Shanghai">Shanghai</sd-radio>
+      <sd-radio value="Guangzhou">Guangzhou</sd-radio>
+      <sd-radio value="Shenzhen">Shenzhen</sd-radio>
+    </sd-radio-group>
+    <sd-radio-group type="button" size="small">
+      <sd-radio value="Beijing">Beijing</sd-radio>
+      <sd-radio value="Shanghai">Shanghai</sd-radio>
+      <sd-radio value="Guangzhou">Guangzhou</sd-radio>
+      <sd-radio value="Shenzhen">Shenzhen</sd-radio>
+    </sd-radio-group>
+    <sd-radio-group type="button">
+      <sd-radio value="Beijing">Beijing</sd-radio>
+      <sd-radio value="Shanghai">Shanghai</sd-radio>
+      <sd-radio value="Guangzhou">Guangzhou</sd-radio>
+      <sd-radio value="Shenzhen">Shenzhen</sd-radio>
+    </sd-radio-group>
+    <sd-radio-group type="button" size="large">
+      <sd-radio value="Beijing">Beijing</sd-radio>
+      <sd-radio value="Shanghai">Shanghai</sd-radio>
+      <sd-radio value="Guangzhou">Guangzhou</sd-radio>
+      <sd-radio value="Shenzhen">Shenzhen</sd-radio>
+    </sd-radio-group>
+  </sd-space>
 </template>
 ```

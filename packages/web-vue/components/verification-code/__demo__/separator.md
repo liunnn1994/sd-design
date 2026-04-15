@@ -18,7 +18,7 @@ Specify `separator` to customize the rendering separator
 
 ```vue
 <template>
-  <a-verification-code
+  <sd-verification-code
     style="width: 400px"
     :length="9"
     :separator="(index) => ((index + 1) % 3 || index > 7 ? null : '-')"

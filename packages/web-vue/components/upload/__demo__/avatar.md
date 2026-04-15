@@ -18,8 +18,8 @@ Click to upload user's avatar, and validate size and format of picture with befo
 
 ```vue
 <template>
-  <a-space direction="vertical" :style="{ width: '100%' }">
-    <a-upload
+  <sd-space direction="vertical" :style="{ width: '100%' }">
+    <sd-upload
       action="/"
       :fileList="file ? [file] : []"
       :show-file-list="false"
@@ -37,7 +37,7 @@ Click to upload user's avatar, and validate size and format of picture with befo
             <div class="sd-upload-list-picture-mask">
               <IconEdit />
             </div>
-            <a-progress
+            <sd-progress
               v-if="file.status === 'uploading' && file.percent < 100"
               :percent="file.percent"
               type="circle"
@@ -58,8 +58,8 @@ Click to upload user's avatar, and validate size and format of picture with befo
           </div>
         </div>
       </template>
-    </a-upload>
-  </a-space>
+    </sd-upload>
+  </sd-space>
 </template>
 
 <script>

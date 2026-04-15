@@ -18,7 +18,7 @@ Set `closable` to show the close button.
 
 ```vue
 <template>
-  <a-button @click="handleClick">Closeable Message</a-button>
+  <sd-button @click="handleClick">Closeable Message</sd-button>
 </template>
 
 <script>

@@ -21,15 +21,15 @@ For example, in this demo, onVisibleChange is triggered when the mouse moves out
 ```vue
 <template>
   <div style="margin-bottom: 24px;">
-    <a-button type="primary" @click="onClick">toggle</a-button>
+    <sd-button type="primary" @click="onClick">toggle</sd-button>
   </div>
-  <a-tree-select
+  <sd-tree-select
     :popupVisible="popupVisible"
     :allow-clear="true"
     :data="treeData"
     placeholder="Please select ..."
     style="width: 300px"
-  ></a-tree-select>
+  ></sd-tree-select>
 </template>
 <script>
   import { ref } from 'vue';

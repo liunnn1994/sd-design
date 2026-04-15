@@ -18,36 +18,36 @@ If the count is larger than `max-count`, the `${max-count}+` will be displayed. 
 
 ```vue
 <template>
-  <a-space :size="40">
-    <a-badge :max-count="10" :count="0">
-      <a-avatar shape="square">
+  <sd-space :size="40">
+    <sd-badge :max-count="10" :count="0">
+      <sd-avatar shape="square">
         <span>
           <IconUser />
         </span>
-      </a-avatar>
-    </a-badge>
-    <a-badge :max-count="10" :count="100">
-      <a-avatar shape="square">
+      </sd-avatar>
+    </sd-badge>
+    <sd-badge :max-count="10" :count="100">
+      <sd-avatar shape="square">
         <span>
           <IconUser />
         </span>
-      </a-avatar>
-    </a-badge>
-    <a-badge :count="100">
-      <a-avatar shape="square">
+      </sd-avatar>
+    </sd-badge>
+    <sd-badge :count="100">
+      <sd-avatar shape="square">
         <span>
           <IconUser />
         </span>
-      </a-avatar>
-    </a-badge>
-    <a-badge :max-count="999" :count="1000">
-      <a-avatar shape="square">
+      </sd-avatar>
+    </sd-badge>
+    <sd-badge :max-count="999" :count="1000">
+      <sd-avatar shape="square">
         <span>
           <IconUser />
         </span>
-      </a-avatar>
-    </a-badge>
-  </a-space>
+      </sd-avatar>
+    </sd-badge>
+  </sd-space>
 </template>
 
 <script>

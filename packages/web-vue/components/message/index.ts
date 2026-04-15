@@ -97,6 +97,10 @@ class MessageManger {
       messageInstance[this.position] = undefined;
     }
   };
+
+  isDisconnected = () => {
+    return !this.container || !this.container.isConnected;
+  };
 }
 
 const messageInstance: {
@@ -113,6 +117,9 @@ const message = types.reduce((pre, value) => {
     }
     const _config: _MessageConfig = { type: value, ...config };
     const { position = 'top' } = _config;
+    if (messageInstance[position]?.isDisconnected()) {
+      messageInstance[position] = undefined;
+    }
     if (!messageInstance[position]) {
       messageInstance[position] = new MessageManger(_config, appContext);
     }

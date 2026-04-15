@@ -1,50 +1,50 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`<typography> demo: render [basic] correctly 1`] = `
-"<article class=\\"sd-typography\\" style=\\"margin-top: -40px;\\">
-  <h1 class=\\"sd-typography\\"> Design system
+exports[`<typography> demo: > render [basic] correctly 1`] = `
+<article class="sd-typography" style="margin-top: -40px;">
+  <h1 class="sd-typography"> Design system
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </h1>
-  <div class=\\"sd-typography\\"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design.
+  <div class="sd-typography"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design.
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </div>
-  <div class=\\"sd-typography\\"> In some cases, the direct construction of an object without an explicit prior plan (such as in craftwork, some engineering, coding, and graphic design) may also be considered <span class=\\"sd-typography\\"><b>to be a design activity.</b><!----><!--v-if--><!--v-if--><!--v-if--></span>
+  <div class="sd-typography"> In some cases, the direct construction of an object without an explicit prior plan (such as in craftwork, some engineering, coding, and graphic design) may also be considered <span class="sd-typography"><b>to be a design activity.</b><!----><!--v-if--><!--v-if--><!--v-if--></span>
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </div>
-  <h2 class=\\"sd-typography\\">SD Design
+  <h2 class="sd-typography">SD Design
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </h2>
-  <div class=\\"sd-typography\\"> The SD Design component library defines a set of default particle variables, and a custom theme is to <span class=\\"sd-typography\\"><mark>customize</mark><!----><!--v-if--><!--v-if--><!--v-if--></span> and <span class=\\"sd-typography\\"><u>overwrite</u><!----><!--v-if--><!--v-if--><!--v-if--></span> this variable list.
+  <div class="sd-typography"> The SD Design component library defines a set of default particle variables, and a custom theme is to <span class="sd-typography"><mark>customize</mark><!----><!--v-if--><!--v-if--><!--v-if--></span> and <span class="sd-typography"><u>overwrite</u><!----><!--v-if--><!--v-if--><!--v-if--></span> this variable list.
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </div>
-  <blockquote class=\\"sd-typography\\"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a <span class=\\"sd-typography\\"><code>prototype</code><!----><!--v-if--><!--v-if--><!--v-if--></span>, <span class=\\"sd-typography\\"><code>product</code><!----><!--v-if--><!--v-if--><!--v-if--></span> or <span class=\\"sd-typography\\"><code>process</code><!----><!--v-if--><!--v-if--><!--v-if--></span>. The verb to design expresses the process of developing a design.
+  <blockquote class="sd-typography"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a <span class="sd-typography"><code>prototype</code><!----><!--v-if--><!--v-if--><!--v-if--></span>, <span class="sd-typography"><code>product</code><!----><!--v-if--><!--v-if--><!--v-if--></span> or <span class="sd-typography"><code>process</code><!----><!--v-if--><!--v-if--><!--v-if--></span>. The verb to design expresses the process of developing a design.
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </blockquote>
-  <div class=\\"sd-typography\\"><mark><del><u>A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process.</u></del></mark>
+  <div class="sd-typography"><mark><del><u>A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process.</u></del></mark>
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </div>
-  <div class=\\"sd-typography\\">
+  <div class="sd-typography">
     <ul>
       <li> Architectural blueprints <ul>
           <li>Architectural blueprints</li>
@@ -58,7 +58,7 @@ exports[`<typography> demo: render [basic] correctly 1`] = `
     <!--v-if-->
     <!--v-if-->
   </div>
-  <div class=\\"sd-typography\\">
+  <div class="sd-typography">
     <ol>
       <li>Architectural blueprints</li>
       <li>Engineering drawings</li>
@@ -69,175 +69,175 @@ exports[`<typography> demo: render [basic] correctly 1`] = `
     <!--v-if-->
     <!--v-if-->
   </div>
-</article>"
+</article>
 `;
 
-exports[`<typography> demo: render [ellipsis] correctly 1`] = `
-"<div>
-  <h4 class=\\"sd-typography\\"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process.
+exports[`<typography> demo: > render [ellipsis] correctly 1`] = `
+<div>
+  <h4 class="sd-typography"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process.
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </h4>
-  <div class=\\"sd-typography\\"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.
+  <div class="sd-typography"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </div>
-  <div class=\\"sd-typography\\" style=\\"overflow: hidden; text-overflow: ellipsis; display: -webkit-box;\\"><span> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design. </span></div>
-  <div class=\\"sd-typography\\"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.
+  <div class="sd-typography" style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2;"><span> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design. </span></div>
+  <div class="sd-typography"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.
     <!---->--SD Design
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </div>
-  <div class=\\"sd-typography\\"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design. A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.
+  <div class="sd-typography"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design. A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.
     <!---->--SD Design
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </div>
-</div>"
+</div>
 `;
 
-exports[`<typography> demo: render [operations] correctly 1`] = `
-"<article class=\\"sd-typography\\">
-  <div class=\\"sd-typography\\"> Click the icon to copy this text.
+exports[`<typography> demo: > render [operations] correctly 1`] = `
+<article class="sd-typography">
+  <div class="sd-typography"> Click the icon to copy this text.
     <!---->
-    <!--v-if--><span class=\\"sd-typography-operation-copy\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-copy\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M20 6h18a2 2 0 0 1 2 2v22M8 16v24c0 1.105.891 2 1.996 2h20.007A1.99 1.99 0 0 0 32 40.008V15.997A1.997 1.997 0 0 0 30 14H10a2 2 0 0 0-2 2Z\\"></path></svg></span>
+    <!--v-if--><span class="sd-typography-operation-copy"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-copy" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M20 6h18a2 2 0 0 1 2 2v22M8 16v24c0 1.105.891 2 1.996 2h20.007A1.99 1.99 0 0 0 32 40.008V15.997A1.997 1.997 0 0 0 30 14H10a2 2 0 0 0-2 2Z"></path></svg></span>
     <!---->
     <!--v-if-->
   </div>
-  <div class=\\"sd-typography\\">Click the icon to edit this text.
-    <!----><span class=\\"sd-typography-operation-edit\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-edit\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"m30.48 19.038 5.733-5.734a1 1 0 0 0 0-1.414l-5.586-5.586a1 1 0 0 0-1.414 0l-5.734 5.734m7 7L15.763 33.754a1 1 0 0 1-.59.286l-6.048.708a1 1 0 0 1-1.113-1.069l.477-6.31a1 1 0 0 1 .29-.631l14.7-14.7m7 7-7-7M6 42h36\\"></path></svg></span>
+  <div class="sd-typography">Click the icon to edit this text.
+    <!----><span class="sd-typography-operation-edit"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-edit" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="m30.48 19.038 5.733-5.734a1 1 0 0 0 0-1.414l-5.586-5.586a1 1 0 0 0-1.414 0l-5.734 5.734m7 7L15.763 33.754a1 1 0 0 1-.59.286l-6.048.708a1 1 0 0 1-1.113-1.069l.477-6.31a1 1 0 0 1 .29-.631l14.7-14.7m7 7-7-7M6 42h36"></path></svg></span>
     <!---->
     <!--v-if-->
     <!--v-if-->
   </div>
-</article>"
+</article>
 `;
 
-exports[`<typography> demo: render [paragraph] correctly 1`] = `
-"<article class=\\"sd-typography\\">
-  <h5 class=\\"sd-typography\\">Default
+exports[`<typography> demo: > render [paragraph] correctly 1`] = `
+<article class="sd-typography">
+  <h5 class="sd-typography">Default
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </h5>
-  <div class=\\"sd-typography\\"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. In some cases, the direct construction of an object without an explicit prior plan (such as in craftwork, some engineering, coding, and graphic design) may also be considered to be a design activity.
+  <div class="sd-typography"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. In some cases, the direct construction of an object without an explicit prior plan (such as in craftwork, some engineering, coding, and graphic design) may also be considered to be a design activity.
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </div>
-  <h5 class=\\"sd-typography\\">Secondary
+  <h5 class="sd-typography">Secondary
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </h5>
-  <div class=\\"sd-typography sd-typography-secondary\\"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. In some cases, the direct construction of an object without an explicit prior plan (such as in craftwork, some engineering, coding, and graphic design) may also be considered to be a design activity.
+  <div class="sd-typography sd-typography-secondary"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. In some cases, the direct construction of an object without an explicit prior plan (such as in craftwork, some engineering, coding, and graphic design) may also be considered to be a design activity.
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </div>
-  <h5 class=\\"sd-typography\\">Spacing default
+  <h5 class="sd-typography">Spacing default
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </h5>
-  <div class=\\"sd-typography\\"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. In some cases, the direct construction of an object without an explicit prior plan (such as in craftwork, some engineering, coding, and graphic design) may also be considered to be a design activity.
+  <div class="sd-typography"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. In some cases, the direct construction of an object without an explicit prior plan (such as in craftwork, some engineering, coding, and graphic design) may also be considered to be a design activity.
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </div>
-  <h5 class=\\"sd-typography\\">Spacing close
+  <h5 class="sd-typography">Spacing close
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </h5>
-  <div class=\\"sd-typography sd-typography-secondary sd-typography-spacing-close\\"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design.
+  <div class="sd-typography sd-typography-secondary sd-typography-spacing-close"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design.
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </div>
-</article>"
+</article>
 `;
 
-exports[`<typography> demo: render [text] correctly 1`] = `
-"<div class=\\"sd-space sd-space-vertical\\" style=\\"column-gap: 10px; row-gap: 10px;\\">
+exports[`<typography> demo: > render [text] correctly 1`] = `
+<div class="sd-space sd-space-vertical" style="column-gap: 10px; row-gap: 10px;">
   <!---->
-  <div class=\\"sd-space-item\\"><span class=\\"sd-typography\\"> SD Design <!----><!--v-if--><!--v-if--><!--v-if--></span></div>
+  <div class="sd-space-item"><span class="sd-typography"> SD Design <!----><!--v-if--><!--v-if--><!--v-if--></span></div>
   <!---->
-  <div class=\\"sd-space-item\\"><span class=\\"sd-typography sd-typography-secondary\\"> Secondary <!----><!--v-if--><!--v-if--><!--v-if--></span></div>
+  <div class="sd-space-item"><span class="sd-typography sd-typography-secondary"> Secondary <!----><!--v-if--><!--v-if--><!--v-if--></span></div>
   <!---->
-  <div class=\\"sd-space-item\\"><span class=\\"sd-typography sd-typography-primary\\"> Primary <!----><!--v-if--><!--v-if--><!--v-if--></span></div>
+  <div class="sd-space-item"><span class="sd-typography sd-typography-primary"> Primary <!----><!--v-if--><!--v-if--><!--v-if--></span></div>
   <!---->
-  <div class=\\"sd-space-item\\"><span class=\\"sd-typography sd-typography-success\\"> Success <!----><!--v-if--><!--v-if--><!--v-if--></span></div>
+  <div class="sd-space-item"><span class="sd-typography sd-typography-success"> Success <!----><!--v-if--><!--v-if--><!--v-if--></span></div>
   <!---->
-  <div class=\\"sd-space-item\\"><span class=\\"sd-typography sd-typography-warning\\"> Warning <!----><!--v-if--><!--v-if--><!--v-if--></span></div>
+  <div class="sd-space-item"><span class="sd-typography sd-typography-warning"> Warning <!----><!--v-if--><!--v-if--><!--v-if--></span></div>
   <!---->
-  <div class=\\"sd-space-item\\"><span class=\\"sd-typography sd-typography-danger\\"> Danger <!----><!--v-if--><!--v-if--><!--v-if--></span></div>
+  <div class="sd-space-item"><span class="sd-typography sd-typography-danger"> Danger <!----><!--v-if--><!--v-if--><!--v-if--></span></div>
   <!---->
-  <div class=\\"sd-space-item\\"><span class=\\"sd-typography\\"><b> Bold </b><!----><!--v-if--><!--v-if--><!--v-if--></span></div>
+  <div class="sd-space-item"><span class="sd-typography"><b> Bold </b><!----><!--v-if--><!--v-if--><!--v-if--></span></div>
   <!---->
-  <div class=\\"sd-space-item\\"><span class=\\"sd-typography sd-typography-disabled\\"> Disabled <!----><!--v-if--><!--v-if--><!--v-if--></span></div>
+  <div class="sd-space-item"><span class="sd-typography sd-typography-disabled"> Disabled <!----><!--v-if--><!--v-if--><!--v-if--></span></div>
   <!---->
-  <div class=\\"sd-space-item\\"><span class=\\"sd-typography\\"><mark> Mark </mark><!----><!--v-if--><!--v-if--><!--v-if--></span></div>
+  <div class="sd-space-item"><span class="sd-typography"><mark> Mark </mark><!----><!--v-if--><!--v-if--><!--v-if--></span></div>
   <!---->
-  <div class=\\"sd-space-item\\"><span class=\\"sd-typography\\"><u> Underline </u><!----><!--v-if--><!--v-if--><!--v-if--></span></div>
+  <div class="sd-space-item"><span class="sd-typography"><u> Underline </u><!----><!--v-if--><!--v-if--><!--v-if--></span></div>
   <!---->
-  <div class=\\"sd-space-item\\"><span class=\\"sd-typography\\"><del> Line through </del><!----><!--v-if--><!--v-if--><!--v-if--></span></div>
+  <div class="sd-space-item"><span class="sd-typography"><del> Line through </del><!----><!--v-if--><!--v-if--><!--v-if--></span></div>
   <!---->
-  <div class=\\"sd-space-item\\"><span class=\\"sd-typography\\"><code> Code snippet </code><!----><!--v-if--><!--v-if--><!--v-if--></span></div>
-</div>"
+  <div class="sd-space-item"><span class="sd-typography"><code> Code snippet </code><!----><!--v-if--><!--v-if--><!--v-if--></span></div>
+</div>
 `;
 
-exports[`<typography> demo: render [title] correctly 1`] = `
-"<article class=\\"sd-typography\\">
-  <h1 class=\\"sd-typography\\"> H1. The Pragmatic Romanticism
+exports[`<typography> demo: > render [title] correctly 1`] = `
+<article class="sd-typography">
+  <h1 class="sd-typography"> H1. The Pragmatic Romanticism
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </h1>
-  <h2 class=\\"sd-typography\\"> H2. The Pragmatic Romanticism
+  <h2 class="sd-typography"> H2. The Pragmatic Romanticism
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </h2>
-  <h3 class=\\"sd-typography\\"> H3. The Pragmatic Romanticism
+  <h3 class="sd-typography"> H3. The Pragmatic Romanticism
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </h3>
-  <h4 class=\\"sd-typography\\"> H4. The Pragmatic Romanticism
+  <h4 class="sd-typography"> H4. The Pragmatic Romanticism
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </h4>
-  <h5 class=\\"sd-typography\\"> H5. The Pragmatic Romanticism
+  <h5 class="sd-typography"> H5. The Pragmatic Romanticism
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </h5>
-  <h6 class=\\"sd-typography\\"> H6. The Pragmatic Romanticism
+  <h6 class="sd-typography"> H6. The Pragmatic Romanticism
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </h6>
-</article>"
+</article>
 `;

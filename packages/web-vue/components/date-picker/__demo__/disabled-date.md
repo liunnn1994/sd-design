@@ -19,21 +19,21 @@ Use `disabledDate` to disable specified dates. And use `disabledTime` to disable
 ```vue
 <template>
   <div>
-    <a-date-picker
+    <sd-date-picker
       style="width: 200px; margin-right: 24px; margin-bottom: 24px;"
       :disabledDate="(current) => dayjs(current).isBefore(dayjs())"
     />
-    <a-range-picker
+    <sd-range-picker
       style="width: 360px; margin-right: 24px; margin-bottom: 24px;"
       :disabledDate="(current) => dayjs(current).isBefore(dayjs())"
     />
-    <a-date-picker
+    <sd-date-picker
       style="width: 200px; margin-right: 24px; margin-bottom: 24px;"
       show-time
       :disabledDate="(current) => dayjs(current).isBefore(dayjs())"
       :disabledTime="getDisabledTime"
     />
-    <a-range-picker
+    <sd-range-picker
       style="width: 360px; margin-bottom: 24px;"
       show-time
       :timePickerProps="{ hideDisabledOptions: true }"

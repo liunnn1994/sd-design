@@ -18,11 +18,11 @@ $END$
 
 ```vue
 <template>
-  <a-spin>
+  <sd-spin>
     <template #icon>
       <icon-sync />
     </template>
-  </a-spin>
+  </sd-spin>
 </template>
 
 <script>

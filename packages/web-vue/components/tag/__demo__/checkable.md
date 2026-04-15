@@ -18,10 +18,10 @@ By setting `checkable`, the effect of selecting can be achieved.
 
 ```vue
 <template>
-  <a-space>
-    <a-tag checkable>Awesome</a-tag>
-    <a-tag checkable color="red" :default-checked="true">Toutiao</a-tag>
-    <a-tag checkable color="sdblue" :default-checked="true">Lark</a-tag>
-  </a-space>
+  <sd-space>
+    <sd-tag checkable>Awesome</sd-tag>
+    <sd-tag checkable color="red" :default-checked="true">Toutiao</sd-tag>
+    <sd-tag checkable color="sdblue" :default-checked="true">Lark</sd-tag>
+  </sd-space>
 </template>
 ```

@@ -1,45 +1,27 @@
-import { mount, config } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 
-import glob from 'glob';
+import { globSync } from 'glob';
+import { fileURLToPath } from 'node:url';
 import path from 'path';
 
-import SDVue from '../components';
-import SDVueIcon from '../components/icon';
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: jest.fn().mockImplementation((query) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: jest.fn(), // deprecated
-    removeListener: jest.fn(), // deprecated
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-  })),
-});
-
-jest.mock('resize-observer-polyfill', () => ({
-  __esModule: true,
-  default: jest.fn().mockImplementation(() => ({
-    observe: jest.fn(),
-    unobserve: jest.fn(),
-    disconnect: jest.fn(),
-  })),
-}));
-
-config.global.plugins = [SDVue, SDVueIcon];
+const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const demoModules = import.meta.glob('../components/**/__demo__/*.md');
 
 function demoTest(component: string) {
   describe(`<${component}> demo:`, () => {
-    const files = glob.sync(`components/${component}/__demo__/*.md`);
+    const files = globSync(`components/${component}/__demo__/*.md`, {
+      cwd: packageRoot,
+      posix: true,
+    });
     const table = files.map((filename) => [path.basename(filename, '.md'), filename]);
 
     test.each(table)('render [%s] correctly', async (_, filename) => {
-      const demo = await import(`../${filename}`);
+      const loadDemo = demoModules[`../${filename}`];
+      if (!loadDemo) {
+        throw new Error(`Demo module not found: ${filename}`);
+      }
+
+      const demo = await loadDemo();
       const wrapper = mount(demo.default);
       expect(wrapper.html()).toMatchSnapshot();
     });

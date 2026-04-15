@@ -16,7 +16,7 @@ The treeNode occupy the remaining horizontal space.
 
 ```vue
 <template>
-  <a-tree blockNode :data="treeData" />
+  <sd-tree blockNode :data="treeData" />
 </template>
 <script>
   export default {

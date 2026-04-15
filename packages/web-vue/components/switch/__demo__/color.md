@@ -18,6 +18,6 @@ The color of the switch can be customized through `checked-color` and `unchecked
 
 ```vue
 <template>
-  <a-switch checked-color="#F53F3F" unchecked-color="#14C9C9" />
+  <sd-switch checked-color="#F53F3F" unchecked-color="#14C9C9" />
 </template>
 ```

@@ -18,13 +18,13 @@ You can set the properties of the trigger through `trigger-props`.
 
 ```vue
 <template>
-  <a-space direction="vertical">
-    <a-switch v-model="triggerProps.popupVisible">
+  <sd-space direction="vertical">
+    <sd-switch v-model="triggerProps.popupVisible">
       <template #checked> ON </template>
       <template #unchecked>OFF</template>
-    </a-switch>
-    <a-color-picker defaultValue="#165DFF" :trigger-props="triggerProps" />
-  </a-space>
+    </sd-switch>
+    <sd-color-picker defaultValue="#165DFF" :trigger-props="triggerProps" />
+  </sd-space>
 </template>
 
 <script setup>

@@ -19,7 +19,7 @@ Customize the return value through the `treeCheckStrategy` property.
 ```vue
 <template>
   <div style="margin-bottom: 24px;">
-    <a-radio-group
+    <sd-radio-group
       type="button"
       v-model="treeCheckedStrategy"
       @change="
@@ -28,12 +28,12 @@ Customize the return value through the `treeCheckStrategy` property.
         }
       "
     >
-      <a-radio v-for="item in strategyOptions" :key="item?.value" :value="item?.value">
+      <sd-radio v-for="item in strategyOptions" :key="item?.value" :value="item?.value">
         {{ item?.label }}
-      </a-radio>
-    </a-radio-group>
+      </sd-radio>
+    </sd-radio-group>
   </div>
-  <a-tree-select
+  <sd-tree-select
     v-model="selected"
     :allow-search="true"
     :allow-clear="true"
@@ -42,7 +42,7 @@ Customize the return value through the `treeCheckStrategy` property.
     :data="treeData"
     placeholder="Please select ..."
     style="width: 300px;"
-  ></a-tree-select>
+  ></sd-tree-select>
 </template>
 <script>
   import { ref } from 'vue';

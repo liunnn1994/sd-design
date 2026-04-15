@@ -7,11 +7,8 @@ describe('Anchor', () => {
     const wrapper = mount(Anchor, {
       slots: {
         default:
-          '<a-anchor-link href="#anchor1">Anchor1</a-anchor-link>' +
-          '<a-anchor-link href="#anchor2">Anchor2</a-anchor-link>',
-      },
-      global: {
-        plugins: [Anchor],
+          '<sd-anchor-link href="#anchor1">Anchor1</sd-anchor-link>' +
+          '<sd-anchor-link href="#anchor2">Anchor2</sd-anchor-link>',
       },
     });
     const link = wrapper.find('a');

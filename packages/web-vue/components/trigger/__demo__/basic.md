@@ -16,32 +16,32 @@ title:
 
 ```vue
 <template>
-  <a-space>
-    <a-trigger position="top" auto-fit-position :unmount-on-close="false">
+  <sd-space>
+    <sd-trigger position="top" auto-fit-position :unmount-on-close="false">
       <span>Hover Me</span>
       <template #content>
         <div class="demo-basic">
-          <a-empty />
+          <sd-empty />
         </div>
       </template>
-    </a-trigger>
-    <a-trigger trigger="click" :unmount-on-close="false">
-      <a-button>Click Me</a-button>
+    </sd-trigger>
+    <sd-trigger trigger="click" :unmount-on-close="false">
+      <sd-button>Click Me</sd-button>
       <template #content>
         <div class="demo-basic">
-          <a-empty />
+          <sd-empty />
         </div>
       </template>
-    </a-trigger>
-    <a-trigger trigger="focus">
-      <a-input placeholder="Focus on me" />
+    </sd-trigger>
+    <sd-trigger trigger="focus">
+      <sd-input placeholder="Focus on me" />
       <template #content>
         <div class="demo-basic">
-          <a-empty />
+          <sd-empty />
         </div>
       </template>
-    </a-trigger>
-  </a-space>
+    </sd-trigger>
+  </sd-space>
 </template>
 
 <style scoped>

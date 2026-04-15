@@ -18,38 +18,38 @@ Basic usage of the drop-down menu.
 
 ```vue
 <template>
-  <a-space size="large">
-    <a-dropdown @select="handleSelect">
-      <a-button>Click Me</a-button>
+  <sd-space size="large">
+    <sd-dropdown @select="handleSelect">
+      <sd-button>Click Me</sd-button>
       <template #content>
-        <a-doption>Option 1</a-doption>
-        <a-doption disabled>Option 2</a-doption>
-        <a-doption :value="{ value: 'Option3' }">Option 3</a-doption>
+        <sd-doption>Option 1</sd-doption>
+        <sd-doption disabled>Option 2</sd-doption>
+        <sd-doption :value="{ value: 'Option3' }">Option 3</sd-doption>
       </template>
-    </a-dropdown>
-    <a-dropdown @select="handleSelect" disabled>
-      <a-button disabled>Click Me</a-button>
+    </sd-dropdown>
+    <sd-dropdown @select="handleSelect" disabled>
+      <sd-button disabled>Click Me</sd-button>
       <template #content>
-        <a-doption>Option 1</a-doption>
-        <a-doption disabled>Option 2</a-doption>
-        <a-doption>Option 3</a-doption>
+        <sd-doption>Option 1</sd-doption>
+        <sd-doption disabled>Option 2</sd-doption>
+        <sd-doption>Option 3</sd-doption>
       </template>
-    </a-dropdown>
-    <a-dropdown @select="handleSelect" :popup-max-height="false">
-      <a-button>No Max Height <icon-down /></a-button>
+    </sd-dropdown>
+    <sd-dropdown @select="handleSelect" :popup-max-height="false">
+      <sd-button>No Max Height <icon-down /></sd-button>
       <template #content>
-        <a-doption>Option 1</a-doption>
-        <a-doption disabled>Option 2</a-doption>
-        <a-doption>Option 3</a-doption>
-        <a-doption>Option 4</a-doption>
-        <a-doption>Option 5</a-doption>
-        <a-doption>Option 6</a-doption>
-        <a-doption>Option 7</a-doption>
-        <a-doption>Option 8</a-doption>
-        <a-doption>Option 9</a-doption>
+        <sd-doption>Option 1</sd-doption>
+        <sd-doption disabled>Option 2</sd-doption>
+        <sd-doption>Option 3</sd-doption>
+        <sd-doption>Option 4</sd-doption>
+        <sd-doption>Option 5</sd-doption>
+        <sd-doption>Option 6</sd-doption>
+        <sd-doption>Option 7</sd-doption>
+        <sd-doption>Option 8</sd-doption>
+        <sd-doption>Option 9</sd-doption>
       </template>
-    </a-dropdown>
-  </a-space>
+    </sd-dropdown>
+  </sd-space>
 </template>
 
 <script>

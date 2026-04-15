@@ -18,23 +18,23 @@ Use `Card.Grid` to use the card content segmentation mode.
 
 ```vue
 <template>
-  <a-card :bordered="false" :style="{ width: '100%' }">
-    <a-card-grid
+  <sd-card :bordered="false" :style="{ width: '100%' }">
+    <sd-card-grid
       v-for="(_, index) in new Array(7)"
       :key="index"
       :hoverable="index % 2 === 0"
       :style="{ width: '25%' }"
     >
-      <a-card class="card-demo" title="SD Card" :bordered="false">
+      <sd-card class="card-demo" title="SD Card" :bordered="false">
         <template #extra>
-          <a-link>More</a-link>
+          <sd-link>More</sd-link>
         </template>
         <p :style="{ margin: 0 }">
           {{ index % 2 === 0 ? 'Card allow to hover' : 'Card content' }}
         </p>
-      </a-card>
-    </a-card-grid>
-  </a-card>
+      </sd-card>
+    </sd-card-grid>
+  </sd-card>
 </template>
 <style scoped>
   .card-demo {

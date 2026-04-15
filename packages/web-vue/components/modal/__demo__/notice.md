@@ -18,12 +18,12 @@ There are four types of notice: **info**, **success**, **warning**, **error**, a
 
 ```vue
 <template>
-  <a-space>
-    <a-button @click="handleClickInfo">Info</a-button>
-    <a-button @click="handleClickSuccess" status="success">Success</a-button>
-    <a-button @click="handleClickWarning" status="warning">Warning</a-button>
-    <a-button @click="handleClickError" status="danger">Error</a-button>
-  </a-space>
+  <sd-space>
+    <sd-button @click="handleClickInfo">Info</sd-button>
+    <sd-button @click="handleClickSuccess" status="success">Success</sd-button>
+    <sd-button @click="handleClickWarning" status="warning">Warning</sd-button>
+    <sd-button @click="handleClickError" status="danger">Error</sd-button>
+  </sd-space>
 </template>
 
 <script>

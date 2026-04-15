@@ -19,7 +19,7 @@ Basic usage of `ResizeBox`. By setting `directions`, you can specify which of th
 ```vue
 <template>
   <div>
-    <a-resize-box
+    <sd-resize-box
       :directions="['right', 'bottom']"
       :style="{
         width: '500px',
@@ -29,19 +29,19 @@ Basic usage of `ResizeBox`. By setting `directions`, you can specify which of th
         textAlign: 'center',
       }"
     >
-      <a-typography-paragraph
-        >We are building the future of content discovery and creation.</a-typography-paragraph
+      <sd-typography-paragraph
+        >We are building the future of content discovery and creation.</sd-typography-paragraph
       >
-      <a-divider />
-      <a-typography-paragraph>
+      <sd-divider />
+      <sd-typography-paragraph>
         ByteDance's content platforms enable people to enjoy content powered by AI technology. We
         inform, entertain, and inspire people across language, culture and geography.
-      </a-typography-paragraph>
-      <a-divider>ByteDance</a-divider>
-      <a-typography-paragraph
-        >Yiming Zhang is the founder and CEO of ByteDance.</a-typography-paragraph
+      </sd-typography-paragraph>
+      <sd-divider>ByteDance</sd-divider>
+      <sd-typography-paragraph
+        >Yiming Zhang is the founder and CEO of ByteDance.</sd-typography-paragraph
       >
-    </a-resize-box>
+    </sd-resize-box>
   </div>
 </template>
 ```

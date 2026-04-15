@@ -18,7 +18,7 @@ Enable the expand line function by setting `expandable`. You can add the `expand
 
 ```vue
 <template>
-  <a-table :columns="columns" :data="data" :expandable="expandable" />
+  <sd-table :columns="columns" :data="data" :expandable="expandable" />
 </template>
 
 <script>

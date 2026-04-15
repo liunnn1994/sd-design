@@ -18,12 +18,12 @@ Basic usage of spacing components.
 
 ```vue
 <template>
-  <a-space>
-    <a-typography-text>Space:</a-typography-text>
-    <a-tag v-if="false" color="sdblue">Tag</a-tag>
-    <a-button type="primary">Item1</a-button>
-    <a-button type="primary">Item2</a-button>
-    <a-switch defaultChecked />
-  </a-space>
+  <sd-space>
+    <sd-typography-text>Space:</sd-typography-text>
+    <sd-tag v-if="false" color="sdblue">Tag</sd-tag>
+    <sd-button type="primary">Item1</sd-button>
+    <sd-button type="primary">Item2</sd-button>
+    <sd-switch defaultChecked />
+  </sd-space>
 </template>
 ```

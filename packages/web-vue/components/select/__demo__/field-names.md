@@ -18,7 +18,7 @@ The format of the data in `options` can be customized through the `field-names` 
 
 ```vue
 <template>
-  <a-select
+  <sd-select
     v-model="value"
     :options="options"
     :field-names="fieldNames"

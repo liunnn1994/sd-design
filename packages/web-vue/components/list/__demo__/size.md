@@ -18,21 +18,21 @@ The list component provides three sizes `small, medium, large`, which can be sel
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large">
-    <a-radio-group v-model="size" type="button">
-      <a-radio value="small">Small</a-radio>
-      <a-radio value="medium">Medium</a-radio>
-      <a-radio value="large">Large</a-radio>
-    </a-radio-group>
-    <a-list :size="size">
+  <sd-space direction="vertical" size="large">
+    <sd-radio-group v-model="size" type="button">
+      <sd-radio value="small">Small</sd-radio>
+      <sd-radio value="medium">Medium</sd-radio>
+      <sd-radio value="large">Large</sd-radio>
+    </sd-radio-group>
+    <sd-list :size="size">
       <template #header> List title </template>
-      <a-list-item>Beijing Bytedance Technology Co., Ltd.</a-list-item>
-      <a-list-item>Bytedance Technology Co., Ltd.</a-list-item>
-      <a-list-item>Beijing Toutiao Technology Co., Ltd.</a-list-item>
-      <a-list-item>Beijing Volcengine Technology Co., Ltd.</a-list-item>
-      <a-list-item>China Beijing Bytedance Technology Co., Ltd.</a-list-item>
-    </a-list>
-  </a-space>
+      <sd-list-item>Beijing Bytedance Technology Co., Ltd.</sd-list-item>
+      <sd-list-item>Bytedance Technology Co., Ltd.</sd-list-item>
+      <sd-list-item>Beijing Toutiao Technology Co., Ltd.</sd-list-item>
+      <sd-list-item>Beijing Volcengine Technology Co., Ltd.</sd-list-item>
+      <sd-list-item>China Beijing Bytedance Technology Co., Ltd.</sd-list-item>
+    </sd-list>
+  </sd-space>
 </template>
 
 <script>

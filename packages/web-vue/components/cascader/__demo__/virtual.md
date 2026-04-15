@@ -18,7 +18,7 @@ How to use the virtual list.
 
 ```vue
 <template>
-  <a-cascader
+  <sd-cascader
     :options="options"
     :style="{ width: '320px' }"
     placeholder="Please select ..."

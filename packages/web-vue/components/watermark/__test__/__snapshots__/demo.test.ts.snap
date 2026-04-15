@@ -1,32 +1,33 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`<watermark> demo: render [basic] correctly 1`] = `
-"<div class=\\"sd-watermark\\" style=\\"position: relative; overflow: hidden;\\">
-  <div style=\\"width: 100%; height: 350px;\\"></div>
-</div>"
+exports[`<watermark> demo: > render [basic] correctly 1`] = `
+<div class="sd-watermark" style="position: relative; overflow: hidden;">
+  <div style="width: 100%; height: 350px;"></div>
+  <div style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;background-repeat:repeat;background-position:0px 0px;z-index:6;background-image:url('data:image/png;base64,mock');background-size:324px"></div>
+</div>
 `;
 
-exports[`<watermark> demo: render [custom] correctly 1`] = `
-"<form class=\\"sd-form sd-form-layout-horizontal sd-form-size-small sd-form-auto-label-width\\">
-  <div class=\\"sd-row sd-row-align-start sd-row-justify-start\\" style=\\"margin-left: -8px; margin-right: -8px;\\">
-    <div class=\\"sd-col sd-col-24\\" style=\\"padding-left: 8px; padding-right: 8px;\\">
-      <div class=\\"sd-row sd-row-nowrap sd-row-align-start sd-row-justify-start sd-form-item sd-form-item-layout-horizontal\\">
-        <div class=\\"sd-col sd-col-5 sd-form-item-label-col sd-form-item-label-col-flex\\"><label class=\\"sd-form-item-label\\">
+exports[`<watermark> demo: > render [custom] correctly 1`] = `
+<form class="sd-form sd-form-layout-horizontal sd-form-size-small sd-form-auto-label-width">
+  <div class="sd-row sd-row-align-start sd-row-justify-start" style="margin-left: -8px; margin-right: -8px;">
+    <div class="sd-col sd-col-24" style="padding-left: 8px; padding-right: 8px;">
+      <div class="sd-row sd-row-nowrap sd-row-align-start sd-row-justify-start sd-form-item sd-form-item-layout-horizontal">
+        <div class="sd-col sd-col-5 sd-form-item-label-col sd-form-item-label-col-flex"><label class="sd-form-item-label">
             <!--v-if-->rotate
             <!--v-if-->
             <!--v-if-->
           </label></div>
-        <div class=\\"sd-col sd-form-item-wrapper-col\\" style=\\"flex-basis: auto;\\" id=\\"rotate\\">
-          <div class=\\"sd-form-item-content-wrapper\\">
-            <div class=\\"sd-form-item-content sd-form-item-content-flex\\">
-              <div class=\\"sd-slider\\">
-                <div class=\\"sd-slider-track\\">
-                  <div class=\\"sd-slider-bar\\" style=\\"left: 0%; right: 50%;\\"></div>
+        <div class="sd-col sd-form-item-wrapper-col" style="flex: 1 1 auto;" id="rotate">
+          <div class="sd-form-item-content-wrapper">
+            <div class="sd-form-item-content sd-form-item-content-flex">
+              <div class="sd-slider">
+                <div class="sd-slider-track">
+                  <div class="sd-slider-bar" style="left: 0%; right: 50%;"></div>
                   <!--v-if-->
                   <!--v-if-->
                   <!--v-if-->
                   <!--v-if-->
-                  <div style=\\"left: 50%;\\" tabindex=\\"0\\" role=\\"slider\\" aria-disabled=\\"false\\" aria-valuemax=\\"180\\" aria-valuemin=\\"-180\\" aria-valuenow=\\"0\\" aria-valuetext=\\"0\\" class=\\"sd-slider-btn\\"></div>
+                  <div style="left: 50%;" tabindex="0" role="slider" aria-disabled="false" aria-valuemax="180" aria-valuemin="-180" aria-valuenow="0" aria-valuetext="0" class="sd-slider-btn"></div>
                   <!---->
                 </div>
                 <!--v-if-->
@@ -38,17 +39,17 @@ exports[`<watermark> demo: render [custom] correctly 1`] = `
         </div>
       </div>
     </div>
-    <div class=\\"sd-col sd-col-12\\" style=\\"padding-left: 8px; padding-right: 8px;\\">
-      <div class=\\"sd-row sd-row-nowrap sd-row-align-start sd-row-justify-start sd-form-item sd-form-item-layout-horizontal\\">
-        <div class=\\"sd-col sd-col-5 sd-form-item-label-col sd-form-item-label-col-flex\\"><label class=\\"sd-form-item-label\\">
+    <div class="sd-col sd-col-12" style="padding-left: 8px; padding-right: 8px;">
+      <div class="sd-row sd-row-nowrap sd-row-align-start sd-row-justify-start sd-form-item sd-form-item-layout-horizontal">
+        <div class="sd-col sd-col-5 sd-form-item-label-col sd-form-item-label-col-flex"><label class="sd-form-item-label">
             <!--v-if-->gap
             <!--v-if-->
             <!--v-if-->
           </label></div>
-        <div class=\\"sd-col sd-form-item-wrapper-col\\" style=\\"flex-basis: auto;\\">
-          <div class=\\"sd-form-item-content-wrapper\\">
-            <div class=\\"sd-form-item-content sd-form-item-content-flex\\">
-              <div class=\\"sd-input-group\\"><span class=\\"sd-input-wrapper sd-input-number sd-input-number-mode-embed sd-input-number-size-small\\"><!----><input class=\\"sd-input sd-input-size-small\\" type=\\"text\\" placeholder=\\"gap[x]\\" role=\\"spinbutton\\" aria-valuemax=\\"Infinity\\" aria-valuemin=\\"0\\" aria-valuenow=\\"50\\" value=\\"50\\"><!----><span class=\\"sd-input-suffix\\"><!----><!----><div class=\\"sd-input-number-step\\"><button class=\\"sd-input-number-step-button\\" type=\\"button\\" tabindex=\\"-1\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-up\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M39.6 30.557 24.043 15 8.487 30.557\\"></path></svg></button><button class=\\"sd-input-number-step-button\\" type=\\"button\\" tabindex=\\"-1\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-down\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M39.6 17.443 24.043 33 8.487 17.443\\"></path></svg></button></div><!----></span></span><span class=\\"sd-input-wrapper sd-input-number sd-input-number-mode-embed sd-input-number-size-small\\"><!----><input class=\\"sd-input sd-input-size-small\\" type=\\"text\\" placeholder=\\"gap[y]\\" role=\\"spinbutton\\" aria-valuemax=\\"Infinity\\" aria-valuemin=\\"0\\" aria-valuenow=\\"50\\" value=\\"50\\"><!----><span class=\\"sd-input-suffix\\"><!----><!----><div class=\\"sd-input-number-step\\"><button class=\\"sd-input-number-step-button\\" type=\\"button\\" tabindex=\\"-1\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-up\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M39.6 30.557 24.043 15 8.487 30.557\\"></path></svg></button><button class=\\"sd-input-number-step-button\\" type=\\"button\\" tabindex=\\"-1\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-down\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M39.6 17.443 24.043 33 8.487 17.443\\"></path></svg></button></div><!----></span></span></div>
+        <div class="sd-col sd-form-item-wrapper-col" style="flex: 1 1 auto;">
+          <div class="sd-form-item-content-wrapper">
+            <div class="sd-form-item-content sd-form-item-content-flex">
+              <div class="sd-input-group"><span class="sd-input-wrapper sd-input-number sd-input-number-mode-embed sd-input-number-size-small"><!----><input class="sd-input sd-input-size-small" type="text" placeholder="gap[x]" role="spinbutton" aria-valuemax="Infinity" aria-valuemin="0" aria-valuenow="50" value="50"><!----><span class="sd-input-suffix"><!----><!----><div class="sd-input-number-step"><button class="sd-input-number-step-button" type="button" tabindex="-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-up" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M39.6 30.557 24.043 15 8.487 30.557"></path></svg></button><button class="sd-input-number-step-button" type="button" tabindex="-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-down" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M39.6 17.443 24.043 33 8.487 17.443"></path></svg></button></div><!----></span></span><span class="sd-input-wrapper sd-input-number sd-input-number-mode-embed sd-input-number-size-small"><!----><input class="sd-input sd-input-size-small" type="text" placeholder="gap[y]" role="spinbutton" aria-valuemax="Infinity" aria-valuemin="0" aria-valuenow="50" value="50"><!----><span class="sd-input-suffix"><!----><!----><div class="sd-input-number-step"><button class="sd-input-number-step-button" type="button" tabindex="-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-up" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M39.6 30.557 24.043 15 8.487 30.557"></path></svg></button><button class="sd-input-number-step-button" type="button" tabindex="-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-down" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M39.6 17.443 24.043 33 8.487 17.443"></path></svg></button></div><!----></span></span></div>
             </div>
           </div>
           <!--v-if-->
@@ -56,17 +57,17 @@ exports[`<watermark> demo: render [custom] correctly 1`] = `
         </div>
       </div>
     </div>
-    <div class=\\"sd-col sd-col-12\\" style=\\"padding-left: 8px; padding-right: 8px;\\">
-      <div class=\\"sd-row sd-row-nowrap sd-row-align-start sd-row-justify-start sd-form-item sd-form-item-layout-horizontal\\">
-        <div class=\\"sd-col sd-col-5 sd-form-item-label-col sd-form-item-label-col-flex\\"><label class=\\"sd-form-item-label\\">
+    <div class="sd-col sd-col-12" style="padding-left: 8px; padding-right: 8px;">
+      <div class="sd-row sd-row-nowrap sd-row-align-start sd-row-justify-start sd-form-item sd-form-item-layout-horizontal">
+        <div class="sd-col sd-col-5 sd-form-item-label-col sd-form-item-label-col-flex"><label class="sd-form-item-label">
             <!--v-if-->offset
             <!--v-if-->
             <!--v-if-->
           </label></div>
-        <div class=\\"sd-col sd-form-item-wrapper-col\\" style=\\"flex-basis: auto;\\">
-          <div class=\\"sd-form-item-content-wrapper\\">
-            <div class=\\"sd-form-item-content sd-form-item-content-flex\\">
-              <div class=\\"sd-input-group\\"><span class=\\"sd-input-wrapper sd-input-number sd-input-number-mode-embed sd-input-number-size-small\\"><!----><input class=\\"sd-input sd-input-size-small\\" type=\\"text\\" placeholder=\\"offsetLeft\\" role=\\"spinbutton\\" aria-valuemax=\\"Infinity\\" aria-valuemin=\\"-Infinity\\" aria-valuenow=\\"\\" value=\\"\\"><!----><span class=\\"sd-input-suffix\\"><!----><!----><div class=\\"sd-input-number-step\\"><button class=\\"sd-input-number-step-button\\" type=\\"button\\" tabindex=\\"-1\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-up\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M39.6 30.557 24.043 15 8.487 30.557\\"></path></svg></button><button class=\\"sd-input-number-step-button\\" type=\\"button\\" tabindex=\\"-1\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-down\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M39.6 17.443 24.043 33 8.487 17.443\\"></path></svg></button></div><!----></span></span><span class=\\"sd-input-wrapper sd-input-number sd-input-number-mode-embed sd-input-number-size-small\\"><!----><input class=\\"sd-input sd-input-size-small\\" type=\\"text\\" placeholder=\\"offsetTop\\" role=\\"spinbutton\\" aria-valuemax=\\"Infinity\\" aria-valuemin=\\"-Infinity\\" aria-valuenow=\\"\\" value=\\"\\"><!----><span class=\\"sd-input-suffix\\"><!----><!----><div class=\\"sd-input-number-step\\"><button class=\\"sd-input-number-step-button\\" type=\\"button\\" tabindex=\\"-1\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-up\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M39.6 30.557 24.043 15 8.487 30.557\\"></path></svg></button><button class=\\"sd-input-number-step-button\\" type=\\"button\\" tabindex=\\"-1\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-down\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M39.6 17.443 24.043 33 8.487 17.443\\"></path></svg></button></div><!----></span></span></div>
+        <div class="sd-col sd-form-item-wrapper-col" style="flex: 1 1 auto;">
+          <div class="sd-form-item-content-wrapper">
+            <div class="sd-form-item-content sd-form-item-content-flex">
+              <div class="sd-input-group"><span class="sd-input-wrapper sd-input-number sd-input-number-mode-embed sd-input-number-size-small"><!----><input class="sd-input sd-input-size-small" type="text" placeholder="offsetLeft" role="spinbutton" aria-valuemax="Infinity" aria-valuemin="-Infinity" aria-valuenow="" value=""><!----><span class="sd-input-suffix"><!----><!----><div class="sd-input-number-step"><button class="sd-input-number-step-button" type="button" tabindex="-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-up" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M39.6 30.557 24.043 15 8.487 30.557"></path></svg></button><button class="sd-input-number-step-button" type="button" tabindex="-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-down" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M39.6 17.443 24.043 33 8.487 17.443"></path></svg></button></div><!----></span></span><span class="sd-input-wrapper sd-input-number sd-input-number-mode-embed sd-input-number-size-small"><!----><input class="sd-input sd-input-size-small" type="text" placeholder="offsetTop" role="spinbutton" aria-valuemax="Infinity" aria-valuemin="-Infinity" aria-valuenow="" value=""><!----><span class="sd-input-suffix"><!----><!----><div class="sd-input-number-step"><button class="sd-input-number-step-button" type="button" tabindex="-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-up" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M39.6 30.557 24.043 15 8.487 30.557"></path></svg></button><button class="sd-input-number-step-button" type="button" tabindex="-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-down" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M39.6 17.443 24.043 33 8.487 17.443"></path></svg></button></div><!----></span></span></div>
             </div>
           </div>
           <!--v-if-->
@@ -74,48 +75,48 @@ exports[`<watermark> demo: render [custom] correctly 1`] = `
         </div>
       </div>
     </div>
-    <div class=\\"sd-col sd-col-12\\" style=\\"padding-left: 8px; padding-right: 8px;\\">
-      <div class=\\"sd-row sd-row-nowrap sd-row-align-start sd-row-justify-start sd-form-item sd-form-item-layout-horizontal\\">
-        <div class=\\"sd-col sd-col-5 sd-form-item-label-col sd-form-item-label-col-flex\\"><label class=\\"sd-form-item-label\\">
+    <div class="sd-col sd-col-12" style="padding-left: 8px; padding-right: 8px;">
+      <div class="sd-row sd-row-nowrap sd-row-align-start sd-row-justify-start sd-form-item sd-form-item-layout-horizontal">
+        <div class="sd-col sd-col-5 sd-form-item-label-col sd-form-item-label-col-flex"><label class="sd-form-item-label">
             <!--v-if-->fontSize
             <!--v-if-->
             <!--v-if-->
           </label></div>
-        <div class=\\"sd-col sd-form-item-wrapper-col\\" style=\\"flex-basis: auto;\\">
-          <div class=\\"sd-form-item-content-wrapper\\">
-            <div class=\\"sd-form-item-content sd-form-item-content-flex\\"><span class=\\"sd-input-outer sd-input-outer-size-small sd-input-number sd-input-number-mode-button sd-input-number-size-small\\"><span class=\\"sd-input-prepend\\"><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-small sd-btn-status-normal sd-btn-only-icon sd-input-number-step-button\\" type=\\"button\\" tabindex=\\"-1\\"><span class=\\"sd-btn-icon\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-minus\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M5 24h38\\"></path></svg></span></button></span><span class=\\"sd-input-wrapper\\"><!----><input class=\\"sd-input sd-input-size-small\\" type=\\"text\\" role=\\"spinbutton\\" aria-valuemax=\\"Infinity\\" aria-valuemin=\\"-Infinity\\" aria-valuenow=\\"16\\" value=\\"16\\"><!----><!----></span><span class=\\"sd-input-append\\"><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-small sd-btn-status-normal sd-btn-only-icon sd-input-number-step-button\\" type=\\"button\\" tabindex=\\"-1\\"><span class=\\"sd-btn-icon\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-plus\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M5 24h38M24 5v38\\"></path></svg></span></button></span></span></div>
+        <div class="sd-col sd-form-item-wrapper-col" style="flex: 1 1 auto;">
+          <div class="sd-form-item-content-wrapper">
+            <div class="sd-form-item-content sd-form-item-content-flex"><span class="sd-input-outer sd-input-outer-size-small sd-input-number sd-input-number-mode-button sd-input-number-size-small"><span class="sd-input-prepend"><button class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-small sd-btn-status-normal sd-btn-only-icon sd-input-number-step-button" type="button" tabindex="-1"><span class="sd-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-minus" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M5 24h38"></path></svg></span></button></span><span class="sd-input-wrapper"><!----><input class="sd-input sd-input-size-small" type="text" role="spinbutton" aria-valuemax="Infinity" aria-valuemin="-Infinity" aria-valuenow="16" value="16"><!----><!----></span><span class="sd-input-append"><button class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-small sd-btn-status-normal sd-btn-only-icon sd-input-number-step-button" type="button" tabindex="-1"><span class="sd-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-plus" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M5 24h38M24 5v38"></path></svg></span></button></span></span></div>
           </div>
           <!--v-if-->
           <!--v-if-->
         </div>
       </div>
     </div>
-    <div class=\\"sd-col sd-col-12\\" style=\\"padding-left: 8px; padding-right: 8px;\\">
-      <div class=\\"sd-row sd-row-nowrap sd-row-align-start sd-row-justify-start sd-form-item sd-form-item-layout-horizontal\\">
-        <div class=\\"sd-col sd-col-5 sd-form-item-label-col sd-form-item-label-col-flex\\"><label class=\\"sd-form-item-label\\">
+    <div class="sd-col sd-col-12" style="padding-left: 8px; padding-right: 8px;">
+      <div class="sd-row sd-row-nowrap sd-row-align-start sd-row-justify-start sd-form-item sd-form-item-layout-horizontal">
+        <div class="sd-col sd-col-5 sd-form-item-label-col sd-form-item-label-col-flex"><label class="sd-form-item-label">
             <!--v-if-->zIndex
             <!--v-if-->
             <!--v-if-->
           </label></div>
-        <div class=\\"sd-col sd-form-item-wrapper-col\\" style=\\"flex-basis: auto;\\">
-          <div class=\\"sd-form-item-content-wrapper\\">
-            <div class=\\"sd-form-item-content sd-form-item-content-flex\\"><span class=\\"sd-input-outer sd-input-outer-size-small sd-input-number sd-input-number-mode-button sd-input-number-size-small\\"><span class=\\"sd-input-prepend\\"><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-small sd-btn-status-normal sd-btn-only-icon sd-input-number-step-button\\" type=\\"button\\" tabindex=\\"-1\\"><span class=\\"sd-btn-icon\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-minus\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M5 24h38\\"></path></svg></span></button></span><span class=\\"sd-input-wrapper\\"><!----><input class=\\"sd-input sd-input-size-small\\" type=\\"text\\" role=\\"spinbutton\\" aria-valuemax=\\"Infinity\\" aria-valuemin=\\"-Infinity\\" aria-valuenow=\\"6\\" value=\\"6\\"><!----><!----></span><span class=\\"sd-input-append\\"><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-small sd-btn-status-normal sd-btn-only-icon sd-input-number-step-button\\" type=\\"button\\" tabindex=\\"-1\\"><span class=\\"sd-btn-icon\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-plus\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M5 24h38M24 5v38\\"></path></svg></span></button></span></span></div>
+        <div class="sd-col sd-form-item-wrapper-col" style="flex: 1 1 auto;">
+          <div class="sd-form-item-content-wrapper">
+            <div class="sd-form-item-content sd-form-item-content-flex"><span class="sd-input-outer sd-input-outer-size-small sd-input-number sd-input-number-mode-button sd-input-number-size-small"><span class="sd-input-prepend"><button class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-small sd-btn-status-normal sd-btn-only-icon sd-input-number-step-button" type="button" tabindex="-1"><span class="sd-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-minus" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M5 24h38"></path></svg></span></button></span><span class="sd-input-wrapper"><!----><input class="sd-input sd-input-size-small" type="text" role="spinbutton" aria-valuemax="Infinity" aria-valuemin="-Infinity" aria-valuenow="6" value="6"><!----><!----></span><span class="sd-input-append"><button class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-small sd-btn-status-normal sd-btn-only-icon sd-input-number-step-button" type="button" tabindex="-1"><span class="sd-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-plus" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M5 24h38M24 5v38"></path></svg></span></button></span></span></div>
           </div>
           <!--v-if-->
           <!--v-if-->
         </div>
       </div>
     </div>
-    <div class=\\"sd-col sd-col-6\\" style=\\"padding-left: 8px; padding-right: 8px;\\">
-      <div class=\\"sd-row sd-row-nowrap sd-row-align-start sd-row-justify-start sd-form-item sd-form-item-layout-horizontal\\">
-        <div class=\\"sd-col sd-col-5 sd-form-item-label-col sd-form-item-label-col-flex\\"><label class=\\"sd-form-item-label\\">
+    <div class="sd-col sd-col-6" style="padding-left: 8px; padding-right: 8px;">
+      <div class="sd-row sd-row-nowrap sd-row-align-start sd-row-justify-start sd-form-item sd-form-item-layout-horizontal">
+        <div class="sd-col sd-col-5 sd-form-item-label-col sd-form-item-label-col-flex"><label class="sd-form-item-label">
             <!--v-if-->repeat
             <!--v-if-->
             <!--v-if-->
           </label></div>
-        <div class=\\"sd-col sd-form-item-wrapper-col\\" style=\\"flex-basis: auto;\\">
-          <div class=\\"sd-form-item-content-wrapper\\">
-            <div class=\\"sd-form-item-content sd-form-item-content-flex\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"true\\" class=\\"sd-switch sd-switch-type-circle sd-switch-checked\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+        <div class="sd-col sd-form-item-wrapper-col" style="flex: 1 1 auto;">
+          <div class="sd-form-item-content-wrapper">
+            <div class="sd-form-item-content sd-form-item-content-flex"><button type="button" role="switch" aria-checked="true" class="sd-switch sd-switch-type-circle sd-switch-checked"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
                 <!--v-if-->
               </button></div>
           </div>
@@ -124,16 +125,16 @@ exports[`<watermark> demo: render [custom] correctly 1`] = `
         </div>
       </div>
     </div>
-    <div class=\\"sd-col sd-col-6\\" style=\\"padding-left: 8px; padding-right: 8px;\\">
-      <div class=\\"sd-row sd-row-nowrap sd-row-align-start sd-row-justify-start sd-form-item sd-form-item-layout-horizontal\\">
-        <div class=\\"sd-col sd-col-5 sd-form-item-label-col sd-form-item-label-col-flex\\"><label class=\\"sd-form-item-label\\">
+    <div class="sd-col sd-col-6" style="padding-left: 8px; padding-right: 8px;">
+      <div class="sd-row sd-row-nowrap sd-row-align-start sd-row-justify-start sd-form-item sd-form-item-layout-horizontal">
+        <div class="sd-col sd-col-5 sd-form-item-label-col sd-form-item-label-col-flex"><label class="sd-form-item-label">
             <!--v-if-->staggered
             <!--v-if-->
             <!--v-if-->
           </label></div>
-        <div class=\\"sd-col sd-form-item-wrapper-col\\" style=\\"flex-basis: auto;\\">
-          <div class=\\"sd-form-item-content-wrapper\\">
-            <div class=\\"sd-form-item-content sd-form-item-content-flex\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"true\\" class=\\"sd-switch sd-switch-type-circle sd-switch-checked\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+        <div class="sd-col sd-form-item-wrapper-col" style="flex: 1 1 auto;">
+          <div class="sd-form-item-content-wrapper">
+            <div class="sd-form-item-content sd-form-item-content-flex"><button type="button" role="switch" aria-checked="true" class="sd-switch sd-switch-type-circle sd-switch-checked"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
                 <!--v-if-->
               </button></div>
           </div>
@@ -144,40 +145,43 @@ exports[`<watermark> demo: render [custom] correctly 1`] = `
     </div>
   </div>
 </form>
-<div class=\\"sd-watermark\\" style=\\"position: relative; overflow: hidden;\\">
-  <div style=\\"width: 100%; border: 1px solid #e5e6eb; box-sizing: border-box;\\">
-    <h5 class=\\"sd-typography\\"> Design system
+<div class="sd-watermark" style="position: relative; overflow: hidden;">
+  <div style="width: 100%; border: 1px solid rgb(229, 230, 235); box-sizing: border-box;">
+    <h5 class="sd-typography"> Design system
       <!---->
       <!--v-if-->
       <!--v-if-->
       <!--v-if-->
     </h5>
-    <article class=\\"sd-typography\\">
-      <div class=\\"sd-typography\\"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design.
+    <article class="sd-typography">
+      <div class="sd-typography"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design.
         <!---->
         <!--v-if-->
         <!--v-if-->
         <!--v-if-->
       </div>
-      <div class=\\"sd-typography\\"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design.
+      <div class="sd-typography"> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design.
         <!---->
         <!--v-if-->
         <!--v-if-->
         <!--v-if-->
       </div>
-    </article><img style=\\"position: relative; z-index: 7;\\" src=\\"https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/24e0dd27418d2291b65db1b21aa62254.png~tplv-uwbnlip3yd-webp.webp\\">
+    </article><img style="position: relative; z-index: 7;" src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/24e0dd27418d2291b65db1b21aa62254.png~tplv-uwbnlip3yd-webp.webp">
   </div>
-</div>"
+  <div style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;background-repeat:repeat;background-position:0px 0px;z-index:6;background-image:url('data:image/png;base64,mock');background-size:244px"></div>
+</div>
 `;
 
-exports[`<watermark> demo: render [image] correctly 1`] = `
-"<div class=\\"sd-watermark\\" style=\\"position: relative; overflow: hidden;\\">
-  <div style=\\"width: 100%; height: 300px;\\"></div>
-</div>"
+exports[`<watermark> demo: > render [image] correctly 1`] = `
+<div class="sd-watermark" style="position: relative; overflow: hidden;">
+  <div style="width: 100%; height: 300px;"></div>
+  <div style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;background-repeat:repeat;background-position:0px 0px;z-index:6;background-image:url('data:image/png;base64,mock');background-size:356px"></div>
+</div>
 `;
 
-exports[`<watermark> demo: render [multiline] correctly 1`] = `
-"<div class=\\"sd-watermark\\" style=\\"position: relative; overflow: hidden;\\">
-  <div style=\\"width: 100%; height: 300px;\\"></div>
-</div>"
+exports[`<watermark> demo: > render [multiline] correctly 1`] = `
+<div class="sd-watermark" style="position: relative; overflow: hidden;">
+  <div style="width: 100%; height: 300px;"></div>
+  <div style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;background-repeat:repeat;background-position:0px 0px;z-index:6;background-image:url('data:image/png;base64,mock');background-size:340px"></div>
+</div>
 `;

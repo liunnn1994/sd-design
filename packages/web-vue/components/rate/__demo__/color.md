@@ -18,10 +18,10 @@ Color can be customized through color. In addition, you can customize the color 
 
 ```vue
 <template>
-  <a-space direction="vertical">
-    <a-rate color="red" />
-    <a-rate :color="color" />
-  </a-space>
+  <sd-space direction="vertical">
+    <sd-rate color="red" />
+    <sd-rate :color="color" />
+  </sd-space>
 </template>
 
 <script>

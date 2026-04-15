@@ -18,17 +18,17 @@ Can add and delete tags dynamically.
 
 ```vue
 <template>
-  <a-space wrap>
-    <a-tag
+  <sd-space wrap>
+    <sd-tag
       v-for="(tag, index) of tags"
       :key="tag"
       :closable="index !== 0"
       @close="handleRemove(tag)"
     >
       {{ tag }}
-    </a-tag>
+    </sd-tag>
 
-    <a-input
+    <sd-input
       v-if="showInput"
       ref="inputRef"
       :style="{ width: '90px' }"
@@ -37,7 +37,7 @@ Can add and delete tags dynamically.
       @keyup.enter="handleAdd"
       @blur="handleAdd"
     />
-    <a-tag
+    <sd-tag
       v-else
       :style="{
         width: '90px',
@@ -51,8 +51,8 @@ Can add and delete tags dynamically.
         <icon-plus />
       </template>
       Add Tag
-    </a-tag>
-  </a-space>
+    </sd-tag>
+  </sd-space>
 </template>
 
 <script>

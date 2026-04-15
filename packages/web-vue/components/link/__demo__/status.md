@@ -18,23 +18,23 @@ The link status is divided into four types: `normal` (default), `success`, `warn
 
 ```vue
 <template>
-  <a-space direction="vertical">
-    <a-space>
-      <a-link href="link">Normal Link</a-link>
-      <a-link href="link" disabled>Normal Link</a-link>
-    </a-space>
-    <a-space>
-      <a-link href="link" status="success">Success Link</a-link>
-      <a-link href="link" status="success" disabled>Success Link</a-link>
-    </a-space>
-    <a-space>
-      <a-link href="link" status="warning">Warning Link</a-link>
-      <a-link href="link" status="warning" disabled>Warning Link</a-link>
-    </a-space>
-    <a-space>
-      <a-link href="link" status="danger">Danger Link</a-link>
-      <a-link href="link" status="danger" disabled>Danger Link</a-link>
-    </a-space>
-  </a-space>
+  <sd-space direction="vertical">
+    <sd-space>
+      <sd-link href="link">Normal Link</sd-link>
+      <sd-link href="link" disabled>Normal Link</sd-link>
+    </sd-space>
+    <sd-space>
+      <sd-link href="link" status="success">Success Link</sd-link>
+      <sd-link href="link" status="success" disabled>Success Link</sd-link>
+    </sd-space>
+    <sd-space>
+      <sd-link href="link" status="warning">Warning Link</sd-link>
+      <sd-link href="link" status="warning" disabled>Warning Link</sd-link>
+    </sd-space>
+    <sd-space>
+      <sd-link href="link" status="danger">Danger Link</sd-link>
+      <sd-link href="link" status="danger" disabled>Danger Link</sd-link>
+    </sd-space>
+  </sd-space>
 </template>
 ```

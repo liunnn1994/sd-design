@@ -18,9 +18,9 @@ Use when you need to highlight a certain number or group of numbers or display s
 
 ```vue
 <template>
-  <a-space size="large">
-    <a-statistic title="Downloads" :value="125670" show-group-separator />
-    <a-statistic extra="Comments" :value="40509" :precision="2" />
-  </a-space>
+  <sd-space size="large">
+    <sd-statistic title="Downloads" :value="125670" show-group-separator />
+    <sd-statistic extra="Comments" :value="40509" :precision="2" />
+  </sd-space>
 </template>
 ```

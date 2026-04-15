@@ -18,7 +18,7 @@ You can monitor the scroll event of the drop-down menu through `dropdown-scroll`
 
 ```vue
 <template>
-  <a-auto-complete
+  <sd-auto-complete
     :data="data"
     :style="{ width: '360px' }"
     placeholder="please enter something"

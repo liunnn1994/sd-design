@@ -18,18 +18,18 @@ The button can be in the loading state by setting `loading`. The button in the l
 
 ```vue
 <template>
-  <a-space>
-    <a-button type="primary" loading>Primary</a-button>
-    <a-button loading>Default</a-button>
-    <a-button type="dashed" loading>Dashed</a-button>
-    <a-button type="primary" :loading="loading1" @click="handleClick1">Click Me</a-button>
-    <a-button type="primary" :loading="loading2" @click="handleClick2">
+  <sd-space>
+    <sd-button type="primary" loading>Primary</sd-button>
+    <sd-button loading>Default</sd-button>
+    <sd-button type="dashed" loading>Dashed</sd-button>
+    <sd-button type="primary" :loading="loading1" @click="handleClick1">Click Me</sd-button>
+    <sd-button type="primary" :loading="loading2" @click="handleClick2">
       <template #icon>
         <icon-plus />
       </template>
       Click Me
-    </a-button>
-  </a-space>
+    </sd-button>
+  </sd-space>
 </template>
 
 <script>

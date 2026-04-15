@@ -18,7 +18,7 @@ You can customize the search function by setting `show-search` to use the shuttl
 
 ```vue
 <template>
-  <a-transfer
+  <sd-transfer
     show-search
     :data="data"
     :default-value="value"

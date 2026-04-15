@@ -18,8 +18,8 @@ Use `precision` to set the number precision. When `precision` is less than the d
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large">
-    <a-input-number
+  <sd-space direction="vertical" size="large">
+    <sd-input-number
       :style="{ width: '320px' }"
       placeholder="Please Enter"
       :default-value="3.6"
@@ -27,7 +27,7 @@ Use `precision` to set the number precision. When `precision` is less than the d
       :precision="2"
       class="input-demo"
     />
-    <a-input-number
+    <sd-input-number
       :style="{ width: '320px' }"
       placeholder="Please Enter"
       :default-value="1.22"
@@ -35,6 +35,6 @@ Use `precision` to set the number precision. When `precision` is less than the d
       :precision="1"
       class="input-demo"
     />
-  </a-space>
+  </sd-space>
 </template>
 ```

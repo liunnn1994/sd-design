@@ -1,159 +1,159 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`<resize-box> demo: render [basic] correctly 1`] = `
-"<div>
-  <div class=\\"sd-resizebox\\" style=\\"width: 500px; min-width: 100px; max-width: 100%; height: 200px; text-align: center;\\">
-    <div class=\\"sd-typography\\">We are building the future of content discovery and creation.
+exports[`<resize-box> demo: > render [basic] correctly 1`] = `
+<div>
+  <div class="sd-resizebox" style="width: 500px; min-width: 100px; max-width: 100%; height: 200px; text-align: center;">
+    <div class="sd-typography">We are building the future of content discovery and creation.
       <!---->
       <!--v-if-->
       <!--v-if-->
       <!--v-if-->
     </div>
-    <div role=\\"separator\\" class=\\"sd-divider sd-divider-horizontal\\">
+    <div role="separator" class="sd-divider sd-divider-horizontal">
       <!---->
     </div>
-    <div class=\\"sd-typography\\"> ByteDance's content platforms enable people to enjoy content powered by AI technology. We inform, entertain, and inspire people across language, culture and geography.
-      <!---->
-      <!--v-if-->
-      <!--v-if-->
-      <!--v-if-->
-    </div>
-    <div role=\\"separator\\" class=\\"sd-divider sd-divider-horizontal sd-divider-with-text\\"><span class=\\"sd-divider-text sd-divider-text-center\\">ByteDance</span></div>
-    <div class=\\"sd-typography\\">Yiming Zhang is the founder and CEO of ByteDance.
+    <div class="sd-typography"> ByteDance's content platforms enable people to enjoy content powered by AI technology. We inform, entertain, and inspire people across language, culture and geography.
       <!---->
       <!--v-if-->
       <!--v-if-->
       <!--v-if-->
     </div>
-    <div class=\\"sd-resizebox-trigger sd-resizebox-trigger-vertical sd-resizebox-direction-right\\">
+    <div role="separator" class="sd-divider sd-divider-horizontal sd-divider-with-text"><span class="sd-divider-text sd-divider-text-center">ByteDance</span></div>
+    <div class="sd-typography">Yiming Zhang is the founder and CEO of ByteDance.
+      <!---->
+      <!--v-if-->
+      <!--v-if-->
+      <!--v-if-->
+    </div>
+    <div class="sd-resizebox-trigger sd-resizebox-trigger-vertical sd-resizebox-direction-right">
       <!-- @slot 自定义内容 -->
-      <div class=\\"sd-resizebox-trigger-icon-wrapper\\">
-        <!-- @slot 自定义 icon --><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-drag-dot-vertical sd-resizebox-trigger-icon\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\">
-          <path d=\\"M17 8h2v2h-2V8ZM17 23h2v2h-2v-2ZM17 38h2v2h-2v-2ZM29 8h2v2h-2V8ZM29 23h2v2h-2v-2ZM29 38h2v2h-2v-2Z\\" fill=\\"currentColor\\" stroke=\\"none\\"></path>
-          <path d=\\"M17 8h2v2h-2V8ZM17 23h2v2h-2v-2ZM17 38h2v2h-2v-2ZM29 8h2v2h-2V8ZM29 23h2v2h-2v-2ZM29 38h2v2h-2v-2Z\\"></path>
+      <div class="sd-resizebox-trigger-icon-wrapper">
+        <!-- @slot 自定义 icon --><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-drag-dot-vertical sd-resizebox-trigger-icon" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+          <path fill="currentColor" stroke="none" d="M17 8h2v2h-2zM17 23h2v2h-2zM17 38h2v2h-2zM29 8h2v2h-2zM29 23h2v2h-2zM29 38h2v2h-2z"></path>
+          <path d="M17 8h2v2h-2zM17 23h2v2h-2zM17 38h2v2h-2zM29 8h2v2h-2zM29 23h2v2h-2zM29 38h2v2h-2z"></path>
         </svg>
       </div>
     </div>
-    <div class=\\"sd-resizebox-trigger sd-resizebox-trigger-horizontal sd-resizebox-direction-bottom\\">
+    <div class="sd-resizebox-trigger sd-resizebox-trigger-horizontal sd-resizebox-direction-bottom">
       <!-- @slot 自定义内容 -->
-      <div class=\\"sd-resizebox-trigger-icon-wrapper\\">
-        <!-- @slot 自定义 icon --><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-drag-dot sd-resizebox-trigger-icon\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\">
-          <path d=\\"M40 17v2h-2v-2h2ZM25 17v2h-2v-2h2ZM10 17v2H8v-2h2ZM40 29v2h-2v-2h2ZM25 29v2h-2v-2h2ZM10 29v2H8v-2h2Z\\" fill=\\"currentColor\\" stroke=\\"none\\"></path>
-          <path d=\\"M40 17v2h-2v-2h2ZM25 17v2h-2v-2h2ZM10 17v2H8v-2h2ZM40 29v2h-2v-2h2ZM25 29v2h-2v-2h2ZM10 29v2H8v-2h2Z\\"></path>
+      <div class="sd-resizebox-trigger-icon-wrapper">
+        <!-- @slot 自定义 icon --><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-drag-dot sd-resizebox-trigger-icon" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+          <path fill="currentColor" stroke="none" d="M40 17v2h-2v-2zM25 17v2h-2v-2zM10 17v2H8v-2zM40 29v2h-2v-2zM25 29v2h-2v-2zM10 29v2H8v-2z"></path>
+          <path d="M40 17v2h-2v-2zM25 17v2h-2v-2zM10 17v2H8v-2zM40 29v2h-2v-2zM25 29v2h-2v-2zM10 29v2H8v-2z"></path>
         </svg>
       </div>
     </div>
   </div>
-</div>"
+</div>
 `;
 
-exports[`<resize-box> demo: render [controlled] correctly 1`] = `
-"<div>
-  <div class=\\"sd-resizebox\\" style=\\"min-width: 100px; max-width: 100%; text-align: center; width: 500px; height: 200px;\\">
-    <div class=\\"sd-typography\\">We are building the future of content discovery and creation.
+exports[`<resize-box> demo: > render [controlled] correctly 1`] = `
+<div>
+  <div class="sd-resizebox" style="min-width: 100px; max-width: 100%; text-align: center; width: 500px; height: 200px;">
+    <div class="sd-typography">We are building the future of content discovery and creation.
       <!---->
       <!--v-if-->
       <!--v-if-->
       <!--v-if-->
     </div>
-    <div role=\\"separator\\" class=\\"sd-divider sd-divider-horizontal\\">
+    <div role="separator" class="sd-divider sd-divider-horizontal">
       <!---->
     </div>
-    <div class=\\"sd-typography\\"> ByteDance's content platforms enable people to enjoy content powered by AI technology. We inform, entertain, and inspire people across language, culture and geography.
-      <!---->
-      <!--v-if-->
-      <!--v-if-->
-      <!--v-if-->
-    </div>
-    <div role=\\"separator\\" class=\\"sd-divider sd-divider-horizontal sd-divider-with-text\\"><span class=\\"sd-divider-text sd-divider-text-center\\">ByteDance</span></div>
-    <div class=\\"sd-typography\\">Yiming Zhang is the founder and CEO of ByteDance.
+    <div class="sd-typography"> ByteDance's content platforms enable people to enjoy content powered by AI technology. We inform, entertain, and inspire people across language, culture and geography.
       <!---->
       <!--v-if-->
       <!--v-if-->
       <!--v-if-->
     </div>
-    <div class=\\"sd-resizebox-trigger sd-resizebox-trigger-vertical sd-resizebox-direction-right\\">
+    <div role="separator" class="sd-divider sd-divider-horizontal sd-divider-with-text"><span class="sd-divider-text sd-divider-text-center">ByteDance</span></div>
+    <div class="sd-typography">Yiming Zhang is the founder and CEO of ByteDance.
+      <!---->
+      <!--v-if-->
+      <!--v-if-->
+      <!--v-if-->
+    </div>
+    <div class="sd-resizebox-trigger sd-resizebox-trigger-vertical sd-resizebox-direction-right">
       <!-- @slot 自定义内容 -->
-      <div class=\\"sd-resizebox-trigger-icon-wrapper\\">
-        <!-- @slot 自定义 icon --><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-drag-dot-vertical sd-resizebox-trigger-icon\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\">
-          <path d=\\"M17 8h2v2h-2V8ZM17 23h2v2h-2v-2ZM17 38h2v2h-2v-2ZM29 8h2v2h-2V8ZM29 23h2v2h-2v-2ZM29 38h2v2h-2v-2Z\\" fill=\\"currentColor\\" stroke=\\"none\\"></path>
-          <path d=\\"M17 8h2v2h-2V8ZM17 23h2v2h-2v-2ZM17 38h2v2h-2v-2ZM29 8h2v2h-2V8ZM29 23h2v2h-2v-2ZM29 38h2v2h-2v-2Z\\"></path>
+      <div class="sd-resizebox-trigger-icon-wrapper">
+        <!-- @slot 自定义 icon --><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-drag-dot-vertical sd-resizebox-trigger-icon" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+          <path fill="currentColor" stroke="none" d="M17 8h2v2h-2zM17 23h2v2h-2zM17 38h2v2h-2zM29 8h2v2h-2zM29 23h2v2h-2zM29 38h2v2h-2z"></path>
+          <path d="M17 8h2v2h-2zM17 23h2v2h-2zM17 38h2v2h-2zM29 8h2v2h-2zM29 23h2v2h-2zM29 38h2v2h-2z"></path>
         </svg>
       </div>
     </div>
-    <div class=\\"sd-resizebox-trigger sd-resizebox-trigger-horizontal sd-resizebox-direction-bottom\\">
+    <div class="sd-resizebox-trigger sd-resizebox-trigger-horizontal sd-resizebox-direction-bottom">
       <!-- @slot 自定义内容 -->
-      <div class=\\"sd-resizebox-trigger-icon-wrapper\\">
-        <!-- @slot 自定义 icon --><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-drag-dot sd-resizebox-trigger-icon\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\">
-          <path d=\\"M40 17v2h-2v-2h2ZM25 17v2h-2v-2h2ZM10 17v2H8v-2h2ZM40 29v2h-2v-2h2ZM25 29v2h-2v-2h2ZM10 29v2H8v-2h2Z\\" fill=\\"currentColor\\" stroke=\\"none\\"></path>
-          <path d=\\"M40 17v2h-2v-2h2ZM25 17v2h-2v-2h2ZM10 17v2H8v-2h2ZM40 29v2h-2v-2h2ZM25 29v2h-2v-2h2ZM10 29v2H8v-2h2Z\\"></path>
+      <div class="sd-resizebox-trigger-icon-wrapper">
+        <!-- @slot 自定义 icon --><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-drag-dot sd-resizebox-trigger-icon" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+          <path fill="currentColor" stroke="none" d="M40 17v2h-2v-2zM25 17v2h-2v-2zM10 17v2H8v-2zM40 29v2h-2v-2zM25 29v2h-2v-2zM10 29v2H8v-2z"></path>
+          <path d="M40 17v2h-2v-2zM25 17v2h-2v-2zM10 17v2H8v-2zM40 29v2h-2v-2zM25 29v2h-2v-2zM10 29v2H8v-2z"></path>
         </svg>
       </div>
     </div>
   </div>
-</div>"
+</div>
 `;
 
-exports[`<resize-box> demo: render [custom-triggers] correctly 1`] = `
-"<div class=\\"sd-resizebox\\" style=\\"width: 500px; min-width: 100px; max-width: 100%; height: 200px; text-align: center;\\">
-  <div class=\\"sd-typography\\">We are building the future of content discovery and creation.
+exports[`<resize-box> demo: > render [custom-triggers] correctly 1`] = `
+<div data-v-e4265f3d="" class="sd-resizebox" style="width: 500px; min-width: 100px; max-width: 100%; height: 200px; text-align: center;">
+  <div data-v-e4265f3d="" class="sd-typography">We are building the future of content discovery and creation.
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </div>
-  <div role=\\"separator\\" class=\\"sd-divider sd-divider-horizontal\\">
+  <div data-v-e4265f3d="" role="separator" class="sd-divider sd-divider-horizontal">
     <!---->
   </div>
-  <div class=\\"sd-typography\\"> ByteDance's content platforms enable people to enjoy content powered by AI technology. We inform, entertain, and inspire people across language, culture and geography.
-    <!---->
-    <!--v-if-->
-    <!--v-if-->
-    <!--v-if-->
-  </div>
-  <div role=\\"separator\\" class=\\"sd-divider sd-divider-horizontal sd-divider-with-text\\"><span class=\\"sd-divider-text sd-divider-text-center\\">ByteDance</span></div>
-  <div class=\\"sd-typography\\">Yiming Zhang is the founder and CEO of ByteDance.
+  <div data-v-e4265f3d="" class="sd-typography"> ByteDance's content platforms enable people to enjoy content powered by AI technology. We inform, entertain, and inspire people across language, culture and geography.
     <!---->
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
   </div>
-  <div class=\\"sd-resizebox-trigger sd-resizebox-trigger-vertical sd-resizebox-direction-right\\">
+  <div data-v-e4265f3d="" role="separator" class="sd-divider sd-divider-horizontal sd-divider-with-text"><span class="sd-divider-text sd-divider-text-center">ByteDance</span></div>
+  <div data-v-e4265f3d="" class="sd-typography">Yiming Zhang is the founder and CEO of ByteDance.
+    <!---->
+    <!--v-if-->
+    <!--v-if-->
+    <!--v-if-->
+  </div>
+  <div class="sd-resizebox-trigger sd-resizebox-trigger-vertical sd-resizebox-direction-right">
     <!-- @slot 自定义内容 -->
-    <div class=\\"resizebox-demo resizebox-demo-vertical\\">
-      <div class=\\"resizebox-demo-line\\"></div>
+    <div data-v-e4265f3d="" class="resizebox-demo resizebox-demo-vertical">
+      <div data-v-e4265f3d="" class="resizebox-demo-line"></div>
     </div>
   </div>
-  <div class=\\"sd-resizebox-trigger sd-resizebox-trigger-horizontal sd-resizebox-direction-bottom\\">
+  <div class="sd-resizebox-trigger sd-resizebox-trigger-horizontal sd-resizebox-direction-bottom">
     <!-- @slot 自定义内容 -->
-    <div class=\\"resizebox-demo resizebox-demo-horizontal\\">
-      <div class=\\"resizebox-demo-line\\"></div>
+    <div data-v-e4265f3d="" class="resizebox-demo resizebox-demo-horizontal">
+      <div data-v-e4265f3d="" class="resizebox-demo-line"></div>
     </div>
   </div>
-</div>"
+</div>
 `;
 
-exports[`<resize-box> demo: render [layout] correctly 1`] = `
-"<div class=\\"layout-demo\\">
-  <section class=\\"sd-layout\\">
-    <header class=\\"sd-layout-header\\">Header</header>
-    <section class=\\"sd-layout\\">
-      <div class=\\"sd-resizebox sd-layout-sider sd-layout-sider-light\\" style=\\"width: 200px;\\">
-        <div class=\\"sd-layout-sider-children\\"> Sider </div>
+exports[`<resize-box> demo: > render [layout] correctly 1`] = `
+<div data-v-0162ad4b="" class="layout-demo">
+  <section data-v-0162ad4b="" class="sd-layout">
+    <header data-v-0162ad4b="" class="sd-layout-header">Header</header>
+    <section data-v-0162ad4b="" class="sd-layout">
+      <div data-v-0162ad4b="" class="sd-resizebox sd-layout-sider sd-layout-sider-light" style="width: 200px;">
+        <div class="sd-layout-sider-children"> Sider </div>
         <!--v-if-->
-        <div class=\\"sd-resizebox-trigger sd-resizebox-trigger-vertical sd-resizebox-direction-right\\">
+        <div class="sd-resizebox-trigger sd-resizebox-trigger-vertical sd-resizebox-direction-right">
           <!-- @slot 自定义内容 -->
-          <div class=\\"sd-resizebox-trigger-icon-wrapper\\">
-            <!-- @slot 自定义 icon --><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-drag-dot-vertical sd-resizebox-trigger-icon\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\">
-              <path d=\\"M17 8h2v2h-2V8ZM17 23h2v2h-2v-2ZM17 38h2v2h-2v-2ZM29 8h2v2h-2V8ZM29 23h2v2h-2v-2ZM29 38h2v2h-2v-2Z\\" fill=\\"currentColor\\" stroke=\\"none\\"></path>
-              <path d=\\"M17 8h2v2h-2V8ZM17 23h2v2h-2v-2ZM17 38h2v2h-2v-2ZM29 8h2v2h-2V8ZM29 23h2v2h-2v-2ZM29 38h2v2h-2v-2Z\\"></path>
+          <div class="sd-resizebox-trigger-icon-wrapper">
+            <!-- @slot 自定义 icon --><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-drag-dot-vertical sd-resizebox-trigger-icon" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+              <path fill="currentColor" stroke="none" d="M17 8h2v2h-2zM17 23h2v2h-2zM17 38h2v2h-2zM29 8h2v2h-2zM29 23h2v2h-2zM29 38h2v2h-2z"></path>
+              <path d="M17 8h2v2h-2zM17 23h2v2h-2zM17 38h2v2h-2zM29 8h2v2h-2zM29 23h2v2h-2zM29 38h2v2h-2z"></path>
             </svg>
           </div>
         </div>
       </div>
-      <main class=\\"sd-layout-content\\">Content</main>
+      <main data-v-0162ad4b="" class="sd-layout-content">Content</main>
     </section>
-    <footer class=\\"sd-layout-footer\\">Footer</footer>
+    <footer data-v-0162ad4b="" class="sd-layout-footer">Footer</footer>
   </section>
-</div>"
+</div>
 `;

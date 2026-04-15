@@ -1,3 +1,5 @@
+/// <reference types="vitest/globals" />
+
 import type { NativeElements, ReservedProps, VNode } from '@vue/runtime-dom';
 
 declare module '*.vue' {
@@ -30,4 +32,12 @@ declare module '*.less' {
   export default content;
 }
 
+declare module '*.md' {
+  import type { DefineComponent } from 'vue';
+  const component: DefineComponent<Record<string, never>, Record<string, never>, any>;
+  export default component;
+}
+
 declare module 'b-tween';
+declare module 'clean-css';
+declare module 'less';

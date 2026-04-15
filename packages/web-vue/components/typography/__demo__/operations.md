@@ -18,12 +18,12 @@ Provide functions such as copying and editing text.
 
 ```vue
 <template>
-  <a-typography>
-    <a-typography-paragraph copyable> Click the icon to copy this text. </a-typography-paragraph>
-    <a-typography-paragraph editable v-model:editText="str">
+  <sd-typography>
+    <sd-typography-paragraph copyable> Click the icon to copy this text. </sd-typography-paragraph>
+    <sd-typography-paragraph editable v-model:editText="str">
       {{ str }}
-    </a-typography-paragraph>
-  </a-typography>
+    </sd-typography-paragraph>
+  </sd-typography>
 </template>
 <script>
   import { defineComponent, ref } from 'vue';

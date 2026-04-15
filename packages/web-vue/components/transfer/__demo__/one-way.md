@@ -18,7 +18,7 @@ By setting `one-way`, the shuttle frame in one-way mode is used.
 
 ```vue
 <template>
-  <a-transfer :data="data" :default-value="value" one-way />
+  <sd-transfer :data="data" :default-value="value" one-way />
 </template>
 
 <script>

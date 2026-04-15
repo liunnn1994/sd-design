@@ -18,7 +18,7 @@ The loading function of sub-slacks can be turned on through the `load-more` prop
 
 ```vue
 <template>
-  <a-table :columns="columns" :data="data" :load-more="loadMore" />
+  <sd-table :columns="columns" :data="data" :load-more="loadMore" />
 </template>
 
 <script>

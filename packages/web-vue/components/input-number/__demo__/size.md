@@ -18,20 +18,20 @@ Setting `size` can use four sizes (`mini`, `small`, `medium`, `large`) number in
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large">
-    <a-input-number
+  <sd-space direction="vertical" size="large">
+    <sd-input-number
       :style="{ width: '320px' }"
       placeholder="Please Enter"
       size="large"
       class="input-demo"
     />
-    <a-input-number
+    <sd-input-number
       :style="{ width: '320px' }"
       placeholder="Please Enter"
       mode="button"
       size="large"
       class="input-demo"
     />
-  </a-space>
+  </sd-space>
 </template>
 ```

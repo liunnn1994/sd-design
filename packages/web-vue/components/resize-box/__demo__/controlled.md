@@ -19,25 +19,25 @@ Both `width` and `height` of `ResizeBox` support `v-model`..
 ```vue
 <template>
   <div>
-    <a-resize-box
+    <sd-resize-box
       :directions="['right', 'bottom']"
       :style="{ minWidth: '100px', maxWidth: '100%', textAlign: 'center' }"
       v-model:width="width"
       v-model:height="height"
     >
-      <a-typography-paragraph
-        >We are building the future of content discovery and creation.</a-typography-paragraph
+      <sd-typography-paragraph
+        >We are building the future of content discovery and creation.</sd-typography-paragraph
       >
-      <a-divider />
-      <a-typography-paragraph>
+      <sd-divider />
+      <sd-typography-paragraph>
         ByteDance's content platforms enable people to enjoy content powered by AI technology. We
         inform, entertain, and inspire people across language, culture and geography.
-      </a-typography-paragraph>
-      <a-divider>ByteDance</a-divider>
-      <a-typography-paragraph
-        >Yiming Zhang is the founder and CEO of ByteDance.</a-typography-paragraph
+      </sd-typography-paragraph>
+      <sd-divider>ByteDance</sd-divider>
+      <sd-typography-paragraph
+        >Yiming Zhang is the founder and CEO of ByteDance.</sd-typography-paragraph
       >
-    </a-resize-box>
+    </sd-resize-box>
   </div>
 </template>
 

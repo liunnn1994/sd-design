@@ -18,12 +18,12 @@ Show how to realize the linkage selection box.
 
 ```vue
 <template>
-  <a-space>
-    <a-select :style="{ width: '200px' }" v-model="province">
-      <a-option v-for="value of Object.keys(data)">{{ value }}</a-option>
-    </a-select>
-    <a-select :style="{ width: '200px' }" :options="data[province] || []" v-model="city" />
-  </a-space>
+  <sd-space>
+    <sd-select :style="{ width: '200px' }" v-model="province">
+      <sd-option v-for="value of Object.keys(data)">{{ value }}</sd-option>
+    </sd-select>
+    <sd-select :style="{ width: '200px' }" :options="data[province] || []" v-model="city" />
+  </sd-space>
 </template>
 
 <script>

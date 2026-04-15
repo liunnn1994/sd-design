@@ -19,7 +19,7 @@ describe('Modal', () => {
 
     await nextTick();
     expect(wrapper.html()).toMatchSnapshot();
-    const buttons = wrapper.findAll('button');
+    const buttons = wrapper.findAll('.sd-btn');
     await buttons[0].trigger('click');
     expect(wrapper.emitted('cancel')).toHaveLength(1);
     await buttons[1].trigger('click');
@@ -27,31 +27,36 @@ describe('Modal', () => {
   });
 
   test('should show modal and call cb', async () => {
-    const onOk = jest.fn();
-    const onCancel = jest.fn();
+    const onOk = vi.fn();
+    const onCancel = vi.fn();
 
     const wrapper = mount({
       template: `
         <button @click="handleClick">Click</button>`,
       methods: {
         handleClick() {
-          Modal.open({
-            title: 'title',
-            content: 'content',
-            onOk,
-            onCancel,
-          });
+          Modal.open(
+            {
+              title: 'title',
+              content: 'content',
+              onOk,
+              onCancel,
+            },
+            this.$.appContext,
+          );
         },
       },
     });
 
     await wrapper.find('button').trigger('click');
     expect(document.body.outerHTML).toMatchSnapshot();
-    const buttons = document.querySelectorAll('button');
-    await buttons[0]?.click();
-    expect(onCancel).toBeCalled();
-    await buttons[1]?.click();
-    expect(onOk).toBeCalled();
+    const buttons = document.body.querySelectorAll('.sd-btn');
+    (buttons[0] as HTMLButtonElement | undefined)?.click();
+    await nextTick();
+    expect(onCancel).toHaveBeenCalled();
+    (buttons[1] as HTMLButtonElement | undefined)?.click();
+    await nextTick();
+    expect(onOk).toHaveBeenCalled();
   });
 
   test('should render simple modal', async () => {

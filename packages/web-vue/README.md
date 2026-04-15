@@ -36,29 +36,36 @@
 [npm package](https://www.npmjs.com/package/@sdata/web-vue)
 
 ```bash
-// npm
+# pnpm
+pnpm add @sdata/web-vue
+
+# npm
 npm install @sdata/web-vue
 
-// yarn
+# yarn
 yarn add @sdata/web-vue
 ```
 
 # 例子
 
 ```typescript
-import { createApp } from 'vue';
-import SDVue from '@sdata/web-vue';
-import App from './App.vue';
-import '@sdata/web-vue/dist/sd.css';
+import { createApp } from "vue";
+import SDVue from "@sdata/web-vue";
+import App from "./App.vue";
+import "@sdata/web-vue/dist/sd.css";
 
 const app = createApp(App);
 app.use(SDVue);
-app.mount('#app');
+app.mount("#app");
 ```
+
+默认组件前缀为 `sd-`，例如 `<sd-button />`、`<sd-form />`。如果需要自定义前缀，可以在 `app.use(SDVue, { componentPrefix: 'YourPrefix' })` 中覆盖。
 
 ## 开发
 
-当前仓库使用 pnpm workspace 管理，多包联调建议在仓库根目录执行：
+仓库开发强制使用 pnpm workspace。不要在仓库根目录使用 npm 或 yarn 安装、联调或执行脚本。
+
+推荐在仓库根目录执行：
 
 ```bash
 pnpm install
@@ -106,11 +113,15 @@ pnpm run test:ci
 pnpm run release:check
 ```
 
+`pnpm run dev`、`pnpm run build`、`pnpm run test` 会调用当前仓库已经切换完成的 Vite+ 和 Vitest 工作流。
+
 如果只想在组件包内执行命令，也可以直接运行：
 
 ```bash
-pnpm --filter @sdata/web-vue run start
+pnpm --filter @sdata/web-vue run dev
 pnpm --filter @sdata/web-vue run build
+pnpm --filter @sdata/web-vue run test
+pnpm --filter @sdata/web-vue run test:update
 ```
 
 # 相关链接

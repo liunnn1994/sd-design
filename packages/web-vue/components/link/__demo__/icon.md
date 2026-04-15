@@ -19,26 +19,26 @@ Customize icon node. If true, the default icon will be displayed.
 ```vue
 <template>
   <div>
-    <a-space>
-      <a-link href="link" icon>Link</a-link>
-      <a-link href="link" disabled icon>Link</a-link>
-    </a-space>
+    <sd-space>
+      <sd-link href="link" icon>Link</sd-link>
+      <sd-link href="link" disabled icon>Link</sd-link>
+    </sd-space>
   </div>
   <div>
-    <a-space>
-      <a-link href="link">
+    <sd-space>
+      <sd-link href="link">
         <template #icon>
           <icon-edit />
         </template>
         Link
-      </a-link>
-      <a-link href="link" disabled>
+      </sd-link>
+      <sd-link href="link" disabled>
         <template #icon>
           <icon-edit />
         </template>
         Link
-      </a-link>
-    </a-space>
+      </sd-link>
+    </sd-space>
   </div>
 </template>
 

@@ -19,11 +19,11 @@ The `span`, `offset`, and `order` properties can be embedded in `xs`, `sm`, `md`
 ```vue
 <template>
   <div>
-    <a-row class="grid-demo">
-      <a-col :xs="{ span: 5, offset: 1 }" :lg="{ span: 6, offset: 2 }"> Col </a-col>
-      <a-col :xs="{ span: 11, offset: 1 }" :lg="{ span: 6, offset: 2 }"> Col </a-col>
-      <a-col :xs="{ span: 5, offset: 1 }" :lg="{ span: 6, offset: 2 }"> Col </a-col>
-    </a-row>
+    <sd-row class="grid-demo">
+      <sd-col :xs="{ span: 5, offset: 1 }" :lg="{ span: 6, offset: 2 }"> Col </sd-col>
+      <sd-col :xs="{ span: 11, offset: 1 }" :lg="{ span: 6, offset: 2 }"> Col </sd-col>
+      <sd-col :xs="{ span: 5, offset: 1 }" :lg="{ span: 6, offset: 2 }"> Col </sd-col>
+    </sd-row>
   </div>
 </template>
 

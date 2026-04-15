@@ -20,14 +20,14 @@ Monitor the scrolling of the container by setting `update-at-scroll`.
 <template>
   <div :style="{ height: '100px', overflowY: 'scroll' }">
     <div :style="{ height: '200px' }">
-      <a-trigger trigger="click" update-at-scroll>
-        <a-button :style="{ marginTop: '80px' }">Click Me</a-button>
+      <sd-trigger trigger="click" update-at-scroll>
+        <sd-button :style="{ marginTop: '80px' }">Click Me</sd-button>
         <template #content>
           <div class="demo-basic">
-            <a-empty />
+            <sd-empty />
           </div>
         </template>
-      </a-trigger>
+      </sd-trigger>
     </div>
   </div>
 </template>

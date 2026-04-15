@@ -18,7 +18,7 @@ Give each node a globally unique `key` (required), and the `title` is the conten
 
 ```vue
 <template>
-  <a-tree
+  <sd-tree
     :data="treeData"
     :default-expanded-keys="['0-0-0']"
     :default-selected-keys="['0-0-0', '0-0-1']"

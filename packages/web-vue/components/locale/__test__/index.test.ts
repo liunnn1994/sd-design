@@ -1,7 +1,6 @@
-import glob from 'glob';
-import path from 'path';
-
 import zhCN from '../lang/zh-cn';
+
+const languageModules = import.meta.glob('../lang/*.ts');
 
 function hasEqualStructure(obj1: Record<string, unknown>, obj2: Record<string, unknown>) {
   return Object.keys(obj1).every((key) => {
@@ -34,14 +33,13 @@ expect.extend({
 
 describe('Locale', () => {
   test('should have same object', async () => {
-    const languages = glob.sync('*.ts', {
-      cwd: path.resolve(__dirname, '../lang'),
-      ignore: 'zh-cn.ts',
-    });
+    const languages = Object.entries(languageModules).filter(
+      ([filename]) => !filename.endsWith('/zh-cn.ts'),
+    );
 
-    for (const item of languages) {
+    for (const [item, loadLanguage] of languages) {
       // eslint-disable-next-line no-await-in-loop
-      const lang = await import(`../lang/${item}`);
+      const lang = await loadLanguage();
       expect(lang.default).toMatchStructure(zhCN);
     }
   });

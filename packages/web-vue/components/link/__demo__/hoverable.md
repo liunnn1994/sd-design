@@ -18,9 +18,9 @@ You can use the hoverable property to set whether to hide the background color o
 
 ```vue
 <template>
-  <a-space>
-    <a-link href="link" :hoverable="false">Link</a-link>
-    <a-link href="link" status="danger" :hoverable="false">Link</a-link>
-  </a-space>
+  <sd-space>
+    <sd-link href="link" :hoverable="false">Link</sd-link>
+    <sd-link href="link" status="danger" :hoverable="false">Link</sd-link>
+  </sd-space>
 </template>
 ```

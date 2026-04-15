@@ -21,10 +21,10 @@ async function getPreviewInstance() {
 
 describe('Image', () => {
   beforeAll(() => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
   });
   afterAll(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   test('Render image with error src', async () => {
@@ -74,11 +74,11 @@ describe('Image', () => {
     const map: any = {};
     const _addEventListener = window.addEventListener;
     Object.defineProperty(window, 'addEventListener', {
-      value: jest.fn().mockImplementation((event, cb) => {
+      value: vi.fn().mockImplementation((event, cb) => {
         map[event] = cb;
       }),
     });
-    window.removeEventListener = jest.fn().mockImplementation((event) => {
+    window.removeEventListener = vi.fn().mockImplementation((event) => {
       delete map[event];
     });
     const wrapper = await getPreviewInstance();

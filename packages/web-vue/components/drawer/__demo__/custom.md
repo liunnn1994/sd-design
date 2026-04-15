@@ -18,11 +18,11 @@ Customize the content by slot, or set the appropriate properties to control whet
 
 ```vue
 <template>
-  <a-checkbox-group v-model="custom" :options="['hide header', 'hide footer', 'hide cancel']" />
+  <sd-checkbox-group v-model="custom" :options="['hide header', 'hide footer', 'hide cancel']" />
   <div :style="{ marginTop: '20px' }">
-    <a-button type="primary" @click="handleClick">Open Drawer</a-button>
+    <sd-button type="primary" @click="handleClick">Open Drawer</sd-button>
   </div>
-  <a-drawer
+  <sd-drawer
     :width="340"
     :header="!custom.includes('hide header')"
     :footer="!custom.includes('hide footer')"
@@ -39,7 +39,7 @@ Customize the content by slot, or set the appropriate properties to control whet
       You can customize modal body text by the current situation. This modal will be closed
       immediately once you press the OK button.
     </div>
-  </a-drawer>
+  </sd-drawer>
 </template>
 
 <script>

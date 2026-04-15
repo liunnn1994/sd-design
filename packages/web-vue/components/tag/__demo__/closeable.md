@@ -18,14 +18,14 @@ Use the `closable` attribute to control whether the label can be closed. Closabl
 
 ```vue
 <template>
-  <a-space>
-    <a-tag closable>Tag</a-tag>
-    <a-tag closable>
+  <sd-space>
+    <sd-tag closable>Tag</sd-tag>
+    <sd-tag closable>
       <template #icon>
         <icon-star />
       </template>
       Tag
-    </a-tag>
-  </a-space>
+    </sd-tag>
+  </sd-space>
 </template>
 ```

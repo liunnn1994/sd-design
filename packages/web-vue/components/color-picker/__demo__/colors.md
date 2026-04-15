@@ -18,7 +18,7 @@ The preset color and history color areas can be opened through `showPreset` and 
 
 ```vue
 <template>
-  <a-color-picker
+  <sd-color-picker
     defaultValue="#165DFF"
     :historyColors="history"
     showHistory

@@ -19,17 +19,17 @@ Limit the maximum height of the list by setting the `max-height` property. Throu
 ```vue
 <template>
   <div style="margin-bottom: 10px">
-    <a-switch v-model="scrollbar" />
+    <sd-switch v-model="scrollbar" />
     Virtual Scrollbar
   </div>
-  <a-list :max-height="240" @reach-bottom="fetchData" :scrollbar="scrollbar">
+  <sd-list :max-height="240" @reach-bottom="fetchData" :scrollbar="scrollbar">
     <template #header> List title </template>
     <template #scroll-loading>
       <div v-if="bottom">No more data</div>
-      <a-spin v-else />
+      <sd-spin v-else />
     </template>
-    <a-list-item v-for="item of data">{{ item }}</a-list-item>
-  </a-list>
+    <sd-list-item v-for="item of data">{{ item }}</sd-list-item>
+  </sd-list>
 </template>
 
 <script>

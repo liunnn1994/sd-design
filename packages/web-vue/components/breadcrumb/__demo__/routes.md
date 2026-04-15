@@ -6,7 +6,7 @@ title:
 
 ## zh-CN
 
-通过 `routes` 来传递面包屑数据。若是要自定义面包屑的话，建议使用 `<a-breadcrumb-item />` 组件。默认使用 `a` 标签的 `href` 属性绑定路径，可通过 `item` 插槽自定义渲染。
+通过 `routes` 来传递面包屑数据。若是要自定义面包屑的话，建议使用 `<sd-breadcrumb-item />` 组件。默认使用 `a` 标签的 `href` 属性绑定路径，可通过 `item` 插槽自定义渲染。
 
 ---
 
@@ -18,16 +18,16 @@ Transfer breadcrumb data through `routes`. If you want to customize bread crumbs
 
 ```vue
 <template>
-  <a-space direction="vertical">
-    <a-breadcrumb :routes="routes" />
-    <a-breadcrumb :routes="routes">
+  <sd-space direction="vertical">
+    <sd-breadcrumb :routes="routes" />
+    <sd-breadcrumb :routes="routes">
       <template #item-render="{ route, paths }">
-        <a-link :href="paths.join('/')">
+        <sd-link :href="paths.join('/')">
           {{ route.label }}
-        </a-link>
+        </sd-link>
       </template>
-    </a-breadcrumb>
-  </a-space>
+    </sd-breadcrumb>
+  </sd-space>
 </template>
 
 <script>

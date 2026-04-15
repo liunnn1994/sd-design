@@ -19,7 +19,7 @@ By setting `mode` to `popButton`, you can use a button group style floating menu
 ```vue
 <template>
   <div class="menu-demo">
-    <a-trigger
+    <sd-trigger
       :trigger="['click', 'hover']"
       clickToClose
       position="top"
@@ -30,25 +30,25 @@ By setting `mode` to `popButton`, you can use a button group style floating menu
         <IconMessage v-else />
       </div>
       <template #content>
-        <a-menu
+        <sd-menu
           :style="{ marginBottom: '-4px' }"
           mode="popButton"
           :tooltipProps="{ position: 'left' }"
           showCollapseButton
         >
-          <a-menu-item key="1">
+          <sd-menu-item key="1">
             <template #icon><IconBug></IconBug></template>
             Bugs
-          </a-menu-item>
-          <a-menu-item key="2">
+          </sd-menu-item>
+          <sd-menu-item key="2">
             <template #icon><IconBulb></IconBulb></template>
             Ideas
-          </a-menu-item>
-        </a-menu>
+          </sd-menu-item>
+        </sd-menu>
       </template>
-    </a-trigger>
+    </sd-trigger>
 
-    <a-trigger
+    <sd-trigger
       :trigger="['click', 'hover']"
       clickToClose
       position="top"
@@ -59,23 +59,23 @@ By setting `mode` to `popButton`, you can use a button group style floating menu
         <IconMessage v-else />
       </div>
       <template #content>
-        <a-menu
+        <sd-menu
           :style="{ marginBottom: '-4px' }"
           mode="popButton"
           :tooltipProps="{ position: 'left' }"
           showCollapseButton
         >
-          <a-menu-item key="1">
+          <sd-menu-item key="1">
             <template #icon><IconBug></IconBug></template>
             Bugs
-          </a-menu-item>
-          <a-menu-item key="2">
+          </sd-menu-item>
+          <sd-menu-item key="2">
             <template #icon><IconBulb></IconBulb></template>
             Ideas
-          </a-menu-item>
-        </a-menu>
+          </sd-menu-item>
+        </sd-menu>
       </template>
-    </a-trigger>
+    </sd-trigger>
   </div>
 </template>
 <script>

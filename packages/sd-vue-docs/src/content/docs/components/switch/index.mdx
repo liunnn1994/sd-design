@@ -5,34 +5,34 @@ description: 互斥性的操作控件，用户可打开或关闭某个功能。
 
 import DemoBlock from '../../../../components/docs/DemoBlock.astro';
 import SwitchBasicDemo from '../../../../components/generated/switch/basic.vue';
-export const switchBasicSource = '<template>\n  <a-switch />\n</template>';
+export const switchBasicSource = '<template>\n  <sd-switch />\n</template>';
 import SwitchChangeInterceptDemo from '../../../../components/generated/switch/change-intercept.vue';
 export const switchChangeInterceptSource =
-  '<template>\n  <a-space size="large">\n    <a-switch :beforeChange="handleChangeIntercept" />\n    <a-switch type="round" :beforeChange="handleChangeIntercept2" />\n    <a-switch type="line" :beforeChange="handleChangeIntercept3" />\n  </a-space>\n</template>\n\n<script>\n  import { Message } from \'@sdata/web-vue\';\n\n  export default {\n    setup() {\n      const handleChangeIntercept = async (newValue) => {\n        await new Promise((resolve) => setTimeout(resolve, 1000));\n        return true;\n      };\n\n      const handleChangeIntercept2 = async (newValue) => {\n        await new Promise((resolve) => setTimeout(resolve, 500));\n        if (!newValue) {\n          Message.error("OH, You can\'t change");\n          return false;\n        }\n        return true;\n      };\n\n      const handleChangeIntercept3 = async (newValue) => {\n        await new Promise((_, reject) =>\n          setTimeout(() => {\n            Message.error(\'OH, Something went wrong\');\n            reject();\n          }, 1000),\n        );\n        return true;\n      };\n\n      return {\n        handleChangeIntercept,\n        handleChangeIntercept2,\n        handleChangeIntercept3,\n      };\n    },\n  };\n</script>';
+  '<template>\n  <sd-space size="large">\n    <sd-switch :beforeChange="handleChangeIntercept" />\n    <sd-switch type="round" :beforeChange="handleChangeIntercept2" />\n    <sd-switch type="line" :beforeChange="handleChangeIntercept3" />\n  </sd-space>\n</template>\n\n<script>\n  import { Message } from \'@sdata/web-vue\';\n\n  export default {\n    setup() {\n      const handleChangeIntercept = async (newValue) => {\n        await new Promise((resolve) => setTimeout(resolve, 1000));\n        return true;\n      };\n\n      const handleChangeIntercept2 = async (newValue) => {\n        await new Promise((resolve) => setTimeout(resolve, 500));\n        if (!newValue) {\n          Message.error("OH, You can\'t change");\n          return false;\n        }\n        return true;\n      };\n\n      const handleChangeIntercept3 = async (newValue) => {\n        await new Promise((_, reject) =>\n          setTimeout(() => {\n            Message.error(\'OH, Something went wrong\');\n            reject();\n          }, 1000),\n        );\n        return true;\n      };\n\n      return {\n        handleChangeIntercept,\n        handleChangeIntercept2,\n        handleChangeIntercept3,\n      };\n    },\n  };\n</script>';
 import SwitchColorDemo from '../../../../components/generated/switch/color.vue';
 export const switchColorSource =
-  '<template>\n  <a-switch checked-color="#F53F3F" unchecked-color="#14C9C9" />\n</template>';
+  '<template>\n  <sd-switch checked-color="#F53F3F" unchecked-color="#14C9C9" />\n</template>';
 import SwitchDisabledDemo from '../../../../components/generated/switch/disabled.vue';
 export const switchDisabledSource =
-  '<template>\n  <a-space size="large">\n    <a-switch disabled />\n    <a-switch :default-checked="true" disabled />\n    <a-switch type="round" disabled />\n    <a-switch :default-checked="true" type="round" disabled />\n    <a-switch type="line" disabled />\n    <a-switch :default-checked="true" type="line" disabled />\n  </a-space>\n</template>';
+  '<template>\n  <sd-space size="large">\n    <sd-switch disabled />\n    <sd-switch :default-checked="true" disabled />\n    <sd-switch type="round" disabled />\n    <sd-switch :default-checked="true" type="round" disabled />\n    <sd-switch type="line" disabled />\n    <sd-switch :default-checked="true" type="line" disabled />\n  </sd-space>\n</template>';
 import SwitchIconDemo from '../../../../components/generated/switch/icon.vue';
 export const switchIconSource =
-  '<template>\n  <a-space size="large">\n    <a-switch>\n      <template #checked-icon>\n        <icon-check />\n      </template>\n      <template #unchecked-icon>\n        <icon-close />\n      </template>\n    </a-switch>\n    <a-switch type="round">\n      <template #checked-icon>\n        <icon-check />\n      </template>\n      <template #unchecked-icon>\n        <icon-close />\n      </template>\n    </a-switch>\n    <a-switch type="line">\n      <template #checked-icon>\n        <icon-check />\n      </template>\n      <template #unchecked-icon>\n        <icon-close />\n      </template>\n    </a-switch>\n  </a-space>\n</template>';
+  '<template>\n  <sd-space size="large">\n    <sd-switch>\n      <template #checked-icon>\n        <icon-check />\n      </template>\n      <template #unchecked-icon>\n        <icon-close />\n      </template>\n    </sd-switch>\n    <sd-switch type="round">\n      <template #checked-icon>\n        <icon-check />\n      </template>\n      <template #unchecked-icon>\n        <icon-close />\n      </template>\n    </sd-switch>\n    <sd-switch type="line">\n      <template #checked-icon>\n        <icon-check />\n      </template>\n      <template #unchecked-icon>\n        <icon-close />\n      </template>\n    </sd-switch>\n  </sd-space>\n</template>';
 import SwitchLoadingDemo from '../../../../components/generated/switch/loading.vue';
 export const switchLoadingSource =
-  '<template>\n  <a-space size="large">\n    <a-switch loading />\n    <a-switch type="round" loading />\n    <a-switch type="line" loading />\n  </a-space>\n</template>';
+  '<template>\n  <sd-space size="large">\n    <sd-switch loading />\n    <sd-switch type="round" loading />\n    <sd-switch type="line" loading />\n  </sd-space>\n</template>';
 import SwitchSizeDemo from '../../../../components/generated/switch/size.vue';
 export const switchSizeSource =
-  '<template>\n  <a-space size="large">\n    <a-switch />\n    <a-switch size="small" />\n  </a-space>\n</template>';
+  '<template>\n  <sd-space size="large">\n    <sd-switch />\n    <sd-switch size="small" />\n  </sd-space>\n</template>';
 import SwitchTextDemo from '../../../../components/generated/switch/text.vue';
 export const switchTextSource =
-  '<template>\n  <a-space size="large">\n    <a-switch>\n      <template #checked> ON </template>\n      <template #unchecked> OFF </template>\n    </a-switch>\n    <a-switch type="round">\n      <template #checked> ON </template>\n      <template #unchecked> OFF </template>\n    </a-switch>\n  </a-space>\n</template>';
+  '<template>\n  <sd-space size="large">\n    <sd-switch>\n      <template #checked> ON </template>\n      <template #unchecked> OFF </template>\n    </sd-switch>\n    <sd-switch type="round">\n      <template #checked> ON </template>\n      <template #unchecked> OFF </template>\n    </sd-switch>\n  </sd-space>\n</template>';
 import SwitchTypeDemo from '../../../../components/generated/switch/type.vue';
 export const switchTypeSource =
-  '<template>\n  <a-space size="large">\n    <a-switch />\n    <a-switch type="round" />\n    <a-switch type="line" />\n  </a-space>\n</template>';
+  '<template>\n  <sd-space size="large">\n    <sd-switch />\n    <sd-switch type="round" />\n    <sd-switch type="line" />\n  </sd-space>\n</template>';
 import SwitchValueDemo from '../../../../components/generated/switch/value.vue';
 export const switchValueSource =
-  '<template>\n  <a-space direction="vertical" size="large">\n    <a-switch v-model="value" checked-value="yes" unchecked-value="no" />\n    <div>Current Value: {{ value }}</div>\n  </a-space>\n</template>\n\n<script>\n  import { ref } from \'vue\';\n\n  export default {\n    setup() {\n      const value = ref(\'\');\n\n      return {\n        value,\n      };\n    },\n  };\n</script>';
+  '<template>\n  <sd-space direction="vertical" size="large">\n    <sd-switch v-model="value" checked-value="yes" unchecked-value="no" />\n    <div>Current Value: {{ value }}</div>\n  </sd-space>\n</template>\n\n<script>\n  import { ref } from \'vue\';\n\n  export default {\n    setup() {\n      const value = ref(\'\');\n\n      return {\n        value,\n      };\n    },\n  };\n</script>';
 
 ### 基本用法
 

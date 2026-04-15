@@ -18,7 +18,7 @@ By setting `:editable="true"`, you can turn on the dynamic increase and decrease
 
 ```vue
 <template>
-  <a-tabs
+  <sd-tabs
     type="card-gutter"
     :editable="true"
     @add="handleAdd"
@@ -26,15 +26,15 @@ By setting `:editable="true"`, you can turn on the dynamic increase and decrease
     show-add-button
     auto-switch
   >
-    <a-tab-pane
+    <sd-tab-pane
       v-for="(item, index) of data"
       :key="item.key"
       :title="item.title"
       :closable="index !== 2"
     >
       {{ item?.content }}
-    </a-tab-pane>
-  </a-tabs>
+    </sd-tab-pane>
+  </sd-tabs>
 </template>
 
 <script>

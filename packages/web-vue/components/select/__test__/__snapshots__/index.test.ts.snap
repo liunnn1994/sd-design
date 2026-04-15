@@ -1,3 +1,24 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Select show dropdown correctly 1`] = `"<body><div class=\\"sd-trigger-popup sd-trigger-position-bl\\" style=\\"z-index: 1001; pointer-events: auto; left: 0px; top: 4px; width: 0px;\\" trigger-placement=\\"bl\\"><transition-stub name=\\"slide-dynamic-origin\\" appear=\\"true\\" persisted=\\"false\\" css=\\"true\\"><div class=\\"sd-trigger-popup-wrapper\\" style=\\"transform-origin: 0 0;\\"><div class=\\"sd-trigger-content\\"><div class=\\"sd-select-dropdown\\"><!--v-if--><!--v-if--><!--v-if--><div class=\\"sd-scrollbar sd-scrollbar-type-embed\\"><div class=\\"sd-scrollbar-container sd-select-dropdown-list-wrapper\\"><ul class=\\"sd-select-dropdown-list\\"><li class=\\"sd-select-option sd-select-option-active\\"><!--v-if--><span class=\\"sd-select-option-content\\">Beijing</span><!--v-if--></li><li class=\\"sd-select-option\\"><!--v-if--><span class=\\"sd-select-option-content\\">Shanghai</span><!--v-if--></li><li class=\\"sd-select-option\\"><!--v-if--><span class=\\"sd-select-option-content\\">Guangzhou</span><!--v-if--></li><li class=\\"sd-select-option\\"><!--v-if--><span class=\\"sd-select-option-content\\">Chengdu</span><!--v-if--></li></ul></div><!--v-if--><!--v-if--></div><!--v-if--></div></div><!----></div></transition-stub></div></body>"`;
+exports[`Select > show dropdown correctly 1`] = `
+<body>
+  <div class="sd-trigger-popup sd-trigger-position-bl" style="z-index: 1001; pointer-events: auto; left: 0px; top: 4px; width: 0px;" trigger-placement="bl"><transition-stub name="slide-dynamic-origin" appear="true" persisted="false" css="true">
+      <div class="sd-trigger-popup-wrapper" style="transform-origin: 0 0;">
+        <div class="sd-trigger-content">
+          <div class="sd-select-dropdown"><!--v-if--><!--v-if--><!--v-if-->
+            <div class="sd-scrollbar sd-scrollbar-type-embed">
+              <div class="sd-scrollbar-container sd-select-dropdown-list-wrapper">
+                <ul class="sd-select-dropdown-list">
+                  <li class="sd-select-option sd-select-option-active"><!--v-if--><span class="sd-select-option-content">Beijing</span><!--v-if--></li>
+                  <li class="sd-select-option"><!--v-if--><span class="sd-select-option-content">Shanghai</span><!--v-if--></li>
+                  <li class="sd-select-option"><!--v-if--><span class="sd-select-option-content">Guangzhou</span><!--v-if--></li>
+                  <li class="sd-select-option"><!--v-if--><span class="sd-select-option-content">Chengdu</span><!--v-if--></li>
+                </ul>
+              </div><!--v-if--><!--v-if-->
+            </div><!--v-if-->
+          </div>
+        </div><!---->
+      </div>
+    </transition-stub></div>
+</body>
+`;

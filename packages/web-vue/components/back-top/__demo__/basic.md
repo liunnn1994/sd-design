@@ -22,7 +22,7 @@ When the container is scrolled to a certain height, a button to return to the to
     <ul id="basic-demo">
       <li v-for="(_, index) of Array(40)" :key="index">This is the content</li>
     </ul>
-    <a-back-top target-container="#basic-demo" :style="{ position: 'absolute' }" />
+    <sd-back-top target-container="#basic-demo" :style="{ position: 'absolute' }" />
   </div>
 </template>
 

@@ -18,20 +18,20 @@ Use the grouping option through the `<dgroup>` component.
 
 ```vue
 <template>
-  <a-dropdown>
-    <a-button>Click Me</a-button>
+  <sd-dropdown>
+    <sd-button>Click Me</sd-button>
     <template #content>
-      <a-dgroup title="Group 1">
-        <a-doption>Option 1</a-doption>
-        <a-doption>Option 2</a-doption>
-        <a-doption>Option 3</a-doption>
-      </a-dgroup>
-      <a-dgroup title="Group 2">
-        <a-doption>Option 4</a-doption>
-        <a-doption>Option 5</a-doption>
-        <a-doption>Option 6</a-doption>
-      </a-dgroup>
+      <sd-dgroup title="Group 1">
+        <sd-doption>Option 1</sd-doption>
+        <sd-doption>Option 2</sd-doption>
+        <sd-doption>Option 3</sd-doption>
+      </sd-dgroup>
+      <sd-dgroup title="Group 2">
+        <sd-doption>Option 4</sd-doption>
+        <sd-doption>Option 5</sd-doption>
+        <sd-doption>Option 6</sd-doption>
+      </sd-dgroup>
     </template>
-  </a-dropdown>
+  </sd-dropdown>
 </template>
 ```

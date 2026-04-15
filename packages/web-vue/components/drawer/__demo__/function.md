@@ -18,7 +18,7 @@ Use the drawer by function.
 
 ```vue
 <template>
-  <a-button type="primary" @click="handleClick">Open Drawer</a-button>
+  <sd-button type="primary" @click="handleClick">Open Drawer</sd-button>
 </template>
 
 <script>

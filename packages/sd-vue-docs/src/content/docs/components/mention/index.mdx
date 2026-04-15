@@ -6,10 +6,10 @@ description: 用于在输入中提及某人或某事，常用于发布、聊天�
 import DemoBlock from '../../../../components/docs/DemoBlock.astro';
 import MentionBasicDemo from '../../../../components/generated/mention/basic.vue';
 export const mentionBasicSource =
-  '<template>\n  <a-space direction="vertical" size="large" style="width: 100%">\n    <a-mention\n      v-model="value"\n      :data="[\'Bytedance\', \'Bytedesign\', \'Bytenumner\']"\n      placeholder="enter something"\n    />\n    <a-mention\n      v-model="text"\n      :data="[\'Bytedance\', \'Bytedesign\', \'Bytenumner\']"\n      type="textarea"\n      placeholder="enter something"\n    />\n  </a-space>\n</template>\n\n<script>\n  import { ref } from \'vue\';\n\n  export default {\n    setup() {\n      const value = ref(\'\');\n      const text = ref(\'\');\n\n      return {\n        value,\n        text,\n      };\n    },\n  };\n</script>';
+  '<template>\n  <sd-space direction="vertical" size="large" style="width: 100%">\n    <sd-mention\n      v-model="value"\n      :data="[\'Bytedance\', \'Bytedesign\', \'Bytenumner\']"\n      placeholder="enter something"\n    />\n    <sd-mention\n      v-model="text"\n      :data="[\'Bytedance\', \'Bytedesign\', \'Bytenumner\']"\n      type="textarea"\n      placeholder="enter something"\n    />\n  </sd-space>\n</template>\n\n<script>\n  import { ref } from \'vue\';\n\n  export default {\n    setup() {\n      const value = ref(\'\');\n      const text = ref(\'\');\n\n      return {\n        value,\n        text,\n      };\n    },\n  };\n</script>';
 import MentionPrefixDemo from '../../../../components/generated/mention/prefix.vue';
 export const mentionPrefixSource =
-  '<template>\n  <a-space direction="vertical" size="large" style="width: 100%">\n    <a-mention :data="[\'Bytedance\', \'Bytedesign\', \'Bytenumner\']" placeholder="input @" />\n    <a-mention :data="[\'Bytedance\', \'Bytedesign\', \'Bytenumner\']" prefix="#" placeholder="input #" />\n    <a-mention :data="[\'Bytedance\', \'Bytedesign\', \'Bytenumner\']" prefix="$" placeholder="input $" />\n  </a-space>\n</template>';
+  '<template>\n  <sd-space direction="vertical" size="large" style="width: 100%">\n    <sd-mention :data="[\'Bytedance\', \'Bytedesign\', \'Bytenumner\']" placeholder="input @" />\n    <sd-mention :data="[\'Bytedance\', \'Bytedesign\', \'Bytenumner\']" prefix="#" placeholder="input #" />\n    <sd-mention :data="[\'Bytedance\', \'Bytedesign\', \'Bytenumner\']" prefix="$" placeholder="input $" />\n  </sd-space>\n</template>';
 
 ### 基本使用
 

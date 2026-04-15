@@ -18,7 +18,7 @@ Enable multiple selection mode by setting `multiple`.
 
 ```vue
 <template>
-  <a-cascader
+  <sd-cascader
     :options="options"
     :default-value="['datunli']"
     :style="{ width: '320px' }"

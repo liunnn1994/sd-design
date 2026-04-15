@@ -18,23 +18,23 @@ Use `shortcutsPosition` to place the shortcuts to the left, right or bottom.
 
 ```vue
 <template>
-  <a-date-picker
+  <sd-date-picker
     style="width: 254px; margin-bottom: 20px; margin-right: 24px;"
     shortcuts-position="left"
     :shortcuts="shortcuts"
   />
-  <a-range-picker
+  <sd-range-picker
     style="width: 300px; margin-bottom: 20px;"
     shortcuts-position="left"
     :shortcuts="rangeShortcuts"
   />
   <br />
-  <a-date-picker
+  <sd-date-picker
     style="width: 254px; margin-right: 24px;"
     shortcuts-position="right"
     :shortcuts="shortcuts"
   />
-  <a-range-picker style="width: 300px;" shortcuts-position="right" :shortcuts="rangeShortcuts" />
+  <sd-range-picker style="width: 300px;" shortcuts-position="right" :shortcuts="rangeShortcuts" />
 </template>
 <script>
   import dayjs from 'dayjs';

@@ -18,7 +18,7 @@ Specify the `disabled` of the `option` as `true` to disable the option.
 
 ```vue
 <template>
-  <a-cascader :options="options" :style="{ width: '320px' }" placeholder="Please select ..." />
+  <sd-cascader :options="options" :style="{ width: '320px' }" placeholder="Please select ..." />
 </template>
 
 <script>

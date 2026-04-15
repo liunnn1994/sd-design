@@ -18,12 +18,12 @@ Notification has 4 different positions, `Top Left`, `Top Right (default)`, `Bott
 
 ```vue
 <template>
-  <a-space>
-    <a-button type="primary" @click="handleNotification"> Top Right </a-button>
-    <a-button type="primary" @click="handleNotificationTopLeft"> Top Left </a-button>
-    <a-button type="primary" @click="handleNotificationBottomRight"> Bottom Right </a-button>
-    <a-button type="primary" @click="handleNotificationBottomLeft"> Bottom Left </a-button>
-  </a-space>
+  <sd-space>
+    <sd-button type="primary" @click="handleNotification"> Top Right </sd-button>
+    <sd-button type="primary" @click="handleNotificationTopLeft"> Top Left </sd-button>
+    <sd-button type="primary" @click="handleNotificationBottomRight"> Bottom Right </sd-button>
+    <sd-button type="primary" @click="handleNotificationBottomLeft"> Bottom Left </sd-button>
+  </sd-space>
 </template>
 
 <script>

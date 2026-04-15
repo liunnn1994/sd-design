@@ -27,27 +27,27 @@ Set `bordered` to `false` to use borderless cards.
       backgroundColor: 'var(--color-fill-2)',
     }"
   >
-    <a-card :style="{ width: '360px' }" title="SD Card" :bordered="false">
+    <sd-card :style="{ width: '360px' }" title="SD Card" :bordered="false">
       <template #extra>
-        <a-link>More</a-link>
+        <sd-link>More</sd-link>
       </template>
       Card content
       <br />
       Card content
-    </a-card>
-    <a-card
+    </sd-card>
+    <sd-card
       :style="{ width: '360px', marginLeft: '24px' }"
       title="Hover me"
       hoverable
       :bordered="false"
     >
       <template #extra>
-        <a-link>More</a-link>
+        <sd-link>More</sd-link>
       </template>
       Card content
       <br />
       Card content
-    </a-card>
+    </sd-card>
   </div>
 </template>
 ```

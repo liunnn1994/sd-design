@@ -18,30 +18,30 @@ Use the #checkbox slot to customize the display of checkboxes
 
 ```vue
 <template>
-  <a-checkbox-group :default-value="['1']">
-    <a-checkbox value="1">
+  <sd-checkbox-group :default-value="['1']">
+    <sd-checkbox value="1">
       <template #checkbox="{ checked }">
-        <a-tag :checked="checked" checkable>This is a tag checkbox 1</a-tag>
+        <sd-tag :checked="checked" checkable>This is a tag checkbox 1</sd-tag>
       </template>
-    </a-checkbox>
-    <a-checkbox value="2">
+    </sd-checkbox>
+    <sd-checkbox value="2">
       <template #checkbox="{ checked }">
-        <a-tag :checked="checked" checkable>This is a tag checkbox 2</a-tag>
+        <sd-tag :checked="checked" checkable>This is a tag checkbox 2</sd-tag>
       </template>
-    </a-checkbox>
-    <a-checkbox value="3">
+    </sd-checkbox>
+    <sd-checkbox value="3">
       <template #checkbox="{ checked }">
-        <a-tag :checked="checked" checkable>This is a tag checkbox 3</a-tag>
+        <sd-tag :checked="checked" checkable>This is a tag checkbox 3</sd-tag>
       </template>
-    </a-checkbox>
-  </a-checkbox-group>
+    </sd-checkbox>
+  </sd-checkbox-group>
 
   <div :style="{ marginTop: '20px' }">
-    <a-checkbox-group :default-value="[1]">
+    <sd-checkbox-group :default-value="[1]">
       <template v-for="item in 2" :key="item">
-        <a-checkbox :value="item">
+        <sd-checkbox :value="item">
           <template #checkbox="{ checked }">
-            <a-space
+            <sd-space
               align="start"
               class="custom-checkbox-card"
               :class="{ 'custom-checkbox-card-checked': checked }"
@@ -51,13 +51,13 @@ Use the #checkbox slot to customize the display of checkboxes
               </div>
               <div>
                 <div className="custom-checkbox-card-title"> Checkbox Card {{ item }} </div>
-                <a-typography-text type="secondary"> this is a text </a-typography-text>
+                <sd-typography-text type="secondary"> this is a text </sd-typography-text>
               </div>
-            </a-space>
+            </sd-space>
           </template>
-        </a-checkbox>
+        </sd-checkbox>
       </template>
-    </a-checkbox-group>
+    </sd-checkbox-group>
   </div>
 </template>
 

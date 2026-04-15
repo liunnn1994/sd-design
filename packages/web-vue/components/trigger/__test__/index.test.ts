@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+import { nextTick } from 'vue';
 
 import Trigger from '../index';
 
@@ -20,7 +21,7 @@ describe('Trigger', () => {
   });
 
   test('default visible correctly', async () => {
-    const wrapper = mount(Trigger, {
+    mount(Trigger, {
       slots: {
         default: '<button>Test</button>',
         content: '<div id="popup-content">Popup Content</div>',
@@ -29,6 +30,9 @@ describe('Trigger', () => {
         defaultPopupVisible: true,
       },
     });
+
+    await nextTick();
+    await nextTick();
 
     expect(document.body.innerHTML).toContain('<div id="popup-content">Popup Content</div>');
   });

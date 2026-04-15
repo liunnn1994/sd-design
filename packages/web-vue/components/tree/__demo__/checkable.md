@@ -18,7 +18,7 @@ Add the `checkable` attribute to display the checkbox, and you can use `defaultC
 
 ```vue
 <template>
-  <a-checkbox
+  <sd-checkbox
     style="marginBottom: 24px;"
     v-model="checkStrictly"
     @change="
@@ -28,8 +28,8 @@ Add the `checkable` attribute to display the checkbox, and you can use `defaultC
     "
   >
     checkStrictly
-  </a-checkbox>
-  <a-tree
+  </sd-checkbox>
+  <sd-tree
     :checkable="true"
     v-model:checked-keys="checkedKeys"
     :check-strictly="checkStrictly"

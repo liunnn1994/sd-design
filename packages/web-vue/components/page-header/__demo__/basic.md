@@ -19,19 +19,19 @@ The basic page header is suitable for use in scenarios that require a simple des
 ```vue
 <template>
   <div :style="{ background: 'var(--color-fill-2)', padding: '28px' }">
-    <a-page-header
+    <sd-page-header
       :style="{ background: 'var(--color-bg-2)' }"
       title="SD Design"
       subtitle="SD Design Vue"
     >
       <template #extra>
-        <a-radio-group type="button" default-value="large">
-          <a-radio value="mini">Mini</a-radio>
-          <a-radio value="small">Small</a-radio>
-          <a-radio value="large">Large</a-radio>
-        </a-radio-group>
+        <sd-radio-group type="button" default-value="large">
+          <sd-radio value="mini">Mini</sd-radio>
+          <sd-radio value="small">Small</sd-radio>
+          <sd-radio value="large">Large</sd-radio>
+        </sd-radio-group>
       </template>
-    </a-page-header>
+    </sd-page-header>
   </div>
 </template>
 ```

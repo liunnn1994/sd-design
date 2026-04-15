@@ -18,7 +18,7 @@ You can pass in custom content through the slot `upload-button` as the trigger n
 
 ```vue
 <template>
-  <a-upload action="/">
+  <sd-upload action="/">
     <template #upload-button>
       <div
         style="
@@ -37,6 +37,6 @@ You can pass in custom content through the slot `upload-button` as the trigger n
         </div>
       </div>
     </template>
-  </a-upload>
+  </sd-upload>
 </template>
 ```

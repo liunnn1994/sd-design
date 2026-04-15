@@ -18,10 +18,10 @@ The size of the label is divided into three types: `small`, `medium`, and `large
 
 ```vue
 <template>
-  <a-space>
-    <a-tag size="large">Large</a-tag>
-    <a-tag>Medium</a-tag>
-    <a-tag size="small">Small</a-tag>
-  </a-space>
+  <sd-space>
+    <sd-tag size="large">Large</sd-tag>
+    <sd-tag>Medium</sd-tag>
+    <sd-tag size="small">Small</sd-tag>
+  </sd-space>
 </template>
 ```

@@ -18,29 +18,29 @@ Showed the usage methods for automatically scrolling to the first error field on
 
 ```vue
 <template>
-  <a-space>
-    <a-button @click="formRef && formRef.validate()">Submit</a-button>
-    <a-button @click="formRef && formRef.resetFields()">Reset</a-button>
-    <a-button @click="formRef && formRef.scrollToField('name19')"
-      >Scroll to the last field</a-button
+  <sd-space>
+    <sd-button @click="formRef && formRef.validate()">Submit</sd-button>
+    <sd-button @click="formRef && formRef.resetFields()">Reset</sd-button>
+    <sd-button @click="formRef && formRef.scrollToField('name19')"
+      >Scroll to the last field</sd-button
     >
-  </a-space>
-  <a-form
+  </sd-space>
+  <sd-form
     ref="formRef"
     style="width: 500px;height: 300px;margin-top:20px;padding-right: 16px;overflow: auto"
     :model="form"
     :scrollToFirstError="true"
   >
     <template v-for="(fieldName, index) in fieldNames" :key="index">
-      <a-form-item
+      <sd-form-item
         :field="fieldName"
         :label="'user' + index"
         :rules="[{ required: true, message: 'Name is required' }]"
       >
-        <a-input v-model="form[fieldName]" />
-      </a-form-item>
+        <sd-input v-model="form[fieldName]" />
+      </sd-form-item>
     </template>
-  </a-form>
+  </sd-form>
 </template>
 
 <script>

@@ -18,13 +18,13 @@ Specify the status of the progress bar through `status`
 
 ```vue
 <template>
-  <a-space direction="vertical" :style="{ width: '50%' }">
-    <a-progress :percent="percent" />
-    <a-progress status="warning" :percent="percent" />
-    <a-progress status="danger" :percent="percent" />
-  </a-space>
+  <sd-space direction="vertical" :style="{ width: '50%' }">
+    <sd-progress :percent="percent" />
+    <sd-progress status="warning" :percent="percent" />
+    <sd-progress status="danger" :percent="percent" />
+  </sd-space>
   <div :style="{ marginTop: '20px' }">
-    <a-slider v-model="percent" :max="1" :step="0.1" :style="{ width: '150px' }" />
+    <sd-slider v-model="percent" :max="1" :step="0.1" :style="{ width: '150px' }" />
   </div>
 </template>
 

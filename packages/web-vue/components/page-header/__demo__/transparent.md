@@ -25,22 +25,22 @@ The default is no background color, if necessary, you can set a different backgr
       padding: '28px',
     }"
   >
-    <a-page-header title="SD Design" subtitle="SD Design Vue">
+    <sd-page-header title="SD Design" subtitle="SD Design Vue">
       <template #breadcrumb>
-        <a-breadcrumb>
-          <a-breadcrumb-item>Home</a-breadcrumb-item>
-          <a-breadcrumb-item>Channel</a-breadcrumb-item>
-          <a-breadcrumb-item>News</a-breadcrumb-item>
-        </a-breadcrumb>
+        <sd-breadcrumb>
+          <sd-breadcrumb-item>Home</sd-breadcrumb-item>
+          <sd-breadcrumb-item>Channel</sd-breadcrumb-item>
+          <sd-breadcrumb-item>News</sd-breadcrumb-item>
+        </sd-breadcrumb>
       </template>
       <template #extra>
-        <a-radio-group type="button">
-          <a-radio value="mini">Mini</a-radio>
-          <a-radio value="small">Small</a-radio>
-          <a-radio value="large">Large</a-radio>
-        </a-radio-group>
+        <sd-radio-group type="button">
+          <sd-radio value="mini">Mini</sd-radio>
+          <sd-radio value="small">Small</sd-radio>
+          <sd-radio value="large">Large</sd-radio>
+        </sd-radio-group>
       </template>
-    </a-page-header>
+    </sd-page-header>
   </div>
 </template>
 ```

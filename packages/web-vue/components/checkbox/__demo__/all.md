@@ -18,16 +18,16 @@ When implementing the function of selecting all, you can display the half-select
 
 ```vue
 <template>
-  <a-space direction="vertical">
-    <a-checkbox :model-value="checkedAll" :indeterminate="indeterminate" @change="handleChangeAll"
+  <sd-space direction="vertical">
+    <sd-checkbox :model-value="checkedAll" :indeterminate="indeterminate" @change="handleChangeAll"
       >Check All
-    </a-checkbox>
-    <a-checkbox-group v-model="data" @change="handleChange">
-      <a-checkbox value="1">Option 1</a-checkbox>
-      <a-checkbox value="2">Option 2</a-checkbox>
-      <a-checkbox value="3">Option 3</a-checkbox>
-    </a-checkbox-group>
-  </a-space>
+    </sd-checkbox>
+    <sd-checkbox-group v-model="data" @change="handleChange">
+      <sd-checkbox value="1">Option 1</sd-checkbox>
+      <sd-checkbox value="2">Option 2</sd-checkbox>
+      <sd-checkbox value="3">Option 3</sd-checkbox>
+    </sd-checkbox-group>
+  </sd-space>
 </template>
 
 <script>

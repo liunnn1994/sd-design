@@ -19,7 +19,7 @@ linear-gradient progress bar.
 ```vue
 <template>
   <div>
-    <a-progress
+    <sd-progress
       :percent="0.8"
       :style="{ width: '50%' }"
       :color="{
@@ -30,7 +30,7 @@ linear-gradient progress bar.
     <br />
     <br />
 
-    <a-progress
+    <sd-progress
       :percent="1"
       :style="{ width: '50%' }"
       :color="{
@@ -40,8 +40,8 @@ linear-gradient progress bar.
     />
     <br />
     <br />
-    <a-space size="large">
-      <a-progress
+    <sd-space size="large">
+      <sd-progress
         type="circle"
         :percent="0.8"
         :style="{ width: '50%' }"
@@ -51,7 +51,7 @@ linear-gradient progress bar.
         }"
       />
 
-      <a-progress
+      <sd-progress
         type="circle"
         :percent="1"
         :style="{ width: '50%' }"
@@ -60,7 +60,7 @@ linear-gradient progress bar.
           '100%': 'rgb(var(--success-6))',
         }"
       />
-    </a-space>
+    </sd-space>
   </div>
 </template>
 ```

@@ -18,8 +18,8 @@ By setting title and description, the title and description of the picture can b
 
 ```vue
 <template>
-  <a-image width="200px" :src="src" :title="title" :description="description" />
-  <a-image
+  <sd-image width="200px" :src="src" :title="title" :description="description" />
+  <sd-image
     width="200px"
     :src="src"
     :title="title"

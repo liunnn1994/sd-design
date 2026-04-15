@@ -18,7 +18,7 @@ The function buttons on the control preview control bar can be sorted and filter
 
 ```vue
 <template>
-  <a-image
+  <sd-image
     width="200"
     src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a8c8cdb109cb051163646151a4a5083b.png~tplv-uwbnlip3yd-webp.webp"
     :preview-props="{
@@ -26,11 +26,11 @@ The function buttons on the control preview control bar can be sorted and filter
     }"
   >
     <template #preview-actions>
-      <a-image-preview-action name="下载" @click="download"
+      <sd-image-preview-action name="下载" @click="download"
         ><icon-download
-      /></a-image-preview-action>
+      /></sd-image-preview-action>
     </template>
-  </a-image>
+  </sd-image>
 </template>
 
 <script>

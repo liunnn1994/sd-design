@@ -18,11 +18,11 @@ The label text can be left-aligned and right-aligned, or it can be arranged vert
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large">
-    <a-descriptions :data="data" title="User Info" align="right" />
-    <a-descriptions :data="data" title="User Info" :align="{ label: 'right' }" />
-    <a-descriptions :data="data" title="User Info" layout="inline-vertical" />
-  </a-space>
+  <sd-space direction="vertical" size="large">
+    <sd-descriptions :data="data" title="User Info" align="right" />
+    <sd-descriptions :data="data" title="User Info" :align="{ label: 'right' }" />
+    <sd-descriptions :data="data" title="User Info" layout="inline-vertical" />
+  </sd-space>
 </template>
 
 <script>

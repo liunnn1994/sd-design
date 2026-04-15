@@ -18,7 +18,7 @@ Set `icon` to customize the icon.
 
 ```vue
 <template>
-  <a-button @click="handleClick">Info Message</a-button>
+  <sd-button @click="handleClick">Info Message</sd-button>
 </template>
 
 <script>

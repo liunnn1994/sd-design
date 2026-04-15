@@ -18,16 +18,16 @@ Basic usage of tags
 
 ```vue
 <template>
-  <a-space>
-    <a-tag>Default</a-tag>
-    <a-tag>Tag 1</a-tag>
-    <a-tag>Tag 2</a-tag>
-    <a-tag>
+  <sd-space>
+    <sd-tag>Default</sd-tag>
+    <sd-tag>Tag 1</sd-tag>
+    <sd-tag>Tag 2</sd-tag>
+    <sd-tag>
       <template #icon>
         <icon-check-circle-fill />
       </template>
       Complete
-    </a-tag>
-  </a-space>
+    </sd-tag>
+  </sd-space>
 </template>
 ```

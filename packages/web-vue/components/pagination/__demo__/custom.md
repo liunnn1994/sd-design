@@ -18,7 +18,7 @@ The content of the paging button can be customized through the slot
 
 ```vue
 <template>
-  <a-pagination :total="200">
+  <sd-pagination :total="200">
     <template #page-item="{ page }"> - {{ page }} - </template>
     <template #page-item-step="{ type }">
       <icon-send :style="type === 'previous' ? { transform: `rotate(180deg)` } : undefined" />
@@ -26,6 +26,6 @@ The content of the paging button can be customized through the slot
     <template #page-item-ellipsis>
       <icon-sun-fill />
     </template>
-  </a-pagination>
+  </sd-pagination>
 </template>
 ```

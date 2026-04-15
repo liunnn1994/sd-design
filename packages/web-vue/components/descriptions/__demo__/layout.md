@@ -18,29 +18,29 @@ There are four layout modes: horizontal arrangement, vertical arrangement, horiz
 
 ```vue
 <template>
-  <a-radio-group type="button" v-model="size">
-    <a-radio value="mini">mini</a-radio>
-    <a-radio value="small">small</a-radio>
-    <a-radio value="medium">medium</a-radio>
-    <a-radio value="large">large</a-radio>
-  </a-radio-group>
+  <sd-radio-group type="button" v-model="size">
+    <sd-radio value="mini">mini</sd-radio>
+    <sd-radio value="small">small</sd-radio>
+    <sd-radio value="medium">medium</sd-radio>
+    <sd-radio value="large">large</sd-radio>
+  </sd-radio-group>
   <div style="margin-top: 20px">
-    <a-descriptions :data="data" :size="size" title="User Info (horizontal)" bordered />
-    <a-descriptions
+    <sd-descriptions :data="data" :size="size" title="User Info (horizontal)" bordered />
+    <sd-descriptions
       :data="data"
       :size="size"
       title="User Info (inline-horizontal)"
       layout="inline-horizontal"
       bordered
     />
-    <a-descriptions
+    <sd-descriptions
       :data="data"
       :size="size"
       title="User Info (vertical)"
       layout="vertical"
       bordered
     />
-    <a-descriptions
+    <sd-descriptions
       :data="data"
       :size="size"
       title="User Info (inline-vertical)"

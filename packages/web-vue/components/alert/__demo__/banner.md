@@ -18,6 +18,6 @@ By setting `banner`, the warning can be used as the top announcement (removal of
 
 ```vue
 <template>
-  <a-alert banner center>This is an info alert.</a-alert>
+  <sd-alert banner center>This is an info alert.</sd-alert>
 </template>
 ```

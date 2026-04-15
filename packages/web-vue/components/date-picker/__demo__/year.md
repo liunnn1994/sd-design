@@ -18,6 +18,6 @@ The basic usage of the YearPicker.
 
 ```vue
 <template>
-  <a-year-picker style="width: 200px;" />
+  <sd-year-picker style="width: 200px;" />
 </template>
 ```

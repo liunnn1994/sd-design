@@ -18,12 +18,12 @@ Need to set up `closable: true`, Custom elements use the `closeIconElement`, onl
 
 ```vue
 <template>
-  <a-space>
-    <a-button type="primary" @click="handleNotification"> Open Notification </a-button>
-    <a-button type="primary" status="danger" @click="handleNotification2">
+  <sd-space>
+    <sd-button type="primary" @click="handleNotification"> Open Notification </sd-button>
+    <sd-button type="primary" status="danger" @click="handleNotification2">
       Open Notification
-    </a-button>
-  </a-space>
+    </sd-button>
+  </sd-space>
 </template>
 
 <script lang="jsx">

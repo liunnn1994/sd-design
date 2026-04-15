@@ -8,8 +8,8 @@ const _originAddEventListener = window.addEventListener;
 const _getBoundingClientRect = HTMLElement.prototype.getBoundingClientRect;
 const events: { [eventName: string]: any } = {};
 
-jest.mock('../../_utils/raf', () => ({
-  raf: jest.fn().mockImplementation((cb: (...args: any[]) => void) => cb()),
+vi.mock('../../_utils/raf', () => ({
+  raf: vi.fn().mockImplementation((cb: (...args: any[]) => void) => cb()),
 }));
 
 describe('Affix Render', () => {
@@ -23,7 +23,7 @@ describe('Affix Render', () => {
     events.scroll({
       type: 'scroll',
     });
-    jest.runAllTimers();
+    vi.runAllTimers();
   };
 
   beforeEach(() => {
@@ -31,22 +31,26 @@ describe('Affix Render', () => {
     raf.mockClear();
   });
   beforeAll(() => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     Object.defineProperty(window, 'addEventListener', {
-      value: jest.fn().mockImplementation((event: string, cb) => {
+      configurable: true,
+      value: vi.fn().mockImplementation((event: string, cb) => {
         events[event] = cb;
       }),
     });
     Object.defineProperty(HTMLElement.prototype, 'getBoundingClientRect', {
-      value: jest.fn().mockImplementation(() => wrapperRect),
+      configurable: true,
+      value: vi.fn().mockImplementation(() => wrapperRect),
     });
   });
   afterAll(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
     Object.defineProperty(window, 'addEventListener', {
+      configurable: true,
       value: _originAddEventListener,
     });
     Object.defineProperty(HTMLElement.prototype, 'getBoundingClientRect', {
+      configurable: true,
       value: _getBoundingClientRect,
     });
   });

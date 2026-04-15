@@ -18,7 +18,7 @@ The `actions` slot can be used to display the bottom button group.
 
 ```vue
 <template>
-  <a-card :style="{ width: '360px' }">
+  <sd-card :style="{ width: '360px' }">
     <template #actions>
       <span class="icon-hover"> <IconThumbUp /> </span>
       <span class="icon-hover"> <IconShareInternal /> </span>
@@ -38,15 +38,15 @@ The `actions` slot can be used to display the bottom button group.
         />
       </div>
     </template>
-    <a-card-meta title="Card Title" description="This is the description">
+    <sd-card-meta title="Card Title" description="This is the description">
       <template #avatar>
         <div :style="{ display: 'flex', alignItems: 'center', color: '#1D2129' }">
-          <a-avatar :size="24" :style="{ marginRight: '8px' }"> A </a-avatar>
-          <a-typography-text>Username</a-typography-text>
+          <sd-avatar :size="24" :style="{ marginRight: '8px' }"> A </sd-avatar>
+          <sd-typography-text>Username</sd-typography-text>
         </div>
       </template>
-    </a-card-meta>
-  </a-card>
+    </sd-card-meta>
+  </sd-card>
 </template>
 
 <script>

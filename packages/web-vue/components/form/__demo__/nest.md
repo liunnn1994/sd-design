@@ -18,81 +18,81 @@ Shows a variety of ways to nest form items. The form item component binds the fo
 
 ```vue
 <template>
-  <a-form :model="form" :style="{ width: '600px' }">
-    <a-form-item
+  <sd-form :model="form" :style="{ width: '600px' }">
+    <sd-form-item
       label="Username"
       :content-flex="false"
       :merge-props="false"
       extra="Show error message together"
     >
-      <a-row :gutter="8">
-        <a-col :span="12">
-          <a-form-item
+      <sd-row :gutter="8">
+        <sd-col :span="12">
+          <sd-form-item
             field="together.firstname"
             validate-trigger="input"
             :rules="[{ required: true, message: 'firstname is required' }]"
             no-style
           >
-            <a-input
+            <sd-input
               v-model="form.together.firstname"
               placeholder="please enter your firstname..."
             />
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item
+          </sd-form-item>
+        </sd-col>
+        <sd-col :span="12">
+          <sd-form-item
             field="together.lastname"
             validate-trigger="input"
             :rules="[{ required: true, message: 'lastname is required' }]"
             no-style
           >
-            <a-input v-model="form.together.lastname" placeholder="please enter your lastname..." />
-          </a-form-item>
-        </a-col>
-      </a-row>
-    </a-form-item>
-    <a-form-item label="Username" :content-flex="false" :merge-props="false">
-      <a-row :gutter="8">
-        <a-col :span="12">
-          <a-form-item
+            <sd-input v-model="form.together.lastname" placeholder="please enter your lastname..." />
+          </sd-form-item>
+        </sd-col>
+      </sd-row>
+    </sd-form-item>
+    <sd-form-item label="Username" :content-flex="false" :merge-props="false">
+      <sd-row :gutter="8">
+        <sd-col :span="12">
+          <sd-form-item
             field="separate.firstname"
             validate-trigger="input"
             extra="Show error message separate"
             :rules="[{ required: true, message: 'firstname is required' }]"
             hide-label
           >
-            <a-input
+            <sd-input
               v-model="form.separate.firstname"
               placeholder="please enter your firstname..."
             />
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item
+          </sd-form-item>
+        </sd-col>
+        <sd-col :span="12">
+          <sd-form-item
             field="separate.lastname"
             validate-trigger="input"
             :rules="[{ required: true, message: 'lastname is required' }]"
             hide-label
           >
-            <a-input v-model="form.separate.lastname" placeholder="please enter your lastname..." />
-          </a-form-item>
-        </a-col>
-      </a-row>
-    </a-form-item>
-    <a-form-item label="Posts" :content-flex="false" :merge-props="false">
-      <a-space direction="vertical" fill>
-        <a-form-item field="posts.post1" label="Post1">
-          <a-input v-model="form.posts.post1" placeholder="please enter your post..." />
-        </a-form-item>
-        <a-form-item field="posts.post2" label="Post2">
-          <a-input v-model="form.posts.post2" placeholder="please enter your post..." />
-        </a-form-item>
-      </a-space>
-    </a-form-item>
-    <a-form-item field="isRead">
-      <a-checkbox v-model="form.isRead"> I have read the manual </a-checkbox>
-    </a-form-item>
-  </a-form>
+            <sd-input v-model="form.separate.lastname" placeholder="please enter your lastname..." />
+          </sd-form-item>
+        </sd-col>
+      </sd-row>
+    </sd-form-item>
+    <sd-form-item label="Posts" :content-flex="false" :merge-props="false">
+      <sd-space direction="vertical" fill>
+        <sd-form-item field="posts.post1" label="Post1">
+          <sd-input v-model="form.posts.post1" placeholder="please enter your post..." />
+        </sd-form-item>
+        <sd-form-item field="posts.post2" label="Post2">
+          <sd-input v-model="form.posts.post2" placeholder="please enter your post..." />
+        </sd-form-item>
+      </sd-space>
+    </sd-form-item>
+    <sd-form-item field="isRead">
+      <sd-checkbox v-model="form.isRead"> I have read the manual </sd-checkbox>
+    </sd-form-item>
+  </sd-form>
   {{ form }}
 </template>
 

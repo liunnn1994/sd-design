@@ -19,8 +19,8 @@ The theme is specified by `theme`, which can be divided into two types: `light` 
 ```vue
 <template>
   <div class="menu-demo">
-    <a-menu mode="horizontal" theme="dark" :default-selected-keys="['1']">
-      <a-menu-item key="0" :style="{ padding: 0, marginRight: '38px' }" disabled>
+    <sd-menu mode="horizontal" theme="dark" :default-selected-keys="['1']">
+      <sd-menu-item key="0" :style="{ padding: 0, marginRight: '38px' }" disabled>
         <div
           :style="{
             width: '80px',
@@ -29,12 +29,12 @@ The theme is specified by `theme`, which can be divided into two types: `light` 
             cursor: 'text',
           }"
         />
-      </a-menu-item>
-      <a-menu-item key="1">Home</a-menu-item>
-      <a-menu-item key="2">Solution</a-menu-item>
-      <a-menu-item key="3">Cloud Service</a-menu-item>
-      <a-menu-item key="4">Cooperation</a-menu-item>
-    </a-menu>
+      </sd-menu-item>
+      <sd-menu-item key="1">Home</sd-menu-item>
+      <sd-menu-item key="2">Solution</sd-menu-item>
+      <sd-menu-item key="3">Cloud Service</sd-menu-item>
+      <sd-menu-item key="4">Cooperation</sd-menu-item>
+    </sd-menu>
   </div>
 </template>
 <style scoped>

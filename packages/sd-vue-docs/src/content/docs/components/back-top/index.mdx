@@ -6,10 +6,10 @@ description: 可一键返回顶部的按钮。
 import DemoBlock from '../../../../components/docs/DemoBlock.astro';
 import BackTopBasicDemo from '../../../../components/generated/back-top/basic.vue';
 export const backTopBasicSource =
-  '<template>\n  <div class="wrapper">\n    <ul id="basic-demo">\n      <li v-for="(_, index) of Array(40)" :key="index">This is the content</li>\n    </ul>\n    <a-back-top target-container="#basic-demo" :style="{ position: \'absolute\' }" />\n  </div>\n</template>\n\n<style scoped lang="less">\n  .wrapper {\n    position: relative;\n\n    ul {\n      height: 200px;\n      overflow-y: auto;\n\n      li {\n        line-height: 30px;\n      }\n    }\n  }\n</style>';
+  '<template>\n  <div class="wrapper">\n    <ul id="basic-demo">\n      <li v-for="(_, index) of Array(40)" :key="index">This is the content</li>\n    </ul>\n    <sd-back-top target-container="#basic-demo" :style="{ position: \'absolute\' }" />\n  </div>\n</template>\n\n<style scoped lang="less">\n  .wrapper {\n    position: relative;\n\n    ul {\n      height: 200px;\n      overflow-y: auto;\n\n      li {\n        line-height: 30px;\n      }\n    }\n  }\n</style>';
 import BackTopCustomDemo from '../../../../components/generated/back-top/custom.vue';
 export const backTopCustomSource =
-  '<template>\n  <div class="wrapper">\n    <ul id="custom-demo">\n      <li v-for="(_, index) of Array(40)" :key="index">This is the content</li>\n    </ul>\n    <a-back-top target-container="#custom-demo" :style="{ position: \'absolute\' }">\n      <a-button>UP</a-button>\n    </a-back-top>\n  </div>\n</template>\n\n<style scoped lang="less">\n  .wrapper {\n    position: relative;\n\n    ul {\n      height: 200px;\n      overflow-y: auto;\n\n      li {\n        line-height: 30px;\n      }\n    }\n  }\n</style>';
+  '<template>\n  <div class="wrapper">\n    <ul id="custom-demo">\n      <li v-for="(_, index) of Array(40)" :key="index">This is the content</li>\n    </ul>\n    <sd-back-top target-container="#custom-demo" :style="{ position: \'absolute\' }">\n      <sd-button>UP</sd-button>\n    </sd-back-top>\n  </div>\n</template>\n\n<style scoped lang="less">\n  .wrapper {\n    position: relative;\n\n    ul {\n      height: 200px;\n      overflow-y: auto;\n\n      li {\n        line-height: 30px;\n      }\n    }\n  }\n</style>';
 
 ### 基本用法
 

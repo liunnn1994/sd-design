@@ -18,8 +18,8 @@ Basic usage, when the fixed position is not set and the scrolling element of the
 
 ```vue
 <template>
-  <a-affix>
-    <a-button type="primary">Affix Top</a-button>
-  </a-affix>
+  <sd-affix>
+    <sd-button type="primary">Affix Top</sd-button>
+  </sd-affix>
 </template>
 ```

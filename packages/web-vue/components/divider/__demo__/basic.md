@@ -20,34 +20,34 @@ It divides the text paragraphs of different chapters, the default is a horizonta
 <template>
   <div class="divider-demo">
     <p>A design is a plan or specification for the construction of an object.</p>
-    <a-divider />
+    <sd-divider />
     <p>A design is a plan or specification for the construction of an object.</p>
-    <a-divider dashed />
+    <sd-divider dashed />
     <p>A design is a plan or specification for the construction of an object.</p>
-    <a-divider :size="2" style="border-bottom-style: dotted" />
+    <sd-divider :size="2" style="border-bottom-style: dotted" />
     <p>A design is a plan or specification for the construction of an object.</p>
   </div>
   <div class="divider-demo" style="marginTop: 48px">
     <div class="flex-box">
       <span class="avatar"><IconImage /></span>
       <div class="content">
-        <a-typography-title :heading="6">Image</a-typography-title>
+        <sd-typography-title :heading="6">Image</sd-typography-title>
         May 4, 2010
       </div>
     </div>
-    <a-divider class="half-divider" />
+    <sd-divider class="half-divider" />
     <div class="flex-box">
       <span class="avatar"><IconUser /></span>
       <div class="content">
-        <a-typography-title :heading="6">Avatar</a-typography-title>
+        <sd-typography-title :heading="6">Avatar</sd-typography-title>
         May 4, 2010
       </div>
     </div>
-    <a-divider class="half-divider" />
+    <sd-divider class="half-divider" />
     <div class="flex-box">
       <span class="avatar"><IconPen /></span>
       <div class="content">
-        <a-typography-title :heading="6">Icon</a-typography-title>
+        <sd-typography-title :heading="6">Icon</sd-typography-title>
         May 4, 2010
       </div>
     </div>

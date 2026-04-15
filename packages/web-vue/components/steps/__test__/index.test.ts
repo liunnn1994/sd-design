@@ -9,10 +9,8 @@ describe('Steps', () => {
         changeable: true,
       },
       slots: {
-        default: '<a-step>Step1</a-step>' + '<a-step>Step2</a-step>' + '<a-step>Step3</a-step>',
-      },
-      global: {
-        plugins: [Steps],
+        default:
+          '<sd-step>Step1</sd-step>' + '<sd-step>Step2</sd-step>' + '<sd-step>Step3</sd-step>',
       },
     });
 
@@ -28,12 +26,9 @@ describe('Steps', () => {
       },
       slots: {
         default:
-          '<div><a-step>Step1</a-step></div>' +
-          '<div><a-step>Step2</a-step></div>' +
-          '<div><a-step>Step3</a-step></div>',
-      },
-      global: {
-        plugins: [Steps],
+          '<div><sd-step>Step1</sd-step></div>' +
+          '<div><sd-step>Step2</sd-step></div>' +
+          '<div><sd-step>Step3</sd-step></div>',
       },
     });
 

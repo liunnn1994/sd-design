@@ -18,16 +18,16 @@ You can set `boundary` to customize the anchor point scroll offset.
 
 ```vue
 <template>
-  <a-anchor boundary="center">
-    <a-anchor-link href="#basic">Basic</a-anchor-link>
-    <a-anchor-link href="#line-less">LineLess Mode</a-anchor-link>
-    <a-anchor-link href="#affix">
+  <sd-anchor boundary="center">
+    <sd-anchor-link href="#basic">Basic</sd-anchor-link>
+    <sd-anchor-link href="#line-less">LineLess Mode</sd-anchor-link>
+    <sd-anchor-link href="#affix">
       Affix
       <template #sublist>
-        <a-anchor-link href="#boundary">Scroll Boundary</a-anchor-link>
-        <a-anchor-link href="#hash">Hash mode</a-anchor-link>
+        <sd-anchor-link href="#boundary">Scroll Boundary</sd-anchor-link>
+        <sd-anchor-link href="#hash">Hash mode</sd-anchor-link>
       </template>
-    </a-anchor-link>
-  </a-anchor>
+    </sd-anchor-link>
+  </sd-anchor>
 </template>
 ```

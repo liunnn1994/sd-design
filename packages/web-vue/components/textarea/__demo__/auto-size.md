@@ -18,11 +18,11 @@ By setting `auto-size`, you can make the text box self-use input content.
 
 ```vue
 <template>
-  <a-textarea
+  <sd-textarea
     default-value="This is the contents of the textarea. This is the contents of the textarea. This is the contents of the textarea."
     auto-size
   />
-  <a-textarea
+  <sd-textarea
     default-value="This is the contents of the textarea. This is the contents of the textarea. This is the contents of the textarea."
     :auto-size="{
       minRows: 2,

@@ -18,19 +18,19 @@ Customize the content of the search button
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large">
-    <a-input-search
+  <sd-space direction="vertical" size="large">
+    <sd-input-search
       :style="{ width: '320px' }"
       placeholder="Please enter something"
       button-text="Search"
       search-button
     />
-    <a-input-search :style="{ width: '320px' }" placeholder="Please enter something" search-button>
+    <sd-input-search :style="{ width: '320px' }" placeholder="Please enter something" search-button>
       <template #button-icon>
         <icon-search />
       </template>
       <template #button-default> Search </template>
-    </a-input-search>
-  </a-space>
+    </sd-input-search>
+  </sd-space>
 </template>
 ```

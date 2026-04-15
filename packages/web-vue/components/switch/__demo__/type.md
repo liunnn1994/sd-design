@@ -18,10 +18,10 @@ There are three types of switches: `circle`, `round` and `line`.
 
 ```vue
 <template>
-  <a-space size="large">
-    <a-switch />
-    <a-switch type="round" />
-    <a-switch type="line" />
-  </a-space>
+  <sd-space size="large">
+    <sd-switch />
+    <sd-switch type="round" />
+    <sd-switch type="line" />
+  </sd-space>
 </template>
 ```

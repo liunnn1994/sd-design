@@ -18,19 +18,19 @@ $END$
 
 ```vue
 <template>
-  <a-popconfirm @before-ok="handleBeforeOk">
-    <a-button>Click To Show</a-button>
+  <sd-popconfirm @before-ok="handleBeforeOk">
+    <sd-button>Click To Show</sd-button>
     <template #content>
-      <a-form>
-        <a-form-item label="Name">
-          <a-input />
-        </a-form-item>
-        <a-form-item label="Post">
-          <a-input />
-        </a-form-item>
-      </a-form>
+      <sd-form>
+        <sd-form-item label="Name">
+          <sd-input />
+        </sd-form-item>
+        <sd-form-item label="Post">
+          <sd-input />
+        </sd-form-item>
+      </sd-form>
     </template>
-  </a-popconfirm>
+  </sd-popconfirm>
 </template>
 
 <script setup>

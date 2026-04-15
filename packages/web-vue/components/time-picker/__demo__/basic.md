@@ -18,6 +18,6 @@ The basic usage of TimePicker.
 
 ```vue
 <template>
-  <a-time-picker style="width: 194px;" />
+  <sd-time-picker style="width: 194px;" />
 </template>
 ```

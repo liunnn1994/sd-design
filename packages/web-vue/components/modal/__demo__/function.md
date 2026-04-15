@@ -18,7 +18,7 @@ Use the modal by function.
 
 ```vue
 <template>
-  <a-button @click="handleClick">Open Modal</a-button>
+  <sd-button @click="handleClick">Open Modal</sd-button>
 </template>
 
 <script>

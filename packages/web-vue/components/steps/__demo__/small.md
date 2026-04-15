@@ -19,12 +19,12 @@ small steps
 ```vue
 <template>
   <div>
-    <a-steps :current="2" small>
-      <a-step>Succeeded</a-step>
-      <a-step>Processing</a-step>
-      <a-step>Pending</a-step>
-    </a-steps>
-    <a-divider />
+    <sd-steps :current="2" small>
+      <sd-step>Succeeded</sd-step>
+      <sd-step>Processing</sd-step>
+      <sd-step>Pending</sd-step>
+    </sd-steps>
+    <sd-divider />
     <div style="line-height: 140px; text-align: center; color: #C9CDD4; "> Step 2 Content </div>
   </div>
 </template>

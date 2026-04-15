@@ -18,6 +18,6 @@ Make the scoring component readonly by setting the `readonly` property.
 
 ```vue
 <template>
-  <a-rate :default-value="4" readonly />
+  <sd-rate :default-value="4" readonly />
 </template>
 ```

@@ -18,7 +18,7 @@ You can customize the prompt text by setting `format-tooltip`.
 
 ```vue
 <template>
-  <a-slider :min="0" :max="50" :style="{ width: '200px' }" :format-tooltip="formatter" />
+  <sd-slider :min="0" :max="50" :style="{ width: '200px' }" :format-tooltip="formatter" />
 </template>
 
 <script>

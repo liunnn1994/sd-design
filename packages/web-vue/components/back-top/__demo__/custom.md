@@ -22,9 +22,9 @@ You can customize the back button.
     <ul id="custom-demo">
       <li v-for="(_, index) of Array(40)" :key="index">This is the content</li>
     </ul>
-    <a-back-top target-container="#custom-demo" :style="{ position: 'absolute' }">
-      <a-button>UP</a-button>
-    </a-back-top>
+    <sd-back-top target-container="#custom-demo" :style="{ position: 'absolute' }">
+      <sd-button>UP</sd-button>
+    </sd-back-top>
   </div>
 </template>
 

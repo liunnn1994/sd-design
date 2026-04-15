@@ -19,7 +19,7 @@ By specifying `virtualListProps` to turn on the virtual list, high performance c
 ```vue
 <template>
   <h3 :style="{ color: 'var(--color-text-2)' }">10000 items</h3>
-  <a-list
+  <sd-list
     :style="{ width: `600px` }"
     :virtualListProps="{
       height: 560,
@@ -27,15 +27,15 @@ By specifying `virtualListProps` to turn on the virtual list, high performance c
     :data="list"
   >
     <template #item="{ item, index }">
-      <a-list-item :key="index">
-        <a-list-item-meta :title="item.title" :description="item.description">
+      <sd-list-item :key="index">
+        <sd-list-item-meta :title="item.title" :description="item.description">
           <template #avatar>
-            <a-avatar shape="square"> A </a-avatar>
+            <sd-avatar shape="square"> A </sd-avatar>
           </template>
-        </a-list-item-meta>
-      </a-list-item>
+        </sd-list-item-meta>
+      </sd-list-item>
     </template>
-  </a-list>
+  </sd-list>
 </template>
 
 <script>

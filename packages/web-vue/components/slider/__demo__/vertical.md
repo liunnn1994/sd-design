@@ -18,10 +18,10 @@ Set `direction="vertical"` and a vertical slider will be displayed.
 
 ```vue
 <template>
-  <a-space align="start">
-    <a-slider :default-value="50" direction="vertical" />
+  <sd-space align="start">
+    <sd-slider :default-value="50" direction="vertical" />
 
-    <a-slider
+    <sd-slider
       direction="vertical"
       :default-value="5"
       :style="{ width: '300px' }"
@@ -31,6 +31,6 @@ Set `direction="vertical"` and a vertical slider will be displayed.
         10: '10km',
       }"
     />
-  </a-space>
+  </sd-space>
 </template>
 ```

@@ -18,7 +18,7 @@ Use `shortcuts` to preset time for quick selection.
 
 ```vue
 <template>
-  <a-date-picker
+  <sd-date-picker
     style="width: 300px; margin-bottom: 24px; margin-right: 24px;"
     :shortcuts="[
       {
@@ -36,7 +36,7 @@ Use `shortcuts` to preset time for quick selection.
     ]"
     show-time
   />
-  <a-month-picker
+  <sd-month-picker
     style="width: 300px; margin-bottom: 24px; margin-right: 24px;"
     :shortcuts="[
       {
@@ -53,7 +53,7 @@ Use `shortcuts` to preset time for quick selection.
       },
     ]"
   />
-  <a-range-picker
+  <sd-range-picker
     style="width: 400px; margin-bottom: 24px; margin-right: 24px;"
     :shortcuts="[
       {
@@ -70,7 +70,7 @@ Use `shortcuts` to preset time for quick selection.
       },
     ]"
   />
-  <a-range-picker
+  <sd-range-picker
     mode="month"
     style="width: 300px; margin-bottom: 24px;"
     :shortcuts="[

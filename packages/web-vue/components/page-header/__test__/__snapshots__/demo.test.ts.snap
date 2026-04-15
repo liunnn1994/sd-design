@@ -1,113 +1,113 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`<page-header> demo: render [basic] correctly 1`] = `
-"<div style=\\"padding: 28px;\\">
-  <div class=\\"sd-page-header\\">
-    <div class=\\"sd-page-header-wrapper\\">
+exports[`<page-header> demo: > render [basic] correctly 1`] = `
+<div style="background: var(--color-fill-2); padding: 28px;">
+  <div class="sd-page-header" style="background: var(--color-bg-2);">
+    <div class="sd-page-header-wrapper">
       <!--v-if-->
-      <div class=\\"sd-page-header-header\\"><span class=\\"sd-page-header-main\\"><span class=\\"sd-icon-hover sd-page-header-icon-hover sd-page-header-back-btn\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-left\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M32 8.4 16.444 23.956 32 39.513\\"></path></svg></span><span class=\\"sd-page-header-title\\">SD Design</span><span class=\\"sd-page-header-divider\\"></span><span class=\\"sd-page-header-subtitle\\">SD Design Vue</span></span><span class=\\"sd-page-header-extra\\"><span class=\\"sd-radio-group-button sd-radio-group-size-medium sd-radio-group-direction-horizontal\\"><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"mini\\"><span class=\\"sd-radio-button-content\\">Mini</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"small\\"><span class=\\"sd-radio-button-content\\">Small</span></label><label class=\\"sd-radio-button sd-radio-checked\\"><input type=\\"radio\\" checked=\\"\\" class=\\"sd-radio-target\\" value=\\"large\\"><span class=\\"sd-radio-button-content\\">Large</span></label></span></span></div>
+      <div class="sd-page-header-header"><span class="sd-page-header-main"><span class="sd-icon-hover sd-page-header-icon-hover sd-page-header-back-btn"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-left" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M32 8.4 16.444 23.956 32 39.513"></path></svg></span><span class="sd-page-header-title">SD Design</span><span class="sd-page-header-divider"></span><span class="sd-page-header-subtitle">SD Design Vue</span></span><span class="sd-page-header-extra"><span class="sd-radio-group-button sd-radio-group-size-medium sd-radio-group-direction-horizontal"><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="mini"><span class="sd-radio-button-content">Mini</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="small"><span class="sd-radio-button-content">Small</span></label><label class="sd-radio-button sd-radio-checked"><input type="radio" checked="" class="sd-radio-target" value="large"><span class="sd-radio-button-content">Large</span></label></span></span></div>
     </div>
     <!--v-if-->
-  </div>
-</div>"
-`;
-
-exports[`<page-header> demo: render [breadcrumb] correctly 1`] = `
-"<div style=\\"padding: 28px;\\">
-  <div class=\\"sd-page-header sd-page-header-with-breadcrumb\\">
-    <div class=\\"sd-page-header-wrapper\\">
-      <div class=\\"sd-page-header-breadcrumb\\">
-        <div role=\\"list\\" class=\\"sd-breadcrumb\\">
-          <div role=\\"listitem\\" class=\\"sd-breadcrumb-item\\">Home
-            <!---->
-          </div>
-          <div aria-hidden=\\"true\\" class=\\"sd-breadcrumb-item-separator\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-oblique-line\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\">
-              <path d=\\"M29.506 6.502 18.493 41.498\\"></path>
-            </svg></div>
-          <div role=\\"listitem\\" class=\\"sd-breadcrumb-item\\">Channel
-            <!---->
-          </div>
-          <div aria-hidden=\\"true\\" class=\\"sd-breadcrumb-item-separator\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-oblique-line\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\">
-              <path d=\\"M29.506 6.502 18.493 41.498\\"></path>
-            </svg></div>
-          <div role=\\"listitem\\" class=\\"sd-breadcrumb-item\\">News
-            <!---->
-          </div>
-          <!---->
-        </div>
-      </div>
-      <div class=\\"sd-page-header-header\\"><span class=\\"sd-page-header-main\\"><!--v-if--><span class=\\"sd-page-header-title\\">SD Design</span><span class=\\"sd-page-header-divider\\"></span><span class=\\"sd-page-header-subtitle\\">SD Design Vue</span></span><span class=\\"sd-page-header-extra\\"><span class=\\"sd-radio-group-button sd-radio-group-size-medium sd-radio-group-direction-horizontal\\"><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"mini\\"><span class=\\"sd-radio-button-content\\">Mini</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"small\\"><span class=\\"sd-radio-button-content\\">Small</span></label><label class=\\"sd-radio-button sd-radio-checked\\"><input type=\\"radio\\" checked=\\"\\" class=\\"sd-radio-target\\" value=\\"large\\"><span class=\\"sd-radio-button-content\\">Large</span></label></span></span></div>
-    </div>
-    <!--v-if-->
-  </div>
-</div>"
-`;
-
-exports[`<page-header> demo: render [content] correctly 1`] = `
-"<div style=\\"padding: 28px;\\">
-  <div class=\\"sd-page-header sd-page-header-with-breadcrumb sd-page-header-with-content\\">
-    <div class=\\"sd-page-header-wrapper\\">
-      <div class=\\"sd-page-header-breadcrumb\\">
-        <div role=\\"list\\" class=\\"sd-breadcrumb\\">
-          <div role=\\"listitem\\" class=\\"sd-breadcrumb-item\\">Home
-            <!---->
-          </div>
-          <div aria-hidden=\\"true\\" class=\\"sd-breadcrumb-item-separator\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-oblique-line\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\">
-              <path d=\\"M29.506 6.502 18.493 41.498\\"></path>
-            </svg></div>
-          <div role=\\"listitem\\" class=\\"sd-breadcrumb-item\\">Channel
-            <!---->
-          </div>
-          <div aria-hidden=\\"true\\" class=\\"sd-breadcrumb-item-separator\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-oblique-line\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\">
-              <path d=\\"M29.506 6.502 18.493 41.498\\"></path>
-            </svg></div>
-          <div role=\\"listitem\\" class=\\"sd-breadcrumb-item\\">News
-            <!---->
-          </div>
-          <!---->
-        </div>
-      </div>
-      <div class=\\"sd-page-header-header\\"><span class=\\"sd-page-header-main\\"><span class=\\"sd-icon-hover sd-page-header-icon-hover sd-page-header-back-btn\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-left\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M32 8.4 16.444 23.956 32 39.513\\"></path></svg></span><span class=\\"sd-page-header-title\\">SD Design</span><span class=\\"sd-page-header-divider\\"></span><span class=\\"sd-page-header-subtitle\\"><div class=\\"sd-space sd-space-horizontal sd-space-align-center\\" style=\\"column-gap: 8px; row-gap: 8px;\\"><!----><div class=\\"sd-space-item\\"><span>SD Design Vue</span></div>
-      <!---->
-      <div class=\\"sd-space-item\\"><span class=\\"sd-tag sd-tag-size-small sd-tag-red sd-tag-checked\\"><!--v-if-->Default<!--v-if--><!--v-if--></span></div>
-    </div></span></span><span class=\\"sd-page-header-extra\\"><div class=\\"sd-space sd-space-horizontal sd-space-align-center\\" style=\\"column-gap: 8px; row-gap: 8px;\\"><!----><div class=\\"sd-space-item\\"><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal\\" type=\\"button\\"><!--v-if-->Cancel</button></div><!----><div class=\\"sd-space-item\\"><button class=\\"sd-btn sd-btn-primary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal\\" type=\\"button\\"><!--v-if-->Save</button></div></div></span>
   </div>
 </div>
-<div class=\\"sd-page-header-content\\">
+`;
+
+exports[`<page-header> demo: > render [breadcrumb] correctly 1`] = `
+<div style="background: var(--color-fill-2); padding: 28px;">
+  <div class="sd-page-header sd-page-header-with-breadcrumb" style="background: var(--color-bg-2);">
+    <div class="sd-page-header-wrapper">
+      <div class="sd-page-header-breadcrumb">
+        <div role="list" class="sd-breadcrumb">
+          <div role="listitem" class="sd-breadcrumb-item">Home
+            <!---->
+          </div>
+          <div aria-hidden="true" class="sd-breadcrumb-item-separator"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-oblique-line" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+              <path d="M29.506 6.502 18.493 41.498"></path>
+            </svg></div>
+          <div role="listitem" class="sd-breadcrumb-item">Channel
+            <!---->
+          </div>
+          <div aria-hidden="true" class="sd-breadcrumb-item-separator"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-oblique-line" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+              <path d="M29.506 6.502 18.493 41.498"></path>
+            </svg></div>
+          <div role="listitem" class="sd-breadcrumb-item">News
+            <!---->
+          </div>
+          <!---->
+        </div>
+      </div>
+      <div class="sd-page-header-header"><span class="sd-page-header-main"><!--v-if--><span class="sd-page-header-title">SD Design</span><span class="sd-page-header-divider"></span><span class="sd-page-header-subtitle">SD Design Vue</span></span><span class="sd-page-header-extra"><span class="sd-radio-group-button sd-radio-group-size-medium sd-radio-group-direction-horizontal"><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="mini"><span class="sd-radio-button-content">Mini</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="small"><span class="sd-radio-button-content">Small</span></label><label class="sd-radio-button sd-radio-checked"><input type="radio" checked="" class="sd-radio-target" value="large"><span class="sd-radio-button-content">Large</span></label></span></span></div>
+    </div>
+    <!--v-if-->
+  </div>
+</div>
+`;
+
+exports[`<page-header> demo: > render [content] correctly 1`] = `
+<div style="background: var(--color-fill-2); padding: 28px;">
+  <div class="sd-page-header sd-page-header-with-breadcrumb sd-page-header-with-content" style="background: var(--color-bg-2);">
+    <div class="sd-page-header-wrapper">
+      <div class="sd-page-header-breadcrumb">
+        <div role="list" class="sd-breadcrumb">
+          <div role="listitem" class="sd-breadcrumb-item">Home
+            <!---->
+          </div>
+          <div aria-hidden="true" class="sd-breadcrumb-item-separator"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-oblique-line" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+              <path d="M29.506 6.502 18.493 41.498"></path>
+            </svg></div>
+          <div role="listitem" class="sd-breadcrumb-item">Channel
+            <!---->
+          </div>
+          <div aria-hidden="true" class="sd-breadcrumb-item-separator"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-oblique-line" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+              <path d="M29.506 6.502 18.493 41.498"></path>
+            </svg></div>
+          <div role="listitem" class="sd-breadcrumb-item">News
+            <!---->
+          </div>
+          <!---->
+        </div>
+      </div>
+      <div class="sd-page-header-header"><span class="sd-page-header-main"><span class="sd-icon-hover sd-page-header-icon-hover sd-page-header-back-btn"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-left" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M32 8.4 16.444 23.956 32 39.513"></path></svg></span><span class="sd-page-header-title">SD Design</span><span class="sd-page-header-divider"></span><span class="sd-page-header-subtitle"><div class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 8px; row-gap: 8px;"><!----><div class="sd-space-item"><span>SD Design Vue</span></div>
+      <!---->
+      <div class="sd-space-item"><span class="sd-tag sd-tag-size-small sd-tag-red sd-tag-checked"><!--v-if-->Default<!--v-if--><!--v-if--></span></div>
+    </div></span></span><span class="sd-page-header-extra"><div class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 8px; row-gap: 8px;"><!----><div class="sd-space-item"><button class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button"><!--v-if-->Cancel</button></div><!----><div class="sd-space-item"><button class="sd-btn sd-btn-primary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button"><!--v-if-->Save</button></div></div></span>
+  </div>
+</div>
+<div class="sd-page-header-content">
   <p> For other uses, see Design </p>
   <p> A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. In some cases, the direct construction of an object without an explicit prior plan (such as in craftwork, some engineering, coding, and graphic design) may also be considered to be a design activity. The design usually has to satisfy certain goals and constraints, may take into account aesthetic, functional, economic, or socio-political considerations, and is expected to interact with a certain environment. Major examples of designs include architectural blueprints,engineering drawings, business processes, circuit diagrams, and sewing patterns.Major examples of designs include architectural blueprints,engineering drawings, business processes, circuit diagrams, and sewing patterns. </p>
 </div>
 </div>
-</div>"
+</div>
 `;
 
-exports[`<page-header> demo: render [transparent] correctly 1`] = `
-"<div style=\\"background-size: 16px 16px; padding: 28px;\\">
-  <div class=\\"sd-page-header sd-page-header-with-breadcrumb\\">
-    <div class=\\"sd-page-header-wrapper\\">
-      <div class=\\"sd-page-header-breadcrumb\\">
-        <div role=\\"list\\" class=\\"sd-breadcrumb\\">
-          <div role=\\"listitem\\" class=\\"sd-breadcrumb-item\\">Home
+exports[`<page-header> demo: > render [transparent] correctly 1`] = `
+<div style="background-image: radial-gradient(var(--color-fill-3) 1px, rgba(0, 0, 0, 0) 1px); background-size: 16px 16px; padding: 28px;">
+  <div class="sd-page-header sd-page-header-with-breadcrumb">
+    <div class="sd-page-header-wrapper">
+      <div class="sd-page-header-breadcrumb">
+        <div role="list" class="sd-breadcrumb">
+          <div role="listitem" class="sd-breadcrumb-item">Home
             <!---->
           </div>
-          <div aria-hidden=\\"true\\" class=\\"sd-breadcrumb-item-separator\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-oblique-line\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\">
-              <path d=\\"M29.506 6.502 18.493 41.498\\"></path>
+          <div aria-hidden="true" class="sd-breadcrumb-item-separator"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-oblique-line" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+              <path d="M29.506 6.502 18.493 41.498"></path>
             </svg></div>
-          <div role=\\"listitem\\" class=\\"sd-breadcrumb-item\\">Channel
+          <div role="listitem" class="sd-breadcrumb-item">Channel
             <!---->
           </div>
-          <div aria-hidden=\\"true\\" class=\\"sd-breadcrumb-item-separator\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-oblique-line\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\">
-              <path d=\\"M29.506 6.502 18.493 41.498\\"></path>
+          <div aria-hidden="true" class="sd-breadcrumb-item-separator"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-oblique-line" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+              <path d="M29.506 6.502 18.493 41.498"></path>
             </svg></div>
-          <div role=\\"listitem\\" class=\\"sd-breadcrumb-item\\">News
+          <div role="listitem" class="sd-breadcrumb-item">News
             <!---->
           </div>
           <!---->
         </div>
       </div>
-      <div class=\\"sd-page-header-header\\"><span class=\\"sd-page-header-main\\"><span class=\\"sd-icon-hover sd-page-header-icon-hover sd-page-header-back-btn\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-left\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M32 8.4 16.444 23.956 32 39.513\\"></path></svg></span><span class=\\"sd-page-header-title\\">SD Design</span><span class=\\"sd-page-header-divider\\"></span><span class=\\"sd-page-header-subtitle\\">SD Design Vue</span></span><span class=\\"sd-page-header-extra\\"><span class=\\"sd-radio-group-button sd-radio-group-size-medium sd-radio-group-direction-horizontal\\"><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"mini\\"><span class=\\"sd-radio-button-content\\">Mini</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"small\\"><span class=\\"sd-radio-button-content\\">Small</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"large\\"><span class=\\"sd-radio-button-content\\">Large</span></label></span></span></div>
+      <div class="sd-page-header-header"><span class="sd-page-header-main"><span class="sd-icon-hover sd-page-header-icon-hover sd-page-header-back-btn"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-left" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M32 8.4 16.444 23.956 32 39.513"></path></svg></span><span class="sd-page-header-title">SD Design</span><span class="sd-page-header-divider"></span><span class="sd-page-header-subtitle">SD Design Vue</span></span><span class="sd-page-header-extra"><span class="sd-radio-group-button sd-radio-group-size-medium sd-radio-group-direction-horizontal"><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="mini"><span class="sd-radio-button-content">Mini</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="small"><span class="sd-radio-button-content">Small</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="large"><span class="sd-radio-button-content">Large</span></label></span></span></div>
     </div>
     <!--v-if-->
   </div>
-</div>"
+</div>
 `;

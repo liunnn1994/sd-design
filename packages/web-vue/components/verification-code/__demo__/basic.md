@@ -18,7 +18,7 @@ Basic usage
 
 ```vue
 <template>
-  <a-verification-code v-model="value" style="width: 300px" @finish="onFinish" />
+  <sd-verification-code v-model="value" style="width: 300px" @finish="onFinish" />
 </template>
 
 <script setup>

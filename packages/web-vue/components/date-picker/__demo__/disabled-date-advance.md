@@ -18,7 +18,7 @@ According to the selected value to control the selected range, use `onSelect` an
 
 ```vue
 <template>
-  <a-range-picker
+  <sd-range-picker
     style="width: 300px;"
     @select="onSelect"
     @popupVisibleChange="onPopupVisibleChange"

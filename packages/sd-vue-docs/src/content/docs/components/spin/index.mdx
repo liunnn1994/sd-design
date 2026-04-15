@@ -5,20 +5,20 @@ description: 用于页面和区块的加载中状态 - 页面局部处于等待�
 
 import DemoBlock from '../../../../components/docs/DemoBlock.astro';
 import SpinBasicDemo from '../../../../components/generated/spin/basic.vue';
-export const spinBasicSource = '<template>\n  <a-spin />\n</template>';
+export const spinBasicSource = '<template>\n  <sd-spin />\n</template>';
 import SpinContainerDemo from '../../../../components/generated/spin/container.vue';
 export const spinContainerSource =
-  '<template>\n  <a-spin :loading="loading" tip="This may take a while...">\n    <a-card title="SD Card">\n      ByteDance\'s core product, Toutiao (\'Headlines\'), is a content platform in China and around the\n      world. Toutiao started out as a news recommendation engine and gradually evolved into a\n      platform delivering content in various formats.\n    </a-card>\n  </a-spin>\n</template>\n\n<script>\n  export default {\n    data() {\n      return {\n        loading: true,\n      };\n    },\n  };\n</script>';
+  '<template>\n  <sd-spin :loading="loading" tip="This may take a while...">\n    <sd-card title="SD Card">\n      ByteDance\'s core product, Toutiao (\'Headlines\'), is a content platform in China and around the\n      world. Toutiao started out as a news recommendation engine and gradually evolved into a\n      platform delivering content in various formats.\n    </sd-card>\n  </sd-spin>\n</template>\n\n<script>\n  export default {\n    data() {\n      return {\n        loading: true,\n      };\n    },\n  };\n</script>';
 import SpinDotDemo from '../../../../components/generated/spin/dot.vue';
-export const spinDotSource = '<template>\n  <a-spin dot />\n</template>';
+export const spinDotSource = '<template>\n  <sd-spin dot />\n</template>';
 import SpinIconDemo from '../../../../components/generated/spin/icon.vue';
 export const spinIconSource =
-  "<template>\n  <a-spin>\n    <template #icon>\n      <icon-sync />\n    </template>\n  </a-spin>\n</template>\n\n<script>\n  import { IconSync } from '@sdata/web-vue/es/icon/index.js';\n\n  export default {\n    components: { IconSync },\n  };\n</script>";
+  "<template>\n  <sd-spin>\n    <template #icon>\n      <icon-sync />\n    </template>\n  </sd-spin>\n</template>\n\n<script>\n  import { IconSync } from '@sdata/web-vue/es/icon/index.js';\n\n  export default {\n    components: { IconSync },\n  };\n</script>";
 import SpinSizeDemo from '../../../../components/generated/spin/size.vue';
 export const spinSizeSource =
-  '<template>\n  <a-space size="large">\n    <a-spin />\n    <a-spin :size="28" />\n    <a-spin :size="32" />\n  </a-space>\n</template>';
+  '<template>\n  <sd-space size="large">\n    <sd-spin />\n    <sd-spin :size="28" />\n    <sd-spin :size="32" />\n  </sd-space>\n</template>';
 import SpinTipDemo from '../../../../components/generated/spin/tip.vue';
-export const spinTipSource = '<template>\n  <a-spin tip="This may take a while..." />\n</template>';
+export const spinTipSource = '<template>\n  <sd-spin tip="This may take a while..." />\n</template>';
 
 ### 基本用法
 

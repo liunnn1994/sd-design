@@ -6,16 +6,16 @@ description: 多行纯文本编辑控件，适用于评论或反馈表单中的�
 import DemoBlock from '../../../../components/docs/DemoBlock.astro';
 import TextareaAutoSizeDemo from '../../../../components/generated/textarea/auto-size.vue';
 export const textareaAutoSizeSource =
-  '<template>\n  <a-textarea\n    default-value="This is the contents of the textarea. This is the contents of the textarea. This is the contents of the textarea."\n    auto-size\n  />\n  <a-textarea\n    default-value="This is the contents of the textarea. This is the contents of the textarea. This is the contents of the textarea."\n    :auto-size="{\n      minRows: 2,\n      maxRows: 5,\n    }"\n    style="margin-top: 20px"\n  />\n</template>';
+  '<template>\n  <sd-textarea\n    default-value="This is the contents of the textarea. This is the contents of the textarea. This is the contents of the textarea."\n    auto-size\n  />\n  <sd-textarea\n    default-value="This is the contents of the textarea. This is the contents of the textarea. This is the contents of the textarea."\n    :auto-size="{\n      minRows: 2,\n      maxRows: 5,\n    }"\n    style="margin-top: 20px"\n  />\n</template>';
 import TextareaBasicDemo from '../../../../components/generated/textarea/basic.vue';
 export const textareaBasicSource =
-  '<template>\n  <a-textarea placeholder="Please enter something" allow-clear />\n</template>';
+  '<template>\n  <sd-textarea placeholder="Please enter something" allow-clear />\n</template>';
 import TextareaStatusDemo from '../../../../components/generated/textarea/status.vue';
 export const textareaStatusSource =
-  '<template>\n  <a-space direction="vertical" size="large" style="width: 100%">\n    <a-textarea placeholder="Disabled status" disabled />\n    <a-textarea placeholder="Error status" error />\n  </a-space>\n</template>';
+  '<template>\n  <sd-space direction="vertical" size="large" style="width: 100%">\n    <sd-textarea placeholder="Disabled status" disabled />\n    <sd-textarea placeholder="Error status" error />\n  </sd-space>\n</template>';
 import TextareaWordLimitDemo from '../../../../components/generated/textarea/word-limit.vue';
 export const textareaWordLimitSource =
-  '<template>\n  <a-space direction="vertical" size="large" fill>\n    <a-textarea placeholder="Please enter something" :max-length="10" allow-clear show-word-limit />\n    <a-textarea\n      placeholder="Please enter something"\n      :max-length="{ length: 10, errorOnly: true }"\n      allow-clear\n      show-word-limit\n    />\n  </a-space>\n</template>';
+  '<template>\n  <sd-space direction="vertical" size="large" fill>\n    <sd-textarea placeholder="Please enter something" :max-length="10" allow-clear show-word-limit />\n    <sd-textarea\n      placeholder="Please enter something"\n      :max-length="{ length: 10, errorOnly: true }"\n      allow-clear\n      show-word-limit\n    />\n  </sd-space>\n</template>';
 
 ### 自适应高度
 

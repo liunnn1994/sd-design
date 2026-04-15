@@ -18,13 +18,13 @@ Disable the switch.
 
 ```vue
 <template>
-  <a-space size="large">
-    <a-switch disabled />
-    <a-switch :default-checked="true" disabled />
-    <a-switch type="round" disabled />
-    <a-switch :default-checked="true" type="round" disabled />
-    <a-switch type="line" disabled />
-    <a-switch :default-checked="true" type="line" disabled />
-  </a-space>
+  <sd-space size="large">
+    <sd-switch disabled />
+    <sd-switch :default-checked="true" disabled />
+    <sd-switch type="round" disabled />
+    <sd-switch :default-checked="true" type="round" disabled />
+    <sd-switch type="line" disabled />
+    <sd-switch :default-checked="true" type="line" disabled />
+  </sd-space>
 </template>
 ```

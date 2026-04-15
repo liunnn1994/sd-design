@@ -18,7 +18,7 @@ How to use the virtual list.
 
 ```vue
 <template>
-  <a-auto-complete
+  <sd-auto-complete
     :data="data"
     @search="handleSearch"
     :style="{ width: '360px' }"

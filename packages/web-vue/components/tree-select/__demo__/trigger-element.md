@@ -18,13 +18,13 @@ Customize trigger element.
 
 ```vue
 <template>
-  <a-tree-select :data="treeData" default-value="node1" @change="onChange">
+  <sd-tree-select :data="treeData" default-value="node1" @change="onChange">
     <template #trigger>
-      <a-typography-paragraph style="width: 300px">
+      <sd-typography-paragraph style="width: 300px">
         You selected: <a href="javascript: void(0)">{{ text }}</a>
-      </a-typography-paragraph>
+      </sd-typography-paragraph>
     </template>
-  </a-tree-select>
+  </sd-tree-select>
 </template>
 <script>
   import { ref } from 'vue';

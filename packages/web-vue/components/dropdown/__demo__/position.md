@@ -18,55 +18,55 @@ Support to specify 6 pop-up orientations through `position`, which are: top: up,
 
 ```vue
 <template>
-  <a-space>
-    <a-dropdown position="bl">
-      <a-button>Bottom Left</a-button>
+  <sd-space>
+    <sd-dropdown position="bl">
+      <sd-button>Bottom Left</sd-button>
       <template #content>
-        <a-doption>Option 1</a-doption>
-        <a-doption>Option 2</a-doption>
-        <a-doption>Option 3</a-doption>
+        <sd-doption>Option 1</sd-doption>
+        <sd-doption>Option 2</sd-doption>
+        <sd-doption>Option 3</sd-doption>
       </template>
-    </a-dropdown>
-    <a-dropdown position="bottom">
-      <a-button>Bottom</a-button>
+    </sd-dropdown>
+    <sd-dropdown position="bottom">
+      <sd-button>Bottom</sd-button>
       <template #content>
-        <a-doption>Option 1</a-doption>
-        <a-doption>Option 2</a-doption>
-        <a-doption>Option 3</a-doption>
+        <sd-doption>Option 1</sd-doption>
+        <sd-doption>Option 2</sd-doption>
+        <sd-doption>Option 3</sd-doption>
       </template>
-    </a-dropdown>
-    <a-dropdown position="br">
-      <a-button>Bottom Right</a-button>
+    </sd-dropdown>
+    <sd-dropdown position="br">
+      <sd-button>Bottom Right</sd-button>
       <template #content>
-        <a-doption>Option 1</a-doption>
-        <a-doption>Option 2</a-doption>
-        <a-doption>Option 3</a-doption>
+        <sd-doption>Option 1</sd-doption>
+        <sd-doption>Option 2</sd-doption>
+        <sd-doption>Option 3</sd-doption>
       </template>
-    </a-dropdown>
-    <a-dropdown position="tl">
-      <a-button>Top Left</a-button>
+    </sd-dropdown>
+    <sd-dropdown position="tl">
+      <sd-button>Top Left</sd-button>
       <template #content>
-        <a-doption>Option 1</a-doption>
-        <a-doption>Option 2</a-doption>
-        <a-doption>Option 3</a-doption>
+        <sd-doption>Option 1</sd-doption>
+        <sd-doption>Option 2</sd-doption>
+        <sd-doption>Option 3</sd-doption>
       </template>
-    </a-dropdown>
-    <a-dropdown position="top">
-      <a-button>Top</a-button>
+    </sd-dropdown>
+    <sd-dropdown position="top">
+      <sd-button>Top</sd-button>
       <template #content>
-        <a-doption>Option 1</a-doption>
-        <a-doption>Option 2</a-doption>
-        <a-doption>Option 3</a-doption>
+        <sd-doption>Option 1</sd-doption>
+        <sd-doption>Option 2</sd-doption>
+        <sd-doption>Option 3</sd-doption>
       </template>
-    </a-dropdown>
-    <a-dropdown position="tr">
-      <a-button>Top Right</a-button>
+    </sd-dropdown>
+    <sd-dropdown position="tr">
+      <sd-button>Top Right</sd-button>
       <template #content>
-        <a-doption>Option 1</a-doption>
-        <a-doption>Option 2</a-doption>
-        <a-doption>Option 3</a-doption>
+        <sd-doption>Option 1</sd-doption>
+        <sd-doption>Option 2</sd-doption>
+        <sd-doption>Option 3</sd-doption>
       </template>
-    </a-dropdown>
-  </a-space>
+    </sd-dropdown>
+  </sd-space>
 </template>
 ```

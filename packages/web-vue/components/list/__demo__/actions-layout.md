@@ -18,14 +18,14 @@ This is an example including paging, content on the right, and list operations.
 
 ```vue
 <template>
-  <a-list
+  <sd-list
     class="list-demo-action-layout"
     :bordered="false"
     :data="dataSource"
     :pagination-props="paginationProps"
   >
     <template #item="{ item }">
-      <a-list-item class="list-demo-item" action-layout="vertical">
+      <sd-list-item class="list-demo-item" action-layout="vertical">
         <template #actions>
           <span><icon-heart />83</span>
           <span><icon-star />{{ item.index }}</span>
@@ -36,16 +36,16 @@ This is an example including paging, content on the right, and list operations.
             <img alt="sd-design" :src="item.imageSrc" />
           </div>
         </template>
-        <a-list-item-meta :title="item.title" :description="item.description">
+        <sd-list-item-meta :title="item.title" :description="item.description">
           <template #avatar>
-            <a-avatar shape="square">
+            <sd-avatar shape="square">
               <img alt="avatar" :src="item.avatar" />
-            </a-avatar>
+            </sd-avatar>
           </template>
-        </a-list-item-meta>
-      </a-list-item>
+        </sd-list-item-meta>
+      </sd-list-item>
     </template>
-  </a-list>
+  </sd-list>
 </template>
 
 <script>

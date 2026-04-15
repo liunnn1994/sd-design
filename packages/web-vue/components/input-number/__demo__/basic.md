@@ -18,8 +18,8 @@ Use the mouse or keyboard to enter the standard value within the range.
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large">
-    <a-input-number
+  <sd-space direction="vertical" size="large">
+    <sd-input-number
       v-model="value"
       :style="{ width: '320px' }"
       placeholder="Please Enter"
@@ -27,21 +27,21 @@ Use the mouse or keyboard to enter the standard value within the range.
       :min="10"
       :max="100"
     />
-    <a-input-number
+    <sd-input-number
       :style="{ width: '320px' }"
       placeholder="Please Enter"
       class="input-demo"
       :min="10"
       :max="100"
     />
-    <a-input-number
+    <sd-input-number
       :style="{ width: '320px' }"
       placeholder="Please Enter"
       :default-value="500"
       class="input-demo"
       disabled
     />
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

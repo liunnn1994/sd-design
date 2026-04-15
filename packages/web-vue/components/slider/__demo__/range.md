@@ -18,7 +18,7 @@ Range selection can be turned on by setting `range`, at this time `modelValue` i
 
 ```vue
 <template>
-  <a-slider v-model="value" :style="{ width: '300px' }" range />
+  <sd-slider v-model="value" :style="{ width: '300px' }" range />
 </template>
 
 <script>

@@ -18,51 +18,51 @@ Use `fallback-option` to customize the display effect of the value of the option
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large">
-    <a-tree-select
+  <sd-space direction="vertical" size="large">
+    <sd-tree-select
       defaultValue="node0"
       :data="treeData"
       placeholder="Please select ..."
       style="width: 300px"
-    ></a-tree-select>
-    <a-tree-select
+    ></sd-tree-select>
+    <sd-tree-select
       defaultValue="node0"
       :data="treeData"
       :fallback-option="false"
       placeholder="Please select ..."
       style="width: 300px"
-    ></a-tree-select>
-    <a-tree-select
+    ></sd-tree-select>
+    <sd-tree-select
       defaultValue="node0"
       :data="treeData"
       :fallback-option="fallback"
       placeholder="Please select ..."
       style="width: 300px"
-    ></a-tree-select>
-    <a-tree-select
+    ></sd-tree-select>
+    <sd-tree-select
       :defaultValue="['node0', 'node2']"
       :data="treeData"
       multiple
       placeholder="Please select ..."
       style="width: 300px"
-    ></a-tree-select>
-    <a-tree-select
+    ></sd-tree-select>
+    <sd-tree-select
       :defaultValue="['node0', 'node2']"
       :data="treeData"
       :fallback-option="false"
       multiple
       placeholder="Please select ..."
       style="width: 300px"
-    ></a-tree-select>
-    <a-tree-select
+    ></sd-tree-select>
+    <sd-tree-select
       :default-value="['node0', 'node2']"
       :data="treeData"
       :fallback-option="fallback"
       multiple
       placeholder="Please select ..."
       style="width: 300px"
-    ></a-tree-select>
-  </a-space>
+    ></sd-tree-select>
+  </sd-space>
 </template>
 
 <script>

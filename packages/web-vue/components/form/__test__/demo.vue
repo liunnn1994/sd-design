@@ -1,6 +1,6 @@
 <template>
-  <a-form :model="form">
-    <a-form-item
+  <sd-form :model="form">
+    <sd-form-item
       field="name"
       label="Username"
       :rules="[
@@ -11,16 +11,16 @@
         },
       ]"
     >
-      <a-input id="name" v-model="form.name" />
-    </a-form-item>
-    <a-form-item
+      <sd-input id="name" v-model="form.name" />
+    </sd-form-item>
+    <sd-form-item
       field="post"
       label="Post"
       :rules="[{ required: true, message: 'post is required' }]"
     >
-      <a-input id="post" v-model="form.post" />
-    </a-form-item>
-  </a-form>
+      <sd-input id="post" v-model="form.post" />
+    </sd-form-item>
+  </sd-form>
 </template>
 
 <script lang="ts">

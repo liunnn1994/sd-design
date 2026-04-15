@@ -18,14 +18,14 @@ Click the trigger button to slide out the drawer from the right, click the mask 
 
 ```vue
 <template>
-  <a-button type="primary" @click="handleClick">Open Drawer</a-button>
-  <a-drawer :width="340" :visible="visible" @ok="handleOk" @cancel="handleCancel" unmountOnClose>
+  <sd-button type="primary" @click="handleClick">Open Drawer</sd-button>
+  <sd-drawer :width="340" :visible="visible" @ok="handleOk" @cancel="handleCancel" unmountOnClose>
     <template #title> Title </template>
     <div
       >You can customize modal body text by the current situation. This modal will be closed
       immediately once you press the OK button.
     </div>
-  </a-drawer>
+  </sd-drawer>
 </template>
 
 <script>

@@ -19,20 +19,20 @@ Set `hoverable` to add a mouse hover style to the card, and you can customize th
 ```vue
 <template>
   <div :style="{ display: 'flex' }">
-    <a-card :style="{ width: '360px' }" title="SD Card" hoverable>
+    <sd-card :style="{ width: '360px' }" title="SD Card" hoverable>
       <template #extra>
-        <a-link>More</a-link>
+        <sd-link>More</sd-link>
       </template>
       Card content <br />
       Card content
-    </a-card>
-    <a-card class="card-demo" title="Custom hover style" hoverable>
+    </sd-card>
+    <sd-card class="card-demo" title="Custom hover style" hoverable>
       <template #extra>
-        <a-link>More</a-link>
+        <sd-link>More</sd-link>
       </template>
       Card content <br />
       Card content
-    </a-card>
+    </sd-card>
   </div>
 </template>
 <style scoped>

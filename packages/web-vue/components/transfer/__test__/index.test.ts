@@ -17,7 +17,8 @@ describe('Transfer', () => {
 
     const options = wrapper.findAll('.sd-transfer-list-item .sd-checkbox-target');
     await options[0].setValue();
-    const moveButton = wrapper.findComponent({ name: 'Button' });
+    await wrapper.vm.$nextTick();
+    const moveButton = wrapper.find('.sd-transfer-operations button');
     await moveButton.trigger('click');
     expect(wrapper.emitted('change')[0]).toEqual([['option1']]);
   });

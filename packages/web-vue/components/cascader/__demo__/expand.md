@@ -18,7 +18,7 @@ The first submenu can be expanded on selection by setting `expand-child`
 
 ```vue
 <template>
-  <a-cascader
+  <sd-cascader
     :options="options"
     :style="{ width: '320px' }"
     placeholder="Please select ..."

@@ -20,50 +20,50 @@ Use `align` for vertical layout.
 <template>
   <div>
     <p>Arrange top</p>
-    <a-row class="grid-demo" align="start">
-      <a-col :span="6">
+    <sd-row class="grid-demo" align="start">
+      <sd-col :span="6">
         <div>col - 6</div>
-      </a-col>
-      <a-col :span="6">
+      </sd-col>
+      <sd-col :span="6">
         <div>col - 6</div>
-      </a-col>
-      <a-col :span="6">
+      </sd-col>
+      <sd-col :span="6">
         <div>col - 6</div>
-      </a-col>
-      <a-col :span="6">
+      </sd-col>
+      <sd-col :span="6">
         <div>col - 6</div>
-      </a-col>
-    </a-row>
+      </sd-col>
+    </sd-row>
     <p>Arrange center</p>
-    <a-row class="grid-demo" align="center">
-      <a-col :span="6">
+    <sd-row class="grid-demo" align="center">
+      <sd-col :span="6">
         <div>col - 6</div>
-      </a-col>
-      <a-col :span="6">
+      </sd-col>
+      <sd-col :span="6">
         <div>col - 6</div>
-      </a-col>
-      <a-col :span="6">
+      </sd-col>
+      <sd-col :span="6">
         <div>col - 6</div>
-      </a-col>
-      <a-col :span="6">
+      </sd-col>
+      <sd-col :span="6">
         <div>col - 6</div>
-      </a-col>
-    </a-row>
+      </sd-col>
+    </sd-row>
     <p>Arrange bottom</p>
-    <a-row class="grid-demo" align="end">
-      <a-col :span="6">
+    <sd-row class="grid-demo" align="end">
+      <sd-col :span="6">
         <div>col - 6</div>
-      </a-col>
-      <a-col :span="6">
+      </sd-col>
+      <sd-col :span="6">
         <div>col - 6</div>
-      </a-col>
-      <a-col :span="6">
+      </sd-col>
+      <sd-col :span="6">
         <div>col - 6</div>
-      </a-col>
-      <a-col :span="6">
+      </sd-col>
+      <sd-col :span="6">
         <div>col - 6</div>
-      </a-col>
-    </a-row>
+      </sd-col>
+    </sd-row>
   </div>
 </template>
 

@@ -1,410 +1,410 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`<tabs> demo: render [basic] correctly 1`] = `
-"<div class=\\"sd-tabs sd-tabs-horizontal sd-tabs-top sd-tabs-type-line sd-tabs-size-medium\\">
+exports[`<tabs> demo: > render [basic] correctly 1`] = `
+<div class="sd-tabs sd-tabs-horizontal sd-tabs-top sd-tabs-type-line sd-tabs-size-medium">
   <!---->
-  <div class=\\"sd-tabs-nav sd-tabs-nav-horizontal sd-tabs-nav-top sd-tabs-nav-size-medium sd-tabs-nav-type-line\\">
+  <div class="sd-tabs-nav sd-tabs-nav-horizontal sd-tabs-nav-top sd-tabs-nav-size-medium sd-tabs-nav-type-line">
     <!---->
-    <div class=\\"sd-tabs-nav-tab\\">
-      <div class=\\"sd-tabs-nav-tab-list\\" style=\\"transform: translateX(0px);\\">
+    <div class="sd-tabs-nav-tab">
+      <div class="sd-tabs-nav-tab-list" style="transform: translateX(0px);">
         <!---->
       </div>
       <!---->
     </div>
     <!---->
-    <div class=\\"sd-tabs-nav-extra\\">
+    <div class="sd-tabs-nav-extra">
       <!---->
       <!---->
     </div>
   </div>
-  <div class=\\"sd-tabs-content\\">
-    <div class=\\"sd-tabs-content-list\\" style=\\"margin-left: -0%;\\">
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 1 </div>
+  <div class="sd-tabs-content">
+    <div class="sd-tabs-content-list" style="margin-left: 0%;">
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane"> Content of Tab Panel 1 </div>
       </div>
-      <div class=\\"sd-tabs-content-item sd-tabs-content-item-active\\">
-        <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 2 </div>
+      <div class="sd-tabs-content-item sd-tabs-content-item-active">
+        <div class="sd-tabs-pane"> Content of Tab Panel 2 </div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 3 </div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane"> Content of Tab Panel 3 </div>
       </div>
     </div>
   </div>
-</div>"
+</div>
 `;
 
-exports[`<tabs> demo: render [editable] correctly 1`] = `
-"<div class=\\"sd-tabs sd-tabs-horizontal sd-tabs-top sd-tabs-type-card-gutter sd-tabs-size-medium\\">
+exports[`<tabs> demo: > render [editable] correctly 1`] = `
+<div class="sd-tabs sd-tabs-horizontal sd-tabs-top sd-tabs-type-card-gutter sd-tabs-size-medium">
   <!---->
-  <div class=\\"sd-tabs-nav sd-tabs-nav-horizontal sd-tabs-nav-top sd-tabs-nav-size-medium sd-tabs-nav-type-card-gutter\\">
+  <div class="sd-tabs-nav sd-tabs-nav-horizontal sd-tabs-nav-top sd-tabs-nav-size-medium sd-tabs-nav-type-card-gutter">
     <!---->
-    <div class=\\"sd-tabs-nav-tab\\">
-      <div class=\\"sd-tabs-nav-tab-list\\" style=\\"transform: translateX(0px);\\">
+    <div class="sd-tabs-nav-tab">
+      <div class="sd-tabs-nav-tab-list" style="transform: translateX(0px);">
         <!---->
       </div>
-      <div class=\\"sd-tabs-nav-add-btn\\"><span class=\\"sd-icon-hover\\"><svg viewBox=\\"0 0 48 48\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" class=\\"sd-icon sd-icon-plus\\" stroke-width=\\"4\\" stroke-linecap=\\"butt\\" stroke-linejoin=\\"miter\\"><path d=\\"M5 24h38M24 5v38\\"></path></svg></span></div>
+      <div class="sd-tabs-nav-add-btn"><span class="sd-icon-hover"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-plus" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M5 24h38M24 5v38"></path></svg></span></div>
     </div>
     <!---->
-    <div class=\\"sd-tabs-nav-extra\\">
+    <div class="sd-tabs-nav-extra">
       <!---->
       <!---->
     </div>
   </div>
-  <div class=\\"sd-tabs-content\\">
-    <div class=\\"sd-tabs-content-list\\" style=\\"margin-left: -0%;\\">
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 1</div>
+  <div class="sd-tabs-content">
+    <div class="sd-tabs-content-list" style="margin-left: 0%;">
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 1</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 2</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 2</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 3</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 3</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 4</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 4</div>
       </div>
     </div>
   </div>
-</div>"
+</div>
 `;
 
-exports[`<tabs> demo: render [extra] correctly 1`] = `
-"<div class=\\"sd-tabs sd-tabs-horizontal sd-tabs-top sd-tabs-type-line sd-tabs-size-medium\\">
+exports[`<tabs> demo: > render [extra] correctly 1`] = `
+<div class="sd-tabs sd-tabs-horizontal sd-tabs-top sd-tabs-type-line sd-tabs-size-medium">
   <!---->
-  <div class=\\"sd-tabs-nav sd-tabs-nav-horizontal sd-tabs-nav-top sd-tabs-nav-size-medium sd-tabs-nav-type-line\\">
+  <div class="sd-tabs-nav sd-tabs-nav-horizontal sd-tabs-nav-top sd-tabs-nav-size-medium sd-tabs-nav-type-line">
     <!---->
-    <div class=\\"sd-tabs-nav-tab\\">
-      <div class=\\"sd-tabs-nav-tab-list\\" style=\\"transform: translateX(0px);\\">
+    <div class="sd-tabs-nav-tab">
+      <div class="sd-tabs-nav-tab-list" style="transform: translateX(0px);">
         <!---->
       </div>
       <!---->
     </div>
     <!---->
-    <div class=\\"sd-tabs-nav-extra\\">
-      <!----><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal\\" type=\\"button\\">
+    <div class="sd-tabs-nav-extra">
+      <!----><button class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
         <!--v-if-->Action
       </button>
     </div>
   </div>
-  <div class=\\"sd-tabs-content\\">
-    <div class=\\"sd-tabs-content-list\\" style=\\"margin-left: -0%;\\">
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 1 </div>
+  <div class="sd-tabs-content">
+    <div class="sd-tabs-content-list" style="margin-left: 0%;">
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane"> Content of Tab Panel 1 </div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 2 </div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane"> Content of Tab Panel 2 </div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 3 </div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane"> Content of Tab Panel 3 </div>
       </div>
     </div>
   </div>
-</div>"
+</div>
 `;
 
-exports[`<tabs> demo: render [icon] correctly 1`] = `
-"<div class=\\"sd-tabs sd-tabs-horizontal sd-tabs-top sd-tabs-type-line sd-tabs-size-medium\\">
+exports[`<tabs> demo: > render [icon] correctly 1`] = `
+<div class="sd-tabs sd-tabs-horizontal sd-tabs-top sd-tabs-type-line sd-tabs-size-medium">
   <!---->
-  <div class=\\"sd-tabs-nav sd-tabs-nav-horizontal sd-tabs-nav-top sd-tabs-nav-size-medium sd-tabs-nav-type-line\\">
+  <div class="sd-tabs-nav sd-tabs-nav-horizontal sd-tabs-nav-top sd-tabs-nav-size-medium sd-tabs-nav-type-line">
     <!---->
-    <div class=\\"sd-tabs-nav-tab\\">
-      <div class=\\"sd-tabs-nav-tab-list\\" style=\\"transform: translateX(0px);\\">
+    <div class="sd-tabs-nav-tab">
+      <div class="sd-tabs-nav-tab-list" style="transform: translateX(0px);">
         <!---->
       </div>
       <!---->
     </div>
     <!---->
-    <div class=\\"sd-tabs-nav-extra\\">
+    <div class="sd-tabs-nav-extra">
       <!---->
       <!---->
     </div>
   </div>
-  <div class=\\"sd-tabs-content\\">
-    <div class=\\"sd-tabs-content-list\\" style=\\"margin-left: -0%;\\">
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 1 </div>
+  <div class="sd-tabs-content">
+    <div class="sd-tabs-content-list" style="margin-left: 0%;">
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane"> Content of Tab Panel 1 </div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 2 </div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane"> Content of Tab Panel 2 </div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 3 </div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane"> Content of Tab Panel 3 </div>
       </div>
     </div>
   </div>
-</div>"
+</div>
 `;
 
-exports[`<tabs> demo: render [lazy] correctly 1`] = `
-"<div class=\\"sd-tabs sd-tabs-horizontal sd-tabs-top sd-tabs-type-line sd-tabs-size-medium\\">
+exports[`<tabs> demo: > render [lazy] correctly 1`] = `
+<div class="sd-tabs sd-tabs-horizontal sd-tabs-top sd-tabs-type-line sd-tabs-size-medium">
   <!---->
-  <div class=\\"sd-tabs-nav sd-tabs-nav-horizontal sd-tabs-nav-top sd-tabs-nav-size-medium sd-tabs-nav-type-line\\">
+  <div class="sd-tabs-nav sd-tabs-nav-horizontal sd-tabs-nav-top sd-tabs-nav-size-medium sd-tabs-nav-type-line">
     <!---->
-    <div class=\\"sd-tabs-nav-tab\\">
-      <div class=\\"sd-tabs-nav-tab-list\\" style=\\"transform: translateX(0px);\\">
+    <div class="sd-tabs-nav-tab">
+      <div class="sd-tabs-nav-tab-list" style="transform: translateX(0px);">
         <!---->
       </div>
       <!---->
     </div>
     <!---->
-    <div class=\\"sd-tabs-nav-extra\\">
+    <div class="sd-tabs-nav-extra">
       <!---->
       <!---->
     </div>
   </div>
-  <div class=\\"sd-tabs-content\\">
-    <div class=\\"sd-tabs-content-list\\" style=\\"margin-left: -0%;\\">
-      <div class=\\"sd-tabs-content-item\\">
+  <div class="sd-tabs-content">
+    <div class="sd-tabs-content-list" style="margin-left: 0%;">
+      <div class="sd-tabs-content-item">
         <!--v-if-->
       </div>
-      <div class=\\"sd-tabs-content-item sd-tabs-content-item-active\\">
-        <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 2 </div>
+      <div class="sd-tabs-content-item sd-tabs-content-item-active">
+        <div class="sd-tabs-pane"> Content of Tab Panel 2 </div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
+      <div class="sd-tabs-content-item">
         <!--v-if-->
       </div>
     </div>
   </div>
-</div>"
+</div>
 `;
 
-exports[`<tabs> demo: render [position] correctly 1`] = `
-"<div class=\\"sd-space sd-space-vertical\\" style=\\"column-gap: 24px; row-gap: 24px;\\">
+exports[`<tabs> demo: > render [position] correctly 1`] = `
+<div class="sd-space sd-space-vertical" style="column-gap: 24px; row-gap: 24px;">
   <!---->
-  <div class=\\"sd-space-item\\"><span class=\\"sd-radio-group-button sd-radio-group-size-medium sd-radio-group-direction-horizontal\\"><label class=\\"sd-radio-button sd-radio-checked\\"><input type=\\"radio\\" checked=\\"\\" class=\\"sd-radio-target\\" value=\\"top\\"><span class=\\"sd-radio-button-content\\">Top</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"right\\"><span class=\\"sd-radio-button-content\\">Right</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"bottom\\"><span class=\\"sd-radio-button-content\\">Bottom</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"left\\"><span class=\\"sd-radio-button-content\\">Left</span></label></span></div>
+  <div class="sd-space-item"><span class="sd-radio-group-button sd-radio-group-size-medium sd-radio-group-direction-horizontal"><label class="sd-radio-button sd-radio-checked"><input type="radio" checked="" class="sd-radio-target" value="top"><span class="sd-radio-button-content">Top</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="right"><span class="sd-radio-button-content">Right</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="bottom"><span class="sd-radio-button-content">Bottom</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="left"><span class="sd-radio-button-content">Left</span></label></span></div>
   <!---->
-  <div class=\\"sd-space-item\\">
-    <div class=\\"sd-tabs sd-tabs-horizontal sd-tabs-top sd-tabs-type-line sd-tabs-size-medium\\">
+  <div class="sd-space-item">
+    <div class="sd-tabs sd-tabs-horizontal sd-tabs-top sd-tabs-type-line sd-tabs-size-medium">
       <!---->
-      <div class=\\"sd-tabs-nav sd-tabs-nav-horizontal sd-tabs-nav-top sd-tabs-nav-size-medium sd-tabs-nav-type-line\\">
+      <div class="sd-tabs-nav sd-tabs-nav-horizontal sd-tabs-nav-top sd-tabs-nav-size-medium sd-tabs-nav-type-line">
         <!---->
-        <div class=\\"sd-tabs-nav-tab\\">
-          <div class=\\"sd-tabs-nav-tab-list\\" style=\\"transform: translateX(0px);\\">
+        <div class="sd-tabs-nav-tab">
+          <div class="sd-tabs-nav-tab-list" style="transform: translateX(0px);">
             <!---->
           </div>
           <!---->
         </div>
         <!---->
-        <div class=\\"sd-tabs-nav-extra\\">
+        <div class="sd-tabs-nav-extra">
           <!---->
           <!---->
         </div>
       </div>
-      <div class=\\"sd-tabs-content\\">
-        <div class=\\"sd-tabs-content-list\\" style=\\"margin-left: -0%;\\">
-          <div class=\\"sd-tabs-content-item\\">
-            <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 1 </div>
+      <div class="sd-tabs-content">
+        <div class="sd-tabs-content-list" style="margin-left: 0%;">
+          <div class="sd-tabs-content-item">
+            <div class="sd-tabs-pane"> Content of Tab Panel 1 </div>
           </div>
-          <div class=\\"sd-tabs-content-item\\">
-            <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 2 </div>
+          <div class="sd-tabs-content-item">
+            <div class="sd-tabs-pane"> Content of Tab Panel 2 </div>
           </div>
-          <div class=\\"sd-tabs-content-item\\">
-            <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 3 </div>
+          <div class="sd-tabs-content-item">
+            <div class="sd-tabs-pane"> Content of Tab Panel 3 </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>"
+</div>
 `;
 
-exports[`<tabs> demo: render [scroll] correctly 1`] = `
-"<div class=\\"sd-space sd-space-vertical\\" style=\\"column-gap: 24px; row-gap: 24px;\\">
+exports[`<tabs> demo: > render [scroll] correctly 1`] = `
+<div class="sd-space sd-space-vertical" style="column-gap: 24px; row-gap: 24px;">
   <!---->
-  <div class=\\"sd-space-item\\"><span class=\\"sd-radio-group-button sd-radio-group-size-medium sd-radio-group-direction-horizontal\\"><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"left\\"><span class=\\"sd-radio-button-content\\">Left</span></label><label class=\\"sd-radio-button sd-radio-checked\\"><input type=\\"radio\\" checked=\\"\\" class=\\"sd-radio-target\\" value=\\"top\\"><span class=\\"sd-radio-button-content\\">Top</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"right\\"><span class=\\"sd-radio-button-content\\">Right</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"bottom\\"><span class=\\"sd-radio-button-content\\">Bottom</span></label></span></div>
+  <div class="sd-space-item"><span class="sd-radio-group-button sd-radio-group-size-medium sd-radio-group-direction-horizontal"><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="left"><span class="sd-radio-button-content">Left</span></label><label class="sd-radio-button sd-radio-checked"><input type="radio" checked="" class="sd-radio-target" value="top"><span class="sd-radio-button-content">Top</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="right"><span class="sd-radio-button-content">Right</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="bottom"><span class="sd-radio-button-content">Bottom</span></label></span></div>
   <!---->
-  <div class=\\"sd-space-item\\"><span class=\\"sd-radio-group-button sd-radio-group-size-medium sd-radio-group-direction-horizontal\\"><label class=\\"sd-radio-button sd-radio-checked\\"><input type=\\"radio\\" checked=\\"\\" class=\\"sd-radio-target\\" value=\\"auto\\"><span class=\\"sd-radio-button-content\\">auto</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"start\\"><span class=\\"sd-radio-button-content\\">start</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"center\\"><span class=\\"sd-radio-button-content\\">center</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"end\\"><span class=\\"sd-radio-button-content\\">end</span></label></span></div>
+  <div class="sd-space-item"><span class="sd-radio-group-button sd-radio-group-size-medium sd-radio-group-direction-horizontal"><label class="sd-radio-button sd-radio-checked"><input type="radio" checked="" class="sd-radio-target" value="auto"><span class="sd-radio-button-content">auto</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="start"><span class="sd-radio-button-content">start</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="center"><span class="sd-radio-button-content">center</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="end"><span class="sd-radio-button-content">end</span></label></span></div>
   <!---->
-  <div class=\\"sd-space-item\\"><button class=\\"sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal\\" type=\\"button\\">
+  <div class="sd-space-item"><button class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
       <!--v-if--> Change: Tab1
     </button></div>
 </div>
-<div class=\\"sd-tabs sd-tabs-horizontal sd-tabs-top sd-tabs-type-line sd-tabs-size-medium\\" style=\\"width: 100%; height: 300px; margin-top: 20px;\\">
+<div class="sd-tabs sd-tabs-horizontal sd-tabs-top sd-tabs-type-line sd-tabs-size-medium" style="width: 100%; height: 300px; margin-top: 20px;">
   <!---->
-  <div class=\\"sd-tabs-nav sd-tabs-nav-horizontal sd-tabs-nav-top sd-tabs-nav-size-medium sd-tabs-nav-type-line\\">
+  <div class="sd-tabs-nav sd-tabs-nav-horizontal sd-tabs-nav-top sd-tabs-nav-size-medium sd-tabs-nav-type-line">
     <!---->
-    <div class=\\"sd-tabs-nav-tab\\">
-      <div class=\\"sd-tabs-nav-tab-list\\" style=\\"transform: translateX(0px);\\">
+    <div class="sd-tabs-nav-tab">
+      <div class="sd-tabs-nav-tab-list" style="transform: translateX(0px);">
         <!---->
       </div>
       <!---->
     </div>
     <!---->
-    <div class=\\"sd-tabs-nav-extra\\">
+    <div class="sd-tabs-nav-extra">
       <!---->
       <!---->
     </div>
   </div>
-  <div class=\\"sd-tabs-content\\">
-    <div class=\\"sd-tabs-content-list\\" style=\\"margin-left: -0%;\\">
-      <div class=\\"sd-tabs-content-item sd-tabs-content-item-active\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 1</div>
+  <div class="sd-tabs-content">
+    <div class="sd-tabs-content-list" style="margin-left: 0%;">
+      <div class="sd-tabs-content-item sd-tabs-content-item-active">
+        <div class="sd-tabs-pane">Content of Tab Panel 1</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 2</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 2</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 3</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 3</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 4</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 4</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 5</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 5</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 6</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 6</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 7</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 7</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 8</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 8</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 9</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 9</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 10</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 10</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 11</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 11</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 12</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 12</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 13</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 13</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 14</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 14</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 15</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 15</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 16</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 16</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 17</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 17</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 18</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 18</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 19</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 19</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 20</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 20</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 21</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 21</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 22</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 22</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 23</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 23</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 24</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 24</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 25</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 25</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 26</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 26</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 27</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 27</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 28</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 28</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 29</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 29</div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\">Content of Tab Panel 30</div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane">Content of Tab Panel 30</div>
       </div>
     </div>
   </div>
-</div>"
+</div>
 `;
 
-exports[`<tabs> demo: render [trigger] correctly 1`] = `
-"<span class=\\"sd-radio-group sd-radio-group-size-medium sd-radio-group-direction-horizontal\\"><label class=\\"sd-radio sd-radio-checked\\"><input type=\\"radio\\" checked=\\"\\" class=\\"sd-radio-target\\" value=\\"click\\"><span class=\\"sd-icon-hover sd-icon-hover-disabled sd-radio-icon-hover\\"><span class=\\"sd-radio-icon\\"></span></span><span class=\\"sd-radio-label\\">click</span></label><label class=\\"sd-radio\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"hover\\"><span class=\\"sd-icon-hover sd-radio-icon-hover\\"><span class=\\"sd-radio-icon\\"></span></span><span class=\\"sd-radio-label\\">hover</span></label></span>
-<div class=\\"sd-tabs sd-tabs-horizontal sd-tabs-top sd-tabs-type-line sd-tabs-size-medium\\">
+exports[`<tabs> demo: > render [trigger] correctly 1`] = `
+<span class="sd-radio-group sd-radio-group-size-medium sd-radio-group-direction-horizontal"><label class="sd-radio sd-radio-checked"><input type="radio" checked="" class="sd-radio-target" value="click"><span class="sd-icon-hover sd-icon-hover-disabled sd-radio-icon-hover"><span class="sd-radio-icon"></span></span><span class="sd-radio-label">click</span></label><label class="sd-radio"><input type="radio" class="sd-radio-target" value="hover"><span class="sd-icon-hover sd-radio-icon-hover"><span class="sd-radio-icon"></span></span><span class="sd-radio-label">hover</span></label></span>
+<div class="sd-tabs sd-tabs-horizontal sd-tabs-top sd-tabs-type-line sd-tabs-size-medium">
   <!---->
-  <div class=\\"sd-tabs-nav sd-tabs-nav-horizontal sd-tabs-nav-top sd-tabs-nav-size-medium sd-tabs-nav-type-line\\">
+  <div class="sd-tabs-nav sd-tabs-nav-horizontal sd-tabs-nav-top sd-tabs-nav-size-medium sd-tabs-nav-type-line">
     <!---->
-    <div class=\\"sd-tabs-nav-tab\\">
-      <div class=\\"sd-tabs-nav-tab-list\\" style=\\"transform: translateX(0px);\\">
+    <div class="sd-tabs-nav-tab">
+      <div class="sd-tabs-nav-tab-list" style="transform: translateX(0px);">
         <!---->
       </div>
       <!---->
     </div>
     <!---->
-    <div class=\\"sd-tabs-nav-extra\\">
+    <div class="sd-tabs-nav-extra">
       <!---->
       <!---->
     </div>
   </div>
-  <div class=\\"sd-tabs-content\\">
-    <div class=\\"sd-tabs-content-list\\" style=\\"margin-left: -0%;\\">
-      <div class=\\"sd-tabs-content-item sd-tabs-content-item-active\\">
-        <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 1 </div>
+  <div class="sd-tabs-content">
+    <div class="sd-tabs-content-list" style="margin-left: 0%;">
+      <div class="sd-tabs-content-item sd-tabs-content-item-active">
+        <div class="sd-tabs-pane"> Content of Tab Panel 1 </div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 2 </div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane"> Content of Tab Panel 2 </div>
       </div>
-      <div class=\\"sd-tabs-content-item\\">
-        <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 3 </div>
+      <div class="sd-tabs-content-item">
+        <div class="sd-tabs-pane"> Content of Tab Panel 3 </div>
       </div>
     </div>
   </div>
-</div>"
+</div>
 `;
 
-exports[`<tabs> demo: render [type] correctly 1`] = `
-"<div class=\\"sd-space sd-space-vertical\\" style=\\"column-gap: 24px; row-gap: 24px;\\">
+exports[`<tabs> demo: > render [type] correctly 1`] = `
+<div class="sd-space sd-space-vertical" style="column-gap: 24px; row-gap: 24px;">
   <!---->
-  <div class=\\"sd-space-item\\"><span class=\\"sd-radio-group-button sd-radio-group-size-medium sd-radio-group-direction-horizontal\\"><label class=\\"sd-radio-button sd-radio-checked\\"><input type=\\"radio\\" checked=\\"\\" class=\\"sd-radio-target\\" value=\\"line\\"><span class=\\"sd-radio-button-content\\">Line</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"card\\"><span class=\\"sd-radio-button-content\\">Card</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"card-gutter\\"><span class=\\"sd-radio-button-content\\">Card Gutter</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"text\\"><span class=\\"sd-radio-button-content\\">Text</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"rounded\\"><span class=\\"sd-radio-button-content\\">Rounded</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"capsule\\"><span class=\\"sd-radio-button-content\\">Capsule</span></label></span></div>
+  <div class="sd-space-item"><span class="sd-radio-group-button sd-radio-group-size-medium sd-radio-group-direction-horizontal"><label class="sd-radio-button sd-radio-checked"><input type="radio" checked="" class="sd-radio-target" value="line"><span class="sd-radio-button-content">Line</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="card"><span class="sd-radio-button-content">Card</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="card-gutter"><span class="sd-radio-button-content">Card Gutter</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="text"><span class="sd-radio-button-content">Text</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="rounded"><span class="sd-radio-button-content">Rounded</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="capsule"><span class="sd-radio-button-content">Capsule</span></label></span></div>
   <!---->
-  <div class=\\"sd-space-item\\"><span class=\\"sd-radio-group-button sd-radio-group-size-medium sd-radio-group-direction-horizontal\\"><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"mini\\"><span class=\\"sd-radio-button-content\\">Mini</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"small\\"><span class=\\"sd-radio-button-content\\">Small</span></label><label class=\\"sd-radio-button sd-radio-checked\\"><input type=\\"radio\\" checked=\\"\\" class=\\"sd-radio-target\\" value=\\"medium\\"><span class=\\"sd-radio-button-content\\">Medium</span></label><label class=\\"sd-radio-button\\"><input type=\\"radio\\" class=\\"sd-radio-target\\" value=\\"large\\"><span class=\\"sd-radio-button-content\\">Large</span></label></span></div>
+  <div class="sd-space-item"><span class="sd-radio-group-button sd-radio-group-size-medium sd-radio-group-direction-horizontal"><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="mini"><span class="sd-radio-button-content">Mini</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="small"><span class="sd-radio-button-content">Small</span></label><label class="sd-radio-button sd-radio-checked"><input type="radio" checked="" class="sd-radio-target" value="medium"><span class="sd-radio-button-content">Medium</span></label><label class="sd-radio-button"><input type="radio" class="sd-radio-target" value="large"><span class="sd-radio-button-content">Large</span></label></span></div>
   <!---->
-  <div class=\\"sd-space-item\\">
-    <div class=\\"sd-tabs sd-tabs-horizontal sd-tabs-top sd-tabs-type-line sd-tabs-size-medium\\">
+  <div class="sd-space-item">
+    <div class="sd-tabs sd-tabs-horizontal sd-tabs-top sd-tabs-type-line sd-tabs-size-medium">
       <!---->
-      <div class=\\"sd-tabs-nav sd-tabs-nav-horizontal sd-tabs-nav-top sd-tabs-nav-size-medium sd-tabs-nav-type-line\\">
+      <div class="sd-tabs-nav sd-tabs-nav-horizontal sd-tabs-nav-top sd-tabs-nav-size-medium sd-tabs-nav-type-line">
         <!---->
-        <div class=\\"sd-tabs-nav-tab\\">
-          <div class=\\"sd-tabs-nav-tab-list\\" style=\\"transform: translateX(0px);\\">
+        <div class="sd-tabs-nav-tab">
+          <div class="sd-tabs-nav-tab-list" style="transform: translateX(0px);">
             <!---->
           </div>
           <!---->
         </div>
         <!---->
-        <div class=\\"sd-tabs-nav-extra\\">
+        <div class="sd-tabs-nav-extra">
           <!---->
           <!---->
         </div>
       </div>
-      <div class=\\"sd-tabs-content\\">
-        <div class=\\"sd-tabs-content-list\\" style=\\"margin-left: -0%;\\">
-          <div class=\\"sd-tabs-content-item\\">
-            <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 1 </div>
+      <div class="sd-tabs-content">
+        <div class="sd-tabs-content-list" style="margin-left: 0%;">
+          <div class="sd-tabs-content-item">
+            <div class="sd-tabs-pane"> Content of Tab Panel 1 </div>
           </div>
-          <div class=\\"sd-tabs-content-item\\">
-            <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 2 </div>
+          <div class="sd-tabs-content-item">
+            <div class="sd-tabs-pane"> Content of Tab Panel 2 </div>
           </div>
-          <div class=\\"sd-tabs-content-item\\">
-            <div class=\\"sd-tabs-pane\\"> Content of Tab Panel 3 </div>
+          <div class="sd-tabs-content-item">
+            <div class="sd-tabs-pane"> Content of Tab Panel 3 </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>"
+</div>
 `;

@@ -18,6 +18,6 @@ The basic usage of QuarterPicker.
 
 ```vue
 <template>
-  <a-quarter-picker style="width: 200px;" />
+  <sd-quarter-picker style="width: 200px;" />
 </template>
 ```

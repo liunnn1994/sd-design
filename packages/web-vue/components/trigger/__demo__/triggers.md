@@ -16,14 +16,14 @@ title:
 
 ```vue
 <template>
-  <a-trigger :trigger="['click', 'hover', 'focus']">
-    <a-input placeholder="Click/Hover/Focus on me" />
+  <sd-trigger :trigger="['click', 'hover', 'focus']">
+    <sd-input placeholder="Click/Hover/Focus on me" />
     <template #content>
       <div class="demo-trigger">
-        <a-empty />
+        <sd-empty />
       </div>
     </template>
-  </a-trigger>
+  </sd-trigger>
 </template>
 
 <style scoped>

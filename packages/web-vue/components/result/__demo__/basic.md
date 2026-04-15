@@ -18,13 +18,13 @@ Show the result status.
 
 ```vue
 <template>
-  <a-result title="This is title content" subtitle="This is subtitle content">
+  <sd-result title="This is title content" subtitle="This is subtitle content">
     <template #extra>
-      <a-space>
-        <a-button type="secondary">Again</a-button>
-        <a-button type="primary">Back</a-button>
-      </a-space>
+      <sd-space>
+        <sd-button type="secondary">Again</sd-button>
+        <sd-button type="primary">Back</sd-button>
+      </sd-space>
     </template>
-  </a-result>
+  </sd-result>
 </template>
 ```

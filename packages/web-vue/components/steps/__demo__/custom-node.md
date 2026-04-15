@@ -19,43 +19,43 @@ Basic usage of the step bar.
 ```vue
 <template>
   <div>
-    <a-steps changeable label-placement="vertical" :current="current" @change="setCurrent">
-      <a-step description="This is a description">
+    <sd-steps changeable label-placement="vertical" :current="current" @change="setCurrent">
+      <sd-step description="This is a description">
         Succeeded
         <template v-slot:node="slotProps">
-          <a-popover content="step tip" :popup-visible="current === 1">
+          <sd-popover content="step tip" :popup-visible="current === 1">
             <span>{{ slotProps.step }}</span>
-          </a-popover>
+          </sd-popover>
         </template>
-      </a-step>
-      <a-step description="This is a description">
+      </sd-step>
+      <sd-step description="This is a description">
         Processing Succeeded
         <template v-slot:node="slotProps">
-          <a-popover content="step tip" :popup-visible="current === 2">
+          <sd-popover content="step tip" :popup-visible="current === 2">
             <span>{{ slotProps.step }}</span>
-          </a-popover>
+          </sd-popover>
         </template>
-      </a-step>
-      <a-step description="This is a description"
+      </sd-step>
+      <sd-step description="This is a description"
         >Pending
         <template v-slot:node="slotProps">
-          <a-popover content="step tip" :popup-visible="current === 3">
+          <sd-popover content="step tip" :popup-visible="current === 3">
             <span>{{ slotProps.step }}</span>
-          </a-popover>
+          </sd-popover>
         </template>
-      </a-step>
-    </a-steps>
+      </sd-step>
+    </sd-steps>
     <div style="margin-top: 20px; text-align: center;">
-      <a-space size="large">
-        <a-button type="secondary" :disabled="current <= 1" @click="onPrev">
+      <sd-space size="large">
+        <sd-button type="secondary" :disabled="current <= 1" @click="onPrev">
           <IconLeft />
           Back
-        </a-button>
-        <a-button type="primary" :disabled="current >= 3" @click="onNext">
+        </sd-button>
+        <sd-button type="primary" :disabled="current >= 3" @click="onNext">
           Next
           <IconRight />
-        </a-button>
-      </a-space>
+        </sd-button>
+      </sd-space>
     </div>
   </div>
 </template>

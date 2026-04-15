@@ -18,7 +18,7 @@ By setting `format`, you can customize the hour, minute, and second.
 
 ```vue
 <template>
-  <a-time-picker format="HH:mm" :defaultValue="defaultValue" style="width: 130px;" />
+  <sd-time-picker format="HH:mm" :defaultValue="defaultValue" style="width: 130px;" />
 </template>
 <script>
   export default {

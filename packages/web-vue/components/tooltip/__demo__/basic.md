@@ -18,13 +18,13 @@ When the mouse is moved in, the tooltip appears, and when the mouse is moved out
 
 ```vue
 <template>
-  <a-space>
-    <a-tooltip content="This is tooltip content">
-      <a-button>Mouse over to display tooltip</a-button>
-    </a-tooltip>
-    <a-tooltip content="This is a two-line tooltip content.This is a two-line tooltip content.">
-      <a-button>Mouse over to display tooltip</a-button>
-    </a-tooltip>
-  </a-space>
+  <sd-space>
+    <sd-tooltip content="This is tooltip content">
+      <sd-button>Mouse over to display tooltip</sd-button>
+    </sd-tooltip>
+    <sd-tooltip content="This is a two-line tooltip content.This is a two-line tooltip content.">
+      <sd-button>Mouse over to display tooltip</sd-button>
+    </sd-tooltip>
+  </sd-space>
 </template>
 ```

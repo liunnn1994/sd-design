@@ -18,7 +18,7 @@ Update the message content and reset the timer by setting the `duration` propert
 
 ```vue
 <template>
-  <a-button @click="handleClick">Update Info Message</a-button>
+  <sd-button @click="handleClick">Update Info Message</sd-button>
 </template>
 
 <script>

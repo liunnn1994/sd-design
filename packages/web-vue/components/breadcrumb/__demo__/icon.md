@@ -18,24 +18,24 @@ You can use custom icons in the content.
 
 ```vue
 <template>
-  <a-space direction="vertical">
-    <a-breadcrumb>
-      <a-breadcrumb-item>
+  <sd-space direction="vertical">
+    <sd-breadcrumb>
+      <sd-breadcrumb-item>
         <icon-home />
-      </a-breadcrumb-item>
-      <a-breadcrumb-item>Channel</a-breadcrumb-item>
-      <a-breadcrumb-item>News</a-breadcrumb-item>
-    </a-breadcrumb>
-    <a-breadcrumb>
-      <a-breadcrumb-item>
+      </sd-breadcrumb-item>
+      <sd-breadcrumb-item>Channel</sd-breadcrumb-item>
+      <sd-breadcrumb-item>News</sd-breadcrumb-item>
+    </sd-breadcrumb>
+    <sd-breadcrumb>
+      <sd-breadcrumb-item>
         <icon-home />
-      </a-breadcrumb-item>
-      <a-breadcrumb-item>
+      </sd-breadcrumb-item>
+      <sd-breadcrumb-item>
         <icon-at />
         Channel
-      </a-breadcrumb-item>
-      <a-breadcrumb-item>News</a-breadcrumb-item>
-    </a-breadcrumb>
-  </a-space>
+      </sd-breadcrumb-item>
+      <sd-breadcrumb-item>News</sd-breadcrumb-item>
+    </sd-breadcrumb>
+  </sd-space>
 </template>
 ```

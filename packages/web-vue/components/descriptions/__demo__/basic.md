@@ -18,14 +18,14 @@ Simply display multiple read-only fields in groups, which are generally used for
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large" fill>
-    <a-descriptions :data="data" title="User Info" layout="inline-horizontal" />
-    <a-descriptions title="User Info" :column="{ xs: 1, md: 3, lg: 4 }">
-      <a-descriptions-item v-for="item of data" :label="item.label" :span="item.span ?? 1">
-        <a-tag>{{ item.value }}</a-tag>
-      </a-descriptions-item>
-    </a-descriptions>
-  </a-space>
+  <sd-space direction="vertical" size="large" fill>
+    <sd-descriptions :data="data" title="User Info" layout="inline-horizontal" />
+    <sd-descriptions title="User Info" :column="{ xs: 1, md: 3, lg: 4 }">
+      <sd-descriptions-item v-for="item of data" :label="item.label" :span="item.span ?? 1">
+        <sd-tag>{{ item.value }}</sd-tag>
+      </sd-descriptions-item>
+    </sd-descriptions>
+  </sd-space>
 </template>
 
 <script>

@@ -18,9 +18,9 @@ Disable the checkbox.
 
 ```vue
 <template>
-  <a-space size="large">
-    <a-checkbox value="1" disabled>Disabled Option 1</a-checkbox>
-    <a-checkbox :default-checked="true" disabled>Disabled Option 2</a-checkbox>
-  </a-space>
+  <sd-space size="large">
+    <sd-checkbox value="1" disabled>Disabled Option 1</sd-checkbox>
+    <sd-checkbox :default-checked="true" disabled>Disabled Option 2</sd-checkbox>
+  </sd-space>
 </template>
 ```

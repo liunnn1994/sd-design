@@ -18,21 +18,21 @@ The input box is divided into four sizes: `mini`, `small`, `medium`, and `large`
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large">
-    <a-radio-group type="button" v-model="size">
-      <a-radio value="mini">mini</a-radio>
-      <a-radio value="small">small</a-radio>
-      <a-radio value="medium">medium</a-radio>
-      <a-radio value="large">large</a-radio>
-    </a-radio-group>
-    <a-input-tag
+  <sd-space direction="vertical" size="large">
+    <sd-radio-group type="button" v-model="size">
+      <sd-radio value="mini">mini</sd-radio>
+      <sd-radio value="small">small</sd-radio>
+      <sd-radio value="medium">medium</sd-radio>
+      <sd-radio value="large">large</sd-radio>
+    </sd-radio-group>
+    <sd-input-tag
       :default-value="['one']"
       :style="{ width: '320px' }"
       placeholder="Please enter something"
       :size="size"
       allow-clear
     />
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

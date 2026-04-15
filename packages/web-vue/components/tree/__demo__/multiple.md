@@ -18,7 +18,7 @@ Add `:multiple="true"` to `Tree` to enable multiple selection.
 
 ```vue
 <template>
-  <a-checkbox
+  <sd-checkbox
     style="marginBottom: 24px;"
     v-model="multiple"
     @change="
@@ -28,11 +28,11 @@ Add `:multiple="true"` to `Tree` to enable multiple selection.
     "
   >
     multiple
-  </a-checkbox>
+  </sd-checkbox>
   <br />
-  <a-typography-text> Current: {{ selectedKeys?.join(' , ') }} </a-typography-text>
+  <sd-typography-text> Current: {{ selectedKeys?.join(' , ') }} </sd-typography-text>
   <br />
-  <a-tree v-model:selected-keys="selectedKeys" :multiple="multiple" :data="treeData" />
+  <sd-tree v-model:selected-keys="selectedKeys" :multiple="multiple" :data="treeData" />
 </template>
 <script>
   import { ref } from 'vue';

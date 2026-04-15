@@ -19,17 +19,17 @@ Specify `offset` to translate the grid.
 ```vue
 <template>
   <div>
-    <a-row class="grid-demo" style="marginBottom: 16px; backgroundColor: var(--color-fill-2);">
-      <a-col :span="8">col - 8</a-col>
-      <a-col :span="8" :offset="8"> col - 8 | offset - 8 </a-col>
-    </a-row>
-    <a-row class="grid-demo" style="marginBottom: 16px; backgroundColor: var(--color-fill-2);">
-      <a-col :span="6" :offset="8"> col - 6 | offset - 8 </a-col>
-      <a-col :span="6" :offset="4"> col - 6 | offset - 4 </a-col>
-    </a-row>
-    <a-row class="grid-demo" style="backgroundColor: var(--color-fill-2)">
-      <a-col :span="12" :offset="8"> col - 12 | offset - 8 </a-col>
-    </a-row>
+    <sd-row class="grid-demo" style="marginBottom: 16px; backgroundColor: var(--color-fill-2);">
+      <sd-col :span="8">col - 8</sd-col>
+      <sd-col :span="8" :offset="8"> col - 8 | offset - 8 </sd-col>
+    </sd-row>
+    <sd-row class="grid-demo" style="marginBottom: 16px; backgroundColor: var(--color-fill-2);">
+      <sd-col :span="6" :offset="8"> col - 6 | offset - 8 </sd-col>
+      <sd-col :span="6" :offset="4"> col - 6 | offset - 4 </sd-col>
+    </sd-row>
+    <sd-row class="grid-demo" style="backgroundColor: var(--color-fill-2)">
+      <sd-col :span="12" :offset="8"> col - 12 | offset - 8 </sd-col>
+    </sd-row>
   </div>
 </template>
 

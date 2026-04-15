@@ -33,7 +33,7 @@ describe('Drawer', () => {
     });
 
     await nextTick();
-    const buttons = wrapper.findAll('button');
+    const buttons = wrapper.findAll('.sd-btn');
     await buttons[0].trigger('click');
     expect(wrapper.emitted('cancel')).toHaveLength(1);
     await buttons[1].trigger('click');

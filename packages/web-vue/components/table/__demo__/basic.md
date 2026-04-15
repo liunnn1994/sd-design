@@ -18,7 +18,7 @@ For the basic usage of the table, you need to pass `columns` and `data`.
 
 ```vue
 <template>
-  <a-table :columns="columns" :data="data" />
+  <sd-table :columns="columns" :data="data" />
 </template>
 
 <script>

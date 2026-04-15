@@ -18,13 +18,13 @@ By setting the `long` property, the width of the button follows the width of the
 
 ```vue
 <template>
-  <a-space class="wrapper" direction="vertical">
-    <a-button type="primary" long>Primary</a-button>
-    <a-button long>Default</a-button>
-    <a-button type="dashed" long>Dashed</a-button>
-    <a-button type="outline" long>Outline</a-button>
-    <a-button type="text" long>Text</a-button>
-  </a-space>
+  <sd-space class="wrapper" direction="vertical">
+    <sd-button type="primary" long>Primary</sd-button>
+    <sd-button long>Default</sd-button>
+    <sd-button type="dashed" long>Dashed</sd-button>
+    <sd-button type="outline" long>Outline</sd-button>
+    <sd-button type="text" long>Text</sd-button>
+  </sd-space>
 </template>
 
 <style scoped lang="less">

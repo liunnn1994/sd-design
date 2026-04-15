@@ -16,7 +16,7 @@ By specifying `treeProps.virtualListProps` to turn on the virtual list, high per
 
 ```vue
 <template>
-  <a-tree-select
+  <sd-tree-select
     :data="treeData"
     :allow-search="{
       retainInputValue: true,

@@ -18,7 +18,7 @@ You can set `style` and `class` to customize the style.
 
 ```vue
 <template>
-  <a-button type="primary" @click="handleNotification"> Open Notification </a-button>
+  <sd-button type="primary" @click="handleNotification"> Open Notification </sd-button>
 </template>
 
 <script>

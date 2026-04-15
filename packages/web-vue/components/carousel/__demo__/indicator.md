@@ -18,30 +18,30 @@ You can specify the indicator type: `dot` | `line` | `slider` and position `left
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large">
-    <a-radio-group
+  <sd-space direction="vertical" size="large">
+    <sd-radio-group
       type="button"
       @change="updateType"
       style="{ marginBottom: '10px' }"
       :modelValue="indicatorType"
     >
-      <a-radio value="dot">dot</a-radio>
-      <a-radio value="line">line</a-radio>
-      <a-radio value="slider">slider</a-radio>
-    </a-radio-group>
-    <a-radio-group
+      <sd-radio value="dot">dot</sd-radio>
+      <sd-radio value="line">line</sd-radio>
+      <sd-radio value="slider">slider</sd-radio>
+    </sd-radio-group>
+    <sd-radio-group
       type="button"
       @change="updatePosition"
       :style="{ marginBottom: '20px' }"
       :modelValue="indicatorPosition"
     >
-      <a-radio value="left">left</a-radio>
-      <a-radio value="right">right</a-radio>
-      <a-radio value="top">top</a-radio>
-      <a-radio value="bottom">bottom</a-radio>
-      <a-radio value="outer">outer</a-radio>
-    </a-radio-group>
-    <a-carousel
+      <sd-radio value="left">left</sd-radio>
+      <sd-radio value="right">right</sd-radio>
+      <sd-radio value="top">top</sd-radio>
+      <sd-radio value="bottom">bottom</sd-radio>
+      <sd-radio value="outer">outer</sd-radio>
+    </sd-radio-group>
+    <sd-carousel
       :indicator-type="indicatorType"
       :indicator-position="indicatorPosition"
       show-arrow="never"
@@ -50,16 +50,16 @@ You can specify the indicator type: `dot` | `line` | `slider` and position `left
         height: '240px',
       }"
     >
-      <a-carousel-item v-for="image in images">
+      <sd-carousel-item v-for="image in images">
         <img
           :src="image"
           :style="{
             width: '100%',
           }"
         />
-      </a-carousel-item>
-    </a-carousel>
-  </a-space>
+      </sd-carousel-item>
+    </sd-carousel>
+  </sd-space>
 </template>
 
 <script>

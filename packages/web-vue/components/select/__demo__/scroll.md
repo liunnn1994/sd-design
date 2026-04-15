@@ -18,21 +18,21 @@ You can monitor the scroll event of the drop-down menu through `dropdown-scroll`
 
 ```vue
 <template>
-  <a-select
+  <sd-select
     :style="{ width: '320px' }"
     default-value="Beijing"
     placeholder="Please select ..."
     @dropdown-scroll="handleScroll"
     @dropdown-reach-bottom="handleReachBottom"
   >
-    <a-option>Beijing</a-option>
-    <a-option>Shanghai</a-option>
-    <a-option>Guangzhou</a-option>
-    <a-option disabled>Disabled</a-option>
-    <a-option>Shenzhen</a-option>
-    <a-option>Chengdu</a-option>
-    <a-option>Wuhan</a-option>
-  </a-select>
+    <sd-option>Beijing</sd-option>
+    <sd-option>Shanghai</sd-option>
+    <sd-option>Guangzhou</sd-option>
+    <sd-option disabled>Disabled</sd-option>
+    <sd-option>Shenzhen</sd-option>
+    <sd-option>Chengdu</sd-option>
+    <sd-option>Wuhan</sd-option>
+  </sd-select>
 </template>
 
 <script>

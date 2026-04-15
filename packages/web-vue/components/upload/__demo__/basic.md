@@ -18,9 +18,9 @@ Basic usage of upload component.
 
 ```vue
 <template>
-  <a-space direction="vertical" :style="{ width: '100%' }">
-    <a-upload action="/" />
-    <a-upload action="/" disabled style="margin-top: 40px;" />
-  </a-space>
+  <sd-space direction="vertical" :style="{ width: '100%' }">
+    <sd-upload action="/" />
+    <sd-upload action="/" disabled style="margin-top: 40px;" />
+  </sd-space>
 </template>
 ```

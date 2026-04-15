@@ -18,17 +18,17 @@ Validate input using `formatter`. Additionally, it can return non-boolean types 
 
 ```vue
 <template>
-  <a-space direction="vertical">
-    <a-verification-code
+  <sd-space direction="vertical">
+    <sd-verification-code
       defaultValue="123456"
       style="width: 300px"
       :formatter="(inputValue) => (/^\d*$/.test(inputValue) ? inputValue : false)"
     />
-    <a-verification-code
+    <sd-verification-code
       defaultValue="abcdef"
       style="width: 300px"
       :formatter="(inputValue) => (/^[a-zA-Z]*$/.test(inputValue) ? inputValue.toUpperCase() : '')"
     />
-  </a-space>
+  </sd-space>
 </template>
 ```

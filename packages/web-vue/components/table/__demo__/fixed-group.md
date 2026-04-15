@@ -18,7 +18,7 @@ When a fixed column is used in the grouping header, the data column needs to be 
 
 ```vue
 <template>
-  <a-table :columns="columns" :data="data" :bordered="{ cell: true }" :scroll="{ x: 2000 }" />
+  <sd-table :columns="columns" :data="data" :bordered="{ cell: true }" :scroll="{ x: 2000 }" />
 </template>
 
 <script>

@@ -18,7 +18,7 @@ Use `formatter` and `parser` together to define the display value of the input b
 
 ```vue
 <template>
-  <a-input-number
+  <sd-input-number
     :style="{ width: '320px' }"
     placeholder="Please Enter"
     class="input-demo"

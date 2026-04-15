@@ -19,7 +19,7 @@ We provide a variety of preset colors for the badge. And you can also set a cust
 ```vue
 <template>
   <div>
-    <a-badge
+    <sd-badge
       v-for="color in colors"
       :key="color"
       :color="color"
@@ -29,7 +29,7 @@ We provide a variety of preset colors for the badge. And you can also set a cust
   </div>
   <br />
   <div>
-    <a-badge
+    <sd-badge
       v-for="color in customColors"
       :key="color"
       :color="color"

@@ -18,6 +18,6 @@ Specify a rate component of any length by specifying `count`.
 
 ```vue
 <template>
-  <a-rate :count="10" />
+  <sd-rate :count="10" />
 </template>
 ```

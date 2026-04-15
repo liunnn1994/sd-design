@@ -18,7 +18,7 @@ Use with replay
 
 ```vue
 <template>
-  <a-comment
+  <sd-comment
     align="right"
     author="Balzac"
     avatar="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
@@ -31,19 +31,19 @@ Use with replay
     <template #actions>
       <span class="action"> <IconMessage /> Reply </span>
     </template>
-    <a-comment
+    <sd-comment
       align="right"
       avatar="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
     >
       <template #actions>
-        <a-button key="0" type="secondary"> Cancel </a-button>
-        <a-button key="1" type="primary"> Reply </a-button>
+        <sd-button key="0" type="secondary"> Cancel </sd-button>
+        <sd-button key="1" type="primary"> Reply </sd-button>
       </template>
       <template #content>
-        <a-input placeholder="Here is you content." />
+        <sd-input placeholder="Here is you content." />
       </template>
-    </a-comment>
-  </a-comment>
+    </sd-comment>
+  </sd-comment>
 </template>
 
 <script>

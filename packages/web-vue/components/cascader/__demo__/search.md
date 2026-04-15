@@ -18,7 +18,7 @@ Make the input box support search function by setting `allow-search`.
 
 ```vue
 <template>
-  <a-cascader
+  <sd-cascader
     :options="options"
     :style="{ width: '320px' }"
     placeholder="Please select ..."

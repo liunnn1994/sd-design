@@ -18,8 +18,8 @@ Multiple Selection
 
 ```vue
 <template>
-  <a-space>
-    <a-tree-select
+  <sd-space>
+    <sd-tree-select
       v-model="selected"
       :multiple="true"
       :allow-clear="true"
@@ -27,8 +27,8 @@ Multiple Selection
       :data="treeData"
       placeholder="Please select ..."
       style="width: 300px"
-    ></a-tree-select>
-    <a-tree-select
+    ></sd-tree-select>
+    <sd-tree-select
       v-model="selected"
       :multiple="true"
       :max-tag-count="2"
@@ -37,8 +37,8 @@ Multiple Selection
       :data="treeData"
       placeholder="Please select ..."
       style="width: 300px"
-    ></a-tree-select>
-  </a-space>
+    ></sd-tree-select>
+  </sd-space>
 </template>
 <script>
   import { h, ref } from 'vue';

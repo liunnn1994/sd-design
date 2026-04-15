@@ -18,37 +18,37 @@ Use the `optgroup` component to add grouping options.
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large">
-    <a-select :style="{ width: '320px' }" placeholder="Please select ...">
-      <a-optgroup label="Group-1">
-        <a-option>Beijing</a-option>
-        <a-option>Shanghai</a-option>
-      </a-optgroup>
-      <a-optgroup label="Group-2">
-        <a-option>Guangzhou</a-option>
-        <a-option disabled>Disabled</a-option>
-        <a-option>Shenzhen</a-option>
-      </a-optgroup>
-      <a-optgroup label="Group-3">
-        <a-option>Chengdu</a-option>
-        <a-option>Wuhan</a-option>
-      </a-optgroup>
-    </a-select>
-    <a-select :style="{ width: '320px' }" placeholder="Please select ..." multiple>
-      <a-optgroup label="Group-1">
-        <a-option>Beijing</a-option>
-        <a-option>Shanghai</a-option>
-      </a-optgroup>
-      <a-optgroup label="Group-2">
-        <a-option>Guangzhou</a-option>
-        <a-option disabled>Disabled</a-option>
-        <a-option>Shenzhen</a-option>
-      </a-optgroup>
-      <a-optgroup label="Group-3">
-        <a-option>Chengdu</a-option>
-        <a-option>Wuhan</a-option>
-      </a-optgroup>
-    </a-select>
-  </a-space>
+  <sd-space direction="vertical" size="large">
+    <sd-select :style="{ width: '320px' }" placeholder="Please select ...">
+      <sd-optgroup label="Group-1">
+        <sd-option>Beijing</sd-option>
+        <sd-option>Shanghai</sd-option>
+      </sd-optgroup>
+      <sd-optgroup label="Group-2">
+        <sd-option>Guangzhou</sd-option>
+        <sd-option disabled>Disabled</sd-option>
+        <sd-option>Shenzhen</sd-option>
+      </sd-optgroup>
+      <sd-optgroup label="Group-3">
+        <sd-option>Chengdu</sd-option>
+        <sd-option>Wuhan</sd-option>
+      </sd-optgroup>
+    </sd-select>
+    <sd-select :style="{ width: '320px' }" placeholder="Please select ..." multiple>
+      <sd-optgroup label="Group-1">
+        <sd-option>Beijing</sd-option>
+        <sd-option>Shanghai</sd-option>
+      </sd-optgroup>
+      <sd-optgroup label="Group-2">
+        <sd-option>Guangzhou</sd-option>
+        <sd-option disabled>Disabled</sd-option>
+        <sd-option>Shenzhen</sd-option>
+      </sd-optgroup>
+      <sd-optgroup label="Group-3">
+        <sd-option>Chengdu</sd-option>
+        <sd-option>Wuhan</sd-option>
+      </sd-optgroup>
+    </sd-select>
+  </sd-space>
 </template>
 ```

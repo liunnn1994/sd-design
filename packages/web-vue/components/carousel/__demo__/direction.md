@@ -18,7 +18,7 @@ By default, the `direction` is `horizontal`. Use the vertical direction switch b
 
 ```vue
 <template>
-  <a-carousel
+  <sd-carousel
     :style="{
       width: '600px',
       height: '240px',
@@ -27,15 +27,15 @@ By default, the `direction` is `horizontal`. Use the vertical direction switch b
     direction="vertical"
     indicator-position="right"
   >
-    <a-carousel-item v-for="image in images">
+    <sd-carousel-item v-for="image in images">
       <img
         :src="image"
         :style="{
           width: '100%',
         }"
       />
-    </a-carousel-item>
-  </a-carousel>
+    </sd-carousel-item>
+  </sd-carousel>
 </template>
 
 <script>

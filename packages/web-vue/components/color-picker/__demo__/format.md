@@ -18,12 +18,12 @@ Set the format of the color value through `format`, supporting `hex` and `rgb`.
 
 ```vue
 <template>
-  <a-space direction="vertical">
-    <a-radio-group type="button" v-model="format">
-      <a-radio v-for="item in formatList" :value="item">{{ item }}</a-radio>
-    </a-radio-group>
-    <a-color-picker defaultValue="#165DFF" :format="format" showText />
-  </a-space>
+  <sd-space direction="vertical">
+    <sd-radio-group type="button" v-model="format">
+      <sd-radio v-for="item in formatList" :value="item">{{ item }}</sd-radio>
+    </sd-radio-group>
+    <sd-color-picker defaultValue="#165DFF" :format="format" showText />
+  </sd-space>
 </template>
 
 <script setup>

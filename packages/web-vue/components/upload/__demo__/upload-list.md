@@ -18,7 +18,7 @@ You can specify a default list of uploaded files.
 
 ```vue
 <template>
-  <a-upload action="/" :default-file-list="fileList" />
+  <sd-upload action="/" :default-file-list="fileList" />
 </template>
 
 <script>

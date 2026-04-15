@@ -16,32 +16,32 @@ title:
 
 ```vue
 <template>
-  <a-space>
-    <a-trigger>
-      <a-button>BOTTOM</a-button>
+  <sd-space>
+    <sd-trigger>
+      <sd-button>BOTTOM</sd-button>
       <template #content>
         <div class="trigger-demo-translate">
-          <a-empty />
+          <sd-empty />
         </div>
       </template>
-    </a-trigger>
-    <a-trigger :popup-translate="[100, 20]">
-      <a-button>BOTTOM OFFSET[100, 20]</a-button>
+    </sd-trigger>
+    <sd-trigger :popup-translate="[100, 20]">
+      <sd-button>BOTTOM OFFSET[100, 20]</sd-button>
       <template #content>
         <div class="trigger-demo-translate">
-          <a-empty />
+          <sd-empty />
         </div>
       </template>
-    </a-trigger>
-    <a-trigger :popup-translate="[-100, 20]">
-      <a-button>BOTTOM OFFSET[-100, 20]</a-button>
+    </sd-trigger>
+    <sd-trigger :popup-translate="[-100, 20]">
+      <sd-button>BOTTOM OFFSET[-100, 20]</sd-button>
       <template #content>
         <div class="trigger-demo-translate">
-          <a-empty />
+          <sd-empty />
         </div>
       </template>
-    </a-trigger>
-  </a-space>
+    </sd-trigger>
+  </sd-space>
 </template>
 
 <style scoped>

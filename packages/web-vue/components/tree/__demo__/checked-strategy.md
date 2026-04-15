@@ -18,7 +18,7 @@ Add `checkedStrategy` to set the return value when selected.
 
 ```vue
 <template>
-  <a-radio-group
+  <sd-radio-group
     type="button"
     v-model="checkedStrategy"
     @change="
@@ -27,16 +27,16 @@ Add `checkedStrategy` to set the return value when selected.
       }
     "
   >
-    <a-radio v-for="item in strategyOptions" :key="item?.value" :value="item?.value">
+    <sd-radio v-for="item in strategyOptions" :key="item?.value" :value="item?.value">
       {{ item?.label }}
-    </a-radio>
-  </a-radio-group>
+    </sd-radio>
+  </sd-radio-group>
   <br />
-  <a-typography-text style="margin: 24px 0; display: inline-block;">
+  <sd-typography-text style="margin: 24px 0; display: inline-block;">
     Current: {{ checkedKeys?.join(' , ') }}
-  </a-typography-text>
+  </sd-typography-text>
   <br />
-  <a-tree
+  <sd-tree
     :checkable="true"
     v-model:checked-keys="checkedKeys"
     :checked-strategy="checkedStrategy"

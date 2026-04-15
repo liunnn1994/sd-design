@@ -19,20 +19,20 @@ Sort elements by `order`.
 ```vue
 <template>
   <div>
-    <a-row class="grid-demo">
-      <a-col :span="6" :order="4">
+    <sd-row class="grid-demo">
+      <sd-col :span="6" :order="4">
         <div>1 col-order-4</div>
-      </a-col>
-      <a-col :span="6" :order="3">
+      </sd-col>
+      <sd-col :span="6" :order="3">
         <div>2 col-order-3</div>
-      </a-col>
-      <a-col :span="6" :order="2">
+      </sd-col>
+      <sd-col :span="6" :order="2">
         <div>3 col-order-2</div>
-      </a-col>
-      <a-col :span="6" :order="1">
+      </sd-col>
+      <sd-col :span="6" :order="1">
         <div>4 col-order-1</div>
-      </a-col>
-    </a-row>
+      </sd-col>
+    </sd-row>
   </div>
 </template>
 

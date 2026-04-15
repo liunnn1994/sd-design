@@ -18,7 +18,7 @@ Use `formatLabel` to customize the displayed content.
 
 ```vue
 <template>
-  <a-cascader
+  <sd-cascader
     :options="options"
     default-value="datunli"
     :style="{ width: '320px' }"

@@ -10,15 +10,11 @@ describe('Tooltip', () => {
         template: ['top', 'tl', 'tr', 'bottom', 'bl', 'br', 'left', 'lt', 'lb', 'right', 'rt', 'rb']
           .map(
             (item) =>
-              `<a-tooltip content="content" :default-popup-visible="true" position="${item}" :render-to-body="false"><button>Button</button></a-tooltip>`,
+              `<sd-tooltip content="content" :default-popup-visible="true" position="${item}" :render-to-body="false"><button>Button</button></sd-tooltip>`,
           )
           .join('/n'),
       },
-      {
-        global: {
-          plugins: [Tooltip],
-        },
-      },
+      {},
     );
 
     await nextTick();

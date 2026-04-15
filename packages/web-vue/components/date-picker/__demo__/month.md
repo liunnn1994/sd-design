@@ -18,6 +18,6 @@ The basic usage of MonthPicker.
 
 ```vue
 <template>
-  <a-month-picker style="width: 200px;" />
+  <sd-month-picker style="width: 200px;" />
 </template>
 ```

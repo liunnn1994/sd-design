@@ -18,29 +18,29 @@ When the number of columns occupied by `span` is greater than the number of data
 
 ```vue
 <template>
-  <a-form :model="form" auto-label-width>
-    <a-form-item label="size">
-      <a-radio-group v-model="form.size" type="button" :options="sizeOptions" />
-    </a-form-item>
+  <sd-form :model="form" auto-label-width>
+    <sd-form-item label="size">
+      <sd-radio-group v-model="form.size" type="button" :options="sizeOptions" />
+    </sd-form-item>
 
-    <a-form-item label="layout">
-      <a-radio-group v-model="form.layout" type="button" :options="layoutOptions" />
-    </a-form-item>
+    <sd-form-item label="layout">
+      <sd-radio-group v-model="form.layout" type="button" :options="layoutOptions" />
+    </sd-form-item>
 
-    <a-form-item label="table-layout">
-      <a-radio-group v-model="form.tableLayout" type="button" :options="['auto', 'fixed']" />
-    </a-form-item>
+    <sd-form-item label="table-layout">
+      <sd-radio-group v-model="form.tableLayout" type="button" :options="['auto', 'fixed']" />
+    </sd-form-item>
 
-    <a-form-item label="column">
-      <a-radio-group v-model="form.column" type="button" :options="columnOptions" />
-    </a-form-item>
+    <sd-form-item label="column">
+      <sd-radio-group v-model="form.column" type="button" :options="columnOptions" />
+    </sd-form-item>
 
-    <a-form-item label="firstSpan">
-      <a-radio-group v-model="form.firstSpan" type="button" :options="firstSpanOptions" />
-    </a-form-item>
-  </a-form>
+    <sd-form-item label="firstSpan">
+      <sd-radio-group v-model="form.firstSpan" type="button" :options="firstSpanOptions" />
+    </sd-form-item>
+  </sd-form>
   <div style="margin-top: 20px">
-    <a-descriptions
+    <sd-descriptions
       title="Layout Example"
       :size="form.size"
       :column="form.column"
@@ -48,20 +48,20 @@ When the number of columns occupied by `span` is greater than the number of data
       :table-layout="form.tableLayout"
       bordered
     >
-      <a-descriptions-item label="Item1" :span="form.firstSpan">
+      <sd-descriptions-item label="Item1" :span="form.firstSpan">
         <div
           >Span：{{ form.firstSpan }}
           <span v-if="form.firstSpan > form.column" style="color: red;">
             Exceeds Column, set to Column size
           </span>
         </div>
-      </a-descriptions-item>
-      <a-descriptions-item label="Item2" :span="2">Span：2</a-descriptions-item>
-      <a-descriptions-item label="Item3" :span="3">Span：3</a-descriptions-item>
-      <a-descriptions-item label="Item4" :span="2">Span：2</a-descriptions-item>
-      <a-descriptions-item label="Item5" :span="1">Span：1</a-descriptions-item>
-      <a-descriptions-item label="Item6" :span="1">Span：1</a-descriptions-item>
-    </a-descriptions>
+      </sd-descriptions-item>
+      <sd-descriptions-item label="Item2" :span="2">Span：2</sd-descriptions-item>
+      <sd-descriptions-item label="Item3" :span="3">Span：3</sd-descriptions-item>
+      <sd-descriptions-item label="Item4" :span="2">Span：2</sd-descriptions-item>
+      <sd-descriptions-item label="Item5" :span="1">Span：1</sd-descriptions-item>
+      <sd-descriptions-item label="Item6" :span="1">Span：1</sd-descriptions-item>
+    </sd-descriptions>
   </div>
 </template>
 

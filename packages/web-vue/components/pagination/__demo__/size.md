@@ -18,15 +18,15 @@ The pagination is divided into four sizes: `mini`, `small`, `medium`, and `large
 
 ```vue
 <template>
-  <a-space direction="vertical" size="large">
-    <a-radio-group type="button" v-model="size">
-      <a-radio value="mini">Mini</a-radio>
-      <a-radio value="small">Small</a-radio>
-      <a-radio value="medium">Medium</a-radio>
-      <a-radio value="large">Large</a-radio>
-    </a-radio-group>
-    <a-pagination :total="50" :size="size" show-total show-jumper show-page-size />
-  </a-space>
+  <sd-space direction="vertical" size="large">
+    <sd-radio-group type="button" v-model="size">
+      <sd-radio value="mini">Mini</sd-radio>
+      <sd-radio value="small">Small</sd-radio>
+      <sd-radio value="medium">Medium</sd-radio>
+      <sd-radio value="large">Large</sd-radio>
+    </sd-radio-group>
+    <sd-pagination :total="50" :size="size" show-total show-jumper show-page-size />
+  </sd-space>
 </template>
 
 <script>

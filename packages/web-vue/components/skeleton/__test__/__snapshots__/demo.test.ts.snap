@@ -1,94 +1,94 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`<skeleton> demo: render [animation] correctly 1`] = `
-"<div class=\\"sd-space sd-space-vertical\\" style=\\"column-gap: 24px; row-gap: 24px; width: 100%;\\">
+exports[`<skeleton> demo: > render [animation] correctly 1`] = `
+<div class="sd-space sd-space-vertical" style="column-gap: 24px; row-gap: 24px; width: 100%;">
   <!---->
-  <div class=\\"sd-space-item\\">
-    <div class=\\"sd-space sd-space-horizontal sd-space-align-center\\" style=\\"column-gap: 8px; row-gap: 8px;\\">
+  <div class="sd-space-item">
+    <div class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 8px; row-gap: 8px;">
       <!---->
-      <div class=\\"sd-space-item\\"><span>Animation</span></div>
+      <div class="sd-space-item"><span>Animation</span></div>
       <!---->
-      <div class=\\"sd-space-item\\"><button type=\\"button\\" role=\\"switch\\" aria-checked=\\"true\\" class=\\"sd-switch sd-switch-type-circle sd-switch-checked\\"><span class=\\"sd-switch-handle\\"><span class=\\"sd-switch-handle-icon\\"></span></span><!--  prettier-ignore  -->
+      <div class="sd-space-item"><button type="button" role="switch" aria-checked="true" class="sd-switch sd-switch-type-circle sd-switch-checked"><span class="sd-switch-handle"><span class="sd-switch-handle-icon"></span></span><!--  prettier-ignore  -->
           <!--v-if-->
         </button></div>
     </div>
   </div>
   <!---->
-  <div class=\\"sd-space-item\\">
-    <div class=\\"sd-skeleton sd-skeleton-animation\\">
-      <div class=\\"sd-space sd-space-vertical\\" style=\\"column-gap: 24px; row-gap: 24px; width: 100%;\\">
+  <div class="sd-space-item">
+    <div class="sd-skeleton sd-skeleton-animation">
+      <div class="sd-space sd-space-vertical" style="column-gap: 24px; row-gap: 24px; width: 100%;">
         <!---->
-        <div class=\\"sd-space-item\\">
-          <ul class=\\"sd-skeleton-line\\">
-            <li class=\\"sd-skeleton-line-row\\" style=\\"height: 20px;\\"></li>
+        <div class="sd-space-item">
+          <ul class="sd-skeleton-line">
+            <li class="sd-skeleton-line-row" style="height: 20px;"></li>
           </ul>
-          <ul class=\\"sd-skeleton-line\\">
-            <li class=\\"sd-skeleton-line-row\\" style=\\"height: 20px; margin-top: 15px;\\"></li>
+          <ul class="sd-skeleton-line">
+            <li class="sd-skeleton-line-row" style="height: 20px; margin-top: 15px;"></li>
           </ul>
-          <ul class=\\"sd-skeleton-line\\">
-            <li class=\\"sd-skeleton-line-row\\" style=\\"height: 20px; margin-top: 15px;\\"></li>
+          <ul class="sd-skeleton-line">
+            <li class="sd-skeleton-line-row" style="height: 20px; margin-top: 15px;"></li>
           </ul>
         </div>
         <!---->
-        <div class=\\"sd-space-item\\">
-          <div class=\\"sd-skeleton-shape sd-skeleton-shape-square sd-skeleton-shape-medium\\"></div>
+        <div class="sd-space-item">
+          <div class="sd-skeleton-shape sd-skeleton-shape-square sd-skeleton-shape-medium"></div>
         </div>
       </div>
     </div>
   </div>
-</div>"
+</div>
 `;
 
-exports[`<skeleton> demo: render [basic] correctly 1`] = `
-"<div class=\\"sd-skeleton\\">
-  <div class=\\"sd-space sd-space-vertical\\" style=\\"column-gap: 24px; row-gap: 24px; width: 100%;\\">
+exports[`<skeleton> demo: > render [basic] correctly 1`] = `
+<div class="sd-skeleton">
+  <div class="sd-space sd-space-vertical" style="column-gap: 24px; row-gap: 24px; width: 100%;">
     <!---->
-    <div class=\\"sd-space-item\\">
-      <ul class=\\"sd-skeleton-line\\">
-        <li class=\\"sd-skeleton-line-row\\" style=\\"height: 20px;\\"></li>
+    <div class="sd-space-item">
+      <ul class="sd-skeleton-line">
+        <li class="sd-skeleton-line-row" style="height: 20px;"></li>
       </ul>
-      <ul class=\\"sd-skeleton-line\\">
-        <li class=\\"sd-skeleton-line-row\\" style=\\"height: 20px; margin-top: 15px;\\"></li>
+      <ul class="sd-skeleton-line">
+        <li class="sd-skeleton-line-row" style="height: 20px; margin-top: 15px;"></li>
       </ul>
-      <ul class=\\"sd-skeleton-line\\">
-        <li class=\\"sd-skeleton-line-row\\" style=\\"height: 20px; margin-top: 15px;\\"></li>
+      <ul class="sd-skeleton-line">
+        <li class="sd-skeleton-line-row" style="height: 20px; margin-top: 15px;"></li>
       </ul>
     </div>
     <!---->
-    <div class=\\"sd-space-item\\">
-      <div class=\\"sd-skeleton-shape sd-skeleton-shape-square sd-skeleton-shape-medium\\"></div>
+    <div class="sd-space-item">
+      <div class="sd-skeleton-shape sd-skeleton-shape-square sd-skeleton-shape-medium"></div>
     </div>
   </div>
-</div>"
+</div>
 `;
 
-exports[`<skeleton> demo: render [type] correctly 1`] = `
-"<div class=\\"sd-skeleton\\">
-  <div class=\\"sd-space sd-space-horizontal sd-space-align-center\\" style=\\"column-gap: 24px; row-gap: 24px;\\">
+exports[`<skeleton> demo: > render [type] correctly 1`] = `
+<div class="sd-skeleton">
+  <div class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 24px; row-gap: 24px;">
     <!---->
-    <div class=\\"sd-space-item\\">
-      <div class=\\"sd-skeleton-shape sd-skeleton-shape-square sd-skeleton-shape-small\\"></div>
+    <div class="sd-space-item">
+      <div class="sd-skeleton-shape sd-skeleton-shape-square sd-skeleton-shape-small"></div>
     </div>
     <!---->
-    <div class=\\"sd-space-item\\">
-      <div class=\\"sd-skeleton-shape sd-skeleton-shape-square sd-skeleton-shape-medium\\"></div>
+    <div class="sd-space-item">
+      <div class="sd-skeleton-shape sd-skeleton-shape-square sd-skeleton-shape-medium"></div>
     </div>
     <!---->
-    <div class=\\"sd-space-item\\">
-      <div class=\\"sd-skeleton-shape sd-skeleton-shape-square sd-skeleton-shape-large\\"></div>
+    <div class="sd-space-item">
+      <div class="sd-skeleton-shape sd-skeleton-shape-square sd-skeleton-shape-large"></div>
     </div>
     <!---->
-    <div class=\\"sd-space-item\\">
-      <div class=\\"sd-skeleton-shape sd-skeleton-shape-circle sd-skeleton-shape-small\\"></div>
+    <div class="sd-space-item">
+      <div class="sd-skeleton-shape sd-skeleton-shape-circle sd-skeleton-shape-small"></div>
     </div>
     <!---->
-    <div class=\\"sd-space-item\\">
-      <div class=\\"sd-skeleton-shape sd-skeleton-shape-circle sd-skeleton-shape-medium\\"></div>
+    <div class="sd-space-item">
+      <div class="sd-skeleton-shape sd-skeleton-shape-circle sd-skeleton-shape-medium"></div>
     </div>
     <!---->
-    <div class=\\"sd-space-item\\">
-      <div class=\\"sd-skeleton-shape sd-skeleton-shape-circle sd-skeleton-shape-large\\"></div>
+    <div class="sd-space-item">
+      <div class="sd-skeleton-shape sd-skeleton-shape-circle sd-skeleton-shape-large"></div>
     </div>
   </div>
-</div>"
+</div>
 `;

@@ -18,12 +18,12 @@ The node icons `loadingIcon`, `switcherIcon`, support customization at the two l
 
 ```vue
 <template>
-  <a-tree :data="treeData" show-line>
+  <sd-tree :data="treeData" show-line>
     <template #switcher-icon="node, { isLeaf }">
       <IconDown v-if="!isLeaf" />
       <IconStar v-if="isLeaf" />
     </template>
-  </a-tree>
+  </sd-tree>
 </template>
 
 <script>

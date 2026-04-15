@@ -18,10 +18,10 @@ You can use the connectionless mode by setting `line-less`.
 
 ```vue
 <template>
-  <a-steps :current="2" line-less>
-    <a-step description="This is a description">Succeeded</a-step>
-    <a-step description="This is a description">Processing</a-step>
-    <a-step description="This is a description">Pending</a-step>
-  </a-steps>
+  <sd-steps :current="2" line-less>
+    <sd-step description="This is a description">Succeeded</sd-step>
+    <sd-step description="This is a description">Processing</sd-step>
+    <sd-step description="This is a description">Pending</sd-step>
+  </sd-steps>
 </template>
 ```

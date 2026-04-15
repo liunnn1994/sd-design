@@ -18,6 +18,7 @@ const sleep = (timeout = 0) => new Promise((resolve) => setTimeout(resolve, time
 describe('Typography', () => {
   beforeAll(() => {
     Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
+      configurable: true,
       get() {
         const html = this.innerHTML;
         const text = html.replace(/<[^>]*>/g, '');
@@ -27,12 +28,14 @@ describe('Typography', () => {
     });
 
     Object.defineProperty(HTMLElement.prototype, 'innerText', {
+      configurable: true,
       get() {
         return this.textContent;
       },
     });
 
     Object.defineProperty(window, 'getComputedStyle', {
+      configurable: true,
       value: (ele: HTMLElement) => {
         const style = _getComputedStyle(ele);
         style.lineHeight = `${LINE_HEIGHT}px`;
@@ -43,12 +46,15 @@ describe('Typography', () => {
 
   afterAll(() => {
     Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
+      configurable: true,
       get: _getHtmlOffsetHeight,
     });
     Object.defineProperty(HTMLElement.prototype, 'innerText', {
+      configurable: true,
       get: _getInnerText,
     });
     Object.defineProperty(window, 'getComputedStyle', {
+      configurable: true,
       value: _getComputedStyle,
     });
   });

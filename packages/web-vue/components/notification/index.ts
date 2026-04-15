@@ -108,6 +108,10 @@ class NotificationManger {
       notificationInstance[this.position] = undefined;
     }
   };
+
+  isDisconnected = () => {
+    return !this.container || !this.container.isConnected;
+  };
 }
 
 const notificationInstance: {
@@ -125,6 +129,9 @@ const notification = MESSAGE_TYPES.reduce((pre, value) => {
 
     const _config: _NotificationConfig = { type: value, ...config };
     const { position = 'topRight' } = _config;
+    if (notificationInstance[position]?.isDisconnected()) {
+      notificationInstance[position] = undefined;
+    }
     if (!notificationInstance[position]) {
       notificationInstance[position] = new NotificationManger(_config, appContext);
     }

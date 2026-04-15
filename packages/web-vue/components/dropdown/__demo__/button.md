@@ -18,32 +18,32 @@ The `<dropdown-button>` component can be used to display a button with a menu of
 
 ```vue
 <template>
-  <a-space size="large">
-    <a-dropdown-button>
+  <sd-space size="large">
+    <sd-dropdown-button>
       Publish
       <template #content>
-        <a-doption>Save now</a-doption>
-        <a-doption>Save and Publish</a-doption>
+        <sd-doption>Save now</sd-doption>
+        <sd-doption>Save and Publish</sd-doption>
       </template>
-    </a-dropdown-button>
-    <a-dropdown-button disabled>
+    </sd-dropdown-button>
+    <sd-dropdown-button disabled>
       Disabled
       <template #content>
-        <a-doption>Save now</a-doption>
-        <a-doption>Save and Publish</a-doption>
+        <sd-doption>Save now</sd-doption>
+        <sd-doption>Save and Publish</sd-doption>
       </template>
-    </a-dropdown-button>
-    <a-dropdown-button>
+    </sd-dropdown-button>
+    <sd-dropdown-button>
       Publish
       <template #icon>
         <icon-down />
       </template>
       <template #content>
-        <a-doption>Save now</a-doption>
-        <a-doption>Save and Publish</a-doption>
+        <sd-doption>Save now</sd-doption>
+        <sd-doption>Save and Publish</sd-doption>
       </template>
-    </a-dropdown-button>
-  </a-space>
+    </sd-dropdown-button>
+  </sd-space>
 </template>
 
 <style>

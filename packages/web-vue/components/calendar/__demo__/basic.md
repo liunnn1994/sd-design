@@ -18,7 +18,7 @@ Display and select calendars
 
 ```vue
 <template>
-  <a-calendar v-model="value" />
+  <sd-calendar v-model="value" />
   select: {{ value }}
 </template>
 

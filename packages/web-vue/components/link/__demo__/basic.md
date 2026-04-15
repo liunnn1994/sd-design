@@ -18,9 +18,9 @@ Basic usage of link.
 
 ```vue
 <template>
-  <a-space>
-    <a-link href="link">Link</a-link>
-    <a-link href="link" disabled>Link</a-link>
-  </a-space>
+  <sd-space>
+    <sd-link href="link">Link</sd-link>
+    <sd-link href="link" disabled>Link</sd-link>
+  </sd-space>
 </template>
 ```

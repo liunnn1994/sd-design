@@ -18,14 +18,14 @@ The lazy data loading function can be turned on through the `load-more` attribut
 
 ```vue
 <template>
-  <a-space>
-    <a-cascader
+  <sd-space>
+    <sd-cascader
       :options="options"
       :style="{ width: '320px' }"
       placeholder="Please select ..."
       :load-more="loadMore"
     />
-  </a-space>
+  </sd-space>
 </template>
 
 <script>
