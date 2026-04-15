@@ -1,44 +1,44 @@
 <template>
-  <a-space direction="vertical" size="large">
-    <a-select
+  <sd-space direction="vertical" size="large">
+    <sd-select
       defaultValue="Shanxi"
       :style="{ width: '320px' }"
       placeholder="Please select ..."
       :fallback-option="fallback"
     >
-      <a-option>Beijing</a-option>
-      <a-option>Shanghai</a-option>
-      <a-option>Guangzhou</a-option>
-      <a-option disabled>Disabled</a-option>
-    </a-select>
-    <a-select
+      <sd-option>Beijing</sd-option>
+      <sd-option>Shanghai</sd-option>
+      <sd-option>Guangzhou</sd-option>
+      <sd-option disabled>Disabled</sd-option>
+    </sd-select>
+    <sd-select
       defaultValue="Shanxi"
       :style="{ width: '320px' }"
       placeholder="Please select ..."
       :fallback-option="fallback"
       :show-extra-options="false"
     >
-      <a-option>Beijing</a-option>
-      <a-option>Shanghai</a-option>
-      <a-option>Guangzhou</a-option>
-      <a-option disabled>Disabled</a-option>
-    </a-select>
-    <a-select
+      <sd-option>Beijing</sd-option>
+      <sd-option>Shanghai</sd-option>
+      <sd-option>Guangzhou</sd-option>
+      <sd-option disabled>Disabled</sd-option>
+    </sd-select>
+    <sd-select
       :default-value="['Shanxi', 'Nanjing', 'Hangzhou']"
       :style="{ width: '320px' }"
       placeholder="Please select ..."
       multiple
       :fallback-option="fallback"
     >
-      <a-option>Beijing</a-option>
-      <a-option>Shanghai</a-option>
-      <a-option>Guangzhou</a-option>
-      <a-option disabled>Disabled</a-option>
-      <a-option>Shenzhen</a-option>
-      <a-option>Chengdu</a-option>
-      <a-option>Wuhan</a-option>
-    </a-select>
-  </a-space>
+      <sd-option>Beijing</sd-option>
+      <sd-option>Shanghai</sd-option>
+      <sd-option>Guangzhou</sd-option>
+      <sd-option disabled>Disabled</sd-option>
+      <sd-option>Shenzhen</sd-option>
+      <sd-option>Chengdu</sd-option>
+      <sd-option>Wuhan</sd-option>
+    </sd-select>
+  </sd-space>
 </template>
 
 <script>

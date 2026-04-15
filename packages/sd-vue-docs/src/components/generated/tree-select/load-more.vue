@@ -1,10 +1,10 @@
 <template>
-  <a-tree-select
+  <sd-tree-select
     :data="treeData"
     :load-more="loadMore"
     placeholder="Please select ..."
     style="width: 300px"
-  ></a-tree-select>
+  ></sd-tree-select>
 </template>
 <script>
   import { ref } from 'vue';

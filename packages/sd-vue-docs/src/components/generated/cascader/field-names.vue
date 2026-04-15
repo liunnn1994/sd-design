@@ -1,5 +1,5 @@
 <template>
-  <a-cascader
+  <sd-cascader
     :options="options"
     :field-names="fieldNames"
     :style="{ width: '320px' }"

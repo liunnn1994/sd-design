@@ -1,25 +1,25 @@
 <template>
-  <a-space direction="vertical">
-    <a-breadcrumb :max-count="3">
-      <a-breadcrumb-item>Home</a-breadcrumb-item>
-      <a-breadcrumb-item>Sub Home</a-breadcrumb-item>
-      <a-breadcrumb-item>All Channel</a-breadcrumb-item>
-      <a-breadcrumb-item>Channel</a-breadcrumb-item>
-      <a-breadcrumb-item>News</a-breadcrumb-item>
-      <a-breadcrumb-item>Post</a-breadcrumb-item>
-    </a-breadcrumb>
-    <a-breadcrumb :max-count="3">
+  <sd-space direction="vertical">
+    <sd-breadcrumb :max-count="3">
+      <sd-breadcrumb-item>Home</sd-breadcrumb-item>
+      <sd-breadcrumb-item>Sub Home</sd-breadcrumb-item>
+      <sd-breadcrumb-item>All Channel</sd-breadcrumb-item>
+      <sd-breadcrumb-item>Channel</sd-breadcrumb-item>
+      <sd-breadcrumb-item>News</sd-breadcrumb-item>
+      <sd-breadcrumb-item>Post</sd-breadcrumb-item>
+    </sd-breadcrumb>
+    <sd-breadcrumb :max-count="3">
       <template #more-icon>
-        <a-tooltip content="more routes a/b/c">
+        <sd-tooltip content="more routes a/b/c">
           <icon-more />
-        </a-tooltip>
+        </sd-tooltip>
       </template>
-      <a-breadcrumb-item>Home</a-breadcrumb-item>
-      <a-breadcrumb-item>Sub Home</a-breadcrumb-item>
-      <a-breadcrumb-item>All Channel</a-breadcrumb-item>
-      <a-breadcrumb-item>Channel</a-breadcrumb-item>
-      <a-breadcrumb-item>News</a-breadcrumb-item>
-      <a-breadcrumb-item>Post</a-breadcrumb-item>
-    </a-breadcrumb>
-  </a-space>
+      <sd-breadcrumb-item>Home</sd-breadcrumb-item>
+      <sd-breadcrumb-item>Sub Home</sd-breadcrumb-item>
+      <sd-breadcrumb-item>All Channel</sd-breadcrumb-item>
+      <sd-breadcrumb-item>Channel</sd-breadcrumb-item>
+      <sd-breadcrumb-item>News</sd-breadcrumb-item>
+      <sd-breadcrumb-item>Post</sd-breadcrumb-item>
+    </sd-breadcrumb>
+  </sd-space>
 </template>

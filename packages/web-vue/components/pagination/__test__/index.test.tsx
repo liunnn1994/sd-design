@@ -26,7 +26,7 @@ describe('Pagination', () => {
     const handleChange = (data: number) => {
       current.value = data;
     };
-    const wrapper = mount(() => (
+    mount(() => (
       <Pagination
         total={total.value}
         pageSize={1}

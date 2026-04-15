@@ -160,33 +160,33 @@ export default defineComponent({
     },
   },
   emits: {
-    'update:modelValue': (value: number | undefined) => true,
+    'update:modelValue': (_value: number | undefined) => true,
     /**
      * @zh 值发生改变时触发
      * @en Triggered when the value changes
      * @param { number | undefined } value
      * @param {Event} ev
      */
-    'change': (value: number | undefined, ev: Event) => true,
+    'change': (_value: number | undefined, _ev: Event) => true,
     /**
      * @zh 输入框获取焦点时触发
      * @en Triggered when the input gets focus
      * @param {FocusEvent} ev
      */
-    'focus': (ev: FocusEvent) => true,
+    'focus': (_ev: FocusEvent) => true,
     /**
      * @zh 输入框失去焦点时触发
      * @en Triggered when the input box loses focus
      * @param {FocusEvent} ev
      */
-    'blur': (ev: FocusEvent) => true,
+    'blur': (_ev: FocusEvent) => true,
     /**
      * @zh 用户点击清除按钮时触发
      * @en Triggered when the user clicks the clear button
      * @param {Event} ev
      * @version 2.23.0
      */
-    'clear': (ev: Event) => true,
+    'clear': (_ev: Event) => true,
     /**
      * @zh 输入时触发
      * @en Triggered on input
@@ -195,14 +195,14 @@ export default defineComponent({
      * @param {Event} ev
      * @version 2.27.0
      */
-    'input': (value: number | undefined, inputValue: string, ev: Event) => true,
+    'input': (_value: number | undefined, _inputValue: string, _ev: Event) => true,
     /**
      * @zh 按下键盘时触发
      * @en Triggered on keydown
      * @param {MouseEvent} ev
      * @version 2.56.0
      */
-    'keydown': (ev: KeyboardEvent) => true,
+    'keydown': (_ev: KeyboardEvent) => true,
   },
   /**
    * @zh 前缀

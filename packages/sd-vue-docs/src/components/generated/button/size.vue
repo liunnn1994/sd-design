@@ -1,8 +1,8 @@
 <template>
-  <a-space>
-    <a-button type="primary" size="mini">Mini</a-button>
-    <a-button type="primary" size="small">Small</a-button>
-    <a-button type="primary">Medium</a-button>
-    <a-button type="primary" size="large">Large</a-button>
-  </a-space>
+  <sd-space>
+    <sd-button type="primary" size="mini">Mini</sd-button>
+    <sd-button type="primary" size="small">Small</sd-button>
+    <sd-button type="primary">Medium</sd-button>
+    <sd-button type="primary" size="large">Large</sd-button>
+  </sd-space>
 </template>

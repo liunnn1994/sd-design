@@ -1,16 +1,16 @@
 <template>
-  <a-space direction="vertical" size="large" style="width: 100%">
-    <a-alert closable>
+  <sd-space direction="vertical" size="large" style="width: 100%">
+    <sd-alert closable>
       This is an info alert.
       <template #action>
-        <a-button size="small" type="primary">Detail</a-button>
+        <sd-button size="small" type="primary">Detail</sd-button>
       </template>
-    </a-alert>
-    <a-alert title="Example" closable>
+    </sd-alert>
+    <sd-alert title="Example" closable>
       This is an info alert.
       <template #action>
-        <a-button size="small" type="primary">Detail</a-button>
+        <sd-button size="small" type="primary">Detail</sd-button>
       </template>
-    </a-alert>
-  </a-space>
+    </sd-alert>
+  </sd-space>
 </template>

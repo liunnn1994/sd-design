@@ -88,14 +88,14 @@
      * @version 2.33.0
      */
     emits: {
-      'update:activeKey': (activeKey: (string | number)[]) => true,
+      'update:activeKey': (_activeKey: (string | number)[]) => true,
       /**
        * @zh 展开的面板发生改变时触发
        * @en Emitted when the expanded panel changes
        * @param {(string | number)[]} activeKey
        * @param {Event} ev
        */
-      'change': (activeKey: (string | number)[], ev: Event) => true,
+      'change': (_activeKey: (string | number)[], _ev: Event) => true,
     },
     setup(props, { emit, slots }) {
       const { expandIconPosition, destroyOnHide, showExpandIcon } = toRefs(props);

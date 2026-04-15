@@ -1,4 +1,4 @@
-@import './token.less';
+@import url('./token.less');
 
 @upload-prefix-cls: ~'@{prefix}-upload';
 
@@ -372,10 +372,7 @@
 
     &-mask {
       position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
+      inset: 0;
       color: @upload-picture-item-color-operation-icon;
       font-size: @upload-picture-item-size-mask-icon;
       line-height: @upload-picture-item-size-width;

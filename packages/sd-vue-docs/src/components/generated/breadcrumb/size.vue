@@ -1,14 +1,14 @@
 <template>
-  <a-space direction="vertical">
-    <a-breadcrumb>
-      <a-breadcrumb-item>Home</a-breadcrumb-item>
-      <a-breadcrumb-item>Channel</a-breadcrumb-item>
-      <a-breadcrumb-item>News</a-breadcrumb-item>
-    </a-breadcrumb>
-    <a-breadcrumb :style="{ fontSize: `12px` }">
-      <a-breadcrumb-item>Home</a-breadcrumb-item>
-      <a-breadcrumb-item>Channel</a-breadcrumb-item>
-      <a-breadcrumb-item>News</a-breadcrumb-item>
-    </a-breadcrumb>
-  </a-space>
+  <sd-space direction="vertical">
+    <sd-breadcrumb>
+      <sd-breadcrumb-item>Home</sd-breadcrumb-item>
+      <sd-breadcrumb-item>Channel</sd-breadcrumb-item>
+      <sd-breadcrumb-item>News</sd-breadcrumb-item>
+    </sd-breadcrumb>
+    <sd-breadcrumb :style="{ fontSize: `12px` }">
+      <sd-breadcrumb-item>Home</sd-breadcrumb-item>
+      <sd-breadcrumb-item>Channel</sd-breadcrumb-item>
+      <sd-breadcrumb-item>News</sd-breadcrumb-item>
+    </sd-breadcrumb>
+  </sd-space>
 </template>

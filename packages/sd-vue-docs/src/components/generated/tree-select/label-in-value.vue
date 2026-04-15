@@ -1,12 +1,12 @@
 <template>
-  <a-tree-select
+  <sd-tree-select
     :data="treeData"
     :label-in-value="true"
     :default-value="{ value: 'node2', label: 'Leaf' }"
     placeholder="Please select ..."
     style="width: 300px"
     @change="onChange"
-  ></a-tree-select>
+  ></sd-tree-select>
 </template>
 <script>
   import { h } from 'vue';

@@ -1,24 +1,24 @@
 <template>
-  <a-space direction="vertical" size="large">
-    <a-select :style="{ width: '100%' }" placeholder="Please select ..." :bordered="false">
-      <a-option>Beijing</a-option>
-      <a-option>Shanghai</a-option>
-      <a-option>Guangzhou</a-option>
-      <a-option disabled>Disabled</a-option>
-    </a-select>
-    <a-select
+  <sd-space direction="vertical" size="large">
+    <sd-select :style="{ width: '100%' }" placeholder="Please select ..." :bordered="false">
+      <sd-option>Beijing</sd-option>
+      <sd-option>Shanghai</sd-option>
+      <sd-option>Guangzhou</sd-option>
+      <sd-option disabled>Disabled</sd-option>
+    </sd-select>
+    <sd-select
       :default-value="['Beijing', 'Shanghai']"
       :style="{ width: '360px' }"
       placeholder="Please select ..."
       multiple
       :bordered="false"
     >
-      <a-option>Beijing</a-option>
-      <a-option :tag-props="{ color: 'red' }">Shanghai</a-option>
-      <a-option>Guangzhou</a-option>
-      <a-option disabled>Disabled</a-option>
-      <a-option>Shenzhen</a-option>
-      <a-option>Wuhan</a-option>
-    </a-select>
-  </a-space>
+      <sd-option>Beijing</sd-option>
+      <sd-option :tag-props="{ color: 'red' }">Shanghai</sd-option>
+      <sd-option>Guangzhou</sd-option>
+      <sd-option disabled>Disabled</sd-option>
+      <sd-option>Shenzhen</sd-option>
+      <sd-option>Wuhan</sd-option>
+    </sd-select>
+  </sd-space>
 </template>

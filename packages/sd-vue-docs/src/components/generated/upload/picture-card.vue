@@ -1,5 +1,5 @@
 <template>
-  <a-upload list-type="picture-card" action="/" :default-file-list="fileList" image-preview />
+  <sd-upload list-type="picture-card" action="/" :default-file-list="fileList" image-preview />
 </template>
 
 <script>

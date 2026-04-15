@@ -1,5 +1,5 @@
 <template>
-  <a-image
+  <sd-image
     src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a8c8cdb109cb051163646151a4a5083b.png~tplv-uwbnlip3yd-webp.webp"
     title="A user’s avatar"
     description="Present by SD Design"
@@ -24,13 +24,13 @@
           ><icon-eye
         /></span>
         <span class="action" @click="onDownLoad"><icon-download /></span>
-        <a-tooltip content="A user’s avatar">
+        <sd-tooltip content="A user’s avatar">
           <span class="action"><icon-info-circle /></span>
-        </a-tooltip>
+        </sd-tooltip>
       </div>
     </template>
-  </a-image>
-  <a-image
+  </sd-image>
+  <sd-image
     src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a8c8cdb109cb051163646151a4a5083b.png~tplv-uwbnlip3yd-webp.webp"
     title="A user’s avatar"
     description="Present by SD Design"
@@ -55,12 +55,12 @@
           ><icon-eye
         /></span>
         <span class="action" @click="onDownLoad"><icon-download /></span>
-        <a-tooltip content="A user’s avatar">
+        <sd-tooltip content="A user’s avatar">
           <span class="action"><icon-info-circle /></span>
-        </a-tooltip>
+        </sd-tooltip>
       </div>
     </template>
-  </a-image>
+  </sd-image>
 </template>
 <script>
   import { ref } from 'vue';
@@ -92,25 +92,28 @@
     display: flex;
     align-items: center;
   }
+
   .action {
+    margin-left: 12px;
     padding: 5px 4px;
     font-size: 14px;
-    margin-left: 12px;
-    border-radius: 2px;
     line-height: 1;
+    border-radius: 2px;
     cursor: pointer;
   }
+
   .action:first-child {
     margin-left: 0;
   }
 
   .action:hover {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgb(0 0 0 / 50%);
   }
+
   .actions-outer {
     .action {
       &:hover {
-        color: #ffffff;
+        color: #fff;
       }
     }
   }

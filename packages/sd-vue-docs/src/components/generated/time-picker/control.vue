@@ -1,5 +1,5 @@
 <template>
-  <a-time-picker style="width: 194px" v-model="value" />
+  <sd-time-picker style="width: 194px" v-model="value" />
 </template>
 <script>
   export default {

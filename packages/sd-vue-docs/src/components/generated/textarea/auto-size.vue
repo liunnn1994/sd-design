@@ -1,9 +1,9 @@
 <template>
-  <a-textarea
+  <sd-textarea
     default-value="This is the contents of the textarea. This is the contents of the textarea. This is the contents of the textarea."
     auto-size
   />
-  <a-textarea
+  <sd-textarea
     default-value="This is the contents of the textarea. This is the contents of the textarea. This is the contents of the textarea."
     :auto-size="{
       minRows: 2,

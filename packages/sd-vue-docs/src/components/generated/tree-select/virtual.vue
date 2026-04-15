@@ -1,5 +1,5 @@
 <template>
-  <a-tree-select
+  <sd-tree-select
     :data="treeData"
     :allow-search="{
       retainInputValue: true,

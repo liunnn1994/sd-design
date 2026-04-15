@@ -1,30 +1,30 @@
 <template>
-  <a-space>
-    <a-button type="primary" @click="() => this.$notification.info('This is an info message!')">
+  <sd-space>
+    <sd-button type="primary" @click="() => this.$notification.info('This is an info message!')">
       Info
-    </a-button>
-    <a-button
+    </sd-button>
+    <sd-button
       type="primary"
       status="success"
       @click="() => this.$notification.success('This is a success message!')"
     >
       Success
-    </a-button>
-    <a-button
+    </sd-button>
+    <sd-button
       type="primary"
       status="warning"
       @click="() => this.$notification.warning('This is a warning message!')"
     >
       Warning
-    </a-button>
-    <a-button
+    </sd-button>
+    <sd-button
       type="primary"
       status="danger"
       @click="() => this.$notification.error('This is an error message!')"
     >
       Error
-    </a-button>
-    <a-button
+    </sd-button>
+    <sd-button
       type="secondary"
       @click="
         () =>
@@ -35,6 +35,6 @@
       "
     >
       Normal
-    </a-button>
-  </a-space>
+    </sd-button>
+  </sd-space>
 </template>

@@ -87,19 +87,19 @@ export default defineComponent({
     },
   },
   emits: {
-    'update:modelValue': (date: Date) => true,
+    'update:modelValue': (_date: Date) => true,
     /**
      * @zh 选择的日期改变时触发
      * @en Emitted when the button is clicked
      * @property {Date} date
      */
-    'change': (date: Date) => true,
+    'change': (_date: Date) => true,
     /**
      * @zh 日期面板改变时触发
      * @en Emitted when the button is clicked
      * @property {Date} date
      */
-    'panelChange': (date: Date) => true,
+    'panelChange': (_date: Date) => true,
   },
   /**
    * @zh 自定义单元格内容

@@ -1,14 +1,14 @@
 <template>
-  <a-space direction="vertical">
-    <a-breadcrumb :routes="routes" />
-    <a-breadcrumb :routes="routes">
+  <sd-space direction="vertical">
+    <sd-breadcrumb :routes="routes" />
+    <sd-breadcrumb :routes="routes">
       <template #item-render="{ route, paths }">
-        <a-link :href="paths.join('/')">
+        <sd-link :href="paths.join('/')">
           {{ route.label }}
-        </a-link>
+        </sd-link>
       </template>
-    </a-breadcrumb>
-  </a-space>
+    </sd-breadcrumb>
+  </sd-space>
 </template>
 
 <script>

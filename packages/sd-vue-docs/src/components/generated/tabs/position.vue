@@ -1,17 +1,17 @@
 <template>
-  <a-space direction="vertical" size="large">
-    <a-radio-group v-model="position" type="button">
-      <a-radio value="top">Top</a-radio>
-      <a-radio value="right">Right</a-radio>
-      <a-radio value="bottom">Bottom</a-radio>
-      <a-radio value="left">Left</a-radio>
-    </a-radio-group>
-    <a-tabs :position="position">
-      <a-tab-pane key="1" title="Tab 1"> Content of Tab Panel 1 </a-tab-pane>
-      <a-tab-pane key="2" title="Tab 2"> Content of Tab Panel 2 </a-tab-pane>
-      <a-tab-pane key="3" title="Tab 3"> Content of Tab Panel 3 </a-tab-pane>
-    </a-tabs>
-  </a-space>
+  <sd-space direction="vertical" size="large">
+    <sd-radio-group v-model="position" type="button">
+      <sd-radio value="top">Top</sd-radio>
+      <sd-radio value="right">Right</sd-radio>
+      <sd-radio value="bottom">Bottom</sd-radio>
+      <sd-radio value="left">Left</sd-radio>
+    </sd-radio-group>
+    <sd-tabs :position="position">
+      <sd-tab-pane key="1" title="Tab 1"> Content of Tab Panel 1 </sd-tab-pane>
+      <sd-tab-pane key="2" title="Tab 2"> Content of Tab Panel 2 </sd-tab-pane>
+      <sd-tab-pane key="3" title="Tab 3"> Content of Tab Panel 3 </sd-tab-pane>
+    </sd-tabs>
+  </sd-space>
 </template>
 
 <script>

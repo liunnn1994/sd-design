@@ -1,7 +1,7 @@
 <template>
-  <a-steps type="dot">
-    <a-step>Succeeded</a-step>
-    <a-step>Processing</a-step>
-    <a-step>Pending</a-step>
-  </a-steps>
+  <sd-steps type="dot">
+    <sd-step>Succeeded</sd-step>
+    <sd-step>Processing</sd-step>
+    <sd-step>Pending</sd-step>
+  </sd-steps>
 </template>

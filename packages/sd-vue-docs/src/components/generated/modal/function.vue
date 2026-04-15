@@ -1,5 +1,5 @@
 <template>
-  <a-button @click="handleClick">Open Modal</a-button>
+  <sd-button @click="handleClick">Open Modal</sd-button>
 </template>
 
 <script>
@@ -44,7 +44,7 @@
   .info-modal-content {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
   }
 </style>

@@ -342,11 +342,11 @@
        * @param {string | undefined} dateString
        */
       'change': (
-        value: CalendarValue | undefined,
-        date: Date | undefined,
-        dateString: string | undefined,
+        _value: CalendarValue | undefined,
+        _date: Date | undefined,
+        _dateString: string | undefined,
       ) => true,
-      'update:modelValue': (value: CalendarValue | undefined) => true,
+      'update:modelValue': (_value: CalendarValue | undefined) => true,
       /**
        * @zh 选中日期发生改变但组件值未改变
        * @en The selected date has changed but the component value has not changed
@@ -355,17 +355,17 @@
        * @param {string} dateString
        */
       'select': (
-        value: CalendarValue | undefined,
-        date: Date | undefined,
-        dateString: string | undefined,
+        _value: CalendarValue | undefined,
+        _date: Date | undefined,
+        _dateString: string | undefined,
       ) => true,
       /**
        * @zh 打开或关闭弹出框
        * @en Open or close the pop-up box
        * @param {boolean} visible
        */
-      'popup-visible-change': (visible: boolean) => true,
-      'update:popupVisible': (visible: boolean) => true,
+      'popup-visible-change': (_visible: boolean) => true,
+      'update:popupVisible': (_visible: boolean) => true,
       /**
        * @zh 点击确认按钮
        * @en Click the confirm button
@@ -374,9 +374,9 @@
        * @param {string} dateString
        */
       'ok': (
-        value: CalendarValue | undefined,
-        date: Date | undefined,
-        dateString: string | undefined,
+        _value: CalendarValue | undefined,
+        _date: Date | undefined,
+        _dateString: string | undefined,
       ) => true,
       /**
        * @zh 点击清除按钮
@@ -388,7 +388,7 @@
        * @en Click on the shortcut option
        * @param {ShortcutType} shortcut
        */
-      'select-shortcut': (shortcut: ShortcutType) => true,
+      'select-shortcut': (_shortcut: ShortcutType) => true,
       /**
        * @zh 面板日期改变
        * @en Panel date change
@@ -396,8 +396,8 @@
        * @param {Date} date
        * @param {string} dateString
        */
-      'picker-value-change': (value: CalendarValue, date: Date, dateString: string) => true,
-      'update:pickerValue': (value: CalendarValue) => true,
+      'picker-value-change': (_value: CalendarValue, _date: Date, _dateString: string) => true,
+      'update:pickerValue': (_value: CalendarValue) => true,
     },
     /**
      * @zh 输入框前缀

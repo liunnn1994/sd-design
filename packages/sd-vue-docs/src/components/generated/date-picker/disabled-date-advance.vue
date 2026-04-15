@@ -1,5 +1,5 @@
 <template>
-  <a-range-picker
+  <sd-range-picker
     style="width: 300px"
     @select="onSelect"
     @popupVisibleChange="onPopupVisibleChange"

@@ -1,5 +1,5 @@
 <template>
-  <a-resize-box
+  <sd-resize-box
     :directions="['right', 'bottom']"
     style="width: 500px; min-width: 100px; max-width: 100%; height: 200px; text-align: center"
   >
@@ -13,19 +13,19 @@
         <div class="resizebox-demo-line" />
       </div>
     </template>
-    <a-typography-paragraph
-      >We are building the future of content discovery and creation.</a-typography-paragraph
+    <sd-typography-paragraph
+      >We are building the future of content discovery and creation.</sd-typography-paragraph
     >
-    <a-divider />
-    <a-typography-paragraph>
+    <sd-divider />
+    <sd-typography-paragraph>
       ByteDance's content platforms enable people to enjoy content powered by AI technology. We
       inform, entertain, and inspire people across language, culture and geography.
-    </a-typography-paragraph>
-    <a-divider>ByteDance</a-divider>
-    <a-typography-paragraph
-      >Yiming Zhang is the founder and CEO of ByteDance.</a-typography-paragraph
+    </sd-typography-paragraph>
+    <sd-divider>ByteDance</sd-divider>
+    <sd-typography-paragraph
+      >Yiming Zhang is the founder and CEO of ByteDance.</sd-typography-paragraph
     >
-  </a-resize-box>
+  </sd-resize-box>
 </template>
 
 <style scoped>
@@ -38,6 +38,7 @@
     height: 100%;
     background-color: var(--color-bg-2);
   }
+
   .resizebox-demo::before,
   .resizebox-demo::after {
     width: 6px;
@@ -45,17 +46,21 @@
     border: 1px solid rgb(var(--sdblue-6));
     content: '';
   }
+
   .resizebox-demo-line {
     flex: 1;
     background-color: rgb(var(--sdblue-6));
   }
+
   .resizebox-demo-vertical {
     flex-direction: column;
   }
+
   .resizebox-demo-vertical .resizebox-demo-line {
     width: 1px;
     height: 100%;
   }
+
   .resizebox-demo-horizontal .resizebox-demo-line {
     height: 1px;
   }

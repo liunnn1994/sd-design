@@ -1,6 +1,6 @@
 <template>
   <div class="menu-demo">
-    <a-trigger
+    <sd-trigger
       :trigger="['click', 'hover']"
       clickToClose
       position="top"
@@ -11,25 +11,25 @@
         <IconMessage v-else />
       </div>
       <template #content>
-        <a-menu
+        <sd-menu
           :style="{ marginBottom: '-4px' }"
           mode="popButton"
           :tooltipProps="{ position: 'left' }"
           showCollapseButton
         >
-          <a-menu-item key="1">
+          <sd-menu-item key="1">
             <template #icon><IconBug></IconBug></template>
             Bugs
-          </a-menu-item>
-          <a-menu-item key="2">
+          </sd-menu-item>
+          <sd-menu-item key="2">
             <template #icon><IconBulb></IconBulb></template>
             Ideas
-          </a-menu-item>
-        </a-menu>
+          </sd-menu-item>
+        </sd-menu>
       </template>
-    </a-trigger>
+    </sd-trigger>
 
-    <a-trigger
+    <sd-trigger
       :trigger="['click', 'hover']"
       clickToClose
       position="top"
@@ -40,23 +40,23 @@
         <IconMessage v-else />
       </div>
       <template #content>
-        <a-menu
+        <sd-menu
           :style="{ marginBottom: '-4px' }"
           mode="popButton"
           :tooltipProps="{ position: 'left' }"
           showCollapseButton
         >
-          <a-menu-item key="1">
+          <sd-menu-item key="1">
             <template #icon><IconBug></IconBug></template>
             Bugs
-          </a-menu-item>
-          <a-menu-item key="2">
+          </sd-menu-item>
+          <sd-menu-item key="2">
             <template #icon><IconBulb></IconBulb></template>
             Ideas
-          </a-menu-item>
-        </a-menu>
+          </sd-menu-item>
+        </sd-menu>
       </template>
-    </a-trigger>
+    </sd-trigger>
   </div>
 </template>
 <script>
@@ -79,13 +79,14 @@
 </script>
 <style scoped>
   .menu-demo {
+    position: relative;
     box-sizing: border-box;
     width: 660px;
     height: 300px;
     padding: 40px;
     background-color: var(--color-fill-2);
-    position: relative;
   }
+
   .button-trigger {
     position: absolute;
     bottom: 80px;
@@ -100,19 +101,23 @@
     cursor: pointer;
     transition: all 0.1s;
   }
+
   /* button left */
   .button-trigger:nth-child(1) {
     left: 150px;
     background-color: var(--color-neutral-5);
   }
+
   .button-trigger:nth-child(1).button-trigger-active {
     background-color: var(--color-neutral-4);
   }
+
   /* button right */
   .button-trigger:nth-child(2) {
     left: 372px;
     background-color: rgb(var(--sdblue-6));
   }
+
   .button-trigger:nth-child(3).button-trigger-active {
     background-color: var(--color-primary-light-4);
   }

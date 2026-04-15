@@ -1,5 +1,5 @@
 <template>
-  <a-tree blockNode :data="treeData" />
+  <sd-tree blockNode :data="treeData" />
 </template>
 <script>
   export default {

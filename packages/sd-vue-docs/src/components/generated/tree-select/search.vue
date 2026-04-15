@@ -1,21 +1,21 @@
 <template>
-  <a-space>
-    <a-tree-select
+  <sd-space>
+    <sd-tree-select
       :allow-search="true"
       :allow-clear="true"
       :data="treeData"
       placeholder="Please select ..."
       style="width: 300px"
-    ></a-tree-select>
-    <a-tree-select
+    ></sd-tree-select>
+    <sd-tree-select
       :allow-search="true"
       :allow-clear="true"
       :data="treeData"
       :filter-tree-node="filterTreeNode"
       placeholder="Please select ..."
       style="width: 300px"
-    ></a-tree-select>
-  </a-space>
+    ></sd-tree-select>
+  </sd-space>
 </template>
 <script>
   import { ref } from 'vue';

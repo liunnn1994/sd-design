@@ -1,6 +1,6 @@
-@import '../../style/mixins/index.less';
-@import './token.less';
-@import './filters-popup.less';
+@import url('../../style/mixins/index.less');
+@import url('./token.less');
+@import url('./filters-popup.less');
 
 @table-prefix-cls: ~'@{prefix}-table';
 
@@ -525,8 +525,7 @@
       height: 100%;
 
       &-scroll-x {
-        overflow-x: auto;
-        overflow-y: hidden;
+        overflow: auto hidden;
       }
     }
 
@@ -574,8 +573,7 @@
   }
 
   &-header {
-    overflow-x: hidden;
-    overflow-y: hidden;
+    overflow: hidden;
     background-color: @table-color-bg-header-cell;
     scrollbar-color: transparent transparent;
 

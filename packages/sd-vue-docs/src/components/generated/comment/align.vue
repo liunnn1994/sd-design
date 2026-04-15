@@ -1,5 +1,5 @@
 <template>
-  <a-comment author="Balzac" datetime="1 hour" align="right">
+  <sd-comment author="Balzac" datetime="1 hour" align="right">
     <template #actions>
       <span class="action" key="heart" @click="onLikeChange">
         <span v-if="like">
@@ -22,12 +22,12 @@
       <span class="action" key="reply"> <IconMessage /> Reply </span>
     </template>
     <template #avatar>
-      <a-avatar>
+      <sd-avatar>
         <img
           alt="avatar"
           src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
         />
-      </a-avatar>
+      </sd-avatar>
     </template>
     <template #content>
       <div>
@@ -36,7 +36,7 @@
         form of a prototype, product or process.
       </div>
     </template>
-  </a-comment>
+  </sd-comment>
 </template>
 
 <script>

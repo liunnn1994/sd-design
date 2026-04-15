@@ -94,14 +94,14 @@
       },
     },
     emits: {
-      'update:current': (step: number) => true,
+      'update:current': (_step: number) => true,
       /**
        * @zh 步骤数发生改变时触发
        * @en Triggered when the number of steps changes
        * @param {number} step
        * @param {Event} ev
        */
-      'change': (step: number, ev: Event) => true,
+      'change': (_step: number, _ev: Event) => true,
     },
     setup(props, { emit, slots }) {
       const { type, lineLess } = toRefs(props);

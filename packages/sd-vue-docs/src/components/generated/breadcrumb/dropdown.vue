@@ -1,36 +1,36 @@
 <template>
-  <a-space direction="vertical">
-    <a-breadcrumb :routes="routes" />
-    <a-breadcrumb>
-      <a-breadcrumb-item>Home</a-breadcrumb-item>
-      <a-breadcrumb-item :droplist="droplist"> Channel </a-breadcrumb-item>
-      <a-breadcrumb-item>News</a-breadcrumb-item>
-    </a-breadcrumb>
-    <a-breadcrumb>
-      <a-breadcrumb-item>Home</a-breadcrumb-item>
-      <a-breadcrumb-item>
+  <sd-space direction="vertical">
+    <sd-breadcrumb :routes="routes" />
+    <sd-breadcrumb>
+      <sd-breadcrumb-item>Home</sd-breadcrumb-item>
+      <sd-breadcrumb-item :droplist="droplist"> Channel </sd-breadcrumb-item>
+      <sd-breadcrumb-item>News</sd-breadcrumb-item>
+    </sd-breadcrumb>
+    <sd-breadcrumb>
+      <sd-breadcrumb-item>Home</sd-breadcrumb-item>
+      <sd-breadcrumb-item>
         <template #droplist>
-          <a-doption>Option 1</a-doption>
-          <a-dsubmenu value="option-1">
+          <sd-doption>Option 1</sd-doption>
+          <sd-dsubmenu value="option-1">
             <template #default>Option 2</template>
             <template #content>
-              <a-doption>Option 2-1</a-doption>
-              <a-doption>Option 2-2</a-doption>
-              <a-doption>Option 2-3</a-doption>
+              <sd-doption>Option 2-1</sd-doption>
+              <sd-doption>Option 2-2</sd-doption>
+              <sd-doption>Option 2-3</sd-doption>
             </template>
             <template #footer>
               <div style="padding: 6px; text-align: center">
-                <a-button>Click</a-button>
+                <sd-button>Click</sd-button>
               </div>
             </template>
-          </a-dsubmenu>
-          <a-doption>Option 3</a-doption>
+          </sd-dsubmenu>
+          <sd-doption>Option 3</sd-doption>
         </template>
         Channel
-      </a-breadcrumb-item>
-      <a-breadcrumb-item>News</a-breadcrumb-item>
-    </a-breadcrumb>
-  </a-space>
+      </sd-breadcrumb-item>
+      <sd-breadcrumb-item>News</sd-breadcrumb-item>
+    </sd-breadcrumb>
+  </sd-space>
 </template>
 
 <script>

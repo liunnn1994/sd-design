@@ -1,5 +1,5 @@
 <template>
-  <a-date-picker>
+  <sd-date-picker>
     <template #cell="{ date }">
       <div class="sd-picker-date">
         <div class="sd-picker-date-value" :style="getCellStyle(date)">
@@ -7,7 +7,7 @@
         </div>
       </div>
     </template>
-  </a-date-picker>
+  </sd-date-picker>
 </template>
 <script>
   export default {

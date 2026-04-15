@@ -1,17 +1,17 @@
 <template>
-  <a-space direction="vertical" size="large" style="width: 100%">
-    <a-mention
+  <sd-space direction="vertical" size="large" style="width: 100%">
+    <sd-mention
       v-model="value"
       :data="['Bytedance', 'Bytedesign', 'Bytenumner']"
       placeholder="enter something"
     />
-    <a-mention
+    <sd-mention
       v-model="text"
       :data="['Bytedance', 'Bytedesign', 'Bytenumner']"
       type="textarea"
       placeholder="enter something"
     />
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

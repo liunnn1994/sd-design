@@ -1,13 +1,13 @@
 <template>
-  <a-space direction="vertical" size="large">
-    <a-checkbox-group :max="2" v-model="value1" :options="plainOptions" />
-    <a-checkbox-group :max="2" :default-value="['1']">
-      <a-checkbox value="1" disabled>Option 1</a-checkbox>
-      <a-checkbox value="2">Option 2</a-checkbox>
-      <a-checkbox value="3">Option 3</a-checkbox>
-      <a-checkbox value="4">Option 4</a-checkbox>
-    </a-checkbox-group>
-  </a-space>
+  <sd-space direction="vertical" size="large">
+    <sd-checkbox-group :max="2" v-model="value1" :options="plainOptions" />
+    <sd-checkbox-group :max="2" :default-value="['1']">
+      <sd-checkbox value="1" disabled>Option 1</sd-checkbox>
+      <sd-checkbox value="2">Option 2</sd-checkbox>
+      <sd-checkbox value="3">Option 3</sd-checkbox>
+      <sd-checkbox value="4">Option 4</sd-checkbox>
+    </sd-checkbox-group>
+  </sd-space>
 </template>
 
 <script>

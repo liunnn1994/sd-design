@@ -1,4 +1,4 @@
-@import './token.less';
+@import url('./token.less');
 
 @result-prefix-cls: ~'@{prefix}-result';
 
@@ -22,20 +22,20 @@
 
     &-tip {
       display: flex;
-      width: @result-size-icon-wrapper;
-      height: @result-size-icon-wrapper;
       align-items: center;
       justify-content: center;
-      border-radius: 50%;
+      width: @result-size-icon-wrapper;
+      height: @result-size-icon-wrapper;
       margin: 0 auto;
+      border-radius: 50%;
     }
 
     // status = null
     &-custom &-tip {
-      font-size: @result-size-icon_custom;
-      color: @result-color-icon_default;
       width: unset;
       height: unset;
+      color: @result-color-icon_default;
+      font-size: @result-size-icon_custom;
     }
 
     &-success &-tip {

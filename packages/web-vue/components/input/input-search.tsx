@@ -69,7 +69,7 @@ export default defineComponent({
      * @param {string} value
      * @param {MouseEvent} ev
      */
-    search: (value: string, ev: MouseEvent) => true,
+    search: (_value: string, _ev: MouseEvent) => true,
   },
   setup(props, { emit, slots }) {
     const { size } = toRefs(props);

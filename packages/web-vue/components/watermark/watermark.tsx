@@ -129,7 +129,7 @@ export default defineComponent({
     },
   },
   setup(props, { slots, attrs }) {
-    const { width, height, image, rotate, alpha, repeat, grayscale } = toRefs(props);
+    const { width, height, image, rotate, alpha, grayscale } = toRefs(props);
     const prefixCls = getPrefixCls('watermark');
     const ratio = window.devicePixelRatio || 1;
     const containerRef = shallowRef<HTMLDivElement>();

@@ -1,5 +1,3 @@
-import { StyleValue } from 'vue';
-
 export interface ThumbData {
   ratio: number;
   thumbSize: number;

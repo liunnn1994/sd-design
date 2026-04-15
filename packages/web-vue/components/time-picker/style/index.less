@@ -1,4 +1,4 @@
-@import './token.less';
+@import url('./token.less');
 
 @time-picker-prefix-cls: ~'@{prefix}-timepicker';
 
@@ -58,7 +58,7 @@
       line-height: @timepicker-cell-height;
     }
 
-    &:not(&-selected):not(&-disabled):hover &-inner {
+    &:not(&-selected, &-disabled):hover &-inner {
       background-color: @timepicker-color-bg-cell_hover;
     }
   }

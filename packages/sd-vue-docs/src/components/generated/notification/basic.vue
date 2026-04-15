@@ -1,6 +1,6 @@
 <template>
-  <a-space>
-    <a-button
+  <sd-space>
+    <sd-button
       type="primary"
       @click="
         () =>
@@ -11,9 +11,9 @@
       "
     >
       Open Notification
-    </a-button>
-    <a-button @click="handleNotification"> Open Notification </a-button>
-  </a-space>
+    </sd-button>
+    <sd-button @click="handleNotification"> Open Notification </sd-button>
+  </sd-space>
 </template>
 
 <script>

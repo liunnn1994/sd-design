@@ -1,13 +1,13 @@
 <template>
-  <a-space direction="vertical" size="large">
-    <a-cascader
+  <sd-space direction="vertical" size="large">
+    <sd-cascader
       :options="options"
       :style="{ width: '320px' }"
       placeholder="Please select ..."
       path-mode
       @change="handleChange"
     />
-    <a-cascader
+    <sd-cascader
       :options="options"
       :default-value="[['beijing', 'chaoyang', 'datunli']]"
       :style="{ width: '320px' }"
@@ -15,7 +15,7 @@
       path-mode
       @change="handleChange"
     />
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

@@ -1,12 +1,12 @@
 <template>
-  <a-list
+  <sd-list
     class="list-demo-action-layout"
     :bordered="false"
     :data="dataSource"
     :pagination-props="paginationProps"
   >
     <template #item="{ item }">
-      <a-list-item class="list-demo-item" action-layout="vertical">
+      <sd-list-item class="list-demo-item" action-layout="vertical">
         <template #actions>
           <span><icon-heart />83</span>
           <span><icon-star />{{ item.index }}</span>
@@ -17,16 +17,16 @@
             <img alt="sd-design" :src="item.imageSrc" />
           </div>
         </template>
-        <a-list-item-meta :title="item.title" :description="item.description">
+        <sd-list-item-meta :title="item.title" :description="item.description">
           <template #avatar>
-            <a-avatar shape="square">
+            <sd-avatar shape="square">
               <img alt="avatar" :src="item.avatar" />
-            </a-avatar>
+            </sd-avatar>
           </template>
-        </a-list-item-meta>
-      </a-list-item>
+        </sd-list-item-meta>
+      </sd-list-item>
     </template>
-  </a-list>
+  </sd-list>
 </template>
 
 <script>
@@ -43,7 +43,7 @@
     '//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/04d7bc31dd67dcdf380bc3f6aa07599f.png~tplv-uwbnlip3yd-webp.webp',
     '//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/1f61854a849a076318ed527c8fca1bbf.png~tplv-uwbnlip3yd-webp.webp',
   ];
-  const dataSource = new Array(15).fill(null).map((_, index) => {
+  const dataSource = Array.from({ length: 15 }, (_, index) => {
     return {
       index: index,
       avatar: avatarSrc[index % avatarSrc.length],
@@ -71,8 +71,8 @@
   .list-demo-action-layout .image-area {
     width: 183px;
     height: 119px;
-    border-radius: 2px;
     overflow: hidden;
+    border-radius: 2px;
   }
 
   .list-demo-action-layout .list-demo-item {

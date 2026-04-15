@@ -1,24 +1,24 @@
 <template>
   <div style="margin-bottom: 10px">
-    <a-switch v-model="scrollbar" />
+    <sd-switch v-model="scrollbar" />
     Virtual Scrollbar
   </div>
-  <a-space direction="vertical" size="large">
-    <a-select
+  <sd-space direction="vertical" size="large">
+    <sd-select
       :default-value="['Beijing', 'Shanghai']"
       :style="{ width: '360px' }"
       placeholder="Please select ..."
       multiple
       :scrollbar="scrollbar"
     >
-      <a-option>Beijing</a-option>
-      <a-option :tag-props="{ color: 'red' }">Shanghai</a-option>
-      <a-option>Guangzhou</a-option>
-      <a-option disabled>Disabled</a-option>
-      <a-option>Shenzhen</a-option>
-      <a-option>Wuhan</a-option>
-    </a-select>
-    <a-select
+      <sd-option>Beijing</sd-option>
+      <sd-option :tag-props="{ color: 'red' }">Shanghai</sd-option>
+      <sd-option>Guangzhou</sd-option>
+      <sd-option disabled>Disabled</sd-option>
+      <sd-option>Shenzhen</sd-option>
+      <sd-option>Wuhan</sd-option>
+    </sd-select>
+    <sd-select
       :default-value="['Beijing', 'Shanghai', 'Guangzhou']"
       :style="{ width: '360px' }"
       placeholder="Please select ..."
@@ -27,15 +27,15 @@
       allow-clear
       :scrollbar="scrollbar"
     >
-      <a-option>Beijing</a-option>
-      <a-option>Shanghai</a-option>
-      <a-option>Guangzhou</a-option>
-      <a-option disabled>Disabled</a-option>
-      <a-option>Shenzhen</a-option>
-      <a-option>Chengdu</a-option>
-      <a-option>Wuhan</a-option>
-    </a-select>
-    <a-select
+      <sd-option>Beijing</sd-option>
+      <sd-option>Shanghai</sd-option>
+      <sd-option>Guangzhou</sd-option>
+      <sd-option disabled>Disabled</sd-option>
+      <sd-option>Shenzhen</sd-option>
+      <sd-option>Chengdu</sd-option>
+      <sd-option>Wuhan</sd-option>
+    </sd-select>
+    <sd-select
       :default-value="['Beijing', 'Shanghai']"
       :style="{ width: '360px' }"
       placeholder="Please select ..."
@@ -43,14 +43,14 @@
       :limit="2"
       :scrollbar="scrollbar"
     >
-      <a-option>Beijing</a-option>
-      <a-option :tag-props="{ color: 'red' }">Shanghai</a-option>
-      <a-option>Guangzhou</a-option>
-      <a-option disabled>Disabled</a-option>
-      <a-option>Shenzhen</a-option>
-      <a-option>Wuhan</a-option>
-    </a-select>
-  </a-space>
+      <sd-option>Beijing</sd-option>
+      <sd-option :tag-props="{ color: 'red' }">Shanghai</sd-option>
+      <sd-option>Guangzhou</sd-option>
+      <sd-option disabled>Disabled</sd-option>
+      <sd-option>Shenzhen</sd-option>
+      <sd-option>Wuhan</sd-option>
+    </sd-select>
+  </sd-space>
 </template>
 
 <script>

@@ -1,22 +1,16 @@
-@import './token.less';
+@import url('./token.less');
 
 @drawer-prefix-cls: ~'@{prefix}-drawer';
 
 .@{drawer-prefix-cls}-container {
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   z-index: @z-index-drawer;
 }
 
 .@{drawer-prefix-cls}-mask {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   background-color: var(~'@{sd-cssvars-prefix}-color-mask-bg');
 }
 

@@ -33,6 +33,8 @@ describe('Form', () => {
     const form = wrapper.getComponent({ name: 'Form' });
     await form.trigger('submit');
 
-    expect((form.emitted('submit')?.[0] as any[])[0]).toHaveProperty('errors.name');
+    const emitted = form.emitted('submit');
+    expect(emitted).toBeTruthy();
+    expect((emitted as any[][])[0][0]).toHaveProperty('errors.name');
   });
 });

@@ -72,7 +72,7 @@
        * @en Triggered when the fixed state changes
        * @param {boolean} fixed
        */
-      change: (fixed: boolean) => true,
+      change: (_fixed: boolean) => true,
     },
     setup(props, { emit }) {
       const prefixCls = getPrefixCls('affix');

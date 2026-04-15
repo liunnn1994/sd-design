@@ -1,8 +1,8 @@
 <template>
-  <a-space>
-    <a-date-picker v-model="value" style="width: 200px" />
-    <a-range-picker v-model="rangeValue" style="width: 300px" />
-  </a-space>
+  <sd-space>
+    <sd-date-picker v-model="value" style="width: 200px" />
+    <sd-range-picker v-model="rangeValue" style="width: 300px" />
+  </sd-space>
 </template>
 <script>
   export default {

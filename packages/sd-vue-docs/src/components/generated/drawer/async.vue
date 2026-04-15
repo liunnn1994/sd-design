@@ -1,6 +1,6 @@
 <template>
-  <a-button @click="handleClick">Open Drawer</a-button>
-  <a-drawer
+  <sd-button @click="handleClick">Open Drawer</sd-button>
+  <sd-drawer
     v-model:visible="visible"
     @before-ok="handleBeforeOk"
     @cancel="handleCancel"
@@ -11,7 +11,7 @@
       >You can customize modal body text by the current situation. This modal will be closed
       immediately once you press the OK button.</div
     >
-  </a-drawer>
+  </sd-drawer>
 </template>
 
 <script setup>

@@ -1,9 +1,9 @@
 <template>
-  <a-space size="large">
-    <a-switch :beforeChange="handleChangeIntercept" />
-    <a-switch type="round" :beforeChange="handleChangeIntercept2" />
-    <a-switch type="line" :beforeChange="handleChangeIntercept3" />
-  </a-space>
+  <sd-space size="large">
+    <sd-switch :beforeChange="handleChangeIntercept" />
+    <sd-switch type="round" :beforeChange="handleChangeIntercept2" />
+    <sd-switch type="line" :beforeChange="handleChangeIntercept3" />
+  </sd-space>
 </template>
 
 <script>

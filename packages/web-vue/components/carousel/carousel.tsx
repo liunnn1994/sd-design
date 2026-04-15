@@ -154,7 +154,7 @@ export default defineComponent({
     },
   },
   emits: {
-    'update:current': (index: number) => true,
+    'update:current': (_index: number) => true,
     /**
      * @zh 幻灯片发生切换时的回调函数
      * @en Callback when slide changes
@@ -162,7 +162,7 @@ export default defineComponent({
      * @param {number} prevIndex
      * @param {boolean} isManual
      */
-    'change': (index: number, prevIndex: number, isManual: boolean) => true,
+    'change': (_index: number, _prevIndex: number, _isManual: boolean) => true,
   },
   setup(props, { emit, slots }) {
     const { current, animationName, moveSpeed, transitionTimingFunction } = toRefs(props);

@@ -1,7 +1,7 @@
 <template>
-  <a-space size="large">
-    <a-spin />
-    <a-spin :size="28" />
-    <a-spin :size="32" />
-  </a-space>
+  <sd-space size="large">
+    <sd-spin />
+    <sd-spin :size="28" />
+    <sd-spin :size="32" />
+  </sd-space>
 </template>

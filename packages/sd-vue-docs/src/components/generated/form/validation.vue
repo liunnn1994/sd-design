@@ -1,20 +1,20 @@
 <template>
-  <a-form
+  <sd-form
     ref="formRef"
     :size="form.size"
     :model="form"
     :style="{ width: '600px' }"
     @submit="handleSubmit"
   >
-    <a-form-item field="size" label="Form Size">
-      <a-radio-group v-model="form.size" type="button">
-        <a-radio value="mini">Mini</a-radio>
-        <a-radio value="small">Small</a-radio>
-        <a-radio value="medium">Medium</a-radio>
-        <a-radio value="large">Large</a-radio>
-      </a-radio-group>
-    </a-form-item>
-    <a-form-item
+    <sd-form-item field="size" label="Form Size">
+      <sd-radio-group v-model="form.size" type="button">
+        <sd-radio value="mini">Mini</sd-radio>
+        <sd-radio value="small">Small</sd-radio>
+        <sd-radio value="medium">Medium</sd-radio>
+        <sd-radio value="large">Large</sd-radio>
+      </sd-radio-group>
+    </sd-form-item>
+    <sd-form-item
       field="name"
       label="Username"
       :rules="[
@@ -23,9 +23,9 @@
       ]"
       :validate-trigger="['change', 'input']"
     >
-      <a-input v-model="form.name" placeholder="please enter your username..." />
-    </a-form-item>
-    <a-form-item
+      <sd-input v-model="form.name" placeholder="please enter your username..." />
+    </sd-form-item>
+    <sd-form-item
       field="age"
       label="Age"
       :rules="[
@@ -33,93 +33,93 @@
         { type: 'number', max: 200, message: 'age is max than 200' },
       ]"
     >
-      <a-input-number v-model="form.age" placeholder="please enter your age..." />
-    </a-form-item>
-    <a-form-item
+      <sd-input-number v-model="form.age" placeholder="please enter your age..." />
+    </sd-form-item>
+    <sd-form-item
       field="section"
       label="Section"
       :rules="[{ match: /section one/, message: 'must select one' }]"
     >
-      <a-select v-model="form.section" placeholder="Please select ..." allow-clear>
-        <a-option value="section one">Section One</a-option>
-        <a-option value="section two">Section Two</a-option>
-        <a-option value="section three">Section Three</a-option>
-      </a-select>
-    </a-form-item>
-    <a-form-item
+      <sd-select v-model="form.section" placeholder="Please select ..." allow-clear>
+        <sd-option value="section one">Section One</sd-option>
+        <sd-option value="section two">Section Two</sd-option>
+        <sd-option value="section three">Section Three</sd-option>
+      </sd-select>
+    </sd-form-item>
+    <sd-form-item
       field="province"
       label="Province"
       :rules="[{ required: true, message: 'province is required' }]"
     >
-      <a-cascader
+      <sd-cascader
         v-model="form.province"
         :options="options"
         placeholder="Please select ..."
         allow-clear
       />
-    </a-form-item>
-    <a-form-item
+    </sd-form-item>
+    <sd-form-item
       field="options"
       label="Options"
       :rules="[{ type: 'array', minLength: 2, message: 'must select greater than two options' }]"
     >
-      <a-checkbox-group v-model="form.options">
-        <a-checkbox value="option one">Section One</a-checkbox>
-        <a-checkbox value="option two">Option Two</a-checkbox>
-        <a-checkbox value="option three">Option Three</a-checkbox>
-        <a-checkbox value="option four">Option Four</a-checkbox>
-      </a-checkbox-group>
-    </a-form-item>
-    <a-form-item field="date" label="Date">
-      <a-date-picker v-model="form.date" placeholder="Please select ..." />
-    </a-form-item>
-    <a-form-item field="time" label="Time">
-      <a-time-picker v-model="form.time" placeholder="Please select ..." />
-    </a-form-item>
-    <a-form-item
+      <sd-checkbox-group v-model="form.options">
+        <sd-checkbox value="option one">Section One</sd-checkbox>
+        <sd-checkbox value="option two">Option Two</sd-checkbox>
+        <sd-checkbox value="option three">Option Three</sd-checkbox>
+        <sd-checkbox value="option four">Option Four</sd-checkbox>
+      </sd-checkbox-group>
+    </sd-form-item>
+    <sd-form-item field="date" label="Date">
+      <sd-date-picker v-model="form.date" placeholder="Please select ..." />
+    </sd-form-item>
+    <sd-form-item field="time" label="Time">
+      <sd-time-picker v-model="form.time" placeholder="Please select ..." />
+    </sd-form-item>
+    <sd-form-item
       field="radio"
       label="Radio"
       :rules="[{ match: /one/, message: 'must select one' }]"
     >
-      <a-radio-group v-model="form.radio">
-        <a-radio value="radio one">Radio One</a-radio>
-        <a-radio value="radio two">Radio Two</a-radio>
-      </a-radio-group>
-    </a-form-item>
-    <a-form-item
+      <sd-radio-group v-model="form.radio">
+        <sd-radio value="radio one">Radio One</sd-radio>
+        <sd-radio value="radio two">Radio Two</sd-radio>
+      </sd-radio-group>
+    </sd-form-item>
+    <sd-form-item
       field="slider"
       label="Slider"
       :rules="[{ type: 'number', min: 5, message: 'slider is min than 5' }]"
     >
-      <a-slider v-model="form.slider" :max="10" />
-    </a-form-item>
-    <a-form-item field="score" label="Score">
-      <a-rate v-model="form.score" allow-clear />
-    </a-form-item>
-    <a-form-item
+      <sd-slider v-model="form.slider" :max="10" />
+    </sd-form-item>
+    <sd-form-item field="score" label="Score">
+      <sd-rate v-model="form.score" allow-clear />
+    </sd-form-item>
+    <sd-form-item
       field="switch"
       label="Switch"
       :rules="[{ type: 'boolean', true: true, message: 'must be true' }]"
     >
-      <a-switch v-model="form.switch" />
-    </a-form-item>
-    <a-form-item field="multiSelect" label="Multiple Select">
-      <a-select v-model="form.multiSelect" placeholder="Please select ..." multiple>
-        <a-option value="section one">Section One</a-option>
-        <a-option value="section two">Section Two</a-option>
-        <a-option value="section three">Section Three</a-option>
-      </a-select>
-    </a-form-item>
-    <a-form-item field="treeSelect" label="Tree Select">
-      <a-tree-select :data="treeData" v-model="form.treeSelect" placeholder="Please select ..." />
-    </a-form-item>
-    <a-form-item>
-      <a-space>
-        <a-button html-type="submit">Submit</a-button>
-        <a-button @click="$refs.formRef.resetFields()">Reset</a-button>
-      </a-space>
-    </a-form-item>
-  </a-form>
+      <sd-switch v-model="form.switch" />
+    </sd-form-item>
+    <sd-form-item field="multiSelect" label="Multiple Select">
+      <sd-select v-model="form.multiSelect" placeholder="Please select ..." multiple>
+        <sd-option value="section one">Section One</sd-option>
+        <sd-option value="section two">Section Two</sd-option>
+        <sd-option value="section three">Section Three</sd-option>
+      </sd-select>
+    </sd-form-item>
+    <sd-form-item field="treeSelect" label="Tree Select">
+      <sd-tree-select :data="treeData" v-model="form.treeSelect" placeholder="Please select ..." />
+    </sd-form-item>
+    <sd-form-item>
+      <sd-space>
+        <sd-button html-type="submit">Submit</sd-button>
+        <sd-button @click="$refs.formRef.resetFields()">Reset</sd-button>
+      </sd-space>
+    </sd-form-item>
+  </sd-form>
   {{ form }}
 </template>
 

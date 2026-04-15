@@ -1,17 +1,17 @@
 <template>
-  <a-space size="large">
-    <a-radio v-model="checked1">v-model</a-radio>
-    <a-radio :model-value="true">binding "true"</a-radio>
-    <a-radio :model-value="checked2">binding value2</a-radio>
-    <a-radio :default-checked="true">uncontrolled state</a-radio>
-  </a-space>
+  <sd-space size="large">
+    <sd-radio v-model="checked1">v-model</sd-radio>
+    <sd-radio :model-value="true">binding "true"</sd-radio>
+    <sd-radio :model-value="checked2">binding value2</sd-radio>
+    <sd-radio :default-checked="true">uncontrolled state</sd-radio>
+  </sd-space>
   <div :style="{ marginTop: '20px' }">
-    <a-space size="large">
-      <a-button type="primary" @click="handleSetCheck">
+    <sd-space size="large">
+      <sd-button type="primary" @click="handleSetCheck">
         {{ checked2 ? 'uncheck' : 'check' }} value2
-      </a-button>
-      <a-button @click="handleReset"> reset all </a-button>
-    </a-space>
+      </sd-button>
+      <sd-button @click="handleReset"> reset all </sd-button>
+    </sd-space>
   </div>
 </template>
 

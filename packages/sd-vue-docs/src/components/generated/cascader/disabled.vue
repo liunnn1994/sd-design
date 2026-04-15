@@ -1,5 +1,5 @@
 <template>
-  <a-cascader :options="options" :style="{ width: '320px' }" placeholder="Please select ..." />
+  <sd-cascader :options="options" :style="{ width: '320px' }" placeholder="Please select ..." />
 </template>
 
 <script>

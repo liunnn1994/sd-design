@@ -146,7 +146,7 @@
     },
     emits: {
       'update:modelValue': (
-        value:
+        _value:
           | string
           | number
           | Record<string, any>
@@ -159,7 +159,7 @@
        * @property {string | number | (string | number | (string | number)[])[] | undefined} value
        */
       'change': (
-        value:
+        _value:
           | string
           | number
           | Record<string, any>

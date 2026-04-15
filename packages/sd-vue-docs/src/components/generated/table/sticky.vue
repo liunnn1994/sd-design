@@ -1,5 +1,5 @@
 <template>
-  <a-table :columns="columns" :data="data" :sticky-header="60" />
+  <sd-table :columns="columns" :data="data" :sticky-header="60" />
 </template>
 
 <script>

@@ -1,13 +1,13 @@
 <template>
-  <a-space direction="vertical" size="large">
-    <a-cascader
+  <sd-space direction="vertical" size="large">
+    <sd-cascader
       :options="options"
       default-value="beijing"
       :style="{ width: '320px' }"
       placeholder="Please select ..."
       check-strictly
     />
-    <a-cascader
+    <sd-cascader
       :options="options"
       :default-value="['beijing']"
       :style="{ width: '320px' }"
@@ -15,7 +15,7 @@
       multiple
       check-strictly
     />
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

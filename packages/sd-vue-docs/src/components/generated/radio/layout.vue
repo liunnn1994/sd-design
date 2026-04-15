@@ -1,23 +1,23 @@
 <template>
-  <a-radio-group v-model="checkedValue">
-    <a-grid :cols="3" :colGap="24" :rowGap="16">
-      <a-grid-item>
-        <a-radio value="1">Option 1</a-radio>
-      </a-grid-item>
-      <a-grid-item>
-        <a-radio value="2" disabled>Option 2</a-radio>
-      </a-grid-item>
-      <a-grid-item>
-        <a-radio value="3">Option 3</a-radio>
-      </a-grid-item>
-      <a-grid-item>
-        <a-radio value="4">Option 4</a-radio>
-      </a-grid-item>
-      <a-grid-item>
-        <a-radio value="5">Option 5</a-radio>
-      </a-grid-item>
-    </a-grid>
-  </a-radio-group>
+  <sd-radio-group v-model="checkedValue">
+    <sd-grid :cols="3" :colGap="24" :rowGap="16">
+      <sd-grid-item>
+        <sd-radio value="1">Option 1</sd-radio>
+      </sd-grid-item>
+      <sd-grid-item>
+        <sd-radio value="2" disabled>Option 2</sd-radio>
+      </sd-grid-item>
+      <sd-grid-item>
+        <sd-radio value="3">Option 3</sd-radio>
+      </sd-grid-item>
+      <sd-grid-item>
+        <sd-radio value="4">Option 4</sd-radio>
+      </sd-grid-item>
+      <sd-grid-item>
+        <sd-radio value="5">Option 5</sd-radio>
+      </sd-grid-item>
+    </sd-grid>
+  </sd-radio-group>
 </template>
 
 <script>

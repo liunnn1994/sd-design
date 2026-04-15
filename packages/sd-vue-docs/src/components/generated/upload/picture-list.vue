@@ -1,5 +1,5 @@
 <template>
-  <a-upload list-type="picture" action="/" :default-file-list="fileList" />
+  <sd-upload list-type="picture" action="/" :default-file-list="fileList" />
 </template>
 
 <script>

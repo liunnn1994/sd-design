@@ -1,8 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 
-import { assertDirectiveLiteral } from '@babel/types';
-
 import Carousel from '../index';
 
 const { Item } = Carousel;

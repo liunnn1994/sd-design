@@ -1,6 +1,6 @@
 <template>
-  <a-space direction="vertical" :style="{ width: '100%' }">
-    <a-upload
+  <sd-space direction="vertical" :style="{ width: '100%' }">
+    <sd-upload
       action="/"
       :default-file-list="[
         {
@@ -16,7 +16,7 @@
       ]"
       @before-remove="beforeRemove"
     />
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

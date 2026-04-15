@@ -56,7 +56,7 @@ export default defineComponent({
     },
   },
   emits: ['select'],
-  setup(props, { emit, slots }) {
+  setup(props, { slots }) {
     const prefixCls = getPrefixCls('table');
     const tableCtx = inject<Partial<TableContext>>(tableInjectionKey, {});
     const style = computed(() => getOperationStyle(props.operationColumn, props.operations));

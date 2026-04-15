@@ -140,7 +140,7 @@
       onUpdated(() => setTextContent());
 
       const isSelected = computed(() => selectCtx?.valueKeys.includes(key.value) ?? false);
-      const isActive = computed(() => selectCtx?.activeKey === key.value ?? false);
+      const isActive = computed(() => selectCtx?.activeKey === key.value);
       let isValid = ref(true);
 
       if (!props.internal) {

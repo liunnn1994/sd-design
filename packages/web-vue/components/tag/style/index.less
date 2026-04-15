@@ -1,5 +1,5 @@
-@import '../../style/mixins/index.less';
-@import './token.less';
+@import url('../../style/mixins/index.less');
+@import url('./token.less');
 
 @tag-prefix-cls: ~'@{prefix}-tag';
 
@@ -136,7 +136,7 @@
 
 @{sd-theme-tag}[sd-theme='dark'] {
   .@{tag-prefix-cls}-checked {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgb(255 255 255 / 90%);
   }
 
   each(@colors, {

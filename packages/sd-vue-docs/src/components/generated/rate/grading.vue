@@ -1,3 +1,3 @@
 <template>
-  <a-rate grading />
+  <sd-rate grading />
 </template>

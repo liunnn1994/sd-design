@@ -1,8 +1,8 @@
 <template>
-  <a-space>
-    <a-color-picker v-model="value" />
-    <a-color-picker defaultValue="#165DFF" showText disabledAlpha />
-  </a-space>
+  <sd-space>
+    <sd-color-picker v-model="value" />
+    <sd-color-picker defaultValue="#165DFF" showText disabledAlpha />
+  </sd-space>
 </template>
 
 <script setup>

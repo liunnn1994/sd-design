@@ -1,11 +1,11 @@
 <template>
-  <a-space direction="vertical" size="large">
-    <a-input-number :style="{ width: '320px' }" placeholder="Please enter something" allow-clear>
+  <sd-space direction="vertical" size="large">
+    <sd-input-number :style="{ width: '320px' }" placeholder="Please enter something" allow-clear>
       <template #prefix>
         <icon-user />
       </template>
-    </a-input-number>
-    <a-input-number
+    </sd-input-number>
+    <sd-input-number
       :style="{ width: '320px' }"
       placeholder="Please enter something"
       allow-clear
@@ -14,6 +14,6 @@
       <template #suffix>
         <icon-info-circle />
       </template>
-    </a-input-number>
-  </a-space>
+    </sd-input-number>
+  </sd-space>
 </template>

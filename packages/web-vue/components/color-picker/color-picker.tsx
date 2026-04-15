@@ -111,20 +111,20 @@ export default defineComponent({
     },
   },
   emits: {
-    'update:modelValue': (value: string) => true,
+    'update:modelValue': (_value: string) => true,
     /**
      * @zh 颜色值改变时触发
      * @en Triggered when the color value changes
      * @param {string} value
      */
-    'change': (value: string) => true,
+    'change': (_value: string) => true,
     /**
      * @zh 颜色面板展开和收起时触发
      * @en Triggered when the color panel is expanded and collapsed
      * @param {boolean} visible
      * @param {string} value
      */
-    'popup-visible-change': (visible: boolean, value: string) => true,
+    'popup-visible-change': (_visible: boolean, _value: string) => true,
   },
   setup(props, { emit, slots }) {
     const prefixCls = getPrefixCls('color-picker');

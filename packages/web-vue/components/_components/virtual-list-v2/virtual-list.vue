@@ -103,8 +103,8 @@
       },
     },
     emits: {
-      scroll: (ev: Event) => true,
-      reachBottom: (ev: Event) => true,
+      scroll: (_ev: Event) => true,
+      reachBottom: (_ev: Event) => true,
     },
     setup(props, { emit }) {
       const { data, itemKey, fixedSize, estimatedSize, buffer, height } = toRefs(props);

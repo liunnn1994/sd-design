@@ -1,13 +1,13 @@
 <template>
-  <a-select default-value="Beijing" :style="{ width: '320px' }" placeholder="Please select ...">
+  <sd-select default-value="Beijing" :style="{ width: '320px' }" placeholder="Please select ...">
     <template #label="{ data }">
       <span><icon-plus />{{ data?.label }}</span>
     </template>
-    <a-option>Beijing</a-option>
-    <a-option>Shanghai</a-option>
-    <a-option>Guangzhou</a-option>
-    <a-option disabled>Disabled</a-option>
-  </a-select>
+    <sd-option>Beijing</sd-option>
+    <sd-option>Shanghai</sd-option>
+    <sd-option>Guangzhou</sd-option>
+    <sd-option disabled>Disabled</sd-option>
+  </sd-select>
 </template>
 
 <script>

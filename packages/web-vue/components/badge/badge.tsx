@@ -1,13 +1,4 @@
-import {
-  defineComponent,
-  computed,
-  toRefs,
-  CSSProperties,
-  PropType,
-  Slot,
-  inject,
-  ComputedRef,
-} from 'vue';
+import { defineComponent, computed, toRefs, CSSProperties, PropType, inject } from 'vue';
 
 import { getPrefixCls } from '../_utils/global-config';
 import { configProviderInjectionKey } from '../config-provider/context';

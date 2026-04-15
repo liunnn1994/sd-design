@@ -1,5 +1,5 @@
 <template>
-  <a-popconfirm content="Are you sure you want to delete?">
-    <a-button>Click To Delete</a-button>
-  </a-popconfirm>
+  <sd-popconfirm content="Are you sure you want to delete?">
+    <sd-button>Click To Delete</sd-button>
+  </sd-popconfirm>
 </template>

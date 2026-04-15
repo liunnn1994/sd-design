@@ -1,28 +1,28 @@
 <template>
-  <a-space>
-    <a-tag color="gray">
+  <sd-space>
+    <sd-tag color="gray">
       <template #icon>
         <icon-github />
       </template>
       Github
-    </a-tag>
-    <a-tag color="orangered">
+    </sd-tag>
+    <sd-tag color="orangered">
       <template #icon>
         <icon-gitlab />
       </template>
       Gitlab
-    </a-tag>
-    <a-tag color="blue">
+    </sd-tag>
+    <sd-tag color="blue">
       <template #icon>
         <icon-twitter />
       </template>
       Twitter
-    </a-tag>
-    <a-tag color="sdblue">
+    </sd-tag>
+    <sd-tag color="sdblue">
       <template #icon>
         <icon-facebook />
       </template>
       Facebook
-    </a-tag>
-  </a-space>
+    </sd-tag>
+  </sd-space>
 </template>

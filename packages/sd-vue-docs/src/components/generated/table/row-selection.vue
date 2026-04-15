@@ -1,10 +1,10 @@
 <template>
-  <a-space direction="vertical" size="large" fill>
+  <sd-space direction="vertical" size="large" fill>
     <div>
       <span>OnlyCurrent: </span>
-      <a-switch v-model="rowSelection.onlyCurrent" />
+      <sd-switch v-model="rowSelection.onlyCurrent" />
     </div>
-    <a-table
+    <sd-table
       row-key="name"
       :columns="columns"
       :data="data"
@@ -12,7 +12,7 @@
       v-model:selectedKeys="selectedKeys"
       :pagination="pagination"
     />
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

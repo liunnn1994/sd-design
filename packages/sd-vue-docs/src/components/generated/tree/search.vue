@@ -1,7 +1,7 @@
 <template>
   <div>
-    <a-input-search style="margin-bottom: 8px; max-width: 240px" v-model="searchKey" />
-    <a-tree :data="treeData">
+    <sd-input-search style="max-width: 240px; margin-bottom: 8px" v-model="searchKey" />
+    <sd-tree :data="treeData">
       <template #title="nodeData">
         <template v-if="((index = getMatchIndex(nodeData?.title)), index < 0)">{{
           nodeData?.title
@@ -13,7 +13,7 @@
           >{{ nodeData?.title?.substr(index + searchKey.length) }}
         </span>
       </template>
-    </a-tree>
+    </sd-tree>
   </div>
 </template>
 <script>

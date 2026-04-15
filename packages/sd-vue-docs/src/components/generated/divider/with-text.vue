@@ -1,12 +1,12 @@
 <template>
   <div class="divider-demo">
     <p>A design is a plan or specification for the construction of an object.</p>
-    <a-divider orientation="left">Text</a-divider>
+    <sd-divider orientation="left">Text</sd-divider>
     <p>A design is a plan or specification for the construction of an object.</p>
-    <a-divider orientation="center">Text</a-divider>
+    <sd-divider orientation="center">Text</sd-divider>
     <p>A design is a plan or specification for the construction of an object.</p>
-    <a-divider orientation="right">Text</a-divider>
-    <a-divider :margin="10"><icon-star /></a-divider>
+    <sd-divider orientation="right">Text</sd-divider>
+    <sd-divider :margin="10"><icon-star /></sd-divider>
   </div>
 </template>
 

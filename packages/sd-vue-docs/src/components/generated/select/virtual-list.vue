@@ -1,5 +1,5 @@
 <template>
-  <a-select
+  <sd-select
     :style="{ width: '320px' }"
     :options="options"
     placeholder="Please select ..."

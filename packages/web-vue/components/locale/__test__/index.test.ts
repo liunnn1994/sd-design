@@ -37,7 +37,7 @@ describe('Locale', () => {
       ([filename]) => !filename.endsWith('/zh-cn.ts'),
     );
 
-    for (const [item, loadLanguage] of languages) {
+    for (const [, loadLanguage] of languages) {
       // oxlint-disable-next-line no-await-in-loop
       const lang = await loadLanguage();
       expect(lang.default).toMatchStructure(zhCN);

@@ -1,16 +1,16 @@
 <template>
-  <a-card title="SD Card">
-    <a-card :style="{ marginBottom: '20px' }" title="Inner Card Title">
+  <sd-card title="SD Card">
+    <sd-card :style="{ marginBottom: '20px' }" title="Inner Card Title">
       <template #extra>
-        <a-link>More</a-link>
+        <sd-link>More</sd-link>
       </template>
       Inner Card Content
-    </a-card>
-    <a-card title="Inner Card Title">
+    </sd-card>
+    <sd-card title="Inner Card Title">
       <template #extra>
-        <a-link>More</a-link>
+        <sd-link>More</sd-link>
       </template>
       Inner Card Content
-    </a-card>
-  </a-card>
+    </sd-card>
+  </sd-card>
 </template>

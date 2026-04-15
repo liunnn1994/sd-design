@@ -127,11 +127,11 @@
        * @param {Event} ev
        */
       submit: (
-        data: {
+        _data: {
           values: Record<string, any>;
           errors: Record<string, ValidatedError> | undefined;
         },
-        ev: Event,
+        _ev: Event,
       ) => true,
       /**
        * @zh 验证成功时触发
@@ -139,7 +139,7 @@
        * @param {Record<string, any>} values
        * @param {Event} ev
        */
-      submitSuccess: (values: Record<string, any>, ev: Event) => true,
+      submitSuccess: (_values: Record<string, any>, _ev: Event) => true,
       /**
        * @zh 验证失败时触发
        * @en Triggered when verification failed
@@ -147,11 +147,11 @@
        * @param {Event} ev
        */
       submitFailed: (
-        data: {
+        _data: {
           values: Record<string, any>;
           errors: Record<string, ValidatedError>;
         },
-        ev: Event,
+        _ev: Event,
       ) => true,
     },
     setup(props, { emit }) {

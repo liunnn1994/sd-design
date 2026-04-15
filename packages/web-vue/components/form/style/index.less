@@ -1,5 +1,5 @@
-@import './token.less';
-@import './status.less';
+@import url('./token.less');
+@import url('./status.less');
 
 @form-prefix-cls: ~'@{prefix}-form';
 @form-item-prefix-cls: ~'@{prefix}-form-item';
@@ -14,8 +14,7 @@
   width: 100%;
 
   &-layout-inline {
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
   }
 
   &-layout-inline &-item {

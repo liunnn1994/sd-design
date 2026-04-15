@@ -1,16 +1,16 @@
 <template>
-  <a-upload action="/">
+  <sd-upload action="/">
     <template #upload-button>
       <div
         style="
-          background-color: var(--color-fill-2);
-          color: var(--color-text-1);
-          border: 1px dashed var(--color-fill-4);
-          height: 158px;
           width: 380px;
-          border-radius: 2;
+          height: 158px;
+          color: var(--color-text-1);
           line-height: 158px;
           text-align: center;
+          background-color: var(--color-fill-2);
+          border: 1px dashed var(--color-fill-4);
+          border-radius: 2;
         "
       >
         <div>
@@ -19,5 +19,5 @@
         </div>
       </div>
     </template>
-  </a-upload>
+  </sd-upload>
 </template>

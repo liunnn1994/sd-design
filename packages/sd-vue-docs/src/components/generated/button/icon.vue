@@ -1,18 +1,18 @@
 <template>
-  <a-space>
-    <a-button type="primary">
+  <sd-space>
+    <sd-button type="primary">
       <template #icon>
         <icon-plus />
       </template>
-    </a-button>
-    <a-button type="primary">
+    </sd-button>
+    <sd-button type="primary">
       <template #icon>
         <icon-delete />
       </template>
       <!-- Use the default slot to avoid extra spaces -->
       <template #default>Delete</template>
-    </a-button>
-  </a-space>
+    </sd-button>
+  </sd-space>
 </template>
 
 <script>

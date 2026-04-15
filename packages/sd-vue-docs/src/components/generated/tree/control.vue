@@ -1,13 +1,13 @@
 <template>
-  <a-button-group style="margin-bottom: 20px">
-    <a-button type="primary" @click="toggleChecked">
+  <sd-button-group style="margin-bottom: 20px">
+    <sd-button type="primary" @click="toggleChecked">
       {{ checkedKeys?.length ? 'deselect all' : 'select all' }}
-    </a-button>
-    <a-button type="primary" @click="toggleExpanded">
+    </sd-button>
+    <sd-button type="primary" @click="toggleExpanded">
       {{ expandedKeys?.length ? 'fold' : 'unfold' }}
-    </a-button>
-  </a-button-group>
-  <a-tree
+    </sd-button>
+  </sd-button-group>
+  <sd-tree
     :checkable="true"
     v-model:selected-keys="selectedKeys"
     v-model:checked-keys="checkedKeys"

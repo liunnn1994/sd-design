@@ -1,10 +1,10 @@
 <template>
-  <a-transfer :data="data" :default-value="value">
+  <sd-transfer :data="data" :default-value="value">
     <template #item="{ label }">
       <icon-up />
       {{ label }}
     </template>
-  </a-transfer>
+  </sd-transfer>
 </template>
 
 <script>

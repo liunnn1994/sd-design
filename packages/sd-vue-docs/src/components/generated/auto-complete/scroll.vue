@@ -1,5 +1,5 @@
 <template>
-  <a-auto-complete
+  <sd-auto-complete
     :data="data"
     :style="{ width: '360px' }"
     placeholder="please enter something"

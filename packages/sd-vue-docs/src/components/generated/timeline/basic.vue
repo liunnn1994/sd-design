@@ -1,18 +1,18 @@
 <template>
   <div :style="{ marginBottom: '40px' }">
-    <a-typography-text :style="{ verticalAlign: 'middle', marginRight: '8px' }">
+    <sd-typography-text :style="{ verticalAlign: 'middle', marginRight: '8px' }">
       Reverse
-    </a-typography-text>
-    <a-radio-group @change="onChange" style="{ marginBottom: '30px' }" :modelValue="isReverse">
-      <a-radio :value="false">No Reverse</a-radio>
-      <a-radio :value="true">Reverse</a-radio>
-    </a-radio-group>
+    </sd-typography-text>
+    <sd-radio-group @change="onChange" style="{ marginBottom: '30px' }" :modelValue="isReverse">
+      <sd-radio :value="false">No Reverse</sd-radio>
+      <sd-radio :value="true">Reverse</sd-radio>
+    </sd-radio-group>
   </div>
-  <a-timeline :reverse="isReverse">
-    <a-timeline-item label="2017-03-10">The first milestone</a-timeline-item>
-    <a-timeline-item label="2018-05-12">The second milestone</a-timeline-item>
-    <a-timeline-item label="2020-09-30">The third milestone</a-timeline-item>
-  </a-timeline>
+  <sd-timeline :reverse="isReverse">
+    <sd-timeline-item label="2017-03-10">The first milestone</sd-timeline-item>
+    <sd-timeline-item label="2018-05-12">The second milestone</sd-timeline-item>
+    <sd-timeline-item label="2020-09-30">The third milestone</sd-timeline-item>
+  </sd-timeline>
 </template>
 
 <script>

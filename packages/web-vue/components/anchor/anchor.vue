@@ -87,13 +87,13 @@
        * @property { string | undefined } hash
        * @property {string} preHash
        */
-      select: (hash: string | undefined, preHash: string) => true,
+      select: (_hash: string | undefined, _preHash: string) => true,
       /**
        * @zh 链接发生改变时触发
        * @en Triggered when the link changes
        * @property {string} hash
        */
-      change: (hash: string) => true,
+      change: (_hash: string) => true,
     },
     setup(props, { emit }) {
       const prefixCls = getPrefixCls('anchor');

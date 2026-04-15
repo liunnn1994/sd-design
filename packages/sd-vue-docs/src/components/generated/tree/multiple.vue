@@ -1,5 +1,5 @@
 <template>
-  <a-checkbox
+  <sd-checkbox
     style="marginbottom: 24px"
     v-model="multiple"
     @change="
@@ -9,11 +9,11 @@
     "
   >
     multiple
-  </a-checkbox>
+  </sd-checkbox>
   <br />
-  <a-typography-text> Current: {{ selectedKeys?.join(' , ') }} </a-typography-text>
+  <sd-typography-text> Current: {{ selectedKeys?.join(' , ') }} </sd-typography-text>
   <br />
-  <a-tree v-model:selected-keys="selectedKeys" :multiple="multiple" :data="treeData" />
+  <sd-tree v-model:selected-keys="selectedKeys" :multiple="multiple" :data="treeData" />
 </template>
 <script>
   import { ref } from 'vue';

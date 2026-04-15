@@ -1,14 +1,14 @@
 <template>
-  <a-button type="primary" @click="handleClick">Open Drawer</a-button>
-  <a-drawer :visible="visible" :width="500" @ok="handleOk" @cancel="handleCancel" unmountOnClose>
+  <sd-button type="primary" @click="handleClick">Open Drawer</sd-button>
+  <sd-drawer :visible="visible" :width="500" @ok="handleOk" @cancel="handleCancel" unmountOnClose>
     <template #title> Title </template>
     <div :style="{ marginBottom: '20px' }"
       >You can customize modal body text by the current situation. This modal will be closed
       immediately once you press the OK button.</div
     >
-    <a-button type="primary" @click="handleNestedClick">Open Nested Drawer</a-button>
-  </a-drawer>
-  <a-drawer
+    <sd-button type="primary" @click="handleNestedClick">Open Nested Drawer</sd-button>
+  </sd-drawer>
+  <sd-drawer
     :visible="nestedVisible"
     @ok="handleNestedOk"
     @cancel="handleNestedCancel"
@@ -19,7 +19,7 @@
       >You can customize modal body text by the current situation. This modal will be closed
       immediately once you press the OK button.</div
     >
-  </a-drawer>
+  </sd-drawer>
 </template>
 
 <script>

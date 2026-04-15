@@ -1,5 +1,5 @@
 <template>
-  <a-select
+  <sd-select
     v-model="value"
     :options="options"
     :field-names="fieldNames"

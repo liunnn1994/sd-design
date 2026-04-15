@@ -1,5 +1,5 @@
 <template>
-  <a-button type="primary" @click="handleClick">Confirm</a-button>
+  <sd-button type="primary" @click="handleClick">Confirm</sd-button>
 </template>
 
 <script>

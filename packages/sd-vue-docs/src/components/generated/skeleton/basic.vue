@@ -1,8 +1,8 @@
 <template>
-  <a-skeleton>
-    <a-space direction="vertical" :style="{ width: '100%' }" size="large">
-      <a-skeleton-line :rows="3" />
-      <a-skeleton-shape />
-    </a-space>
-  </a-skeleton>
+  <sd-skeleton>
+    <sd-space direction="vertical" :style="{ width: '100%' }" size="large">
+      <sd-skeleton-line :rows="3" />
+      <sd-skeleton-shape />
+    </sd-space>
+  </sd-skeleton>
 </template>

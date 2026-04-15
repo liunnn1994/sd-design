@@ -1,3 +1,3 @@
 <template>
-  <a-rate :count="10" />
+  <sd-rate :count="10" />
 </template>

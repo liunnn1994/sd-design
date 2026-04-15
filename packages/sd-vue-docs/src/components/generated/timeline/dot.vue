@@ -1,21 +1,23 @@
 <template>
   <div :style="{ display: 'flex' }">
-    <a-timeline :style="{ marginRight: '40px' }">
-      <a-timeline-item label="2020-04-12" dotColor="#00B42A"> The first milestone </a-timeline-item>
-      <a-timeline-item label="2020-05-17"> The second milestone </a-timeline-item>
-      <a-timeline-item label="2020-06-22">
+    <sd-timeline :style="{ marginRight: '40px' }">
+      <sd-timeline-item label="2020-04-12" dotColor="#00B42A">
+        The first milestone
+      </sd-timeline-item>
+      <sd-timeline-item label="2020-05-17"> The second milestone </sd-timeline-item>
+      <sd-timeline-item label="2020-06-22">
         <template #dot>
           <IconClockCircle :style="{ fontSize: '12px', color: '#F53F3F' }" />
         </template>
         The third milestone
-      </a-timeline-item>
-      <a-timeline-item label="2020-06-22" dotColor="var(--color-fill-4)">
+      </sd-timeline-item>
+      <sd-timeline-item label="2020-06-22" dotColor="var(--color-fill-4)">
         The third milestone
-      </a-timeline-item>
-    </a-timeline>
+      </sd-timeline-item>
+    </sd-timeline>
 
-    <a-timeline :style="{ marginRight: '40px' }">
-      <a-timeline-item label="2020-04-12">
+    <sd-timeline :style="{ marginRight: '40px' }">
+      <sd-timeline-item label="2020-04-12">
         <template #dot>
           <IconCheck
             :style="{
@@ -28,8 +30,8 @@
           />
         </template>
         The first milestone
-      </a-timeline-item>
-      <a-timeline-item label="2020-05-17">
+      </sd-timeline-item>
+      <sd-timeline-item label="2020-05-17">
         <template #dot>
           <IconCheck
             :style="{
@@ -41,22 +43,22 @@
             }"
           />
         </template>
-      </a-timeline-item>
-      <a-timeline-item label="2020-06-22">The third milestone</a-timeline-item>
-      <a-timeline-item label="2020-06-22" dotColor="var(--color-fill-4)">
+      </sd-timeline-item>
+      <sd-timeline-item label="2020-06-22">The third milestone</sd-timeline-item>
+      <sd-timeline-item label="2020-06-22" dotColor="var(--color-fill-4)">
         The third milestone
-      </a-timeline-item>
-    </a-timeline>
+      </sd-timeline-item>
+    </sd-timeline>
 
-    <a-timeline>
-      <a-timeline-item label="2020-04-12">The first milestone</a-timeline-item>
-      <a-timeline-item label="2020-05-17" dotColor="var(--color-fill-4)">
+    <sd-timeline>
+      <sd-timeline-item label="2020-04-12">The first milestone</sd-timeline-item>
+      <sd-timeline-item label="2020-05-17" dotColor="var(--color-fill-4)">
         The second milestone
-      </a-timeline-item>
-      <a-timeline-item label="2020-06-22" dotColor="var(--color-fill-4)">
+      </sd-timeline-item>
+      <sd-timeline-item label="2020-06-22" dotColor="var(--color-fill-4)">
         The third milestone
-      </a-timeline-item>
-    </a-timeline>
+      </sd-timeline-item>
+    </sd-timeline>
   </div>
 </template>
 

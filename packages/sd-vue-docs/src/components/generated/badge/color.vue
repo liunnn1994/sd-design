@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-badge
+    <sd-badge
       v-for="color in colors"
       :key="color"
       :color="color"
@@ -10,7 +10,7 @@
   </div>
   <br />
   <div>
-    <a-badge
+    <sd-badge
       v-for="color in customColors"
       :key="color"
       :color="color"

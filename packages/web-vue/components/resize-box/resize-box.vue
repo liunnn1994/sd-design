@@ -102,27 +102,27 @@
       },
     },
     emits: {
-      'update:width': (width: number) => true,
-      'update:height': (height: number) => true,
+      'update:width': (_width: number) => true,
+      'update:height': (_height: number) => true,
       /**
        * @zh 拖拽开始时触发
        * @en Triggered when dragging starts
        * @param {MouseEvent} ev
        */
-      'movingStart': (ev: MouseEvent) => true,
+      'movingStart': (_ev: MouseEvent) => true,
       /**
        * @zh 拖拽时触发
        * @en Triggered when dragging
        * @param {{ width: number; height: number; }} size
        * @param {MouseEvent} ev
        */
-      'moving': (size: { width: number; height: number }, ev: MouseEvent) => true,
+      'moving': (_size: { width: number; height: number }, _ev: MouseEvent) => true,
       /**
        * @zh 拖拽结束时触发
        * @en Triggered when the drag ends
        * @param {MouseEvent} ev
        */
-      'movingEnd': (ev: MouseEvent) => true,
+      'movingEnd': (_ev: MouseEvent) => true,
     },
     /**
      * @zh 伸缩杆的内容

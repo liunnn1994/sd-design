@@ -1,6 +1,6 @@
 <template>
-  <a-space direction="vertical" size="large" style="width: 100%">
-    <a-textarea placeholder="Disabled status" disabled />
-    <a-textarea placeholder="Error status" error />
-  </a-space>
+  <sd-space direction="vertical" size="large" style="width: 100%">
+    <sd-textarea placeholder="Disabled status" disabled />
+    <sd-textarea placeholder="Error status" error />
+  </sd-space>
 </template>

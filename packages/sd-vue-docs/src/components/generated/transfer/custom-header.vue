@@ -1,11 +1,11 @@
 <template>
-  <a-transfer :data="data" :default-value="value">
+  <sd-transfer :data="data" :default-value="value">
     <template
       #source-title="{ countTotal, countSelected, checked, indeterminate, onSelectAllChange }"
     >
       <div :style="styleHeader">
         Source Title {{ countSelected }}-{{ countTotal }}
-        <a-checkbox
+        <sd-checkbox
           :model-value="checked"
           :indeterminate="indeterminate"
           @change="onSelectAllChange"
@@ -19,7 +19,7 @@
         <IconDelete @click="onClear" />
       </div>
     </template>
-  </a-transfer>
+  </sd-transfer>
 </template>
 
 <script>

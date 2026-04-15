@@ -88,19 +88,19 @@ export default defineComponent({
     },
   },
   emits: {
-    'update:modelValue': (value: number) => true,
+    'update:modelValue': (_value: number) => true,
     /**
      * @zh 值改变时触发
      * @en Trigger when the value changes
      * @property {number} value
      */
-    'change': (value: number) => true,
+    'change': (_value: number) => true,
     /**
      * @zh 鼠标移动到数值上时触发
      * @en Triggered when the mouse moves over the value
      * @property {number} value
      */
-    'hoverChange': (value: number) => true,
+    'hoverChange': (_value: number) => true,
   },
   /**
    * @zh 符号

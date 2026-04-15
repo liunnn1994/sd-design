@@ -1,14 +1,14 @@
 <template>
-  <a-space>
-    <a-link loading>Link</a-link>
-    <a-link :loading="loading1" @click="handleClick1">Link</a-link>
-    <a-link :loading="loading2" @click="handleClick2">
+  <sd-space>
+    <sd-link loading>Link</sd-link>
+    <sd-link :loading="loading1" @click="handleClick1">Link</sd-link>
+    <sd-link :loading="loading2" @click="handleClick2">
       <template #icon>
         <icon-edit />
       </template>
       Link
-    </a-link>
-  </a-space>
+    </sd-link>
+  </sd-space>
 </template>
 
 <script>

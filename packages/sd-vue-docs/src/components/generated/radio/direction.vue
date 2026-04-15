@@ -1,8 +1,8 @@
 <template>
-  <a-radio-group direction="vertical">
-    <a-radio value="A">A</a-radio>
-    <a-radio value="B">B</a-radio>
-    <a-radio value="C">C</a-radio>
-    <a-radio value="D">D</a-radio>
-  </a-radio-group>
+  <sd-radio-group direction="vertical">
+    <sd-radio value="A">A</sd-radio>
+    <sd-radio value="B">B</sd-radio>
+    <sd-radio value="C">C</sd-radio>
+    <sd-radio value="D">D</sd-radio>
+  </sd-radio-group>
 </template>

@@ -1,16 +1,16 @@
 <template>
   <div>
     <div style="margin-bottom: 20px">
-      <a-space>
+      <sd-space>
         <span>Type: </span>
-        <a-radio-group v-model="type">
-          <a-radio value="text">text</a-radio>
-          <a-radio value="picture">picture</a-radio>
-          <a-radio value="picture-card">picture-card</a-radio>
-        </a-radio-group>
-      </a-space>
+        <sd-radio-group v-model="type">
+          <sd-radio value="text">text</sd-radio>
+          <sd-radio value="picture">picture</sd-radio>
+          <sd-radio value="picture-card">picture-card</sd-radio>
+        </sd-radio-group>
+      </sd-space>
     </div>
-    <a-upload
+    <sd-upload
       action="/"
       :list-type="type"
       :default-file-list="[

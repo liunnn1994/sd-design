@@ -1,4 +1,4 @@
-import { defineComponent, PropType, toRefs, computed } from 'vue';
+import { defineComponent, PropType, computed } from 'vue';
 
 import { getPrefixCls } from '../_utils/global-config';
 import { useControlBlock } from './hooks/use-control-block';

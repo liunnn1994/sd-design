@@ -1,5 +1,5 @@
 <template>
-  <a-slider v-model="value" :style="{ width: '300px' }" range />
+  <sd-slider v-model="value" :style="{ width: '300px' }" range />
 </template>
 
 <script>

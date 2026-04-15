@@ -1,14 +1,14 @@
 <template>
-  <a-trigger trigger="click" align-point>
+  <sd-trigger trigger="click" align-point>
     <div class="demo-point-trigger">
       <div>Click Me</div>
     </div>
     <template #content>
       <div class="demo-point">
-        <a-empty />
+        <sd-empty />
       </div>
     </template>
-  </a-trigger>
+  </sd-trigger>
 </template>
 
 <style scoped>
@@ -21,11 +21,11 @@
   }
 
   .demo-point {
-    padding: 10px;
     width: 200px;
+    padding: 10px;
     background-color: var(--color-bg-popup);
     border-radius: 4px;
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 8px 0 rgb(0 0 0 / 15%);
   }
 
   .demo-point-wrapper {

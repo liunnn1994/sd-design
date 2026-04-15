@@ -1,11 +1,11 @@
 <template>
-  <a-result status="error" title="This is title content">
+  <sd-result status="error" title="This is title content">
     <template #subtitle> This is subtitle content </template>
 
     <template #extra>
-      <a-space>
-        <a-button type="primary">Back</a-button>
-      </a-space>
+      <sd-space>
+        <sd-button type="primary">Back</sd-button>
+      </sd-space>
     </template>
-  </a-result>
+  </sd-result>
 </template>

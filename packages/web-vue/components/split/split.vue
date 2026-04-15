@@ -145,18 +145,18 @@
        * @zh 开始拖拽之前触发
        * @en Triggered before dragging
        * */
-      'moveStart': (ev: MouseEvent) => true,
+      'moveStart': (_ev: MouseEvent) => true,
       /**
        * @zh 拖拽时触发
        * @en Triggered when dragging
        */
-      'moving': (ev: MouseEvent) => true,
+      'moving': (_ev: MouseEvent) => true,
       /**
        * @zh 拖拽结束之后触发
        * @en Triggered after dragging ends
        */
-      'moveEnd': (ev: MouseEvent) => true,
-      'update:size': (size: number | string) => true,
+      'moveEnd': (_ev: MouseEvent) => true,
+      'update:size': (_size: number | string) => true,
     },
     /**
      * @zh 第一个面板的内容

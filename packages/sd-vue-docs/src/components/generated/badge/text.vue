@@ -1,20 +1,20 @@
 <template>
-  <a-space :size="40">
-    <a-badge text="NEW">
-      <a-avatar shape="square">
+  <sd-space :size="40">
+    <sd-badge text="NEW">
+      <sd-avatar shape="square">
         <span>
           <IconUser />
         </span>
-      </a-avatar>
-    </a-badge>
-    <a-badge text="HOT">
-      <a-avatar shape="square">
+      </sd-avatar>
+    </sd-badge>
+    <sd-badge text="HOT">
+      <sd-avatar shape="square">
         <span>
           <IconUser />
         </span>
-      </a-avatar>
-    </a-badge>
-  </a-space>
+      </sd-avatar>
+    </sd-badge>
+  </sd-space>
 </template>
 
 <script>

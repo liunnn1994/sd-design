@@ -96,46 +96,46 @@ export default defineComponent({
     },
   },
   emits: {
-    'update:modelValue': (value: string) => true,
+    'update:modelValue': (_value: string) => true,
     /**
      * @zh 值发生改变时触发
      * @en Triggered when the value changes
      * @property {string} value
      */
-    'change': (value: string) => true,
+    'change': (_value: string) => true,
     /**
      * @zh 动态搜索时触发，2.47.0 版本增加 prefix 参数
      * @en Trigger on dynamic search prefix, version 2.47.0 adds prefix param
      * @property {string} value
      * @property {string} prefix
      */
-    'search': (value: string, prefix: string) => true,
+    'search': (_value: string, _prefix: string) => true,
     /**
      * @zh 选择下拉选项时触发
      * @en Triggered when the drop-down option is selected
      * @property {string | number | Record<string, any> | undefined} value
      */
-    'select': (value: string | number | Record<string, any> | undefined) => true,
+    'select': (_value: string | number | Record<string, any> | undefined) => true,
     /**
      * @zh 用户点击清除按钮时触发
      * @en Triggered when the user clicks the clear button
      * @version 2.23.0
      */
-    'clear': (ev: Event) => true,
+    'clear': (_ev: Event) => true,
     /**
      * @zh 文本框获取焦点时触发
      * @en Emitted when the text box gets focus
      * @param {FocusEvent} ev
      * @version 2.42.0
      */
-    'focus': (ev: FocusEvent) => true,
+    'focus': (_ev: FocusEvent) => true,
     /**
      * @zh 文本框失去焦点时触发
      * @en Emitted when the text box loses focus
      * @param {FocusEvent} ev
      * @version 2.42.0
      */
-    'blur': (ev: FocusEvent) => true,
+    'blur': (_ev: FocusEvent) => true,
   },
   /**
    * @zh 选项内容
@@ -235,7 +235,7 @@ export default defineComponent({
       _popupVisible.value = popupVisible;
     };
 
-    const handleSelect = (key: string, e: Event) => {
+    const handleSelect = (key: string, _e: Event) => {
       const { value } = optionInfoMap.get(key) ?? {};
       const measureStart = measureInfo.value.location;
       const measureEnd = measureInfo.value.location + measureInfo.value.text.length;

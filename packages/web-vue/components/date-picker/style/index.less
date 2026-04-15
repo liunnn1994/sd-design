@@ -1,5 +1,5 @@
-@import '../../_components/picker/style/index.less';
-@import './token.less';
+@import url('../../_components/picker/style/index.less');
+@import url('./token.less');
 
 @picker-prefix-cls: ~'@{prefix}-picker';
 
@@ -23,8 +23,7 @@
       flex-direction: column;
       box-sizing: border-box;
       padding: 5px 8px;
-      overflow-x: hidden;
-      overflow-y: auto;
+      overflow: hidden auto;
 
       > * {
         margin: 5px 0;
@@ -117,7 +116,7 @@
     display: flex;
     box-sizing: border-box;
     width: 100%;
-    padding: 14px 16px 0 16px;
+    padding: 14px 16px 0;
 
     &-item {
       flex: 1;
@@ -171,9 +170,13 @@
     transition: background-color @transition-duration-1 @transition-timing-function-linear;
   }
 
-  &-cell-in-view:not(&-cell-selected):not(&-cell-range-start):not(&-cell-range-end):not(
-      &-cell-disabled
-    ):not(&-cell-week)
+  &-cell-in-view:not(
+      &-cell-selected,
+      &-cell-range-start,
+      &-cell-range-end,
+      &-cell-disabled,
+      &-cell-week
+    )
     &-date-value:hover {
     color: @picker-panel-color-text-cell_hover;
     background-color: @picker-panel-color-bg-cell_hover;
@@ -301,10 +304,10 @@
   }
 }
 
-@import './date.less';
-@import './month.less';
-@import './year.less';
-@import './week.less';
-@import './quarter.less';
-@import './range.less';
-@import './shortcuts.less';
+@import url('./date.less');
+@import url('./month.less');
+@import url('./year.less');
+@import url('./week.less');
+@import url('./quarter.less');
+@import url('./range.less');
+@import url('./shortcuts.less');

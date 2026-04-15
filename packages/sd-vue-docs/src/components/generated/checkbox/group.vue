@@ -1,14 +1,14 @@
 <template>
-  <a-space direction="vertical" size="large">
-    <a-checkbox-group :default-value="['1']">
-      <a-checkbox value="1">Option 1</a-checkbox>
-      <a-checkbox value="2">Option 2</a-checkbox>
-      <a-checkbox value="3">Option 3</a-checkbox>
-    </a-checkbox-group>
-    <a-checkbox-group direction="vertical">
-      <a-checkbox value="1">Option 1</a-checkbox>
-      <a-checkbox value="2">Option 2</a-checkbox>
-      <a-checkbox value="3">Option 3</a-checkbox>
-    </a-checkbox-group>
-  </a-space>
+  <sd-space direction="vertical" size="large">
+    <sd-checkbox-group :default-value="['1']">
+      <sd-checkbox value="1">Option 1</sd-checkbox>
+      <sd-checkbox value="2">Option 2</sd-checkbox>
+      <sd-checkbox value="3">Option 3</sd-checkbox>
+    </sd-checkbox-group>
+    <sd-checkbox-group direction="vertical">
+      <sd-checkbox value="1">Option 1</sd-checkbox>
+      <sd-checkbox value="2">Option 2</sd-checkbox>
+      <sd-checkbox value="3">Option 3</sd-checkbox>
+    </sd-checkbox-group>
+  </sd-space>
 </template>

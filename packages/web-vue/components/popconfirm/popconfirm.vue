@@ -201,13 +201,13 @@
       },
     },
     emits: {
-      'update:popupVisible': (visible: boolean) => true,
+      'update:popupVisible': (_visible: boolean) => true,
       /**
        * @zh 气泡确认框的显隐状态改变时触发
        * @en Triggered when the visible or hidden state of the bubble confirmation box changes
        * @param {boolean} visible
        */
-      'popupVisibleChange': (visible: boolean) => true,
+      'popupVisibleChange': (_visible: boolean) => true,
       /**
        * @zh 点击确认按钮时触发
        * @en Triggered when the confirm button is clicked

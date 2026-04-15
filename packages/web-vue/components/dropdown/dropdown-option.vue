@@ -50,7 +50,7 @@
        * @en Emitted when the button is clicked
        * @param {MouseEvent} ev
        */
-      click: (ev: MouseEvent) => true,
+      click: (_ev: MouseEvent) => true,
     },
     /**
      * @zh 图标

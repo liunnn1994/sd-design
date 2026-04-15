@@ -1,5 +1,5 @@
 <template>
-  <a-transfer :data="data" :default-value="value" one-way />
+  <sd-transfer :data="data" :default-value="value" one-way />
 </template>
 
 <script>

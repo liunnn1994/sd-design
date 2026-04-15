@@ -176,20 +176,20 @@ export default defineComponent({
     },
   },
   emits: {
-    'update:current': (current: number) => true,
-    'update:pageSize': (pageSize: number) => true,
+    'update:current': (_current: number) => true,
+    'update:pageSize': (_pageSize: number) => true,
     /**
      * @zh 页码改变时触发
      * @en Triggered when page number changes
      * @param {number} current
      */
-    'change': (current: number) => true,
+    'change': (_current: number) => true,
     /**
      * @zh 数据条数改变时触发
      * @en Triggered when the number of data items changes
      * @param {number} pageSize
      */
-    'pageSizeChange': (pageSize: number) => true,
+    'pageSizeChange': (_pageSize: number) => true,
   },
   /**
    * @zh 分页按钮

@@ -237,32 +237,32 @@ export default defineComponent({
      * @en Edit content change
      * @param {string} text
      */
-    'change': (text: string) => true,
-    'update:editText': (text: string) => true,
+    'change': (_text: string) => true,
+    'update:editText': (_text: string) => true,
     /**
      * @zh 编辑结束
      * @en Edit end
      */
     'editEnd': () => true,
-    'update:editing': (editing: boolean) => true,
+    'update:editing': (_editing: boolean) => true,
     /**
      * @zh 复制
      * @en Copy
      * @param {string} text
      */
-    'copy': (text: string) => true,
+    'copy': (_text: string) => true,
     /**
      * @zh 省略变化事件
      * @en Ellipsis change
      * @param {boolean} isEllipsis
      */
-    'ellipsis': (isEllipsis: boolean) => true,
+    'ellipsis': (_isEllipsis: boolean) => true,
     /**
      * @zh 展开收起事件
      * @en Expand collapse event
      * @param {boolean} expanded
      */
-    'expand': (expanded: boolean) => true,
+    'expand': (_expanded: boolean) => true,
   },
   /**
    * @zh 自定义复制按钮的 tooltip 内容

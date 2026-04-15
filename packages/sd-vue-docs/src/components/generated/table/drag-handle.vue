@@ -1,5 +1,5 @@
 <template>
-  <a-table
+  <sd-table
     :columns="columns"
     :data="data"
     @change="handleChange"

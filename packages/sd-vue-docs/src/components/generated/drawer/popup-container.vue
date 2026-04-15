@@ -3,25 +3,25 @@
     <div
       id="parentNode"
       style="
+        position: relative;
         width: 100%;
         height: 300px;
-        background-color: var(--color-fill-2);
-        position: relative;
         overflow: hidden;
         line-height: 300px;
         text-align: center;
+        background-color: var(--color-fill-2);
       "
     >
-      <a-button type="primary" @click="handleClick">Open Drawer</a-button>
+      <sd-button type="primary" @click="handleClick">Open Drawer</sd-button>
     </div>
   </div>
-  <a-drawer popup-container="#parentNode" :visible="visible" @ok="handleOk" @cancel="handleCancel">
+  <sd-drawer popup-container="#parentNode" :visible="visible" @ok="handleOk" @cancel="handleCancel">
     <template #title> Title </template>
     <div
       >You can customize modal body text by the current situation. This modal will be closed
       immediately once you press the OK button.</div
     >
-  </a-drawer>
+  </sd-drawer>
 </template>
 
 <script>

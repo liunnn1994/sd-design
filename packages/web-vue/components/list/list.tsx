@@ -133,13 +133,13 @@ export default defineComponent({
      * @en Triggered when the table pagination changes
      * @param {number} page
      */
-    pageChange: (page: number) => true,
+    pageChange: (_page: number) => true,
     /**
      * @zh 表格每页数据数量发生改变时触发
      * @en Triggered when the number of data per page of the table changes
      * @param {number} pageSize
      */
-    pageSizeChange: (pageSize: number) => true,
+    pageSizeChange: (_pageSize: number) => true,
   },
   /**
    * @zh 头部信息

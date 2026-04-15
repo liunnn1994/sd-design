@@ -1,6 +1,6 @@
 <template>
-  <a-table :columns="columns" :data="data" :summary="true" :summary-span-method="spanMethod" />
-  <a-table
+  <sd-table :columns="columns" :data="data" :summary="true" :summary-span-method="spanMethod" />
+  <sd-table
     :columns="columns"
     :data="data"
     :scroll="scroll"
@@ -10,7 +10,7 @@
     <template #summary-cell="{ column, record, rowIndex }">
       <div :style="getColorStyle(column, record)">{{ record[column.dataIndex] }}</div>
     </template>
-  </a-table>
+  </sd-table>
 </template>
 
 <script>

@@ -222,23 +222,23 @@
 <style scoped>
   .demo-editor__toolbar {
     display: flex;
+    gap: 1rem;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
     padding: 0.875rem 1rem;
     background: var(--sl-color-gray-7);
   }
 
   .demo-editor__button {
-    border: 0;
-    border-radius: 999px;
-    background: var(--sl-color-accent);
+    margin-left: auto;
+    padding: 0.1rem 0.5rem;
     color: white;
-    cursor: pointer;
     font: inherit;
     font-size: smaller;
-    padding: 0.1rem 0.5rem;
-    margin-left: auto;
+    background: var(--sl-color-accent);
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
   }
 
   .demo-editor__panel {

@@ -1,15 +1,15 @@
 <template>
-  <a-timeline>
-    <a-timeline-item>
+  <sd-timeline>
+    <sd-timeline-item>
       Code Review
       <template #label>
-        <a-tag>
+        <sd-tag>
           <template #icon>
             <icon-check-circle-fill />
           </template>
           Passed
-        </a-tag>
+        </sd-tag>
       </template>
-    </a-timeline-item>
-  </a-timeline>
+    </sd-timeline-item>
+  </sd-timeline>
 </template>

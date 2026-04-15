@@ -1,65 +1,65 @@
 <template>
   <div :style="{ position: 'relative', width: '440px', height: '280px' }">
-    <a-popconfirm content="This is a Popconfirm" position="tl">
-      <a-button class="button" :style="{ position: 'absolute', top: '0', left: '70px' }"
-        >TL</a-button
+    <sd-popconfirm content="This is a Popconfirm" position="tl">
+      <sd-button class="button" :style="{ position: 'absolute', top: '0', left: '70px' }"
+        >TL</sd-button
       >
-    </a-popconfirm>
-    <a-popconfirm content="This is a Popconfirm" position="top">
-      <a-button class="button" :style="{ position: 'absolute', top: '0', left: '180px' }"
-        >TOP</a-button
+    </sd-popconfirm>
+    <sd-popconfirm content="This is a Popconfirm" position="top">
+      <sd-button class="button" :style="{ position: 'absolute', top: '0', left: '180px' }"
+        >TOP</sd-button
       >
-    </a-popconfirm>
-    <a-popconfirm content="This is a Popconfirm" position="tr">
-      <a-button class="button" :style="{ position: 'absolute', top: '0', left: '290px' }"
-        >TR</a-button
+    </sd-popconfirm>
+    <sd-popconfirm content="This is a Popconfirm" position="tr">
+      <sd-button class="button" :style="{ position: 'absolute', top: '0', left: '290px' }"
+        >TR</sd-button
       >
-    </a-popconfirm>
-    <a-popconfirm content="This is a Popconfirm" position="bl">
-      <a-button class="button" :style="{ position: 'absolute', top: '240px', left: '70px' }"
-        >BL</a-button
+    </sd-popconfirm>
+    <sd-popconfirm content="This is a Popconfirm" position="bl">
+      <sd-button class="button" :style="{ position: 'absolute', top: '240px', left: '70px' }"
+        >BL</sd-button
       >
-    </a-popconfirm>
-    <a-popconfirm content="This is a Popconfirm" position="bottom">
-      <a-button class="button" :style="{ position: 'absolute', top: '240px', left: '180px' }"
-        >BOTTOM</a-button
+    </sd-popconfirm>
+    <sd-popconfirm content="This is a Popconfirm" position="bottom">
+      <sd-button class="button" :style="{ position: 'absolute', top: '240px', left: '180px' }"
+        >BOTTOM</sd-button
       >
-    </a-popconfirm>
-    <a-popconfirm content="This is a Popconfirm" position="br">
-      <a-button class="button" :style="{ position: 'absolute', top: '240px', left: '290px' }"
-        >BR</a-button
+    </sd-popconfirm>
+    <sd-popconfirm content="This is a Popconfirm" position="br">
+      <sd-button class="button" :style="{ position: 'absolute', top: '240px', left: '290px' }"
+        >BR</sd-button
       >
-    </a-popconfirm>
-    <a-popconfirm content="This is a Popconfirm" position="lt">
-      <a-button class="button" :style="{ position: 'absolute', top: '60px', left: '10px' }"
-        >LT</a-button
+    </sd-popconfirm>
+    <sd-popconfirm content="This is a Popconfirm" position="lt">
+      <sd-button class="button" :style="{ position: 'absolute', top: '60px', left: '10px' }"
+        >LT</sd-button
       >
-    </a-popconfirm>
-    <a-popconfirm content="This is a Popconfirm" position="left">
-      <a-button class="button" :style="{ position: 'absolute', top: '120px', left: '10px' }"
-        >LEFT</a-button
+    </sd-popconfirm>
+    <sd-popconfirm content="This is a Popconfirm" position="left">
+      <sd-button class="button" :style="{ position: 'absolute', top: '120px', left: '10px' }"
+        >LEFT</sd-button
       >
-    </a-popconfirm>
-    <a-popconfirm content="This is a Popconfirm" position="lb">
-      <a-button class="button" :style="{ position: 'absolute', top: '180px', left: '10px' }"
-        >LB</a-button
+    </sd-popconfirm>
+    <sd-popconfirm content="This is a Popconfirm" position="lb">
+      <sd-button class="button" :style="{ position: 'absolute', top: '180px', left: '10px' }"
+        >LB</sd-button
       >
-    </a-popconfirm>
-    <a-popconfirm content="This is a Popconfirm" position="rt">
-      <a-button class="button" :style="{ position: 'absolute', top: '60px', left: '350px' }"
-        >RT</a-button
+    </sd-popconfirm>
+    <sd-popconfirm content="This is a Popconfirm" position="rt">
+      <sd-button class="button" :style="{ position: 'absolute', top: '60px', left: '350px' }"
+        >RT</sd-button
       >
-    </a-popconfirm>
-    <a-popconfirm content="This is a Popconfirm" position="right">
-      <a-button class="button" :style="{ position: 'absolute', top: '120px', left: '350px' }"
-        >RIGHT</a-button
+    </sd-popconfirm>
+    <sd-popconfirm content="This is a Popconfirm" position="right">
+      <sd-button class="button" :style="{ position: 'absolute', top: '120px', left: '350px' }"
+        >RIGHT</sd-button
       >
-    </a-popconfirm>
-    <a-popconfirm content="This is a Popconfirm" position="rb">
-      <a-button class="button" :style="{ position: 'absolute', top: '180px', left: '350px' }"
-        >RB</a-button
+    </sd-popconfirm>
+    <sd-popconfirm content="This is a Popconfirm" position="rb">
+      <sd-button class="button" :style="{ position: 'absolute', top: '180px', left: '350px' }"
+        >RB</sd-button
       >
-    </a-popconfirm>
+    </sd-popconfirm>
   </div>
 </template>
 

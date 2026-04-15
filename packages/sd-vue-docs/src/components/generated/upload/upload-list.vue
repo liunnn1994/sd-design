@@ -1,5 +1,5 @@
 <template>
-  <a-upload action="/" :default-file-list="fileList" />
+  <sd-upload action="/" :default-file-list="fileList" />
 </template>
 
 <script>

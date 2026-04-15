@@ -1,5 +1,5 @@
 <template>
-  <a-input-number
+  <sd-input-number
     v-model="value"
     :style="{ width: '320px' }"
     placeholder="Please Enter"

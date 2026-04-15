@@ -1,18 +1,18 @@
 <template>
-  <a-list
+  <sd-list
     :grid-props="{ gutter: [20, 20], sm: 24, md: 12, lg: 8, xl: 6 }"
     :data="dataSource"
     :bordered="false"
   >
     <template #item="{ item }">
-      <a-list :data="item.data">
+      <sd-list :data="item.data">
         <template #header>{{ item.title }}</template>
         <template #item="{ item: subItem }">
-          <a-list-item>{{ subItem }}</a-list-item>
+          <sd-list-item>{{ subItem }}</sd-list-item>
         </template>
-      </a-list>
+      </sd-list>
     </template>
-  </a-list>
+  </sd-list>
 </template>
 
 <script>

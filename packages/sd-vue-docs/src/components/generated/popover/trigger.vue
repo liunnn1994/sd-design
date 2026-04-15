@@ -1,18 +1,18 @@
 <template>
-  <a-space>
-    <a-popover title="Title">
-      <a-button>Hover Me</a-button>
+  <sd-space>
+    <sd-popover title="Title">
+      <sd-button>Hover Me</sd-button>
       <template #content>
         <p>Here is the text content</p>
         <p>Here is the text content</p>
       </template>
-    </a-popover>
-    <a-popover title="Title" trigger="click">
-      <a-button>Click Me</a-button>
+    </sd-popover>
+    <sd-popover title="Title" trigger="click">
+      <sd-button>Click Me</sd-button>
       <template #content>
         <p>Here is the text content</p>
         <p>Here is the text content</p>
       </template>
-    </a-popover>
-  </a-space>
+    </sd-popover>
+  </sd-space>
 </template>

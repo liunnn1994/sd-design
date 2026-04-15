@@ -1,7 +1,7 @@
 <template>
-  <a-steps label-placement="vertical">
-    <a-step description="This is a description">Succeeded</a-step>
-    <a-step description="This is a description">Processing</a-step>
-    <a-step description="This is a description">Pending</a-step>
-  </a-steps>
+  <sd-steps label-placement="vertical">
+    <sd-step description="This is a description">Succeeded</sd-step>
+    <sd-step description="This is a description">Processing</sd-step>
+    <sd-step description="This is a description">Pending</sd-step>
+  </sd-steps>
 </template>

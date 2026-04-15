@@ -1,4 +1,4 @@
-@import './token.less';
+@import url('./token.less');
 
 @btn-prefix-cls: ~'@{prefix}-btn';
 
@@ -14,11 +14,11 @@
   outline: none;
   cursor: pointer;
   transition: all @transition-duration-1 @transition-timing-function-linear;
-  -webkit-appearance: none;
+  appearance: none;
   user-select: none;
 
   > a:only-child {
-    color: currentColor;
+    color: currentcolor;
   }
 
   &:active {
@@ -63,10 +63,7 @@
 
     &::before {
       position: absolute;
-      top: -1px;
-      right: -1px;
-      bottom: -1px;
-      left: -1px;
+      inset: -1px;
       z-index: 1;
       display: block;
       background: #fff;
@@ -301,6 +298,6 @@
 
 body[sd-theme='dark'] {
   .@{btn-prefix-cls}-primary.@{btn-prefix-cls}-disabled {
-    color: rgba(255, 255, 255, 0.3);
+    color: rgb(255 255 255 / 30%);
   }
 }

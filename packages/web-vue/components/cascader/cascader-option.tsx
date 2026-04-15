@@ -32,7 +32,7 @@ export default defineComponent({
     const isLoading = ref(false);
     const events: Record<string, any> = {};
 
-    const handlePathChange = (ev: Event) => {
+    const handlePathChange = (_ev: Event) => {
       if (isFunction(cascaderCtx.loadMore) && !props.option.isLeaf) {
         const { isLeaf, children, key } = props.option;
         if (!isLeaf && !children) {

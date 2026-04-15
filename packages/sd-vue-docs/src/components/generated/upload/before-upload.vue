@@ -1,7 +1,7 @@
 <template>
-  <a-space direction="vertical" :style="{ width: '100%' }">
-    <a-upload action="/" @before-upload="beforeUpload" />
-  </a-space>
+  <sd-space direction="vertical" :style="{ width: '100%' }">
+    <sd-upload action="/" @before-upload="beforeUpload" />
+  </sd-space>
 </template>
 
 <script>

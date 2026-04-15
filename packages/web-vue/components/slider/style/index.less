@@ -1,4 +1,4 @@
-@import './token.less';
+@import url('./token.less');
 
 @slider-prefix: ~'@{prefix}-slider';
 
@@ -53,9 +53,9 @@
       max-width: @slider-size-button-width;
       height: 100%;
       min-height: @slider-size-height_vertical;
+      margin-top: (@slider-size-button-width / 2);
       margin-right: 0;
       margin-bottom: (@slider-size-button-width / 2);
-      margin-top: (@slider-size-button-width / 2);
       transform: translateY(0);
 
       &::before {
@@ -108,7 +108,6 @@
   }
 
   &-bar {
-    position: absolute;
     // 局中
     position: absolute;
     top: 50%;
@@ -213,7 +212,6 @@
         background-color: @slider-color-dot-bg;
         border: @slider-border-size-dot solid @slider-color-road-bg;
         border-radius: 50%;
-        border-radius: 50%;
 
         &-active {
           border-color: @slider-color-bar-bg;
@@ -268,10 +266,11 @@
     }
 
     &-hyphens {
-      /* prettier-ignore */
-      margin: 0 ((@slider-size-input_range-width - @slider-size-input_range_content-width) / 2);
       width: @slider-size-input_range_content-width;
       height: @slider-size-input_range_content-height;
+
+      /* prettier-ignore */
+      margin: 0 ((@slider-size-input_range-width - @slider-size-input_range_content-width) / 2);
       background: @slider-color-input_range_content-bg;
     }
   }

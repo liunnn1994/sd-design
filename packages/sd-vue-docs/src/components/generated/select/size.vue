@@ -1,38 +1,38 @@
 <template>
-  <a-space direction="vertical" size="large">
-    <a-radio-group type="button" v-model="size">
-      <a-radio value="mini">Mini</a-radio>
-      <a-radio value="small">Small</a-radio>
-      <a-radio value="medium">Medium</a-radio>
-      <a-radio value="large">Large</a-radio>
-    </a-radio-group>
-    <a-select
+  <sd-space direction="vertical" size="large">
+    <sd-radio-group type="button" v-model="size">
+      <sd-radio value="mini">Mini</sd-radio>
+      <sd-radio value="small">Small</sd-radio>
+      <sd-radio value="medium">Medium</sd-radio>
+      <sd-radio value="large">Large</sd-radio>
+    </sd-radio-group>
+    <sd-select
       default-value="Beijing"
       :style="{ width: '320px' }"
       :size="size"
       placeholder="Please select ..."
     >
-      <a-option>Beijing</a-option>
-      <a-option>Shanghai</a-option>
-      <a-option>Guangzhou</a-option>
-      <a-option disabled>Disabled</a-option>
-    </a-select>
-    <a-select
+      <sd-option>Beijing</sd-option>
+      <sd-option>Shanghai</sd-option>
+      <sd-option>Guangzhou</sd-option>
+      <sd-option disabled>Disabled</sd-option>
+    </sd-select>
+    <sd-select
       :default-value="['Beijing', 'Shanghai']"
       :style="{ width: '320px' }"
       :size="size"
       placeholder="Please select ..."
       multiple
     >
-      <a-option>Beijing</a-option>
-      <a-option>Shanghai</a-option>
-      <a-option>Guangzhou</a-option>
-      <a-option disabled>Disabled</a-option>
-      <a-option>Shenzhen</a-option>
-      <a-option>Chengdu</a-option>
-      <a-option>Wuhan</a-option>
-    </a-select>
-  </a-space>
+      <sd-option>Beijing</sd-option>
+      <sd-option>Shanghai</sd-option>
+      <sd-option>Guangzhou</sd-option>
+      <sd-option disabled>Disabled</sd-option>
+      <sd-option>Shenzhen</sd-option>
+      <sd-option>Chengdu</sd-option>
+      <sd-option>Wuhan</sd-option>
+    </sd-select>
+  </sd-space>
 </template>
 
 <script>

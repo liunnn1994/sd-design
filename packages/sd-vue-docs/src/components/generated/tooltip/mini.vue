@@ -1,5 +1,5 @@
 <template>
-  <a-tooltip content="1234" position="top" mini>
-    <a-button>Mouse over to display tooltip</a-button>
-  </a-tooltip>
+  <sd-tooltip content="1234" position="top" mini>
+    <sd-button>Mouse over to display tooltip</sd-button>
+  </sd-tooltip>
 </template>

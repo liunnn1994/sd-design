@@ -1,4 +1,4 @@
-@import './token.less';
+@import url('./token.less');
 
 @steps-size-default-item-icon-margin-left: (@steps-label-vertical-content-width / 2) -
   (@steps-size-default / 2);
@@ -37,10 +37,10 @@
     box-sizing: border-box;
     width: @steps-size-default;
     height: @steps-size-default;
+    font-size: @steps-size-default-font-size-icon;
     line-height: @steps-size-default - 2;
     text-align: center;
     border-radius: @steps-circle-border-radius-item-icon;
-    font-size: @steps-size-default-font-size-icon;
   }
 
   &-item-wait &-icon {

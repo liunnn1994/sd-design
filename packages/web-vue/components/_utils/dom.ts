@@ -42,7 +42,7 @@ export const getDocumentSize = (): Size => {
 export const isServerRendering = (() => {
   try {
     return !(typeof window !== 'undefined' && document !== undefined);
-  } catch (e) {
+  } catch {
     return true;
   }
 })();

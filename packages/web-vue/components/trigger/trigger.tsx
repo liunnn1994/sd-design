@@ -342,13 +342,13 @@ export default defineComponent({
     },
   },
   emits: {
-    'update:popupVisible': (visible: boolean) => true,
+    'update:popupVisible': (_visible: boolean) => true,
     /**
      * @zh 弹出框显示状态改变时触发
      * @en Emitted when the status of the popup changes
      * @param {boolean} visible
      */
-    'popupVisibleChange': (visible: boolean) => true,
+    'popupVisibleChange': (_visible: boolean) => true,
     /**
      * @zh 弹出框显示后（动画结束）触发
      * @en Triggered after the trigger is shown (the animation ends)

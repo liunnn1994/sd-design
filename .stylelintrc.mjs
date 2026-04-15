@@ -8,18 +8,38 @@ const createRationalOrder = require('stylelint-config-rational-order/config/conf
 const rationalSpecialProps = require('stylelint-config-rational-order/groups/special');
 
 export default {
+  ignoreFiles: [
+    'packages/sd-vue-docs/public/vendor/**',
+    'packages/sd-vue-docs/src/components/generated/**',
+    'packages/web-vue/dist/**',
+    'packages/web-vue/es/**',
+    'packages/web-vue/lib/**',
+    'packages/web-vue/components/_components/input-label/style/token.less',
+  ],
   overrides: [
     {
       files: ['**/*.less'],
       customSyntax: 'postcss-less',
+      rules: {
+        'at-rule-prelude-no-invalid': null,
+        'block-no-empty': null,
+        'no-invalid-position-at-import-rule': null,
+        'scss/declaration-property-value-no-unknown': null,
+      },
     },
     {
       files: ['**/*.{scss,sass}'],
       customSyntax: 'postcss-scss',
+      rules: {
+        'scss/declaration-property-value-no-unknown': true,
+      },
     },
     {
       files: ['**/*.vue'],
       customSyntax: 'postcss-html',
+      rules: {
+        'scss/declaration-property-value-no-unknown': null,
+      },
     },
   ],
   // 不直接 extend stylelint-config-rational-order：
@@ -31,12 +51,16 @@ export default {
     // 保留 rational-order 的分组排序能力，
     // 但由当前项目安装的 stylelint-order 执行，规避旧插件崩溃问题。
     'order/properties-order': createRationalOrder(),
+    'declaration-block-single-line-max-declarations': null,
+    'declaration-property-value-keyword-no-deprecated': null,
+    'font-family-no-duplicate-names': null,
     'no-empty-source': [
       true,
       {
         severity: 'error',
       },
     ],
+    'no-descending-specificity': null,
     'rule-empty-line-before': [
       'always',
       {
@@ -61,7 +85,7 @@ export default {
     'scss/at-rule-no-unknown': [
       true,
       {
-        ignoreAtRules: ['custom-variant', 'apply', 'tailwind', 'config', 'reference'],
+        ignoreAtRules: ['custom-variant', 'apply', 'tailwind', 'config', 'reference', 'plugin'],
       },
     ],
     'selector-class-pattern': [
@@ -71,7 +95,8 @@ export default {
         message: '类名应遵循 BEM 命名规则 \n@see https://getbem.com/',
       },
     ],
+    'keyframes-name-pattern': null,
+    'number-max-precision': null,
     'declaration-property-value-no-unknown': null,
-    'scss/declaration-property-value-no-unknown': true,
   },
 };

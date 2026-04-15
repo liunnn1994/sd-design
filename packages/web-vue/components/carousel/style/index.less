@@ -1,5 +1,5 @@
-@import './token.less';
-@import './slide.less';
+@import url('./token.less');
+@import url('./slide.less');
 
 @carousel-prefix-cls: ~'@{prefix}-carousel';
 
@@ -154,7 +154,7 @@
         background: linear-gradient(
           180deg,
           @carousel-indicator-color-bg-wrapper 0%,
-          rgba(0, 0, 0, 0) 87%
+          rgb(0 0 0 / 0%) 87%
         );
       }
 
@@ -165,7 +165,7 @@
         height: @carousel-indicator-size-wrapper;
         background: linear-gradient(
           180deg,
-          rgba(0, 0, 0, 0) 13%,
+          rgb(0 0 0 / 0%) 13%,
           @carousel-indicator-color-bg-wrapper 100%
         );
       }
@@ -178,7 +178,7 @@
         background: linear-gradient(
           90deg,
           @carousel-indicator-color-bg-wrapper 0%,
-          rgba(0, 0, 0, 0) 87%
+          rgb(0 0 0 / 0%) 87%
         );
       }
 
@@ -189,7 +189,7 @@
         height: 100%;
         background: linear-gradient(
           90deg,
-          rgba(0, 0, 0, 0) 13%,
+          rgb(0 0 0 / 0%) 13%,
           @carousel-indicator-color-bg-wrapper 100%
         );
       }
@@ -371,16 +371,16 @@
 
 @{sd-theme-tag}[sd-theme='dark'] {
   .@{carousel-prefix-cls}-arrow > div {
-    background-color: rgba(@dark-gray-1, 0.3);
+    background-color: rgb(@dark-gray-1, 0.3);
 
     &:hover {
-      background-color: rgba(@dark-gray-1, 0.5);
+      background-color: rgb(@dark-gray-1, 0.5);
     }
   }
 
   .@{carousel-prefix-cls}-indicator-item,
   .@{carousel-prefix-cls}-indicator-slider {
-    background-color: rgba(@dark-gray-1, 0.3);
+    background-color: rgb(@dark-gray-1, 0.3);
   }
 
   .@{carousel-prefix-cls}-indicator-item-active,

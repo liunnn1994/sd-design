@@ -1,16 +1,16 @@
 <template>
-  <a-space direction="vertical" size="large">
-    <a-radio-group>
-      <a-radio value="A">A</a-radio>
-      <a-radio value="B">B</a-radio>
-      <a-radio value="C">C</a-radio>
-      <a-radio value="D">D</a-radio>
-    </a-radio-group>
-    <a-radio-group>
-      <a-radio value="A">A</a-radio>
-      <a-radio value="B">B</a-radio>
-      <a-radio value="C">C</a-radio>
-      <a-radio value="D" disabled>D</a-radio>
-    </a-radio-group>
-  </a-space>
+  <sd-space direction="vertical" size="large">
+    <sd-radio-group>
+      <sd-radio value="A">A</sd-radio>
+      <sd-radio value="B">B</sd-radio>
+      <sd-radio value="C">C</sd-radio>
+      <sd-radio value="D">D</sd-radio>
+    </sd-radio-group>
+    <sd-radio-group>
+      <sd-radio value="A">A</sd-radio>
+      <sd-radio value="B">B</sd-radio>
+      <sd-radio value="C">C</sd-radio>
+      <sd-radio value="D" disabled>D</sd-radio>
+    </sd-radio-group>
+  </sd-space>
 </template>

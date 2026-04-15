@@ -1,11 +1,15 @@
 <template>
-  <a-space wrap>
-    <a-tag v-for="(color, index) of colors" :key="index" :color="color" closable>{{ color }}</a-tag>
-  </a-space>
+  <sd-space wrap>
+    <sd-tag v-for="(color, index) of colors" :key="index" :color="color" closable>{{
+      color
+    }}</sd-tag>
+  </sd-space>
   <h3>Custom Color:</h3>
-  <a-space wrap>
-    <a-tag v-for="(color, index) of custom" :key="index" :color="color" closable>{{ color }}</a-tag>
-  </a-space>
+  <sd-space wrap>
+    <sd-tag v-for="(color, index) of custom" :key="index" :color="color" closable>{{
+      color
+    }}</sd-tag>
+  </sd-space>
 </template>
 
 <script>

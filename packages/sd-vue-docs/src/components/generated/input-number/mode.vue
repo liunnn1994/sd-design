@@ -1,5 +1,5 @@
 <template>
-  <a-input-number
+  <sd-input-number
     :style="{ width: '320px' }"
     placeholder="Please Enter"
     :default-value="500"

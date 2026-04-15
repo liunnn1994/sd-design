@@ -1,6 +1,6 @@
 <template>
-  <a-space size="large">
-    <a-switch />
-    <a-switch size="small" />
-  </a-space>
+  <sd-space size="large">
+    <sd-switch />
+    <sd-switch size="small" />
+  </sd-space>
 </template>

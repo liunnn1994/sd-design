@@ -1,3 +1,3 @@
 <template>
-  <a-upload draggable action="/" />
+  <sd-upload draggable action="/" />
 </template>

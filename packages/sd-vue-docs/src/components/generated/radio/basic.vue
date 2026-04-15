@@ -1,6 +1,6 @@
 <template>
-  <a-space size="large">
-    <a-radio value="radio">Radio</a-radio>
-    <a-radio value="disabled radio" :default-checked="true" disabled>Disabled Radio</a-radio>
-  </a-space>
+  <sd-space size="large">
+    <sd-radio value="radio">Radio</sd-radio>
+    <sd-radio value="disabled radio" :default-checked="true" disabled>Disabled Radio</sd-radio>
+  </sd-space>
 </template>

@@ -1,4 +1,4 @@
-import { PropType, computed, defineComponent, ref } from 'vue';
+import { PropType, computed, defineComponent } from 'vue';
 
 import useState from '../_hooks/use-state';
 import { hexToRgb, rgbToHsv } from '../_utils/color';
@@ -42,8 +42,6 @@ export default defineComponent({
     const onChange = (value: any) => {
       setFormat(value);
     };
-
-    const showCopy = ref(false);
 
     const onHexInputChange = (value: string) => {
       const _rgb = hexToRgb(value) || { r: 255, g: 0, b: 0 };

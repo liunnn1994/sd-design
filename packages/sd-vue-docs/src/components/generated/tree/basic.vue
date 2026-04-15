@@ -1,5 +1,5 @@
 <template>
-  <a-tree
+  <sd-tree
     :data="treeData"
     :default-expanded-keys="['0-0-0']"
     :default-selected-keys="['0-0-0', '0-0-1']"

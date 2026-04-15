@@ -1,38 +1,38 @@
 <template>
   <div class="layout-demo">
-    <a-layout style="height: 400px">
-      <a-layout-header>Header</a-layout-header>
-      <a-layout-content>Content</a-layout-content>
-      <a-layout-footer>Footer</a-layout-footer>
-    </a-layout>
+    <sd-layout style="height: 400px">
+      <sd-layout-header>Header</sd-layout-header>
+      <sd-layout-content>Content</sd-layout-content>
+      <sd-layout-footer>Footer</sd-layout-footer>
+    </sd-layout>
     <br />
-    <a-layout style="height: 400px">
-      <a-layout-header>Header</a-layout-header>
-      <a-layout>
-        <a-layout-sider theme="dark">Sider</a-layout-sider>
-        <a-layout-content>Content</a-layout-content>
-      </a-layout>
-      <a-layout-footer>Footer</a-layout-footer>
-    </a-layout>
+    <sd-layout style="height: 400px">
+      <sd-layout-header>Header</sd-layout-header>
+      <sd-layout>
+        <sd-layout-sider theme="dark">Sider</sd-layout-sider>
+        <sd-layout-content>Content</sd-layout-content>
+      </sd-layout>
+      <sd-layout-footer>Footer</sd-layout-footer>
+    </sd-layout>
     <br />
-    <a-layout style="height: 400px">
-      <a-layout-header>Header</a-layout-header>
-      <a-layout>
-        <a-layout-content>Content</a-layout-content>
-        <a-layout-sider>Sider</a-layout-sider>
-      </a-layout>
-      <a-layout-footer>Footer</a-layout-footer>
-    </a-layout>
+    <sd-layout style="height: 400px">
+      <sd-layout-header>Header</sd-layout-header>
+      <sd-layout>
+        <sd-layout-content>Content</sd-layout-content>
+        <sd-layout-sider>Sider</sd-layout-sider>
+      </sd-layout>
+      <sd-layout-footer>Footer</sd-layout-footer>
+    </sd-layout>
     <br />
-    <a-layout style="height: 400px">
-      <a-layout-header>Header</a-layout-header>
-      <a-layout>
-        <a-layout-sider style="width: 64px">Sider</a-layout-sider>
-        <a-layout-sider style="width: 206px; margin-left: 1px">Sider</a-layout-sider>
-        <a-layout-content>Content</a-layout-content>
-      </a-layout>
-      <a-layout-footer>Footer</a-layout-footer>
-    </a-layout>
+    <sd-layout style="height: 400px">
+      <sd-layout-header>Header</sd-layout-header>
+      <sd-layout>
+        <sd-layout-sider style="width: 64px">Sider</sd-layout-sider>
+        <sd-layout-sider style="width: 206px; margin-left: 1px">Sider</sd-layout-sider>
+        <sd-layout-content>Content</sd-layout-content>
+      </sd-layout>
+      <sd-layout-footer>Footer</sd-layout-footer>
+    </sd-layout>
   </div>
 </template>
 <style scoped>

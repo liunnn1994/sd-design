@@ -1,5 +1,5 @@
 <template>
-  <a-dropdown trigger="contextMenu" alignPoint :style="{ display: 'block' }">
+  <sd-dropdown trigger="contextMenu" alignPoint :style="{ display: 'block' }">
     <div
       :style="{
         display: 'flex',
@@ -12,9 +12,9 @@
       <div>Click Me</div>
     </div>
     <template #content>
-      <a-doption>Option 1</a-doption>
-      <a-doption>Option 2</a-doption>
-      <a-doption>Option 3</a-doption>
+      <sd-doption>Option 1</sd-doption>
+      <sd-doption>Option 2</sd-doption>
+      <sd-doption>Option 3</sd-doption>
     </template>
-  </a-dropdown>
+  </sd-dropdown>
 </template>

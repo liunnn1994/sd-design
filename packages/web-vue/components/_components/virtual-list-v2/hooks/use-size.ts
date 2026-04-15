@@ -2,7 +2,7 @@ import { computed, onMounted, Ref, ref } from 'vue';
 
 export const useSize = ({
   dataKeys,
-  contentRef,
+  contentRef: _contentRef,
   fixedSize,
   estimatedSize,
   buffer,

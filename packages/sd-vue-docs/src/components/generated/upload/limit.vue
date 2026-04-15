@@ -1,3 +1,3 @@
 <template>
-  <a-upload multiple action="/" :limit="3" />
+  <sd-upload multiple action="/" :limit="3" />
 </template>

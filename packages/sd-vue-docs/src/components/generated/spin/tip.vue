@@ -1,3 +1,3 @@
 <template>
-  <a-spin tip="This may take a while..." />
+  <sd-spin tip="This may take a while..." />
 </template>

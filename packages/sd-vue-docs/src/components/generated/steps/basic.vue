@@ -1,11 +1,11 @@
 <template>
   <div>
-    <a-steps :current="2">
-      <a-step>Succeeded</a-step>
-      <a-step>Processing</a-step>
-      <a-step>Pending</a-step>
-    </a-steps>
-    <a-divider />
-    <div style="line-height: 140px; text-align: center; color: #c9cdd4"> Step 2 Content </div>
+    <sd-steps :current="2">
+      <sd-step>Succeeded</sd-step>
+      <sd-step>Processing</sd-step>
+      <sd-step>Pending</sd-step>
+    </sd-steps>
+    <sd-divider />
+    <div style="color: #c9cdd4; line-height: 140px; text-align: center"> Step 2 Content </div>
   </div>
 </template>

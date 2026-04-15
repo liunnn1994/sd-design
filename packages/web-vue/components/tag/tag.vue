@@ -140,21 +140,21 @@
       },
     },
     emits: {
-      'update:visible': (visible: boolean) => true,
-      'update:checked': (checked: boolean) => true,
+      'update:visible': (_visible: boolean) => true,
+      'update:checked': (_checked: boolean) => true,
       /**
        * @zh 点击关闭按钮时触发
        * @en Emitted when the close button is clicked
        * @param {MouseEvent} ev
        */
-      'close': (ev: MouseEvent) => true,
+      'close': (_ev: MouseEvent) => true,
       /**
        * @zh 用户选中时触发（仅在可选中模式下触发）
        * @en Emitted when the user check (emit only in the checkable mode)
        * @param {boolean} checked
        * @param {MouseEvent} ev
        */
-      'check': (checked: boolean, ev: MouseEvent) => true,
+      'check': (_checked: boolean, _ev: MouseEvent) => true,
     },
     /**
      * @zh 图标

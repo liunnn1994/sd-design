@@ -1,4 +1,4 @@
-@import './token.less';
+@import url('./token.less');
 
 .page-item(@size) {
   min-width: ~'@{pagination-size-@{size}}';
@@ -234,7 +234,7 @@
   }
 
   &-disabled &-item,
-  &-disabled &-item:not(&-item-disabled):not(&-item-active):hover {
+  &-disabled &-item:not(&-item-disabled, &-item-active):hover {
     color: @pagination-color-item-text_disabled;
     background-color: @pagination-color-bg-item_disabled;
     border-color: @pagination-color-item-border_disabled;

@@ -1,5 +1,5 @@
 <template>
-  <a-time-picker
+  <sd-time-picker
     defaultValue="10:25:30"
     :step="{
       hour: 2,

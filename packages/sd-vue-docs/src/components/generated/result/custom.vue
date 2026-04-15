@@ -1,15 +1,15 @@
 <template>
-  <a-result :status="null" title="This is title content" subtitle="This is subtitle content">
+  <sd-result :status="null" title="This is title content" subtitle="This is subtitle content">
     <template #icon>
       <IconFaceSmileFill />
     </template>
     <template #extra>
-      <a-space>
-        <a-button type="secondary">Again</a-button>
-        <a-button type="primary">Back</a-button>
-      </a-space>
+      <sd-space>
+        <sd-button type="secondary">Again</sd-button>
+        <sd-button type="primary">Back</sd-button>
+      </sd-space>
     </template>
-  </a-result>
+  </sd-result>
 </template>
 <script>
   import { IconFaceSmileFill } from '@sdata/web-vue/es/icon/index.js';

@@ -183,13 +183,13 @@
       },
     },
     emits: {
-      'update:modelValue': (value: number | [number, number]) => true,
+      'update:modelValue': (_value: number | [number, number]) => true,
       /**
        * @zh 值改变时触发
        * @en Trigger when the value changes
        * @param {number | [number, number]} value
        */
-      'change': (value: number | [number, number]) => true,
+      'change': (_value: number | [number, number]) => true,
     },
     setup(props, { emit }) {
       const { modelValue } = toRefs(props);

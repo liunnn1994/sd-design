@@ -1,16 +1,16 @@
 <template>
-  <a-space direction="vertical">
-    <a-space>
-      <a-typography-text style="width: 80px">Disabled:</a-typography-text>
-      <a-verification-code defaultValue="123456" style="width: 300px" disabled />
-    </a-space>
-    <a-space>
-      <a-typography-text style="width: 80px">Readonly:</a-typography-text>
-      <a-verification-code defaultValue="123456" style="width: 300px" readonly />
-    </a-space>
-    <a-space>
-      <a-typography-text style="width: 80px">Error:</a-typography-text>
-      <a-verification-code defaultValue="123456" style="width: 300px" error />
-    </a-space>
-  </a-space>
+  <sd-space direction="vertical">
+    <sd-space>
+      <sd-typography-text style="width: 80px">Disabled:</sd-typography-text>
+      <sd-verification-code defaultValue="123456" style="width: 300px" disabled />
+    </sd-space>
+    <sd-space>
+      <sd-typography-text style="width: 80px">Readonly:</sd-typography-text>
+      <sd-verification-code defaultValue="123456" style="width: 300px" readonly />
+    </sd-space>
+    <sd-space>
+      <sd-typography-text style="width: 80px">Error:</sd-typography-text>
+      <sd-verification-code defaultValue="123456" style="width: 300px" error />
+    </sd-space>
+  </sd-space>
 </template>

@@ -1,5 +1,5 @@
-@import './token.less';
-@import './dot-loading.less';
+@import url('./token.less');
+@import url('./dot-loading.less');
 
 @spin-prefix-cls: ~'@{prefix}-spin';
 
@@ -24,10 +24,7 @@
 
   &-mask {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     z-index: 11;
     text-align: center;
     background-color: var(~'@{sd-cssvars-prefix}-color-spin-layer-bg');

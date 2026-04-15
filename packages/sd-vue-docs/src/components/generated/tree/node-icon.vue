@@ -1,9 +1,9 @@
 <template>
-  <a-tree :data="treeData">
+  <sd-tree :data="treeData">
     <template #icon>
       <IconStar />
     </template>
-  </a-tree>
+  </sd-tree>
 </template>
 <script>
   import { h } from 'vue';

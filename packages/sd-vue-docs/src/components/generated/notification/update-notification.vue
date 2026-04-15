@@ -1,5 +1,5 @@
 <template>
-  <a-button type="primary" @click="handleNotification"> Open Notification </a-button>
+  <sd-button type="primary" @click="handleNotification"> Open Notification </sd-button>
 </template>
 
 <script>

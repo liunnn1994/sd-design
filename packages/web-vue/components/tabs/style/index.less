@@ -1,5 +1,5 @@
-@import './token.less';
-@import '../../style/mixins/index';
+@import url('./token.less');
+@import url('../../style/mixins/index');
 
 @tabs-prefix-cls: ~'@{prefix}-tabs';
 
@@ -203,10 +203,7 @@
 
       &::before {
         position: absolute;
-        top: 0;
-        right: -@tabs-padding-title-text-horizontal;
-        bottom: 0;
-        left: -@tabs-padding-title-text-horizontal;
+        inset: 0 -@tabs-padding-title-text-horizontal;
         z-index: -1;
         background-color: @tabs-line-color-title-bg;
         border-radius: @tabs-line-border-radius;
@@ -282,10 +279,7 @@
 
       &:focus-visible::before {
         position: absolute;
-        top: -1px;
-        right: 0;
-        bottom: -1px;
-        left: -1px;
+        inset: -1px 0 -1px -1px;
         border: 2px solid @color-primary-6;
         content: '';
       }
@@ -688,8 +682,8 @@
 
 .for(@sizes);
 
-@import './vertical.less';
-@import './rtl.less';
+@import url('./vertical.less');
+@import url('./rtl.less');
 
 @{sd-theme-tag}[sd-theme='dark'] {
   .@{tabs-prefix-cls}-nav-type-capsule {

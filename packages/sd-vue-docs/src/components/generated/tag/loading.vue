@@ -1,3 +1,3 @@
 <template>
-  <a-tag loading>Loading</a-tag>
+  <sd-tag loading>Loading</sd-tag>
 </template>

@@ -1,17 +1,17 @@
 <template>
-  <a-form auto-label-width>
-    <a-form-item label="Tag Number">
-      <a-input-number v-model="number" :min="0" :max="20" style="width: 200px" />
-    </a-form-item>
-    <a-form-item label="List Width">
-      <a-slider v-model="width" :min="0" :max="800" />
-    </a-form-item>
-  </a-form>
+  <sd-form auto-label-width>
+    <sd-form-item label="Tag Number">
+      <sd-input-number v-model="number" :min="0" :max="20" style="width: 200px" />
+    </sd-form-item>
+    <sd-form-item label="List Width">
+      <sd-slider v-model="width" :min="0" :max="800" />
+    </sd-form-item>
+  </sd-form>
   <div :style="{ width: `${width}px`, marginTop: '20px' }">
-    <a-overflow-list>
+    <sd-overflow-list>
       <div>DIV Element</div>
-      <a-tag v-for="item of tags" :key="item">Tag{{ item }}</a-tag>
-    </a-overflow-list>
+      <sd-tag v-for="item of tags" :key="item">Tag{{ item }}</sd-tag>
+    </sd-overflow-list>
   </div>
 </template>
 

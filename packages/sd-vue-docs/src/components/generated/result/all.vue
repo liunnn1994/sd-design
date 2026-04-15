@@ -1,21 +1,21 @@
 <template>
-  <a-result status="error" title="No internet ">
+  <sd-result status="error" title="No internet ">
     <template #icon>
       <IconFaceFrownFill />
     </template>
     <template #subtitle> DNS_PROBE_FINISHED_NO_INTERNET </template>
 
     <template #extra>
-      <a-button type="primary">Refresh</a-button>
+      <sd-button type="primary">Refresh</sd-button>
     </template>
-    <a-typography style="background: var(--color-fill-2); padding: 24px">
-      <a-typography-paragraph>Try:</a-typography-paragraph>
+    <sd-typography style="padding: 24px; background: var(--color-fill-2)">
+      <sd-typography-paragraph>Try:</sd-typography-paragraph>
       <ul>
         <li> Checking the network cables, modem, and router </li>
         <li> Reconnecting to Wi-Fi </li>
       </ul>
-    </a-typography>
-  </a-result>
+    </sd-typography>
+  </sd-result>
 </template>
 
 <script>

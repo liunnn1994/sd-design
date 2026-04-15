@@ -153,39 +153,39 @@
       },
     },
     emits: {
-      'update:modelValue': (value: string) => true,
+      'update:modelValue': (_value: string) => true,
       /**
        * @zh 用户输入时触发
        * @en Emitted when the user enters
        * @param {string} value
        * @param {Event} ev
        */
-      'input': (value: string, ev: Event) => true,
+      'input': (_value: string, _ev: Event) => true,
       /**
        * @zh 仅在文本框失焦时触发
        * @en Only emitted when the textarea is out of focus
        * @param {string} value
        * @param {Event} ev
        */
-      'change': (value: string, ev: Event) => true,
+      'change': (_value: string, _ev: Event) => true,
       /**
        * @zh 点击清除按钮时触发
        * @en Emitted when the clear button is clicked
        * @param {MouseEvent} ev
        */
-      'clear': (ev: MouseEvent) => true,
+      'clear': (_ev: MouseEvent) => true,
       /**
        * @zh 文本框获取焦点时触发
        * @en Emitted when the textarea gets focus
        * @param {FocusEvent} ev
        */
-      'focus': (ev: FocusEvent) => true,
+      'focus': (_ev: FocusEvent) => true,
       /**
        * @zh 文本框失去焦点时触发
        * @en Emitted when the textarea loses focus
        * @param {FocusEvent} ev
        */
-      'blur': (ev: FocusEvent) => true,
+      'blur': (_ev: FocusEvent) => true,
     },
     setup(props, { emit, attrs }) {
       const { disabled, error, modelValue } = toRefs(props);

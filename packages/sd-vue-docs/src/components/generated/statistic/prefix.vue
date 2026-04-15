@@ -1,11 +1,11 @@
 <template>
-  <a-space size="large">
-    <a-statistic title="New Users" :value="125670" show-group-separator>
+  <sd-space size="large">
+    <sd-statistic title="New Users" :value="125670" show-group-separator>
       <template #suffix>
         <icon-arrow-rise />
       </template>
-    </a-statistic>
-    <a-statistic
+    </sd-statistic>
+    <sd-statistic
       title="User Growth Rate"
       :value="50.52"
       :precision="2"
@@ -15,6 +15,6 @@
         <icon-arrow-rise />
       </template>
       <template #suffix>%</template>
-    </a-statistic>
-  </a-space>
+    </sd-statistic>
+  </sd-space>
 </template>

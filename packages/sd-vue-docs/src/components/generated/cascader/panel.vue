@@ -1,5 +1,5 @@
 <template>
-  <a-cascader-panel :options="options" v-model="value" expand-child />
+  <sd-cascader-panel :options="options" v-model="value" expand-child />
 </template>
 
 <script>

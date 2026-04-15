@@ -72,7 +72,7 @@
        * @en Emitted when the link is clicked
        * @property {MouseEvent} ev
        */
-      click: (ev: MouseEvent) => true,
+      click: (_ev: MouseEvent) => true,
     },
     setup(props, { slots, emit }) {
       const prefixCls = getPrefixCls('link');

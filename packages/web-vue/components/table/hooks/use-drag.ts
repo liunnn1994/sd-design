@@ -63,7 +63,7 @@ export const useDrag = (draggable: Ref<TableDraggable | undefined>) => {
     ev.preventDefault();
   };
 
-  const handleDragLeave = (ev: DragEvent) => {};
+  const handleDragLeave = (_ev: DragEvent) => {};
 
   const handleDragover = (ev: DragEvent) => {
     if (ev.dataTransfer) {

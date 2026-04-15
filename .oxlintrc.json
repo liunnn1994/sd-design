@@ -1,9 +1,7 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
   "categories": {},
-  "env": {
-    "builtin": true
-  },
+  "env": { "builtin": true },
   "ignorePatterns": [
     ".**/**",
     "*.json",
@@ -29,36 +27,17 @@
         "packages/web-vue/**/*.mts",
         "packages/web-vue/**/*.vue"
       ],
-      "env": {
-        "browser": true,
-        "node": true
-      },
+      "env": { "browser": true, "node": true },
       "plugins": ["typescript", "import", "vue"],
       "rules": {
         "import/extensions": [
           "error",
           "ignorePackages",
-          {
-            "js": "never",
-            "jsx": "never",
-            "ts": "never",
-            "tsx": "never"
-          }
+          { "js": "never", "jsx": "never", "ts": "never", "tsx": "never" }
         ],
         "prefer-template": "error",
-        "no-empty": [
-          "error",
-          {
-            "allowEmptyCatch": true
-          }
-        ],
-        "no-unused-expressions": [
-          "error",
-          {
-            "allowShortCircuit": true,
-            "allowTernary": true
-          }
-        ],
+        "no-empty": ["error", { "allowEmptyCatch": true }],
+        "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
         "no-console": "error",
         "no-unused-vars": "error"
       }

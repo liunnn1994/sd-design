@@ -1,7 +1,7 @@
 <template>
-  <a-space>
-    <a-tag size="large">Large</a-tag>
-    <a-tag>Medium</a-tag>
-    <a-tag size="small">Small</a-tag>
-  </a-space>
+  <sd-space>
+    <sd-tag size="large">Large</sd-tag>
+    <sd-tag>Medium</sd-tag>
+    <sd-tag size="small">Small</sd-tag>
+  </sd-space>
 </template>

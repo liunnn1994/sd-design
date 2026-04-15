@@ -266,46 +266,46 @@ export default defineComponent({
     },
   },
   emits: {
-    'update:fileList': (fileList: FileItem[]) => true,
+    'update:fileList': (_fileList: FileItem[]) => true,
     /**
      * @zh 上传的文件超出限制后触发
      * @en Triggered when the uploaded file exceeds the limit
      * @param {FileItem[]} fileList
      * @param {File[]} files
      */
-    'exceedLimit': (fileList: FileItem[], files: File[]) => true,
+    'exceedLimit': (_fileList: FileItem[], _files: File[]) => true,
     /**
      * @zh 上传的文件状态发生改变时触发
      * @en Triggered when the status of the uploaded file changes
      * @param {FileItem[]} fileList
      * @param {fileItem} fileItem
      */
-    'change': (fileList: FileItem[], fileItem: FileItem) => true,
+    'change': (_fileList: FileItem[], _fileItem: FileItem) => true,
     /**
      * @zh 上传中的文件进度改变时触发
      * @en Triggered when the uploading file progress changes
      * @param {fileItem} fileItem
      * @param {ProgressEvent} ev
      */
-    'progress': (fileItem: FileItem, ev?: ProgressEvent) => true,
+    'progress': (_fileItem: FileItem, _ev?: ProgressEvent) => true,
     /**
      * @zh 点击图片预览时的触发
      * @en Trigger when the image preview is clicked
      * @param {FileItem} fileItem
      */
-    'preview': (fileItem: FileItem) => true,
+    'preview': (_fileItem: FileItem) => true,
     /**
      * @zh 上传成功时触发
      * @en Triggered when upload is successful
      * @param {FileItem} fileItem
      */
-    'success': (fileItem: FileItem) => true,
+    'success': (_fileItem: FileItem) => true,
     /**
      * @zh 上传失败时触发
      * @en Triggered when upload fails
      * @param {FileItem} fileItem
      */
-    'error': (fileItem: FileItem) => true,
+    'error': (_fileItem: FileItem) => true,
   },
   /**
    * @zh 上传列表的项目

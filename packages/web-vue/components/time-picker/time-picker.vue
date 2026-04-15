@@ -294,10 +294,10 @@
        * @param {date | Array<date | undefined> | undefined} time
        */
       'change': (
-        timeString: string | Array<string | undefined> | undefined,
-        time: Date | Array<Date | undefined> | undefined,
+        _timeString: string | Array<string | undefined> | undefined,
+        _time: Date | Array<Date | undefined> | undefined,
       ) => true,
-      'update:modelValue': (timeString: string | Array<string | undefined> | undefined) => true,
+      'update:modelValue': (_timeString: string | Array<string | undefined> | undefined) => true,
       /**
        * @zh 选择时间但未触发组件值变化
        * @en Select time but do not trigger component value change
@@ -305,8 +305,8 @@
        * @param {Date | Array<Date | undefined>} time
        */
       'select': (
-        timeString: string | Array<string | undefined>,
-        time: Date | Array<Date | undefined>,
+        _timeString: string | Array<string | undefined>,
+        _time: Date | Array<Date | undefined>,
       ) => true,
       /**
        * @zh 点击清除按钮
@@ -318,8 +318,8 @@
        * @en Pop-up box expand and collapse
        * @param {boolean} visible
        */
-      'popup-visible-change': (visible: boolean) => true,
-      'update:popupVisible': (visible: boolean) => true,
+      'popup-visible-change': (_visible: boolean) => true,
+      'update:popupVisible': (_visible: boolean) => true,
     },
     /**
      * @zh 输入框前缀

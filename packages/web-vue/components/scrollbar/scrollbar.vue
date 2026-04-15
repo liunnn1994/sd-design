@@ -98,7 +98,7 @@
        * @zh 滚动时触发
        * @en Triggered when scroll
        */
-      scroll: (ev: Event) => true,
+      scroll: (_ev: Event) => true,
     },
     setup(props, { emit }) {
       const prefixCls = getPrefixCls('scrollbar');

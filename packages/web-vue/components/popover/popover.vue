@@ -125,13 +125,13 @@
       },
     },
     emits: {
-      'update:popupVisible': (visible: boolean) => true,
+      'update:popupVisible': (_visible: boolean) => true,
       /**
        * @zh 文字气泡显示状态改变时触发
        * @en Triggered when the text bubble display status changes
        * @param {boolean} visible
        */
-      'popupVisibleChange': (visible: boolean) => true,
+      'popupVisibleChange': (_visible: boolean) => true,
     },
     /**
      * @zh 标题

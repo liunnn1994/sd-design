@@ -64,14 +64,14 @@ export default defineComponent({
     },
   },
   emits: {
-    'update:modelValue': (value: string | number | boolean) => true,
+    'update:modelValue': (_value: string | number | boolean) => true,
     /**
      * @zh 值改变时触发
      * @en Trigger when the value changes
      * @param { string | number | boolean } value
      * @param {Event} ev
      */
-    'change': (value: string | number | boolean, ev: Event) => true,
+    'change': (_value: string | number | boolean, _ev: Event) => true,
   },
   /**
    * @zh 自定义单选框

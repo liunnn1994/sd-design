@@ -1,11 +1,11 @@
 <template>
-  <a-radio-group type="button" v-model="size">
-    <a-radio value="mini">mini</a-radio>
-    <a-radio value="small">small</a-radio>
-    <a-radio value="medium">medium</a-radio>
-    <a-radio value="large">large</a-radio>
-  </a-radio-group>
-  <a-descriptions
+  <sd-radio-group type="button" v-model="size">
+    <sd-radio value="mini">mini</sd-radio>
+    <sd-radio value="small">small</sd-radio>
+    <sd-radio value="medium">medium</sd-radio>
+    <sd-radio value="large">large</sd-radio>
+  </sd-radio-group>
+  <sd-descriptions
     style="margin-top: 20px"
     :data="data"
     :size="size"

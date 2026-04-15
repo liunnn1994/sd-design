@@ -1,52 +1,52 @@
 <template>
-  <a-space direction="vertical">
-    <a-button-group>
-      <a-button>Publish</a-button>
-      <a-button>
+  <sd-space direction="vertical">
+    <sd-button-group>
+      <sd-button>Publish</sd-button>
+      <sd-button>
         <template #icon>
           <icon-down />
         </template>
-      </a-button>
-    </a-button-group>
-    <a-button-group>
-      <a-button>Publish</a-button>
-      <a-button>
+      </sd-button>
+    </sd-button-group>
+    <sd-button-group>
+      <sd-button>Publish</sd-button>
+      <sd-button>
         <template #icon>
           <icon-more />
         </template>
-      </a-button>
-    </a-button-group>
-    <a-button-group>
-      <a-button type="primary">
+      </sd-button>
+    </sd-button-group>
+    <sd-button-group>
+      <sd-button type="primary">
         <icon-left />
         Prev
-      </a-button>
-      <a-button type="primary">
+      </sd-button>
+      <sd-button type="primary">
         Next
         <icon-right />
-      </a-button>
-    </a-button-group>
-    <a-space size="large">
-      <a-button-group type="primary">
-        <a-button> copy </a-button>
-        <a-button> cut </a-button>
-        <a-button> find </a-button>
-      </a-button-group>
-      <a-button-group type="primary" status="warning">
-        <a-button>
+      </sd-button>
+    </sd-button-group>
+    <sd-space size="large">
+      <sd-button-group type="primary">
+        <sd-button> copy </sd-button>
+        <sd-button> cut </sd-button>
+        <sd-button> find </sd-button>
+      </sd-button-group>
+      <sd-button-group type="primary" status="warning">
+        <sd-button>
           <template #icon><icon-heart-fill /></template>
-        </a-button>
-        <a-button>
+        </sd-button>
+        <sd-button>
           <template #icon><icon-star-fill /></template>
-        </a-button>
-        <a-button>
+        </sd-button>
+        <sd-button>
           <template #icon><icon-thumb-up-fill /></template>
-        </a-button>
-      </a-button-group>
-      <a-button-group size="small" disabled>
-        <a-button> prev </a-button>
-        <a-button> next </a-button>
-      </a-button-group>
-    </a-space>
-  </a-space>
+        </sd-button>
+      </sd-button-group>
+      <sd-button-group size="small" disabled>
+        <sd-button> prev </sd-button>
+        <sd-button> next </sd-button>
+      </sd-button-group>
+    </sd-space>
+  </sd-space>
 </template>

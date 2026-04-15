@@ -67,11 +67,11 @@ export const isElement = (vn: VNode) => {
   return Boolean(vn && vn.shapeFlag & ShapeFlags.ELEMENT);
 };
 
-export const isComponent = (vn: VNode, type?: VNodeTypes): type is Component => {
+export const isComponent = (vn: VNode, _type?: VNodeTypes): _type is Component => {
   return Boolean(vn && vn.shapeFlag & ShapeFlags.COMPONENT);
 };
 
-export const isText = (vn: VNode, children: VNode['children']): children is string => {
+export const isText = (vn: VNode, _children: VNode['children']): _children is string => {
   return Boolean(vn && vn.shapeFlag & ShapeFlags.TEXT_CHILDREN);
 };
 
@@ -79,15 +79,15 @@ export const isNamedComponent = (child: VNode, name: string) => {
   return isComponent(child, child.type) && child.type.name === name;
 };
 
-export const isTextChildren = (child: VNode, children: VNode['children']): children is string => {
+export const isTextChildren = (child: VNode, _children: VNode['children']): _children is string => {
   return Boolean(child && child.shapeFlag & 8);
 };
 
-export const isArrayChildren = (vn: VNode, children: VNode['children']): children is VNode[] => {
+export const isArrayChildren = (vn: VNode, _children: VNode['children']): _children is VNode[] => {
   return Boolean(vn && vn.shapeFlag & ShapeFlags.ARRAY_CHILDREN);
 };
 
-export const isSlotsChildren = (vn: VNode, children: VNode['children']): children is Slots => {
+export const isSlotsChildren = (vn: VNode, _children: VNode['children']): _children is Slots => {
   return Boolean(vn && vn.shapeFlag & ShapeFlags.SLOTS_CHILDREN);
 };
 

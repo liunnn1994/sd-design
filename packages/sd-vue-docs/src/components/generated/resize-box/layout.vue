@@ -1,13 +1,13 @@
 <template>
   <div class="layout-demo">
-    <a-layout>
-      <a-layout-header>Header</a-layout-header>
-      <a-layout>
-        <a-layout-sider :resize-directions="['right']"> Sider </a-layout-sider>
-        <a-layout-content>Content</a-layout-content>
-      </a-layout>
-      <a-layout-footer>Footer</a-layout-footer>
-    </a-layout>
+    <sd-layout>
+      <sd-layout-header>Header</sd-layout-header>
+      <sd-layout>
+        <sd-layout-sider :resize-directions="['right']"> Sider </sd-layout-sider>
+        <sd-layout-content>Content</sd-layout-content>
+      </sd-layout>
+      <sd-layout-footer>Footer</sd-layout-footer>
+    </sd-layout>
   </div>
 </template>
 
@@ -33,10 +33,10 @@
 
   .layout-demo :deep(.sd-layout-sider) {
     width: 206px;
-    background-color: var(--color-primary-light-3);
     min-width: 150px;
     max-width: 500px;
     height: 200px;
+    background-color: var(--color-primary-light-3);
   }
 
   .layout-demo :deep(.sd-layout-content) {

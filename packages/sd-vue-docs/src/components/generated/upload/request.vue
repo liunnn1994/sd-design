@@ -1,5 +1,5 @@
 <template>
-  <a-upload :custom-request="customRequest" />
+  <sd-upload :custom-request="customRequest" />
 </template>
 
 <script>

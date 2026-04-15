@@ -1,16 +1,16 @@
 <template>
-  <a-space direction="vertical" size="large" fill>
-    <a-space>
-      <a-switch v-model="alignLeft" />
+  <sd-space direction="vertical" size="large" fill>
+    <sd-space>
+      <sd-switch v-model="alignLeft" />
       <span>Filter icon align left: {{ alignLeft }}</span>
-    </a-space>
-    <a-table
+    </sd-space>
+    <sd-table
       :columns="columns"
       :data="data"
       :filter-icon-align-left="alignLeft"
       @change="handleChange"
     />
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

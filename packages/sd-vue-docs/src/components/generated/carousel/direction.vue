@@ -1,5 +1,5 @@
 <template>
-  <a-carousel
+  <sd-carousel
     :style="{
       width: '600px',
       height: '240px',
@@ -8,15 +8,15 @@
     direction="vertical"
     indicator-position="right"
   >
-    <a-carousel-item v-for="image in images">
+    <sd-carousel-item v-for="image in images">
       <img
         :src="image"
         :style="{
           width: '100%',
         }"
       />
-    </a-carousel-item>
-  </a-carousel>
+    </sd-carousel-item>
+  </sd-carousel>
 </template>
 
 <script>

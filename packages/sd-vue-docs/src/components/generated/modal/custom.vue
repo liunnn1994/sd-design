@@ -1,6 +1,6 @@
 <template>
-  <a-button @click="handleClick">Open Modal</a-button>
-  <a-modal
+  <sd-button @click="handleClick">Open Modal</sd-button>
+  <sd-modal
     :visible="visible"
     @ok="handleOk"
     @cancel="handleCancel"
@@ -13,7 +13,7 @@
       >You can customize modal body text by the current situation. This modal will be closed
       immediately once you press the OK button.</div
     >
-  </a-modal>
+  </sd-modal>
 </template>
 
 <script>

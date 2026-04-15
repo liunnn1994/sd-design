@@ -115,46 +115,46 @@ export default defineComponent({
     },
   },
   emits: {
-    'update:modelValue': (value: string) => true,
+    'update:modelValue': (_value: string) => true,
     /**
      * @zh 绑定值发生改变时触发
      * @en Emitted when the value changes
      * @property {string} value
      */
-    'change': (value: string) => true,
+    'change': (_value: string) => true,
     /**
      * @zh 用户搜索时触发
      * @en Emitted when the user searches
      * @property {string} value
      */
-    'search': (value: string) => true,
+    'search': (_value: string) => true,
     /**
      * @zh 选择选项时触发
      * @en Emitted when an option is selected
      * @property {string} value
      */
-    'select': (value: string) => true,
+    'select': (_value: string) => true,
     /**
      * @zh 用户点击清除按钮时触发
      * @en Triggered when the user clicks the clear button
      * @param {Event} ev
      * @version 2.23.0
      */
-    'clear': (ev: Event) => true,
+    'clear': (_ev: Event) => true,
     /**
      * @zh 下拉菜单发生滚动时触发
      * @en Triggered when the drop-down scrolls
      * @param {Event} ev
      * @version 2.52.0
      */
-    'dropdownScroll': (ev: Event) => true,
+    'dropdownScroll': (_ev: Event) => true,
     /**
      * @zh 下拉菜单滚动到底部时触发
      * @en Triggered when the drop-down menu is scrolled to the bottom
      * @param {Event} ev
      * @version 2.52.0
      */
-    'dropdownReachBottom': (ev: Event) => true,
+    'dropdownReachBottom': (_ev: Event) => true,
   },
   /**
    * @zh 弹出框的页脚
@@ -235,7 +235,7 @@ export default defineComponent({
     };
 
     // Dropdown事件
-    const handleSelect = (key: string, ev: Event) => {
+    const handleSelect = (key: string, _ev: Event) => {
       const value = optionInfoMap.get(key)?.value as string;
       emit('select', value);
       handleChange(value);
@@ -304,7 +304,8 @@ export default defineComponent({
           ref={dropdownRef}
           class={`${prefixCls}-dropdown`}
           v-slots={{
-            'default': () => validOptions.value.map((info) => renderOption(info as SelectOptionInfo)),
+            'default': () =>
+              validOptions.value.map((info) => renderOption(info as SelectOptionInfo)),
             'virtual-list': () => (
               <VirtualList
                 {...props.virtualListProps}

@@ -2,7 +2,6 @@ import { defineComponent } from 'vue';
 
 import BaseTreeNode from './base-node.vue';
 import useNodeKey from './hooks/use-node-key';
-import { TreeNodeProps } from './interface';
 import TransitionNodeList from './transition-node-list.vue';
 
 export default defineComponent({

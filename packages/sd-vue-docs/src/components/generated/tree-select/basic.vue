@@ -1,9 +1,9 @@
 <template>
-  <a-tree-select
+  <sd-tree-select
     :data="treeData"
     placeholder="Please select ..."
     style="width: 300px"
-  ></a-tree-select>
+  ></sd-tree-select>
 </template>
 <script>
   import { h } from 'vue';

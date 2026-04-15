@@ -1,4 +1,4 @@
-@import '../../style/theme/index.less';
+@import url('../../style/theme/index.less');
 
 @col-prefix-cls: ~'@{prefix}-col';
 
@@ -63,31 +63,31 @@
   .offset(23, xs);
   .order(24, xs);
 
-  @media (min-width: 576px) {
+  @media (width >= 576px) {
     .span(24, sm);
     .offset(23, sm);
     .order(24, sm);
   }
 
-  @media (min-width: 768px) {
+  @media (width >= 768px) {
     .span(24, md);
     .offset(23, md);
     .order(24, md);
   }
 
-  @media (min-width: 992px) {
+  @media (width >= 992px) {
     .span(24, lg);
     .offset(23, lg);
     .order(24, lg);
   }
 
-  @media (min-width: 1200px) {
+  @media (width >= 1200px) {
     .span(24, xl);
     .offset(23, xl);
     .order(24, xl);
   }
 
-  @media (min-width: 1600px) {
+  @media (width >= 1600px) {
     .span(24, xxl);
     .offset(23, xxl);
     .order(24, xxl);

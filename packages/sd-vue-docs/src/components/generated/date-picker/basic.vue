@@ -1,3 +1,3 @@
 <template>
-  <a-date-picker style="width: 200px" />
+  <sd-date-picker style="width: 200px" />
 </template>

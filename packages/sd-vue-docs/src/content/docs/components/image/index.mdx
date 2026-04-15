@@ -70,7 +70,7 @@ export const imageProgressiveLoaderSource =
 
 ### 单独使用预览组件
 
-`a-image-preview` 可单独使用，需要手动控制 `visible`。
+`sd-image-preview` 可单独使用，需要手动控制 `visible`。
 
 <DemoBlock source={imageComponentPreviewSource} mainFile="src/image-component-preview.vue">
 
@@ -80,7 +80,7 @@ export const imageProgressiveLoaderSource =
 
 ### 自定义预览操作栏
 
-通过设置 `actionsLayout` 可以调整预览操作栏中功能按钮的顺序，同时可以过滤功能按钮，只有在 `actionsLayout` 中的按钮才会出现。此外从 `2.17.0` 开始，预览组件 `a-image-preview` 提供了 `actions` 插槽，支持自定义额外的操作项，同时还提供了操作项组件 `a-image-preview-action`。
+通过设置 `actionsLayout` 可以调整预览操作栏中功能按钮的顺序，同时可以过滤功能按钮，只有在 `actionsLayout` 中的按钮才会出现。此外从 `2.17.0` 开始，预览组件 `sd-image-preview` 提供了 `actions` 插槽，支持自定义额外的操作项，同时还提供了操作项组件 `sd-image-preview-action`。
 
 <DemoBlock source={imageCustomPreviewActionsSource} mainFile="src/image-custom-preview-actions.vue">
 
@@ -218,7 +218,7 @@ export const imageProgressiveLoaderSource =
 
 | 参数名 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | :-: |
-| src-list | 图片列表（设置了本属性之后，将不再收集 a-image 子组件的图片信息） | `string[]` | `-` |
+| src-list | 图片列表（设置了本属性之后，将不再收集 sd-image 子组件的图片信息） | `string[]` | `-` |
 | current **(v-model)** | 当前展示的图片的下标 | `number` | `-` |
 | default-current | 第一张展示的图片的下标 | `number` | `0` |
 | infinite | 是否无限循环 | `boolean` | `false` |

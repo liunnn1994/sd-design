@@ -309,15 +309,15 @@
        * @param {{ selected?: boolean; selectedNodes: TreeNodeData[]; node?: TreeNodeData; e?: Event; }} data
        */
       'select': (
-        selectedKeys: (string | number)[],
-        data: {
+        _selectedKeys: (string | number)[],
+        _data: {
           selected?: boolean;
           selectedNodes: TreeNodeData[];
           node?: TreeNodeData;
           e?: Event;
         },
       ) => true,
-      'update:selectedKeys': (selectedKeys: (string | number)[]) => true,
+      'update:selectedKeys': (_selectedKeys: (string | number)[]) => true,
       /**
        * @zh 点击树节点复选框时触发。`halfCheckedKeys` 和 `halfCheckedNodes` 从 `2.19.0` 开始支持。
        * @en Triggered when the tree node checkbox is clicked. `halfCheckedKeys` and `halfCheckedNodes` support from `2.19.0`.
@@ -325,8 +325,8 @@
        * @param {{ checked?: boolean; checkedNodes: TreeNodeData[]; node?: TreeNodeData; e?: Event; halfCheckedKeys: (string | number)[]; halfCheckedNodes: TreeNodeData[]; }} data
        */
       'check': (
-        checkedKeys: (string | number)[],
-        data: {
+        _checkedKeys: (string | number)[],
+        _data: {
           checked?: boolean;
           checkedNodes: TreeNodeData[];
           node?: TreeNodeData;
@@ -335,8 +335,8 @@
           e?: Event;
         },
       ) => true,
-      'update:checkedKeys': (checkedKeys: (string | number)[]) => true,
-      'update:halfCheckedKeys': (halfCheckedKeys: (string | number)[]) => true,
+      'update:checkedKeys': (_checkedKeys: (string | number)[]) => true,
+      'update:halfCheckedKeys': (_halfCheckedKeys: (string | number)[]) => true,
       /**
        * @zh 展开/关闭
        * @en Expand/close
@@ -344,49 +344,49 @@
        * @param {{ expanded?: boolean; expandNodes: TreeNodeData[]; node?: TreeNodeData; e?: Event; }} data
        */
       'expand': (
-        expandKeys: (string | number)[],
-        data: {
+        _expandKeys: (string | number)[],
+        _data: {
           expanded?: boolean;
           expandedNodes: TreeNodeData[];
           node?: TreeNodeData;
           e?: Event;
         },
       ) => true,
-      'update:expandedKeys': (expandKeys: (string | number)[]) => true,
+      'update:expandedKeys': (_expandKeys: (string | number)[]) => true,
       /**
        * @zh 节点开始拖拽
        * @en Node starts dragging
        * @param {DragEvent} ev
        * @param {TreeNodeData} node
        */
-      'dragStart': (ev: DragEvent, node: TreeNodeData) => true,
+      'dragStart': (_ev: DragEvent, _node: TreeNodeData) => true,
       /**
        * @zh 节点结束拖拽
        * @en Node end drag
        * @param {DragEvent} ev
        * @param {TreeNodeData} node
        */
-      'dragEnd': (ev: DragEvent, node: TreeNodeData) => true,
+      'dragEnd': (_ev: DragEvent, _node: TreeNodeData) => true,
       /**
        * @zh 节点被拖拽至可释放目标
        * @en The node is dragged to the releasable target
        * @param {DragEvent} ev
        * @param {TreeNodeData} node
        */
-      'dragOver': (ev: DragEvent, node: TreeNodeData) => true,
+      'dragOver': (_ev: DragEvent, _node: TreeNodeData) => true,
       /**
        * @zh 节点离开可释放目标
        * @en Node leaves to release the target
        * @param {DragEvent} ev
        * @param {TreeNodeData} node
        */
-      'dragLeave': (ev: DragEvent, node: TreeNodeData) => true,
+      'dragLeave': (_ev: DragEvent, _node: TreeNodeData) => true,
       /**
        * @zh 节点在可释放目标上释放
        * @en The node is released on a releasable target
        * @param {{ e: DragEvent; dragNode: TreeNodeData; dropNode: TreeNodeData; dropPosition: number; }} data
        */
-      'drop': (data: {
+      'drop': (_data: {
         e: DragEvent;
         dragNode: TreeNodeData;
         dropNode: TreeNodeData;

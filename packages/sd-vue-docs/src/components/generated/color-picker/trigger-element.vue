@@ -1,14 +1,14 @@
 <template>
-  <a-space>
-    <a-color-picker v-model="value" size="mini">
-      <a-tag :color="value">
+  <sd-space>
+    <sd-color-picker v-model="value" size="mini">
+      <sd-tag :color="value">
         <template #icon>
           <icon-bg-colors style="color: #fff" />
         </template>
         {{ value }}
-      </a-tag>
-    </a-color-picker>
-  </a-space>
+      </sd-tag>
+    </sd-color-picker>
+  </sd-space>
 </template>
 
 <script setup>

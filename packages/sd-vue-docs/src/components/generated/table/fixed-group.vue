@@ -1,5 +1,5 @@
 <template>
-  <a-table :columns="columns" :data="data" :bordered="{ cell: true }" :scroll="{ x: 2000 }" />
+  <sd-table :columns="columns" :data="data" :bordered="{ cell: true }" :scroll="{ x: 2000 }" />
 </template>
 
 <script>

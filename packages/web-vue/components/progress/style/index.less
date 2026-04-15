@@ -1,18 +1,18 @@
-@import '../../style/theme/index.less';
-@import './token.less';
+@import url('../../style/theme/index.less');
+@import url('./token.less');
 
 @progress-prefix-cls: ~'@{prefix}-progress';
 
 .@{progress-prefix-cls} {
   position: relative;
-  line-height: 1;
   font-size: @progress-line-size-default-font-size;
+  line-height: 1;
 
   &-type-line,
   &-type-steps {
     display: inline-block;
-    max-width: 100%;
     width: 100%;
+    max-width: 100%;
   }
 
   &-type-line {
@@ -32,68 +32,68 @@
     }
 
     &-text {
-      font-size: @progress-line-size-default-font-size;
-      margin-left: @progress-line-margin-text-left;
-      color: @progress-line-color-text;
-      white-space: nowrap;
-      text-align: right;
       flex-grow: 1;
       flex-shrink: 0;
       min-width: @progress-line-size-text-width;
+      margin-left: @progress-line-margin-text-left;
+      color: @progress-line-color-text;
+      font-size: @progress-line-size-default-font-size;
+      white-space: nowrap;
+      text-align: right;
 
       .@{prefix}-icon {
-        font-size: @progress-line-size-default-icon-size;
         margin-left: @progress-line-margin-icon-left;
+        font-size: @progress-line-size-default-icon-size;
       }
     }
   }
 
   // type = line
   &-line {
-    background-color: @progress-line-color-line-bg;
-    border-radius: 100px;
-    width: 100%;
     position: relative;
     display: inline-block;
+    width: 100%;
     overflow: hidden;
+    background-color: @progress-line-color-line-bg;
+    border-radius: 100px;
 
     &-bar {
-      height: 100%;
-      border-radius: 100px;
-      background-color: @progress-line-color-inner-bg;
       position: relative;
+      max-width: 100%;
+      height: 100%;
+      background-color: @progress-line-color-inner-bg;
+      border-radius: 100px;
       transition:
         width 0.6s @transition-timing-function-standard,
         background 0.3s @transition-timing-function-standard;
-      max-width: 100%;
 
       &-buffer {
         position: absolute;
-        background-color: @progress-line-color-buffer-bg;
-        height: 100%;
         top: 0;
         left: 0;
-        border-radius: 0 100px 100px 0;
         max-width: 100%;
+        height: 100%;
+        background-color: @progress-line-color-buffer-bg;
+        border-radius: 0 100px 100px 0;
         transition: all 0.6s @transition-timing-function-standard;
       }
 
       &-animate::after {
-        content: '';
-        display: block;
         position: absolute;
         top: 0;
+        display: block;
         width: 100%;
         height: 100%;
-        border-radius: inherit;
         background: linear-gradient(
           90deg,
           transparent 25%,
-          rgba(255, 255, 255, 0.5) 50%,
+          rgb(255 255 255 / 50%) 50%,
           transparent 75%
         );
         background-size: 400% 100%;
+        border-radius: inherit;
         animation: ~'@{prefix}-progress-loading' 1.5s @transition-timing-function-standard infinite;
+        content: '';
       }
     }
 
@@ -111,8 +111,8 @@
     }
 
     &.@{progress-prefix-cls}-size-small .@{progress-prefix-cls}-steps-item {
-      width: @progress-steps-size-small-steps-item-width;
       flex: unset;
+      width: @progress-steps-size-small-steps-item-width;
       border-radius: @progress-steps-size-small-steps-item-width;
 
       &:not(:last-of-type) {
@@ -126,8 +126,8 @@
     width: 100%;
 
     &-text {
-      margin-left: @progress-steps-margin-text-left;
       min-width: unset;
+      margin-left: @progress-steps-margin-text-left;
 
       .@{prefix}-icon {
         color: @progress-line-color-icon_normal;
@@ -135,11 +135,11 @@
     }
 
     &-item {
-      height: 100%;
-      flex: 1;
-      background-color: @progress-steps-color-item-bg;
       position: relative;
       display: inline-block;
+      flex: 1;
+      height: 100%;
+      background-color: @progress-steps-color-item-bg;
 
       &:not(:last-of-type) {
         margin-right: @progress-steps-margin-steps-item-right;
@@ -209,8 +209,8 @@
   // size
   &-size-small {
     .@{progress-prefix-cls}-line-text {
-      font-size: @progress-line-size-small-font-size;
       margin-left: @progress-line-size-small-margin-text-left;
+      font-size: @progress-line-size-small-font-size;
     }
 
     .@{progress-prefix-cls}-line-text .@{prefix}-icon {
@@ -220,8 +220,8 @@
 
   &-size-large {
     .@{progress-prefix-cls}-line-text {
-      font-size: @progress-line-size-large-font-size;
       margin-left: @progress-line-size-large-margin-text-left;
+      font-size: @progress-line-size-large-font-size;
     }
 
     .@{progress-prefix-cls}-line-text .@{prefix}-icon {
@@ -239,9 +239,9 @@
   &-circle {
     &-wrapper {
       position: relative;
-      text-align: center;
-      line-height: 1;
       display: inline-block;
+      line-height: 1;
+      text-align: center;
       vertical-align: text-bottom;
     }
 
@@ -254,12 +254,12 @@
       top: 50%;
       left: 50%;
       color: @progress-circle-color-text;
-      transform: translate(-50%, -50%);
       font-size: @progress-circle-size-default-font-size;
+      transform: translate(-50%, -50%);
 
       .@{prefix}-icon {
-        font-size: @progress-circle-size-default-icon-size;
         color: @progress-line-color-icon_normal;
+        font-size: @progress-circle-size-default-icon-size;
       }
     }
 
@@ -268,10 +268,10 @@
     }
 
     &-bar {
-      stroke: @progress-circle-color-path-stroke;
       transition:
         stroke-dashoffset 0.6s @transition-timing-function-linear 0s,
         stroke 0.6s @transition-timing-function-linear;
+      stroke: @progress-circle-color-path-stroke;
     }
   }
 

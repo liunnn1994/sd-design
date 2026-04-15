@@ -1,4 +1,4 @@
-import { defineComponent, computed, PropType, toRefs, watch } from 'vue';
+import { defineComponent, computed, PropType } from 'vue';
 
 import { hsvToRgb } from '../_utils/color';
 import { getPrefixCls } from '../_utils/global-config';

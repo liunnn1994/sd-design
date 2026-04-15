@@ -1,10 +1,10 @@
 <template>
   <div>
-    <a-steps changeable :current="current" @change="setCurrent">
-      <a-step description="This is a description">Succeeded</a-step>
-      <a-step description="This is a description">Processing</a-step>
-      <a-step description="This is a description">Pending</a-step>
-    </a-steps>
+    <sd-steps changeable :current="current" @change="setCurrent">
+      <sd-step description="This is a description">Succeeded</sd-step>
+      <sd-step description="This is a description">Processing</sd-step>
+      <sd-step description="This is a description">Pending</sd-step>
+    </sd-steps>
     <div
       :style="{
         width: '100%',
@@ -15,14 +15,14 @@
       }"
     >
       <div style="line-height: 160px">Step{{ current }} Content</div>
-      <a-space size="large">
-        <a-button type="secondary" :disabled="current <= 1" @click="onPrev">
+      <sd-space size="large">
+        <sd-button type="secondary" :disabled="current <= 1" @click="onPrev">
           <IconLeft /> Back
-        </a-button>
-        <a-button type="primary" :disabled="current >= 3" @click="onNext">
+        </sd-button>
+        <sd-button type="primary" :disabled="current >= 3" @click="onNext">
           Next <IconRight />
-        </a-button>
-      </a-space>
+        </sd-button>
+      </sd-space>
     </div>
   </div>
 </template>

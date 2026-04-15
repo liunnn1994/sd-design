@@ -1,23 +1,23 @@
 <template>
-  <a-space>
+  <sd-space>
     <template #split>
-      <a-divider direction="vertical" :margin="0" />
+      <sd-divider direction="vertical" :margin="0" />
     </template>
-    <a-button type="primary">Item1</a-button>
-    <a-tag v-if="show" color="sdblue">Tag</a-tag>
-    <a-button type="primary">Item2</a-button>
-    <a-button type="primary">Item3</a-button>
-    <a-switch v-model="show" />
-  </a-space>
-  <a-divider />
-  <a-space>
+    <sd-button type="primary">Item1</sd-button>
+    <sd-tag v-if="show" color="sdblue">Tag</sd-tag>
+    <sd-button type="primary">Item2</sd-button>
+    <sd-button type="primary">Item3</sd-button>
+    <sd-switch v-model="show" />
+  </sd-space>
+  <sd-divider />
+  <sd-space>
     <template #split>
-      <a-divider direction="vertical" :margin="0" />
+      <sd-divider direction="vertical" :margin="0" />
     </template>
-    <a-link type="primary">Link1</a-link>
-    <a-link type="primary">Link2</a-link>
-    <a-link type="primary">Link3</a-link>
-  </a-space>
+    <sd-link type="primary">Link1</sd-link>
+    <sd-link type="primary">Link2</sd-link>
+    <sd-link type="primary">Link3</sd-link>
+  </sd-space>
 </template>
 
 <script setup>

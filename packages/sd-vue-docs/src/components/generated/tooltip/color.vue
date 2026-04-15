@@ -1,13 +1,13 @@
 <template>
-  <a-space>
-    <a-tooltip content="This is tooltip content" background-color="#3491FA">
-      <a-button>#3491FA</a-button>
-    </a-tooltip>
-    <a-tooltip content="This is tooltip content" background-color="#165DFF">
-      <a-button>#165DFF</a-button>
-    </a-tooltip>
-    <a-tooltip content="This is tooltip content" background-color="#722ED1">
-      <a-button>#722ED1</a-button>
-    </a-tooltip>
-  </a-space>
+  <sd-space>
+    <sd-tooltip content="This is tooltip content" background-color="#3491FA">
+      <sd-button>#3491FA</sd-button>
+    </sd-tooltip>
+    <sd-tooltip content="This is tooltip content" background-color="#165DFF">
+      <sd-button>#165DFF</sd-button>
+    </sd-tooltip>
+    <sd-tooltip content="This is tooltip content" background-color="#722ED1">
+      <sd-button>#722ED1</sd-button>
+    </sd-tooltip>
+  </sd-space>
 </template>

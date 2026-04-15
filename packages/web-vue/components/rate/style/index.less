@@ -1,4 +1,4 @@
-@import './token.less';
+@import url('./token.less');
 
 @rate-prefix-cls: ~'@{prefix}-rate';
 
@@ -61,7 +61,7 @@
     }
   }
 
-  &:not(&-readonly):not(&-disabled) &-character {
+  &:not(&-readonly, &-disabled) &-character {
     cursor: pointer;
 
     &:hover,

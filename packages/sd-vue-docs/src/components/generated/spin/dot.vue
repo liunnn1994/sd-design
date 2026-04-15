@@ -1,3 +1,3 @@
 <template>
-  <a-spin dot />
+  <sd-spin dot />
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <a-auto-complete
+  <sd-auto-complete
     :data="data"
     @search="handleSearch"
     :style="{ width: '360px' }"
@@ -7,10 +7,10 @@
   >
     <template #footer>
       <div style="padding: 6px 0; text-align: center">
-        <a-button>Click Me</a-button>
+        <sd-button>Click Me</sd-button>
       </div>
     </template>
-  </a-auto-complete>
+  </sd-auto-complete>
 </template>
 
 <script>

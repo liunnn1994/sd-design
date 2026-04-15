@@ -1,3 +1,3 @@
 <template>
-  <a-pagination :total="200" show-total />
+  <sd-pagination :total="200" show-total />
 </template>

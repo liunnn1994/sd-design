@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-split
+    <sd-split
       :style="{
         height: '200px',
         width: '100%',
@@ -9,16 +9,16 @@
       }"
     >
       <template #first>
-        <a-typography-paragraph>Left</a-typography-paragraph>
+        <sd-typography-paragraph>Left</sd-typography-paragraph>
       </template>
       <template #second>
         <div>
-          <a-split direction="vertical" :style="{ height: '200px' }">
-            <template #first><a-typography-paragraph>Top</a-typography-paragraph></template>
-            <template #second><a-typography-paragraph>Bottom</a-typography-paragraph></template>
-          </a-split>
+          <sd-split direction="vertical" :style="{ height: '200px' }">
+            <template #first><sd-typography-paragraph>Top</sd-typography-paragraph></template>
+            <template #second><sd-typography-paragraph>Bottom</sd-typography-paragraph></template>
+          </sd-split>
         </div>
       </template>
-    </a-split>
+    </sd-split>
   </div>
 </template>

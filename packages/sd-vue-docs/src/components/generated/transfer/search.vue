@@ -1,5 +1,5 @@
 <template>
-  <a-transfer
+  <sd-transfer
     show-search
     :data="data"
     :default-value="value"

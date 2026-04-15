@@ -117,7 +117,7 @@
        * @en Triggered when the close button is clicked
        * @param {MouseEvent} ev
        */
-      close: (ev: MouseEvent) => true,
+      close: (_ev: MouseEvent) => true,
       /**
        * @zh 关闭动画结束后触发
        * @en Triggered after the close animation ends

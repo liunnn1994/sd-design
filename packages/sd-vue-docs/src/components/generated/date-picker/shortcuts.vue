@@ -1,6 +1,6 @@
 <template>
-  <a-date-picker
-    style="width: 300px; margin-bottom: 24px; margin-right: 24px"
+  <sd-date-picker
+    style="width: 300px; margin-right: 24px; margin-bottom: 24px"
     :shortcuts="[
       {
         label: '2 hours later',
@@ -17,8 +17,8 @@
     ]"
     show-time
   />
-  <a-month-picker
-    style="width: 300px; margin-bottom: 24px; margin-right: 24px"
+  <sd-month-picker
+    style="width: 300px; margin-right: 24px; margin-bottom: 24px"
     :shortcuts="[
       {
         label: 'last month',
@@ -34,8 +34,8 @@
       },
     ]"
   />
-  <a-range-picker
-    style="width: 400px; margin-bottom: 24px; margin-right: 24px"
+  <sd-range-picker
+    style="width: 400px; margin-right: 24px; margin-bottom: 24px"
     :shortcuts="[
       {
         label: 'next 7 days',
@@ -51,7 +51,7 @@
       },
     ]"
   />
-  <a-range-picker
+  <sd-range-picker
     mode="month"
     style="width: 300px; margin-bottom: 24px"
     :shortcuts="[

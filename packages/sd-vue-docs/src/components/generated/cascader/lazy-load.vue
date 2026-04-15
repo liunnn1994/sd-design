@@ -1,12 +1,12 @@
 <template>
-  <a-space>
-    <a-cascader
+  <sd-space>
+    <sd-cascader
       :options="options"
       :style="{ width: '320px' }"
       placeholder="Please select ..."
       :load-more="loadMore"
     />
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

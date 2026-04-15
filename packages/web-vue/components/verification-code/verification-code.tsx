@@ -80,19 +80,19 @@ export default defineComponent({
     },
   },
   emits: {
-    'update:modelValue': (value: string) => true,
+    'update:modelValue': (_value: string) => true,
     /**
      * @zh 值发生改变时触发
      * @en Triggered when the value changes
      * @param { string } value
      */
-    'change': (value: string) => true,
+    'change': (_value: string) => true,
     /**
      * @zh 填充完成时触发
      * @en Triggered when the filling is complete
      * @param { string } value
      */
-    'finish': (value: string) => true,
+    'finish': (_value: string) => true,
     /**
      * @zh 输入时触发
      * @en Triggered on input
@@ -100,7 +100,7 @@ export default defineComponent({
      * @param { number } index
      * @param {Event} ev
      */
-    'input': (inputValue: string, index: number, ev: Event) => true,
+    'input': (_inputValue: string, _index: number, _ev: Event) => true,
   },
   setup(props, { emit }) {
     const prefixCls = getPrefixCls('verification-code');
@@ -118,7 +118,7 @@ export default defineComponent({
 
     const filledValue = computed(() => {
       const newVal = String(mergedValue.value).split('');
-      return new Array(props.length).fill('').map((_, index) => {
+      return Array.from({ length: props.length }, (_, index) => {
         return isExist(newVal[index]) ? String(newVal[index]) : '';
       }) as string[];
     });

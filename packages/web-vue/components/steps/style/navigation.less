@@ -1,4 +1,4 @@
-@import './token.less';
+@import url('./token.less');
 
 // Navigation
 .@{steps-prefix-cls} {
@@ -7,9 +7,9 @@
   }
 
   &-mode-navigation &-item {
-    padding-left: @steps-navigation-padding-left;
-    padding-right: @steps-navigation-spacing-arrow-right;
     margin-right: @steps-navigation-margin-right;
+    padding-right: @steps-navigation-spacing-arrow-right;
+    padding-left: @steps-navigation-padding-left;
 
     &:last-child {
       flex: 1;
@@ -24,14 +24,14 @@
     }
 
     &-active::after {
-      content: '';
       position: absolute;
-      display: block;
-      height: 2px;
-      left: @steps-navigation-spacing-ink-left;
       right: @steps-navigation-spacing-ink-right;
       bottom: 0;
+      left: @steps-navigation-spacing-ink-left;
+      display: block;
+      height: 2px;
       background-color: @color-primary-6;
+      content: '';
     }
 
     &-active:last-child::after {
@@ -50,7 +50,6 @@
     border: @steps-navigation-size-arrow-line-width solid @steps-navigation-color-arrow;
     border-bottom: none;
     border-left: none;
-    -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
     content: '';
   }

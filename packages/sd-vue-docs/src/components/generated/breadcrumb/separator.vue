@@ -1,25 +1,25 @@
 <template>
-  <a-space direction="vertical">
-    <a-breadcrumb>
+  <sd-space direction="vertical">
+    <sd-breadcrumb>
       <template #separator>
         <icon-right />
       </template>
-      <a-breadcrumb-item>Home</a-breadcrumb-item>
-      <a-breadcrumb-item>Channel</a-breadcrumb-item>
-      <a-breadcrumb-item>News</a-breadcrumb-item>
-    </a-breadcrumb>
-    <a-breadcrumb separator="~">
-      <a-breadcrumb-item>Home</a-breadcrumb-item>
-      <a-breadcrumb-item>Channel</a-breadcrumb-item>
-      <a-breadcrumb-item>News</a-breadcrumb-item>
-    </a-breadcrumb>
-    <a-breadcrumb>
+      <sd-breadcrumb-item>Home</sd-breadcrumb-item>
+      <sd-breadcrumb-item>Channel</sd-breadcrumb-item>
+      <sd-breadcrumb-item>News</sd-breadcrumb-item>
+    </sd-breadcrumb>
+    <sd-breadcrumb separator="~">
+      <sd-breadcrumb-item>Home</sd-breadcrumb-item>
+      <sd-breadcrumb-item>Channel</sd-breadcrumb-item>
+      <sd-breadcrumb-item>News</sd-breadcrumb-item>
+    </sd-breadcrumb>
+    <sd-breadcrumb>
       <template #separator>
         <icon-right />
       </template>
-      <a-breadcrumb-item separator="->">Home</a-breadcrumb-item>
-      <a-breadcrumb-item>Channel</a-breadcrumb-item>
-      <a-breadcrumb-item>News</a-breadcrumb-item>
-    </a-breadcrumb>
-  </a-space>
+      <sd-breadcrumb-item separator="->">Home</sd-breadcrumb-item>
+      <sd-breadcrumb-item>Channel</sd-breadcrumb-item>
+      <sd-breadcrumb-item>News</sd-breadcrumb-item>
+    </sd-breadcrumb>
+  </sd-space>
 </template>

@@ -1,43 +1,43 @@
 <template>
-  <a-trigger trigger="click">
-    <a-button>Click Me</a-button>
+  <sd-trigger trigger="click">
+    <sd-button>Click Me</sd-button>
     <template #content>
       <div class="trigger-demo-nest">
-        <a-empty />
-        <a-trigger position="right">
-          <a-button>Hover Me</a-button>
+        <sd-empty />
+        <sd-trigger position="right">
+          <sd-button>Hover Me</sd-button>
           <template #content>
             <div class="trigger-demo-nest">
-              <a-empty />
-              <a-trigger trigger="click" position="right">
-                <a-button>Click Me</a-button>
+              <sd-empty />
+              <sd-trigger trigger="click" position="right">
+                <sd-button>Click Me</sd-button>
                 <template #content>
                   <div class="trigger-demo-nest">
-                    <a-empty />
-                    <a-trigger position="right">
-                      <a-button>Hover Me</a-button>
+                    <sd-empty />
+                    <sd-trigger position="right">
+                      <sd-button>Hover Me</sd-button>
                       <template #content>
-                        <a-empty class="trigger-demo-nest" />
+                        <sd-empty class="trigger-demo-nest" />
                       </template>
-                    </a-trigger>
+                    </sd-trigger>
                   </div>
                 </template>
-              </a-trigger>
+              </sd-trigger>
             </div>
           </template>
-        </a-trigger>
+        </sd-trigger>
       </div>
     </template>
-  </a-trigger>
+  </sd-trigger>
 </template>
 
 <style scoped>
   .trigger-demo-nest {
-    padding: 10px;
     width: 200px;
+    padding: 10px;
     background-color: var(--color-bg-popup);
     border-radius: 4px;
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 8px 0 rgb(0 0 0 / 15%);
   }
 
   .trigger-demo-nest-popup-content {

@@ -1,40 +1,40 @@
 <template>
   <div class="menu-demo">
-    <a-slider
+    <sd-slider
       :style="{ width: '320px', marginBottom: '24px' }"
       v-model="width"
       :step="10"
       :min="160"
       :max="400"
     />
-    <a-menu
+    <sd-menu
       showCollapseButton
       :default-open-keys="['0']"
       :default-selected-keys="['0_1']"
       :style="{ width: `${width}px`, height: 'calc(100% - 28px)' }"
     >
-      <a-sub-menu key="0">
+      <sd-sub-menu key="0">
         <template #icon><IconApps></IconApps></template>
         <template #title>Navigation 1</template>
-        <a-menu-item key="0_0">Menu 1</a-menu-item>
-        <a-menu-item key="0_1">Menu 2</a-menu-item>
-        <a-menu-item key="0_2" disabled> Menu 3 </a-menu-item>
-      </a-sub-menu>
-      <a-sub-menu key="1">
+        <sd-menu-item key="0_0">Menu 1</sd-menu-item>
+        <sd-menu-item key="0_1">Menu 2</sd-menu-item>
+        <sd-menu-item key="0_2" disabled> Menu 3 </sd-menu-item>
+      </sd-sub-menu>
+      <sd-sub-menu key="1">
         <template #icon><IconBug></IconBug></template>
         <template #title>Navigation 2</template>
-        <a-menu-item key="1_0">Menu 1</a-menu-item>
-        <a-menu-item key="1_1">Menu 2</a-menu-item>
-        <a-menu-item key="1_2">Menu 3</a-menu-item>
-      </a-sub-menu>
-      <a-sub-menu key="2">
+        <sd-menu-item key="1_0">Menu 1</sd-menu-item>
+        <sd-menu-item key="1_1">Menu 2</sd-menu-item>
+        <sd-menu-item key="1_2">Menu 3</sd-menu-item>
+      </sd-sub-menu>
+      <sd-sub-menu key="2">
         <template #icon><IconBulb></IconBulb></template>
         <template #title>Navigation 3</template>
-        <a-menu-item key="2_0">Menu 1</a-menu-item>
-        <a-menu-item key="2_1">Menu 2</a-menu-item>
-        <a-menu-item key="2_2">Menu 3</a-menu-item>
-      </a-sub-menu>
-    </a-menu>
+        <sd-menu-item key="2_0">Menu 1</sd-menu-item>
+        <sd-menu-item key="2_1">Menu 2</sd-menu-item>
+        <sd-menu-item key="2_2">Menu 3</sd-menu-item>
+      </sd-sub-menu>
+    </sd-menu>
   </div>
 </template>
 <script>

@@ -1,16 +1,16 @@
 <template>
   <div>
-    <a-row align="center" :style="{ marginBottom: '24px' }">
-      <a-typography-text>mode: &nbsp; &nbsp;</a-typography-text>
-      <a-radio-group @change="onChange" :modelValue="mode">
-        <a-radio value="top">top</a-radio>
-        <a-radio value="bottom">bottom</a-radio>
-        <a-radio value="alternate">alternate</a-radio>
-      </a-radio-group>
-    </a-row>
-    <a-timeline direction="horizontal" pending :mode="mode">
-      <a-timeline-item label="2012-08">
-        <a-row :style="{ display: 'inline-flex', alignItems: 'center' }">
+    <sd-row align="center" :style="{ marginBottom: '24px' }">
+      <sd-typography-text>mode: &nbsp; &nbsp;</sd-typography-text>
+      <sd-radio-group @change="onChange" :modelValue="mode">
+        <sd-radio value="top">top</sd-radio>
+        <sd-radio value="bottom">bottom</sd-radio>
+        <sd-radio value="alternate">alternate</sd-radio>
+      </sd-radio-group>
+    </sd-row>
+    <sd-timeline direction="horizontal" pending :mode="mode">
+      <sd-timeline-item label="2012-08">
+        <sd-row :style="{ display: 'inline-flex', alignItems: 'center' }">
           <img
             width="40"
             :style="{ marginRight: '16px', marginBottom: '12px' }"
@@ -20,10 +20,10 @@
             Toutiao
             <div :style="{ fontSize: '12px', color: '#4E5969' }"> Founded in 2012 </div>
           </div>
-        </a-row>
-      </a-timeline-item>
-      <a-timeline-item label="2017-05">
-        <a-row :style="{ display: 'inline-flex', alignItems: 'center' }">
+        </sd-row>
+      </sd-timeline-item>
+      <sd-timeline-item label="2017-05">
+        <sd-row :style="{ display: 'inline-flex', alignItems: 'center' }">
           <img
             width="40"
             :style="{ marginRight: '16px', marginBottom: '12px' }"
@@ -33,10 +33,10 @@
             Xigua Video
             <div :style="{ fontSize: '12px', color: '#4E5969' }"> Founded in 2017 </div>
           </div>
-        </a-row>
-      </a-timeline-item>
-      <a-timeline-item label="2018-07">
-        <a-row :style="{ display: 'inline-flex', alignItems: 'center' }">
+        </sd-row>
+      </sd-timeline-item>
+      <sd-timeline-item label="2018-07">
+        <sd-row :style="{ display: 'inline-flex', alignItems: 'center' }">
           <img
             width="40"
             :style="{ marginRight: '16px', marginBottom: '12px' }"
@@ -46,9 +46,9 @@
             Pipidance
             <div :style="{ fontSize: '12px', color: '#4E5969' }"> Founded in 2018 </div>
           </div>
-        </a-row>
-      </a-timeline-item>
-    </a-timeline>
+        </sd-row>
+      </sd-timeline-item>
+    </sd-timeline>
   </div>
 </template>
 

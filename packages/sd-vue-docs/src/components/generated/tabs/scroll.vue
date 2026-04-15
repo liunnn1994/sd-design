@@ -1,29 +1,29 @@
 <template>
-  <a-space direction="vertical" size="large">
-    <a-radio-group v-model="position" type="button">
-      <a-radio value="left">Left</a-radio>
-      <a-radio value="top">Top</a-radio>
-      <a-radio value="right">Right</a-radio>
-      <a-radio value="bottom">Bottom</a-radio>
-    </a-radio-group>
-    <a-radio-group v-model="scrollPosition" type="button">
-      <a-radio value="auto">auto</a-radio>
-      <a-radio value="start">start</a-radio>
-      <a-radio value="center">center</a-radio>
-      <a-radio value="end">end</a-radio>
-    </a-radio-group>
-    <a-button @click="changeActive"> Change: {{ activeKey }}</a-button>
-  </a-space>
-  <a-tabs
+  <sd-space direction="vertical" size="large">
+    <sd-radio-group v-model="position" type="button">
+      <sd-radio value="left">Left</sd-radio>
+      <sd-radio value="top">Top</sd-radio>
+      <sd-radio value="right">Right</sd-radio>
+      <sd-radio value="bottom">Bottom</sd-radio>
+    </sd-radio-group>
+    <sd-radio-group v-model="scrollPosition" type="button">
+      <sd-radio value="auto">auto</sd-radio>
+      <sd-radio value="start">start</sd-radio>
+      <sd-radio value="center">center</sd-radio>
+      <sd-radio value="end">end</sd-radio>
+    </sd-radio-group>
+    <sd-button @click="changeActive"> Change: {{ activeKey }}</sd-button>
+  </sd-space>
+  <sd-tabs
     v-model:activeKey="activeKey"
     :position="position"
     :scrollPosition="scrollPosition"
     style="width: 100%; height: 300px; margin-top: 20px"
   >
-    <a-tab-pane v-for="tab in tabs" :key="tab.key" :title="tab.title">
+    <sd-tab-pane v-for="tab in tabs" :key="tab.key" :title="tab.title">
       {{ tab.content }}
-    </a-tab-pane>
-  </a-tabs>
+    </sd-tab-pane>
+  </sd-tabs>
 </template>
 
 <script>

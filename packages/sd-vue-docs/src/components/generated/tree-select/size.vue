@@ -1,19 +1,19 @@
 <template>
   <div style="margin-bottom: 20px">
-    <a-radio-group v-model="size" type="button">
-      <a-radio value="mini">mini</a-radio>
-      <a-radio value="small">small</a-radio>
-      <a-radio value="medium">medium</a-radio>
-      <a-radio value="large">large</a-radio>
-    </a-radio-group>
+    <sd-radio-group v-model="size" type="button">
+      <sd-radio value="mini">mini</sd-radio>
+      <sd-radio value="small">small</sd-radio>
+      <sd-radio value="medium">medium</sd-radio>
+      <sd-radio value="large">large</sd-radio>
+    </sd-radio-group>
   </div>
-  <a-tree-select
+  <sd-tree-select
     defaultValue="node1"
     :size="size"
     :data="treeData"
     placeholder="Please select ..."
     style="width: 300px"
-  ></a-tree-select>
+  ></sd-tree-select>
 </template>
 <script>
   import { ref } from 'vue';

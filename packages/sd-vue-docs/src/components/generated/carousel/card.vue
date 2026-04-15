@@ -1,5 +1,5 @@
 <template>
-  <a-carousel
+  <sd-carousel
     :autoPlay="true"
     animation-name="card"
     show-arrow="never"
@@ -9,15 +9,15 @@
       height: '240px',
     }"
   >
-    <a-carousel-item v-for="image in images" :style="{ width: '60%' }">
+    <sd-carousel-item v-for="image in images" :style="{ width: '60%' }">
       <img
         :src="image"
         :style="{
           width: '100%',
         }"
       />
-    </a-carousel-item>
-  </a-carousel>
+    </sd-carousel-item>
+  </sd-carousel>
 </template>
 
 <script>

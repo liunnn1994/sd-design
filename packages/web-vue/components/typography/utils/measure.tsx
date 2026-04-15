@@ -90,7 +90,7 @@ export default (
   }
 
   // 寻找最多的文字
-  function measureText(textNode: Text, startLoc = 0, endLoc = fullText.length, lastSuccessLoc = 0) {
+  function measureText(textNode: Text, startLoc = 0, endLoc = fullText.length) {
     const midLoc = Math.floor((startLoc + endLoc) / 2);
     const currentText = fullText.slice(0, midLoc);
     textNode.textContent = currentText;
@@ -107,9 +107,9 @@ export default (
     }
 
     if (inRange()) {
-      measureText(textNode, midLoc, endLoc, midLoc);
+      measureText(textNode, midLoc, endLoc);
     } else {
-      measureText(textNode, startLoc, midLoc, lastSuccessLoc);
+      measureText(textNode, startLoc, midLoc);
     }
   }
 

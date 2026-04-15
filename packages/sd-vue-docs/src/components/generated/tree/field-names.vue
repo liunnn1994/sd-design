@@ -1,5 +1,5 @@
 <template>
-  <a-tree
+  <sd-tree
     :default-selected-keys="['0-0-1']"
     :fieldNames="{
       key: 'value',

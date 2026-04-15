@@ -1,10 +1,11 @@
-@import '../../style/mixins/index.less';
-@import './token.less';
+@import url('../../style/mixins/index.less');
+@import url('./token.less');
 
 @message-prefix-cls: ~'@{prefix}-message';
 
 .@{message-prefix-cls}-list {
   position: fixed;
+  left: 0;
   z-index: @z-index-message;
   display: flex;
   flex-direction: column;
@@ -15,7 +16,6 @@
   padding: 0 10px;
   text-align: center;
   pointer-events: none;
-  left: 0;
 
   &-top {
     top: @message-wrapper-margin-top;
@@ -55,8 +55,8 @@
   }
 
   &-content {
-    font-size: @message-font-size-content;
     color: @message-normal-color-content;
+    font-size: @message-font-size-content;
     vertical-align: middle;
   }
 

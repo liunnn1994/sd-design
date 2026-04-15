@@ -1,6 +1,6 @@
 <template>
   <div style="marginbottom: 24px">
-    <a-checkbox
+    <sd-checkbox
       v-model="treeCheckStrictly"
       @change="
         () => {
@@ -9,9 +9,9 @@
       "
     >
       treeCheckStrictly
-    </a-checkbox>
+    </sd-checkbox>
   </div>
-  <a-tree-select
+  <sd-tree-select
     v-model="selected"
     :allow-search="true"
     :allow-clear="true"
@@ -20,7 +20,7 @@
     :data="treeData"
     placeholder="Please select ..."
     style="width: 300px"
-  ></a-tree-select>
+  ></sd-tree-select>
 </template>
 <script>
   import { ref } from 'vue';

@@ -2,23 +2,23 @@
   <div class="frame-bg">
     <div class="frame-body">
       <div class="frame-aside">
-        <a-steps :current="current" direction="vertical">
-          <a-step>Succeeded</a-step>
-          <a-step>Processing</a-step>
-          <a-step>Pending</a-step>
-        </a-steps>
+        <sd-steps :current="current" direction="vertical">
+          <sd-step>Succeeded</sd-step>
+          <sd-step>Processing</sd-step>
+          <sd-step>Pending</sd-step>
+        </sd-steps>
       </div>
       <div class="frame-main">
         <div class="main-content">The content of this step.</div>
         <div class="main-bottom">
-          <a-button :disabled="current === 1" @click="onPrev">
+          <sd-button :disabled="current === 1" @click="onPrev">
             <icon-left />
             Back
-          </a-button>
-          <a-button :disabled="current === 3" @click="onNext">
+          </sd-button>
+          <sd-button :disabled="current === 3" @click="onNext">
             Next
             <icon-right />
-          </a-button>
+          </sd-button>
         </div>
       </div>
     </div>
@@ -62,8 +62,8 @@
   }
 
   .frame-aside {
-    padding: 24px;
     height: 272px;
+    padding: 24px;
     border-right: 1px solid var(--color-border);
   }
 
@@ -72,8 +72,8 @@
   }
 
   .main-content {
-    text-align: center;
     line-height: 200px;
+    text-align: center;
   }
 
   .main-bottom {

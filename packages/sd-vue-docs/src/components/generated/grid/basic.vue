@@ -1,65 +1,65 @@
 <template>
   <div class="grid-demo-background">
-    <a-space direction="vertical" :size="16" style="display: block">
-      <a-row class="grid-demo">
-        <a-col :span="24">
+    <sd-space direction="vertical" :size="16" style="display: block">
+      <sd-row class="grid-demo">
+        <sd-col :span="24">
           <div>24 - 100%</div>
-        </a-col>
-      </a-row>
-      <a-row class="grid-demo">
-        <a-col :span="12">
+        </sd-col>
+      </sd-row>
+      <sd-row class="grid-demo">
+        <sd-col :span="12">
           <div>12 - 50%</div>
-        </a-col>
-        <a-col :span="12">
+        </sd-col>
+        <sd-col :span="12">
           <div>12 - 50%</div>
-        </a-col>
-      </a-row>
-      <a-row class="grid-demo">
-        <a-col :span="8">
+        </sd-col>
+      </sd-row>
+      <sd-row class="grid-demo">
+        <sd-col :span="8">
           <div>8 - 33.33%</div>
-        </a-col>
-        <a-col :span="8">
+        </sd-col>
+        <sd-col :span="8">
           <div>8 - 33.33%</div>
-        </a-col>
-        <a-col :span="8">
+        </sd-col>
+        <sd-col :span="8">
           <div>8 - 33.33%</div>
-        </a-col>
-      </a-row>
-      <a-row class="grid-demo">
-        <a-col :span="6">
+        </sd-col>
+      </sd-row>
+      <sd-row class="grid-demo">
+        <sd-col :span="6">
           <div>6 - 25%</div>
-        </a-col>
-        <a-col :span="6">
+        </sd-col>
+        <sd-col :span="6">
           <div>6 - 25%</div>
-        </a-col>
-        <a-col :span="6">
+        </sd-col>
+        <sd-col :span="6">
           <div>6 - 25%</div>
-        </a-col>
-        <a-col :span="6">
+        </sd-col>
+        <sd-col :span="6">
           <div>6 - 25%</div>
-        </a-col>
-      </a-row>
-      <a-row class="grid-demo">
-        <a-col :span="4">
+        </sd-col>
+      </sd-row>
+      <sd-row class="grid-demo">
+        <sd-col :span="4">
           <div>4 - 16.66%</div>
-        </a-col>
-        <a-col :span="4">
+        </sd-col>
+        <sd-col :span="4">
           <div>4 - 16.66%</div>
-        </a-col>
-        <a-col :span="4">
+        </sd-col>
+        <sd-col :span="4">
           <div>4 - 16.66%</div>
-        </a-col>
-        <a-col :span="4">
+        </sd-col>
+        <sd-col :span="4">
           <div>4 - 16.66%</div>
-        </a-col>
-        <a-col :span="4">
+        </sd-col>
+        <sd-col :span="4">
           <div>4 - 16.66%</div>
-        </a-col>
-        <a-col :span="4">
+        </sd-col>
+        <sd-col :span="4">
           <div>4 - 16.66%</div>
-        </a-col>
-      </a-row>
-    </a-space>
+        </sd-col>
+      </sd-row>
+    </sd-space>
   </div>
 </template>
 
@@ -115,15 +115,18 @@
       transparent 95.83333333%
     );
   }
+
   .grid-demo .sd-col {
     height: 48px;
-    line-height: 48px;
     color: var(--color-white);
+    line-height: 48px;
     text-align: center;
   }
+
   .grid-demo .sd-col:nth-child(2n) {
-    background-color: rgba(var(--sdblue-6), 0.9);
+    background-color: rgb(var(--sdblue-6), 0.9);
   }
+
   .grid-demo .sd-col:nth-child(2n + 1) {
     background-color: var(--color-primary-light-4);
   }

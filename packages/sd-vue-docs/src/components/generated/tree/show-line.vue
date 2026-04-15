@@ -1,9 +1,9 @@
 <template>
   <div>
-    <a-typography-text>showLine</a-typography-text>
-    <a-switch v-model="showLine" style="margin-left: 12px" />
+    <sd-typography-text>showLine</sd-typography-text>
+    <sd-switch v-model="showLine" style="margin-left: 12px" />
   </div>
-  <a-tree :default-selected-keys="['0-0-1']" :data="treeData" :show-line="showLine" />
+  <sd-tree :default-selected-keys="['0-0-1']" :data="treeData" :show-line="showLine" />
 </template>
 <script>
   import { ref } from 'vue';

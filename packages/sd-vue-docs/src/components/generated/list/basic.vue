@@ -1,10 +1,10 @@
 <template>
-  <a-list>
+  <sd-list>
     <template #header> List title </template>
-    <a-list-item>Beijing Bytedance Technology Co., Ltd.</a-list-item>
-    <a-list-item>Bytedance Technology Co., Ltd.</a-list-item>
-    <a-list-item>Beijing Toutiao Technology Co., Ltd.</a-list-item>
-    <a-list-item>Beijing Volcengine Technology Co., Ltd.</a-list-item>
-    <a-list-item>China Beijing Bytedance Technology Co., Ltd.</a-list-item>
-  </a-list>
+    <sd-list-item>Beijing Bytedance Technology Co., Ltd.</sd-list-item>
+    <sd-list-item>Bytedance Technology Co., Ltd.</sd-list-item>
+    <sd-list-item>Beijing Toutiao Technology Co., Ltd.</sd-list-item>
+    <sd-list-item>Beijing Volcengine Technology Co., Ltd.</sd-list-item>
+    <sd-list-item>China Beijing Bytedance Technology Co., Ltd.</sd-list-item>
+  </sd-list>
 </template>

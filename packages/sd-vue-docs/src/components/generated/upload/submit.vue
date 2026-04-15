@@ -1,14 +1,14 @@
 <template>
   <div>
-    <a-upload action="/" :auto-upload="false" ref="uploadRef" @change="onChange" multiple>
+    <sd-upload action="/" :auto-upload="false" ref="uploadRef" @change="onChange" multiple>
       <template #upload-button>
-        <a-space>
-          <a-button> select file</a-button>
-          <a-button type="primary" @click="submit"> start upload</a-button>
-          <a-button type="primary" @click="submitOne"> only upload one </a-button>
-        </a-space>
+        <sd-space>
+          <sd-button> select file</sd-button>
+          <sd-button type="primary" @click="submit"> start upload</sd-button>
+          <sd-button type="primary" @click="submitOne"> only upload one </sd-button>
+        </sd-space>
       </template>
-    </a-upload>
+    </sd-upload>
   </div>
 </template>
 

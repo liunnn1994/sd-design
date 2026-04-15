@@ -1,5 +1,5 @@
 <template>
-  <a-slider :default-value="5" :style="{ width: '300px' }" :max="15" :marks="marks" />
+  <sd-slider :default-value="5" :style="{ width: '300px' }" :max="15" :marks="marks" />
 </template>
 
 <script>

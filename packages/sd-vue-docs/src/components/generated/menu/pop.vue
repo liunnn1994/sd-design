@@ -1,32 +1,32 @@
 <template>
   <div class="menu-demo">
-    <a-menu mode="pop" showCollapseButton>
-      <a-menu-item key="1">
+    <sd-menu mode="pop" showCollapseButton>
+      <sd-menu-item key="1">
         <template #icon><icon-apps></icon-apps></template>
         Navigation 1
-      </a-menu-item>
-      <a-sub-menu key="2">
+      </sd-menu-item>
+      <sd-sub-menu key="2">
         <template #icon><icon-bug></icon-bug></template>
         <template #title>Navigation 2</template>
-        <a-menu-item key="2_0">Beijing</a-menu-item>
-        <a-menu-item key="2_1">Shanghai</a-menu-item>
-        <a-menu-item key="2_2">Guangzhou</a-menu-item>
-      </a-sub-menu>
-      <a-sub-menu key="3">
+        <sd-menu-item key="2_0">Beijing</sd-menu-item>
+        <sd-menu-item key="2_1">Shanghai</sd-menu-item>
+        <sd-menu-item key="2_2">Guangzhou</sd-menu-item>
+      </sd-sub-menu>
+      <sd-sub-menu key="3">
         <template #icon><icon-bulb></icon-bulb></template>
         <template #title>Navigation 3</template>
-        <a-menu-item key="3_0">Wuhan</a-menu-item>
-        <a-menu-item key="3_1">Chengdu</a-menu-item>
-      </a-sub-menu>
-      <a-menu-item key="4">
+        <sd-menu-item key="3_0">Wuhan</sd-menu-item>
+        <sd-menu-item key="3_1">Chengdu</sd-menu-item>
+      </sd-sub-menu>
+      <sd-menu-item key="4">
         <template #icon><icon-safe></icon-safe></template>
         Navigation 4
-      </a-menu-item>
-      <a-menu-item key="5">
+      </sd-menu-item>
+      <sd-menu-item key="5">
         <template #icon><icon-fire></icon-fire></template>
         Navigation 5
-      </a-menu-item>
-    </a-menu>
+      </sd-menu-item>
+    </sd-menu>
   </div>
 </template>
 <script>
@@ -42,17 +42,17 @@
 </script>
 <style scoped>
   .menu-demo {
+    box-sizing: border-box;
     width: 100%;
     height: 600px;
     padding: 40px;
-    box-sizing: border-box;
     background-color: var(--color-neutral-2);
   }
 
   .menu-demo .sd-menu {
     width: 200px;
     height: 100%;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 1px rgb(0 0 0 / 30%);
   }
 
   .menu-demo .sd-menu :deep(.sd-menu-collapse-button) {
@@ -68,7 +68,6 @@
   }
 
   .menu-demo .sd-menu:not(.sd-menu-collapsed)::before {
-    content: '';
     position: absolute;
     right: 0;
     bottom: 0;
@@ -78,8 +77,9 @@
     border-radius: 50%;
     box-shadow:
       -4px 0 2px var(--color-bg-2),
-      0 0 1px rgba(0, 0, 0, 0.3);
+      0 0 1px rgb(0 0 0 / 30%);
     transform: translateX(50%);
+    content: '';
   }
 
   .menu-demo .sd-menu.sd-menu-collapsed {

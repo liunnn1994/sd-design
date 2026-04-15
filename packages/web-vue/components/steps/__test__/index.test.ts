@@ -16,7 +16,9 @@ describe('Steps', () => {
 
     const steps = wrapper.findAllComponents({ name: 'Step' });
     steps[1].trigger('click');
-    expect((wrapper.emitted('change')?.[0] as any[])[0]).toEqual(2);
+    const emitted = wrapper.emitted('change');
+    expect(emitted).toBeTruthy();
+    expect((emitted as any[][])[0][0]).toEqual(2);
   });
 
   test('nested step can have correct index', () => {

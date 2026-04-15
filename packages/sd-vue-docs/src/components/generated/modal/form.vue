@@ -1,25 +1,25 @@
 <template>
-  <a-button @click="handleClick">Open Form Modal</a-button>
-  <a-modal
+  <sd-button @click="handleClick">Open Form Modal</sd-button>
+  <sd-modal
     v-model:visible="visible"
     title="Modal Form"
     @cancel="handleCancel"
     @before-ok="handleBeforeOk"
   >
-    <a-form :model="form">
-      <a-form-item field="name" label="Name">
-        <a-input v-model="form.name" />
-      </a-form-item>
-      <a-form-item field="post" label="Post">
-        <a-select v-model="form.post">
-          <a-option value="post1">Post1</a-option>
-          <a-option value="post2">Post2</a-option>
-          <a-option value="post3">Post3</a-option>
-          <a-option value="post4">Post4</a-option>
-        </a-select>
-      </a-form-item>
-    </a-form>
-  </a-modal>
+    <sd-form :model="form">
+      <sd-form-item field="name" label="Name">
+        <sd-input v-model="form.name" />
+      </sd-form-item>
+      <sd-form-item field="post" label="Post">
+        <sd-select v-model="form.post">
+          <sd-option value="post1">Post1</sd-option>
+          <sd-option value="post2">Post2</sd-option>
+          <sd-option value="post3">Post3</sd-option>
+          <sd-option value="post4">Post4</sd-option>
+        </sd-select>
+      </sd-form-item>
+    </sd-form>
+  </sd-modal>
 </template>
 
 <script>

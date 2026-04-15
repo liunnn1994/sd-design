@@ -7,49 +7,49 @@
       backgroundColor: 'var(--color-fill-2)',
     }"
   >
-    <a-row :gutter="20" :style="{ marginBottom: '20px' }">
-      <a-col :span="8">
-        <a-card title="SD Card" :bordered="false" :style="{ width: '100%' }">
+    <sd-row :gutter="20" :style="{ marginBottom: '20px' }">
+      <sd-col :span="8">
+        <sd-card title="SD Card" :bordered="false" :style="{ width: '100%' }">
           <template #extra>
-            <a-link>More</a-link>
+            <sd-link>More</sd-link>
           </template>
           Card content
-        </a-card>
-      </a-col>
-      <a-col :span="8">
-        <a-card title="SD Card" :bordered="false" :style="{ width: '100%' }">
+        </sd-card>
+      </sd-col>
+      <sd-col :span="8">
+        <sd-card title="SD Card" :bordered="false" :style="{ width: '100%' }">
           <template #extra>
-            <a-link>More</a-link>
+            <sd-link>More</sd-link>
           </template>
           Card content
-        </a-card>
-      </a-col>
-      <a-col :span="8">
-        <a-card title="SD Card" :bordered="false" :style="{ width: '100%' }">
+        </sd-card>
+      </sd-col>
+      <sd-col :span="8">
+        <sd-card title="SD Card" :bordered="false" :style="{ width: '100%' }">
           <template #extra>
-            <a-link>More</a-link>
+            <sd-link>More</sd-link>
           </template>
           Card content
-        </a-card>
-      </a-col>
-    </a-row>
-    <a-row :gutter="20">
-      <a-col :span="16">
-        <a-card title="SD Card" :bordered="false" :style="{ width: '100%' }">
+        </sd-card>
+      </sd-col>
+    </sd-row>
+    <sd-row :gutter="20">
+      <sd-col :span="16">
+        <sd-card title="SD Card" :bordered="false" :style="{ width: '100%' }">
           <template #extra>
-            <a-link>More</a-link>
+            <sd-link>More</sd-link>
           </template>
           Card content
-        </a-card>
-      </a-col>
-      <a-col :span="8">
-        <a-card title="SD Card" :bordered="false" :style="{ width: '100%' }">
+        </sd-card>
+      </sd-col>
+      <sd-col :span="8">
+        <sd-card title="SD Card" :bordered="false" :style="{ width: '100%' }">
           <template #extra>
-            <a-link>More</a-link>
+            <sd-link>More</sd-link>
           </template>
           Card content
-        </a-card>
-      </a-col>
-    </a-row>
+        </sd-card>
+      </sd-col>
+    </sd-row>
   </div>
 </template>

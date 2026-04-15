@@ -1,3 +1,3 @@
 <template>
-  <a-alert>This is an info alert.</a-alert>
+  <sd-alert>This is an info alert.</sd-alert>
 </template>

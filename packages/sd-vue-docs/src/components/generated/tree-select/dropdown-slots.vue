@@ -1,16 +1,16 @@
 <template>
-  <a-form layout="inline" :model="form">
-    <a-form-item label="empty">
-      <a-switch v-model="form.empty" />
-    </a-form-item>
-    <a-form-item label="showHeaderOnEmpty">
-      <a-switch v-model="form.showHeaderOnEmpty" />
-    </a-form-item>
-    <a-form-item label="showFooterOnEmpty">
-      <a-switch v-model="form.showFooterOnEmpty" />
-    </a-form-item>
-  </a-form>
-  <a-tree-select
+  <sd-form layout="inline" :model="form">
+    <sd-form-item label="empty">
+      <sd-switch v-model="form.empty" />
+    </sd-form-item>
+    <sd-form-item label="showHeaderOnEmpty">
+      <sd-switch v-model="form.showHeaderOnEmpty" />
+    </sd-form-item>
+    <sd-form-item label="showFooterOnEmpty">
+      <sd-switch v-model="form.showFooterOnEmpty" />
+    </sd-form-item>
+  </sd-form>
+  <sd-tree-select
     style="width: 300px"
     placeholder="Please select ..."
     :data="computedTreeData"
@@ -19,15 +19,15 @@
   >
     <template #header>
       <div style="padding: 6px 12px">
-        <a-checkbox value="1">All</a-checkbox>
+        <sd-checkbox value="1">All</sd-checkbox>
       </div>
     </template>
     <template #footer>
       <div style="padding: 6px 0; text-align: center">
-        <a-button>Click Me</a-button>
+        <sd-button>Click Me</sd-button>
       </div>
     </template>
-  </a-tree-select>
+  </sd-tree-select>
 </template>
 <script>
   import { h, reactive, computed } from 'vue';

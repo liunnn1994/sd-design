@@ -1,15 +1,5 @@
 import type { PropType } from 'vue';
-import {
-  computed,
-  defineComponent,
-  nextTick,
-  provide,
-  reactive,
-  ref,
-  toRefs,
-  inject,
-  onMounted,
-} from 'vue';
+import { computed, defineComponent, nextTick, provide, reactive, ref, toRefs, inject } from 'vue';
 
 import type { Direction, Size } from '../_utils/constant';
 import type { TabsPosition, TabsType, TabData, TabTriggerEvent, ScrollPosition } from './interface';
@@ -174,30 +164,30 @@ export default defineComponent({
     },
   },
   emits: {
-    'update:activeKey': (key: string | number) => true,
+    'update:activeKey': (_key: string | number) => true,
     /**
      * @zh 当前标签值改变时触发
      * @en Triggered when the current tag value changes
      * @property { string | number } key
      */
-    'change': (key: string | number) => true,
+    'change': (_key: string | number) => true,
     /**
      * @zh 用户点击标签时触发
      * @en Triggered when the user clicks on the tab
      * @property { string | number } key
      */
-    'tabClick': (key: string | number, ev: Event) => true,
+    'tabClick': (_key: string | number, _ev: Event) => true,
     /**
      * @zh 用户点击增加按钮时触发
      * @en Triggered when the user clicks the add button
      */
-    'add': (ev: Event) => true,
+    'add': (_ev: Event) => true,
     /**
      * @zh 用户点击删除按钮时触发
      * @en Triggered when the user clicks the delete button
      * @property { string | number } key
      */
-    'delete': (key: string | number, ev: Event) => true,
+    'delete': (_key: string | number, _ev: Event) => true,
   },
   /**
    * @zh 选项卡额外内容

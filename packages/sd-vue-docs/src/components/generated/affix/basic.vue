@@ -1,5 +1,5 @@
 <template>
-  <a-affix>
-    <a-button type="primary">Affix Top</a-button>
-  </a-affix>
+  <sd-affix>
+    <sd-button type="primary">Affix Top</sd-button>
+  </sd-affix>
 </template>

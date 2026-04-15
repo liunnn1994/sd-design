@@ -1,24 +1,24 @@
 <template>
-  <a-table :columns="columns" :data="data">
+  <sd-table :columns="columns" :data="data">
     <template #name="{ rowIndex }">
-      <a-input v-model="data[rowIndex].name" />
+      <sd-input v-model="data[rowIndex].name" />
     </template>
     <template #province="{ rowIndex }">
-      <a-select v-model="data[rowIndex].province" @change="() => handleChange(rowIndex)">
-        <a-option v-for="value of Object.keys(options)">{{ value }}</a-option>
-      </a-select>
+      <sd-select v-model="data[rowIndex].province" @change="() => handleChange(rowIndex)">
+        <sd-option v-for="value of Object.keys(options)">{{ value }}</sd-option>
+      </sd-select>
     </template>
     <template #city="{ rowIndex }">
-      <a-select :options="options[data[rowIndex].province] || []" v-model="data[rowIndex].city" />
+      <sd-select :options="options[data[rowIndex].province] || []" v-model="data[rowIndex].city" />
     </template>
-  </a-table>
+  </sd-table>
   <!-- support from v2.25.0  -->
-  <a-table :columns="columns" :data="data" style="margin-top: 20px">
+  <sd-table :columns="columns" :data="data" style="margin-top: 20px">
     <template #name="{ record, rowIndex }">
-      <a-input v-model="record.name" />
+      <sd-input v-model="record.name" />
     </template>
     <template #province="{ record, rowIndex }">
-      <a-select
+      <sd-select
         v-model="record.province"
         @change="
           () => {
@@ -26,13 +26,13 @@
           }
         "
       >
-        <a-option v-for="value of Object.keys(options)">{{ value }}</a-option>
-      </a-select>
+        <sd-option v-for="value of Object.keys(options)">{{ value }}</sd-option>
+      </sd-select>
     </template>
     <template #city="{ record, rowIndex }">
-      <a-select :options="options[record.province] || []" v-model="record.city" />
+      <sd-select :options="options[record.province] || []" v-model="record.city" />
     </template>
-  </a-table>
+  </sd-table>
 </template>
 
 <script>

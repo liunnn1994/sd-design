@@ -1,12 +1,12 @@
 <template>
-  <a-table :columns="columns" :data="data" row-class="common-row">
+  <sd-table :columns="columns" :data="data" row-class="common-row">
     <template #tr>
       <tr class="my-tr" @contextmenu="onContextMenu" />
     </template>
     <template #td>
       <td class="my-td" />
     </template>
-  </a-table>
+  </sd-table>
 </template>
 
 <script>

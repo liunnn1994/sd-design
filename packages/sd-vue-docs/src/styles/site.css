@@ -17,13 +17,13 @@
 
 body {
   background:
-    radial-gradient(circle at top, rgb(20 118 255 / 0.08), transparent 30%),
-    linear-gradient(180deg, #f8fbff 0%, #ffffff 18%);
+    radial-gradient(circle at top, rgb(20 118 255 / 8%), transparent 30%),
+    linear-gradient(180deg, #f8fbff 0%, #fff 18%);
 }
 
 :root[data-theme='dark'] body {
   background:
-    radial-gradient(circle at top, rgb(97 168 255 / 0.12), transparent 28%),
+    radial-gradient(circle at top, rgb(97 168 255 / 12%), transparent 28%),
     linear-gradient(180deg, #07111f 0%, #0b1220 18%);
 }
 

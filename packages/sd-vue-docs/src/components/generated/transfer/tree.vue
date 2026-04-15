@@ -1,7 +1,7 @@
 <template>
-  <a-transfer :data="transferData" :default-value="value">
+  <sd-transfer :data="transferData" :default-value="value">
     <template #source="{ data, selectedKeys, onSelect }">
-      <a-tree
+      <sd-tree
         :checkable="true"
         checked-strategy="child"
         :checked-keys="selectedKeys"
@@ -9,7 +9,7 @@
         @check="onSelect"
       />
     </template>
-  </a-transfer>
+  </sd-transfer>
 </template>
 
 <script>

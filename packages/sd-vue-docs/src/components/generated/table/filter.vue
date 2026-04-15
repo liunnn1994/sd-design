@@ -1,19 +1,19 @@
 <template>
-  <a-table :columns="columns" :data="data" @change="handleChange">
+  <sd-table :columns="columns" :data="data" @change="handleChange">
     <template
       #name-filter="{ filterValue, setFilterValue, handleFilterConfirm, handleFilterReset }"
     >
       <div class="custom-filter">
-        <a-space direction="vertical">
-          <a-input :model-value="filterValue[0]" @input="(value) => setFilterValue([value])" />
+        <sd-space direction="vertical">
+          <sd-input :model-value="filterValue[0]" @input="(value) => setFilterValue([value])" />
           <div class="custom-filter-footer">
-            <a-button @click="handleFilterConfirm">Confirm</a-button>
-            <a-button @click="handleFilterReset">Reset</a-button>
+            <sd-button @click="handleFilterConfirm">Confirm</sd-button>
+            <sd-button @click="handleFilterReset">Reset</sd-button>
           </div>
-        </a-space>
+        </sd-space>
       </div>
     </template>
-  </a-table>
+  </sd-table>
 </template>
 
 <script>

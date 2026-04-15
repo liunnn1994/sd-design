@@ -1,7 +1,7 @@
 <template>
-  <a-space direction="vertical" size="large">
+  <sd-space direction="vertical" size="large">
     <div>Show selections after search options</div>
-    <a-select
+    <sd-select
       :style="{ width: '320px' }"
       :loading="loading"
       placeholder="Please select ..."
@@ -9,10 +9,10 @@
       @search="handleSearch"
       :filter-option="false"
     >
-      <a-option v-for="item of options" :value="item">{{ item }}</a-option>
-    </a-select>
+      <sd-option v-for="item of options" :value="item">{{ item }}</sd-option>
+    </sd-select>
     <div>Hide selections after search options</div>
-    <a-select
+    <sd-select
       :options="options"
       :style="{ width: '320px' }"
       :loading="loading"
@@ -22,7 +22,7 @@
       :filter-option="false"
       :show-extra-options="false"
     />
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

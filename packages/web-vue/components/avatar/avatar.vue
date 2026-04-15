@@ -138,7 +138,7 @@
        * @en Callback when clicked
        * @param {MouseEvent} ev
        */
-      click: (ev: MouseEvent) => true,
+      click: (_ev: MouseEvent) => true,
       /**
        * @zh 图片加载错误
        * @en image load error

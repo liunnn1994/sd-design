@@ -1,7 +1,7 @@
 <template>
-  <a-steps :current="2" status="error">
-    <a-step description="This is a description">Succeeded</a-step>
-    <a-step description="This is a description">Error</a-step>
-    <a-step description="This is a description">Pending</a-step>
-  </a-steps>
+  <sd-steps :current="2" status="error">
+    <sd-step description="This is a description">Succeeded</sd-step>
+    <sd-step description="This is a description">Error</sd-step>
+    <sd-step description="This is a description">Pending</sd-step>
+  </sd-steps>
 </template>

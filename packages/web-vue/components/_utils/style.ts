@@ -33,7 +33,7 @@ export function getStyle(element: HTMLElement | null, prop: string | null) {
       const computed = document.defaultView.getComputedStyle(element, '');
       return element.style[styleName] || computed ? computed[styleName] : '';
     }
-  } catch (e) {
+  } catch {
     return element.style[styleName];
   }
   return null;

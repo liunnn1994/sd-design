@@ -1,39 +1,39 @@
 <template>
-  <a-form
+  <sd-form
     ref="formRef"
     :rules="rules"
     :model="form"
     :style="{ width: '600px' }"
     @submit="handleSubmit"
   >
-    <a-form-item field="name" label="Username" validate-trigger="blur">
-      <a-input v-model="form.name" placeholder="please enter your username..." />
-    </a-form-item>
-    <a-form-item field="password" label="密码" validate-trigger="blur">
-      <a-input-password v-model="form.password" placeholder="please enter your password..." />
-    </a-form-item>
-    <a-form-item field="password2" label="确认密码" validate-trigger="blur">
-      <a-input-password v-model="form.password2" placeholder="please confirm your password..." />
-    </a-form-item>
-    <a-form-item field="email" label="email">
-      <a-input v-model="form.email" placeholder="please enter your email..." />
-    </a-form-item>
-    <a-form-item field="ip" label="IP">
-      <a-input v-model="form.ip" placeholder="please enter your ip..." />
-    </a-form-item>
-    <a-form-item field="url" label="URL">
-      <a-input v-model="form.url" placeholder="please enter your url..." />
-    </a-form-item>
-    <a-form-item field="match" label="match">
-      <a-input v-model="form.match" placeholder="please enter your match..." />
-    </a-form-item>
-    <a-form-item>
-      <a-space>
-        <a-button html-type="submit">Submit</a-button>
-        <a-button @click="$refs.formRef.resetFields()">Reset</a-button>
-      </a-space>
-    </a-form-item>
-  </a-form>
+    <sd-form-item field="name" label="Username" validate-trigger="blur">
+      <sd-input v-model="form.name" placeholder="please enter your username..." />
+    </sd-form-item>
+    <sd-form-item field="password" label="密码" validate-trigger="blur">
+      <sd-input-password v-model="form.password" placeholder="please enter your password..." />
+    </sd-form-item>
+    <sd-form-item field="password2" label="确认密码" validate-trigger="blur">
+      <sd-input-password v-model="form.password2" placeholder="please confirm your password..." />
+    </sd-form-item>
+    <sd-form-item field="email" label="email">
+      <sd-input v-model="form.email" placeholder="please enter your email..." />
+    </sd-form-item>
+    <sd-form-item field="ip" label="IP">
+      <sd-input v-model="form.ip" placeholder="please enter your ip..." />
+    </sd-form-item>
+    <sd-form-item field="url" label="URL">
+      <sd-input v-model="form.url" placeholder="please enter your url..." />
+    </sd-form-item>
+    <sd-form-item field="match" label="match">
+      <sd-input v-model="form.match" placeholder="please enter your match..." />
+    </sd-form-item>
+    <sd-form-item>
+      <sd-space>
+        <sd-button html-type="submit">Submit</sd-button>
+        <sd-button @click="$refs.formRef.resetFields()">Reset</sd-button>
+      </sd-space>
+    </sd-form-item>
+  </sd-form>
   {{ form }}
 </template>
 

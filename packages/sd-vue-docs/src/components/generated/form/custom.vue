@@ -1,8 +1,8 @@
 <template>
-  <a-space style="margin-bottom: 20px">
-    <a-switch v-model="disabled" />
+  <sd-space style="margin-bottom: 20px">
+    <sd-switch v-model="disabled" />
     Disabled: {{ disabled }}
-  </a-space>
+  </sd-space>
   <Form :model="form" :disabled="disabled" :style="{ width: '600px' }">
     <FormItem
       field="name"

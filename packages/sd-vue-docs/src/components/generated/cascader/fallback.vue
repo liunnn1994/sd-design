@@ -1,13 +1,13 @@
 <template>
-  <a-space direction="vertical" size="large">
-    <a-cascader
+  <sd-space direction="vertical" size="large">
+    <sd-cascader
       :options="options"
       v-model="value"
       :style="{ width: '320px' }"
       placeholder="Please select ..."
       multiple
     />
-    <a-cascader
+    <sd-cascader
       :options="options"
       v-model="value2"
       :style="{ width: '320px' }"
@@ -16,7 +16,7 @@
       multiple
       :fallback="fallback"
     />
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

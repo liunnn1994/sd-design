@@ -1,5 +1,5 @@
-@import '../../style/mixins/index.less';
-@import './token.less';
+@import url('../../style/mixins/index.less');
+@import url('./token.less');
 
 @card-prefix-cls: ~'@{prefix}-card';
 
@@ -129,10 +129,7 @@
 
     &::before {
       position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
+      inset: 0;
       transition: box-shadow @transition-duration-2 @transition-timing-function-linear;
       content: '';
       pointer-events: none;

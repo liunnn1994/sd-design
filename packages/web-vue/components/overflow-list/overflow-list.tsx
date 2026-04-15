@@ -41,7 +41,7 @@ export default defineComponent({
      * @en Triggered when the overflow quantity changes
      * @param {number} value
      */
-    change: (value: number) => true,
+    change: (_value: number) => true,
   },
   /**
    * @zh 折叠元素

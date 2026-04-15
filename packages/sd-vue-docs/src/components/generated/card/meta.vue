@@ -1,5 +1,5 @@
 <template>
-  <a-card hoverable :style="{ width: '360px' }">
+  <sd-card hoverable :style="{ width: '360px' }">
     <template #cover>
       <div
         :style="{
@@ -14,11 +14,11 @@
         />
       </div>
     </template>
-    <a-card-meta title="Card Title">
+    <sd-card-meta title="Card Title">
       <template #description>
         Card content <br />
         Card content
       </template>
-    </a-card-meta>
-  </a-card>
+    </sd-card-meta>
+  </sd-card>
 </template>

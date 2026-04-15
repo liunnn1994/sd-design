@@ -1,40 +1,40 @@
 <template>
-  <a-space direction="vertical" :style="{ width: '100%' }">
-    <a-space>
-      <a-radio-group type="button" v-model="position">
-        <a-radio value="left">Left</a-radio>
-        <a-radio value="right">Right</a-radio>
-      </a-radio-group>
-      <a-checkbox v-model="hideIcon">Hide Expand Icon</a-checkbox>
-    </a-space>
-    <a-collapse
+  <sd-space direction="vertical" :style="{ width: '100%' }">
+    <sd-space>
+      <sd-radio-group type="button" v-model="position">
+        <sd-radio value="left">Left</sd-radio>
+        <sd-radio value="right">Right</sd-radio>
+      </sd-radio-group>
+      <sd-checkbox v-model="hideIcon">Hide Expand Icon</sd-checkbox>
+    </sd-space>
+    <sd-collapse
       :default-active-key="['1']"
       :expand-icon-position="position"
       :show-expand-icon="!hideIcon"
     >
-      <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="1">
+      <sd-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="1">
         <template #expand-icon>
           <icon-plus />
         </template>
         <template #extra>
-          <a-tag size="small">city</a-tag>
+          <sd-tag size="small">city</sd-tag>
         </template>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
-      </a-collapse-item>
-      <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="2" disabled>
+      </sd-collapse-item>
+      <sd-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="2" disabled>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
-      </a-collapse-item>
-      <a-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="3">
+      </sd-collapse-item>
+      <sd-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="3">
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
-      </a-collapse-item>
-    </a-collapse>
-  </a-space>
+      </sd-collapse-item>
+    </sd-collapse>
+  </sd-space>
 </template>
 
 <script>

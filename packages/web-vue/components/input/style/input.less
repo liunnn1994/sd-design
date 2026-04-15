@@ -1,5 +1,5 @@
-@import '../../style/mixins/index.less';
-@import './token.less';
+@import url('../../style/mixins/index.less');
+@import url('./token.less');
 
 .input-suffix-feedback-icon-color() {
   .@{prefix}-feedback-icon {
@@ -152,8 +152,8 @@
   border-radius: 0;
   outline: none;
   cursor: inherit;
-  -webkit-appearance: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  appearance: none;
+  -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
 
   &::placeholder {
     color: @input-color-placeholder-text;

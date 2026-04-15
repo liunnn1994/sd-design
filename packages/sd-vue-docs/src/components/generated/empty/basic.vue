@@ -1,3 +1,3 @@
 <template>
-  <a-empty />
+  <sd-empty />
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <a-color-picker
+  <sd-color-picker
     defaultValue="#165DFF"
     :historyColors="history"
     showHistory

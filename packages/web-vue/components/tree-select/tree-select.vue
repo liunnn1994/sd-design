@@ -430,25 +430,25 @@
        * @param {string | number | LabelValue | Array<string | number> | LabelValue[] | undefined} value
        */
       'change': (
-        value: string | number | LabelValue | Array<string | number> | LabelValue[] | undefined,
+        _value: string | number | LabelValue | Array<string | number> | LabelValue[] | undefined,
       ) => true,
       'update:modelValue': (
-        value: string | number | LabelValue | Array<string | number> | LabelValue[] | undefined,
+        _value: string | number | LabelValue | Array<string | number> | LabelValue[] | undefined,
       ) => true,
-      'update:inputValue': (inputValue: string) => true,
+      'update:inputValue': (_inputValue: string) => true,
       /**
        * @zh 下拉框显示状态改变时触发
        * @en Triggered when the status of the drop-down box changes
        * @param {boolean} visible
        */
-      'popup-visible-change': (visible: boolean) => true,
-      'update:popupVisible': (visible: boolean) => true,
+      'popup-visible-change': (_visible: boolean) => true,
+      'update:popupVisible': (_visible: boolean) => true,
       /**
        * @zh 搜索值变化时触发
        * @en Triggered when the search value changes
        * @param {string} searchKey
        */
-      'search': (searchKey: string) => true,
+      'search': (_searchKey: string) => true,
       /**
        * @zh 点击清除时触发
        * @en Triggered when clear is clicked
@@ -460,7 +460,7 @@
        * @param {string} inputValue
        * @version 2.55.0
        */
-      'inputValueChange': (inputValue: string) => true,
+      'inputValueChange': (_inputValue: string) => true,
     },
     /**
      * @zh 自定义触发元素

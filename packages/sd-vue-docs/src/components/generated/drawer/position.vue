@@ -1,14 +1,14 @@
 <template>
-  <a-radio-group v-model="position">
-    <a-radio value="top">Top</a-radio>
-    <a-radio value="right">Right</a-radio>
-    <a-radio value="bottom">Bottom</a-radio>
-    <a-radio value="left">Left</a-radio>
-  </a-radio-group>
+  <sd-radio-group v-model="position">
+    <sd-radio value="top">Top</sd-radio>
+    <sd-radio value="right">Right</sd-radio>
+    <sd-radio value="bottom">Bottom</sd-radio>
+    <sd-radio value="left">Left</sd-radio>
+  </sd-radio-group>
   <div :style="{ marginTop: '20px' }">
-    <a-button type="primary" @click="handleClick">Open Drawer</a-button>
+    <sd-button type="primary" @click="handleClick">Open Drawer</sd-button>
   </div>
-  <a-drawer
+  <sd-drawer
     :width="340"
     :height="340"
     :visible="visible"
@@ -22,7 +22,7 @@
       >You can customize modal body text by the current situation. This modal will be closed
       immediately once you press the OK button.</div
     >
-  </a-drawer>
+  </sd-drawer>
 </template>
 
 <script>

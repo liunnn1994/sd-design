@@ -1,9 +1,9 @@
 <template>
-  <a-result status="404" subtitle="Whoops, that page is gone.">
+  <sd-result status="404" subtitle="Whoops, that page is gone.">
     <template #extra>
-      <a-space>
-        <a-button type="primary">Back</a-button>
-      </a-space>
+      <sd-space>
+        <sd-button type="primary">Back</sd-button>
+      </sd-space>
     </template>
-  </a-result>
+  </sd-result>
 </template>

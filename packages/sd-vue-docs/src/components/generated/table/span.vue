@@ -1,13 +1,13 @@
 <template>
-  <a-space direction="vertical" size="large" style="width: 100%">
-    <a-table :columns="columns" :data="data" :span-method="spanMethod" />
-    <a-table
+  <sd-space direction="vertical" size="large" style="width: 100%">
+    <sd-table :columns="columns" :data="data" :span-method="spanMethod" />
+    <sd-table
       :columns="columns"
       :data="data"
       :span-method="dataSpanMethod"
       :bordered="{ wrapper: true, cell: true }"
     />
-    <a-table
+    <sd-table
       :columns="columns"
       :data="data"
       :row-selection="{ type: 'checkbox' }"
@@ -15,7 +15,7 @@
       span-all
       :bordered="{ wrapper: true, cell: true }"
     />
-  </a-space>
+  </sd-space>
 </template>
 
 <script>

@@ -1,7 +1,3 @@
-import { Ref } from 'vue';
-
-import { Size } from '../_utils/constant';
-
 export const VALIDATE_STATUSES = ['success', 'warning', 'error', 'validating'] as const;
 export type ValidateStatus = (typeof VALIDATE_STATUSES)[number];
 

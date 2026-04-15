@@ -1,25 +1,25 @@
 <template>
-  <a-table :columns="columns" :data="data">
+  <sd-table :columns="columns" :data="data">
     <template #optional="{ record }">
-      <a-button @click="$modal.info({ title: 'Name', content: record.name })">view</a-button>
+      <sd-button @click="$modal.info({ title: 'Name', content: record.name })">view</sd-button>
     </template>
-  </a-table>
-  <a-table :data="data" style="margin-top: 30px">
+  </sd-table>
+  <sd-table :data="data" style="margin-top: 30px">
     <template #columns>
-      <a-table-column title="Name">
-        <a-table-column title="First Name" data-index="first"></a-table-column>
-        <a-table-column title="Last Name" data-index="last"></a-table-column>
-      </a-table-column>
-      <a-table-column title="Salary" data-index="salary"></a-table-column>
-      <a-table-column title="Address" data-index="address"></a-table-column>
-      <a-table-column title="Email" data-index="email"></a-table-column>
-      <a-table-column title="Optional">
+      <sd-table-column title="Name">
+        <sd-table-column title="First Name" data-index="first"></sd-table-column>
+        <sd-table-column title="Last Name" data-index="last"></sd-table-column>
+      </sd-table-column>
+      <sd-table-column title="Salary" data-index="salary"></sd-table-column>
+      <sd-table-column title="Address" data-index="address"></sd-table-column>
+      <sd-table-column title="Email" data-index="email"></sd-table-column>
+      <sd-table-column title="Optional">
         <template #cell="{ record }">
-          <a-button @click="$modal.info({ title: 'Name', content: record.name })">view</a-button>
+          <sd-button @click="$modal.info({ title: 'Name', content: record.name })">view</sd-button>
         </template>
-      </a-table-column>
+      </sd-table-column>
     </template>
-  </a-table>
+  </sd-table>
 </template>
 
 <script>

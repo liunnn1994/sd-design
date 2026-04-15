@@ -166,26 +166,26 @@
       },
     },
     emits: {
-      'update:modelValue': (value: boolean | string | number) => true,
+      'update:modelValue': (_value: boolean | string | number) => true,
       /**
        * @zh 值改变时触发
        * @en Trigger when the value changes
        * @param { boolean | string | number } value
        * @param {Event} ev
        */
-      'change': (value: boolean | string | number, ev: Event) => true,
+      'change': (_value: boolean | string | number, _ev: Event) => true,
       /**
        * @zh 组件获得焦点时触发
        * @en Triggered when the component gets focus
        * @property {FocusEvent} ev
        */
-      'focus': (ev: FocusEvent) => true,
+      'focus': (_ev: FocusEvent) => true,
       /**
        * @zh 组件失去焦点时触发
        * @en Fired when the component loses focus
        * @property {FocusEvent} ev
        */
-      'blur': (ev: FocusEvent) => true,
+      'blur': (_ev: FocusEvent) => true,
     },
     /**
      * @zh 打开状态时的文案（`type='line'`和`size='small'`时不生效）

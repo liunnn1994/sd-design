@@ -1,5 +1,5 @@
 <template>
-  <a-verification-code defaultValue="123" style="width: 300px" masked @finish="onFinish" />
+  <sd-verification-code defaultValue="123" style="width: 300px" masked @finish="onFinish" />
 </template>
 
 <script setup>

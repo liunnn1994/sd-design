@@ -1,6 +1,6 @@
 <template>
-  <a-button type="primary" @click="onClick">Click me to preview multiple image</a-button>
-  <a-image-preview-group
+  <sd-button type="primary" @click="onClick">Click me to preview multiple image</sd-button>
+  <sd-image-preview-group
     v-model:visible="visible"
     v-model:current="current"
     infinite

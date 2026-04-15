@@ -1,8 +1,8 @@
-@import './token.less';
-@import './circle.less';
-@import './dot.less';
-@import './arrow.less';
-@import './navigation.less';
+@import url('./token.less');
+@import url('./circle.less');
+@import url('./dot.less');
+@import url('./arrow.less');
+@import url('./navigation.less');
 
 @steps-prefix-cls: ~'@{prefix}-steps';
 
@@ -16,7 +16,7 @@
     }
   }
 
-  &-changeable &-item:not(&-item-active):not(&-item-disabled) {
+  &-changeable &-item:not(&-item-active, &-item-disabled) {
     cursor: pointer;
 
     &:hover {

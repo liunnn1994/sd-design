@@ -1,31 +1,31 @@
 <template>
-  <a-form layout="inline" :model="form">
-    <a-form-item label="Border" field="border">
-      <a-switch v-model="form.border" />
-    </a-form-item>
-    <a-form-item label="Hover" field="hover">
-      <a-switch v-model="form.hover" />
-    </a-form-item>
-    <a-form-item label="stripe" field="stripe">
-      <a-switch v-model="form.stripe" />
-    </a-form-item>
-    <a-form-item label="checkbox" field="checkbox">
-      <a-switch v-model="form.checkbox" />
-    </a-form-item>
-    <a-form-item label="checkAll" field="checkAll">
-      <a-switch v-model="rowSelection.showCheckedAll" />
-    </a-form-item>
-    <a-form-item label="loading" field="loading">
-      <a-switch v-model="form.loading" />
-    </a-form-item>
-    <a-form-item label="tableHeader" field="tableHeader">
-      <a-switch v-model="form.tableHeader" />
-    </a-form-item>
-    <a-form-item label="noData" field="noData">
-      <a-switch v-model="form.noData" />
-    </a-form-item>
-  </a-form>
-  <a-table
+  <sd-form layout="inline" :model="form">
+    <sd-form-item label="Border" field="border">
+      <sd-switch v-model="form.border" />
+    </sd-form-item>
+    <sd-form-item label="Hover" field="hover">
+      <sd-switch v-model="form.hover" />
+    </sd-form-item>
+    <sd-form-item label="stripe" field="stripe">
+      <sd-switch v-model="form.stripe" />
+    </sd-form-item>
+    <sd-form-item label="checkbox" field="checkbox">
+      <sd-switch v-model="form.checkbox" />
+    </sd-form-item>
+    <sd-form-item label="checkAll" field="checkAll">
+      <sd-switch v-model="rowSelection.showCheckedAll" />
+    </sd-form-item>
+    <sd-form-item label="loading" field="loading">
+      <sd-switch v-model="form.loading" />
+    </sd-form-item>
+    <sd-form-item label="tableHeader" field="tableHeader">
+      <sd-switch v-model="form.tableHeader" />
+    </sd-form-item>
+    <sd-form-item label="noData" field="noData">
+      <sd-switch v-model="form.noData" />
+    </sd-form-item>
+  </sd-form>
+  <sd-table
     :columns="columns"
     :data="form.noData ? [] : data"
     :bordered="form.border"

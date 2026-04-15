@@ -1,9 +1,9 @@
 <template>
-  <a-space>
-    <a-button type="primary">Primary</a-button>
-    <a-button>Secondary</a-button>
-    <a-button type="dashed">Dashed</a-button>
-    <a-button type="outline">Outline</a-button>
-    <a-button type="text">Text</a-button>
-  </a-space>
+  <sd-space>
+    <sd-button type="primary">Primary</sd-button>
+    <sd-button>Secondary</sd-button>
+    <sd-button type="dashed">Dashed</sd-button>
+    <sd-button type="outline">Outline</sd-button>
+    <sd-button type="text">Text</sd-button>
+  </sd-space>
 </template>

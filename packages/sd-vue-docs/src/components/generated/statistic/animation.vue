@@ -1,5 +1,5 @@
 <template>
-  <a-statistic
+  <sd-statistic
     title="User Growth Rate"
     :value="50.52"
     :precision="2"
@@ -11,8 +11,8 @@
       <icon-arrow-rise />
     </template>
     <template #suffix>%</template>
-  </a-statistic>
-  <a-button @click="start = true">Start</a-button>
+  </sd-statistic>
+  <sd-button @click="start = true">Start</sd-button>
 </template>
 
 <script>
