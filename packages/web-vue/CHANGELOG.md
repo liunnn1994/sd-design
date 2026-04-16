@@ -1,3 +1,9 @@
+## [1.4.1](https://github.com/liunnn1994/sd-design/compare/v1.4.0...v1.4.1) (2026-04-16)
+
+### Bug Fixes
+
+- 🐛 修复在线编辑器 ([804d0d3](https://github.com/liunnn1994/sd-design/commit/804d0d30a4a3a5e3a8bf9ef0391297d41d137830))
+
 # [1.4.0](https://github.com/liunnn1994/sd-design/compare/v1.3.0...v1.4.0) (2026-04-16)
 
 ### Bug Fixes
