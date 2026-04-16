@@ -1,0 +1,15 @@
+[submodule "vendor/element-plus"]
+	path = vendor/element-plus
+	url = https://github.com/element-plus/element-plus.git
+[submodule "vendor/naive-ui"]
+	path = vendor/naive-ui
+	url = https://github.com/tusen-ai/naive-ui.git
+[submodule "vendor/tdesign-vue-next"]
+	path = vendor/tdesign-vue-next
+	url = https://github.com/Tencent/tdesign-vue-next.git
+[submodule "vendor/intelligent-monitoring"]
+	path = vendor/intelligent-monitoring
+	url = git@git.s-data.cn:monitor/sdata-monitor/intelligent-monitoring.git
+[submodule "vendor/vuetify"]
+	path = vendor/vuetify
+	url = https://github.com/vuetifyjs/vuetify.git
