@@ -1,7 +1,7 @@
 import type { App } from 'vue';
 
 import SDVue from '@sdata/web-vue';
-import SDVueIcon from '@sdata/web-vue/es/icon';
+import SDVueIcon from '@sdata/web-vue/es/icon.js';
 
 import '../styles/sd-vue.less';
 

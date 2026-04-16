@@ -1,8 +1,9 @@
 import mdx from '@astrojs/mdx';
 import starlight from '@astrojs/starlight';
 import vue from '@astrojs/vue';
-// @ts-check
 import { defineConfig } from 'astro/config';
+// @ts-check
+import { fileURLToPath } from 'node:url';
 
 import { docsSidebar } from './src/generated/docs-sidebar';
 
@@ -39,6 +40,20 @@ const themeBridgeScript = String.raw`
 `;
 
 export default defineConfig({
+  vite: {
+    resolve: {
+      alias: [
+        {
+          find: /^@sdata\/web-vue\/es\/icon$/,
+          replacement: fileURLToPath(new URL('../web-vue/es/icon.js', import.meta.url)),
+        },
+        {
+          find: /^@sdata\/web-vue\/es\/icon\.js$/,
+          replacement: fileURLToPath(new URL('../web-vue/es/icon.js', import.meta.url)),
+        },
+      ],
+    },
+  },
   integrations: [
     starlight({
       title: 'SD Design',

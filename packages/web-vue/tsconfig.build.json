@@ -7,6 +7,12 @@
     "noCheck": true,
     "declarationMap": false,
     "allowArbitraryExtensions": true,
+    "paths": {
+      "@sdata/web-vue": ["./components/index.ts"],
+      "@sdata/web-vue/es/icon": ["./components/icon/index.ts"],
+      "@sdata/web-vue/es/icon.js": ["./components/icon/index.ts"],
+      "@sdata/web-vue/es/locale/lang/*": ["./components/locale/lang/*"]
+    },
     "outDir": ".temp-types",
     "rootDir": "."
   },

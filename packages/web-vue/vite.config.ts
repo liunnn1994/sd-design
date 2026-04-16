@@ -93,7 +93,20 @@ function createRunConfig() {
         cache: false,
       },
       'task:build-module': {
-        command: 'vp run clean:outputs && vite build --config vite.config.ts --mode build-module',
+        command:
+          'vp run clean:outputs && vp run task:build-module-main && vp run task:build-module-icon && vp run write:icon-compat',
+      },
+      'task:build-module-main': {
+        command: 'vite build --config vite.config.ts --mode build-module',
+        cache: false,
+      },
+      'task:build-module-icon': {
+        command: 'vite build --config vite.config.ts --mode build-module-icon',
+        cache: false,
+      },
+      'write:icon-compat': {
+        command: 'node ./scripts/write-icon-compat-entry.mjs',
+        cache: false,
       },
       'task:build-umd-component': {
         command: 'vite build --config vite.config.ts --mode build-umd-component',
@@ -131,7 +144,7 @@ function createModuleBuildConfig(): UserConfig {
       minify: false,
       reportCompressedSize: false,
       rollupOptions: {
-        input: ['components/index.ts', 'components/icon/index.ts', ...langFiles],
+        input: ['components/index.ts', ...langFiles],
         output: {
           format: 'es',
           dir: 'es',
@@ -142,6 +155,31 @@ function createModuleBuildConfig(): UserConfig {
       },
       lib: {
         entry: 'components/index.ts',
+        formats: ['es'],
+      },
+    },
+    plugins: [externalPlugin(), vue(), vueJsx(), vueExportHelperPlugin()],
+  };
+}
+
+function createIconModuleBuildConfig(): UserConfig {
+  return {
+    mode: 'production',
+    build: {
+      target: 'es2015',
+      outDir: 'es',
+      emptyOutDir: false,
+      minify: false,
+      reportCompressedSize: false,
+      rollupOptions: {
+        output: {
+          format: 'es',
+          entryFileNames: 'icon.js',
+          inlineDynamicImports: true,
+        },
+      },
+      lib: {
+        entry: 'components/icon/index.ts',
         formats: ['es'],
       },
     },
@@ -328,6 +366,14 @@ export default defineConfig(({ mode }) => {
   if (mode === 'build-module') {
     return {
       ...createModuleBuildConfig(),
+      run,
+      test,
+    } as any;
+  }
+
+  if (mode === 'build-module-icon') {
+    return {
+      ...createIconModuleBuildConfig(),
       run,
       test,
     } as any;

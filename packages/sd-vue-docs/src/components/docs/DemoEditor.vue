@@ -50,6 +50,7 @@
       '@sdata/web-vue': '/vendor/sd-web-vue/es/index.js',
       '@sdata/web-vue/es/icon': '/vendor/sd-web-vue/es/icon/index.js',
       '@sdata/web-vue/': '/vendor/sd-web-vue/',
+      '@sdata/web-vue/es/icon.js': '/vendor/sd-web-vue/es/icon/index.js',
       ...vendorDependencyImports.value,
     },
   }));
