@@ -42,6 +42,7 @@ const themeBridgeScript = String.raw`
 export default defineConfig({
   vite: {
     resolve: {
+      noExternal: ['@vue/repl'],
       alias: [
         {
           find: /^@sdata\/web-vue\/es\/icon$/,
@@ -52,6 +53,9 @@ export default defineConfig({
           replacement: fileURLToPath(new URL('../web-vue/es/icon.js', import.meta.url)),
         },
       ],
+    },
+    optimizeDeps: {
+      exclude: ['@vue/repl'],
     },
   },
   integrations: [

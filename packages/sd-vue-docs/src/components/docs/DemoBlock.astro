@@ -26,7 +26,7 @@ const { source, mainFile } = Astro.props;
       <slot />
     </div>
   </div>
-  <DemoEditor client:visible source={source} mainFile={mainFile} />
+  <DemoEditor client:only="vue" source={source} mainFile={mainFile} />
 </div>
 
 <style>

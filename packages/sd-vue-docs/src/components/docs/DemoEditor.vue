@@ -1,17 +1,10 @@
 <script setup lang="ts">
-  import '@vue/repl/style.css';
+  import { Repl, useStore } from '@vue/repl';
   import type { ReplStore } from '@vue/repl';
-  import type { Component } from 'vue';
-  import { computed, nextTick, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue';
+  import Monaco from '@vue/repl/monaco-editor';
+  import { computed, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue';
 
   import vueRuntimeSource from 'vue/dist/vue.runtime.esm-browser.js?raw';
-
-  type ReplComponent = (typeof import('@vue/repl'))['Repl'];
-  type ReplInstance = {
-    getMonacoEditor?: () => {
-      layout(): void;
-    } | null;
-  };
 
   function createJavaScriptDataUrl(source: string) {
     return `data:text/javascript;charset=utf-8,${encodeURIComponent(source)}`;
@@ -25,16 +18,10 @@
   }>();
 
   const expanded = shallowRef(false);
-  const loading = shallowRef(false);
   const loadError = shallowRef('');
   const currentTheme = shallowRef<'light' | 'dark'>('light');
-  const replComponent = shallowRef<ReplComponent | null>(null);
-  const replInstance = shallowRef<ReplInstance | null>(null);
-  const editorComponent = shallowRef<Component | null>(null);
   const replStore = shallowRef<ReplStore | null>(null);
-  const panelElement = shallowRef<HTMLElement | null>(null);
   const themeObserver = shallowRef<MutationObserver | null>(null);
-  const panelResizeObserver = shallowRef<ResizeObserver | null>(null);
   const vendorDependencyImports = shallowRef<Record<string, string>>({});
   const previewThemeScriptCloseTag = '</scr' + 'ipt>';
 
@@ -113,14 +100,6 @@
     currentTheme.value = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
   }
 
-  function syncMonacoLayout() {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        replInstance.value?.getMonacoEditor?.()?.layout();
-      });
-    });
-  }
-
   watch(normalizedCode, (code) => {
     replStore.value?.setFiles(
       {
@@ -141,68 +120,16 @@
     );
   });
 
-  watch(
-    () => [
-      expanded.value,
-      loading.value,
-      replComponent.value,
-      editorComponent.value,
-      replStore.value,
-    ],
-    async ([isExpanded, isLoading, currentReplComponent, currentEditorComponent, currentStore]) => {
-      if (
-        !isExpanded ||
-        isLoading ||
-        !currentReplComponent ||
-        !currentEditorComponent ||
-        !currentStore
-      ) {
-        return;
-      }
-
-      await nextTick();
-      syncMonacoLayout();
-    },
-    { flush: 'post' },
-  );
-
-  watch(
-    panelElement,
-    (element) => {
-      panelResizeObserver.value?.disconnect();
-      panelResizeObserver.value = null;
-
-      if (!element || typeof ResizeObserver === 'undefined') {
-        return;
-      }
-
-      const observer = new ResizeObserver(() => {
-        syncMonacoLayout();
-      });
-
-      observer.observe(element);
-      panelResizeObserver.value = observer;
-      syncMonacoLayout();
-    },
-    { flush: 'post' },
-  );
-
   async function ensureReplLoaded() {
-    if (replStore.value || loading.value) {
+    if (replStore.value) {
       return;
     }
 
-    loading.value = true;
     loadError.value = '';
 
     try {
       await ensureVendorImportMapLoaded();
-
-      const [repl, monaco] = await Promise.all([
-        import('@vue/repl'),
-        import('@vue/repl/monaco-editor'),
-      ]);
-      const store = repl.useStore({}, '');
+      const store = useStore({}, '');
 
       store.showOutput = false;
       store.outputMode = 'preview';
@@ -217,13 +144,9 @@
 
       applySafeVirtualFs(store);
 
-      replComponent.value = repl.Repl;
-      editorComponent.value = monaco.default;
       replStore.value = store;
     } catch (error) {
       loadError.value = error instanceof Error ? error.message : '编辑器加载失败';
-    } finally {
-      loading.value = false;
     }
   }
 
@@ -248,7 +171,6 @@
 
   onBeforeUnmount(() => {
     themeObserver.value?.disconnect();
-    panelResizeObserver.value?.disconnect();
   });
 </script>
 
@@ -260,16 +182,13 @@
       </button>
     </div>
 
-    <div v-if="expanded" ref="panelElement" class="demo-editor__panel">
-      <div v-if="loading" class="demo-editor__state">正在加载编辑器...</div>
-      <div v-else-if="loadError" class="demo-editor__state demo-editor__state--error">
+    <div v-if="expanded" class="demo-editor__panel">
+      <div v-if="loadError" class="demo-editor__state demo-editor__state--error">
         {{ loadError }}
       </div>
-      <component
-        ref="replInstance"
-        :is="replComponent"
-        v-else-if="replComponent && editorComponent && replStore"
-        :editor="editorComponent"
+      <Repl
+        v-else-if="replStore"
+        :editor="Monaco"
         :show-compile-output="false"
         :show-import-map="false"
         :show-ssr-output="false"
