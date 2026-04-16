@@ -1,3 +1,9 @@
+# [1.5.0](https://github.com/liunnn1994/sd-design/compare/v1.4.1...v1.5.0) (2026-04-16)
+
+### Features
+
+- 🆕 新增 ellipsis 组件 ([4b7d562](https://github.com/liunnn1994/sd-design/commit/4b7d56275ba948befd92a7bfc5e55c1a39eec085))
+
 ## [1.4.1](https://github.com/liunnn1994/sd-design/compare/v1.4.0...v1.4.1) (2026-04-16)
 
 ### Bug Fixes
