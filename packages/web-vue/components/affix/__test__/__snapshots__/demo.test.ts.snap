@@ -20,7 +20,7 @@ exports[`<affix> demo: > render [bottom] correctly 1`] = `
 
 exports[`<affix> demo: > render [container] correctly 1`] = `
 <div style="height: 200px; overflow: auto;">
-  <div style="height: 400px; background: rgb(204, 204, 204); overflow: hidden;">
+  <div style="height: 400px; overflow: hidden; background: rgb(204, 204, 204);">
     <div style="margin: 40px;">
       <!--v-if-->
       <div class=""><button class="sd-btn sd-btn-primary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">

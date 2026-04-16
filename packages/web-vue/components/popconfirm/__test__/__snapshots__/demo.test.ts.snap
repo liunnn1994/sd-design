@@ -19,40 +19,40 @@ exports[`<popconfirm> demo: > render [custom] correctly 1`] = `
 `;
 
 exports[`<popconfirm> demo: > render [position] correctly 1`] = `
-<div data-v-d7b39c98="" style="position: relative; width: 440px; height: 280px;"><button data-v-d7b39c98="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 0px; left: 70px;">
+<div data-v-36149afc="" style="position: relative; width: 440px; height: 280px;"><button data-v-36149afc="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 0px; left: 70px;">
     <!--v-if-->TL
   </button>
-  <!----><button data-v-d7b39c98="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 0px; left: 180px;">
+  <!----><button data-v-36149afc="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 0px; left: 180px;">
     <!--v-if-->TOP
   </button>
-  <!----><button data-v-d7b39c98="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 0px; left: 290px;">
+  <!----><button data-v-36149afc="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 0px; left: 290px;">
     <!--v-if-->TR
   </button>
-  <!----><button data-v-d7b39c98="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 240px; left: 70px;">
+  <!----><button data-v-36149afc="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 240px; left: 70px;">
     <!--v-if-->BL
   </button>
-  <!----><button data-v-d7b39c98="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 240px; left: 180px;">
+  <!----><button data-v-36149afc="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 240px; left: 180px;">
     <!--v-if-->BOTTOM
   </button>
-  <!----><button data-v-d7b39c98="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 240px; left: 290px;">
+  <!----><button data-v-36149afc="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 240px; left: 290px;">
     <!--v-if-->BR
   </button>
-  <!----><button data-v-d7b39c98="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 60px; left: 10px;">
+  <!----><button data-v-36149afc="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 60px; left: 10px;">
     <!--v-if-->LT
   </button>
-  <!----><button data-v-d7b39c98="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 120px; left: 10px;">
+  <!----><button data-v-36149afc="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 120px; left: 10px;">
     <!--v-if-->LEFT
   </button>
-  <!----><button data-v-d7b39c98="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 180px; left: 10px;">
+  <!----><button data-v-36149afc="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 180px; left: 10px;">
     <!--v-if-->LB
   </button>
-  <!----><button data-v-d7b39c98="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 60px; left: 350px;">
+  <!----><button data-v-36149afc="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 60px; left: 350px;">
     <!--v-if-->RT
   </button>
-  <!----><button data-v-d7b39c98="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 120px; left: 350px;">
+  <!----><button data-v-36149afc="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 120px; left: 350px;">
     <!--v-if-->RIGHT
   </button>
-  <!----><button data-v-d7b39c98="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 180px; left: 350px;">
+  <!----><button data-v-36149afc="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal button" type="button" style="position: absolute; top: 180px; left: 350px;">
     <!--v-if-->RB
   </button>
   <!---->

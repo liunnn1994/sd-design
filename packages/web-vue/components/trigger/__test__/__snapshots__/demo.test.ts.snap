@@ -1,21 +1,21 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`<trigger> demo: > render [align-point] correctly 1`] = `
-<div data-v-ba954d10="" class="demo-point-trigger">
-  <div data-v-ba954d10="">Click Me</div>
+<div data-v-15638171="" class="demo-point-trigger">
+  <div data-v-15638171="">Click Me</div>
 </div>
 `;
 
 exports[`<trigger> demo: > render [arrow] correctly 1`] = `
-<div data-v-4c0246ba="" class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 8px; row-gap: 8px;">
+<div data-v-b57864a2="" class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 8px; row-gap: 8px;">
   <!---->
-  <div class="sd-space-item"><button data-v-4c0246ba="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+  <div class="sd-space-item"><button data-v-b57864a2="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
       <!--v-if-->Click Me
     </button>
     <!---->
   </div>
   <!---->
-  <div class="sd-space-item"><button data-v-4c0246ba="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+  <div class="sd-space-item"><button data-v-b57864a2="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
       <!--v-if-->Click Me (Arrow)
     </button>
     <!---->
@@ -24,33 +24,33 @@ exports[`<trigger> demo: > render [arrow] correctly 1`] = `
 `;
 
 exports[`<trigger> demo: > render [basic] correctly 1`] = `
-<div data-v-cb059c5c="" class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 8px; row-gap: 8px;">
+<div data-v-d605585b="" class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 8px; row-gap: 8px;">
   <!---->
-  <div class="sd-space-item"><span data-v-cb059c5c="">Hover Me</span>
+  <div class="sd-space-item"><span data-v-d605585b="">Hover Me</span>
     <!---->
   </div>
   <!---->
-  <div class="sd-space-item"><button data-v-cb059c5c="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+  <div class="sd-space-item"><button data-v-d605585b="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
       <!--v-if-->Click Me
     </button>
     <!---->
   </div>
   <!---->
-  <div class="sd-space-item"><span data-v-cb059c5c="" class="sd-input-wrapper"><!----><input class="sd-input sd-input-size-medium" type="text" placeholder="Focus on me" value=""><!----><!----></span>
+  <div class="sd-space-item"><span data-v-d605585b="" class="sd-input-wrapper"><!----><input class="sd-input sd-input-size-medium" type="text" placeholder="Focus on me" value=""><!----><!----></span>
     <!---->
   </div>
 </div>
 `;
 
 exports[`<trigger> demo: > render [nest] correctly 1`] = `
-<button data-v-2091ed94="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+<button data-v-ff68f661="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
   <!--v-if-->Click Me
 </button>
 `;
 
 exports[`<trigger> demo: > render [scroll] correctly 1`] = `
-<div data-v-52ead326="" style="height: 100px; overflow-y: scroll;">
-  <div data-v-52ead326="" style="height: 200px;"><button data-v-52ead326="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button" style="margin-top: 80px;">
+<div data-v-69a843a0="" style="height: 100px; overflow-y: scroll;">
+  <div data-v-69a843a0="" style="height: 200px;"><button data-v-69a843a0="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button" style="margin-top: 80px;">
       <!--v-if-->Click Me
     </button>
     <!---->
@@ -59,21 +59,21 @@ exports[`<trigger> demo: > render [scroll] correctly 1`] = `
 `;
 
 exports[`<trigger> demo: > render [translate] correctly 1`] = `
-<div data-v-ed5bf3c1="" class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 8px; row-gap: 8px;">
+<div data-v-9ea81b89="" class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 8px; row-gap: 8px;">
   <!---->
-  <div class="sd-space-item"><button data-v-ed5bf3c1="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+  <div class="sd-space-item"><button data-v-9ea81b89="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
       <!--v-if-->BOTTOM
     </button>
     <!---->
   </div>
   <!---->
-  <div class="sd-space-item"><button data-v-ed5bf3c1="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+  <div class="sd-space-item"><button data-v-9ea81b89="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
       <!--v-if-->BOTTOM OFFSET[100, 20]
     </button>
     <!---->
   </div>
   <!---->
-  <div class="sd-space-item"><button data-v-ed5bf3c1="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+  <div class="sd-space-item"><button data-v-9ea81b89="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
       <!--v-if-->BOTTOM OFFSET[-100, 20]
     </button>
     <!---->
@@ -81,4 +81,4 @@ exports[`<trigger> demo: > render [translate] correctly 1`] = `
 </div>
 `;
 
-exports[`<trigger> demo: > render [triggers] correctly 1`] = `<span data-v-9401e7ba="" class="sd-input-wrapper"><!----><input class="sd-input sd-input-size-medium" type="text" placeholder="Click/Hover/Focus on me" value=""><!----><!----></span>`;
+exports[`<trigger> demo: > render [triggers] correctly 1`] = `<span data-v-90bdd920="" class="sd-input-wrapper"><!----><input class="sd-input sd-input-size-medium" type="text" placeholder="Click/Hover/Focus on me" value=""><!----><!----></span>`;

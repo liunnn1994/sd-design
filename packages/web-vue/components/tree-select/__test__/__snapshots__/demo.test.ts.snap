@@ -6,7 +6,7 @@ exports[`<tree-select> demo: > render [basic] correctly 1`] = `
 `;
 
 exports[`<tree-select> demo: > render [checkable] correctly 1`] = `
-<div style="margin-bottom: 24px;"><label class="sd-checkbox"><input type="checkbox" class="sd-checkbox-target" value="false"><span class="sd-icon-hover sd-checkbox-icon-hover"><div class="sd-checkbox-icon"><!----></div></span><span class="sd-checkbox-label"> treeCheckStrictly </span></label></div>
+<div><label class="sd-checkbox"><input type="checkbox" class="sd-checkbox-target" value="false"><span class="sd-icon-hover sd-checkbox-icon-hover"><div class="sd-checkbox-icon"><!----></div></span><span class="sd-checkbox-label"> treeCheckStrictly </span></label></div>
 <span class="sd-select-view sd-select-view-size-medium sd-select-view-has-suffix sd-select-view-has-placeholder sd-select-view-multiple" style="width: 300px;"><span class="sd-select-view-mirror">Please select ...</span>
 <!---->
 <transition-group-stub tag="span" name="input-tag-zoom" appear="false" persisted="false" css="true" class="sd-select-view-inner"><input class="sd-select-view-input" style="width: 12px;" placeholder="Please select ..."></transition-group-stub>

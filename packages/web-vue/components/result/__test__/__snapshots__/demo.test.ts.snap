@@ -186,7 +186,7 @@ exports[`<result> demo: > render [403] correctly 1`] = `
                     <path d="M1088.34,192.063C1089.79,191.209 1090.78,191.821 1090.78,191.821L1092.71,192.944C1092.71,192.944 1092.29,192.721 1091.7,192.763C1090.99,192.813 1090.34,193.215 1090.34,193.215C1090.34,193.215 1088.85,192.362 1088.34,192.063Z" style="fill: rgb(248, 248, 248);"></path>
                   </g>
                   <g transform="matrix(1,0,0,1,235.984,-39.1315)">
-                    <path d="M1164.02,805.247C1164.05,802.517 1165.64,799.379 1167.67,798.118L1169.67,799.272C1167.58,800.648 1166.09,803.702 1166.02,806.402L1164.02,805.247Z" style="fill: url(#_Linear1);"></path>
+                    <path d="M1164.02,805.247C1164.05,802.517 1165.64,799.379 1167.67,798.118L1169.67,799.272C1167.58,800.648 1166.09,803.702 1166.02,806.402L1164.02,805.247Z" style="fill: url(&quot;#_Linear1&quot;);"></path>
                   </g>
                   <g transform="matrix(0.396683,0,0,0.396683,1000.22,516.921)">
                     <path d="M1011.2,933.14C1009.31,932.075 1008.05,929.696 1007.83,926.324L1012.87,929.235C1012.87,929.235 1012.96,930.191 1013.04,930.698C1013.16,931.427 1013.42,932.344 1013.62,932.845C1013.79,933.255 1014.59,935.155 1016.22,936.046C1015.83,935.781 1011.19,933.139 1011.19,933.139L1011.2,933.14Z" style="fill: rgb(238, 238, 238);"></path>
@@ -424,7 +424,7 @@ exports[`<result> demo: > render [404] correctly 1`] = `
                   <g transform="matrix(1.09915,-0.634597,1.26919,0.73277,-299.167,-62.4615)">
                     <ellipse cx="412.719" cy="770.575" rx="6.303" ry="5.459" style="fill: rgb(255, 125, 0);"></ellipse>
                   </g>
-                  <g transform="matrix(0.238212,-0.137532,0.178659,0.103149,875.064,207.93)"><text x="413.474px" y="892.067px" style="font-family: NunitoSans-Bold, Nunito Sans; font-weight: 700; fill: white;">?</text></g>
+                  <g transform="matrix(0.238212,-0.137532,0.178659,0.103149,875.064,207.93)"><text x="413.474px" y="892.067px" style="font-family: NunitoSans-Bold, &quot;Nunito Sans&quot;; font-weight: 700; fill: white;">?</text></g>
                 </g>
               </g>
             </g>
@@ -693,7 +693,7 @@ exports[`<result> demo: > render [all] correctly 1`] = `
       <!--v-if-->Refresh
     </button></div>
   <div class="sd-result-content">
-    <article class="sd-typography" style="background: var(--color-fill-2); padding: 24px;">
+    <article class="sd-typography" style="padding: 24px; background: var(--color-fill-2);">
       <div class="sd-typography">Try:
         <!---->
         <!--v-if-->

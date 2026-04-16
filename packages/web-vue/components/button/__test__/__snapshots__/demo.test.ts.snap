@@ -213,25 +213,25 @@ exports[`<button> demo: > render [loading] correctly 1`] = `
 `;
 
 exports[`<button> demo: > render [long] correctly 1`] = `
-<div data-v-1c97ad59="" class="sd-space sd-space-vertical wrapper" style="column-gap: 8px; row-gap: 8px;">
+<div data-v-25907a34="" class="sd-space sd-space-vertical wrapper" style="column-gap: 8px; row-gap: 8px;">
   <!---->
-  <div class="sd-space-item"><button data-v-1c97ad59="" class="sd-btn sd-btn-primary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal sd-btn-long" type="button">
+  <div class="sd-space-item"><button data-v-25907a34="" class="sd-btn sd-btn-primary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal sd-btn-long" type="button">
       <!--v-if-->Primary
     </button></div>
   <!---->
-  <div class="sd-space-item"><button data-v-1c97ad59="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal sd-btn-long" type="button">
+  <div class="sd-space-item"><button data-v-25907a34="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal sd-btn-long" type="button">
       <!--v-if-->Default
     </button></div>
   <!---->
-  <div class="sd-space-item"><button data-v-1c97ad59="" class="sd-btn sd-btn-dashed sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal sd-btn-long" type="button">
+  <div class="sd-space-item"><button data-v-25907a34="" class="sd-btn sd-btn-dashed sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal sd-btn-long" type="button">
       <!--v-if-->Dashed
     </button></div>
   <!---->
-  <div class="sd-space-item"><button data-v-1c97ad59="" class="sd-btn sd-btn-outline sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal sd-btn-long" type="button">
+  <div class="sd-space-item"><button data-v-25907a34="" class="sd-btn sd-btn-outline sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal sd-btn-long" type="button">
       <!--v-if-->Outline
     </button></div>
   <!---->
-  <div class="sd-space-item"><button data-v-1c97ad59="" class="sd-btn sd-btn-text sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal sd-btn-long" type="button">
+  <div class="sd-space-item"><button data-v-25907a34="" class="sd-btn sd-btn-text sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal sd-btn-long" type="button">
       <!--v-if-->Text
     </button></div>
 </div>

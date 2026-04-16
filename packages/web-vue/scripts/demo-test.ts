@@ -5,18 +5,36 @@ import { fileURLToPath } from 'node:url';
 import path from 'path';
 
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const demoModules = import.meta.glob('../components/**/__demo__/*.md');
+const docsRoot = path.resolve(packageRoot, '..', 'sd-vue-docs');
+const demoModules = import.meta.glob('../../sd-vue-docs/src/components/generated/**/*.vue');
+
+function getSnapshotName(component: string, demoName: string) {
+  if (component === 'notification') {
+    if (demoName === 'update-duration') {
+      return 'update_duration';
+    }
+
+    if (demoName === 'update-notification') {
+      return 'update_notification';
+    }
+  }
+
+  return demoName;
+}
 
 function demoTest(component: string) {
   describe(`<${component}> demo:`, () => {
-    const files = globSync(`components/${component}/__demo__/*.md`, {
-      cwd: packageRoot,
+    const files = globSync(`src/components/generated/${component}/*.vue`, {
+      cwd: docsRoot,
       posix: true,
     });
-    const table = files.map((filename) => [path.basename(filename, '.md'), filename]);
+    const table = files.map((filename) => {
+      const demoName = path.basename(filename, '.vue');
+      return [getSnapshotName(component, demoName), filename] as const;
+    });
 
     test.each(table)('render [%s] correctly', async (_, filename) => {
-      const loadDemo = demoModules[`../${filename}`];
+      const loadDemo = demoModules[`../../sd-vue-docs/${filename}`];
       if (!loadDemo) {
         throw new Error(`Demo module not found: ${filename}`);
       }

@@ -146,7 +146,7 @@ exports[`<watermark> demo: > render [custom] correctly 1`] = `
   </div>
 </form>
 <div class="sd-watermark" style="position: relative; overflow: hidden;">
-  <div style="width: 100%; border: 1px solid rgb(229, 230, 235); box-sizing: border-box;">
+  <div style="box-sizing: border-box; width: 100%; border: 1px solid rgb(229, 230, 235);">
     <h5 class="sd-typography"> Design system
       <!---->
       <!--v-if-->

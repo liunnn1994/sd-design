@@ -26,26 +26,6 @@ const langFiles = globSync('components/locale/lang/*.ts', {
   posix: true,
 });
 
-function createDemoMarkdownPlugin(): PluginOption {
-  return {
-    name: 'sd-demo-markdown',
-    enforce: 'pre',
-    transform(code, id) {
-      if (!id.includes('/__demo__/') || !id.endsWith('.md')) {
-        return null;
-      }
-
-      const regex = /```vue\r?\n([\s\S]*?)```/;
-      const match = regex.exec(code);
-      if (!match) {
-        throw new Error(`Missing vue demo block in ${id}`);
-      }
-
-      return match[1].trim();
-    },
-  };
-}
-
 function createTestSupportConfig(): UserConfig {
   return {
     resolve: {
@@ -64,11 +44,7 @@ function createTestSupportConfig(): UserConfig {
         },
       ],
     },
-    plugins: [
-      createDemoMarkdownPlugin(),
-      vue({ include: [/\.vue$/, /__demo__\/.*\.md$/] }),
-      vueJsx(),
-    ],
+    plugins: [vue(), vueJsx()],
   };
 }
 

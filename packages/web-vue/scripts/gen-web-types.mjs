@@ -1,6 +1,6 @@
 // oxlint-disable no-console
 import fg from 'fast-glob';
-import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { access, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parse as parseComponent } from 'vue-docgen-api';
@@ -9,23 +9,48 @@ import { toKebabCase } from './utils/convert-case.mjs';
 import { getPackage } from './utils/package.mjs';
 import { slotTagHandler } from './utils/slot-tag-handler.mjs';
 
-const getComponentsFromTemplates = async () => {
-  const templates = await fg('components/**/TEMPLATE.md');
+const resolveExistingPath = async (basePath) => {
+  const candidates = [basePath, `${basePath}.ts`, `${basePath}.tsx`, `${basePath}.vue`];
+
+  for (const candidate of candidates) {
+    try {
+      await access(candidate);
+      return candidate;
+    } catch {
+      // Try the next supported source extension.
+    }
+  }
+
+  throw new Error(`Unable to resolve component source from index import: ${basePath}`);
+};
+
+const getComponentsFromIndexes = async () => {
+  const indexes = (
+    await fg('components/*/index.ts', { ignore: ['components/locale/index.ts'] })
+  ).sort();
   const components = [];
+  const seen = new Set();
 
-  await Promise.all(
-    templates.map(async (item) => {
-      const dirname = path.dirname(item);
-      const source = await readFile(item, 'utf8');
-      const matches = Array.from(source.matchAll(/%%API\((.+?)\)%%/g));
+  for (const item of indexes) {
+    const dirname = path.dirname(item);
+    const source = await readFile(item, 'utf8');
+    const matches = Array.from(
+      source.matchAll(/import\s+(_[A-Za-z0-9_$]+)\s+from\s+['"](\.[^'"]+)['"]/g),
+    );
 
-      for (const match of matches) {
-        if (match[1]) {
-          components.push(path.resolve(dirname, match[1]));
-        }
+    for (const match of matches) {
+      const importPath = match[2];
+      if (!importPath) {
+        continue;
       }
-    }),
-  );
+
+      const resolvedPath = await resolveExistingPath(path.resolve(dirname, importPath));
+      if (!seen.has(resolvedPath)) {
+        seen.add(resolvedPath);
+        components.push(resolvedPath);
+      }
+    }
+  }
 
   return components;
 };
@@ -187,7 +212,7 @@ const transformToWebTypes = (components, { version }) => {
 
 export default async function generateWebTypes() {
   const packageData = await getPackage();
-  const components = await getComponentsFromTemplates();
+  const components = await getComponentsFromIndexes();
   const docs = [];
   let typographyBase;
   let datePickerBase;

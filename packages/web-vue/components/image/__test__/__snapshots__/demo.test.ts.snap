@@ -85,7 +85,7 @@ exports[`<image> demo: > render [error] correctly 1`] = `
 `;
 
 exports[`<image> demo: > render [extra] correctly 1`] = `
-<div data-v-3b4808bb="" class="sd-image sd-image-with-footer-inner" style="width: 260px; margin-right: 67px; vertical-align: top;"><img class="sd-image-img" style="width: 260px;" title="A user’s avatar">
+<div data-v-12f2eb6f="" class="sd-image sd-image-with-footer-inner" style="width: 260px; margin-right: 67px; vertical-align: top;"><img class="sd-image-img" style="width: 260px;" title="A user’s avatar">
   <div class="sd-image-overlay">
     <!--v-if-->
     <!--v-if-->
@@ -93,7 +93,7 @@ exports[`<image> demo: > render [extra] correctly 1`] = `
   <!--v-if-->
   <!--v-if-->
 </div>
-<div data-v-3b4808bb="" class="sd-image sd-image-with-footer-outer" style="width: 260px;"><img class="sd-image-img" style="width: 260px;" title="A user’s avatar">
+<div data-v-12f2eb6f="" class="sd-image sd-image-with-footer-outer" style="width: 260px;"><img class="sd-image-img" style="width: 260px;" title="A user’s avatar">
   <div class="sd-image-overlay">
     <!--v-if-->
     <!--v-if-->
@@ -104,10 +104,10 @@ exports[`<image> demo: > render [extra] correctly 1`] = `
 `;
 
 exports[`<image> demo: > render [loader] correctly 1`] = `
-<div data-v-c2af07dc=""><button data-v-c2af07dc="" class="sd-btn sd-btn-primary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button" style="margin-bottom: 20px;">
+<div data-v-27935e85=""><button data-v-27935e85="" class="sd-btn sd-btn-primary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button" style="margin-bottom: 20px;">
     <!--v-if--> reload
   </button></div>
-<div data-v-c2af07dc="" class="sd-image sd-image-with-footer-inner" style="width: 200px; height: 200px;"><img class="sd-image-img" style="width: 200px; height: 200px;">
+<div data-v-27935e85="" class="sd-image sd-image-with-footer-inner" style="width: 200px; height: 200px;"><img class="sd-image-img" style="width: 200px; height: 200px;">
   <div class="sd-image-overlay">
     <!--v-if-->
     <!--v-if-->
@@ -115,7 +115,7 @@ exports[`<image> demo: > render [loader] correctly 1`] = `
   <!--v-if-->
   <!--v-if-->
 </div>
-<div data-v-c2af07dc="" class="sd-image sd-image-with-footer-inner" style="width: 200px; height: 200px; margin-left: 67px;"><img class="sd-image-img" style="width: 200px; height: 200px;">
+<div data-v-27935e85="" class="sd-image sd-image-with-footer-inner" style="width: 200px; height: 200px;"><img class="sd-image-img" style="width: 200px; height: 200px;">
   <div class="sd-image-overlay">
     <!--v-if-->
     <!--v-if-->

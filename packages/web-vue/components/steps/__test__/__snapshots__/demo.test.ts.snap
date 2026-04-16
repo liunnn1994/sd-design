@@ -72,7 +72,7 @@ exports[`<steps> demo: > render [basic] correctly 1`] = `
   <div role="separator" class="sd-divider sd-divider-horizontal">
     <!---->
   </div>
-  <div style="line-height: 140px; text-align: center; color: rgb(201, 205, 212);"> Step 2 Content </div>
+  <div style="color: rgb(201, 205, 212); line-height: 140px; text-align: center;"> Step 2 Content </div>
 </div>
 `;
 
@@ -514,7 +514,7 @@ exports[`<steps> demo: > render [small] correctly 1`] = `
   <div role="separator" class="sd-divider sd-divider-horizontal">
     <!---->
   </div>
-  <div style="line-height: 140px; text-align: center; color: rgb(201, 205, 212);"> Step 2 Content </div>
+  <div style="color: rgb(201, 205, 212); line-height: 140px; text-align: center;"> Step 2 Content </div>
 </div>
 `;
 
@@ -576,11 +576,11 @@ exports[`<steps> demo: > render [small-arrow] correctly 1`] = `
 `;
 
 exports[`<steps> demo: > render [vertical] correctly 1`] = `
-<div data-v-03acb945="" class="frame-bg">
-  <div data-v-03acb945="" class="frame-body">
-    <div data-v-03acb945="" class="frame-aside">
-      <div data-v-03acb945="" class="sd-steps sd-steps-vertical sd-steps-label-horizontal sd-steps-mode-default">
-        <div data-v-03acb945="" class="sd-steps-item sd-steps-item-finish">
+<div data-v-0d7a68b2="" class="frame-bg">
+  <div data-v-0d7a68b2="" class="frame-body">
+    <div data-v-0d7a68b2="" class="frame-aside">
+      <div data-v-0d7a68b2="" class="sd-steps sd-steps-vertical sd-steps-label-horizontal sd-steps-mode-default">
+        <div data-v-0d7a68b2="" class="sd-steps-item sd-steps-item-finish">
           <div class="sd-steps-item-tail"></div>
           <div class="sd-steps-item-node">
             <div class="sd-steps-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-check" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
@@ -592,7 +592,7 @@ exports[`<steps> demo: > render [vertical] correctly 1`] = `
             <!--v-if-->
           </div>
         </div>
-        <div data-v-03acb945="" class="sd-steps-item sd-steps-item-finish">
+        <div data-v-0d7a68b2="" class="sd-steps-item sd-steps-item-finish">
           <div class="sd-steps-item-tail"></div>
           <div class="sd-steps-item-node">
             <div class="sd-steps-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-check" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
@@ -604,7 +604,7 @@ exports[`<steps> demo: > render [vertical] correctly 1`] = `
             <!--v-if-->
           </div>
         </div>
-        <div data-v-03acb945="" class="sd-steps-item sd-steps-item-finish">
+        <div data-v-0d7a68b2="" class="sd-steps-item sd-steps-item-finish">
           <div class="sd-steps-item-tail"></div>
           <div class="sd-steps-item-node">
             <div class="sd-steps-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-check" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
@@ -618,14 +618,14 @@ exports[`<steps> demo: > render [vertical] correctly 1`] = `
         </div>
       </div>
     </div>
-    <div data-v-03acb945="" class="frame-main">
-      <div data-v-03acb945="" class="main-content">The content of this step.</div>
-      <div data-v-03acb945="" class="main-bottom"><button data-v-03acb945="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal sd-btn-disabled" type="button" disabled="">
-          <!--v-if--><svg data-v-03acb945="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-left" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+    <div data-v-0d7a68b2="" class="frame-main">
+      <div data-v-0d7a68b2="" class="main-content">The content of this step.</div>
+      <div data-v-0d7a68b2="" class="main-bottom"><button data-v-0d7a68b2="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal sd-btn-disabled" type="button" disabled="">
+          <!--v-if--><svg data-v-0d7a68b2="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-left" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
             <path d="M32 8.4 16.444 23.956 32 39.513"></path>
           </svg> Back
-        </button><button data-v-03acb945="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
-          <!--v-if--> Next <svg data-v-03acb945="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+        </button><button data-v-0d7a68b2="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+          <!--v-if--> Next <svg data-v-0d7a68b2="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
             <path d="m16 39.513 15.556-15.557L16 8.4"></path>
           </svg>
         </button></div>

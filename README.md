@@ -125,8 +125,8 @@ pnpm run clean
 
 - 组件文档最终页面位于 `packages/sd-vue-docs/src/content/docs/components/**/index.mdx`。
 - 指南页最终页面位于 `packages/sd-vue-docs/src/content/docs/guides/*.mdx`。
-- 组件说明的历史来源仍可追溯到 `packages/web-vue/components/<component>/README.zh-CN.md`。
-- 组件示例源码位于 `packages/web-vue/components/<component>/__demo__/*.md`，在线编辑器展示的 Vue 示例组件已固化在文档站源码中。
+- 组件说明、示例源码和 API 表格统一直接维护在 `packages/sd-vue-docs/src/content/docs/**/*.mdx`。
+- 文档站运行时使用的示例组件位于 `packages/sd-vue-docs/src/components/generated/*/*.vue`。
 - 页面级调整、排版、链接和指南内容统一直接修改 `packages/sd-vue-docs/src/content/docs/**/*.mdx`。
 - 联调时优先使用 `pnpm run dev`；只调文档站可使用 `pnpm run dev:docs`。
 - 产线构建验证优先使用 `pnpm run build`；如果只验证站点可使用 `pnpm run build:docs`。

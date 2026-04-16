@@ -78,7 +78,7 @@ exports[`<upload> demo: > render [before-upload] correctly 1`] = `
 
 exports[`<upload> demo: > render [custom-button] correctly 1`] = `
 <div class="sd-upload-wrapper sd-upload-wrapper-type-text">
-  <!----><span class="sd-upload"><input type="file" style="display: none;"><span><div style="background-color: var(--color-fill-2); color: var(--color-text-1); border: 1px dashed var(--color-fill-4); height: 158px; width: 380px; border-radius: 2; line-height: 158px; text-align: center;"><div> Drag the file here or <span style="color: rgb(51, 112, 255);"> Click to upload</span>
+  <!----><span class="sd-upload"><input type="file" style="display: none;"><span><div style="width: 380px; height: 158px; color: var(--color-text-1); line-height: 158px; text-align: center; background-color: var(--color-fill-2); border: 1px dashed var(--color-fill-4);"><div> Drag the file here or <span style="color: rgb(51, 112, 255);"> Click to upload</span>
 </div>
 </div></span></span>
 <transition-group-stub tag="div" appear="false" persisted="false" css="true" class="sd-upload-list sd-upload-list-type-text">

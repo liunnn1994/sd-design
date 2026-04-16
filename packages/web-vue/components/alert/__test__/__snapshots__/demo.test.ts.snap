@@ -74,8 +74,8 @@ exports[`<alert> demo: > render [basic] correctly 1`] = `
 `;
 
 exports[`<alert> demo: > render [closable] correctly 1`] = `
-<div class="sd-row sd-row-align-start sd-row-justify-start" style="margin: -10px -20px -10px -20px;">
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+<div class="sd-row sd-row-align-start sd-row-justify-start" style="margin: -10px -20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-info">
         <div class="sd-alert-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-info-circle-fill" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
@@ -90,7 +90,7 @@ exports[`<alert> demo: > render [closable] correctly 1`] = `
       </div>
     </transition-stub>
   </div>
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-success">
         <div class="sd-alert-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-check-circle-fill" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
@@ -105,7 +105,7 @@ exports[`<alert> demo: > render [closable] correctly 1`] = `
       </div>
     </transition-stub>
   </div>
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-warning sd-alert-with-title">
         <div class="sd-alert-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-exclamation-circle-fill" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
@@ -120,7 +120,7 @@ exports[`<alert> demo: > render [closable] correctly 1`] = `
       </div>
     </transition-stub>
   </div>
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-error sd-alert-with-title">
         <div class="sd-alert-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-close-circle-fill" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
@@ -139,8 +139,8 @@ exports[`<alert> demo: > render [closable] correctly 1`] = `
 `;
 
 exports[`<alert> demo: > render [close-element] correctly 1`] = `
-<div class="sd-row sd-row-align-start sd-row-justify-start" style="margin: -10px -20px -10px -20px;">
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+<div class="sd-row sd-row-align-start sd-row-justify-start" style="margin: -10px -20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-info">
         <div class="sd-alert-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-info-circle-fill" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
@@ -157,7 +157,7 @@ exports[`<alert> demo: > render [close-element] correctly 1`] = `
       </div>
     </transition-stub>
   </div>
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-info">
         <div class="sd-alert-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-info-circle-fill" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
@@ -176,8 +176,8 @@ exports[`<alert> demo: > render [close-element] correctly 1`] = `
 `;
 
 exports[`<alert> demo: > render [icon] correctly 1`] = `
-<div class="sd-row sd-row-align-start sd-row-justify-start" style="margin: -10px -20px -10px -20px;">
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+<div class="sd-row sd-row-align-start sd-row-justify-start" style="margin: -10px -20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-info">
         <!--v-if-->
@@ -190,7 +190,7 @@ exports[`<alert> demo: > render [icon] correctly 1`] = `
       </div>
     </transition-stub>
   </div>
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-success">
         <!--v-if-->
@@ -203,7 +203,7 @@ exports[`<alert> demo: > render [icon] correctly 1`] = `
       </div>
     </transition-stub>
   </div>
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-warning sd-alert-with-title">
         <!--v-if-->
@@ -216,7 +216,7 @@ exports[`<alert> demo: > render [icon] correctly 1`] = `
       </div>
     </transition-stub>
   </div>
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-error sd-alert-with-title">
         <!--v-if-->
@@ -233,8 +233,8 @@ exports[`<alert> demo: > render [icon] correctly 1`] = `
 `;
 
 exports[`<alert> demo: > render [title] correctly 1`] = `
-<div class="sd-row sd-row-align-start sd-row-justify-start" style="margin: -10px -20px -10px -20px;">
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+<div class="sd-row sd-row-align-start sd-row-justify-start" style="margin: -10px -20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-info sd-alert-with-title">
         <div class="sd-alert-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-info-circle-fill" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
@@ -249,7 +249,7 @@ exports[`<alert> demo: > render [title] correctly 1`] = `
       </div>
     </transition-stub>
   </div>
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-success sd-alert-with-title">
         <div class="sd-alert-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-check-circle-fill" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
@@ -264,7 +264,7 @@ exports[`<alert> demo: > render [title] correctly 1`] = `
       </div>
     </transition-stub>
   </div>
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-warning sd-alert-with-title">
         <div class="sd-alert-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-exclamation-circle-fill" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
@@ -279,7 +279,7 @@ exports[`<alert> demo: > render [title] correctly 1`] = `
       </div>
     </transition-stub>
   </div>
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-error sd-alert-with-title">
         <div class="sd-alert-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-close-circle-fill" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
@@ -298,8 +298,8 @@ exports[`<alert> demo: > render [title] correctly 1`] = `
 `;
 
 exports[`<alert> demo: > render [type] correctly 1`] = `
-<div class="sd-row sd-row-align-start sd-row-justify-start" style="margin: -10px -20px -10px -20px;">
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+<div class="sd-row sd-row-align-start sd-row-justify-start" style="margin: -10px -20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-info">
         <div class="sd-alert-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-info-circle-fill" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
@@ -314,7 +314,7 @@ exports[`<alert> demo: > render [type] correctly 1`] = `
       </div>
     </transition-stub>
   </div>
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-success">
         <div class="sd-alert-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-check-circle-fill" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
@@ -329,7 +329,7 @@ exports[`<alert> demo: > render [type] correctly 1`] = `
       </div>
     </transition-stub>
   </div>
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-warning">
         <div class="sd-alert-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-exclamation-circle-fill" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
@@ -344,7 +344,7 @@ exports[`<alert> demo: > render [type] correctly 1`] = `
       </div>
     </transition-stub>
   </div>
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-error">
         <div class="sd-alert-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-close-circle-fill" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
@@ -359,7 +359,7 @@ exports[`<alert> demo: > render [type] correctly 1`] = `
       </div>
     </transition-stub>
   </div>
-  <div class="sd-col sd-col-12" style="padding: 10px 20px 10px 20px;">
+  <div class="sd-col sd-col-12" style="padding: 10px 20px;">
     <transition-stub name="zoom-in-top" appear="false" persisted="false" css="true">
       <div role="alert" class="sd-alert sd-alert-normal">
         <div class="sd-alert-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-exclamation-circle-fill" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">

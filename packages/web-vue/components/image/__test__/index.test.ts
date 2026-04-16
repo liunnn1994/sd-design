@@ -94,10 +94,36 @@ describe('Image', () => {
 
   test('Preview fullscreen should work', async () => {
     const wrapper = await getPreviewInstance();
+    const previewWrapper = wrapper.find('.sd-image-preview-wrapper').element as HTMLElement;
+    const previewImage = wrapper.find('.sd-image-preview-img').element as HTMLImageElement;
+
+    previewWrapper.getBoundingClientRect = vi.fn(() => ({
+      width: 400,
+      height: 400,
+      top: 0,
+      right: 400,
+      bottom: 400,
+      left: 0,
+      x: 0,
+      y: 0,
+      toJSON: () => '',
+    }));
+    previewImage.getBoundingClientRect = vi.fn(() => ({
+      width: 100,
+      height: 200,
+      top: 0,
+      right: 100,
+      bottom: 200,
+      left: 0,
+      x: 0,
+      y: 0,
+      toJSON: () => '',
+    }));
+
     const fullscreenAction = wrapper.findAll('.sd-image-preview-toolbar-action')[0];
     await fullscreenAction.trigger('click');
-    expect(wrapper.find('.sd-image-preview-img-container').attributes('style')).not.toContain(
-      'scale(1, 1)',
+    expect(wrapper.find('.sd-image-preview-img-container').attributes('style')).toMatch(
+      /scale\(4(?:\.0+)?, 4(?:\.0+)?\)/,
     );
   });
 

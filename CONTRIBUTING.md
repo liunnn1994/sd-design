@@ -100,24 +100,18 @@ Commit messages 请遵循[conventional-changelog 标准](https://www.conventiona
 > components/componentName
 
 ```
-├── README.zh-CN.md (组件中文说明)
-├── README.en-US.md (组件英文说明)
-├── TEMPLATE.md (历史模板文件，如仍保留请谨慎调整)
 ├── __test__
 │   ├── __snapshots__
 │   │   └── demo.test.js.snap
 │   ├── demo.test.ts (快照测试)
 │   └── index.test.ts (单元测试)
-├── __demo__ (组件演示)
-│   ├── basic.md
-│   └── advanced.md
 ├── index.tsx(组件导出)
 └── style
     └── index.less(组件样式)
     └── index.ts (组件样式导出)
 ```
 
-请注意: 如果进行了会影响组件说明文档的变更(例如 API、示例、说明文本调整)，请同步检查组件 README 与文档站页面是否一致。
+请注意: 如果进行了会影响组件说明文档的变更(例如 API、示例、说明文本调整)，请直接修改 `packages/sd-vue-docs/src/content/docs/**/*.mdx` 与 `packages/sd-vue-docs/src/components/generated/**/*.vue`，不要再向 `packages/web-vue/components` 添加 README、TEMPLATE 或 `__demo__` 文档文件。
 
 组件库的相关操作在`web-vue`目录下操作.
 

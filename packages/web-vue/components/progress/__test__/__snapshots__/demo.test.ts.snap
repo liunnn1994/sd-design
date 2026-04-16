@@ -135,7 +135,7 @@ exports[`<progress> demo: > render [linear] correctly 1`] = `
               </linearGradient>
             </defs>
             <circle class="sd-progress-circle-bg" fill="none" cx="32" cy="32" r="30" stroke-width="2"></circle>
-            <circle class="sd-progress-circle-bar" fill="none" cx="32" cy="32" r="30" stroke-width="4" style="stroke: url(#sd-progress-circle-linear-gradient-1); stroke-dasharray: 188.49555921538757; stroke-dashoffset: 37.6991118430775;"></circle>
+            <circle class="sd-progress-circle-bar" fill="none" cx="32" cy="32" r="30" stroke-width="4" style="stroke: url(&quot;#sd-progress-circle-linear-gradient-1&quot;); stroke-dasharray: 188.49555921538757; stroke-dashoffset: 37.6991118430775;"></circle>
           </svg>
           <div class="sd-progress-circle-text">80%</div>
         </div>
@@ -152,7 +152,7 @@ exports[`<progress> demo: > render [linear] correctly 1`] = `
               </linearGradient>
             </defs>
             <circle class="sd-progress-circle-bg" fill="none" cx="32" cy="32" r="30" stroke-width="2"></circle>
-            <circle class="sd-progress-circle-bar" fill="none" cx="32" cy="32" r="30" stroke-width="4" style="stroke: url(#sd-progress-circle-linear-gradient-2); stroke-dasharray: 188.49555921538757; stroke-dashoffset: 0;"></circle>
+            <circle class="sd-progress-circle-bar" fill="none" cx="32" cy="32" r="30" stroke-width="4" style="stroke: url(&quot;#sd-progress-circle-linear-gradient-2&quot;); stroke-dasharray: 188.49555921538757; stroke-dashoffset: 0;"></circle>
           </svg>
           <div class="sd-progress-circle-text"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-check" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
               <path d="M41.678 11.05 19.05 33.678 6.322 20.95"></path>
@@ -478,7 +478,7 @@ exports[`<progress> demo: > render [steps] correctly 1`] = `
 </div>
 `;
 
-exports[`<progress> demo: > render [trackColor] correctly 1`] = `
+exports[`<progress> demo: > render [trackcolor] correctly 1`] = `
 <div style="width: 50%;">
   <div class="sd-progress sd-progress-type-line sd-progress-size-medium sd-progress-status-normal" style="margin-bottom: 20px;">
     <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0.4" class="sd-progress-line-wrapper">

@@ -135,20 +135,20 @@ exports[`<list> demo: > render [actions] correctly 1`] = `
 `;
 
 exports[`<list> demo: > render [actions-layout] correctly 1`] = `
-<div data-v-ae08540c="" class="sd-list-wrapper list-demo-action-layout">
+<div data-v-b8853180="" class="sd-list-wrapper list-demo-action-layout">
   <div class="sd-spin sd-list-spin">
     <div class="sd-scrollbar sd-scrollbar-type-embed">
       <div class="sd-scrollbar-container sd-list sd-list-medium sd-list-split">
         <div class="sd-list-content-wrapper">
           <!---->
           <div role="list" class="sd-list-content">
-            <div data-v-ae08540c="" role="listitem" class="sd-list-item list-demo-item">
+            <div data-v-b8853180="" role="listitem" class="sd-list-item list-demo-item">
               <div class="sd-list-item-main">
                 <!---->
                 <div class="sd-list-item-content">
-                  <div data-v-ae08540c="" class="sd-list-item-meta">
+                  <div data-v-b8853180="" class="sd-list-item-meta">
                     <div class="sd-list-item-meta-avatar">
-                      <div data-v-ae08540c="" class="sd-avatar sd-avatar-square"><span class="sd-avatar-text"><img data-v-ae08540c="" alt="avatar" src="//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a8c8cdb109cb051163646151a4a5083b.png~tplv-uwbnlip3yd-webp.webp"></span>
+                      <div data-v-b8853180="" class="sd-avatar sd-avatar-square"><span class="sd-avatar-text"><img data-v-b8853180="" alt="avatar" src="//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a8c8cdb109cb051163646151a4a5083b.png~tplv-uwbnlip3yd-webp.webp"></span>
                         <!--v-if-->
                       </div>
                     </div>
@@ -159,23 +159,23 @@ exports[`<list> demo: > render [actions-layout] correctly 1`] = `
                   </div>
                 </div>
                 <ul class="sd-list-item-action">
-                  <li><span data-v-ae08540c=""><svg data-v-ae08540c="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-heart" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M38.083 12.912a9.93 9.93 0 0 1 .177 13.878l-.177.18L25.76 39.273c-.972.97-2.548.97-3.52 0L9.917 26.971l-.177-.181a9.93 9.93 0 0 1 .177-13.878c3.889-3.883 10.194-3.883 14.083 0 3.889-3.883 10.194-3.883 14.083 0Z"></path></svg>83</span></li>
-                  <li><span data-v-ae08540c=""><svg data-v-ae08540c="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-star" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M22.552 6.908a.5.5 0 0 1 .896 0l5.02 10.17a.5.5 0 0 0 .376.274l11.224 1.631a.5.5 0 0 1 .277.853l-8.122 7.916a.5.5 0 0 0-.143.443l1.917 11.178a.5.5 0 0 1-.726.527l-10.038-5.278a.5.5 0 0 0-.466 0L12.73 39.9a.5.5 0 0 1-.726-.527l1.918-11.178a.5.5 0 0 0-.144-.443l-8.122-7.916a.5.5 0 0 1 .278-.853l11.223-1.63a.5.5 0 0 0 .376-.274z"></path></svg>0</span></li>
-                  <li><span data-v-ae08540c=""><svg data-v-ae08540c="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-message" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M15 20h18m-18 9h9M7 41h17.63C33.67 41 41 33.67 41 24.63V24c0-9.389-7.611-17-17-17S7 14.611 7 24z"></path></svg>Reply</span></li>
+                  <li><span data-v-b8853180=""><svg data-v-b8853180="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-heart" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M38.083 12.912a9.93 9.93 0 0 1 .177 13.878l-.177.18L25.76 39.273c-.972.97-2.548.97-3.52 0L9.917 26.971l-.177-.181a9.93 9.93 0 0 1 .177-13.878c3.889-3.883 10.194-3.883 14.083 0 3.889-3.883 10.194-3.883 14.083 0Z"></path></svg>83</span></li>
+                  <li><span data-v-b8853180=""><svg data-v-b8853180="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-star" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M22.552 6.908a.5.5 0 0 1 .896 0l5.02 10.17a.5.5 0 0 0 .376.274l11.224 1.631a.5.5 0 0 1 .277.853l-8.122 7.916a.5.5 0 0 0-.143.443l1.917 11.178a.5.5 0 0 1-.726.527l-10.038-5.278a.5.5 0 0 0-.466 0L12.73 39.9a.5.5 0 0 1-.726-.527l1.918-11.178a.5.5 0 0 0-.144-.443l-8.122-7.916a.5.5 0 0 1 .278-.853l11.223-1.63a.5.5 0 0 0 .376-.274z"></path></svg>0</span></li>
+                  <li><span data-v-b8853180=""><svg data-v-b8853180="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-message" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M15 20h18m-18 9h9M7 41h17.63C33.67 41 41 33.67 41 24.63V24c0-9.389-7.611-17-17-17S7 14.611 7 24z"></path></svg>Reply</span></li>
                 </ul>
               </div>
               <!---->
               <div class="sd-list-item-extra">
-                <div data-v-ae08540c="" class="image-area"><img data-v-ae08540c="" alt="sd-design" src="//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/29c1f9d7d17c503c5d7bf4e538cb7c4f.png~tplv-uwbnlip3yd-webp.webp"></div>
+                <div data-v-b8853180="" class="image-area"><img data-v-b8853180="" alt="sd-design" src="//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/29c1f9d7d17c503c5d7bf4e538cb7c4f.png~tplv-uwbnlip3yd-webp.webp"></div>
               </div>
             </div>
-            <div data-v-ae08540c="" role="listitem" class="sd-list-item list-demo-item">
+            <div data-v-b8853180="" role="listitem" class="sd-list-item list-demo-item">
               <div class="sd-list-item-main">
                 <!---->
                 <div class="sd-list-item-content">
-                  <div data-v-ae08540c="" class="sd-list-item-meta">
+                  <div data-v-b8853180="" class="sd-list-item-meta">
                     <div class="sd-list-item-meta-avatar">
-                      <div data-v-ae08540c="" class="sd-avatar sd-avatar-square"><span class="sd-avatar-text"><img data-v-ae08540c="" alt="avatar" src="//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/e278888093bef8910e829486fb45dd69.png~tplv-uwbnlip3yd-webp.webp"></span>
+                      <div data-v-b8853180="" class="sd-avatar sd-avatar-square"><span class="sd-avatar-text"><img data-v-b8853180="" alt="avatar" src="//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/e278888093bef8910e829486fb45dd69.png~tplv-uwbnlip3yd-webp.webp"></span>
                         <!--v-if-->
                       </div>
                     </div>
@@ -186,23 +186,23 @@ exports[`<list> demo: > render [actions-layout] correctly 1`] = `
                   </div>
                 </div>
                 <ul class="sd-list-item-action">
-                  <li><span data-v-ae08540c=""><svg data-v-ae08540c="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-heart" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M38.083 12.912a9.93 9.93 0 0 1 .177 13.878l-.177.18L25.76 39.273c-.972.97-2.548.97-3.52 0L9.917 26.971l-.177-.181a9.93 9.93 0 0 1 .177-13.878c3.889-3.883 10.194-3.883 14.083 0 3.889-3.883 10.194-3.883 14.083 0Z"></path></svg>83</span></li>
-                  <li><span data-v-ae08540c=""><svg data-v-ae08540c="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-star" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M22.552 6.908a.5.5 0 0 1 .896 0l5.02 10.17a.5.5 0 0 0 .376.274l11.224 1.631a.5.5 0 0 1 .277.853l-8.122 7.916a.5.5 0 0 0-.143.443l1.917 11.178a.5.5 0 0 1-.726.527l-10.038-5.278a.5.5 0 0 0-.466 0L12.73 39.9a.5.5 0 0 1-.726-.527l1.918-11.178a.5.5 0 0 0-.144-.443l-8.122-7.916a.5.5 0 0 1 .278-.853l11.223-1.63a.5.5 0 0 0 .376-.274z"></path></svg>1</span></li>
-                  <li><span data-v-ae08540c=""><svg data-v-ae08540c="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-message" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M15 20h18m-18 9h9M7 41h17.63C33.67 41 41 33.67 41 24.63V24c0-9.389-7.611-17-17-17S7 14.611 7 24z"></path></svg>Reply</span></li>
+                  <li><span data-v-b8853180=""><svg data-v-b8853180="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-heart" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M38.083 12.912a9.93 9.93 0 0 1 .177 13.878l-.177.18L25.76 39.273c-.972.97-2.548.97-3.52 0L9.917 26.971l-.177-.181a9.93 9.93 0 0 1 .177-13.878c3.889-3.883 10.194-3.883 14.083 0 3.889-3.883 10.194-3.883 14.083 0Z"></path></svg>83</span></li>
+                  <li><span data-v-b8853180=""><svg data-v-b8853180="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-star" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M22.552 6.908a.5.5 0 0 1 .896 0l5.02 10.17a.5.5 0 0 0 .376.274l11.224 1.631a.5.5 0 0 1 .277.853l-8.122 7.916a.5.5 0 0 0-.143.443l1.917 11.178a.5.5 0 0 1-.726.527l-10.038-5.278a.5.5 0 0 0-.466 0L12.73 39.9a.5.5 0 0 1-.726-.527l1.918-11.178a.5.5 0 0 0-.144-.443l-8.122-7.916a.5.5 0 0 1 .278-.853l11.223-1.63a.5.5 0 0 0 .376-.274z"></path></svg>1</span></li>
+                  <li><span data-v-b8853180=""><svg data-v-b8853180="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-message" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M15 20h18m-18 9h9M7 41h17.63C33.67 41 41 33.67 41 24.63V24c0-9.389-7.611-17-17-17S7 14.611 7 24z"></path></svg>Reply</span></li>
                 </ul>
               </div>
               <!---->
               <div class="sd-list-item-extra">
-                <div data-v-ae08540c="" class="image-area"><img data-v-ae08540c="" alt="sd-design" src="//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/04d7bc31dd67dcdf380bc3f6aa07599f.png~tplv-uwbnlip3yd-webp.webp"></div>
+                <div data-v-b8853180="" class="image-area"><img data-v-b8853180="" alt="sd-design" src="//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/04d7bc31dd67dcdf380bc3f6aa07599f.png~tplv-uwbnlip3yd-webp.webp"></div>
               </div>
             </div>
-            <div data-v-ae08540c="" role="listitem" class="sd-list-item list-demo-item">
+            <div data-v-b8853180="" role="listitem" class="sd-list-item list-demo-item">
               <div class="sd-list-item-main">
                 <!---->
                 <div class="sd-list-item-content">
-                  <div data-v-ae08540c="" class="sd-list-item-meta">
+                  <div data-v-b8853180="" class="sd-list-item-meta">
                     <div class="sd-list-item-meta-avatar">
-                      <div data-v-ae08540c="" class="sd-avatar sd-avatar-square"><span class="sd-avatar-text"><img data-v-ae08540c="" alt="avatar" src="//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/9eeb1800d9b78349b24682c3518ac4a3.png~tplv-uwbnlip3yd-webp.webp"></span>
+                      <div data-v-b8853180="" class="sd-avatar sd-avatar-square"><span class="sd-avatar-text"><img data-v-b8853180="" alt="avatar" src="//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/9eeb1800d9b78349b24682c3518ac4a3.png~tplv-uwbnlip3yd-webp.webp"></span>
                         <!--v-if-->
                       </div>
                     </div>
@@ -213,14 +213,14 @@ exports[`<list> demo: > render [actions-layout] correctly 1`] = `
                   </div>
                 </div>
                 <ul class="sd-list-item-action">
-                  <li><span data-v-ae08540c=""><svg data-v-ae08540c="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-heart" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M38.083 12.912a9.93 9.93 0 0 1 .177 13.878l-.177.18L25.76 39.273c-.972.97-2.548.97-3.52 0L9.917 26.971l-.177-.181a9.93 9.93 0 0 1 .177-13.878c3.889-3.883 10.194-3.883 14.083 0 3.889-3.883 10.194-3.883 14.083 0Z"></path></svg>83</span></li>
-                  <li><span data-v-ae08540c=""><svg data-v-ae08540c="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-star" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M22.552 6.908a.5.5 0 0 1 .896 0l5.02 10.17a.5.5 0 0 0 .376.274l11.224 1.631a.5.5 0 0 1 .277.853l-8.122 7.916a.5.5 0 0 0-.143.443l1.917 11.178a.5.5 0 0 1-.726.527l-10.038-5.278a.5.5 0 0 0-.466 0L12.73 39.9a.5.5 0 0 1-.726-.527l1.918-11.178a.5.5 0 0 0-.144-.443l-8.122-7.916a.5.5 0 0 1 .278-.853l11.223-1.63a.5.5 0 0 0 .376-.274z"></path></svg>2</span></li>
-                  <li><span data-v-ae08540c=""><svg data-v-ae08540c="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-message" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M15 20h18m-18 9h9M7 41h17.63C33.67 41 41 33.67 41 24.63V24c0-9.389-7.611-17-17-17S7 14.611 7 24z"></path></svg>Reply</span></li>
+                  <li><span data-v-b8853180=""><svg data-v-b8853180="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-heart" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M38.083 12.912a9.93 9.93 0 0 1 .177 13.878l-.177.18L25.76 39.273c-.972.97-2.548.97-3.52 0L9.917 26.971l-.177-.181a9.93 9.93 0 0 1 .177-13.878c3.889-3.883 10.194-3.883 14.083 0 3.889-3.883 10.194-3.883 14.083 0Z"></path></svg>83</span></li>
+                  <li><span data-v-b8853180=""><svg data-v-b8853180="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-star" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M22.552 6.908a.5.5 0 0 1 .896 0l5.02 10.17a.5.5 0 0 0 .376.274l11.224 1.631a.5.5 0 0 1 .277.853l-8.122 7.916a.5.5 0 0 0-.143.443l1.917 11.178a.5.5 0 0 1-.726.527l-10.038-5.278a.5.5 0 0 0-.466 0L12.73 39.9a.5.5 0 0 1-.726-.527l1.918-11.178a.5.5 0 0 0-.144-.443l-8.122-7.916a.5.5 0 0 1 .278-.853l11.223-1.63a.5.5 0 0 0 .376-.274z"></path></svg>2</span></li>
+                  <li><span data-v-b8853180=""><svg data-v-b8853180="" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-message" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M15 20h18m-18 9h9M7 41h17.63C33.67 41 41 33.67 41 24.63V24c0-9.389-7.611-17-17-17S7 14.611 7 24z"></path></svg>Reply</span></li>
                 </ul>
               </div>
               <!---->
               <div class="sd-list-item-extra">
-                <div data-v-ae08540c="" class="image-area"><img data-v-ae08540c="" alt="sd-design" src="//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/1f61854a849a076318ed527c8fca1bbf.png~tplv-uwbnlip3yd-webp.webp"></div>
+                <div data-v-b8853180="" class="image-area"><img data-v-b8853180="" alt="sd-design" src="//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/1f61854a849a076318ed527c8fca1bbf.png~tplv-uwbnlip3yd-webp.webp"></div>
               </div>
             </div>
             <!---->
@@ -686,8 +686,8 @@ exports[`<list> demo: > render [responsive-grid] correctly 1`] = `
         <div class="sd-list-content-wrapper">
           <!---->
           <div role="list" class="sd-list-content">
-            <div class="sd-row sd-row-align-start sd-row-justify-start sd-list-row" style="margin: -10px -10px -10px -10px;">
-              <div class="sd-col sd-col-sm-24 sd-col-md-12 sd-col-lg-8 sd-col-xl-6 sd-list-col" style="padding: 10px 10px 10px 10px;">
+            <div class="sd-row sd-row-align-start sd-row-justify-start sd-list-row" style="margin: -10px;">
+              <div class="sd-col sd-col-sm-24 sd-col-md-12 sd-col-lg-8 sd-col-xl-6 sd-list-col" style="padding: 10px;">
                 <div class="sd-list-wrapper">
                   <div class="sd-spin sd-list-spin">
                     <div class="sd-scrollbar sd-scrollbar-type-embed">
@@ -735,7 +735,7 @@ exports[`<list> demo: > render [responsive-grid] correctly 1`] = `
                   </div>
                 </div>
               </div>
-              <div class="sd-col sd-col-sm-24 sd-col-md-12 sd-col-lg-8 sd-col-xl-6 sd-list-col" style="padding: 10px 10px 10px 10px;">
+              <div class="sd-col sd-col-sm-24 sd-col-md-12 sd-col-lg-8 sd-col-xl-6 sd-list-col" style="padding: 10px;">
                 <div class="sd-list-wrapper">
                   <div class="sd-spin sd-list-spin">
                     <div class="sd-scrollbar sd-scrollbar-type-embed">
@@ -783,7 +783,7 @@ exports[`<list> demo: > render [responsive-grid] correctly 1`] = `
                   </div>
                 </div>
               </div>
-              <div class="sd-col sd-col-sm-24 sd-col-md-12 sd-col-lg-8 sd-col-xl-6 sd-list-col" style="padding: 10px 10px 10px 10px;">
+              <div class="sd-col sd-col-sm-24 sd-col-md-12 sd-col-lg-8 sd-col-xl-6 sd-list-col" style="padding: 10px;">
                 <div class="sd-list-wrapper">
                   <div class="sd-spin sd-list-spin">
                     <div class="sd-scrollbar sd-scrollbar-type-embed">
@@ -831,7 +831,7 @@ exports[`<list> demo: > render [responsive-grid] correctly 1`] = `
                   </div>
                 </div>
               </div>
-              <div class="sd-col sd-col-sm-24 sd-col-md-12 sd-col-lg-8 sd-col-xl-6 sd-list-col" style="padding: 10px 10px 10px 10px;">
+              <div class="sd-col sd-col-sm-24 sd-col-md-12 sd-col-lg-8 sd-col-xl-6 sd-list-col" style="padding: 10px;">
                 <div class="sd-list-wrapper">
                   <div class="sd-spin sd-list-spin">
                     <div class="sd-scrollbar sd-scrollbar-type-embed">
@@ -879,7 +879,7 @@ exports[`<list> demo: > render [responsive-grid] correctly 1`] = `
                   </div>
                 </div>
               </div>
-              <div class="sd-col sd-col-sm-24 sd-col-md-12 sd-col-lg-8 sd-col-xl-6 sd-list-col" style="padding: 10px 10px 10px 10px;">
+              <div class="sd-col sd-col-sm-24 sd-col-md-12 sd-col-lg-8 sd-col-xl-6 sd-list-col" style="padding: 10px;">
                 <div class="sd-list-wrapper">
                   <div class="sd-spin sd-list-spin">
                     <div class="sd-scrollbar sd-scrollbar-type-embed">
@@ -927,7 +927,7 @@ exports[`<list> demo: > render [responsive-grid] correctly 1`] = `
                   </div>
                 </div>
               </div>
-              <div class="sd-col sd-col-sm-24 sd-col-md-12 sd-col-lg-8 sd-col-xl-6 sd-list-col" style="padding: 10px 10px 10px 10px;">
+              <div class="sd-col sd-col-sm-24 sd-col-md-12 sd-col-lg-8 sd-col-xl-6 sd-list-col" style="padding: 10px;">
                 <div class="sd-list-wrapper">
                   <div class="sd-spin sd-list-spin">
                     <div class="sd-scrollbar sd-scrollbar-type-embed">
@@ -975,7 +975,7 @@ exports[`<list> demo: > render [responsive-grid] correctly 1`] = `
                   </div>
                 </div>
               </div>
-              <div class="sd-col sd-col-sm-24 sd-col-md-12 sd-col-lg-8 sd-col-xl-6 sd-list-col" style="padding: 10px 10px 10px 10px;">
+              <div class="sd-col sd-col-sm-24 sd-col-md-12 sd-col-lg-8 sd-col-xl-6 sd-list-col" style="padding: 10px;">
                 <div class="sd-list-wrapper">
                   <div class="sd-spin sd-list-spin">
                     <div class="sd-scrollbar sd-scrollbar-type-embed">
@@ -1023,7 +1023,7 @@ exports[`<list> demo: > render [responsive-grid] correctly 1`] = `
                   </div>
                 </div>
               </div>
-              <div class="sd-col sd-col-sm-24 sd-col-md-12 sd-col-lg-8 sd-col-xl-6 sd-list-col" style="padding: 10px 10px 10px 10px;">
+              <div class="sd-col sd-col-sm-24 sd-col-md-12 sd-col-lg-8 sd-col-xl-6 sd-list-col" style="padding: 10px;">
                 <div class="sd-list-wrapper">
                   <div class="sd-spin sd-list-spin">
                     <div class="sd-scrollbar sd-scrollbar-type-embed">
@@ -1071,7 +1071,7 @@ exports[`<list> demo: > render [responsive-grid] correctly 1`] = `
                   </div>
                 </div>
               </div>
-              <div class="sd-col sd-col-sm-24 sd-col-md-12 sd-col-lg-8 sd-col-xl-6 sd-list-col" style="padding: 10px 10px 10px 10px;">
+              <div class="sd-col sd-col-sm-24 sd-col-md-12 sd-col-lg-8 sd-col-xl-6 sd-list-col" style="padding: 10px;">
                 <div class="sd-list-wrapper">
                   <div class="sd-spin sd-list-spin">
                     <div class="sd-scrollbar sd-scrollbar-type-embed">
