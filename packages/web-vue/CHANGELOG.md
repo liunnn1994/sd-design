@@ -1,9 +1,19 @@
-# [1.3.0](https://github.com/liunnn1994/sd-design/compare/v1.2.0...v1.3.0) (2026-04-14)
+# [1.4.0](https://github.com/liunnn1994/sd-design/compare/v1.3.0...v1.4.0) (2026-04-16)
 
+### Bug Fixes
+
+- 🐛 修复 lint 问题 ([7f81320](https://github.com/liunnn1994/sd-design/commit/7f8132010628e0d976aec97448329a96e1d52b74))
+- 🐛 修复在线编辑功能报错的问题 ([1bf5879](https://github.com/liunnn1994/sd-design/commit/1bf5879a52e22bb1fe6c64a14772c3e845a009d9))
 
 ### Features
 
-* 移除 scripts 减少复杂度 ([655ee6c](https://github.com/liunnn1994/sd-design/commit/655ee6cdf622325ea738a6b233a7a7104d569092))
+- 更新架构，使用 vite+，同时把 jest 的测试用例迁移到 vitest 上 ([990b5e4](https://github.com/liunnn1994/sd-design/commit/990b5e48602b8dca3b6cb95982ffb7287173bd97))
+
+# [1.3.0](https://github.com/liunnn1994/sd-design/compare/v1.2.0...v1.3.0) (2026-04-14)
+
+### Features
+
+- 移除 scripts 减少复杂度 ([655ee6c](https://github.com/liunnn1994/sd-design/commit/655ee6cdf622325ea738a6b233a7a7104d569092))
 
 # [1.2.0](https://github.com/liunnn1994/sd-design/compare/v1.1.0...v1.2.0) (2026-04-14)
 
