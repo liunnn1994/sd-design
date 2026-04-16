@@ -132,26 +132,17 @@ function createModuleBuildConfig(): UserConfig {
       reportCompressedSize: false,
       rollupOptions: {
         input: ['components/index.ts', 'components/icon/index.ts', ...langFiles],
-        output: [
-          {
-            format: 'es',
-            dir: 'es',
-            entryFileNames: '[name].js',
-            preserveModules: true,
-            preserveModulesRoot: 'components',
-          },
-          {
-            format: 'cjs',
-            dir: 'lib',
-            entryFileNames: '[name].js',
-            preserveModules: true,
-            preserveModulesRoot: 'components',
-          },
-        ],
+        output: {
+          format: 'es',
+          dir: 'es',
+          entryFileNames: '[name].js',
+          preserveModules: true,
+          preserveModulesRoot: 'components',
+        },
       },
       lib: {
         entry: 'components/index.ts',
-        formats: ['es', 'cjs'],
+        formats: ['es'],
       },
     },
     plugins: [externalPlugin(), vue(), vueJsx(), vueExportHelperPlugin()],
@@ -207,7 +198,6 @@ async function emitStyleArtifacts() {
   for (const filename of files) {
     const absolute = resolveFromRoot('components', filename);
     await copyInto(resolveFromRoot('es', filename), absolute);
-    await copyInto(resolveFromRoot('lib', filename), absolute);
 
     if (filename.endsWith('index.less')) {
       const lessContent = await readFile(absolute, 'utf8');
@@ -217,13 +207,11 @@ async function emitStyleArtifacts() {
       });
       const cssFilename = filename.replace('.less', '.css');
       await writeFile(resolveFromRoot('es', cssFilename), result.css, 'utf8');
-      await writeFile(resolveFromRoot('lib', cssFilename), result.css, 'utf8');
     }
   }
 
   const indexLessPath = resolveFromRoot('components', 'index.less');
   await copyInto(resolveFromRoot('es', 'index.less'), indexLessPath);
-  await copyInto(resolveFromRoot('lib', 'index.less'), indexLessPath);
 
   const indexLess = await readFile(indexLessPath, 'utf8');
   const result = await less.render(indexLess, {
@@ -270,22 +258,15 @@ function createStyleBuildConfig(): UserConfig {
       rollupOptions: {
         external: /less$/,
         input: rollupInput,
-        output: [
-          {
-            format: 'es',
-            dir: 'es',
-            entryFileNames: '[name].js',
-          },
-          {
-            format: 'cjs',
-            dir: 'lib',
-            entryFileNames: '[name].js',
-          },
-        ],
+        output: {
+          format: 'es',
+          dir: 'es',
+          entryFileNames: '[name].js',
+        },
       },
       lib: {
         entry: 'components/index.ts',
-        formats: ['es', 'cjs'],
+        formats: ['es'],
       },
     },
     plugins: [createStyleArtifactsPlugin(), cssjsPlugin()],

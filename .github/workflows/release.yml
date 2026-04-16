@@ -50,7 +50,7 @@ jobs:
 
       - name: Build web-vue
         env:
-          NODE_OPTIONS: '--max-old-space-size=4096'
+          NODE_OPTIONS: '--max-old-space-size=6144'
         run: pnpm run build:component --verbose
 
       - name: Release web-vue

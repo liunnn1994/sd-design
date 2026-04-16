@@ -15,17 +15,14 @@
   },
   "files": [
     "es",
-    "lib",
     "dist",
     "json"
   ],
   "sideEffects": [
     "dist/*",
     "es/**/style/*",
-    "lib/**/style/*",
     "*.less"
   ],
-  "main": "lib/index.js",
   "module": "es/index.js",
   "types": "es/index.d.ts",
   "unpkg": "dist/sd-vue.min.js",
