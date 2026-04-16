@@ -15,6 +15,10 @@ export const docsSidebar = [
         label: '常见问题',
       },
       {
+        slug: 'guides/naive-ui-migration',
+        label: 'Naive UI 迁移',
+      },
+      {
         slug: 'guides/start',
         label: '快速上手',
       },

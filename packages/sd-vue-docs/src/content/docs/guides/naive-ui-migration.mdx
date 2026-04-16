@@ -1,0 +1,146 @@
+---
+title: Naive UI 迁移
+description: 从 Naive UI 迁移到 SD Design Vue 的常用组件差异与改造建议。
+---
+
+## 文本省略 Ellipsis
+
+本次已完成 `naive-ui` 的 `Ellipsis` 能力迁移，并适配到 SD Design Vue 现有的 Tooltip / Trigger 体系。
+
+迁移后的能力包含：
+
+- 单行省略
+- 多行省略
+- 点击展开
+- 自定义提示内容
+- 高性能渲染版本 `PerformantEllipsis`
+
+### 对应关系
+
+| Naive UI              | SD Design Vue                                   | 说明                             |
+| --------------------- | ----------------------------------------------- | -------------------------------- |
+| `NEllipsis`           | `sd-ellipsis` / `Ellipsis`                      | 常规文本省略组件                 |
+| `NPerformantEllipsis` | `sd-performant-ellipsis` / `PerformantEllipsis` | 大量列表场景下的轻量版本         |
+| `#tooltip`            | `#tooltip`                                      | 保留同名插槽，用于自定义提示内容 |
+| `:tooltip="false"`    | `:tooltip="false"`                              | 关闭浮层提示，退回原生 `title`   |
+| `line-clamp`          | `line-clamp`                                    | 多行省略写法保持一致             |
+
+### 主要差异
+
+1. 在 SD Design Vue 中，省略提示直接复用组件库内置的 Tooltip，不需要再额外包一层 Tooltip 组件。
+2. `tooltip` 除了支持 `true` / `false`，也支持直接传入 Tooltip 配置对象，例如 `position`、`mini`、`popupContainer` 等。
+3. `PerformantEllipsis` 首屏先输出纯 CSS 省略结果，只有在用户真正交互后才会激活完整的 `Ellipsis` 能力，更适合长列表。
+4. 文档和业务代码里如果是模板直接使用，推荐优先使用 `sd-ellipsis`、`sd-performant-ellipsis` 标签；如果在 `script` 中显式导入，推荐从稳定子入口导入对应组件。
+
+### 迁移前后示例
+
+#### 基础用法
+
+```vue
+<template>
+  <n-ellipsis style="max-width: 240px;">
+    A design is a plan or specification for the construction of an object or
+    system.
+  </n-ellipsis>
+</template>
+```
+
+```vue
+<template>
+  <sd-ellipsis style="max-width: 240px;">
+    A design is a plan or specification for the construction of an object or
+    system.
+  </sd-ellipsis>
+</template>
+```
+
+#### 多行省略
+
+```vue
+<template>
+  <n-ellipsis :line-clamp="2" style="max-width: 320px;">
+    A design is a plan or specification for the construction of an object or
+    system or for the implementation of an activity or process.
+  </n-ellipsis>
+</template>
+```
+
+```vue
+<template>
+  <sd-ellipsis :line-clamp="2" style="max-width: 320px;">
+    A design is a plan or specification for the construction of an object or
+    system or for the implementation of an activity or process.
+  </sd-ellipsis>
+</template>
+```
+
+#### 自定义提示内容
+
+```vue
+<template>
+  <n-ellipsis>
+    Hover the truncated content to show a custom tooltip body.
+    <template #tooltip>
+      <div>
+        <strong>Full content</strong>
+        <div>Hover the truncated content to show a custom tooltip body.</div>
+      </div>
+    </template>
+  </n-ellipsis>
+</template>
+```
+
+```vue
+<template>
+  <sd-ellipsis
+    :tooltip="{ position: 'bottom', mini: true }"
+    style="display: block; max-width: 260px;"
+  >
+    Hover the truncated content to show a custom tooltip body.
+    <template #tooltip>
+      <div>
+        <strong>Full content</strong>
+        <div>Hover the truncated content to show a custom tooltip body.</div>
+      </div>
+    </template>
+  </sd-ellipsis>
+</template>
+```
+
+#### 高性能渲染
+
+```vue
+<template>
+  <n-performant-ellipsis style="max-width: 240px;">
+    In large lists, performant ellipsis avoids eagerly wiring tooltip and resize
+    logic.
+  </n-performant-ellipsis>
+</template>
+```
+
+```vue
+<template>
+  <sd-performant-ellipsis style="max-width: 240px;">
+    In large lists, performant ellipsis avoids eagerly wiring tooltip and resize
+    logic.
+  </sd-performant-ellipsis>
+</template>
+```
+
+### 建议的迁移顺序
+
+1. 先把 `n-ellipsis` 替换成 `sd-ellipsis`，保持原有 `line-clamp`、`tooltip` 插槽等写法不变。
+2. 如果原页面是表格、大列表或虚拟列表，再把热点位置替换为 `sd-performant-ellipsis`。
+3. 如果原来依赖外层 `n-tooltip` 包裹省略内容，优先改成 `sd-ellipsis` 自身的 `tooltip` 属性或 `tooltip` 插槽。
+4. 对文档或示例页，除了在线编辑器，也要检查实际预览里的首轮 hover / focus / click 表现是否正常。
+
+### 本次迁移结果
+
+本次迁移在 SD Design Vue 中补齐了以下交付物：
+
+- `Ellipsis` 组件源码、样式、导出与注册链路
+- `PerformantEllipsis` 组件与对应测试
+- 文档页、组件总览、侧边栏入口
+- 单行省略、自定义提示内容、文档预览行为等回归修复
+
+如果你正在从 Naive UI 逐步迁移，建议优先以这套 `Ellipsis` / `PerformantEllipsis` 对应关系作为替换模板。

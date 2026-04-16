@@ -70,6 +70,26 @@ export const performantEllipsisSource =
 
 </DemoBlock>
 
+## 从 Naive UI 迁移
+
+如果你正在把 `naive-ui` 的 `NEllipsis` 或 `NPerformantEllipsis` 迁移到当前组件库，可以直接参考 [guides/naive-ui-migration.mdx](guides/naive-ui-migration.mdx)。
+
+当前这次迁移已经对齐了以下能力：
+
+- 单行省略与多行省略
+- 点击展开
+- `tooltip` 插槽自定义提示内容
+- 高性能渲染版本 `sd-performant-ellipsis`
+
+常见替换关系如下：
+
+| Naive UI                | SD Design Vue            |
+| ----------------------- | ------------------------ |
+| `n-ellipsis`            | `sd-ellipsis`            |
+| `n-performant-ellipsis` | `sd-performant-ellipsis` |
+
+如果业务代码里需要显式导入组件，也可以直接导入 `Ellipsis` 和 `PerformantEllipsis` 组件使用。
+
 ## API
 
 ### `<ellipsis>` / `<performant-ellipsis>` Props
