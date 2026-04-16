@@ -43,6 +43,10 @@ export const docsSidebar = [
             label: '全局配置 ConfigProvider',
           },
           {
+            slug: 'components/ellipsis',
+            label: '文本省略 Ellipsis',
+          },
+          {
             slug: 'components/link',
             label: '链接 Link',
           },

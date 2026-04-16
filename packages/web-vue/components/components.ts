@@ -48,6 +48,8 @@ declare module 'vue' {
     SdDoption: (typeof import('@sdata/web-vue'))['Doption'];
     SdDgroup: (typeof import('@sdata/web-vue'))['Dgroup'];
     SdDsubmenu: (typeof import('@sdata/web-vue'))['Dsubmenu'];
+    SdEllipsis: (typeof import('@sdata/web-vue'))['Ellipsis'];
+    SdPerformantEllipsis: (typeof import('@sdata/web-vue'))['PerformantEllipsis'];
     SdEmpty: (typeof import('@sdata/web-vue'))['Empty'];
     SdForm: (typeof import('@sdata/web-vue'))['Form'];
     SdFormItem: (typeof import('@sdata/web-vue'))['FormItem'];

@@ -1,0 +1,33 @@
+@import url('./token.less');
+
+.@{prefix}-ellipsis {
+  display: inline-block;
+  max-width: @ellipsis-max-width;
+  color: @ellipsis-color-text;
+  vertical-align: bottom;
+
+  &--single-line {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &-content {
+    display: inline;
+    max-width: none;
+  }
+
+  &--line-clamp {
+    display: -webkit-box;
+    width: 100%;
+    word-break: break-word;
+  }
+
+  &--expandable {
+    cursor: pointer;
+  }
+
+  &--expanded {
+    white-space: normal;
+  }
+}

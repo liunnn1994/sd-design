@@ -32,6 +32,7 @@ import Descriptions, { DescriptionsItem } from './descriptions';
 import Divider from './divider';
 import Drawer from './drawer';
 import Dropdown, { Doption, Dgroup, Dsubmenu, DropdownButton } from './dropdown';
+import Ellipsis, { PerformantEllipsis } from './ellipsis';
 import Empty from './empty';
 import Form, { FormItem } from './form';
 import Grid, { Row, Col, GridItem } from './grid';
@@ -145,6 +146,8 @@ const components: Record<string, Plugin> = {
   Skeleton,
   Breadcrumb,
   Dropdown,
+  Ellipsis,
+  PerformantEllipsis,
   Menu,
   PageHeader,
   Pagination,
@@ -199,6 +202,7 @@ const SDVue: Record<string, unknown> & {
   Dgroup,
   Dsubmenu,
   DropdownButton,
+  PerformantEllipsis,
   FormItem,
   Row,
   Col,

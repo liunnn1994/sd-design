@@ -76,6 +76,12 @@ export type {
   DropdownSubmenuInstance,
   DSubmenu,
 } from './dropdown';
+export { default as Ellipsis, PerformantEllipsis } from './ellipsis';
+export type {
+  EllipsisInstance,
+  EllipsisTooltipProps,
+  PerformantEllipsisInstance,
+} from './ellipsis';
 export { default as Empty } from './empty';
 export type { EmptyInstance } from './empty';
 export { default as Form, FormItem } from './form';
@@ -280,4 +286,3 @@ export type { WatermarkInstance } from './watermark';
 // hooks
 export { useFormItem } from './_hooks/use-form-item';
 // components.d.ts
-

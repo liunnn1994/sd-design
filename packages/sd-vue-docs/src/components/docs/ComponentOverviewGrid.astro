@@ -1,0 +1,47 @@
+---
+import { Card, CardGrid } from "@astrojs/starlight/components";
+import { getCollection } from "astro:content";
+
+import { docsSidebar } from "../../generated/docs-sidebar";
+
+const componentDocEntries = await getCollection("docs");
+const componentSection = docsSidebar.find(
+  (section) => section.label === "组件文档",
+);
+const componentGroups = (componentSection?.items ?? []).flatMap((item) =>
+  Array.isArray(item.items)
+    ? [
+        {
+          label: item.label,
+          items: item.items,
+        },
+      ]
+    : [],
+);
+
+const descriptionBySlug = new Map(
+  componentDocEntries.map((entry) => [entry.id, entry.data.description ?? ""]),
+);
+
+const fallbackDescription = (groupLabel: string) =>
+  `${groupLabel}分类组件文档。`;
+---
+
+{
+  componentGroups.map((group) => (
+    <section>
+      <h2>{group.label}</h2>
+      <CardGrid stagger>
+        {group.items.map((item) => (
+          <Card title={item.label}>
+            {descriptionBySlug.get(item.slug) ||
+              fallbackDescription(group.label)}
+            <p>
+              <a href={`/${item.slug}/`}>查看文档</a>
+            </p>
+          </Card>
+        ))}
+      </CardGrid>
+    </section>
+  ))
+}
