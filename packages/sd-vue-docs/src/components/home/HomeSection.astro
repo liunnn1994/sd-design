@@ -1,0 +1,90 @@
+---
+interface Props {
+  id?: string;
+  title: string;
+  description: string;
+  background?: string;
+}
+
+const { id, title, description, background = "transparent" } = Astro.props;
+---
+
+<section
+  id={id}
+  class="home-section"
+  style={`--home-section-background:${background};`}
+>
+  <div class="home-section__inner">
+    <header class="home-section__header">
+      <h2>{title}</h2>
+      <p>{description}</p>
+    </header>
+    <div class="home-section__body">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .home-section {
+    position: relative;
+    overflow: clip;
+    border-radius: 2rem;
+    background: var(--home-section-background);
+    border: 1px solid
+      color-mix(in srgb, var(--sl-color-gray-5) 14%, transparent);
+    box-shadow: 0 18px 50px rgb(15 23 42 / 0.06);
+  }
+
+  .home-section::before {
+    content: "";
+    position: absolute;
+    inset: auto -8rem -10rem auto;
+    width: 20rem;
+    aspect-ratio: 1;
+    border-radius: 999px;
+    background: radial-gradient(
+      circle,
+      rgb(20 118 255 / 0.16),
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+
+  .home-section__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 1.75rem;
+    padding: clamp(1.25rem, 2vw, 2rem);
+  }
+
+  .home-section__header {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 46rem;
+  }
+
+  .home-section__header h2 {
+    margin: 0;
+    font-size: clamp(1.9rem, 3vw, 2.8rem);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+  }
+
+  .home-section__header p {
+    margin: 0;
+    color: var(--sl-text-3);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .home-section__body {
+    min-width: 0;
+  }
+
+  :root[data-theme="dark"] .home-section {
+    border-color: rgb(255 255 255 / 0.08);
+    box-shadow: 0 24px 70px rgb(0 0 0 / 0.24);
+  }
+</style>

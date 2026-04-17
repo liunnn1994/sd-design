@@ -13,3 +13,6 @@
 [submodule "vendor/vuetify"]
 	path = vendor/vuetify
 	url = https://github.com/vuetifyjs/vuetify.git
+[submodule "vendor/ant-design"]
+	path = vendor/ant-design
+	url = https://github.com/ant-design/ant-design.git

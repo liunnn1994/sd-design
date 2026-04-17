@@ -1,0 +1,114 @@
+---
+const designLinks = [
+  {
+    title: "设计价值观",
+    description: "预留价值观页面入口，后续可补充原则、语气与体验取向。",
+    href: "/design/values/",
+    accent: "rgb(20 118 255 / 0.12)",
+  },
+  {
+    title: "设计指引",
+    description:
+      "预留设计指引页面入口，后续可补充布局、配色、组件模式与写作规范。",
+    href: "/design/guidelines/",
+    accent: "rgb(53 208 127 / 0.14)",
+  },
+  {
+    title: "组件文档",
+    description:
+      "立即进入现有组件总览与详细文档，继续查阅 API、示例与交互规范。",
+    href: "/components/",
+    accent: "rgb(255 184 0 / 0.16)",
+  },
+];
+---
+
+<div class="design-links">
+  {
+    designLinks.map((item) => (
+      <a
+        class="design-links__card"
+        href={item.href}
+        style={`--design-accent:${item.accent};`}
+      >
+        <span class="design-links__marker" />
+        <strong>{item.title}</strong>
+        <p>{item.description}</p>
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  .design-links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .design-links__card {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    gap: 0.85rem;
+    min-height: 15rem;
+    padding: 1.35rem;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 1.5rem;
+    background: color-mix(in srgb, var(--design-accent) 55%, white);
+    border: 1px solid color-mix(in srgb, var(--design-accent) 85%, transparent);
+    transition:
+      transform 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .design-links__card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(
+      in srgb,
+      var(--design-accent) 100%,
+      rgb(20 118 255 / 0.2)
+    );
+  }
+
+  .design-links__marker {
+    width: 3.25rem;
+    height: 0.38rem;
+    border-radius: 999px;
+    background: color-mix(
+      in srgb,
+      var(--design-accent) 100%,
+      rgb(20 118 255 / 0.8)
+    );
+  }
+
+  .design-links__card strong {
+    font-size: 1.2rem;
+  }
+
+  .design-links__card p {
+    margin: 0;
+    color: var(--sl-text-3);
+    line-height: 1.8;
+  }
+
+  :root[data-theme="dark"] .design-links__card {
+    background: color-mix(
+      in srgb,
+      var(--design-accent) 22%,
+      rgb(255 255 255 / 0.03)
+    );
+    border-color: rgb(255 255 255 / 0.1);
+  }
+
+  @media (max-width: 900px) {
+    .design-links {
+      grid-template-columns: 1fr;
+    }
+
+    .design-links__card {
+      min-height: auto;
+    }
+  }
+</style>

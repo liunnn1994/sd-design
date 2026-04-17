@@ -1,0 +1,59 @@
+---
+import HomeComponentsShowcase from "./HomeComponentsShowcase.vue";
+import HomeDesignLinks from "./HomeDesignLinks.astro";
+import HomeHero from "./HomeHero.astro";
+import HomeSection from "./HomeSection.astro";
+import HomeThemePreview from "./HomeThemePreview.vue";
+---
+
+<div class="home-landing not-content">
+  <HomeHero />
+
+  <HomeSection
+    id="components"
+    title="组件丰富，选用自如"
+    description="从录入、展示到反馈与导航，直接在首页里查看 SD Design 组件的真实渲染效果。"
+    background="var(--sl-color-bg-nav)"
+  >
+    <HomeComponentsShowcase client:load />
+  </HomeSection>
+
+  <HomeSection
+    id="theme"
+    title="主题切换，实时预览"
+    description="文档站亮暗主题与组件库暗黑态保持联动，直接查看常见业务组件在不同主题下的实际表现。"
+    background="linear-gradient(180deg, color-mix(in srgb, var(--sl-color-accent-low) 70%, white), transparent)"
+  >
+    <HomeThemePreview client:load />
+  </HomeSection>
+
+  <HomeSection
+    id="design"
+    title="设计语言与研发框架"
+    description="先接入现有组件文档，并预留设计价值观与设计指引页面入口，方便后续逐步补齐。"
+    background="linear-gradient(180deg, color-mix(in srgb, var(--sl-color-accent-low) 52%, transparent), color-mix(in srgb, var(--sl-color-accent-low) 18%, transparent))"
+  >
+    <HomeDesignLinks />
+  </HomeSection>
+</div>
+
+<style>
+  .home-landing {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+    padding-bottom: clamp(2rem, 4vw, 4rem);
+  }
+
+  :global(.main-pane) .home-landing {
+    margin-block: 0;
+  }
+
+  .home-landing :global(.home-section__inner) {
+    max-width: var(--sl-content-width);
+    margin-inline: auto;
+  }
+
+  .home-landing :global(#components .home-section__inner) {
+    max-width: min(calc(var(--sl-content-width) * 2), 100%);
+  }
+</style>

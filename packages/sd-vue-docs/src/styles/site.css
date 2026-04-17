@@ -52,3 +52,11 @@ body {
 .sidebar-content summary {
   display: flex;
 }
+
+.sl-container:has(.home-landing) {
+  max-width: none;
+}
+/* stylelint-disable-next-line selector-id-pattern */
+.main-pane:has(.home-landing) .content-panel:has(#_top) {
+  display: none;
+}
