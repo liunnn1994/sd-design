@@ -1,6 +1,7 @@
 import mdx from '@astrojs/mdx';
 import starlight from '@astrojs/starlight';
 import vue from '@astrojs/vue';
+import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 // @ts-check
 import { fileURLToPath } from 'node:url';
@@ -57,6 +58,7 @@ export default defineConfig({
     optimizeDeps: {
       exclude: ['@vue/repl'],
     },
+    plugins: [tailwindcss()],
   },
   integrations: [
     starlight({

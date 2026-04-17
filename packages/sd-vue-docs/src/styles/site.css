@@ -1,3 +1,6 @@
+/* stylelint-disable-next-line import-notation */
+@import 'tailwindcss' prefix(tw);
+
 @layer sd-vue, starlight.base, starlight.reset, starlight.core, starlight.content, starlight.components, starlight.utils;
 
 :root {
