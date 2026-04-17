@@ -5,4 +5,4 @@ publish = "packages/sd-vue-docs/dist"
 
 [build.environment]
 COREPACK_ENABLE_AUTO_PIN = "1"
-GIT_SUBMODULES = "false"
+NODE_OPTIONS = "--max-old-space-size=4096"
