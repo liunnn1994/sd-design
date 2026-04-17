@@ -1,18 +1,24 @@
 [submodule "vendor/element-plus"]
 	path = vendor/element-plus
 	url = https://github.com/element-plus/element-plus.git
+  update = none
 [submodule "vendor/naive-ui"]
 	path = vendor/naive-ui
 	url = https://github.com/tusen-ai/naive-ui.git
+  update = none
 [submodule "vendor/tdesign-vue-next"]
 	path = vendor/tdesign-vue-next
 	url = https://github.com/Tencent/tdesign-vue-next.git
+  update = none
 [submodule "vendor/intelligent-monitoring"]
 	path = vendor/intelligent-monitoring
 	url = git@git.s-data.cn:monitor/sdata-monitor/intelligent-monitoring.git
+  update = none
 [submodule "vendor/vuetify"]
 	path = vendor/vuetify
 	url = https://github.com/vuetifyjs/vuetify.git
+  update = none
 [submodule "vendor/ant-design"]
 	path = vendor/ant-design
 	url = https://github.com/ant-design/ant-design.git
+  update = none
