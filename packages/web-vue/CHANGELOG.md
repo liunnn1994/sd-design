@@ -1,3 +1,9 @@
+# [1.6.0](https://github.com/liunnn1994/sd-design/compare/v1.5.0...v1.6.0) (2026-04-21)
+
+### Features
+
+- 🆕 改用 Trusted publishing ([394a570](https://github.com/liunnn1994/sd-design/commit/394a570da537caee6bc53b911f9fa70b844fed7c))
+
 # [1.5.0](https://github.com/liunnn1994/sd-design/compare/v1.4.1...v1.5.0) (2026-04-16)
 
 ### Features
