@@ -48,7 +48,8 @@
     "upgrade:skills": "pnpx skills update -p -a trae -a claude-code",
     "upgrade:engines": "node scripts/upgradeEngines.mjs",
     "upgrade:oxlint": "node scripts/upgradeOxlint.mjs",
-    "upgrade:audit": "pnpm audit --fix --registry=https://registry.npmjs.org"
+    "upgrade:audit": "pnpm audit --fix --registry=https://registry.npmjs.org",
+    "clone:vendor": "node scripts/cloneVendor.mjs"
   },
   "dependencies": {
     "es-toolkit": "^1.45.1"
