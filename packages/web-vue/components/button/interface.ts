@@ -8,6 +8,7 @@ export interface ButtonProps {
   size?: Size;
   long?: boolean;
   loading?: boolean;
+  loadingFixedWidth?: boolean;
   disabled?: boolean;
   htmlType?: 'button' | 'submit' | 'reset';
   autofocus?: boolean;

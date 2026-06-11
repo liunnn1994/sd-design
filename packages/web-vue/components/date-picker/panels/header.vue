@@ -56,6 +56,7 @@
   import IconDoubleRight from '../../icon/icon-double-right';
   import IconLeft from '../../icon/icon-left';
   import IconRight from '../../icon/icon-right';
+  import useDatePickerTransform from '../hooks/use-inject-datepicker-transform';
   import { HeaderIcons, Mode } from '../interface';
 
   type ClickCallbackFunc = (payload: MouseEvent) => void;
@@ -104,17 +105,25 @@
     'label-click': [];
   }>();
 
+  const datePickerT = useDatePickerTransform();
+  const getLocaleFormat = (key: string, defaultFormat: string) => {
+    const format = datePickerT(key);
+    return typeof format === 'string' && format !== key ? format : defaultFormat;
+  };
+
   const showPrev = computed(() => isFunction(props.onPrev));
   const showSuperPrev = computed(() => isFunction(props.onSuperPrev));
   const showNext = computed(() => isFunction(props.onNext));
   const showSuperNext = computed(() => isFunction(props.onSuperNext));
   const year = computed(() =>
     ['date', 'quarter', 'month', 'week'].includes(props.mode) && props.value
-      ? props.value.format('YYYY')
+      ? props.value.format(getLocaleFormat('datePicker.yearFormat', 'YYYY'))
       : '',
   );
   const month = computed(() =>
-    ['date', 'week'].includes(props.mode) && props.value ? props.value.format('MM') : '',
+    ['date', 'week'].includes(props.mode) && props.value
+      ? props.value.format(getLocaleFormat('datePicker.monthFormat', 'MM'))
+      : '',
   );
   const getIconClassName = (show?: boolean) => [
     `${props.prefixCls}-header-icon`,

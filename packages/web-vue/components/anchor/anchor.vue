@@ -1,13 +1,16 @@
 <template>
-  <div ref="anchorRef" :class="cls">
-    <div v-if="!lineLess" ref="lineSliderRef" :class="`${prefixCls}-line-slider`" />
-    <ul :class="`${prefixCls}-list`">
-      <slot />
-    </ul>
-  </div>
+  <component :is="wrapperComponent" v-bind="wrapperProps">
+    <div ref="anchorRef" :class="cls">
+      <div v-if="!lineLess" ref="lineSliderRef" :class="`${prefixCls}-line-slider`" />
+      <ul :class="`${prefixCls}-list`">
+        <slot />
+      </ul>
+    </div>
+  </component>
 </template>
 
 <script setup lang="ts">
+  import type { CSSProperties } from 'vue';
   import {
     computed,
     nextTick,
@@ -26,8 +29,12 @@
   import { getPrefixCls } from '../_utils/global-config';
   import { isNumber, isWindow } from '../_utils/is';
   import { throttleByRaf } from '../_utils/throttle-by-raf';
+  import Affix from '../affix';
   import { anchorInjectionKey } from './context';
   import { slide, BOUNDARY_POSITIONS, type BoundaryPosition } from './utils';
+
+  const DIRECTIONS = ['vertical', 'horizontal'] as const;
+  type Direction = (typeof DIRECTIONS)[number];
 
   defineOptions({ name: 'Anchor' });
 
@@ -67,6 +74,53 @@
     lineLess: {
       type: Boolean,
       default: false,
+    },
+    /**
+     * @zh 是否固定
+     * @en Whether to wrap anchor within Affix
+     */
+    affix: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * @zh 设置 Affix 组件的样式
+     * @en The style to be applied to Affix
+     */
+    affixStyle: {
+      type: Object as PropType<CSSProperties>,
+    },
+    /**
+     * @zh 距离窗口顶部的偏移量
+     * @en Offset from the top of the viewport
+     */
+    offsetTop: {
+      type: Number,
+      default: 0,
+    },
+    /**
+     * @zh 距离窗口底部的偏移量
+     * @en Offset from the bottom of the viewport
+     */
+    offsetBottom: {
+      type: Number,
+    },
+    /**
+     * @zh 锚点方向
+     * @en Direction
+     * @values 'vertical', 'horizontal'
+     */
+    direction: {
+      type: String as PropType<Direction>,
+      default: 'vertical',
+      validator: (value: any) => ['vertical', 'horizontal'].includes(value),
+    },
+    /**
+     * @zh 锚点区域边界相对于滚动容器顶部的偏移量。未设置时，默认值为滚动容器高度的一半
+     * @en The offset of the baseline relative to the top of the container. The value is half of the height of the scrolling container if not specified
+     */
+    targetOffset: {
+      type: Number,
     },
     /**
      * @zh 滚动容器
@@ -125,7 +179,7 @@
 
   const scrollIntoView = (hash: string) => {
     try {
-      const element = getElement(hash);
+      const element = getElement(hash, containerEle.value) ?? getElement(hash);
       if (!element) return;
       let block: BoundaryPosition;
       let diff = 0;
@@ -140,9 +194,6 @@
       if (!actions.length) return;
       const { el, top } = actions[0];
       const targetTop = top - diff;
-      // if (!this.props.animation) {
-      //   return;
-      // }
       slide(el as HTMLElement, targetTop, () => {
         isScrolling.value = false;
       });
@@ -184,15 +235,18 @@
 
     const boundary = isNumber(props.boundary) ? props.boundary : 0;
     const containerRect = containerEle.value.getBoundingClientRect();
+    const targetOffset = isNumber(props.targetOffset)
+      ? props.targetOffset
+      : containerRect.height / 2;
 
     for (const hash of Object.keys(links)) {
-      const element = getElement(hash);
+      const element = getElement(hash, containerEle.value) ?? getElement(hash);
       if (element) {
         const { top } = element.getBoundingClientRect();
         const offsetTop = isWindow(scrollContainerEle.value)
           ? top - boundary
           : top - containerRect.top - boundary;
-        if (offsetTop >= 0 && offsetTop <= containerRect.height / 2) {
+        if (offsetTop >= 0 && offsetTop <= targetOffset) {
           return element;
         }
       }
@@ -265,6 +319,22 @@
     prefixCls,
     {
       [`${prefixCls}-line-less`]: props.lineLess,
+      [`${prefixCls}-horizontal`]: props.direction === 'horizontal',
     },
   ]);
+
+  const wrapperComponent = computed(() => (props.affix ? 'Affix' : 'div'));
+
+  const wrapperProps = computed(() => {
+    if (!props.affix) {
+      return {};
+    }
+
+    return {
+      offsetTop: props.offsetTop,
+      offsetBottom: props.offsetBottom,
+      target: props.scrollContainer,
+      style: props.affixStyle,
+    };
+  });
 </script>

@@ -27,7 +27,8 @@
         :readonly="readonly || disabledInput"
         :allow-clear="mergedAllowClear && !readonly"
         :placeholder="computedPlaceholder"
-        :input-value="displayInputValue"
+        :input-props="inputProps"
+        :input-value="inputValue"
         :value="panelValue"
         :format="computedFormat"
         @clear="onInputClear"
@@ -50,14 +51,15 @@
       </DateRangeInput>
     </slot>
     <template #content>
-      <RangePickerPanel v-bind="rangePanelProps" />
+      <RenderFunction :render-func="renderPopupPanel" />
     </template>
   </Trigger>
-  <RangePickerPanel v-else v-bind="{ ...$attrs, ...rangePanelProps }" />
+  <RenderFunction v-else :render-func="renderPanelOnly" />
 </template>
 <script setup lang="ts">
   import {
     computed,
+    h,
     inject,
     nextTick,
     onUnmounted,
@@ -73,6 +75,7 @@
   import { Dayjs } from 'dayjs';
 
   import DateRangeInput from '../_components/picker/input-range.vue';
+  import RenderFunction from '../_components/render-function';
   import { useAllowClear } from '../_hooks/use-allow-clear';
   import { useConfigProviderProp } from '../_hooks/use-config-provider-prop';
   import { useFormItem } from '../_hooks/use-form-item';
@@ -81,14 +84,16 @@
   import { Size } from '../_utils/constant';
   import {
     getSortedDayjsArray,
+    getDayjsValue,
     isValueChange,
     dayjs,
     getNow,
     getDateValue,
     initializeDateLocale,
+    toLocal,
   } from '../_utils/date';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isArray, isBoolean } from '../_utils/is';
+  import { isArray, isBoolean, isFunction } from '../_utils/is';
   import { omit } from '../_utils/omit';
   import pick from '../_utils/pick';
   import { configProviderInjectionKey } from '../config-provider/context';
@@ -195,6 +200,14 @@
       type: Object as PropType<Partial<TimePickerProps>>,
     },
     /**
+     * @zh 原生输入框属性
+     * @en Native input attributes
+     */
+    inputProps: {
+      type: Array as PropType<Record<string, any>[]>,
+      default: () => [],
+    },
+    /**
      * @zh 提示文案
      * @en Prompt copy
      * */
@@ -230,6 +243,22 @@
     exchangeTime: {
       type: Boolean,
       default: true,
+    },
+    /**
+     * @zh 是否固定时间
+     * @en Is it a fixed time?
+     */
+    fixedTime: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * @zh 当重新选择范围的时候，会清空之前的范围重新进行选择
+     * @en When reselecting the range, the previous range will be cleared for next selection
+     */
+    clearRangeOnReselect: {
+      type: Boolean,
+      default: false,
     },
     popupContainer: {
       type: [String, Object] as PropType<string | HTMLElement>,
@@ -278,12 +307,33 @@
     unmountOnClose: {
       type: Boolean,
     },
+    /**
+     * @zh 面板隐藏不在当前时间范围的灰色日期
+     * @en Hide gray dates that are not in the current time range in the panel
+     */
+    hideNotInViewDates: {
+      type: Boolean,
+    },
     previewShortcut: {
       type: Boolean,
       default: true,
     },
     showConfirmBtn: {
       type: Boolean,
+    },
+    /**
+     * @zh 设置时区偏移，如果需要 utc 时间则设置为 0。
+     * @en Set the timezone offset. Set to 0 for UTC time.
+     */
+    utcOffset: {
+      type: Number,
+    },
+    /**
+     * @zh 设置时区，如果设置了 `utcOffset`，则以 `utcOffset` 为准。
+     * @en Set timezone. If `utcOffset` is set, `utcOffset` takes precedence.
+     */
+    timezone: {
+      type: String,
     },
     /**
      * @zh 是否禁止键盘输入日期
@@ -301,6 +351,13 @@
     abbreviation: {
       type: Boolean,
       default: true,
+    },
+    /**
+     * @zh 自定义渲染面板
+     * @en Customize panel rendering
+     */
+    panelRender: {
+      type: Function as PropType<(panelNode: any) => any>,
     },
   });
 
@@ -392,10 +449,14 @@
     shortcuts,
     shortcutsPosition,
     exchangeTime,
+    fixedTime,
     previewShortcut,
     showConfirmBtn,
     allowClear,
     abbreviation,
+    utcOffset,
+    timezone,
+    clearRangeOnReselect,
   } = toRefs(props);
 
   const { mergedValue: mergedDayStartOfWeek } = useConfigProviderProp(dayStartOfWeek, {
@@ -522,6 +583,8 @@
       modelValue,
       defaultValue,
       format: parseValueFormat,
+      utcOffset,
+      timezone,
     }),
   );
   // 操作值
@@ -537,7 +600,6 @@
 
   // input 操作的值
   const [inputValue, setInputValue] = useState<Array<string | undefined> | undefined>();
-  const displayInputValue = computed(() => inputValue.value?.map((item) => item ?? ''));
 
   const startHeaderMode = ref<'year' | 'month' | undefined>();
 
@@ -572,10 +634,18 @@
       defaultValue: defaultPickerValue,
       selectedValue: panelValue,
       format: parseValueFormat,
+      utcOffset,
+      timezone,
       onChange: (newVal: Dayjs[]) => {
-        const returnValue = getReturnRangeValue(newVal, returnValueFormat.value);
-        const formattedValue = getFormattedValue(newVal, parseValueFormat.value) as string[];
-        const dateValue = getDateValue(newVal);
+        const returnValue = getReturnRangeValue(
+          newVal,
+          returnValueFormat.value,
+          utcOffset?.value,
+          timezone?.value,
+        );
+        const localValue = newVal.map((item) => toLocal(item, utcOffset?.value, timezone?.value));
+        const formattedValue = getFormattedValue(localValue, parseValueFormat.value) as string[];
+        const dateValue = getDateValue(localValue);
         emit('picker-value-change', returnValue, dateValue, formattedValue);
         emit('update:pickerValue', returnValue);
       },
@@ -610,7 +680,10 @@
     endHeaderMode.value = undefined;
   }
 
-  const footerValue = ref([panelValue.value[0] || getNow(), panelValue.value[1] || getNow()]);
+  const footerValue = ref([
+    panelValue.value[0] || getNow(utcOffset?.value, timezone?.value),
+    panelValue.value[1] || getNow(utcOffset?.value, timezone?.value),
+  ]);
   watch(panelValue, () => {
     const [value0, value1] = panelValue.value;
     footerValue.value[0] = value0 || footerValue.value[0];
@@ -674,9 +747,14 @@
   });
 
   function emitChange(value: Array<Dayjs | undefined> | undefined, emitOk?: boolean) {
-    const returnValue = value ? getReturnRangeValue(value, returnValueFormat.value) : undefined;
-    const formattedValue = getFormattedValue(value, parseValueFormat.value);
-    const dateValue = getDateValue(value);
+    const localValue = value?.map((item) =>
+      item ? toLocal(item, utcOffset?.value, timezone?.value) : undefined,
+    );
+    const returnValue = value
+      ? getReturnRangeValue(value, returnValueFormat.value, utcOffset?.value, timezone?.value)
+      : undefined;
+    const formattedValue = getFormattedValue(localValue, parseValueFormat.value);
+    const dateValue = getDateValue(localValue);
     if (isValueChange(value, selectedValue.value)) {
       emit('update:modelValue', returnValue);
       emit('change', returnValue, dateValue, formattedValue);
@@ -697,8 +775,8 @@
   }
 
   function getSortedDayjsArrayByExchangeTimeOrNot(newValue: Dayjs[]) {
-    let sortedValue = getSortedDayjsArray(newValue);
-    if (hasTime.value && !mergedExchangeTime.value) {
+    let sortedValue = getSortedDayjsArray(newValue, fixedTime.value);
+    if (hasTime.value && !mergedExchangeTime.value && !fixedTime.value) {
       sortedValue = [
         getMergedOpValue(sortedValue[0], newValue[0]),
         getMergedOpValue(sortedValue[1], newValue[1]),
@@ -736,9 +814,17 @@
   }
 
   function emitSelectEvent(value: Array<Dayjs | undefined>) {
-    const returnValue = getReturnRangeValue(value, returnValueFormat.value);
-    const formattedValue = getFormattedValue(value, parseValueFormat.value);
-    const dateValue = getDateValue(value);
+    const localValue = value.map((item) =>
+      item ? toLocal(item, utcOffset?.value, timezone?.value) : undefined,
+    );
+    const returnValue = getReturnRangeValue(
+      value,
+      returnValueFormat.value,
+      utcOffset?.value,
+      timezone?.value,
+    );
+    const formattedValue = getFormattedValue(localValue, parseValueFormat.value);
+    const dateValue = getDateValue(localValue);
     emitRangeEvent('select', returnValue ?? [], dateValue ?? [], formattedValue ?? []);
   }
 
@@ -793,7 +879,7 @@
 
   function getMergedOpValue(date: Dayjs, time?: Dayjs) {
     if (!hasTime.value) return date;
-    return mergeValueWithTime(getNow(), date, time);
+    return mergeValueWithTime(getNow(utcOffset?.value, timezone?.value), date, time);
   }
 
   function onPanelVisibleChange(visible: boolean) {
@@ -817,7 +903,12 @@
   function getValueToModify(isTime = false) {
     if (isNextDisabled.value) return [...selectedValue.value];
     if (processValue.value) {
-      return isTime || !isCompleteRangeValue(processValue.value) ? [...processValue.value] : [];
+      return isTime || !isCompleteRangeValue(processValue.value) || !clearRangeOnReselect.value
+        ? [...processValue.value]
+        : [];
+    }
+    if (!isTime && !clearRangeOnReselect.value) {
+      return [...selectedValue.value];
     }
     return isTime ? [...selectedValue.value] : [];
   }
@@ -913,7 +1004,12 @@
 
     if (!isValidInputValue(targetValue, computedFormat.value)) return;
 
-    const targetValueDayjs = dayjs(targetValue, computedFormat.value);
+    const targetValueDayjs = getDayjsValue(
+      targetValue,
+      computedFormat.value,
+      utcOffset?.value,
+      timezone?.value,
+    ) as Dayjs;
 
     if (isDisabledDate(targetValueDayjs, focusedIndex.value === 0 ? 'start' : 'end')) return;
 
@@ -957,12 +1053,22 @@
   });
 
   const rangePanelProps = computed(() => ({
-    ...pick(props, ['mode', 'disabledDate', 'disabledTime', 'hideTrigger', 'showTime']),
-    shortcuts: mergedShortcuts.value,
-    shortcutsPosition: mergedShortcutsPosition.value,
-    dayStartOfWeek: mergedDayStartOfWeek.value,
-    abbreviation: mergedAbbreviation.value,
+    ...pick(props, [
+      'mode',
+      'showTime',
+      'shortcuts',
+      'shortcutsPosition',
+      'dayStartOfWeek',
+      'disabledDate',
+      'disabledTime',
+      'hideTrigger',
+      'abbreviation',
+      'hideNotInViewDates',
+      'utcOffset',
+      'timezone',
+    ]),
     prefixCls,
+    now: getNow(utcOffset?.value, timezone?.value),
     format: parseValueFormat.value,
     value: panelValue.value,
     showConfirmBtn: needConfirm.value,
@@ -990,4 +1096,13 @@
     onStartHeaderSelect: onStartPanelHeaderSelect,
     onEndHeaderSelect: onEndPanelHeaderSelect,
   }));
+
+  const renderPopupPanel = () => {
+    const panelNode = h(RangePickerPanel, rangePanelProps.value);
+    return isFunction(props.panelRender) ? () => props.panelRender!(panelNode) : panelNode;
+  };
+
+  const renderPanelOnly = () => {
+    return h(RangePickerPanel, rangePanelProps.value);
+  };
 </script>

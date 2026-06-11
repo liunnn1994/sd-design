@@ -91,7 +91,7 @@
       default: () => [],
     },
     inputValue: {
-      type: Array as PropType<string[]>,
+      type: Array as PropType<(string | undefined)[]>,
     },
     value: {
       type: Array as PropType<(Dayjs | undefined)[]>,

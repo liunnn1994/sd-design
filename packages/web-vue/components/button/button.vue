@@ -1,6 +1,7 @@
 <template>
   <template v-if="href">
     <a
+      ref="buttonRef"
       :class="[cls, { [`${prefixCls}-only-icon`]: $slots.icon && !$slots.default }]"
       :href="mergedDisabled || loading ? undefined : href"
       @click="handleClick"
@@ -9,11 +10,13 @@
         <icon-loading v-if="loading" spin />
         <slot v-else name="icon" />
       </span>
-      <slot />
+      <slot v-if="!isTwoCNChar" />
+      <span v-else><slot /></span>
     </a>
   </template>
   <template v-else>
     <button
+      ref="buttonRef"
       :class="[cls, { [`${prefixCls}-only-icon`]: $slots.icon && !$slots.default }]"
       :type="htmlType"
       :disabled="mergedDisabled"
@@ -24,27 +27,27 @@
         <icon-loading v-if="loading" :spin="true" />
         <slot v-else name="icon" />
       </span>
-      <slot />
+      <slot v-if="!isTwoCNChar" />
+      <span v-else><slot /></span>
     </button>
   </template>
 </template>
 
 <script setup lang="ts">
-  /**
-   * @todo 添加loadingFixedWidth
-   * @todo 添加twoChineseChars
-   */
   import type { PropType } from 'vue';
-  import { computed, toRefs, inject } from 'vue';
+  import { computed, toRefs, inject, ref, onMounted, onUpdated } from 'vue';
 
   import { useFormItem } from '../_hooks/use-form-item';
   import { useSize } from '../_hooks/use-size';
   import { Status, Size, BorderShape } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
   import { isString } from '../_utils/is';
+  import { configProviderInjectionKey } from '../config-provider/context';
   import IconLoading from '../icon/icon-loading';
   import { ButtonTypes } from './constants';
   import { buttonGroupInjectionKey } from './context';
+
+  const regexTwoCNChar = /^[一-龥]{2}$/;
 
   defineOptions({ name: 'Button' });
 
@@ -99,6 +102,14 @@
       default: false,
     },
     /**
+     * @zh 当 loading 的时候，不改变按钮的宽度。
+     * @en The width of the button remains unchanged on loading.
+     */
+    loadingFixedWidth: {
+      type: Boolean,
+      default: false,
+    },
+    /**
      * @zh 按钮是否禁用
      * @en Whether the button is disabled
      * @defaultValue false
@@ -145,7 +156,9 @@
    */
   const { size, disabled } = toRefs(props);
   const prefixCls = getPrefixCls('btn');
+  const configContext = inject(configProviderInjectionKey, undefined);
   const groupContext = inject(buttonGroupInjectionKey, undefined);
+  const autoInsertSpaceInButton = computed(() => Boolean(configContext?.autoInsertSpaceInButton));
   const _size = computed(() => size!.value ?? groupContext?.size);
   const _disabled = computed(() => Boolean(disabled.value || groupContext?.disabled));
   const { mergedSize: _mergedSize, mergedDisabled } = useFormItem({
@@ -153,6 +166,27 @@
     disabled: _disabled,
   });
   const { mergedSize } = useSize(_mergedSize);
+  const buttonRef = ref<HTMLAnchorElement | HTMLButtonElement>();
+  const isTwoCNChar = ref(false);
+
+  const updateIsTwoCNChar = () => {
+    if (!autoInsertSpaceInButton.value) {
+      if (isTwoCNChar.value) {
+        isTwoCNChar.value = false;
+      }
+      return;
+    }
+
+    const textContent = buttonRef.value?.textContent?.replace(/\s/g, '') ?? '';
+    const value = regexTwoCNChar.test(textContent);
+
+    if (value !== isTwoCNChar.value) {
+      isTwoCNChar.value = value;
+    }
+  };
+
+  onMounted(updateIsTwoCNChar);
+  onUpdated(updateIsTwoCNChar);
 
   const cls = computed(() => [
     prefixCls,
@@ -163,8 +197,10 @@
     {
       [`${prefixCls}-long`]: props.long,
       [`${prefixCls}-loading`]: props.loading,
+      [`${prefixCls}-loading-fixed-width`]: props.loadingFixedWidth,
       [`${prefixCls}-disabled`]: mergedDisabled.value,
       [`${prefixCls}-link`]: isString(props.href),
+      [`${prefixCls}-two-chinese-chars`]: autoInsertSpaceInButton.value && isTwoCNChar.value,
     },
   ]);
 

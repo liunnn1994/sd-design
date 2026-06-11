@@ -67,6 +67,7 @@ export interface ConfigProvider {
   allowClear?: boolean;
   allowSearch?: boolean;
   virtualListProps?: VirtualListProps;
+  autoInsertSpaceInButton?: boolean;
   updateAtScroll?: boolean;
   scrollToClose?: boolean;
   exchangeTime?: boolean;

@@ -56,6 +56,14 @@
       default: false,
     },
     /**
+     * @zh 当按钮中是两个汉字时，自动在两个汉字中添加一个空格。
+     * @en When there are two Chinese characters in the button, a space is automatically added between two Chinese characters.
+     */
+    autoInsertSpaceInButton: {
+      type: Boolean,
+      default: false,
+    },
+    /**
      * @zh 是否默认开启搜索
      * @en Whether to enable search by default
      */
@@ -177,6 +185,7 @@
     locale,
     size,
     allowClear,
+    autoInsertSpaceInButton,
     allowSearch,
     virtualListProps,
     updateAtScroll,
@@ -194,6 +203,7 @@
     locale,
     size,
     allowClear,
+    autoInsertSpaceInButton,
     allowSearch,
     virtualListProps,
     updateAtScroll,

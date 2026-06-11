@@ -3,6 +3,8 @@ import AdvancedFormat from 'dayjs/plugin/advancedFormat';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import isBetween from 'dayjs/plugin/isBetween';
 import QuarterOfYear from 'dayjs/plugin/quarterOfYear';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import weekYear from 'dayjs/plugin/weekYear';
 
@@ -60,6 +62,8 @@ originDayjs.extend(weekOfYear);
 originDayjs.extend(AdvancedFormat);
 originDayjs.extend(weekYear);
 originDayjs.extend(QuarterOfYear);
+originDayjs.extend(utc);
+originDayjs.extend(timezone);
 
 export const dayjs = originDayjs;
 
@@ -125,11 +129,28 @@ export const methods = {
   },
 };
 
-export function getNow() {
-  return dayjs();
+export function getNow(utcOffset?: number, timezone?: string) {
+  const now = dayjs();
+  if (utcOffset !== undefined) {
+    return now.utcOffset(utcOffset);
+  }
+  if (timezone) {
+    return now.tz(timezone);
+  }
+  return now;
 }
 
-export function getSortedDayjsArray(values: Dayjs[]) {
+export function toLocal(date: Dayjs, utcOffset?: number, timezone?: string): Dayjs {
+  if (utcOffset !== undefined) {
+    return date.utcOffset(utcOffset);
+  }
+  if (timezone) {
+    return date.tz(timezone);
+  }
+  return date;
+}
+
+export function getSortedDayjsArray(values: Dayjs[], _fixedTime?: boolean) {
   return [...values].sort((a, b) => a.valueOf() - b.valueOf());
 }
 
@@ -168,25 +189,53 @@ export function isValueChange(
 
 type DateValue = Date | string | number;
 
-export function getDayjsValue(time: DateValue, format: string): Dayjs;
-export function getDayjsValue(time: DateValue | undefined, format: string): Dayjs | undefined;
-export function getDayjsValue(time: DateValue[], format: string): Dayjs[];
-export function getDayjsValue(time: DateValue[] | undefined, format: string): Dayjs[] | undefined;
+export function getDayjsValue(
+  time: DateValue,
+  format: string,
+  utcOffset?: number,
+  timezone?: string,
+): Dayjs;
+export function getDayjsValue(
+  time: DateValue | undefined,
+  format: string,
+  utcOffset?: number,
+  timezone?: string,
+): Dayjs | undefined;
+export function getDayjsValue(
+  time: DateValue[],
+  format: string,
+  utcOffset?: number,
+  timezone?: string,
+): Dayjs[];
+export function getDayjsValue(
+  time: DateValue[] | undefined,
+  format: string,
+  utcOffset?: number,
+  timezone?: string,
+): Dayjs[] | undefined;
 export function getDayjsValue(
   time: (DateValue | undefined)[],
   format: string,
+  utcOffset?: number,
+  timezone?: string,
 ): (Dayjs | undefined)[];
 export function getDayjsValue(
   time: (DateValue | undefined)[] | undefined,
   format: string,
+  utcOffset?: number,
+  timezone?: string,
 ): (Dayjs | undefined)[] | undefined;
 export function getDayjsValue(
   time: DateValue | (DateValue | undefined)[] | undefined,
   format: string,
+  utcOffset?: number,
+  timezone?: string,
 ): Dayjs | (Dayjs | undefined)[] | undefined;
 export function getDayjsValue(
   time: DateValue | DateValue[] | (DateValue | undefined)[] | undefined,
   format: string,
+  utcOffset?: number,
+  timezone?: string,
 ) {
   const parseQuarterToMonth = (value: string) => {
     const reg = /(Q1)|(Q2)|(Q3)|(Q4)/;
@@ -217,9 +266,13 @@ export function getDayjsValue(
   };
 
   if (isArray(time)) {
-    return time.map(formatValue);
+    return time.map((t) => {
+      const parsed = formatValue(t);
+      return parsed ? toLocal(parsed, utcOffset, timezone) : parsed;
+    });
   }
-  return formatValue(time);
+  const parsed = formatValue(time);
+  return parsed ? toLocal(parsed, utcOffset, timezone) : parsed;
 }
 
 export function getDateValue(value: Dayjs): Date;

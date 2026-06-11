@@ -40,13 +40,13 @@
             "
           >
             <RenderFunction
-              v-if="dateRender"
+              v-if="dateRender && !isHiddenNotInViewCell(cell)"
               :render-func="dateRender"
               :date="getDateValue(cell.value)"
             />
             <div v-else :class="`${prefixCls}-date`">
               <div :class="`${prefixCls}-date-value`">
-                {{ cell.label }}
+                {{ isHiddenNotInViewCell(cell) ? '' : cell.label }}
               </div>
             </div>
           </div>
@@ -92,11 +92,17 @@
     mode: {
       type: String as PropType<Mode>,
     },
+    hideNotInViewDates: {
+      type: Boolean,
+    },
     rangeValues: {
       type: Array as PropType<Array<Dayjs | undefined>>,
     },
     dateRender: {
       type: Function as PropType<RenderFunc>,
+    },
+    now: {
+      type: Object as PropType<Dayjs>,
     },
   });
 
@@ -105,7 +111,7 @@
     'cell-mouse-enter': [_cellData: Cell];
   }>();
 
-  const { prefixCls, value, disabledDate, isSameTime, mode, rangeValues } = toRefs(props);
+  const { prefixCls, value, disabledDate, isSameTime, mode, rangeValues, now } = toRefs(props);
 
   const { getCellClassName } = useCellClassName(
     reactive({
@@ -114,6 +120,7 @@
       isSameTime,
       mode,
       rangeValues,
+      now,
     }),
   );
 
@@ -122,22 +129,25 @@
 
   const isWeek = computed(() => mode?.value === 'week');
 
+  const isHiddenNotInViewCell = (cellData: Cell) =>
+    props.hideNotInViewDates && (cellData.isPrev || cellData.isNext);
+
   const getCellClassNameFn = (cellData: Cell) => {
     const disabled = isCellDisabled(cellData);
     return getCellClassName(cellData, disabled);
   };
   const onCellClick = (cellData: Cell) => {
-    const disabled = isCellDisabled(cellData);
+    const disabled = isCellDisabled(cellData) || isHiddenNotInViewCell(cellData);
     if (disabled) return;
     emit('cell-click', cellData);
   };
   const onCellMouseEnter = (cellData: Cell) => {
-    const disabled = isCellDisabled(cellData);
+    const disabled = isCellDisabled(cellData) || isHiddenNotInViewCell(cellData);
     if (disabled) return;
     emit('cell-mouse-enter', cellData);
   };
   const onCellMouseLeave = (cellData: Cell) => {
-    const disabled = isCellDisabled(cellData);
+    const disabled = isCellDisabled(cellData) || isHiddenNotInViewCell(cellData);
     if (disabled) return;
     emit('cell-mouse-enter', cellData);
   };

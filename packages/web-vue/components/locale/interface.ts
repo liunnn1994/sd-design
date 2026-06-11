@@ -159,6 +159,8 @@ export interface SDLang {
     view: SDCalendarLang['view'];
     month: SDCalendarLang['month'];
     week: SDCalendarLang['week'];
+    yearFormat?: string;
+    monthFormat?: string;
     placeholder: {
       date: string;
       week: string;

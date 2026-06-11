@@ -40,11 +40,13 @@
           v-bind="commonPanelProps"
           mode="date"
           :show-time="showTime"
+          :hide-not-in-view-dates="hideNotInViewDates"
           :time-picker-props="timePickerProps"
           :day-start-of-week="dayStartOfWeek"
           :footer-value="footerValue"
           :time-picker-value="timePickerValue"
           :disabled-time="disabledTime"
+          :now="mergedNow"
           @timePickerSelect="onTimePickerSelect"
         />
         <PanelFooter
@@ -173,6 +175,18 @@
     abbreviation: {
       type: Boolean,
     },
+    hideNotInViewDates: {
+      type: Boolean,
+    },
+    utcOffset: {
+      type: Number,
+    },
+    timezone: {
+      type: String,
+    },
+    now: {
+      type: Object as PropType<Dayjs>,
+    },
   });
 
   const emit = defineEmits<{
@@ -203,6 +217,9 @@
     headerIcons,
     headerOperations,
     headerMode,
+    utcOffset,
+    timezone,
+    now,
   } = toRefs(props);
 
   const hasShortcuts = computed(() => Boolean(shortcuts.value && shortcuts.value.length));
@@ -234,7 +251,8 @@
     },
   ]);
 
-  const footerValue = computed(() => value?.value || getNow());
+  const footerValue = computed(() => value?.value || getNow(utcOffset?.value, timezone?.value));
+  const mergedNow = computed(() => now?.value || getNow(utcOffset?.value, timezone?.value));
 
   const {
     headerValue: headerPanelHeaderValue,
@@ -256,6 +274,8 @@
     return getDayjsValue(
       (isFunction(value) ? value() : value) as CalendarValue,
       shortcut.format || format.value,
+      utcOffset?.value,
+      timezone?.value,
     );
   }
 
@@ -277,7 +297,7 @@
   }
 
   function onTodayBtnClick() {
-    emit('today-btn-click', getNow());
+    emit('today-btn-click', mergedNow.value);
   }
 
   function onConfirmBtnClick() {

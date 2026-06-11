@@ -50,10 +50,12 @@
                 :footer-value="footerValue && footerValue[0]"
                 :time-picker-value="timePickerValue && timePickerValue[0]"
                 :day-start-of-week="dayStartOfWeek"
+                :hide-not-in-view-dates="hideNotInViewDates"
                 :show-time="showTime"
                 :time-picker-props="timePickerProps"
                 :disabled-time="getDisabledTimeFunc(0)"
                 :disabled="disabled[0]"
+                :now="now"
                 @timePickerSelect="onStartTimePickerSelect"
               />
               <DatePanel
@@ -64,10 +66,12 @@
                 :footer-value="footerValue && footerValue[1]"
                 :time-picker-value="timePickerValue && timePickerValue[1]"
                 :day-start-of-week="dayStartOfWeek"
+                :hide-not-in-view-dates="hideNotInViewDates"
                 :show-time="showTime"
                 :time-picker-props="timePickerProps"
                 :disabled-time="getDisabledTimeFunc(1)"
                 :disabled="disabled[1]"
+                :now="now"
                 @timePickerSelect="onEndTimePickerSelect"
               />
             </template>
@@ -212,6 +216,18 @@
     abbreviation: {
       type: Boolean,
     },
+    hideNotInViewDates: {
+      type: Boolean,
+    },
+    utcOffset: {
+      type: Number,
+    },
+    timezone: {
+      type: String,
+    },
+    now: {
+      type: Object as PropType<Dayjs>,
+    },
   });
 
   const emit = defineEmits<{
@@ -244,6 +260,8 @@
     visible,
     startHeaderMode,
     endHeaderMode,
+    utcOffset,
+    timezone,
   } = toRefs(props);
 
   const showShortcuts = computed(() => isArray(shortcuts.value) && shortcuts.value.length);
@@ -273,6 +291,8 @@
         isFunction(shortcut.value) ? shortcut.value() : shortcut.value,
       ) as CalendarValue[],
       shortcut.format || format.value,
+      utcOffset?.value,
+      timezone?.value,
     );
   }
 
