@@ -1,0 +1,475 @@
+{
+  "nodes": [
+    {
+      "id": "migrate_generated_demos_proposal",
+      "label": "migrate-generated-demos-to-script-setup-tailwind",
+      "file_type": "rationale",
+      "file_path": "openspec/changes/migrate-generated-demos-to-script-setup-tailwind/proposal.md",
+      "summary": "Proposal to unify generated component demos in sd-vue-docs to script setup lang=ts and Tailwind utility classes, replacing mixed Options API, plain script, local style blocks, and inline styles.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "migrate_generated_demos_tasks",
+      "label": "migrate-generated-demos tasks",
+      "file_type": "document",
+      "file_path": "openspec/changes/migrate-generated-demos-to-script-setup-tailwind/tasks.md",
+      "summary": "Task checklist for demo Tailwind runtime support, generated demo source migration from Options API to script setup, and guardrails/static validation.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "migrate_generated_demos_design",
+      "label": "migrate-generated-demos design",
+      "file_type": "document",
+      "file_path": "openspec/changes/migrate-generated-demos-to-script-setup-tailwind/design.md",
+      "summary": "Design decisions: single source of truth for generated Vue files, script setup lang=ts migration, Tailwind v4 shared demo stylesheet for both page preview and DemoEditor REPL preview, removal of SFC style blocks, automated static validation.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "generated_demo_source_conventions_spec",
+      "label": "generated-demo-source-conventions spec",
+      "file_type": "document",
+      "file_path": "openspec/changes/migrate-generated-demos-to-script-setup-tailwind/specs/generated-demo-source-conventions/spec.md",
+      "summary": "Spec requiring generated demos to use script setup lang=ts, Tailwind utilities instead of style blocks, and consistent rendering in both docs preview and DemoEditor REPL.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "interactive_doc_examples_spec",
+      "label": "interactive-doc-examples spec (modified)",
+      "file_type": "document",
+      "file_path": "openspec/changes/migrate-generated-demos-to-script-setup-tailwind/specs/interactive-doc-examples/spec.md",
+      "summary": "Modified spec for interactive doc examples: demo source fidelity must be preserved during migration, metadata and behavior unchanged, normalized source shown in editor.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "script_setup_lang_ts_convention",
+      "label": "script setup lang=ts convention",
+      "file_type": "concept",
+      "summary": "Vue 3 SFC convention using <script setup lang=\"ts\"> for Composition API with TypeScript. Adopted as the standard for generated demos replacing Options API and plain script.",
+      "confidence_score": 0.9
+    },
+    {
+      "id": "tailwind_utility_class_styling",
+      "label": "Tailwind utility class styling for demos",
+      "file_type": "concept",
+      "summary": "Using Tailwind CSS utility classes (with sd-vue-docs prefix conventions) to express demo presentation styles, replacing SFC style blocks and inline styles in generated examples.",
+      "confidence_score": 0.9
+    },
+    {
+      "id": "demo_editor_repl_preview",
+      "label": "DemoEditor REPL preview",
+      "file_type": "concept",
+      "summary": "Interactive example editor in sd-vue-docs that loads generated demo source via ?raw import and renders a live REPL preview. Requires shared Tailwind stylesheet injection for style parity with page preview.",
+      "confidence_score": 0.85
+    },
+    {
+      "id": "shared_demo_tailwind_stylesheet",
+      "label": "shared demo Tailwind stylesheet",
+      "file_type": "concept",
+      "summary": "A single Tailwind stylesheet shared between docs page preview and DemoEditor REPL preview, ensuring consistent utility class rendering across both environments.",
+      "confidence_score": 0.85
+    },
+    {
+      "id": "fix_local_theme_proposal",
+      "label": "fix-local-theme-implementation",
+      "file_type": "rationale",
+      "file_path": "openspec/changes/fix-local-theme-implementation/proposal.md",
+      "summary": "Proposal to fix end-to-end local theme consistency: ConfigProvider subtree-scoped theme container, unified theme/theme-mode semantics, docs example alignment, referencing vuetify and naive-ui patterns.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "fix_local_theme_tasks",
+      "label": "fix-local-theme tasks",
+      "file_type": "document",
+      "file_path": "openspec/changes/fix-local-theme-implementation/tasks.md",
+      "summary": "Task checklist: align implementation baseline with vuetify/naive-ui, fix ConfigProvider local theme container, unify docs theme examples, add regression tests. All tasks completed.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "fix_local_theme_design",
+      "label": "fix-local-theme design",
+      "file_type": "document",
+      "file_path": "openspec/changes/fix-local-theme-implementation/design.md",
+      "summary": "Design decisions: subtree theme container as sole local theme carrier, parent-snapshot + child-incremental-override inheritance algorithm, unified runtime protocol across docs, behavior-boundary testing.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "fix_local_theme_implementation_baseline",
+      "label": "fix-local-theme implementation baseline",
+      "file_type": "document",
+      "file_path": "openspec/changes/fix-local-theme-implementation/implementation-baseline.md",
+      "summary": "Baseline analysis: vuetify VThemeProvider uses provideTheme for scoped theme context; naive-ui ConfigProvider uses inject+computed merge. web-vue has ThemeProvider forcing light mode when only theme is passed, breaking dark mode inheritance.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "local_theme_provider_runtime_spec",
+      "label": "local-theme-provider-runtime spec",
+      "file_type": "document",
+      "file_path": "openspec/changes/fix-local-theme-implementation/specs/local-theme-provider-runtime/spec.md",
+      "summary": "Spec: ConfigProvider shall create subtree-scoped theme container when receiving local theme/theme-mode; nested providers inherit unresolved tokens from parent; runtime mode switches stay scoped without cross-scope leakage.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "theme_docs_runtime_consistency_spec",
+      "label": "theme-docs-runtime-consistency spec",
+      "file_type": "document",
+      "file_path": "openspec/changes/fix-local-theme-implementation/specs/theme-docs-runtime-consistency/spec.md",
+      "summary": "Spec: ConfigProvider demo, home preview, and theme editor must share one runtime theme contract; JSON import/export must be schema-safe; docs must describe ConfigProvider vs ThemeProvider usage boundaries.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "subtree_theme_container",
+      "label": "subtree theme container",
+      "file_type": "concept",
+      "summary": "A DOM-scoped theme container created by ConfigProvider when local theme or theme-mode is set. CSS variables resolve from this container instead of global body. Inspired by vuetify VThemeProvider pattern.",
+      "confidence_score": 0.9
+    },
+    {
+      "id": "theme_inheritance_algorithm",
+      "label": "parent-snapshot + child-incremental-override inheritance",
+      "file_type": "concept",
+      "summary": "Inheritance model where nested providers take parent's resolved theme as base, apply local token overrides, and produce child snapshot. Child unmount does not mutate parent. Inspired by naive-ui ConfigProvider.",
+      "confidence_score": 0.9
+    },
+    {
+      "id": "upgrade_style_architecture_proposal",
+      "label": "upgrade-style-architecture",
+      "file_type": "rationale",
+      "file_path": "openspec/changes/upgrade-style-architecture/proposal.md",
+      "summary": "Proposal to migrate web-vue from Less to Scss, add ConfigProvider runtime theme object, CSS variables token system, docs theme editor page, and homepage theme showcase module.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "upgrade_style_architecture_tasks",
+      "label": "upgrade-style-architecture tasks",
+      "file_type": "document",
+      "file_path": "openspec/changes/upgrade-style-architecture/tasks.md",
+      "summary": "Task checklist across 6 areas: theme infrastructure contracts, Scss migration foundation, component style migration, docs theme editor, homepage theme showcase, validation and cleanup. Most tasks completed.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "upgrade_style_architecture_design",
+      "label": "upgrade-style-architecture design",
+      "file_type": "document",
+      "file_path": "openspec/changes/upgrade-style-architecture/design.md",
+      "summary": "Design decisions: single theme object with flat token map + optional component overrides; incremental Less-to-Scss migration with compatibility layer; CSS variables as theme channel with Scss for static organization; editor with edit/preview/serialize layers; homepage presets reuse editor protocol.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "css_variable_token_system_spec",
+      "label": "css-variable-token-system spec",
+      "file_type": "document",
+      "file_path": "openspec/changes/upgrade-style-architecture/specs/css-variable-token-system/spec.md",
+      "summary": "Spec: theme tokens emitted as CSS custom properties with consistent prefix; components consume CSS variables for runtime theming; critical variables include fallback values for visual stability.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "scss_style_architecture_spec",
+      "label": "scss-style-architecture spec",
+      "file_type": "document",
+      "file_path": "openspec/changes/upgrade-style-architecture/specs/scss-style-architecture/spec.md",
+      "summary": "Spec: component style sources migrated from Less to Scss preserving public API; build pipeline supports Scss compilation; temporary compatibility mapping from legacy Less token names to new tokens.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "runtime_theme_config_provider_spec",
+      "label": "runtime-theme-config-provider spec",
+      "file_type": "document",
+      "file_path": "openspec/changes/upgrade-style-architecture/specs/runtime-theme-config-provider/spec.md",
+      "summary": "Spec: ConfigProvider accepts unified runtime theme object; theme updates applied at runtime without recompilation; theme object supports component-level override blocks with global token fallback.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "docs_theme_editor_spec",
+      "label": "docs-theme-editor spec",
+      "file_type": "document",
+      "file_path": "openspec/changes/upgrade-style-architecture/specs/docs-theme-editor/spec.md",
+      "summary": "Spec: docs site provides theme editor page with editable controls and live preview; supports JSON theme import/export with versioned schema; validates schema compatibility on upload.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "homepage_theme_showcase_spec",
+      "label": "homepage-theme-showcase spec",
+      "file_type": "document",
+      "file_path": "openspec/changes/upgrade-style-architecture/specs/homepage-theme-showcase/spec.md",
+      "summary": "Spec: homepage theme showcase with preset theme switching; presets reuse same ConfigProvider runtime theme contract; includes default and multiple contrasting presets.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "less_to_scss_migration",
+      "label": "Less-to-Scss migration",
+      "file_type": "concept",
+      "summary": "Incremental migration of component library styles from Less to Scss, preserving public component APIs, with temporary compatibility mapping for legacy Less token names.",
+      "confidence_score": 0.9
+    },
+    {
+      "id": "config_provider_theme_object",
+      "label": "ConfigProvider theme object",
+      "file_type": "concept",
+      "summary": "Unified runtime theme configuration object passed through ConfigProvider containing tokens, optional component overrides, and meta. Normalized into CSS variables at runtime. Supports dynamic updates without recompilation.",
+      "confidence_score": 0.9
+    },
+    {
+      "id": "theme_json_schema_version",
+      "label": "theme JSON schemaVersion",
+      "file_type": "concept",
+      "summary": "Versioned schema for theme JSON export/import. Enables compatibility validation, migration functions for old versions, and stable serialization for editor and showcase.",
+      "confidence_score": 0.85
+    },
+    {
+      "id": "css_variable_fallback_strategy",
+      "label": "CSS variable fallback strategy",
+      "file_type": "concept",
+      "summary": "Pattern of providing fallback values in CSS variable references (e.g., var(--sd-color-primary, #1677ff)) to preserve visual stability when runtime tokens are absent.",
+      "confidence_score": 0.9
+    }
+  ],
+  "edges": [
+    {
+      "source": "migrate_generated_demos_proposal",
+      "target": "generated_demo_source_conventions_spec",
+      "relation": "defines_spec",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "migrate_generated_demos_proposal",
+      "target": "interactive_doc_examples_spec",
+      "relation": "modifies_spec",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "migrate_generated_demos_design",
+      "target": "migrate_generated_demos_proposal",
+      "relation": "elaborates",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "migrate_generated_demos_tasks",
+      "target": "migrate_generated_demos_design",
+      "relation": "implements",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "migrate_generated_demos_proposal",
+      "target": "script_setup_lang_ts_convention",
+      "relation": "introduces",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "migrate_generated_demos_proposal",
+      "target": "tailwind_utility_class_styling",
+      "relation": "introduces",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "migrate_generated_demos_design",
+      "target": "shared_demo_tailwind_stylesheet",
+      "relation": "defines",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "shared_demo_tailwind_stylesheet",
+      "target": "demo_editor_repl_preview",
+      "relation": "enables_styling_for",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "generated_demo_source_conventions_spec",
+      "target": "script_setup_lang_ts_convention",
+      "relation": "requires",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "generated_demo_source_conventions_spec",
+      "target": "tailwind_utility_class_styling",
+      "relation": "requires",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "fix_local_theme_proposal",
+      "target": "local_theme_provider_runtime_spec",
+      "relation": "defines_spec",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "fix_local_theme_proposal",
+      "target": "theme_docs_runtime_consistency_spec",
+      "relation": "defines_spec",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "fix_local_theme_design",
+      "target": "fix_local_theme_proposal",
+      "relation": "elaborates",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "fix_local_theme_tasks",
+      "target": "fix_local_theme_design",
+      "relation": "implements",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "fix_local_theme_implementation_baseline",
+      "target": "fix_local_theme_design",
+      "relation": "informs",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "fix_local_theme_design",
+      "target": "subtree_theme_container",
+      "relation": "defines",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "fix_local_theme_design",
+      "target": "theme_inheritance_algorithm",
+      "relation": "defines",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "local_theme_provider_runtime_spec",
+      "target": "subtree_theme_container",
+      "relation": "specifies",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "local_theme_provider_runtime_spec",
+      "target": "theme_inheritance_algorithm",
+      "relation": "specifies",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "upgrade_style_architecture_proposal",
+      "target": "css_variable_token_system_spec",
+      "relation": "defines_spec",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "upgrade_style_architecture_proposal",
+      "target": "scss_style_architecture_spec",
+      "relation": "defines_spec",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "upgrade_style_architecture_proposal",
+      "target": "runtime_theme_config_provider_spec",
+      "relation": "defines_spec",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "upgrade_style_architecture_proposal",
+      "target": "docs_theme_editor_spec",
+      "relation": "defines_spec",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "upgrade_style_architecture_proposal",
+      "target": "homepage_theme_showcase_spec",
+      "relation": "defines_spec",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "upgrade_style_architecture_design",
+      "target": "upgrade_style_architecture_proposal",
+      "relation": "elaborates",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "upgrade_style_architecture_tasks",
+      "target": "upgrade_style_architecture_design",
+      "relation": "implements",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "upgrade_style_architecture_proposal",
+      "target": "less_to_scss_migration",
+      "relation": "introduces",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "upgrade_style_architecture_proposal",
+      "target": "config_provider_theme_object",
+      "relation": "introduces",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "scss_style_architecture_spec",
+      "target": "less_to_scss_migration",
+      "relation": "specifies",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "runtime_theme_config_provider_spec",
+      "target": "config_provider_theme_object",
+      "relation": "specifies",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "css_variable_token_system_spec",
+      "target": "css_variable_fallback_strategy",
+      "relation": "requires",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "docs_theme_editor_spec",
+      "target": "theme_json_schema_version",
+      "relation": "uses",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "homepage_theme_showcase_spec",
+      "target": "config_provider_theme_object",
+      "relation": "reuses",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "fix_local_theme_proposal",
+      "target": "upgrade_style_architecture_proposal",
+      "relation": "depends_on",
+      "confidence_score": 0.8
+    },
+    {
+      "source": "local_theme_provider_runtime_spec",
+      "target": "config_provider_theme_object",
+      "relation": "uses",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "theme_docs_runtime_consistency_spec",
+      "target": "docs_theme_editor_spec",
+      "relation": "aligns_with",
+      "confidence_score": 0.85
+    }
+  ],
+  "hyperedges": [
+    {
+      "nodes": [
+        "fix_local_theme_proposal",
+        "upgrade_style_architecture_proposal",
+        "local_theme_provider_runtime_spec"
+      ],
+      "relation": "fix-local-theme depends on upgrade-style-architecture's ConfigProvider theme object and CSS variable token system to implement subtree-scoped local theme containers",
+      "confidence_score": 0.8
+    },
+    {
+      "nodes": [
+        "generated_demo_source_conventions_spec",
+        "tailwind_utility_class_styling",
+        "demo_editor_repl_preview"
+      ],
+      "relation": "generated demo Tailwind migration requires shared Tailwind stylesheet to be injected into DemoEditor REPL preview for visual parity with page preview",
+      "confidence_score": 0.85
+    },
+    {
+      "nodes": [
+        "runtime_theme_config_provider_spec",
+        "css_variable_token_system_spec",
+        "homepage_theme_showcase_spec"
+      ],
+      "relation": "runtime theme config provider emits CSS variables consumed by components, and the same theme object contract is reused by homepage showcase presets",
+      "confidence_score": 0.85
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

@@ -1,0 +1,4 @@
+skills\overdrive\SKILL.md
+skills\polish\SKILL.md
+skills\quieter\SKILL.md
+skills\typeset\SKILL.md

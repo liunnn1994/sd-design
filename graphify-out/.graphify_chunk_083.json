@@ -1,0 +1,724 @@
+{
+  "nodes": [
+    {
+      "id": "anchor_index",
+      "type": "document",
+      "label": "Anchor Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/anchor/index.mdx",
+      "metadata": {
+        "title": "锚点 Anchor",
+        "description": "通过锚点可快速找到信息内容在当前页面的位置。",
+        "subcomponents": ["anchor", "anchor-link"],
+        "demos": ["affix", "basic", "boundary", "hash", "line-less"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "anchor_anchor_component",
+      "type": "concept",
+      "label": "anchor component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/anchor/index.mdx",
+      "metadata": {
+        "props": ["boundary", "line-less", "scroll-container", "change-hash", "smooth"],
+        "events": ["select", "change"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "anchor_anchor_link_component",
+      "type": "concept",
+      "label": "anchor-link component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/anchor/index.mdx",
+      "metadata": {
+        "props": ["title", "href"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "back_top_index",
+      "type": "document",
+      "label": "BackTop Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/back-top/index.mdx",
+      "metadata": {
+        "title": "返回顶部 BackTop",
+        "description": "可一键返回顶部的按钮。",
+        "demos": ["basic", "custom"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "back_top_back_top_component",
+      "type": "concept",
+      "label": "back-top component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/back-top/index.mdx",
+      "metadata": {
+        "props": ["visible-height", "target-container", "easing", "duration"],
+        "dependency": "b-tween"
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "calendar_index",
+      "type": "document",
+      "label": "Calendar Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/calendar/index.mdx",
+      "metadata": {
+        "title": "日历 Calendar",
+        "description": "功能完整的日历组件，支持日、周、月、年等多种视图，支持事件管理、时间网格、排班系统和丰富的自定义插槽。",
+        "demos": ["basic", "views", "date-picker", "schedules", "stack-events", "custom-event", "view-layout", "date-time", "events-display", "events-interactions", "customization", "dom-events", "schedules-demo"],
+        "migrated_from": "vue-cal"
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "calendar_calendar_component",
+      "type": "concept",
+      "label": "calendar component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/calendar/index.mdx",
+      "metadata": {
+        "props": ["view", "view-date", "views", "events", "schedules", "special-hours", "editable-events", "stack-events", "time", "time-from", "time-to", "time-step", "locale", "sm", "xs", "horizontal", "date-picker"],
+        "v_model": ["events", "view", "viewDate", "selectedDate"],
+        "view_methods": ["previous", "next", "goToToday", "switch", "scrollToCurrentTime", "scrollToTime", "createEvent", "deleteEvent"],
+        "features": ["event CRUD", "drag-and-drop", "resize", "schedules", "special-hours", "slots"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "calendar_event_system",
+      "type": "concept",
+      "label": "Calendar Event System",
+      "file": "packages/sd-vue-docs/src/content/docs/components/calendar/index.mdx",
+      "metadata": {
+        "event_types": ["foreground", "background", "allDay", "multiDay", "untimed"],
+        "event_props": ["start", "end", "title", "content", "class", "backgroundColor", "color", "background", "allDay", "schedule", "deletable", "draggable", "resizable"],
+        "editable_events_config": ["create", "resize", "resizeX", "drag", "delete"]
+      },
+      "confidence_score": 0.93
+    },
+    {
+      "id": "calendar_schedule_system",
+      "type": "concept",
+      "label": "Calendar Schedule (Resource Columns)",
+      "file": "packages/sd-vue-docs/src/content/docs/components/calendar/index.mdx",
+      "metadata": {
+        "schedule_structure": "{ id, label, class }",
+        "css_vars": ["--sd-calendar-min-cell-size", "--sd-calendar-min-schedule-size"]
+      },
+      "confidence_score": 0.93
+    },
+    {
+      "id": "copy_index",
+      "type": "document",
+      "label": "Copy Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/copy/index.mdx",
+      "metadata": {
+        "title": "复制 Copy",
+        "description": "通过链接或按钮触发复制操作。",
+        "demos": ["basic", "button", "tooltip", "icon"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "copy_copy_component",
+      "type": "concept",
+      "label": "copy component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/copy/index.mdx",
+      "metadata": {
+        "props": ["content", "tooltip", "tooltip-props", "component", "text-inherit", "success-message"],
+        "events": ["copy"],
+        "slots": ["default", "icon"],
+        "passthrough": ["Link (component=link)", "Button (component=button)"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "ellipsis_index",
+      "type": "document",
+      "label": "Ellipsis Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/ellipsis/index.mdx",
+      "metadata": {
+        "title": "文本省略 Ellipsis",
+        "description": "在有限空间内展示较长文本，并在内容被截断时提供提示或展开能力。",
+        "demos": ["basic", "line-clamp", "expand-trigger", "custom-tooltip", "performant-ellipsis"],
+        "migration_from": "naive-ui"
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "ellipsis_ellipsis_component",
+      "type": "concept",
+      "label": "ellipsis component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/ellipsis/index.mdx",
+      "metadata": {
+        "props": ["line-clamp", "expand-trigger", "tooltip"],
+        "slots": ["default", "tooltip"],
+        "variants": ["sd-ellipsis", "sd-performant-ellipsis"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "form_index",
+      "type": "document",
+      "label": "Form Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/form/index.mdx",
+      "metadata": {
+        "title": "表单 Form",
+        "description": "具有数据收集、校验和提交功能的表单，包含复选框、单选框、输入框、下拉选择框等元素。",
+        "subcomponents": ["form", "form-item"],
+        "demos": ["async", "auto-width", "basic", "custom", "disabled", "dynamic", "extra", "grid", "layout", "nest", "scroll", "status", "validation", "validation2"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "form_form_component",
+      "type": "concept",
+      "label": "form component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/form/index.mdx",
+      "metadata": {
+        "props": ["model", "layout", "size", "label-col-props", "wrapper-col-props", "label-align", "disabled", "rules", "auto-label-width", "scroll-to-first-error"],
+        "events": ["submit", "submit-success", "submit-failed"],
+        "methods": ["validate", "validateField", "resetFields", "clearValidate", "setFields", "scrollToField"],
+        "layouts": ["horizontal", "vertical", "inline"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "form_form_item_component",
+      "type": "concept",
+      "label": "form-item component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/form/index.mdx",
+      "metadata": {
+        "props": ["field", "label", "tooltip", "show-colon", "no-style", "disabled", "help", "extra", "required", "asterisk-position", "rules", "validate-status", "validate-trigger", "hide-label", "hide-asterisk", "feedback", "label-component", "label-col-flex", "merge-props", "content-flex"],
+        "slots": ["label", "help", "extra"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "form_use_form_item",
+      "type": "concept",
+      "label": "useFormItem composable",
+      "file": "packages/sd-vue-docs/src/content/docs/components/form/index.mdx",
+      "metadata": {
+        "returns": ["mergedSize", "mergedDisabled", "mergedError", "feedback", "eventHandlers"],
+        "purpose": "自定义表单组件接入表单体系"
+      },
+      "confidence_score": 0.93
+    },
+    {
+      "id": "form_field_rule",
+      "type": "concept",
+      "label": "FieldRule type",
+      "file": "packages/sd-vue-docs/src/content/docs/components/form/index.mdx",
+      "metadata": {
+        "type_validators": ["string", "number", "boolean", "array", "object", "email", "url", "ip"],
+        "props": ["type", "required", "message", "length", "maxLength", "minLength", "match", "min", "max", "equal", "validator"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "layout_index",
+      "type": "document",
+      "label": "Layout Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/layout/index.mdx",
+      "metadata": {
+        "title": "布局 Layout",
+        "description": "页面的基础布局框架，常与组件嵌套使用，构建页面整体布局。",
+        "subcomponents": ["layout", "layout-header", "layout-content", "layout-footer", "layout-sider"],
+        "demos": ["basic", "app-bar", "breakpoint", "collapsed", "custom-icon", "resize", "scroll-behavior", "navigation-drawer"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "layout_layout_component",
+      "type": "concept",
+      "label": "layout component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/layout/index.mdx",
+      "metadata": {
+        "props": ["has-sider"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "layout_layout_header_component",
+      "type": "concept",
+      "label": "layout-header component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/layout/index.mdx",
+      "metadata": {
+        "props": ["title", "image", "height", "density", "extended", "extension-height", "collapse", "flat", "floating", "fixed", "sticky", "absolute", "location", "scroll-behavior", "scroll-target", "scroll-threshold"],
+        "slots": ["image", "prepend", "title", "default", "append", "extension"],
+        "scroll_behaviors": ["hide", "fully-hide", "inverted", "collapse", "elevate", "fade-image"],
+        "density_options": ["default", "prominent", "comfortable", "compact"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "layout_layout_sider_component",
+      "type": "concept",
+      "label": "layout-sider component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/layout/index.mdx",
+      "metadata": {
+        "props": ["theme", "collapsed", "collapsible", "rail", "rail-width", "expand-on-hover", "width", "collapsed-width", "temporary", "permanent", "persistent", "mask", "mask-closable", "esc-to-close", "location", "floating", "sticky", "breakpoint", "resize-directions", "hide-trigger"],
+        "events": ["collapse", "breakpoint", "update:modelValue", "update:rail"],
+        "slots": ["image", "prepend", "append", "trigger"],
+        "modes": ["navigation-drawer", "rail", "temporary", "floating"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "mention_index",
+      "type": "document",
+      "label": "Mention Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/mention/index.mdx",
+      "metadata": {
+        "title": "提及 Mention",
+        "description": "用于在输入中提及某人或某事，常用于发布、聊天或评论功能。",
+        "demos": ["basic", "prefix"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "mention_mention_component",
+      "type": "concept",
+      "label": "mention component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/mention/index.mdx",
+      "metadata": {
+        "props": ["model-value", "data", "prefix", "split", "type", "disabled", "allow-clear"],
+        "events": ["change", "search", "select", "clear", "focus", "blur"],
+        "methods": ["focus", "blur"],
+        "slots": ["option"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "menu_index",
+      "type": "document",
+      "label": "Menu Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/menu/index.mdx",
+      "metadata": {
+        "title": "菜单 Menu",
+        "description": "收纳、排列并展示一系列选项的列表。",
+        "subcomponents": ["menu", "sub-menu", "menu-item", "menu-item-group"],
+        "demos": ["breakpoint", "collapse-control", "dark-horizontal", "ellipsis", "horizontal", "pop-button", "pop", "size", "sub-menu"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "menu_menu_component",
+      "type": "concept",
+      "label": "menu component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/menu/index.mdx",
+      "metadata": {
+        "props": ["theme", "mode", "level-indent", "auto-open", "collapsed", "collapsed-width", "accordion", "selected-keys", "open-keys", "trigger-props", "tooltip-props", "ellipsis", "ellipsis-props", "breakpoint"],
+        "events": ["collapse", "menu-item-click", "sub-menu-click"],
+        "slots": ["collapse-icon", "expand-icon-right", "expand-icon-down"],
+        "modes": ["vertical", "horizontal", "pop", "popButton"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "menu_sub_menu_component",
+      "type": "concept",
+      "label": "sub-menu component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/menu/index.mdx",
+      "metadata": {
+        "props": ["title", "selectable", "popup", "popup-max-height"],
+        "slots": ["title", "expand-icon-right", "expand-icon-down", "icon"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "menu_menu_item_component",
+      "type": "concept",
+      "label": "menu-item component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/menu/index.mdx",
+      "metadata": {
+        "props": ["disabled"],
+        "slots": ["icon"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "statistic_index",
+      "type": "document",
+      "label": "Statistic Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/statistic/index.mdx",
+      "metadata": {
+        "title": "数值显示 Statistic",
+        "description": "突出展示某个或某组数字、带描述的统计类数据。",
+        "subcomponents": ["statistic", "countdown"],
+        "demos": ["animation", "basic", "countdown", "prefix"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "statistic_statistic_component",
+      "type": "concept",
+      "label": "statistic component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/statistic/index.mdx",
+      "metadata": {
+        "props": ["title", "value", "format", "extra", "start", "precision", "separator", "show-group-separator", "animation", "animation-duration", "value-from", "placeholder", "value-style"],
+        "slots": ["title", "prefix", "suffix", "extra"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "statistic_countdown_component",
+      "type": "concept",
+      "label": "countdown component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/statistic/index.mdx",
+      "metadata": {
+        "props": ["title", "value", "now", "format", "start", "value-style"],
+        "events": ["finish"],
+        "slots": ["title"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "tour_index",
+      "type": "document",
+      "label": "Tour Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tour/index.mdx",
+      "metadata": {
+        "title": "漫游式引导 Tour",
+        "description": "组件库内置实现的页面导览组件，支持插槽、组件化按钮和顶层配置定制。",
+        "demos": ["basic", "buttons", "controlled", "non-modal"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "tour_tour_component",
+      "type": "concept",
+      "label": "tour component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tour/index.mdx",
+      "metadata": {
+        "props": ["visible", "current", "steps", "z-index", "animate", "allow-close", "allow-keyboard-control", "overlay-click-behavior", "overlay-opacity", "overlay-color", "smooth-scroll", "show-progress", "show-buttons", "button-props", "prev-btn-text", "next-btn-text", "done-btn-text"],
+        "events": ["update:visible", "visible-change", "update:current", "change", "close"],
+        "exposes": ["drive", "moveNext", "movePrevious", "moveTo", "highlight", "destroy", "refresh", "isActive", "getController", "getState"],
+        "slots": ["title", "description", "progress", "footer", "previous-button", "next-button", "close-button"],
+        "hooks": ["on-highlight-started", "on-highlighted", "on-deselected", "on-destroyed", "on-destroy-started", "on-popover-render", "on-next-click", "on-prev-click", "on-close-click"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "trigger_index",
+      "type": "document",
+      "label": "Trigger Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/trigger/index.mdx",
+      "metadata": {
+        "title": "触发器 Trigger",
+        "description": "用于对元素添加 hover, click, focus 等事件，并且弹出下拉框。",
+        "demos": ["align-point", "arrow", "basic", "nest", "scroll", "translate", "triggers"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "trigger_trigger_component",
+      "type": "concept",
+      "label": "trigger component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/trigger/index.mdx",
+      "metadata": {
+        "props": ["popup-visible", "trigger", "position", "disabled", "popup-offset", "popup-translate", "show-arrow", "align-point", "popup-hover-stay", "blur-to-close", "click-to-close", "click-outside-to-close", "unmount-on-close", "update-at-scroll", "scroll-to-close", "render-to-body", "auto-fit-position", "auto-fix-position", "auto-fit-popup-width", "auto-fit-popup-min-width"],
+        "events": ["popup-visible-change", "show", "hide"],
+        "slots": ["content"],
+        "trigger_types": ["hover", "click", "focus", "contextMenu"]
+      },
+      "confidence_score": 0.95
+    },
+    {
+      "id": "docs_demo_block",
+      "type": "concept",
+      "label": "DemoBlock component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/anchor/index.mdx",
+      "metadata": {
+        "purpose": "文档页中包装演示代码块的统一容器",
+        "import_path": "../../../../components/docs/DemoBlock.astro"
+      },
+      "confidence_score": 0.92
+    }
+  ],
+  "edges": [
+    {
+      "source": "anchor_index",
+      "target": "anchor_anchor_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "anchor_index",
+      "target": "anchor_anchor_link_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "anchor_index",
+      "target": "docs_demo_block",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "back_top_index",
+      "target": "back_top_back_top_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "back_top_index",
+      "target": "docs_demo_block",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "calendar_index",
+      "target": "calendar_calendar_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "calendar_index",
+      "target": "calendar_event_system",
+      "relation": "documents",
+      "confidence_score": 0.93
+    },
+    {
+      "source": "calendar_index",
+      "target": "calendar_schedule_system",
+      "relation": "documents",
+      "confidence_score": 0.93
+    },
+    {
+      "source": "calendar_index",
+      "target": "docs_demo_block",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "copy_index",
+      "target": "copy_copy_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "copy_index",
+      "target": "docs_demo_block",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "ellipsis_index",
+      "target": "ellipsis_ellipsis_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "ellipsis_index",
+      "target": "docs_demo_block",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "form_index",
+      "target": "form_form_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "form_index",
+      "target": "form_form_item_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "form_index",
+      "target": "form_use_form_item",
+      "relation": "documents",
+      "confidence_score": 0.93
+    },
+    {
+      "source": "form_index",
+      "target": "form_field_rule",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "form_index",
+      "target": "docs_demo_block",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "layout_index",
+      "target": "layout_layout_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "layout_index",
+      "target": "layout_layout_header_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "layout_index",
+      "target": "layout_layout_sider_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "layout_index",
+      "target": "docs_demo_block",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "mention_index",
+      "target": "mention_mention_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "mention_index",
+      "target": "docs_demo_block",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "menu_index",
+      "target": "menu_menu_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "menu_index",
+      "target": "menu_sub_menu_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "menu_index",
+      "target": "menu_menu_item_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "menu_index",
+      "target": "docs_demo_block",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "statistic_index",
+      "target": "statistic_statistic_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "statistic_index",
+      "target": "statistic_countdown_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "statistic_index",
+      "target": "docs_demo_block",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "tour_index",
+      "target": "tour_tour_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "tour_index",
+      "target": "docs_demo_block",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "trigger_index",
+      "target": "trigger_trigger_component",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "trigger_index",
+      "target": "docs_demo_block",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "calendar_event_system",
+      "target": "calendar_calendar_component",
+      "relation": "managed_by",
+      "confidence_score": 0.93
+    },
+    {
+      "source": "calendar_schedule_system",
+      "target": "calendar_calendar_component",
+      "relation": "configured_in",
+      "confidence_score": 0.93
+    },
+    {
+      "source": "form_use_form_item",
+      "target": "form_form_item_component",
+      "relation": "integrates_with",
+      "confidence_score": 0.93
+    },
+    {
+      "source": "menu_menu_component",
+      "target": "menu_sub_menu_component",
+      "relation": "contains",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "menu_menu_component",
+      "target": "menu_menu_item_component",
+      "relation": "contains",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "menu_menu_component",
+      "target": "ellipsis_ellipsis_component",
+      "relation": "optionally_uses",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "layout_layout_sider_component",
+      "target": "menu_menu_component",
+      "relation": "often_paired_with",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "copy_copy_component",
+      "target": "trigger_trigger_component",
+      "relation": "uses_for_tooltip",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "form_form_component",
+      "target": "form_form_item_component",
+      "relation": "contains",
+      "confidence_score": 0.95
+    }
+  ],
+  "hyperedges": [
+    {
+      "nodes": ["menu_menu_component", "layout_layout_sider_component", "layout_layout_header_component"],
+      "relation": "layout_system: Menu, Layout.Header and Layout.Sider compose the typical page chrome (sidebar navigation + top bar)",
+      "confidence_score": 0.88
+    },
+    {
+      "nodes": ["form_form_component", "form_form_item_component", "form_use_form_item"],
+      "relation": "form_system: Form orchestrates validation via form-items; useFormItem is the bridge for custom inputs to join the same validation/size/disabled context",
+      "confidence_score": 0.9
+    },
+    {
+      "nodes": ["calendar_calendar_component", "calendar_event_system", "calendar_schedule_system"],
+      "relation": "calendar_system: Calendar renders events managed by the event system and optionally splits days into schedule/resource columns",
+      "confidence_score": 0.92
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

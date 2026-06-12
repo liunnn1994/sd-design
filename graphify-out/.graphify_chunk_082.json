@@ -1,0 +1,496 @@
+{
+  "nodes": [
+    {
+      "id": "notification_index_notification",
+      "label": "Notification",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/notification/index.mdx",
+      "description": "全局展示通知提醒，将信息及时有效的传达给用户。提供 info/success/warning/error 四种类型方法，支持自定义操作按钮、关闭按钮、弹出位置和样式。",
+      "confidence_score": 0.95,
+      "tags": ["feedback", "notification", "global-method"]
+    },
+    {
+      "id": "notification_index_notificationconfig",
+      "label": "NotificationConfig",
+      "type": "interface",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/notification/index.mdx",
+      "description": "Notification 配置类型，包含 content, title, icon, id, position(topLeft/topRight/bottomLeft/bottomRight), closable, duration, footer, closeIcon 等字段。",
+      "confidence_score": 0.95,
+      "tags": ["config", "notification"]
+    },
+    {
+      "id": "overflow_list_index_overflowlist",
+      "label": "OverflowList",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/overflow-list/index.mdx",
+      "description": "折叠列表组件，当容器宽度不够时自动折叠元素。支持 min 设置最少展示个数、from 设置折叠方向(start/end)。",
+      "confidence_score": 0.95,
+      "tags": ["layout", "overflow", "responsive"]
+    },
+    {
+      "id": "page_header_index_pageheader",
+      "label": "PageHeader",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/page-header/index.mdx",
+      "description": "页头组件，位于页容器顶部，包含面包屑、标题、副标题和返回按钮。支持 breadcrumb/title/subtitle/extra 等插槽。",
+      "confidence_score": 0.95,
+      "tags": ["navigation", "page-layout"]
+    },
+    {
+      "id": "qr_code_index_qrcode",
+      "label": "QrCode",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/qr-code/index.mdx",
+      "description": "二维码组件，将文本转换为二维码。支持 Canvas/SVG 两种渲染类型、中心图标、状态覆盖层(active/expired/loading/scanned)和纠错等级。",
+      "confidence_score": 0.95,
+      "tags": ["display", "qr-code", "barcode"]
+    },
+    {
+      "id": "resize_box_index_resizebox",
+      "label": "ResizeBox",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/resize-box/index.mdx",
+      "description": "伸缩框组件，通过设置 directions 指定可伸缩的边(left/right/top/bottom)。width 和 height 支持 v-model。集成到 Layout 组件中实现可伸缩侧边栏。",
+      "confidence_score": 0.95,
+      "tags": ["layout", "resize", "interactive"]
+    },
+    {
+      "id": "scrollbar_index_scrollbar",
+      "label": "Scrollbar",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/scrollbar/index.mdx",
+      "description": "基于 OverlayScrollbars 的滚动条组件，替换浏览器默认滚动条样式。支持 embed/track 两种类型，透传 OverlayScrollbars 配置，暴露 scrollTo/scrollTop/scrollLeft 等快捷方法。",
+      "confidence_score": 0.95,
+      "tags": ["scroll", "overlay-scrollbars", "ui-enhancement"]
+    },
+    {
+      "id": "scrollbar_index_overlayscrollbars",
+      "label": "OverlayScrollbars",
+      "type": "library",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/scrollbar/index.mdx",
+      "description": "第三方滚动条增强库，Scrollbar 组件基于它实现。提供 paddingAbsolute、overflow、scrollbars 等配置项，以及 initialized/updated/destroyed/scroll 等事件。",
+      "confidence_score": 0.95,
+      "tags": ["third-party", "scrollbar"]
+    },
+    {
+      "id": "select_index_select",
+      "label": "Select",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/select/index.mdx",
+      "description": "选择器组件，从一组同类数据中选择一个或多个。支持多选、搜索、远程搜索、分组、虚拟列表、自定义字段名(field-names)。从 Arco Design 和 Naive UI 均提供迁移指南。",
+      "confidence_score": 0.95,
+      "tags": ["form", "select", "dropdown", "data-entry"]
+    },
+    {
+      "id": "select_index_migration_arco",
+      "label": "Select Arco Design Migration",
+      "type": "concept",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/select/index.mdx",
+      "description": "从 Arco Design Vue 迁移 Select 的指南。主要差异：移除了 sd-option/sd-optgroup 子组件，选项统一通过 :options prop 传入；对外 render function 已移除，统一使用插槽。",
+      "confidence_score": 0.95,
+      "tags": ["migration", "arco-design"]
+    },
+    {
+      "id": "select_index_migration_naive",
+      "label": "Select Naive UI Migration",
+      "type": "concept",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/select/index.mdx",
+      "description": "从 Naive UI 迁移 Select 的指南。filterable→allow-search, clearable→allow-clear, render-tag→#tag 插槽, v-model:value 兼容。",
+      "confidence_score": 0.95,
+      "tags": ["migration", "naive-ui"]
+    },
+    {
+      "id": "select_index_selectoptiondata",
+      "label": "SelectOptionData",
+      "type": "interface",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/select/index.mdx",
+      "description": "Select 选项数据类型，包含 value/label/disabled/tagProps 字段。",
+      "confidence_score": 0.95,
+      "tags": ["type", "select"]
+    },
+    {
+      "id": "select_index_virtuallistprops",
+      "label": "VirtualListProps",
+      "type": "interface",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/select/index.mdx",
+      "description": "虚拟列表配置，包含 items/keyField/itemSize(固定高度)/minItemSize(动态高度)/buffer 字段。Select/AutoComplete/Cascader 均通过 virtual-list-props 支持虚拟滚动。",
+      "confidence_score": 0.95,
+      "tags": ["virtual-list", "performance"]
+    },
+    {
+      "id": "auto_complete_index_autocomplete",
+      "label": "AutoComplete",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/auto-complete/index.mdx",
+      "description": "自动补全输入框组件。支持严格模式(strict)、自定义过滤(filter-option)、虚拟列表和弹出框页脚。通过 trigger-props 配置弹出行为。",
+      "confidence_score": 0.95,
+      "tags": ["form", "input", "autocomplete", "data-entry"]
+    },
+    {
+      "id": "cascader_index_cascader",
+      "label": "Cascader",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/cascader/index.mdx",
+      "description": "级联选择器，使用多级路径组织选项，适合层级化数据。支持单选/多选、搜索、懒加载(load-more)、路径模式(path-mode)、严格选择(check-strictly)、虚拟列表和字段映射(field-names)。",
+      "confidence_score": 0.95,
+      "tags": ["form", "cascader", "hierarchical", "data-entry"]
+    },
+    {
+      "id": "cascader_index_cascaderpanel",
+      "label": "CascaderPanel",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/cascader/index.mdx",
+      "description": "级联选择面板，可单独作为路径面板使用，适合详情页或组合式表单布局。",
+      "confidence_score": 0.95,
+      "tags": ["form", "cascader", "panel"]
+    },
+    {
+      "id": "cascader_index_migration_naive",
+      "label": "Cascader Naive UI Migration",
+      "type": "concept",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/cascader/index.mdx",
+      "description": "从 Naive UI 迁移 Cascader 的指南。保留 value/show/filterable/clearable 兼容别名，render-label→format-label/#label/#option 插槽。",
+      "confidence_score": 0.95,
+      "tags": ["migration", "naive-ui"]
+    },
+    {
+      "id": "cascader_index_cascaderoption",
+      "label": "CascaderOption",
+      "type": "interface",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/cascader/index.mdx",
+      "description": "级联选项数据类型，包含 value/label/disabled/tagProps/children/isLeaf 字段。",
+      "confidence_score": 0.95,
+      "tags": ["type", "cascader"]
+    },
+    {
+      "id": "color_picker_index_colorpicker",
+      "label": "ColorPicker",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/color-picker/index.mdx",
+      "description": "颜色选择器，以 TDesign API 为主。支持单色(monochrome)和渐变(linear-gradient)模式，多种格式输出(HEX/RGB/HSL/CMYK/CSS)，预设色板(swatch-colors)和最近使用颜色(recent-colors)。",
+      "confidence_score": 0.95,
+      "tags": ["form", "color", "picker", "data-entry"]
+    },
+    {
+      "id": "color_picker_index_migration",
+      "label": "ColorPicker Migration",
+      "type": "concept",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/color-picker/index.mdx",
+      "description": "ColorPicker 旧版迁移说明。history-colors→recent-colors, preset-colors→swatch-colors, disabled-alpha→enable-alpha。",
+      "confidence_score": 0.95,
+      "tags": ["migration"]
+    },
+    {
+      "id": "cropper_index_cropper",
+      "label": "Cropper",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/cropper/index.mdx",
+      "description": "基于 cropperjs 的图片裁剪封装。支持选区联动(selection-x/y/width/height)、宽高比约束、画布/图片/选区 props 透传。暴露 getInstance/getCropperCanvas/getCropperImage/getCropperSelection 等方法。",
+      "confidence_score": 0.95,
+      "tags": ["image", "cropper", "media"]
+    },
+    {
+      "id": "cropper_index_cropperjs",
+      "label": "cropperjs",
+      "type": "library",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/cropper/index.mdx",
+      "description": "底层图片裁剪库，Cropper 组件基于它封装。提供 CropperCanvas/CropperImage/CropperSelection 等自定义元素。",
+      "confidence_score": 0.9,
+      "tags": ["third-party", "cropper"]
+    },
+    {
+      "id": "date_picker_index_datepicker",
+      "label": "DatePicker",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/date-picker/index.mdx",
+      "description": "日期选择器，支持年/月/周/日/季度类型和范围选择。包含 DatePicker/MonthPicker/YearPicker/QuarterPicker/WeekPicker/RangePicker 子组件。支持快捷选项(shortcuts)、禁用日期、时间选择(showTime)、面板自定义渲染。",
+      "confidence_score": 0.95,
+      "tags": ["form", "date", "picker", "calendar", "data-entry"]
+    },
+    {
+      "id": "date_picker_index_rangepicker",
+      "label": "RangePicker",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/date-picker/index.mdx",
+      "description": "范围日期选择器，支持 date/year/quarter/month/week 模式。包含 exchange-time(时间交换)、separator(分隔符)等特性。",
+      "confidence_score": 0.95,
+      "tags": ["form", "date-range", "picker"]
+    },
+    {
+      "id": "date_picker_index_shortcuttype",
+      "label": "ShortcutType",
+      "type": "interface",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/date-picker/index.mdx",
+      "description": "日期选择器快捷选项类型，包含 label/value/format 字段。",
+      "confidence_score": 0.95,
+      "tags": ["type", "date-picker"]
+    },
+    {
+      "id": "descriptions_index_descriptions",
+      "label": "Descriptions",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/descriptions/index.mdx",
+      "description": "描述列表组件，用于详情页信息展示。支持水平/垂直/行内布局、边框样式、标签对齐、span 列数控制和响应式 column 配置。含 DescriptionsItem 子组件。",
+      "confidence_score": 0.95,
+      "tags": ["display", "descriptions", "detail"]
+    },
+    {
+      "id": "descriptions_index_descriptionsitem",
+      "label": "DescriptionsItem",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/descriptions/index.mdx",
+      "description": "描述列表项，支持 span(所占列数)和 label 属性。",
+      "confidence_score": 0.95,
+      "tags": ["display", "descriptions"]
+    },
+    {
+      "id": "chunk_082_trigger_component",
+      "label": "Trigger",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/select/index.mdx",
+      "description": "弹出触发器组件，被 Select/AutoComplete/Cascader/ColorPicker/DatePicker 等组件内部复用，通过 trigger-props 透传配置。支持 updateAtScroll 解决滚动容器中下拉菜单分离问题。",
+      "confidence_score": 0.85,
+      "tags": ["internal", "popup", "trigger"]
+    },
+    {
+      "id": "chunk_082_selectview",
+      "label": "SelectView",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/select/index.mdx",
+      "description": "选择器视图组件，被 Select/Cascader 等组件内部复用，处理选择框展示逻辑。",
+      "confidence_score": 0.8,
+      "tags": ["internal", "select"]
+    },
+    {
+      "id": "chunk_082_virtual_list_migration",
+      "label": "Virtual List Migration Guide",
+      "type": "concept",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/select/index.mdx",
+      "description": "虚拟列表迁移指南。Select/AutoComplete/Cascader 默认按 36px 固定高度处理，传 itemSize 指定固定高度，传 minItemSize 切到动态高度模式。",
+      "confidence_score": 0.9,
+      "tags": ["migration", "virtual-list", "performance"]
+    }
+  ],
+  "edges": [
+    {
+      "source": "scrollbar_index_scrollbar",
+      "target": "scrollbar_index_overlayscrollbars",
+      "label": "based_on",
+      "type": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "cropper_index_cropper",
+      "target": "cropper_index_cropperjs",
+      "label": "based_on",
+      "type": "EXTRACTED",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "select_index_select",
+      "target": "chunk_082_trigger_component",
+      "label": "uses_internally",
+      "type": "EXTRACTED",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "select_index_select",
+      "target": "chunk_082_selectview",
+      "label": "uses_internally",
+      "type": "EXTRACTED",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "auto_complete_index_autocomplete",
+      "target": "chunk_082_trigger_component",
+      "label": "uses_internally",
+      "type": "INFERRED",
+      "confidence_score": 0.8
+    },
+    {
+      "source": "cascader_index_cascader",
+      "target": "chunk_082_trigger_component",
+      "label": "uses_internally",
+      "type": "INFERRED",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "cascader_index_cascaderpanel",
+      "target": "cascader_index_cascader",
+      "label": "sub_component_of",
+      "type": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "date_picker_index_rangepicker",
+      "target": "date_picker_index_datepicker",
+      "label": "sub_component_of",
+      "type": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "descriptions_index_descriptionsitem",
+      "target": "descriptions_index_descriptions",
+      "label": "sub_component_of",
+      "type": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "resize_box_index_resizebox",
+      "target": "page_header_index_pageheader",
+      "label": "related_layout_component",
+      "type": "INFERRED",
+      "confidence_score": 0.5
+    },
+    {
+      "source": "select_index_select",
+      "target": "select_index_virtuallistprops",
+      "label": "accepts_config",
+      "type": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "auto_complete_index_autocomplete",
+      "target": "select_index_virtuallistprops",
+      "label": "accepts_config",
+      "type": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "cascader_index_cascader",
+      "target": "select_index_virtuallistprops",
+      "label": "accepts_config",
+      "type": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "select_index_select",
+      "target": "select_index_selectoptiondata",
+      "label": "uses_type",
+      "type": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "auto_complete_index_autocomplete",
+      "target": "select_index_selectoptiondata",
+      "label": "uses_type",
+      "type": "INFERRED",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "cascader_index_cascader",
+      "target": "cascader_index_cascaderoption",
+      "label": "uses_type",
+      "type": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "select_index_select",
+      "target": "select_index_migration_arco",
+      "label": "has_migration_guide",
+      "type": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "select_index_select",
+      "target": "select_index_migration_naive",
+      "label": "has_migration_guide",
+      "type": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "cascader_index_cascader",
+      "target": "cascader_index_migration_naive",
+      "label": "has_migration_guide",
+      "type": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "color_picker_index_colorpicker",
+      "target": "color_picker_index_migration",
+      "label": "has_migration_guide",
+      "type": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "select_index_select",
+      "target": "scrollbar_index_scrollbar",
+      "label": "uses_scrollbar_prop",
+      "type": "EXTRACTED",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "color_picker_index_colorpicker",
+      "target": "chunk_082_trigger_component",
+      "label": "uses_internally",
+      "type": "INFERRED",
+      "confidence_score": 0.8
+    },
+    {
+      "source": "date_picker_index_datepicker",
+      "target": "chunk_082_trigger_component",
+      "label": "uses_internally",
+      "type": "INFERRED",
+      "confidence_score": 0.8
+    },
+    {
+      "source": "date_picker_index_datepicker",
+      "target": "date_picker_index_shortcuttype",
+      "label": "uses_type",
+      "type": "EXTRACTED",
+      "confidence_score": 0.95
+    }
+  ],
+  "hyperedges": [
+    {
+      "nodes": ["select_index_select", "auto_complete_index_autocomplete", "cascader_index_cascader"],
+      "label": "dropdown_components_sharing_virtual_list_and_trigger",
+      "description": "Select、AutoComplete、Cascader 共享虚拟列表(VirtualListProps)、Trigger 弹层和 SelectView 展示逻辑，均支持 virtual-list-props 开启虚拟滚动和 trigger-props 配置弹出行为。",
+      "confidence_score": 0.9
+    },
+    {
+      "nodes": ["select_index_migration_arco", "select_index_migration_naive", "cascader_index_migration_naive", "color_picker_index_migration"],
+      "label": "migration_guides_from_multiple_ui_libraries",
+      "description": "多个组件提供从 Arco Design Vue 和 Naive UI 的迁移指南，共同模式包括：标签名替换、render function 收敛到插槽、属性名对齐。",
+      "confidence_score": 0.85
+    },
+    {
+      "nodes": ["scrollbar_index_scrollbar", "cropper_index_cropper"],
+      "label": "components_wrapping_third_party_libraries",
+      "description": "Scrollbar 基于 OverlayScrollbars、Cropper 基于 cropperjs，两者都是对第三方库的 Vue 组件封装，透传底层配置并暴露底层实例方法。",
+      "confidence_score": 0.8
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

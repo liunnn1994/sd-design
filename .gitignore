@@ -134,3 +134,6 @@ draft.md
 vendor/
 # 调试用的文件，不需要提交到版本库
 packages/web-vue-debug/src/App.vue
+
+# https://github.com/safishamsi/graphify#team-setup
+graphify-out/cost.json

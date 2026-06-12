@@ -1,0 +1,495 @@
+{
+  "nodes": [
+    {
+      "id": "packages_sd-vue-docs",
+      "label": "sd-vue-docs",
+      "type": "package",
+      "file_path": "packages/sd-vue-docs/package.json",
+      "file_type": "code",
+      "description": "SD Design documentation site built with Astro, Starlight, and Vue. Provides component docs, LLM-optimized endpoints, and interactive demo previews.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "packages_sd-vue-docs_astro_config",
+      "label": "Astro Config (sd-vue-docs)",
+      "type": "config",
+      "file_path": "packages/sd-vue-docs/astro.config.mjs",
+      "file_type": "code",
+      "description": "Astro site configuration using Starlight theme, MDX, Vue integration, and Tailwind CSS via Vite plugin. Defines Vite aliases mapping @sdata/web-vue to local web-vue package, lazy demo loading via IntersectionObserver, and theme bridge script syncing Starlight dark mode with sd-theme attribute.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "packages_sd-vue-docs_demoblock",
+      "label": "DemoBlock Component",
+      "type": "component",
+      "file_path": "packages/sd-vue-docs/src/components/docs/DemoBlock.astro",
+      "file_type": "code",
+      "description": "Astro component used in all component documentation MDX pages to wrap live demo previews with source code display. Accepts source and mainFile props.",
+      "confidence_score": 0.9
+    },
+    {
+      "id": "packages_sd-vue-docs_llms_integration",
+      "label": "LLMs Documentation Integration",
+      "type": "module",
+      "file_path": "packages/sd-vue-docs/src/integrations/llms/index.mjs",
+      "file_type": "code",
+      "description": "Custom Astro integration generating LLM-optimized documentation endpoints: /llms/llms.txt (lightweight index), /llms/llms-full.txt (full aggregated text), and /llms/components/[slug].md (per-component markdown). Enables AI assistants and RAG systems to consume docs efficiently.",
+      "confidence_score": 0.9
+    },
+    {
+      "id": "packages_sd-vue-docs_llms_txt_page",
+      "label": "LLMs.txt Documentation Page",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/llms_txt.mdx",
+      "file_type": "document",
+      "description": "User-facing MDX page explaining how to use LLM-optimized documentation endpoints. Recommends feeding llms.txt first for structure, then per-component pages for specifics, and llms-full.txt only for global context. Includes RAG best practices and prompt examples.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "openspec_migrate_generated_demos",
+      "label": "Migrate Generated Demos to Script Setup + Tailwind",
+      "type": "change",
+      "file_path": "openspec/changes/migrate-generated-demos-to-script-setup-tailwind/tasks.md",
+      "file_type": "document",
+      "description": "OpenSpec change to migrate generated component demo files from legacy Options API / plain script blocks to script setup lang='ts', and replace SFC style blocks with Tailwind utility classes. Covers Tailwind runtime support, source migration, and guardrails/verification.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "openspec_generated_demo_conventions_spec",
+      "label": "Generated Demo Source Conventions Spec",
+      "type": "specification",
+      "file_path": "openspec/changes/migrate-generated-demos-to-script-setup-tailwind/specs/generated-demo-source-conventions/spec.md",
+      "file_type": "document",
+      "description": "Requirements specification for generated demo conventions: demos with script logic must use script setup lang='ts'; template-only demos must not have empty script blocks; all presentation styles must use Tailwind utilities instead of SFC style blocks; demos must render consistently in both page preview and REPL editor preview.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "packages_sd-vue-docs_component_doc_alert",
+      "label": "Alert Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/alert/index.mdx",
+      "file_type": "document",
+      "description": "Alert component docs with 7 demos: action, banner, basic, closable, close-element, icon, title, type. API includes props (type, show-icon, closable, title, banner, center), events (close, after-close), and slots (icon, title, action, close-element).",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "packages_sd-vue-docs_component_doc_avatar",
+      "label": "Avatar Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/avatar/index.mdx",
+      "file_type": "document",
+      "description": "Avatar component docs with 6 demos: basic, fit, group, icon, image-url, size. API covers avatar props (shape, image-url, size, auto-fix-font-size, trigger-type, trigger-icon-style, object-fit), avatar-group props (max-count, z-index-ascend, max-style), events (click, error, load), and slots (trigger-icon).",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "packages_sd-vue-docs_component_doc_badge",
+      "label": "Badge Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/badge/index.mdx",
+      "file_type": "document",
+      "description": "Badge component docs with 7 demos: alone, basic, color, dot, max, status, text. API includes props (text, dot, dot-style, max-count, offset, color, status, count).",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "packages_sd-vue-docs_component_doc_breadcrumb",
+      "label": "Breadcrumb Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/breadcrumb/index.mdx",
+      "file_type": "document",
+      "description": "Breadcrumb component docs with 7 demos: basic, dropdown, ellipsis, icon, routes, separator, size. API covers breadcrumb props (max-count, routes, separator, custom-url), breadcrumb-item props (separator, droplist, dropdown-props), and BreadcrumbRoute type.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "packages_sd-vue-docs_component_doc_button",
+      "label": "Button Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/button/index.mdx",
+      "file_type": "document",
+      "description": "Button component docs with 8 demos: basic, disabled, group, icon, loading, long, shape, size, status. API includes button props (type, shape, status, size, long, loading, disabled, html-type, autofocus, href), button-group props, events (click), and slots (icon).",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "packages_sd-vue-docs_component_doc_card",
+      "label": "Card Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/card/index.mdx",
+      "file_type": "document",
+      "description": "Card component docs with 8 demos: actions, basic, bordered, content, grid, hoverable, inner, meta, row. API covers card props (bordered, loading, hoverable, size, header-style, body-style, title, extra), card-meta props, card-grid props, and slots (actions, cover, extra, title).",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "packages_sd-vue-docs_component_doc_carousel",
+      "label": "Carousel Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/carousel/index.mdx",
+      "file_type": "document",
+      "description": "Carousel component docs with 5 demos: auto, basic, card, direction, fade, indicator. API includes props (current, auto-play, move-speed, animation-name, trigger, direction, show-arrow, indicator-type, indicator-position) and events (change).",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "packages_sd-vue-docs_component_doc_checkbox",
+      "label": "Checkbox Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/checkbox/index.mdx",
+      "file_type": "document",
+      "description": "Checkbox component docs with 8 demos: all, basic, control, custom, disabled, group, layout, limit, options. API covers checkbox props (model-value, default-checked, value, disabled, indeterminate), checkbox-group props (max, options, direction, disabled), and CheckboxOption type.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "packages_sd-vue-docs_component_doc_collapse",
+      "label": "Collapse Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/collapse/index.mdx",
+      "file_type": "document",
+      "description": "Collapse component docs with 8 demos: accordion, basic, border-less, custom, destroy, expand-icon, extra, icon-position, nested. API covers collapse props (active-key, accordion, show-expand-icon, expand-icon-position, bordered, destroy-on-hide), collapse-item props, events (change), and slots.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "packages_sd-vue-docs_component_doc_comment",
+      "label": "Comment Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/comment/index.mdx",
+      "file_type": "document",
+      "description": "Comment component docs with 4 demos: align, basic, editor, nest. API includes props (author, avatar, content, datetime, align) and slots (avatar, author, datetime, content, actions).",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "packages_sd-vue-docs_component_doc_date_picker",
+      "label": "DatePicker Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/date-picker/index.mdx",
+      "file_type": "document",
+      "description": "DatePicker component docs with 18 demos covering basic, control, date-render, default-value, disabled-date, disabled, extra, month, panel-only, panel-render, prefix, quarter, range, shortcuts, showtime, size, trigger-element, week, year. Comprehensive API with Common props, per-picker props (date, month, year, quarter, week, range), ShortcutType, and string format reference table.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "packages_sd-vue-docs_component_doc_descriptions",
+      "label": "Descriptions Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/descriptions/index.mdx",
+      "file_type": "document",
+      "description": "Descriptions component docs with 6 demos: align, basic, bordered, example, layout, single. API covers descriptions props (data, column, title, layout, align, size, bordered, label-style, value-style, table-layout), descriptions-item props (span, label), and DescData type.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "packages_sd-vue-docs_component_doc_divider",
+      "label": "Divider Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/divider/index.mdx",
+      "file_type": "document",
+      "description": "Divider component docs with 3 demos: basic, vertical, with-text. API includes props (direction, orientation, type, size, margin).",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "packages_sd-vue-docs_component_doc_drawer",
+      "label": "Drawer Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/drawer/index.mdx",
+      "file_type": "document",
+      "description": "Drawer component docs with 7 demos: async, basic, custom, function, nested, long-title, popup-container, position. Comprehensive API covering drawer props (visible, placement, title, mask, width, height, esc-to-close, etc.), global method (Drawer.open), DrawerConfig, DrawerReturn, and DrawerMethod types.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "packages_sd-vue-docs_component_doc_dropdown",
+      "label": "Dropdown Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/dropdown/index.mdx",
+      "file_type": "document",
+      "description": "Dropdown component docs with 8 demos: basic, button, context-menu, group, icon, position, submenu, trigger. API covers dropdown props (popup-visible, trigger, position, popup-max-height, hide-on-select), doption, dgroup, dsubmenu, and dropdown-button sub-components.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "packages_sd-vue-docs_docs_sidebar",
+      "label": "Generated Docs Sidebar",
+      "type": "module",
+      "file_path": "packages/sd-vue-docs/src/generated/docs-sidebar.ts",
+      "file_type": "code",
+      "description": "Generated sidebar configuration used by Starlight for documentation navigation. Referenced in astro.config.mjs.",
+      "confidence_score": 0.85
+    },
+    {
+      "id": "packages_sd-vue-docs_generated_demos",
+      "label": "Generated Demo Components",
+      "type": "directory",
+      "file_path": "packages/sd-vue-docs/src/components/generated",
+      "file_type": "code",
+      "description": "Directory containing auto-generated Vue SFC demo files for each component, organized by component name. Each demo is imported as both a Vue component and raw source string in MDX documentation pages. Subject to migration from Options API to script setup and from style blocks to Tailwind utilities.",
+      "confidence_score": 0.9
+    },
+    {
+      "id": "packages_sd-vue-docs_tailwind_setup",
+      "label": "Tailwind CSS Setup",
+      "type": "config",
+      "file_path": "packages/sd-vue-docs/astro.config.mjs",
+      "file_type": "code",
+      "description": "Tailwind CSS v4 integrated via @tailwindcss/vite plugin in Astro's Vite config. Used for documentation site styling and as the target for generated demo style migration.",
+      "confidence_score": 0.9
+    }
+  ],
+  "edges": [
+    {
+      "source": "packages_sd-vue-docs",
+      "target": "packages_sd-vue-docs_astro_config",
+      "relation": "configured_by",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_astro_config",
+      "target": "packages_sd-vue-docs_tailwind_setup",
+      "relation": "integrates",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_astro_config",
+      "target": "packages_sd-vue-docs_llms_integration",
+      "relation": "uses",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "packages_sd-vue-docs_astro_config",
+      "target": "packages_sd-vue-docs_docs_sidebar",
+      "relation": "references",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_alert",
+      "target": "packages_sd-vue-docs_demoblock",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_avatar",
+      "target": "packages_sd-vue-docs_demoblock",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_badge",
+      "target": "packages_sd-vue-docs_demoblock",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_breadcrumb",
+      "target": "packages_sd-vue-docs_demoblock",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_button",
+      "target": "packages_sd-vue-docs_demoblock",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_card",
+      "target": "packages_sd-vue-docs_demoblock",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_carousel",
+      "target": "packages_sd-vue-docs_demoblock",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_checkbox",
+      "target": "packages_sd-vue-docs_demoblock",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_collapse",
+      "target": "packages_sd-vue-docs_demoblock",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_comment",
+      "target": "packages_sd-vue-docs_demoblock",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_date_picker",
+      "target": "packages_sd-vue-docs_demoblock",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_descriptions",
+      "target": "packages_sd-vue-docs_demoblock",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_divider",
+      "target": "packages_sd-vue-docs_demoblock",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_drawer",
+      "target": "packages_sd-vue-docs_demoblock",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_dropdown",
+      "target": "packages_sd-vue-docs_demoblock",
+      "relation": "uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "openspec_migrate_generated_demos",
+      "target": "packages_sd-vue-docs_generated_demos",
+      "relation": "modifies",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "openspec_generated_demo_conventions_spec",
+      "target": "openspec_migrate_generated_demos",
+      "relation": "specifies",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_alert",
+      "target": "packages_sd-vue-docs_generated_demos",
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_avatar",
+      "target": "packages_sd-vue-docs_generated_demos",
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_badge",
+      "target": "packages_sd-vue-docs_generated_demos",
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_breadcrumb",
+      "target": "packages_sd-vue-docs_generated_demos",
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_button",
+      "target": "packages_sd-vue-docs_generated_demos",
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_card",
+      "target": "packages_sd-vue-docs_generated_demos",
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_carousel",
+      "target": "packages_sd-vue-docs_generated_demos",
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_checkbox",
+      "target": "packages_sd-vue-docs_generated_demos",
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_collapse",
+      "target": "packages_sd-vue-docs_generated_demos",
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_comment",
+      "target": "packages_sd-vue-docs_generated_demos",
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_date_picker",
+      "target": "packages_sd-vue-docs_generated_demos",
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_descriptions",
+      "target": "packages_sd-vue-docs_generated_demos",
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_divider",
+      "target": "packages_sd-vue-docs_generated_demos",
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_drawer",
+      "target": "packages_sd-vue-docs_generated_demos",
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_component_doc_dropdown",
+      "target": "packages_sd-vue-docs_generated_demos",
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "packages_sd-vue-docs_llms_txt_page",
+      "target": "packages_sd-vue-docs_llms_integration",
+      "relation": "describes",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "openspec_migrate_generated_demos",
+      "target": "packages_sd-vue-docs_tailwind_setup",
+      "relation": "depends_on",
+      "confidence_score": 0.9
+    }
+  ],
+  "hyperedges": [
+    {
+      "nodes": [
+        "packages_sd-vue-docs_component_doc_alert",
+        "packages_sd-vue-docs_component_doc_avatar",
+        "packages_sd-vue-docs_component_doc_badge",
+        "packages_sd-vue-docs_component_doc_breadcrumb",
+        "packages_sd-vue-docs_component_doc_button",
+        "packages_sd-vue-docs_component_doc_card",
+        "packages_sd-vue-docs_component_doc_carousel",
+        "packages_sd-vue-docs_component_doc_checkbox",
+        "packages_sd-vue-docs_component_doc_collapse",
+        "packages_sd-vue-docs_component_doc_comment",
+        "packages_sd-vue-docs_component_doc_date_picker",
+        "packages_sd-vue-docs_component_doc_descriptions",
+        "packages_sd-vue-docs_component_doc_divider",
+        "packages_sd-vue-docs_component_doc_drawer",
+        "packages_sd-vue-docs_component_doc_dropdown"
+      ],
+      "relation": "all_component_docs_share_pattern",
+      "description": "All component documentation MDX pages follow the same pattern: import DemoBlock and generated demo Vue components + raw sources, render each demo section with DemoBlock wrapping a client:only Vue component, then document API with props/events/slots tables.",
+      "confidence_score": 0.95
+    },
+    {
+      "nodes": [
+        "openspec_migrate_generated_demos",
+        "openspec_generated_demo_conventions_spec",
+        "packages_sd-vue-docs_generated_demos"
+      ],
+      "relation": "change_specifies_conventions_for_demos",
+      "description": "The OpenSpec change defines migration tasks that implement the generated-demo-source-conventions spec against the generated demo components directory.",
+      "confidence_score": 0.9
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

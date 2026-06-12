@@ -1,0 +1,312 @@
+{
+  "nodes": [
+    {
+      "id": "guides_start_sdvue_quick_start",
+      "label": "SDVue Quick Start Guide",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/guides/start.mdx",
+      "description": "Getting started guide for @sdata/web-vue component library covering installation, full import, on-demand loading via unplugin-vue-components, and global configuration with componentPrefix.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "guides_start_sd_design_resolver",
+      "label": "SdDesignResolver",
+      "type": "concept",
+      "file": "packages/sd-vue-docs/src/content/docs/guides/start.mdx",
+      "description": "Auto-import resolver from @sdata/web-vue-auto-import-resolver that enables on-demand component loading with unplugin-vue-components. Supports sideEffect and prefix options.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "guides_theme_sdtheme_config",
+      "label": "SDThemeConfig",
+      "type": "concept",
+      "file": "packages/sd-vue-docs/src/content/docs/guides/theme.mdx",
+      "description": "Runtime theme configuration interface with tokens (global color/radius variables), components (per-component overrides), and meta (schemaVersion, cssVarPrefix, name). Uses ConfigProvider theme prop as entry point.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "guides_theme_theme_provider",
+      "label": "ThemeProvider",
+      "type": "concept",
+      "file": "packages/sd-vue-docs/src/content/docs/guides/theme.mdx",
+      "description": "Component-level theme scoping via sd-theme-provider. Allows scoped theme and CSS variables within a subtree. ConfigProvider also provides theme/theme-mode props for same capability. Does not override body-mounted floating layers.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "guides_theme_css_variables",
+      "label": "CSS Variables Convention",
+      "type": "concept",
+      "file": "packages/sd-vue-docs/src/content/docs/guides/theme.mdx",
+      "description": "Theme tokens are normalized and injected as CSS variables: primary6 -> --primary-6, colorNeutral10 -> --color-neutral-10, borderRadiusMedium -> --border-radius-medium. Covers color, semantic light, and border-radius variables.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_tabs_tabs_component",
+      "label": "Tabs Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tabs/index.mdx",
+      "description": "Tabbed content container with types: line, card, card-gutter, text, rounded, capsule. Supports editable mode, lazy-load, positions (left/right/top/bottom), scroll, trigger modes (hover/click). Sub-component: tab-pane with title, disabled, closable props.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_tree_tree_component",
+      "label": "Tree Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tree/index.mdx",
+      "description": "Hierarchical tree view for folders, categories, org charts. Supports checkable (checkboxes), multiple selection, drag-and-drop, virtual list via virtualListProps, dynamic loading (loadMore), search, show-line, field-names customization. Sizes: mini/small/medium/large with fixed heights 24/28/32/36.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_tree_treenode_data",
+      "label": "TreeNodeData",
+      "type": "concept",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tree/index.mdx",
+      "description": "Tree node data structure with key, title, selectable, disabled, disableCheckbox, checkable, draggable, isLeaf, icon, switcherIcon, loadingIcon, dragIcon, children fields.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_tree_virtual_list_props",
+      "label": "VirtualListProps (Tree)",
+      "type": "concept",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tree/index.mdx",
+      "description": "Virtual list configuration with items, keyField, itemSize (fixed height / RecycleScroller), minItemSize (dynamic height / DynamicScroller), buffer. Enables high-performance rendering for large datasets.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_tree_select_tree_select_component",
+      "label": "TreeSelect Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tree-select/index.mdx",
+      "description": "Tree-based dropdown selector. Supports checkable mode (treeCheckable), multiple selection, checked strategy (all/parent/child), search (local and remote), dynamic loading, virtual list, custom field names, labelInValue, fallback-option. Has migration guides from Arco Design Vue and Naive UI with compatibility aliases.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_tree_select_naive_compat_aliases",
+      "label": "Naive UI Compatibility Aliases",
+      "type": "concept",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tree-select/index.mdx",
+      "description": "TreeSelect preserves Naive UI prop aliases: options->data, filterable->allow-search, clearable->allow-clear, checkable->tree-checkable, checkStrategy->tree-checked-strategy, show->popup-visible. New code should use local naming.",
+      "confidence_score": 0.9
+    },
+    {
+      "id": "components_timeline_timeline_component",
+      "label": "Timeline Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/timeline/index.mdx",
+      "description": "Chronological information display. Supports horizontal/vertical direction, modes (left/right/top/bottom/alternate), ghost nodes (pending), custom dots (dotColor, dotType), label positions, line styles (solid/dashed/dotted). Sub-component: timeline-item.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_tag_tag_component",
+      "label": "Tag Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tag/index.mdx",
+      "description": "Label/tag for selection, filtering, classification. Supports checkable, closable, preset colors, custom colors with auto text-color adaptation, bordered, dynamic editing, ellipsis with tooltip, loading state, icon slot. Sizes: small/medium/large.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_watermark_watermark_component",
+      "label": "Watermark Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/watermark/index.mdx",
+      "description": "Page watermark overlay. Supports text content (single/multiline), image watermarks, custom font styles, rotation, gap/offset, anti-tamper protection, grayscale mode, staggered layout. Uses canvas rendering with z-index control.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_upload_upload_component",
+      "label": "Upload Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/upload/index.mdx",
+      "description": "File upload component supporting drag-and-drop, directory upload, picture-card/picture-list modes, custom requests, manual upload (auto-upload=false), file limit, before-upload/before-remove validation, avatar upload. Exposes submit/abort/updateFile/upload methods.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_switch_switch_component",
+      "label": "Switch Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/switch/index.mdx",
+      "description": "Toggle switch with types: circle (default), round, line. Supports before-change interceptor, auto-loading mode, custom checked/unchecked colors and values, icons, text labels. Sizes: small/medium.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_table_table_component",
+      "label": "Table Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/table/index.mdx",
+      "description": "Data table with columns/data props. Supports fixed columns, row selection (checkbox/radio), sorting, filtering, pagination, expandable rows, tree data, drag sorting, column resizing, cell spanning, sticky header, summary rows, virtual list, editable cells, lazy loading, custom element slots (th/td/tr/thead/tbody). Very large API surface.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_table_table_column_data",
+      "label": "TableColumnData",
+      "type": "concept",
+      "file": "packages/sd-vue-docs/src/content/docs/components/table/index.mdx",
+      "description": "Column definition with dataIndex, title, width, minWidth, align, fixed, ellipsis, tooltip, sortable, filterable, children (grouped headers), cell/header/body/summary class/style customization, render function, slotName, titleSlotName.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_typography_typography_component",
+      "label": "Typography Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/typography/index.mdx",
+      "description": "Text display with sub-components: typography-title (h1-h6), typography-paragraph (blockquote, spacing), typography-text. Common features: type (primary/secondary/success/danger/warning), bold, mark, underline, delete, code, editable, copyable, ellipsis with rows/expandable/tooltip/css mode.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_tooltip_tooltip_component",
+      "label": "Tooltip Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tooltip/index.mdx",
+      "description": "Text popup on hover/focus/click. Inherits all Trigger component props. Supports 12 positions (top/tl/tr/bottom/bl/br/left/lt/lb/right/rt/rb), custom background-color, mini size mode, content slot.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_verification_code_verification_code_component",
+      "label": "VerificationCode Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/verification-code/index.mdx",
+      "description": "OTP/verification code input with configurable length, size, formatter function, masked (password) mode, custom separators, form integration. Fires finish event when all fields are filled.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_progress_progress_component",
+      "label": "Progress Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/progress/index.mdx",
+      "description": "Progress indicator with types: line, circle. Supports steps mode, gradient colors (linear-gradient object), animation, custom size (mini/small/medium/large), status (normal/success/warning/danger), track-color, stroke-width.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_radio_radio_component",
+      "label": "Radio Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/radio/index.mdx",
+      "description": "Single-selection radio button with types: radio, button. Used with sd-radio-group for groups. Supports options prop, vertical/horizontal direction, grid layout, custom radio slot, sizes (mini/small/medium/large).",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_rate_rate_component",
+      "label": "Rate Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/rate/index.mdx",
+      "description": "Star rating component with configurable count, half-selection (allow-half), clear (allow-clear), custom characters, grading (smiley faces), custom colors (string or per-score object), readonly/disabled modes.",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_result_result_component",
+      "label": "Result Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/result/index.mdx",
+      "description": "Operation result feedback page with statuses: info, success, warning, error, 403, 404, 500. Supports custom icon, title, subtitle, and extra action area via slots.",
+      "confidence_score": 0.95
+    }
+  ],
+  "edges": [
+    {
+      "source": "guides_start_sdvue_quick_start",
+      "target": "guides_start_sd_design_resolver",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "guides_theme_sdtheme_config",
+      "target": "guides_theme_theme_provider",
+      "relation": "used_by",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "guides_theme_sdtheme_config",
+      "target": "guides_theme_css_variables",
+      "relation": "produces",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "components_tree_tree_component",
+      "target": "components_tree_treenode_data",
+      "relation": "consumes",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "components_tree_tree_component",
+      "target": "components_tree_virtual_list_props",
+      "relation": "supports",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "components_tree_select_tree_select_component",
+      "target": "components_tree_tree_component",
+      "relation": "internally_uses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "components_tree_select_tree_select_component",
+      "target": "components_tree_select_naive_compat_aliases",
+      "relation": "provides",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "components_table_table_component",
+      "target": "components_table_table_column_data",
+      "relation": "consumes",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "components_tree_select_tree_select_component",
+      "target": "components_tree_virtual_list_props",
+      "relation": "supports",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "components_table_table_component",
+      "target": "components_tree_virtual_list_props",
+      "relation": "supports",
+      "confidence_score": 0.8
+    },
+    {
+      "source": "components_tooltip_tooltip_component",
+      "target": "components_tabs_tabs_component",
+      "relation": "used_by",
+      "confidence_score": 0.7
+    },
+    {
+      "source": "components_radio_radio_component",
+      "target": "components_table_table_component",
+      "relation": "used_in",
+      "confidence_score": 0.7
+    }
+  ],
+  "hyperedges": [
+    {
+      "nodes": [
+        "guides_theme_theme_provider",
+        "guides_theme_css_variables",
+        "guides_theme_sdtheme_config"
+      ],
+      "relation": "theme_runtime_flow",
+      "description": "SDThemeConfig tokens are injected as CSS variables through ThemeProvider or ConfigProvider, enabling runtime theme customization without style recompilation.",
+      "confidence_score": 0.9
+    },
+    {
+      "nodes": [
+        "components_tree_select_tree_select_component",
+        "components_tree_tree_component",
+        "components_tree_virtual_list_props"
+      ],
+      "relation": "tree_select_internal_architecture",
+      "description": "TreeSelect internally composes Tree, Trigger, and SelectView components, inheriting Tree's virtual list support via virtual-list-props and tree-props for node rendering customization.",
+      "confidence_score": 0.9
+    },
+    {
+      "nodes": [
+        "guides_start_sdvue_quick_start",
+        "guides_start_sd_design_resolver",
+        "guides_theme_sdtheme_config"
+      ],
+      "relation": "library_setup_to_theming",
+      "description": "Library setup (full or on-demand import) connects to theming through ConfigProvider, which accepts SDThemeConfig for runtime CSS variable overrides across all components.",
+      "confidence_score": 0.8
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

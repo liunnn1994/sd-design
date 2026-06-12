@@ -1,0 +1,396 @@
+{
+  "nodes": [
+    {
+      "id": "skills_overdrive_skill",
+      "name": "overdrive skill",
+      "file_path": "skills/overdrive/SKILL.md",
+      "file_type": "document",
+      "description": "Push interfaces past conventional limits with technically ambitious implementations — shaders, 60fps virtual tables, spring physics, scroll-driven reveals, cinematic transitions, WebGL/WebGPU rendering, and high-performance data handling.",
+      "tags": ["skill", "ui", "animation", "performance", "web-api", "progressive-enhancement"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_overdrive_frontend_design_dependency",
+      "name": "frontend-design skill dependency (overdrive)",
+      "file_path": "skills/overdrive/SKILL.md",
+      "file_type": "concept",
+      "description": "Overdrive requires frontend-design skill for design principles, anti-patterns, and Context Gathering Protocol. If no design context exists, teach-impeccable must be run first.",
+      "tags": ["dependency", "skill-chain"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_overdrive_propose_before_build",
+      "name": "propose before building (overdrive)",
+      "file_path": "skills/overdrive/SKILL.md",
+      "file_type": "concept",
+      "description": "Overdrive mandates proposing 2-3 different technical directions with trade-offs (browser support, performance, complexity) and calling AskUserQuestionTool before writing any code.",
+      "tags": ["workflow", "guardrail"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_overdrive_browser_iteration",
+      "name": "browser automation iteration (overdrive)",
+      "file_path": "skills/overdrive/SKILL.md",
+      "file_type": "concept",
+      "description": "Technically ambitious effects require active browser automation preview, visual verification, and multiple rounds of refinement — gap between 'works' and 'extraordinary' is closed through visual iteration.",
+      "tags": ["workflow", "iteration", "browser-automation"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_overdrive_context_assessment",
+      "name": "context-appropriate ambition assessment",
+      "file_path": "skills/overdrive/SKILL.md",
+      "file_type": "concept",
+      "description": "Assesses four interface types: visual/marketing (sensory wow), functional UI (feel wow), performance-critical (invisible speed), data-heavy (fluidity). Technique must serve experience.",
+      "tags": ["design-thinking", "context"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_overdrive_toolkit",
+      "name": "overdrive technical toolkit",
+      "file_path": "skills/overdrive/SKILL.md",
+      "file_type": "concept",
+      "description": "Organized toolkit: cinematic transitions (View Transitions API, spring physics), scroll-driven animations, beyond-CSS rendering (WebGL, WebGPU, Canvas, SVG filters), live data (virtual scrolling, GPU charts), custom property animation (@property, Web Animations API), performance (Web Workers, OffscreenCanvas, WASM), device interaction (Web Audio, Device APIs).",
+      "tags": ["web-api", "rendering", "animation", "performance", "techniques"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_overdrive_progressive_enhancement",
+      "name": "progressive enhancement (overdrive)",
+      "file_path": "skills/overdrive/SKILL.md",
+      "file_type": "concept",
+      "description": "Every technique must degrade gracefully. Uses @supports for CSS features, feature detection for JS APIs (WebGPU→WebGL2→CSS fallback). Experience without enhancement must still be good.",
+      "tags": ["progressive-enhancement", "accessibility", "best-practice"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_overdrive_performance_rules",
+      "name": "performance rules (overdrive)",
+      "file_path": "skills/overdrive/SKILL.md",
+      "file_type": "concept",
+      "description": "Target 60fps (simplify below 50). Respect prefers-reduced-motion always. Lazy-initialize heavy resources. Pause off-screen rendering. Test on mid-range devices.",
+      "tags": ["performance", "accessibility", "best-practice"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_overdrive_verification",
+      "name": "verification tests (overdrive)",
+      "file_path": "skills/overdrive/SKILL.md",
+      "file_type": "concept",
+      "description": "Five verification tests: wow test (reaction), removal test (diminished?), device test (phone/tablet/Chromebook), accessibility test (reduced motion), context test (brand fit).",
+      "tags": ["verification", "testing", "quality"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_polish_skill",
+      "name": "polish skill",
+      "file_path": "skills/polish/SKILL.md",
+      "file_type": "document",
+      "description": "Final quality pass before shipping — fixes alignment, spacing, consistency, typography, color, interaction states, micro-interactions, copy, icons, forms, edge cases, responsiveness, performance, and code quality issues.",
+      "tags": ["skill", "ui", "quality", "design-review"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_polish_frontend_design_dependency",
+      "name": "frontend-design skill dependency (polish)",
+      "file_path": "skills/polish/SKILL.md",
+      "file_type": "concept",
+      "description": "Polish requires frontend-design skill for design principles, anti-patterns, and Context Gathering Protocol. Also gathers quality bar (MVP vs flagship).",
+      "tags": ["dependency", "skill-chain"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_polish_pre_assessment",
+      "name": "pre-polish assessment",
+      "file_path": "skills/polish/SKILL.md",
+      "file_type": "concept",
+      "description": "Polish is the last step, not the first. Review functional completeness, known issues, quality bar, and ship timeline before polishing. Never polish incomplete work.",
+      "tags": ["workflow", "guardrail"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_polish_dimensions",
+      "name": "polish dimensions",
+      "file_path": "skills/polish/SKILL.md",
+      "file_type": "concept",
+      "description": "Ten systematic polish dimensions: visual alignment/spacing, typography refinement, color/contrast, interaction states, micro-interactions/transitions, content/copy, icons/images, forms/inputs, edge cases/error states, responsiveness, performance, code quality.",
+      "tags": ["design-review", "quality", "systematic"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_polish_interaction_states",
+      "name": "interaction states checklist",
+      "file_path": "skills/polish/SKILL.md",
+      "file_type": "concept",
+      "description": "Every interactive element needs: default, hover, focus, active, disabled, loading, error, success states. Missing states create confusion.",
+      "tags": ["interaction-design", "ui-states"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_polish_checklist",
+      "name": "polish checklist",
+      "file_path": "skills/polish/SKILL.md",
+      "file_type": "concept",
+      "description": "20-item systematic polish checklist covering alignment, spacing, typography, states, transitions, copy, icons, forms, errors, loading, touch targets, contrast, keyboard nav, focus, console errors, layout shift, browser support, reduced motion, code quality.",
+      "tags": ["checklist", "quality", "verification"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_polish_final_verification",
+      "name": "final verification (polish)",
+      "file_path": "skills/polish/SKILL.md",
+      "file_type": "concept",
+      "description": "Before marking done: use it yourself, test on real devices, get fresh eyes review, compare to design, check all states (not just happy path).",
+      "tags": ["verification", "quality"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_quieter_skill",
+      "name": "quieter skill",
+      "file_path": "skills/quieter/SKILL.md",
+      "file_type": "document",
+      "description": "Tone down overly bold or visually aggressive designs — reduces color saturation, contrast extremes, visual weight, animation excess, and complexity while maintaining design quality and impact.",
+      "tags": ["skill", "ui", "design-refinement", "subtlety"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_quieter_frontend_design_dependency",
+      "name": "frontend-design skill dependency (quieter)",
+      "file_path": "skills/quieter/SKILL.md",
+      "file_type": "concept",
+      "description": "Quieter requires frontend-design skill for design principles, anti-patterns, and Context Gathering Protocol.",
+      "tags": ["dependency", "skill-chain"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_quieter_intensity_assessment",
+      "name": "intensity source assessment",
+      "file_path": "skills/quieter/SKILL.md",
+      "file_type": "concept",
+      "description": "Identifies six intensity sources: color saturation, contrast extremes, visual weight, animation excess, complexity, and scale. Understands context (purpose, audience, what works, core message) before refining.",
+      "tags": ["design-analysis", "assessment"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_quieter_refinement_dimensions",
+      "name": "quieter refinement dimensions",
+      "file_path": "skills/quieter/SKILL.md",
+      "file_type": "concept",
+      "description": "Five systematic refinement dimensions: color (desaturate, soften, reduce variety, neutral dominance), visual weight (font weights, hierarchy, white space), simplification (remove decorative elements, simplify shapes, reduce layering), motion (shorter distances, gentler easing, remove decorative animations), composition (reduce scale jumps, align to grid, even spacing).",
+      "tags": ["design-refinement", "systematic"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_quieter_philosophy",
+      "name": "quieter design philosophy",
+      "file_path": "skills/quieter/SKILL.md",
+      "file_type": "concept",
+      "description": "Quieter means refined, sophisticated, easier on the eyes — not boring or generic. Great quiet design is harder than bold design; subtlety requires precision. Quiet design is confident design that doesn't need to shout.",
+      "tags": ["design-philosophy", "sophistication"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_typeset_skill",
+      "name": "typeset skill",
+      "file_path": "skills/typeset/SKILL.md",
+      "file_type": "document",
+      "description": "Improve typography by fixing font choices, hierarchy, sizing, weight consistency, and readability — turning default-looking text into intentional, well-crafted type.",
+      "tags": ["skill", "typography", "design"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_typeset_frontend_design_dependency",
+      "name": "frontend-design skill dependency (typeset)",
+      "file_path": "skills/typeset/SKILL.md",
+      "file_type": "concept",
+      "description": "Typeset requires frontend-design skill for design principles, anti-patterns, Context Gathering Protocol, and the typography reference (reference/typography.md).",
+      "tags": ["dependency", "skill-chain"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_typeset_assessment",
+      "name": "typography assessment dimensions",
+      "file_path": "skills/typeset/SKILL.md",
+      "file_type": "concept",
+      "description": "Assesses five dimensions: font choices (defaults, brand fit, too many families), hierarchy (distinguishable levels, size contrast, weight contrast), sizing/scale (consistent scale, body 16px+, fixed rem vs fluid clamp), readability (line length 45-75ch, line-height, contrast), consistency (same elements styled same way).",
+      "tags": ["typography", "assessment", "design-analysis"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_typeset_improvement_dimensions",
+      "name": "typography improvement dimensions",
+      "file_path": "skills/typeset/SKILL.md",
+      "file_type": "concept",
+      "description": "Five improvement dimensions: font selection (brand personality, pairing with contrast, font-display swap), hierarchy (5-size scale, consistent ratio 1.25-1.5, combine size+weight+color+space), readability (max-width in ch, line-height by context, min 16px body), details (tabular-nums, letter-spacing, semantic token names, OpenType features), weight consistency (3-4 weights max, clear roles).",
+      "tags": ["typography", "improvement", "systematic"],
+      "confidence_score": 1.0
+    },
+    {
+      "id": "skills_typeset_sizing_strategy",
+      "name": "typography sizing strategy",
+      "file_path": "skills/typeset/SKILL.md",
+      "file_type": "concept",
+      "description": "App UIs use fixed rem-based type scale with optional 1-2 breakpoints for spatial predictability. Marketing/content pages use fluid clamp() sizing for headings/display text but fixed body text. Never use px for font sizes.",
+      "tags": ["typography", "css", "responsive-design"],
+      "confidence_score": 1.0
+    }
+  ],
+  "edges": [
+    {
+      "source": "skills_overdrive_skill",
+      "target": "skills_overdrive_frontend_design_dependency",
+      "relation": "requires",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_overdrive_skill",
+      "target": "skills_overdrive_propose_before_build",
+      "relation": "mandates",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_overdrive_skill",
+      "target": "skills_overdrive_browser_iteration",
+      "relation": "requires_workflow",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_overdrive_skill",
+      "target": "skills_overdrive_context_assessment",
+      "relation": "uses",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_overdrive_skill",
+      "target": "skills_overdrive_toolkit",
+      "relation": "provides",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_overdrive_skill",
+      "target": "skills_overdrive_progressive_enhancement",
+      "relation": "requires",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_overdrive_skill",
+      "target": "skills_overdrive_performance_rules",
+      "relation": "requires",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_overdrive_skill",
+      "target": "skills_overdrive_verification",
+      "relation": "uses_verification",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_polish_skill",
+      "target": "skills_polish_frontend_design_dependency",
+      "relation": "requires",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_polish_skill",
+      "target": "skills_polish_pre_assessment",
+      "relation": "mandates",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_polish_skill",
+      "target": "skills_polish_dimensions",
+      "relation": "uses",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_polish_dimensions",
+      "target": "skills_polish_interaction_states",
+      "relation": "includes",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_polish_skill",
+      "target": "skills_polish_checklist",
+      "relation": "provides",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_polish_skill",
+      "target": "skills_polish_final_verification",
+      "relation": "requires",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_quieter_skill",
+      "target": "skills_quieter_frontend_design_dependency",
+      "relation": "requires",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_quieter_skill",
+      "target": "skills_quieter_intensity_assessment",
+      "relation": "uses",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_quieter_skill",
+      "target": "skills_quieter_refinement_dimensions",
+      "relation": "uses",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_quieter_skill",
+      "target": "skills_quieter_philosophy",
+      "relation": "embodies",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_typeset_skill",
+      "target": "skills_typeset_frontend_design_dependency",
+      "relation": "requires",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_typeset_skill",
+      "target": "skills_typeset_assessment",
+      "relation": "uses",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_typeset_skill",
+      "target": "skills_typeset_improvement_dimensions",
+      "relation": "uses",
+      "confidence_score": 1.0
+    },
+    {
+      "source": "skills_typeset_improvement_dimensions",
+      "target": "skills_typeset_sizing_strategy",
+      "relation": "includes",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": [
+    {
+      "source_nodes": ["skills_overdrive_skill", "skills_polish_skill", "skills_quieter_skill", "skills_typeset_skill"],
+      "target_nodes": ["skills_overdrive_frontend_design_dependency", "skills_polish_frontend_design_dependency", "skills_quieter_frontend_design_dependency", "skills_typeset_frontend_design_dependency"],
+      "relation": "all_require_frontend_design_skill",
+      "confidence_score": 1.0
+    },
+    {
+      "source_nodes": ["skills_overdrive_skill", "skills_polish_skill", "skills_quieter_skill", "skills_typeset_skill"],
+      "target_nodes": [],
+      "relation": "design_quality_skill_family",
+      "description": "Four skills forming a design quality pipeline: typeset (typography foundation), quieter (refine intensity), overdrive (push technical boundaries), polish (final quality pass). All are user-invocable and depend on frontend-design skill.",
+      "confidence_score": 0.95
+    },
+    {
+      "source_nodes": ["skills_overdrive_skill", "skills_polish_skill"],
+      "target_nodes": ["skills_overdrive_verification", "skills_polish_final_verification"],
+      "relation": "both_require_visual_verification",
+      "description": "Both overdrive and polish require real-device testing and visual verification, not just code review.",
+      "confidence_score": 0.95
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

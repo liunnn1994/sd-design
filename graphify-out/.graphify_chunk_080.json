@@ -1,0 +1,602 @@
+{
+  "nodes": [
+    {
+      "id": "empty_index",
+      "label": "Empty Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/empty/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "空状态 Empty",
+        "description": "指当前场景没有对应的数据内容，呈现出的一种状态",
+        "component": "empty",
+        "subcomponents": [],
+        "slots": ["image"],
+        "props": ["description", "img-src", "in-config-provider"]
+      }
+    },
+    {
+      "id": "form_index",
+      "label": "Form Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/form/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "表单 Form",
+        "description": "具有数据收集、校验和提交功能的表单",
+        "component": "form",
+        "subcomponents": ["form-item"],
+        "slots": ["label", "help", "extra"],
+        "props": ["model", "layout", "size", "rules", "disabled", "auto-label-width", "scroll-to-first-error"],
+        "methods": ["validate", "validateField", "resetFields", "clearValidate", "setFields", "scrollToField"],
+        "hooks": ["useFormItem"],
+        "types": ["FieldRule", "FieldData", "ValidatedError", "FormItemEventHandler"]
+      }
+    },
+    {
+      "id": "grid_index",
+      "label": "Grid Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/grid/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "栅格 Grid",
+        "description": "栅格可以有效的保证页面的一致性、逻辑性、加强团队协作和统一",
+        "component": "grid",
+        "subcomponents": ["row", "col", "grid-item"],
+        "props_grid": ["cols", "row-gap", "col-gap", "collapsed", "collapsed-rows"],
+        "props_row": ["gutter", "justify", "align", "div", "wrap"],
+        "props_col": ["span", "offset", "order", "flex", "xs", "sm", "md", "lg", "xl", "xxl"],
+        "types": ["ResponsiveValue"]
+      }
+    },
+    {
+      "id": "image_index",
+      "label": "Image Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/image/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "图片 Image",
+        "description": "展示和预览图片",
+        "component": "image",
+        "subcomponents": ["image-preview", "image-preview-group", "image-preview-action"],
+        "slots": ["error", "error-icon", "loader", "extra"],
+        "props": ["src", "width", "height", "title", "description", "fit", "preview", "footer-position", "show-loader"]
+      }
+    },
+    {
+      "id": "input_number_index",
+      "label": "InputNumber Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/input-number/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "数字输入框 InputNumber",
+        "description": "仅允许输入数字格式的输入框",
+        "component": "input-number",
+        "subcomponents": [],
+        "slots": ["minus", "plus", "append", "prepend", "suffix", "prefix"],
+        "props": ["model-value", "mode", "precision", "step", "disabled", "max", "min", "formatter", "parser", "size", "model-event"],
+        "methods": ["focus", "blur"]
+      }
+    },
+    {
+      "id": "input_tag_index",
+      "label": "InputTag Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/input-tag/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "标签输入框 InputTag",
+        "description": "用来输入标签",
+        "component": "input-tag",
+        "subcomponents": [],
+        "slots": ["tag", "prefix", "suffix"],
+        "props": ["model-value", "input-value", "placeholder", "disabled", "error", "readonly", "size", "max-tag-count", "unique-value", "field-names"],
+        "methods": ["focus", "blur"],
+        "types": ["TagData"]
+      }
+    },
+    {
+      "id": "input_index",
+      "label": "Input Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/input/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "输入框 Input",
+        "description": "基本表单组件，并在原生控件基础上进行了功能扩展",
+        "component": "input",
+        "subcomponents": ["input-password", "input-search", "input-group"],
+        "slots": ["append", "prepend", "suffix", "prefix"],
+        "props": ["model-value", "size", "allow-clear", "disabled", "readonly", "error", "max-length", "show-word-limit"],
+        "methods": ["focus", "blur"]
+      }
+    },
+    {
+      "id": "link_index",
+      "label": "Link Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/link/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "链接 Link",
+        "description": "链接的基本样式",
+        "component": "link",
+        "subcomponents": [],
+        "slots": ["default", "icon", "tooltip"],
+        "props": ["href", "status", "hoverable", "icon", "ellipsis", "loading", "disabled", "icon-tooltip"]
+      }
+    },
+    {
+      "id": "list_index",
+      "label": "List Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/list/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "列表 List",
+        "description": "最基础的列表展示，可承载文字、列表、图片、段落",
+        "component": "list",
+        "subcomponents": ["list-item", "list-item-meta"],
+        "slots": ["scroll-loading", "item", "empty", "footer", "header"],
+        "props": ["data", "size", "bordered", "split", "loading", "hoverable", "pagination-props", "grid-props", "max-height", "virtual-list-props", "scrollbar"],
+        "methods": ["scrollIntoView"],
+        "types": ["VirtualListProps"]
+      }
+    },
+    {
+      "id": "message_index",
+      "label": "Message Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/message/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "全局提示 Message",
+        "description": "由用户的操作触发的轻量级全局反馈",
+        "component": "message",
+        "subcomponents": [],
+        "methods": ["info", "success", "warning", "error", "loading", "normal", "clear"],
+        "types": ["MessageMethod", "MessageConfig", "MessageReturn"],
+        "is_global_method": true
+      }
+    },
+    {
+      "id": "modal_index",
+      "label": "Modal Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/modal/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "Modal 对话框",
+        "description": "在当前页面打开一个浮层，承载相关操作",
+        "component": "modal",
+        "subcomponents": [],
+        "slots": ["title", "footer"],
+        "props": ["visible", "width", "title", "mask", "mask-closable", "draggable", "fullscreen", "on-before-ok", "on-before-cancel", "esc-to-close", "align-center"],
+        "methods": ["open", "confirm", "info", "success", "warning", "error"],
+        "types": ["ModalConfig", "ModalReturn", "ModalMethod"],
+        "is_global_method": true
+      }
+    },
+    {
+      "id": "pagination_index",
+      "label": "Pagination Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/pagination/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "分页 Pagination",
+        "description": "采用分页控制单页内的信息数量，也可进行页面跳转",
+        "component": "pagination",
+        "subcomponents": [],
+        "slots": ["total", "page-item-ellipsis", "page-item-step", "page-item"],
+        "props": ["total", "current", "page-size", "disabled", "simple", "show-total", "show-jumper", "show-page-size", "size"]
+      }
+    },
+    {
+      "id": "popconfirm_index",
+      "label": "Popconfirm Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/popconfirm/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "气泡确认框 Popconfirm",
+        "description": "点击元素，弹出气泡式的确认框",
+        "component": "popconfirm",
+        "subcomponents": [],
+        "slots": ["icon", "content"],
+        "props": ["content", "position", "popup-visible", "type", "ok-text", "cancel-text", "on-before-ok", "on-before-cancel"],
+        "inherits": "trigger"
+      }
+    },
+    {
+      "id": "popover_index",
+      "label": "Popover Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/popover/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "气泡卡片 Popover",
+        "description": "鼠标悬停、聚焦或点击在某个组件时，弹出的气泡式的卡片浮层",
+        "component": "popover",
+        "subcomponents": [],
+        "slots": ["title", "content"],
+        "props": ["popup-visible", "title", "content", "trigger", "position"],
+        "inherits": "trigger"
+      }
+    },
+    {
+      "id": "progress_index",
+      "label": "Progress Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/progress/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "进度条 Progress",
+        "description": "给予用户当前系统执行中任务运行状态的反馈",
+        "component": "progress",
+        "subcomponents": [],
+        "props": ["type", "size", "percent", "steps", "animation", "stroke-width", "width", "color", "track-color", "show-text", "status"]
+      }
+    },
+    {
+      "id": "radio_index",
+      "label": "Radio Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/radio/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "单选框 Radio",
+        "description": "在一组相关且互斥数据中，用户仅能选择一个选项",
+        "component": "radio",
+        "subcomponents": ["radio-group"],
+        "slots": ["radio"],
+        "props": ["model-value", "value", "type", "disabled"],
+        "types": ["RadioOption"]
+      }
+    },
+    {
+      "id": "rate_index",
+      "label": "Rate Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/rate/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "评分 Rate",
+        "description": "用于评分或打星的组件",
+        "component": "rate",
+        "subcomponents": [],
+        "slots": ["character"],
+        "props": ["count", "model-value", "allow-half", "allow-clear", "grading", "readonly", "disabled", "color"]
+      }
+    },
+    {
+      "id": "result_index",
+      "label": "Result Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/result/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "结果页 Result",
+        "description": "用于反馈一系列操作任务的处理结果",
+        "component": "result",
+        "subcomponents": [],
+        "slots": ["icon", "title", "subtitle", "extra", "default"],
+        "props": ["status", "title", "subtitle"]
+      }
+    },
+    {
+      "id": "skeleton_index",
+      "label": "Skeleton Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/skeleton/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "骨架屏 Skeleton",
+        "description": "将加载中的数据用灰色占位",
+        "component": "skeleton",
+        "subcomponents": ["skeleton-line", "skeleton-shape"],
+        "props": ["loading", "animation"]
+      }
+    },
+    {
+      "id": "slider_index",
+      "label": "Slider Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/slider/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "滑动输入条 Slider",
+        "description": "滑动型输入器，展示当前值和可选范围",
+        "component": "slider",
+        "subcomponents": [],
+        "props": ["model-value", "step", "min", "max", "marks", "direction", "disabled", "show-ticks", "show-input", "range", "show-tooltip"]
+      }
+    },
+    {
+      "id": "space_index",
+      "label": "Space Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/space/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "间距 Space",
+        "description": "设置组件之间的间距",
+        "component": "space",
+        "subcomponents": [],
+        "slots": ["split"],
+        "props": ["align", "direction", "size", "wrap", "fill"],
+        "types": ["SpaceSize"]
+      }
+    },
+    {
+      "id": "form_useformitem",
+      "label": "useFormItem Hook",
+      "type": "concept",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.9,
+      "attributes": {
+        "description": "Composable hook for creating custom form components that integrate with form-item context",
+        "returns": ["mergedSize", "mergedDisabled", "mergedError", "feedback", "eventHandlers"],
+        "since": "2.18.0"
+      }
+    },
+    {
+      "id": "trigger_component",
+      "label": "Trigger Component",
+      "type": "concept",
+      "extraction": "INFERRED",
+      "confidence_score": 0.8,
+      "attributes": {
+        "description": "Base component for popup-based components, provides trigger and positioning behavior",
+        "inherited_by": ["popconfirm", "popover"]
+      }
+    },
+    {
+      "id": "component_size_system",
+      "label": "Component Size System",
+      "type": "concept",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "sizes": ["mini", "small", "medium", "large"],
+        "used_by": ["form", "input-number", "input-tag", "input", "pagination", "radio", "progress", "slider"],
+        "description": "Standardized size system across sd-design components"
+      }
+    },
+    {
+      "id": "global_method_pattern",
+      "label": "Global Method Pattern",
+      "type": "concept",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.9,
+      "attributes": {
+        "description": "Pattern for invoking components imperatively via this.$component, import Component, or getCurrentInstance()",
+        "used_by": ["message", "modal"],
+        "requires_app_context": true
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "form_index",
+      "target": "grid_index",
+      "label": "uses for layout",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "form_index",
+      "target": "empty_index",
+      "label": "can show in empty state",
+      "extraction": "INFERRED",
+      "confidence_score": 0.6
+    },
+    {
+      "source": "radio_index",
+      "target": "grid_index",
+      "label": "uses for layout",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "list_index",
+      "target": "grid_index",
+      "label": "uses grid-props for grid layout",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "list_index",
+      "target": "pagination_index",
+      "label": "uses pagination-props",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "popconfirm_index",
+      "target": "trigger_component",
+      "label": "inherits all props from",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "popover_index",
+      "target": "trigger_component",
+      "label": "inherits all props from",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "form_index",
+      "target": "form_useformitem",
+      "label": "exports hook",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "modal_index",
+      "target": "form_index",
+      "label": "demo uses form inside modal",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "form_index",
+      "target": "input_index",
+      "label": "form-item wraps input components",
+      "extraction": "INFERRED",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "form_index",
+      "target": "input_number_index",
+      "label": "form-item wraps input-number",
+      "extraction": "INFERRED",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "form_index",
+      "target": "radio_index",
+      "label": "form-item wraps radio",
+      "extraction": "INFERRED",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "form_index",
+      "target": "slider_index",
+      "label": "form-item wraps slider",
+      "extraction": "INFERRED",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "form_index",
+      "target": "rate_index",
+      "label": "form-item wraps rate",
+      "extraction": "INFERRED",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "message_index",
+      "target": "global_method_pattern",
+      "label": "implements",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "modal_index",
+      "target": "global_method_pattern",
+      "label": "implements",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "image_index",
+      "target": "popconfirm_index",
+      "label": "shared popup-container pattern",
+      "extraction": "INFERRED",
+      "confidence_score": 0.6
+    },
+    {
+      "source": "component_size_system",
+      "target": "form_index",
+      "label": "applies to",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "component_size_system",
+      "target": "input_index",
+      "label": "applies to",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "component_size_system",
+      "target": "input_number_index",
+      "label": "applies to",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "component_size_system",
+      "target": "input_tag_index",
+      "label": "applies to",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "component_size_system",
+      "target": "pagination_index",
+      "label": "applies to",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "component_size_system",
+      "target": "radio_index",
+      "label": "applies to",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "component_size_system",
+      "target": "progress_index",
+      "label": "applies to",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "component_size_system",
+      "target": "slider_index",
+      "label": "applies to",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95
+    }
+  ],
+  "hyperedges": [
+    {
+      "nodes": ["form_index", "input_index", "input_number_index", "radio_index", "slider_index", "rate_index"],
+      "label": "form-item wraps multiple input-type components for data collection and validation",
+      "extraction": "INFERRED",
+      "confidence_score": 0.85
+    },
+    {
+      "nodes": ["popconfirm_index", "popover_index", "trigger_component"],
+      "label": "popconfirm and popover both inherit from trigger component for popup behavior",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.9
+    },
+    {
+      "nodes": ["modal_index", "message_index", "global_method_pattern"],
+      "label": "modal and message both provide global imperative APIs requiring Vue AppContext",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.9
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

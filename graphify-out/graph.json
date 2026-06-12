@@ -4,170 +4,5262 @@
   "graph": {},
   "nodes": [
     {
+      "label": "BaseHTTPRequestHandler",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "community": 25,
+      "norm_label": "basehttprequesthandler",
+      "id": "basehttprequesthandler"
+    },
+    {
+      "label": "@astrojs/starlight/components",
+      "file_type": "code",
+      "source_file": "@astrojs/starlight/components",
+      "confidence": "EXTRACTED",
+      "_origin": "ast",
+      "community": 34,
+      "norm_label": "@astrojs/starlight/components",
+      "id": "components"
+    },
+    {
+      "label": "astro:content",
+      "file_type": "code",
+      "source_file": "astro:content",
+      "confidence": "EXTRACTED",
+      "_origin": "ast",
+      "community": 23,
+      "norm_label": "astro:content",
+      "id": "astro_content"
+    },
+    {
+      "label": "../../generated/docs-sidebar",
+      "file_type": "code",
+      "source_file": "packages/sd-vue-docs/src/generated/docs-sidebar",
+      "confidence": "EXTRACTED",
+      "_origin": "ast",
+      "community": 56,
+      "norm_label": "../../generated/docs-sidebar",
+      "id": "d_work_sd_design_packages_sd_vue_docs_src_generated_docs_sidebar"
+    },
+    {
+      "label": "../../styles/demo.css",
+      "file_type": "code",
+      "source_file": "packages/sd-vue-docs/src/styles/demo.css",
+      "confidence": "EXTRACTED",
+      "_origin": "ast",
+      "community": 57,
+      "norm_label": "../../styles/demo.css",
+      "id": "d_work_sd_design_packages_sd_vue_docs_src_styles_demo_css"
+    },
+    {
+      "label": "@astrojs/starlight/components/MarkdownContent.astro",
+      "file_type": "code",
+      "source_file": "@astrojs/starlight/components/MarkdownContent.astro",
+      "confidence": "EXTRACTED",
+      "_origin": "ast",
+      "community": 69,
+      "norm_label": "@astrojs/starlight/components/markdowncontent.astro",
+      "id": "markdowncontent_astro"
+    },
+    {
+      "label": "AGPL-3.0-only License",
+      "file_type": "document",
+      "source_file": "LICENSE",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 67,
+      "norm_label": "agpl-3.0-only license",
+      "id": "license_agpl3"
+    },
+    {
+      "label": "Graph Report (graphify-out)",
+      "file_type": "document",
+      "source_file": "graphify-out/GRAPH_REPORT.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 62,
+      "norm_label": "graph report (graphify-out)",
+      "id": "graphify_report"
+    },
+    {
+      "label": "openspec-propose skill",
+      "file_type": "document",
+      "file": ".github/skills/openspec-propose/SKILL.md",
+      "attributes": {
+        "description": "Skill that proposes a new OpenSpec change by creating change directory, generating artifacts (proposal, design, specs, tasks) in dependency order, and tracking progress until all apply-required artifacts are done.",
+        "generates": [
+          "proposal.md",
+          "design.md",
+          "tasks.md"
+        ],
+        "cli_commands": [
+          "openspec new change",
+          "openspec status",
+          "openspec instructions"
+        ]
+      },
+      "community": 22,
+      "norm_label": "openspec-propose skill",
+      "id": "openspec_propose_skill"
+    },
+    {
+      "label": "release-auto-import-resolver workflow",
+      "file_type": "document",
+      "file": ".github/workflows/release-auto-import-resolver.yml",
+      "attributes": {
+        "description": "GitHub Actions workflow that releases @sdata/web-vue-auto-import-resolver on push to main when auto-import-resolver or web-vue components change. Runs typecheck, test, build, then semantic-release.",
+        "triggers": [
+          "push to main",
+          "workflow_dispatch"
+        ],
+        "path_filters": [
+          "packages/auto-import-resolver/**",
+          "packages/web-vue/components/**"
+        ]
+      },
+      "community": 70,
+      "norm_label": "release-auto-import-resolver workflow",
+      "id": "release_auto_import_resolver_workflow"
+    },
+    {
+      "label": "release web-vue workflow",
+      "file_type": "document",
+      "file": ".github/workflows/release.yml",
+      "attributes": {
+        "description": "GitHub Actions workflow that releases web-vue on push to main when web-vue or sd-vue-docs change. Runs typecheck, test, build, semantic-release, then triggers Netlify docs build hook.",
+        "triggers": [
+          "push to main",
+          "workflow_dispatch"
+        ],
+        "path_filters": [
+          "packages/sd-vue-docs/**",
+          "packages/web-vue/**"
+        ]
+      },
+      "community": 21,
+      "norm_label": "release web-vue workflow",
+      "id": "release_web_vue_workflow"
+    },
+    {
+      "label": "packages/sd-vue-scripts",
+      "file_type": "code",
+      "file": "packages/sd-vue-scripts",
+      "attributes": {
+        "status": "deleted",
+        "description": "Former shared tooling package that was removed. Its responsibilities were migrated into web-vue package-local scripts."
+      },
+      "community": 5,
+      "norm_label": "packages/sd-vue-scripts",
+      "id": "sd_vue_scripts_package"
+    },
+    {
+      "label": "Netlify docs deploy",
+      "file_type": "concept",
+      "attributes": {
+        "description": "Docs site is deployed to Netlify via build hook triggered after successful web-vue release."
+      },
+      "community": 21,
+      "norm_label": "netlify docs deploy",
+      "id": "netlify_docs_deploy"
+    },
+    {
+      "label": "simplify-build-tooling-remove-sd-vue-scripts change",
+      "file_type": "document",
+      "file": "openspec/changes/archive/2026-04-14-simplify-build-tooling-remove-sd-vue-scripts",
+      "attributes": {
+        "created": "2026-04-14",
+        "status": "archived",
+        "schema": "spec-driven",
+        "description": "Archived OpenSpec change that removed packages/sd-vue-scripts and migrated its responsibilities into packages/web-vue, simplifying the repo to a two-package workflow (web-vue + sd-vue-docs)."
+      },
+      "community": 5,
+      "norm_label": "simplify-build-tooling-remove-sd-vue-scripts change",
+      "id": "simplify_build_tooling_change"
+    },
+    {
+      "label": "simplify-build-tooling tasks",
+      "file_type": "document",
+      "file": "openspec/changes/archive/2026-04-14-simplify-build-tooling-remove-sd-vue-scripts/tasks.md",
+      "community": 5,
+      "norm_label": "simplify-build-tooling tasks",
+      "id": "simplify_tasks"
+    },
+    {
+      "label": "workspace-package-workflows spec",
+      "file_type": "document",
+      "file": "openspec/changes/archive/2026-04-14-simplify-build-tooling-remove-sd-vue-scripts/specs/workspace-package-workflows/spec.md",
+      "attributes": {
+        "description": "Spec requiring root workflows to orchestrate only web-vue and docs packages, removal of sd-vue-scripts from workspace dependencies, and updated repository documentation."
+      },
+      "community": 5,
+      "norm_label": "workspace-package-workflows spec",
+      "id": "workspace_package_workflows_spec"
+    },
+    {
+      "label": "component-library-tooling capability",
+      "file_type": "concept",
+      "attributes": {
+        "description": "Capability for the component library package to directly provide dev, build, test, and generation capabilities without a shared tooling package."
+      },
+      "community": 5,
+      "norm_label": "component-library-tooling capability",
+      "id": "component_library_tooling_capability"
+    },
+    {
+      "label": "workspace-package-workflows capability",
+      "file_type": "concept",
+      "attributes": {
+        "description": "Capability for repository root scripts and CI to orchestrate only web-vue and sd-vue-docs without a separate tools-package stage."
+      },
+      "community": 5,
+      "norm_label": "workspace-package-workflows capability",
+      "id": "workspace_package_workflows_capability"
+    },
+    {
+      "label": "docs-tooling-simplification capability",
+      "file_type": "concept",
+      "attributes": {
+        "description": "Capability ensuring docs workflow dependencies are limited to docs package and component library outputs, not shared scaffolding packages."
+      },
+      "community": 5,
+      "norm_label": "docs-tooling-simplification capability",
+      "id": "docs_tooling_simplification_capability"
+    },
+    {
+      "label": "migrate-web-vue-to-vite-plus proposal",
+      "file_type": "document",
+      "file": "openspec/changes/archive/2026-04-15-migrate-web-vue-to-vite-plus/proposal.md",
+      "community": 5,
+      "norm_label": "migrate-web-vue-to-vite-plus proposal",
+      "id": "migrate_vite_plus_proposal"
+    },
+    {
+      "label": "migrate-web-vue-to-vite-plus design",
+      "file_type": "document",
+      "file": "openspec/changes/archive/2026-04-15-migrate-web-vue-to-vite-plus/design.md",
+      "attributes": {
+        "description": "Design document covering decisions to use Vite+ for orchestration, keep generators as explicit prerequisites, defer Jest/Vitest and stylelint migration, and keep docs on Astro."
+      },
+      "community": 5,
+      "norm_label": "migrate-web-vue-to-vite-plus design",
+      "id": "migrate_vite_plus_design"
+    },
+    {
+      "label": "migrate-web-vue-to-vite-plus tasks",
+      "file_type": "document",
+      "file": "openspec/changes/archive/2026-04-15-migrate-web-vue-to-vite-plus/tasks.md",
+      "community": 5,
+      "norm_label": "migrate-web-vue-to-vite-plus tasks",
+      "id": "migrate_vite_plus_tasks"
+    },
+    {
+      "label": "web-vue-build-migration spec",
+      "file_type": "document",
+      "file": "openspec/changes/archive/2026-04-15-migrate-web-vue-to-vite-plus/specs/web-vue-build-migration/spec.md",
+      "attributes": {
+        "status": "file_does_not_exist",
+        "note": "Spec directory name from chunk list; actual spec files found under specs/component-library-tooling/ and specs/workspace-package-workflows/"
+      },
+      "community": 81,
+      "norm_label": "web-vue-build-migration spec",
+      "id": "web_vue_build_migration_spec"
+    },
+    {
+      "label": "Vite",
+      "file_type": "concept",
+      "attributes": {
+        "description": "Build tool used by web-vue for component library packaging, dev server, and style emission."
+      },
+      "community": 80,
+      "norm_label": "vite",
+      "id": "vite"
+    },
+    {
+      "label": "Astro/Starlight",
+      "file_type": "concept",
+      "attributes": {
+        "description": "Documentation site framework used by sd-vue-docs. Not targeted for migration."
+      },
+      "community": 24,
+      "norm_label": "astro/starlight",
+      "id": "astro_starlight"
+    },
+    {
+      "label": "Jest",
+      "file_type": "concept",
+      "attributes": {
+        "description": "Testing framework used by web-vue during vite-plus migration stage (deferred migration to Vitest)."
+      },
+      "community": 65,
+      "norm_label": "jest",
+      "id": "jest"
+    },
+    {
+      "label": "OpenSpec CLI",
+      "file_type": "concept",
+      "attributes": {
+        "description": "CLI tool for managing OpenSpec changes. Commands include: openspec new change, openspec status, openspec instructions."
+      },
+      "community": 22,
+      "norm_label": "openspec cli",
+      "id": "openspec_cli"
+    },
+    {
+      "label": "migrate-generated-demos-to-script-setup-tailwind",
+      "file_type": "rationale",
+      "file_path": "openspec/changes/migrate-generated-demos-to-script-setup-tailwind/proposal.md",
+      "summary": "Proposal to unify generated component demos in sd-vue-docs to script setup lang=ts and Tailwind utility classes, replacing mixed Options API, plain script, local style blocks, and inline styles.",
+      "confidence_score": 0.95,
+      "community": 7,
+      "norm_label": "migrate-generated-demos-to-script-setup-tailwind",
+      "id": "migrate_generated_demos_proposal"
+    },
+    {
+      "label": "migrate-generated-demos tasks",
+      "file_type": "document",
+      "file_path": "openspec/changes/migrate-generated-demos-to-script-setup-tailwind/tasks.md",
+      "summary": "Task checklist for demo Tailwind runtime support, generated demo source migration from Options API to script setup, and guardrails/static validation.",
+      "confidence_score": 0.95,
+      "community": 7,
+      "norm_label": "migrate-generated-demos tasks",
+      "id": "migrate_generated_demos_tasks"
+    },
+    {
+      "label": "migrate-generated-demos design",
+      "file_type": "document",
+      "file_path": "openspec/changes/migrate-generated-demos-to-script-setup-tailwind/design.md",
+      "summary": "Design decisions: single source of truth for generated Vue files, script setup lang=ts migration, Tailwind v4 shared demo stylesheet for both page preview and DemoEditor REPL preview, removal of SFC style blocks, automated static validation.",
+      "confidence_score": 0.95,
+      "community": 7,
+      "norm_label": "migrate-generated-demos design",
+      "id": "migrate_generated_demos_design"
+    },
+    {
+      "label": "generated-demo-source-conventions spec",
+      "file_type": "document",
+      "file_path": "openspec/changes/migrate-generated-demos-to-script-setup-tailwind/specs/generated-demo-source-conventions/spec.md",
+      "summary": "Spec requiring generated demos to use script setup lang=ts, Tailwind utilities instead of style blocks, and consistent rendering in both docs preview and DemoEditor REPL.",
+      "confidence_score": 0.95,
+      "community": 7,
+      "norm_label": "generated-demo-source-conventions spec",
+      "id": "generated_demo_source_conventions_spec"
+    },
+    {
+      "label": "interactive-doc-examples spec (modified)",
+      "file_type": "document",
+      "file_path": "openspec/changes/migrate-generated-demos-to-script-setup-tailwind/specs/interactive-doc-examples/spec.md",
+      "summary": "Modified spec for interactive doc examples: demo source fidelity must be preserved during migration, metadata and behavior unchanged, normalized source shown in editor.",
+      "confidence_score": 0.95,
+      "community": 7,
+      "norm_label": "interactive-doc-examples spec (modified)",
+      "id": "interactive_doc_examples_spec"
+    },
+    {
+      "label": "script setup lang=ts convention",
+      "file_type": "concept",
+      "summary": "Vue 3 SFC convention using <script setup lang=\"ts\"> for Composition API with TypeScript. Adopted as the standard for generated demos replacing Options API and plain script.",
+      "confidence_score": 0.9,
+      "community": 7,
+      "norm_label": "script setup lang=ts convention",
+      "id": "script_setup_lang_ts_convention"
+    },
+    {
+      "label": "Tailwind utility class styling for demos",
+      "file_type": "concept",
+      "summary": "Using Tailwind CSS utility classes (with sd-vue-docs prefix conventions) to express demo presentation styles, replacing SFC style blocks and inline styles in generated examples.",
+      "confidence_score": 0.9,
+      "community": 7,
+      "norm_label": "tailwind utility class styling for demos",
+      "id": "tailwind_utility_class_styling"
+    },
+    {
+      "label": "DemoEditor REPL preview",
+      "file_type": "concept",
+      "summary": "Interactive example editor in sd-vue-docs that loads generated demo source via ?raw import and renders a live REPL preview. Requires shared Tailwind stylesheet injection for style parity with page preview.",
+      "confidence_score": 0.85,
+      "community": 7,
+      "norm_label": "demoeditor repl preview",
+      "id": "demo_editor_repl_preview"
+    },
+    {
+      "label": "shared demo Tailwind stylesheet",
+      "file_type": "concept",
+      "summary": "A single Tailwind stylesheet shared between docs page preview and DemoEditor REPL preview, ensuring consistent utility class rendering across both environments.",
+      "confidence_score": 0.85,
+      "community": 7,
+      "norm_label": "shared demo tailwind stylesheet",
+      "id": "shared_demo_tailwind_stylesheet"
+    },
+    {
+      "label": "fix-local-theme-implementation",
+      "file_type": "rationale",
+      "file_path": "openspec/changes/fix-local-theme-implementation/proposal.md",
+      "summary": "Proposal to fix end-to-end local theme consistency: ConfigProvider subtree-scoped theme container, unified theme/theme-mode semantics, docs example alignment, referencing vuetify and naive-ui patterns.",
+      "confidence_score": 0.95,
+      "community": 2,
+      "norm_label": "fix-local-theme-implementation",
+      "id": "fix_local_theme_proposal"
+    },
+    {
+      "label": "fix-local-theme tasks",
+      "file_type": "document",
+      "file_path": "openspec/changes/fix-local-theme-implementation/tasks.md",
+      "summary": "Task checklist: align implementation baseline with vuetify/naive-ui, fix ConfigProvider local theme container, unify docs theme examples, add regression tests. All tasks completed.",
+      "confidence_score": 0.95,
+      "community": 2,
+      "norm_label": "fix-local-theme tasks",
+      "id": "fix_local_theme_tasks"
+    },
+    {
+      "label": "fix-local-theme design",
+      "file_type": "document",
+      "file_path": "openspec/changes/fix-local-theme-implementation/design.md",
+      "summary": "Design decisions: subtree theme container as sole local theme carrier, parent-snapshot + child-incremental-override inheritance algorithm, unified runtime protocol across docs, behavior-boundary testing.",
+      "confidence_score": 0.95,
+      "community": 2,
+      "norm_label": "fix-local-theme design",
+      "id": "fix_local_theme_design"
+    },
+    {
+      "label": "fix-local-theme implementation baseline",
+      "file_type": "document",
+      "file_path": "openspec/changes/fix-local-theme-implementation/implementation-baseline.md",
+      "summary": "Baseline analysis: vuetify VThemeProvider uses provideTheme for scoped theme context; naive-ui ConfigProvider uses inject+computed merge. web-vue has ThemeProvider forcing light mode when only theme is passed, breaking dark mode inheritance.",
+      "confidence_score": 0.95,
+      "community": 2,
+      "norm_label": "fix-local-theme implementation baseline",
+      "id": "fix_local_theme_implementation_baseline"
+    },
+    {
+      "label": "local-theme-provider-runtime spec",
+      "file_type": "document",
+      "file_path": "openspec/changes/fix-local-theme-implementation/specs/local-theme-provider-runtime/spec.md",
+      "summary": "Spec: ConfigProvider shall create subtree-scoped theme container when receiving local theme/theme-mode; nested providers inherit unresolved tokens from parent; runtime mode switches stay scoped without cross-scope leakage.",
+      "confidence_score": 0.95,
+      "community": 2,
+      "norm_label": "local-theme-provider-runtime spec",
+      "id": "local_theme_provider_runtime_spec"
+    },
+    {
+      "label": "theme-docs-runtime-consistency spec",
+      "file_type": "document",
+      "file_path": "openspec/changes/fix-local-theme-implementation/specs/theme-docs-runtime-consistency/spec.md",
+      "summary": "Spec: ConfigProvider demo, home preview, and theme editor must share one runtime theme contract; JSON import/export must be schema-safe; docs must describe ConfigProvider vs ThemeProvider usage boundaries.",
+      "confidence_score": 0.95,
+      "community": 2,
+      "norm_label": "theme-docs-runtime-consistency spec",
+      "id": "theme_docs_runtime_consistency_spec"
+    },
+    {
+      "label": "subtree theme container",
+      "file_type": "concept",
+      "summary": "A DOM-scoped theme container created by ConfigProvider when local theme or theme-mode is set. CSS variables resolve from this container instead of global body. Inspired by vuetify VThemeProvider pattern.",
+      "confidence_score": 0.9,
+      "community": 2,
+      "norm_label": "subtree theme container",
+      "id": "subtree_theme_container"
+    },
+    {
+      "label": "parent-snapshot + child-incremental-override inheritance",
+      "file_type": "concept",
+      "summary": "Inheritance model where nested providers take parent's resolved theme as base, apply local token overrides, and produce child snapshot. Child unmount does not mutate parent. Inspired by naive-ui ConfigProvider.",
+      "confidence_score": 0.9,
+      "community": 2,
+      "norm_label": "parent-snapshot + child-incremental-override inheritance",
+      "id": "theme_inheritance_algorithm"
+    },
+    {
+      "label": "upgrade-style-architecture",
+      "file_type": "rationale",
+      "file_path": "openspec/changes/upgrade-style-architecture/proposal.md",
+      "summary": "Proposal to migrate web-vue from Less to Scss, add ConfigProvider runtime theme object, CSS variables token system, docs theme editor page, and homepage theme showcase module.",
+      "confidence_score": 0.95,
+      "community": 2,
+      "norm_label": "upgrade-style-architecture",
+      "id": "upgrade_style_architecture_proposal"
+    },
+    {
+      "label": "upgrade-style-architecture tasks",
+      "file_type": "document",
+      "file_path": "openspec/changes/upgrade-style-architecture/tasks.md",
+      "summary": "Task checklist across 6 areas: theme infrastructure contracts, Scss migration foundation, component style migration, docs theme editor, homepage theme showcase, validation and cleanup. Most tasks completed.",
+      "confidence_score": 0.95,
+      "community": 2,
+      "norm_label": "upgrade-style-architecture tasks",
+      "id": "upgrade_style_architecture_tasks"
+    },
+    {
+      "label": "css-variable-token-system spec",
+      "file_type": "document",
+      "file_path": "openspec/changes/upgrade-style-architecture/specs/css-variable-token-system/spec.md",
+      "summary": "Spec: theme tokens emitted as CSS custom properties with consistent prefix; components consume CSS variables for runtime theming; critical variables include fallback values for visual stability.",
+      "confidence_score": 0.95,
+      "community": 2,
+      "norm_label": "css-variable-token-system spec",
+      "id": "css_variable_token_system_spec"
+    },
+    {
+      "label": "scss-style-architecture spec",
+      "file_type": "document",
+      "file_path": "openspec/changes/upgrade-style-architecture/specs/scss-style-architecture/spec.md",
+      "summary": "Spec: component style sources migrated from Less to Scss preserving public API; build pipeline supports Scss compilation; temporary compatibility mapping from legacy Less token names to new tokens.",
+      "confidence_score": 0.95,
+      "community": 2,
+      "norm_label": "scss-style-architecture spec",
+      "id": "scss_style_architecture_spec"
+    },
+    {
+      "label": "runtime-theme-config-provider spec",
+      "file_type": "document",
+      "file_path": "openspec/changes/upgrade-style-architecture/specs/runtime-theme-config-provider/spec.md",
+      "summary": "Spec: ConfigProvider accepts unified runtime theme object; theme updates applied at runtime without recompilation; theme object supports component-level override blocks with global token fallback.",
+      "confidence_score": 0.95,
+      "community": 2,
+      "norm_label": "runtime-theme-config-provider spec",
+      "id": "runtime_theme_config_provider_spec"
+    },
+    {
+      "label": "docs-theme-editor spec",
+      "file_type": "document",
+      "file_path": "openspec/changes/upgrade-style-architecture/specs/docs-theme-editor/spec.md",
+      "summary": "Spec: docs site provides theme editor page with editable controls and live preview; supports JSON theme import/export with versioned schema; validates schema compatibility on upload.",
+      "confidence_score": 0.95,
+      "community": 2,
+      "norm_label": "docs-theme-editor spec",
+      "id": "docs_theme_editor_spec"
+    },
+    {
+      "label": "homepage-theme-showcase spec",
+      "file_type": "document",
+      "file_path": "openspec/changes/upgrade-style-architecture/specs/homepage-theme-showcase/spec.md",
+      "summary": "Spec: homepage theme showcase with preset theme switching; presets reuse same ConfigProvider runtime theme contract; includes default and multiple contrasting presets.",
+      "confidence_score": 0.95,
+      "community": 2,
+      "norm_label": "homepage-theme-showcase spec",
+      "id": "homepage_theme_showcase_spec"
+    },
+    {
+      "label": "Less-to-Scss migration",
+      "file_type": "concept",
+      "summary": "Incremental migration of component library styles from Less to Scss, preserving public component APIs, with temporary compatibility mapping for legacy Less token names.",
+      "confidence_score": 0.9,
+      "community": 2,
+      "norm_label": "less-to-scss migration",
+      "id": "less_to_scss_migration"
+    },
+    {
+      "label": "ConfigProvider theme object",
+      "file_type": "concept",
+      "summary": "Unified runtime theme configuration object passed through ConfigProvider containing tokens, optional component overrides, and meta. Normalized into CSS variables at runtime. Supports dynamic updates without recompilation.",
+      "confidence_score": 0.9,
+      "community": 2,
+      "norm_label": "configprovider theme object",
+      "id": "config_provider_theme_object"
+    },
+    {
+      "label": "theme JSON schemaVersion",
+      "file_type": "concept",
+      "summary": "Versioned schema for theme JSON export/import. Enables compatibility validation, migration functions for old versions, and stable serialization for editor and showcase.",
+      "confidence_score": 0.85,
+      "community": 2,
+      "norm_label": "theme json schemaversion",
+      "id": "theme_json_schema_version"
+    },
+    {
+      "label": "CSS variable fallback strategy",
+      "file_type": "concept",
+      "summary": "Pattern of providing fallback values in CSS variable references (e.g., var(--sd-color-primary, #1677ff)) to preserve visual stability when runtime tokens are absent.",
+      "confidence_score": 0.9,
+      "community": 2,
+      "norm_label": "css variable fallback strategy",
+      "id": "css_variable_fallback_strategy"
+    },
+    {
+      "label": "sd-vue-docs",
+      "type": "package",
+      "file_path": "packages/sd-vue-docs/package.json",
+      "file_type": "code",
+      "description": "SD Design documentation site built with Astro, Starlight, and Vue. Provides component docs, LLM-optimized endpoints, and interactive demo previews.",
+      "confidence_score": 0.95,
+      "community": 10,
+      "norm_label": "sd-vue-docs",
+      "id": "packages_sd-vue-docs"
+    },
+    {
+      "label": "Astro Config (sd-vue-docs)",
+      "type": "config",
+      "file_path": "packages/sd-vue-docs/astro.config.mjs",
+      "file_type": "code",
+      "description": "Astro site configuration using Starlight theme, MDX, Vue integration, and Tailwind CSS via Vite plugin. Defines Vite aliases mapping @sdata/web-vue to local web-vue package, lazy demo loading via IntersectionObserver, and theme bridge script syncing Starlight dark mode with sd-theme attribute.",
+      "confidence_score": 0.95,
+      "community": 10,
+      "norm_label": "astro config (sd-vue-docs)",
+      "id": "packages_sd-vue-docs_astro_config"
+    },
+    {
+      "label": "DemoBlock Component",
+      "type": "component",
+      "file_path": "packages/sd-vue-docs/src/components/docs/DemoBlock.astro",
+      "file_type": "code",
+      "description": "Astro component used in all component documentation MDX pages to wrap live demo previews with source code display. Accepts source and mainFile props.",
+      "confidence_score": 0.9,
+      "community": 3,
+      "norm_label": "demoblock component",
+      "id": "packages_sd-vue-docs_demoblock"
+    },
+    {
+      "label": "LLMs Documentation Integration",
+      "type": "module",
+      "file_path": "packages/sd-vue-docs/src/integrations/llms/index.mjs",
+      "file_type": "code",
+      "description": "Custom Astro integration generating LLM-optimized documentation endpoints: /llms/llms.txt (lightweight index), /llms/llms-full.txt (full aggregated text), and /llms/components/[slug].md (per-component markdown). Enables AI assistants and RAG systems to consume docs efficiently.",
+      "confidence_score": 0.9,
+      "community": 10,
+      "norm_label": "llms documentation integration",
+      "id": "packages_sd-vue-docs_llms_integration"
+    },
+    {
+      "label": "LLMs.txt Documentation Page",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/llms_txt.mdx",
+      "file_type": "document",
+      "description": "User-facing MDX page explaining how to use LLM-optimized documentation endpoints. Recommends feeding llms.txt first for structure, then per-component pages for specifics, and llms-full.txt only for global context. Includes RAG best practices and prompt examples.",
+      "confidence_score": 0.95,
+      "community": 10,
+      "norm_label": "llms.txt documentation page",
+      "id": "packages_sd-vue-docs_llms_txt_page"
+    },
+    {
+      "label": "Migrate Generated Demos to Script Setup + Tailwind",
+      "type": "change",
+      "file_path": "openspec/changes/migrate-generated-demos-to-script-setup-tailwind/tasks.md",
+      "file_type": "document",
+      "description": "OpenSpec change to migrate generated component demo files from legacy Options API / plain script blocks to script setup lang='ts', and replace SFC style blocks with Tailwind utility classes. Covers Tailwind runtime support, source migration, and guardrails/verification.",
+      "confidence_score": 0.95,
+      "community": 10,
+      "norm_label": "migrate generated demos to script setup + tailwind",
+      "id": "openspec_migrate_generated_demos"
+    },
+    {
+      "label": "Generated Demo Source Conventions Spec",
+      "type": "specification",
+      "file_path": "openspec/changes/migrate-generated-demos-to-script-setup-tailwind/specs/generated-demo-source-conventions/spec.md",
+      "file_type": "document",
+      "description": "Requirements specification for generated demo conventions: demos with script logic must use script setup lang='ts'; template-only demos must not have empty script blocks; all presentation styles must use Tailwind utilities instead of SFC style blocks; demos must render consistently in both page preview and REPL editor preview.",
+      "confidence_score": 0.95,
+      "community": 10,
+      "norm_label": "generated demo source conventions spec",
+      "id": "openspec_generated_demo_conventions_spec"
+    },
+    {
+      "label": "Alert Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/alert/index.mdx",
+      "file_type": "document",
+      "description": "Alert component docs with 7 demos: action, banner, basic, closable, close-element, icon, title, type. API includes props (type, show-icon, closable, title, banner, center), events (close, after-close), and slots (icon, title, action, close-element).",
+      "confidence_score": 0.95,
+      "community": 3,
+      "norm_label": "alert component documentation",
+      "id": "packages_sd-vue-docs_component_doc_alert"
+    },
+    {
+      "label": "Avatar Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/avatar/index.mdx",
+      "file_type": "document",
+      "description": "Avatar component docs with 6 demos: basic, fit, group, icon, image-url, size. API covers avatar props (shape, image-url, size, auto-fix-font-size, trigger-type, trigger-icon-style, object-fit), avatar-group props (max-count, z-index-ascend, max-style), events (click, error, load), and slots (trigger-icon).",
+      "confidence_score": 0.95,
+      "community": 3,
+      "norm_label": "avatar component documentation",
+      "id": "packages_sd-vue-docs_component_doc_avatar"
+    },
+    {
+      "label": "Badge Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/badge/index.mdx",
+      "file_type": "document",
+      "description": "Badge component docs with 7 demos: alone, basic, color, dot, max, status, text. API includes props (text, dot, dot-style, max-count, offset, color, status, count).",
+      "confidence_score": 0.95,
+      "community": 3,
+      "norm_label": "badge component documentation",
+      "id": "packages_sd-vue-docs_component_doc_badge"
+    },
+    {
+      "label": "Breadcrumb Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/breadcrumb/index.mdx",
+      "file_type": "document",
+      "description": "Breadcrumb component docs with 7 demos: basic, dropdown, ellipsis, icon, routes, separator, size. API covers breadcrumb props (max-count, routes, separator, custom-url), breadcrumb-item props (separator, droplist, dropdown-props), and BreadcrumbRoute type.",
+      "confidence_score": 0.95,
+      "community": 3,
+      "norm_label": "breadcrumb component documentation",
+      "id": "packages_sd-vue-docs_component_doc_breadcrumb"
+    },
+    {
+      "label": "Button Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/button/index.mdx",
+      "file_type": "document",
+      "description": "Button component docs with 8 demos: basic, disabled, group, icon, loading, long, shape, size, status. API includes button props (type, shape, status, size, long, loading, disabled, html-type, autofocus, href), button-group props, events (click), and slots (icon).",
+      "confidence_score": 0.95,
+      "community": 3,
+      "norm_label": "button component documentation",
+      "id": "packages_sd-vue-docs_component_doc_button"
+    },
+    {
+      "label": "Card Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/card/index.mdx",
+      "file_type": "document",
+      "description": "Card component docs with 8 demos: actions, basic, bordered, content, grid, hoverable, inner, meta, row. API covers card props (bordered, loading, hoverable, size, header-style, body-style, title, extra), card-meta props, card-grid props, and slots (actions, cover, extra, title).",
+      "confidence_score": 0.95,
+      "community": 3,
+      "norm_label": "card component documentation",
+      "id": "packages_sd-vue-docs_component_doc_card"
+    },
+    {
+      "label": "Carousel Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/carousel/index.mdx",
+      "file_type": "document",
+      "description": "Carousel component docs with 5 demos: auto, basic, card, direction, fade, indicator. API includes props (current, auto-play, move-speed, animation-name, trigger, direction, show-arrow, indicator-type, indicator-position) and events (change).",
+      "confidence_score": 0.95,
+      "community": 3,
+      "norm_label": "carousel component documentation",
+      "id": "packages_sd-vue-docs_component_doc_carousel"
+    },
+    {
+      "label": "Checkbox Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/checkbox/index.mdx",
+      "file_type": "document",
+      "description": "Checkbox component docs with 8 demos: all, basic, control, custom, disabled, group, layout, limit, options. API covers checkbox props (model-value, default-checked, value, disabled, indeterminate), checkbox-group props (max, options, direction, disabled), and CheckboxOption type.",
+      "confidence_score": 0.95,
+      "community": 3,
+      "norm_label": "checkbox component documentation",
+      "id": "packages_sd-vue-docs_component_doc_checkbox"
+    },
+    {
+      "label": "Collapse Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/collapse/index.mdx",
+      "file_type": "document",
+      "description": "Collapse component docs with 8 demos: accordion, basic, border-less, custom, destroy, expand-icon, extra, icon-position, nested. API covers collapse props (active-key, accordion, show-expand-icon, expand-icon-position, bordered, destroy-on-hide), collapse-item props, events (change), and slots.",
+      "confidence_score": 0.95,
+      "community": 3,
+      "norm_label": "collapse component documentation",
+      "id": "packages_sd-vue-docs_component_doc_collapse"
+    },
+    {
+      "label": "Comment Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/comment/index.mdx",
+      "file_type": "document",
+      "description": "Comment component docs with 4 demos: align, basic, editor, nest. API includes props (author, avatar, content, datetime, align) and slots (avatar, author, datetime, content, actions).",
+      "confidence_score": 0.95,
+      "community": 3,
+      "norm_label": "comment component documentation",
+      "id": "packages_sd-vue-docs_component_doc_comment"
+    },
+    {
+      "label": "DatePicker Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/date-picker/index.mdx",
+      "file_type": "document",
+      "description": "DatePicker component docs with 18 demos covering basic, control, date-render, default-value, disabled-date, disabled, extra, month, panel-only, panel-render, prefix, quarter, range, shortcuts, showtime, size, trigger-element, week, year. Comprehensive API with Common props, per-picker props (date, month, year, quarter, week, range), ShortcutType, and string format reference table.",
+      "confidence_score": 0.95,
+      "community": 3,
+      "norm_label": "datepicker component documentation",
+      "id": "packages_sd-vue-docs_component_doc_date_picker"
+    },
+    {
+      "label": "Descriptions Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/descriptions/index.mdx",
+      "file_type": "document",
+      "description": "Descriptions component docs with 6 demos: align, basic, bordered, example, layout, single. API covers descriptions props (data, column, title, layout, align, size, bordered, label-style, value-style, table-layout), descriptions-item props (span, label), and DescData type.",
+      "confidence_score": 0.95,
+      "community": 3,
+      "norm_label": "descriptions component documentation",
+      "id": "packages_sd-vue-docs_component_doc_descriptions"
+    },
+    {
+      "label": "Divider Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/divider/index.mdx",
+      "file_type": "document",
+      "description": "Divider component docs with 3 demos: basic, vertical, with-text. API includes props (direction, orientation, type, size, margin).",
+      "confidence_score": 0.95,
+      "community": 3,
+      "norm_label": "divider component documentation",
+      "id": "packages_sd-vue-docs_component_doc_divider"
+    },
+    {
+      "label": "Dropdown Component Documentation",
+      "type": "document",
+      "file_path": "packages/sd-vue-docs/src/content/docs/components/dropdown/index.mdx",
+      "file_type": "document",
+      "description": "Dropdown component docs with 8 demos: basic, button, context-menu, group, icon, position, submenu, trigger. API covers dropdown props (popup-visible, trigger, position, popup-max-height, hide-on-select), doption, dgroup, dsubmenu, and dropdown-button sub-components.",
+      "confidence_score": 0.95,
+      "community": 3,
+      "norm_label": "dropdown component documentation",
+      "id": "packages_sd-vue-docs_component_doc_dropdown"
+    },
+    {
+      "label": "Generated Docs Sidebar",
+      "type": "module",
+      "file_path": "packages/sd-vue-docs/src/generated/docs-sidebar.ts",
+      "file_type": "code",
+      "description": "Generated sidebar configuration used by Starlight for documentation navigation. Referenced in astro.config.mjs.",
+      "confidence_score": 0.85,
+      "community": 10,
+      "norm_label": "generated docs sidebar",
+      "id": "packages_sd-vue-docs_docs_sidebar"
+    },
+    {
+      "label": "Generated Demo Components",
+      "type": "directory",
+      "file_path": "packages/sd-vue-docs/src/components/generated",
+      "file_type": "code",
+      "description": "Directory containing auto-generated Vue SFC demo files for each component, organized by component name. Each demo is imported as both a Vue component and raw source string in MDX documentation pages. Subject to migration from Options API to script setup and from style blocks to Tailwind utilities.",
+      "confidence_score": 0.9,
+      "community": 3,
+      "norm_label": "generated demo components",
+      "id": "packages_sd-vue-docs_generated_demos"
+    },
+    {
+      "label": "Tailwind CSS Setup",
+      "type": "config",
+      "file_path": "packages/sd-vue-docs/astro.config.mjs",
+      "file_type": "code",
+      "description": "Tailwind CSS v4 integrated via @tailwindcss/vite plugin in Astro's Vite config. Used for documentation site styling and as the target for generated demo style migration.",
+      "confidence_score": 0.9,
+      "community": 10,
+      "norm_label": "tailwind css setup",
+      "id": "packages_sd-vue-docs_tailwind_setup"
+    },
+    {
+      "label": "Empty Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/empty/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u7a7a\u72b6\u6001 Empty",
+        "description": "\u6307\u5f53\u524d\u573a\u666f\u6ca1\u6709\u5bf9\u5e94\u7684\u6570\u636e\u5185\u5bb9\uff0c\u5448\u73b0\u51fa\u7684\u4e00\u79cd\u72b6\u6001",
+        "component": "empty",
+        "subcomponents": [],
+        "slots": [
+          "image"
+        ],
+        "props": [
+          "description",
+          "img-src",
+          "in-config-provider"
+        ]
+      },
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "empty component doc",
+      "id": "empty_index"
+    },
+    {
+      "label": "Form Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/form/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u8868\u5355 Form",
+        "description": "\u5177\u6709\u6570\u636e\u6536\u96c6\u3001\u6821\u9a8c\u548c\u63d0\u4ea4\u529f\u80fd\u7684\u8868\u5355",
+        "component": "form",
+        "subcomponents": [
+          "form-item"
+        ],
+        "slots": [
+          "label",
+          "help",
+          "extra"
+        ],
+        "props": [
+          "model",
+          "layout",
+          "size",
+          "rules",
+          "disabled",
+          "auto-label-width",
+          "scroll-to-first-error"
+        ],
+        "methods": [
+          "validate",
+          "validateField",
+          "resetFields",
+          "clearValidate",
+          "setFields",
+          "scrollToField"
+        ],
+        "hooks": [
+          "useFormItem"
+        ],
+        "types": [
+          "FieldRule",
+          "FieldData",
+          "ValidatedError",
+          "FormItemEventHandler"
+        ]
+      },
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "form component doc",
+      "id": "form_index"
+    },
+    {
+      "label": "Grid Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/grid/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u6805\u683c Grid",
+        "description": "\u6805\u683c\u53ef\u4ee5\u6709\u6548\u7684\u4fdd\u8bc1\u9875\u9762\u7684\u4e00\u81f4\u6027\u3001\u903b\u8f91\u6027\u3001\u52a0\u5f3a\u56e2\u961f\u534f\u4f5c\u548c\u7edf\u4e00",
+        "component": "grid",
+        "subcomponents": [
+          "row",
+          "col",
+          "grid-item"
+        ],
+        "props_grid": [
+          "cols",
+          "row-gap",
+          "col-gap",
+          "collapsed",
+          "collapsed-rows"
+        ],
+        "props_row": [
+          "gutter",
+          "justify",
+          "align",
+          "div",
+          "wrap"
+        ],
+        "props_col": [
+          "span",
+          "offset",
+          "order",
+          "flex",
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+          "xxl"
+        ],
+        "types": [
+          "ResponsiveValue"
+        ]
+      },
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "grid component doc",
+      "id": "grid_index"
+    },
+    {
+      "label": "Image Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/image/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u56fe\u7247 Image",
+        "description": "\u5c55\u793a\u548c\u9884\u89c8\u56fe\u7247",
+        "component": "image",
+        "subcomponents": [
+          "image-preview",
+          "image-preview-group",
+          "image-preview-action"
+        ],
+        "slots": [
+          "error",
+          "error-icon",
+          "loader",
+          "extra"
+        ],
+        "props": [
+          "src",
+          "width",
+          "height",
+          "title",
+          "description",
+          "fit",
+          "preview",
+          "footer-position",
+          "show-loader"
+        ]
+      },
+      "file_type": "concept",
+      "community": 14,
+      "norm_label": "image component doc",
+      "id": "image_index"
+    },
+    {
+      "label": "InputNumber Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/input-number/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u6570\u5b57\u8f93\u5165\u6846 InputNumber",
+        "description": "\u4ec5\u5141\u8bb8\u8f93\u5165\u6570\u5b57\u683c\u5f0f\u7684\u8f93\u5165\u6846",
+        "component": "input-number",
+        "subcomponents": [],
+        "slots": [
+          "minus",
+          "plus",
+          "append",
+          "prepend",
+          "suffix",
+          "prefix"
+        ],
+        "props": [
+          "model-value",
+          "mode",
+          "precision",
+          "step",
+          "disabled",
+          "max",
+          "min",
+          "formatter",
+          "parser",
+          "size",
+          "model-event"
+        ],
+        "methods": [
+          "focus",
+          "blur"
+        ]
+      },
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "inputnumber component doc",
+      "id": "input_number_index"
+    },
+    {
+      "label": "InputTag Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/input-tag/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u6807\u7b7e\u8f93\u5165\u6846 InputTag",
+        "description": "\u7528\u6765\u8f93\u5165\u6807\u7b7e",
+        "component": "input-tag",
+        "subcomponents": [],
+        "slots": [
+          "tag",
+          "prefix",
+          "suffix"
+        ],
+        "props": [
+          "model-value",
+          "input-value",
+          "placeholder",
+          "disabled",
+          "error",
+          "readonly",
+          "size",
+          "max-tag-count",
+          "unique-value",
+          "field-names"
+        ],
+        "methods": [
+          "focus",
+          "blur"
+        ],
+        "types": [
+          "TagData"
+        ]
+      },
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "inputtag component doc",
+      "id": "input_tag_index"
+    },
+    {
+      "label": "Input Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/input/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u8f93\u5165\u6846 Input",
+        "description": "\u57fa\u672c\u8868\u5355\u7ec4\u4ef6\uff0c\u5e76\u5728\u539f\u751f\u63a7\u4ef6\u57fa\u7840\u4e0a\u8fdb\u884c\u4e86\u529f\u80fd\u6269\u5c55",
+        "component": "input",
+        "subcomponents": [
+          "input-password",
+          "input-search",
+          "input-group"
+        ],
+        "slots": [
+          "append",
+          "prepend",
+          "suffix",
+          "prefix"
+        ],
+        "props": [
+          "model-value",
+          "size",
+          "allow-clear",
+          "disabled",
+          "readonly",
+          "error",
+          "max-length",
+          "show-word-limit"
+        ],
+        "methods": [
+          "focus",
+          "blur"
+        ]
+      },
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "input component doc",
+      "id": "input_index"
+    },
+    {
+      "label": "Link Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/link/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u94fe\u63a5 Link",
+        "description": "\u94fe\u63a5\u7684\u57fa\u672c\u6837\u5f0f",
+        "component": "link",
+        "subcomponents": [],
+        "slots": [
+          "default",
+          "icon",
+          "tooltip"
+        ],
+        "props": [
+          "href",
+          "status",
+          "hoverable",
+          "icon",
+          "ellipsis",
+          "loading",
+          "disabled",
+          "icon-tooltip"
+        ]
+      },
+      "file_type": "concept",
+      "community": 68,
+      "norm_label": "link component doc",
+      "id": "link_index"
+    },
+    {
+      "label": "List Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/list/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u5217\u8868 List",
+        "description": "\u6700\u57fa\u7840\u7684\u5217\u8868\u5c55\u793a\uff0c\u53ef\u627f\u8f7d\u6587\u5b57\u3001\u5217\u8868\u3001\u56fe\u7247\u3001\u6bb5\u843d",
+        "component": "list",
+        "subcomponents": [
+          "list-item",
+          "list-item-meta"
+        ],
+        "slots": [
+          "scroll-loading",
+          "item",
+          "empty",
+          "footer",
+          "header"
+        ],
+        "props": [
+          "data",
+          "size",
+          "bordered",
+          "split",
+          "loading",
+          "hoverable",
+          "pagination-props",
+          "grid-props",
+          "max-height",
+          "virtual-list-props",
+          "scrollbar"
+        ],
+        "methods": [
+          "scrollIntoView"
+        ],
+        "types": [
+          "VirtualListProps"
+        ]
+      },
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "list component doc",
+      "id": "list_index"
+    },
+    {
+      "label": "Message Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/message/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u5168\u5c40\u63d0\u793a Message",
+        "description": "\u7531\u7528\u6237\u7684\u64cd\u4f5c\u89e6\u53d1\u7684\u8f7b\u91cf\u7ea7\u5168\u5c40\u53cd\u9988",
+        "component": "message",
+        "subcomponents": [],
+        "methods": [
+          "info",
+          "success",
+          "warning",
+          "error",
+          "loading",
+          "normal",
+          "clear"
+        ],
+        "types": [
+          "MessageMethod",
+          "MessageConfig",
+          "MessageReturn"
+        ],
+        "is_global_method": true
+      },
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "message component doc",
+      "id": "message_index"
+    },
+    {
+      "label": "Modal Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/modal/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "Modal \u5bf9\u8bdd\u6846",
+        "description": "\u5728\u5f53\u524d\u9875\u9762\u6253\u5f00\u4e00\u4e2a\u6d6e\u5c42\uff0c\u627f\u8f7d\u76f8\u5173\u64cd\u4f5c",
+        "component": "modal",
+        "subcomponents": [],
+        "slots": [
+          "title",
+          "footer"
+        ],
+        "props": [
+          "visible",
+          "width",
+          "title",
+          "mask",
+          "mask-closable",
+          "draggable",
+          "fullscreen",
+          "on-before-ok",
+          "on-before-cancel",
+          "esc-to-close",
+          "align-center"
+        ],
+        "methods": [
+          "open",
+          "confirm",
+          "info",
+          "success",
+          "warning",
+          "error"
+        ],
+        "types": [
+          "ModalConfig",
+          "ModalReturn",
+          "ModalMethod"
+        ],
+        "is_global_method": true
+      },
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "modal component doc",
+      "id": "modal_index"
+    },
+    {
+      "label": "Pagination Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/pagination/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u5206\u9875 Pagination",
+        "description": "\u91c7\u7528\u5206\u9875\u63a7\u5236\u5355\u9875\u5185\u7684\u4fe1\u606f\u6570\u91cf\uff0c\u4e5f\u53ef\u8fdb\u884c\u9875\u9762\u8df3\u8f6c",
+        "component": "pagination",
+        "subcomponents": [],
+        "slots": [
+          "total",
+          "page-item-ellipsis",
+          "page-item-step",
+          "page-item"
+        ],
+        "props": [
+          "total",
+          "current",
+          "page-size",
+          "disabled",
+          "simple",
+          "show-total",
+          "show-jumper",
+          "show-page-size",
+          "size"
+        ]
+      },
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "pagination component doc",
+      "id": "pagination_index"
+    },
+    {
+      "label": "Popconfirm Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/popconfirm/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u6c14\u6ce1\u786e\u8ba4\u6846 Popconfirm",
+        "description": "\u70b9\u51fb\u5143\u7d20\uff0c\u5f39\u51fa\u6c14\u6ce1\u5f0f\u7684\u786e\u8ba4\u6846",
+        "component": "popconfirm",
+        "subcomponents": [],
+        "slots": [
+          "icon",
+          "content"
+        ],
+        "props": [
+          "content",
+          "position",
+          "popup-visible",
+          "type",
+          "ok-text",
+          "cancel-text",
+          "on-before-ok",
+          "on-before-cancel"
+        ],
+        "inherits": "trigger"
+      },
+      "file_type": "concept",
+      "community": 14,
+      "norm_label": "popconfirm component doc",
+      "id": "popconfirm_index"
+    },
+    {
+      "label": "Popover Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/popover/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u6c14\u6ce1\u5361\u7247 Popover",
+        "description": "\u9f20\u6807\u60ac\u505c\u3001\u805a\u7126\u6216\u70b9\u51fb\u5728\u67d0\u4e2a\u7ec4\u4ef6\u65f6\uff0c\u5f39\u51fa\u7684\u6c14\u6ce1\u5f0f\u7684\u5361\u7247\u6d6e\u5c42",
+        "component": "popover",
+        "subcomponents": [],
+        "slots": [
+          "title",
+          "content"
+        ],
+        "props": [
+          "popup-visible",
+          "title",
+          "content",
+          "trigger",
+          "position"
+        ],
+        "inherits": "trigger"
+      },
+      "file_type": "concept",
+      "community": 14,
+      "norm_label": "popover component doc",
+      "id": "popover_index"
+    },
+    {
+      "label": "Progress Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/progress/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u8fdb\u5ea6\u6761 Progress",
+        "description": "\u7ed9\u4e88\u7528\u6237\u5f53\u524d\u7cfb\u7edf\u6267\u884c\u4e2d\u4efb\u52a1\u8fd0\u884c\u72b6\u6001\u7684\u53cd\u9988",
+        "component": "progress",
+        "subcomponents": [],
+        "props": [
+          "type",
+          "size",
+          "percent",
+          "steps",
+          "animation",
+          "stroke-width",
+          "width",
+          "color",
+          "track-color",
+          "show-text",
+          "status"
+        ]
+      },
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "progress component doc",
+      "id": "progress_index"
+    },
+    {
+      "label": "Radio Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/radio/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u5355\u9009\u6846 Radio",
+        "description": "\u5728\u4e00\u7ec4\u76f8\u5173\u4e14\u4e92\u65a5\u6570\u636e\u4e2d\uff0c\u7528\u6237\u4ec5\u80fd\u9009\u62e9\u4e00\u4e2a\u9009\u9879",
+        "component": "radio",
+        "subcomponents": [
+          "radio-group"
+        ],
+        "slots": [
+          "radio"
+        ],
+        "props": [
+          "model-value",
+          "value",
+          "type",
+          "disabled"
+        ],
+        "types": [
+          "RadioOption"
+        ]
+      },
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "radio component doc",
+      "id": "radio_index"
+    },
+    {
+      "label": "Rate Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/rate/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u8bc4\u5206 Rate",
+        "description": "\u7528\u4e8e\u8bc4\u5206\u6216\u6253\u661f\u7684\u7ec4\u4ef6",
+        "component": "rate",
+        "subcomponents": [],
+        "slots": [
+          "character"
+        ],
+        "props": [
+          "count",
+          "model-value",
+          "allow-half",
+          "allow-clear",
+          "grading",
+          "readonly",
+          "disabled",
+          "color"
+        ]
+      },
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "rate component doc",
+      "id": "rate_index"
+    },
+    {
+      "label": "Result Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/result/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u7ed3\u679c\u9875 Result",
+        "description": "\u7528\u4e8e\u53cd\u9988\u4e00\u7cfb\u5217\u64cd\u4f5c\u4efb\u52a1\u7684\u5904\u7406\u7ed3\u679c",
+        "component": "result",
+        "subcomponents": [],
+        "slots": [
+          "icon",
+          "title",
+          "subtitle",
+          "extra",
+          "default"
+        ],
+        "props": [
+          "status",
+          "title",
+          "subtitle"
+        ]
+      },
+      "file_type": "concept",
+      "community": 71,
+      "norm_label": "result component doc",
+      "id": "result_index"
+    },
+    {
+      "label": "Skeleton Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/skeleton/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u9aa8\u67b6\u5c4f Skeleton",
+        "description": "\u5c06\u52a0\u8f7d\u4e2d\u7684\u6570\u636e\u7528\u7070\u8272\u5360\u4f4d",
+        "component": "skeleton",
+        "subcomponents": [
+          "skeleton-line",
+          "skeleton-shape"
+        ],
+        "props": [
+          "loading",
+          "animation"
+        ]
+      },
+      "file_type": "concept",
+      "community": 78,
+      "norm_label": "skeleton component doc",
+      "id": "skeleton_index"
+    },
+    {
+      "label": "Slider Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/slider/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u6ed1\u52a8\u8f93\u5165\u6761 Slider",
+        "description": "\u6ed1\u52a8\u578b\u8f93\u5165\u5668\uff0c\u5c55\u793a\u5f53\u524d\u503c\u548c\u53ef\u9009\u8303\u56f4",
+        "component": "slider",
+        "subcomponents": [],
+        "props": [
+          "model-value",
+          "step",
+          "min",
+          "max",
+          "marks",
+          "direction",
+          "disabled",
+          "show-ticks",
+          "show-input",
+          "range",
+          "show-tooltip"
+        ]
+      },
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "slider component doc",
+      "id": "slider_index"
+    },
+    {
+      "label": "Space Component Doc",
+      "file": "packages/sd-vue-docs/src/content/docs/components/space/index.mdx",
+      "type": "document",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "title": "\u95f4\u8ddd Space",
+        "description": "\u8bbe\u7f6e\u7ec4\u4ef6\u4e4b\u95f4\u7684\u95f4\u8ddd",
+        "component": "space",
+        "subcomponents": [],
+        "slots": [
+          "split"
+        ],
+        "props": [
+          "align",
+          "direction",
+          "size",
+          "wrap",
+          "fill"
+        ],
+        "types": [
+          "SpaceSize"
+        ]
+      },
+      "file_type": "concept",
+      "community": 79,
+      "norm_label": "space component doc",
+      "id": "space_index"
+    },
+    {
+      "label": "useFormItem Hook",
+      "type": "concept",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.9,
+      "attributes": {
+        "description": "Composable hook for creating custom form components that integrate with form-item context",
+        "returns": [
+          "mergedSize",
+          "mergedDisabled",
+          "mergedError",
+          "feedback",
+          "eventHandlers"
+        ],
+        "since": "2.18.0"
+      },
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "useformitem hook",
+      "id": "form_useformitem"
+    },
+    {
+      "label": "Trigger Component",
+      "type": "concept",
+      "extraction": "INFERRED",
+      "confidence_score": 0.8,
+      "attributes": {
+        "description": "Base component for popup-based components, provides trigger and positioning behavior",
+        "inherited_by": [
+          "popconfirm",
+          "popover"
+        ]
+      },
+      "file_type": "concept",
+      "community": 14,
+      "norm_label": "trigger component",
+      "id": "trigger_component"
+    },
+    {
+      "label": "Component Size System",
+      "type": "concept",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "attributes": {
+        "sizes": [
+          "mini",
+          "small",
+          "medium",
+          "large"
+        ],
+        "used_by": [
+          "form",
+          "input-number",
+          "input-tag",
+          "input",
+          "pagination",
+          "radio",
+          "progress",
+          "slider"
+        ],
+        "description": "Standardized size system across sd-design components"
+      },
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "component size system",
+      "id": "component_size_system"
+    },
+    {
+      "label": "Global Method Pattern",
+      "type": "concept",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.9,
+      "attributes": {
+        "description": "Pattern for invoking components imperatively via this.$component, import Component, or getCurrentInstance()",
+        "used_by": [
+          "message",
+          "modal"
+        ],
+        "requires_app_context": true
+      },
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "global method pattern",
+      "id": "global_method_pattern"
+    },
+    {
+      "label": "Spin",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/spin/index.mdx",
+      "category": "component",
+      "description": "\u52a0\u8f7d\u4e2d\u7ec4\u4ef6\uff0c\u7528\u4e8e\u9875\u9762\u548c\u533a\u5757\u7684\u52a0\u8f7d\u72b6\u6001\u6307\u793a\u3002\u652f\u6301\u5bb9\u5668\u6a21\u5f0f\u3001\u70b9\u7c7b\u578b\u52a8\u753b\u3001\u81ea\u5b9a\u4e49\u56fe\u6807\u3001\u4e0d\u540c\u5c3a\u5bf8\u548c\u63cf\u8ff0\u6587\u6848\u3002",
+      "confidence_score": 0.95,
+      "community": 38,
+      "norm_label": "spin",
+      "id": "components_spin"
+    },
+    {
+      "label": "Split",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/split/index.mdx",
+      "category": "component",
+      "description": "\u9762\u677f\u5206\u5272\u7ec4\u4ef6\uff0c\u5c06\u9762\u677f\u5206\u5272\u6210\u4e24\u90e8\u5206\u3002\u652f\u6301\u6c34\u5e73\u548c\u5782\u76f4\u65b9\u5411\u3001\u5d4c\u5957\u4f7f\u7528\u3001\u81ea\u5b9a\u4e49\u4f38\u7f29\u6746\u3002",
+      "confidence_score": 0.95,
+      "community": 39,
+      "norm_label": "split",
+      "id": "components_split"
+    },
+    {
+      "label": "Steps",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/steps/index.mdx",
+      "category": "component",
+      "description": "\u6b65\u9aa4\u6761\u7ec4\u4ef6\uff0c\u660e\u793a\u4efb\u52a1\u6d41\u7a0b\u548c\u5f53\u524d\u5b8c\u6210\u7a0b\u5ea6\u3002\u652f\u6301\u9ed8\u8ba4/\u7bad\u5934/\u70b9\u72b6/\u5bfc\u822a\u56db\u79cd\u7c7b\u578b\uff0c\u6c34\u5e73\u548c\u5782\u76f4\u65b9\u5411\uff0c\u53ef\u5207\u6362\u3001\u81ea\u5b9a\u4e49\u8282\u70b9\u3001\u63cf\u8ff0\u4fe1\u606f\u3001\u9519\u8bef\u72b6\u6001\u3002",
+      "confidence_score": 0.95,
+      "community": 40,
+      "norm_label": "steps",
+      "id": "components_steps"
+    },
+    {
+      "label": "Switch",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/switch/index.mdx",
+      "category": "component",
+      "description": "\u5f00\u5173\u7ec4\u4ef6\uff0c\u4e92\u65a5\u6027\u64cd\u4f5c\u63a7\u4ef6\u3002\u652f\u6301circle/round/line\u4e09\u79cd\u7c7b\u578b\u3001\u5207\u6362\u62e6\u622a(beforeChange)\u3001\u81ea\u52a8loading\u3001\u81ea\u5b9a\u4e49\u989c\u8272\u548c\u56fe\u6807\u3001\u81ea\u5b9a\u4e49\u503c\u3002",
+      "confidence_score": 0.95,
+      "community": 41,
+      "norm_label": "switch",
+      "id": "components_switch"
+    },
+    {
+      "label": "Table",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/table/index.mdx",
+      "category": "component",
+      "description": "\u8868\u683c\u7ec4\u4ef6\uff0c\u7528\u4e8e\u6570\u636e\u6536\u96c6\u5c55\u793a\u3001\u5206\u6790\u6574\u7406\u3002\u652f\u6301\u6392\u5e8f\u3001\u7b5b\u9009\u3001\u56fa\u5b9a\u5217\u3001\u5206\u7ec4\u8868\u5934\u3001\u5c55\u5f00\u884c\u3001\u884c\u9009\u62e9(\u5355\u9009/\u591a\u9009)\u3001\u62d6\u62fd\u6392\u5e8f\u3001\u53ef\u7f16\u8f91\u3001\u865a\u62df\u5217\u8868\u3001\u6811\u5f62\u6570\u636e\u3001\u5355\u5143\u683c\u5408\u5e76\u3001\u8868\u5934\u5438\u9876\u3001\u603b\u7ed3\u884c\u3001\u5206\u9875\u7b49\u3002",
+      "confidence_score": 0.95,
+      "community": 4,
+      "norm_label": "table",
+      "id": "components_table"
+    },
+    {
+      "label": "Tabs",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tabs/index.mdx",
+      "category": "component",
+      "description": "\u6807\u7b7e\u9875\u7ec4\u4ef6\uff0c\u5c06\u5185\u5bb9\u7ec4\u7ec7\u5728\u540c\u4e00\u89c6\u56fe\u4e2d\u3002\u652f\u6301line/card/card-gutter/text/rounded/capsule\u7c7b\u578b\u3001\u52a8\u6001\u589e\u51cf\u3001\u61d2\u52a0\u8f7d\u3001\u4e0d\u540c\u4f4d\u7f6e\u3001\u6eda\u52a8\u3001hover/click\u89e6\u53d1\u65b9\u5f0f\u3002",
+      "confidence_score": 0.95,
+      "community": 43,
+      "norm_label": "tabs",
+      "id": "components_tabs"
+    },
+    {
+      "label": "Tag",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tag/index.mdx",
+      "category": "component",
+      "description": "\u6807\u7b7e\u7ec4\u4ef6\uff0c\u7528\u4e8e\u4fe1\u606f\u9009\u62e9\u3001\u7b5b\u9009\u3001\u5206\u7c7b\u3002\u652f\u6301\u9884\u8bbe\u989c\u8272\u548c\u81ea\u5b9a\u4e49\u989c\u8272(\u81ea\u52a8\u9002\u914d\u6587\u5b57\u989c\u8272)\u3001\u53ef\u9009\u4e2d\u3001\u53ef\u5173\u95ed\u3001\u8fb9\u6846\u3001\u7701\u7565\u5185\u5bb9(\u5185\u7f6esd-ellipsis)\u3001\u52a0\u8f7d\u72b6\u6001\u3001\u591a\u79cd\u5c3a\u5bf8\u3002",
+      "confidence_score": 0.95,
+      "community": 4,
+      "norm_label": "tag",
+      "id": "components_tag"
+    },
+    {
+      "label": "Timeline",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/timeline/index.mdx",
+      "category": "component",
+      "description": "\u65f6\u95f4\u8f74\u7ec4\u4ef6\uff0c\u6309\u65f6\u95f4\u987a\u5e8f\u5c55\u793a\u4fe1\u606f\u3002\u652f\u6301\u6c34\u5e73\u548c\u5782\u76f4\u65b9\u5411\u3001\u4ea4\u66ff\u5c55\u793a\u6a21\u5f0f\u3001\u81ea\u5b9a\u4e49\u8282\u70b9\u3001\u5e7d\u7075\u8282\u70b9\u3001\u81ea\u5b9a\u4e49\u8f74\u7ebf\u6837\u5f0f\u3001\u6807\u7b7e\u6587\u672c\u4f4d\u7f6e\u3002",
+      "confidence_score": 0.95,
+      "community": 45,
+      "norm_label": "timeline",
+      "id": "components_timeline"
+    },
+    {
+      "label": "Tooltip",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tooltip/index.mdx",
+      "category": "component",
+      "description": "\u6587\u5b57\u6c14\u6ce1\u7ec4\u4ef6\uff0c\u9f20\u6807\u60ac\u505c/\u805a\u7126/\u70b9\u51fb\u65f6\u5f39\u51fa\u6587\u5b57\u63d0\u793a\u3002\u7ee7\u627fTrigger\u7ec4\u4ef6\u5168\u90e8\u5c5e\u6027\u3002\u652f\u630112\u4e2a\u65b9\u4f4d\u3001\u81ea\u5b9a\u4e49\u80cc\u666f\u989c\u8272\u3001\u8ff7\u4f60\u5c3a\u5bf8\u3002",
+      "confidence_score": 0.95,
+      "community": 4,
+      "norm_label": "tooltip",
+      "id": "components_tooltip"
+    },
+    {
+      "label": "Transfer",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/transfer/index.mdx",
+      "category": "component",
+      "description": "\u6570\u636e\u7a7f\u68ad\u6846\u7ec4\u4ef6\uff0c\u4e24\u680f\u5e03\u5c40\u7684\u591a\u9009\u7ec4\u4ef6\u3002\u652f\u6301\u641c\u7d22\u3001\u7b80\u5355\u6a21\u5f0f\u3001\u5355\u5411\u6a21\u5f0f\u3001\u5206\u9875\u3001\u6811\u578b\u7a7f\u68ad\u6846\u3001\u81ea\u5b9a\u4e49\u6807\u9898\u680f\u548c\u9009\u9879\u6e32\u67d3\u3002",
+      "confidence_score": 0.95,
+      "community": 47,
+      "norm_label": "transfer",
+      "id": "components_transfer"
+    },
+    {
+      "label": "TreeSelect",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tree-select/index.mdx",
+      "category": "component",
+      "description": "\u6811\u9009\u62e9\u7ec4\u4ef6\uff0c\u5bf9\u6811\u5f62\u7ed3\u6784\u6570\u636e\u8fdb\u884c\u9009\u62e9\u3002\u590d\u7528\u5185\u90e8Tree/Trigger/SelectView\u7ec4\u4ef6\u3002\u652f\u6301\u590d\u9009\u6846\u591a\u9009\u3001\u56de\u586b\u7b56\u7565\u3001\u8fdc\u7a0b\u641c\u7d22\u3001\u865a\u62df\u5217\u8868\u3001\u52a8\u6001\u52a0\u8f7d\u3001\u56de\u9000\u9009\u9879\u3001Naive UI\u548cArco Design\u8fc1\u79fb\u517c\u5bb9\u3002",
+      "confidence_score": 0.95,
+      "community": 4,
+      "norm_label": "treeselect",
+      "id": "components_tree_select"
+    },
+    {
+      "label": "Tree",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tree/index.mdx",
+      "category": "component",
+      "description": "\u6811\u7ec4\u4ef6\uff0c\u7528\u4e8e\u5c42\u7ea7\u5173\u7cfb\u5c55\u793a(\u6587\u4ef6\u5939\u3001\u7ec4\u7ec7\u67b6\u6784\u7b49)\u3002\u652f\u6301\u590d\u9009\u6846\u3001\u591a\u9009\u3001\u62d6\u62fd\u3001\u52a8\u6001\u52a0\u8f7d\u3001\u641c\u7d22\u3001\u8fde\u63a5\u7ebf\u3001\u865a\u62df\u5217\u8868\u3001\u81ea\u5b9a\u4e49\u5b57\u6bb5\u540d(fieldNames)\u3001\u56de\u586b\u7b56\u7565(checkedStrategy)\u3002",
+      "confidence_score": 0.95,
+      "community": 4,
+      "norm_label": "tree",
+      "id": "components_tree"
+    },
+    {
+      "label": "Typography",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/typography/index.mdx",
+      "category": "component",
+      "description": "\u6392\u7248\u7ec4\u4ef6\uff0c\u7528\u4e8e\u5c55\u793a\u6807\u9898(typography-title)\u3001\u6bb5\u843d(typography-paragraph)\u3001\u6587\u672c\u5185\u5bb9\u3002\u652f\u6301\u7701\u7565(EllipsisConfig)\u3001\u590d\u5236(copyable)\u3001\u7f16\u8f91(editable)\u3001\u6807\u8bb0/\u4e0b\u5212\u7ebf/\u5220\u9664\u7ebf/\u4ee3\u7801\u5757\u6837\u5f0f\u3002",
+      "confidence_score": 0.95,
+      "community": 4,
+      "norm_label": "typography",
+      "id": "components_typography"
+    },
+    {
+      "label": "Upload",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/upload/index.mdx",
+      "category": "component",
+      "description": "\u4e0a\u4f20\u7ec4\u4ef6\uff0c\u7528\u6237\u4f20\u8f93\u6587\u4ef6\u3002\u652f\u6301\u62d6\u62fd\u4e0a\u4f20\u3001\u6587\u4ef6\u5939\u4e0a\u4f20\u3001\u7167\u7247\u5899\u3001\u56fe\u7247\u5217\u8868\u3001\u81ea\u5b9a\u4e49\u4e0a\u4f20\u8bf7\u6c42(customRequest)\u3001\u624b\u52a8\u4e0a\u4f20\u3001\u4e0a\u4f20\u524d\u6821\u9a8c\u3001\u79fb\u9664\u524d\u6821\u9a8c\u3001\u6570\u91cf\u9650\u5236\u3001\u5934\u50cf\u4e0a\u4f20\u3002",
+      "confidence_score": 0.95,
+      "community": 49,
+      "norm_label": "upload",
+      "id": "components_upload"
+    },
+    {
+      "label": "VerificationCode",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/verification-code/index.mdx",
+      "category": "component",
+      "description": "\u9a8c\u8bc1\u7801\u8f93\u5165\u7ec4\u4ef6\u3002\u652f\u6301\u5bc6\u7801\u6a21\u5f0f\u3001\u81ea\u5b9a\u4e49\u5206\u9694\u7b26\u3001\u683c\u5f0f\u5316\u8f93\u5165(formatter)\u3001\u4e0d\u540c\u72b6\u6001(\u7981\u7528/\u53ea\u8bfb/\u9519\u8bef)\u3001\u914d\u5408\u8868\u5355\u6821\u9a8c\u4f7f\u7528\u3002",
+      "confidence_score": 0.95,
+      "community": 51,
+      "norm_label": "verificationcode",
+      "id": "components_verification_code"
+    },
+    {
+      "label": "Watermark",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/watermark/index.mdx",
+      "category": "component",
+      "description": "\u6c34\u5370\u7ec4\u4ef6\uff0c\u7ed9\u9875\u9762\u6307\u5b9a\u533a\u57df\u52a0\u4e0a\u6c34\u5370\u3002\u652f\u6301\u6587\u5b57\u548c\u56fe\u7247\u6c34\u5370\u3001\u591a\u884c\u6587\u672c\u3001\u81ea\u5b9a\u4e49\u65cb\u8f6c/\u95f4\u8ddd/\u504f\u79fb\u3001\u9632\u7be1\u6539\u3001\u7070\u9636\u6c34\u5370\u3001\u9519\u5f00\u6392\u5217\u3002",
+      "confidence_score": 0.95,
+      "community": 53,
+      "norm_label": "watermark",
+      "id": "components_watermark"
+    },
+    {
+      "label": "FAQ",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/guides/faq.mdx",
+      "category": "guide",
+      "description": "\u5e38\u89c1\u95ee\u9898\u6587\u6863\u3002\u6db5\u76d6\u53d7\u63a7\u4e0e\u975e\u53d7\u63a7\u6a21\u5f0f\u6982\u5ff5\u3001\u4e0b\u62c9\u83dc\u5355\u6eda\u52a8\u8ddf\u968f(updateAtScroll)\u3001\u865a\u62df\u5217\u8868\u4f7f\u7528(vue-virtual-scroller, itemSize/minItemSize)\u3002",
+      "confidence_score": 0.95,
+      "community": 4,
+      "norm_label": "faq",
+      "id": "guides_faq"
+    },
+    {
+      "label": "Naive UI Migration",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/guides/naive-ui-migration.mdx",
+      "category": "guide",
+      "description": "Naive UI\u8fc1\u79fb\u6307\u5357\u3002\u5f53\u524d\u6db5\u76d6Ellipsis\u7ec4\u4ef6\u8fc1\u79fb(NEllipsis->sd-ellipsis, NPerformantEllipsis->sd-performant-ellipsis)\uff0c\u5305\u62ec\u5bf9\u5e94\u5173\u7cfb\u3001\u5dee\u5f02\u8bf4\u660e\u3001\u8fc1\u79fb\u793a\u4f8b\u548c\u5efa\u8bae\u987a\u5e8f\u3002",
+      "confidence_score": 0.95,
+      "community": 4,
+      "norm_label": "naive ui migration",
+      "id": "guides_naive_ui_migration"
+    },
+    {
+      "label": "Getting Started",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/guides/start.mdx",
+      "category": "guide",
+      "description": "\u5feb\u901f\u4e0a\u624b\u6307\u5357\u3002Vue >= 3.2.0\uff0cnpm\u5305\u540d@sdata/web-vue\u3002\u652f\u6301\u5b8c\u6574\u5f15\u5165\u548c\u6309\u9700\u52a0\u8f7d(unplugin-vue-components + @sdata/web-vue-auto-import-resolver)\u3002\u5168\u5c40\u914d\u7f6ecomponentPrefix\u3002\u6d4f\u89c8\u5668\u517c\u5bb9chrome>=120\u7b49\u3002",
+      "confidence_score": 0.95,
+      "community": 63,
+      "norm_label": "getting started",
+      "id": "guides_start"
+    },
+    {
+      "label": "Docs Index",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/index.mdx",
+      "category": "page",
+      "description": "\u6587\u6863\u7ad9\u9996\u9875\uff0c\u4f7f\u7528splash\u6a21\u677f\uff0c\u5f15\u5165HomeLanding Astro\u7ec4\u4ef6\u3002",
+      "confidence_score": 0.95,
+      "community": 61,
+      "norm_label": "docs index",
+      "id": "docs_index"
+    },
+    {
+      "label": "LLMs.txt Documentation",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/llms_txt.mdx",
+      "category": "page",
+      "description": "\u9762\u5411\u5927\u8bed\u8a00\u6a21\u578b\u7684\u6587\u6863\u5165\u53e3\u8bf4\u660e\u3002\u63d0\u4f9b\u4e09\u7c7b\u5165\u53e3\uff1a/llms/llms.txt(\u8f7b\u91cf\u7d22\u5f15)\u3001/llms/llms-full.txt(\u5b8c\u6574\u805a\u5408)\u3001/llms/components/[slug].md(\u7ec4\u4ef6\u7ea7)\u3002\u5305\u542b\u63a8\u8350\u7528\u6cd5\u3001\u63d0\u793a\u8bcd\u793a\u4f8b\u548cRAG\u5efa\u8bae\u3002",
+      "confidence_score": 0.95,
+      "community": 19,
+      "norm_label": "llms.txt documentation",
+      "id": "docs_llms_txt"
+    },
+    {
+      "label": "Controlled/Uncontrolled Pattern",
+      "file_type": "concept",
+      "category": "pattern",
+      "description": "SD Design Vue\u7684\u53d7\u63a7\u4e0e\u975e\u53d7\u63a7\u6a21\u5f0f\u3002\u53d7\u63a7\u6a21\u5f0f\u901a\u8fc7v-model\u6216change\u4e8b\u4ef6\u540c\u6b65\u503c\uff1b\u975e\u53d7\u63a7\u6a21\u5f0f\u901a\u8fc7default-*\u5c5e\u6027\u8bbe\u7f6e\u521d\u59cb\u503c\u3002default-*\u7c7b\u5c5e\u6027\u4e0e\u53d7\u63a7\u503c\u540c\u65f6\u4f7f\u7528\u65f6\u53d7\u63a7\u503c\u4f18\u5148\u3002",
+      "confidence_score": 0.9,
+      "community": 4,
+      "norm_label": "controlled/uncontrolled pattern",
+      "id": "concept_controlled_uncontrolled"
+    },
+    {
+      "label": "Virtual List",
+      "file_type": "concept",
+      "category": "feature",
+      "description": "\u865a\u62df\u5217\u8868\u80fd\u529b\uff0c\u57fa\u4e8evue-virtual-scroller\u3002\u652f\u6301\u7ec4\u4ef6\uff1aList\u3001Select\u3001Tree\u53ca\u590d\u7528\u5b83\u4eec\u7684AutoComplete\u3001Cascader\u3001TreeSelect\u3002\u5206\u56fa\u5b9a\u9ad8\u5ea6(itemSize/RecycleScroller)\u548c\u52a8\u6001\u9ad8\u5ea6(minItemSize/DynamicScroller)\u4e24\u79cd\u6a21\u5f0f\u3002",
+      "confidence_score": 0.9,
+      "community": 4,
+      "norm_label": "virtual list",
+      "id": "concept_virtual_list"
+    },
+    {
+      "label": "Naive UI Migration",
+      "file_type": "concept",
+      "category": "migration",
+      "description": "\u4eceNaive UI\u8fc1\u79fb\u5230SD Design Vue\u7684\u8fc7\u7a0b\u3002\u5f53\u524d\u5df2\u8fc1\u79fbEllipsis\u7ec4\u4ef6\u3002TreeSelect\u4e5f\u4fdd\u7559Naive UI\u517c\u5bb9\u522b\u540d(options, filterable, clearable, checkable\u7b49)\u3002",
+      "confidence_score": 0.85,
+      "community": 4,
+      "norm_label": "naive ui migration",
+      "id": "concept_naive_ui_migration"
+    },
+    {
+      "label": "Arco Design Migration",
+      "file_type": "concept",
+      "category": "migration",
+      "description": "\u4eceArco Design Vue\u8fc1\u79fb\u5230SD Design Vue\u3002TreeSelect\u6587\u6863\u5305\u542bArco\u8fc1\u79fb\u6307\u5357\uff0cAPI\u547d\u540d\u5927\u90e8\u5206\u4fdd\u6301\u4e00\u81f4(a-tree-select->sd-tree-select)\u3002",
+      "confidence_score": 0.85,
+      "community": 4,
+      "norm_label": "arco design migration",
+      "id": "concept_arco_design_migration"
+    },
+    {
+      "label": "LLMs.txt Standard",
+      "file_type": "concept",
+      "category": "feature",
+      "description": "\u9762\u5411LLM\u7684\u6587\u6863\u6807\u51c6\u3002SD Design Vue\u5b9e\u73b0\u4e86llms.txt(\u8f7b\u91cf\u7d22\u5f15)\u3001llms-full.txt(\u5b8c\u6574\u805a\u5408)\u548c\u7ec4\u4ef6\u7ea7Markdown\u4e09\u79cd\u5165\u53e3\uff0c\u7528\u4e8eAI\u52a9\u624b\u3001RAG\u3001\u4ee3\u7801\u4ee3\u7406\u7b49\u573a\u666f\u3002",
+      "confidence_score": 0.9,
+      "community": 19,
+      "norm_label": "llms.txt standard",
+      "id": "concept_llms_txt_standard"
+    },
+    {
+      "label": "OverlayScrollbars",
+      "type": "library",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/scrollbar/index.mdx",
+      "description": "\u7b2c\u4e09\u65b9\u6eda\u52a8\u6761\u589e\u5f3a\u5e93\uff0cScrollbar \u7ec4\u4ef6\u57fa\u4e8e\u5b83\u5b9e\u73b0\u3002\u63d0\u4f9b paddingAbsolute\u3001overflow\u3001scrollbars \u7b49\u914d\u7f6e\u9879\uff0c\u4ee5\u53ca initialized/updated/destroyed/scroll \u7b49\u4e8b\u4ef6\u3002",
+      "confidence_score": 0.95,
+      "tags": [
+        "third-party",
+        "scrollbar"
+      ],
+      "community": 73,
+      "norm_label": "overlayscrollbars",
+      "id": "scrollbar_index_overlayscrollbars"
+    },
+    {
+      "label": "Select Arco Design Migration",
+      "type": "concept",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/select/index.mdx",
+      "description": "\u4ece Arco Design Vue \u8fc1\u79fb Select \u7684\u6307\u5357\u3002\u4e3b\u8981\u5dee\u5f02\uff1a\u79fb\u9664\u4e86 sd-option/sd-optgroup \u5b50\u7ec4\u4ef6\uff0c\u9009\u9879\u7edf\u4e00\u901a\u8fc7 :options prop \u4f20\u5165\uff1b\u5bf9\u5916 render function \u5df2\u79fb\u9664\uff0c\u7edf\u4e00\u4f7f\u7528\u63d2\u69fd\u3002",
+      "confidence_score": 0.95,
+      "tags": [
+        "migration",
+        "arco-design"
+      ],
+      "community": 74,
+      "norm_label": "select arco design migration",
+      "id": "select_index_migration_arco"
+    },
+    {
+      "label": "Select Naive UI Migration",
+      "type": "concept",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/select/index.mdx",
+      "description": "\u4ece Naive UI \u8fc1\u79fb Select \u7684\u6307\u5357\u3002filterable\u2192allow-search, clearable\u2192allow-clear, render-tag\u2192#tag \u63d2\u69fd, v-model:value \u517c\u5bb9\u3002",
+      "confidence_score": 0.95,
+      "tags": [
+        "migration",
+        "naive-ui"
+      ],
+      "community": 75,
+      "norm_label": "select naive ui migration",
+      "id": "select_index_migration_naive"
+    },
+    {
+      "label": "SelectOptionData",
+      "type": "interface",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/select/index.mdx",
+      "description": "Select \u9009\u9879\u6570\u636e\u7c7b\u578b\uff0c\u5305\u542b value/label/disabled/tagProps \u5b57\u6bb5\u3002",
+      "confidence_score": 0.95,
+      "tags": [
+        "type",
+        "select"
+      ],
+      "community": 76,
+      "norm_label": "selectoptiondata",
+      "id": "select_index_selectoptiondata"
+    },
+    {
+      "label": "VirtualListProps",
+      "type": "interface",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/select/index.mdx",
+      "description": "\u865a\u62df\u5217\u8868\u914d\u7f6e\uff0c\u5305\u542b items/keyField/itemSize(\u56fa\u5b9a\u9ad8\u5ea6)/minItemSize(\u52a8\u6001\u9ad8\u5ea6)/buffer \u5b57\u6bb5\u3002Select/AutoComplete/Cascader \u5747\u901a\u8fc7 virtual-list-props \u652f\u6301\u865a\u62df\u6eda\u52a8\u3002",
+      "confidence_score": 0.95,
+      "tags": [
+        "virtual-list",
+        "performance"
+      ],
+      "community": 77,
+      "norm_label": "virtuallistprops",
+      "id": "select_index_virtuallistprops"
+    },
+    {
+      "label": "CascaderPanel",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/cascader/index.mdx",
+      "description": "\u7ea7\u8054\u9009\u62e9\u9762\u677f\uff0c\u53ef\u5355\u72ec\u4f5c\u4e3a\u8def\u5f84\u9762\u677f\u4f7f\u7528\uff0c\u9002\u5408\u8be6\u60c5\u9875\u6216\u7ec4\u5408\u5f0f\u8868\u5355\u5e03\u5c40\u3002",
+      "confidence_score": 0.95,
+      "tags": [
+        "form",
+        "cascader",
+        "panel"
+      ],
+      "community": 28,
+      "norm_label": "cascaderpanel",
+      "id": "cascader_index_cascaderpanel"
+    },
+    {
+      "label": "Cascader Naive UI Migration",
+      "type": "concept",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/cascader/index.mdx",
+      "description": "\u4ece Naive UI \u8fc1\u79fb Cascader \u7684\u6307\u5357\u3002\u4fdd\u7559 value/show/filterable/clearable \u517c\u5bb9\u522b\u540d\uff0crender-label\u2192format-label/#label/#option \u63d2\u69fd\u3002",
+      "confidence_score": 0.95,
+      "tags": [
+        "migration",
+        "naive-ui"
+      ],
+      "community": 29,
+      "norm_label": "cascader naive ui migration",
+      "id": "cascader_index_migration_naive"
+    },
+    {
+      "label": "CascaderOption",
+      "type": "interface",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/cascader/index.mdx",
+      "description": "\u7ea7\u8054\u9009\u9879\u6570\u636e\u7c7b\u578b\uff0c\u5305\u542b value/label/disabled/tagProps/children/isLeaf \u5b57\u6bb5\u3002",
+      "confidence_score": 0.95,
+      "tags": [
+        "type",
+        "cascader"
+      ],
+      "community": 27,
+      "norm_label": "cascaderoption",
+      "id": "cascader_index_cascaderoption"
+    },
+    {
+      "label": "ColorPicker Migration",
+      "type": "concept",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/color-picker/index.mdx",
+      "description": "ColorPicker \u65e7\u7248\u8fc1\u79fb\u8bf4\u660e\u3002history-colors\u2192recent-colors, preset-colors\u2192swatch-colors, disabled-alpha\u2192enable-alpha\u3002",
+      "confidence_score": 0.95,
+      "tags": [
+        "migration"
+      ],
+      "community": 33,
+      "norm_label": "colorpicker migration",
+      "id": "color_picker_index_migration"
+    },
+    {
+      "label": "cropperjs",
+      "type": "library",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/cropper/index.mdx",
+      "description": "\u5e95\u5c42\u56fe\u7247\u88c1\u526a\u5e93\uff0cCropper \u7ec4\u4ef6\u57fa\u4e8e\u5b83\u5c01\u88c5\u3002\u63d0\u4f9b CropperCanvas/CropperImage/CropperSelection \u7b49\u81ea\u5b9a\u4e49\u5143\u7d20\u3002",
+      "confidence_score": 0.9,
+      "tags": [
+        "third-party",
+        "cropper"
+      ],
+      "community": 55,
+      "norm_label": "cropperjs",
+      "id": "cropper_index_cropperjs"
+    },
+    {
+      "label": "RangePicker",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/date-picker/index.mdx",
+      "description": "\u8303\u56f4\u65e5\u671f\u9009\u62e9\u5668\uff0c\u652f\u6301 date/year/quarter/month/week \u6a21\u5f0f\u3002\u5305\u542b exchange-time(\u65f6\u95f4\u4ea4\u6362)\u3001separator(\u5206\u9694\u7b26)\u7b49\u7279\u6027\u3002",
+      "confidence_score": 0.95,
+      "tags": [
+        "form",
+        "date-range",
+        "picker"
+      ],
+      "community": 58,
+      "norm_label": "rangepicker",
+      "id": "date_picker_index_rangepicker"
+    },
+    {
+      "label": "ShortcutType",
+      "type": "interface",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/date-picker/index.mdx",
+      "description": "\u65e5\u671f\u9009\u62e9\u5668\u5feb\u6377\u9009\u9879\u7c7b\u578b\uff0c\u5305\u542b label/value/format \u5b57\u6bb5\u3002",
+      "confidence_score": 0.95,
+      "tags": [
+        "type",
+        "date-picker"
+      ],
+      "community": 59,
+      "norm_label": "shortcuttype",
+      "id": "date_picker_index_shortcuttype"
+    },
+    {
+      "label": "DescriptionsItem",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/descriptions/index.mdx",
+      "description": "\u63cf\u8ff0\u5217\u8868\u9879\uff0c\u652f\u6301 span(\u6240\u5360\u5217\u6570)\u548c label \u5c5e\u6027\u3002",
+      "confidence_score": 0.95,
+      "tags": [
+        "display",
+        "descriptions"
+      ],
+      "community": 60,
+      "norm_label": "descriptionsitem",
+      "id": "descriptions_index_descriptionsitem"
+    },
+    {
+      "label": "Trigger",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/select/index.mdx",
+      "description": "\u5f39\u51fa\u89e6\u53d1\u5668\u7ec4\u4ef6\uff0c\u88ab Select/AutoComplete/Cascader/ColorPicker/DatePicker \u7b49\u7ec4\u4ef6\u5185\u90e8\u590d\u7528\uff0c\u901a\u8fc7 trigger-props \u900f\u4f20\u914d\u7f6e\u3002\u652f\u6301 updateAtScroll \u89e3\u51b3\u6eda\u52a8\u5bb9\u5668\u4e2d\u4e0b\u62c9\u83dc\u5355\u5206\u79bb\u95ee\u9898\u3002",
+      "confidence_score": 0.85,
+      "tags": [
+        "internal",
+        "popup",
+        "trigger"
+      ],
+      "community": 31,
+      "norm_label": "trigger",
+      "id": "chunk_082_trigger_component"
+    },
+    {
+      "label": "SelectView",
+      "type": "component",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/select/index.mdx",
+      "description": "\u9009\u62e9\u5668\u89c6\u56fe\u7ec4\u4ef6\uff0c\u88ab Select/Cascader \u7b49\u7ec4\u4ef6\u5185\u90e8\u590d\u7528\uff0c\u5904\u7406\u9009\u62e9\u6846\u5c55\u793a\u903b\u8f91\u3002",
+      "confidence_score": 0.8,
+      "tags": [
+        "internal",
+        "select"
+      ],
+      "community": 30,
+      "norm_label": "selectview",
+      "id": "chunk_082_selectview"
+    },
+    {
+      "label": "Virtual List Migration Guide",
+      "type": "concept",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/select/index.mdx",
+      "description": "\u865a\u62df\u5217\u8868\u8fc1\u79fb\u6307\u5357\u3002Select/AutoComplete/Cascader \u9ed8\u8ba4\u6309 36px \u56fa\u5b9a\u9ad8\u5ea6\u5904\u7406\uff0c\u4f20 itemSize \u6307\u5b9a\u56fa\u5b9a\u9ad8\u5ea6\uff0c\u4f20 minItemSize \u5207\u5230\u52a8\u6001\u9ad8\u5ea6\u6a21\u5f0f\u3002",
+      "confidence_score": 0.9,
+      "tags": [
+        "migration",
+        "virtual-list",
+        "performance"
+      ],
+      "community": 32,
+      "norm_label": "virtual list migration guide",
+      "id": "chunk_082_virtual_list_migration"
+    },
+    {
+      "type": "document",
+      "label": "Anchor Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/anchor/index.mdx",
+      "metadata": {
+        "title": "\u951a\u70b9 Anchor",
+        "description": "\u901a\u8fc7\u951a\u70b9\u53ef\u5feb\u901f\u627e\u5230\u4fe1\u606f\u5185\u5bb9\u5728\u5f53\u524d\u9875\u9762\u7684\u4f4d\u7f6e\u3002",
+        "subcomponents": [
+          "anchor",
+          "anchor-link"
+        ],
+        "demos": [
+          "affix",
+          "basic",
+          "boundary",
+          "hash",
+          "line-less"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "anchor component docs",
+      "id": "anchor_index"
+    },
+    {
+      "type": "concept",
+      "label": "anchor component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/anchor/index.mdx",
+      "metadata": {
+        "props": [
+          "boundary",
+          "line-less",
+          "scroll-container",
+          "change-hash",
+          "smooth"
+        ],
+        "events": [
+          "select",
+          "change"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "anchor component",
+      "id": "anchor_anchor_component"
+    },
+    {
+      "type": "concept",
+      "label": "anchor-link component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/anchor/index.mdx",
+      "metadata": {
+        "props": [
+          "title",
+          "href"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "anchor-link component",
+      "id": "anchor_anchor_link_component"
+    },
+    {
+      "type": "document",
+      "label": "BackTop Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/back-top/index.mdx",
+      "metadata": {
+        "title": "\u8fd4\u56de\u9876\u90e8 BackTop",
+        "description": "\u53ef\u4e00\u952e\u8fd4\u56de\u9876\u90e8\u7684\u6309\u94ae\u3002",
+        "demos": [
+          "basic",
+          "custom"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "backtop component docs",
+      "id": "back_top_index"
+    },
+    {
+      "type": "concept",
+      "label": "back-top component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/back-top/index.mdx",
+      "metadata": {
+        "props": [
+          "visible-height",
+          "target-container",
+          "easing",
+          "duration"
+        ],
+        "dependency": "b-tween"
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "back-top component",
+      "id": "back_top_back_top_component"
+    },
+    {
+      "type": "document",
+      "label": "Calendar Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/calendar/index.mdx",
+      "metadata": {
+        "title": "\u65e5\u5386 Calendar",
+        "description": "\u529f\u80fd\u5b8c\u6574\u7684\u65e5\u5386\u7ec4\u4ef6\uff0c\u652f\u6301\u65e5\u3001\u5468\u3001\u6708\u3001\u5e74\u7b49\u591a\u79cd\u89c6\u56fe\uff0c\u652f\u6301\u4e8b\u4ef6\u7ba1\u7406\u3001\u65f6\u95f4\u7f51\u683c\u3001\u6392\u73ed\u7cfb\u7edf\u548c\u4e30\u5bcc\u7684\u81ea\u5b9a\u4e49\u63d2\u69fd\u3002",
+        "demos": [
+          "basic",
+          "views",
+          "date-picker",
+          "schedules",
+          "stack-events",
+          "custom-event",
+          "view-layout",
+          "date-time",
+          "events-display",
+          "events-interactions",
+          "customization",
+          "dom-events",
+          "schedules-demo"
+        ],
+        "migrated_from": "vue-cal"
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "calendar component docs",
+      "id": "calendar_index"
+    },
+    {
+      "type": "concept",
+      "label": "calendar component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/calendar/index.mdx",
+      "metadata": {
+        "props": [
+          "view",
+          "view-date",
+          "views",
+          "events",
+          "schedules",
+          "special-hours",
+          "editable-events",
+          "stack-events",
+          "time",
+          "time-from",
+          "time-to",
+          "time-step",
+          "locale",
+          "sm",
+          "xs",
+          "horizontal",
+          "date-picker"
+        ],
+        "v_model": [
+          "events",
+          "view",
+          "viewDate",
+          "selectedDate"
+        ],
+        "view_methods": [
+          "previous",
+          "next",
+          "goToToday",
+          "switch",
+          "scrollToCurrentTime",
+          "scrollToTime",
+          "createEvent",
+          "deleteEvent"
+        ],
+        "features": [
+          "event CRUD",
+          "drag-and-drop",
+          "resize",
+          "schedules",
+          "special-hours",
+          "slots"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "calendar component",
+      "id": "calendar_calendar_component"
+    },
+    {
+      "type": "concept",
+      "label": "Calendar Event System",
+      "file": "packages/sd-vue-docs/src/content/docs/components/calendar/index.mdx",
+      "metadata": {
+        "event_types": [
+          "foreground",
+          "background",
+          "allDay",
+          "multiDay",
+          "untimed"
+        ],
+        "event_props": [
+          "start",
+          "end",
+          "title",
+          "content",
+          "class",
+          "backgroundColor",
+          "color",
+          "background",
+          "allDay",
+          "schedule",
+          "deletable",
+          "draggable",
+          "resizable"
+        ],
+        "editable_events_config": [
+          "create",
+          "resize",
+          "resizeX",
+          "drag",
+          "delete"
+        ]
+      },
+      "confidence_score": 0.93,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "calendar event system",
+      "id": "calendar_event_system"
+    },
+    {
+      "type": "concept",
+      "label": "Calendar Schedule (Resource Columns)",
+      "file": "packages/sd-vue-docs/src/content/docs/components/calendar/index.mdx",
+      "metadata": {
+        "schedule_structure": "{ id, label, class }",
+        "css_vars": [
+          "--sd-calendar-min-cell-size",
+          "--sd-calendar-min-schedule-size"
+        ]
+      },
+      "confidence_score": 0.93,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "calendar schedule (resource columns)",
+      "id": "calendar_schedule_system"
+    },
+    {
+      "type": "document",
+      "label": "Copy Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/copy/index.mdx",
+      "metadata": {
+        "title": "\u590d\u5236 Copy",
+        "description": "\u901a\u8fc7\u94fe\u63a5\u6216\u6309\u94ae\u89e6\u53d1\u590d\u5236\u64cd\u4f5c\u3002",
+        "demos": [
+          "basic",
+          "button",
+          "tooltip",
+          "icon"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "copy component docs",
+      "id": "copy_index"
+    },
+    {
+      "type": "concept",
+      "label": "copy component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/copy/index.mdx",
+      "metadata": {
+        "props": [
+          "content",
+          "tooltip",
+          "tooltip-props",
+          "component",
+          "text-inherit",
+          "success-message"
+        ],
+        "events": [
+          "copy"
+        ],
+        "slots": [
+          "default",
+          "icon"
+        ],
+        "passthrough": [
+          "Link (component=link)",
+          "Button (component=button)"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "copy component",
+      "id": "copy_copy_component"
+    },
+    {
+      "type": "document",
+      "label": "Ellipsis Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/ellipsis/index.mdx",
+      "metadata": {
+        "title": "\u6587\u672c\u7701\u7565 Ellipsis",
+        "description": "\u5728\u6709\u9650\u7a7a\u95f4\u5185\u5c55\u793a\u8f83\u957f\u6587\u672c\uff0c\u5e76\u5728\u5185\u5bb9\u88ab\u622a\u65ad\u65f6\u63d0\u4f9b\u63d0\u793a\u6216\u5c55\u5f00\u80fd\u529b\u3002",
+        "demos": [
+          "basic",
+          "line-clamp",
+          "expand-trigger",
+          "custom-tooltip",
+          "performant-ellipsis"
+        ],
+        "migration_from": "naive-ui"
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "ellipsis component docs",
+      "id": "ellipsis_index"
+    },
+    {
+      "type": "concept",
+      "label": "ellipsis component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/ellipsis/index.mdx",
+      "metadata": {
+        "props": [
+          "line-clamp",
+          "expand-trigger",
+          "tooltip"
+        ],
+        "slots": [
+          "default",
+          "tooltip"
+        ],
+        "variants": [
+          "sd-ellipsis",
+          "sd-performant-ellipsis"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "ellipsis component",
+      "id": "ellipsis_ellipsis_component"
+    },
+    {
+      "type": "concept",
+      "label": "form component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/form/index.mdx",
+      "metadata": {
+        "props": [
+          "model",
+          "layout",
+          "size",
+          "label-col-props",
+          "wrapper-col-props",
+          "label-align",
+          "disabled",
+          "rules",
+          "auto-label-width",
+          "scroll-to-first-error"
+        ],
+        "events": [
+          "submit",
+          "submit-success",
+          "submit-failed"
+        ],
+        "methods": [
+          "validate",
+          "validateField",
+          "resetFields",
+          "clearValidate",
+          "setFields",
+          "scrollToField"
+        ],
+        "layouts": [
+          "horizontal",
+          "vertical",
+          "inline"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "form component",
+      "id": "form_form_component"
+    },
+    {
+      "type": "concept",
+      "label": "form-item component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/form/index.mdx",
+      "metadata": {
+        "props": [
+          "field",
+          "label",
+          "tooltip",
+          "show-colon",
+          "no-style",
+          "disabled",
+          "help",
+          "extra",
+          "required",
+          "asterisk-position",
+          "rules",
+          "validate-status",
+          "validate-trigger",
+          "hide-label",
+          "hide-asterisk",
+          "feedback",
+          "label-component",
+          "label-col-flex",
+          "merge-props",
+          "content-flex"
+        ],
+        "slots": [
+          "label",
+          "help",
+          "extra"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "form-item component",
+      "id": "form_form_item_component"
+    },
+    {
+      "type": "concept",
+      "label": "useFormItem composable",
+      "file": "packages/sd-vue-docs/src/content/docs/components/form/index.mdx",
+      "metadata": {
+        "returns": [
+          "mergedSize",
+          "mergedDisabled",
+          "mergedError",
+          "feedback",
+          "eventHandlers"
+        ],
+        "purpose": "\u81ea\u5b9a\u4e49\u8868\u5355\u7ec4\u4ef6\u63a5\u5165\u8868\u5355\u4f53\u7cfb"
+      },
+      "confidence_score": 0.93,
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "useformitem composable",
+      "id": "form_use_form_item"
+    },
+    {
+      "type": "concept",
+      "label": "FieldRule type",
+      "file": "packages/sd-vue-docs/src/content/docs/components/form/index.mdx",
+      "metadata": {
+        "type_validators": [
+          "string",
+          "number",
+          "boolean",
+          "array",
+          "object",
+          "email",
+          "url",
+          "ip"
+        ],
+        "props": [
+          "type",
+          "required",
+          "message",
+          "length",
+          "maxLength",
+          "minLength",
+          "match",
+          "min",
+          "max",
+          "equal",
+          "validator"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "fieldrule type",
+      "id": "form_field_rule"
+    },
+    {
+      "type": "document",
+      "label": "Layout Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/layout/index.mdx",
+      "metadata": {
+        "title": "\u5e03\u5c40 Layout",
+        "description": "\u9875\u9762\u7684\u57fa\u7840\u5e03\u5c40\u6846\u67b6\uff0c\u5e38\u4e0e\u7ec4\u4ef6\u5d4c\u5957\u4f7f\u7528\uff0c\u6784\u5efa\u9875\u9762\u6574\u4f53\u5e03\u5c40\u3002",
+        "subcomponents": [
+          "layout",
+          "layout-header",
+          "layout-content",
+          "layout-footer",
+          "layout-sider"
+        ],
+        "demos": [
+          "basic",
+          "app-bar",
+          "breakpoint",
+          "collapsed",
+          "custom-icon",
+          "resize",
+          "scroll-behavior",
+          "navigation-drawer"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "layout component docs",
+      "id": "layout_index"
+    },
+    {
+      "type": "concept",
+      "label": "layout component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/layout/index.mdx",
+      "metadata": {
+        "props": [
+          "has-sider"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "layout component",
+      "id": "layout_layout_component"
+    },
+    {
+      "type": "concept",
+      "label": "layout-header component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/layout/index.mdx",
+      "metadata": {
+        "props": [
+          "title",
+          "image",
+          "height",
+          "density",
+          "extended",
+          "extension-height",
+          "collapse",
+          "flat",
+          "floating",
+          "fixed",
+          "sticky",
+          "absolute",
+          "location",
+          "scroll-behavior",
+          "scroll-target",
+          "scroll-threshold"
+        ],
+        "slots": [
+          "image",
+          "prepend",
+          "title",
+          "default",
+          "append",
+          "extension"
+        ],
+        "scroll_behaviors": [
+          "hide",
+          "fully-hide",
+          "inverted",
+          "collapse",
+          "elevate",
+          "fade-image"
+        ],
+        "density_options": [
+          "default",
+          "prominent",
+          "comfortable",
+          "compact"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "layout-header component",
+      "id": "layout_layout_header_component"
+    },
+    {
+      "type": "concept",
+      "label": "layout-sider component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/layout/index.mdx",
+      "metadata": {
+        "props": [
+          "theme",
+          "collapsed",
+          "collapsible",
+          "rail",
+          "rail-width",
+          "expand-on-hover",
+          "width",
+          "collapsed-width",
+          "temporary",
+          "permanent",
+          "persistent",
+          "mask",
+          "mask-closable",
+          "esc-to-close",
+          "location",
+          "floating",
+          "sticky",
+          "breakpoint",
+          "resize-directions",
+          "hide-trigger"
+        ],
+        "events": [
+          "collapse",
+          "breakpoint",
+          "update:modelValue",
+          "update:rail"
+        ],
+        "slots": [
+          "image",
+          "prepend",
+          "append",
+          "trigger"
+        ],
+        "modes": [
+          "navigation-drawer",
+          "rail",
+          "temporary",
+          "floating"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "layout-sider component",
+      "id": "layout_layout_sider_component"
+    },
+    {
+      "type": "document",
+      "label": "Mention Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/mention/index.mdx",
+      "metadata": {
+        "title": "\u63d0\u53ca Mention",
+        "description": "\u7528\u4e8e\u5728\u8f93\u5165\u4e2d\u63d0\u53ca\u67d0\u4eba\u6216\u67d0\u4e8b\uff0c\u5e38\u7528\u4e8e\u53d1\u5e03\u3001\u804a\u5929\u6216\u8bc4\u8bba\u529f\u80fd\u3002",
+        "demos": [
+          "basic",
+          "prefix"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "mention component docs",
+      "id": "mention_index"
+    },
+    {
+      "type": "concept",
+      "label": "mention component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/mention/index.mdx",
+      "metadata": {
+        "props": [
+          "model-value",
+          "data",
+          "prefix",
+          "split",
+          "type",
+          "disabled",
+          "allow-clear"
+        ],
+        "events": [
+          "change",
+          "search",
+          "select",
+          "clear",
+          "focus",
+          "blur"
+        ],
+        "methods": [
+          "focus",
+          "blur"
+        ],
+        "slots": [
+          "option"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "mention component",
+      "id": "mention_mention_component"
+    },
+    {
+      "type": "document",
+      "label": "Menu Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/menu/index.mdx",
+      "metadata": {
+        "title": "\u83dc\u5355 Menu",
+        "description": "\u6536\u7eb3\u3001\u6392\u5217\u5e76\u5c55\u793a\u4e00\u7cfb\u5217\u9009\u9879\u7684\u5217\u8868\u3002",
+        "subcomponents": [
+          "menu",
+          "sub-menu",
+          "menu-item",
+          "menu-item-group"
+        ],
+        "demos": [
+          "breakpoint",
+          "collapse-control",
+          "dark-horizontal",
+          "ellipsis",
+          "horizontal",
+          "pop-button",
+          "pop",
+          "size",
+          "sub-menu"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "menu component docs",
+      "id": "menu_index"
+    },
+    {
+      "type": "concept",
+      "label": "menu component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/menu/index.mdx",
+      "metadata": {
+        "props": [
+          "theme",
+          "mode",
+          "level-indent",
+          "auto-open",
+          "collapsed",
+          "collapsed-width",
+          "accordion",
+          "selected-keys",
+          "open-keys",
+          "trigger-props",
+          "tooltip-props",
+          "ellipsis",
+          "ellipsis-props",
+          "breakpoint"
+        ],
+        "events": [
+          "collapse",
+          "menu-item-click",
+          "sub-menu-click"
+        ],
+        "slots": [
+          "collapse-icon",
+          "expand-icon-right",
+          "expand-icon-down"
+        ],
+        "modes": [
+          "vertical",
+          "horizontal",
+          "pop",
+          "popButton"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "menu component",
+      "id": "menu_menu_component"
+    },
+    {
+      "type": "concept",
+      "label": "sub-menu component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/menu/index.mdx",
+      "metadata": {
+        "props": [
+          "title",
+          "selectable",
+          "popup",
+          "popup-max-height"
+        ],
+        "slots": [
+          "title",
+          "expand-icon-right",
+          "expand-icon-down",
+          "icon"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "sub-menu component",
+      "id": "menu_sub_menu_component"
+    },
+    {
+      "type": "concept",
+      "label": "menu-item component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/menu/index.mdx",
+      "metadata": {
+        "props": [
+          "disabled"
+        ],
+        "slots": [
+          "icon"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "menu-item component",
+      "id": "menu_menu_item_component"
+    },
+    {
+      "type": "document",
+      "label": "Statistic Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/statistic/index.mdx",
+      "metadata": {
+        "title": "\u6570\u503c\u663e\u793a Statistic",
+        "description": "\u7a81\u51fa\u5c55\u793a\u67d0\u4e2a\u6216\u67d0\u7ec4\u6570\u5b57\u3001\u5e26\u63cf\u8ff0\u7684\u7edf\u8ba1\u7c7b\u6570\u636e\u3002",
+        "subcomponents": [
+          "statistic",
+          "countdown"
+        ],
+        "demos": [
+          "animation",
+          "basic",
+          "countdown",
+          "prefix"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "statistic component docs",
+      "id": "statistic_index"
+    },
+    {
+      "type": "concept",
+      "label": "statistic component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/statistic/index.mdx",
+      "metadata": {
+        "props": [
+          "title",
+          "value",
+          "format",
+          "extra",
+          "start",
+          "precision",
+          "separator",
+          "show-group-separator",
+          "animation",
+          "animation-duration",
+          "value-from",
+          "placeholder",
+          "value-style"
+        ],
+        "slots": [
+          "title",
+          "prefix",
+          "suffix",
+          "extra"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "statistic component",
+      "id": "statistic_statistic_component"
+    },
+    {
+      "type": "concept",
+      "label": "countdown component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/statistic/index.mdx",
+      "metadata": {
+        "props": [
+          "title",
+          "value",
+          "now",
+          "format",
+          "start",
+          "value-style"
+        ],
+        "events": [
+          "finish"
+        ],
+        "slots": [
+          "title"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "countdown component",
+      "id": "statistic_countdown_component"
+    },
+    {
+      "type": "document",
+      "label": "Tour Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tour/index.mdx",
+      "metadata": {
+        "title": "\u6f2b\u6e38\u5f0f\u5f15\u5bfc Tour",
+        "description": "\u7ec4\u4ef6\u5e93\u5185\u7f6e\u5b9e\u73b0\u7684\u9875\u9762\u5bfc\u89c8\u7ec4\u4ef6\uff0c\u652f\u6301\u63d2\u69fd\u3001\u7ec4\u4ef6\u5316\u6309\u94ae\u548c\u9876\u5c42\u914d\u7f6e\u5b9a\u5236\u3002",
+        "demos": [
+          "basic",
+          "buttons",
+          "controlled",
+          "non-modal"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "tour component docs",
+      "id": "tour_index"
+    },
+    {
+      "type": "concept",
+      "label": "tour component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tour/index.mdx",
+      "metadata": {
+        "props": [
+          "visible",
+          "current",
+          "steps",
+          "z-index",
+          "animate",
+          "allow-close",
+          "allow-keyboard-control",
+          "overlay-click-behavior",
+          "overlay-opacity",
+          "overlay-color",
+          "smooth-scroll",
+          "show-progress",
+          "show-buttons",
+          "button-props",
+          "prev-btn-text",
+          "next-btn-text",
+          "done-btn-text"
+        ],
+        "events": [
+          "update:visible",
+          "visible-change",
+          "update:current",
+          "change",
+          "close"
+        ],
+        "exposes": [
+          "drive",
+          "moveNext",
+          "movePrevious",
+          "moveTo",
+          "highlight",
+          "destroy",
+          "refresh",
+          "isActive",
+          "getController",
+          "getState"
+        ],
+        "slots": [
+          "title",
+          "description",
+          "progress",
+          "footer",
+          "previous-button",
+          "next-button",
+          "close-button"
+        ],
+        "hooks": [
+          "on-highlight-started",
+          "on-highlighted",
+          "on-deselected",
+          "on-destroyed",
+          "on-destroy-started",
+          "on-popover-render",
+          "on-next-click",
+          "on-prev-click",
+          "on-close-click"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "tour component",
+      "id": "tour_tour_component"
+    },
+    {
+      "type": "document",
+      "label": "Trigger Component Docs",
+      "file": "packages/sd-vue-docs/src/content/docs/components/trigger/index.mdx",
+      "metadata": {
+        "title": "\u89e6\u53d1\u5668 Trigger",
+        "description": "\u7528\u4e8e\u5bf9\u5143\u7d20\u6dfb\u52a0 hover, click, focus \u7b49\u4e8b\u4ef6\uff0c\u5e76\u4e14\u5f39\u51fa\u4e0b\u62c9\u6846\u3002",
+        "demos": [
+          "align-point",
+          "arrow",
+          "basic",
+          "nest",
+          "scroll",
+          "translate",
+          "triggers"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "trigger component docs",
+      "id": "trigger_index"
+    },
+    {
+      "type": "concept",
+      "label": "trigger component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/trigger/index.mdx",
+      "metadata": {
+        "props": [
+          "popup-visible",
+          "trigger",
+          "position",
+          "disabled",
+          "popup-offset",
+          "popup-translate",
+          "show-arrow",
+          "align-point",
+          "popup-hover-stay",
+          "blur-to-close",
+          "click-to-close",
+          "click-outside-to-close",
+          "unmount-on-close",
+          "update-at-scroll",
+          "scroll-to-close",
+          "render-to-body",
+          "auto-fit-position",
+          "auto-fix-position",
+          "auto-fit-popup-width",
+          "auto-fit-popup-min-width"
+        ],
+        "events": [
+          "popup-visible-change",
+          "show",
+          "hide"
+        ],
+        "slots": [
+          "content"
+        ],
+        "trigger_types": [
+          "hover",
+          "click",
+          "focus",
+          "contextMenu"
+        ]
+      },
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "trigger component",
+      "id": "trigger_trigger_component"
+    },
+    {
+      "type": "concept",
+      "label": "DemoBlock component",
+      "file": "packages/sd-vue-docs/src/content/docs/components/anchor/index.mdx",
+      "metadata": {
+        "purpose": "\u6587\u6863\u9875\u4e2d\u5305\u88c5\u6f14\u793a\u4ee3\u7801\u5757\u7684\u7edf\u4e00\u5bb9\u5668",
+        "import_path": "../../../../components/docs/DemoBlock.astro"
+      },
+      "confidence_score": 0.92,
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "demoblock component",
+      "id": "docs_demo_block"
+    },
+    {
+      "label": "SDVue Quick Start Guide",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/guides/start.mdx",
+      "description": "Getting started guide for @sdata/web-vue component library covering installation, full import, on-demand loading via unplugin-vue-components, and global configuration with componentPrefix.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 20,
+      "norm_label": "sdvue quick start guide",
+      "id": "guides_start_sdvue_quick_start"
+    },
+    {
+      "label": "SdDesignResolver",
+      "type": "concept",
+      "file": "packages/sd-vue-docs/src/content/docs/guides/start.mdx",
+      "description": "Auto-import resolver from @sdata/web-vue-auto-import-resolver that enables on-demand component loading with unplugin-vue-components. Supports sideEffect and prefix options.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 20,
+      "norm_label": "sddesignresolver",
+      "id": "guides_start_sd_design_resolver"
+    },
+    {
+      "label": "SDThemeConfig",
+      "type": "concept",
+      "file": "packages/sd-vue-docs/src/content/docs/guides/theme.mdx",
+      "description": "Runtime theme configuration interface with tokens (global color/radius variables), components (per-component overrides), and meta (schemaVersion, cssVarPrefix, name). Uses ConfigProvider theme prop as entry point.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 16,
+      "norm_label": "sdthemeconfig",
+      "id": "guides_theme_sdtheme_config"
+    },
+    {
+      "label": "ThemeProvider",
+      "type": "concept",
+      "file": "packages/sd-vue-docs/src/content/docs/guides/theme.mdx",
+      "description": "Component-level theme scoping via sd-theme-provider. Allows scoped theme and CSS variables within a subtree. ConfigProvider also provides theme/theme-mode props for same capability. Does not override body-mounted floating layers.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 16,
+      "norm_label": "themeprovider",
+      "id": "guides_theme_theme_provider"
+    },
+    {
+      "label": "CSS Variables Convention",
+      "type": "concept",
+      "file": "packages/sd-vue-docs/src/content/docs/guides/theme.mdx",
+      "description": "Theme tokens are normalized and injected as CSS variables: primary6 -> --primary-6, colorNeutral10 -> --color-neutral-10, borderRadiusMedium -> --border-radius-medium. Covers color, semantic light, and border-radius variables.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 16,
+      "norm_label": "css variables convention",
+      "id": "guides_theme_css_variables"
+    },
+    {
+      "label": "Tabs Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tabs/index.mdx",
+      "description": "Tabbed content container with types: line, card, card-gutter, text, rounded, capsule. Supports editable mode, lazy-load, positions (left/right/top/bottom), scroll, trigger modes (hover/click). Sub-component: tab-pane with title, disabled, closable props.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 18,
+      "norm_label": "tabs component",
+      "id": "components_tabs_tabs_component"
+    },
+    {
+      "label": "Tree Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tree/index.mdx",
+      "description": "Hierarchical tree view for folders, categories, org charts. Supports checkable (checkboxes), multiple selection, drag-and-drop, virtual list via virtualListProps, dynamic loading (loadMore), search, show-line, field-names customization. Sizes: mini/small/medium/large with fixed heights 24/28/32/36.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 9,
+      "norm_label": "tree component",
+      "id": "components_tree_tree_component"
+    },
+    {
+      "label": "TreeNodeData",
+      "type": "concept",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tree/index.mdx",
+      "description": "Tree node data structure with key, title, selectable, disabled, disableCheckbox, checkable, draggable, isLeaf, icon, switcherIcon, loadingIcon, dragIcon, children fields.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 9,
+      "norm_label": "treenodedata",
+      "id": "components_tree_treenode_data"
+    },
+    {
+      "label": "VirtualListProps (Tree)",
+      "type": "concept",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tree/index.mdx",
+      "description": "Virtual list configuration with items, keyField, itemSize (fixed height / RecycleScroller), minItemSize (dynamic height / DynamicScroller), buffer. Enables high-performance rendering for large datasets.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 9,
+      "norm_label": "virtuallistprops (tree)",
+      "id": "components_tree_virtual_list_props"
+    },
+    {
+      "label": "TreeSelect Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tree-select/index.mdx",
+      "description": "Tree-based dropdown selector. Supports checkable mode (treeCheckable), multiple selection, checked strategy (all/parent/child), search (local and remote), dynamic loading, virtual list, custom field names, labelInValue, fallback-option. Has migration guides from Arco Design Vue and Naive UI with compatibility aliases.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 9,
+      "norm_label": "treeselect component",
+      "id": "components_tree_select_tree_select_component"
+    },
+    {
+      "label": "Naive UI Compatibility Aliases",
+      "type": "concept",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tree-select/index.mdx",
+      "description": "TreeSelect preserves Naive UI prop aliases: options->data, filterable->allow-search, clearable->allow-clear, checkable->tree-checkable, checkStrategy->tree-checked-strategy, show->popup-visible. New code should use local naming.",
+      "confidence_score": 0.9,
+      "file_type": "concept",
+      "community": 9,
+      "norm_label": "naive ui compatibility aliases",
+      "id": "components_tree_select_naive_compat_aliases"
+    },
+    {
+      "label": "Timeline Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/timeline/index.mdx",
+      "description": "Chronological information display. Supports horizontal/vertical direction, modes (left/right/top/bottom/alternate), ghost nodes (pending), custom dots (dotColor, dotType), label positions, line styles (solid/dashed/dotted). Sub-component: timeline-item.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 46,
+      "norm_label": "timeline component",
+      "id": "components_timeline_timeline_component"
+    },
+    {
+      "label": "Tag Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tag/index.mdx",
+      "description": "Label/tag for selection, filtering, classification. Supports checkable, closable, preset colors, custom colors with auto text-color adaptation, bordered, dynamic editing, ellipsis with tooltip, loading state, icon slot. Sizes: small/medium/large.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 44,
+      "norm_label": "tag component",
+      "id": "components_tag_tag_component"
+    },
+    {
+      "label": "Watermark Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/watermark/index.mdx",
+      "description": "Page watermark overlay. Supports text content (single/multiline), image watermarks, custom font styles, rotation, gap/offset, anti-tamper protection, grayscale mode, staggered layout. Uses canvas rendering with z-index control.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 54,
+      "norm_label": "watermark component",
+      "id": "components_watermark_watermark_component"
+    },
+    {
+      "label": "Upload Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/upload/index.mdx",
+      "description": "File upload component supporting drag-and-drop, directory upload, picture-card/picture-list modes, custom requests, manual upload (auto-upload=false), file limit, before-upload/before-remove validation, avatar upload. Exposes submit/abort/updateFile/upload methods.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 50,
+      "norm_label": "upload component",
+      "id": "components_upload_upload_component"
+    },
+    {
+      "label": "Switch Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/switch/index.mdx",
+      "description": "Toggle switch with types: circle (default), round, line. Supports before-change interceptor, auto-loading mode, custom checked/unchecked colors and values, icons, text labels. Sizes: small/medium.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 42,
+      "norm_label": "switch component",
+      "id": "components_switch_switch_component"
+    },
+    {
+      "label": "Table Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/table/index.mdx",
+      "description": "Data table with columns/data props. Supports fixed columns, row selection (checkbox/radio), sorting, filtering, pagination, expandable rows, tree data, drag sorting, column resizing, cell spanning, sticky header, summary rows, virtual list, editable cells, lazy loading, custom element slots (th/td/tr/thead/tbody). Very large API surface.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 9,
+      "norm_label": "table component",
+      "id": "components_table_table_component"
+    },
+    {
+      "label": "TableColumnData",
+      "type": "concept",
+      "file": "packages/sd-vue-docs/src/content/docs/components/table/index.mdx",
+      "description": "Column definition with dataIndex, title, width, minWidth, align, fixed, ellipsis, tooltip, sortable, filterable, children (grouped headers), cell/header/body/summary class/style customization, render function, slotName, titleSlotName.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 9,
+      "norm_label": "tablecolumndata",
+      "id": "components_table_table_column_data"
+    },
+    {
+      "label": "Typography Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/typography/index.mdx",
+      "description": "Text display with sub-components: typography-title (h1-h6), typography-paragraph (blockquote, spacing), typography-text. Common features: type (primary/secondary/success/danger/warning), bold, mark, underline, delete, code, editable, copyable, ellipsis with rows/expandable/tooltip/css mode.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 48,
+      "norm_label": "typography component",
+      "id": "components_typography_typography_component"
+    },
+    {
+      "label": "Tooltip Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tooltip/index.mdx",
+      "description": "Text popup on hover/focus/click. Inherits all Trigger component props. Supports 12 positions (top/tl/tr/bottom/bl/br/left/lt/lb/right/rt/rb), custom background-color, mini size mode, content slot.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 18,
+      "norm_label": "tooltip component",
+      "id": "components_tooltip_tooltip_component"
+    },
+    {
+      "label": "VerificationCode Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/verification-code/index.mdx",
+      "description": "OTP/verification code input with configurable length, size, formatter function, masked (password) mode, custom separators, form integration. Fires finish event when all fields are filled.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 52,
+      "norm_label": "verificationcode component",
+      "id": "components_verification_code_verification_code_component"
+    },
+    {
+      "label": "Progress Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/progress/index.mdx",
+      "description": "Progress indicator with types: line, circle. Supports steps mode, gradient colors (linear-gradient object), animation, custom size (mini/small/medium/large), status (normal/success/warning/danger), track-color, stroke-width.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 35,
+      "norm_label": "progress component",
+      "id": "components_progress_progress_component"
+    },
+    {
+      "label": "Radio Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/radio/index.mdx",
+      "description": "Single-selection radio button with types: radio, button. Used with sd-radio-group for groups. Supports options prop, vertical/horizontal direction, grid layout, custom radio slot, sizes (mini/small/medium/large).",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 9,
+      "norm_label": "radio component",
+      "id": "components_radio_radio_component"
+    },
+    {
+      "label": "Rate Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/rate/index.mdx",
+      "description": "Star rating component with configurable count, half-selection (allow-half), clear (allow-clear), custom characters, grading (smiley faces), custom colors (string or per-score object), readonly/disabled modes.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 36,
+      "norm_label": "rate component",
+      "id": "components_rate_rate_component"
+    },
+    {
+      "label": "Result Component",
+      "type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/result/index.mdx",
+      "description": "Operation result feedback page with statuses: info, success, warning, error, 403, 404, 500. Supports custom icon, title, subtitle, and extra action area via slots.",
+      "confidence_score": 0.95,
+      "file_type": "concept",
+      "community": 37,
+      "norm_label": "result component",
+      "id": "components_result_result_component"
+    },
+    {
+      "name": "overdrive skill",
+      "file_path": "skills/overdrive/SKILL.md",
+      "file_type": "document",
+      "description": "Push interfaces past conventional limits with technically ambitious implementations \u2014 shaders, 60fps virtual tables, spring physics, scroll-driven reveals, cinematic transitions, WebGL/WebGPU rendering, and high-performance data handling.",
+      "tags": [
+        "skill",
+        "ui",
+        "animation",
+        "performance",
+        "web-api",
+        "progressive-enhancement"
+      ],
+      "confidence_score": 1.0,
+      "community": 8,
+      "norm_label": "",
+      "id": "skills_overdrive_skill"
+    },
+    {
+      "name": "frontend-design skill dependency (overdrive)",
+      "file_path": "skills/overdrive/SKILL.md",
+      "file_type": "concept",
+      "description": "Overdrive requires frontend-design skill for design principles, anti-patterns, and Context Gathering Protocol. If no design context exists, teach-impeccable must be run first.",
+      "tags": [
+        "dependency",
+        "skill-chain"
+      ],
+      "confidence_score": 1.0,
+      "community": 8,
+      "norm_label": "",
+      "id": "skills_overdrive_frontend_design_dependency"
+    },
+    {
+      "name": "propose before building (overdrive)",
+      "file_path": "skills/overdrive/SKILL.md",
+      "file_type": "concept",
+      "description": "Overdrive mandates proposing 2-3 different technical directions with trade-offs (browser support, performance, complexity) and calling AskUserQuestionTool before writing any code.",
+      "tags": [
+        "workflow",
+        "guardrail"
+      ],
+      "confidence_score": 1.0,
+      "community": 8,
+      "norm_label": "",
+      "id": "skills_overdrive_propose_before_build"
+    },
+    {
+      "name": "browser automation iteration (overdrive)",
+      "file_path": "skills/overdrive/SKILL.md",
+      "file_type": "concept",
+      "description": "Technically ambitious effects require active browser automation preview, visual verification, and multiple rounds of refinement \u2014 gap between 'works' and 'extraordinary' is closed through visual iteration.",
+      "tags": [
+        "workflow",
+        "iteration",
+        "browser-automation"
+      ],
+      "confidence_score": 1.0,
+      "community": 8,
+      "norm_label": "",
+      "id": "skills_overdrive_browser_iteration"
+    },
+    {
+      "name": "context-appropriate ambition assessment",
+      "file_path": "skills/overdrive/SKILL.md",
+      "file_type": "concept",
+      "description": "Assesses four interface types: visual/marketing (sensory wow), functional UI (feel wow), performance-critical (invisible speed), data-heavy (fluidity). Technique must serve experience.",
+      "tags": [
+        "design-thinking",
+        "context"
+      ],
+      "confidence_score": 1.0,
+      "community": 8,
+      "norm_label": "",
+      "id": "skills_overdrive_context_assessment"
+    },
+    {
+      "name": "overdrive technical toolkit",
+      "file_path": "skills/overdrive/SKILL.md",
+      "file_type": "concept",
+      "description": "Organized toolkit: cinematic transitions (View Transitions API, spring physics), scroll-driven animations, beyond-CSS rendering (WebGL, WebGPU, Canvas, SVG filters), live data (virtual scrolling, GPU charts), custom property animation (@property, Web Animations API), performance (Web Workers, OffscreenCanvas, WASM), device interaction (Web Audio, Device APIs).",
+      "tags": [
+        "web-api",
+        "rendering",
+        "animation",
+        "performance",
+        "techniques"
+      ],
+      "confidence_score": 1.0,
+      "community": 8,
+      "norm_label": "",
+      "id": "skills_overdrive_toolkit"
+    },
+    {
+      "name": "progressive enhancement (overdrive)",
+      "file_path": "skills/overdrive/SKILL.md",
+      "file_type": "concept",
+      "description": "Every technique must degrade gracefully. Uses @supports for CSS features, feature detection for JS APIs (WebGPU\u2192WebGL2\u2192CSS fallback). Experience without enhancement must still be good.",
+      "tags": [
+        "progressive-enhancement",
+        "accessibility",
+        "best-practice"
+      ],
+      "confidence_score": 1.0,
+      "community": 8,
+      "norm_label": "",
+      "id": "skills_overdrive_progressive_enhancement"
+    },
+    {
+      "name": "performance rules (overdrive)",
+      "file_path": "skills/overdrive/SKILL.md",
+      "file_type": "concept",
+      "description": "Target 60fps (simplify below 50). Respect prefers-reduced-motion always. Lazy-initialize heavy resources. Pause off-screen rendering. Test on mid-range devices.",
+      "tags": [
+        "performance",
+        "accessibility",
+        "best-practice"
+      ],
+      "confidence_score": 1.0,
+      "community": 8,
+      "norm_label": "",
+      "id": "skills_overdrive_performance_rules"
+    },
+    {
+      "name": "verification tests (overdrive)",
+      "file_path": "skills/overdrive/SKILL.md",
+      "file_type": "concept",
+      "description": "Five verification tests: wow test (reaction), removal test (diminished?), device test (phone/tablet/Chromebook), accessibility test (reduced motion), context test (brand fit).",
+      "tags": [
+        "verification",
+        "testing",
+        "quality"
+      ],
+      "confidence_score": 1.0,
+      "community": 8,
+      "norm_label": "",
+      "id": "skills_overdrive_verification"
+    },
+    {
+      "name": "polish skill",
+      "file_path": "skills/polish/SKILL.md",
+      "file_type": "document",
+      "description": "Final quality pass before shipping \u2014 fixes alignment, spacing, consistency, typography, color, interaction states, micro-interactions, copy, icons, forms, edge cases, responsiveness, performance, and code quality issues.",
+      "tags": [
+        "skill",
+        "ui",
+        "quality",
+        "design-review"
+      ],
+      "confidence_score": 1.0,
+      "community": 11,
+      "norm_label": "",
+      "id": "skills_polish_skill"
+    },
+    {
+      "name": "frontend-design skill dependency (polish)",
+      "file_path": "skills/polish/SKILL.md",
+      "file_type": "concept",
+      "description": "Polish requires frontend-design skill for design principles, anti-patterns, and Context Gathering Protocol. Also gathers quality bar (MVP vs flagship).",
+      "tags": [
+        "dependency",
+        "skill-chain"
+      ],
+      "confidence_score": 1.0,
+      "community": 11,
+      "norm_label": "",
+      "id": "skills_polish_frontend_design_dependency"
+    },
+    {
+      "name": "pre-polish assessment",
+      "file_path": "skills/polish/SKILL.md",
+      "file_type": "concept",
+      "description": "Polish is the last step, not the first. Review functional completeness, known issues, quality bar, and ship timeline before polishing. Never polish incomplete work.",
+      "tags": [
+        "workflow",
+        "guardrail"
+      ],
+      "confidence_score": 1.0,
+      "community": 11,
+      "norm_label": "",
+      "id": "skills_polish_pre_assessment"
+    },
+    {
+      "name": "polish dimensions",
+      "file_path": "skills/polish/SKILL.md",
+      "file_type": "concept",
+      "description": "Ten systematic polish dimensions: visual alignment/spacing, typography refinement, color/contrast, interaction states, micro-interactions/transitions, content/copy, icons/images, forms/inputs, edge cases/error states, responsiveness, performance, code quality.",
+      "tags": [
+        "design-review",
+        "quality",
+        "systematic"
+      ],
+      "confidence_score": 1.0,
+      "community": 11,
+      "norm_label": "",
+      "id": "skills_polish_dimensions"
+    },
+    {
+      "name": "interaction states checklist",
+      "file_path": "skills/polish/SKILL.md",
+      "file_type": "concept",
+      "description": "Every interactive element needs: default, hover, focus, active, disabled, loading, error, success states. Missing states create confusion.",
+      "tags": [
+        "interaction-design",
+        "ui-states"
+      ],
+      "confidence_score": 1.0,
+      "community": 11,
+      "norm_label": "",
+      "id": "skills_polish_interaction_states"
+    },
+    {
+      "name": "polish checklist",
+      "file_path": "skills/polish/SKILL.md",
+      "file_type": "concept",
+      "description": "20-item systematic polish checklist covering alignment, spacing, typography, states, transitions, copy, icons, forms, errors, loading, touch targets, contrast, keyboard nav, focus, console errors, layout shift, browser support, reduced motion, code quality.",
+      "tags": [
+        "checklist",
+        "quality",
+        "verification"
+      ],
+      "confidence_score": 1.0,
+      "community": 11,
+      "norm_label": "",
+      "id": "skills_polish_checklist"
+    },
+    {
+      "name": "final verification (polish)",
+      "file_path": "skills/polish/SKILL.md",
+      "file_type": "concept",
+      "description": "Before marking done: use it yourself, test on real devices, get fresh eyes review, compare to design, check all states (not just happy path).",
+      "tags": [
+        "verification",
+        "quality"
+      ],
+      "confidence_score": 1.0,
+      "community": 11,
+      "norm_label": "",
+      "id": "skills_polish_final_verification"
+    },
+    {
+      "name": "quieter skill",
+      "file_path": "skills/quieter/SKILL.md",
+      "file_type": "document",
+      "description": "Tone down overly bold or visually aggressive designs \u2014 reduces color saturation, contrast extremes, visual weight, animation excess, and complexity while maintaining design quality and impact.",
+      "tags": [
+        "skill",
+        "ui",
+        "design-refinement",
+        "subtlety"
+      ],
+      "confidence_score": 1.0,
+      "community": 12,
+      "norm_label": "",
+      "id": "skills_quieter_skill"
+    },
+    {
+      "name": "frontend-design skill dependency (quieter)",
+      "file_path": "skills/quieter/SKILL.md",
+      "file_type": "concept",
+      "description": "Quieter requires frontend-design skill for design principles, anti-patterns, and Context Gathering Protocol.",
+      "tags": [
+        "dependency",
+        "skill-chain"
+      ],
+      "confidence_score": 1.0,
+      "community": 12,
+      "norm_label": "",
+      "id": "skills_quieter_frontend_design_dependency"
+    },
+    {
+      "name": "intensity source assessment",
+      "file_path": "skills/quieter/SKILL.md",
+      "file_type": "concept",
+      "description": "Identifies six intensity sources: color saturation, contrast extremes, visual weight, animation excess, complexity, and scale. Understands context (purpose, audience, what works, core message) before refining.",
+      "tags": [
+        "design-analysis",
+        "assessment"
+      ],
+      "confidence_score": 1.0,
+      "community": 12,
+      "norm_label": "",
+      "id": "skills_quieter_intensity_assessment"
+    },
+    {
+      "name": "quieter refinement dimensions",
+      "file_path": "skills/quieter/SKILL.md",
+      "file_type": "concept",
+      "description": "Five systematic refinement dimensions: color (desaturate, soften, reduce variety, neutral dominance), visual weight (font weights, hierarchy, white space), simplification (remove decorative elements, simplify shapes, reduce layering), motion (shorter distances, gentler easing, remove decorative animations), composition (reduce scale jumps, align to grid, even spacing).",
+      "tags": [
+        "design-refinement",
+        "systematic"
+      ],
+      "confidence_score": 1.0,
+      "community": 12,
+      "norm_label": "",
+      "id": "skills_quieter_refinement_dimensions"
+    },
+    {
+      "name": "quieter design philosophy",
+      "file_path": "skills/quieter/SKILL.md",
+      "file_type": "concept",
+      "description": "Quieter means refined, sophisticated, easier on the eyes \u2014 not boring or generic. Great quiet design is harder than bold design; subtlety requires precision. Quiet design is confident design that doesn't need to shout.",
+      "tags": [
+        "design-philosophy",
+        "sophistication"
+      ],
+      "confidence_score": 1.0,
+      "community": 12,
+      "norm_label": "",
+      "id": "skills_quieter_philosophy"
+    },
+    {
+      "name": "typeset skill",
+      "file_path": "skills/typeset/SKILL.md",
+      "file_type": "document",
+      "description": "Improve typography by fixing font choices, hierarchy, sizing, weight consistency, and readability \u2014 turning default-looking text into intentional, well-crafted type.",
+      "tags": [
+        "skill",
+        "typography",
+        "design"
+      ],
+      "confidence_score": 1.0,
+      "community": 13,
+      "norm_label": "",
+      "id": "skills_typeset_skill"
+    },
+    {
+      "name": "frontend-design skill dependency (typeset)",
+      "file_path": "skills/typeset/SKILL.md",
+      "file_type": "concept",
+      "description": "Typeset requires frontend-design skill for design principles, anti-patterns, Context Gathering Protocol, and the typography reference (reference/typography.md).",
+      "tags": [
+        "dependency",
+        "skill-chain"
+      ],
+      "confidence_score": 1.0,
+      "community": 13,
+      "norm_label": "",
+      "id": "skills_typeset_frontend_design_dependency"
+    },
+    {
+      "name": "typography assessment dimensions",
+      "file_path": "skills/typeset/SKILL.md",
+      "file_type": "concept",
+      "description": "Assesses five dimensions: font choices (defaults, brand fit, too many families), hierarchy (distinguishable levels, size contrast, weight contrast), sizing/scale (consistent scale, body 16px+, fixed rem vs fluid clamp), readability (line length 45-75ch, line-height, contrast), consistency (same elements styled same way).",
+      "tags": [
+        "typography",
+        "assessment",
+        "design-analysis"
+      ],
+      "confidence_score": 1.0,
+      "community": 13,
+      "norm_label": "",
+      "id": "skills_typeset_assessment"
+    },
+    {
+      "name": "typography improvement dimensions",
+      "file_path": "skills/typeset/SKILL.md",
+      "file_type": "concept",
+      "description": "Five improvement dimensions: font selection (brand personality, pairing with contrast, font-display swap), hierarchy (5-size scale, consistent ratio 1.25-1.5, combine size+weight+color+space), readability (max-width in ch, line-height by context, min 16px body), details (tabular-nums, letter-spacing, semantic token names, OpenType features), weight consistency (3-4 weights max, clear roles).",
+      "tags": [
+        "typography",
+        "improvement",
+        "systematic"
+      ],
+      "confidence_score": 1.0,
+      "community": 13,
+      "norm_label": "",
+      "id": "skills_typeset_improvement_dimensions"
+    },
+    {
+      "name": "typography sizing strategy",
+      "file_path": "skills/typeset/SKILL.md",
+      "file_type": "concept",
+      "description": "App UIs use fixed rem-based type scale with optional 1-2 breakpoints for spatial predictability. Marketing/content pages use fluid clamp() sizing for headings/display text but fixed body text. Never use px for font sizes.",
+      "tags": [
+        "typography",
+        "css",
+        "responsive-design"
+      ],
+      "confidence_score": 1.0,
+      "community": 13,
+      "norm_label": "",
+      "id": "skills_typeset_sizing_strategy"
+    },
+    {
       "label": "Root Directory",
       "file_type": "document",
+      "community": 72,
+      "norm_label": "root directory",
       "id": "root_directory"
-    },
-    {
-      "label": "@sdata/web-vue (Component Library)",
-      "file_type": "code",
-      "id": "web_vue_package"
-    },
-    {
-      "label": "@sd-design/sd-vue-docs (Documentation Site)",
-      "file_type": "code",
-      "id": "sd_vue_docs_package"
     },
     {
       "label": "sync-vendor.mjs",
       "file_type": "code",
+      "community": 15,
+      "norm_label": "sync-vendor.mjs",
       "id": "sync_vendor_script"
     },
     {
       "label": "Build Artifacts (es, dist, json)",
       "file_type": "code",
+      "community": 15,
+      "norm_label": "build artifacts (es, dist, json)",
       "id": "build_artifacts"
     },
     {
       "label": "Public Vendor Resources",
       "file_type": "code",
+      "community": 15,
+      "norm_label": "public vendor resources",
       "id": "public_vendor"
     },
     {
       "label": "Theme Bridge System",
       "file_type": "code",
+      "community": 17,
+      "norm_label": "theme bridge system",
       "id": "theme_bridge"
     },
     {
       "label": "Astro Runtime (Starlight + MDX)",
       "file_type": "code",
+      "community": 17,
+      "norm_label": "astro runtime (starlight + mdx)",
       "id": "astro_runtime"
-    },
-    {
-      "label": "pnpm workspace",
-      "file_type": "code",
-      "id": "pnpm_workspace"
     },
     {
       "label": "build-dts.mjs",
       "file_type": "code",
+      "community": 26,
+      "norm_label": "build-dts.mjs",
       "id": "build_dts_script"
     },
     {
       "label": "icongen",
       "file_type": "code",
+      "community": 64,
+      "norm_label": "icongen",
       "id": "icongen"
     },
     {
       "label": "jsongen (Metadata Generator)",
       "file_type": "code",
+      "community": 66,
+      "norm_label": "jsongen (metadata generator)",
       "id": "jsongen"
     }
   ],
-  "edges": [
+  "links": [
     {
-      "relation": "schedules development and build tasks",
-      "confidence": "EXTRACTED",
-      "_src": "root_directory",
-      "_tgt": "web_vue_package",
-      "source": "root_directory",
-      "target": "web_vue_package"
+      "relation": "uses",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Skill requires openspec CLI for all operations",
+      "source": "openspec_propose_skill",
+      "target": "openspec_cli"
     },
     {
-      "relation": "schedules documentation tasks",
-      "confidence": "EXTRACTED",
-      "_src": "root_directory",
-      "_tgt": "sd_vue_docs_package",
-      "source": "root_directory",
-      "target": "sd_vue_docs_package"
+      "relation": "triggers",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "source": "release_web_vue_workflow",
+      "target": "netlify_docs_deploy"
     },
     {
-      "relation": "uses for monorepo management",
-      "confidence": "EXTRACTED",
-      "_src": "root_directory",
-      "_tgt": "pnpm_workspace",
-      "source": "root_directory",
-      "target": "pnpm_workspace"
+      "relation": "removes",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Change proposal explicitly deletes packages/sd-vue-scripts",
+      "source": "simplify_build_tooling_change",
+      "target": "sd_vue_scripts_package"
+    },
+    {
+      "relation": "follows_up",
+      "confidence_score": 0.85,
+      "evidence_type": "INFERRED",
+      "rationale": "Vite+ migration builds on the simplification change that removed sd-vue-scripts, both modify the same capabilities",
+      "source": "migrate_vite_plus_tasks",
+      "target": "simplify_build_tooling_change"
+    },
+    {
+      "relation": "contains_artifact",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "source": "simplify_build_tooling_change",
+      "target": "simplify_tasks"
+    },
+    {
+      "relation": "contains_artifact",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "source": "simplify_build_tooling_change",
+      "target": "workspace_package_workflows_spec"
+    },
+    {
+      "relation": "introduces_capability",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Proposal lists 'component-library-tooling' as a new capability",
+      "source": "simplify_tasks",
+      "target": "component_library_tooling_capability"
+    },
+    {
+      "relation": "modifies_capability",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Proposal lists 'docs-tooling-simplification' as a modified capability",
+      "source": "simplify_tasks",
+      "target": "docs_tooling_simplification_capability"
+    },
+    {
+      "relation": "introduces_capability",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Proposal lists 'workspace-package-workflows' as a new capability",
+      "source": "simplify_tasks",
+      "target": "workspace_package_workflows_capability"
+    },
+    {
+      "relation": "specifies",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "source": "workspace_package_workflows_spec",
+      "target": "workspace_package_workflows_capability"
+    },
+    {
+      "relation": "modifies_capability",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "source": "migrate_vite_plus_proposal",
+      "target": "component_library_tooling_capability"
+    },
+    {
+      "relation": "modifies_capability",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "source": "migrate_vite_plus_proposal",
+      "target": "workspace_package_workflows_capability"
+    },
+    {
+      "relation": "contains_artifact",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "source": "migrate_vite_plus_tasks",
+      "target": "migrate_vite_plus_proposal"
+    },
+    {
+      "relation": "contains_artifact",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "source": "migrate_vite_plus_tasks",
+      "target": "migrate_vite_plus_design"
+    },
+    {
+      "relation": "elaborates",
+      "confidence_score": 0.95,
+      "source": "migrate_generated_demos_design",
+      "target": "migrate_generated_demos_proposal"
+    },
+    {
+      "relation": "defines_spec",
+      "confidence_score": 0.95,
+      "source": "migrate_generated_demos_proposal",
+      "target": "generated_demo_source_conventions_spec"
+    },
+    {
+      "relation": "modifies_spec",
+      "confidence_score": 0.95,
+      "source": "migrate_generated_demos_proposal",
+      "target": "interactive_doc_examples_spec"
+    },
+    {
+      "relation": "introduces",
+      "confidence_score": 0.9,
+      "source": "migrate_generated_demos_proposal",
+      "target": "script_setup_lang_ts_convention"
+    },
+    {
+      "relation": "introduces",
+      "confidence_score": 0.9,
+      "source": "migrate_generated_demos_proposal",
+      "target": "tailwind_utility_class_styling"
+    },
+    {
+      "relation": "implements",
+      "confidence_score": 0.95,
+      "source": "migrate_generated_demos_tasks",
+      "target": "migrate_generated_demos_design"
+    },
+    {
+      "relation": "defines",
+      "confidence_score": 0.9,
+      "source": "migrate_generated_demos_design",
+      "target": "shared_demo_tailwind_stylesheet"
+    },
+    {
+      "relation": "requires",
+      "confidence_score": 0.9,
+      "source": "generated_demo_source_conventions_spec",
+      "target": "script_setup_lang_ts_convention"
+    },
+    {
+      "relation": "requires",
+      "confidence_score": 0.9,
+      "source": "generated_demo_source_conventions_spec",
+      "target": "tailwind_utility_class_styling"
+    },
+    {
+      "relation": "enables_styling_for",
+      "confidence_score": 0.85,
+      "source": "shared_demo_tailwind_stylesheet",
+      "target": "demo_editor_repl_preview"
+    },
+    {
+      "relation": "elaborates",
+      "confidence_score": 0.95,
+      "source": "fix_local_theme_design",
+      "target": "fix_local_theme_proposal"
+    },
+    {
+      "relation": "defines_spec",
+      "confidence_score": 0.95,
+      "source": "fix_local_theme_proposal",
+      "target": "local_theme_provider_runtime_spec"
+    },
+    {
+      "relation": "defines_spec",
+      "confidence_score": 0.95,
+      "source": "fix_local_theme_proposal",
+      "target": "theme_docs_runtime_consistency_spec"
+    },
+    {
+      "relation": "depends_on",
+      "confidence_score": 0.8,
+      "source": "fix_local_theme_proposal",
+      "target": "upgrade_style_architecture_proposal"
+    },
+    {
+      "relation": "implements",
+      "confidence_score": 0.95,
+      "source": "fix_local_theme_tasks",
+      "target": "fix_local_theme_design"
+    },
+    {
+      "relation": "defines",
+      "confidence_score": 0.9,
+      "source": "fix_local_theme_design",
+      "target": "subtree_theme_container"
+    },
+    {
+      "relation": "defines",
+      "confidence_score": 0.9,
+      "source": "fix_local_theme_design",
+      "target": "theme_inheritance_algorithm"
+    },
+    {
+      "relation": "informs",
+      "confidence_score": 0.9,
+      "source": "fix_local_theme_implementation_baseline",
+      "target": "fix_local_theme_design"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.85,
+      "source": "local_theme_provider_runtime_spec",
+      "target": "config_provider_theme_object"
+    },
+    {
+      "relation": "specifies",
+      "confidence_score": 0.9,
+      "source": "local_theme_provider_runtime_spec",
+      "target": "subtree_theme_container"
+    },
+    {
+      "relation": "specifies",
+      "confidence_score": 0.9,
+      "source": "local_theme_provider_runtime_spec",
+      "target": "theme_inheritance_algorithm"
+    },
+    {
+      "relation": "aligns_with",
+      "confidence_score": 0.85,
+      "source": "theme_docs_runtime_consistency_spec",
+      "target": "docs_theme_editor_spec"
+    },
+    {
+      "relation": "introduces",
+      "confidence_score": 0.9,
+      "source": "upgrade_style_architecture_proposal",
+      "target": "config_provider_theme_object"
+    },
+    {
+      "relation": "defines_spec",
+      "confidence_score": 0.95,
+      "source": "upgrade_style_architecture_proposal",
+      "target": "css_variable_token_system_spec"
+    },
+    {
+      "relation": "defines_spec",
+      "confidence_score": 0.95,
+      "source": "upgrade_style_architecture_proposal",
+      "target": "docs_theme_editor_spec"
+    },
+    {
+      "relation": "defines_spec",
+      "confidence_score": 0.95,
+      "source": "upgrade_style_architecture_proposal",
+      "target": "homepage_theme_showcase_spec"
+    },
+    {
+      "relation": "introduces",
+      "confidence_score": 0.9,
+      "source": "upgrade_style_architecture_proposal",
+      "target": "less_to_scss_migration"
+    },
+    {
+      "relation": "defines_spec",
+      "confidence_score": 0.95,
+      "source": "upgrade_style_architecture_proposal",
+      "target": "runtime_theme_config_provider_spec"
+    },
+    {
+      "relation": "defines_spec",
+      "confidence_score": 0.95,
+      "source": "upgrade_style_architecture_proposal",
+      "target": "scss_style_architecture_spec"
+    },
+    {
+      "relation": "elaborates",
+      "confidence_score": 0.95,
+      "source": "upgrade_style_architecture_tasks",
+      "target": "upgrade_style_architecture_proposal"
+    },
+    {
+      "relation": "requires",
+      "confidence_score": 0.9,
+      "source": "css_variable_token_system_spec",
+      "target": "css_variable_fallback_strategy"
+    },
+    {
+      "relation": "specifies",
+      "confidence_score": 0.9,
+      "source": "scss_style_architecture_spec",
+      "target": "less_to_scss_migration"
+    },
+    {
+      "relation": "specifies",
+      "confidence_score": 0.9,
+      "source": "runtime_theme_config_provider_spec",
+      "target": "config_provider_theme_object"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.85,
+      "source": "docs_theme_editor_spec",
+      "target": "theme_json_schema_version"
+    },
+    {
+      "relation": "reuses",
+      "confidence_score": 0.9,
+      "source": "homepage_theme_showcase_spec",
+      "target": "config_provider_theme_object"
+    },
+    {
+      "relation": "configured_by",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs",
+      "target": "packages_sd-vue-docs_astro_config"
+    },
+    {
+      "relation": "references",
+      "confidence_score": 0.9,
+      "source": "packages_sd-vue-docs_astro_config",
+      "target": "packages_sd-vue-docs_docs_sidebar"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.9,
+      "source": "packages_sd-vue-docs_astro_config",
+      "target": "packages_sd-vue-docs_llms_integration"
+    },
+    {
+      "relation": "integrates",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_astro_config",
+      "target": "packages_sd-vue-docs_tailwind_setup"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_alert",
+      "target": "packages_sd-vue-docs_demoblock"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_avatar",
+      "target": "packages_sd-vue-docs_demoblock"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_badge",
+      "target": "packages_sd-vue-docs_demoblock"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_breadcrumb",
+      "target": "packages_sd-vue-docs_demoblock"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_button",
+      "target": "packages_sd-vue-docs_demoblock"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_card",
+      "target": "packages_sd-vue-docs_demoblock"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_carousel",
+      "target": "packages_sd-vue-docs_demoblock"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_checkbox",
+      "target": "packages_sd-vue-docs_demoblock"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_collapse",
+      "target": "packages_sd-vue-docs_demoblock"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_comment",
+      "target": "packages_sd-vue-docs_demoblock"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_date_picker",
+      "target": "packages_sd-vue-docs_demoblock"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_descriptions",
+      "target": "packages_sd-vue-docs_demoblock"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_divider",
+      "target": "packages_sd-vue-docs_demoblock"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_dropdown",
+      "target": "packages_sd-vue-docs_demoblock"
+    },
+    {
+      "relation": "describes",
+      "confidence_score": 0.9,
+      "source": "packages_sd-vue-docs_llms_txt_page",
+      "target": "packages_sd-vue-docs_llms_integration"
+    },
+    {
+      "relation": "specifies",
+      "confidence_score": 0.95,
+      "source": "openspec_generated_demo_conventions_spec",
+      "target": "openspec_migrate_generated_demos"
+    },
+    {
+      "relation": "modifies",
+      "confidence_score": 0.9,
+      "source": "openspec_migrate_generated_demos",
+      "target": "packages_sd-vue-docs_generated_demos"
+    },
+    {
+      "relation": "depends_on",
+      "confidence_score": 0.9,
+      "source": "openspec_migrate_generated_demos",
+      "target": "packages_sd-vue-docs_tailwind_setup"
+    },
+    {
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_alert",
+      "target": "packages_sd-vue-docs_generated_demos"
+    },
+    {
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_avatar",
+      "target": "packages_sd-vue-docs_generated_demos"
+    },
+    {
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_badge",
+      "target": "packages_sd-vue-docs_generated_demos"
+    },
+    {
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_breadcrumb",
+      "target": "packages_sd-vue-docs_generated_demos"
+    },
+    {
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_button",
+      "target": "packages_sd-vue-docs_generated_demos"
+    },
+    {
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_card",
+      "target": "packages_sd-vue-docs_generated_demos"
+    },
+    {
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_carousel",
+      "target": "packages_sd-vue-docs_generated_demos"
+    },
+    {
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_checkbox",
+      "target": "packages_sd-vue-docs_generated_demos"
+    },
+    {
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_collapse",
+      "target": "packages_sd-vue-docs_generated_demos"
+    },
+    {
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_comment",
+      "target": "packages_sd-vue-docs_generated_demos"
+    },
+    {
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_date_picker",
+      "target": "packages_sd-vue-docs_generated_demos"
+    },
+    {
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_descriptions",
+      "target": "packages_sd-vue-docs_generated_demos"
+    },
+    {
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_divider",
+      "target": "packages_sd-vue-docs_generated_demos"
+    },
+    {
+      "relation": "imports_demos_from",
+      "confidence_score": 0.95,
+      "source": "packages_sd-vue-docs_component_doc_dropdown",
+      "target": "packages_sd-vue-docs_generated_demos"
+    },
+    {
+      "label": "can show in empty state",
+      "extraction": "INFERRED",
+      "confidence_score": 0.6,
+      "source": "form_index",
+      "target": "empty_index"
+    },
+    {
+      "label": "applies to",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source": "component_size_system",
+      "target": "form_index"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "form_index",
+      "target": "docs_demo_block"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "form_index",
+      "target": "form_field_rule"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "form_index",
+      "target": "form_form_component"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "form_index",
+      "target": "form_form_item_component"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.93,
+      "source": "form_index",
+      "target": "form_use_form_item"
+    },
+    {
+      "label": "exports hook",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source": "form_index",
+      "target": "form_useformitem"
+    },
+    {
+      "label": "uses for layout",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.9,
+      "source": "form_index",
+      "target": "grid_index"
+    },
+    {
+      "label": "form-item wraps input components",
+      "extraction": "INFERRED",
+      "confidence_score": 0.85,
+      "source": "form_index",
+      "target": "input_index"
+    },
+    {
+      "label": "form-item wraps input-number",
+      "extraction": "INFERRED",
+      "confidence_score": 0.85,
+      "source": "form_index",
+      "target": "input_number_index"
+    },
+    {
+      "label": "form-item wraps radio",
+      "extraction": "INFERRED",
+      "confidence_score": 0.85,
+      "source": "form_index",
+      "target": "radio_index"
+    },
+    {
+      "label": "form-item wraps rate",
+      "extraction": "INFERRED",
+      "confidence_score": 0.85,
+      "source": "form_index",
+      "target": "rate_index"
+    },
+    {
+      "label": "form-item wraps slider",
+      "extraction": "INFERRED",
+      "confidence_score": 0.85,
+      "source": "form_index",
+      "target": "slider_index"
+    },
+    {
+      "label": "demo uses form inside modal",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.9,
+      "source": "modal_index",
+      "target": "form_index"
+    },
+    {
+      "label": "uses grid-props for grid layout",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.9,
+      "source": "list_index",
+      "target": "grid_index"
+    },
+    {
+      "label": "uses for layout",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.9,
+      "source": "radio_index",
+      "target": "grid_index"
+    },
+    {
+      "label": "shared popup-container pattern",
+      "extraction": "INFERRED",
+      "confidence_score": 0.6,
+      "source": "image_index",
+      "target": "popconfirm_index"
+    },
+    {
+      "label": "applies to",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source": "component_size_system",
+      "target": "input_number_index"
+    },
+    {
+      "label": "applies to",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source": "component_size_system",
+      "target": "input_tag_index"
+    },
+    {
+      "label": "applies to",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source": "component_size_system",
+      "target": "input_index"
+    },
+    {
+      "label": "uses pagination-props",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source": "list_index",
+      "target": "pagination_index"
+    },
+    {
+      "label": "implements",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source": "message_index",
+      "target": "global_method_pattern"
+    },
+    {
+      "label": "implements",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source": "modal_index",
+      "target": "global_method_pattern"
+    },
+    {
+      "label": "applies to",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source": "component_size_system",
+      "target": "pagination_index"
+    },
+    {
+      "label": "inherits all props from",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source": "popconfirm_index",
+      "target": "trigger_component"
+    },
+    {
+      "label": "inherits all props from",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source": "popover_index",
+      "target": "trigger_component"
+    },
+    {
+      "label": "applies to",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source": "component_size_system",
+      "target": "progress_index"
+    },
+    {
+      "label": "applies to",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source": "component_size_system",
+      "target": "radio_index"
+    },
+    {
+      "label": "applies to",
+      "extraction": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source": "component_size_system",
+      "target": "slider_index"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.85,
+      "source": "components_table",
+      "target": "components_tooltip"
+    },
+    {
+      "relation": "used_in",
+      "confidence_score": 0.9,
+      "source": "concept_virtual_list",
+      "target": "components_table"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.85,
+      "source": "components_tag",
+      "target": "components_tooltip"
+    },
+    {
+      "relation": "implements",
+      "confidence_score": 0.8,
+      "source": "components_tooltip",
+      "target": "concept_controlled_uncontrolled"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.85,
+      "source": "components_typography",
+      "target": "components_tooltip"
+    },
+    {
+      "relation": "reuses",
+      "confidence_score": 0.95,
+      "source": "components_tree_select",
+      "target": "components_tree"
+    },
+    {
+      "relation": "supports",
+      "confidence_score": 0.95,
+      "source": "components_tree_select",
+      "target": "concept_arco_design_migration"
+    },
+    {
+      "relation": "supports",
+      "confidence_score": 0.95,
+      "source": "components_tree_select",
+      "target": "concept_naive_ui_migration"
+    },
+    {
+      "relation": "used_in",
+      "confidence_score": 0.9,
+      "source": "concept_virtual_list",
+      "target": "components_tree_select"
+    },
+    {
+      "relation": "used_in",
+      "confidence_score": 0.9,
+      "source": "concept_virtual_list",
+      "target": "components_tree"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "guides_faq",
+      "target": "concept_controlled_uncontrolled"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "guides_faq",
+      "target": "concept_virtual_list"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "guides_naive_ui_migration",
+      "target": "concept_naive_ui_migration"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "docs_llms_txt",
+      "target": "concept_llms_txt_standard"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "anchor_index",
+      "target": "anchor_anchor_component"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "anchor_index",
+      "target": "anchor_anchor_link_component"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "anchor_index",
+      "target": "docs_demo_block"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "back_top_index",
+      "target": "back_top_back_top_component"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "back_top_index",
+      "target": "docs_demo_block"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "calendar_index",
+      "target": "calendar_calendar_component"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.93,
+      "source": "calendar_index",
+      "target": "calendar_event_system"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.93,
+      "source": "calendar_index",
+      "target": "calendar_schedule_system"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "calendar_index",
+      "target": "docs_demo_block"
+    },
+    {
+      "relation": "managed_by",
+      "confidence_score": 0.93,
+      "source": "calendar_event_system",
+      "target": "calendar_calendar_component"
+    },
+    {
+      "relation": "configured_in",
+      "confidence_score": 0.93,
+      "source": "calendar_schedule_system",
+      "target": "calendar_calendar_component"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "copy_index",
+      "target": "copy_copy_component"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "copy_index",
+      "target": "docs_demo_block"
+    },
+    {
+      "relation": "uses_for_tooltip",
+      "confidence_score": 0.85,
+      "source": "copy_copy_component",
+      "target": "trigger_trigger_component"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "ellipsis_index",
+      "target": "docs_demo_block"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "ellipsis_index",
+      "target": "ellipsis_ellipsis_component"
+    },
+    {
+      "relation": "optionally_uses",
+      "confidence_score": 0.9,
+      "source": "menu_menu_component",
+      "target": "ellipsis_ellipsis_component"
+    },
+    {
+      "relation": "contains",
+      "confidence_score": 0.95,
+      "source": "form_form_component",
+      "target": "form_form_item_component"
+    },
+    {
+      "relation": "integrates_with",
+      "confidence_score": 0.93,
+      "source": "form_use_form_item",
+      "target": "form_form_item_component"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "layout_index",
+      "target": "docs_demo_block"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "layout_index",
+      "target": "layout_layout_component"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "layout_index",
+      "target": "layout_layout_header_component"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "layout_index",
+      "target": "layout_layout_sider_component"
+    },
+    {
+      "relation": "often_paired_with",
+      "confidence_score": 0.85,
+      "source": "layout_layout_sider_component",
+      "target": "menu_menu_component"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "mention_index",
+      "target": "docs_demo_block"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "mention_index",
+      "target": "mention_mention_component"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "menu_index",
+      "target": "docs_demo_block"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "menu_index",
+      "target": "menu_menu_component"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "menu_index",
+      "target": "menu_menu_item_component"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "menu_index",
+      "target": "menu_sub_menu_component"
+    },
+    {
+      "relation": "contains",
+      "confidence_score": 0.95,
+      "source": "menu_menu_component",
+      "target": "menu_menu_item_component"
+    },
+    {
+      "relation": "contains",
+      "confidence_score": 0.95,
+      "source": "menu_menu_component",
+      "target": "menu_sub_menu_component"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "statistic_index",
+      "target": "docs_demo_block"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "statistic_index",
+      "target": "statistic_countdown_component"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "statistic_index",
+      "target": "statistic_statistic_component"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "tour_index",
+      "target": "docs_demo_block"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "tour_index",
+      "target": "tour_tour_component"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 0.95,
+      "source": "trigger_index",
+      "target": "docs_demo_block"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "trigger_index",
+      "target": "trigger_trigger_component"
+    },
+    {
+      "relation": "documents",
+      "confidence_score": 0.95,
+      "source": "guides_start_sdvue_quick_start",
+      "target": "guides_start_sd_design_resolver"
     },
     {
       "relation": "produces",
-      "confidence": "EXTRACTED",
-      "_src": "web_vue_package",
-      "_tgt": "build_artifacts",
-      "source": "web_vue_package",
-      "target": "build_artifacts"
+      "confidence_score": 0.95,
+      "source": "guides_theme_sdtheme_config",
+      "target": "guides_theme_css_variables"
     },
     {
-      "relation": "consumes via pnpm workspace dependency",
-      "confidence": "EXTRACTED",
-      "_src": "sd_vue_docs_package",
-      "_tgt": "web_vue_package",
-      "source": "web_vue_package",
-      "target": "sd_vue_docs_package"
+      "relation": "used_by",
+      "confidence_score": 0.95,
+      "source": "guides_theme_sdtheme_config",
+      "target": "guides_theme_theme_provider"
     },
     {
-      "relation": "uses for type generation",
-      "confidence": "EXTRACTED",
-      "_src": "web_vue_package",
-      "_tgt": "build_dts_script",
-      "source": "web_vue_package",
-      "target": "build_dts_script"
+      "relation": "used_by",
+      "confidence_score": 0.7,
+      "source": "components_tooltip_tooltip_component",
+      "target": "components_tabs_tabs_component"
     },
     {
-      "relation": "uses to generate icons",
-      "confidence": "EXTRACTED",
-      "_src": "web_vue_package",
-      "_tgt": "icongen",
-      "source": "web_vue_package",
-      "target": "icongen"
+      "relation": "internally_uses",
+      "confidence_score": 0.95,
+      "source": "components_tree_select_tree_select_component",
+      "target": "components_tree_tree_component"
     },
     {
-      "relation": "uses to generate IDE metadata",
-      "confidence": "EXTRACTED",
-      "_src": "web_vue_package",
-      "_tgt": "jsongen",
-      "source": "web_vue_package",
-      "target": "jsongen"
+      "relation": "consumes",
+      "confidence_score": 0.95,
+      "source": "components_tree_tree_component",
+      "target": "components_tree_treenode_data"
     },
     {
-      "relation": "consumes browser-ready assets from",
-      "confidence": "EXTRACTED",
-      "_src": "sd_vue_docs_package",
-      "_tgt": "public_vendor",
-      "source": "sd_vue_docs_package",
-      "target": "public_vendor"
+      "relation": "supports",
+      "confidence_score": 0.95,
+      "source": "components_tree_tree_component",
+      "target": "components_tree_virtual_list_props"
     },
     {
-      "relation": "built with",
-      "confidence": "EXTRACTED",
-      "_src": "sd_vue_docs_package",
-      "_tgt": "astro_runtime",
-      "source": "sd_vue_docs_package",
-      "target": "astro_runtime"
+      "relation": "supports",
+      "confidence_score": 0.8,
+      "source": "components_table_table_component",
+      "target": "components_tree_virtual_list_props"
+    },
+    {
+      "relation": "supports",
+      "confidence_score": 0.85,
+      "source": "components_tree_select_tree_select_component",
+      "target": "components_tree_virtual_list_props"
+    },
+    {
+      "relation": "provides",
+      "confidence_score": 0.9,
+      "source": "components_tree_select_tree_select_component",
+      "target": "components_tree_select_naive_compat_aliases"
+    },
+    {
+      "relation": "used_in",
+      "confidence_score": 0.7,
+      "source": "components_radio_radio_component",
+      "target": "components_table_table_component"
+    },
+    {
+      "relation": "consumes",
+      "confidence_score": 0.95,
+      "source": "components_table_table_component",
+      "target": "components_table_table_column_data"
+    },
+    {
+      "relation": "requires_workflow",
+      "confidence_score": 1.0,
+      "source": "skills_overdrive_skill",
+      "target": "skills_overdrive_browser_iteration"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 1.0,
+      "source": "skills_overdrive_skill",
+      "target": "skills_overdrive_context_assessment"
+    },
+    {
+      "relation": "requires",
+      "confidence_score": 1.0,
+      "source": "skills_overdrive_skill",
+      "target": "skills_overdrive_frontend_design_dependency"
+    },
+    {
+      "relation": "requires",
+      "confidence_score": 1.0,
+      "source": "skills_overdrive_skill",
+      "target": "skills_overdrive_performance_rules"
+    },
+    {
+      "relation": "requires",
+      "confidence_score": 1.0,
+      "source": "skills_overdrive_skill",
+      "target": "skills_overdrive_progressive_enhancement"
+    },
+    {
+      "relation": "mandates",
+      "confidence_score": 1.0,
+      "source": "skills_overdrive_skill",
+      "target": "skills_overdrive_propose_before_build"
+    },
+    {
+      "relation": "provides",
+      "confidence_score": 1.0,
+      "source": "skills_overdrive_skill",
+      "target": "skills_overdrive_toolkit"
+    },
+    {
+      "relation": "uses_verification",
+      "confidence_score": 1.0,
+      "source": "skills_overdrive_skill",
+      "target": "skills_overdrive_verification"
+    },
+    {
+      "relation": "provides",
+      "confidence_score": 1.0,
+      "source": "skills_polish_skill",
+      "target": "skills_polish_checklist"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 1.0,
+      "source": "skills_polish_skill",
+      "target": "skills_polish_dimensions"
+    },
+    {
+      "relation": "requires",
+      "confidence_score": 1.0,
+      "source": "skills_polish_skill",
+      "target": "skills_polish_final_verification"
+    },
+    {
+      "relation": "requires",
+      "confidence_score": 1.0,
+      "source": "skills_polish_skill",
+      "target": "skills_polish_frontend_design_dependency"
+    },
+    {
+      "relation": "mandates",
+      "confidence_score": 1.0,
+      "source": "skills_polish_skill",
+      "target": "skills_polish_pre_assessment"
+    },
+    {
+      "relation": "includes",
+      "confidence_score": 1.0,
+      "source": "skills_polish_dimensions",
+      "target": "skills_polish_interaction_states"
+    },
+    {
+      "relation": "requires",
+      "confidence_score": 1.0,
+      "source": "skills_quieter_skill",
+      "target": "skills_quieter_frontend_design_dependency"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 1.0,
+      "source": "skills_quieter_skill",
+      "target": "skills_quieter_intensity_assessment"
+    },
+    {
+      "relation": "embodies",
+      "confidence_score": 1.0,
+      "source": "skills_quieter_skill",
+      "target": "skills_quieter_philosophy"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 1.0,
+      "source": "skills_quieter_skill",
+      "target": "skills_quieter_refinement_dimensions"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 1.0,
+      "source": "skills_typeset_skill",
+      "target": "skills_typeset_assessment"
+    },
+    {
+      "relation": "requires",
+      "confidence_score": 1.0,
+      "source": "skills_typeset_skill",
+      "target": "skills_typeset_frontend_design_dependency"
+    },
+    {
+      "relation": "uses",
+      "confidence_score": 1.0,
+      "source": "skills_typeset_skill",
+      "target": "skills_typeset_improvement_dimensions"
+    },
+    {
+      "relation": "includes",
+      "confidence_score": 1.0,
+      "source": "skills_typeset_improvement_dimensions",
+      "target": "skills_typeset_sizing_strategy"
     },
     {
       "relation": "is source for",
       "confidence": "EXTRACTED",
-      "_src": "build_artifacts",
-      "_tgt": "sync_vendor_script",
-      "source": "sync_vendor_script",
-      "target": "build_artifacts"
+      "confidence_score": 1.0,
+      "source": "build_artifacts",
+      "target": "sync_vendor_script"
     },
     {
       "relation": "populates",
       "confidence": "EXTRACTED",
-      "_src": "sync_vendor_script",
-      "_tgt": "public_vendor",
+      "confidence_score": 1.0,
       "source": "sync_vendor_script",
       "target": "public_vendor"
     },
     {
       "relation": "manages",
       "confidence": "EXTRACTED",
-      "_src": "astro_runtime",
-      "_tgt": "theme_bridge",
-      "source": "theme_bridge",
-      "target": "astro_runtime"
+      "confidence_score": 1.0,
+      "source": "astro_runtime",
+      "target": "theme_bridge"
     }
-  ]
+  ],
+  "hyperedges": [],
+  "built_at_commit": "bb7c69e28f97ba88fac4f80452f52857582afe22"
 }

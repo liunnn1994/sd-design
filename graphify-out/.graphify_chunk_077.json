@@ -1,0 +1,506 @@
+{
+  "nodes": [
+    {
+      "id": "openspec_propose_skill",
+      "label": "openspec-propose skill",
+      "file_type": "document",
+      "file": ".github/skills/openspec-propose/SKILL.md",
+      "attributes": {
+        "description": "Skill that proposes a new OpenSpec change by creating change directory, generating artifacts (proposal, design, specs, tasks) in dependency order, and tracking progress until all apply-required artifacts are done.",
+        "generates": ["proposal.md", "design.md", "tasks.md"],
+        "cli_commands": ["openspec new change", "openspec status", "openspec instructions"]
+      }
+    },
+    {
+      "id": "release_auto_import_resolver_workflow",
+      "label": "release-auto-import-resolver workflow",
+      "file_type": "document",
+      "file": ".github/workflows/release-auto-import-resolver.yml",
+      "attributes": {
+        "description": "GitHub Actions workflow that releases @sdata/web-vue-auto-import-resolver on push to main when auto-import-resolver or web-vue components change. Runs typecheck, test, build, then semantic-release.",
+        "triggers": ["push to main", "workflow_dispatch"],
+        "path_filters": ["packages/auto-import-resolver/**", "packages/web-vue/components/**"]
+      }
+    },
+    {
+      "id": "release_web_vue_workflow",
+      "label": "release web-vue workflow",
+      "file_type": "document",
+      "file": ".github/workflows/release.yml",
+      "attributes": {
+        "description": "GitHub Actions workflow that releases web-vue on push to main when web-vue or sd-vue-docs change. Runs typecheck, test, build, semantic-release, then triggers Netlify docs build hook.",
+        "triggers": ["push to main", "workflow_dispatch"],
+        "path_filters": ["packages/sd-vue-docs/**", "packages/web-vue/**"]
+      }
+    },
+    {
+      "id": "auto_import_resolver_package",
+      "label": "packages/auto-import-resolver",
+      "file_type": "code",
+      "file": "packages/auto-import-resolver",
+      "attributes": {
+        "npm_name": "@sdata/web-vue-auto-import-resolver"
+      }
+    },
+    {
+      "id": "web_vue_package",
+      "label": "packages/web-vue",
+      "file_type": "code",
+      "file": "packages/web-vue",
+      "attributes": {
+        "npm_name": "@sdata/web-vue",
+        "description": "Component library package providing Vue components, styles, icons, and editor metadata."
+      }
+    },
+    {
+      "id": "sd_vue_docs_package",
+      "label": "packages/sd-vue-docs",
+      "file_type": "code",
+      "file": "packages/sd-vue-docs",
+      "attributes": {
+        "description": "Documentation site package built on Astro/Starlight."
+      }
+    },
+    {
+      "id": "sd_vue_scripts_package",
+      "label": "packages/sd-vue-scripts",
+      "file_type": "code",
+      "file": "packages/sd-vue-scripts",
+      "attributes": {
+        "status": "deleted",
+        "description": "Former shared tooling package that was removed. Its responsibilities were migrated into web-vue package-local scripts."
+      }
+    },
+    {
+      "id": "semantic_release",
+      "label": "semantic-release",
+      "file_type": "concept",
+      "attributes": {
+        "description": "Automated versioning and publishing tool used in both release workflows."
+      }
+    },
+    {
+      "id": "netlify_docs_deploy",
+      "label": "Netlify docs deploy",
+      "file_type": "concept",
+      "attributes": {
+        "description": "Docs site is deployed to Netlify via build hook triggered after successful web-vue release."
+      }
+    },
+    {
+      "id": "simplify_build_tooling_change",
+      "label": "simplify-build-tooling-remove-sd-vue-scripts change",
+      "file_type": "document",
+      "file": "openspec/changes/archive/2026-04-14-simplify-build-tooling-remove-sd-vue-scripts",
+      "attributes": {
+        "created": "2026-04-14",
+        "status": "archived",
+        "schema": "spec-driven",
+        "description": "Archived OpenSpec change that removed packages/sd-vue-scripts and migrated its responsibilities into packages/web-vue, simplifying the repo to a two-package workflow (web-vue + sd-vue-docs)."
+      }
+    },
+    {
+      "id": "simplify_proposal",
+      "label": "simplify-build-tooling proposal",
+      "file_type": "document",
+      "file": "openspec/changes/archive/2026-04-14-simplify-build-tooling-remove-sd-vue-scripts/proposal.md"
+    },
+    {
+      "id": "simplify_tasks",
+      "label": "simplify-build-tooling tasks",
+      "file_type": "document",
+      "file": "openspec/changes/archive/2026-04-14-simplify-build-tooling-remove-sd-vue-scripts/tasks.md"
+    },
+    {
+      "id": "workspace_package_workflows_spec",
+      "label": "workspace-package-workflows spec",
+      "file_type": "document",
+      "file": "openspec/changes/archive/2026-04-14-simplify-build-tooling-remove-sd-vue-scripts/specs/workspace-package-workflows/spec.md",
+      "attributes": {
+        "description": "Spec requiring root workflows to orchestrate only web-vue and docs packages, removal of sd-vue-scripts from workspace dependencies, and updated repository documentation."
+      }
+    },
+    {
+      "id": "component_library_tooling_capability",
+      "label": "component-library-tooling capability",
+      "file_type": "concept",
+      "attributes": {
+        "description": "Capability for the component library package to directly provide dev, build, test, and generation capabilities without a shared tooling package."
+      }
+    },
+    {
+      "id": "workspace_package_workflows_capability",
+      "label": "workspace-package-workflows capability",
+      "file_type": "concept",
+      "attributes": {
+        "description": "Capability for repository root scripts and CI to orchestrate only web-vue and sd-vue-docs without a separate tools-package stage."
+      }
+    },
+    {
+      "id": "docs_tooling_simplification_capability",
+      "label": "docs-tooling-simplification capability",
+      "file_type": "concept",
+      "attributes": {
+        "description": "Capability ensuring docs workflow dependencies are limited to docs package and component library outputs, not shared scaffolding packages."
+      }
+    },
+    {
+      "id": "migrate_vite_plus_change",
+      "label": "migrate-web-vue-to-vite-plus change",
+      "file_type": "document",
+      "file": "openspec/changes/archive/2026-04-15-migrate-web-vue-to-vite-plus",
+      "attributes": {
+        "created": "2026-04-15",
+        "status": "archived",
+        "schema": "spec-driven",
+        "description": "Archived OpenSpec change that migrated web-vue build entry points to Vite+ managed configuration, replacing custom Node.js build wrappers with Vite+ tasks."
+      }
+    },
+    {
+      "id": "migrate_vite_plus_proposal",
+      "label": "migrate-web-vue-to-vite-plus proposal",
+      "file_type": "document",
+      "file": "openspec/changes/archive/2026-04-15-migrate-web-vue-to-vite-plus/proposal.md"
+    },
+    {
+      "id": "migrate_vite_plus_design",
+      "label": "migrate-web-vue-to-vite-plus design",
+      "file_type": "document",
+      "file": "openspec/changes/archive/2026-04-15-migrate-web-vue-to-vite-plus/design.md",
+      "attributes": {
+        "description": "Design document covering decisions to use Vite+ for orchestration, keep generators as explicit prerequisites, defer Jest/Vitest and stylelint migration, and keep docs on Astro."
+      }
+    },
+    {
+      "id": "migrate_vite_plus_tasks",
+      "label": "migrate-web-vue-to-vite-plus tasks",
+      "file_type": "document",
+      "file": "openspec/changes/archive/2026-04-15-migrate-web-vue-to-vite-plus/tasks.md"
+    },
+    {
+      "id": "web_vue_build_migration_spec",
+      "label": "web-vue-build-migration spec",
+      "file_type": "document",
+      "file": "openspec/changes/archive/2026-04-15-migrate-web-vue-to-vite-plus/specs/web-vue-build-migration/spec.md",
+      "attributes": {
+        "status": "file_does_not_exist",
+        "note": "Spec directory name from chunk list; actual spec files found under specs/component-library-tooling/ and specs/workspace-package-workflows/"
+      }
+    },
+    {
+      "id": "vite_plus",
+      "label": "Vite+",
+      "file_type": "concept",
+      "attributes": {
+        "description": "Build orchestration tool (vp run) used as workspace-level command entry point for dev, build, check, and test. Manages package-local packaging and task entry points.",
+        "cli_command": "vp run"
+      }
+    },
+    {
+      "id": "vite",
+      "label": "Vite",
+      "file_type": "concept",
+      "attributes": {
+        "description": "Build tool used by web-vue for component library packaging, dev server, and style emission."
+      }
+    },
+    {
+      "id": "astro_starlight",
+      "label": "Astro/Starlight",
+      "file_type": "concept",
+      "attributes": {
+        "description": "Documentation site framework used by sd-vue-docs. Not targeted for migration."
+      }
+    },
+    {
+      "id": "jest",
+      "label": "Jest",
+      "file_type": "concept",
+      "attributes": {
+        "description": "Testing framework used by web-vue during vite-plus migration stage (deferred migration to Vitest)."
+      }
+    },
+    {
+      "id": "openspec_cli",
+      "label": "OpenSpec CLI",
+      "file_type": "concept",
+      "attributes": {
+        "description": "CLI tool for managing OpenSpec changes. Commands include: openspec new change, openspec status, openspec instructions."
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "release_auto_import_resolver_workflow",
+      "target": "auto_import_resolver_package",
+      "relation": "builds_and_releases",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Workflow runs pnpm --filter @sdata/web-vue-auto-import-resolver run build and semantic-release in packages/auto-import-resolver"
+    },
+    {
+      "source": "release_auto_import_resolver_workflow",
+      "target": "web_vue_package",
+      "relation": "watches_paths",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Workflow triggers on changes to packages/web-vue/components/**"
+    },
+    {
+      "source": "release_web_vue_workflow",
+      "target": "web_vue_package",
+      "relation": "builds_and_releases",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Workflow runs pnpm --filter @sdata/web-vue run build and semantic-release in packages/web-vue"
+    },
+    {
+      "source": "release_web_vue_workflow",
+      "target": "sd_vue_docs_package",
+      "relation": "triggers_deploy",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Workflow triggers Netlify build hook after successful release to deploy docs"
+    },
+    {
+      "source": "release_web_vue_workflow",
+      "target": "semantic_release",
+      "relation": "uses",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED"
+    },
+    {
+      "source": "release_auto_import_resolver_workflow",
+      "target": "semantic_release",
+      "relation": "uses",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED"
+    },
+    {
+      "source": "release_web_vue_workflow",
+      "target": "netlify_docs_deploy",
+      "relation": "triggers",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED"
+    },
+    {
+      "source": "simplify_build_tooling_change",
+      "target": "simplify_proposal",
+      "relation": "contains_artifact",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED"
+    },
+    {
+      "source": "simplify_build_tooling_change",
+      "target": "simplify_tasks",
+      "relation": "contains_artifact",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED"
+    },
+    {
+      "source": "simplify_build_tooling_change",
+      "target": "workspace_package_workflows_spec",
+      "relation": "contains_artifact",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED"
+    },
+    {
+      "source": "simplify_build_tooling_change",
+      "target": "sd_vue_scripts_package",
+      "relation": "removes",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Change proposal explicitly deletes packages/sd-vue-scripts"
+    },
+    {
+      "source": "simplify_build_tooling_change",
+      "target": "web_vue_package",
+      "relation": "migrates_tooling_into",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Proposal states scripts migrated to packages/web-vue internal scripts"
+    },
+    {
+      "source": "simplify_proposal",
+      "target": "component_library_tooling_capability",
+      "relation": "introduces_capability",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Proposal lists 'component-library-tooling' as a new capability"
+    },
+    {
+      "source": "simplify_proposal",
+      "target": "workspace_package_workflows_capability",
+      "relation": "introduces_capability",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Proposal lists 'workspace-package-workflows' as a new capability"
+    },
+    {
+      "source": "simplify_proposal",
+      "target": "docs_tooling_simplification_capability",
+      "relation": "modifies_capability",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Proposal lists 'docs-tooling-simplification' as a modified capability"
+    },
+    {
+      "source": "migrate_vite_plus_change",
+      "target": "migrate_vite_plus_proposal",
+      "relation": "contains_artifact",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED"
+    },
+    {
+      "source": "migrate_vite_plus_change",
+      "target": "migrate_vite_plus_design",
+      "relation": "contains_artifact",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED"
+    },
+    {
+      "source": "migrate_vite_plus_change",
+      "target": "migrate_vite_plus_tasks",
+      "relation": "contains_artifact",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED"
+    },
+    {
+      "source": "migrate_vite_plus_change",
+      "target": "web_vue_package",
+      "relation": "migrates_build_for",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Change targets packages/web-vue as primary migration target"
+    },
+    {
+      "source": "migrate_vite_plus_proposal",
+      "target": "component_library_tooling_capability",
+      "relation": "modifies_capability",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED"
+    },
+    {
+      "source": "migrate_vite_plus_proposal",
+      "target": "workspace_package_workflows_capability",
+      "relation": "modifies_capability",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED"
+    },
+    {
+      "source": "migrate_vite_plus_proposal",
+      "target": "vite_plus",
+      "relation": "introduces_dependency",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Proposal introduces Vite+ as new dependency for workspace orchestration"
+    },
+    {
+      "source": "migrate_vite_plus_change",
+      "target": "simplify_build_tooling_change",
+      "relation": "follows_up",
+      "confidence_score": 0.85,
+      "evidence_type": "INFERRED",
+      "rationale": "Vite+ migration builds on the simplification change that removed sd-vue-scripts, both modify the same capabilities"
+    },
+    {
+      "source": "web_vue_package",
+      "target": "vite",
+      "relation": "uses_for_build",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Both changes reference Vite as the build tool for web-vue"
+    },
+    {
+      "source": "web_vue_package",
+      "target": "vite_plus",
+      "relation": "uses_for_orchestration",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "After vite-plus migration, vp run orchestrates web-vue dev/build/check/test"
+    },
+    {
+      "source": "sd_vue_docs_package",
+      "target": "astro_starlight",
+      "relation": "built_with",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Both proposals and design doc confirm sd-vue-docs uses Astro/Starlight"
+    },
+    {
+      "source": "web_vue_package",
+      "target": "jest",
+      "relation": "uses_for_testing",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Design doc and tasks confirm Jest preserved during vite-plus migration"
+    },
+    {
+      "source": "openspec_propose_skill",
+      "target": "openspec_cli",
+      "relation": "uses",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Skill requires openspec CLI for all operations"
+    },
+    {
+      "source": "workspace_package_workflows_spec",
+      "target": "workspace_package_workflows_capability",
+      "relation": "specifies",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED"
+    },
+    {
+      "source": "release_web_vue_workflow",
+      "target": "web_vue_package",
+      "relation": "watches_paths",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Workflow triggers on changes to packages/web-vue/**"
+    },
+    {
+      "source": "release_web_vue_workflow",
+      "target": "sd_vue_docs_package",
+      "relation": "watches_paths",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "rationale": "Workflow triggers on changes to packages/sd-vue-docs/**"
+    },
+    {
+      "source": "auto_import_resolver_package",
+      "target": "web_vue_package",
+      "relation": "depends_on",
+      "confidence_score": 0.85,
+      "evidence_type": "INFERRED",
+      "rationale": "auto-import-resolver release workflow watches web-vue/components paths, implying dependency on component source"
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "he_two_package_workflow",
+      "nodes": ["simplify_build_tooling_change", "web_vue_package", "sd_vue_docs_package", "workspace_package_workflows_capability"],
+      "relation": "established_two_package_workflow",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "description": "The simplify-build-tooling change established that the repo has exactly two active packages (web-vue and sd-vue-docs) defining the workspace-package-workflows capability."
+    },
+    {
+      "id": "he_release_pipeline",
+      "nodes": ["release_web_vue_workflow", "web_vue_package", "semantic_release", "netlify_docs_deploy", "sd_vue_docs_package"],
+      "relation": "release_triggers_docs_deploy",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "description": "The release workflow builds web-vue, runs semantic-release, then triggers Netlify docs build hook to deploy sd-vue-docs."
+    },
+    {
+      "id": "he_vite_plus_migration_scope",
+      "nodes": ["migrate_vite_plus_change", "web_vue_package", "vite_plus", "jest", "astro_starlight"],
+      "relation": "vite_plus_scoped_migration",
+      "confidence_score": 1.0,
+      "evidence_type": "EXTRACTED",
+      "description": "The Vite+ migration targets only web-vue packaging, explicitly deferring Jest-to-Vitest migration and keeping sd-vue-docs on Astro/Starlight."
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

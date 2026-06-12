@@ -1,0 +1,403 @@
+{
+  "nodes": [
+    {
+      "id": "components_spin",
+      "label": "Spin",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/spin/index.mdx",
+      "category": "component",
+      "description": "加载中组件，用于页面和区块的加载状态指示。支持容器模式、点类型动画、自定义图标、不同尺寸和描述文案。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_split",
+      "label": "Split",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/split/index.mdx",
+      "category": "component",
+      "description": "面板分割组件，将面板分割成两部分。支持水平和垂直方向、嵌套使用、自定义伸缩杆。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_steps",
+      "label": "Steps",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/steps/index.mdx",
+      "category": "component",
+      "description": "步骤条组件，明示任务流程和当前完成程度。支持默认/箭头/点状/导航四种类型，水平和垂直方向，可切换、自定义节点、描述信息、错误状态。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_switch",
+      "label": "Switch",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/switch/index.mdx",
+      "category": "component",
+      "description": "开关组件，互斥性操作控件。支持circle/round/line三种类型、切换拦截(beforeChange)、自动loading、自定义颜色和图标、自定义值。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_table",
+      "label": "Table",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/table/index.mdx",
+      "category": "component",
+      "description": "表格组件，用于数据收集展示、分析整理。支持排序、筛选、固定列、分组表头、展开行、行选择(单选/多选)、拖拽排序、可编辑、虚拟列表、树形数据、单元格合并、表头吸顶、总结行、分页等。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_tabs",
+      "label": "Tabs",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tabs/index.mdx",
+      "category": "component",
+      "description": "标签页组件，将内容组织在同一视图中。支持line/card/card-gutter/text/rounded/capsule类型、动态增减、懒加载、不同位置、滚动、hover/click触发方式。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_tag",
+      "label": "Tag",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tag/index.mdx",
+      "category": "component",
+      "description": "标签组件，用于信息选择、筛选、分类。支持预设颜色和自定义颜色(自动适配文字颜色)、可选中、可关闭、边框、省略内容(内置sd-ellipsis)、加载状态、多种尺寸。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_timeline",
+      "label": "Timeline",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/timeline/index.mdx",
+      "category": "component",
+      "description": "时间轴组件，按时间顺序展示信息。支持水平和垂直方向、交替展示模式、自定义节点、幽灵节点、自定义轴线样式、标签文本位置。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_tooltip",
+      "label": "Tooltip",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tooltip/index.mdx",
+      "category": "component",
+      "description": "文字气泡组件，鼠标悬停/聚焦/点击时弹出文字提示。继承Trigger组件全部属性。支持12个方位、自定义背景颜色、迷你尺寸。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_transfer",
+      "label": "Transfer",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/transfer/index.mdx",
+      "category": "component",
+      "description": "数据穿梭框组件，两栏布局的多选组件。支持搜索、简单模式、单向模式、分页、树型穿梭框、自定义标题栏和选项渲染。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_tree_select",
+      "label": "TreeSelect",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tree-select/index.mdx",
+      "category": "component",
+      "description": "树选择组件，对树形结构数据进行选择。复用内部Tree/Trigger/SelectView组件。支持复选框多选、回填策略、远程搜索、虚拟列表、动态加载、回退选项、Naive UI和Arco Design迁移兼容。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_tree",
+      "label": "Tree",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/tree/index.mdx",
+      "category": "component",
+      "description": "树组件，用于层级关系展示(文件夹、组织架构等)。支持复选框、多选、拖拽、动态加载、搜索、连接线、虚拟列表、自定义字段名(fieldNames)、回填策略(checkedStrategy)。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_typography",
+      "label": "Typography",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/typography/index.mdx",
+      "category": "component",
+      "description": "排版组件，用于展示标题(typography-title)、段落(typography-paragraph)、文本内容。支持省略(EllipsisConfig)、复制(copyable)、编辑(editable)、标记/下划线/删除线/代码块样式。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_upload",
+      "label": "Upload",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/upload/index.mdx",
+      "category": "component",
+      "description": "上传组件，用户传输文件。支持拖拽上传、文件夹上传、照片墙、图片列表、自定义上传请求(customRequest)、手动上传、上传前校验、移除前校验、数量限制、头像上传。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_verification_code",
+      "label": "VerificationCode",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/verification-code/index.mdx",
+      "category": "component",
+      "description": "验证码输入组件。支持密码模式、自定义分隔符、格式化输入(formatter)、不同状态(禁用/只读/错误)、配合表单校验使用。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "components_virtual_list",
+      "label": "VirtualList",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/virtual-list/index.mdx",
+      "category": "component",
+      "description": "虚拟列表组件，用于大数据量高性能渲染。(文档不存在，但在Table/Tree/TreeSelect等组件中被引用)",
+      "confidence_score": 0.6
+    },
+    {
+      "id": "components_watermark",
+      "label": "Watermark",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/components/watermark/index.mdx",
+      "category": "component",
+      "description": "水印组件，给页面指定区域加上水印。支持文字和图片水印、多行文本、自定义旋转/间距/偏移、防篡改、灰阶水印、错开排列。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "guides_faq",
+      "label": "FAQ",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/guides/faq.mdx",
+      "category": "guide",
+      "description": "常见问题文档。涵盖受控与非受控模式概念、下拉菜单滚动跟随(updateAtScroll)、虚拟列表使用(vue-virtual-scroller, itemSize/minItemSize)。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "guides_naive_ui_migration",
+      "label": "Naive UI Migration",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/guides/naive-ui-migration.mdx",
+      "category": "guide",
+      "description": "Naive UI迁移指南。当前涵盖Ellipsis组件迁移(NEllipsis->sd-ellipsis, NPerformantEllipsis->sd-performant-ellipsis)，包括对应关系、差异说明、迁移示例和建议顺序。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "guides_start",
+      "label": "Getting Started",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/guides/start.mdx",
+      "category": "guide",
+      "description": "快速上手指南。Vue >= 3.2.0，npm包名@sdata/web-vue。支持完整引入和按需加载(unplugin-vue-components + @sdata/web-vue-auto-import-resolver)。全局配置componentPrefix。浏览器兼容chrome>=120等。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "docs_index",
+      "label": "Docs Index",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/index.mdx",
+      "category": "page",
+      "description": "文档站首页，使用splash模板，引入HomeLanding Astro组件。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "docs_llms_txt",
+      "label": "LLMs.txt Documentation",
+      "file_type": "document",
+      "file": "packages/sd-vue-docs/src/content/docs/llms_txt.mdx",
+      "category": "page",
+      "description": "面向大语言模型的文档入口说明。提供三类入口：/llms/llms.txt(轻量索引)、/llms/llms-full.txt(完整聚合)、/llms/components/[slug].md(组件级)。包含推荐用法、提示词示例和RAG建议。",
+      "confidence_score": 0.95
+    },
+    {
+      "id": "concept_controlled_uncontrolled",
+      "label": "Controlled/Uncontrolled Pattern",
+      "file_type": "concept",
+      "category": "pattern",
+      "description": "SD Design Vue的受控与非受控模式。受控模式通过v-model或change事件同步值；非受控模式通过default-*属性设置初始值。default-*类属性与受控值同时使用时受控值优先。",
+      "confidence_score": 0.9
+    },
+    {
+      "id": "concept_virtual_list",
+      "label": "Virtual List",
+      "file_type": "concept",
+      "category": "feature",
+      "description": "虚拟列表能力，基于vue-virtual-scroller。支持组件：List、Select、Tree及复用它们的AutoComplete、Cascader、TreeSelect。分固定高度(itemSize/RecycleScroller)和动态高度(minItemSize/DynamicScroller)两种模式。",
+      "confidence_score": 0.9
+    },
+    {
+      "id": "concept_naive_ui_migration",
+      "label": "Naive UI Migration",
+      "file_type": "concept",
+      "category": "migration",
+      "description": "从Naive UI迁移到SD Design Vue的过程。当前已迁移Ellipsis组件。TreeSelect也保留Naive UI兼容别名(options, filterable, clearable, checkable等)。",
+      "confidence_score": 0.85
+    },
+    {
+      "id": "concept_arco_design_migration",
+      "label": "Arco Design Migration",
+      "file_type": "concept",
+      "category": "migration",
+      "description": "从Arco Design Vue迁移到SD Design Vue。TreeSelect文档包含Arco迁移指南，API命名大部分保持一致(a-tree-select->sd-tree-select)。",
+      "confidence_score": 0.85
+    },
+    {
+      "id": "concept_llms_txt_standard",
+      "label": "LLMs.txt Standard",
+      "file_type": "concept",
+      "category": "feature",
+      "description": "面向LLM的文档标准。SD Design Vue实现了llms.txt(轻量索引)、llms-full.txt(完整聚合)和组件级Markdown三种入口，用于AI助手、RAG、代码代理等场景。",
+      "confidence_score": 0.9
+    },
+    {
+      "id": "packages_sd_vue_docs",
+      "label": "sd-vue-docs",
+      "file_type": "code",
+      "category": "package",
+      "description": "SD Design Vue文档站包，基于Astro构建。包含组件文档(components/)、指南(guides/)、首页和LLMs入口页。",
+      "confidence_score": 0.9
+    }
+  ],
+  "edges": [
+    {
+      "source": "components_tooltip",
+      "target": "concept_controlled_uncontrolled",
+      "relation": "implements",
+      "confidence_score": 0.8
+    },
+    {
+      "source": "components_table",
+      "target": "components_virtual_list",
+      "relation": "uses",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "components_tree",
+      "target": "components_virtual_list",
+      "relation": "uses",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "components_tree_select",
+      "target": "components_tree",
+      "relation": "reuses",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "components_tree_select",
+      "target": "components_virtual_list",
+      "relation": "uses",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "components_tree_select",
+      "target": "concept_naive_ui_migration",
+      "relation": "supports",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "components_tree_select",
+      "target": "concept_arco_design_migration",
+      "relation": "supports",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "components_tag",
+      "target": "components_tooltip",
+      "relation": "uses",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "components_table",
+      "target": "components_tooltip",
+      "relation": "uses",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "components_typography",
+      "target": "components_tooltip",
+      "relation": "uses",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "guides_naive_ui_migration",
+      "target": "concept_naive_ui_migration",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "guides_faq",
+      "target": "concept_virtual_list",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "guides_faq",
+      "target": "concept_controlled_uncontrolled",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "guides_start",
+      "target": "packages_sd_vue_docs",
+      "relation": "belongs_to",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "guides_faq",
+      "target": "packages_sd_vue_docs",
+      "relation": "belongs_to",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "guides_naive_ui_migration",
+      "target": "packages_sd_vue_docs",
+      "relation": "belongs_to",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "docs_llms_txt",
+      "target": "concept_llms_txt_standard",
+      "relation": "documents",
+      "confidence_score": 0.95
+    },
+    {
+      "source": "docs_index",
+      "target": "packages_sd_vue_docs",
+      "relation": "belongs_to",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "docs_llms_txt",
+      "target": "packages_sd_vue_docs",
+      "relation": "belongs_to",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "concept_virtual_list",
+      "target": "components_tree",
+      "relation": "used_in",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "concept_virtual_list",
+      "target": "components_table",
+      "relation": "used_in",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "concept_virtual_list",
+      "target": "components_tree_select",
+      "relation": "used_in",
+      "confidence_score": 0.9
+    }
+  ],
+  "hyperedges": [
+    {
+      "nodes": ["components_table", "components_virtual_list", "components_tooltip"],
+      "relation": "Table integrates VirtualList for large datasets and Tooltip for ellipsis text hints",
+      "confidence_score": 0.9
+    },
+    {
+      "nodes": ["components_tree_select", "components_tree", "concept_naive_ui_migration", "concept_arco_design_migration"],
+      "relation": "TreeSelect reuses internal Tree component and provides migration compatibility aliases for both Naive UI and Arco Design",
+      "confidence_score": 0.9
+    },
+    {
+      "nodes": ["docs_llms_txt", "concept_llms_txt_standard", "packages_sd_vue_docs"],
+      "relation": "LLMs.txt page documents the LLM-optimized doc standard implemented in the sd-vue-docs documentation site",
+      "confidence_score": 0.9
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}
