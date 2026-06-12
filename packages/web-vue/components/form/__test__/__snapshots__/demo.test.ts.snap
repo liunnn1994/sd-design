@@ -1091,7 +1091,7 @@ exports[`<form> demo: > render [status] correctly 1`] = `
     <div class="sd-col sd-col-19 sd-form-item-wrapper-col">
       <div class="sd-form-item-content-wrapper">
         <div class="sd-form-item-content sd-form-item-content-flex">
-          <div class="sd-picker sd-picker-range sd-picker-size-medium" visible="false">
+          <div class="sd-picker sd-picker-range sd-picker-size-medium" visible="false" input-props="">
             <!--v-if-->
             <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始日期"></div><span class="sd-picker-separator">-</span>
             <div class="sd-picker-input"><input placeholder="结束日期"></div>
@@ -1138,13 +1138,7 @@ exports[`<form> demo: > render [status] correctly 1`] = `
     <div class="sd-col sd-col-19 sd-form-item-wrapper-col" id="time">
       <div class="sd-form-item-content-wrapper">
         <div class="sd-form-item-content sd-form-item-content-flex">
-          <div class="sd-picker sd-picker-size-medium" visible="false" editable="true">
-            <!--v-if-->
-            <div class="sd-picker-input"><input placeholder="请选择时间" class="sd-picker-start-time"></div>
-            <div class="sd-picker-suffix">
-              <!--v-if--><span class="sd-picker-suffix-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-clock-circle" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M24 14v10h9.5m8.5 0c0 9.941-8.059 18-18 18S6 33.941 6 24 14.059 6 24 6s18 8.059 18 18Z"></path></svg></span><span class="sd-feedback-icon sd-feedback-icon-status-success"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-check-circle-fill" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path fill="currentColor" fill-rule="evenodd" stroke="none" d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4 4 12.954 4 24s8.954 20 20 20m10.207-24.379a1 1 0 0 0 0-1.414l-1.414-1.414a1 1 0 0 0-1.414 0L22 26.172l-4.878-4.88a1 1 0 0 0-1.415 0l-1.414 1.415a1 1 0 0 0 0 1.414l7 7a1 1 0 0 0 1.414 0z" clip-rule="evenodd"></path></svg></span>
-            </div>
-          </div>
+          <dateinput focused="false" format="HH:mm:ss" visible="false" disabled="false" error="false" editable="true" allow-clear="true" placeholder="请选择时间"></dateinput>
           <!---->
         </div>
       </div>
@@ -1278,14 +1272,7 @@ exports[`<form> demo: > render [validation] correctly 1`] = `
     <div class="sd-col sd-col-19 sd-form-item-wrapper-col" id="time">
       <div class="sd-form-item-content-wrapper">
         <div class="sd-form-item-content sd-form-item-content-flex">
-          <div class="sd-picker sd-picker-size-medium" visible="false" editable="true">
-            <!--v-if-->
-            <div class="sd-picker-input"><input placeholder="Please select ..." class="sd-picker-start-time"></div>
-            <div class="sd-picker-suffix">
-              <!--v-if--><span class="sd-picker-suffix-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-clock-circle" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M24 14v10h9.5m8.5 0c0 9.941-8.059 18-18 18S6 33.941 6 24 14.059 6 24 6s18 8.059 18 18Z"></path></svg></span>
-              <!--v-if-->
-            </div>
-          </div>
+          <dateinput focused="false" format="HH:mm:ss" visible="false" disabled="false" error="false" editable="true" allow-clear="true" placeholder="Please select ..."></dateinput>
           <!---->
         </div>
       </div>
@@ -1415,11 +1402,14 @@ exports[`<form> demo: > render [validation] correctly 1`] = `
       </label></div>
     <div class="sd-col sd-col-19 sd-form-item-wrapper-col" id="multiSelect">
       <div class="sd-form-item-content-wrapper">
-        <div class="sd-form-item-content sd-form-item-content-flex"><span class="sd-select-view sd-select-view-size-medium sd-select-view-responsive sd-select-view-has-suffix sd-select-view-has-placeholder sd-select-view-multiple sd-select"><!----><span class="sd-select-view-mirror">Please select ...</span>
+        <div class="sd-form-item-content sd-form-item-content-flex"><span class="sd-select-view sd-select-view-size-medium sd-select-view-responsive sd-select-view-has-tag sd-select-view-has-suffix sd-select-view-multiple sd-select"><span class="sd-select-view-resize-observer" aria-hidden="true"></span><span class="sd-select-view-mirror"></span>
           <!---->
           <!---->
-          <transition-group-stub tag="span" name="input-tag-zoom" appear="false" persisted="false" css="true" class="sd-select-view-inner sd-select-view-inner-responsive"><input class="sd-select-view-input" style="width: 12px; flex: 0 0 auto; min-width: 12px;" placeholder="Please select ..."></transition-group-stub>
-          <!----><span class="sd-select-view-suffix"><!----><span class="sd-select-view-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-down sd-select-view-arrow-icon" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M39.6 17.443 24.043 33 8.487 17.443"></path></svg></span>
+          <transition-group-stub tag="span" name="input-tag-zoom" appear="false" persisted="false" css="true" class="sd-select-view-inner sd-select-view-inner-responsive"><span class="sd-tag sd-tag-size-medium sd-tag-ellipsis sd-tag-checked sd-select-view-tag"><!--v-if--><span class="sd-tag-text sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">Section One</span></span>
+            <!----><span class="sd-icon-hover sd-tag-icon-hover sd-tag-close-btn" tabindex="0" role="button" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-close" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M9.857 9.858 24 24m0 0 14.142 14.142M24 24 38.142 9.858M24 24 9.857 38.142"></path></svg></span>
+            <!--v-if--></span><input class="sd-select-view-input" style="width: 12px; flex: 0 0 auto; min-width: 12px;">
+          </transition-group-stub>
+          <!----><span class="sd-select-view-suffix"><button type="button" class="sd-select-view-clear-btn"><span class="sd-icon-hover"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-close" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M9.857 9.858 24 24m0 0 14.142 14.142M24 24 38.142 9.858M24 24 9.857 38.142"></path></svg></span></button><span class="sd-select-view-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-down sd-select-view-arrow-icon" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M39.6 17.443 24.043 33 8.487 17.443"></path></svg></span>
           <!---->
           <!----></span></span>
           <!---->

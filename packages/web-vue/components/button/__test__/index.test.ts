@@ -30,7 +30,7 @@ describe('Button', () => {
       },
     });
 
-    expect(wrapper.find('button').classes()).toContain('arco-btn-loading-fixed-width');
+    expect(wrapper.find('button').classes()).toContain('sd-btn-loading-fixed-width');
   });
 
   test('should add two chinese chars class when autoInsertSpaceInButton is enabled', async () => {
@@ -49,6 +49,6 @@ describe('Button', () => {
 
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.find('button').classes()).toContain('arco-btn-two-chinese-chars');
+    expect(wrapper.find('button').classes()).toContain('sd-btn-two-chinese-chars');
   });
 });

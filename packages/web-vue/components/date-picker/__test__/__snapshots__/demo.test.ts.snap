@@ -26,7 +26,7 @@ exports[`<date-picker> demo: > render [control] correctly 1`] = `
   </div>
   <!---->
   <div class="sd-space-item">
-    <div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-75" visible="false">
+    <div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-75" visible="false" input-props="">
       <!--v-if-->
       <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始日期" value="2026-04-16"></div><span class="sd-picker-separator">-</span>
       <div class="sd-picker-input"><input placeholder="结束日期" value="2026-04-16"></div>
@@ -93,7 +93,7 @@ exports[`<date-picker> demo: > render [default-value] correctly 1`] = `
     <!--v-if-->
   </div>
 </div>
-<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-90 sd:mr-6 sd:mb-6" visible="false">
+<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-90 sd:mr-6 sd:mb-6" visible="false" input-props="">
   <!--v-if-->
   <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始日期" value="2019-08-08 00:00:00"></div><span class="sd-picker-separator">-</span>
   <div class="sd-picker-input"><input placeholder="结束日期" value="2019-08-18 00:00:00"></div>
@@ -101,7 +101,7 @@ exports[`<date-picker> demo: > render [default-value] correctly 1`] = `
     <!--v-if-->
   </div>
 </div>
-<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-75 sd:mb-6" visible="false">
+<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-75 sd:mb-6" visible="false" input-props="">
   <!--v-if-->
   <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始月份" value="2019-08"></div><span class="sd-picker-separator">-</span>
   <div class="sd-picker-input"><input placeholder="结束月份" value="2020-06"></div>
@@ -121,7 +121,7 @@ exports[`<date-picker> demo: > render [disabled] correctly 1`] = `
   </div>
 </div>
 <br>
-<div class="sd-picker sd-picker-range sd-picker-size-medium sd-picker-disabled sd:w-75 sd:mb-5" visible="false">
+<div class="sd-picker sd-picker-range sd-picker-size-medium sd-picker-disabled sd:w-75 sd:mb-5" visible="false" input-props="">
   <!--v-if-->
   <div class="sd-picker-input"><input disabled="" placeholder="开始日期" value="2020-08-08"></div><span class="sd-picker-separator">-</span>
   <div class="sd-picker-input sd-picker-input-active"><input disabled="" placeholder="结束日期" value="2020-08-18"></div>
@@ -130,7 +130,7 @@ exports[`<date-picker> demo: > render [disabled] correctly 1`] = `
   </div>
 </div>
 <br>
-<div class="sd-picker sd-picker-range sd-picker-size-medium sd:mb-5 sd:w-75" visible="false">
+<div class="sd-picker sd-picker-range sd-picker-size-medium sd:mb-5 sd:w-75" visible="false" input-props="">
   <!--v-if-->
   <div class="sd-picker-input"><input disabled="" placeholder="开始日期" value="2020-08-08"></div><span class="sd-picker-separator">-</span>
   <div class="sd-picker-input sd-picker-input-active"><input placeholder="结束日期"></div>
@@ -140,7 +140,7 @@ exports[`<date-picker> demo: > render [disabled] correctly 1`] = `
   </div>
 </div>
 <br>
-<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-95" visible="false">
+<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-95" visible="false" input-props="">
   <!--v-if-->
   <div class="sd-picker-input"><input disabled="" placeholder="开始日期" value="2020-08-08 02:02:02"></div><span class="sd-picker-separator">-</span>
   <div class="sd-picker-input sd-picker-input-active"><input placeholder="结束日期"></div>
@@ -162,7 +162,7 @@ exports[`<date-picker> demo: > render [disabled-date] correctly 1`] = `
     </div>
   </div>
   <!---->
-  <div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-90 sd:mr-6 sd:mb-6" visible="false">
+  <div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-90 sd:mr-6 sd:mb-6" visible="false" input-props="">
     <!--v-if-->
     <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始日期"></div><span class="sd-picker-separator">-</span>
     <div class="sd-picker-input"><input placeholder="结束日期"></div>
@@ -181,7 +181,7 @@ exports[`<date-picker> demo: > render [disabled-date] correctly 1`] = `
     </div>
   </div>
   <!---->
-  <div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-90 sd:mb-6" visible="false">
+  <div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-90 sd:mb-6" visible="false" input-props="">
     <!--v-if-->
     <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始日期"></div><span class="sd-picker-separator">-</span>
     <div class="sd-picker-input"><input placeholder="结束日期"></div>
@@ -195,7 +195,7 @@ exports[`<date-picker> demo: > render [disabled-date] correctly 1`] = `
 `;
 
 exports[`<date-picker> demo: > render [disabled-date-advance] correctly 1`] = `
-<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-75" visible="false">
+<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-75" visible="false" input-props="">
   <!--v-if-->
   <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始日期"></div><span class="sd-picker-separator">-</span>
   <div class="sd-picker-input"><input placeholder="结束日期"></div>
@@ -216,7 +216,7 @@ exports[`<date-picker> demo: > render [extra] correctly 1`] = `
   </div>
 </div>
 <br>
-<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-90" visible="false">
+<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-90" visible="false" input-props="">
   <!--v-if-->
   <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始日期"></div><span class="sd-picker-separator">-</span>
   <div class="sd-picker-input"><input placeholder="结束日期"></div>
@@ -1054,6 +1054,17 @@ exports[`<date-picker> demo: > render [panel-only] correctly 1`] = `
 </div>
 `;
 
+exports[`<date-picker> demo: > render [panel-render] correctly 1`] = `
+<div class="sd-picker sd-picker-size-medium" visible="false">
+  <!--v-if-->
+  <div class="sd-picker-input"><input placeholder="请选择日期" class="sd-picker-start-time"></div>
+  <div class="sd-picker-suffix">
+    <!--v-if--><span class="sd-picker-suffix-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-calendar" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M7 22h34M14 5v8m20-8v8M8 41h32a1 1 0 0 0 1-1V10a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v30a1 1 0 0 0 1 1Z"></path></svg></span>
+    <!--v-if-->
+  </div>
+</div>
+`;
+
 exports[`<date-picker> demo: > render [prefix] correctly 1`] = `
 <div>
   <div>
@@ -1069,7 +1080,7 @@ exports[`<date-picker> demo: > render [prefix] correctly 1`] = `
     </div>
     <!---->
   </div>
-  <div class="sd-picker sd-picker-range sd-picker-size-medium sd-picker-has-prefix sd:mt-5 sd:w-100" visible="false">
+  <div class="sd-picker sd-picker-range sd-picker-size-medium sd-picker-has-prefix sd:mt-5 sd:w-100" visible="false" input-props="">
     <div class="sd-picker-prefix"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-info-circle" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
         <path d="M24 20v14m0-16v-4m18 10c0 9.941-8.059 18-18 18S6 33.941 6 24 14.059 6 24 6s18 8.059 18 18Z"></path>
       </svg></div>
@@ -1095,7 +1106,7 @@ exports[`<date-picker> demo: > render [quarter] correctly 1`] = `
 `;
 
 exports[`<date-picker> demo: > render [range] correctly 1`] = `
-<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-63.5 sd:mb-5" visible="false">
+<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-63.5 sd:mb-5" visible="false" input-props="">
   <!--v-if-->
   <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始日期"></div><span class="sd-picker-separator">-</span>
   <div class="sd-picker-input"><input placeholder="结束日期"></div>
@@ -1105,7 +1116,7 @@ exports[`<date-picker> demo: > render [range] correctly 1`] = `
   </div>
 </div>
 <br>
-<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-63.5 sd:mb-5" visible="false">
+<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-63.5 sd:mb-5" visible="false" input-props="">
   <!--v-if-->
   <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始周"></div><span class="sd-picker-separator">-</span>
   <div class="sd-picker-input"><input placeholder="结束周"></div>
@@ -1115,7 +1126,7 @@ exports[`<date-picker> demo: > render [range] correctly 1`] = `
   </div>
 </div>
 <br>
-<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-63.5 sd:mb-5" visible="false">
+<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-63.5 sd:mb-5" visible="false" input-props="">
   <!--v-if-->
   <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始月份"></div><span class="sd-picker-separator">-</span>
   <div class="sd-picker-input"><input placeholder="结束月份"></div>
@@ -1125,7 +1136,7 @@ exports[`<date-picker> demo: > render [range] correctly 1`] = `
   </div>
 </div>
 <br>
-<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-63.5 sd:mb-5" visible="false">
+<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-63.5 sd:mb-5" visible="false" input-props="">
   <!--v-if-->
   <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始年份"></div><span class="sd-picker-separator">-</span>
   <div class="sd-picker-input"><input placeholder="结束年份"></div>
@@ -1135,7 +1146,7 @@ exports[`<date-picker> demo: > render [range] correctly 1`] = `
   </div>
 </div>
 <br>
-<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-63.5 sd:mb-5" visible="false">
+<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-63.5 sd:mb-5" visible="false" input-props="">
   <!--v-if-->
   <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始季度"></div><span class="sd-picker-separator">-</span>
   <div class="sd-picker-input"><input placeholder="结束季度"></div>
@@ -1145,7 +1156,7 @@ exports[`<date-picker> demo: > render [range] correctly 1`] = `
   </div>
 </div>
 <br>
-<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-95" visible="false">
+<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-95" visible="false" input-props="">
   <!--v-if-->
   <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始日期"></div><span class="sd-picker-separator">-</span>
   <div class="sd-picker-input"><input placeholder="结束日期"></div>
@@ -1173,7 +1184,7 @@ exports[`<date-picker> demo: > render [shortcuts] correctly 1`] = `
     <!--v-if-->
   </div>
 </div>
-<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-100 sd:mr-6 sd:mb-6" visible="false">
+<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-100 sd:mr-6 sd:mb-6" visible="false" input-props="">
   <!--v-if-->
   <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始日期"></div><span class="sd-picker-separator">-</span>
   <div class="sd-picker-input"><input placeholder="结束日期"></div>
@@ -1182,7 +1193,7 @@ exports[`<date-picker> demo: > render [shortcuts] correctly 1`] = `
     <!--v-if-->
   </div>
 </div>
-<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-75 sd:mb-6" visible="false">
+<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-75 sd:mb-6" visible="false" input-props="">
   <!--v-if-->
   <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始月份"></div><span class="sd-picker-separator">-</span>
   <div class="sd-picker-input"><input placeholder="结束月份"></div>
@@ -1202,7 +1213,7 @@ exports[`<date-picker> demo: > render [shortcuts-position] correctly 1`] = `
     <!--v-if-->
   </div>
 </div>
-<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-75 sd:mb-5" visible="false">
+<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-75 sd:mb-5" visible="false" input-props="">
   <!--v-if-->
   <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始日期"></div><span class="sd-picker-separator">-</span>
   <div class="sd-picker-input"><input placeholder="结束日期"></div>
@@ -1220,7 +1231,7 @@ exports[`<date-picker> demo: > render [shortcuts-position] correctly 1`] = `
     <!--v-if-->
   </div>
 </div>
-<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-75" visible="false">
+<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-75" visible="false" input-props="">
   <!--v-if-->
   <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始日期"></div><span class="sd-picker-separator">-</span>
   <div class="sd-picker-input"><input placeholder="结束日期"></div>
@@ -1248,7 +1259,7 @@ exports[`<date-picker> demo: > render [showtime] correctly 1`] = `
     <!--v-if-->
   </div>
 </div>
-<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-90 sd:mr-6 sd:mb-6" visible="false">
+<div class="sd-picker sd-picker-range sd-picker-size-medium sd:w-90 sd:mr-6 sd:mb-6" visible="false" input-props="">
   <!--v-if-->
   <div class="sd-picker-input sd-picker-input-active"><input placeholder="开始日期"></div><span class="sd-picker-separator">-</span>
   <div class="sd-picker-input"><input placeholder="结束日期"></div>

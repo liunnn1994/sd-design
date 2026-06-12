@@ -693,7 +693,7 @@ exports[`<layout> demo: > render [resize] correctly 1`] = `
       </header>
     </div>
     <section data-v-1afafaeb="" class="sd-layout">
-      <div data-v-1afafaeb="" class="sd-resizebox sd-layout-sider sd-layout-sider-light sd-layout-sider-left" style="width: 200px;">
+      <div data-v-1afafaeb="" class="sd-resizebox sd-layout-sider sd-layout-sider-light sd-layout-sider-left sd-layout-sider sd-layout-sider-light sd-layout-sider-left" style="width: 200px;">
         <!--v-if-->
         <!--v-if-->
         <!--v-if-->

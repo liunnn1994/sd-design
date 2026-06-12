@@ -90,7 +90,7 @@ exports[`<tag-group> demo: > render [responsive] correctly 1`] = `
   <div class="sd-space-item"><span class="sd-typography sd-typography-secondary"> 拖拽右侧手柄，观察标签组如何根据容器宽度自动折叠。 <!----><!--v-if--><!--v-if--><!--v-if--></span></div>
   <!---->
   <div class="sd-space-item">
-    <div class="sd-resizebox sd:min-w-25 sd:max-w-full sd:p-2" style="width: 300px;">
+    <div class="sd-resizebox sd:min-w-25 sd:max-w-full sd:p-2 sd:min-w-25 sd:max-w-full sd:p-2" style="width: 300px;">
       <div class="sd:w-full">
         <!---->
         <!----><span class="sd-tag-group sd-tag-group-responsive"><span class="sd-tag-group-resize-observer" aria-hidden="true"></span>
