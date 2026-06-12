@@ -1,3 +1,25 @@
+# [2.3.0](https://github.com/liunnn1994/sd-design/compare/v2.2.1...v2.3.0) (2026-06-12)
+
+### Bug Fixes
+
+- **anchor:** 将 affix 属性的默认值改为 false ([1b444cb](https://github.com/liunnn1994/sd-design/commit/1b444cb3da97daab4cf450593ab886f18c233764))
+- **date-picker:** 修复日期面板年份边界问题并优化日期计算 ([df04707](https://github.com/liunnn1994/sd-design/commit/df0470752775cb4b8a65ad7698550e03f49ddf7c))
+- **locale:** 修复部分国际化语言检验信息字段缺失问题 ([#3656](https://github.com/liunnn1994/sd-design/issues/3656)) ([8eab41d](https://github.com/liunnn1994/sd-design/commit/8eab41dead8119cc31c7d1558e5c3a6d99892686))
+- **mention:** 清除输入后关闭弹出层并重置测量信息 ([#3653](https://github.com/liunnn1994/sd-design/issues/3653)) ([e7c9aa9](https://github.com/liunnn1994/sd-design/commit/e7c9aa926d4528136c26ad8f9c378d3314fb836e))
+- **scripts:** 修复 dev-component 构建 watcher 报错 ([#3654](https://github.com/liunnn1994/sd-design/issues/3654)) ([b17b75c](https://github.com/liunnn1994/sd-design/commit/b17b75c17e94044c56c8bd3ef8262a287d0e1de2))
+- **textarea:** update value before input event ([#3659](https://github.com/liunnn1994/sd-design/issues/3659)) ([f7ca0c0](https://github.com/liunnn1994/sd-design/commit/f7ca0c0f7899f086de9e93a67f408a53b77b9c0e))
+- **verification-code:** 修复验证码输入框光标定位与聚焦行为 ([#3658](https://github.com/liunnn1994/sd-design/issues/3658)) ([4b36fef](https://github.com/liunnn1994/sd-design/commit/4b36fef9bf54c2485cbf67b064e07793a5991c20))
+
+### Features
+
+- **anchor:** 新增横向锚点并优化文档示例 ([8699aee](https://github.com/liunnn1994/sd-design/commit/8699aeee4dacd25138251c5a7f6089533748cac6))
+- **button:** 新增 loadingFixedWidth 和 autoInsertSpaceInButton 属性 ([1ed094f](https://github.com/liunnn1994/sd-design/commit/1ed094fc1102337b47e689d8cf453f48d5aa4f81))
+- **calendar:** 新增卡片模式、下拉头部和日期内容定制功能 ([3b42562](https://github.com/liunnn1994/sd-design/commit/3b425628218dbaf96b66518cedd80345e7d2b016))
+- **date-picker:** 新增 inputProps 与 fixedTime 属性并支持自定义面板头部格式 ([a19694d](https://github.com/liunnn1994/sd-design/commit/a19694d90a6974152287104e7dfa6d1ff2a2896b))
+- **date-picker:** 新增时区支持、隐藏灰色日期和范围重选清空功能 ([b5d912f](https://github.com/liunnn1994/sd-design/commit/b5d912f95b171fa44df77d6f1b144ef2ee56ef9f))
+- **modal:** 新增全局配置和批量关闭功能 ([ff66efd](https://github.com/liunnn1994/sd-design/commit/ff66efd03ea8019e8ef801c31e670c7bad188026))
+- 🆕 去掉自定义的render-function，改为使用官方写法 ([6a865c8](https://github.com/liunnn1994/sd-design/commit/6a865c851a10e560040ea0e4713ddec06e924ff2))
+
 # [2.2.0](https://github.com/liunnn1994/sd-design/compare/v2.1.1...v2.2.0) (2026-06-11)
 
 ### Features
