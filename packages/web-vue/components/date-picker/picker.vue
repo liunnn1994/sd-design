@@ -47,16 +47,25 @@
       </DateInput>
     </slot>
     <template #content>
-      <RenderFunction :render-func="renderPopupPanel" />
+      <slot name="panelRender" :component="PickerPanel" :props="panelProps">
+        <component :is="PickerPanel" v-bind="panelProps">
+          <template v-if="$slots.extra" #extra><slot name="extra" /></template>
+          <template v-if="$slots.cell" #cell="scope"><slot name="cell" v-bind="scope" /></template>
+        </component>
+      </slot>
     </template>
   </Trigger>
-  <RenderFunction v-else :render-func="renderPanelOnly" />
+  <slot v-else name="panelRender" :component="PickerPanel" :props="panelProps">
+    <component :is="PickerPanel" v-bind="{ ...panelProps, ...$attrs }">
+      <template v-if="$slots.extra" #extra><slot name="extra" /></template>
+      <template v-if="$slots.cell" #cell="scope"><slot name="cell" v-bind="scope" /></template>
+    </component>
+  </slot>
 </template>
 
 <script setup lang="ts">
   import {
     computed,
-    h,
     PropType,
     reactive,
     ref,
@@ -70,7 +79,6 @@
   import { Dayjs } from 'dayjs';
 
   import DateInput from '../_components/picker/input.vue';
-  import RenderFunction from '../_components/render-function';
   import { useAllowClear } from '../_hooks/use-allow-clear';
   import { useConfigProviderProp } from '../_hooks/use-config-provider-prop';
   import { useFormItem } from '../_hooks/use-form-item';
@@ -116,7 +124,7 @@
    * @displayName Common
    * @noBrackets
    */
-  defineOptions({ name: 'Picker' });
+  defineOptions({ name: 'Picker', inheritAttrs: false });
 
   const props = defineProps({
     /**
@@ -366,13 +374,6 @@
       type: Boolean,
       default: true,
     },
-    /**
-     * @zh 自定义渲染面板
-     * @en Customize panel rendering
-     */
-    panelRender: {
-      type: Function as PropType<(panelNode: any) => any>,
-    },
   });
 
   const emit = defineEmits<{
@@ -442,6 +443,13 @@
     'update:pickerValue': [_value: CalendarValue];
   }>();
 
+  /**
+   * @zh 自定义渲染面板
+   * @en Customize panel rendering
+   * @slot panelRender
+   * @binding {Component} component
+   * @binding {object} props
+   */
   /**
    * @zh 输入框前缀
    * @en Input box prefix
@@ -902,8 +910,6 @@
     showConfirmBtn: needConfirm.value,
     confirmBtnDisabled: confirmBtnDisabled.value,
     timePickerProps: computedTimePickerProps.value,
-    extra: slots.extra,
-    dateRender: slots.cell,
     headerValue: headerValue.value,
     headerIcons: {
       prev: slots['icon-prev'],
@@ -925,13 +931,4 @@
     onHeaderSelect: onPanelHeaderSelect,
     onMonthHeaderClick,
   }));
-
-  const renderPopupPanel = () => {
-    const panelNode = h(PickerPanel, panelProps.value);
-    return isFunction(props.panelRender) ? () => props.panelRender!(panelNode) : panelNode;
-  };
-
-  const renderPanelOnly = () => {
-    return h(PickerPanel, panelProps.value);
-  };
 </script>

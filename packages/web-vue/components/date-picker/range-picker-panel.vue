@@ -22,23 +22,55 @@
           <template v-else>
             <!-- week -->
             <template v-if="mode === 'week'">
-              <WeekPanel v-bind="startPanelProps" :day-start-of-week="dayStartOfWeek" />
-              <WeekPanel v-bind="endPanelProps" :day-start-of-week="dayStartOfWeek" />
+              <WeekPanel v-bind="startPanelProps" :day-start-of-week="dayStartOfWeek">
+                <template #cell="scope"
+                  ><slot name="cell" v-bind="{ ...scope, type: 'start' }"
+                /></template>
+              </WeekPanel>
+              <WeekPanel v-bind="endPanelProps" :day-start-of-week="dayStartOfWeek">
+                <template #cell="scope"
+                  ><slot name="cell" v-bind="{ ...scope, type: 'end' }"
+                /></template>
+              </WeekPanel>
             </template>
             <!-- month -->
             <template v-else-if="mode === 'month'">
-              <MonthPanel v-bind="startPanelProps" :abbreviation="abbreviation" />
-              <MonthPanel v-bind="endPanelProps" :abbreviation="abbreviation" />
+              <MonthPanel v-bind="startPanelProps" :abbreviation="abbreviation">
+                <template #cell="scope"
+                  ><slot name="cell" v-bind="{ ...scope, type: 'start' }"
+                /></template>
+              </MonthPanel>
+              <MonthPanel v-bind="endPanelProps" :abbreviation="abbreviation">
+                <template #cell="scope"
+                  ><slot name="cell" v-bind="{ ...scope, type: 'end' }"
+                /></template>
+              </MonthPanel>
             </template>
             <!-- year -->
             <template v-else-if="mode === 'year'">
-              <YearPanel v-bind="startPanelProps" />
-              <YearPanel v-bind="endPanelProps" />
+              <YearPanel v-bind="startPanelProps">
+                <template #cell="scope"
+                  ><slot name="cell" v-bind="{ ...scope, type: 'start' }"
+                /></template>
+              </YearPanel>
+              <YearPanel v-bind="endPanelProps">
+                <template #cell="scope"
+                  ><slot name="cell" v-bind="{ ...scope, type: 'end' }"
+                /></template>
+              </YearPanel>
             </template>
             <!-- quarter -->
             <template v-else-if="mode === 'quarter'">
-              <QuarterPanel v-bind="startPanelProps" />
-              <QuarterPanel v-bind="endPanelProps" />
+              <QuarterPanel v-bind="startPanelProps">
+                <template #cell="scope"
+                  ><slot name="cell" v-bind="{ ...scope, type: 'start' }"
+                /></template>
+              </QuarterPanel>
+              <QuarterPanel v-bind="endPanelProps">
+                <template #cell="scope"
+                  ><slot name="cell" v-bind="{ ...scope, type: 'end' }"
+                /></template>
+              </QuarterPanel>
             </template>
             <!-- date -->
             <template v-else>
@@ -57,7 +89,11 @@
                 :disabled="disabled[0]"
                 :now="now"
                 @timePickerSelect="onStartTimePickerSelect"
-              />
+              >
+                <template #cell="scope"
+                  ><slot name="cell" v-bind="{ ...scope, type: 'start' }"
+                /></template>
+              </DatePanel>
               <DatePanel
                 v-model:currentView="currentDateView"
                 v-bind="endPanelProps"
@@ -73,7 +109,11 @@
                 :disabled="disabled[1]"
                 :now="now"
                 @timePickerSelect="onEndTimePickerSelect"
-              />
+              >
+                <template #cell="scope"
+                  ><slot name="cell" v-bind="{ ...scope, type: 'end' }"
+                /></template>
+              </DatePanel>
             </template>
           </template>
         </div>
@@ -86,9 +126,8 @@
         :confirm-btn-disabled="confirmBtnDisabled"
         @confirmBtnClick="onConfirmBtnClick"
       >
-        <template v-if="extra || $slots.extra" #extra>
-          <slot v-if="$slots.extra" name="extra" />
-          <RenderFunction v-else :render-func="resolvedExtra" />
+        <template v-if="$slots.extra" #extra>
+          <slot name="extra" />
         </template>
         <template v-if="showShortcuts && shortcutsPosition === 'bottom'" #btn>
           <PanelShortcuts v-bind="shortcutsProps" />
@@ -100,7 +139,6 @@
 </template>
 <script setup lang="ts">
   import { computed, PropType, reactive, ref, toRefs, watch } from 'vue';
-  import type { VNodeTypes } from 'vue';
 
   import { Dayjs } from 'dayjs';
 
@@ -115,7 +153,6 @@
     StartHeaderProps,
   } from './interface';
 
-  import RenderFunction, { RenderFunc } from '../_components/render-function';
   import { getDayjsValue } from '../_utils/date';
   import { isArray, isFunction } from '../_utils/is';
   import pick from '../_utils/pick';
@@ -179,12 +216,6 @@
     },
     timePickerProps: {
       type: Object as PropType<RangePickerProps['timePickerProps']>,
-    },
-    extra: {
-      type: Function as PropType<RenderFunc>,
-    },
-    dateRender: {
-      type: Function as PropType<RenderFunc>,
     },
     hideTrigger: {
       type: Boolean,
@@ -255,8 +286,6 @@
     disabledTime,
     startHeaderProps,
     endHeaderProps,
-    extra,
-    dateRender,
     visible,
     startHeaderMode,
     endHeaderMode,
@@ -354,20 +383,6 @@
       : undefined;
   }
 
-  function getDateRenderFunc(index: 0 | 1) {
-    return isFunction(dateRender?.value)
-      ? (props: Record<string, unknown>): VNodeTypes => {
-          const mergeProps = {
-            ...props,
-            type: index === 0 ? 'start' : 'end',
-          };
-          return dateRender.value!(mergeProps);
-        }
-      : undefined;
-  }
-
-  const resolvedExtra: RenderFunc = (slotProps) => extra?.value?.(slotProps) ?? '';
-
   const shortcutsProps = reactive({
     prefixCls,
     shortcuts,
@@ -380,7 +395,6 @@
     ...startHeaderProps.value,
     rangeValues: value.value,
     disabledDate: getDisabledDateFunc(0),
-    dateRender: getDateRenderFunc(0),
     onSelect: startHeaderMode?.value ? onStartHeaderPanelSelect : onPanelCellClick,
     onCellMouseEnter: onPanelCellMouseEnter,
     onHeaderLabelClick: onStartPanelHeaderLabelClick,
@@ -390,7 +404,6 @@
     ...endHeaderProps.value,
     rangeValues: value.value,
     disabledDate: getDisabledDateFunc(1),
-    dateRender: getDateRenderFunc(1),
     onSelect: endHeaderMode?.value ? onEndHeaderPanelSelect : onPanelCellClick,
     onCellMouseEnter: onPanelCellMouseEnter,
     onHeaderLabelClick: onEndPanelHeaderLabelClick,

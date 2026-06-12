@@ -650,6 +650,7 @@ export default defineComponent({
       }
 
       for (const item of childrenRefs) {
+        if (!item) continue;
         const element = 'value' in item ? item.value : item;
         if (element?.contains(e.target as HTMLElement)) {
           return;
@@ -720,7 +721,9 @@ export default defineComponent({
       }
     };
 
-    triggerCtx?.addChildRef(popupRef.value as HTMLElement);
+    if (popupRef.value) {
+      triggerCtx?.addChildRef(popupRef.value as HTMLElement);
+    }
 
     const triggerCls = computed(() => {
       return computedVisible.value ? props.openedClass : undefined;

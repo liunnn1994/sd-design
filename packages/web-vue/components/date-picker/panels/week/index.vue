@@ -10,7 +10,9 @@
     :is-same-time="isSameTime"
     @select="onSelect"
     @cellMouseEnter="onCellMouseEnter"
-  />
+  >
+    <template #cell="scope"><slot name="cell" v-bind="scope" /></template>
+  </DatePanel>
 </template>
 
 <script setup lang="ts">

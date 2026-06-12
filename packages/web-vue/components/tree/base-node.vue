@@ -72,26 +72,26 @@
       >
         <!-- 节点图标 -->
         <slot v-if="$slots.icon" name="icon" v-bind="nodeStatus" />
-        <RenderFunction v-else-if="icon" :render-func="icon" v-bind="nodeStatus" />
-        <RenderFunction
+        <component v-else-if="icon" :is="icon" v-bind="nodeStatus" />
+        <component
           v-else-if="treeNodeIcon"
-          :render-func="treeNodeIcon"
+          :is="treeNodeIcon"
           :node="treeNodeData"
           v-bind="nodeStatus"
         />
       </span>
       <span :class="`${prefixCls}-title-text`">
-        <RenderFunction v-if="treeTitle" :render-func="treeTitle" />
+        <component v-if="treeTitle" :is="treeTitle" />
         <!-- 标题，treeTitle 优先级高于节点的 title -->
         <slot v-else name="title" :title="title">{{ title }}</slot>
 
         <span v-if="draggable" :class="[`${prefixCls}-icon`, `${prefixCls}-drag-icon`]">
           <!-- 拖拽图标 -->
           <slot v-if="$slots['drag-icon']" name="drag-icon" v-bind="nodeStatus" />
-          <RenderFunction v-else-if="dragIcon" :render-func="dragIcon" v-bind="nodeStatus" />
-          <RenderFunction
+          <component v-else-if="dragIcon" :is="dragIcon" v-bind="nodeStatus" />
+          <component
             v-else-if="treeDragIcon"
-            :render-func="treeDragIcon"
+            :is="treeDragIcon"
             :node="treeNodeData"
             v-bind="nodeStatus"
           />
@@ -100,14 +100,13 @@
       </span>
     </span>
     <!-- 额外 -->
-    <RenderFunction v-if="extra" :render-func="extra" />
+    <component v-if="extra" :is="extra" />
   </div>
 </template>
 
 <script setup lang="ts">
   import { computed, PropType, toRefs, VNode, reactive, ref } from 'vue';
 
-  import RenderFunction from '../_components/render-function';
   import { getPrefixCls } from '../_utils/global-config';
   import { isFunction } from '../_utils/is';
   import { toArray } from '../_utils/to-array';

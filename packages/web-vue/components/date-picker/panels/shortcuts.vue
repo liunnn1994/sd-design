@@ -11,7 +11,7 @@
       @mouseenter="() => onItemMouseEnter(item)"
       @mouseleave="() => onItemMouseLeave(item)"
     >
-      <RenderFunction v-if="isFunction(item.label)" :render-func="item.label" />
+      <component v-if="isFunction(item.label)" :is="item.label" />
       <template v-else>
         {{ item.label }}
       </template>
@@ -22,7 +22,6 @@
 <script setup lang="ts">
   import { PropType } from 'vue';
 
-  import RenderFunction from '../../_components/render-function';
   import { isFunction } from '../../_utils/is';
   import Button from '../../button';
   import useInjectDatePickerTransform from '../hooks/use-inject-datepicker-transform';

@@ -20,10 +20,11 @@
         :range-values="rangeValues"
         :disabled-date="disabledDate"
         :is-same-time="isSameTime"
-        :date-render="dateRender"
         @cellClick="onCellClick"
         @cellMouseEnter="onCellMouseEnter"
-      />
+      >
+        <template #cell="scope"><slot name="cell" v-bind="scope" /></template>
+      </PanelBody>
     </div>
   </div>
 </template>
@@ -41,7 +42,6 @@
     IsSameTime,
   } from '../../interface';
 
-  import { RenderFunc } from '../../../_components/render-function';
   import { dayjs } from '../../../_utils/date';
   import { getPrefixCls } from '../../../_utils/global-config';
   import useInjectDatePickerTransform from '../../hooks/use-inject-datepicker-transform';
@@ -90,9 +90,6 @@
     },
     rangeValues: {
       type: Array as PropType<Array<Dayjs | undefined>>,
-    },
-    dateRender: {
-      type: Function as PropType<RenderFunc>,
     },
     onHeaderLabelClick: {
       type: Function as PropType<HeaderLabelClickFunc>,

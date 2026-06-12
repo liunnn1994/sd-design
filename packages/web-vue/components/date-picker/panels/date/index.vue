@@ -22,11 +22,12 @@
         :hide-not-in-view-dates="hideNotInViewDates"
         :disabled-date="disabledDate"
         :is-same-time="mergedIsSameTime"
-        :date-render="dateRender"
         :now="panelNow"
         @cellClick="onCellClick"
         @cellMouseEnter="onCellMouseEnter"
-      />
+      >
+        <template #cell="scope"><slot name="cell" v-bind="scope" /></template>
+      </PanelBody>
     </div>
     <div v-if="showTimeView" :class="`${prefixCls}-timepicker`">
       <header :class="`${prefixCls}-timepicker-title`">{{
@@ -88,7 +89,6 @@
     WeekStart,
   } from '../../interface';
 
-  import { RenderFunc } from '../../../_components/render-function';
   import useMergeState from '../../../_hooks/use-merge-state';
   import { getDateValue, getNow, methods } from '../../../_utils/date';
   import { getPrefixCls } from '../../../_utils/global-config';
@@ -167,9 +167,6 @@
     },
     currentView: {
       type: String as PropType<'date' | 'time'>,
-    },
-    dateRender: {
-      type: Function as PropType<RenderFunc>,
     },
     disabled: {
       type: Boolean,

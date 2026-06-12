@@ -51,15 +51,24 @@
       </DateRangeInput>
     </slot>
     <template #content>
-      <RenderFunction :render-func="renderPopupPanel" />
+      <slot name="panelRender" :component="RangePickerPanel" :props="rangePanelProps">
+        <component :is="RangePickerPanel" v-bind="rangePanelProps">
+          <template v-if="$slots.extra" #extra><slot name="extra" /></template>
+          <template v-if="$slots.cell" #cell="scope"><slot name="cell" v-bind="scope" /></template>
+        </component>
+      </slot>
     </template>
   </Trigger>
-  <RenderFunction v-else :render-func="renderPanelOnly" />
+  <slot v-else name="panelRender" :component="RangePickerPanel" :props="rangePanelProps">
+    <component :is="RangePickerPanel" v-bind="{ ...rangePanelProps, ...$attrs }">
+      <template v-if="$slots.extra" #extra><slot name="extra" /></template>
+      <template v-if="$slots.cell" #cell="scope"><slot name="cell" v-bind="scope" /></template>
+    </component>
+  </slot>
 </template>
 <script setup lang="ts">
   import {
     computed,
-    h,
     inject,
     nextTick,
     onUnmounted,
@@ -75,7 +84,6 @@
   import { Dayjs } from 'dayjs';
 
   import DateRangeInput from '../_components/picker/input-range.vue';
-  import RenderFunction from '../_components/render-function';
   import { useAllowClear } from '../_hooks/use-allow-clear';
   import { useConfigProviderProp } from '../_hooks/use-config-provider-prop';
   import { useFormItem } from '../_hooks/use-form-item';
@@ -113,7 +121,7 @@
   import RangePickerPanel from './range-picker-panel.vue';
   import { isCompleteRangeValue, isValidRangeValue, mergeValueWithTime } from './utils';
 
-  defineOptions({ name: 'RangePicker' });
+  defineOptions({ name: 'RangePicker', inheritAttrs: false });
 
   const props = defineProps({
     /**
@@ -352,13 +360,6 @@
       type: Boolean,
       default: true,
     },
-    /**
-     * @zh 自定义渲染面板
-     * @en Customize panel rendering
-     */
-    panelRender: {
-      type: Function as PropType<(panelNode: any) => any>,
-    },
   });
 
   const emit = defineEmits<{
@@ -423,6 +424,14 @@
     'picker-value-change': [value: CalendarValue[], date: Date[], dateString: string[]];
     'update:pickerValue': [value: CalendarValue[]];
   }>();
+
+  /**
+   * @zh 自定义渲染面板
+   * @en Customize panel rendering
+   * @slot panelRender
+   * @binding {Component} component
+   * @binding {object} props
+   */
 
   const slots = useSlots();
 
@@ -1075,8 +1084,6 @@
     confirmBtnDisabled: confirmBtnDisabled.value,
     timePickerValue: timePickerValue.value,
     timePickerProps: computedTimePickerProps.value,
-    extra: slots.extra,
-    dateRender: slots.cell,
     startHeaderProps,
     endHeaderProps,
     footerValue: footerValue.value,
@@ -1096,13 +1103,4 @@
     onStartHeaderSelect: onStartPanelHeaderSelect,
     onEndHeaderSelect: onEndPanelHeaderSelect,
   }));
-
-  const renderPopupPanel = () => {
-    const panelNode = h(RangePickerPanel, rangePanelProps.value);
-    return isFunction(props.panelRender) ? () => props.panelRender!(panelNode) : panelNode;
-  };
-
-  const renderPanelOnly = () => {
-    return h(RangePickerPanel, rangePanelProps.value);
-  };
 </script>

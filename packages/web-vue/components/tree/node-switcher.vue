@@ -2,7 +2,6 @@
   import { defineComponent, h, PropType, toRefs, VNode } from 'vue';
 
   import IconHover from '../_components/icon-hover.vue';
-  import RenderFunction from '../_components/render-function';
   import usePickSlots from '../_hooks/use-pick-slots';
   import IconCaretDown from '../icon/icon-caret-down';
   import IconFile from '../icon/icon-file';
@@ -14,7 +13,6 @@
     name: 'TreeNodeSwitcher',
     components: {
       IconLoading,
-      RenderFunction,
     },
     props: {
       prefixCls: String,

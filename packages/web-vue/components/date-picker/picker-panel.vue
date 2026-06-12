@@ -27,14 +27,22 @@
           v-if="mode === 'week'"
           v-bind="commonPanelProps"
           :day-start-of-week="dayStartOfWeek"
-        />
+        >
+          <template #cell="scope"><slot name="cell" v-bind="scope" /></template>
+        </WeekPanel>
         <MonthPanel
           v-else-if="mode === 'month'"
           :abbreviation="abbreviation"
           v-bind="commonPanelProps"
-        />
-        <YearPanel v-else-if="mode === 'year'" v-bind="commonPanelProps" />
-        <QuarterPanel v-else-if="mode === 'quarter'" v-bind="commonPanelProps" />
+        >
+          <template #cell="scope"><slot name="cell" v-bind="scope" /></template>
+        </MonthPanel>
+        <YearPanel v-else-if="mode === 'year'" v-bind="commonPanelProps">
+          <template #cell="scope"><slot name="cell" v-bind="scope" /></template>
+        </YearPanel>
+        <QuarterPanel v-else-if="mode === 'quarter'" v-bind="commonPanelProps">
+          <template #cell="scope"><slot name="cell" v-bind="scope" /></template>
+        </QuarterPanel>
         <DatePanel
           v-else
           v-bind="commonPanelProps"
@@ -48,7 +56,9 @@
           :disabled-time="disabledTime"
           :now="mergedNow"
           @timePickerSelect="onTimePickerSelect"
-        />
+        >
+          <template #cell="scope"><slot name="cell" v-bind="scope" /></template>
+        </DatePanel>
         <PanelFooter
           :prefix-cls="prefixCls"
           :show-today-btn="showNowBtn && !(showConfirmBtn || showShortcutsInBottom)"
@@ -57,8 +67,8 @@
           @todayBtnClick="onTodayBtnClick"
           @confirmBtnClick="onConfirmBtnClick"
         >
-          <template v-if="extra" #extra>
-            <RenderFunction v-if="extra" :render-func="extra" />
+          <template v-if="$slots.extra" #extra>
+            <slot name="extra" />
           </template>
           <template v-if="showShortcutsInBottom" #btn>
             <PanelShortcuts v-bind="shortcutsProps" />
@@ -74,7 +84,6 @@
 
   import { Dayjs } from 'dayjs';
 
-  import RenderFunction, { RenderFunc } from '../_components/render-function';
   import { getDayjsValue, getNow } from '../_utils/date';
   import { isFunction } from '../_utils/is';
   import { TimePickerProps } from '../time-picker/interface';
@@ -150,12 +159,6 @@
     timePickerProps: {
       type: Object as PropType<Partial<TimePickerProps>>,
     },
-    extra: {
-      type: Function as PropType<RenderFunc>,
-    },
-    dateRender: {
-      type: Function as PropType<RenderFunc>,
-    },
     hideTrigger: {
       type: Boolean,
     },
@@ -211,7 +214,6 @@
     disabledDate,
     hideTrigger,
     showNowBtn,
-    dateRender,
     showConfirmBtn,
     headerValue,
     headerIcons,
@@ -332,7 +334,6 @@
     headerIcons,
     headerOperations,
     disabledDate,
-    dateRender,
     onSelect: onPanelSelect,
     onHeaderLabelClick: onPanelHeaderLabelClick,
   });

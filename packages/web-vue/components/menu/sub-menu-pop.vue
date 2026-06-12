@@ -82,10 +82,10 @@
       >
         <slot />
         <template v-if="menuContext.expandIconDown" #expand-icon-down>
-          <RenderFunction :render-func="menuContext.expandIconDown" />
+          <component :is="menuContext.expandIconDown" />
         </template>
         <template v-if="menuContext.expandIconRight" #expand-icon-right>
-          <RenderFunction :render-func="menuContext.expandIconRight" />
+          <component :is="menuContext.expandIconRight" />
         </template>
       </Menu>
     </template>
@@ -95,7 +95,6 @@
 <script setup lang="ts">
   import { computed, ref, toRefs } from 'vue';
 
-  import RenderFunction from '../_components/render-function';
   import { getPrefixCls } from '../_utils/global-config';
   import { isNumber } from '../_utils/is';
   import { omit } from '../_utils/omit';

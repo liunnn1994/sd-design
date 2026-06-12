@@ -39,15 +39,15 @@
               }
             "
           >
-            <RenderFunction
-              v-if="dateRender && !isHiddenNotInViewCell(cell)"
-              :render-func="dateRender"
-              :date="getDateValue(cell.value)"
-            />
-            <div v-else :class="`${prefixCls}-date`">
-              <div :class="`${prefixCls}-date-value`">
-                {{ isHiddenNotInViewCell(cell) ? '' : cell.label }}
+            <slot v-if="!isHiddenNotInViewCell(cell)" name="cell" :date="getDateValue(cell.value)">
+              <div :class="`${prefixCls}-date`">
+                <div :class="`${prefixCls}-date-value`">
+                  {{ cell.label }}
+                </div>
               </div>
+            </slot>
+            <div v-else :class="`${prefixCls}-date`">
+              <div :class="`${prefixCls}-date-value`" />
             </div>
           </div>
         </template>
@@ -63,7 +63,6 @@
 
   import type { Cell, DisabledDate, IsSameTime, Mode } from '../interface';
 
-  import RenderFunction, { RenderFunc } from '../../_components/render-function';
   import { getDateValue } from '../../_utils/date';
   import useCellClassName from '../hooks/use-cell-class-name';
   import { isDisabledDate } from '../utils';
@@ -97,9 +96,6 @@
     },
     rangeValues: {
       type: Array as PropType<Array<Dayjs | undefined>>,
-    },
-    dateRender: {
-      type: Function as PropType<RenderFunc>,
     },
     now: {
       type: Object as PropType<Dayjs>,

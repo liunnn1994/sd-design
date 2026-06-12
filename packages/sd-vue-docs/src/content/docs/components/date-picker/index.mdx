@@ -24,6 +24,8 @@ import DatePickerMonthDemo from '../../../../components/generated/date-picker/mo
 import datePickerMonthSource from '../../../../components/generated/date-picker/month.vue?raw';
 import DatePickerPanelOnlyDemo from '../../../../components/generated/date-picker/panel-only.vue';
 import datePickerPanelOnlySource from '../../../../components/generated/date-picker/panel-only.vue?raw';
+import DatePickerPanelRenderDemo from '../../../../components/generated/date-picker/panel-render.vue';
+import datePickerPanelRenderSource from '../../../../components/generated/date-picker/panel-render.vue?raw';
 import DatePickerPrefixDemo from '../../../../components/generated/date-picker/prefix.vue';
 import datePickerPrefixSource from '../../../../components/generated/date-picker/prefix.vue?raw';
 import DatePickerQuarterDemo from '../../../../components/generated/date-picker/quarter.vue';
@@ -144,6 +146,16 @@ import datePickerYearSource from '../../../../components/generated/date-picker/y
 <DemoBlock source={datePickerPanelOnlySource} mainFile="src/date-picker-panel-only.vue">
 
 <DatePickerPanelOnlyDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义面板渲染
+
+利用具名插槽 `panelRender` 可以自定义面板的渲染，插槽提供 `component`（面板组件）和 `props`（面板属性）两个参数。
+
+<DemoBlock source={datePickerPanelRenderSource} mainFile="src/date-picker-panel-render.vue">
+
+<DatePickerPanelRenderDemo client:only="vue" />
 
 </DemoBlock>
 
@@ -306,16 +318,17 @@ import datePickerYearSource from '../../../../components/generated/date-picker/y
 
 ### `Common` Slots
 
-| 插槽名           |          描述          | 参数         | 版本   |
-| ---------------- | :--------------------: | ------------ | :----- |
-| prefix           |       输入框前缀       | -            | 2.41.0 |
-| suffix-icon      |     输入框后缀图标     | -            |        |
-| icon-next-double |   双箭头往后翻页图标   | -            |        |
-| icon-prev-double |   双箭头往前翻页图标   | -            |        |
-| icon-next        |   单箭头往后翻页图标   | -            |        |
-| icon-prev        |   单箭头往前翻页图标   | -            |        |
-| cell             | 自定义日期单元格的内容 | date: `Date` |        |
-| extra            |       额外的页脚       | -            |        |
+| 插槽名           |          描述          | 参数                                        | 版本   |
+| ---------------- | :--------------------: | ------------------------------------------- | :----- |
+| prefix           |       输入框前缀       | -                                           | 2.41.0 |
+| suffix-icon      |     输入框后缀图标     | -                                           |        |
+| icon-next-double |   双箭头往后翻页图标   | -                                           |        |
+| icon-prev-double |   双箭头往前翻页图标   | -                                           |        |
+| icon-next        |   单箭头往后翻页图标   | -                                           |        |
+| icon-prev        |   单箭头往前翻页图标   | -                                           |        |
+| panelRender      |     自定义渲染面板     | component: `Component`<br />props: `object` |        |
+| cell             | 自定义日期单元格的内容 | date: `Date`                                |        |
+| extra            |       额外的页脚       | -                                           |        |
 
 ### `<date-picker>` Props
 
