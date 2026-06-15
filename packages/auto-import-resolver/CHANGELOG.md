@@ -1,3 +1,9 @@
+# [2.4.0](https://github.com/liunnn1994/sd-design/compare/v2.3.1...v2.4.0) (2026-06-15)
+
+### Features
+
+- 🆕 打包 resolver 的时候无需再次 test 了 ([c64efc1](https://github.com/liunnn1994/sd-design/commit/c64efc10268d83604afd91df90dff534e11581c7))
+
 # [2.3.0](https://github.com/liunnn1994/sd-design/compare/v2.2.1...v2.3.0) (2026-06-12)
 
 ### Bug Fixes
