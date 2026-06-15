@@ -15,7 +15,7 @@
     "verify:theme-runtime": "node ./scripts/verify-theme-runtime-paths.mjs",
     "preview": "pnpm run docs:vendor && astro preview",
     "astro": "astro",
-    "docs:prepare": "pnpm --filter @sdata/web-vue run build:module",
+    "docs:prepare": "pnpm --filter @sdata/web-vue run build:module && pnpm --filter @sdata/web-vue run jsongen",
     "docs:vendor": "pnpm run docs:prepare && pnpm run docs:vendor:only",
     "docs:vendor:only": "node ./scripts/sync-vendor.mjs"
   },
