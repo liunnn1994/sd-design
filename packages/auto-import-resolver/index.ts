@@ -1,8 +1,11 @@
 import type { ComponentResolver, ComponentResolveResult } from 'unplugin-vue-components/types';
+import type { Plugin } from 'vite';
 
 import { existsSync, readFileSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import path from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 export interface SdDesignComponentMeta {
   importName: string;
@@ -16,8 +19,16 @@ export interface SdDesignResolverOptions {
   resolve?: (meta: SdDesignComponentMeta, type: 'component') => ComponentResolveResult | undefined;
 }
 
+export interface SdDesignScssImporterOptions {
+  /** @default '@sdata/web-vue' */
+  packageName?: string;
+}
+
+export interface SdDesignVitePluginOptions extends SdDesignScssImporterOptions {}
+
 const DEFAULT_PREFIX = 'Sd';
 const PACKAGE_NAME = '@sdata/web-vue';
+const SASS_EXTENSIONS = ['.scss', '.sass', '.css'];
 
 let cachedComponentMap: Record<string, SdDesignComponentMeta> | undefined;
 
@@ -184,4 +195,158 @@ export function SdDesignResolver(options: SdDesignResolverOptions = {}): Compone
       },
     },
   ];
+}
+
+// ---------------------------------------------------------------------------
+// Shared SCSS alias resolution – resolves `@style/` and `@components/`
+// aliases to the installed `@sdata/web-vue` package's `es/` directory.
+// ---------------------------------------------------------------------------
+
+function resolveAliasedPath(url: string, componentsDir: string): string | null {
+  const normalized = url.replaceAll('\\', '/');
+
+  if (/^(?:sass:|https?:|file:)/.test(normalized)) {
+    return null;
+  }
+
+  let basePath: string;
+
+  if (normalized.startsWith('@style/')) {
+    basePath = path.resolve(componentsDir, 'style', normalized.slice('@style/'.length));
+  } else if (normalized.startsWith('@components/')) {
+    basePath = path.resolve(componentsDir, normalized.slice('@components/'.length));
+  } else {
+    return null;
+  }
+
+  const ext = path.extname(basePath);
+  const dir = path.dirname(basePath);
+  const base = path.basename(basePath);
+  const candidates = ext
+    ? [basePath]
+    : [
+        ...SASS_EXTENSIONS.map((e) => `${basePath}${e}`),
+        ...SASS_EXTENSIONS.map((e) => path.join(dir, `_${base}${e}`)),
+        ...SASS_EXTENSIONS.map((e) => path.join(basePath, `index${e}`)),
+        ...SASS_EXTENSIONS.map((e) => path.join(basePath, `_index${e}`)),
+      ];
+
+  return candidates.find((c) => existsSync(c)) ?? null;
+}
+
+function getComponentsDir(packageName: string): string {
+  const packageRoot = path.dirname(createRequire(import.meta.url)(`${packageName}/package.json`));
+
+  return path.resolve(packageRoot, 'es');
+}
+
+function createImporter(componentsDir: string) {
+  return {
+    canonicalize(url: string) {
+      const resolved = resolveAliasedPath(url, componentsDir);
+
+      return resolved ? pathToFileURL(resolved) : null;
+    },
+    async load(canonicalUrl: URL) {
+      if (canonicalUrl.protocol !== 'file:') {
+        return null;
+      }
+
+      const filePath = fileURLToPath(canonicalUrl);
+      const ext = path.extname(filePath);
+      let syntax: 'scss' | 'indented' | 'css' = 'scss';
+
+      if (ext === '.sass') {
+        syntax = 'indented';
+      } else if (ext === '.css') {
+        syntax = 'css';
+      }
+
+      return {
+        contents: await readFile(filePath, 'utf8'),
+        syntax,
+        sourceMapUrl: canonicalUrl,
+      };
+    },
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Public API
+// ---------------------------------------------------------------------------
+
+/**
+ * Create a custom Sass importer that resolves `@style/` and `@components/`
+ * aliases used in `@sdata/web-vue` SCSS files.
+ *
+ * Use this when you need to configure `css.preprocessorOptions.scss.importers`
+ * manually instead of using the Vite plugin.
+ *
+ * @example
+ * ```ts
+ * import { createSdDesignScssImporter } from '@sdata/web-vue-auto-import-resolver';
+ *
+ * export default defineConfig({
+ *   css: {
+ *     preprocessorOptions: {
+ *       scss: {
+ *         importers: [createSdDesignScssImporter()],
+ *       },
+ *     },
+ *   },
+ * });
+ * ```
+ */
+export function createSdDesignScssImporter(options: SdDesignScssImporterOptions = {}) {
+  const packageName = options.packageName ?? PACKAGE_NAME;
+
+  return createImporter(getComponentsDir(packageName));
+}
+
+/**
+ * Create a Vite plugin that automatically configures a custom Sass importer
+ * to resolve `@style/` and `@components/` aliases used in `@sdata/web-vue`
+ * SCSS files.  Equivalent to calling `createSdDesignScssImporter()` and
+ * adding it to `css.preprocessorOptions.scss.importers` manually.
+ *
+ * @example
+ * ```ts
+ * import { createSdDesignVitePlugin, SdDesignResolver } from '@sdata/web-vue-auto-import-resolver';
+ *
+ * export default defineConfig({
+ *   plugins: [
+ *     createSdDesignVitePlugin(),
+ *     Components({ resolvers: [SdDesignResolver({ sideEffect: true })] }),
+ *   ],
+ * });
+ * ```
+ */
+export function createSdDesignVitePlugin(options: SdDesignVitePluginOptions = {}): Plugin {
+  const packageName = options.packageName ?? PACKAGE_NAME;
+
+  return {
+    name: 'sd-design',
+    config(config) {
+      const importer = createImporter(getComponentsDir(packageName));
+
+      const existingScss =
+        (config.css?.preprocessorOptions?.scss as Record<string, unknown> | undefined) ?? {};
+      const existingImporters: unknown[] = Array.isArray(existingScss.importers)
+        ? (existingScss.importers as unknown[])
+        : [];
+
+      return {
+        css: {
+          ...config.css,
+          preprocessorOptions: {
+            ...config.css?.preprocessorOptions,
+            scss: {
+              ...existingScss,
+              importers: [importer, ...existingImporters],
+            } as Record<string, unknown>,
+          },
+        },
+      };
+    },
+  };
 }

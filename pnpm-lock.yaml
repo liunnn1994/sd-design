@@ -156,6 +156,9 @@ importers:
       '@sdata/web-vue':
         specifier: '*'
         version: 1.11.1(vue@3.5.35(typescript@6.0.3))
+      vite:
+        specifier: '*'
+        version: 8.0.16(@types/node@25.9.1)(esbuild@0.27.7)(jiti@2.7.0)(sass@1.100.0)(yaml@2.9.0)
     devDependencies:
       '@semantic-release/changelog':
         specifier: ^6.0.3

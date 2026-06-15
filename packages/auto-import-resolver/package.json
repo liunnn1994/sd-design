@@ -50,6 +50,7 @@
     "unplugin-vue-components": "^32.1.0"
   },
   "peerDependencies": {
-    "@sdata/web-vue": "*"
+    "@sdata/web-vue": "*",
+    "vite": "*"
   }
 }
