@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://sd-design.js.org" target="_blank">
-    <img alt="SD Design Logo" width="200" src="https://avatars.githubusercontent.com/u/64576149?s=200&v=4"/>
+    <img alt="SD Design Logo" width="200" src="https://raw.githubusercontent.com/liunnn1994/sd-design/refs/heads/main/packages/sd-vue-docs/public/logo-icon.png"/>
   </a>
 </div>
 
