@@ -1,3 +1,9 @@
+## [2.3.1](https://github.com/liunnn1994/sd-design/compare/v2.3.0...v2.3.1) (2026-06-15)
+
+### Bug Fixes
+
+- 🐛 修复自动导入工具无效的问题 ([45eaaf7](https://github.com/liunnn1994/sd-design/commit/45eaaf721699c8027edf0ec1541c404efb0a0be2))
+
 ## [2.2.1](https://github.com/liunnn1994/sd-design/compare/v2.2.0...v2.2.1) (2026-06-11)
 
 ### Bug Fixes
