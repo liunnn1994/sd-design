@@ -1,4 +1,4 @@
-import type { ComponentResolver, ComponentResolveResult } from 'unplugin-vue-components/types';
+import type { ComponentResolver } from 'unplugin-vue-components/types';
 import type { Plugin } from 'vite';
 
 import { existsSync, readFileSync } from 'node:fs';
@@ -7,16 +7,9 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
-export interface SdDesignComponentMeta {
-  importName: string;
-  from: string;
-  sideEffects?: string;
-}
-
 export interface SdDesignResolverOptions {
+  /** @default 'Sd' */
   prefix?: string;
-  sideEffect?: boolean;
-  resolve?: (meta: SdDesignComponentMeta, type: 'component') => ComponentResolveResult | undefined;
 }
 
 export interface SdDesignScssImporterOptions {
@@ -30,19 +23,7 @@ const DEFAULT_PREFIX = 'Sd';
 const PACKAGE_NAME = '@sdata/web-vue';
 const SASS_EXTENSIONS = ['.scss', '.sass', '.css'];
 
-let cachedComponentMap: Record<string, SdDesignComponentMeta> | undefined;
-
-const getName = (name: string, prefix: string) => {
-  if (!prefix) {
-    return name;
-  }
-
-  if (!name.startsWith(prefix)) {
-    return;
-  }
-
-  return name.substring(prefix.length);
-};
+let cachedComponentSet: Set<string> | undefined;
 
 const parseImportClause = (
   clause: string,
@@ -92,9 +73,9 @@ const getPackageRoot = () => {
   return path.dirname(require.resolve(`${PACKAGE_NAME}/package.json`));
 };
 
-const getComponentMetaMap = (): Record<string, SdDesignComponentMeta> => {
-  if (cachedComponentMap) {
-    return cachedComponentMap;
+const getComponentExportSet = (): Set<string> => {
+  if (cachedComponentSet) {
+    return cachedComponentSet;
   }
 
   const packageRoot = getPackageRoot();
@@ -116,15 +97,16 @@ const getComponentMetaMap = (): Record<string, SdDesignComponentMeta> => {
   const exportBlockMatch = /export\s*\{([\s\S]*?)\};?\s*$/.exec(source);
 
   if (!exportBlockMatch?.[1]) {
-    cachedComponentMap = {};
-    return cachedComponentMap;
+    cachedComponentSet = new Set();
+    return cachedComponentSet;
   }
 
   const exportSpecifiers = exportBlockMatch[1]
     .split(',')
     .map((item) => item.trim())
     .filter(Boolean);
-  const componentMap: Record<string, SdDesignComponentMeta> = {};
+
+  const componentSet = new Set<string>();
 
   for (const exportSpecifier of exportSpecifiers) {
     const [localName, exportedName] = exportSpecifier.split(/\s+as\s+/i).map((item) => item.trim());
@@ -140,32 +122,18 @@ const getComponentMetaMap = (): Record<string, SdDesignComponentMeta> => {
       continue;
     }
 
-    const styleDir = modulePath.replace(/^\.\//, '').split('/')[0];
-    const styleFile = path.resolve(packageRoot, 'es', styleDir, 'style/index.js');
-
-    componentMap[importName] = {
-      importName,
-      from: PACKAGE_NAME,
-      ...(existsSync(styleFile)
-        ? { sideEffects: `${PACKAGE_NAME}/es/${styleDir}/style/index.js` }
-        : {}),
-    };
+    componentSet.add(importName);
   }
 
-  cachedComponentMap = componentMap;
-  return componentMap;
+  cachedComponentSet = componentSet;
+  return componentSet;
 };
 
-const resolveSideEffects = (meta: SdDesignComponentMeta, options: SdDesignResolverOptions) => {
-  const shouldIncludeSideEffects = options.sideEffect ?? false;
-
-  if (!shouldIncludeSideEffects || !meta.sideEffects) {
-    return;
-  }
-
-  return meta.sideEffects;
-};
-
+/**
+ * Resolver for SD Design Vue
+ *
+ * @link https://www.npmjs.com/package/@sdata/web-vue
+ */
 export function SdDesignResolver(options: SdDesignResolverOptions = {}): ComponentResolver[] {
   const prefix = options.prefix ?? DEFAULT_PREFIX;
 
@@ -173,25 +141,17 @@ export function SdDesignResolver(options: SdDesignResolverOptions = {}): Compone
     {
       type: 'component',
       resolve: (name: string) => {
-        const componentName = getName(name, prefix);
-
-        if (!componentName) {
+        if (!name.startsWith(prefix)) {
           return;
         }
 
-        const meta = getComponentMetaMap()[componentName];
+        const componentName = name.substring(prefix.length);
 
-        if (!meta) {
+        if (!componentName || !getComponentExportSet().has(componentName)) {
           return;
         }
 
-        return (
-          options.resolve?.(meta, 'component') ?? {
-            name: meta.importName,
-            from: meta.from,
-            sideEffects: resolveSideEffects(meta, options),
-          }
-        );
+        return { name, from: PACKAGE_NAME };
       },
     },
   ];
@@ -316,7 +276,7 @@ export function createSdDesignScssImporter(options: SdDesignScssImporterOptions 
  * export default defineConfig({
  *   plugins: [
  *     createSdDesignVitePlugin(),
- *     Components({ resolvers: [SdDesignResolver({ sideEffect: true })] }),
+ *     Components({ resolvers: [SdDesignResolver()] }),
  *   ],
  * });
  * ```

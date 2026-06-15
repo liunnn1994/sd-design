@@ -2,7 +2,7 @@
 
 `@sdata/web-vue-auto-import-resolver` 为 `@sdata/web-vue` 提供 `unplugin-vue-components` 自动导入解析能力，以及 SCSS 别名解析。
 
-解析器会在运行时读取已安装的 `@sdata/web-vue` 发布产物来识别组件导出和样式入口，因此新增组件后不需要再维护额外的组件映射文件。
+解析器会在运行时读取已安装的 `@sdata/web-vue` 发布产物来识别组件导出，因此新增组件后不需要再维护额外的组件映射文件。
 
 当前解析器仅面向模板自动导入场景，不支持 SSR。
 
@@ -26,17 +26,11 @@ export default defineConfig({
     vue(),
     createSdDesignVitePlugin(),
     Components({
-      resolvers: [
-        SdDesignResolver({
-          sideEffect: true,
-        }),
-      ],
+      resolvers: [SdDesignResolver()],
     }),
   ],
 });
 ```
-
-`sideEffect: true` 会自动注入组件样式入口，例如 `@sdata/web-vue/es/button/style/index.js`。
 
 `createSdDesignVitePlugin()` 会自动配置 Sass importer 来解析 `@sdata/web-vue` SCSS 文件中的 `@style/` 和 `@components/` 别名。
 
@@ -65,13 +59,12 @@ export default defineConfig({
 
 ```ts
 interface SdDesignResolverOptions {
+  /** @default 'Sd' */
   prefix?: string;
-  sideEffect?: boolean;
 }
 ```
 
 - `prefix`：组件前缀，默认是 `Sd`，对应模板里的 `<sd-button />`。
-- `sideEffect`：是否自动导入组件样式。
 
 ### createSdDesignScssImporter / createSdDesignVitePlugin
 

@@ -50,11 +50,7 @@ export default defineConfig({
   plugins: [
     vue(),
     Components({
-      resolvers: [
-        SdDesignResolver({
-          sideEffect: true,
-        }),
-      ],
+      resolvers: [SdDesignResolver()],
     }),
   ],
 });
@@ -67,7 +63,6 @@ export default defineConfig({
 ```ts
 SdDesignResolver({
   prefix: 'Acme',
-  sideEffect: true,
 });
 ```
 
