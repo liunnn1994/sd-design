@@ -3,6 +3,10 @@ import type { AppConfig } from 'vue';
 
 import { afterEach, vi } from 'vitest';
 
+// Normalize timezone so snapshot tests produce consistent results
+// regardless of local timezone (e.g. UTC+8 locally vs UTC+0 in CI).
+process.env.TZ = 'UTC';
+
 import SDVue from './components';
 import SDVueIcon from './components/icon';
 

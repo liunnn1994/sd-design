@@ -44,7 +44,7 @@ function createTestSupportConfig(): UserConfig {
           replacement: resolveFromRoot('components/index.ts'),
         },
         {
-          find: /^@sdata\/web-vue\/es\/icon$/,
+          find: /^@sdata\/web-vue\/es\/icon(\/index\.js)?$/,
           replacement: resolveFromRoot('components/icon/index.ts'),
         },
         {

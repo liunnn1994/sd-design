@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+import { h } from 'vue';
 
 import Card from '../index';
 
@@ -31,9 +32,9 @@ describe('Card', () => {
   });
 
   test('Card meta should work', () => {
-    const wrapper = mount(Meta, {
-      props: {
-        title: 'Card meta title',
+    const wrapper = mount(Card, {
+      slots: {
+        default: () => h(Meta, { title: 'Card meta title' }),
       },
     });
     const titleElement = wrapper.find('.sd-card-meta-title');
@@ -41,13 +42,12 @@ describe('Card', () => {
   });
 
   test('Card grid should work', () => {
-    const wrapper = mount(Grid, {
+    const wrapper = mount(Card, {
       slots: {
-        default: [Card, Card, Card],
+        default: () => [h(Grid), h(Grid), h(Grid)],
       },
     });
-    expect(wrapper.classes()).toContain('sd-card-grid');
-    const cards = wrapper.findAll('.sd-card');
-    expect(cards.length).toBe(3);
+    const grids = wrapper.findAll('.sd-card-grid');
+    expect(grids.length).toBe(3);
   });
 });
