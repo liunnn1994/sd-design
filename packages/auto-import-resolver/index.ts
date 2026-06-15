@@ -151,7 +151,7 @@ export function SdDesignResolver(options: SdDesignResolverOptions = {}): Compone
           return;
         }
 
-        return { name, from: PACKAGE_NAME };
+        return { name: componentName, as: name, from: PACKAGE_NAME };
       },
     },
   ];
