@@ -131,7 +131,7 @@
 
   const normalizedField = computed(() => {
     return props.adapter === 'a2ui-0.8'
-      ? props.schema.field.replaceAll('/', '.')
+      ? props.schema.field.replace(/^\//, '').replaceAll('/', '.')
       : props.schema.field;
   });
 

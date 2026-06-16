@@ -179,11 +179,10 @@
           );
         }
 
-        if (unresolvedTypeSpecifiers.length > 0) {
-          transformedImports.push(
-            `import type { ${unresolvedTypeSpecifiers.map(renderNamedImportSpecifier).join(', ')} } from '@sdata/web-vue';`,
-          );
-        }
+        // Type imports are omitted — they have no runtime value and can cause
+        // module-loading failures in the REPL when the SFC compiler doesn't
+        // strip them (e.g. `import type { X } from '@sdata/web-vue'` where X
+        // is only a TS declaration, not a runtime export).
 
         return transformedImports.join('\n');
       },
