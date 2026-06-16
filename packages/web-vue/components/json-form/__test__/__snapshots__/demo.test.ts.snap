@@ -8,7 +8,7 @@ exports[`<json-form> demo: > render [a2ui] correctly 1`] = `
         <!--v-if-->
         <!--v-if-->
       </label></div>
-    <div class="sd-col sd-form-item-wrapper-col" style="flex: 1 1 auto;" id="_booking_name">
+    <div class="sd-col sd-form-item-wrapper-col" style="flex: 1 1 auto;" id="booking_name">
       <div class="sd-form-item-content-wrapper">
         <div class="sd-form-item-content sd-form-item-content-flex"><span class="sd-input-wrapper sd-json-form-control"><!----><input class="sd-input sd-input-size-medium" type="text" placeholder="请输入预约人" value=""><!----><!----></span></div>
       </div>
@@ -22,7 +22,7 @@ exports[`<json-form> demo: > render [a2ui] correctly 1`] = `
         <!--v-if-->
         <!--v-if-->
       </label></div>
-    <div class="sd-col sd-form-item-wrapper-col" style="flex: 1 1 auto;" id="_booking_advanced">
+    <div class="sd-col sd-form-item-wrapper-col" style="flex: 1 1 auto;" id="booking_advanced">
       <div class="sd-form-item-content-wrapper">
         <div class="sd-form-item-content sd-form-item-content-flex"><label class="sd-checkbox sd-json-form-control--inline"><input type="checkbox" class="sd-checkbox-target" value="false"><span class="sd-icon-hover sd-checkbox-icon-hover"><div class="sd-checkbox-icon"><!----></div></span><span class="sd-checkbox-label">启用高级配置</span></label></div>
       </div>
@@ -36,7 +36,7 @@ exports[`<json-form> demo: > render [a2ui] correctly 1`] = `
         <!--v-if-->
         <!--v-if-->
       </label></div>
-    <div class="sd-col sd-form-item-wrapper-col" style="flex: 1 1 auto;" id="_booking_time">
+    <div class="sd-col sd-form-item-wrapper-col" style="flex: 1 1 auto;" id="booking_time">
       <div class="sd-form-item-content-wrapper">
         <div class="sd-form-item-content sd-form-item-content-flex">
           <div class="sd-picker sd-picker-size-medium sd-picker-disabled sd-json-form-control" enabledate="true" enabletime="true" visible="false">
