@@ -23,6 +23,13 @@ export { default as Avatar, AvatarGroup } from './avatar';
 export type { AvatarInstance, AvatarGroupInstance } from './avatar';
 export { default as BackTop } from './back-top';
 export type { BackTopInstance } from './back-top';
+export { default as BorderBeam } from './border-beam';
+export type {
+  BorderBeamInstance,
+  BorderBeamSize,
+  BorderBeamTheme,
+  BorderBeamColorVariant,
+} from './border-beam';
 export { default as Badge } from './badge';
 export type { BadgeInstance } from './badge';
 export { default as Breadcrumb, BreadcrumbItem } from './breadcrumb';

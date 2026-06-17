@@ -310,6 +310,10 @@ export const docsSidebar = [
             label: '返回顶部 BackTop',
           },
           {
+            slug: 'components/border-beam',
+            label: '边框光束 BorderBeam',
+          },
+          {
             slug: 'components/cascader',
             label: '级联选择 Cascader',
           },

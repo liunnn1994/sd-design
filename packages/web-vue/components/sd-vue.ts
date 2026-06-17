@@ -10,6 +10,7 @@ import AutoComplete from './auto-complete';
 import Avatar, { AvatarGroup } from './avatar';
 import BackTop from './back-top';
 import Badge from './badge';
+import BorderBeam from './border-beam';
 import Breadcrumb, { BreadcrumbItem } from './breadcrumb';
 import Button, { ButtonGroup } from './button';
 import Calendar from './calendar';
@@ -170,6 +171,7 @@ const components: Record<string, Plugin> = {
   Affix,
   Anchor,
   BackTop,
+  BorderBeam,
   ConfigProvider,
   ThemeProvider,
   ResizeBox,

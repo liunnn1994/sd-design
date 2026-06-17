@@ -1,0 +1,120 @@
+---
+title: 边框光束 BorderBeam
+description: 为元素添加动态边框光束效果，支持旋转光晕、底部光线、呼吸脉冲等多种动画类型。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import BorderBeamBasicDemo from '../../../../components/generated/border-beam/basic.vue';
+import borderBeamBasicSource from '../../../../components/generated/border-beam/basic.vue?raw';
+import BorderBeamSizeDemo from '../../../../components/generated/border-beam/size.vue';
+import borderBeamSizeSource from '../../../../components/generated/border-beam/size.vue?raw';
+import BorderBeamColorDemo from '../../../../components/generated/border-beam/color.vue';
+import borderBeamColorSource from '../../../../components/generated/border-beam/color.vue?raw';
+import BorderBeamThemeDemo from '../../../../components/generated/border-beam/theme.vue';
+import borderBeamThemeSource from '../../../../components/generated/border-beam/theme.vue?raw';
+import BorderBeamActiveDemo from '../../../../components/generated/border-beam/active.vue';
+import borderBeamActiveSource from '../../../../components/generated/border-beam/active.vue?raw';
+import BorderBeamCustomDemo from '../../../../components/generated/border-beam/custom.vue';
+import borderBeamCustomSource from '../../../../components/generated/border-beam/custom.vue?raw';
+
+BorderBeam 为元素添加动态边框光束效果。组件使用 CSS `conic-gradient`、`mask` 和 `@property` 实现高性能动画，无需 Canvas 或 WebGL。
+
+组件通过包裹子元素，在其边框区域渲染旋转、移动或呼吸的光晕效果，适用于卡片、按钮等需要视觉强调的场景。
+
+### 基本用法
+
+默认使用 `md` 尺寸和 `colorful` 颜色变体，呈现旋转光晕效果。下方示例同时在深色和浅色背景上展示，`theme` 需与所在背景匹配才能保证光晕清晰可见。
+
+<DemoBlock source={borderBeamBasicSource} mainFile="src/border-beam-basic.vue">
+
+<BorderBeamBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 尺寸预设
+
+提供五种尺寸/动画类型预设，下方同时在深色和浅色背景上展示。浅色背景需搭配 `theme="light"`。
+
+- **sm** — 小尺寸，适用于按钮大小的元素
+- **md** — 中等尺寸（默认），适用于卡片
+- **line** — 仅底部移动光线
+- **pulse-inner** — 边框内呼吸光晕
+- **pulse-outside** — 向外绽放光晕（不被裁剪）
+
+<DemoBlock source={borderBeamSizeSource} mainFile="src/border-beam-size.vue">
+
+<BorderBeamSizeDemo client:only="vue" />
+
+</DemoBlock>
+
+### 颜色变体
+
+四种颜色变体，通过 `color-variant` 切换，下方同时在深色和浅色背景上展示。`mono` 变体会自动禁用色相偏移动画。
+
+<DemoBlock source={borderBeamColorSource} mainFile="src/border-beam-color.vue">
+
+<BorderBeamColorDemo client:only="vue" />
+
+</DemoBlock>
+
+### 主题模式
+
+支持 `dark`（深色）、`light`（浅色）和 `auto`（自动跟随系统）三种主题模式。不同主题下光晕的透明度和颜色会自动调整，需与实际背景匹配使用。
+
+<DemoBlock source={borderBeamThemeSource} mainFile="src/border-beam-theme.vue">
+
+<BorderBeamThemeDemo client:only="vue" />
+
+</DemoBlock>
+
+### 动画激活控制
+
+通过 `active` 属性控制动画的激活和停用。切换时会有平滑的淡入/淡出过渡。`activate` 和 `deactivate` 事件分别在淡入完成和淡出完成时触发。
+
+<DemoBlock source={borderBeamActiveSource} mainFile="src/border-beam-active.vue">
+
+<BorderBeamActiveDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义参数
+
+组合使用 `border-radius`、`strength`、`density`、`duration`、`static-colors` 等属性，精细调整光束效果。
+
+<DemoBlock source={borderBeamCustomSource} mainFile="src/border-beam-custom.vue">
+
+<BorderBeamCustomDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### Props
+
+| 参数 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| size | 尺寸/类型预设 | `'sm' \| 'md' \| 'line' \| 'pulse-outside' \| 'pulse-inner'` | `'md'` |
+| color-variant | 颜色变体 | `'colorful' \| 'mono' \| 'ocean' \| 'sunset'` | `'colorful'` |
+| theme | 主题模式 | `'dark' \| 'light' \| 'auto'` | `'dark'` |
+| static-colors | 禁用色相偏移动画 | `boolean` | `false` |
+| duration | 旋转/移动持续时间（秒） | `number` | 由 size 决定 |
+| active | 动画是否激活 | `boolean` | `true` |
+| border-radius | 自定义边框圆角（像素），省略时自动检测子元素圆角 | `number` | 由 size 决定 |
+| brightness | 亮度倍率 | `number` | 由主题预设决定 |
+| saturation | 饱和度倍率 | `number` | 由主题预设决定 |
+| hue-range | 色相旋转范围（度） | `number` | `30` |
+| strength | 整体效果强度（0–1） | `number` | `1` |
+| density | 渐变尺寸倍率 | `number` | `1` |
+
+### Events
+
+| 事件       | 描述               | 参数 |
+| ---------- | ------------------ | ---- |
+| activate   | 淡入动画完成时触发 | -    |
+| deactivate | 淡出动画完成时触发 | -    |
+
+### Slots
+
+| 插槽    | 描述                 |
+| ------- | -------------------- |
+| default | 被光束效果包裹的内容 |

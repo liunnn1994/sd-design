@@ -1,0 +1,12 @@
+@use '@style/theme/index.scss' as global;
+
+@forward '@style/theme/index.scss';
+
+// BorderBeam 的视觉效果完全由 JS 动态生成 CSS 驱动
+// SCSS token 层仅保留结构属性和预设圆角
+
+$border-beam-border-radius-sm: 32px;
+$border-beam-border-radius-md: 16px;
+$border-beam-border-radius-line: 16px;
+$border-beam-border-radius-pulse-outside: 16px;
+$border-beam-border-radius-pulse-inner: 16px;

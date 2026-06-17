@@ -16,6 +16,7 @@ declare module 'vue' {
     SdAvatar: SDVue['Avatar'];
     SdAvatarGroup: SDVue['AvatarGroup'];
     SdBackTop: SDVue['BackTop'];
+    SdBorderBeam: SDVue['BorderBeam'];
     SdBadge: SDVue['Badge'];
     SdBreadcrumb: SDVue['Breadcrumb'];
     SdBreadcrumbItem: SDVue['BreadcrumbItem'];
