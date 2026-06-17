@@ -9,6 +9,10 @@ export type {
   BorderBeamSize,
   BorderBeamTheme,
   BorderBeamColorVariant,
+  BorderBeamFlowPreset,
+  BorderBeamFlowPoint,
+  BorderBeamFlowCoordinate,
+  BorderBeamExposed,
   SizeConfig,
   ThemeColors,
 } from './types';

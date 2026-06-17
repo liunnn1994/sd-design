@@ -14,6 +14,8 @@ import BorderBeamThemeDemo from '../../../../components/generated/border-beam/th
 import borderBeamThemeSource from '../../../../components/generated/border-beam/theme.vue?raw';
 import BorderBeamActiveDemo from '../../../../components/generated/border-beam/active.vue';
 import borderBeamActiveSource from '../../../../components/generated/border-beam/active.vue?raw';
+import BorderBeamFlowDemo from '../../../../components/generated/border-beam/flow.vue';
+import borderBeamFlowSource from '../../../../components/generated/border-beam/flow.vue?raw';
 import BorderBeamCustomDemo from '../../../../components/generated/border-beam/custom.vue';
 import borderBeamCustomSource from '../../../../components/generated/border-beam/custom.vue?raw';
 
@@ -77,6 +79,16 @@ BorderBeam 为元素添加动态边框光束效果。组件使用 CSS `conic-gra
 
 </DemoBlock>
 
+### 水流入场
+
+通过组件实例方法 `flowFrom()` 可以从指定坐标触发一次水流扩散入场效果。默认从右上角开始，扩散完成后保持当前 BorderBeam 效果。传入 `{ x, y }` 时，坐标为组件内本地像素坐标。
+
+<DemoBlock source={borderBeamFlowSource} mainFile="src/border-beam-flow.vue">
+
+<BorderBeamFlowDemo client:only="vue" />
+
+</DemoBlock>
+
 ### 自定义参数
 
 组合使用 `border-radius`、`strength`、`density`、`duration`、`static-colors` 等属性，精细调整光束效果。
@@ -112,6 +124,14 @@ BorderBeam 为元素添加动态边框光束效果。组件使用 CSS `conic-gra
 | ---------- | ------------------ | ---- |
 | activate   | 淡入动画完成时触发 | -    |
 | deactivate | 淡出动画完成时触发 | -    |
+
+### Exposes
+
+| 方法 | 描述 | 参数 | 返回值 |
+| --- | --- | --- | --- |
+| flowFrom | 从指定坐标触发一次水流扩散入场效果，默认从右上角开始。若同时使用受控 `active=false`，建议调用时同步将外部 `active` 状态设为 `true`。 | `BorderBeamFlowCoordinate` | `void` |
+
+`BorderBeamFlowCoordinate = 'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right' \| 'center' \| { x: number; y: number }`。其中 `{ x, y }` 为组件内本地像素坐标。
 
 ### Slots
 

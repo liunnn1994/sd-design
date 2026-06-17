@@ -29,6 +29,10 @@ export type {
   BorderBeamSize,
   BorderBeamTheme,
   BorderBeamColorVariant,
+  BorderBeamFlowPreset,
+  BorderBeamFlowPoint,
+  BorderBeamFlowCoordinate,
+  BorderBeamExposed,
 } from './border-beam';
 export { default as Badge } from './badge';
 export type { BadgeInstance } from './badge';

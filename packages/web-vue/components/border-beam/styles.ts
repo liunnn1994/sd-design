@@ -1131,6 +1131,149 @@ function pulseWrapperAnimation(id: string, fadeName: string, fadeDur: number): s
   return `  animation: ${fadeName}-${id} ${fadeDur}s ease forwards;`;
 }
 
+function flowOverlayCSS(options: GenerateStylesOptions): string {
+  const { id, borderRadius } = options;
+
+  return `
+[data-beam="${id}"] [data-beam-flow] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: ${borderRadius}px;
+  pointer-events: none;
+  z-index: 4;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateZ(0);
+  will-change: opacity, filter;
+  animation: beam-flow-spread-${id} 0.62s linear forwards;
+}
+
+[data-beam="${id}"] [data-beam-flow-sheet] {
+  opacity: 0.92;
+  filter: blur(1.1px) drop-shadow(0 18px 34px rgba(255, 255, 255, 0.16));
+}
+
+[data-beam="${id}"] [data-beam-flow-front] {
+  opacity: 0.78;
+  stroke-linecap: round;
+  transform-box: fill-box;
+  transform-origin: center;
+  filter: blur(2.2px) drop-shadow(0 0 18px currentColor);
+  animation: beam-flow-front-${id} 0.62s linear forwards;
+}
+
+[data-beam="${id}"] [data-beam-flow-front="highlight"] {
+  opacity: 0.7;
+  filter: blur(1.2px);
+  animation-name: beam-flow-front-highlight-${id};
+}
+
+[data-beam="${id}"] [data-beam-flow-blob] {
+  fill: white;
+  opacity: 0.82;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: beam-flow-blob-${id} 0.62s linear forwards;
+}
+
+[data-beam="${id}"] [data-beam-flow-blob="shore-a"] {
+  opacity: 0.44;
+  animation-name: beam-flow-shore-a-${id};
+}
+
+[data-beam="${id}"] [data-beam-flow-blob="shore-b"] {
+  opacity: 0.34;
+  animation-name: beam-flow-shore-b-${id};
+}
+
+[data-beam="${id}"] [data-beam-flow-specular] {
+  opacity: 0;
+  filter: blur(18px);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: beam-flow-specular-${id} 0.62s linear forwards;
+}
+
+@keyframes beam-flow-spread-${id} {
+  0% {
+    opacity: calc(0.56 * var(--beam-strength, 1));
+    filter: blur(1.4px) saturate(1.18);
+  }
+  35% {
+    opacity: calc(0.5 * var(--beam-strength, 1));
+    filter: blur(2.3px) saturate(1.24);
+  }
+  70% {
+    opacity: calc(0.34 * var(--beam-strength, 1));
+    filter: blur(3.4px) saturate(1.2);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(6px) saturate(1.05);
+  }
+}
+
+@keyframes beam-flow-blob-${id} {
+  0% { transform: scale(0.02); }
+  25% { transform: scale(0.34, 0.3) rotate(-2deg); }
+  50% { transform: scale(0.66, 0.58) rotate(-1deg); }
+  75% { transform: scale(0.94, 0.88) rotate(1deg); }
+  100% { transform: scale(1.18, 1.12); }
+}
+
+@keyframes beam-flow-shore-a-${id} {
+  0% { transform: translate(0, 0) scale(0.01); }
+  25% { transform: translate(5px, -3px) scale(0.38, 0.26) rotate(3deg); }
+  50% { transform: translate(8px, -4px) scale(0.72, 0.52) rotate(2deg); }
+  75% { transform: translate(4px, -2px) scale(1, 0.78) rotate(1deg); }
+  100% { transform: translate(0, 0) scale(1.24, 1); }
+}
+
+@keyframes beam-flow-shore-b-${id} {
+  0% { transform: translate(0, 0) scale(0.01); }
+  25% { transform: translate(-6px, 4px) scale(0.28, 0.42) rotate(-4deg); }
+  50% { transform: translate(-8px, 5px) scale(0.58, 0.78) rotate(-2deg); }
+  75% { transform: translate(-4px, 2px) scale(0.9, 1.04) rotate(-1deg); }
+  100% { transform: translate(0, 0) scale(1.16, 1.12); }
+}
+
+@keyframes beam-flow-specular-${id} {
+  0% { opacity: 0.28; transform: scale(0.2); }
+  35% { opacity: 0.2; transform: scale(0.86, 0.42) rotate(-3deg); }
+  70% { opacity: 0.1; transform: scale(1.45, 0.64) rotate(2deg); }
+  100% { opacity: 0; transform: scale(2.2, 0.86); }
+}
+
+@keyframes beam-flow-front-${id} {
+  0% { opacity: 0; transform: scale(0.03); stroke-opacity: 0.95; }
+  18% { opacity: 0.86; transform: scale(0.28, 0.22) rotate(-3deg); stroke-opacity: 0.92; }
+  46% { opacity: 0.82; transform: scale(0.6, 0.5) rotate(-1deg); stroke-opacity: 0.8; }
+  74% { opacity: 0.54; transform: scale(0.9, 0.84) rotate(1deg); stroke-opacity: 0.52; }
+  100% { opacity: 0; transform: scale(1.16, 1.08); stroke-opacity: 0; }
+}
+
+@keyframes beam-flow-front-highlight-${id} {
+  0% { opacity: 0; transform: scale(0.04); stroke-opacity: 0.86; }
+  22% { opacity: 0.78; transform: scale(0.3, 0.2) rotate(2deg); stroke-opacity: 0.8; }
+  52% { opacity: 0.62; transform: scale(0.65, 0.52) rotate(-2deg); stroke-opacity: 0.58; }
+  80% { opacity: 0.3; transform: scale(0.96, 0.82) rotate(1deg); stroke-opacity: 0.26; }
+  100% { opacity: 0; transform: scale(1.18, 1); stroke-opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-beam="${id}"] [data-beam-flow],
+  [data-beam="${id}"] [data-beam-flow-blob],
+  [data-beam="${id}"] [data-beam-flow-front],
+  [data-beam="${id}"] [data-beam-flow-specular] {
+    display: none;
+    animation: none !important;
+  }
+}
+`;
+}
+
 interface GenerateStylesOptions {
   id: string;
   borderRadius: number;
@@ -1417,6 +1560,7 @@ function generateSmallVariantCSS(options: GenerateStylesOptions): string {
 }
 ${hueShiftKeyframes}
 ${pausedAnimationsRule(id)}
+${flowOverlayCSS(options)}
 `;
 }
 
@@ -1672,6 +1816,7 @@ function generateBorderVariantCSS(options: GenerateStylesOptions): string {
 }
 ${hueShiftKeyframes}
 ${pausedAnimationsRule(id)}
+${flowOverlayCSS(options)}
 `;
 }
 
@@ -1808,6 +1953,7 @@ ${pulseWrapperAnimation(id, 'beam-fade-out', 0.5)}
 @keyframes beam-fade-in-${id} { to { --beam-opacity-${id}: 1; } }
 @keyframes beam-fade-out-${id} { from { --beam-opacity-${id}: 1; } to { --beam-opacity-${id}: 0; } }
 ${pausedAnimationsRule(id)}
+${flowOverlayCSS(options)}
 
 @media (prefers-reduced-motion: reduce) {
   [data-beam="${id}"][data-active],
@@ -1977,6 +2123,7 @@ ${
 @keyframes beam-fade-in-${id} { to { --beam-opacity-${id}: 1; } }
 @keyframes beam-fade-out-${id} { from { --beam-opacity-${id}: 1; } to { --beam-opacity-${id}: 0; } }
 ${pausedAnimationsRule(id)}
+${flowOverlayCSS(options)}
 
 @media (prefers-reduced-motion: reduce) {
   [data-beam="${id}"][data-active],
@@ -2283,5 +2430,6 @@ function generateLineVariantCSS(options: GenerateStylesOptions): string {
 }
 ${hueShiftKeyframes}
 ${pausedAnimationsRule(id)}
+${flowOverlayCSS(options)}
 `;
 }

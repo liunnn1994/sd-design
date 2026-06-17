@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 
-import { describe, test, expect } from 'vitest';
+import { describe, test, expect, vi } from 'vitest';
 
 import BorderBeam from '../index';
 
@@ -123,5 +123,104 @@ describe('BorderBeam', () => {
     expect(styleEl).toBeTruthy();
 
     wrapper.unmount();
+  });
+
+  test('should expose flowFrom method', () => {
+    const wrapper = mount(BorderBeam, {
+      slots: { default: '<div>Content</div>' },
+    });
+
+    expect(typeof wrapper.vm.flowFrom).toBe('function');
+  });
+
+  test('should start flow from top-right by default', async () => {
+    const wrapper = mount(BorderBeam, {
+      slots: { default: '<div>Content</div>' },
+    });
+    vi.spyOn(wrapper.element, 'getBoundingClientRect').mockReturnValue({
+      width: 200,
+      height: 100,
+      top: 0,
+      right: 200,
+      bottom: 100,
+      left: 0,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+    } as DOMRect);
+
+    wrapper.vm.flowFrom();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.find('[data-flowing]').exists()).toBe(true);
+    expect(wrapper.find('[data-beam-flow]').exists()).toBe(true);
+    const style = wrapper.find('[data-beam]').attributes('style');
+    expect(style).toContain('--beam-flow-x: 200px');
+    expect(style).toContain('--beam-flow-y: 0px');
+  });
+
+  test('should start flow from custom local coordinate', async () => {
+    const wrapper = mount(BorderBeam, {
+      slots: { default: '<div>Content</div>' },
+    });
+    vi.spyOn(wrapper.element, 'getBoundingClientRect').mockReturnValue({
+      width: 200,
+      height: 100,
+      top: 0,
+      right: 200,
+      bottom: 100,
+      left: 0,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+    } as DOMRect);
+
+    wrapper.vm.flowFrom({ x: 24, y: 36 });
+    await wrapper.vm.$nextTick();
+
+    const style = wrapper.find('[data-beam]').attributes('style');
+    expect(style).toContain('--beam-flow-x: 24px');
+    expect(style).toContain('--beam-flow-y: 36px');
+    expect(style).toContain('--beam-flow-radius');
+  });
+
+  test('should keep beam active after flow animation ends', async () => {
+    const wrapper = mount(BorderBeam, {
+      props: { active: false },
+      slots: { default: '<div>Content</div>' },
+    });
+    vi.spyOn(wrapper.element, 'getBoundingClientRect').mockReturnValue({
+      width: 200,
+      height: 100,
+      top: 0,
+      right: 200,
+      bottom: 100,
+      left: 0,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+    } as DOMRect);
+
+    wrapper.vm.flowFrom('center');
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.find('[data-active]').exists()).toBe(true);
+    await wrapper.find('[data-beam-flow]').trigger('animationend');
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.find('[data-beam-flow]').exists()).toBe(false);
+    expect(wrapper.find('[data-flowing]').exists()).toBe(false);
+    expect(wrapper.find('[data-active]').exists()).toBe(true);
+  });
+
+  test('should include flow overlay styles in dynamic CSS', () => {
+    const wrapper = mount(BorderBeam, {
+      slots: { default: '<div>Content</div>' },
+    });
+    const beamId = wrapper.find('[data-beam]').attributes('data-beam');
+    const styleEl = document.querySelector(`style[data-beam-style="${beamId}"]`);
+
+    expect(styleEl?.textContent).toContain('[data-beam-flow]');
+    expect(styleEl?.textContent).toContain('beam-flow-spread');
   });
 });

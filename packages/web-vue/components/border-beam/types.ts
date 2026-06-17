@@ -46,6 +46,47 @@ export type BorderBeamTheme = 'dark' | 'light' | 'auto';
 export type BorderBeamColorVariant = 'colorful' | 'mono' | 'ocean' | 'sunset';
 
 /**
+ * Preset origin for the one-shot water-flow entrance effect
+ *
+ * 水流入场效果的预设起点
+ */
+export type BorderBeamFlowPreset =
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right'
+  | 'center';
+
+/**
+ * Component-local pixel coordinate for the water-flow entrance effect
+ *
+ * 水流入场效果的组件内像素坐标
+ */
+export interface BorderBeamFlowPoint {
+  /** X position from the component's left edge @zh 距组件左边缘的 X 坐标 */
+  x: number;
+  /** Y position from the component's top edge @zh 距组件上边缘的 Y 坐标 */
+  y: number;
+}
+
+/**
+ * Coordinate accepted by the exposed water-flow entrance method
+ *
+ * 暴露的水流入场方法接收的坐标
+ */
+export type BorderBeamFlowCoordinate = BorderBeamFlowPreset | BorderBeamFlowPoint;
+
+/**
+ * Exposed instance API for BorderBeam
+ *
+ * BorderBeam 暴露的实例 API
+ */
+export interface BorderBeamExposed {
+  /** Trigger one water-flow entrance from a component-local coordinate @zh 从组件内坐标触发一次水流入场 */
+  flowFrom: (coordinate?: BorderBeamFlowCoordinate) => void;
+}
+
+/**
  * Configuration for a size preset
  *
  * 尺寸预设配置

@@ -4,6 +4,7 @@
     :data-beam="id"
     :data-active="isActive && !isFading ? '' : undefined"
     :data-fading="isFading ? '' : undefined"
+    :data-flowing="isFlowing ? '' : undefined"
     :data-paused="isActive && !isFading && !isVisible ? '' : undefined"
     :class="cls"
     :style="mergedStyle"
@@ -11,6 +12,118 @@
   >
     <slot />
     <div data-beam-bloom />
+    <svg
+      v-if="isFlowing"
+      :key="flowKey"
+      data-beam-flow
+      :viewBox="`0 0 ${flowBox.width} ${flowBox.height}`"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      @animationend.stop="handleFlowAnimationEnd"
+    >
+      <defs>
+        <filter
+          :id="`${id}-flow-warp`"
+          x="-24%"
+          y="-24%"
+          width="148%"
+          height="148%"
+          color-interpolation-filters="sRGB"
+        >
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.012 0.026"
+            :seed="flowSeed"
+            numOctaves="2"
+            result="flow-noise"
+          />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="flow-noise"
+            :scale="flowDisplacement"
+            xChannelSelector="R"
+            yChannelSelector="G"
+            result="flow-displaced"
+          />
+          <feGaussianBlur in="flow-displaced" stdDeviation="1.1" result="flow-soft" />
+          <feColorMatrix in="flow-soft" type="saturate" values="1.24" />
+        </filter>
+        <radialGradient
+          :id="`${id}-flow-fill`"
+          gradientUnits="userSpaceOnUse"
+          :cx="flowPoint.x"
+          :cy="flowPoint.y"
+          :r="flowRadius"
+        >
+          <stop offset="0" :stop-color="flowColors.core" stop-opacity="0.5" />
+          <stop offset="0.18" :stop-color="flowColors.mist" stop-opacity="0.42" />
+          <stop offset="0.46" :stop-color="flowColors.accent" stop-opacity="0.32" />
+          <stop offset="0.76" :stop-color="flowColors.edge" stop-opacity="0.18" />
+          <stop offset="1" :stop-color="flowColors.edge" stop-opacity="0" />
+        </radialGradient>
+        <mask
+          :id="`${id}-flow-mask`"
+          maskUnits="userSpaceOnUse"
+          :x="-flowRadius"
+          :y="-flowRadius"
+          :width="flowBox.width + flowRadius * 2"
+          :height="flowBox.height + flowRadius * 2"
+        >
+          <g :filter="`url(#${id}-flow-warp)`">
+            <circle data-beam-flow-blob :cx="flowPoint.x" :cy="flowPoint.y" :r="flowRadius" />
+            <circle
+              data-beam-flow-blob="shore-a"
+              :cx="flowPoint.x"
+              :cy="flowPoint.y"
+              :r="flowRadius * 0.72"
+            />
+            <circle
+              data-beam-flow-blob="shore-b"
+              :cx="flowPoint.x"
+              :cy="flowPoint.y"
+              :r="flowRadius * 0.56"
+            />
+          </g>
+        </mask>
+      </defs>
+      <rect
+        data-beam-flow-sheet
+        x="0"
+        y="0"
+        :width="flowBox.width"
+        :height="flowBox.height"
+        :rx="finalBorderRadius"
+        :fill="`url(#${id}-flow-fill)`"
+        :mask="`url(#${id}-flow-mask)`"
+      />
+      <g :filter="`url(#${id}-flow-warp)`">
+        <circle
+          data-beam-flow-front
+          :cx="flowPoint.x"
+          :cy="flowPoint.y"
+          :r="flowRadius"
+          fill="none"
+          :stroke="flowColors.front"
+          :stroke-width="Math.max(18, flowRadius * 0.1)"
+        />
+        <circle
+          data-beam-flow-front="highlight"
+          :cx="flowPoint.x"
+          :cy="flowPoint.y"
+          :r="flowRadius * 0.94"
+          fill="none"
+          :stroke="flowColors.specular"
+          :stroke-width="Math.max(8, flowRadius * 0.035)"
+        />
+      </g>
+      <circle
+        data-beam-flow-specular
+        :cx="flowPoint.x"
+        :cy="flowPoint.y"
+        :r="Math.max(16, flowRadius * 0.18)"
+        :fill="flowColors.specular"
+      />
+    </svg>
   </div>
 </template>
 
@@ -22,9 +135,16 @@
 </script>
 
 <script lang="ts" setup>
-  import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue';
+  import { ref, computed, watch, onMounted, onUnmounted, nextTick, shallowRef } from 'vue';
 
-  import type { BorderBeamTheme, BorderBeamSize, BorderBeamColorVariant } from './types';
+  import type {
+    BorderBeamTheme,
+    BorderBeamSize,
+    BorderBeamColorVariant,
+    BorderBeamFlowCoordinate,
+    BorderBeamFlowPoint,
+    BorderBeamExposed,
+  } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { registerPulseInstance } from './pulseDriver';
@@ -125,8 +245,133 @@
   const isVisible = ref(true);
   const detectedRadius = ref<number | null>(null);
   const pulseGlowScale = ref({ x: 1, y: 1 });
+  const isFlowing = shallowRef(false);
+  const flowKey = shallowRef(0);
+  const flowPoint = shallowRef<BorderBeamFlowPoint>({ x: 0, y: 0 });
+  const flowRadius = shallowRef(0);
+  const flowBox = shallowRef({ width: 1, height: 1 });
+  const flowSeed = shallowRef(1);
+  let flowTimer: number | null = null;
 
-  // ── Auto-detect child border radius ─────────────────────────────────────────
+  // ── Flow entrance state ──────────────────────────────────────────────────────
+  function clearFlowTimer() {
+    if (!flowTimer) return;
+    window.clearTimeout(flowTimer);
+    flowTimer = null;
+  }
+
+  function finishFlow() {
+    clearFlowTimer();
+    isFlowing.value = false;
+  }
+
+  function resolveFlowPoint(
+    coordinate: BorderBeamFlowCoordinate | undefined,
+    rect: DOMRect,
+  ): BorderBeamFlowPoint {
+    const value = coordinate ?? 'top-right';
+
+    if (typeof value !== 'string') {
+      return { x: value.x, y: value.y };
+    }
+
+    switch (value) {
+      case 'top-left':
+        return { x: 0, y: 0 };
+      case 'bottom-left':
+        return { x: 0, y: rect.height };
+      case 'bottom-right':
+        return { x: rect.width, y: rect.height };
+      case 'center':
+        return { x: rect.width / 2, y: rect.height / 2 };
+      case 'top-right':
+      default:
+        return { x: rect.width, y: 0 };
+    }
+  }
+
+  function getFlowRadius(point: BorderBeamFlowPoint, rect: DOMRect): number {
+    return (
+      Math.max(
+        Math.hypot(point.x, point.y),
+        Math.hypot(rect.width - point.x, point.y),
+        Math.hypot(point.x, rect.height - point.y),
+        Math.hypot(rect.width - point.x, rect.height - point.y),
+      ) + 48
+    );
+  }
+
+  function getFlowSeed(point: BorderBeamFlowPoint): number {
+    return Math.max(1, Math.round((point.x * 3 + point.y * 5 + flowKey.value * 17) % 997));
+  }
+
+  const flowDisplacement = computed(() => Math.max(8, Math.min(24, flowRadius.value * 0.07)));
+  const flowColors = computed(() => {
+    const isDark = resolvedTheme.value === 'dark';
+    const variants = {
+      colorful: isDark
+        ? { accent: '#65d8ff', edge: '#b060ff' }
+        : { accent: '#2785ff', edge: '#8d50d8' },
+      mono: isDark
+        ? { accent: '#f4f4f0', edge: '#b7bbb8' }
+        : { accent: '#4b5250', edge: '#8a908d' },
+      ocean: isDark
+        ? { accent: '#68c8ff', edge: '#7a77ff' }
+        : { accent: '#2c76d8', edge: '#6356c8' },
+      sunset: isDark
+        ? { accent: '#ffb25f', edge: '#ff646f' }
+        : { accent: '#dd6b22', edge: '#c84450' },
+    }[props.colorVariant];
+
+    return {
+      core: isDark ? '#f8fdff' : '#ffffff',
+      mist: isDark ? '#b9f2ff' : '#e9fbff',
+      specular: isDark ? 'rgba(255, 255, 255, 0.5)' : 'rgba(255, 255, 255, 0.38)',
+      front: variants.accent,
+      ...variants,
+    };
+  });
+
+  function shouldReduceMotion() {
+    return (
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    );
+  }
+
+  function flowFrom(coordinate?: BorderBeamFlowCoordinate) {
+    const el = wrapperRef.value;
+    if (!el) return;
+
+    const rect = el.getBoundingClientRect();
+    const point = resolveFlowPoint(coordinate, rect);
+
+    flowKey.value += 1;
+    flowBox.value = { width: Math.max(1, rect.width), height: Math.max(1, rect.height) };
+    flowPoint.value = point;
+    flowRadius.value = getFlowRadius(point, rect);
+    flowSeed.value = getFlowSeed(point);
+    isActive.value = true;
+    isFading.value = false;
+
+    if (shouldReduceMotion()) {
+      finishFlow();
+      return;
+    }
+
+    clearFlowTimer();
+    isFlowing.value = true;
+    flowTimer = window.setTimeout(finishFlow, 760);
+  }
+
+  function handleFlowAnimationEnd() {
+    finishFlow();
+  }
+
+  defineExpose<BorderBeamExposed>({
+    flowFrom,
+  });
+
   let mutationObserver: MutationObserver | null = null;
 
   onMounted(() => {
@@ -153,6 +398,7 @@
   });
 
   onUnmounted(() => {
+    clearFlowTimer();
     mutationObserver?.disconnect();
   });
 
@@ -380,6 +626,9 @@
   const mergedStyle = computed(() => ({
     '--beam-strength': Math.max(0, Math.min(1, props.strength)),
     '--beam-density': Math.max(0.1, props.density),
+    '--beam-flow-x': `${flowPoint.value.x}px`,
+    '--beam-flow-y': `${flowPoint.value.y}px`,
+    '--beam-flow-radius': `${flowRadius.value}px`,
     ...(props.size === 'pulse-outside'
       ? { '--pulse-glow-sx': pulseGlowScale.value.x, '--pulse-glow-sy': pulseGlowScale.value.y }
       : {}),
