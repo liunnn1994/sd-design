@@ -68,8 +68,8 @@ pnpm run check:ci
 - chrome>=120
 - edge>=120
 - firefox>=120
-- ios_saf>=17.0
-- safari>=17.0
+- ios_saf>=17.2
+- safari>=17.2
 
 <!-- browserslist:end -->
 

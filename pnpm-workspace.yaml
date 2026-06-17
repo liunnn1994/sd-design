@@ -10,8 +10,8 @@ catalog:
   vue: ^3.5.35
   'es-toolkit': ^1.47.0
   'type-fest': ^5.7.0
-  oxlint: ^1.68.0
-  oxfmt: ^0.53.0
+  oxlint: ^1.70.0
+  oxfmt: ^0.55.0
   'vite-plus': ^0.1.24
 
 catalogs:
@@ -19,16 +19,21 @@ catalogs:
     vite: ~7
 overrides:
   astro@<6.1.10: ^6.1.10
+  astro@<6.4.6: ^6.4.6
   axios@>=1.0.0 <1.15.1: '>=1.15.1'
   axios@>=1.0.0 <1.15.2: '>=1.15.2'
   brace-expansion@>=5.0.0 <5.0.6: ^5.0.6
   braces@<3.0.3: '>=3.0.3'
   devalue@>=5.6.3 <=5.8.0: ^5.8.1
+  esbuild@>=0.17.0 <0.28.1: ^0.28.1
+  esbuild@>=0.27.3 <0.28.1: ^0.28.1
   fast-uri@<=3.1.0: '>=3.1.1'
   fast-uri@<=3.1.1: '>=3.1.2'
   flatted@<3.4.0: '>=3.4.0'
   flatted@<=3.4.1: '>=3.4.2'
+  form-data@>=4.0.0 <4.0.6: ^4.0.6
   js-cookie@<=3.0.5: ^3.0.6
+  js-yaml@<=4.1.1: ^4.1.2
   micromatch@<4.0.8: '>=4.0.8'
   postcss@<8.4.31: '>=8.4.31'
   postcss@<8.5.10: '>=8.5.10'
@@ -50,6 +55,7 @@ allowBuilds:
   vue-inbrowser-compiler-demi: true
 minimumReleaseAge: 10080
 minimumReleaseAgeExclude:
+  - '@esbuild/*'
   - '@oxc-project/*'
   - '@oxfmt/*'
   - '@oxlint/*'
@@ -57,9 +63,6 @@ minimumReleaseAgeExclude:
   - oxfmt
   - oxlint
   - vite-plus
-  - astro@6.1.10
-  - devalue@5.8.1
-  - brace-expansion@5.0.6
-  - ws@8.20.1
-  - js-cookie@3.0.6
+  - astro
+  - '@types/node'
 trustLockfile: true
