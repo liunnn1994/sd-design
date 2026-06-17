@@ -8,5 +8,5 @@
       "@sdata/web-vue/es/locale/lang/*": ["../web-vue/components/locale/lang/*"]
     }
   },
-  "exclude": ["dist", "src/types/sdata-web-vue-ts7.d.ts", "src/types/sdata-web-vue-vue-tsc.d.ts"]
+  "exclude": ["dist", "src/types/sdata-web-vue-vue-tsc.d.ts"]
 }

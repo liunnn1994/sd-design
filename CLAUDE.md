@@ -67,7 +67,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ## typescript
 
-Use `ts7` by default, and use `type-fest` whenever possible for type combinations.
+Use `vue-tsc`/`tsc` (the `typescript` package) for type-checking, and `type-fest` whenever possible for type combinations. Do not use `@typescript/native-preview` (tsgo/ts7) — it has unresolved Vue compatibility issues.
 
 ## style
 

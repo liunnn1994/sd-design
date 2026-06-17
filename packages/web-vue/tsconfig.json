@@ -8,6 +8,7 @@
     "strict": true,
     "allowJs": true,
     "allowArbitraryExtensions": true,
+    "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "preserve",
@@ -18,6 +19,6 @@
     "resolveJsonModule": true,
     "types": ["vitest/globals", "node", "vite/client"]
   },
-  "include": ["components/**/*", "icon/**/*", "*.d.ts", "vitest.setup.ts"],
+  "include": ["components/**/*", "icon/**/*", "*.d.ts", "vite.config.ts", "vitest.setup.ts"],
   "exclude": ["node_modules", "dist", "lib", "es", "json", "**/__tests__/**/*"]
 }

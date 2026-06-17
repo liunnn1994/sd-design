@@ -1,8 +1,6 @@
 {
   "stylelint.configFile": "${workspaceFolder}/.stylelintrc.mjs",
   "stylelint.configBasedir": "${workspaceFolder}",
-  "js/ts.experimental.useTsgo": true,
-  "typescript.native-preview.tsdk": "node_modules/@typescript/native-preview",
   "oxc.enable": true,
   "oxc.useExecPath": true,
   "oxc.path.oxfmt": "node_modules/oxfmt/bin/oxfmt",
