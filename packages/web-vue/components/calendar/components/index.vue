@@ -147,12 +147,12 @@
     useTemplateRef,
   } from 'vue';
 
+  import { useThemeMode } from '../../_hooks/use-theme-mode';
   import { getPrefixCls } from '../../_utils/global-config';
   import Scrollbar from '../../scrollbar';
   import { calendarInjectionKey, calendarElInjectionKey } from '../context';
   import { useCalendar } from '../core/index';
   import { props as propsDefinitions } from '../core/props-definitions';
-  import { useCalendarTheme } from '../hooks/use-calendar-theme';
   import VueCalBody from './body.vue';
   import VueCalHeader from './header.vue';
   import HeadingsBar from './headings-bar.vue';
@@ -193,7 +193,8 @@
     prefixCls,
   });
   const { config, view, dateUtils, touch: touchState } = calendar;
-  const { isDark } = useCalendarTheme(calendarEl);
+  const themeMode = useThemeMode(calendarEl);
+  const isDark = computed(() => themeMode.value === 'dark');
 
   const syncCalendarPrefixedClasses = (rootEl: HTMLElement | null) => {
     if (!rootEl) return;
