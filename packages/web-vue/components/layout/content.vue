@@ -1,18 +1,17 @@
 <template>
-  <main :class="classNames">
+  <component :is="tagName" :class="classNames">
     <slot />
-  </main>
+  </component>
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue';
+
   import { getPrefixCls } from '../_utils/global-config';
 
   defineOptions({ name: 'LayoutContent' });
-  /**
-   * @zh 内容
-   * @en Content
-   * @slot default
-   */
-  const prefixCls = getPrefixCls('layout-content');
-  const classNames = [prefixCls];
+
+  const tagName = 'main';
+  const prefixCls = getPrefixCls('layout');
+  const classNames = computed(() => [`${prefixCls}-content`]);
 </script>

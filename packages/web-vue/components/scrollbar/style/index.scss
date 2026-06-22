@@ -11,7 +11,10 @@ $scroll-prefix-cls: string.unquote('#{theme.$prefix}-scrollbar');
 
   &-container {
     min-width: 100%;
-    min-height: 100%;
+    // Fill the outer element so that when it has a bounded height the host is
+    // constrained and the viewport can scroll. `height: 100%` resolves to
+    // `auto` when the outer is auto-sized, so unconstrained usages are unaffected.
+    height: 100%;
   }
 
   .os-scrollbar {

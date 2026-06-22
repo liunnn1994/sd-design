@@ -258,16 +258,15 @@ export {
   LayoutSider,
 } from './layout';
 export type {
+  CollapseType,
   LayoutContentInstance,
   LayoutFooterInstance,
-  LayoutHeaderDensity,
-  LayoutHeaderProps,
   LayoutHeaderInstance,
   LayoutInstance,
   LayoutProps,
-  LayoutHeaderScrollBehavior,
   LayoutSiderInstance,
   SiderProps,
+  SiderTheme,
 } from './layout';
 export { default as Link } from './link';
 export type { LinkInstance, LinkProps } from './link';

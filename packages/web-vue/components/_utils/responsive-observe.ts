@@ -1,8 +1,9 @@
 // https://github.com/ant-design/ant-design/blob/master/components/_util/responsiveObserve.ts
 
 export type Breakpoint = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
-export type BreakpointMap = Partial<Record<Breakpoint, string>>;
-export type ScreenMap = Partial<Record<Breakpoint, boolean>>;
+export type SiderBreakpoint = 'xxxl' | Breakpoint;
+export type BreakpointMap = Partial<Record<SiderBreakpoint, string>>;
+export type ScreenMap = Partial<Record<SiderBreakpoint, boolean>>;
 
 export const responsiveArray: Breakpoint[] = ['xxl', 'xl', 'lg', 'md', 'sm', 'xs'];
 
@@ -13,9 +14,10 @@ export const responsiveMap: BreakpointMap = {
   lg: '(min-width: 992px)',
   xl: '(min-width: 1200px)',
   xxl: '(min-width: 1600px)',
+  xxxl: '(min-width: 1840px)',
 };
 
-type SubscribeFunc = (screens: ScreenMap, breakpointChecked: Breakpoint) => void;
+type SubscribeFunc = (screens: ScreenMap, breakpointChecked: SiderBreakpoint) => void;
 
 type MediaQueryResult = { matches: boolean };
 
@@ -35,14 +37,14 @@ const responsiveObserve: {
       listener: MediaQueryListener;
     };
   };
-  dispatch(pointMap: ScreenMap, breakpointChecked: Breakpoint): boolean;
+  dispatch(pointMap: ScreenMap, breakpointChecked: SiderBreakpoint): boolean;
   subscribe(func: SubscribeFunc): string;
   unsubscribe(token: string): void;
   unregister(): void;
   register(): void;
 } = {
   matchHandlers: {},
-  dispatch(pointMap: ScreenMap, breakpointChecked: Breakpoint) {
+  dispatch(pointMap: ScreenMap, breakpointChecked: SiderBreakpoint) {
     screens = pointMap;
     if (subscribers.length < 1) {
       return false;
@@ -63,7 +65,7 @@ const responsiveObserve: {
       token,
       func,
     });
-    func(screens, null as unknown as Breakpoint);
+    func(screens, null as unknown as SiderBreakpoint);
     return token;
   },
   unsubscribe(token: string) {
@@ -73,7 +75,7 @@ const responsiveObserve: {
     }
   },
   unregister() {
-    (Object.keys(responsiveMap) as Breakpoint[]).forEach((screen: Breakpoint) => {
+    (Object.keys(responsiveMap) as SiderBreakpoint[]).forEach((screen: SiderBreakpoint) => {
       const matchMediaQuery = responsiveMap[screen];
       if (!matchMediaQuery) return;
       const handler = this.matchHandlers[matchMediaQuery];
@@ -87,7 +89,7 @@ const responsiveObserve: {
     });
   },
   register() {
-    (Object.keys(responsiveMap) as Breakpoint[]).forEach((screen: Breakpoint) => {
+    (Object.keys(responsiveMap) as SiderBreakpoint[]).forEach((screen: SiderBreakpoint) => {
       const matchMediaQuery = responsiveMap[screen];
       if (!matchMediaQuery) return;
       const listener = ({ matches }: MediaQueryResult) => {

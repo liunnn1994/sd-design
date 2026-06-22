@@ -1,40 +1,62 @@
 <template>
-  <section :class="classNames">
+  <component :is="tagName" :class="classNames">
     <slot />
-  </section>
+  </component>
 </template>
 
-<script setup lang="tsx">
-  import { computed, provide, ref } from 'vue';
+<script setup lang="ts">
+  import { computed, inject, provide, ref, useSlots } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import { LayoutSiderInjectionKey } from './context';
+  import { configProviderInjectionKey } from '../config-provider/context';
+  import { LayoutContextInjectionKey } from './context';
+  import { useHasSider } from './hooks/use-has-sider';
 
   defineOptions({ name: 'Layout' });
 
   const props = defineProps({
     /**
-     * @zh 表示子元素里有 Sider，一般不用指定。可用于服务端渲染时避免样式闪动
-     * @en Indicates that there is a Sider in the sub-element, which generally does not need to be specified. Used to avoid style flicker when rendering on the server side.
+     * @zh 是否包含 Sider，设为布尔值时会覆盖自动检测
+     * @en Whether contains Sider, overrides auto detection when set to a boolean
      */
     hasSider: {
       type: Boolean,
+      default: undefined,
     },
   });
 
-  const siderIds = ref<string[]>([]);
+  const tagName = 'div';
   const prefixCls = getPrefixCls('layout');
+  const slots = useSlots();
+
+  const siders = ref<string[]>([]);
+
+  const slotVNodes = computed(() => slots.default?.());
+  const mergedHasSider = useHasSider(
+    siders,
+    slotVNodes,
+    computed(() => props.hasSider),
+  );
+
+  const configProvider = inject(configProviderInjectionKey, undefined);
+  const rtl = computed(() => configProvider?.rtl ?? false);
+
   const classNames = computed(() => [
     prefixCls,
     {
-      [`${prefixCls}-has-sider`]: props.hasSider || siderIds.value.length,
+      [`${prefixCls}-has-sider`]: mergedHasSider.value,
+      [`${prefixCls}-rtl`]: rtl.value,
     },
   ]);
 
-  provide(LayoutSiderInjectionKey, {
-    onSiderMount: (id) => siderIds.value.push(id),
-    onSiderUnMount: (id) => {
-      siderIds.value = siderIds.value.filter((_id) => _id !== id);
+  provide(LayoutContextInjectionKey, {
+    siderHook: {
+      addSider(id: string) {
+        siders.value = [...siders.value, id];
+      },
+      removeSider(id: string) {
+        siders.value = siders.value.filter((currentId) => currentId !== id);
+      },
     },
   });
 </script>

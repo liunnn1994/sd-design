@@ -1,66 +1,81 @@
 <template>
-  <div class="layout-demo">
-    <sd-layout class="sd:h-100">
+  <div class="layout-basic-demo">
+    <sd-layout class="layout-basic-item">
       <sd-layout-header>Header</sd-layout-header>
       <sd-layout-content>Content</sd-layout-content>
       <sd-layout-footer>Footer</sd-layout-footer>
     </sd-layout>
-    <br />
-    <sd-layout class="sd:h-100">
+
+    <sd-layout class="layout-basic-item">
       <sd-layout-header>Header</sd-layout-header>
       <sd-layout>
-        <sd-layout-sider theme="dark">Sider</sd-layout-sider>
+        <sd-layout-sider width="25%">Sider</sd-layout-sider>
         <sd-layout-content>Content</sd-layout-content>
       </sd-layout>
       <sd-layout-footer>Footer</sd-layout-footer>
     </sd-layout>
-    <br />
-    <sd-layout class="sd:h-100">
+
+    <sd-layout class="layout-basic-item">
       <sd-layout-header>Header</sd-layout-header>
       <sd-layout>
         <sd-layout-content>Content</sd-layout-content>
-        <sd-layout-sider>Sider</sd-layout-sider>
+        <sd-layout-sider width="25%">Sider</sd-layout-sider>
       </sd-layout>
       <sd-layout-footer>Footer</sd-layout-footer>
     </sd-layout>
-    <br />
-    <sd-layout class="sd:h-100">
-      <sd-layout-header>Header</sd-layout-header>
+
+    <sd-layout class="layout-basic-item">
+      <sd-layout-sider width="25%">Sider</sd-layout-sider>
       <sd-layout>
-        <sd-layout-sider :width="64">Sider</sd-layout-sider>
-        <sd-layout-sider :width="206" class="sd:ml-px">Sider</sd-layout-sider>
+        <sd-layout-header>Header</sd-layout-header>
         <sd-layout-content>Content</sd-layout-content>
+        <sd-layout-footer>Footer</sd-layout-footer>
       </sd-layout>
-      <sd-layout-footer>Footer</sd-layout-footer>
     </sd-layout>
   </div>
 </template>
+
 <style scoped>
-  .layout-demo :deep(.sd-layout-header),
-  .layout-demo :deep(.sd-layout-footer),
-  .layout-demo :deep(.sd-layout-sider-children),
-  .layout-demo :deep(.sd-layout-content) {
+  .layout-basic-demo {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    color: var(--color-white);
-    font-size: 16px;
-    font-stretch: condensed;
-    text-align: center;
+    flex-wrap: wrap;
+    gap: 16px;
   }
 
-  .layout-demo :deep(.sd-layout-header),
-  .layout-demo :deep(.sd-layout-footer) {
+  .layout-basic-item {
+    width: calc(50% - 8px);
+    max-width: calc(50% - 8px);
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  .layout-basic-item :deep(.sd-layout-header) {
     height: 64px;
-    background-color: var(--color-primary-light-4);
+    padding-inline: 48px;
+    line-height: 64px;
+    color: #fff;
+    text-align: center;
+    background: #4096ff;
   }
 
-  .layout-demo :deep(.sd-layout-sider) {
-    width: 206px;
-    background-color: var(--color-primary-light-3);
+  .layout-basic-item :deep(.sd-layout-content) {
+    min-height: 120px;
+    line-height: 120px;
+    color: #fff;
+    text-align: center;
+    background: #0958d9;
   }
 
-  .layout-demo :deep(.sd-layout-content) {
-    background-color: rgb(var(--sdblue-6));
+  .layout-basic-item :deep(.sd-layout-sider) {
+    line-height: 120px;
+    color: #fff;
+    text-align: center;
+    background: #1677ff;
+  }
+
+  .layout-basic-item :deep(.sd-layout-footer) {
+    color: #fff;
+    text-align: center;
+    background: #4096ff;
   }
 </style>

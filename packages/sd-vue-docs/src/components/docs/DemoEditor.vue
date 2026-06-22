@@ -82,6 +82,8 @@
     return `${specifier.isType ? 'type ' : ''}${specifier.importedName}${aliasClause}`;
   }
 
+  const iconPluginSpecifier = '@sdata/web-vue/es/icon.js';
+
   function extractUsedTagNames(source: string) {
     const tagNames = new Set<string>();
 
@@ -98,6 +100,20 @@
     return Array.from(tagNames).sort((left, right) => left.localeCompare(right));
   }
 
+  // Individual icons (e.g. `<icon-upload>`) are not exported from the main
+  // entry — they are globally registered by the `SDVueIcon` plugin, mirroring
+  // the docs site's `_app.ts` (`app.use(SDVueIcon)`). When a demo uses any
+  // `icon-*` tag, the REPL preview must therefore `app.use(SDVueIcon)` too.
+  function previewUsesIconPlugin(source: string) {
+    for (const match of source.matchAll(/<\/?([a-z][\w-]*)\b/g)) {
+      if (match[1]?.startsWith('icon-')) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   function buildPreviewLibrarySetup(
     source: string,
     manifest: BrowserComponentManifest | null,
@@ -111,10 +127,17 @@
           .filter((specifier): specifier is string => Boolean(specifier))
       : [];
     const uniquePluginSpecifiers = Array.from(new Set(pluginSpecifiers));
-    const importCode = uniquePluginSpecifiers
-      .map((specifier, index) => `import __SdPlugin${index} from '${specifier}';`)
-      .join('\n');
+    const importLines = uniquePluginSpecifiers.map(
+      (specifier, index) => `import __SdPlugin${index} from '${specifier}';`,
+    );
     const useStatements = uniquePluginSpecifiers.map((_, index) => `app.use(__SdPlugin${index});`);
+
+    if (previewUsesIconPlugin(source)) {
+      importLines.push(`import SDVueIcon from '${iconPluginSpecifier}';`);
+      useStatements.push('app.use(SDVueIcon);');
+    }
+
+    const importCode = importLines.join('\n');
 
     useStatements.push(
       `if (${JSON.stringify(theme)} === 'dark') { document.body.setAttribute('sd-theme', 'dark'); } else { document.body.removeAttribute('sd-theme'); }`,

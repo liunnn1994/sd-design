@@ -135,28 +135,10 @@ exports[`<resize-box> demo: > render [custom-triggers] correctly 1`] = `
 
 exports[`<resize-box> demo: > render [layout] correctly 1`] = `
 <div data-v-8c775dfe="" class="layout-demo">
-  <section data-v-8c775dfe="" class="sd-layout">
-    <div data-v-8c775dfe="" class="sd-layout-header-wrapper">
-      <header class="sd-layout-header" style="--sd-layout-header-content-height: 64px; --sd-layout-header-extension-height: 0px; --sd-layout-header-image-opacity: 1; height: 64px;">
-        <!--v-if-->
-        <div class="sd-layout-header-bar">
-          <!--v-if-->
-          <!--v-if-->
-          <div class="sd-layout-header-content">Header</div>
-          <!--v-if-->
-        </div>
-        <!--v-if-->
-      </header>
-    </div>
-    <section data-v-8c775dfe="" class="sd-layout">
-      <div data-v-8c775dfe="" class="sd-resizebox sd-layout-sider sd-layout-sider-light sd-layout-sider-left sd-layout-sider sd-layout-sider-light sd-layout-sider-left" style="width: 200px;">
-        <!--v-if-->
-        <!--v-if-->
-        <!--v-if-->
-        <div class="sd-layout-sider-children"> Sider </div>
-        <!--v-if-->
-        <!--v-if-->
-        <div class="sd-resizebox-trigger sd-resizebox-trigger-vertical sd-resizebox-direction-right">
+  <div data-v-8c775dfe="" class="sd-layout">
+    <header data-v-8c775dfe="" class="sd-layout-header">Header</header>
+    <div data-v-8c775dfe="" class="sd-layout sd-layout-has-sider">
+      <div data-v-8c775dfe="" class="sd-resizebox sider sider"> Sider <div class="sd-resizebox-trigger sd-resizebox-trigger-vertical sd-resizebox-direction-right">
           <!-- @slot 自定义内容 -->
           <div class="sd-resizebox-trigger-icon-wrapper">
             <!-- @slot 自定义 icon --><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-drag-dot-vertical sd-resizebox-trigger-icon" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
@@ -167,8 +149,8 @@ exports[`<resize-box> demo: > render [layout] correctly 1`] = `
         </div>
       </div>
       <main data-v-8c775dfe="" class="sd-layout-content">Content</main>
-    </section>
+    </div>
     <footer data-v-8c775dfe="" class="sd-layout-footer">Footer</footer>
-  </section>
+  </div>
 </div>
 `;

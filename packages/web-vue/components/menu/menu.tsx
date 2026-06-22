@@ -1,7 +1,7 @@
 import { computed, defineComponent, inject, InjectionKey, PropType, provide, toRefs } from 'vue';
 
 import { EllipsisTooltipProps } from '../ellipsis';
-import { SiderInjectionKey } from '../layout/context';
+import { SiderContextInjectionKey } from '../layout/context';
 import BaseMenu from './base-menu.vue';
 import { LevelContext, LevelInjectionKey, MenuContext, MenuInjectionKey } from './context';
 import OverflowWrap from './overflow-wrap';
@@ -37,8 +37,8 @@ export default defineComponent({
   setup(props, { attrs, slots }) {
     const { theme: propTheme, mode } = toRefs(props);
 
-    const siderContext = inject(SiderInjectionKey, undefined);
-    const siderCollapsed = computed(() => siderContext?.collapsed || false);
+    const siderContext = inject(SiderContextInjectionKey, undefined);
+    const siderCollapsed = computed(() => siderContext?.siderCollapsed || false);
     const theme = computed(
       () => (propTheme?.value || siderContext?.theme || 'light') as 'light' | 'dark',
     );

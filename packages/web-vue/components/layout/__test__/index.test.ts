@@ -1,333 +1,239 @@
 import { mount } from '@vue/test-utils';
-import { defineComponent, nextTick } from 'vue';
+import { nextTick, ref } from 'vue';
 
-import Scrollbar from '../../scrollbar';
 import Layout from '../index';
 
-const { Header, Sider } = Layout;
+const { Sider, Content } = Layout;
 
-const _matchMedia = window.matchMedia;
+const originalMatchMedia = window.matchMedia;
 
-const waitForScrollFrame = async () => {
-  await new Promise((resolve) => window.requestAnimationFrame(resolve));
-  await nextTick();
-};
+function mockMatchMedia(matches: boolean) {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    configurable: true,
+    value: vi.fn().mockImplementation((query: string) => ({
+      matches,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    })),
+  });
+}
 
 describe('Layout', () => {
-  beforeAll(() => {
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: vi.fn().mockImplementation((query) => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: vi.fn(), // Deprecated
-        removeListener: vi.fn(), // Deprecated
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-        dispatchEvent: vi.fn(),
-      })),
-    });
+  afterEach(() => {
+    window.matchMedia = originalMatchMedia;
   });
 
-  afterAll(() => {
-    Object.defineProperty(window, 'matchMedia', {
-      value: _matchMedia,
+  it('detect the sider as children', () => {
+    const wrapper = mount({
+      components: { Layout, Sider, Content },
+      template: `<Layout><Sider>Sider</Sider><Content>Content</Content></Layout>`,
     });
+    expect(wrapper.find('.sd-layout').classes()).toContain('sd-layout-has-sider');
   });
 
-  test('Collapse should work for Sider', async () => {
-    const wrapper = mount(Sider, {
-      props: {
-        collapsible: true,
-      },
+  it('detect the sider inside the children', () => {
+    const wrapper = mount({
+      components: { Layout, Sider, Content },
+      template: `<Layout><div><Sider>Sider</Sider></div><Content>Content</Content></Layout>`,
     });
-    expect(wrapper.find('.sd-layout-sider').attributes('style')).toContain('width: 200px');
-    const collapseTrigger = wrapper.find('.sd-layout-sider-trigger');
-    await collapseTrigger.trigger('click');
-    expect(wrapper.find('.sd-layout-sider').attributes('style')).toContain('width: 48px');
-    expect(wrapper.emitted('collapse')).toHaveLength(1);
+    expect(wrapper.find('.sd-layout').classes()).toContain('sd-layout-has-sider');
   });
 
-  test('header should render app bar sections', () => {
-    const wrapper = mount(Header, {
-      props: {
-        title: '工作台',
-        extended: true,
-        extensionHeight: 40,
-        density: 'compact',
-      },
-      slots: {
-        prepend: '<button class="prepend-trigger">menu</button>',
-        default: '<span class="main-content">内容</span>',
-        append: '<button class="append-action">action</button>',
-        extension: '<div class="extension-node">secondary</div>',
-      },
+  it('should not add has-sider when hasSider is false', () => {
+    const wrapper = mount({
+      components: { Layout, Sider },
+      template: `<Layout :has-sider="false"><Sider>Sider</Sider></Layout>`,
     });
-
-    const header = wrapper.find('.sd-layout-header');
-
-    expect(header.find('.sd-layout-header-title').text()).toBe('工作台');
-    expect(header.find('.prepend-trigger').exists()).toBe(true);
-    expect(header.find('.append-action').exists()).toBe(true);
-    expect(header.find('.extension-node').exists()).toBe(true);
-    expect(header.attributes('style')).toContain('--sd-layout-header-content-height: 48px');
-    expect(header.attributes('style')).toContain('--sd-layout-header-extension-height: 32px');
+    expect(wrapper.find('.sd-layout').classes()).not.toContain('sd-layout-has-sider');
   });
 
-  test('header should update visibility by scroll behavior', async () => {
-    const pageYOffsetDescriptor = Object.getOwnPropertyDescriptor(window, 'pageYOffset');
-    const innerHeightDescriptor = Object.getOwnPropertyDescriptor(window, 'innerHeight');
-    const scrollHeightDescriptor = Object.getOwnPropertyDescriptor(
-      document.documentElement,
-      'scrollHeight',
-    );
-
-    Object.defineProperty(window, 'pageYOffset', {
-      configurable: true,
-      writable: true,
-      value: 0,
-    });
-    Object.defineProperty(window, 'innerHeight', {
-      configurable: true,
-      value: 600,
-    });
-    Object.defineProperty(document.documentElement, 'scrollHeight', {
-      configurable: true,
-      value: 2400,
-    });
-
-    const wrapper = mount(Header, {
-      attachTo: document.body,
-      props: {
-        fixed: true,
-        scrollBehavior: 'hide',
+  it('unmount from multiple siders keeps has-sider in sync', async () => {
+    const wrapper = mount({
+      components: { Layout, Sider, Content },
+      setup() {
+        const hide1 = ref(false);
+        const hide2 = ref(false);
+        return { hide1, hide2 };
       },
-      slots: {
-        default: 'Header',
-      },
+      template: `
+        <Layout>
+          <Sider v-if="!hide1">Sider</Sider>
+          <Sider v-if="!hide2">Sider</Sider>
+          <Content>
+            <button @click="hide1 = true">hide 1</button>
+            <button @click="hide2 = true">hide 2</button>
+          </Content>
+        </Layout>`,
     });
-
-    await nextTick();
-
-    window.pageYOffset = 500;
-    window.dispatchEvent(new Event('scroll'));
-    await waitForScrollFrame();
-
-    expect(wrapper.emitted('update:modelValue')).toContainEqual([false]);
-    expect(wrapper.find('.sd-layout-header').classes()).toContain('sd-layout-header-hidden');
-
-    window.pageYOffset = 0;
-    window.dispatchEvent(new Event('scroll'));
-    await waitForScrollFrame();
-
-    expect(wrapper.emitted('update:modelValue')).toContainEqual([true]);
-    expect(wrapper.find('.sd-layout-header').classes()).not.toContain('sd-layout-header-hidden');
-
-    wrapper.unmount();
-
-    if (pageYOffsetDescriptor) {
-      Object.defineProperty(window, 'pageYOffset', pageYOffsetDescriptor);
-    }
-    if (innerHeightDescriptor) {
-      Object.defineProperty(window, 'innerHeight', innerHeightDescriptor);
-    }
-    if (scrollHeightDescriptor) {
-      Object.defineProperty(document.documentElement, 'scrollHeight', scrollHeightDescriptor);
-    }
+    expect(wrapper.find('.sd-layout').classes()).toContain('sd-layout-has-sider');
+    await wrapper.findAll('button')[0].trigger('click');
+    expect(wrapper.find('.sd-layout').classes()).toContain('sd-layout-has-sider');
+    await wrapper.findAll('button')[1].trigger('click');
+    expect(wrapper.find('.sd-layout').classes()).not.toContain('sd-layout-has-sider');
   });
 
-  test('header should bind scoped scroll target after mount', async () => {
-    const pageYOffsetDescriptor = Object.getOwnPropertyDescriptor(window, 'pageYOffset');
-    const innerHeightDescriptor = Object.getOwnPropertyDescriptor(window, 'innerHeight');
-    const scrollHeightDescriptor = Object.getOwnPropertyDescriptor(
-      document.documentElement,
-      'scrollHeight',
-    );
-
-    Object.defineProperty(window, 'pageYOffset', {
-      configurable: true,
-      writable: true,
-      value: 0,
+  it('detect has-trigger class when collapsible', () => {
+    const wrapper = mount({
+      components: { Layout, Sider, Content },
+      template: `<Layout><div><Sider collapsible>Sider</Sider></div><Content>Content</Content></Layout>`,
     });
-    Object.defineProperty(window, 'innerHeight', {
-      configurable: true,
-      value: 600,
-    });
-    Object.defineProperty(document.documentElement, 'scrollHeight', {
-      configurable: true,
-      value: 2400,
-    });
-
-    const wrapper = mount(
-      defineComponent({
-        components: {
-          LayoutHeader: Header,
-        },
-        template: `
-          <div class="layout-scroll-scope">
-            <layout-header fixed scroll-target=".layout-scroll-scope__body" scroll-behavior="hide">
-              Header
-            </layout-header>
-            <div class="layout-scroll-scope__body"></div>
-          </div>
-        `,
-      }),
-      {
-        attachTo: document.body,
-      },
-    );
-
-    const header = wrapper.findComponent(Header);
-    const scrollBody = wrapper.find('.layout-scroll-scope__body').element as HTMLElement;
-
-    Object.defineProperty(scrollBody, 'clientHeight', {
-      configurable: true,
-      value: 300,
-    });
-    Object.defineProperty(scrollBody, 'scrollHeight', {
-      configurable: true,
-      value: 1200,
-    });
-    Object.defineProperty(scrollBody, 'scrollTop', {
-      configurable: true,
-      writable: true,
-      value: 0,
-    });
-
-    window.dispatchEvent(new Event('resize'));
-    await waitForScrollFrame();
-
-    window.pageYOffset = 500;
-    window.dispatchEvent(new Event('scroll'));
-    await waitForScrollFrame();
-
-    expect(header.emitted('update:modelValue')).toBeUndefined();
-    expect(header.find('.sd-layout-header').classes()).not.toContain('sd-layout-header-hidden');
-
-    scrollBody.scrollTop = 500;
-    scrollBody.dispatchEvent(new Event('scroll'));
-    await waitForScrollFrame();
-
-    expect(header.emitted('update:modelValue')).toContainEqual([false]);
-    expect(header.find('.sd-layout-header').classes()).toContain('sd-layout-header-hidden');
-
-    scrollBody.scrollTop = 0;
-    scrollBody.dispatchEvent(new Event('scroll'));
-    await waitForScrollFrame();
-
-    expect(header.emitted('update:modelValue')).toContainEqual([true]);
-    expect(header.find('.sd-layout-header').classes()).not.toContain('sd-layout-header-hidden');
-
-    wrapper.unmount();
-
-    if (pageYOffsetDescriptor) {
-      Object.defineProperty(window, 'pageYOffset', pageYOffsetDescriptor);
-    }
-    if (innerHeightDescriptor) {
-      Object.defineProperty(window, 'innerHeight', innerHeightDescriptor);
-    }
-    if (scrollHeightDescriptor) {
-      Object.defineProperty(document.documentElement, 'scrollHeight', scrollHeightDescriptor);
-    }
+    expect(wrapper.find('.sd-layout-sider').classes()).toContain('sd-layout-sider-has-trigger');
   });
 
-  test('header should react to scrollbar viewport scroll', async () => {
-    const wrapper = mount(
-      defineComponent({
-        components: {
-          LayoutHeader: Header,
-          Scrollbar,
-        },
-        template: `
-          <div class="layout-scrollbar-scope">
-            <layout-header fixed scroll-target=".layout-scrollbar-scope__body" scroll-behavior="hide">
-              Header
-            </layout-header>
-            <scrollbar class="layout-scrollbar-scope__body">
-              <div style="height: 1200px;">Content</div>
-            </scrollbar>
-          </div>
-        `,
-      }),
-      {
-        attachTo: document.body,
-      },
-    );
-
-    await nextTick();
-
-    const header = wrapper.findComponent(Header);
-    const viewport = wrapper.find('.layout-scrollbar-scope__body [data-overlayscrollbars-viewport]')
-      .element as HTMLElement;
-
-    Object.defineProperty(viewport, 'clientHeight', {
-      configurable: true,
-      value: 300,
+  it('renders 50% width correctly', () => {
+    const wrapper = mount({
+      components: { Layout, Sider, Content },
+      template: `<Layout><div><Sider width="50%">Sider</Sider></div><Content>Content</Content></Layout>`,
     });
-    Object.defineProperty(viewport, 'scrollHeight', {
-      configurable: true,
-      value: 1200,
-    });
-    Object.defineProperty(viewport, 'scrollTop', {
-      configurable: true,
-      writable: true,
-      value: 0,
-    });
-
-    window.dispatchEvent(new Event('resize'));
-    await waitForScrollFrame();
-
-    viewport.scrollTop = 500;
-    viewport.dispatchEvent(new Event('scroll'));
-    await waitForScrollFrame();
-
-    expect(header.emitted('update:modelValue')).toContainEqual([false]);
-    expect(header.find('.sd-layout-header').classes()).toContain('sd-layout-header-hidden');
-
-    wrapper.unmount();
+    const sider = wrapper.find<HTMLElement>('.sd-layout-sider');
+    expect(sider.element.style.width).toBe('50%');
+    expect(sider.element.style.flex).toBe('0 0 50%');
   });
 
-  test('temporary sider should close by mask and esc', async () => {
+  it('detect zero-width class when width is 0%', () => {
+    const wrapper = mount({
+      components: { Layout, Sider, Content },
+      template: `<Layout><div><Sider width="0%">Sider</Sider></div><Content>Content</Content></Layout>`,
+    });
+    expect(wrapper.find('.sd-layout-sider').classes()).toContain('sd-layout-sider-zero-width');
+  });
+
+  it('detect light as default theme', () => {
+    const wrapper = mount(Sider, { slots: { default: 'Sider' } });
+    expect(wrapper.find('.sd-layout-sider').classes()).toContain('sd-layout-sider-light');
+  });
+
+  it('follows ConfigProvider themeMode when theme not set', async () => {
+    document.body.setAttribute('sd-theme', 'dark');
     const wrapper = mount(Sider, {
       attachTo: document.body,
-      props: {
-        temporary: true,
-        defaultVisible: true,
-        location: 'left',
-      },
+      slots: { default: 'Sider' },
     });
-
-    const sider = wrapper.find('.sd-layout-sider');
-
-    expect(sider.classes()).toContain('sd-layout-sider-temporary');
-    expect(sider.classes()).toContain('sd-layout-sider-active');
-    expect(sider.classes()).toContain('sd-layout-sider-left');
-    expect(document.body.querySelector('.sd-layout-sider-mask')).not.toBeNull();
-
-    await wrapper.find('.sd-layout-sider-mask').trigger('click');
-    expect(sider.classes()).not.toContain('sd-layout-sider-active');
-
-    await wrapper.setProps({ defaultVisible: false, modelValue: true });
-    document.documentElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
-    expect(wrapper.emitted('update:modelValue')).toContainEqual([false]);
-
+    await nextTick();
+    expect(wrapper.find('.sd-layout-sider').classes()).toContain('sd-layout-sider-dark');
     wrapper.unmount();
+    document.body.removeAttribute('sd-theme');
   });
 
-  test('rail sider should expand on hover', async () => {
+  it('explicit theme overrides ConfigProvider themeMode', async () => {
+    document.body.setAttribute('sd-theme', 'dark');
     const wrapper = mount(Sider, {
-      props: {
-        defaultRail: true,
-        expandOnHover: true,
-      },
+      attachTo: document.body,
+      props: { theme: 'light' },
+      slots: { default: 'Sider' },
     });
+    await nextTick();
+    expect(wrapper.find('.sd-layout-sider').classes()).toContain('sd-layout-sider-light');
+    wrapper.unmount();
+    document.body.removeAttribute('sd-theme');
+  });
 
-    expect(wrapper.find('.sd-layout-sider').attributes('style')).toContain('width: 56px');
-    await wrapper.find('.sd-layout-sider').trigger('mouseenter');
-    expect(wrapper.find('.sd-layout-sider').attributes('style')).toContain('width: 200px');
-    await wrapper.find('.sd-layout-sider').trigger('mouseleave');
-    expect(wrapper.find('.sd-layout-sider').attributes('style')).toContain('width: 56px');
-    expect(wrapper.emitted('update:rail')).toHaveLength(2);
+  it('detect dark theme when set', () => {
+    const wrapper = mount(Sider, { props: { theme: 'dark' }, slots: { default: 'Sider' } });
+    expect(wrapper.find('.sd-layout-sider').classes()).toContain('sd-layout-sider-dark');
+  });
+
+  it('should be controlled by collapsed', async () => {
+    const wrapper = mount(Sider, {
+      props: { collapsed: true },
+      slots: { default: 'Sider' },
+    });
+    expect(wrapper.find('.sd-layout-sider').classes()).toContain('sd-layout-sider-collapsed');
+    await wrapper.setProps({ collapsed: false });
+    expect(wrapper.find('.sd-layout-sider').classes()).not.toContain('sd-layout-sider-collapsed');
+  });
+
+  it('zero-width trigger click emits collapse (uncontrolled)', async () => {
+    mockMatchMedia(false);
+    const onCollapse = vi.fn();
+    const wrapper = mount({
+      components: { Layout, Sider, Content },
+      methods: { onCollapse },
+      template: `
+        <Layout>
+          <Sider
+            collapsible
+            breakpoint="lg"
+            collapsed-width="0"
+            @collapse="onCollapse"
+          >Sider</Sider>
+          <Content>Content</Content>
+        </Layout>`,
+    });
+    await wrapper.find('.sd-layout-sider-zero-width-trigger').trigger('click');
+    expect(onCollapse).toHaveBeenCalledTimes(1);
+    expect(onCollapse).toHaveBeenCalledWith(true, 'clickTrigger');
+  });
+
+  it('zero-width trigger click toggles collapsed state (controlled via parent)', async () => {
+    mockMatchMedia(false);
+    const wrapper = mount({
+      components: { Layout, Sider, Content },
+      setup() {
+        const collapsed = ref(true);
+        const onCollapse = (val: boolean) => {
+          collapsed.value = val;
+        };
+        return { collapsed, onCollapse };
+      },
+      template: `
+        <Layout>
+          <Sider
+            :collapsed="collapsed"
+            collapsible
+            breakpoint="lg"
+            collapsed-width="0"
+            @collapse="onCollapse"
+          >Sider</Sider>
+          <Content>Content</Content>
+        </Layout>`,
+    });
+    expect(wrapper.find('.sd-layout-sider').classes()).toContain('sd-layout-sider-collapsed');
+    await wrapper.find('.sd-layout-sider-zero-width-trigger').trigger('click');
+    expect(wrapper.find('.sd-layout-sider').classes()).not.toContain('sd-layout-sider-collapsed');
+  });
+
+  it('hide-trigger hides the trigger', () => {
+    const wrapper = mount(Sider, {
+      props: { collapsible: true, hideTrigger: true },
+      slots: { default: 'Sider' },
+    });
+    expect(wrapper.find('.sd-layout-sider-trigger').exists()).toBe(false);
+    expect(wrapper.find('.sd-layout-sider-zero-width-trigger').exists()).toBe(false);
+  });
+
+  it('custom trigger via slot', () => {
+    const wrapper = mount(Sider, {
+      props: { collapsible: true },
+      slots: { default: 'Sider', trigger: '<span class="my-trigger">T</span>' },
+    });
+    expect(wrapper.find('.sd-layout-sider-trigger .my-trigger').exists()).toBe(true);
+  });
+});
+
+describe('Sider responsive', () => {
+  afterEach(() => {
+    window.matchMedia = originalMatchMedia;
+  });
+
+  it('should trigger breakpoint when matched', () => {
+    mockMatchMedia(true);
+    const onBreakpoint = vi.fn();
+    mount({
+      components: { Layout, Sider, Content },
+      methods: { onBreakpoint },
+      template: `
+        <Layout>
+          <Sider breakpoint="md" @breakpoint="onBreakpoint">Sider</Sider>
+          <Content>Content</Content>
+        </Layout>`,
+    });
+    expect(onBreakpoint).toHaveBeenCalledWith(true);
   });
 });
