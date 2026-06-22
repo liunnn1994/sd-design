@@ -9,7 +9,7 @@
   import { getPrefixCls } from '../_utils/global-config';
   import { GridContextInjectionKey, GridDataCollectorInjectionKey } from './context';
   import { useResponsiveState } from './hook/use-responsive-state';
-  import { GridItemData, GridProps, ResponsiveValue } from './interface';
+  import { GridItemData, ResponsiveValue } from './interface';
   import { setItemVisible } from './utils';
 
   /**
@@ -69,15 +69,15 @@
     collapsedRows,
     collapsed,
   } = toRefs(props);
-  const cols = useResponsiveState(propCols, 24);
-  const colGap = useResponsiveState(propColGap, 0);
-  const rowGap = useResponsiveState(propRowGap, 0);
+  const resCols = useResponsiveState(propCols, 24);
+  const resColGap = useResponsiveState(propColGap, 0);
+  const resRowGap = useResponsiveState(propRowGap, 0);
   const prefixCls = getPrefixCls('grid');
   const classNames = computed(() => [prefixCls]);
   const style = computed(() => [
     {
-      'gap': `${rowGap.value}px ${colGap.value}px`,
-      'grid-template-columns': `repeat(${cols.value}, minmax(0px, 1fr))`,
+      'gap': `${resRowGap.value}px ${resColGap.value}px`,
+      'grid-template-columns': `repeat(${resCols.value}, minmax(0px, 1fr))`,
     },
   ]);
   const itemDataMap = reactive<Map<number, GridItemData>>(new Map());
@@ -96,17 +96,17 @@
   }>({
     overflow: false,
     displayIndexList: [],
-    cols: cols.value,
-    colGap: colGap.value,
+    cols: resCols.value,
+    colGap: resColGap.value,
   });
 
   watchEffect(() => {
-    gridContext.cols = cols.value;
-    gridContext.colGap = colGap.value;
+    gridContext.cols = resCols.value;
+    gridContext.colGap = resColGap.value;
   });
   watchEffect(() => {
     const displayInfo = setItemVisible({
-      cols: cols.value,
+      cols: resCols.value,
       collapsed: collapsed.value,
       collapsedRows: collapsedRows.value,
       itemDataList: itemDataList.value,

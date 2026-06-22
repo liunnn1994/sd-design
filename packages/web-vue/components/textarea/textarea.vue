@@ -374,10 +374,10 @@
 
   const getWrapperAttrs = (attr: Record<string, any>) => omit(attrs, INPUT_EVENTS);
   const getTextareaAttrs = (attr: Record<string, any>) => pick(attrs, INPUT_EVENTS);
-  const textareaAttrs = getTextareaAttrs(attrs);
+  const rawTextareaAttrs = getTextareaAttrs(attrs);
   const mergeTextareaAttrs = computed(() => {
     const attrs = {
-      ...textareaAttrs,
+      ...rawTextareaAttrs,
       ...props.textareaAttrs,
     };
     if (mergedError.value) {

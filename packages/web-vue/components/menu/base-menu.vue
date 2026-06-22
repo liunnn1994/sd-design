@@ -313,34 +313,38 @@
     type: isRoot.value ? 'menu' : 'popupMenu',
   });
 
-  const [selectedKeys, setSelectedKeys] = useMergeState(
+  const [mergedSelectedKeys, setSelectedKeys] = useMergeState(
     defaultSelectedKeys.value,
     reactive({
       value: propSelectedKeys,
     }),
   );
 
-  const { openKeys, setOpenKeys, open } = useMenuOpenState(
+  const {
+    openKeys: mergedOpenKeys,
+    setOpenKeys: setMergedOpenKeys,
+    open,
+  } = useMenuOpenState(
     reactive({
       modelValue: propOpenKeys,
       defaultValue: defaultOpenKeys,
       autoOpen,
       autoOpenSelected,
-      selectedKeys,
+      selectedKeys: mergedSelectedKeys,
       subMenuKeys,
       menuData,
       accordion,
     }),
   );
 
-  const [collapsed, setCollapsed] = useMergeState(
+  const [mergedCollapsed, setMergedCollapsed] = useMergeState(
     defaultCollapsed.value,
     reactive({
       value: propCollapsed,
     }),
   );
   const computedCollapsed = computed(
-    () => siderCollapsed.value || collapsed.value || mode.value === 'popButton',
+    () => siderCollapsed.value || mergedCollapsed.value || mode.value === 'popButton',
   );
   const computedHasCollapseButton = computed(
     () =>
@@ -348,17 +352,17 @@
       !inTrigger.value &&
       showCollapseButton.value,
   );
-  const changeCollapsed = (newVal: boolean, type: 'clickTrigger' | 'responsive') => {
-    if (newVal === collapsed.value) return;
-    setCollapsed(newVal);
+  const changeMergedCollapsed = (newVal: boolean, type: 'clickTrigger' | 'responsive') => {
+    if (newVal === mergedCollapsed.value) return;
+    setMergedCollapsed(newVal);
     emit('update:collapsed', newVal);
     emit('collapse', newVal, type);
   };
   const onCollapseBtnClick = () => {
-    changeCollapsed(!collapsed.value, 'clickTrigger');
+    changeMergedCollapsed(!mergedCollapsed.value, 'clickTrigger');
   };
   useResponsive(breakpoint, (checked) => {
-    changeCollapsed(!checked, 'responsive');
+    changeMergedCollapsed(!checked, 'responsive');
   });
 
   const computedPrefixCls = computed(() => prefixCls?.value || getPrefixCls('menu'));
@@ -394,8 +398,8 @@
     mode,
     levelIndent,
     autoScrollIntoView,
-    selectedKeys,
-    openKeys,
+    selectedKeys: mergedSelectedKeys,
+    openKeys: mergedOpenKeys,
     prefixCls: computedPrefixCls,
     scrollConfig,
     inTrigger,
@@ -414,7 +418,7 @@
     },
     onSubMenuClick: (key: string, level: number) => {
       const newOpenKeys = open(key, level);
-      setOpenKeys(newOpenKeys);
+      setMergedOpenKeys(newOpenKeys);
       emit('update:openKeys', newOpenKeys);
       emit('sub-menu-click', key, newOpenKeys);
     },

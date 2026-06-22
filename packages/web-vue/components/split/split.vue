@@ -30,7 +30,6 @@
   import { off, on } from '../_utils/dom';
   import { getPrefixCls } from '../_utils/global-config';
   import { isNumber, isString } from '../_utils/is';
-  import { SplitProps } from './interface';
 
   function getSizeConfig(size: number | string | undefined) {
     const normalizedSize = size ?? 0;
@@ -162,13 +161,13 @@
   const triggerSize = ref(0);
   const wrapperRef = ref<HTMLDivElement>();
   const prefixCls = getPrefixCls('split');
-  const [size, setSize] = useMergeState(
+  const [mergedSize, setMergedSize] = useMergeState(
     defaultSize.value,
     reactive({
       value: propSize,
     }),
   );
-  const sizeConfig = computed(() => getSizeConfig(size.value));
+  const sizeConfig = computed(() => getSizeConfig(mergedSize.value));
   const isHorizontal = computed(() => direction.value === 'horizontal');
   const classNames = computed(() => [
     prefixCls,
@@ -217,8 +216,8 @@
 
     const newSize = sizeConfig.value.isPx ? `${newPxSize}px` : px2percent(newPxSize, containerSize);
 
-    if (size.value === newSize) return;
-    setSize(newSize);
+    if (mergedSize.value === newSize) return;
+    setMergedSize(newSize);
     emit('update:size', newSize);
   }
 
@@ -301,7 +300,7 @@
     record.startPageX = e.pageX;
     record.startPageY = e.pageY;
     record.startContainerSize = (await getContainerSize()) ?? 0;
-    record.startSize = size.value;
+    record.startSize = mergedSize.value;
 
     on(window, 'mousemove', onMoving);
     on(window, 'mouseup', onMovingEnd);
@@ -317,7 +316,7 @@
 
   onMounted(async () => {
     const containerSize = (await getContainerSize()) ?? 0;
-    const fixedPxSize = getLegalPxSize(size.value, containerSize);
+    const fixedPxSize = getLegalPxSize(mergedSize.value, containerSize);
     updateSize(fixedPxSize, containerSize);
   });
 </script>

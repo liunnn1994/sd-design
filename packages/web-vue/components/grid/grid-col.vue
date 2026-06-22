@@ -175,8 +175,8 @@
       ...responsiveConfig.value,
     })),
   );
-  const span = useResponsiveState(propSpan, 24, true);
+  const responsiveSpan = useResponsiveState(propSpan, 24, true);
 
-  const visible = computed(() => !!span.value);
+  const visible = computed(() => !!responsiveSpan.value);
   const styles = computed(() => ({ ...paddingStyles.value, ...flexStyles.value }));
 </script>

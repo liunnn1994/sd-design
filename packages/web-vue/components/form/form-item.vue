@@ -69,7 +69,6 @@
 
   import { getValueByPath, setValueByPath } from '../_utils/get-value-by-path';
   import { getPrefixCls } from '../_utils/global-config';
-  import { Data } from '../_utils/types';
   import { Row as SDRow, Col as SDCol } from '../grid';
   import { useI18n } from '../locale';
   import { FormContext, formInjectionKey, FormItemInfo, formItemInjectionKey } from './context';
@@ -344,9 +343,9 @@
   // 记录初始值，用于重置表单
   const initialValue = getValueByPath(formCtx.model, props.field);
 
-  const validateStatus = reactive<Record<string, ValidateStatus | ''>>({});
+  const formValidateStatus = reactive<Record<string, ValidateStatus | ''>>({});
   const validateMessage = reactive<Record<string, string>>({});
-  const finalStatus = computed(() => getFinalValidateStatus(validateStatus));
+  const finalStatus = computed(() => getFinalValidateStatus(formValidateStatus));
   const finalMessage = computed(() => getFinalValidateMessage(validateMessage));
   // 用于重置表单时，不触发校验
   const validateDisabled = ref(false);
@@ -377,7 +376,7 @@
     field: string,
     { status, message }: { status: ValidateStatus | ''; message: string },
   ) => {
-    validateStatus[field] = status;
+    formValidateStatus[field] = status;
     validateMessage[field] = message;
 
     if (props.noStyle) {

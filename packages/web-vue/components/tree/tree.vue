@@ -545,7 +545,11 @@
     }),
   );
 
-  const { checkedKeys, indeterminateKeys, setCheckedState } = useCheckedState(
+  const {
+    checkedKeys: mergedCheckedKeys,
+    indeterminateKeys,
+    setCheckedState,
+  } = useCheckedState(
     reactive({
       defaultCheckedKeys,
       checkedKeys: propCheckedKeys,
@@ -555,7 +559,7 @@
       onlyCheckLeaf,
     }),
   );
-  const [selectedKeys, setSelectedState] = useMergeState<TreeNodeKey[]>(
+  const [mergedSelectedKeys, setMergedSelectedKeys] = useMergeState<TreeNodeKey[]>(
     defaultSelectedKeys?.value || [],
     reactive({
       value: propSelectedKeys,
@@ -596,17 +600,17 @@
         });
       };
       if (defaultExpandSelected.value) {
-        addToExpandKeysSet(selectedKeys.value);
+        addToExpandKeysSet(mergedSelectedKeys.value);
       }
       if (defaultExpandChecked.value) {
-        addToExpandKeysSet(checkedKeys.value);
+        addToExpandKeysSet(mergedCheckedKeys.value);
       }
       return [...expandedKeysSet];
     }
     return [];
   }
 
-  const [expandedKeys, setExpandState] = useMergeState<TreeNodeKey[]>(
+  const [mergedExpandedKeys, setExpandState] = useMergeState<TreeNodeKey[]>(
     getDefaultExpandedKeys(),
     reactive({
       value: propExpandedKeys,
@@ -614,7 +618,7 @@
   );
 
   watch(
-    () => expandedKeys.value.join(','),
+    () => mergedExpandedKeys.value.join(','),
     () => {
       if (!virtualListProps!.value || enableVirtualExpandAnimation.value) {
         return;
@@ -627,7 +631,7 @@
   const currentExpandKeys = ref<TreeNodeKey[]>([]);
 
   const visibleTreeNodeList = computed(() => {
-    const expandedKeysSet = new Set(expandedKeys.value);
+    const expandedKeysSet = new Set(mergedExpandedKeys.value);
     const currentExpandKeysSet = new Set(currentExpandKeys.value);
 
     const filteredNodeList = flattenTreeData.value.filter((node) => {
@@ -750,7 +754,7 @@
     if (!multiple.value && keys.length > 1) {
       newSelectedKeys = [keys[0]];
     }
-    setSelectedState(newSelectedKeys);
+    setMergedSelectedKeys(newSelectedKeys);
     emitSelectEvent({
       newSelectedKeys,
     });
@@ -764,7 +768,7 @@
 
   function checkNodes(keys: TreeNodeKey[], checked: boolean, targetKey?: TreeNodeKey) {
     if (!keys.length) return;
-    let newCheckedKeys = [...checkedKeys.value];
+    let newCheckedKeys = [...mergedCheckedKeys.value];
     let newIndeterminateKeys = [...indeterminateKeys.value];
     keys.forEach((key) => {
       const node = key2TreeNode.value.get(key);
@@ -793,7 +797,7 @@
     let newSelectedKeys: TreeNodeKey[];
 
     if (multiple.value) {
-      const selectedKeysSet = new Set(selectedKeys.value);
+      const selectedKeysSet = new Set(mergedSelectedKeys.value);
       keys.forEach((key) => {
         selected ? selectedKeysSet.add(key) : selectedKeysSet.delete(key);
       });
@@ -802,7 +806,7 @@
       newSelectedKeys = selected ? [keys[0]] : [];
     }
 
-    setSelectedState(newSelectedKeys);
+    setMergedSelectedKeys(newSelectedKeys);
     emitSelectEvent({
       targetKey,
       targetSelected: isUndefined(targetKey) ? undefined : selected,
@@ -811,7 +815,7 @@
   }
 
   function expandNodes(keys: TreeNodeKey[], expanded: boolean, targetKey?: TreeNodeKey) {
-    const expandedKeysSet = new Set(expandedKeys.value);
+    const expandedKeysSet = new Set(mergedExpandedKeys.value);
 
     keys.forEach((key) => {
       expanded ? expandedKeysSet.add(key) : expandedKeysSet.delete(key);
@@ -834,7 +838,7 @@
     const [newCheckedKeys, newIndeterminateKeys] = getCheckedStateByCheck({
       node,
       checked,
-      checkedKeys: checkedKeys.value,
+      checkedKeys: mergedCheckedKeys.value,
       indeterminateKeys: indeterminateKeys.value,
       checkStrictly: checkStrictly.value,
     });
@@ -857,7 +861,7 @@
     let selected: boolean;
 
     if (multiple.value) {
-      const selectedKeysSet = new Set(selectedKeys.value);
+      const selectedKeysSet = new Set(mergedSelectedKeys.value);
       selected = !selectedKeysSet.has(key);
 
       selected ? selectedKeysSet.add(key) : selectedKeysSet.delete(key);
@@ -867,7 +871,7 @@
       newSelectedKeys = [key];
     }
 
-    setSelectedState(newSelectedKeys);
+    setMergedSelectedKeys(newSelectedKeys);
     emitSelectEvent({
       targetKey: key,
       targetSelected: selected,
@@ -883,7 +887,7 @@
     const node = key2TreeNode.value.get(key);
     if (!node) return;
 
-    const expandedKeysSet = new Set(expandedKeys.value);
+    const expandedKeysSet = new Set(mergedExpandedKeys.value);
 
     expanded ? expandedKeysSet.add(key) : expandedKeysSet.delete(key);
     const newExpandedKeys = [...expandedKeysSet];
@@ -924,7 +928,7 @@
             await loadMore.value(treeNodeData);
             loadingKeys.value = loadingKeys.value.filter((v) => v !== key);
             onExpand(true, key);
-            if (checkedKeys.value.includes(key)) {
+            if (mergedCheckedKeys.value.includes(key)) {
               onCheck(true, key);
             }
           } catch (err) {
@@ -947,10 +951,10 @@
     treeData,
     flattenTreeData,
     key2TreeNode,
-    checkedKeys,
+    checkedKeys: mergedCheckedKeys,
     indeterminateKeys,
-    selectedKeys,
-    expandedKeys,
+    selectedKeys: mergedSelectedKeys,
+    expandedKeys: mergedExpandedKeys,
     loadingKeys,
     currentExpandKeys,
     onLoadMore,
@@ -1039,7 +1043,7 @@
    * @version 2.19.0
    */
   function getSelectedNodes() {
-    return getNodes(selectedKeys.value);
+    return getNodes(mergedSelectedKeys.value);
   }
   /**
    * @zh 获取选中复选框的节点。支持传入 `checkedStrategy`，没有传则取组件的配置。
@@ -1056,7 +1060,7 @@
     } = {},
   ) {
     const { checkedStrategy, includeHalfChecked } = options;
-    const pubCheckedKeys = getPublicCheckedKeys(checkedKeys.value, checkedStrategy);
+    const pubCheckedKeys = getPublicCheckedKeys(mergedCheckedKeys.value, checkedStrategy);
     const checkedNodes = getNodes(pubCheckedKeys);
     return [...checkedNodes, ...(includeHalfChecked ? getHalfCheckedNodes() : [])];
   }
@@ -1078,7 +1082,7 @@
    * @version 2.19.0
    */
   function getExpandedNodes() {
-    return getNodes(expandedKeys.value);
+    return getNodes(mergedExpandedKeys.value);
   }
   /**
    * @zh 设置全部节点的复选框状态

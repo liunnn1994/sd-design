@@ -137,14 +137,14 @@
 
   const { height: propHeight, width: propWidth, directions } = toRefs(props);
 
-  const [width, setWidth] = useMergeState<number | null>(
+  const [resWidth, setResWidth] = useMergeState<number | null>(
     null,
     reactive({
       value: propWidth,
     }),
   );
 
-  const [height, setHeight] = useMergeState<number | null>(
+  const [resHeight, setResHeight] = useMergeState<number | null>(
     null,
     reactive({
       value: propHeight,
@@ -159,8 +159,8 @@
   const classNames = computed(() => [prefixCls]);
   const styles = computed(() => {
     return {
-      ...(isNumber(width.value) ? { width: `${width.value}px` } : {}),
-      ...(isNumber(height.value) ? { height: `${height.value}px` } : {}),
+      ...(isNumber(resWidth.value) ? { width: `${resWidth.value}px` } : {}),
+      ...(isNumber(resHeight.value) ? { height: `${resHeight.value}px` } : {}),
       ...paddingStyles,
     };
   });
@@ -198,22 +198,22 @@
     switch (direction) {
       case DIRECTION_LEFT:
         newWidth = startWidth - offsetX;
-        setWidth(newWidth);
+        setResWidth(newWidth);
         emit('update:width', newWidth);
         break;
       case DIRECTION_RIGHT:
         newWidth = startWidth + offsetX;
-        setWidth(newWidth);
+        setResWidth(newWidth);
         emit('update:width', newWidth);
         break;
       case DIRECTION_TOP:
         newHeight = startHeight - offsetY;
-        setHeight(newHeight);
+        setResHeight(newHeight);
         emit('update:height', newHeight);
         break;
       case DIRECTION_BOTTOM:
         newHeight = startHeight + offsetY;
-        setHeight(newHeight);
+        setResHeight(newHeight);
         emit('update:height', newHeight);
         break;
       default:

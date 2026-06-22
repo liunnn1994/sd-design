@@ -120,11 +120,11 @@
                 :step="activeStep"
                 :current="displayCurrent"
                 :total="displayTotal"
-                :text="progressText"
+                :text="mergedProgressText"
                 :controller="controllerRef"
                 :state="tourState"
               >
-                {{ progressText }}
+                {{ mergedProgressText }}
               </slot>
             </div>
 
@@ -694,7 +694,7 @@
     return Array.from(new Set(disabledButtons));
   });
 
-  const showProgress = computed(() => {
+  const mergedShowProgress = computed(() => {
     return resolvedPopover.value.showProgress ?? mergedConfig.value.showProgress ?? false;
   });
   const showCloseButton = computed(() => resolvedShowButtons.value.includes('close'));
@@ -706,14 +706,14 @@
     }
 
     return (
-      showProgress.value ||
+      mergedShowProgress.value ||
       showCloseButton.value ||
       showPreviousButton.value ||
       showNextButton.value
     );
   });
   const progressVisibilityStyle = computed<CSSProperties>(() => ({
-    display: showProgress.value ? 'block' : 'none',
+    display: mergedShowProgress.value ? 'block' : 'none',
   }));
   const previousButtonText = computed(() => {
     return (
@@ -729,7 +729,7 @@
 
     return resolvedPopover.value.nextBtnText ?? mergedConfig.value.nextBtnText ?? DEFAULT_NEXT_TEXT;
   });
-  const progressText = computed(() => {
+  const mergedProgressText = computed(() => {
     const template =
       resolvedPopover.value.progressText ??
       mergedConfig.value.progressText ??
