@@ -155,7 +155,13 @@ export type {
 } from './descriptions';
 export { default as Divider } from './divider';
 export { default as Drawer } from './drawer';
-export type { DrawerConfig, DrawerInstance, DrawerMethod, DrawerReturn } from './drawer';
+export type {
+  DrawerConfig,
+  DrawerInstance,
+  DrawerMethod,
+  DrawerProps,
+  DrawerReturn,
+} from './drawer';
 export { default as Dropdown, Dgroup, Doption, DropdownButton, Dsubmenu } from './dropdown';
 export type {
   DGroup,

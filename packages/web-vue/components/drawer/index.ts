@@ -128,5 +128,8 @@ const Drawer = Object.assign(_Drawer, {
 export type { DrawerMethod, DrawerConfig, DrawerReturn } from './interface';
 
 export type DrawerInstance = InstanceType<typeof _Drawer>;
+// Runtime props of the Drawer component, derived from the SFC so the prop
+// list stays in sync without a hand-maintained interface.
+export type DrawerProps = InstanceType<typeof _Drawer>['$props'];
 
 export default Drawer;

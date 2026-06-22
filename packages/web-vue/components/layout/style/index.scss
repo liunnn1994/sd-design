@@ -171,4 +171,28 @@ $text-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-text-1'));
       border-inline-start: 0;
     }
   }
+
+  // Temporary: aside 退化为触发器宿主，菜单内容交给 Drawer 渲染。
+  &-temporary {
+    flex: 0 0 auto;
+    width: auto;
+    background: transparent;
+  }
+
+  &-temporary-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: $layout-sider-zero-trigger-width;
+    height: $layout-sider-zero-trigger-width;
+    color: $text-color;
+    font-size: $layout-sider-zero-trigger-font-size;
+    border-radius: $layout-radius-lg;
+    cursor: pointer;
+    transition: background-color $layout-motion-duration-mid ease;
+
+    &:hover {
+      background: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-fill-2'));
+    }
+  }
 }

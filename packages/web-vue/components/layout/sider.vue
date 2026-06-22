@@ -1,36 +1,63 @@
 <template>
   <aside ref="rootEl" :class="siderCls" :style="divStyle">
-    <div v-if="$slots.header" :class="`${prefixCls}-header`">
-      <slot name="header" />
-    </div>
-    <div
-      v-if="useNativeScrollbar"
-      :class="[`${prefixCls}-children`, `${prefixCls}-children-scroll`]"
-    >
-      <slot />
-    </div>
-    <Scrollbar v-else :outer-class="`${prefixCls}-children`" v-bind="scrollbarProps">
-      <slot />
-    </Scrollbar>
-    <template v-if="renderTrigger">
-      <span
-        v-if="hasZeroWidth"
-        :class="[
-          `${prefixCls}-zero-width-trigger`,
-          `${prefixCls}-zero-width-trigger-${reverseArrow ? 'right' : 'left'}`,
-        ]"
-        :style="zeroWidthTriggerStyle"
-        @click="toggle"
+    <template v-if="temporary">
+      <Drawer
+        v-bind="mergedDrawerProps"
+        :visible="!mergedCollapsed"
+        @update:visible="onDrawerVisibleChange"
       >
+        <div v-if="$slots.header" :class="`${prefixCls}-header`">
+          <slot name="header" />
+        </div>
+        <div
+          v-if="useNativeScrollbar"
+          :class="[`${prefixCls}-children`, `${prefixCls}-children-scroll`]"
+        >
+          <slot />
+        </div>
+        <Scrollbar v-else :outer-class="`${prefixCls}-children`" v-bind="scrollbarProps">
+          <slot />
+        </Scrollbar>
+      </Drawer>
+      <span v-if="renderTrigger" :class="`${prefixCls}-temporary-trigger`" @click="toggle">
         <slot name="trigger">
           <IconMenu />
         </slot>
       </span>
-      <div v-else :class="`${prefixCls}-trigger`" :style="{ width: siderWidth }" @click="toggle">
-        <slot name="trigger">
-          <component :is="defaultTriggerComponent" />
-        </slot>
+    </template>
+    <template v-else>
+      <div v-if="$slots.header" :class="`${prefixCls}-header`">
+        <slot name="header" />
       </div>
+      <div
+        v-if="useNativeScrollbar"
+        :class="[`${prefixCls}-children`, `${prefixCls}-children-scroll`]"
+      >
+        <slot />
+      </div>
+      <Scrollbar v-else :outer-class="`${prefixCls}-children`" v-bind="scrollbarProps">
+        <slot />
+      </Scrollbar>
+      <template v-if="renderTrigger">
+        <span
+          v-if="hasZeroWidth"
+          :class="[
+            `${prefixCls}-zero-width-trigger`,
+            `${prefixCls}-zero-width-trigger-${reverseArrow ? 'right' : 'left'}`,
+          ]"
+          :style="zeroWidthTriggerStyle"
+          @click="toggle"
+        >
+          <slot name="trigger">
+            <IconMenu />
+          </slot>
+        </span>
+        <div v-else :class="`${prefixCls}-trigger`" :style="{ width: siderWidth }" @click="toggle">
+          <slot name="trigger">
+            <component :is="defaultTriggerComponent" />
+          </slot>
+        </div>
+      </template>
     </template>
   </aside>
 </template>
@@ -50,12 +77,13 @@
   } from 'vue';
 
   import type { SiderBreakpoint } from '../_utils/responsive-observe';
-  import type { CollapseType } from './interface';
+  import type { CollapseType, SiderTemporaryDrawerProps } from './interface';
 
   import { useScrollbar } from '../_hooks/use-scrollbar';
   import { useThemeMode } from '../_hooks/use-theme-mode';
   import { getPrefixCls } from '../_utils/global-config';
   import { configProviderInjectionKey } from '../config-provider/context';
+  import Drawer from '../drawer';
   import IconLeft from '../icon/icon-left';
   import IconMenu from '../icon/icon-menu';
   import IconRight from '../icon/icon-right';
@@ -157,6 +185,22 @@
      */
     scrollbar: {
       type: [Object, Boolean] as PropType<boolean | ScrollbarProps>,
+      default: undefined,
+    },
+    /**
+     * @zh 临时模式：使用 Drawer 渲染悬浮菜单，由 collapsed 控制开合（collapsed=true 关闭，false 展开）
+     * @en Temporary mode: render as a floating Drawer, opened/closed via collapsed (collapsed=true closes, false opens)
+     */
+    temporary: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * @zh temporary 模式下透传给 Drawer 的配置（仅 temporary=true 时生效）
+     * @en Drawer passthrough config (only effective when temporary=true)
+     */
+    drawerProps: {
+      type: Object as PropType<SiderTemporaryDrawerProps>,
       default: undefined,
     },
   });
@@ -309,6 +353,8 @@
   const reverseIcon = computed(() => rtl.value === !props.reverseArrow);
 
   const defaultTriggerComponent = computed(() => {
+    // temporary 模式始终使用汉堡图标，展开/收起箭头语义不适用。
+    if (props.temporary) return IconMenu;
     const expandedIcon = reverseIcon.value ? IconRight : IconLeft;
     const collapsedIcon = reverseIcon.value ? IconLeft : IconRight;
     return mergedCollapsed.value ? collapsedIcon : expandedIcon;
@@ -319,21 +365,28 @@
 
   const hasZeroWidth = computed(() => Number.parseFloat(String(props.collapsedWidth || 0)) === 0);
 
-  const renderTrigger = computed(
-    () => (props.collapsible || (below.value && hasZeroWidth.value)) && !props.hideTrigger,
-  );
+  const renderTrigger = computed(() => {
+    if (props.temporary) return !props.hideTrigger;
+    return (props.collapsible || (below.value && hasZeroWidth.value)) && !props.hideTrigger;
+  });
 
   // ============================ Scrollbar ============================
   const { scrollbarProps } = useScrollbar(toRef(props, 'scrollbar'));
   const useNativeScrollbar = computed(() => props.scrollbar === false);
 
   // ============================ Style ============================
-  const divStyle = computed(() => ({
-    flex: `0 0 ${siderWidth.value}`,
-    maxWidth: siderWidth.value,
-    minWidth: siderWidth.value,
-    width: siderWidth.value,
-  }));
+  const divStyle = computed(() => {
+    // temporary 模式下 aside 退化为触发器宿主，不占据 in-flow 宽度。
+    if (props.temporary) {
+      return { flex: '0 0 auto', width: 'auto' };
+    }
+    return {
+      flex: `0 0 ${siderWidth.value}`,
+      maxWidth: siderWidth.value,
+      minWidth: siderWidth.value,
+      width: siderWidth.value,
+    };
+  });
 
   const siderCls = computed(() => [
     prefixCls,
@@ -343,8 +396,28 @@
       [`${prefixCls}-has-trigger`]: props.collapsible && !props.hideTrigger && !hasZeroWidth.value,
       [`${prefixCls}-below`]: below.value,
       [`${prefixCls}-zero-width`]: Number.parseFloat(siderWidth.value) === 0,
+      [`${prefixCls}-temporary`]: props.temporary,
     },
   ]);
+
+  // ============================ Temporary (Drawer) ============================
+  // 透传给 Drawer 的配置：默认左抽屉、宽度复用 Sider width、无内置 header/footer；
+  // 用户可通过 drawerProps 覆盖 placement/mask/closable 等。
+  const mergedDrawerProps = computed(() => ({
+    placement: 'left' as const,
+    width: siderWidth.value,
+    header: false,
+    footer: false,
+    ...props.drawerProps,
+  }));
+
+  // Drawer 的 visible 由 collapsed 反向派生；关闭（点遮罩/ESC/取消）时回写 collapsed=true，
+  // 复用现有的受控/非受控与 collapse 事件链路。
+  const onDrawerVisibleChange = (visible: boolean) => {
+    if (visible !== !mergedCollapsed.value) {
+      handleSetCollapsed(!visible, 'clickTrigger');
+    }
+  };
 
   // ============================ Context ============================
   const siderContext = reactive<{ siderCollapsed: boolean; theme: 'light' | 'dark' }>({

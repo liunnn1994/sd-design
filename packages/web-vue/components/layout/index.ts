@@ -32,7 +32,13 @@ export type LayoutFooterInstance = InstanceType<typeof _Footer>;
 export type LayoutContentInstance = InstanceType<typeof _Content>;
 export type LayoutSiderInstance = InstanceType<typeof _Sider>;
 
-export type { CollapseType, LayoutProps, SiderProps, SiderTheme } from './interface';
+export type {
+  CollapseType,
+  LayoutProps,
+  SiderProps,
+  SiderTemporaryDrawerProps,
+  SiderTheme,
+} from './interface';
 
 export {
   _Content as LayoutContent,

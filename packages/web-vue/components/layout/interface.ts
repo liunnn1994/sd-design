@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'vue';
 
 import type { SiderBreakpoint } from '../_utils/responsive-observe';
+import type { DrawerProps } from '../drawer';
 import type { ScrollbarProps } from '../scrollbar';
 
 /**
@@ -87,4 +88,42 @@ export interface SiderProps {
    * @en Scroll config, use the component Scrollbar by default; set to false for native overflow:auto, pass an object to configure Scrollbar
    */
   scrollbar?: boolean | ScrollbarProps;
+  /**
+   * @zh 临时模式：使用 Drawer 渲染悬浮菜单，由 collapsed 控制开合（collapsed=true 关闭，false 展开）
+   * @en Temporary mode: render as a floating Drawer, opened/closed via collapsed (collapsed=true closes, false opens)
+   */
+  temporary?: boolean;
+  /**
+   * @zh temporary 模式下透传给 Drawer 的配置（仅 temporary=true 时生效）。已排除与 Sider 语义冲突的字段（visible/defaultVisible/width 等）
+   * @en Drawer passthrough config (only effective when temporary=true). Fields clashing with Sider semantics (visible/defaultVisible/width, etc.) are omitted
+   */
+  drawerProps?: SiderTemporaryDrawerProps;
 }
+
+/**
+ * @zh temporary 模式下透传给 Drawer 的配置类型。排除由 Sider 接管的字段：
+ * - `visible` / `defaultVisible`：由 collapsed 派生
+ * - `width`：复用 Sider 的 width
+ * - `footer` 及确认/取消相关字段：导航抽屉不需要
+ * - `onBeforeOk` / `onBeforeCancel`：与导航场景无关
+ * @en Drawer passthrough config type for temporary mode. Omits fields owned by Sider:
+ * - `visible` / `defaultVisible`: derived from collapsed
+ * - `width`: reused from Sider width
+ * - `footer` and ok/cancel related fields: a nav drawer has none
+ * - `onBeforeOk` / `onBeforeCancel`: not relevant to a nav drawer
+ */
+export type SiderTemporaryDrawerProps = Omit<
+  DrawerProps,
+  | 'visible'
+  | 'defaultVisible'
+  | 'width'
+  | 'footer'
+  | 'okText'
+  | 'cancelText'
+  | 'okLoading'
+  | 'okButtonProps'
+  | 'cancelButtonProps'
+  | 'hideCancel'
+  | 'onBeforeOk'
+  | 'onBeforeCancel'
+>;

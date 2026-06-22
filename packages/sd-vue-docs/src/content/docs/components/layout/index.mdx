@@ -16,6 +16,8 @@ import LayoutResponsiveDemo from '../../../../components/generated/layout/respon
 import layoutResponsiveSource from '../../../../components/generated/layout/responsive.vue?raw';
 import LayoutCustomTriggerDemo from '../../../../components/generated/layout/custom-trigger.vue';
 import layoutCustomTriggerSource from '../../../../components/generated/layout/custom-trigger.vue?raw';
+import LayoutTemporaryDemo from '../../../../components/generated/layout/temporary.vue';
+import layoutTemporarySource from '../../../../components/generated/layout/temporary.vue?raw';
 
 `Layout` 协助进行页面级整体布局。它提供了 `Header`、`Sider`、`Content`、`Footer` 四个子区域，并通过 `Sider` 提供可折叠、响应式断点、自定义触发器等能力。
 
@@ -71,6 +73,16 @@ import layoutCustomTriggerSource from '../../../../components/generated/layout/c
 
 </DemoBlock>
 
+### 临时（悬浮）菜单
+
+设置 `temporary` 后，`Sider` 内容会渲染到 `Drawer` 中作为悬浮抽屉，由 `collapsed` 控制开合（`collapsed=true` 关闭，`false` 展开）。此时 `Sider` 本身退化为一个汉堡触发器宿主，点击即可打开抽屉。可通过 `drawer-props` 透传 `placement`、`mask-closable`、`esc-to-close` 等 `Drawer` 配置（`visible`/`width` 等与 `Sider` 语义冲突的字段已由 `Sider` 接管，不可透传）。
+
+<DemoBlock source={layoutTemporarySource} mainFile="src/layout-temporary.vue">
+
+<LayoutTemporaryDemo client:only="vue" />
+
+</DemoBlock>
+
 ### 固定布局
 
 配合 CSS `position: sticky / fixed` 可以让 `Header` 或 `Sider` 固定在视口内，常用于长页面滚动场景。
@@ -110,6 +122,8 @@ import layoutCustomTriggerSource from '../../../../components/generated/layout/c
 | breakpoint | 响应式断点，命中时自动折叠 | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl' \| 'xxxl'` | `-` |  |
 | theme | 主题颜色，未设置时跟随 ConfigProvider 的 themeMode | `'light' \| 'dark'` | `-` |  |
 | scrollbar | 滚动配置，默认使用组件库 `Scrollbar`；设为 `false` 使用原生 `overflow:auto`，传对象可配置 `Scrollbar` | `boolean \| ScrollbarProps` | `-` |  |
+| temporary | 临时模式：使用 `Drawer` 渲染悬浮菜单，由 `collapsed` 控制开合（`collapsed=true` 关闭，`false` 展开） | `boolean` | `false` |  |
+| drawer-props | `temporary` 模式下透传给 `Drawer` 的配置（仅 `temporary=true` 时生效）。已排除 `visible`/`defaultVisible`/`width`/`footer` 等与 `Sider` 语义冲突的字段 | `SiderTemporaryDrawerProps` | `-` |  |
 
 ### `<layout-sider>` Events
 

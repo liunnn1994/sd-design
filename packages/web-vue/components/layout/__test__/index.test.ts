@@ -237,3 +237,96 @@ describe('Sider responsive', () => {
     expect(onBreakpoint).toHaveBeenCalledWith(true);
   });
 });
+
+describe('Sider temporary', () => {
+  // renderToBody=false 让 Drawer 留在组件树内，便于断言；模拟临时模式的常见测试用法。
+  const mountTemporary = (props: Record<string, any> = {}, slots: Record<string, any> = {}) =>
+    mount(Sider, {
+      props: { temporary: true, drawerProps: { renderToBody: false }, ...props },
+      slots,
+    });
+  const drawerEl = (wrapper: ReturnType<typeof mount>) => wrapper.find<HTMLElement>('.sd-drawer');
+
+  it('renders a drawer with hamburger trigger', async () => {
+    const wrapper = mount({
+      components: { Layout, Sider, Content },
+      template: `
+        <Layout>
+          <Sider temporary :default-collapsed="false" :drawer-props="{ renderToBody: false }">Sider</Sider>
+          <Content>Content</Content>
+        </Layout>`,
+    });
+    await nextTick();
+    expect(drawerEl(wrapper).exists()).toBe(true);
+    expect(wrapper.find('.sd-layout-sider-temporary').exists()).toBe(true);
+    expect(wrapper.find('.sd-layout-sider-temporary-trigger').exists()).toBe(true);
+  });
+
+  it('drawer visible is inverted from collapsed (uncontrolled)', async () => {
+    const wrapper = mountTemporary({ defaultCollapsed: true }, { default: 'Sider' });
+    await nextTick();
+    expect(drawerEl(wrapper).element.style.display).toBe('none');
+    await wrapper.find('.sd-layout-sider-temporary-trigger').trigger('click');
+    await nextTick();
+    expect(drawerEl(wrapper).element.style.display).not.toBe('none');
+  });
+
+  it('hamburger trigger emits collapse with false, clickTrigger when opening', async () => {
+    const onCollapse = vi.fn();
+    const wrapper = mount(Sider, {
+      props: {
+        temporary: true,
+        defaultCollapsed: true,
+        drawerProps: { renderToBody: false },
+      },
+      attrs: { onCollapse },
+      slots: { default: 'Sider' },
+    });
+    await wrapper.find('.sd-layout-sider-temporary-trigger').trigger('click');
+    expect(onCollapse).toHaveBeenCalledWith(false, 'clickTrigger');
+  });
+
+  it('controlled collapsed opens/closes the drawer', async () => {
+    const wrapper = mountTemporary({ collapsed: true }, { default: 'Sider' });
+    await nextTick();
+    expect(drawerEl(wrapper).element.style.display).toBe('none');
+    await wrapper.setProps({ collapsed: false });
+    await nextTick();
+    expect(drawerEl(wrapper).element.style.display).not.toBe('none');
+  });
+
+  it('hideTrigger hides the hamburger trigger in temporary mode', () => {
+    const wrapper = mountTemporary({ hideTrigger: true }, { default: 'Sider' });
+    expect(wrapper.find('.sd-layout-sider-temporary-trigger').exists()).toBe(false);
+  });
+
+  it('forwards drawerProps.placement to the drawer', async () => {
+    const wrapper = mount(Sider, {
+      props: {
+        temporary: true,
+        defaultCollapsed: false,
+        drawerProps: { renderToBody: false, placement: 'right' },
+      },
+      slots: { default: 'Sider' },
+    });
+    await nextTick();
+    // Drawer applies inline `right: 0` when placement is right.
+    expect(drawerEl(wrapper).element.style.right).toBe('0px');
+  });
+
+  it('drawer closing (update:visible=false) sets collapsed=true', async () => {
+    const onCollapse = vi.fn();
+    const wrapper = mount(Sider, {
+      props: {
+        temporary: true,
+        defaultCollapsed: false,
+        drawerProps: { renderToBody: false },
+      },
+      attrs: { onCollapse },
+      slots: { default: 'Sider' },
+    });
+    const drawer = wrapper.findComponent({ name: 'Drawer' });
+    await drawer.vm.$emit('update:visible', false);
+    expect(onCollapse).toHaveBeenCalledWith(true, 'clickTrigger');
+  });
+});
