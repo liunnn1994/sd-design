@@ -1,3 +1,14 @@
+# [2.6.0](https://github.com/liunnn1994/sd-design/compare/v2.5.0...v2.6.0) (2026-06-22)
+
+### Bug Fixes
+
+- 🐛 修复 lint 警告 ([5842e17](https://github.com/liunnn1994/sd-design/commit/5842e17389e110aa78d522f6b552cd54553672a7))
+
+### Features
+
+- 🆕 全新的 layout，对齐 antd ([85a8cb8](https://github.com/liunnn1994/sd-design/commit/85a8cb84bf7601527262f7fd2a1aaeab35d570c9))
+- 🆕 统一主题获取，消除重复性 ([d2c0d47](https://github.com/liunnn1994/sd-design/commit/d2c0d47d4f09a96c5b5cdff97bd5eda730b9654f))
+
 ## [2.3.1](https://github.com/liunnn1994/sd-design/compare/v2.3.0...v2.3.1) (2026-06-15)
 
 ### Bug Fixes
