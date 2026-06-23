@@ -1,3 +1,9 @@
+# [2.8.0](https://github.com/liunnn1994/sd-design/compare/v2.7.0...v2.8.0) (2026-06-23)
+
+### Features
+
+- 🆕 更新依赖 ([a014966](https://github.com/liunnn1994/sd-design/commit/a014966faf938539e5bff78b334af2d40efc135f))
+
 # [2.6.0](https://github.com/liunnn1994/sd-design/compare/v2.5.0...v2.6.0) (2026-06-22)
 
 ### Bug Fixes
