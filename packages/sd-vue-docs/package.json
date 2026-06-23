@@ -24,19 +24,19 @@
     "@astrojs/starlight": "^0.40.0",
     "@astrojs/vue": "^6.0.1",
     "@sdata/web-vue": "workspace:*",
-    "@tailwindcss/vite": "^4.3.0",
+    "@tailwindcss/vite": "^4.3.1",
     "@vue/repl": "^4.7.2",
     "@vueuse/core": "catalog:",
-    "astro": "^6.4.6",
+    "astro": "^6.4.8",
     "sharp": "^0.34.5",
     "shiki": "^4.2.0",
-    "tailwindcss": "^4.3.0",
+    "tailwindcss": "^4.3.1",
     "unist-util-visit": "^5.1.0",
     "vite": "catalog:astro",
     "vue": "catalog:"
   },
   "devDependencies": {
-    "rolldown": "^1.1.0",
-    "vue-tsc": "^3.3.4"
+    "rolldown": "^1.1.1",
+    "vue-tsc": "^3.3.5"
   }
 }
