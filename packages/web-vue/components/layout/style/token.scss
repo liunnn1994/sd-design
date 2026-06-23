@@ -15,7 +15,7 @@ $layout-footer-bg: var(string.unquote('#{$sd-cssvars-prefix}-color-fill-1'));
 /*****************************************************
  * Header
  *****************************************************/
-$layout-header-bg: #001529;
+$layout-header-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-menu-dark-bg'));
 $layout-header-height: global.$size-16; // 64px
 $layout-header-padding-horizontal: 50px;
 $layout-header-padding: 0 $layout-header-padding-horizontal;
