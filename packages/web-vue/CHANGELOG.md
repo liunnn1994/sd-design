@@ -1,3 +1,9 @@
+# [2.9.0](https://github.com/liunnn1994/sd-design/compare/v2.8.0...v2.9.0) (2026-06-23)
+
+### Features
+
+- 🆕 统一 layout 的 header 背景颜色 ([76796f3](https://github.com/liunnn1994/sd-design/commit/76796f3358e174d55ea15dd0bf8559cfe9ebc41e))
+
 # [2.8.0](https://github.com/liunnn1994/sd-design/compare/v2.7.0...v2.8.0) (2026-06-23)
 
 ### Features
