@@ -19,7 +19,7 @@ $layout-header-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-menu-d
 $layout-header-height: global.$size-16; // 64px
 $layout-header-padding-horizontal: 50px;
 $layout-header-padding: 0 $layout-header-padding-horizontal;
-$layout-header-color: var(string.unquote('#{$sd-cssvars-prefix}-color-text-1'));
+$layout-header-color: color-mix(in srgb, $layout-header-bg, #fff 90%);
 
 /*****************************************************
  * Footer
