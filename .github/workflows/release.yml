@@ -67,6 +67,9 @@ jobs:
         working-directory: packages/web-vue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # semantic-release 的 git push 不应被本地开发者用的 pre-push 钩子拦截
+          # （该钩子会跑全量 typecheck，CI 发布时可能因缺少某些构建产物而中断发布）
+          SKIP_SIMPLE_GIT_HOOKS: '1'
         run: pnpm exec semantic-release
 
       - name: Trigger Netlify docs build hook

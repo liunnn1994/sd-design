@@ -60,6 +60,10 @@ jobs:
         working-directory: packages/auto-import-resolver
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # semantic-release 的 git push 不应被本地开发者用的 pre-push 钩子拦截
+          # （该钩子会跑全量 typecheck，而 resolver workflow 未构建 web-vue 产物，
+          # 会导致 docs typecheck 找不到 @sdata/web-vue/es/icon 而失败、中断发布）
+          SKIP_SIMPLE_GIT_HOOKS: '1'
         run: pnpm exec semantic-release
 
       - name: Show error
