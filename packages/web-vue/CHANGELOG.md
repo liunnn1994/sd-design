@@ -1,3 +1,10 @@
+## [2.11.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.11.0...web-vue-v2.11.1) (2026-06-25)
+
+
+### Bug Fixes
+
+* 🐛 修复错误的竟态 ([5d3efcb](https://github.com/liunnn1994/sd-design/commit/5d3efcbf1c7882954903cab6c2a3acb73af7354c))
+
 # [2.11.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.10.2...web-vue-v2.11.0) (2026-06-25)
 
 
