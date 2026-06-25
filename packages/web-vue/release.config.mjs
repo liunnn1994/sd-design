@@ -6,6 +6,9 @@ const githubReleaseBodyTemplate =
 
 export default {
   branches: ['main'],
+  // 与 auto-import-resolver 的发布 tag 隔离命名空间，避免两个包共享 `v${version}`
+  // 导致 resolver 的 tag 被本包误判为「最后一次发布」而跳过发布。
+  tagFormat: 'web-vue-v${version}',
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',

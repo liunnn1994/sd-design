@@ -3,6 +3,9 @@
  */
 export default {
   branches: ['main'],
+  // 与 web-vue 的发布 tag 隔离命名空间，避免两个包共享 `v${version}`
+  // 导致对方的 tag 被本包误判为「最后一次发布」而跳过发布。
+  tagFormat: 'resolver-v${version}',
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',

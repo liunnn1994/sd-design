@@ -60,6 +60,9 @@ jobs:
           NODE_OPTIONS: '--max-old-space-size=6144'
         run: pnpm --filter @sdata/web-vue run build
 
+      - name: Sync with latest main before release
+        run: git pull --rebase origin main
+
       - name: Release web-vue
         working-directory: packages/web-vue
         env:
