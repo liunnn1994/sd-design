@@ -94,6 +94,21 @@ export interface SiderProps {
    */
   temporary?: boolean;
   /**
+   * @zh 窄轨模式：Sider 常驻为窄轨宽度（仅展示图标），与 collapsed 折叠相互独立
+   * @en Rail mode: Sider stays at rail width (icons only), independent from collapsed
+   */
+  rail?: boolean;
+  /**
+   * @zh 窄轨宽度，仅 rail=true 时生效
+   * @en Rail width, only effective when rail=true
+   */
+  railWidth?: number | string;
+  /**
+   * @zh 窄轨模式下，鼠标悬停 Sider 时临时展开到 width（覆盖在内容上方，不推动内容），移出后收回。仅 rail=true 时生效
+   * @en In rail mode, temporarily expands to width on hover (overlays content without pushing it), collapses on leave. Only effective when rail=true
+   */
+  expandOnHover?: boolean;
+  /**
    * @zh temporary 模式下透传给 Drawer 的配置（仅 temporary=true 时生效）。已排除与 Sider 语义冲突的字段（visible/defaultVisible/width 等）
    * @en Drawer passthrough config (only effective when temporary=true). Fields clashing with Sider semantics (visible/defaultVisible/width, etc.) are omitted
    */

@@ -39,6 +39,12 @@ $layout-sider-zero-trigger-height: global.$size-10; // 40px
 $layout-sider-zero-trigger-font-size: 18px;
 
 /*****************************************************
+ * Sider rail（窄轨）
+ *****************************************************/
+$layout-sider-rail-width: global.$size-18; // 72px
+$layout-sider-rail-expand-z-index: 20;
+
+/*****************************************************
  * Sider light 主题
  *****************************************************/
 $layout-light-sider-bg: var(string.unquote('#{$sd-cssvars-prefix}-color-bg-1'));

@@ -18,6 +18,8 @@ import LayoutCustomTriggerDemo from '../../../../components/generated/layout/cus
 import layoutCustomTriggerSource from '../../../../components/generated/layout/custom-trigger.vue?raw';
 import LayoutTemporaryDemo from '../../../../components/generated/layout/temporary.vue';
 import layoutTemporarySource from '../../../../components/generated/layout/temporary.vue?raw';
+import LayoutRailDemo from '../../../../components/generated/layout/rail.vue';
+import layoutRailSource from '../../../../components/generated/layout/rail.vue?raw';
 
 `Layout` 协助进行页面级整体布局。它提供了 `Header`、`Sider`、`Content`、`Footer` 四个子区域，并通过 `Sider` 提供可折叠、响应式断点、自定义触发器等能力。
 
@@ -83,6 +85,16 @@ import layoutTemporarySource from '../../../../components/generated/layout/tempo
 
 </DemoBlock>
 
+### 窄轨（Rail）
+
+设置 `rail` 后，`Sider` 常驻为窄轨宽度（默认 `72px`），仅展示图标、节省横向空间，且与 `collapsed` 折叠相互独立。配合 `expand-on-hover` 可在鼠标悬停时临时展开到完整 `width`：展开内容以覆盖（overlay）方式浮在内容上方，主体内容不会移动；移出后自动收回。`rail` 仅受控切换（通过 `update:rail` 事件感知悬停展开/收回），内置触发器仍只负责 `collapsed`，二者互不影响。
+
+<DemoBlock source={layoutRailSource} mainFile="src/layout-rail.vue">
+
+<LayoutRailDemo client:only="vue" />
+
+</DemoBlock>
+
 ### 固定布局
 
 配合 CSS `position: sticky / fixed` 可以让 `Header` 或 `Sider` 固定在视口内，常用于长页面滚动场景。
@@ -123,6 +135,9 @@ import layoutTemporarySource from '../../../../components/generated/layout/tempo
 | theme | 主题颜色，未设置时跟随 ConfigProvider 的 themeMode | `'light' \| 'dark'` | `-` |  |
 | scrollbar | 滚动配置，默认使用组件库 `Scrollbar`；设为 `false` 使用原生 `overflow:auto`，传对象可配置 `Scrollbar` | `boolean \| ScrollbarProps` | `-` |  |
 | temporary | 临时模式：使用 `Drawer` 渲染悬浮菜单，由 `collapsed` 控制开合（`collapsed=true` 关闭，`false` 展开） | `boolean` | `false` |  |
+| rail | 窄轨模式：`Sider` 常驻为窄轨宽度（仅展示图标），与 `collapsed` 折叠相互独立 | `boolean` | `false` |  |
+| rail-width | 窄轨宽度，仅 `rail=true` 时生效 | `number \| string` | `72` |  |
+| expand-on-hover | 窄轨模式下悬停 `Sider` 时临时展开到 `width`（覆盖在内容上方，不推动内容），移出后收回。仅 `rail=true` 时生效 | `boolean` | `false` |  |
 | drawer-props | `temporary` 模式下透传给 `Drawer` 的配置（仅 `temporary=true` 时生效）。已排除 `visible`/`defaultVisible`/`width`/`footer` 等与 `Sider` 语义冲突的字段 | `SiderTemporaryDrawerProps` | `-` |  |
 
 ### `<layout-sider>` Events
@@ -131,6 +146,7 @@ import layoutTemporarySource from '../../../../components/generated/layout/tempo
 | --- | --- | --- |
 | collapse | 折叠状态变化时触发 | collapsed: `boolean`<br />type: `'clickTrigger' \| 'responsive'` |
 | breakpoint | 响应式断点命中状态变化时触发 | broken: `boolean` |
+| update:rail | 窄轨悬停展开/收回时触发（`false` 展开，`true` 收回）。仅 `rail` + `expand-on-hover` 时触发 | rail: `boolean` |
 
 ### `<layout-sider>` Slots
 

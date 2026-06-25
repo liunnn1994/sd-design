@@ -1,5 +1,11 @@
 <template>
-  <aside ref="rootEl" :class="siderCls" :style="divStyle">
+  <aside
+    ref="rootEl"
+    :class="siderCls"
+    :style="divStyle"
+    @mouseenter="onMouseEnter"
+    @mouseleave="onMouseLeave"
+  >
     <template v-if="temporary">
       <Drawer
         v-bind="mergedDrawerProps"
@@ -24,6 +30,24 @@
           <IconMenu />
         </slot>
       </span>
+    </template>
+    <!-- rail 模式：aside 流内恒占 railWidth（不随 hover 变化），内容渲染进 overlay 容器。
+         hover 时 overlay 切绝对定位并展开到全宽，浮于内容上方，右侧内容零重排。 -->
+    <template v-else-if="rail">
+      <div :class="railOverlayCls" :style="railOverlayStyle">
+        <div v-if="$slots.header" :class="`${prefixCls}-header`">
+          <slot name="header" />
+        </div>
+        <div
+          v-if="useNativeScrollbar"
+          :class="[`${prefixCls}-children`, `${prefixCls}-children-scroll`]"
+        >
+          <slot />
+        </div>
+        <Scrollbar v-else :outer-class="`${prefixCls}-children`" v-bind="scrollbarProps">
+          <slot />
+        </Scrollbar>
+      </div>
     </template>
     <template v-else>
       <div v-if="$slots.header" :class="`${prefixCls}-header`">
@@ -73,6 +97,7 @@
     ref,
     toRef,
     watch,
+    type CSSProperties,
     type PropType,
   } from 'vue';
 
@@ -196,6 +221,30 @@
       default: false,
     },
     /**
+     * @zh 窄轨模式：Sider 常驻为窄轨宽度（仅展示图标），与 collapsed 折叠相互独立
+     * @en Rail mode: Sider stays at rail width (icons only), independent from collapsed
+     */
+    rail: {
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
+    /**
+     * @zh 窄轨宽度，仅 rail=true 时生效
+     * @en Rail width, only effective when rail=true
+     */
+    railWidth: {
+      type: [Number, String],
+      default: 72,
+    },
+    /**
+     * @zh 窄轨模式下，鼠标悬停 Sider 时临时展开到 width（覆盖在内容上方，不推动内容），移出后收回。仅 rail=true 时生效
+     * @en In rail mode, temporarily expands to width on hover (overlays content without pushing it), collapses on leave. Only effective when rail=true
+     */
+    expandOnHover: {
+      type: Boolean,
+      default: false,
+    },
+    /**
      * @zh temporary 模式下透传给 Drawer 的配置（仅 temporary=true 时生效）
      * @en Drawer passthrough config (only effective when temporary=true)
      */
@@ -216,6 +265,11 @@
      * @en Triggered when the responsive breakpoint match state changes
      */
     (e: 'breakpoint', broken: boolean): void;
+    /**
+     * @zh 窄轨状态变化时触发（仅 hover 展开收回时，受控 rail 不经此事件）
+     * @en Triggered when the rail state changes (only on hover expand/collapse; controlled rail does not go through this)
+     */
+    (e: 'update:rail', rail: boolean): void;
   }>();
 
   const prefixCls = getPrefixCls('layout-sider');
@@ -360,8 +414,36 @@
     return mergedCollapsed.value ? collapsedIcon : expandedIcon;
   });
 
-  const rawWidth = computed(() => (mergedCollapsed.value ? props.collapsedWidth : props.width));
+  // ============================ Rail ============================
+  // rail 与 collapsed 相互独立：rail 常驻窄轨（仅图标），collapsed 仍是受控折叠。
+  // expand-on-hover 仅在 rail 模式下生效：悬停时临时展开到 width 并覆盖在内容上方（overlay），移出收回。
+  const isHovering = ref(false);
+  const railHoverEnabled = computed(() => props.rail && props.expandOnHover);
+  const isRailExpanded = computed(() => railHoverEnabled.value && isHovering.value);
+
+  const onMouseEnter = () => {
+    if (railHoverEnabled.value) {
+      isHovering.value = true;
+      emit('update:rail', false);
+    }
+  };
+
+  const onMouseLeave = () => {
+    if (railHoverEnabled.value) {
+      isHovering.value = false;
+      emit('update:rail', true);
+    }
+  };
+
+  // 实际渲染宽度：rail 悬停展开用 width；rail 常驻用 railWidth；否则按 collapsed 决定。
+  const rawWidth = computed(() => {
+    if (props.rail) return isRailExpanded.value ? props.width : props.railWidth;
+    return mergedCollapsed.value ? props.collapsedWidth : props.width;
+  });
   const siderWidth = computed(() => toSiderWidth(rawWidth.value));
+
+  // rail 常驻占位宽度（流内占位不随 hover 变化 → overlay 的关键）。
+  const railReservedWidth = computed(() => toSiderWidth(props.railWidth));
 
   const hasZeroWidth = computed(() => Number.parseFloat(String(props.collapsedWidth || 0)) === 0);
 
@@ -380,6 +462,16 @@
     if (props.temporary) {
       return { flex: '0 0 auto', width: 'auto' };
     }
+    // rail 模式下 aside 流内占位恒为 railWidth，不随 hover 变化 → 右侧内容零重排。
+    // 悬停展开交给内部 overlay 容器（railOverlayStyle），aside 自身不切定位/不变宽。
+    if (props.rail) {
+      return {
+        flex: `0 0 ${railReservedWidth.value}`,
+        maxWidth: railReservedWidth.value,
+        minWidth: railReservedWidth.value,
+        width: railReservedWidth.value,
+      };
+    }
     return {
       flex: `0 0 ${siderWidth.value}`,
       maxWidth: siderWidth.value,
@@ -387,6 +479,26 @@
       width: siderWidth.value,
     };
   });
+
+  // rail 内部 overlay 容器：始终保持绝对定位（脱离文档流，不推动右侧内容），
+  // 仅在 railWidth（常驻）与全宽（hover 展开）之间过渡 width → 平滑展开/收回且零重排。
+  // 之所以始终 absolute：position 不可动画，若常驻用 static 会在收回过渡中（width 仍宽时）
+  // 溢出到内容流；始终 absolute 则过渡期间始终浮于上方，只是覆盖范围渐变。
+  const railOverlayStyle = computed<CSSProperties>(() => {
+    const base: CSSProperties = {
+      position: 'absolute',
+      inset: '0',
+      width: isRailExpanded.value ? siderWidth.value : railReservedWidth.value,
+    };
+    return isRailExpanded.value ? { ...base, zIndex: 20 } : base;
+  });
+
+  const railOverlayCls = computed(() => [
+    `${prefixCls}-rail-overlay`,
+    {
+      [`${prefixCls}-rail-expand`]: isRailExpanded.value,
+    },
+  ]);
 
   const siderCls = computed(() => [
     prefixCls,
@@ -397,6 +509,7 @@
       [`${prefixCls}-below`]: below.value,
       [`${prefixCls}-zero-width`]: Number.parseFloat(siderWidth.value) === 0,
       [`${prefixCls}-temporary`]: props.temporary,
+      [`${prefixCls}-rail`]: props.rail,
     },
   ]);
 
@@ -420,13 +533,35 @@
   };
 
   // ============================ Context ============================
-  const siderContext = reactive<{ siderCollapsed: boolean; theme: 'light' | 'dark' }>({
+  // rail 常驻态对后代（如 Menu）也应只显图标；hover 展开时临时恢复文字。
+  // siderRailWidth 让 Menu 在 rail 态把折叠宽度对齐到 railWidth，避免图标偏移不居中。
+  // Menu 的 collapsedWidth 仅接受数字，故仅透传数字型 railWidth。
+  const mergedSiderRail = computed(() => !!props.rail && !isRailExpanded.value);
+  const siderRailWidthValue = computed(() =>
+    props.rail && typeof props.railWidth === 'number' ? props.railWidth : undefined,
+  );
+  const siderContext = reactive<{
+    siderCollapsed: boolean;
+    siderRail: boolean;
+    siderRailWidth?: number;
+    theme: 'light' | 'dark';
+  }>({
     siderCollapsed: mergedCollapsed.value,
+    siderRail: mergedSiderRail.value,
+    siderRailWidth: siderRailWidthValue.value,
     theme: mergedTheme.value,
   });
 
   watch(mergedCollapsed, (val) => {
     siderContext.siderCollapsed = val;
+  });
+
+  watch(mergedSiderRail, (val) => {
+    siderContext.siderRail = val;
+  });
+
+  watch(siderRailWidthValue, (val) => {
+    siderContext.siderRailWidth = val;
   });
 
   watch(mergedTheme, (val) => {

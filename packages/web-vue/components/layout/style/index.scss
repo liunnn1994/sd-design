@@ -21,6 +21,7 @@ $text-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-text-1'));
   }
 
   &#{&}-has-sider {
+    position: relative;
     flex-direction: row;
 
     > .#{$layout-prefix-cls},
@@ -194,5 +195,32 @@ $text-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-text-1'));
     &:hover {
       background: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-fill-2'));
     }
+  }
+
+  // Rail：aside 常驻窄轨态。aside 流内占位恒为 railWidth，且必须 overflow: visible，
+  // 否则 hover 时内部 absolute overlay 会被裁掉、无法覆盖到相邻内容上方。
+  &-rail {
+    overflow: visible;
+  }
+
+  // Rail 内容 overlay 容器：承载 header/children/trigger。始终保持绝对定位（脱离文档流，
+  // 不推动右侧内容），宽度在内联 style 上随 hover 在 railWidth ↔ 全宽之间切换。
+  // 这里补 width 过渡 → 平滑展开/收回；过渡只作用于浮层自身宽度，不触发相邻内容重排。
+  &-rail-overlay {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    overflow: hidden;
+    background: inherit;
+    transition:
+      width $layout-motion-duration-mid theme.$transition-timing-function-standard,
+      box-shadow $layout-motion-duration-mid theme.$transition-timing-function-standard;
+  }
+
+  // Rail 悬停展开覆盖态（作用于 overlay）：全宽浮于内容上方，
+  // 宽度由内联 style 给定，这里补 z-index 与阴影以区分浮层与底图。
+  &-rail-expand {
+    z-index: $layout-sider-rail-expand-z-index;
+    box-shadow: var(string.unquote('#{theme.$sd-cssvars-prefix}-shadow2-center'));
   }
 }

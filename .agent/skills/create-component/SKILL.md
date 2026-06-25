@@ -23,6 +23,31 @@ description: 为 SD Design Vue 组件库新增或重构组件的完整工作流�
 
 - 不要只交付一个 `<component-name>.vue` 文件。
 - 要定义 name 比如：`defineOptions({ name: 'MyComponent' });` SDVue 插件会尝试注册。
+- 在 vue 组件中 props/emit 等要使用新的 ts 写法
+  ```ts
+  const { propName = "foo" } = defineProps<{
+    /**
+     * @zh 中文注释
+     * @en English comment
+     */
+    propName: string;
+  }>();
+  ```
+
+  而不是旧版的：
+
+  ```ts
+  const props = defineProps({
+    /**
+     * @zh 中文注释
+     * @en English comment
+     */
+    propName: {
+      type: String,
+      default: "foo",
+    },
+  });
+  ```
 - 尽量使用 `es-toolkit`，非必要不要自己封装工具函数。
 - 尽量使用 `type-fest`，非必要不要自己定义类型工具。
 - 尽量创建独立的 `types.ts` 文件，并且导出类型，非必要不要把类型写散在各个文件里。

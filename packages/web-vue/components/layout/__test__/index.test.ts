@@ -1,9 +1,11 @@
 import { mount } from '@vue/test-utils';
 import { nextTick, ref } from 'vue';
 
+import Menu from '../../menu';
 import Layout from '../index';
 
 const { Sider, Content } = Layout;
+const MenuItem = Menu.Item;
 
 const originalMatchMedia = window.matchMedia;
 
@@ -328,5 +330,183 @@ describe('Sider temporary', () => {
     const drawer = wrapper.findComponent({ name: 'Drawer' });
     await drawer.vm.$emit('update:visible', false);
     expect(onCollapse).toHaveBeenCalledWith(true, 'clickTrigger');
+  });
+});
+
+describe('Sider rail', () => {
+  const siderWidth = (wrapper: ReturnType<typeof mount>) =>
+    wrapper.find<HTMLElement>('.sd-layout-sider');
+
+  it('rail reserves railWidth in flow', () => {
+    const wrapper = mount(Sider, {
+      props: { rail: true, railWidth: 72 },
+      slots: { default: 'Sider' },
+    });
+    const el = siderWidth(wrapper).element;
+    expect(el.style.width).toBe('72px');
+    expect(el.style.flex).toBe('0 0 72px');
+    expect(el.classList).toContain('sd-layout-sider-rail');
+  });
+
+  it('rail respects custom railWidth (string)', () => {
+    const wrapper = mount(Sider, {
+      props: { rail: true, railWidth: '80px' },
+      slots: { default: 'Sider' },
+    });
+    expect(siderWidth(wrapper).element.style.width).toBe('80px');
+  });
+
+  it('rail is independent from collapsed', () => {
+    const wrapper = mount(Sider, {
+      props: { rail: true, collapsed: true },
+      slots: { default: 'Sider' },
+    });
+    // rail 占位仍是 railWidth，collapsed class 同步存在
+    expect(siderWidth(wrapper).element.style.width).toBe('72px');
+    expect(siderWidth(wrapper).classes()).toContain('sd-layout-sider-collapsed');
+    expect(siderWidth(wrapper).classes()).toContain('sd-layout-sider-rail');
+  });
+
+  it('expand-on-hover keeps aside in-flow at railWidth; overlay expands to full width', async () => {
+    const wrapper = mount(Sider, {
+      props: { rail: true, expandOnHover: true, width: 220, railWidth: 72 },
+      slots: { default: 'Sider' },
+    });
+    const overlay = () => wrapper.find<HTMLElement>('.sd-layout-sider-rail-overlay');
+    // 常驻态：aside 流内 = railWidth（不切定位）；overlay 始终 absolute、宽度 = railWidth
+    expect(siderWidth(wrapper).element.style.width).toBe('72px');
+    expect(siderWidth(wrapper).element.style.position).toBe('');
+    expect(overlay().element.style.position).toBe('absolute');
+    expect(overlay().element.style.width).toBe('72px');
+    await siderWidth(wrapper).trigger('mouseenter');
+    // aside 全程不变 → 右侧内容零重排
+    expect(siderWidth(wrapper).element.style.width).toBe('72px');
+    expect(siderWidth(wrapper).element.style.position).toBe('');
+    // overlay 仅过渡 width 到全宽（仍 absolute），浮于内容上方
+    expect(overlay().classes()).toContain('sd-layout-sider-rail-expand');
+    expect(overlay().element.style.position).toBe('absolute');
+    expect(overlay().element.style.width).toBe('220px');
+    expect(overlay().element.style.zIndex).toBe('20');
+  });
+
+  it('mouseleave collapses the overlay back (aside stays in-flow)', async () => {
+    const wrapper = mount(Sider, {
+      props: { rail: true, expandOnHover: true, width: 220 },
+      slots: { default: 'Sider' },
+    });
+    const overlay = () => wrapper.find<HTMLElement>('.sd-layout-sider-rail-overlay');
+    await siderWidth(wrapper).trigger('mouseenter');
+    expect(overlay().classes()).toContain('sd-layout-sider-rail-expand');
+    await siderWidth(wrapper).trigger('mouseleave');
+    expect(overlay().classes()).not.toContain('sd-layout-sider-rail-expand');
+    // aside 全程不变；overlay 仍 absolute、宽度过渡回 railWidth
+    expect(siderWidth(wrapper).element.style.width).toBe('72px');
+    expect(siderWidth(wrapper).element.style.position).toBe('');
+    expect(overlay().element.style.position).toBe('absolute');
+    expect(overlay().element.style.width).toBe('72px');
+  });
+
+  it('mouseenter emits update:rail=false, mouseleave emits update:rail=true', async () => {
+    const onUpdateRail = vi.fn();
+    const wrapper = mount({
+      components: { Sider },
+      methods: { onUpdateRail },
+      template: `<Sider rail expand-on-hover @update:rail="onUpdateRail">Sider</Sider>`,
+    });
+    await wrapper.find('.sd-layout-sider').trigger('mouseenter');
+    expect(onUpdateRail).toHaveBeenCalledWith(false);
+    await wrapper.find('.sd-layout-sider').trigger('mouseleave');
+    expect(onUpdateRail).toHaveBeenCalledWith(true);
+  });
+
+  it('expand-on-hover has no effect when rail is false', async () => {
+    const onUpdateRail = vi.fn();
+    const wrapper = mount({
+      components: { Sider },
+      methods: { onUpdateRail },
+      template: `<Sider :rail="false" expand-on-hover @update:rail="onUpdateRail">Sider</Sider>`,
+    });
+    await wrapper.find('.sd-layout-sider').trigger('mouseenter');
+    expect(wrapper.find('.sd-layout-sider').classes()).not.toContain('sd-layout-sider-rail-expand');
+    expect(onUpdateRail).not.toHaveBeenCalled();
+  });
+
+  it('rail exposes siderRail to descendants (hover expands restores)', async () => {
+    // 通过注入同一 context 的 Menu 间接验证：直接断言 context 形态更稳健，这里验证 Sider 自身渲染条件。
+    const wrapper = mount(Sider, {
+      props: { rail: true, expandOnHover: true },
+      slots: { default: 'Sider' },
+    });
+    expect(siderWidth(wrapper).classes()).toContain('sd-layout-sider-rail');
+    await siderWidth(wrapper).trigger('mouseenter');
+    // 悬停展开态 rail 仍为 true，overlay 切展开覆盖态
+    expect(siderWidth(wrapper).classes()).toContain('sd-layout-sider-rail');
+    expect(wrapper.find('.sd-layout-sider-rail-overlay').classes()).toContain(
+      'sd-layout-sider-rail-expand',
+    );
+  });
+
+  it('rail aligns inner Menu collapsed width to railWidth (no 48px offset)', () => {
+    const wrapper = mount({
+      components: { Sider, Menu, MenuItem },
+      template: `
+        <Sider rail :rail-width="72" theme="dark">
+          <Menu theme="dark">
+            <MenuItem key="1">nav 1</MenuItem>
+          </Menu>
+        </Sider>`,
+    });
+    // Sider 流内占位 = railWidth (72px)
+    expect(siderWidth(wrapper).element.style.width).toBe('72px');
+    // Menu 折叠宽度跟随 railWidth，而非默认 48px → 图标居中不偏移
+    const menu = wrapper.find<HTMLElement>('.sd-menu');
+    expect(menu.element.style.width).toBe('72px');
+    // rail 态注入图标居中修饰类（覆盖折叠菜单默认靠左布局）
+    expect(menu.classes()).toContain('sd-menu-in-sider-rail');
+  });
+
+  it('rail with string railWidth falls back Menu collapsed width to 72', () => {
+    const wrapper = mount({
+      components: { Sider, Menu, MenuItem },
+      template: `
+        <Sider rail rail-width="80px" theme="dark">
+          <Menu theme="dark">
+            <MenuItem key="1">nav 1</MenuItem>
+          </Menu>
+        </Sider>`,
+    });
+    // Sider 流内占位按字符串 railWidth (80px)
+    expect(siderWidth(wrapper).element.style.width).toBe('80px');
+    // Menu collapsedWidth 仅接受数字，字符串 railWidth 时退回 Sider 默认 72
+    const menu = wrapper.find<HTMLElement>('.sd-menu');
+    expect(menu.element.style.width).toBe('72px');
+  });
+
+  it('rail honors user-provided collapsed-width on Menu', () => {
+    const wrapper = mount({
+      components: { Sider, Menu, MenuItem },
+      template: `
+        <Sider rail :rail-width="72" theme="dark">
+          <Menu theme="dark" :collapsed-width="96">
+            <MenuItem key="1">nav 1</MenuItem>
+          </Menu>
+        </Sider>`,
+    });
+    // 用户显式 collapsed-width 优先于 sider railWidth
+    const menu = wrapper.find<HTMLElement>('.sd-menu');
+    expect(menu.element.style.width).toBe('96px');
+  });
+
+  it('non-rail Sider does not inject rail centering class on Menu', () => {
+    const wrapper = mount({
+      components: { Sider, Menu, MenuItem },
+      template: `
+        <Sider theme="dark">
+          <Menu theme="dark">
+            <MenuItem key="1">nav 1</MenuItem>
+          </Menu>
+        </Sider>`,
+    });
+    expect(wrapper.find('.sd-menu').classes()).not.toContain('sd-menu-in-sider-rail');
   });
 });

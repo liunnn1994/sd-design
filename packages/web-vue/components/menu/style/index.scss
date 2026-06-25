@@ -449,6 +449,26 @@ $token-vars: map.merge(meta.module-variables('dropdownToken'), meta.module-varia
     }
   }
 
+  // 处于 Sider rail 常驻态时，折叠宽度对齐 railWidth（>48px），
+  // 默认靠左的图标需在 railWidth 内居中。
+  &.#{$menu-prefix-cls}-in-sider-rail {
+    &.#{$menu-prefix-cls}-collapsed {
+      .#{$menu-prefix-cls}-item {
+        justify-content: center;
+      }
+
+      // 折叠态文字本就 opacity:0，这里彻底移出布局，让图标借 justify-content 居中。
+      .#{$menu-prefix-cls}-item-inner {
+        display: none;
+      }
+
+      .#{$menu-prefix-cls}-icon {
+        margin-right: 0;
+        line-height: token-var('menu-vertical-item-height');
+      }
+    }
+  }
+
   // 折叠按钮
   &-collapse-button {
     position: absolute;
