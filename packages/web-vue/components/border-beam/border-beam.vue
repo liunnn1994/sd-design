@@ -263,6 +263,19 @@
   function finishFlow() {
     clearFlowTimer();
     isFlowing.value = false;
+
+    // Reconcile to the `active` prop once the one-shot entrance is done. The
+    // `active` watcher only fires on prop *changes*, so a steady `active=false`
+    // would otherwise leave the beam stuck on after `flowFrom` forced it active.
+    // With this, a controlled `active=false` fades the border out (and reduced-
+    // motion users skip straight to hidden).
+    if (!props.active && isActive.value && !isFading.value) {
+      if (shouldReduceMotion()) {
+        isActive.value = false;
+      } else {
+        isFading.value = true;
+      }
+    }
   }
 
   function resolveFlowPoint(

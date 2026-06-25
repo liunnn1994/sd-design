@@ -81,7 +81,7 @@ BorderBeam 为元素添加动态边框光束效果。组件使用 CSS `conic-gra
 
 ### 水流入场
 
-通过组件实例方法 `flowFrom()` 可以从指定坐标触发一次水流扩散入场效果。默认从右上角开始，扩散完成后保持当前 BorderBeam 效果。传入 `{ x, y }` 时，坐标为组件内本地像素坐标。
+通过组件实例方法 `flowFrom()` 可以从指定坐标触发一次水流扩散入场效果。默认从右上角开始，入场结束后按 `active` 属性收尾：`active` 为 `true`（默认）时保持光束，为 `false` 时自动淡出隐藏。传入 `{ x, y }` 时，坐标为组件内本地像素坐标。
 
 <DemoBlock source={borderBeamFlowSource} mainFile="src/border-beam-flow.vue">
 
@@ -129,7 +129,7 @@ BorderBeam 为元素添加动态边框光束效果。组件使用 CSS `conic-gra
 
 | 方法 | 描述 | 参数 | 返回值 |
 | --- | --- | --- | --- |
-| flowFrom | 从指定坐标触发一次水流扩散入场效果，默认从右上角开始。若同时使用受控 `active=false`，建议调用时同步将外部 `active` 状态设为 `true`。 | `BorderBeamFlowCoordinate` | `void` |
+| flowFrom | 从指定坐标触发一次水流扩散入场效果，默认从右上角开始。入场结束后随 `active` 属性收尾：为 `true` 保持光束，为 `false` 自动淡出隐藏，因此无需在调用时手动同步外部 `active` 状态。 | `BorderBeamFlowCoordinate` | `void` |
 
 `BorderBeamFlowCoordinate = 'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right' \| 'center' \| { x: number; y: number }`。其中 `{ x, y }` 为组件内本地像素坐标。
 

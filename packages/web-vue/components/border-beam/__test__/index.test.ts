@@ -184,9 +184,42 @@ describe('BorderBeam', () => {
     expect(style).toContain('--beam-flow-radius');
   });
 
-  test('should keep beam active after flow animation ends', async () => {
+  test('should fade out after flow entrance when active is false', async () => {
     const wrapper = mount(BorderBeam, {
       props: { active: false },
+      slots: { default: '<div>Content</div>' },
+    });
+    vi.spyOn(wrapper.element, 'getBoundingClientRect').mockReturnValue({
+      width: 200,
+      height: 100,
+      top: 0,
+      right: 200,
+      bottom: 100,
+      left: 0,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+    } as DOMRect);
+
+    wrapper.vm.flowFrom('center');
+    await wrapper.vm.$nextTick();
+
+    // During the entrance the beam is active even though `active` is false.
+    expect(wrapper.find('[data-active]').exists()).toBe(true);
+    await wrapper.find('[data-beam-flow]').trigger('animationend');
+    await wrapper.vm.$nextTick();
+
+    // Once the entrance ends, a controlled `active=false` triggers the fade-out
+    // so the border can be hidden rather than staying stuck on.
+    expect(wrapper.find('[data-beam-flow]').exists()).toBe(false);
+    expect(wrapper.find('[data-flowing]').exists()).toBe(false);
+    expect(wrapper.find('[data-active]').exists()).toBe(false);
+    expect(wrapper.find('[data-fading]').exists()).toBe(true);
+  });
+
+  test('should keep beam active after flow entrance when active is true', async () => {
+    const wrapper = mount(BorderBeam, {
+      props: { active: true },
       slots: { default: '<div>Content</div>' },
     });
     vi.spyOn(wrapper.element, 'getBoundingClientRect').mockReturnValue({
@@ -211,6 +244,7 @@ describe('BorderBeam', () => {
     expect(wrapper.find('[data-beam-flow]').exists()).toBe(false);
     expect(wrapper.find('[data-flowing]').exists()).toBe(false);
     expect(wrapper.find('[data-active]').exists()).toBe(true);
+    expect(wrapper.find('[data-fading]').exists()).toBe(false);
   });
 
   test('should include flow overlay styles in dynamic CSS', () => {
