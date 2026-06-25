@@ -1,3 +1,10 @@
+## [2.10.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.10.1...web-vue-v2.10.2) (2026-06-25)
+
+
+### Bug Fixes
+
+* 🐛 修复header错误的颜色 ([cac77ae](https://github.com/liunnn1994/sd-design/commit/cac77ae162ce0fe0ed428f22050bc65d39487ac5))
+
 ## [2.10.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.10.0...web-vue-v2.10.1) (2026-06-25)
 
 
