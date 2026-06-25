@@ -1,3 +1,16 @@
+# [2.11.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.10.2...web-vue-v2.11.0) (2026-06-25)
+
+
+### Bug Fixes
+
+* 🐛 修复错误的大小写 ([fed991f](https://github.com/liunnn1994/sd-design/commit/fed991f7bcc1b66fc377dec8d738484c01e5ce04))
+* 🐛 修复首次启动文件缺失的问题 ([81dc32e](https://github.com/liunnn1994/sd-design/commit/81dc32e42744732645da59aa0996190f63c22df8))
+
+
+### Features
+
+* 🆕 优化 layout header 的默认按钮颜色 ([6ff7edc](https://github.com/liunnn1994/sd-design/commit/6ff7edc8eac3268f0d54611711266762d3d86f17))
+
 ## [2.10.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.10.1...web-vue-v2.10.2) (2026-06-25)
 
 ### Bug Fixes
