@@ -78,6 +78,10 @@ const demoLazyLoadScript = String.raw`
 
 export default defineConfig({
   site: 'https://sd-design.js.org/',
+  // Astro v7 changed compressHTML's default to 'jsx' (JSX-style whitespace
+  // stripping). Keep v6 behavior to avoid whitespace regressions in the
+  // hand-written .astro components; revisit when adopting the new default.
+  compressHTML: true,
   vite: {
     resolve: {
       noExternal: ['@vue/repl'],
@@ -181,6 +185,9 @@ export default defineConfig({
       credits: false,
     }),
     mdx(),
-    vue({ appEntrypoint: '/src/pages/_app.ts' }),
+    // Vite 8 (Oxc) no longer auto-enables JSX for .vue <script lang="tsx">
+    // blocks (Vite 7/esbuild did). The generated json-form demos use Vue JSX,
+    // so enable the Vue JSX plugin — same setup web-vue uses in its vite config.
+    vue({ appEntrypoint: '/src/pages/_app.ts', jsx: true }),
   ],
 });

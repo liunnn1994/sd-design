@@ -14,9 +14,6 @@ catalog:
   oxfmt: ^0.55.0
   'vite-plus': ^0.1.24
 
-catalogs:
-  astro:
-    vite: ~7.3.5
 overrides:
   astro@<6.1.10: ^6.1.10
   astro@<6.4.6: ^6.4.6
@@ -67,6 +64,11 @@ minimumReleaseAgeExclude:
   - oxlint
   - vite-plus
   - astro
+  - '@astrojs/*'
+  - satteri
+  - '@bruits/*'
+  - '@napi-rs/wasm-runtime@1.1.6'
+  - '@tybys/wasm-util@0.10.3'
   - '@types/node'
   - undici@7.28.0
   - undici@6.27.0
