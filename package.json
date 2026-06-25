@@ -15,7 +15,7 @@
     "dev": "vp run dev:all",
     "dev:web-vue": "pnpm --filter @sd-design/web-vue-debug dev",
     "dev:color-picker-debug": "pnpm run dev:web-vue",
-    "dev:all": "pnpm --filter @sdata/web-vue run build:module && pnpm --filter @sd-design/sd-vue-docs run docs:vendor:only && vp run --parallel --filter @sdata/web-vue --filter @sd-design/sd-vue-docs dev:serve",
+    "dev:all": "pnpm --filter @sdata/web-vue run build:module && pnpm --filter @sdata/web-vue run jsongen && pnpm --filter @sd-design/sd-vue-docs run docs:vendor:only && vp run --parallel --filter @sdata/web-vue --filter @sd-design/sd-vue-docs dev:serve",
     "dev:component": "vp run --filter @sdata/web-vue dev",
     "dev:docs": "vp run --filter @sd-design/sd-vue-docs dev",
     "build": "vp run build:all",
