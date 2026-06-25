@@ -1,3 +1,11 @@
+# [2.10.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.9.0...web-vue-v2.10.0) (2026-06-25)
+
+### Features
+
+- 🆕 layout 添加 rail 模式 ([43ae0db](https://github.com/liunnn1994/sd-design/commit/43ae0dbdf0e1e17c434a60d0bf73e34cd47e4f3a))
+- 🆕 文档站更新到 astro 7 ([606a140](https://github.com/liunnn1994/sd-design/commit/606a140300af766f8b26d3caab1f290f53853005))
+- 🆕 隔离 web-vue 与 auto-import-resolver 的发布 tag 命名空间 ([95ad739](https://github.com/liunnn1994/sd-design/commit/95ad7393ae2dfc9ea4fcdf040a38b43b2016e906))
+
 # [2.9.0](https://github.com/liunnn1994/sd-design/compare/v2.8.0...v2.9.0) (2026-06-23)
 
 ### Features
