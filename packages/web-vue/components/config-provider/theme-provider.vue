@@ -12,14 +12,14 @@
     applyThemeCSSVariables,
     clearThemeCSSVariables,
     normalizeTheme,
-    type SDThemeConfig,
-    type SDThemeMode,
+    type SdThemeConfig,
+    type SdThemeMode,
   } from './theme';
 
   const props = withDefaults(
     defineProps<{
-      theme?: SDThemeConfig;
-      themeMode?: SDThemeMode;
+      theme?: SdThemeConfig;
+      themeMode?: SdThemeMode;
       global?: boolean;
       tag?: string;
     }>(),

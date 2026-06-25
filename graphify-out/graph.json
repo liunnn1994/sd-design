@@ -3279,7 +3279,7 @@
       "id": "guides_start_sd_design_resolver"
     },
     {
-      "label": "SDThemeConfig",
+      "label": "SdThemeConfig",
       "type": "concept",
       "file": "packages/sd-vue-docs/src/content/docs/guides/theme.mdx",
       "description": "Runtime theme configuration interface with tokens (global color/radius variables), components (per-component overrides), and meta (schemaVersion, cssVarPrefix, name). Uses ConfigProvider theme prop as entry point.",

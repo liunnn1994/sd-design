@@ -9,12 +9,12 @@ import { Size } from '../_utils/constant';
 import { getPrefixCls } from '../_utils/global-config';
 import { isNumber, isUndefined } from '../_utils/is';
 import { getKeyDownHandler, KEYBOARD_KEY } from '../_utils/keyboard';
-import SDButton from '../button';
+import SdButton from '../button';
 import IconDown from '../icon/icon-down';
 import IconMinus from '../icon/icon-minus';
 import IconPlus from '../icon/icon-plus';
 import IconUp from '../icon/icon-up';
-import SDInput from '../input';
+import SdInput from '../input';
 
 type StepMethods = 'minus' | 'plus';
 type InputNumberValue = string | number | null | undefined;
@@ -575,7 +575,7 @@ export default defineComponent({
 
     const renderPrependButton = () => {
       return (
-        <SDButton
+        <SdButton
           size={mergedSize.value}
           v-slots={{ icon: () => <IconMinus /> }}
           class={`${prefixCls}-step-button`}
@@ -592,7 +592,7 @@ export default defineComponent({
 
     const renderAppendButton = () => {
       return (
-        <SDButton
+        <SdButton
           size={mergedSize.value}
           v-slots={{ icon: () => <IconPlus /> }}
           class={`${prefixCls}-step-button`}
@@ -624,7 +624,7 @@ export default defineComponent({
             };
 
       return (
-        <SDInput
+        <SdInput
           key={`__arco__${props.mode}`}
           v-slots={_slots}
           ref={inputRef}

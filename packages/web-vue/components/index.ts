@@ -81,9 +81,9 @@ export type { ColorPickerInstance } from './color-picker';
 export { default as ConfigProvider } from './config-provider';
 export type {
   ConfigProviderInstance,
-  SDThemeConfig,
-  SDThemeMeta,
-  SDThemeMode,
+  SdThemeConfig,
+  SdThemeMeta,
+  SdThemeMode,
   ThemeTokenMap,
   ThemeTokenValue,
 } from './config-provider';

@@ -123,7 +123,7 @@
   import { getPrefixCls } from '../_utils/global-config';
   import { isBoolean, isFunction, isNumber, isPromise } from '../_utils/is';
   import { KEYBOARD_KEY } from '../_utils/keyboard';
-  import SDButton, { ButtonProps } from '../button';
+  import SdButton, { ButtonProps } from '../button';
   import Ellipsis from '../ellipsis';
   import IconCheckCircleFill from '../icon/icon-check-circle-fill';
   import IconClose from '../icon/icon-close';

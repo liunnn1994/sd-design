@@ -1194,7 +1194,7 @@ Nodes (27): buildPresetTheme(), buildPrimaryTokens(), buildStatusTokens(), build
 
 ### Community 52 - "Small Cluster 52"
 Cohesion: 0.11
-Nodes (21): ConfigProviderInstance, DEFAULT_THEME_META, RESERVED_THEME_KEYS, resolveThemeToken(), SDThemeConfig, SDThemeMeta, SDThemeMode, ThemeTokenMap (+13 more)
+Nodes (21): ConfigProviderInstance, DEFAULT_THEME_META, RESERVED_THEME_KEYS, resolveThemeToken(), SdThemeConfig, SdThemeMeta, SdThemeMode, ThemeTokenMap (+13 more)
 
 ### Community 53 - "Small Cluster 53"
 Cohesion: 0.07
@@ -1800,7 +1800,7 @@ Nodes (7): InputNumberValue, cls, handleChange(), inputValue, prefixCls, props, 
 
 ### Community 203 - "Small Cluster 203"
 Cohesion: 0.28
-Nodes (6): calendarLang, lang, I18N_MESSAGES, LOCALE, SDI18nMessages, ValidateMessage
+Nodes (6): calendarLang, lang, I18N_MESSAGES, LOCALE, SdI18nMessages, ValidateMessage
 
 ### Community 204 - "Small Cluster 204"
 Cohesion: 0.36
@@ -1944,7 +1944,7 @@ Nodes (3): IconFontOptions, scriptUrlCache, isServerRendering
 
 ### Community 239 - "Small Cluster 239"
 Cohesion: 0.29
-Nodes (5): calendarLang, lang, calendarLang, lang, SDLang
+Nodes (5): calendarLang, lang, calendarLang, lang, SdLang
 
 ### Community 240 - "Small Cluster 240"
 Cohesion: 0.29
@@ -2076,7 +2076,7 @@ Nodes (3): transferData, treeData, value
 
 ### Community 281 - "Small Cluster 281"
 Cohesion: 0.33
-Nodes (5): SDThemeConfig, SDThemeMeta, SDThemeMode, ThemeTokenMap, ThemeTokenValue
+Nodes (5): SdThemeConfig, SdThemeMeta, SdThemeMode, ThemeTokenMap, ThemeTokenValue
 
 ### Community 282 - "Small Cluster 282"
 Cohesion: 0.40
@@ -3424,7 +3424,7 @@ Nodes (3): default, type, pagefind
 
 ### Community 695 - "Small Cluster 695"
 Cohesion: 0.67
-Nodes (3): CSS Variables Convention, SDThemeConfig, ThemeProvider
+Nodes (3): CSS Variables Convention, SdThemeConfig, ThemeProvider
 
 ### Community 716 - "Small Cluster 716"
 Cohesion: 0.67

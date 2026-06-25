@@ -2,18 +2,18 @@ export type ThemeTokenValue = string | number;
 
 export type ThemeTokenMap = Record<string, ThemeTokenValue>;
 
-export interface SDThemeMeta {
+export interface SdThemeMeta {
   name?: string;
   schemaVersion?: number;
   cssVarPrefix?: string;
 }
 
-export type SDThemeMode = 'light' | 'dark';
+export type SdThemeMode = 'light' | 'dark';
 
-export interface SDThemeConfig {
+export interface SdThemeConfig {
   tokens?: ThemeTokenMap;
   components?: Record<string, ThemeTokenMap>;
-  meta?: SDThemeMeta;
+  meta?: SdThemeMeta;
   token?: ThemeTokenMap;
   component?: Record<string, ThemeTokenMap>;
   [key: string]: unknown;
@@ -22,7 +22,7 @@ export interface SDThemeConfig {
 export interface SDThemeNormalized {
   tokens: ThemeTokenMap;
   components: Record<string, ThemeTokenMap>;
-  meta: Required<Pick<SDThemeMeta, 'schemaVersion' | 'cssVarPrefix'>> & Pick<SDThemeMeta, 'name'>;
+  meta: Required<Pick<SdThemeMeta, 'schemaVersion' | 'cssVarPrefix'>> & Pick<SdThemeMeta, 'name'>;
 }
 
 const DEFAULT_THEME_META: SDThemeNormalized['meta'] = {
@@ -104,7 +104,7 @@ function normalizeComponentTokenMap(components?: unknown): Record<string, ThemeT
   return normalized;
 }
 
-function collectLegacyRootTokens(theme: SDThemeConfig): ThemeTokenMap {
+function collectLegacyRootTokens(theme: SdThemeConfig): ThemeTokenMap {
   const rootTokenSource = Object.fromEntries(
     Object.entries(theme).filter(([key, value]) => {
       if (RESERVED_THEME_KEYS.has(key)) {
@@ -118,7 +118,7 @@ function collectLegacyRootTokens(theme: SDThemeConfig): ThemeTokenMap {
   return normalizeTokenMap(rootTokenSource);
 }
 
-export function normalizeTheme(theme?: SDThemeConfig): SDThemeNormalized {
+export function normalizeTheme(theme?: SdThemeConfig): SDThemeNormalized {
   if (!theme || typeof theme !== 'object') {
     return {
       tokens: {},

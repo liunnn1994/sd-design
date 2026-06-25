@@ -16714,7 +16714,7 @@
     },
     {
       "id": "types_sdata_web_vue_ts7_d_sdthememeta",
-      "label": "SDThemeMeta",
+      "label": "SdThemeMeta",
       "file_type": "code",
       "source_file": "packages/sd-vue-docs/src/types/sdata-web-vue-ts7.d.ts",
       "source_location": "L7",
@@ -16722,7 +16722,7 @@
     },
     {
       "id": "types_sdata_web_vue_ts7_d_sdthememode",
-      "label": "SDThemeMode",
+      "label": "SdThemeMode",
       "file_type": "code",
       "source_file": "packages/sd-vue-docs/src/types/sdata-web-vue-ts7.d.ts",
       "source_location": "L13",
@@ -16730,7 +16730,7 @@
     },
     {
       "id": "types_sdata_web_vue_ts7_d_sdthemeconfig",
-      "label": "SDThemeConfig",
+      "label": "SdThemeConfig",
       "file_type": "code",
       "source_file": "packages/sd-vue-docs/src/types/sdata-web-vue-ts7.d.ts",
       "source_location": "L15",
@@ -25834,7 +25834,7 @@
     },
     {
       "id": "config_provider_theme_sdthememeta",
-      "label": "SDThemeMeta",
+      "label": "SdThemeMeta",
       "file_type": "code",
       "source_file": "packages/web-vue/components/config-provider/theme.ts",
       "source_location": "L5",
@@ -25842,7 +25842,7 @@
     },
     {
       "id": "config_provider_theme_sdthememode",
-      "label": "SDThemeMode",
+      "label": "SdThemeMode",
       "file_type": "code",
       "source_file": "packages/web-vue/components/config-provider/theme.ts",
       "source_location": "L11",
@@ -25850,7 +25850,7 @@
     },
     {
       "id": "config_provider_theme_sdthemeconfig",
-      "label": "SDThemeConfig",
+      "label": "SdThemeConfig",
       "file_type": "code",
       "source_file": "packages/web-vue/components/config-provider/theme.ts",
       "source_location": "L13",
@@ -50306,7 +50306,7 @@
     },
     {
       "id": "locale_interface_sdlang",
-      "label": "SDLang",
+      "label": "SdLang",
       "file_type": "code",
       "source_file": "packages/web-vue/components/locale/interface.ts",
       "source_location": "L119",
@@ -50314,7 +50314,7 @@
     },
     {
       "id": "locale_interface_sdi18nmessages",
-      "label": "SDI18nMessages",
+      "label": "SdI18nMessages",
       "file_type": "code",
       "source_file": "packages/web-vue/components/locale/interface.ts",
       "source_location": "L214",

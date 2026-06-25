@@ -10,7 +10,7 @@
 
   import { VirtualListProps } from '../_components/virtual-list/interface';
   import { Size } from '../_utils/constant';
-  import { SDLang } from '../locale/interface';
+  import { SdLang } from '../locale/interface';
   import {
     ConfigProviderDatePicker,
     ConfigProviderDrawer,
@@ -18,7 +18,7 @@
     ConfigProviderModal,
     configProviderInjectionKey,
   } from './context';
-  import { SDThemeConfig, SDThemeMode, normalizeTheme } from './theme';
+  import { SdThemeConfig, SdThemeMode, normalizeTheme } from './theme';
   import ThemeProvider from './theme-provider.vue';
 
   defineOptions({ name: 'ConfigProvider' });
@@ -37,7 +37,7 @@
      * @en Configure language pack
      */
     locale: {
-      type: Object as PropType<SDLang>,
+      type: Object as PropType<SdLang>,
     },
     /**
      * @zh 大小
@@ -155,14 +155,14 @@
      * @en Runtime theme configuration object
      */
     theme: {
-      type: Object as PropType<SDThemeConfig>,
+      type: Object as PropType<SdThemeConfig>,
     },
     /**
      * @zh 主题模式，可局部覆盖到当前 ConfigProvider 子树
      * @en Theme mode applied to the current ConfigProvider subtree
      */
     themeMode: {
-      type: String as PropType<SDThemeMode>,
+      type: String as PropType<SdThemeMode>,
     },
   });
 

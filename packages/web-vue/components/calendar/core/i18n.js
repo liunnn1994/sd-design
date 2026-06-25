@@ -4,7 +4,7 @@
  * After `initializeDateLocale()` has been called (from config.js), the active
  * dayjs locale contains month names, weekday names, AM/PM labels, etc.
  * This module extracts that data into the shape the calendar runtime expects,
- * merging it with UI text from the library's SDLang `calendar` section.
+ * merging it with UI text from the library's SdLang `calendar` section.
  */
 
 import { dayjs } from '../../_utils/date';
@@ -17,12 +17,12 @@ const reorderSunToMon = (arr) => [arr[1], arr[2], arr[3], arr[4], arr[5], arr[6]
 
 /**
  * Builds the calendar `texts` object from the currently active dayjs locale
- * and the library's SDLang calendar section.
+ * and the library's SdLang calendar section.
  *
  * Must be called **after** `initializeDateLocale()` so that the dayjs locale
  * data is loaded and set.
  *
- * @param {object} [calendarLang] — The `calendar` section from SDLang (from `useI18n().i18nMessage.value.calendar`).
+ * @param {object} [calendarLang] — The `calendar` section from SdLang (from `useI18n().i18nMessage.value.calendar`).
  * @returns {object} Calendar texts ready to merge into `calendar.texts`.
  */
 export const createCalendarTexts = (calendarLang) => {

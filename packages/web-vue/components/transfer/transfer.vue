@@ -78,7 +78,7 @@
 
   import { useFormItem } from '../_hooks/use-form-item';
   import { getPrefixCls } from '../_utils/global-config';
-  import SDButton from '../button';
+  import SdButton from '../button';
   import IconLeft from '../icon/icon-left';
   import IconRight from '../icon/icon-right';
   import { transferInjectionKey } from './context';

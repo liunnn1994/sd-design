@@ -8,7 +8,7 @@ import { Size } from '../_utils/constant';
 import { ButtonProps } from '../button';
 import { ShortcutType, WeekStart } from '../date-picker/interface';
 import { EllipsisTooltipProps } from '../ellipsis';
-import { SDLang } from '../locale/interface';
+import { SdLang } from '../locale/interface';
 import { SDThemeNormalized } from './theme';
 
 export interface ConfigProviderModal {
@@ -62,7 +62,7 @@ export interface ConfigProviderDatePicker {
 export interface ConfigProvider {
   slots: Slots;
   prefixCls?: string;
-  locale?: SDLang;
+  locale?: SdLang;
   size?: Size;
   allowClear?: boolean;
   allowSearch?: boolean;

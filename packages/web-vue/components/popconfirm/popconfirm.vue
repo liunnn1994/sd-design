@@ -57,7 +57,7 @@
   import { getPrefixCls } from '../_utils/global-config';
   import { isBoolean, isFunction, isPromise } from '../_utils/is';
   import { ClassName } from '../_utils/types';
-  import SDButton, { ButtonProps } from '../button';
+  import SdButton, { ButtonProps } from '../button';
   import IconCheckCircleFill from '../icon/icon-check-circle-fill';
   import IconCloseCircleFill from '../icon/icon-close-circle-fill';
   import IconExclamationCircleFill from '../icon/icon-exclamation-circle-fill';

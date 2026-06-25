@@ -173,4 +173,28 @@ describe('Modal', () => {
     expect(wrapper.text()).not.toContain('全局确认');
     expect(wrapper.findComponent(Ellipsis).props('tooltip')).toBe(true);
   });
+
+  test('should render footer buttons when called without appContext', async () => {
+    // Regression: invoking via the static `Modal.confirm(config)` import (no
+    // appContext) used to render unresolved `<sd-button>` custom elements in the
+    // footer, because the template relied on runtime global resolution which
+    // fails when appContext is not propagated.
+    Modal.confirm({
+      title: 'title',
+      content: 'content',
+      okButtonProps: { status: 'danger' },
+    });
+
+    await nextTick();
+
+    const buttons = document.body.querySelectorAll('.sd-btn');
+    expect(buttons).toHaveLength(2);
+    // No unresolved `<sd-button>` custom element should leak into the DOM
+    expect(document.body.querySelector('sd-button')).toBeNull();
+    // okButtonProps are applied to the OK button (the second footer button)
+    expect(buttons[1].classList.contains('sd-btn-status-danger')).toBe(true);
+
+    Modal.destroyAll();
+    await nextTick();
+  });
 });

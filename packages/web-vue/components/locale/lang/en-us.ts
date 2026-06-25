@@ -2,7 +2,7 @@ import { DefaultValidateMessage } from 'b-validate';
 
 import type { ValidateMessage } from '../interface';
 
-import { SDCalendarLang, SDLang } from '../interface';
+import { SDCalendarLang, SdLang } from '../interface';
 
 const calendarLang: SDCalendarLang = {
   formatYear: 'YYYY',
@@ -74,7 +74,7 @@ const calendarLang: SDCalendarLang = {
   },
 };
 
-const lang: SDLang = {
+const lang: SdLang = {
   locale: 'en-US',
   empty: {
     description: 'No Data',

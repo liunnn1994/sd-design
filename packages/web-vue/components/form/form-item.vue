@@ -1,6 +1,6 @@
 <template>
   <slot v-if="noStyle" />
-  <SDRow
+  <SdRow
     v-else
     :class="[
       cls,
@@ -12,7 +12,7 @@
     :div="layout !== 'horizontal' || hideLabel"
     v-bind="rowProps"
   >
-    <SDCol v-if="!hideLabel" :class="labelColCls" :style="mergedLabelStyle" v-bind="mergedLabelCol">
+    <SdCol v-if="!hideLabel" :class="labelColCls" :style="mergedLabelStyle" v-bind="mergedLabelCol">
       <FormItemLabel
         :required="hideAsterisk ? false : isRequired"
         :show-colon="showColon"
@@ -23,8 +23,8 @@
       >
         <slot v-if="$slots.label || label" name="label">{{ label }}</slot>
       </FormItemLabel>
-    </SDCol>
-    <SDCol :class="wrapperColCls" :style="mergedWrapperStyle" v-bind="mergedWrapperCol">
+    </SdCol>
+    <SdCol :class="wrapperColCls" :style="mergedWrapperStyle" v-bind="mergedWrapperCol">
       <div :class="`${prefixCls}-content-wrapper`">
         <div
           :class="[
@@ -46,8 +46,8 @@
       <div v-if="$slots.extra || extra" :class="`${prefixCls}-extra`">
         <slot name="extra">{{ extra }}</slot>
       </div>
-    </SDCol>
-  </SDRow>
+    </SdCol>
+  </SdRow>
 </template>
 
 <script setup lang="ts">
@@ -69,7 +69,7 @@
 
   import { getValueByPath, setValueByPath } from '../_utils/get-value-by-path';
   import { getPrefixCls } from '../_utils/global-config';
-  import { Row as SDRow, Col as SDCol } from '../grid';
+  import { Row as SdRow, Col as SdCol } from '../grid';
   import { useI18n } from '../locale';
   import { FormContext, formInjectionKey, FormItemInfo, formItemInjectionKey } from './context';
   import FormItemLabel from './form-item-label.vue';

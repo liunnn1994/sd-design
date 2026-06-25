@@ -13,7 +13,7 @@ import {
   applyThemeCSSVariables,
   normalizeTheme,
   resolveThemeToken,
-  type SDThemeConfig,
+  type SdThemeConfig,
 } from '../theme';
 
 describe('config-provider theme', () => {
@@ -71,7 +71,7 @@ describe('config-provider theme', () => {
   });
 
   it('updates css variables when theme changes', async () => {
-    const themeRef = ref<SDThemeConfig>({
+    const themeRef = ref<SdThemeConfig>({
       tokens: {
         primary6: '0,100,200',
       },

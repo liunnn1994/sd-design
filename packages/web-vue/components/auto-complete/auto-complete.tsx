@@ -17,7 +17,7 @@ import { useFormItem } from '../_hooks/use-form-item';
 import { getPrefixCls } from '../_utils/global-config';
 import { isFunction, isNull, isUndefined } from '../_utils/is';
 import { resolveDropdownVirtualListProps } from '../_utils/virtual-dropdown';
-import SDInput from '../input';
+import SdInput from '../input';
 import { useSelect } from '../select/hooks/use-select';
 import {
   SelectOptionInfo,
@@ -387,7 +387,7 @@ export default defineComponent({
         {...props.triggerProps}
         onPopupVisibleChange={handlePopupVisibleChange}
       >
-        <SDInput
+        <SdInput
           v-slots={slots}
           ref={inputRef}
           {...attrs}

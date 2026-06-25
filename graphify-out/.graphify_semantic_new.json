@@ -3466,7 +3466,7 @@
     },
     {
       "id": "guides_theme_sdtheme_config",
-      "label": "SDThemeConfig",
+      "label": "SdThemeConfig",
       "type": "concept",
       "file": "packages/sd-vue-docs/src/content/docs/guides/theme.mdx",
       "description": "Runtime theme configuration interface with tokens (global color/radius variables), components (per-component overrides), and meta (schemaVersion, cssVarPrefix, name). Uses ConfigProvider theme prop as entry point.",
@@ -6440,7 +6440,7 @@
         "guides_theme_sdtheme_config"
       ],
       "relation": "theme_runtime_flow",
-      "description": "SDThemeConfig tokens are injected as CSS variables through ThemeProvider or ConfigProvider, enabling runtime theme customization without style recompilation.",
+      "description": "SdThemeConfig tokens are injected as CSS variables through ThemeProvider or ConfigProvider, enabling runtime theme customization without style recompilation.",
       "confidence_score": 0.9
     },
     {
@@ -6460,7 +6460,7 @@
         "guides_theme_sdtheme_config"
       ],
       "relation": "library_setup_to_theming",
-      "description": "Library setup (full or on-demand import) connects to theming through ConfigProvider, which accepts SDThemeConfig for runtime CSS variable overrides across all components.",
+      "description": "Library setup (full or on-demand import) connects to theming through ConfigProvider, which accepts SdThemeConfig for runtime CSS variable overrides across all components.",
       "confidence_score": 0.8
     },
     {

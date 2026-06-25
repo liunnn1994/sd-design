@@ -114,7 +114,7 @@
     },
     {
       "title": "Theme System: Tokens, CSS Variables & ThemeProvider",
-      "purpose": "SDThemeConfig structure (tokens, components, meta), normalizeTheme pipeline, CSS variable injection via ThemeProvider, local vs. global theme scoping, dark/light mode (sd-theme attribute), and the theme editor in the docs site.",
+      "purpose": "SdThemeConfig structure (tokens, components, meta), normalizeTheme pipeline, CSS variable injection via ThemeProvider, local vs. global theme scoping, dark/light mode (sd-theme attribute), and the theme editor in the docs site.",
       "parent": "Theming & Style Architecture",
       "page_notes": [
         {

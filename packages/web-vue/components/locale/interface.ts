@@ -116,7 +116,7 @@ export interface ValidateMessage {
   };
 }
 
-export interface SDLang {
+export interface SdLang {
   locale: string;
   empty: {
     description: string;
@@ -211,4 +211,4 @@ export interface SDLang {
   };
 }
 
-export type SDI18nMessages = Record<string, SDLang>;
+export type SdI18nMessages = Record<string, SdLang>;

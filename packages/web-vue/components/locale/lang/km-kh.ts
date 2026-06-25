@@ -1,4 +1,4 @@
-import { SDCalendarLang, SDLang } from '../interface';
+import { SDCalendarLang, SdLang } from '../interface';
 
 const calendarLang: SDCalendarLang = {
   formatYear: 'YYYY ឆ្នាំ',
@@ -70,7 +70,7 @@ const calendarLang: SDCalendarLang = {
   },
 };
 
-const lang: SDLang = {
+const lang: SdLang = {
   locale: 'km-KH',
   empty: {
     description: 'គ្មាន​ទិន្នន័យ',

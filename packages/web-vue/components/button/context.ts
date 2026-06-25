@@ -11,4 +11,4 @@ export interface ButtonGroupContext {
   shape: 'square' | 'round' | 'circle' | undefined;
 }
 
-export const buttonGroupInjectionKey: InjectionKey<ButtonGroupContext> = Symbol('SDButtonGroup');
+export const buttonGroupInjectionKey: InjectionKey<ButtonGroupContext> = Symbol('SdButtonGroup');

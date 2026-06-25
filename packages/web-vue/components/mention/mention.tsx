@@ -16,12 +16,12 @@ import { useAllowClear } from '../_hooks/use-allow-clear';
 import { useFormItem } from '../_hooks/use-form-item';
 import { getPrefixCls } from '../_utils/global-config';
 import { isFunction, isNull, isUndefined } from '../_utils/is';
-import SDInput from '../input';
+import SdInput from '../input';
 import { useSelect } from '../select/hooks/use-select';
 import { SelectOptionData, SelectOptionGroup, SelectOptionInfo } from '../select/interface';
 import SelectDropdown from '../select/select-dropdown.vue';
 import { getKeyFromValue } from '../select/utils';
-import SDTextarea from '../textarea';
+import SdTextarea from '../textarea';
 import { getSizeStyles } from '../textarea/utils';
 import Trigger from '../trigger';
 import { MeasureInfo } from './interface';
@@ -377,7 +377,7 @@ export default defineComponent({
         return (
           <div class={prefixCls}>
             <ResizeObserver onResize={handleResize}>
-              <SDTextarea
+              <SdTextarea
                 {...attrs}
                 ref={inputRef}
                 allowClear={mergedAllowClear.value}
@@ -426,7 +426,7 @@ export default defineComponent({
           disabled={mergedDisabled.value}
           onPopupVisibleChange={handlePopupVisibleChange}
         >
-          <SDInput
+          <SdInput
             v-slots={slots}
             {...attrs}
             ref={inputRef}

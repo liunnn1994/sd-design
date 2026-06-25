@@ -1,16 +1,14 @@
 ## [2.10.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.10.1...web-vue-v2.10.2) (2026-06-25)
 
-
 ### Bug Fixes
 
-* 🐛 修复header错误的颜色 ([cac77ae](https://github.com/liunnn1994/sd-design/commit/cac77ae162ce0fe0ed428f22050bc65d39487ac5))
+- 🐛 修复header错误的颜色 ([cac77ae](https://github.com/liunnn1994/sd-design/commit/cac77ae162ce0fe0ed428f22050bc65d39487ac5))
 
 ## [2.10.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.10.0...web-vue-v2.10.1) (2026-06-25)
 
-
 ### Bug Fixes
 
-* 🐛 CI 发布时跳过本地 pre-push 钩子 ([37a6e99](https://github.com/liunnn1994/sd-design/commit/37a6e9920300b791b2ade7b19052eb48e5ca0ddd))
+- 🐛 CI 发布时跳过本地 pre-push 钩子 ([37a6e99](https://github.com/liunnn1994/sd-design/commit/37a6e9920300b791b2ade7b19052eb48e5ca0ddd))
 
 # [2.10.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.9.0...web-vue-v2.10.0) (2026-06-25)
 

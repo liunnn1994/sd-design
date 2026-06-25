@@ -259,7 +259,7 @@
           "guides_theme_sdtheme_config"
         ],
         "relation": "theme_runtime_flow",
-        "description": "SDThemeConfig tokens are injected as CSS variables through ThemeProvider or ConfigProvider, enabling runtime theme customization without style recompilation.",
+        "description": "SdThemeConfig tokens are injected as CSS variables through ThemeProvider or ConfigProvider, enabling runtime theme customization without style recompilation.",
         "confidence_score": 0.9
       },
       {
@@ -279,7 +279,7 @@
           "guides_theme_sdtheme_config"
         ],
         "relation": "library_setup_to_theming",
-        "description": "Library setup (full or on-demand import) connects to theming through ConfigProvider, which accepts SDThemeConfig for runtime CSS variable overrides across all components.",
+        "description": "Library setup (full or on-demand import) connects to theming through ConfigProvider, which accepts SdThemeConfig for runtime CSS variable overrides across all components.",
         "confidence_score": 0.8
       },
       {
@@ -20734,7 +20734,7 @@
       "norm_label": "themetokenmap"
     },
     {
-      "label": "SDThemeMeta",
+      "label": "SdThemeMeta",
       "file_type": "code",
       "source_file": "packages/sd-vue-docs/src/types/sdata-web-vue-ts7.d.ts",
       "source_location": "L7",
@@ -20744,7 +20744,7 @@
       "norm_label": "sdthememeta"
     },
     {
-      "label": "SDThemeMode",
+      "label": "SdThemeMode",
       "file_type": "code",
       "source_file": "packages/sd-vue-docs/src/types/sdata-web-vue-ts7.d.ts",
       "source_location": "L13",
@@ -20754,7 +20754,7 @@
       "norm_label": "sdthememode"
     },
     {
-      "label": "SDThemeConfig",
+      "label": "SdThemeConfig",
       "file_type": "code",
       "source_file": "packages/sd-vue-docs/src/types/sdata-web-vue-ts7.d.ts",
       "source_location": "L15",
@@ -32134,7 +32134,7 @@
       "norm_label": "themetokenmap"
     },
     {
-      "label": "SDThemeMeta",
+      "label": "SdThemeMeta",
       "file_type": "code",
       "source_file": "packages/web-vue/components/config-provider/theme.ts",
       "source_location": "L5",
@@ -32144,7 +32144,7 @@
       "norm_label": "sdthememeta"
     },
     {
-      "label": "SDThemeMode",
+      "label": "SdThemeMode",
       "file_type": "code",
       "source_file": "packages/web-vue/components/config-provider/theme.ts",
       "source_location": "L11",
@@ -32154,7 +32154,7 @@
       "norm_label": "sdthememode"
     },
     {
-      "label": "SDThemeConfig",
+      "label": "SdThemeConfig",
       "file_type": "code",
       "source_file": "packages/web-vue/components/config-provider/theme.ts",
       "source_location": "L13",
@@ -62724,7 +62724,7 @@
       "norm_label": "validatemessage"
     },
     {
-      "label": "SDLang",
+      "label": "SdLang",
       "file_type": "code",
       "source_file": "packages/web-vue/components/locale/interface.ts",
       "source_location": "L119",
@@ -62734,7 +62734,7 @@
       "norm_label": "sdlang"
     },
     {
-      "label": "SDI18nMessages",
+      "label": "SdI18nMessages",
       "file_type": "code",
       "source_file": "packages/web-vue/components/locale/interface.ts",
       "source_location": "L214",
@@ -98897,7 +98897,7 @@
       "norm_label": "sddesignresolver"
     },
     {
-      "label": "SDThemeConfig",
+      "label": "SdThemeConfig",
       "type": "concept",
       "file": "packages/sd-vue-docs/src/content/docs/guides/theme.mdx",
       "description": "Runtime theme configuration interface with tokens (global color/radius variables), components (per-component overrides), and meta (schemaVersion, cssVarPrefix, name). Uses ConfigProvider theme prop as entry point.",
@@ -263552,7 +263552,7 @@
         "guides_theme_sdtheme_config"
       ],
       "relation": "theme_runtime_flow",
-      "description": "SDThemeConfig tokens are injected as CSS variables through ThemeProvider or ConfigProvider, enabling runtime theme customization without style recompilation.",
+      "description": "SdThemeConfig tokens are injected as CSS variables through ThemeProvider or ConfigProvider, enabling runtime theme customization without style recompilation.",
       "confidence_score": 0.9
     },
     {
@@ -263572,7 +263572,7 @@
         "guides_theme_sdtheme_config"
       ],
       "relation": "library_setup_to_theming",
-      "description": "Library setup (full or on-demand import) connects to theming through ConfigProvider, which accepts SDThemeConfig for runtime CSS variable overrides across all components.",
+      "description": "Library setup (full or on-demand import) connects to theming through ConfigProvider, which accepts SdThemeConfig for runtime CSS variable overrides across all components.",
       "confidence_score": 0.8
     },
     {

@@ -4,7 +4,7 @@ import { Size } from '../_utils/constant';
 import { getPrefixCls } from '../_utils/global-config';
 import { isExist, isFunction, isString, isUndefined } from '../_utils/is';
 import { Backspace, ArrowLeft, ArrowRight } from '../_utils/keycode';
-import SDInput from '../input';
+import SdInput from '../input';
 
 export default defineComponent({
   name: 'VerificationCode',
@@ -224,7 +224,7 @@ export default defineComponent({
         <div class={prefixCls}>
           {innerValue.value.map((c, i) => (
             <>
-              <SDInput
+              <SdInput
                 key={i}
                 ref={(el: any) => (inputRefList.value[i] = el)}
                 type={type.value}

@@ -434,7 +434,7 @@ export const useConfig = (calendar, props, attrs) => {
 
   /**
    * Initializes dayjs locale and loads calendar texts from both
-   * dayjs locale data (month/weekday names) and the library's SDLang
+   * dayjs locale data (month/weekday names) and the library's SdLang
    * calendar section (UI labels).
    */
   const loadTexts = async (locale) => {
