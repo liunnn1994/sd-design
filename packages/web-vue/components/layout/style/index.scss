@@ -3,6 +3,7 @@
 @use '@components/layout/style/token.scss' as *;
 
 $layout-prefix-cls: string.unquote('#{theme.$prefix}-layout');
+$btn-text-prefix-cls: string.unquote('#{theme.$prefix}-btn-text');
 $sider-prefix-cls: string.unquote('#{theme.$prefix}-layout-sider');
 $text-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-text-1'));
 
@@ -48,6 +49,10 @@ $text-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-text-1'));
   color: $layout-header-color;
   line-height: $layout-header-height;
   background: $layout-header-bg;
+
+  .#{$btn-text-prefix-cls} {
+    color: $layout-header-color;
+  }
 }
 
 // ==================== Footer ====================
