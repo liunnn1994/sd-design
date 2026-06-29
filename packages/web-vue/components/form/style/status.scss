@@ -8,8 +8,29 @@
 $form-prefix-cls: string.unquote('#{theme.$prefix}-form');
 
 // for input & textarea
+@function _str-replace-all($string, $search, $replace) {
+  $index: string.index($string, $search);
+
+  @if not $index {
+    @return $string;
+  }
+
+  $before: string.slice($string, 1, $index - 1);
+  $after: string.slice($string, $index + string.length($search));
+
+  @return $before + $replace + _str-replace-all($after, $search, $replace);
+}
+
 @function token-var($name, $fallback: null) {
-  $value: map.get(meta.module-variables('token'), $name);
+  $vars: meta.module-variables('token');
+  $value: map.get($vars, $name);
+
+  @if $value == null {
+    // meta.module-variables() exposes token names normalized to hyphens, while
+    // the source looks them up with underscores (e.g. 'color-text_disabled').
+    // map.get() compares keys as exact strings, so normalize before retrying.
+    $value: map.get($vars, _str-replace-all($name, '_', '-'));
+  }
 
   @if $value == null {
     @return $fallback;

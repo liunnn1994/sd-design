@@ -15,11 +15,34 @@ $token-var-aliases: (
   'size-large': $btn-size-large-height,
 );
 
+@function _str-replace-all($string, $search, $replace) {
+  $index: string.index($string, $search);
+
+  @if not $index {
+    @return $string;
+  }
+
+  $before: string.slice($string, 1, $index - 1);
+  $after: string.slice($string, $index + string.length($search));
+
+  @return $before + $replace + _str-replace-all($after, $search, $replace);
+}
+
 @function token-var($name, $fallback: null) {
   $value: map.get($token-var-aliases, $name);
 
   @if $value == null {
-    $value: map.get(meta.module-variables(token), $name);
+    // Sass treats - and _ as equivalent in identifiers, so the suffixed tokens
+    // (e.g. $btn-primary-color-text_disabled) resolve fine as variables. But
+    // meta.module-variables() exposes their names normalized to hyphens, and
+    // map.get() compares keys as exact strings — so an underscored lookup key
+    // misses and the declaration is silently dropped. Normalize the key to match.
+    $vars: meta.module-variables(token);
+    $value: map.get($vars, $name);
+
+    @if $value == null {
+      $value: map.get($vars, _str-replace-all($name, '_', '-'));
+    }
   }
 
   @if $value == null {
