@@ -10,7 +10,6 @@ const workspaceRoot = path.resolve(docsNextRoot, '..', '..');
 const webVueRoot = path.resolve(workspaceRoot, 'packages', 'web-vue');
 const webVueComponentsRoot = path.resolve(webVueRoot, 'components');
 const webVueStyleRoot = path.resolve(webVueComponentsRoot, 'style');
-const webVueVeturTagsPath = path.resolve(webVueRoot, 'json', 'vetur-tags.json');
 const publicVendorRoot = path.resolve(docsNextRoot, 'public', 'vendor', 'sd-web-vue');
 const tempStyleBuildRoot = path.resolve(docsNextRoot, '.temp-vendor-style');
 const webVuePackageName = '@sdata/web-vue';
@@ -59,14 +58,6 @@ async function syncVendorAssets() {
   await writeTypeReferenceManifest(typeReferenceManifest);
 
   await bundleVendorStyles(styleEntryPath);
-}
-
-function toPascalCase(value) {
-  return value
-    .split('-')
-    .filter(Boolean)
-    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
-    .join('');
 }
 
 function parseExportBindingClause(clause, modulePath, bindingMap) {
@@ -135,12 +126,10 @@ function parseExportBindingClause(clause, modulePath, bindingMap) {
 async function collectBrowserComponentManifest(webVueEsRoot) {
   const entryPath = path.resolve(webVueEsRoot, 'index.js');
   const entrySource = await fs.readFile(entryPath, 'utf8');
-  const veturTags = JSON.parse(await fs.readFile(webVueVeturTagsPath, 'utf8'));
   const bindingMap = collectBrowserEntryBindings(entrySource);
   const exports = collectBrowserExportEntries(entrySource, bindingMap);
-  const tags = collectBrowserTagEntries(veturTags, exports);
 
-  return { exports, tags };
+  return { exports };
 }
 
 function collectBrowserEntryBindings(entrySource) {
@@ -206,34 +195,6 @@ function collectBrowserExportEntries(entrySource, bindingMap) {
   }
 
   return exports;
-}
-
-function getRawTagName(tagName) {
-  if (tagName.startsWith('sd-')) {
-    return tagName.slice(3);
-  }
-
-  if (tagName.startsWith('sd')) {
-    return tagName.slice(2);
-  }
-
-  return tagName;
-}
-
-function collectBrowserTagEntries(veturTags, exports) {
-  const tags = {};
-
-  for (const tagName of Object.keys(veturTags)) {
-    const exportName = toPascalCase(getRawTagName(tagName));
-
-    if (!exports[exportName]?.pluginSpecifier) {
-      continue;
-    }
-
-    tags[tagName] = exportName;
-  }
-
-  return tags;
 }
 
 async function bundleVendorStyles(styleEntryPath) {

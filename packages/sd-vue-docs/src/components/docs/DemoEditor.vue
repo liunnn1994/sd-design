@@ -22,7 +22,6 @@
 
   interface BrowserComponentManifest {
     exports: Record<string, BrowserComponentExportEntry>;
-    tags: Record<string, string>;
   }
 
   interface BrowserTypeReferenceManifestEntry {
@@ -114,6 +113,27 @@
     return false;
   }
 
+  // Resolve a tag used in the demo (e.g. `sd-modal`) to its export name
+  // (`Modal`) using the web-vue naming convention. Each export's manifest entry
+  // carries the `pluginSpecifier` that globally registers it, so deriving the
+  // export directly from the tag — instead of from `vetur-tags.json` — keeps the
+  // REPL independent of that metadata file: a missing/stale vetur entry can no
+  // longer break a demo, and any newly added component auto-registers as long
+  // as it is exported from the entry under the conventional name.
+  function getExportNameForTag(tagName: string) {
+    const rawName = tagName.startsWith('sd-')
+      ? tagName.slice(3)
+      : tagName.startsWith('sd')
+        ? tagName.slice(2)
+        : tagName;
+
+    return rawName
+      .split('-')
+      .filter(Boolean)
+      .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+      .join('');
+  }
+
   function buildPreviewLibrarySetup(
     source: string,
     manifest: BrowserComponentManifest | null,
@@ -121,9 +141,7 @@
   ) {
     const pluginSpecifiers = manifest
       ? extractUsedTagNames(source)
-          .map((tagName) => manifest.tags[tagName])
-          .filter((exportName): exportName is string => Boolean(exportName))
-          .map((exportName) => manifest.exports[exportName]?.pluginSpecifier)
+          .map((tagName) => manifest.exports[getExportNameForTag(tagName)]?.pluginSpecifier)
           .filter((specifier): specifier is string => Boolean(specifier))
       : [];
     const uniquePluginSpecifiers = Array.from(new Set(pluginSpecifiers));

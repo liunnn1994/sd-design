@@ -26,7 +26,7 @@ const resolveExistingPath = async (basePath) => {
 
 const getComponentsFromIndexes = async () => {
   const indexes = (
-    await fg('components/*/index.ts', { ignore: ['components/locale/index.ts'] })
+    await fg('components/*/index.{ts,tsx}', { ignore: ['components/locale/index.ts'] })
   ).sort((left, right) => left.localeCompare(right));
   const components = [];
   const seen = new Set();
