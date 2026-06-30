@@ -1,3 +1,10 @@
+## [2.11.3](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.11.2...web-vue-v2.11.3) (2026-06-29)
+
+
+### Bug Fixes
+
+* 🐛 修复在线编辑器的自动导入无法识别部分组件的问题 ([2807ecb](https://github.com/liunnn1994/sd-design/commit/2807ecbcbab6a42e434cdb18a75bc85ccb4e6693))
+
 ## [2.11.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.11.1...web-vue-v2.11.2) (2026-06-29)
 
 
