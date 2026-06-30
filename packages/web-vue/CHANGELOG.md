@@ -1,3 +1,15 @@
+# [3.0.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.11.3...web-vue-v3.0.0) (2026-06-30)
+
+
+### Features
+
+* 🆕 修改 spin 的样式 ([44f0b53](https://github.com/liunnn1994/sd-design/commit/44f0b538f2ca79cae64bf73dbe4236caf66a6839))
+
+
+### BREAKING CHANGES
+
+* 🧨 spin 由 inline-block 改为 block
+
 ## [2.11.3](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.11.2...web-vue-v2.11.3) (2026-06-29)
 
 
