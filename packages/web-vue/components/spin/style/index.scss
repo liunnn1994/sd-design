@@ -7,8 +7,6 @@
 $spin-prefix-cls: string.unquote('#{theme.$prefix}-spin');
 
 .#{$spin-prefix-cls} {
-  display: inline-block;
-
   &-with-tip {
     text-align: center;
   }
