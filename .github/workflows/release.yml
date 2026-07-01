@@ -14,6 +14,12 @@ on:
       - packages/sd-vue-docs/**
       - packages/web-vue/**
   workflow_dispatch:
+    inputs:
+      trigger-netlify:
+        description: '发布后触发 Netlify 文档构建（会产生 Netlify 费用）'
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   id-token: write
@@ -73,7 +79,7 @@ jobs:
         run: pnpm exec semantic-release
 
       - name: Trigger Netlify docs build hook
-        if: success()
+        if: success() && github.event_name == 'workflow_dispatch' && inputs.trigger-netlify == true
         env:
           NETLIFY_BUILD_HOOK_URL: ${{ secrets.NETLIFY_BUILD_HOOK_URL }}
         run: |
