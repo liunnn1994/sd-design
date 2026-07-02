@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.0.0...web-vue-v3.0.1) (2026-07-02)
+
+
+### Bug Fixes
+
+* 🐛 修复 json form 错误的 margin ([f3ba0d1](https://github.com/liunnn1994/sd-design/commit/f3ba0d1b6a714191b70cfa79930df5830682633b))
+
 # [3.0.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.11.3...web-vue-v3.0.0) (2026-06-30)
 
 
