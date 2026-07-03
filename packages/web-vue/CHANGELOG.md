@@ -1,3 +1,11 @@
+# [3.2.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.1.0...web-vue-v3.2.0) (2026-07-03)
+
+
+### Features
+
+* 🆕 tree 支持 ellipsis ([bc40aa4](https://github.com/liunnn1994/sd-design/commit/bc40aa4dd9b82fff07e391595f69ef8ebd87acfc))
+* 🆕 新增文件预览 ([3c93c2a](https://github.com/liunnn1994/sd-design/commit/3c93c2a82a6cd76f80fb04556be5f9923dc754eb))
+
 # [3.1.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.0.2...web-vue-v3.1.0) (2026-07-03)
 
 
