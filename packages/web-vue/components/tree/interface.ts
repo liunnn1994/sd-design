@@ -4,6 +4,7 @@ import { VirtualListProps } from '../_components/virtual-list/interface';
 import { Size } from '../_utils/constant';
 
 export type TreeNodeKey = number | string;
+export type TreeEllipsis = boolean | 'performant-ellipsis';
 export type TreeNodeDomEventName =
   | 'click'
   | 'dblclick'
@@ -234,6 +235,7 @@ export interface TreeProps {
   autoExpandParent?: boolean;
   onlyCheckLeaf: boolean;
   animation: boolean;
+  ellipsis: TreeEllipsis;
   actionOnNodeClick?: 'expand';
   disableSelectActionOnly: boolean;
   dragIcon?: Slot;

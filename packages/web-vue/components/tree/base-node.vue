@@ -104,10 +104,21 @@
           v-bind="nodeStatus"
         />
       </span>
-      <span :class="`${prefixCls}-title-text`">
-        <component v-if="treeTitle" :is="treeTitle" />
-        <!-- 标题，treeTitle 优先级高于节点的 title -->
-        <slot v-else name="title" :title="title">{{ title }}</slot>
+      <span :class="titleTextClassNames">
+        <component
+          :is="ellipsisComponent"
+          v-if="shouldRenderEllipsis"
+          :class="`${prefixCls}-title-ellipsis`"
+        >
+          <component v-if="treeTitle" :is="treeTitle" />
+          <!-- 标题，treeTitle 优先级高于节点的 title -->
+          <slot v-else name="title" :title="title">{{ title }}</slot>
+        </component>
+        <template v-else>
+          <component v-if="treeTitle" :is="treeTitle" />
+          <!-- 标题，treeTitle 优先级高于节点的 title -->
+          <slot v-else name="title" :title="title">{{ title }}</slot>
+        </template>
 
         <span v-if="draggable" :class="[`${prefixCls}-icon`, `${prefixCls}-drag-icon`]">
           <!-- 拖拽图标 -->
@@ -137,6 +148,7 @@
   import { isFunction } from '../_utils/is';
   import { toArray } from '../_utils/to-array';
   import Checkbox from '../checkbox';
+  import Ellipsis, { PerformantEllipsis } from '../ellipsis';
   import IconDragDotVertical from '../icon/icon-drag-dot-vertical';
   import useDraggable from './hooks/use-draggable';
   import useNodeKey from './hooks/use-node-key';
@@ -270,6 +282,7 @@
         !isDragging.value && isDragOver.value && isAllowDrop.value && dropPosition.value === 0,
       [`${prefixCls}-title-dragging`]: isDragging.value,
       [`${prefixCls}-title-block`]: node.value.blockNode,
+      [`${prefixCls}-title-with-ellipsis`]: shouldRenderEllipsis.value,
     },
   ]);
 
@@ -286,6 +299,23 @@
   const treeDragIcon = computed(() => treeContext.dragIcon);
 
   const treeNodeIcon = computed(() => treeContext.nodeIcon);
+
+  const shouldRenderEllipsis = computed(
+    () =>
+      treeContext.treeProps?.ellipsis === true ||
+      treeContext.treeProps?.ellipsis === 'performant-ellipsis',
+  );
+
+  const ellipsisComponent = computed(() =>
+    treeContext.treeProps?.ellipsis === 'performant-ellipsis' ? PerformantEllipsis : Ellipsis,
+  );
+
+  const titleTextClassNames = computed(() => [
+    `${prefixCls}-title-text`,
+    {
+      [`${prefixCls}-title-text-ellipsis`]: shouldRenderEllipsis.value,
+    },
+  ]);
 
   function onSwitcherClick(e: Event) {
     if (isLeaf.value) return;

@@ -1,5 +1,9 @@
 # CLAUDE.md
 
+> **The sole source of this information is [`AGENTS.md`](./AGENTS.md).** This file imports its entire contents via `@AGENTS.md`; to modify the development guide, please edit `AGENTS.md` directly.
+
+@AGENTS.md
+
 Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.

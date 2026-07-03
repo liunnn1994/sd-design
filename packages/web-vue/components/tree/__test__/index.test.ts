@@ -108,4 +108,53 @@ describe('Tree', () => {
       { direction: 'left' },
     ]);
   });
+
+  test('should keep plain title rendering when ellipsis is disabled', async () => {
+    const Tree = await loadTree();
+    const wrapper = mount(Tree, {
+      props: {
+        data: treeData,
+      },
+    });
+
+    expect(wrapper.findComponent({ name: 'Ellipsis' }).exists()).toBe(false);
+    expect(wrapper.findComponent({ name: 'PerformantEllipsis' }).exists()).toBe(false);
+    expect(wrapper.find('.sd-tree-node-title').text()).toContain('Node 1');
+  });
+
+  test('should render node title with Ellipsis when ellipsis is true', async () => {
+    const Tree = await loadTree();
+    const wrapper = mount(Tree, {
+      props: {
+        data: treeData,
+        ellipsis: true,
+      },
+    });
+
+    const ellipsis = wrapper.findComponent({ name: 'Ellipsis' });
+
+    expect(ellipsis.exists()).toBe(true);
+    expect(wrapper.find('.sd-tree-node-title-with-ellipsis').exists()).toBe(true);
+    expect(wrapper.find('.sd-tree-node-title-text-ellipsis').exists()).toBe(true);
+    expect(wrapper.find('.sd-tree-node-title-ellipsis').exists()).toBe(true);
+    expect(ellipsis.text()).toContain('Node 1');
+  });
+
+  test('should render node title with PerformantEllipsis when ellipsis is performant-ellipsis', async () => {
+    const Tree = await loadTree();
+    const wrapper = mount(Tree, {
+      props: {
+        data: treeData,
+        ellipsis: 'performant-ellipsis',
+      },
+    });
+
+    const ellipsis = wrapper.findComponent({ name: 'PerformantEllipsis' });
+
+    expect(ellipsis.exists()).toBe(true);
+    expect(wrapper.find('.sd-tree-node-title-with-ellipsis').exists()).toBe(true);
+    expect(wrapper.find('.sd-tree-node-title-text-ellipsis').exists()).toBe(true);
+    expect(wrapper.find('.sd-tree-node-title-ellipsis').exists()).toBe(true);
+    expect(ellipsis.text()).toContain('Node 1');
+  });
 });

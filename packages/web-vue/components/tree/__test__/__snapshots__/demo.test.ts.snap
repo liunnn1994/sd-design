@@ -328,6 +328,49 @@ exports[`<tree> demo: > render [draggable] correctly 1`] = `
 </div>
 `;
 
+exports[`<tree> demo: > render [ellipsis] correctly 1`] = `
+<div data-v-c5eb80a6="" class="tree-ellipsis-demo">
+  <div data-v-c5eb80a6="" class="sd-tree sd-tree-size-medium">
+    <div class="sd-tree-node sd-tree-node-is-tail sd-tree-node-expanded" data-level="0" data-key="0-0">
+      <!-- 缩进 --><span class="sd-tree-node-indent"></span><!-- switcher --><span class="sd-tree-node-switcher sd-tree-node-switcher-expanded"><span class="sd-icon-hover sd-tree-node-icon-hover"><span class="sd-tree-node-switcher-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-caret-down" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path fill="currentColor" stroke="none" d="M24.938 34.829a1.2 1.2 0 0 1-1.875 0L9.56 17.949c-.628-.785-.069-1.949.937-1.949h27.007c1.006 0 1.565 1.164.937 1.95z"></path></svg></span></span></span><!-- checkbox -->
+      <!--v-if-->
+      <!-- 内容 --><span class="sd-tree-node-title sd-tree-node-title-block sd-tree-node-title-with-ellipsis" draggable="false"><!--v-if--><span class="sd-tree-node-title-text sd-tree-node-title-text-ellipsis"><span class="sd-tree-node-title-ellipsis sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content"><!-- 标题，treeTitle 优先级高于节点的 title -->这是一段很长的树节点标题，用来展示节点标题开启 Ellipsis 后在有限宽度内的省略效果</span></span>
+      <!---->
+      <!--v-if--></span></span><!-- 额外 -->
+      <!--v-if-->
+    </div>
+    <transition-stub appear="false" persisted="false" css="true"></transition-stub>
+    <div class="sd-tree-node sd-tree-node-is-leaf sd-tree-node-is-tail" data-level="1" data-key="0-0-0">
+      <!-- 缩进 --><span class="sd-tree-node-indent"><span class="sd-tree-node-indent-block sd-tree-node-indent-block-lineless"></span></span><!-- switcher --><span class="sd-tree-node-switcher"><!----></span><!-- checkbox -->
+      <!--v-if-->
+      <!-- 内容 --><span class="sd-tree-node-title sd-tree-node-title-block sd-tree-node-title-with-ellipsis" draggable="false"><!--v-if--><span class="sd-tree-node-title-text sd-tree-node-title-text-ellipsis"><span class="sd-tree-node-title-ellipsis sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content"><!-- 标题，treeTitle 优先级高于节点的 title -->这是一段很长的树节点标题，用来展示节点标题开启 Ellipsis 后在有限宽度内的省略效果 - 子节点</span></span>
+      <!---->
+      <!--v-if--></span></span><!-- 额外 -->
+      <!--v-if-->
+    </div>
+    <transition-stub appear="false" persisted="false" css="true"></transition-stub>
+  </div>
+  <div data-v-c5eb80a6="" class="sd-tree sd-tree-size-medium">
+    <div class="sd-tree-node sd-tree-node-is-tail sd-tree-node-expanded" data-level="0" data-key="0-0">
+      <!-- 缩进 --><span class="sd-tree-node-indent"></span><!-- switcher --><span class="sd-tree-node-switcher sd-tree-node-switcher-expanded"><span class="sd-icon-hover sd-tree-node-icon-hover"><span class="sd-tree-node-switcher-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-caret-down" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path fill="currentColor" stroke="none" d="M24.938 34.829a1.2 1.2 0 0 1-1.875 0L9.56 17.949c-.628-.785-.069-1.949.937-1.949h27.007c1.006 0 1.565 1.164.937 1.95z"></path></svg></span></span></span><!-- checkbox -->
+      <!--v-if-->
+      <!-- 内容 --><span class="sd-tree-node-title sd-tree-node-title-block sd-tree-node-title-with-ellipsis" draggable="false"><!--v-if--><span class="sd-tree-node-title-text sd-tree-node-title-text-ellipsis"><span class="sd-tree-node-title-ellipsis sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content"><!-- 标题，treeTitle 优先级高于节点的 title -->这是一段很长的树节点标题，用来展示节点标题开启 Ellipsis 后在有限宽度内的省略效果</span></span>
+      <!--v-if--></span></span><!-- 额外 -->
+      <!--v-if-->
+    </div>
+    <transition-stub appear="false" persisted="false" css="true"></transition-stub>
+    <div class="sd-tree-node sd-tree-node-is-leaf sd-tree-node-is-tail" data-level="1" data-key="0-0-0">
+      <!-- 缩进 --><span class="sd-tree-node-indent"><span class="sd-tree-node-indent-block sd-tree-node-indent-block-lineless"></span></span><!-- switcher --><span class="sd-tree-node-switcher"><!----></span><!-- checkbox -->
+      <!--v-if-->
+      <!-- 内容 --><span class="sd-tree-node-title sd-tree-node-title-block sd-tree-node-title-with-ellipsis" draggable="false"><!--v-if--><span class="sd-tree-node-title-text sd-tree-node-title-text-ellipsis"><span class="sd-tree-node-title-ellipsis sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content"><!-- 标题，treeTitle 优先级高于节点的 title -->这是一段很长的树节点标题，用来展示节点标题开启 Ellipsis 后在有限宽度内的省略效果 - 子节点</span></span>
+      <!--v-if--></span></span><!-- 额外 -->
+      <!--v-if-->
+    </div>
+    <transition-stub appear="false" persisted="false" css="true"></transition-stub>
+  </div>
+</div>
+`;
+
 exports[`<tree> demo: > render [field-names] correctly 1`] = `
 <div class="sd-tree sd-tree-size-medium">
   <div class="sd-tree-node sd-tree-node-expanded" data-level="0" data-key="0-0">

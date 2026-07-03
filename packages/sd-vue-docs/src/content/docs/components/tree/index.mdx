@@ -18,6 +18,8 @@ import TreeDraggableDemo from '../../../../components/generated/tree/draggable.v
 import treeDraggableSource from '../../../../components/generated/tree/draggable.vue?raw';
 import TreeFieldNamesDemo from '../../../../components/generated/tree/field-names.vue';
 import treeFieldNamesSource from '../../../../components/generated/tree/field-names.vue?raw';
+import TreeEllipsisDemo from '../../../../components/generated/tree/ellipsis.vue';
+import treeEllipsisSource from '../../../../components/generated/tree/ellipsis.vue?raw';
 import TreeIconsDemo from '../../../../components/generated/tree/icons.vue';
 import treeIconsSource from '../../../../components/generated/tree/icons.vue?raw';
 import TreeLoadMoreDemo from '../../../../components/generated/tree/load-more.vue';
@@ -106,6 +108,16 @@ import treeVirtualSource from '../../../../components/generated/tree/virtual.vue
 <DemoBlock source={treeFieldNamesSource} mainFile="src/tree-field-names.vue">
 
 <TreeFieldNamesDemo client:only="vue" />
+
+</DemoBlock>
+
+### 节点标题省略
+
+开启 `ellipsis` 后，节点标题会使用 `Ellipsis` 渲染；传入 `performant-ellipsis` 时会切换为高性能省略实现，适合大量节点或虚拟列表场景。
+
+<DemoBlock source={treeEllipsisSource} mainFile="src/tree-ellipsis.vue">
+
+<TreeEllipsisDemo client:only="vue" />
 
 </DemoBlock>
 
@@ -244,6 +256,7 @@ Tree 会透出节点标题区域的基础 DOM 事件，并补充 VueUse 的长�
 | half-checked-keys **(v-model)** | 半选状态的节点.仅在 checkable 且 checkStrictly 时生效 | `Array<string \| number>` | `-` | 2.19.0 |
 | only-check-leaf | 开启后 checkedKeys 只处理叶子节点，父节点状态由子节点决定（仅在 checkable 且 checkStrictly 为 false 时生效） | `boolean` | `false` | 2.21.0 |
 | animation | 是否开启展开时的过渡动效 | `boolean` | `true` | 2.21.0 |
+| ellipsis | 是否使用 Ellipsis 组件渲染节点标题。传入 `performant-ellipsis` 时使用高性能省略实现 | `boolean \| 'performant-ellipsis'` | `false` |  |
 | action-on-node-click | 点击节点的时候触发的动作 | `'expand'` | `-` | 2.27.0 |
 
 ### `<tree>` Events

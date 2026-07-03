@@ -189,6 +189,27 @@ $tree-node-prefix-cls: string.unquote('#{theme.$prefix}-tree-node');
     }
   }
 
+  &-node-title-with-ellipsis {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  &-node-title-text-ellipsis {
+    display: block;
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  &-node-title-ellipsis {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+  }
+
   &-node-indent {
     position: relative;
     flex-shrink: 0;

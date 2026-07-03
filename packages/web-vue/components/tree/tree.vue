@@ -36,6 +36,7 @@
     TreeNodeDomEventName,
     TreeNodeSwipeEventData,
     TreeNodeSwipeEventName,
+    TreeEllipsis,
   } from './interface';
 
   import VirtualList from '../_components/virtual-list';
@@ -293,6 +294,14 @@
     animation: {
       type: Boolean,
       default: true,
+    },
+    /**
+     * @zh 是否使用 Ellipsis 组件渲染节点标题。传入 `performant-ellipsis` 时使用高性能省略实现。
+     * @en Whether to render node titles with the Ellipsis component. Use `performant-ellipsis` for the performant implementation.
+     */
+    ellipsis: {
+      type: [Boolean, String] as PropType<TreeEllipsis>,
+      default: false,
     },
     /**
      * @zh 点击节点的时候触发的动作
