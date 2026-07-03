@@ -8,7 +8,9 @@ describe('InputNumber', () => {
 
     const stepButton = wrapper.find('button');
     await stepButton.trigger('mousedown');
+    await stepButton.trigger('mouseup');
     await stepButton.trigger('mousedown');
+    await stepButton.trigger('mouseup');
 
     expect(wrapper.find('input').element.value).toBe('1');
   });
@@ -43,6 +45,7 @@ describe('InputNumber', () => {
 
     const stepButton = wrapper.find('button');
     await stepButton.trigger('mousedown');
+    await stepButton.trigger('mouseup');
 
     const updateEvents = wrapper.emitted('update:modelValue');
     expect(updateEvents?.[0]).toEqual(['3']);

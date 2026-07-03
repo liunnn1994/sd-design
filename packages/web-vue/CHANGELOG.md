@@ -1,9 +1,8 @@
 ## [3.0.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.0.1...web-vue-v3.0.2) (2026-07-03)
 
-
 ### Bug Fixes
 
-* 🐛 修复 trigger 层级的问题 ([c703be3](https://github.com/liunnn1994/sd-design/commit/c703be3d4fc97be334b1144714043e973f13ddf9))
+- 🐛 修复 trigger 层级的问题 ([c703be3](https://github.com/liunnn1994/sd-design/commit/c703be3d4fc97be334b1144714043e973f13ddf9))
 
 ## [3.0.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.0.0...web-vue-v3.0.1) (2026-07-02)
 

@@ -19,11 +19,11 @@ vi.mock('@vueuse/core', async () => {
 
   return {
     ...actual,
-    onLongPress: vi.fn((_target, handler: (event: PointerEvent) => void) => {
+    onLongPress: (_target: unknown, handler: (event: PointerEvent) => void) => {
       vueUseState.longPressHandlers.push(handler);
-      return vi.fn();
-    }),
-    useSwipe: vi.fn((_target, options = {}) => {
+      return () => {};
+    },
+    useSwipe: (_target: unknown, options: (typeof vueUseState.swipeOptions)[number] = {}) => {
       vueUseState.swipeOptions.push(options);
 
       return {
@@ -35,7 +35,7 @@ vi.mock('@vueuse/core', async () => {
         lengthY: vue.computed(() => 0),
         stop: vi.fn(),
       };
-    }),
+    },
   };
 });
 
@@ -50,6 +50,7 @@ describe('Tree', () => {
   ];
 
   beforeEach(() => {
+    vi.resetModules();
     vueUseState.longPressHandlers.length = 0;
     vueUseState.swipeOptions.length = 0;
   });
@@ -82,7 +83,8 @@ describe('Tree', () => {
     });
 
     const event = new Event('pointerdown') as PointerEvent;
-    vueUseState.longPressHandlers[0]?.(event);
+    expect(vueUseState.longPressHandlers).toHaveLength(1);
+    vueUseState.longPressHandlers[0](event);
 
     expect(wrapper.emitted('nodeLongPress')?.[0]).toEqual([treeData[0], event]);
   });
@@ -96,7 +98,9 @@ describe('Tree', () => {
     });
 
     const event = new Event('touchend') as TouchEvent;
-    vueUseState.swipeOptions[0]?.onSwipeEnd?.(event, 'left');
+    expect(vueUseState.swipeOptions).toHaveLength(1);
+    expect(vueUseState.swipeOptions[0].onSwipeEnd).toBeDefined();
+    vueUseState.swipeOptions[0].onSwipeEnd?.(event, 'left');
 
     expect(wrapper.emitted('nodeSwipeEnd')?.[0]).toEqual([
       treeData[0],
