@@ -427,6 +427,21 @@ export default defineComponent({
 
     const { zIndex } = usePopupManager('popup', { visible: computedVisible });
 
+    const syncThemePopupContainerZIndex = () => {
+      if (
+        computedVisible.value &&
+        zIndex.value > 0 &&
+        themePopupContainer?.value &&
+        mergedPopupContainer.value === themePopupContainer.value
+      ) {
+        themePopupContainer.value.style.zIndex = String(zIndex.value);
+      }
+    };
+
+    watch([computedVisible, zIndex, mergedPopupContainer], syncThemePopupContainerZIndex, {
+      immediate: true,
+    });
+
     let delayTimer = 0;
     let outsideListener = false;
     let windowListener = false;

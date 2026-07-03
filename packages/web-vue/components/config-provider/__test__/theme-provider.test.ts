@@ -1,8 +1,9 @@
 import { mount } from '@vue/test-utils';
-import { defineComponent, h, nextTick } from 'vue';
+import { defineComponent, h, nextTick, shallowRef } from 'vue';
 
 import { afterEach, describe, expect, it } from 'vitest';
 
+import Modal from '../../modal';
 import Trigger from '../../trigger';
 import ThemeProvider from '../theme-provider.vue';
 
@@ -10,6 +11,11 @@ describe('theme-provider standalone', () => {
   afterEach(() => {
     document.body.removeAttribute('style');
     document.body.removeAttribute('sd-theme');
+    document.body
+      .querySelectorAll('.sd-theme-popup-container, .sd-modal-container')
+      .forEach((el) => {
+        el.parentNode?.removeChild(el);
+      });
   });
 
   it('works as a standalone local provider', async () => {
@@ -96,5 +102,74 @@ describe('theme-provider standalone', () => {
     wrapper.unmount();
 
     expect(document.body.querySelector('.sd-theme-popup-container')).toBeNull();
+  });
+
+  it('keeps theme popup container above modal when popup opens later', async () => {
+    const wrapper = mount(
+      defineComponent({
+        setup() {
+          const visible = shallowRef(false);
+
+          return {
+            visible,
+          };
+        },
+        render() {
+          return h(
+            Modal,
+            {
+              visible: this.visible,
+            },
+            {
+              default: () =>
+                h(
+                  ThemeProvider,
+                  {
+                    themeMode: 'dark',
+                  },
+                  {
+                    default: () =>
+                      h(
+                        Trigger,
+                        {
+                          trigger: 'click',
+                          popupVisible: this.visible,
+                        },
+                        {
+                          default: () => h('button', 'open'),
+                          content: () => h('div', { id: 'theme-popup-in-modal' }, 'popup-content'),
+                        },
+                      ),
+                  },
+                ),
+            },
+          );
+        },
+      }),
+    );
+
+    await nextTick();
+    const initialPopupContainer = document.body.querySelector<HTMLElement>(
+      '.sd-theme-popup-container',
+    );
+    const initialPopupContainerZIndex = Number(initialPopupContainer?.style.zIndex);
+    expect(initialPopupContainerZIndex).toBeGreaterThan(0);
+
+    wrapper.vm.visible = true;
+    await nextTick();
+    await nextTick();
+
+    const modalContainer = document.body.querySelector<HTMLElement>('.sd-modal-container');
+    const popupContent = document.body.querySelector('#theme-popup-in-modal');
+    const popupContainer = popupContent?.closest('.sd-theme-popup-container') as HTMLElement | null;
+
+    expect(modalContainer).not.toBeNull();
+    expect(popupContainer).not.toBeNull();
+    expect(Number(popupContainer?.style.zIndex)).toBeGreaterThan(initialPopupContainerZIndex);
+    expect(Number(popupContainer?.style.zIndex)).toBeGreaterThan(
+      Number(modalContainer?.style.zIndex),
+    );
+
+    wrapper.unmount();
   });
 });

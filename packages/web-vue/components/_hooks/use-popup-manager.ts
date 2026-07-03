@@ -16,17 +16,16 @@ class PopupManager {
   };
 
   private getNextZIndex = (type: PopupType) => {
+    const popupZIndex = Array.from(this.popupStack.popup).pop() || POPUP_STACK_BASE_Z_INDEX;
     const current =
-      type === 'message'
-        ? Array.from(this.popupStack.message).pop() || MESSAGE_STACK_BASE_Z_INDEX
-        : Array.from(this.popupStack.popup).pop() || POPUP_STACK_BASE_Z_INDEX;
+      type === 'message' ? Math.max(popupZIndex, MESSAGE_STACK_BASE_Z_INDEX) : popupZIndex;
     return current + Z_INDEX_STEP;
   };
 
   public add = (type: PopupType) => {
     const zIndex = this.getNextZIndex(type);
     this.popupStack[type].add(zIndex);
-    if (type === 'dialog') {
+    if (type !== 'popup') {
       this.popupStack.popup.add(zIndex);
     }
     return zIndex;
@@ -34,7 +33,7 @@ class PopupManager {
 
   public delete = (zIndex: number, type: PopupType) => {
     this.popupStack[type].delete(zIndex);
-    if (type === 'dialog') {
+    if (type !== 'popup') {
       this.popupStack.popup.delete(zIndex);
     }
   };
