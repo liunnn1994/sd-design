@@ -68,10 +68,17 @@ describe('Tree', () => {
     await title.trigger('click');
     await title.trigger('mouseover');
 
-    expect(wrapper.emitted('nodeClick')?.[0]?.[0]).toEqual(treeData[0]);
-    expect((wrapper.emitted('nodeClick')?.[0]?.[1] as Event).type).toBe('click');
-    expect(wrapper.emitted('nodeMouseover')?.[0]?.[0]).toEqual(treeData[0]);
-    expect((wrapper.emitted('nodeMouseover')?.[0]?.[1] as Event).type).toBe('mouseover');
+    const nodeClick = wrapper.emitted('nodeClick')?.[0] as [TreeNodeData, Event] | undefined;
+    const nodeMouseover = wrapper.emitted('nodeMouseover')?.[0] as
+      | [TreeNodeData, Event]
+      | undefined;
+
+    expect(nodeClick).toBeDefined();
+    expect(nodeClick?.[0]).toEqual(treeData[0]);
+    expect(nodeClick?.[1].type).toBe('click');
+    expect(nodeMouseover).toBeDefined();
+    expect(nodeMouseover?.[0]).toEqual(treeData[0]);
+    expect(nodeMouseover?.[1].type).toBe('mouseover');
   });
 
   test('should emit node long press with node data and pointer event', async () => {

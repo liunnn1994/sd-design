@@ -1,0 +1,31 @@
+@use '@style/theme/index.scss' as *;
+@use 'sass:string';
+
+$file-previewer-color-mask-bg: var(string.unquote('#{$sd-cssvars-prefix}-color-mask-bg'));
+$file-previewer-color-content-bg: var(string.unquote('#{$sd-cssvars-prefix}-color-bg-2'));
+$file-previewer-color-content-text: var(string.unquote('#{$sd-cssvars-prefix}-color-text-1'));
+$file-previewer-color-inline-border: var(string.unquote('#{$sd-cssvars-prefix}-color-border-2'));
+$file-previewer-color-inline-bg: var(string.unquote('#{$sd-cssvars-prefix}-color-fill-1'));
+$file-previewer-color-close-bg: rgb(0 0 0 / 50%);
+$file-previewer-color-close-text: var(string.unquote('#{$sd-cssvars-prefix}-color-white'));
+$file-previewer-color-loading-bg: #232324;
+$file-previewer-color-loading-text: $color-primary-6;
+$file-previewer-color-error-text: var(string.unquote('#{$sd-cssvars-prefix}-color-white'));
+$file-previewer-color-inline-error-text: var(
+  string.unquote('#{$sd-cssvars-prefix}-color-danger-6')
+);
+$file-previewer-spacing-viewport-padding: $spacing-12;
+$file-previewer-spacing-panel-padding: $spacing-8;
+$file-previewer-spacing-header-padding-vertical: $spacing-6;
+$file-previewer-spacing-header-padding-horizontal: $spacing-8;
+$file-previewer-radius-panel: $radius-medium;
+$file-previewer-size-close: 32px;
+$file-previewer-size-close-icon: 14px;
+$file-previewer-size-loading: 48px;
+$file-previewer-size-inline-min-height: 240px;
+$file-previewer-position-close-top: 36px;
+$file-previewer-position-close-right: 36px;
+$file-previewer-font-size-title: $font-size-title-1;
+$file-previewer-size-audio-width: 560px;
+$file-previewer-size-media-width: 1180px;
+$file-previewer-size-media-height: 78vh;

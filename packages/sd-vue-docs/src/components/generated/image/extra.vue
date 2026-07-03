@@ -1,6 +1,6 @@
 <template>
   <sd-image
-    src="https://picsum.photos/id/10/1000/1000"
+    src="https://picsum.photos/id/10/1000/1000?t=image-demo-10"
     title="A user’s avatar"
     description="Present by SD Design"
     width="260"
@@ -31,7 +31,7 @@
     </template>
   </sd-image>
   <sd-image
-    src="https://picsum.photos/id/10/1000/1000"
+    src="https://picsum.photos/id/10/1000/1000?t=image-demo-11"
     title="A user’s avatar"
     description="Present by SD Design"
     width="260"

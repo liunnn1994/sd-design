@@ -188,6 +188,10 @@ export const docsSidebar = [
             label: '空状态 Empty',
           },
           {
+            slug: 'components/file-previewer',
+            label: '文件预览 FilePreviewer',
+          },
+          {
             slug: 'components/image',
             label: '图片 Image',
           },

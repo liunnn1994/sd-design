@@ -37,6 +37,7 @@ import Drawer from './drawer';
 import Dropdown, { Doption, Dgroup, Dsubmenu, DropdownButton } from './dropdown';
 import Ellipsis, { PerformantEllipsis } from './ellipsis';
 import Empty from './empty';
+import FilePreviewer from './file-previewer';
 import Form, { FormItem } from './form';
 import Grid, { Row, Col, GridItem } from './grid';
 import Icon from './icon-component';
@@ -115,6 +116,7 @@ const components: Record<string, Plugin> = {
   Copy,
   Cropper,
   Empty,
+  FilePreviewer,
   Image,
   Scrollbar,
   List,

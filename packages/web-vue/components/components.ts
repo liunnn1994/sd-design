@@ -56,6 +56,7 @@ declare module 'vue' {
     SdEllipsis: SDVue['Ellipsis'];
     SdPerformantEllipsis: SDVue['PerformantEllipsis'];
     SdEmpty: SDVue['Empty'];
+    SdFilePreviewer: SDVue['FilePreviewer'];
     SdForm: SDVue['Form'];
     SdFormItem: SDVue['FormItem'];
     SdJsonForm: SDVue['JsonForm'];

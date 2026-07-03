@@ -231,6 +231,14 @@ export type {
 } from './grid';
 export { default as Icon } from './icon-component';
 export type { IconInstance, IconProps } from './icon-component';
+export { default as FilePreviewer } from './file-previewer';
+export type {
+  FilePreviewerContentSlotProps,
+  FilePreviewerInstance,
+  FilePreviewerProps,
+  FilePreviewerStatus,
+  FilePreviewerType,
+} from './file-previewer';
 export { default as Image, ImagePreviewAction, ImagePreview, ImagePreviewGroup } from './image';
 export type {
   ImageInstance,

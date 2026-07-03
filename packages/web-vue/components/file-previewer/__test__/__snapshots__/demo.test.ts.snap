@@ -1,0 +1,90 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`<file-previewer> demo: > render [basic] correctly 1`] = `
+<button class="sd-btn sd-btn-primary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+  <!--v-if-->预览图片
+</button>
+<!--teleport start-->
+<!--teleport end-->
+`;
+
+exports[`<file-previewer> demo: > render [controlled] correctly 1`] = `
+<button class="sd-btn sd-btn-primary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+  <!--v-if-->打开受控预览
+</button>
+<!--teleport start-->
+<!--teleport end-->
+<span class="sd:ml-2">关闭次数：0</span>
+`;
+
+exports[`<file-previewer> demo: > render [custom-content] correctly 1`] = `
+<button data-v-034610de="" class="sd-btn sd-btn-primary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+  <!--v-if-->自定义预览内容
+</button>
+<!--teleport start-->
+<!--teleport end-->
+`;
+
+exports[`<file-previewer> demo: > render [custom-title] correctly 1`] = `
+<button class="sd-btn sd-btn-primary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+  <!--v-if-->自定义标题
+</button>
+<!--teleport start-->
+<!--teleport end-->
+`;
+
+exports[`<file-previewer> demo: > render [inline] correctly 1`] = `
+<div data-v-a495ee27="" class="sd-space sd-space-horizontal sd-space-align-center inline-preview-demo__actions" style="column-gap: 8px; row-gap: 8px;">
+  <!---->
+  <div class="sd-space-item"><button data-v-a495ee27="" class="sd-btn sd-btn-primary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+      <!--v-if-->图片
+    </button></div>
+  <!---->
+  <div class="sd-space-item"><button data-v-a495ee27="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+      <!--v-if-->视频
+    </button></div>
+  <!---->
+  <div class="sd-space-item"><button data-v-a495ee27="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+      <!--v-if-->音频
+    </button></div>
+  <!---->
+  <div class="sd-space-item"><button data-v-a495ee27="" class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+      <!--v-if-->PDF
+    </button></div>
+</div>
+<div data-v-a495ee27="" class="inline-preview-demo">
+  <!--teleport start-->
+  <div class="sd-file-previewer sd-file-previewer-image sd-file-previewer-inline">
+    <!--v-if-->
+    <section class="sd-file-previewer-content sd-file-previewer-content-image sd-file-previewer-content-inline" role="region" aria-label="内嵌图片预览">
+      <header class="sd-file-previewer-header"><span class="sd-file-previewer-title">内嵌图片预览</span></header>
+      <div class="sd-file-previewer-body"><img class="sd-file-previewer-image" src="https://picsum.photos/id/11/1000/640?t=file-previewer-inline-image" alt="内嵌图片预览"></div>
+    </section>
+    <!--v-if-->
+    <div class="sd-file-previewer-loading"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-loading" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+        <path d="M42 24c0 9.941-8.059 18-18 18S6 33.941 6 24 14.059 6 24 6"></path>
+      </svg></div>
+    <!--v-if-->
+  </div>
+  <!--teleport end-->
+</div>
+`;
+
+exports[`<file-previewer> demo: > render [media] correctly 1`] = `
+<div class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 8px; row-gap: 8px;">
+  <!---->
+  <div class="sd-space-item"><button class="sd-btn sd-btn-primary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+      <!--v-if-->预览视频
+    </button></div>
+  <!---->
+  <div class="sd-space-item"><button class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+      <!--v-if-->预览音频
+    </button></div>
+  <!---->
+  <div class="sd-space-item"><button class="sd-btn sd-btn-secondary sd-btn-shape-square sd-btn-size-medium sd-btn-status-normal" type="button">
+      <!--v-if-->预览 PDF
+    </button></div>
+</div>
+<!--teleport start-->
+<!--teleport end-->
+`;

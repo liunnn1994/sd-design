@@ -15,10 +15,15 @@
   <sd-image
     width="200"
     height="200"
-    :src="`https://picsum.photos/id/10/1000/1000?timestamp=${timestamp}`"
+    :src="`https://picsum.photos/id/10/1000/1000?t=image-demo-timestamp-17-${timestamp}`"
   >
     <template #loader>
-      <img alt="" width="200" src="https://picsum.photos/id/10/1000/1000" class="sd:blur-[5px]" />
+      <img
+        alt=""
+        width="200"
+        src="https://picsum.photos/id/10/1000/1000?t=image-demo-17"
+        class="sd:blur-[5px]"
+      />
     </template>
   </sd-image>
 </template>

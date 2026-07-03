@@ -14,13 +14,13 @@
   <sd-image
     width="200"
     height="200"
-    :src="`https://picsum.photos/id/10/1000/1000?timestamp=${timestamp}`"
+    :src="`https://picsum.photos/id/10/1000/1000?t=image-loader-default-${timestamp}`"
     show-loader
   />
   <sd-image
     width="200"
     height="200"
-    :src="`https://picsum.photos/id/10/1000/1000?timestamp=${timestamp}`"
+    :src="`https://picsum.photos/id/10/1000/1000?t=image-loader-custom-${timestamp}`"
     class="sd:ml-4"
   >
     <template #loader>

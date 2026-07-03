@@ -1,7 +1,7 @@
 <template>
   <sd-image
     width="200"
-    src="https://picsum.photos/id/10/1000/1000"
+    src="https://picsum.photos/id/10/1000/1000?t=image-demo-9"
     :preview-props="{
       actionsLayout: ['rotateRight', 'zoomIn', 'zoomOut'],
     }"
