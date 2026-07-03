@@ -493,6 +493,7 @@ export type {
   TreeInstance,
   TreeNodeData,
   TreeNodeKey,
+  TreeNodeSwipeEventData,
   TreeProps,
   TreeSelectHandler,
 } from './tree';
