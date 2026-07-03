@@ -9,6 +9,7 @@
       ref="wrapperRef"
       :class="`${prefixCls}-list-wrapper`"
       :style="style"
+      disable-horizontal
       @scroll="handleScroll"
     >
       <ul :class="`${prefixCls}-list`">

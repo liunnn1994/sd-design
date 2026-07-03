@@ -11,8 +11,7 @@
       "_origin": "ast",
       "community": 25,
       "norm_label": "basehttprequesthandler",
-      "id": "basehttprequesthandler",
-      "community_name": "Small Cluster 25"
+      "id": "basehttprequesthandler"
     },
     {
       "label": "@astrojs/starlight/components",
@@ -22,8 +21,7 @@
       "_origin": "ast",
       "community": 34,
       "norm_label": "@astrojs/starlight/components",
-      "id": "components",
-      "community_name": "Small Cluster 34"
+      "id": "components"
     },
     {
       "label": "astro:content",
@@ -33,8 +31,7 @@
       "_origin": "ast",
       "community": 23,
       "norm_label": "astro:content",
-      "id": "astro_content",
-      "community_name": "Small Cluster 23"
+      "id": "astro_content"
     },
     {
       "label": "../../generated/docs-sidebar",
@@ -44,8 +41,7 @@
       "_origin": "ast",
       "community": 56,
       "norm_label": "../../generated/docs-sidebar",
-      "id": "d_work_sd_design_packages_sd_vue_docs_src_generated_docs_sidebar",
-      "community_name": "Small Cluster 56"
+      "id": "d_work_sd_design_packages_sd_vue_docs_src_generated_docs_sidebar"
     },
     {
       "label": "../../styles/demo.css",
@@ -55,8 +51,7 @@
       "_origin": "ast",
       "community": 57,
       "norm_label": "../../styles/demo.css",
-      "id": "d_work_sd_design_packages_sd_vue_docs_src_styles_demo_css",
-      "community_name": "Small Cluster 57"
+      "id": "d_work_sd_design_packages_sd_vue_docs_src_styles_demo_css"
     },
     {
       "label": "@astrojs/starlight/components/MarkdownContent.astro",
@@ -66,8 +61,7 @@
       "_origin": "ast",
       "community": 69,
       "norm_label": "@astrojs/starlight/components/markdowncontent.astro",
-      "id": "markdowncontent_astro",
-      "community_name": "Small Cluster 69"
+      "id": "markdowncontent_astro"
     },
     {
       "label": "AGPL-3.0-only License",
@@ -80,8 +74,7 @@
       "contributor": null,
       "community": 67,
       "norm_label": "agpl-3.0-only license",
-      "id": "license_agpl3",
-      "community_name": "Small Cluster 67"
+      "id": "license_agpl3"
     },
     {
       "label": "Graph Report (graphify-out)",
@@ -94,8 +87,7 @@
       "contributor": null,
       "community": 62,
       "norm_label": "graph report (graphify-out)",
-      "id": "graphify_report",
-      "community_name": "Small Cluster 62"
+      "id": "graphify_report"
     },
     {
       "label": "openspec-propose skill",
@@ -116,8 +108,7 @@
       },
       "community": 22,
       "norm_label": "openspec-propose skill",
-      "id": "openspec_propose_skill",
-      "community_name": "Small Cluster 22"
+      "id": "openspec_propose_skill"
     },
     {
       "label": "release-auto-import-resolver workflow",
@@ -136,8 +127,7 @@
       },
       "community": 70,
       "norm_label": "release-auto-import-resolver workflow",
-      "id": "release_auto_import_resolver_workflow",
-      "community_name": "Small Cluster 70"
+      "id": "release_auto_import_resolver_workflow"
     },
     {
       "label": "release web-vue workflow",
@@ -156,8 +146,7 @@
       },
       "community": 21,
       "norm_label": "release web-vue workflow",
-      "id": "release_web_vue_workflow",
-      "community_name": "Small Cluster 21"
+      "id": "release_web_vue_workflow"
     },
     {
       "label": "packages/sd-vue-scripts",
@@ -169,8 +158,7 @@
       },
       "community": 5,
       "norm_label": "packages/sd-vue-scripts",
-      "id": "sd_vue_scripts_package",
-      "community_name": "Icon-to-Component Wiring"
+      "id": "sd_vue_scripts_package"
     },
     {
       "label": "Netlify docs deploy",
@@ -180,8 +168,7 @@
       },
       "community": 21,
       "norm_label": "netlify docs deploy",
-      "id": "netlify_docs_deploy",
-      "community_name": "Small Cluster 21"
+      "id": "netlify_docs_deploy"
     },
     {
       "label": "simplify-build-tooling-remove-sd-vue-scripts change",
@@ -195,8 +182,7 @@
       },
       "community": 5,
       "norm_label": "simplify-build-tooling-remove-sd-vue-scripts change",
-      "id": "simplify_build_tooling_change",
-      "community_name": "Icon-to-Component Wiring"
+      "id": "simplify_build_tooling_change"
     },
     {
       "label": "simplify-build-tooling tasks",
@@ -204,8 +190,7 @@
       "file": "openspec/changes/archive/2026-04-14-simplify-build-tooling-remove-sd-vue-scripts/tasks.md",
       "community": 5,
       "norm_label": "simplify-build-tooling tasks",
-      "id": "simplify_tasks",
-      "community_name": "Icon-to-Component Wiring"
+      "id": "simplify_tasks"
     },
     {
       "label": "workspace-package-workflows spec",
@@ -216,8 +201,7 @@
       },
       "community": 5,
       "norm_label": "workspace-package-workflows spec",
-      "id": "workspace_package_workflows_spec",
-      "community_name": "Icon-to-Component Wiring"
+      "id": "workspace_package_workflows_spec"
     },
     {
       "label": "component-library-tooling capability",
@@ -227,8 +211,7 @@
       },
       "community": 5,
       "norm_label": "component-library-tooling capability",
-      "id": "component_library_tooling_capability",
-      "community_name": "Icon-to-Component Wiring"
+      "id": "component_library_tooling_capability"
     },
     {
       "label": "workspace-package-workflows capability",
@@ -238,8 +221,7 @@
       },
       "community": 5,
       "norm_label": "workspace-package-workflows capability",
-      "id": "workspace_package_workflows_capability",
-      "community_name": "Icon-to-Component Wiring"
+      "id": "workspace_package_workflows_capability"
     },
     {
       "label": "docs-tooling-simplification capability",
@@ -249,8 +231,7 @@
       },
       "community": 5,
       "norm_label": "docs-tooling-simplification capability",
-      "id": "docs_tooling_simplification_capability",
-      "community_name": "Icon-to-Component Wiring"
+      "id": "docs_tooling_simplification_capability"
     },
     {
       "label": "migrate-web-vue-to-vite-plus proposal",
@@ -258,8 +239,7 @@
       "file": "openspec/changes/archive/2026-04-15-migrate-web-vue-to-vite-plus/proposal.md",
       "community": 5,
       "norm_label": "migrate-web-vue-to-vite-plus proposal",
-      "id": "migrate_vite_plus_proposal",
-      "community_name": "Icon-to-Component Wiring"
+      "id": "migrate_vite_plus_proposal"
     },
     {
       "label": "migrate-web-vue-to-vite-plus design",
@@ -270,8 +250,7 @@
       },
       "community": 5,
       "norm_label": "migrate-web-vue-to-vite-plus design",
-      "id": "migrate_vite_plus_design",
-      "community_name": "Icon-to-Component Wiring"
+      "id": "migrate_vite_plus_design"
     },
     {
       "label": "migrate-web-vue-to-vite-plus tasks",
@@ -279,8 +258,7 @@
       "file": "openspec/changes/archive/2026-04-15-migrate-web-vue-to-vite-plus/tasks.md",
       "community": 5,
       "norm_label": "migrate-web-vue-to-vite-plus tasks",
-      "id": "migrate_vite_plus_tasks",
-      "community_name": "Icon-to-Component Wiring"
+      "id": "migrate_vite_plus_tasks"
     },
     {
       "label": "web-vue-build-migration spec",
@@ -292,8 +270,7 @@
       },
       "community": 81,
       "norm_label": "web-vue-build-migration spec",
-      "id": "web_vue_build_migration_spec",
-      "community_name": "Small Cluster 81"
+      "id": "web_vue_build_migration_spec"
     },
     {
       "label": "Vite",
@@ -303,8 +280,7 @@
       },
       "community": 80,
       "norm_label": "vite",
-      "id": "vite",
-      "community_name": "Small Cluster 80"
+      "id": "vite"
     },
     {
       "label": "Astro/Starlight",
@@ -314,8 +290,7 @@
       },
       "community": 24,
       "norm_label": "astro/starlight",
-      "id": "astro_starlight",
-      "community_name": "Small Cluster 24"
+      "id": "astro_starlight"
     },
     {
       "label": "Jest",
@@ -325,8 +300,7 @@
       },
       "community": 65,
       "norm_label": "jest",
-      "id": "jest",
-      "community_name": "Small Cluster 65"
+      "id": "jest"
     },
     {
       "label": "OpenSpec CLI",
@@ -336,8 +310,7 @@
       },
       "community": 22,
       "norm_label": "openspec cli",
-      "id": "openspec_cli",
-      "community_name": "Small Cluster 22"
+      "id": "openspec_cli"
     },
     {
       "label": "migrate-generated-demos-to-script-setup-tailwind",
@@ -347,8 +320,7 @@
       "confidence_score": 0.95,
       "community": 7,
       "norm_label": "migrate-generated-demos-to-script-setup-tailwind",
-      "id": "migrate_generated_demos_proposal",
-      "community_name": "Anchor & Descriptions Components"
+      "id": "migrate_generated_demos_proposal"
     },
     {
       "label": "migrate-generated-demos tasks",
@@ -358,8 +330,7 @@
       "confidence_score": 0.95,
       "community": 7,
       "norm_label": "migrate-generated-demos tasks",
-      "id": "migrate_generated_demos_tasks",
-      "community_name": "Anchor & Descriptions Components"
+      "id": "migrate_generated_demos_tasks"
     },
     {
       "label": "migrate-generated-demos design",
@@ -369,8 +340,7 @@
       "confidence_score": 0.95,
       "community": 7,
       "norm_label": "migrate-generated-demos design",
-      "id": "migrate_generated_demos_design",
-      "community_name": "Anchor & Descriptions Components"
+      "id": "migrate_generated_demos_design"
     },
     {
       "label": "generated-demo-source-conventions spec",
@@ -380,8 +350,7 @@
       "confidence_score": 0.95,
       "community": 7,
       "norm_label": "generated-demo-source-conventions spec",
-      "id": "generated_demo_source_conventions_spec",
-      "community_name": "Anchor & Descriptions Components"
+      "id": "generated_demo_source_conventions_spec"
     },
     {
       "label": "interactive-doc-examples spec (modified)",
@@ -391,8 +360,7 @@
       "confidence_score": 0.95,
       "community": 7,
       "norm_label": "interactive-doc-examples spec (modified)",
-      "id": "interactive_doc_examples_spec",
-      "community_name": "Anchor & Descriptions Components"
+      "id": "interactive_doc_examples_spec"
     },
     {
       "label": "script setup lang=ts convention",
@@ -401,8 +369,7 @@
       "confidence_score": 0.9,
       "community": 7,
       "norm_label": "script setup lang=ts convention",
-      "id": "script_setup_lang_ts_convention",
-      "community_name": "Anchor & Descriptions Components"
+      "id": "script_setup_lang_ts_convention"
     },
     {
       "label": "Tailwind utility class styling for demos",
@@ -411,8 +378,7 @@
       "confidence_score": 0.9,
       "community": 7,
       "norm_label": "tailwind utility class styling for demos",
-      "id": "tailwind_utility_class_styling",
-      "community_name": "Anchor & Descriptions Components"
+      "id": "tailwind_utility_class_styling"
     },
     {
       "label": "DemoEditor REPL preview",
@@ -421,8 +387,7 @@
       "confidence_score": 0.85,
       "community": 7,
       "norm_label": "demoeditor repl preview",
-      "id": "demo_editor_repl_preview",
-      "community_name": "Anchor & Descriptions Components"
+      "id": "demo_editor_repl_preview"
     },
     {
       "label": "shared demo Tailwind stylesheet",
@@ -431,8 +396,7 @@
       "confidence_score": 0.85,
       "community": 7,
       "norm_label": "shared demo tailwind stylesheet",
-      "id": "shared_demo_tailwind_stylesheet",
-      "community_name": "Anchor & Descriptions Components"
+      "id": "shared_demo_tailwind_stylesheet"
     },
     {
       "label": "fix-local-theme-implementation",
@@ -442,8 +406,7 @@
       "confidence_score": 0.95,
       "community": 2,
       "norm_label": "fix-local-theme-implementation",
-      "id": "fix_local_theme_proposal",
-      "community_name": "Layout & Panel Components"
+      "id": "fix_local_theme_proposal"
     },
     {
       "label": "fix-local-theme tasks",
@@ -453,8 +416,7 @@
       "confidence_score": 0.95,
       "community": 2,
       "norm_label": "fix-local-theme tasks",
-      "id": "fix_local_theme_tasks",
-      "community_name": "Layout & Panel Components"
+      "id": "fix_local_theme_tasks"
     },
     {
       "label": "fix-local-theme design",
@@ -464,8 +426,7 @@
       "confidence_score": 0.95,
       "community": 2,
       "norm_label": "fix-local-theme design",
-      "id": "fix_local_theme_design",
-      "community_name": "Layout & Panel Components"
+      "id": "fix_local_theme_design"
     },
     {
       "label": "fix-local-theme implementation baseline",
@@ -475,8 +436,7 @@
       "confidence_score": 0.95,
       "community": 2,
       "norm_label": "fix-local-theme implementation baseline",
-      "id": "fix_local_theme_implementation_baseline",
-      "community_name": "Layout & Panel Components"
+      "id": "fix_local_theme_implementation_baseline"
     },
     {
       "label": "local-theme-provider-runtime spec",
@@ -486,8 +446,7 @@
       "confidence_score": 0.95,
       "community": 2,
       "norm_label": "local-theme-provider-runtime spec",
-      "id": "local_theme_provider_runtime_spec",
-      "community_name": "Layout & Panel Components"
+      "id": "local_theme_provider_runtime_spec"
     },
     {
       "label": "theme-docs-runtime-consistency spec",
@@ -497,8 +456,7 @@
       "confidence_score": 0.95,
       "community": 2,
       "norm_label": "theme-docs-runtime-consistency spec",
-      "id": "theme_docs_runtime_consistency_spec",
-      "community_name": "Layout & Panel Components"
+      "id": "theme_docs_runtime_consistency_spec"
     },
     {
       "label": "subtree theme container",
@@ -507,8 +465,7 @@
       "confidence_score": 0.9,
       "community": 2,
       "norm_label": "subtree theme container",
-      "id": "subtree_theme_container",
-      "community_name": "Layout & Panel Components"
+      "id": "subtree_theme_container"
     },
     {
       "label": "parent-snapshot + child-incremental-override inheritance",
@@ -517,8 +474,7 @@
       "confidence_score": 0.9,
       "community": 2,
       "norm_label": "parent-snapshot + child-incremental-override inheritance",
-      "id": "theme_inheritance_algorithm",
-      "community_name": "Layout & Panel Components"
+      "id": "theme_inheritance_algorithm"
     },
     {
       "label": "upgrade-style-architecture",
@@ -528,8 +484,7 @@
       "confidence_score": 0.95,
       "community": 2,
       "norm_label": "upgrade-style-architecture",
-      "id": "upgrade_style_architecture_proposal",
-      "community_name": "Layout & Panel Components"
+      "id": "upgrade_style_architecture_proposal"
     },
     {
       "label": "upgrade-style-architecture tasks",
@@ -539,8 +494,7 @@
       "confidence_score": 0.95,
       "community": 2,
       "norm_label": "upgrade-style-architecture tasks",
-      "id": "upgrade_style_architecture_tasks",
-      "community_name": "Layout & Panel Components"
+      "id": "upgrade_style_architecture_tasks"
     },
     {
       "label": "css-variable-token-system spec",
@@ -550,8 +504,7 @@
       "confidence_score": 0.95,
       "community": 2,
       "norm_label": "css-variable-token-system spec",
-      "id": "css_variable_token_system_spec",
-      "community_name": "Layout & Panel Components"
+      "id": "css_variable_token_system_spec"
     },
     {
       "label": "scss-style-architecture spec",
@@ -561,8 +514,7 @@
       "confidence_score": 0.95,
       "community": 2,
       "norm_label": "scss-style-architecture spec",
-      "id": "scss_style_architecture_spec",
-      "community_name": "Layout & Panel Components"
+      "id": "scss_style_architecture_spec"
     },
     {
       "label": "runtime-theme-config-provider spec",
@@ -572,8 +524,7 @@
       "confidence_score": 0.95,
       "community": 2,
       "norm_label": "runtime-theme-config-provider spec",
-      "id": "runtime_theme_config_provider_spec",
-      "community_name": "Layout & Panel Components"
+      "id": "runtime_theme_config_provider_spec"
     },
     {
       "label": "docs-theme-editor spec",
@@ -583,8 +534,7 @@
       "confidence_score": 0.95,
       "community": 2,
       "norm_label": "docs-theme-editor spec",
-      "id": "docs_theme_editor_spec",
-      "community_name": "Layout & Panel Components"
+      "id": "docs_theme_editor_spec"
     },
     {
       "label": "homepage-theme-showcase spec",
@@ -594,8 +544,7 @@
       "confidence_score": 0.95,
       "community": 2,
       "norm_label": "homepage-theme-showcase spec",
-      "id": "homepage_theme_showcase_spec",
-      "community_name": "Layout & Panel Components"
+      "id": "homepage_theme_showcase_spec"
     },
     {
       "label": "Less-to-Scss migration",
@@ -604,8 +553,7 @@
       "confidence_score": 0.9,
       "community": 2,
       "norm_label": "less-to-scss migration",
-      "id": "less_to_scss_migration",
-      "community_name": "Layout & Panel Components"
+      "id": "less_to_scss_migration"
     },
     {
       "label": "ConfigProvider theme object",
@@ -614,8 +562,7 @@
       "confidence_score": 0.9,
       "community": 2,
       "norm_label": "configprovider theme object",
-      "id": "config_provider_theme_object",
-      "community_name": "Layout & Panel Components"
+      "id": "config_provider_theme_object"
     },
     {
       "label": "theme JSON schemaVersion",
@@ -624,8 +571,7 @@
       "confidence_score": 0.85,
       "community": 2,
       "norm_label": "theme json schemaversion",
-      "id": "theme_json_schema_version",
-      "community_name": "Layout & Panel Components"
+      "id": "theme_json_schema_version"
     },
     {
       "label": "CSS variable fallback strategy",
@@ -634,8 +580,7 @@
       "confidence_score": 0.9,
       "community": 2,
       "norm_label": "css variable fallback strategy",
-      "id": "css_variable_fallback_strategy",
-      "community_name": "Layout & Panel Components"
+      "id": "css_variable_fallback_strategy"
     },
     {
       "label": "sd-vue-docs",
@@ -646,8 +591,7 @@
       "confidence_score": 0.95,
       "community": 10,
       "norm_label": "sd-vue-docs",
-      "id": "packages_sd-vue-docs",
-      "community_name": "Date Picker & Panels"
+      "id": "packages_sd-vue-docs"
     },
     {
       "label": "Astro Config (sd-vue-docs)",
@@ -658,8 +602,7 @@
       "confidence_score": 0.95,
       "community": 10,
       "norm_label": "astro config (sd-vue-docs)",
-      "id": "packages_sd-vue-docs_astro_config",
-      "community_name": "Date Picker & Panels"
+      "id": "packages_sd-vue-docs_astro_config"
     },
     {
       "label": "DemoBlock Component",
@@ -670,8 +613,7 @@
       "confidence_score": 0.9,
       "community": 3,
       "norm_label": "demoblock component",
-      "id": "packages_sd-vue-docs_demoblock",
-      "community_name": "Select & Dropdown Logic"
+      "id": "packages_sd-vue-docs_demoblock"
     },
     {
       "label": "LLMs Documentation Integration",
@@ -682,8 +624,7 @@
       "confidence_score": 0.9,
       "community": 10,
       "norm_label": "llms documentation integration",
-      "id": "packages_sd-vue-docs_llms_integration",
-      "community_name": "Date Picker & Panels"
+      "id": "packages_sd-vue-docs_llms_integration"
     },
     {
       "label": "LLMs.txt Documentation Page",
@@ -694,8 +635,7 @@
       "confidence_score": 0.95,
       "community": 10,
       "norm_label": "llms.txt documentation page",
-      "id": "packages_sd-vue-docs_llms_txt_page",
-      "community_name": "Date Picker & Panels"
+      "id": "packages_sd-vue-docs_llms_txt_page"
     },
     {
       "label": "Migrate Generated Demos to Script Setup + Tailwind",
@@ -706,8 +646,7 @@
       "confidence_score": 0.95,
       "community": 10,
       "norm_label": "migrate generated demos to script setup + tailwind",
-      "id": "openspec_migrate_generated_demos",
-      "community_name": "Date Picker & Panels"
+      "id": "openspec_migrate_generated_demos"
     },
     {
       "label": "Generated Demo Source Conventions Spec",
@@ -718,8 +657,7 @@
       "confidence_score": 0.95,
       "community": 10,
       "norm_label": "generated demo source conventions spec",
-      "id": "openspec_generated_demo_conventions_spec",
-      "community_name": "Date Picker & Panels"
+      "id": "openspec_generated_demo_conventions_spec"
     },
     {
       "label": "Alert Component Documentation",
@@ -730,8 +668,7 @@
       "confidence_score": 0.95,
       "community": 3,
       "norm_label": "alert component documentation",
-      "id": "packages_sd-vue-docs_component_doc_alert",
-      "community_name": "Select & Dropdown Logic"
+      "id": "packages_sd-vue-docs_component_doc_alert"
     },
     {
       "label": "Avatar Component Documentation",
@@ -742,8 +679,7 @@
       "confidence_score": 0.95,
       "community": 3,
       "norm_label": "avatar component documentation",
-      "id": "packages_sd-vue-docs_component_doc_avatar",
-      "community_name": "Select & Dropdown Logic"
+      "id": "packages_sd-vue-docs_component_doc_avatar"
     },
     {
       "label": "Badge Component Documentation",
@@ -754,8 +690,7 @@
       "confidence_score": 0.95,
       "community": 3,
       "norm_label": "badge component documentation",
-      "id": "packages_sd-vue-docs_component_doc_badge",
-      "community_name": "Select & Dropdown Logic"
+      "id": "packages_sd-vue-docs_component_doc_badge"
     },
     {
       "label": "Breadcrumb Component Documentation",
@@ -766,8 +701,7 @@
       "confidence_score": 0.95,
       "community": 3,
       "norm_label": "breadcrumb component documentation",
-      "id": "packages_sd-vue-docs_component_doc_breadcrumb",
-      "community_name": "Select & Dropdown Logic"
+      "id": "packages_sd-vue-docs_component_doc_breadcrumb"
     },
     {
       "label": "Button Component Documentation",
@@ -778,8 +712,7 @@
       "confidence_score": 0.95,
       "community": 3,
       "norm_label": "button component documentation",
-      "id": "packages_sd-vue-docs_component_doc_button",
-      "community_name": "Select & Dropdown Logic"
+      "id": "packages_sd-vue-docs_component_doc_button"
     },
     {
       "label": "Card Component Documentation",
@@ -790,8 +723,7 @@
       "confidence_score": 0.95,
       "community": 3,
       "norm_label": "card component documentation",
-      "id": "packages_sd-vue-docs_component_doc_card",
-      "community_name": "Select & Dropdown Logic"
+      "id": "packages_sd-vue-docs_component_doc_card"
     },
     {
       "label": "Carousel Component Documentation",
@@ -802,8 +734,7 @@
       "confidence_score": 0.95,
       "community": 3,
       "norm_label": "carousel component documentation",
-      "id": "packages_sd-vue-docs_component_doc_carousel",
-      "community_name": "Select & Dropdown Logic"
+      "id": "packages_sd-vue-docs_component_doc_carousel"
     },
     {
       "label": "Checkbox Component Documentation",
@@ -814,8 +745,7 @@
       "confidence_score": 0.95,
       "community": 3,
       "norm_label": "checkbox component documentation",
-      "id": "packages_sd-vue-docs_component_doc_checkbox",
-      "community_name": "Select & Dropdown Logic"
+      "id": "packages_sd-vue-docs_component_doc_checkbox"
     },
     {
       "label": "Collapse Component Documentation",
@@ -826,8 +756,7 @@
       "confidence_score": 0.95,
       "community": 3,
       "norm_label": "collapse component documentation",
-      "id": "packages_sd-vue-docs_component_doc_collapse",
-      "community_name": "Select & Dropdown Logic"
+      "id": "packages_sd-vue-docs_component_doc_collapse"
     },
     {
       "label": "Comment Component Documentation",
@@ -838,8 +767,7 @@
       "confidence_score": 0.95,
       "community": 3,
       "norm_label": "comment component documentation",
-      "id": "packages_sd-vue-docs_component_doc_comment",
-      "community_name": "Select & Dropdown Logic"
+      "id": "packages_sd-vue-docs_component_doc_comment"
     },
     {
       "label": "DatePicker Component Documentation",
@@ -850,8 +778,7 @@
       "confidence_score": 0.95,
       "community": 3,
       "norm_label": "datepicker component documentation",
-      "id": "packages_sd-vue-docs_component_doc_date_picker",
-      "community_name": "Select & Dropdown Logic"
+      "id": "packages_sd-vue-docs_component_doc_date_picker"
     },
     {
       "label": "Descriptions Component Documentation",
@@ -862,8 +789,7 @@
       "confidence_score": 0.95,
       "community": 3,
       "norm_label": "descriptions component documentation",
-      "id": "packages_sd-vue-docs_component_doc_descriptions",
-      "community_name": "Select & Dropdown Logic"
+      "id": "packages_sd-vue-docs_component_doc_descriptions"
     },
     {
       "label": "Divider Component Documentation",
@@ -874,8 +800,7 @@
       "confidence_score": 0.95,
       "community": 3,
       "norm_label": "divider component documentation",
-      "id": "packages_sd-vue-docs_component_doc_divider",
-      "community_name": "Select & Dropdown Logic"
+      "id": "packages_sd-vue-docs_component_doc_divider"
     },
     {
       "label": "Dropdown Component Documentation",
@@ -886,8 +811,7 @@
       "confidence_score": 0.95,
       "community": 3,
       "norm_label": "dropdown component documentation",
-      "id": "packages_sd-vue-docs_component_doc_dropdown",
-      "community_name": "Select & Dropdown Logic"
+      "id": "packages_sd-vue-docs_component_doc_dropdown"
     },
     {
       "label": "Generated Docs Sidebar",
@@ -898,8 +822,7 @@
       "confidence_score": 0.85,
       "community": 10,
       "norm_label": "generated docs sidebar",
-      "id": "packages_sd-vue-docs_docs_sidebar",
-      "community_name": "Date Picker & Panels"
+      "id": "packages_sd-vue-docs_docs_sidebar"
     },
     {
       "label": "Generated Demo Components",
@@ -910,8 +833,7 @@
       "confidence_score": 0.9,
       "community": 3,
       "norm_label": "generated demo components",
-      "id": "packages_sd-vue-docs_generated_demos",
-      "community_name": "Select & Dropdown Logic"
+      "id": "packages_sd-vue-docs_generated_demos"
     },
     {
       "label": "Tailwind CSS Setup",
@@ -922,8 +844,7 @@
       "confidence_score": 0.9,
       "community": 10,
       "norm_label": "tailwind css setup",
-      "id": "packages_sd-vue-docs_tailwind_setup",
-      "community_name": "Date Picker & Panels"
+      "id": "packages_sd-vue-docs_tailwind_setup"
     },
     {
       "label": "Empty Component Doc",
@@ -948,8 +869,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "empty component doc",
-      "id": "empty_index",
-      "community_name": "Component Entry Points & Icons"
+      "id": "empty_index"
     },
     {
       "label": "Form Component Doc",
@@ -999,8 +919,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "form component doc",
-      "id": "form_index",
-      "community_name": "Component Entry Points & Icons"
+      "id": "form_index"
     },
     {
       "label": "Grid Component Doc",
@@ -1050,8 +969,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "grid component doc",
-      "id": "grid_index",
-      "community_name": "Component Entry Points & Icons"
+      "id": "grid_index"
     },
     {
       "label": "Image Component Doc",
@@ -1089,8 +1007,7 @@
       "file_type": "concept",
       "community": 14,
       "norm_label": "image component doc",
-      "id": "image_index",
-      "community_name": "Form & Tabs System"
+      "id": "image_index"
     },
     {
       "label": "InputNumber Component Doc",
@@ -1132,8 +1049,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "inputnumber component doc",
-      "id": "input_number_index",
-      "community_name": "Component Entry Points & Icons"
+      "id": "input_number_index"
     },
     {
       "label": "InputTag Component Doc",
@@ -1174,8 +1090,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "inputtag component doc",
-      "id": "input_tag_index",
-      "community_name": "Component Entry Points & Icons"
+      "id": "input_tag_index"
     },
     {
       "label": "Input Component Doc",
@@ -1216,8 +1131,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "input component doc",
-      "id": "input_index",
-      "community_name": "Component Entry Points & Icons"
+      "id": "input_index"
     },
     {
       "label": "Link Component Doc",
@@ -1249,8 +1163,7 @@
       "file_type": "concept",
       "community": 68,
       "norm_label": "link component doc",
-      "id": "link_index",
-      "community_name": "Small Cluster 68"
+      "id": "link_index"
     },
     {
       "label": "List Component Doc",
@@ -1296,8 +1209,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "list component doc",
-      "id": "list_index",
-      "community_name": "Component Entry Points & Icons"
+      "id": "list_index"
     },
     {
       "label": "Message Component Doc",
@@ -1329,8 +1241,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "message component doc",
-      "id": "message_index",
-      "community_name": "Component Entry Points & Icons"
+      "id": "message_index"
     },
     {
       "label": "Modal Component Doc",
@@ -1378,8 +1289,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "modal component doc",
-      "id": "modal_index",
-      "community_name": "Component Entry Points & Icons"
+      "id": "modal_index"
     },
     {
       "label": "Pagination Component Doc",
@@ -1413,8 +1323,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "pagination component doc",
-      "id": "pagination_index",
-      "community_name": "Component Entry Points & Icons"
+      "id": "pagination_index"
     },
     {
       "label": "Popconfirm Component Doc",
@@ -1446,8 +1355,7 @@
       "file_type": "concept",
       "community": 14,
       "norm_label": "popconfirm component doc",
-      "id": "popconfirm_index",
-      "community_name": "Form & Tabs System"
+      "id": "popconfirm_index"
     },
     {
       "label": "Popover Component Doc",
@@ -1476,8 +1384,7 @@
       "file_type": "concept",
       "community": 14,
       "norm_label": "popover component doc",
-      "id": "popover_index",
-      "community_name": "Form & Tabs System"
+      "id": "popover_index"
     },
     {
       "label": "Progress Component Doc",
@@ -1507,8 +1414,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "progress component doc",
-      "id": "progress_index",
-      "community_name": "Component Entry Points & Icons"
+      "id": "progress_index"
     },
     {
       "label": "Radio Component Doc",
@@ -1539,8 +1445,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "radio component doc",
-      "id": "radio_index",
-      "community_name": "Component Entry Points & Icons"
+      "id": "radio_index"
     },
     {
       "label": "Rate Component Doc",
@@ -1570,8 +1475,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "rate component doc",
-      "id": "rate_index",
-      "community_name": "Component Entry Points & Icons"
+      "id": "rate_index"
     },
     {
       "label": "Result Component Doc",
@@ -1600,8 +1504,7 @@
       "file_type": "concept",
       "community": 71,
       "norm_label": "result component doc",
-      "id": "result_index",
-      "community_name": "Small Cluster 71"
+      "id": "result_index"
     },
     {
       "label": "Skeleton Component Doc",
@@ -1625,8 +1528,7 @@
       "file_type": "concept",
       "community": 78,
       "norm_label": "skeleton component doc",
-      "id": "skeleton_index",
-      "community_name": "Small Cluster 78"
+      "id": "skeleton_index"
     },
     {
       "label": "Slider Component Doc",
@@ -1656,8 +1558,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "slider component doc",
-      "id": "slider_index",
-      "community_name": "Component Entry Points & Icons"
+      "id": "slider_index"
     },
     {
       "label": "Space Component Doc",
@@ -1687,8 +1588,7 @@
       "file_type": "concept",
       "community": 79,
       "norm_label": "space component doc",
-      "id": "space_index",
-      "community_name": "Small Cluster 79"
+      "id": "space_index"
     },
     {
       "label": "useFormItem Hook",
@@ -1709,8 +1609,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "useformitem hook",
-      "id": "form_useformitem",
-      "community_name": "Component Entry Points & Icons"
+      "id": "form_useformitem"
     },
     {
       "label": "Trigger Component",
@@ -1727,8 +1626,7 @@
       "file_type": "concept",
       "community": 14,
       "norm_label": "trigger component",
-      "id": "trigger_component",
-      "community_name": "Form & Tabs System"
+      "id": "trigger_component"
     },
     {
       "label": "Component Size System",
@@ -1757,8 +1655,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "component size system",
-      "id": "component_size_system",
-      "community_name": "Component Entry Points & Icons"
+      "id": "component_size_system"
     },
     {
       "label": "Global Method Pattern",
@@ -1776,8 +1673,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "global method pattern",
-      "id": "global_method_pattern",
-      "community_name": "Component Entry Points & Icons"
+      "id": "global_method_pattern"
     },
     {
       "label": "Spin",
@@ -1788,8 +1684,7 @@
       "confidence_score": 0.95,
       "community": 38,
       "norm_label": "spin",
-      "id": "components_spin",
-      "community_name": "Small Cluster 38"
+      "id": "components_spin"
     },
     {
       "label": "Split",
@@ -1800,8 +1695,7 @@
       "confidence_score": 0.95,
       "community": 39,
       "norm_label": "split",
-      "id": "components_split",
-      "community_name": "Small Cluster 39"
+      "id": "components_split"
     },
     {
       "label": "Steps",
@@ -1812,8 +1706,7 @@
       "confidence_score": 0.95,
       "community": 40,
       "norm_label": "steps",
-      "id": "components_steps",
-      "community_name": "Small Cluster 40"
+      "id": "components_steps"
     },
     {
       "label": "Switch",
@@ -1824,8 +1717,7 @@
       "confidence_score": 0.95,
       "community": 41,
       "norm_label": "switch",
-      "id": "components_switch",
-      "community_name": "Small Cluster 41"
+      "id": "components_switch"
     },
     {
       "label": "Table",
@@ -1836,8 +1728,7 @@
       "confidence_score": 0.95,
       "community": 4,
       "norm_label": "table",
-      "id": "components_table",
-      "community_name": "Type Utilities & Config"
+      "id": "components_table"
     },
     {
       "label": "Tabs",
@@ -1848,8 +1739,7 @@
       "confidence_score": 0.95,
       "community": 43,
       "norm_label": "tabs",
-      "id": "components_tabs",
-      "community_name": "Small Cluster 43"
+      "id": "components_tabs"
     },
     {
       "label": "Tag",
@@ -1860,8 +1750,7 @@
       "confidence_score": 0.95,
       "community": 4,
       "norm_label": "tag",
-      "id": "components_tag",
-      "community_name": "Type Utilities & Config"
+      "id": "components_tag"
     },
     {
       "label": "Timeline",
@@ -1872,8 +1761,7 @@
       "confidence_score": 0.95,
       "community": 45,
       "norm_label": "timeline",
-      "id": "components_timeline",
-      "community_name": "Small Cluster 45"
+      "id": "components_timeline"
     },
     {
       "label": "Tooltip",
@@ -1884,8 +1772,7 @@
       "confidence_score": 0.95,
       "community": 4,
       "norm_label": "tooltip",
-      "id": "components_tooltip",
-      "community_name": "Type Utilities & Config"
+      "id": "components_tooltip"
     },
     {
       "label": "Transfer",
@@ -1896,8 +1783,7 @@
       "confidence_score": 0.95,
       "community": 47,
       "norm_label": "transfer",
-      "id": "components_transfer",
-      "community_name": "Small Cluster 47"
+      "id": "components_transfer"
     },
     {
       "label": "TreeSelect",
@@ -1908,8 +1794,7 @@
       "confidence_score": 0.95,
       "community": 4,
       "norm_label": "treeselect",
-      "id": "components_tree_select",
-      "community_name": "Type Utilities & Config"
+      "id": "components_tree_select"
     },
     {
       "label": "Tree",
@@ -1920,8 +1805,7 @@
       "confidence_score": 0.95,
       "community": 4,
       "norm_label": "tree",
-      "id": "components_tree",
-      "community_name": "Type Utilities & Config"
+      "id": "components_tree"
     },
     {
       "label": "Typography",
@@ -1932,8 +1816,7 @@
       "confidence_score": 0.95,
       "community": 4,
       "norm_label": "typography",
-      "id": "components_typography",
-      "community_name": "Type Utilities & Config"
+      "id": "components_typography"
     },
     {
       "label": "Upload",
@@ -1944,8 +1827,7 @@
       "confidence_score": 0.95,
       "community": 49,
       "norm_label": "upload",
-      "id": "components_upload",
-      "community_name": "Small Cluster 49"
+      "id": "components_upload"
     },
     {
       "label": "VerificationCode",
@@ -1956,8 +1838,7 @@
       "confidence_score": 0.95,
       "community": 51,
       "norm_label": "verificationcode",
-      "id": "components_verification_code",
-      "community_name": "Small Cluster 51"
+      "id": "components_verification_code"
     },
     {
       "label": "Watermark",
@@ -1968,8 +1849,7 @@
       "confidence_score": 0.95,
       "community": 53,
       "norm_label": "watermark",
-      "id": "components_watermark",
-      "community_name": "Small Cluster 53"
+      "id": "components_watermark"
     },
     {
       "label": "FAQ",
@@ -1980,8 +1860,7 @@
       "confidence_score": 0.95,
       "community": 4,
       "norm_label": "faq",
-      "id": "guides_faq",
-      "community_name": "Type Utilities & Config"
+      "id": "guides_faq"
     },
     {
       "label": "Naive UI Migration",
@@ -1992,8 +1871,7 @@
       "confidence_score": 0.95,
       "community": 4,
       "norm_label": "naive ui migration",
-      "id": "guides_naive_ui_migration",
-      "community_name": "Type Utilities & Config"
+      "id": "guides_naive_ui_migration"
     },
     {
       "label": "Getting Started",
@@ -2004,8 +1882,7 @@
       "confidence_score": 0.95,
       "community": 63,
       "norm_label": "getting started",
-      "id": "guides_start",
-      "community_name": "Small Cluster 63"
+      "id": "guides_start"
     },
     {
       "label": "Docs Index",
@@ -2016,8 +1893,7 @@
       "confidence_score": 0.95,
       "community": 61,
       "norm_label": "docs index",
-      "id": "docs_index",
-      "community_name": "Small Cluster 61"
+      "id": "docs_index"
     },
     {
       "label": "LLMs.txt Documentation",
@@ -2028,8 +1904,7 @@
       "confidence_score": 0.95,
       "community": 19,
       "norm_label": "llms.txt documentation",
-      "id": "docs_llms_txt",
-      "community_name": "Component Infrastructure"
+      "id": "docs_llms_txt"
     },
     {
       "label": "Controlled/Uncontrolled Pattern",
@@ -2039,8 +1914,7 @@
       "confidence_score": 0.9,
       "community": 4,
       "norm_label": "controlled/uncontrolled pattern",
-      "id": "concept_controlled_uncontrolled",
-      "community_name": "Type Utilities & Config"
+      "id": "concept_controlled_uncontrolled"
     },
     {
       "label": "Virtual List",
@@ -2050,8 +1924,7 @@
       "confidence_score": 0.9,
       "community": 4,
       "norm_label": "virtual list",
-      "id": "concept_virtual_list",
-      "community_name": "Type Utilities & Config"
+      "id": "concept_virtual_list"
     },
     {
       "label": "Naive UI Migration",
@@ -2061,8 +1934,7 @@
       "confidence_score": 0.85,
       "community": 4,
       "norm_label": "naive ui migration",
-      "id": "concept_naive_ui_migration",
-      "community_name": "Type Utilities & Config"
+      "id": "concept_naive_ui_migration"
     },
     {
       "label": "Arco Design Migration",
@@ -2072,8 +1944,7 @@
       "confidence_score": 0.85,
       "community": 4,
       "norm_label": "arco design migration",
-      "id": "concept_arco_design_migration",
-      "community_name": "Type Utilities & Config"
+      "id": "concept_arco_design_migration"
     },
     {
       "label": "LLMs.txt Standard",
@@ -2083,8 +1954,7 @@
       "confidence_score": 0.9,
       "community": 19,
       "norm_label": "llms.txt standard",
-      "id": "concept_llms_txt_standard",
-      "community_name": "Component Infrastructure"
+      "id": "concept_llms_txt_standard"
     },
     {
       "label": "OverlayScrollbars",
@@ -2099,8 +1969,7 @@
       ],
       "community": 73,
       "norm_label": "overlayscrollbars",
-      "id": "scrollbar_index_overlayscrollbars",
-      "community_name": "Small Cluster 73"
+      "id": "scrollbar_index_overlayscrollbars"
     },
     {
       "label": "Select Arco Design Migration",
@@ -2115,8 +1984,7 @@
       ],
       "community": 74,
       "norm_label": "select arco design migration",
-      "id": "select_index_migration_arco",
-      "community_name": "Small Cluster 74"
+      "id": "select_index_migration_arco"
     },
     {
       "label": "Select Naive UI Migration",
@@ -2131,8 +1999,7 @@
       ],
       "community": 75,
       "norm_label": "select naive ui migration",
-      "id": "select_index_migration_naive",
-      "community_name": "Small Cluster 75"
+      "id": "select_index_migration_naive"
     },
     {
       "label": "SelectOptionData",
@@ -2147,8 +2014,7 @@
       ],
       "community": 76,
       "norm_label": "selectoptiondata",
-      "id": "select_index_selectoptiondata",
-      "community_name": "Small Cluster 76"
+      "id": "select_index_selectoptiondata"
     },
     {
       "label": "VirtualListProps",
@@ -2163,8 +2029,7 @@
       ],
       "community": 77,
       "norm_label": "virtuallistprops",
-      "id": "select_index_virtuallistprops",
-      "community_name": "Small Cluster 77"
+      "id": "select_index_virtuallistprops"
     },
     {
       "label": "CascaderPanel",
@@ -2180,8 +2045,7 @@
       ],
       "community": 28,
       "norm_label": "cascaderpanel",
-      "id": "cascader_index_cascaderpanel",
-      "community_name": "Small Cluster 28"
+      "id": "cascader_index_cascaderpanel"
     },
     {
       "label": "Cascader Naive UI Migration",
@@ -2196,8 +2060,7 @@
       ],
       "community": 29,
       "norm_label": "cascader naive ui migration",
-      "id": "cascader_index_migration_naive",
-      "community_name": "Small Cluster 29"
+      "id": "cascader_index_migration_naive"
     },
     {
       "label": "CascaderOption",
@@ -2212,8 +2075,7 @@
       ],
       "community": 27,
       "norm_label": "cascaderoption",
-      "id": "cascader_index_cascaderoption",
-      "community_name": "Small Cluster 27"
+      "id": "cascader_index_cascaderoption"
     },
     {
       "label": "ColorPicker Migration",
@@ -2227,8 +2089,7 @@
       ],
       "community": 33,
       "norm_label": "colorpicker migration",
-      "id": "color_picker_index_migration",
-      "community_name": "Small Cluster 33"
+      "id": "color_picker_index_migration"
     },
     {
       "label": "cropperjs",
@@ -2243,8 +2104,7 @@
       ],
       "community": 55,
       "norm_label": "cropperjs",
-      "id": "cropper_index_cropperjs",
-      "community_name": "Small Cluster 55"
+      "id": "cropper_index_cropperjs"
     },
     {
       "label": "RangePicker",
@@ -2260,8 +2120,7 @@
       ],
       "community": 58,
       "norm_label": "rangepicker",
-      "id": "date_picker_index_rangepicker",
-      "community_name": "Small Cluster 58"
+      "id": "date_picker_index_rangepicker"
     },
     {
       "label": "ShortcutType",
@@ -2276,8 +2135,7 @@
       ],
       "community": 59,
       "norm_label": "shortcuttype",
-      "id": "date_picker_index_shortcuttype",
-      "community_name": "Small Cluster 59"
+      "id": "date_picker_index_shortcuttype"
     },
     {
       "label": "DescriptionsItem",
@@ -2292,8 +2150,7 @@
       ],
       "community": 60,
       "norm_label": "descriptionsitem",
-      "id": "descriptions_index_descriptionsitem",
-      "community_name": "Small Cluster 60"
+      "id": "descriptions_index_descriptionsitem"
     },
     {
       "label": "Trigger",
@@ -2309,8 +2166,7 @@
       ],
       "community": 31,
       "norm_label": "trigger",
-      "id": "chunk_082_trigger_component",
-      "community_name": "Small Cluster 31"
+      "id": "chunk_082_trigger_component"
     },
     {
       "label": "SelectView",
@@ -2325,8 +2181,7 @@
       ],
       "community": 30,
       "norm_label": "selectview",
-      "id": "chunk_082_selectview",
-      "community_name": "Small Cluster 30"
+      "id": "chunk_082_selectview"
     },
     {
       "label": "Virtual List Migration Guide",
@@ -2342,8 +2197,7 @@
       ],
       "community": 32,
       "norm_label": "virtual list migration guide",
-      "id": "chunk_082_virtual_list_migration",
-      "community_name": "Small Cluster 32"
+      "id": "chunk_082_virtual_list_migration"
     },
     {
       "type": "document",
@@ -2368,8 +2222,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "anchor component docs",
-      "id": "anchor_index",
-      "community_name": "Icon System"
+      "id": "anchor_index"
     },
     {
       "type": "concept",
@@ -2392,8 +2245,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "anchor component",
-      "id": "anchor_anchor_component",
-      "community_name": "Icon System"
+      "id": "anchor_anchor_component"
     },
     {
       "type": "concept",
@@ -2409,8 +2261,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "anchor-link component",
-      "id": "anchor_anchor_link_component",
-      "community_name": "Icon System"
+      "id": "anchor_anchor_link_component"
     },
     {
       "type": "document",
@@ -2428,8 +2279,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "backtop component docs",
-      "id": "back_top_index",
-      "community_name": "Icon System"
+      "id": "back_top_index"
     },
     {
       "type": "concept",
@@ -2448,8 +2298,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "back-top component",
-      "id": "back_top_back_top_component",
-      "community_name": "Icon System"
+      "id": "back_top_back_top_component"
     },
     {
       "type": "document",
@@ -2479,8 +2328,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "calendar component docs",
-      "id": "calendar_index",
-      "community_name": "Icon System"
+      "id": "calendar_index"
     },
     {
       "type": "concept",
@@ -2535,8 +2383,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "calendar component",
-      "id": "calendar_calendar_component",
-      "community_name": "Icon System"
+      "id": "calendar_calendar_component"
     },
     {
       "type": "concept",
@@ -2577,8 +2424,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "calendar event system",
-      "id": "calendar_event_system",
-      "community_name": "Icon System"
+      "id": "calendar_event_system"
     },
     {
       "type": "concept",
@@ -2595,8 +2441,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "calendar schedule (resource columns)",
-      "id": "calendar_schedule_system",
-      "community_name": "Icon System"
+      "id": "calendar_schedule_system"
     },
     {
       "type": "document",
@@ -2616,8 +2461,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "copy component docs",
-      "id": "copy_index",
-      "community_name": "Icon System"
+      "id": "copy_index"
     },
     {
       "type": "concept",
@@ -2648,8 +2492,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "copy component",
-      "id": "copy_copy_component",
-      "community_name": "Icon System"
+      "id": "copy_copy_component"
     },
     {
       "type": "document",
@@ -2671,8 +2514,7 @@
       "file_type": "concept",
       "community": 6,
       "norm_label": "ellipsis component docs",
-      "id": "ellipsis_index",
-      "community_name": "Color Picker System"
+      "id": "ellipsis_index"
     },
     {
       "type": "concept",
@@ -2697,8 +2539,7 @@
       "file_type": "concept",
       "community": 6,
       "norm_label": "ellipsis component",
-      "id": "ellipsis_ellipsis_component",
-      "community_name": "Color Picker System"
+      "id": "ellipsis_ellipsis_component"
     },
     {
       "type": "concept",
@@ -2740,8 +2581,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "form component",
-      "id": "form_form_component",
-      "community_name": "Component Entry Points & Icons"
+      "id": "form_form_component"
     },
     {
       "type": "concept",
@@ -2780,8 +2620,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "form-item component",
-      "id": "form_form_item_component",
-      "community_name": "Component Entry Points & Icons"
+      "id": "form_form_item_component"
     },
     {
       "type": "concept",
@@ -2801,8 +2640,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "useformitem composable",
-      "id": "form_use_form_item",
-      "community_name": "Component Entry Points & Icons"
+      "id": "form_use_form_item"
     },
     {
       "type": "concept",
@@ -2837,8 +2675,7 @@
       "file_type": "concept",
       "community": 1,
       "norm_label": "fieldrule type",
-      "id": "form_field_rule",
-      "community_name": "Component Entry Points & Icons"
+      "id": "form_field_rule"
     },
     {
       "type": "document",
@@ -2869,8 +2706,7 @@
       "file_type": "concept",
       "community": 6,
       "norm_label": "layout component docs",
-      "id": "layout_index",
-      "community_name": "Color Picker System"
+      "id": "layout_index"
     },
     {
       "type": "concept",
@@ -2885,8 +2721,7 @@
       "file_type": "concept",
       "community": 6,
       "norm_label": "layout component",
-      "id": "layout_layout_component",
-      "community_name": "Color Picker System"
+      "id": "layout_layout_component"
     },
     {
       "type": "concept",
@@ -2938,8 +2773,7 @@
       "file_type": "concept",
       "community": 6,
       "norm_label": "layout-header component",
-      "id": "layout_layout_header_component",
-      "community_name": "Color Picker System"
+      "id": "layout_layout_header_component"
     },
     {
       "type": "concept",
@@ -2991,8 +2825,7 @@
       "file_type": "concept",
       "community": 6,
       "norm_label": "layout-sider component",
-      "id": "layout_layout_sider_component",
-      "community_name": "Color Picker System"
+      "id": "layout_layout_sider_component"
     },
     {
       "type": "document",
@@ -3010,8 +2843,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "mention component docs",
-      "id": "mention_index",
-      "community_name": "Icon System"
+      "id": "mention_index"
     },
     {
       "type": "concept",
@@ -3047,8 +2879,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "mention component",
-      "id": "mention_mention_component",
-      "community_name": "Icon System"
+      "id": "mention_mention_component"
     },
     {
       "type": "document",
@@ -3079,8 +2910,7 @@
       "file_type": "concept",
       "community": 6,
       "norm_label": "menu component docs",
-      "id": "menu_index",
-      "community_name": "Color Picker System"
+      "id": "menu_index"
     },
     {
       "type": "concept",
@@ -3124,8 +2954,7 @@
       "file_type": "concept",
       "community": 6,
       "norm_label": "menu component",
-      "id": "menu_menu_component",
-      "community_name": "Color Picker System"
+      "id": "menu_menu_component"
     },
     {
       "type": "concept",
@@ -3149,8 +2978,7 @@
       "file_type": "concept",
       "community": 6,
       "norm_label": "sub-menu component",
-      "id": "menu_sub_menu_component",
-      "community_name": "Color Picker System"
+      "id": "menu_sub_menu_component"
     },
     {
       "type": "concept",
@@ -3168,8 +2996,7 @@
       "file_type": "concept",
       "community": 6,
       "norm_label": "menu-item component",
-      "id": "menu_menu_item_component",
-      "community_name": "Color Picker System"
+      "id": "menu_menu_item_component"
     },
     {
       "type": "document",
@@ -3193,8 +3020,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "statistic component docs",
-      "id": "statistic_index",
-      "community_name": "Icon System"
+      "id": "statistic_index"
     },
     {
       "type": "concept",
@@ -3227,8 +3053,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "statistic component",
-      "id": "statistic_statistic_component",
-      "community_name": "Icon System"
+      "id": "statistic_statistic_component"
     },
     {
       "type": "concept",
@@ -3254,8 +3079,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "countdown component",
-      "id": "statistic_countdown_component",
-      "community_name": "Icon System"
+      "id": "statistic_countdown_component"
     },
     {
       "type": "document",
@@ -3275,8 +3099,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "tour component docs",
-      "id": "tour_index",
-      "community_name": "Icon System"
+      "id": "tour_index"
     },
     {
       "type": "concept",
@@ -3346,8 +3169,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "tour component",
-      "id": "tour_tour_component",
-      "community_name": "Icon System"
+      "id": "tour_tour_component"
     },
     {
       "type": "document",
@@ -3370,8 +3192,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "trigger component docs",
-      "id": "trigger_index",
-      "community_name": "Icon System"
+      "id": "trigger_index"
     },
     {
       "type": "concept",
@@ -3419,8 +3240,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "trigger component",
-      "id": "trigger_trigger_component",
-      "community_name": "Icon System"
+      "id": "trigger_trigger_component"
     },
     {
       "type": "concept",
@@ -3434,8 +3254,7 @@
       "file_type": "concept",
       "community": 0,
       "norm_label": "demoblock component",
-      "id": "docs_demo_block",
-      "community_name": "Icon System"
+      "id": "docs_demo_block"
     },
     {
       "label": "SDVue Quick Start Guide",
@@ -3446,8 +3265,7 @@
       "file_type": "concept",
       "community": 20,
       "norm_label": "sdvue quick start guide",
-      "id": "guides_start_sdvue_quick_start",
-      "community_name": "Small Cluster 20"
+      "id": "guides_start_sdvue_quick_start"
     },
     {
       "label": "SdDesignResolver",
@@ -3458,8 +3276,7 @@
       "file_type": "concept",
       "community": 20,
       "norm_label": "sddesignresolver",
-      "id": "guides_start_sd_design_resolver",
-      "community_name": "Small Cluster 20"
+      "id": "guides_start_sd_design_resolver"
     },
     {
       "label": "SdThemeConfig",
@@ -3470,8 +3287,7 @@
       "file_type": "concept",
       "community": 16,
       "norm_label": "sdthemeconfig",
-      "id": "guides_theme_sdtheme_config",
-      "community_name": "Input/Tag/Ellipsis Utilities"
+      "id": "guides_theme_sdtheme_config"
     },
     {
       "label": "ThemeProvider",
@@ -3482,8 +3298,7 @@
       "file_type": "concept",
       "community": 16,
       "norm_label": "themeprovider",
-      "id": "guides_theme_theme_provider",
-      "community_name": "Input/Tag/Ellipsis Utilities"
+      "id": "guides_theme_theme_provider"
     },
     {
       "label": "CSS Variables Convention",
@@ -3494,8 +3309,7 @@
       "file_type": "concept",
       "community": 16,
       "norm_label": "css variables convention",
-      "id": "guides_theme_css_variables",
-      "community_name": "Input/Tag/Ellipsis Utilities"
+      "id": "guides_theme_css_variables"
     },
     {
       "label": "Tabs Component",
@@ -3506,8 +3320,7 @@
       "file_type": "concept",
       "community": 18,
       "norm_label": "tabs component",
-      "id": "components_tabs_tabs_component",
-      "community_name": "Build Scripts"
+      "id": "components_tabs_tabs_component"
     },
     {
       "label": "Tree Component",
@@ -3518,8 +3331,7 @@
       "file_type": "concept",
       "community": 9,
       "norm_label": "tree component",
-      "id": "components_tree_tree_component",
-      "community_name": "Input & Display Components"
+      "id": "components_tree_tree_component"
     },
     {
       "label": "TreeNodeData",
@@ -3530,8 +3342,7 @@
       "file_type": "concept",
       "community": 9,
       "norm_label": "treenodedata",
-      "id": "components_tree_treenode_data",
-      "community_name": "Input & Display Components"
+      "id": "components_tree_treenode_data"
     },
     {
       "label": "VirtualListProps (Tree)",
@@ -3542,8 +3353,7 @@
       "file_type": "concept",
       "community": 9,
       "norm_label": "virtuallistprops (tree)",
-      "id": "components_tree_virtual_list_props",
-      "community_name": "Input & Display Components"
+      "id": "components_tree_virtual_list_props"
     },
     {
       "label": "TreeSelect Component",
@@ -3554,8 +3364,7 @@
       "file_type": "concept",
       "community": 9,
       "norm_label": "treeselect component",
-      "id": "components_tree_select_tree_select_component",
-      "community_name": "Input & Display Components"
+      "id": "components_tree_select_tree_select_component"
     },
     {
       "label": "Naive UI Compatibility Aliases",
@@ -3566,8 +3375,7 @@
       "file_type": "concept",
       "community": 9,
       "norm_label": "naive ui compatibility aliases",
-      "id": "components_tree_select_naive_compat_aliases",
-      "community_name": "Input & Display Components"
+      "id": "components_tree_select_naive_compat_aliases"
     },
     {
       "label": "Timeline Component",
@@ -3578,8 +3386,7 @@
       "file_type": "concept",
       "community": 46,
       "norm_label": "timeline component",
-      "id": "components_timeline_timeline_component",
-      "community_name": "Small Cluster 46"
+      "id": "components_timeline_timeline_component"
     },
     {
       "label": "Tag Component",
@@ -3590,8 +3397,7 @@
       "file_type": "concept",
       "community": 44,
       "norm_label": "tag component",
-      "id": "components_tag_tag_component",
-      "community_name": "Small Cluster 44"
+      "id": "components_tag_tag_component"
     },
     {
       "label": "Watermark Component",
@@ -3602,8 +3408,7 @@
       "file_type": "concept",
       "community": 54,
       "norm_label": "watermark component",
-      "id": "components_watermark_watermark_component",
-      "community_name": "Small Cluster 54"
+      "id": "components_watermark_watermark_component"
     },
     {
       "label": "Upload Component",
@@ -3614,8 +3419,7 @@
       "file_type": "concept",
       "community": 50,
       "norm_label": "upload component",
-      "id": "components_upload_upload_component",
-      "community_name": "Small Cluster 50"
+      "id": "components_upload_upload_component"
     },
     {
       "label": "Switch Component",
@@ -3626,8 +3430,7 @@
       "file_type": "concept",
       "community": 42,
       "norm_label": "switch component",
-      "id": "components_switch_switch_component",
-      "community_name": "Small Cluster 42"
+      "id": "components_switch_switch_component"
     },
     {
       "label": "Table Component",
@@ -3638,8 +3441,7 @@
       "file_type": "concept",
       "community": 9,
       "norm_label": "table component",
-      "id": "components_table_table_component",
-      "community_name": "Input & Display Components"
+      "id": "components_table_table_component"
     },
     {
       "label": "TableColumnData",
@@ -3650,8 +3452,7 @@
       "file_type": "concept",
       "community": 9,
       "norm_label": "tablecolumndata",
-      "id": "components_table_table_column_data",
-      "community_name": "Input & Display Components"
+      "id": "components_table_table_column_data"
     },
     {
       "label": "Typography Component",
@@ -3662,8 +3463,7 @@
       "file_type": "concept",
       "community": 48,
       "norm_label": "typography component",
-      "id": "components_typography_typography_component",
-      "community_name": "Small Cluster 48"
+      "id": "components_typography_typography_component"
     },
     {
       "label": "Tooltip Component",
@@ -3674,8 +3474,7 @@
       "file_type": "concept",
       "community": 18,
       "norm_label": "tooltip component",
-      "id": "components_tooltip_tooltip_component",
-      "community_name": "Build Scripts"
+      "id": "components_tooltip_tooltip_component"
     },
     {
       "label": "VerificationCode Component",
@@ -3686,8 +3485,7 @@
       "file_type": "concept",
       "community": 52,
       "norm_label": "verificationcode component",
-      "id": "components_verification_code_verification_code_component",
-      "community_name": "Small Cluster 52"
+      "id": "components_verification_code_verification_code_component"
     },
     {
       "label": "Progress Component",
@@ -3698,8 +3496,7 @@
       "file_type": "concept",
       "community": 35,
       "norm_label": "progress component",
-      "id": "components_progress_progress_component",
-      "community_name": "Small Cluster 35"
+      "id": "components_progress_progress_component"
     },
     {
       "label": "Radio Component",
@@ -3710,8 +3507,7 @@
       "file_type": "concept",
       "community": 9,
       "norm_label": "radio component",
-      "id": "components_radio_radio_component",
-      "community_name": "Input & Display Components"
+      "id": "components_radio_radio_component"
     },
     {
       "label": "Rate Component",
@@ -3722,8 +3518,7 @@
       "file_type": "concept",
       "community": 36,
       "norm_label": "rate component",
-      "id": "components_rate_rate_component",
-      "community_name": "Small Cluster 36"
+      "id": "components_rate_rate_component"
     },
     {
       "label": "Result Component",
@@ -3734,8 +3529,7 @@
       "file_type": "concept",
       "community": 37,
       "norm_label": "result component",
-      "id": "components_result_result_component",
-      "community_name": "Small Cluster 37"
+      "id": "components_result_result_component"
     },
     {
       "name": "overdrive skill",
@@ -3753,8 +3547,7 @@
       "confidence_score": 1.0,
       "community": 8,
       "norm_label": "",
-      "id": "skills_overdrive_skill",
-      "community_name": "JSON Form Engine"
+      "id": "skills_overdrive_skill"
     },
     {
       "name": "frontend-design skill dependency (overdrive)",
@@ -3768,8 +3561,7 @@
       "confidence_score": 1.0,
       "community": 8,
       "norm_label": "",
-      "id": "skills_overdrive_frontend_design_dependency",
-      "community_name": "JSON Form Engine"
+      "id": "skills_overdrive_frontend_design_dependency"
     },
     {
       "name": "propose before building (overdrive)",
@@ -3783,8 +3575,7 @@
       "confidence_score": 1.0,
       "community": 8,
       "norm_label": "",
-      "id": "skills_overdrive_propose_before_build",
-      "community_name": "JSON Form Engine"
+      "id": "skills_overdrive_propose_before_build"
     },
     {
       "name": "browser automation iteration (overdrive)",
@@ -3799,8 +3590,7 @@
       "confidence_score": 1.0,
       "community": 8,
       "norm_label": "",
-      "id": "skills_overdrive_browser_iteration",
-      "community_name": "JSON Form Engine"
+      "id": "skills_overdrive_browser_iteration"
     },
     {
       "name": "context-appropriate ambition assessment",
@@ -3814,8 +3604,7 @@
       "confidence_score": 1.0,
       "community": 8,
       "norm_label": "",
-      "id": "skills_overdrive_context_assessment",
-      "community_name": "JSON Form Engine"
+      "id": "skills_overdrive_context_assessment"
     },
     {
       "name": "overdrive technical toolkit",
@@ -3832,8 +3621,7 @@
       "confidence_score": 1.0,
       "community": 8,
       "norm_label": "",
-      "id": "skills_overdrive_toolkit",
-      "community_name": "JSON Form Engine"
+      "id": "skills_overdrive_toolkit"
     },
     {
       "name": "progressive enhancement (overdrive)",
@@ -3848,8 +3636,7 @@
       "confidence_score": 1.0,
       "community": 8,
       "norm_label": "",
-      "id": "skills_overdrive_progressive_enhancement",
-      "community_name": "JSON Form Engine"
+      "id": "skills_overdrive_progressive_enhancement"
     },
     {
       "name": "performance rules (overdrive)",
@@ -3864,8 +3651,7 @@
       "confidence_score": 1.0,
       "community": 8,
       "norm_label": "",
-      "id": "skills_overdrive_performance_rules",
-      "community_name": "JSON Form Engine"
+      "id": "skills_overdrive_performance_rules"
     },
     {
       "name": "verification tests (overdrive)",
@@ -3880,8 +3666,7 @@
       "confidence_score": 1.0,
       "community": 8,
       "norm_label": "",
-      "id": "skills_overdrive_verification",
-      "community_name": "JSON Form Engine"
+      "id": "skills_overdrive_verification"
     },
     {
       "name": "polish skill",
@@ -3897,8 +3682,7 @@
       "confidence_score": 1.0,
       "community": 11,
       "norm_label": "",
-      "id": "skills_polish_skill",
-      "community_name": "Avatar/Badge/Hooks"
+      "id": "skills_polish_skill"
     },
     {
       "name": "frontend-design skill dependency (polish)",
@@ -3912,8 +3696,7 @@
       "confidence_score": 1.0,
       "community": 11,
       "norm_label": "",
-      "id": "skills_polish_frontend_design_dependency",
-      "community_name": "Avatar/Badge/Hooks"
+      "id": "skills_polish_frontend_design_dependency"
     },
     {
       "name": "pre-polish assessment",
@@ -3927,8 +3710,7 @@
       "confidence_score": 1.0,
       "community": 11,
       "norm_label": "",
-      "id": "skills_polish_pre_assessment",
-      "community_name": "Avatar/Badge/Hooks"
+      "id": "skills_polish_pre_assessment"
     },
     {
       "name": "polish dimensions",
@@ -3943,8 +3725,7 @@
       "confidence_score": 1.0,
       "community": 11,
       "norm_label": "",
-      "id": "skills_polish_dimensions",
-      "community_name": "Avatar/Badge/Hooks"
+      "id": "skills_polish_dimensions"
     },
     {
       "name": "interaction states checklist",
@@ -3958,8 +3739,7 @@
       "confidence_score": 1.0,
       "community": 11,
       "norm_label": "",
-      "id": "skills_polish_interaction_states",
-      "community_name": "Avatar/Badge/Hooks"
+      "id": "skills_polish_interaction_states"
     },
     {
       "name": "polish checklist",
@@ -3974,8 +3754,7 @@
       "confidence_score": 1.0,
       "community": 11,
       "norm_label": "",
-      "id": "skills_polish_checklist",
-      "community_name": "Avatar/Badge/Hooks"
+      "id": "skills_polish_checklist"
     },
     {
       "name": "final verification (polish)",
@@ -3989,8 +3768,7 @@
       "confidence_score": 1.0,
       "community": 11,
       "norm_label": "",
-      "id": "skills_polish_final_verification",
-      "community_name": "Avatar/Badge/Hooks"
+      "id": "skills_polish_final_verification"
     },
     {
       "name": "quieter skill",
@@ -4006,8 +3784,7 @@
       "confidence_score": 1.0,
       "community": 12,
       "norm_label": "",
-      "id": "skills_quieter_skill",
-      "community_name": "Ellipsis & Utility Hooks"
+      "id": "skills_quieter_skill"
     },
     {
       "name": "frontend-design skill dependency (quieter)",
@@ -4021,8 +3798,7 @@
       "confidence_score": 1.0,
       "community": 12,
       "norm_label": "",
-      "id": "skills_quieter_frontend_design_dependency",
-      "community_name": "Ellipsis & Utility Hooks"
+      "id": "skills_quieter_frontend_design_dependency"
     },
     {
       "name": "intensity source assessment",
@@ -4036,8 +3812,7 @@
       "confidence_score": 1.0,
       "community": 12,
       "norm_label": "",
-      "id": "skills_quieter_intensity_assessment",
-      "community_name": "Ellipsis & Utility Hooks"
+      "id": "skills_quieter_intensity_assessment"
     },
     {
       "name": "quieter refinement dimensions",
@@ -4051,8 +3826,7 @@
       "confidence_score": 1.0,
       "community": 12,
       "norm_label": "",
-      "id": "skills_quieter_refinement_dimensions",
-      "community_name": "Ellipsis & Utility Hooks"
+      "id": "skills_quieter_refinement_dimensions"
     },
     {
       "name": "quieter design philosophy",
@@ -4066,8 +3840,7 @@
       "confidence_score": 1.0,
       "community": 12,
       "norm_label": "",
-      "id": "skills_quieter_philosophy",
-      "community_name": "Ellipsis & Utility Hooks"
+      "id": "skills_quieter_philosophy"
     },
     {
       "name": "typeset skill",
@@ -4082,8 +3855,7 @@
       "confidence_score": 1.0,
       "community": 13,
       "norm_label": "",
-      "id": "skills_typeset_skill",
-      "community_name": "Agent/Skill Evaluation"
+      "id": "skills_typeset_skill"
     },
     {
       "name": "frontend-design skill dependency (typeset)",
@@ -4097,8 +3869,7 @@
       "confidence_score": 1.0,
       "community": 13,
       "norm_label": "",
-      "id": "skills_typeset_frontend_design_dependency",
-      "community_name": "Agent/Skill Evaluation"
+      "id": "skills_typeset_frontend_design_dependency"
     },
     {
       "name": "typography assessment dimensions",
@@ -4113,8 +3884,7 @@
       "confidence_score": 1.0,
       "community": 13,
       "norm_label": "",
-      "id": "skills_typeset_assessment",
-      "community_name": "Agent/Skill Evaluation"
+      "id": "skills_typeset_assessment"
     },
     {
       "name": "typography improvement dimensions",
@@ -4129,8 +3899,7 @@
       "confidence_score": 1.0,
       "community": 13,
       "norm_label": "",
-      "id": "skills_typeset_improvement_dimensions",
-      "community_name": "Agent/Skill Evaluation"
+      "id": "skills_typeset_improvement_dimensions"
     },
     {
       "name": "typography sizing strategy",
@@ -4145,80 +3914,70 @@
       "confidence_score": 1.0,
       "community": 13,
       "norm_label": "",
-      "id": "skills_typeset_sizing_strategy",
-      "community_name": "Agent/Skill Evaluation"
+      "id": "skills_typeset_sizing_strategy"
     },
     {
       "label": "Root Directory",
       "file_type": "document",
       "community": 72,
       "norm_label": "root directory",
-      "id": "root_directory",
-      "community_name": "Small Cluster 72"
+      "id": "root_directory"
     },
     {
       "label": "sync-vendor.mjs",
       "file_type": "code",
       "community": 15,
       "norm_label": "sync-vendor.mjs",
-      "id": "sync_vendor_script",
-      "community_name": "Menu System"
+      "id": "sync_vendor_script"
     },
     {
       "label": "Build Artifacts (es, dist, json)",
       "file_type": "code",
       "community": 15,
       "norm_label": "build artifacts (es, dist, json)",
-      "id": "build_artifacts",
-      "community_name": "Menu System"
+      "id": "build_artifacts"
     },
     {
       "label": "Public Vendor Resources",
       "file_type": "code",
       "community": 15,
       "norm_label": "public vendor resources",
-      "id": "public_vendor",
-      "community_name": "Menu System"
+      "id": "public_vendor"
     },
     {
       "label": "Theme Bridge System",
       "file_type": "code",
       "community": 17,
       "norm_label": "theme bridge system",
-      "id": "theme_bridge",
-      "community_name": "BackTop & Affix Positioning"
+      "id": "theme_bridge"
     },
     {
       "label": "Astro Runtime (Starlight + MDX)",
       "file_type": "code",
       "community": 17,
       "norm_label": "astro runtime (starlight + mdx)",
-      "id": "astro_runtime",
-      "community_name": "BackTop & Affix Positioning"
+      "id": "astro_runtime"
     },
     {
       "label": "build-dts.mjs",
       "file_type": "code",
       "community": 26,
       "norm_label": "build-dts.mjs",
-      "id": "build_dts_script",
-      "community_name": "Small Cluster 26"
+      "id": "build_dts_script"
     },
     {
       "label": "icongen",
       "file_type": "code",
       "community": 64,
       "norm_label": "icongen",
-      "id": "icongen",
-      "community_name": "Small Cluster 64"
+      "id": "icongen"
     },
     {
       "label": "jsongen (Metadata Generator)",
       "file_type": "code",
       "community": 66,
       "norm_label": "jsongen (metadata generator)",
-      "id": "jsongen",
-      "community_name": "Small Cluster 66"
+      "id": "jsongen"
     }
   ],
   "links": [

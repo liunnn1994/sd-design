@@ -1,0 +1,549 @@
+{
+  "communities": {
+    "0": [
+      "anchor_anchor_component",
+      "anchor_anchor_link_component",
+      "anchor_index",
+      "back_top_back_top_component",
+      "back_top_index",
+      "calendar_calendar_component",
+      "calendar_event_system",
+      "calendar_index",
+      "calendar_schedule_system",
+      "copy_copy_component",
+      "copy_index",
+      "docs_demo_block",
+      "mention_index",
+      "mention_mention_component",
+      "statistic_countdown_component",
+      "statistic_index",
+      "statistic_statistic_component",
+      "tour_index",
+      "tour_tour_component",
+      "trigger_index",
+      "trigger_trigger_component"
+    ],
+    "1": [
+      "component_size_system",
+      "empty_index",
+      "form_field_rule",
+      "form_form_component",
+      "form_form_item_component",
+      "form_index",
+      "form_use_form_item",
+      "form_useformitem",
+      "global_method_pattern",
+      "grid_index",
+      "input_index",
+      "input_number_index",
+      "input_tag_index",
+      "list_index",
+      "message_index",
+      "modal_index",
+      "pagination_index",
+      "progress_index",
+      "radio_index",
+      "rate_index",
+      "slider_index"
+    ],
+    "2": [
+      "config_provider_theme_object",
+      "css_variable_fallback_strategy",
+      "css_variable_token_system_spec",
+      "docs_theme_editor_spec",
+      "fix_local_theme_design",
+      "fix_local_theme_implementation_baseline",
+      "fix_local_theme_proposal",
+      "fix_local_theme_tasks",
+      "homepage_theme_showcase_spec",
+      "less_to_scss_migration",
+      "local_theme_provider_runtime_spec",
+      "runtime_theme_config_provider_spec",
+      "scss_style_architecture_spec",
+      "subtree_theme_container",
+      "theme_docs_runtime_consistency_spec",
+      "theme_inheritance_algorithm",
+      "theme_json_schema_version",
+      "upgrade_style_architecture_proposal",
+      "upgrade_style_architecture_tasks"
+    ],
+    "3": [
+      "packages_sd-vue-docs_component_doc_alert",
+      "packages_sd-vue-docs_component_doc_avatar",
+      "packages_sd-vue-docs_component_doc_badge",
+      "packages_sd-vue-docs_component_doc_breadcrumb",
+      "packages_sd-vue-docs_component_doc_button",
+      "packages_sd-vue-docs_component_doc_card",
+      "packages_sd-vue-docs_component_doc_carousel",
+      "packages_sd-vue-docs_component_doc_checkbox",
+      "packages_sd-vue-docs_component_doc_collapse",
+      "packages_sd-vue-docs_component_doc_comment",
+      "packages_sd-vue-docs_component_doc_date_picker",
+      "packages_sd-vue-docs_component_doc_descriptions",
+      "packages_sd-vue-docs_component_doc_divider",
+      "packages_sd-vue-docs_component_doc_dropdown",
+      "packages_sd-vue-docs_demoblock",
+      "packages_sd-vue-docs_generated_demos"
+    ],
+    "4": [
+      "components_table",
+      "components_tag",
+      "components_tooltip",
+      "components_tree",
+      "components_tree_select",
+      "components_typography",
+      "concept_arco_design_migration",
+      "concept_controlled_uncontrolled",
+      "concept_naive_ui_migration",
+      "concept_virtual_list",
+      "guides_faq",
+      "guides_naive_ui_migration"
+    ],
+    "5": [
+      "component_library_tooling_capability",
+      "docs_tooling_simplification_capability",
+      "migrate_vite_plus_design",
+      "migrate_vite_plus_proposal",
+      "migrate_vite_plus_tasks",
+      "sd_vue_scripts_package",
+      "simplify_build_tooling_change",
+      "simplify_tasks",
+      "workspace_package_workflows_capability",
+      "workspace_package_workflows_spec"
+    ],
+    "6": [
+      "ellipsis_ellipsis_component",
+      "ellipsis_index",
+      "layout_index",
+      "layout_layout_component",
+      "layout_layout_header_component",
+      "layout_layout_sider_component",
+      "menu_index",
+      "menu_menu_component",
+      "menu_menu_item_component",
+      "menu_sub_menu_component"
+    ],
+    "7": [
+      "demo_editor_repl_preview",
+      "generated_demo_source_conventions_spec",
+      "interactive_doc_examples_spec",
+      "migrate_generated_demos_design",
+      "migrate_generated_demos_proposal",
+      "migrate_generated_demos_tasks",
+      "script_setup_lang_ts_convention",
+      "shared_demo_tailwind_stylesheet",
+      "tailwind_utility_class_styling"
+    ],
+    "8": [
+      "skills_overdrive_browser_iteration",
+      "skills_overdrive_context_assessment",
+      "skills_overdrive_frontend_design_dependency",
+      "skills_overdrive_performance_rules",
+      "skills_overdrive_progressive_enhancement",
+      "skills_overdrive_propose_before_build",
+      "skills_overdrive_skill",
+      "skills_overdrive_toolkit",
+      "skills_overdrive_verification"
+    ],
+    "9": [
+      "components_radio_radio_component",
+      "components_table_table_column_data",
+      "components_table_table_component",
+      "components_tree_select_naive_compat_aliases",
+      "components_tree_select_tree_select_component",
+      "components_tree_tree_component",
+      "components_tree_treenode_data",
+      "components_tree_virtual_list_props"
+    ],
+    "10": [
+      "openspec_generated_demo_conventions_spec",
+      "openspec_migrate_generated_demos",
+      "packages_sd-vue-docs",
+      "packages_sd-vue-docs_astro_config",
+      "packages_sd-vue-docs_docs_sidebar",
+      "packages_sd-vue-docs_llms_integration",
+      "packages_sd-vue-docs_llms_txt_page",
+      "packages_sd-vue-docs_tailwind_setup"
+    ],
+    "11": [
+      "skills_polish_checklist",
+      "skills_polish_dimensions",
+      "skills_polish_final_verification",
+      "skills_polish_frontend_design_dependency",
+      "skills_polish_interaction_states",
+      "skills_polish_pre_assessment",
+      "skills_polish_skill"
+    ],
+    "12": [
+      "skills_quieter_frontend_design_dependency",
+      "skills_quieter_intensity_assessment",
+      "skills_quieter_philosophy",
+      "skills_quieter_refinement_dimensions",
+      "skills_quieter_skill"
+    ],
+    "13": [
+      "skills_typeset_assessment",
+      "skills_typeset_frontend_design_dependency",
+      "skills_typeset_improvement_dimensions",
+      "skills_typeset_sizing_strategy",
+      "skills_typeset_skill"
+    ],
+    "14": [
+      "image_index",
+      "popconfirm_index",
+      "popover_index",
+      "trigger_component"
+    ],
+    "15": [
+      "build_artifacts",
+      "public_vendor",
+      "sync_vendor_script"
+    ],
+    "16": [
+      "guides_theme_css_variables",
+      "guides_theme_sdtheme_config",
+      "guides_theme_theme_provider"
+    ],
+    "17": [
+      "astro_runtime",
+      "theme_bridge"
+    ],
+    "18": [
+      "components_tabs_tabs_component",
+      "components_tooltip_tooltip_component"
+    ],
+    "19": [
+      "concept_llms_txt_standard",
+      "docs_llms_txt"
+    ],
+    "20": [
+      "guides_start_sd_design_resolver",
+      "guides_start_sdvue_quick_start"
+    ],
+    "21": [
+      "netlify_docs_deploy",
+      "release_web_vue_workflow"
+    ],
+    "22": [
+      "openspec_cli",
+      "openspec_propose_skill"
+    ],
+    "23": [
+      "astro_content"
+    ],
+    "24": [
+      "astro_starlight"
+    ],
+    "25": [
+      "basehttprequesthandler"
+    ],
+    "26": [
+      "build_dts_script"
+    ],
+    "27": [
+      "cascader_index_cascaderoption"
+    ],
+    "28": [
+      "cascader_index_cascaderpanel"
+    ],
+    "29": [
+      "cascader_index_migration_naive"
+    ],
+    "30": [
+      "chunk_082_selectview"
+    ],
+    "31": [
+      "chunk_082_trigger_component"
+    ],
+    "32": [
+      "chunk_082_virtual_list_migration"
+    ],
+    "33": [
+      "color_picker_index_migration"
+    ],
+    "34": [
+      "components"
+    ],
+    "35": [
+      "components_progress_progress_component"
+    ],
+    "36": [
+      "components_rate_rate_component"
+    ],
+    "37": [
+      "components_result_result_component"
+    ],
+    "38": [
+      "components_spin"
+    ],
+    "39": [
+      "components_split"
+    ],
+    "40": [
+      "components_steps"
+    ],
+    "41": [
+      "components_switch"
+    ],
+    "42": [
+      "components_switch_switch_component"
+    ],
+    "43": [
+      "components_tabs"
+    ],
+    "44": [
+      "components_tag_tag_component"
+    ],
+    "45": [
+      "components_timeline"
+    ],
+    "46": [
+      "components_timeline_timeline_component"
+    ],
+    "47": [
+      "components_transfer"
+    ],
+    "48": [
+      "components_typography_typography_component"
+    ],
+    "49": [
+      "components_upload"
+    ],
+    "50": [
+      "components_upload_upload_component"
+    ],
+    "51": [
+      "components_verification_code"
+    ],
+    "52": [
+      "components_verification_code_verification_code_component"
+    ],
+    "53": [
+      "components_watermark"
+    ],
+    "54": [
+      "components_watermark_watermark_component"
+    ],
+    "55": [
+      "cropper_index_cropperjs"
+    ],
+    "56": [
+      "d_work_sd_design_packages_sd_vue_docs_src_generated_docs_sidebar"
+    ],
+    "57": [
+      "d_work_sd_design_packages_sd_vue_docs_src_styles_demo_css"
+    ],
+    "58": [
+      "date_picker_index_rangepicker"
+    ],
+    "59": [
+      "date_picker_index_shortcuttype"
+    ],
+    "60": [
+      "descriptions_index_descriptionsitem"
+    ],
+    "61": [
+      "docs_index"
+    ],
+    "62": [
+      "graphify_report"
+    ],
+    "63": [
+      "guides_start"
+    ],
+    "64": [
+      "icongen"
+    ],
+    "65": [
+      "jest"
+    ],
+    "66": [
+      "jsongen"
+    ],
+    "67": [
+      "license_agpl3"
+    ],
+    "68": [
+      "link_index"
+    ],
+    "69": [
+      "markdowncontent_astro"
+    ],
+    "70": [
+      "release_auto_import_resolver_workflow"
+    ],
+    "71": [
+      "result_index"
+    ],
+    "72": [
+      "root_directory"
+    ],
+    "73": [
+      "scrollbar_index_overlayscrollbars"
+    ],
+    "74": [
+      "select_index_migration_arco"
+    ],
+    "75": [
+      "select_index_migration_naive"
+    ],
+    "76": [
+      "select_index_selectoptiondata"
+    ],
+    "77": [
+      "select_index_virtuallistprops"
+    ],
+    "78": [
+      "skeleton_index"
+    ],
+    "79": [
+      "space_index"
+    ],
+    "80": [
+      "vite"
+    ],
+    "81": [
+      "web_vue_build_migration_spec"
+    ]
+  },
+  "cohesion": {
+    "0": 0.10952380952380952,
+    "1": 0.13333333333333333,
+    "2": 0.14619883040935672,
+    "3": 0.23333333333333334,
+    "4": 0.19696969696969696,
+    "5": 0.26666666666666666,
+    "6": 0.24444444444444444,
+    "7": 0.2777777777777778,
+    "8": 0.2222222222222222,
+    "9": 0.2857142857142857,
+    "10": 0.25,
+    "11": 0.2857142857142857,
+    "12": 0.4,
+    "13": 0.4,
+    "14": 0.5,
+    "15": 0.6666666666666666,
+    "16": 0.6666666666666666,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0,
+    "21": 1.0,
+    "22": 1.0,
+    "23": 1.0,
+    "24": 1.0,
+    "25": 1.0,
+    "26": 1.0,
+    "27": 1.0,
+    "28": 1.0,
+    "29": 1.0,
+    "30": 1.0,
+    "31": 1.0,
+    "32": 1.0,
+    "33": 1.0,
+    "34": 1.0,
+    "35": 1.0,
+    "36": 1.0,
+    "37": 1.0,
+    "38": 1.0,
+    "39": 1.0,
+    "40": 1.0,
+    "41": 1.0,
+    "42": 1.0,
+    "43": 1.0,
+    "44": 1.0,
+    "45": 1.0,
+    "46": 1.0,
+    "47": 1.0,
+    "48": 1.0,
+    "49": 1.0,
+    "50": 1.0,
+    "51": 1.0,
+    "52": 1.0,
+    "53": 1.0,
+    "54": 1.0,
+    "55": 1.0,
+    "56": 1.0,
+    "57": 1.0,
+    "58": 1.0,
+    "59": 1.0,
+    "60": 1.0,
+    "61": 1.0,
+    "62": 1.0,
+    "63": 1.0,
+    "64": 1.0,
+    "65": 1.0,
+    "66": 1.0,
+    "67": 1.0,
+    "68": 1.0,
+    "69": 1.0,
+    "70": 1.0,
+    "71": 1.0,
+    "72": 1.0,
+    "73": 1.0,
+    "74": 1.0,
+    "75": 1.0,
+    "76": 1.0,
+    "77": 1.0,
+    "78": 1.0,
+    "79": 1.0,
+    "80": 1.0,
+    "81": 1.0
+  },
+  "gods": [
+    {
+      "id": "d_work_sd_design_packages_sd_vue_docs_src_styles_demo_css",
+      "label": "../../styles/demo.css",
+      "degree": 0
+    },
+    {
+      "id": "markdowncontent_astro",
+      "label": "@astrojs/starlight/components/MarkdownContent.astro",
+      "degree": 0
+    },
+    {
+      "id": "graphify_report",
+      "label": "Graph Report (graphify-out)",
+      "degree": 0
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Migrate Generated Demos to Script Setup + Tailwind",
+      "target": "Generated Demo Components",
+      "source_files": [
+        "",
+        ""
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "modifies",
+      "note": "Bridges community 10 \u2192 community 3"
+    },
+    {
+      "source": "Form Component Doc",
+      "target": "DemoBlock component",
+      "source_files": [
+        "",
+        ""
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "uses",
+      "note": "Bridges community 1 \u2192 community 0"
+    },
+    {
+      "source": "Ellipsis Component Docs",
+      "target": "DemoBlock component",
+      "source_files": [
+        "",
+        ""
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "uses",
+      "note": "Bridges community 6 \u2192 community 0"
+    }
+  ],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}

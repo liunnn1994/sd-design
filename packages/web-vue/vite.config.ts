@@ -4,7 +4,8 @@ import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import CleanCSS from 'clean-css';
 import { globSync } from 'glob';
-import { access, cp, mkdir, rm, writeFile } from 'node:fs/promises';
+import { access, cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite-plus';
@@ -16,6 +17,7 @@ import vueExportHelperPlugin from './scripts/plugins/vite-plugin-vue-export-help
 import { createSassStyleSupport } from './scripts/utils/sass-support.mts';
 
 const packageRoot = path.dirname(fileURLToPath(import.meta.url));
+const require = createRequire(import.meta.url);
 
 const resolveFromRoot = (...segments: string[]) => path.resolve(packageRoot, ...segments);
 
@@ -228,6 +230,11 @@ async function canAccessFile(filePath: string) {
 }
 
 async function emitStyleArtifacts(log?: (message: string) => void) {
+  const overlayScrollbarsCss = await readFile(
+    require.resolve('overlayscrollbars/overlayscrollbars.css'),
+    'utf8',
+  );
+  const withOverlayScrollbarsCss = (css: string) => `${overlayScrollbarsCss}\n${css}`;
   const files = globSync('**/*.{scss,js}', {
     cwd: componentsRoot,
     posix: true,
@@ -250,7 +257,11 @@ async function emitStyleArtifacts(log?: (message: string) => void) {
     if (styleEntrySet.has(filename)) {
       compiledStyleEntryCount += 1;
       log?.(`Compiling style entry ${compiledStyleEntryCount}/${styleEntries.length}: ${filename}`);
-      const css = await compileStyleEntry(absolute, filename);
+      const compiledCss = await compileStyleEntry(absolute, filename);
+      const css =
+        filename === 'scrollbar/style/index.scss'
+          ? withOverlayScrollbarsCss(compiledCss)
+          : compiledCss;
       const cssFilename = filename.replace(/\.scss$/, '.css');
       await writeFile(resolveFromRoot('es', cssFilename), css, 'utf8');
     }
@@ -264,7 +275,7 @@ async function emitStyleArtifacts(log?: (message: string) => void) {
   }
 
   log?.('Compiling root style bundle: components/index.scss');
-  const css = await compileStyleEntry(indexScssPath, 'index.scss');
+  const css = withOverlayScrollbarsCss(await compileStyleEntry(indexScssPath, 'index.scss'));
   await writeFile(resolveFromRoot('es', 'index.css'), css, 'utf8');
 
   await rm(resolveFromRoot('dist'), { recursive: true, force: true });

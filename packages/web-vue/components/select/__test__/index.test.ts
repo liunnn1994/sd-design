@@ -28,6 +28,19 @@ describe('Select', () => {
     expect(document.body.outerHTML.replace('<body><!---->', '<body>')).toMatchSnapshot();
   });
 
+  test('should disable horizontal scrollbar in dropdown', async () => {
+    const wrapper = mount(Select, {
+      props: {
+        options: ['Beijing', 'Shanghai', 'Guangzhou', 'Chengdu'],
+      },
+    });
+
+    await wrapper.find('.sd-select-view').trigger('click');
+
+    const dropdown = wrapper.findComponent({ name: 'SelectDropdown' });
+    expect(dropdown.findComponent({ name: 'Scrollbar' }).props('disableHorizontal')).toBe(true);
+  });
+
   test('keyboard correctly', async () => {
     const wrapper = mount(Select, {
       props: {

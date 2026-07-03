@@ -16,6 +16,7 @@
       ref="wrapperComRef"
       :class="`${prefixCls}-list-wrapper`"
       v-bind="scrollbarProps"
+      disable-horizontal
       @scroll="handleScroll"
     >
       <ul :class="`${prefixCls}-list`">
