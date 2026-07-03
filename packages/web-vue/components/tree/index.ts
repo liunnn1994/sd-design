@@ -14,8 +14,14 @@ export type {
   Key2TreeNode,
   LoadMore,
   TreeFieldNames,
+  TreeNodeDomEventName,
   TreeNodeData,
+  TreeNodeEventHandler,
   TreeNodeKey,
+  TreeNodeSwipeDirection,
+  TreeNodeSwipeEventData,
+  TreeNodeSwipeEventHandler,
+  TreeNodeSwipeEventName,
   TreeProps,
 } from './interface';
 
@@ -33,5 +39,8 @@ export type TreeSelectHandler = NonNullable<TreeProps['onSelect']>;
 export type TreeCheckHandler = NonNullable<TreeProps['onCheck']>;
 export type TreeExpandHandler = NonNullable<TreeProps['onExpand']>;
 export type TreeDropHandler = NonNullable<TreeProps['onDrop']>;
+export type TreeNodeClickHandler = NonNullable<TreeProps['onNodeClick']>;
+export type TreeNodeLongPressHandler = NonNullable<TreeProps['onNodeLongPress']>;
+export type TreeNodeSwipeHandler = NonNullable<TreeProps['onNodeSwipe']>;
 
 export default Tree;

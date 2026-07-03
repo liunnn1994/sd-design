@@ -33,6 +33,9 @@
     TreeNodeKey,
     CheckedStrategy,
     Node,
+    TreeNodeDomEventName,
+    TreeNodeSwipeEventData,
+    TreeNodeSwipeEventName,
   } from './interface';
 
   import VirtualList from '../_components/virtual-list';
@@ -53,7 +56,6 @@
     medium: 32,
     large: 36,
   } as const;
-
   defineOptions({ name: 'Tree' });
 
   const props = defineProps({
@@ -400,6 +402,54 @@
         dropPosition: number;
       },
     ];
+    /**
+     * @zh 节点标题区域触发基础 DOM 事件时触发
+     * @en Triggered when basic DOM events are fired on the node title area
+     * @param {TreeNodeData} node
+     * @param {Event} event
+     */
+    'nodeClick': [_node: TreeNodeData, _event: Event];
+    'nodeDblclick': [_node: TreeNodeData, _event: Event];
+    'nodeContextmenu': [_node: TreeNodeData, _event: Event];
+    'nodeMouseover': [_node: TreeNodeData, _event: Event];
+    'nodeMouseenter': [_node: TreeNodeData, _event: Event];
+    'nodeMouseleave': [_node: TreeNodeData, _event: Event];
+    'nodeMousemove': [_node: TreeNodeData, _event: Event];
+    'nodeMouseout': [_node: TreeNodeData, _event: Event];
+    'nodeMousedown': [_node: TreeNodeData, _event: Event];
+    'nodeMouseup': [_node: TreeNodeData, _event: Event];
+    'nodePointerdown': [_node: TreeNodeData, _event: Event];
+    'nodePointermove': [_node: TreeNodeData, _event: Event];
+    'nodePointerup': [_node: TreeNodeData, _event: Event];
+    'nodePointerenter': [_node: TreeNodeData, _event: Event];
+    'nodePointerleave': [_node: TreeNodeData, _event: Event];
+    'nodePointerover': [_node: TreeNodeData, _event: Event];
+    'nodePointerout': [_node: TreeNodeData, _event: Event];
+    'nodePointercancel': [_node: TreeNodeData, _event: Event];
+    'nodeTouchstart': [_node: TreeNodeData, _event: Event];
+    'nodeTouchmove': [_node: TreeNodeData, _event: Event];
+    'nodeTouchend': [_node: TreeNodeData, _event: Event];
+    'nodeTouchcancel': [_node: TreeNodeData, _event: Event];
+    'nodeKeydown': [_node: TreeNodeData, _event: Event];
+    'nodeKeyup': [_node: TreeNodeData, _event: Event];
+    'nodeKeypress': [_node: TreeNodeData, _event: Event];
+    /**
+     * @zh 节点标题区域触发长按时触发
+     * @en Triggered when the node title area is long pressed
+     * @param {TreeNodeData} node
+     * @param {PointerEvent} event
+     */
+    'nodeLongPress': [_node: TreeNodeData, _event: PointerEvent];
+    /**
+     * @zh 节点标题区域触发滑动时触发
+     * @en Triggered when the node title area is swiped
+     * @param {TreeNodeData} node
+     * @param {TouchEvent} event
+     * @param {{ direction: 'up' | 'down' | 'left' | 'right' | 'none' }} data
+     */
+    'nodeSwipeStart': [_node: TreeNodeData, _event: TouchEvent, _data: TreeNodeSwipeEventData];
+    'nodeSwipe': [_node: TreeNodeData, _event: TouchEvent, _data: TreeNodeSwipeEventData];
+    'nodeSwipeEnd': [_node: TreeNodeData, _event: TouchEvent, _data: TreeNodeSwipeEventData];
   }>();
 
   /**
@@ -912,6 +962,115 @@
     }
   }
 
+  function onNodeEvent(eventName: TreeNodeDomEventName, key: TreeNodeKey, event: Event) {
+    const node = key2TreeNode.value.get(key);
+    if (!node) return;
+
+    const nodeData = node.treeNodeData;
+    switch (eventName) {
+      case 'click':
+        emit('nodeClick', nodeData, event);
+        break;
+      case 'dblclick':
+        emit('nodeDblclick', nodeData, event);
+        break;
+      case 'contextmenu':
+        emit('nodeContextmenu', nodeData, event);
+        break;
+      case 'mouseover':
+        emit('nodeMouseover', nodeData, event);
+        break;
+      case 'mouseenter':
+        emit('nodeMouseenter', nodeData, event);
+        break;
+      case 'mouseleave':
+        emit('nodeMouseleave', nodeData, event);
+        break;
+      case 'mousemove':
+        emit('nodeMousemove', nodeData, event);
+        break;
+      case 'mouseout':
+        emit('nodeMouseout', nodeData, event);
+        break;
+      case 'mousedown':
+        emit('nodeMousedown', nodeData, event);
+        break;
+      case 'mouseup':
+        emit('nodeMouseup', nodeData, event);
+        break;
+      case 'pointerdown':
+        emit('nodePointerdown', nodeData, event);
+        break;
+      case 'pointermove':
+        emit('nodePointermove', nodeData, event);
+        break;
+      case 'pointerup':
+        emit('nodePointerup', nodeData, event);
+        break;
+      case 'pointerenter':
+        emit('nodePointerenter', nodeData, event);
+        break;
+      case 'pointerleave':
+        emit('nodePointerleave', nodeData, event);
+        break;
+      case 'pointerover':
+        emit('nodePointerover', nodeData, event);
+        break;
+      case 'pointerout':
+        emit('nodePointerout', nodeData, event);
+        break;
+      case 'pointercancel':
+        emit('nodePointercancel', nodeData, event);
+        break;
+      case 'touchstart':
+        emit('nodeTouchstart', nodeData, event);
+        break;
+      case 'touchmove':
+        emit('nodeTouchmove', nodeData, event);
+        break;
+      case 'touchend':
+        emit('nodeTouchend', nodeData, event);
+        break;
+      case 'touchcancel':
+        emit('nodeTouchcancel', nodeData, event);
+        break;
+      case 'keydown':
+        emit('nodeKeydown', nodeData, event);
+        break;
+      case 'keyup':
+        emit('nodeKeyup', nodeData, event);
+        break;
+      case 'keypress':
+        emit('nodeKeypress', nodeData, event);
+        break;
+    }
+  }
+
+  function onNodeLongPress(key: TreeNodeKey, event: PointerEvent) {
+    const node = key2TreeNode.value.get(key);
+    if (!node) return;
+
+    emit('nodeLongPress', node.treeNodeData, event);
+  }
+
+  function onNodeSwipe(
+    eventName: TreeNodeSwipeEventName,
+    key: TreeNodeKey,
+    event: TouchEvent,
+    swipeData: TreeNodeSwipeEventData,
+  ) {
+    const node = key2TreeNode.value.get(key);
+    if (!node) return;
+
+    if (eventName === 'swipeStart') {
+      emit('nodeSwipeStart', node.treeNodeData, event, swipeData);
+    } else if (eventName === 'swipe') {
+      emit('nodeSwipe', node.treeNodeData, event, swipeData);
+    } else {
+      emit('nodeSwipeEnd', node.treeNodeData, event, swipeData);
+    }
+  }
+
   const onLoadMore = computed(() =>
     loadMore?.value
       ? async (key: TreeNodeKey) => {
@@ -963,6 +1122,9 @@
     onSelect,
     onExpand,
     onExpandEnd,
+    onNodeEvent,
+    onNodeLongPress,
+    onNodeSwipe,
     allowDrop(key: TreeNodeKey, dropPosition: DropPosition) {
       const node = key2TreeNode.value.get(key);
       if (node && isFunction(allowDrop!.value)) {

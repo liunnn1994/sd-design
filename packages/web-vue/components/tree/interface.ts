@@ -4,6 +4,45 @@ import { VirtualListProps } from '../_components/virtual-list/interface';
 import { Size } from '../_utils/constant';
 
 export type TreeNodeKey = number | string;
+export type TreeNodeDomEventName =
+  | 'click'
+  | 'dblclick'
+  | 'contextmenu'
+  | 'mouseover'
+  | 'mouseenter'
+  | 'mouseleave'
+  | 'mousemove'
+  | 'mouseout'
+  | 'mousedown'
+  | 'mouseup'
+  | 'pointerdown'
+  | 'pointermove'
+  | 'pointerup'
+  | 'pointerenter'
+  | 'pointerleave'
+  | 'pointerover'
+  | 'pointerout'
+  | 'pointercancel'
+  | 'touchstart'
+  | 'touchmove'
+  | 'touchend'
+  | 'touchcancel'
+  | 'keydown'
+  | 'keyup'
+  | 'keypress';
+export type TreeNodeSwipeEventName = 'swipeStart' | 'swipe' | 'swipeEnd';
+export type TreeNodeSwipeDirection = 'up' | 'down' | 'left' | 'right' | 'none';
+
+export interface TreeNodeSwipeEventData {
+  direction: TreeNodeSwipeDirection;
+}
+
+export type TreeNodeEventHandler<T extends Event = Event> = (node: TreeNodeData, event: T) => void;
+export type TreeNodeSwipeEventHandler = (
+  node: TreeNodeData,
+  event: TouchEvent,
+  data: TreeNodeSwipeEventData,
+) => void;
 
 export interface TreeNodeData {
   /**
@@ -241,6 +280,35 @@ export interface TreeProps {
     dropNode: TreeNodeData;
     dropPosition: number;
   }) => void;
+  onNodeClick?: TreeNodeEventHandler;
+  onNodeDblclick?: TreeNodeEventHandler;
+  onNodeContextmenu?: TreeNodeEventHandler;
+  onNodeMouseover?: TreeNodeEventHandler;
+  onNodeMouseenter?: TreeNodeEventHandler;
+  onNodeMouseleave?: TreeNodeEventHandler;
+  onNodeMousemove?: TreeNodeEventHandler;
+  onNodeMouseout?: TreeNodeEventHandler;
+  onNodeMousedown?: TreeNodeEventHandler;
+  onNodeMouseup?: TreeNodeEventHandler;
+  onNodePointerdown?: TreeNodeEventHandler;
+  onNodePointermove?: TreeNodeEventHandler;
+  onNodePointerup?: TreeNodeEventHandler;
+  onNodePointerenter?: TreeNodeEventHandler;
+  onNodePointerleave?: TreeNodeEventHandler;
+  onNodePointerover?: TreeNodeEventHandler;
+  onNodePointerout?: TreeNodeEventHandler;
+  onNodePointercancel?: TreeNodeEventHandler;
+  onNodeTouchstart?: TreeNodeEventHandler;
+  onNodeTouchmove?: TreeNodeEventHandler;
+  onNodeTouchend?: TreeNodeEventHandler;
+  onNodeTouchcancel?: TreeNodeEventHandler;
+  onNodeKeydown?: TreeNodeEventHandler;
+  onNodeKeyup?: TreeNodeEventHandler;
+  onNodeKeypress?: TreeNodeEventHandler;
+  onNodeLongPress?: TreeNodeEventHandler<PointerEvent>;
+  onNodeSwipeStart?: TreeNodeSwipeEventHandler;
+  onNodeSwipe?: TreeNodeSwipeEventHandler;
+  onNodeSwipeEnd?: TreeNodeSwipeEventHandler;
   filterTreeNode?: (node: TreeNodeData) => boolean;
 }
 

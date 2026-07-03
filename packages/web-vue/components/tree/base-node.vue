@@ -65,6 +65,30 @@
       @dragleave="onDragLeave"
       @drop="onDrop"
       @click="onTitleClick"
+      @dblclick="onNodeDomEvent('dblclick', $event)"
+      @contextmenu="onNodeDomEvent('contextmenu', $event)"
+      @mouseover="onNodeDomEvent('mouseover', $event)"
+      @mouseenter="onNodeDomEvent('mouseenter', $event)"
+      @mouseleave="onNodeDomEvent('mouseleave', $event)"
+      @mousemove="onNodeDomEvent('mousemove', $event)"
+      @mouseout="onNodeDomEvent('mouseout', $event)"
+      @mousedown="onNodeDomEvent('mousedown', $event)"
+      @mouseup="onNodeDomEvent('mouseup', $event)"
+      @pointerdown="onNodeDomEvent('pointerdown', $event)"
+      @pointermove="onNodeDomEvent('pointermove', $event)"
+      @pointerup="onNodeDomEvent('pointerup', $event)"
+      @pointerenter="onNodeDomEvent('pointerenter', $event)"
+      @pointerleave="onNodeDomEvent('pointerleave', $event)"
+      @pointerover="onNodeDomEvent('pointerover', $event)"
+      @pointerout="onNodeDomEvent('pointerout', $event)"
+      @pointercancel="onNodeDomEvent('pointercancel', $event)"
+      @touchstart="onNodeDomEvent('touchstart', $event)"
+      @touchmove="onNodeDomEvent('touchmove', $event)"
+      @touchend="onNodeDomEvent('touchend', $event)"
+      @touchcancel="onNodeDomEvent('touchcancel', $event)"
+      @keydown="onNodeDomEvent('keydown', $event)"
+      @keyup="onNodeDomEvent('keyup', $event)"
+      @keypress="onNodeDomEvent('keypress', $event)"
     >
       <span
         v-if="$slots.icon || icon || treeNodeIcon"
@@ -107,6 +131,8 @@
 <script setup lang="ts">
   import { computed, PropType, toRefs, VNode, reactive, ref } from 'vue';
 
+  import { onLongPress, useSwipe } from '@vueuse/core';
+
   import { getPrefixCls } from '../_utils/global-config';
   import { isFunction } from '../_utils/is';
   import { toArray } from '../_utils/to-array';
@@ -115,7 +141,7 @@
   import useDraggable from './hooks/use-draggable';
   import useNodeKey from './hooks/use-node-key';
   import useTreeContext from './hooks/use-tree-context';
-  import { Node } from './interface';
+  import { Node, TreeNodeDomEventName, TreeNodeSwipeDirection } from './interface';
   import NodeSwitcher from './node-switcher.vue';
 
   defineOptions({ name: 'BaseTreeNode' });
@@ -207,6 +233,24 @@
   ]);
 
   const refTitle = ref<HTMLElement>();
+  const swipeState = useSwipe(refTitle, {
+    onSwipeStart(event) {
+      treeContext.onNodeSwipe?.('swipeStart', key.value, event, { direction: 'none' });
+    },
+    onSwipe(event) {
+      treeContext.onNodeSwipe?.('swipe', key.value, event, {
+        direction: swipeState.direction.value as TreeNodeSwipeDirection,
+      });
+    },
+    onSwipeEnd(event, direction) {
+      treeContext.onNodeSwipe?.('swipeEnd', key.value, event, { direction });
+    },
+  });
+
+  onLongPress(refTitle, (event) => {
+    treeContext.onNodeLongPress?.(key.value, event);
+  });
+
   const { isDragOver, isDragging, isAllowDrop, dropPosition, setDragStatus } = useDraggable(
     reactive({
       key,
@@ -294,11 +338,15 @@
     treeContext.onCheck?.(value, key.value, e);
   }
   function onTitleClick(e: Event) {
+    onNodeDomEvent('click', e);
     if (actionOnNodeClick.value.includes('expand')) {
       onSwitcherClick(e);
     }
     if (!selectable.value || disabled.value) return;
     treeContext.onSelect?.(key.value, e);
+  }
+  function onNodeDomEvent(eventName: TreeNodeDomEventName, e: Event) {
+    treeContext.onNodeEvent?.(eventName, key.value, e);
   }
   function onDragStart(e: DragEvent) {
     if (!draggable.value) return;

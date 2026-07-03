@@ -7,6 +7,9 @@ import type {
   TreeProps,
   Key2TreeNode,
   FilterTreeNode,
+  TreeNodeDomEventName,
+  TreeNodeSwipeEventData,
+  TreeNodeSwipeEventName,
 } from './interface';
 
 export const TreeInjectionKey: InjectionKey<TreeContext> = Symbol('TreeInjectionKey');
@@ -40,4 +43,12 @@ export type TreeContext = Readonly<{
   onDragLeave?: (key: TreeNodeKey, e: DragEvent) => void;
   onDrop?: (key: TreeNodeKey, dropPosition: DropPosition, e: DragEvent) => void;
   allowDrop?: (key: TreeNodeKey, dropPosition: DropPosition) => boolean;
+  onNodeEvent?: (eventName: TreeNodeDomEventName, key: TreeNodeKey, e: Event) => void;
+  onNodeLongPress?: (key: TreeNodeKey, e: PointerEvent) => void;
+  onNodeSwipe?: (
+    eventName: TreeNodeSwipeEventName,
+    key: TreeNodeKey,
+    e: TouchEvent,
+    data: TreeNodeSwipeEventData,
+  ) => void;
 }>;

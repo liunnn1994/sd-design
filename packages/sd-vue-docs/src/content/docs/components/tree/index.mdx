@@ -26,6 +26,8 @@ import TreeMultipleDemo from '../../../../components/generated/tree/multiple.vue
 import treeMultipleSource from '../../../../components/generated/tree/multiple.vue?raw';
 import TreeNodeIconDemo from '../../../../components/generated/tree/node-icon.vue';
 import treeNodeIconSource from '../../../../components/generated/tree/node-icon.vue?raw';
+import TreeNodeEventsDemo from '../../../../components/generated/tree/node-events.vue';
+import treeNodeEventsSource from '../../../../components/generated/tree/node-events.vue?raw';
 import TreeRenderExtraDemo from '../../../../components/generated/tree/render-extra.vue';
 import treeRenderExtraSource from '../../../../components/generated/tree/render-extra.vue?raw';
 import TreeSearchDemo from '../../../../components/generated/tree/search.vue';
@@ -147,6 +149,16 @@ import treeVirtualSource from '../../../../components/generated/tree/virtual.vue
 
 </DemoBlock>
 
+### 节点事件
+
+Tree 会透出节点标题区域的基础 DOM 事件，并补充 VueUse 的长按与滑动事件。事件参数统一先返回节点数据，再返回原始事件对象。
+
+<DemoBlock source={treeNodeEventsSource} mainFile="src/tree-node-events.vue">
+
+<TreeNodeEventsDemo client:only="vue" />
+
+</DemoBlock>
+
 ### 定制额外节点
 
 `Tree` 提供了名为 `extra` 的 `Slot`, 可以在节点上定制额外的内容。
@@ -246,6 +258,13 @@ import treeVirtualSource from '../../../../components/generated/tree/virtual.vue
 | drag-over | 节点被拖拽至可释放目标 | ev: `DragEvent`<br />node: `TreeNodeData` |
 | drag-leave | 节点离开可释放目标 | ev: `DragEvent`<br />node: `TreeNodeData` |
 | drop | 节点在可释放目标上释放 | data: `{ e: DragEvent; dragNode: TreeNodeData; dropNode: TreeNodeData; dropPosition: number; }` |
+| node-click / node-dblclick / node-contextmenu | 节点标题区域触发点击、双击或右键菜单时触发 | node: `TreeNodeData`<br />event: `Event` |
+| node-mouseover / node-mouseenter / node-mouseleave / node-mousemove / node-mouseout / node-mousedown / node-mouseup | 节点标题区域触发鼠标事件时触发 | node: `TreeNodeData`<br />event: `Event` |
+| node-pointerdown / node-pointermove / node-pointerup / node-pointerenter / node-pointerleave / node-pointerover / node-pointerout / node-pointercancel | 节点标题区域触发 Pointer 事件时触发 | node: `TreeNodeData`<br />event: `Event` |
+| node-touchstart / node-touchmove / node-touchend / node-touchcancel | 节点标题区域触发 Touch 事件时触发 | node: `TreeNodeData`<br />event: `Event` |
+| node-keydown / node-keyup / node-keypress | 节点标题区域内触发键盘事件时触发 | node: `TreeNodeData`<br />event: `Event` |
+| node-long-press | 节点标题区域触发 VueUse 长按时触发 | node: `TreeNodeData`<br />event: `PointerEvent` |
+| node-swipe-start / node-swipe / node-swipe-end | 节点标题区域触发 VueUse 滑动时触发 | node: `TreeNodeData`<br />event: `TouchEvent`<br />data: `{ direction: 'up' \| 'down' \| 'left' \| 'right' \| 'none' }` |
 
 ### `<tree>` Methods
 

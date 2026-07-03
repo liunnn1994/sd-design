@@ -7,56 +7,48 @@
 
 ## [3.0.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.0.0...web-vue-v3.0.1) (2026-07-02)
 
-
 ### Bug Fixes
 
-* 🐛 修复 json form 错误的 margin ([f3ba0d1](https://github.com/liunnn1994/sd-design/commit/f3ba0d1b6a714191b70cfa79930df5830682633b))
+- 🐛 修复 json form 错误的 margin ([f3ba0d1](https://github.com/liunnn1994/sd-design/commit/f3ba0d1b6a714191b70cfa79930df5830682633b))
 
 # [3.0.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.11.3...web-vue-v3.0.0) (2026-06-30)
 
-
 ### Features
 
-* 🆕 修改 spin 的样式 ([44f0b53](https://github.com/liunnn1994/sd-design/commit/44f0b538f2ca79cae64bf73dbe4236caf66a6839))
-
+- 🆕 修改 spin 的样式 ([44f0b53](https://github.com/liunnn1994/sd-design/commit/44f0b538f2ca79cae64bf73dbe4236caf66a6839))
 
 ### BREAKING CHANGES
 
-* 🧨 spin 由 inline-block 改为 block
+- 🧨 spin 由 inline-block 改为 block
 
 ## [2.11.3](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.11.2...web-vue-v2.11.3) (2026-06-29)
 
-
 ### Bug Fixes
 
-* 🐛 修复在线编辑器的自动导入无法识别部分组件的问题 ([2807ecb](https://github.com/liunnn1994/sd-design/commit/2807ecbcbab6a42e434cdb18a75bc85ccb4e6693))
+- 🐛 修复在线编辑器的自动导入无法识别部分组件的问题 ([2807ecb](https://github.com/liunnn1994/sd-design/commit/2807ecbcbab6a42e434cdb18a75bc85ccb4e6693))
 
 ## [2.11.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.11.1...web-vue-v2.11.2) (2026-06-29)
 
-
 ### Bug Fixes
 
-* 🐛 修复错误的样式处理 ([3423331](https://github.com/liunnn1994/sd-design/commit/3423331861c6d846d5b639828a5489dad08c1d89))
+- 🐛 修复错误的样式处理 ([3423331](https://github.com/liunnn1994/sd-design/commit/3423331861c6d846d5b639828a5489dad08c1d89))
 
 ## [2.11.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.11.0...web-vue-v2.11.1) (2026-06-25)
 
-
 ### Bug Fixes
 
-* 🐛 修复错误的竟态 ([5d3efcb](https://github.com/liunnn1994/sd-design/commit/5d3efcbf1c7882954903cab6c2a3acb73af7354c))
+- 🐛 修复错误的竟态 ([5d3efcb](https://github.com/liunnn1994/sd-design/commit/5d3efcbf1c7882954903cab6c2a3acb73af7354c))
 
 # [2.11.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.10.2...web-vue-v2.11.0) (2026-06-25)
 
-
 ### Bug Fixes
 
-* 🐛 修复错误的大小写 ([fed991f](https://github.com/liunnn1994/sd-design/commit/fed991f7bcc1b66fc377dec8d738484c01e5ce04))
-* 🐛 修复首次启动文件缺失的问题 ([81dc32e](https://github.com/liunnn1994/sd-design/commit/81dc32e42744732645da59aa0996190f63c22df8))
-
+- 🐛 修复错误的大小写 ([fed991f](https://github.com/liunnn1994/sd-design/commit/fed991f7bcc1b66fc377dec8d738484c01e5ce04))
+- 🐛 修复首次启动文件缺失的问题 ([81dc32e](https://github.com/liunnn1994/sd-design/commit/81dc32e42744732645da59aa0996190f63c22df8))
 
 ### Features
 
-* 🆕 优化 layout header 的默认按钮颜色 ([6ff7edc](https://github.com/liunnn1994/sd-design/commit/6ff7edc8eac3268f0d54611711266762d3d86f17))
+- 🆕 优化 layout header 的默认按钮颜色 ([6ff7edc](https://github.com/liunnn1994/sd-design/commit/6ff7edc8eac3268f0d54611711266762d3d86f17))
 
 ## [2.10.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v2.10.1...web-vue-v2.10.2) (2026-06-25)
 
