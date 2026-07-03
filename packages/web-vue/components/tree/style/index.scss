@@ -183,6 +183,10 @@ $tree-node-prefix-cls: string.unquote('#{theme.$prefix}-tree-node');
       position: absolute;
       right: $tree-spacing-drag-icon-right;
     }
+    .#{$tree-node-prefix-cls}-title-text {
+      display: block;
+      width: 100%;
+    }
   }
 
   &-node-indent {
