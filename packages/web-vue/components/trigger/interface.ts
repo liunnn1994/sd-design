@@ -30,11 +30,11 @@ export interface TriggerProps {
   popupStyle?: CSSProperties;
   animationName?: string;
   duration?:
-    | number
-    | {
-        enter: number;
-        leave: number;
-      };
+  | number
+  | {
+    enter: number;
+    leave: number;
+  };
   mouseEnterDelay?: number;
   mouseLeaveDelay?: number;
   focusDelay?: number;
@@ -43,5 +43,12 @@ export interface TriggerProps {
   autoFixPosition?: boolean;
   popupContainer?: string | HTMLElement;
   updateAtScroll?: boolean;
+  autoFitTransformOrigin?: boolean;
+  hideEmpty?: boolean;
+  opendClass?: string | string[] | Record<string, boolean>;
   autoFitPosition?: boolean;
+  renderToBody?: boolean;
+  preventFocus?: boolean;
+  scrollToClose?: boolean;
+  scrollToCloseDistance?: number;
 }
