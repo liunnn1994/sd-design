@@ -1,3 +1,11 @@
+## [3.2.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.2.0...web-vue-v3.2.1) (2026-07-05)
+
+
+### Bug Fixes
+
+* **image:** ensure left mouse button is used for dragging ([#3665](https://github.com/liunnn1994/sd-design/issues/3665)) ([3b2fb6c](https://github.com/liunnn1994/sd-design/commit/3b2fb6c387ec4787c32e66d6fbb27eb3b584572f))
+* 修复trigger组件props和interface定义不一致的问题 ([#3663](https://github.com/liunnn1994/sd-design/issues/3663)) ([ee158dd](https://github.com/liunnn1994/sd-design/commit/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a))
+
 # [3.2.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.1.0...web-vue-v3.2.0) (2026-07-03)
 
 
