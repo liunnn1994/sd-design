@@ -1,5 +1,7 @@
 import { ref } from 'vue';
 
+import { throttleByRaf } from '../../_utils/throttle-by-raf';
+
 interface ControlBlockParams {
   value: [number, number];
   onChange: (value: [number, number]) => void;
@@ -9,6 +11,9 @@ export const useControlBlock = ({ value, onChange }: ControlBlockParams) => {
   const active = ref(false);
   const blockRef = ref<HTMLDivElement>();
   const handlerRef = ref<HTMLDivElement>();
+
+  // 快速拖拽时按帧合并颜色更新，避免每次 mousemove 都触发完整的颜色重算与重渲染
+  const throttledChange = throttleByRaf(onChange);
 
   const getPercentNumber = (value: number, max: number) => {
     if (value < 0) return 0;
@@ -25,7 +30,7 @@ export const useControlBlock = ({ value, onChange }: ControlBlockParams) => {
       getPercentNumber(clientY - rect.y, rect.height),
     ];
     if (newValue[0] !== value[0] || newValue[1] !== value[1]) {
-      onChange?.(newValue);
+      throttledChange(newValue);
     }
   };
 
@@ -37,6 +42,8 @@ export const useControlBlock = ({ value, onChange }: ControlBlockParams) => {
   };
 
   const onMouseDown = (ev: MouseEvent) => {
+    // 阻止默认行为，避免快速拖拽时浏览器触发页面文字选中
+    ev.preventDefault();
     active.value = true;
     setCurrentPosition(ev);
     window.addEventListener('mousemove', onMouseMove);
