@@ -64,7 +64,7 @@
     },
     resetOnHover: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   });
 
