@@ -147,4 +147,66 @@ describe('Tag', () => {
     expect(style).toContain('--sd-tag-border-color');
     expect(wrapper.classes()).toContain('sd-tag-bordered');
   });
+
+  test('should use color alpha when color has transparency and backgroundAlpha is not set', () => {
+    const wrapper = mount(Tag, {
+      props: {
+        color: 'rgba(255, 0, 86, 0.5)',
+        bordered: true,
+      },
+      slots: {
+        default: 'Alpha',
+      },
+    });
+
+    const style = wrapper.find('.sd-tag').attributes('style');
+    // 应使用颜色自带的 0.5 透明度，而不是固定 0.8
+    expect(style).toContain('--sd-tag-bg-color: rgb(255 0 86 / 0.5)');
+  });
+
+  test('should use color alpha for 8-digit hex with transparency', () => {
+    const wrapper = mount(Tag, {
+      props: {
+        color: '#ff572280',
+        bordered: true,
+      },
+      slots: {
+        default: 'Hex alpha',
+      },
+    });
+
+    const style = wrapper.find('.sd-tag').attributes('style');
+    expect(style).toContain('--sd-tag-bg-color: rgb(255 87 34 / 0.5)');
+  });
+
+  test('should fall back to default 0.8 when color is opaque and backgroundAlpha is not set', () => {
+    const wrapper = mount(Tag, {
+      props: {
+        color: '#ff5722',
+        bordered: true,
+      },
+      slots: {
+        default: 'Opaque',
+      },
+    });
+
+    const style = wrapper.find('.sd-tag').attributes('style');
+    expect(style).toContain('--sd-tag-bg-color: rgb(255 87 34 / 0.8)');
+  });
+
+  test('should let explicit backgroundAlpha override color alpha', () => {
+    const wrapper = mount(Tag, {
+      props: {
+        color: 'rgba(255, 0, 86, 0.5)',
+        backgroundAlpha: 0.3,
+        bordered: true,
+      },
+      slots: {
+        default: 'Explicit',
+      },
+    });
+
+    const style = wrapper.find('.sd-tag').attributes('style');
+    expect(style).toContain('--sd-tag-bg-color: rgb(255 0 86 / 0.3)');
+  });
 });

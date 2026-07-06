@@ -206,12 +206,12 @@
       default: undefined,
     },
     /**
-     * @zh 自定义颜色的背景透明度，仅在自定义颜色时生效，默认 0.8
-     * @en Background opacity for custom color tags, only effective when using a custom color, default 0.8
+     * @zh 自定义颜色的背景透明度，仅在自定义颜色时生效。未显式传入时：若颜色自带透明度则使用该透明度，否则为 0.8
+     * @en Background opacity for custom color tags, only effective when using a custom color. When not explicitly set, uses the color's own opacity if it has one, otherwise 0.8
      */
     backgroundAlpha: {
       type: Number,
-      default: 0.8,
+      default: undefined,
     },
   });
 
@@ -361,9 +361,31 @@
   // 最终文字颜色：用户指定的 textColor 优先
   const finalTextColor = computed(() => props.textColor ?? autoTextColor.value);
 
-  // 背景透明度的处理：当 bordered 未设置时为完全不透明
+  // 自定义颜色自带的透明度（仅对纯色生效；颜色不透明时返回 undefined 以便回退到默认值）
+  const colorAlpha = computed(() => {
+    if (!isCustomColor.value || !resolvedColor.value || isGradientColor.value) {
+      return undefined;
+    }
+    try {
+      const alpha = chroma(resolvedColor.value as string).alpha();
+      return alpha < 1 ? alpha : undefined;
+    } catch {
+      return undefined;
+    }
+  });
+
+  // 背景透明度的处理：
+  // - bordered 未显式传入时为完全不透明
+  // - 显式传入 backgroundAlpha 时使用该值
+  // - 否则使用颜色自带的透明度；颜色不透明时回退到默认 0.8
   const finalBackgroundAlpha = computed(() => {
-    return isNil(props.bordered) ? 1 : props.backgroundAlpha;
+    if (isNil(props.bordered)) {
+      return 1;
+    }
+    if (!isNil(props.backgroundAlpha)) {
+      return props.backgroundAlpha;
+    }
+    return isNil(colorAlpha.value) ? 0.8 : colorAlpha.value;
   });
 
   // ---- 可见性 / 选中状态 ----

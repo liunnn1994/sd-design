@@ -108,8 +108,8 @@ export interface TagProps {
    */
   textColor?: string;
   /**
-   * @zh 自定义颜色的背景透明度，仅在自定义颜色时生效，默认 0.2
-   * @en Background opacity for custom color tags, only effective when using a custom color, default 0.2
+   * @zh 自定义颜色的背景透明度，仅在自定义颜色时生效。未显式传入时：若颜色自带透明度则使用该透明度，否则为 0.8
+   * @en Background opacity for custom color tags, only effective when using a custom color. When not explicitly set, uses the color's own opacity if it has one, otherwise 0.8
    */
   backgroundAlpha?: number;
 }
