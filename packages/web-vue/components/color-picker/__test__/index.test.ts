@@ -309,4 +309,42 @@ describe('ColorPicker', () => {
     );
     wrapper.unmount();
   });
+
+  test('should keep the panel open when switching color format via the nested select', async () => {
+    const ColorPicker = await loadColorPicker();
+    const wrapper = mount(ColorPicker, {
+      attachTo: document.body,
+      props: {
+        format: 'HEX',
+        enableAlpha: true,
+      },
+    });
+
+    await wrapper.find('.sd-color-picker').trigger('click');
+    await nextTick();
+    expect(wrapper.emitted('popup-visible-change')?.at(-1)?.[0]).toBe(true);
+
+    const selectView = document.querySelector('.sd-select-view') as HTMLElement;
+    expect(selectView).toBeTruthy();
+    selectView.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    await nextTick();
+
+    const rgbOption = Array.from(document.querySelectorAll('.sd-select-option')).find(
+      (option) => option.textContent?.trim() === 'RGB',
+    );
+    expect(rgbOption).toBeTruthy();
+
+    // A real browser emits mousedown before click; the outer Trigger listens for
+    // mousedown to detect outside clicks on the nested Select dropdown.
+    rgbOption?.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    rgbOption?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    await nextTick();
+
+    expect(wrapper.emitted('popup-visible-change')?.at(-1)?.[0]).not.toBe(false);
+
+    const select = wrapper.findComponent({ name: 'Select' });
+    expect(select.emitted('change')?.at(-1)).toEqual(['RGB']);
+
+    wrapper.unmount();
+  });
 });

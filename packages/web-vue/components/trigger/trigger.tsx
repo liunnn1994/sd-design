@@ -736,9 +736,19 @@ export default defineComponent({
       }
     };
 
-    if (popupRef.value) {
-      triggerCtx?.addChildRef(popupRef.value as HTMLElement);
-    }
+    // Register this popup with the parent trigger so clicks inside it (e.g. a
+    // nested Select dropdown) are not treated as outside clicks. popupRef is
+    // only assigned after mount, so register/unregister via a watch instead of
+    // reading popupRef.value eagerly during setup.
+    watch(
+      popupRef,
+      (el, _oldEl, onCleanup) => {
+        if (!el) return;
+        triggerCtx?.addChildRef(el);
+        onCleanup(() => triggerCtx?.removeChildRef(el));
+      },
+      { immediate: true },
+    );
 
     const triggerCls = computed(() => {
       return computedVisible.value ? props.openedClass : undefined;
