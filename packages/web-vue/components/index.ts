@@ -454,6 +454,15 @@ export type {
   TagGroupOptionLabel,
   TagGroupProps,
 } from './tag-group';
+export { default as Toolbar } from './toolbar';
+export type {
+  ToolbarEmits,
+  ToolbarInstance,
+  ToolbarModelValue,
+  ToolbarProps,
+  ToolbarResetEventHandler,
+  ToolbarSearchEventHandler,
+} from './toolbar';
 export { default as Textarea } from './textarea';
 export type { TextareaInstance } from './textarea';
 export { default as TimePicker } from './time-picker';

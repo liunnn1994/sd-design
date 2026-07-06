@@ -1,0 +1,25 @@
+@use '@style/theme/index.scss' as global;
+
+@forward '@style/theme/index.scss';
+@forward '@style/color/colors.scss' hide $sd-vars-prefix, $sd-cssvars-prefix;
+
+@use 'sass:string';
+@use '@style/theme/index.scss' as *;
+
+$toolbar-gap: global.$spacing-6;
+
+$toolbar-body-gap: global.$spacing-4;
+
+$toolbar-actions-gap: global.$spacing-4;
+
+$toolbar-expand-gap: global.$spacing-2;
+
+$toolbar-padding-bottom: global.$spacing-4;
+
+$toolbar-color-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-2'));
+
+$toolbar-color-border: var(string.unquote('#{global.$sd-cssvars-prefix}-color-neutral-3'));
+
+$toolbar-border-width: global.$border-1;
+
+$toolbar-border-style: global.$border-solid;

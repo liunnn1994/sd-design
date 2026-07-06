@@ -129,6 +129,7 @@ declare module 'vue' {
     SdTimePicker: SDVue['TimePicker'];
     SdTimeline: SDVue['Timeline'];
     SdTimelineItem: SDVue['TimelineItem'];
+    SdToolbar: SDVue['Toolbar'];
     SdTooltip: SDVue['Tooltip'];
     SdTour: SDVue['Tour'];
     SdTransfer: SDVue['Transfer'];

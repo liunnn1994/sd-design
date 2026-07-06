@@ -236,6 +236,10 @@ export const docsSidebar = [
             label: '时间轴 Timeline',
           },
           {
+            slug: 'components/toolbar',
+            label: '工具栏 Toolbar',
+          },
+          {
             slug: 'components/tooltip',
             label: '文字气泡 Tooltip',
           },

@@ -1,0 +1,113 @@
+---
+title: 工具栏 Toolbar
+description: 用于列表/表格页顶部的筛选与操作工具栏，支持 schema 驱动的查询表单、查询/重置、内容溢出时展开收起以及自定义操作区。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import ToolbarBasicDemo from '../../../../components/generated/toolbar/basic.vue';
+import toolbarBasicSource from '../../../../components/generated/toolbar/basic.vue?raw';
+import ToolbarSlotDemo from '../../../../components/generated/toolbar/slot.vue';
+import toolbarSlotSource from '../../../../components/generated/toolbar/slot.vue?raw';
+import ToolbarExpandDemo from '../../../../components/generated/toolbar/expand.vue';
+import toolbarExpandSource from '../../../../components/generated/toolbar/expand.vue?raw';
+import ToolbarActionsDemo from '../../../../components/generated/toolbar/actions.vue';
+import toolbarActionsSource from '../../../../components/generated/toolbar/actions.vue?raw';
+
+`Toolbar` 通常出现在表格或列表的顶部，把「筛选条件」和「查询/重置等操作」组织在一行里。它内置了 schema 驱动的查询表单（基于 `JsonForm`），同时保留默认插槽让你放置任意自定义控件；当筛选项较多时还可以展开/收起。
+
+## 何时使用
+
+- 列表、表格、监控等需要按条件筛选数据的页面顶部。
+- 希望用一份 schema 描述筛选字段，而不是手写表单结构。
+- 需要在筛选区右侧统一放置查询、重置以及其他业务操作。
+
+### 基本用法
+
+通过 `schemas` 配置筛选字段，用 `v-model` 绑定查询数据。点击「查询」会触发 `search` 事件并回传当前数据，点击「重置」会把数据还原为初始值并触发 `reset` 事件；在输入框里按下回车也会触发查询。
+
+<DemoBlock source={toolbarBasicSource} mainFile="src/toolbar-basic.vue">
+
+<ToolbarBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义筛选项
+
+如果不使用 schema，可以通过默认插槽放置任意控件。此时 `Toolbar` 不再渲染表单，仅负责布局与右侧操作区。
+
+<DemoBlock source={toolbarSlotSource} mainFile="src/toolbar-slot.vue">
+
+<ToolbarSlotDemo client:only="vue" />
+
+</DemoBlock>
+
+### 展开 / 收起
+
+当筛选项较多、一行放不下时，设置 `allow-expand` 后，`Toolbar` 会在内容溢出时显示「展开/收起」按钮，收起态仅展示一行，展开后显示全部字段。
+
+<DemoBlock source={toolbarExpandSource} mainFile="src/toolbar-expand.vue">
+
+<ToolbarExpandDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义操作区与表单项
+
+可以通过 `action-prepend`、`action-append` 在默认按钮两侧追加操作；用 `extra` 插槽整体替换默认按钮。如果某个 schema 字段设置了 `slotName`，还可以用同名插槽自定义该字段的渲染内容。
+
+<DemoBlock source={toolbarActionsSource} mainFile="src/toolbar-actions.vue">
+
+<ToolbarActionsDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### `<toolbar>` Props
+
+| 参数名             | 描述                           | 类型               | 默认值  |
+| ------------------ | ------------------------------ | ------------------ | :-----: |
+| v-model            | 表单数据对象                   | `object`           |  `{}`   |
+| schemas            | schema 驱动的筛选项配置        | `JsonFormSchema[]` |  `[]`   |
+| loading            | 是否加载中（覆盖内容区遮罩）   | `boolean`          | `false` |
+| show-search        | 是否显示查询按钮               | `boolean`          | `true`  |
+| show-reset         | 是否显示重置按钮               | `boolean`          | `true`  |
+| show-actions       | 是否显示右侧操作区             | `boolean`          | `true`  |
+| search-text        | 查询按钮文案                   | `string`           | `查询`  |
+| reset-text         | 重置按钮文案                   | `string`           | `重置`  |
+| expand-text        | 展开按钮文案                   | `string`           | `展开`  |
+| collapse-text      | 收起按钮文案                   | `string`           | `收起`  |
+| allow-expand       | 是否允许内容溢出时展开/收起    | `boolean`          | `false` |
+| default-expand     | 初始是否展开（非受控）         | `boolean`          | `false` |
+| item-height        | 单行高度，用于收起与溢出判定   | `number`           |  `32`   |
+| span-width         | 每个筛选项的最小列宽           | `number`           |  `230`  |
+| item-max-width     | 每个筛选项的最大宽度（CSS 值） | `string`           | `unset` |
+| show-border-bottom | 是否显示底部分隔线             | `boolean`          | `true`  |
+| reset-skip-keys    | 重置时需要保留当前值的字段名   | `string[]`         |  `[]`   |
+
+### `<toolbar>` Events
+
+| 事件名 | 描述                                       | 参数             |
+| ------ | ------------------------------------------ | ---------------- |
+| search | 点击查询按钮、按下回车或调用 `search()` 时 | `params: object` |
+| reset  | 点击重置按钮或调用 `reset()` 时            | -                |
+
+### `<toolbar>` Slots
+
+| 插槽名         | 描述                                     | 参数                |
+| -------------- | ---------------------------------------- | ------------------- |
+| default        | 自定义筛选项，替代 schema 表单           | -                   |
+| extra          | 自定义整个操作区，替代默认查询/重置按钮  | -                   |
+| action-prepend | 默认按钮之前的内容                       | -                   |
+| action-append  | 默认按钮之后的内容                       | -                   |
+| expand-icon    | 自定义展开/收起图标                      | -                   |
+| _slotName_     | 与 schema 中 `slotName` 同名的自定义内容 | `{ record, value }` |
+
+### `<toolbar>` Methods
+
+通过 ref 可以调用以下方法。
+
+| 方法名 | 描述             | 返回值 |
+| ------ | ---------------- | ------ |
+| search | 主动触发一次查询 | -      |
+| reset  | 主动触发一次重置 | -      |

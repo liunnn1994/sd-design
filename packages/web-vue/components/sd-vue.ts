@@ -85,6 +85,7 @@ import Textarea from './textarea';
 import ThemeProvider from './theme-provider';
 import TimePicker from './time-picker';
 import Timeline, { TimelineItem } from './timeline';
+import Toolbar from './toolbar';
 import Tooltip from './tooltip';
 import Tour from './tour';
 import Transfer from './transfer';
@@ -127,6 +128,7 @@ const components: Record<string, Plugin> = {
   Tag,
   TagGroup,
   Timeline,
+  Toolbar,
   Tooltip,
   Tour,
   AutoComplete,
