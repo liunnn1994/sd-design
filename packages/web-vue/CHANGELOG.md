@@ -16,18 +16,16 @@
 
 # [3.1.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.0.2...web-vue-v3.1.0) (2026-07-03)
 
-
 ### Bug Fixes
 
-* 🐛 修复未导出的类型 ([5ef7e6d](https://github.com/liunnn1994/sd-design/commit/5ef7e6df7664d3a84b0669de6dcf61d1ce69d3cb))
-* 🐛 修复测试用例报错 ([3c10669](https://github.com/liunnn1994/sd-design/commit/3c106699c2ca49abd7fa472e24dd2fd4f56d8f49))
-* 🐛 修复滚动滚动条的问题 ([367c3f6](https://github.com/liunnn1994/sd-design/commit/367c3f6ebde8638eabe41d123c1e2ab4e06f40f4))
-
+- 🐛 修复未导出的类型 ([5ef7e6d](https://github.com/liunnn1994/sd-design/commit/5ef7e6df7664d3a84b0669de6dcf61d1ce69d3cb))
+- 🐛 修复测试用例报错 ([3c10669](https://github.com/liunnn1994/sd-design/commit/3c106699c2ca49abd7fa472e24dd2fd4f56d8f49))
+- 🐛 修复滚动滚动条的问题 ([367c3f6](https://github.com/liunnn1994/sd-design/commit/367c3f6ebde8638eabe41d123c1e2ab4e06f40f4))
 
 ### Features
 
-* 🆕 tree node 在block模式下是100% ([83912ea](https://github.com/liunnn1994/sd-design/commit/83912ea27ffdb1752238961d12b14e8d321e9c00))
-* 🆕 透传 node 事件 ([a2bdf88](https://github.com/liunnn1994/sd-design/commit/a2bdf8834dfd07bf720ccce1e2f56ecb6d477eac))
+- 🆕 tree node 在block模式下是100% ([83912ea](https://github.com/liunnn1994/sd-design/commit/83912ea27ffdb1752238961d12b14e8d321e9c00))
+- 🆕 透传 node 事件 ([a2bdf88](https://github.com/liunnn1994/sd-design/commit/a2bdf8834dfd07bf720ccce1e2f56ecb6d477eac))
 
 ## [3.0.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.0.1...web-vue-v3.0.2) (2026-07-03)
 

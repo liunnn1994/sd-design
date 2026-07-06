@@ -9,6 +9,7 @@ import { ButtonProps } from '../button';
 import { ShortcutType, WeekStart } from '../date-picker/interface';
 import { EllipsisTooltipProps } from '../ellipsis';
 import { SdLang } from '../locale/interface';
+import { PaginationSelectProps } from '../pagination/interface';
 import { SDThemeNormalized } from './theme';
 
 export interface ConfigProviderModal {
@@ -59,6 +60,19 @@ export interface ConfigProviderDatePicker {
   abbreviation?: boolean;
 }
 
+export interface ConfigProviderPagination {
+  pageSizeOptions?: number[];
+  defaultPageSize?: number;
+  showTotal?: boolean;
+  showMore?: boolean;
+  showJumper?: boolean;
+  showPageSize?: boolean;
+  autoAdjust?: boolean;
+  baseSize?: number;
+  bufferSize?: number;
+  pageSizeProps?: PaginationSelectProps;
+}
+
 export interface ConfigProvider {
   slots: Slots;
   prefixCls?: string;
@@ -75,6 +89,7 @@ export interface ConfigProvider {
   datePicker?: ConfigProviderDatePicker;
   modal?: ConfigProviderModal;
   drawer?: ConfigProviderDrawer;
+  pagination?: ConfigProviderPagination;
   jsonForm?: JsonFormProviderConfig;
   theme?: SDThemeNormalized;
 }

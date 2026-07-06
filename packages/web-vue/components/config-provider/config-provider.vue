@@ -16,6 +16,7 @@
     ConfigProviderDrawer,
     type JsonFormProviderConfig,
     ConfigProviderModal,
+    ConfigProviderPagination,
     configProviderInjectionKey,
   } from './context';
   import { SdThemeConfig, SdThemeMode, normalizeTheme } from './theme';
@@ -144,6 +145,13 @@
       type: Object as PropType<ConfigProviderDrawer>,
     },
     /**
+     * @zh Pagination 组件默认配置
+     * @en Default config for Pagination
+     */
+    pagination: {
+      type: Object as PropType<ConfigProviderPagination>,
+    },
+    /**
      * @zh JsonForm 组件默认配置
      * @en Default config for JsonForm
      */
@@ -195,6 +203,7 @@
     datePicker,
     modal,
     drawer,
+    pagination,
   } = toRefs(props);
 
   const config = reactive({
@@ -213,6 +222,7 @@
     datePicker,
     modal,
     drawer,
+    pagination,
     jsonForm: toRefs(props).jsonForm,
     theme: normalizeTheme(props.theme),
   });

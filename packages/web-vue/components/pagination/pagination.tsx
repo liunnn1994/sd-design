@@ -4,6 +4,7 @@ import { computed, defineComponent, reactive, ref, toRefs, watch } from 'vue';
 import type { Data } from '../_utils/types';
 import type { PageItemType, PaginationSelectProps } from './interface';
 
+import { useConfigProviderProp } from '../_hooks/use-config-provider-prop';
 import { useSize } from '../_hooks/use-size';
 import { Size } from '../_utils/constant';
 import { getPrefixCls } from '../_utils/global-config';
@@ -220,13 +221,71 @@ export default defineComponent({
   setup(props, { emit, slots }) {
     const prefixCls = getPrefixCls('pagination');
     const { t } = useI18n();
-    const { disabled, pageItemStyle, activePageItemStyle, size } = toRefs(props);
+    const {
+      disabled,
+      pageItemStyle,
+      activePageItemStyle,
+      size,
+      pageSizeOptions,
+      defaultPageSize,
+      showTotal,
+      showMore,
+      showJumper,
+      showPageSize,
+      autoAdjust,
+      baseSize,
+      bufferSize,
+      pageSizeProps,
+    } = toRefs(props);
     const { mergedSize } = useSize(size);
 
+    const { mergedValue: mergedPageSizeOptions } = useConfigProviderProp(pageSizeOptions, {
+      propNames: ['pageSizeOptions', 'page-size-options'],
+      getGlobalValue: (configProviderCtx) => configProviderCtx?.pagination?.pageSizeOptions,
+    });
+    const { mergedValue: mergedDefaultPageSize } = useConfigProviderProp(defaultPageSize, {
+      propNames: ['defaultPageSize', 'default-page-size'],
+      getGlobalValue: (configProviderCtx) => configProviderCtx?.pagination?.defaultPageSize,
+    });
+    const { mergedValue: mergedShowTotal } = useConfigProviderProp(showTotal, {
+      propNames: ['showTotal', 'show-total'],
+      getGlobalValue: (configProviderCtx) => configProviderCtx?.pagination?.showTotal,
+    });
+    const { mergedValue: mergedShowMore } = useConfigProviderProp(showMore, {
+      propNames: ['showMore', 'show-more'],
+      getGlobalValue: (configProviderCtx) => configProviderCtx?.pagination?.showMore,
+    });
+    const { mergedValue: mergedShowJumper } = useConfigProviderProp(showJumper, {
+      propNames: ['showJumper', 'show-jumper'],
+      getGlobalValue: (configProviderCtx) => configProviderCtx?.pagination?.showJumper,
+    });
+    const { mergedValue: mergedShowPageSize } = useConfigProviderProp(showPageSize, {
+      propNames: ['showPageSize', 'show-page-size'],
+      getGlobalValue: (configProviderCtx) => configProviderCtx?.pagination?.showPageSize,
+    });
+    const { mergedValue: mergedAutoAdjust } = useConfigProviderProp(autoAdjust, {
+      propNames: ['autoAdjust', 'auto-adjust'],
+      getGlobalValue: (configProviderCtx) => configProviderCtx?.pagination?.autoAdjust,
+    });
+    const { mergedValue: mergedBaseSize } = useConfigProviderProp(baseSize, {
+      propNames: ['baseSize', 'base-size'],
+      getGlobalValue: (configProviderCtx) => configProviderCtx?.pagination?.baseSize,
+    });
+    const { mergedValue: mergedBufferSize } = useConfigProviderProp(bufferSize, {
+      propNames: ['bufferSize', 'buffer-size'],
+      getGlobalValue: (configProviderCtx) => configProviderCtx?.pagination?.bufferSize,
+    });
+    const { mergedValue: mergedPageSizeProps } = useConfigProviderProp(pageSizeProps, {
+      propNames: ['pageSizeProps', 'page-size-props'],
+      getGlobalValue: (configProviderCtx) => configProviderCtx?.pagination?.pageSizeProps,
+    });
+
     const _current = ref(props.defaultCurrent);
-    const _pageSize = ref(props.defaultPageSize);
+    const _pageSize = ref(mergedDefaultPageSize.value ?? 10);
     const computedCurrent = computed(() => props.current ?? _current.value);
     const computedPageSize = computed(() => props.pageSize ?? _pageSize.value);
+    const resolvedBaseSize = computed(() => mergedBaseSize.value ?? props.baseSize);
+    const resolvedBufferSize = computed(() => mergedBufferSize.value ?? props.bufferSize);
 
     const pages = computed(() => Math.ceil(props.total / computedPageSize.value));
 
@@ -290,8 +349,10 @@ export default defineComponent({
 
     const pageList = computed(() => {
       const pageList: Array<JSX.Element | JSX.Element[]> = [];
+      const baseSize = resolvedBaseSize.value;
+      const bufferSize = resolvedBufferSize.value;
 
-      if (pages.value < props.baseSize + props.bufferSize * 2) {
+      if (pages.value < baseSize + bufferSize * 2) {
         for (let i = 1; i <= pages.value; i++) {
           pageList.push(getPageItemElement('page', { key: i, pageNumber: i }));
         }
@@ -301,16 +362,13 @@ export default defineComponent({
         let hasLeftEllipsis = false;
         let hasRightEllipsis = false;
 
-        if (computedCurrent.value > 2 + props.bufferSize) {
+        if (computedCurrent.value > 2 + bufferSize) {
           hasLeftEllipsis = true;
-          left = Math.min(
-            computedCurrent.value - props.bufferSize,
-            pages.value - 2 * props.bufferSize,
-          );
+          left = Math.min(computedCurrent.value - bufferSize, pages.value - 2 * bufferSize);
         }
-        if (computedCurrent.value < pages.value - (props.bufferSize + 1)) {
+        if (computedCurrent.value < pages.value - (bufferSize + 1)) {
           hasRightEllipsis = true;
-          right = Math.max(computedCurrent.value + props.bufferSize, 2 * props.bufferSize + 1);
+          right = Math.max(computedCurrent.value + bufferSize, 2 * bufferSize + 1);
         }
 
         if (hasLeftEllipsis) {
@@ -318,7 +376,7 @@ export default defineComponent({
           pageList.push(
             getPageItemElement('more', {
               key: 'left-ellipsis-pager',
-              step: -(props.bufferSize * 2 + 1),
+              step: -(bufferSize * 2 + 1),
             }),
           );
         }
@@ -331,7 +389,7 @@ export default defineComponent({
           pageList.push(
             getPageItemElement('more', {
               key: 'right-ellipsis-pager',
-              step: props.bufferSize * 2 + 1,
+              step: bufferSize * 2 + 1,
             }),
           );
           pageList.push(
@@ -368,10 +426,10 @@ export default defineComponent({
         <ul class={`${prefixCls}-list`}>
           {getPageItemElement('previous', { simple: true })}
           {pageList.value}
-          {props.showMore &&
+          {mergedShowMore.value &&
             getPageItemElement('more', {
               key: 'more',
-              step: props.bufferSize * 2 + 1,
+              step: resolvedBufferSize.value * 2 + 1,
             })}
           {getPageItemElement('next', { simple: true })}
         </ul>
@@ -380,7 +438,7 @@ export default defineComponent({
 
     // When the number of data items changes, recalculate the page number
     watch(computedPageSize, (curPageSize, prePageSize) => {
-      if (props.autoAdjust && curPageSize !== prePageSize && computedCurrent.value > 1) {
+      if (mergedAutoAdjust.value && curPageSize !== prePageSize && computedCurrent.value > 1) {
         const index = prePageSize * (computedCurrent.value - 1) + 1;
         const newPage = Math.ceil(index / curPageSize);
         if (newPage !== computedCurrent.value) {
@@ -393,7 +451,7 @@ export default defineComponent({
 
     watch(pages, (curPages, prePages) => {
       if (
-        props.autoAdjust &&
+        mergedAutoAdjust.value &&
         curPages !== prePages &&
         computedCurrent.value > 1 &&
         computedCurrent.value > curPages
@@ -421,23 +479,23 @@ export default defineComponent({
 
       return (
         <div class={cls.value}>
-          {props.showTotal && (
+          {mergedShowTotal.value && (
             <span class={`${prefixCls}-total`}>
               {slots.total?.({ total: props.total }) ?? t('pagination.total', props.total)}
             </span>
           )}
           {renderPager()}
-          {props.showPageSize && (
+          {mergedShowPageSize.value && (
             <PageOptions
               disabled={props.disabled}
-              sizeOptions={props.pageSizeOptions}
+              sizeOptions={mergedPageSizeOptions.value ?? props.pageSizeOptions}
               pageSize={computedPageSize.value}
               size={mergedSize.value}
               onChange={handlePageSizeChange}
-              selectProps={props.pageSizeProps}
+              selectProps={mergedPageSizeProps.value}
             />
           )}
-          {!props.simple && props.showJumper && (
+          {!props.simple && mergedShowJumper.value && (
             <PageJumper
               v-slots={{
                 'jumper-prepend': slots['jumper-prepend'],

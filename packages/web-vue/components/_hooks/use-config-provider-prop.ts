@@ -8,7 +8,7 @@ interface UseConfigProviderPropOptions<T> {
 }
 
 export const useConfigProviderProp = <T>(
-  propValue: Ref<T | undefined>,
+  propValue: Ref<T>,
   options: UseConfigProviderPropOptions<T>,
 ) => {
   const instance = getCurrentInstance();

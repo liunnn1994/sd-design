@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick, ref } from 'vue';
 
+import { configProviderInjectionKey } from '../../config-provider/context';
 import Pagination from '../pagination';
 
 describe('Pagination', () => {
@@ -45,5 +46,81 @@ describe('Pagination', () => {
     total.value = 4;
     await nextTick();
     expect(current.value).toBe(3);
+  });
+
+  test('should apply pagination config from ConfigProvider', async () => {
+    const wrapper = mount(Pagination, {
+      props: { total: 200 },
+      global: {
+        provide: {
+          [configProviderInjectionKey as symbol]: {
+            slots: {},
+            pagination: {
+              showPageSize: true,
+              pageSizeOptions: [5, 15, 25],
+            },
+          },
+        },
+      },
+    });
+    await nextTick();
+
+    const pageOptions = wrapper.findComponent({ name: 'PageOptions' });
+    expect(pageOptions.exists()).toBe(true);
+    expect(pageOptions.props('sizeOptions')).toEqual([5, 15, 25]);
+  });
+
+  test('local pagination prop overrides ConfigProvider config', async () => {
+    const wrapper = mount(Pagination, {
+      props: { total: 200, showPageSize: true, pageSizeOptions: [8, 18] },
+      global: {
+        provide: {
+          [configProviderInjectionKey as symbol]: {
+            slots: {},
+            pagination: {
+              showPageSize: false,
+              pageSizeOptions: [5, 15, 25],
+            },
+          },
+        },
+      },
+    });
+    await nextTick();
+
+    const pageOptions = wrapper.findComponent({ name: 'PageOptions' });
+    expect(pageOptions.exists()).toBe(true);
+    expect(pageOptions.props('sizeOptions')).toEqual([8, 18]);
+  });
+
+  test('should apply defaultPageSize from ConfigProvider', async () => {
+    const wrapper = mount(Pagination, {
+      props: { total: 100, simple: true },
+      global: {
+        provide: {
+          [configProviderInjectionKey as symbol]: {
+            slots: {},
+            pagination: { defaultPageSize: 50 },
+          },
+        },
+      },
+    });
+    await nextTick();
+
+    // total 100 / defaultPageSize 50 => 2 pages
+    expect(wrapper.find('.sd-pagination-jumper-total-page').text()).toBe('2');
+  });
+
+  test('should apply showJumper from ConfigProvider', async () => {
+    const wrapper = mount(Pagination, {
+      props: { total: 200 },
+      global: {
+        provide: {
+          [configProviderInjectionKey as symbol]: { slots: {}, pagination: { showJumper: true } },
+        },
+      },
+    });
+    await nextTick();
+
+    expect(wrapper.find('.sd-pagination-jumper').exists()).toBe(true);
   });
 });
