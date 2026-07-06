@@ -148,6 +148,7 @@ const [useProvideCounterStore, useCounterStore] = createInjectionState(
 import { createInjectionState } from '@vueuse/core';
 import { computed, shallowRef } from 'vue';
 
+// useCounterStore does not return undefined when defaultValue is specified
 const [useProvideCounterStore, useCounterStore] = createInjectionState(
   (initialValue: number) => {
     // state
@@ -170,7 +171,11 @@ const [useProvideCounterStore, useCounterStore] = createInjectionState(
 ## Type Declarations
 
 ```ts
-export type CreateInjectionStateReturn<Arguments extends Array<any>, Return> = Readonly<
+export type CreateInjectionStateReturn<
+  Arguments extends Array<any>,
+  ProvideReturn,
+  InjectReturn,
+> = Readonly<
   [
     /**
      * Call this function in a provider component to create and provide the state.
@@ -178,13 +183,13 @@ export type CreateInjectionStateReturn<Arguments extends Array<any>, Return> = R
      * @param args Arguments passed to the composable
      * @returns The state returned by the composable
      */
-    useProvidingState: (...args: Arguments) => Return,
+    useProvidingState: (...args: Arguments) => ProvideReturn,
     /**
      * Call this function in a consumer component to inject the state.
      *
      * @returns The injected state, or `undefined` if not provided and no default value was set.
      */
-    useInjectedState: () => Return | undefined,
+    useInjectedState: () => InjectReturn,
   ]
 >;
 export interface CreateInjectionStateOptions<Return> {
@@ -206,6 +211,12 @@ export interface CreateInjectionStateOptions<Return> {
  */
 export declare function createInjectionState<Arguments extends Array<any>, Return>(
   composable: (...args: Arguments) => Return,
+  options: {
+    defaultValue: Return;
+  } & CreateInjectionStateOptions<Return>,
+): CreateInjectionStateReturn<Arguments, Return, Return>;
+export declare function createInjectionState<Arguments extends Array<any>, Return>(
+  composable: (...args: Arguments) => Return,
   options?: CreateInjectionStateOptions<Return>,
-): CreateInjectionStateReturn<Arguments, Return>;
+): CreateInjectionStateReturn<Arguments, Return, Return | undefined>;
 ```

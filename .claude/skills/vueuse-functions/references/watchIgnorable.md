@@ -84,17 +84,17 @@ export interface WatchIgnorableReturn {
   ignorePrevAsyncUpdates: IgnoredPrevAsyncUpdates;
   stop: WatchStopHandle;
 }
+export declare function watchIgnorable<T, Immediate extends Readonly<boolean> = false>(
+  source: WatchSource<T>,
+  cb: WatchCallback<T, Immediate extends true ? T | undefined : T>,
+  options?: WatchWithFilterOptions<Immediate>,
+): WatchIgnorableReturn;
 export declare function watchIgnorable<
   T extends Readonly<MultiWatchSources>,
   Immediate extends Readonly<boolean> = false,
 >(
   sources: [...T],
   cb: WatchCallback<MapSources<T>, MapOldSources<T, Immediate>>,
-  options?: WatchWithFilterOptions<Immediate>,
-): WatchIgnorableReturn;
-export declare function watchIgnorable<T, Immediate extends Readonly<boolean> = false>(
-  source: WatchSource<T>,
-  cb: WatchCallback<T, Immediate extends true ? T | undefined : T>,
   options?: WatchWithFilterOptions<Immediate>,
 ): WatchIgnorableReturn;
 export declare function watchIgnorable<

@@ -54,8 +54,8 @@ export declare function useBroadcastChannel<D, P>(
   options: UseBroadcastChannelOptions,
 ): UseBroadcastChannelReturn<D, P>;
 export interface UseBroadcastChannelReturn<D, P> extends Supportable {
-  channel: Ref<BroadcastChannel | undefined>;
-  data: Ref<D>;
+  channel: ShallowRef<BroadcastChannel | undefined>;
+  data: ShallowRef<D>;
   post: (data: P) => void;
   close: () => void;
   error: ShallowRef<Event | null>;

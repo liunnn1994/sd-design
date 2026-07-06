@@ -1,5 +1,5 @@
-import closeWithGrace from 'close-with-grace';
 import { createServer, IncomingMessage, ServerResponse, Server } from 'node:http';
+import closeWithGrace from 'close-with-grace';
 
 /**
  * Example of a graceful HTTP server using close-with-grace.

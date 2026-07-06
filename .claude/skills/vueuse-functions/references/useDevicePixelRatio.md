@@ -29,7 +29,7 @@ const { pixelRatio } = useDevicePixelRatio();
 ```ts
 export interface UseDevicePixelRatioOptions extends ConfigurableWindow {}
 export interface UseDevicePixelRatioReturn {
-  pixelRatio: ShallowRef<number>;
+  pixelRatio: Readonly<ShallowRef<number>>;
   stop: WatchStopHandle;
 }
 /**

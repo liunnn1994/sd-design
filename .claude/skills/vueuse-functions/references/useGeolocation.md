@@ -43,7 +43,7 @@ export interface UseGeolocationOptions extends Partial<PositionOptions>, Configu
   immediate?: boolean;
 }
 export interface UseGeolocationReturn extends Supportable {
-  coords: Ref<Omit<GeolocationPosition['coords'], 'toJSON'>>;
+  coords: ShallowRef<Omit<GeolocationPosition['coords'], 'toJSON'>>;
   locatedAt: ShallowRef<number | null>;
   error: ShallowRef<GeolocationPositionError | null>;
   resume: () => void;

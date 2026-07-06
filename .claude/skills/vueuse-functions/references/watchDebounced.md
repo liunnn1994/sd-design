@@ -78,17 +78,17 @@ export interface WatchDebouncedOptions<Immediate>
   extends WatchOptions<Immediate>, DebounceFilterOptions {
   debounce?: MaybeRefOrGetter<number>;
 }
+export declare function watchDebounced<T, Immediate extends Readonly<boolean> = false>(
+  source: WatchSource<T>,
+  cb: WatchCallback<T, Immediate extends true ? T | undefined : T>,
+  options?: WatchDebouncedOptions<Immediate>,
+): WatchHandle;
 export declare function watchDebounced<
   T extends Readonly<MultiWatchSources>,
   Immediate extends Readonly<boolean> = false,
 >(
   sources: [...T],
   cb: WatchCallback<MapSources<T>, MapOldSources<T, Immediate>>,
-  options?: WatchDebouncedOptions<Immediate>,
-): WatchHandle;
-export declare function watchDebounced<T, Immediate extends Readonly<boolean> = false>(
-  source: WatchSource<T>,
-  cb: WatchCallback<T, Immediate extends true ? T | undefined : T>,
   options?: WatchDebouncedOptions<Immediate>,
 ): WatchHandle;
 export declare function watchDebounced<

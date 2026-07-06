@@ -32,7 +32,7 @@ await ensurePermissions();
 console.log(permissionsGranted.value);
 ```
 
-# Component
+## Component
 
 ```vue
 <template>
@@ -65,7 +65,7 @@ export interface UseDevicesListReturn extends Supportable {
   /**
    * All devices
    */
-  devices: Ref<MediaDeviceInfo[]>;
+  devices: ShallowRef<MediaDeviceInfo[]>;
   videoInputs: ComputedRef<MediaDeviceInfo[]>;
   audioInputs: ComputedRef<MediaDeviceInfo[]>;
   audioOutputs: ComputedRef<MediaDeviceInfo[]>;

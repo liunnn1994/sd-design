@@ -147,7 +147,7 @@ export interface UseWebNotificationOptions extends ConfigurableWindow, WebNotifi
   requestPermissions?: boolean;
 }
 export interface UseWebNotificationReturn extends Supportable {
-  notification: Ref<Notification | null>;
+  notification: ShallowRef<Notification | null>;
   ensurePermissions: () => Promise<boolean | undefined>;
   permissionGranted: ShallowRef<boolean>;
   show: (overrides?: WebNotificationOptions) => Promise<Notification | undefined>;

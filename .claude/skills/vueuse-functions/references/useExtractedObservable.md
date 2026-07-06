@@ -143,7 +143,7 @@ export declare function useExtractedObservable<
   extractor: WatchExtractedObservableCallback<MapSources<T>, MapOldSources<T, Immediate>, E>,
   options?: UseExtractedObservableOptions<E>,
   watchOptions?: WatchOptions<Immediate>,
-): Readonly<ShallowRef<E>>;
+): DeepReadonly<ShallowRef<E>>;
 export declare function useExtractedObservable<
   T extends Readonly<MultiWatchSources>,
   E,
@@ -153,13 +153,13 @@ export declare function useExtractedObservable<
   extractor: WatchExtractedObservableCallback<MapSources<T>, MapOldSources<T, Immediate>, E>,
   options?: UseExtractedObservableOptions<E>,
   watchOptions?: WatchOptions<Immediate>,
-): Readonly<ShallowRef<E>>;
+): DeepReadonly<ShallowRef<E>>;
 export declare function useExtractedObservable<T, E, Immediate extends Readonly<boolean> = false>(
   sources: WatchSource<T>,
   extractor: WatchExtractedObservableCallback<T, Immediate extends true ? T | undefined : T, E>,
   options?: UseExtractedObservableOptions<E>,
   watchOptions?: WatchOptions<Immediate>,
-): Readonly<ShallowRef<E>>;
+): DeepReadonly<ShallowRef<E>>;
 export declare function useExtractedObservable<
   T extends object,
   E,
@@ -169,5 +169,5 @@ export declare function useExtractedObservable<
   extractor: WatchExtractedObservableCallback<T, Immediate extends true ? T | undefined : T, E>,
   options?: UseExtractedObservableOptions<E>,
   watchOptions?: WatchOptions<Immediate>,
-): Readonly<ShallowRef<E>>;
+): DeepReadonly<ShallowRef<E>>;
 ```

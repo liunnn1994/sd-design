@@ -75,7 +75,8 @@ whenever(
 ## Type Declarations
 
 ```ts
-export interface WheneverOptions extends WatchOptions {
+type Truthy<T> = T extends false | null | undefined ? never : T;
+export interface WheneverOptions<Immediate = boolean> extends WatchOptions<Immediate> {
   /**
    * Only trigger once when the condition is met
    *
@@ -91,8 +92,13 @@ export interface WheneverOptions extends WatchOptions {
  * @see https://vueuse.org/whenever
  */
 export declare function whenever<T>(
-  source: WatchSource<T | false | null | undefined>,
-  cb: WatchCallback<T>,
-  options?: WheneverOptions,
+  source: WatchSource<T>,
+  cb: WatchCallback<Truthy<T>, T | undefined>,
+  options?: WheneverOptions<true>,
+): WatchHandle;
+export declare function whenever<T>(
+  source: WatchSource<T>,
+  cb: WatchCallback<Truthy<T>, T>,
+  options?: WheneverOptions<false>,
 ): WatchHandle;
 ```

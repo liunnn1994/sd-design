@@ -324,6 +324,10 @@ export interface CreateReusableTemplateOptions<Props extends Record<string, any>
    */
   inheritAttrs?: boolean;
   /**
+   * Name for the reuse component (useful for devtools).
+   */
+  name?: string;
+  /**
    * Props definition for reuse component.
    */
   props?: ComponentObjectPropsOptions<Props>;

@@ -51,5 +51,5 @@ Creates an URL for the provided `File`, `Blob`, or `MediaSource` via [URL.create
  */
 export declare function useObjectUrl(
   object: MaybeRefOrGetter<Blob | MediaSource | null | undefined>,
-): Readonly<Ref<string | undefined, string | undefined>>;
+): Readonly<ShallowRef<string | undefined, string | undefined>>;
 ```
