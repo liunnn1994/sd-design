@@ -3,6 +3,7 @@ import '../../_components/select-view/style';
 import '../../trigger/style';
 import '../../empty/style';
 import '../../checkbox/style';
+import '../../ellipsis/style';
 import '../../radio/style';
 import '../../scrollbar/style';
 import './index.scss';

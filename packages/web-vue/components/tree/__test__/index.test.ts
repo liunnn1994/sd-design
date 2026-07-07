@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+import { h } from 'vue';
 
 import { vi } from 'vitest';
 
@@ -145,6 +146,24 @@ describe('Tree', () => {
     expect(wrapper.find('.sd-tree-node-title-text-ellipsis').exists()).toBe(true);
     expect(wrapper.find('.sd-tree-node-title-ellipsis').exists()).toBe(true);
     expect(ellipsis.text()).toContain('Node 1');
+  });
+
+  test('should not wrap custom title slot with performant ellipsis', async () => {
+    const Tree = await loadTree();
+    const wrapper = mount(Tree, {
+      props: {
+        data: treeData,
+        ellipsis: 'performant-ellipsis',
+      },
+      slots: {
+        title: ({ title }) => h('span', { class: 'custom-title' }, title),
+      },
+    });
+
+    const title = wrapper.find('.sd-tree-node-title');
+
+    expect(title.find('.custom-title').exists()).toBe(true);
+    expect(title.findComponent({ name: 'PerformantEllipsis' }).exists()).toBe(false);
   });
 
   test('should render node title with PerformantEllipsis when ellipsis is performant-ellipsis', async () => {

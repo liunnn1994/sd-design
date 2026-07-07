@@ -1,20 +1,19 @@
 ---
 title: 虚拟列表迁移
-description: 虚拟列表能力迁移到 vue-virtual-scroller 后的参数、方法与兼容说明。
+description: 虚拟列表能力迁移到 virtua 后的参数、方法与兼容说明。
 ---
 
 ## 背景
 
-当前组件库中的虚拟列表能力，已经统一切换到 `vue-virtual-scroller`，并继续复用组件库内置的 `Scrollbar`，不再依赖系统滚动条。
+当前组件库中的虚拟列表能力，已经统一切换到 [virtua](https://github.com/inokawa/virtua)（`virtua/vue`），并继续复用组件库内置的 `Scrollbar`，不再依赖系统滚动条。
 
 这次迁移的目标是：
 
-- 对齐 `vue-virtual-scroller` 的核心 props 语义
+- 对齐 `virtua` 的核心 props 语义
 - 继续通过组件库内置 `Scrollbar` 提供滚动容器
-- 同时暴露底层 scroller 的常用方法
-- 支持固定高度 `RecycleScroller`
-- 支持动态高度 `DynamicScroller`
-- `Table` 也接入共享 `VirtualList`，并补齐固定高度、估算高度与动态高度三类常见表格场景
+- 同时暴露底层 virtualizer 的常用方法
+- 统一固定高度与动态高度路径：virtua 通过 `ResizeObserver` 自动测量实际尺寸，不再区分 `RecycleScroller` / `DynamicScroller` 两套渲染器
+- `Table` 暂未接入该实现，仍保留其原有虚拟化方案
 
 ## 适用组件
 
@@ -26,9 +25,8 @@ description: 虚拟列表能力迁移到 vue-virtual-scroller 后的参数、方
 - `Tree`
 - `TreeSelect`
 - `Cascader`
-- `Table`
 
-其中 `Table` 会在内部把表格行包装进共享虚拟列表的标准渲染路径，并继续兼容固定列、勾选列、展开行与组件库 `Scrollbar` 的组合使用。
+`Table` 暂未接入该虚拟列表实现，仍保留其原有的虚拟化方案；后续接入时会在此补充说明。
 
 ## 新的 VirtualListProps
 
@@ -42,42 +40,42 @@ description: 虚拟列表能力迁移到 vue-virtual-scroller 后的参数、方
 | `listTag` | 列表容器标签 | `string` | `'div'` |
 | `itemTag` | item 容器标签 | `string` | `'div'` |
 | `height` | 可视区域高度；下拉组件未显式传入时会优先取 `trigger-props.popupStyle` 中的高度配置 | `number \| string` | `-` |
-| `itemSize` | 固定高度模式的 item 高度。传入后会使用 `RecycleScroller` | `number \| string \| ((item, index) => number)` | `-` |
-| `minItemSize` | 动态高度模式下的最小 item 高度。未传 `itemSize` 时会使用 `DynamicScroller` | `number \| string` | `32` |
-| `gridItems` | 网格模式每行 item 数量 | `number` | `-` |
+| `itemSize` | item 高度提示。传入后作为未测量项的初始尺寸，virtua 仍会自动测量真实尺寸 | `number \| string \| ((item, index) => number)` | `-` |
+| `minItemSize` | 动态高度模式下的最小 item 高度。未传 `itemSize` 时用于初始估算 | `number \| string` | `32` |
+| `gridItems` | 网格模式每行 item 数量（当前实现按列表处理，网格语义保留供后续扩展） | `number` | `-` |
 | `itemSecondarySize` | 网格模式交叉轴尺寸 | `number` | `-` |
-| `sizeField` | 自定义尺寸字段名 | `string` | `-` |
-| `typeField` | 自定义类型字段名 | `string` | `-` |
-| `buffer` | 额外渲染缓冲区，单位与底层 scroller 保持一致 | `number` | `200` |
-| `prerender` | 首屏预渲染数量 | `number` | `-` |
-| `emitUpdate` | 是否启用 update 事件 | `boolean` | `false` |
-| `updateInterval` | 更新节流间隔 | `number` | `-` |
-| `skipHover` | 是否跳过 hover 监听 | `boolean` | `false` |
+| `sizeField` | 自定义尺寸字段名（兼容保留） | `string` | `-` |
+| `typeField` | 自定义类型字段名（兼容保留） | `string` | `-` |
+| `buffer` | 额外渲染缓冲区，单位为像素，对应 virtua 的 `bufferSize` | `number` | `200` |
+| `prerender` | 首屏预渲染数量（兼容保留） | `number` | `-` |
+| `emitUpdate` | 是否启用 update 事件（兼容保留） | `boolean` | `false` |
+| `updateInterval` | 更新节流间隔（兼容保留） | `number` | `-` |
+| `skipHover` | 是否跳过 hover 监听（兼容保留） | `boolean` | `false` |
 | `listClass` | 列表容器 class | `ClassValue` | `-` |
 | `itemClass` | item 容器 class | `ClassValue` | `-` |
 | `scrollbar` | 是否启用组件库内置滚动条，或传入滚动条配置 | `boolean \| ScrollbarProps` | `true` |
 
 ## 模式选择
 
+virtua 通过 `ResizeObserver` 自动测量每个 item 的真实尺寸，固定高度与动态高度不再走两套底层渲染器，差异仅体现在初始尺寸提示上。
+
 ### 固定高度
 
-当所有 item 高度一致时，请传 `itemSize`：
+当所有 item 高度一致时，传 `itemSize` 作为初始尺寸提示，可减少首次测量带来的轻微跳动：
 
 ```vue
 <sd-select :virtual-list-props="{ itemSize: 32, buffer: 200 }" />
 ```
 
-这会走 `RecycleScroller`。
-
 ### 动态高度
 
-当 item 高度可能变化时，不要传旧版固定高度参数，改为提供 `minItemSize`：
+当 item 高度可能变化时，不要传固定高度参数，改为提供 `minItemSize` 作为初始估算：
 
 ```vue
 <sd-list :virtual-list-props="{ minItemSize: 48, buffer: 200 }" />
 ```
 
-这会走 `DynamicScroller`。
+virtua 会在滚动过程中持续测量并修正各项尺寸，无需手动触发重算。
 
 ## 组件级默认行为
 
@@ -125,7 +123,7 @@ description: 虚拟列表能力迁移到 vue-virtual-scroller 后的参数、方
 <sd-tree :data="treeData" :virtual-list-props="{ height: 240, minItemSize: 32 }" />
 ```
 
-当你明确需要动态节点高度时，再显式切到 `DynamicScroller`。
+当你明确需要动态节点高度时，再显式传 `minItemSize`；virtua 会据此做初始估算并在滚动时自动测量真实尺寸。
 
 ### 动态内容列表
 
@@ -162,7 +160,7 @@ description: 虚拟列表能力迁移到 vue-virtual-scroller 后的参数、方
 | `restoreCache(snapshot)`               | 恢复缓存快照                                     |
 | `scrollTo(options)`                    | 兼容方法，支持 `index`、`key`、`align`、`offset` |
 
-部分底层方法会在对应模式下按需透出，例如 `DynamicScroller` 的动态尺寸相关能力。
+`cacheSnapshot()` / `restoreCache()` 对应 virtua 的 `CacheSnapshot`：virtua 仅在挂载时通过 `cache` prop 恢复缓存，因此 `restoreCache` 在运行时为兼容空操作，`cacheSnapshot()` 仍可取到当前快照用于下次挂载恢复。
 
 ## 兼容说明
 
@@ -172,17 +170,11 @@ description: 虚拟列表能力迁移到 vue-virtual-scroller 后的参数、方
 
 ### Scrollbar
 
-虽然底层渲染已经切换到 `vue-virtual-scroller`，但滚动容器仍然统一走组件库内置 `Scrollbar`。这意味着视觉样式、滚动条行为和主题能力仍然与组件库保持一致。
+底层渲染已经切换到 `virtua`，但滚动容器仍然统一走组件库内置 `Scrollbar`。这意味着视觉样式、滚动条行为和主题能力仍然与组件库保持一致。
 
 ### Table
 
-`Table` 现在也走共享 `VirtualList` 的标准渲染路径。对业务侧来说，最直接的迁移建议是：
-
-- 需要常规虚拟表格时，优先使用 `height + estimatedSize`
-- 所有行高一致时，直接改用 `itemSize`
-- 行高可能变化、或需要结合展开内容时，改用 `minItemSize`
-
-文档中的 `Table` 虚拟列表示例同时覆盖了固定列、勾选列、展开行、组件库 `scrollbar` 和 `sticky-header` 的组合写法，可直接作为迁移参考。
+`Table` 本次未接入 virtua 虚拟列表，仍保留其原有虚拟化方案。Table 的虚拟化配置沿用其自身的 `virtualListProps` 语义（`height`、`fixedSize`/`estimatedSize`、`buffer` 等），暂不与本文档的 virtua 语义对齐。后续接入时会在此补充迁移说明。
 
 ## 迁移建议
 
@@ -194,7 +186,7 @@ description: 虚拟列表能力迁移到 vue-virtual-scroller 后的参数、方
 
 ## 从 Arco Design 迁移
 
-Arco Design Vue 使用者迁移到当前组件库时，虚拟列表相关写法建议直接对齐到本次 `vue-virtual-scroller` 语义，而不是继续沿用旧的阈值或估算尺寸写法。
+Arco Design Vue 使用者迁移到当前组件库时，虚拟列表相关写法建议直接对齐到本次 `virtua` 语义，而不是继续沿用旧的阈值或估算尺寸写法。
 
 ### 常见迁移映射
 

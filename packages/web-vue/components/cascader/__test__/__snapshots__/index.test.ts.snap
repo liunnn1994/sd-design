@@ -11,7 +11,7 @@ exports[`Cascader > should render panel (multiple) 1`] = `
                   <!---->
                 </label>
                 <!---->
-                <div class="sd-cascader-option-label">Beijing<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+                <div class="sd-cascader-option-label"><span class="sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">Beijing</span></span><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
                     <path d="m16 39.513 15.556-15.557L16 8.4"></path>
                   </svg></div>
               </button></li>
@@ -19,7 +19,7 @@ exports[`Cascader > should render panel (multiple) 1`] = `
                   <!---->
                 </label>
                 <!---->
-                <div class="sd-cascader-option-label">Shanghai<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+                <div class="sd-cascader-option-label"><span class="sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">Shanghai</span></span><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
                     <path d="m16 39.513 15.556-15.557L16 8.4"></path>
                   </svg></div>
               </button></li>
@@ -52,7 +52,7 @@ exports[`Cascader > should render panel (multiple) 2`] = `
                   <!---->
                 </label>
                 <!---->
-                <div class="sd-cascader-option-label">Beijing<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+                <div class="sd-cascader-option-label"><span class="sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">Beijing</span></span><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
                     <path d="m16 39.513 15.556-15.557L16 8.4"></path>
                   </svg></div>
               </button></li>
@@ -60,7 +60,7 @@ exports[`Cascader > should render panel (multiple) 2`] = `
                   <!---->
                 </label>
                 <!---->
-                <div class="sd-cascader-option-label">Shanghai<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+                <div class="sd-cascader-option-label"><span class="sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">Shanghai</span></span><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
                     <path d="m16 39.513 15.556-15.557L16 8.4"></path>
                   </svg></div>
               </button></li>
@@ -88,7 +88,7 @@ exports[`Cascader > should render panel (multiple) 2`] = `
                   <!---->
                 </label>
                 <!---->
-                <div class="sd-cascader-option-label">ChaoYang
+                <div class="sd-cascader-option-label"><span class="sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">ChaoYang</span></span>
                   <!---->
                 </div>
               </button></li>
@@ -96,7 +96,7 @@ exports[`Cascader > should render panel (multiple) 2`] = `
                   <!---->
                 </label>
                 <!---->
-                <div class="sd-cascader-option-label">Haidian
+                <div class="sd-cascader-option-label"><span class="sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">Haidian</span></span>
                   <!---->
                 </div>
               </button></li>
@@ -128,14 +128,14 @@ exports[`Cascader > should render panel 1`] = `
             <li><button type="button" aria-haspopup="true" aria-expanded="false" title="Beijing" class="sd-cascader-option">
                 <!---->
                 <!---->
-                <div class="sd-cascader-option-label">Beijing<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+                <div class="sd-cascader-option-label"><span class="sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">Beijing</span></span><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
                     <path d="m16 39.513 15.556-15.557L16 8.4"></path>
                   </svg></div>
               </button></li>
             <li><button type="button" aria-haspopup="true" aria-expanded="false" title="Shanghai" class="sd-cascader-option">
                 <!---->
                 <!---->
-                <div class="sd-cascader-option-label">Shanghai<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+                <div class="sd-cascader-option-label"><span class="sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">Shanghai</span></span><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
                     <path d="m16 39.513 15.556-15.557L16 8.4"></path>
                   </svg></div>
               </button></li>
@@ -167,14 +167,14 @@ exports[`Cascader > should render panel 2`] = `
             <li><button type="button" aria-haspopup="true" aria-expanded="true" title="Beijing" class="sd-cascader-option sd-cascader-option-active">
                 <!---->
                 <!---->
-                <div class="sd-cascader-option-label">Beijing<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+                <div class="sd-cascader-option-label"><span class="sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">Beijing</span></span><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
                     <path d="m16 39.513 15.556-15.557L16 8.4"></path>
                   </svg></div>
               </button></li>
             <li><button type="button" aria-haspopup="true" aria-expanded="false" title="Shanghai" class="sd-cascader-option">
                 <!---->
                 <!---->
-                <div class="sd-cascader-option-label">Shanghai<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+                <div class="sd-cascader-option-label"><span class="sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">Shanghai</span></span><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
                     <path d="m16 39.513 15.556-15.557L16 8.4"></path>
                   </svg></div>
               </button></li>
@@ -201,14 +201,14 @@ exports[`Cascader > should render panel 2`] = `
             <li><button type="button" aria-haspopup="false" aria-expanded="false" title="ChaoYang" class="sd-cascader-option">
                 <!---->
                 <!---->
-                <div class="sd-cascader-option-label">ChaoYang
+                <div class="sd-cascader-option-label"><span class="sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">ChaoYang</span></span>
                   <!---->
                 </div>
               </button></li>
             <li><button type="button" aria-haspopup="false" aria-expanded="false" title="Haidian" class="sd-cascader-option">
                 <!---->
                 <!---->
-                <div class="sd-cascader-option-label">Haidian
+                <div class="sd-cascader-option-label"><span class="sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">Haidian</span></span>
                   <!---->
                 </div>
               </button></li>
@@ -238,21 +238,21 @@ exports[`Cascader > should render search panel 1`] = `
         <li class="sd-cascader-search-option"><button type="button" aria-haspopup="false" aria-expanded="false" title="ChaoYang" class="sd-cascader-option">
             <!---->
             <!---->
-            <div class="sd-cascader-option-label">Beijing / ChaoYang
+            <div class="sd-cascader-option-label"><span class="sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">Beijing / ChaoYang</span></span>
               <!---->
             </div>
           </button></li>
         <li class="sd-cascader-search-option"><button type="button" aria-haspopup="false" aria-expanded="false" title="Haidian" class="sd-cascader-option">
             <!---->
             <!---->
-            <div class="sd-cascader-option-label">Beijing / Haidian
+            <div class="sd-cascader-option-label"><span class="sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">Beijing / Haidian</span></span>
               <!---->
             </div>
           </button></li>
         <li class="sd-cascader-search-option"><button type="button" aria-haspopup="false" aria-expanded="false" title="Huangpu" class="sd-cascader-option">
             <!---->
             <!---->
-            <div class="sd-cascader-option-label">Shanghai / Huangpu
+            <div class="sd-cascader-option-label"><span class="sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">Shanghai / Huangpu</span></span>
               <!---->
             </div>
           </button></li>

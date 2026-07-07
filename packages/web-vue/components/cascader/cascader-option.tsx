@@ -6,6 +6,7 @@ import type { CascaderOption, CascaderOptionInfo } from './interface';
 import { getPrefixCls } from '../_utils/global-config';
 import { isFunction } from '../_utils/is';
 import Checkbox from '../checkbox';
+import { PerformantEllipsis } from '../ellipsis';
 import IconLoading from '../icon/icon-loading';
 import IconRight from '../icon/icon-right';
 import Radio from '../radio';
@@ -92,17 +93,18 @@ export default defineComponent({
 
     const renderLabelContent = () => {
       if (props.pathLabel) {
-        return (
+        const label =
           cascaderCtx?.formatLabel?.(props.option.path.map((item) => item.raw)) ??
           getOptionLabel(props.option, {
             separator: cascaderCtx.separator,
-          })
-        );
+          });
+
+        return <PerformantEllipsis>{label}</PerformantEllipsis>;
       }
       if (cascaderCtx.slots?.option) {
         return cascaderCtx.slots.option({ data: props.option });
       }
-      return props.option.label;
+      return <PerformantEllipsis>{props.option.label}</PerformantEllipsis>;
     };
 
     const renderIcon = () => {

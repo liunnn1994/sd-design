@@ -10654,11 +10654,6 @@
     "ast_hash": "ac34ec188398482dd4d62c85f8e04dce",
     "semantic_hash": "ac34ec188398482dd4d62c85f8e04dce"
   },
-  "packages/web-vue/es/_components/virtual-list/use-virtual-size.js": {
-    "mtime": 1781229052.583757,
-    "ast_hash": "536d80551802945439cd34578da2dc3b",
-    "semantic_hash": "536d80551802945439cd34578da2dc3b"
-  },
   "packages/web-vue/es/_components/virtual-list/virtual-list.js": {
     "mtime": 1781229052.5847583,
     "ast_hash": "1e98cf527a8631c9e5ed27da58cc760f",

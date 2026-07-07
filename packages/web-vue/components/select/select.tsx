@@ -608,12 +608,19 @@ export default defineComponent({
       return result;
     });
 
+    const ellipsisPrefixCls = getPrefixCls('ellipsis');
+    const renderOptionEllipsis = (label: string) => (
+      <span class={[ellipsisPrefixCls, `${ellipsisPrefixCls}--single-line`]}>
+        <span class={`${ellipsisPrefixCls}-content`}>{label}</span>
+      </span>
+    );
+
     const getOptionContentFunc = (optionInfo: SelectOptionInfo) => {
       if (isFunction(slots.option)) {
         return () => slots.option?.({ data: optionInfo.raw });
       }
 
-      return () => optionInfo.label;
+      return () => renderOptionEllipsis(optionInfo.label);
     };
 
     const optionPrefixCls = getPrefixCls('select-option');
@@ -623,7 +630,7 @@ export default defineComponent({
       if (isGroupOptionInfo(optionInfo)) {
         return (
           <li key={optionInfo.key} class={groupPrefixCls}>
-            <div class={`${groupPrefixCls}-title`}>{optionInfo.label}</div>
+            <div class={`${groupPrefixCls}-title`}>{renderOptionEllipsis(optionInfo.label)}</div>
             {optionInfo.options.map((child) => renderOption(child))}
           </li>
         );

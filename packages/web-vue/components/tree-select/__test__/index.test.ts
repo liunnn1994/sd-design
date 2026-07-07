@@ -33,7 +33,18 @@ const virtualTreeOptions = Array.from({ length: 10 }, (_, parentIndex) => ({
   })),
 }));
 
-const translateYPattern = /translateY\(([-\d.]+)px\)/;
+// virtua positions each item with `top: Npx` inside `.sd-virtual-list-content`.
+const getItemTop = (element: Element) => Number.parseFloat((element as HTMLElement).style.top) || 0;
+
+// virtua renders asynchronously (ResizeObserver schedule + measure→re-render
+// chain), so flush microtasks and the rAF/macrotask queue over a few cycles.
+const flush = async () => {
+  for (let i = 0; i < 4; i++) {
+    await nextTick();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+  }
+  await nextTick();
+};
 
 function mockElementSize(
   element: HTMLElement,
@@ -45,11 +56,6 @@ function mockElementSize(
       value,
     });
   }
-}
-
-function getTranslateY(style: string) {
-  const match = translateYPattern.exec(style);
-  return match ? Number(match[1]) : 0;
 }
 
 describe('TreeSelect', () => {
@@ -277,7 +283,7 @@ describe('TreeSelect', () => {
     });
 
     await wrapper.find('.sd-select-view').trigger('click');
-    await nextTick();
+    await flush();
 
     const switcher = document.body.querySelector(
       '.sd-tree-node[data-key="parent-0"] .sd-tree-node-switcher',
@@ -285,15 +291,12 @@ describe('TreeSelect', () => {
 
     expect(switcher).not.toBeNull();
     switcher?.click();
-    await nextTick();
-    await nextTick();
+    await flush();
 
-    const visibleTitles = Array.from(
-      document.body.querySelectorAll('.vue-recycle-scroller__item-view'),
-    )
+    const visibleTitles = Array.from(document.body.querySelectorAll('.sd-virtual-list-content > *'))
       .map((view) => {
         const label = view.querySelector('.sd-tree-node')?.getAttribute('label');
-        const top = getTranslateY((view as HTMLElement).style.transform);
+        const top = getItemTop(view);
 
         return {
           label,

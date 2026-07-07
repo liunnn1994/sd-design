@@ -109,6 +109,7 @@ $list-prefix-cls: string.unquote('#{theme.$prefix}-list');
 
     &-main {
       flex: 1;
+      overflow: hidden;
 
       .#{$list-prefix-cls}-item-action:not(:first-child) {
         margin-top: $list-action-margin-top;
@@ -135,6 +136,11 @@ $list-prefix-cls: string.unquote('#{theme.$prefix}-list');
         &:not(:last-child) {
           margin-bottom: $list-meta-margin-bottom-title;
         }
+      }
+
+      &-content {
+        flex-grow: 1;
+        overflow: hidden;
       }
 
       &-description {

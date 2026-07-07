@@ -821,63 +821,63 @@ exports[`<transfer> demo: > render [tree] correctly 1`] = `
               <div class="sd-tree-node sd-tree-node-expanded" data-level="0" data-key="0-0">
                 <!-- 缩进 --><span class="sd-tree-node-indent"></span><!-- switcher --><span class="sd-tree-node-switcher sd-tree-node-switcher-expanded"><span class="sd-icon-hover sd-tree-node-icon-hover"><span class="sd-tree-node-switcher-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-caret-down" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path fill="currentColor" stroke="none" d="M24.938 34.829a1.2 1.2 0 0 1-1.875 0L9.56 17.949c-.628-.785-.069-1.949.937-1.949h27.007c1.006 0 1.565 1.164.937 1.95z"></path></svg></span></span></span><!-- checkbox --><label class="sd-checkbox"><input type="checkbox" class="sd-checkbox-target" value="false"><span class="sd-icon-hover sd-checkbox-icon-hover"><div class="sd-checkbox-icon"><!----></div></span>
                   <!---->
-                </label><!-- 内容 --><span class="sd-tree-node-title" draggable="false"><!--v-if--><span class="sd-tree-node-title-text"><!-- 标题，treeTitle 优先级高于节点的 title -->Trunk 0-0<!--v-if--></span></span><!-- 额外 -->
+                </label><!-- 内容 --><span class="sd-tree-node-title" draggable="false"><!--v-if--><span class="sd-tree-node-title-text">Trunk 0-0<!--v-if--></span></span><!-- 额外 -->
                 <!--v-if-->
               </div>
               <transition-stub appear="false" persisted="false" css="true"></transition-stub>
               <div class="sd-tree-node sd-tree-node-is-leaf" data-level="1" data-key="0-0-1">
                 <!-- 缩进 --><span class="sd-tree-node-indent"><span class="sd-tree-node-indent-block"></span></span><!-- switcher --><span class="sd-tree-node-switcher"><!----></span><!-- checkbox --><label class="sd-checkbox"><input type="checkbox" class="sd-checkbox-target" value="false"><span class="sd-icon-hover sd-checkbox-icon-hover"><div class="sd-checkbox-icon"><!----></div></span>
                   <!---->
-                </label><!-- 内容 --><span class="sd-tree-node-title" draggable="false"><!--v-if--><span class="sd-tree-node-title-text"><!-- 标题，treeTitle 优先级高于节点的 title -->Leaf 0-0-1<!--v-if--></span></span><!-- 额外 -->
+                </label><!-- 内容 --><span class="sd-tree-node-title" draggable="false"><!--v-if--><span class="sd-tree-node-title-text">Leaf 0-0-1<!--v-if--></span></span><!-- 额外 -->
                 <!--v-if-->
               </div>
               <transition-stub appear="false" persisted="false" css="true"></transition-stub>
               <div class="sd-tree-node sd-tree-node-is-tail sd-tree-node-expanded" data-level="1" data-key="0-0-2">
                 <!-- 缩进 --><span class="sd-tree-node-indent"><span class="sd-tree-node-indent-block"></span></span><!-- switcher --><span class="sd-tree-node-switcher sd-tree-node-switcher-expanded"><span class="sd-icon-hover sd-tree-node-icon-hover"><span class="sd-tree-node-switcher-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-caret-down" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path fill="currentColor" stroke="none" d="M24.938 34.829a1.2 1.2 0 0 1-1.875 0L9.56 17.949c-.628-.785-.069-1.949.937-1.949h27.007c1.006 0 1.565 1.164.937 1.95z"></path></svg></span></span></span><!-- checkbox --><label class="sd-checkbox"><input type="checkbox" class="sd-checkbox-target" value="false"><span class="sd-icon-hover sd-checkbox-icon-hover"><div class="sd-checkbox-icon"><!----></div></span>
                   <!---->
-                </label><!-- 内容 --><span class="sd-tree-node-title" draggable="false"><!--v-if--><span class="sd-tree-node-title-text"><!-- 标题，treeTitle 优先级高于节点的 title -->Branch 0-0-2<!--v-if--></span></span><!-- 额外 -->
+                </label><!-- 内容 --><span class="sd-tree-node-title" draggable="false"><!--v-if--><span class="sd-tree-node-title-text">Branch 0-0-2<!--v-if--></span></span><!-- 额外 -->
                 <!--v-if-->
               </div>
               <transition-stub appear="false" persisted="false" css="true"></transition-stub>
               <div class="sd-tree-node sd-tree-node-is-leaf sd-tree-node-is-tail" data-level="2" data-key="0-0-2-2">
                 <!-- 缩进 --><span class="sd-tree-node-indent"><span class="sd-tree-node-indent-block"></span><span class="sd-tree-node-indent-block sd-tree-node-indent-block-lineless"></span></span><!-- switcher --><span class="sd-tree-node-switcher"><!----></span><!-- checkbox --><label class="sd-checkbox"><input type="checkbox" class="sd-checkbox-target" value="false"><span class="sd-icon-hover sd-checkbox-icon-hover"><div class="sd-checkbox-icon"><!----></div></span>
                   <!---->
-                </label><!-- 内容 --><span class="sd-tree-node-title" draggable="false"><!--v-if--><span class="sd-tree-node-title-text"><!-- 标题，treeTitle 优先级高于节点的 title -->Leaf 0-0-2-2<!--v-if--></span></span><!-- 额外 -->
+                </label><!-- 内容 --><span class="sd-tree-node-title" draggable="false"><!--v-if--><span class="sd-tree-node-title-text">Leaf 0-0-2-2<!--v-if--></span></span><!-- 额外 -->
                 <!--v-if-->
               </div>
               <transition-stub appear="false" persisted="false" css="true"></transition-stub>
               <div class="sd-tree-node sd-tree-node-is-tail sd-tree-node-expanded" data-level="0" data-key="0-1">
                 <!-- 缩进 --><span class="sd-tree-node-indent"></span><!-- switcher --><span class="sd-tree-node-switcher sd-tree-node-switcher-expanded"><span class="sd-icon-hover sd-tree-node-icon-hover"><span class="sd-tree-node-switcher-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-caret-down" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path fill="currentColor" stroke="none" d="M24.938 34.829a1.2 1.2 0 0 1-1.875 0L9.56 17.949c-.628-.785-.069-1.949.937-1.949h27.007c1.006 0 1.565 1.164.937 1.95z"></path></svg></span></span></span><!-- checkbox --><label class="sd-checkbox"><input type="checkbox" class="sd-checkbox-target" value="false"><span class="sd-icon-hover sd-checkbox-icon-hover"><div class="sd-checkbox-icon"><!----></div></span>
                   <!---->
-                </label><!-- 内容 --><span class="sd-tree-node-title" draggable="false"><!--v-if--><span class="sd-tree-node-title-text"><!-- 标题，treeTitle 优先级高于节点的 title -->Trunk 0-1<!--v-if--></span></span><!-- 额外 -->
+                </label><!-- 内容 --><span class="sd-tree-node-title" draggable="false"><!--v-if--><span class="sd-tree-node-title-text">Trunk 0-1<!--v-if--></span></span><!-- 额外 -->
                 <!--v-if-->
               </div>
               <transition-stub appear="false" persisted="false" css="true"></transition-stub>
               <div class="sd-tree-node sd-tree-node-expanded" data-level="1" data-key="0-1-1">
                 <!-- 缩进 --><span class="sd-tree-node-indent"><span class="sd-tree-node-indent-block sd-tree-node-indent-block-lineless"></span></span><!-- switcher --><span class="sd-tree-node-switcher sd-tree-node-switcher-expanded"><span class="sd-icon-hover sd-tree-node-icon-hover"><span class="sd-tree-node-switcher-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-caret-down" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path fill="currentColor" stroke="none" d="M24.938 34.829a1.2 1.2 0 0 1-1.875 0L9.56 17.949c-.628-.785-.069-1.949.937-1.949h27.007c1.006 0 1.565 1.164.937 1.95z"></path></svg></span></span></span><!-- checkbox --><label class="sd-checkbox"><input type="checkbox" class="sd-checkbox-target" value="false"><span class="sd-icon-hover sd-checkbox-icon-hover"><div class="sd-checkbox-icon"><!----></div></span>
                   <!---->
-                </label><!-- 内容 --><span class="sd-tree-node-title" draggable="false"><!--v-if--><span class="sd-tree-node-title-text"><!-- 标题，treeTitle 优先级高于节点的 title -->Branch 0-1-1<!--v-if--></span></span><!-- 额外 -->
+                </label><!-- 内容 --><span class="sd-tree-node-title" draggable="false"><!--v-if--><span class="sd-tree-node-title-text">Branch 0-1-1<!--v-if--></span></span><!-- 额外 -->
                 <!--v-if-->
               </div>
               <transition-stub appear="false" persisted="false" css="true"></transition-stub>
               <div class="sd-tree-node sd-tree-node-is-leaf" data-level="2" data-key="0-1-1-1">
                 <!-- 缩进 --><span class="sd-tree-node-indent"><span class="sd-tree-node-indent-block sd-tree-node-indent-block-lineless"></span><span class="sd-tree-node-indent-block"></span></span><!-- switcher --><span class="sd-tree-node-switcher"><!----></span><!-- checkbox --><label class="sd-checkbox"><input type="checkbox" class="sd-checkbox-target" value="false"><span class="sd-icon-hover sd-checkbox-icon-hover"><div class="sd-checkbox-icon"><!----></div></span>
                   <!---->
-                </label><!-- 内容 --><span class="sd-tree-node-title" draggable="false"><!--v-if--><span class="sd-tree-node-title-text"><!-- 标题，treeTitle 优先级高于节点的 title -->Leaf 0-1-1-1<!--v-if--></span></span><!-- 额外 -->
+                </label><!-- 内容 --><span class="sd-tree-node-title" draggable="false"><!--v-if--><span class="sd-tree-node-title-text">Leaf 0-1-1-1<!--v-if--></span></span><!-- 额外 -->
                 <!--v-if-->
               </div>
               <transition-stub appear="false" persisted="false" css="true"></transition-stub>
               <div class="sd-tree-node sd-tree-node-is-leaf sd-tree-node-is-tail" data-level="2" data-key="0-1-1-2">
                 <!-- 缩进 --><span class="sd-tree-node-indent"><span class="sd-tree-node-indent-block sd-tree-node-indent-block-lineless"></span><span class="sd-tree-node-indent-block"></span></span><!-- switcher --><span class="sd-tree-node-switcher"><!----></span><!-- checkbox --><label class="sd-checkbox"><input type="checkbox" class="sd-checkbox-target" value="false"><span class="sd-icon-hover sd-checkbox-icon-hover"><div class="sd-checkbox-icon"><!----></div></span>
                   <!---->
-                </label><!-- 内容 --><span class="sd-tree-node-title" draggable="false"><!--v-if--><span class="sd-tree-node-title-text"><!-- 标题，treeTitle 优先级高于节点的 title -->Leaf 0-1-1-2<!--v-if--></span></span><!-- 额外 -->
+                </label><!-- 内容 --><span class="sd-tree-node-title" draggable="false"><!--v-if--><span class="sd-tree-node-title-text">Leaf 0-1-1-2<!--v-if--></span></span><!-- 额外 -->
                 <!--v-if-->
               </div>
               <transition-stub appear="false" persisted="false" css="true"></transition-stub>
               <div class="sd-tree-node sd-tree-node-is-leaf sd-tree-node-is-tail" data-level="1" data-key="0-1-2">
                 <!-- 缩进 --><span class="sd-tree-node-indent"><span class="sd-tree-node-indent-block sd-tree-node-indent-block-lineless"></span></span><!-- switcher --><span class="sd-tree-node-switcher"><!----></span><!-- checkbox --><label class="sd-checkbox"><input type="checkbox" class="sd-checkbox-target" value="false"><span class="sd-icon-hover sd-checkbox-icon-hover"><div class="sd-checkbox-icon"><!----></div></span>
                   <!---->
-                </label><!-- 内容 --><span class="sd-tree-node-title" draggable="false"><!--v-if--><span class="sd-tree-node-title-text"><!-- 标题，treeTitle 优先级高于节点的 title -->Leaf 0-1-2<!--v-if--></span></span><!-- 额外 -->
+                </label><!-- 内容 --><span class="sd-tree-node-title" draggable="false"><!--v-if--><span class="sd-tree-node-title-text">Leaf 0-1-2<!--v-if--></span></span><!-- 额外 -->
                 <!--v-if-->
               </div>
               <transition-stub appear="false" persisted="false" css="true"></transition-stub>

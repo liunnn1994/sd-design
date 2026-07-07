@@ -5,10 +5,14 @@
     </div>
     <div v-if="hasContent" :class="`${prefixCls}-content`">
       <div v-if="$slots.title || title" :class="`${prefixCls}-title`">
-        <slot name="title">{{ title }}</slot>
+        <slot name="title">
+          <PerformantEllipsis>{{ title }}</PerformantEllipsis>
+        </slot>
       </div>
       <div v-if="$slots.description || description" :class="`${prefixCls}-description`">
-        <slot name="description">{{ description }}</slot>
+        <slot name="description">
+          <PerformantEllipsis>{{ description }}</PerformantEllipsis>
+        </slot>
       </div>
     </div>
   </div>
@@ -18,6 +22,7 @@
   import { useSlots } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
+  import { PerformantEllipsis } from '../ellipsis';
 
   defineOptions({ name: 'ListItemMeta' });
 

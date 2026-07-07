@@ -182,6 +182,18 @@ describe('Cascader', () => {
     expect(visibleTags[1].text()).toBe('+1');
   });
 
+  test('should render default option with performant ellipsis', async () => {
+    await mountCascader({
+      props: {
+        options,
+        defaultPopupVisible: true,
+      },
+    });
+
+    const panel = getDropdownPanel();
+    expect(panel?.findComponent({ name: 'PerformantEllipsis' }).exists()).toBe(true);
+  });
+
   test('should render option slot and ignore option render function', async () => {
     await mountCascader({
       props: {
@@ -200,6 +212,7 @@ describe('Cascader', () => {
     const legacyRender = document.body.querySelector('.legacy-render');
 
     expect(customOption?.textContent).toBe('Slot:Beijing');
+    expect(customOption?.closest('.sd-ellipsis')).toBeNull();
     expect(legacyRender).toBeNull();
   });
 

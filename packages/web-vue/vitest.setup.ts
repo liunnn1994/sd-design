@@ -69,6 +69,81 @@ vi.mock('resize-observer-polyfill', () => ({
   },
 }));
 
+// virtua reads the global `ResizeObserver` (jsdom does not provide one, and the
+// app does not globally polyfill it). Provide a mock so virtualized components
+// initialize without throwing. jsdom has no layout, so for elements inside a
+// virtual-list we fabricate sizes (viewport from the host height, items at a
+// fixed size) to let virtua compute a visible range and render items; for every
+// other element it behaves as a no-op, leaving non-virtual components untouched.
+const VIRTUA_ITEM_SIZE = 32;
+class MockGlobalResizeObserver {
+  callback: ResizeObserverCallback;
+  constructor(callback: ResizeObserverCallback) {
+    this.callback = callback;
+  }
+  observe = (target: Element) => {
+    if (!(target instanceof HTMLElement)) {
+      return;
+    }
+    const root = target.closest('.sd-virtual-list') as HTMLElement | null;
+    if (!root) {
+      return;
+    }
+    // virtua ignores ResizeObserver entries whose `offsetParent` is null (it
+    // treats them as not laid out). jsdom always returns null, so virtua would
+    // never adopt a viewport size and would render zero items. Patch the
+    // instance so virtua considers it visible.
+    if (target.offsetParent == null) {
+      Object.defineProperty(target, 'offsetParent', {
+        configurable: true,
+        value: document.body,
+      });
+    }
+    const isViewport = target.classList.contains('sd-virtual-list-scroller');
+    const hostHeight = parseFloat(root.style.height || '') || 300;
+    const blockSize = isViewport ? hostHeight : VIRTUA_ITEM_SIZE;
+    const inlineSize = 200;
+    const entry = {
+      target,
+      contentRect: {
+        width: inlineSize,
+        height: blockSize,
+        top: 0,
+        left: 0,
+        bottom: blockSize,
+        right: inlineSize,
+        x: 0,
+        y: 0,
+        toJSON: () => ({}),
+      },
+      borderBoxSize: [{ blockSize, inlineSize }],
+      contentBoxSize: [{ blockSize, inlineSize }],
+      devicePixelContentBoxSize: [{ blockSize, inlineSize }],
+    };
+    // Fire asynchronously, like the real ResizeObserver. Tests flush the
+    // resulting measure->render chain with a macrotask await.
+    queueMicrotask(() => {
+      try {
+        this.callback([entry as unknown as ResizeObserverEntry], this as unknown as ResizeObserver);
+      } catch {
+        // ignore callback errors during teardown
+      }
+    });
+  };
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+}
+Object.defineProperty(globalThis, 'ResizeObserver', {
+  configurable: true,
+  writable: true,
+  value: MockGlobalResizeObserver,
+});
+Object.defineProperty(window, 'ResizeObserver', {
+  configurable: true,
+  writable: true,
+  value: MockGlobalResizeObserver,
+});
+
 Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
   configurable: true,
   value: vi.fn(() => mockCanvasContext),

@@ -28,6 +28,37 @@ describe('Select', () => {
     expect(document.body.outerHTML.replace('<body><!---->', '<body>')).toMatchSnapshot();
   });
 
+  test('should render default dropdown option with performant ellipsis', async () => {
+    const wrapper = mount(Select, {
+      props: {
+        options: ['Beijing long long long', 'Shanghai'],
+      },
+    });
+
+    await wrapper.find('.sd-select-view').trigger('click');
+    const dropdown = wrapper.findComponent({ name: 'SelectDropdown' });
+
+    expect(dropdown.find('.sd-ellipsis').exists()).toBe(true);
+  });
+
+  test('should not wrap custom option slot with performant ellipsis', async () => {
+    const wrapper = mount(Select, {
+      props: {
+        options: ['Beijing', 'Shanghai'],
+      },
+      slots: {
+        option: ({ data }) => h('span', { class: 'custom-option' }, data.label),
+      },
+    });
+
+    await wrapper.find('.sd-select-view').trigger('click');
+    const dropdown = wrapper.findComponent({ name: 'SelectDropdown' });
+    const option = dropdown.find('.sd-select-option');
+
+    expect(option.find('.custom-option').exists()).toBe(true);
+    expect(option.find('.sd-ellipsis').exists()).toBe(false);
+  });
+
   test('should disable horizontal scrollbar in dropdown', async () => {
     const wrapper = mount(Select, {
       props: {

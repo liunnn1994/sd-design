@@ -225,14 +225,14 @@ exports[`<cascader> demo: > render [panel] correctly 1`] = `
             <li><button type="button" aria-haspopup="true" aria-expanded="false" title="Beijing" class="sd-cascader-option">
                 <!---->
                 <!---->
-                <div class="sd-cascader-option-label">Beijing<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+                <div class="sd-cascader-option-label"><span class="sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">Beijing</span></span><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
                     <path d="m16 39.513 15.556-15.557L16 8.4"></path>
                   </svg></div>
               </button></li>
             <li><button type="button" aria-haspopup="true" aria-expanded="false" title="Shanghai" class="sd-cascader-option">
                 <!---->
                 <!---->
-                <div class="sd-cascader-option-label">Shanghai<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+                <div class="sd-cascader-option-label"><span class="sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">Shanghai</span></span><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-right" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
                     <path d="m16 39.513 15.556-15.557L16 8.4"></path>
                   </svg></div>
               </button></li>

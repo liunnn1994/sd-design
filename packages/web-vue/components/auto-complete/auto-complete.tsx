@@ -291,13 +291,20 @@ export default defineComponent({
       onPopupVisibleChange: handlePopupVisibleChange,
     });
 
+    const ellipsisPrefixCls = getPrefixCls('ellipsis');
+    const renderOptionEllipsis = (label: string) => (
+      <span class={[ellipsisPrefixCls, `${ellipsisPrefixCls}--single-line`]}>
+        <span class={`${ellipsisPrefixCls}-content`}>{label}</span>
+      </span>
+    );
+
     const getOptionContentFunc = (item: SelectOptionInfo) => {
       if (isFunction(slots.option) && item.value) {
         const optionInfo = optionInfoMap.get(item.key);
         const optionSlot = slots.option;
         return () => optionSlot({ data: optionInfo });
       }
-      return () => item.label;
+      return () => renderOptionEllipsis(item.label);
     };
 
     const optionPrefixCls = getPrefixCls('select-option');

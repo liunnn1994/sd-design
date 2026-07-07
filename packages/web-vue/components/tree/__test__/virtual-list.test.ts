@@ -5,10 +5,22 @@ import { vi } from 'vitest';
 
 import Tree from '../index';
 
-function getTranslateY(style: string) {
-  const match = /translateY\(([-\d.]+)px\)/.exec(style);
-  return match ? Number(match[1]) : 0;
-}
+// virtua positions each item with `position: absolute; top: Npx` inside a
+// relative `.sd-virtual-list-content` container (vue-virtual-scroller used
+// `.vue-recycle-scroller__item-view` with `transform: translateY(Npx)`).
+const getItemTop = (element: Element): number =>
+  Number.parseFloat((element as HTMLElement).style.top) || 0;
+
+// virtua renders asynchronously (its onMounted ResizeObserver schedule plus a
+// measure→re-render chain), so flush both microtasks and the rAF/macrotask queue
+// over a few cycles before reading the rendered items.
+const flush = async () => {
+  for (let i = 0; i < 4; i++) {
+    await nextTick();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+  }
+  await nextTick();
+};
 
 const options = Array.from({ length: 10 }, (_, index) => ({
   label: `Option ${index}`,
@@ -26,6 +38,22 @@ const treeOptions = Array.from({ length: 10 }, (_, index) => ({
     value: option.value.replace('0', String(index)),
   })),
 }));
+
+// Reads the rendered virtual items (direct children of the virtua content
+// container) as { label, top }, sorted by vertical position.
+const visibleTitles = () =>
+  Array.from(document.body.querySelectorAll('.sd-virtual-list-content > *'))
+    .map((element) => {
+      const node = element.querySelector('.sd-tree-node');
+
+      return {
+        label: node?.getAttribute('label'),
+        top: getItemTop(element),
+      };
+    })
+    .filter((item): item is { label: string; top: number } => Boolean(item.label))
+    .sort((left, right) => left.top - right.top)
+    .map((item) => item.label);
 
 describe('Tree virtual list', () => {
   test('should keep dynamic virtual tree scrollable without scroller warnings', async () => {
@@ -51,17 +79,14 @@ describe('Tree virtual list', () => {
       },
     });
 
-    await nextTick();
-    await nextTick();
+    await flush();
 
     await wrapper.find('.sd-tree-node-switcher').trigger('click');
-    await nextTick();
-    await nextTick();
+    await flush();
 
-    expect(wrapper.find('.vue-recycle-scroller').exists()).toBe(true);
-    expect(consoleWarn).not.toHaveBeenCalledWith(
-      expect.stringContaining("It seems the scroller element isn't scrolling"),
-    );
+    expect(wrapper.find('.sd-virtual-list-content').exists()).toBe(true);
+    expect(wrapper.findAll('.sd-tree-node').length).toBeGreaterThan(0);
+    expect(consoleWarn).not.toHaveBeenCalledWith(expect.stringContaining("isn't scrolling"));
 
     consoleWarn.mockRestore();
   });
@@ -75,28 +100,12 @@ describe('Tree virtual list', () => {
       },
     });
 
-    await nextTick();
-    await nextTick();
+    await flush();
 
     await wrapper.find('.sd-tree-node-switcher').trigger('click');
-    await nextTick();
-    await nextTick();
+    await flush();
 
-    const visibleTitles = wrapper
-      .findAll('.vue-recycle-scroller__item-view')
-      .map((view) => {
-        const node = view.find('.sd-tree-node');
-
-        return {
-          label: node.attributes('label'),
-          top: getTranslateY((view.element as HTMLElement).style.transform),
-        };
-      })
-      .filter((item): item is { label: string; top: number } => Boolean(item.label))
-      .sort((left, right) => left.top - right.top)
-      .map((item) => item.label);
-
-    expect(visibleTitles.slice(0, 5)).toEqual([
+    expect(visibleTitles().slice(0, 5)).toEqual([
       'parent-0',
       'Option 0',
       'Option 1',
@@ -126,37 +135,19 @@ describe('Tree virtual list', () => {
       },
     });
 
-    await nextTick();
-    await nextTick();
+    await flush();
 
     const switchers = wrapper.findAll('.sd-tree-node-switcher');
     await switchers[0].trigger('click');
-    await nextTick();
-    await nextTick();
+    await flush();
 
     await switchers[0].trigger('click');
-    await nextTick();
-    await nextTick();
+    await flush();
 
     await switchers[0].trigger('click');
-    await nextTick();
-    await nextTick();
+    await flush();
 
-    const visibleTitles = wrapper
-      .findAll('.vue-recycle-scroller__item-view')
-      .map((view) => {
-        const node = view.find('.sd-tree-node');
-
-        return {
-          label: node.attributes('label'),
-          top: getTranslateY((view.element as HTMLElement).style.transform),
-        };
-      })
-      .filter((item): item is { label: string; top: number } => Boolean(item.label))
-      .sort((left, right) => left.top - right.top)
-      .map((item) => item.label);
-
-    expect(visibleTitles.slice(0, 5)).toEqual([
+    expect(visibleTitles().slice(0, 5)).toEqual([
       'parent-0',
       'Option 0',
       'Option 1',

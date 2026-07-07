@@ -526,8 +526,8 @@ type FilterOption = boolean | ((inputValue: string, option: SelectOptionData) =>
 | --- | --- | --- | :-: | :-- |
 | items | 列表数据 | `unknown[]` | `[]` |  |
 | keyField | 用于提取每项唯一键，支持字段名或函数 | `string \| ((item, index) => string \| number)` | `'key'` |  |
-| itemSize | 固定高度模式的 item 高度，传入后使用 `RecycleScroller` | `number \| string \| ((item, index) => number)` | `-` |  |
-| minItemSize | 动态高度模式的最小 item 高度；未传 `itemSize` 时使用 `DynamicScroller` | `number \| string` | `32` |  |
+| itemSize | 固定高度模式的 item 高度，传入后作为初始尺寸提示 | `number \| string \| ((item, index) => number)` | `-` |  |
+| minItemSize | 动态高度模式的最小 item 高度；未传 `itemSize` 时用于初始估算 | `number \| string` | `32` |  |
 | buffer | 额外渲染缓冲区（像素） | `number` | `200` |  |
 
 其余参数与暴露方法请查看 [虚拟列表迁移指南](/guides/virtual-list-migration/)。

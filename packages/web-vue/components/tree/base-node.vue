@@ -105,20 +105,17 @@
         />
       </span>
       <span :class="titleTextClassNames">
+        <component v-if="treeTitle" :is="treeTitle" />
+        <!-- 标题，treeTitle 优先级高于节点的 title -->
+        <slot v-else-if="$slots.title" name="title" :title="title">{{ title }}</slot>
         <component
+          v-else-if="shouldRenderEllipsis"
           :is="ellipsisComponent"
-          v-if="shouldRenderEllipsis"
           :class="`${prefixCls}-title-ellipsis`"
         >
-          <component v-if="treeTitle" :is="treeTitle" />
-          <!-- 标题，treeTitle 优先级高于节点的 title -->
-          <slot v-else name="title" :title="title">{{ title }}</slot>
+          {{ title }}
         </component>
-        <template v-else>
-          <component v-if="treeTitle" :is="treeTitle" />
-          <!-- 标题，treeTitle 优先级高于节点的 title -->
-          <slot v-else name="title" :title="title">{{ title }}</slot>
-        </template>
+        <template v-else>{{ title }}</template>
 
         <span v-if="draggable" :class="[`${prefixCls}-icon`, `${prefixCls}-drag-icon`]">
           <!-- 拖拽图标 -->
@@ -140,7 +137,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, PropType, toRefs, VNode, reactive, ref } from 'vue';
+  import { computed, PropType, toRefs, VNode, reactive, ref, useSlots } from 'vue';
 
   import { onLongPress, useSwipe } from '@vueuse/core';
 
@@ -221,6 +218,7 @@
   const key = useNodeKey();
   const prefixCls = getPrefixCls('tree-node');
   const treeContext = useTreeContext();
+  const slots = useSlots();
   const node = computed(() => treeContext.key2TreeNode?.get(key.value) as Node);
   const treeNodeData = computed(() => node.value.treeNodeData);
   const children = computed(() => node.value.children);
@@ -302,12 +300,17 @@
 
   const shouldRenderEllipsis = computed(
     () =>
-      treeContext.treeProps?.ellipsis === true ||
-      treeContext.treeProps?.ellipsis === 'performant-ellipsis',
+      !treeContext.nodeTitle &&
+      !slots.title &&
+      (treeContext.treeProps?.ellipsis === true ||
+        treeContext.treeProps?.ellipsis === 'performant-ellipsis' ||
+        Boolean(treeContext.treeProps?.virtualListProps)),
   );
 
   const ellipsisComponent = computed(() =>
-    treeContext.treeProps?.ellipsis === 'performant-ellipsis' ? PerformantEllipsis : Ellipsis,
+    treeContext.treeProps?.ellipsis === true && !treeContext.treeProps?.virtualListProps
+      ? Ellipsis
+      : PerformantEllipsis,
   );
 
   const titleTextClassNames = computed(() => [

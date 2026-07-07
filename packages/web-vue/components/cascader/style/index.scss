@@ -140,10 +140,13 @@ $cascader-prefix-cls: string.unquote('#{theme.$prefix}-cascader');
     cursor: pointer;
 
     &-label {
-      flex-grow: 1;
+      flex: 1 1 0;
+      box-sizing: border-box;
+      min-width: 0;
       padding-right: $cascader-padding-item-right + $cascader-size-item-icon +
         $cascader-margin-item-icon-left;
       padding-left: $cascader-padding-item-left;
+      overflow: hidden;
     }
 
     .#{theme.$prefix}-icon-right,
