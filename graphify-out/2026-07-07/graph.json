@@ -4,6 +4,72 @@
   "graph": {},
   "nodes": [
     {
+      "label": "BaseHTTPRequestHandler",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "community": 25,
+      "norm_label": "basehttprequesthandler",
+      "community_name": "Small Cluster 25",
+      "id": "basehttprequesthandler"
+    },
+    {
+      "label": "@astrojs/starlight/components",
+      "file_type": "code",
+      "source_file": "@astrojs/starlight/components",
+      "confidence": "EXTRACTED",
+      "_origin": "ast",
+      "community": 34,
+      "norm_label": "@astrojs/starlight/components",
+      "community_name": "Small Cluster 34",
+      "id": "components"
+    },
+    {
+      "label": "astro:content",
+      "file_type": "code",
+      "source_file": "astro:content",
+      "confidence": "EXTRACTED",
+      "_origin": "ast",
+      "community": 23,
+      "norm_label": "astro:content",
+      "community_name": "Small Cluster 23",
+      "id": "astro_content"
+    },
+    {
+      "label": "../../generated/docs-sidebar",
+      "file_type": "code",
+      "source_file": "packages/sd-vue-docs/src/generated/docs-sidebar",
+      "confidence": "EXTRACTED",
+      "_origin": "ast",
+      "community": 56,
+      "norm_label": "../../generated/docs-sidebar",
+      "community_name": "Small Cluster 56",
+      "id": "d_work_sd_design_packages_sd_vue_docs_src_generated_docs_sidebar"
+    },
+    {
+      "label": "../../styles/demo.css",
+      "file_type": "code",
+      "source_file": "packages/sd-vue-docs/src/styles/demo.css",
+      "confidence": "EXTRACTED",
+      "_origin": "ast",
+      "community": 57,
+      "norm_label": "../../styles/demo.css",
+      "community_name": "Small Cluster 57",
+      "id": "d_work_sd_design_packages_sd_vue_docs_src_styles_demo_css"
+    },
+    {
+      "label": "@astrojs/starlight/components/MarkdownContent.astro",
+      "file_type": "code",
+      "source_file": "@astrojs/starlight/components/MarkdownContent.astro",
+      "confidence": "EXTRACTED",
+      "_origin": "ast",
+      "community": 69,
+      "norm_label": "@astrojs/starlight/components/markdowncontent.astro",
+      "community_name": "Small Cluster 69",
+      "id": "markdowncontent_astro"
+    },
+    {
       "label": "AGPL-3.0-only License",
       "file_type": "document",
       "source_file": "LICENSE",
@@ -16,6 +82,20 @@
       "norm_label": "agpl-3.0-only license",
       "community_name": "Small Cluster 67",
       "id": "license_agpl3"
+    },
+    {
+      "label": "Graph Report (graphify-out)",
+      "file_type": "document",
+      "source_file": "graphify-out/GRAPH_REPORT.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 62,
+      "norm_label": "graph report (graphify-out)",
+      "community_name": "Small Cluster 62",
+      "id": "graphify_report"
     },
     {
       "label": "openspec-propose skill",
@@ -5627,5 +5707,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "a7143a49eba3faba99d8664a7a4f887d67b2af62"
+  "built_at_commit": "2b8da63a20f63d5e84a2b19069a1472726050e57"
 }

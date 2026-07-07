@@ -30,11 +30,11 @@ export interface TriggerProps {
   popupStyle?: CSSProperties;
   animationName?: string;
   duration?:
-  | number
-  | {
-    enter: number;
-    leave: number;
-  };
+    | number
+    | {
+        enter: number;
+        leave: number;
+      };
   mouseEnterDelay?: number;
   mouseLeaveDelay?: number;
   focusDelay?: number;

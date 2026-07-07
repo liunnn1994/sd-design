@@ -22,6 +22,21 @@
   @return $value;
 }
 
+// Builds a `:not()` chain that matches tags carrying their own color
+// (a custom color or any built-in preset). input-tag's default tag
+// background/border/color are scoped to the inverse of this chain so
+// colored tags fully inherit their styling from the Tag component
+// instead of being overridden by the input-tag defaults.
+@function tag-color-not-chain() {
+  $chain: ':not(.#{$tag-prefix-cls}-custom-color)';
+
+  @each $name in $colors {
+    $chain: '#{$chain}:not(.#{$tag-prefix-cls}-#{$name})';
+  }
+
+  @return $chain;
+}
+
 @mixin input-tag-size($cls, $size) {
   $font-size-token: string.unquote('input-tag-size-#{$size}-font-size');
   $height-token: string.unquote('input-tag-size-#{$size}-height');
@@ -100,8 +115,11 @@
       font-size: $input-tag-tag-font-size;
       white-space: pre-wrap;
       word-break: break-word;
-      background-color: $input-tag-tag-color-bg;
-      border-color: $input-tag-tag-color-border;
+
+      &#{tag-color-not-chain()} {
+        background-color: $input-tag-tag-color-bg;
+        border-color: $input-tag-tag-color-border;
+      }
 
       .#{theme.$prefix}-icon-hover:hover::before {
         background-color: $input-tag-tag-remove-icon-color-bg;
@@ -176,8 +194,10 @@
 
   &.#{$cls}-focus {
     .#{$cls}-tag {
-      background-color: $input-tag-tag-color-bg_focus;
-      border-color: $input-tag-tag-color-border_focus;
+      &#{tag-color-not-chain()} {
+        background-color: $input-tag-tag-color-bg_focus;
+        border-color: $input-tag-tag-color-border_focus;
+      }
 
       .#{theme.$prefix}-icon-hover:hover::before {
         background-color: $input-tag-tag-remove-icon-color-bg_focus;
@@ -187,9 +207,11 @@
 
   &.#{$cls}-disabled {
     .#{$cls}-tag {
-      color: $input-tag-color-text_disabled;
-      background-color: $input-tag-tag-color-bg_disabled;
-      border-color: $input-tag-tag-color-border_disabled;
+      &#{tag-color-not-chain()} {
+        color: $input-tag-color-text_disabled;
+        background-color: $input-tag-tag-color-bg_disabled;
+        border-color: $input-tag-tag-color-border_disabled;
+      }
     }
   }
 

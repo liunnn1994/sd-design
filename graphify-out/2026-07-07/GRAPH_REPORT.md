@@ -1,16 +1,15 @@
-# Graph Report - sd-design  (2026-07-07)
+# Graph Report - D:\work\sd-design  (2026-07-03)
 
 ## Corpus Check
-- 0 files · ~0 words
-- Verdict: corpus is large enough that graph structure adds value.
+- cluster-only mode — file stats not available
 
 ## Summary
-- 234 nodes · 205 edges · 75 communities (17 shown, 58 thin omitted)
+- 241 nodes · 205 edges · 82 communities (18 shown, 64 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a7143a49`
+- Built from commit: `c703be3d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -39,6 +38,7 @@
 - [[_COMMUNITY_Small Cluster 21|Small Cluster 21]]
 - [[_COMMUNITY_Small Cluster 22|Small Cluster 22]]
 - [[_COMMUNITY_Small Cluster 24|Small Cluster 24]]
+- [[_COMMUNITY_Small Cluster 25|Small Cluster 25]]
 - [[_COMMUNITY_Small Cluster 26|Small Cluster 26]]
 - [[_COMMUNITY_Small Cluster 27|Small Cluster 27]]
 - [[_COMMUNITY_Small Cluster 28|Small Cluster 28]]
@@ -47,6 +47,7 @@
 - [[_COMMUNITY_Small Cluster 31|Small Cluster 31]]
 - [[_COMMUNITY_Small Cluster 32|Small Cluster 32]]
 - [[_COMMUNITY_Small Cluster 33|Small Cluster 33]]
+- [[_COMMUNITY_Small Cluster 34|Small Cluster 34]]
 - [[_COMMUNITY_Small Cluster 35|Small Cluster 35]]
 - [[_COMMUNITY_Small Cluster 36|Small Cluster 36]]
 - [[_COMMUNITY_Small Cluster 37|Small Cluster 37]]
@@ -68,16 +69,20 @@
 - [[_COMMUNITY_Small Cluster 53|Small Cluster 53]]
 - [[_COMMUNITY_Small Cluster 54|Small Cluster 54]]
 - [[_COMMUNITY_Small Cluster 55|Small Cluster 55]]
+- [[_COMMUNITY_Small Cluster 56|Small Cluster 56]]
+- [[_COMMUNITY_Small Cluster 57|Small Cluster 57]]
 - [[_COMMUNITY_Small Cluster 58|Small Cluster 58]]
 - [[_COMMUNITY_Small Cluster 59|Small Cluster 59]]
 - [[_COMMUNITY_Small Cluster 60|Small Cluster 60]]
 - [[_COMMUNITY_Small Cluster 61|Small Cluster 61]]
+- [[_COMMUNITY_Small Cluster 62|Small Cluster 62]]
 - [[_COMMUNITY_Small Cluster 63|Small Cluster 63]]
 - [[_COMMUNITY_Small Cluster 64|Small Cluster 64]]
 - [[_COMMUNITY_Small Cluster 65|Small Cluster 65]]
 - [[_COMMUNITY_Small Cluster 66|Small Cluster 66]]
 - [[_COMMUNITY_Small Cluster 67|Small Cluster 67]]
 - [[_COMMUNITY_Small Cluster 68|Small Cluster 68]]
+- [[_COMMUNITY_Small Cluster 69|Small Cluster 69]]
 - [[_COMMUNITY_Small Cluster 70|Small Cluster 70]]
 - [[_COMMUNITY_Small Cluster 71|Small Cluster 71]]
 - [[_COMMUNITY_Small Cluster 72|Small Cluster 72]]
@@ -92,6 +97,9 @@
 - [[_COMMUNITY_Small Cluster 81|Small Cluster 81]]
 
 ## God Nodes (most connected - your core abstractions)
+1. `../../styles/demo.css` - 0 edges
+2. `@astrojs/starlight/components/MarkdownContent.astro` - 0 edges
+3. `Graph Report (graphify-out)` - 0 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Migrate Generated Demos to Script Setup + Tailwind` --modifies--> `Generated Demo Components`  [EXTRACTED]
@@ -104,7 +112,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (75 total, 58 thin omitted)
+## Communities (82 total, 64 thin omitted)
 
 ### Community 0 - "Icon System"
 Cohesion: 0.11
@@ -175,11 +183,15 @@ Cohesion: 0.67
 Nodes (3): CSS Variables Convention, SdThemeConfig, ThemeProvider
 
 ## Knowledge Gaps
-- **58 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **3 isolated node(s):** `../../styles/demo.css`, `@astrojs/starlight/components/MarkdownContent.astro`, `Graph Report (graphify-out)`
+  These have ≤1 connection - possible missing edges or undocumented components.
+- **64 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
+- **What connects `../../styles/demo.css`, `@astrojs/starlight/components/MarkdownContent.astro`, `Graph Report (graphify-out)` to the rest of the system?**
+  _3 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Icon System` be split into smaller, more focused modules?**
   _Cohesion score 0.10952380952380952 - nodes in this community are weakly interconnected._
 - **Should `Component Entry Points & Icons` be split into smaller, more focused modules?**
