@@ -2,7 +2,7 @@
   <h1>SD Design</h1>
 </div>
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/f36a9db2-3fd7-4644-8c47-83e0937a4e0c/deploy-status)](https://app.netlify.com/projects/sensational-caramel-b44e12/deploys)
+[![Deploy docs](https://github.com/liunnn1994/sd-design/actions/workflows/deploy-docs.yml/badge.svg)](https://github.com/liunnn1994/sd-design/actions/workflows/deploy-docs.yml)
 
 <div align="center">
 

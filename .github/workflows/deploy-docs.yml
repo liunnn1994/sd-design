@@ -1,0 +1,66 @@
+name: Deploy docs
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/deploy-docs.yml
+      - .npmrc
+      - package.json
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
+      - packages/sd-vue-docs/**
+      - packages/web-vue/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 文档部署：新提交到达时取消进行中的旧部署，避免部署过期内容
+concurrency:
+  group: deploy-docs
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: 'package.json'
+
+      - name: Install dependencies
+        run: |
+          corepack enable
+          node -v
+          pnpm -v
+          pnpm run install:ci
+
+      - name: Build docs site
+        env:
+          NODE_OPTIONS: '--max-old-space-size=4096'
+        run: pnpm run build:docs
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: packages/sd-vue-docs/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

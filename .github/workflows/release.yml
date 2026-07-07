@@ -1,0 +1,76 @@
+name: Release web-vue
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/release.yml
+      - .npmrc
+      - package.json
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
+      - packages/web-vue/**
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: write
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: 'package.json'
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@sdata'
+
+      - name: Install dependencies
+        run: |
+          corepack enable
+          node -v
+          pnpm -v
+          pnpm run install:ci
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Test
+        run: pnpm run test:ci
+
+      - name: Build release package
+        env:
+          NODE_OPTIONS: '--max-old-space-size=6144'
+        run: pnpm --filter @sdata/web-vue run build
+
+      - name: Sync with latest main before release
+        run: git pull --rebase origin main
+
+      - name: Release web-vue
+        working-directory: packages/web-vue
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # semantic-release 的 git push 不应被本地开发者用的 pre-push 钩子拦截
+          # （该钩子会跑全量 typecheck，CI 发布时可能因缺少某些构建产物而中断发布）
+          SKIP_SIMPLE_GIT_HOOKS: '1'
+        run: pnpm exec semantic-release
+
+      - name: Show error
+        if: failure()
+        run: |
+          pnpm vp run --last-details

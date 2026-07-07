@@ -81,4 +81,4 @@ pnpm run dev:docs
 pnpm run build:docs
 ```
 
-Netlify 当前也已经切到 `packages/sd-vue-docs/dist` 作为发布目录。
+GitHub Pages 通过 `.github/workflows/deploy-docs.yml` 部署 `packages/sd-vue-docs/dist` 目录，自定义域名为 `sd-design.js.org`。
