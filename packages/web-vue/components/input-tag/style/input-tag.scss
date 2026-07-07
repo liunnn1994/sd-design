@@ -111,12 +111,12 @@
       align-items: center;
       min-width: 0;
       margin-right: $input-tag-tag-margin-right;
-      color: $input-tag-color-text_default;
       font-size: $input-tag-tag-font-size;
       white-space: pre-wrap;
       word-break: break-word;
 
       &#{tag-color-not-chain()} {
+        color: $input-tag-color-text_default;
         background-color: $input-tag-tag-color-bg;
         border-color: $input-tag-tag-color-border;
       }
@@ -126,8 +126,6 @@
       }
 
       &.#{theme.$prefix}-tag-custom-color {
-        color: token.$tag-custom-color-text;
-
         @include icon-hover.icon-hover-bg($tag-prefix-cls, token.$tag-custom-color-icon-bg_hover);
       }
 
