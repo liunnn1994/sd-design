@@ -1,65 +1,34 @@
 <template>
-  <sd-table :columns="columns" :data="data" :sticky-header="60" />
+  <sd-scrollbar type="track" :outer-style="{ height: '280px' }" class="table-sticky-demo">
+    <sd-table :columns="columns" :data="data" sticky-header :pagination="false" />
+  </sd-scrollbar>
 </template>
 
 <script setup lang="ts">
   import type { TableColumnData, TableData } from '@sdata/web-vue';
 
-  import { reactive } from 'vue';
-
   const columns: TableColumnData[] = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Salary',
-      dataIndex: 'salary',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
+    { title: 'Name', dataIndex: 'name' },
+    { title: 'Salary', dataIndex: 'salary' },
+    { title: 'Address', dataIndex: 'address' },
+    { title: 'Email', dataIndex: 'email' },
   ];
-  const data = reactive<TableData[]>([
-    {
-      key: '1',
-      name: 'Jane Doe',
-      salary: 23000,
-      address: '32 Park Road, London',
-      email: 'jane.doe@example.com',
-    },
-    {
-      key: '2',
-      name: 'Alisa Ross',
-      salary: 25000,
-      address: '35 Park Road, London',
-      email: 'alisa.ross@example.com',
-    },
-    {
-      key: '3',
-      name: 'Kevin Sandra',
-      salary: 22000,
-      address: '31 Park Road, London',
-      email: 'kevin.sandra@example.com',
-    },
-    {
-      key: '4',
-      name: 'Ed Hellen',
-      salary: 17000,
-      address: '42 Park Road, London',
-      email: 'ed.hellen@example.com',
-    },
-    {
-      key: '5',
-      name: 'William Smith',
-      salary: 27000,
-      address: '62 Park Road, London',
-      email: 'william.smith@example.com',
-    },
-  ]);
+
+  const data: TableData[] = Array.from({ length: 20 }, (_, index) => {
+    const key = index + 1;
+    return {
+      key: String(key),
+      name: `User ${key}`,
+      salary: 20000 + key * 1200,
+      address: `${30 + key} Park Road, London`,
+      email: `user.${key}@example.com`,
+    };
+  });
 </script>
+
+<style scoped>
+  .table-sticky-demo {
+    height: 280px;
+    overflow: auto;
+  }
+</style>

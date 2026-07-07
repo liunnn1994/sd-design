@@ -16,7 +16,6 @@
     />
   </sd-space>
 </template>
-
 <script setup lang="ts">
   import type {
     TableColumnData,
@@ -27,25 +26,13 @@
   } from '@sdata/web-vue';
 
   import { reactive, ref } from 'vue';
-
   const selectedKeys = ref(['EMP-1002']);
   const expandedKeys = ref(['EMP-1001']);
-
   const columns: TableColumnData[] = [
-    {
-      title: 'Employee',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Department',
-      dataIndex: 'department',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
+    { title: 'Employee', dataIndex: 'name' },
+    { title: 'Department', dataIndex: 'department' },
+    { title: 'Email', dataIndex: 'email' },
   ];
-
   const data = reactive<TableData[]>([
     {
       id: 'EMP-1001',
@@ -69,20 +56,10 @@
       expand: '负责文档站与组件回归验证。',
     },
   ]);
-
-  const rowSelection = reactive<TableRowSelection>({
-    type: 'checkbox',
-    showCheckedAll: true,
-  });
-
-  const expandable = reactive<TableExpandable>({
-    title: 'Details',
-    width: 88,
-  });
-
+  const rowSelection = reactive<TableRowSelection>({ type: 'checkbox', showCheckedAll: true });
+  const expandable = reactive<TableExpandable>({ title: 'Details', width: 88 });
   const getRowKey: TableRowKey = (record: TableData) => String(record.id ?? '');
 </script>
-
 <style scoped>
   .table-row-key-function-demo__status {
     display: flex;

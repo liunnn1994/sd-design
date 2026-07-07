@@ -1,7 +1,6 @@
 <template>
   <sd-space>
-    <span>checkStrictly:</span>
-    <sd-switch v-model="rowSelection.checkStrictly" />
+    <span>checkStrictly:</span> <sd-switch v-model="rowSelection.checkStrictly" />
   </sd-space>
   <sd-table
     :columns="columns"
@@ -12,37 +11,21 @@
     class="sd:mt-5"
   />
 </template>
-
 <script setup lang="ts">
   import type { TableColumnData, TableData, TableRowSelection } from '@sdata/web-vue';
 
   import { reactive, ref } from 'vue';
-
   const expandedKeys = ref<string[]>([]);
-
   const rowSelection = reactive<TableRowSelection>({
     type: 'checkbox',
     showCheckedAll: true,
     checkStrictly: true,
   });
-
   const columns: TableColumnData[] = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Salary',
-      dataIndex: 'salary',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
+    { title: 'Name', dataIndex: 'name' },
+    { title: 'Salary', dataIndex: 'salary' },
+    { title: 'Address', dataIndex: 'address' },
+    { title: 'Email', dataIndex: 'email' },
   ];
   const data: TableData[] = [
     {

@@ -1,34 +1,15 @@
 <template>
   <sd-table :columns="columns" :data="data" column-resizable :bordered="{ cell: true }"></sd-table>
 </template>
-
 <script setup lang="ts">
   import type { TableColumnData, TableData } from '@sdata/web-vue';
 
   import { reactive } from 'vue';
-
   const columns = reactive<TableColumnData[]>([
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      width: 150,
-      minWidth: 100,
-    },
-    {
-      title: 'Salary',
-      dataIndex: 'salary',
-      width: 120,
-      minWidth: 80,
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-      width: 300,
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
+    { title: 'Name', dataIndex: 'name', width: 150, minWidth: 100 },
+    { title: 'Salary', dataIndex: 'salary', width: 120, minWidth: 80 },
+    { title: 'Address', dataIndex: 'address', width: 300 },
+    { title: 'Email', dataIndex: 'email' },
   ]);
   const data = reactive<TableData[]>([
     {

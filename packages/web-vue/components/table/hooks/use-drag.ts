@@ -1,7 +1,5 @@
 import { computed, reactive, Ref } from 'vue';
 
-import { tryOnScopeDispose, useEventListener } from '@vueuse/core';
-
 import type { BaseType } from '../../_utils/types';
 
 import { TableDraggable } from '../interface';
@@ -19,11 +17,10 @@ export const useDrag = (draggable: Ref<TableDraggable | undefined>) => {
 
   const dragState = reactive({
     dragging: false,
-    sourceKey: '' as BaseType | '',
+    sourceKey: '' as BaseType,
     sourcePath: [] as number[],
     targetPath: [] as number[],
     data: {} as Record<string, unknown>,
-    dropIndicatorPath: [] as number[],
   });
 
   const clearDragState = () => {
@@ -32,21 +29,7 @@ export const useDrag = (draggable: Ref<TableDraggable | undefined>) => {
     dragState.sourcePath = [];
     dragState.targetPath = [];
     dragState.data = {};
-    dragState.dropIndicatorPath = [];
   };
-
-  const stopGlobalDragListeners = [
-    useEventListener(typeof window !== 'undefined' ? window : undefined, 'dragend', () => {
-      clearDragState();
-    }),
-    useEventListener(typeof window !== 'undefined' ? window : undefined, 'drop', () => {
-      clearDragState();
-    }),
-  ];
-
-  tryOnScopeDispose(() => {
-    stopGlobalDragListeners.forEach((stop) => stop());
-  });
 
   const handleDragStart = (
     ev: DragEvent,
@@ -78,13 +61,9 @@ export const useDrag = (draggable: Ref<TableDraggable | undefined>) => {
     if (dragState.targetPath.toString() !== targetPath.toString()) {
       // drag row to another row
       dragState.targetPath = targetPath;
-      // Update the drop indicator position
-      dragState.dropIndicatorPath = targetPath;
     }
     ev.preventDefault();
   };
-
-  const handleDragLeave = (_ev: DragEvent) => {};
 
   const handleDragover = (ev: DragEvent) => {
     if (ev.dataTransfer) {
@@ -109,7 +88,6 @@ export const useDrag = (draggable: Ref<TableDraggable | undefined>) => {
     dragState,
     handleDragStart,
     handleDragEnter,
-    handleDragLeave,
     handleDragover,
     handleDragEnd,
     handleDrop,

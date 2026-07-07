@@ -1,9 +1,6 @@
 <template>
   <sd-space direction="vertical" size="large" fill>
-    <div>
-      <span>OnlyCurrent: </span>
-      <sd-switch v-model="rowSelection.onlyCurrent" />
-    </div>
+    <div> <span>OnlyCurrent: </span> <sd-switch v-model="rowSelection.onlyCurrent" /> </div>
     <sd-table
       row-key="name"
       :columns="columns"
@@ -14,38 +11,22 @@
     />
   </sd-space>
 </template>
-
 <script setup lang="ts">
   import type { TableColumnData, TableData, TableRowSelection } from '@sdata/web-vue';
 
   import { reactive, ref } from 'vue';
-
   const selectedKeys = ref(['Jane Doe', 'Alisa Ross']);
-
   const rowSelection = reactive<TableRowSelection>({
     type: 'checkbox',
     showCheckedAll: true,
     onlyCurrent: false,
   });
   const pagination = { pageSize: 5 };
-
   const columns: TableColumnData[] = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Salary',
-      dataIndex: 'salary',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
+    { title: 'Name', dataIndex: 'name' },
+    { title: 'Salary', dataIndex: 'salary' },
+    { title: 'Address', dataIndex: 'address' },
+    { title: 'Email', dataIndex: 'email' },
   ];
   const data = reactive<TableData[]>([
     {

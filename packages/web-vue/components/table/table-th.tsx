@@ -16,7 +16,7 @@ import { TableContext, tableInjectionKey } from './context';
 import { useColumnFilter } from './hooks/use-column-filter';
 import { useColumnSorter } from './hooks/use-column-sorter';
 import { TableColumnData, TableOperationColumn } from './interface';
-import { getFixedCls, getStyle } from './utils';
+import { getFixedCls, getGridSpanStyle, getStyle } from './utils';
 
 export default defineComponent({
   name: 'Th',
@@ -60,11 +60,18 @@ export default defineComponent({
       return tableCtx.filterIconAlignLeft;
     });
 
-    const { sortOrder, hasSorter, hasAscendBtn, hasDescendBtn, nextSortOrder, handleClickSorter } =
-      useColumnSorter({
-        column,
-        tableCtx,
-      });
+    const {
+      sortOrder,
+      hasSorter,
+      hasAscendBtn,
+      hasDescendBtn,
+      nextSortOrder,
+      handleClickSorter,
+      // @ts-ignore
+    } = useColumnSorter({
+      column,
+      tableCtx,
+    });
 
     const {
       filterPopupVisible,
@@ -117,19 +124,14 @@ export default defineComponent({
           <ul class={`${prefixCls}-filters-list`}>
             {filterable?.filters?.map((item, index) => {
               return (
-                <li class={`${prefixCls}-filters-item`} key={`${item.value}-${index}`}>
+                <li class={`${prefixCls}-filters-item`} key={index}>
                   {isMultipleFilter.value ? (
                     <Checkbox
                       value={item.value}
                       modelValue={columnFilterValue.value}
                       uninjectGroupContext
-                      onChange={(value: boolean | (string | number | boolean)[]) => {
-                        if (Array.isArray(value)) {
-                          handleCheckboxFilterChange(value.map(String));
-                          return;
-                        }
-                        throw new Error('Checkbox filter value should be an array');
-                      }}
+                      // @ts-ignore
+                      onChange={handleCheckboxFilterChange}
                     >
                       {item.text}
                     </Checkbox>
@@ -138,13 +140,8 @@ export default defineComponent({
                       value={item.value}
                       modelValue={columnFilterValue.value[0] ?? ''}
                       uninjectGroupContext
-                      onChange={(value: string | number | boolean) => {
-                        if (typeof value === 'string') {
-                          handleRadioFilterChange(value);
-                          return;
-                        }
-                        throw new Error('Radio filter value should be a string');
-                      }}
+                      // @ts-ignore
+                      onChange={handleRadioFilterChange}
                     >
                       {item.text}
                     </Radio>
@@ -192,7 +189,8 @@ export default defineComponent({
               },
             ]}
             disabled={!filterIconAlignLeft.value}
-            {...{ onClick: (ev: Event) => ev.stopPropagation() }}
+            // @ts-ignore
+            onClick={(ev: Event) => ev.stopPropagation()}
           >
             {props.column.slots?.['filter-icon']?.() ?? filterable.icon?.() ?? <IconFilter />}
           </IconHover>
@@ -240,8 +238,8 @@ export default defineComponent({
       return props.column.title;
     };
 
-    const renderCellContent = () => (
-      <>
+    const renderCell = () => (
+      <span class={cellCls.value} onClick={hasSorter.value ? handleClickSorter : undefined}>
         {props.column?.ellipsis && props.column?.tooltip ? (
           <AutoTooltip class={`${prefixCls}-th-title`} tooltipProps={tooltipProps.value}>
             {renderTitle()}
@@ -285,32 +283,16 @@ export default defineComponent({
           </span>
         )}
         {filterIconAlignLeft.value && renderFilter()}
-      </>
+      </span>
     );
 
-    const renderCell = () => {
-      if (hasSorter.value) {
-        return (
-          <button type="button" class={cellCls.value} onClick={handleClickSorter}>
-            {renderCellContent()}
-          </button>
-        );
-      }
-
-      return <span class={cellCls.value}>{renderCellContent()}</span>;
-    };
-
     const style = computed(() => {
-      const colSpan = props.column.colSpan ?? 1;
-      const rowSpan = props.column.rowSpan ?? 1;
-
       return {
         ...getStyle(props.column, {
           dataColumns: props.dataColumns,
           operations: props.operations,
         }),
-        ...(colSpan > 1 ? { gridColumn: `span ${colSpan}` } : undefined),
-        ...(rowSpan > 1 ? { gridRow: `span ${rowSpan}` } : undefined),
+        ...getGridSpanStyle(props.column.rowSpan, props.column.colSpan),
         ...props.column?.cellStyle,
         ...props.column?.headerCellStyle,
       };
@@ -327,11 +309,10 @@ export default defineComponent({
       props.column?.headerCellClass,
     ]);
 
-    const handleResizeMouseDown = (ev: PointerEvent) => {
-      if (!props.column?.dataIndex) {
-        return;
+    const handleMouseDown = (ev: MouseEvent) => {
+      if (props.column?.dataIndex) {
+        tableCtx.onThMouseDown?.(props.column?.dataIndex, ev);
       }
-      tableCtx.onThMouseDown?.(props.column.dataIndex, ev);
     };
 
     return () => {
@@ -348,7 +329,7 @@ export default defineComponent({
             renderCell(),
             !filterIconAlignLeft.value && renderFilter(),
             props.resizable && (
-              <span class={`${prefixCls}-column-handle`} onPointerdown={handleResizeMouseDown} />
+              <span class={`${prefixCls}-column-handle`} onMousedown={handleMouseDown} />
             ),
           ],
         },

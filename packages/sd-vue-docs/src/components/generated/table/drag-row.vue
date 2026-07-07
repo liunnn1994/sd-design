@@ -1,29 +1,15 @@
 <template>
   <sd-table :columns="columns" :data="data" @change="handleChange" :draggable="{}"></sd-table>
 </template>
-
 <script setup lang="ts">
   import type { TableColumnData, TableData } from '@sdata/web-vue';
 
   import { reactive, ref } from 'vue';
-
   const columns = reactive<TableColumnData[]>([
-    {
-      title: 'Name',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Salary',
-      dataIndex: 'salary',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
+    { title: 'Name', dataIndex: 'name' },
+    { title: 'Salary', dataIndex: 'salary' },
+    { title: 'Address', dataIndex: 'address' },
+    { title: 'Email', dataIndex: 'email' },
   ]);
   const data = ref<TableData[]>([
     {

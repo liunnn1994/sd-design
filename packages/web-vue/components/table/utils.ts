@@ -295,6 +295,37 @@ export const getOperationStyle = (
   return {};
 };
 
+const getColumnTrack = (width?: number, minWidth?: number) => {
+  if (width) {
+    return `${Math.max(width, minWidth || 0)}px`;
+  }
+  if (minWidth) {
+    return `minmax(${minWidth}px, 1fr)`;
+  }
+  return 'minmax(0, 1fr)';
+};
+
+export const getTableGridTemplate = (
+  dataColumns: TableColumnData[],
+  operations: TableOperationColumn[],
+  columnWidth?: Record<string, number>,
+) =>
+  operations
+    .map((item) => `${item.width ?? 40}px`)
+    .concat(
+      dataColumns.map((item) =>
+        getColumnTrack(
+          (item.dataIndex && columnWidth?.[item.dataIndex]) || item.width,
+          item.minWidth,
+        ),
+      ),
+    )
+    .join(' ');
+
+export const getGridSpanStyle = (rowSpan = 1, colSpan = 1): CSSProperties => ({
+  ...(rowSpan > 1 ? { gridRow: `span ${rowSpan}` } : {}),
+  ...(colSpan > 1 ? { gridColumn: `span ${colSpan}` } : {}),
+});
 /**
  * Obtain table column data through the <TableColumnData> component
  * @param {VNode[]} vns
@@ -309,17 +340,19 @@ export const getColumnsFromSlot = (vns: VNode[]) => {
           column.children = getColumnsFromSlot(vn.children.default());
         }
         if (vn.children.cell) {
-          column.render = vn.children.cell as unknown as TableColumnData['render'];
+          // @ts-ignore
+          column.render = vn.children.cell;
         }
         if (vn.children.title) {
-          column.title = vn.children.title as unknown as TableColumnData['title'];
+          // @ts-ignore
+          column.title = vn.children.title;
         }
       }
       columns.push(column);
     } else if (isArrayChildren(vn, vn.children)) {
-      columns.push(...getColumnsFromSlot(vn.children));
+      columns.push(...getColumnsFromSlot(vn.children as VNode[]));
     } else if (isArray(vn)) {
-      columns.push(...getColumnsFromSlot(vn as unknown as VNode[]));
+      columns.push(...getColumnsFromSlot(vn as VNode[]));
     }
   }
   return columns;

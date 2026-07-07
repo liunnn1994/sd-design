@@ -5,7 +5,7 @@ import { isFunction } from '../_utils/is';
 import Checkbox from '../checkbox';
 import { TableContext, tableInjectionKey } from './context';
 import { TableOperationColumn } from './interface';
-import { getOperationFixedCls, getOperationStyle } from './utils';
+import { getGridSpanStyle, getOperationFixedCls, getOperationStyle } from './utils';
 
 export default defineComponent({
   name: 'OperationTh',
@@ -84,7 +84,7 @@ export default defineComponent({
 
     const style = computed(() => ({
       ...getOperationStyle(props.operationColumn, props.operations),
-      ...(props.rowSpan > 1 ? { gridRow: `span ${props.rowSpan}` } : undefined),
+      ...getGridSpanStyle(props.rowSpan),
     }));
 
     const cls = computed(() => [

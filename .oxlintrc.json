@@ -3,7 +3,6 @@
   "categories": {},
   "env": { "builtin": true },
   "ignorePatterns": [
-    ".**/**",
     "*.json",
     "*.js",
     "packages/web-vue/components/icon/*",
@@ -13,6 +12,7 @@
     "packages/web-vue/*.json",
     "packages/web-vue/*.js",
     "vendor/**",
+    "skills/**",
     "packages/sd-vue-docs/.astro/**",
     ".*/"
   ],

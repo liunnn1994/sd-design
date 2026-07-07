@@ -1,29 +1,13 @@
-<template>
-  <sd-table :columns="columns" :data="data" />
-</template>
-
+<template><sd-table :columns="columns" :data="data" /></template>
 <script setup lang="ts">
   import type { TableColumnData, TableData } from '@sdata/web-vue';
 
   import { reactive } from 'vue';
-
   const columns: TableColumnData[] = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Salary',
-      dataIndex: 'salary',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
+    { title: 'Name', dataIndex: 'name' },
+    { title: 'Salary', dataIndex: 'salary' },
+    { title: 'Address', dataIndex: 'address' },
+    { title: 'Email', dataIndex: 'email' },
   ];
   const data = reactive<TableData[]>([
     {

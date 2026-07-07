@@ -1,8 +1,7 @@
 <template>
   <sd-space direction="vertical" size="large" fill>
     <sd-space>
-      <sd-switch v-model="alignLeft" />
-      <span>Filter icon align left: {{ alignLeft }}</span>
+      <sd-switch v-model="alignLeft" /> <span>Filter icon align left: {{ alignLeft }}</span>
     </sd-space>
     <sd-table
       :columns="columns"
@@ -12,38 +11,21 @@
     />
   </sd-space>
 </template>
-
 <script setup lang="ts">
   import type { TableChangeExtra, TableColumnData, TableData } from '@sdata/web-vue';
 
   import { reactive, ref } from 'vue';
-
   const alignLeft = ref(false);
-
   const columns: TableColumnData[] = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      sortable: {
-        sortDirections: ['ascend', 'descend'],
-      },
-    },
+    { title: 'Name', dataIndex: 'name', sortable: { sortDirections: ['ascend', 'descend'] } },
     {
       title: 'Salary',
       dataIndex: 'salary',
-      sortable: {
-        sortDirections: ['ascend'],
-      },
+      sortable: { sortDirections: ['ascend'] },
       filterable: {
         filters: [
-          {
-            text: '> 20000',
-            value: '20000',
-          },
-          {
-            text: '> 30000',
-            value: '30000',
-          },
+          { text: '> 20000', value: '20000' },
+          { text: '> 30000', value: '30000' },
         ],
         filter: (value, record) => record.salary > value,
         multiple: true,
@@ -54,22 +36,13 @@
       dataIndex: 'address',
       filterable: {
         filters: [
-          {
-            text: 'London',
-            value: 'London',
-          },
-          {
-            text: 'Paris',
-            value: 'Paris',
-          },
+          { text: 'London', value: 'London' },
+          { text: 'Paris', value: 'Paris' },
         ],
         filter: (value, row) => row.address.includes(value),
       },
     },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
+    { title: 'Email', dataIndex: 'email' },
   ];
   const data = reactive<TableData[]>([
     {
@@ -108,7 +81,6 @@
       email: 'william.smith@example.com',
     },
   ]);
-
   const handleChange = (
     data: TableData[],
     extra: TableChangeExtra,

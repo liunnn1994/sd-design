@@ -1,45 +1,22 @@
 <template>
-  <div class="sd:mb-5">
-    <sd-switch v-model="scrollbar" />
-    Virtual Scrollbar
-  </div>
+  <div class="sd:mb-5"> <sd-switch v-model="scrollbar" /> Virtual Scrollbar </div>
   <sd-table :columns="columns" :data="data" :scroll="scroll" :scrollbar="scrollbar" />
   <div class="sd:mt-7.5 sd:h-125">
     <sd-table :columns="columns" :data="data" :scroll="scrollPercent" :scrollbar="scrollbar" />
   </div>
 </template>
-
 <script setup lang="ts">
   import type { TableColumnData, TableData } from '@sdata/web-vue';
 
   import { reactive, ref } from 'vue';
-
   const scrollbar = ref(true);
-  const scroll = {
-    x: 2000,
-    y: 200,
-  };
-  const scrollPercent = {
-    x: '120%',
-    y: '100%',
-  };
+  const scroll = { x: 2000, y: 200 };
+  const scrollPercent = { x: '120%', y: '100%' };
   const columns: TableColumnData[] = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Salary',
-      dataIndex: 'salary',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
+    { title: 'Name', dataIndex: 'name' },
+    { title: 'Salary', dataIndex: 'salary' },
+    { title: 'Address', dataIndex: 'address' },
+    { title: 'Email', dataIndex: 'email' },
   ];
   const data = reactive<TableData[]>([
     {

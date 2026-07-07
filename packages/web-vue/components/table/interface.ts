@@ -501,7 +501,6 @@ export type TableSummaryContext = Simplify<{
 }>;
 export type TableSummary = boolean | ((params: TableSummaryContext) => TableData[]);
 export type TableSummarySpanMethod = TableSpanMethod;
-
 export type Sorter = { field: string; direction: 'ascend' | 'descend' };
 
 export type Filters = Record<string, string[]>;

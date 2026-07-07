@@ -21,35 +21,17 @@
     </template>
   </sd-table>
 </template>
-
 <script setup lang="ts">
   import type { TableColumnData, TableData } from '@sdata/web-vue';
 
   import { ref } from 'vue';
-
   const show = ref(true);
-
   const columns: TableColumnData[] = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Salary',
-      dataIndex: 'salary',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
-    {
-      title: 'Optional',
-      slotName: 'optional',
-    },
+    { title: 'Name', dataIndex: 'name' },
+    { title: 'Salary', dataIndex: 'salary' },
+    { title: 'Address', dataIndex: 'address' },
+    { title: 'Email', dataIndex: 'email' },
+    { title: 'Optional', slotName: 'optional' },
   ];
   const data: TableData[] = [
     {

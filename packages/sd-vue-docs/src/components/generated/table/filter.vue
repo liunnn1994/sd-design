@@ -15,14 +15,12 @@
     </template>
   </sd-table>
 </template>
-
 <script setup lang="ts">
   import type { TableChangeExtra, TableColumnData, TableData } from '@sdata/web-vue';
 
   import { h, reactive } from 'vue';
 
   import { IconSearch } from '@sdata/web-vue/es/icon/index.js';
-
   const columns: TableColumnData[] = [
     {
       title: 'Name',
@@ -33,21 +31,9 @@
         icon: () => h(IconSearch),
       },
     },
-    {
-      title: 'Salary',
-      dataIndex: 'salary',
-      sortable: {
-        sortDirections: ['ascend'],
-      },
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
+    { title: 'Salary', dataIndex: 'salary', sortable: { sortDirections: ['ascend'] } },
+    { title: 'Address', dataIndex: 'address' },
+    { title: 'Email', dataIndex: 'email' },
   ];
   const data = reactive<TableData[]>([
     {
@@ -86,7 +72,6 @@
       email: 'william.smith@example.com',
     },
   ]);
-
   const handleChange = (
     data: TableData[],
     extra: TableChangeExtra,
@@ -95,7 +80,6 @@
     console.log('change', data, extra, currentDataSource);
   };
 </script>
-
 <style>
   .custom-filter {
     padding: 20px;
@@ -104,7 +88,6 @@
     border-radius: var(--border-radius-medium);
     box-shadow: 0 2px 5px rgb(0 0 0 / 10%);
   }
-
   .custom-filter-footer {
     display: flex;
     justify-content: space-between;

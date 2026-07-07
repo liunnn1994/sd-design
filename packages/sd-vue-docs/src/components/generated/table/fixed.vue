@@ -1,45 +1,18 @@
 <template>
   <sd-table :columns="columns" :data="data" :scroll="scroll" :expandable="expandable" />
 </template>
-
 <script setup lang="ts">
   import type { TableColumnData, TableData, TableExpandable } from '@sdata/web-vue';
 
   import { reactive } from 'vue';
-
   const columns: TableColumnData[] = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      fixed: 'left',
-      width: 140,
-    },
-    {
-      title: 'Salary',
-      dataIndex: 'salary',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      fixed: 'right',
-      width: 200,
-    },
+    { title: 'Name', dataIndex: 'name', fixed: 'left', width: 140 },
+    { title: 'Salary', dataIndex: 'salary' },
+    { title: 'Address', dataIndex: 'address' },
+    { title: 'Email', dataIndex: 'email', fixed: 'right', width: 200 },
   ];
-
-  const expandable: TableExpandable = {
-    title: 'Expand',
-    width: 80,
-  };
-
-  const scroll = {
-    x: 2000,
-    y: 200,
-  };
-
+  const expandable: TableExpandable = { title: 'Expand', width: 80 };
+  const scroll = { x: 2000, y: 200 };
   const data = reactive<TableData[]>([
     {
       key: '1',

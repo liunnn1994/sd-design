@@ -17,7 +17,6 @@
     />
   </sd-space>
 </template>
-
 <script setup lang="ts">
   import type {
     TableColumnData,
@@ -25,51 +24,29 @@
     TableSpanMethod,
     TableSpanMethodContext,
   } from '@sdata/web-vue';
-
   const spanMethod: TableSpanMethod = ({ rowIndex, columnIndex }: TableSpanMethodContext) => {
     if (rowIndex === 1 && columnIndex === 1) {
-      return {
-        rowspan: 2,
-        colspan: 3,
-      };
+      return { rowspan: 2, colspan: 3 };
     }
   };
   const dataSpanMethod: TableSpanMethod = ({ record, column }: TableSpanMethodContext) => {
     if (record.name === 'Alisa Ross' && 'dataIndex' in column && column.dataIndex === 'salary') {
-      return {
-        rowspan: 2,
-      };
+      return { rowspan: 2 };
     }
   };
   const spanMethodAll: TableSpanMethod = ({ rowIndex, columnIndex }: TableSpanMethodContext) => {
     if (rowIndex === 1 && columnIndex === 0) {
       return { rowspan: 2 };
     }
-
     if (rowIndex === 1 && columnIndex === 2) {
-      return {
-        rowspan: 2,
-        colspan: 3,
-      };
+      return { rowspan: 2, colspan: 3 };
     }
   };
   const columns: TableColumnData[] = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Salary',
-      dataIndex: 'salary',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
+    { title: 'Name', dataIndex: 'name' },
+    { title: 'Salary', dataIndex: 'salary' },
+    { title: 'Address', dataIndex: 'address' },
+    { title: 'Email', dataIndex: 'email' },
   ];
   const data: TableData[] = [
     {

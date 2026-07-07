@@ -53,6 +53,7 @@
     ".browserslistrc",
     ".sonarlint",
     "vendor/**",
+    "skills/**",
     ".*/",
     "graphify-*",
     "packages/sd-vue-docs/.astro/**",

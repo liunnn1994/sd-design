@@ -7,7 +7,7 @@ import { isFunction, isObject } from '../_utils/is';
 import IconLoading from '../icon/icon-loading';
 import { TableContext, tableInjectionKey } from './context';
 import { TableColumnData, TableData, TableDataWithRaw, TableOperationColumn } from './interface';
-import { getFixedCls, getStyle } from './utils';
+import { getFixedCls, getGridSpanStyle, getStyle } from './utils';
 
 const TD_TYPES = ['normal', 'operation', 'checkbox', 'radio', 'expand'] as const;
 type TdTypes = (typeof TD_TYPES)[number];
@@ -126,8 +126,7 @@ export default defineComponent({
       const customStyle = getCustomStyle();
       return {
         ...style,
-        ...(props.colSpan > 1 ? { gridColumn: `span ${props.colSpan}` } : undefined),
-        ...(props.rowSpan > 1 ? { gridRow: `span ${props.rowSpan}` } : undefined),
+        ...getGridSpanStyle(props.rowSpan, props.colSpan),
         ...props.column?.cellStyle,
         ...customStyle,
       };
@@ -204,9 +203,9 @@ export default defineComponent({
             />
           )}
           {props.showExpandBtn && (
-            <button type="button" class={`${prefixCls}-cell-inline-icon`} onClick={handleClick}>
+            <span class={`${prefixCls}-cell-inline-icon`} onClick={handleClick}>
               {isLoading.value ? <IconLoading /> : props.renderExpandBtn?.(props.record, false)}
-            </button>
+            </span>
           )}
           {props.column?.ellipsis && props.column?.tooltip ? (
             <AutoTooltip class={`${prefixCls}-td-content`} tooltipProps={tooltipProps.value}>

@@ -1,29 +1,13 @@
-<template>
-  <sd-table :columns="columns" :data="data" :load-more="loadMore" />
-</template>
-
+<template><sd-table :columns="columns" :data="data" :load-more="loadMore" /></template>
 <script setup lang="ts">
   import type { TableColumnData, TableData, TableLoadMore } from '@sdata/web-vue';
 
   import { reactive } from 'vue';
-
   const columns: TableColumnData[] = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Salary',
-      dataIndex: 'salary',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
+    { title: 'Name', dataIndex: 'name' },
+    { title: 'Salary', dataIndex: 'salary' },
+    { title: 'Address', dataIndex: 'address' },
+    { title: 'Email', dataIndex: 'email' },
   ];
   const data = reactive<TableData[]>([
     {
@@ -82,7 +66,6 @@
       isLeaf: true,
     },
   ]);
-
   const loadMore: TableLoadMore = (record, done) => {
     window.setTimeout(() => {
       done([

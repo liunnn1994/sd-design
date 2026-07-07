@@ -9834,6 +9834,11 @@
     "ast_hash": "2c2cf79ffddd0dfba2b5770167fa09f3",
     "semantic_hash": "2c2cf79ffddd0dfba2b5770167fa09f3"
   },
+  "packages/web-vue/components/table/table-col-group.vue": {
+    "mtime": 1781139503.434561,
+    "ast_hash": "38c9a7994def5574d28b6a2b95436f14",
+    "semantic_hash": "38c9a7994def5574d28b6a2b95436f14"
+  },
   "packages/web-vue/components/table/table-column.tsx": {
     "mtime": 1780981475.2328646,
     "ast_hash": "b5a0cafc75364aa1a5a7b14581d8a02b",

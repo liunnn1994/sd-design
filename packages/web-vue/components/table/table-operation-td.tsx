@@ -9,7 +9,13 @@ import IconPlus from '../icon/icon-plus';
 import Radio from '../radio';
 import { TableContext, tableInjectionKey } from './context';
 import { TableDataWithRaw, TableOperationColumn } from './interface';
-import { getLeafKeys, getOperationFixedCls, getOperationStyle, getSelectionStatus } from './utils';
+import {
+  getGridSpanStyle,
+  getLeafKeys,
+  getOperationFixedCls,
+  getOperationStyle,
+  getSelectionStatus,
+} from './utils';
 
 export default defineComponent({
   name: 'OperationTd',
@@ -61,8 +67,7 @@ export default defineComponent({
     const tableCtx = inject<Partial<TableContext>>(tableInjectionKey, {});
     const style = computed(() => ({
       ...getOperationStyle(props.operationColumn, props.operations),
-      ...(props.colSpan > 1 ? { gridColumn: `span ${props.colSpan}` } : undefined),
-      ...(props.rowSpan > 1 ? { gridRow: `span ${props.rowSpan}` } : undefined),
+      ...getGridSpanStyle(props.rowSpan, props.colSpan),
     }));
 
     const cls = computed(() => [
@@ -101,7 +106,8 @@ export default defineComponent({
               disabled={Boolean(props.record.disabled)}
               uninjectGroupContext
               onChange={(checked) => tableCtx.onSelectAllLeafs?.(props.record, checked as boolean)}
-              {...{ onClick: (ev: Event) => ev.stopPropagation() }}
+              // @ts-ignore
+              onClick={(ev: Event) => ev.stopPropagation()}
             />
           );
         }
@@ -112,7 +118,8 @@ export default defineComponent({
             disabled={Boolean(props.record.disabled)}
             uninjectGroupContext
             onChange={(checked) => tableCtx.onSelect?.(checked as boolean, props.record)}
-            {...{ onClick: (ev: Event) => ev.stopPropagation() }}
+            // @ts-ignore
+            onClick={(ev: Event) => ev.stopPropagation()}
           />
         );
       }
@@ -124,7 +131,8 @@ export default defineComponent({
             disabled={Boolean(props.record.disabled)}
             uninjectGroupContext
             onChange={(checked) => tableCtx.onSelect?.(checked as boolean, props.record)}
-            {...{ onClick: (ev: Event) => ev.stopPropagation() }}
+            // @ts-ignore
+            onClick={(ev: Event) => ev.stopPropagation()}
           />
         );
       }

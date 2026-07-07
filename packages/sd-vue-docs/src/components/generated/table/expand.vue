@@ -1,12 +1,8 @@
-<template>
-  <sd-table :columns="columns" :data="data" :expandable="expandable" />
-</template>
-
+<template><sd-table :columns="columns" :data="data" :expandable="expandable" /></template>
 <script setup lang="ts">
   import type { TableColumnData, TableData, TableExpandable } from '@sdata/web-vue';
 
   import { reactive } from 'vue';
-
   const expandable = reactive<TableExpandable>({
     title: 'Expand',
     width: 80,
@@ -16,26 +12,12 @@
       }
     },
   });
-
   const columns: TableColumnData[] = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Salary',
-      dataIndex: 'salary',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
+    { title: 'Name', dataIndex: 'name' },
+    { title: 'Salary', dataIndex: 'salary' },
+    { title: 'Address', dataIndex: 'address' },
+    { title: 'Email', dataIndex: 'email' },
   ];
-
   const data = reactive<TableData[]>([
     {
       key: '1',

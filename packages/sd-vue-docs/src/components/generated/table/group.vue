@@ -1,41 +1,20 @@
-<template>
-  <sd-table :columns="columns" :data="data" :bordered="{ headerCell: true }" />
-</template>
-
+<template><sd-table :columns="columns" :data="data" :bordered="{ headerCell: true }" /></template>
 <script setup lang="ts">
   import type { TableColumnData, TableData } from '@sdata/web-vue';
 
   import { reactive } from 'vue';
-
   const columns: TableColumnData[] = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      fixed: 'left',
-      width: 140,
-    },
+    { title: 'Name', dataIndex: 'name', fixed: 'left', width: 140 },
     {
       title: 'User Info',
       children: [
-        {
-          title: 'Birthday',
-          dataIndex: 'birthday',
-        },
+        { title: 'Birthday', dataIndex: 'birthday' },
         {
           title: 'Address',
           children: [
-            {
-              title: 'City',
-              dataIndex: 'city',
-            },
-            {
-              title: 'Road',
-              dataIndex: 'road',
-            },
-            {
-              title: 'No.',
-              dataIndex: 'no',
-            },
+            { title: 'City', dataIndex: 'city' },
+            { title: 'Road', dataIndex: 'road' },
+            { title: 'No.', dataIndex: 'no' },
           ],
         },
       ],
@@ -43,22 +22,11 @@
     {
       title: 'Information',
       children: [
-        {
-          title: 'Email',
-          dataIndex: 'email',
-        },
-        {
-          title: 'Phone',
-          dataIndex: 'phone',
-        },
+        { title: 'Email', dataIndex: 'email' },
+        { title: 'Phone', dataIndex: 'phone' },
       ],
     },
-    {
-      title: 'Salary',
-      dataIndex: 'salary',
-      fixed: 'right',
-      width: 120,
-    },
+    { title: 'Salary', dataIndex: 'salary', fixed: 'right', width: 120 },
   ];
   const data = reactive<TableData[]>([
     {

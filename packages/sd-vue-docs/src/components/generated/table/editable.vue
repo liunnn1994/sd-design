@@ -1,8 +1,6 @@
 <template>
   <sd-table :columns="columns" :data="data">
-    <template #name="{ rowIndex }">
-      <sd-input v-model="data[rowIndex].name" />
-    </template>
+    <template #name="{ rowIndex }"> <sd-input v-model="data[rowIndex].name" /> </template>
     <template #province="{ rowIndex }">
       <sd-select
         v-model="data[rowIndex].province"
@@ -16,9 +14,7 @@
   </sd-table>
   <!-- support from v2.25.0  -->
   <sd-table :columns="columns" :data="data" class="sd:mt-5">
-    <template #name="{ record, rowIndex }">
-      <sd-input v-model="record.name" />
-    </template>
+    <template #name="{ record, rowIndex }"> <sd-input v-model="record.name" /> </template>
     <template #province="{ record, rowIndex }">
       <sd-select
         v-model="record.province"
@@ -35,47 +31,23 @@
     </template>
   </sd-table>
 </template>
-
 <script setup lang="ts">
   import type { TableColumnData, TableData } from '@sdata/web-vue';
 
   import { reactive } from 'vue';
-
   const options: Record<string, string[]> = {
     Beijing: ['Haidian', 'Chaoyang', 'Changping'],
     Sichuan: ['Chengdu', 'Mianyang', 'Aba'],
     Guangdong: ['Guangzhou', 'Shenzhen', 'Shantou'],
   };
   const columns: TableColumnData[] = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      slotName: 'name',
-    },
-    {
-      title: 'Salary',
-      dataIndex: 'salary',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: 'Province',
-      dataIndex: 'province',
-      slotName: 'province',
-    },
-    {
-      title: 'City',
-      dataIndex: 'city',
-      slotName: 'city',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
+    { title: 'Name', dataIndex: 'name', slotName: 'name' },
+    { title: 'Salary', dataIndex: 'salary' },
+    { title: 'Address', dataIndex: 'address' },
+    { title: 'Province', dataIndex: 'province', slotName: 'province' },
+    { title: 'City', dataIndex: 'city', slotName: 'city' },
+    { title: 'Email', dataIndex: 'email' },
   ];
-
   const data = reactive<TableData[]>([
     {
       key: '1',
@@ -117,7 +89,6 @@
       email: 'william.smith@example.com',
     },
   ]);
-
   const handleChange = (rowIndex: number) => {
     data[rowIndex].city = '';
   };

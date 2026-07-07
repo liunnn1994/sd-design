@@ -1,38 +1,19 @@
 <template>
   <sd-table :columns="columns" :data="data" row-class="common-row">
-    <template #tr>
-      <tr class="my-tr" @contextmenu="onContextMenu" />
-    </template>
-    <template #td>
-      <td class="my-td" />
-    </template>
+    <template #tr> <tr class="my-tr" @contextmenu="onContextMenu" /> </template>
+    <template #td> <td class="my-td" /> </template>
   </sd-table>
 </template>
-
 <script setup lang="ts">
   import type { TableColumnData, TableData } from '@sdata/web-vue';
-
   const onContextMenu = () => {
     console.log('right click');
   };
-
   const columns: TableColumnData[] = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Salary',
-      dataIndex: 'salary',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
+    { title: 'Name', dataIndex: 'name' },
+    { title: 'Salary', dataIndex: 'salary' },
+    { title: 'Address', dataIndex: 'address' },
+    { title: 'Email', dataIndex: 'email' },
   ];
   const data: TableData[] = [
     {

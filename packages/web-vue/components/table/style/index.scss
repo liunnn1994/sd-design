@@ -190,6 +190,12 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
     grid-template-columns: var(--sd-table-grid-template, minmax(0, 1fr));
   }
 
+  &-thead > &-tr,
+  &-tbody > &-tr,
+  &-tfoot-content > &-tr {
+    display: contents;
+  }
+
   &-tbody > .#{theme.$prefix}-virtual-list,
   &-tbody > .#{$table-prefix-cls}-body {
     grid-column: 1 / -1;
@@ -435,7 +441,7 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
     padding-left: 0;
   }
 
-  // colgroup selection
+  // operation column sizing
   &-selection-checkbox-col,
   &-selection-radio-col {
     @include fixed-width($table-size-selection-col-width);
@@ -607,9 +613,10 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
       flex-direction: column;
       width: auto;
       height: 100%;
+      overflow: hidden;
 
       &-scroll-x {
-        overflow: auto hidden;
+        overflow: hidden;
       }
     }
 
@@ -657,6 +664,7 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
   }
 
   &-header {
+    flex: 0 0 auto;
     width: 100%;
     min-width: 100%;
     overflow: hidden;
@@ -687,14 +695,16 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
   }
 
   &#{&}-empty &-header {
-    overflow-x: auto;
+    overflow-x: hidden;
   }
 
   &-body {
     position: relative;
+    flex: 1 1 auto;
     width: 100%;
-    min-height: $table-size-body-min-width;
-    overflow: auto;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
     background-color: $table-color-body-background;
   }
 
@@ -911,7 +921,7 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
     z-index: 1;
     flex-shrink: 0;
     width: 100%;
-    overflow-x: auto;
+    overflow-x: hidden;
     background-color: $table-color-bg-tfoot;
     box-shadow: 0 (-$table-border-width) 0 $table-color-border;
     scrollbar-color: transparent transparent;

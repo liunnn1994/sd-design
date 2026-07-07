@@ -1,32 +1,14 @@
-<template>
-  <sd-table :columns="columns" :data="data" :row-selection="rowSelection" />
-</template>
-
+<template><sd-table :columns="columns" :data="data" :row-selection="rowSelection" /></template>
 <script setup lang="ts">
   import type { TableColumnData, TableData, TableRowSelection } from '@sdata/web-vue';
 
   import { reactive } from 'vue';
-
-  const rowSelection: TableRowSelection = {
-    type: 'radio',
-  };
+  const rowSelection: TableRowSelection = { type: 'radio' };
   const columns: TableColumnData[] = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Salary',
-      dataIndex: 'salary',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
+    { title: 'Name', dataIndex: 'name' },
+    { title: 'Salary', dataIndex: 'salary' },
+    { title: 'Address', dataIndex: 'address' },
+    { title: 'Email', dataIndex: 'email' },
   ];
   const data = reactive<TableData[]>([
     {

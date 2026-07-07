@@ -1,14 +1,8 @@
 <template>
   <sd-form layout="inline" :model="form">
-    <sd-form-item label="Border" field="border">
-      <sd-switch v-model="form.border" />
-    </sd-form-item>
-    <sd-form-item label="Hover" field="hover">
-      <sd-switch v-model="form.hover" />
-    </sd-form-item>
-    <sd-form-item label="stripe" field="stripe">
-      <sd-switch v-model="form.stripe" />
-    </sd-form-item>
+    <sd-form-item label="Border" field="border"> <sd-switch v-model="form.border" /> </sd-form-item>
+    <sd-form-item label="Hover" field="hover"> <sd-switch v-model="form.hover" /> </sd-form-item>
+    <sd-form-item label="stripe" field="stripe"> <sd-switch v-model="form.stripe" /> </sd-form-item>
     <sd-form-item label="checkbox" field="checkbox">
       <sd-switch v-model="form.checkbox" />
     </sd-form-item>
@@ -21,9 +15,7 @@
     <sd-form-item label="tableHeader" field="tableHeader">
       <sd-switch v-model="form.tableHeader" />
     </sd-form-item>
-    <sd-form-item label="noData" field="noData">
-      <sd-switch v-model="form.noData" />
-    </sd-form-item>
+    <sd-form-item label="noData" field="noData"> <sd-switch v-model="form.noData" /> </sd-form-item>
   </sd-form>
   <sd-table
     :columns="columns"
@@ -36,12 +28,10 @@
     :row-selection="form.checkbox ? rowSelection : undefined"
   />
 </template>
-
 <script setup lang="ts">
   import type { TableColumnData, TableData, TableRowSelection } from '@sdata/web-vue';
 
   import { reactive } from 'vue';
-
   const form = reactive({
     border: true,
     borderCell: false,
@@ -52,31 +42,13 @@
     tableHeader: true,
     noData: false,
   });
-
-  const rowSelection = reactive<TableRowSelection>({
-    type: 'checkbox',
-    showCheckedAll: true,
-  });
-
+  const rowSelection = reactive<TableRowSelection>({ type: 'checkbox', showCheckedAll: true });
   const columns: TableColumnData[] = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Salary',
-      dataIndex: 'salary',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
+    { title: 'Name', dataIndex: 'name' },
+    { title: 'Salary', dataIndex: 'salary' },
+    { title: 'Address', dataIndex: 'address' },
+    { title: 'Email', dataIndex: 'email' },
   ];
-
   const data: TableData[] = [
     {
       key: '1',
