@@ -1,3 +1,10 @@
+## [3.3.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.3.0...web-vue-v3.3.1) (2026-07-07)
+
+
+### Bug Fixes
+
+* 🐛 修复错误的文字颜色 ([b5b3234](https://github.com/liunnn1994/sd-design/commit/b5b32348c981610fbb61efce3c037fe453b56a1e))
+
 # [3.3.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.2.1...web-vue-v3.3.0) (2026-07-07)
 
 
