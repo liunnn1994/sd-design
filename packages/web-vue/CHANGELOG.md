@@ -1,3 +1,23 @@
+# [3.3.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.2.1...web-vue-v3.3.0) (2026-07-07)
+
+
+### Bug Fixes
+
+* 🐛 修复 color-picker 颜色切换无效的问题 ([23926ad](https://github.com/liunnn1994/sd-design/commit/23926ad0cadb702eeafb1e469d0f0fe1415aeab8))
+* 🐛 修复tagProps没有后正确使用的问题 ([659c91d](https://github.com/liunnn1994/sd-design/commit/659c91d347ac0728e9727feb386ab9536d7a7e22))
+
+
+### Features
+
+* 🆕 message的resetOnHover默认是true ([f2dcdbc](https://github.com/liunnn1994/sd-design/commit/f2dcdbc006dff7422728e4db84b0e1c6256c4514))
+* 🆕 tag 支持从 color 中自动提取透明度 ([7f3edca](https://github.com/liunnn1994/sd-design/commit/7f3edcaecce38083d53f97f0e159257bf541ec44))
+* 🆕 优化 color-picker 性能，并避免快速拖拽时浏览器触发页面文字选中 ([38760c7](https://github.com/liunnn1994/sd-design/commit/38760c77057b0f14b1c84f44ac5445cb2785a134))
+* 🆕 把文档从 netlify 迁移到 gh page ([a7143a4](https://github.com/liunnn1994/sd-design/commit/a7143a49eba3faba99d8664a7a4f887d67b2af62))
+* 🆕 新 table 组件，对齐arcodesign ([fca78cb](https://github.com/liunnn1994/sd-design/commit/fca78cb5817b9a8f48a687a6736cb8ee4e6dfbc5))
+* 🆕 新增 toolbar 组件 ([59d3485](https://github.com/liunnn1994/sd-design/commit/59d348578ac131b43ddb6da80f20a23918408da4))
+* 🆕 新增全局配置 pagination ([43da319](https://github.com/liunnn1994/sd-design/commit/43da319027e87668d3e051d501c9fdc867e6b863))
+* 🆕 新增全局配置 pagination ([aedf056](https://github.com/liunnn1994/sd-design/commit/aedf0563874b6fc9480932a808264120604e9ac4))
+
 # [3.1.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.0.2...web-vue-v3.1.0) (2026-07-03)
 
 ### Bug Fixes
