@@ -9,7 +9,7 @@ exports[`<toolbar> demo: > render [actions] correctly 1`] = `
           <!--v-if-->
           <div class="sd-col sd-form-item-wrapper-col" style="flex: 1 1 auto;" id="keyword">
             <div class="sd-form-item-content-wrapper">
-              <div class="sd-form-item-content sd-form-item-content-flex"><span class="sd-input-wrapper" style="width: 220px;"><!----><input class="sd-input sd-input-size-medium" type="text" placeholder="关键字" value=""><!----><!----></span></div>
+              <div class="sd-form-item-content sd-form-item-content-flex"><span class="sd-input-wrapper" style="width: 220px;"><!----><input class="sd-input sd-input-size-medium" type="text" placeholder="请输入关键字" value=""><!----><!----></span></div>
             </div>
             <!--v-if-->
             <!--v-if-->
