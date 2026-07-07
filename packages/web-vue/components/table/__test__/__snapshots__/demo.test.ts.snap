@@ -2850,8 +2850,8 @@ exports[`<table> demo: > render [scroll] correctly 1`] = `
               </div>
             </div>
           </div>
-          <div class="sd-scrollbar sd-scrollbar-type-embed" style="max-height: 100%; min-height: 0px;">
-            <div class="sd-scrollbar-container sd-table-body" style="max-height: 100%;" data-overlayscrollbars="host">
+          <div class="sd-scrollbar sd-scrollbar-type-embed" style="height: 100%; min-height: 0px;">
+            <div class="sd-scrollbar-container sd-table-body" style="height: 100%;" data-overlayscrollbars="host">
               <div class="" data-overlayscrollbars-viewport="scrollbarHidden overflowXHidden overflowYHidden" tabindex="-1" style="top: 0px; right: auto; left: 0px; width: calc(100% + 0px); margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px;">
                 <div class="sd-table-element" style="width: 120%; --sd-table-grid-template: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);">
                   <div class="sd-table-tbody">

@@ -1962,14 +1962,20 @@ export default defineComponent({
     const renderContent = () => {
       if (splitTable.value) {
         const top = isNumber(props.stickyHeader) ? `${props.stickyHeader}px` : undefined;
+        const isStringScrollY = isString(props.scroll?.y);
         const bodyMaxHeight = isNumber(props.scroll?.y) ? `${props.scroll?.y}px` : '100%';
         const { outerStyle: bodyOuterStyle, ...bodyScrollbarRestProps } = scrollbarProps.value;
-        const bodyOuterBaseStyle = { maxHeight: bodyMaxHeight, minHeight: 0 };
+        const bodyBaseStyle = isStringScrollY
+          ? { height: bodyMaxHeight, minHeight: 0 }
+          : { maxHeight: bodyMaxHeight, minHeight: 0 };
         const bodyScrollbarOuterStyle = Array.isArray(bodyOuterStyle)
-          ? [bodyOuterBaseStyle, ...bodyOuterStyle]
+          ? [bodyBaseStyle, ...bodyOuterStyle]
           : bodyOuterStyle
-            ? [bodyOuterBaseStyle, bodyOuterStyle]
-            : bodyOuterBaseStyle;
+            ? [bodyBaseStyle, bodyOuterStyle]
+            : bodyBaseStyle;
+        const bodyComponentStyle = isStringScrollY
+          ? { height: bodyMaxHeight }
+          : { maxHeight: bodyMaxHeight };
         const BodyComponent = displayScrollbar.value ? Scrollbar : 'div';
 
         return (
@@ -2027,7 +2033,7 @@ export default defineComponent({
                 <BodyComponent
                   ref={tbodyComRef}
                   class={`${prefixCls}-body`}
-                  style={{ maxHeight: bodyMaxHeight }}
+                  style={bodyComponentStyle}
                   {...(displayScrollbar.value
                     ? { outerStyle: bodyScrollbarOuterStyle, ...bodyScrollbarRestProps }
                     : undefined)}
