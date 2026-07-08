@@ -36,7 +36,6 @@ $toolbar-prefix-cls: string.unquote('#{theme.$prefix}-toolbar');
     grid-template-columns: repeat(auto-fill, minmax(var(--toolbar-span-width), 1fr));
     gap: $toolbar-body-gap;
     width: 100%;
-    background-color: $toolbar-color-bg;
 
     > * {
       max-width: var(--toolbar-item-max-width);
