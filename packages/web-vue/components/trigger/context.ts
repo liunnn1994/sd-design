@@ -3,6 +3,7 @@ import type { ComponentPublicInstance, InjectionKey } from 'vue';
 export interface TriggerContext {
   onMouseenter: (ev: MouseEvent) => void;
   onMouseleave: (ev: MouseEvent) => void;
+  onContextmenu: (ev: MouseEvent) => void;
   addChildRef: (ref: HTMLElement | ComponentPublicInstance) => void;
   removeChildRef: (ref: HTMLElement | ComponentPublicInstance) => void;
 }

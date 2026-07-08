@@ -14,6 +14,8 @@ import DropdownGroupDemo from '../../../../components/generated/dropdown/group.v
 import dropdownGroupSource from '../../../../components/generated/dropdown/group.vue?raw';
 import DropdownIconDemo from '../../../../components/generated/dropdown/icon.vue';
 import dropdownIconSource from '../../../../components/generated/dropdown/icon.vue?raw';
+import DropdownNestedContextMenuDemo from '../../../../components/generated/dropdown/nested-context-menu.vue';
+import dropdownNestedContextMenuSource from '../../../../components/generated/dropdown/nested-context-menu.vue?raw';
 import DropdownPositionDemo from '../../../../components/generated/dropdown/position.vue';
 import dropdownPositionSource from '../../../../components/generated/dropdown/position.vue?raw';
 import DropdownSubmenuDemo from '../../../../components/generated/dropdown/submenu.vue';
@@ -48,6 +50,15 @@ import dropdownTriggerSource from '../../../../components/generated/dropdown/tri
 <DemoBlock source={dropdownContextMenuSource} mainFile="src/dropdown-context-menu.vue">
 
 <DropdownContextMenuDemo client:only="vue" />
+
+</DemoBlock>
+### 嵌套右键菜单
+
+当右键菜单嵌套在另一个右键菜单触发区域内时，新的菜单打开会关闭外层菜单；点击回触发区域空白处也会关闭节点菜单。
+
+<DemoBlock source={dropdownNestedContextMenuSource} mainFile="src/dropdown-nested-context-menu.vue">
+
+<DropdownNestedContextMenuDemo client:only="vue" />
 
 </DemoBlock>
 

@@ -18,6 +18,8 @@ import {
   onDeactivated,
 } from 'vue';
 
+import { onClickOutside, useEventListener } from '@vueuse/core';
+
 import type { TriggerEvent, TriggerPosition } from '../_utils/constant';
 
 import ClientOnly from '../_components/client-only';
@@ -443,7 +445,6 @@ export default defineComponent({
     });
 
     let delayTimer = 0;
-    let outsideListener = false;
     let windowListener = false;
 
     const cleanDelayTimer = () => {
@@ -624,6 +625,23 @@ export default defineComponent({
       e.preventDefault();
     };
 
+    const handleChildContextmenu = (e: MouseEvent) => {
+      triggerCtx?.onContextmenu(e);
+      if (!props.clickOutsideToClose || !computedVisible.value) return;
+      if (!triggerMethods.value.includes('contextMenu')) return;
+
+      const target = e.target as HTMLElement;
+      if (popupRef.value?.contains(target)) return;
+      if (getChildElements().some((element) => element.contains(target))) return;
+
+      changeVisible(false);
+    };
+
+    const handleContextmenuWithContext = (e: MouseEvent) => {
+      triggerCtx?.onContextmenu(e);
+      handleContextmenu(e);
+    };
+
     const addChildRef = (ref: ChildRef) => {
       childrenRefs.add(ref);
       triggerCtx?.addChildRef(ref as HTMLElement | ComponentPublicInstance);
@@ -639,16 +657,11 @@ export default defineComponent({
       reactive({
         onMouseenter: handleMouseEnterWithContext,
         onMouseleave: handleMouseLeaveWithContext,
+        onContextmenu: handleChildContextmenu,
         addChildRef: addChildRef as (ref: HTMLElement | ComponentPublicInstance) => void,
         removeChildRef: removeChildRef as (ref: HTMLElement | ComponentPublicInstance) => void,
       }),
     );
-
-    // 外部事件
-    const removeOutsideListener = () => {
-      off(document.documentElement, 'mousedown', handleOutsideClick);
-      outsideListener = false;
-    };
 
     const contentSlot = usePickSlots(slots, 'content');
 
@@ -656,25 +669,49 @@ export default defineComponent({
       return props.hideEmpty && isEmptyChildren(contentSlot.value?.());
     });
 
-    const handleOutsideClick = (e: MouseEvent) => {
-      if (
-        firstElement.value?.contains(e.target as HTMLElement) ||
-        popupRef.value?.contains(e.target as HTMLElement)
-      ) {
-        return;
-      }
-
+    const getChildElements = () => {
+      const elements: HTMLElement[] = [];
       for (const item of childrenRefs) {
         if (!item) continue;
         const element = 'value' in item ? item.value : item;
-        if (element?.contains(e.target as HTMLElement)) {
-          return;
-        }
+        if (element) elements.push(element);
       }
 
-      removeOutsideListener();
+      return elements;
+    };
+
+    const getOutsideIgnoreElements = () => [
+      ...(triggerMethods.value.includes('contextMenu') || !firstElement.value
+        ? []
+        : [firstElement.value]),
+      ...getChildElements(),
+    ];
+
+    onClickOutside(
+      popupRef,
+      () => {
+        if (!props.clickOutsideToClose || !computedVisible.value) return;
+        changeVisible(false);
+      },
+      {
+        ignore: getOutsideIgnoreElements,
+      },
+    );
+
+    const handleOutsideContextmenu = (e: MouseEvent) => {
+      if (!props.clickOutsideToClose || !computedVisible.value) return;
+      if (!triggerMethods.value.includes('contextMenu')) return;
+
+      const target = e.target as HTMLElement;
+      if (popupRef.value?.contains(target)) return;
+      if (getChildElements().some((element) => element.contains(target))) return;
+
       changeVisible(false);
     };
+
+    const documentRef = computed(() => (typeof document === 'undefined' ? undefined : document));
+
+    useEventListener(documentRef, 'contextmenu', handleOutsideContextmenu, { capture: true });
 
     const isExceedThreshold = (oldPosition: [number, number], element: HTMLElement) => {
       const [scrollTop, scrollLeft] = oldPosition;
@@ -756,17 +793,7 @@ export default defineComponent({
 
     let scrollElements: HTMLElement[] | undefined;
 
-    // 当popup显示状态改变时，修改外部点击事件
     watch(computedVisible, (value) => {
-      if (props.clickOutsideToClose) {
-        if (!value && outsideListener) {
-          removeOutsideListener();
-        } else if (value && !outsideListener) {
-          on(document.documentElement, 'mousedown', handleOutsideClick);
-          outsideListener = true;
-        }
-      }
-
       if (props.scrollToClose || configCtx?.scrollToClose) {
         on(window, 'scroll', onWindowScroll);
         windowListener = true;
@@ -812,10 +839,6 @@ export default defineComponent({
       // 默认显示时，更新popup位置
       if (computedVisible.value) {
         updatePopupStyle();
-        if (props.clickOutsideToClose && !outsideListener) {
-          on(document.documentElement, 'mousedown', handleOutsideClick);
-          outsideListener = true;
-        }
         if (props.updateAtScroll || configCtx?.updateAtScroll) {
           scrollElements = getScrollElements(firstElement.value);
           for (const item of scrollElements) {
@@ -838,9 +861,6 @@ export default defineComponent({
     onBeforeUnmount(() => {
       triggerCtx?.removeChildRef(popupRef.value as HTMLElement);
       destroyResizeObserver();
-      if (outsideListener) {
-        removeOutsideListener();
-      }
       if (windowListener) {
         removeWindowScroll();
       }
@@ -884,7 +904,7 @@ export default defineComponent({
         onMouseleave: handleMouseLeave,
         onFocusin: handleFocusin,
         onFocusout: handleFocusout,
-        onContextmenu: handleContextmenu,
+        onContextmenu: handleContextmenuWithContext,
       });
 
       return (
