@@ -72,6 +72,14 @@ exports[`<dropdown> demo: > render [icon] correctly 1`] = `
 </button>
 `;
 
+exports[`<dropdown> demo: > render [nested-context-menu] correctly 1`] = `
+<div data-v-c0b46ad8="" class="dropdown-nested-context-menu">
+  <div data-v-c0b46ad8="" class="dropdown-nested-context-menu-hint">右键空白区域打开外层菜单</div>
+  <div data-v-c0b46ad8="" class="dropdown-nested-context-menu-node"><span data-v-c0b46ad8="" class="dropdown-nested-context-menu-icon">File</span> README.md </div>
+  <!---->
+</div>
+`;
+
 exports[`<dropdown> demo: > render [position] correctly 1`] = `
 <div class="sd-space sd-space-horizontal sd-space-align-center" style="column-gap: 8px; row-gap: 8px;">
   <!---->
