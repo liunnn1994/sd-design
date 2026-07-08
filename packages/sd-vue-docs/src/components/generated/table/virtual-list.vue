@@ -12,9 +12,6 @@
     </div>
     <div :class="toolbarRowClass">
       <label :class="checkClass">
-        <input v-model="useScrollbar" type="checkbox" /> <span>使用组件库 scrollbar</span>
-      </label>
-      <label :class="checkClass">
         <input v-model="stickyHeader" type="checkbox" /> <span>开启 sticky header</span>
       </label>
     </div>
@@ -27,8 +24,9 @@
       <sd-button size="small" @click="scrollTableToRow(240)">第 240 行</sd-button>
       <sd-button size="small" @click="expandAndScrollToRow(48)">展开第 48 行</sd-button>
     </div>
-    <div ref="tableHostRef">
+    <div>
       <sd-table
+        ref="tableRef"
         :columns="columns"
         :data="data"
         :row-selection="rowSelection"
@@ -36,7 +34,7 @@
         v-model:expanded-keys="expandedKeys"
         :virtual-list-props="virtualListProps"
         :pagination="false"
-        :scrollbar="useScrollbar"
+        :scrollbar="true"
         :sticky-header="stickyHeader ? 0 : false"
         :scroll="{ x: 1120, y: tableHeight }"
       />
@@ -48,16 +46,16 @@
     TableColumnData,
     TableData,
     TableExpandable,
+    TableInstance,
     TableRowSelection,
   } from '@sdata/web-vue';
 
   import { computed, nextTick, reactive, ref } from 'vue';
   const mode = ref<'estimated' | 'fixed' | 'dynamic'>('estimated');
   const tableHeight = ref<280 | 360 | 480>(360);
-  const useScrollbar = ref(true);
   const stickyHeader = ref(false);
   const expandedKeys = ref<string[]>([]);
-  const tableHostRef = ref<HTMLElement | null>(null);
+  const tableRef = ref<TableInstance | null>(null);
   const toolbarRowClass = 'sd:mb-3 sd:flex sd:flex-wrap sd:items-center sd:gap-3';
   const quickActionClass = 'sd:mb-3 sd:flex sd:flex-wrap sd:gap-2';
   const checkClass =
@@ -87,36 +85,25 @@
   const expandable: TableExpandable = { title: '展开', width: 88 };
   const helperText = computed(() => {
     if (mode.value === 'estimated') {
-      return 'estimatedSize 适合常规表格场景：给出一个接近真实行高的估值，例如 42，可让首次滚动和定位更平滑。';
+      return 'estimatedSize 适合常规表格场景：给出一个接近真实行高的估值，例如 44，可让首次滚动和定位更平滑。';
     }
     if (mode.value === 'fixed') {
-      return 'itemSize 适合所有行高完全一致的表格。这里固定为 42px，可以最直接地观察滚动定位与性能。';
+      return 'itemSize 适合所有行高完全一致的表格。这里固定为 48px，可以最直接地观察滚动定位与性能。';
     }
-    return 'minItemSize 适合可能出现展开内容或更长文本的场景。它允许行高增长，同时保留共享 VirtualList 的滚动能力。';
+    return 'minItemSize 适合可能出现展开内容或更长文本的场景。这里设置为 56px，它允许行高增长，同时保留共享 VirtualList 的滚动能力。';
   });
   const virtualListProps = computed(() => {
     if (mode.value === 'estimated') {
-      return { height: tableHeight.value, estimatedSize: 42, buffer: 20 };
+      return { height: tableHeight.value, estimatedSize: 44, buffer: 20 };
     }
     if (mode.value === 'fixed') {
-      return { height: tableHeight.value, itemSize: 42, buffer: 20 };
+      return { height: tableHeight.value, itemSize: 48, fixedSize: true, buffer: 20 };
     }
-    return { height: tableHeight.value, minItemSize: 42, estimatedSize: 42, buffer: 20 };
+    return { height: tableHeight.value, minItemSize: 56, estimatedSize: 56, buffer: 20 };
   });
-  const getTableRowHeight = () => {
-    const row = tableHostRef.value?.querySelector('.sd-table-body .sd-table-tr');
-    const height = row?.getBoundingClientRect().height ?? 0;
-    return height > 0 ? height : 42;
-  };
   const scrollTableToRow = async (row: number) => {
     await nextTick();
-    const viewport = tableHostRef.value?.querySelector('.sd-virtual-list-scroller');
-    if (!viewport) {
-      return;
-    }
-    const rowHeight = getTableRowHeight();
-    viewport.scrollTop = Math.max(row - 1, 0) * rowHeight;
-    viewport.dispatchEvent(new Event('scroll'));
+    tableRef.value?.scrollIntoView({ index: Math.max(row - 1, 0), align: 'top' });
   };
   const expandAndScrollToRow = async (row: number) => {
     expandedKeys.value = [String(row)];

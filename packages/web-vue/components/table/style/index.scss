@@ -983,7 +983,8 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
 }
 
 .#{theme.$prefix}-virtual-list {
-  & > .#{$table-prefix-cls}-element {
+  & > .#{$table-prefix-cls}-element,
+  & > .#{theme.$prefix}-virtual-list-scroller > .#{$table-prefix-cls}-element {
     width: auto;
   }
 }

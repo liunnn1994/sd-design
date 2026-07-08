@@ -71,6 +71,89 @@ describe('Table', () => {
     expect(content).toBe('Jane Doe4');
   });
 
+  test('renders virtual body with shared VirtualList', async () => {
+    const data = Array.from({ length: 50 }, (_, index) => ({
+      key: `${index + 1}`,
+      name: `Jane Doe${index + 1}`,
+      age: index + 1,
+    }));
+    const wrapper = mount(Table as any, {
+      props: {
+        columns: JSONCopy(demoColumns),
+        data,
+        pagination: false,
+        virtualListProps: {
+          height: 200,
+          itemSize: 32,
+        },
+      },
+    });
+
+    await nextTick();
+
+    const viewport = wrapper.find('.sd-virtual-list-scroller');
+    expect(viewport.exists()).toBe(true);
+    expect(wrapper.find('.sd-table-body.sd-virtual-list').exists()).toBe(true);
+    const content = wrapper.find('.sd-table-element.sd-virtual-list-content');
+    expect(content.exists()).toBe(true);
+    const initialContentHeight = Number.parseFloat((content.element as HTMLElement).style.height);
+    expect(initialContentHeight).toBeGreaterThan(0);
+
+    await wrapper.setProps({
+      virtualListProps: {
+        height: 200,
+        estimatedSize: 48,
+      },
+    });
+    await nextTick();
+    const estimatedContentHeight = Number.parseFloat(
+      (wrapper.find('.sd-table-element.sd-virtual-list-content').element as HTMLElement).style
+        .height,
+    );
+    expect(estimatedContentHeight).toBeGreaterThan(initialContentHeight);
+
+    await wrapper.setProps({
+      virtualListProps: {
+        height: 200,
+        minItemSize: 56,
+      },
+    });
+    await nextTick();
+    expect((wrapper.find('.sd-table-virtual-item').element as HTMLElement).style.minHeight).toBe(
+      '56px',
+    );
+
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    (wrapper.vm as any).scrollIntoView({ index: 10, align: 'top' });
+    await nextTick();
+    expect((viewport.element as HTMLElement).scrollTop).toBeGreaterThan(0);
+  });
+  test('supports sticky header offset 0 in virtual table', async () => {
+    const data = Array.from({ length: 10 }, (_, index) => ({
+      key: `${index + 1}`,
+      name: `Jane Doe${index + 1}`,
+      age: index + 1,
+    }));
+    const wrapper = mount(Table as any, {
+      props: {
+        columns: JSONCopy(demoColumns),
+        data,
+        pagination: false,
+        stickyHeader: 0,
+        virtualListProps: {
+          height: 200,
+          itemSize: 32,
+        },
+      },
+    });
+
+    await nextTick();
+
+    const header = wrapper.find('.sd-table-header');
+    expect(header.classes()).toContain('sd-table-header-sticky');
+    expect((header.element as HTMLElement).style.top).toBe('0px');
+  });
+
   test('table sort', async () => {
     const data = reactive(JSONCopy(demoData));
     const columns = JSONCopy(demoColumns);

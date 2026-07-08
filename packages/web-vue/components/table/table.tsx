@@ -12,6 +12,11 @@ import {
   watchEffect,
 } from 'vue';
 
+import type {
+  ScrollIntoViewOptions,
+  VirtualListProps,
+  VirtualListRef,
+} from '../_components/virtual-list/interface';
 import type { Size } from '../_utils/constant';
 import type { BaseType } from '../_utils/types';
 import type {
@@ -29,8 +34,7 @@ import type {
 } from './interface';
 
 import ResizeObserver from '../_components/resize-observer';
-import VirtualList from '../_components/virtual-list-v2';
-import { VirtualListProps } from '../_components/virtual-list-v2/interface';
+import VirtualList from '../_components/virtual-list';
 import { useChildrenComponents } from '../_hooks/use-children-components';
 import { useComponentRef } from '../_hooks/use-component-ref';
 import { useScrollbar } from '../_hooks/use-scrollbar';
@@ -678,6 +682,7 @@ export default defineComponent({
       showEmptyTree,
     } = toRefs(props);
     const prefixCls = getPrefixCls('table');
+    const virtualListPrefixCls = getPrefixCls('virtual-list');
     const configCtx = inject(configProviderInjectionKey, undefined);
     const bordered = computed(() => {
       if (isObject(props.bordered)) {
@@ -701,6 +706,7 @@ export default defineComponent({
     // const theadRef = ref<HTMLElement>();
     const summaryRef = ref<HTMLElement>();
     const thRefs = ref<Record<string, HTMLElement>>({});
+    const virtualListRef = ref<VirtualListRef | null>(null);
 
     const { componentRef: contentComRef, elementRef: contentRef } = useComponentRef('containerRef');
     const { componentRef: tbodyComRef, elementRef: tbodyRef } = useComponentRef('containerRef');
@@ -719,7 +725,7 @@ export default defineComponent({
     const splitTable = computed(
       () =>
         isScroll.value.y ||
-        props.stickyHeader ||
+        props.stickyHeader !== false ||
         isVirtualList.value ||
         (isScroll.value.x && flattenData.value.length === 0),
     );
@@ -1447,18 +1453,34 @@ export default defineComponent({
       }
 
       const {
+        items: _items,
         data: _data,
+        keyField: _keyField,
         itemKey: _itemKey,
-        component: _component,
+        listTag: _listTag,
+        itemTag: _itemTag,
+        listClass: _listClass,
+        itemClass: _itemClass,
         listAttrs: _listAttrs,
+        listStyle: _listStyle,
+        contentWrapperAttrs: _contentWrapperAttrs,
         contentAttrs: _contentAttrs,
+        component: _component,
         paddingPosition: _paddingPosition,
         isStaticItemHeight,
         fixedSize,
         ...rest
-      } = props.virtualListProps;
+      } = props.virtualListProps as VirtualListProps & {
+        data?: unknown[];
+        itemKey?: string;
+        listClass?: unknown;
+        itemClass?: unknown;
+        isStaticItemHeight?: boolean;
+        paddingPosition?: 'content' | 'list';
+      };
 
       return {
+        prerender: 20,
         ...rest,
         fixedSize: fixedSize ?? isStaticItemHeight,
       };
@@ -1958,7 +1980,7 @@ export default defineComponent({
                 class={[
                   `${prefixCls}-header`,
                   {
-                    [`${prefixCls}-header-sticky`]: props.stickyHeader,
+                    [`${prefixCls}-header-sticky`]: props.stickyHeader !== false,
                   },
                 ]}
                 style={{ top }}
@@ -1972,27 +1994,30 @@ export default defineComponent({
               {isVirtualList.value && flattenData.value.length ? (
                 <VirtualList
                   v-slots={{
-                    item: ({ item, index }: { item: TableDataWithRaw; index: number }) =>
-                      renderRecord(item, index),
+                    item: ({ item, index }: { item?: TableDataWithRaw; index: number }) =>
+                      item ? renderRecord(item, index) : null,
                   }}
                   ref={(ins: any) => {
-                    if (ins?.$el) tbodyRef.value = ins.$el;
+                    if (ins?.$el) {
+                      virtualListRef.value = ins;
+                      tbodyRef.value = ins.$el;
+                      virtualRef.value = ins.$el.querySelector?.(
+                        `.${virtualListPrefixCls}-scroller`,
+                      );
+                    } else {
+                      virtualListRef.value = null;
+                      tbodyRef.value = undefined;
+                      virtualRef.value = undefined;
+                    }
                   }}
                   class={`${prefixCls}-body`}
-                  data={flattenData.value as Record<string, any>[]}
-                  itemKey="_key"
-                  component={{
-                    list: 'div',
-                    content: 'div',
-                  }}
-                  listAttrs={{
-                    class: `${prefixCls}-element`,
-                    style: contentStyle.value,
-                  }}
-                  contentAttrs={{
-                    class: `${prefixCls}-tbody`,
-                  }}
-                  paddingPosition="list"
+                  items={flattenData.value as Record<string, any>[]}
+                  keyField="_key"
+                  listTag="div"
+                  itemTag="div"
+                  listClass={`${prefixCls}-element`}
+                  listStyle={contentStyle.value}
+                  itemClass={`${prefixCls}-virtual-item`}
                   height={bodyMaxHeight}
                   {...tableVirtualListProps.value}
                   scrollbar={displayScrollbar.value ? scrollbarProps.value : false}
@@ -2140,6 +2165,8 @@ export default defineComponent({
       selfClearFilters: clearFilters,
       selfResetSorters: resetSorters,
       selfClearSorters: clearSorters,
+      selfScrollIntoView: (options: ScrollIntoViewOptions) =>
+        virtualListRef.value?.scrollTo(options),
     };
   },
   methods: {
@@ -2222,6 +2249,15 @@ export default defineComponent({
      */
     clearSorters() {
       return this.selfClearSorters();
+    },
+    /**
+     * @zh 虚拟滚动到指定行
+     * @en Virtual scroll to the specified row
+     * @param {{ index?: number; key?: number | string; align?: 'auto' | 'top' | 'bottom' | 'start' | 'center' | 'end' | 'nearest' }} options
+     * @public
+     */
+    scrollIntoView(options: ScrollIntoViewOptions) {
+      return this.selfScrollIntoView(options);
     },
   },
   render() {

@@ -315,7 +315,7 @@ import tableVirtualListSource from '../../../../components/generated/table/virtu
 - 所有行高都一致时使用 `itemSize`
 - 行高可能增长、或需要结合展开内容时使用 `minItemSize`
 
-下面的示例同时演示了 `estimatedSize` / `itemSize` / `minItemSize`、可视区高度、组件库 `scrollbar`、`sticky-header`、滚动定位和展开行的组合方式。
+下面的示例同时演示了 `estimatedSize` / `itemSize` / `minItemSize`、可视区高度、`sticky-header`、滚动定位和展开行的组合方式。表格虚拟滚动固定使用组件库共享的 `Scrollbar`。
 
 <DemoBlock source={tableVirtualListSource} mainFile="src/table-virtual-list.vue">
 
@@ -403,6 +403,7 @@ import tableVirtualListSource from '../../../../components/generated/table/virtu
 | clearFilters | 清空列的筛选器 | dataIndex: `string \| string[]` | - | 2.31.0 |
 | resetSorters | 重置列的排序 | - | - | 2.31.0 |
 | clearSorters | 清空列的排序 | - | - | 2.31.0 |
+| scrollIntoView | 虚拟滚动到指定行 | options: `{ index?: number; key?: string \| number; align?: ScrollIntoViewOptions['align']; }` | - |  |
 
 ### `<table>` Slots
 

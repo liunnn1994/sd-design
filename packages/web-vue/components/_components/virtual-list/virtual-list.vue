@@ -9,17 +9,21 @@
       <slot name="before" />
       <Virtualizer
         v-if="!isEmpty"
+        :key="virtualizerKey"
         ref="virtuaRef"
+        v-bind="resolvedListAttrs"
         :data="resolvedItems"
         :horizontal="isHorizontal"
         :item-size="itemSizeHint"
         :buffer-size="resolvedBuffer"
+        :ssr-count="props.prerender"
         :shift="props.shift"
         :cache="props.cache"
         :as="resolvedAs"
         :item="resolvedItem"
         :item-props="resolvedItemProps"
-        :class="[`${prefixCls}-content`, props.listClass]"
+        :class="listClassNames"
+        :style="listStyle"
         @scroll="onVirtuaScroll"
         @scroll-end="onVirtuaScrollEnd"
       >
@@ -246,30 +250,117 @@
     return typeof props.height === 'number' ? `${props.height}px` : props.height;
   });
 
-  // virtua measures actual item sizes via ResizeObserver regardless of this value;
-  // passing a numeric itemSize only improves the initial layout hint.
-  const itemSizeHint = computed(() => {
-    if (typeof props.itemSize === 'number' && props.itemSize > 0) {
-      return props.itemSize;
+  const resolveSizeValue = (value: number | string | null | undefined) => {
+    if (typeof value === 'number') {
+      return value > 0 ? value : undefined;
+    }
+
+    if (typeof value === 'string') {
+      const parsed = Number.parseFloat(value);
+      return parsed > 0 ? parsed : undefined;
     }
 
     return undefined;
+  };
+
+  const formatSizeValue = (value: number | string | null | undefined) => {
+    if (typeof value === 'number') {
+      return value > 0 ? `${value}px` : undefined;
+    }
+
+    if (typeof value === 'string') {
+      return resolveSizeValue(value) === undefined ? undefined : value;
+    }
+
+    return undefined;
+  };
+
+  // virtua only accepts itemSize as the unmeasured-item size hint. The component
+  // keeps estimatedSize/minItemSize as compatibility props and maps them here.
+  const itemSizeHint = computed(() => {
+    const itemSize = resolveSizeValue(
+      typeof props.itemSize === 'number' || typeof props.itemSize === 'string'
+        ? props.itemSize
+        : undefined,
+    );
+    if (itemSize !== undefined) {
+      return itemSize;
+    }
+
+    return props.estimatedSize ?? resolveSizeValue(props.minItemSize);
   });
+
+  const fixedItemSizeValue = computed(() => {
+    if (!props.fixedSize) {
+      return undefined;
+    }
+
+    return formatSizeValue(
+      typeof props.itemSize === 'number' || typeof props.itemSize === 'string'
+        ? props.itemSize
+        : undefined,
+    );
+  });
+
+  const minItemSizeValue = computed(() => formatSizeValue(props.minItemSize));
+
+  const virtualizerKey = computed(() =>
+    [
+      isHorizontal.value ? 'horizontal' : 'vertical',
+      props.fixedSize ? 'fixed' : 'dynamic',
+      itemSizeHint.value ?? 'auto',
+      minItemSizeValue.value ?? 'none',
+    ].join(':'),
+  );
 
   const resolvedBuffer = computed(() => props.buffer);
 
   const resolvedAs = computed(() => (props.listTag || 'div') as 'div');
   const resolvedItem = computed(() => (props.itemTag || 'div') as 'div');
+  const resolvedListAttrs = computed(() => {
+    if (!props.listAttrs) {
+      return undefined;
+    }
+
+    const { class: _class, style: _style, ...rest } = props.listAttrs;
+    return rest;
+  });
+  const listClassNames = computed(() => [
+    props.listAttrs?.class,
+    `${prefixCls}-content`,
+    props.listClass,
+  ]);
+  const listStyle = computed(() => [props.listAttrs?.style, props.listStyle]);
 
   const resolvedItemProps = computed(() => {
-    if (props.itemClass === undefined) {
+    const itemStyle: CSSProperties = {};
+    if (fixedItemSizeValue.value !== undefined) {
+      if (isHorizontal.value) {
+        itemStyle.width = fixedItemSizeValue.value;
+      } else {
+        itemStyle.height = fixedItemSizeValue.value;
+      }
+    }
+    if (minItemSizeValue.value !== undefined) {
+      if (isHorizontal.value) {
+        itemStyle.minWidth = minItemSizeValue.value;
+      } else {
+        itemStyle.minHeight = minItemSizeValue.value;
+      }
+    }
+
+    if (props.itemClass === undefined && Object.keys(itemStyle).length === 0) {
       return undefined;
     }
 
     const itemClass = props.itemClass;
     // virtua types `class` narrowly as string, but Vue accepts the full ClassValue
     // (string | object | array) at runtime; cast to satisfy the library type.
-    return () => ({ class: itemClass }) as { class: string };
+    return () =>
+      ({ class: itemClass, style: itemStyle }) as {
+        class: string;
+        style: CSSProperties;
+      };
   });
 
   const viewportStyle = computed<CSSProperties>(() => {
