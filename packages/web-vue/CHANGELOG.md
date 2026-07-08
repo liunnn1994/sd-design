@@ -1,3 +1,10 @@
+# [3.5.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.4.0...web-vue-v3.5.0) (2026-07-08)
+
+
+### Features
+
+* 🆕 移除 toolbar 的背景色 ([7074fdc](https://github.com/liunnn1994/sd-design/commit/7074fdcbb6ad75ce8f4a02767dfd840418c5cebc))
+
 # [3.4.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.3.1...web-vue-v3.4.0) (2026-07-08)
 
 
