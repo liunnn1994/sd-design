@@ -1,3 +1,17 @@
+# [3.4.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.3.1...web-vue-v3.4.0) (2026-07-08)
+
+
+### Bug Fixes
+
+* 🐛 tag 最小有一个字符的宽度 ([84b7c8c](https://github.com/liunnn1994/sd-design/commit/84b7c8cebd31199df84e06ccfb35667ec7ce323d))
+* 🐛 修复 table 错误的高度处理 ([70d068f](https://github.com/liunnn1994/sd-design/commit/70d068fdc4d9f83a0b6be839c70c927014841110))
+
+
+### Features
+
+* 🆕 table 使用全新的虚拟滚动，现已支持树形等复杂结构 ([76e43a4](https://github.com/liunnn1994/sd-design/commit/76e43a47f68449ff1e271dea632dbf5566d652ea))
+* 🆕 重构虚拟列表，使用 virtua 替换 vue-virtual-scroller ([816cc59](https://github.com/liunnn1994/sd-design/commit/816cc59662d6ea9aa57034cf5496771ee98222b8))
+
 ## [3.3.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.3.0...web-vue-v3.3.1) (2026-07-07)
 
 
