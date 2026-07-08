@@ -3,6 +3,7 @@
 @use './token.scss' as *;
 
 $file-previewer-prefix-cls: string.unquote('#{theme.$prefix}-file-previewer');
+$image-prefix-cls: string.unquote('#{theme.$prefix}-image');
 
 @mixin center() {
   position: absolute;
@@ -25,9 +26,6 @@ $file-previewer-prefix-cls: string.unquote('#{theme.$prefix}-file-previewer');
   &-inline {
     overflow: hidden;
     color: $file-previewer-color-content-text;
-    background: $file-previewer-color-inline-bg;
-    border: 1px solid $file-previewer-color-inline-border;
-    border-radius: $file-previewer-radius-panel;
   }
 
   &-mask {
@@ -94,6 +92,7 @@ $file-previewer-prefix-cls: string.unquote('#{theme.$prefix}-file-previewer');
 
   &-image,
   &-video-player,
+  &-audio-player,
   &-video,
   &-pdf {
     display: block;
@@ -101,8 +100,14 @@ $file-previewer-prefix-cls: string.unquote('#{theme.$prefix}-file-previewer');
     height: 100%;
   }
 
-  &-image {
+  &-image .#{$image-prefix-cls}-img {
     object-fit: contain;
+  }
+
+  &-video-player,
+  &-audio-player {
+    min-width: 0 !important;
+    min-height: 0 !important;
   }
 
   &-video-player {
@@ -110,13 +115,25 @@ $file-previewer-prefix-cls: string.unquote('#{theme.$prefix}-file-previewer');
     max-height: $file-previewer-size-media-height;
   }
 
-  &-inline &-video-player {
+  &-media-skin {
+    display: block;
+    width: 100%;
+    min-width: 0 !important;
     max-width: 100%;
-    max-height: none;
+    height: 100%;
+    min-height: 0 !important;
+    max-height: 100%;
+
+    --media-object-fit: cover;
   }
 
   &-video {
-    background: #000;
+    object-fit: cover;
+  }
+
+  &-inline &-video-player {
+    max-width: 100%;
+    max-height: none;
   }
 
   &-audio-panel {
@@ -125,6 +142,7 @@ $file-previewer-prefix-cls: string.unquote('#{theme.$prefix}-file-previewer');
     padding: $file-previewer-spacing-panel-padding;
   }
 
+  &-audio-player,
   &-audio {
     display: block;
     width: 100%;

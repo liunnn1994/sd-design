@@ -234,7 +234,11 @@ export type { IconInstance, IconProps } from './icon-component';
 export { default as FilePreviewer } from './file-previewer';
 export type {
   FilePreviewerContentSlotProps,
+  FilePreviewerImageProps,
   FilePreviewerInstance,
+  FilePreviewerMediaProps,
+  FilePreviewerMediaSkin,
+  FilePreviewerPdfProps,
   FilePreviewerProps,
   FilePreviewerStatus,
   FilePreviewerType,

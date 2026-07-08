@@ -29,7 +29,7 @@ import filePreviewerMediaSource from '../../../../components/generated/file-prev
 
 ### 视频、音频和 PDF
 
-视频使用 Video.js HTML 预览器，音频使用原生 HTML 控件，PDF 使用内嵌文档预览；默认都会在全屏弹层中展示。
+视频和音频默认使用 Video.js HTML 的预设 Web Components 预览器，PDF 使用内嵌文档预览；默认都会在全屏弹层中展示。
 
 <DemoBlock source={filePreviewerMediaSource} mainFile="src/file-previewer-media.vue">
 
@@ -94,6 +94,9 @@ import filePreviewerMediaSource from '../../../../components/generated/file-prev
 | esc-to-close | 是否支持 ESC 键关闭，仅全屏弹层下生效 | `boolean` | `true` |
 | popup-container | 设置弹出框挂载点，同 `teleport` 的 `to` | `HTMLElement \| string` | `-` |
 | render-to-body | 是否渲染到 body，仅全屏弹层下生效 | `boolean` | `true` |
+| image-props | 图片预览器参数，会透传给 Image 组件 | `Record<string, unknown>` | `-` |
+| media-props | 视频和音频预览器参数。`skin` 可设置为 `'default'`、`'minimal'`、`'native'` 或 `false`，`playerProps` 透传给 `video-player`，`skinProps` 透传给 skin Web Component，其余字段透传给内部 `video` / `audio` 元素 | `Record<string, unknown>` | `-` |
+| pdf-props | PDF 预览器参数，会透传给内部 `iframe` 元素 | `Record<string, unknown>` | `-` |
 
 ### `<file-previewer>` Events
 

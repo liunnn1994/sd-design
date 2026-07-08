@@ -1,5 +1,34 @@
+import type { Except, Simplify, UnknownRecord } from 'type-fest';
+
+import type { ImageProps } from '../image/interface';
+
 export type FilePreviewerType = 'image' | 'video' | 'audio' | 'pdf';
 export type FilePreviewerStatus = 'beforeLoad' | 'loading' | 'loaded' | 'error';
+type FilePreviewerImageFit = 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
+export type FilePreviewerImageProps = Simplify<
+  Except<Partial<ImageProps>, 'fit'> & { fit?: FilePreviewerImageFit } & UnknownRecord
+>;
+export type FilePreviewerMediaSkin = 'default' | 'minimal' | 'native' | false | (string & {});
+export type FilePreviewerMediaProps = Simplify<
+  UnknownRecord & {
+    /**
+     * @zh 媒体预览皮肤。设置为 `native` 或 `false` 时不渲染 Video.js Web Components
+     * @en Media preview skin. Set to `native` or `false` to avoid rendering Video.js Web Components
+     */
+    skin?: FilePreviewerMediaSkin;
+    /**
+     * @zh 透传给 `video-player` 的属性
+     * @en Props passed to `video-player`
+     */
+    playerProps?: UnknownRecord;
+    /**
+     * @zh 透传给当前 skin Web Component 的属性
+     * @en Props passed to the selected skin Web Component
+     */
+    skinProps?: UnknownRecord;
+  }
+>;
+export type FilePreviewerPdfProps = UnknownRecord;
 
 export interface FilePreviewerContentSlotProps {
   src: string;
@@ -72,4 +101,19 @@ export interface FilePreviewerProps {
    * @en Whether to render to body
    */
   renderToBody?: boolean;
+  /**
+   * @zh 图片预览器参数
+   * @en Image previewer props
+   */
+  imageProps?: FilePreviewerImageProps;
+  /**
+   * @zh 视频和音频预览器参数
+   * @en Video and audio previewer props
+   */
+  mediaProps?: FilePreviewerMediaProps;
+  /**
+   * @zh PDF 预览器参数
+   * @en PDF previewer props
+   */
+  pdfProps?: FilePreviewerPdfProps;
 }

@@ -22,41 +22,61 @@
         </header>
         <div :class="`${prefixCls}-body`">
           <slot name="content" v-bind="contentSlotProps">
-            <img
+            <Image
               v-if="type === 'image'"
-              :key="currentSrc"
+              :key="currentSrc + 'image'"
+              v-bind="mergedImageProps"
               :class="`${prefixCls}-image`"
-              :src="currentSrc"
-              :alt="title || ''"
-              @load="onPreviewLoad"
-              @error="onLoadError"
             />
-            <component
-              :is="'video-player'"
-              v-else-if="type === 'video'"
-              :class="`${prefixCls}-video-player`"
-            >
-              <component :is="'video-skin'">
-                <video
-                  :key="currentSrc"
-                  :class="`${prefixCls}-video`"
-                  :src="currentSrc"
-                  controls
-                  playsinline
-                />
+            <template v-else-if="type === 'video'">
+              <component
+                :is="mediaPlayerTag"
+                v-if="useVideoJsMediaSkin"
+                v-bind="mediaPlayerProps"
+                :class="`${prefixCls}-video-player`"
+              >
+                <component :is="mediaSkinTag" v-bind="mediaSkinProps" :class="mediaSkinClassNames">
+                  <video
+                    :key="currentSrc + 'video'"
+                    v-bind="mergedMediaProps"
+                    :class="`${prefixCls}-video`"
+                  />
+                </component>
               </component>
-            </component>
+              <video
+                v-else
+                :key="currentSrc"
+                v-bind="mergedMediaProps"
+                :class="`${prefixCls}-video`"
+              />
+            </template>
             <div v-else-if="type === 'audio'" :class="`${prefixCls}-audio-panel`">
-              <audio :key="currentSrc" :class="`${prefixCls}-audio`" :src="currentSrc" controls />
+              <component
+                :is="mediaPlayerTag"
+                v-if="useVideoJsMediaSkin"
+                v-bind="mediaPlayerProps"
+                :class="`${prefixCls}-audio-player`"
+              >
+                <component :is="mediaSkinTag" v-bind="mediaSkinProps" :class="mediaSkinClassNames">
+                  <audio
+                    :key="currentSrc + 'audio'"
+                    v-bind="mergedMediaProps"
+                    :class="`${prefixCls}-audio`"
+                  />
+                </component>
+              </component>
+              <audio
+                v-else
+                :key="currentSrc + 'audio'"
+                v-bind="mergedMediaProps"
+                :class="`${prefixCls}-audio`"
+              />
             </div>
             <iframe
               v-else-if="type === 'pdf'"
-              :key="currentSrc"
+              :key="currentSrc + 'pdf'"
+              v-bind="mergedPdfProps"
               :class="`${prefixCls}-pdf`"
-              :src="currentSrc"
-              title="PDF preview"
-              @load="onPreviewLoad"
-              @error="onLoadError"
             />
           </slot>
         </div>
@@ -83,6 +103,9 @@
 
   import type {
     FilePreviewerContentSlotProps,
+    FilePreviewerImageProps,
+    FilePreviewerMediaProps,
+    FilePreviewerPdfProps,
     FilePreviewerStatus,
     FilePreviewerType,
   } from './types';
@@ -95,6 +118,7 @@
   import { KEYBOARD_KEY } from '../_utils/keyboard';
   import IconClose from '../icon/icon-close';
   import IconLoading from '../icon/icon-loading';
+  import Image from '../image';
 
   defineOptions({ name: 'FilePreviewer' });
 
@@ -198,6 +222,27 @@
       type: Boolean,
       default: true,
     },
+    /**
+     * @zh 图片预览器参数
+     * @en Image previewer props
+     */
+    imageProps: {
+      type: Object as PropType<FilePreviewerImageProps>,
+    },
+    /**
+     * @zh 视频和音频预览器参数
+     * @en Video and audio previewer props
+     */
+    mediaProps: {
+      type: Object as PropType<FilePreviewerMediaProps>,
+    },
+    /**
+     * @zh PDF 预览器参数
+     * @en PDF previewer props
+     */
+    pdfProps: {
+      type: Object as PropType<FilePreviewerPdfProps>,
+    },
   });
 
   const emit = defineEmits<{
@@ -226,13 +271,17 @@
     closable,
     escToClose,
     title,
+    imageProps,
+    mediaProps,
+    pdfProps,
   } = toRefs(props);
 
   const prefixCls = getPrefixCls('file-previewer');
   const wrapperRef = shallowRef<HTMLElement>();
   const status = shallowRef<FilePreviewerStatus>('beforeLoad');
   const requestId = shallowRef(0);
-  let videoJsHtmlPromise: Promise<unknown> | undefined;
+  let videoJsVideoPromise: Promise<unknown> | undefined;
+  let videoJsAudioPromise: Promise<unknown> | undefined;
 
   const localVisible = shallowRef(defaultVisible.value);
   const mergedVisible = computed(() => visible?.value ?? localVisible.value);
@@ -279,6 +328,85 @@
     onError: onLoadError,
   }));
 
+  const mergedImageProps = computed<FilePreviewerImageProps>(() => {
+    const userProps = imageProps?.value ?? {};
+    return {
+      preview: false,
+      width: '100%',
+      height: '100%',
+      fit: 'contain',
+      alt: title?.value || '',
+      ...userProps,
+      src: currentSrc.value,
+      onLoad: (event: Event) => {
+        callEventHandler(userProps.onLoad, event);
+        onPreviewLoad();
+      },
+      onError: (event: Event) => {
+        callEventHandler(userProps.onError, event);
+        onLoadError();
+      },
+    };
+  });
+  const mediaSkin = computed(() => mediaProps?.value?.skin ?? 'default');
+  const useVideoJsMediaSkin = computed(
+    () => mediaSkin.value !== false && mediaSkin.value !== 'native',
+  );
+  const mediaSkinTag = computed(() => {
+    if (mediaSkin.value === 'minimal') {
+      return type.value === 'audio' ? 'minimal-audio-skin' : 'minimal-video-skin';
+    }
+    if (mediaSkin.value && mediaSkin.value !== 'default') return String(mediaSkin.value);
+    return type.value === 'audio' ? 'audio-skin' : 'video-skin';
+  });
+  const mediaPlayerTag = computed(() => (type.value === 'audio' ? 'audio-player' : 'video-player'));
+  const mediaSkinClassNames = computed(() => [
+    `${prefixCls}-media-skin`,
+    `${prefixCls}-media-skin-${type.value}`,
+  ]);
+  const mediaPlayerProps = computed(() => mediaProps?.value?.playerProps ?? {});
+  const mediaSkinProps = computed(() => mediaProps?.value?.skinProps ?? {});
+  const mergedMediaProps = computed<FilePreviewerMediaProps>(() => {
+    const userProps = { ...mediaProps?.value };
+    const { onLoadedData, onError } = userProps;
+    delete userProps.skin;
+    delete userProps.playerProps;
+    delete userProps.skinProps;
+    delete userProps.onLoadedData;
+    delete userProps.onError;
+
+    return {
+      ...(useVideoJsMediaSkin.value ? undefined : { controls: true }),
+      ...(type.value === 'video' ? { playsinline: true } : undefined),
+      ...userProps,
+      src: currentSrc.value,
+      onLoadedData: (event: Event) => {
+        callEventHandler(onLoadedData, event);
+        onPreviewLoad();
+      },
+      onError: (event: Event) => {
+        callEventHandler(onError, event);
+        onLoadError();
+      },
+    };
+  });
+  const mergedPdfProps = computed<FilePreviewerPdfProps>(() => {
+    const userProps = pdfProps?.value ?? {};
+    return {
+      title: 'PDF preview',
+      ...userProps,
+      src: currentSrc.value,
+      onLoad: (event: Event) => {
+        callEventHandler(userProps.onLoad, event);
+        onPreviewLoad();
+      },
+      onError: (event: Event) => {
+        callEventHandler(userProps.onError, event);
+        onLoadError();
+      },
+    };
+  });
+
   usePopupOverHidden(reactive({ container, hidden: popupVisible }));
 
   function resetPreviewState() {
@@ -318,6 +446,14 @@
     status.value = 'error';
   }
 
+  function callEventHandler(handler: unknown, event: Event) {
+    if (Array.isArray(handler)) {
+      handler.forEach((item) => callEventHandler(item, event));
+      return;
+    }
+    if (typeof handler === 'function') handler(event);
+  }
+
   async function ensureVideoJsHtml() {
     if (typeof Element === 'undefined' && typeof window !== 'undefined' && window.Element) {
       Object.defineProperty(globalThis, 'Element', {
@@ -325,11 +461,16 @@
         value: window.Element,
       });
     }
-    if (!videoJsHtmlPromise) videoJsHtmlPromise = import('@videojs/html');
-    await videoJsHtmlPromise;
+    if (type.value === 'audio') {
+      if (!videoJsAudioPromise) videoJsAudioPromise = import('@videojs/html/audio');
+      await videoJsAudioPromise;
+      return;
+    }
+    if (!videoJsVideoPromise) videoJsVideoPromise = import('@videojs/html/video');
+    await videoJsVideoPromise;
   }
 
-  async function prepareVideo(currentRequestId: number) {
+  async function prepareMedia(currentRequestId: number) {
     status.value = 'loading';
     try {
       if (!isServerRendering) await ensureVideoJsHtml();
@@ -356,12 +497,16 @@
       }
 
       const currentRequestId = requestId.value;
-      if (type.value === 'video') {
-        void prepareVideo(currentRequestId);
+      if (type.value === 'video' || type.value === 'audio') {
+        if (useVideoJsMediaSkin.value) {
+          void prepareMedia(currentRequestId);
+          return;
+        }
+        status.value = 'loading';
         return;
       }
 
-      if (type.value === 'audio' || type.value === 'pdf') {
+      if (type.value === 'pdf') {
         status.value = 'loaded';
         return;
       }

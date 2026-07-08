@@ -17,6 +17,10 @@ const FilePreviewer = Object.assign(_FilePreviewer, {
 export type FilePreviewerInstance = InstanceType<typeof _FilePreviewer>;
 export type {
   FilePreviewerContentSlotProps,
+  FilePreviewerImageProps,
+  FilePreviewerMediaProps,
+  FilePreviewerMediaSkin,
+  FilePreviewerPdfProps,
   FilePreviewerProps,
   FilePreviewerStatus,
   FilePreviewerType,

@@ -58,7 +58,16 @@ exports[`<file-previewer> demo: > render [inline] correctly 1`] = `
     <!--v-if-->
     <section class="sd-file-previewer-content sd-file-previewer-content-image sd-file-previewer-content-inline" role="region" aria-label="内嵌图片预览">
       <header class="sd-file-previewer-header"><span class="sd-file-previewer-title">内嵌图片预览</span></header>
-      <div class="sd-file-previewer-body"><img class="sd-file-previewer-image" src="https://picsum.photos/id/11/1000/640?t=file-previewer-inline-image" alt="内嵌图片预览"></div>
+      <div class="sd-file-previewer-body">
+        <div class="sd-image sd-image-with-footer-inner sd-file-previewer-image" style="width: 100%; height: 100%;"><img class="sd-image-img" style="width: 100%; height: 100%; object-fit: contain;" alt="内嵌图片预览">
+          <div class="sd-image-overlay">
+            <!--v-if-->
+            <!--v-if-->
+          </div>
+          <!--v-if-->
+          <!--v-if-->
+        </div>
+      </div>
     </section>
     <!--v-if-->
     <div class="sd-file-previewer-loading"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-loading" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
