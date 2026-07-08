@@ -244,6 +244,7 @@ async function bundleVendorDependencies(vendorDependencyOutputs) {
     await fs.mkdir(path.dirname(outfile), { recursive: true });
     await rolldownBuild({
       input: specifier,
+      external: Array.from(excludedSpecifiers),
       platform: 'browser',
       logLevel: 'silent',
       write: true,
