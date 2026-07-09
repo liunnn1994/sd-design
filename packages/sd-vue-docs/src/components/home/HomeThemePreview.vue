@@ -50,7 +50,6 @@
 
       <div class="theme-preview__doc-links">
         <a href="/guides/theme-editor/">查看主题 JSON 约定</a>
-        <a href="/guides/style-migration/">查看迁移手册</a>
       </div>
     </aside>
 

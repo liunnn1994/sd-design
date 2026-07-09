@@ -256,15 +256,6 @@
       >,
     },
     /**
-     * @zh 绑定值，Naive 兼容别名
-     * @en Value, Naive compatibility alias
-     * */
-    value: {
-      type: [String, Number, Array, Object] as PropType<
-        string | number | Array<string | number> | LabelValue | LabelValue[]
-      >,
-    },
-    /**
      * @zh 指定节点数据中的字段名
      * @en Specify the field name in the node data
      * */
@@ -516,7 +507,6 @@
      */
     'change': [_value: TreeSelectValue | undefined];
     'update:modelValue': [_value: TreeSelectValue | undefined];
-    'update:value': [_value: TreeSelectValue | undefined];
     'update:inputValue': [_inputValue: string];
     /**
      * @zh 下拉框显示状态改变时触发
@@ -632,7 +622,6 @@
     checkStrategy,
     showPath,
     separator,
-    value,
     virtualScroll,
   } = toRefs(props);
   const { mergedDisabled, eventHandlers } = useFormItem({
@@ -655,7 +644,7 @@
   const TreeSelectEmpty = configCtx?.slots.empty?.({
     component: 'tree-select',
   })?.[0];
-  const mergedModelValue = computed(() => value!.value ?? modelValue!.value);
+  const mergedModelValue = computed(() => modelValue!.value);
   const mergedData = computed(() => options!.value ?? data.value);
   const mergedTreeCheckable = computed(() => treeCheckable.value || checkable.value);
   const mergedTreeCheckedStrategy = computed(
@@ -758,7 +747,6 @@
       const emitValue = isMultiple.value ? forEmitValue : forEmitValue[0];
 
       emit('update:modelValue', emitValue);
-      emit('update:value', emitValue);
       emit('change', emitValue);
       eventHandlers.value?.onChange?.();
     });

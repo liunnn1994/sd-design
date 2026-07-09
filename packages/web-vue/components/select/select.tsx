@@ -71,10 +71,6 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    value: {
-      type: [String, Number, Boolean, Object, Array] as PropType<SelectModelValue>,
-      default: undefined,
-    },
     modelValue: {
       type: [String, Number, Boolean, Object, Array] as PropType<SelectModelValue>,
       default: undefined,
@@ -217,7 +213,6 @@ export default defineComponent({
   },
   emits: {
     'update:modelValue': (_value: SelectModelValue) => true,
-    'update:value': (_value: SelectModelValue) => true,
     'update:inputValue': (_inputValue: string) => true,
     'update:popupVisible': (_visible: boolean) => true,
     'update:show': (_visible: boolean) => true,
@@ -241,7 +236,6 @@ export default defineComponent({
       filterOption,
       valueKey,
       multiple,
-      value: valueProp,
       popupVisible,
       show,
       defaultPopupVisible,
@@ -296,7 +290,7 @@ export default defineComponent({
 
     const _value = ref<SelectModelValue>(props.defaultValue);
     const computedValueObjects = computed<OptionValueWithKey[]>(() => {
-      const mergedValue = props.modelValue ?? props.value ?? _value.value;
+      const mergedValue = props.modelValue ?? _value.value;
       const valueArray: SelectOptionValue[] = [];
 
       if (isArray(mergedValue)) {
@@ -316,10 +310,9 @@ export default defineComponent({
       }));
     });
 
-    watch([modelValue, valueProp], ([nextModelValue, nextValue]) => {
-      const mergedValue = nextModelValue ?? nextValue;
-      if (isUndefined(mergedValue) || isNull(mergedValue)) {
-        _value.value = multiple.value ? [] : mergedValue;
+    watch(modelValue, (nextModelValue) => {
+      if (isUndefined(nextModelValue) || isNull(nextModelValue)) {
+        _value.value = multiple.value ? [] : nextModelValue;
       }
     });
 
@@ -458,7 +451,6 @@ export default defineComponent({
       const nextValue = getValueFromValueKeys(valueKeys);
       _value.value = nextValue;
       emit('update:modelValue', nextValue);
-      emit('update:value', nextValue);
       emit('change', nextValue);
       eventHandlers.value?.onChange?.();
       updateSelectedOption(valueKeys);

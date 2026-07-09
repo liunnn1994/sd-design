@@ -1,6 +1,6 @@
 ---
 title: 颜色选择器 ColorPicker
-description: 以 TDesign API 为主的颜色选择器，用于输入、预览和调整颜色。
+description: 用于输入、预览和调整颜色的颜色选择器。
 ---
 
 import DemoBlock from '../../../../components/docs/DemoBlock.astro';
@@ -75,7 +75,7 @@ import colorPickerTriggerSource from '../../../../components/generated/color-pic
 
 ### 只使用面板
 
-使用 `hide-trigger` 可以内联渲染颜色面板。这一能力保留自旧版 API，便于旧场景迁移。
+使用 `hide-trigger` 可以内联渲染颜色面板。
 
 <DemoBlock source={colorPickerOnlyPanelSource} mainFile="src/color-picker-only-panel.vue">
 
@@ -85,7 +85,7 @@ import colorPickerTriggerSource from '../../../../components/generated/color-pic
 
 ### 尺寸
 
-颜色选择器优先对齐 TDesign 的 `small`、`medium`、`large`，同时兼容旧版 `mini`。
+颜色选择器支持 `small`、`medium`、`large` 与 `mini` 四种尺寸。
 
 <DemoBlock source={colorPickerSizeSource} mainFile="src/color-picker-size.vue">
 
@@ -120,7 +120,6 @@ import colorPickerTriggerSource from '../../../../components/generated/color-pic
 | 参数名 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | :-: |
 | model-value **(v-model)** | 受控色值 | `string` | `-` |
-| value | 兼容 TDesign 的受控色值入口 | `string` | `-` |
 | default-value | 非受控默认色值 | `string` | `''` |
 | color-modes | 可用颜色模式 | `('monochrome' \| 'linear-gradient')[]` | `['monochrome']` |
 | enable-multiple-gradient | 是否允许新增多个渐变 stop | `boolean` | `true` |
@@ -135,13 +134,7 @@ import colorPickerTriggerSource from '../../../../components/generated/color-pic
 | default-recent-colors | 最近使用颜色的非受控初始值 | `string[] \| boolean \| null` | `[]` |
 | swatch-colors | 系统色板 | `string[] \| null` | 内置色板 |
 | disabled | 禁用 | `boolean` | `false` |
-| hide-trigger | 兼容旧版，仅渲染内联面板 | `boolean` | `false` |
-| history-colors | 旧版 recent-colors 别名 | `string[]` | `-` |
-| preset-colors | 旧版 swatch-colors 别名 | `string[]` | `-` |
-| show-history | 旧版开关，开启时使用 `history-colors` | `boolean` | `false` |
-| show-preset | 旧版开关，开启时使用 `preset-colors` | `boolean` | `false` |
-| disabled-alpha | 旧版 `enable-alpha` 反向别名 | `boolean` | `false` |
-| show-text | 旧版属性，保留兼容但不再建议新增使用 | `boolean` | `false` |
+| hide-trigger | 仅渲染内联面板 | `boolean` | `false` |
 
 ### `<color-picker>` Events
 
@@ -158,22 +151,3 @@ import colorPickerTriggerSource from '../../../../components/generated/color-pic
 | 插槽名  | 描述             |
 | ------- | ---------------- |
 | default | 自定义触发器内容 |
-
-## 迁移说明
-
-本次实现以当前组件库的 ColorPicker 和 Trigger 约定为主，同时保留了旧版 `@sdata/web-vue` color-picker 的兼容桥接。
-
-| 旧版能力                        | 新版建议                                 |
-| ------------------------------- | ---------------------------------------- |
-| `trigger-props`                 | 直接透传 `TriggerProps`                  |
-| `history-colors + show-history` | 迁移到 `recent-colors`                   |
-| `preset-colors + show-preset`   | 迁移到 `swatch-colors`                   |
-| `disabled-alpha`                | 迁移到 `enable-alpha`                    |
-| `show-text`                     | 新版默认采用输入型触发器，一般无需再使用 |
-| `hide-trigger`                  | 仍可继续使用，作为内联面板模式           |
-
-当前版本的迁移结论：
-
-- 单色与线性渐变都已经按 TDesign 能力接入，新的业务可直接使用 `color-modes` 与 `enable-multiple-gradient`。
-- 旧版常用 props 仍保留兼容桥接，但新增代码建议直接采用当前组件库的 `trigger-props` / `TriggerProps` 约定。
-- 渐变模式统一输出 CSS `linear-gradient(...)` 字符串；如果旧业务依赖旧版自定义结构，迁移时应直接改为标准 CSS 字符串。

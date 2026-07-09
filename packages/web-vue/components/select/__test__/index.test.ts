@@ -146,22 +146,6 @@ describe('Select', () => {
     expect(wrapper.emitted('change')?.[0]).toEqual(['Xian']);
   });
 
-  test('should support v-model:value', async () => {
-    const wrapper = mount(Select, {
-      props: {
-        value: 'Shanghai',
-        options: ['Beijing', 'Shanghai', 'Guangzhou'],
-      },
-    });
-
-    await wrapper.find('.sd-select-view').trigger('click');
-    const dropdown = wrapper.findComponent({ name: 'SelectDropdown' });
-    await dropdown.findAll('.sd-select-option')[2].trigger('click');
-
-    expect(wrapper.emitted('update:value')?.[0]).toEqual(['Guangzhou']);
-    expect(wrapper.emitted('change')?.[0]).toEqual(['Guangzhou']);
-  });
-
   test('should support v-model:show alias', async () => {
     const wrapper = mount(Select, {
       props: {

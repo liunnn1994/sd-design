@@ -74,7 +74,6 @@
     checkStrictly,
     loadMore,
     modelValue,
-    value: valueProp,
     valueKey,
     expandChild,
     expandTrigger,
@@ -86,9 +85,8 @@
     props.defaultValue ?? getDefaultValue(props.multiple, props.pathMode),
   );
 
-  watch([modelValue, valueProp], ([nextModelValue, nextValue]) => {
-    const mergedValue = nextModelValue ?? nextValue;
-    if (isUndefined(mergedValue) || isNull(mergedValue)) {
+  watch(modelValue, (nextModelValue) => {
+    if (isUndefined(nextModelValue) || isNull(nextModelValue)) {
       _value.value = getDefaultValue(props.multiple, props.pathMode);
     }
   });
@@ -148,7 +146,7 @@
   );
 
   const computedValueMap = computed(() => {
-    const values = getValidValues(props.modelValue ?? props.value ?? _value.value, {
+    const values = getValidValues(props.modelValue ?? _value.value, {
       multiple: props.multiple,
       pathMode: props.pathMode,
     });
@@ -176,7 +174,6 @@
 
     _value.value = value;
     emit('update:modelValue', value);
-    emit('update:value', value);
     emit('change', value);
   };
 

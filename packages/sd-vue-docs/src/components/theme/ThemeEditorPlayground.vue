@@ -175,7 +175,6 @@
               <sd-color-picker
                 v-if="field.type === 'color'"
                 :model-value="String(getThemeToken(draftTheme, field.token) || '#000000')"
-                show-text
                 @update:model-value="updateToken(field.token, String($event))"
               />
               <sd-input

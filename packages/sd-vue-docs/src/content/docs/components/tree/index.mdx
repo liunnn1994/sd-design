@@ -215,7 +215,7 @@ Tree 会透出节点标题区域的基础 DOM 事件，并补充 VueUse 的长�
 
 当前示例除了保留 `scrollIntoView` 演示，还补了尺寸切换和固定/动态两种模式切换，方便直接观察 `mini / small / medium / large` 对默认行高映射的影响。只有在节点内容确实会出现多行高度变化时，才建议显式改传 `minItemSize`。
 
-通过指定 `virtualListProps` 来开启虚拟列表，在大量数据时获得高性能表现。`Tree` 默认按组件 `size` 使用固定高度模式：`mini / small / medium / large` 分别对应 `24 / 28 / 32 / 36`。如果你没有显式传 `itemSize` 或 `minItemSize`，组件会按这个尺寸映射自动补齐固定高度；如果你需要动态树节点高度或虚拟模式下的展开动画，请显式改传 `minItemSize`。完整参数与迁移映射见 [虚拟列表迁移指南](/guides/virtual-list-migration/)。
+通过指定 `virtualListProps` 来开启虚拟列表，在大量数据时获得高性能表现。`Tree` 默认按组件 `size` 使用固定高度模式：`mini / small / medium / large` 分别对应 `24 / 28 / 32 / 36`。如果你没有显式传 `itemSize` 或 `minItemSize`，组件会按这个尺寸映射自动补齐固定高度；如果你需要动态树节点高度或虚拟模式下的展开动画，请显式改传 `minItemSize`。完整参数可参考 [LLMs.txt](/llms_txt/)。
 
 <DemoBlock source={treeVirtualSource} mainFile="src/tree-virtual.vue">
 
@@ -249,7 +249,7 @@ Tree 会透出节点标题区域的基础 DOM 事件，并补充 VueUse 的长�
 | load-more | 异步加载数据的回调，返回一个 `Promise` | `(node: TreeNodeData) => Promise<void>` | `-` |  |
 | draggable | 是否可以拖拽 | `boolean` | `false` |  |
 | allow-drop | 拖拽时是否允许在某节点上释放 | `(options: {  dropNode: TreeNodeData;  dropPosition: -1 \| 0 \| 1;}) => boolean` | `-` |  |
-| virtual-list-props | 传递虚拟列表属性，传入此参数以开启虚拟滚动。[迁移说明与完整参数](/guides/virtual-list-migration/) | `VirtualListProps` | `-` |  |
+| virtual-list-props | 传递虚拟列表属性，传入此参数以开启虚拟滚动 | `VirtualListProps` | `-` |  |
 | default-expand-selected | 是否默认展开已选中节点的父节点 | `boolean` | `false` | 2.9.0 |
 | default-expand-checked | 是否默认展开已选中复选框节点的父节点 | `boolean` | `false` | 2.9.0 |
 | auto-expand-parent | 是否自动展开已展开节点的父节点 | `boolean` | `true` | 2.9.0 |
@@ -347,4 +347,4 @@ Tree 会透出节点标题区域的基础 DOM 事件，并补充 VueUse 的长�
 | minItemSize | 动态高度模式的最小 item 高度；未传 `itemSize` 时用于初始估算 | `number \| string` | `32` |  |
 | buffer | 额外渲染缓冲区（像素） | `number` | `200` |  |
 
-其余参数与暴露方法请查看 [虚拟列表迁移指南](/guides/virtual-list-migration/)。
+其余参数与暴露方法可参考 [LLMs.txt](/llms_txt/)。

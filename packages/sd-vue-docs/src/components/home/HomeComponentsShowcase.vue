@@ -18,7 +18,7 @@
         </HomeShowcaseCard>
 
         <HomeShowcaseCard title="ColorPicker" tag="主题" tone="success">
-          <sd-color-picker default-value="#1476FF" hide-trigger show-preset show-history />
+          <sd-color-picker default-value="#1476FF" hide-trigger />
         </HomeShowcaseCard>
 
         <HomeShowcaseCard title="Collapse" tag="内容组织" tone="warning">
@@ -65,8 +65,8 @@
           <div class="components-showcase__slide">
             <HomeShowcaseCard title="ColorPicker" tag="主题" tone="success">
               <sd-space :size="24">
-                <sd-color-picker default-value="#1476FF" hide-trigger show-preset show-history />
-                <sd-color-picker default-value="#12D2AC" hide-trigger show-preset disabled />
+                <sd-color-picker default-value="#1476FF" hide-trigger />
+                <sd-color-picker default-value="#12D2AC" hide-trigger disabled />
               </sd-space>
             </HomeShowcaseCard>
           </div>

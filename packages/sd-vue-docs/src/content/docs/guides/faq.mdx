@@ -25,7 +25,7 @@ SD Design Vue 组件库中使用了 `受控` 的概念，正如其名，组件�
 
 支持设置虚拟列表的组件包括 [List](/components/list/)、[Select](/components/select/)、[Tree](/components/tree/)，以及复用这些能力的 `AutoComplete`、`Cascader`、`TreeSelect`。当前版本的虚拟列表能力基于 [virtua](https://github.com/inokawa/virtua) 实现，并继续使用组件库内置 `Scrollbar`。`Table` 暂未接入该实现。
 
-虚拟列表元素的渲染分为 **固定高度**、**动态高度** 两种情况：固定高度请使用 `itemSize`，动态高度请使用 `minItemSize`。virtua 会通过 `ResizeObserver` 自动测量实际尺寸，无需在两种模式之间手动切换底层渲染器。完整迁移说明见 [虚拟列表迁移](/guides/virtual-list-migration/)。
+虚拟列表元素的渲染分为 **固定高度**、**动态高度** 两种情况：固定高度请使用 `itemSize`，动态高度请使用 `minItemSize`。virtua 会通过 `ResizeObserver` 自动测量实际尺寸，无需在两种模式之间手动切换底层渲染器。完整参数可参考 [LLMs.txt](/llms_txt/)。
 
 | 参数名 | 描述 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | :-: | :-- |

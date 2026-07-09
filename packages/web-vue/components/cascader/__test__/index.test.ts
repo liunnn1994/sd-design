@@ -62,24 +62,6 @@ const options = [
 ];
 
 describe('Cascader', () => {
-  test('should support value alias', async () => {
-    const wrapper = await mountCascader({
-      props: {
-        value: 'chaoyang',
-        options,
-        defaultPopupVisible: true,
-      },
-    });
-
-    const panel = getDropdownPanel();
-    expect(panel).not.toBeNull();
-    await panel?.find('.sd-cascader-option').trigger('click');
-    await panel?.findAll('.sd-cascader-option')[3].trigger('click');
-
-    expect(wrapper.emitted('update:value')?.[0]).toEqual(['haidian']);
-    expect(wrapper.emitted('change')?.[0]).toEqual(['haidian']);
-  });
-
   test('should support show alias', async () => {
     const wrapper = await mountCascader({
       props: {

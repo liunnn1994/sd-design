@@ -39,7 +39,6 @@ export default defineComponent({
      * @zh 色值
      * @en Value
      */
-    value: String,
     modelValue: String,
     /**
      * @zh 默认色值
@@ -119,7 +118,7 @@ export default defineComponent({
       default: false,
     },
     /**
-     * @zh 是否内联面板。兼容旧版 hideTrigger 语义
+     * @zh 是否内联面板
      * @en Render panel inline
      */
     hideTrigger: Boolean,
@@ -130,51 +129,9 @@ export default defineComponent({
     triggerProps: {
       type: Object as PropType<Partial<TriggerProps>>,
     },
-    /**
-     * @zh 兼容旧版历史颜色
-     * @en Legacy history colors
-     */
-    historyColors: {
-      type: Array as PropType<string[]>,
-    },
-    /**
-     * @zh 兼容旧版预设颜色
-     * @en Legacy preset colors
-     */
-    presetColors: {
-      type: Array as PropType<string[]>,
-    },
-    /**
-     * @zh 兼容旧版显示文字
-     * @en Legacy show text
-     */
-    showText: Boolean,
-    /**
-     * @zh 兼容旧版显示历史色
-     * @en Legacy show history
-     */
-    showHistory: Boolean,
-    /**
-     * @zh 兼容旧版显示预设色
-     * @en Legacy show preset
-     */
-    showPreset: Boolean,
-    /**
-     * @zh 兼容旧版禁用透明通道
-     * @en Legacy disable alpha
-     */
-    disabledAlpha: Boolean,
-    /**
-     * @zh 兼容 tdesign 的选择输入框透传属性，当前版本未使用
-     * @en Select input props
-     */
-    selectInputProps: {
-      type: Object as PropType<Record<string, unknown>>,
-    },
   },
   emits: {
     'update:modelValue': (_value: string) => true,
-    'update:value': (_value: string) => true,
     /**
      * @zh 颜色值改变时触发
      * @en Triggered when the color value changes
@@ -200,25 +157,22 @@ export default defineComponent({
     );
 
     const mergedValue = computed(() => {
-      return props.modelValue ?? props.value ?? innerValue.value;
+      return props.modelValue ?? innerValue.value;
     });
 
-    const mergedEnableAlpha = computed(() => props.enableAlpha || !props.disabledAlpha);
+    const mergedEnableAlpha = computed(() => props.enableAlpha);
 
     const normalizedFormat = computed(() => normalizeFormat(props.format, mergedEnableAlpha.value));
 
     const mergedRecentColors = computed(() => {
-      if (props.showHistory && props.historyColors) return props.historyColors;
       if (props.recentColors === null || props.recentColors === false) return props.recentColors;
       if (Array.isArray(props.recentColors)) return props.recentColors;
       return innerRecentColors.value;
     });
 
     const mergedSwatchColors = computed(() => {
-      if (props.showPreset) return props.presetColors ?? colors;
       if (props.swatchColors === null) return null;
       if (Array.isArray(props.swatchColors)) return props.swatchColors;
-      if (props.swatchColors === undefined && props.showPreset === false) return null;
       return colors;
     });
 
@@ -235,11 +189,10 @@ export default defineComponent({
     });
 
     const syncValue = (value: string) => {
-      if (props.modelValue === undefined && props.value === undefined) {
+      if (props.modelValue === undefined) {
         innerValue.value = value;
       }
       emit('update:modelValue', value);
-      emit('update:value', value);
     };
 
     const syncRecentColors = (value: string[]) => {

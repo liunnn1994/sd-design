@@ -30,19 +30,6 @@ export const docsSidebar = [
         slug: 'guides/theme-editor',
         label: '主题编辑器',
       },
-      {
-        label: '迁移文档',
-        items: [
-          {
-            slug: 'guides/style-migration',
-            label: '样式迁移手册',
-          },
-          {
-            slug: 'guides/naive-ui-migration',
-            label: 'Naive UI 迁移',
-          },
-        ],
-      },
     ],
   },
   {

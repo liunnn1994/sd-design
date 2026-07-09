@@ -107,7 +107,7 @@ import listVirtualListSource from '../../../../components/generated/list/virtual
 
 当前示例可以直接切换动态行高和固定行高两种模式：动态模式更适合承载长文案、头像和操作区，固定模式则适合卡片高度完全一致的内容流。建议优先按内容特征选模式，而不是只按数据量决定。
 
-通过指定 `virtualListProps` 来开启虚拟列表，在大量数据时获得高性能表现。`List` 默认更偏向动态内容容器：如果你只传 `height`，组件会按动态高度模式处理；当每一行高度稳定一致时，建议显式传 `itemSize`，避免不必要的动态测量。完整参数与迁移映射见 [虚拟列表迁移指南](/guides/virtual-list-migration/)。
+通过指定 `virtualListProps` 来开启虚拟列表，在大量数据时获得高性能表现。`List` 默认更偏向动态内容容器：如果你只传 `height`，组件会按动态高度模式处理；当每一行高度稳定一致时，建议显式传 `itemSize`，避免不必要的动态测量。完整参数可参考 [LLMs.txt](/llms_txt/)。
 
 <DemoBlock source={listVirtualListSource} mainFile="src/list-virtual-list.vue">
 
@@ -131,7 +131,7 @@ import listVirtualListSource from '../../../../components/generated/list/virtual
 | grid-props | 列表栅格配置 | `object` | `-` |  |
 | max-height | 列表的最大高度 | `string \| number` | `0` |  |
 | bottom-offset | 触发到达底部的距离阈值 | `number` | `0` |  |
-| virtual-list-props | 传递虚拟列表属性，传入此参数以开启虚拟滚动。[迁移说明与完整参数](/guides/virtual-list-migration/) | `VirtualListProps` | `-` |  |
+| virtual-list-props | 传递虚拟列表属性，传入此参数以开启虚拟滚动 | `VirtualListProps` | `-` |  |
 | scrollbar | 是否开启虚拟滚动条 | `boolean \| ScrollbarProps` | `true` | 2.38.0 |
 
 ### `<list>` Events
@@ -199,4 +199,4 @@ import listVirtualListSource from '../../../../components/generated/list/virtual
 | minItemSize | 动态高度模式的最小 item 高度；未传 `itemSize` 时用于初始估算 | `number \| string` | `32` |  |
 | buffer | 额外渲染缓冲区（像素） | `number` | `200` |  |
 
-其余参数与暴露方法请查看 [虚拟列表迁移指南](/guides/virtual-list-migration/)。
+其余参数与暴露方法可参考 [LLMs.txt](/llms_txt/)。

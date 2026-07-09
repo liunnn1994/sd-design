@@ -53,7 +53,7 @@ describe('ColorPicker', () => {
     expect(colorPickerElement.classes()).toContain(`sd-color-picker-disabled`);
   });
 
-  test('should bridge panel changes with tdesign change context', async () => {
+  test('should bridge panel changes with change context', async () => {
     const ColorPicker = await loadColorPicker();
     const wrapper = mount(ColorPicker, {
       props: {
@@ -79,27 +79,13 @@ describe('ColorPicker', () => {
     });
   });
 
-  test('should keep legacy recent colors alias working', async () => {
-    const ColorPicker = await loadColorPicker();
-    const wrapper = mount(ColorPicker, {
-      props: {
-        hideTrigger: true,
-        showHistory: true,
-        historyColors: ['#165DFF'],
-      },
-    });
-
-    expect(wrapper.text()).toContain('最近使用');
-    expect(wrapper.find('.sd-color-picker-color-block').exists()).toBe(true);
-  });
-
   test('should render gradient mode panel', async () => {
     const ColorPicker = await loadColorPicker();
     const wrapper = mount(ColorPicker, {
       props: {
         hideTrigger: true,
         colorModes: ['monochrome', 'linear-gradient'],
-        value: 'linear-gradient(45deg, rgba(79, 172, 254, 1) 0%, rgba(0, 242, 254, 1) 100%)',
+        modelValue: 'linear-gradient(45deg, rgba(79, 172, 254, 1) 0%, rgba(0, 242, 254, 1) 100%)',
       },
     });
 
@@ -113,7 +99,7 @@ describe('ColorPicker', () => {
       props: {
         hideTrigger: true,
         recentColors: [],
-        value: 'linear-gradient(45deg, rgba(79, 172, 254, 1) 0%, rgba(0, 242, 254, 1) 100%)',
+        modelValue: 'linear-gradient(45deg, rgba(79, 172, 254, 1) 0%, rgba(0, 242, 254, 1) 100%)',
         colorModes: ['linear-gradient'],
       },
     });
@@ -133,7 +119,7 @@ describe('ColorPicker', () => {
         hideTrigger: true,
         enableMultipleGradient: true,
         colorModes: ['linear-gradient'],
-        value: 'linear-gradient(45deg, rgba(79, 172, 254, 1) 0%, rgba(0, 242, 254, 1) 100%)',
+        modelValue: 'linear-gradient(45deg, rgba(79, 172, 254, 1) 0%, rgba(0, 242, 254, 1) 100%)',
       },
     });
 
@@ -167,7 +153,7 @@ describe('ColorPicker', () => {
         hideTrigger: true,
         enableMultipleGradient: false,
         colorModes: ['linear-gradient'],
-        value: 'linear-gradient(45deg, rgba(79, 172, 254, 1) 0%, rgba(0, 242, 254, 1) 100%)',
+        modelValue: 'linear-gradient(45deg, rgba(79, 172, 254, 1) 0%, rgba(0, 242, 254, 1) 100%)',
       },
     });
 
@@ -200,7 +186,7 @@ describe('ColorPicker', () => {
       props: {
         hideTrigger: true,
         colorModes: ['linear-gradient'],
-        value: 'linear-gradient(45deg, rgba(79, 172, 254, 1) 0%, rgba(0, 242, 254, 1) 100%)',
+        modelValue: 'linear-gradient(45deg, rgba(79, 172, 254, 1) 0%, rgba(0, 242, 254, 1) 100%)',
       },
     });
 

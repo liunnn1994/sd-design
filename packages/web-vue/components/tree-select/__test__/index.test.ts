@@ -87,33 +87,6 @@ describe('TreeSelect', () => {
     expect(wrapper.find('.sd-select-view-value').text()).toBe('Root | Leaf 2');
   });
 
-  test('should support v-model:value alias', async () => {
-    const wrapper = mount(TreeSelectComponent, {
-      attachTo: document.body,
-      props: {
-        value: 'leaf-1',
-        options,
-        fieldNames: {
-          title: 'label',
-        },
-      },
-    });
-
-    await wrapper.find('.sd-select-view').trigger('click');
-    await nextTick();
-
-    const target = document.body.querySelector(
-      '.sd-tree-node[data-key="leaf-2"] .sd-tree-node-title',
-    ) as HTMLElement | null;
-
-    expect(target).not.toBeNull();
-    target?.click();
-    await nextTick();
-
-    expect(wrapper.emitted('update:value')?.[0]).toEqual(['leaf-2']);
-    expect(wrapper.emitted('change')?.[0]).toEqual(['leaf-2']);
-  });
-
   test('should support v-model:show alias', async () => {
     const wrapper = mount(TreeSelectComponent, {
       props: {

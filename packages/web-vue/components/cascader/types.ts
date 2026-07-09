@@ -16,7 +16,6 @@ export interface CascaderProps {
   pathMode?: boolean;
   multiple?: boolean;
   modelValue?: CascaderModelValue;
-  value?: CascaderModelValue;
   defaultValue?: CascaderModelValue;
   options?: CascaderOption[];
   disabled?: boolean;
@@ -56,7 +55,6 @@ export interface CascaderProps {
 
 export type CascaderEmits = {
   'update:modelValue': [value: CascaderModelValue];
-  'update:value': [value: CascaderModelValue];
   'update:popupVisible': [visible: boolean];
   'update:show': [visible: boolean];
   'change': [value: CascaderModelValue];
@@ -73,7 +71,6 @@ export interface CascaderPanelProps {
   pathMode?: boolean;
   multiple?: boolean;
   modelValue?: CascaderModelValue;
-  value?: CascaderModelValue;
   defaultValue?: CascaderModelValue;
   options?: CascaderOption[];
   expandTrigger?: CascaderExpandTrigger;
@@ -86,6 +83,5 @@ export interface CascaderPanelProps {
 
 export type CascaderPanelEmits = {
   'update:modelValue': [value: CascaderModelValue];
-  'update:value': [value: CascaderModelValue];
   'change': [value: CascaderModelValue];
 };

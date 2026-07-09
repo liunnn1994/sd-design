@@ -396,23 +396,12 @@ $token-vars: map.merge(meta.module-variables('inputToken'), meta.module-variable
     width: $color-panel-format-select-width;
   }
 
-  .#{$color-picker-prefix-cls}-input-alpha {
-    flex: 0 0 auto;
-    width: $color-panel-alpha-input-width;
-  }
-
   .#{$color-picker-prefix-cls}-input-group {
     width: 100%;
   }
 
   .#{$color-picker-prefix-cls}-format-input {
     min-width: 0;
-  }
-
-  .#{$color-picker-prefix-cls}-input-hex {
-    .#{theme.$prefix}-input {
-      padding-left: global.$spacing-2;
-    }
   }
 
   &#{&}-disabled {
