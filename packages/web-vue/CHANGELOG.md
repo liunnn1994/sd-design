@@ -1,3 +1,10 @@
+# [3.7.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.6.0...web-vue-v3.7.0) (2026-07-09)
+
+
+### Features
+
+* 🆕 移除历史兼容层，统一使用 v-model ([7bf0921](https://github.com/liunnn1994/sd-design/commit/7bf09218f7b68dacfeeabb3a0e7ce6fe38c40fb8))
+
 # [3.6.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.5.0...web-vue-v3.6.0) (2026-07-08)
 
 
