@@ -66,14 +66,11 @@ exports[`<cascader> demo: > render [display] correctly 1`] = `
   </div>
   <!---->
   <div class="sd-space-item"><span class="sd-select-view sd-select-view-size-medium sd-select-view-responsive sd-select-view-has-tag sd-select-view-has-suffix sd-select-view-multiple sd:w-80"><span class="sd-select-view-resize-observer" aria-hidden="true"></span><span class="sd-select-view-mirror"></span><span class="sd-select-view-measure" aria-hidden="true"><span class="sd-tag sd-tag-size-medium sd-tag-ellipsis sd-tag-checked sd-select-view-tag"><!--v-if--><span class="sd-tag-text sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">chaoyang</span></span>
-    <!---->
-    <!--v-if-->
+    <!----><span class="sd-icon-hover sd-tag-icon-hover sd-tag-close-btn" tabindex="0" role="button" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-close" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M9.857 9.858 24 24m0 0 14.142 14.142M24 24 38.142 9.858M24 24 9.857 38.142"></path></svg></span>
     <!--v-if--></span><span class="sd-tag sd-tag-size-medium sd-tag-ellipsis sd-tag-checked sd-select-view-tag"><!--v-if--><span class="sd-tag-text sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">Beijing / Haidian</span></span>
-    <!---->
-    <!--v-if-->
+    <!----><span class="sd-icon-hover sd-tag-icon-hover sd-tag-close-btn" tabindex="0" role="button" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-close" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M9.857 9.858 24 24m0 0 14.142 14.142M24 24 38.142 9.858M24 24 9.857 38.142"></path></svg></span>
     <!--v-if--></span><span class="sd-tag sd-tag-size-medium sd-tag-ellipsis sd-tag-checked sd-select-view-tag"><!--v-if--><span class="sd-tag-text sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">Beijing / Dongcheng</span></span>
-    <!---->
-    <!--v-if-->
+    <!----><span class="sd-icon-hover sd-tag-icon-hover sd-tag-close-btn" tabindex="0" role="button" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 48 48" class="sd-icon sd-icon-close" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M9.857 9.858 24 24m0 0 14.142 14.142M24 24 38.142 9.858M24 24 9.857 38.142"></path></svg></span>
     <!--v-if--></span><span class="sd-tag sd-tag-size-medium sd-tag-ellipsis sd-tag-checked sd-select-view-tag sd-select-view-tag-counter" data-overflow-counter="true" data-hidden-count="1"><!--v-if--><span class="sd-tag-text sd-ellipsis sd-ellipsis--single-line" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="sd-ellipsis-content">+1</span></span>
     <!---->
     <!--v-if-->

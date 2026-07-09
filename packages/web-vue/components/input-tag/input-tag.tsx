@@ -416,6 +416,11 @@ export default defineComponent({
       return getOuterWidth(counterElement);
     };
 
+    const isClosableTag = (item: (typeof valueData.value)[number]) =>
+      Boolean(
+        item.tagProps?.closable ?? (!mergedDisabled.value && !props.readonly && item.closable),
+      );
+
     const syncResponsiveTags = () => {
       if (!isResponsiveMaxTagCount.value) {
         responsiveVisibleTagCount.value = null;
@@ -452,6 +457,8 @@ export default defineComponent({
       const measuredTags = Array.from(
         measureElement.querySelectorAll(`.${prefixCls}-tag`),
       ) as HTMLElement[];
+      // Measure what we render: measure tags mirror the actual tags (including
+      // their close buttons), so getOuterWidth already reflects the real width.
       const tagWidths = measuredTags.slice(0, totalTags).map(getOuterWidth);
       for (let candidate = totalTags; candidate >= 1; candidate -= 1) {
         const hiddenCount = totalTags - candidate;
@@ -712,6 +719,7 @@ export default defineComponent({
                 class={`${prefixCls}-tag`}
                 visible
                 nowrap
+                closable={isClosableTag(item)}
                 {...item.tagProps}
               >
                 {slots.tag?.({ data: item.raw }) ?? props.formatTag?.(item.raw) ?? item.label}
@@ -757,7 +765,7 @@ export default defineComponent({
                   [`${prefixCls}-tag-overflow`]: isCompressedResponsiveTag(index, item.value),
                 },
               ]}
-              closable={!mergedDisabled.value && !props.readonly && item.closable}
+              closable={isClosableTag(item)}
               visible
               nowrap={props.tagNowrap || isResponsiveMaxTagCount.value}
               style={getTagStyle(index)}

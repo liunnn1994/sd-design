@@ -784,11 +784,6 @@
     "ast_hash": "558374c7d6ccaef300258fb57a166c97",
     "semantic_hash": "558374c7d6ccaef300258fb57a166c97"
   },
-  "packages/sd-vue-docs/src/components/generated/cascader/migration.vue": {
-    "mtime": 1780364387.1845858,
-    "ast_hash": "d174f0687f3958b2c7af98a8ced38403",
-    "semantic_hash": "d174f0687f3958b2c7af98a8ced38403"
-  },
   "packages/sd-vue-docs/src/components/generated/cascader/multiple.vue": {
     "mtime": 1779332157.2170303,
     "ast_hash": "e4e87de341fa7f8c0c396b55d9c45132",
@@ -4643,21 +4638,6 @@
     "mtime": 1778062939.8030007,
     "ast_hash": "31c7cd61ecfbb68c9ab9c1d0cf28bd89",
     "semantic_hash": "31c7cd61ecfbb68c9ab9c1d0cf28bd89"
-  },
-  "packages/web-vue/components/color-picker/input-alpha.tsx": {
-    "mtime": 1779151041.800103,
-    "ast_hash": "54ee944edec366895358b4ad12733b33",
-    "semantic_hash": "54ee944edec366895358b4ad12733b33"
-  },
-  "packages/web-vue/components/color-picker/input-hex.tsx": {
-    "mtime": 1780981475.1987562,
-    "ast_hash": "5b0992fbfbe4c4fdcccc3c8526ba2b14",
-    "semantic_hash": "5b0992fbfbe4c4fdcccc3c8526ba2b14"
-  },
-  "packages/web-vue/components/color-picker/input-rgb.tsx": {
-    "mtime": 1777011931.8058853,
-    "ast_hash": "6d714728931fe3f791fbdb0de7d0952e",
-    "semantic_hash": "6d714728931fe3f791fbdb0de7d0952e"
   },
   "packages/web-vue/components/color-picker/interface.ts": {
     "mtime": 1778062939.8050005,
@@ -16534,20 +16514,10 @@
     "ast_hash": "cdcec17c593bf96b0e5cfb3840cbcaf7",
     "semantic_hash": "cdcec17c593bf96b0e5cfb3840cbcaf7"
   },
-  "packages/sd-vue-docs/src/content/docs/guides/naive-ui-migration.mdx": {
-    "mtime": 1777448520.0680244,
-    "ast_hash": "0ff6cef3da9cb81440bf17ff82de39cf",
-    "semantic_hash": "0ff6cef3da9cb81440bf17ff82de39cf"
-  },
   "packages/sd-vue-docs/src/content/docs/guides/start.mdx": {
     "mtime": 1780918220.827734,
     "ast_hash": "e1dc47ad206af94aad1473f2b34fe66e",
     "semantic_hash": "e1dc47ad206af94aad1473f2b34fe66e"
-  },
-  "packages/sd-vue-docs/src/content/docs/guides/style-migration.mdx": {
-    "mtime": 1777527202.6156409,
-    "ast_hash": "a33bcb59589be8f77b43bd0da78eca9e",
-    "semantic_hash": "a33bcb59589be8f77b43bd0da78eca9e"
   },
   "packages/sd-vue-docs/src/content/docs/guides/tailwind.mdx": {
     "mtime": 1777527202.7259984,
@@ -16563,11 +16533,6 @@
     "mtime": 1777528298.6925826,
     "ast_hash": "aaa57c9d7f0497d26e56ad5161bae776",
     "semantic_hash": "aaa57c9d7f0497d26e56ad5161bae776"
-  },
-  "packages/sd-vue-docs/src/content/docs/guides/virtual-list-migration.mdx": {
-    "mtime": 1778753773.5514996,
-    "ast_hash": "30c7b489b2d9394337780e0c5db8889b",
-    "semantic_hash": "30c7b489b2d9394337780e0c5db8889b"
   },
   "packages/sd-vue-docs/src/content/docs/index.mdx": {
     "mtime": 1779368644.44573,
