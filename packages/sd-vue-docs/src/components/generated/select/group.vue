@@ -15,7 +15,7 @@
     {
       isGroup: true,
       label: 'Group-2',
-      options: ['Guangzhou', { label: 'Disabled', disabled: true }, 'Shenzhen'],
+      options: ['Guangzhou', { label: 'Disabled', value: 'Disabled', disabled: true }, 'Shenzhen'],
     },
     {
       isGroup: true,

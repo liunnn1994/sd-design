@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+import { nextTick } from 'vue';
 
 import InputTag from '../index';
 
@@ -29,5 +30,35 @@ describe('InputTag', () => {
     expect(wrapper.emitted('remove')).toHaveLength(1);
     await wrapper.find('.sd-input-tag-clear-btn').trigger('click');
     expect(wrapper.emitted('clear')).toHaveLength(1);
+  });
+  test('should collapse tags when responsive max tag count overflows', async () => {
+    const wrapper = mount(InputTag, {
+      props: {
+        modelValue: ['one', 'two', 'three', 'four'],
+        maxTagCount: 'responsive',
+      },
+    });
+
+    const setElementWidth = (element: Element, width: number, property = 'offsetWidth') => {
+      Object.defineProperty(element, property, {
+        configurable: true,
+        get: () => width,
+      });
+    };
+
+    setElementWidth(wrapper.find('.sd-input-tag-inner').element, 120, 'clientWidth');
+    setElementWidth(wrapper.find('input').element, 12);
+
+    const measureTags = wrapper.find('.sd-input-tag-measure').findAll('.sd-input-tag-tag');
+    measureTags.forEach((tag, index) => {
+      setElementWidth(tag.element, index < 4 ? 30 : 24);
+    });
+
+    wrapper.findAllComponents({ name: 'ResizeObserver' })[0].vm.$emit('resize');
+    await nextTick();
+    await nextTick();
+
+    const visibleTags = wrapper.find('.sd-input-tag-inner').findAll('.sd-input-tag-tag');
+    expect(visibleTags.map((tag) => tag.text())).toEqual(['one', 'two', '+2']);
   });
 });

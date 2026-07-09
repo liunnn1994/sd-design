@@ -35,7 +35,7 @@
     'Beijing',
     'Shanghai',
     'Guangzhou',
-    { label: 'Disabled', disabled: true },
+    { label: 'Disabled', value: 'Disabled', disabled: true },
     'Shenzhen',
     'Chengdu',
     'Wuhan',

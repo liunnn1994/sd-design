@@ -40,9 +40,9 @@
   const scrollbar = ref(true);
   const options = [
     'Beijing',
-    { label: 'Shanghai', tagProps: { color: 'red' } },
+    { label: 'Shanghai', value: 'Shanghai', tagProps: { color: 'red' } },
     'Guangzhou',
-    { label: 'Disabled', disabled: true },
+    { label: 'Disabled', value: 'Disabled', disabled: true },
     'Shenzhen',
     'Wuhan',
   ];

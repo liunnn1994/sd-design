@@ -75,6 +75,11 @@
 @mixin input-tag-style($cls) {
   @include input-wrapper-style($cls);
 
+  position: relative;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+
   &.#{$cls}-has-tag {
     padding-right: $input-tag-padding-horizontal;
     padding-left: $input-tag-padding-horizontal;
@@ -169,6 +174,9 @@
   .#{$cls}-resize-observer {
     position: absolute;
     inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
     visibility: hidden;
     pointer-events: none;
   }
@@ -177,10 +185,18 @@
     position: absolute;
     top: 0;
     left: 0;
-    display: inline-flex;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
     white-space: nowrap;
     visibility: hidden;
     pointer-events: none;
+
+    .#{$cls}-tag {
+      display: inline-flex;
+      flex-shrink: 0;
+    }
   }
 
   .#{$cls}-tag-ellipsis {
