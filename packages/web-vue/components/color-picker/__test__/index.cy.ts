@@ -62,7 +62,7 @@ describe('ColorPicker', () => {
         modelValue: gradientValue,
       },
     });
-    cy.get('.sd-color-picker-gradient-bar').click('topRight');
+    cy.get('.sd-color-picker-gradient-bar').click('center');
     cy.get('.sd-color-picker-gradient-thumb').should('have.length', 3);
   });
 
@@ -75,7 +75,7 @@ describe('ColorPicker', () => {
         modelValue: gradientValue,
       },
     });
-    cy.get('.sd-color-picker-gradient-bar').click('topRight');
+    cy.get('.sd-color-picker-gradient-bar').click('center');
     cy.get('.sd-color-picker-gradient-thumb').should('have.length', 2);
   });
 

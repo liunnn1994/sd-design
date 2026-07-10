@@ -298,9 +298,9 @@ describe('Sider rail', () => {
     mountTpl(`<Sider rail expand-on-hover @update:rail="onUpdateRail">Sider</Sider>`, {
       setup: () => ({ onUpdateRail }),
     });
-    cy.get('.sd-layout-sider').trigger('mouseenter');
+    cy.get('.sd-layout-sider').trigger('mouseenter', { force: true });
     cy.get('@onUpdateRail').should('have.been.calledWith', false);
-    cy.get('.sd-layout-sider').trigger('mouseleave');
+    cy.get('.sd-layout-sider').trigger('mouseleave', { force: true });
     cy.get('@onUpdateRail').should('have.been.calledWith', true);
   });
 
@@ -309,7 +309,7 @@ describe('Sider rail', () => {
     mountTpl(`<Sider :rail="false" expand-on-hover @update:rail="onUpdateRail">Sider</Sider>`, {
       setup: () => ({ onUpdateRail }),
     });
-    cy.get('.sd-layout-sider').trigger('mouseenter');
+    cy.get('.sd-layout-sider').trigger('mouseenter', { force: true });
     cy.get('.sd-layout-sider').should('not.have.class', 'sd-layout-sider-rail-expand');
     cy.get('@onUpdateRail').should('not.have.been.called');
   });

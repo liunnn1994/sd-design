@@ -3,7 +3,7 @@ import Radio from '../index';
 describe('Radio', () => {
   it('should emit change event', () => {
     cy.mount(Radio, { props: { value: 'test' }, slots: { default: 'Label' } });
-    cy.get('input').check();
+    cy.get('.sd-radio').click();
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('change')).to.have.length(1);
     });
@@ -20,7 +20,7 @@ describe('Radio', () => {
         default: '<sd-radio value="1">Option1</sd-radio><sd-radio value="2">Option2</sd-radio>',
       },
     });
-    cy.get('input').first().check();
+    cy.get('.sd-radio').first().click();
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('change')).to.have.length(1);
     });

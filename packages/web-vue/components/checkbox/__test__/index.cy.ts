@@ -3,7 +3,7 @@ import Checkbox from '../index';
 describe('Checkbox', () => {
   it('should emit change event', () => {
     cy.mount(Checkbox, { props: { value: 'test' }, slots: { default: 'Label' } });
-    cy.get('input').check();
+    cy.get('.sd-checkbox').click();
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('change')).to.have.length(1);
     });
@@ -22,7 +22,7 @@ describe('Checkbox', () => {
           '<sd-checkbox value="2">Option2</sd-checkbox>',
       },
     });
-    cy.get('input').first().check();
+    cy.get('.sd-checkbox').first().click();
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('change')).to.have.length(1);
     });
