@@ -350,12 +350,14 @@
       groupContext.preview(imageId);
     } else {
       emit('preview-visible-change', true);
+      emit('update:previewVisible', true);
       setPreviewVisible(true);
     }
   }
 
   function onPreviewClose() {
     emit('preview-visible-change', false);
+    emit('update:previewVisible', false);
     setPreviewVisible(false);
   }
 

@@ -1,5 +1,5 @@
 <template>
-  <sd-button type="primary" @click="visible = true">预览图片</sd-button>
+  <sd-button class="sd:mb-4" type="primary" @click="visible = true">预览图片</sd-button>
   <sd-file-previewer
     v-model:visible="visible"
     title="图片预览"

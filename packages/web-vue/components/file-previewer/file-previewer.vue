@@ -1,5 +1,13 @@
 <template>
-  <teleport :to="container" :disabled="!fullscreen || !renderToBody">
+  <Image
+    v-if="useImagePreview"
+    :key="currentSrc + 'image'"
+    v-bind="mergedImageProps"
+    :preview-visible="mergedVisible"
+    :class="`${prefixCls}-image`"
+    @preview-visible-change="onImagePreviewVisibleChange"
+  />
+  <teleport v-else :to="container" :disabled="!fullscreen || !renderToBody">
     <div
       v-if="shouldRender"
       ref="wrapperRef"
@@ -286,6 +294,9 @@
   const localVisible = shallowRef(defaultVisible.value);
   const mergedVisible = computed(() => visible?.value ?? localVisible.value);
   const shouldRender = computed(() => !fullscreen.value || mergedVisible.value);
+  const useImagePreview = computed(
+    () => type.value === 'image' && fullscreen.value && !slots.content,
+  );
 
   const container = usePopupContainer(document.body, reactive({ popupContainer }));
   const popupVisible = computed(() => fullscreen.value && mergedVisible.value);
@@ -331,13 +342,17 @@
   const mergedImageProps = computed<FilePreviewerImageProps>(() => {
     const userProps = imageProps?.value ?? {};
     return {
-      preview: false,
-      width: '100%',
-      height: '100%',
-      fit: 'contain',
       alt: title?.value || '',
       ...userProps,
       src: currentSrc.value,
+      renderToBody: renderToBody.value,
+      previewProps: {
+        maskClosable: maskClosable.value,
+        closable: closable.value,
+        popupContainer: popupContainer?.value,
+        escToClose: escToClose.value,
+        ...userProps.previewProps,
+      },
       onLoad: (event: Event) => {
         callEventHandler(userProps.onLoad, event);
         onPreviewLoad();
@@ -429,6 +444,11 @@
 
   function onMaskClick() {
     if (maskClosable.value) close();
+  }
+
+  function onImagePreviewVisibleChange(nextVisible: boolean) {
+    if (!nextVisible && mergedVisible.value) emit('close');
+    setVisible(nextVisible);
   }
 
   function onKeyDown(event: KeyboardEvent) {
