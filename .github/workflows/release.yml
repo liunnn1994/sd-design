@@ -50,46 +50,22 @@ jobs:
       - name: Typecheck
         run: pnpm run typecheck
 
-      - name: Test
-        id: test
+      - name: Select affected component tests
+        id: affected-tests
+        working-directory: packages/web-vue
         run: |
-          if pnpm run test:ci; then
-            echo "snapshots_updated=false" >> "$GITHUB_OUTPUT"
-            exit 0
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            pnpm run test:affected -- --all
+          else
+            pnpm run test:affected -- --base "${{ github.event.before }}" --head HEAD
           fi
 
-          echo "test:ci failed; retrying with snapshot update..."
-          pnpm run test:ci -- -u
-          echo "snapshots_updated=true" >> "$GITHUB_OUTPUT"
-
-      - name: Commit updated snapshots
-        if: steps.test.outputs.snapshots_updated == 'true'
+      - name: Test affected components
+        if: steps.affected-tests.outputs.mode != 'none'
+        working-directory: packages/web-vue
         env:
-          SKIP_SIMPLE_GIT_HOOKS: '1'
-        run: |
-          snapshot_status="$(git status --porcelain -- '*.snap')"
-          if [ -z "$snapshot_status" ]; then
-            echo "No snapshot changes to commit."
-            exit 0
-          fi
-
-          echo "$snapshot_status"
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- '*.snap'
-
-          non_snapshot_files="$(git diff --cached --name-only -- ':!*.snap')"
-          if [ -n "$non_snapshot_files" ]; then
-            echo "Refusing to commit non-snapshot files:"
-            echo "$non_snapshot_files"
-            exit 1
-          fi
-
-          git commit -m "test: update snapshots [skip ci]"
-          git fetch origin "${{ github.ref_name }}"
-          git rebase "origin/${{ github.ref_name }}"
-          git push origin HEAD:${{ github.ref_name }}
-
+          AFFECTED_SPECS: ${{ steps.affected-tests.outputs.specs }}
+        run: pnpm exec cypress run --component --browser chrome --spec "$AFFECTED_SPECS"
       - name: Build release package
         env:
           NODE_OPTIONS: '--max-old-space-size=6144'

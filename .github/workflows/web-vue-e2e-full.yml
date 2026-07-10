@@ -1,0 +1,33 @@
+name: Full web-vue component tests
+
+on:
+  schedule:
+    - cron: '0 18 * * 0-4'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: web-vue-e2e-full
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: 'package.json'
+
+      - name: Install dependencies
+        run: |
+          corepack enable
+          pnpm run install:ci
+
+      - name: Run full component test suite
+        run: pnpm --filter @sdata/web-vue run test

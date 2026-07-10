@@ -69,6 +69,8 @@
     "pretypecheck": "pnpm run icongen",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json",
     "test": "cypress run --component --browser chrome",
+    "test:affected": "node ./scripts/find-affected-cypress-specs.mjs",
+    "test:affected:unit": "node --test ./scripts/find-affected-cypress-specs.test.mjs",
     "test:headed": "cypress run --component --browser chrome --headed",
     "cypress:open": "cypress open --component",
     "cypress:run": "cypress run --component --browser chrome"
