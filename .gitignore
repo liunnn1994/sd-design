@@ -137,3 +137,5 @@ packages/web-vue-debug/src/App.vue
 
 # https://github.com/safishamsi/graphify#team-setup
 graphify-out/cost.json
+
+.codex/config.toml

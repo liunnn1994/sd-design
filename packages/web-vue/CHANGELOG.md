@@ -7,23 +7,20 @@
 
 # [3.7.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.6.0...web-vue-v3.7.0) (2026-07-09)
 
-
 ### Features
 
-* 🆕 移除历史兼容层，统一使用 v-model ([7bf0921](https://github.com/liunnn1994/sd-design/commit/7bf09218f7b68dacfeeabb3a0e7ce6fe38c40fb8))
+- 🆕 移除历史兼容层，统一使用 v-model ([7bf0921](https://github.com/liunnn1994/sd-design/commit/7bf09218f7b68dacfeeabb3a0e7ce6fe38c40fb8))
 
 # [3.6.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.5.0...web-vue-v3.6.0) (2026-07-08)
 
-
 ### Bug Fixes
 
-* 🐛 修复 trigger 嵌套的时候无法关闭的问题 ([dffee59](https://github.com/liunnn1994/sd-design/commit/dffee5943a76b609cba8e82a02dbbe8d08447e1f))
-* 🐛 修复错误的 Vue runtime 引用，会导致在线编辑中的 vue 实例引用不是一个，触发意外错误 ([41bf83a](https://github.com/liunnn1994/sd-design/commit/41bf83ae61cdb452853f32f8cf95fc0afc2cf7c0))
-
+- 🐛 修复 trigger 嵌套的时候无法关闭的问题 ([dffee59](https://github.com/liunnn1994/sd-design/commit/dffee5943a76b609cba8e82a02dbbe8d08447e1f))
+- 🐛 修复错误的 Vue runtime 引用，会导致在线编辑中的 vue 实例引用不是一个，触发意外错误 ([41bf83a](https://github.com/liunnn1994/sd-design/commit/41bf83ae61cdb452853f32f8cf95fc0afc2cf7c0))
 
 ### Features
 
-* 🆕 使用Image组件预览图片，videojs预览音视频 ([14735ee](https://github.com/liunnn1994/sd-design/commit/14735ee3a881bbd7be71890d1b8ea01a31817712))
+- 🆕 使用Image组件预览图片，videojs预览音视频 ([14735ee](https://github.com/liunnn1994/sd-design/commit/14735ee3a881bbd7be71890d1b8ea01a31817712))
 
 # [3.5.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.4.0...web-vue-v3.5.0) (2026-07-08)
 

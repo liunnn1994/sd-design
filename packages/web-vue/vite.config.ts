@@ -9,7 +9,6 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite-plus';
-import { configDefaults } from 'vitest/config';
 
 import cssjsPlugin from './scripts/plugins/vite-plugin-cssjs.mjs';
 import externalPlugin from './scripts/plugins/vite-plugin-external.mjs';
@@ -367,89 +366,38 @@ function createDevBuildConfig(): UserConfig {
 
 export default defineConfig(({ mode }) => {
   const run = createRunConfig();
-  const test: any = {
-    globals: true,
-    environment: 'jsdom',
-    testTimeout: 15000,
-    setupFiles: ['./vitest.setup.ts'],
-    sequence: {
-      hooks: 'list' as const,
-    },
-    include: [
-      'components/**/__test__/**/*.test.{ts,tsx}',
-      'components/**/__test__/**/*.spec.{ts,tsx}',
-    ],
-    exclude: [...configDefaults.exclude, '**/{dist,lib,es,json}/**', '**/.temp-types/**'],
-    snapshotSerializers: ['jest-serializer-vue'],
-  };
 
   if (mode === 'dev-component') {
-    return {
-      ...createDevBuildConfig(),
-      run,
-      test,
-    } as any;
+    return { ...createDevBuildConfig(), run } as any;
   }
 
   if (mode === 'build-module') {
-    return {
-      ...createModuleBuildConfig(),
-      run,
-      test,
-    } as any;
+    return { ...createModuleBuildConfig(), run } as any;
   }
 
   if (mode === 'build-module-icon') {
-    return {
-      ...createIconModuleBuildConfig(),
-      run,
-      test,
-    } as any;
+    return { ...createIconModuleBuildConfig(), run } as any;
   }
 
   if (mode === 'build-umd-component') {
-    return {
-      ...createUmdBuildConfig('component', false),
-      run,
-      test,
-    } as any;
+    return { ...createUmdBuildConfig('component', false), run } as any;
   }
 
   if (mode === 'build-umd-component-min') {
-    return {
-      ...createUmdBuildConfig('component', true),
-      run,
-      test,
-    } as any;
+    return { ...createUmdBuildConfig('component', true), run } as any;
   }
 
   if (mode === 'build-umd-icon') {
-    return {
-      ...createUmdBuildConfig('icon', false),
-      run,
-      test,
-    } as any;
+    return { ...createUmdBuildConfig('icon', false), run } as any;
   }
 
   if (mode === 'build-umd-icon-min') {
-    return {
-      ...createUmdBuildConfig('icon', true),
-      run,
-      test,
-    } as any;
+    return { ...createUmdBuildConfig('icon', true), run } as any;
   }
 
   if (mode === 'build-style') {
-    return {
-      ...createStyleBuildConfig(),
-      run,
-      test,
-    } as any;
+    return { ...createStyleBuildConfig(), run } as any;
   }
 
-  return {
-    ...createTestSupportConfig(),
-    run,
-    test,
-  } as any;
+  return { ...createTestSupportConfig(), run } as any;
 });

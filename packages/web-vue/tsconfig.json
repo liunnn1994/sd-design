@@ -17,8 +17,17 @@
     "rootDir": ".",
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "types": ["vitest/globals", "node", "vite/client"]
+    "types": ["node", "vite/client"]
   },
   "include": ["components/**/*", "icon/**/*", "*.d.ts", "vite.config.ts", "vitest.setup.ts"],
-  "exclude": ["node_modules", "dist", "lib", "es", "json", "**/__tests__/**/*"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "lib",
+    "es",
+    "json",
+    "**/__tests__/**/*",
+    "**/__test__/*.cy.ts",
+    "cypress"
+  ]
 }

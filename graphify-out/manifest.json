@@ -3964,16 +3964,6 @@
     "ast_hash": "94c96a8c31263944058d689c94131fa9",
     "semantic_hash": "94c96a8c31263944058d689c94131fa9"
   },
-  "packages/web-vue/components/affix/__test__/demo.test.ts": {
-    "mtime": 1777011931.733764,
-    "ast_hash": "138d497f77e4bc128704fa367e2b475f",
-    "semantic_hash": "138d497f77e4bc128704fa367e2b475f"
-  },
-  "packages/web-vue/components/affix/__test__/index.test.tsx": {
-    "mtime": 1781228835.3323934,
-    "ast_hash": "06317eb72d4dc670baad4aa3e60cdd47",
-    "semantic_hash": "06317eb72d4dc670baad4aa3e60cdd47"
-  },
   "packages/web-vue/components/affix/affix.vue": {
     "mtime": 1781139503.3508236,
     "ast_hash": "127cad900d6260303c004530ca8acdf5",
@@ -3989,16 +3979,6 @@
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
   },
-  "packages/web-vue/components/alert/__test__/demo.test.ts": {
-    "mtime": 1777011931.7372785,
-    "ast_hash": "85d1e7bd5426ec20bbd148122a5a8659",
-    "semantic_hash": "85d1e7bd5426ec20bbd148122a5a8659"
-  },
-  "packages/web-vue/components/alert/__test__/index.test.ts": {
-    "mtime": 1779087770.4728444,
-    "ast_hash": "221fd6578558754841175c345e0ffa84",
-    "semantic_hash": "221fd6578558754841175c345e0ffa84"
-  },
   "packages/web-vue/components/alert/alert.vue": {
     "mtime": 1781139503.3513274,
     "ast_hash": "bcb5640f610d6e4f801f9cf1d9ce1e06",
@@ -4013,16 +3993,6 @@
     "mtime": 1777448520.0829804,
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
-  },
-  "packages/web-vue/components/anchor/__test__/demo.test.ts": {
-    "mtime": 1777011931.741154,
-    "ast_hash": "383e3c44e3a7009b81791b7527b044ef",
-    "semantic_hash": "383e3c44e3a7009b81791b7527b044ef"
-  },
-  "packages/web-vue/components/anchor/__test__/index.test.ts": {
-    "mtime": 1781228835.3359046,
-    "ast_hash": "8e692fd779153d3efed2a6e64075b445",
-    "semantic_hash": "8e692fd779153d3efed2a6e64075b445"
   },
   "packages/web-vue/components/anchor/anchor-link.vue": {
     "mtime": 1781139503.3523314,
@@ -4054,16 +4024,6 @@
     "ast_hash": "ae27497b841a5fa42692007557338c45",
     "semantic_hash": "ae27497b841a5fa42692007557338c45"
   },
-  "packages/web-vue/components/auto-complete/__test__/demo.test.ts": {
-    "mtime": 1777011931.7461538,
-    "ast_hash": "217f52a76fd1ed6b3d7229115622f054",
-    "semantic_hash": "217f52a76fd1ed6b3d7229115622f054"
-  },
-  "packages/web-vue/components/auto-complete/__test__/index.test.ts": {
-    "mtime": 1777011931.7461538,
-    "ast_hash": "f31202277b89516eb7107632f65b6e8b",
-    "semantic_hash": "f31202277b89516eb7107632f65b6e8b"
-  },
   "packages/web-vue/components/auto-complete/auto-complete.tsx": {
     "mtime": 1780981475.1927283,
     "ast_hash": "377a25e9832d40edf5bcba9fcf589c43",
@@ -4078,16 +4038,6 @@
     "mtime": 1777448520.0879192,
     "ast_hash": "cf48d5e133a5f5deb0a48e242a6555fc",
     "semantic_hash": "cf48d5e133a5f5deb0a48e242a6555fc"
-  },
-  "packages/web-vue/components/avatar/__test__/demo.test.ts": {
-    "mtime": 1777011931.7499058,
-    "ast_hash": "a9efc5bf8cab333efa71bc74c0beaad1",
-    "semantic_hash": "a9efc5bf8cab333efa71bc74c0beaad1"
-  },
-  "packages/web-vue/components/avatar/__test__/index.test.ts": {
-    "mtime": 1779087770.4748633,
-    "ast_hash": "b520af02e45c4810813c6b1f6e2d052b",
-    "semantic_hash": "b520af02e45c4810813c6b1f6e2d052b"
   },
   "packages/web-vue/components/avatar/avatar-group.tsx": {
     "mtime": 1777011931.7509098,
@@ -4119,11 +4069,6 @@
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
   },
-  "packages/web-vue/components/back-top/__test__/demo.test.ts": {
-    "mtime": 1777011931.7549152,
-    "ast_hash": "4e1423dc802dda5014a1cf2489ccc3fb",
-    "semantic_hash": "4e1423dc802dda5014a1cf2489ccc3fb"
-  },
   "packages/web-vue/components/back-top/back-top.vue": {
     "mtime": 1781139503.355844,
     "ast_hash": "6081403172acfef4384e0c3fd1e6134c",
@@ -4139,16 +4084,6 @@
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
   },
-  "packages/web-vue/components/badge/__test__/demo.test.ts": {
-    "mtime": 1777011931.7574413,
-    "ast_hash": "0ebc71e71f114191b7ab1250ab53906f",
-    "semantic_hash": "0ebc71e71f114191b7ab1250ab53906f"
-  },
-  "packages/web-vue/components/badge/__test__/index.test.ts": {
-    "mtime": 1779087770.4768703,
-    "ast_hash": "53819274ce4ba5115f0d51e6858ef35f",
-    "semantic_hash": "53819274ce4ba5115f0d51e6858ef35f"
-  },
   "packages/web-vue/components/badge/badge.tsx": {
     "mtime": 1777011931.7584379,
     "ast_hash": "0f92d87fc6ee9bdff569e58d56decccb",
@@ -4163,11 +4098,6 @@
     "mtime": 1777448520.0954623,
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
-  },
-  "packages/web-vue/components/breadcrumb/__test__/demo.test.ts": {
-    "mtime": 1777011931.7619853,
-    "ast_hash": "d2045eb906b1d36cedcdefab96cf80aa",
-    "semantic_hash": "d2045eb906b1d36cedcdefab96cf80aa"
   },
   "packages/web-vue/components/breadcrumb/breadcrumb-item.tsx": {
     "mtime": 1777011931.7619853,
@@ -4198,16 +4128,6 @@
     "mtime": 1777448520.0984635,
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
-  },
-  "packages/web-vue/components/button/__test__/demo.test.ts": {
-    "mtime": 1777011931.764985,
-    "ast_hash": "51f51005b11c81b750adc50f2aec60e5",
-    "semantic_hash": "51f51005b11c81b750adc50f2aec60e5"
-  },
-  "packages/web-vue/components/button/__test__/index.test.ts": {
-    "mtime": 1781230392.3509927,
-    "ast_hash": "e941afc65971dded13720e5a708b618b",
-    "semantic_hash": "e941afc65971dded13720e5a708b618b"
   },
   "packages/web-vue/components/button/button-group.vue": {
     "mtime": 1781139503.355844,
@@ -4243,16 +4163,6 @@
     "mtime": 1777448520.1004639,
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
-  },
-  "packages/web-vue/components/calendar/__test__/demo.test.ts": {
-    "mtime": 1780920921.8494105,
-    "ast_hash": "a4b3db26afdb573c86cafb7fae6c1ddb",
-    "semantic_hash": "a4b3db26afdb573c86cafb7fae6c1ddb"
-  },
-  "packages/web-vue/components/calendar/__test__/index.test.ts": {
-    "mtime": 1780918220.8347478,
-    "ast_hash": "e5f0caaba7cb0d3b514e6b9abb9bcca8",
-    "semantic_hash": "e5f0caaba7cb0d3b514e6b9abb9bcca8"
   },
   "packages/web-vue/components/calendar/components/body.vue": {
     "mtime": 1780918220.8357477,
@@ -4359,16 +4269,6 @@
     "ast_hash": "3a7ff0983d52594130698b8e3c40debd",
     "semantic_hash": "3a7ff0983d52594130698b8e3c40debd"
   },
-  "packages/web-vue/components/card/__test__/demo.test.ts": {
-    "mtime": 1777011931.7755792,
-    "ast_hash": "7121e98928f3a89185b6ab017e11a2a7",
-    "semantic_hash": "7121e98928f3a89185b6ab017e11a2a7"
-  },
-  "packages/web-vue/components/card/__test__/index.test.ts": {
-    "mtime": 1781165390.3671503,
-    "ast_hash": "b2bd00761fcea6238ff7389deb130970",
-    "semantic_hash": "b2bd00761fcea6238ff7389deb130970"
-  },
   "packages/web-vue/components/card/card-grid.vue": {
     "mtime": 1781139503.3583524,
     "ast_hash": "07ec82e6110fedf3242b134fc34eacd4",
@@ -4398,16 +4298,6 @@
     "mtime": 1777448520.104484,
     "ast_hash": "ffd00f4ca02b8c49c323ac982f731dae",
     "semantic_hash": "ffd00f4ca02b8c49c323ac982f731dae"
-  },
-  "packages/web-vue/components/carousel/__test__/demo.test.ts": {
-    "mtime": 1777011931.7795973,
-    "ast_hash": "52f1195afa8f2393152fc62501cae9b3",
-    "semantic_hash": "52f1195afa8f2393152fc62501cae9b3"
-  },
-  "packages/web-vue/components/carousel/__test__/index.test.ts": {
-    "mtime": 1779087770.478871,
-    "ast_hash": "c4e2f57e2b1853120f13443efd7da89e",
-    "semantic_hash": "c4e2f57e2b1853120f13443efd7da89e"
   },
   "packages/web-vue/components/carousel/carousel-arrow.vue": {
     "mtime": 1781139503.3593526,
@@ -4448,16 +4338,6 @@
     "mtime": 1777448520.1074915,
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
-  },
-  "packages/web-vue/components/cascader/__test__/demo.test.ts": {
-    "mtime": 1777011931.7858374,
-    "ast_hash": "dd762a5e029fcbe3c6b4cf41cf5f4c3b",
-    "semantic_hash": "dd762a5e029fcbe3c6b4cf41cf5f4c3b"
-  },
-  "packages/web-vue/components/cascader/__test__/index.test.ts": {
-    "mtime": 1779175783.3114538,
-    "ast_hash": "08db71d9c77a86c35c7773135742bb49",
-    "semantic_hash": "08db71d9c77a86c35c7773135742bb49"
   },
   "packages/web-vue/components/cascader/base-cascader-panel.tsx": {
     "mtime": 1780981475.1967337,
@@ -4524,16 +4404,6 @@
     "ast_hash": "b6e64fa254083d7e90c6ce5328433216",
     "semantic_hash": "b6e64fa254083d7e90c6ce5328433216"
   },
-  "packages/web-vue/components/checkbox/__test__/demo.test.ts": {
-    "mtime": 1777011931.792354,
-    "ast_hash": "6292e3ca7806be5296bc39a34dbff688",
-    "semantic_hash": "6292e3ca7806be5296bc39a34dbff688"
-  },
-  "packages/web-vue/components/checkbox/__test__/index.test.ts": {
-    "mtime": 1779087770.4808695,
-    "ast_hash": "27dcd19bdc2fb09b2142647d2e1a7bde",
-    "semantic_hash": "27dcd19bdc2fb09b2142647d2e1a7bde"
-  },
   "packages/web-vue/components/checkbox/checkbox-group.tsx": {
     "mtime": 1778503303.5978005,
     "ast_hash": "e1921ac1f967e6158d4702a1848a52c3",
@@ -4569,16 +4439,6 @@
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
   },
-  "packages/web-vue/components/collapse/__test__/demo.test.ts": {
-    "mtime": 1777011931.796857,
-    "ast_hash": "bab50edf1da8b1365e2f96709a4b3731",
-    "semantic_hash": "bab50edf1da8b1365e2f96709a4b3731"
-  },
-  "packages/web-vue/components/collapse/__test__/index.test.ts": {
-    "mtime": 1779087770.481969,
-    "ast_hash": "ba11b33f05ebeef286c759aba25f3f97",
-    "semantic_hash": "ba11b33f05ebeef286c759aba25f3f97"
-  },
   "packages/web-vue/components/collapse/collapse-item.tsx": {
     "mtime": 1777011931.7978613,
     "ast_hash": "9798c6f3d95edff59250f0ec1b3e62a8",
@@ -4603,16 +4463,6 @@
     "mtime": 1777448520.1155207,
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
-  },
-  "packages/web-vue/components/color-picker/__test__/demo.test.ts": {
-    "mtime": 1777011931.8018873,
-    "ast_hash": "5cfe5a2f212ca9df612dd7c52b5074b2",
-    "semantic_hash": "5cfe5a2f212ca9df612dd7c52b5074b2"
-  },
-  "packages/web-vue/components/color-picker/__test__/index.test.ts": {
-    "mtime": 1779087770.482968,
-    "ast_hash": "ec6eb727465c0ce571819304ae8aaf1e",
-    "semantic_hash": "ec6eb727465c0ce571819304ae8aaf1e"
   },
   "packages/web-vue/components/color-picker/color-picker.tsx": {
     "mtime": 1778062939.8020005,
@@ -4664,16 +4514,6 @@
     "ast_hash": "dcf9647a7f982dbffb886dbb7d30be36",
     "semantic_hash": "dcf9647a7f982dbffb886dbb7d30be36"
   },
-  "packages/web-vue/components/comment/__test__/demo.test.ts": {
-    "mtime": 1777011931.8089478,
-    "ast_hash": "a26aff98fdb988606b981d30da94fe9a",
-    "semantic_hash": "a26aff98fdb988606b981d30da94fe9a"
-  },
-  "packages/web-vue/components/comment/__test__/index.test.ts": {
-    "mtime": 1779087770.4847076,
-    "ast_hash": "7b77230f1e72b05473c9716453fd5433",
-    "semantic_hash": "7b77230f1e72b05473c9716453fd5433"
-  },
   "packages/web-vue/components/comment/comment.vue": {
     "mtime": 1781139503.3636255,
     "ast_hash": "6b5f773093208be97523d9407bdae578",
@@ -4693,21 +4533,6 @@
     "mtime": 1780967555.7349527,
     "ast_hash": "bd3d36974ddc59e967eddac6d39fe6f3",
     "semantic_hash": "bd3d36974ddc59e967eddac6d39fe6f3"
-  },
-  "packages/web-vue/components/config-provider/__test__/demo.test.ts": {
-    "mtime": 1777011931.8122025,
-    "ast_hash": "9f3930f3c7ae2ea397650c0804c90502",
-    "semantic_hash": "9f3930f3c7ae2ea397650c0804c90502"
-  },
-  "packages/web-vue/components/config-provider/__test__/theme-provider.test.ts": {
-    "mtime": 1779087770.487713,
-    "ast_hash": "bda191a692db84e2f2abcaddc34b3d32",
-    "semantic_hash": "bda191a692db84e2f2abcaddc34b3d32"
-  },
-  "packages/web-vue/components/config-provider/__test__/theme.test.ts": {
-    "mtime": 1779162863.7810116,
-    "ast_hash": "f66195b8514a7eb339d0060b571111ef",
-    "semantic_hash": "f66195b8514a7eb339d0060b571111ef"
   },
   "packages/web-vue/components/config-provider/config-provider.vue": {
     "mtime": 1781228835.3614755,
@@ -4738,16 +4563,6 @@
     "mtime": 1777457685.7553327,
     "ast_hash": "c669e99851ced39d585ff5cf02ae3886",
     "semantic_hash": "c669e99851ced39d585ff5cf02ae3886"
-  },
-  "packages/web-vue/components/copy/__test__/demo.test.ts": {
-    "mtime": 1779082638.229946,
-    "ast_hash": "7d281e0ee29548403f33dcd26124cd27",
-    "semantic_hash": "7d281e0ee29548403f33dcd26124cd27"
-  },
-  "packages/web-vue/components/copy/__test__/index.test.ts": {
-    "mtime": 1779788619.8039176,
-    "ast_hash": "f9f4282f0897b4c85fc7d7d08e3e27b7",
-    "semantic_hash": "f9f4282f0897b4c85fc7d7d08e3e27b7"
   },
   "packages/web-vue/components/copy/copy.vue": {
     "mtime": 1780299435.29927,
@@ -4788,11 +4603,6 @@
     "mtime": 1779154667.247386,
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
-  },
-  "packages/web-vue/components/date-picker/__test__/demo.test.ts": {
-    "mtime": 1781228835.364983,
-    "ast_hash": "1aa4504b900a97d5f27ae6ea666e2b2a",
-    "semantic_hash": "1aa4504b900a97d5f27ae6ea666e2b2a"
   },
   "packages/web-vue/components/date-picker/context.ts": {
     "mtime": 1780981475.199762,
@@ -4979,11 +4789,6 @@
     "ast_hash": "130dec5c0ed31a68b0af3e72cc1ccd43",
     "semantic_hash": "130dec5c0ed31a68b0af3e72cc1ccd43"
   },
-  "packages/web-vue/components/descriptions/__test__/demo.test.ts": {
-    "mtime": 1777011931.8349447,
-    "ast_hash": "1cbbad6b1ef167d061a9c903dd38eae9",
-    "semantic_hash": "1cbbad6b1ef167d061a9c903dd38eae9"
-  },
   "packages/web-vue/components/descriptions/descriptions-item.vue": {
     "mtime": 1781139503.3769429,
     "ast_hash": "0c0edf9a88b98c03f5303ff4326be99c",
@@ -5009,16 +4814,6 @@
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
   },
-  "packages/web-vue/components/divider/__test__/demo.test.ts": {
-    "mtime": 1777011931.8394542,
-    "ast_hash": "1a76732ccd03c7ad52f8f6b528339ba5",
-    "semantic_hash": "1a76732ccd03c7ad52f8f6b528339ba5"
-  },
-  "packages/web-vue/components/divider/__test__/index.test.ts": {
-    "mtime": 1779087770.4901938,
-    "ast_hash": "d9dc6bc1806a3815df10177f0c124466",
-    "semantic_hash": "d9dc6bc1806a3815df10177f0c124466"
-  },
   "packages/web-vue/components/divider/divider.tsx": {
     "mtime": 1777011931.8406215,
     "ast_hash": "cf82fd88c2ba3a7e6e873c21a4779735",
@@ -5033,16 +4828,6 @@
     "mtime": 1777448520.1366327,
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
-  },
-  "packages/web-vue/components/drawer/__test__/demo.test.ts": {
-    "mtime": 1777011931.8446183,
-    "ast_hash": "990e08f95e3af8ac4f27b03ea4fdeb0f",
-    "semantic_hash": "990e08f95e3af8ac4f27b03ea4fdeb0f"
-  },
-  "packages/web-vue/components/drawer/__test__/index.test.ts": {
-    "mtime": 1780380926.3047707,
-    "ast_hash": "a70880b2a778b6e6ef5096d83970f7f3",
-    "semantic_hash": "a70880b2a778b6e6ef5096d83970f7f3"
   },
   "packages/web-vue/components/drawer/drawer.vue": {
     "mtime": 1781139503.3774626,
@@ -5068,11 +4853,6 @@
     "mtime": 1781139503.3780007,
     "ast_hash": "6d77044e7c8c32a1155a1e2e4dae4b9e",
     "semantic_hash": "6d77044e7c8c32a1155a1e2e4dae4b9e"
-  },
-  "packages/web-vue/components/dropdown/__test__/demo.test.ts": {
-    "mtime": 1777011931.8487554,
-    "ast_hash": "2cdfb11fac9f1ba942e9c9ec9e9bc436",
-    "semantic_hash": "2cdfb11fac9f1ba942e9c9ec9e9bc436"
   },
   "packages/web-vue/components/dropdown/context.ts": {
     "mtime": 1777011931.8487554,
@@ -5129,16 +4909,6 @@
     "ast_hash": "5aad3c63baddf28f9c3ffe0d235c3f4a",
     "semantic_hash": "5aad3c63baddf28f9c3ffe0d235c3f4a"
   },
-  "packages/web-vue/components/ellipsis/__test__/demo.test.ts": {
-    "mtime": 1777011931.8542688,
-    "ast_hash": "26ad69e7f4349ec551ef13b83a34e7aa",
-    "semantic_hash": "26ad69e7f4349ec551ef13b83a34e7aa"
-  },
-  "packages/web-vue/components/ellipsis/__test__/index.test.ts": {
-    "mtime": 1779087770.491201,
-    "ast_hash": "315f02007cfec4ab6327deb29a9c24ae",
-    "semantic_hash": "315f02007cfec4ab6327deb29a9c24ae"
-  },
   "packages/web-vue/components/ellipsis/ellipsis.vue": {
     "mtime": 1781139503.3837113,
     "ast_hash": "3cd61d94578251fff994cc2ddad3c556",
@@ -5164,11 +4934,6 @@
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
   },
-  "packages/web-vue/components/empty/__test__/demo.test.ts": {
-    "mtime": 1777011931.8587768,
-    "ast_hash": "7a3f7b46dc1240cfecdd25b2761f3cbd",
-    "semantic_hash": "7a3f7b46dc1240cfecdd25b2761f3cbd"
-  },
   "packages/web-vue/components/empty/empty.tsx": {
     "mtime": 1777011931.8597758,
     "ast_hash": "b43284fe5014b6a8e07cd684580663bd",
@@ -5184,20 +4949,10 @@
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
   },
-  "packages/web-vue/components/form/__test__/demo.test.ts": {
-    "mtime": 1777011931.8632877,
-    "ast_hash": "665f08565f202dedb818815dc5539d3b",
-    "semantic_hash": "665f08565f202dedb818815dc5539d3b"
-  },
   "packages/web-vue/components/form/__test__/demo.vue": {
     "mtime": 1777011931.8632877,
     "ast_hash": "110a0c18854dd9d278c01f2672e40a89",
     "semantic_hash": "110a0c18854dd9d278c01f2672e40a89"
-  },
-  "packages/web-vue/components/form/__test__/index.test.ts": {
-    "mtime": 1780981475.2052708,
-    "ast_hash": "4dc0a580845fdfff34a5a4a84db9a128",
-    "semantic_hash": "4dc0a580845fdfff34a5a4a84db9a128"
   },
   "packages/web-vue/components/form/context.ts": {
     "mtime": 1780981475.2052708,
@@ -5243,16 +4998,6 @@
     "mtime": 1777011931.8688006,
     "ast_hash": "baf2b59e6a22cc9d64944db0714c6dff",
     "semantic_hash": "baf2b59e6a22cc9d64944db0714c6dff"
-  },
-  "packages/web-vue/components/grid/__test__/demo.test.ts": {
-    "mtime": 1777011931.8698008,
-    "ast_hash": "761e2daed7af99bd4b5847a9245ca13a",
-    "semantic_hash": "761e2daed7af99bd4b5847a9245ca13a"
-  },
-  "packages/web-vue/components/grid/__test__/index.test.ts": {
-    "mtime": 1779087770.4932053,
-    "ast_hash": "7f12e25c3d9ee00c147d88e1fcbb2bda",
-    "semantic_hash": "7f12e25c3d9ee00c147d88e1fcbb2bda"
   },
   "packages/web-vue/components/grid/context.ts": {
     "mtime": 1777011931.8708768,
@@ -8214,16 +7959,6 @@
     "ast_hash": "38079377ee4311326cf7b8a31c12e567",
     "semantic_hash": "38079377ee4311326cf7b8a31c12e567"
   },
-  "packages/web-vue/components/image/__test__/demo.test.ts": {
-    "mtime": 1777011931.8800423,
-    "ast_hash": "f5cb26e0920e108d12535bc5a9f5df7f",
-    "semantic_hash": "f5cb26e0920e108d12535bc5a9f5df7f"
-  },
-  "packages/web-vue/components/image/__test__/index.test.ts": {
-    "mtime": 1779087770.4947338,
-    "ast_hash": "f03ff01b118b117cf03f385e22c4f303",
-    "semantic_hash": "f03ff01b118b117cf03f385e22c4f303"
-  },
   "packages/web-vue/components/image/context.ts": {
     "mtime": 1777011931.8810494,
     "ast_hash": "5c4402940356b3b45d4e70b72ab4a530",
@@ -8309,16 +8044,6 @@
     "ast_hash": "b9d819e7de5f3fa2263af06e4e5d6b33",
     "semantic_hash": "b9d819e7de5f3fa2263af06e4e5d6b33"
   },
-  "packages/web-vue/components/input-number/__test__/demo.test.ts": {
-    "mtime": 1777011931.8880494,
-    "ast_hash": "76fdc6800a2bbe476e75a41b73f3ea24",
-    "semantic_hash": "76fdc6800a2bbe476e75a41b73f3ea24"
-  },
-  "packages/web-vue/components/input-number/__test__/index.test.ts": {
-    "mtime": 1779089129.0865693,
-    "ast_hash": "37548955f9e50b7c9ba1631f760b5eaf",
-    "semantic_hash": "37548955f9e50b7c9ba1631f760b5eaf"
-  },
   "packages/web-vue/components/input-number/index.ts": {
     "mtime": 1779089129.3294685,
     "ast_hash": "b3b481c9c2459e2573bf6cffdddb971f",
@@ -8333,16 +8058,6 @@
     "mtime": 1777448520.1621966,
     "ast_hash": "a508369c2d36e343d423ce9efd223b0e",
     "semantic_hash": "a508369c2d36e343d423ce9efd223b0e"
-  },
-  "packages/web-vue/components/input-tag/__test__/demo.test.ts": {
-    "mtime": 1777011931.8932853,
-    "ast_hash": "31e82e9a4b45319a180d48a900f053f7",
-    "semantic_hash": "31e82e9a4b45319a180d48a900f053f7"
-  },
-  "packages/web-vue/components/input-tag/__test__/index.test.ts": {
-    "mtime": 1780981475.2142322,
-    "ast_hash": "590823f10806074e1df40cb6f12bf03d",
-    "semantic_hash": "590823f10806074e1df40cb6f12bf03d"
   },
   "packages/web-vue/components/input-tag/index.ts": {
     "mtime": 1777011931.8942847,
@@ -8369,16 +8084,6 @@
     "ast_hash": "859cec91402d1512bb7721ada903a6d1",
     "semantic_hash": "859cec91402d1512bb7721ada903a6d1"
   },
-  "packages/web-vue/components/input/__test__/demo.test.ts": {
-    "mtime": 1777011931.8987958,
-    "ast_hash": "9d706f8410b13c8e9a123609dd9cc160",
-    "semantic_hash": "9d706f8410b13c8e9a123609dd9cc160"
-  },
-  "packages/web-vue/components/input/__test__/index.test.ts": {
-    "mtime": 1779087770.496739,
-    "ast_hash": "da1306d42f5ffd595c3b35635c7bb6ce",
-    "semantic_hash": "da1306d42f5ffd595c3b35635c7bb6ce"
-  },
   "packages/web-vue/components/input/index.ts": {
     "mtime": 1777011931.8987958,
     "ast_hash": "e1b998b75db10a14de2cb49e47622ab5",
@@ -8403,16 +8108,6 @@
     "mtime": 1777448520.168212,
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
-  },
-  "packages/web-vue/components/json-form/__test__/demo.test.ts": {
-    "mtime": 1779332157.10104,
-    "ast_hash": "e47dbff89df6e932b70e31a8b6404609",
-    "semantic_hash": "e47dbff89df6e932b70e31a8b6404609"
-  },
-  "packages/web-vue/components/json-form/__test__/index.test.ts": {
-    "mtime": 1779332157.10104,
-    "ast_hash": "220e1a5520917f4e3282d7ec07717141",
-    "semantic_hash": "220e1a5520917f4e3282d7ec07717141"
   },
   "packages/web-vue/components/json-form/index.ts": {
     "mtime": 1779332157.1020412,
@@ -8448,16 +8143,6 @@
     "mtime": 1779332157.3164973,
     "ast_hash": "3aff8c96564241360645f98a8e301985",
     "semantic_hash": "3aff8c96564241360645f98a8e301985"
-  },
-  "packages/web-vue/components/layout/__test__/demo.test.ts": {
-    "mtime": 1777011931.9063694,
-    "ast_hash": "33e2b21b6627167cc49fc373c847d008",
-    "semantic_hash": "33e2b21b6627167cc49fc373c847d008"
-  },
-  "packages/web-vue/components/layout/__test__/index.test.ts": {
-    "mtime": 1779364282.218903,
-    "ast_hash": "6925338e2f9539749739d25a250a7d5e",
-    "semantic_hash": "6925338e2f9539749739d25a250a7d5e"
   },
   "packages/web-vue/components/layout/content.vue": {
     "mtime": 1781139503.3987067,
@@ -8504,16 +8189,6 @@
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
   },
-  "packages/web-vue/components/link/__test__/demo.test.ts": {
-    "mtime": 1777011931.9114153,
-    "ast_hash": "924325b0c4628b17c3a8a9455c27bedb",
-    "semantic_hash": "924325b0c4628b17c3a8a9455c27bedb"
-  },
-  "packages/web-vue/components/link/__test__/index.test.ts": {
-    "mtime": 1779091854.815204,
-    "ast_hash": "f4cd1ab01fc94ea3d0cc35e34c315f36",
-    "semantic_hash": "f4cd1ab01fc94ea3d0cc35e34c315f36"
-  },
   "packages/web-vue/components/link/index.ts": {
     "mtime": 1779085237.137712,
     "ast_hash": "423ffe870d49d6460e3ab1cdd976465e",
@@ -8533,16 +8208,6 @@
     "mtime": 1777448520.1762278,
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
-  },
-  "packages/web-vue/components/list/__test__/demo.test.ts": {
-    "mtime": 1777011931.9144247,
-    "ast_hash": "826d41357e14c9f13093b75c32662a46",
-    "semantic_hash": "826d41357e14c9f13093b75c32662a46"
-  },
-  "packages/web-vue/components/list/__test__/index.test.ts": {
-    "mtime": 1779087770.4997406,
-    "ast_hash": "55573e7447d728dbc3fc6505c16c8af2",
-    "semantic_hash": "55573e7447d728dbc3fc6505c16c8af2"
   },
   "packages/web-vue/components/list/index.ts": {
     "mtime": 1777011931.9154236,
@@ -8573,11 +8238,6 @@
     "mtime": 1780981475.2187383,
     "ast_hash": "632a873bbc590a20f218f4233399394c",
     "semantic_hash": "632a873bbc590a20f218f4233399394c"
-  },
-  "packages/web-vue/components/locale/__test__/index.test.ts": {
-    "mtime": 1781165390.3956263,
-    "ast_hash": "1a2530c464f90ac14f31177b04d34d9c",
-    "semantic_hash": "1a2530c464f90ac14f31177b04d34d9c"
   },
   "packages/web-vue/components/locale/index.ts": {
     "mtime": 1780981475.2192554,
@@ -8679,16 +8339,6 @@
     "ast_hash": "8db3666488169f420f6cf3cfe194c7a7",
     "semantic_hash": "8db3666488169f420f6cf3cfe194c7a7"
   },
-  "packages/web-vue/components/mention/__test__/demo.test.ts": {
-    "mtime": 1777011931.927657,
-    "ast_hash": "16e74eb2f6e74d8fb7ab80cbd44af4c1",
-    "semantic_hash": "16e74eb2f6e74d8fb7ab80cbd44af4c1"
-  },
-  "packages/web-vue/components/mention/__test__/index.test.ts": {
-    "mtime": 1781165390.3988464,
-    "ast_hash": "2b144248b291035f1ae52203b6455e92",
-    "semantic_hash": "2b144248b291035f1ae52203b6455e92"
-  },
   "packages/web-vue/components/mention/index.ts": {
     "mtime": 1777011931.927657,
     "ast_hash": "fa3b437ff798cf7c8f1129f9a889b766",
@@ -8713,16 +8363,6 @@
     "mtime": 1778503303.6451075,
     "ast_hash": "ade75f99a1d1cd0d855f58a6ad867cb9",
     "semantic_hash": "ade75f99a1d1cd0d855f58a6ad867cb9"
-  },
-  "packages/web-vue/components/menu/__test__/demo.test.ts": {
-    "mtime": 1777011931.9318476,
-    "ast_hash": "6c8f94191ca7ce00cc6da0214227096c",
-    "semantic_hash": "6c8f94191ca7ce00cc6da0214227096c"
-  },
-  "packages/web-vue/components/menu/__test__/index.test.ts": {
-    "mtime": 1779364282.3301044,
-    "ast_hash": "dc8819f9357c467f9b8fba1fe83fc7b6",
-    "semantic_hash": "dc8819f9357c467f9b8fba1fe83fc7b6"
   },
   "packages/web-vue/components/menu/base-menu.vue": {
     "mtime": 1781139503.4027326,
@@ -8819,16 +8459,6 @@
     "ast_hash": "bcafb9ea813667002ab743f97a2d6c37",
     "semantic_hash": "bcafb9ea813667002ab743f97a2d6c37"
   },
-  "packages/web-vue/components/message/__test__/demo.test.ts": {
-    "mtime": 1777011931.9419665,
-    "ast_hash": "7450a3b7fd1b05fe18624fe3a8535c42",
-    "semantic_hash": "7450a3b7fd1b05fe18624fe3a8535c42"
-  },
-  "packages/web-vue/components/message/__test__/index.test.ts": {
-    "mtime": 1779087770.502254,
-    "ast_hash": "408a65ce0c29bccdfff1826903da1236",
-    "semantic_hash": "408a65ce0c29bccdfff1826903da1236"
-  },
   "packages/web-vue/components/message/index.ts": {
     "mtime": 1777011931.9429693,
     "ast_hash": "63daa3569ab65f98528430e5d397152d",
@@ -8853,16 +8483,6 @@
     "mtime": 1777448520.184261,
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
-  },
-  "packages/web-vue/components/modal/__test__/demo.test.ts": {
-    "mtime": 1777011931.9469674,
-    "ast_hash": "db8d52c0f2a00fed2fd88f2f3a57f710",
-    "semantic_hash": "db8d52c0f2a00fed2fd88f2f3a57f710"
-  },
-  "packages/web-vue/components/modal/__test__/index.test.ts": {
-    "mtime": 1781228835.427287,
-    "ast_hash": "46c42c29466ee65a7141964916bcb387",
-    "semantic_hash": "46c42c29466ee65a7141964916bcb387"
   },
   "packages/web-vue/components/modal/context.ts": {
     "mtime": 1777011931.9479694,
@@ -8893,16 +8513,6 @@
     "mtime": 1777448520.1872888,
     "ast_hash": "824445b181779f15ca9b3488e19f1c47",
     "semantic_hash": "824445b181779f15ca9b3488e19f1c47"
-  },
-  "packages/web-vue/components/notification/__test__/demo.test.ts": {
-    "mtime": 1777011931.9532661,
-    "ast_hash": "a112f68d905c323a076b902f0f3dbb16",
-    "semantic_hash": "a112f68d905c323a076b902f0f3dbb16"
-  },
-  "packages/web-vue/components/notification/__test__/index.test.ts": {
-    "mtime": 1779087770.5032542,
-    "ast_hash": "9d7bfaa37dfdfadc0f5411b1c35d5aaa",
-    "semantic_hash": "9d7bfaa37dfdfadc0f5411b1c35d5aaa"
   },
   "packages/web-vue/components/notification/index.ts": {
     "mtime": 1777011931.954266,
@@ -8944,16 +8554,6 @@
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
   },
-  "packages/web-vue/components/page-header/__test__/demo.test.ts": {
-    "mtime": 1777011931.9597743,
-    "ast_hash": "ef9c25cc84f0b1ba9e72f426d2b1ed40",
-    "semantic_hash": "ef9c25cc84f0b1ba9e72f426d2b1ed40"
-  },
-  "packages/web-vue/components/page-header/__test__/index.test.ts": {
-    "mtime": 1779087770.5052187,
-    "ast_hash": "93496a0c92c8e350d514c3c921f97e04",
-    "semantic_hash": "93496a0c92c8e350d514c3c921f97e04"
-  },
   "packages/web-vue/components/page-header/index.ts": {
     "mtime": 1777011931.9597743,
     "ast_hash": "2cc04edb3c86e561d61b1c8f8a0f2e92",
@@ -8968,16 +8568,6 @@
     "mtime": 1777448520.193339,
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
-  },
-  "packages/web-vue/components/pagination/__test__/demo.test.ts": {
-    "mtime": 1777011931.963322,
-    "ast_hash": "752444e3138b119319bc936259644b87",
-    "semantic_hash": "752444e3138b119319bc936259644b87"
-  },
-  "packages/web-vue/components/pagination/__test__/index.test.tsx": {
-    "mtime": 1778503303.6611867,
-    "ast_hash": "124c8f9d62ba18125e135d47e4b6ba50",
-    "semantic_hash": "124c8f9d62ba18125e135d47e4b6ba50"
   },
   "packages/web-vue/components/pagination/index.ts": {
     "mtime": 1777011931.96432,
@@ -9029,16 +8619,6 @@
     "ast_hash": "3388a654f2fbeb578d78edf25bf7fe63",
     "semantic_hash": "3388a654f2fbeb578d78edf25bf7fe63"
   },
-  "packages/web-vue/components/popconfirm/__test__/demo.test.ts": {
-    "mtime": 1777011931.9698186,
-    "ast_hash": "3e04c8fb1e358a2436b875aebc5d985e",
-    "semantic_hash": "3e04c8fb1e358a2436b875aebc5d985e"
-  },
-  "packages/web-vue/components/popconfirm/__test__/index.test.ts": {
-    "mtime": 1779087770.506224,
-    "ast_hash": "7e3cd62e3159246ccef06e63a6a0c068",
-    "semantic_hash": "7e3cd62e3159246ccef06e63a6a0c068"
-  },
   "packages/web-vue/components/popconfirm/index.ts": {
     "mtime": 1777011931.9698186,
     "ast_hash": "4850742f7f99203ce8e52c6cdce1883f",
@@ -9054,11 +8634,6 @@
     "ast_hash": "46183ab2dcee653163746c136c26f9b5",
     "semantic_hash": "46183ab2dcee653163746c136c26f9b5"
   },
-  "packages/web-vue/components/popover/__test__/demo.test.ts": {
-    "mtime": 1777011931.9733534,
-    "ast_hash": "73faafcc2501dfcc4bd48fafd4321701",
-    "semantic_hash": "73faafcc2501dfcc4bd48fafd4321701"
-  },
   "packages/web-vue/components/popover/index.ts": {
     "mtime": 1777011931.9743528,
     "ast_hash": "75008da0f3003e4eb237eac77745d1e5",
@@ -9073,11 +8648,6 @@
     "mtime": 1780450042.6378818,
     "ast_hash": "e25fabc4bdb193d5328501308da6fa67",
     "semantic_hash": "e25fabc4bdb193d5328501308da6fa67"
-  },
-  "packages/web-vue/components/progress/__test__/demo.test.ts": {
-    "mtime": 1777011931.9773524,
-    "ast_hash": "dd98032bbf5ee11b3bd691c5064513b3",
-    "semantic_hash": "dd98032bbf5ee11b3bd691c5064513b3"
   },
   "packages/web-vue/components/progress/circle.vue": {
     "mtime": 1781139503.4151862,
@@ -9109,16 +8679,6 @@
     "ast_hash": "50e2f5ac3c966377f824a4c59b150b69",
     "semantic_hash": "50e2f5ac3c966377f824a4c59b150b69"
   },
-  "packages/web-vue/components/qr-code/__test__/demo.test.ts": {
-    "mtime": 1779711538.6023188,
-    "ast_hash": "0f6de33103a9303697dd538c881ab814",
-    "semantic_hash": "0f6de33103a9303697dd538c881ab814"
-  },
-  "packages/web-vue/components/qr-code/__test__/index.test.ts": {
-    "mtime": 1779789142.4121757,
-    "ast_hash": "526796ab9a8526f7ed19f52529530985",
-    "semantic_hash": "526796ab9a8526f7ed19f52529530985"
-  },
   "packages/web-vue/components/qr-code/index.ts": {
     "mtime": 1780299668.4916232,
     "ast_hash": "5e214d7495fa25572d7b9364f7d78a8a",
@@ -9143,16 +8703,6 @@
     "mtime": 1779788214.9428322,
     "ast_hash": "86c89f82879462727bc5c2381d44a723",
     "semantic_hash": "86c89f82879462727bc5c2381d44a723"
-  },
-  "packages/web-vue/components/radio/__test__/demo.test.ts": {
-    "mtime": 1777011931.9813738,
-    "ast_hash": "4c53a776a835b0e2915dac240d1d30a0",
-    "semantic_hash": "4c53a776a835b0e2915dac240d1d30a0"
-  },
-  "packages/web-vue/components/radio/__test__/index.test.ts": {
-    "mtime": 1779087770.5072248,
-    "ast_hash": "3c236a62486123066184d5a6d84ae1e8",
-    "semantic_hash": "3c236a62486123066184d5a6d84ae1e8"
   },
   "packages/web-vue/components/radio/context.ts": {
     "mtime": 1777011931.9823887,
@@ -9184,16 +8734,6 @@
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
   },
-  "packages/web-vue/components/rate/__test__/demo.test.ts": {
-    "mtime": 1777011931.9873807,
-    "ast_hash": "69fa7627272945c7a915957f319c8485",
-    "semantic_hash": "69fa7627272945c7a915957f319c8485"
-  },
-  "packages/web-vue/components/rate/__test__/index.test.ts": {
-    "mtime": 1779087770.5082252,
-    "ast_hash": "fc570d2d4a833d06111d47bb0703f894",
-    "semantic_hash": "fc570d2d4a833d06111d47bb0703f894"
-  },
   "packages/web-vue/components/rate/index.ts": {
     "mtime": 1777011931.9873807,
     "ast_hash": "2d0d2489e96adb372e72bd643845b644",
@@ -9208,16 +8748,6 @@
     "mtime": 1777448520.206904,
     "ast_hash": "50e2f5ac3c966377f824a4c59b150b69",
     "semantic_hash": "50e2f5ac3c966377f824a4c59b150b69"
-  },
-  "packages/web-vue/components/resize-box/__test__/demo.test.ts": {
-    "mtime": 1777011931.98989,
-    "ast_hash": "caf58ec482c2e7cb721c303bd12b9cab",
-    "semantic_hash": "caf58ec482c2e7cb721c303bd12b9cab"
-  },
-  "packages/web-vue/components/resize-box/__test__/index.test.tsx": {
-    "mtime": 1781228835.4413102,
-    "ast_hash": "186e07f3dc0c8fd3704b235f5c5f93c8",
-    "semantic_hash": "186e07f3dc0c8fd3704b235f5c5f93c8"
   },
   "packages/web-vue/components/resize-box/index.ts": {
     "mtime": 1777011931.9914343,
@@ -9249,11 +8779,6 @@
     "ast_hash": "b93fb7696e0e0fb3b3406196668322a9",
     "semantic_hash": "b93fb7696e0e0fb3b3406196668322a9"
   },
-  "packages/web-vue/components/result/__test__/demo.test.ts": {
-    "mtime": 1777011931.996444,
-    "ast_hash": "5a872c4d2492337423de83774ae0ed22",
-    "semantic_hash": "5a872c4d2492337423de83774ae0ed22"
-  },
   "packages/web-vue/components/result/index.ts": {
     "mtime": 1777011931.996444,
     "ast_hash": "0996c831dc7462351915fe69beec414b",
@@ -9273,16 +8798,6 @@
     "mtime": 1781139503.4193952,
     "ast_hash": "21461a4b37ca7bcbe05ee5dc01c8e84f",
     "semantic_hash": "21461a4b37ca7bcbe05ee5dc01c8e84f"
-  },
-  "packages/web-vue/components/scrollbar/__test__/demo.test.ts": {
-    "mtime": 1778503303.0019734,
-    "ast_hash": "f2ef848d6644a3704ab45441f609752a",
-    "semantic_hash": "f2ef848d6644a3704ab45441f609752a"
-  },
-  "packages/web-vue/components/scrollbar/__test__/index.test.ts": {
-    "mtime": 1779087770.5092237,
-    "ast_hash": "724cc297efb5ee0e15ce3c8a8693bb92",
-    "semantic_hash": "724cc297efb5ee0e15ce3c8a8693bb92"
   },
   "packages/web-vue/components/scrollbar/index.ts": {
     "mtime": 1778503303.0039785,
@@ -9309,16 +8824,6 @@
     "ast_hash": "8256bd19aa4902ec1be64f83945aefb2",
     "semantic_hash": "8256bd19aa4902ec1be64f83945aefb2"
   },
-  "packages/web-vue/components/secret/__test__/demo.test.ts": {
-    "mtime": 1779090322.0219185,
-    "ast_hash": "aa253a0334bcca7e4df1176636e123bc",
-    "semantic_hash": "aa253a0334bcca7e4df1176636e123bc"
-  },
-  "packages/web-vue/components/secret/__test__/index.test.ts": {
-    "mtime": 1779090322.0219185,
-    "ast_hash": "0fb1344f5f89cfb69aaad88049a6efb0",
-    "semantic_hash": "0fb1344f5f89cfb69aaad88049a6efb0"
-  },
   "packages/web-vue/components/secret/index.ts": {
     "mtime": 1779090322.0219185,
     "ast_hash": "b8960e5e3a51fe74f0fe1cbb35f63b94",
@@ -9328,16 +8833,6 @@
     "mtime": 1779090322.0219185,
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
-  },
-  "packages/web-vue/components/select/__test__/demo.test.ts": {
-    "mtime": 1777011932.0036004,
-    "ast_hash": "fc5cd30bb946c3e6816b5bd9fdc544a0",
-    "semantic_hash": "fc5cd30bb946c3e6816b5bd9fdc544a0"
-  },
-  "packages/web-vue/components/select/__test__/index.test.ts": {
-    "mtime": 1779087770.5102248,
-    "ast_hash": "4a16180bf99a397c3057b9621c1fb4d5",
-    "semantic_hash": "4a16180bf99a397c3057b9621c1fb4d5"
   },
   "packages/web-vue/components/select/context.ts": {
     "mtime": 1780967555.7411306,
@@ -9389,11 +8884,6 @@
     "ast_hash": "d4d9241b1ee700e633d2f0ed986bb0b1",
     "semantic_hash": "d4d9241b1ee700e633d2f0ed986bb0b1"
   },
-  "packages/web-vue/components/skeleton/__test__/demo.test.ts": {
-    "mtime": 1777011932.0096006,
-    "ast_hash": "b42cac930104a6ffc0e9f0cdfe1a0465",
-    "semantic_hash": "b42cac930104a6ffc0e9f0cdfe1a0465"
-  },
   "packages/web-vue/components/skeleton/index.ts": {
     "mtime": 1777011932.0096006,
     "ast_hash": "3411f2eb31f7629e72df4d530079393b",
@@ -9418,16 +8908,6 @@
     "mtime": 1777448520.2165046,
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
-  },
-  "packages/web-vue/components/slider/__test__/demo.test.ts": {
-    "mtime": 1777011932.0144799,
-    "ast_hash": "4471667a847a5c41e4d78f58e1a1a4c9",
-    "semantic_hash": "4471667a847a5c41e4d78f58e1a1a4c9"
-  },
-  "packages/web-vue/components/slider/__test__/index.test.ts": {
-    "mtime": 1779087770.5112238,
-    "ast_hash": "78a13752f2182518fbf256704bae03a4",
-    "semantic_hash": "78a13752f2182518fbf256704bae03a4"
   },
   "packages/web-vue/components/slider/index.ts": {
     "mtime": 1779072617.5198002,
@@ -9474,16 +8954,6 @@
     "ast_hash": "68c57595e8054e87be56c7e26bccf118",
     "semantic_hash": "68c57595e8054e87be56c7e26bccf118"
   },
-  "packages/web-vue/components/space/__test__/demo.test.ts": {
-    "mtime": 1777011932.0215802,
-    "ast_hash": "70a784f3de0da147c2e129e9b2f13846",
-    "semantic_hash": "70a784f3de0da147c2e129e9b2f13846"
-  },
-  "packages/web-vue/components/space/__test__/index.test.ts": {
-    "mtime": 1778503303.6953733,
-    "ast_hash": "55b900cf039a8b4a743a31ccee60ae6e",
-    "semantic_hash": "55b900cf039a8b4a743a31ccee60ae6e"
-  },
   "packages/web-vue/components/space/index.ts": {
     "mtime": 1777011932.022795,
     "ast_hash": "dd85599d062991f59a93a9c810a4f6c2",
@@ -9498,11 +8968,6 @@
     "mtime": 1777448520.2205052,
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
-  },
-  "packages/web-vue/components/spin/__test__/demo.test.ts": {
-    "mtime": 1777011932.025793,
-    "ast_hash": "2c8898962b6c7501db2b527210936fb8",
-    "semantic_hash": "2c8898962b6c7501db2b527210936fb8"
   },
   "packages/web-vue/components/spin/dot-loading.tsx": {
     "mtime": 1777011932.025793,
@@ -9524,11 +8989,6 @@
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
   },
-  "packages/web-vue/components/split/__test__/demo.test.ts": {
-    "mtime": 1777011932.0297894,
-    "ast_hash": "2da1802982f83b59a0b3975e2494ac62",
-    "semantic_hash": "2da1802982f83b59a0b3975e2494ac62"
-  },
   "packages/web-vue/components/split/index.ts": {
     "mtime": 1777011932.0308278,
     "ast_hash": "bed8fc7c4651e0fe25b7254f1ff831cc",
@@ -9548,11 +9008,6 @@
     "mtime": 1777448520.2255814,
     "ast_hash": "e489122c87197da3f5fe9f3eb9d3f9c8",
     "semantic_hash": "e489122c87197da3f5fe9f3eb9d3f9c8"
-  },
-  "packages/web-vue/components/statistic/__test__/demo.test.ts": {
-    "mtime": 1777011932.0333383,
-    "ast_hash": "ddff09bc1720bd6aaa5e049b4bc3449d",
-    "semantic_hash": "ddff09bc1720bd6aaa5e049b4bc3449d"
   },
   "packages/web-vue/components/statistic/countdown.vue": {
     "mtime": 1781139503.430797,
@@ -9578,16 +9033,6 @@
     "mtime": 1777011932.0363371,
     "ast_hash": "fca22440097007683fbb96aada7a4079",
     "semantic_hash": "fca22440097007683fbb96aada7a4079"
-  },
-  "packages/web-vue/components/steps/__test__/demo.test.ts": {
-    "mtime": 1777011932.0373363,
-    "ast_hash": "bdc3cf3d1924a89034452f028b6004d3",
-    "semantic_hash": "bdc3cf3d1924a89034452f028b6004d3"
-  },
-  "packages/web-vue/components/steps/__test__/index.test.ts": {
-    "mtime": 1780981475.2298,
-    "ast_hash": "536717ea76dcc3cd4f01dbd4d49d5cf7",
-    "semantic_hash": "536717ea76dcc3cd4f01dbd4d49d5cf7"
   },
   "packages/web-vue/components/steps/context.ts": {
     "mtime": 1777011932.038337,
@@ -9634,16 +9079,6 @@
     "ast_hash": "4bf5efe964b2020d487d0cb6878826ad",
     "semantic_hash": "4bf5efe964b2020d487d0cb6878826ad"
   },
-  "packages/web-vue/components/switch/__test__/demo.test.ts": {
-    "mtime": 1777011932.0498662,
-    "ast_hash": "1df04a1384514465e93b9644a4214868",
-    "semantic_hash": "1df04a1384514465e93b9644a4214868"
-  },
-  "packages/web-vue/components/switch/__test__/index.test.ts": {
-    "mtime": 1780981475.2318654,
-    "ast_hash": "c2ab5ebaed745827e478f5bb6da5a05c",
-    "semantic_hash": "c2ab5ebaed745827e478f5bb6da5a05c"
-  },
   "packages/web-vue/components/switch/index.ts": {
     "mtime": 1779072617.5218012,
     "ast_hash": "98d9ad50af384f5d0021f734dbad197d",
@@ -9658,16 +9093,6 @@
     "mtime": 1781139503.4335158,
     "ast_hash": "0f2fcca738c40acb9b9e535eaae701ee",
     "semantic_hash": "0f2fcca738c40acb9b9e535eaae701ee"
-  },
-  "packages/web-vue/components/table/__test__/demo.test.ts": {
-    "mtime": 1778753773.6474771,
-    "ast_hash": "399a4753bdbea22295a2b2d52488ac66",
-    "semantic_hash": "399a4753bdbea22295a2b2d52488ac66"
-  },
-  "packages/web-vue/components/table/__test__/index.test.ts": {
-    "mtime": 1780981475.2318654,
-    "ast_hash": "e36914f872d8d83d62a07a01fab09c18",
-    "semantic_hash": "e36914f872d8d83d62a07a01fab09c18"
   },
   "packages/web-vue/components/table/context.ts": {
     "mtime": 1778753773.562049,
@@ -9789,16 +9214,6 @@
     "ast_hash": "d2678eda7c640401fd2bec3c8b9badfd",
     "semantic_hash": "d2678eda7c640401fd2bec3c8b9badfd"
   },
-  "packages/web-vue/components/tabs/__test__/demo.test.ts": {
-    "mtime": 1777011932.067106,
-    "ast_hash": "0e98a8fd22e2ed1b0bf571fb8b51c1d9",
-    "semantic_hash": "0e98a8fd22e2ed1b0bf571fb8b51c1d9"
-  },
-  "packages/web-vue/components/tabs/__test__/index.test.ts": {
-    "mtime": 1779087770.5156567,
-    "ast_hash": "cb8bd204c3eb1d36d9bff33864309386",
-    "semantic_hash": "cb8bd204c3eb1d36d9bff33864309386"
-  },
   "packages/web-vue/components/tabs/context.ts": {
     "mtime": 1777011932.068107,
     "ast_hash": "0cf6cf64b2dac08e51dd3078e0b4b0cc",
@@ -9854,16 +9269,6 @@
     "ast_hash": "f96d8544cef90d23281304fdc2f00792",
     "semantic_hash": "f96d8544cef90d23281304fdc2f00792"
   },
-  "packages/web-vue/components/tag-group/__test__/demo.test.ts": {
-    "mtime": 1779094176.6825936,
-    "ast_hash": "e53b0afa42e17f4ca29d61373fb29a26",
-    "semantic_hash": "e53b0afa42e17f4ca29d61373fb29a26"
-  },
-  "packages/web-vue/components/tag-group/__test__/index.test.ts": {
-    "mtime": 1779151041.8151531,
-    "ast_hash": "2be73196fc9b5910144b82ddf90ae493",
-    "semantic_hash": "2be73196fc9b5910144b82ddf90ae493"
-  },
   "packages/web-vue/components/tag-group/index.ts": {
     "mtime": 1779094176.6825936,
     "ast_hash": "ea740abe96b59246ce678d94b553d9b1",
@@ -9884,16 +9289,6 @@
     "ast_hash": "a7152d0ea0c2b3c86db57c2121a6d75d",
     "semantic_hash": "a7152d0ea0c2b3c86db57c2121a6d75d"
   },
-  "packages/web-vue/components/tag/__test__/demo.test.ts": {
-    "mtime": 1777011932.074691,
-    "ast_hash": "59bbc5632ce7d98c587f672ade447247",
-    "semantic_hash": "59bbc5632ce7d98c587f672ade447247"
-  },
-  "packages/web-vue/components/tag/__test__/index.test.ts": {
-    "mtime": 1780981475.2368665,
-    "ast_hash": "6e05262bc326382f4003e309b5eac81c",
-    "semantic_hash": "6e05262bc326382f4003e309b5eac81c"
-  },
   "packages/web-vue/components/tag/index.ts": {
     "mtime": 1777011932.074691,
     "ast_hash": "01dab61aaa966a37aee6f3126384c51a",
@@ -9913,16 +9308,6 @@
     "mtime": 1780920094.8476765,
     "ast_hash": "e1500861258518f7c284106d582407f5",
     "semantic_hash": "e1500861258518f7c284106d582407f5"
-  },
-  "packages/web-vue/components/textarea/__test__/demo.test.ts": {
-    "mtime": 1777011932.078693,
-    "ast_hash": "a19c1fd9d244808b77b5de8384536eb8",
-    "semantic_hash": "a19c1fd9d244808b77b5de8384536eb8"
-  },
-  "packages/web-vue/components/textarea/__test__/index.test.ts": {
-    "mtime": 1781228835.4583428,
-    "ast_hash": "0e39706e88d61efe756c14d74fc40108",
-    "semantic_hash": "0e39706e88d61efe756c14d74fc40108"
   },
   "packages/web-vue/components/textarea/index.ts": {
     "mtime": 1777011932.080199,
@@ -9948,11 +9333,6 @@
     "mtime": 1777454691.700748,
     "ast_hash": "e09c4178d176e7a84720eeffb9d89071",
     "semantic_hash": "e09c4178d176e7a84720eeffb9d89071"
-  },
-  "packages/web-vue/components/time-picker/__test__/demo.test.ts": {
-    "mtime": 1777011932.0833664,
-    "ast_hash": "c332647cfc38d7ba51ebb53ffe5584fc",
-    "semantic_hash": "c332647cfc38d7ba51ebb53ffe5584fc"
   },
   "packages/web-vue/components/time-picker/hooks/use-is-disabled-time.ts": {
     "mtime": 1777011932.0833664,
@@ -10014,16 +9394,6 @@
     "ast_hash": "4b5ad6332e49fe72c9fe4952f540565c",
     "semantic_hash": "4b5ad6332e49fe72c9fe4952f540565c"
   },
-  "packages/web-vue/components/timeline/__test__/demo.test.ts": {
-    "mtime": 1777011932.0928738,
-    "ast_hash": "2aef993e579bc26b987aca56ea8ca4bd",
-    "semantic_hash": "2aef993e579bc26b987aca56ea8ca4bd"
-  },
-  "packages/web-vue/components/timeline/__test__/index.test.ts": {
-    "mtime": 1779087770.5176575,
-    "ast_hash": "f34f0dd0f9f0ed7edbb506e33dd3882e",
-    "semantic_hash": "f34f0dd0f9f0ed7edbb506e33dd3882e"
-  },
   "packages/web-vue/components/timeline/context.ts": {
     "mtime": 1777011932.0941226,
     "ast_hash": "0b0898d53fb1b5548191dfc840d7ddfa",
@@ -10054,16 +9424,6 @@
     "ast_hash": "c27022a04f40dc2d2ee5b244dab58fc1",
     "semantic_hash": "c27022a04f40dc2d2ee5b244dab58fc1"
   },
-  "packages/web-vue/components/tooltip/__test__/demo.test.ts": {
-    "mtime": 1777011932.0987227,
-    "ast_hash": "bde6576d262507978d6394b70b7a7eaf",
-    "semantic_hash": "bde6576d262507978d6394b70b7a7eaf"
-  },
-  "packages/web-vue/components/tooltip/__test__/index.test.ts": {
-    "mtime": 1779087770.5186572,
-    "ast_hash": "2580c4f9afd2ead8ef094b2c6d8c19c2",
-    "semantic_hash": "2580c4f9afd2ead8ef094b2c6d8c19c2"
-  },
   "packages/web-vue/components/tooltip/index.ts": {
     "mtime": 1777011932.1002312,
     "ast_hash": "8310f57c3dc55766d939ec16fe92085a",
@@ -10078,16 +9438,6 @@
     "mtime": 1781139503.44188,
     "ast_hash": "c74acace0cd41332c03ba9a2c5707091",
     "semantic_hash": "c74acace0cd41332c03ba9a2c5707091"
-  },
-  "packages/web-vue/components/tour/__test__/demo.test.ts": {
-    "mtime": 1780364387.6101856,
-    "ast_hash": "46ddaa950dad8dda1ebab9ae10314fd0",
-    "semantic_hash": "46ddaa950dad8dda1ebab9ae10314fd0"
-  },
-  "packages/web-vue/components/tour/__test__/index.test.ts": {
-    "mtime": 1780364387.6111875,
-    "ast_hash": "9bfb558b0b4d2c5f6427e7a129233c11",
-    "semantic_hash": "9bfb558b0b4d2c5f6427e7a129233c11"
   },
   "packages/web-vue/components/tour/index.ts": {
     "mtime": 1780364387.6111875,
@@ -10108,16 +9458,6 @@
     "mtime": 1780364387.6152058,
     "ast_hash": "3fb6e63d199a6f8e5b867d64d5d6143c",
     "semantic_hash": "3fb6e63d199a6f8e5b867d64d5d6143c"
-  },
-  "packages/web-vue/components/transfer/__test__/demo.test.ts": {
-    "mtime": 1777011932.1034057,
-    "ast_hash": "b775bbfc7336c39630fdba784bcb2414",
-    "semantic_hash": "b775bbfc7336c39630fdba784bcb2414"
-  },
-  "packages/web-vue/components/transfer/__test__/index.test.ts": {
-    "mtime": 1779087770.519658,
-    "ast_hash": "6e0ced7abe3974bc6abc598674860272",
-    "semantic_hash": "6e0ced7abe3974bc6abc598674860272"
   },
   "packages/web-vue/components/transfer/context.ts": {
     "mtime": 1777011932.104406,
@@ -10154,16 +9494,6 @@
     "ast_hash": "84f10cacfd2863e9feda1bb10ca05344",
     "semantic_hash": "84f10cacfd2863e9feda1bb10ca05344"
   },
-  "packages/web-vue/components/tree-select/__test__/demo.test.ts": {
-    "mtime": 1777011932.1084025,
-    "ast_hash": "7e69ad10efeaa16ac19705bd732bce82",
-    "semantic_hash": "7e69ad10efeaa16ac19705bd732bce82"
-  },
-  "packages/web-vue/components/tree-select/__test__/index.test.ts": {
-    "mtime": 1780981475.2409146,
-    "ast_hash": "cbdf3b0c59cd103bb2efb4079d8bebc3",
-    "semantic_hash": "cbdf3b0c59cd103bb2efb4079d8bebc3"
-  },
   "packages/web-vue/components/tree-select/hooks/use-filter-tree-node.ts": {
     "mtime": 1777011932.1104553,
     "ast_hash": "4d4ac4a3faf8b9db7e044d527a622ec6",
@@ -10198,26 +9528,6 @@
     "mtime": 1781139503.4455404,
     "ast_hash": "3c2ad9eca6a99f71c95dc6ecedd788c0",
     "semantic_hash": "3c2ad9eca6a99f71c95dc6ecedd788c0"
-  },
-  "packages/web-vue/components/tree/__test__/check-utils.test.ts": {
-    "mtime": 1780981475.2424233,
-    "ast_hash": "81671ca793da73a06f3bb26aaf70202c",
-    "semantic_hash": "81671ca793da73a06f3bb26aaf70202c"
-  },
-  "packages/web-vue/components/tree/__test__/demo.test.ts": {
-    "mtime": 1777011932.1159742,
-    "ast_hash": "298fb214c1a793366496b361a3b32b27",
-    "semantic_hash": "298fb214c1a793366496b361a3b32b27"
-  },
-  "packages/web-vue/components/tree/__test__/tree-data.ts": {
-    "mtime": 1777011932.1169777,
-    "ast_hash": "685939d410fa80b012c8530e2c312550",
-    "semantic_hash": "685939d410fa80b012c8530e2c312550"
-  },
-  "packages/web-vue/components/tree/__test__/virtual-list.test.ts": {
-    "mtime": 1779087770.5223694,
-    "ast_hash": "28bb8f92d584b15b4df6c4eebd0be026",
-    "semantic_hash": "28bb8f92d584b15b4df6c4eebd0be026"
   },
   "packages/web-vue/components/tree/base-node.vue": {
     "mtime": 1781228835.4683597,
@@ -10309,16 +9619,6 @@
     "ast_hash": "d81a95c913d1e5d234a42eaf3a9efb17",
     "semantic_hash": "d81a95c913d1e5d234a42eaf3a9efb17"
   },
-  "packages/web-vue/components/trigger/__test__/demo.test.ts": {
-    "mtime": 1777011932.1285162,
-    "ast_hash": "c69165758e15e711ae64b91abe577074",
-    "semantic_hash": "c69165758e15e711ae64b91abe577074"
-  },
-  "packages/web-vue/components/trigger/__test__/index.test.ts": {
-    "mtime": 1777011932.1295156,
-    "ast_hash": "b5205eb52f34b7246bf1ee4032b8afc1",
-    "semantic_hash": "b5205eb52f34b7246bf1ee4032b8afc1"
-  },
   "packages/web-vue/components/trigger/context.ts": {
     "mtime": 1780981475.2434237,
     "ast_hash": "6124be955365ca4d3cf41f050e684f55",
@@ -10348,16 +9648,6 @@
     "mtime": 1777011932.1325855,
     "ast_hash": "313bb780e5ed0fb7b8242bdfce5e7dc4",
     "semantic_hash": "313bb780e5ed0fb7b8242bdfce5e7dc4"
-  },
-  "packages/web-vue/components/typography/__test__/demo.test.ts": {
-    "mtime": 1777011932.1340983,
-    "ast_hash": "89a3c49b7c6a6c95bfddcb7aa8497b61",
-    "semantic_hash": "89a3c49b7c6a6c95bfddcb7aa8497b61"
-  },
-  "packages/web-vue/components/typography/__test__/index.test.ts": {
-    "mtime": 1779088219.6845503,
-    "ast_hash": "3cad6936572ecc563b7effc128e1c324",
-    "semantic_hash": "3cad6936572ecc563b7effc128e1c324"
   },
   "packages/web-vue/components/typography/base.tsx": {
     "mtime": 1780982126.7434387,
@@ -10419,11 +9709,6 @@
     "ast_hash": "a02361e89293c67792a3cbfbf6880053",
     "semantic_hash": "a02361e89293c67792a3cbfbf6880053"
   },
-  "packages/web-vue/components/upload/__test__/demo.test.ts": {
-    "mtime": 1777011932.1438878,
-    "ast_hash": "74db1b8142364548bebe32dfda42ecf6",
-    "semantic_hash": "74db1b8142364548bebe32dfda42ecf6"
-  },
   "packages/web-vue/components/upload/context.ts": {
     "mtime": 1777011932.1438878,
     "ast_hash": "57eae9c0994c5aaaa0699d2caa507d48",
@@ -10479,11 +9764,6 @@
     "ast_hash": "679b0dba1e4c4de3858f6ee980dba441",
     "semantic_hash": "679b0dba1e4c4de3858f6ee980dba441"
   },
-  "packages/web-vue/components/verification-code/__test__/demo.test.ts": {
-    "mtime": 1777011932.1498888,
-    "ast_hash": "ccd1c469cb1a8f96c355bd2828b4ff60",
-    "semantic_hash": "ccd1c469cb1a8f96c355bd2828b4ff60"
-  },
   "packages/web-vue/components/verification-code/index.ts": {
     "mtime": 1777011932.151064,
     "ast_hash": "1bfbaefb64d802bcd93e27d93d4ea27f",
@@ -10498,11 +9778,6 @@
     "mtime": 1781228835.4759572,
     "ast_hash": "7502d2e02c4949d23ce7ea4ea8373276",
     "semantic_hash": "7502d2e02c4949d23ce7ea4ea8373276"
-  },
-  "packages/web-vue/components/watermark/__test__/demo.test.ts": {
-    "mtime": 1777011932.1551857,
-    "ast_hash": "63a5a9fa5d4e01e285dd05abe61afc10",
-    "semantic_hash": "63a5a9fa5d4e01e285dd05abe61afc10"
   },
   "packages/web-vue/components/watermark/hooks/use-mutation-observer.ts": {
     "mtime": 1777011932.1561852,
@@ -10563,11 +9838,6 @@
     "mtime": 1779072617.5323865,
     "ast_hash": "6d67371a132114c09672fbe93416c64f",
     "semantic_hash": "6d67371a132114c09672fbe93416c64f"
-  },
-  "packages/web-vue/scripts/demo-test.ts": {
-    "mtime": 1781228835.4784656,
-    "ast_hash": "0bb0710de20dae3b91d3b55290ca0cd5",
-    "semantic_hash": "0bb0710de20dae3b91d3b55290ca0cd5"
   },
   "packages/web-vue/scripts/gen-icons.mjs": {
     "mtime": 1781157615.9722571,
@@ -10638,11 +9908,6 @@
     "mtime": 1778153476.2613046,
     "ast_hash": "754f07b9b267af1f9958610cb99cfea7",
     "semantic_hash": "754f07b9b267af1f9958610cb99cfea7"
-  },
-  "packages/web-vue/vitest.setup.ts": {
-    "mtime": 1778503303.7369208,
-    "ast_hash": "f31591e9138e5cf95ccd6be9f738502f",
-    "semantic_hash": "f31591e9138e5cf95ccd6be9f738502f"
   },
   "scripts/cloneVendor.mjs": {
     "mtime": 1777013907.274222,
