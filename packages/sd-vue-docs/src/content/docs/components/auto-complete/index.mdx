@@ -6,6 +6,8 @@ description: 输入框的自动补全功能。
 import DemoBlock from '../../../../components/docs/DemoBlock.astro';
 import AutoCompleteBasicDemo from '../../../../components/generated/auto-complete/basic.vue';
 import autoCompleteBasicSource from '../../../../components/generated/auto-complete/basic.vue?raw';
+import AutoCompletePrefixDemo from '../../../../components/generated/auto-complete/prefix.vue';
+import autoCompletePrefixSource from '../../../../components/generated/auto-complete/prefix.vue?raw';
 import AutoCompleteFooterDemo from '../../../../components/generated/auto-complete/footer.vue';
 import autoCompleteFooterSource from '../../../../components/generated/auto-complete/footer.vue?raw';
 import AutoCompleteScrollDemo from '../../../../components/generated/auto-complete/scroll.vue';
@@ -22,6 +24,16 @@ import autoCompleteVirtualListSource from '../../../../components/generated/auto
 <DemoBlock source={autoCompleteBasicSource} mainFile="src/auto-complete-basic.vue">
 
 <AutoCompleteBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 前缀与后缀
+
+通过指定 `prefix` 和 `suffix` 插槽来在输入框内添加前缀和后缀。
+
+<DemoBlock source={autoCompletePrefixSource} mainFile="src/auto-complete-prefix.vue">
+
+<AutoCompletePrefixDemo client:only="vue" />
 
 </DemoBlock>
 
@@ -108,3 +120,5 @@ import autoCompleteVirtualListSource from '../../../../components/generated/auto
 | ------ | :----------: | ------------------ | :----- |
 | option |   选项内容   | data: `OptionInfo` | 2.13.0 |
 | footer | 弹出框的页脚 | -                  |        |
+| prefix |   前缀元素   | -                  |        |
+| suffix |   后缀元素   | -                  |        |

@@ -21,6 +21,18 @@ describe('AutoComplete', () => {
     cy.get('.sd-select-option .sd-ellipsis').should('exist');
   });
 
+  it('renders prefix and suffix slots', () => {
+    cy.mount(AutoComplete, {
+      props: { data: ['Beijing', 'Shanghai'] },
+      slots: {
+        prefix: () => h('span', { class: 'custom-prefix' }, 'P'),
+        suffix: () => h('span', { class: 'custom-suffix' }, 'S'),
+      },
+    });
+    cy.get('.sd-input-prefix .custom-prefix').should('exist');
+    cy.get('.sd-input-suffix .custom-suffix').should('exist');
+  });
+
   it('does not wrap a custom option slot with performant ellipsis', () => {
     cy.mount(AutoComplete, {
       props: {

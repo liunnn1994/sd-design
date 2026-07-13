@@ -161,6 +161,16 @@ export default defineComponent({
     'dropdownReachBottom': (_ev: Event) => true,
   },
   /**
+   * @zh 前缀元素
+   * @en Prefix
+   * @slot prefix
+   */
+  /**
+   * @zh 后缀元素
+   * @en Suffix
+   * @slot suffix
+   */
+  /**
    * @zh 弹出框的页脚
    * @en The footer of the popup menu box
    * @slot footer
