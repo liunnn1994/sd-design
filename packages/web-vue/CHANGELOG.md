@@ -1,3 +1,12 @@
+# [3.10.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.9.0...web-vue-v3.10.0) (2026-07-14)
+
+
+### Features
+
+* 🆕 tree 组件添加隐藏 switcher 的参数 ([9d11b28](https://github.com/liunnn1994/sd-design/commit/9d11b288c94251753dbc17344ddaa0b12dbd6a53))
+* 🆕 使用 pdfjs 渲染 pdf ([da3ceab](https://github.com/liunnn1994/sd-design/commit/da3ceabe84c10c928a817fb619a4c1e0ec97abd1))
+* 🆕 新增 mcp ([c931d96](https://github.com/liunnn1994/sd-design/commit/c931d96442429a423213f78e55a6cbe4f889d971))
+
 # [3.9.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.8.0...web-vue-v3.9.0) (2026-07-13)
 
 
