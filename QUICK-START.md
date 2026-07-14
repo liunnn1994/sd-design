@@ -48,11 +48,12 @@ pnpm run dev
 
 ## 项目结构
 
-本项目主要由以下三个包构成：
+本项目主要由以下四个包构成：
 
 - `packages/web-vue`：**核心组件库**，包含所有 Vue 组件源码、样式、测试及构建脚本。
 - `packages/sd-vue-docs`：**文档站**，基于 Astro，用于展示组件文档和在线示例，负责消费组件库产物。
 - `packages/web-vue-debug`：**最小调试环境**，专门用于本地开发时直接使用组件库源码进行样式和逻辑的联调，无需通过文档站。
+- `packages/sd-mcp`：**MCP 服务**，把组件 API 元数据暴露给 AI 助手（Claude Code、Codex、VS Code Copilot 等），便于在 AI 辅助开发时准确使用组件，详见 [packages/sd-mcp/README.md](packages/sd-mcp/README.md)。
 
 ## 开发与调试
 

@@ -1,0 +1,305 @@
+---
+title: MCP 服务
+description: 通过 MCP 协议把 SD Design 组件 API 暴露给 AI 助手，让编码时直接查询组件 Props、Events、Slots 与用法。
+---
+
+SD Design 提供一个 [Model Context Protocol（MCP）](https://modelcontextprotocol.io/) 服务，把组件库的真实 API 元数据暴露给 AI 编码助手。配置一次之后，AI 助手在帮你写 Vue 代码时可以直接查询组件的分类、Props、Events、Slots、导入方式与文档链接，给出的答案基于组件库真实导出的接口，而不是模型记忆里可能过时或臆测的 API。
+
+## 它解决什么问题
+
+直接问大语言模型「SD Design 的 Table 有哪些 Props」，经常会遇到几种情况：
+
+- 模型凭记忆作答，把其它组件库（Arco、Ant Design、Element 等）的属性混进来。
+- 模型不确定时编造出不存在的 Props 或事件。
+- 模型不知道组件的正确导入路径或样式引入方式。
+
+MCP 服务把组件库自身导出的 API 作为「工具」交给 AI 助手调用。AI 在回答前先调用工具查询真实数据，从而显著降低上述问题。它覆盖 85 个文档化组件，数据来源与组件库对外发布的 `web-types` / `vetur` IDE 元数据一致。
+
+## 工作原理
+
+MCP 是一个让 AI 模型连接外部工具与数据源的开放协议。SD Design MCP 服务运行在本地，通过 stdio 与 AI 客户端（Claude Code、Codex 等）通信：
+
+1. AI 客户端启动时拉起 `sd-design-mcp` 进程。
+2. 进程加载内置的 `data/components.json`（85 个组件的元数据）。
+3. AI 在对话中按需调用工具（例如 `get_component`），服务返回 JSON 结果。
+4. AI 基于返回的真实数据组织回答。
+
+<sd-button type="outline" href="/llms_txt">MCP 与 LLMs.txt 是什么关系？</sd-button>
+
+> 简单说：**LLMs.txt 是静态文档文本，MCP 是可调用的工具。**
+>
+> - [LLMs.txt](/llms_txt) 把文档聚合成纯文本，适合一次性投喂上下文或做 RAG。
+> - MCP 提供结构化查询工具，AI 按需调用，只在需要时取回相关组件的 API，更省上下文、更新更及时。
+>
+> 两者可以配合使用：用 llms.txt 让模型了解整体结构，用 MCP 在编码时精确查询单个组件。
+
+## 数据来源
+
+组件元数据由构建脚本从仓库内提取，保证与组件库实现一致：
+
+- **组件清单、分类、标题**：来自文档站侧边栏与各组件文档页 frontmatter。
+- **Props / Events / Slots**：由 [`vue-docgen-api`](https://github.com/vue-styleguidist/vue-docgen) 从 `packages/web-vue` 组件源码提取，与组件库对外发布的 `web-types` 元数据走同一套解析逻辑。
+- **导入路径与文档链接**：根据组件名与站点地址生成。
+
+数据生成在 `packages/sd-mcp` 包内，构建时由 tsdown 内联进可执行产物，因此 AI 客户端无需访问网络即可查询。
+
+## 安装与配置
+
+服务以 npm 包 `@sdata/web-vue-mcp` 发布，bin 名为 `sd-design-mcp`。各 AI 客户端的配置方式如下。**如果你同时使用多个客户端，需要在每个客户端里分别配置一次。**
+
+### Claude Code
+
+```bash
+# 添加到用户级配置（所有项目可用）
+claude mcp add sd-design -s user -- npx -y @sdata/web-vue-mcp
+
+# 或仅添加到当前项目
+claude mcp add sd-design -- npx -y @sdata/web-vue-mcp
+```
+
+也可以使用 JSON 格式：
+
+```bash
+claude mcp add-json sd-design '{"command":"npx","args":["-y","@sdata/web-vue-mcp"]}' -s user
+```
+
+常用命令：
+
+```bash
+claude mcp list             # 列出所有 MCP 服务
+claude mcp get sd-design    # 查看服务详情
+claude mcp remove sd-design # 移除服务
+```
+
+添加后开启新的 Claude Code 会话，使用 `/mcp` 验证连接状态。
+
+> 参考文档：[Claude Code MCP](https://code.claude.com/docs/en/mcp)
+
+### Codex
+
+OpenAI Codex 同时提供命令行（Codex CLI）和 VS Code 扩展，两者共用同一份 MCP 配置。
+
+**方式一：通过 CLI 添加**
+
+```bash
+codex mcp add sd-design -- npx -y @sdata/web-vue-mcp
+```
+
+**方式二：直接编辑配置文件**
+
+编辑 `~/.codex/config.toml`：
+
+```toml
+[mcp_servers.sd-design]
+command = "npx"
+args = ["-y", "@sdata/web-vue-mcp"]
+```
+
+添加后，MCP 服务在 Codex CLI 与 VS Code 的 Codex 扩展中均可使用。
+
+> 参考文档：[OpenAI Codex MCP](https://developers.openai.com/codex/mcp/)
+
+### VS Code（GitHub Copilot）
+
+在项目下创建 `.vscode/mcp.json`：
+
+```json
+{
+  "servers": {
+    "sd-design": {
+      "command": "npx",
+      "args": ["-y", "@sdata/web-vue-mcp"]
+    }
+  }
+}
+```
+
+也可以放到用户配置目录实现全局生效：
+
+- **Windows**：`%APPDATA%\Code\User\mcp.json`
+- **macOS**：`~/Library/Application Support/Code/User/mcp.json`
+- **Linux**：`~/.config/Code/User/mcp.json`
+
+添加后在 Copilot Chat 的 **Agent 模式** 下即可调用。
+
+> 参考文档：[VS Code MCP](https://code.visualstudio.com/docs/copilot/chat/mcp-servers)
+
+### Windsurf
+
+编辑 `~/.codeium/windsurf/mcp_config.json`：
+
+```json
+{
+  "mcpServers": {
+    "sd-design": {
+      "command": "npx",
+      "args": ["-y", "@sdata/web-vue-mcp"]
+    }
+  }
+}
+```
+
+也可以通过 **Settings → Cascade → Manage MCPs → View raw config** 编辑。
+
+> 参考文档：[Windsurf MCP](https://docs.windsurf.com/windsurf/cascade/mcp)
+
+### Zed
+
+编辑 Zed 设置文件（macOS：`~/Library/Application Support/Zed/settings.json`；Linux：`~/.config/zed/settings.json`）：
+
+```json
+{
+  "context_servers": {
+    "sd-design": {
+      "command": {
+        "path": "npx",
+        "args": ["-y", "@sdata/web-vue-mcp"]
+      }
+    }
+  }
+}
+```
+
+添加后重启 Zed，在 Agent 面板设置里看到 `sd-design` 旁的绿色指示点即表示连接成功。
+
+> 参考文档：[Zed MCP](https://zed.dev/docs/ai/mcp)
+
+## 本地开发与未发布用法
+
+在 `@sdata/web-vue-mcp` 尚未发布到 npm，或你想直接使用本仓库构建产物时，可以把 `command` 指向本地构建结果：
+
+```json
+{
+  "mcpServers": {
+    "sd-design": {
+      "command": "node",
+      "args": ["./packages/sd-mcp/dist/index.js"]
+    }
+  }
+}
+```
+
+> Codex 的 TOML 写法等价于：
+>
+> ```toml
+> [mcp_servers.sd-design]
+> command = "node"
+> args = ["./packages/sd-mcp/dist/index.js"]
+> ```
+
+仓库内的开发命令：
+
+```bash
+# 重新生成组件数据（当 web-vue 组件源码或文档侧边栏变更后执行）
+pnpm --filter @sdata/web-vue-mcp run gen
+
+# 构建 dist/index.js
+pnpm --filter @sdata/web-vue-mcp run build
+
+# 类型检查
+pnpm --filter @sdata/web-vue-mcp run typecheck
+```
+
+## 可用工具
+
+服务对外暴露 8 个工具。AI 助手会根据你的问题自动选择调用哪一个，你也可以在提问时明确指定。
+
+| 工具 | 入参 | 说明 |
+| --- | --- | --- |
+| `list_components` | `category?` | 列出所有组件（分类、双语标题、API 数量），可按分类过滤。通常是发现入口。 |
+| `get_categories` | — | 列出所有组件分类及各分类的组件数量。 |
+| `get_component` | `name` | 获取组件完整信息：描述、导入语句、文档链接、全部 Props / Events / Slots。 |
+| `search_components` | `query` | 跨名称、标题、描述与 Props / Events / Slots 文本搜索，中英文均可。 |
+| `get_component_props` | `name` | 仅获取组件的 Props（含类型、默认值、中英文描述）。 |
+| `get_component_events` | `name` | 仅获取组件的 Events。 |
+| `get_component_slots` | `name` | 仅获取组件的 Slots。 |
+| `find_by_prop` | `prop` | 查找暴露了某个 Prop 的组件，例如「哪些组件有 `size` 属性」。 |
+
+组件名入参支持三种写法：标签名 `sd-button`、kebab 名 `button`、PascalCase 名 `Button`，三者等价。
+
+### 返回结构示例
+
+以 `get_component` 查询 Button 为例，返回的 JSON 大致如下（已简化）：
+
+```json
+{
+  "name": "sd-button",
+  "title": "按钮 Button",
+  "category": "通用",
+  "description": "按钮是一种命令组件，可发起一个即时操作。",
+  "docUrl": "https://sd-design.js.org/components/button",
+  "import": {
+    "named": "import { Button } from '@sdata/web-vue';",
+    "fullInstall": "import { createApp } from 'vue';\nimport SDVue from '@sdata/web-vue';\nimport '@sdata/web-vue/dist/sd.css';\n\nconst app = createApp(App);\napp.use(SDVue);"
+  },
+  "props": [
+    {
+      "name": "type",
+      "type": "ButtonTypes",
+      "default": "",
+      "description": {
+        "zh": "按钮的类型，分为五种：次要按钮、主要按钮、虚框按钮、线性按钮、文字按钮。",
+        "en": "Button types are divided into five types: secondary, primary, dashed, outline and text."
+      }
+    }
+  ],
+  "events": [
+    { "name": "click", "description": { "zh": "点击时触发", "en": "Triggered when clicked" } }
+  ],
+  "slots": []
+}
+```
+
+## 使用示例
+
+安装并连接成功后，可以尝试这样提问：
+
+- 「SD Design 的 Button 有哪些 Props？」
+- 「帮我用 sd-table 实现一个带分页和选择的表格。」
+- 「哪些组件支持 `size` 属性？分别叫什么？」
+- 「比较一下 Select 和 AutoComplete 的差异。」
+- 「日期选择器怎么用？给我一个最小示例。」
+- 「我想做一个图片上传，需要导入哪些组件？」
+
+AI 会先调用相应工具查询，再基于返回数据组织回答与代码，通常会附带文档链接便于你核对。
+
+## 数据更新
+
+组件元数据是构建时生成的静态快照，**不会**在运行时实时读取源码。因此：
+
+- 组件库新增 / 修改组件后，需要重新生成数据并发布新版本，AI 客户端才能查询到。
+- 仓库内重新生成：`pnpm --filter @sdata/web-vue-mcp run gen`，产物为 `packages/sd-mcp/data/components.json`。
+- 数据生成逻辑与 `web-vue` 的 `web-types` 生成保持一致，二者对同一组件的 API 描述一致。
+
+## 已知限制
+
+:::caution[部分组件 API 字段为空] 少数组件（如 `select`、`menu`、`cascader`、`typography`）的 Props 文档写在 TypeScript `interface.ts` 中，`vue-docgen-api` 无法追踪到外部接口定义，因此这些组件通过 MCP 查询到的 API 字段可能为空。
+
+这与组件库自身发布的 `web-types` 表现一致（同一套解析逻辑的固有限制），并非 MCP 服务本身的缺陷。遇到此类情况，`get_component` 返回的 `docUrl` 指向完整的文档页面，可直接参考页面上的 Props 表格。:::
+
+## 常见问题
+
+### 配置后 AI 没有调用工具？
+
+- 确认客户端已重启或重新加载配置。
+- 在客户端里检查 MCP 服务状态（如 Claude Code 的 `/mcp`、Zed 的指示点）。
+- 确认 Node.js 与 `npx` 可用（建议 Node.js 20+）。
+
+### 工具返回的数据和文档站不一致？
+
+数据是构建快照，可能落后于最新文档。仓库内运行 `pnpm --filter @sdata/web-vue-mcp run gen` 重新生成。如果是已发布的包，等待新版本发布。
+
+### 能否在内网 / 离线环境使用？
+
+可以。`@sdata/web-vue-mcp` 的元数据已内联进可执行产物，运行时不访问网络。`npx` 首次下载需要网络，之后本地缓存即可；完全离线时可改用本地构建产物（见上文「本地开发与未发布用法」）。
+
+### 和组件文档站的搜索有什么区别？
+
+文档站搜索是面向人的关键字匹配；MCP 是面向 AI 的结构化查询，返回的是带类型、默认值、中英文描述的结构化 JSON，AI 能更精确地理解并组合使用。
+
+## 相关链接
+
+- [Model Context Protocol](https://modelcontextprotocol.io)
+- [packages/sd-mcp 源码与 README](https://github.com/liunnn1994/sd-design/tree/main/packages/sd-mcp)
+- [LLMs.txt](/llms_txt)
+- [SD Design 文档首页](/)

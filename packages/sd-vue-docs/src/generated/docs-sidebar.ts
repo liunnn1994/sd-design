@@ -39,6 +39,10 @@ export const docsSidebar = [
         slug: 'llms_txt',
         label: 'LLMs.txt',
       },
+      {
+        slug: 'mcp',
+        label: 'MCP 服务',
+      },
     ],
   },
   {

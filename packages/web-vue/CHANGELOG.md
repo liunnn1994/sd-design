@@ -7,22 +7,19 @@
 
 # [3.8.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.7.1...web-vue-v3.8.0) (2026-07-10)
 
-
 ### Bug Fixes
 
-* 🐛 修复文件预览里嵌套图片时的错误 ([4783782](https://github.com/liunnn1994/sd-design/commit/4783782ed1191ec1eddb0d06c08a0ed536f05322))
-
+- 🐛 修复文件预览里嵌套图片时的错误 ([4783782](https://github.com/liunnn1994/sd-design/commit/4783782ed1191ec1eddb0d06c08a0ed536f05322))
 
 ### Features
 
-* 🆕 测试用例全部从单元测试转换为真实的e2e测试 ([49821ea](https://github.com/liunnn1994/sd-design/commit/49821ea1ec3a2af6c6774f8b6f90d56fbe44c576))
+- 🆕 测试用例全部从单元测试转换为真实的e2e测试 ([49821ea](https://github.com/liunnn1994/sd-design/commit/49821ea1ec3a2af6c6774f8b6f90d56fbe44c576))
 
 ## [3.7.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.7.0...web-vue-v3.7.1) (2026-07-09)
 
-
 ### Bug Fixes
 
-* 🐛 修复错误的 responsive 计算 ([7a020b4](https://github.com/liunnn1994/sd-design/commit/7a020b4bbaee73451ede2c7d623dd1ca4d8eefcd))
+- 🐛 修复错误的 responsive 计算 ([7a020b4](https://github.com/liunnn1994/sd-design/commit/7a020b4bbaee73451ede2c7d623dd1ca4d8eefcd))
 
 # [3.7.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.6.0...web-vue-v3.7.0) (2026-07-09)
 
