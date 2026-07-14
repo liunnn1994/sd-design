@@ -209,6 +209,7 @@ export type CheckableType =
 export interface TreeProps {
   size: Size;
   blockNode: boolean;
+  switcher: boolean;
   defaultExpandAll: boolean;
   multiple: boolean;
   checkable: CheckableType;
