@@ -57,3 +57,11 @@ declare module '../../icon/*' {
 
 declare module 'clean-css';
 declare module 'chroma-js';
+
+declare module 'pdfjs-dist/build/pdf.worker.min.mjs' {
+  /**
+   * @internal 加载该模块会产生副作用：在 globalThis 上挂载 pdfjsWorker，
+   * 用于未配置 workerSrc/workerPort 时启用 pdf.js 主线程渲染。
+   */
+  export const WorkerMessageHandler: unknown;
+}

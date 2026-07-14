@@ -30,62 +30,101 @@
         </header>
         <div :class="`${prefixCls}-body`">
           <slot name="content" v-bind="contentSlotProps">
-            <Image
-              v-if="type === 'image'"
-              :key="currentSrc + 'image'"
-              v-bind="mergedImageProps"
-              :class="`${prefixCls}-image`"
-            />
-            <template v-else-if="type === 'video'">
-              <component
-                :is="mediaPlayerTag"
-                v-if="useVideoJsMediaSkin"
-                v-bind="mediaPlayerProps"
-                :class="`${prefixCls}-video-player`"
-              >
-                <component :is="mediaSkinTag" v-bind="mediaSkinProps" :class="mediaSkinClassNames">
-                  <video
-                    :key="currentSrc + 'video'"
-                    v-bind="mergedMediaProps"
-                    :class="`${prefixCls}-video`"
-                  />
-                </component>
-              </component>
-              <video
-                v-else
-                :key="currentSrc"
-                v-bind="mergedMediaProps"
-                :class="`${prefixCls}-video`"
+            <slot v-if="type === 'image'" name="image" v-bind="imageSlotProps">
+              <Image
+                :key="currentSrc + 'image'"
+                v-bind="mergedImageProps"
+                :class="`${prefixCls}-image`"
               />
+            </slot>
+            <template v-else-if="type === 'video'">
+              <slot name="video" v-bind="mediaSlotProps">
+                <component
+                  :is="mediaPlayerTag"
+                  v-if="useVideoJsMediaSkin"
+                  v-bind="mediaPlayerProps"
+                  :class="`${prefixCls}-video-player`"
+                >
+                  <component
+                    :is="mediaSkinTag"
+                    v-bind="mediaSkinProps"
+                    :class="mediaSkinClassNames"
+                  >
+                    <video
+                      :key="currentSrc + 'video'"
+                      v-bind="mergedMediaProps"
+                      :class="`${prefixCls}-video`"
+                    />
+                  </component>
+                </component>
+                <video
+                  v-else
+                  :key="currentSrc"
+                  v-bind="mergedMediaProps"
+                  :class="`${prefixCls}-video`"
+                />
+              </slot>
             </template>
             <div v-else-if="type === 'audio'" :class="`${prefixCls}-audio-panel`">
-              <component
-                :is="mediaPlayerTag"
-                v-if="useVideoJsMediaSkin"
-                v-bind="mediaPlayerProps"
-                :class="`${prefixCls}-audio-player`"
-              >
-                <component :is="mediaSkinTag" v-bind="mediaSkinProps" :class="mediaSkinClassNames">
-                  <audio
-                    :key="currentSrc + 'audio'"
-                    v-bind="mergedMediaProps"
-                    :class="`${prefixCls}-audio`"
-                  />
+              <slot name="audio" v-bind="mediaSlotProps">
+                <component
+                  :is="mediaPlayerTag"
+                  v-if="useVideoJsMediaSkin"
+                  v-bind="mediaPlayerProps"
+                  :class="`${prefixCls}-audio-player`"
+                >
+                  <component
+                    :is="mediaSkinTag"
+                    v-bind="mediaSkinProps"
+                    :class="mediaSkinClassNames"
+                  >
+                    <audio
+                      :key="currentSrc + 'audio'"
+                      v-bind="mergedMediaProps"
+                      :class="`${prefixCls}-audio`"
+                    />
+                  </component>
                 </component>
-              </component>
-              <audio
-                v-else
-                :key="currentSrc + 'audio'"
-                v-bind="mergedMediaProps"
-                :class="`${prefixCls}-audio`"
-              />
+                <audio
+                  v-else
+                  :key="currentSrc + 'audio'"
+                  v-bind="mergedMediaProps"
+                  :class="`${prefixCls}-audio`"
+                />
+              </slot>
             </div>
-            <iframe
-              v-else-if="type === 'pdf'"
-              :key="currentSrc + 'pdf'"
-              v-bind="mergedPdfProps"
-              :class="`${prefixCls}-pdf`"
-            />
+            <template v-else-if="type === 'pdf'">
+              <slot name="pdf" v-bind="pdfSlotProps">
+                <div :class="`${prefixCls}-pdf`">
+                  <div :class="`${prefixCls}-pdf-canvas-wrap`">
+                    <canvas ref="pdfCanvasRef" :class="`${prefixCls}-pdf-canvas`" />
+                  </div>
+                  <div v-if="pdfNumPages > 1" :class="`${prefixCls}-pdf-toolbar`">
+                    <button
+                      type="button"
+                      :class="`${prefixCls}-pdf-btn`"
+                      :disabled="pdfCurrentPage <= 1"
+                      aria-label="上一页"
+                      @click="pdfPrev"
+                    >
+                      ‹
+                    </button>
+                    <span :class="`${prefixCls}-pdf-page`">
+                      {{ pdfCurrentPage }} / {{ pdfNumPages }}
+                    </span>
+                    <button
+                      type="button"
+                      :class="`${prefixCls}-pdf-btn`"
+                      :disabled="pdfCurrentPage >= pdfNumPages"
+                      aria-label="下一页"
+                      @click="pdfNext"
+                    >
+                      ›
+                    </button>
+                  </div>
+                </div>
+              </slot>
+            </template>
           </slot>
         </div>
       </section>
@@ -107,13 +146,16 @@
 
 <script setup lang="ts">
   import type { CSSProperties, PropType } from 'vue';
-  import { computed, nextTick, reactive, shallowRef, toRefs, watch } from 'vue';
+  import { computed, nextTick, onBeforeUnmount, reactive, shallowRef, toRefs, watch } from 'vue';
 
   import type {
     FilePreviewerContentSlotProps,
     FilePreviewerImageProps,
+    FilePreviewerImageSlotProps,
     FilePreviewerMediaProps,
+    FilePreviewerMediaSlotProps,
     FilePreviewerPdfProps,
+    FilePreviewerPdfSlotProps,
     FilePreviewerStatus,
     FilePreviewerType,
   } from './types';
@@ -127,6 +169,7 @@
   import IconClose from '../icon/icon-close';
   import IconLoading from '../icon/icon-loading';
   import Image from '../image';
+  import { usePdfJs } from './use-pdf-js';
 
   defineOptions({ name: 'FilePreviewer' });
 
@@ -137,10 +180,30 @@
      */
     title?: () => unknown;
     /**
-     * @zh 自定义预览内容
-     * @en Custom preview content
+     * @zh 自定义预览内容，优先级最高，会完全接管预览区域
+     * @en Custom preview content, highest priority, fully takes over the preview area
      */
     content?: (_props: FilePreviewerContentSlotProps) => unknown;
+    /**
+     * @zh 自定义图片预览内容，透出 Image 组件属性与状态
+     * @en Custom image preview content, exposes Image component props and status
+     */
+    image?: (_props: FilePreviewerImageSlotProps) => unknown;
+    /**
+     * @zh 自定义视频预览内容，透出 Video.js 皮肤配置与状态
+     * @en Custom video preview content, exposes Video.js skin config and status
+     */
+    video?: (_props: FilePreviewerMediaSlotProps) => unknown;
+    /**
+     * @zh 自定义音频预览内容，透出 Video.js 皮肤配置与状态
+     * @en Custom audio preview content, exposes Video.js skin config and status
+     */
+    audio?: (_props: FilePreviewerMediaSlotProps) => unknown;
+    /**
+     * @zh 自定义 PDF 预览内容，透出 pdf.js 文档代理、分页与渲染能力
+     * @en Custom PDF preview content, exposes pdf.js document proxy, pagination and rendering
+     */
+    pdf?: (_props: FilePreviewerPdfSlotProps) => unknown;
   }>();
 
   const props = defineProps({
@@ -295,7 +358,7 @@
   const mergedVisible = computed(() => visible?.value ?? localVisible.value);
   const shouldRender = computed(() => !fullscreen.value || mergedVisible.value);
   const useImagePreview = computed(
-    () => type.value === 'image' && fullscreen.value && !slots.content,
+    () => type.value === 'image' && fullscreen.value && !slots.content && !slots.image,
   );
 
   const container = usePopupContainer(document.body, reactive({ popupContainer }));
@@ -405,24 +468,96 @@
       },
     };
   });
-  const mergedPdfProps = computed<FilePreviewerPdfProps>(() => {
-    const userProps = pdfProps?.value ?? {};
-    return {
-      title: 'PDF preview',
-      ...userProps,
-      src: currentSrc.value,
-      onLoad: (event: Event) => {
-        callEventHandler(userProps.onLoad, event);
-        onPreviewLoad();
-      },
-      onError: (event: Event) => {
-        callEventHandler(userProps.onError, event);
-        onLoadError();
-      },
-    };
+  const {
+    doc: pdfDoc,
+    numPages: pdfNumPages,
+    page: pdfCurrentPage,
+    goto: pdfGoto,
+    prev: pdfPrev,
+    next: pdfNext,
+    render: pdfRender,
+    load: loadPdf,
+    destroy: destroyPdf,
+  } = usePdfJs({
+    src: () => currentSrc.value,
+    pdfProps: () => pdfProps?.value,
+    onStatus: (next) => {
+      status.value = next;
+    },
   });
+  const pdfCanvasRef = shallowRef<HTMLCanvasElement>();
+
+  const hasTypeSlot = computed(() => {
+    switch (type.value) {
+      case 'image':
+        return !!slots.image;
+      case 'video':
+        return !!slots.video;
+      case 'audio':
+        return !!slots.audio;
+      case 'pdf':
+        return !!slots.pdf;
+      default:
+        return false;
+    }
+  });
+  const pdfSlotProps = computed<FilePreviewerPdfSlotProps>(() => ({
+    src: currentSrc.value,
+    status: status.value,
+    loading: isLoading.value,
+    loaded: isLoaded.value,
+    error: isError.value,
+    doc: pdfDoc.value,
+    page: pdfCurrentPage.value,
+    numPages: pdfNumPages.value,
+    goto: pdfGoto,
+    prev: pdfPrev,
+    next: pdfNext,
+    render: pdfRender,
+    close,
+    onLoad: onPreviewLoad,
+    onError: onLoadError,
+  }));
+  const mediaSlotProps = computed<FilePreviewerMediaSlotProps>(() => ({
+    src: currentSrc.value,
+    status: status.value,
+    loading: isLoading.value,
+    loaded: isLoaded.value,
+    error: isError.value,
+    skin: mediaSkin.value,
+    useVideoJs: useVideoJsMediaSkin.value,
+    playerProps: mediaPlayerProps.value,
+    skinProps: mediaSkinProps.value,
+    close,
+    onLoad: onPreviewLoad,
+    onError: onLoadError,
+  }));
+  const imageSlotProps = computed<FilePreviewerImageSlotProps>(() => ({
+    src: currentSrc.value,
+    status: status.value,
+    loading: isLoading.value,
+    loaded: isLoaded.value,
+    error: isError.value,
+    imageProps: mergedImageProps.value,
+    close,
+    onLoad: onPreviewLoad,
+    onError: onLoadError,
+  }));
 
   usePopupOverHidden(reactive({ container, hidden: popupVisible }));
+
+  watch(
+    [pdfDoc, pdfCurrentPage, () => pdfProps?.value?.scale, () => pdfProps?.value?.rotation],
+    () => {
+      if (!pdfDoc.value || !pdfCanvasRef.value) return;
+      void pdfRender(pdfCanvasRef.value, pdfCurrentPage.value);
+    },
+    { flush: 'post' },
+  );
+
+  onBeforeUnmount(() => {
+    void destroyPdf();
+  });
 
   function resetPreviewState() {
     status.value = 'beforeLoad';
@@ -517,16 +652,25 @@
       }
 
       const currentRequestId = requestId.value;
+      if (type.value === 'pdf') {
+        void loadPdf();
+        return;
+      }
+
       if (type.value === 'video' || type.value === 'audio') {
         if (useVideoJsMediaSkin.value) {
           void prepareMedia(currentRequestId);
+          return;
+        }
+        if (hasTypeSlot.value) {
+          status.value = 'loaded';
           return;
         }
         status.value = 'loading';
         return;
       }
 
-      if (type.value === 'pdf') {
+      if (hasTypeSlot.value) {
         status.value = 'loaded';
         return;
       }

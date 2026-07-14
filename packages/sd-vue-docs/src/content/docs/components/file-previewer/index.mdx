@@ -16,6 +16,8 @@ import FilePreviewerInlineDemo from '../../../../components/generated/file-previ
 import filePreviewerInlineSource from '../../../../components/generated/file-previewer/inline.vue?raw';
 import FilePreviewerMediaDemo from '../../../../components/generated/file-previewer/media.vue';
 import filePreviewerMediaSource from '../../../../components/generated/file-previewer/media.vue?raw';
+import FilePreviewerPdfSlotDemo from '../../../../components/generated/file-previewer/pdf-slot.vue';
+import filePreviewerPdfSlotSource from '../../../../components/generated/file-previewer/pdf-slot.vue?raw';
 
 ### 基本用法
 
@@ -29,7 +31,7 @@ import filePreviewerMediaSource from '../../../../components/generated/file-prev
 
 ### 视频、音频和 PDF
 
-视频和音频默认使用 Video.js HTML 的预设 Web Components 预览器，PDF 使用内嵌文档预览；默认都会在全屏弹层中展示。
+视频和音频默认使用 Video.js HTML 的预设 Web Components 预览器，PDF 使用 pdf.js 渲染为 canvas；默认都会在全屏弹层中展示。PDF 默认走 Worker 渲染：pdf.js worker 已打包进组件库，默认从本库按需加载（适用于内网/离线环境，无需 CDN）。如需改用 CDN 或自托管，用 `pdfProps.workerSrc` 指定地址（如 vite 下 `import url from 'pdfjs-dist/build/pdf.worker.min.mjs?url'`）；设置 `pdfProps.worker: false` 可退回主线程渲染（大文件可能卡顿，且为全局一次性切换）。
 
 <DemoBlock source={filePreviewerMediaSource} mainFile="src/file-previewer-media.vue">
 
@@ -54,6 +56,16 @@ import filePreviewerMediaSource from '../../../../components/generated/file-prev
 <DemoBlock source={filePreviewerCustomContentSource} mainFile="src/file-previewer-custom-content.vue">
 
 <FilePreviewerCustomContentDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义 PDF 渲染
+
+使用 `pdf` 插槽可以接管 PDF 渲染区域。插槽参数会透出 pdf.js 文档代理（`doc`）、当前页码（`page`）、总页数（`numPages`），以及 `render` / `prev` / `next` / `goto` 等方法，方便自定义画布与翻页工具条。同样地，`image` / `video` / `audio` 插槽分别透出对应预览器的配置与状态。
+
+<DemoBlock source={filePreviewerPdfSlotSource} mainFile="src/file-previewer-pdf-slot.vue">
+
+<FilePreviewerPdfSlotDemo client:only="vue" />
 
 </DemoBlock>
 
@@ -96,7 +108,7 @@ import filePreviewerMediaSource from '../../../../components/generated/file-prev
 | render-to-body | 是否渲染到 body，仅全屏弹层下生效 | `boolean` | `true` |
 | image-props | 图片预览器参数，会透传给 Image 组件 | `Record<string, unknown>` | `-` |
 | media-props | 视频和音频预览器参数。`skin` 可设置为 `'default'`、`'minimal'`、`'native'` 或 `false`，`playerProps` 透传给 `video-player`，`skinProps` 透传给 skin Web Component，其余字段透传给内部 `video` / `audio` 元素 | `Record<string, unknown>` | `-` |
-| pdf-props | PDF 预览器参数，会透传给内部 `iframe` 元素 | `Record<string, unknown>` | `-` |
+| pdf-props | PDF 预览器参数。`worker` 默认 `true` 走 Worker（默认使用打包进本库的 worker，离线可用），设为 `false` 退回主线程；`workerSrc` / `workerPort` 自定义 worker（如 CDN）；`scale` / `rotation` / `page` 控制渲染；`documentParams` / `renderParams` 透传给 pdf.js；`onDocumentLoad` 接收文档代理 | `Record<string, unknown>` | `-` |
 
 ### `<file-previewer>` Events
 
@@ -110,4 +122,8 @@ import filePreviewerMediaSource from '../../../../components/generated/file-prev
 | 插槽名 | 描述 | 参数 |
 | --- | --- | --- |
 | title | 自定义标题 | - |
-| content | 自定义预览内容 | `{ src, type, title, visible, fullscreen, status, loading, loaded, error, close, onLoad, onError }` |
+| content | 自定义预览内容，优先级最高 | `{ src, type, title, visible, fullscreen, status, loading, loaded, error, close, onLoad, onError }` |
+| image | 自定义图片预览 | `{ src, status, loading, loaded, error, imageProps, close, onLoad, onError }` |
+| video | 自定义视频预览 | `{ src, status, loading, loaded, error, skin, useVideoJs, playerProps, skinProps, close, onLoad, onError }` |
+| audio | 自定义音频预览 | `{ src, status, loading, loaded, error, skin, useVideoJs, playerProps, skinProps, close, onLoad, onError }` |
+| pdf | 自定义 PDF 预览 | `{ src, status, loading, loaded, error, doc, page, numPages, goto, prev, next, render, close, onLoad, onError }` |

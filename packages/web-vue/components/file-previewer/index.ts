@@ -18,9 +18,13 @@ export type FilePreviewerInstance = InstanceType<typeof _FilePreviewer>;
 export type {
   FilePreviewerContentSlotProps,
   FilePreviewerImageProps,
+  FilePreviewerImageSlotProps,
   FilePreviewerMediaProps,
   FilePreviewerMediaSkin,
+  FilePreviewerMediaSlotProps,
   FilePreviewerPdfProps,
+  FilePreviewerPdfRotation,
+  FilePreviewerPdfSlotProps,
   FilePreviewerProps,
   FilePreviewerStatus,
   FilePreviewerType,
