@@ -1,0 +1,107 @@
+name: Release MCP
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/release-mcp.yml
+      - packages/sd-mcp/**
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: write
+  issues: write
+  pull-requests: write
+
+concurrency:
+  # 与 web-vue / auto-import-resolver 共用 release 组，串行所有发版，避免并发 push chore(release) 冲突
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Check whether release is needed
+        id: release-check
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+            echo "Manual dispatch: release enabled."
+            exit 0
+          fi
+
+          base="${{ github.event.before }}"
+          head="${{ github.sha }}"
+
+          if [[ -z "$base" || "$base" =~ ^0+$ ]]; then
+            base="$(git rev-list --max-parents=0 "$head")"
+          fi
+
+          # 仅当 packages/sd-mcp 下有源码变更时才发版。
+          # components.json 为构建产物（已 gitignore），不会出现在 diff 中。
+          mcp_changes="$(git diff --name-only "$base" "$head" -- packages/sd-mcp || true)"
+
+          if [[ -n "$mcp_changes" ]]; then
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+            echo "packages/sd-mcp changed; release enabled."
+            echo "$mcp_changes"
+            exit 0
+          fi
+
+          echo "should_release=false" >> "$GITHUB_OUTPUT"
+          echo "No changes under packages/sd-mcp; release skipped."
+
+      - name: Setup Node.js
+        if: steps.release-check.outputs.should_release == 'true'
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: 'package.json'
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@sdata'
+
+      - name: Install dependencies
+        if: steps.release-check.outputs.should_release == 'true'
+        run: |
+          corepack enable
+          node -v
+          pnpm -v
+          pnpm run install:ci
+
+      - name: Build release package
+        if: steps.release-check.outputs.should_release == 'true'
+        env:
+          NODE_OPTIONS: '--max-old-space-size=4096'
+        # build 脚本会先跑 gen 自动生成 components.json，再用 tsdown 打包
+        run: pnpm --filter @sdata/web-vue-mcp run build
+
+      - name: Sync with latest main before release
+        if: steps.release-check.outputs.should_release == 'true'
+        run: git pull --rebase origin main
+
+      - name: Release MCP
+        if: steps.release-check.outputs.should_release == 'true'
+        working-directory: packages/sd-mcp
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # semantic-release 的 git push 不应被本地开发者用的 pre-push 钩子拦截
+          # （该钩子会跑全量 typecheck，而本 workflow 未构建 web-vue 产物，
+          # 会导致 docs typecheck 找不到 @sdata/web-vue/es/icon 而失败、中断发布）
+          SKIP_SIMPLE_GIT_HOOKS: '1'
+        run: pnpm exec semantic-release
+
+      - name: Show error
+        if: failure()
+        run: |
+          pnpm vp run --last-details

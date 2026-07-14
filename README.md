@@ -30,6 +30,7 @@ SD Design 是一个基于 Vue 3 的现代企业级组件库。本项目采用 pn
 - `packages/web-vue`：组件库生产层。产出 UMD、ESM 模块，及相关的 IDE 元数据。
 - `packages/sd-vue-docs`：文档站消费层。基于 Astro 组织构建组件文档及在线演示。
 - `packages/web-vue-debug`：轻量级调试环境。开发单组件时可直接基于此包快速热更和联调。
+- `packages/sd-mcp`：MCP 服务层。为 AI 助手（Claude Code、Codex 等）提供 SD Design 组件 API 元数据查询，详见 [packages/sd-mcp/README.md](packages/sd-mcp/README.md)。
 
 ## ⚙️ 环境要求
 
