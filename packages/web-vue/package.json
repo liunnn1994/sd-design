@@ -68,6 +68,7 @@
     "dtsgen": "pnpm run build:dts",
     "pretypecheck": "pnpm run icongen",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json",
+    "pretest": "pnpm run icongen",
     "test": "cypress run --component --browser chrome",
     "test:affected": "node ./scripts/find-affected-cypress-specs.mjs",
     "test:affected:unit": "node --test ./scripts/find-affected-cypress-specs.test.mjs",
