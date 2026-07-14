@@ -60,6 +60,16 @@ describe('Tree', () => {
     });
   });
 
+  it('renders the switcher by default', () => {
+    cy.mount(Tree, { props: { data: treeData } });
+    cy.get('.sd-tree-node-switcher').should('exist');
+  });
+
+  it('does not render the switcher dom when switcher is false', () => {
+    cy.mount(Tree, { props: { data: treeData, switcher: false } });
+    cy.get('.sd-tree-node-switcher').should('not.exist');
+  });
+
   it('renders the title with PerformantEllipsis when ellipsis is performant-ellipsis', () => {
     cy.mount(Tree, { props: { data: treeData, ellipsis: 'performant-ellipsis' } });
     cy.get('@vue').should(({ wrapper }) => {

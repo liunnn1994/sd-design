@@ -15,6 +15,7 @@
     </span>
     <!-- switcher -->
     <span
+      v-if="showSwitcher"
       :class="[
         `${prefixCls}-switcher`,
         {
@@ -226,6 +227,8 @@
     const action = treeContext.treeProps?.actionOnNodeClick;
     return action ? toArray(action) : [];
   });
+
+  const showSwitcher = computed(() => treeContext.treeProps?.switcher !== false);
 
   const { isLeaf, isTail, selectable, disabled, disableCheckbox, draggable } = toRefs(props);
 

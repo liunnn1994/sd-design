@@ -231,6 +231,7 @@ Tree 会透出节点标题区域的基础 DOM 事件，并补充 VueUse 的长�
 | --- | --- | --- | :-: | :-- |
 | size | 尺寸 | `'mini' \| 'small' \| 'medium' \| 'large'` | `'medium'` |  |
 | block-node | 节点是否占据一行 | `boolean` | `false` |  |
+| switcher | 是否显示节点的展开/收起 switcher，设为 `false` 时不渲染 switcher 节点 | `boolean` | `true` |  |
 | default-expand-all | 是否默认展开父节点 | `boolean` | `true` |  |
 | multiple | 是否支持多选 | `boolean` | `false` |  |
 | checkable | 是否在节点前添加复选框，从 `2.27.0` 开始支持函数格式 | `boolean\| ((    node: TreeNodeData,    info: {      level: number;      isLeaf: boolean;    }  ) => boolean)` | `false` |  |

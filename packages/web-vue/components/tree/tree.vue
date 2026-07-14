@@ -76,6 +76,14 @@
       type: Boolean,
     },
     /**
+     * @zh 是否显示节点的展开/收起 switcher，设为 `false` 时不渲染 `switcher` 节点
+     * @en Whether to display the expand/collapse switcher of the node. When set to `false`, the switcher node will not be rendered
+     */
+    switcher: {
+      type: Boolean,
+      default: true,
+    },
+    /**
      * @zh 是否默认展开父节点
      * @en Whether to expand the parent node by default
      */
