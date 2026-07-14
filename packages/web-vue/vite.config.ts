@@ -12,6 +12,7 @@ import { defineConfig } from 'vite-plus';
 
 import cssjsPlugin from './scripts/plugins/vite-plugin-cssjs.mjs';
 import externalPlugin from './scripts/plugins/vite-plugin-external.mjs';
+import pdfjsWorkerAssetPlugin from './scripts/plugins/vite-plugin-pdfjs-worker-asset.mjs';
 import vueExportHelperPlugin from './scripts/plugins/vite-plugin-vue-export-helper.mjs';
 import { createSassStyleSupport } from './scripts/utils/sass-support.mts';
 
@@ -93,9 +94,11 @@ function createRunConfig() {
       },
       'task:build-umd-component': {
         command: 'vite build --config vite.config.ts --mode build-umd-component',
+        cache: false,
       },
       'task:build-umd-component-min': {
         command: 'vite build --config vite.config.ts --mode build-umd-component-min',
+        cache: false,
       },
       'task:build-umd-icon': {
         command: 'vite build --config vite.config.ts --mode build-umd-icon',
@@ -144,7 +147,7 @@ function createModuleBuildConfig(): UserConfig {
         formats: ['es'],
       },
     },
-    plugins: [externalPlugin(), vue(), vueJsx(), vueExportHelperPlugin()],
+    plugins: [externalPlugin(), vue(), vueJsx(), vueExportHelperPlugin(), pdfjsWorkerAssetPlugin()],
   };
 }
 
