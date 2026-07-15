@@ -13,8 +13,29 @@ const globalInvalidators = [
   /^pnpm-(?:lock|workspace)\.yaml$/,
   /^packages\/web-vue\/(?:package\.json|cypress\.config\.ts|vite\.config\.ts)$/,
   /^packages\/web-vue\/cypress\/support\//,
-  /^packages\/web-vue\/components\/(?:index\.(?:ts|scss)|style\/|_components\/|_hooks\/|_utils\/|icon\/)/,
+  /^packages\/web-vue\/components\/(?:style\/|_components\/|_hooks\/|_utils\/|icon\/)/,
   /^packages\/web-vue\/scripts\/find-affected-cypress-specs(?:\.test)?\.mjs$/,
+];
+// Barrel files (components/index.ts, components/index.scss) re-export every
+// component, so a non-additive change - a removed or modified export / @use -
+// can ripple to other components' tests. But registering a newly added
+// component only appends a line (purely additive) and affects just that
+// component. We therefore treat barrels as global invalidators only when the
+// diff contains removals; `additiveFiles` (from `git diff --numstat`) marks
+// files whose diff is purely insertions.
+const barrelInvalidators = [/^packages\/web-vue\/components\/index\.(?:ts|scss)$/];
+// Root-level web-vue files that never affect Cypress component tests: docs,
+// ambient type declarations, and non-test configs (typecheck / release). The
+// genuinely test-affecting root configs (package.json, cypress.config.ts,
+// vite.config.ts) are already in `globalInvalidators`. Without this, generated
+// docs like CHANGELOG.md - which semantic-release lands alongside features -
+// would force a full run on every release commit.
+const ignoredRootFiles = [
+  /^[^/]+\.md$/, // CHANGELOG.md, README.md, *.md docs
+  /^[^/]+\.d\.ts$/, // global.d.ts and other ambient declarations
+  /^\.gitignore$/,
+  /^tsconfig(?:\.[^/]+)?\.json$/, // tsconfig.json / tsconfig.build.json
+  /^release\.config\.[^/]+$/, // release.config.mjs
 ];
 const normalizePath = (value) => value.replaceAll('\\', '/').replace(/^\.\//, '');
 
@@ -23,8 +44,10 @@ export function selectAffectedSpecs({
   componentDependencies,
   componentSpecs,
   forceAll = false,
+  additiveFiles = new Set(),
 }) {
   const changes = changedFiles.map(normalizePath);
+  const additive = new Set([...additiveFiles].map(normalizePath));
   const allSpecs = [...componentSpecs.values()].flat().sort();
   const all = () => ({
     mode: 'all',
@@ -33,6 +56,12 @@ export function selectAffectedSpecs({
   });
   if (forceAll || changes.some((file) => globalInvalidators.some((rule) => rule.test(file))))
     return all();
+  if (
+    changes.some(
+      (file) => barrelInvalidators.some((rule) => rule.test(file)) && !additive.has(file),
+    )
+  )
+    return all();
 
   const changed = new Set();
   for (const file of changes) {
@@ -40,7 +69,12 @@ export function selectAffectedSpecs({
     const relative = file.slice(packagePrefix.length);
     const match = relative.match(/^components\/([^/]+)\//);
     if (match && componentSpecs.has(match[1])) changed.add(match[1]);
-    else if (!relative.startsWith('components/') && !relative.startsWith('scripts/')) return all();
+    else if (
+      !relative.startsWith('components/') &&
+      !relative.startsWith('scripts/') &&
+      !ignoredRootFiles.some((rule) => rule.test(relative))
+    )
+      return all();
   }
 
   const reverse = new Map();
@@ -122,19 +156,31 @@ function parseArguments(argv) {
 function main() {
   const options = parseArguments(process.argv.slice(2));
   const forceAll = options.forceAll || !options.base || /^0+$/.test(options.base);
-  const changedFiles = forceAll
-    ? []
-    : execFileSync(
-        'git',
-        ['diff', '--name-only', '--diff-filter=ACMRT', options.base, options.head],
-        {
-          cwd: repositoryRoot,
-          encoding: 'utf8',
-        },
-      )
-        .split(/\r?\n/)
-        .filter(Boolean);
-  const result = selectAffectedSpecs({ ...discoverMetadata(), changedFiles, forceAll });
+  const changedFiles = [];
+  const additiveFiles = new Set();
+  if (!forceAll) {
+    const numstat = execFileSync(
+      'git',
+      ['diff', '--numstat', '--diff-filter=ACMRT', options.base, options.head],
+      { cwd: repositoryRoot, encoding: 'utf8' },
+    );
+    for (const line of numstat.split(/\r?\n/)) {
+      if (!line.trim()) continue;
+      const parts = line.split('\t');
+      const filePath = parts.slice(2).join('\t');
+      changedFiles.push(filePath);
+      // parts[1] is the removed-line count; '0' means the diff is purely
+      // additive (only insertions). '-' marks a binary file, treated
+      // conservatively as non-additive.
+      if (parts[1] === '0') additiveFiles.add(normalizePath(filePath));
+    }
+  }
+  const result = selectAffectedSpecs({
+    ...discoverMetadata(),
+    changedFiles,
+    forceAll,
+    additiveFiles,
+  });
   if (process.env.GITHUB_OUTPUT) {
     appendFileSync(
       process.env.GITHUB_OUTPUT,
