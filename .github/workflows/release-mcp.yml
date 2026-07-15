@@ -7,6 +7,9 @@ on:
     paths:
       - .github/workflows/release-mcp.yml
       - packages/sd-mcp/**
+      - packages/web-vue/components/**
+      - packages/sd-vue-docs/src/generated/docs-sidebar.ts
+      - packages/sd-vue-docs/src/content/docs/components/**
   workflow_dispatch:
 
 permissions:
@@ -49,19 +52,27 @@ jobs:
             base="$(git rev-list --max-parents=0 "$head")"
           fi
 
-          # 仅当 packages/sd-mcp 下有源码变更时才发版。
+          # 当下列任一输入变更时才发版（均为 gen-component-data.mjs 生成 components.json 的来源）：
+          # - packages/sd-mcp：MCP 脚本/源码本身
+          # - packages/web-vue/components：组件源码（新增组件或 props/events/slots 变更）
+          # - packages/sd-vue-docs 侧边栏 + 组件文档 frontmatter：分类、标题、描述
           # components.json 为构建产物（已 gitignore），不会出现在 diff 中。
-          mcp_changes="$(git diff --name-only "$base" "$head" -- packages/sd-mcp || true)"
+          mcp_changes="$(git diff --name-only "$base" "$head" -- \
+            packages/sd-mcp \
+            packages/web-vue/components \
+            packages/sd-vue-docs/src/generated/docs-sidebar.ts \
+            packages/sd-vue-docs/src/content/docs/components \
+            || true)"
 
           if [[ -n "$mcp_changes" ]]; then
             echo "should_release=true" >> "$GITHUB_OUTPUT"
-            echo "packages/sd-mcp changed; release enabled."
+            echo "MCP inputs changed; release enabled."
             echo "$mcp_changes"
             exit 0
           fi
 
           echo "should_release=false" >> "$GITHUB_OUTPUT"
-          echo "No changes under packages/sd-mcp; release skipped."
+          echo "No MCP-relevant changes; release skipped."
 
       - name: Setup Node.js
         if: steps.release-check.outputs.should_release == 'true'

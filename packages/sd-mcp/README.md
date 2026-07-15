@@ -100,17 +100,10 @@ args = ["-y", "@sdata/web-vue-mcp"]
 
 ## 本地开发
 
-尚未发布到 npm 时，可直接指向本仓库构建产物：
+直接用 npx 运行（与上文安装方式一致）：
 
-```json
-{
-  "mcpServers": {
-    "sd-design": {
-      "command": "node",
-      "args": ["D:/work/sd-design-mcp/packages/sd-mcp/dist/index.js"]
-    }
-  }
-}
+```bash
+npx -y @sdata/web-vue-mcp
 ```
 
 在本仓库内开发：
