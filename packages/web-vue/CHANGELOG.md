@@ -1,3 +1,10 @@
+# [3.11.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.10.0...web-vue-v3.11.0) (2026-07-15)
+
+
+### Features
+
+* 🆕 新增可选择卡片组件 ([83a7113](https://github.com/liunnn1994/sd-design/commit/83a7113f253692e17fcbf900ffdd2a5a4cd70693))
+
 # [3.10.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.9.0...web-vue-v3.10.0) (2026-07-14)
 
 
