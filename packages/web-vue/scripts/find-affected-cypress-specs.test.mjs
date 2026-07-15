@@ -104,3 +104,13 @@ test('runs all tests for unrecognized root source changes', () => {
   // An icon SVG source or other unknown root file is conservatively global.
   assert.equal(select(['packages/web-vue/icon/_svgs/general/outline/bug.svg']).mode, 'all');
 });
+
+test('does not force a full run when only the selector script changes', () => {
+  // The selector is validated by its unit tests, not by running every component
+  // test - otherwise each iteration on the selection logic forces a full run.
+  assert.equal(select(['packages/web-vue/scripts/find-affected-cypress-specs.mjs']).mode, 'none');
+  assert.equal(
+    select(['packages/web-vue/scripts/find-affected-cypress-specs.test.mjs']).mode,
+    'none',
+  );
+});

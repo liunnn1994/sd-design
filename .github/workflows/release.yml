@@ -50,6 +50,10 @@ jobs:
       - name: Typecheck
         run: pnpm run typecheck
 
+      - name: Validate affected-specs selector
+        working-directory: packages/web-vue
+        run: pnpm run test:affected:unit
+
       - name: Select affected component tests
         id: affected-tests
         working-directory: packages/web-vue

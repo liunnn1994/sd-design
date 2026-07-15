@@ -14,8 +14,12 @@ const globalInvalidators = [
   /^packages\/web-vue\/(?:package\.json|cypress\.config\.ts|vite\.config\.ts)$/,
   /^packages\/web-vue\/cypress\/support\//,
   /^packages\/web-vue\/components\/(?:style\/|_components\/|_hooks\/|_utils\/|icon\/)/,
-  /^packages\/web-vue\/scripts\/find-affected-cypress-specs(?:\.test)?\.mjs$/,
 ];
+// This selector script itself is intentionally NOT a global invalidator: a
+// change to it alters no component, so forcing a full run would only punish
+// iteration on the selection logic. The logic is validated by the unit tests
+// in find-affected-cypress-specs.test.mjs (test:affected:unit, run in CI), and
+// component regressions are still caught by the scheduled full run.
 // Barrel files (components/index.ts, components/index.scss) re-export every
 // component, so a non-additive change - a removed or modified export / @use -
 // can ripple to other components' tests. But registering a newly added
