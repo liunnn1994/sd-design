@@ -260,7 +260,7 @@
         theme: props.type === 'track' ? `${prefixCls}-theme-track` : `${prefixCls}-theme-embed`,
         visibility,
         autoHide,
-        autoHideSuspend: true,
+        autoHideSuspend: false,
         clickScroll: 'instant',
         ...optionProps.scrollbars,
         ...props.scrollbars,

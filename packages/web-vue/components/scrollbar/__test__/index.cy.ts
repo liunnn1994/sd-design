@@ -41,6 +41,7 @@ describe('Scrollbar', () => {
         10, 20,
       ]);
       expect(options?.scrollbars.autoHide).to.equal('scroll');
+      expect(options?.scrollbars.autoHideSuspend).to.equal(false);
       expect(options?.scrollbars.dragScroll).to.equal(false);
       expect(options?.scrollbars.autoHideDelay).to.equal(400);
     });
