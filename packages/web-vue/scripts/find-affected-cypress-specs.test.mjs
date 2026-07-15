@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { selectAffectedSpecs } from './find-affected-cypress-specs.mjs';
+import { discoverMetadata, selectAffectedSpecs } from './find-affected-cypress-specs.mjs';
 
 const componentSpecs = new Map([
   ['button', ['components/button/__test__/index.cy.ts']],
@@ -113,4 +113,14 @@ test('does not force a full run when only the selector script changes', () => {
     select(['packages/web-vue/scripts/find-affected-cypress-specs.test.mjs']).mode,
     'none',
   );
+});
+
+test('does not expand runtime dependents through type-only imports', () => {
+  const result = selectAffectedSpecs({
+    ...discoverMetadata(),
+    changedFiles: ['packages/web-vue/components/scrollbar/scrollbar.vue'],
+  });
+  assert.equal(result.components.includes('select'), true);
+  assert.equal(result.components.includes('table'), true);
+  assert.equal(result.components.includes('input'), false);
 });

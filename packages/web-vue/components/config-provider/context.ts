@@ -1,16 +1,15 @@
-import { CSSProperties, InjectionKey, Ref, Slots } from 'vue';
+import type { CSSProperties, InjectionKey, Ref, Slots } from 'vue';
 
 export type { JsonFormProviderConfig } from '../json-form/types';
+import type { VirtualListProps } from '../_components/virtual-list/interface';
+import type { Size } from '../_utils/constant';
+import type { ButtonProps } from '../button';
+import type { ShortcutType, WeekStart } from '../date-picker/interface';
+import type { EllipsisTooltipProps } from '../ellipsis';
 import type { JsonFormProviderConfig } from '../json-form/types';
-
-import { VirtualListProps } from '../_components/virtual-list/interface';
-import { Size } from '../_utils/constant';
-import { ButtonProps } from '../button';
-import { ShortcutType, WeekStart } from '../date-picker/interface';
-import { EllipsisTooltipProps } from '../ellipsis';
-import { SdLang } from '../locale/interface';
-import { PaginationSelectProps } from '../pagination/interface';
-import { SDThemeNormalized } from './theme';
+import type { SdLang } from '../locale/interface';
+import type { PaginationSelectProps } from '../pagination/interface';
+import type { SDThemeNormalized } from './theme';
 
 export interface ConfigProviderModal {
   mask?: boolean;

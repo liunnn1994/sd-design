@@ -103,7 +103,7 @@ export function selectAffectedSpecs({
   return { mode: specs.length ? 'affected' : 'none', components, specs };
 }
 
-function discoverMetadata() {
+export function discoverMetadata() {
   const specFiles = fg
     .sync('components/*/__test__/*.cy.ts', { cwd: packageRoot })
     .map(normalizePath);
@@ -128,11 +128,13 @@ function discoverMetadata() {
     ignore: ['components/**/__test__/**'],
   });
   const importPattern = /(?:from\s+|import\s*\(|import\s+|@use\s+|@forward\s+)["']([^"']+)["']/g;
+  const typeOnlyImportPattern = /(?:import|export)\s+type\b[\s\S]*?\bfrom\s+["'][^"']+["'];?/g;
   for (const file of files) {
     const owner = normalizePath(file).split('/')[1];
     if (!names.has(owner)) continue;
     const absoluteFile = path.join(packageRoot, file);
-    for (const match of readFileSync(absoluteFile, 'utf8').matchAll(importPattern)) {
+    const source = readFileSync(absoluteFile, 'utf8').replace(typeOnlyImportPattern, '');
+    for (const match of source.matchAll(importPattern)) {
       let dependency = null;
       if (match[1].startsWith('@components/')) dependency = match[1].split('/')[1];
       else if (match[1].startsWith('.')) {
