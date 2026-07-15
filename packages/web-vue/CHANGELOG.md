@@ -1,3 +1,10 @@
+# [3.12.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.11.0...web-vue-v3.12.0) (2026-07-15)
+
+
+### Features
+
+* 🆕 autoHideSuspend 默认设置为 false ([8ead4b5](https://github.com/liunnn1994/sd-design/commit/8ead4b5aa0ec8f44fdc383fde2699effd73a8703))
+
 # [3.11.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.10.0...web-vue-v3.11.0) (2026-07-15)
 
 
