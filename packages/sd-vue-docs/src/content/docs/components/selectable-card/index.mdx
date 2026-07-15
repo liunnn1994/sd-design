@@ -1,0 +1,95 @@
+---
+title: 可选择卡片 SelectableCard
+description: 以卡片形式承载单个可选择项，适用于套餐、模板、指标和配置方案选择。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import SelectableCardBasicDemo from '../../../../components/generated/selectable-card/basic.vue';
+import selectableCardBasicSource from '../../../../components/generated/selectable-card/basic.vue?raw';
+import SelectableCardVariantsDemo from '../../../../components/generated/selectable-card/variants.vue';
+import selectableCardVariantsSource from '../../../../components/generated/selectable-card/variants.vue?raw';
+import SelectableCardDisabledDemo from '../../../../components/generated/selectable-card/disabled.vue';
+import selectableCardDisabledSource from '../../../../components/generated/selectable-card/disabled.vue?raw';
+import SelectableCardCustomDemo from '../../../../components/generated/selectable-card/custom.vue';
+import selectableCardCustomSource from '../../../../components/generated/selectable-card/custom.vue?raw';
+
+SelectableCard 用于在有限数量的方案中进行选择。组件采用受控模式，通过 `is-selected` 接收状态，并在用户切换时触发 `change` 事件。
+
+### 基本用法
+
+使用 `title`、`value` 和 `description` 快速构建有明确层级的选择项。`label` 为隐藏的复选框提供无障碍名称。
+
+<DemoBlock source={selectableCardBasicSource} mainFile="src/selectable-card-basic.vue">
+
+<SelectableCardBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 内置颜色与选中样式
+
+`color` 与 Tag 共用同一套内置颜色和设计 token，`variant` 提供描边、柔和背景和实色填充三种选中样式。
+
+<DemoBlock source={selectableCardVariantsSource} mainFile="src/selectable-card-variants.vue">
+
+<SelectableCardVariantsDemo client:only="vue" />
+
+</DemoBlock>
+
+### 禁用状态
+
+禁用后保留当前选择展示，但不会响应卡片或键盘操作。
+
+<DemoBlock source={selectableCardDisabledSource} mainFile="src/selectable-card-disabled.vue">
+
+<SelectableCardDisabledDemo client:only="vue" />
+
+</DemoBlock>
+
+### 统计布局与自定义内容
+
+参考统计卡片的信息层级，组件提供 `figure`、`title`、`value`、`description` 和 `actions` 插槽。对应文本 props 可满足简单场景，插槽用于图标、格式化数值和组合操作。卡片内的按钮和链接保持自己的交互，不会触发卡片切换。
+
+<DemoBlock source={selectableCardCustomSource} mainFile="src/selectable-card-custom.vue">
+
+<SelectableCardCustomDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### Props
+
+| 参数 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| label | 卡片的无障碍名称 | `string` | - |
+| is-selected | 当前是否选中 | `boolean` | - |
+| is-disabled | 是否禁用 | `boolean` | `false` |
+| color | 选中颜色，与 Tag 共用内置颜色 | `TagColor` | `'sdblue'` |
+| variant | 选中状态样式 | `'outline' \| 'soft' \| 'filled'` | `'outline'` |
+| size | 卡片尺寸 | `'small' \| 'medium' \| 'large'` | `'medium'` |
+| layout | 图形与内容的布局 | `'vertical' \| 'horizontal'` | `'vertical'` |
+| align | 内容对齐方式 | `'start' \| 'center'` | `'start'` |
+| title | 标题，title 插槽优先 | `string` | - |
+| value | 主要值，value 插槽优先 | `string \| number` | - |
+| description | 描述，description 插槽优先 | `string` | - |
+| padding | 自定义内边距；数字按 4px 间距步进计算 | `number \| string` | 由 size 决定 |
+| width | 宽度 | `number \| string` | - |
+| height | 高度 | `number \| string` | - |
+| max-width | 最大宽度 | `number \| string` | - |
+
+### Events
+
+| 事件   | 描述                   | 参数                    |
+| ------ | ---------------------- | ----------------------- |
+| change | 用户切换选择状态时触发 | `(isSelected: boolean)` |
+
+### Slots
+
+| 插槽        | 描述                 |
+| ----------- | -------------------- |
+| default     | 自定义补充内容       |
+| figure      | 图标、头像或图片     |
+| title       | 标题                 |
+| value       | 主要值               |
+| description | 描述                 |
+| actions     | 按钮、标签等操作内容 |

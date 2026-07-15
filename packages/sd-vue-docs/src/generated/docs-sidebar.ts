@@ -159,6 +159,10 @@ export const docsSidebar = [
             label: '卡片 Card',
           },
           {
+            slug: 'components/selectable-card',
+            label: '可选择卡片 SelectableCard',
+          },
+          {
             slug: 'components/carousel',
             label: '图片轮播 Carousel',
           },

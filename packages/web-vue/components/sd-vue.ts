@@ -69,6 +69,7 @@ import Result from './result';
 import Scrollbar from './scrollbar';
 import Secret from './secret';
 import Select from './select';
+import SelectableCard from './selectable-card';
 import Skeleton, { SkeletonLine, SkeletonShape } from './skeleton';
 import Slider from './slider';
 import Space from './space';
@@ -109,6 +110,7 @@ const components: Record<string, Plugin> = {
   Badge,
   Calendar,
   Card,
+  SelectableCard,
   Carousel,
   Collapse,
   Comment,

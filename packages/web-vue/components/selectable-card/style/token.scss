@@ -1,0 +1,27 @@
+@use '@style/theme/index.scss' as global;
+@use 'sass:string';
+
+@forward '@style/theme/index.scss';
+
+$selectable-card-color-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-2'));
+$selectable-card-color-border: var(string.unquote('#{global.$sd-cssvars-prefix}-color-neutral-3'));
+$selectable-card-color-title: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-2'));
+$selectable-card-color-value: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
+$selectable-card-color-description: var(
+  string.unquote('#{global.$sd-cssvars-prefix}-color-text-3')
+);
+$selectable-card-color-focus: global.$color-primary-6;
+$selectable-card-border-width: global.$border-1;
+$selectable-card-border-radius: global.$radius-large;
+$selectable-card-disabled-opacity: 0.5;
+$selectable-card-overlay-hover: rgb(0 0 0 / 5%);
+$selectable-card-overlay-active: rgb(0 0 0 / 10%);
+$selectable-card-size-small-padding: global.$spacing-6;
+$selectable-card-size-medium-padding: global.$spacing-7;
+$selectable-card-size-large-padding: global.$spacing-9;
+$selectable-card-size-small-gap: global.$spacing-4;
+$selectable-card-size-medium-gap: global.$spacing-6;
+$selectable-card-size-large-gap: global.$spacing-8;
+$selectable-card-size-small-value: global.$font-size-title-1;
+$selectable-card-size-medium-value: global.$font-size-title-2;
+$selectable-card-size-large-value: global.$font-size-title-3;

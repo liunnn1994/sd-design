@@ -26,6 +26,7 @@ declare module 'vue' {
     SdCard: SDVue['Card'];
     SdCardMeta: SDVue['CardMeta'];
     SdCardGrid: SDVue['CardGrid'];
+    SdSelectableCard: SDVue['SelectableCard'];
     SdCarousel: SDVue['Carousel'];
     SdCarouselItem: SDVue['CarouselItem'];
     SdCascader: SDVue['Cascader'];

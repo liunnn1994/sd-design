@@ -9,10 +9,9 @@
 
 # [3.9.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.8.0...web-vue-v3.9.0) (2026-07-13)
 
-
 ### Features
 
-* 🆕 sd-design 添加前缀后缀功能 ([03001b5](https://github.com/liunnn1994/sd-design/commit/03001b53f2db9764413d7899eea0b3455faf53fb))
+- 🆕 sd-design 添加前缀后缀功能 ([03001b5](https://github.com/liunnn1994/sd-design/commit/03001b53f2db9764413d7899eea0b3455faf53fb))
 
 # [3.8.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.7.1...web-vue-v3.8.0) (2026-07-10)
 

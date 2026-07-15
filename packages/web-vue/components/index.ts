@@ -44,6 +44,16 @@ export { default as Card, CardGrid, CardMeta } from './card';
 export { default as Calendar } from './calendar';
 export type { CalendarInstance } from './calendar';
 export type { CardGridInstance, CardInstance, CardMetaInstance } from './card';
+export { default as SelectableCard } from './selectable-card';
+export type {
+  SelectableCardAlign,
+  SelectableCardColor,
+  SelectableCardInstance,
+  SelectableCardLayout,
+  SelectableCardSize,
+  SelectableCardSizeValue,
+  SelectableCardVariant,
+} from './selectable-card';
 export { default as Carousel, CarouselItem } from './carousel';
 export type {
   CarouselArrowType,
