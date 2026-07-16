@@ -1,6 +1,7 @@
 <template>
-  <template v-if="href">
+  <component :is="tooltipWrapper" v-bind="tooltipBindings">
     <a
+      v-if="href"
       ref="buttonRef"
       :class="[cls, { [`${prefixCls}-only-icon`]: $slots.icon && !$slots.default }]"
       :href="mergedDisabled || loading ? undefined : href"
@@ -13,9 +14,8 @@
       <slot v-if="!isTwoCNChar" />
       <span v-else><slot /></span>
     </a>
-  </template>
-  <template v-else>
     <button
+      v-else
       ref="buttonRef"
       :class="[cls, { [`${prefixCls}-only-icon`]: $slots.icon && !$slots.default }]"
       :type="htmlType"
@@ -30,12 +30,17 @@
       <slot v-if="!isTwoCNChar" />
       <span v-else><slot /></span>
     </button>
-  </template>
+    <template v-if="$slots.tooltip" #content>
+      <slot name="tooltip" />
+    </template>
+  </component>
 </template>
 
 <script setup lang="ts">
-  import type { PropType } from 'vue';
-  import { computed, toRefs, inject, ref, onMounted, onUpdated } from 'vue';
+  import type { FunctionalComponent, PropType } from 'vue';
+  import { computed, toRefs, inject, ref, onMounted, onUpdated, useSlots } from 'vue';
+
+  import type { TooltipProps } from '../tooltip';
 
   import { useFormItem } from '../_hooks/use-form-item';
   import { useSize } from '../_hooks/use-size';
@@ -44,6 +49,7 @@
   import { isString } from '../_utils/is';
   import { configProviderInjectionKey } from '../config-provider/context';
   import IconLoading from '../icon/icon-loading';
+  import Tooltip from '../tooltip';
   import { ButtonTypes } from './constants';
   import { buttonGroupInjectionKey } from './context';
 
@@ -138,6 +144,13 @@
      * @en Set up a jump link. When this property is set, the button is rendered as `<a>`
      */
     href: String,
+    /**
+     * @zh 按钮的文字气泡配置。传入字符串时作为气泡内容；传入对象时可完整继承 Tooltip 的所有属性。
+     * @en Tooltip configuration for the button. A string is used as the tooltip content; an object inherits all Tooltip props.
+     */
+    tooltip: {
+      type: [String, Object] as PropType<string | TooltipProps>,
+    },
   });
 
   const emit = defineEmits<{
@@ -156,6 +169,23 @@
    */
   const { size, disabled } = toRefs(props);
   const prefixCls = getPrefixCls('btn');
+
+  // 未设置 tooltip 时透传默认插槽，避免引入 Tooltip/Trigger 的额外开销
+  const PassThrough: FunctionalComponent = (_, { slots: passSlots }) => passSlots.default?.();
+
+  const slots = useSlots();
+  const hasTooltip = computed(() => props.tooltip != null || Boolean(slots.tooltip));
+  const tooltipWrapper = computed(() => (hasTooltip.value ? Tooltip : PassThrough));
+  const tooltipBindings = computed(() => {
+    if (!hasTooltip.value) {
+      return undefined;
+    }
+    const tooltip = props.tooltip;
+    if (isString(tooltip)) {
+      return { content: tooltip };
+    }
+    return tooltip ?? {};
+  });
   const configContext = inject(configProviderInjectionKey, undefined);
   const groupContext = inject(buttonGroupInjectionKey, undefined);
   const autoInsertSpaceInButton = computed(() => Boolean(configContext?.autoInsertSpaceInButton));

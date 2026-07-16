@@ -22,6 +22,8 @@ import ButtonSizeDemo from '../../../../components/generated/button/size.vue';
 import buttonSizeSource from '../../../../components/generated/button/size.vue?raw';
 import ButtonStatusDemo from '../../../../components/generated/button/status.vue';
 import buttonStatusSource from '../../../../components/generated/button/status.vue?raw';
+import ButtonTooltipDemo from '../../../../components/generated/button/tooltip.vue';
+import buttonTooltipSource from '../../../../components/generated/button/tooltip.vue?raw';
 
 ### 基本用法
 
@@ -113,6 +115,16 @@ import buttonStatusSource from '../../../../components/generated/button/status.v
 
 </DemoBlock>
 
+### 文字提示
+
+通过 `tooltip` 属性可以为按钮添加文字气泡。传入字符串时作为气泡内容；传入对象时可完整继承 [Tooltip](/docs/components/tooltip) 组件的所有属性；也可以通过 `tooltip` 插槽自定义气泡内容。
+
+<DemoBlock source={buttonTooltipSource} mainFile="src/button-tooltip.vue">
+
+<ButtonTooltipDemo client:only="vue" />
+
+</DemoBlock>
+
 ## API
 
 ### `<button>` Props
@@ -129,6 +141,7 @@ import buttonStatusSource from '../../../../components/generated/button/status.v
 | html-type | 设置 `button` 的原生 `type` 属性，可选值参考 [HTML标准](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type '_blank') | `HTMLButtonElement['type']` | `'button'` |
 | autofocus | 设置 `button` 的原生 `autofocus` 属性，可选值参考 [HTML标准](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type '_blank') | `boolean` | `false` |
 | href | 设置跳转链接。设置此属性时，按钮渲染为a标签。 | `string` | `-` |
+| tooltip | 按钮的文字气泡配置。传入字符串时作为气泡内容；传入对象时可完整继承 [Tooltip](/docs/components/tooltip) 的所有属性。 | `string \| TooltipProps` | `-` |
 
 ### `<button>` Events
 
@@ -138,9 +151,10 @@ import buttonStatusSource from '../../../../components/generated/button/status.v
 
 ### `<button>` Slots
 
-| 插槽名 | 描述 | 参数 |
-| ------ | :--: | ---- |
-| icon   | 图标 | -    |
+| 插槽名  |                             描述                             | 参数 |
+| ------- | :----------------------------------------------------------: | ---- |
+| icon    |                             图标                             | -    |
+| tooltip | 自定义文字气泡内容，详见 [Tooltip](/docs/components/tooltip) | -    |
 
 ### `<button-group>` Props
 
