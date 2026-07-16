@@ -212,6 +212,50 @@ import type {
 | `ScrollbarState`           | `state()` 返回值类型。                           |
 | `ScrollbarElements`        | `elements()` 返回值类型。                        |
 
+## 全局原生滚动条样式
+
+`Scrollbar` 组件只会替换它自身宿主元素的原生滚动条。如果希望页面内**所有原生滚动条**（视口、`overflow: auto` 容器等）也保持与组件一致的外观，可以为根元素加上设计系统类名，**手动开启**全局原生滚动条基线：
+
+```html
+<!doctype html>
+<html class="sd-design-system-scrollbar">
+  <head>
+    ...
+  </head>
+  <body>
+    <!-- 文档树内的原生滚动条都会应用统一样式 -->
+  </body>
+</html>
+```
+
+加在 `<html>` 上会同时作用于视口滚动条与所有后代元素；只想作用于某个子树时，也可以加在对应的包裹元素上。
+
+### 样式说明
+
+全局基线与 `Scrollbar` 组件共用同一组 `--sd-scrollbar-*` CSS 变量（默认值取自组件 token）。在 `:root`、`body` 或任意祖先元素上覆盖这些变量，原生滚动条与 `<Scrollbar>` 组件会实时同步：
+
+- `--sd-scrollbar-size`：滚动条宽高（默认 6px）
+- `--sd-scrollbar-thumb-radius`：滑块圆角（默认 6px）
+- `--sd-scrollbar-thumb-color` / `-hover` / `-active`：滑块颜色（默认 `--sd-color-neutral-4` / `5` / `6`，随主题自动同步）
+
+轨道透明。
+
+覆盖示例（把全局滚动条加粗到 10px，原生滚动条与 `Scrollbar` 组件同步生效）：
+
+```css
+:root {
+  --sd-scrollbar-size: 10px;
+}
+```
+
+实现遵循 [MDN 建议](https://developer.mozilla.org/zh-CN/docs/Web/CSS/::-webkit-scrollbar)：以现代标准属性 `scrollbar-width: thin` 与 `scrollbar-color` 为主，`::-webkit-scrollbar` 系列伪元素作为不支持标准属性时的回退。
+
+> 当浏览器同时支持两者时（Chrome / Edge / Safari），标准属性会**覆盖** `::-webkit-scrollbar` 规则，而标准属性无法表达圆角与 hover/active 颜色。因此这些浏览器中全局原生滚动条为细条 + 灰色滑块 + 透明轨道，但**不带圆角与交互态**；圆角与 hover/active 仅在只支持 webkit 伪元素的浏览器中生效。若需在 Chrome 中也获得与组件完全一致的圆角与交互态，请直接使用 `Scrollbar` 组件。
+
+### 类名前缀
+
+该类名使用组件库的 CSS 类前缀（默认 `sd`，即 `.sd-design`，与 `sd-button` 等组件类一致）。它属于 CSS 类名，与 [快速上手](/guides/start/) 中通过插件配置的组件标签前缀相互独立。
+
 ## 参考
 
 - 底层行为、事件语义和字段定义与 `OverlayScrollbars` 文档保持一致。

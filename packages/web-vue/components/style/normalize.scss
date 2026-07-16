@@ -224,4 +224,55 @@
   [hidden]:where(:not([hidden='until-found'])) {
     display: none !important;
   }
+
+  /* Native scrollbar baseline — mirrors the <Scrollbar> embed theme
+     (6px thumb, transparent track, neutral-4/5/6 thumb states).
+     Opt-in: only applies within an element carrying the design-system
+     class (`.sd-design` by default; follows $prefix), e.g.
+     <html class="sd-design">. Standard scrollbar-* properties are
+     primary; ::-webkit-scrollbar*
+     is the fallback for browsers without standard support. Where the
+     standard properties apply they override the webkit rules, so the
+     rounded corners and hover/active states only render in webkit-only
+     browsers. */
+  @supports (scrollbar-color: auto) {
+    .#{$prefix}-design {
+      &,
+      & * {
+        scrollbar-width: thin;
+        scrollbar-color: var(#{$sd-cssvars-prefix}-color-neutral-4) transparent;
+      }
+    }
+  }
+
+  @supports selector(::-webkit-scrollbar) {
+    .#{$prefix}-design {
+      &::-webkit-scrollbar,
+      & *::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+
+      &::-webkit-scrollbar-track,
+      & *::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb,
+      & *::-webkit-scrollbar-thumb {
+        background: var(#{$sd-cssvars-prefix}-color-neutral-4);
+        border-radius: 6px;
+      }
+
+      &::-webkit-scrollbar-thumb:hover,
+      & *::-webkit-scrollbar-thumb:hover {
+        background: var(#{$sd-cssvars-prefix}-color-neutral-5);
+      }
+
+      &::-webkit-scrollbar-thumb:active,
+      & *::-webkit-scrollbar-thumb:active {
+        background: var(#{$sd-cssvars-prefix}-color-neutral-6);
+      }
+    }
+  }
 }

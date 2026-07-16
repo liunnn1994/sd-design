@@ -4,6 +4,12 @@
 
 $scroll-prefix-cls: string.unquote('#{theme.$prefix}-scrollbar');
 
+// Scrollbar design tokens are exposed as `--sd-scrollbar-*` CSS variables so
+// they can be shared with the global native-scrollbar baseline (see
+// `style/normalize.scss`) and overridden at runtime. Each `--os-*` mapping
+// reads the shared variable and falls back to the component token, so the
+// component renders identically when the variables are not set upstream and
+// stays in sync with native scrollbars when they are.
 .#{$scroll-prefix-cls} {
   position: relative;
   width: 100%;
@@ -18,16 +24,28 @@ $scroll-prefix-cls: string.unquote('#{theme.$prefix}-scrollbar');
   }
 
   .os-scrollbar {
-    --os-size: #{$scrollbar-thumb-bar-size};
-    --os-handle-bg: #{$scrollbar-thumb-bar-bg_color};
-    --os-handle-bg-hover: #{$scrollbar-thumb-bar-bg_color_hover};
-    --os-handle-bg-active: #{$scrollbar-thumb-bar-bg_color_active};
+    --os-size: var(#{theme.$sd-cssvars-prefix}-scrollbar-size, #{$scrollbar-thumb-bar-size});
+    --os-handle-bg: var(
+      #{theme.$sd-cssvars-prefix}-scrollbar-thumb-color,
+      #{$scrollbar-thumb-bar-bg_color}
+    );
+    --os-handle-bg-hover: var(
+      #{theme.$sd-cssvars-prefix}-scrollbar-thumb-color-hover,
+      #{$scrollbar-thumb-bar-bg_color_hover}
+    );
+    --os-handle-bg-active: var(
+      #{theme.$sd-cssvars-prefix}-scrollbar-thumb-color-active,
+      #{$scrollbar-thumb-bar-bg_color_active}
+    );
     --os-track-bg: transparent;
     --os-track-bg-hover: transparent;
     --os-track-bg-active: transparent;
     --os-padding-axis: 0;
     --os-padding-perpendicular: 0;
-    --os-handle-border-radius: #{$scrollbar-thumb-bar-border_radius};
+    --os-handle-border-radius: var(
+      #{theme.$sd-cssvars-prefix}-scrollbar-thumb-radius,
+      #{$scrollbar-thumb-bar-border_radius}
+    );
   }
 
   .os-scrollbar-handle {
@@ -37,9 +55,18 @@ $scroll-prefix-cls: string.unquote('#{theme.$prefix}-scrollbar');
   }
 
   .#{$scroll-prefix-cls}-theme-embed {
-    --os-handle-perpendicular-size: #{$scrollbar-thumb-bar-size};
-    --os-handle-perpendicular-size-hover: #{$scrollbar-thumb-bar-size};
-    --os-handle-perpendicular-size-active: #{$scrollbar-thumb-bar-size};
+    --os-handle-perpendicular-size: var(
+      #{theme.$sd-cssvars-prefix}-scrollbar-size,
+      #{$scrollbar-thumb-bar-size}
+    );
+    --os-handle-perpendicular-size-hover: var(
+      #{theme.$sd-cssvars-prefix}-scrollbar-size,
+      #{$scrollbar-thumb-bar-size}
+    );
+    --os-handle-perpendicular-size-active: var(
+      #{theme.$sd-cssvars-prefix}-scrollbar-size,
+      #{$scrollbar-thumb-bar-size}
+    );
     --os-handle-interactive-area-offset: 0;
   }
 
@@ -49,24 +76,45 @@ $scroll-prefix-cls: string.unquote('#{theme.$prefix}-scrollbar');
     --os-track-bg-hover: #{$scrollbar-track-bg_color};
     --os-track-bg-active: #{$scrollbar-track-bg_color};
     --os-track-border: #{$scrollbar-track-border_size} solid #{$scrollbar-track-border_color};
-    --os-handle-perpendicular-size: #{$scrollbar-thumb-bar-size};
+    --os-handle-perpendicular-size: var(
+      #{theme.$sd-cssvars-prefix}-scrollbar-size,
+      #{$scrollbar-thumb-bar-size}
+    );
     --os-padding-axis: #{($scrollbar-track-size - $scrollbar-thumb-bar-size) * 0.5 -
       $scrollbar-track-border_size};
   }
 
   &#{&}-type-embed {
     .#{$scroll-prefix-cls}-theme-embed {
-      --os-handle-bg: #{$scrollbar-thumb-bar-bg_color};
-      --os-handle-bg-hover: #{$scrollbar-thumb-bar-bg_color_hover};
-      --os-handle-bg-active: #{$scrollbar-thumb-bar-bg_color_active};
+      --os-handle-bg: var(
+        #{theme.$sd-cssvars-prefix}-scrollbar-thumb-color,
+        #{$scrollbar-thumb-bar-bg_color}
+      );
+      --os-handle-bg-hover: var(
+        #{theme.$sd-cssvars-prefix}-scrollbar-thumb-color-hover,
+        #{$scrollbar-thumb-bar-bg_color_hover}
+      );
+      --os-handle-bg-active: var(
+        #{theme.$sd-cssvars-prefix}-scrollbar-thumb-color-active,
+        #{$scrollbar-thumb-bar-bg_color_active}
+      );
     }
   }
 
   &#{&}-type-track {
     .#{$scroll-prefix-cls}-theme-track {
-      --os-handle-bg: #{$scrollbar-thumb-bar-bg_color};
-      --os-handle-bg-hover: #{$scrollbar-thumb-bar-bg_color_hover};
-      --os-handle-bg-active: #{$scrollbar-thumb-bar-bg_color_active};
+      --os-handle-bg: var(
+        #{theme.$sd-cssvars-prefix}-scrollbar-thumb-color,
+        #{$scrollbar-thumb-bar-bg_color}
+      );
+      --os-handle-bg-hover: var(
+        #{theme.$sd-cssvars-prefix}-scrollbar-thumb-color-hover,
+        #{$scrollbar-thumb-bar-bg_color_hover}
+      );
+      --os-handle-bg-active: var(
+        #{theme.$sd-cssvars-prefix}-scrollbar-thumb-color-active,
+        #{$scrollbar-thumb-bar-bg_color_active}
+      );
     }
   }
 }
