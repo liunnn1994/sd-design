@@ -4,14 +4,17 @@ import {
   computed,
   reactive,
   provide,
+  toRef,
   VNode,
   toRefs,
   CSSProperties,
 } from 'vue';
 
+import { useScrollbar } from '../_hooks/use-scrollbar';
 import { useSize } from '../_hooks/use-size';
 import { getPrefixCls } from '../_utils/global-config';
 import { getAllElements } from '../_utils/vue-utils';
+import Scrollbar, { type ScrollbarProps } from '../scrollbar';
 import Spin from '../spin';
 import { cardInjectionKey } from './context';
 
@@ -19,6 +22,7 @@ export default defineComponent({
   name: 'Card',
   components: {
     Spin,
+    Scrollbar,
   },
   props: {
     /**
@@ -84,6 +88,23 @@ export default defineComponent({
     extra: {
       type: String,
     },
+    /**
+     * @zh 是否高度撑满父容器（内容区域自动滚动，仅在父容器有确定高度时生效）
+     * @en Whether to fill the height of the parent container (the content area scrolls automatically, only effective when the parent container has a determinate height)
+     */
+    fullHeight: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * @zh 内容区域是否使用 Scrollbar 组件滚动，可传入对象自定义滚动条配置。为 false 时使用原生 overflow 滚动。仅 `full-height` 为 true 时生效
+     * @en Whether the content area uses the Scrollbar component for scrolling, an object can be passed to customize the scrollbar. When false, native overflow scrolling is used. Only effective when `full-height` is true
+     * @defaultValue true
+     */
+    scrollbar: {
+      type: [Boolean, Object] as PropType<boolean | ScrollbarProps>,
+      default: true,
+    },
   },
   /**
    * @zh 卡片标题
@@ -115,6 +136,9 @@ export default defineComponent({
       }
       return 'medium';
     });
+
+    const { scrollbarProps } = useScrollbar(toRef(props, 'scrollbar'));
+    const scrollEnabled = computed(() => props.fullHeight && props.scrollbar !== false);
 
     const renderActions = (vns: VNode[]) => {
       const actions = getAllElements(vns);
@@ -148,6 +172,15 @@ export default defineComponent({
         [`${prefixCls}-bordered`]: props.bordered,
         [`${prefixCls}-hoverable`]: props.hoverable,
         [`${prefixCls}-contain-grid`]: cardContext.hasGrid,
+        [`${prefixCls}-full-height`]: props.fullHeight,
+      },
+    ]);
+
+    const bodyCls = computed(() => [
+      `${prefixCls}-body`,
+      {
+        [`${prefixCls}-body-scroll`]: scrollEnabled.value,
+        [`${prefixCls}-body-native`]: props.fullHeight && props.scrollbar === false,
       },
     ]);
 
@@ -171,8 +204,16 @@ export default defineComponent({
             </div>
           )}
           {slots.cover && <div class={`${prefixCls}-cover`}>{slots.cover()}</div>}
-          <div class={`${prefixCls}-body`} style={props.bodyStyle}>
-            {props.loading ? <Spin /> : slots.default?.()}
+          <div class={bodyCls.value} style={props.bodyStyle}>
+            {props.loading ? (
+              <Spin />
+            ) : scrollEnabled.value ? (
+              <Scrollbar {...scrollbarProps.value} outerClass={`${prefixCls}-body-scrollbar`}>
+                {slots.default?.()}
+              </Scrollbar>
+            ) : (
+              slots.default?.()
+            )}
             {slots.actions && !cardContext.hasMeta && renderActions(slots.actions())}
           </div>
         </div>

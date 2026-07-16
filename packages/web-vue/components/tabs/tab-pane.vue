@@ -3,8 +3,15 @@
     ref="itemRef"
     :class="[`${prefixCls}-content-item`, { [`${prefixCls}-content-item-active`]: active }]"
   >
-    <div v-if="mounted" :class="`${prefixCls}-pane`">
-      <slot />
+    <div v-if="mounted" :class="paneCls">
+      <Scrollbar
+        v-if="hasPaneScrollbar"
+        :outer-class="`${prefixCls}-pane-scrollbar`"
+        v-bind="paneScrollbarProps"
+      >
+        <slot />
+      </Scrollbar>
+      <slot v-else />
     </div>
   </div>
 </template>
@@ -24,6 +31,7 @@
   } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
+  import Scrollbar, { type ScrollbarProps } from '../scrollbar';
   import { TabsContext, tabsInjectionKey } from './context';
 
   defineOptions({ name: 'TabPane' });
@@ -76,6 +84,19 @@
   const key = computed(() => instance?.vnode.key as string | number);
   const active = computed(() => key.value === tabsCtx.activeKey);
   const mounted = ref(tabsCtx.lazyLoad ? active.value : true);
+
+  const paneScrollbarProps = computed<ScrollbarProps>(() => {
+    const { scrollbar } = tabsCtx;
+    return scrollbar === false || scrollbar === undefined ? ({} as ScrollbarProps) : scrollbar;
+  });
+  const hasPaneScrollbar = computed(() => {
+    const { scrollbar } = tabsCtx;
+    return scrollbar !== false && scrollbar !== undefined;
+  });
+  const paneCls = computed(() => [
+    `${prefixCls}-pane`,
+    { [`${prefixCls}-pane-scroll`]: hasPaneScrollbar.value },
+  ]);
 
   const data = reactive({
     key,

@@ -10,6 +10,8 @@ import TabsEditableDemo from '../../../../components/generated/tabs/editable.vue
 import tabsEditableSource from '../../../../components/generated/tabs/editable.vue?raw';
 import TabsExtraDemo from '../../../../components/generated/tabs/extra.vue';
 import tabsExtraSource from '../../../../components/generated/tabs/extra.vue?raw';
+import TabsFullHeightDemo from '../../../../components/generated/tabs/full-height.vue';
+import tabsFullHeightSource from '../../../../components/generated/tabs/full-height.vue?raw';
 import TabsIconDemo from '../../../../components/generated/tabs/icon.vue';
 import tabsIconSource from '../../../../components/generated/tabs/icon.vue?raw';
 import TabsLazyDemo from '../../../../components/generated/tabs/lazy.vue';
@@ -50,6 +52,16 @@ import tabsTypeSource from '../../../../components/generated/tabs/type.vue?raw';
 <DemoBlock source={tabsExtraSource} mainFile="src/tabs-extra.vue">
 
 <TabsExtraDemo client:only="vue" />
+
+</DemoBlock>
+
+### 高度撑满
+
+设置 `full-height` 让标签页撑满父容器高度（仅水平方向生效），内容区域自动滚动。`scrollbar` 默认使用 `Scrollbar` 组件滚动，设置为 `false` 时使用原生 `overflow` 滚动（仅 `full-height` 为 `true` 时生效）。
+
+<DemoBlock source={tabsFullHeightSource} mainFile="src/tabs-full-height.vue">
+
+<TabsFullHeightDemo client:only="vue" />
 
 </DemoBlock>
 
@@ -130,6 +142,8 @@ import tabsTypeSource from '../../../../components/generated/tabs/type.vue?raw';
 | destroy-on-hide | 是否在不显示标签时销毁内容 | `boolean` | `false` | 2.27.0 |
 | lazy-load | 是否在首次展示标签时挂载内容 | `boolean` | `false` |  |
 | justify | 高度撑满容器，只在水平模式下生效。 | `boolean` | `false` |  |
+| full-height | 是否高度撑满父容器，内容区域自动滚动（仅水平方向生效） | `boolean` | `false` |  |
+| scrollbar | 内容区域滚动方式，为 `false` 时使用原生 `overflow` 滚动（仅 `full-height` 生效），可传对象自定义 | `boolean \| ScrollbarProps` | `true` |  |
 | animation | 是否开启选项内容过渡动画 | `boolean` | `false` |  |
 | header-padding | 选项卡头部是否存在水平边距。仅对 `type` 等于 `line`、`text` 类型的选项卡生效 | `boolean` | `true` | 2.10.0 |
 | auto-switch | 创建标签后是否切换到新标签（最后一个） | `boolean` | `false` | 2.18.0 |

@@ -29,4 +29,39 @@ describe('Tabs', () => {
       expect(wrapper.emitted('delete')).to.have.length(1);
     });
   });
+
+  it('fullHeight should add the full-height class', () => {
+    cy.mount(Tabs, {
+      global: { components: { TabPane } },
+      props: { fullHeight: true },
+      slots: { default: panes },
+    });
+    cy.get('.sd-tabs').should('have.class', 'sd-tabs-full-height');
+  });
+
+  it('fullHeight should wrap pane content in Scrollbar by default', () => {
+    cy.mount(Tabs, {
+      global: { components: { TabPane } },
+      props: { fullHeight: true },
+      slots: { default: panes },
+    });
+    cy.get('.sd-tabs-content-item-active .sd-tabs-pane').should(
+      'have.class',
+      'sd-tabs-pane-scroll',
+    );
+    cy.get('.sd-tabs-content-item-active .sd-tabs-pane-scrollbar').should('exist');
+  });
+
+  it('fullHeight with scrollbar=false should use native overflow', () => {
+    cy.mount(Tabs, {
+      global: { components: { TabPane } },
+      props: { fullHeight: true, scrollbar: false },
+      slots: { default: panes },
+    });
+    cy.get('.sd-tabs-content-item-active .sd-tabs-pane').should(
+      'not.have.class',
+      'sd-tabs-pane-scroll',
+    );
+    cy.get('.sd-tabs-content-item-active .sd-tabs-pane-scrollbar').should('not.exist');
+  });
 });

@@ -1,10 +1,22 @@
 import type { PropType } from 'vue';
-import { computed, defineComponent, nextTick, provide, reactive, ref, toRefs, inject } from 'vue';
+import {
+  computed,
+  defineComponent,
+  nextTick,
+  provide,
+  reactive,
+  ref,
+  toRef,
+  toRefs,
+  inject,
+} from 'vue';
 
 import type { Direction, Size } from '../_utils/constant';
+import type { ScrollbarProps } from '../scrollbar';
 import type { TabsPosition, TabsType, TabData, TabTriggerEvent, ScrollPosition } from './interface';
 
 import { useChildrenComponents } from '../_hooks/use-children-components';
+import { useScrollbar } from '../_hooks/use-scrollbar';
 import { useSize } from '../_hooks/use-size';
 import { getPrefixCls } from '../_utils/global-config';
 import { isUndefined } from '../_utils/is';
@@ -162,6 +174,23 @@ export default defineComponent({
       type: [String, Number] as PropType<ScrollPosition>,
       default: 'auto',
     },
+    /**
+     * @zh 是否高度撑满父容器（仅在水平方向生效，内容区域自动滚动）
+     * @en Whether to fill the height of the parent container (only effective in horizontal direction, the content area scrolls automatically)
+     */
+    fullHeight: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * @zh 内容区域是否使用 Scrollbar 组件滚动，可传入对象自定义滚动条配置。为 false 时使用原生 overflow 滚动。仅 `full-height` 为 true 时生效
+     * @en Whether the content area uses the Scrollbar component for scrolling, an object can be passed to customize the scrollbar. When false, native overflow scrolling is used. Only effective when `full-height` is true
+     * @defaultValue true
+     */
+    scrollbar: {
+      type: [Boolean, Object] as PropType<boolean | ScrollbarProps>,
+      default: true,
+    },
   },
   emits: {
     'update:activeKey': (_key: string | number) => true,
@@ -243,6 +272,11 @@ export default defineComponent({
       return index;
     });
 
+    const { scrollbarProps } = useScrollbar(toRef(props, 'scrollbar'));
+    const paneScrollbar = computed<ScrollbarProps | false>(() =>
+      props.fullHeight && props.scrollbar !== false ? scrollbarProps.value : false,
+    );
+
     provide(
       tabsInjectionKey,
       reactive({
@@ -252,6 +286,7 @@ export default defineComponent({
         addItem,
         removeItem,
         trigger,
+        scrollbar: paneScrollbar,
       }),
     );
 
@@ -322,6 +357,7 @@ export default defineComponent({
       `${prefixCls}-size-${mergedSize.value}`,
       {
         [`${prefixCls}-justify`]: props.justify,
+        [`${prefixCls}-full-height`]: props.fullHeight,
         [`${prefixCls}-rtl`]: rtl.value,
       },
     ]);

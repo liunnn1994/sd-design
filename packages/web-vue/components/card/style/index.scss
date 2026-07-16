@@ -227,6 +227,37 @@ $card-prefix-cls: string.unquote('#{theme.$prefix}-card');
   @include size(small, small);
 }
 
+// full-height：撑满父容器高度，内容区域自动滚动
+.#{$card-prefix-cls}-full-height {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+
+  .#{$card-prefix-cls}-header {
+    flex-shrink: 0;
+  }
+
+  .#{$card-prefix-cls}-body {
+    flex: 1;
+    min-height: 0;
+  }
+
+  // scrollbar === false：使用原生 overflow 滚动
+  .#{$card-prefix-cls}-body-native {
+    overflow: auto;
+  }
+
+  // scrollbar !== false：使用 Scrollbar 组件
+  .#{$card-prefix-cls}-body-scroll {
+    overflow: hidden;
+
+    .#{$card-prefix-cls}-body-scrollbar {
+      height: 100%;
+    }
+  }
+}
+
 // dark mode
 #{global.$sd-theme-tag}[sd-theme='dark'] {
   .#{$card-prefix-cls}-grid-hoverable:hover::before,

@@ -643,6 +643,44 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
   }
 }
 
+// full-height：撑满父容器高度（仅水平方向），内容区域自动滚动
+.#{$tabs-prefix-cls}-horizontal.#{$tabs-prefix-cls}-full-height {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  > .#{$tabs-prefix-cls}-nav {
+    flex-shrink: 0;
+  }
+
+  .#{$tabs-prefix-cls}-content {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .#{$tabs-prefix-cls}-content-list {
+    height: 100%;
+  }
+
+  .#{$tabs-prefix-cls}-content-item-active {
+    height: 100%;
+  }
+
+  .#{$tabs-prefix-cls}-pane {
+    height: 100%;
+    overflow: auto;
+  }
+
+  // scrollbar !== false：使用 Scrollbar 组件，pane 不再原生滚动
+  .#{$tabs-prefix-cls}-pane-scroll {
+    overflow: hidden;
+  }
+
+  .#{$tabs-prefix-cls}-pane-scrollbar {
+    height: 100%;
+  }
+}
+
 @mixin for($data, $i: 1) {
   @if ($i <= list.length($data)) {
     $size: list.nth($data, $i);
