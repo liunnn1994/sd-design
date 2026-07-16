@@ -1,3 +1,13 @@
+# [3.13.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.12.0...web-vue-v3.13.0) (2026-07-16)
+
+
+### Features
+
+* 🆕 按钮添加 tooltip ([e8785b9](https://github.com/liunnn1994/sd-design/commit/e8785b95e7009139f62ec2605e8ba35416a83e21))
+* 🆕 操作型组件添加 readonly ([930bd7d](https://github.com/liunnn1994/sd-design/commit/930bd7d0c39d11084c6a5bed1a571894c69fce00))
+* 🆕 更新 scrollbar 样式，添加系统级样式 ([94e8404](https://github.com/liunnn1994/sd-design/commit/94e8404b6a6fa14af280787d562381bdf141998e))
+* 🆕 给 card 和 tabs 添加 fullHeight 属性 ([d7430b4](https://github.com/liunnn1994/sd-design/commit/d7430b4376056eaf13fe7860cd78f4de845b9e66))
+
 # [3.12.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.11.0...web-vue-v3.12.0) (2026-07-15)
 
 
