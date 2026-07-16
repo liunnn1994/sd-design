@@ -67,6 +67,10 @@ jobs:
       - name: Test affected components
         if: steps.affected-tests.outputs.mode != 'none'
         working-directory: packages/web-vue
+        # 全量（mode=all）在 2 核 runner 上偶发 Vite dev server 过载，曾出现单次
+        # 运行卡住 2h+ 直到 6h job 上限。45min ≈ 19min 基线（nightly 全量）的 2.4
+        # 倍，足够吸收正常波动，同时避免一次卡死占用整个并发组。
+        timeout-minutes: 45
         env:
           AFFECTED_SPECS: ${{ steps.affected-tests.outputs.specs }}
         run: pnpm exec cypress run --component --browser chrome --spec "$AFFECTED_SPECS"
