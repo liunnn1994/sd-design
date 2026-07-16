@@ -19,6 +19,7 @@ export interface CascaderProps {
   defaultValue?: CascaderModelValue;
   options?: CascaderOption[];
   disabled?: boolean;
+  readonly?: boolean | string;
   error?: boolean;
   size?: Size;
   allowSearch?: boolean;

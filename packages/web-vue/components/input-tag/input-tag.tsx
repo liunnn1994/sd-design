@@ -7,6 +7,7 @@ import {
   watch,
   onMounted,
   TransitionGroup,
+  toRef,
   toRefs,
   nextTick,
 } from 'vue';
@@ -16,6 +17,11 @@ import IconHover from '../_components/icon-hover.vue';
 import ResizeObserver from '../_components/resize-observer';
 import { useAllowClear } from '../_hooks/use-allow-clear';
 import { useFormItem } from '../_hooks/use-form-item';
+import {
+  isReadonlyModificationKey,
+  useReadonlyTip,
+  useReadonlyTipText,
+} from '../_hooks/use-readonly-tip';
 import { useSize } from '../_hooks/use-size';
 import { INPUT_EVENTS, Size } from '../_utils/constant';
 import { getPrefixCls } from '../_utils/global-config';
@@ -26,6 +32,7 @@ import pick from '../_utils/pick';
 import Ellipsis from '../ellipsis';
 import IconClose from '../icon/icon-close';
 import Tag from '../tag';
+import Tooltip from '../tooltip';
 import { InputTagFieldNames, TagData } from './interface';
 import { getValueData } from './utils';
 
@@ -96,7 +103,7 @@ export default defineComponent({
      * @en Whether it is read-only mode
      */
     readonly: {
-      type: Boolean,
+      type: [Boolean, String],
       default: false,
     },
     /**
@@ -259,6 +266,12 @@ export default defineComponent({
     });
     const { mergedSize } = useSize(_mergedSize);
     const { mergedAllowClear } = useAllowClear(allowClear);
+
+    const { tipVisible, show: showReadonlyTip } = useReadonlyTip(
+      toRef(props, 'readonly'),
+      mergedDisabled,
+    );
+    const readonlyTipText = useReadonlyTipText(toRef(props, 'readonly'));
     const mergedFieldNames = computed(() => ({
       ...DEFAULT_FIELD_NAMES,
       ...props.fieldNames,
@@ -559,6 +572,9 @@ export default defineComponent({
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (props.readonly && !mergedDisabled.value && isReadonlyModificationKey(e)) {
+        showReadonlyTip();
+      }
       if (mergedDisabled.value || props.readonly) {
         return;
       }
@@ -693,121 +709,123 @@ export default defineComponent({
       responsiveTagMaxWidth.value > 0;
 
     const render = () => (
-      <span
-        ref={wrapperRef}
-        class={cls.value}
-        onMousedown={handleMousedown}
-        {...wrapperAttrs.value}
-      >
-        {isResponsiveMaxTagCount.value && valueData.value.length > 0 ? (
+      <Tooltip popupVisible={tipVisible.value} content={readonlyTipText.value} position="top">
+        <span
+          ref={wrapperRef}
+          class={cls.value}
+          onMousedown={handleMousedown}
+          {...wrapperAttrs.value}
+        >
+          {isResponsiveMaxTagCount.value && valueData.value.length > 0 ? (
+            <ResizeObserver onResize={handleResize}>
+              <span class={`${prefixCls}-resize-observer`} aria-hidden="true" />
+            </ResizeObserver>
+          ) : null}
           <ResizeObserver onResize={handleResize}>
-            <span class={`${prefixCls}-resize-observer`} aria-hidden="true" />
+            <span ref={mirrorRef} class={`${prefixCls}-mirror`}>
+              {valueData.value.length > 0
+                ? compositionValue.value || computedInputValue.value
+                : compositionValue.value || computedInputValue.value || props.placeholder}
+            </span>
           </ResizeObserver>
-        ) : null}
-        <ResizeObserver onResize={handleResize}>
-          <span ref={mirrorRef} class={`${prefixCls}-mirror`}>
-            {valueData.value.length > 0
-              ? compositionValue.value || computedInputValue.value
-              : compositionValue.value || computedInputValue.value || props.placeholder}
-          </span>
-        </ResizeObserver>
-        {isResponsiveMaxTagCount.value && valueData.value.length > 1 ? (
-          <span ref={measureRef} class={`${prefixCls}-measure`} aria-hidden="true">
-            {valueData.value.map((item) => (
-              <Tag
-                key={`measure-tag-${item.value}`}
-                class={`${prefixCls}-tag`}
-                visible
-                nowrap
-                closable={isClosableTag(item)}
-                {...item.tagProps}
-              >
-                {slots.tag?.({ data: item.raw }) ?? props.formatTag?.(item.raw) ?? item.label}
-              </Tag>
-            ))}
-            {Array.from({ length: valueData.value.length - 1 }, (_, index) => index + 1).map(
-              (hiddenCount) => (
+          {isResponsiveMaxTagCount.value && valueData.value.length > 1 ? (
+            <span ref={measureRef} class={`${prefixCls}-measure`} aria-hidden="true">
+              {valueData.value.map((item) => (
                 <Tag
-                  key={`measure-counter-${hiddenCount}`}
-                  class={`${prefixCls}-tag ${prefixCls}-tag-counter`}
-                  data-overflow-counter="true"
-                  data-hidden-count={hiddenCount}
+                  key={`measure-tag-${item.value}`}
+                  class={`${prefixCls}-tag`}
                   visible
                   nowrap
+                  closable={isClosableTag(item)}
+                  {...item.tagProps}
                 >
-                  {`+${hiddenCount}`}
+                  {slots.tag?.({ data: item.raw }) ?? props.formatTag?.(item.raw) ?? item.label}
                 </Tag>
-              ),
-            )}
-          </span>
-        ) : null}
-        {slots.prefix && <span class={`${prefixCls}-prefix`}>{slots.prefix()}</span>}
-        <TransitionGroup
-          tag="span"
-          name="input-tag-zoom"
-          {...{
-            class: [
-              `${prefixCls}-inner`,
-              {
-                [`${prefixCls}-inner-responsive`]: isResponsiveMaxTagCount.value,
-                [`${prefixCls}-nowrap`]: props.tagNowrap,
-              },
-            ],
-          }}
-        >
-          {tags.value.map((item, index) => (
-            <Tag
-              key={`tag-${item.value}`}
-              class={[
-                `${prefixCls}-tag`,
+              ))}
+              {Array.from({ length: valueData.value.length - 1 }, (_, index) => index + 1).map(
+                (hiddenCount) => (
+                  <Tag
+                    key={`measure-counter-${hiddenCount}`}
+                    class={`${prefixCls}-tag ${prefixCls}-tag-counter`}
+                    data-overflow-counter="true"
+                    data-hidden-count={hiddenCount}
+                    visible
+                    nowrap
+                  >
+                    {`+${hiddenCount}`}
+                  </Tag>
+                ),
+              )}
+            </span>
+          ) : null}
+          {slots.prefix && <span class={`${prefixCls}-prefix`}>{slots.prefix()}</span>}
+          <TransitionGroup
+            tag="span"
+            name="input-tag-zoom"
+            {...{
+              class: [
+                `${prefixCls}-inner`,
                 {
-                  [`${prefixCls}-tag-counter`]: isOverflowCounterTag(item.value),
-                  [`${prefixCls}-tag-overflow`]: isCompressedResponsiveTag(index, item.value),
+                  [`${prefixCls}-inner-responsive`]: isResponsiveMaxTagCount.value,
+                  [`${prefixCls}-nowrap`]: props.tagNowrap,
                 },
-              ]}
-              closable={isClosableTag(item)}
-              visible
-              nowrap={props.tagNowrap || isResponsiveMaxTagCount.value}
-              style={getTagStyle(index)}
-              {...item.tagProps}
-              onClose={(ev) => handleRemove(item.value, index, ev)}
-            >
-              {renderTagContent(item, index)}
-            </Tag>
-          ))}
-          <input
-            {...inputAttrs.value}
-            ref={inputRef}
-            key="input-tag-input"
-            class={`${prefixCls}-input`}
-            style={getInputStyle.value}
-            placeholder={valueData.value.length === 0 ? props.placeholder : undefined}
-            disabled={mergedDisabled.value}
-            readonly={props.readonly || props.disabledInput}
-            onInput={handleInput}
-            onKeydown={handleKeyDown}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onCompositionstart={handleComposition}
-            onCompositionupdate={handleComposition}
-            onCompositionend={handleComposition}
-          />
-        </TransitionGroup>
-        {showClearBtn.value && (
-          <IconHover
-            class={`${prefixCls}-clear-btn`}
-            {...{ onClick: handleClear, onMousedown: (e: MouseEvent) => e.stopPropagation() }}
+              ],
+            }}
           >
-            <IconClose />
-          </IconHover>
-        )}
-        {(slots.suffix || Boolean(feedback.value)) && (
-          <span class={`${prefixCls}-suffix`}>
-            {slots.suffix?.()}
-            {Boolean(feedback.value) && <FeedbackIcon type={feedback.value} />}
-          </span>
-        )}
-      </span>
+            {tags.value.map((item, index) => (
+              <Tag
+                key={`tag-${item.value}`}
+                class={[
+                  `${prefixCls}-tag`,
+                  {
+                    [`${prefixCls}-tag-counter`]: isOverflowCounterTag(item.value),
+                    [`${prefixCls}-tag-overflow`]: isCompressedResponsiveTag(index, item.value),
+                  },
+                ]}
+                closable={isClosableTag(item)}
+                visible
+                nowrap={props.tagNowrap || isResponsiveMaxTagCount.value}
+                style={getTagStyle(index)}
+                {...item.tagProps}
+                onClose={(ev) => handleRemove(item.value, index, ev)}
+              >
+                {renderTagContent(item, index)}
+              </Tag>
+            ))}
+            <input
+              {...inputAttrs.value}
+              ref={inputRef}
+              key="input-tag-input"
+              class={`${prefixCls}-input`}
+              style={getInputStyle.value}
+              placeholder={valueData.value.length === 0 ? props.placeholder : undefined}
+              disabled={mergedDisabled.value}
+              readonly={!!(props.readonly || props.disabledInput)}
+              onInput={handleInput}
+              onKeydown={handleKeyDown}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              onCompositionstart={handleComposition}
+              onCompositionupdate={handleComposition}
+              onCompositionend={handleComposition}
+            />
+          </TransitionGroup>
+          {showClearBtn.value && (
+            <IconHover
+              class={`${prefixCls}-clear-btn`}
+              {...{ onClick: handleClear, onMousedown: (e: MouseEvent) => e.stopPropagation() }}
+            >
+              <IconClose />
+            </IconHover>
+          )}
+          {(slots.suffix || Boolean(feedback.value)) && (
+            <span class={`${prefixCls}-suffix`}>
+              {slots.suffix?.()}
+              {Boolean(feedback.value) && <FeedbackIcon type={feedback.value} />}
+            </span>
+          )}
+        </span>
+      </Tooltip>
     );
 
     return {

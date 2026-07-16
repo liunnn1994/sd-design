@@ -1,63 +1,71 @@
 <template>
-  <div :class="classNames">
-    <div v-if="$slots.prefix" :class="`${prefixCls}-prefix`">
-      <slot name="prefix" />
-    </div>
-    <div :class="getInputWrapClassName(0)">
-      <input
-        ref="refInput0"
-        :disabled="disabled0"
-        :placeholder="placeholder[0]"
-        :value="displayValue0"
-        v-bind="readonly ? { readonly: true } : {}"
-        @input="onChange"
-        @keydown.enter="onPressEnter"
-        @keydown.tab="onPressTab"
-        @click="() => changeFocusedInput(0)"
-      />
-    </div>
-    <span :class="`${prefixCls}-separator`">
-      <slot name="separator"> - </slot>
-    </span>
-    <div :class="getInputWrapClassName(1)">
-      <input
-        ref="refInput1"
-        :disabled="disabled1"
-        :placeholder="placeholder[1]"
-        :value="displayValue1"
-        v-bind="readonly ? { readonly: true } : {}"
-        @input="onChange"
-        @keydown.enter="onPressEnter"
-        @keydown.tab="onPressTab"
-        @click="() => changeFocusedInput(1)"
-      />
-    </div>
-    <div :class="`${prefixCls}-suffix`">
-      <IconHover
-        v-if="allowClear && !mergedDisabled && value.length === 2"
-        :prefix="prefixCls"
-        :class="`${prefixCls}-clear-icon`"
-        @click="onClear"
-      >
-        <IconClose />
-      </IconHover>
-      <span :class="`${prefixCls}-suffix-icon`">
-        <slot name="suffix-icon" />
+  <Tooltip :popup-visible="tipVisible" :content="readonlyTipText" position="top">
+    <div :class="classNames" @keydown="onReadonlyKeydown">
+      <div v-if="$slots.prefix" :class="`${prefixCls}-prefix`">
+        <slot name="prefix" />
+      </div>
+      <div :class="getInputWrapClassName(0)">
+        <input
+          ref="refInput0"
+          :disabled="disabled0"
+          :placeholder="placeholder[0]"
+          :value="displayValue0"
+          v-bind="readonly ? { readonly: true } : {}"
+          @input="onChange"
+          @keydown.enter="onPressEnter"
+          @keydown.tab="onPressTab"
+          @click="() => changeFocusedInput(0)"
+        />
+      </div>
+      <span :class="`${prefixCls}-separator`">
+        <slot name="separator"> - </slot>
       </span>
-      <FeedbackIcon v-if="feedback" :type="feedback" />
+      <div :class="getInputWrapClassName(1)">
+        <input
+          ref="refInput1"
+          :disabled="disabled1"
+          :placeholder="placeholder[1]"
+          :value="displayValue1"
+          v-bind="readonly ? { readonly: true } : {}"
+          @input="onChange"
+          @keydown.enter="onPressEnter"
+          @keydown.tab="onPressTab"
+          @click="() => changeFocusedInput(1)"
+        />
+      </div>
+      <div :class="`${prefixCls}-suffix`">
+        <IconHover
+          v-if="allowClear && !mergedDisabled && value.length === 2"
+          :prefix="prefixCls"
+          :class="`${prefixCls}-clear-icon`"
+          @click="onClear"
+        >
+          <IconClose />
+        </IconHover>
+        <span :class="`${prefixCls}-suffix-icon`">
+          <slot name="suffix-icon" />
+        </span>
+        <FeedbackIcon v-if="feedback" :type="feedback" />
+      </div>
     </div>
-  </div>
+  </Tooltip>
 </template>
 <script setup lang="ts">
-  import { computed, PropType, ref, toRefs, useSlots } from 'vue';
+  import { computed, PropType, ref, toRef, toRefs, useSlots } from 'vue';
 
   import { Dayjs } from 'dayjs';
 
   import { useFormItem } from '../../_hooks/use-form-item';
+  import {
+    isReadonlyModificationKey,
+    useReadonlyTip,
+    useReadonlyTipText,
+  } from '../../_hooks/use-readonly-tip';
   import { useSize } from '../../_hooks/use-size';
   import { getPrefixCls } from '../../_utils/global-config';
   import { isArray, isDayjs, isFunction, isNumber, isUndefined } from '../../_utils/is';
   import IconClose from '../../icon/icon-close';
+  import Tooltip from '../../tooltip';
   import FeedbackIcon from '../feedback-icon.vue';
   import IconHover from '../icon-hover.vue';
 
@@ -81,7 +89,7 @@
       default: false,
     },
     readonly: {
-      type: Boolean,
+      type: [Boolean, String],
     },
     allowClear: {
       type: Boolean,
@@ -121,6 +129,12 @@
     feedback,
   } = useFormItem({ size, error });
   const { mergedSize } = useSize(_mergedSize);
+
+  const { tipVisible, show: showReadonlyTip } = useReadonlyTip(
+    toRef(props, 'readonly'),
+    mergedDisabled,
+  );
+  const readonlyTipText = useReadonlyTipText(toRef(props, 'readonly'));
 
   const refInput0 = ref<HTMLInputElement>();
   const refInput1 = ref<HTMLInputElement>();
@@ -189,6 +203,12 @@
 
   function onPressTab(e: Event) {
     e.preventDefault();
+  }
+
+  function onReadonlyKeydown(e: KeyboardEvent) {
+    if (props.readonly && !mergedDisabled.value && isReadonlyModificationKey(e)) {
+      showReadonlyTip();
+    }
   }
 
   function onClear(e: Event) {

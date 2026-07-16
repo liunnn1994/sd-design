@@ -118,7 +118,7 @@ import inputNumberStepIconSource from '../../../../components/generated/input-nu
 ### `<input-number>` Props
 
 | 参数名 | 描述 | 类型 | 默认值 | 版本 |
-| --- | --- | --- | :-: | :-- |
+| --- | --- | --- | :-: | :-- | --- |
 | model-value **(v-model)** | 绑定值，支持数字或数字字符串 | `string \| number \| null` | `-` |  |
 | default-value | 默认值（非受控模式），支持数字或数字字符串 | `string \| number \| null` | `-` |  |
 | mode | 模式（`embed`：按钮内嵌模式，`button`：左右按钮模式） | `'embed' \| 'button'` | `'embed'` |  |
@@ -135,7 +135,7 @@ import inputNumberStepIconSource from '../../../../components/generated/input-nu
 | size | 输入框大小 | `'mini' \| 'small' \| 'medium' \| 'large'` | `'medium'` |  |
 | allow-clear | 是否允许清空输入框 | `boolean` | `false` |  |
 | model-event | 触发 `v-model` 的事件 | `'change' \| 'input'` | `'change'` |  |
-| read-only | 只读 | `boolean` | `false` | 2.33.1 |
+| readonly | 只读 | `boolean | string` | `false` | 2.33.1 |
 | input-attrs | 内部 input 元素的属性 | `object` | `-` | 2.52.0 |
 
 ### `<input-number>` Events

@@ -153,8 +153,8 @@ export default defineComponent({
      * @en Readonly
      * @version 2.33.1
      */
-    readOnly: {
-      type: Boolean,
+    readonly: {
+      type: [Boolean, String],
       default: false,
     },
     /**
@@ -416,7 +416,7 @@ export default defineComponent({
     const handleStepButton = (event: Event, method: StepMethods, needRepeat = false) => {
       event.preventDefault();
 
-      if (props.readOnly) return;
+      if (props.readonly) return;
 
       inputRef.value?.focus();
 
@@ -480,14 +480,14 @@ export default defineComponent({
           KEYBOARD_KEY.ARROW_UP,
           (ev: Event) => {
             ev.preventDefault();
-            !props.readOnly && nextStep('plus', ev);
+            !props.readonly && nextStep('plus', ev);
           },
         ],
         [
           KEYBOARD_KEY.ARROW_DOWN,
           (ev: Event) => {
             ev.preventDefault();
-            !props.readOnly && nextStep('minus', ev);
+            !props.readonly && nextStep('minus', ev);
           },
         ],
       ]),
@@ -521,7 +521,7 @@ export default defineComponent({
     );
 
     const renderSuffix = () => {
-      if (props.readOnly) {
+      if (props.readonly) {
         return null;
       }
       return (
@@ -569,7 +569,7 @@ export default defineComponent({
       `${prefixCls}-mode-${props.mode}`,
       `${prefixCls}-size-${mergedSize.value}`,
       {
-        [`${prefixCls}-readonly`]: props.readOnly,
+        [`${prefixCls}-readonly`]: props.readonly,
       },
     ]);
 
@@ -635,7 +635,7 @@ export default defineComponent({
           modelValue={_value.value}
           placeholder={props.placeholder}
           disabled={mergedDisabled.value}
-          readonly={props.readOnly}
+          readonly={props.readonly}
           error={props.error}
           inputAttrs={{
             'role': 'spinbutton',

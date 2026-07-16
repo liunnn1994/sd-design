@@ -61,6 +61,14 @@ export default defineComponent({
       default: false,
     },
     /**
+     * @zh 是否为只读状态
+     * @en Whether it is read-only
+     */
+    readonly: {
+      type: [Boolean, String],
+      default: false,
+    },
+    /**
      * @zh 用于自动提示的数据
      * @en Data used for auto-complete
      */
@@ -227,6 +235,9 @@ export default defineComponent({
     });
 
     const handlePopupVisibleChange = (popupVisible: boolean) => {
+      if (popupVisible && props.readonly) {
+        return;
+      }
       _popupVisible.value = popupVisible;
     };
 
@@ -411,6 +422,7 @@ export default defineComponent({
           allowClear={mergedAllowClear.value}
           modelValue={computedValue.value}
           disabled={mergedDisabled.value}
+          readonly={props.readonly}
           onInput={handleInputValueChange}
           onClear={handleClear}
           {...{ onKeydown: handleKeyDown }}

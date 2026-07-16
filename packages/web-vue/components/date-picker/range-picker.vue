@@ -9,7 +9,7 @@
     v-bind="triggerProps"
     :unmount-on-close="unmountOnClose"
     :position="position"
-    :disabled="triggerDisabled || readonly"
+    :disabled="triggerDisabled || !!readonly"
     :popup-visible="panelVisible"
     :popup-container="popupContainer"
     @popupVisibleChange="onPanelVisibleChange"
@@ -282,7 +282,7 @@
       default: true,
     },
     readonly: {
-      type: Boolean,
+      type: [Boolean, String],
     },
     error: {
       type: Boolean,

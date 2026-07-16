@@ -86,6 +86,14 @@ export default defineComponent({
       default: false,
     },
     /**
+     * @zh 是否为只读状态
+     * @en Whether it is read-only
+     */
+    readonly: {
+      type: [Boolean, String],
+      default: false,
+    },
+    /**
      * @zh 是否允许清空输入框
      * @en Whether to allow the input to be cleared
      * @version 2.23.0
@@ -191,6 +199,9 @@ export default defineComponent({
     const filterOption = ref(true);
 
     const handleInput = (value: string, e: Event) => {
+      if (props.readonly) {
+        return;
+      }
       const text = getTextBeforeSelection(e.target as HTMLInputElement);
       const lastMeasure = getLastMeasureIndex(text, props.prefix);
       if (lastMeasure.location > -1) {
@@ -383,6 +394,7 @@ export default defineComponent({
                 allowClear={mergedAllowClear.value}
                 modelValue={computedValue.value}
                 disabled={mergedDisabled.value}
+                readonly={props.readonly}
                 onInput={handleInput}
                 onClear={handleClear}
                 onFocus={onFocus}
@@ -433,6 +445,7 @@ export default defineComponent({
             allowClear={mergedAllowClear.value}
             modelValue={computedValue.value}
             disabled={mergedDisabled.value}
+            readonly={props.readonly}
             onInput={handleInput}
             onClear={handleClear}
             onFocus={onFocus}

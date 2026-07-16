@@ -1,5 +1,6 @@
 /*! Tailwind CSS v4 preflight baseline scoped to SD Design layer */
 @use '@style/theme/index.scss' as *;
+@use '@components/scrollbar/style/token.scss' as sb;
 
 /* stylelint-disable-next-line layer-name-pattern */
 @layer #{$prefix}-design {
@@ -226,31 +227,35 @@
   }
 
   /* Native scrollbar baseline — mirrors the <Scrollbar> embed theme
-     (6px thumb, transparent track, neutral-4/5/6 thumb states).
+     (transparent track, neutral thumb; shares --sd-scrollbar-* with the <Scrollbar> component).
      Opt-in: only applies within an element carrying the design-system
      class (`.sd-design` by default; follows $prefix), e.g.
-     <html class="sd-design">. Standard scrollbar-* properties are
+     <html class="sd-design-system-scrollbar">. Standard scrollbar-* properties are
      primary; ::-webkit-scrollbar*
      is the fallback for browsers without standard support. Where the
      standard properties apply they override the webkit rules, so the
      rounded corners and hover/active states only render in webkit-only
      browsers. */
   @supports (scrollbar-color: auto) {
-    .#{$prefix}-design {
+    .#{$prefix}-design-system-scrollbar {
       &,
       & * {
         scrollbar-width: thin;
-        scrollbar-color: var(#{$sd-cssvars-prefix}-color-neutral-4) transparent;
+        scrollbar-color: var(
+            #{$sd-cssvars-prefix}-scrollbar-thumb-color,
+            #{sb.$scrollbar-thumb-bar-bg_color}
+          )
+          transparent;
       }
     }
   }
 
   @supports selector(::-webkit-scrollbar) {
-    .#{$prefix}-design {
+    .#{$prefix}-design-system-scrollbar {
       &::-webkit-scrollbar,
       & *::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
+        width: var(#{$sd-cssvars-prefix}-scrollbar-size, #{sb.$scrollbar-thumb-bar-size});
+        height: var(#{$sd-cssvars-prefix}-scrollbar-size, #{sb.$scrollbar-thumb-bar-size});
       }
 
       &::-webkit-scrollbar-track,
@@ -260,18 +265,30 @@
 
       &::-webkit-scrollbar-thumb,
       & *::-webkit-scrollbar-thumb {
-        background: var(#{$sd-cssvars-prefix}-color-neutral-4);
-        border-radius: 6px;
+        background: var(
+          #{$sd-cssvars-prefix}-scrollbar-thumb-color,
+          #{sb.$scrollbar-thumb-bar-bg_color}
+        );
+        border-radius: var(
+          #{$sd-cssvars-prefix}-scrollbar-thumb-radius,
+          #{sb.$scrollbar-thumb-bar-border_radius}
+        );
       }
 
       &::-webkit-scrollbar-thumb:hover,
       & *::-webkit-scrollbar-thumb:hover {
-        background: var(#{$sd-cssvars-prefix}-color-neutral-5);
+        background: var(
+          #{$sd-cssvars-prefix}-scrollbar-thumb-color-hover,
+          #{sb.$scrollbar-thumb-bar-bg_color_hover}
+        );
       }
 
       &::-webkit-scrollbar-thumb:active,
       & *::-webkit-scrollbar-thumb:active {
-        background: var(#{$sd-cssvars-prefix}-color-neutral-6);
+        background: var(
+          #{$sd-cssvars-prefix}-scrollbar-thumb-color-active,
+          #{sb.$scrollbar-thumb-bar-bg_color_active}
+        );
       }
     }
   }

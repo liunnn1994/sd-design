@@ -53,7 +53,7 @@ export default defineComponent({
      * @zh 只读
      * @en Readonly
      */
-    readonly: Boolean,
+    readonly: { type: [Boolean, String], default: false },
     /**
      * @zh 是否为错误状态
      * @en Whether it is an error state

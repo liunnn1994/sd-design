@@ -1,11 +1,16 @@
 import type { PropType } from 'vue';
-import { computed, defineComponent, ref, nextTick, toRefs, watch } from 'vue';
+import { computed, defineComponent, nextTick, ref, toRef, toRefs, watch } from 'vue';
 
 import FeedbackIcon from '../_components/feedback-icon.vue';
 import IconHover from '../_components/icon-hover.vue';
 import { useAllowClear } from '../_hooks/use-allow-clear';
 import { useCursor } from '../_hooks/use-cursor';
 import { useFormItem } from '../_hooks/use-form-item';
+import {
+  isReadonlyModificationKey,
+  useReadonlyTip,
+  useReadonlyTipText,
+} from '../_hooks/use-readonly-tip';
 import { useSize } from '../_hooks/use-size';
 import { INPUT_EVENTS, Size } from '../_utils/constant';
 import { getPrefixCls } from '../_utils/global-config';
@@ -14,6 +19,7 @@ import { Enter } from '../_utils/keycode';
 import { omit } from '../_utils/omit';
 import pick from '../_utils/pick';
 import IconClose from '../icon/icon-close';
+import Tooltip from '../tooltip';
 
 export default defineComponent({
   name: 'Input',
@@ -62,7 +68,7 @@ export default defineComponent({
      * @en Whether it is read-only
      */
     readonly: {
-      type: Boolean,
+      type: [Boolean, String],
       default: false,
     },
     /**
@@ -210,6 +216,12 @@ export default defineComponent({
     const { mergedSize } = useSize(_mergedSize);
     const { mergedAllowClear } = useAllowClear(allowClear);
     const [recordCursor, setCursor] = useCursor(inputRef);
+
+    const { tipVisible, show: showReadonlyTip } = useReadonlyTip(
+      toRef(props, 'readonly'),
+      mergedDisabled,
+    );
+    const readonlyTipText = useReadonlyTipText(toRef(props, 'readonly'));
 
     // 值相关
     const _value = ref(props.defaultValue);
@@ -381,6 +393,9 @@ export default defineComponent({
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (props.readonly && !mergedDisabled.value && isReadonlyModificationKey(e)) {
+        showReadonlyTip();
+      }
       const keyCode = e.key || e.code;
       if (!isComposition.value && keyCode === Enter.key) {
         emitChange(computedValue.value, e);
@@ -434,7 +449,7 @@ export default defineComponent({
           value={computedValue.value}
           type={props.type}
           placeholder={props.placeholder}
-          readonly={props.readonly}
+          readonly={!!props.readonly}
           disabled={mergedDisabled.value}
           onInput={handleInput}
           onKeydown={handleKeyDown}
@@ -476,8 +491,8 @@ export default defineComponent({
     );
 
     const render = () => {
-      if (slots.prepend || slots.append || props.prepend || props.append) {
-        return (
+      const node =
+        slots.prepend || slots.append || props.prepend || props.append ? (
           <span class={outerCls.value} {...wrapperAttrs.value}>
             {(slots.prepend || props.prepend) && (
               <span class={`${prefixCls}-prepend`}>
@@ -491,9 +506,14 @@ export default defineComponent({
               </span>
             )}
           </span>
+        ) : (
+          renderInput()
         );
-      }
-      return renderInput();
+      return (
+        <Tooltip popupVisible={tipVisible.value} content={readonlyTipText.value} position="top">
+          {node}
+        </Tooltip>
+      );
     };
 
     return {

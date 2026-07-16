@@ -72,6 +72,7 @@ const calendarLang: SDCalendarLang = {
 
 const lang: SdLang = {
   locale: 'zh-TW',
+  readonlyTip: '目前為唯讀模式',
   empty: {
     description: '無資料',
   },

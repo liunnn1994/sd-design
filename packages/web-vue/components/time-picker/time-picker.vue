@@ -5,7 +5,7 @@
     auto-fit-transform-origin
     :click-to-close="false"
     :position="position"
-    :disabled="mergedDisabled || readonly"
+    :disabled="mergedDisabled || !!readonly"
     :popup-offset="4"
     :popup-visible="panelVisible"
     :prevent-focus="true"
@@ -15,7 +15,7 @@
     @popupVisibleChange="onPanelVisibleChange"
   >
     <component
-      :is="isRange ? 'DateRangeInput' : 'DateInput'"
+      :is="InputComponent"
       v-bind="{
         ...$attrs,
         ...inputProps,
@@ -72,6 +72,7 @@
 </template>
 
 <script setup lang="ts">
+  import type { Component } from 'vue';
   import { computed, nextTick, PropType, reactive, ref, toRefs, watch } from 'vue';
 
   import { Dayjs } from 'dayjs';
@@ -145,7 +146,7 @@
      * @en Whether it is read-only mode
      * */
     readonly: {
-      type: Boolean,
+      type: [Boolean, String],
     },
     /**
      * @zh 是否为错误状态
@@ -352,6 +353,9 @@
   const { mergedAllowClear } = useAllowClear(allowClear);
 
   const isRange = computed(() => type.value === 'time-range');
+  // 用组件引用而非字符串，避免 `<component :is="'DateInput'">` 无法解析内部未全局注册的组件；
+  // 标注为 Component 以跳过 DateInput / DateRangeInput 的联合 props 严格校验。
+  const InputComponent = computed<Component>(() => (isRange.value ? DateRangeInput : DateInput));
   const prefixCls = getPrefixCls('timepicker');
   const refInput = ref();
 

@@ -1,105 +1,113 @@
 <template>
-  <Trigger
-    :class="`${prefixCls}-trigger`"
-    auto-fit-popup-min-width
-    trigger="click"
-    position="bl"
-    :popup-offset="4"
-    animation-name="slide-dynamic-origin"
-    :prevent-focus="true"
-    v-bind="resolvedTriggerProps"
-    :disabled="mergedDisabled"
-    :popup-visible="panelVisible"
-    :popup-container="popupContainer"
-    :click-to-close="!Boolean(mergedAllowSearch)"
-    auto-fit-transform-origin
-    @popupVisibleChange="onVisibleChange"
-  >
-    <slot name="trigger">
-      <SelectView
-        ref="refSelectView"
-        :model-value="selectViewValue"
-        :input-value="searchValue"
-        :allow-search="Boolean(mergedAllowSearch)"
-        :allow-clear="mergedAllowClear"
-        :show-arrow="showArrow"
-        :loading="loading"
-        :size="size"
-        :max-tag-count="maxTagCount"
-        :disabled="mergedDisabled"
-        :opened="panelVisible"
-        :error="error"
-        :bordered="border"
-        :placeholder="placeholder"
-        :multiple="isMultiple"
-        v-bind="$attrs"
-        @inputValueChange="onSearchValueChange"
-        @clear="onInnerClear"
-        @remove="onItemRemove"
-        @blur="onBlur"
-      >
-        <template v-if="$slots.prefix" #prefix>
-          <slot name="prefix" />
-        </template>
-        <template v-if="$slots.label" #label="selectedData">
-          <slot name="label" v-bind="selectedData" />
-        </template>
-        <template v-if="$slots.tag" #tag="selectedData">
-          <slot name="tag" :data="selectedData?.data?.option ?? selectedData?.data" />
-        </template>
-      </SelectView>
-    </slot>
-    <template #content>
-      <div
-        :class="[
-          `${prefixCls}-popup`,
-          {
-            [`${prefixCls}-has-header`]: Boolean($slots.header),
-            [`${prefixCls}-has-footer`]: Boolean($slots.footer),
-          },
-          dropdownClassName,
-        ]"
-        :style="computedDropdownStyle"
-      >
-        <div v-if="$slots.header && (!isEmpty || showHeaderOnEmpty)" :class="`${prefixCls}-header`">
-          <slot name="header" />
+  <Tooltip :popup-visible="tipVisible" :content="readonlyTipText" position="top">
+    <Trigger
+      :class="`${prefixCls}-trigger`"
+      auto-fit-popup-min-width
+      trigger="click"
+      position="bl"
+      :popup-offset="4"
+      animation-name="slide-dynamic-origin"
+      :prevent-focus="true"
+      v-bind="resolvedTriggerProps"
+      :disabled="mergedDisabled"
+      :popup-visible="panelVisible"
+      :popup-container="popupContainer"
+      :click-to-close="!Boolean(mergedAllowSearch)"
+      auto-fit-transform-origin
+      @popupVisibleChange="onVisibleChange"
+    >
+      <slot name="trigger">
+        <SelectView
+          ref="refSelectView"
+          :model-value="selectViewValue"
+          :input-value="searchValue"
+          :allow-search="Boolean(mergedAllowSearch)"
+          :allow-clear="mergedAllowClear"
+          :show-arrow="showArrow"
+          :loading="loading"
+          :size="size"
+          :max-tag-count="maxTagCount"
+          :disabled="mergedDisabled"
+          :opened="panelVisible"
+          :error="error"
+          :bordered="border"
+          :placeholder="placeholder"
+          :multiple="isMultiple"
+          v-bind="$attrs"
+          @inputValueChange="onSearchValueChange"
+          @clear="onInnerClear"
+          @remove="onItemRemove"
+          @blur="onBlur"
+        >
+          <template v-if="$slots.prefix" #prefix>
+            <slot name="prefix" />
+          </template>
+          <template v-if="$slots.label" #label="selectedData">
+            <slot name="label" v-bind="selectedData" />
+          </template>
+          <template v-if="$slots.tag" #tag="selectedData">
+            <slot name="tag" :data="selectedData?.data?.option ?? selectedData?.data" />
+          </template>
+        </SelectView>
+      </slot>
+      <template #content>
+        <div
+          :class="[
+            `${prefixCls}-popup`,
+            {
+              [`${prefixCls}-has-header`]: Boolean($slots.header),
+              [`${prefixCls}-has-footer`]: Boolean($slots.footer),
+            },
+            dropdownClassName,
+          ]"
+          :style="computedDropdownStyle"
+        >
+          <div
+            v-if="$slots.header && (!isEmpty || showHeaderOnEmpty)"
+            :class="`${prefixCls}-header`"
+          >
+            <slot name="header" />
+          </div>
+          <slot v-if="loading" name="loader">
+            <Spin />
+          </slot>
+          <slot v-else-if="isEmpty" name="empty">
+            <component :is="TreeSelectEmpty ? TreeSelectEmpty : 'Empty'" />
+          </slot>
+          <Panel
+            v-else
+            :selected-keys="selectedKeys"
+            :show-checkable="mergedTreeCheckable"
+            :scrollbar="scrollbar"
+            :tree-props="{
+              actionOnNodeClick: selectable === 'leaf' ? 'expand' : undefined,
+              blockNode: true,
+              ...mergedTreeProps,
+              data: mergedData,
+              checkStrictly: treeCheckStrictly,
+              checkedStrategy: mergedTreeCheckedStrategy,
+              fieldNames,
+              multiple,
+              loadMore,
+              filterTreeNode: computedFilterTreeNode,
+              size,
+              checkable: isCheckable,
+              selectable: isSelectable,
+              searchValue: searchValue,
+            }"
+            :tree-slots="pickSubCompSlots($slots, 'tree')"
+            @change="onSelectChange"
+          />
+          <div
+            v-if="$slots.footer && (!isEmpty || showFooterOnEmpty)"
+            :class="`${prefixCls}-footer`"
+          >
+            <slot name="footer" />
+          </div>
         </div>
-        <slot v-if="loading" name="loader">
-          <Spin />
-        </slot>
-        <slot v-else-if="isEmpty" name="empty">
-          <component :is="TreeSelectEmpty ? TreeSelectEmpty : 'Empty'" />
-        </slot>
-        <Panel
-          v-else
-          :selected-keys="selectedKeys"
-          :show-checkable="mergedTreeCheckable"
-          :scrollbar="scrollbar"
-          :tree-props="{
-            actionOnNodeClick: selectable === 'leaf' ? 'expand' : undefined,
-            blockNode: true,
-            ...mergedTreeProps,
-            data: mergedData,
-            checkStrictly: treeCheckStrictly,
-            checkedStrategy: mergedTreeCheckedStrategy,
-            fieldNames,
-            multiple,
-            loadMore,
-            filterTreeNode: computedFilterTreeNode,
-            size,
-            checkable: isCheckable,
-            selectable: isSelectable,
-            searchValue: searchValue,
-          }"
-          :tree-slots="pickSubCompSlots($slots, 'tree')"
-          @change="onSelectChange"
-        />
-        <div v-if="$slots.footer && (!isEmpty || showFooterOnEmpty)" :class="`${prefixCls}-footer`">
-          <slot name="footer" />
-        </div>
-      </div>
-    </template>
-  </Trigger>
+      </template>
+    </Trigger>
+  </Tooltip>
 </template>
 <script setup lang="ts">
   import {
@@ -109,6 +117,7 @@
     PropType,
     reactive,
     ref,
+    toRef,
     toRefs,
     StyleValue,
     inject,
@@ -122,6 +131,7 @@
   import { useDropdownVirtualListProps } from '../_hooks/use-dropdown-virtual-list-props';
   import { useFormItem } from '../_hooks/use-form-item';
   import useMergeState from '../_hooks/use-merge-state';
+  import { useReadonlyTip, useReadonlyTipText } from '../_hooks/use-readonly-tip';
   import { Size } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
   import { isUndefined, isFunction, isObject } from '../_utils/is';
@@ -132,6 +142,7 @@
   import Empty from '../empty';
   import { ScrollbarProps } from '../scrollbar';
   import Spin from '../spin';
+  import Tooltip from '../tooltip';
   import useTreeData from '../tree/hooks/use-tree-data';
   import { TreeFieldNames, TreeNodeData, TreeProps, TreeNodeKey, Node } from '../tree/interface';
   import { isNodeSelectable } from '../tree/utils';
@@ -151,6 +162,13 @@
      * */
     disabled: {
       type: Boolean,
+    },
+    /**
+     * @zh 是否为只读状态
+     * @en Whether it is read-only
+     * */
+    readonly: {
+      type: [Boolean, String],
     },
     /**
      * @zh 是否为加载中状态
@@ -778,7 +796,7 @@
       value: computed(() => popupVisible!.value ?? show!.value),
     }),
   );
-  const setPanelVisible = (visible: boolean) => {
+  const _setPanelVisible = (visible: boolean) => {
     if (visible !== panelVisible.value) {
       setLocalPanelVisible(visible);
       emit('popup-visible-change', visible);
@@ -790,6 +808,20 @@
     if (!visible) {
       refSelectView.value && refSelectView.value.blur && refSelectView.value.blur();
     }
+  };
+
+  const { tipVisible, show: showReadonlyTip } = useReadonlyTip(
+    toRef(props, 'readonly'),
+    mergedDisabled,
+  );
+  const readonlyTipText = useReadonlyTipText(toRef(props, 'readonly'));
+
+  const setPanelVisible = (visible: boolean) => {
+    if (visible && props.readonly && !mergedDisabled.value) {
+      showReadonlyTip();
+      return;
+    }
+    _setPanelVisible(visible);
   };
 
   const { isEmptyFilterResult, filterTreeNode: computedFilterTreeNode } = useFilterTreeNode(

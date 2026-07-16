@@ -1,8 +1,10 @@
-import { defineComponent, PropType, computed, ref } from 'vue';
+import { defineComponent, PropType, computed, ref, toRef } from 'vue';
 
+import { useReadonlyTip, useReadonlyTipText } from '../_hooks/use-readonly-tip';
 import { Size } from '../_utils/constant';
 import { getPrefixCls } from '../_utils/global-config';
 import Input from '../input';
+import Tooltip from '../tooltip';
 import Trigger, { TriggerProps } from '../trigger';
 import { colors } from './colors';
 import {
@@ -115,6 +117,14 @@ export default defineComponent({
      */
     disabled: {
       type: Boolean,
+      default: false,
+    },
+    /**
+     * @zh 是否为只读状态
+     * @en Whether it is read-only
+     */
+    readonly: {
+      type: [Boolean, String],
       default: false,
     },
     /**
@@ -240,12 +250,18 @@ export default defineComponent({
       emit('popup-visible-change', visible, triggerInputValue.value);
     };
 
+    const { tipVisible, show: showReadonlyTip } = useReadonlyTip(
+      toRef(props, 'readonly'),
+      toRef(props, 'disabled'),
+    );
+    const readonlyTipText = useReadonlyTipText(toRef(props, 'readonly'));
+
     const mergedTriggerProps = computed(
       () =>
         ({
           trigger: 'click',
           position: 'bl',
-          disabled: props.disabled,
+          disabled: props.disabled || !!props.readonly,
           popupOffset: 4,
           animationName: 'slide-dynamic-origin',
           ...props.triggerProps,
@@ -259,14 +275,17 @@ export default defineComponent({
             [prefixCls]: true,
             [`${prefixCls}-size-${props.size}`]: props.size,
             [`${prefixCls}-disabled`]: props.disabled,
+            [`${prefixCls}-readonly`]: !!props.readonly,
             [`${prefixCls}-borderless`]: props.borderless,
           }}
+          onClick={showReadonlyTip}
         >
           <Input
             class={`${prefixCls}-trigger-input`}
             size={props.size === 'mini' ? 'mini' : (props.size as Size)}
             allowClear={props.clearable}
             disabled={props.disabled}
+            readonly={props.readonly}
             modelValue={triggerInputValue.value}
             onChange={handleTriggerInputChange}
             onClear={handleClear}
@@ -301,16 +320,19 @@ export default defineComponent({
     };
 
     return () => {
-      return props.hideTrigger ? (
-        renderPanel()
-      ) : (
-        <Trigger
-          v-slots={{ content: renderPanel }}
-          onPopupVisibleChange={onPopupVisibleChange}
-          {...mergedTriggerProps.value}
-        >
-          {slots.default ? slots.default() : renderTriggerInput()}
-        </Trigger>
+      if (props.hideTrigger) {
+        return renderPanel();
+      }
+      return (
+        <Tooltip popupVisible={tipVisible.value} content={readonlyTipText.value} position="top">
+          <Trigger
+            v-slots={{ content: renderPanel }}
+            onPopupVisibleChange={onPopupVisibleChange}
+            {...mergedTriggerProps.value}
+          >
+            {slots.default ? slots.default() : renderTriggerInput()}
+          </Trigger>
+        </Tooltip>
       );
     };
   },

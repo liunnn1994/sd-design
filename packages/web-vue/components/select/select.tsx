@@ -1,5 +1,5 @@
 import type { ComponentPublicInstance, PropType } from 'vue';
-import { computed, defineComponent, nextTick, ref, toRefs, watch, watchEffect } from 'vue';
+import { computed, defineComponent, nextTick, ref, toRef, toRefs, watch, watchEffect } from 'vue';
 
 import type { SelectViewValue } from '../_components/select-view/interface';
 import type { VirtualListProps } from '../_components/virtual-list/interface';
@@ -22,6 +22,7 @@ import { useAllowClear } from '../_hooks/use-allow-clear';
 import { useAllowSearch } from '../_hooks/use-allow-search';
 import { useDropdownVirtualListProps } from '../_hooks/use-dropdown-virtual-list-props';
 import { useFormItem } from '../_hooks/use-form-item';
+import { useReadonlyTip, useReadonlyTipText } from '../_hooks/use-readonly-tip';
 import { useTrigger } from '../_hooks/use-trigger';
 import { debounce } from '../_utils/debounce';
 import { getPrefixCls } from '../_utils/global-config';
@@ -38,6 +39,7 @@ import {
 } from '../_utils/is';
 import { resolveDropdownVirtualListProps } from '../_utils/virtual-dropdown';
 import Checkbox from '../checkbox';
+import Tooltip from '../tooltip';
 import Trigger, { type TriggerProps } from '../trigger';
 import { useSelect } from './hooks/use-select';
 import SelectDropdown from './select-dropdown.vue';
@@ -96,6 +98,14 @@ export default defineComponent({
     },
     disabled: {
       type: Boolean,
+      default: false,
+    },
+    /**
+     * @zh 是否为只读状态
+     * @en Whether it is read-only
+     */
+    readonly: {
+      type: [Boolean, String],
       default: false,
     },
     error: {
@@ -277,16 +287,31 @@ export default defineComponent({
       );
     });
 
-    const { computedPopupVisible, handlePopupVisibleChange } = useTrigger({
-      popupVisible,
-      defaultPopupVisible,
-      show,
-      defaultShow,
-      emit: emit as unknown as (
-        event: 'update:popupVisible' | 'popupVisibleChange' | 'update:show' | 'showChange',
-        visible: boolean,
-      ) => void,
-    });
+    const { computedPopupVisible, handlePopupVisibleChange: _handlePopupVisibleChange } =
+      useTrigger({
+        popupVisible,
+        defaultPopupVisible,
+        show,
+        defaultShow,
+        emit: emit as unknown as (
+          event: 'update:popupVisible' | 'popupVisibleChange' | 'update:show' | 'showChange',
+          visible: boolean,
+        ) => void,
+      });
+
+    const { tipVisible, show: showReadonlyTip } = useReadonlyTip(
+      toRef(props, 'readonly'),
+      mergedDisabled,
+    );
+    const readonlyTipText = useReadonlyTipText(toRef(props, 'readonly'));
+
+    const handlePopupVisibleChange = (visible: boolean) => {
+      if (visible && props.readonly && !mergedDisabled.value) {
+        showReadonlyTip();
+        return;
+      }
+      _handlePopupVisibleChange(visible);
+    };
 
     const _value = ref<SelectModelValue>(props.defaultValue);
     const computedValueObjects = computed<OptionValueWithKey[]>(() => {
@@ -762,59 +787,61 @@ export default defineComponent({
     });
 
     return () => (
-      <Trigger
-        v-slots={{ content: renderDropDown }}
-        trigger="click"
-        position="bl"
-        popupOffset={4}
-        animationName="slide-dynamic-origin"
-        hideEmpty
-        preventFocus
-        autoFitPopupWidth
-        autoFitTransformOrigin
-        disabled={mergedDisabled.value}
-        popupVisible={computedPopupVisible.value}
-        unmountOnClose={props.unmountOnClose}
-        clickToClose={!(mergedAllowSearch.value || props.allowCreate)}
-        popupContainer={props.popupContainer}
-        onPopupVisibleChange={handlePopupVisibleChange}
-        {...props.triggerProps}
-      >
-        {slots.trigger?.() ?? (
-          <SelectView
-            ref={selectViewRef}
-            v-slots={{
-              'label': renderLabel,
-              'tag': renderTag,
-              'prefix': slots.prefix,
-              'arrow-icon': slots['arrow-icon'],
-              'loading-icon': slots['loading-icon'],
-              'search-icon': slots['search-icon'],
-            }}
-            class={prefixCls}
-            modelValue={selectViewValue.value}
-            inputValue={computedInputValue.value}
-            multiple={props.multiple}
-            disabled={mergedDisabled.value}
-            error={mergedError.value}
-            loading={props.loading}
-            allowClear={mergedAllowClear.value}
-            allowCreate={props.allowCreate}
-            allowSearch={Boolean(mergedAllowSearch.value)}
-            showArrow={props.showArrow}
-            opened={computedPopupVisible.value}
-            maxTagCount={props.maxTagCount}
-            placeholder={props.placeholder}
-            bordered={props.bordered}
-            size={mergedSize.value}
-            tagNowrap={props.tagNowrap}
-            {...{ onInputValueChange: handleInputValueChange, onKeydown: handleKeyDown }}
-            onRemove={handleRemove}
-            onClear={handleClear}
-            {...attrs}
-          />
-        )}
-      </Trigger>
+      <Tooltip popupVisible={tipVisible.value} content={readonlyTipText.value} position="top">
+        <Trigger
+          v-slots={{ content: renderDropDown }}
+          trigger="click"
+          position="bl"
+          popupOffset={4}
+          animationName="slide-dynamic-origin"
+          hideEmpty
+          preventFocus
+          autoFitPopupWidth
+          autoFitTransformOrigin
+          disabled={mergedDisabled.value}
+          popupVisible={computedPopupVisible.value}
+          unmountOnClose={props.unmountOnClose}
+          clickToClose={!(mergedAllowSearch.value || props.allowCreate)}
+          popupContainer={props.popupContainer}
+          onPopupVisibleChange={handlePopupVisibleChange}
+          {...props.triggerProps}
+        >
+          {slots.trigger?.() ?? (
+            <SelectView
+              ref={selectViewRef}
+              v-slots={{
+                'label': renderLabel,
+                'tag': renderTag,
+                'prefix': slots.prefix,
+                'arrow-icon': slots['arrow-icon'],
+                'loading-icon': slots['loading-icon'],
+                'search-icon': slots['search-icon'],
+              }}
+              class={prefixCls}
+              modelValue={selectViewValue.value}
+              inputValue={computedInputValue.value}
+              multiple={props.multiple}
+              disabled={mergedDisabled.value}
+              error={mergedError.value}
+              loading={props.loading}
+              allowClear={mergedAllowClear.value}
+              allowCreate={props.allowCreate}
+              allowSearch={Boolean(mergedAllowSearch.value)}
+              showArrow={props.showArrow}
+              opened={computedPopupVisible.value}
+              maxTagCount={props.maxTagCount}
+              placeholder={props.placeholder}
+              bordered={props.bordered}
+              size={mergedSize.value}
+              tagNowrap={props.tagNowrap}
+              {...{ onInputValueChange: handleInputValueChange, onKeydown: handleKeyDown }}
+              onRemove={handleRemove}
+              onClear={handleClear}
+              {...attrs}
+            />
+          )}
+        </Trigger>
+      </Tooltip>
     );
   },
 });

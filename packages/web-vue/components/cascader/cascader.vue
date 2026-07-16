@@ -1,89 +1,91 @@
 <template>
-  <trigger
-    v-bind="mergedTriggerProps"
-    trigger="click"
-    animation-name="slide-dynamic-origin"
-    auto-fit-transform-origin
-    :popup-visible="computedPopupVisible"
-    position="bl"
-    :disabled="mergedDisabled"
-    :popup-offset="4"
-    :auto-fit-popup-width="showSearchPanel"
-    :popup-container="popupContainer"
-    :prevent-focus="true"
-    :click-to-close="!Boolean(mergedAllowSearch)"
-    @popup-visible-change="handlePopupVisibleChange"
-  >
-    <select-view
-      :model-value="selectViewValue"
-      :input-value="computedInputValue"
+  <Tooltip :popup-visible="tipVisible" :content="readonlyTipText" position="top">
+    <trigger
+      v-bind="mergedTriggerProps"
+      trigger="click"
+      animation-name="slide-dynamic-origin"
+      auto-fit-transform-origin
+      :popup-visible="computedPopupVisible"
+      position="bl"
       :disabled="mergedDisabled"
-      :error="error"
-      :multiple="multiple"
-      :allow-clear="mergedAllowClear"
-      :allow-search="Boolean(mergedAllowSearch)"
-      :size="size"
-      :opened="computedPopupVisible"
-      :placeholder="placeholder"
-      :loading="loading"
-      :max-tag-count="maxTagCount"
-      :tag-nowrap="tagNowrap"
-      v-bind="attrs"
-      @input-value-change="handleInputValueChange"
-      @clear="handleClear"
-      @focus="handleFocus"
-      @blur="handleBlur"
-      @remove="handleRemove"
-      @keydown="handleKeyDown"
+      :popup-offset="4"
+      :auto-fit-popup-width="showSearchPanel"
+      :popup-container="popupContainer"
+      :prevent-focus="true"
+      :click-to-close="!Boolean(mergedAllowSearch)"
+      @popup-visible-change="handlePopupVisibleChange"
     >
-      <template v-if="$slots.label" #label="data">
-        <slot name="label" v-bind="data" />
-      </template>
-      <template v-if="$slots.prefix" #prefix>
-        <slot name="prefix" />
-      </template>
-      <template v-if="$slots['arrow-icon']" #arrow-icon>
-        <slot name="arrow-icon" />
-      </template>
-      <template v-if="$slots['loading-icon']" #loading-icon>
-        <slot name="loading-icon" />
-      </template>
-      <template v-if="$slots['search-icon']" #search-icon>
-        <slot name="search-icon" />
-      </template>
-    </select-view>
-    <template #content>
-      <cascader-search-panel
-        v-if="showSearchPanel"
-        :options="filteredLeafOptions"
-        :active-key="activeKey"
+      <select-view
+        :model-value="selectViewValue"
+        :input-value="computedInputValue"
+        :disabled="mergedDisabled"
+        :error="error"
         :multiple="multiple"
-        :check-strictly="checkStrictly"
+        :allow-clear="mergedAllowClear"
+        :allow-search="Boolean(mergedAllowSearch)"
+        :size="size"
+        :opened="computedPopupVisible"
+        :placeholder="placeholder"
         :loading="loading"
-        :path-label="!searchOptionOnlyLabel"
+        :max-tag-count="maxTagCount"
+        :tag-nowrap="tagNowrap"
+        v-bind="attrs"
+        @input-value-change="handleInputValueChange"
+        @clear="handleClear"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @remove="handleRemove"
+        @keydown="handleKeyDown"
       >
-        <template v-if="$slots.empty" #empty>
-          <slot name="empty" />
+        <template v-if="$slots.label" #label="data">
+          <slot name="label" v-bind="data" />
         </template>
-      </cascader-search-panel>
-      <base-cascader-panel
-        v-else
-        :display-columns="displayColumns"
-        :selected-path="selectedPath"
-        :active-key="activeKey"
-        :multiple="multiple"
-        :total-level="totalLevel"
-        :check-strictly="checkStrictly"
-        :loading="loading"
-        :virtual-list-props="resolvedVirtualListProps"
-        dropdown
-      >
-        <template v-if="$slots.empty" #empty>
-          <slot name="empty" />
+        <template v-if="$slots.prefix" #prefix>
+          <slot name="prefix" />
         </template>
-      </base-cascader-panel>
-    </template>
-  </trigger>
+        <template v-if="$slots['arrow-icon']" #arrow-icon>
+          <slot name="arrow-icon" />
+        </template>
+        <template v-if="$slots['loading-icon']" #loading-icon>
+          <slot name="loading-icon" />
+        </template>
+        <template v-if="$slots['search-icon']" #search-icon>
+          <slot name="search-icon" />
+        </template>
+      </select-view>
+      <template #content>
+        <cascader-search-panel
+          v-if="showSearchPanel"
+          :options="filteredLeafOptions"
+          :active-key="activeKey"
+          :multiple="multiple"
+          :check-strictly="checkStrictly"
+          :loading="loading"
+          :path-label="!searchOptionOnlyLabel"
+        >
+          <template v-if="$slots.empty" #empty>
+            <slot name="empty" />
+          </template>
+        </cascader-search-panel>
+        <base-cascader-panel
+          v-else
+          :display-columns="displayColumns"
+          :selected-path="selectedPath"
+          :active-key="activeKey"
+          :multiple="multiple"
+          :total-level="totalLevel"
+          :check-strictly="checkStrictly"
+          :loading="loading"
+          :virtual-list-props="resolvedVirtualListProps"
+          dropdown
+        >
+          <template v-if="$slots.empty" #empty>
+            <slot name="empty" />
+          </template>
+        </base-cascader-panel>
+      </template>
+    </trigger>
+  </Tooltip>
 </template>
 
 <script lang="ts" setup>
@@ -93,6 +95,7 @@
     provide,
     reactive,
     ref,
+    toRef,
     toRefs,
     useAttrs,
     useSlots,
@@ -112,12 +115,14 @@
   import { useAllowSearch } from '../_hooks/use-allow-search';
   import { useDropdownVirtualListProps } from '../_hooks/use-dropdown-virtual-list-props';
   import { useFormItem } from '../_hooks/use-form-item';
+  import { useReadonlyTip, useReadonlyTipText } from '../_hooks/use-readonly-tip';
   import { useTrigger } from '../_hooks/use-trigger';
   import { debounce } from '../_utils/debounce';
   import { isArray, isFunction, isNull, isUndefined } from '../_utils/is';
   import { KEYBOARD_KEY, getKeyDownHandler } from '../_utils/keyboard';
   import { BaseType } from '../_utils/types';
   import { resolveDropdownVirtualListProps } from '../_utils/virtual-dropdown';
+  import Tooltip from '../tooltip';
   import Trigger from '../trigger';
   import BaseCascaderPanel from './base-cascader-panel';
   import CascaderSearchPanel from './cascader-search-panel';
@@ -143,6 +148,7 @@
     multiple: false,
     options: () => [],
     disabled: false,
+    readonly: false,
     error: false,
     allowClear: false,
     defaultInputValue: '',
@@ -265,7 +271,7 @@
 
     return undefined;
   });
-  const { computedPopupVisible, handlePopupVisibleChange } = useTrigger({
+  const { computedPopupVisible, handlePopupVisibleChange: _handlePopupVisibleChange } = useTrigger({
     popupVisible: mergedPopupVisible,
     defaultPopupVisible: mergedDefaultPopupVisible,
     show: mergedShow,
@@ -275,6 +281,20 @@
       visible: boolean,
     ) => void,
   });
+
+  const { tipVisible, show: showReadonlyTip } = useReadonlyTip(
+    toRef(props, 'readonly'),
+    mergedDisabled,
+  );
+  const readonlyTipText = useReadonlyTipText(toRef(props, 'readonly'));
+
+  const handlePopupVisibleChange = (visible: boolean) => {
+    if (visible && props.readonly && !mergedDisabled.value) {
+      showReadonlyTip();
+      return;
+    }
+    _handlePopupVisibleChange(visible);
+  };
 
   const mergedTriggerProps = computed(() => props.triggerProps ?? {});
 

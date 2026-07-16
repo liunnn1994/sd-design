@@ -25,106 +25,21 @@
 </template>
 
 <script setup lang="ts">
-  import type { PropType } from 'vue';
   import { computed, CSSProperties, ref } from 'vue';
 
-  import { TriggerPosition } from '../_utils/constant';
+  import type { TooltipProps } from './interface';
+
   import { getPrefixCls } from '../_utils/global-config';
-  import { ClassName } from '../_utils/types';
   import Trigger from '../trigger';
 
   defineOptions({ name: 'Tooltip' });
 
-  const props = defineProps({
-    /**
-     * @zh 文字气泡是否可见
-     * @en Whether the tooltip is visible
-     * @vModel
-     */
-    popupVisible: {
-      type: Boolean,
-      default: undefined,
-    },
-    /**
-     * @zh 文字气泡默认是否可见（非受控模式）
-     * @en Whether the tooltip is visible by default (uncontrolled mode)
-     */
-    defaultPopupVisible: {
-      type: Boolean,
-      default: false,
-    },
-    /**
-     * @zh 文字气泡是否禁用
-     * @en Whether to disable the tooltip
-     */
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    /**
-     * @zh 文字气泡内容
-     * @en Tooltip content
-     */
-    content: String,
-    /**
-     * @zh 弹出位置
-     * @en Popup position
-     * @values 'top','tl','tr','bottom','bl','br','left','lt','lb','right','rt','rb'
-     */
-    position: {
-      type: String as PropType<TriggerPosition>,
-      default: 'top',
-    },
-    /**
-     * @zh 是否展示为迷你尺寸
-     * @en Whether to display as a mini size
-     */
-    mini: {
-      type: Boolean,
-      default: false,
-    },
-    /**
-     * @zh 弹出框的背景颜色
-     * @en Background color of the popover
-     */
-    backgroundColor: {
-      type: String,
-    },
-    /**
-     * @zh 弹出框内容的类名
-     * @en The class name of the popup content
-     */
-    contentClass: {
-      type: [String, Array, Object] as PropType<ClassName>,
-    },
-    /**
-     * @zh 弹出框内容的样式
-     * @en The style of the popup content
-     */
-    contentStyle: {
-      type: Object as PropType<CSSProperties>,
-    },
-    /**
-     * @zh 弹出框箭头的类名
-     * @en The class name of the popup arrow
-     */
-    arrowClass: {
-      type: [String, Array, Object] as PropType<ClassName>,
-    },
-    /**
-     * @zh 弹出框箭头的样式
-     * @en The style of the popup arrow
-     */
-    arrowStyle: {
-      type: Object as PropType<CSSProperties>,
-    },
-    /**
-     * @zh 弹出框的挂载容器
-     * @en Mount container for popup
-     */
-    popupContainer: {
-      type: [String, Object] as PropType<string | HTMLElement>,
-    },
+  const props = withDefaults(defineProps<TooltipProps>(), {
+    popupVisible: undefined,
+    defaultPopupVisible: false,
+    disabled: false,
+    position: 'top',
+    mini: false,
   });
 
   const emit = defineEmits<{

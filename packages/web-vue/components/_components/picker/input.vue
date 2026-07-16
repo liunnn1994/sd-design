@@ -1,48 +1,56 @@
 <template>
-  <div :class="classNames">
-    <div v-if="$slots.prefix" :class="`${prefixCls}-prefix`">
-      <slot name="prefix" />
+  <Tooltip :popup-visible="tipVisible" :content="readonlyTipText" position="top">
+    <div :class="classNames" @keydown="onReadonlyKeydown">
+      <div v-if="$slots.prefix" :class="`${prefixCls}-prefix`">
+        <slot name="prefix" />
+      </div>
+      <div :class="`${prefixCls}-input`">
+        <input
+          ref="refInput"
+          :disabled="mergedDisabled"
+          :placeholder="placeholder"
+          :class="`${prefixCls}-start-time`"
+          :value="displayValue"
+          v-bind="readonly ? { readonly: true } : {}"
+          @keydown.enter="onPressEnter"
+          @input="onChange"
+          @blur="onBlur"
+        />
+      </div>
+      <div :class="`${prefixCls}-suffix`">
+        <IconHover
+          v-if="allowClear && !mergedDisabled && displayValue"
+          :prefix="prefixCls"
+          :class="`${prefixCls}-clear-icon`"
+          @click="onClear"
+        >
+          <IconClose />
+        </IconHover>
+        <span :class="`${prefixCls}-suffix-icon`">
+          <slot name="suffix-icon" />
+        </span>
+        <FeedbackIcon v-if="feedback" :type="feedback" />
+      </div>
     </div>
-    <div :class="`${prefixCls}-input`">
-      <input
-        ref="refInput"
-        :disabled="mergedDisabled"
-        :placeholder="placeholder"
-        :class="`${prefixCls}-start-time`"
-        :value="displayValue"
-        v-bind="readonly ? { readonly: true } : {}"
-        @keydown.enter="onPressEnter"
-        @input="onChange"
-        @blur="onBlur"
-      />
-    </div>
-    <div :class="`${prefixCls}-suffix`">
-      <IconHover
-        v-if="allowClear && !mergedDisabled && displayValue"
-        :prefix="prefixCls"
-        :class="`${prefixCls}-clear-icon`"
-        @click="onClear"
-      >
-        <IconClose />
-      </IconHover>
-      <span :class="`${prefixCls}-suffix-icon`">
-        <slot name="suffix-icon" />
-      </span>
-      <FeedbackIcon v-if="feedback" :type="feedback" />
-    </div>
-  </div>
+  </Tooltip>
 </template>
 
 <script setup lang="ts">
-  import { computed, PropType, ref, toRefs, useSlots } from 'vue';
+  import { computed, PropType, ref, toRef, toRefs, useSlots } from 'vue';
 
   import { Dayjs } from 'dayjs';
 
   import { useFormItem } from '../../_hooks/use-form-item';
+  import {
+    isReadonlyModificationKey,
+    useReadonlyTip,
+    useReadonlyTipText,
+  } from '../../_hooks/use-readonly-tip';
   import { useSize } from '../../_hooks/use-size';
   import { getPrefixCls } from '../../_utils/global-config';
   import { isDayjs, isFunction } from '../../_utils/is';
   import IconClose from '../../icon/icon-close';
+  import Tooltip from '../../tooltip';
   import FeedbackIcon from '../feedback-icon.vue';
   import IconHover from '../icon-hover.vue';
 
@@ -59,7 +67,7 @@
       type: Boolean,
     },
     readonly: {
-      type: Boolean,
+      type: [Boolean, String],
     },
     error: {
       type: Boolean,
@@ -100,6 +108,12 @@
   } = useFormItem({ size, disabled, error });
   const { mergedSize } = useSize(_mergedSize);
 
+  const { tipVisible, show: showReadonlyTip } = useReadonlyTip(
+    toRef(props, 'readonly'),
+    mergedDisabled,
+  );
+  const readonlyTipText = useReadonlyTipText(toRef(props, 'readonly'));
+
   const prefixCls = getPrefixCls('picker');
 
   const classNames = computed(() => [
@@ -135,6 +149,12 @@
   }
   function onBlur(e: Event) {
     emit('blur', e);
+  }
+
+  function onReadonlyKeydown(e: KeyboardEvent) {
+    if (props.readonly && !mergedDisabled.value && isReadonlyModificationKey(e)) {
+      showReadonlyTip();
+    }
   }
 
   function focus() {

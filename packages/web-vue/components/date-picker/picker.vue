@@ -8,7 +8,7 @@
     :popup-offset="4"
     v-bind="triggerProps"
     :position="position"
-    :disabled="mergedDisabled || readonly"
+    :disabled="mergedDisabled || !!readonly"
     :prevent-focus="true"
     :popup-visible="panelVisible"
     :unmount-on-close="unmountOnClose"
@@ -154,7 +154,7 @@
      * @en Whether it is read-only
      * */
     readonly: {
-      type: Boolean,
+      type: [Boolean, String],
     },
     /**
      * @zh 是否为错误状态
@@ -686,7 +686,7 @@
     }),
   );
 
-  const inputEditable = computed(() => !readonly.value && !isFunction(inputFormat.value));
+  const inputEditable = computed(() => !readonly?.value && !isFunction(inputFormat.value));
 
   const headerMode = ref<'year' | 'month' | undefined>();
 

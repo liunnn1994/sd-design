@@ -4,12 +4,14 @@ import NP from 'number-precision';
 
 import { useAllowClear } from '../_hooks/use-allow-clear';
 import { useFormItem } from '../_hooks/use-form-item';
+import { useReadonlyTip, useReadonlyTipText } from '../_hooks/use-readonly-tip';
 import { getPrefixCls } from '../_utils/global-config';
 import { isNull, isObject, isString, isUndefined } from '../_utils/is';
 import IconFaceFrownFill from '../icon/icon-face-frown-fill';
 import IconFaceMehFill from '../icon/icon-face-meh-fill';
 import IconFaceSmileFill from '../icon/icon-face-smile-fill';
 import IconStarFill from '../icon/icon-star-fill';
+import Tooltip from '../tooltip';
 
 export default defineComponent({
   name: 'Rate',
@@ -68,7 +70,7 @@ export default defineComponent({
      * @en Whether it is readonly
      */
     readonly: {
-      type: Boolean,
+      type: [Boolean, String],
       default: false,
     },
     /**
@@ -116,6 +118,12 @@ export default defineComponent({
       disabled: toRef(props, 'disabled'),
     });
     const { mergedAllowClear } = useAllowClear(allowClear);
+
+    const { tipVisible, show: showReadonlyTip } = useReadonlyTip(
+      toRef(props, 'readonly'),
+      _mergedDisabled,
+    );
+    const readonlyTipText = useReadonlyTipText(toRef(props, 'readonly'));
     const _value = ref(props.defaultValue);
 
     const animation = ref(false);
@@ -233,18 +241,24 @@ export default defineComponent({
 
     // TODO: need to perf
     const renderCharacter = (index: number) => {
-      const leftProps = mergedDisabled.value
-        ? {}
-        : {
+      const interactive = !mergedDisabled.value;
+      const readonlyOnly = props.readonly && !_mergedDisabled.value;
+      const leftProps = interactive
+        ? {
             onMouseenter: () => handleMouseEnter(index, true),
             onClick: () => handleClick(index, true),
-          };
-      const rightProps = mergedDisabled.value
-        ? {}
-        : {
+          }
+        : readonlyOnly
+          ? { onClick: () => showReadonlyTip() }
+          : {};
+      const rightProps = interactive
+        ? {
             onMouseenter: () => handleMouseEnter(index, false),
             onClick: () => handleClick(index, false),
-          };
+          }
+        : readonlyOnly
+          ? { onClick: () => showReadonlyTip() }
+          : {};
 
       const style = animation.value ? { animationDelay: `${50 * index}ms` } : undefined;
 
@@ -304,9 +318,11 @@ export default defineComponent({
     ]);
 
     return () => (
-      <div class={cls.value} onMouseleave={resetHoverIndex}>
-        {indexArray.value.map((_, index) => renderCharacter(index))}
-      </div>
+      <Tooltip popupVisible={tipVisible.value} content={readonlyTipText.value} position="top">
+        <div class={cls.value} onMouseleave={resetHoverIndex}>
+          {indexArray.value.map((_, index) => renderCharacter(index))}
+        </div>
+      </Tooltip>
     );
   },
 });

@@ -1,35 +1,39 @@
 <template>
-  <div v-bind="getWrapperAttrs($attrs)" :class="wrapperCls" @mousedown="handleMousedown">
-    <div v-if="autoSize" ref="mirrorRef" :class="`${prefixCls}-mirror`" :style="mirrorStyle">
-      {{ `${computedValue}\n` }}
+  <Tooltip :popup-visible="tipVisible" :content="readonlyTipText" position="top">
+    <div v-bind="getWrapperAttrs($attrs)" :class="wrapperCls" @mousedown="handleMousedown">
+      <div v-if="autoSize" ref="mirrorRef" :class="`${prefixCls}-mirror`" :style="mirrorStyle">
+        {{ `${computedValue}\n` }}
+      </div>
+      <resize-observer @resize="handleResize">
+        <textarea
+          ref="textareaRef"
+          v-bind="mergeTextareaAttrs"
+          :disabled="mergedDisabled"
+          :readonly="!!readonly"
+          :class="prefixCls"
+          :style="textareaStyle"
+          :value="computedValue"
+          :placeholder="placeholder"
+          @keydown="handleKeyDown"
+          @input="handleInput"
+          @focus="handleFocus"
+          @blur="handleBlur"
+          @compositionstart="handleComposition"
+          @compositionupdate="handleComposition"
+          @compositionend="handleComposition"
+        />
+      </resize-observer>
+      <slot name="suffix" />
+      <div v-if="computedMaxLength && showWordLimit" :class="`${prefixCls}-word-limit`">
+        {{ valueLength }}/{{ computedMaxLength }}
+      </div>
+      <div v-if="showClearBtn" :class="`${prefixCls}-clear-btn`" @click="handleClear">
+        <icon-hover>
+          <icon-close />
+        </icon-hover>
+      </div>
     </div>
-    <resize-observer @resize="handleResize">
-      <textarea
-        ref="textareaRef"
-        v-bind="mergeTextareaAttrs"
-        :disabled="mergedDisabled"
-        :class="prefixCls"
-        :style="textareaStyle"
-        :value="computedValue"
-        :placeholder="placeholder"
-        @input="handleInput"
-        @focus="handleFocus"
-        @blur="handleBlur"
-        @compositionstart="handleComposition"
-        @compositionupdate="handleComposition"
-        @compositionend="handleComposition"
-      />
-    </resize-observer>
-    <slot name="suffix" />
-    <div v-if="computedMaxLength && showWordLimit" :class="`${prefixCls}-word-limit`">
-      {{ valueLength }}/{{ computedMaxLength }}
-    </div>
-    <div v-if="showClearBtn" :class="`${prefixCls}-clear-btn`" @click="handleClear">
-      <icon-hover>
-        <icon-close />
-      </icon-hover>
-    </div>
-  </div>
+  </Tooltip>
 </template>
 
 <script setup lang="ts">
@@ -40,6 +44,7 @@
     onMounted,
     PropType,
     ref,
+    toRef,
     toRefs,
     useAttrs,
     watch,
@@ -50,12 +55,18 @@
   import { useAllowClear } from '../_hooks/use-allow-clear';
   import { useCursor } from '../_hooks/use-cursor';
   import { useFormItem } from '../_hooks/use-form-item';
+  import {
+    isReadonlyModificationKey,
+    useReadonlyTip,
+    useReadonlyTipText,
+  } from '../_hooks/use-readonly-tip';
   import { INPUT_EVENTS } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
   import { isFunction, isNull, isObject, isUndefined } from '../_utils/is';
   import { omit } from '../_utils/omit';
   import pick from '../_utils/pick';
   import IconClose from '../icon/icon-close';
+  import Tooltip from '../tooltip';
   import { getSizeStyles } from './utils';
 
   defineOptions({ name: 'Textarea', inheritAttrs: false });
@@ -86,6 +97,14 @@
      */
     disabled: {
       type: Boolean,
+      default: false,
+    },
+    /**
+     * @zh 是否为只读状态
+     * @en Whether it is read-only
+     */
+    readonly: {
+      type: [Boolean, String],
       default: false,
     },
     /**
@@ -199,6 +218,12 @@
   } = useFormItem({ disabled, error });
   const { mergedAllowClear } = useAllowClear(allowClear);
 
+  const { tipVisible, show: showReadonlyTip } = useReadonlyTip(
+    toRef(props, 'readonly'),
+    mergedDisabled,
+  );
+  const readonlyTipText = useReadonlyTipText(toRef(props, 'readonly'));
+
   const textareaRef = ref<HTMLInputElement>();
   const textareaStyle = ref<CSSProperties>();
   const mirrorRef = ref<HTMLInputElement>();
@@ -249,7 +274,9 @@
   // 状态相关
   const focused = ref(false);
   const showClearBtn = computed(() => {
-    return mergedAllowClear.value && !mergedDisabled.value && computedValue.value;
+    return (
+      mergedAllowClear.value && !mergedDisabled.value && !props.readonly && computedValue.value
+    );
   });
 
   // 输入法相关
@@ -360,6 +387,12 @@
     updateValue('');
     emitChange('', ev);
     emit('clear', ev);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (props.readonly && !mergedDisabled.value && isReadonlyModificationKey(e)) {
+      showReadonlyTip();
+    }
   };
 
   // modelValue发生改变时，更新内部值

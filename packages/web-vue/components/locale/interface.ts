@@ -118,6 +118,7 @@ export interface ValidateMessage {
 
 export interface SdLang {
   locale: string;
+  readonlyTip?: string;
   empty: {
     description: string;
   };

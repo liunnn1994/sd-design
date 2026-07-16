@@ -76,6 +76,7 @@ const calendarLang: SDCalendarLang = {
 
 const lang: SdLang = {
   locale: 'en-US',
+  readonlyTip: 'Read-only mode',
   empty: {
     description: 'No Data',
   },

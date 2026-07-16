@@ -15,5 +15,6 @@ const Tooltip = Object.assign(_Tooltip, {
 });
 
 export type TooltipInstance = InstanceType<typeof _Tooltip>;
+export type { TooltipProps } from './interface';
 
 export default Tooltip;
