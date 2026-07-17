@@ -1,5 +1,14 @@
 <template>
-  <span v-if="computedVisible" :class="cls" :style="style" @click="handleClick">
+  <span
+    v-if="computedVisible"
+    :class="cls"
+    :style="style"
+    :role="checkable ? 'button' : undefined"
+    :tabindex="checkable ? 0 : undefined"
+    :aria-pressed="checkable ? computedChecked : undefined"
+    @click="handleClick"
+    @keydown="handleTagKeydown"
+  >
     <span v-if="$slots.icon" :class="`${prefixCls}-icon`">
       <slot name="icon" />
     </span>
@@ -54,6 +63,7 @@
   import { isGradientString, extractColorsFromGradient } from '../_utils/color';
   import { Size } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
+  import { isActivationKey } from '../_utils/keyboard';
   import { configProviderInjectionKey } from '../config-provider/context';
   import Ellipsis, { PerformantEllipsis } from '../ellipsis';
   import IconClose from '../icon/icon-close';
@@ -486,6 +496,15 @@
       _checked.value = newChecked;
       emit('update:checked', newChecked);
       emit('check', newChecked, ev);
+    }
+  };
+
+  // 可勾选标签：键盘 Enter/Space 切换（role=button）
+  const handleTagKeydown = (ev: KeyboardEvent) => {
+    if (!props.checkable) return;
+    if (isActivationKey(ev)) {
+      ev.preventDefault();
+      handleClick(ev as unknown as MouseEvent);
     }
   };
 </script>

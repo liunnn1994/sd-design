@@ -537,6 +537,7 @@ export default defineComponent({
               ]}
               type="button"
               tabindex="-1"
+              aria-label="Increase"
               disabled={mergedDisabled.value || isMax.value}
               onMousedown={(e) => handleStepButton(e, 'plus', true)}
               onMouseup={clearRepeatTimer}
@@ -553,6 +554,7 @@ export default defineComponent({
               ]}
               type="button"
               tabindex="-1"
+              aria-label="Decrease"
               disabled={mergedDisabled.value || isMin.value}
               onMousedown={(e) => handleStepButton(e, 'minus', true)}
               onMouseup={clearRepeatTimer}
@@ -577,6 +579,7 @@ export default defineComponent({
       return (
         <SdButton
           size={mergedSize.value}
+          aria-label="Decrease"
           v-slots={{ icon: () => <IconMinus /> }}
           class={`${prefixCls}-step-button`}
           disabled={mergedDisabled.value || isMin.value}
@@ -594,6 +597,7 @@ export default defineComponent({
       return (
         <SdButton
           size={mergedSize.value}
+          aria-label="Increase"
           v-slots={{ icon: () => <IconPlus /> }}
           class={`${prefixCls}-step-button`}
           disabled={mergedDisabled.value || isMax.value}

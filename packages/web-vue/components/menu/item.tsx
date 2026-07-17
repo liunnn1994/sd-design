@@ -2,6 +2,7 @@ import { computed, defineComponent, ref, watch, onMounted, onUnmounted } from 'v
 
 import scrollIntoView from 'scroll-into-view-if-needed';
 
+import { isActivationKey } from '../_utils/keyboard';
 import { omit } from '../_utils/omit';
 import Ellipsis from '../ellipsis';
 import Tooltip from '../tooltip';
@@ -121,6 +122,10 @@ export default defineComponent({
     const itemElement = (
       <div
         ref="refItemElement"
+        role="menuitem"
+        tabindex={disabled ? undefined : 0}
+        aria-disabled={disabled || undefined}
+        aria-current={isSelected ? 'page' : undefined}
         class={[
           `${prefixCls}-item`,
           {
@@ -132,6 +137,12 @@ export default defineComponent({
         ]}
         {...this.$attrs}
         onClick={onClick}
+        onKeydown={(e: KeyboardEvent) => {
+          if (isActivationKey(e)) {
+            e.preventDefault();
+            onClick(e as unknown as MouseEvent);
+          }
+        }}
       >
         {/* 内容 */}
         {content}

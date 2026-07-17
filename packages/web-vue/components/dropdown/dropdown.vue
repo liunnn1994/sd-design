@@ -8,11 +8,13 @@
     :popup-offset="4"
     :popup-container="popupContainer"
     :opened-class="`${prefixCls}-open`"
+    esc-to-close
+    aria-has-popup="menu"
     @popup-visible-change="handlePopupVisibleChange"
   >
     <slot />
     <template #content>
-      <DropdownPanel>
+      <DropdownPanel :trigger="trigger">
         <slot name="content" />
         <template v-if="$slots.footer" #footer>
           <slot name="footer" />

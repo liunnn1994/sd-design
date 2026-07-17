@@ -351,6 +351,8 @@ export default defineComponent({
           }}
           key={item.key}
           class={cls}
+          role="option"
+          aria-disabled={item.disabled || undefined}
           onClick={(ev: MouseEvent) => {
             if (!item.disabled) {
               handleSelect(item.key, ev);
@@ -423,6 +425,12 @@ export default defineComponent({
           modelValue={computedValue.value}
           disabled={mergedDisabled.value}
           readonly={props.readonly}
+          inputAttrs={{
+            'role': 'combobox',
+            'aria-haspopup': 'listbox',
+            'aria-expanded': computedPopupVisible.value,
+            'aria-autocomplete': 'list',
+          }}
           onInput={handleInputValueChange}
           onClear={handleClear}
           {...{ onKeydown: handleKeyDown }}

@@ -16,10 +16,10 @@
       <span ref="wrapperRef" :class="wrapperCls">
         <template v-if="imageUrl">
           <slot v-if="hasError" name="error">
-            <div :class="`${prefixCls}-image-icon`"><IconImageClose /></div>
+            <div :class="`${prefixCls}-image-icon`" aria-hidden="true"><IconImageClose /></div>
           </slot>
           <slot v-if="!(hasError || !shouldLoad) && !isLoaded">
-            <div :class="`${prefixCls}-image-icon`"><IconLoading /></div>
+            <div :class="`${prefixCls}-image-icon`" aria-hidden="true"><IconLoading /></div>
           </slot>
           <img
             v-if="!(hasError || !shouldLoad)"

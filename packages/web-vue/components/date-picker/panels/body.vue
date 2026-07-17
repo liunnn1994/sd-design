@@ -1,8 +1,9 @@
 <template>
-  <div :class="`${prefixCls}-body`">
+  <div :class="`${prefixCls}-body`" role="grid">
     <div
       v-for="(row, rowIndex) in rows"
       :key="rowIndex"
+      role="row"
       :class="[
         `${prefixCls}-row`,
         {
@@ -23,6 +24,10 @@
           <div
             :key="colIndex"
             :class="getCellClassNameFn(cell)"
+            role="gridcell"
+            :aria-label="cell.value?.format('YYYY-MM-DD')"
+            :aria-selected="isCellSelected(cell) ? 'true' : undefined"
+            :aria-disabled="isCellDisabled(cell) || isHiddenNotInViewCell(cell) || undefined"
             @mouseenter="
               () => {
                 onCellMouseEnter(cell);
@@ -122,6 +127,9 @@
 
   const isCellDisabled = (cellData: Cell) =>
     isDisabledDate(cellData.value, disabledDate?.value, mode?.value);
+
+  const isCellSelected = (cellData: Cell) =>
+    Boolean(value?.value && isSameTime?.value && isSameTime.value(cellData.value, value.value));
 
   const isWeek = computed(() => mode?.value === 'week');
 

@@ -39,7 +39,7 @@ export default defineComponent({
           rowIndex: props.rowIndex,
           record: props.record?.raw,
         })[0] ?? 'div',
-        { class: cls.value },
+        { class: cls.value, role: 'row' },
         {
           default: slots.default,
         },

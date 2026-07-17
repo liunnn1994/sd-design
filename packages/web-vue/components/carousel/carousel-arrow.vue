@@ -1,15 +1,23 @@
 <template>
   <div :class="cls">
     <div
+      role="button"
+      tabindex="0"
+      aria-label="Previous slide"
       :class="`${prefixCls}-arrow-${direction === 'vertical' ? 'top' : 'left'}`"
       @click="onPreviousClick"
+      @keydown="(e) => onKeydown(e, 'previous')"
     >
       <IconLeft v-if="direction === 'horizontal'" />
       <IconUp v-else />
     </div>
     <div
+      role="button"
+      tabindex="0"
+      aria-label="Next slide"
       :class="`${prefixCls}-arrow-${direction === 'vertical' ? 'bottom' : 'right'}`"
       @click="onNextClick"
+      @keydown="(e) => onKeydown(e, 'next')"
     >
       <IconRight v-if="direction === 'horizontal'" />
       <IconDown v-else />
@@ -21,6 +29,7 @@
   import { computed } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
+  import { isActivationKey } from '../_utils/keyboard';
   import IconDown from '../icon/icon-down';
   import IconLeft from '../icon/icon-left';
   import IconRight from '../icon/icon-right';
@@ -40,8 +49,8 @@
   });
 
   const emit = defineEmits<{
-    previousClick: [_ev: MouseEvent];
-    nextClick: [_ev: MouseEvent];
+    previousClick: [_ev: Event];
+    nextClick: [_ev: Event];
   }>();
 
   const prefixCls = getPrefixCls('carousel');
@@ -52,6 +61,17 @@
 
   const onNextClick = (ev: MouseEvent) => {
     emit('nextClick', ev);
+  };
+
+  const onKeydown = (e: KeyboardEvent, which: 'previous' | 'next') => {
+    if (isActivationKey(e)) {
+      e.preventDefault();
+      if (which === 'previous') {
+        emit('previousClick', e);
+      } else {
+        emit('nextClick', e);
+      }
+    }
   };
 
   const cls = computed(() => [

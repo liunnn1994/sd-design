@@ -14,6 +14,7 @@
       :popup-container="popupContainer"
       :click-to-close="!Boolean(mergedAllowSearch)"
       auto-fit-transform-origin
+      aria-has-popup="listbox"
       @popupVisibleChange="onVisibleChange"
     >
       <slot name="trigger">
@@ -33,6 +34,7 @@
           :bordered="border"
           :placeholder="placeholder"
           :multiple="isMultiple"
+          :input-attrs="triggerInputAttrs"
           v-bind="$attrs"
           @inputValueChange="onSearchValueChange"
           @clear="onInnerClear"
@@ -815,6 +817,15 @@
     mergedDisabled,
   );
   const readonlyTipText = useReadonlyTipText(toRef(props, 'readonly'));
+
+  // combobox 语义落到触发器 <input>（经 SelectView inputAttrs）：role + 开合 + popup 类型 + 自动补全
+  // tree-select 弹层内是 Tree（已有 roving tabindex + 方向键导航 + role=tree/treeitem），选项经焦点朗读
+  const triggerInputAttrs = computed(() => ({
+    'role': 'combobox',
+    'aria-expanded': panelVisible.value,
+    'aria-haspopup': 'listbox',
+    'aria-autocomplete': mergedAllowSearch.value ? 'list' : 'none',
+  }));
 
   const setPanelVisible = (visible: boolean) => {
     if (visible && props.readonly && !mergedDisabled.value) {

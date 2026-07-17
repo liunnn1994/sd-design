@@ -27,4 +27,13 @@ describe('InputNumber', () => {
       expect(wrapper.emitted('update:modelValue')?.at(-1)).to.deep.equal(['']);
     });
   });
+
+  it('exposes spinbutton role and labels the step buttons', () => {
+    cy.mount(InputNumber, { props: { min: 0, max: 10 } });
+    cy.get('input').should('have.attr', 'role', 'spinbutton');
+    cy.get('input').should('have.attr', 'aria-valuemin', '0');
+    cy.get('input').should('have.attr', 'aria-valuemax', '10');
+    cy.get('.sd-input-number-step-button').eq(0).should('have.attr', 'aria-label', 'Increase');
+    cy.get('.sd-input-number-step-button').eq(1).should('have.attr', 'aria-label', 'Decrease');
+  });
 });

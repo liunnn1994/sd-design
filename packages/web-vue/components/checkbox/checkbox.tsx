@@ -55,6 +55,14 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 原生 input 的 tabindex（默认不渲染，input 保持原生可聚焦；树节点内传 -1 把 checkbox 移出 Tab 序列，改由 treeitem 统一聚焦/操作）
+     * @en tabindex for the native input (omitted by default so the input stays natively focusable; pass -1 in tree nodes to remove the checkbox from the Tab order and operate it via the treeitem)
+     */
+    tabindex: {
+      type: [Number, String],
+      default: undefined,
+    },
     // private
     uninjectGroupContext: {
       type: Boolean,
@@ -190,11 +198,26 @@ export default defineComponent({
       }
     });
 
+    // 半选状态：原生 checkbox 的 indeterminate 是 IDL 属性（非 HTML 属性），必须通过 JS 设置，
+    // 否则屏幕阅读器无法播报“半选/mixed”状态。
+    watch(
+      () => props.indeterminate,
+      () => {
+        nextTick(() => {
+          if (checkboxRef.value) {
+            checkboxRef.value.indeterminate = props.indeterminate;
+          }
+        });
+      },
+      { immediate: true },
+    );
+
     return () => (
       <label aria-disabled={mergedDisabled.value} class={cls.value}>
         <input
           ref={checkboxRef}
           type="checkbox"
+          tabindex={props.tabindex}
           checked={computedChecked.value}
           value={props.value}
           class={`${prefixCls}-target`}

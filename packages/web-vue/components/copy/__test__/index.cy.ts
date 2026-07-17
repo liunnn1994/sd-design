@@ -42,6 +42,11 @@ describe('Copy', () => {
     });
   });
 
+  it('gives the icon-only trigger an accessible name from the tooltip text', () => {
+    cy.mount(Copy, { props: { content: 'x', tooltip: '复制链接' } });
+    cy.get('a').should('have.attr', 'aria-label', '复制链接');
+  });
+
   it('falls back to execCommand/prompt in a non-secure context', () => {
     cy.window().then((win) => {
       Object.defineProperty(win, 'isSecureContext', { configurable: true, value: false });

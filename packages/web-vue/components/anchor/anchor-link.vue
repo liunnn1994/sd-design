@@ -1,6 +1,11 @@
 <template>
   <li ref="linkRef" :class="cls">
-    <a :class="linkCls" :href="href" @click="handleClick">
+    <a
+      :class="linkCls"
+      :href="href"
+      :aria-current="context?.currentLink === props.href ? 'location' : undefined"
+      @click="handleClick"
+    >
       <slot>{{ title }}</slot>
     </a>
     <ul v-if="$slots.sublist" :class="`${prefixCls}-sublist`">

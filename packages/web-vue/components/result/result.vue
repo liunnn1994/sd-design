@@ -1,6 +1,7 @@
 <template>
   <div :class="prefixCls">
     <div
+      aria-hidden="true"
       :class="[
         `${prefixCls}-icon`,
         {

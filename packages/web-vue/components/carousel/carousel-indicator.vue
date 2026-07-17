@@ -3,14 +3,20 @@
     <span
       v-if="type === 'slider'"
       :style="sliderStyle"
+      :aria-label="`Slide ${activeIndex + 1} of ${count}`"
       :class="[`${prefixCls}-item`, `${prefixCls}-item-active`]"
     />
     <template v-else>
       <span
         v-for="(_, index) in Array(count)"
         :key="index"
+        role="button"
+        tabindex="0"
         :data-index="index"
+        :aria-label="`Go to slide ${index + 1}`"
+        :aria-current="index === activeIndex ? 'true' : undefined"
         :class="[`${prefixCls}-item`, { [`${prefixCls}-item-active`]: index === activeIndex }]"
+        @keydown="onItemKeydown($event, index)"
       />
     </template>
   </div>
@@ -27,6 +33,7 @@
   } from './interface';
 
   import { getPrefixCls } from '../_utils/global-config';
+  import { isActivationKey } from '../_utils/keyboard';
 
   defineOptions({ name: 'Indicator' });
 
@@ -76,6 +83,13 @@
       if (!Number.isNaN(index) && index !== props.activeIndex) {
         emit('select', index);
       }
+    }
+  };
+
+  const onItemKeydown = (event: KeyboardEvent, index: number) => {
+    if (isActivationKey(event) && index !== props.activeIndex) {
+      event.preventDefault();
+      emit('select', index);
     }
   };
 

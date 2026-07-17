@@ -11,6 +11,15 @@ describe('Tag', () => {
     });
   });
 
+  it('checkable tag exposes role=button + aria-pressed and toggles via Enter', () => {
+    cy.mount(Tag, { props: { checkable: true, defaultChecked: false } });
+    cy.get('.sd-tag').should('have.attr', 'role', 'button');
+    cy.get('.sd-tag').should('have.attr', 'tabindex', '0');
+    cy.get('.sd-tag').should('have.attr', 'aria-pressed', 'false');
+    cy.get('.sd-tag').trigger('keydown', { key: 'Enter' });
+    cy.get('.sd-tag').should('have.attr', 'aria-pressed', 'true');
+  });
+
   it('enables ellipsis by default and forwards ellipsis props', () => {
     cy.mount(Tag, {
       props: { ellipsisLineClamp: 2, ellipsisTooltip: false },

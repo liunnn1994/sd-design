@@ -15,6 +15,7 @@
     animation-name="zoom-in-fade-out"
     auto-fit-transform-origin
     role="tooltip"
+    aria-describedby-popup
     @popup-visible-change="handlePopupVisibleChange"
   >
     <slot />

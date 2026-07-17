@@ -6,7 +6,7 @@ export interface CollapseContext {
   showExpandIcon?: boolean;
   expandIconPosition: string;
   destroyOnHide: boolean;
-  handleClick: (key: string | number, e: MouseEvent) => void;
+  handleClick: (key: string | number, e: Event) => void;
 }
 
 export const collapseKey: InjectionKey<CollapseContext> = Symbol('collapseCtx');

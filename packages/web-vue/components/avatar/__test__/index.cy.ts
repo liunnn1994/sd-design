@@ -8,6 +8,11 @@ describe('Avatar', () => {
     cy.get('.sd-avatar').should('exist');
   });
 
+  it('image avatar has an alt', () => {
+    cy.mount(Avatar, { props: { imageUrl: 'data:image/svg+xml,%3Csvg/%3E' } });
+    cy.get('.sd-avatar img').should('have.attr', 'alt');
+  });
+
   it('size should set inline width', () => {
     cy.mount(Avatar, { props: { size: 100 } });
     cy.get('.sd-avatar').invoke('attr', 'style').should('contain', 'width: 100px');

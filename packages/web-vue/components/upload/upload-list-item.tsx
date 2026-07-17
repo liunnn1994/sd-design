@@ -2,6 +2,7 @@ import { defineComponent, inject, PropType } from 'vue';
 
 import IconHover from '../_components/icon-hover.vue';
 import { getPrefixCls } from '../_utils/global-config';
+import { isActivationKey } from '../_utils/keyboard';
 import IconDelete from '../icon/icon-delete';
 import IconExclamationCircleFill from '../icon/icon-exclamation-circle-fill';
 import IconFile from '../icon/icon-file';
@@ -118,13 +119,26 @@ export default defineComponent({
         </div>
         {uploadCtx?.showRemoveButton && (
           <span class={`${itemCls}-operation`}>
-            <IconHover onClick={() => uploadCtx?.onRemove?.(props.file)}>
-              <span class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-remove`]}>
-                {uploadCtx?.slots['remove-icon']?.() ?? uploadCtx?.customIcon?.removeIcon?.() ?? (
-                  <IconDelete />
-                )}
-              </span>
-            </IconHover>
+            <span
+              role="button"
+              tabindex="0"
+              aria-label="Remove"
+              onClick={() => uploadCtx?.onRemove?.(props.file)}
+              onKeydown={(e) => {
+                if (isActivationKey(e)) {
+                  e.preventDefault();
+                  uploadCtx?.onRemove?.(props.file);
+                }
+              }}
+            >
+              <IconHover>
+                <span class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-remove`]}>
+                  {uploadCtx?.slots['remove-icon']?.() ?? uploadCtx?.customIcon?.removeIcon?.() ?? (
+                    <IconDelete />
+                  )}
+                </span>
+              </IconHover>
+            </span>
           </span>
         )}
         {uploadCtx?.slots['extra-button']?.({ fileItem: props.file })}

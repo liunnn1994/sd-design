@@ -13,6 +13,8 @@
     :arrow-style="arrowStyle"
     animation-name="zoom-in-fade-out"
     auto-fit-transform-origin
+    esc-to-close
+    aria-has-popup="dialog"
     @popup-visible-change="handlePopupVisibleChange"
   >
     <slot />

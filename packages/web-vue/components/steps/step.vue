@@ -1,5 +1,13 @@
 <template>
-  <div ref="itemRef" :class="cls" @click="handleClick">
+  <div
+    ref="itemRef"
+    :class="cls"
+    role="listitem"
+    :aria-current="stepNumber === stepsCtx?.current ? 'step' : undefined"
+    :tabindex="stepsCtx?.changeable && !props.disabled ? 0 : undefined"
+    @click="handleClick"
+    @keydown="onKeydown"
+  >
     <div v-if="showTail" :class="`${prefixCls}-tail`" />
     <div v-if="type !== 'arrow'" :class="`${prefixCls}-node`">
       <slot name="node" :step="stepNumber" :status="computedStatus">
@@ -40,6 +48,7 @@
   import { useIndex } from '../_hooks/use-index';
   import { Direction } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
+  import { isActivationKey } from '../_utils/keyboard';
   import IconCheck from '../icon/icon-check';
   import IconClose from '../icon/icon-close';
   import { stepsInjectionKey } from './context';
@@ -144,6 +153,14 @@
 
   const handleClick = (ev: Event) => {
     if (!props.disabled) {
+      stepsCtx?.onClick(stepNumber.value, ev);
+    }
+  };
+
+  // 可点击切换时，键盘 Enter/Space 也能切换
+  const onKeydown = (ev: KeyboardEvent) => {
+    if (stepsCtx?.changeable && !props.disabled && isActivationKey(ev)) {
+      ev.preventDefault();
       stepsCtx?.onClick(stepNumber.value, ev);
     }
   };

@@ -46,4 +46,39 @@ describe('Menu', () => {
       expect(ellipsisList[0].props('tooltip')).to.equal(false);
     });
   });
+
+  it('exposes menu/menubar + menuitem roles and keyboard activation', () => {
+    cy.mount(MenuHarness);
+    // 垂直菜单（默认）→ role=menu；菜单项 role=menuitem + tabindex
+    cy.get('.sd-menu-inner').should('have.attr', 'role', 'menu');
+    cy.get('.sd-menu-item').first().should('have.attr', 'role', 'menuitem');
+    cy.get('.sd-menu-item').first().should('have.attr', 'tabindex', '0');
+    // Enter 激活首个菜单项 → 选中态切到该项（aria-current=page）
+    cy.get('.sd-menu-item').first().trigger('keydown', { key: 'Enter' });
+    cy.get('.sd-menu-item').first().should('have.attr', 'aria-current', 'page');
+  });
+
+  it('moves focus with ArrowDown/ArrowUp and Home/End', () => {
+    const FlatMenu = defineComponent({
+      components: { Menu, MenuItem: Menu.Item },
+      template: `
+        <Menu>
+          <MenuItem key="a">AAA</MenuItem>
+          <MenuItem key="b">BBB</MenuItem>
+          <MenuItem key="c">CCC</MenuItem>
+        </Menu>
+      `,
+    });
+    cy.mount(FlatMenu);
+    cy.get('.sd-menu-item').eq(0).focus();
+    cy.get('.sd-menu-item').eq(0).trigger('keydown', { key: 'ArrowDown' });
+    cy.focused().should('contain.text', 'BBB');
+    cy.focused().trigger('keydown', { key: 'End' });
+    cy.focused().should('contain.text', 'CCC');
+    cy.focused().trigger('keydown', { key: 'Home' });
+    cy.focused().should('contain.text', 'AAA');
+    // ArrowUp at the first item stays put
+    cy.focused().trigger('keydown', { key: 'ArrowUp' });
+    cy.focused().should('contain.text', 'AAA');
+  });
 });

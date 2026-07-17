@@ -10,6 +10,8 @@ export const KEYBOARD_KEY = {
   ARROW_DOWN: 'ArrowDown',
   ARROW_LEFT: 'ArrowLeft',
   ARROW_RIGHT: 'ArrowRight',
+  HOME: 'Home',
+  END: 'End',
 };
 
 export interface CodeKey {
@@ -34,6 +36,28 @@ const stringifyCodeKey = (k: CodeKey) => {
     meta: Boolean(k.meta),
   });
 };
+
+/**
+ * 是否为「激活键」（Enter / Space）。供 role="button" 等非原生可交互元素复用，
+ * 避免在各组件里硬编码 `e.key === 'Enter' || e.key === ' '`（注意 Space 的 key 是 ' '）。
+ */
+export const isActivationKey = (e: KeyboardEvent): boolean =>
+  e.key === KEYBOARD_KEY.ENTER || e.key === KEYBOARD_KEY.SPACE;
+
+/**
+ * 生成「Enter / Space 激活」的 keydown 处理器：命中激活键时 preventDefault
+ * （避免 Space 触发页面滚动）并调用 `fn`。可选 `guard` 返回 false 时跳过（禁用态等）。
+ *
+ * @example @keydown="onActivate(handleClose)"
+ */
+export const onActivate =
+  (fn: (e: KeyboardEvent) => void, guard?: (e: KeyboardEvent) => boolean) =>
+  (e: KeyboardEvent): void => {
+    if (!isActivationKey(e)) return;
+    if (guard && !guard(e)) return;
+    e.preventDefault();
+    fn(e);
+  };
 
 export const getKeyDownHandler = (codeKeyMap: Map<CodeKey | string, (e: Event) => void>) => {
   const map: Record<string, (e: Event) => void> = {};

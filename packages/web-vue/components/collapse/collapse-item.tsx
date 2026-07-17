@@ -12,6 +12,7 @@ import {
 import IconHover from '../_components/icon-hover.vue';
 import { getPrefixCls } from '../_utils/global-config';
 import { isNumber } from '../_utils/is';
+import { isActivationKey } from '../_utils/keyboard';
 import IconCaretLeft from '../icon/icon-caret-left';
 import IconCaretRight from '../icon/icon-caret-right';
 import { CollapseContext, collapseKey } from './context';
@@ -89,6 +90,18 @@ export default defineComponent({
 
     const handleClick = (e: MouseEvent) => {
       if (!props.disabled) {
+        collapseCtx.handleClick?.(key, e);
+      }
+    };
+
+    // a11y：触发器（role=button）的 id 与面板 region 的 id，做 aria-controls / aria-labelledby 双向连接
+    const headerId = `${prefixCls}-${instance?.uid}-header`;
+    const contentId = `${prefixCls}-${instance?.uid}-content`;
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (props.disabled) return;
+      // role=button 需支持 Enter / Space 激活（disclosure 模式）
+      if (isActivationKey(e)) {
+        e.preventDefault();
         collapseCtx.handleClick?.(key, e);
       }
     };
@@ -172,16 +185,26 @@ export default defineComponent({
             role="button"
             aria-disabled={props.disabled}
             aria-expanded={isActive.value}
-            tabindex="0"
+            aria-controls={contentId}
+            tabindex={props.disabled ? -1 : 0}
             class={headerCls.value}
             onClick={handleClick}
+            onKeydown={handleKeydown}
           >
             {expandIconRender()}
-            <div class={`${prefixCls}-header-title`}>{slots.header?.() ?? props.header}</div>
+            <div id={headerId} class={`${prefixCls}-header-title`}>
+              {slots.header?.() ?? props.header}
+            </div>
             {slots.extra && <div class={`${prefixCls}-header-extra`}>{slots.extra?.()}</div>}
           </div>
           <Transition name="collapse-slider" {...transitionEvents}>
-            <div v-show={isActive.value} role="region" class={contentCls.value}>
+            <div
+              v-show={isActive.value}
+              role="region"
+              id={contentId}
+              aria-labelledby={headerId}
+              class={contentCls.value}
+            >
               {mounted.value && (
                 <div ref="contentBoxRef" class={`${prefixCls}-content-box`}>
                   {slots.default?.()}

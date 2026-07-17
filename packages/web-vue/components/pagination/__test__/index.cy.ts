@@ -108,4 +108,25 @@ describe('Pagination', () => {
     });
     cy.get('.sd-pagination-jumper').should('exist');
   });
+
+  it('exposes navigation role and aria-current on the active page', () => {
+    cy.mount(Pagination, { props: { total: 50, current: 3 } });
+    cy.get('.sd-pagination').should('have.attr', 'role', 'navigation');
+    cy.get('.sd-pagination').should('have.attr', 'aria-label', 'Pagination');
+    cy.contains('.sd-pagination-item', '3').should('have.attr', 'aria-current', 'page');
+  });
+
+  it('activates a page via Enter key', () => {
+    cy.mount(Pagination, { props: { total: 50 } });
+    cy.contains('.sd-pagination-item', '2').focus().trigger('keydown', { key: 'Enter' });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal([2]);
+    });
+  });
+
+  it('labels the previous/next step pagers', () => {
+    cy.mount(Pagination, { props: { total: 50 } });
+    cy.get('.sd-pagination-item-previous').should('have.attr', 'aria-label', 'Previous page');
+    cy.get('.sd-pagination-item-next').should('have.attr', 'aria-label', 'Next page');
+  });
 });

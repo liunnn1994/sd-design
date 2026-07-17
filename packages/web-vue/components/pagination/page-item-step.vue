@@ -1,5 +1,13 @@
 <template>
-  <component :is="simple ? 'span' : 'li'" :class="cls" @click="handleClick">
+  <component
+    :is="simple ? 'span' : 'li'"
+    :class="cls"
+    :aria-label="isNext ? 'Next page' : 'Previous page'"
+    :aria-disabled="mergedDisabled || undefined"
+    :tabindex="mergedDisabled ? -1 : 0"
+    @click="handleClick"
+    @keydown="handleKeydown"
+  >
     <slot :type="isNext ? 'next' : 'previous'">
       <icon-right v-if="isNext" />
       <icon-left v-else />
@@ -11,6 +19,7 @@
   import { computed } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
+  import { isActivationKey } from '../_utils/keyboard';
   import IconLeft from '../icon/icon-left';
   import IconRight from '../icon/icon-right';
   import { getLegalPage } from './utils';
@@ -65,6 +74,14 @@
 
   const handleClick = (e: MouseEvent) => {
     if (!mergedDisabled.value) {
+      emit('click', nextPage.value);
+    }
+  };
+
+  const handleKeydown = (e: KeyboardEvent) => {
+    if (mergedDisabled.value) return;
+    if (isActivationKey(e)) {
+      e.preventDefault();
       emit('click', nextPage.value);
     }
   };

@@ -22,6 +22,7 @@ import { useChildrenComponents } from '../_hooks/use-children-components';
 import { Direction } from '../_utils/constant';
 import { getPrefixCls } from '../_utils/global-config';
 import { isNumber, isObject } from '../_utils/is';
+import { KEYBOARD_KEY } from '../_utils/keyboard';
 import CarouselArrow from './carousel-arrow.vue';
 import CarouselIndicator from './carousel-indicator.vue';
 import { carouselInjectionKey } from './context';
@@ -276,6 +277,17 @@ export default defineComponent({
         isManual: true,
       });
 
+    // 键盘：聚焦到 carousel 区域时，方向键切换幻灯片
+    const onKeydown = (e: KeyboardEvent) => {
+      if (e.key === KEYBOARD_KEY.ARROW_RIGHT || e.key === KEYBOARD_KEY.ARROW_DOWN) {
+        e.preventDefault();
+        onNextClick();
+      } else if (e.key === KEYBOARD_KEY.ARROW_LEFT || e.key === KEYBOARD_KEY.ARROW_UP) {
+        e.preventDefault();
+        onPreviousClick();
+      }
+    };
+
     const eventHandlers = computed(() => {
       return computedAutoPlay.value.hoverToPause
         ? {
@@ -320,7 +332,15 @@ export default defineComponent({
       children.value = slots.default?.();
 
       return (
-        <div class={cls.value} {...eventHandlers.value}>
+        <div
+          class={cls.value}
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Carousel"
+          tabindex="0"
+          onKeydown={onKeydown}
+          {...eventHandlers.value}
+        >
           <div class={contentCls.value}>{children.value}</div>
           {hasIndicator.value && (
             <div class={indicatorCls.value}>

@@ -478,7 +478,7 @@ export default defineComponent({
       }
 
       return (
-        <div class={cls.value}>
+        <div role="navigation" aria-label="Pagination" class={cls.value}>
           {mergedShowTotal.value && (
             <span class={`${prefixCls}-total`}>
               {slots.total?.({ total: props.total }) ?? t('pagination.total', props.total)}

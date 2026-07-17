@@ -168,7 +168,7 @@ export default defineComponent({
     };
 
     return () => (
-      <span class={cls.value}>
+      <span role="group" class={cls.value}>
         {options.value.length > 0 ? renderOptions() : slots.default?.()}
       </span>
     );

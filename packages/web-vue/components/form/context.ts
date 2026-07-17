@@ -44,6 +44,11 @@ export interface FormItemContext {
   disabled: boolean;
   error: boolean;
   feedback: string | undefined;
+  /**
+   * 表单控件的唯一 id，供 `<label for>` 与控件自身 id 做双向关联。
+   * 与 wrapper-col 的 id（供 form.scrollToField 用）区分，避免冲突。
+   */
+  fieldId: string | undefined;
   updateValidateState: (
     field: string,
     { status, message }: { status: ValidateStatus | ''; message: string },

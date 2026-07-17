@@ -82,4 +82,17 @@ describe('TreeSelect', () => {
       expect(wrapper.emitted('change')?.[0]).to.deep.equal([['leaf-2']]);
     });
   });
+
+  it('trigger exposes aria-haspopup=listbox and aria-expanded', () => {
+    cy.mount(TreeSelect, { props: { options, fieldNames } });
+    cy.get('.sd-select-view').should('have.attr', 'aria-haspopup', 'listbox');
+    cy.get('.sd-select-view').should('have.attr', 'aria-expanded', 'false');
+    // combobox 语义落到可聚焦的 input（经 inputAttrs）
+    cy.get('input').should('have.attr', 'role', 'combobox');
+    cy.get('input').should('have.attr', 'aria-haspopup', 'listbox');
+    cy.get('input').should('have.attr', 'aria-expanded', 'false');
+    openPopup();
+    cy.get('.sd-select-view').should('have.attr', 'aria-expanded', 'true');
+    cy.get('input').should('have.attr', 'aria-expanded', 'true');
+  });
 });

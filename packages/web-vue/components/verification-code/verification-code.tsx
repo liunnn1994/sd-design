@@ -221,7 +221,7 @@ export default defineComponent({
 
     return () => {
       return (
-        <div class={prefixCls}>
+        <div class={prefixCls} role="group" aria-label="Verification code">
           {innerValue.value.map((c, i) => (
             <>
               <SdInput
@@ -234,6 +234,7 @@ export default defineComponent({
                 error={props.error}
                 disabled={props.disabled}
                 readonly={props.readonly}
+                inputAttrs={{ 'aria-label': `Character ${i + 1} of ${props.length}` }}
                 onFocus={() => focusFirstEmptyInput(i)}
                 onInput={(v, e) => handleInput(i, v, e)}
                 {...{

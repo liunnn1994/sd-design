@@ -27,7 +27,15 @@
       <div v-if="computedMaxLength && showWordLimit" :class="`${prefixCls}-word-limit`">
         {{ valueLength }}/{{ computedMaxLength }}
       </div>
-      <div v-if="showClearBtn" :class="`${prefixCls}-clear-btn`" @click="handleClear">
+      <div
+        v-if="showClearBtn"
+        :class="`${prefixCls}-clear-btn`"
+        role="button"
+        tabindex="0"
+        aria-label="Clear"
+        @click="handleClear"
+        @keydown="handleClearKeydown"
+      >
         <icon-hover>
           <icon-close />
         </icon-hover>
@@ -63,6 +71,7 @@
   import { INPUT_EVENTS } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
   import { isFunction, isNull, isObject, isUndefined } from '../_utils/is';
+  import { isActivationKey } from '../_utils/keyboard';
   import { omit } from '../_utils/omit';
   import pick from '../_utils/pick';
   import IconClose from '../icon/icon-close';
@@ -215,6 +224,7 @@
     mergedDisabled,
     mergedError: _mergedError,
     eventHandlers,
+    formItemCtx,
   } = useFormItem({ disabled, error });
   const { mergedAllowClear } = useAllowClear(allowClear);
 
@@ -389,6 +399,14 @@
     emit('clear', ev);
   };
 
+  // 清除按钮（role=button，图标无原生按钮语义）：Enter/Space 触发
+  const handleClearKeydown = (ev: KeyboardEvent) => {
+    if (isActivationKey(ev)) {
+      ev.preventDefault();
+      handleClear(ev as unknown as MouseEvent);
+    }
+  };
+
   const handleKeyDown = (e: KeyboardEvent) => {
     if (props.readonly && !mergedDisabled.value && isReadonlyModificationKey(e)) {
       showReadonlyTip();
@@ -413,6 +431,10 @@
       ...rawTextareaAttrs,
       ...props.textareaAttrs,
     };
+    // 关联 form-item 的 label（`for`）：消费者未显式给 textarea id 时，用 form-item 注入的 fieldId
+    if (formItemCtx.fieldId && attrs.id === undefined) {
+      attrs.id = formItemCtx.fieldId;
+    }
     if (mergedError.value) {
       attrs['aria-invalid'] = true;
     }

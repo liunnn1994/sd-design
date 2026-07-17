@@ -1,7 +1,11 @@
 <template>
   <transition name="zoom-in-top" @after-leave="handleAfterLeave">
     <div v-if="visible" role="alert" :class="cls">
-      <div v-if="showIcon && !(type === 'normal' && !$slots.icon)" :class="`${prefixCls}-icon`">
+      <div
+        v-if="showIcon && !(type === 'normal' && !$slots.icon)"
+        aria-hidden="true"
+        :class="`${prefixCls}-icon`"
+      >
         <slot name="icon">
           <icon-info-circle-fill v-if="type === 'info'" />
           <icon-check-circle-fill v-else-if="type === 'success'" />
@@ -24,11 +28,12 @@
       </div>
       <div
         v-if="closable"
-        tabindex="-1"
+        tabindex="0"
         role="button"
         aria-label="Close"
         :class="`${prefixCls}-close-btn`"
         @click="handleClose"
+        @keydown="onCloseKeydown"
       >
         <slot name="close-element">
           <icon-hover>
@@ -47,6 +52,7 @@
   import IconHover from '../_components/icon-hover.vue';
   import { MessageType } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
+  import { isActivationKey } from '../_utils/keyboard';
   import IconCheckCircleFill from '../icon/icon-check-circle-fill';
   import IconClose from '../icon/icon-close';
   import IconCloseCircleFill from '../icon/icon-close-circle-fill';
@@ -108,9 +114,9 @@
     /**
      * @zh 点击关闭按钮时触发
      * @en Triggered when the close button is clicked
-     * @param {MouseEvent} ev
+     * @param {Event} ev
      */
-    close: [_ev: MouseEvent];
+    close: [_ev: Event];
     /**
      * @zh 关闭动画结束后触发
      * @en Triggered after the close animation ends
@@ -145,9 +151,17 @@
   const prefixCls = getPrefixCls('alert');
   const visible = ref(true);
 
-  const handleClose = (ev: MouseEvent) => {
+  const handleClose = (ev: Event) => {
     visible.value = false;
     emit('close', ev);
+  };
+
+  // role=button 需支持 Enter / Space 激活（关闭按钮键盘可达）
+  const onCloseKeydown = (ev: KeyboardEvent) => {
+    if (isActivationKey(ev)) {
+      ev.preventDefault();
+      handleClose(ev);
+    }
   };
 
   const handleAfterLeave = () => {

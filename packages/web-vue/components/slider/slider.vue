@@ -25,6 +25,7 @@
         @movestart="handleMoveStart"
         @moving="handleStartMoving"
         @moveend="handleMoveEnd"
+        @keydown="(e) => handleButtonKeydown('start', e)"
       />
       <slider-button
         :style="getBtnStyle(computedValue[1])"
@@ -38,6 +39,7 @@
         @movestart="handleMoveStart"
         @moving="handleEndMoving"
         @moveend="handleMoveEnd"
+        @keydown="(e) => handleButtonKeydown('end', e)"
       />
     </div>
     <slider-input
@@ -64,6 +66,7 @@
   import { Direction, DIRECTIONS } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
   import { isArray, isUndefined } from '../_utils/is';
+  import { KEYBOARD_KEY } from '../_utils/keyboard';
   import SliderButton from './slider-button.vue';
   import SliderDots from './slider-dots.vue';
   import SliderInput from './slider-input.vue';
@@ -230,6 +233,41 @@
     value = value ?? props.min;
     endValue.value = value;
     handleChange();
+  };
+
+  // 键盘：方向键按 step 增减，Home/End 到极值（range 时起点/终点互相夹紧）
+  const handleButtonKeydown = (which: 'start' | 'end', e: KeyboardEvent) => {
+    if (mergedDisabled.value) return;
+    const minV = props.min;
+    const maxV = props.max;
+    const current = which === 'start' ? startValue.value : endValue.value;
+    let next: number | undefined;
+    if (e.key === KEYBOARD_KEY.ARROW_RIGHT || e.key === KEYBOARD_KEY.ARROW_UP) {
+      next = current + props.step;
+    } else if (e.key === KEYBOARD_KEY.ARROW_LEFT || e.key === KEYBOARD_KEY.ARROW_DOWN) {
+      next = current - props.step;
+    } else if (e.key === KEYBOARD_KEY.HOME) {
+      next = minV;
+    } else if (e.key === KEYBOARD_KEY.END) {
+      next = maxV;
+    } else {
+      return;
+    }
+    e.preventDefault();
+    if (props.range) {
+      if (which === 'start') {
+        next = Math.max(minV, Math.min(next, endValue.value - props.step));
+      } else {
+        next = Math.max(startValue.value + props.step, Math.min(next, maxV));
+      }
+    } else {
+      next = Math.max(minV, Math.min(next, maxV));
+    }
+    if (which === 'start') {
+      handleStartChange(next);
+    } else {
+      handleEndChange(next);
+    }
   };
 
   const computedValue = computed<[number, number]>(() => {

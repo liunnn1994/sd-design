@@ -13,6 +13,7 @@
     :popup-visible="panelVisible"
     :unmount-on-close="unmountOnClose"
     :popup-container="popupContainer"
+    aria-has-popup="dialog"
     @popupVisibleChange="onPanelVisibleChange"
   >
     <slot>

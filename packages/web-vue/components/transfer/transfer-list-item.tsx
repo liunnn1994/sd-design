@@ -2,6 +2,7 @@ import { computed, defineComponent, inject, PropType } from 'vue';
 
 import IconHover from '../_components/icon-hover.vue';
 import { getPrefixCls } from '../_utils/global-config';
+import { isActivationKey } from '../_utils/keyboard';
 import Checkbox from '../checkbox';
 import IconClose from '../icon/icon-close';
 import { transferInjectionKey } from './context';
@@ -50,6 +51,13 @@ export default defineComponent({
       transferCtx?.moveTo([props.data.value], 'source');
     };
 
+    const handleRemoveKeydown = (ev: KeyboardEvent) => {
+      if (isActivationKey(ev)) {
+        ev.preventDefault();
+        handleRemove();
+      }
+    };
+
     return () => (
       <div class={cls.value} onClick={handleClick}>
         {props.allowClear || props.simple ? (
@@ -75,9 +83,18 @@ export default defineComponent({
           </Checkbox>
         )}
         {props.allowClear && !props.disabled && (
-          <IconHover class={`${prefixCls}-remove-btn`} {...{ onClick: handleRemove }}>
-            <IconClose />
-          </IconHover>
+          <span
+            class={`${prefixCls}-remove-btn`}
+            role="button"
+            tabindex="0"
+            aria-label="Remove"
+            onClick={handleRemove}
+            onKeydown={handleRemoveKeydown}
+          >
+            <IconHover>
+              <IconClose />
+            </IconHover>
+          </span>
         )}
       </div>
     );

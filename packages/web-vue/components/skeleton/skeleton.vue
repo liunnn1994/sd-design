@@ -1,5 +1,5 @@
 <template>
-  <div :class="cls">
+  <div :class="cls" :aria-busy="loading || undefined">
     <slot v-if="loading" />
     <slot v-else name="content" />
   </div>

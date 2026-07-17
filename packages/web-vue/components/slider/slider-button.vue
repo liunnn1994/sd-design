@@ -18,6 +18,7 @@
       @touchstart="handleMouseDown"
       @contextmenu.prevent
       @click.stop
+      @keydown="onKeydown"
     />
   </tooltip>
 </template>
@@ -62,10 +63,21 @@
     },
   });
 
-  const emit = defineEmits<{ movestart: []; moving: [_x: number, _y: number]; moveend: [] }>();
+  const emit = defineEmits<{
+    movestart: [];
+    moving: [_x: number, _y: number];
+    moveend: [];
+    keydown: [_e: KeyboardEvent];
+  }>();
 
   const prefixCls = getPrefixCls('slider-btn');
   const isDragging = ref(false);
+
+  const onKeydown = (e: KeyboardEvent) => {
+    if (!props.disabled) {
+      emit('keydown', e);
+    }
+  };
 
   const handleMouseDown = (e: MouseEvent | TouchEvent) => {
     if (props.disabled) {

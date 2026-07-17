@@ -16,4 +16,15 @@ describe('Input', () => {
     cy.get('.sd-input-clear-btn').click({ force: true });
     cy.get('input').should('have.value', '');
   });
+
+  it('exposes the clear button with a name and keyboard activation', () => {
+    cy.mount(Input, { props: { defaultValue: 'test', allowClear: true } });
+    cy.get('.sd-input-clear-btn').as('clear');
+    cy.get('@clear').should('have.attr', 'role', 'button');
+    cy.get('@clear').should('have.attr', 'tabindex', '0');
+    cy.get('@clear').should('have.attr', 'aria-label', 'Clear');
+    cy.get('input').should('have.value', 'test');
+    cy.get('@clear').trigger('keydown', { key: 'Enter', force: true });
+    cy.get('input').should('have.value', '');
+  });
 });

@@ -321,8 +321,16 @@ export default defineComponent({
           column: props.column,
         })[0] ?? 'div',
         {
-          class: cls.value,
-          style: style.value,
+          'class': cls.value,
+          'style': style.value,
+          'role': 'columnheader',
+          'aria-sort': hasSorter.value
+            ? sortOrder.value === 'ascend'
+              ? 'ascending'
+              : sortOrder.value === 'descend'
+                ? 'descending'
+                : 'none'
+            : undefined,
         },
         {
           default: () => [

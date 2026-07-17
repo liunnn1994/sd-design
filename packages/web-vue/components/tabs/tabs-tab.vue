@@ -1,5 +1,14 @@
 <template>
-  <div tabindex="0" :class="cls" v-bind="eventHandlers">
+  <div
+    :id="tabId"
+    :class="cls"
+    role="tab"
+    :tabindex="active && !tab.disabled ? 0 : -1"
+    :aria-selected="active"
+    :aria-disabled="tab.disabled || undefined"
+    :aria-controls="panelId"
+    v-bind="eventHandlers"
+  >
     <span :class="`${prefixCls}-title`">
       <slot />
     </span>
@@ -21,6 +30,7 @@
 
   import IconHover from '../_components/icon-hover.vue';
   import { getPrefixCls } from '../_utils/global-config';
+  import { KEYBOARD_KEY } from '../_utils/keyboard';
   import IconClose from '../icon/icon-close';
   import { TabsContext, tabsInjectionKey } from './context';
 
@@ -42,6 +52,9 @@
 
   const prefixCls = getPrefixCls('tabs-tab');
   const tabsCtx = inject<Partial<TabsContext>>(tabsInjectionKey, {});
+  const tabsId = computed(() => tabsCtx.tabsId ?? '');
+  const tabId = computed(() => `${tabsId.value}-${props.tab.key}-tab`);
+  const panelId = computed(() => `${tabsId.value}-${props.tab.key}-panel`);
   const handleClick = (e: Event) => {
     if (!props.tab.disabled) {
       emit('click', props.tab.key, e);
@@ -49,7 +62,11 @@
   };
 
   const onKeyDown = (ev: KeyboardEvent) => {
-    if (ev.key === 'Enter') {
+    // Enter / Space 激活当前 tab；方向键与 Home/End 在 tablist（tabs-nav）层统一处理
+    if (ev.key === KEYBOARD_KEY.ENTER) {
+      handleClick(ev);
+    } else if (ev.key === KEYBOARD_KEY.SPACE) {
+      ev.preventDefault();
       handleClick(ev);
     }
   };

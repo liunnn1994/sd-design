@@ -1,6 +1,12 @@
 <template>
   <ResizeObserver @resize="onResize">
-    <div :class="classNames">
+    <div
+      :class="classNames"
+      role="separator"
+      tabindex="0"
+      :aria-orientation="direction"
+      aria-label="Resize"
+    >
       <!-- @slot 自定义内容 -->
       <slot>
         <div :class="`${prefixCls}-icon-wrapper`">

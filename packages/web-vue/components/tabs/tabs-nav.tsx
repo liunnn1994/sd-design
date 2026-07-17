@@ -19,6 +19,7 @@ import ResizeObserver from '../_components/resize-observer';
 import { off, on } from '../_utils/dom';
 import { getPrefixCls } from '../_utils/global-config';
 import { isUndefined, isNumber } from '../_utils/is';
+import { KEYBOARD_KEY } from '../_utils/keyboard';
 import { configProviderInjectionKey } from '../config-provider/context';
 import IconPlus from '../icon/icon-plus';
 import TabsButton from './tabs-button';
@@ -247,6 +248,46 @@ export default defineComponent({
       setOffset(nextOffset);
     };
 
+    const focusAndActivate = (key: string | number, ev: KeyboardEvent) => {
+      const el = tabsRef.value[key];
+      if (el instanceof HTMLElement) {
+        el.focus();
+      }
+      emit('click', key, ev);
+    };
+
+    // 方向键 / Home / End 在 tablist 层做 roving-tabindex 式导航（自动激活）
+    const handleListKeydown = (ev: KeyboardEvent) => {
+      const enabled = props.tabs.filter((t) => !t.disabled);
+      if (enabled.length === 0) return;
+      const len = enabled.length;
+      const currentIdx = Math.max(
+        0,
+        enabled.findIndex((t) => t.key === activeKey.value),
+      );
+      let nextIdx = currentIdx;
+      const key = ev.key;
+
+      if (direction.value === 'vertical') {
+        if (key === KEYBOARD_KEY.ARROW_DOWN) nextIdx = currentIdx + 1;
+        else if (key === KEYBOARD_KEY.ARROW_UP) nextIdx = currentIdx - 1;
+        else if (key === KEYBOARD_KEY.HOME) nextIdx = 0;
+        else if (key === KEYBOARD_KEY.END) nextIdx = len - 1;
+        else return;
+      } else {
+        const rtl = isRtlHorizontal.value;
+        if (key === KEYBOARD_KEY.ARROW_RIGHT) nextIdx = rtl ? currentIdx - 1 : currentIdx + 1;
+        else if (key === KEYBOARD_KEY.ARROW_LEFT) nextIdx = rtl ? currentIdx + 1 : currentIdx - 1;
+        else if (key === KEYBOARD_KEY.HOME) nextIdx = 0;
+        else if (key === KEYBOARD_KEY.END) nextIdx = len - 1;
+        else return;
+      }
+
+      ev.preventDefault();
+      nextIdx = ((nextIdx % len) + len) % len;
+      focusAndActivate(enabled[nextIdx].key, ev);
+    };
+
     const handleResize = () => {
       getSize();
       if (inkRef.value) {
@@ -340,7 +381,14 @@ export default defineComponent({
         <ResizeObserver onResize={() => getSize()}>
           <div class={tabCls.value} ref={wrapperRef}>
             <ResizeObserver onResize={handleResize}>
-              <div ref={listRef} class={listCls.value} style={listStyle.value}>
+              <div
+                ref={listRef}
+                class={listCls.value}
+                style={listStyle.value}
+                role="tablist"
+                aria-orientation={direction.value === 'vertical' ? 'vertical' : 'horizontal'}
+                onKeydown={handleListKeydown}
+              >
                 {props.tabs.map((tab) => (
                   <TabsTab
                     key={tab.key}

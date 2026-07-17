@@ -162,6 +162,7 @@ export default defineComponent({
   setup(props, { emit, slots }) {
     const prefixCls = getPrefixCls('color-picker');
     const innerValue = ref(props.defaultValue);
+    const popupVisible = ref(false);
     const innerRecentColors = ref<string[]>(
       Array.isArray(props.defaultRecentColors) ? props.defaultRecentColors : [],
     );
@@ -247,6 +248,7 @@ export default defineComponent({
     };
 
     const onPopupVisibleChange = (visible: boolean) => {
+      popupVisible.value = visible;
       emit('popup-visible-change', visible, triggerInputValue.value);
     };
 
@@ -287,6 +289,10 @@ export default defineComponent({
             disabled={props.disabled}
             readonly={props.readonly}
             modelValue={triggerInputValue.value}
+            inputAttrs={{
+              'aria-haspopup': 'dialog',
+              'aria-expanded': popupVisible.value,
+            }}
             onChange={handleTriggerInputChange}
             onClear={handleClear}
             {...props.inputProps}

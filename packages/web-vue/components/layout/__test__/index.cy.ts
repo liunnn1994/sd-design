@@ -82,6 +82,19 @@ describe('Layout', () => {
     cy.get('.sd-layout-sider').should('have.class', 'sd-layout-sider-has-trigger');
   });
 
+  it('collapse trigger is a keyboard-accessible button with aria-expanded', () => {
+    mountTpl(`<Layout><Sider collapsible>Sider</Sider><Content>Content</Content></Layout>`);
+    cy.get('.sd-layout-sider-trigger').as('trigger');
+    cy.get('@trigger').should('have.attr', 'role', 'button');
+    cy.get('@trigger').should('have.attr', 'tabindex', '0');
+    cy.get('@trigger').should('have.attr', 'aria-label', 'Toggle sidebar');
+    // expanded initially (defaultCollapsed false)
+    cy.get('@trigger').should('have.attr', 'aria-expanded', 'true');
+    // Enter collapses → aria-expanded flips
+    cy.get('@trigger').trigger('keydown', { key: 'Enter' });
+    cy.get('@trigger').should('have.attr', 'aria-expanded', 'false');
+  });
+
   it('renders 50% width correctly', () => {
     mountTpl(
       `<Layout><div><Sider width="50%">Sider</Sider></div><Content>Content</Content></Layout>`,

@@ -1,5 +1,14 @@
 import type { PropType } from 'vue';
-import { defineComponent, provide, reactive, toRefs, ref, computed, watch } from 'vue';
+import {
+  defineComponent,
+  getCurrentInstance,
+  provide,
+  reactive,
+  toRefs,
+  ref,
+  computed,
+  watch,
+} from 'vue';
 
 import { useFormItem } from '../_hooks/use-form-item';
 import { useSize } from '../_hooks/use-size';
@@ -137,6 +146,8 @@ export default defineComponent({
       radioGroupKey,
       reactive({
         name: 'SDRadioGroup',
+        // 共享 name：原生同名 radio 可用方向键在组内切换
+        inputName: `${prefixCls}-${getCurrentInstance()!.uid}`,
         value: computedValue,
         size: mergedSize,
         type,
@@ -185,7 +196,7 @@ export default defineComponent({
     };
 
     return () => (
-      <span class={cls.value}>
+      <span role="radiogroup" class={cls.value}>
         {options.value.length > 0 ? renderOptions() : slots.default?.()}
       </span>
     );

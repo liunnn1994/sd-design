@@ -19,7 +19,7 @@
       disable-horizontal
       @scroll="handleScroll"
     >
-      <ul :class="`${prefixCls}-list`">
+      <ul role="listbox" :class="`${prefixCls}-list`">
         <slot />
       </ul>
     </Scrollbar>

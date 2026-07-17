@@ -2,6 +2,9 @@
   <li
     ref="liRef"
     :class="[cls, { [`${prefixCls}-has-suffix`]: Boolean($slots.suffix) }]"
+    role="menuitem"
+    :aria-disabled="disabled || undefined"
+    :tabindex="disabled ? undefined : -1"
     @click="handleClick"
   >
     <span v-if="$slots.icon" :class="`${prefixCls}-icon`">

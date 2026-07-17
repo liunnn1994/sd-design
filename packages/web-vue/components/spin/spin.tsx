@@ -93,7 +93,7 @@ export default defineComponent({
       return (
         <>
           {!props.hideIcon && (
-            <div class={`${prefixCls}-icon`} style={style}>
+            <div class={`${prefixCls}-icon`} style={style} aria-hidden="true">
               {renderIcon()}
             </div>
           )}
@@ -103,7 +103,7 @@ export default defineComponent({
     };
 
     return () => (
-      <div class={cls.value}>
+      <div role="status" aria-live="polite" class={cls.value}>
         {slots.default ? (
           <>
             {slots.default()}

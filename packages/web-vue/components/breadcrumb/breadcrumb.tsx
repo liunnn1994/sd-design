@@ -143,7 +143,7 @@ export default defineComponent({
 
     return () => {
       return (
-        <div role="list" class={prefixCls}>
+        <div role="list" aria-label="Breadcrumb" class={prefixCls}>
           {slots.default ? renderByChildren() : renderByRoutes()}
         </div>
       );

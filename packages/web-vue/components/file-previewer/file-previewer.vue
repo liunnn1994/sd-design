@@ -132,14 +132,15 @@
         v-if="fullscreen && closable"
         type="button"
         :class="`${prefixCls}-close-btn`"
+        aria-label="关闭"
         @click="close"
       >
         <IconClose />
       </button>
-      <div v-if="isLoading" :class="`${prefixCls}-loading`">
+      <div v-if="isLoading" :class="`${prefixCls}-loading`" role="status" aria-label="加载中">
         <IconLoading />
       </div>
-      <div v-if="isError" :class="`${prefixCls}-error`">文件预览加载失败</div>
+      <div v-if="isError" :class="`${prefixCls}-error`" role="alert">文件预览加载失败</div>
     </div>
   </teleport>
 </template>

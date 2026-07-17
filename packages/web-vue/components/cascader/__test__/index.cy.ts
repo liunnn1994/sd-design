@@ -30,6 +30,16 @@ describe('Cascader', () => {
     });
   });
 
+  it('trigger exposes aria-haspopup=menu and aria-expanded', () => {
+    mountCascader({ props: { options } });
+    cy.get('.sd-select-view').should('have.attr', 'aria-haspopup', 'menu');
+    cy.get('.sd-select-view').should('have.attr', 'aria-expanded', 'false');
+    // combobox 语义落到可聚焦的 input（经 inputAttrs）
+    cy.get('input').should('have.attr', 'role', 'combobox');
+    cy.get('input').should('have.attr', 'aria-haspopup', 'menu');
+    cy.get('input').should('have.attr', 'aria-expanded', 'false');
+  });
+
   it('supports the filterable alias', () => {
     mountCascader({
       props: { options, filterable: true, inputValue: 'hai', defaultPopupVisible: true },

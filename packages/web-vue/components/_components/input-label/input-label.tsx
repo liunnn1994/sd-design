@@ -31,6 +31,8 @@ export default defineComponent({
     // used for outer focused
     focused: Boolean,
     uninjectFormItemContext: Boolean,
+    // 直接透传到内部 <input> 的属性（绕过 inheritAttrs:false 对 aria/role 的吞没）
+    inputAttrs: Object as PropType<Record<string, unknown>>,
   },
   emits: ['update:inputValue', 'inputValueChange', 'focus', 'blur'],
   setup(props, { attrs, emit, slots }) {
@@ -111,6 +113,7 @@ export default defineComponent({
         {slots.prefix && <span class={`${prefixCls}-prefix`}>{slots.prefix()}</span>}
         <input
           {...inputAttrs.value}
+          {...(props.inputAttrs ?? {})}
           ref={inputRef}
           class={[
             `${prefixCls}-input`,

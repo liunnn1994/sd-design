@@ -1,6 +1,6 @@
 <template>
   <div ref="refWrapper" :class="`${prefixCls}-column`">
-    <ul>
+    <ul role="listbox">
       <li
         v-for="item in list"
         :key="item.value"
@@ -9,6 +9,9 @@
             onItemRef(el, item);
           }
         "
+        role="option"
+        :aria-selected="item.selected ? 'true' : 'false'"
+        :aria-disabled="item.disabled || undefined"
         :class="[
           `${prefixCls}-cell`,
           {

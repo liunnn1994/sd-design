@@ -82,6 +82,8 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    // 透传到内部 <input> 的属性（role/aria-*，用于 combobox 语义）
+    inputAttrs: Object as PropType<Record<string, unknown>>,
   },
   emits: ['remove', 'clear', 'focus', 'blur'],
   setup(props, { emit, slots }) {
@@ -153,6 +155,7 @@ export default defineComponent({
           <button
             type="button"
             class={`${prefixCls}-clear-btn`}
+            aria-label="Clear"
             onClick={handleClear}
             onMousedown={(ev: MouseEvent) => ev.stopPropagation()}
           >
@@ -204,6 +207,7 @@ export default defineComponent({
             tagNowrap={props.tagNowrap}
             retainInputValue
             uninjectFormItemContext
+            inputAttrs={props.inputAttrs}
             onRemove={handleRemove}
             onFocus={handleFocus}
             onBlur={handleBlur}
@@ -229,6 +233,7 @@ export default defineComponent({
           error={mergedError.value}
           enabledInput={enabledInput.value}
           uninjectFormItemContext
+          inputAttrs={props.inputAttrs}
           onFocus={handleFocus}
           onBlur={handleBlur}
         />

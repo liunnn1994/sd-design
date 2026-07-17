@@ -7,6 +7,7 @@ import { useFormItem } from '../_hooks/use-form-item';
 import { useReadonlyTip, useReadonlyTipText } from '../_hooks/use-readonly-tip';
 import { getPrefixCls } from '../_utils/global-config';
 import { isNull, isObject, isString, isUndefined } from '../_utils/is';
+import { KEYBOARD_KEY } from '../_utils/keyboard';
 import IconFaceFrownFill from '../icon/icon-face-frown-fill';
 import IconFaceMehFill from '../icon/icon-face-meh-fill';
 import IconFaceSmileFill from '../icon/icon-face-smile-fill';
@@ -206,6 +207,32 @@ export default defineComponent({
       }
     };
 
+    // 键盘：方向键改分（radiogroup 模式，容器为唯一 tab 停靠点）
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (mergedDisabled.value) return;
+      const step = props.allowHalf ? 0.5 : 1;
+      let next = computedValue.value;
+      if (e.key === KEYBOARD_KEY.ARROW_RIGHT || e.key === KEYBOARD_KEY.ARROW_UP) {
+        next = next + step;
+      } else if (e.key === KEYBOARD_KEY.ARROW_LEFT || e.key === KEYBOARD_KEY.ARROW_DOWN) {
+        next = next - step;
+      } else if (e.key === KEYBOARD_KEY.HOME) {
+        next = 0;
+      } else if (e.key === KEYBOARD_KEY.END) {
+        next = indexArray.value.length;
+      } else {
+        return;
+      }
+      e.preventDefault();
+      next = Math.max(0, Math.min(next, indexArray.value.length));
+      if (next !== computedValue.value) {
+        _value.value = next;
+        emit('update:modelValue', next);
+        emit('change', next);
+        eventHandlers.value?.onChange?.();
+      }
+    };
+
     const renderGradingCharacter = (index: number, displayIndex: number) => {
       if (index > displayIndex) {
         return <IconFaceMehFill />;
@@ -319,7 +346,14 @@ export default defineComponent({
 
     return () => (
       <Tooltip popupVisible={tipVisible.value} content={readonlyTipText.value} position="top">
-        <div class={cls.value} onMouseleave={resetHoverIndex}>
+        <div
+          class={cls.value}
+          role="radiogroup"
+          aria-label="Rating"
+          tabindex={mergedDisabled.value ? undefined : 0}
+          onMouseleave={resetHoverIndex}
+          onKeydown={handleKeydown}
+        >
           {indexArray.value.map((_, index) => renderCharacter(index))}
         </div>
       </Tooltip>

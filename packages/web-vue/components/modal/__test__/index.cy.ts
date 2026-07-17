@@ -147,4 +147,53 @@ describe('Modal', () => {
     });
     cy.get('body .sd-btn').eq(1).should('have.class', 'sd-btn-status-danger');
   });
+
+  it('exposes dialog role with aria-labelledby / aria-describedby', () => {
+    cy.mount(ModalComponent, {
+      props: { defaultVisible: true, renderToBody: false, title: 'My Title' },
+      slots: { default: '<div>Modal Body</div>' },
+    });
+    cy.get('.sd-modal').should('have.attr', 'role', 'dialog');
+    cy.get('.sd-modal').should('have.attr', 'aria-modal', 'true');
+    cy.get('.sd-modal-title').then(($title) => {
+      cy.get('.sd-modal').should('have.attr', 'aria-labelledby', $title.attr('id'));
+    });
+    cy.get('.sd-modal-body').then(($body) => {
+      cy.get('.sd-modal').should('have.attr', 'aria-describedby', $body.attr('id'));
+    });
+  });
+
+  it('moves focus into the dialog on open and releases it on ESC close', () => {
+    cy.mount(ModalComponent, {
+      props: { defaultVisible: true, renderToBody: false, title: 'Title' },
+      slots: { default: '<div>Modal Body</div>' },
+    });
+    // 打开后焦点进入对话框（焦点陷阱激活）
+    cy.wrap(null).should(() => {
+      expect(document.activeElement?.closest('.sd-modal')).to.not.equal(null);
+    });
+    // ESC 关闭后焦点离开对话框（陷阱失活）
+    // 注：还原到具体触发器在真实浏览器生效；Cypress 组件测试用合成事件无法把焦点留在触发器上，
+    // 故这里只断言焦点已离开对话框。
+    cy.get('.sd-modal').trigger('keydown', { key: 'Escape' });
+    cy.get('.sd-modal').should('not.be.visible');
+    cy.wrap(null).should(() => {
+      expect(document.activeElement?.closest('.sd-modal')).to.equal(null);
+    });
+  });
+
+  it('traps Tab focus inside the dialog (wraps from last to first)', () => {
+    cy.mount(ModalComponent, {
+      props: { defaultVisible: true, renderToBody: false, title: 'Title' },
+      slots: { default: '<div>Modal Body</div>' },
+    });
+    // 先等焦点进入对话框（确认陷阱已激活）
+    cy.wrap(null).should(() => {
+      expect(document.activeElement?.closest('.sd-modal')).to.not.equal(null);
+    });
+    // 末尾可聚焦按钮（OK）按 Tab 后应循环回首元素：close 按钮（位于 header，DOM 序中是首个可聚焦元素）
+    cy.get('.sd-modal .sd-btn').eq(1).focus();
+    cy.get('.sd-modal .sd-btn').eq(1).trigger('keydown', { key: 'Tab' });
+    cy.focused().should('have.class', 'sd-modal-close-btn');
+  });
 });

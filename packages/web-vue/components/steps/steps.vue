@@ -1,5 +1,5 @@
 <template>
-  <div :class="cls">
+  <div role="list" aria-label="Steps" :class="cls">
     <slot />
   </div>
 </template>
@@ -180,6 +180,7 @@
       lineLess,
       current: computedCurrent,
       errorSteps,
+      changeable: computed(() => props.changeable),
       getStatus,
       addItem,
       removeItem,

@@ -177,6 +177,8 @@ export default defineComponent({
     focused: Boolean,
     disabledInput: Boolean,
     uninjectFormItemContext: Boolean,
+    // 直接透传到内部 <input> 的属性（绕过 inheritAttrs:false 对 aria/role 的吞没，combobox 语义）
+    inputAttrs: Object as PropType<Record<string, unknown>>,
   },
   emits: {
     'update:modelValue': (_value: (string | number | TagData)[]) => true,
@@ -794,6 +796,7 @@ export default defineComponent({
             ))}
             <input
               {...inputAttrs.value}
+              {...(props.inputAttrs ?? {})}
               ref={inputRef}
               key="input-tag-input"
               class={`${prefixCls}-input`}

@@ -18,7 +18,7 @@
         :show-colon="showColon"
         :asterisk-position="asteriskPosition"
         :component="labelComponent"
-        :attrs="labelAttrs"
+        :attrs="mergedLabelAttrs"
         :tooltip="tooltip"
       >
         <slot v-if="$slots.label || label" name="label">{{ label }}</slot>
@@ -53,6 +53,7 @@
 <script setup lang="ts">
   import {
     computed,
+    getCurrentInstance,
     inject,
     nextTick,
     onBeforeUnmount,
@@ -314,6 +315,11 @@
   const { autoLabelWidth, layout } = toRefs(formCtx);
   const { i18nMessage } = useI18n();
 
+  // 表单控件的唯一 id：用于 `<label for>` 与控件自身 id 的双向关联（无障碍）。
+  // 用实例 uid 生成，保证全局唯一；与 wrapper-col 的 id（供 form.scrollToField）区分。
+  const instance = getCurrentInstance();
+  const fieldId = computed(() => `sd-form-item-${instance?.uid}`);
+
   const mergedLabelCol = computed(() => {
     const colProps: Record<string, any> = { ...(props.labelColProps ?? formCtx.labelColProps) };
     if (props.labelColFlex) {
@@ -339,6 +345,12 @@
 
   const mergedLabelStyle = computed(() => props.labelColStyle ?? formCtx.labelColStyle);
   const mergedWrapperStyle = computed(() => props.wrapperColStyle ?? formCtx.wrapperColStyle);
+
+  // label 元素的属性：默认挂 `for` 指向控件 id（无障碍关联），消费者经 labelAttrs 传入的 `for` 优先
+  const mergedLabelAttrs = computed(() => ({
+    for: fieldId.value,
+    ...props.labelAttrs,
+  }));
 
   // 记录初始值，用于重置表单
   const initialValue = getValueByPath(formCtx.model, props.field);
@@ -488,6 +500,7 @@
       disabled: computedDisabled,
       error: isError,
       feedback: computedFeedback,
+      fieldId,
       updateValidateState,
     }),
   );

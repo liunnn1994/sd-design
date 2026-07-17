@@ -12,6 +12,16 @@ describe('Switch', () => {
     });
   });
 
+  it('exposes role=switch and toggles aria-checked on click', () => {
+    cy.mount(Switch);
+    cy.get('button').should('have.attr', 'role', 'switch');
+    cy.get('button').should('have.attr', 'aria-checked', 'false');
+    cy.get('button').click();
+    cy.get('button').should('have.attr', 'aria-checked', 'true');
+    cy.get('button').click();
+    cy.get('button').should('have.attr', 'aria-checked', 'false');
+  });
+
   it('auto enters loading until the controlled modelValue updates', () => {
     cy.clock();
     const handleUpdate = cy.spy().as('handleUpdate');

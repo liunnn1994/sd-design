@@ -2,7 +2,7 @@
   <transition name="fade-in">
     <div v-if="visible" :class="prefixCls" @click="scrollToTop">
       <slot>
-        <button :class="`${prefixCls}-btn`">
+        <button type="button" :class="`${prefixCls}-btn`" aria-label="Back to top">
           <icon-to-top />
         </button>
       </slot>

@@ -11,6 +11,49 @@ describe('Select', () => {
     cy.get('.sd-select-option').should('exist');
   });
 
+  it('exposes combobox / listbox / option semantics', () => {
+    cy.mount(Select, {
+      props: { options: ['Beijing', 'Shanghai', 'Guangzhou'], modelValue: 'Shanghai' },
+    });
+    // 触发器是 combobox：aria-haspopup=listbox，aria-expanded 随开关翻转
+    cy.get('.sd-select-view').should('have.attr', 'aria-haspopup', 'listbox');
+    cy.get('.sd-select-view').should('have.attr', 'aria-expanded', 'false');
+    open();
+    cy.get('.sd-select-view').should('have.attr', 'aria-expanded', 'true');
+    // 弹层是 listbox，选项是 option，选中项 aria-selected=true
+    cy.get('.sd-select-dropdown-list').should('have.attr', 'role', 'listbox');
+    cy.get('.sd-select-option').should('have.attr', 'role', 'option');
+    cy.contains('.sd-select-option', 'Shanghai').should('have.attr', 'aria-selected', 'true');
+  });
+
+  it('puts combobox role + aria-activedescendant on the input', () => {
+    cy.mount(Select, { props: { options: ['Beijing', 'Shanghai', 'Guangzhou'] } });
+    cy.get('input').should('have.attr', 'role', 'combobox');
+    cy.get('input').should('have.attr', 'aria-expanded', 'false');
+    cy.get('input').should('have.attr', 'aria-autocomplete', 'list');
+    cy.get('input').click();
+    cy.get('input').should('have.attr', 'aria-expanded', 'true');
+    // 方向键高亮某项 → input 的 aria-activedescendant 指向该活动选项的 id
+    cy.get('input').type('{uparrow}', { force: true });
+    cy.get('.sd-select-option-active')
+      .eq(0)
+      .then(($opt) => {
+        const activeId = $opt.attr('id');
+        expect(activeId, 'active option has an id').to.not.equal(undefined);
+        cy.get('input').should('have.attr', 'aria-activedescendant', activeId);
+      });
+  });
+
+  it('puts combobox role on the multiple-select input', () => {
+    cy.mount(Select, {
+      props: { options: ['Beijing', 'Shanghai', 'Guangzhou'], multiple: true },
+    });
+    cy.get('.sd-select-view-input').should('have.attr', 'role', 'combobox');
+    cy.get('.sd-select-view-input').should('have.attr', 'aria-expanded', 'false');
+    cy.get('.sd-select-view-input').click({ force: true });
+    cy.get('.sd-select-view-input').should('have.attr', 'aria-expanded', 'true');
+  });
+
   it('renders the default option with performant ellipsis', () => {
     cy.mount(Select, { props: { options: ['Beijing long long long', 'Shanghai'] } });
     open();

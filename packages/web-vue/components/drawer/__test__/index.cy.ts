@@ -99,4 +99,46 @@ describe('Drawer', () => {
       expect(wrapper.findComponent(Ellipsis).props('tooltip')).to.equal(true);
     });
   });
+
+  it('exposes dialog role with aria-labelledby / aria-describedby', () => {
+    cy.mount(Drawer, {
+      props: { title: 'My Title', defaultVisible: true, renderToBody: false },
+      slots: baseSlots,
+    });
+    cy.get('.sd-drawer').should('have.attr', 'role', 'dialog');
+    cy.get('.sd-drawer').should('have.attr', 'aria-modal', 'true');
+    cy.get('.sd-drawer-title').then(($title) => {
+      cy.get('.sd-drawer').should('have.attr', 'aria-labelledby', $title.attr('id'));
+    });
+    cy.get('.sd-drawer-body').then(($body) => {
+      cy.get('.sd-drawer').should('have.attr', 'aria-describedby', $body.attr('id'));
+    });
+  });
+
+  it('moves focus into the drawer on open and releases it on ESC close', () => {
+    // drawer 的 `visible` 默认 false（非 modal 的 undefined），defaultVisible 无效，
+    // 故用受控 visible 起始 true 来让抽屉真正显示，v-model 处理 ESC 关闭。
+    const Outer = defineComponent({
+      components: { Drawer },
+      data: () => ({ visible: true }),
+      template: `
+        <drawer
+          v-model:visible="visible"
+          :render-to-body="false"
+          title="Title"
+        ><div>Drawer Body</div></drawer>
+      `,
+    });
+    cy.mount(Outer);
+    // 打开后焦点进入抽屉（焦点陷阱激活）
+    cy.wrap(null).should(() => {
+      expect(document.activeElement?.closest('.sd-drawer')).to.not.equal(null);
+    });
+    // ESC 关闭后焦点离开抽屉（陷阱失活）
+    cy.get('.sd-drawer').trigger('keydown', { key: 'Escape' });
+    cy.get('.sd-drawer').should('not.be.visible');
+    cy.wrap(null).should(() => {
+      expect(document.activeElement?.closest('.sd-drawer')).to.equal(null);
+    });
+  });
 });

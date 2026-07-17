@@ -1,6 +1,10 @@
 <template>
   <div :class="classNames" v-bind="$attrs" :style="computedStyle">
-    <div :class="`${computedPrefixCls}-inner`">
+    <div
+      :class="`${computedPrefixCls}-inner`"
+      :role="!inTrigger && mode === 'horizontal' ? 'menubar' : 'menu'"
+      @keydown="onMenuKeydown"
+    >
       <slot />
     </div>
     <div
@@ -32,6 +36,7 @@
   import { useResponsive } from '../_hooks/use-responsive';
   import { getPrefixCls } from '../_utils/global-config';
   import { isNumber, isObject } from '../_utils/is';
+  import { KEYBOARD_KEY } from '../_utils/keyboard';
   import { omit } from '../_utils/omit';
   import IconMenuFold from '../icon/icon-menu-fold';
   import IconMenuUnfold from '../icon/icon-menu-unfold';
@@ -391,6 +396,39 @@
 
   const expandIconDown = usePickSlots(slots, 'expand-icon-down');
   const expandIconRight = usePickSlots(slots, 'expand-icon-right');
+
+  // WAI-ARIA 菜单方向键导航：水平用 ←/→，垂直用 ↑/↓，外加 Home/End。
+  // 在菜单容器内收集可聚焦的 menuitem（tabindex===0 即非禁用）按可视顺序移动焦点。
+  // 加在容器级（事件冒泡），不动各 item 的 tabindex/Enter-Space，对 Tab 行为零回归。
+  const onMenuKeydown = (e: KeyboardEvent) => {
+    const horizontal = mode.value === 'horizontal';
+    const forward = horizontal
+      ? e.key === KEYBOARD_KEY.ARROW_RIGHT
+      : e.key === KEYBOARD_KEY.ARROW_DOWN;
+    const backward = horizontal
+      ? e.key === KEYBOARD_KEY.ARROW_LEFT
+      : e.key === KEYBOARD_KEY.ARROW_UP;
+    if (!forward && !backward && e.key !== KEYBOARD_KEY.HOME && e.key !== KEYBOARD_KEY.END) return;
+    const container = e.currentTarget as HTMLElement;
+    const items = Array.from(container.querySelectorAll<HTMLElement>('[role="menuitem"]')).filter(
+      (el) => el.tabIndex === 0,
+    );
+    if (!items.length) return;
+    const current = e.target as HTMLElement;
+    const idx = items.indexOf(current);
+    e.preventDefault();
+    let target: HTMLElement | undefined;
+    if (e.key === KEYBOARD_KEY.HOME) {
+      target = items[0];
+    } else if (e.key === KEYBOARD_KEY.END) {
+      target = items[items.length - 1];
+    } else if (forward) {
+      target = items[idx < 0 ? 0 : Math.min(idx + 1, items.length - 1)];
+    } else if (backward) {
+      target = items[idx < 0 ? 0 : Math.max(idx - 1, 0)];
+    }
+    target?.focus();
+  };
 
   // provide MenuContext
   const menuContext = reactive({

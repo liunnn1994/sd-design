@@ -19,7 +19,7 @@
       </template>
     </dropdown-option>
     <template #content>
-      <dropdown-panel :class="`${prefixCls}-submenu`">
+      <dropdown-panel :class="`${prefixCls}-submenu`" :trigger="trigger">
         <slot name="content" />
         <template v-if="$slots.footer" #footer>
           <slot name="footer" />

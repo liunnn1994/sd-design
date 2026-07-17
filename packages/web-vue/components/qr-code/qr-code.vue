@@ -12,8 +12,20 @@
       </slot>
     </div>
 
-    <canvas v-if="type === 'canvas'" ref="canvasRef" :class="`${prefixCls}-canvas`" />
-    <div v-else :class="`${prefixCls}-svg`" v-html="svgMarkup" />
+    <canvas
+      v-if="type === 'canvas'"
+      ref="canvasRef"
+      :class="`${prefixCls}-canvas`"
+      role="img"
+      :aria-label="`QR code: ${mergedValue}`"
+    />
+    <div
+      v-else
+      :class="`${prefixCls}-svg`"
+      role="img"
+      :aria-label="`QR code: ${mergedValue}`"
+      v-html="svgMarkup"
+    />
 
     <div v-if="hasIcon" :class="`${prefixCls}-icon`">
       <slot name="icon">

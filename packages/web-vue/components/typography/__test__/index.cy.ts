@@ -42,6 +42,21 @@ describe('Typography', () => {
     cy.get('.sd-typography-edit-content').should('exist');
   });
 
+  it('exposes copy/edit controls with button role, tabindex and a name', () => {
+    cy.mount(Paragraph, {
+      props: { copyable: true, editable: true },
+      slots: { default: 'my text' },
+    });
+    cy.get('.sd-typography-operation-copy')
+      .should('have.attr', 'role', 'button')
+      .and('have.attr', 'tabindex', '0')
+      .and('have.attr', 'aria-label');
+    cy.get('.sd-typography-operation-edit')
+      .should('have.attr', 'role', 'button')
+      .and('have.attr', 'tabindex', '0')
+      .and('have.attr', 'aria-label');
+  });
+
   it('Paragraph mounts with an ellipsis config', () => {
     // The ellipsis JS measurement relies on mocked DOM metrics (offsetHeight /
     // line-height) in the vitest version; in a real headless mount it is not

@@ -1,6 +1,7 @@
 import { computed, defineComponent, inject, PropType } from 'vue';
 
 import { getPrefixCls } from '../_utils/global-config';
+import { isActivationKey } from '../_utils/keyboard';
 import IconDelete from '../icon/icon-delete';
 import IconEye from '../icon/icon-eye';
 import IconImageClose from '../icon/icon-image-close';
@@ -33,6 +34,14 @@ export default defineComponent({
 
     const uploadCtx = inject(uploadInjectionKey, undefined);
 
+    // 图标按钮（span）键盘激活
+    const onActionKeydown = (fn: (() => void) | undefined) => (e: KeyboardEvent) => {
+      if (fn && isActivationKey(e)) {
+        e.preventDefault();
+        fn();
+      }
+    };
+
     const renderCard = () => {
       if (props.file.status === 'uploading') {
         return <UploadProgress file={props.file} listType="picture-card" />;
@@ -61,7 +70,11 @@ export default defineComponent({
               {props.file.status !== 'error' && uploadCtx?.showPreviewButton && (
                 <span
                   class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-preview`]}
+                  role="button"
+                  tabindex="0"
+                  aria-label="Preview"
                   onClick={() => uploadCtx?.onPreview(props.file)}
+                  onKeydown={onActionKeydown(() => uploadCtx?.onPreview(props.file))}
                 >
                   {uploadCtx?.slots['preview-icon']?.() ??
                     uploadCtx?.customIcon?.previewIcon?.() ?? <IconEye />}
@@ -71,7 +84,11 @@ export default defineComponent({
                 uploadCtx?.showRetryButton && (
                   <span
                     class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-upload`]}
+                    role="button"
+                    tabindex="0"
+                    aria-label="Retry upload"
                     onClick={() => uploadCtx?.onUpload(props.file)}
+                    onKeydown={onActionKeydown(() => uploadCtx?.onUpload(props.file))}
                   >
                     {uploadCtx?.slots['retry-icon']?.() ?? uploadCtx?.customIcon?.retryIcon?.() ?? (
                       <IconUpload />
@@ -81,7 +98,11 @@ export default defineComponent({
               {!uploadCtx?.disabled && uploadCtx?.showRemoveButton && (
                 <span
                   class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-remove`]}
+                  role="button"
+                  tabindex="0"
+                  aria-label="Remove"
                   onClick={() => uploadCtx?.onRemove(props.file)}
+                  onKeydown={onActionKeydown(() => uploadCtx?.onRemove?.(props.file))}
                 >
                   {uploadCtx?.slots['remove-icon']?.() ?? uploadCtx?.customIcon?.removeIcon?.() ?? (
                     <IconDelete />

@@ -10,7 +10,7 @@ export default defineComponent({
     return () => {
       return createVNode(
         slots.tbody?.()[0] ?? 'div',
-        { class: `${prefixCls}-tbody` },
+        { class: `${prefixCls}-tbody`, role: 'rowgroup' },
         {
           default: slots.default,
         },

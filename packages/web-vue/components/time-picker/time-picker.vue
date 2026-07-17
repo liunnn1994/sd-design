@@ -12,6 +12,7 @@
     :unmount-on-close="unmountOnClose"
     :popup-container="popupContainer"
     v-bind="{ ...triggerProps }"
+    aria-has-popup="dialog"
     @popupVisibleChange="onPanelVisibleChange"
   >
     <component

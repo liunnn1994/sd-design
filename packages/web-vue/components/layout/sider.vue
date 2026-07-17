@@ -25,7 +25,16 @@
           <slot />
         </Scrollbar>
       </Drawer>
-      <span v-if="renderTrigger" :class="`${prefixCls}-temporary-trigger`" @click="toggle">
+      <span
+        v-if="renderTrigger"
+        :class="`${prefixCls}-temporary-trigger`"
+        role="button"
+        tabindex="0"
+        :aria-expanded="!mergedCollapsed"
+        aria-label="Toggle sidebar"
+        @click="toggle"
+        @keydown="handleTriggerKeydown"
+      >
         <slot name="trigger">
           <IconMenu />
         </slot>
@@ -70,13 +79,28 @@
             `${prefixCls}-zero-width-trigger-${reverseArrow ? 'right' : 'left'}`,
           ]"
           :style="zeroWidthTriggerStyle"
+          role="button"
+          tabindex="0"
+          :aria-expanded="!mergedCollapsed"
+          aria-label="Toggle sidebar"
           @click="toggle"
+          @keydown="handleTriggerKeydown"
         >
           <slot name="trigger">
             <IconMenu />
           </slot>
         </span>
-        <div v-else :class="`${prefixCls}-trigger`" :style="{ width: siderWidth }" @click="toggle">
+        <div
+          v-else
+          :class="`${prefixCls}-trigger`"
+          :style="{ width: siderWidth }"
+          role="button"
+          tabindex="0"
+          :aria-expanded="!mergedCollapsed"
+          aria-label="Toggle sidebar"
+          @click="toggle"
+          @keydown="handleTriggerKeydown"
+        >
           <slot name="trigger">
             <component :is="defaultTriggerComponent" />
           </slot>
@@ -107,6 +131,7 @@
   import { useScrollbar } from '../_hooks/use-scrollbar';
   import { useThemeMode } from '../_hooks/use-theme-mode';
   import { getPrefixCls } from '../_utils/global-config';
+  import { isActivationKey } from '../_utils/keyboard';
   import { configProviderInjectionKey } from '../config-provider/context';
   import Drawer from '../drawer';
   import IconLeft from '../icon/icon-left';
@@ -316,6 +341,14 @@
 
   const toggle = () => {
     handleSetCollapsed(!mergedCollapsed.value, 'clickTrigger');
+  };
+
+  // role=button 的折叠触发器：键盘 Enter/Space 切换
+  const handleTriggerKeydown = (ev: KeyboardEvent) => {
+    if (isActivationKey(ev)) {
+      ev.preventDefault();
+      toggle();
+    }
   };
 
   // ============================ Responsive ============================

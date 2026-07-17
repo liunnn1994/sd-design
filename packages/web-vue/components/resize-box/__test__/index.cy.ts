@@ -63,4 +63,20 @@ describe('ResizeBox', () => {
     });
     cy.get('.sd-resizebox').invoke('attr', 'style').should('contain', 'padding-right: 100px');
   });
+
+  it('resizes via keyboard on the separator (role + arrow keys)', () => {
+    cy.mount(ResizeBox, { props: { width: 500, directions: ['right'] } });
+    cy.get('.sd-resizebox-direction-right').as('trigger');
+    cy.get('@trigger').should('have.attr', 'role', 'separator');
+    cy.get('@trigger').should('have.attr', 'tabindex', '0');
+    cy.get('@trigger').should('have.attr', 'aria-orientation', 'vertical');
+    cy.get('@trigger').should('have.attr', 'aria-label', 'Resize');
+    // trigger has 0 height with no styled content — force past visibility check
+    cy.get('@trigger').trigger('keydown', { key: 'ArrowRight', force: true });
+    cy.get('@vue').should(({ wrapper }) => {
+      const ev = wrapper.emitted('update:width');
+      expect(ev, 'update:width emitted on ArrowRight').to.not.equal(undefined);
+      expect(ev[0][0]).to.equal(510);
+    });
+  });
 });

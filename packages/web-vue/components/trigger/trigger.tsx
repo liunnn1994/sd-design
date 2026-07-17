@@ -3,6 +3,7 @@ import type { Simplify } from 'type-fest';
 import type { PropType, CSSProperties, Ref, ComponentPublicInstance } from 'vue';
 import {
   defineComponent,
+  getCurrentInstance,
   ref,
   reactive,
   computed,
@@ -31,6 +32,7 @@ import { useResizeObserver } from '../_hooks/use-resize-observer';
 import { useTeleportContainer } from '../_hooks/use-teleport-container';
 import { off, on } from '../_utils/dom';
 import { getPrefixCls } from '../_utils/global-config';
+import { KEYBOARD_KEY } from '../_utils/keyboard';
 import { omit } from '../_utils/omit';
 import { throttleByRaf } from '../_utils/throttle-by-raf';
 import { isEmptyChildren, mergeFirstChild } from '../_utils/vue-utils';
@@ -357,6 +359,33 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+    /**
+     * @zh 是否支持 ESC 键关闭弹出层
+     * @en Whether to close the popup with the ESC key
+     */
+    escToClose: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * @zh 弹出层类型，用于触发器的 `aria-haspopup`。设置后会自动给触发器加 `aria-haspopup` / `aria-expanded` / `aria-controls`，并给弹出层加 id。
+     * @en Popup type for the trigger's `aria-haspopup`. When set, the trigger automatically gets `aria-haspopup` / `aria-expanded` / `aria-controls`, and the popup gets an id.
+     * @values true, 'menu', 'listbox', 'tree', 'grid', 'dialog'
+     */
+    ariaHasPopup: {
+      type: [Boolean, String] as PropType<
+        boolean | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog'
+      >,
+      default: undefined,
+    },
+    /**
+     * @zh 是否给触发器加 `aria-describedby` 指向弹出层（tooltip 模式用）。弹出层显示时才挂。
+     * @en Whether to add `aria-describedby` on the trigger pointing to the popup (tooltip pattern). Only applied while the popup is visible.
+     */
+    ariaDescribedbyPopup: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: {
     'update:popupVisible': (_visible: boolean) => true,
@@ -389,6 +418,8 @@ export default defineComponent({
   setup(props, { emit, slots, attrs }) {
     const triggerEventAttrs = attrs as TriggerEventAttrs;
     const prefixCls = getPrefixCls('trigger');
+    const instance = getCurrentInstance()!;
+    const popupId = `${prefixCls}-popup-${instance.uid}`;
     const popupAttrs = computed(() => omit(attrs, TRIGGER_EVENTS));
     const configCtx = inject(configProviderInjectionKey, undefined);
     const themePopupContainer = inject(themePopupContainerInjectionKey, undefined);
@@ -420,6 +451,21 @@ export default defineComponent({
     let windowScrollPosition: [number, number] | null = null;
 
     const computedVisible = computed(() => props.popupVisible ?? popupVisible.value);
+
+    // 当指定 ariaHasPopup 时，自动给触发器加 aria-haspopup/expanded/controls（弹出层 id 互连）
+    const firstChildAria = computed(() => {
+      const aria: Record<string, unknown> = {};
+      if (props.ariaHasPopup !== undefined) {
+        aria['aria-haspopup'] = props.ariaHasPopup === true ? 'true' : props.ariaHasPopup;
+        aria['aria-expanded'] = computedVisible.value;
+        aria['aria-controls'] = computedVisible.value ? popupId : undefined;
+      }
+      // tooltip 模式：弹出层显示时，触发器 aria-describedby 指向弹出层
+      if (props.ariaDescribedbyPopup) {
+        aria['aria-describedby'] = computedVisible.value ? popupId : undefined;
+      }
+      return aria;
+    });
 
     const { teleportContainer, containerRef } = useTeleportContainer({
       popupContainer: mergedPopupContainer,
@@ -713,6 +759,14 @@ export default defineComponent({
 
     useEventListener(documentRef, 'contextmenu', handleOutsideContextmenu, { capture: true });
 
+    const handleKeydown = (ev: KeyboardEvent) => {
+      if (props.escToClose && computedVisible.value && ev.key === KEYBOARD_KEY.ESC) {
+        changeVisible(false);
+      }
+    };
+
+    useEventListener(documentRef, 'keydown', handleKeydown);
+
     const isExceedThreshold = (oldPosition: [number, number], element: HTMLElement) => {
       const [scrollTop, scrollLeft] = oldPosition;
       const { scrollTop: newScrollTop, scrollLeft: newScrollLeft } = element;
@@ -899,6 +953,7 @@ export default defineComponent({
 
       mergeFirstChild(children.value, {
         class: triggerCls.value,
+        ...firstChildAria.value,
         onClick: handleClick,
         onMouseenter: handleMouseEnter,
         onMouseleave: handleMouseLeave,
@@ -920,6 +975,7 @@ export default defineComponent({
                 !hidePopup.value && (
                   <ResizeObserver onResize={handleResize}>
                     <div
+                      id={popupId}
                       ref={popupRef}
                       class={[`${prefixCls}-popup`, `${prefixCls}-position-${popupPosition.value}`]}
                       style={{

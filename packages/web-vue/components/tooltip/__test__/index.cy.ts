@@ -40,4 +40,18 @@ describe('Tooltip', () => {
       expect(wrapper.emitted('popupVisibleChange')).to.have.length(2);
     });
   });
+
+  it('wires aria-describedby on the trigger to the role=tooltip popup', () => {
+    cy.mount(Tooltip, {
+      props: { defaultPopupVisible: true, renderToBody: false },
+      slots: { default: '<button>Button</button>', content: 'Helpful text' },
+    });
+    // 弹出层是 role=tooltip，且触发器 aria-describedby 指向它
+    cy.get('[role="tooltip"]').should('exist');
+    cy.get('button').then(($btn) => {
+      const describedBy = $btn.attr('aria-describedby');
+      expect(describedBy, 'trigger has aria-describedby').to.be.a('string');
+      cy.get(`#${describedBy}`).should('have.attr', 'role', 'tooltip');
+    });
+  });
 });

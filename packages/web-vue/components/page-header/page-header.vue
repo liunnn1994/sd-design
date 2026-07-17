@@ -10,7 +10,11 @@
             v-if="showBack"
             :class="`${prefixCls}-back-btn`"
             :prefix="prefixCls"
+            role="button"
+            tabindex="0"
+            aria-label="Back"
             @click="handleBack"
+            @keydown="handleBackKeydown"
           >
             <slot name="back-icon">
               <icon-left />
@@ -40,6 +44,7 @@
 
   import AIconHover from '../_components/icon-hover.vue';
   import { getPrefixCls } from '../_utils/global-config';
+  import { isActivationKey } from '../_utils/keyboard';
   import IconLeft from '../icon/icon-left';
 
   defineOptions({ name: 'PageHeader' });
@@ -104,6 +109,14 @@
 
   const handleBack = (e: Event) => {
     emit('back', e);
+  };
+
+  // role=button 的返回键：键盘 Enter/Space 触发（图标按钮无原生按钮语义）
+  const handleBackKeydown = (ev: KeyboardEvent) => {
+    if (isActivationKey(ev)) {
+      ev.preventDefault();
+      handleBack(ev);
+    }
   };
 
   const cls = computed(() => [

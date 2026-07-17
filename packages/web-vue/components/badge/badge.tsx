@@ -162,6 +162,7 @@ export default defineComponent({
                 },
               ]}
               style={mergedStyle}
+              aria-hidden="true"
             />
             {textValue && <span class={`${prefixCls}-status-text`}>{textValue}</span>}
           </span>
@@ -170,6 +171,8 @@ export default defineComponent({
       if ((dotValue || colorValue) && countValue > 0) {
         return (
           <span
+            role="status"
+            aria-label={String(countValue)}
             class={[
               `${prefixCls}-dot`,
               {

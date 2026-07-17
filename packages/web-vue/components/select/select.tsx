@@ -1,5 +1,15 @@
 import type { ComponentPublicInstance, PropType } from 'vue';
-import { computed, defineComponent, nextTick, ref, toRef, toRefs, watch, watchEffect } from 'vue';
+import {
+  computed,
+  defineComponent,
+  getCurrentInstance,
+  nextTick,
+  ref,
+  toRef,
+  toRefs,
+  watch,
+  watchEffect,
+} from 'vue';
 
 import type { SelectViewValue } from '../_components/select-view/interface';
 import type { VirtualListProps } from '../_components/virtual-list/interface';
@@ -642,11 +652,20 @@ export default defineComponent({
 
     const optionPrefixCls = getPrefixCls('select-option');
     const groupPrefixCls = getPrefixCls('select-group');
+    // 选项的稳定 id，供触发器 input 的 aria-activedescendant 引用。带实例 uid 前缀，
+    // 避免同页多个 sd-select 选项 key 相同时产生重复 id / 错误的 aria-activedescendant 解析。
+    const optionInstanceUid = getCurrentInstance()!.uid;
+    const optionId = (key: string) => `${optionPrefixCls}-${optionInstanceUid}-${key}`;
 
     const renderOption = (optionInfo: SelectOptionInfo | SelectOptionGroupInfo) => {
       if (isGroupOptionInfo(optionInfo)) {
         return (
-          <li key={optionInfo.key} class={groupPrefixCls}>
+          <li
+            key={optionInfo.key}
+            role="group"
+            aria-label={optionInfo.label}
+            class={groupPrefixCls}
+          >
             <div class={`${groupPrefixCls}-title`}>{renderOptionEllipsis(optionInfo.label)}</div>
             {optionInfo.options.map((child) => renderOption(child))}
           </li>
@@ -705,6 +724,10 @@ export default defineComponent({
           }}
           key={optionInfo.key}
           class={cls}
+          role="option"
+          id={optionId(optionInfo.key)}
+          aria-selected={isSelected}
+          aria-disabled={optionInfo.disabled || undefined}
           onClick={handleClick}
           onMouseenter={handleMouseEnter}
           onMouseleave={handleMouseLeave}
@@ -786,6 +809,15 @@ export default defineComponent({
       blur: () => selectViewRef.value?.blur?.(),
     });
 
+    // combobox 语义透传到触发器 <input>：role + 开合状态 + 自动补全 + 活动选项（aria-activedescendant）
+    // 让 SR 在 input 上聚焦时能朗读方向键高亮的选项（InputLabel 经 inputAttrs 落到 input）。
+    const comboboxInputAttrs = computed<Record<string, unknown>>(() => ({
+      'role': 'combobox',
+      'aria-expanded': computedPopupVisible.value,
+      'aria-autocomplete': mergedAllowSearch.value ? 'list' : 'none',
+      'aria-activedescendant': activeKey.value ? optionId(activeKey.value) : undefined,
+    }));
+
     return () => (
       <Tooltip popupVisible={tipVisible.value} content={readonlyTipText.value} position="top">
         <Trigger
@@ -798,6 +830,7 @@ export default defineComponent({
           preventFocus
           autoFitPopupWidth
           autoFitTransformOrigin
+          aria-has-popup="listbox"
           disabled={mergedDisabled.value}
           popupVisible={computedPopupVisible.value}
           unmountOnClose={props.unmountOnClose}
@@ -834,6 +867,7 @@ export default defineComponent({
               bordered={props.bordered}
               size={mergedSize.value}
               tagNowrap={props.tagNowrap}
+              inputAttrs={comboboxInputAttrs.value}
               {...{ onInputValueChange: handleInputValueChange, onKeydown: handleKeyDown }}
               onRemove={handleRemove}
               onClear={handleClear}

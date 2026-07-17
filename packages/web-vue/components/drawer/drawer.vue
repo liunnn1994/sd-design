@@ -22,10 +22,20 @@
           @after-enter="handleOpen"
           @after-leave="handleClose"
         >
-          <div v-show="computedVisible" :class="prefixCls" :style="style">
+          <div
+            v-show="computedVisible"
+            ref="drawerRef"
+            :class="prefixCls"
+            :style="style"
+            role="dialog"
+            aria-modal="true"
+            :aria-labelledby="hasTitle ? titleId : undefined"
+            :aria-describedby="bodyId"
+            tabindex="-1"
+          >
             <div v-if="mergedHeader" :class="`${prefixCls}-header`">
               <slot name="header">
-                <div v-if="$slots.title || title" :class="`${prefixCls}-title`">
+                <div v-if="$slots.title || title" :id="titleId" :class="`${prefixCls}-title`">
                   <Ellipsis
                     :class="`${prefixCls}-title-text`"
                     :tooltip="mergedTitleEllipsisTooltip"
@@ -35,11 +45,12 @@
                 </div>
                 <div
                   v-if="mergedClosable"
-                  tabindex="-1"
+                  tabindex="0"
                   role="button"
                   aria-label="Close"
                   :class="`${prefixCls}-close-btn`"
                   @click="handleCancel"
+                  @keydown="onActivate(handleCancel)"
                 >
                   <icon-hover>
                     <icon-close />
@@ -47,7 +58,7 @@
                 </div>
               </slot>
             </div>
-            <div :class="[`${prefixCls}-body`, bodyClass]" :style="bodyStyle">
+            <div :id="bodyId" :class="[`${prefixCls}-body`, bodyClass]" :style="bodyStyle">
               <slot />
             </div>
             <div v-if="mergedFooter" :class="`${prefixCls}-footer`">
@@ -78,20 +89,31 @@
 
 <script setup lang="ts">
   import type { CSSProperties, PropType, StyleValue } from 'vue';
-  import { computed, onBeforeUnmount, onMounted, ref, toRefs, watch } from 'vue';
+  import {
+    computed,
+    getCurrentInstance,
+    nextTick,
+    onBeforeUnmount,
+    onMounted,
+    ref,
+    toRefs,
+    useSlots,
+    watch,
+  } from 'vue';
 
   import type { EllipsisTooltipProps } from '../ellipsis';
 
   import ClientOnly from '../_components/client-only';
   import IconHover from '../_components/icon-hover.vue';
   import { useConfigProviderProp } from '../_hooks/use-config-provider-prop';
+  import { getFocusableElements, useFocusTrap } from '../_hooks/use-focus-trap';
   import { useOverflow } from '../_hooks/use-overflow';
   import usePopupManager from '../_hooks/use-popup-manager';
   import { useTeleportContainer } from '../_hooks/use-teleport-container';
   import { off, on } from '../_utils/dom';
   import { getPrefixCls } from '../_utils/global-config';
   import { isBoolean, isFunction, isNumber, isPromise } from '../_utils/is';
-  import { KEYBOARD_KEY } from '../_utils/keyboard';
+  import { KEYBOARD_KEY, onActivate } from '../_utils/keyboard';
   import SdButton, { ButtonProps } from '../button';
   import Ellipsis from '../ellipsis';
   import IconClose from '../icon/icon-close';
@@ -389,6 +411,17 @@
   } = toRefs(props);
   const prefixCls = getPrefixCls('drawer');
   const { t } = useI18n();
+  const slots = useSlots();
+  const drawerRef = ref<HTMLElement>();
+  const titleId = `sd-drawer-title-${getCurrentInstance()!.uid}`;
+  const bodyId = `sd-drawer-body-${getCurrentInstance()!.uid}`;
+  const hasTitle = computed(
+    () => mergedHeader.value && !slots.header && (Boolean(props.title) || Boolean(slots.title)),
+  );
+  const { activate: activateFocusTrap, deactivate: deactivateFocusTrap } = useFocusTrap(drawerRef, {
+    // 打开时聚焦首个「非 close」可聚焦元素（close 按钮已在 Tab 序列中，但不作首焦，避免一打开就停在 X 上）
+    initialFocus: (c) => getFocusableElements(c).find((el) => !el.closest('.sd-drawer-close-btn')),
+  });
 
   const { mergedValue: mergedPlacement } = useConfigProviderProp(placement, {
     propNames: ['placement'],
@@ -588,6 +621,7 @@
       if (mergedEscToClose.value) {
         addGlobalKeyDownListener();
       }
+      nextTick(() => activateFocusTrap());
     }
   });
 
@@ -605,9 +639,12 @@
       mounted.value = true;
       setOverflowHidden();
       addGlobalKeyDownListener();
+      // 等待 v-show 生效后激活焦点陷阱（确定性触发，不依赖 CSS 过渡的 after-enter）
+      nextTick(() => activateFocusTrap());
     } else {
       emit('beforeClose');
       removeGlobalKeyDownListener();
+      deactivateFocusTrap();
     }
   });
 

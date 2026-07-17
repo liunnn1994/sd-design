@@ -237,6 +237,7 @@ export default defineComponent({
         {
           class: cls.value,
           style: style.value,
+          role: 'cell',
         },
         {
           default: () => [renderCell()],

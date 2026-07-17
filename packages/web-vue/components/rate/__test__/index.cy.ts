@@ -11,4 +11,16 @@ describe('Rate', () => {
       expect($els.length).to.be.greaterThan(0);
     });
   });
+
+  it('exposes radiogroup role and changes value via arrow keys', () => {
+    cy.mount(Rate, { props: { count: 5 } });
+    cy.get('.sd-rate').should('have.attr', 'role', 'radiogroup');
+    cy.get('.sd-rate').should('have.attr', 'tabindex', '0');
+    cy.get('.sd-rate').trigger('keydown', { key: 'ArrowRight' });
+    cy.get('.sd-rate').trigger('keydown', { key: 'ArrowRight' });
+    cy.get('@vue').should(({ wrapper }) => {
+      // 两次 ArrowRight → 2 分（change 第二次是 2）
+      expect(wrapper.emitted('change')?.[1]).to.deep.equal([2]);
+    });
+  });
 });

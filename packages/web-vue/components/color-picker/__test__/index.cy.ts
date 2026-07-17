@@ -13,6 +13,12 @@ describe('ColorPicker', () => {
     cy.get('.sd-color-picker').should('have.class', 'sd-color-picker-disabled');
   });
 
+  it('trigger input exposes aria-haspopup=dialog and aria-expanded', () => {
+    cy.mount(ColorPicker);
+    cy.get('.sd-color-picker input').should('have.attr', 'aria-haspopup', 'dialog');
+    cy.get('.sd-color-picker input').should('have.attr', 'aria-expanded', 'false');
+  });
+
   it('bridges panel changes via an onChange handler on the Panel', () => {
     cy.mount(ColorPicker, {
       props: { hideTrigger: true, format: 'RGBA', enableAlpha: true },

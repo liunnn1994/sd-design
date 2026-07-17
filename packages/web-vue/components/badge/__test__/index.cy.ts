@@ -23,6 +23,17 @@ describe('Badge', () => {
     cy.get('.sd-badge-dot').should('exist');
   });
 
+  it('dot with count exposes the count via aria-label', () => {
+    cy.mount(Badge, { props: { dot: true, count: 7 } });
+    cy.get('.sd-badge-dot').should('have.attr', 'role', 'status');
+    cy.get('.sd-badge-dot').should('have.attr', 'aria-label', '7');
+  });
+
+  it('status dot is aria-hidden (text conveys status)', () => {
+    cy.mount(Badge, { props: { status: 'success', text: 'Done' } });
+    cy.get('.sd-badge-status-dot').should('have.attr', 'aria-hidden', 'true');
+  });
+
   it('can set custom text', () => {
     cy.mount(Badge, { props: { text: 'hello world' } });
     cy.get('.sd-badge-text').should('contain.text', 'hello world');

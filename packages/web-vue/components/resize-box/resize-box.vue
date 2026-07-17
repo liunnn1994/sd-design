@@ -17,6 +17,11 @@
           onTiggerResize(direction, entry);
         }
       "
+      @keydown="
+        (e: KeyboardEvent) => {
+          onTriggerKeydown(direction, e);
+        }
+      "
     >
       <slot v-if="$slots['resize-trigger']" name="resize-trigger" :direction="direction" />
       <template v-if="$slots['resize-trigger-icon']" #icon>
@@ -33,6 +38,7 @@
   import { off, on } from '../_utils/dom';
   import { getPrefixCls } from '../_utils/global-config';
   import { isNumber } from '../_utils/is';
+  import { KEYBOARD_KEY } from '../_utils/keyboard';
 
   export type DirectionType = 'left' | 'right' | 'top' | 'bottom';
 
@@ -266,5 +272,34 @@
     const size = isHorizontal(direction) ? height : width;
     record.padding[direction] = size;
     paddingStyles[`padding-${direction}` as PaddingCSSProperties] = `${size}px`;
+  }
+
+  // 键盘调整大小（role=separator 的伸缩杆）：水平边(left/right)用 ←/→，垂直边(top/bottom)用 ↑/↓，
+  // Shift 加大步长。方向语义与鼠标拖拽 onMoving 保持一致（left/top 边的轴向取反）。
+  function onTriggerKeydown(direction: DirectionType, e: KeyboardEvent) {
+    const horiz = direction === DIRECTION_LEFT || direction === DIRECTION_RIGHT;
+    const key = e.key;
+    const posKey = horiz ? KEYBOARD_KEY.ARROW_RIGHT : KEYBOARD_KEY.ARROW_DOWN;
+    const negKey = horiz ? KEYBOARD_KEY.ARROW_LEFT : KEYBOARD_KEY.ARROW_UP;
+    if (key !== posKey && key !== negKey) return;
+    e.preventDefault();
+    const step = e.shiftKey ? 20 : 10;
+    // left/top 边：向远端拖拽才增大，轴向取反（与 onMoving 的 startWidth - offsetX 一致）
+    const dirSign = direction === DIRECTION_LEFT || direction === DIRECTION_TOP ? -1 : 1;
+    const sign = key === posKey ? 1 : -1;
+    const delta = step * sign * dirSign;
+    if (horiz) {
+      const base = isNumber(resWidth.value) ? resWidth.value : (wrapperRef.value?.clientWidth ?? 0);
+      const newWidth = Math.max(0, base + delta);
+      setResWidth(newWidth);
+      emit('update:width', newWidth);
+    } else {
+      const base = isNumber(resHeight.value)
+        ? resHeight.value
+        : (wrapperRef.value?.clientHeight ?? 0);
+      const newHeight = Math.max(0, base + delta);
+      setResHeight(newHeight);
+      emit('update:height', newHeight);
+    }
   }
 </script>

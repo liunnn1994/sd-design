@@ -13,6 +13,8 @@
     :popup-container="popupContainer"
     animation-name="zoom-in-fade-out"
     auto-fit-transform-origin
+    esc-to-close
+    aria-has-popup="true"
     @popup-visible-change="handlePopupVisibleChange"
   >
     <slot />

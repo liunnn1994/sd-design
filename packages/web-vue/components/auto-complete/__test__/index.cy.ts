@@ -21,6 +21,15 @@ describe('AutoComplete', () => {
     cy.get('.sd-select-option .sd-ellipsis').should('exist');
   });
 
+  it('exposes combobox/listbox/option semantics', () => {
+    cy.mount(AutoComplete, { props: { data: ['Beijing', 'Shanghai'] } });
+    cy.get('input').focus();
+    // 触发器（input）aria-haspopup=listbox，弹层 listbox，选项 option
+    cy.get('input').should('have.attr', 'aria-haspopup', 'listbox');
+    cy.get('.sd-select-dropdown-list').should('have.attr', 'role', 'listbox');
+    cy.get('.sd-select-option').should('have.attr', 'role', 'option');
+  });
+
   it('renders prefix and suffix slots', () => {
     cy.mount(AutoComplete, {
       props: { data: ['Beijing', 'Shanghai'] },

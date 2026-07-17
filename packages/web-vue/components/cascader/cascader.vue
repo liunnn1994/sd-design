@@ -13,6 +13,7 @@
       :popup-container="popupContainer"
       :prevent-focus="true"
       :click-to-close="!Boolean(mergedAllowSearch)"
+      aria-has-popup="menu"
       @popup-visible-change="handlePopupVisibleChange"
     >
       <select-view
@@ -29,6 +30,7 @@
         :loading="loading"
         :max-tag-count="maxTagCount"
         :tag-nowrap="tagNowrap"
+        :input-attrs="triggerInputAttrs"
         v-bind="attrs"
         @input-value-change="handleInputValueChange"
         @clear="handleClear"
@@ -297,6 +299,14 @@
   };
 
   const mergedTriggerProps = computed(() => props.triggerProps ?? {});
+
+  // combobox 语义落到触发器 <input>（经 SelectView inputAttrs）：role + 开合 + popup 类型 + 自动补全
+  const triggerInputAttrs = computed(() => ({
+    'role': 'combobox',
+    'aria-expanded': computedPopupVisible.value,
+    'aria-haspopup': 'menu',
+    'aria-autocomplete': mergedAllowSearch.value ? 'list' : 'none',
+  }));
 
   watch(modelValue, (nextModelValue) => {
     if (isUndefined(nextModelValue) || isNull(nextModelValue)) {

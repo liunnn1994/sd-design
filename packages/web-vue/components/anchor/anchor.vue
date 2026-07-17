@@ -1,6 +1,6 @@
 <template>
   <component :is="wrapperComponent" v-bind="wrapperProps">
-    <div ref="anchorRef" :class="cls">
+    <div ref="anchorRef" role="navigation" aria-label="Anchor navigation" :class="cls">
       <div v-if="!lineLess" ref="lineSliderRef" :class="`${prefixCls}-line-slider`" />
       <ul :class="`${prefixCls}-list`">
         <slot />

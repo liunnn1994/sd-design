@@ -1,5 +1,5 @@
 <template>
-  <div :class="classNames" :style="treeStyle">
+  <div ref="rootEl" :class="classNames" :style="treeStyle" role="tree">
     <VirtualList
       v-if="virtualListProps"
       :key="virtualListKey"
@@ -18,7 +18,17 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, provide, reactive, PropType, toRefs, ref, watch, useSlots } from 'vue';
+  import {
+    computed,
+    nextTick,
+    provide,
+    reactive,
+    PropType,
+    toRefs,
+    ref,
+    watch,
+    useSlots,
+  } from 'vue';
 
   import type {
     VirtualListProps,
@@ -44,6 +54,7 @@
   import usePickSlots from '../_hooks/use-pick-slots';
   import { getPrefixCls } from '../_utils/global-config';
   import { isArray, isFunction, isUndefined } from '../_utils/is';
+  import { KEYBOARD_KEY } from '../_utils/keyboard';
   import { TreeInjectionKey } from './context';
   import useCheckedState from './hooks/use-checked-state';
   import useTreeData from './hooks/use-tree-data';
@@ -589,6 +600,7 @@
     };
   });
   const virtualListRef = ref<VirtualListRef | null>(null);
+  const rootEl = ref<HTMLElement | null>(null);
   const virtualListVersion = ref(0);
   const virtualListKey = computed(() => `tree-virtual-list-${virtualListVersion.value}`);
 
@@ -730,6 +742,87 @@
 
     return uniqueNodeList;
   });
+
+  // ============ 键盘导航（WAI-ARIA tree，roving tabindex） ============
+  // 活动节点：默认选中节点或首个可见节点；用户用方向键后跟踪当前焦点。
+  const activeKey = ref<TreeNodeKey | undefined>(undefined);
+  const effectiveActiveKey = computed<TreeNodeKey | undefined>(() => {
+    if (activeKey.value !== undefined) return activeKey.value;
+    const selected = mergedSelectedKeys.value.find((k) => key2TreeNode.value.has(k));
+    if (selected !== undefined) return selected;
+    return visibleTreeNodeList.value[0]?.key;
+  });
+
+  function focusNodeKey(targetKey: TreeNodeKey) {
+    activeKey.value = targetKey;
+    nextTick(() => {
+      const el = rootEl.value?.querySelector<HTMLElement>(
+        `[data-key="${CSS.escape(String(targetKey))}"]`,
+      );
+      el?.focus();
+    });
+  }
+
+  function onNodeKeydown(key: TreeNodeKey, e: KeyboardEvent) {
+    const list = visibleTreeNodeList.value;
+    const idx = list.findIndex((n) => n.key === key);
+    if (idx === -1) return;
+    const node = list[idx];
+    const hasChildren = !node.isLeaf && Boolean(node.children?.length);
+    const isExpanded = mergedExpandedKeys.value.includes(key);
+
+    switch (e.key) {
+      case KEYBOARD_KEY.ARROW_DOWN:
+        e.preventDefault();
+        if (list[idx + 1]) focusNodeKey(list[idx + 1].key);
+        break;
+      case KEYBOARD_KEY.ARROW_UP:
+        e.preventDefault();
+        if (list[idx - 1]) focusNodeKey(list[idx - 1].key);
+        break;
+      case KEYBOARD_KEY.HOME:
+        e.preventDefault();
+        if (list[0]) focusNodeKey(list[0].key);
+        break;
+      case KEYBOARD_KEY.END:
+        e.preventDefault();
+        if (list.length) focusNodeKey(list[list.length - 1].key);
+        break;
+      case KEYBOARD_KEY.ARROW_RIGHT:
+        e.preventDefault();
+        if (hasChildren && !isExpanded) {
+          onExpand(true, key, e);
+        } else if (hasChildren && isExpanded) {
+          // 展开态：移到首个子节点（直接取结构，避免依赖受展开动画影响的可见列表）
+          const firstChild = node.children?.[0];
+          if (firstChild) focusNodeKey(firstChild.key);
+        }
+        break;
+      case KEYBOARD_KEY.ARROW_LEFT:
+        e.preventDefault();
+        if (hasChildren && isExpanded) {
+          onExpand(false, key, e);
+        } else {
+          // 折叠/叶子：移到父节点（pathParentKeys 末位即直接父节点）
+          const parents = node.pathParentKeys;
+          if (parents.length) focusNodeKey(parents[parents.length - 1]);
+        }
+        break;
+      case KEYBOARD_KEY.ENTER:
+      case KEYBOARD_KEY.SPACE:
+        if (node.checkable && !node.disableCheckbox && !node.disabled) {
+          e.preventDefault();
+          // checkbox 已移出 Tab 序列（tabindex=-1），由 treeitem 统一操作：Space 切换勾选
+          onCheck(!mergedCheckedKeys.value.includes(key), key, e);
+          break;
+        }
+        if (node.selectable && !node.disabled) {
+          e.preventDefault();
+          onSelect(key, e);
+        }
+        break;
+    }
+  }
 
   function getPublicCheckedKeys(
     rawCheckedKeys: TreeNodeKey[],
@@ -1133,6 +1226,7 @@
     expandedKeys: mergedExpandedKeys,
     loadingKeys,
     currentExpandKeys,
+    activeKey: effectiveActiveKey,
     onLoadMore,
     filterTreeNode,
     onCheck,
@@ -1140,6 +1234,7 @@
     onExpand,
     onExpandEnd,
     onNodeEvent,
+    onNodeKeydown,
     onNodeLongPress,
     onNodeSwipe,
     allowDrop(key: TreeNodeKey, dropPosition: DropPosition) {

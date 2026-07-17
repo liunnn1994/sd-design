@@ -108,4 +108,21 @@ describe('Table', () => {
       expect(extra.sorter?.direction).to.equal('descend');
     });
   });
+
+  it('exposes table grid semantics (table/rowgroup/row/columnheader/cell)', () => {
+    const data = JSONCopy(demoData);
+    const columns: TableColumnData[] = [
+      { title: 'Name', dataIndex: 'name' },
+      { title: 'Age', dataIndex: 'age', sortable: { sortDirections: ['ascend', 'descend'] } },
+    ];
+    cy.mount(Table, { props: { data, columns } });
+    cy.get('.sd-table').should('have.attr', 'role', 'table');
+    cy.get('.sd-table-thead').should('have.attr', 'role', 'rowgroup');
+    cy.get('.sd-table-tbody').should('have.attr', 'role', 'rowgroup');
+    cy.get('.sd-table-tr').first().should('have.attr', 'role', 'row');
+    cy.get('.sd-table-th').first().should('have.attr', 'role', 'columnheader');
+    cy.get('.sd-table-td').first().should('have.attr', 'role', 'cell');
+    // 可排序列（未排序时）aria-sort=none
+    cy.get('.sd-table-th').eq(1).should('have.attr', 'aria-sort', 'none');
+  });
 });

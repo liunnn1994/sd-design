@@ -15,6 +15,7 @@ import { useSize } from '../_hooks/use-size';
 import { INPUT_EVENTS, Size } from '../_utils/constant';
 import { getPrefixCls } from '../_utils/global-config';
 import { isFunction, isNull, isObject, isUndefined } from '../_utils/is';
+import { isActivationKey } from '../_utils/keyboard';
 import { Enter } from '../_utils/keycode';
 import { omit } from '../_utils/omit';
 import pick from '../_utils/pick';
@@ -212,6 +213,7 @@ export default defineComponent({
       mergedError: _mergedError,
       feedback,
       eventHandlers,
+      formItemCtx,
     } = useFormItem({ size, disabled, error });
     const { mergedSize } = useSize(_mergedSize);
     const { mergedAllowClear } = useAllowClear(allowClear);
@@ -392,6 +394,14 @@ export default defineComponent({
       emit('clear', ev);
     };
 
+    // 清除按钮（role=button，图标无原生按钮语义）：Enter/Space 触发
+    const handleClearKeydown = (ev: KeyboardEvent) => {
+      if (isActivationKey(ev)) {
+        ev.preventDefault();
+        handleClear(ev as unknown as MouseEvent);
+      }
+    };
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (props.readonly && !mergedDisabled.value && isReadonlyModificationKey(e)) {
         showReadonlyTip();
@@ -430,6 +440,10 @@ export default defineComponent({
         ...inputAttrs.value,
         ...props.inputAttrs,
       };
+      // 关联 form-item 的 label（`for`）：消费者未显式给 input id 时，用 form-item 注入的 fieldId
+      if (formItemCtx.fieldId && attrs.id === undefined) {
+        attrs.id = formItemCtx.fieldId;
+      }
       if (mergedError.value) {
         attrs['aria-invalid'] = true;
       }
@@ -464,7 +478,13 @@ export default defineComponent({
           <IconHover
             prefix={prefixCls}
             class={`${prefixCls}-clear-btn`}
-            {...{ onClick: handleClear }}
+            {...{
+              'onClick': handleClear,
+              'onKeydown': handleClearKeydown,
+              'role': 'button',
+              'tabindex': 0,
+              'aria-label': 'Clear',
+            }}
           >
             <IconClose />
           </IconHover>

@@ -187,6 +187,7 @@ export default defineComponent({
           type="radio"
           checked={computedChecked.value}
           value={props.value}
+          name={radioGroupCtx?.inputName}
           class={`${prefixCls}-target`}
           disabled={mergedDisabled.value}
           onClick={handleClick}

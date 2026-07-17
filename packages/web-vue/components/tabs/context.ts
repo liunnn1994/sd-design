@@ -12,6 +12,8 @@ export interface TabsContext {
   removeItem: (id: number) => void;
   trigger: TabTriggerEvent;
   scrollbar: ScrollbarProps | false;
+  /** 实例唯一前缀，用于 tab↔tabpanel 的 aria-controls/aria-labelledby 连接 */
+  tabsId: string;
 }
 
 export const tabsInjectionKey: InjectionKey<TabsContext> = Symbol('SDTabs');

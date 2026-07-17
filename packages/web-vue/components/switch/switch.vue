@@ -3,6 +3,7 @@
     type="button"
     role="switch"
     :aria-checked="computedCheck"
+    :aria-busy="computedLoading || undefined"
     :class="cls"
     :style="buttonStyle"
     :disabled="mergedDisabled"

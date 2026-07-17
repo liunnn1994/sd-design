@@ -1,5 +1,12 @@
 <template>
-  <div :aria-hidden="!isCurrent" :class="cls" :style="animationStyle">
+  <div
+    role="group"
+    aria-roledescription="slide"
+    :aria-label="`Slide ${index + 1} of ${slideCount}`"
+    :aria-hidden="!isCurrent"
+    :class="cls"
+    :style="animationStyle"
+  >
     <slot />
   </div>
 </template>
@@ -16,6 +23,7 @@
   const instance = getCurrentInstance();
   const context = inject<Partial<CarouselContext>>(carouselInjectionKey, {});
   const index = computed(() => context.items?.indexOf(instance?.uid ?? -1) ?? -1);
+  const slideCount = computed(() => context.items?.length ?? 0);
   const isCurrent = computed(() => context.mergedIndexes?.mergedIndex === index.value);
   const cls = computed(() => {
     const { previousIndex, animationName, slideDirection, mergedIndexes } = context;

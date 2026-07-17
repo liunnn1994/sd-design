@@ -1,5 +1,18 @@
 <template>
-  <div :class="classNames" :data-level="level" :data-key="nodekey">
+  <div
+    :class="classNames"
+    :data-level="level"
+    :data-key="nodekey"
+    role="treeitem"
+    :tabindex="treeContext.activeKey === nodekey ? 0 : -1"
+    :aria-level="level + 1"
+    :aria-expanded="isLeaf ? undefined : expanded"
+    :aria-selected="selectable ? selected : undefined"
+    :aria-disabled="disabled || undefined"
+    @keydown="onTreeitemKeydown"
+    @keyup="onNodeDomEvent('keyup', $event)"
+    @keypress="onNodeDomEvent('keypress', $event)"
+  >
     <!-- 缩进 -->
     <span :class="`${prefixCls}-indent`">
       <span
@@ -51,6 +64,7 @@
       :disabled="disableCheckbox || disabled"
       :model-value="checked"
       :indeterminate="indeterminate"
+      tabindex="-1"
       uninject-group-context
       @change="onCheckboxChange"
     />
@@ -87,9 +101,6 @@
       @touchmove="onNodeDomEvent('touchmove', $event)"
       @touchend="onNodeDomEvent('touchend', $event)"
       @touchcancel="onNodeDomEvent('touchcancel', $event)"
-      @keydown="onNodeDomEvent('keydown', $event)"
-      @keyup="onNodeDomEvent('keyup', $event)"
-      @keypress="onNodeDomEvent('keypress', $event)"
     >
       <span
         v-if="$slots.icon || icon || treeNodeIcon"
@@ -383,6 +394,11 @@
   }
   function onNodeDomEvent(eventName: TreeNodeDomEventName, e: Event) {
     treeContext.onNodeEvent?.(eventName, key.value, e);
+  }
+  // treeitem 级键盘事件：保留对外 nodeKeydown 事件 + WAI-ARIA tree 方向键导航
+  function onTreeitemKeydown(e: KeyboardEvent) {
+    onNodeDomEvent('keydown', e);
+    treeContext.onNodeKeydown?.(key.value, e);
   }
   function onDragStart(e: DragEvent) {
     if (!draggable.value) return;

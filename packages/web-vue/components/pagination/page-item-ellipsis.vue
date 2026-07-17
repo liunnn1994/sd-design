@@ -1,5 +1,11 @@
 <template>
-  <li :class="cls" @click="handleClick">
+  <li
+    :class="cls"
+    tabindex="0"
+    aria-label="More pages"
+    @click="handleClick"
+    @keydown="handleKeydown"
+  >
     <slot>
       <icon-more />
     </slot>
@@ -10,6 +16,7 @@
   import { computed } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
+  import { isActivationKey } from '../_utils/keyboard';
   import IconMore from '../icon/icon-more';
   import { getLegalPage } from './utils';
 
@@ -43,6 +50,13 @@
 
   const handleClick = (e: MouseEvent) => {
     emit('click', nextPage.value);
+  };
+
+  const handleKeydown = (e: KeyboardEvent) => {
+    if (isActivationKey(e)) {
+      e.preventDefault();
+      emit('click', nextPage.value);
+    }
   };
 
   const cls = computed(() => [prefixCls, `${prefixCls}-ellipsis`]);

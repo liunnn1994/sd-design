@@ -1,7 +1,14 @@
 <template>
   <template v-if="editable">
     <Tooltip :content="t('typography.edit')" v-bind="editTooltipProps">
-      <span :class="`${prefixCls}-operation-edit`" @click.stop="onEditClick">
+      <span
+        :class="`${prefixCls}-operation-edit`"
+        role="button"
+        tabindex="0"
+        :aria-label="t('typography.edit')"
+        @click.stop="onEditClick"
+        @keydown="onEditKeydown"
+      >
         <IconEdit />
       </span>
     </Tooltip>
@@ -18,7 +25,11 @@
           [`${prefixCls}-operation-copied`]: isCopied,
           [`${prefixCls}-operation-copy`]: !isCopied,
         }"
+        role="button"
+        tabindex="0"
+        :aria-label="isCopied ? t('typography.copied') : t('typography.copy')"
         @click.stop="onCopyClick"
+        @keydown="onCopyKeydown"
       >
         <slot name="copy-icon" :copied="isCopied">
           <IconCheckCircleFill v-if="isCopied" />
@@ -27,7 +38,14 @@
       </span>
     </Tooltip>
   </template>
-  <a v-if="showExpand" :class="`${prefixCls}-operation-expand`" @click.stop="onExpandClick">
+  <a
+    v-if="showExpand"
+    :class="`${prefixCls}-operation-expand`"
+    role="button"
+    tabindex="0"
+    @click.stop="onExpandClick"
+    @keydown="onExpandKeydown"
+  >
     <slot name="expand-node" :expanded="expanded">
       {{ expanded ? t('typography.collapse') : t('typography.expand') }}
     </slot>
@@ -37,6 +55,7 @@
   import { computed, type PropType } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
+  import { isActivationKey } from '../_utils/keyboard';
   import IconCheckCircleFill from '../icon/icon-check-circle-fill';
   import IconCopy from '../icon/icon-copy';
   import IconEdit from '../icon/icon-edit';
@@ -112,5 +131,25 @@
   }
   function onExpandClick() {
     emit('expand');
+  }
+
+  // 三个 role=button 控件的键盘激活（图标/无 href 的 a 无原生按钮语义）
+  function onEditKeydown(ev: KeyboardEvent) {
+    if (isActivationKey(ev)) {
+      ev.preventDefault();
+      onEditClick();
+    }
+  }
+  function onCopyKeydown(ev: KeyboardEvent) {
+    if (isActivationKey(ev)) {
+      ev.preventDefault();
+      onCopyClick();
+    }
+  }
+  function onExpandKeydown(ev: KeyboardEvent) {
+    if (isActivationKey(ev)) {
+      ev.preventDefault();
+      onExpandClick();
+    }
   }
 </script>

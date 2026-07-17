@@ -1,8 +1,8 @@
 <template>
-  <div :class="classNames">
+  <div ref="rootRef" :class="classNames">
     <Input
-      ref="inputRef"
       auto-size
+      :input-attrs="{ 'aria-label': 'Edit text' }"
       :model-value="text"
       @blur="onBlur"
       @input="onChange"
@@ -34,7 +34,7 @@
 
   const prefixCls = getPrefixCls('typography');
   const classNames = [`${prefixCls}-edit-content`];
-  const inputRef = ref<typeof Input>();
+  const rootRef = ref<HTMLElement>();
 
   function onChange(value: string) {
     emit('update:text', value);
@@ -46,12 +46,11 @@
   }
 
   onMounted(() => {
-    if (!inputRef.value || !inputRef.value.$el) return;
-
-    const inputEl = inputRef.value.$el.querySelector('input');
+    // SdInput 的 $el 非普通元素（条件根节点），不能直接 querySelector；改从包裹 div 取 input
+    const inputEl = rootRef.value?.querySelector('input');
     if (!inputEl) return;
 
-    inputEl.focus && inputEl.focus();
+    inputEl.focus();
 
     const { length } = inputEl.value;
     inputEl.setSelectionRange(length, length);

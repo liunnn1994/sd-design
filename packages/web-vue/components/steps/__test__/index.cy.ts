@@ -37,4 +37,25 @@ describe('Steps', () => {
       expect(stepNumber(2)).to.equal(3);
     });
   });
+
+  it('exposes list/listitem roles, aria-current on the active step, and keyboard activation', () => {
+    cy.mount(Steps, {
+      props: { changeable: true, current: 2 },
+      slots: {
+        default: '<sd-step>Step1</sd-step><sd-step>Step2</sd-step><sd-step>Step3</sd-step>',
+      },
+    });
+    cy.get('.sd-steps').should('have.attr', 'role', 'list');
+    cy.get('.sd-steps-item').should('have.attr', 'role', 'listitem');
+    // 当前步骤（第2步）aria-current=step
+    cy.get('.sd-steps-item').eq(1).should('have.attr', 'aria-current', 'step');
+    // 可点击时 tabindex=0，Enter 触发 change
+    cy.get('.sd-steps-item').eq(2).should('have.attr', 'tabindex', '0');
+    cy.get('.sd-steps-item').eq(2).trigger('keydown', { key: 'Enter' });
+    cy.get('@vue').should(({ wrapper }) => {
+      const emitted = wrapper.emitted<[number]>('change');
+      expect(emitted).to.not.equal(undefined);
+      expect(emitted![0][0]).to.equal(3);
+    });
+  });
 });

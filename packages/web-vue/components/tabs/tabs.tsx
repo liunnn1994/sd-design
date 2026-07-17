@@ -2,6 +2,7 @@ import type { PropType } from 'vue';
 import {
   computed,
   defineComponent,
+  getCurrentInstance,
   nextTick,
   provide,
   reactive,
@@ -23,7 +24,6 @@ import { isUndefined } from '../_utils/is';
 import { configProviderInjectionKey } from '../config-provider/context';
 import { tabsInjectionKey } from './context';
 import TabsNav from './tabs-nav';
-
 export default defineComponent({
   name: 'Tabs',
   props: {
@@ -226,6 +226,7 @@ export default defineComponent({
   setup(props, { emit, slots }) {
     const { size, lazyLoad, destroyOnHide, trigger } = toRefs(props);
     const prefixCls = getPrefixCls('tabs');
+    const tabsId = `${prefixCls}-${getCurrentInstance()!.uid}`;
     const { mergedSize } = useSize(size);
     const mergedPosition = computed(() =>
       props.direction === 'vertical' ? 'left' : props.position,
@@ -287,6 +288,7 @@ export default defineComponent({
         removeItem,
         trigger,
         scrollbar: paneScrollbar,
+        tabsId,
       }),
     );
 

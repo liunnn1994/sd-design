@@ -2139,12 +2139,16 @@ export default defineComponent({
 
     const render = () => {
       if (slots.default) {
-        return <div class={cls.value}>{renderTable(slots.default)}</div>;
+        return (
+          <div class={cls.value} role="table">
+            {renderTable(slots.default)}
+          </div>
+        );
       }
       children.value = slots.columns?.();
       // fix #1724 sortedData.value.length > 0
       return (
-        <div class={cls.value} style={style.value}>
+        <div class={cls.value} style={style.value} role="table">
           {children.value}
           <Spin {...spinProps.value}>
             {props.pagination !== false &&

@@ -1,5 +1,5 @@
 <template>
-  <div :class="`${prefixCls}-status`">
+  <div :class="`${prefixCls}-status`" role="status" aria-live="polite">
     <sd-spin v-if="status === 'loading'" v-bind="spinProps" />
     <template v-else-if="status === 'expired'">
       <p :class="`${prefixCls}-expired`">二维码已过期</p>

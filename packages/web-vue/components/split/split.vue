@@ -9,6 +9,7 @@
       :direction="isHorizontal ? 'vertical' : 'horizontal'"
       @mousedown="onMoveStart"
       @resize="onTriggerResize"
+      @keydown="onTriggerKeydown"
     >
       <template #default>
         <slot name="resize-trigger" />
@@ -30,6 +31,7 @@
   import { off, on } from '../_utils/dom';
   import { getPrefixCls } from '../_utils/global-config';
   import { isNumber, isString } from '../_utils/is';
+  import { KEYBOARD_KEY } from '../_utils/keyboard';
 
   function getSizeConfig(size: number | string | undefined) {
     const normalizedSize = size ?? 0;
@@ -312,6 +314,24 @@
   function onTriggerResize(entry: ResizeObserverEntry) {
     const { width, height } = entry.contentRect;
     triggerSize.value = isHorizontal.value ? width : height;
+  }
+
+  // 键盘调整大小（role=separator 的伸缩杆）：水平布局用 ←/→，垂直布局用 ↑/↓，
+  // Shift 加大步长。复用既有的 legal size 计算保证不越 min/max。
+  async function onTriggerKeydown(e: KeyboardEvent) {
+    if (props.disabled) return;
+    const horiz = isHorizontal.value;
+    const inc = horiz ? e.key === KEYBOARD_KEY.ARROW_RIGHT : e.key === KEYBOARD_KEY.ARROW_DOWN;
+    const dec = horiz ? e.key === KEYBOARD_KEY.ARROW_LEFT : e.key === KEYBOARD_KEY.ARROW_UP;
+    if (!inc && !dec) return;
+    e.preventDefault();
+    const containerSize = (await getContainerSize()) ?? 0;
+    if (!containerSize) return;
+    const step = e.shiftKey ? 20 : 10;
+    const currentPx = getPxSize({ size: mergedSize.value, containerSize });
+    const delta = inc ? step : -step;
+    const newPx = getLegalPxSize(`${currentPx + delta}px`, containerSize);
+    updateSize(newPx, containerSize);
   }
 
   onMounted(async () => {

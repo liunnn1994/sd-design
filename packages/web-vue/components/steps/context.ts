@@ -10,6 +10,8 @@ export interface StepsContext {
   lineLess: boolean;
   type: StepsType;
   errorSteps: number[];
+  /** 步骤是否可点击切换 */
+  changeable: boolean;
   addItem: (step: number, data: StepData) => void;
   removeItem: (step: number) => void;
   getStatus: (step: number) => StepStatus;

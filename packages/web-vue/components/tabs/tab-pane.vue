@@ -2,6 +2,12 @@
   <div
     ref="itemRef"
     :class="[`${prefixCls}-content-item`, { [`${prefixCls}-content-item-active`]: active }]"
+    role="tabpanel"
+    :id="panelId"
+    :aria-labelledby="tabLabelledBy"
+    :aria-hidden="active ? undefined : 'true'"
+    :tabindex="active ? 0 : undefined"
+    :inert="active ? undefined : true"
   >
     <div v-if="mounted" :class="paneCls">
       <Scrollbar
@@ -83,6 +89,9 @@
   const itemRef = ref<HTMLElement>();
   const key = computed(() => instance?.vnode.key as string | number);
   const active = computed(() => key.value === tabsCtx.activeKey);
+  const tabsId = computed(() => tabsCtx.tabsId ?? '');
+  const panelId = computed(() => `${tabsId.value}-${key.value}-panel`);
+  const tabLabelledBy = computed(() => `${tabsId.value}-${key.value}-tab`);
   const mounted = ref(tabsCtx.lazyLoad ? active.value : true);
 
   const paneScrollbarProps = computed<ScrollbarProps>(() => {
