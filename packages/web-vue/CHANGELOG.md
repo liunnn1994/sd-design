@@ -1,3 +1,17 @@
+# [3.15.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.14.0...web-vue-v3.15.0) (2026-07-18)
+
+
+### Bug Fixes
+
+* 🐛 修复 resize-box padding 测试与 ResizeObserver 的竞态 ([88e260b](https://github.com/liunnn1994/sd-design/commit/88e260bcb78e88fdd0ad60aa086b3858ee0cd4c6))
+
+
+### Features
+
+* 🆕 完善 a11y ([308c01a](https://github.com/liunnn1994/sd-design/commit/308c01a0482ee26a1de407270e75e812c9c1db34))
+* 🆕 新增 demo，修复测试用例 ([44cab60](https://github.com/liunnn1994/sd-design/commit/44cab607bff12f6e1ef67d9396c82c201291b836))
+* 🆕 新增基础增删改查组件 ([832d622](https://github.com/liunnn1994/sd-design/commit/832d622511e854f1ac74010fd5d58701fd832dce))
+
 # [3.14.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.13.0...web-vue-v3.14.0) (2026-07-18)
 
 
