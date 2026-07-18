@@ -9,7 +9,12 @@ describe('Avatar', () => {
   });
 
   it('image avatar has an alt', () => {
-    cy.mount(Avatar, { props: { imageUrl: 'data:image/svg+xml,%3Csvg/%3E' } });
+    cy.mount(Avatar, {
+      props: {
+        imageUrl:
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
+      },
+    });
     cy.get('.sd-avatar img').should('have.attr', 'alt');
   });
 

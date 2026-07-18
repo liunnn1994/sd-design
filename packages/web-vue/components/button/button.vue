@@ -37,8 +37,18 @@
 </template>
 
 <script setup lang="ts">
-  import type { FunctionalComponent, PropType } from 'vue';
-  import { computed, toRefs, inject, ref, onMounted, onUpdated, useSlots } from 'vue';
+  import type { PropType } from 'vue';
+  import {
+    cloneVNode,
+    computed,
+    defineComponent,
+    toRefs,
+    inject,
+    ref,
+    onMounted,
+    onUpdated,
+    useSlots,
+  } from 'vue';
 
   import type { TooltipProps } from '../tooltip';
 
@@ -170,8 +180,21 @@
   const { size, disabled } = toRefs(props);
   const prefixCls = getPrefixCls('btn');
 
-  // 未设置 tooltip 时透传默认插槽，避免引入 Tooltip/Trigger 的额外开销
-  const PassThrough: FunctionalComponent = (_, { slots: passSlots }) => passSlots.default?.();
+  // 未设置 tooltip 时透传默认插槽，避免引入 Tooltip/Trigger 的额外开销。
+  // 以单根 vnode 形式克隆插槽首个子节点并显式合并 attrs：返回数组会被当作
+  // fragment，导致透传 attrs（class、aria-label 等）丢失，且 $el 指向注释
+  // 节点，破坏依赖它的父组件（Affix/Mention 的 ResizeObserver、Copy/Tour
+  // 的 class 透传）。inheritAttrs:false 避免与手动合并重复应用。
+  const PassThrough = defineComponent({
+    name: 'ButtonPassThrough',
+    inheritAttrs: false,
+    setup:
+      (_, { slots, attrs }) =>
+      () => {
+        const vnodes = slots.default?.();
+        return vnodes?.length ? cloneVNode(vnodes[0], attrs) : undefined;
+      },
+  });
 
   const slots = useSlots();
   const hasTooltip = computed(() => props.tooltip != null || Boolean(slots.tooltip));

@@ -33,7 +33,10 @@ export default defineComponent({
     );
 
     const createResizeObserver = (target: HTMLElement) => {
-      if (!target) return;
+      // 以 Tooltip/Trigger 等为根的组件会渲染 trigger + 被 teleport 的弹层，
+      // 其 $el 是 fragment 的注释锚点（非 Element）。observe 它会抛错，故对
+      // 非元素节点跳过（如 Affix/Mention 把这类组件放进 ResizeObserver 时）。
+      if (!target || target.nodeType !== 1) return;
       resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => {
         const entry = entries[0];
         emit('resize', entry);
