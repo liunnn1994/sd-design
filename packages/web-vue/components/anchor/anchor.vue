@@ -1,6 +1,6 @@
 <template>
   <component :is="wrapperComponent" v-bind="wrapperProps">
-    <div ref="anchorRef" role="navigation" aria-label="Anchor navigation" :class="cls">
+    <div ref="anchorRef" role="navigation" :aria-label="t('a11y.anchorNav')" :class="cls">
       <div v-if="!lineLess" ref="lineSliderRef" :class="`${prefixCls}-line-slider`" />
       <ul :class="`${prefixCls}-list`">
         <slot />
@@ -30,6 +30,7 @@
   import { isNumber, isWindow } from '../_utils/is';
   import { throttleByRaf } from '../_utils/throttle-by-raf';
   import Affix from '../affix';
+  import { useI18n } from '../locale';
   import { anchorInjectionKey } from './context';
   import { slide, BOUNDARY_POSITIONS, type BoundaryPosition } from './utils';
 
@@ -146,6 +147,8 @@
       default: true,
     },
   });
+
+  const { t } = useI18n();
 
   const prefixCls = getPrefixCls('anchor');
   const anchorRef = ref<HTMLElement>();

@@ -2,7 +2,7 @@
   <li
     :class="cls"
     tabindex="0"
-    aria-label="More pages"
+    :aria-label="t('a11y.morePages')"
     @click="handleClick"
     @keydown="handleKeydown"
   >
@@ -18,6 +18,7 @@
   import { getPrefixCls } from '../_utils/global-config';
   import { isActivationKey } from '../_utils/keyboard';
   import IconMore from '../icon/icon-more';
+  import { useI18n } from '../locale';
   import { getLegalPage } from './utils';
 
   defineOptions({ name: 'EllipsisPager' });
@@ -38,6 +39,8 @@
   });
 
   const emit = defineEmits<{ click: [_nextPage: number] }>();
+
+  const { t } = useI18n();
 
   const prefixCls = getPrefixCls('pagination-item');
 

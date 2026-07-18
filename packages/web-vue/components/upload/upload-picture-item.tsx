@@ -6,6 +6,7 @@ import IconDelete from '../icon/icon-delete';
 import IconEye from '../icon/icon-eye';
 import IconImageClose from '../icon/icon-image-close';
 import IconUpload from '../icon/icon-upload';
+import { useI18n } from '../locale';
 import { uploadInjectionKey } from './context';
 import { FileItem } from './interfaces';
 import UploadProgress from './upload-progress';
@@ -23,6 +24,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { t } = useI18n();
     const prefixCls = getPrefixCls('upload-list');
     const itemCls = `${prefixCls}-picture`;
     const cls = computed(() => [
@@ -72,7 +74,7 @@ export default defineComponent({
                   class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-preview`]}
                   role="button"
                   tabindex="0"
-                  aria-label="Preview"
+                  aria-label={t('a11y.preview')}
                   onClick={() => uploadCtx?.onPreview(props.file)}
                   onKeydown={onActionKeydown(() => uploadCtx?.onPreview(props.file))}
                 >
@@ -86,7 +88,7 @@ export default defineComponent({
                     class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-upload`]}
                     role="button"
                     tabindex="0"
-                    aria-label="Retry upload"
+                    aria-label={t('a11y.retryUpload')}
                     onClick={() => uploadCtx?.onUpload(props.file)}
                     onKeydown={onActionKeydown(() => uploadCtx?.onUpload(props.file))}
                   >
@@ -100,7 +102,7 @@ export default defineComponent({
                   class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-remove`]}
                   role="button"
                   tabindex="0"
-                  aria-label="Remove"
+                  aria-label={t('a11y.remove')}
                   onClick={() => uploadCtx?.onRemove(props.file)}
                   onKeydown={onActionKeydown(() => uploadCtx?.onRemove?.(props.file))}
                 >

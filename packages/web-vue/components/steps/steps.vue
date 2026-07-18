@@ -1,5 +1,5 @@
 <template>
-  <div role="list" aria-label="Steps" :class="cls">
+  <div role="list" :aria-label="t('a11y.steps')" :class="cls">
     <slot />
   </div>
 </template>
@@ -9,6 +9,7 @@
 
   import { Direction } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
+  import { useI18n } from '../locale';
   import { stepsInjectionKey } from './context';
   import { StepData, StepStatus, StepsType } from './interface';
 
@@ -108,6 +109,8 @@
   const slots = useSlots();
 
   const { type, lineLess } = toRefs(props);
+  const { t } = useI18n();
+
   const prefixCls = getPrefixCls('steps');
   const _current = ref(props.defaultCurrent);
   const computedCurrent = computed(() => props.current ?? _current.value);

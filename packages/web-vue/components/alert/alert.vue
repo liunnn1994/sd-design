@@ -30,7 +30,7 @@
         v-if="closable"
         tabindex="0"
         role="button"
-        aria-label="Close"
+        :aria-label="t('a11y.close')"
         :class="`${prefixCls}-close-btn`"
         @click="handleClose"
         @keydown="onCloseKeydown"
@@ -58,6 +58,7 @@
   import IconCloseCircleFill from '../icon/icon-close-circle-fill';
   import IconExclamationCircleFill from '../icon/icon-exclamation-circle-fill';
   import IconInfoCircleFill from '../icon/icon-info-circle-fill';
+  import { useI18n } from '../locale';
 
   defineOptions({ name: 'Alert' });
 
@@ -147,6 +148,8 @@
    */
 
   const slots = useSlots();
+
+  const { t } = useI18n();
 
   const prefixCls = getPrefixCls('alert');
   const visible = ref(true);

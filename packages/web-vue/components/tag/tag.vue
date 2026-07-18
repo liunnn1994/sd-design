@@ -32,7 +32,7 @@
       v-if="closable"
       tabindex="0"
       role="button"
-      aria-label="Close"
+      :aria-label="t('a11y.close')"
       :prefix="prefixCls"
       :class="`${prefixCls}-close-btn`"
       @click.stop="handleClose"
@@ -68,6 +68,7 @@
   import Ellipsis, { PerformantEllipsis } from '../ellipsis';
   import IconClose from '../icon/icon-close';
   import IconLoading from '../icon/icon-loading';
+  import { useI18n } from '../locale';
   import { TAG_COLORS } from './interface';
 
   const props = defineProps({
@@ -246,6 +247,8 @@
   }>();
 
   const slots = useSlots();
+
+  const { t } = useI18n();
 
   const prefixCls = getPrefixCls('tag');
   const { mergedSize: _mergedSize } = useSize(computed(() => props.size as Size | undefined));

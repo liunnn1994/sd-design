@@ -12,7 +12,7 @@ describe('Upload', () => {
     cy.get('.sd-upload-list-item-operation [role="button"]').should(
       'have.attr',
       'aria-label',
-      'Remove',
+      '移除',
     );
     cy.get('.sd-upload-list-item-operation [role="button"]').should('have.attr', 'tabindex', '0');
   });

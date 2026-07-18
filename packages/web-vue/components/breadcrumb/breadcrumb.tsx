@@ -11,6 +11,7 @@ import {
 
 import { getPrefixCls } from '../_utils/global-config';
 import { getAllElements } from '../_utils/vue-utils';
+import { useI18n } from '../locale';
 import BreadcrumbItem from './breadcrumb-item';
 import { breadcrumbInjectKey } from './context';
 import { BreadcrumbRoute } from './interface';
@@ -73,6 +74,8 @@ export default defineComponent({
    */
   setup(props, { slots }) {
     const { maxCount, separator, routes } = toRefs(props);
+    const { t } = useI18n();
+
     const prefixCls = getPrefixCls('breadcrumb');
 
     const total = ref(0);
@@ -143,7 +146,7 @@ export default defineComponent({
 
     return () => {
       return (
-        <div role="list" aria-label="Breadcrumb" class={prefixCls}>
+        <div role="list" aria-label={t('a11y.breadcrumb')} class={prefixCls}>
           {slots.default ? renderByChildren() : renderByRoutes()}
         </div>
       );

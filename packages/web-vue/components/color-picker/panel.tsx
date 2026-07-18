@@ -5,6 +5,7 @@ import { useDraggable } from '@vueuse/core';
 import { getPrefixCls } from '../_utils/global-config';
 import Input, { InputGroup } from '../input';
 import InputNumber from '../input-number';
+import { useI18n } from '../locale';
 import Radio from '../radio';
 import Select from '../select';
 import { colors } from './colors';
@@ -230,6 +231,7 @@ export default defineComponent({
     onPaletteBarChange: Function as PropType<(context: { color: ColorObject }) => void>,
   },
   setup(props) {
+    const { t } = useI18n();
     const prefixCls = getPrefixCls('color-picker');
     const sliderRef = ref<HTMLElement>();
     const gradientShellRef = ref<HTMLElement>();
@@ -467,7 +469,7 @@ export default defineComponent({
           key={value}
           type="button"
           class={`${prefixCls}-color-block`}
-          aria-label={`选择颜色 ${value}`}
+          aria-label={t('a11y.selectColor', value)}
           onClick={() => emitStateChange(parseColorState(value, props.colorModes), trigger)}
         >
           <div class={`${prefixCls}-block`} style={style} />

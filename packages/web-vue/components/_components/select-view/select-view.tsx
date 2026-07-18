@@ -13,6 +13,7 @@ import IconDown from '../../icon/icon-down';
 import IconLoading from '../../icon/icon-loading';
 import IconSearch from '../../icon/icon-search';
 import InputTag from '../../input-tag';
+import { useI18n } from '../../locale';
 import FeedbackIcon from '../feedback-icon.vue';
 import IconHover from '../icon-hover.vue';
 import InputLabel from '../input-label/input-label';
@@ -87,6 +88,7 @@ export default defineComponent({
   },
   emits: ['remove', 'clear', 'focus', 'blur'],
   setup(props, { emit, slots }) {
+    const { t } = useI18n();
     const { size, disabled, error } = toRefs(props);
     const prefixCls = getPrefixCls('select-view');
     const {
@@ -155,7 +157,7 @@ export default defineComponent({
           <button
             type="button"
             class={`${prefixCls}-clear-btn`}
-            aria-label="Clear"
+            aria-label={t('a11y.clear')}
             onClick={handleClear}
             onMousedown={(ev: MouseEvent) => ev.stopPropagation()}
           >

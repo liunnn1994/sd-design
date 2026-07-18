@@ -20,6 +20,7 @@ import { Enter } from '../_utils/keycode';
 import { omit } from '../_utils/omit';
 import pick from '../_utils/pick';
 import IconClose from '../icon/icon-close';
+import { useI18n } from '../locale';
 import Tooltip from '../tooltip';
 
 export default defineComponent({
@@ -204,6 +205,7 @@ export default defineComponent({
    * @slot append
    */
   setup(props, { emit, slots, attrs }) {
+    const { t } = useI18n();
     const { size, disabled, error, modelValue, allowClear } = toRefs(props);
     const prefixCls = getPrefixCls('input');
     const inputRef = ref<HTMLInputElement>();
@@ -483,7 +485,7 @@ export default defineComponent({
               'onKeydown': handleClearKeydown,
               'role': 'button',
               'tabindex': 0,
-              'aria-label': 'Clear',
+              'aria-label': t('a11y.clear'),
             }}
           >
             <IconClose />

@@ -2,7 +2,7 @@
   <transition name="fade-in">
     <div v-if="visible" :class="prefixCls" @click="scrollToTop">
       <slot>
-        <button type="button" :class="`${prefixCls}-btn`" aria-label="Back to top">
+        <button type="button" :class="`${prefixCls}-btn`" :aria-label="t('a11y.backToTop')">
           <icon-to-top />
         </button>
       </slot>
@@ -21,6 +21,7 @@
   import { isString } from '../_utils/is';
   import { throttleByRaf } from '../_utils/throttle-by-raf';
   import IconToTop from '../icon/icon-to-top';
+  import { useI18n } from '../locale';
 
   defineOptions({ name: 'BackTop' });
 
@@ -57,6 +58,8 @@
       default: 200,
     },
   });
+
+  const { t } = useI18n();
 
   const prefixCls = getPrefixCls('back-top');
   const visible = ref(false);

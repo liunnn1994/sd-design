@@ -12,6 +12,7 @@ import IconFaceFrownFill from '../icon/icon-face-frown-fill';
 import IconFaceMehFill from '../icon/icon-face-meh-fill';
 import IconFaceSmileFill from '../icon/icon-face-smile-fill';
 import IconStarFill from '../icon/icon-star-fill';
+import { useI18n } from '../locale';
 import Tooltip from '../tooltip';
 
 export default defineComponent({
@@ -113,6 +114,7 @@ export default defineComponent({
    * @binding {number} index
    */
   setup(props, { emit, slots }) {
+    const { t } = useI18n();
     const { modelValue, allowClear } = toRefs(props);
     const prefixCls = getPrefixCls('rate');
     const { mergedDisabled: _mergedDisabled, eventHandlers } = useFormItem({
@@ -349,7 +351,7 @@ export default defineComponent({
         <div
           class={cls.value}
           role="radiogroup"
-          aria-label="Rating"
+          aria-label={t('a11y.rating')}
           tabindex={mergedDisabled.value ? undefined : 0}
           onMouseleave={resetHoverIndex}
           onKeydown={handleKeydown}

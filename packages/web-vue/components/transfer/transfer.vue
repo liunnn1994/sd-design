@@ -24,7 +24,7 @@
     <div v-if="!simple" :class="[`${prefixCls}-operations`]">
       <sd-button
         tabindex="-1"
-        aria-label="Move selected right"
+        :aria-label="t('a11y.moveSelectedRight')"
         size="small"
         shape="round"
         :disabled="dataInfo.sourceInfo.validSelected.length === 0"
@@ -37,7 +37,7 @@
       <sd-button
         v-if="!oneWay"
         tabindex="-1"
-        aria-label="Move selected left"
+        :aria-label="t('a11y.moveSelectedLeft')"
         size="small"
         shape="round"
         :disabled="dataInfo.targetInfo.validSelected.length === 0"
@@ -81,6 +81,7 @@
   import SdButton from '../button';
   import IconLeft from '../icon/icon-left';
   import IconRight from '../icon/icon-right';
+  import { useI18n } from '../locale';
   import { transferInjectionKey } from './context';
   import { DataInfo, TransferItem } from './interface';
   import TransferView from './transfer-view.vue';
@@ -289,6 +290,8 @@
   const { mergedDisabled, eventHandlers } = useFormItem({
     disabled: toRef(props, 'disabled'),
   });
+  const { t } = useI18n();
+
   const prefixCls = getPrefixCls('transfer');
 
   const _target = ref(props.defaultValue);

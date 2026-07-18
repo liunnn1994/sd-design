@@ -3,7 +3,7 @@
     <div
       role="button"
       tabindex="0"
-      aria-label="Previous slide"
+      :aria-label="t('a11y.prevSlide')"
       :class="`${prefixCls}-arrow-${direction === 'vertical' ? 'top' : 'left'}`"
       @click="onPreviousClick"
       @keydown="(e) => onKeydown(e, 'previous')"
@@ -14,7 +14,7 @@
     <div
       role="button"
       tabindex="0"
-      aria-label="Next slide"
+      :aria-label="t('a11y.nextSlide')"
       :class="`${prefixCls}-arrow-${direction === 'vertical' ? 'bottom' : 'right'}`"
       @click="onNextClick"
       @keydown="(e) => onKeydown(e, 'next')"
@@ -34,6 +34,7 @@
   import IconLeft from '../icon/icon-left';
   import IconRight from '../icon/icon-right';
   import IconUp from '../icon/icon-up';
+  import { useI18n } from '../locale';
 
   defineOptions({ name: 'Arrow' });
 
@@ -52,6 +53,8 @@
     previousClick: [_ev: Event];
     nextClick: [_ev: Event];
   }>();
+
+  const { t } = useI18n();
 
   const prefixCls = getPrefixCls('carousel');
 

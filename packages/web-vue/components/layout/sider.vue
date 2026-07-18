@@ -31,7 +31,7 @@
         role="button"
         tabindex="0"
         :aria-expanded="!mergedCollapsed"
-        aria-label="Toggle sidebar"
+        :aria-label="t('a11y.toggleSidebar')"
         @click="toggle"
         @keydown="handleTriggerKeydown"
       >
@@ -82,7 +82,7 @@
           role="button"
           tabindex="0"
           :aria-expanded="!mergedCollapsed"
-          aria-label="Toggle sidebar"
+          :aria-label="t('a11y.toggleSidebar')"
           @click="toggle"
           @keydown="handleTriggerKeydown"
         >
@@ -97,7 +97,7 @@
           role="button"
           tabindex="0"
           :aria-expanded="!mergedCollapsed"
-          aria-label="Toggle sidebar"
+          :aria-label="t('a11y.toggleSidebar')"
           @click="toggle"
           @keydown="handleTriggerKeydown"
         >
@@ -137,6 +137,7 @@
   import IconLeft from '../icon/icon-left';
   import IconMenu from '../icon/icon-menu';
   import IconRight from '../icon/icon-right';
+  import { useI18n } from '../locale';
   import Scrollbar, { type ScrollbarProps } from '../scrollbar';
   import { LayoutContextInjectionKey, SiderContextInjectionKey } from './context';
 
@@ -296,6 +297,8 @@
      */
     (e: 'update:rail', rail: boolean): void;
   }>();
+
+  const { t } = useI18n();
 
   const prefixCls = getPrefixCls('layout-sider');
 

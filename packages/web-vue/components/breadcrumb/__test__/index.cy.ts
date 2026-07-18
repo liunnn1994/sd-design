@@ -14,7 +14,7 @@ describe('Breadcrumb', () => {
       },
     });
     cy.get('.sd-breadcrumb').should('have.attr', 'role', 'list');
-    cy.get('.sd-breadcrumb').should('have.attr', 'aria-label', 'Breadcrumb');
+    cy.get('.sd-breadcrumb').should('have.attr', 'aria-label', '面包屑');
     cy.get('.sd-breadcrumb-item').should('have.attr', 'role', 'listitem');
     // 分隔符对 SR 隐藏
     cy.get('.sd-breadcrumb-item-separator').should('have.attr', 'aria-hidden', 'true');

@@ -84,8 +84,8 @@ describe('Carousel', () => {
     cy.get('.sd-carousel').should('have.attr', 'aria-roledescription', 'carousel');
     // carousel-item 根无 base class，当前 slide 带 -current
     cy.get('.sd-carousel-item-current').should('have.attr', 'aria-roledescription', 'slide');
-    cy.get('.sd-carousel-arrow-left').should('have.attr', 'aria-label', 'Previous slide');
-    cy.get('.sd-carousel-arrow-right').should('have.attr', 'aria-label', 'Next slide');
+    cy.get('.sd-carousel-arrow-left').should('have.attr', 'aria-label', '上一张');
+    cy.get('.sd-carousel-arrow-right').should('have.attr', 'aria-label', '下一张');
     // 方向键切换（聚焦到 carousel 区域）
     cy.get('.sd-carousel').trigger('keydown', { key: 'ArrowRight' });
     activeIndicator(1);

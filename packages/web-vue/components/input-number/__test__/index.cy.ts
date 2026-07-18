@@ -33,7 +33,7 @@ describe('InputNumber', () => {
     cy.get('input').should('have.attr', 'role', 'spinbutton');
     cy.get('input').should('have.attr', 'aria-valuemin', '0');
     cy.get('input').should('have.attr', 'aria-valuemax', '10');
-    cy.get('.sd-input-number-step-button').eq(0).should('have.attr', 'aria-label', 'Increase');
-    cy.get('.sd-input-number-step-button').eq(1).should('have.attr', 'aria-label', 'Decrease');
+    cy.get('.sd-input-number-step-button').eq(0).should('have.attr', 'aria-label', '增加');
+    cy.get('.sd-input-number-step-button').eq(1).should('have.attr', 'aria-label', '减少');
   });
 });

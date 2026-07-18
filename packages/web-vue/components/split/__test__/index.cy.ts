@@ -10,7 +10,7 @@ describe('Split', () => {
     cy.get('@trigger').should('have.attr', 'role', 'separator');
     cy.get('@trigger').should('have.attr', 'tabindex', '0');
     cy.get('@trigger').should('have.attr', 'aria-orientation', 'vertical');
-    cy.get('@trigger').should('have.attr', 'aria-label', 'Resize');
+    cy.get('@trigger').should('have.attr', 'aria-label', '调整大小');
     cy.get('@trigger').trigger('keydown', { key: 'ArrowRight' });
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('update:size'), 'update:size emitted on ArrowRight').to.not.equal(

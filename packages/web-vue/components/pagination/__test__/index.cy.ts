@@ -112,7 +112,7 @@ describe('Pagination', () => {
   it('exposes navigation role and aria-current on the active page', () => {
     cy.mount(Pagination, { props: { total: 50, current: 3 } });
     cy.get('.sd-pagination').should('have.attr', 'role', 'navigation');
-    cy.get('.sd-pagination').should('have.attr', 'aria-label', 'Pagination');
+    cy.get('.sd-pagination').should('have.attr', 'aria-label', '分页');
     cy.contains('.sd-pagination-item', '3').should('have.attr', 'aria-current', 'page');
   });
 
@@ -126,7 +126,7 @@ describe('Pagination', () => {
 
   it('labels the previous/next step pagers', () => {
     cy.mount(Pagination, { props: { total: 50 } });
-    cy.get('.sd-pagination-item-previous').should('have.attr', 'aria-label', 'Previous page');
-    cy.get('.sd-pagination-item-next').should('have.attr', 'aria-label', 'Next page');
+    cy.get('.sd-pagination-item-previous').should('have.attr', 'aria-label', '上一页');
+    cy.get('.sd-pagination-item-next').should('have.attr', 'aria-label', '下一页');
   });
 });

@@ -32,7 +32,7 @@
         :class="`${prefixCls}-clear-btn`"
         role="button"
         tabindex="0"
-        aria-label="Clear"
+        :aria-label="t('a11y.clear')"
         @click="handleClear"
         @keydown="handleClearKeydown"
       >
@@ -75,6 +75,7 @@
   import { omit } from '../_utils/omit';
   import pick from '../_utils/pick';
   import IconClose from '../icon/icon-close';
+  import { useI18n } from '../locale';
   import Tooltip from '../tooltip';
   import { getSizeStyles } from './utils';
 
@@ -219,6 +220,8 @@
   const attrs = useAttrs();
 
   const { disabled, error, modelValue, allowClear } = toRefs(props);
+  const { t } = useI18n();
+
   const prefixCls = getPrefixCls('textarea');
   const {
     mergedDisabled,

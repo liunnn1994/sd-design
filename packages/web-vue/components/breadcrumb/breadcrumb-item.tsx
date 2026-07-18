@@ -5,6 +5,7 @@ import Dropdown, { Doption, DropDownProps } from '../dropdown';
 import IconDown from '../icon/icon-down';
 import IconMore from '../icon/icon-more';
 import IconObliqueLine from '../icon/icon-oblique-line';
+import { useI18n } from '../locale';
 import { breadcrumbInjectKey } from './context';
 import { BreadcrumbRoute } from './interface';
 
@@ -55,6 +56,8 @@ export default defineComponent({
    * @version 2.36.0
    */
   setup(props, { slots, attrs }) {
+    const { t } = useI18n();
+
     const prefixCls = getPrefixCls('breadcrumb-item');
     const breadcrumbCtx = inject(breadcrumbInjectKey, undefined);
     const dropdownVisible = ref(false);
@@ -106,7 +109,7 @@ export default defineComponent({
               [`${prefixCls}-with-dropdown`]: props.droplist || slots.droplist,
             },
           ]}
-          {...(displayMore.value ? { 'aria-label': 'ellipses of breadcrumb items' } : undefined)}
+          {...(displayMore.value ? { 'aria-label': t('a11y.breadcrumbEllipsis') } : undefined)}
           {...attrs}
         >
           {displayMore.value

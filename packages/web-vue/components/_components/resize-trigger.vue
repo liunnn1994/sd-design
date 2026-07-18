@@ -5,7 +5,7 @@
       role="separator"
       tabindex="0"
       :aria-orientation="direction"
-      aria-label="Resize"
+      :aria-label="t('a11y.resize')"
     >
       <!-- @slot 自定义内容 -->
       <slot>
@@ -25,6 +25,7 @@
 
   import IconDragDot from '../icon/icon-drag-dot';
   import IconDragDotVertical from '../icon/icon-drag-dot-vertical';
+  import { useI18n } from '../locale';
   import ResizeObserver from './resize-observer';
 
   defineOptions({ name: 'ResizeTrigger' });
@@ -41,6 +42,8 @@
       default: 'horizontal',
     },
   });
+
+  const { t } = useI18n();
 
   const { direction, prefixCls } = toRefs(props);
   const isHorizontal = computed(() => direction?.value === 'horizontal');

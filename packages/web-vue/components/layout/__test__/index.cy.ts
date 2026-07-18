@@ -87,7 +87,7 @@ describe('Layout', () => {
     cy.get('.sd-layout-sider-trigger').as('trigger');
     cy.get('@trigger').should('have.attr', 'role', 'button');
     cy.get('@trigger').should('have.attr', 'tabindex', '0');
-    cy.get('@trigger').should('have.attr', 'aria-label', 'Toggle sidebar');
+    cy.get('@trigger').should('have.attr', 'aria-label', '切换侧边栏');
     // expanded initially (defaultCollapsed false)
     cy.get('@trigger').should('have.attr', 'aria-expanded', 'true');
     // Enter collapses → aria-expanded flips

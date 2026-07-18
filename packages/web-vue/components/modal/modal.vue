@@ -73,7 +73,7 @@
                   v-if="!simple && mergedClosable"
                   tabindex="0"
                   role="button"
-                  aria-label="Close"
+                  :aria-label="t('a11y.close')"
                   :class="`${prefixCls}-close-btn`"
                   @click="handleCancel"
                   @keydown="onActivate(handleCancel)"

@@ -5,6 +5,7 @@ import { getPrefixCls } from '../_utils/global-config';
 import { isExist, isFunction, isString, isUndefined } from '../_utils/is';
 import { Backspace, ArrowLeft, ArrowRight } from '../_utils/keycode';
 import SdInput from '../input';
+import { useI18n } from '../locale';
 
 export default defineComponent({
   name: 'VerificationCode',
@@ -103,6 +104,7 @@ export default defineComponent({
     'input': (_inputValue: string, _index: number, _ev: Event) => true,
   },
   setup(props, { emit }) {
+    const { t } = useI18n();
     const prefixCls = getPrefixCls('verification-code');
     const prefixInputCls = getPrefixCls('input');
     const inputRefList = ref([] as HTMLElement[]);
@@ -221,7 +223,7 @@ export default defineComponent({
 
     return () => {
       return (
-        <div class={prefixCls} role="group" aria-label="Verification code">
+        <div class={prefixCls} role="group" aria-label={t('a11y.verificationCode')}>
           {innerValue.value.map((c, i) => (
             <>
               <SdInput
@@ -234,7 +236,7 @@ export default defineComponent({
                 error={props.error}
                 disabled={props.disabled}
                 readonly={props.readonly}
-                inputAttrs={{ 'aria-label': `Character ${i + 1} of ${props.length}` }}
+                inputAttrs={{ 'aria-label': t('a11y.characterOf', i + 1, props.length) }}
                 onFocus={() => focusFirstEmptyInput(i)}
                 onInput={(v, e) => handleInput(i, v, e)}
                 {...{

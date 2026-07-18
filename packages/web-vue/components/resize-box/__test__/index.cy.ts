@@ -70,7 +70,7 @@ describe('ResizeBox', () => {
     cy.get('@trigger').should('have.attr', 'role', 'separator');
     cy.get('@trigger').should('have.attr', 'tabindex', '0');
     cy.get('@trigger').should('have.attr', 'aria-orientation', 'vertical');
-    cy.get('@trigger').should('have.attr', 'aria-label', 'Resize');
+    cy.get('@trigger').should('have.attr', 'aria-label', '调整大小');
     // trigger has 0 height with no styled content — force past visibility check
     cy.get('@trigger').trigger('keydown', { key: 'ArrowRight', force: true });
     cy.get('@vue').should(({ wrapper }) => {

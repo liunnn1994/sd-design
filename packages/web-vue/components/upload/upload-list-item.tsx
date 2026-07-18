@@ -122,7 +122,7 @@ export default defineComponent({
             <span
               role="button"
               tabindex="0"
-              aria-label="Remove"
+              aria-label={t('a11y.remove')}
               onClick={() => uploadCtx?.onRemove?.(props.file)}
               onKeydown={(e) => {
                 if (isActivationKey(e)) {

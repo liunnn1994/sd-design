@@ -116,6 +116,45 @@ export interface ValidateMessage {
   };
 }
 
+export interface SdA11yLang {
+  close: string;
+  back: string;
+  backToTop: string;
+  clear: string;
+  remove: string;
+  preview: string;
+  retryUpload: string;
+  increase: string;
+  decrease: string;
+  resize: string;
+  editText: string;
+  pagination: string;
+  breadcrumb: string;
+  breadcrumbEllipsis: string;
+  anchorNav: string;
+  carousel: string;
+  steps: string;
+  verificationCode: string;
+  rating: string;
+  toggleSidebar: string;
+  filePreview: string;
+  loading: string;
+  nextPage: string;
+  prevPage: string;
+  morePages: string;
+  prevSlide: string;
+  nextSlide: string;
+  moveSelectedRight: string;
+  moveSelectedLeft: string;
+  secretShow: string;
+  secretHide: string;
+  selectColor: string;
+  slideOf: string;
+  goToSlide: string;
+  characterOf: string;
+  qrCode: string;
+}
+
 export interface SdLang {
   locale: string;
   readonlyTip?: string;
@@ -210,6 +249,7 @@ export interface SdLang {
     preset: string;
     empty: string;
   };
+  a11y: SdA11yLang;
 }
 
 export type SdI18nMessages = Record<string, SdLang>;

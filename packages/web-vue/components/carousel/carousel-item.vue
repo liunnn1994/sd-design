@@ -2,7 +2,7 @@
   <div
     role="group"
     aria-roledescription="slide"
-    :aria-label="`Slide ${index + 1} of ${slideCount}`"
+    :aria-label="t('a11y.slideOf', index + 1, slideCount)"
     :aria-hidden="!isCurrent"
     :class="cls"
     :style="animationStyle"
@@ -15,9 +15,12 @@
   import { getCurrentInstance, inject, computed } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
+  import { useI18n } from '../locale';
   import { carouselInjectionKey, CarouselContext } from './context';
 
   defineOptions({ name: 'CarouselItem' });
+
+  const { t } = useI18n();
 
   const prefixCls = getPrefixCls('carousel-item');
   const instance = getCurrentInstance();

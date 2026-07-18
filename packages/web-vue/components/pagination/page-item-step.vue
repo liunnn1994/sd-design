@@ -2,7 +2,7 @@
   <component
     :is="simple ? 'span' : 'li'"
     :class="cls"
-    :aria-label="isNext ? 'Next page' : 'Previous page'"
+    :aria-label="isNext ? t('a11y.nextPage') : t('a11y.prevPage')"
     :aria-disabled="mergedDisabled || undefined"
     :tabindex="mergedDisabled ? -1 : 0"
     @click="handleClick"
@@ -22,6 +22,7 @@
   import { isActivationKey } from '../_utils/keyboard';
   import IconLeft from '../icon/icon-left';
   import IconRight from '../icon/icon-right';
+  import { useI18n } from '../locale';
   import { getLegalPage } from './utils';
 
   defineOptions({ name: 'StepPager' });
@@ -50,6 +51,8 @@
   });
 
   const emit = defineEmits<{ click: [_nextPage: number] }>();
+
+  const { t } = useI18n();
 
   const prefixCls = getPrefixCls('pagination-item');
   const isNext = props.type === 'next';

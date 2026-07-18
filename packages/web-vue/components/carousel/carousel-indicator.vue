@@ -3,7 +3,7 @@
     <span
       v-if="type === 'slider'"
       :style="sliderStyle"
-      :aria-label="`Slide ${activeIndex + 1} of ${count}`"
+      :aria-label="t('a11y.slideOf', activeIndex + 1, count)"
       :class="[`${prefixCls}-item`, `${prefixCls}-item-active`]"
     />
     <template v-else>
@@ -13,7 +13,7 @@
         role="button"
         tabindex="0"
         :data-index="index"
-        :aria-label="`Go to slide ${index + 1}`"
+        :aria-label="t('a11y.goToSlide', index + 1)"
         :aria-current="index === activeIndex ? 'true' : undefined"
         :class="[`${prefixCls}-item`, { [`${prefixCls}-item-active`]: index === activeIndex }]"
         @keydown="onItemKeydown($event, index)"
@@ -34,6 +34,7 @@
 
   import { getPrefixCls } from '../_utils/global-config';
   import { isActivationKey } from '../_utils/keyboard';
+  import { useI18n } from '../locale';
 
   defineOptions({ name: 'Indicator' });
 
@@ -63,6 +64,8 @@
   const emit = defineEmits<{
     select: [_index: number];
   }>();
+
+  const { t } = useI18n();
 
   const prefixCls = getPrefixCls('carousel-indicator');
 

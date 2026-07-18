@@ -15,6 +15,7 @@ import IconMinus from '../icon/icon-minus';
 import IconPlus from '../icon/icon-plus';
 import IconUp from '../icon/icon-up';
 import SdInput from '../input';
+import { useI18n } from '../locale';
 
 type StepMethods = 'minus' | 'plus';
 type InputNumberValue = string | number | null | undefined;
@@ -242,6 +243,7 @@ export default defineComponent({
    * @slot minus
    */
   setup(props, { emit, slots }) {
+    const { t } = useI18n();
     const { size, disabled, allowClear } = toRefs(props);
     const prefixCls = getPrefixCls('input-number');
     const inputRef = ref<HTMLInputElement>();
@@ -537,7 +539,7 @@ export default defineComponent({
               ]}
               type="button"
               tabindex="-1"
-              aria-label="Increase"
+              aria-label={t('a11y.increase')}
               disabled={mergedDisabled.value || isMax.value}
               onMousedown={(e) => handleStepButton(e, 'plus', true)}
               onMouseup={clearRepeatTimer}
@@ -554,7 +556,7 @@ export default defineComponent({
               ]}
               type="button"
               tabindex="-1"
-              aria-label="Decrease"
+              aria-label={t('a11y.decrease')}
               disabled={mergedDisabled.value || isMin.value}
               onMousedown={(e) => handleStepButton(e, 'minus', true)}
               onMouseup={clearRepeatTimer}
@@ -579,7 +581,7 @@ export default defineComponent({
       return (
         <SdButton
           size={mergedSize.value}
-          aria-label="Decrease"
+          aria-label={t('a11y.decrease')}
           v-slots={{ icon: () => <IconMinus /> }}
           class={`${prefixCls}-step-button`}
           disabled={mergedDisabled.value || isMin.value}
@@ -597,7 +599,7 @@ export default defineComponent({
       return (
         <SdButton
           size={mergedSize.value}
-          aria-label="Increase"
+          aria-label={t('a11y.increase')}
           v-slots={{ icon: () => <IconPlus /> }}
           class={`${prefixCls}-step-button`}
           disabled={mergedDisabled.value || isMax.value}

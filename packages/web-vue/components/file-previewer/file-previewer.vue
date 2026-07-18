@@ -21,7 +21,7 @@
         :class="contentClassNames"
         :role="fullscreen ? 'dialog' : 'region'"
         :aria-modal="fullscreen ? 'true' : undefined"
-        :aria-label="title || 'File preview'"
+        :aria-label="title || t('a11y.filePreview')"
       >
         <header v-if="title || $slots.title" :class="`${prefixCls}-header`">
           <slot name="title">
@@ -104,7 +104,7 @@
                       type="button"
                       :class="`${prefixCls}-pdf-btn`"
                       :disabled="pdfCurrentPage <= 1"
-                      aria-label="上一页"
+                      :aria-label="t('a11y.prevPage')"
                       @click="pdfPrev"
                     >
                       ‹
@@ -116,7 +116,7 @@
                       type="button"
                       :class="`${prefixCls}-pdf-btn`"
                       :disabled="pdfCurrentPage >= pdfNumPages"
-                      aria-label="下一页"
+                      :aria-label="t('a11y.nextPage')"
                       @click="pdfNext"
                     >
                       ›
@@ -132,12 +132,17 @@
         v-if="fullscreen && closable"
         type="button"
         :class="`${prefixCls}-close-btn`"
-        aria-label="关闭"
+        :aria-label="t('a11y.close')"
         @click="close"
       >
         <IconClose />
       </button>
-      <div v-if="isLoading" :class="`${prefixCls}-loading`" role="status" aria-label="加载中">
+      <div
+        v-if="isLoading"
+        :class="`${prefixCls}-loading`"
+        role="status"
+        :aria-label="t('a11y.loading')"
+      >
         <IconLoading />
       </div>
       <div v-if="isError" :class="`${prefixCls}-error`" role="alert">文件预览加载失败</div>
@@ -170,6 +175,7 @@
   import IconClose from '../icon/icon-close';
   import IconLoading from '../icon/icon-loading';
   import Image from '../image';
+  import { useI18n } from '../locale';
   import { usePdfJs } from './use-pdf-js';
 
   defineOptions({ name: 'FilePreviewer' });
@@ -347,6 +353,8 @@
     mediaProps,
     pdfProps,
   } = toRefs(props);
+
+  const { t } = useI18n();
 
   const prefixCls = getPrefixCls('file-previewer');
   const wrapperRef = shallowRef<HTMLElement>();

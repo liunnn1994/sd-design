@@ -12,7 +12,7 @@
             :prefix="prefixCls"
             role="button"
             tabindex="0"
-            aria-label="Back"
+            :aria-label="t('a11y.back')"
             @click="handleBack"
             @keydown="handleBackKeydown"
           >
@@ -46,6 +46,7 @@
   import { getPrefixCls } from '../_utils/global-config';
   import { isActivationKey } from '../_utils/keyboard';
   import IconLeft from '../icon/icon-left';
+  import { useI18n } from '../locale';
 
   defineOptions({ name: 'PageHeader' });
 
@@ -104,6 +105,8 @@
    * @slot extra
    */
   const slots = useSlots();
+
+  const { t } = useI18n();
 
   const prefixCls = getPrefixCls('page-header');
 

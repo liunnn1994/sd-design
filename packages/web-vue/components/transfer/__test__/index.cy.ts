@@ -32,7 +32,7 @@ describe('Transfer', () => {
     cy.get('.sd-transfer-list-item .sd-checkbox-target').first().click({ force: true });
     cy.get('.sd-transfer-operations button').first().click({ force: true });
     cy.get('.sd-transfer-list-item-remove-btn').should('have.attr', 'role', 'button');
-    cy.get('.sd-transfer-list-item-remove-btn').should('have.attr', 'aria-label', 'Remove');
+    cy.get('.sd-transfer-list-item-remove-btn').should('have.attr', 'aria-label', '移除');
     // Enter 触发移除
     cy.get('.sd-transfer-list-item-remove-btn').trigger('keydown', { key: 'Enter' });
     cy.get('@vue').should(({ wrapper }) => {

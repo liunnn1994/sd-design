@@ -23,6 +23,7 @@ import { Direction } from '../_utils/constant';
 import { getPrefixCls } from '../_utils/global-config';
 import { isNumber, isObject } from '../_utils/is';
 import { KEYBOARD_KEY } from '../_utils/keyboard';
+import { useI18n } from '../locale';
 import CarouselArrow from './carousel-arrow.vue';
 import CarouselIndicator from './carousel-indicator.vue';
 import { carouselInjectionKey } from './context';
@@ -167,6 +168,8 @@ export default defineComponent({
   },
   setup(props, { emit, slots }) {
     const { current, animationName, moveSpeed, transitionTimingFunction } = toRefs(props);
+    const { t } = useI18n();
+
     const prefixCls = getPrefixCls('carousel');
 
     const isPause = ref(false);
@@ -336,7 +339,7 @@ export default defineComponent({
           class={cls.value}
           role="region"
           aria-roledescription="carousel"
-          aria-label="Carousel"
+          aria-label={t('a11y.carousel')}
           tabindex="0"
           onKeydown={onKeydown}
           {...eventHandlers.value}

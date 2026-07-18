@@ -17,13 +17,13 @@
       ref="canvasRef"
       :class="`${prefixCls}-canvas`"
       role="img"
-      :aria-label="`QR code: ${mergedValue}`"
+      :aria-label="t('a11y.qrCode', mergedValue)"
     />
     <div
       v-else
       :class="`${prefixCls}-svg`"
       role="img"
-      :aria-label="`QR code: ${mergedValue}`"
+      :aria-label="t('a11y.qrCode', mergedValue)"
       v-html="svgMarkup"
     />
 
@@ -53,6 +53,7 @@
   } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
+  import { useI18n } from '../locale';
   import QrCodeStatus from './qr-code-status.vue';
 
   defineOptions({ name: 'QrCode' });
@@ -218,6 +219,8 @@
      */
     status?: (props: QrCodeStatusRenderInfo) => VNodeChild;
   }>();
+
+  const { t } = useI18n();
 
   const prefixCls = getPrefixCls('qr-code');
   const canvasRef = ref<HTMLCanvasElement>();

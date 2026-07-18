@@ -2,7 +2,7 @@
   <div ref="rootRef" :class="classNames">
     <Input
       auto-size
-      :input-attrs="{ 'aria-label': 'Edit text' }"
+      :input-attrs="{ 'aria-label': t('a11y.editText') }"
       :model-value="text"
       @blur="onBlur"
       @input="onChange"
@@ -16,6 +16,7 @@
 
   import { getPrefixCls } from '../_utils/global-config';
   import Input from '../input';
+  import { useI18n } from '../locale';
 
   defineOptions({ name: 'TypographyEditContent' });
 
@@ -31,6 +32,8 @@
     'end': [];
     'update:text': [_value: string];
   }>();
+
+  const { t } = useI18n();
 
   const prefixCls = getPrefixCls('typography');
   const classNames = [`${prefixCls}-edit-content`];

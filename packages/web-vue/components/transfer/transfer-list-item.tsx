@@ -5,6 +5,7 @@ import { getPrefixCls } from '../_utils/global-config';
 import { isActivationKey } from '../_utils/keyboard';
 import Checkbox from '../checkbox';
 import IconClose from '../icon/icon-close';
+import { useI18n } from '../locale';
 import { transferInjectionKey } from './context';
 import { TransferItem } from './interface';
 
@@ -30,6 +31,8 @@ export default defineComponent({
     simple: Boolean,
   },
   setup(props) {
+    const { t } = useI18n();
+
     const prefixCls = getPrefixCls('transfer-list-item');
     const transferCtx = inject(transferInjectionKey, undefined);
 
@@ -87,7 +90,7 @@ export default defineComponent({
             class={`${prefixCls}-remove-btn`}
             role="button"
             tabindex="0"
-            aria-label="Remove"
+            aria-label={t('a11y.remove')}
             onClick={handleRemove}
             onKeydown={handleRemoveKeydown}
           >

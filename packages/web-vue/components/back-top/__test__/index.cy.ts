@@ -12,7 +12,7 @@ describe('BackTop', () => {
       win.dispatchEvent(new win.Event('scroll'));
     });
     cy.get('.sd-back-top-btn')
-      .should('have.attr', 'aria-label', 'Back to top')
+      .should('have.attr', 'aria-label', '回到顶部')
       .and('have.attr', 'type', 'button');
   });
 });

@@ -32,6 +32,7 @@
   import { PerformantEllipsis } from '../ellipsis';
   import IconEye from '../icon/icon-eye';
   import IconEyeInvisible from '../icon/icon-eye-invisible';
+  import { useI18n } from '../locale';
   import Tooltip from '../tooltip';
 
   type SecretProps = {
@@ -62,9 +63,13 @@
     default: false,
   });
 
+  const { t } = useI18n();
+
   const prefixCls = getPrefixCls('secret');
   const toggleTooltip = computed(() => (visibleValue.value ? '隐藏' : '显示'));
-  const toggleAriaLabel = computed(() => (visibleValue.value ? '隐藏敏感信息' : '显示敏感信息'));
+  const toggleAriaLabel = computed(() =>
+    visibleValue.value ? t('a11y.secretHide') : t('a11y.secretShow'),
+  );
 
   function handleToggleVisible() {
     visibleValue.value = !visibleValue.value;
