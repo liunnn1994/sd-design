@@ -1,0 +1,8 @@
+@use '@style/theme/index.scss' as global;
+
+@forward '@style/theme/index.scss';
+
+@use 'sass:string';
+$basic-crud-table-gap: global.$spacing-4;
+$basic-crud-table-title-size: global.$font-size-title-3;
+$basic-crud-table-title-color: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));

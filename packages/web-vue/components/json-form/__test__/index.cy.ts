@@ -111,4 +111,21 @@ describe('JsonForm', () => {
       expect(m.script).to.equal('const answer = 42;');
     });
   });
+
+  it('switch 字段保留固有宽度并双向绑定布尔值', () => {
+    // 回归：sd-json-form-control--inline 曾设 min-width: 0，覆盖 switch 自身的
+    // min-width，把无文档流内容的 switch 根元素压成 0 宽度（不可见、不可点）。
+    const model = { status: true };
+    cy.mount(JsonForm, {
+      props: {
+        modelValue: model,
+        schemas: [{ field: 'status', label: '启用', type: 'switch' }],
+      },
+    });
+    cy.get('.sd-switch').should('be.visible').and('have.class', 'sd-switch-checked');
+    cy.get('.sd-switch').click();
+    cy.wrap(model).should((m) => {
+      expect(m.status).to.equal(false);
+    });
+  });
 });

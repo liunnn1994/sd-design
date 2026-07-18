@@ -10,6 +10,7 @@ import AutoComplete from './auto-complete';
 import Avatar, { AvatarGroup } from './avatar';
 import BackTop from './back-top';
 import Badge from './badge';
+import BasicCrudTable from './basic-crud-table';
 import BorderBeam from './border-beam';
 import Breadcrumb, { BreadcrumbItem } from './breadcrumb';
 import Button, { ButtonGroup } from './button';
@@ -108,6 +109,7 @@ const components: Record<string, Plugin> = {
   Space,
   Avatar,
   Badge,
+  BasicCrudTable,
   Calendar,
   Card,
   SelectableCard,

@@ -15,7 +15,8 @@ $json-form-prefix-cls: string.unquote('#{theme.$prefix}-json-form');
     border-radius: $json-form-border-radius-control;
   }
 
-  &-control--inline {
-    min-width: 0;
-  }
+  // 行内控件（switch / checkbox / radio / rate ...）保留组件自身的固有尺寸：
+  // 不要在这里设 min-width，否则会覆盖 switch 这类靠 min-width 撑开根元素
+  // （滑块绝对定位、无文档流内容）的控件，把它压成 0 宽度。min-width: 0 只留在
+  // 撑满型 &-control 上，用于在 flex 容器里收缩防溢出。
 }

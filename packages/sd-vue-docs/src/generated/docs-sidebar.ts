@@ -211,6 +211,10 @@ export const docsSidebar = [
             label: '数值显示 Statistic',
           },
           {
+            slug: 'components/basic-crud-table',
+            label: '基础增删改查表格 BasicCrudTable',
+          },
+          {
             slug: 'components/table',
             label: '表格 Table',
           },

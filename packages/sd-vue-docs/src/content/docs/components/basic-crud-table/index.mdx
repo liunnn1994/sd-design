@@ -1,0 +1,149 @@
+---
+title: 基础增删改查表格 BasicCrudTable
+description: 固定流程的 CRUD 表格，统一查询、分页、详情回填、创建、编辑、删除与成功后刷新。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import BasicDemo from '../../../../components/generated/basic-crud-table/basic.vue';
+import basicSource from '../../../../components/generated/basic-crud-table/basic.vue?raw';
+import ToolbarDemo from '../../../../components/generated/basic-crud-table/toolbar.vue';
+import toolbarSource from '../../../../components/generated/basic-crud-table/toolbar.vue?raw';
+import StateDemo from '../../../../components/generated/basic-crud-table/state.vue';
+import stateSource from '../../../../components/generated/basic-crud-table/state.vue?raw';
+import ActionDemo from '../../../../components/generated/basic-crud-table/action.vue';
+import actionSource from '../../../../components/generated/basic-crud-table/action.vue?raw';
+import CrudDemo from '../../../../components/generated/basic-crud-table/crud.vue';
+import crudSource from '../../../../components/generated/basic-crud-table/crud.vue?raw';
+import ModalDemo from '../../../../components/generated/basic-crud-table/modal.vue';
+import modalSource from '../../../../components/generated/basic-crud-table/modal.vue?raw';
+
+`BasicCrudTable` 组合 `Toolbar`、`Table`、`Modal` 与 `JsonForm`，内置后台页面常见的固定 CRUD 流程。
+
+内部组件属性严格分组：`table-props` 只传给 `Table`，`toolbar-props` 只传给 `Toolbar`，`modal-props` 只传给 `Modal`，`modal-form-props` 只传给弹窗内的 `JsonForm`。
+
+### 基本用法
+
+<DemoBlock source={basicSource} mainFile="src/basic-crud-table-basic.vue">
+  <BasicDemo client:only="vue" />
+</DemoBlock>
+
+### 查询工具栏
+
+通过 `toolbar-props.schemas` 描述筛选项，查询条件会与分页和排序参数一起传给 `fetch-table-api`。
+
+<DemoBlock source={toolbarSource} mainFile="src/basic-crud-table-toolbar.vue">
+  <ToolbarDemo client:only="vue" />
+</DemoBlock>
+
+### 完整增删改查
+
+配置列表、创建、更新和删除 API 后，组件会自动打开表单弹窗、校验、提交并刷新列表。
+
+<DemoBlock source={crudSource} mainFile="src/basic-crud-table-crud.vue">
+  <CrudDemo client:only="vue" />
+</DemoBlock>
+
+### 受控数据
+
+通过 `v-model:table-data` 控制表格数据，适合本地数据或由外部状态管理请求的场景。
+
+<DemoBlock source={stateSource} mainFile="src/basic-crud-table-state.vue">
+  <StateDemo client:only="vue" />
+</DemoBlock>
+
+### 自定义操作
+
+通过 `table__action_prepend` 与 `table__action_append` 在默认编辑、删除按钮两侧扩展操作，插槽内可使用 `Link`、`Popconfirm` 等任意组件。
+
+<DemoBlock source={actionSource} mainFile="src/basic-crud-table-action.vue">
+  <ActionDemo client:only="vue" />
+</DemoBlock>
+
+### 受控弹窗
+
+通过 `v-model:modal-visible` 与 `v-model:modal-model` 双向控制弹窗显隐和表单数据，并通过 `modal__title` / `modal__footer` 等插槽自定义弹窗内容。
+
+<DemoBlock source={modalSource} mainFile="src/basic-crud-table-modal.vue">
+  <ModalDemo client:only="vue" />
+</DemoBlock>
+
+## API
+
+### Props
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| columns | 表格列配置 | `TableColumnData[]` | - |
+| title | 标题区文案 | `string` | - |
+| table-props | 仅传给 Table 的属性，分页也在这里配置 | `BasicCrudTableTableProps` | `{}` |
+| toolbar-props | 仅传给 Toolbar 的属性 | `BasicCrudTableToolbarProps` | `{}` |
+| modal-props | 仅传给 Modal 的属性 | `BasicCrudTableModalProps` | `{}` |
+| modal-form-props | 仅传给弹窗 JsonForm 的属性 | `BasicCrudTableModalFormProps` | `{ schemas: [] }` |
+| fetch-table-api | 列表请求函数 | `(params) => Promise<DataResult>` | - |
+| create-api / update-api | 创建、更新提交函数 | `(model) => Promise<unknown>` | - |
+| detail-api | 编辑前加载详情 | `(row) => Promise<object>` | - |
+| delete-api | 确认后删除数据 | `(row) => Promise<unknown>` | - |
+| before-modal-submit / before-delete | 提交或删除前拦截 | `Function` | - |
+| show-create / show-edit / show-delete | 是否显示默认操作 | `boolean` | `true` |
+| open-create-modal | 点击新建时是否自动打开弹窗 | `boolean` | `true` |
+| show-toolbar / show-header / show-title | 是否显示工具栏、标题区、标题文字 | `boolean` | `true` |
+| show-action-column | 是否显示内置操作列 | `boolean` | `true` |
+| action-width | 内置操作列宽度 | `number` | `120` |
+| delete-content | 删除确认气泡文案，支持按行生成 | `string \| ((row) => string \| Promise<string>)` | - |
+| delete-name-key | 删除文案中引用的名称字段，如 `name` | `string` | - |
+| fetch-table-on-mounted | 挂载时是否自动请求列表 | `boolean` | `true` |
+| fetch-exclude-empty-values | 请求时是否剔除空字符串 / null / undefined 参数 | `boolean` | `false` |
+| value-transformer | 编辑详情回填时对详情数据的转换 | `(detail) => model` | - |
+| table-data-transformer | 列表响应转换，支持异步 | `(res) => DataResult \| Promise<DataResult>` | - |
+
+### Models
+
+| 模型名        | 描述              | 类型                      | 默认值  |
+| ------------- | ----------------- | ------------------------- | ------- |
+| loading       | 列表加载状态      | `boolean`                 | `false` |
+| toolbar-model | 查询条件          | `Record<string, unknown>` | `{}`    |
+| table-data    | 表格数据          | `TableData[]`             | `[]`    |
+| modal-model   | 创建/编辑表单数据 | `Record<string, unknown>` | `{}`    |
+| modal-visible | 创建/编辑弹窗显隐 | `boolean`                 | `false` |
+
+### Events
+
+| 事件名                      | 描述                       | 参数                  |
+| --------------------------- | -------------------------- | --------------------- |
+| create / edit / delete      | 对应操作发生时触发         | `row, context`        |
+| search / reset              | 查询或重置                 | `params` / -          |
+| table-fetched               | 列表请求并解析完成         | `rows, result`        |
+| modal-success / modal-close | 弹窗提交成功或关闭         | `result, context` / - |
+| error                       | 请求、详情、提交或删除失败 | `error`               |
+
+### Slots
+
+| 插槽名 | 描述 | 参数 |
+| --- | --- | --- |
+| header\_\_title / header\_\_extra | 标题区内容 | `{ title }` / - |
+| toolbar\_\_default | 自定义筛选内容 | - |
+| toolbar\_\_action_prepend / toolbar\_\_action_append | 查询操作区扩展 | - |
+| toolbar\_\_插槽名 | 透传到 Toolbar | 与 Toolbar 一致 |
+| table\_\_action_prepend / table\_\_action_append | 默认行操作两侧内容 | Table 单元格上下文 |
+| table\_\_插槽名 | 透传到 Table | 与 Table 一致 |
+| modal\_\_title / modal\_\_footer | 自定义弹窗标题或页脚 | `{ type, row, model }` |
+| modal\_\_表单插槽名 | 透传到弹窗 JsonForm | JsonForm 参数与 CRUD 上下文 |
+
+### Methods
+
+通过 `ref` 调用组件暴露的方法：
+
+| 方法名         | 描述                                         | 参数              |
+| -------------- | -------------------------------------------- | ----------------- |
+| fetchTableData | 重新请求列表                                 | -                 |
+| search         | 触发查询（重置到第 1 页）                    | -                 |
+| reset          | 重置工具栏筛选 + 分页/排序并刷新（全量重置） | -                 |
+| resetToolbar   | 仅重置工具栏筛选项，不刷新列表               | -                 |
+| resetTable     | 仅重置分页/排序并刷新，不动工具栏            | -                 |
+| create         | 触发新建（默认打开弹窗）                     | -                 |
+| edit           | 触发编辑某行                                 | `(row, context?)` |
+| delete         | 直接删除某行（不再弹确认，由调用方自行确认） | `(row, context?)` |
+| tableData      | 当前表格数据（只读）                         | -                 |
+| fetchData      | 最近一次列表请求的原始响应（只读）           | -                 |
+| isCreate       | 弹窗是否为新建态（只读）                     | -                 |
+| modalRef       | 内置弹窗实例引用                             | -                 |

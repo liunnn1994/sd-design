@@ -33,7 +33,7 @@
           <Button v-if="showSearch" type="primary" @click="handleSearch">
             {{ searchText }}
           </Button>
-          <Button v-if="showReset" @click="handleReset">{{ resetText }}</Button>
+          <Button v-if="showReset" @click="reset()">{{ resetText }}</Button>
           <slot name="action-append" />
         </template>
       </div>
@@ -169,7 +169,7 @@
     emit('search', modelValue.value);
   }
 
-  function handleReset() {
+  function reset(emitReset: unknown = true) {
     // Restore initial values (minus skipped keys), preserve skipped keys' current
     // values, and drop any keys that were added after mount.
     const initMinusSkip = omit(initModel, resetSkipKeys) as ToolbarModelValue;
@@ -184,7 +184,7 @@
     }
     modelValue.value = next;
     formRef.value?.clearValidate();
-    emit('reset');
+    if (emitReset) emit('reset');
   }
 
   function toggleExpand() {
@@ -193,6 +193,6 @@
 
   defineExpose({
     search: handleSearch,
-    reset: handleReset,
+    reset,
   });
 </script>

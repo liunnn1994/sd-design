@@ -36,6 +36,22 @@ export type {
 } from './border-beam';
 export { default as Badge } from './badge';
 export type { BadgeInstance } from './badge';
+export { default as BasicCrudTable } from './basic-crud-table';
+export type {
+  BasicCrudTableActionSlotProps,
+  BasicCrudTableDataResult,
+  BasicCrudTableInstance,
+  BasicCrudTableModalFormProps,
+  BasicCrudTableModalProps,
+  BasicCrudTableModalSlotProps,
+  BasicCrudTableModalSubmitContext,
+  BasicCrudTableProps,
+  BasicCrudTableTableProps,
+  BasicCrudTableToolbarProps,
+  InferBasicCrudTableRow,
+  InferBasicCrudTableRowFromValue,
+  MaybePromise,
+} from './basic-crud-table';
 export { default as Breadcrumb, BreadcrumbItem } from './breadcrumb';
 export type { BreadcrumbInstance, BreadcrumbItemInstance, BreadcrumbRoute } from './breadcrumb';
 export { default as Button, ButtonGroup } from './button';

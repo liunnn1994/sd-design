@@ -1,0 +1,33 @@
+@use '@style/theme/index.scss' as theme;
+@use 'sass:string';
+@use '@components/basic-crud-table/style/token.scss' as *;
+$basic-crud-table-prefix-cls: string.unquote('#{theme.$prefix}-basic-crud-table');
+.#{$basic-crud-table-prefix-cls} {
+  display: flex;
+  flex-direction: column;
+  gap: $basic-crud-table-gap;
+  width: 100%;
+  min-width: 0;
+
+  &-header {
+    display: flex;
+    flex-direction: column;
+    gap: $basic-crud-table-gap;
+  }
+
+  &-header-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &-title {
+    margin: 0;
+    color: $basic-crud-table-title-color;
+    font-size: $basic-crud-table-title-size;
+  }
+
+  &-body {
+    width: 100%;
+    min-width: 0;
+  }
+}

@@ -18,6 +18,7 @@ declare module 'vue' {
     SdBackTop: SDVue['BackTop'];
     SdBorderBeam: SDVue['BorderBeam'];
     SdBadge: SDVue['Badge'];
+    SdBasicCrudTable: SDVue['BasicCrudTable'];
     SdBreadcrumb: SDVue['Breadcrumb'];
     SdBreadcrumbItem: SDVue['BreadcrumbItem'];
     SdButton: SDVue['Button'];
