@@ -56,6 +56,10 @@ describe('ResizeBox', () => {
 
   it('updates padding when the ResizeTrigger reports a new size', () => {
     cy.mount(ResizeBox);
+    // ResizeTrigger 内部的 ResizeObserver 在挂载时会异步上报一次真实尺寸，
+    // 先等它落地（inline style 出现 padding-right），再做手动 emit；否则这次
+    // 异步回调可能落在手动 emit 之后，把 100px 覆盖回真实尺寸（约 6px）。
+    cy.get('.sd-resizebox').invoke('attr', 'style').should('contain', 'padding-right');
     cy.get('@vue').then(({ wrapper }) => {
       wrapper
         .findComponent({ name: 'ResizeTrigger' })
