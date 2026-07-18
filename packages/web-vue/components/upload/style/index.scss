@@ -35,7 +35,10 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
     background: $upload-picture-color-bg;
     border: $upload-picture-border-width $upload-picture-border-style $upload-picture-color-border;
     border-radius: $upload-picture-border-radius;
-    transition: all theme.$transition-duration-1 theme.$transition-timing-function-linear;
+    transition:
+      color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+      background-color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+      border-color theme.$transition-duration-1 theme.$transition-timing-function-standard;
 
     &:hover {
       color: $upload-picture-color-text_hover;
@@ -52,7 +55,10 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
     background-color: $upload-drag-color-bg;
     border: $upload-drag-border-width $upload-drag-border-style $upload-drag-color-border;
     border-radius: $upload-drag-border-radius;
-    transition: all theme.$transition-duration-2 ease;
+    transition:
+      color theme.$transition-duration-2 ease,
+      background-color theme.$transition-duration-2 ease,
+      border-color theme.$transition-duration-2 ease;
 
     .#{theme.$prefix}-icon-plus {
       margin-bottom: $upload-drag-margin-icon-bottom;
@@ -175,7 +181,7 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
     color: $upload-text-item-color-reupload-icon;
     font-size: $upload-text-item-size-reupload-icon;
     cursor: pointer;
-    transition: all theme.$transition-duration-2 ease;
+    transition: color theme.$transition-duration-2 ease;
 
     &:active,
     &:hover {
@@ -225,7 +231,7 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
       background-color: $upload-text-item-color-bg;
       border-radius: $upload-text-item-border-radius;
       transition: background-color theme.$transition-duration-1
-        theme.$transition-timing-function-linear;
+        theme.$transition-timing-function-standard;
     }
 
     &-file-icon {
@@ -348,7 +354,7 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
     padding-right: 0;
     overflow: hidden;
     vertical-align: top;
-    transition: all theme.$transition-duration-2 theme.$transition-timing-function-standard;
+    transition: opacity theme.$transition-duration-2 theme.$transition-timing-function-standard;
   }
 
   &-picture-status-error &-picture-mask {
@@ -381,7 +387,7 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
       background: $upload-picture-item-color-operation_bg;
       cursor: pointer;
       opacity: 0;
-      transition: opacity theme.$transition-duration-1 theme.$transition-timing-function-linear;
+      transition: opacity theme.$transition-duration-1 theme.$transition-timing-function-standard;
     }
 
     &-operation {
@@ -468,7 +474,7 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
   overflow: hidden;
   opacity: 0;
   transition:
-    opacity theme.$transition-duration-1 theme.$transition-timing-function-linear,
+    opacity theme.$transition-duration-1 theme.$transition-timing-function-standard,
     height theme.$transition-duration-3 theme.$transition-timing-function-standard
       theme.$transition-duration-1,
     margin theme.$transition-duration-3 theme.$transition-timing-function-standard
@@ -482,7 +488,7 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
 
   &.#{$upload-prefix-cls}-slide-inline-enter-active {
     opacity: 1;
-    transition: opacity theme.$transition-duration-2 theme.$transition-timing-function-linear;
+    transition: opacity theme.$transition-duration-2 theme.$transition-timing-function-standard;
   }
 
   &.#{$upload-prefix-cls}-slide-inline-exit {
@@ -494,7 +500,7 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
     overflow: hidden;
     opacity: 0;
     transition:
-      opacity theme.$transition-duration-1 theme.$transition-timing-function-linear,
+      opacity theme.$transition-duration-1 theme.$transition-timing-function-standard,
       width theme.$transition-duration-3 theme.$transition-timing-function-standard
         theme.$transition-duration-1,
       margin theme.$transition-duration-3 theme.$transition-timing-function-standard

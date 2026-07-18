@@ -80,7 +80,7 @@ $avatar-prefix-cls: string.unquote('#{theme.$prefix}-avatar');
     background-color: $avatar-color-trigger-button-bg;
     border-radius: $avatar-border-trigger-button-radius;
     transition: background-color theme.$transition-duration-1
-      theme.$transition-timing-function-linear;
+      theme.$transition-timing-function-standard;
   }
 
   &-trigger-icon-mask {
@@ -102,7 +102,7 @@ $avatar-prefix-cls: string.unquote('#{theme.$prefix}-avatar');
     );
     border-radius: $avatar-square-border-radius;
     opacity: 0;
-    transition: all theme.$transition-duration-1 theme.$transition-timing-function-linear;
+    transition: opacity theme.$transition-duration-1 theme.$transition-timing-function-standard;
   }
 
   &-circle &-trigger-icon-mask {

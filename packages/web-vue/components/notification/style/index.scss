@@ -55,7 +55,7 @@ $notification-prefix-cls: string.unquote('#{theme.$prefix}-notification');
   border-radius: $notification-border-radius;
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
   opacity: 1;
-  transition: opacity theme.$transition-duration-2 theme.$transition-timing-function-linear;
+  transition: opacity theme.$transition-duration-2 theme.$transition-timing-function-standard;
 
   &:not(:last-child) {
     margin-bottom: $notification-margin-bottom;
@@ -213,7 +213,11 @@ $notification-prefix-cls: string.unquote('#{theme.$prefix}-notification');
 }
 
 .slide-left-notification-leave-active {
-  transition: all theme.$transition-duration-3 theme.$transition-timing-function-standard;
+  transition:
+    height theme.$transition-duration-3 theme.$transition-timing-function-standard,
+    margin theme.$transition-duration-3 theme.$transition-timing-function-standard,
+    padding theme.$transition-duration-3 theme.$transition-timing-function-standard,
+    opacity theme.$transition-duration-3 theme.$transition-timing-function-standard;
 }
 
 .slide-right-notification-enter-from,
@@ -245,5 +249,9 @@ $notification-prefix-cls: string.unquote('#{theme.$prefix}-notification');
 }
 
 .slide-right-notification-leave-active {
-  transition: all theme.$transition-duration-3 theme.$transition-timing-function-standard;
+  transition:
+    height theme.$transition-duration-3 theme.$transition-timing-function-standard,
+    margin theme.$transition-duration-3 theme.$transition-timing-function-standard,
+    padding theme.$transition-duration-3 theme.$transition-timing-function-standard,
+    opacity theme.$transition-duration-3 theme.$transition-timing-function-standard;
 }

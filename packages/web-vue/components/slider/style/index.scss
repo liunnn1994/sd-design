@@ -148,7 +148,9 @@ $slider-prefix: string.unquote('#{theme.$prefix}-slider');
       background: $slider-color-button-bg;
       border: $slider-border-size-button solid $slider-color-button-border;
       border-radius: 50%;
-      transition: all theme.$transition-duration-3 theme.$transition-timing-function-overshoot;
+      transition:
+        transform theme.$transition-duration-3 theme.$transition-timing-function-overshoot,
+        box-shadow theme.$transition-duration-3 theme.$transition-timing-function-overshoot;
       content: '';
     }
 

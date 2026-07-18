@@ -1,9 +1,9 @@
 @use '@style/theme/index.scss' as *;
 
-// modal use
+// modal use（fullscreen 模态框）。从 scale(0.94) 起步而非 scale(0.5)。
 .zoom-in-enter-from,
 .zoom-in-appear-from {
-  transform: scale(0.5, 0.5);
+  transform: scale(0.94, 0.94);
   opacity: 0;
 }
 
@@ -26,7 +26,7 @@
 }
 
 .zoom-in-leave-to {
-  transform: scale(0.5, 0.5);
+  transform: scale(0.94, 0.94);
   opacity: 0;
 }
 
@@ -36,10 +36,11 @@
     transform $transition-duration-3 $transition-timing-function-standard;
 }
 
-// used by tooltip。缩放出现，渐隐退出
+// used by tooltip / popover / popconfirm。缩放出现，渐隐退出。
+// 从 scale(0.96) 起步而非 scale(0.5)：小浮层只需轻微弹出，过大的缩放显得“凭空炸出”。
 .zoom-in-fade-out-enter-from,
 .zoom-in-fade-out-appear-from {
-  transform: scale(0.5, 0.5);
+  transform: scale(0.96, 0.96);
   opacity: 0;
 }
 
@@ -61,8 +62,8 @@
   opacity: 1;
 }
 
+// 退出改为纯渐隐：退出时不再缩放，避免吸引注意力（与类名 fade-out 一致）
 .zoom-in-fade-out-leave-to {
-  transform: scale(0.5, 0.5);
   opacity: 0;
 }
 

@@ -17,7 +17,9 @@ $link-prefix-cls: string.unquote('#{theme.$prefix}-link');
   background-color: global.$color-transparent;
   border-radius: $link-border-radius;
   cursor: pointer;
-  transition: all theme.$transition-duration-1 theme.$transition-timing-function-linear;
+  transition:
+    color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+    background-color theme.$transition-duration-1 theme.$transition-timing-function-standard;
 
   &:hover {
     color: $link-color-text_hover;

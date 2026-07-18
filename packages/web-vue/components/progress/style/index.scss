@@ -76,7 +76,9 @@ $progress-prefix-cls: string.unquote('#{$prefix}-progress');
         height: 100%;
         background-color: $progress-line-color-buffer-bg;
         border-radius: 0 100px 100px 0;
-        transition: all 0.6s $transition-timing-function-standard;
+        transition:
+          width 0.6s $transition-timing-function-standard,
+          background-color 0.6s $transition-timing-function-standard;
       }
 
       &-animate::after {
@@ -270,8 +272,8 @@ $progress-prefix-cls: string.unquote('#{$prefix}-progress');
 
     &-bar {
       transition:
-        stroke-dashoffset 0.6s $transition-timing-function-linear 0s,
-        stroke 0.6s $transition-timing-function-linear;
+        stroke-dashoffset 0.6s $transition-timing-function-standard 0s,
+        stroke 0.6s $transition-timing-function-standard;
       stroke: $progress-circle-color-path-stroke;
     }
   }

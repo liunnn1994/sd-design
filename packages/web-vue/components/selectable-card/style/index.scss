@@ -23,16 +23,16 @@ $colors:
   border-radius: $selectable-card-border-radius;
   cursor: pointer;
   transition:
-    color theme.$transition-duration-2 theme.$transition-timing-function-linear,
-    background-color theme.$transition-duration-2 theme.$transition-timing-function-linear,
-    border-color theme.$transition-duration-2 theme.$transition-timing-function-linear,
-    box-shadow theme.$transition-duration-2 theme.$transition-timing-function-linear;
+    color theme.$transition-duration-2 theme.$transition-timing-function-standard,
+    background-color theme.$transition-duration-2 theme.$transition-timing-function-standard,
+    border-color theme.$transition-duration-2 theme.$transition-timing-function-standard,
+    box-shadow theme.$transition-duration-2 theme.$transition-timing-function-standard;
 
   &::after {
     position: absolute;
     background: transparent;
     border-radius: inherit;
-    transition: background theme.$transition-duration-2 theme.$transition-timing-function-linear;
+    transition: background theme.$transition-duration-2 theme.$transition-timing-function-standard;
     content: '';
     pointer-events: none;
     inset: 0;

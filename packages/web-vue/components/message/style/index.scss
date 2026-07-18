@@ -44,7 +44,9 @@ $message-prefix-cls: string.unquote('#{theme.$prefix}-message');
   border: $message-border-width $message-border-style $message-normal-color-border;
   border-radius: $message-border-radius;
   box-shadow: global.$shadow2-down;
-  transition: all theme.$transition-duration-1 theme.$transition-timing-function-linear;
+  transition:
+    background-color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+    border-color theme.$transition-duration-1 theme.$transition-timing-function-standard;
   pointer-events: auto;
 
   &-icon {
@@ -55,7 +57,7 @@ $message-prefix-cls: string.unquote('#{theme.$prefix}-message');
     vertical-align: middle;
     animation:
       #{theme.$prefix}-msg-fade theme.$transition-duration-1
-        theme.$transition-timing-function-linear,
+        theme.$transition-timing-function-standard,
       #{theme.$prefix}-msg-fade theme.$transition-duration-4
         theme.$transition-timing-function-overshoot;
   }
@@ -156,7 +158,7 @@ $message-prefix-cls: string.unquote('#{theme.$prefix}-message');
 
 .fade-message-enter-active,
 .fade-message-appear-active {
-  transition: opacity theme.$transition-duration-1 theme.$transition-timing-function-linear;
+  transition: opacity theme.$transition-duration-1 theme.$transition-timing-function-standard;
 }
 
 .fade-message-leave-from {

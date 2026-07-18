@@ -62,7 +62,7 @@ $token-vars: map.merge(meta.module-variables('dropdownToken'), meta.module-varia
 }
 
 @mixin menu-text-color-transition() {
-  transition: color theme.$transition-duration-2 theme.$transition-timing-function-linear;
+  transition: color theme.$transition-duration-2 theme.$transition-timing-function-standard;
 }
 
 @mixin menu-item-base() {
@@ -400,7 +400,7 @@ $token-vars: map.merge(meta.module-variables('dropdownToken'), meta.module-varia
     height: $menu-height-label-item-selected;
     background-color: $menu-color-label-item-selected;
     animation: #{theme.$prefix}-menu-selected-item-label-enter theme.$transition-duration-2
-      theme.$transition-timing-function-linear;
+      theme.$transition-timing-function-standard;
   }
 
   &-pop-button {
@@ -578,7 +578,9 @@ $token-vars: map.merge(meta.module-variables('dropdownToken'), meta.module-varia
       color: $dropdown-option-color-text_selected;
       font-weight: $dropdown-option-font-weight_selected;
       background-color: $dropdown-option-color-bg_selected;
-      transition: all theme.$transition-duration-1 theme.$transition-timing-function-linear;
+      transition:
+        color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+        background-color theme.$transition-duration-1 theme.$transition-timing-function-standard;
     }
 
     // hover

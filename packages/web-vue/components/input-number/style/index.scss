@@ -14,7 +14,11 @@ $input-number-prefix-cls: string.unquote('#{theme.$prefix}-input-number');
   border-radius: $input-number-border-radius;
 
   @mixin transition() {
-    transition: all theme.$transition-duration-1 theme.$transition-timing-function-linear;
+    transition:
+      color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+      background-color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+      border-color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+      opacity theme.$transition-duration-1 theme.$transition-timing-function-standard;
   }
 
   &-step-button {

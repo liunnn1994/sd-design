@@ -21,7 +21,8 @@ $backtop-prefix-cls: string.unquote('#{theme.$prefix}-back-top');
     border-radius: $backtop-button-border-radius;
     outline: none;
     cursor: pointer;
-    transition: all theme.$transition-duration-2 theme.$transition-timing-function-linear;
+    transition: background-color theme.$transition-duration-2
+      theme.$transition-timing-function-standard;
 
     &:hover {
       background-color: $backtop-button-color-bg_hover;

@@ -85,7 +85,16 @@
     border-radius: $pagination-item-border-radius;
     outline: 0;
     cursor: pointer;
+    transition:
+      color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+      background-color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+      border-color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+      transform theme.$transition-duration-1 theme.$transition-timing-function-standard;
     user-select: none;
+
+    &:active:not(&-disabled) {
+      transform: scale(0.97);
+    }
 
     @include page-item(default);
 
@@ -100,9 +109,6 @@
       color: $pagination-color-item-text_active;
       background-color: $pagination-color-bg-item_active;
       border-color: $pagination-color-item-border_active;
-      transition:
-        color theme.$transition-duration-2 theme.$transition-timing-function-linear,
-        background-color theme.$transition-duration-2 theme.$transition-timing-function-linear;
     }
 
     &-disabled,

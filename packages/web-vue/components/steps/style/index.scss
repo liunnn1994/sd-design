@@ -15,7 +15,7 @@ $steps-prefix-cls: string.unquote('#{theme.$prefix}-steps');
   &-changeable {
     .#{$steps-prefix-cls}-item-title,
     .#{$steps-prefix-cls}-item-description {
-      transition: all theme.$transition-duration-1 theme.$transition-timing-function-linear;
+      transition: color theme.$transition-duration-1 theme.$transition-timing-function-standard;
     }
   }
 

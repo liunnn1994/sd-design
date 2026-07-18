@@ -152,7 +152,7 @@ $typography-prefix-cls: string.unquote('#{theme.$prefix}-typography');
     border-radius: 2px;
     cursor: pointer;
     transition: background-color theme.$transition-duration-1
-      theme.$transition-timing-function-linear;
+      theme.$transition-timing-function-standard;
 
     &:hover {
       color: $typography-color-icon-copy_hover;
@@ -172,7 +172,7 @@ $typography-prefix-cls: string.unquote('#{theme.$prefix}-typography');
     border-radius: 2px;
     cursor: pointer;
     transition: background-color theme.$transition-duration-1
-      theme.$transition-timing-function-linear;
+      theme.$transition-timing-function-standard;
 
     &:hover {
       color: $typography-color-icon-edit_hover;

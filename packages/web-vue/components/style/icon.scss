@@ -30,6 +30,14 @@
   }
 }
 
+// 减少动态偏好：放慢加载图标旋转（保留加载态指示，避免快速循环带来的不适）
+@media (prefers-reduced-motion: reduce) {
+  .#{$prefix}-icon-loading,
+  .#{$prefix}-icon-spin {
+    animation-duration: 3s;
+  }
+}
+
 .#{$prefix}-icon-hover {
   position: relative;
   display: block;
@@ -45,7 +53,7 @@
     box-sizing: border-box;
     background-color: global.$color-transparent;
     border-radius: component.$icon-hover-border-radius;
-    transition: background-color $transition-duration-1 $transition-timing-function-linear;
+    transition: background-color $transition-duration-1 $transition-timing-function-standard;
     content: '';
   }
 

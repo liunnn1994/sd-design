@@ -237,9 +237,9 @@ $form-item-message-prefix-cls: string.unquote('#{theme.$prefix}-form-item-messag
 
 .form-blink-enter-active,
 .form-blink-appear-active {
-  transition: opacity theme.$transition-duration-3 theme.$transition-timing-function-linear;
+  transition: opacity theme.$transition-duration-3 theme.$transition-timing-function-standard;
   animation: #{theme.$prefix}-form-blink theme.$transition-duration-5
-    theme.$transition-timing-function-linear;
+    theme.$transition-timing-function-standard;
 }
 
 @keyframes #{theme.$prefix}-form-blink {

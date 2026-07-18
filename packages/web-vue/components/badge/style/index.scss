@@ -159,7 +159,7 @@ $badge-prefix-cls: string.unquote('#{theme.$prefix}-badge');
 
 @keyframes #{theme.$prefix}-badge-scale {
   from {
-    transform: scale(0, 0);
+    transform: scale(0.5, 0.5);
   }
 
   to {
@@ -169,7 +169,7 @@ $badge-prefix-cls: string.unquote('#{theme.$prefix}-badge');
 
 .badge-zoom-enter,
 .badge-zoom-appear {
-  transform: translate(50%, -50%) scale(0.2, 0.2);
+  transform: translate(50%, -50%) scale(0.5, 0.5);
   // opacity: 0;
   transform-origin: center;
 }
@@ -191,7 +191,7 @@ $badge-prefix-cls: string.unquote('#{theme.$prefix}-badge');
 }
 
 .badge-zoom-exit-active {
-  transform: translate(50%, -50%) scale(0.2, 0.2);
+  transform: translate(50%, -50%) scale(0.5, 0.5);
   transform-origin: center;
   opacity: 0;
   transition:

@@ -161,7 +161,9 @@ $radio-prefix-cls: string.unquote('#{theme.$prefix}-radio');
   background-color: $radio-button-color-bg;
   border-radius: $radio-button-border-radius;
   cursor: pointer;
-  transition: all theme.$transition-duration-1 theme.$transition-timing-function-linear;
+  transition:
+    color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+    background-color theme.$transition-duration-1 theme.$transition-timing-function-standard;
 
   &-content {
     position: relative;
@@ -180,7 +182,7 @@ $radio-prefix-cls: string.unquote('#{theme.$prefix}-radio');
     height: $radio-button-size-separator-height;
     background-color: $radio-button-color-separator-bg;
     transform: translateY(-50%);
-    transition: all theme.$transition-duration-1 theme.$transition-timing-function-linear;
+    transition: opacity theme.$transition-duration-1 theme.$transition-timing-function-standard;
     content: '';
   }
 

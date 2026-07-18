@@ -217,7 +217,9 @@ $cascader-prefix-cls: string.unquote('#{theme.$prefix}-cascader');
     &-active {
       color: $cascader-color-item-text_active;
       background-color: $cascader-color-item-bg_active;
-      transition: all theme.$transition-duration-2 theme.$transition-timing-function-linear;
+      transition:
+        color theme.$transition-duration-2 theme.$transition-timing-function-standard,
+        background-color theme.$transition-duration-2 theme.$transition-timing-function-standard;
 
       &:hover {
         color: $cascader-color-item-text_active;

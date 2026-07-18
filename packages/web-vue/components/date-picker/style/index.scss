@@ -88,7 +88,8 @@ $picker-prefix-cls: string.unquote('#{theme.$prefix}-picker');
       text-align: center;
       background-color: $picker-color-bg-switch-icon;
       border-radius: 50%;
-      transition: all theme.$transition-duration-1 theme.$transition-timing-function-linear;
+      transition: background-color theme.$transition-duration-1
+        theme.$transition-timing-function-standard;
       user-select: none;
     }
 
@@ -104,7 +105,7 @@ $picker-prefix-cls: string.unquote('#{theme.$prefix}-picker');
       padding: 2px;
       border-radius: 2px;
       cursor: pointer;
-      transition: all theme.$transition-duration-1;
+      transition: background-color theme.$transition-duration-1;
 
       &:hover {
         background-color: $picker-panel-color-bg-label_hover;
@@ -172,7 +173,7 @@ $picker-prefix-cls: string.unquote('#{theme.$prefix}-picker');
     color: $picker-panel-color-text-cell_selected;
     background-color: $picker-panel-color-bg-cell_selected;
     transition: background-color theme.$transition-duration-1
-      theme.$transition-timing-function-linear;
+      theme.$transition-timing-function-standard;
   }
 
   &-cell-in-view:not(

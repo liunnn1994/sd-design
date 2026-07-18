@@ -23,7 +23,7 @@ $card-prefix-cls: string.unquote('#{theme.$prefix}-card');
   position: relative;
   background: $card-color-bg;
   border-radius: $card-border-radius-no-border;
-  transition: box-shadow theme.$transition-duration-2 theme.$transition-timing-function-linear;
+  transition: box-shadow theme.$transition-duration-2 theme.$transition-timing-function-standard;
 
   &-header {
     position: relative;
@@ -90,7 +90,7 @@ $card-prefix-cls: string.unquote('#{theme.$prefix}-card');
       justify-content: center;
       color: $card-color-action;
       cursor: pointer;
-      transition: color theme.$transition-duration-2 theme.$transition-timing-function-linear;
+      transition: color theme.$transition-duration-2 theme.$transition-timing-function-standard;
 
       @include text-ellipsis();
 
@@ -150,7 +150,7 @@ $card-prefix-cls: string.unquote('#{theme.$prefix}-card');
     &::before {
       position: absolute;
       inset: 0;
-      transition: box-shadow theme.$transition-duration-2 theme.$transition-timing-function-linear;
+      transition: box-shadow theme.$transition-duration-2 theme.$transition-timing-function-standard;
       content: '';
       pointer-events: none;
     }

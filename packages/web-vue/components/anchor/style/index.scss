@@ -79,7 +79,9 @@ $anchor-prefix-cls: string.unquote('#{theme.$prefix}-anchor');
   &-link-active > &-link {
     color: $anchor-color-title_active;
     font-weight: $anchor-font-weight-title_active;
-    transition: all theme.$transition-duration-1 theme.$transition-timing-function-linear;
+    transition:
+      color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+      background-color theme.$transition-duration-1 theme.$transition-timing-function-standard;
   }
 
   &-link-item &-link-item {

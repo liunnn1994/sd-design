@@ -84,7 +84,7 @@
   &:hover &-icon {
     border-color: $checkbox-mask-color-border_hover;
     transition:
-      border-color theme.$transition-duration-1 theme.$transition-timing-function-linear,
+      border-color theme.$transition-duration-1 theme.$transition-timing-function-standard,
       transform theme.$transition-duration-3 theme.$transition-timing-function-overshoot;
   }
 

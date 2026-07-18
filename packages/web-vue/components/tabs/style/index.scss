@@ -181,7 +181,7 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
     line-height: 1.5715;
     outline: none;
     cursor: pointer;
-    transition: color theme.$transition-duration-2 theme.$transition-timing-function-linear;
+    transition: color theme.$transition-duration-2 theme.$transition-timing-function-standard;
 
     &-title {
       display: inline-block;
@@ -261,8 +261,8 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
         border-radius: $tabs-line-border-radius;
         opacity: 1;
         transition:
-          background-color theme.$transition-duration-2 theme.$transition-timing-function-linear,
-          opacity theme.$transition-duration-2 theme.$transition-timing-function-linear;
+          background-color theme.$transition-duration-2 theme.$transition-timing-function-standard,
+          opacity theme.$transition-duration-2 theme.$transition-timing-function-standard;
         content: '';
       }
     }
@@ -318,8 +318,8 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
       font-size: $tabs-size-default-font-size_card;
       border: $tabs-card-border-width solid $tabs-card-color-title-border;
       transition:
-        padding theme.$transition-duration-2 theme.$transition-timing-function-linear,
-        color theme.$transition-duration-2 theme.$transition-timing-function-linear;
+        padding theme.$transition-duration-2 theme.$transition-timing-function-standard,
+        color theme.$transition-duration-2 theme.$transition-timing-function-standard;
 
       &-closable {
         padding-right: $tabs-card-padding-title-right_editable;
@@ -574,7 +574,7 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
         height: $tabs-capsule-size-separator-height;
         background-color: $tabs-capsule-color-separator-bg;
         transform: translateY(-50%);
-        transition: all theme.$transition-duration-2 theme.$transition-timing-function-linear;
+        transition: opacity theme.$transition-duration-2 theme.$transition-timing-function-standard;
         content: '';
       }
     }
@@ -627,7 +627,7 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
   }
 
   &-content-animation {
-    transition: all theme.$transition-duration-2 theme.$transition-timing-function-standard;
+    transition: margin theme.$transition-duration-2 theme.$transition-timing-function-standard;
   }
 
   &-horizontal#{&}-justify {

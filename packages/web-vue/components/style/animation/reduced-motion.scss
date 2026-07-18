@@ -1,0 +1,22 @@
+@use '@style/theme/index.scss' as *;
+
+// 全局减少动态偏好安全网：覆盖所有 Vue 过渡入场/退场类（共享类与各组件自定义类）。
+// 去掉 transform 位移（避免前庭不适），保留 opacity/颜色过渡并缩短至 dur-1。
+// 使用 !important 以确保覆盖各组件自身的过渡声明（a11y 必须优先）。
+// 仅匹配 Vue 过渡类名后缀（*-enter-active / *-leave-active / *-enter-from / *-leave-to 及 appear 变体），
+// 不影响状态类（如 *-active、*-checked、*-selected）。
+@media (prefers-reduced-motion: reduce) {
+  // 抹平初始/终末的 transform，使元素不再位移（opacity/颜色照常过渡）
+  [class*='-enter-from'],
+  [class*='-appear-from'],
+  [class*='-leave-to'] {
+    transform: none !important;
+  }
+
+  // 缩短过渡时长至 ≈即时（仍可见出现/消失，但不再有缓慢运动）
+  [class*='-enter-active'],
+  [class*='-appear-active'],
+  [class*='-leave-active'] {
+    transition-duration: $transition-duration-1 !important;
+  }
+}

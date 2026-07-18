@@ -15,7 +15,11 @@
   background-color: $picker-color-bg;
   border: 1px solid $picker-color-border;
   border-radius: $picker-input-border-radius;
-  transition: all theme.$transition-duration-1 theme.$transition-timing-function-linear;
+  transition:
+    color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+    background-color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+    border-color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+    box-shadow theme.$transition-duration-1 theme.$transition-timing-function-standard;
 
   &-input {
     display: inline-flex;
@@ -32,7 +36,9 @@
     background-color: global.$color-transparent;
     border: none;
     outline: none;
-    transition: all theme.$transition-duration-1 theme.$transition-timing-function-linear;
+    transition:
+      color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+      background-color theme.$transition-duration-1 theme.$transition-timing-function-standard;
 
     &::placeholder {
       color: $picker-color-placeholder;

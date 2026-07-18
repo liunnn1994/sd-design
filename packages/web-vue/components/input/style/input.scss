@@ -52,9 +52,9 @@
   border-radius: $input-border-radius;
   cursor: text;
   transition:
-    color theme.$transition-duration-1 theme.$transition-timing-function-linear,
-    border-color theme.$transition-duration-1 theme.$transition-timing-function-linear,
-    background-color theme.$transition-duration-1 theme.$transition-timing-function-linear;
+    color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+    border-color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+    background-color theme.$transition-duration-1 theme.$transition-timing-function-standard;
 
   &:hover {
     background-color: $input-color-bg_hover;
@@ -143,7 +143,7 @@
 
     > svg {
       position: relative;
-      transition: color theme.$transition-duration-1 theme.$transition-timing-function-linear;
+      transition: color theme.$transition-duration-1 theme.$transition-timing-function-standard;
     }
   }
 

@@ -238,7 +238,8 @@ $modal-prefix-cls: string.unquote('#{theme.$prefix}-modal');
 
 .zoom-modal-enter-from,
 .zoom-modal-appear-from {
-  transform: scale(0.5, 0.5);
+  // 从 scale(0.94) 起步而非 scale(0.5)：弹窗只需轻微放大，过大的缩放显得突兀
+  transform: scale(0.94, 0.94);
   opacity: 0;
 }
 
@@ -261,7 +262,7 @@ $modal-prefix-cls: string.unquote('#{theme.$prefix}-modal');
 }
 
 .zoom-modal-leave-to {
-  transform: scale(0.5, 0.5);
+  transform: scale(0.94, 0.94);
   opacity: 0;
 }
 

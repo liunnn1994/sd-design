@@ -40,7 +40,8 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
   border-radius: $table-border-radius-expand-button;
   outline: none;
   cursor: pointer;
-  transition: background-color theme.$transition-duration-1 theme.$transition-timing-function-linear;
+  transition: background-color theme.$transition-duration-1
+    theme.$transition-timing-function-standard;
 
   &:hover {
     color: $table-color-expand-icon_hover;
@@ -318,7 +319,7 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
     width: $table-size-shadow-wrapper-width;
     box-shadow: none;
     transform: translateX(-100%);
-    transition: box-shadow theme.$transition-duration-1 theme.$transition-timing-function-linear;
+    transition: box-shadow theme.$transition-duration-1 theme.$transition-timing-function-standard;
     content: '';
     pointer-events: none;
   }
@@ -342,7 +343,8 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
       border: $table-border-width solid $table-color-editable-body-cell-border;
       border-radius: $table-border-radius;
       cursor: pointer;
-      transition: all theme.$transition-duration-1 theme.$transition-timing-function-linear;
+      transition: border-color theme.$transition-duration-1
+        theme.$transition-timing-function-standard;
     }
 
     &:hover {
@@ -457,7 +459,7 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
 
   &-th {
     transition: background-color theme.$transition-duration-1
-      theme.$transition-timing-function-linear;
+      theme.$transition-timing-function-standard;
   }
 
   &-cell-with-sorter {
@@ -516,7 +518,7 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
       top: 50%;
       color: $table-color-header-sorter-icon;
       font-size: $table-font-size-header-sorter-icon;
-      transition: all theme.$transition-duration-1 theme.$transition-timing-function-linear;
+      transition: color theme.$transition-duration-1 theme.$transition-timing-function-standard;
     }
 
     .#{theme.$prefix}-icon-caret-up {
@@ -549,7 +551,8 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
     vertical-align: 0;
     background-color: transparent;
     cursor: pointer;
-    transition: all theme.$transition-duration-1 theme.$transition-timing-function-linear;
+    transition: background-color theme.$transition-duration-1
+      theme.$transition-timing-function-standard;
 
     &:hover,
     &-open {
@@ -559,7 +562,7 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
     svg {
       color: $table-color-header-filters-icon;
       font-size: $table-font-size-filters-icon;
-      transition: all theme.$transition-duration-1 theme.$transition-timing-function-linear;
+      transition: color theme.$transition-duration-1 theme.$transition-timing-function-standard;
     }
 
     &-active {
@@ -633,7 +636,7 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
       width: $table-size-shadow-wrapper-width;
       height: 100%;
       box-shadow: none;
-      transition: box-shadow theme.$transition-duration-1 theme.$transition-timing-function-linear;
+      transition: box-shadow theme.$transition-duration-1 theme.$transition-timing-function-standard;
       content: '';
       pointer-events: none;
     }

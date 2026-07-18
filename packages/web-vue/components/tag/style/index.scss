@@ -68,7 +68,9 @@ $colors:
 
   &-checkable {
     cursor: pointer;
-    transition: all theme.$transition-duration-1 theme.$transition-timing-function-linear;
+    transition:
+      background-color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+      border-color theme.$transition-duration-1 theme.$transition-timing-function-standard;
   }
 
   &-checkable:hover {

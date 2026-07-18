@@ -123,7 +123,9 @@ $text-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-text-1'));
     line-height: $layout-sider-trigger-height;
     text-align: center;
     cursor: pointer;
-    transition: all $layout-motion-duration-mid theme.$transition-timing-function-standard;
+    transition:
+      color $layout-motion-duration-mid theme.$transition-timing-function-standard,
+      background-color $layout-motion-duration-mid theme.$transition-timing-function-standard;
   }
 
   &-zero-width-trigger {
@@ -147,7 +149,7 @@ $text-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-text-1'));
       position: absolute;
       inset: 0;
       background: transparent;
-      transition: all $layout-motion-duration-slow;
+      transition: background-color $layout-motion-duration-slow ease;
       content: '';
     }
 

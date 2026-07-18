@@ -65,7 +65,10 @@ $switch-size-small-line-gap: (($switch-size-small - $switch-line-size-dot-small)
     font-size: 12px;
     background-color: $switch-color-dot-bg;
     border-radius: 50%;
-    transition: all theme.$transition-duration-2 theme.$transition-timing-function-standard;
+    // 滑块位移依赖 left（相对父级定位），暂保留 left 过渡；颜色同步过渡
+    transition:
+      left theme.$transition-duration-2 theme.$transition-timing-function-standard,
+      color theme.$transition-duration-2 theme.$transition-timing-function-standard;
   }
 
   &-checked {
