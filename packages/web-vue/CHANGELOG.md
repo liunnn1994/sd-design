@@ -1,3 +1,17 @@
+# [3.14.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.13.0...web-vue-v3.14.0) (2026-07-18)
+
+
+### Bug Fixes
+
+* 🐛 修复 Button fragment 根导致的 attrs 丢失与 ResizeObserver 崩溃 ([57823ed](https://github.com/liunnn1994/sd-design/commit/57823ed652a90d1eb415d2b91aa1e26dc0be47f0))
+
+
+### Features
+
+* 🆕 优化动画效果以及性能 ([d0f821c](https://github.com/liunnn1994/sd-design/commit/d0f821c41eda87bf72f387c39d56ddb624b1f7b4))
+* 🆕 新增 a11y 支持 ([5d60d33](https://github.com/liunnn1994/sd-design/commit/5d60d332ecb7b86397e5599213611ac4d45310f4))
+* 🆕 根据苹果设计原则优化按钮 ([abbc1ba](https://github.com/liunnn1994/sd-design/commit/abbc1badab9064b93614ebbb72c6d028dd525b31))
+
 # [3.13.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.12.0...web-vue-v3.13.0) (2026-07-16)
 
 
