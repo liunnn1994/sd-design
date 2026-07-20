@@ -21,7 +21,10 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: release-${{ github.ref }}
+  # 独立 concurrency 组：不与其它 release workflow 共享。共享组会在一次 push 同时触发
+  # 多个 release workflow 时无差别取消其中一个 pending run（曾导致 mcp / resolver 漏发版）。
+  # chore(release) 推送冲突由发布前 git pull --rebase + [skip ci] + 各包耗时差异规避。
+  group: release-auto-import-resolver-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
