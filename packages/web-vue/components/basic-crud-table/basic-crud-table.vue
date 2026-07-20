@@ -37,6 +37,7 @@
     <Spin :loading="loading" :class="`${prefixCls}-body`">
       <Table
         v-bind="tableProps"
+        :scroll="resolvedTableScroll"
         :columns="resolvedColumns"
         :data="tableData"
         :pagination="resolvedPagination"
@@ -134,6 +135,7 @@
     toolbarProps = {},
     modalProps = {},
     modalFormProps = { schemas: [] },
+    fullHeight = false,
     showCreate = true,
     openCreateModal = true,
     showEdit = true,
@@ -185,7 +187,13 @@
   const sorter = shallowRef<UnknownRecord>({});
   const fetchData = shallowRef<unknown>();
   const prefixCls = getPrefixCls('basic-crud-table');
-  const cls = computed(() => [prefixCls, { [`${prefixCls}-loading`]: loading.value }]);
+  const cls = computed(() => [
+    prefixCls,
+    {
+      [`${prefixCls}-full-height`]: fullHeight,
+      [`${prefixCls}-loading`]: loading.value,
+    },
+  ]);
   const toolbarSlotNames = computed(() =>
     getForwardedSlotNames('toolbar__', ['default', 'action_prepend', 'action_append']),
   );
@@ -216,6 +224,9 @@
           pageSize: pageSize.value,
           total: total.value,
         },
+  );
+  const resolvedTableScroll = computed(() =>
+    fullHeight ? { ...tableProps.scroll, y: '100%' } : tableProps.scroll,
   );
   const params = computed(() => ({
     current: current.value,

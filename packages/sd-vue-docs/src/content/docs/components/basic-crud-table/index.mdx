@@ -6,6 +6,8 @@ description: 固定流程的 CRUD 表格，统一查询、分页、详情回填�
 import DemoBlock from '../../../../components/docs/DemoBlock.astro';
 import BasicDemo from '../../../../components/generated/basic-crud-table/basic.vue';
 import basicSource from '../../../../components/generated/basic-crud-table/basic.vue?raw';
+import FullHeightDemo from '../../../../components/generated/basic-crud-table/full-height.vue';
+import fullHeightSource from '../../../../components/generated/basic-crud-table/full-height.vue?raw';
 import ToolbarDemo from '../../../../components/generated/basic-crud-table/toolbar.vue';
 import toolbarSource from '../../../../components/generated/basic-crud-table/toolbar.vue?raw';
 import StateDemo from '../../../../components/generated/basic-crud-table/state.vue';
@@ -25,6 +27,14 @@ import modalSource from '../../../../components/generated/basic-crud-table/modal
 
 <DemoBlock source={basicSource} mainFile="src/basic-crud-table-basic.vue">
   <BasicDemo client:only="vue" />
+</DemoBlock>
+
+### 适配父级高度
+
+父级提供明确高度后，设置 `full-height` 让组件撑满父容器。标题、查询工具栏和分页保持自身高度，表格填充中间的剩余空间；数据较多时通过表格默认滚动条浏览，不会继续撑高父容器。示例中的查询、新建、编辑和删除均可直接操作。
+
+<DemoBlock source={fullHeightSource} mainFile="src/basic-crud-table-full-height.vue">
+  <FullHeightDemo client:only="vue" />
 </DemoBlock>
 
 ### 查询工具栏
@@ -79,6 +89,7 @@ import modalSource from '../../../../components/generated/basic-crud-table/modal
 | toolbar-props | 仅传给 Toolbar 的属性 | `BasicCrudTableToolbarProps` | `{}` |
 | modal-props | 仅传给 Modal 的属性 | `BasicCrudTableModalProps` | `{}` |
 | modal-form-props | 仅传给弹窗 JsonForm 的属性 | `BasicCrudTableModalFormProps` | `{ schemas: [] }` |
+| full-height | 是否占满父级高度，并让表格区域填充剩余空间、内容通过表格滚动条滚动；父级需有明确高度。启用后 `table-props.scroll.y` 固定为 `100%`，其余 `scroll` 字段（如 `x`）仍按传入生效 | `boolean` | `false` |
 | fetch-table-api | 列表请求函数 | `(params) => Promise<DataResult>` | - |
 | create-api / update-api | 创建、更新提交函数 | `(model) => Promise<unknown>` | - |
 | detail-api | 编辑前加载详情 | `(row) => Promise<object>` | - |

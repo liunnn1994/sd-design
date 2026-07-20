@@ -38,6 +38,8 @@ export interface BasicCrudTableProps<TRow extends TableData = TableData> {
   modalProps?: BasicCrudTableModalProps;
   /** @zh 弹窗 JsonForm 专属属性 @en Props forwarded only to the modal JsonForm */
   modalFormProps?: BasicCrudTableModalFormProps;
+  /** @zh 是否占满父级高度，并让表格区域滚动 @en Whether to fill the parent height and scroll the table area */
+  fullHeight?: boolean;
   showCreate?: boolean;
   openCreateModal?: boolean;
   showEdit?: boolean;

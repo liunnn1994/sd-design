@@ -9,6 +9,27 @@ $basic-crud-table-prefix-cls: string.unquote('#{theme.$prefix}-basic-crud-table'
   width: 100%;
   min-width: 0;
 
+  &-full-height {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  &-full-height &-body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  &-full-height &-body > .#{theme.$prefix}-table {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+  }
+
   &-header {
     display: flex;
     flex-direction: column;

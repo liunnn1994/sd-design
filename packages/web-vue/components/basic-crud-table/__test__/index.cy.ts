@@ -14,6 +14,44 @@ describe('BasicCrudTable', () => {
     cy.contains('监控项').should('be.visible');
   });
 
+  it('fullHeight 占满父级高度，表格区域内部滚动', () => {
+    // 包一层定高父级，验证「占满父级 + 内容内部滚动」而非被内容撑开或裁切
+    const Wrapper = defineComponent({
+      render() {
+        return h(
+          'div',
+          { style: 'height: 400px' },
+          h(BasicCrudTable, {
+            columns,
+            tableData: Array.from({ length: 20 }, (_, index) => ({
+              key: index,
+              name: `监控项 ${index + 1}`,
+            })),
+            fetchTableOnMounted: false,
+            fullHeight: true,
+            // 关掉分页，让 20 行全部渲染以触发纵向溢出
+            tableProps: { pagination: false, scroll: { x: 800 } },
+          }),
+        );
+      },
+    });
+    cy.mount(Wrapper);
+
+    cy.get('.sd-basic-crud-table').should('have.class', 'sd-basic-crud-table-full-height');
+    // 行为：crud table 高度等于父级，而不是被 20 行撑高
+    cy.get('.sd-basic-crud-table').then(($el) => {
+      const el = $el[0];
+      expect(el.offsetHeight, '占满父级高度').to.be.closeTo(el.parentElement!.offsetHeight, 1);
+    });
+    // 行为：表格内容（20 行）超出可视区——body 被约束在剩余空间内，
+    // scrollHeight > clientHeight 说明多出的行进入内部滚动，而非把组件撑高
+    cy.get('.sd-table-body').should(($body) => {
+      expect($body[0].scrollHeight, '表格内部存在溢出/可滚动').to.be.greaterThan(
+        $body[0].clientHeight,
+      );
+    });
+  });
+
   it('触发新建与编辑', () => {
     const onCreate = cy.spy().as('create');
     const onEdit = cy.spy().as('edit');

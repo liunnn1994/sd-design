@@ -22,6 +22,8 @@ import ConfigProviderModalDrawerDefaultsDemo from '../../../../components/genera
 import configProviderModalDrawerDefaultsSource from '../../../../components/generated/config-provider/modal-drawer-defaults.vue?raw';
 import ConfigProviderDatePickerDefaultsDemo from '../../../../components/generated/config-provider/date-picker-defaults.vue';
 import configProviderDatePickerDefaultsSource from '../../../../components/generated/config-provider/date-picker-defaults.vue?raw';
+import ConfigProviderPaginationDefaultsDemo from '../../../../components/generated/config-provider/pagination-defaults.vue';
+import configProviderPaginationDefaultsSource from '../../../../components/generated/config-provider/pagination-defaults.vue?raw';
 
 ### 基本用法
 
@@ -119,6 +121,19 @@ import configProviderDatePickerDefaultsSource from '../../../../components/gener
 
 </DemoBlock>
 
+### Pagination 默认配置
+
+设置 `pagination` 后，Pagination 会默认继承对应配置；如果组件自己显式传入了同名 props，则以组件 props 为准。下面第二个分页组件通过局部 props 关闭了页容量选择器，并单独开启了跳转输入框。
+
+<DemoBlock
+	source={configProviderPaginationDefaultsSource}
+	mainFile="src/config-provider-pagination-defaults.vue"
+>
+
+<ConfigProviderPaginationDefaultsDemo client:only="vue" />
+
+</DemoBlock>
+
 ## API
 
 ### `<config-provider>` Props
@@ -139,6 +154,7 @@ import configProviderDatePickerDefaultsSource from '../../../../components/gener
 | date-picker | DatePicker 组件默认配置 | `ConfigProviderDatePicker` | `-` |  |
 | modal | Modal 组件默认配置 | `ConfigProviderModal` | `-` |  |
 | drawer | Drawer 组件默认配置 | `ConfigProviderDrawer` | `-` |  |
+| pagination | Pagination 组件默认配置 | `ConfigProviderPagination` | `-` |  |
 | color-picker | ColorPicker 组件默认配置 | `ConfigProviderColorPicker` | `-` |  |
 | json-form | JsonForm 组件默认配置 | `JsonFormProviderConfig` | `-` |  |
 | theme | 运行时主题对象 | `SdThemeConfig` | `-` |  |
@@ -168,6 +184,8 @@ import configProviderDatePickerDefaultsSource from '../../../../components/gener
 `date-picker` 支持以下全局默认字段：`shortcuts`、`shortcutsPosition`、`previewShortcut`、`showConfirmBtn`、`showNowBtn`、`dayStartOfWeek`、`abbreviation`。
 
 `drawer` 支持以下全局默认字段：`placement`、`mask`、`maskClosable`、`escToClose`、`closable`、`header`、`footer`、`titleEllipsisTooltip`、`hideCancel`、`okText`、`cancelText`、`okButtonProps`、`cancelButtonProps`、`width`、`height`。
+
+`pagination` 支持以下全局默认字段：`pageSizeOptions`、`defaultPageSize`、`showTotal`、`showMore`、`showJumper`、`showPageSize`、`autoAdjust`、`baseSize`、`bufferSize`、`pageSizeProps`。
 
 `color-picker` 支持通过 `swatchColors` 配置 ColorPicker 的默认系统色板。组件显式传入 `swatch-colors` 时优先使用组件配置；两处均未配置时系统色板为空。
 
