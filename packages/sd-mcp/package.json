@@ -1,6 +1,6 @@
 {
   "name": "@sdata/web-vue-mcp",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Model Context Protocol (MCP) server for the SD Design Vue component library",
   "keywords": [
     "ai",
