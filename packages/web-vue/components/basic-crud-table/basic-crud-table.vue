@@ -95,7 +95,7 @@
   import type { UnknownRecord } from 'type-fest';
 
   import type { VNode } from 'vue';
-  import { computed, nextTick, onMounted, ref, shallowRef, useSlots } from 'vue';
+  import { computed, inject, nextTick, onMounted, ref, shallowRef, useSlots } from 'vue';
 
   import { isFunction, isNil, isString, omitBy } from 'es-toolkit';
 
@@ -111,6 +111,7 @@
   import { getPrefixCls } from '../_utils/global-config';
   import { isPromise } from '../_utils/is';
   import Button from '../button';
+  import { configProviderInjectionKey } from '../config-provider/context';
   import Link from '../link';
   import Popconfirm from '../popconfirm';
   import Space from '../space';
@@ -179,6 +180,7 @@
   const modalVisible = defineModel<boolean>('modalVisible', { default: false });
 
   const slots = useSlots();
+  const configProvider = inject(configProviderInjectionKey, undefined);
   const toolbarRef = shallowRef<ToolbarInstance>();
   const modalRef = shallowRef<InstanceType<typeof BasicCrudModal>>();
   const current = shallowRef(resolvePaginationNumber('current', 'defaultCurrent', 1));
@@ -251,9 +253,14 @@
     fallback: number,
   ) {
     const pagination = tableProps.pagination;
-    return typeof pagination === 'object'
-      ? Number(pagination[controlled] ?? pagination[initial] ?? fallback)
-      : fallback;
+    if (typeof pagination === 'object') {
+      const localValue = pagination[controlled] ?? pagination[initial];
+      if (localValue !== undefined) return Number(localValue);
+    }
+    if (initial === 'defaultPageSize') {
+      return Number(configProvider?.pagination?.defaultPageSize ?? fallback);
+    }
+    return fallback;
   }
   function isObjectResult(
     value: unknown,
