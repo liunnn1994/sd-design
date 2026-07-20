@@ -1,3 +1,16 @@
+# [3.16.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.15.0...web-vue-v3.16.0) (2026-07-20)
+
+
+### Bug Fixes
+
+* 🐛 修复错误的组件引用 ([bb97a05](https://github.com/liunnn1994/sd-design/commit/bb97a05a57d49cba38af62670f22bd51dfa66e08))
+
+
+### Features
+
+* 🆕 crud table 添加 fullheight 参数 ([48b39dc](https://github.com/liunnn1994/sd-design/commit/48b39dc2fd125f096ded118c006337d538525052))
+* 🆕 为 colorPicker 添加全局配置 ([bbad681](https://github.com/liunnn1994/sd-design/commit/bbad6819541ff9a3db09f2a4af0680887d3f6f26))
+
 # [3.15.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.14.0...web-vue-v3.15.0) (2026-07-18)
 
 
