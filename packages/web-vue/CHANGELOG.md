@@ -1,3 +1,11 @@
+## [3.16.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.16.0...web-vue-v3.16.1) (2026-07-20)
+
+
+### Bug Fixes
+
+* 🐛 修复 crudTable 中没有读取全局配置的问题 ([0274010](https://github.com/liunnn1994/sd-design/commit/0274010224e9d42ea027e5eafb68ad9f8881adf6))
+* 🐛 修复页码选择可清空的bug ([23b480c](https://github.com/liunnn1994/sd-design/commit/23b480c58f17e8ec68a1288c65d9d06d3c6951d7))
+
 # [3.16.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.15.0...web-vue-v3.16.0) (2026-07-20)
 
 
