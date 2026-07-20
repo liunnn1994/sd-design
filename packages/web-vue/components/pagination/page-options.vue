@@ -1,6 +1,6 @@
 <template>
   <span :class="prefixCls">
-    <sd-select
+    <Select
       :model-value="modelValue"
       :options="options"
       :size="size"
@@ -20,7 +20,7 @@
 
   import { getPrefixCls } from '../_utils/global-config';
   import { useI18n } from '../locale';
-  import SDSelect from '../select';
+  import Select from '../select';
 
   defineOptions({ name: 'PageOptions' });
 
