@@ -1,6 +1,7 @@
 import { h, ref } from 'vue';
 
 import { configProviderInjectionKey } from '../../config-provider/context';
+import Select from '../../select';
 import Pagination from '../pagination';
 
 describe('Pagination', () => {
@@ -60,6 +61,20 @@ describe('Pagination', () => {
       const pageOptions = wrapper.findComponent({ name: 'PageOptions' });
       expect(pageOptions.exists()).to.equal(true);
       expect(pageOptions.props('sizeOptions')).to.deep.equal([5, 15, 25]);
+    });
+  });
+
+  it('always disables clearing the page size select', () => {
+    cy.mount(Pagination, {
+      props: { total: 200, showPageSize: true, pageSizeProps: { allowClear: true } },
+      global: {
+        provide: {
+          [configProviderInjectionKey as symbol]: { slots: {}, allowClear: true },
+        },
+      },
+    });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.findComponent(Select).props('allowClear')).to.equal(false);
     });
   });
 

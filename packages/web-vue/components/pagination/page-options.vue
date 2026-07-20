@@ -6,6 +6,7 @@
       :size="size"
       :disabled="disabled"
       v-bind="selectProps"
+      :allow-clear="false"
       @change="handleChange"
     />
   </span>
