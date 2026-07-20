@@ -12,6 +12,7 @@
   import { Size } from '../_utils/constant';
   import { SdLang } from '../locale/interface';
   import {
+    ConfigProviderColorPicker,
     ConfigProviderDatePicker,
     ConfigProviderDrawer,
     type JsonFormProviderConfig,
@@ -152,6 +153,13 @@
       type: Object as PropType<ConfigProviderPagination>,
     },
     /**
+     * @zh ColorPicker 组件默认配置
+     * @en Default config for ColorPicker
+     */
+    colorPicker: {
+      type: Object as PropType<ConfigProviderColorPicker>,
+    },
+    /**
      * @zh JsonForm 组件默认配置
      * @en Default config for JsonForm
      */
@@ -204,6 +212,7 @@
     modal,
     drawer,
     pagination,
+    colorPicker,
   } = toRefs(props);
 
   const config = reactive({
@@ -223,6 +232,7 @@
     modal,
     drawer,
     pagination,
+    colorPicker,
     jsonForm: toRefs(props).jsonForm,
     theme: normalizeTheme(props.theme),
   });

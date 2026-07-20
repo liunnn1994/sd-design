@@ -72,6 +72,10 @@ export interface ConfigProviderPagination {
   pageSizeProps?: PaginationSelectProps;
 }
 
+export interface ConfigProviderColorPicker {
+  swatchColors?: string[];
+}
+
 export interface ConfigProvider {
   slots: Slots;
   prefixCls?: string;
@@ -89,6 +93,7 @@ export interface ConfigProvider {
   modal?: ConfigProviderModal;
   drawer?: ConfigProviderDrawer;
   pagination?: ConfigProviderPagination;
+  colorPicker?: ConfigProviderColorPicker;
   jsonForm?: JsonFormProviderConfig;
   theme?: SDThemeNormalized;
 }

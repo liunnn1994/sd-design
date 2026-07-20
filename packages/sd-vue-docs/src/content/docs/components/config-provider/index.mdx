@@ -139,6 +139,7 @@ import configProviderDatePickerDefaultsSource from '../../../../components/gener
 | date-picker | DatePicker 组件默认配置 | `ConfigProviderDatePicker` | `-` |  |
 | modal | Modal 组件默认配置 | `ConfigProviderModal` | `-` |  |
 | drawer | Drawer 组件默认配置 | `ConfigProviderDrawer` | `-` |  |
+| color-picker | ColorPicker 组件默认配置 | `ConfigProviderColorPicker` | `-` |  |
 | json-form | JsonForm 组件默认配置 | `JsonFormProviderConfig` | `-` |  |
 | theme | 运行时主题对象 | `SdThemeConfig` | `-` |  |
 | theme-mode | 当前 ConfigProvider 子树的主题模式 | `'light' \| 'dark'` | `-` |  |
@@ -167,6 +168,8 @@ import configProviderDatePickerDefaultsSource from '../../../../components/gener
 `date-picker` 支持以下全局默认字段：`shortcuts`、`shortcutsPosition`、`previewShortcut`、`showConfirmBtn`、`showNowBtn`、`dayStartOfWeek`、`abbreviation`。
 
 `drawer` 支持以下全局默认字段：`placement`、`mask`、`maskClosable`、`escToClose`、`closable`、`header`、`footer`、`titleEllipsisTooltip`、`hideCancel`、`okText`、`cancelText`、`okButtonProps`、`cancelButtonProps`、`width`、`height`。
+
+`color-picker` 支持通过 `swatchColors` 配置 ColorPicker 的默认系统色板。组件显式传入 `swatch-colors` 时优先使用组件配置；两处均未配置时系统色板为空。
 
 `json-form` 支持给 `JsonForm` 提供默认 `adapter`，以及注入业务自定义字段组件注册表 `components`。当多个页面共享同一批业务字段组件时，优先通过 `ConfigProvider` 统一配置。
 

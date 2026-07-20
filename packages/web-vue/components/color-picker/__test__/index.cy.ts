@@ -1,3 +1,6 @@
+import { defineComponent, h } from 'vue';
+
+import ConfigProvider from '../../config-provider';
 import ColorPicker from '../index';
 
 const gradientValue = 'linear-gradient(45deg, rgba(79, 172, 254, 1) 0%, rgba(0, 242, 254, 1) 100%)';
@@ -27,6 +30,62 @@ describe('ColorPicker', () => {
       const panel = wrapper.findComponent({ name: 'Panel' });
       expect(panel.exists()).to.equal(true);
       expect(typeof panel.props('onChange')).to.equal('function');
+    });
+  });
+
+  it('uses an empty system swatch by default', () => {
+    cy.mount(ColorPicker, { props: { hideTrigger: true } });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.findComponent({ name: 'Panel' }).props('swatchColors')).to.deep.equal([]);
+    });
+  });
+
+  it('uses system swatches from ConfigProvider', () => {
+    cy.mount(
+      defineComponent({
+        render() {
+          return h(
+            ConfigProvider,
+            { colorPicker: { swatchColors: ['#123456'] } },
+            { default: () => h(ColorPicker, { hideTrigger: true }) },
+          );
+        },
+      }),
+    );
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(
+        wrapper.findComponent(ColorPicker).findComponent({ name: 'Panel' }).props('swatchColors'),
+      ).to.deep.equal(['#123456']);
+    });
+  });
+
+  it('prefers explicit swatch colors over ConfigProvider defaults', () => {
+    cy.mount(
+      defineComponent({
+        render() {
+          return h(
+            ConfigProvider,
+            { colorPicker: { swatchColors: ['#123456'] } },
+            {
+              default: () => h(ColorPicker, { hideTrigger: true, swatchColors: ['#abcdef'] }),
+            },
+          );
+        },
+      }),
+    );
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(
+        wrapper.findComponent(ColorPicker).findComponent({ name: 'Panel' }).props('swatchColors'),
+      ).to.deep.equal(['#abcdef']);
+    });
+  });
+
+  it('passes null through when swatchColors is null', () => {
+    cy.mount(ColorPicker, { props: { hideTrigger: true, swatchColors: null } });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(
+        wrapper.findComponent(ColorPicker).findComponent({ name: 'Panel' }).props('swatchColors'),
+      ).to.equal(null);
     });
   });
 

@@ -45,7 +45,7 @@ import colorPickerTriggerSource from '../../../../components/generated/color-pic
 
 ### 预设颜色和历史颜色
 
-通过 `recent-colors` 和 `swatch-colors` 控制最近使用颜色与系统色板。最近使用颜色变化时会触发 `recent-colors-change`。
+通过 `recent-colors` 和 `swatch-colors` 控制最近使用颜色与系统色板。系统色板默认读取 `ConfigProvider` 的 `color-picker.swatch-colors`，组件显式传入 `swatch-colors` 时优先使用组件配置；两处均未配置时为空。最近使用颜色变化时会触发 `recent-colors-change`。
 
 <DemoBlock source={colorPickerColorsSource} mainFile="src/color-picker-colors.vue">
 
@@ -132,7 +132,7 @@ import colorPickerTriggerSource from '../../../../components/generated/color-pic
 | trigger-props | 透传 Trigger 组件的属性 | `Partial<TriggerProps>` | `-` |
 | recent-colors | 最近使用颜色 | `string[] \| boolean \| null` | `[]` |
 | default-recent-colors | 最近使用颜色的非受控初始值 | `string[] \| boolean \| null` | `[]` |
-| swatch-colors | 系统色板 | `string[] \| null` | 内置色板 |
+| swatch-colors | 系统色板，优先于 ConfigProvider 配置 | `string[] \| null` | `[]` |
 | disabled | 禁用 | `boolean` | `false` |
 | hide-trigger | 仅渲染内联面板 | `boolean` | `false` |
 

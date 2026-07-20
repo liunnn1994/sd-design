@@ -8,7 +8,6 @@ import InputNumber from '../input-number';
 import { useI18n } from '../locale';
 import Radio from '../radio';
 import Select from '../select';
-import { colors } from './colors';
 import ControlBar from './control-bar';
 import {
   Color,
@@ -224,7 +223,7 @@ export default defineComponent({
     },
     swatchColors: {
       type: Array as PropType<string[] | null>,
-      default: () => colors,
+      default: () => [],
     },
     onChange: Function as PropType<(value: string, trigger: ColorPickerChangeTrigger) => void>,
     onRecentColorsChange: Function as PropType<(value: string[]) => void>,

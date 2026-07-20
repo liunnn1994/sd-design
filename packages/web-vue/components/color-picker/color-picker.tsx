@@ -1,12 +1,12 @@
-import { defineComponent, PropType, computed, ref, toRef } from 'vue';
+import { defineComponent, PropType, computed, inject, ref, toRef } from 'vue';
 
 import { useReadonlyTip, useReadonlyTipText } from '../_hooks/use-readonly-tip';
 import { Size } from '../_utils/constant';
 import { getPrefixCls } from '../_utils/global-config';
+import { configProviderInjectionKey } from '../config-provider/context';
 import Input from '../input';
 import Tooltip from '../tooltip';
 import Trigger, { TriggerProps } from '../trigger';
-import { colors } from './colors';
 import {
   ColorFormat,
   ColorModes,
@@ -161,6 +161,7 @@ export default defineComponent({
   },
   setup(props, { emit, slots }) {
     const prefixCls = getPrefixCls('color-picker');
+    const configProvider = inject(configProviderInjectionKey, undefined);
     const innerValue = ref(props.defaultValue);
     const popupVisible = ref(false);
     const innerRecentColors = ref<string[]>(
@@ -182,9 +183,8 @@ export default defineComponent({
     });
 
     const mergedSwatchColors = computed(() => {
-      if (props.swatchColors === null) return null;
-      if (Array.isArray(props.swatchColors)) return props.swatchColors;
-      return colors;
+      if (props.swatchColors !== undefined) return props.swatchColors;
+      return configProvider?.colorPicker?.swatchColors ?? [];
     });
 
     const colorState = computed(() => parseColorState(mergedValue.value, props.colorModes));
