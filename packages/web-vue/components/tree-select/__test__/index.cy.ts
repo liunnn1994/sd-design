@@ -21,6 +21,13 @@ const checkNode = (key: string) =>
   cy.get(`.sd-tree-node[data-key="${key}"] .sd-checkbox-target`).first().click({ force: true });
 
 describe('TreeSelect', () => {
+  it('renders the default empty state', () => {
+    cy.mount(TreeSelect, { props: { data: [] } });
+    openPopup();
+    cy.get('.sd-tree-select-popup .sd-empty').should('be.visible');
+    cy.get('.sd-tree-select-popup').invoke('outerHeight').should('be.greaterThan', 0);
+  });
+
   it('supports options alias and showPath', () => {
     cy.mount(TreeSelect, {
       props: { options, showPath: true, defaultValue: 'leaf-2', fieldNames },

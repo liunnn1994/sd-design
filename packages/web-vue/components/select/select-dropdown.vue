@@ -6,7 +6,7 @@
     <spin v-if="loading" :class="`${prefixCls}-loading`" />
     <div v-else-if="empty" :class="`${prefixCls}-empty`">
       <slot name="empty">
-        <component :is="SelectEmpty ? SelectEmpty : 'Empty'" />
+        <component :is="SelectEmpty || Empty" />
       </slot>
     </div>
     <slot v-if="virtualList && !loading && !empty" name="virtual-list" />

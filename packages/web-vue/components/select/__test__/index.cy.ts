@@ -11,6 +11,13 @@ describe('Select', () => {
     cy.get('.sd-select-option').should('exist');
   });
 
+  it('renders the default empty state', () => {
+    cy.mount(Select, { props: { options: [] } });
+    open();
+    cy.get('.sd-select-dropdown-empty .sd-empty').should('be.visible').and('have.css', 'height');
+    cy.get('.sd-select-dropdown-empty').invoke('outerHeight').should('be.greaterThan', 0);
+  });
+
   it('exposes combobox / listbox / option semantics', () => {
     cy.mount(Select, {
       props: { options: ['Beijing', 'Shanghai', 'Guangzhou'], modelValue: 'Shanghai' },

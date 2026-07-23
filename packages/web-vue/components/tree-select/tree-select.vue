@@ -74,7 +74,7 @@
             <Spin />
           </slot>
           <slot v-else-if="isEmpty" name="empty">
-            <component :is="TreeSelectEmpty ? TreeSelectEmpty : 'Empty'" />
+            <component :is="TreeSelectEmpty || Empty" />
           </slot>
           <Panel
             v-else
