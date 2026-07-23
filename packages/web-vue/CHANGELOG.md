@@ -1,3 +1,17 @@
+# [3.17.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.16.1...web-vue-v3.17.0) (2026-07-23)
+
+
+### Bug Fixes
+
+* 🐛 修复 ts 报错 ([306a21d](https://github.com/liunnn1994/sd-design/commit/306a21db3aa375ae67284975ed254167881ba459))
+* 🐛 修复下拉没有数据的时候错误的展现形式 ([f01f59a](https://github.com/liunnn1994/sd-design/commit/f01f59aa7773025cf267c173b68ce2c46148b4b0))
+
+
+### Features
+
+* 🆕 按钮组件添加屏幕阅读器兼容 ([d978d9a](https://github.com/liunnn1994/sd-design/commit/d978d9aab9237d0a85bfa8368c015f399d66264a))
+* 🆕 添加 kv-list 组件 ([aae5a79](https://github.com/liunnn1994/sd-design/commit/aae5a79b92d222c59a92ba1cdaf5e641d5b58057))
+
 ## [3.16.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.16.0...web-vue-v3.16.1) (2026-07-20)
 
 
