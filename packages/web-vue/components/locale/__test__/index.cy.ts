@@ -1,6 +1,9 @@
 import zhCN from '../lang/zh-cn';
 
-const languageModules = import.meta.glob<{ default: typeof zhCN }>('../lang/*.ts');
+const languageModules = import.meta.glob<{ default: typeof zhCN }>([
+  '../lang/*.ts',
+  '!../lang/kv-list.ts',
+]);
 
 function hasEqualStructure(obj1: Record<string, unknown>, obj2: Record<string, unknown>): boolean {
   return Object.keys(obj1).every((key) => {

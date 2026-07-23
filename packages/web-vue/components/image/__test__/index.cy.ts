@@ -1,7 +1,8 @@
 import Image, { ImagePreview as Preview, ImagePreviewGroup as PreviewGroup } from '../index';
 import getScale from '../utils/get-scale';
 
-const imgSrc = 'http://it-does-not-matter.png/';
+const brokenImgSrc = 'http://it-does-not-matter.png/';
+const imgSrc = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
 
 const mountLoadedPreview = () => {
   cy.mount(Preview, { props: { src: imgSrc, defaultVisible: true, renderToBody: false } });
@@ -10,7 +11,7 @@ const mountLoadedPreview = () => {
 
 describe('Image', () => {
   it('renders the error state for a broken src', () => {
-    cy.mount(Image, { props: { src: imgSrc } });
+    cy.mount(Image, { props: { src: brokenImgSrc } });
     cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.vm.onImgLoadError()));
     cy.get('.sd-image-error').should('exist');
   });
