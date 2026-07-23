@@ -13,6 +13,9 @@
       </span>
       <slot v-if="!isTwoCNChar" />
       <span v-else><slot /></span>
+      <span v-if="$slots['sr-only']" :class="`${prefixCls}-sr-only`">
+        <slot name="sr-only" />
+      </span>
     </a>
     <button
       v-else
@@ -29,6 +32,9 @@
       </span>
       <slot v-if="!isTwoCNChar" />
       <span v-else><slot /></span>
+      <span v-if="$slots['sr-only']" :class="`${prefixCls}-sr-only`">
+        <slot name="sr-only" />
+      </span>
     </button>
     <template v-if="$slots.tooltip" #content>
       <slot name="tooltip" />
@@ -176,6 +182,11 @@
    * @zh 图标
    * @en Icon
    * @slot icon
+   */
+  /**
+   * @zh 仅供屏幕阅读器读取的按钮文本
+   * @en Button text for screen readers only
+   * @slot sr-only
    */
   const { size, disabled } = toRefs(props);
   const prefixCls = getPrefixCls('btn');

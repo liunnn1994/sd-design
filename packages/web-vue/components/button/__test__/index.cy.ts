@@ -1,4 +1,5 @@
 import { configProviderInjectionKey } from '../../config-provider/context';
+import IconPlus from '../../icon/icon-plus';
 import Button from '../index';
 
 describe('Button', () => {
@@ -72,5 +73,19 @@ describe('Button', () => {
     cy.mount(Button);
     cy.get('button').trigger('mouseenter');
     cy.get('.sd-tooltip').should('not.exist');
+  });
+
+  it('should keep an icon centered when using the sr-only slot', () => {
+    cy.mount(Button, {
+      props: { size: 'small' },
+      slots: {
+        'icon': IconPlus,
+        'sr-only': '新增',
+      },
+    });
+
+    cy.get('button').should('have.class', 'sd-btn-only-icon').and('have.text', '新增');
+    cy.get('button').should('have.css', 'width', '28px').and('have.css', 'padding-left', '0px');
+    cy.get('.sd-btn-icon').should('have.css', 'margin-right', '0px');
   });
 });
