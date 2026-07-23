@@ -54,13 +54,12 @@
 
     <Textarea
       v-if="bulkMode"
-      :model-value="bulkModel"
+      v-model="bulkModel"
       :class="`${prefixCls}-bulk`"
       :auto-size="{ minRows: 8, maxRows: 18 }"
       :placeholder="t('kvList.bulkPlaceholder')"
       :disabled="disabled"
       data-testid="kv-list-bulk"
-      @update:model-value="bulkModel = $event"
     />
 
     <VueDraggable

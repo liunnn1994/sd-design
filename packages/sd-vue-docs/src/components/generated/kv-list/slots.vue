@@ -6,11 +6,11 @@
         :model-value="value"
         :options="keyOptions"
         placeholder="选择配置项"
-        @update:model-value="update"
+        @change="(value: unknown) => update(String(value))"
       />
     </template>
     <template #value="{ value, update, props }">
-      <Input v-bind="props" :model-value="value" allow-clear @update:model-value="update" />
+      <Input v-bind="props" :model-value="value" allow-clear @input="update" />
     </template>
   </KvList>
 </template>

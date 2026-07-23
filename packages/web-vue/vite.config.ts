@@ -68,6 +68,7 @@ function createRunConfig() {
       },
       'gen:icons': {
         command: 'node ./scripts/gen-icons.mjs',
+        cache: false,
       },
       'gen:web-types': {
         command: 'node ./scripts/gen-web-types.mjs',

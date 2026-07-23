@@ -19,18 +19,8 @@
         :props="mergedKeyProps"
         :update="updateKey"
       />
-      <AutoComplete
-        v-else-if="type === 'http-header'"
-        v-bind="mergedKeyProps"
-        :model-value="item.key"
-        @update:model-value="updateKey"
-      />
-      <Input
-        v-else
-        v-bind="mergedKeyProps"
-        :model-value="item.key"
-        @update:model-value="updateKey"
-      />
+      <AutoComplete v-else-if="type === 'http-header'" v-bind="mergedKeyProps" v-model="keyModel" />
+      <Input v-else v-bind="mergedKeyProps" v-model="keyModel" />
     </div>
 
     <div :class="`${prefixCls}-value`">
@@ -43,18 +33,8 @@
         :props="mergedValueProps"
         :update="updateValue"
       />
-      <InputPassword
-        v-else-if="type === 'secret'"
-        v-bind="mergedValueProps"
-        :model-value="item.value"
-        @update:model-value="updateValue"
-      />
-      <Input
-        v-else
-        v-bind="mergedValueProps"
-        :model-value="item.value"
-        @update:model-value="updateValue"
-      />
+      <InputPassword v-else-if="type === 'secret'" v-bind="mergedValueProps" v-model="valueModel" />
+      <Input v-else v-bind="mergedValueProps" v-model="valueModel" />
     </div>
 
     <div :class="`${prefixCls}-row-actions`">
@@ -131,6 +111,14 @@
   const prefixCls = getPrefixCls('kv-list');
   const { t } = useI18n();
   const publicItem = computed<KvListItem>(() => ({ key: item.key, value: item.value }));
+  const keyModel = computed({
+    get: () => item.key,
+    set: (value: string) => updateKey(value),
+  });
+  const valueModel = computed({
+    get: () => item.value,
+    set: (value: string) => updateValue(value),
+  });
   const mergedKeyProps = computed<Record<string, unknown>>(() => ({
     placeholder: t('kvList.keyPlaceholder'),
     ...(type === 'http-header' ? { data: [...COMMON_HTTP_HEADERS] } : {}),
