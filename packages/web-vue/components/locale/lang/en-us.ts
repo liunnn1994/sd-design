@@ -3,6 +3,7 @@ import { DefaultValidateMessage } from 'b-validate';
 import type { ValidateMessage } from '../interface';
 
 import { SDCalendarLang, SdLang } from '../interface';
+import { kvListEnUS } from './kv-list';
 
 const calendarLang: SDCalendarLang = {
   formatYear: 'YYYY',
@@ -165,6 +166,7 @@ const lang: SdLang = {
     preset: 'Preset Colors',
     empty: 'Empty',
   },
+  kvList: kvListEnUS,
   a11y: {
     close: 'Close',
     back: 'Back',

@@ -243,6 +243,16 @@ export type {
   JsonFormSchema,
 } from './json-form';
 export { defineJsonFormComponents, defineJsonFormSchemas } from './json-form';
+export { default as KvList } from './kv-list';
+export type {
+  KvListFieldSlotProps,
+  KvListInstance,
+  KvListItem,
+  KvListKeyProps,
+  KvListRowActionsSlotProps,
+  KvListType,
+  KvListValueProps,
+} from './kv-list';
 export { default as Grid, Col, Row, GridItem } from './grid';
 export type {
   ColProps,

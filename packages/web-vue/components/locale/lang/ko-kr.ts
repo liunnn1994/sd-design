@@ -1,4 +1,5 @@
 import { SDCalendarLang, SdLang } from '../interface';
+import { kvListEnUS } from './kv-list';
 
 const calendarLang: SDCalendarLang = {
   formatYear: 'YYYY',
@@ -205,6 +206,7 @@ const lang: SdLang = {
     preset: '시스템 기본 색상',
     empty: '데이터 없음',
   },
+  kvList: kvListEnUS,
   a11y: {
     close: '닫기',
     back: '뒤로',

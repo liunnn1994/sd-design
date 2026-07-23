@@ -1,4 +1,5 @@
 import { SDCalendarLang, SdLang } from '../interface';
+import { kvListEnUS } from './kv-list';
 
 const calendarLang: SDCalendarLang = {
   formatYear: 'YYYY',
@@ -205,6 +206,7 @@ const lang: SdLang = {
     preset: 'สี ที่ตั้งไว้สำหรับระบบ',
     empty: 'ไม่มีข้อมูล',
   },
+  kvList: kvListEnUS,
   a11y: {
     close: 'ปิด',
     back: 'ย้อนกลับ',

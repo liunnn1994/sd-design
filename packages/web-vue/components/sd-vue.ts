@@ -47,6 +47,7 @@ import Input, { InputGroup, InputSearch, InputPassword } from './input';
 import InputNumber from './input-number';
 import InputTag from './input-tag';
 import JsonForm from './json-form';
+import KvList from './kv-list';
 import Layout, { LayoutHeader, LayoutContent, LayoutFooter, LayoutSider } from './layout';
 import Link from './link';
 import List, { ListItem, ListItemMeta } from './list';
@@ -141,6 +142,7 @@ const components: Record<string, Plugin> = {
   DatePicker,
   Form,
   JsonForm,
+  KvList,
   Input,
   InputNumber,
   InputTag,

@@ -1,4 +1,5 @@
 import { SDCalendarLang, SdLang } from '../interface';
+import { kvListEnUS } from './kv-list';
 
 const calendarLang: SDCalendarLang = {
   formatYear: 'YYYY',
@@ -205,6 +206,7 @@ const lang: SdLang = {
     preset: 'Màu mặc định của hệ thống',
     empty: 'Không có dữ liệu',
   },
+  kvList: kvListEnUS,
   a11y: {
     close: 'Đóng',
     back: 'Quay lại',

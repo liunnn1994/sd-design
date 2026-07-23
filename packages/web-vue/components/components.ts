@@ -61,6 +61,7 @@ declare module 'vue' {
     SdFilePreviewer: SDVue['FilePreviewer'];
     SdForm: SDVue['Form'];
     SdFormItem: SDVue['FormItem'];
+    SdKvList: SDVue['KvList'];
     SdJsonForm: SDVue['JsonForm'];
     SdGrid: SDVue['Grid'];
     SdGridItem: SDVue['GridItem'];

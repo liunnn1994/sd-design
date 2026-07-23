@@ -1,4 +1,5 @@
 import { SDCalendarLang, SdLang } from '../interface';
+import { kvListEnUS } from './kv-list';
 
 const calendarLang: SDCalendarLang = {
   formatYear: 'YYYY ឆ្នាំ',
@@ -205,6 +206,7 @@ const lang: SdLang = {
     preset: 'ពណ៌កំណត់ជាមុន',
     empty: 'ទទេ',
   },
+  kvList: kvListEnUS,
   a11y: {
     close: 'បិទ',
     back: 'ត្រឡប់',

@@ -1,4 +1,5 @@
 import { SDCalendarLang, SdLang } from '../interface';
+import { kvListEnUS } from './kv-list';
 
 const calendarLang: SDCalendarLang = {
   formatYear: 'YYYY',
@@ -206,6 +207,7 @@ const lang: SdLang = {
     preset: 'Colori preimpostati dal sistema',
     empty: 'Nessun dato',
   },
+  kvList: kvListEnUS,
   a11y: {
     close: 'Chiudi',
     back: 'Indietro',

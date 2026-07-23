@@ -206,6 +206,17 @@ const lang: SdLang = {
     preset: '系统预设颜色',
     empty: '暂无',
   },
+  kvList: {
+    switchToList: '切换到列表编辑',
+    switchToBulk: '切换到 Bulk 编辑',
+    clear: '清空键值对',
+    add: '新增键值对',
+    bulkPlaceholder: '每行输入一个键值对，例如 Key: Value',
+    dragSort: '拖拽排序',
+    keyPlaceholder: '键',
+    valuePlaceholder: '值',
+    remove: '删除键值对',
+  },
   a11y: {
     close: '关闭',
     back: '返回',

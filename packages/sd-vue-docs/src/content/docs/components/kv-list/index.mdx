@@ -1,0 +1,95 @@
+---
+title: 键值列表 KvList
+description: 编辑、排序键值对，并在结构化数组与 Bulk 文本之间保持同步。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import KvListBasicDemo from '../../../../components/generated/kv-list/basic.vue';
+import kvListBasicSource from '../../../../components/generated/kv-list/basic.vue?raw';
+import KvListTypesDemo from '../../../../components/generated/kv-list/types.vue';
+import kvListTypesSource from '../../../../components/generated/kv-list/types.vue?raw';
+import KvListFieldPropsDemo from '../../../../components/generated/kv-list/field-props.vue';
+import kvListFieldPropsSource from '../../../../components/generated/kv-list/field-props.vue?raw';
+import KvListSlotsDemo from '../../../../components/generated/kv-list/slots.vue';
+import kvListSlotsSource from '../../../../components/generated/kv-list/slots.vue?raw';
+
+KvList 用于编辑有序键值对，同时提供 JSON 数组和 Bulk 文本两个模型。它适合请求 Header、密钥配置和通用配置项等场景。
+
+### 基本用法
+
+不传 `type` 时，键和值都使用 Input。修改任意模型都会同步另一侧；条目顺序和重复键会被保留。
+
+<DemoBlock source={kvListBasicSource} mainFile="src/kv-list-basic.vue">
+
+<KvListBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 编辑器类型
+
+`http-header` 使用 AutoComplete 编辑键，并内置常用 HTTP Header；`secret` 使用 InputPassword 编辑值，并默认隐藏 Bulk 编辑入口，避免在界面中明文展示密钥。
+
+<DemoBlock source={kvListTypesSource} mainFile="src/kv-list-types.vue">
+
+<KvListTypesDemo client:only="vue" />
+
+</DemoBlock>
+
+### 字段属性
+
+`keyProps` 和 `valueProps` 会直接透传给对应字段组件。KvList 始终接管 `modelValue` 和 `update:modelValue`，其他属性可以按需覆盖，包括 placeholder、readonly、allowClear 和 maxLength。
+
+<DemoBlock source={kvListFieldPropsSource} mainFile="src/kv-list-field-props.vue">
+
+<KvListFieldPropsDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义字段
+
+使用 `key` 和 `value` 作用域插槽替换内置字段。插槽提供 `value`、`item`、`index`、合并后的 `props` 与 `update`；调用 `update` 才会同步两个模型。
+
+<DemoBlock source={kvListSlotsSource} mainFile="src/kv-list-slots.vue">
+
+<KvListSlotsDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### Models
+
+| 参数         | 描述                        | 类型           | 默认值 |
+| ------------ | --------------------------- | -------------- | ------ |
+| v-model:json | 有序键值对数组，支持重复键  | `KvListItem[]` | `[]`   |
+| v-model:bulk | `Key: Value` 格式的多行文本 | `string`       | `''`   |
+
+当两个模型首次传入的内容冲突时，非空的 `json` 优先。空键不会写入模型；Bulk 模式忽略空行，并以每行第一个冒号分隔键和值。
+
+### Props
+
+| 参数 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| type | 内置字段类型 | `'http-header' \| 'secret'` | `undefined` |
+| keyProps | 透传给键字段的属性 | `KvListKeyProps` | - |
+| valueProps | 透传给值字段的属性 | `KvListValueProps` | - |
+| disabled | 禁用字段编辑、排序、增删、清空和 Bulk 编辑 | `boolean` | `false` |
+| bulkEditable | 是否显示 Bulk 编辑入口；`secret` 默认关闭，其他类型默认开启 | `boolean` | 根据 `type` 自动判断 |
+
+插槽优先于 `type`。`keyProps/valueProps` 中的 `modelValue`、`defaultValue` 和 `onUpdate:modelValue` 不属于可透传 API。
+
+### KvListItem
+
+| 字段  | 描述 | 类型     |
+| ----- | ---- | -------- |
+| key   | 键   | `string` |
+| value | 值   | `string` |
+
+### Slots
+
+| 插槽          | 描述                     | 参数                                            |
+| ------------- | ------------------------ | ----------------------------------------------- |
+| key           | 自定义键字段             | `{ value, item, index, props, update }`         |
+| value         | 自定义值字段             | `{ value, item, index, props, update }`         |
+| toolbar-extra | 工具栏尾部的扩展操作     | -                                               |
+| row-actions   | 每行删除按钮前的扩展操作 | `{ item: Readonly<KvListItem>, index: number }` |

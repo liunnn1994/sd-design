@@ -1,0 +1,93 @@
+@use '@style/theme/index.scss' as theme;
+@use 'sass:string';
+@use '@components/kv-list/style/token.scss' as *;
+
+$kv-list-prefix-cls: string.unquote('#{theme.$prefix}-kv-list');
+
+.#{$kv-list-prefix-cls} {
+  box-sizing: border-box;
+  overflow: hidden;
+  background: $kv-list-color-bg;
+  border: $kv-list-border-width solid $kv-list-color-border;
+  border-radius: $kv-list-border-radius;
+
+  &-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    padding: $kv-list-padding;
+    border-bottom: $kv-list-border-width solid $kv-list-color-border;
+  }
+
+  &-toolbar-actions,
+  &-row-actions {
+    display: flex;
+    flex-shrink: 0;
+    gap: $kv-list-gap;
+    align-items: center;
+  }
+
+  &-rows {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: $kv-list-gap;
+    align-items: center;
+    padding: $kv-list-padding;
+    border-bottom: $kv-list-border-width solid $kv-list-color-border;
+    transition:
+      background-color $kv-list-transition-duration,
+      opacity $kv-list-transition-duration;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    &--ghost {
+      background: $kv-list-color-ghost;
+      opacity: 0.45;
+    }
+
+    &--chosen {
+      background: $kv-list-color-ghost;
+    }
+  }
+
+  &-drag-handle {
+    color: $kv-list-color-drag;
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  &-key,
+  &-value {
+    min-width: 0;
+  }
+
+  &-bulk {
+    display: block;
+    border: 0;
+    border-radius: 0;
+  }
+
+  @media screen and (width <= 640px) {
+    &-row {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+    }
+
+    &-value {
+      grid-column: 2;
+    }
+
+    &-row-actions {
+      grid-row: 1 / span 2;
+      grid-column: 3;
+    }
+  }
+}

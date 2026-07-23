@@ -249,6 +249,17 @@ export interface SdLang {
     preset: string;
     empty: string;
   };
+  kvList: {
+    switchToList: string;
+    switchToBulk: string;
+    clear: string;
+    add: string;
+    bulkPlaceholder: string;
+    dragSort: string;
+    keyPlaceholder: string;
+    valuePlaceholder: string;
+    remove: string;
+  };
   a11y: SdA11yLang;
 }
 
