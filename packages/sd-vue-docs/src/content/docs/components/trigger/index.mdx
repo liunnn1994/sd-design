@@ -89,6 +89,10 @@ import triggerTriggersSource from '../../../../components/generated/trigger/trig
 
 </DemoBlock>
 
+### Floating UI 定位配置
+
+`floating-options` 会原样传给 `@floating-ui/vue` 的 `useFloating()`。它与旧定位属性冲突时以 Floating UI 配置为准；`middleware` 会完整替换默认中间件。详见 [Floating UI 迁移指南](/guides/floating-ui/)。
+
 ## API
 
 ### `<trigger>` Props
@@ -99,6 +103,7 @@ import triggerTriggersSource from '../../../../components/generated/trigger/trig
 | default-popup-visible | 弹出框默认是否可见（非受控模式） | `boolean` | `false` |  |
 | trigger | 触发方式 | `'hover' \| 'click' \| 'focus' \| 'contextMenu'` | `'hover'` |  |
 | position | 弹出位置 | `'top' \| 'tl' \| 'tr' \| 'bottom' \| 'bl' \| 'br' \| 'left' \| 'lt' \| 'lb' \| 'right' \| 'rt' \| 'rb'` | `'bottom'` |  |
+| floating-options | 原样传给 Floating UI `useFloating()` 的配置，显式字段优先于旧定位属性 | `FloatingOptions` | `-` |  |
 | disabled | 触发器是否禁用 | `boolean` | `false` |  |
 | popup-offset | 弹出框的偏移量（弹出框距离触发器的偏移距离） | `number` | `0` |  |
 | popup-translate | 弹出框的移动距离 | `TriggerPopupTranslate` | `-` |  |

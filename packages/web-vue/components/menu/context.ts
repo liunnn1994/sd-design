@@ -14,6 +14,7 @@ export type MenuContext = Readonly<
     | 'scrollConfig'
     | 'inTrigger'
     | 'triggerProps'
+    | 'floatingOptions'
     | 'tooltipProps'
     | 'ellipsis'
     | 'ellipsisProps'

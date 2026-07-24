@@ -12,6 +12,7 @@
     :arrow-class="arrowCls"
     :arrow-style="computedArrowStyle"
     :popup-container="popupContainer"
+    :floating-options="floatingOptions"
     animation-name="zoom-in-fade-out"
     auto-fit-transform-origin
     role="tooltip"

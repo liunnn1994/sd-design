@@ -1,5 +1,6 @@
 import type { HTMLAttributes } from 'vue';
 
+import type { FloatingOptions } from '../_utils/floating';
 import type { ButtonProps } from '../button/interface';
 
 export type TourAllowedButton = 'next' | 'previous' | 'close';
@@ -62,6 +63,7 @@ export type TourPopover = {
   titleProps?: HTMLAttributes;
   descriptionProps?: HTMLAttributes;
   footerProps?: HTMLAttributes;
+  floatingOptions?: FloatingOptions;
 };
 
 export type TourStep = {
@@ -96,6 +98,7 @@ export type TourConfig = {
   stagePadding?: number;
   stageRadius?: number;
   popoverOffset?: number;
+  floatingOptions?: FloatingOptions;
   showButtons?: TourAllowedButton[];
   disableButtons?: TourAllowedButton[];
   prevBtnText?: string;

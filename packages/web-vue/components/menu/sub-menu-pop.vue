@@ -11,6 +11,7 @@
     :auto-fit-popup-min-width="true"
     :duration="100"
     v-bind="triggerProps"
+    :floating-options="menuContext.floatingOptions ?? triggerProps.floatingOptions"
     :unmount-on-close="false"
     :popup-visible="popVisible"
     @popupVisibleChange="onVisibleChange"
@@ -75,6 +76,7 @@
         :selected-keys="selectedKeys"
         :theme="menuContext.theme"
         :trigger-props="menuContext.triggerProps"
+        :floating-options="menuContext.floatingOptions"
         :ellipsis="menuContext.ellipsis"
         :ellipsis-props="menuContext.ellipsisProps"
         :style="popupMenuStyles"
@@ -99,7 +101,7 @@
   import { isNumber } from '../_utils/is';
   import { omit } from '../_utils/omit';
   import Ellipsis from '../ellipsis';
-  import Trigger from '../trigger';
+  import Trigger, { type TriggerProps } from '../trigger';
   import Menu from './base-menu.vue';
   import useLevel from './hooks/use-level';
   import useMenu from './hooks/use-menu';
@@ -158,8 +160,11 @@
     },
     (menuContext.triggerProps as Record<string, unknown> | undefined)?.class,
   ]);
-  const triggerProps = computed(() =>
-    omit((menuContext.triggerProps || {}) as Record<string, unknown>, ['class']),
+  const triggerProps = computed<Partial<TriggerProps>>(
+    () =>
+      omit((menuContext.triggerProps || {}) as Record<string, unknown>, [
+        'class',
+      ]) as Partial<TriggerProps>,
   );
 
   const popupMenuStyles = computed(() => {

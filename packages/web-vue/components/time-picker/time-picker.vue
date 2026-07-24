@@ -12,6 +12,7 @@
     :unmount-on-close="unmountOnClose"
     :popup-container="popupContainer"
     v-bind="{ ...triggerProps }"
+    :floating-options="floatingOptions ?? triggerProps?.floatingOptions"
     aria-has-popup="dialog"
     @popupVisibleChange="onPanelVisibleChange"
   >
@@ -77,6 +78,8 @@
   import { computed, nextTick, PropType, reactive, ref, toRefs, watch } from 'vue';
 
   import { Dayjs } from 'dayjs';
+
+  import type { FloatingOptions } from '../_utils/floating';
 
   import DateRangeInput from '../_components/picker/input-range.vue';
   import DateInput from '../_components/picker/input.vue';
@@ -271,6 +274,9 @@
      * */
     triggerProps: {
       type: Object as PropType<TriggerProps>,
+    },
+    floatingOptions: {
+      type: Object as PropType<FloatingOptions>,
     },
     /**
      * @zh 是否在关闭后销毁 dom 结构

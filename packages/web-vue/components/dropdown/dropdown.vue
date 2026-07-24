@@ -7,6 +7,7 @@
     :position="position"
     :popup-offset="4"
     :popup-container="popupContainer"
+    :floating-options="floatingOptions"
     :opened-class="`${prefixCls}-open`"
     esc-to-close
     aria-has-popup="menu"
@@ -26,6 +27,8 @@
 
 <script setup lang="ts">
   import { PropType, provide, reactive, toRefs } from 'vue';
+
+  import type { FloatingOptions } from '../_utils/floating';
 
   import { useTrigger } from '../_hooks/use-trigger';
   import { TriggerEvent } from '../_utils/constant';
@@ -79,6 +82,9 @@
      */
     popupContainer: {
       type: [String, Object] as PropType<string | HTMLElement>,
+    },
+    floatingOptions: {
+      type: Object as PropType<FloatingOptions>,
     },
     /**
      * @zh 弹出框最大高度

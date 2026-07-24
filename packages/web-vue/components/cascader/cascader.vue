@@ -2,6 +2,7 @@
   <Tooltip :popup-visible="tipVisible" :content="readonlyTipText" position="top">
     <trigger
       v-bind="mergedTriggerProps"
+      :floating-options="floatingOptions ?? mergedTriggerProps.floatingOptions"
       trigger="click"
       animation-name="slide-dynamic-origin"
       auto-fit-transform-origin
@@ -210,6 +211,7 @@
     maxTagCount,
     tagNowrap,
     popupContainer,
+    floatingOptions,
     searchOptionOnlyLabel,
   } = toRefs(props);
 

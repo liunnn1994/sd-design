@@ -1,5 +1,7 @@
 import { defineComponent, PropType, computed, inject, ref, toRef } from 'vue';
 
+import type { FloatingOptions } from '../_utils/floating';
+
 import { useReadonlyTip, useReadonlyTipText } from '../_hooks/use-readonly-tip';
 import { Size } from '../_utils/constant';
 import { getPrefixCls } from '../_utils/global-config';
@@ -139,6 +141,9 @@ export default defineComponent({
     triggerProps: {
       type: Object as PropType<Partial<TriggerProps>>,
     },
+    floatingOptions: {
+      type: Object as PropType<FloatingOptions>,
+    },
   },
   emits: {
     'update:modelValue': (_value: string) => true,
@@ -267,6 +272,7 @@ export default defineComponent({
           popupOffset: 4,
           animationName: 'slide-dynamic-origin',
           ...props.triggerProps,
+          floatingOptions: props.floatingOptions ?? props.triggerProps?.floatingOptions,
         }) satisfies Partial<TriggerProps>,
     );
 

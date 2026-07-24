@@ -16,6 +16,8 @@
 
 SD Design 是一个基于 Vue 3 的现代企业级组件库。本项目采用 pnpm workspace 架构组织，实现了组件源码、调试环境和文档站的紧密协同。
 
+锚点型悬浮层统一使用 `@floating-ui/vue` 定位，并通过 `floatingOptions` 原样透传上游配置。旧定位API 保持兼容；冲突规则与迁移示例见文档站的“Floating UI 迁移指南”。
+
 ## 🎯 导读与快速开始
 
 - 想要快速启动项目、了解本地开发流，请直接阅读 **[QUICK-START.md](QUICK-START.md)**。

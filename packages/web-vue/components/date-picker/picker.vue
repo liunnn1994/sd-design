@@ -7,6 +7,7 @@
     :click-to-close="false"
     :popup-offset="4"
     v-bind="triggerProps"
+    :floating-options="floatingOptions ?? triggerProps?.floatingOptions"
     :position="position"
     :disabled="mergedDisabled || !!readonly"
     :prevent-focus="true"
@@ -78,6 +79,8 @@
   } from 'vue';
 
   import { Dayjs } from 'dayjs';
+
+  import type { FloatingOptions } from '../_utils/floating';
 
   import DateInput from '../_components/picker/input.vue';
   import { useAllowClear } from '../_hooks/use-allow-clear';
@@ -219,6 +222,9 @@
      */
     triggerProps: {
       type: Object as PropType<TriggerProps>,
+    },
+    floatingOptions: {
+      type: Object as PropType<FloatingOptions>,
     },
     /**
      * @zh 是否在隐藏的时候销毁DOM结构

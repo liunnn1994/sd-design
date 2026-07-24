@@ -15,6 +15,10 @@ export const docsSidebar = [
         label: '常见问题',
       },
       {
+        slug: 'guides/floating-ui',
+        label: 'Floating UI 迁移指南',
+      },
+      {
         slug: 'guides/start',
         label: '快速上手',
       },

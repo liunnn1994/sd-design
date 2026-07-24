@@ -7,6 +7,7 @@
     :click-to-close="false"
     :popup-offset="4"
     v-bind="triggerProps"
+    :floating-options="floatingOptions ?? triggerProps?.floatingOptions"
     :unmount-on-close="unmountOnClose"
     :position="position"
     :disabled="triggerDisabled || !!readonly"
@@ -82,6 +83,8 @@
   } from 'vue';
 
   import { Dayjs } from 'dayjs';
+
+  import type { FloatingOptions } from '../_utils/floating';
 
   import DateRangeInput from '../_components/picker/input-range.vue';
   import { useAllowClear } from '../_hooks/use-allow-clear';
@@ -311,6 +314,9 @@
     },
     triggerProps: {
       type: Object as PropType<TriggerProps>,
+    },
+    floatingOptions: {
+      type: Object as PropType<FloatingOptions>,
     },
     unmountOnClose: {
       type: Boolean,

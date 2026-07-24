@@ -572,6 +572,7 @@ export type {
 } from './tree-select';
 export { default as Trigger } from './trigger';
 export type {
+  FloatingOptions,
   TriggerEvent,
   TriggerInstance,
   TriggerPopupTranslate,

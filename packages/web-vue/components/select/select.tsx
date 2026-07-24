@@ -14,6 +14,7 @@ import {
 import type { SelectViewValue } from '../_components/select-view/interface';
 import type { VirtualListProps } from '../_components/virtual-list/interface';
 import type { Size } from '../_utils/constant';
+import type { FloatingOptions } from '../_utils/floating';
 import type { ScrollbarProps } from '../scrollbar';
 import type {
   OptionValueWithKey,
@@ -188,6 +189,9 @@ export default defineComponent({
     },
     triggerProps: {
       type: Object as PropType<TriggerProps>,
+    },
+    floatingOptions: {
+      type: Object as PropType<FloatingOptions>,
     },
     fallbackOption: {
       type: [Boolean, Function] as PropType<
@@ -838,6 +842,7 @@ export default defineComponent({
           popupContainer={props.popupContainer}
           onPopupVisibleChange={handlePopupVisibleChange}
           {...props.triggerProps}
+          floatingOptions={props.floatingOptions ?? props.triggerProps?.floatingOptions}
         >
           {slots.trigger?.() ?? (
             <SelectView

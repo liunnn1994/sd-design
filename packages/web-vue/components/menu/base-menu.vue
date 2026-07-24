@@ -31,6 +31,8 @@
     useSlots,
   } from 'vue';
 
+  import type { FloatingOptions } from '../_utils/floating';
+
   import useMergeState from '../_hooks/use-merge-state';
   import usePickSlots from '../_hooks/use-pick-slots';
   import { useResponsive } from '../_hooks/use-responsive';
@@ -176,6 +178,9 @@
     triggerProps: {
       type: Object as PropType<TriggerProps>,
     },
+    floatingOptions: {
+      type: Object as PropType<FloatingOptions>,
+    },
     /**
      * @zh 弹出模式下可接受所有 `ToolTip` 的 `Props`
      * @en Accept all `Props` of `ToolTip` in pop-up mode
@@ -301,6 +306,7 @@
     openKeys: propOpenKeys,
     defaultOpenKeys,
     triggerProps,
+    floatingOptions,
     tooltipProps,
     ellipsis,
     ellipsisProps,
@@ -443,6 +449,7 @@
     inTrigger,
     collapsed: computedCollapsed,
     triggerProps,
+    floatingOptions,
     tooltipProps,
     ellipsis,
     ellipsisProps,

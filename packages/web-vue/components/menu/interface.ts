@@ -1,5 +1,7 @@
 import { StyleValue } from 'vue';
 
+import type { FloatingOptions } from '../_utils/floating';
+
 import { Breakpoint } from '../_utils/responsive-observe';
 import { Data } from '../_utils/types';
 import { EllipsisTooltipProps } from '../ellipsis';
@@ -40,6 +42,7 @@ export interface MenuProps {
   defaultOpenKeys: string[];
   scrollConfig: Record<string, unknown> | undefined;
   triggerProps: TriggerProps | undefined;
+  floatingOptions: FloatingOptions | undefined;
   tooltipProps: Data | undefined;
   ellipsis: boolean;
   ellipsisProps: MenuEllipsisProps | undefined;

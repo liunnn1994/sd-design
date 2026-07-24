@@ -2,6 +2,8 @@ import type { Simplify } from 'type-fest';
 
 import { CSSProperties, RenderFunction, Slots, VNodeChild } from 'vue';
 
+import type { FloatingOptions } from '../_utils/floating';
+
 import { BaseType, ClassName, Data } from '../_utils/types';
 import { TriggerProps } from '../trigger';
 
@@ -137,6 +139,11 @@ export interface TableFilterable {
    * @en Pop-up box configuration of filter box
    */
   triggerProps?: TriggerProps;
+  /**
+   * @zh Floating UI Vue 的完整配置。
+   * @en Complete Floating UI Vue options.
+   */
+  floatingOptions?: FloatingOptions;
   /**
    * @zh 筛选图标是否左对齐
    * @en Whether the filter icon is aligned to the left

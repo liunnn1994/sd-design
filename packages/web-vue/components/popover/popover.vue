@@ -11,6 +11,7 @@
     :arrow-style="arrowStyle"
     show-arrow
     :popup-container="popupContainer"
+    :floating-options="floatingOptions"
     animation-name="zoom-in-fade-out"
     auto-fit-transform-origin
     esc-to-close
@@ -34,6 +35,7 @@
   import { computed, CSSProperties, ref, toRefs } from 'vue';
 
   import type { TriggerEvent, TriggerPosition } from '../_utils/constant';
+  import type { FloatingOptions } from '../_utils/floating';
 
   import { useScrollbar } from '../_hooks/use-scrollbar';
   import { getPrefixCls } from '../_utils/global-config';
@@ -127,6 +129,9 @@
      */
     popupContainer: {
       type: [String, Object] as PropType<string | HTMLElement>,
+    },
+    floatingOptions: {
+      type: Object as PropType<FloatingOptions>,
     },
   });
 

@@ -24,6 +24,7 @@
       </svg>
 
       <dialog
+        ref="popoverShellRef"
         open
         :class="popoverShellClass"
         :style="popoverShellStyle"
@@ -58,7 +59,11 @@
             </slot>
           </Button>
 
-          <div ref="arrowRef" :class="[`${prefixCls}-popover-arrow`, arrowClasses]"></div>
+          <div
+            ref="arrowRef"
+            :class="[`${prefixCls}-popover-arrow`, arrowClasses]"
+            :style="arrowStyle"
+          ></div>
 
           <div
             :class="`${prefixCls}-content`"
@@ -191,6 +196,8 @@
 </template>
 
 <script lang="ts" setup>
+  import type { Middleware, Placement } from '@floating-ui/vue';
+
   import type {
     CSSProperties,
     ComponentPublicInstance,
@@ -209,6 +216,7 @@
     watch,
   } from 'vue';
 
+  import { arrow, autoUpdate, flip, offset, shift, useFloating } from '@floating-ui/vue';
   import {
     unrefElement,
     useElementBounding,
@@ -218,6 +226,7 @@
   } from '@vueuse/core';
   import { Motion } from 'motion-v';
 
+  import type { FloatingOptions } from '../_utils/floating';
   import type { ButtonProps } from '../button/interface';
   import type {
     TourAllowedButton,
@@ -235,6 +244,7 @@
   } from './types';
 
   import usePopupManager from '../_hooks/use-popup-manager';
+  import { createFloatingOptions } from '../_utils/floating';
   import { getPrefixCls } from '../_utils/global-config';
   import Button from '../button';
 
@@ -320,6 +330,10 @@
     },
     popoverOffset: {
       type: Number,
+      default: undefined,
+    },
+    floatingOptions: {
+      type: Object as PropType<FloatingOptions>,
       default: undefined,
     },
     showButtons: {
@@ -491,6 +505,7 @@
   const mounted = shallowRef(false);
   const isInitialized = shallowRef(false);
   const activeOnDestroyed = shallowRef<HTMLElement | null>(null);
+  const popoverShellRef = shallowRef<HTMLElement | null>(null);
   const popoverRef = shallowRef<HTMLElement | ComponentPublicInstance | null>(null);
   const arrowRef = shallowRef<HTMLElement | null>(null);
   const titleRef = shallowRef<HTMLElement | null>(null);
@@ -534,6 +549,7 @@
         stagePadding: props.stagePadding,
         stageRadius: props.stageRadius,
         popoverOffset: props.popoverOffset,
+        floatingOptions: props.floatingOptions,
         showButtons: props.showButtons,
         disableButtons: props.disableButtons,
         prevBtnText: props.prevBtnText,
@@ -783,8 +799,89 @@
     side: 'bottom',
     align: 'start',
   });
-  const popoverShellStyle = shallowRef<CSSProperties>({ zIndex: `${mergedZIndex.value + 1}` });
-  const popoverStyle = shallowRef<CSSProperties>({ zIndex: `${mergedZIndex.value + 1}` });
+  const preferredSide = computed<TourPopover['side']>(() =>
+    activeElement.value?.id === dummyElementId ? 'over' : (resolvedPopover.value.side ?? 'bottom'),
+  );
+  const preferredPlacement = computed<Placement>(() => {
+    const side = preferredSide.value === 'over' ? 'bottom' : (preferredSide.value ?? 'bottom');
+    const align = resolvedPopover.value.align ?? 'start';
+    return align === 'center' ? side : `${side}-${align}`;
+  });
+  const centerInViewport: Middleware = {
+    name: 'sdTourCenterInViewport',
+    fn({ rects }) {
+      return {
+        x: Math.max((viewport.value.width - rects.floating.width) / 2, 10),
+        y: Math.max((viewport.value.height - rects.floating.height) / 2, 10),
+      };
+    },
+  };
+  const legacyMiddleware = computed<Middleware[]>(() => {
+    if (preferredSide.value === 'over') {
+      return [centerInViewport];
+    }
+
+    return [
+      offset(mergedConfig.value.popoverOffset ?? 10),
+      flip(),
+      shift({ padding: mergedConfig.value.stagePadding ?? 0 }),
+      arrow({ element: arrowRef }),
+    ];
+  });
+  // 单步配置优先于 Tour 顶层配置：先展开 global，再用 step 覆盖，合并后整体作为
+  // 用户配置交给 createFloatingOptions；二者都未提供的字段才用 Tour 默认兜底
+  //（居中 / offset+flip+shift+arrow / strategy: fixed）。
+  const mergedFloatingOptions = createFloatingOptions(
+    () => ({
+      ...mergedConfig.value.floatingOptions,
+      ...resolvedPopover.value.floatingOptions,
+    }),
+    {
+      open: isActive,
+      placement: preferredPlacement,
+      strategy: 'fixed',
+      middleware: legacyMiddleware,
+      whileElementsMounted: autoUpdate,
+    },
+  );
+  const {
+    floatingStyles,
+    middlewareData,
+    placement: floatingPlacement,
+    isPositioned,
+    update: updateFloatingPosition,
+  } = useFloating(activeElement, popoverShellRef, mergedFloatingOptions);
+  const popoverShellStyle = computed<CSSProperties>(() => ({
+    zIndex: `${mergedZIndex.value + 1}`,
+    ...floatingStyles.value,
+    // 首次定位完成前隐藏浮层，避免从视口左上角 (0,0) 闪到目标位置（同 Trigger）。
+    ...(isPositioned.value ? {} : { visibility: 'hidden' }),
+  }));
+  const popoverStyle = computed<CSSProperties>(() => ({
+    zIndex: `${mergedZIndex.value + 1}`,
+  }));
+  const arrowStyle = computed<CSSProperties>(() => {
+    const arrowData = middlewareData.value.arrow;
+    if (!arrowData || preferredSide.value === 'over') {
+      return {};
+    }
+
+    const side = floatingPlacement.value.split('-')[0];
+    const staticSide = {
+      top: 'bottom',
+      right: 'left',
+      bottom: 'top',
+      left: 'right',
+    }[side];
+
+    return {
+      left: arrowData.x == null ? '' : `${arrowData.x}px`,
+      top: arrowData.y == null ? '' : `${arrowData.y}px`,
+      right: '',
+      bottom: '',
+      [staticSide ?? '']: '-5px',
+    };
+  });
   const motionState = {
     initial: { opacity: 0, scale: 0.92, y: 8 },
     animate: { opacity: 1, scale: 1, y: 0 },
@@ -1295,39 +1392,24 @@
     }
   }
 
-  function placePopover() {
+  async function placePopover() {
     if (!activeRect.value || !popoverElement.value || !activeElement.value) {
       return;
     }
 
-    const rect = activeRect.value;
-    const popover = popoverElement.value.getBoundingClientRect();
-    const arrowSize = 10;
-    const padding = mergedConfig.value.stagePadding ?? 0;
-    const offset = mergedConfig.value.popoverOffset ?? 10;
-    const preferredSide =
-      activeElement.value.id === dummyElementId ? 'over' : (resolvedPopover.value.side ?? 'bottom');
-    const preferredAlign = resolvedPopover.value.align ?? 'start';
-    const positions = calculatePopoverPosition({
-      rect,
-      popover,
-      size: viewport.value,
-      side: preferredSide,
-      align: preferredAlign,
-      offset,
-      padding,
-      arrowSize,
-    });
-    popoverPlacement.value = positions.placement;
-    popoverShellStyle.value = {
-      left: positions.style.left,
-      top: positions.style.top,
-      right: positions.style.right,
-      bottom: positions.style.bottom,
-      zIndex: `${mergedZIndex.value + 1}`,
-    };
-    popoverStyle.value = {
-      zIndex: `${mergedZIndex.value + 1}`,
+    await updateFloatingPosition();
+    if (preferredSide.value === 'over') {
+      popoverPlacement.value = { side: 'over', align: 'center' };
+      return;
+    }
+
+    const [side, align] = floatingPlacement.value.split('-') as [
+      Exclude<TourPopover['side'], 'over'>,
+      TourPopover['align'] | undefined,
+    ];
+    popoverPlacement.value = {
+      side,
+      align: align ?? 'center',
     };
   }
 
@@ -1407,128 +1489,6 @@
     const vertical = height - radius * 2;
 
     return `M${size.width},0L0,0L0,${size.height}L${size.width},${size.height}L${size.width},0Z M${x},${y} h${horizontal} a${radius},${radius} 0 0 1 ${radius},${radius} v${vertical} a${radius},${radius} 0 0 1 -${radius},${radius} h-${horizontal} a${radius},${radius} 0 0 1 -${radius},-${radius} v-${vertical} a${radius},${radius} 0 0 1 ${radius},-${radius} z`;
-  }
-
-  function calculateAxisPosition(
-    align: TourPopover['align'],
-    rectStart: number,
-    rectSize: number,
-    popoverSize: number,
-    viewportSize: number,
-    arrowSize: number,
-  ) {
-    if (align === 'center') {
-      return Math.max(
-        Math.min(
-          rectStart + rectSize / 2 - popoverSize / 2,
-          viewportSize - popoverSize - arrowSize,
-        ),
-        arrowSize,
-      );
-    }
-
-    if (align === 'end') {
-      return Math.max(
-        Math.min(rectStart + rectSize - popoverSize, viewportSize - popoverSize - arrowSize),
-        arrowSize,
-      );
-    }
-
-    return Math.max(Math.min(rectStart, viewportSize - popoverSize - arrowSize), arrowSize);
-  }
-
-  function calculatePopoverPosition(options: {
-    rect: DOMRect;
-    popover: DOMRect;
-    size: { width: number; height: number };
-    side: TourPopover['side'];
-    align: TourPopover['align'];
-    offset: number;
-    padding: number;
-    arrowSize: number;
-  }) {
-    const { rect, popover, size, side, align, offset, padding, arrowSize } = options;
-    const topSpace = rect.top - (popover.height + offset + padding);
-    const bottomSpace = size.height - (rect.bottom + popover.height + offset + padding);
-    const leftSpace = rect.left - (popover.width + offset + padding);
-    const rightSpace = size.width - (rect.right + popover.width + offset + padding);
-
-    const style: CSSProperties = {
-      left: 'auto',
-      top: 'auto',
-      right: 'auto',
-      bottom: 'auto',
-    };
-    const placement = {
-      side: side ?? 'bottom',
-      align: align ?? 'start',
-    };
-
-    const applyTop = () => {
-      style.top = `${Math.max(topSpace, arrowSize)}px`;
-      style.left = `${calculateAxisPosition(align, rect.left, rect.width, popover.width, size.width, arrowSize)}px`;
-      placement.side = 'top';
-    };
-    const applyBottom = () => {
-      style.top = `${Math.min(rect.bottom + offset, size.height - popover.height - arrowSize)}px`;
-      style.left = `${calculateAxisPosition(align, rect.left, rect.width, popover.width, size.width, arrowSize)}px`;
-      placement.side = 'bottom';
-    };
-    const applyLeft = () => {
-      style.left = `${Math.max(leftSpace, arrowSize)}px`;
-      style.top = `${calculateAxisPosition(align, rect.top, rect.height, popover.height, size.height, arrowSize)}px`;
-      placement.side = 'left';
-    };
-    const applyRight = () => {
-      style.left = `${Math.min(rect.right + offset, size.width - popover.width - arrowSize)}px`;
-      style.top = `${calculateAxisPosition(align, rect.top, rect.height, popover.height, size.height, arrowSize)}px`;
-      placement.side = 'right';
-    };
-    const applyCenter = () => {
-      style.left = `${Math.max((size.width - popover.width) / 2, arrowSize)}px`;
-      style.top = `${Math.max((size.height - popover.height) / 2, arrowSize)}px`;
-      placement.side = 'over';
-      placement.align = 'center';
-    };
-
-    if (side === 'over') {
-      applyCenter();
-      return { style, placement };
-    }
-
-    if (side === 'top' && topSpace >= 0) {
-      applyTop();
-      return { style, placement };
-    }
-
-    if (side === 'bottom' && bottomSpace >= 0) {
-      applyBottom();
-      return { style, placement };
-    }
-
-    if (side === 'left' && leftSpace >= 0) {
-      applyLeft();
-      return { style, placement };
-    }
-
-    if (side === 'right' && rightSpace >= 0) {
-      applyRight();
-      return { style, placement };
-    }
-
-    if (bottomSpace >= 0) {
-      applyBottom();
-    } else if (topSpace >= 0) {
-      applyTop();
-    } else if (rightSpace >= 0) {
-      applyRight();
-    } else if (leftSpace >= 0) {
-      applyLeft();
-    } else {
-      applyCenter();
-    }
-
-    return { style, placement };
   }
 
   onMounted(() => {

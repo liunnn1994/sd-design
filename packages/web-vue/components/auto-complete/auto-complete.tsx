@@ -9,6 +9,8 @@ import {
   watch,
 } from 'vue';
 
+import type { FloatingOptions } from '../_utils/floating';
+
 import VirtualList from '../_components/virtual-list';
 import { VirtualListProps } from '../_components/virtual-list/interface';
 import { useAllowClear } from '../_hooks/use-allow-clear';
@@ -106,6 +108,9 @@ export default defineComponent({
      */
     triggerProps: {
       type: Object as PropType<TriggerProps>,
+    },
+    floatingOptions: {
+      type: Object as PropType<FloatingOptions>,
     },
     /**
      * @zh 是否允许清空输入框
@@ -415,6 +420,7 @@ export default defineComponent({
         disabled={mergedDisabled.value}
         autoFitPopupWidth
         {...props.triggerProps}
+        floatingOptions={props.floatingOptions ?? props.triggerProps?.floatingOptions}
         onPopupVisibleChange={handlePopupVisibleChange}
       >
         <SdInput

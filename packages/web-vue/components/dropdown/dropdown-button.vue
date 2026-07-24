@@ -14,6 +14,7 @@
       :trigger="trigger"
       :position="position"
       :popup-container="popupContainer"
+      :floating-options="floatingOptions"
       :hide-on-select="hideOnSelect"
       @select="handleSelect"
       @popup-visible-change="handlePopupVisibleChange"
@@ -34,6 +35,8 @@
 
 <script setup lang="ts">
   import { PropType, toRefs } from 'vue';
+
+  import type { FloatingOptions } from '../_utils/floating';
 
   import { useTrigger } from '../_hooks/use-trigger';
   import { TriggerEvent } from '../_utils/constant';
@@ -88,6 +91,9 @@
      */
     popupContainer: {
       type: [String, Object] as PropType<string | HTMLElement>,
+    },
+    floatingOptions: {
+      type: Object as PropType<FloatingOptions>,
     },
     /**
      * @zh 是否禁用

@@ -1,5 +1,6 @@
 import type { VirtualListProps } from '../_components/virtual-list/interface';
 import type { Size } from '../_utils/constant';
+import type { FloatingOptions } from '../_utils/floating';
 import type { TriggerProps } from '../trigger';
 import type {
   CascaderFallback,
@@ -41,6 +42,7 @@ export interface CascaderProps {
   separator?: string;
   formatLabel?: CascaderFormatLabel;
   triggerProps?: TriggerProps;
+  floatingOptions?: FloatingOptions;
   checkStrictly?: boolean;
   loadMore?: CascaderLoadMore;
   loading?: boolean;

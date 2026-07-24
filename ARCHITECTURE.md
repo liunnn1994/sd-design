@@ -63,6 +63,7 @@ flowchart TD
 
 - `components/index.ts`：按需导出入口。
 - `components/sd-vue.ts`：全量安装插件入口。
+- `components/trigger` 与 `components/tour`：锚点型悬浮层统一通过 `@floating-ui/vue` 定位；各公开组件的 `floatingOptions` 类型直接继承上游 `UseFloatingOptions`，运行时不维护参数白名单。
 - `vite.config.ts`：定义模块构建、UMD 构建、样式构建和测试支持配置。
 - `scripts/build-dts.mjs`：负责类型声明构建和复制。
 - `json/`：承载 web-types、vetur 等 IDE 元数据。

@@ -50,6 +50,28 @@ describe('Tour', () => {
     zIndex('.sd-tour-popover', '1001');
   });
 
+  it('passes Floating UI options through to the tour popover', () => {
+    cy.mount(Tour, {
+      props: {
+        defaultVisible: true,
+        steps,
+        floatingOptions: {
+          middleware: [
+            {
+              name: 'testCoordinates',
+              fn: () => ({ x: 41, y: 53 }),
+            },
+          ],
+        },
+      },
+      slots: defaultSlots,
+    });
+    cy.get('.sd-tour-popover-shell').should(($shell) => {
+      expect(($shell[0] as HTMLElement).style.transform).to.contain('41px');
+      expect(($shell[0] as HTMLElement).style.transform).to.contain('53px');
+    });
+  });
+
   it('reacts to controlled current changes', () => {
     cy.mount(Tour, { props: { visible: true, current: 0, steps }, slots: defaultSlots });
     cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ current: 1 })));

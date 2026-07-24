@@ -1,0 +1,59 @@
+---
+title: Floating UI 迁移指南
+description: 悬浮层定位内核迁移到 Floating UI 后的兼容规则与配置方式。
+---
+
+SD Design 的锚点型悬浮层统一使用 [`@floating-ui/vue`](https://floating-ui.com/docs/vue) 定位，包括 Trigger、Tooltip、Popover、Popconfirm、Dropdown、Select、Cascader、日期/时间选择器、TreeSelect、AutoComplete、ColorPicker、Mention、Menu 子菜单、Table 筛选浮层与 Tour。Modal、Drawer、Message 等不依赖锚点定位的覆盖层不在此次迁移范围内。
+
+## 兼容性
+
+原有属性保持不变，现有代码无需修改。组件会把 `position`、`popup-offset`、`popup-translate`、 `auto-fit-position`、`show-arrow` 等旧属性转换为 Floating UI 的默认配置。
+
+新增的 `floating-options` 接受 `useFloating()` 的完整 options。运行时不会复制或筛选字段，TypeScript 类型也直接继承 `UseFloatingOptions`，因此 Floating UI 后续新增的 options 可以直接使用。
+
+```vue
+<script setup lang="ts">
+  import { flip, offset, shift } from '@floating-ui/vue';
+
+  const floatingOptions = {
+    placement: 'right-start',
+    middleware: [offset(12), shift({ padding: 8 })],
+  };
+</script>
+
+<template>
+  <SdTooltip content="内容" :floating-options="floatingOptions">
+    <SdButton>悬停</SdButton>
+  </SdTooltip>
+</template>
+```
+
+使用中间件时，应用项目应将 `@floating-ui/vue` 声明为直接依赖。
+
+## 冲突优先级
+
+- `floating-options` 中显式提供的字段优先于旧属性。
+- `floating-options.middleware` 会完整替换组件根据旧属性生成的中间件数组，不做合并。
+- `floating-options.placement` 优先于 `position` 或 Tour 的 `side` / `align`。
+- Floating UI 生成的 `position` / `left` / `top` / `transform` / `visibility` 优先于 `popup-style` 中的同名字段（其中 `visibility` 用于首次定位完成前隐藏浮层，避免在视口左上角闪烁）。原本依赖 `popup-style` 微调位置或动画的写法需改用 `floating-options`（例如自定义 `middleware` 或 `strategy`）。
+- `floating-options.open` 只参与 Floating UI 的定位生命周期，不替代 `popup-visible` / `visible`。
+- 组件自身的 `floating-options` 优先于 `trigger-props.floatingOptions`；Tour 单步 `step.popover.floatingOptions` 优先于 Tour 顶层配置。
+
+## 常见迁移
+
+旧属性可以继续使用。只有需要 Floating UI 原生能力时才需要迁移：
+
+```vue
+<!-- 原写法，仍然兼容 -->
+<SdTrigger position="br" :popup-offset="8" :auto-fit-position="true" />
+
+<!-- Floating UI 原生写法 -->
+<SdTrigger
+  :floating-options="{
+    placement: 'bottom-end',
+    middleware: [offset(8), flip(), shift()],
+  }"
+/>
+```
+
+旧 `br` 对应 `bottom-end`，`bl` 对应 `bottom-start`；`tr` / `tl`、`rt` / `rb`、`lt` / `lb` 遵循相同规则。中间件、虚拟元素与自动更新的具体参数请以 [Floating UI Vue 官方 API](https://floating-ui.com/docs/vue) 为准。

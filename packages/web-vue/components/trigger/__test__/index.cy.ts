@@ -26,6 +26,34 @@ describe('Trigger', () => {
     cy.get('#popup-content').should('exist');
   });
 
+  it('passes Floating UI options through and lets them override legacy positioning', () => {
+    cy.mount(Trigger, {
+      slots: {
+        default: '<button>Test</button>',
+        content: '<div id="popup-content">Popup Content</div>',
+      },
+      props: {
+        defaultPopupVisible: true,
+        position: 'top',
+        floatingOptions: {
+          placement: 'right-end',
+          middleware: [
+            {
+              name: 'testCoordinates',
+              fn: () => ({ x: 31, y: 47 }),
+            },
+          ],
+        },
+      },
+    });
+    cy.get('.sd-trigger-popup')
+      .should('have.attr', 'trigger-placement', 'rb')
+      .and(($popup) => {
+        expect(($popup[0] as HTMLElement).style.transform).to.contain('31px');
+        expect(($popup[0] as HTMLElement).style.transform).to.contain('47px');
+      });
+  });
+
   it('wires aria-haspopup/expanded/controls on the trigger when ariaHasPopup is set', () => {
     cy.mount(Trigger, {
       slots: {

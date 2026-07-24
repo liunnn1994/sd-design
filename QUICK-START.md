@@ -25,6 +25,8 @@
 
 SD Design 是一个基于 Vue 3 的企业级组件库，采用 `pnpm workspace` 的 monorepo 架构进行管理。该项目不仅包含了组件库本身，还包含了一个基于 Astro Starlight 的文档站以及一个轻量级的源码联调环境。
 
+Trigger、Tooltip、Dropdown、Select、Tour 等锚点型悬浮层使用 `@floating-ui/vue` 作为统一定位内核。业务侧可通过 `floatingOptions` 使用完整的 Floating UI Vue 配置，原有定位属性继续兼容。
+
 ## 环境准备
 
 在开始之前，请确保你的本地环境满足以下要求：

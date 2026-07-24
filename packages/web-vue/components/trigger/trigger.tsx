@@ -1,3 +1,4 @@
+import type { Middleware, Placement, ReferenceElement, VirtualElement } from '@floating-ui/vue';
 import type { Simplify } from 'type-fest';
 
 import type { PropType, CSSProperties, Ref, ComponentPublicInstance } from 'vue';
@@ -13,15 +14,16 @@ import {
   provide,
   Teleport,
   Transition,
-  onUpdated,
   onMounted,
   onBeforeUnmount,
   onDeactivated,
 } from 'vue';
 
+import { arrow, autoUpdate, flip, offset, shift, useFloating } from '@floating-ui/vue';
 import { onClickOutside, useEventListener } from '@vueuse/core';
 
 import type { TriggerEvent, TriggerPosition } from '../_utils/constant';
+import type { FloatingOptions } from '../_utils/floating';
 
 import ClientOnly from '../_components/client-only';
 import ResizeObserver from '../_components/resize-observer-v2';
@@ -31,6 +33,7 @@ import usePopupManager from '../_hooks/use-popup-manager';
 import { useResizeObserver } from '../_hooks/use-resize-observer';
 import { useTeleportContainer } from '../_hooks/use-teleport-container';
 import { off, on } from '../_utils/dom';
+import { createFloatingOptions } from '../_utils/floating';
 import { getPrefixCls } from '../_utils/global-config';
 import { KEYBOARD_KEY } from '../_utils/keyboard';
 import { omit } from '../_utils/omit';
@@ -42,13 +45,7 @@ import {
 } from '../config-provider/context';
 import { triggerInjectionKey } from './context';
 import { TriggerPopupTranslate } from './interface';
-import {
-  getArrowStyle,
-  getPopupStyle,
-  getElementScrollRect,
-  getScrollElements,
-  getTransformOrigin,
-} from './utils';
+import { getScrollElements, getTransformOrigin } from './utils';
 
 const TRIGGER_EVENTS = [
   'onClick',
@@ -70,10 +67,81 @@ type TriggerEventAttrs = Simplify<{
 
 type ChildRef = Ref<HTMLElement | undefined> | HTMLElement;
 
+const toFloatingPlacement = (position: TriggerPosition): Placement => {
+  const placementMap: Record<TriggerPosition, Placement> = {
+    top: 'top',
+    tl: 'top-start',
+    tr: 'top-end',
+    bottom: 'bottom',
+    bl: 'bottom-start',
+    br: 'bottom-end',
+    left: 'left',
+    lt: 'left-start',
+    lb: 'left-end',
+    right: 'right',
+    rt: 'right-start',
+    rb: 'right-end',
+  };
+  return placementMap[position];
+};
+
+const fromFloatingPlacement = (placement: Placement): TriggerPosition => {
+  const placementMap: Record<Placement, TriggerPosition> = {
+    'top': 'top',
+    'top-start': 'tl',
+    'top-end': 'tr',
+    'bottom': 'bottom',
+    'bottom-start': 'bl',
+    'bottom-end': 'br',
+    'left': 'left',
+    'left-start': 'lt',
+    'left-end': 'lb',
+    'right': 'right',
+    'right-start': 'rt',
+    'right-end': 'rb',
+  };
+  return placementMap[placement];
+};
+
+const getArrowFloatingStyle = (
+  placement: Placement,
+  data: { x?: number; y?: number } | undefined,
+  customStyle: CSSProperties | undefined,
+): CSSProperties => {
+  const side = placement.split('-')[0] as 'top' | 'right' | 'bottom' | 'left';
+  const staticSide = {
+    top: 'bottom',
+    right: 'left',
+    bottom: 'top',
+    left: 'right',
+  }[side];
+  const transforms = {
+    top: 'translateY(50%) rotate(45deg)',
+    right: 'translateX(-50%) rotate(45deg)',
+    bottom: 'translateY(-50%) rotate(45deg)',
+    left: 'translateX(50%) rotate(45deg)',
+  };
+
+  return {
+    ...customStyle,
+    left: data?.x == null ? undefined : `${data.x}px`,
+    top: data?.y == null ? undefined : `${data.y}px`,
+    [staticSide]: 0,
+    transform: transforms[side],
+  };
+};
+
 export default defineComponent({
   name: 'Trigger',
   inheritAttrs: false,
   props: {
+    /**
+     * @zh Floating UI Vue 的完整配置。与旧定位参数冲突时以此配置为准。
+     * @en Complete Floating UI Vue options. These options take precedence over legacy positioning props.
+     */
+    floatingOptions: {
+      type: Object as PropType<FloatingOptions>,
+    },
     /**
      * @zh 弹出框是否可见
      * @en Whether the popup is visible
@@ -437,9 +505,6 @@ export default defineComponent({
     const popupRef = ref<HTMLElement>();
     const popupVisible = ref(props.defaultPopupVisible);
     const popupPosition = ref(props.position);
-    const popupStyle = ref<CSSProperties>({});
-    const transformStyle = ref<CSSProperties>({});
-    const arrowStyle = ref<CSSProperties>({});
     // 鼠标相关变量
     const arrowRef = ref<HTMLElement>();
     const mousePosition = ref({
@@ -451,6 +516,101 @@ export default defineComponent({
     let windowScrollPosition: [number, number] | null = null;
 
     const computedVisible = computed(() => props.popupVisible ?? popupVisible.value);
+    const pointReference: VirtualElement = {
+      getBoundingClientRect: () => {
+        const { left, top } = mousePosition.value;
+        return {
+          x: left,
+          y: top,
+          top,
+          right: left,
+          bottom: top,
+          left,
+          width: 0,
+          height: 0,
+        };
+      },
+      get contextElement() {
+        return firstElement.value;
+      },
+    };
+    const floatingReference = computed<ReferenceElement | null>(() =>
+      props.alignPoint ? pointReference : (firstElement.value ?? null),
+    );
+    const floatingElement = computed(() => (computedVisible.value ? popupRef.value : null));
+
+    const legacyMiddleware = computed<Middleware[]>(() => {
+      const middleware: Middleware[] = [offset(props.popupOffset)];
+      const translate = Array.isArray(props.popupTranslate)
+        ? props.popupTranslate
+        : props.popupTranslate?.[props.position];
+
+      if (translate) {
+        middleware.push({
+          name: 'sdTriggerTranslate',
+          options: translate,
+          fn: ({ x, y }) => ({ x: x + translate[0], y: y + translate[1] }),
+        });
+      }
+      if (props.autoFitPosition) {
+        middleware.push(flip(), shift());
+      }
+      if (props.showArrow) {
+        middleware.push(arrow({ element: arrowRef }));
+      }
+
+      return middleware;
+    });
+    const defaultWhileElementsMounted: NonNullable<FloatingOptions['whileElementsMounted']> = (
+      reference,
+      floating,
+      update,
+    ) =>
+      autoUpdate(reference, floating, update, {
+        ancestorScroll: props.updateAtScroll || Boolean(configCtx?.updateAtScroll),
+        ancestorResize: true,
+        elementResize: props.autoFixPosition,
+        layoutShift: props.autoFixPosition,
+      });
+    const floatingOptions = createFloatingOptions(() => props.floatingOptions, {
+      open: computedVisible,
+      placement: () => toFloatingPlacement(props.position),
+      middleware: legacyMiddleware,
+      whileElementsMounted: defaultWhileElementsMounted,
+    });
+    const {
+      floatingStyles,
+      placement: floatingPlacement,
+      middlewareData,
+      isPositioned,
+      update: updateFloatingPosition,
+    } = useFloating(floatingReference, floatingElement, floatingOptions);
+    const mergedPopupStyle = computed<CSSProperties>(() => ({
+      ...props.popupStyle,
+      ...(props.autoFitPopupMinWidth && firstElement.value
+        ? { minWidth: `${firstElement.value.getBoundingClientRect().width}px` }
+        : {}),
+      ...(props.autoFitPopupWidth && firstElement.value
+        ? { width: `${firstElement.value.getBoundingClientRect().width}px` }
+        : {}),
+      ...floatingStyles.value,
+    }));
+    const transformStyle = computed<CSSProperties>(() =>
+      props.autoFitTransformOrigin
+        ? { transformOrigin: getTransformOrigin(popupPosition.value) }
+        : {},
+    );
+    const arrowStyle = computed<CSSProperties>(() =>
+      getArrowFloatingStyle(floatingPlacement.value, middlewareData.value.arrow, props.arrowStyle),
+    );
+
+    watch(
+      floatingPlacement,
+      (placement) => {
+        popupPosition.value = fromFloatingPlacement(placement);
+      },
+      { immediate: true },
+    );
 
     // 当指定 ariaHasPopup 时，自动给触发器加 aria-haspopup/expanded/controls（弹出层 id 互连）
     const firstChildAria = computed(() => {
@@ -502,68 +662,11 @@ export default defineComponent({
 
     const updateMousePosition = (e: MouseEvent) => {
       if (props.alignPoint) {
-        const { pageX, pageY } = e;
+        const { clientX, clientY } = e;
         mousePosition.value = {
-          top: pageY,
-          left: pageX,
+          top: clientY,
+          left: clientX,
         };
-      }
-    };
-
-    const updatePopupStyle = () => {
-      if (!firstElement.value || !popupRef.value || !containerRef.value) {
-        return;
-      }
-      const containerRect = containerRef.value.getBoundingClientRect();
-      const triggerRect = props.alignPoint
-        ? {
-            top: mousePosition.value.top,
-            bottom: mousePosition.value.top,
-            left: mousePosition.value.left,
-            right: mousePosition.value.left,
-            scrollTop: mousePosition.value.top,
-            scrollBottom: mousePosition.value.top,
-            scrollLeft: mousePosition.value.left,
-            scrollRight: mousePosition.value.left,
-            width: 0,
-            height: 0,
-          }
-        : getElementScrollRect(firstElement.value, containerRect);
-      const getPopupRect = () => getElementScrollRect(popupRef.value as HTMLElement, containerRect);
-      const popupRect = getPopupRect();
-      const { style, position } = getPopupStyle(
-        props.position,
-        containerRect,
-        triggerRect,
-        popupRect,
-        {
-          offset: props.popupOffset,
-          translate: props.popupTranslate,
-          customStyle: props.popupStyle,
-          autoFitPosition: props.autoFitPosition,
-        },
-      );
-      if (props.autoFitTransformOrigin) {
-        transformStyle.value = {
-          transformOrigin: getTransformOrigin(position),
-        };
-      }
-      if (props.autoFitPopupMinWidth) {
-        style.minWidth = `${triggerRect.width}px`;
-      } else if (props.autoFitPopupWidth) {
-        style.width = `${triggerRect.width}px`;
-      }
-
-      if (popupPosition.value !== position) {
-        popupPosition.value = position;
-      }
-      popupStyle.value = style;
-      if (props.showArrow) {
-        nextTick(() => {
-          arrowStyle.value = getArrowStyle(position, triggerRect, getPopupRect(), {
-            customStyle: props.arrowStyle,
-          });
-        });
       }
     };
 
@@ -578,7 +681,7 @@ export default defineComponent({
         emit('popupVisibleChange', visible);
         if (visible) {
           nextTick(() => {
-            updatePopupStyle();
+            updateFloatingPosition();
           });
         }
       };
@@ -776,20 +879,16 @@ export default defineComponent({
       );
     };
 
+    // 滚动时的重新定位由 autoUpdate(ancestorScroll) 接管，这里只保留
+    // scrollToClose 的阈值关闭逻辑。
     const handleScroll = throttleByRaf((e: Event) => {
-      if (computedVisible.value) {
-        if (props.scrollToClose || configCtx?.scrollToClose) {
-          const element = e.target as HTMLElement;
-          if (!scrollPosition) {
-            scrollPosition = [element.scrollTop, element.scrollLeft];
-          }
-          if (isExceedThreshold(scrollPosition, element)) {
-            changeVisible(false);
-          } else {
-            updatePopupStyle();
-          }
-        } else {
-          updatePopupStyle();
+      if (computedVisible.value && (props.scrollToClose || configCtx?.scrollToClose)) {
+        const element = e.target as HTMLElement;
+        if (!scrollPosition) {
+          scrollPosition = [element.scrollTop, element.scrollLeft];
+        }
+        if (isExceedThreshold(scrollPosition, element)) {
+          changeVisible(false);
         }
       }
     });
@@ -812,7 +911,7 @@ export default defineComponent({
 
     const handleResize = () => {
       if (computedVisible.value) {
-        updatePopupStyle();
+        updateFloatingPosition();
       }
     };
 
@@ -877,7 +976,7 @@ export default defineComponent({
       () => [props.autoFitPopupWidth, props.autoFitPopupMinWidth],
       () => {
         if (computedVisible.value) {
-          updatePopupStyle();
+          updateFloatingPosition();
         }
       },
     );
@@ -892,19 +991,13 @@ export default defineComponent({
 
       // 默认显示时，更新popup位置
       if (computedVisible.value) {
-        updatePopupStyle();
+        updateFloatingPosition();
         if (props.updateAtScroll || configCtx?.updateAtScroll) {
           scrollElements = getScrollElements(firstElement.value);
           for (const item of scrollElements) {
             item.addEventListener('scroll', handleScroll);
           }
         }
-      }
-    });
-
-    onUpdated(() => {
-      if (computedVisible.value) {
-        updatePopupStyle();
       }
     });
 
@@ -979,7 +1072,12 @@ export default defineComponent({
                       ref={popupRef}
                       class={[`${prefixCls}-popup`, `${prefixCls}-position-${popupPosition.value}`]}
                       style={{
-                        ...popupStyle.value,
+                        ...mergedPopupStyle.value,
+                        // Floating UI 的定位在微任务里异步算出，首次定位完成前
+                        // floatingStyles 会落在视口左上角 (0,0)。用 visibility 而非
+                        // display 隐藏：元素仍在布局中可被测量，定位算完后才显形，
+                        // 避免开启动画时出现从左上角闪到目标位置的跳变。
+                        ...(isPositioned.value ? {} : { visibility: 'hidden' }),
                         zIndex: zIndex.value,
                         pointerEvents: isAnimation.value ? 'none' : 'auto',
                       }}

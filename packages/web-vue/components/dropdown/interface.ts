@@ -1,5 +1,7 @@
 import { Slot, Slots } from 'vue';
 
+import type { FloatingOptions } from '../_utils/floating';
+
 import { TriggerEvent, TriggerPosition } from '../_utils/constant';
 
 export type DropdownPosition = 'top' | 'tl' | 'tr' | 'bottom' | 'bl' | 'br';
@@ -10,6 +12,7 @@ export interface DropDownProps {
   trigger?: TriggerEvent | TriggerEvent[];
   position?: DropdownPosition;
   popupContainer?: string | HTMLElement;
+  floatingOptions?: FloatingOptions;
   popupMaxHeight?: boolean | number;
 }
 
@@ -37,6 +40,7 @@ export interface DSubmenu extends DOption {
   trigger?: TriggerEvent;
   position?: TriggerPosition;
   footer?: Slot;
+  floatingOptions?: FloatingOptions;
 }
 
 export type DropdownOption = DOption | DGroup | DSubmenu;

@@ -178,6 +178,7 @@ export default defineComponent({
           popupOffset={filterIconAlignLeft.value ? 4 : 0}
           onPopupVisibleChange={handleFilterPopupVisibleChange}
           {...filterable.triggerProps}
+          floatingOptions={filterable.floatingOptions ?? filterable.triggerProps?.floatingOptions}
         >
           <IconHover
             class={[

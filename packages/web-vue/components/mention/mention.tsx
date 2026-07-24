@@ -11,6 +11,8 @@ import {
   toRef,
 } from 'vue';
 
+import type { FloatingOptions } from '../_utils/floating';
+
 import ResizeObserver from '../_components/resize-observer';
 import { useAllowClear } from '../_hooks/use-allow-clear';
 import { useFormItem } from '../_hooks/use-form-item';
@@ -101,6 +103,13 @@ export default defineComponent({
     allowClear: {
       type: Boolean,
       default: false,
+    },
+    /**
+     * @zh Floating UI Vue 的完整定位配置
+     * @en Complete Floating UI Vue positioning options
+     */
+    floatingOptions: {
+      type: Object as PropType<FloatingOptions>,
     },
   },
   emits: {
@@ -415,6 +424,7 @@ export default defineComponent({
                   preventFocus={true}
                   popupVisible={computedPopupVisible.value}
                   clickToClose={false}
+                  floatingOptions={props.floatingOptions}
                   onPopupVisibleChange={handlePopupVisibleChange}
                 >
                   <span>@</span>
@@ -435,6 +445,7 @@ export default defineComponent({
           preventFocus={true}
           popupVisible={computedPopupVisible.value}
           clickToClose={false}
+          floatingOptions={props.floatingOptions}
           autoFitPopupWidth
           autoFitTransformOrigin
           disabled={mergedDisabled.value}

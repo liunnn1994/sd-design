@@ -9,6 +9,7 @@
       animation-name="slide-dynamic-origin"
       :prevent-focus="true"
       v-bind="resolvedTriggerProps"
+      :floating-options="floatingOptions ?? resolvedTriggerProps?.floatingOptions"
       :disabled="mergedDisabled"
       :popup-visible="panelVisible"
       :popup-container="popupContainer"
@@ -124,6 +125,8 @@
     StyleValue,
     inject,
   } from 'vue';
+
+  import type { FloatingOptions } from '../_utils/floating';
 
   import { SelectViewValue } from '../_components/select-view/interface';
   import SelectView from '../_components/select-view/select-view';
@@ -375,6 +378,9 @@
      * */
     triggerProps: {
       type: Object as PropType<Partial<TriggerProps>>,
+    },
+    floatingOptions: {
+      type: Object as PropType<FloatingOptions>,
     },
     /**
      * @zh 是否开启虚拟滚动，Naive 兼容别名

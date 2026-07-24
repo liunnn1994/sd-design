@@ -5,6 +5,7 @@
     :position="position"
     :disabled="disabled"
     :popup-offset="4"
+    :floating-options="floatingOptions"
     @popup-visible-change="handlePopupVisibleChange"
   >
     <dropdown-option v-bind="optionProps" :active="computedPopupVisible" uninject-context>
@@ -31,6 +32,8 @@
 
 <script setup lang="ts">
   import { PropType, toRefs } from 'vue';
+
+  import type { FloatingOptions } from '../_utils/floating';
 
   import { useTrigger } from '../_hooks/use-trigger';
   import { getPrefixCls } from '../_utils/global-config';
@@ -77,6 +80,9 @@
     position: {
       type: String as PropType<'rt' | 'lt'>,
       default: 'rt',
+    },
+    floatingOptions: {
+      type: Object as PropType<FloatingOptions>,
     },
     /**
      * @zh 弹出框是否可见

@@ -1,9 +1,15 @@
 import type { CSSProperties } from 'vue';
 
 import type { TriggerPosition } from '../_utils/constant';
+import type { FloatingOptions } from '../_utils/floating';
 import type { ClassName } from '../_utils/types';
 
 export interface TooltipProps {
+  /**
+   * @zh Floating UI Vue 的完整配置。
+   * @en Complete Floating UI Vue options.
+   */
+  floatingOptions?: FloatingOptions;
   /**
    * @zh 文字气泡是否可见
    * @en Whether the tooltip is visible

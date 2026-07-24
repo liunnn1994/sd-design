@@ -1,5 +1,7 @@
 import { computed, defineComponent, inject, InjectionKey, PropType, provide, toRefs } from 'vue';
 
+import type { FloatingOptions } from '../_utils/floating';
+
 import { EllipsisTooltipProps } from '../ellipsis';
 import { SiderContextInjectionKey } from '../layout/context';
 import BaseMenu from './base-menu.vue';
@@ -32,6 +34,9 @@ export default defineComponent({
         tooltip?: boolean | EllipsisTooltipProps;
       }>,
       default: undefined,
+    },
+    floatingOptions: {
+      type: Object as PropType<FloatingOptions>,
     },
   },
   setup(props, { attrs, slots }) {

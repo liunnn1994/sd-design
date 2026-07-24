@@ -1,5 +1,6 @@
 import { CSSProperties } from 'vue';
 
+import type { FloatingOptions } from '../_utils/floating';
 import type { ClassName } from '../_utils/types';
 
 import { TriggerEvent, TriggerPosition } from '../_utils/constant';
@@ -9,6 +10,11 @@ export type TriggerPopupTranslate =
   | { [key in TriggerPosition]?: [number, number] };
 
 export interface TriggerProps {
+  /**
+   * @zh Floating UI Vue 的完整配置。与旧定位参数冲突时以此配置为准。
+   * @en Complete Floating UI Vue options. These options take precedence over legacy positioning props.
+   */
+  floatingOptions?: FloatingOptions;
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
   trigger?: TriggerEvent;

@@ -7,6 +7,7 @@
     :popup-visible="computedPopupVisible"
     :popup-offset="10"
     :popup-container="popupContainer"
+    :floating-options="floatingOptions"
     :content-class="contentCls"
     :content-style="contentStyle"
     :arrow-class="arrowCls"
@@ -55,6 +56,7 @@
   import { computed, CSSProperties, ref } from 'vue';
 
   import type { MessageType, TriggerPosition } from '../_utils/constant';
+  import type { FloatingOptions } from '../_utils/floating';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { isBoolean, isFunction, isPromise } from '../_utils/is';
@@ -176,6 +178,9 @@
      */
     popupContainer: {
       type: [String, Object] as PropType<string | HTMLElement>,
+    },
+    floatingOptions: {
+      type: Object as PropType<FloatingOptions>,
     },
     /**
      * @zh 触发 ok 事件前的回调函数。如果返回 false 则不会触发后续事件，也可使用 done 进行异步关闭。
