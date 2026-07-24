@@ -16,6 +16,6 @@
     "@vitejs/plugin-vue-jsx": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vue-tsc": "^3.3.5"
+    "vue-tsc": "^3.3.7"
   }
 }

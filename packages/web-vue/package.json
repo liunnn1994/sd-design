@@ -94,7 +94,7 @@
     "qrcode": "^1.5.4",
     "resize-observer-polyfill": "^1.5.1",
     "scroll-into-view-if-needed": "^3.1.0",
-    "virtua": "^0.49.2",
+    "virtua": "^0.49.3",
     "vue": "catalog:",
     "vue-draggable-plus": "^0.6.1"
   },
@@ -104,7 +104,7 @@
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/exec": "^7.1.0",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^12.0.8",
+    "@semantic-release/github": "^12.0.9",
     "@semantic-release/release-notes-generator": "^14.1.1",
     "@types/clean-css": "^4.2.11",
     "@types/qrcode": "^1.5.6",
@@ -117,14 +117,14 @@
     "fast-glob": "^3.3.3",
     "glob": "^13.0.6",
     "sass": "^1.101.0",
-    "semantic-release": "^25.0.5",
-    "svgo": "^4.0.1",
+    "semantic-release": "^25.0.7",
+    "svgo": "^4.0.2",
     "type-fest": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:",
     "vue-docgen-api": "4.79.2",
-    "vue-tsc": "^3.3.5"
+    "vue-tsc": "^3.3.7"
   },
   "peerDependencies": {
     "vue": "catalog:"
