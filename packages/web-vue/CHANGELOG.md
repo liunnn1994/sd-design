@@ -1,3 +1,11 @@
+# [3.18.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.17.0...web-vue-v3.18.0) (2026-07-24)
+
+
+### Features
+
+* 🆕 a2ui协议更新到 0.9.1 ([d987ff0](https://github.com/liunnn1994/sd-design/commit/d987ff02fa613c9bb5b351b264c1f10a7eacfddc))
+* 🆕 悬浮组件底层改为 floating-ui 实现 ([e0f0ee8](https://github.com/liunnn1994/sd-design/commit/e0f0ee8d8d4ed83997d8a3c92c2bf62e94192da3))
+
 # [3.17.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.16.1...web-vue-v3.17.0) (2026-07-23)
 
 
