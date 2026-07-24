@@ -220,14 +220,12 @@ export type {
   ValidateTrigger,
 } from './form';
 export { default as JsonForm } from './json-form';
-export { A2UI_0_8 } from './json-form';
+export { A2UI_0_9_1 } from './json-form';
 export type {
-  JsonFormA2UIBoundValue,
-  JsonFormA2UI_0_8BoundValue,
-  JsonFormA2UIChoiceOption,
-  JsonFormA2UI_0_8ChoiceOption,
-  JsonFormA2UIComponentNode,
-  JsonFormA2UI_0_8ComponentNode,
+  JsonFormA2UI_0_9_1ChoiceOption,
+  JsonFormA2UI_0_9_1ComponentNode,
+  JsonFormA2UI_0_9_1DataBinding,
+  JsonFormA2UI_0_9_1FunctionCall,
   JsonFormAdapter,
   JsonFormComponentEvents,
   JsonFormComponentProps,

@@ -6,8 +6,8 @@ description: 用声明式 schema 快速生成表单，同时支持 A2UI 配置�
 import DemoBlock from '../../../../components/docs/DemoBlock.astro';
 import JsonFormBasicDemo from '../../../../components/generated/json-form/basic.vue';
 import jsonFormBasicSource from '../../../../components/generated/json-form/basic.vue?raw';
-import JsonFormA2uiDemo from '../../../../components/generated/json-form/a2ui.vue';
-import jsonFormA2uiSource from '../../../../components/generated/json-form/a2ui.vue?raw';
+import JsonFormA2ui091Demo from '../../../../components/generated/json-form/a2ui-0-9-1.vue';
+import jsonFormA2ui091Source from '../../../../components/generated/json-form/a2ui-0-9-1.vue?raw';
 import JsonFormCustomComponentDemo from '../../../../components/generated/json-form/custom-component.vue';
 import jsonFormCustomComponentSource from '../../../../components/generated/json-form/custom-component.vue?raw';
 
@@ -21,13 +21,15 @@ import jsonFormCustomComponentSource from '../../../../components/generated/json
 
 </DemoBlock>
 
-### A2UI 适配
+### A2UI 0.9.1 适配
 
-传入 `adapter={A2UI_0_8}` 后，组件会严格按 A2UI 0.8 的组件节点包装格式接收数据，再翻译成 `JsonForm` 内部 schema。除了 Basic Catalog 里的 `TextField`、`DateTimeInput`、`CheckBox`、`MultipleChoice` 和 `Row / Column`，现在也支持按同一层包装格式接入自定义 catalog 节点，例如 `Select`、`Switch`、`TreeSelect`、`Transfer` 等，覆盖 `JsonForm` 当前全部组件类型。示例同样使用一个 `computed` 输出动态节点列表，实现开关控制和分支表单。
+传入 `adapter={A2UI_0_9_1}` 后，`schemas` 接收 A2UI v0.9.1 `updateComponents.components` 中的 Basic Catalog 组件列表。组件会严格从 `id="root"` 开始按 ID 邻接表展开，支持 `Card`、`Column`、`Row`、`List` 容器，以及 `TextField`、`CheckBox`、`ChoicePicker`、`Slider`、`DateTimeInput` 表单控件。列表顺序不影响渲染；没有 `root` 的游离节点不会显示。
 
-<DemoBlock source={jsonFormA2uiSource} mainFile="src/json-form-a2ui.vue">
+输入值使用 A2UI 的 `{ path: "/..." }` JSON Pointer 双向绑定。`ChoicePicker` 按协议始终读写字符串数组，`mutuallyExclusive` 会限制为最多选择一项。动态子列表、函数调用、展示型组件和 action 不属于 `JsonForm` 的表单适配范围，应由完整 A2UI Renderer 处理。
 
-<JsonFormA2uiDemo client:only="vue" />
+<DemoBlock source={jsonFormA2ui091Source} mainFile="src/json-form-a2ui-0-9-1.vue">
+
+<JsonFormA2ui091Demo client:only="vue" />
 
 </DemoBlock>
 
@@ -47,8 +49,8 @@ import jsonFormCustomComponentSource from '../../../../components/generated/json
 
 | 参数名 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | :-: |
-| schemas | 表单 schema。默认模式下使用 `JsonFormSchema[]`，A2UI 0.8 模式下使用 `JsonFormA2UI_0_8ComponentNode[]` | `JsonFormSchema[] \| JsonFormA2UI_0_8ComponentNode[]` | `[]` |
-| adapter | schema 适配器。不传时使用组件库原生格式，传入 `A2UI_0_8` 时按 A2UI 0.8 节点结构解析 | `'default' \| 'a2ui-0.8'` | `'default'` |
+| schemas | 表单 schema。默认模式使用 `JsonFormSchema[]`；A2UI 模式使用 0.9.1 组件节点列表 | `JsonFormSchema[] \| JsonFormA2UI_0_9_1ComponentNode[]` | `[]` |
+| adapter | schema 适配器。不传时使用组件库原生格式，也可按 A2UI 0.9.1 节点结构解析 | `'default' \| 'a2ui-0.9.1'` | `'default'` |
 | v-model | 表单数据对象 | `Record<string, unknown>` | `{}` |
 | model | 非受控场景下的兼容数据对象 | `Record<string, unknown>` | `-` |
 | hide-label | 是否隐藏 label | `boolean` | `false` |
@@ -83,26 +85,20 @@ import jsonFormCustomComponentSource from '../../../../components/generated/json
 
 ## FAQ
 
-### 什么时候该用 `adapter="a2ui"`？
+### 什么时候该用 A2UI adapter？
 
-当你的表单配置直接来自 A2UI Agent、Surface JSON 或 Basic Catalog 组件列表时，优先使用 `A2UI_0_8`。这样可以保留 A2UI 原始节点结构，减少中间层手写 schema 的工作量，也避免业务代码里散落魔法字符串。
+当表单配置直接来自 A2UI v0.9.1 的 `updateComponents.components` 时，使用 `A2UI_0_9_1`，避免在业务代码中重复转换协议节点。
 
 ### A2UI 模式支持哪些字段？
 
-A2UI 0.8 的标准 Basic Catalog 里，表单相关节点主要是 `TextField`、`CheckBox`、`Slider`、`DateTimeInput`、`MultipleChoice`，以及 `Row / Column` 布局。对于业务自己的 A2UI 0.8 custom catalog，只要仍然遵守同样的 `{"id": "...", "component": { "ComponentName": { ... }}}` 包装格式，就可以映射到 `JsonForm` 的全部内置组件类型。
-
-未来会补 `A2UI 0.9` 适配，但 0.9 目前仍是草稿协议，当前版本只实现并验证了 0.8。
+A2UI 0.9.1 模式支持 Basic Catalog 的 `TextField`、`CheckBox`、`ChoicePicker`、`Slider`、`DateTimeInput`，以及用于连接这些字段的 `Card`、`Row`、`Column`、`List` 静态布局节点。它消费的是 `updateComponents.components` 字段，不负责 transport、surface 生命周期、展示型组件、action 或函数调用；这些能力需要完整 A2UI Renderer。
 
 ### 自定义组件怎么获得类型推导？
 
 推荐在业务代码里先声明组件注册表，再用它创建 schema：
 
 ```ts
-import {
-  A2UI_0_8,
-  defineJsonFormComponents,
-  defineJsonFormSchemas,
-} from '@sdata/web-vue';
+import { defineJsonFormComponents, defineJsonFormSchemas } from '@sdata/web-vue';
 
 const components = defineJsonFormComponents({
   scriptField: ScriptField,
@@ -120,5 +116,5 @@ const schemas = createSchemas([
   },
 ]);
 
-<sd-json-form :adapter="A2UI_0_8" :schemas="schemasFromAgent" />
+<sd-json-form v-model="formState" :schemas="schemas" />
 ```

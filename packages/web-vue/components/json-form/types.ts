@@ -21,11 +21,11 @@ import type { TransferInstance } from '../transfer';
 import type { TreeSelectInstance } from '../tree-select';
 import type { VerificationCodeInstance } from '../verification-code';
 
-export const A2UI_0_8 = 'a2ui-0.8' as const;
+export const A2UI_0_9_1 = 'a2ui-0.9.1' as const;
 
 export const JSON_FORM_ADAPTERS = {
   default: 'default',
-  a2ui_0_8: A2UI_0_8,
+  a2ui_0_9_1: A2UI_0_9_1,
 } as const;
 
 export const JSON_FORM_COMPONENT_TYPES = {
@@ -212,7 +212,7 @@ export type JsonFormModel = Record<string, unknown>;
 export type JsonFormProps<TExternal extends JsonFormExternalComponentMap = {}> = {
   schemas:
     | JsonFormSchema<JsonFormComponentType<TExternal>, TExternal>[]
-    | JsonFormA2UI_0_8ComponentNode[];
+    | JsonFormA2UI_0_9_1ComponentNode[];
   adapter?: JsonFormAdapter;
   model?: JsonFormModel;
   hideLabel?: boolean;
@@ -221,178 +221,128 @@ export type JsonFormProps<TExternal extends JsonFormExternalComponentMap = {}> =
   component?: string | Component;
 };
 
-export type JsonFormA2UIBoundValue =
-  | string
-  | {
-      literalString?: string;
-      path?: string;
-    };
-
-export type JsonFormA2UI_0_8BoundValue = JsonFormA2UIBoundValue;
-
-export type JsonFormA2UIChoiceOption = {
-  label?: JsonFormA2UIBoundValue;
-  value: string | number | boolean;
+export type JsonFormA2UI_0_9_1DataBinding = {
+  path: string;
 };
 
-export type JsonFormA2UI_0_8ChoiceOption = JsonFormA2UIChoiceOption;
+export type JsonFormA2UI_0_9_1FunctionCall = {
+  call: string;
+  args?: Record<string, unknown>;
+  returnType?: 'string' | 'number' | 'boolean' | 'array' | 'object' | 'any' | 'void';
+};
 
-export type JsonFormA2UIChildren =
+export type JsonFormA2UI_0_9_1DynamicString =
+  | string
+  | JsonFormA2UI_0_9_1DataBinding
+  | (JsonFormA2UI_0_9_1FunctionCall & { returnType: 'string' });
+export type JsonFormA2UI_0_9_1DynamicNumber =
+  | number
+  | JsonFormA2UI_0_9_1DataBinding
+  | (JsonFormA2UI_0_9_1FunctionCall & { returnType: 'number' });
+export type JsonFormA2UI_0_9_1DynamicBoolean =
+  | boolean
+  | JsonFormA2UI_0_9_1DataBinding
+  | (JsonFormA2UI_0_9_1FunctionCall & { returnType: 'boolean' });
+export type JsonFormA2UI_0_9_1DynamicStringList =
+  | string[]
+  | JsonFormA2UI_0_9_1DataBinding
+  | (JsonFormA2UI_0_9_1FunctionCall & { returnType: 'array' });
+
+export type JsonFormA2UI_0_9_1CheckRule = {
+  condition: JsonFormA2UI_0_9_1DynamicBoolean;
+  message: string;
+};
+
+export type JsonFormA2UI_0_9_1ChoiceOption = {
+  label: JsonFormA2UI_0_9_1DynamicString;
+  value: string;
+};
+
+export type JsonFormA2UI_0_9_1Children =
   | string[]
   | {
-      explicitList?: string[];
+      componentId: string;
+      path: string;
     };
 
-export type JsonFormA2UI_0_8Children = JsonFormA2UIChildren;
-
-export type JsonFormA2UI_0_8StandardComponentName =
-  | 'Row'
-  | 'Column'
-  | 'TextField'
-  | 'CheckBox'
-  | 'Slider'
-  | 'DateTimeInput'
-  | 'MultipleChoice'
-  | 'ChoicePicker';
-
-export type JsonFormA2UIComponentName = JsonFormA2UI_0_8StandardComponentName | (string & {});
-
-type JsonFormA2UISharedNode = {
+type JsonFormA2UI_0_9_1SharedNode = {
   id: string;
+  component: string;
+  accessibility?: {
+    label?: JsonFormA2UI_0_9_1DynamicString;
+    description?: JsonFormA2UI_0_9_1DynamicString;
+  };
+  weight?: number;
+  checks?: JsonFormA2UI_0_9_1CheckRule[];
 };
 
-export type JsonFormA2UIRowComponent = JsonFormA2UISharedNode & {
-  component: { Row: { children?: JsonFormA2UIChildren } } | 'Row';
-  children?: string[];
+export type JsonFormA2UI_0_9_1ContainerComponent = JsonFormA2UI_0_9_1SharedNode & {
+  component: 'Row' | 'Column' | 'List';
+  children: JsonFormA2UI_0_9_1Children;
+  justify?: 'center' | 'end' | 'spaceAround' | 'spaceBetween' | 'spaceEvenly' | 'start' | 'stretch';
+  align?: 'start' | 'center' | 'end' | 'stretch';
 };
 
-export type JsonFormA2UI_0_8RowComponent = JsonFormA2UIRowComponent;
-
-export type JsonFormA2UIColumnComponent = JsonFormA2UISharedNode & {
-  component: { Column: { children?: JsonFormA2UIChildren } } | 'Column';
-  children?: string[];
+export type JsonFormA2UI_0_9_1CardComponent = JsonFormA2UI_0_9_1SharedNode & {
+  component: 'Card';
+  child: string;
 };
 
-export type JsonFormA2UI_0_8ColumnComponent = JsonFormA2UIColumnComponent;
-
-export type JsonFormA2UITextFieldComponent = JsonFormA2UISharedNode & {
-  component:
-    | {
-        TextField: {
-          label?: JsonFormA2UIBoundValue;
-          text?: JsonFormA2UIBoundValue;
-          value?: JsonFormA2UIBoundValue;
-          textFieldType?: 'shortText' | 'longText' | 'number' | 'obscured' | 'date';
-          validationRegexp?: string;
-          placeholder?: JsonFormA2UIBoundValue;
-        };
-      }
-    | 'TextField';
-  label?: JsonFormA2UIBoundValue;
-  text?: JsonFormA2UIBoundValue;
-  value?: JsonFormA2UIBoundValue;
-  textFieldType?: 'shortText' | 'longText' | 'number' | 'obscured' | 'date';
+export type JsonFormA2UI_0_9_1TextFieldComponent = JsonFormA2UI_0_9_1SharedNode & {
+  component: 'TextField';
+  label: JsonFormA2UI_0_9_1DynamicString;
+  value?: JsonFormA2UI_0_9_1DynamicString;
+  variant?: 'longText' | 'number' | 'shortText' | 'obscured';
   validationRegexp?: string;
-  placeholder?: JsonFormA2UIBoundValue;
 };
 
-export type JsonFormA2UI_0_8TextFieldComponent = JsonFormA2UITextFieldComponent;
-
-export type JsonFormA2UICheckBoxComponent = JsonFormA2UISharedNode & {
-  component:
-    | {
-        CheckBox: {
-          label?: JsonFormA2UIBoundValue;
-          value?: JsonFormA2UIBoundValue;
-        };
-      }
-    | 'CheckBox';
-  label?: JsonFormA2UIBoundValue;
-  value?: JsonFormA2UIBoundValue;
+export type JsonFormA2UI_0_9_1CheckBoxComponent = JsonFormA2UI_0_9_1SharedNode & {
+  component: 'CheckBox';
+  label: JsonFormA2UI_0_9_1DynamicString;
+  value: JsonFormA2UI_0_9_1DynamicBoolean;
 };
 
-export type JsonFormA2UI_0_8CheckBoxComponent = JsonFormA2UICheckBoxComponent;
-
-export type JsonFormA2UISliderComponent = JsonFormA2UISharedNode & {
-  component:
-    | {
-        Slider: {
-          value?: JsonFormA2UIBoundValue;
-          minValue?: number;
-          maxValue?: number;
-        };
-      }
-    | 'Slider';
-  value?: JsonFormA2UIBoundValue;
-  minValue?: number;
-  maxValue?: number;
+export type JsonFormA2UI_0_9_1ChoicePickerComponent = JsonFormA2UI_0_9_1SharedNode & {
+  component: 'ChoicePicker';
+  label?: JsonFormA2UI_0_9_1DynamicString;
+  variant?: 'multipleSelection' | 'mutuallyExclusive';
+  options: JsonFormA2UI_0_9_1ChoiceOption[];
+  value: JsonFormA2UI_0_9_1DynamicStringList;
+  displayStyle?: 'checkbox' | 'chips';
+  filterable?: boolean;
 };
 
-export type JsonFormA2UI_0_8SliderComponent = JsonFormA2UISliderComponent;
+export type JsonFormA2UI_0_9_1SliderComponent = JsonFormA2UI_0_9_1SharedNode & {
+  component: 'Slider';
+  label?: JsonFormA2UI_0_9_1DynamicString;
+  min?: number;
+  max: number;
+  value: JsonFormA2UI_0_9_1DynamicNumber;
+};
 
-export type JsonFormA2UIDateTimeInputComponent = JsonFormA2UISharedNode & {
-  component:
-    | {
-        DateTimeInput: {
-          value?: JsonFormA2UIBoundValue;
-          enableDate?: boolean;
-          enableTime?: boolean;
-          label?: JsonFormA2UIBoundValue;
-        };
-      }
-    | 'DateTimeInput';
-  value?: JsonFormA2UIBoundValue;
+export type JsonFormA2UI_0_9_1DateTimeInputComponent = JsonFormA2UI_0_9_1SharedNode & {
+  component: 'DateTimeInput';
+  value: JsonFormA2UI_0_9_1DynamicString;
   enableDate?: boolean;
   enableTime?: boolean;
-  label?: JsonFormA2UIBoundValue;
+  min?: JsonFormA2UI_0_9_1DynamicString;
+  max?: JsonFormA2UI_0_9_1DynamicString;
+  label?: JsonFormA2UI_0_9_1DynamicString;
 };
 
-export type JsonFormA2UI_0_8DateTimeInputComponent = JsonFormA2UIDateTimeInputComponent;
-
-export type JsonFormA2UIChoiceComponent = JsonFormA2UISharedNode & {
-  component:
-    | {
-        MultipleChoice: {
-          options?: JsonFormA2UIChoiceOption[];
-          selections?: JsonFormA2UIBoundValue;
-          maxAllowedSelections?: number;
-          label?: JsonFormA2UIBoundValue;
-        };
-      }
-    | {
-        ChoicePicker: {
-          options?: JsonFormA2UIChoiceOption[];
-          selections?: JsonFormA2UIBoundValue;
-          maxAllowedSelections?: number;
-          label?: JsonFormA2UIBoundValue;
-        };
-      }
-    | 'MultipleChoice'
-    | 'ChoicePicker';
-  options?: JsonFormA2UIChoiceOption[];
-  selections?: JsonFormA2UIBoundValue;
-  maxAllowedSelections?: number;
-  label?: JsonFormA2UIBoundValue;
-};
-
-export type JsonFormA2UI_0_8ChoiceComponent = JsonFormA2UIChoiceComponent;
-
-export type JsonFormA2UI_0_8CustomComponentNode = JsonFormA2UISharedNode & {
-  component: string | Record<string, Record<string, unknown>>;
+export type JsonFormA2UI_0_9_1CustomComponentNode = JsonFormA2UI_0_9_1SharedNode & {
   [key: string]: unknown;
 };
 
-export type JsonFormA2UI_0_8ComponentNode =
-  | JsonFormA2UIRowComponent
-  | JsonFormA2UIColumnComponent
-  | JsonFormA2UITextFieldComponent
-  | JsonFormA2UICheckBoxComponent
-  | JsonFormA2UISliderComponent
-  | JsonFormA2UIDateTimeInputComponent
-  | JsonFormA2UIChoiceComponent
-  | JsonFormA2UI_0_8CustomComponentNode;
-
-export type JsonFormA2UIComponentNode = JsonFormA2UI_0_8ComponentNode;
+export type JsonFormA2UI_0_9_1ComponentNode =
+  | JsonFormA2UI_0_9_1ContainerComponent
+  | JsonFormA2UI_0_9_1CardComponent
+  | JsonFormA2UI_0_9_1TextFieldComponent
+  | JsonFormA2UI_0_9_1CheckBoxComponent
+  | JsonFormA2UI_0_9_1ChoicePickerComponent
+  | JsonFormA2UI_0_9_1SliderComponent
+  | JsonFormA2UI_0_9_1DateTimeInputComponent
+  | JsonFormA2UI_0_9_1CustomComponentNode;
 
 export const defineJsonFormComponents = <const TExternal extends JsonFormExternalComponentMap>(
   components: TExternal,

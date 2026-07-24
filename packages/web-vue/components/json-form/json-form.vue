@@ -45,7 +45,7 @@
     type JsonFormProps,
     type JsonFormSchema,
   } from './types';
-  import { resolveJsonFormComponents, translateA2UI_0_8ToJsonFormSchemas } from './utils';
+  import { resolveJsonFormComponents, translateA2UI_0_9_1ToJsonFormSchemas } from './utils';
 
   defineOptions({
     name: 'JsonForm',
@@ -93,8 +93,8 @@
   });
 
   const normalizedSchemas = computed(() => {
-    if (resolvedAdapter.value === JSON_FORM_ADAPTERS.a2ui_0_8) {
-      return translateA2UI_0_8ToJsonFormSchemas(props.schemas as never[]);
+    if (resolvedAdapter.value === JSON_FORM_ADAPTERS.a2ui_0_9_1) {
+      return translateA2UI_0_9_1ToJsonFormSchemas(props.schemas as never[]);
     }
 
     return props.schemas as JsonFormSchema<string>[];

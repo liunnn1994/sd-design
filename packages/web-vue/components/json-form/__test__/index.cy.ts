@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue';
 
 import ConfigProvider from '../../config-provider';
-import JsonForm, { A2UI_0_8 } from '../index';
+import JsonForm, { A2UI_0_9_1 } from '../index';
 
 describe('JsonForm', () => {
   it('renders the default schema and updates a nested model', () => {
@@ -19,57 +19,86 @@ describe('JsonForm', () => {
     });
   });
 
-  it('translates an a2ui schema before rendering', () => {
-    const model = { form: { name: '', enabled: false, channels: [] } };
+  it('按 A2UI 0.9.1 的 root 邻接表和 JSON Pointer 渲染并更新表单', () => {
+    const model = {
+      contact: {
+        name: '',
+        enabled: false,
+        channels: [] as string[],
+      },
+    };
+
     cy.mount(JsonForm, {
       props: {
-        adapter: A2UI_0_8,
+        adapter: A2UI_0_9_1,
         modelValue: model,
         schemas: [
           {
-            id: 'form-layout',
-            component: {
-              Row: {
-                children: { explicitList: ['name-input', 'enabled-switch', 'channel-select'] },
-              },
-            },
+            id: 'name-field',
+            component: 'TextField',
+            label: '姓名',
+            value: { path: '/contact/name' },
+            variant: 'shortText',
           },
           {
-            id: 'name-input',
-            component: {
-              TextField: { label: { literalString: '姓名' }, text: { path: '/form/name' } },
-            },
+            id: 'root',
+            component: 'Column',
+            children: ['name-field', 'enabled-field', 'channel-field'],
           },
           {
-            id: 'enabled-switch',
-            component: {
-              Switch: { label: { literalString: '启用' }, value: { path: '/form/enabled' } },
-            },
+            id: 'enabled-field',
+            component: 'CheckBox',
+            label: '启用',
+            value: { path: '/contact/enabled' },
           },
           {
-            id: 'channel-select',
-            component: {
-              Select: {
-                label: { literalString: '渠道' },
-                value: { path: '/form/channels' },
-                options: [
-                  { label: { literalString: '短信' }, value: 'sms' },
-                  { label: { literalString: '邮件' }, value: 'email' },
-                ],
-                multiple: true,
-              },
-            },
+            id: 'channel-field',
+            component: 'ChoicePicker',
+            label: '通知渠道',
+            options: [
+              { label: '短信', value: 'sms' },
+              { label: '邮件', value: 'email' },
+            ],
+            value: { path: '/contact/channels' },
           },
         ],
       },
     });
-    cy.get('input').should('exist');
-    cy.get('input').first().type('Bob');
-    cy.wrap(model).should((m) => {
-      expect(m.form.name).to.equal('Bob');
+
+    cy.get('input').first().type('Alice');
+    cy.wrap(model).should((value) => {
+      expect(value.contact.name).to.equal('Alice');
     });
-    cy.get('.sd-switch').should('exist');
-    cy.get('.sd-select').should('exist');
+
+    cy.get('.sd-checkbox').first().click();
+    cy.wrap(model).should((value) => {
+      expect(value.contact.enabled).to.equal(true);
+    });
+
+    cy.contains('.sd-checkbox', '短信').click();
+    cy.contains('.sd-checkbox', '邮件').should('have.class', 'sd-checkbox-disabled');
+    cy.wrap(model).should((value) => {
+      expect(value.contact.channels).to.deep.equal(['sms']);
+    });
+  });
+
+  it('A2UI 0.9.1 缺少 root 时不渲染游离节点', () => {
+    cy.mount(JsonForm, {
+      props: {
+        adapter: A2UI_0_9_1,
+        modelValue: { contact: { name: '' } },
+        schemas: [
+          {
+            id: 'name-field',
+            component: 'TextField',
+            label: '姓名',
+            value: { path: '/contact/name' },
+          },
+        ],
+      },
+    });
+
+    cy.get('input').should('not.exist');
   });
 
   it('reads custom components from the config provider', () => {

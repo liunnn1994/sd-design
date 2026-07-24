@@ -16,12 +16,10 @@ const JsonForm = Object.assign(_JsonForm, {
 
 export type JsonFormInstance = InstanceType<typeof _JsonForm>;
 export type {
-  JsonFormA2UIBoundValue,
-  JsonFormA2UI_0_8BoundValue,
-  JsonFormA2UIChoiceOption,
-  JsonFormA2UI_0_8ChoiceOption,
-  JsonFormA2UIComponentNode,
-  JsonFormA2UI_0_8ComponentNode,
+  JsonFormA2UI_0_9_1ChoiceOption,
+  JsonFormA2UI_0_9_1ComponentNode,
+  JsonFormA2UI_0_9_1DataBinding,
+  JsonFormA2UI_0_9_1FunctionCall,
   JsonFormAdapter,
   JsonFormComponentEvents,
   JsonFormComponentProps,
@@ -35,6 +33,6 @@ export type {
   JsonFormProviderConfig,
   JsonFormSchema,
 } from './types';
-export { A2UI_0_8, defineJsonFormComponents, defineJsonFormSchemas } from './types';
+export { A2UI_0_9_1, defineJsonFormComponents, defineJsonFormSchemas } from './types';
 
 export default JsonForm;

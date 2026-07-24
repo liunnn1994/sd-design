@@ -130,7 +130,7 @@
   const workingModel = defineModel<JsonFormModel>({ required: true });
 
   const normalizedField = computed(() => {
-    return props.adapter === 'a2ui-0.8'
+    return props.adapter === 'a2ui-0.9.1'
       ? props.schema.field.replace(/^\//, '').replaceAll('/', '.')
       : props.schema.field;
   });
