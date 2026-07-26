@@ -73,7 +73,7 @@ export interface SenderTagSlotConfig extends SenderSlotConfigBase {
   type: 'tag';
   key: string;
   props?: {
-    label: VNodeChild;
+    label: string | number;
     value?: string;
   };
 }

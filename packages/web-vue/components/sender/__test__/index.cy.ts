@@ -1,5 +1,7 @@
 import { h } from 'vue';
 
+import ConfigProvider from '../../config-provider';
+import enUS from '../../locale/lang/en-us';
 import Sender, {
   SenderHeader,
   type SenderInstance,
@@ -366,10 +368,10 @@ describe('Sender', () => {
     });
 
     cy.get('.sd-sender-skill-tag').should('contain.text', '天气助手');
-    cy.get('.sd-sender-slot-select').should('exist');
-    cy.get('.sd-sender-slot-input input').should('have.value', '天气');
-    cy.get('.sd-sender-slot-content').should('contain.text', '今天');
-    cy.get('.sd-sender-slot-tag').should('contain.text', '详细');
+    cy.get('.sd-rich-text-editor-component-select').should('exist');
+    cy.get('[data-rich-text-component-key="keyword"] input').should('have.value', '天气');
+    cy.get('[data-rich-text-component-key="date"] input').should('have.value', '今天');
+    cy.get('.sd-rich-text-editor-component-tag').should('contain.text', '详细');
 
     cy.get('@vue').then(({ wrapper }) => {
       const value = (wrapper.vm as unknown as SenderInstance).getValue();
@@ -392,7 +394,7 @@ describe('Sender', () => {
       },
     });
 
-    cy.get('.sd-sender-slot-input input').type('{enter}');
+    cy.get('.sd-rich-text-editor-component-input input').type('{enter}');
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('submit')).to.have.length(1);
     });
@@ -412,13 +414,37 @@ describe('Sender', () => {
         'end',
       );
     });
-    cy.get('.sd-sender-slot-tag').should('contain.text', '简洁');
+    cy.get('.sd-rich-text-editor-component-tag').should('contain.text', '简洁');
     cy.get('@vue').then(({ wrapper }) => {
       expect((wrapper.vm as unknown as SenderInstance).getValue().value).to.equal('请简洁地');
     });
     cy.get('[role="button"][aria-label="移除技能"]').click();
     cy.get('.sd-sender-skill').should('not.exist');
   });
+
+  for (const [keyName, key] of [
+    ['Enter', '{enter}'],
+    ['Space', ' '],
+  ] as const) {
+    it(`removes a closable skill with ${keyName} without submitting`, () => {
+      cy.mount(Sender, {
+        props: {
+          slotConfig: [{ type: 'text', value: '消息' }],
+          skill: {
+            value: 'agent',
+            tooltip: '技能说明',
+            closable: true,
+          },
+        },
+      });
+
+      cy.get('[role="button"][aria-label="移除技能"]').focus().type(key);
+      cy.get('.sd-sender-skill-tag').should('not.exist');
+      cy.get('@vue').should(({ wrapper }) => {
+        expect(wrapper.emitted('submit')).to.equal(undefined);
+      });
+    });
+  }
 
   it('supports custom structured slots through Vue scoped slots', () => {
     cy.mount(Sender, {
@@ -448,14 +474,43 @@ describe('Sender', () => {
       },
     });
 
-    cy.get('.sd-sender-text-node').first().as('editor').click('right');
+    cy.get('.sd-rich-text-editor-content').as('editor').click('right');
     cy.get('@editor').type('世界');
     cy.get('@vue').then(({ wrapper }) => {
       expect((wrapper.vm as unknown as SenderInstance).getValue().value).to.equal('你好世界');
     });
   });
 
-  it('inserts a newline on Enter in shiftEnter mode without accumulating <br>', () => {
+  it('enables the send button and submits on Enter after typing in an empty slot editor', () => {
+    cy.mount(Sender, {
+      props: {
+        slotConfig: [],
+      },
+    });
+
+    cy.get('button[aria-label="发送"]').should('be.disabled');
+    cy.get('.sd-rich-text-editor-content').as('editor').click('right');
+    cy.get('@editor').type('你好');
+    cy.get('button[aria-label="发送"]').should('not.be.disabled');
+    cy.get('@editor').type('{enter}');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('submit')).to.have.length(1);
+    });
+  });
+
+  it('renders localized aria-labels under a ConfigProvider locale', () => {
+    cy.mount(ConfigProvider, {
+      props: { locale: enUS },
+      slots: {
+        default: () => h(Sender, { slotConfig: [] }),
+      },
+    });
+
+    cy.get('button[aria-label="Send"]').should('exist');
+    cy.get('.sd-rich-text-editor-content').should('have.attr', 'aria-label', 'Message input');
+  });
+
+  it('inserts a Lexical line break on Enter in shiftEnter mode', () => {
     cy.mount(Sender, {
       props: {
         submitType: 'shiftEnter',
@@ -463,14 +518,12 @@ describe('Sender', () => {
       },
     });
 
-    cy.get('.sd-sender-text-node').first().as('editor').click('right');
+    cy.get('.sd-rich-text-editor-content').as('editor').click('right');
     cy.get('@editor').type('{enter}');
     cy.get('@vue').then(({ wrapper }) => {
       expect((wrapper.vm as unknown as SenderInstance).getValue().value).to.equal('你好\n');
     });
-    cy.get('.sd-sender-input-slot').then(($el) => {
-      expect($el[0].querySelectorAll('br'), 'no <br> accumulated').to.have.length(0);
-    });
+    cy.get('.sd-rich-text-editor-paragraph').should('have.length', 1);
   });
 
   it('inserts a newline on Shift+Enter in the default submit mode', () => {
@@ -480,7 +533,7 @@ describe('Sender', () => {
       },
     });
 
-    cy.get('.sd-sender-text-node').first().as('editor').click('right');
+    cy.get('.sd-rich-text-editor-content').as('editor').click('right');
     cy.get('@editor').type('{shift+enter}');
     cy.get('@vue').then(({ wrapper }) => {
       expect((wrapper.vm as unknown as SenderInstance).getValue().value).to.equal('你好\n');
@@ -488,7 +541,7 @@ describe('Sender', () => {
     });
   });
 
-  it('replaces the selected editable text with a newline', () => {
+  it('replaces the selected rich-text content without submitting', () => {
     cy.mount(Sender, {
       props: {
         submitType: 'shiftEnter',
@@ -496,44 +549,30 @@ describe('Sender', () => {
       },
     });
 
-    cy.get('.sd-sender-text-node')
-      .first()
-      .as('editor')
-      .click()
-      .then(($editor) => {
-        const textNode = $editor[0].firstChild;
-        expect(textNode).to.not.equal(null);
-        const range = document.createRange();
-        range.setStart(textNode!, 1);
-        range.setEnd(textNode!, 3);
-        const selection = window.getSelection();
-        selection?.removeAllRanges();
-        selection?.addRange(range);
-      });
+    cy.get('@vue').then(({ wrapper }) => {
+      (wrapper.vm as unknown as SenderInstance).focus({ cursor: 'all' });
+    });
+    cy.get('.sd-rich-text-editor-content').as('editor').should('be.focused');
     cy.get('@editor').type('{enter}');
     cy.get('@vue').then(({ wrapper }) => {
-      expect((wrapper.vm as unknown as SenderInstance).getValue().value).to.equal('你\n界');
+      expect((wrapper.vm as unknown as SenderInstance).getValue().value).to.equal('');
+      expect(wrapper.emitted('submit')).to.equal(undefined);
     });
   });
 
-  it('syncs an editable input event without an active selection', () => {
+  it('delegates structured editing to RichTextEditor', () => {
     cy.mount(Sender, {
       props: {
         slotConfig: [{ type: 'text', value: '原值' }],
       },
     });
 
-    cy.get('.sd-sender-text-node')
-      .first()
-      .then(($editor) => {
-        const editor = $editor[0];
-        editor.textContent = '更新值';
-        window.getSelection()?.removeAllRanges();
-        editor.dispatchEvent(new InputEvent('input', { bubbles: true }));
-      });
-    cy.get('@vue').then(({ wrapper }) => {
-      expect((wrapper.vm as unknown as SenderInstance).getValue().value).to.equal('更新值');
-    });
+    cy.get('.sd-sender-input-slot')
+      .should('have.class', 'sd-rich-text-editor')
+      .find('.sd-rich-text-editor-content')
+      .should('have.attr', 'contenteditable', 'true')
+      .and('contain.text', '原值');
+    cy.get('.sd-sender-text-node').should('not.exist');
   });
 
   it('recalculates autoSize constraints when the input line height changes', () => {
@@ -550,7 +589,7 @@ describe('Sender', () => {
       },
     });
 
-    cy.get('.sd-sender-input-slot')
+    cy.get('.sd-rich-text-editor-content')
       .should('have.css', 'min-height', '40px')
       .and('have.css', 'max-height', '80px');
     cy.get('@vue').then(({ wrapper }) =>
@@ -563,7 +602,7 @@ describe('Sender', () => {
         },
       }),
     );
-    cy.get('.sd-sender-input-slot')
+    cy.get('.sd-rich-text-editor-content')
       .should('have.css', 'min-height', '60px')
       .and('have.css', 'max-height', '120px');
   });

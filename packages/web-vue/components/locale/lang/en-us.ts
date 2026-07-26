@@ -205,6 +205,28 @@ const lang: SdLang = {
     characterOf: 'Character {0} of {1}',
     qrCode: 'QR code: {0}',
   },
+  sender: {
+    messageInput: 'Message input',
+    send: 'Send',
+    stopGenerating: 'Stop generating',
+    removeSkill: 'Remove skill',
+    recording: 'Voice input in progress',
+    closeHeader: 'Close panel',
+    speech: {
+      requestingPermission: 'Requesting microphone permission',
+      permissionDenied: 'Microphone permission denied. Please allow it in browser settings.',
+      unsupported: 'Voice input is not supported in this browser',
+      stop: 'Stop voice input',
+      noMicrophone: 'No microphone detected',
+      microphoneUnavailable: 'Unable to access microphone. Please check browser settings.',
+      noSpeech: 'No speech detected. Please try again.',
+      recognitionFailed: 'Speech recognition failed. Please try again.',
+      start: 'Start voice input',
+    },
+  },
+  richTextEditor: {
+    ariaLabel: 'Rich text editor',
+  },
 };
 
 export default lang;

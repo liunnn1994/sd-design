@@ -245,6 +245,28 @@ const lang: SdLang = {
     characterOf: 'อักขระ {0} จาก {1}',
     qrCode: 'รหัส QR: {0}',
   },
+  sender: {
+    messageInput: 'การป้อนข้อความ',
+    send: 'ส่ง',
+    stopGenerating: 'หยุดสร้าง',
+    removeSkill: 'ลบทักษะ',
+    recording: 'กำลังป้อนด้วยเสียง',
+    closeHeader: 'ปิดแผง',
+    speech: {
+      requestingPermission: 'กำลังขอสิทธิ์การเข้าถึงไมโครโฟน',
+      permissionDenied: 'สิทธิ์ไมโครโฟนถูกปฏิเสธ โปรดอนุญาตในการตั้งค่าเบราว์เซอร์',
+      unsupported: 'เบราว์เซอร์ปัจจุบันไม่รองรับการป้อนด้วยเสียง',
+      stop: 'หยุดการป้อนด้วยเสียง',
+      noMicrophone: 'ไม่พบไมโครโฟน',
+      microphoneUnavailable: 'ไม่สามารถเข้าถึงไมโครโฟนได้ โปรดตรวจสอบการตั้งค่าเบราว์เซอร์',
+      noSpeech: 'ไม่พบเสียงพูด โปรดลองอีกครั้ง',
+      recognitionFailed: 'การจดจำเสียงล้มเหลว โปรดลองอีกครั้ง',
+      start: 'เริ่มการป้อนด้วยเสียง',
+    },
+  },
+  richTextEditor: {
+    ariaLabel: 'ตัวแก้ไขข้อความจัดรูปแบบ',
+  },
 };
 
 export default lang;

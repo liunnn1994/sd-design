@@ -246,6 +246,30 @@ const lang: SdLang = {
     characterOf: 'Zeichen {0} von {1}',
     qrCode: 'QR-Code: {0}',
   },
+  sender: {
+    messageInput: 'Nachrichteneingabe',
+    send: 'Senden',
+    stopGenerating: 'Generierung stoppen',
+    removeSkill: 'Fertigkeit entfernen',
+    recording: 'Spracheingabe läuft',
+    closeHeader: 'Bedienfeld schließen',
+    speech: {
+      requestingPermission: 'Mikrofonberechtigung wird angefordert',
+      permissionDenied:
+        'Mikrofonberechtigung verweigert. Bitte in den Browsereinstellungen erlauben.',
+      unsupported: 'Der aktuelle Browser unterstützt keine Spracheingabe',
+      stop: 'Spracheingabe stoppen',
+      noMicrophone: 'Kein Mikrofon erkannt',
+      microphoneUnavailable:
+        'Auf das Mikrofon kann nicht zugegriffen werden. Bitte Browsereinstellungen prüfen.',
+      noSpeech: 'Keine Sprache erkannt. Bitte erneut versuchen.',
+      recognitionFailed: 'Spracherkennung fehlgeschlagen. Bitte erneut versuchen.',
+      start: 'Spracheingabe starten',
+    },
+  },
+  richTextEditor: {
+    ariaLabel: 'Rich-Text-Editor',
+  },
 };
 
 export default lang;

@@ -4,6 +4,8 @@ import { usePermission, useSpeechRecognition, useUserMedia } from '@vueuse/core'
 
 import type { SenderAllowSpeech } from './types';
 
+import { useI18n } from '../locale';
+
 const isPermissionDeniedError = (error: unknown) =>
   error instanceof DOMException
     ? error.name === 'NotAllowedError' || error.name === 'SecurityError'
@@ -14,6 +16,7 @@ export function useSpeech(
   allowSpeech: MaybeRefOrGetter<SenderAllowSpeech | undefined>,
   onTranscript: (transcript: string) => void,
 ) {
+  const { t } = useI18n();
   const config = computed(() => toValue(allowSpeech));
   const controlled = computed(
     () => typeof config.value === 'object' && typeof config.value.recording === 'boolean',
@@ -63,21 +66,22 @@ export function useSpeech(
       (controlled.value || Boolean(isSpeechSupported.value && !permissionDenied.value)),
   );
   const statusText = computed(() => {
-    if (requesting.value) return '正在请求麦克风权限';
-    if (permissionDenied.value) return '麦克风权限已被拒绝，请在浏览器设置中允许';
-    if (!controlled.value && !isSpeechSupported.value) return '当前浏览器不支持语音输入';
-    if (recording.value) return '停止语音输入';
-    if (permissionRequestError.value?.name === 'NotFoundError') return '未检测到可用麦克风';
-    if (permissionRequestError.value) return '无法访问麦克风，请检查浏览器设置';
+    if (requesting.value) return t('sender.speech.requestingPermission');
+    if (permissionDenied.value) return t('sender.speech.permissionDenied');
+    if (!controlled.value && !isSpeechSupported.value) return t('sender.speech.unsupported');
+    if (recording.value) return t('sender.speech.stop');
+    if (permissionRequestError.value?.name === 'NotFoundError')
+      return t('sender.speech.noMicrophone');
+    if (permissionRequestError.value) return t('sender.speech.microphoneUnavailable');
 
     const recognitionErrorCode =
       recognitionError.value && 'error' in recognitionError.value
         ? recognitionError.value.error
         : undefined;
-    if (recognitionErrorCode === 'audio-capture') return '未检测到可用麦克风';
-    if (recognitionErrorCode === 'no-speech') return '未检测到语音，请重试';
-    if (recognitionError.value) return '语音识别失败，请重试';
-    return '开始语音输入';
+    if (recognitionErrorCode === 'audio-capture') return t('sender.speech.noMicrophone');
+    if (recognitionErrorCode === 'no-speech') return t('sender.speech.noSpeech');
+    if (recognitionError.value) return t('sender.speech.recognitionFailed');
+    return t('sender.speech.start');
   });
 
   const ensureMicrophonePermission = async () => {

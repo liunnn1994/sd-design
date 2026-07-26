@@ -245,6 +245,29 @@ const lang: SdLang = {
     characterOf: 'Caractere {0} de {1}',
     qrCode: 'Código QR: {0}',
   },
+  sender: {
+    messageInput: 'Entrada de mensagem',
+    send: 'Enviar',
+    stopGenerating: 'Parar geração',
+    removeSkill: 'Remover habilidade',
+    recording: 'Entrada de voz em curso',
+    closeHeader: 'Fechar painel',
+    speech: {
+      requestingPermission: 'A pedir permissão de microfone',
+      permissionDenied: 'Permissão de microfone negada. Permita-a nas definições do navegador.',
+      unsupported: 'O navegador atual não suporta entrada de voz',
+      stop: 'Parar entrada de voz',
+      noMicrophone: 'Nenhum microfone detetado',
+      microphoneUnavailable:
+        'Não é possível aceder ao microfone. Verifique as definições do navegador.',
+      noSpeech: 'Nenhuma voz detetada. Tente novamente.',
+      recognitionFailed: 'Reconhecimento de voz falhou. Tente novamente.',
+      start: 'Iniciar entrada de voz',
+    },
+  },
+  richTextEditor: {
+    ariaLabel: 'Editor de texto formatado',
+  },
 };
 
 export default lang;

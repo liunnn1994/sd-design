@@ -25,7 +25,7 @@ import senderPasteFileSource from '../../../../components/generated/sender/paste
 import SenderAgentDemo from '../../../../components/generated/sender/agent.vue';
 import senderAgentSource from '../../../../components/generated/sender/agent.vue?raw';
 
-`Sender` 对齐 Ant Design X 的输入框结构与交互：输入区默认在 Enter 时提交，加载态切换为停止操作，并提供头部、前缀、后缀和底部扩展区域。组件使用 SD Design 的主题 token、`Button`、`Textarea`、`Input`、`Select` 和 `Tooltip`，可随仓库主题统一变化。
+`Sender` 对齐 Ant Design X 的输入框结构与交互：输入区默认在 Enter 时提交，加载态切换为停止操作，并提供头部、前缀、后缀和底部扩展区域。普通文本模式使用 `Textarea`；结构化词槽模式直接使用 `RichTextEditor`，选区、输入法、粘贴、组件节点和光标操作不再由 Sender 单独实现。
 
 ## 何时使用
 
@@ -55,7 +55,7 @@ import senderAgentSource from '../../../../components/generated/sender/agent.vue
 
 ### 结构化词槽
 
-设置 `slot-config` 后进入词槽模式。支持 `text`、`input`、`select`、`tag`、`content` 与 `custom` 类型；`formatResult` 只改变最终拼接结果，不改变控件中显示的原始值。词槽模式请从 `change`、`submit` 或 `getValue()` 读取结果。
+设置 `slot-config` 后进入词槽模式。Sender 会把配置转换为 `RichTextEditor` 的文本和组件节点：`input`、`select`、`tag` 直接使用其内置节点，`content` 复用输入节点，`custom` 使用 `node-senderCustom` 动态插槽。`formatResult` 只改变最终拼接结果，不改变控件中显示的原始值。词槽模式请从 `change`、`submit` 或 `getValue()` 读取结果。
 
 <DemoBlock source={senderSlotsSource} mainFile="src/sender-slots.vue">
 
@@ -194,16 +194,16 @@ import senderAgentSource from '../../../../components/generated/sender/agent.vue
 
 ### `SenderSlotConfig`
 
-| type    | 关键配置                                         | 说明                 |
-| ------- | ------------------------------------------------ | -------------------- |
-| text    | `value`、`editable`、`placeholder`               | 普通文本片段         |
-| input   | `key`、`props.defaultValue`、`props.placeholder` | 内联输入框           |
-| select  | `key`、`props.options`、`props.defaultValue`     | 内联选择器           |
-| tag     | `key`、`props.label`、`props.value`              | 不可编辑标签         |
-| content | `key`、`props.defaultValue`、`props.placeholder` | 可直接编辑的内容词槽 |
-| custom  | `key`、`customRender` 或 `slot-key`              | 自定义控件           |
+| type    | 关键配置                                         | 说明                         |
+| ------- | ------------------------------------------------ | ---------------------------- |
+| text    | `value`                                          | RichTextEditor 文本节点      |
+| input   | `key`、`props.defaultValue`、`props.placeholder` | 内联输入框                   |
+| select  | `key`、`props.options`、`props.defaultValue`     | 内联选择器                   |
+| tag     | `key`、`props.label`、`props.value`              | 不可编辑标签                 |
+| content | `key`、`props.defaultValue`、`props.placeholder` | 复用 RichTextEditor 输入节点 |
+| custom  | `key`、`customRender` 或 `slot-key`              | 自定义控件                   |
 
-所有非 `text` 词槽都需要唯一 `key`；所有类型都可以通过 `formatResult(value)` 格式化最终结果。
+所有非 `text` 词槽都需要唯一 `key`；所有类型都可以通过 `formatResult(value)` 格式化最终结果。词槽配置是 Sender 的兼容适配层，编辑状态与 DOM 行为以 `RichTextEditor` 为唯一实现。
 
 ### `<sender-header>` Props / Events
 

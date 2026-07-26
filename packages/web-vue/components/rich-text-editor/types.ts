@@ -34,6 +34,8 @@ export type RichTextEditorSemanticType = 'root' | 'content' | 'placeholder' | 'c
 
 export interface RichTextEditorFocusOptions {
   defaultSelection?: 'rootStart' | 'rootEnd';
+  selection?: 'start' | 'end' | 'all';
+  preventScroll?: boolean;
 }
 
 export interface RichTextEditorMutationListenerOptions {
@@ -76,6 +78,13 @@ export interface RichTextEditorComponentNodeData {
 }
 
 export type RichTextEditorComponentNodeSnapshot = ReadonlyDeep<RichTextEditorComponentNodeData>;
+export type RichTextEditorContentItem = string | RichTextEditorComponentNodeData;
+export type RichTextEditorContentSnapshot = string | RichTextEditorComponentNodeSnapshot;
+
+export interface RichTextEditorInsertOptions extends EditorUpdateOptions {
+  position?: 'start' | 'end' | 'cursor';
+  replaceCharacters?: string;
+}
 
 export interface RichTextEditorInputNodeData extends RichTextEditorComponentNodeData {
   name: 'input';
@@ -149,7 +158,7 @@ export interface RichTextEditorProps {
    * @zh 非受控初始状态，也可直接传入纯文本
    * @en Uncontrolled initial state, or plain text
    */
-  defaultValue?: RichTextEditorValue | string;
+  defaultValue?: RichTextEditorValue | string | readonly RichTextEditorContentItem[];
   /**
    * @zh Lexical 初始化配置，可注册自定义 nodes、theme、HTML 转换与错误处理
    * @en Lexical initialization config for custom nodes, theme, HTML conversions and errors
@@ -253,6 +262,15 @@ export interface RichTextEditorRef {
   redo: () => boolean;
   getJSON: () => RichTextEditorValue | undefined;
   setJSON: (value: RichTextEditorValue | string, options?: EditorSetOptions) => void;
+  getContent: () => RichTextEditorContentSnapshot[];
+  setContent: (
+    content: readonly RichTextEditorContentItem[],
+    options?: EditorUpdateOptions,
+  ) => void;
+  insertContent: (
+    content: readonly RichTextEditorContentItem[],
+    options?: RichTextEditorInsertOptions,
+  ) => void;
   getText: () => string;
   getHTML: () => string;
   setHTML: (html: string, options?: EditorUpdateOptions) => void;
@@ -262,8 +280,11 @@ export interface RichTextEditorRef {
     transformers?: readonly Transformer[],
     options?: EditorUpdateOptions,
   ) => void;
-  insertText: (text: string, options?: EditorUpdateOptions) => void;
-  insertComponent: (data: RichTextEditorComponentNodeData, options?: EditorUpdateOptions) => void;
+  insertText: (text: string, options?: RichTextEditorInsertOptions) => void;
+  insertComponent: (
+    data: RichTextEditorComponentNodeData,
+    options?: RichTextEditorInsertOptions,
+  ) => void;
   updateComponent: (nodeKey: NodeKey, value: JsonValue, options?: EditorUpdateOptions) => void;
   removeComponent: (nodeKey: NodeKey, options?: EditorUpdateOptions) => void;
   formatText: (format: TextFormatType) => boolean;

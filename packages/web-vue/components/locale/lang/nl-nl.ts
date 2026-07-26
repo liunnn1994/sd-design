@@ -245,6 +245,28 @@ const lang: SdLang = {
     characterOf: 'Teken {0} van {1}',
     qrCode: 'QR-code: {0}',
   },
+  sender: {
+    messageInput: 'Berichtinvoer',
+    send: 'Verzenden',
+    stopGenerating: 'Genereren stoppen',
+    removeSkill: 'Vaardigheid verwijderen',
+    recording: 'Spraakinvoer loopt',
+    closeHeader: 'Paneel sluiten',
+    speech: {
+      requestingPermission: 'Microfoonmachtiging wordt aangevraagd',
+      permissionDenied: 'Microfoonmachtiging geweigerd. Sta dit toe in de browserinstellingen.',
+      unsupported: 'De huidige browser ondersteunt geen spraakinvoer',
+      stop: 'Spraakinvoer stoppen',
+      noMicrophone: 'Geen microfoon gedetecteerd',
+      microphoneUnavailable: 'Geen toegang tot de microfoon. Controleer de browserinstellingen.',
+      noSpeech: 'Geen spraak gedetecteerd. Probeer het opnieuw.',
+      recognitionFailed: 'Spraakherkenning mislukt. Probeer het opnieuw.',
+      start: 'Spraakinvoer starten',
+    },
+  },
+  richTextEditor: {
+    ariaLabel: 'Teksteditor met opmaak',
+  },
 };
 
 export default lang;

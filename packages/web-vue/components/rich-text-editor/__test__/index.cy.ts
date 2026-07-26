@@ -1,6 +1,6 @@
 import type { LexicalEditor } from 'lexical';
 
-import { defineComponent, h, markRaw } from 'vue';
+import { defineComponent, h, markRaw, shallowRef } from 'vue';
 
 import {
   $createParagraphNode,
@@ -100,6 +100,106 @@ describe('RichTextEditor', () => {
           expect(editor.getHTML()).to.contain('<h1');
         });
       });
+    });
+  });
+
+  it('sets, reads and inserts ordered text with component nodes', () => {
+    cy.mount(RichTextEditor, {
+      props: {
+        defaultValue: [
+          '在 ',
+          {
+            key: 'city',
+            name: 'select',
+            value: '杭州',
+            props: { options: [{ label: '杭州', value: '杭州' }] },
+            textValue: '杭州',
+          },
+          ' 查询',
+        ],
+      },
+    });
+
+    cy.get('[data-rich-text-component-key="city"]').should('contain.text', '杭州');
+    cy.get('@vue').then(({ wrapper }) => {
+      const editor = getEditor(wrapper);
+      expect(editor.getContent()).to.deep.equal([
+        '在 ',
+        {
+          key: 'city',
+          name: 'select',
+          value: '杭州',
+          props: { options: [{ label: '杭州', value: '杭州' }] },
+          textValue: '杭州',
+        },
+        ' 查询',
+      ]);
+      editor.insertContent(['天气'], { position: 'end' });
+      expect(editor.getText()).to.equal('在 杭州 查询天气');
+      editor.setContent(['重置']);
+      expect(editor.getContent()).to.deep.equal(['重置']);
+    });
+  });
+
+  it('scales autoSize min/max height with minRows/maxRows via line-height', () => {
+    cy.mount(RichTextEditor, {
+      props: {
+        autoSize: { minRows: 2, maxRows: 4 },
+      },
+    });
+
+    cy.get('.sd-rich-text-editor-content').then(($el) => {
+      const minHeight = parseFloat($el.css('min-height'));
+      const maxHeight = parseFloat($el.css('max-height'));
+      expect(minHeight, 'minHeight (2 rows)').to.be.greaterThan(0);
+      // maxRows/minRows == 4/2 == 2；两侧都用 lh 换算，比值应锁定为 2
+      expect(maxHeight / minHeight, 'maxHeight / minHeight').to.be.closeTo(2, 0.01);
+    });
+  });
+
+  it('keeps every scroll container in place when focusing an empty editor with preventScroll', () => {
+    let focused = false;
+    let focusEditor: (() => void) | undefined;
+    const Host = defineComponent({
+      setup() {
+        const editor = shallowRef<RichTextEditorRef>();
+        focusEditor = () =>
+          editor.value?.focus(
+            () => {
+              focused = true;
+            },
+            { preventScroll: true, selection: 'end' },
+          );
+        return () =>
+          h(
+            'div',
+            {
+              class: 'scroll-host',
+              style: {
+                height: '100px',
+                overflow: 'auto',
+              },
+            },
+            [
+              h('div', { style: { height: '600px' } }),
+              h(RichTextEditor, {
+                ref: editor,
+              }),
+              h('div', { style: { height: '600px' } }),
+            ],
+          );
+      },
+    });
+
+    cy.mount(Host);
+    cy.get('.scroll-host').then(($host) => {
+      $host[0].scrollTop = 0;
+      focusEditor?.();
+    });
+    cy.get('.sd-rich-text-editor-content').should('be.focused');
+    cy.get('.scroll-host').should(($host) => {
+      expect($host[0].scrollTop).to.equal(0);
+      expect(focused).to.equal(true);
     });
   });
 

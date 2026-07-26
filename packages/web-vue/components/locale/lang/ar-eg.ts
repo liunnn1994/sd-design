@@ -245,6 +245,28 @@ const lang: SdLang = {
     characterOf: 'الحرف {0} من {1}',
     qrCode: 'رمز QR: {0}',
   },
+  sender: {
+    messageInput: 'إدخال الرسالة',
+    send: 'إرسال',
+    stopGenerating: 'إيقاف الإنشاء',
+    removeSkill: 'إزالة المهارة',
+    recording: 'جارٍ الإدخال الصوتي',
+    closeHeader: 'إغلاق اللوحة',
+    speech: {
+      requestingPermission: 'جارٍ طلب إذن الميكروفون',
+      permissionDenied: 'تم رفض إذن الميكروفون. يرجى السماح به في إعدادات المتصفح.',
+      unsupported: 'المتصفح الحالي لا يدعم الإدخال الصوتي',
+      stop: 'إيقاف الإدخال الصوتي',
+      noMicrophone: 'لم يتم اكتشاف ميكروفون متاح',
+      microphoneUnavailable: 'تعذر الوصول إلى الميكروفون. يرجى التحقق من إعدادات المتصفح.',
+      noSpeech: 'لم يتم اكتشاف صوت. يرجى المحاولة مرة أخرى.',
+      recognitionFailed: 'فشل التعرف على الصوت. يرجى المحاولة مرة أخرى.',
+      start: 'بدء الإدخال الصوتي',
+    },
+  },
+  richTextEditor: {
+    ariaLabel: 'محرر النص المنسق',
+  },
 };
 
 export default lang;

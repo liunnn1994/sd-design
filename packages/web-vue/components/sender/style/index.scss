@@ -170,119 +170,62 @@ $sender-prefix-cls: string.unquote('#{theme.$prefix}-sender');
   }
 
   &-input-slot {
-    display: block;
+    &.sd-rich-text-editor {
+      display: block;
+      align-self: center;
+      width: 100%;
+      min-width: 0;
+      padding: 0;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    &.sd-rich-text-editor:hover,
+    &.sd-rich-text-editor:focus-within {
+      border: 0;
+      box-shadow: none;
+    }
+
+    .sd-rich-text-editor-content {
+      box-sizing: border-box;
+      padding: 0;
+      color: inherit;
+      font: inherit;
+      line-height: inherit;
+      caret-color: $sender-color-primary;
+      outline: none;
+    }
+
+    .sd-rich-text-editor-placeholder {
+      inset-block-start: 0;
+      inset-inline-start: 0;
+      color: $sender-color-text-placeholder;
+    }
+
+    .sd-rich-text-editor-component {
+      margin-inline: $sender-slot-gap;
+    }
+
+    .sd-rich-text-editor-component-control {
+      min-height: calc(#{$sender-font-size} * #{$sender-line-height} + 2px);
+      font-size: inherit;
+      line-height: inherit;
+    }
+  }
+
+  &-input-slot-content {
     width: 100%;
     min-height: $sender-control-height;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
     cursor: text;
-
-    &:empty::before {
-      color: $sender-color-text-placeholder;
-      content: attr(data-placeholder);
-    }
-  }
-
-  &-text-node {
-    display: inline;
-    min-width: 1px;
-    outline: none;
-
-    &:empty::before {
-      color: $sender-color-text-placeholder;
-      content: attr(data-placeholder);
-    }
   }
 
   &-slot {
     display: inline-flex;
     align-items: center;
-    box-sizing: border-box;
-    min-height: calc(#{$sender-font-size} * #{$sender-line-height} + 2px);
-    margin-block: 1px;
-    margin-inline: $sender-slot-gap;
-    vertical-align: middle;
-    word-break: break-all;
-
-    .sd-input-wrapper,
-    .sd-select-view {
-      min-height: inherit;
-      background: transparent;
-      border: 0;
-      box-shadow: none;
-    }
-  }
-
-  &-slot-input {
-    height: 100%;
-    padding-inline: $sender-slot-padding-inline;
-    color: $sender-color-text-slot;
-    font-size: inherit;
-    line-height: inherit;
-    background: $sender-color-bg-slot;
-    border: 0;
-    border-radius: $sender-slot-border-radius;
-    outline: none;
-
-    &::placeholder {
-      color: $sender-color-text-slot-placeholder;
-    }
-  }
-
-  &-slot-select {
-    box-sizing: border-box;
-    height: 100%;
-    color: $sender-color-text-slot;
-    font-size: $sender-font-size;
-    line-height: $sender-line-height;
-    background: $sender-color-bg-slot;
-    border: $sender-border-width solid $sender-color-border-slot;
-    border-radius: $sender-slot-border-radius;
-    transition: border-color $sender-motion-duration-fast $sender-motion-easing;
-
-    &:hover,
-    &.sd-select-view-focus {
-      border-color: $sender-color-border-slot-hover;
-    }
-  }
-
-  &-slot-tag {
-    display: inline-flex;
-    align-items: center;
-    box-sizing: border-box;
-    height: 100%;
-    color: $sender-color-text-slot;
-    font-size: $sender-font-size;
-    line-height: $sender-line-height;
-    background: $sender-color-bg-slot;
-    border: $sender-border-width solid $sender-color-border-slot;
-    border-radius: $sender-slot-border-radius;
-    outline: none;
-    cursor: default;
-    padding-inline: $sender-slot-padding-inline;
-  }
-
-  &-slot-content {
-    display: inline-block;
-    box-sizing: border-box;
-    height: calc(#{$sender-font-size} * #{$sender-line-height} + 2px);
-    color: $sender-color-text-slot;
-    font-size: $sender-font-size;
-    line-height: $sender-line-height;
-    vertical-align: middle;
-    background: $sender-color-bg-slot;
-    border-radius: $sender-slot-border-radius;
-    outline: none;
-    cursor: text;
-    padding-inline: $sender-slot-padding-inline;
-    caret-color: $sender-color-primary;
-
-    &:empty::after {
-      display: inline-block;
-      height: inherit;
-      color: $sender-color-text-slot-placeholder;
-      content: attr(data-placeholder);
-    }
   }
 
   &-skill {

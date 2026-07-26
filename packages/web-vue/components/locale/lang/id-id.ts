@@ -246,6 +246,28 @@ const lang: SdLang = {
     characterOf: 'Karakter {0} dari {1}',
     qrCode: 'Kode QR: {0}',
   },
+  sender: {
+    messageInput: 'Input pesan',
+    send: 'Kirim',
+    stopGenerating: 'Hentikan pembuatan',
+    removeSkill: 'Hapus keahlian',
+    recording: 'Input suara sedang berlangsung',
+    closeHeader: 'Tutup panel',
+    speech: {
+      requestingPermission: 'Meminta izin mikrofon',
+      permissionDenied: 'Izin mikrofon ditolak. Harap izinkan di pengaturan browser.',
+      unsupported: 'Browser saat ini tidak mendukung input suara',
+      stop: 'Hentikan input suara',
+      noMicrophone: 'Mikrofon tidak terdeteksi',
+      microphoneUnavailable: 'Tidak dapat mengakses mikrofon. Periksa pengaturan browser.',
+      noSpeech: 'Suara tidak terdeteksi. Coba lagi.',
+      recognitionFailed: 'Pengenalan suara gagal. Coba lagi.',
+      start: 'Mulai input suara',
+    },
+  },
+  richTextEditor: {
+    ariaLabel: 'Editor teks kaya',
+  },
 };
 
 export default lang;

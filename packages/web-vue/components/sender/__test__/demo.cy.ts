@@ -79,7 +79,7 @@ describe('<sender> interactive demos:', () => {
 
     cy.contains('button', '代码助手').click();
     cy.get('.sd-sender-skill-tag').should('contain.text', '代码助手');
-    cy.get('.sd-sender-slot-select').should('contain.text', 'Vue');
+    cy.get('.sd-rich-text-editor-component-select').should('contain.text', 'Vue');
     cy.get('button[aria-label="发送"]').click();
     cy.get('button[aria-label="停止生成"]').should('exist');
     cy.get('.sd-alert').should('contain.text', '正在生成');

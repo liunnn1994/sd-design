@@ -247,6 +247,30 @@ const lang: SdLang = {
     characterOf: 'Caractère {0} sur {1}',
     qrCode: 'Code QR : {0}',
   },
+  sender: {
+    messageInput: 'Saisie du message',
+    send: 'Envoyer',
+    stopGenerating: 'Arrêter la génération',
+    removeSkill: 'Supprimer la compétence',
+    recording: 'Saisie vocale en cours',
+    closeHeader: 'Fermer le panneau',
+    speech: {
+      requestingPermission: "Demande d'autorisation du microphone",
+      permissionDenied:
+        "Autorisation du microphone refusée. Veuillez l'autoriser dans les paramètres du navigateur.",
+      unsupported: 'Le navigateur actuel ne prend pas en charge la saisie vocale',
+      stop: 'Arrêter la saisie vocale',
+      noMicrophone: 'Aucun microphone détecté',
+      microphoneUnavailable:
+        "Impossible d'accéder au microphone. Vérifiez les paramètres du navigateur.",
+      noSpeech: 'Aucune parole détectée. Veuillez réessayer.',
+      recognitionFailed: 'Échec de la reconnaissance vocale. Veuillez réessayer.',
+      start: 'Démarrer la saisie vocale',
+    },
+  },
+  richTextEditor: {
+    ariaLabel: 'Éditeur de texte enrichi',
+  },
 };
 
 export default lang;

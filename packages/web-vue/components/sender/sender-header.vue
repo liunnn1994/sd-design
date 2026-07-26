@@ -18,7 +18,12 @@
           <slot name="title">{{ title }}</slot>
         </div>
         <div v-if="closable" :class="`${headerCls}-close`">
-          <Button type="text" size="small" aria-label="关闭头部面板" @click="handleClose">
+          <Button
+            type="text"
+            size="small"
+            :aria-label="t('sender.closeHeader')"
+            @click="handleClose"
+          >
             <template #icon><IconClose /></template>
           </Button>
         </div>
@@ -42,6 +47,7 @@
   import { getPrefixCls } from '../_utils/global-config';
   import Button from '../button';
   import IconClose from '../icon/icon-close';
+  import { useI18n } from '../locale';
   import { senderInjectionKey } from './context';
 
   defineOptions({ name: 'SenderHeader', inheritAttrs: false });
@@ -57,6 +63,8 @@
     'update:open': [open: boolean];
     'openChange': [open: boolean];
   }>();
+
+  const { t } = useI18n();
 
   const context = inject(senderInjectionKey, undefined);
   const prefixCls = context?.prefixCls ?? getPrefixCls('sender');

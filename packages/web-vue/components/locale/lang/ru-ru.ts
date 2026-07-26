@@ -245,6 +245,29 @@ const lang: SdLang = {
     characterOf: 'Символ {0} из {1}',
     qrCode: 'QR-код: {0}',
   },
+  sender: {
+    messageInput: 'Ввод сообщения',
+    send: 'Отправить',
+    stopGenerating: 'Остановить генерацию',
+    removeSkill: 'Удалить навык',
+    recording: 'Идёт голосовой ввод',
+    closeHeader: 'Закрыть панель',
+    speech: {
+      requestingPermission: 'Запрос разрешения на микрофон',
+      permissionDenied: 'Разрешение на микрофон отклонено. Предоставьте его в настройках браузера.',
+      unsupported: 'Текущий браузер не поддерживает голосовой ввод',
+      stop: 'Остановить голосовой ввод',
+      noMicrophone: 'Микрофон не обнаружен',
+      microphoneUnavailable:
+        'Не удалось получить доступ к микрофону. Проверьте настройки браузера.',
+      noSpeech: 'Речь не обнаружена. Повторите попытку.',
+      recognitionFailed: 'Не удалось распознать речь. Повторите попытку.',
+      start: 'Начать голосовой ввод',
+    },
+  },
+  richTextEditor: {
+    ariaLabel: 'Редактор форматированного текста',
+  },
 };
 
 export default lang;

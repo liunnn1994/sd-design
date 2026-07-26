@@ -245,6 +245,28 @@ const lang: SdLang = {
     characterOf: '문자 {0} / {1}',
     qrCode: 'QR 코드: {0}',
   },
+  sender: {
+    messageInput: '메시지 입력',
+    send: '전송',
+    stopGenerating: '생성 중지',
+    removeSkill: '스킬 제거',
+    recording: '음성 입력 중',
+    closeHeader: '패널 닫기',
+    speech: {
+      requestingPermission: '마이크 권한을 요청하는 중입니다',
+      permissionDenied: '마이크 권한이 거부되었습니다. 브라우저 설정에서 허용해 주세요.',
+      unsupported: '현재 브라우저는 음성 입력을 지원하지 않습니다',
+      stop: '음성 입력 중지',
+      noMicrophone: '사용 가능한 마이크가 감지되지 않았습니다',
+      microphoneUnavailable: '마이크에 접근할 수 없습니다. 브라우저 설정을 확인해 주세요.',
+      noSpeech: '음성이 감지되지 않았습니다. 다시 시도해 주세요.',
+      recognitionFailed: '음성 인식에 실패했습니다. 다시 시도해 주세요.',
+      start: '음성 입력 시작',
+    },
+  },
+  richTextEditor: {
+    ariaLabel: '리치 텍스트 편집기',
+  },
 };
 
 export default lang;

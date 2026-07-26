@@ -245,6 +245,28 @@ const lang: SdLang = {
     characterOf: 'Ký tự {0} trên {1}',
     qrCode: 'Mã QR: {0}',
   },
+  sender: {
+    messageInput: 'Nhập tin nhắn',
+    send: 'Gửi',
+    stopGenerating: 'Dừng tạo',
+    removeSkill: 'Xóa kỹ năng',
+    recording: 'Đang nhập bằng giọng nói',
+    closeHeader: 'Đóng bảng điều khiển',
+    speech: {
+      requestingPermission: 'Đang yêu cầu quyền micro',
+      permissionDenied: 'Quyền micro bị từ chối. Vui lòng cho phép trong cài đặt trình duyệt.',
+      unsupported: 'Trình duyệt hiện tại không hỗ trợ nhập bằng giọng nói',
+      stop: 'Dừng nhập bằng giọng nói',
+      noMicrophone: 'Không phát hiện micro',
+      microphoneUnavailable: 'Không thể truy cập micro. Vui lòng kiểm tra cài đặt trình duyệt.',
+      noSpeech: 'Không phát hiện giọng nói. Vui lòng thử lại.',
+      recognitionFailed: 'Nhận dạng giọng nói thất bại. Vui lòng thử lại.',
+      start: 'Bắt đầu nhập bằng giọng nói',
+    },
+  },
+  richTextEditor: {
+    ariaLabel: 'Trình soạn thảo văn bản định dạng',
+  },
 };
 
 export default lang;

@@ -50,12 +50,16 @@ export class InlineComponentNode extends DecoratorNode<null> {
     const element = document.createElement('span');
     element.className = 'sd-rich-text-editor-component';
     element.dataset.richTextComponent = this.__data.name;
+    element.dataset.richTextComponentKey = this.__data.key;
     return element;
   }
 
   updateDOM(previousNode: InlineComponentNode, element: HTMLElement): boolean {
     if (previousNode.__data.name !== this.__data.name) {
       element.dataset.richTextComponent = this.__data.name;
+    }
+    if (previousNode.__data.key !== this.__data.key) {
+      element.dataset.richTextComponentKey = this.__data.key;
     }
     return false;
   }

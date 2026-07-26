@@ -245,6 +245,28 @@ const lang: SdLang = {
     characterOf: '文字 {0} / {1}',
     qrCode: 'QR コード: {0}',
   },
+  sender: {
+    messageInput: 'メッセージ入力',
+    send: '送信',
+    stopGenerating: '生成を停止',
+    removeSkill: 'スキルを削除',
+    recording: '音声入力中',
+    closeHeader: 'パネルを閉じる',
+    speech: {
+      requestingPermission: 'マイクの権限を要求しています',
+      permissionDenied: 'マイクの権限が拒否されました。ブラウザの設定で許可してください。',
+      unsupported: '現在のブラウザーは音声入力に対応していません',
+      stop: '音声入力を停止',
+      noMicrophone: '使用可能なマイクが検出されません',
+      microphoneUnavailable: 'マイクにアクセスできません。ブラウザの設定を確認してください。',
+      noSpeech: '音声が検出されませんでした。もう一度お試しください。',
+      recognitionFailed: '音声認識に失敗しました。もう一度お試しください。',
+      start: '音声入力を開始',
+    },
+  },
+  richTextEditor: {
+    ariaLabel: 'リッチテキストエディタ',
+  },
 };
 
 export default lang;

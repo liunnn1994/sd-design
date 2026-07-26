@@ -261,6 +261,28 @@ export interface SdLang {
     remove: string;
   };
   a11y: SdA11yLang;
+  sender: {
+    messageInput: string;
+    send: string;
+    stopGenerating: string;
+    removeSkill: string;
+    recording: string;
+    closeHeader: string;
+    speech: {
+      requestingPermission: string;
+      permissionDenied: string;
+      unsupported: string;
+      stop: string;
+      noMicrophone: string;
+      microphoneUnavailable: string;
+      noSpeech: string;
+      recognitionFailed: string;
+      start: string;
+    };
+  };
+  richTextEditor: {
+    ariaLabel: string;
+  };
 }
 
 export type SdI18nMessages = Record<string, SdLang>;

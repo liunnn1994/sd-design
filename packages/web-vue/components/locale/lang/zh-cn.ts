@@ -255,6 +255,28 @@ const lang: SdLang = {
     characterOf: '第 {0} 个字符,共 {1} 个',
     qrCode: '二维码:{0}',
   },
+  sender: {
+    messageInput: '消息输入',
+    send: '发送',
+    stopGenerating: '停止生成',
+    removeSkill: '移除技能',
+    recording: '正在语音输入',
+    closeHeader: '关闭头部面板',
+    speech: {
+      requestingPermission: '正在请求麦克风权限',
+      permissionDenied: '麦克风权限已被拒绝，请在浏览器设置中允许',
+      unsupported: '当前浏览器不支持语音输入',
+      stop: '停止语音输入',
+      noMicrophone: '未检测到可用麦克风',
+      microphoneUnavailable: '无法访问麦克风，请检查浏览器设置',
+      noSpeech: '未检测到语音，请重试',
+      recognitionFailed: '语音识别失败，请重试',
+      start: '开始语音输入',
+    },
+  },
+  richTextEditor: {
+    ariaLabel: '富文本编辑器',
+  },
 };
 
 export default lang;

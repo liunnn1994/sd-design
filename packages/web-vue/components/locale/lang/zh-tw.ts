@@ -255,6 +255,28 @@ const lang: SdLang = {
     characterOf: '第 {0} 個字元,共 {1} 個',
     qrCode: 'QR 碼:{0}',
   },
+  sender: {
+    messageInput: '訊息輸入',
+    send: '傳送',
+    stopGenerating: '停止生成',
+    removeSkill: '移除技能',
+    recording: '正在語音輸入',
+    closeHeader: '關閉頂部面板',
+    speech: {
+      requestingPermission: '正在請求麥克風權限',
+      permissionDenied: '麥克風權限已被拒絕，請在瀏覽器設定中允許',
+      unsupported: '目前瀏覽器不支援語音輸入',
+      stop: '停止語音輸入',
+      noMicrophone: '未偵測到可用麥克風',
+      microphoneUnavailable: '無法存取麥克風，請檢查瀏覽器設定',
+      noSpeech: '未偵測到語音，請重試',
+      recognitionFailed: '語音辨識失敗，請重試',
+      start: '開始語音輸入',
+    },
+  },
+  richTextEditor: {
+    ariaLabel: '富文本編輯器',
+  },
 };
 
 export default lang;

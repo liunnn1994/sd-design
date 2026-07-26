@@ -8,14 +8,12 @@ $sender-border-width: global.$border-1;
 $sender-border-radius: calc(global.$radius-medium * 2);
 $sender-slot-border-radius: global.$radius-medium;
 $sender-control-height: global.$size-default;
-$sender-control-height-small: global.$size-small;
 
 $sender-padding-block: global.$spacing-6;
 $sender-padding-inline: global.$spacing-6;
 $sender-content-gap: global.$spacing-4;
 $sender-footer-padding-top: global.$spacing-2;
 $sender-slot-gap: global.$spacing-2;
-$sender-slot-padding-inline: global.$spacing-2;
 $sender-skill-padding-inline: global.$spacing-4;
 $sender-skill-holder-width: global.$spacing-5;
 
@@ -29,15 +27,6 @@ $sender-color-bg-disabled: global.$color-fill-2;
 $sender-color-header-bg: global.$color-fill-2;
 $sender-color-border: global.$color-border-2;
 $sender-color-border-input: color-mix(in srgb, #{global.$color-fill-3} 10%, transparent);
-$sender-color-bg-slot: color-mix(in srgb, #{global.$color-primary-6} 6%, transparent);
-$sender-color-text-slot: global.$color-primary-6;
-$sender-color-text-slot-placeholder: color-mix(
-  in srgb,
-  #{global.$color-primary-6} 25%,
-  transparent
-);
-$sender-color-border-slot: $sender-color-bg-slot;
-$sender-color-border-slot-hover: color-mix(in srgb, #{global.$color-primary-6} 10%, transparent);
 $sender-color-bg-skill: color-mix(in srgb, #{global.$color-primary-6} 8%, transparent);
 $sender-color-bg-skill-hover: color-mix(in srgb, #{global.$color-primary-6} 15%, transparent);
 $sender-color-bg-actions-disabled: color-mix(in srgb, #{global.$color-primary-6} 45%, transparent);

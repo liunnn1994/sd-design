@@ -6,7 +6,7 @@
       :style="[contentStyle, styles?.content]"
       role="textbox"
       aria-multiline="true"
-      :aria-label="ariaLabel"
+      :aria-label="resolvedAriaLabel"
       :aria-disabled="disabled || undefined"
       :aria-readonly="readonly || undefined"
       :spellcheck="spellcheck"
@@ -93,27 +93,36 @@
   } from '@lexical/markdown';
   import { HeadingNode, QuoteNode, registerRichText } from '@lexical/rich-text';
   import {
+    $createLineBreakNode,
     $createParagraphNode,
     $createTextNode,
     $getNodeByKey,
     $nodesOfType,
     $getRoot,
     $getSelection,
+    $isElementNode,
+    $isLineBreakNode,
     $isRangeSelection,
+    $isTextNode,
+    $setSelection,
     CAN_REDO_COMMAND,
     CAN_UNDO_COMMAND,
     COMMAND_PRIORITY_LOW,
     createEditor,
     FORMAT_TEXT_COMMAND,
     REDO_COMMAND,
+    SKIP_SCROLL_INTO_VIEW_TAG,
     UNDO_COMMAND,
   } from 'lexical';
 
   import type {
     RichTextEditorComponentNodeData,
     RichTextEditorComponentNodeSnapshot,
+    RichTextEditorContentItem,
+    RichTextEditorContentSnapshot,
     RichTextEditorEmits,
     RichTextEditorFocusOptions,
+    RichTextEditorInsertOptions,
     RichTextEditorMutationListenerOptions,
     RichTextEditorProps,
     RichTextEditorSlots,
@@ -121,6 +130,7 @@
   } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
+  import { useI18n } from '../locale';
   import {
     $createInlineComponentNode,
     $isInlineComponentNode,
@@ -136,7 +146,6 @@
     historyMaxDepth: null,
     autoSize: true,
     spellcheck: true,
-    ariaLabel: '富文本编辑器',
     plugins: () => [],
     transformers: () => TRANSFORMERS,
     classNames: () => ({}),
@@ -144,6 +153,9 @@
   });
   const emit = defineEmits<RichTextEditorEmits>();
   defineSlots<RichTextEditorSlots>();
+
+  const { t } = useI18n();
+  const resolvedAriaLabel = computed(() => props.ariaLabel ?? t('richTextEditor.ariaLabel'));
 
   // 纯非受控（无 modelValue 且无 change/update:modelValue 监听）时无需序列化 EditorState，
   // 避免每次按键都做 toJSON + JSON.stringify。受控或单向 modelValue 仍需序列化以支撑回显/重置判等。
@@ -181,12 +193,14 @@
     },
   ]);
 
+  // minRows/maxRows 用 `lh` 单位按内容实际行高换算高度（行高来自根节点的
+  // `$rich-text-editor-line-height`，由 &-content 继承），使行数与可见行一致。
   const contentStyle = computed<CSSProperties>(() => {
     if (!props.autoSize) return {};
     if (props.autoSize === true) return { minHeight: '1.5715em' };
     return {
-      minHeight: props.autoSize.minRows ? `calc(${props.autoSize.minRows} * 1.5715em)` : undefined,
-      maxHeight: props.autoSize.maxRows ? `calc(${props.autoSize.maxRows} * 1.5715em)` : undefined,
+      minHeight: props.autoSize.minRows ? `${props.autoSize.minRows}lh` : undefined,
+      maxHeight: props.autoSize.maxRows ? `${props.autoSize.maxRows}lh` : undefined,
       overflowY: props.autoSize.maxRows ? 'auto' : undefined,
     };
   });
@@ -245,14 +259,105 @@
     }
   };
 
-  const setPlainText = (text: string, options?: EditorUpdateOptions) => {
+  const createContentNodes = (content: readonly RichTextEditorContentItem[]) => {
+    const nodes: LexicalNode[] = [];
+    for (const item of content) {
+      if (typeof item !== 'string') {
+        nodes.push($createInlineComponentNode(item));
+        continue;
+      }
+      item.split('\n').forEach((line, index) => {
+        if (index) nodes.push($createLineBreakNode());
+        if (line) nodes.push($createTextNode(line));
+      });
+    }
+    return nodes;
+  };
+
+  // setContent 将所有内容归并到单个段落：字符串中的 `\n` 变成 LineBreakNode（软换行），
+  // 多个顶层段落经 getContent -> setContent 往返会塌缩为单段内的软换行。词槽等单段场景无影响。
+  const setContent = (
+    content: readonly RichTextEditorContentItem[],
+    options?: EditorUpdateOptions,
+  ) => {
     editorRef.value?.update(() => {
-      const root = $getRoot();
       const paragraph = $createParagraphNode();
-      if (text) paragraph.append($createTextNode(text));
-      root.clear().append(paragraph);
+      paragraph.append(...createContentNodes(content));
+      $getRoot().clear().append(paragraph);
       paragraph.selectEnd();
     }, withDiscreteUpdate(options));
+  };
+
+  const setPlainText = (text: string, options?: EditorUpdateOptions) => {
+    setContent([text], options);
+  };
+
+  const getContent = (): RichTextEditorContentSnapshot[] =>
+    editorRef.value?.getEditorState().read(() => {
+      const content: RichTextEditorContentSnapshot[] = [];
+      const appendText = (value: string) => {
+        if (!value) return;
+        const previous = content.at(-1);
+        if (typeof previous === 'string') content[content.length - 1] = previous + value;
+        else content.push(value);
+      };
+      const visit = (node: LexicalNode) => {
+        if ($isTextNode(node)) {
+          appendText(node.getTextContent());
+          return;
+        }
+        if ($isLineBreakNode(node)) {
+          appendText('\n');
+          return;
+        }
+        if ($isInlineComponentNode(node)) {
+          content.push(node.getData());
+          return;
+        }
+        if ($isElementNode(node)) node.getChildren().forEach(visit);
+      };
+      $getRoot()
+        .getChildren()
+        .forEach((node, index) => {
+          if (index) appendText('\n');
+          visit(node);
+        });
+      return content;
+    }) ?? [];
+
+  const insertContent = (
+    content: readonly RichTextEditorContentItem[],
+    options: RichTextEditorInsertOptions = {},
+  ) => {
+    const { position = 'cursor', replaceCharacters, ...updateOptions } = options;
+    editorRef.value?.update(() => {
+      const root = $getRoot();
+      if (position === 'start') root.selectStart();
+      if (position === 'end') root.selectEnd();
+
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        if (replaceCharacters && selection.isCollapsed()) {
+          const anchorNode = selection.anchor.getNode();
+          const offset = selection.anchor.offset;
+          if (
+            $isTextNode(anchorNode) &&
+            anchorNode.getTextContent().slice(0, offset).endsWith(replaceCharacters)
+          ) {
+            const start = offset - replaceCharacters.length;
+            anchorNode.spliceText(start, replaceCharacters.length, '', true);
+            anchorNode.select(start, start);
+          }
+        }
+        selection.insertNodes(createContentNodes(content));
+        return;
+      }
+
+      const paragraph = $createParagraphNode();
+      paragraph.append(...createContentNodes(content));
+      root.append(paragraph);
+      paragraph.selectEnd();
+    }, withDiscreteUpdate(updateOptions));
   };
 
   const setJSON = (value: RichTextEditorValue | string, options?: EditorSetOptions) => {
@@ -270,16 +375,21 @@
   };
 
   const applyInitialValue = () => {
+    const defaultValue = props.defaultValue;
     if (props.modelValue) {
       setJSON(props.modelValue, { tag: 'sd-rich-text-initial' });
       return;
     }
-    if (typeof props.defaultValue === 'string') {
-      setPlainText(props.defaultValue, { tag: 'sd-rich-text-initial' });
+    if (Array.isArray(defaultValue)) {
+      setContent(defaultValue, { tag: 'sd-rich-text-initial' });
       return;
     }
-    if (props.defaultValue) {
-      setJSON(props.defaultValue, { tag: 'sd-rich-text-initial' });
+    if (typeof defaultValue === 'string') {
+      setPlainText(defaultValue, { tag: 'sd-rich-text-initial' });
+      return;
+    }
+    if (defaultValue) {
+      setJSON(defaultValue as RichTextEditorValue, { tag: 'sd-rich-text-initial' });
       return;
     }
     setPlainText('', { tag: 'sd-rich-text-initial' });
@@ -299,35 +409,41 @@
     }, withDiscreteUpdate(options));
   };
 
-  const insertText = (text: string, options?: EditorUpdateOptions) => {
+  const insertText = (text: string, options: RichTextEditorInsertOptions = {}) => {
+    const { position = 'cursor', replaceCharacters, ...updateOptions } = options;
     editorRef.value?.update(() => {
+      const root = $getRoot();
+      if (position === 'start') root.selectStart();
+      if (position === 'end') root.selectEnd();
+
       const selection = $getSelection();
       if ($isRangeSelection(selection)) {
+        if (replaceCharacters && selection.isCollapsed()) {
+          const anchorNode = selection.anchor.getNode();
+          const offset = selection.anchor.offset;
+          if (
+            $isTextNode(anchorNode) &&
+            anchorNode.getTextContent().slice(0, offset).endsWith(replaceCharacters)
+          ) {
+            const start = offset - replaceCharacters.length;
+            anchorNode.spliceText(start, replaceCharacters.length, '', true);
+            anchorNode.select(start, start);
+          }
+        }
         selection.insertText(text);
         return;
       }
+
       const paragraph = $createParagraphNode().append($createTextNode(text));
-      $getRoot().append(paragraph);
+      root.append(paragraph);
       paragraph.selectEnd();
-    }, withDiscreteUpdate(options));
+    }, withDiscreteUpdate(updateOptions));
   };
 
   const insertComponent = (
     data: RichTextEditorComponentNodeData,
-    options?: EditorUpdateOptions,
-  ) => {
-    editorRef.value?.update(() => {
-      const node = $createInlineComponentNode(data);
-      const selection = $getSelection();
-      if ($isRangeSelection(selection)) {
-        selection.insertNodes([node]);
-        return;
-      }
-      const paragraph = $createParagraphNode().append(node);
-      $getRoot().append(paragraph);
-      paragraph.selectEnd();
-    }, withDiscreteUpdate(options));
-  };
+    options?: RichTextEditorInsertOptions,
+  ) => insertContent([data], options);
 
   const clear = () => {
     setPlainText('', { tag: 'sd-rich-text-clear' });
@@ -549,14 +665,55 @@
     get canRedo() {
       return canRedo.value;
     },
-    focus: (callback?: () => void, options?: RichTextEditorFocusOptions) =>
-      editorRef.value?.focus(callback, options),
+    focus: (callback?: () => void, options: RichTextEditorFocusOptions = {}) => {
+      const { selection, preventScroll, ...focusOptions } = options;
+      const editor = editorRef.value;
+      if (preventScroll) {
+        editor?.update(
+          () => {
+            const root = $getRoot();
+            if (selection === 'start') root.selectStart();
+            else if (selection === 'end') root.selectEnd();
+            else if (selection === 'all') root.select(0, root.getChildrenSize());
+            else {
+              const currentSelection = $getSelection();
+              if (currentSelection) $setSelection(currentSelection.clone());
+              else if (root.getChildrenSize()) {
+                if (focusOptions.defaultSelection === 'rootStart') root.selectStart();
+                else root.selectEnd();
+              }
+            }
+          },
+          {
+            discrete: true,
+            onUpdate: callback,
+            tag: SKIP_SCROLL_INTO_VIEW_TAG,
+          },
+        );
+        return;
+      }
+      if (selection) {
+        editor?.update(
+          () => {
+            const root = $getRoot();
+            if (selection === 'start') root.selectStart();
+            if (selection === 'end') root.selectEnd();
+            if (selection === 'all') root.select(0, root.getChildrenSize());
+          },
+          { discrete: true },
+        );
+      }
+      editor?.focus(callback, focusOptions);
+    },
     blur: () => editorRef.value?.blur(),
     clear,
     undo,
     redo,
     getJSON,
     setJSON,
+    getContent,
+    setContent,
+    insertContent,
     getText,
     getHTML,
     setHTML,
