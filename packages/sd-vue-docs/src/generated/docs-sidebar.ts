@@ -393,6 +393,10 @@ export const docsSidebar = [
             label: '选择器 Select',
           },
           {
+            slug: 'components/sender',
+            label: '对话输入框 Sender',
+          },
+          {
             slug: 'components/slider',
             label: '滑动输入条 Slider',
           },

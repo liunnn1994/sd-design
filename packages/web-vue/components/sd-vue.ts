@@ -72,6 +72,7 @@ import Scrollbar from './scrollbar';
 import Secret from './secret';
 import Select from './select';
 import SelectableCard from './selectable-card';
+import Sender, { SenderHeader, SenderSwitch } from './sender';
 import Skeleton, { SkeletonLine, SkeletonShape } from './skeleton';
 import Slider from './slider';
 import Space from './space';
@@ -150,6 +151,7 @@ const components: Record<string, Plugin> = {
   Radio,
   Rate,
   Select,
+  Sender,
   Secret,
   Slider,
   Switch,
@@ -252,6 +254,8 @@ const SDVue: Record<string, unknown> & {
   MenuItemGroup,
   SubMenu,
   RadioGroup,
+  SenderHeader,
+  SenderSwitch,
   SkeletonLine,
   SkeletonShape,
   Countdown,

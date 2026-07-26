@@ -1,0 +1,403 @@
+@use 'sass:string';
+@use './token.scss' as *;
+@use '@style/theme/index.scss' as theme;
+
+$sender-prefix-cls: string.unquote('#{theme.$prefix}-sender');
+
+.#{$sender-prefix-cls} {
+  box-sizing: border-box;
+
+  &-main {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: $sender-color-bg;
+    border: $sender-border-width solid $sender-color-border-input;
+    border-radius: $sender-border-radius;
+    box-shadow: $sender-box-shadow;
+  }
+
+  &-disabled {
+    background: $sender-color-bg-disabled;
+    border-color: transparent;
+  }
+
+  &-content {
+    display: flex;
+    gap: $sender-content-gap;
+    align-items: flex-end;
+    box-sizing: border-box;
+    width: 100%;
+    padding-block: $sender-padding-block;
+    padding-inline: $sender-padding-inline;
+  }
+
+  &-prefix,
+  &-actions-list {
+    flex: none;
+  }
+
+  &-input {
+    flex: auto;
+    align-self: center;
+    min-width: 0;
+    padding: 0;
+    color: $sender-color-text;
+    font-size: $sender-font-size;
+    caret-color: $sender-color-primary;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    outline: none;
+
+    &.#{$sender-prefix-cls}-input.sd-textarea-wrapper {
+      overflow: visible;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+
+      .sd-textarea {
+        min-height: $sender-control-height;
+        padding: 5px 0;
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+
+        &:focus,
+        &:focus-visible {
+          border: 0;
+          outline: 0;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+
+  &-actions-list {
+    display: flex;
+
+    &-presets {
+      display: flex;
+      gap: $sender-content-gap;
+    }
+  }
+
+  &-actions-btn {
+    &.sd-button-text {
+      color: $sender-color-primary;
+    }
+
+    &-disabled.sd-button-text {
+      color: $sender-color-bg-actions-disabled;
+      border-color: transparent;
+    }
+
+    &-disabled:not(.sd-button-text) {
+      color: #fff;
+      background: $sender-color-bg-actions-disabled;
+      border-color: transparent;
+    }
+
+    &-loading-button {
+      padding: 0;
+      border: 0;
+    }
+
+    &-loading-icon {
+      width: $sender-control-height;
+      height: $sender-control-height;
+      vertical-align: top;
+    }
+
+    &-recording-icon {
+      width: 1.2em;
+      height: 1.2em;
+      vertical-align: top;
+    }
+  }
+
+  &-loading-spinner {
+    transform-origin: center;
+    animation: sender-loading-rotate 1s linear infinite;
+  }
+
+  &-recording-bar {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: sender-recording-bar 0.8s ease-in-out infinite;
+  }
+
+  &-footer {
+    box-sizing: border-box;
+    padding-block: $sender-footer-padding-top $sender-padding-block;
+    padding-inline: $sender-padding-inline;
+  }
+
+  &-header {
+    overflow: hidden;
+    border-bottom: $sender-border-width solid $sender-color-border-input;
+
+    &-header {
+      display: flex;
+      align-items: center;
+      padding-block: $sender-padding-block - theme.$border-2;
+      padding-inline: theme.$spacing-7 theme.$spacing-4;
+      font-size: $sender-font-size;
+      line-height: $sender-line-height;
+      background: $sender-color-header-bg;
+      border-radius: $sender-border-radius $sender-border-radius 0 0;
+    }
+
+    &-title {
+      flex: auto;
+    }
+
+    &-close {
+      flex: none;
+    }
+
+    &-content {
+      padding: theme.$spacing-7;
+    }
+
+    &-motion-enter-active,
+    &-motion-leave-active {
+      overflow: hidden;
+      transition:
+        height $sender-motion-duration $sender-motion-easing,
+        border-color $sender-motion-duration $sender-motion-easing;
+    }
+  }
+
+  &-input-slot {
+    display: block;
+    width: 100%;
+    min-height: $sender-control-height;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    cursor: text;
+
+    &:empty::before {
+      color: $sender-color-text-placeholder;
+      content: attr(data-placeholder);
+    }
+  }
+
+  &-text-node {
+    display: inline;
+    min-width: 1px;
+    outline: none;
+
+    &:empty::before {
+      color: $sender-color-text-placeholder;
+      content: attr(data-placeholder);
+    }
+  }
+
+  &-slot {
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: calc(#{$sender-font-size} * #{$sender-line-height} + 2px);
+    margin-block: 1px;
+    margin-inline: $sender-slot-gap;
+    vertical-align: middle;
+    word-break: break-all;
+
+    .sd-input-wrapper,
+    .sd-select-view {
+      min-height: inherit;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+    }
+  }
+
+  &-slot-input {
+    height: 100%;
+    padding-inline: $sender-slot-padding-inline;
+    color: $sender-color-text-slot;
+    font-size: inherit;
+    line-height: inherit;
+    background: $sender-color-bg-slot;
+    border: 0;
+    border-radius: $sender-slot-border-radius;
+    outline: none;
+
+    &::placeholder {
+      color: $sender-color-text-slot-placeholder;
+    }
+  }
+
+  &-slot-select {
+    box-sizing: border-box;
+    height: 100%;
+    color: $sender-color-text-slot;
+    font-size: $sender-font-size;
+    line-height: $sender-line-height;
+    background: $sender-color-bg-slot;
+    border: $sender-border-width solid $sender-color-border-slot;
+    border-radius: $sender-slot-border-radius;
+    transition: border-color $sender-motion-duration-fast $sender-motion-easing;
+
+    &:hover,
+    &.sd-select-view-focus {
+      border-color: $sender-color-border-slot-hover;
+    }
+  }
+
+  &-slot-tag {
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    height: 100%;
+    color: $sender-color-text-slot;
+    font-size: $sender-font-size;
+    line-height: $sender-line-height;
+    background: $sender-color-bg-slot;
+    border: $sender-border-width solid $sender-color-border-slot;
+    border-radius: $sender-slot-border-radius;
+    outline: none;
+    cursor: default;
+    padding-inline: $sender-slot-padding-inline;
+  }
+
+  &-slot-content {
+    display: inline-block;
+    box-sizing: border-box;
+    height: calc(#{$sender-font-size} * #{$sender-line-height} + 2px);
+    color: $sender-color-text-slot;
+    font-size: $sender-font-size;
+    line-height: $sender-line-height;
+    vertical-align: middle;
+    background: $sender-color-bg-slot;
+    border-radius: $sender-slot-border-radius;
+    outline: none;
+    cursor: text;
+    padding-inline: $sender-slot-padding-inline;
+    caret-color: $sender-color-primary;
+
+    &:empty::after {
+      display: inline-block;
+      height: inherit;
+      color: $sender-color-text-slot-placeholder;
+      content: attr(data-placeholder);
+    }
+  }
+
+  &-skill {
+    display: inline-block;
+    height: calc(#{$sender-font-size} * #{$sender-line-height} + 2px);
+    margin-block: 1px;
+    margin-inline-start: -1px;
+    vertical-align: baseline;
+    word-break: break-all;
+
+    &-empty::after {
+      display: inline-block;
+      height: inherit;
+      color: $sender-color-text-placeholder;
+      content: attr(data-placeholder);
+      pointer-events: none;
+    }
+
+    &-wrapper {
+      display: inline-flex;
+      height: 100%;
+    }
+
+    &-tag {
+      display: inline-flex;
+      gap: $sender-slot-gap;
+      align-items: center;
+      height: 100%;
+      color: $sender-color-primary;
+      font-weight: theme.$font-weight-500;
+      background: $sender-color-bg-skill;
+      border-radius: $sender-slot-border-radius;
+      cursor: pointer;
+      transition: background-color $sender-motion-duration-fast $sender-motion-easing;
+      padding-inline: $sender-skill-padding-inline;
+
+      &:hover {
+        background: $sender-color-bg-skill-hover;
+      }
+
+      &-close {
+        display: inline-flex;
+        color: $sender-color-primary;
+        font-size: theme.$font-size-body-1;
+        transition: color $sender-motion-duration-fast $sender-motion-easing;
+
+        &:not(.#{$sender-prefix-cls}-skill-tag-close-disabled):hover {
+          color: $sender-color-primary-hover;
+        }
+      }
+
+      &-close-disabled {
+        color: $sender-color-text-disabled;
+        cursor: not-allowed;
+      }
+    }
+
+    &-holder {
+      width: $sender-skill-holder-width;
+      height: 100%;
+    }
+  }
+
+  &-switch {
+    display: inline-block;
+
+    .#{$sender-prefix-cls}-switch-content:not(:disabled):hover {
+      color: $sender-color-text;
+      background: $sender-switch-unchecked-hover-bg;
+      border-color: $sender-color-border;
+    }
+
+    &-checked {
+      .#{$sender-prefix-cls}-switch-content {
+        color: $sender-color-primary;
+        background: $sender-switch-checked-bg;
+        border-color: $sender-color-primary;
+
+        &:not(:disabled):hover {
+          color: $sender-color-primary;
+          background: $sender-switch-checked-hover-bg;
+          border-color: $sender-color-primary;
+        }
+      }
+    }
+  }
+}
+
+@keyframes sender-loading-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sender-recording-bar {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  50% {
+    transform: scaleY(2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .#{$sender-prefix-cls} {
+    &-loading-spinner,
+    &-recording-bar {
+      animation: none;
+    }
+
+    &-header-motion-enter-active,
+    &-header-motion-leave-active {
+      transition-duration: 0.01ms;
+    }
+  }
+}

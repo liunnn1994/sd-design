@@ -413,6 +413,40 @@ export type {
   SelectOptionGroup,
   SelectProps,
 } from './select';
+export { default as Sender, SenderHeader, SenderSwitch } from './sender';
+export type {
+  SenderActionContext,
+  SenderAllowSpeech,
+  SenderComponents,
+  SenderContentSlotConfig,
+  SenderControlledSpeechConfig,
+  SenderCustomSlotConfig,
+  SenderCustomSlotRender,
+  SenderCustomSlotState,
+  SenderEmits,
+  SenderFocusOptions,
+  SenderHeaderInstance,
+  SenderHeaderProps,
+  SenderHeaderSemanticType,
+  SenderInsertPosition,
+  SenderInputSlotConfig,
+  SenderInstance,
+  SenderProps,
+  SenderRef,
+  SenderResolvedSlotConfig,
+  SenderSelectSlotConfig,
+  SenderSemanticType,
+  SenderSkill,
+  SenderSkillClosableConfig,
+  SenderSlotConfig,
+  SenderSlotConfigBase,
+  SenderSubmitType,
+  SenderSwitchInstance,
+  SenderSwitchProps,
+  SenderTagSlotConfig,
+  SenderTextSlotConfig,
+  SenderValue,
+} from './sender';
 export { default as Secret } from './secret';
 export type { SecretInstance } from './secret';
 export { default as Skeleton, SkeletonLine, SkeletonShape } from './skeleton';

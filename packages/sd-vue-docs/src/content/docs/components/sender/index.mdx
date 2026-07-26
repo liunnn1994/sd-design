@@ -1,0 +1,228 @@
+---
+title: 对话输入框 Sender
+description: 用于聊天与 AI 对话场景的复合输入框，支持提交、加载取消、语音、头部面板、结构化词槽和功能开关。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import SenderBasicDemo from '../../../../components/generated/sender/basic.vue';
+import senderBasicSource from '../../../../components/generated/sender/basic.vue?raw';
+import SenderHeaderDemo from '../../../../components/generated/sender/header.vue';
+import senderHeaderSource from '../../../../components/generated/sender/header.vue?raw';
+import SenderSlotsDemo from '../../../../components/generated/sender/slots.vue';
+import senderSlotsSource from '../../../../components/generated/sender/slots.vue?raw';
+import SenderCustomActionsDemo from '../../../../components/generated/sender/custom-actions.vue';
+import senderCustomActionsSource from '../../../../components/generated/sender/custom-actions.vue?raw';
+import SenderSwitchDemo from '../../../../components/generated/sender/switch.vue';
+import senderSwitchSource from '../../../../components/generated/sender/switch.vue?raw';
+import SenderMethodsDemo from '../../../../components/generated/sender/methods.vue';
+import senderMethodsSource from '../../../../components/generated/sender/methods.vue?raw';
+import SenderSubmitTypeDemo from '../../../../components/generated/sender/submit-type.vue';
+import senderSubmitTypeSource from '../../../../components/generated/sender/submit-type.vue?raw';
+import SenderStatesDemo from '../../../../components/generated/sender/states.vue';
+import senderStatesSource from '../../../../components/generated/sender/states.vue?raw';
+import SenderPasteFileDemo from '../../../../components/generated/sender/paste-file.vue';
+import senderPasteFileSource from '../../../../components/generated/sender/paste-file.vue?raw';
+import SenderAgentDemo from '../../../../components/generated/sender/agent.vue';
+import senderAgentSource from '../../../../components/generated/sender/agent.vue?raw';
+
+`Sender` 对齐 Ant Design X 的输入框结构与交互：输入区默认在 Enter 时提交，加载态切换为停止操作，并提供头部、前缀、后缀和底部扩展区域。组件使用 SD Design 的主题 token、`Button`、`Textarea`、`Input`、`Select` 和 `Tooltip`，可随仓库主题统一变化。
+
+## 何时使用
+
+- 构建聊天、智能助手或提示词输入区域。
+- 输入框需要发送、停止生成、语音输入或粘贴文件等操作。
+- 需要把参数、标签和可编辑内容组合为结构化词槽。
+
+### 基本用法
+
+通过 `v-model` 绑定内容，按 Enter 或点击发送按钮触发 `submit`。Shift + Enter 保留为换行。
+
+<DemoBlock source={senderBasicSource} mainFile="src/sender-basic.vue">
+
+<SenderBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 展开面板
+
+把 `SenderHeader` 放入 `header` 插槽，可展示引用、附件或上下文信息。展开与收起动画沿用 Ant Design X 的高度和边框过渡。
+
+<DemoBlock source={senderHeaderSource} mainFile="src/sender-header.vue">
+
+<SenderHeaderDemo client:only="vue" />
+
+</DemoBlock>
+
+### 结构化词槽
+
+设置 `slot-config` 后进入词槽模式。支持 `text`、`input`、`select`、`tag`、`content` 与 `custom` 类型；`formatResult` 只改变最终拼接结果，不改变控件中显示的原始值。词槽模式请从 `change`、`submit` 或 `getValue()` 读取结果。
+
+<DemoBlock source={senderSlotsSource} mainFile="src/sender-slots.vue">
+
+<SenderSlotsDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义操作区
+
+`prefix`、`suffix`、`footer` 都是 Vue 插槽。`suffix` 插槽会替换默认操作按钮，并提供与默认行为一致的 `actions`。
+
+<DemoBlock source={senderCustomActionsSource} mainFile="src/sender-custom-actions.vue">
+
+<SenderCustomActionsDemo client:only="vue" />
+
+</DemoBlock>
+
+### 功能开关与语音
+
+`SenderSwitch` 用于展示与输入框关联的功能开关。`allow-speech` 设为 `true` 后，首次点击语音按钮会申请麦克风权限，并把最终识别文本写入输入框；也可以传入受控配置接入第三方录音实现。
+
+<DemoBlock source={senderSwitchSource} mainFile="src/sender-switch.vue">
+
+<SenderSwitchDemo client:only="vue" />
+
+</DemoBlock>
+
+### Agent 工作流
+
+根据当前 Agent 切换 `skill` 和 `slot-config`，并组合 `SenderSwitch`、自适应高度、加载与停止操作，构成完整的 AI 输入工作流。
+
+<DemoBlock source={senderAgentSource} mainFile="src/sender-agent.vue">
+
+<SenderAgentDemo client:only="vue" />
+
+</DemoBlock>
+
+### 实例方法
+
+通过组件实例调用 `insert()`、`focus()`、`clear()` 和 `getValue()`。插入操作支持开头、末尾和当前光标位置。
+
+<DemoBlock source={senderMethodsSource} mainFile="src/sender-methods.vue">
+
+<SenderMethodsDemo client:only="vue" />
+
+</DemoBlock>
+
+### 提交快捷键
+
+默认使用 Enter 发送、Shift + Enter 换行；设置 `submit-type="shiftEnter"` 后两者行为互换。
+
+<DemoBlock source={senderSubmitTypeSource} mainFile="src/sender-submit-type.vue">
+
+<SenderSubmitTypeDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自适应高度与状态
+
+`auto-size` 可限制自适应输入区的最小和最大行数。只读状态保留内容查看能力，hover、点击或尝试修改时都会显示 Tooltip；`readonly` 传入字符串可自定义提示文案。禁用状态同时关闭输入和操作。
+
+<DemoBlock source={senderStatesSource} mainFile="src/sender-states.vue">
+
+<SenderStatesDemo client:only="vue" />
+
+</DemoBlock>
+
+### 粘贴文件
+
+剪贴板只包含文件时触发 `paste-file`，可配合 `SenderHeader` 展示待发送文件；普通文本粘贴仍写入输入框。
+
+<DemoBlock source={senderPasteFileSource} mainFile="src/sender-paste-file.vue">
+
+<SenderPasteFileDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### `<sender>` Props
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| v-model | 输入内容；词槽模式下不作为结构化内容的状态源 | `string` | - |
+| default-value | 非受控模式默认内容 | `string` | `''` |
+| loading | 加载中，默认发送按钮切换为停止按钮 | `boolean` | `false` |
+| readonly | 是否只读；传入字符串时作为只读提示文案 | `boolean \| string` | `false` |
+| disabled | 是否禁用 | `boolean` | `false` |
+| submit-type | 提交快捷键模式 | `'enter' \| 'shiftEnter'` | `'enter'` |
+| slot-config | 结构化词槽配置 | `SenderSlotConfig[]` | - |
+| skill | 技能标签配置 | `SenderSkill` | - |
+| allow-speech | 语音输入或受控录音配置 | `boolean \| SenderControlledSpeechConfig` | `false` |
+| auto-size | 输入区自适应高度 | `boolean \| { minRows?: number; maxRows?: number }` | `{ maxRows: 8 }` |
+| placeholder | 占位文本 | `string` | - |
+| show-actions | 是否显示后缀操作区 | `boolean` | `true` |
+| components | 替换内部输入组件 | `{ input?: Component }` | - |
+| class-names | 语义化节点类名 | `Partial<Record<SenderSemanticType, string>>` | - |
+| styles | 语义化节点样式 | `Partial<Record<SenderSemanticType, CSSProperties>>` | - |
+
+### `<sender>` Events
+
+| 事件名             | 描述                     | 参数                              |
+| ------------------ | ------------------------ | --------------------------------- |
+| update:model-value | 输入内容变化             | `value: string`                   |
+| change             | 普通输入或结构化词槽变化 | `value, event, slotConfig, skill` |
+| submit             | 点击发送或使用提交快捷键 | `value, slotConfig, skill`        |
+| cancel             | 加载态点击停止按钮       | -                                 |
+| paste              | 粘贴内容                 | `event: ClipboardEvent`           |
+| paste-file         | 剪贴板仅包含文件时       | `files: FileList`                 |
+| focus              | 输入区获取焦点           | `event: FocusEvent`               |
+| blur               | 输入区失去焦点           | `event: FocusEvent`               |
+
+### `<sender>` Slots
+
+| 插槽名 | 描述 | 参数 |
+| --- | --- | --- |
+| header | 输入区上方的头部面板 | `{ actions }` |
+| prefix | 输入区左侧内容 | `{ actions }` |
+| suffix | 输入区右侧操作区；使用后替换默认操作 | `{ actions }` |
+| footer | 输入区下方内容 | `{ actions }` |
+| skill-title | 自定义技能标题 | `{ skill }` |
+| skill-close-icon | 自定义技能关闭图标 | `{ skill }` |
+| slot-_key_ | 自定义 `custom` 词槽 | `{ value, item, disabled, readonly, onChange }` |
+
+`actions` 包含 `send`、`clear`、`cancel`、`speech` 以及对应的禁用状态、`recording` 和 `loading`。
+
+### `<sender>` Methods
+
+| 方法名 | 描述 |
+| --- | --- |
+| focus(options?) | 聚焦输入区，可指定 `start`、`end`、`all` 或 `slot` |
+| blur() | 取消焦点 |
+| insert(value, position?, replaceCharacters?, preventScroll?) | 在开头、结尾或光标处插入文本/词槽 |
+| clear() | 清空输入；保留传入的 skill 配置 |
+| getValue() | 返回 `{ value, slotConfig, skill }` |
+
+### `SenderSlotConfig`
+
+| type    | 关键配置                                         | 说明                 |
+| ------- | ------------------------------------------------ | -------------------- |
+| text    | `value`、`editable`、`placeholder`               | 普通文本片段         |
+| input   | `key`、`props.defaultValue`、`props.placeholder` | 内联输入框           |
+| select  | `key`、`props.options`、`props.defaultValue`     | 内联选择器           |
+| tag     | `key`、`props.label`、`props.value`              | 不可编辑标签         |
+| content | `key`、`props.defaultValue`、`props.placeholder` | 可直接编辑的内容词槽 |
+| custom  | `key`、`customRender` 或 `slot-key`              | 自定义控件           |
+
+所有非 `text` 词槽都需要唯一 `key`；所有类型都可以通过 `formatResult(value)` 格式化最终结果。
+
+### `<sender-header>` Props / Events
+
+| 参数名       | 描述                   | 类型         | 默认值  |
+| ------------ | ---------------------- | ------------ | :-----: |
+| v-model:open | 是否展开               | `boolean`    | `false` |
+| title        | 标题                   | `VNodeChild` |    -    |
+| closable     | 是否显示关闭按钮       | `boolean`    | `true`  |
+| force-render | 关闭后是否保留内容 DOM | `boolean`    | `false` |
+
+关闭按钮触发 `update:open` 和 `open-change`。
+
+### `<sender-switch>` Props / Events / Slots
+
+| 参数名        | 描述         | 类型      | 默认值  |
+| ------------- | ------------ | --------- | :-----: |
+| v-model       | 是否选中     | `boolean` |    -    |
+| default-value | 非受控默认值 | `boolean` | `false` |
+| disabled      | 是否禁用     | `boolean` | `false` |
+| loading       | 是否加载中   | `boolean` | `false` |
+
+状态变化触发 `change(checked)`；`checked`、`unchecked`、`icon` 和默认插槽可定制内容。
