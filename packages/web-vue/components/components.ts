@@ -103,6 +103,7 @@ declare module 'vue' {
     SdRate: SDVue['Rate'];
     SdResizeBox: SDVue['ResizeBox'];
     SdResult: SDVue['Result'];
+    SdRichTextEditor: SDVue['RichTextEditor'];
     SdSelect: SDVue['Select'];
     SdSender: SDVue['Sender'];
     SdSenderHeader: SDVue['SenderHeader'];

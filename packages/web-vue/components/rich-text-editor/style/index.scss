@@ -1,0 +1,193 @@
+@use 'sass:string';
+@use '@style/theme/index.scss' as theme;
+@use './token.scss' as *;
+
+$rich-text-editor-prefix-cls: string.unquote('#{theme.$prefix}-rich-text-editor');
+
+.#{$rich-text-editor-prefix-cls} {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  color: $rich-text-editor-color-text;
+  font-size: $rich-text-editor-font-size;
+  line-height: $rich-text-editor-line-height;
+  background: $rich-text-editor-color-background;
+  border: $rich-text-editor-border-width solid $rich-text-editor-color-border;
+  border-radius: $rich-text-editor-border-radius;
+  transition:
+    border-color $rich-text-editor-motion-duration $rich-text-editor-motion-easing,
+    box-shadow $rich-text-editor-motion-duration $rich-text-editor-motion-easing;
+
+  &-focusable:hover {
+    border-color: $rich-text-editor-color-border-hover;
+  }
+
+  &:focus-within {
+    border-color: $rich-text-editor-color-border-focus;
+    box-shadow: $rich-text-editor-focus-shadow;
+  }
+
+  &-content {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: calc(
+      #{$rich-text-editor-font-size} * #{$rich-text-editor-line-height} +
+        #{$rich-text-editor-padding-block * 2}
+    );
+    padding-block: $rich-text-editor-padding-block;
+    padding-inline: $rich-text-editor-padding-inline;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    outline: none;
+    caret-color: $rich-text-editor-color-border-focus;
+  }
+
+  &-placeholder {
+    position: absolute;
+    inset-block-start: $rich-text-editor-padding-block;
+    inset-inline-start: $rich-text-editor-padding-inline;
+    overflow: hidden;
+    color: $rich-text-editor-color-placeholder;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    pointer-events: none;
+  }
+
+  &-disabled {
+    color: $rich-text-editor-color-text-disabled;
+    background: $rich-text-editor-color-background-disabled;
+    cursor: not-allowed;
+  }
+
+  &-readonly {
+    cursor: default;
+  }
+
+  &-paragraph {
+    margin: 0;
+  }
+
+  &-heading-h1,
+  &-heading-h2,
+  &-heading-h3,
+  &-heading-h4,
+  &-heading-h5,
+  &-heading-h6 {
+    margin-block: 0 $rich-text-editor-padding-block;
+  }
+
+  &-quote {
+    margin-block: $rich-text-editor-padding-block;
+    margin-inline: 0;
+    padding-inline-start: $rich-text-editor-padding-inline;
+    border-inline-start: $rich-text-editor-border-width * 3 solid
+      $rich-text-editor-color-quote-border;
+  }
+
+  &-list-ordered,
+  &-list-unordered {
+    margin-block: $rich-text-editor-padding-block;
+    padding-inline-start: $rich-text-editor-padding-inline * 2;
+  }
+
+  &-list-item-nested {
+    list-style: none;
+  }
+
+  &-link {
+    color: $rich-text-editor-color-link;
+    text-decoration: underline;
+  }
+
+  &-code {
+    display: block;
+    padding: $rich-text-editor-padding-inline;
+    overflow-x: auto;
+    font-family: theme.$code-family;
+    white-space: pre;
+    background: $rich-text-editor-color-code-background;
+    border-radius: $rich-text-editor-border-radius;
+  }
+
+  &-text-bold {
+    font-weight: theme.$font-weight-600;
+  }
+
+  &-text-italic {
+    font-style: italic;
+  }
+
+  &-text-underline {
+    text-decoration: underline;
+  }
+
+  &-text-strikethrough {
+    text-decoration: line-through;
+  }
+
+  &-text-code {
+    padding-inline: $rich-text-editor-code-padding;
+    font-family: theme.$code-family;
+    background: $rich-text-editor-color-code-background;
+    border-radius: $rich-text-editor-border-radius;
+  }
+
+  &-component {
+    display: inline-flex;
+    gap: $rich-text-editor-component-gap;
+    align-items: center;
+    margin-inline: $rich-text-editor-component-gap;
+    vertical-align: middle;
+  }
+
+  &-component-selected {
+    border-radius: $rich-text-editor-border-radius;
+    outline: 2px solid $rich-text-editor-color-border-focus;
+    outline-offset: 1px;
+  }
+
+  &-component-input > .sd-input-wrapper,
+  &-component-select > .sd-select-view {
+    display: inline-flex;
+    background: $rich-text-editor-color-component-background;
+  }
+
+  &-component-control {
+    max-width: 100%;
+    vertical-align: middle;
+  }
+
+  &-component-stretch {
+    display: inline-flex;
+    width: $rich-text-editor-component-inline-width;
+    max-width: none;
+
+    > * {
+      box-sizing: border-box;
+      width: 100%;
+    }
+  }
+
+  &-component-rangePicker {
+    width: $rich-text-editor-component-range-width;
+  }
+
+  &-component-tag {
+    margin: 0;
+  }
+
+  &-component-fallback {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.5em;
+    padding-inline: $rich-text-editor-code-padding;
+    background: $rich-text-editor-color-component-background;
+    border-radius: $rich-text-editor-border-radius;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .#{$rich-text-editor-prefix-cls} {
+    transition-duration: 0.01ms;
+  }
+}

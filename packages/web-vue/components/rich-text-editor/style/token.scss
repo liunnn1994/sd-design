@@ -1,0 +1,36 @@
+@use '@style/theme/index.scss' as global;
+
+@forward '@style/theme/index.scss';
+
+$rich-text-editor-font-size: global.$font-size-body-3;
+$rich-text-editor-line-height: global.$line-height-base;
+$rich-text-editor-border-width: global.$border-1;
+$rich-text-editor-border-radius: global.$radius-medium;
+$rich-text-editor-padding-block: global.$spacing-6;
+$rich-text-editor-padding-inline: global.$spacing-7;
+$rich-text-editor-component-gap: global.$spacing-2;
+$rich-text-editor-component-inline-width: 12em;
+$rich-text-editor-component-range-width: 22em;
+$rich-text-editor-code-padding: global.$spacing-2;
+
+$rich-text-editor-color-text: global.$color-text-1;
+$rich-text-editor-color-text-disabled: global.$color-text-4;
+$rich-text-editor-color-placeholder: global.$color-text-4;
+$rich-text-editor-color-background: global.$color-bg-2;
+$rich-text-editor-color-background-disabled: global.$color-fill-2;
+$rich-text-editor-color-border: global.$color-border-2;
+$rich-text-editor-color-border-hover: global.$color-primary-5;
+$rich-text-editor-color-border-focus: global.$color-primary-6;
+$rich-text-editor-color-link: global.$color-link-6;
+$rich-text-editor-color-code-background: global.$color-fill-2;
+$rich-text-editor-color-quote-border: global.$color-border-3;
+$rich-text-editor-color-component-background: color-mix(
+  in srgb,
+  #{global.$color-primary-6} 6%,
+  transparent
+);
+
+$rich-text-editor-focus-shadow: 0 0 0 2px
+  color-mix(in srgb, #{global.$color-primary-6} 15%, transparent);
+$rich-text-editor-motion-duration: global.$transition-duration-2;
+$rich-text-editor-motion-easing: global.$transition-timing-function-standard;

@@ -68,6 +68,7 @@ import Radio, { RadioGroup } from './radio';
 import Rate from './rate';
 import ResizeBox from './resize-box';
 import Result from './result';
+import RichTextEditor from './rich-text-editor';
 import Scrollbar from './scrollbar';
 import Secret from './secret';
 import Select from './select';
@@ -150,6 +151,7 @@ const components: Record<string, Plugin> = {
   Mention,
   Radio,
   Rate,
+  RichTextEditor,
   Select,
   Sender,
   Secret,

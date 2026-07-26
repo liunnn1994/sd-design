@@ -49,7 +49,7 @@
     <template #content>
       <div :class="`${prefixCls}-container`" @click="onPanelClick">
         <component
-          :is="isRange ? 'RangePanel' : 'Panel'"
+          :is="PanelComponent"
           v-bind="panelProps"
           :value="panelValue"
           :visible="panelVisible"
@@ -360,9 +360,10 @@
   const { mergedAllowClear } = useAllowClear(allowClear);
 
   const isRange = computed(() => type.value === 'time-range');
-  // 用组件引用而非字符串，避免 `<component :is="'DateInput'">` 无法解析内部未全局注册的组件；
-  // 标注为 Component 以跳过 DateInput / DateRangeInput 的联合 props 严格校验。
+  // 用组件引用而非字符串，避免局部导入组件无法被动态组件解析；
+  // 标注为 Component 以跳过输入与面板组件的联合 props 严格校验。
   const InputComponent = computed<Component>(() => (isRange.value ? DateRangeInput : DateInput));
+  const PanelComponent = computed<Component>(() => (isRange.value ? RangePanel : Panel));
   const prefixCls = getPrefixCls('timepicker');
   const refInput = ref();
 

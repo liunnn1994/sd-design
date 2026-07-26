@@ -385,6 +385,41 @@ export { default as ResizeBox } from './resize-box';
 export type { ResizeBoxInstance } from './resize-box';
 export { default as Result } from './result';
 export type { ResultInstance } from './result';
+export { default as RichTextEditor } from './rich-text-editor';
+export {
+  $createInlineComponentNode,
+  $isInlineComponentNode,
+  InlineComponentNode,
+  RICH_TEXT_EDITOR_BUILT_IN_NODE_NAMES,
+  RICH_TEXT_EDITOR_JSON_FORM_NODE_NAMES,
+} from './rich-text-editor';
+export type {
+  RichTextEditorAutoSize,
+  RichTextEditorBuiltInNodeData,
+  RichTextEditorBuiltInNodeName,
+  RichTextEditorChangeContext,
+  RichTextEditorComponentNodeData,
+  RichTextEditorComponentNodeSnapshot,
+  RichTextEditorConfig,
+  RichTextEditorEmits,
+  RichTextEditorFocusOptions,
+  RichTextEditorInputNodeData,
+  RichTextEditorInstance,
+  RichTextEditorJsonFormNodeData,
+  RichTextEditorJsonFormNodeName,
+  RichTextEditorMutationListenerOptions,
+  RichTextEditorNodeRenderContext,
+  RichTextEditorPlugin,
+  RichTextEditorPluginContext,
+  RichTextEditorProps,
+  RichTextEditorRef,
+  RichTextEditorSelectNodeData,
+  RichTextEditorSemanticType,
+  RichTextEditorSlots,
+  RichTextEditorTagNodeData,
+  RichTextEditorValue,
+  SerializedInlineComponentNode,
+} from './rich-text-editor';
 export { default as Scrollbar } from './scrollbar';
 export type {
   ScrollbarElements,

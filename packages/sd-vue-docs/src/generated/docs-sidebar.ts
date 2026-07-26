@@ -385,6 +385,10 @@ export const docsSidebar = [
             label: '伸缩框 ResizeBox',
           },
           {
+            slug: 'components/rich-text-editor',
+            label: '富文本编辑器 RichTextEditor',
+          },
+          {
             slug: 'components/scrollbar',
             label: '滚动条 Scrollbar',
           },

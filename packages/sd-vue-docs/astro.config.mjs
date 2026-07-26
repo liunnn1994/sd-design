@@ -9,6 +9,26 @@ import { fileURLToPath } from 'node:url';
 import { docsSidebar } from './src/generated/docs-sidebar';
 import { sdDocsLlmsIntegration } from './src/integrations/llms/index.mjs';
 
+const dayjsLocaleDependencies = [
+  'dayjs/locale/ar',
+  'dayjs/locale/de',
+  'dayjs/locale/es',
+  'dayjs/locale/fr',
+  'dayjs/locale/id',
+  'dayjs/locale/it',
+  'dayjs/locale/ja',
+  'dayjs/locale/km',
+  'dayjs/locale/ko',
+  'dayjs/locale/ms',
+  'dayjs/locale/nl',
+  'dayjs/locale/pt',
+  'dayjs/locale/ru',
+  'dayjs/locale/th',
+  'dayjs/locale/vi',
+  'dayjs/locale/zh-cn',
+  'dayjs/locale/zh-tw',
+];
+
 const themeBridgeScript = String.raw`
 (() => {
   const applyTheme = () => {
@@ -110,6 +130,7 @@ export default defineConfig({
     },
     optimizeDeps: {
       exclude: ['@vue/repl'],
+      include: dayjsLocaleDependencies,
     },
     plugins: [tailwindcss()],
   },
