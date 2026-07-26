@@ -15,6 +15,14 @@ $textarea-prefix-cls: string.unquote('#{theme.$prefix}-textarea');
   padding-left: 0;
   overflow: hidden;
 
+  &.#{$textarea-prefix-cls}-fit-width {
+    width: fit-content;
+  }
+
+  &.#{$textarea-prefix-cls}-max-w-full {
+    max-width: 100%;
+  }
+
   .#{$textarea-prefix-cls}-word-limit {
     position: absolute;
     right: $textarea-layout-tip-right;

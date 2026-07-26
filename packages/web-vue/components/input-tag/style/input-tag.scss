@@ -80,6 +80,14 @@
   max-width: 100%;
   overflow: hidden;
 
+  &.#{$cls}-fit-width {
+    width: fit-content;
+  }
+
+  &.#{$cls}-max-w-full {
+    max-width: 100%;
+  }
+
   &.#{$cls}-has-tag {
     padding-right: $input-tag-padding-horizontal;
     padding-left: $input-tag-padding-horizontal;

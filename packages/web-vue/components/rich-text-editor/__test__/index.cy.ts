@@ -20,6 +20,23 @@ import { $createInlineComponentNode, InlineComponentNode } from '../nodes/inline
 
 const getEditor = (wrapper: { vm: unknown }) => wrapper.vm as RichTextEditorRef;
 
+const fitWidthNodeSelectors = {
+  autoComplete: '.sd-input-fit-width',
+  cascader: '.sd-select-view-fit-width',
+  datePicker: '.sd-picker-fit-width',
+  input: '.sd-input-fit-width',
+  inputNumber: '.sd-input-fit-width',
+  inputPassword: '.sd-input-fit-width',
+  inputSearch: '.sd-input-fit-width',
+  inputTag: '.sd-input-tag-fit-width',
+  mention: '.sd-input-fit-width',
+  rangePicker: '.sd-picker-fit-width',
+  select: '.sd-select-view-fit-width',
+  textarea: '.sd-textarea-fit-width',
+  timePicker: '.sd-picker-fit-width',
+  treeSelect: '.sd-select-view-fit-width',
+} as const;
+
 describe('RichTextEditor', () => {
   it('edits rich text and emits serialized editor state', () => {
     const changes: string[] = [];
@@ -228,6 +245,30 @@ describe('RichTextEditor', () => {
         cy.get(`.sd-rich-text-editor-component-${name}`).find('*').should('exist');
       }
     }
+    for (const [name, selector] of Object.entries(fitWidthNodeSelectors)) {
+      cy.get(`.sd-rich-text-editor-component-${name}`)
+        .should('not.have.class', 'sd-rich-text-editor-component-stretch')
+        .find(selector)
+        .should('exist');
+    }
+  });
+
+  it('allows fitWidth to be disabled for an individual component node', () => {
+    cy.mount(RichTextEditor);
+    cy.get('@vue').then(({ wrapper }) => {
+      getEditor(wrapper).insertComponent({
+        key: 'fixed-width-input',
+        name: 'input',
+        value: '固定宽度',
+        props: { fitWidth: false },
+        textValue: '固定宽度',
+      });
+    });
+
+    cy.get('.sd-rich-text-editor-component-input')
+      .should('have.class', 'sd-rich-text-editor-component-stretch')
+      .find('.sd-input-wrapper')
+      .should('not.have.class', 'sd-input-fit-width');
   });
 
   it('opens the built-in DatePicker node', () => {

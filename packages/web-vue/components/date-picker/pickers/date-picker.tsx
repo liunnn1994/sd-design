@@ -81,6 +81,22 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    /**
+     * @zh 宽度是否适应文字内容
+     * @en Whether the width adapts to the text content
+     */
+    fitWidth: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * @zh 最大宽度是否限制为父容器宽度
+     * @en Whether the maximum width is limited to the parent container width
+     */
+    maxWFull: {
+      type: Boolean,
+      default: true,
+    },
   },
   setup(props, { attrs, slots }) {
     return () => <Picker {...props} {...attrs} mode="date" v-slots={slots} />;

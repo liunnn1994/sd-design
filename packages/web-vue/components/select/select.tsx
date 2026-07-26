@@ -103,6 +103,22 @@ export default defineComponent({
       type: String as PropType<Size>,
     },
     placeholder: String,
+    /**
+     * @zh 宽度是否适应文字内容
+     * @en Whether the width adapts to the text content
+     */
+    fitWidth: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * @zh 最大宽度是否限制为父容器宽度
+     * @en Whether the maximum width is limited to the parent container width
+     */
+    maxWFull: {
+      type: Boolean,
+      default: true,
+    },
     loading: {
       type: Boolean,
       default: false,
@@ -869,6 +885,8 @@ export default defineComponent({
               opened={computedPopupVisible.value}
               maxTagCount={props.maxTagCount}
               placeholder={props.placeholder}
+              fitWidth={props.fitWidth}
+              maxWFull={props.maxWFull}
               bordered={props.bordered}
               size={mergedSize.value}
               tagNowrap={props.tagNowrap}

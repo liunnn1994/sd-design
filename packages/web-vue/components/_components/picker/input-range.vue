@@ -4,7 +4,7 @@
       <div v-if="$slots.prefix" :class="`${prefixCls}-prefix`">
         <slot name="prefix" />
       </div>
-      <div :class="getInputWrapClassName(0)">
+      <div :class="getInputWrapClassName(0)" :style="[fitWidthStyle0, fitWidthContentStyle]">
         <input
           ref="refInput0"
           :disabled="disabled0"
@@ -20,7 +20,7 @@
       <span :class="`${prefixCls}-separator`">
         <slot name="separator"> - </slot>
       </span>
-      <div :class="getInputWrapClassName(1)">
+      <div :class="getInputWrapClassName(1)" :style="[fitWidthStyle1, fitWidthContentStyle]">
         <input
           ref="refInput1"
           :disabled="disabled1"
@@ -55,6 +55,7 @@
 
   import { Dayjs } from 'dayjs';
 
+  import { useFitWidth } from '../../_hooks/use-fit-width';
   import { useFormItem } from '../../_hooks/use-form-item';
   import {
     isReadonlyModificationKey,
@@ -98,6 +99,16 @@
       type: Array as PropType<string[]>,
       default: () => [],
     },
+    fitWidth: Boolean,
+    maxWFull: {
+      type: Boolean,
+      default: true,
+    },
+    fitWidthFallback: {
+      type: String,
+      default: '4ch',
+    },
+    fitWidthFallbackText: String,
     inputValue: {
       type: Array as PropType<(string | undefined)[]>,
     },
@@ -159,6 +170,8 @@
       [`${prefixCls}-disabled`]: disabled0.value && disabled1.value,
       [`${prefixCls}-error`]: mergedError.value,
       [`${prefixCls}-has-prefix`]: slots.prefix,
+      [`${prefixCls}-fit-width`]: props.fitWidth,
+      [`${prefixCls}-max-w-full`]: props.maxWFull,
     },
   ]);
 
@@ -186,6 +199,27 @@
 
   const displayValue0 = computed(() => getDisplayValue(0));
   const displayValue1 = computed(() => getDisplayValue(1));
+  const { fitWidthStyle: fitWidthStyle0, fitWidthValue } = useFitWidth({
+    fitWidth: () => props.fitWidth,
+    text: computed(() => displayValue0.value || props.placeholder[0] || props.fitWidthFallbackText),
+    fallbackWidth: () => props.fitWidthFallback,
+    target: refInput0,
+  });
+  const { fitWidthStyle: fitWidthStyle1 } = useFitWidth({
+    fitWidth: () => props.fitWidth,
+    text: computed(() => displayValue1.value || props.placeholder[1] || props.fitWidthFallbackText),
+    fallbackWidth: () => props.fitWidthFallback,
+    target: refInput1,
+  });
+  const fitWidthContentStyle = computed(() =>
+    props.fitWidth
+      ? {
+          flex: `0 1 ${fitWidthValue}`,
+          width: fitWidthValue,
+          minWidth: 0,
+        }
+      : undefined,
+  );
 
   function changeFocusedInput(index: number) {
     emit('focused-index-change', index);

@@ -4,7 +4,7 @@
       <div v-if="$slots.prefix" :class="`${prefixCls}-prefix`">
         <slot name="prefix" />
       </div>
-      <div :class="`${prefixCls}-input`">
+      <div :class="`${prefixCls}-input`" :style="[fitWidthStyle, fitWidthContentStyle]">
         <input
           ref="refInput"
           :disabled="mergedDisabled"
@@ -40,6 +40,7 @@
 
   import { Dayjs } from 'dayjs';
 
+  import { useFitWidth } from '../../_hooks/use-fit-width';
   import { useFormItem } from '../../_hooks/use-form-item';
   import {
     isReadonlyModificationKey,
@@ -78,6 +79,16 @@
     placeholder: {
       type: String,
     },
+    fitWidth: Boolean,
+    maxWFull: {
+      type: Boolean,
+      default: true,
+    },
+    fitWidthFallback: {
+      type: String,
+      default: '4ch',
+    },
+    fitWidthFallbackText: String,
     inputValue: {
       type: String,
     },
@@ -124,6 +135,8 @@
       [`${prefixCls}-disabled`]: mergedDisabled.value,
       [`${prefixCls}-error`]: mergedError.value,
       [`${prefixCls}-has-prefix`]: slots.prefix,
+      [`${prefixCls}-fit-width`]: props.fitWidth,
+      [`${prefixCls}-max-w-full`]: props.maxWFull,
     },
   ]);
   const displayValue = computed(() => {
@@ -137,6 +150,21 @@
   });
 
   const refInput = ref<HTMLInputElement>();
+  const { fitWidthStyle, fitWidthValue } = useFitWidth({
+    fitWidth: () => props.fitWidth,
+    text: computed(() => displayValue.value || props.placeholder || props.fitWidthFallbackText),
+    fallbackWidth: () => props.fitWidthFallback,
+    target: refInput,
+  });
+  const fitWidthContentStyle = computed(() =>
+    props.fitWidth
+      ? {
+          flex: `0 1 ${fitWidthValue}`,
+          width: fitWidthValue,
+          minWidth: 0,
+        }
+      : undefined,
+  );
 
   function onPressEnter() {
     emit('press-enter');

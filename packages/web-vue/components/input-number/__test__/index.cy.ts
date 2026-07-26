@@ -1,4 +1,7 @@
+import { getFitWidthCssVar } from '../../_hooks/use-fit-width';
 import InputNumber from '../index';
+
+const fitWidthCssVar = getFitWidthCssVar('sd');
 
 describe('InputNumber', () => {
   it('increments on step button press', () => {
@@ -35,5 +38,12 @@ describe('InputNumber', () => {
     cy.get('input').should('have.attr', 'aria-valuemax', '10');
     cy.get('.sd-input-number-step-button').eq(0).should('have.attr', 'aria-label', '增加');
     cy.get('.sd-input-number-step-button').eq(1).should('have.attr', 'aria-label', '减少');
+  });
+
+  it('uses the two-zero fallback in fit width mode', () => {
+    cy.mount(InputNumber, { props: { fitWidth: true } });
+    cy.get('.sd-input-wrapper').should(($root) => {
+      expect($root[0].style.getPropertyValue(fitWidthCssVar)).to.equal('2ch');
+    });
   });
 });

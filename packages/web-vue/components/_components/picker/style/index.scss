@@ -21,6 +21,14 @@
     border-color theme.$transition-duration-1 theme.$transition-timing-function-standard,
     box-shadow theme.$transition-duration-1 theme.$transition-timing-function-standard;
 
+  &.#{theme.$prefix}-picker-fit-width {
+    width: fit-content;
+  }
+
+  &.#{theme.$prefix}-picker-max-w-full {
+    max-width: 100%;
+  }
+
   &-input {
     display: inline-flex;
     flex: 1;

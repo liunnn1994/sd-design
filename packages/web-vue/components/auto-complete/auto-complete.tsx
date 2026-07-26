@@ -122,6 +122,22 @@ export default defineComponent({
       default: false,
     },
     /**
+     * @zh 宽度是否适应文字内容
+     * @en Whether the width adapts to the text content
+     */
+    fitWidth: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * @zh 最大宽度是否限制为父容器宽度
+     * @en Whether the maximum width is limited to the parent container width
+     */
+    maxWFull: {
+      type: Boolean,
+      default: true,
+    },
+    /**
      * @zh 传递虚拟列表属性，传入此参数以开启虚拟滚动 [VirtualListProps](#VirtualListProps)
      * @en Pass the virtual list attribute, pass in this parameter to turn on virtual scrolling [VirtualListProps](#VirtualListProps)
      * @type VirtualListProps
@@ -431,6 +447,8 @@ export default defineComponent({
           modelValue={computedValue.value}
           disabled={mergedDisabled.value}
           readonly={props.readonly}
+          fitWidth={props.fitWidth}
+          maxWFull={props.maxWFull}
           inputAttrs={{
             'role': 'combobox',
             'aria-haspopup': 'listbox',

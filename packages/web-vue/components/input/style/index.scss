@@ -28,6 +28,14 @@ $input-prefix-cls: string.unquote('#{theme.$prefix}-input');
 .#{$input-prefix-cls}-wrapper {
   @include input-wrapper-style($input-prefix-cls);
 
+  &.#{$input-prefix-cls}-fit-width {
+    width: fit-content;
+  }
+
+  &.#{$input-prefix-cls}-max-w-full {
+    max-width: 100%;
+  }
+
   .#{$input-prefix-cls} {
     @include input-style();
 
@@ -57,6 +65,19 @@ $input-prefix-cls: string.unquote('#{theme.$prefix}-input');
 .#{$input-prefix-cls}-outer {
   display: inline-flex;
   width: 100%;
+
+  &.#{$input-prefix-cls}-fit-width {
+    width: fit-content;
+
+    > .#{$input-prefix-cls}-wrapper {
+      flex: 0 1 auto;
+      width: auto;
+    }
+  }
+
+  &.#{$input-prefix-cls}-max-w-full {
+    max-width: 100%;
+  }
 
   > .#{$input-prefix-cls}-wrapper {
     border-radius: 0;

@@ -81,13 +81,26 @@
     resolveJsonFormComponents(configProvider?.jsonForm?.components),
   );
   const resolvedComponent = computed(() => resolvedComponents.value[node.name]);
+  const componentSupportsFitWidth = computed(() => {
+    const componentProps = (
+      resolvedComponent.value as { props?: readonly string[] | Record<string, unknown> } | undefined
+    )?.props;
+    return Array.isArray(componentProps)
+      ? componentProps.includes('fitWidth')
+      : Boolean(componentProps && 'fitWidth' in componentProps);
+  });
+  const componentFitWidth = computed(
+    () => componentSupportsFitWidth.value && node.props?.fitWidth !== false,
+  );
   const componentDisabled = computed(() => disabled || readonly || node.props?.disabled === true);
   const componentClass = computed(() => [
     `${prefixCls}-component-control`,
     `${prefixCls}-component-${node.name}`,
     {
       [`${prefixCls}-component-stretch`]:
-        shouldStretchJsonFormControl(node.name) || node.name === JSON_FORM_COMPONENT_TYPES.slider,
+        (shouldStretchJsonFormControl(node.name) ||
+          node.name === JSON_FORM_COMPONENT_TYPES.slider) &&
+        !componentFitWidth.value,
     },
   ]);
   const componentUsesDefaultContent = computed(() =>
@@ -101,7 +114,10 @@
   );
   const componentProps = computed(() => {
     const { class: _class, disabled: _disabled, readonly: _readonly, ...rest } = node.props ?? {};
-    return rest;
+    return {
+      ...rest,
+      ...(componentSupportsFitWidth.value ? { fitWidth: componentFitWidth.value } : {}),
+    };
   });
   const componentLabel = computed(() => {
     const label = node.props?.label ?? node.textValue ?? node.value;

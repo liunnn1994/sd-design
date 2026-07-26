@@ -1,4 +1,4 @@
-import type { CSSProperties, PropType } from 'vue';
+import type { CSSProperties, PropType, StyleValue } from 'vue';
 import {
   computed,
   defineComponent,
@@ -16,6 +16,7 @@ import FeedbackIcon from '../_components/feedback-icon.vue';
 import IconHover from '../_components/icon-hover.vue';
 import ResizeObserver from '../_components/resize-observer';
 import { useAllowClear } from '../_hooks/use-allow-clear';
+import { useFitWidth } from '../_hooks/use-fit-width';
 import { useFormItem } from '../_hooks/use-form-item';
 import {
   isReadonlyModificationKey,
@@ -82,6 +83,22 @@ export default defineComponent({
      * @en Placeholder
      */
     placeholder: String,
+    /**
+     * @zh 宽度是否适应文字内容
+     * @en Whether the width adapts to the text content
+     */
+    fitWidth: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * @zh 最大宽度是否限制为父容器宽度
+     * @en Whether the maximum width is limited to the parent container width
+     */
+    maxWFull: {
+      type: Boolean,
+      default: true,
+    },
     /**
      * @zh 是否禁用
      * @en Whether to disable
@@ -364,6 +381,19 @@ export default defineComponent({
     };
 
     const valueData = computed(() => getValueData(computedValue.value, mergedFieldNames.value));
+    const fitWidthText = computed(
+      () =>
+        compositionValue.value ||
+        computedInputValue.value ||
+        (valueData.value.length === 0 ? props.placeholder : undefined),
+    );
+    const { fitWidthStyle, fitWidthValue } = useFitWidth({
+      fitWidth: () => props.fitWidth,
+      text: fitWidthText,
+      fallbackWidth: () => (valueData.value.length > 0 ? '12px' : '4ch'),
+      target: inputRef,
+      additionalWidth: 12,
+    });
 
     const visibleTagCount = computed(() => {
       if (isResponsiveMaxTagCount.value) {
@@ -655,10 +685,18 @@ export default defineComponent({
         [`${prefixCls}-has-prefix`]: Boolean(slots.prefix),
         [`${prefixCls}-has-suffix`]: Boolean(slots.suffix) || showClearBtn.value || feedback.value,
         [`${prefixCls}-has-placeholder`]: !computedValue.value.length,
+        [`${prefixCls}-fit-width`]: props.fitWidth,
+        [`${prefixCls}-max-w-full`]: props.maxWFull,
       },
     ]);
 
-    const wrapperAttrs = computed(() => omit(attrs, INPUT_EVENTS));
+    const wrapperAttrs = computed(() => {
+      const wrapperAttrs = omit(attrs, INPUT_EVENTS) as Record<string, unknown>;
+      return {
+        ...wrapperAttrs,
+        style: [fitWidthStyle.value, wrapperAttrs.style as StyleValue],
+      };
+    });
     const inputAttrs = computed(() => pick(attrs, INPUT_EVENTS));
 
     const renderTagContent = (item: (typeof valueData.value)[number], index: number) => {
@@ -692,14 +730,19 @@ export default defineComponent({
     };
 
     const getInputStyle = computed<CSSProperties>(() => {
+      const width = props.fitWidth ? fitWidthValue : inputStyle.width;
       if (!isResponsiveMaxTagCount.value) {
-        return inputStyle;
+        return {
+          ...inputStyle,
+          width,
+        };
       }
 
       return {
         ...inputStyle,
+        width,
         flex: '0 0 auto',
-        minWidth: inputStyle.width,
+        minWidth: width,
       };
     });
 

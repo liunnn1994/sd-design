@@ -28,6 +28,8 @@
         :size="size"
         :opened="computedPopupVisible"
         :placeholder="placeholder"
+        :fit-width="fitWidth"
+        :max-w-full="maxWFull"
         :loading="loading"
         :max-tag-count="maxTagCount"
         :tag-nowrap="tagNowrap"
@@ -168,6 +170,8 @@
     fallback: true,
     expandChild: false,
     tagNowrap: false,
+    fitWidth: false,
+    maxWFull: true,
   });
 
   const emit = defineEmits<CascaderEmits>();

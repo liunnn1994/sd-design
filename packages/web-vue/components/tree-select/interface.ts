@@ -1,5 +1,7 @@
 import { CSSProperties } from 'vue';
 
+import type { FitWidthProps } from '../_hooks/use-fit-width';
+
 import { VirtualListProps } from '../_components/virtual-list/interface';
 import { Size } from '../_utils/constant';
 import {
@@ -31,7 +33,7 @@ export type SearchHandler = (searchKey: string) => void;
 
 export type ClearHandler = () => void;
 
-export interface TreeSelectProps {
+export interface TreeSelectProps extends FitWidthProps {
   disabled: boolean;
   loading: boolean;
   error: boolean;

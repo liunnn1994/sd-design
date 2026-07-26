@@ -51,6 +51,14 @@
 
   cursor: pointer;
 
+  &.#{$cls}-fit-width {
+    width: fit-content;
+  }
+
+  &.#{$cls}-max-w-full {
+    max-width: 100%;
+  }
+
   .#{$cls}-input {
     @include input-style();
 

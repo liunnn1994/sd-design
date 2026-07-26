@@ -11,7 +11,7 @@
           :disabled="mergedDisabled"
           :readonly="!!readonly"
           :class="prefixCls"
-          :style="textareaStyle"
+          :style="[fitWidthContentStyle, textareaStyle]"
           :value="computedValue"
           :placeholder="placeholder"
           @keydown="handleKeyDown"
@@ -52,6 +52,7 @@
     onMounted,
     PropType,
     ref,
+    StyleValue,
     toRef,
     toRefs,
     useAttrs,
@@ -62,6 +63,7 @@
   import ResizeObserver from '../_components/resize-observer';
   import { useAllowClear } from '../_hooks/use-allow-clear';
   import { useCursor } from '../_hooks/use-cursor';
+  import { useFitWidth } from '../_hooks/use-fit-width';
   import { useFormItem } from '../_hooks/use-form-item';
   import {
     isReadonlyModificationKey,
@@ -101,6 +103,22 @@
      * @en Placeholder
      */
     placeholder: String,
+    /**
+     * @zh 宽度是否适应文字内容
+     * @en Whether the width adapts to the text content
+     */
+    fitWidth: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * @zh 最大宽度是否限制为父容器宽度
+     * @en Whether the maximum width is limited to the parent container width
+     */
+    maxWFull: {
+      type: Boolean,
+      default: true,
+    },
     /**
      * @zh 是否禁用
      * @en Whether to disable
@@ -245,6 +263,22 @@
   const _value = ref(props.defaultValue);
   const computedValue = computed(() => modelValue!.value ?? _value.value);
   const [recordCursor, setCursor] = useCursor(textareaRef);
+  const fitWidthText = computed(() => computedValue.value || props.placeholder);
+  const { fitWidthStyle, fitWidthValue } = useFitWidth({
+    fitWidth: () => props.fitWidth,
+    text: fitWidthText,
+    fallbackWidth: '12ch',
+    target: textareaRef,
+    whiteSpace: 'pre-wrap',
+  });
+  const fitWidthContentStyle = computed(() =>
+    props.fitWidth
+      ? {
+          width: fitWidthValue,
+          minWidth: 0,
+        }
+      : undefined,
+  );
 
   watch(modelValue!, (value) => {
     if (isUndefined(value) || isNull(value)) {
@@ -426,7 +460,13 @@
     },
   );
 
-  const getWrapperAttrs = (attr: Record<string, any>) => omit(attrs, INPUT_EVENTS);
+  const getWrapperAttrs = (attr: Record<string, any>) => {
+    const wrapperAttrs = omit(attr, INPUT_EVENTS) as Record<string, unknown>;
+    return {
+      ...wrapperAttrs,
+      style: [fitWidthStyle.value, wrapperAttrs.style as StyleValue],
+    };
+  };
   const getTextareaAttrs = (attr: Record<string, any>) => pick(attrs, INPUT_EVENTS);
   const rawTextareaAttrs = getTextareaAttrs(attrs);
   const mergeTextareaAttrs = computed(() => {
@@ -451,6 +491,8 @@
       [`${prefixCls}-disabled`]: mergedDisabled.value,
       [`${prefixCls}-error`]: mergedError.value,
       [`${prefixCls}-scroll`]: isScroll.value,
+      [`${prefixCls}-fit-width`]: props.fitWidth,
+      [`${prefixCls}-max-w-full`]: props.maxWFull,
     },
   ]);
 

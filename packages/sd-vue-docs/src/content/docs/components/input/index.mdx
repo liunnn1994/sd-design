@@ -26,6 +26,8 @@ import InputStatusDemo from '../../../../components/generated/input/status.vue';
 import inputStatusSource from '../../../../components/generated/input/status.vue?raw';
 import InputWordLimitDemo from '../../../../components/generated/input/word-limit.vue';
 import inputWordLimitSource from '../../../../components/generated/input/word-limit.vue?raw';
+import InputFitWidthDemo from '../../../../components/generated/input/fit-width.vue';
+import inputFitWidthSource from '../../../../components/generated/input/fit-width.vue?raw';
 
 ### 基本用法
 
@@ -137,6 +139,33 @@ import inputWordLimitSource from '../../../../components/generated/input/word-li
 
 </DemoBlock>
 
+### 内容自适应宽度
+
+设置 `fit-width` 后，组件按照“当前显示内容 → placeholder → 组件默认宽度”的顺序决定文字宽度，再加上组件自身的 padding、border、前后缀、图标等设计宽度。实际文字和 placeholder 使用当前控件的真实字体测量；默认宽度使用 CSS `ch` 单位。
+
+`max-w-full` 默认是 `true`，会给组件设置 `max-width: 100%`，因此内容很长时不会撑破父容器。需要允许组件超过父容器时可以显式设置 `:max-w-full="false"`。
+
+在 JsonForm 中无需设置表单级配置，直接在单个 schema 的 `componentProps` 中传入这两个属性即可。
+
+<DemoBlock source={inputFitWidthSource} mainFile="src/input-fit-width.vue">
+
+<InputFitWidthDemo client:only="vue" />
+
+</DemoBlock>
+
+#### 支持范围与空值回退
+
+| 组件 | 没有内容且没有 placeholder 时 |
+| --- | --- |
+| Input、InputPassword、InputSearch、AutoComplete、InputTag、Select、Cascader、TreeSelect、Mention(input) | `4ch` |
+| InputNumber | `2ch` |
+| Textarea、Mention(textarea) | `12ch` |
+| DatePicker | 当前日期格式的字符数；默认 `YYYY-MM-DD` 为 `10ch`，开启时间后按完整格式计算 |
+| RangePicker | 每一端分别按当前日期格式计算，分隔符仍按组件设计宽度参与布局 |
+| TimePicker | 当前时间格式的字符数；默认 `HH:mm:ss` 为 `8ch`，范围模式分别计算两端 |
+
+Checkbox、CheckboxGroup、Radio、RadioGroup、Rate、Switch、Slider、Transfer、VerificationCode，以及 JsonForm 的 `row`、`noFormItem` 不提供这两个属性：它们的宽度由离散选项、轨道、布局容器或自身业务结构决定，不属于文本输入宽度。
+
 ## API
 
 ### `<input>` Props
@@ -151,6 +180,8 @@ import inputWordLimitSource from '../../../../components/generated/input/word-li
 | readonly | 是否为只读状态 | `boolean` | `false` |  |
 | error | 是否为错误状态 | `boolean` | `false` |  |
 | placeholder | 提示文字 | `string` | `-` |  |
+| fit-width | 宽度是否适应文字内容 | `boolean` | `false` |  |
+| max-w-full | 最大宽度是否限制为父容器宽度 | `boolean` | `true` |  |
 | max-length | 输入值的最大长度，errorOnly 属性在 2.12.0 版本添加 | `number \| { length: number; errorOnly?: boolean }` | `0` |  |
 | show-word-limit | 是否显示字数统计 | `boolean` | `false` |  |
 | word-length | 字符长度的计算方法 | `(value: string) => number` | `-` |  |
@@ -188,11 +219,13 @@ import inputWordLimitSource from '../../../../components/generated/input/word-li
 
 ### `<input-password>` Props
 
-| 参数名                   | 描述                 | 类型      | 默认值 |
-| ------------------------ | -------------------- | --------- | :----: |
-| visibility **(v-model)** | 是否可见，受控属性   | `boolean` |  `-`   |
-| default-visibility       | 默认是否可见，非受控 | `boolean` | `true` |
-| invisible-button         | 是否显示可见按钮     | `boolean` | `true` |
+| 参数名                   | 描述                         | 类型      | 默认值  |
+| ------------------------ | ---------------------------- | --------- | :-----: |
+| visibility **(v-model)** | 是否可见，受控属性           | `boolean` |   `-`   |
+| default-visibility       | 默认是否可见，非受控         | `boolean` | `true`  |
+| invisible-button         | 是否显示可见按钮             | `boolean` | `true`  |
+| fit-width                | 宽度是否适应文字内容         | `boolean` | `false` |
+| max-w-full               | 最大宽度是否限制为父容器宽度 | `boolean` | `true`  |
 
 ### `<input-password>` Events
 
@@ -210,6 +243,8 @@ import inputWordLimitSource from '../../../../components/generated/input/word-li
 | size | 输入框大小 | `'mini' \| 'small' \| 'medium' \| 'large'` | `'medium'` |  |
 | button-text | 搜索按钮的文字，使用后会替换原本的图标 | `string` | `-` | 2.16.0 |
 | button-props | 搜索按钮的属性 | `ButtonProps` | `-` |  |
+| fit-width | 宽度是否适应文字内容 | `boolean` | `false` |  |
+| max-w-full | 最大宽度是否限制为父容器宽度 | `boolean` | `true` |  |
 
 ### `<input-search>` Events
 

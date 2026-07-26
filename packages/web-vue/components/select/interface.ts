@@ -1,4 +1,5 @@
 import type { VirtualListProps } from '../_components/virtual-list/interface';
+import type { FitWidthProps } from '../_hooks/use-fit-width';
 import type { Size } from '../_utils/constant';
 import type { ScrollbarProps } from '../scrollbar';
 import type { TriggerProps } from '../trigger';
@@ -82,7 +83,7 @@ export interface SelectOptionGroupInfo extends SelectOptionGroup {
 export type FilterOption = boolean | ((inputValue: string, option: SelectOptionData) => boolean);
 export type SelectFallbackOption = (value: SelectOptionValue) => SelectOptionData;
 
-export interface SelectProps {
+export interface SelectProps extends FitWidthProps {
   options?: SelectOption[];
   multiple?: boolean;
   value?: SelectModelValue;

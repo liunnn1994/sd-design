@@ -1,4 +1,5 @@
 import type { VirtualListProps } from '../_components/virtual-list/interface';
+import type { FitWidthProps } from '../_hooks/use-fit-width';
 import type { Size } from '../_utils/constant';
 import type { FloatingOptions } from '../_utils/floating';
 import type { TriggerProps } from '../trigger';
@@ -13,7 +14,7 @@ import type {
 
 export type CascaderExpandTrigger = 'click' | 'hover';
 
-export interface CascaderProps {
+export interface CascaderProps extends FitWidthProps {
   pathMode?: boolean;
   multiple?: boolean;
   modelValue?: CascaderModelValue;

@@ -1,5 +1,7 @@
+import type { StyleValue } from 'vue';
 import { computed, defineComponent, PropType, toRefs } from 'vue';
 
+import { useFitWidth } from '../../_hooks/use-fit-width';
 import { useFormItem } from '../../_hooks/use-form-item';
 import { useInput } from '../../_hooks/use-input';
 import { useSize } from '../../_hooks/use-size';
@@ -33,6 +35,11 @@ export default defineComponent({
     uninjectFormItemContext: Boolean,
     // 直接透传到内部 <input> 的属性（绕过 inheritAttrs:false 对 aria/role 的吞没）
     inputAttrs: Object as PropType<Record<string, unknown>>,
+    fitWidth: Boolean,
+    maxWFull: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['update:inputValue', 'inputValueChange', 'focus', 'blur'],
   setup(props, { attrs, emit, slots }) {
@@ -86,6 +93,15 @@ export default defineComponent({
 
       return props.placeholder;
     });
+    const fitWidthText = computed(
+      () => computedInputValue.value || formatLabel() || props.placeholder,
+    );
+    const { fitWidthStyle, fitWidthValue } = useFitWidth({
+      fitWidth: () => props.fitWidth,
+      text: fitWidthText,
+      fallbackWidth: '4ch',
+      target: inputRef,
+    });
 
     const renderLabel = () => {
       if (props.modelValue) {
@@ -102,10 +118,18 @@ export default defineComponent({
         [`${prefixCls}-focus`]: mergedFocused.value,
         [`${prefixCls}-disabled`]: mergedDisabled.value,
         [`${prefixCls}-error`]: mergedError.value,
+        [`${prefixCls}-fit-width`]: props.fitWidth,
+        [`${prefixCls}-max-w-full`]: props.maxWFull,
       },
     ]);
 
-    const wrapperAttrs = computed(() => omit(attrs, INPUT_EVENTS));
+    const wrapperAttrs = computed(() => {
+      const wrapperAttrs = omit(attrs, INPUT_EVENTS) as Record<string, unknown>;
+      return {
+        ...wrapperAttrs,
+        style: [fitWidthStyle.value, wrapperAttrs.style as StyleValue],
+      };
+    });
     const inputAttrs = computed(() => pick(attrs, INPUT_EVENTS));
 
     const render = () => (
@@ -125,6 +149,16 @@ export default defineComponent({
           readonly={!props.enabledInput}
           placeholder={mergedPlaceholder.value}
           disabled={mergedDisabled.value}
+          style={[
+            props.fitWidth
+              ? {
+                  flex: `0 1 ${fitWidthValue}`,
+                  width: fitWidthValue,
+                  minWidth: 0,
+                }
+              : undefined,
+            props.inputAttrs?.style as StyleValue,
+          ]}
           onInput={handleInput}
           onFocus={handleFocus}
           onBlur={handleBlur}
@@ -139,6 +173,15 @@ export default defineComponent({
               [`${prefixCls}-value-hidden`]: showInput.value,
             },
           ]}
+          style={
+            props.fitWidth
+              ? {
+                  flex: `0 1 ${fitWidthValue}`,
+                  width: fitWidthValue,
+                  minWidth: 0,
+                }
+              : undefined
+          }
         >
           {props.modelValue && <Ellipsis style={{ width: '100%' }}>{renderLabel()}</Ellipsis>}
         </span>

@@ -27,7 +27,7 @@ export interface RangePanelProps extends Omit<PanelProps, 'value'> {
   value?: Array<Dayjs | undefined>;
 }
 
-export interface TimePickerProps extends BasePanelProps {
+export interface TimePickerProps extends BasePanelProps, FitWidthProps {
   type: 'time' | 'time-range';
   modelValue?: TimeValue | TimeValue[];
   defaultValue?: TimeValue | TimeValue[];
@@ -53,3 +53,4 @@ export interface TimeListItem {
 }
 
 export type TimeList = TimeListItem[];
+import type { FitWidthProps } from '../_hooks/use-fit-width';

@@ -232,7 +232,7 @@ const unregister = editor?.registerUpdateListener(({ editorState }) => {
 | 数据与结构 | `transfer`、`row`、`noFormItem` |
 | RichTextEditor 扩展 | `tag` |
 
-这些节点的 `props` 会透传给对应组件，但必须保持 JSON 可序列化。`row` 在富文本中作为单个组件节点渲染；`noFormItem` 默认显示 `textValue`，也可以用 `node-noFormItem` 插槽覆盖。
+这些节点的 `props` 会透传给对应组件，但必须保持 JSON 可序列化。支持 `fitWidth` 的组件节点在 RichTextEditor 中默认启用内容宽度，可通过节点的 `props.fitWidth: false` 单独关闭。`row` 在富文本中作为单个组件节点渲染；`noFormItem` 默认显示 `textValue`，也可以用 `node-noFormItem` 插槽覆盖。
 
 ### 样式语义
 

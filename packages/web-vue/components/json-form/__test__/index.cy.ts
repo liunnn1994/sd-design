@@ -19,6 +19,26 @@ describe('JsonForm', () => {
     });
   });
 
+  it('forwards per-component fit width props without a form-level option', () => {
+    cy.mount(JsonForm, {
+      props: {
+        modelValue: { name: '' },
+        schemas: [
+          {
+            field: 'name',
+            label: '名称',
+            type: 'input',
+            componentProps: { fitWidth: true, maxWFull: false },
+          },
+        ],
+      },
+    });
+
+    cy.get('.sd-input-wrapper')
+      .should('have.class', 'sd-input-fit-width')
+      .and('not.have.class', 'sd-input-max-w-full');
+  });
+
   it('按 A2UI 0.9.1 的 root 邻接表和 JSON Pointer 渲染并更新表单', () => {
     const model = {
       contact: {

@@ -85,6 +85,11 @@ export default defineComponent({
     },
     // 透传到内部 <input> 的属性（role/aria-*，用于 combobox 语义）
     inputAttrs: Object as PropType<Record<string, unknown>>,
+    fitWidth: Boolean,
+    maxWFull: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['remove', 'clear', 'focus', 'blur'],
   setup(props, { emit, slots }) {
@@ -210,6 +215,8 @@ export default defineComponent({
             retainInputValue
             uninjectFormItemContext
             inputAttrs={props.inputAttrs}
+            fitWidth={props.fitWidth}
+            maxWFull={props.maxWFull}
             onRemove={handleRemove}
             onFocus={handleFocus}
             onBlur={handleBlur}
@@ -236,6 +243,8 @@ export default defineComponent({
           enabledInput={enabledInput.value}
           uninjectFormItemContext
           inputAttrs={props.inputAttrs}
+          fitWidth={props.fitWidth}
+          maxWFull={props.maxWFull}
           onFocus={handleFocus}
           onBlur={handleBlur}
         />

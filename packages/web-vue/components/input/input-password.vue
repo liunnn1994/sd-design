@@ -1,5 +1,10 @@
 <template>
-  <a-input ref="inputRef" :type="mergedVisible ? 'password' : 'text'">
+  <a-input
+    ref="inputRef"
+    :type="mergedVisible ? 'password' : 'text'"
+    :fit-width="fitWidth"
+    :max-w-full="maxWFull"
+  >
     <template v-if="$slots.prepend" #prepend>
       <slot name="prepend" />
     </template>
@@ -59,6 +64,22 @@
      * @en Whether to show visible buttons
      */
     invisibleButton: {
+      type: Boolean,
+      default: true,
+    },
+    /**
+     * @zh 宽度是否适应文字内容
+     * @en Whether the width adapts to the text content
+     */
+    fitWidth: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * @zh 最大宽度是否限制为父容器宽度
+     * @en Whether the maximum width is limited to the parent container width
+     */
+    maxWFull: {
       type: Boolean,
       default: true,
     },

@@ -35,6 +35,10 @@
       :editable="!readonly"
       :allow-clear="mergedAllowClear && !readonly"
       :placeholder="computedPlaceholder"
+      :fit-width="fitWidth"
+      :max-w-full="maxWFull"
+      :fit-width-fallback="fitWidthFallback"
+      :fit-width-fallback-text="fitWidthFallbackText"
       @clear="onInputClear"
     >
       <template v-if="$slots.prefix" #prefix>
@@ -173,6 +177,22 @@
      * */
     placeholder: {
       type: [String, Array] as PropType<string | string[]>,
+    },
+    /**
+     * @zh 宽度是否适应文字内容
+     * @en Whether the width adapts to the text content
+     */
+    fitWidth: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * @zh 最大宽度是否限制为父容器宽度
+     * @en Whether the maximum width is limited to the parent container width
+     */
+    maxWFull: {
+      type: Boolean,
+      default: true,
     },
     /**
      * @zh 输入框尺寸
@@ -373,6 +393,10 @@
       use12Hours,
     }),
   );
+  const fitWidthFallbackText = computed(() =>
+    dayjs(new Date(2000, 0, 1, 0, 0, 0)).format(computedFormat.value),
+  );
+  const fitWidthFallback = computed(() => `${Array.from(fitWidthFallbackText.value).length}ch`);
 
   const { computedValue, panelValue, inputValue, setValue, setPanelValue, setInputValue } =
     useTimeState(

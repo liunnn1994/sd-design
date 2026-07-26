@@ -2,6 +2,8 @@ import { Slot, VNode } from 'vue';
 
 import { Dayjs } from 'dayjs';
 
+import type { FitWidthProps } from '../_hooks/use-fit-width';
+
 import { TimePickerProps } from '../time-picker/interface';
 
 export type CalendarValue = Date | string | number;
@@ -82,7 +84,7 @@ export interface QuarterPickerProps {
   defaultValue?: CalendarValue;
 }
 
-export interface BasePickerProps {
+export interface BasePickerProps extends FitWidthProps {
   locale?: Record<string, any>;
   hideTrigger: boolean;
   allowClear: boolean;

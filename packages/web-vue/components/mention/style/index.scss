@@ -10,6 +10,14 @@ $mention-prefix-cls: string.unquote('#{theme.$prefix}-mention');
   box-sizing: border-box;
   width: 100%;
 
+  &.#{$mention-prefix-cls}-fit-width {
+    width: fit-content;
+  }
+
+  &.#{$mention-prefix-cls}-max-w-full {
+    max-width: 100%;
+  }
+
   &-measure {
     position: absolute;
     inset: 0;

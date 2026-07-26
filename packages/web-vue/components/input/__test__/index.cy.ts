@@ -1,4 +1,7 @@
+import { getFitWidthCssVar } from '../../_hooks/use-fit-width';
 import Input from '../index';
+
+const fitWidthCssVar = getFitWidthCssVar('sd');
 
 describe('Input', () => {
   it('should update value and emit on input', () => {
@@ -26,5 +29,26 @@ describe('Input', () => {
     cy.get('input').should('have.value', 'test');
     cy.get('@clear').trigger('keydown', { key: 'Enter', force: true });
     cy.get('input').should('have.value', '');
+  });
+
+  it('fits the measured text and reacts to input changes', () => {
+    cy.mount(Input, { props: { defaultValue: 'i', fitWidth: true } });
+
+    cy.get('.sd-input-wrapper').then(($short) => {
+      const shortWidth = $short[0].getBoundingClientRect().width;
+      expect($short[0].style.getPropertyValue(fitWidthCssVar)).to.match(/px$/);
+
+      cy.get('input').clear().type('a much longer input value');
+      cy.get('.sd-input-wrapper').should(($long) => {
+        expect($long[0].getBoundingClientRect().width).to.be.greaterThan(shortWidth);
+      });
+    });
+  });
+
+  it('uses the 4ch fallback when value and placeholder are empty', () => {
+    cy.mount(Input, { props: { fitWidth: true } });
+    cy.get('.sd-input-wrapper').should(($root) => {
+      expect($root[0].style.getPropertyValue(fitWidthCssVar)).to.equal('4ch');
+    });
   });
 });

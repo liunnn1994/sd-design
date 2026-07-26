@@ -105,6 +105,22 @@ export default defineComponent({
       default: false,
     },
     /**
+     * @zh 宽度是否适应文字内容
+     * @en Whether the width adapts to the text content
+     */
+    fitWidth: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * @zh 最大宽度是否限制为父容器宽度
+     * @en Whether the maximum width is limited to the parent container width
+     */
+    maxWFull: {
+      type: Boolean,
+      default: true,
+    },
+    /**
      * @zh Floating UI Vue 的完整定位配置
      * @en Complete Floating UI Vue positioning options
      */
@@ -397,7 +413,15 @@ export default defineComponent({
     const render = () => {
       if (props.type === 'textarea') {
         return (
-          <div class={prefixCls}>
+          <div
+            class={[
+              prefixCls,
+              {
+                [`${prefixCls}-fit-width`]: props.fitWidth,
+                [`${prefixCls}-max-w-full`]: props.maxWFull,
+              },
+            ]}
+          >
             <ResizeObserver onResize={handleResize}>
               <SdTextarea
                 {...attrs}
@@ -406,6 +430,8 @@ export default defineComponent({
                 modelValue={computedValue.value}
                 disabled={mergedDisabled.value}
                 readonly={props.readonly}
+                fitWidth={props.fitWidth}
+                maxWFull={props.maxWFull}
                 onInput={handleInput}
                 onClear={handleClear}
                 onFocus={onFocus}
@@ -459,6 +485,8 @@ export default defineComponent({
             modelValue={computedValue.value}
             disabled={mergedDisabled.value}
             readonly={props.readonly}
+            fitWidth={props.fitWidth}
+            maxWFull={props.maxWFull}
             inputAttrs={{
               'role': 'combobox',
               'aria-haspopup': 'listbox',

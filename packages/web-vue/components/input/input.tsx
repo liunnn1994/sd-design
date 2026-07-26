@@ -1,10 +1,11 @@
-import type { PropType } from 'vue';
+import type { PropType, StyleValue } from 'vue';
 import { computed, defineComponent, nextTick, ref, toRef, toRefs, watch } from 'vue';
 
 import FeedbackIcon from '../_components/feedback-icon.vue';
 import IconHover from '../_components/icon-hover.vue';
 import { useAllowClear } from '../_hooks/use-allow-clear';
 import { useCursor } from '../_hooks/use-cursor';
+import { useFitWidth } from '../_hooks/use-fit-width';
 import { useFormItem } from '../_hooks/use-form-item';
 import {
   isReadonlyModificationKey,
@@ -87,6 +88,22 @@ export default defineComponent({
      */
     placeholder: String,
     /**
+     * @zh 宽度是否适应文字内容
+     * @en Whether the width adapts to the text content
+     */
+    fitWidth: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * @zh 最大宽度是否限制为父容器宽度
+     * @en Whether the maximum width is limited to the parent container width
+     */
+    maxWFull: {
+      type: Boolean,
+      default: true,
+    },
+    /**
      * @zh 输入值的最大长度，errorOnly 属性在 2.12.0 版本添加
      * @en Enter the maximum length of the value, the errorOnly attribute was added in version 2.12.0
      */
@@ -129,6 +146,11 @@ export default defineComponent({
     type: {
       type: String as PropType<'text' | 'password'>,
       default: 'text',
+    },
+    // private
+    fitWidthFallback: {
+      type: String,
+      default: '4ch',
     },
     /**
      * @zh 前置标签
@@ -255,6 +277,17 @@ export default defineComponent({
     // 输入法相关
     const isComposition = ref(false);
     const compositionValue = ref('');
+    const fitWidthText = computed(() => {
+      const value = compositionValue.value || computedValue.value;
+      const displayValue = props.type === 'password' ? '•'.repeat(Array.from(value).length) : value;
+      return displayValue || props.placeholder;
+    });
+    const { fitWidthStyle, fitWidthValue } = useFitWidth({
+      fitWidth: () => props.fitWidth,
+      text: fitWidthText,
+      fallbackWidth: () => props.fitWidthFallback,
+      target: inputRef,
+    });
 
     const getValueLength = (value: string) => {
       if (isFunction(props.wordLength)) {
@@ -421,6 +454,8 @@ export default defineComponent({
       {
         [`${prefixCls}-outer-has-suffix`]: Boolean(slots.suffix),
         [`${prefixCls}-outer-disabled`]: mergedDisabled.value,
+        [`${prefixCls}-fit-width`]: props.fitWidth,
+        [`${prefixCls}-max-w-full`]: props.maxWFull,
       },
     ]);
 
@@ -430,12 +465,20 @@ export default defineComponent({
         [`${prefixCls}-error`]: mergedError.value,
         [`${prefixCls}-disabled`]: mergedDisabled.value,
         [`${prefixCls}-focus`]: focused.value,
+        [`${prefixCls}-fit-width`]: props.fitWidth,
+        [`${prefixCls}-max-w-full`]: props.maxWFull,
       },
     ]);
 
     const cls = computed(() => [prefixCls, `${prefixCls}-size-${mergedSize.value}`]);
 
-    const wrapperAttrs = computed(() => omit(attrs, INPUT_EVENTS));
+    const wrapperAttrs = computed(() => {
+      const wrapperAttrs = omit(attrs, INPUT_EVENTS) as Record<string, unknown>;
+      return {
+        ...wrapperAttrs,
+        style: [fitWidthStyle.value, wrapperAttrs.style as StyleValue],
+      };
+    });
     const inputAttrs = computed(() => pick(attrs, INPUT_EVENTS));
     const mergeInputAttrs = computed(() => {
       const attrs = {
@@ -449,6 +492,16 @@ export default defineComponent({
       if (mergedError.value) {
         attrs['aria-invalid'] = true;
       }
+      attrs.style = [
+        props.fitWidth
+          ? {
+              flex: `0 1 ${fitWidthValue}`,
+              width: fitWidthValue,
+              minWidth: 0,
+            }
+          : undefined,
+        attrs.style as StyleValue,
+      ];
       return attrs;
     });
 
