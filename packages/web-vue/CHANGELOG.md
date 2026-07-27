@@ -1,3 +1,18 @@
+# [3.19.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.18.0...web-vue-v3.19.0) (2026-07-27)
+
+
+### Bug Fixes
+
+* 🐛 修复 sender 构建 dts 时的 TS2883 错误 ([f1d5759](https://github.com/liunnn1994/sd-design/commit/f1d57591c9ee49a641e4cf341d3f34afe0a28daa))
+
+
+### Features
+
+* 🆕 sender 词槽模式使用组件库的富文本编辑器 ([44f4d5d](https://github.com/liunnn1994/sd-design/commit/44f4d5dce7f1bec01179b6220bcd6962cc507a46))
+* 🆕 新增 sender 组件 ([21ebb9a](https://github.com/liunnn1994/sd-design/commit/21ebb9a4dd7fa72f9229c312c8b3f93c9086fc66))
+* 🆕 新增fit-width属性 ([6684697](https://github.com/liunnn1994/sd-design/commit/6684697fc9964cf4c6c4c03d940993be2610b7ce))
+* 🆕 新增富文本编辑器 ([5844f8b](https://github.com/liunnn1994/sd-design/commit/5844f8be3c81b43bdbcad38d4f1ade016a8aba3a))
+
 # [3.18.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.17.0...web-vue-v3.18.0) (2026-07-24)
 
 
