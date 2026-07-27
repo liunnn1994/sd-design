@@ -7,7 +7,11 @@ import _SenderHeader from './sender-header.vue';
 import _SenderSwitch from './sender-switch.vue';
 import _Sender from './sender.vue';
 
-const Sender = Object.assign(_Sender, {
+const Sender: typeof _Sender & {
+  install: (app: App, options?: SDOptions) => void;
+  Header: typeof _SenderHeader;
+  Switch: typeof _SenderSwitch;
+} = Object.assign(_Sender, {
   install: (app: App, options?: SDOptions) => {
     setGlobalConfig(app, options);
     const componentPrefix = getComponentPrefix(options);
