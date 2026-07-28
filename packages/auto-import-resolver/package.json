@@ -35,7 +35,8 @@
     "build": "pnpm run build:package",
     "build:package": "tsup && pnpm run build:postbuild",
     "build:postbuild": "node ./scripts/postbuild.mjs",
-    "dev:link": "pnpm link --global && npm link"
+    "dev:link": "pnpm link --global && npm link",
+    "test:release": "node --test ./scripts/path-scoped-release.test.mjs"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",

@@ -11,7 +11,6 @@ on:
       - pnpm-lock.yaml
       - pnpm-workspace.yaml
       - packages/auto-import-resolver/**
-      - packages/web-vue/components/**
   workflow_dispatch:
 
 permissions:
@@ -37,72 +36,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check whether release is needed
-        id: release-check
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            echo "should_release=true" >> "$GITHUB_OUTPUT"
-            echo "Manual dispatch: release enabled."
-            exit 0
-          fi
-
-          base="${{ github.event.before }}"
-          head="${{ github.sha }}"
-
-          if [[ -z "$base" || "$base" =~ ^0+$ ]]; then
-            base="$(git rev-list --max-parents=0 "$head")"
-          fi
-
-          non_component_changes="$(
-            git diff --name-only "$base" "$head" |
-              grep -Ev '^packages/web-vue/components/' || true
-          )"
-
-          if [[ -n "$non_component_changes" ]]; then
-            echo "should_release=true" >> "$GITHUB_OUTPUT"
-            echo "Non-component changes detected; release enabled."
-            echo "$non_component_changes"
-            exit 0
-          fi
-
-          mapfile -t component_roots < <(
-            git diff --name-only "$base" "$head" -- packages/web-vue/components |
-              awk -F/ '$4 != "" && $4 !~ /^_/ && $4 != "style" && $4 != "locale" { print $4 }' |
-              sort -u
-          )
-
-          catalog_changes=()
-          for root in "${component_roots[@]}"; do
-            before_exists=false
-            after_exists=false
-
-            if git cat-file -e "$base:packages/web-vue/components/$root" 2>/dev/null; then
-              before_exists=true
-            fi
-
-            if git cat-file -e "$head:packages/web-vue/components/$root" 2>/dev/null; then
-              after_exists=true
-            fi
-
-            if [[ "$before_exists" != "$after_exists" ]]; then
-              catalog_changes+=("$root")
-            fi
-          done
-
-          if ((${#catalog_changes[@]} > 0)); then
-            echo "should_release=true" >> "$GITHUB_OUTPUT"
-            printf 'Component catalog changed: %s\n' "${catalog_changes[@]}"
-            exit 0
-          fi
-
-          echo "should_release=false" >> "$GITHUB_OUTPUT"
-          echo "Only existing component files changed; auto-import-resolver release skipped."
-
       - name: Setup Node.js
-        if: steps.release-check.outputs.should_release == 'true'
         uses: actions/setup-node@v7
         with:
           node-version-file: 'package.json'
@@ -110,25 +44,24 @@ jobs:
           scope: '@sdata'
 
       - name: Install dependencies
-        if: steps.release-check.outputs.should_release == 'true'
         run: |
           corepack enable
           node -v
           pnpm -v
           pnpm run install:ci
 
+      - name: Test release scope
+        run: pnpm --filter @sdata/web-vue-auto-import-resolver run test:release
+
       - name: Build release package
-        if: steps.release-check.outputs.should_release == 'true'
         env:
           NODE_OPTIONS: '--max-old-space-size=4096'
         run: pnpm --filter @sdata/web-vue-auto-import-resolver run build
 
       - name: Sync with latest main before release
-        if: steps.release-check.outputs.should_release == 'true'
         run: git pull --rebase origin main
 
       - name: Release auto-import-resolver
-        if: steps.release-check.outputs.should_release == 'true'
         working-directory: packages/auto-import-resolver
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

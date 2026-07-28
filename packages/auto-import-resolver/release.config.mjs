@@ -7,8 +7,7 @@ export default {
   // 导致对方的 tag 被本包误判为「最后一次发布」而跳过发布。
   tagFormat: 'resolver-v${version}',
   plugins: [
-    '@semantic-release/commit-analyzer',
-    '@semantic-release/release-notes-generator',
+    './scripts/path-scoped-release.mjs',
     [
       '@semantic-release/exec',
       {
