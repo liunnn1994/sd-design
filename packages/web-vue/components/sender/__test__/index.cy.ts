@@ -9,28 +9,17 @@ import Sender, {
   SenderSwitch,
 } from '../index';
 
-interface SpeechRecognitionResultMock {
-  resultIndex: number;
-  results: ArrayLike<ArrayLike<{ transcript: string }> & { isFinal: boolean }>;
-}
-
-interface SpeechRecognitionMock {
-  onstart: (() => void) | null;
-  onend: (() => void) | null;
-  onresult: ((event: SpeechRecognitionResultMock) => void) | null;
+interface AudioWorkletNodeMock {
+  port: {
+    onmessage: ((event: MessageEvent<ArrayBuffer | { type: 'flushed' }>) => void) | null;
+    postMessage: (message: unknown) => void;
+  };
 }
 
 const installSpeechMocks = (permissionDenied = false) => {
-  const state: { recognition?: SpeechRecognitionMock } = {};
+  const state: { workletNode?: AudioWorkletNodeMock; socket?: WebSocket } = {};
 
   cy.window().then((win) => {
-    const permissionStatus = Object.assign(new win.EventTarget(), {
-      state: 'prompt' as PermissionState,
-    });
-    cy.stub(win.navigator.permissions, 'query').resolves(
-      permissionStatus as unknown as PermissionStatus,
-    );
-
     const stopTrack = cy.spy().as('microphoneTrackStop');
     const mediaStream = {
       getTracks: () => [{ stop: stopTrack }],
@@ -43,33 +32,96 @@ const installSpeechMocks = (permissionDenied = false) => {
     }
     cy.stub(win.navigator.mediaDevices, 'getUserMedia').callsFake(getUserMedia);
 
-    const start = cy.spy().as('speechRecognitionStart');
-    class SpeechRecognition {
-      continuous = false;
-      interimResults = false;
-      lang = '';
-      maxAlternatives = 1;
-      onstart: (() => void) | null = null;
-      onend: (() => void) | null = null;
-      onresult: ((event: SpeechRecognitionResultMock) => void) | null = null;
-      onerror: ((event: Event) => void) | null = null;
+    const addModule = cy.stub().resolves().as('audioWorkletAddModule');
+    const sourceConnect = cy.spy().as('mediaStreamSourceConnect');
+    const sourceDisconnect = cy.spy().as('mediaStreamSourceDisconnect');
+    const close = cy.stub().resolves().as('audioContextClose');
+    class MockAudioContext {
+      sampleRate = 48_000;
+      state: AudioContextState = 'running';
+      audioWorklet = { addModule };
 
-      constructor() {
-        state.recognition = this;
+      createMediaStreamSource() {
+        return {
+          connect: sourceConnect,
+          disconnect: sourceDisconnect,
+        };
       }
 
-      start() {
-        start();
-        this.onstart?.();
-      }
-
-      stop() {
-        this.onend?.();
+      close() {
+        this.state = 'closed';
+        return close();
       }
     }
-    Object.defineProperty(win, 'SpeechRecognition', {
+
+    class MockAudioWorkletNode {
+      port = {
+        onmessage: null as
+          | ((event: MessageEvent<ArrayBuffer | { type: 'flushed' }>) => void)
+          | null,
+        postMessage: (message: unknown) => {
+          if ((message as { type?: string }).type !== 'flush') return;
+          queueMicrotask(() =>
+            this.port.onmessage?.({
+              data: { type: 'flushed' },
+            } as MessageEvent<{ type: 'flushed' }>),
+          );
+        },
+      };
+
+      constructor() {
+        state.workletNode = this;
+      }
+
+      disconnect() {}
+    }
+
+    const webSocketSend = cy.spy().as('speechWebSocketSend');
+    class MockWebSocket extends win.EventTarget {
+      static CONNECTING = 0;
+      static OPEN = 1;
+      static CLOSING = 2;
+      static CLOSED = 3;
+      readyState = MockWebSocket.CONNECTING;
+      binaryType: BinaryType = 'blob';
+      onopen: ((event: Event) => void) | null = null;
+      onmessage: ((event: MessageEvent) => void) | null = null;
+      onclose: ((event: CloseEvent) => void) | null = null;
+      onerror: ((event: Event) => void) | null = null;
+
+      constructor(
+        readonly url: string,
+        readonly protocols?: string | string[],
+      ) {
+        super();
+        state.socket = this as unknown as WebSocket;
+        queueMicrotask(() => {
+          this.readyState = MockWebSocket.OPEN;
+          this.onopen?.(new win.Event('open'));
+        });
+      }
+
+      send(data: string | ArrayBufferLike | Blob | ArrayBufferView) {
+        webSocketSend(data);
+      }
+
+      close() {
+        this.readyState = MockWebSocket.CLOSED;
+      }
+    }
+
+    cy.stub(win.URL, 'createObjectURL').returns('blob:sender-audio-worklet');
+    Object.defineProperty(win, 'AudioContext', {
       configurable: true,
-      value: SpeechRecognition,
+      value: MockAudioContext,
+    });
+    Object.defineProperty(win, 'AudioWorkletNode', {
+      configurable: true,
+      value: MockAudioWorkletNode,
+    });
+    Object.defineProperty(win, 'WebSocket', {
+      configurable: true,
+      value: MockWebSocket,
     });
   });
 
@@ -228,7 +280,7 @@ describe('Sender', () => {
     cy.get('@onRecordingChange').should('have.been.calledOnceWith', true);
   });
 
-  it('requests microphone permission and writes the recognized speech into the input', () => {
+  it('emits streaming AudioWorklet buffers without using browser speech recognition', () => {
     const speech = installSpeechMocks();
     cy.mount(Sender, {
       props: {
@@ -244,18 +296,63 @@ describe('Sender', () => {
       audio: true,
       video: false,
     });
-    cy.get('@microphoneTrackStop').should('have.been.calledOnce');
-    cy.get('@speechRecognitionStart').should('have.been.calledOnce');
+    cy.get('@audioWorkletAddModule').should(
+      'have.been.calledOnceWith',
+      'blob:sender-audio-worklet',
+    );
+    cy.get('@mediaStreamSourceConnect').should('have.been.calledOnce');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('speechStart')).to.have.length(1);
+      expect(wrapper.emitted('change')).to.equal(undefined);
+    });
 
     cy.then(() => {
-      const result = Object.assign([{ transcript: '今天天气' }], { isFinal: true });
-      speech.recognition?.onresult?.({
-        resultIndex: 0,
-        results: [result],
-      });
-      speech.recognition?.onend?.();
+      const buffer = new Float32Array([0.1, -0.2]).buffer;
+      speech.workletNode?.port.onmessage?.({ data: buffer } as MessageEvent<ArrayBuffer>);
     });
-    cy.get('textarea').should('contain.value', '今天天气');
+    cy.get('@vue').should(({ wrapper }) => {
+      const data = wrapper.emitted('speechData')?.[0]?.[0];
+      expect(data).to.include({ sampleRate: 48_000, sequence: 0 });
+      expect(data.buffer).to.be.instanceOf(ArrayBuffer);
+    });
+    cy.get('.sd-sender-actions-btn').first().click();
+    cy.get('@microphoneTrackStop').should('have.been.calledOnce');
+    cy.get('@audioContextClose').should('have.been.calledOnce');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('speechEnd')?.[0]?.[0]).to.include({
+        source: 'capture',
+        reason: 'manual',
+        chunks: 1,
+      });
+    });
+  });
+
+  it('streams AudioWorklet buffers to a configured WebSocket URL', () => {
+    const speech = installSpeechMocks();
+    cy.mount(Sender, {
+      props: {
+        allowSpeech: {
+          url: 'wss://speech.example.test/stream',
+          protocols: 'pcm',
+        },
+      },
+    });
+
+    cy.get('.sd-sender-actions-btn').first().click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('speechTransportOpen')).to.have.length(1);
+      expect(wrapper.emitted('speechStart')).to.have.length(1);
+    });
+    cy.then(() => {
+      speech.workletNode?.port.onmessage?.({
+        data: new Float32Array([0.25]).buffer,
+      } as MessageEvent<ArrayBuffer>);
+    });
+    cy.get('@speechWebSocketSend').should('have.callCount', 2);
+    cy.get('@speechWebSocketSend').should(
+      'have.been.calledWithMatch',
+      Cypress.sinon.match.instanceOf(ArrayBuffer),
+    );
   });
 
   it('shows a clear status when microphone permission is denied', () => {
@@ -271,7 +368,10 @@ describe('Sender', () => {
       .should('have.attr', 'aria-label', '开始语音输入')
       .click();
     cy.get('@getUserMedia').should('have.been.calledOnce');
-    cy.get('@speechRecognitionStart').should('not.have.been.called');
+    cy.get('@audioWorkletAddModule').should('not.have.been.called');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('speechError')?.[0]?.[0]).to.include({ phase: 'permission' });
+    });
     cy.get('button[aria-label="麦克风权限已被拒绝，请在浏览器设置中允许"]').should('be.disabled');
   });
 

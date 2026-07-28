@@ -1,6 +1,6 @@
 ---
 title: 对话输入框 Sender
-description: 用于聊天与 AI 对话场景的复合输入框，支持提交、加载取消、语音、头部面板、结构化词槽和功能开关。
+description: 用于聊天与 AI 对话场景的复合输入框，支持提交、加载取消、AudioWorklet 语音采集、头部面板、结构化词槽和功能开关。
 ---
 
 import DemoBlock from '../../../../components/docs/DemoBlock.astro';
@@ -14,6 +14,8 @@ import SenderCustomActionsDemo from '../../../../components/generated/sender/cus
 import senderCustomActionsSource from '../../../../components/generated/sender/custom-actions.vue?raw';
 import SenderSwitchDemo from '../../../../components/generated/sender/switch.vue';
 import senderSwitchSource from '../../../../components/generated/sender/switch.vue?raw';
+import SenderSpeechDemo from '../../../../components/generated/sender/speech.vue';
+import senderSpeechSource from '../../../../components/generated/sender/speech.vue?raw';
 import SenderMethodsDemo from '../../../../components/generated/sender/methods.vue';
 import senderMethodsSource from '../../../../components/generated/sender/methods.vue?raw';
 import SenderSubmitTypeDemo from '../../../../components/generated/sender/submit-type.vue';
@@ -73,15 +75,49 @@ import senderAgentSource from '../../../../components/generated/sender/agent.vue
 
 </DemoBlock>
 
-### 功能开关与语音
+### 功能开关
 
-`SenderSwitch` 用于展示与输入框关联的功能开关。`allow-speech` 设为 `true` 后，首次点击语音按钮会申请麦克风权限，并把最终识别文本写入输入框；也可以传入受控配置接入第三方录音实现。
+`SenderSwitch` 用于展示与输入框关联的功能开关。
 
 <DemoBlock source={senderSwitchSource} mainFile="src/sender-switch.vue">
 
 <SenderSwitchDemo client:only="vue" />
 
 </DemoBlock>
+
+### 语音采集与流式事件
+
+`allow-speech` 设为 `true` 或配置对象后，Sender 使用 `getUserMedia + AudioWorklet` 采集单声道 Float32 PCM。组件本身不调用浏览器语音识别，也不会把识别文本写入输入框；业务可以通过 `speech-start`、`speech-data`、`speech-end` 和 `speech-error` 把音频交给任意第三方 SDK。
+
+每个 `speech-data` 都包含可直接传输的 `ArrayBuffer`、当前 `sampleRate`、从 0 开始的 `sequence` 和高精度 `timestamp`。默认每 4096 个采样点抛出一块数据，可用 `bufferSize` 调整。
+
+<DemoBlock source={senderSpeechSource} mainFile="src/sender-speech.vue">
+
+<SenderSpeechDemo client:only="vue" />
+
+</DemoBlock>
+
+直接连接后端时，在 `allow-speech` 配置中传入 `ws://` 或 `wss://` 地址即可：
+
+```vue
+<sd-sender
+  :allow-speech="{
+    url: 'wss://api.example.com/asr/stream',
+    protocols: 'pcm-f32',
+    bufferSize: 4096,
+  }"
+  @speech-transport-message="handleRecognitionResult"
+  @speech-error="handleSpeechError"
+/>
+```
+
+连接建立后，Sender 先发送一条 JSON 元数据：
+
+```json
+{ "type": "start", "format": "pcm-f32", "channels": 1, "sampleRate": 48000, "bufferSize": 4096 }
+```
+
+随后连续发送 AudioWorklet 产生的二进制 `ArrayBuffer`；结束时发送 `{"type":"end","reason":"manual"}` 并正常关闭连接。后端不需要元数据帧时可设置 `sendMetadata: false`。服务端返回的流式识别结果通过 `speech-transport-message` 原样透出。
 
 ### Agent 工作流
 
@@ -147,7 +183,7 @@ import senderAgentSource from '../../../../components/generated/sender/agent.vue
 | submit-type | 提交快捷键模式 | `'enter' \| 'shiftEnter'` | `'enter'` |
 | slot-config | 结构化词槽配置 | `SenderSlotConfig[]` | - |
 | skill | 技能标签配置 | `SenderSkill` | - |
-| allow-speech | 语音输入或受控录音配置 | `boolean \| SenderControlledSpeechConfig` | `false` |
+| allow-speech | AudioWorklet 语音采集、WebSocket 传输或受控录音配置 | `boolean \| SenderSpeechConfig` | `false` |
 | auto-size | 输入区自适应高度 | `boolean \| { minRows?: number; maxRows?: number }` | `{ maxRows: 8 }` |
 | placeholder | 占位文本 | `string` | - |
 | show-actions | 是否显示后缀操作区 | `boolean` | `true` |
@@ -157,16 +193,23 @@ import senderAgentSource from '../../../../components/generated/sender/agent.vue
 
 ### `<sender>` Events
 
-| 事件名             | 描述                     | 参数                              |
-| ------------------ | ------------------------ | --------------------------------- |
-| update:model-value | 输入内容变化             | `value: string`                   |
-| change             | 普通输入或结构化词槽变化 | `value, event, slotConfig, skill` |
-| submit             | 点击发送或使用提交快捷键 | `value, slotConfig, skill`        |
-| cancel             | 加载态点击停止按钮       | -                                 |
-| paste              | 粘贴内容                 | `event: ClipboardEvent`           |
-| paste-file         | 剪贴板仅包含文件时       | `files: FileList`                 |
-| focus              | 输入区获取焦点           | `event: FocusEvent`               |
-| blur               | 输入区失去焦点           | `event: FocusEvent`               |
+| 事件名 | 描述 | 参数 |
+| --- | --- | --- |
+| update:model-value | 输入内容变化 | `value: string` |
+| change | 普通输入或结构化词槽变化 | `value, event, slotConfig, skill` |
+| submit | 点击发送或使用提交快捷键 | `value, slotConfig, skill` |
+| cancel | 加载态点击停止按钮 | - |
+| paste | 粘贴内容 | `event: ClipboardEvent` |
+| paste-file | 剪贴板仅包含文件时 | `files: FileList` |
+| focus | 输入区获取焦点 | `event: FocusEvent` |
+| blur | 输入区失去焦点 | `event: FocusEvent` |
+| speech-start | 开始采集；受控模式下表示开始意图 | `SenderSpeechStartEvent` |
+| speech-data | AudioWorklet 产生一块 PCM 流数据 | `SenderSpeechDataEvent` |
+| speech-end | 采集结束并完成资源释放 | `SenderSpeechEndEvent` |
+| speech-error | 麦克风、音频上下文、Worklet 或传输失败 | `SenderSpeechErrorEvent` |
+| speech-transport-open | WebSocket 连接已建立 | `{ event, socket }` |
+| speech-transport-message | 收到后端流式消息 | `{ event, socket }` |
+| speech-transport-close | WebSocket 连接已关闭 | `{ event, socket }` |
 
 ### `<sender>` Slots
 
@@ -181,6 +224,23 @@ import senderAgentSource from '../../../../components/generated/sender/agent.vue
 | slot-_key_ | 自定义 `custom` 词槽 | `{ value, item, disabled, readonly, onChange }` |
 
 `actions` 包含 `send`、`clear`、`cancel`、`speech` 以及对应的禁用状态、`recording` 和 `loading`。
+
+### `SenderSpeechConfig`
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| recording | 受控录音状态；与 `onRecordingChange` 同时提供时，Sender 不采集音频 | `boolean` | - |
+| onRecordingChange | 受控状态回调，或监听内部采集状态 | `(recording: boolean) => void` | - |
+| audioConstraints | 传给 `getUserMedia` 的音频约束 | `MediaTrackConstraints` | `true` |
+| bufferSize | 每个 `speech-data` 的 Float32 采样点数量 | `number` | `4096` |
+| workletUrl | 自定义 AudioWorklet 模块地址 | `string` | 内置模块 |
+| processorName | 自定义 Worklet processor 名称 | `string` | `'sd-sender-audio-processor'` |
+| processorOptions | 额外的 Worklet `processorOptions` | `Record<string, unknown>` | - |
+| url | 自动流式发送 buffer 的 WebSocket 地址 | `string` | - |
+| protocols | WebSocket 子协议 | `string \| string[]` | - |
+| sendMetadata | 是否在音频二进制流前后发送 start/end 元数据 | `boolean` | `true` |
+
+如果同时传入 `recording` 与 `onRecordingChange`，Sender 保持受控模式兼容：点击按钮只回调期望状态，并抛出 `speech-start` / `speech-end` 意图事件，不会申请麦克风。第三方 SDK 可以据此完全接管录音生命周期。
 
 ### `<sender>` Methods
 

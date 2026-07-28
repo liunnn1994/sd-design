@@ -720,12 +720,14 @@
     requesting: speechRequesting,
     statusText: speechStatusText,
     trigger: triggerSpeech,
-  } = useSpeech(toRef(props, 'allowSpeech'), (transcript) => {
-    if (isSlotMode.value) {
-      slotInputRef.value?.insertText(transcript, { position: 'end' });
-    } else {
-      setNormalValue(`${mergedValue.value} ${transcript}`);
-    }
+  } = useSpeech(toRef(props, 'allowSpeech'), {
+    onStart: (event) => emit('speechStart', event),
+    onData: (event) => emit('speechData', event),
+    onEnd: (event) => emit('speechEnd', event),
+    onError: (event) => emit('speechError', event),
+    onTransportOpen: (event) => emit('speechTransportOpen', event),
+    onTransportMessage: (event) => emit('speechTransportMessage', event),
+    onTransportClose: (event) => emit('speechTransportClose', event),
   });
 
   const actionContext = computed<SenderActionContext>(() => ({
