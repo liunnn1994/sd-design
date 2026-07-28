@@ -53,6 +53,7 @@ import {
 import { resolveDropdownVirtualListProps } from '../_utils/virtual-dropdown';
 import Checkbox from '../checkbox';
 import { configProviderInjectionKey } from '../config-provider/context';
+import Ellipsis, { PerformantEllipsis } from '../ellipsis';
 import Tooltip from '../tooltip';
 import Trigger, { type TriggerProps } from '../trigger';
 import { useSelect } from './hooks/use-select';
@@ -209,6 +210,14 @@ export default defineComponent({
     options: {
       type: Array as PropType<SelectOption[]>,
       default: () => [],
+    },
+    /**
+     * @zh 是否使用 Ellipsis 组件渲染选项。传入 `performant-ellipsis` 时使用高性能省略实现
+     * @en Whether to render options with the Ellipsis component. Use `performant-ellipsis` for the performant implementation
+     */
+    ellipsis: {
+      type: [Boolean, String] as PropType<boolean | 'performant-ellipsis'>,
+      default: true,
     },
     virtualListProps: {
       type: Object as PropType<VirtualListProps>,
@@ -683,12 +692,15 @@ export default defineComponent({
         .filter((option): option is SelectOptionData => Boolean(option)),
     );
 
-    const ellipsisPrefixCls = getPrefixCls('ellipsis');
-    const renderOptionEllipsis = (label: string) => (
-      <span class={[ellipsisPrefixCls, `${ellipsisPrefixCls}--single-line`]}>
-        <span class={`${ellipsisPrefixCls}-content`}>{label}</span>
-      </span>
-    );
+    const renderOptionEllipsis = (label: string) => {
+      if (props.ellipsis === false) {
+        return label;
+      }
+
+      const EllipsisComponent =
+        props.ellipsis === 'performant-ellipsis' ? PerformantEllipsis : Ellipsis;
+      return <EllipsisComponent>{label}</EllipsisComponent>;
+    };
 
     const getOptionContentFunc = (optionInfo: SelectOptionInfo) => {
       if (isFunction(slots.option)) {

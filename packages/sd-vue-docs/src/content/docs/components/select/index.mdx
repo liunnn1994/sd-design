@@ -12,6 +12,8 @@ import SelectClearDemo from '../../../../components/generated/select/clear.vue';
 import selectClearSource from '../../../../components/generated/select/clear.vue?raw';
 import SelectCreateDemo from '../../../../components/generated/select/create.vue';
 import selectCreateSource from '../../../../components/generated/select/create.vue?raw';
+import SelectEllipsisDemo from '../../../../components/generated/select/ellipsis.vue';
+import selectEllipsisSource from '../../../../components/generated/select/ellipsis.vue?raw';
 import SelectFallbackDemo from '../../../../components/generated/select/fallback.vue';
 import selectFallbackSource from '../../../../components/generated/select/fallback.vue?raw';
 import SelectFieldNamesDemo from '../../../../components/generated/select/field-names.vue';
@@ -213,6 +215,16 @@ import selectVirtualListSource from '../../../../components/generated/select/vir
 
 </DemoBlock>
 
+### 选项文本省略
+
+默认情况下，每个选项都会使用 `Ellipsis` 处理溢出文本。选项数量较多、开启虚拟列表或需要减少文本测量开销时，可以设置 `ellipsis="performant-ellipsis"`；设置 `:ellipsis="false"` 可关闭内置省略。使用 `#option` 插槽后，选项内容完全由插槽控制。
+
+<DemoBlock source={selectEllipsisSource} mainFile="src/select-ellipsis.vue">
+
+<SelectEllipsisDemo client:only="vue" />
+
+</DemoBlock>
+
 ### 选择框大小
 
 选择框分为 `mini`、`small`、`medium`、`large` 四种尺寸。
@@ -254,6 +266,7 @@ import selectVirtualListSource from '../../../../components/generated/select/vir
 | spin-props | 传递给下拉加载中 Spin 的属性 | `SpinProps` | `-` |  |
 | disabled | 是否禁用 | `boolean` | `false` |  |
 | error | 是否为错误状态 | `boolean` | `false` |  |
+| ellipsis | 是否使用 Ellipsis 渲染默认选项；`performant-ellipsis` 使用高性能实现，`false` 关闭 | `boolean \| 'performant-ellipsis'` | `true` |  |
 | allow-clear | 是否允许清空 | `boolean` | `true` |  |
 | allow-search | 是否允许搜索 | `boolean \| { retainInputValue?: boolean }` | `true` |  |
 | allow-create | 是否允许创建 | `boolean` | `false` |  |

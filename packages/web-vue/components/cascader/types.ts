@@ -30,6 +30,7 @@ export interface CascaderTriggerSlotProps {
 export interface CascaderProps extends FitWidthProps {
   pathMode?: boolean;
   multiple?: boolean;
+  ellipsis?: boolean | 'performant-ellipsis';
   modelValue?: CascaderModelValue;
   defaultValue?: CascaderModelValue;
   options?: CascaderOption[];
@@ -88,6 +89,7 @@ export type CascaderEmits = {
 export interface CascaderPanelProps {
   pathMode?: boolean;
   multiple?: boolean;
+  ellipsis?: boolean | 'performant-ellipsis';
   modelValue?: CascaderModelValue;
   defaultValue?: CascaderModelValue;
   options?: CascaderOption[];

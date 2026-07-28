@@ -136,6 +136,7 @@ $cascader-prefix-cls: string.unquote('#{theme.$prefix}-cascader');
     color: $cascader-color-item-text;
     font-size: $cascader-font-item-size;
     line-height: $cascader-size-item-height;
+    text-align: left;
     background-color: transparent;
     cursor: pointer;
 

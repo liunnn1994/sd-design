@@ -94,6 +94,7 @@
             :selected-keys="selectedKeys"
             :show-checkable="mergedTreeCheckable"
             :scrollbar="scrollbar"
+            :ellipsis="mergedTreeProps.ellipsis"
             :tree-props="{
               actionOnNodeClick: selectable === 'leaf' ? 'expand' : undefined,
               blockNode: true,
@@ -335,6 +336,14 @@
      * */
     options: {
       type: Array as PropType<TreeNodeData[]>,
+    },
+    /**
+     * @zh 是否使用 Ellipsis 组件渲染选项。传入 `performant-ellipsis` 时使用高性能省略实现
+     * @en Whether to render options with the Ellipsis component. Use `performant-ellipsis` for the performant implementation
+     */
+    ellipsis: {
+      type: [Boolean, String] as PropType<TreeProps['ellipsis']>,
+      default: undefined,
     },
     /**
      * @zh 设置value格式。默认是string，设置为true时候，value格式为： { label: string, value: string }
@@ -705,7 +714,12 @@
   );
   const { mergedAllowClear } = useAllowClear(computed(() => props.allowClear || props.clearable));
   const { mergedDropdownVirtualListProps } = useDropdownVirtualListProps(
-    computed(() => props.virtualListProps ?? treeProps!.value?.virtualListProps),
+    computed(
+      () =>
+        props.virtualListProps ??
+        treeProps!.value?.virtualListProps ??
+        (props.virtualScroll === true ? {} : undefined),
+    ),
   );
   const TreeSelectEmpty = configCtx?.slots.empty?.({
     component: 'tree-select',
@@ -725,12 +739,14 @@
     if (virtualScroll!.value !== false) {
       return {
         ...treeProps!.value,
+        ellipsis: props.ellipsis ?? treeProps!.value?.ellipsis ?? true,
         ...(resolvedVirtualListProps ? { virtualListProps: resolvedVirtualListProps } : {}),
       };
     }
 
     const nextTreeProps = {
       ...treeProps!.value,
+      ellipsis: props.ellipsis ?? treeProps!.value?.ellipsis ?? true,
     };
 
     delete nextTreeProps.virtualListProps;

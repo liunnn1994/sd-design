@@ -93,13 +93,34 @@ describe('Select', () => {
     cy.get('.sd-select-view-input').should('have.attr', 'aria-expanded', 'true');
   });
 
-  it('renders the default option with performant ellipsis', () => {
+  it('renders every default option with Ellipsis', () => {
     cy.mount(Select, { props: { options: ['Beijing long long long', 'Shanghai'] } });
     open();
-    cy.get('.sd-select-option .sd-ellipsis').should('exist');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.findAllComponents({ name: 'Ellipsis' })).to.have.length(2);
+      expect(wrapper.findComponent({ name: 'PerformantEllipsis' }).exists()).to.equal(false);
+    });
   });
 
-  it('does not wrap a custom option slot with performant ellipsis', () => {
+  it('supports performant and disabled option ellipsis modes', () => {
+    cy.mount(Select, {
+      props: {
+        options: ['Beijing', 'Shanghai'],
+        ellipsis: 'performant-ellipsis',
+      },
+    });
+    open();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.findAllComponents({ name: 'PerformantEllipsis' })).to.have.length(2);
+    });
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ ellipsis: false })));
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.findComponent({ name: 'Ellipsis' }).exists()).to.equal(false);
+      expect(wrapper.findComponent({ name: 'PerformantEllipsis' }).exists()).to.equal(false);
+    });
+  });
+
+  it('does not wrap a custom option slot with Ellipsis', () => {
     cy.mount(Select, {
       props: { options: ['Beijing', 'Shanghai'] },
       slots: {

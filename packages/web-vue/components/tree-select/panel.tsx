@@ -15,6 +15,7 @@ type TreeComponentProps = InstanceType<typeof Tree>['$props'];
 
 type TreeSelectPanelComponent = DefineComponent<{
   treeProps: Partial<TreeProps> | undefined;
+  ellipsis: TreeProps['ellipsis'];
   selectedKeys: TreeNodeKey[] | undefined;
   showCheckable: boolean;
   treeSlots: Slots;
@@ -30,6 +31,10 @@ export default defineComponent({
     treeProps: {
       type: Object as PropType<Partial<TreeProps>>,
       default: () => ({}),
+    },
+    ellipsis: {
+      type: [Boolean, String] as PropType<TreeProps['ellipsis']>,
+      default: false,
     },
     selectedKeys: {
       type: Array as PropType<TreeNodeKey[]>,
@@ -86,6 +91,7 @@ export default defineComponent({
         <Tree
           ref={refTree}
           {...computedTreeProps.value}
+          ellipsis={props.ellipsis}
           onSelect={onSelect}
           onCheck={onCheck}
           v-slots={props.treeSlots}

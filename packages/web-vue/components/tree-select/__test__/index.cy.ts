@@ -82,6 +82,78 @@ describe('TreeSelect', () => {
     });
   });
 
+  it('renders every default option with Ellipsis and supports performant mode', () => {
+    cy.mount(TreeSelect, {
+      props: { options, fieldNames, defaultPopupVisible: true },
+    });
+    cy.get('@vue').should(({ wrapper }) => {
+      const panel = wrapper.findComponent({ name: 'TreeSelectPanel' });
+      expect(panel.props('ellipsis')).to.equal(true);
+      const tree = panel.findComponent({ name: 'Tree' });
+      expect(tree.props('ellipsis')).to.equal(true);
+      expect(tree.props('virtualListProps')).to.equal(undefined);
+    });
+    cy.get('.sd-tree-node .sd-ellipsis').should('have.length', 3);
+    cy.get('@vue').then(({ wrapper }) =>
+      cy.wrap(wrapper.setProps({ ellipsis: 'performant-ellipsis' })),
+    );
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.findComponent({ name: 'TreeSelectPanel' }).props('ellipsis')).to.equal(
+        'performant-ellipsis',
+      );
+    });
+  });
+
+  it('enables virtual scrolling only when virtualListProps is explicitly configured', () => {
+    cy.mount(TreeSelect, {
+      props: {
+        options,
+        fieldNames,
+        defaultPopupVisible: true,
+        virtualListProps: { itemSize: 28, height: 160 },
+      },
+    });
+    cy.get('@vue').should(({ wrapper }) => {
+      const tree = wrapper.findComponent({ name: 'Tree' });
+      expect(tree.props('virtualListProps').itemSize).to.equal(28);
+      expect(tree.props('virtualListProps').height).to.equal(160);
+      expect(tree.findComponent({ name: 'VirtualList' }).exists()).to.equal(true);
+    });
+  });
+
+  it('supports explicitly enabling virtual scrolling with the virtualScroll alias', () => {
+    cy.mount(TreeSelect, {
+      props: {
+        options,
+        fieldNames,
+        defaultPopupVisible: true,
+        virtualScroll: true,
+      },
+    });
+    cy.get('@vue').should(({ wrapper }) => {
+      const tree = wrapper.findComponent({ name: 'Tree' });
+      expect(tree.props('virtualListProps').height).to.equal('200px');
+      expect(tree.findComponent({ name: 'VirtualList' }).exists()).to.equal(true);
+    });
+  });
+
+  it('keeps virtual scrolling disabled when virtualScroll is false', () => {
+    cy.mount(TreeSelect, {
+      props: {
+        options,
+        fieldNames,
+        defaultPopupVisible: true,
+        virtualScroll: false,
+        virtualListProps: { itemSize: 28, height: 160 },
+      },
+    });
+    cy.get('@vue').should(({ wrapper }) => {
+      const tree = wrapper.findComponent({ name: 'Tree' });
+      expect(tree.props('virtualListProps')).to.equal(undefined);
+      expect(tree.findComponent({ name: 'VirtualList' }).exists()).to.equal(false);
+    });
+  });
+
   it('renders a custom tag slot with the selected tree option data', () => {
     cy.mount(TreeSelect, {
       props: { multiple: true, defaultValue: ['leaf-1'], options, fieldNames },

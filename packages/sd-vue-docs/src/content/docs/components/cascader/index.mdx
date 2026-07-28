@@ -16,6 +16,8 @@ import CascaderDisabledDemo from '../../../../components/generated/cascader/disa
 import cascaderDisabledSource from '../../../../components/generated/cascader/disabled.vue?raw';
 import CascaderDisplayDemo from '../../../../components/generated/cascader/display.vue';
 import cascaderDisplaySource from '../../../../components/generated/cascader/display.vue?raw';
+import CascaderEllipsisDemo from '../../../../components/generated/cascader/ellipsis.vue';
+import cascaderEllipsisSource from '../../../../components/generated/cascader/ellipsis.vue?raw';
 import CascaderExpandDemo from '../../../../components/generated/cascader/expand.vue';
 import cascaderExpandSource from '../../../../components/generated/cascader/expand.vue?raw';
 import CascaderFallbackDemo from '../../../../components/generated/cascader/fallback.vue';
@@ -199,6 +201,16 @@ import cascaderVirtualSource from '../../../../components/generated/cascader/vir
 
 </DemoBlock>
 
+### 选项文本省略
+
+默认情况下，每一级选项都会左对齐并使用 `Ellipsis` 处理溢出文本。大数据量或虚拟滚动场景可以设置 `ellipsis="performant-ellipsis"`；设置 `:ellipsis="false"` 可关闭内置省略。使用 `#option` 插槽后，选项内容完全由插槽控制。
+
+<DemoBlock source={cascaderEllipsisSource} mainFile="src/cascader-ellipsis.vue">
+
+<CascaderEllipsisDemo client:only="vue" />
+
+</DemoBlock>
+
 ### 虚拟列表
 
 当前示例会在大体量子选项列里对比默认固定模式和显式 `itemSize` 写法，更适合验证级联面板在真实大数据量下的滚动表现。对于典型的多列菜单，默认固定高度通常就是最稳的配置。
@@ -225,6 +237,7 @@ import cascaderVirtualSource from '../../../../components/generated/cascader/vir
 | disabled | 是否禁用 | `boolean` | `false` |  |
 | error | 是否为错误状态 | `boolean` | `false` |  |
 | size | 选择框的大小 | `'mini' \| 'small' \| 'medium' \| 'large'` | `'medium'` |  |
+| ellipsis | 是否使用 Ellipsis 渲染默认选项；`performant-ellipsis` 使用高性能实现，`false` 关闭 | `boolean \| 'performant-ellipsis'` | `true` |  |
 | allow-search | 是否允许搜索，兼容 `filterable` 别名 | `boolean` | `false (single) \| true (multiple)` |  |
 | filterable | `allow-search` 的兼容别名 | `boolean` | `-` |  |
 | allow-clear | 是否允许清除，兼容 `clearable` 别名 | `boolean` | `false` |  |
@@ -297,6 +310,7 @@ import cascaderVirtualSource from '../../../../components/generated/cascader/vir
 | model-value **(v-model)** | 绑定值 | `CascaderModelValue` | `-` |  |
 | default-value | 默认值（非受控状态） | `CascaderModelValue` | `'' \| undefined \| []` |  |
 | options | 级联选择器的选项 | `CascaderOption[]` | `[]` |  |
+| ellipsis | 是否使用 Ellipsis 渲染默认选项；`performant-ellipsis` 使用高性能实现，`false` 关闭 | `boolean \| 'performant-ellipsis'` | `true` |  |
 | expand-trigger | 展开下一级的触发方式 | `'click' \| 'hover'` | `'click'` |  |
 | check-strictly | 是否开启严格选择模式 | `boolean` | `false` |  |
 | load-more | 数据懒加载函数 | `(option: CascaderOption, done: (children?: CascaderOption[]) => void) => void` | `-` | 2.13.0 |

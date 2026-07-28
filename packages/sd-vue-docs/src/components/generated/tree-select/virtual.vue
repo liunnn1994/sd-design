@@ -1,37 +1,3 @@
-<template>
-  <div class="sd:w-90">
-    <sd-radio-group v-model="size" type="button" class="sd:mb-3">
-      <sd-radio value="mini">mini</sd-radio>
-      <sd-radio value="small">small</sd-radio>
-      <sd-radio value="medium">medium</sd-radio>
-      <sd-radio value="large">large</sd-radio>
-    </sd-radio-group>
-
-    <sd-radio-group v-model="mode" type="button" class="sd:mb-3">
-      <sd-radio value="default">默认固定高度</sd-radio>
-      <sd-radio value="explicit">显式设置 itemSize</sd-radio>
-      <sd-radio value="dynamic">动态高度</sd-radio>
-    </sd-radio-group>
-
-    <div class="sd:mb-3 sd:text-[var(--color-text-2)] sd:text-xs sd:leading-[1.5]">
-      {{ helperText }}
-    </div>
-
-    <sd-tree-select
-      :data="treeData"
-      :size="size"
-      :allow-search="{
-        retainInputValue: true,
-      }"
-      multiple
-      tree-checkable
-      tree-checked-strategy="parent"
-      :trigger-props="{ popupStyle: { maxHeight: '240px' } }"
-      :virtual-list-props="virtualListProps"
-      placeholder="Select nodes"
-    />
-  </div>
-</template>
 <script setup lang="ts">
   import type { Size, TreeNodeData } from '@sdata/web-vue';
 
@@ -63,30 +29,71 @@
   }
 
   const size = ref<Size>('medium');
-  const mode = ref<'default' | 'explicit' | 'dynamic'>('default');
+  const mode = ref<'disabled' | 'enabled' | 'explicit'>('disabled');
   const treeData = loop();
 
   const helperText = computed(() => {
-    if (mode.value === 'default') {
-      return `TreeSelect 现在支持直接使用 virtual-list-props，并会将 ${size.value} 行映射为默认的 ${sizeToItemSize[size.value]}px 高度。`;
+    if (mode.value === 'disabled') {
+      return '未传入任何虚拟滚动配置时，TreeSelect 会完整渲染当前展开的节点。';
     }
 
-    if (mode.value === 'explicit') {
-      return `显式设置 itemSize 可保持弹出层在相同的 ${sizeToItemSize[size.value]}px 固定行网格中。`;
+    if (mode.value === 'enabled') {
+      return `virtual-scroll=true 会显式启用虚拟滚动，并使用 ${size.value} 尺寸对应的 ${sizeToItemSize[size.value]}px 固定行高。`;
     }
 
-    return `动态模式下，minItemSize 设置为 ${sizeToItemSize[size.value]}，用于可展开的可变高度树行。`;
+    return `virtual-list-props 可进一步设置 itemSize、height 和 buffer；当前 itemSize 为 ${sizeToItemSize[size.value]}px。`;
   });
 
-  const virtualListProps = computed(() => {
-    if (mode.value === 'default') {
+  const virtualBindings = computed(() => {
+    if (mode.value === 'disabled') {
       return {};
     }
 
-    if (mode.value === 'explicit') {
-      return { itemSize: sizeToItemSize[size.value], buffer: 220 };
+    if (mode.value === 'enabled') {
+      return { virtualScroll: true };
     }
 
-    return { minItemSize: sizeToItemSize[size.value], buffer: 220 };
+    return {
+      virtualListProps: {
+        itemSize: sizeToItemSize[size.value],
+        height: 240,
+        buffer: 220,
+      },
+    };
   });
 </script>
+
+<template>
+  <div class="sd:w-90">
+    <sd-radio-group v-model="size" type="button" class="sd:mb-3">
+      <sd-radio value="mini">mini</sd-radio>
+      <sd-radio value="small">small</sd-radio>
+      <sd-radio value="medium">medium</sd-radio>
+      <sd-radio value="large">large</sd-radio>
+    </sd-radio-group>
+
+    <sd-radio-group v-model="mode" type="button" class="sd:mb-3">
+      <sd-radio value="disabled">默认不启用</sd-radio>
+      <sd-radio value="enabled">virtual-scroll=true</sd-radio>
+      <sd-radio value="explicit">virtual-list-props</sd-radio>
+    </sd-radio-group>
+
+    <div class="sd:mb-3 sd:text-[var(--color-text-2)] sd:text-xs sd:leading-[1.5]">
+      {{ helperText }}
+    </div>
+
+    <sd-tree-select
+      v-bind="virtualBindings"
+      :data="treeData"
+      :size="size"
+      :allow-search="{
+        retainInputValue: true,
+      }"
+      multiple
+      tree-checkable
+      tree-checked-strategy="parent"
+      :trigger-props="{ popupStyle: { maxHeight: '240px' } }"
+      placeholder="请选择节点"
+    />
+  </div>
+</template>

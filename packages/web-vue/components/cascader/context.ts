@@ -13,6 +13,7 @@ export interface CascaderContext {
   slots: Slots;
   valueMap: Map<string, CascaderSingleValue>;
   expandTrigger: 'click' | 'hover';
+  ellipsis: boolean | 'performant-ellipsis';
 }
 
 export const cascaderInjectionKey: InjectionKey<CascaderContext> = Symbol('SDCascader');

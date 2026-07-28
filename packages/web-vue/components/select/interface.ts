@@ -96,6 +96,7 @@ export type SelectFallbackOption = (value: SelectOptionValue) => SelectOptionDat
 
 export interface SelectProps extends FitWidthProps {
   options?: SelectOption[];
+  ellipsis?: boolean | 'performant-ellipsis';
   multiple?: boolean;
   value?: SelectModelValue;
   modelValue?: SelectModelValue;

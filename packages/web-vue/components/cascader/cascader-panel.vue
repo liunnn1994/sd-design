@@ -47,6 +47,7 @@
   const props = withDefaults(defineProps<CascaderPanelProps>(), {
     pathMode: false,
     multiple: false,
+    ellipsis: true,
     options: () => [],
     expandTrigger: 'click',
     checkStrictly: false,
@@ -78,6 +79,7 @@
     expandChild,
     expandTrigger,
     multiple,
+    ellipsis,
     pathMode,
   } = toRefs(props);
 
@@ -238,6 +240,7 @@
       slots,
       valueMap: computedValueMap,
       expandTrigger: expandTrigger.value,
+      ellipsis: ellipsis.value,
     }),
   );
 

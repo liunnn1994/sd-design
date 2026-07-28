@@ -168,6 +168,7 @@
   const props = withDefaults(defineProps<CascaderProps>(), {
     pathMode: false,
     multiple: false,
+    ellipsis: true,
     options: () => [],
     disabled: false,
     readonly: false,
@@ -227,6 +228,7 @@
     expandChild,
     pathMode,
     multiple,
+    ellipsis,
     popupVisible,
     show,
     defaultPopupVisible,
@@ -626,6 +628,7 @@
       setSelectedPath,
       loadMore,
       expandTrigger,
+      ellipsis,
       addLazyLoadOptions,
       formatLabel,
       separator: props.separator,

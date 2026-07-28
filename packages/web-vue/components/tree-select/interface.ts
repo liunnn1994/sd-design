@@ -64,6 +64,7 @@ export interface TreeSelectProps extends FitWidthProps {
   fieldNames: TreeFieldNames | undefined;
   data: TreeNodeData[];
   options: TreeNodeData[] | undefined;
+  ellipsis: TreeProps['ellipsis'] | undefined;
   labelInValue: boolean;
   treeCheckable: boolean;
   checkable: boolean | undefined;

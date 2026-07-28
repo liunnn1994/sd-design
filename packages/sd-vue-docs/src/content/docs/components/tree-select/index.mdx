@@ -14,6 +14,8 @@ import TreeSelectControlDemo from '../../../../components/generated/tree-select/
 import treeSelectControlSource from '../../../../components/generated/tree-select/control.vue?raw';
 import TreeSelectDropdownSlotsDemo from '../../../../components/generated/tree-select/dropdown-slots.vue';
 import treeSelectDropdownSlotsSource from '../../../../components/generated/tree-select/dropdown-slots.vue?raw';
+import TreeSelectEllipsisDemo from '../../../../components/generated/tree-select/ellipsis.vue';
+import treeSelectEllipsisSource from '../../../../components/generated/tree-select/ellipsis.vue?raw';
 import TreeSelectFallbackDemo from '../../../../components/generated/tree-select/fallback.vue';
 import treeSelectFallbackSource from '../../../../components/generated/tree-select/fallback.vue?raw';
 import TreeSelectFieldNamesDemo from '../../../../components/generated/tree-select/field-names.vue';
@@ -187,11 +189,21 @@ import treeSelectVirtualSource from '../../../../components/generated/tree-selec
 
 </DemoBlock>
 
+### 选项文本省略
+
+默认情况下，每个树节点都会使用 `Ellipsis` 处理溢出文本。大数据量或虚拟滚动场景可以设置 `ellipsis="performant-ellipsis"`；设置 `:ellipsis="false"` 可关闭内置省略。使用 `#tree-slot-title` 插槽后，节点标题完全由插槽控制。
+
+<DemoBlock source={treeSelectEllipsisSource} mainFile="src/tree-select-ellipsis.vue">
+
+<TreeSelectEllipsisDemo client:only="vue" />
+
+</DemoBlock>
+
 ### 虚拟列表
 
-当前示例会同时展示三种常见写法：直接传空对象使用默认固定高度、显式传 `itemSize` 固定模式、显式传 `minItemSize` 动态模式。这样可以直接验证 `TreeSelect` 现在已经支持顶层 `virtual-list-props`，而不需要再通过旧的内部透传路径开启虚拟列表。
+`TreeSelect` 默认不启用虚拟滚动。当前示例对比未配置虚拟滚动、设置 `virtual-scroll="true"` 和传入 `virtual-list-props` 三种写法，所有虚拟滚动行为都需要用户显式开启。
 
-通过指定 `virtual-list-props` 来开启虚拟列表，在大量数据时获得高性能表现。`TreeSelect` 内部树节点默认按尺寸走固定高度模式：`mini / small / medium / large` 分别对应 `24 / 28 / 32 / 36`。如果你没有显式传 `itemSize` 或 `minItemSize`，组件会按内部 `Tree size` 自动补齐固定高度；如果你需要动态树节点高度或虚拟模式下的展开动画，请显式改传 `minItemSize`。完整参数可参考 [LLMs.txt](/llms_txt/)。
+设置 `virtual-scroll="true"` 会使用组件内置的虚拟列表默认配置；传入 `virtual-list-props` 可以继续设置 `height`、`itemSize` 和 `buffer`。树节点固定行高会随 `mini / small / medium / large` 尺寸分别使用 `24 / 28 / 32 / 36`。设置 `virtual-scroll="false"` 会强制关闭包括 `virtual-list-props` 和 `tree-props.virtualListProps` 在内的虚拟列表配置。完整参数可参考 [LLMs.txt](/llms_txt/)。
 
 <DemoBlock source={treeSelectVirtualSource} mainFile="src/tree-select-virtual.vue">
 
@@ -211,6 +223,7 @@ import treeSelectVirtualSource from '../../../../components/generated/tree-selec
 | error | 是否为错误状态 | `boolean` | `false` |  |
 | size | 选择框的大小 | `'mini' \| 'small' \| 'medium' \| 'large'` | `'medium'` |  |
 | border | 是否显示边框 | `boolean` | `true` |  |
+| ellipsis | 是否使用 Ellipsis 渲染默认节点；`performant-ellipsis` 使用高性能实现，`false` 关闭 | `boolean \| 'performant-ellipsis'` | `true` |  |
 | allow-search | 是否允许搜索，兼容 `filterable` 别名 | `boolean \| { retainInputValue?: boolean }` | `false (single) \| true (multiple)` |  |
 | filterable | `allow-search` 的兼容别名 | `boolean` | `-` |  |
 | allow-clear | 是否允许清除，兼容 `clearable` 别名 | `boolean` | `false` |  |
@@ -235,7 +248,8 @@ import treeSelectVirtualSource from '../../../../components/generated/tree-selec
 | separator | `show-path` 开启时的路径分隔符 | `string` | `' / '` |  |
 | tree-props | 可以接受所有 [Tree](/components/tree/) 组件的Props | `Partial<TreeProps>` | `-` |  |
 | trigger-props | 可以接受所有 [Trigger](/components/trigger/) 组件的Props | `Partial<TriggerProps>` | `-` |  |
-| virtual-scroll | Naive 兼容开关。设为 `false` 时会关闭通过 `virtual-list-props` 或 `treeProps.virtualListProps` 注入的虚拟列表配置 | `boolean` | `-` |  |
+| virtual-list-props | 虚拟列表配置，传入此参数会显式启用虚拟滚动 | `VirtualListProps` | `-` |  |
+| virtual-scroll | 虚拟滚动开关；`true` 使用默认配置显式启用，`false` 强制关闭所有虚拟列表配置，未设置时不启用 | `boolean` | `-` |  |
 | popup-visible **(v-model)** | 弹出框是否可见 | `boolean` | `-` |  |
 | default-popup-visible | 默认弹出框是否可见 | `boolean` | `false` |  |
 | dropdown-style | 下拉框样式 | `CSSProperties` | `-` |  |

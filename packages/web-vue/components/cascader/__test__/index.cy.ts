@@ -109,9 +109,35 @@ describe('Cascader', () => {
     });
   });
 
-  it('renders default option with performant ellipsis', () => {
+  it('renders every default option with Ellipsis', () => {
     mountCascader({ props: { options, defaultPopupVisible: true } });
-    cy.get('.sd-cascader-dropdown-panel .sd-ellipsis').should('exist');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.findAllComponents({ name: 'Ellipsis' })).to.have.length(2);
+      expect(wrapper.findComponent({ name: 'PerformantEllipsis' }).exists()).to.equal(false);
+    });
+  });
+
+  it('left-aligns option button content', () => {
+    mountCascader({ props: { options, defaultPopupVisible: true } });
+    cy.get('.sd-cascader-option').should('have.css', 'text-align', 'left');
+  });
+
+  it('supports performant and disabled option ellipsis modes', () => {
+    mountCascader({
+      props: {
+        options,
+        defaultPopupVisible: true,
+        ellipsis: 'performant-ellipsis',
+      },
+    });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.findAllComponents({ name: 'PerformantEllipsis' })).to.have.length(2);
+    });
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ ellipsis: false })));
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.findComponent({ name: 'Ellipsis' }).exists()).to.equal(false);
+      expect(wrapper.findComponent({ name: 'PerformantEllipsis' }).exists()).to.equal(false);
+    });
   });
 
   it('renders the option slot and ignores the option render function', () => {
