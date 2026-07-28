@@ -1,3 +1,12 @@
+# [3.20.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.19.0...web-vue-v3.20.0) (2026-07-28)
+
+
+### Features
+
+* 🆕 spin 添加 delay 参数 ([35b4c32](https://github.com/liunnn1994/sd-design/commit/35b4c32398cfe98610c6d86524a7f9fe5e963748))
+* 🆕 不再支持浏览器自带的语音识别，改为语音采集 ([57f04c5](https://github.com/liunnn1994/sd-design/commit/57f04c5dc53399fefe23f51e5c0889bb49f10b71))
+* 🆕 新增定义 suffix 位置的功能 ([3c37fa5](https://github.com/liunnn1994/sd-design/commit/3c37fa5c5ec75b702eee7c6e02cae4157c01796a))
+
 # [3.19.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.18.0...web-vue-v3.19.0) (2026-07-27)
 
 
