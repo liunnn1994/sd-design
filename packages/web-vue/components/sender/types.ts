@@ -4,6 +4,7 @@ import type { TooltipProps } from '../tooltip';
 
 export type SenderSubmitType = 'enter' | 'shiftEnter';
 export type SenderInsertPosition = 'start' | 'end' | 'cursor';
+export type SenderSuffixPlacement = 'content' | 'footer';
 export type SenderSemanticType =
   | 'root'
   | 'prefix'
@@ -321,6 +322,11 @@ export interface SenderProps {
    * @en Whether to show the default action area
    */
   showActions?: boolean;
+  /**
+   * @zh 后缀操作区的渲染位置
+   * @en Render location of the suffix action area
+   */
+  suffixPlacement?: SenderSuffixPlacement;
   /**
    * @zh 替换内部输入组件
    * @en Replace internal input components

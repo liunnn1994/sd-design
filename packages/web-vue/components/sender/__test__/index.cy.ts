@@ -387,9 +387,53 @@ describe('Sender', () => {
 
     cy.get('.custom-header').should('contain.text', '引用内容');
     cy.get('.custom-prefix').should('exist');
-    cy.get('.custom-suffix').should('exist');
-    cy.get('.custom-footer').should('contain.text', '快捷提示');
+    cy.get('.sd-sender-content > .sd-sender-actions-list .custom-suffix').should('exist');
+    cy.get('.sd-sender-footer > .sd-sender-footer-content .custom-footer').should(
+      'contain.text',
+      '快捷提示',
+    );
     cy.get('button[aria-label="发送"]').should('not.exist');
+  });
+
+  it('renders the suffix on the right side of the footer', () => {
+    cy.mount(Sender, {
+      props: {
+        defaultValue: '待发送内容',
+        suffixPlacement: 'footer',
+      },
+      slots: {
+        suffix: '<button class="custom-suffix">发送</button>',
+        footer: '<div class="custom-footer">左侧提示</div>',
+      },
+    });
+
+    cy.get('.sd-sender-content > .sd-sender-actions-list').should('not.exist');
+    cy.get('.sd-sender-footer').within(() => {
+      cy.get('> .sd-sender-footer-content .custom-footer').should('contain.text', '左侧提示');
+      cy.get('> .sd-sender-footer-suffix > .sd-sender-actions-list .custom-suffix').should(
+        'contain.text',
+        '发送',
+      );
+    });
+
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ suffixPlacement: 'content' }));
+    cy.get('.sd-sender-content > .sd-sender-actions-list .custom-suffix').should('exist');
+    cy.get('.sd-sender-footer > .sd-sender-footer-content .custom-footer').should('exist');
+    cy.get('.sd-sender-footer-suffix').should('not.exist');
+  });
+
+  it('renders a footer suffix without requiring the footer slot', () => {
+    cy.mount(Sender, {
+      props: {
+        suffixPlacement: 'footer',
+      },
+    });
+
+    cy.get('.sd-sender-footer > .sd-sender-footer-suffix > .sd-sender-actions-list')
+      .should('exist')
+      .find('button[aria-label="发送"]')
+      .should('exist');
+    cy.get('.sd-sender-footer-content').should('not.exist');
   });
 
   it('emits pasted files without inserting them into the textarea', () => {

@@ -1,4 +1,66 @@
 <template>
+  <DefineSuffix>
+    <div :class="[`${prefixCls}-actions-list`, classNames?.suffix]" :style="styles?.suffix">
+      <slot name="suffix" :actions="actionContext">
+        <div :class="`${prefixCls}-actions-list-presets`">
+          <Button
+            v-if="allowSpeech"
+            type="text"
+            :loading="speechRequesting"
+            :disabled="actionContext.speechDisabled"
+            :title="speechStatusText"
+            :class="[
+              `${prefixCls}-actions-btn`,
+              {
+                [`${prefixCls}-actions-btn-disabled`]: actionContext.speechDisabled,
+              },
+            ]"
+            :aria-label="speechStatusText"
+            @click="triggerSpeech()"
+          >
+            <template #icon>
+              <RecordingIcon v-if="recording" :class="`${prefixCls}-actions-btn-recording-icon`" />
+              <IconMute v-else-if="actionContext.speechDisabled" />
+              <IconVoice v-else />
+            </template>
+          </Button>
+
+          <Button
+            v-if="loading"
+            type="text"
+            shape="circle"
+            :disabled="actionContext.cancelDisabled"
+            :class="[`${prefixCls}-actions-btn`, `${prefixCls}-actions-btn-loading-button`]"
+            :aria-label="t('sender.stopGenerating')"
+            @click="triggerCancel"
+          >
+            <template #icon>
+              <StopLoadingIcon :class="`${prefixCls}-actions-btn-loading-icon`" />
+            </template>
+          </Button>
+          <Button
+            v-else
+            type="primary"
+            shape="circle"
+            :disabled="actionContext.submitDisabled"
+            :class="[
+              `${prefixCls}-actions-btn`,
+              {
+                [`${prefixCls}-actions-btn-disabled`]: actionContext.submitDisabled,
+              },
+            ]"
+            :aria-label="t('sender.send')"
+            @click="triggerSend"
+          >
+            <template #icon>
+              <IconArrowUp />
+            </template>
+          </Button>
+        </div>
+      </slot>
+    </div>
+  </DefineSuffix>
+
   <Tooltip
     :popup-visible="readonlyTipVisible"
     :content="readonlyTipText"
@@ -115,80 +177,23 @@
           @blur="emit('blur', $event)"
         />
 
-        <div
-          v-if="showActions"
-          :class="[`${prefixCls}-actions-list`, classNames?.suffix]"
-          :style="styles?.suffix"
-        >
-          <slot name="suffix" :actions="actionContext">
-            <div :class="`${prefixCls}-actions-list-presets`">
-              <Button
-                v-if="allowSpeech"
-                type="text"
-                :loading="speechRequesting"
-                :disabled="actionContext.speechDisabled"
-                :title="speechStatusText"
-                :class="[
-                  `${prefixCls}-actions-btn`,
-                  {
-                    [`${prefixCls}-actions-btn-disabled`]: actionContext.speechDisabled,
-                  },
-                ]"
-                :aria-label="speechStatusText"
-                @click="triggerSpeech()"
-              >
-                <template #icon>
-                  <RecordingIcon
-                    v-if="recording"
-                    :class="`${prefixCls}-actions-btn-recording-icon`"
-                  />
-                  <IconMute v-else-if="actionContext.speechDisabled" />
-                  <IconVoice v-else />
-                </template>
-              </Button>
-
-              <Button
-                v-if="loading"
-                type="text"
-                shape="circle"
-                :disabled="actionContext.cancelDisabled"
-                :class="[`${prefixCls}-actions-btn`, `${prefixCls}-actions-btn-loading-button`]"
-                :aria-label="t('sender.stopGenerating')"
-                @click="triggerCancel"
-              >
-                <template #icon>
-                  <StopLoadingIcon :class="`${prefixCls}-actions-btn-loading-icon`" />
-                </template>
-              </Button>
-              <Button
-                v-else
-                type="primary"
-                shape="circle"
-                :disabled="actionContext.submitDisabled"
-                :class="[
-                  `${prefixCls}-actions-btn`,
-                  {
-                    [`${prefixCls}-actions-btn-disabled`]: actionContext.submitDisabled,
-                  },
-                ]"
-                :aria-label="t('sender.send')"
-                @click="triggerSend"
-              >
-                <template #icon>
-                  <IconArrowUp />
-                </template>
-              </Button>
-            </div>
-          </slot>
-        </div>
+        <ReuseSuffix v-if="showActions && suffixPlacement === 'content'" />
       </div>
 
       <div
-        v-if="$slots.footer"
+        v-if="$slots.footer || (showActions && suffixPlacement === 'footer')"
         :class="[`${prefixCls}-footer`, classNames?.footer]"
         :style="styles?.footer"
       >
-        <slot name="footer" :actions="actionContext" />
+        <div v-if="$slots.footer" :class="`${prefixCls}-footer-content`">
+          <slot name="footer" :actions="actionContext" />
+        </div>
+        <div
+          v-if="showActions && suffixPlacement === 'footer'"
+          :class="`${prefixCls}-footer-suffix`"
+        >
+          <ReuseSuffix />
+        </div>
       </div>
     </div>
   </Tooltip>
@@ -211,6 +216,7 @@
     watch,
   } from 'vue';
 
+  import { createReusableTemplate } from '@vueuse/core';
   import { INSERT_LINE_BREAK_COMMAND } from 'lexical';
 
   import type {
@@ -257,11 +263,13 @@
     submitType: 'enter',
     autoSize: () => ({ maxRows: 8 }),
     showActions: true,
+    suffixPlacement: 'content',
     classNames: () => ({}),
     styles: () => ({}),
   });
   const emit = defineEmits<SenderEmits>();
   const { t } = useI18n();
+  const [DefineSuffix, ReuseSuffix] = createReusableTemplate();
 
   const RenderContent = defineComponent({
     name: 'SenderRenderContent',

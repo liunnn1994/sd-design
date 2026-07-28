@@ -67,7 +67,7 @@ import senderAgentSource from '../../../../components/generated/sender/agent.vue
 
 ### 自定义操作区
 
-`prefix`、`suffix`、`footer` 都是 Vue 插槽。`suffix` 插槽会替换默认操作按钮，并提供与默认行为一致的 `actions`。
+`prefix`、`suffix`、`footer` 都是 Vue 插槽。`suffix` 插槽会替换默认操作按钮，并提供与默认行为一致的 `actions`。默认情况下 suffix 位于输入区右侧；设置 `suffix-placement="footer"` 后，suffix 会移动到 `.sd-sender-footer` 右侧，footer 插槽只负责左侧内容。
 
 <DemoBlock source={senderCustomActionsSource} mainFile="src/sender-custom-actions.vue">
 
@@ -187,6 +187,7 @@ import senderAgentSource from '../../../../components/generated/sender/agent.vue
 | auto-size | 输入区自适应高度 | `boolean \| { minRows?: number; maxRows?: number }` | `{ maxRows: 8 }` |
 | placeholder | 占位文本 | `string` | - |
 | show-actions | 是否显示后缀操作区 | `boolean` | `true` |
+| suffix-placement | 后缀操作区位置；`footer` 时位于 footer 右侧 | `'content' \| 'footer'` | `'content'` |
 | components | 替换内部输入组件 | `{ input?: Component }` | - |
 | class-names | 语义化节点类名 | `Partial<Record<SenderSemanticType, string>>` | - |
 | styles | 语义化节点样式 | `Partial<Record<SenderSemanticType, CSSProperties>>` | - |
@@ -218,7 +219,7 @@ import senderAgentSource from '../../../../components/generated/sender/agent.vue
 | header | 输入区上方的头部面板 | `{ actions }` |
 | prefix | 输入区左侧内容 | `{ actions }` |
 | suffix | 输入区右侧操作区；使用后替换默认操作 | `{ actions }` |
-| footer | 输入区下方内容 | `{ actions }` |
+| footer | Footer 左侧内容；不再独立控制整个 footer 是否显示 | `{ actions }` |
 | skill-title | 自定义技能标题 | `{ skill }` |
 | skill-close-icon | 自定义技能关闭图标 | `{ skill }` |
 | slot-_key_ | 自定义 `custom` 词槽 | `{ value, item, disabled, readonly, onChange }` |

@@ -1,5 +1,11 @@
 <template>
-  <sd-sender v-model="value" :loading="loading" @submit="handleSubmit" @cancel="loading = false">
+  <sd-sender
+    v-model="value"
+    :loading="loading"
+    suffix-placement="footer"
+    @submit="handleSubmit"
+    @cancel="loading = false"
+  >
     <template #prefix>
       <sd-button type="text" size="small">附件</sd-button>
     </template>

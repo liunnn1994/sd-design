@@ -65,6 +65,7 @@ export type {
   SenderSlotConfig,
   SenderSlotConfigBase,
   SenderSubmitType,
+  SenderSuffixPlacement,
   SenderSwitchProps,
   SenderTagSlotConfig,
   SenderTextSlotConfig,

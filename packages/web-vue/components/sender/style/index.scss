@@ -128,9 +128,22 @@ $sender-prefix-cls: string.unquote('#{theme.$prefix}-sender');
   }
 
   &-footer {
+    display: flex;
+    gap: $sender-content-gap;
+    align-items: center;
     box-sizing: border-box;
     padding-block: $sender-footer-padding-top $sender-padding-block;
     padding-inline: $sender-padding-inline;
+
+    &-content {
+      flex: auto;
+      min-width: 0;
+    }
+
+    &-suffix {
+      flex: none;
+      margin-inline-start: auto;
+    }
   }
 
   &-header {
