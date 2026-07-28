@@ -1,3 +1,11 @@
+# [3.21.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.20.0...web-vue-v3.21.0) (2026-07-28)
+
+
+### Features
+
+* 🆕 Cascader、TimePicker、ColorPicker、DatePicker 全系列添加自定义元素功能 ([e39d9c2](https://github.com/liunnn1994/sd-design/commit/e39d9c241ecc55e82b2955ceda74491ff0c84a72))
+* 🆕 移除package.json中的版本号，由tag决定版本 ([832310c](https://github.com/liunnn1994/sd-design/commit/832310c41d38c39196be161cf156cb6e61acf01f))
+
 # [3.20.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.19.0...web-vue-v3.20.0) (2026-07-28)
 
 
