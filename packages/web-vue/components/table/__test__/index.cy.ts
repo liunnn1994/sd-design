@@ -1,7 +1,8 @@
-import { reactive, ref } from 'vue';
+import { h, reactive, ref } from 'vue';
 
 import type { TableColumnData, TableData } from '../interface';
 
+import ConfigProvider from '../../config-provider';
 import Table from '../table';
 
 const demoData: TableData[] = [
@@ -124,5 +125,26 @@ describe('Table', () => {
     cy.get('.sd-table-td').first().should('have.attr', 'role', 'cell');
     // 可排序列（未排序时）aria-sort=none
     cy.get('.sd-table-th').eq(1).should('have.attr', 'aria-sort', 'none');
+  });
+
+  it('merges ConfigProvider tableSpinProps with local spinProps', () => {
+    cy.mount(() =>
+      h(
+        ConfigProvider,
+        {
+          spinProps: { size: 12, tip: 'Global tip' },
+          tableSpinProps: { size: 31, tip: 'Table tip' },
+        },
+        () =>
+          h(Table, {
+            columns: demoColumns,
+            data: demoData,
+            loading: true,
+            spinProps: { tip: 'Local tip' },
+          }),
+      ),
+    );
+    cy.get('.sd-spin-icon').should('have.css', 'font-size', '31px');
+    cy.get('.sd-spin-tip').should('have.text', 'Local tip');
   });
 });

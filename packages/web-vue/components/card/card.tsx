@@ -8,12 +8,16 @@ import {
   VNode,
   toRefs,
   CSSProperties,
+  inject,
 } from 'vue';
+
+import type { SpinProps } from '../spin';
 
 import { useScrollbar } from '../_hooks/use-scrollbar';
 import { useSize } from '../_hooks/use-size';
 import { getPrefixCls } from '../_utils/global-config';
 import { getAllElements } from '../_utils/vue-utils';
+import { configProviderInjectionKey } from '../config-provider/context';
 import Scrollbar, { type ScrollbarProps } from '../scrollbar';
 import Spin from '../spin';
 import { cardInjectionKey } from './context';
@@ -40,6 +44,13 @@ export default defineComponent({
     loading: {
       type: Boolean,
       default: false,
+    },
+    /**
+     * @zh 传递给加载中 Spin 的属性
+     * @en Props passed to the loading Spin
+     */
+    spinProps: {
+      type: Object as PropType<SpinProps>,
     },
     /**
      * @zh 是否可悬浮
@@ -127,6 +138,11 @@ export default defineComponent({
    * @slot actions
    */
   setup(props, { slots }) {
+    const configCtx = inject(configProviderInjectionKey, undefined);
+    const mergedSpinProps = computed(() => ({
+      ...configCtx?.cardSpinProps,
+      ...props.spinProps,
+    }));
     const prefixCls = getPrefixCls('card');
     const { size } = toRefs(props);
     const { mergedSize: _mergedSize } = useSize(size);
@@ -206,7 +222,7 @@ export default defineComponent({
           {slots.cover && <div class={`${prefixCls}-cover`}>{slots.cover()}</div>}
           <div class={bodyCls.value} style={props.bodyStyle}>
             {props.loading ? (
-              <Spin />
+              <Spin {...mergedSpinProps.value} />
             ) : scrollEnabled.value ? (
               <Scrollbar {...scrollbarProps.value} outerClass={`${prefixCls}-body-scrollbar`}>
                 {slots.default?.()}

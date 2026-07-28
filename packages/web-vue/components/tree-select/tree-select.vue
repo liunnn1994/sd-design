@@ -74,7 +74,7 @@
             <slot name="header" />
           </div>
           <slot v-if="loading" name="loader">
-            <Spin />
+            <Spin v-bind="resolvedSpinProps" />
           </slot>
           <slot v-else-if="isEmpty" name="empty">
             <component :is="TreeSelectEmpty || Empty" />
@@ -129,6 +129,7 @@
   } from 'vue';
 
   import type { FloatingOptions } from '../_utils/floating';
+  import type { SpinProps } from '../spin';
 
   import { SelectViewValue } from '../_components/select-view/interface';
   import SelectView from '../_components/select-view/select-view';
@@ -183,6 +184,13 @@
      * */
     loading: {
       type: Boolean,
+    },
+    /**
+     * @zh 传递给加载中 Spin 的属性
+     * @en Props passed to the loading Spin
+     */
+    spinProps: {
+      type: Object as PropType<SpinProps>,
     },
     /**
      * @zh 是否为错误状态
@@ -673,6 +681,10 @@
   });
   const prefixCls = getPrefixCls('tree-select');
   const configCtx = inject(configProviderInjectionKey, undefined);
+  const resolvedSpinProps = computed(() => ({
+    ...configCtx?.treeSelectSpinProps,
+    ...props.spinProps,
+  }));
   const { mergedAllowSearch } = useAllowSearch(
     computed(() => props.allowSearch),
     {

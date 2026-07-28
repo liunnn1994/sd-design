@@ -34,7 +34,7 @@
       </Toolbar>
     </header>
 
-    <Spin :loading="loading" :class="`${prefixCls}-body`">
+    <Spin v-bind="resolvedSpinProps" :loading="loading" :class="`${prefixCls}-body`">
       <Table
         v-bind="tableProps"
         :scroll="resolvedTableScroll"
@@ -134,6 +134,7 @@
     columns,
     tableProps = {},
     toolbarProps = {},
+    spinProps,
     modalProps = {},
     modalFormProps = { schemas: [] },
     fullHeight = false,
@@ -181,6 +182,10 @@
 
   const slots = useSlots();
   const configProvider = inject(configProviderInjectionKey, undefined);
+  const resolvedSpinProps = computed(() => ({
+    ...configProvider?.basicCrudTableSpinProps,
+    ...spinProps,
+  }));
   const toolbarRef = shallowRef<ToolbarInstance>();
   const modalRef = shallowRef<InstanceType<typeof BasicCrudModal>>();
   const current = shallowRef(resolvePaginationNumber('current', 'defaultCurrent', 1));

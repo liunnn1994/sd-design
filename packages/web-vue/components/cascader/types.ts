@@ -2,6 +2,7 @@ import type { VirtualListProps } from '../_components/virtual-list/interface';
 import type { FitWidthProps } from '../_hooks/use-fit-width';
 import type { Size } from '../_utils/constant';
 import type { FloatingOptions } from '../_utils/floating';
+import type { SpinProps } from '../spin';
 import type { TriggerProps } from '../trigger';
 import type {
   CascaderFallback,
@@ -47,6 +48,7 @@ export interface CascaderProps extends FitWidthProps {
   checkStrictly?: boolean;
   loadMore?: CascaderLoadMore;
   loading?: boolean;
+  spinProps?: SpinProps;
   searchOptionOnlyLabel?: boolean;
   searchDelay?: number;
   fieldNames?: CascaderFieldNames;

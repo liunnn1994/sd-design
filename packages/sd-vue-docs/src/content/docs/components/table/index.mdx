@@ -337,6 +337,7 @@ import tableVirtualListSource from '../../../../components/generated/table/virtu
 | size | 表格的大小 | `'mini' \| 'small' \| 'medium' \| 'large'` | `'large'` |  |
 | table-layout-fixed | 表格的 table-layout 属性设置为 fixed，设置为 fixed 后，表格的宽度不会被内容撑开超出 100%。 | `boolean` | `false` |  |
 | loading | 是否为加载中状态 | `boolean\|object` | `false` |  |
+| spin-props | 传递给加载中 Spin 的属性，优先于 ConfigProvider 的 `table-spin-props` | `SpinProps` | `-` |  |
 | row-selection | 表格的行选择器配置 | `TableRowSelection` | `-` |  |
 | expandable | 表格的展开行配置 | `TableExpandable` | `-` |  |
 | scroll | 表格的滚动属性配置。`2.13.0` 版本增加字符型值的支持。`2.20.0` 版本增加 `minWidth`,`maxHeight` 的支持。 | `{  x?: number \| string;  y?: number \| string;  minWidth?: number \| string;  maxHeight?: number \| string;}` | `-` |  |

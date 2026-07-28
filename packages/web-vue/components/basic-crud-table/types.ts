@@ -2,6 +2,7 @@ import type { UnknownRecord } from 'type-fest';
 
 import type { JsonFormProps } from '../json-form';
 import type ModalComponent from '../modal/modal.vue';
+import type { SpinProps } from '../spin';
 import type { TableColumnData, TableData, TableInstance } from '../table';
 import type { ToolbarProps } from '../toolbar';
 
@@ -34,6 +35,8 @@ export interface BasicCrudTableProps<TRow extends TableData = TableData> {
   tableProps?: BasicCrudTableTableProps;
   /** @zh Toolbar 专属属性 @en Props forwarded only to Toolbar */
   toolbarProps?: BasicCrudTableToolbarProps;
+  /** @zh 加载遮罩 Spin 的属性 @en Props passed to the loading overlay Spin */
+  spinProps?: SpinProps;
   /** @zh Modal 专属属性 @en Props forwarded only to Modal */
   modalProps?: BasicCrudTableModalProps;
   /** @zh 弹窗 JsonForm 专属属性 @en Props forwarded only to the modal JsonForm */

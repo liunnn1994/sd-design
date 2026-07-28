@@ -9,6 +9,7 @@ import type { EllipsisTooltipProps } from '../ellipsis';
 import type { JsonFormProviderConfig } from '../json-form/types';
 import type { SdLang } from '../locale/interface';
 import type { PaginationSelectProps } from '../pagination/interface';
+import type { SpinProps } from '../spin';
 import type { SDThemeNormalized } from './theme';
 
 export interface ConfigProviderModal {
@@ -94,6 +95,17 @@ export interface ConfigProvider {
   drawer?: ConfigProviderDrawer;
   pagination?: ConfigProviderPagination;
   colorPicker?: ConfigProviderColorPicker;
+  spinProps?: SpinProps;
+  basicCrudTableSpinProps?: SpinProps;
+  cardSpinProps?: SpinProps;
+  cascaderSpinProps?: SpinProps;
+  listSpinProps?: SpinProps;
+  qrCodeSpinProps?: SpinProps;
+  selectSpinProps?: SpinProps;
+  tableSpinProps?: SpinProps;
+  timelineSpinProps?: SpinProps;
+  toolbarSpinProps?: SpinProps;
+  treeSelectSpinProps?: SpinProps;
   jsonForm?: JsonFormProviderConfig;
   theme?: SDThemeNormalized;
 }

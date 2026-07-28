@@ -30,4 +30,12 @@ describe('List', () => {
     cy.mount(List, { props: { data: [] } });
     cy.get('.sd-empty').should('exist');
   });
+
+  it('passes spinProps to the loading overlay', () => {
+    cy.mount(List, {
+      props: { data: [], loading: true, spinProps: { tip: '列表加载中', size: 24 } },
+    });
+    cy.get('.sd-list-wrapper .sd-spin-tip').should('have.text', '列表加载中');
+    cy.get('.sd-list-wrapper .sd-spin-icon').should('have.css', 'font-size', '24px');
+  });
 });

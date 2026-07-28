@@ -3,7 +3,7 @@
     <div v-if="$slots.header && (!empty || showHeaderOnEmpty)" :class="`${prefixCls}-header`">
       <slot name="header" />
     </div>
-    <spin v-if="loading" :class="`${prefixCls}-loading`" />
+    <spin v-if="loading" v-bind="spinProps" :class="`${prefixCls}-loading`" />
     <div v-else-if="empty" :class="`${prefixCls}-empty`">
       <slot name="empty">
         <component :is="SelectEmpty || Empty" />
@@ -34,6 +34,7 @@
   import { computed, toRefs, inject, useSlots } from 'vue';
 
   import type { EmitType } from '../_utils/types';
+  import type { SpinProps } from '../spin';
 
   import { useComponentRef } from '../_hooks/use-component-ref';
   import { useScrollbar } from '../_hooks/use-scrollbar';
@@ -47,6 +48,7 @@
 
   const props = defineProps({
     loading: Boolean,
+    spinProps: Object as PropType<SpinProps>,
     empty: Boolean,
     virtualList: Boolean,
     bottomOffset: {

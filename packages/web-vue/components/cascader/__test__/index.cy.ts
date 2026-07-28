@@ -21,6 +21,19 @@ const options = [
 const mountCascader = (opts: Record<string, unknown>) => cy.mount(Cascader, opts);
 
 describe('Cascader', () => {
+  it('passes spinProps to the loading panel', () => {
+    mountCascader({
+      props: {
+        options,
+        loading: true,
+        defaultPopupVisible: true,
+        spinProps: { tip: '级联加载中', dot: true },
+      },
+    });
+    cy.get('.sd-cascader-panel .sd-dot-loading').should('exist');
+    cy.get('.sd-cascader-panel .sd-spin-tip').should('have.text', '级联加载中');
+  });
+
   it('supports the show alias (update:show & showChange)', () => {
     mountCascader({ props: { show: false, options } });
     cy.get('input').click();

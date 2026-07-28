@@ -101,4 +101,15 @@ describe('Toolbar', () => {
     });
     cy.get('.sd-toolbar-expand').should('not.exist');
   });
+
+  it('passes spinProps to the loading overlay', () => {
+    cy.clock();
+    cy.mount(Toolbar, {
+      props: { loading: true, spinProps: { delay: 100, tip: '筛选项加载中' } },
+    });
+    cy.get('.sd-spin-mask').should('not.exist');
+    cy.tick(100);
+    cy.get('.sd-spin-mask').should('exist');
+    cy.get('.sd-spin-tip').should('have.text', '筛选项加载中');
+  });
 });

@@ -3,6 +3,7 @@ import type { Simplify } from 'type-fest';
 import { CSSProperties, RenderFunction, Slots, VNodeChild } from 'vue';
 
 import type { FloatingOptions } from '../_utils/floating';
+import type { SpinProps } from '../spin';
 
 import { BaseType, ClassName, Data } from '../_utils/types';
 import { TriggerProps } from '../trigger';
@@ -489,6 +490,8 @@ export interface TableProps {
   expandable?: TableExpandable;
   pagination?: boolean | Data;
   pagePosition?: string;
+  loading?: boolean | SpinProps;
+  spinProps?: SpinProps;
 }
 
 export type TableRowKey = string | ((record: TableData) => BaseType);

@@ -6,7 +6,7 @@
         <qr-code-status
           :prefix-cls="prefixCls"
           :status="status"
-          :spin-props="spinProps"
+          :spin-props="resolvedSpinProps"
           @refresh="handleRefresh"
         />
       </slot>
@@ -37,7 +37,7 @@
 
 <script lang="ts" setup>
   import type { PropType, StyleValue, VNodeChild } from 'vue';
-  import { computed, defineComponent, nextTick, ref, watch, useSlots } from 'vue';
+  import { computed, defineComponent, inject, nextTick, ref, watch, useSlots } from 'vue';
 
   import QRCode from 'qrcode';
 
@@ -53,6 +53,7 @@
   } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
+  import { configProviderInjectionKey } from '../config-provider/context';
   import { useI18n } from '../locale';
   import QrCodeStatus from './qr-code-status.vue';
 
@@ -221,6 +222,11 @@
   }>();
 
   const { t } = useI18n();
+  const configCtx = inject(configProviderInjectionKey, undefined);
+  const resolvedSpinProps = computed(() => ({
+    ...configCtx?.qrCodeSpinProps,
+    ...props.spinProps,
+  }));
 
   const prefixCls = getPrefixCls('qr-code');
   const canvasRef = ref<HTMLCanvasElement>();

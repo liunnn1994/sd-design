@@ -3,6 +3,7 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
+  inject,
   nextTick,
   ref,
   toRef,
@@ -16,6 +17,7 @@ import type { VirtualListProps } from '../_components/virtual-list/interface';
 import type { Size } from '../_utils/constant';
 import type { FloatingOptions } from '../_utils/floating';
 import type { ScrollbarProps } from '../scrollbar';
+import type { SpinProps } from '../spin';
 import type {
   OptionValueWithKey,
   SelectFieldNames,
@@ -50,6 +52,7 @@ import {
 } from '../_utils/is';
 import { resolveDropdownVirtualListProps } from '../_utils/virtual-dropdown';
 import Checkbox from '../checkbox';
+import { configProviderInjectionKey } from '../config-provider/context';
 import Tooltip from '../tooltip';
 import Trigger, { type TriggerProps } from '../trigger';
 import { useSelect } from './hooks/use-select';
@@ -122,6 +125,13 @@ export default defineComponent({
     loading: {
       type: Boolean,
       default: false,
+    },
+    /**
+     * @zh 传递给下拉加载中 Spin 的属性
+     * @en Props passed to the loading Spin in the dropdown
+     */
+    spinProps: {
+      type: Object as PropType<SpinProps>,
     },
     disabled: {
       type: Boolean,
@@ -268,6 +278,11 @@ export default defineComponent({
     'exceedLimit': (_value: SelectOptionValue | undefined, _ev: Event) => true,
   },
   setup(props, { slots, emit, attrs, expose }) {
+    const configCtx = inject(configProviderInjectionKey, undefined);
+    const mergedSpinProps = computed(() => ({
+      ...configCtx?.selectSpinProps,
+      ...props.spinProps,
+    }));
     const {
       size,
       disabled,
@@ -789,6 +804,7 @@ export default defineComponent({
           'footer': slots.footer,
         }}
         loading={props.loading}
+        spinProps={mergedSpinProps.value}
         empty={validOptionInfos.value.length === 0}
         virtualList={Boolean(resolvedVirtualListProps.value)}
         scrollbar={props.scrollbar}

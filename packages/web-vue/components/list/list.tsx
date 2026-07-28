@@ -14,6 +14,7 @@ import type {
   ScrollIntoViewOptions,
   VirtualListProps,
 } from '../_components/virtual-list/interface';
+import type { SpinProps } from '../spin';
 
 import VirtualList from '../_components/virtual-list';
 import { useComponentRef } from '../_hooks/use-component-ref';
@@ -71,6 +72,13 @@ export default defineComponent({
     loading: {
       type: Boolean,
       default: false,
+    },
+    /**
+     * @zh 传递给加载中 Spin 的属性
+     * @en Props passed to the loading Spin
+     */
+    spinProps: {
+      type: Object as PropType<SpinProps>,
     },
     /**
      * @zh 是否显示选中样式
@@ -183,6 +191,10 @@ export default defineComponent({
     const { scrollbar } = toRefs(props);
     const prefixCls = getPrefixCls('list');
     const configCtx = inject(configProviderInjectionKey, undefined);
+    const mergedSpinProps = computed(() => ({
+      ...configCtx?.listSpinProps,
+      ...props.spinProps,
+    }));
     const { componentRef, elementRef: listRef } = useComponentRef('containerRef');
     const isVirtualList = computed(() => props.virtualListProps);
     const { scrollbarProps } = useScrollbar(scrollbar);
@@ -421,7 +433,7 @@ export default defineComponent({
 
       return (
         <div class={`${prefixCls}-wrapper`} style={wrapperStyle.value}>
-          <Spin class={`${prefixCls}-spin`} loading={props.loading}>
+          <Spin {...mergedSpinProps.value} class={`${prefixCls}-spin`} loading={props.loading}>
             <ContentComponent
               ref={componentRef}
               class={cls.value}

@@ -16,6 +16,16 @@ describe('Timeline', () => {
     cy.get('.sd-timeline-item').should('have.length', 2);
   });
 
+  it('passes spinProps to the pending node', () => {
+    cy.mount(Timeline, {
+      props: { pending: true, spinProps: { dot: true, tip: '等待中' } },
+      global: { components: { TimelineItem: Item } },
+      slots: { default: '<timeline-item>1</timeline-item>' },
+    });
+    cy.get('.sd-dot-loading').should('exist');
+    cy.get('.sd-spin-tip').should('have.text', '等待中');
+  });
+
   it('applies dot type and dot color', () => {
     cy.mount(Item, { props: { label: 'hello world', dotColor: 'rgb(10, 180, 42)' } });
     cy.get('.sd-timeline-item-dot')

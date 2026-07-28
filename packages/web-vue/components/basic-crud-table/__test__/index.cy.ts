@@ -8,6 +8,56 @@ import BasicCrudTable from '../basic-crud-table.vue';
 const columns: TableColumnData[] = [{ title: '名称', dataIndex: 'name' }];
 
 describe('BasicCrudTable', () => {
+  it('透传 spinProps 到列表加载遮罩', () => {
+    cy.mount(BasicCrudTable, {
+      props: {
+        columns,
+        loading: true,
+        fetchTableOnMounted: false,
+        spinProps: { tip: '数据加载中', size: 26 },
+      },
+    });
+    cy.get('.sd-basic-crud-table-body > .sd-spin-mask .sd-spin-tip').should(
+      'have.text',
+      '数据加载中',
+    );
+    cy.get('.sd-basic-crud-table-body > .sd-spin-mask .sd-spin-icon').should(
+      'have.css',
+      'font-size',
+      '26px',
+    );
+  });
+
+  it('合并 ConfigProvider 的 basicCrudTableSpinProps 与局部 spinProps', () => {
+    cy.mount(BasicCrudTable, {
+      props: {
+        columns,
+        loading: true,
+        fetchTableOnMounted: false,
+        spinProps: { tip: '局部提示' },
+      },
+      global: {
+        provide: {
+          [configProviderInjectionKey as symbol]: {
+            slots: {},
+            spinProps: { size: 12 },
+            basicCrudTableSpinProps: { size: 28, dot: true },
+          },
+        },
+      },
+    });
+    cy.get('.sd-basic-crud-table-body > .sd-spin-mask .sd-spin-tip').should(
+      'have.text',
+      '局部提示',
+    );
+    cy.get('.sd-basic-crud-table-body > .sd-spin-mask .sd-dot-loading').should('exist');
+    cy.get('.sd-basic-crud-table-body > .sd-spin-mask .sd-spin-icon').should(
+      'have.css',
+      'font-size',
+      '28px',
+    );
+  });
+
   it('加载数据并透传查询参数', () => {
     const fetchTableApi = cy.stub().resolves({ data: [{ key: 1, name: '监控项' }], total: 1 });
     cy.mount(BasicCrudTable, { props: { columns, fetchTableApi } });

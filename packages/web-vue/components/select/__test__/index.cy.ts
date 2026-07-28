@@ -5,6 +5,19 @@ import Select from '../index';
 const open = () => cy.get('.sd-select-view').click();
 
 describe('Select', () => {
+  it('passes spinProps to the loading dropdown', () => {
+    cy.mount(Select, {
+      props: {
+        options: [],
+        loading: true,
+        defaultPopupVisible: true,
+        spinProps: { tip: '选项加载中', dot: true },
+      },
+    });
+    cy.get('.sd-select-dropdown .sd-dot-loading').should('exist');
+    cy.get('.sd-select-dropdown .sd-spin-tip').should('have.text', '选项加载中');
+  });
+
   it('shows the dropdown', () => {
     cy.mount(Select, { props: { options: ['Beijing', 'Shanghai', 'Guangzhou', 'Chengdu'] } });
     open();

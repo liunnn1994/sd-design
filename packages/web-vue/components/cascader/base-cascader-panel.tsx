@@ -1,5 +1,7 @@
 import { defineComponent, inject, PropType, TransitionGroup } from 'vue';
 
+import type { SpinProps } from '../spin';
+
 import { VirtualListProps } from '../_components/virtual-list/interface';
 import { getPrefixCls } from '../_utils/global-config';
 import { configProviderInjectionKey } from '../config-provider/context';
@@ -27,6 +29,7 @@ export default defineComponent({
     multiple: Boolean,
     checkStrictly: Boolean,
     loading: Boolean,
+    spinProps: Object as PropType<SpinProps>,
     dropdown: Boolean,
     virtualListProps: {
       type: Object as PropType<VirtualListProps>,
@@ -47,7 +50,7 @@ export default defineComponent({
             key="panel-column-loading"
             class={[`${prefixCls}-panel-column`, `${prefixCls}-panel-column-loading`]}
           >
-            <Spin />
+            <Spin {...props.spinProps} />
           </div>
         );
       }

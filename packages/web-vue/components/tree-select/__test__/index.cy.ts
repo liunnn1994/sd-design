@@ -21,6 +21,19 @@ const checkNode = (key: string) =>
   cy.get(`.sd-tree-node[data-key="${key}"] .sd-checkbox-target`).first().click({ force: true });
 
 describe('TreeSelect', () => {
+  it('passes spinProps to the loading popup', () => {
+    cy.mount(TreeSelect, {
+      props: {
+        data: [],
+        loading: true,
+        defaultPopupVisible: true,
+        spinProps: { tip: '树加载中', dot: true },
+      },
+    });
+    cy.get('.sd-tree-select-popup .sd-dot-loading').should('exist');
+    cy.get('.sd-tree-select-popup .sd-spin-tip').should('have.text', '树加载中');
+  });
+
   it('renders the default empty state', () => {
     cy.mount(TreeSelect, { props: { data: [] } });
     openPopup();

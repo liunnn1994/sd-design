@@ -1,6 +1,6 @@
 <template>
   <div :class="cls" :style="styleVars" @keydown.enter="handleSearch">
-    <Spin :loading="loading" :class="`${prefixCls}-inner`">
+    <Spin v-bind="resolvedSpinProps" :loading="loading" :class="`${prefixCls}-inner`">
       <div ref="bodyRef" :class="bodyCls">
         <slot v-if="$slots.default" />
         <JsonForm
@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+  import { computed, inject, onBeforeUnmount, onMounted, ref } from 'vue';
 
   import { cloneDeep, omit } from 'es-toolkit';
 
@@ -52,6 +52,7 @@
   import { useResizeObserver } from '../_hooks/use-resize-observer';
   import { getPrefixCls } from '../_utils/global-config';
   import Button from '../button';
+  import { configProviderInjectionKey } from '../config-provider/context';
   import IconDown from '../icon/icon-down';
   import JsonForm from '../json-form';
   import Link from '../link';
@@ -62,6 +63,7 @@
   const {
     schemas = [],
     loading = false,
+    spinProps,
     showSearch = true,
     showReset = true,
     showActions = true,
@@ -87,6 +89,11 @@
   const modelValue = defineModel<ToolbarModelValue>({ default: () => ({}) });
 
   const prefixCls = getPrefixCls('toolbar');
+  const configCtx = inject(configProviderInjectionKey, undefined);
+  const resolvedSpinProps = computed(() => ({
+    ...configCtx?.toolbarSpinProps,
+    ...spinProps,
+  }));
 
   const bodyRef = ref<HTMLElement | undefined>();
   const formRef = ref<JsonFormInstance | undefined>();

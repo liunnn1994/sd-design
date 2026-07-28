@@ -15,6 +15,12 @@ describe('Card', () => {
     cy.get('.sd-card-header-title').should('contain.text', 'Card title');
   });
 
+  it('passes spinProps to its loading Spin', () => {
+    cy.mount(Card, { props: { loading: true, spinProps: { tip: '卡片加载中', dot: true } } });
+    cy.get('.sd-card-body .sd-dot-loading').should('exist');
+    cy.get('.sd-card-body .sd-spin-tip').should('have.text', '卡片加载中');
+  });
+
   it('extra slot should render', () => {
     cy.mount(Card, { slots: { extra: `<div id="extra-content">Extra content</div>` } });
     cy.get('#extra-content').should('exist');

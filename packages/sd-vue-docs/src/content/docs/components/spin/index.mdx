@@ -16,6 +16,8 @@ import SpinSizeDemo from '../../../../components/generated/spin/size.vue';
 import spinSizeSource from '../../../../components/generated/spin/size.vue?raw';
 import SpinTipDemo from '../../../../components/generated/spin/tip.vue';
 import spinTipSource from '../../../../components/generated/spin/tip.vue?raw';
+import SpinDelayDemo from '../../../../components/generated/spin/delay.vue';
+import spinDelaySource from '../../../../components/generated/spin/delay.vue?raw';
 
 ### 基本用法
 
@@ -34,6 +36,16 @@ import spinTipSource from '../../../../components/generated/spin/tip.vue?raw';
 <DemoBlock source={spinContainerSource} mainFile="src/spin-container.vue">
 
 <SpinContainerDemo client:only="vue" />
+
+</DemoBlock>
+
+### 延迟显示
+
+通过 `delay` 延迟显示加载指示器或容器遮罩，避免快速完成的异步操作造成界面闪烁。设置为 `true` 时默认延迟 400ms，也可以传入具体的毫秒数；加载结束时遮罩会立即隐藏。
+
+<DemoBlock source={spinDelaySource} mainFile="src/spin-delay.vue">
+
+<SpinDelayDemo client:only="vue" />
 
 </DemoBlock>
 
@@ -81,13 +93,14 @@ import spinTipSource from '../../../../components/generated/spin/tip.vue?raw';
 
 ### `<spin>` Props
 
-| 参数名    | 描述                                   | 类型      | 默认值  |
-| --------- | -------------------------------------- | --------- | :-----: |
-| size      | 尺寸                                   | `number`  |   `-`   |
-| loading   | 是否为加载中状态（仅在容器模式下生效） | `boolean` | `false` |
-| dot       | 是否使用点类型的动画                   | `boolean` | `false` |
-| tip       | 提示内容                               | `string`  |   `-`   |
-| hide-icon | 是否隐藏图标                           | `boolean` | `false` |
+| 参数名    | 描述                                        | 类型                | 默认值  |
+| --------- | ------------------------------------------- | ------------------- | :-----: |
+| size      | 尺寸                                        | `number`            |   `-`   |
+| loading   | 是否为加载中状态（仅在容器模式下生效）      | `boolean`           | `false` |
+| delay     | 显示延迟；`true` 表示 400ms，也可传入毫秒数 | `boolean \| number` | `false` |
+| dot       | 是否使用点类型的动画                        | `boolean`           | `false` |
+| tip       | 提示内容                                    | `string`            |   `-`   |
+| hide-icon | 是否隐藏图标                                | `boolean`           | `false` |
 
 ### `<spin>` Slots
 

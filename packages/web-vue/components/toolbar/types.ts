@@ -1,4 +1,5 @@
 import type { JsonFormSchema } from '../json-form';
+import type { SpinProps } from '../spin';
 
 /**
  * @zh 工具栏表单数据对象（与 `v-model` 绑定）
@@ -21,6 +22,11 @@ export interface ToolbarProps {
    * @en Whether the toolbar is loading (an overlay over the content)
    */
   loading?: boolean;
+  /**
+   * @zh 传递给加载中 Spin 的属性
+   * @en Props passed to the loading Spin
+   */
+  spinProps?: SpinProps;
   /**
    * @zh 是否显示查询按钮
    * @en Whether to show the search button

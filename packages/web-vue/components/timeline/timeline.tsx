@@ -1,10 +1,12 @@
-import { defineComponent, PropType, provide, reactive, computed, toRefs } from 'vue';
+import { defineComponent, PropType, provide, reactive, computed, toRefs, inject } from 'vue';
 
+import type { SpinProps } from '../spin';
 import type { ModeType, LabelPositionType } from './interface';
 
 import { useChildrenComponents } from '../_hooks/use-children-components';
 import { Direction } from '../_utils/constant';
 import { getPrefixCls } from '../_utils/global-config';
+import { configProviderInjectionKey } from '../config-provider/context';
 import Spin from '../spin';
 import { timelineInjectionKey } from './context';
 import Item from './item.vue';
@@ -49,6 +51,13 @@ export default defineComponent({
       type: [Boolean, String],
     },
     /**
+     * @zh 传递给幽灵节点 Spin 的属性
+     * @en Props passed to the pending node Spin
+     */
+    spinProps: {
+      type: Object as PropType<SpinProps>,
+    },
+    /**
      * @zh 设置标签文本的位置
      * @en Position of label text
      * @values 'relative', 'same'
@@ -64,6 +73,11 @@ export default defineComponent({
    * @slot dot
    */
   setup(props, { slots }) {
+    const configCtx = inject(configProviderInjectionKey, undefined);
+    const mergedSpinProps = computed(() => ({
+      ...configCtx?.timelineSpinProps,
+      ...props.spinProps,
+    }));
     const prefixCls = getPrefixCls('timeline');
     const hasPending = computed(() => {
       return props.pending || slots.pending;
@@ -101,7 +115,7 @@ export default defineComponent({
         children.value = slots.default?.().concat(
           <Item
             v-slots={{
-              dot: () => slots.dot?.() ?? <Spin size={12} />,
+              dot: () => slots.dot?.() ?? <Spin size={12} {...mergedSpinProps.value} />,
             }}
             lineType="dashed"
           >

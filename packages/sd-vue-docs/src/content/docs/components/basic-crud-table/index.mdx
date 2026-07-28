@@ -87,6 +87,7 @@ import modalSource from '../../../../components/generated/basic-crud-table/modal
 | title | 标题区文案 | `string` | - |
 | table-props | 仅传给 Table 的属性，分页也在这里配置 | `BasicCrudTableTableProps` | `{}` |
 | toolbar-props | 仅传给 Toolbar 的属性 | `BasicCrudTableToolbarProps` | `{}` |
+| spin-props | 传递给列表加载遮罩 Spin 的属性 | `SpinProps` | `-` |
 | modal-props | 仅传给 Modal 的属性 | `BasicCrudTableModalProps` | `{}` |
 | modal-form-props | 仅传给弹窗 JsonForm 的属性 | `BasicCrudTableModalFormProps` | `{ schemas: [] }` |
 | full-height | 是否占满父级高度，并让表格区域填充剩余空间、内容通过表格滚动条滚动；父级需有明确高度。启用后 `table-props.scroll.y` 固定为 `100%`，其余 `scroll` 字段（如 `x`）仍按传入生效 | `boolean` | `false` |

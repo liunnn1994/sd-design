@@ -66,6 +66,7 @@
           :multiple="multiple"
           :check-strictly="checkStrictly"
           :loading="loading"
+          :spin-props="resolvedSpinProps"
           :path-label="!searchOptionOnlyLabel"
         >
           <template v-if="$slots.empty" #empty>
@@ -81,6 +82,7 @@
           :total-level="totalLevel"
           :check-strictly="checkStrictly"
           :loading="loading"
+          :spin-props="resolvedSpinProps"
           :virtual-list-props="resolvedVirtualListProps"
           dropdown
         >
@@ -97,6 +99,7 @@
   import {
     computed,
     getCurrentInstance,
+    inject,
     provide,
     reactive,
     ref,
@@ -127,6 +130,7 @@
   import { KEYBOARD_KEY, getKeyDownHandler } from '../_utils/keyboard';
   import { BaseType } from '../_utils/types';
   import { resolveDropdownVirtualListProps } from '../_utils/virtual-dropdown';
+  import { configProviderInjectionKey } from '../config-provider/context';
   import Tooltip from '../tooltip';
   import Trigger from '../trigger';
   import BaseCascaderPanel from './base-cascader-panel';
@@ -177,6 +181,7 @@
   const emit = defineEmits<CascaderEmits>();
   const attrs = useAttrs();
   const slots = useSlots();
+  const configCtx = inject(configProviderInjectionKey, undefined);
 
   const DEFAULT_CASCADER_VIRTUAL_ITEM_SIZE = 36;
 
@@ -212,12 +217,17 @@
     size,
     placeholder,
     loading,
+    spinProps,
     maxTagCount,
     tagNowrap,
     popupContainer,
     floatingOptions,
     searchOptionOnlyLabel,
   } = toRefs(props);
+  const resolvedSpinProps = computed(() => ({
+    ...configCtx?.cascaderSpinProps,
+    ...spinProps.value,
+  }));
 
   const _value = ref<CascaderModelValue>(
     props.defaultValue ?? getDefaultValue(props.multiple, props.pathMode),

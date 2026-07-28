@@ -476,6 +476,16 @@ export type {
   SenderSemanticType,
   SenderSkill,
   SenderSkillClosableConfig,
+  SenderSpeechConfig,
+  SenderSpeechDataEvent,
+  SenderSpeechEndEvent,
+  SenderSpeechEndReason,
+  SenderSpeechErrorEvent,
+  SenderSpeechErrorPhase,
+  SenderSpeechStartEvent,
+  SenderSpeechTransportCloseEvent,
+  SenderSpeechTransportMessageEvent,
+  SenderSpeechTransportOpenEvent,
   SenderSlotConfig,
   SenderSlotConfigBase,
   SenderSubmitType,
@@ -499,7 +509,7 @@ export type {
 export { default as Space } from './space';
 export type { SpaceInstance } from './space';
 export { default as Spin } from './spin';
-export type { SpinInstance } from './spin';
+export type { SpinInstance, SpinProps } from './spin';
 export { default as Split } from './split';
 export type { SplitInstance } from './split';
 export { default as Statistic, Countdown } from './statistic';

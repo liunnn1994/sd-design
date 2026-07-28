@@ -8,6 +8,8 @@
   import type { PropType } from 'vue';
   import { provide, reactive, toRefs, getCurrentInstance, watch, useSlots } from 'vue';
 
+  import type { SpinProps } from '../spin';
+
   import { VirtualListProps } from '../_components/virtual-list/interface';
   import { Size } from '../_utils/constant';
   import { SdLang } from '../locale/interface';
@@ -160,6 +162,83 @@
       type: Object as PropType<ConfigProviderColorPicker>,
     },
     /**
+     * @zh Spin 组件默认属性
+     * @en Default props for Spin
+     */
+    spinProps: {
+      type: Object as PropType<SpinProps>,
+    },
+    /**
+     * @zh BasicCrudTable 内部 Spin 的默认属性
+     * @en Default props for Spin inside BasicCrudTable
+     */
+    basicCrudTableSpinProps: {
+      type: Object as PropType<SpinProps>,
+    },
+    /**
+     * @zh Card 内部 Spin 的默认属性
+     * @en Default props for Spin inside Card
+     */
+    cardSpinProps: {
+      type: Object as PropType<SpinProps>,
+    },
+    /**
+     * @zh Cascader 内部 Spin 的默认属性
+     * @en Default props for Spin inside Cascader
+     */
+    cascaderSpinProps: {
+      type: Object as PropType<SpinProps>,
+    },
+    /**
+     * @zh List 内部 Spin 的默认属性
+     * @en Default props for Spin inside List
+     */
+    listSpinProps: {
+      type: Object as PropType<SpinProps>,
+    },
+    /**
+     * @zh QrCode 内部 Spin 的默认属性
+     * @en Default props for Spin inside QrCode
+     */
+    qrCodeSpinProps: {
+      type: Object as PropType<SpinProps>,
+    },
+    /**
+     * @zh Select 内部 Spin 的默认属性
+     * @en Default props for Spin inside Select
+     */
+    selectSpinProps: {
+      type: Object as PropType<SpinProps>,
+    },
+    /**
+     * @zh Table 内部 Spin 的默认属性，优先于 `spinProps`
+     * @en Default props for Spin inside Table, taking precedence over `spinProps`
+     */
+    tableSpinProps: {
+      type: Object as PropType<SpinProps>,
+    },
+    /**
+     * @zh Timeline 内部 Spin 的默认属性
+     * @en Default props for Spin inside Timeline
+     */
+    timelineSpinProps: {
+      type: Object as PropType<SpinProps>,
+    },
+    /**
+     * @zh Toolbar 内部 Spin 的默认属性
+     * @en Default props for Spin inside Toolbar
+     */
+    toolbarSpinProps: {
+      type: Object as PropType<SpinProps>,
+    },
+    /**
+     * @zh TreeSelect 内部 Spin 的默认属性
+     * @en Default props for Spin inside TreeSelect
+     */
+    treeSelectSpinProps: {
+      type: Object as PropType<SpinProps>,
+    },
+    /**
      * @zh JsonForm 组件默认配置
      * @en Default config for JsonForm
      */
@@ -213,6 +292,17 @@
     drawer,
     pagination,
     colorPicker,
+    spinProps,
+    basicCrudTableSpinProps,
+    cardSpinProps,
+    cascaderSpinProps,
+    listSpinProps,
+    qrCodeSpinProps,
+    selectSpinProps,
+    tableSpinProps,
+    timelineSpinProps,
+    toolbarSpinProps,
+    treeSelectSpinProps,
   } = toRefs(props);
 
   const config = reactive({
@@ -233,6 +323,17 @@
     drawer,
     pagination,
     colorPicker,
+    spinProps,
+    basicCrudTableSpinProps,
+    cardSpinProps,
+    cascaderSpinProps,
+    listSpinProps,
+    qrCodeSpinProps,
+    selectSpinProps,
+    tableSpinProps,
+    timelineSpinProps,
+    toolbarSpinProps,
+    treeSelectSpinProps,
     jsonForm: toRefs(props).jsonForm,
     theme: normalizeTheme(props.theme),
   });

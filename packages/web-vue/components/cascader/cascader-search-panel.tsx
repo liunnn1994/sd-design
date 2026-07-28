@@ -1,5 +1,7 @@
 import { defineComponent, inject, PropType } from 'vue';
 
+import type { SpinProps } from '../spin';
+
 import { getPrefixCls } from '../_utils/global-config';
 import { configProviderInjectionKey } from '../config-provider/context';
 import Empty from '../empty';
@@ -16,6 +18,7 @@ export default defineComponent({
       required: true,
     },
     loading: Boolean,
+    spinProps: Object as PropType<SpinProps>,
     activeKey: String,
     multiple: Boolean,
     checkStrictly: Boolean,
@@ -27,7 +30,7 @@ export default defineComponent({
 
     const renderContent = () => {
       if (props.loading) {
-        return <Spin />;
+        return <Spin {...props.spinProps} />;
       }
       if (props.options.length === 0) {
         return (

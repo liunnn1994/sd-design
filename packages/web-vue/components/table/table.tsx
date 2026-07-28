@@ -19,6 +19,7 @@ import type {
 } from '../_components/virtual-list/interface';
 import type { Size } from '../_utils/constant';
 import type { BaseType } from '../_utils/types';
+import type { SpinProps } from '../spin';
 import type {
   TableBorder,
   TableChangeExtra,
@@ -158,8 +159,15 @@ export default defineComponent({
      * @en Whether it is loading state
      */
     loading: {
-      type: [Boolean, Object],
+      type: [Boolean, Object] as PropType<boolean | SpinProps>,
       default: false,
+    },
+    /**
+     * @zh 传递给加载中 Spin 的属性
+     * @en Props passed to the loading Spin
+     */
+    spinProps: {
+      type: Object as PropType<SpinProps>,
     },
     /**
      * @zh 表格的行选择器配置
@@ -1520,9 +1528,11 @@ export default defineComponent({
       getThWidth();
     });
 
-    const spinProps = computed(() =>
-      isObject(props.loading) ? props.loading : { loading: props.loading },
-    );
+    const mergedSpinProps = computed(() => ({
+      ...configCtx?.tableSpinProps,
+      ...props.spinProps,
+      ...(isObject(props.loading) ? props.loading : { loading: props.loading }),
+    }));
 
     const renderEmpty = () => {
       return (
@@ -2150,7 +2160,7 @@ export default defineComponent({
       return (
         <div class={cls.value} style={style.value} role="table">
           {children.value}
-          <Spin {...spinProps.value}>
+          <Spin {...mergedSpinProps.value}>
             {props.pagination !== false &&
               (flattenData.value.length > 0 || sortedData.value.length > 0) &&
               isPaginationTop.value &&
