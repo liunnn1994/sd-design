@@ -8,7 +8,7 @@ const demos = import.meta.glob<{ default: Component }>(
 
 runDemoTests('cascader', demos, (demoName) => {
   if (demoName === 'trigger-element') {
-    cy.get('.sd-button').should('be.visible').click();
+    cy.get('.sd-btn').should('be.visible').click();
     cy.get('.sd-cascader-panel').should('be.visible');
     return;
   }
