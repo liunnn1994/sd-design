@@ -22,7 +22,7 @@ permissions:
 concurrency:
   # 独立 concurrency 组：不与其它 release workflow 共享。共享组会在一次 push 同时触发
   # 多个 release workflow 时无差别取消其中一个 pending run（曾导致 mcp / resolver 漏发版）。
-  # chore(release) 推送冲突由发布前 git pull --rebase + [skip ci] + 各包耗时差异规避。
+  # 仅 web-vue 会把 CHANGELOG.md / package.json 的发布提交写回 main。
   group: release-web-vue-${{ github.ref }}
   cancel-in-progress: false
 

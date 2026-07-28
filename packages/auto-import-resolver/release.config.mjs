@@ -17,13 +17,6 @@ export default {
       },
     ],
     [
-      '@semantic-release/git',
-      {
-        assets: ['package.json'],
-        message: 'chore(release): ${nextRelease.version} [skip ci]',
-      },
-    ],
-    [
       '@semantic-release/github',
       {
         assets: [],

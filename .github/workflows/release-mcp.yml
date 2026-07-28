@@ -21,7 +21,7 @@ permissions:
 concurrency:
   # 独立 concurrency 组：不与其它 release workflow 共享。共享组会在一次 push 同时触发
   # 多个 release workflow 时无差别取消其中一个 pending run（本包即曾因此被取消而漏发版）。
-  # chore(release) 推送冲突由发布前 git pull --rebase + [skip ci] + 各包耗时差异规避。
+  # MCP 不提交版本文件到 main；版本仅写入发布包并由 mcp-v* tag 跟踪，避免并发写分支。
   group: release-mcp-${{ github.ref }}
   cancel-in-progress: false
 

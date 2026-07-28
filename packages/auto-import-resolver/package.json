@@ -1,6 +1,5 @@
 {
   "name": "@sdata/web-vue-auto-import-resolver",
-  "version": "3.19.0",
   "description": "Auto import resolver for @sdata/web-vue and unplugin-vue-components.",
   "homepage": "https://sd-design.js.org",
   "bugs": {
@@ -42,7 +41,6 @@
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/exec": "^7.1.0",
-    "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^12.0.9",
     "@semantic-release/release-notes-generator": "^14.1.1",
     "semantic-release": "^25.0.7",
