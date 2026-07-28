@@ -8,6 +8,17 @@ export type SelectOptionValue = string | number | boolean | Record<string, unkno
 
 export type SelectModelValue = SelectOptionValue | SelectOptionValue[] | null | undefined;
 
+export interface SelectTriggerSlotProps {
+  value: SelectModelValue;
+  displayValue: string | string[];
+  inputValue: string;
+  selectedOptions: SelectOptionData[];
+  popupVisible: boolean;
+  disabled: boolean;
+  loading: boolean;
+  multiple: boolean;
+}
+
 export interface OptionValueWithKey {
   value: SelectOptionValue;
   key: string;

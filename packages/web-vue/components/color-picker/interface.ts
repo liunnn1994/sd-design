@@ -66,6 +66,17 @@ export type ColorPickerChangeTrigger =
   | 'recent'
   | 'clear';
 
+export interface ColorPickerTriggerSlotProps {
+  value: string;
+  displayValue: string;
+  color: ColorObject;
+  popupVisible: boolean;
+  disabled: boolean;
+  readonly: boolean;
+  format: ColorFormat;
+  previewStyle: Record<string, string>;
+}
+
 export interface ColorObject {
   alpha: number;
   css: string;

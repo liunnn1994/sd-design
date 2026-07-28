@@ -18,7 +18,17 @@
       aria-has-popup="listbox"
       @popupVisibleChange="onVisibleChange"
     >
-      <slot name="trigger">
+      <slot
+        name="trigger"
+        :value="triggerValue"
+        :display-value="triggerDisplayValue"
+        :input-value="computedInputValue"
+        :selected-options="triggerSelectedOptions"
+        :popup-visible="panelVisible"
+        :disabled="mergedDisabled"
+        :loading="loading"
+        :multiple="isMultiple"
+      >
         <SelectView
           ref="refSelectView"
           :model-value="selectViewValue"
@@ -792,6 +802,19 @@
       };
     }) as SelectViewValue[];
   });
+  const triggerValue = computed<TreeSelectValue | undefined>(() => {
+    const values = labelInValue.value ? selectedValue.value : selectedKeys.value;
+    return isMultiple.value ? values : values?.[0];
+  });
+  const triggerDisplayValue = computed(() => {
+    const labels = selectViewValue.value.map((item) => String(item.label));
+    return isMultiple.value ? labels : (labels[0] ?? '');
+  });
+  const triggerSelectedOptions = computed(() =>
+    selectViewValue.value
+      .map((item) => item.option)
+      .filter((option): option is TreeNodeData => Boolean(option)),
+  );
 
   const setSelectedKeys = (newVal: TreeNodeKey[]) => {
     setLocalSelectedKeys(newVal);

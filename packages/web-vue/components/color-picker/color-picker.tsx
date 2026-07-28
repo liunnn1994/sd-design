@@ -342,7 +342,18 @@ export default defineComponent({
             onPopupVisibleChange={onPopupVisibleChange}
             {...mergedTriggerProps.value}
           >
-            {slots.default ? slots.default() : renderTriggerInput()}
+            {slots.trigger?.({
+              value: mergedValue.value,
+              displayValue: triggerInputValue.value,
+              color: getColorObject(colorState.value),
+              popupVisible: popupVisible.value,
+              disabled: props.disabled,
+              readonly: Boolean(props.readonly),
+              format: normalizedFormat.value,
+              previewStyle: previewStyle.value,
+            }) ??
+              slots.default?.() ??
+              renderTriggerInput()}
           </Trigger>
         </Tooltip>
       );

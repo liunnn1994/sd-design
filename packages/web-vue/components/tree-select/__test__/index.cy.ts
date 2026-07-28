@@ -21,6 +21,25 @@ const checkNode = (key: string) =>
   cy.get(`.sd-tree-node[data-key="${key}"] .sd-checkbox-target`).first().click({ force: true });
 
 describe('TreeSelect', () => {
+  it('opens the tree from a custom trigger slot', () => {
+    cy.mount(TreeSelect, {
+      props: { options, fieldNames, defaultValue: '0-0' },
+      slots: {
+        trigger: (scope: any) =>
+          h(
+            'button',
+            { class: 'custom-trigger' },
+            `${scope.displayValue}|${scope.selectedOptions[0]?.label}|${scope.popupVisible}`,
+          ),
+      },
+    });
+    cy.get('.sd-select-view').should('not.exist');
+    cy.get('.custom-trigger').should('contain.text', '0-0');
+    cy.get('.custom-trigger').click();
+    cy.get('.custom-trigger').should('contain.text', 'true');
+    cy.get('.sd-tree-select-popup').should('be.visible');
+  });
+
   it('passes spinProps to the loading popup', () => {
     cy.mount(TreeSelect, {
       props: {

@@ -3,6 +3,17 @@ import { Dayjs } from 'dayjs';
 // 支持：Date ｜ 字符串 ｜ 时间戳
 export type TimeValue = Date | string | number;
 
+export interface TimePickerTriggerSlotProps {
+  value: string | Array<string | undefined> | undefined;
+  date: Date | Array<Date | undefined> | undefined;
+  displayValue: string | Array<string | undefined>;
+  inputValue: string | Array<string | undefined> | undefined;
+  popupVisible: boolean;
+  disabled: boolean;
+  readonly: boolean;
+  range: boolean;
+}
+
 export interface BasePanelProps {
   disableConfirm: boolean;
   use12Hours: boolean;

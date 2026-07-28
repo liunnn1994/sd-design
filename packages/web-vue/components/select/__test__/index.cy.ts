@@ -5,6 +5,25 @@ import Select from '../index';
 const open = () => cy.get('.sd-select-view').click();
 
 describe('Select', () => {
+  it('opens the dropdown from a custom trigger slot', () => {
+    cy.mount(Select, {
+      props: { options: ['Beijing', 'Shanghai'], defaultValue: 'Shanghai' },
+      slots: {
+        trigger: (scope: any) =>
+          h(
+            'button',
+            { class: 'custom-trigger' },
+            `${scope.displayValue}|${scope.selectedOptions[0]?.value}|${scope.popupVisible}`,
+          ),
+      },
+    });
+    cy.get('.sd-select-view').should('not.exist');
+    cy.get('.custom-trigger').should('have.text', 'Shanghai|Shanghai|false');
+    cy.get('.custom-trigger').click();
+    cy.get('.custom-trigger').should('have.text', 'Shanghai|Shanghai|true');
+    cy.get('.sd-select-dropdown').should('be.visible');
+  });
+
   it('passes spinProps to the loading dropdown', () => {
     cy.mount(Select, {
       props: {

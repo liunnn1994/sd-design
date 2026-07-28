@@ -6,6 +6,27 @@ import ColorPicker from '../index';
 const gradientValue = 'linear-gradient(45deg, rgba(79, 172, 254, 1) 0%, rgba(0, 242, 254, 1) 100%)';
 
 describe('ColorPicker', () => {
+  it('opens the panel from the named trigger slot', () => {
+    cy.mount(ColorPicker, {
+      props: { defaultValue: '#165dff' },
+      slots: {
+        trigger: (scope: any) =>
+          h(
+            'button',
+            { class: 'custom-trigger' },
+            `${scope.displayValue}|${scope.color.hex}|${scope.popupVisible}`,
+          ),
+      },
+    });
+    cy.get('.sd-color-picker input').should('not.exist');
+    cy.get('.custom-trigger').should('have.text', 'rgb(22, 93, 255)|#165DFF|false');
+    cy.get('.custom-trigger').click();
+    cy.get('.custom-trigger').should('have.text', 'rgb(22, 93, 255)|#165DFF|true');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('popup-visible-change')?.at(-1)?.[0]).to.equal(true);
+    });
+  });
+
   it('renders the size class', () => {
     cy.mount(ColorPicker, { props: { size: 'mini' } });
     cy.get('.sd-color-picker').should('have.class', 'sd-color-picker-size-mini');

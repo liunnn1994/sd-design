@@ -669,6 +669,19 @@ export default defineComponent({
 
       return result;
     });
+    const triggerValue = computed<SelectModelValue>(() => {
+      const values = computedValueObjects.value.map((item) => item.value);
+      return props.multiple ? values : values[0];
+    });
+    const triggerDisplayValue = computed(() => {
+      const labels = selectViewValue.value.map((item) => String(item.label));
+      return props.multiple ? labels : (labels[0] ?? '');
+    });
+    const triggerSelectedOptions = computed(() =>
+      selectViewValue.value
+        .map((item) => item.option)
+        .filter((option): option is SelectOptionData => Boolean(option)),
+    );
 
     const ellipsisPrefixCls = getPrefixCls('ellipsis');
     const renderOptionEllipsis = (label: string) => (
@@ -876,7 +889,16 @@ export default defineComponent({
           {...props.triggerProps}
           floatingOptions={props.floatingOptions ?? props.triggerProps?.floatingOptions}
         >
-          {slots.trigger?.() ?? (
+          {slots.trigger?.({
+            value: triggerValue.value,
+            displayValue: triggerDisplayValue.value,
+            inputValue: computedInputValue.value,
+            selectedOptions: triggerSelectedOptions.value,
+            popupVisible: computedPopupVisible.value,
+            disabled: mergedDisabled.value,
+            loading: props.loading,
+            multiple: props.multiple,
+          }) ?? (
             <SelectView
               ref={selectViewRef}
               v-slots={{

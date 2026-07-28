@@ -21,6 +21,17 @@ export interface LabelValue {
 
 export type TreeSelectValue = TreeNodeKey | TreeNodeKey[] | LabelValue | LabelValue[];
 
+export interface TreeSelectTriggerSlotProps {
+  value: TreeSelectValue | undefined;
+  displayValue: string | string[];
+  inputValue: string;
+  selectedOptions: TreeNodeData[];
+  popupVisible: boolean;
+  disabled: boolean;
+  loading: boolean;
+  multiple: boolean;
+}
+
 export type FilterTreeNode = (searchKey: string, nodeData: TreeNodeData) => boolean;
 
 export type FallbackOption = boolean | ((key: TreeNodeKey) => TreeNodeData | boolean);

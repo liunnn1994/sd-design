@@ -244,7 +244,7 @@ import datePickerYearSource from '../../../../components/generated/date-picker/y
 
 ### 自定义触发元素
 
-自定义触发元素。
+推荐使用 `#trigger` 插槽替换默认输入框。它提供组件对外的 `value`、原生 `date`、已经按 `format` 格式化的 `displayValue`、正在编辑的 `inputValue`、`popupVisible`、 `disabled` 和 `readonly`。RangePicker 还提供 `disabledInputs`。为保持兼容，原有默认插槽写法仍然可用。
 
 <DemoBlock source={datePickerTriggerElementSource} mainFile="src/date-picker-trigger-element.vue">
 
@@ -320,17 +320,19 @@ import datePickerYearSource from '../../../../components/generated/date-picker/y
 
 ### `Common` Slots
 
-| 插槽名           |          描述          | 参数                                        | 版本   |
-| ---------------- | :--------------------: | ------------------------------------------- | :----- |
-| prefix           |       输入框前缀       | -                                           | 2.41.0 |
-| suffix-icon      |     输入框后缀图标     | -                                           |        |
-| icon-next-double |   双箭头往后翻页图标   | -                                           |        |
-| icon-prev-double |   双箭头往前翻页图标   | -                                           |        |
-| icon-next        |   单箭头往后翻页图标   | -                                           |        |
-| icon-prev        |   单箭头往前翻页图标   | -                                           |        |
-| panelRender      |     自定义渲染面板     | component: `Component`<br />props: `object` |        |
-| cell             | 自定义日期单元格的内容 | date: `Date`                                |        |
-| extra            |       额外的页脚       | -                                           |        |
+| 插槽名 | 描述 | 参数 | 版本 |
+| --- | :-: | --- | :-- |
+| trigger | 自定义触发元素 | `DatePickerTriggerSlotProps \| RangePickerTriggerSlotProps` |  |
+| default | 自定义触发元素（兼容写法） | - |  |
+| prefix | 输入框前缀 | - | 2.41.0 |
+| suffix-icon | 输入框后缀图标 | - |  |
+| icon-next-double | 双箭头往后翻页图标 | - |  |
+| icon-prev-double | 双箭头往前翻页图标 | - |  |
+| icon-next | 单箭头往后翻页图标 | - |  |
+| icon-prev | 单箭头往前翻页图标 | - |  |
+| panelRender | 自定义渲染面板 | component: `Component`<br />props: `object` |  |
+| cell | 自定义日期单元格的内容 | date: `Date` |  |
+| extra | 额外的页脚 | - |  |
 
 ### `<date-picker>` Props
 

@@ -95,7 +95,7 @@ import colorPickerTriggerSource from '../../../../components/generated/color-pic
 
 ### 自定义触发元素
 
-自定义触发元素。
+推荐使用 `#trigger` 插槽自定义触发元素。插槽直接提供 `value`、规范化后的 `displayValue`、完整 `color` 对象、`popupVisible`、`disabled`、`readonly`、 `format` 和可直接绑定的 `previewStyle`。为保持兼容，原有默认插槽写法仍然可用。
 
 <DemoBlock source={colorPickerTriggerElementSource} mainFile="src/color-picker-trigger-element.vue">
 
@@ -148,6 +148,7 @@ import colorPickerTriggerSource from '../../../../components/generated/color-pic
 
 ### `<color-picker>` Slots
 
-| 插槽名  | 描述             |
-| ------- | ---------------- |
-| default | 自定义触发器内容 |
+| 插槽名  | 描述                         | 参数                          |
+| ------- | ---------------------------- | ----------------------------- |
+| trigger | 自定义触发器内容             | `ColorPickerTriggerSlotProps` |
+| default | 自定义触发器内容（兼容写法） | -                             |

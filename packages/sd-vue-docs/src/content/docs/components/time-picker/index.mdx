@@ -28,6 +28,8 @@ import TimePickerSizeDemo from '../../../../components/generated/time-picker/siz
 import timePickerSizeSource from '../../../../components/generated/time-picker/size.vue?raw';
 import TimePickerStepDemo from '../../../../components/generated/time-picker/step.vue';
 import timePickerStepSource from '../../../../components/generated/time-picker/step.vue?raw';
+import TimePickerTriggerElementDemo from '../../../../components/generated/time-picker/trigger-element.vue';
+import timePickerTriggerElementSource from '../../../../components/generated/time-picker/trigger-element.vue?raw';
 import TimePickerUse12HoursDemo from '../../../../components/generated/time-picker/use-12-hours.vue';
 import timePickerUse12HoursSource from '../../../../components/generated/time-picker/use-12-hours.vue?raw';
 
@@ -38,6 +40,16 @@ import timePickerUse12HoursSource from '../../../../components/generated/time-pi
 <DemoBlock source={timePickerBasicSource} mainFile="src/time-picker-basic.vue">
 
 <TimePickerBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义触发元素
+
+使用 `#trigger` 插槽替换默认时间输入框，例如改为点击按钮打开时间面板。插槽直接提供 `value`、原生 `date`、`displayValue`、正在编辑的 `inputValue`、`popupVisible`、 `disabled`、`readonly` 和 `range`。
+
+<DemoBlock source={timePickerTriggerElementSource} mainFile="src/time-picker-trigger-element.vue">
+
+<TimePickerTriggerElementDemo client:only="vue" />
 
 </DemoBlock>
 
@@ -204,11 +216,12 @@ import timePickerUse12HoursSource from '../../../../components/generated/time-pi
 
 ### `<time-picker>` Slots
 
-| 插槽名      |      描述      | 参数 | 版本   |
-| ----------- | :------------: | ---- | :----- |
-| prefix      |   输入框前缀   | -    | 2.41.0 |
-| suffix-icon | 输入框后缀图标 | -    |        |
-| extra       |   额外的页脚   | -    |        |
+| 插槽名      |      描述      | 参数                         | 版本   |
+| ----------- | :------------: | ---------------------------- | :----- |
+| trigger     | 自定义触发元素 | `TimePickerTriggerSlotProps` |        |
+| prefix      |   输入框前缀   | -                            | 2.41.0 |
+| suffix-icon | 输入框后缀图标 | -                            |        |
+| extra       |   额外的页脚   | -                            |        |
 
 ### 字符串解析格式
 

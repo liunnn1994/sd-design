@@ -1,14 +1,18 @@
 <template>
   <sd-space>
     <sd-color-picker v-model="value" size="mini">
-      <sd-tag :color="value" class="color-picker-trigger-tag">
-        <template #icon>
+      <template #trigger="{ displayValue, color, popupVisible }">
+        <sd-tag :color="displayValue" class="color-picker-trigger-tag">
+          <template #icon>
+            <span class="color-picker-trigger-tag__contrast">
+              <icon-bg-colors />
+            </span>
+          </template>
           <span class="color-picker-trigger-tag__contrast">
-            <icon-bg-colors />
+            {{ displayValue }} · {{ color.hex }} · {{ popupVisible ? '收起' : '展开' }}
           </span>
-        </template>
-        <span class="color-picker-trigger-tag__contrast">{{ value }}</span>
-      </sd-tag>
+        </sd-tag>
+      </template>
     </sd-color-picker>
   </sd-space>
 </template>

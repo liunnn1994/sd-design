@@ -14,6 +14,7 @@ import _RangePicker from './range-picker.vue';
 export type {
   CalendarValue,
   DatePickerProps,
+  DatePickerTriggerSlotProps,
   DisabledDate,
   DisabledTime,
   DisabledTimeProps,
@@ -24,6 +25,7 @@ export type {
   RangeDisabledDate,
   RangeDisabledTime,
   RangePickerProps,
+  RangePickerTriggerSlotProps,
   ShortcutType,
   ValueFormat,
   WeekPickerProps,

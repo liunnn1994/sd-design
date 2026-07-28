@@ -16,40 +16,52 @@
     aria-has-popup="dialog"
     @popupVisibleChange="onPanelVisibleChange"
   >
-    <component
-      :is="InputComponent"
-      v-bind="{
-        ...$attrs,
-        ...inputProps,
-      }"
-      ref="refInput"
+    <slot
+      name="trigger"
+      :value="triggerValue"
+      :date="triggerDate"
+      :display-value="triggerDisplayValue"
       :input-value="inputValue"
-      :value="panelValue"
-      :size="size"
-      :focused="panelVisible"
-      :format="computedFormat"
-      :visible="panelVisible"
+      :popup-visible="panelVisible"
       :disabled="mergedDisabled"
-      :error="error"
-      :readonly="readonly"
-      :editable="!readonly"
-      :allow-clear="mergedAllowClear && !readonly"
-      :placeholder="computedPlaceholder"
-      :fit-width="fitWidth"
-      :max-w-full="maxWFull"
-      :fit-width-fallback="fitWidthFallback"
-      :fit-width-fallback-text="fitWidthFallbackText"
-      @clear="onInputClear"
+      :readonly="Boolean(readonly)"
+      :range="isRange"
     >
-      <template v-if="$slots.prefix" #prefix>
-        <slot name="prefix"> </slot>
-      </template>
-      <template #suffix-icon>
-        <slot name="suffix-icon">
-          <IconClockCircle />
-        </slot>
-      </template>
-    </component>
+      <component
+        :is="InputComponent"
+        v-bind="{
+          ...$attrs,
+          ...inputProps,
+        }"
+        ref="refInput"
+        :input-value="inputValue"
+        :value="panelValue"
+        :size="size"
+        :focused="panelVisible"
+        :format="computedFormat"
+        :visible="panelVisible"
+        :disabled="mergedDisabled"
+        :error="error"
+        :readonly="readonly"
+        :editable="!readonly"
+        :allow-clear="mergedAllowClear && !readonly"
+        :placeholder="computedPlaceholder"
+        :fit-width="fitWidth"
+        :max-w-full="maxWFull"
+        :fit-width-fallback="fitWidthFallback"
+        :fit-width-fallback-text="fitWidthFallbackText"
+        @clear="onInputClear"
+      >
+        <template v-if="$slots.prefix" #prefix>
+          <slot name="prefix"> </slot>
+        </template>
+        <template #suffix-icon>
+          <slot name="suffix-icon">
+            <IconClockCircle />
+          </slot>
+        </template>
+      </component>
+    </slot>
     <template #content>
       <div :class="`${prefixCls}-container`" @click="onPanelClick">
         <component
@@ -343,6 +355,11 @@
     'update:popupVisible': [_visible: boolean];
   }>();
   /**
+   * @zh 自定义触发元素
+   * @en Custom trigger element
+   * @slot trigger
+   */
+  /**
    * @zh 输入框前缀
    * @en Input box prefix
    * @slot prefix
@@ -407,6 +424,17 @@
         format: computedFormat,
       }),
     );
+  const triggerValue = computed(
+    () =>
+      getFormattedValue(computedValue.value, computedFormat.value) as
+        | string
+        | Array<string | undefined>
+        | undefined,
+  );
+  const triggerDate = computed(
+    () => getDateValue(computedValue.value) as Date | Array<Date | undefined> | undefined,
+  );
+  const triggerDisplayValue = computed(() => triggerValue.value ?? (isRange.value ? [] : ''));
 
   // 选择面板是否可见
   const [panelVisible, setLocalVisible] = useMergeState(

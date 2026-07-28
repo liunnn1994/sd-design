@@ -15,45 +15,57 @@
     :popup-container="popupContainer"
     @popupVisibleChange="onPanelVisibleChange"
   >
-    <slot>
-      <DateRangeInput
-        ref="refInput"
-        v-bind="$attrs"
-        v-model:focusedIndex="focusedIndex"
-        :size="size"
-        :focused="panelVisible"
-        :visible="panelVisible"
-        :error="error"
-        :disabled="disabled"
-        :readonly="readonly || disabledInput"
-        :allow-clear="mergedAllowClear && !readonly"
-        :placeholder="computedPlaceholder"
-        :fit-width="fitWidth"
-        :max-w-full="maxWFull"
-        :fit-width-fallback="fitWidthFallback"
-        :fit-width-fallback-text="fitWidthFallbackText"
-        :input-props="inputProps"
-        :input-value="inputValue"
-        :value="panelValue"
-        :format="computedFormat"
-        @clear="onInputClear"
-        @change="onInputChange"
-        @pressEnter="onInputPressEnter"
-      >
-        <template v-if="$slots.prefix" #prefix>
-          <slot name="prefix" />
-        </template>
-        <template #suffix-icon>
-          <slot name="suffix-icon">
-            <IconCalendar />
-          </slot>
-        </template>
-        <template #separator>
-          <slot name="separator">
-            {{ separator || '-' }}
-          </slot>
-        </template>
-      </DateRangeInput>
+    <slot
+      name="trigger"
+      :value="triggerValue"
+      :date="triggerDate"
+      :display-value="triggerDisplayValue"
+      :input-value="inputValue"
+      :popup-visible="panelVisible"
+      :disabled="triggerDisabled"
+      :disabled-inputs="disabledArray"
+      :readonly="Boolean(readonly)"
+    >
+      <slot>
+        <DateRangeInput
+          ref="refInput"
+          v-bind="$attrs"
+          v-model:focusedIndex="focusedIndex"
+          :size="size"
+          :focused="panelVisible"
+          :visible="panelVisible"
+          :error="error"
+          :disabled="disabled"
+          :readonly="readonly || disabledInput"
+          :allow-clear="mergedAllowClear && !readonly"
+          :placeholder="computedPlaceholder"
+          :fit-width="fitWidth"
+          :max-w-full="maxWFull"
+          :fit-width-fallback="fitWidthFallback"
+          :fit-width-fallback-text="fitWidthFallbackText"
+          :input-props="inputProps"
+          :input-value="inputValue"
+          :value="panelValue"
+          :format="computedFormat"
+          @clear="onInputClear"
+          @change="onInputChange"
+          @pressEnter="onInputPressEnter"
+        >
+          <template v-if="$slots.prefix" #prefix>
+            <slot name="prefix" />
+          </template>
+          <template #suffix-icon>
+            <slot name="suffix-icon">
+              <IconCalendar />
+            </slot>
+          </template>
+          <template #separator>
+            <slot name="separator">
+              {{ separator || '-' }}
+            </slot>
+          </template>
+        </DateRangeInput>
+      </slot>
     </slot>
     <template #content>
       <slot name="panelRender" :component="RangePickerPanel" :props="rangePanelProps">
@@ -639,6 +651,30 @@
 
   // input 操作的值
   const [inputValue, setInputValue] = useState<Array<string | undefined> | undefined>();
+  const triggerLocalValue = computed(() =>
+    selectedValue.value?.map((item) =>
+      item ? toLocal(item, utcOffset?.value, timezone?.value) : undefined,
+    ),
+  );
+  const triggerValue = computed(() =>
+    selectedValue.value
+      ? getReturnRangeValue(
+          selectedValue.value,
+          returnValueFormat.value,
+          utcOffset?.value,
+          timezone?.value,
+        )
+      : undefined,
+  );
+  const triggerDate = computed(
+    () => getDateValue(triggerLocalValue.value) as Array<Date | undefined> | undefined,
+  );
+  const triggerDisplayValue = computed(
+    () =>
+      (getFormattedValue(triggerLocalValue.value, computedFormat.value) as
+        | Array<string | undefined>
+        | undefined) ?? [],
+  );
 
   const startHeaderMode = ref<'year' | 'month' | undefined>();
 

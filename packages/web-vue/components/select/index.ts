@@ -21,6 +21,7 @@ export type {
   SelectOptionData,
   SelectOptionGroup,
   SelectFieldNames,
+  SelectTriggerSlotProps,
   FilterOption,
   SelectFallbackOption,
 } from './interface';

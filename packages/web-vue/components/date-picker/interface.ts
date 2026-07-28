@@ -47,6 +47,27 @@ export type Mode = 'date' | 'year' | 'quarter' | 'month' | 'week';
 
 export type WeekStart = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
+export interface DatePickerTriggerSlotProps {
+  value: CalendarValue | undefined;
+  date: Date | undefined;
+  displayValue: string;
+  inputValue: string | undefined;
+  popupVisible: boolean;
+  disabled: boolean;
+  readonly: boolean;
+}
+
+export interface RangePickerTriggerSlotProps {
+  value: Array<CalendarValue | undefined> | undefined;
+  date: Array<Date | undefined> | undefined;
+  displayValue: Array<string | undefined>;
+  inputValue: Array<string | undefined> | undefined;
+  popupVisible: boolean;
+  disabled: boolean;
+  disabledInputs: boolean[];
+  readonly: boolean;
+}
+
 export interface DatePickerProps {
   dayStartOfWeek: WeekStart;
   format?: string | FormatFunc;

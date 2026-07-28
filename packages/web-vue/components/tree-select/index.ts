@@ -15,6 +15,7 @@ export type {
   PopupVisibleChangeHandler as TreeSelectPopupVisibleChangeHandler,
   SearchHandler as TreeSelectSearchHandler,
   TreeSelectProps,
+  TreeSelectTriggerSlotProps,
   TreeSelectValue,
 } from './interface';
 

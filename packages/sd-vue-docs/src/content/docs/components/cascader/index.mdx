@@ -6,6 +6,8 @@ description: 使用多级路径组织选项，适合层级化数据的单选、�
 import DemoBlock from '../../../../components/docs/DemoBlock.astro';
 import CascaderBasicDemo from '../../../../components/generated/cascader/basic.vue';
 import cascaderBasicSource from '../../../../components/generated/cascader/basic.vue?raw';
+import CascaderTriggerElementDemo from '../../../../components/generated/cascader/trigger-element.vue';
+import cascaderTriggerElementSource from '../../../../components/generated/cascader/trigger-element.vue?raw';
 import CascaderCheckStrictlyDemo from '../../../../components/generated/cascader/check-strictly.vue';
 import cascaderCheckStrictlySource from '../../../../components/generated/cascader/check-strictly.vue?raw';
 import CascaderClearDemo from '../../../../components/generated/cascader/clear.vue';
@@ -44,6 +46,16 @@ import cascaderVirtualSource from '../../../../components/generated/cascader/vir
 <DemoBlock source={cascaderBasicSource} mainFile="src/cascader-basic.vue">
 
 <CascaderBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义触发元素
+
+使用 `#trigger` 插槽替换默认输入框。自定义按钮仍由 Cascader 的 Trigger 负责打开和定位下拉面板。插槽直接提供 `value`、`displayValue`、`inputValue`、`selectedOptions`、完整的 `selectedPaths`、`popupVisible`、`disabled`、`loading` 和 `multiple`。
+
+<DemoBlock source={cascaderTriggerElementSource} mainFile="src/cascader-trigger-element.vue">
+
+<CascaderTriggerElementDemo client:only="vue" />
 
 </DemoBlock>
 
@@ -265,15 +277,16 @@ import cascaderVirtualSource from '../../../../components/generated/cascader/vir
 
 ### `<cascader>` Slots
 
-| 插槽名       | 描述                 | 参数                   | 版本   |
-| ------------ | -------------------- | ---------------------- | :----- |
-| label        | 选择框的显示内容     | data: `CascaderOption` | 2.18.0 |
-| option       | 自定义选项内容       | data: `CascaderOption` | 2.18.0 |
-| prefix       | 前缀元素             | -                      | 2.23.0 |
-| arrow-icon   | 选择框箭头图标       | -                      | 2.16.0 |
-| loading-icon | 选择框加载图标       | -                      | 2.16.0 |
-| search-icon  | 选择框搜索图标       | -                      | 2.16.0 |
-| empty        | 选项为空时的显示内容 | -                      | 2.23.0 |
+| 插槽名       | 描述                 | 参数                       | 版本   |
+| ------------ | -------------------- | -------------------------- | :----- |
+| trigger      | 自定义触发元素       | `CascaderTriggerSlotProps` |        |
+| label        | 选择框的显示内容     | data: `CascaderOption`     | 2.18.0 |
+| option       | 自定义选项内容       | data: `CascaderOption`     | 2.18.0 |
+| prefix       | 前缀元素             | -                          | 2.23.0 |
+| arrow-icon   | 选择框箭头图标       | -                          | 2.16.0 |
+| loading-icon | 选择框加载图标       | -                          | 2.16.0 |
+| search-icon  | 选择框搜索图标       | -                          | 2.16.0 |
+| empty        | 选项为空时的显示内容 | -                          | 2.23.0 |
 
 ### `<cascader-panel>` Props
 

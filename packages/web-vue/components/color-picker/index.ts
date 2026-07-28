@@ -25,6 +25,7 @@ export type {
   ColorObject,
   ColorValueState,
   ColorPickerChangeTrigger,
+  ColorPickerTriggerSlotProps,
   GradientColorPoint,
   RecentColorsValue,
 } from './interface';

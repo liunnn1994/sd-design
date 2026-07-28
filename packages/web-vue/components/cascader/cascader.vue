@@ -17,47 +17,60 @@
       aria-has-popup="menu"
       @popup-visible-change="handlePopupVisibleChange"
     >
-      <select-view
-        :model-value="selectViewValue"
+      <slot
+        name="trigger"
+        :value="triggerValue"
+        :display-value="triggerDisplayValue"
         :input-value="computedInputValue"
+        :selected-options="triggerSelectedOptions"
+        :selected-paths="triggerSelectedPaths"
+        :popup-visible="computedPopupVisible"
         :disabled="mergedDisabled"
-        :error="error"
-        :multiple="multiple"
-        :allow-clear="mergedAllowClear"
-        :allow-search="Boolean(mergedAllowSearch)"
-        :size="size"
-        :opened="computedPopupVisible"
-        :placeholder="placeholder"
-        :fit-width="fitWidth"
-        :max-w-full="maxWFull"
         :loading="loading"
-        :max-tag-count="maxTagCount"
-        :tag-nowrap="tagNowrap"
-        :input-attrs="triggerInputAttrs"
-        v-bind="attrs"
-        @input-value-change="handleInputValueChange"
-        @clear="handleClear"
-        @focus="handleFocus"
-        @blur="handleBlur"
-        @remove="handleRemove"
-        @keydown="handleKeyDown"
+        :multiple="multiple"
       >
-        <template v-if="$slots.label" #label="data">
-          <slot name="label" v-bind="data" />
-        </template>
-        <template v-if="$slots.prefix" #prefix>
-          <slot name="prefix" />
-        </template>
-        <template v-if="$slots['arrow-icon']" #arrow-icon>
-          <slot name="arrow-icon" />
-        </template>
-        <template v-if="$slots['loading-icon']" #loading-icon>
-          <slot name="loading-icon" />
-        </template>
-        <template v-if="$slots['search-icon']" #search-icon>
-          <slot name="search-icon" />
-        </template>
-      </select-view>
+        <select-view
+          :model-value="selectViewValue"
+          :input-value="computedInputValue"
+          :disabled="mergedDisabled"
+          :error="error"
+          :multiple="multiple"
+          :allow-clear="mergedAllowClear"
+          :allow-search="Boolean(mergedAllowSearch)"
+          :size="size"
+          :opened="computedPopupVisible"
+          :placeholder="placeholder"
+          :fit-width="fitWidth"
+          :max-w-full="maxWFull"
+          :loading="loading"
+          :max-tag-count="maxTagCount"
+          :tag-nowrap="tagNowrap"
+          :input-attrs="triggerInputAttrs"
+          v-bind="attrs"
+          @input-value-change="handleInputValueChange"
+          @clear="handleClear"
+          @focus="handleFocus"
+          @blur="handleBlur"
+          @remove="handleRemove"
+          @keydown="handleKeyDown"
+        >
+          <template v-if="$slots.label" #label="data">
+            <slot name="label" v-bind="data" />
+          </template>
+          <template v-if="$slots.prefix" #prefix>
+            <slot name="prefix" />
+          </template>
+          <template v-if="$slots['arrow-icon']" #arrow-icon>
+            <slot name="arrow-icon" />
+          </template>
+          <template v-if="$slots['loading-icon']" #loading-icon>
+            <slot name="loading-icon" />
+          </template>
+          <template v-if="$slots['search-icon']" #search-icon>
+            <slot name="search-icon" />
+          </template>
+        </select-view>
+      </slot>
       <template #content>
         <cascader-search-panel
           v-if="showSearchPanel"
@@ -179,6 +192,11 @@
   });
 
   const emit = defineEmits<CascaderEmits>();
+  /**
+   * @zh 自定义触发元素
+   * @en Custom trigger element
+   * @slot trigger
+   */
   const attrs = useAttrs();
   const slots = useSlots();
   const configCtx = inject(configProviderInjectionKey, undefined);
@@ -727,4 +745,22 @@
     });
     return result;
   });
+  const triggerValue = computed<CascaderModelValue>(() => {
+    const values = Array.from(computedValueMap.value.values());
+    return props.multiple ? values : (values[0] ?? '');
+  });
+  const triggerDisplayValue = computed(() => {
+    const labels = selectViewValue.value.map((item) => item.label);
+    return props.multiple ? labels : (labels[0] ?? '');
+  });
+  const triggerSelectedPaths = computed(() =>
+    Array.from(computedValueMap.value.keys())
+      .map((key) => leafOptionMap.get(key)?.path.map((item) => item.raw))
+      .filter((path): path is CascaderOption[] => Boolean(path)),
+  );
+  const triggerSelectedOptions = computed(() =>
+    triggerSelectedPaths.value
+      .map((path) => path.at(-1))
+      .filter((option): option is CascaderOption => Boolean(option)),
+  );
 </script>

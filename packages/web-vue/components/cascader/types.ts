@@ -15,6 +15,18 @@ import type {
 
 export type CascaderExpandTrigger = 'click' | 'hover';
 
+export interface CascaderTriggerSlotProps {
+  value: CascaderModelValue;
+  displayValue: string | string[];
+  inputValue: string;
+  selectedOptions: CascaderOption[];
+  selectedPaths: CascaderOption[][];
+  popupVisible: boolean;
+  disabled: boolean;
+  loading: boolean;
+  multiple: boolean;
+}
+
 export interface CascaderProps extends FitWidthProps {
   pathMode?: boolean;
   multiple?: boolean;

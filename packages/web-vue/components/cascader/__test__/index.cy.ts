@@ -21,6 +21,25 @@ const options = [
 const mountCascader = (opts: Record<string, unknown>) => cy.mount(Cascader, opts);
 
 describe('Cascader', () => {
+  it('opens the panel from a custom trigger slot', () => {
+    mountCascader({
+      props: { options, defaultValue: 'haidian' },
+      slots: {
+        trigger: (scope: any) =>
+          h(
+            'button',
+            { class: 'custom-trigger' },
+            `${scope.displayValue}|${scope.selectedPaths[0]?.length}|${scope.popupVisible}`,
+          ),
+      },
+    });
+    cy.get('.sd-select-view').should('not.exist');
+    cy.get('.custom-trigger').should('have.text', 'Beijing / Haidian|2|false');
+    cy.get('.custom-trigger').click();
+    cy.get('.custom-trigger').should('have.text', 'Beijing / Haidian|2|true');
+    cy.get('.sd-cascader-dropdown-panel').should('be.visible');
+  });
+
   it('passes spinProps to the loading panel', () => {
     mountCascader({
       props: {

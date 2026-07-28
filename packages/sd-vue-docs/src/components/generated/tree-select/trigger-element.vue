@@ -1,16 +1,16 @@
 <template>
-  <sd-tree-select :data="treeData" default-value="node1" @change="onChange">
-    <template #trigger>
+  <sd-tree-select :data="treeData" default-value="node1">
+    <template #trigger="{ displayValue, selectedOptions, popupVisible }">
       <sd-typography-paragraph class="sd:w-75">
-        You selected: <a href="javascript: void(0)">{{ text }}</a>
+        已选择：
+        <a href="javascript: void(0)">{{ displayValue || '未选择' }}</a>
+        （{{ selectedOptions.length }} 项，{{ popupVisible ? '收起' : '展开' }}）
       </sd-typography-paragraph>
     </template>
   </sd-tree-select>
 </template>
 <script setup lang="ts">
-  import type { TreeNodeData, TreeSelectChangeHandler } from '@sdata/web-vue';
-
-  import { ref } from 'vue';
+  import type { TreeNodeData } from '@sdata/web-vue';
 
   const treeData: TreeNodeData[] = [
     {
@@ -48,10 +48,4 @@
       ],
     },
   ];
-
-  const text = ref('node1');
-
-  function onChange(selected: Parameters<TreeSelectChangeHandler>[0]) {
-    text.value = String(selected ?? '');
-  }
 </script>

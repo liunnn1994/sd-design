@@ -17,40 +17,51 @@
     aria-has-popup="dialog"
     @popupVisibleChange="onPanelVisibleChange"
   >
-    <slot>
-      <DateInput
-        v-bind="$attrs"
-        ref="refInput"
-        :size="size"
-        :focused="panelVisible"
-        :visible="panelVisible"
-        :error="error"
-        :disabled="mergedDisabled"
-        :readonly="!inputEditable || disabledInput"
-        :allow-clear="mergedAllowClear && !readonly"
-        :placeholder="computedPlaceholder"
-        :fit-width="fitWidth"
-        :max-w-full="maxWFull"
-        :fit-width-fallback="fitWidthFallback"
-        :fit-width-fallback-text="fitWidthFallbackText"
-        :input-props="inputProps"
-        :input-value="inputValue"
-        :value="needConfirm ? panelValue : selectedValue"
-        :format="inputFormat"
-        @clear="onInputClear"
-        @change="onInputChange"
-        @pressEnter="onInputPressEnter"
-        @blur="onInputBlur"
-      >
-        <template v-if="$slots.prefix" #prefix>
-          <slot name="prefix" />
-        </template>
-        <template #suffix-icon>
-          <slot name="suffix-icon">
-            <IconCalendar />
-          </slot>
-        </template>
-      </DateInput>
+    <slot
+      name="trigger"
+      :value="triggerValue"
+      :date="triggerDate"
+      :display-value="triggerDisplayValue"
+      :input-value="inputValue"
+      :popup-visible="panelVisible"
+      :disabled="mergedDisabled"
+      :readonly="Boolean(readonly)"
+    >
+      <slot>
+        <DateInput
+          v-bind="$attrs"
+          ref="refInput"
+          :size="size"
+          :focused="panelVisible"
+          :visible="panelVisible"
+          :error="error"
+          :disabled="mergedDisabled"
+          :readonly="!inputEditable || disabledInput"
+          :allow-clear="mergedAllowClear && !readonly"
+          :placeholder="computedPlaceholder"
+          :fit-width="fitWidth"
+          :max-w-full="maxWFull"
+          :fit-width-fallback="fitWidthFallback"
+          :fit-width-fallback-text="fitWidthFallbackText"
+          :input-props="inputProps"
+          :input-value="inputValue"
+          :value="needConfirm ? panelValue : selectedValue"
+          :format="inputFormat"
+          @clear="onInputClear"
+          @change="onInputChange"
+          @pressEnter="onInputPressEnter"
+          @blur="onInputBlur"
+        >
+          <template v-if="$slots.prefix" #prefix>
+            <slot name="prefix" />
+          </template>
+          <template #suffix-icon>
+            <slot name="suffix-icon">
+              <IconCalendar />
+            </slot>
+          </template>
+        </DateInput>
+      </slot>
     </slot>
     <template #content>
       <slot name="panelRender" :component="PickerPanel" :props="panelProps">
@@ -471,6 +482,11 @@
   }>();
 
   /**
+   * @zh 自定义触发元素
+   * @en Custom trigger element
+   * @slot trigger
+   */
+  /**
    * @zh 自定义渲染面板
    * @en Customize panel rendering
    * @slot panelRender
@@ -678,6 +694,21 @@
 
   // input 操作使用的值
   const [inputValue, setInputValue] = useState<string | undefined>();
+  const triggerLocalValue = computed(() =>
+    selectedValue.value
+      ? toLocal(selectedValue.value, utcOffset?.value, timezone?.value)
+      : undefined,
+  );
+  const triggerValue = computed(() =>
+    selectedValue.value ? getReturnValue(selectedValue.value) : undefined,
+  );
+  const triggerDate = computed(() => getDateValue(triggerLocalValue.value) as Date | undefined);
+  const triggerDisplayValue = computed(() => {
+    if (!triggerLocalValue.value) return '';
+    return isFunction(inputFormat.value)
+      ? inputFormat.value(triggerLocalValue.value)
+      : (getFormattedValue(triggerLocalValue.value, inputFormat.value) ?? '');
+  });
 
   // 选择面板是否可见
   const [panelVisible, setLocalPanelVisible] = useMergeState(
