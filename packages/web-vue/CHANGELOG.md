@@ -1,3 +1,10 @@
+# [3.22.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.21.0...web-vue-v3.22.0) (2026-07-28)
+
+
+### Features
+
+* 🆕 为下拉组件添加 ellipsis 支持 ([6e57eab](https://github.com/liunnn1994/sd-design/commit/6e57eaba60693b7f2091bbd989a0162b697ab9d3))
+
 # [3.21.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.20.0...web-vue-v3.21.0) (2026-07-28)
 
 
