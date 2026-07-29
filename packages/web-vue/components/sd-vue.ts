@@ -56,6 +56,7 @@ import Mention from './mention';
 import Menu, { MenuItem, MenuItemGroup, SubMenu } from './menu';
 import Message from './message';
 import Modal from './modal';
+import ModelSelector from './model-selector';
 import Notification from './notification';
 import OverflowList from './overflow-list';
 import PageHeader from './page-header';
@@ -167,6 +168,7 @@ const components: Record<string, Plugin> = {
   Drawer,
   Message,
   Modal,
+  ModelSelector,
   Notification,
   Popconfirm,
   Progress,

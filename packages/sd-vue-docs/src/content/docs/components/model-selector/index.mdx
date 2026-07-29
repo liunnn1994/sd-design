@@ -1,0 +1,195 @@
+---
+title: 模型选择器 ModelSelector
+description: 在可搜索、可分组的对话框中选择 AI 模型，并以内置离线 SVG 展示模型服务商 Logo。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import ModelSelectorBasicDemo from '../../../../components/generated/model-selector/basic.vue';
+import modelSelectorBasicSource from '../../../../components/generated/model-selector/basic.vue?raw';
+import ModelSelectorSearchDemo from '../../../../components/generated/model-selector/search.vue';
+import modelSelectorSearchSource from '../../../../components/generated/model-selector/search.vue?raw';
+import ModelSelectorControlledDemo from '../../../../components/generated/model-selector/controlled.vue';
+import modelSelectorControlledSource from '../../../../components/generated/model-selector/controlled.vue?raw';
+import ModelSelectorCustomDemo from '../../../../components/generated/model-selector/custom.vue';
+import modelSelectorCustomSource from '../../../../components/generated/model-selector/custom.vue?raw';
+
+ModelSelector 适用于模型数量较多、需要按厂商或能力检索的选择场景。它由状态根组件、对话框、搜索框、列表和展示原语组成，可以按业务数据自由组合，而不要求把模型目录写死在组件内部。
+
+组件内部直接复用 SD Design 的 `Button`、`Modal`、`Input`、`Scrollbar`、`Empty` 和 `Divider`，因此会继承组件库统一的尺寸、禁用态、焦点样式、滚动条与空状态表现。ModelSelector 只补充模型筛选、选项注册、键盘导航和 Logo 组合等领域能力。
+
+所有内置服务商 Logo 都会随 `@sdata/web-vue` 一起打包。组件运行时不会访问 `models.dev`、CDN 或其他图片服务；未知 provider 会使用同样位于包内的通用 SVG。
+
+### 基本用法
+
+使用 `ModelSelector` 管理显隐与选择事件，通过 `ModelSelectorTrigger`、`ModelSelectorContent` 和列表子组件组合完整选择流程。`ModelSelectorItem` 的 `label` 与 `keywords` 都会参与搜索。
+
+<DemoBlock source={modelSelectorBasicSource} mainFile="src/model-selector-basic.vue">
+
+<ModelSelectorBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 搜索、分组与空状态
+
+搜索不区分大小写，会匹配选项值、`label` 和 `keywords`。过滤后没有可见选项的分组会自动隐藏，所有分组均为空时显示 `ModelSelectorEmpty`。
+
+<DemoBlock source={modelSelectorSearchSource} mainFile="src/model-selector-search.vue">
+
+<ModelSelectorSearchDemo client:only="vue" />
+
+</DemoBlock>
+
+### 受控对话框
+
+`ModelSelectorDialog` 是无需单独声明根组件和 Content 的便捷入口，支持 `v-model:visible`。选择后默认关闭；若需要连续选择，可设置 `close-on-select="false"`。
+
+<DemoBlock source={modelSelectorControlledSource} mainFile="src/model-selector-controlled.vue">
+
+<ModelSelectorControlledDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义分组与模型路由
+
+分组标题、选项内容和模型名称均由插槽组合。`ModelSelectorLogoGroup` 会排列在名称右侧，可展示多个候选服务商；自定义 provider 不会触发远程图片请求，而是使用离线通用 Logo。通过 `ModelSelectorItem` 的 `shortcut` 属性可以为每个选项配置适合当前应用的快捷键。
+
+<DemoBlock source={modelSelectorCustomSource} mainFile="src/model-selector-custom.vue">
+
+<ModelSelectorCustomDemo client:only="vue" />
+
+</DemoBlock>
+
+## 键盘操作
+
+| 按键                  | 行为                               |
+| --------------------- | ---------------------------------- |
+| `↑` / `↓`             | 在当前搜索结果的可用选项间循环移动 |
+| `Enter`               | 选择当前活动项                     |
+| `Esc`                 | 关闭模型选择器                     |
+| `Tab` / `Shift + Tab` | 在对话框内按焦点顺序移动           |
+| 选项的 `shortcut`     | 直接选择对应的可用选项             |
+
+选项快捷键基于 VueUse `useMagicKeys`，使用 `Alt+Shift+1`、`Ctrl+K` 或 `Meta+1` 等组合键格式。数字键会按 `KeyboardEvent.code` 匹配，因此 `Alt+Shift+1` 中数字键产生 `!` 时仍可正确识别。快捷键只在选择器打开时生效，并且只会选择当前搜索结果中可见且未禁用的选项。若组合键与操作系统或其他软件冲突，可通过每个 `ModelSelectorItem` 的 `shortcut` 属性替换。
+
+## 离线 Logo
+
+`ModelSelectorLogo` 内置 `MODEL_SELECTOR_PROVIDERS` 中列出的 provider。资源来自 models.dev 的开源 provider logo 数据，并已固化为组件源码中的 SVG。`wandb`、`synthetic`、`requesty`、`morph` 和 `lmstudio` 在上游没有独立 Logo，与上游服务一致使用本地通用图标。
+
+可以从包中导入 provider 类型和已知列表：
+
+```ts
+import type { ModelSelectorProvider } from '@sdata/web-vue';
+import { MODEL_SELECTOR_PROVIDERS } from '@sdata/web-vue';
+```
+
+`ModelSelectorProvider` 保留已知值的自动补全，同时允许业务自定义字符串；自定义值始终离线回退。
+
+## API
+
+### `<ModelSelector>` Props
+
+| 参数                  | 描述                     | 类型      | 默认值  |
+| --------------------- | ------------------------ | --------- | ------- |
+| visible **(v-model)** | 是否显示选择器           | `boolean` | -       |
+| default-visible       | 非受控模式的默认显隐状态 | `boolean` | `false` |
+| close-on-select       | 选择后是否自动关闭       | `boolean` | `true`  |
+| reset-query-on-close  | 关闭时是否清空搜索条件   | `boolean` | `true`  |
+
+### `<ModelSelector>` Events
+
+| 事件           | 描述                 | 参数                            |
+| -------------- | -------------------- | ------------------------------- |
+| visible-change | 显隐状态改变时触发   | `(visible: boolean)`            |
+| select         | 用户选择可用项时触发 | `(value: string, event: Event)` |
+
+### `<ModelSelector>` Slots
+
+| 插槽    | 描述               | 参数                       |
+| ------- | ------------------ | -------------------------- |
+| default | 触发器与选择器内容 | `{ visible, open, close }` |
+
+### `<ModelSelectorTrigger>` Props
+
+| 参数     | 描述           | 类型      | 默认值  |
+| -------- | -------------- | --------- | ------- |
+| disabled | 是否禁用触发器 | `boolean` | `false` |
+
+默认插槽接收 `{ visible, open, close }`，触发元素自动包含 `aria-haspopup` 与 `aria-expanded`。
+
+### `<ModelSelectorContent>` Props
+
+| 参数             | 描述               | 类型               | 默认值       |
+| ---------------- | ------------------ | ------------------ | ------------ |
+| title            | 对话框无障碍标题   | `string`           | `'模型选择'` |
+| width            | 对话框宽度         | `number \| string` | `640`        |
+| render-to-body   | 是否挂载到 `body`  | `boolean`          | `true`       |
+| unmount-on-close | 关闭时是否卸载内容 | `boolean`          | `true`       |
+| mask-closable    | 点击遮罩是否关闭   | `boolean`          | `true`       |
+| esc-to-close     | 是否允许 Esc 关闭  | `boolean`          | `true`       |
+
+默认插槽用于组合输入框、列表及其他自定义内容。标题在视觉上隐藏，但会作为对话框的可访问名称保留。
+
+### `<ModelSelectorDialog>` Props 与 Events
+
+`ModelSelectorDialog` 同时接受 `ModelSelector` 的 `visible`、`default-visible`、`close-on-select`、`reset-query-on-close`，以及 `ModelSelectorContent` 的全部 props。它同样触发 `visible-change` 和 `select`。
+
+### `<ModelSelectorInput>` Props
+
+| 参数                      | 描述                                 | 类型     | 默认值 |
+| ------------------------- | ------------------------------------ | -------- | ------ |
+| model-value **(v-model)** | 搜索内容；未绑定时使用根组件内部状态 | `string` | -      |
+| input-attrs               | 透传给底层原生 `input` 的属性        | `object` | -      |
+
+组件基于 `Input`，`placeholder`、`disabled`、`readonly`、`size` 和 `allow-clear` 等 Input 属性可直接使用；需要设置原生输入属性时使用 `input-attrs`。输入框自动关联列表的 `aria-controls` 和活动项的 `aria-activedescendant`。
+
+### `<ModelSelectorGroup>` Props 与 Slots
+
+| 参数    | 描述                         | 类型     | 默认值 |
+| ------- | ---------------------------- | -------- | ------ |
+| heading | 分组标题，`heading` 插槽优先 | `string` | -      |
+
+| 插槽    | 描述             |
+| ------- | ---------------- |
+| default | 分组内的模型选项 |
+| heading | 自定义分组标题   |
+
+### `<ModelSelectorItem>` Props
+
+| 参数     | 描述                                               | 类型       | 默认值  |
+| -------- | -------------------------------------------------- | ---------- | ------- |
+| value    | 选择事件返回的值                                   | `string`   | -       |
+| label    | 用于搜索的显示文本；省略时读取渲染文本             | `string`   | -       |
+| keywords | 额外搜索关键词                                     | `string[]` | `[]`    |
+| disabled | 是否禁用                                           | `boolean`  | `false` |
+| selected | 是否展示为已选状态                                 | `boolean`  | `false` |
+| shortcut | 选择当前选项的组合键，格式遵循 VueUse useMagicKeys | `string`   | -       |
+
+### `<ModelSelectorItem>` Events 与 Slots
+
+| 事件   | 描述                 | 参数                            |
+| ------ | -------------------- | ------------------------------- |
+| select | 当前选项被选择时触发 | `(value: string, event: Event)` |
+
+默认插槽接收 `{ active, disabled, selected }`，可用于自定义勾选图标或活动态内容。
+
+### 列表辅助组件
+
+| 组件                     | 用途                                     | Props |
+| ------------------------ | ---------------------------------------- | ----- |
+| `ModelSelectorList`      | 基于 `Scrollbar` 的可滚动 `listbox` 容器 | -     |
+| `ModelSelectorEmpty`     | 基于 `Empty`，无匹配选项时自动显示       | -     |
+| `ModelSelectorSeparator` | 基于 `Divider` 分隔不同区域              | -     |
+| `ModelSelectorShortcut`  | 展示快捷键提示                           | -     |
+| `ModelSelectorName`      | 带省略处理的模型名称                     | -     |
+| `ModelSelectorLogoGroup` | 重叠展示多个服务商 Logo                  | -     |
+
+### `<ModelSelectorLogo>` Props
+
+| 参数 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| provider | 服务商标识，未知值使用离线通用 Logo | `ModelSelectorProvider` | - |
+| alt | 图片替代文本 | `string` | `` `${provider} logo` `` |
+| width | Logo 宽度 | `number \| string` | `16` |
+| height | Logo 高度 | `number \| string` | `16` |
+
+其余属性会透传给原生 `img`。

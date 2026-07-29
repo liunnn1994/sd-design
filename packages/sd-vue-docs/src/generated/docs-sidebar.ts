@@ -397,6 +397,10 @@ export const docsSidebar = [
             label: '选择器 Select',
           },
           {
+            slug: 'components/model-selector',
+            label: '模型选择器 ModelSelector',
+          },
+          {
             slug: 'components/sender',
             label: '对话输入框 Sender',
           },

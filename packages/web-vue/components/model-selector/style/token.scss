@@ -1,0 +1,24 @@
+@use '@style/theme/index.scss' as global;
+@use 'sass:string';
+
+@forward '@style/theme/index.scss';
+
+$model-selector-color-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-popup'));
+$model-selector-color-border: var(string.unquote('#{global.$sd-cssvars-prefix}-color-fill-3'));
+$model-selector-color-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
+$model-selector-color-text-secondary: var(
+  string.unquote('#{global.$sd-cssvars-prefix}-color-text-3')
+);
+$model-selector-color-text-disabled: var(
+  string.unquote('#{global.$sd-cssvars-prefix}-color-text-4')
+);
+$model-selector-color-fill-hover: var(string.unquote('#{global.$sd-cssvars-prefix}-color-fill-2'));
+$model-selector-border-radius: global.$radius-medium;
+$model-selector-item-height: global.$size-10;
+$model-selector-list-max-height: global.$size-50 * 2;
+$model-selector-list-viewport-offset: global.$size-40;
+$model-selector-padding: global.$spacing-3;
+$model-selector-padding-horizontal: global.$spacing-6;
+$model-selector-gap: global.$spacing-4;
+$model-selector-font-size: global.$font-size-body-3;
+$model-selector-font-size-secondary: global.$font-size-body-1;

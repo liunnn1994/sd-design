@@ -357,6 +357,42 @@ export { default as Message } from './message';
 export type { MessageMethod, MessageConfig, MessageReturn } from './message';
 export { default as Modal } from './modal';
 export type { ModalMethod, ModalConfig, ModalReturn } from './modal';
+export {
+  default as ModelSelector,
+  ModelSelectorContent,
+  ModelSelectorDialog,
+  ModelSelectorEmpty,
+  ModelSelectorGroup,
+  ModelSelectorInput,
+  ModelSelectorItem,
+  ModelSelectorList,
+  ModelSelectorLogo,
+  ModelSelectorLogoGroup,
+  ModelSelectorName,
+  ModelSelectorSeparator,
+  ModelSelectorShortcut,
+  ModelSelectorTrigger,
+  MODEL_SELECTOR_PROVIDERS,
+} from './model-selector';
+export type {
+  ModelSelectorContentInstance,
+  ModelSelectorDialogInstance,
+  ModelSelectorEmptyInstance,
+  ModelSelectorGroupInstance,
+  ModelSelectorInputInstance,
+  ModelSelectorInstance,
+  ModelSelectorItemData,
+  ModelSelectorItemInstance,
+  ModelSelectorKnownProvider,
+  ModelSelectorListInstance,
+  ModelSelectorLogoGroupInstance,
+  ModelSelectorLogoInstance,
+  ModelSelectorNameInstance,
+  ModelSelectorProvider,
+  ModelSelectorSeparatorInstance,
+  ModelSelectorShortcutInstance,
+  ModelSelectorTriggerInstance,
+} from './model-selector';
 export { default as Notification } from './notification';
 export type { NotificationMethod, NotificationConfig, NotificationReturn } from './notification';
 export { default as PageHeader } from './page-header';

@@ -1,0 +1,157 @@
+@use '@style/theme/index.scss' as theme;
+@use 'sass:string';
+@use '@components/model-selector/style/token.scss' as *;
+
+$model-selector-prefix-cls: string.unquote('#{theme.$prefix}-model-selector');
+
+.#{$model-selector-prefix-cls} {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: 0;
+  overflow: hidden;
+  color: $model-selector-color-text;
+  font-size: $model-selector-font-size;
+  background: $model-selector-color-bg;
+  border-radius: $model-selector-border-radius;
+
+  &-modal {
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid $model-selector-color-border;
+    border-radius: $model-selector-border-radius;
+  }
+
+  &-modal .#{theme.$prefix}-modal-header {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    border: 0;
+    clip-path: inset(50%);
+  }
+
+  &-body {
+    padding: 0;
+  }
+
+  &-trigger {
+    flex: none;
+  }
+
+  &-input-container {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    padding: $model-selector-padding $model-selector-padding-horizontal;
+  }
+
+  &-list {
+    --#{$model-selector-prefix-cls}-list-max-height: #{$model-selector-list-max-height};
+    --#{$model-selector-prefix-cls}-list-viewport-offset: #{$model-selector-list-viewport-offset};
+
+    &-content {
+      padding: $model-selector-padding;
+      overscroll-behavior: contain;
+    }
+  }
+
+  &-group {
+    & + & {
+      margin-top: $model-selector-padding;
+    }
+
+    &-heading {
+      padding: $model-selector-padding $model-selector-padding-horizontal;
+      color: $model-selector-color-text-secondary;
+      font-weight: theme.$font-weight-500;
+      font-size: $model-selector-font-size-secondary;
+    }
+
+    &-content {
+      display: flex;
+      flex-direction: column;
+      gap: theme.$spacing-1;
+    }
+  }
+
+  &-item {
+    display: flex;
+    gap: $model-selector-gap;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: $model-selector-item-height;
+    padding: 0 $model-selector-padding-horizontal;
+    border-radius: $model-selector-border-radius;
+    cursor: pointer;
+    user-select: none;
+
+    &--active:not(&--disabled) {
+      background: $model-selector-color-fill-hover;
+    }
+
+    &--disabled {
+      color: $model-selector-color-text-disabled;
+      cursor: not-allowed;
+    }
+
+    &--selected {
+      font-weight: theme.$font-weight-500;
+    }
+  }
+
+  &-empty {
+    padding: theme.$spacing-12 $model-selector-padding-horizontal;
+  }
+
+  &-separator {
+    margin: $model-selector-padding 0;
+  }
+
+  &-shortcut {
+    flex: none;
+    order: 2;
+    margin-left: auto;
+    color: $model-selector-color-text-secondary;
+    font: inherit;
+    font-size: $model-selector-font-size-secondary;
+  }
+
+  &-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: left;
+    text-overflow: ellipsis;
+  }
+
+  &-logo {
+    display: block;
+    flex: none;
+    object-fit: contain;
+  }
+
+  &-logo-group {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    order: 1;
+    margin-left: auto;
+
+    > .#{$model-selector-prefix-cls}-logo {
+      box-sizing: content-box;
+      padding: 1px;
+      background: $model-selector-color-bg;
+      border: 1px solid $model-selector-color-border;
+      border-radius: 50%;
+
+      & + .#{$model-selector-prefix-cls}-logo {
+        margin-left: -#{theme.$spacing-3};
+      }
+    }
+  }
+}
