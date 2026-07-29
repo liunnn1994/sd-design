@@ -35,6 +35,7 @@ class SdSenderAudioProcessor extends AudioWorkletProcessor {
     this.bufferSize = Math.max(128, options.processorOptions?.bufferSize || ${DEFAULT_BUFFER_SIZE});
     this.buffer = new Float32Array(this.bufferSize);
     this.offset = 0;
+    this.stopped = false;
     this.port.onmessage = (event) => {
       if (event.data?.type !== 'flush') return;
       if (this.offset > 0) {
@@ -42,11 +43,13 @@ class SdSenderAudioProcessor extends AudioWorkletProcessor {
         this.port.postMessage(chunk.buffer, [chunk.buffer]);
         this.offset = 0;
       }
+      this.stopped = true;
       this.port.postMessage({ type: 'flushed' });
     };
   }
 
   process(inputs) {
+    if (this.stopped) return false;
     const channels = inputs[0];
     if (!channels?.length) return true;
     const frames = channels[0].length;
@@ -112,7 +115,8 @@ export function useSpeech(
   const chunks = shallowRef(0);
   const sequence = shallowRef(0);
   let generatedWorkletUrl: string | undefined;
-  let resolveWorkletFlush: (() => void) | undefined;
+  let resolveWorkletStop: (() => void) | undefined;
+  let workletStopRequested = false;
   let workletReady = false;
   let disposed = false;
 
@@ -183,26 +187,37 @@ export function useSpeech(
       };
     });
 
-  const flushWorklet = () =>
+  const stopWorklet = () =>
     new Promise<void>((resolve) => {
       const port = workletNode.value?.port;
-      if (!port) {
+      if (!port || workletStopRequested) {
         resolve();
         return;
       }
-      const timeout = window.setTimeout(resolve, 100);
-      resolveWorkletFlush = () => {
+      workletStopRequested = true;
+      let settled = false;
+      const finish = () => {
+        if (settled) return;
+        settled = true;
         window.clearTimeout(timeout);
-        resolveWorkletFlush = undefined;
+        resolveWorkletStop = undefined;
         resolve();
       };
+      const timeout = window.setTimeout(finish, 100);
+      resolveWorkletStop = finish;
       port.postMessage({ type: 'flush' });
     });
 
   // 复用 AudioContext：停止时仅断开节点并挂起，不 close，避免反复 create/close 触发
   // Chrome 渲染进程在第二次录音时卡死（AudioWorklet + 0 输出节点的已知问题）。
   const releaseResources = async () => {
-    workletNode.value?.disconnect();
+    const currentWorkletNode = workletNode.value;
+    await stopWorklet();
+    if (currentWorkletNode) {
+      currentWorkletNode.port.onmessage = null;
+      currentWorkletNode.port.close();
+      currentWorkletNode.disconnect();
+    }
     sourceNode.value?.disconnect();
     stream.value?.getTracks().forEach((track) => track.stop());
     if (audioContext.value?.state === 'running') await audioContext.value.suspend();
@@ -232,7 +247,7 @@ export function useSpeech(
     if (!internalRecording.value || stopping.value) return;
     stopping.value = true;
     try {
-      await flushWorklet();
+      await stopWorklet();
       const endedAt = performance.now();
       internalRecording.value = false;
       if (
@@ -312,11 +327,12 @@ export function useSpeech(
           bufferSize,
         },
       });
+      workletStopRequested = false;
       workletNode.value = nextWorkletNode;
       sourceNode.value = nextAudioContext.createMediaStreamSource(stream.value);
       nextWorkletNode.port.onmessage = (event: MessageEvent<ArrayBuffer | { type: 'flushed' }>) => {
         if (!(event.data instanceof ArrayBuffer) && 'type' in event.data) {
-          if (event.data.type === 'flushed') resolveWorkletFlush?.();
+          if (event.data.type === 'flushed') resolveWorkletStop?.();
           return;
         }
         if (!internalRecording.value) return;

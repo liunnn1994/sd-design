@@ -13,6 +13,7 @@ interface AudioWorkletNodeMock {
   port: {
     onmessage: ((event: MessageEvent<ArrayBuffer | { type: 'flushed' }>) => void) | null;
     postMessage: (message: unknown) => void;
+    close: () => void;
   };
 }
 
@@ -66,12 +67,15 @@ const installSpeechMocks = (permissionDenied = false) => {
       }
     }
 
+    const workletPortPostMessage = cy.spy().as('audioWorkletPortPostMessage');
+    const workletPortClose = cy.spy().as('audioWorkletPortClose');
     class MockAudioWorkletNode {
       port = {
         onmessage: null as
           | ((event: MessageEvent<ArrayBuffer | { type: 'flushed' }>) => void)
           | null,
         postMessage: (message: unknown) => {
+          workletPortPostMessage(message);
           if ((message as { type?: string }).type !== 'flush') return;
           queueMicrotask(() =>
             this.port.onmessage?.({
@@ -79,6 +83,7 @@ const installSpeechMocks = (permissionDenied = false) => {
             } as MessageEvent<{ type: 'flushed' }>),
           );
         },
+        close: workletPortClose,
       };
 
       constructor() {
@@ -329,6 +334,8 @@ describe('Sender', () => {
     });
     cy.get('.sd-sender-actions-btn').first().click();
     cy.get('@microphoneTrackStop').should('have.been.calledOnce');
+    cy.get('@audioWorkletPortPostMessage').should('have.been.calledOnceWith', { type: 'flush' });
+    cy.get('@audioWorkletPortClose').should('have.been.calledOnce');
     cy.get('@audioContextSuspend').should('have.been.calledOnce');
     cy.get('@audioContextClose').should('not.have.been.called');
     cy.get('@vue').should(({ wrapper }) => {
