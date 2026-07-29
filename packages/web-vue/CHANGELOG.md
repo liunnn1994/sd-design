@@ -1,3 +1,16 @@
+# [3.24.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.23.0...web-vue-v3.24.0) (2026-07-29)
+
+
+### Bug Fixes
+
+* 🐛 修复富文本编辑器潜在的性能问题 ([86560da](https://github.com/liunnn1994/sd-design/commit/86560da938ccd265d08b0b48f9de21d348005d5a))
+* 🐛 由于 recorder-core 的类型都是 any，在这添加一个兜底的类型避免警告 ([0a60ee3](https://github.com/liunnn1994/sd-design/commit/0a60ee37b5ceddd185655b28f737a5067d722e93))
+
+
+### Features
+
+* 🆕 新增模型选择组件 ([c267ad8](https://github.com/liunnn1994/sd-design/commit/c267ad866fd7b024830dfe8c4275c11cb58eac52))
+
 # [3.23.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.22.3...web-vue-v3.23.0) (2026-07-29)
 
 
