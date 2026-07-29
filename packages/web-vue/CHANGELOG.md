@@ -1,3 +1,10 @@
+# [3.23.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.22.3...web-vue-v3.23.0) (2026-07-29)
+
+
+### Features
+
+* 🆕 使用 recorder-core 替换自封装的逻辑 ([2997598](https://github.com/liunnn1994/sd-design/commit/2997598412a40da4324dd80b6eeb8c78daf3fc98))
+
 ## [3.22.3](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.22.2...web-vue-v3.22.3) (2026-07-29)
 
 
