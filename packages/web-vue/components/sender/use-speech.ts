@@ -112,6 +112,7 @@ export function useSpeech(
   const sequence = shallowRef(0);
   let generatedWorkletUrl: string | undefined;
   let resolveWorkletFlush: (() => void) | undefined;
+  let workletReady = false;
   let disposed = false;
 
   const recording = computed(() =>
@@ -197,11 +198,13 @@ export function useSpeech(
       port.postMessage({ type: 'flush' });
     });
 
+  // 复用 AudioContext：停止时仅断开节点并挂起，不 close，避免反复 create/close 触发
+  // Chrome 渲染进程在第二次录音时卡死（AudioWorklet + 0 输出节点的已知问题）。
   const releaseResources = async () => {
     workletNode.value?.disconnect();
     sourceNode.value?.disconnect();
     stream.value?.getTracks().forEach((track) => track.stop());
-    if (audioContext.value?.state !== 'closed') await audioContext.value?.close();
+    if (audioContext.value?.state === 'running') await audioContext.value.suspend();
     if (
       socket.value &&
       (socket.value.readyState === WebSocket.OPEN ||
@@ -212,8 +215,16 @@ export function useSpeech(
     workletNode.value = undefined;
     sourceNode.value = undefined;
     stream.value = undefined;
-    audioContext.value = undefined;
     socket.value = undefined;
+  };
+
+  // 彻底关闭并丢弃 AudioContext（仅卸载或建图失败时调用）。
+  const closeAudioContext = async () => {
+    if (audioContext.value && audioContext.value.state !== 'closed') {
+      await audioContext.value.close();
+    }
+    audioContext.value = undefined;
+    workletReady = false;
   };
 
   const stopCapture = async (reason: SenderSpeechEndReason = 'manual') => {
@@ -265,10 +276,22 @@ export function useSpeech(
         }
       }
       phase = 'audioContext';
-      const nextAudioContext = resolveAudioContext();
-      audioContext.value = nextAudioContext;
+      // 复用 AudioContext：首次创建后跨会话保留，仅 resume/suspend，避免反复 create/close
+      // 触发 Chrome 渲染进程在第二次录音时卡死。
+      let nextAudioContext = audioContext.value;
+      if (!nextAudioContext) {
+        nextAudioContext = resolveAudioContext();
+        audioContext.value = nextAudioContext;
+        workletReady = false;
+      }
+      if (nextAudioContext.state === 'suspended') {
+        await nextAudioContext.resume();
+      }
       phase = 'audioWorklet';
-      await nextAudioContext.audioWorklet.addModule(resolveWorkletUrl());
+      if (!workletReady) {
+        await nextAudioContext.audioWorklet.addModule(resolveWorkletUrl());
+        workletReady = true;
+      }
       if (disposed) {
         await releaseResources();
         return;
@@ -333,6 +356,8 @@ export function useSpeech(
       captureError.value = errorEvent;
       options.onError(errorEvent);
       await releaseResources();
+      // 建图失败时丢弃可能已损坏的 AudioContext，下次重建
+      await closeAudioContext();
     } finally {
       requesting.value = false;
     }
@@ -386,6 +411,7 @@ export function useSpeech(
     disposed = true;
     if (internalRecording.value) await stopCapture('unmount');
     else await releaseResources();
+    await closeAudioContext();
     if (generatedWorkletUrl) URL.revokeObjectURL(generatedWorkletUrl);
   });
 
