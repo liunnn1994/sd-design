@@ -1,3 +1,10 @@
+## [3.22.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.22.0...web-vue-v3.22.1) (2026-07-29)
+
+
+### Bug Fixes
+
+* 🐛 修复 AudioContext 没有复用导致卡死的问题 ([3493b78](https://github.com/liunnn1994/sd-design/commit/3493b788d9baa3c8d3089170503ca39f20d08764))
+
 # [3.22.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.21.0...web-vue-v3.22.0) (2026-07-28)
 
 
