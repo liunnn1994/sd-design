@@ -1,3 +1,5 @@
+import type { UnknownRecord } from 'type-fest';
+
 import type { CSSProperties, Component, VNodeChild } from 'vue';
 
 import type { TooltipProps } from '../tooltip';
@@ -19,7 +21,7 @@ export interface SenderComponents {
   input?: Component;
 }
 
-export type SenderAllowSpeech = boolean | RecorderCoreOptions;
+export type SenderAllowSpeech = boolean | RecorderCoreOptions | UnknownRecord;
 
 export interface SenderSkillClosableConfig {
   closeIcon?: VNodeChild;

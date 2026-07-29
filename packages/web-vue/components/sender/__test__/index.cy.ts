@@ -49,6 +49,26 @@ afterEach(() => {
 });
 
 describe('Sender', () => {
+  it('accepts recorder-core options without a Vue prop warning', () => {
+    cy.window().then((win) => {
+      cy.spy(win.console, 'warn').as('consoleWarn');
+    });
+
+    cy.mount(Sender, {
+      props: {
+        allowSpeech: {
+          type: 'pcm',
+        },
+      },
+    });
+
+    cy.get('@consoleWarn').should((consoleWarn) => {
+      expect(consoleWarn).not.to.have.been.calledWithMatch(
+        Cypress.sinon.match('Invalid prop: type check failed for prop "allowSpeech"'),
+      );
+    });
+  });
+
   it('renders the antd-x sender structure and updates v-model', () => {
     cy.mount(Sender, {
       props: {
