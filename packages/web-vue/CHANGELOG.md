@@ -1,3 +1,10 @@
+## [3.22.3](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.22.2...web-vue-v3.22.3) (2026-07-29)
+
+
+### Bug Fixes
+
+* 🐛 修复卡死渲染进程的问题 ([de3f9cc](https://github.com/liunnn1994/sd-design/commit/de3f9cc787338442e1acb3659387b3d9de018295))
+
 ## [3.22.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.22.1...web-vue-v3.22.2) (2026-07-29)
 
 
