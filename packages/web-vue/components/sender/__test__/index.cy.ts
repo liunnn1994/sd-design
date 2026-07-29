@@ -36,6 +36,8 @@ const installSpeechMocks = (permissionDenied = false) => {
     const sourceConnect = cy.spy().as('mediaStreamSourceConnect');
     const sourceDisconnect = cy.spy().as('mediaStreamSourceDisconnect');
     const close = cy.stub().resolves().as('audioContextClose');
+    const resume = cy.stub().resolves();
+    const suspend = cy.stub().resolves().as('audioContextSuspend');
     class MockAudioContext {
       sampleRate = 48_000;
       state: AudioContextState = 'running';
@@ -46,6 +48,16 @@ const installSpeechMocks = (permissionDenied = false) => {
           connect: sourceConnect,
           disconnect: sourceDisconnect,
         };
+      }
+
+      resume() {
+        this.state = 'running';
+        return resume();
+      }
+
+      suspend() {
+        this.state = 'suspended';
+        return suspend();
       }
 
       close() {
@@ -317,7 +329,8 @@ describe('Sender', () => {
     });
     cy.get('.sd-sender-actions-btn').first().click();
     cy.get('@microphoneTrackStop').should('have.been.calledOnce');
-    cy.get('@audioContextClose').should('have.been.calledOnce');
+    cy.get('@audioContextSuspend').should('have.been.calledOnce');
+    cy.get('@audioContextClose').should('not.have.been.called');
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('speechEnd')?.[0]?.[0]).to.include({
         source: 'capture',

@@ -101,6 +101,7 @@ export function useSpeech(
   const supported = shallowRef(false);
   const internalRecording = shallowRef(false);
   const requesting = shallowRef(false);
+  const stopping = shallowRef(false);
   const captureError = shallowRef<SenderSpeechErrorEvent>();
   const stream = shallowRef<MediaStream>();
   const audioContext = shallowRef<AudioContext>();
@@ -228,31 +229,36 @@ export function useSpeech(
   };
 
   const stopCapture = async (reason: SenderSpeechEndReason = 'manual') => {
-    if (!internalRecording.value) return;
-    await flushWorklet();
-    const endedAt = performance.now();
-    internalRecording.value = false;
-    if (
-      socket.value?.readyState === WebSocket.OPEN &&
-      typeof config.value === 'object' &&
-      config.value.sendMetadata !== false
-    ) {
-      socket.value.send(JSON.stringify({ type: 'end', reason }));
+    if (!internalRecording.value || stopping.value) return;
+    stopping.value = true;
+    try {
+      await flushWorklet();
+      const endedAt = performance.now();
+      internalRecording.value = false;
+      if (
+        socket.value?.readyState === WebSocket.OPEN &&
+        typeof config.value === 'object' &&
+        config.value.sendMetadata !== false
+      ) {
+        socket.value.send(JSON.stringify({ type: 'end', reason }));
+      }
+      await releaseResources();
+      if (typeof config.value === 'object') config.value.onRecordingChange?.(false);
+      options.onEnd({
+        source: 'capture',
+        reason,
+        startedAt: startedAt.value,
+        endedAt,
+        duration: endedAt - startedAt.value,
+        chunks: chunks.value,
+      });
+    } finally {
+      stopping.value = false;
     }
-    await releaseResources();
-    if (typeof config.value === 'object') config.value.onRecordingChange?.(false);
-    options.onEnd({
-      source: 'capture',
-      reason,
-      startedAt: startedAt.value,
-      endedAt,
-      duration: endedAt - startedAt.value,
-      chunks: chunks.value,
-    });
   };
 
   const startCapture = async () => {
-    if (requesting.value || internalRecording.value || !available.value) return;
+    if (requesting.value || stopping.value || internalRecording.value || !available.value) return;
     requesting.value = true;
     captureError.value = undefined;
     let phase: SenderSpeechErrorEvent['phase'] = 'permission';
@@ -364,6 +370,7 @@ export function useSpeech(
   };
 
   const trigger = async (breakRecording = false) => {
+    if (requesting.value || stopping.value) return;
     if (breakRecording && !recording.value) return;
     if (controlled.value && typeof config.value === 'object') {
       const nextRecording = !recording.value;
@@ -418,7 +425,7 @@ export function useSpeech(
   return {
     available,
     recording,
-    requesting,
+    requesting: computed(() => requesting.value || stopping.value),
     statusText,
     trigger,
   };
