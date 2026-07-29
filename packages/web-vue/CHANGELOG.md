@@ -1,3 +1,10 @@
+## [3.22.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.22.1...web-vue-v3.22.2) (2026-07-29)
+
+
+### Bug Fixes
+
+* 🐛 修复 AudioWorklet 互斥的问题 ([e35a8cd](https://github.com/liunnn1994/sd-design/commit/e35a8cd341531912580507a7c7a22836ab2335e3))
+
 ## [3.22.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.22.0...web-vue-v3.22.1) (2026-07-29)
 
 
