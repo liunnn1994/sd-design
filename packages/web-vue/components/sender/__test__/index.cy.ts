@@ -3,147 +3,50 @@ import { h } from 'vue';
 import ConfigProvider from '../../config-provider';
 import enUS from '../../locale/lang/en-us';
 import Sender, {
+  RecorderCore,
   SenderHeader,
   type SenderInstance,
   type SenderSlotConfig,
   SenderSwitch,
 } from '../index';
 
-interface AudioWorkletNodeMock {
-  port: {
-    onmessage: ((event: MessageEvent<ArrayBuffer | { type: 'flushed' }>) => void) | null;
-    postMessage: (message: unknown) => void;
-    close: () => void;
-  };
-}
+let releaseSyntheticStream: (() => Promise<void>) | undefined;
 
-const installSpeechMocks = (permissionDenied = false) => {
-  const state: { workletNode?: AudioWorkletNodeMock; socket?: WebSocket } = {};
+const mountWithSyntheticStream = () => {
+  cy.window().then(async (win) => {
+    const context = new win.AudioContext();
+    const oscillator = context.createOscillator();
+    const destination = context.createMediaStreamDestination();
+    const onProcess = cy.spy().as('recorderProcess');
+    oscillator.connect(destination);
+    oscillator.start();
+    if (context.state === 'suspended') await context.resume();
 
-  cy.window().then((win) => {
-    const stopTrack = cy.spy().as('microphoneTrackStop');
-    const mediaStream = {
-      getTracks: () => [{ stop: stopTrack }],
-    } as unknown as MediaStream;
-    const getUserMedia = cy.stub().as('getUserMedia');
-    if (permissionDenied) {
-      getUserMedia.rejects(new win.DOMException('Permission denied', 'NotAllowedError'));
-    } else {
-      getUserMedia.resolves(mediaStream);
-    }
-    cy.stub(win.navigator.mediaDevices, 'getUserMedia').callsFake(getUserMedia);
+    releaseSyntheticStream = async () => {
+      oscillator.stop();
+      oscillator.disconnect();
+      destination.disconnect();
+      if (context.state !== 'closed') await context.close();
+    };
 
-    const addModule = cy.stub().resolves().as('audioWorkletAddModule');
-    const sourceConnect = cy.spy().as('mediaStreamSourceConnect');
-    const sourceDisconnect = cy.spy().as('mediaStreamSourceDisconnect');
-    const close = cy.stub().resolves().as('audioContextClose');
-    const resume = cy.stub().resolves();
-    const suspend = cy.stub().resolves().as('audioContextSuspend');
-    class MockAudioContext {
-      sampleRate = 48_000;
-      state: AudioContextState = 'running';
-      audioWorklet = { addModule };
-
-      createMediaStreamSource() {
-        return {
-          connect: sourceConnect,
-          disconnect: sourceDisconnect,
-        };
-      }
-
-      resume() {
-        this.state = 'running';
-        return resume();
-      }
-
-      suspend() {
-        this.state = 'suspended';
-        return suspend();
-      }
-
-      close() {
-        this.state = 'closed';
-        return close();
-      }
-    }
-
-    const workletPortPostMessage = cy.spy().as('audioWorkletPortPostMessage');
-    const workletPortClose = cy.spy().as('audioWorkletPortClose');
-    class MockAudioWorkletNode {
-      port = {
-        onmessage: null as
-          | ((event: MessageEvent<ArrayBuffer | { type: 'flushed' }>) => void)
-          | null,
-        postMessage: (message: unknown) => {
-          workletPortPostMessage(message);
-          if ((message as { type?: string }).type !== 'flush') return;
-          queueMicrotask(() =>
-            this.port.onmessage?.({
-              data: { type: 'flushed' },
-            } as MessageEvent<{ type: 'flushed' }>),
-          );
+    cy.mount(Sender, {
+      props: {
+        allowSpeech: {
+          type: 'pcm',
+          sourceStream: destination.stream,
+          onProcess,
         },
-        close: workletPortClose,
-      };
-
-      constructor() {
-        state.workletNode = this;
-      }
-
-      disconnect() {}
-    }
-
-    const webSocketSend = cy.spy().as('speechWebSocketSend');
-    class MockWebSocket extends win.EventTarget {
-      static CONNECTING = 0;
-      static OPEN = 1;
-      static CLOSING = 2;
-      static CLOSED = 3;
-      readyState = MockWebSocket.CONNECTING;
-      binaryType: BinaryType = 'blob';
-      onopen: ((event: Event) => void) | null = null;
-      onmessage: ((event: MessageEvent) => void) | null = null;
-      onclose: ((event: CloseEvent) => void) | null = null;
-      onerror: ((event: Event) => void) | null = null;
-
-      constructor(
-        readonly url: string,
-        readonly protocols?: string | string[],
-      ) {
-        super();
-        state.socket = this as unknown as WebSocket;
-        queueMicrotask(() => {
-          this.readyState = MockWebSocket.OPEN;
-          this.onopen?.(new win.Event('open'));
-        });
-      }
-
-      send(data: string | ArrayBufferLike | Blob | ArrayBufferView) {
-        webSocketSend(data);
-      }
-
-      close() {
-        this.readyState = MockWebSocket.CLOSED;
-      }
-    }
-
-    cy.stub(win.URL, 'createObjectURL').returns('blob:sender-audio-worklet');
-    Object.defineProperty(win, 'AudioContext', {
-      configurable: true,
-      value: MockAudioContext,
-    });
-    Object.defineProperty(win, 'AudioWorkletNode', {
-      configurable: true,
-      value: MockAudioWorkletNode,
-    });
-    Object.defineProperty(win, 'WebSocket', {
-      configurable: true,
-      value: MockWebSocket,
+      },
     });
   });
-
-  return state;
 };
+
+afterEach(() => {
+  cy.then(async () => {
+    await releaseSyntheticStream?.();
+    releaseSyntheticStream = undefined;
+  });
+});
 
 describe('Sender', () => {
   it('renders the antd-x sender structure and updates v-model', () => {
@@ -279,104 +182,55 @@ describe('Sender', () => {
     });
   });
 
-  it('supports controlled speech state', () => {
-    const onRecordingChange = cy.spy().as('onRecordingChange');
-    cy.mount(Sender, {
-      props: {
-        allowSpeech: {
-          recording: false,
-          onRecordingChange,
-        },
-      },
-    });
-
+  it('uses native recorder-core options and exposes the complete recorder API', () => {
+    mountWithSyntheticStream();
     cy.get('.sd-sender-actions-btn')
       .first()
       .should('have.attr', 'aria-label', '开始语音输入')
       .click();
-    cy.get('@onRecordingChange').should('have.been.calledOnceWith', true);
-  });
-
-  it('emits streaming AudioWorklet buffers without using browser speech recognition', () => {
-    const speech = installSpeechMocks();
-    cy.mount(Sender, {
-      props: {
-        allowSpeech: true,
-      },
-    });
-
-    cy.get('.sd-sender-actions-btn')
-      .first()
-      .should('have.attr', 'aria-label', '开始语音输入')
-      .click();
-    cy.get('@getUserMedia').should('have.been.calledOnceWith', {
-      audio: true,
-      video: false,
-    });
-    cy.get('@audioWorkletAddModule').should(
-      'have.been.calledOnceWith',
-      'blob:sender-audio-worklet',
-    );
-    cy.get('@mediaStreamSourceConnect').should('have.been.calledOnce');
+    cy.get('@recorderProcess').should('have.been.called');
     cy.get('@vue').should(({ wrapper }) => {
-      expect(wrapper.emitted('speechStart')).to.have.length(1);
-      expect(wrapper.emitted('change')).to.equal(undefined);
-    });
-
-    cy.then(() => {
-      const buffer = new Float32Array([0.1, -0.2]).buffer;
-      speech.workletNode?.port.onmessage?.({ data: buffer } as MessageEvent<ArrayBuffer>);
-    });
-    cy.get('@vue').should(({ wrapper }) => {
-      const data = wrapper.emitted('speechData')?.[0]?.[0];
-      expect(data).to.include({ sampleRate: 48_000, sequence: 0 });
-      expect(data.buffer).to.be.instanceOf(ArrayBuffer);
+      expect(wrapper.vm.Recorder).to.equal(RecorderCore);
+      expect(wrapper.vm.recorder.set.type).to.equal('pcm');
+      expect(wrapper.vm.recording).to.equal(true);
+      [
+        'ASR_Aliyun_Short',
+        'BufferStreamPlayer',
+        'DTMF_Decode',
+        'DTMF_Encode',
+        'FrequencyHistogramView',
+        'LibFFT',
+        'NMN2PCM',
+        'Sonic',
+        'WaveSurferView',
+        'WaveView',
+      ].forEach((name) => expect(wrapper.vm.Recorder[name], name).to.be.a('function'));
+      ['amr', 'g711a', 'g711u', 'mp3', 'ogg', 'pcm', 'wav', 'webm'].forEach((name) =>
+        expect(wrapper.vm.recorder[name], name).to.be.a('function'),
+      );
+      ['close', 'mock', 'open', 'pause', 'resume', 'start', 'stop'].forEach((name) =>
+        expect(wrapper.vm.recorder[name], name).to.be.a('function'),
+      );
     });
     cy.get('.sd-sender-actions-btn').first().click();
-    cy.get('@microphoneTrackStop').should('have.been.calledOnce');
-    cy.get('@audioWorkletPortPostMessage').should('have.been.calledOnceWith', { type: 'flush' });
-    cy.get('@audioWorkletPortClose').should('have.been.calledOnce');
-    cy.get('@audioContextSuspend').should('have.been.calledOnce');
-    cy.get('@audioContextClose').should('not.have.been.called');
+    cy.get('.sd-sender-actions-btn').first().should('have.attr', 'aria-label', '开始语音输入');
     cy.get('@vue').should(({ wrapper }) => {
-      expect(wrapper.emitted('speechEnd')?.[0]?.[0]).to.include({
-        source: 'capture',
-        reason: 'manual',
-        chunks: 1,
-      });
+      const end = wrapper.emitted('speechEnd');
+      expect(end).to.have.length(1);
+      const [blob, duration, mime] = end[0];
+      expect(blob).to.be.an.instanceOf(Blob);
+      expect(duration).to.be.a('number');
+      expect(mime).to.be.a('string');
+      expect(wrapper.emitted('speechError')).to.equal(undefined);
     });
-  });
-
-  it('streams AudioWorklet buffers to a configured WebSocket URL', () => {
-    const speech = installSpeechMocks();
-    cy.mount(Sender, {
-      props: {
-        allowSpeech: {
-          url: 'wss://speech.example.test/stream',
-          protocols: 'pcm',
-        },
-      },
-    });
-
-    cy.get('.sd-sender-actions-btn').first().click();
-    cy.get('@vue').should(({ wrapper }) => {
-      expect(wrapper.emitted('speechTransportOpen')).to.have.length(1);
-      expect(wrapper.emitted('speechStart')).to.have.length(1);
-    });
-    cy.then(() => {
-      speech.workletNode?.port.onmessage?.({
-        data: new Float32Array([0.25]).buffer,
-      } as MessageEvent<ArrayBuffer>);
-    });
-    cy.get('@speechWebSocketSend').should('have.callCount', 2);
-    cy.get('@speechWebSocketSend').should(
-      'have.been.calledWithMatch',
-      Cypress.sinon.match.instanceOf(ArrayBuffer),
-    );
   });
 
   it('shows a clear status when microphone permission is denied', () => {
-    installSpeechMocks(true);
+    cy.window().then((win) => {
+      cy.stub(win.navigator.mediaDevices, 'getUserMedia')
+        .rejects(new win.DOMException('Permission denied', 'NotAllowedError'))
+        .as('getUserMedia');
+    });
     cy.mount(Sender, {
       props: {
         allowSpeech: true,
@@ -388,11 +242,15 @@ describe('Sender', () => {
       .should('have.attr', 'aria-label', '开始语音输入')
       .click();
     cy.get('@getUserMedia').should('have.been.calledOnce');
-    cy.get('@audioWorkletAddModule').should('not.have.been.called');
-    cy.get('@vue').should(({ wrapper }) => {
-      expect(wrapper.emitted('speechError')?.[0]?.[0]).to.include({ phase: 'permission' });
-    });
     cy.get('button[aria-label="麦克风权限已被拒绝，请在浏览器设置中允许"]').should('be.disabled');
+    cy.get('@vue').should(({ wrapper }) => {
+      const errors = wrapper.emitted('speechError');
+      expect(errors).to.have.length(1);
+      const [message, isUserNotAllow] = errors[0];
+      expect(message).to.be.a('string');
+      expect(isUserNotAllow).to.equal(true);
+      expect(wrapper.emitted('speechEnd')).to.equal(undefined);
+    });
   });
 
   it('renders header, prefix, suffix and footer slots', () => {

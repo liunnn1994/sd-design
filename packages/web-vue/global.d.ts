@@ -57,6 +57,8 @@ declare module '../../icon/*' {
 
 declare module 'clean-css';
 declare module 'chroma-js';
+declare module 'recorder-core/src/engine/*';
+declare module 'recorder-core/src/extensions/*';
 
 declare module 'pdfjs-dist/build/pdf.worker.min.mjs' {
   /**

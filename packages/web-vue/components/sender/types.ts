@@ -1,6 +1,7 @@
 import type { CSSProperties, Component, VNodeChild } from 'vue';
 
 import type { TooltipProps } from '../tooltip';
+import type { RecorderCore, RecorderCoreInstance, RecorderCoreOptions } from './recorder-core';
 
 export type SenderSubmitType = 'enter' | 'shiftEnter';
 export type SenderInsertPosition = 'start' | 'end' | 'cursor';
@@ -18,113 +19,7 @@ export interface SenderComponents {
   input?: Component;
 }
 
-export interface SenderSpeechConfig {
-  /**
-   * @zh 受控录音状态；与 onRecordingChange 同时提供时不启用内置采集
-   * @en Controlled recording state; built-in capture is disabled when used with onRecordingChange
-   */
-  recording?: boolean;
-  /**
-   * @zh 录音状态变化回调
-   * @en Recording state change callback
-   */
-  onRecordingChange?: (recording: boolean) => void;
-  /**
-   * @zh 传给 getUserMedia 的音频约束
-   * @en Audio constraints passed to getUserMedia
-   */
-  audioConstraints?: MediaTrackConstraints;
-  /**
-   * @zh 每个流式数据块的 Float32 采样点数量，最小为 128
-   * @en Float32 sample count per streaming chunk, with a minimum of 128
-   */
-  bufferSize?: number;
-  /**
-   * @zh 自定义 AudioWorklet 模块地址
-   * @en Custom AudioWorklet module URL
-   */
-  workletUrl?: string;
-  /**
-   * @zh 自定义 AudioWorklet processor 名称
-   * @en Custom AudioWorklet processor name
-   */
-  processorName?: string;
-  /**
-   * @zh 传给 AudioWorkletNode 的额外 processorOptions
-   * @en Additional processorOptions passed to AudioWorkletNode
-   */
-  processorOptions?: Record<string, unknown>;
-  /**
-   * @zh 自动传输音频流的 WebSocket 地址
-   * @en WebSocket URL used to stream audio automatically
-   */
-  url?: string;
-  /**
-   * @zh WebSocket 子协议
-   * @en WebSocket subprotocols
-   */
-  protocols?: string | string[];
-  /**
-   * @zh 是否发送 start/end JSON 元数据帧
-   * @en Whether to send start/end JSON metadata frames
-   */
-  sendMetadata?: boolean;
-}
-
-/**
- * @deprecated Use SenderSpeechConfig instead.
- */
-export type SenderControlledSpeechConfig = SenderSpeechConfig;
-
-export type SenderAllowSpeech = boolean | SenderSpeechConfig;
-
-export interface SenderSpeechStartEvent {
-  source: 'capture' | 'controlled';
-  startedAt: number;
-  stream?: MediaStream;
-  audioContext?: AudioContext;
-  sampleRate?: number;
-}
-
-export interface SenderSpeechDataEvent {
-  buffer: ArrayBuffer;
-  sampleRate: number;
-  sequence: number;
-  timestamp: number;
-}
-
-export type SenderSpeechEndReason = 'manual' | 'controlled' | 'error' | 'unmount';
-
-export interface SenderSpeechEndEvent {
-  source: 'capture' | 'controlled';
-  reason: SenderSpeechEndReason;
-  startedAt: number;
-  endedAt: number;
-  duration: number;
-  chunks: number;
-}
-
-export type SenderSpeechErrorPhase = 'permission' | 'audioContext' | 'audioWorklet' | 'transport';
-
-export interface SenderSpeechErrorEvent {
-  error: Error;
-  phase: SenderSpeechErrorPhase;
-}
-
-export interface SenderSpeechTransportOpenEvent {
-  event: Event;
-  socket: WebSocket;
-}
-
-export interface SenderSpeechTransportMessageEvent {
-  event: MessageEvent;
-  socket: WebSocket;
-}
-
-export interface SenderSpeechTransportCloseEvent {
-  event: CloseEvent;
-  socket: WebSocket;
-}
+export type SenderAllowSpeech = boolean | RecorderCoreOptions;
 
 export interface SenderSkillClosableConfig {
   closeIcon?: VNodeChild;
@@ -234,6 +129,9 @@ export interface SenderFocusOptions {
 }
 
 export interface SenderRef {
+  readonly Recorder: RecorderCore;
+  readonly recorder: RecorderCoreInstance | null;
+  readonly recording: boolean;
   readonly inputElement: HTMLTextAreaElement | HTMLDivElement | null;
   readonly nativeElement: HTMLDivElement | null;
   focus: (options?: SenderFocusOptions) => void;
@@ -298,8 +196,8 @@ export interface SenderProps {
    */
   slotConfig?: readonly SenderSlotConfig[];
   /**
-   * @zh AudioWorklet 语音采集、流式传输或受控录音配置
-   * @en AudioWorklet capture, streaming transport, or controlled recording configuration
+   * @zh 是否启用录音；对象值会作为 recorder-core 原生配置
+   * @en Whether recording is enabled; an object value is passed to recorder-core as-is
    */
   allowSpeech?: SenderAllowSpeech;
   /**
@@ -360,13 +258,8 @@ export interface SenderEmits {
   'pasteFile': [files: FileList];
   'focus': [event: FocusEvent];
   'blur': [event: FocusEvent];
-  'speechStart': [event: SenderSpeechStartEvent];
-  'speechData': [event: SenderSpeechDataEvent];
-  'speechEnd': [event: SenderSpeechEndEvent];
-  'speechError': [event: SenderSpeechErrorEvent];
-  'speechTransportOpen': [event: SenderSpeechTransportOpenEvent];
-  'speechTransportMessage': [event: SenderSpeechTransportMessageEvent];
-  'speechTransportClose': [event: SenderSpeechTransportCloseEvent];
+  'speechEnd': [blob: Blob, duration: number, mime: string];
+  'speechError': [message: string, isUserNotAllow: boolean];
 }
 
 export type SenderHeaderSemanticType = 'header' | 'content';

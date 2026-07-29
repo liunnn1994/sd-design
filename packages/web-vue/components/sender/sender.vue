@@ -6,7 +6,7 @@
           <Button
             v-if="allowSpeech"
             type="text"
-            :loading="speechRequesting"
+            :loading="speechRequesting || speechStopping"
             :disabled="actionContext.speechDisabled"
             :title="speechStatusText"
             :class="[
@@ -254,7 +254,7 @@
   import Textarea from '../textarea';
   import Tooltip from '../tooltip';
   import { senderInjectionKey } from './context';
-  import { useSpeech } from './use-speech';
+  import { useRecorder } from './use-recorder';
 
   defineOptions({ name: 'Sender', inheritAttrs: false });
 
@@ -723,30 +723,30 @@
   };
 
   const {
+    Recorder,
     available: speechAvailable,
+    recorder,
     recording,
     requesting: speechRequesting,
+    stopping: speechStopping,
     statusText: speechStatusText,
     trigger: triggerSpeech,
-  } = useSpeech(toRef(props, 'allowSpeech'), {
-    onStart: (event) => emit('speechStart', event),
-    onData: (event) => emit('speechData', event),
-    onEnd: (event) => emit('speechEnd', event),
-    onError: (event) => emit('speechError', event),
-    onTransportOpen: (event) => emit('speechTransportOpen', event),
-    onTransportMessage: (event) => emit('speechTransportMessage', event),
-    onTransportClose: (event) => emit('speechTransportClose', event),
+  } = useRecorder(toRef(props, 'allowSpeech'), {
+    onStop: (blob, duration, mime) => emit('speechEnd', blob, duration, mime),
+    onError: (message, isUserNotAllow) => emit('speechError', message, isUserNotAllow),
   });
 
   const actionContext = computed<SenderActionContext>(() => ({
     send: triggerSend,
     clear: triggerClear,
     cancel: triggerCancel,
-    speech: () => triggerSpeech(false),
+    speech: triggerSpeech,
     submitDisabled: Boolean(props.disabled || submitDisabled.value),
     clearDisabled: Boolean(props.disabled || clearDisabled.value),
     cancelDisabled: Boolean(props.disabled || cancelDisabled.value),
-    speechDisabled: Boolean(props.disabled || !speechAvailable.value || speechRequesting.value),
+    speechDisabled: Boolean(
+      props.disabled || !speechAvailable.value || speechRequesting.value || speechStopping.value,
+    ),
     recording: recording.value,
     loading: Boolean(props.loading),
   }));
@@ -1016,6 +1016,13 @@
   });
 
   defineExpose({
+    Recorder,
+    get recorder() {
+      return recorder.value ?? null;
+    },
+    get recording() {
+      return recording.value;
+    },
     get inputElement() {
       return isSlotMode.value ? (slotInputRef.value?.rootElement ?? null) : getNativeTextarea();
     },

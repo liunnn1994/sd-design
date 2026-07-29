@@ -1,13 +1,10 @@
 <template>
   <div class="sender-speech-demo">
     <sd-sender
+      ref="senderRef"
       v-model="value"
-      :allow-speech="{ bufferSize: 2048 }"
+      :allow-speech="recorderOptions"
       placeholder="点击语音按钮开始采集音频"
-      @speech-start="handleStart"
-      @speech-data="handleData"
-      @speech-end="handleEnd"
-      @speech-error="handleError"
     />
     <div class="sender-speech-demo-status" aria-live="polite">
       <span data-cy="speech-status">状态：{{ status }}</span>
@@ -17,21 +14,18 @@
       <span>已采集：{{ bytes }} 字节</span>
     </div>
     <p class="sender-speech-demo-tip">
-      组件会通过 speech-data 持续抛出单声道 Float32 PCM，可由业务方发送给语音识别服务。
+      示例直接使用 recorder-core 的 onProcess 读取单声道 Int16 PCM，实例上的完整 Recorder API
+      也可通过 Sender ref 访问。
     </p>
   </div>
 </template>
 
 <script setup lang="ts">
-  import type {
-    SenderSpeechDataEvent,
-    SenderSpeechEndEvent,
-    SenderSpeechErrorEvent,
-    SenderSpeechStartEvent,
-  } from '@sdata/web-vue';
+  import type { RecorderCoreOptions, SenderRef } from '@sdata/web-vue';
 
-  import { ref } from 'vue';
+  import { ref, watch } from 'vue';
 
+  const senderRef = ref<SenderRef>();
   const value = ref('');
   const status = ref('等待录音');
   const sampleRate = ref(0);
@@ -39,26 +33,37 @@
   const bytes = ref(0);
   const cycles = ref(0);
 
-  const handleStart = (event: SenderSpeechStartEvent) => {
-    status.value = '正在采集';
-    sampleRate.value = event.sampleRate ?? 0;
-    chunks.value = 0;
-    bytes.value = 0;
+  const recorderOptions: RecorderCoreOptions = {
+    type: 'pcm',
+    sampleRate: 16_000,
+    bitRate: 16,
+    onProcess(
+      buffers: Int16Array[],
+      _powerLevel: number,
+      _bufferDuration: number,
+      bufferSampleRate: number,
+      newBufferIdx: number,
+    ) {
+      const nextBuffers = buffers.slice(newBufferIdx);
+      sampleRate.value = bufferSampleRate;
+      chunks.value += nextBuffers.length;
+      bytes.value += nextBuffers.reduce((total, buffer) => total + buffer.byteLength, 0);
+    },
   };
 
-  const handleData = (event: SenderSpeechDataEvent) => {
-    chunks.value += 1;
-    bytes.value += event.buffer.byteLength;
-  };
-
-  const handleEnd = (event: SenderSpeechEndEvent) => {
-    cycles.value += 1;
-    status.value = `已停止（${event.reason}）`;
-  };
-
-  const handleError = (event: SenderSpeechErrorEvent) => {
-    status.value = `采集失败：${event.error.message}`;
-  };
+  watch(
+    () => senderRef.value?.recording,
+    (recording, previousRecording) => {
+      if (recording) {
+        status.value = '正在采集';
+        chunks.value = 0;
+        bytes.value = 0;
+      } else if (previousRecording) {
+        cycles.value += 1;
+        status.value = '已停止';
+      }
+    },
+  );
 </script>
 
 <style scoped>

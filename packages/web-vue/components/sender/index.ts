@@ -26,6 +26,12 @@ const Sender: typeof _Sender & {
 
 export const SenderHeader = _SenderHeader;
 export const SenderSwitch = _SenderSwitch;
+export { default as RecorderCore } from './recorder-core';
+export type {
+  RecorderCore as RecorderCoreConstructor,
+  RecorderCoreInstance,
+  RecorderCoreOptions,
+} from './recorder-core';
 
 export type SenderInstance = InstanceType<typeof _Sender>;
 export type SenderHeaderInstance = InstanceType<typeof _SenderHeader>;
@@ -35,7 +41,6 @@ export type {
   SenderAllowSpeech,
   SenderComponents,
   SenderContentSlotConfig,
-  SenderControlledSpeechConfig,
   SenderCustomSlotConfig,
   SenderCustomSlotRender,
   SenderCustomSlotState,
@@ -52,16 +57,6 @@ export type {
   SenderSemanticType,
   SenderSkill,
   SenderSkillClosableConfig,
-  SenderSpeechConfig,
-  SenderSpeechDataEvent,
-  SenderSpeechEndEvent,
-  SenderSpeechEndReason,
-  SenderSpeechErrorEvent,
-  SenderSpeechErrorPhase,
-  SenderSpeechStartEvent,
-  SenderSpeechTransportCloseEvent,
-  SenderSpeechTransportMessageEvent,
-  SenderSpeechTransportOpenEvent,
   SenderSlotConfig,
   SenderSlotConfigBase,
   SenderSubmitType,
