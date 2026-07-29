@@ -64,6 +64,7 @@
     LexicalNode,
     MutationListener,
     NodeKey,
+    RangeSelection,
     TextFormatType,
     Transform,
     UpdateListenerPayload,
@@ -325,6 +326,29 @@
       return content;
     }) ?? [];
 
+  /**
+   * 将折叠选区向前扩展到待替换文本，后续 insertText/insertNodes 会在同一次
+   * Lexical 更新中原子删除选区并插入新内容，避免 spliceText 后继续使用旧选区。
+   * @param selection 当前 Lexical 文本选区。
+   * @param replaceCharacters 光标前需要被替换的文本。
+   */
+  const selectReplacementCharacters = (
+    selection: RangeSelection,
+    replaceCharacters?: string,
+  ): void => {
+    if (!replaceCharacters || !selection.isCollapsed()) return;
+    const anchorNode = selection.anchor.getNode();
+    const offset = selection.anchor.offset;
+    if (
+      !$isTextNode(anchorNode) ||
+      !anchorNode.getTextContent().slice(0, offset).endsWith(replaceCharacters)
+    ) {
+      return;
+    }
+    const start = offset - replaceCharacters.length;
+    selection.setTextNodeRange(anchorNode, start, anchorNode, offset);
+  };
+
   const insertContent = (
     content: readonly RichTextEditorContentItem[],
     options: RichTextEditorInsertOptions = {},
@@ -337,18 +361,7 @@
 
       const selection = $getSelection();
       if ($isRangeSelection(selection)) {
-        if (replaceCharacters && selection.isCollapsed()) {
-          const anchorNode = selection.anchor.getNode();
-          const offset = selection.anchor.offset;
-          if (
-            $isTextNode(anchorNode) &&
-            anchorNode.getTextContent().slice(0, offset).endsWith(replaceCharacters)
-          ) {
-            const start = offset - replaceCharacters.length;
-            anchorNode.spliceText(start, replaceCharacters.length, '', true);
-            anchorNode.select(start, start);
-          }
-        }
+        selectReplacementCharacters(selection, replaceCharacters);
         selection.insertNodes(createContentNodes(content));
         return;
       }
@@ -418,18 +431,7 @@
 
       const selection = $getSelection();
       if ($isRangeSelection(selection)) {
-        if (replaceCharacters && selection.isCollapsed()) {
-          const anchorNode = selection.anchor.getNode();
-          const offset = selection.anchor.offset;
-          if (
-            $isTextNode(anchorNode) &&
-            anchorNode.getTextContent().slice(0, offset).endsWith(replaceCharacters)
-          ) {
-            const start = offset - replaceCharacters.length;
-            anchorNode.spliceText(start, replaceCharacters.length, '', true);
-            anchorNode.select(start, start);
-          }
-        }
+        selectReplacementCharacters(selection, replaceCharacters);
         selection.insertText(text);
         return;
       }

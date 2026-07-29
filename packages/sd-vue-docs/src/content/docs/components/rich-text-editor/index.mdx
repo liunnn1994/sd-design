@@ -18,6 +18,8 @@ import RichTextEditorSerializationDemo from '../../../../components/generated/ri
 import richTextEditorSerializationSource from '../../../../components/generated/rich-text-editor/serialization.vue?raw';
 import RichTextEditorLexicalApiDemo from '../../../../components/generated/rich-text-editor/lexical-api.vue';
 import richTextEditorLexicalApiSource from '../../../../components/generated/rich-text-editor/lexical-api.vue?raw';
+import RichTextEditorStreamingCorrectionStressDemo from '../../../../components/generated/rich-text-editor/streaming-correction-stress.vue';
+import richTextEditorStreamingCorrectionStressSource from '../../../../components/generated/rich-text-editor/streaming-correction-stress.vue?raw';
 
 `RichTextEditor` 使用 Lexical 管理 EditorState、DOM reconciliation、选区、输入法、撤销与重做。组件库负责 Vue 生命周期、主题样式、JsonForm 全部内置节点以及 `Tag` 等内联组件节点。
 
@@ -97,6 +99,18 @@ RichTextEditor 直接复用 JsonForm 的内置组件注册表，而不是维护�
 <DemoBlock source={richTextEditorLexicalApiSource} mainFile="src/rich-text-editor-lexical-api.vue">
 
 <RichTextEditorLexicalApiDemo client:only="vue" />
+
+</DemoBlock>
+
+### 流式纠错压力测试
+
+此 Demo 模拟语音识别的完整生命周期：先增量追加临时结果，再用 `replaceCharacters` 执行同音字纠错、整句回退和标点修正。可以调整循环轮数、调用间隔和单批调用量，并观察 API 耗时、动画帧阻塞、change 事件次数以及编辑器最终文本是否一致。
+
+“真实识别”预设接近常规 WebSocket 返回频率；“高频压测”和“极限压测”用于放大 Selection、History、DOM reconciliation 与 Vue change 回调之间的竞态。若浏览器失去响应，刷新页面后降低预设重新运行。
+
+<DemoBlock source={richTextEditorStreamingCorrectionStressSource} mainFile="src/rich-text-editor-streaming-correction-stress.vue">
+
+<RichTextEditorStreamingCorrectionStressDemo client:only="vue" />
 
 </DemoBlock>
 
