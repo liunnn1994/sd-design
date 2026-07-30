@@ -155,3 +155,9 @@ $model-selector-prefix-cls: string.unquote('#{theme.$prefix}-model-selector');
     }
   }
 }
+
+#{theme.$sd-theme-tag}[sd-theme='dark'] {
+  .#{$model-selector-prefix-cls}-logo {
+    filter: brightness(0) invert(1);
+  }
+}

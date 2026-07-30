@@ -9,7 +9,7 @@ $qr-code-color-border: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bo
 
 $qr-code-color-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-2'));
 
-$qr-code-color-mask-bg: rgb(255 255 255 / 88%);
+$qr-code-color-mask-bg: color-mix(in srgb, #{$qr-code-color-bg} 88%, transparent);
 
 $qr-code-color-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
 

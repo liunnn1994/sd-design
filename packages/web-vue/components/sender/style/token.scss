@@ -1,4 +1,5 @@
 @use '@style/theme/index.scss' as global;
+@use 'sass:string';
 
 @forward '@style/theme/index.scss';
 
@@ -22,7 +23,7 @@ $sender-color-primary-hover: global.$color-primary-5;
 $sender-color-text: global.$color-text-1;
 $sender-color-text-disabled: global.$color-text-4;
 $sender-color-text-placeholder: global.$color-text-4;
-$sender-color-bg: global.$color-bg-2;
+$sender-color-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-2'));
 $sender-color-bg-disabled: global.$color-fill-2;
 $sender-color-header-bg: global.$color-fill-2;
 $sender-color-border: global.$color-border-2;

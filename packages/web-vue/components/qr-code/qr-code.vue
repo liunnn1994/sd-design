@@ -1,5 +1,5 @@
 <template>
-  <div v-if="hasValue" :class="rootClass" :style="rootStyle">
+  <div v-if="hasValue" ref="root" :class="rootClass" :style="rootStyle">
     <div v-if="status !== 'active'" :class="`${prefixCls}-cover`">
       <RenderNode v-if="customStatusNode" :node="customStatusNode" />
       <slot v-else name="status" :status="status" :on-refresh="handleRefresh">
@@ -37,7 +37,16 @@
 
 <script lang="ts" setup>
   import type { PropType, StyleValue, VNodeChild } from 'vue';
-  import { computed, defineComponent, inject, nextTick, ref, watch, useSlots } from 'vue';
+  import {
+    computed,
+    defineComponent,
+    inject,
+    nextTick,
+    ref,
+    useSlots,
+    useTemplateRef,
+    watch,
+  } from 'vue';
 
   import QRCode from 'qrcode';
 
@@ -52,6 +61,7 @@
     QrCodeValue,
   } from './types';
 
+  import { useThemeMode } from '../_hooks/use-theme-mode';
   import { getPrefixCls } from '../_utils/global-config';
   import { configProviderInjectionKey } from '../config-provider/context';
   import { useI18n } from '../locale';
@@ -130,7 +140,7 @@
      */
     color: {
       type: String,
-      default: '#1D2129',
+      default: '',
     },
     /**
      * @zh 二维码背景色
@@ -229,6 +239,8 @@
   }));
 
   const prefixCls = getPrefixCls('qr-code');
+  const rootRef = useTemplateRef<HTMLElement>('root');
+  const themeMode = useThemeMode(rootRef);
   const canvasRef = ref<HTMLCanvasElement>();
   const svgMarkup = ref('');
 
@@ -279,15 +291,28 @@
   const rootStyle = computed<StyleValue>(() => ({
     width: `${props.size}px`,
     height: `${props.size}px`,
-    backgroundColor: props.bgColor,
+    backgroundColor: props.bgColor === 'transparent' ? undefined : props.bgColor,
   }));
-  const qrBgColor = computed(() => (props.bgColor === 'transparent' ? '#ffffff' : props.bgColor));
+  const qrColor = computed(() => {
+    if (props.color) {
+      return props.color;
+    }
+
+    return themeMode.value === 'dark' ? '#f6f6f6' : '#1d2129';
+  });
+  const qrBgColor = computed(() => {
+    if (props.bgColor !== 'transparent') {
+      return props.bgColor;
+    }
+
+    return themeMode.value === 'dark' ? '#232324' : '#ffffff';
+  });
   const qrOptions = computed(() => ({
     errorCorrectionLevel: props.errorLevel,
     margin: props.marginSize,
     width: props.size,
     color: {
-      dark: props.color,
+      dark: qrColor.value,
       light: qrBgColor.value,
     },
   }));
@@ -346,6 +371,7 @@
       props.errorLevel,
       props.marginSize,
       props.boostLevel,
+      themeMode.value,
     ],
     () => {
       void renderCode();

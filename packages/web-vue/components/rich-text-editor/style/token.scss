@@ -1,4 +1,5 @@
 @use '@style/theme/index.scss' as global;
+@use 'sass:string';
 
 @forward '@style/theme/index.scss';
 
@@ -16,7 +17,7 @@ $rich-text-editor-code-padding: global.$spacing-2;
 $rich-text-editor-color-text: global.$color-text-1;
 $rich-text-editor-color-text-disabled: global.$color-text-4;
 $rich-text-editor-color-placeholder: global.$color-text-4;
-$rich-text-editor-color-background: global.$color-bg-2;
+$rich-text-editor-color-background: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-2'));
 $rich-text-editor-color-background-disabled: global.$color-fill-2;
 $rich-text-editor-color-border: global.$color-border-2;
 $rich-text-editor-color-border-hover: global.$color-primary-5;

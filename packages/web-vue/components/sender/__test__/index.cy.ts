@@ -1,4 +1,4 @@
-import { h } from 'vue';
+import { defineComponent, h } from 'vue';
 
 import ConfigProvider from '../../config-provider';
 import enUS from '../../locale/lang/en-us';
@@ -49,6 +49,25 @@ afterEach(() => {
 });
 
 describe('Sender', () => {
+  it('uses dark theme colors with the RichTextEditor input', () => {
+    cy.mount(
+      defineComponent({
+        components: { Sender },
+        template: `
+          <div sd-theme="dark">
+            <Sender :slot-config="[{ type: 'text', value: '深色内容' }]" />
+          </div>
+        `,
+      }),
+    );
+
+    cy.get('.sd-sender-main').should('have.css', 'background-color', 'rgb(35, 35, 36)');
+    cy.get('.sd-sender-input-slot')
+      .should('have.class', 'sd-rich-text-editor')
+      .and('have.css', 'background-color', 'rgba(0, 0, 0, 0)');
+    cy.get('.sd-rich-text-editor-content').should('have.css', 'color', 'rgb(246, 246, 246)');
+  });
+
   it('accepts recorder-core options without a Vue prop warning', () => {
     cy.window().then((win) => {
       cy.spy(win.console, 'warn').as('consoleWarn');

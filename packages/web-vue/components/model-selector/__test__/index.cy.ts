@@ -267,4 +267,19 @@ describe('ModelSelector', () => {
         cy.get('[data-cy="fallback"]').should('have.attr', 'src', customSource);
       });
   });
+
+  it('keeps monochrome provider logos visible in dark theme', () => {
+    cy.mount(
+      defineComponent({
+        components: { ModelSelectorLogo },
+        template: `
+          <div sd-theme="dark">
+            <ModelSelectorLogo provider="openai" />
+          </div>
+        `,
+      }),
+    );
+
+    cy.get('.sd-model-selector-logo').should('have.css', 'filter', 'brightness(0) invert(1)');
+  });
 });

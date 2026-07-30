@@ -38,6 +38,23 @@ const fitWidthNodeSelectors = {
 } as const;
 
 describe('RichTextEditor', () => {
+  it('uses dark theme colors from runtime tokens', () => {
+    cy.mount(
+      defineComponent({
+        components: { RichTextEditor },
+        template: `
+          <div sd-theme="dark">
+            <RichTextEditor default-value="深色内容" />
+          </div>
+        `,
+      }),
+    );
+
+    cy.get('.sd-rich-text-editor')
+      .should('have.css', 'background-color', 'rgb(35, 35, 36)')
+      .and('have.css', 'color', 'rgb(246, 246, 246)');
+  });
+
   it('edits rich text and emits serialized editor state', () => {
     const changes: string[] = [];
     cy.mount(RichTextEditor, {
