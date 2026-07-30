@@ -1,3 +1,10 @@
+# [3.26.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.25.0...web-vue-v3.26.0) (2026-07-30)
+
+
+### Features
+
+* 🆕 更新 mcp，支持 `2026-07-28` 协议并兼容旧版握手 ([7c85920](https://github.com/liunnn1994/sd-design/commit/7c85920aa50302452238cefc132d325b40a1df48))
+
 # [3.25.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.24.1...web-vue-v3.25.0) (2026-07-30)
 
 
