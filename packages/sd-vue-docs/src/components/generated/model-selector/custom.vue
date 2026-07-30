@@ -1,6 +1,16 @@
 <template>
   <ModelSelector :close-on-select="false">
-    <ModelSelectorTrigger>选择模型路由</ModelSelectorTrigger>
+    <ModelSelectorTrigger v-slot="{ open, visible }">
+      <Tag
+        class="model-route-trigger"
+        :color="visible ? 'blue' : 'gray'"
+        role="button"
+        tabindex="0"
+        @keydown.enter.space.prevent="open"
+      >
+        {{ visible ? '正在选择模型路由' : '选择模型路由' }}
+      </Tag>
+    </ModelSelectorTrigger>
     <ModelSelectorContent :mask-closable="false" title="选择路由模型">
       <ModelSelectorInput placeholder="搜索模型路由" />
       <ModelSelectorList>
@@ -63,6 +73,10 @@
 </script>
 
 <style>
+  .model-route-trigger {
+    cursor: pointer;
+  }
+
   .group-heading {
     display: flex;
     align-items: center;

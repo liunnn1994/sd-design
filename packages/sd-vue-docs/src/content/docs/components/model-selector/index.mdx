@@ -49,9 +49,11 @@ ModelSelector 适用于模型数量较多、需要按厂商或能力检索的选
 
 </DemoBlock>
 
-### 自定义分组与模型路由
+### 自定义触发组件、分组与模型路由
 
-分组标题、选项内容和模型名称均由插槽组合。`ModelSelectorLogoGroup` 会排列在名称右侧，可展示多个候选服务商；自定义 provider 不会触发远程图片请求，而是使用离线通用 Logo。通过 `ModelSelectorItem` 的 `shortcut` 属性可以为每个选项配置适合当前应用的快捷键。
+`ModelSelectorTrigger` 的默认插槽可以直接放置任意 Vue 组件或原生元素；组件会把触发事件、样式类和显隐 ARIA 属性合并到插槽中的第一个有效节点，不会额外包裹 Button。纯文本内容仍使用默认 Button 渲染。示例使用 `Tag` 作为触发组件，并通过插槽参数同步打开状态。
+
+分组标题、选项内容和模型名称同样由插槽组合。`ModelSelectorLogoGroup` 会排列在名称右侧，可展示多个候选服务商；自定义 provider 不会触发远程图片请求，而是使用离线通用 Logo。通过 `ModelSelectorItem` 的 `shortcut` 属性可以为每个选项配置适合当前应用的快捷键。
 
 <DemoBlock source={modelSelectorCustomSource} mainFile="src/model-selector-custom.vue">
 
@@ -114,7 +116,7 @@ import { MODEL_SELECTOR_PROVIDERS } from '@sdata/web-vue';
 | -------- | -------------- | --------- | ------- |
 | disabled | 是否禁用触发器 | `boolean` | `false` |
 
-默认插槽接收 `{ visible, open, close }`，触发元素自动包含 `aria-haspopup` 与 `aria-expanded`。
+默认插槽接收 `{ visible, disabled, open, close }`。插槽只有纯文本时使用默认 Button；存在元素或组件时，该节点会直接作为触发元素，并自动接收 `sd-model-selector-trigger`、`aria-haspopup`、`aria-expanded`、`aria-disabled`、`disabled` 与点击行为。自定义非交互元素时，使用者仍需补充适合业务语义的 `role`、`tabindex` 和键盘行为。
 
 ### `<ModelSelectorContent>` Props
 

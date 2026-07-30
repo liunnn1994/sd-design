@@ -167,6 +167,69 @@ describe('ModelSelector', () => {
     cy.get('.sd-model-selector-separator').should('have.class', 'sd-divider');
   });
 
+  it('uses an arbitrary slot component as the trigger without a button wrapper', () => {
+    const CustomTrigger = defineComponent({
+      template: '<article class="custom-trigger"><slot /></article>',
+    });
+
+    cy.mount(
+      defineComponent({
+        components: {
+          CustomTrigger,
+          ModelSelector,
+          ModelSelectorContent,
+          ModelSelectorTrigger,
+        },
+        template: `
+          <ModelSelector>
+            <ModelSelectorTrigger v-slot="{ disabled, visible }">
+              <CustomTrigger>{{ visible }}|{{ disabled }}</CustomTrigger>
+            </ModelSelectorTrigger>
+            <ModelSelectorContent :render-to-body="false">自定义触发内容</ModelSelectorContent>
+          </ModelSelector>
+        `,
+      }),
+    );
+
+    cy.get('.custom-trigger')
+      .should('have.prop', 'tagName', 'ARTICLE')
+      .and('have.class', 'sd-model-selector-trigger')
+      .and('have.attr', 'aria-haspopup', 'dialog')
+      .and('have.attr', 'aria-expanded', 'false')
+      .and('have.text', 'false|false')
+      .click()
+      .should('have.attr', 'aria-expanded', 'true')
+      .and('have.text', 'true|false');
+    cy.get('.custom-trigger').find('button').should('not.exist');
+    cy.contains('.sd-model-selector', '自定义触发内容').should('be.visible');
+  });
+
+  it('does not open a disabled custom trigger', () => {
+    cy.mount(
+      defineComponent({
+        components: {
+          ModelSelector,
+          ModelSelectorContent,
+          ModelSelectorTrigger,
+        },
+        template: `
+          <ModelSelector>
+            <ModelSelectorTrigger disabled>
+              <div class="disabled-custom-trigger">禁用触发器</div>
+            </ModelSelectorTrigger>
+            <ModelSelectorContent :render-to-body="false">不应打开</ModelSelectorContent>
+          </ModelSelector>
+        `,
+      }),
+    );
+
+    cy.get('.disabled-custom-trigger')
+      .should('have.attr', 'aria-disabled', 'true')
+      .and('have.attr', 'aria-expanded', 'false')
+      .click();
+    cy.contains('.sd-model-selector', '不应打开').should('not.exist');
+  });
+
   it('filters items, searches keywords and renders the empty state', () => {
     cy.mount(TestSelector);
     cy.contains('button', '选择模型').click();
