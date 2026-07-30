@@ -97,6 +97,9 @@ minimumReleaseAgeExclude:
   - astro@7.0.6
   - astro@7.0.4
   - '@hono/node-server@2.0.5'
+  - '@modelcontextprotocol/client@2.0.0'
+  - '@modelcontextprotocol/core@2.0.0'
+  - '@modelcontextprotocol/server@2.0.0'
   - immutable@5.1.8
   - svgo@4.0.2
   - fast-uri@4.1.1

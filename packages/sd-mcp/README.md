@@ -6,7 +6,9 @@
 
 [MCP](https://modelcontextprotocol.io/) 是一个让 AI 模型连接外部工具与数据源的开放协议。本服务把 SD Design 组件库的 API 元数据暴露给 AI 助手，使其在编码时无需盲猜组件 Props，而是基于组件库真实导出的接口回答。
 
-数据来源与组件库对外发布的 `web-types` / `vetur` IDE 元数据一致（均由 [`vue-docgen-api`](https://github.com/vue-styleguidist/vue-docgen) 从组件源码提取），覆盖 85 个文档化组件。
+服务基于 MCP TypeScript SDK v2，支持当前的 `2026-07-28` 协议，并继续兼容使用 `initialize` 握手的旧版客户端。
+
+数据来源与组件库对外发布的 `web-types` / `vetur` IDE 元数据一致（均由 [`vue-docgen-api`](https://github.com/vue-styleguidist/vue-docgen) 从组件源码提取），覆盖全部文档化组件。
 
 ## 安装
 
@@ -117,6 +119,9 @@ pnpm --filter @sdata/web-vue-mcp run build
 
 # 类型检查
 pnpm --filter @sdata/web-vue-mcp run typecheck
+
+# 构建后分别以 2026-07-28 和旧版协议运行 stdio 集成测试
+pnpm --filter @sdata/web-vue-mcp run test
 ```
 
 ## 可用工具

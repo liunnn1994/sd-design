@@ -43,7 +43,7 @@ flowchart TD
 - 文档站：`Astro`、`Starlight`、`MDX`、`@astrojs/vue`
 - 样式体系：`scss` + 组件样式入口 + 文档站 vendor CSS 同步
 - 质量保障：`Vitest`、`oxlint`、`oxfmt`、`stylelint`
-- AI 集成：`MCP`（`@modelcontextprotocol/sdk`）+ `tsdown` 构建；组件元数据由 `vue-docgen-api` 从源码提取
+- AI 集成：`MCP`（`@modelcontextprotocol/server` v2）+ `tsdown` 构建；组件元数据由 `vue-docgen-api` 从源码提取
 
 ## 模块分层
 
@@ -88,10 +88,10 @@ flowchart TD
 
 `packages/sd-mcp` 是面向 AI 助手（Claude Code、Codex、VS Code Copilot 等）的组件元数据服务，让 AI 在编码时能查询到组件真实的 API。
 
-- 基于 `@modelcontextprotocol/sdk` 提供 stdio MCP 服务，bin 名为 `sd-design-mcp`。
+- 基于 `@modelcontextprotocol/server` v2 的 `McpServer` 与 `serveStdio` 提供 stdio MCP 服务，支持 `2026-07-28` 协议并兼容旧版握手，bin 名为 `sd-design-mcp`。
 - `data/components.json` 为提交的静态数据，由 `scripts/gen-component-data.mjs` 生成：组件清单、分类与标题来自文档站侧边栏与各组件 MDX frontmatter，Props / Events / Slots 由 `vue-docgen-api` 从 `web-vue` 组件源码提取。构建时由 `tsdown` 内联进 `dist/index.js`。
 - API 提取逻辑与 `web-vue` 的 `web-types` 生成保持一致（同一套 `vue-docgen-api` 解析），因此二者对同一组件的 API 描述一致。
-- 该包独立构建（`pnpm --filter @sdata/web-vue-mcp run build` / `gen`），不参与根目录的 `dev` / `build:all` / `check:ci` 流程，避免影响组件库主链路。
+- 该包独立构建与测试（`pnpm --filter @sdata/web-vue-mcp run build` / `gen` / `test`），不参与根目录的 `dev` / `build:all` / `check:ci` 流程，避免影响组件库主链路。
 
 ### Vendor 桥接层
 

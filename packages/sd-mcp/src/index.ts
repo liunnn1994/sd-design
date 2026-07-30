@@ -1,6 +1,6 @@
-import { Server } from '@modelcontextprotocol/sdk/server/index.js';
-import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
+import { McpServer } from '@modelcontextprotocol/server';
+import { serveStdio } from '@modelcontextprotocol/server/stdio';
+import * as z from 'zod/v4';
 
 import componentsData from '../data/components.json';
 
@@ -57,7 +57,6 @@ const components = data.components;
 const library = data.library;
 
 const PKG_NAME = '@sdata/web-vue-mcp';
-const PKG_VERSION = '0.1.0';
 
 // Accept "sd-button", "button", "Button", "SdButton" interchangeably.
 const normalizeKey = (value: string) => value.toLowerCase().trim().replace(/^sd-/, '');
@@ -110,101 +109,6 @@ const importStatements = (component: ComponentEntry) => ({
     `app.use(SDVue);`,
   ].join('\n'),
 });
-
-const tools = [
-  {
-    name: 'list_components',
-    description:
-      'List all SD Design components with their category, bilingual title and API size. ' +
-      'Optionally filter by category. Use this first to discover what is available.',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        category: {
-          type: 'string',
-          description:
-            'Optional category filter, e.g. 通用 / 布局 / 导航 / 数据展示 / 反馈 / 其他.',
-        },
-      },
-    },
-  },
-  {
-    name: 'get_categories',
-    description: 'List all SD Design component categories with the number of components in each.',
-    inputSchema: { type: 'object', properties: {} },
-  },
-  {
-    name: 'get_component',
-    description:
-      'Get full detail for a component: description, import statements, documentation URL, ' +
-      'and every documented prop, event and slot (bilingual zh/en). ' +
-      'Accepts the tag (sd-button), kebab (button) or PascalCase (Button) name.',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        name: {
-          type: 'string',
-          description: 'Component name, e.g. "sd-button", "button" or "Button".',
-        },
-      },
-      required: ['name'],
-    },
-  },
-  {
-    name: 'search_components',
-    description:
-      'Search components by keyword across name, title, description and prop/event/slot text ' +
-      '(both Chinese and English). Returns matching components with the fields that matched.',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        query: { type: 'string', description: 'Search keyword, e.g. "日期", "tree", "上传".' },
-      },
-      required: ['query'],
-    },
-  },
-  {
-    name: 'get_component_props',
-    description:
-      'Get only the documented props for a component (name, type, default, bilingual description).',
-    inputSchema: {
-      type: 'object',
-      properties: { name: { type: 'string', description: 'Component name.' } },
-      required: ['name'],
-    },
-  },
-  {
-    name: 'get_component_events',
-    description: 'Get only the documented events for a component (name and bilingual description).',
-    inputSchema: {
-      type: 'object',
-      properties: { name: { type: 'string', description: 'Component name.' } },
-      required: ['name'],
-    },
-  },
-  {
-    name: 'get_component_slots',
-    description: 'Get only the documented slots for a component (name and bilingual description).',
-    inputSchema: {
-      type: 'object',
-      properties: { name: { type: 'string', description: 'Component name.' } },
-      required: ['name'],
-    },
-  },
-  {
-    name: 'find_by_prop',
-    description:
-      'Find components that expose a given prop. Useful for "which components have a size prop?" ' +
-      'or "what can I set disabled on?".',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        prop: { type: 'string', description: 'Prop name to search for, e.g. "size", "disabled".' },
-      },
-      required: ['prop'],
-    },
-  },
-];
 
 const search = (query: string) => {
   const needle = query.toLowerCase().trim();
@@ -284,43 +188,70 @@ const findByProp = (prop: string) => {
   return results;
 };
 
-const server = new Server(
-  { name: PKG_NAME, version: PKG_VERSION },
-  { capabilities: { tools: {} } },
-);
+const createServer = () => {
+  const server = new McpServer({
+    name: PKG_NAME,
+    version: process.env.SD_MCP_VERSION ?? 'development',
+  });
 
-server.setRequestHandler(ListToolsRequestSchema, () => ({ tools }));
-
-server.setRequestHandler(CallToolRequestSchema, async (request) => {
-  const { name, arguments: args = {} } = request.params;
-
-  switch (name) {
-    case 'list_components': {
-      const category = (args as { category?: string })?.category?.trim();
-      const list = category
-        ? components.filter((component) => component.category === category)
+  server.registerTool(
+    'list_components',
+    {
+      description:
+        'List all SD Design components with their category, bilingual title and API size. ' +
+        'Optionally filter by category. Use this first to discover what is available.',
+      inputSchema: z.object({
+        category: z
+          .string()
+          .optional()
+          .describe('Optional category filter, e.g. 通用 / 布局 / 导航 / 数据展示 / 反馈 / 其他.'),
+      }),
+    },
+    ({ category }) => {
+      const normalizedCategory = category?.trim();
+      const list = normalizedCategory
+        ? components.filter((component) => component.category === normalizedCategory)
         : components;
       return result({
         total: list.length,
-        ...(category ? { category } : {}),
+        ...(normalizedCategory ? { category: normalizedCategory } : {}),
         library: library.name,
         version: data.version,
         components: list.map(summary),
       });
-    }
+    },
+  );
 
-    case 'get_categories': {
+  server.registerTool(
+    'get_categories',
+    {
+      description: 'List all SD Design component categories with the number of components in each.',
+      inputSchema: z.object({}),
+    },
+    () => {
       const counts = data.categories.map((category) => ({
         category,
         count: components.filter((component) => component.category === category).length,
       }));
       return result({ total: components.length, categories: counts });
-    }
+    },
+  );
 
-    case 'get_component': {
-      const component = findComponent((args as { name?: string })?.name);
+  server.registerTool(
+    'get_component',
+    {
+      description:
+        'Get full detail for a component: description, import statements, documentation URL, ' +
+        'and every documented prop, event and slot (bilingual zh/en). ' +
+        'Accepts the tag (sd-button), kebab (button) or PascalCase (Button) name.',
+      inputSchema: z.object({
+        name: z.string().describe('Component name, e.g. "sd-button", "button" or "Button".'),
+      }),
+    },
+    ({ name }) => {
+      const component = findComponent(name);
       if (!component) {
-        return notFound((args as { name?: string })?.name ?? '');
+        return notFound(name);
       }
 
       return result({
@@ -330,50 +261,93 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         events: component.events,
         slots: component.slots,
       });
-    }
+    },
+  );
 
-    case 'search_components': {
-      const query = (args as { query?: string })?.query ?? '';
+  server.registerTool(
+    'search_components',
+    {
+      description:
+        'Search components by keyword across name, title, description and prop/event/slot text ' +
+        '(both Chinese and English). Returns matching components with the fields that matched.',
+      inputSchema: z.object({
+        query: z.string().describe('Search keyword, e.g. "日期", "tree", "上传".'),
+      }),
+    },
+    ({ query }) => {
       const matches = search(query);
       return result({ query, total: matches.length, matches });
-    }
+    },
+  );
 
-    case 'get_component_props': {
-      const component = findComponent((args as { name?: string })?.name);
+  server.registerTool(
+    'get_component_props',
+    {
+      description:
+        'Get only the documented props for a component (name, type, default, bilingual description).',
+      inputSchema: z.object({ name: z.string().describe('Component name.') }),
+    },
+    ({ name }) => {
+      const component = findComponent(name);
       if (!component) {
-        return notFound((args as { name?: string })?.name ?? '');
+        return notFound(name);
       }
 
       return result({ name: component.name, title: component.title, props: component.props });
-    }
+    },
+  );
 
-    case 'get_component_events': {
-      const component = findComponent((args as { name?: string })?.name);
+  server.registerTool(
+    'get_component_events',
+    {
+      description:
+        'Get only the documented events for a component (name and bilingual description).',
+      inputSchema: z.object({ name: z.string().describe('Component name.') }),
+    },
+    ({ name }) => {
+      const component = findComponent(name);
       if (!component) {
-        return notFound((args as { name?: string })?.name ?? '');
+        return notFound(name);
       }
 
       return result({ name: component.name, title: component.title, events: component.events });
-    }
+    },
+  );
 
-    case 'get_component_slots': {
-      const component = findComponent((args as { name?: string })?.name);
+  server.registerTool(
+    'get_component_slots',
+    {
+      description:
+        'Get only the documented slots for a component (name and bilingual description).',
+      inputSchema: z.object({ name: z.string().describe('Component name.') }),
+    },
+    ({ name }) => {
+      const component = findComponent(name);
       if (!component) {
-        return notFound((args as { name?: string })?.name ?? '');
+        return notFound(name);
       }
 
       return result({ name: component.name, title: component.title, slots: component.slots });
-    }
+    },
+  );
 
-    case 'find_by_prop': {
-      const prop = (args as { prop?: string })?.prop ?? '';
+  server.registerTool(
+    'find_by_prop',
+    {
+      description:
+        'Find components that expose a given prop. Useful for "which components have a size prop?" ' +
+        'or "what can I set disabled on?".',
+      inputSchema: z.object({
+        prop: z.string().describe('Prop name to search for, e.g. "size", "disabled".'),
+      }),
+    },
+    ({ prop }) => {
       const results = findByProp(prop);
       return result({ prop, total: results.length, results });
-    }
+    },
+  );
 
-    default:
-      return result({ error: `Unknown tool: ${name}` });
-  }
-});
+  return server;
+};
 
-await server.connect(new StdioServerTransport());
+void serveStdio(createServer);

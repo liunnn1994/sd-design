@@ -92,12 +92,11 @@ jobs:
           pnpm -v
           pnpm run install:ci
 
-      - name: Build release package
+      - name: Test MCP package
         if: steps.release-check.outputs.should_release == 'true'
         env:
           NODE_OPTIONS: '--max-old-space-size=4096'
-        # build 脚本会先跑 gen 自动生成 components.json，再用 tsdown 打包
-        run: pnpm --filter @sdata/web-vue-mcp run build
+        run: pnpm --filter @sdata/web-vue-mcp run test
 
       - name: Sync with latest main before release
         if: steps.release-check.outputs.should_release == 'true'
@@ -112,6 +111,7 @@ jobs:
           # （该钩子会跑全量 typecheck，而本 workflow 未构建 web-vue 产物，
           # 会导致 docs typecheck 找不到 @sdata/web-vue/es/icon 而失败、中断发布）
           SKIP_SIMPLE_GIT_HOOKS: '1'
+          # prepare 阶段使用 semantic-release 计算出的 next version 重新构建发布包。
         run: pnpm exec semantic-release
 
       - name: Show error

@@ -13,14 +13,14 @@ SD Design 提供一个 [Model Context Protocol（MCP）](https://modelcontextpro
 - 模型不确定时编造出不存在的 Props 或事件。
 - 模型不知道组件的正确导入路径或样式引入方式。
 
-MCP 服务把组件库自身导出的 API 作为「工具」交给 AI 助手调用。AI 在回答前先调用工具查询真实数据，从而显著降低上述问题。它覆盖 85 个文档化组件，数据来源与组件库对外发布的 `web-types` / `vetur` IDE 元数据一致。
+MCP 服务把组件库自身导出的 API 作为「工具」交给 AI 助手调用。AI 在回答前先调用工具查询真实数据，从而显著降低上述问题。它覆盖全部文档化组件，数据来源与组件库对外发布的 `web-types` / `vetur` IDE 元数据一致。
 
 ## 工作原理
 
-MCP 是一个让 AI 模型连接外部工具与数据源的开放协议。SD Design MCP 服务运行在本地，通过 stdio 与 AI 客户端（Claude Code、Codex 等）通信：
+MCP 是一个让 AI 模型连接外部工具与数据源的开放协议。SD Design MCP 服务基于 TypeScript SDK v2，支持当前的 `2026-07-28` 协议，并继续兼容使用 `initialize` 握手的旧版客户端。服务运行在本地，通过 stdio 与 AI 客户端（Claude Code、Codex 等）通信：
 
 1. AI 客户端启动时拉起 `sd-design-mcp` 进程。
-2. 进程加载内置的 `data/components.json`（85 个组件的元数据）。
+2. 进程加载内置的 `data/components.json`（所有组件的元数据）。
 3. AI 在对话中按需调用工具（例如 `get_component`），服务返回 JSON 结果。
 4. AI 基于返回的真实数据组织回答。
 
@@ -198,6 +198,9 @@ pnpm --filter @sdata/web-vue-mcp run build
 
 # 类型检查
 pnpm --filter @sdata/web-vue-mcp run typecheck
+
+# 构建后分别以 2026-07-28 和旧版协议运行 stdio 集成测试
+pnpm --filter @sdata/web-vue-mcp run test
 ```
 
 ## 可用工具
