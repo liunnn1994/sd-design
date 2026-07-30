@@ -1,3 +1,10 @@
+# [3.25.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.24.1...web-vue-v3.25.0) (2026-07-30)
+
+
+### Features
+
+* 🆕 模型选择器组件新增自定义触发器功能 ([db7265c](https://github.com/liunnn1994/sd-design/commit/db7265ceef65566b08452788867120878eb8c305))
+
 ## [3.24.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.24.0...web-vue-v3.24.1) (2026-07-30)
 
 
