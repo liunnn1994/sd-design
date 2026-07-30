@@ -1,3 +1,10 @@
+## [3.24.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.24.0...web-vue-v3.24.1) (2026-07-30)
+
+
+### Bug Fixes
+
+* 🐛 修复深色模式没有适配的问题 ([e55a0ba](https://github.com/liunnn1994/sd-design/commit/e55a0ba9dafc8e3bb724614b62cd119f7ba4b262))
+
 # [3.24.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.23.0...web-vue-v3.24.0) (2026-07-29)
 
 
