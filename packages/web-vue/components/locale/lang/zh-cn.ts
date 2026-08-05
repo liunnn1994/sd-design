@@ -1,3 +1,4 @@
+import { DEFAULT_LOCALE } from '../constant';
 import { SDCalendarLang, SdLang } from '../interface';
 
 const calendarLang: SDCalendarLang = {
@@ -71,7 +72,7 @@ const calendarLang: SDCalendarLang = {
 };
 
 const lang: SdLang = {
-  locale: 'zh-CN',
+  locale: DEFAULT_LOCALE,
   readonlyTip: '当前为只读模式',
   empty: {
     description: '暂无数据',

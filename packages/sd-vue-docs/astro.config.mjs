@@ -9,25 +9,8 @@ import { fileURLToPath } from 'node:url';
 import { docsSidebar } from './src/generated/docs-sidebar';
 import { sdDocsLlmsIntegration } from './src/integrations/llms/index.mjs';
 
-const dayjsLocaleDependencies = [
-  'dayjs/locale/ar',
-  'dayjs/locale/de',
-  'dayjs/locale/es',
-  'dayjs/locale/fr',
-  'dayjs/locale/id',
-  'dayjs/locale/it',
-  'dayjs/locale/ja',
-  'dayjs/locale/km',
-  'dayjs/locale/ko',
-  'dayjs/locale/ms',
-  'dayjs/locale/nl',
-  'dayjs/locale/pt',
-  'dayjs/locale/ru',
-  'dayjs/locale/th',
-  'dayjs/locale/vi',
-  'dayjs/locale/zh-cn',
-  'dayjs/locale/zh-tw',
-];
+// dayjs 默认内置英文；此处仅需显式注册项目使用的非默认语言。
+const dayjsLocaleDependencies = ['dayjs/locale/zh-cn'];
 
 const themeBridgeScript = String.raw`
 (() => {

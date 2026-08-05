@@ -1,6 +1,19 @@
 import { h } from 'vue';
 
+import { dayjs, initializeDateLocale } from '../../_utils/date';
+import { DEFAULT_LOCALE_KEY } from '../../locale/constant';
 import DatePicker, { RangePicker } from '../index';
+
+describe('DatePicker locale', () => {
+  it('falls back unsupported locales to zh-cn', () => {
+    cy.then(async () => {
+      await initializeDateLocale('ja-JP', 1);
+
+      expect(dayjs.locale()).to.equal(DEFAULT_LOCALE_KEY);
+      expect(dayjs.Ls[DEFAULT_LOCALE_KEY].weekStart).to.equal(1);
+    });
+  });
+});
 
 describe('DatePicker custom trigger', () => {
   it('opens DatePicker from the named trigger slot', () => {

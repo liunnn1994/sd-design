@@ -1,5 +1,11 @@
 export { default } from './sd-vue';
-export { addI18nMessages, useLocale, getLocale } from './locale';
+export {
+  DEFAULT_LOCALE,
+  DEFAULT_LOCALE_KEY,
+  addI18nMessages,
+  useLocale,
+  getLocale,
+} from './locale';
 export type { Size, Status, MessageType, Direction } from './_utils/constant';
 export { default as Affix } from './affix';
 export type { AffixInstance } from './affix';

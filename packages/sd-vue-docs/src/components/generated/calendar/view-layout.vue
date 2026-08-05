@@ -100,8 +100,7 @@
     <h3 class="sd:text-lg sd:font-semibold sd:mb-3">国际化 (i18n)</h3>
     <p class="sd:mb-3 sd:text-sm sd:text-gray-600">
       通过 <code>locale</code> 属性切换语言，支持
-      <code>zh-cn</code>、<code>en</code>、<code>ja</code>、<code>ko</code>、<code>fr</code>
-      等多种语言。
+      <code>zh-cn</code>（简体中文）、<code>en</code>（英文）。
     </p>
 
     <div class="sd:flex sd:items-center sd:gap-2 sd:mb-3">
@@ -190,9 +189,6 @@
   const locales = [
     { label: '中文 (zh-cn)', value: 'zh-cn' },
     { label: 'English (en)', value: 'en' },
-    { label: '日本語 (ja)', value: 'ja' },
-    { label: '한국어 (ko)', value: 'ko' },
-    { label: 'Français (fr)', value: 'fr' },
   ];
 
   // ---------- 暗色模式 ----------

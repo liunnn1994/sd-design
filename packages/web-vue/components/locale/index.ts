@@ -4,11 +4,14 @@ import type { SdI18nMessages, SdLang } from './interface';
 
 import { isString } from '../_utils/is';
 import { configProviderInjectionKey } from '../config-provider/context';
+import { DEFAULT_LOCALE } from './constant';
 import zhCN from './lang/zh-cn';
 
-const LOCALE = ref('zh-CN');
+export { DEFAULT_LOCALE, DEFAULT_LOCALE_KEY } from './constant';
+
+const LOCALE = ref(DEFAULT_LOCALE);
 const I18N_MESSAGES = reactive<SdI18nMessages>({
-  'zh-CN': zhCN,
+  [DEFAULT_LOCALE]: zhCN,
 });
 
 /**
@@ -52,7 +55,9 @@ export const getLocale = () => {
 // 仅内部使用
 export const useI18n = () => {
   const configProvider = inject(configProviderInjectionKey, undefined);
-  const i18nMessage = computed<SdLang>(() => configProvider?.locale ?? I18N_MESSAGES[LOCALE.value]);
+  const i18nMessage = computed<SdLang>(
+    () => configProvider?.locale ?? I18N_MESSAGES[LOCALE.value] ?? I18N_MESSAGES[DEFAULT_LOCALE],
+  );
   const locale = computed(() => i18nMessage.value.locale);
 
   const transform = (key: string, ...args: unknown[]): string => {

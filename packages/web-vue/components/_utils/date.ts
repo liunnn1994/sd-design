@@ -8,26 +8,11 @@ import utc from 'dayjs/plugin/utc';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import weekYear from 'dayjs/plugin/weekYear';
 
+import { DEFAULT_LOCALE_KEY } from '../locale/constant';
 import { isDayjs, isArray, isQuarter } from './is';
 
 const localeLoaders: Record<string, () => Promise<unknown>> = {
-  'ar': () => import('dayjs/locale/ar'),
-  'de': () => import('dayjs/locale/de'),
-  'es': () => import('dayjs/locale/es'),
-  'fr': () => import('dayjs/locale/fr'),
-  'id': () => import('dayjs/locale/id'),
-  'it': () => import('dayjs/locale/it'),
-  'ja': () => import('dayjs/locale/ja'),
-  'km': () => import('dayjs/locale/km'),
-  'ko': () => import('dayjs/locale/ko'),
-  'ms': () => import('dayjs/locale/ms'),
-  'nl': () => import('dayjs/locale/nl'),
-  'pt': () => import('dayjs/locale/pt'),
-  'ru': () => import('dayjs/locale/ru'),
-  'th': () => import('dayjs/locale/th'),
-  'vi': () => import('dayjs/locale/vi'),
-  'zh-cn': () => import('dayjs/locale/zh-cn'),
-  'zh-tw': () => import('dayjs/locale/zh-tw'),
+  [DEFAULT_LOCALE_KEY]: () => import('dayjs/locale/zh-cn'),
 };
 
 const loadedLocales = new Set<string>();
@@ -68,24 +53,9 @@ originDayjs.extend(timezone);
 export const dayjs = originDayjs;
 
 const DAYJS_LOCALE_MAP: Record<string, string> = {
-  'ar-eg': 'ar',
-  'de-de': 'de',
+  'en': 'en',
   'en-us': 'en',
-  'es-es': 'es',
-  'fr-fr': 'fr',
-  'id-id': 'id',
-  'it-it': 'it',
-  'ja-jp': 'ja',
-  'km-kh': 'km',
-  'ko-kr': 'ko',
-  'ms-my': 'ms',
-  'nl-nl': 'nl',
-  'pt-pt': 'pt',
-  'ru-ru': 'ru',
-  'th-th': 'th',
-  'vi-vn': 'vi',
-  'zh-cn': 'zh-cn',
-  'zh-tw': 'zh-tw',
+  [DEFAULT_LOCALE_KEY]: DEFAULT_LOCALE_KEY,
 };
 
 export const methods = {
@@ -298,7 +268,7 @@ export function getDateValue(value: Dayjs | Dayjs[] | (Dayjs | undefined)[] | un
 
 export async function initializeDateLocale(localeName: string, weekStart: number) {
   const normalizedLocale = localeName.toLowerCase();
-  const dayjsLocaleName = DAYJS_LOCALE_MAP[normalizedLocale] ?? normalizedLocale;
+  const dayjsLocaleName = DAYJS_LOCALE_MAP[normalizedLocale] ?? DEFAULT_LOCALE_KEY;
 
   if (dayjsLocaleName !== 'en' && !loadedLocales.has(dayjsLocaleName)) {
     const loader = localeLoaders[dayjsLocaleName];
