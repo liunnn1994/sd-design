@@ -244,6 +244,18 @@ const lang: SdLang = {
     goToSlide: 'ទៅកាន់ស្លាយ {0}',
     characterOf: 'តួអក្សរ {0} នៃ {1}',
     qrCode: 'កូដ QR៖ {0}',
+    // TODO(i18n): awaiting translation - en-us placeholder
+    thinkingOrb: {
+      working: 'Working…',
+      searching: 'Searching…',
+      solving: 'Solving…',
+      listening: 'Listening…',
+      connecting: 'Connecting…',
+      weaving: 'Weaving…',
+      composing: 'Composing…',
+      breathing: 'Thinking…',
+      shaping: 'Shaping…',
+    },
   },
   sender: {
     messageInput: 'ការបញ្ចូលសារ',

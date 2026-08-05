@@ -153,6 +153,17 @@ export interface SdA11yLang {
   goToSlide: string;
   characterOf: string;
   qrCode: string;
+  thinkingOrb: {
+    working: string;
+    searching: string;
+    solving: string;
+    listening: string;
+    connecting: string;
+    weaving: string;
+    composing: string;
+    breathing: string;
+    shaping: string;
+  };
 }
 
 export interface SdLang {

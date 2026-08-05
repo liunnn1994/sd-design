@@ -14,7 +14,9 @@ export type ThemeMode = 'light' | 'dark';
  * Returns `'light'` when no `[sd-theme]` ancestor is present, matching the
  * default theme mode of ConfigProvider.
  */
-export function useThemeMode(target: Ref<HTMLElement | null>): Ref<ThemeMode> {
+export function useThemeMode<T extends HTMLElement = HTMLElement>(
+  target: Ref<T | null>,
+): Ref<ThemeMode> {
   const themeMode = ref<ThemeMode>('light');
 
   const resolveTheme = () => {

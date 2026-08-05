@@ -254,6 +254,17 @@ const lang: SdLang = {
     goToSlide: '跳至第 {0} 張',
     characterOf: '第 {0} 個字元,共 {1} 個',
     qrCode: 'QR 碼:{0}',
+    thinkingOrb: {
+      working: '正在工作',
+      searching: '正在搜尋',
+      solving: '正在求解',
+      listening: '正在聆聽',
+      connecting: '正在連接',
+      weaving: '正在編織',
+      composing: '正在組織內容',
+      breathing: '正在思考',
+      shaping: '正在塑形',
+    },
   },
   sender: {
     messageInput: '訊息輸入',

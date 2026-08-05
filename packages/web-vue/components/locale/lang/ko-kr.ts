@@ -244,6 +244,18 @@ const lang: SdLang = {
     goToSlide: '슬라이드 {0}로 이동',
     characterOf: '문자 {0} / {1}',
     qrCode: 'QR 코드: {0}',
+    // TODO(i18n): awaiting translation - en-us placeholder
+    thinkingOrb: {
+      working: 'Working…',
+      searching: 'Searching…',
+      solving: 'Solving…',
+      listening: 'Listening…',
+      connecting: 'Connecting…',
+      weaving: 'Weaving…',
+      composing: 'Composing…',
+      breathing: 'Thinking…',
+      shaping: 'Shaping…',
+    },
   },
   sender: {
     messageInput: '메시지 입력',

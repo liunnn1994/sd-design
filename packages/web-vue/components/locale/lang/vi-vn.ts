@@ -244,6 +244,18 @@ const lang: SdLang = {
     goToSlide: 'Đi đến trang chiếu {0}',
     characterOf: 'Ký tự {0} trên {1}',
     qrCode: 'Mã QR: {0}',
+    // TODO(i18n): awaiting translation - en-us placeholder
+    thinkingOrb: {
+      working: 'Working…',
+      searching: 'Searching…',
+      solving: 'Solving…',
+      listening: 'Listening…',
+      connecting: 'Connecting…',
+      weaving: 'Weaving…',
+      composing: 'Composing…',
+      breathing: 'Thinking…',
+      shaping: 'Shaping…',
+    },
   },
   sender: {
     messageInput: 'Nhập tin nhắn',

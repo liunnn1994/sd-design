@@ -296,6 +296,10 @@ export const docsSidebar = [
             label: '加载中 Spin',
           },
           {
+            slug: 'components/thinking-orb',
+            label: '思考球 ThinkingOrb',
+          },
+          {
             slug: 'components/tour',
             label: '漫游式引导 Tour',
           },

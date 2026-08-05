@@ -1,0 +1,8 @@
+@use '@style/theme/index.scss' as theme;
+@use 'sass:string';
+
+$thinking-orb-prefix-cls: string.unquote('#{theme.$prefix}-thinking-orb');
+
+.#{$thinking-orb-prefix-cls} {
+  display: block;
+}

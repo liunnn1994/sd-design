@@ -89,6 +89,7 @@ import Tag from './tag';
 import TagGroup from './tag-group';
 import Textarea from './textarea';
 import ThemeProvider from './theme-provider';
+import ThinkingOrb from './thinking-orb';
 import TimePicker from './time-picker';
 import Timeline, { TimelineItem } from './timeline';
 import Toolbar from './toolbar';
@@ -175,6 +176,7 @@ const components: Record<string, Plugin> = {
   QrCode,
   Result,
   Spin,
+  ThinkingOrb,
   Skeleton,
   Breadcrumb,
   Dropdown,

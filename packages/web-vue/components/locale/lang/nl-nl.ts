@@ -244,6 +244,18 @@ const lang: SdLang = {
     goToSlide: 'Ga naar dia {0}',
     characterOf: 'Teken {0} van {1}',
     qrCode: 'QR-code: {0}',
+    // TODO(i18n): awaiting translation - en-us placeholder
+    thinkingOrb: {
+      working: 'Working…',
+      searching: 'Searching…',
+      solving: 'Solving…',
+      listening: 'Listening…',
+      connecting: 'Connecting…',
+      weaving: 'Weaving…',
+      composing: 'Composing…',
+      breathing: 'Thinking…',
+      shaping: 'Shaping…',
+    },
   },
   sender: {
     messageInput: 'Berichtinvoer',

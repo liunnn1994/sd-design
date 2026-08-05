@@ -245,6 +245,18 @@ const lang: SdLang = {
     goToSlide: 'Vai alla diapositiva {0}',
     characterOf: 'Carattere {0} di {1}',
     qrCode: 'Codice QR: {0}',
+    // TODO(i18n): awaiting translation - en-us placeholder
+    thinkingOrb: {
+      working: 'Working…',
+      searching: 'Searching…',
+      solving: 'Solving…',
+      listening: 'Listening…',
+      connecting: 'Connecting…',
+      weaving: 'Weaving…',
+      composing: 'Composing…',
+      breathing: 'Thinking…',
+      shaping: 'Shaping…',
+    },
   },
   sender: {
     messageInput: 'Input messaggio',

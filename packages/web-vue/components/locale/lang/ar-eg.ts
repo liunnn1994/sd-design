@@ -244,6 +244,18 @@ const lang: SdLang = {
     goToSlide: 'الانتقال إلى الشريحة {0}',
     characterOf: 'الحرف {0} من {1}',
     qrCode: 'رمز QR: {0}',
+    // TODO(i18n): awaiting translation - en-us placeholder
+    thinkingOrb: {
+      working: 'Working…',
+      searching: 'Searching…',
+      solving: 'Solving…',
+      listening: 'Listening…',
+      connecting: 'Connecting…',
+      weaving: 'Weaving…',
+      composing: 'Composing…',
+      breathing: 'Thinking…',
+      shaping: 'Shaping…',
+    },
   },
   sender: {
     messageInput: 'إدخال الرسالة',

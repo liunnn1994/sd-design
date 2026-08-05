@@ -129,6 +129,7 @@ declare module 'vue' {
     SdSlider: SDVue['Slider'];
     SdSpace: SDVue['Space'];
     SdSpin: SDVue['Spin'];
+    SdThinkingOrb: SDVue['ThinkingOrb'];
     SdSplit: SDVue['Split'];
     SdStatistic: SDVue['Statistic'];
     SdCountdown: SDVue['Countdown'];

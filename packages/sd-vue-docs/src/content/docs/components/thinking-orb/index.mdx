@@ -1,0 +1,78 @@
+---
+title: 思考球 ThinkingOrb
+description: 为 AI、智能体和异步推理场景提供语义明确的点阵思考动效。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import ThinkingOrbBasicDemo from '../../../../components/generated/thinking-orb/basic.vue';
+import thinkingOrbBasicSource from '../../../../components/generated/thinking-orb/basic.vue?raw';
+import ThinkingOrbStatesDemo from '../../../../components/generated/thinking-orb/states.vue';
+import thinkingOrbStatesSource from '../../../../components/generated/thinking-orb/states.vue?raw';
+import ThinkingOrbControlDemo from '../../../../components/generated/thinking-orb/control.vue';
+import thinkingOrbControlSource from '../../../../components/generated/thinking-orb/control.vue?raw';
+import ThinkingOrbThemeDemo from '../../../../components/generated/thinking-orb/theme.vue';
+import thinkingOrbThemeSource from '../../../../components/generated/thinking-orb/theme.vue?raw';
+
+`ThinkingOrb` 适合表达 AI 正在搜索、求解、连接或组织内容等持续状态。它使用 Canvas 2D 绘制，不依赖 WebGL；离开视口或页面隐藏时会自动暂停，系统开启“减少动态效果”后会展示静态代表帧。
+
+### 基本用法
+
+默认展示 `working` 状态。组件已经带有状态对应的无障碍标签；当上下文更具体时，建议通过 `aria-label` 提供准确描述。
+
+<DemoBlock source={thinkingOrbBasicSource} mainFile="src/thinking-orb-basic.vue">
+
+<ThinkingOrbBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 思考状态
+
+九种状态分别对应常见的智能体行为。状态应表达真实任务阶段，不建议只把它们当作随机装饰动画。
+
+<DemoBlock source={thinkingOrbStatesSource} mainFile="src/thinking-orb-states.vue">
+
+<ThinkingOrbStatesDemo client:only="vue" />
+
+</DemoBlock>
+
+### 暂停与速度
+
+通过 `paused` 冻结当前状态，通过 `speed` 调整预设速度倍率。暂停后仍会保留一帧内容，不会出现空白画布。
+
+<DemoBlock source={thinkingOrbControlSource} mainFile="src/thinking-orb-control.vue">
+
+<ThinkingOrbControlDemo client:only="vue" />
+
+</DemoBlock>
+
+### 浅色与深色模式
+
+`theme="auto"` 会跟随最近的 `ThemeProvider` / `ConfigProvider` 所提供的 `sd-theme`。也可以显式指定 `light` 或 `dark`，用于已知底色的独立区域。
+
+<DemoBlock source={thinkingOrbThemeSource} mainFile="src/thinking-orb-theme.vue">
+
+<ThinkingOrbThemeDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### `<thinking-orb>` Props
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| state | 当前思考状态 | `'working' \| 'searching' \| 'solving' \| 'listening' \| 'connecting' \| 'weaving' \| 'composing' \| 'breathing' \| 'shaping'` | `'working'` |
+| size | 针对聊天头像或行内文本调优的尺寸 | `20 \| 64` | `64` |
+| theme | 主题模式；`auto` 跟随最近的 `sd-theme` 容器 | `'auto' \| 'light' \| 'dark'` | `'auto'` |
+| speed | 动画速度倍率 | `number` | `1` |
+| paused | 是否暂停动画 | `boolean` | `false` |
+
+组件根元素是 `<canvas>`，支持透传 `class`、`style`、`data-*` 和 `aria-*` 等原生属性。
+
+### Events
+
+该组件不触发自定义事件。
+
+### Slots
+
+该组件不提供插槽。

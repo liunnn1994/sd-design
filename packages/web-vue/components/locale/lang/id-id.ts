@@ -245,6 +245,18 @@ const lang: SdLang = {
     goToSlide: 'Ke slide {0}',
     characterOf: 'Karakter {0} dari {1}',
     qrCode: 'Kode QR: {0}',
+    // TODO(i18n): awaiting translation - en-us placeholder
+    thinkingOrb: {
+      working: 'Working…',
+      searching: 'Searching…',
+      solving: 'Solving…',
+      listening: 'Listening…',
+      connecting: 'Connecting…',
+      weaving: 'Weaving…',
+      composing: 'Composing…',
+      breathing: 'Thinking…',
+      shaping: 'Shaping…',
+    },
   },
   sender: {
     messageInput: 'Input pesan',

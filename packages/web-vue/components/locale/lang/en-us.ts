@@ -204,6 +204,17 @@ const lang: SdLang = {
     goToSlide: 'Go to slide {0}',
     characterOf: 'Character {0} of {1}',
     qrCode: 'QR code: {0}',
+    thinkingOrb: {
+      working: 'Working…',
+      searching: 'Searching…',
+      solving: 'Solving…',
+      listening: 'Listening…',
+      connecting: 'Connecting…',
+      weaving: 'Weaving…',
+      composing: 'Composing…',
+      breathing: 'Thinking…',
+      shaping: 'Shaping…',
+    },
   },
   sender: {
     messageInput: 'Message input',

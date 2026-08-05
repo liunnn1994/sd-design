@@ -539,6 +539,14 @@ export { default as Space } from './space';
 export type { SpaceInstance } from './space';
 export { default as Spin } from './spin';
 export type { SpinInstance, SpinProps } from './spin';
+export { default as ThinkingOrb } from './thinking-orb';
+export type {
+  ThinkingOrbInstance,
+  ThinkingOrbProps,
+  ThinkingOrbSize,
+  ThinkingOrbState,
+  ThinkingOrbTheme,
+} from './thinking-orb';
 export { default as Split } from './split';
 export type { SplitInstance } from './split';
 export { default as Statistic, Countdown } from './statistic';

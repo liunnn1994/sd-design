@@ -244,6 +244,18 @@ const lang: SdLang = {
     goToSlide: 'ไปยังสไลด์ {0}',
     characterOf: 'อักขระ {0} จาก {1}',
     qrCode: 'รหัส QR: {0}',
+    // TODO(i18n): awaiting translation - en-us placeholder
+    thinkingOrb: {
+      working: 'Working…',
+      searching: 'Searching…',
+      solving: 'Solving…',
+      listening: 'Listening…',
+      connecting: 'Connecting…',
+      weaving: 'Weaving…',
+      composing: 'Composing…',
+      breathing: 'Thinking…',
+      shaping: 'Shaping…',
+    },
   },
   sender: {
     messageInput: 'การป้อนข้อความ',

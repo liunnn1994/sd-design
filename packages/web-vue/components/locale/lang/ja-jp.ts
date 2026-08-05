@@ -244,6 +244,18 @@ const lang: SdLang = {
     goToSlide: 'スライド {0} へ移動',
     characterOf: '文字 {0} / {1}',
     qrCode: 'QR コード: {0}',
+    // TODO(i18n): awaiting translation - en-us placeholder
+    thinkingOrb: {
+      working: 'Working…',
+      searching: 'Searching…',
+      solving: 'Solving…',
+      listening: 'Listening…',
+      connecting: 'Connecting…',
+      weaving: 'Weaving…',
+      composing: 'Composing…',
+      breathing: 'Thinking…',
+      shaping: 'Shaping…',
+    },
   },
   sender: {
     messageInput: 'メッセージ入力',
