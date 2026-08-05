@@ -58,15 +58,18 @@ describe('ThinkingOrb', () => {
   });
 
   it('inverts the rendered ink palette between light and dark themes', () => {
-    let lightBrightness = 0;
-    cy.mount(ThinkingOrb, { props: { paused: true, speed: 0, theme: 'light' } });
-    cy.get<HTMLCanvasElement>('.sd-thinking-orb').then(([canvas]) => {
-      lightBrightness = getAverageVisibleBrightness(canvas);
-    });
-    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ theme: 'dark' })));
-    cy.get<HTMLCanvasElement>('.sd-thinking-orb').should(([canvas]) => {
-      const darkBrightness = getAverageVisibleBrightness(canvas);
-      expect(lightBrightness + darkBrightness).to.be.closeTo(255, 1);
+    cy.mount(() =>
+      h('div', [
+        h(ThinkingOrb, { paused: true, speed: 0, theme: 'light' }),
+        h(ThinkingOrb, { paused: true, speed: 0, theme: 'dark' }),
+      ]),
+    );
+    cy.get<HTMLCanvasElement>('.sd-thinking-orb[data-theme="light"]').then(([lightCanvas]) => {
+      const lightBrightness = getAverageVisibleBrightness(lightCanvas);
+      cy.get<HTMLCanvasElement>('.sd-thinking-orb[data-theme="dark"]').then(([darkCanvas]) => {
+        const darkBrightness = getAverageVisibleBrightness(darkCanvas);
+        expect(lightBrightness + darkBrightness).to.be.closeTo(255, 1);
+      });
     });
   });
 
