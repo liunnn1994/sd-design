@@ -64,7 +64,7 @@ describe('ThinkingOrb', () => {
       lightBrightness = getAverageVisibleBrightness(canvas);
     });
     cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ theme: 'dark' })));
-    cy.get<HTMLCanvasElement>('.sd-thinking-orb').then(([canvas]) => {
+    cy.get<HTMLCanvasElement>('.sd-thinking-orb').should(([canvas]) => {
       const darkBrightness = getAverageVisibleBrightness(canvas);
       expect(lightBrightness + darkBrightness).to.be.closeTo(255, 1);
     });
