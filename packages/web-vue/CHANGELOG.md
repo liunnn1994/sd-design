@@ -1,3 +1,11 @@
+# [3.27.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.26.0...web-vue-v3.27.0) (2026-08-05)
+
+
+### Features
+
+* 🆕 新增思考球组件 ([f046d1e](https://github.com/liunnn1994/sd-design/commit/f046d1e9317d0a5dded6212efdb933077862a384))
+* 🆕 移除不再维护的语言，仅保留简体中文和英文 ([67c63d3](https://github.com/liunnn1994/sd-design/commit/67c63d379f5a8aeeba461665b6403b6e9908a19d))
+
 # [3.26.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.25.0...web-vue-v3.26.0) (2026-07-30)
 
 
