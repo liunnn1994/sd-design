@@ -1,20 +1,30 @@
 import { h, shallowRef } from 'vue';
 
 import ThemeProvider from '../../theme-provider';
+import { paint } from '../engine/core';
 import ThinkingOrb from '../index';
 
-function getAverageVisibleBrightness(canvas: HTMLCanvasElement) {
-  const context = canvas.getContext('2d');
-  expect(context).not.to.equal(null);
-  const pixels = context!.getImageData(0, 0, canvas.width, canvas.height).data;
-  let brightness = 0;
-  let opacity = 0;
-  for (let index = 0; index < pixels.length; index += 4) {
-    const alpha = pixels[index + 3] / 255;
-    brightness += ((pixels[index] + pixels[index + 1] + pixels[index + 2]) / 3) * alpha;
-    opacity += alpha;
-  }
-  return brightness / opacity;
+function captureInkColors(dark: boolean) {
+  const colors: string[] = [];
+  const context = {
+    set fillStyle(value: string | CanvasGradient | CanvasPattern) {
+      colors.push(String(value));
+    },
+    beginPath() {},
+    arc() {},
+    fill() {},
+  } as unknown as CanvasRenderingContext2D;
+
+  paint(
+    context,
+    [
+      { x: 0, y: 0, z: 0, r: 1, white: 0.2 },
+      { x: 0, y: 0, z: 1, r: 1, white: 0.4 },
+      { x: 0, y: 0, z: 2, r: 1, white: 0.8 },
+    ],
+    dark,
+  );
+  return colors;
 }
 
 describe('ThinkingOrb', () => {
@@ -57,20 +67,17 @@ describe('ThinkingOrb', () => {
     cy.get('.sd-thinking-orb').should('have.attr', 'data-theme', 'light');
   });
 
-  it('inverts the rendered ink palette between light and dark themes', () => {
-    cy.mount(() =>
-      h('div', [
-        h(ThinkingOrb, { paused: true, speed: 0, theme: 'light' }),
-        h(ThinkingOrb, { paused: true, speed: 0, theme: 'dark' }),
-      ]),
-    );
-    cy.get<HTMLCanvasElement>('.sd-thinking-orb[data-theme="light"]').then(([lightCanvas]) => {
-      const lightBrightness = getAverageVisibleBrightness(lightCanvas);
-      cy.get<HTMLCanvasElement>('.sd-thinking-orb[data-theme="dark"]').then(([darkCanvas]) => {
-        const darkBrightness = getAverageVisibleBrightness(darkCanvas);
-        expect(lightBrightness + darkBrightness).to.be.closeTo(255, 1);
-      });
-    });
+  it('inverts ink colors before canvas rasterization', () => {
+    expect(captureInkColors(false)).to.deep.equal([
+      'rgba(51,51,51,1)',
+      'rgba(102,102,102,1)',
+      'rgba(204,204,204,1)',
+    ]);
+    expect(captureInkColors(true)).to.deep.equal([
+      'rgba(204,204,204,1)',
+      'rgba(153,153,153,1)',
+      'rgba(51,51,51,1)',
+    ]);
   });
 
   it('does not schedule animation frames while paused', () => {
