@@ -1,3 +1,11 @@
+# [3.29.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.28.0...web-vue-v3.29.0) (2026-08-06)
+
+
+### Features
+
+* 🆕 crud 组件新增 action_middle slot ([7553a9d](https://github.com/liunnn1994/sd-design/commit/7553a9d0d599213544ff7867c377cd4cd31c5ab7))
+* 🆕 新增开始按钮的显隐 ([6d8c12d](https://github.com/liunnn1994/sd-design/commit/6d8c12de93835bd9ecd2bfa1c9d55659a69540c4))
+
 # [3.28.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.27.0...web-vue-v3.28.0) (2026-08-06)
 
 
