@@ -40,6 +40,7 @@
     checkboxGroup: '复选框组 CheckboxGroup',
     datePicker: '日期选择 DatePicker',
     input: '输入框 Input',
+    inputMask: '输入掩码 InputMask',
     inputNumber: '数字输入 InputNumber',
     inputPassword: '密码输入 InputPassword',
     inputSearch: '搜索输入 InputSearch',
