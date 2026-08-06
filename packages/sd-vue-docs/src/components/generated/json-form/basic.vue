@@ -87,9 +87,13 @@
       {
         field: 'phone',
         label: '手机号码',
-        type: 'input',
+        type: 'inputMask',
         required: true,
         hidden: !isAdvanced || contactType !== 'sms',
+        componentProps: {
+          mask: '999 9999 9999',
+          maskChar: null,
+        },
       },
       {
         field: 'wechat',

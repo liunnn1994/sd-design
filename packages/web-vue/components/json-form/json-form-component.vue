@@ -50,6 +50,7 @@
       (
         [
           JSON_FORM_COMPONENT_TYPES.input,
+          JSON_FORM_COMPONENT_TYPES.inputMask,
           JSON_FORM_COMPONENT_TYPES.inputSearch,
           JSON_FORM_COMPONENT_TYPES.inputNumber,
           JSON_FORM_COMPONENT_TYPES.inputPassword,

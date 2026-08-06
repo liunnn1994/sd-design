@@ -8,6 +8,7 @@ import Checkbox, { CheckboxGroup } from '../checkbox';
 import DatePicker, { RangePicker } from '../date-picker';
 import { Row } from '../grid';
 import Input, { InputPassword, InputSearch } from '../input';
+import InputMask from '../input-mask';
 import InputNumber from '../input-number';
 import InputTag from '../input-tag';
 import Mention from '../mention';
@@ -43,6 +44,7 @@ const STRETCH_COMPONENT_TYPES = new Set<string>([
   JSON_FORM_COMPONENT_TYPES.cascader,
   JSON_FORM_COMPONENT_TYPES.datePicker,
   JSON_FORM_COMPONENT_TYPES.input,
+  JSON_FORM_COMPONENT_TYPES.inputMask,
   JSON_FORM_COMPONENT_TYPES.inputNumber,
   JSON_FORM_COMPONENT_TYPES.inputPassword,
   JSON_FORM_COMPONENT_TYPES.inputSearch,
@@ -63,6 +65,7 @@ export const jsonFormBuiltInComponents: JsonFormComponentRegistry = {
   checkboxGroup: CheckboxGroup,
   datePicker: DatePicker,
   input: Input,
+  inputMask: InputMask,
   inputNumber: InputNumber,
   inputPassword: InputPassword,
   inputSearch: InputSearch,

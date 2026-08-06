@@ -39,6 +39,33 @@ describe('JsonForm', () => {
       .and('not.have.class', 'sd-input-max-w-full');
   });
 
+  it('renders inputMask schemas and updates the masked model value', () => {
+    const model = { date: '' };
+    cy.mount(JsonForm, {
+      props: {
+        modelValue: model,
+        schemas: [
+          {
+            field: 'date',
+            label: '日期',
+            type: 'inputMask',
+            componentProps: { mask: '9999-99-99', maskChar: null },
+          },
+        ],
+      },
+    });
+
+    cy.get('.sd-input-mask')
+      .should('have.class', 'sd-json-form-control')
+      .find('input')
+      .should('have.attr', 'placeholder', '请输入日期')
+      .type('20260806')
+      .should('have.value', '2026-08-06');
+    cy.wrap(model).should((value) => {
+      expect(value.date).to.equal('2026-08-06');
+    });
+  });
+
   it('按 A2UI 0.9.1 的 root 邻接表和 JSON Pointer 渲染并更新表单', () => {
     const model = {
       contact: {

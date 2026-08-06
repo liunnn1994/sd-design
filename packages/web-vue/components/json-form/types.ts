@@ -7,6 +7,7 @@ import type { DatePickerInstance, RangePickerInstance } from '../date-picker';
 import type { FieldRule, FormItemInstance } from '../form';
 import type { GridColInstance, GridRowInstance } from '../grid';
 import type { InputInstance, InputPasswordInstance, InputSearchInstance } from '../input';
+import type { InputMaskInstance } from '../input-mask';
 import type { InputNumberInstance } from '../input-number';
 import type { InputTagInstance } from '../input-tag';
 import type { MentionInstance } from '../mention';
@@ -35,6 +36,7 @@ export const JSON_FORM_COMPONENT_TYPES = {
   checkboxGroup: 'checkboxGroup',
   datePicker: 'datePicker',
   input: 'input',
+  inputMask: 'inputMask',
   inputNumber: 'inputNumber',
   inputPassword: 'inputPassword',
   inputSearch: 'inputSearch',
@@ -71,6 +73,7 @@ type JsonFormBuiltInComponentPropsMap = {
   checkboxGroup: CheckboxGroupInstance['$props'];
   datePicker: DatePickerInstance['$props'];
   input: InputInstance['$props'];
+  inputMask: InputMaskInstance['$props'];
   inputNumber: InputNumberInstance['$props'];
   inputPassword: InputPasswordInstance['$props'];
   inputSearch: InputSearchInstance['$props'];
@@ -99,6 +102,7 @@ type JsonFormBuiltInComponentEventsMap = {
   checkboxGroup: CheckboxGroupInstance['$emit'];
   datePicker: DatePickerInstance['$emit'];
   input: InputInstance['$emit'];
+  inputMask: InputMaskInstance['$emit'];
   inputNumber: InputNumberInstance['$emit'];
   inputPassword: InputPasswordInstance['$emit'];
   inputSearch: InputSearchInstance['$emit'];
