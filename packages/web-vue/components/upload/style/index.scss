@@ -5,7 +5,7 @@
 $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
 
 .#{$upload-prefix-cls} {
-  display: inline-block;
+  display: block;
   max-width: 100%;
   cursor: pointer;
 
