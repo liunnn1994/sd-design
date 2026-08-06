@@ -139,6 +139,43 @@ describe('BasicCrudTable', () => {
     cy.get('@edit').should('have.been.calledWithMatch', { name: '监控项' });
   });
 
+  it('在重置后渲染 middle，且不依赖新建按钮显示', () => {
+    cy.mount(BasicCrudTable, {
+      props: {
+        columns,
+        fetchTableOnMounted: false,
+      },
+      slots: {
+        toolbar__action_middle: '<span data-testid="action-middle">中间</span>',
+        toolbar__action_append: '<span data-testid="action-append">追加</span>',
+      },
+    });
+
+    cy.get('.sd-toolbar-actions')
+      .children()
+      .then(($actions) => {
+        expect([...$actions].map((action) => action.textContent?.trim())).to.deep.equal([
+          '查询',
+          '重置',
+          '中间',
+          '新建',
+          '追加',
+        ]);
+      });
+
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ showCreate: false }));
+    cy.get('.sd-toolbar-actions')
+      .children()
+      .then(($actions) => {
+        expect([...$actions].map((action) => action.textContent?.trim())).to.deep.equal([
+          '查询',
+          '重置',
+          '中间',
+          '追加',
+        ]);
+      });
+  });
+
   it('透传所有内置操作按钮的 props', () => {
     const onCreate = cy.spy().as('disabledCreate');
     const onEdit = cy.spy().as('disabledEdit');

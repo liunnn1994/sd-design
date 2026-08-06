@@ -27,10 +27,11 @@
           <slot name="toolbar__action_prepend" />
         </template>
         <template #action-append>
-          <slot name="toolbar__action_append" />
+          <slot name="toolbar__action_middle" />
           <Button v-if="showCreate" type="primary" v-bind="createBtn" @click="handleCreate">
             新建
           </Button>
+          <slot name="toolbar__action_append" />
         </template>
         <template v-for="name in toolbarSlotNames" :key="name" #[name]="data">
           <slot :name="`toolbar__${name}`" v-bind="data" />
@@ -223,7 +224,12 @@
     },
   ]);
   const toolbarSlotNames = computed(() =>
-    getForwardedSlotNames('toolbar__', ['default', 'action_prepend', 'action_append']),
+    getForwardedSlotNames('toolbar__', [
+      'default',
+      'action_prepend',
+      'action_middle',
+      'action_append',
+    ]),
   );
   const tableSlotNames = computed(() =>
     getForwardedSlotNames('table__', ['action_prepend', 'action_append']),

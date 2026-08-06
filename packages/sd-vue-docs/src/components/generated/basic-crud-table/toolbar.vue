@@ -11,7 +11,14 @@
     delete-name-key="name"
     :toolbar-props="{ schemas, allowExpand: true }"
     :modal-form-props="{ schemas: formSchemas }"
-  />
+  >
+    <template #toolbar__action_middle>
+      <sd-button>批量导入</sd-button>
+    </template>
+    <template #toolbar__action_append>
+      <sd-button>导出</sd-button>
+    </template>
+  </sd-basic-crud-table>
 </template>
 <script setup lang="ts">
   import type { JsonFormSchema, TableColumnData } from '@sdata/web-vue';

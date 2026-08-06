@@ -39,7 +39,7 @@ import modalSource from '../../../../components/generated/basic-crud-table/modal
 
 ### 查询工具栏
 
-通过 `toolbar-props.schemas` 描述筛选项，查询条件会与分页和排序参数一起传给 `fetch-table-api`。
+通过 `toolbar-props.schemas` 描述筛选项，查询条件会与分页和排序参数一起传给 `fetch-table-api`。`toolbar__action_middle` 位于“重置”之后，不依赖“新建”按钮是否显示；`toolbar__action_append` 位于工具栏操作区最后。
 
 <DemoBlock source={toolbarSource} mainFile="src/basic-crud-table-toolbar.vue">
   <ToolbarDemo client:only="vue" />
@@ -136,7 +136,9 @@ import modalSource from '../../../../components/generated/basic-crud-table/modal
 | --- | --- | --- |
 | header\_\_title / header\_\_extra | 标题区内容 | `{ title }` / - |
 | toolbar\_\_default | 自定义筛选内容 | - |
-| toolbar\_\_action_prepend / toolbar\_\_action_append | 查询操作区扩展 | - |
+| toolbar\_\_action_prepend | 查询按钮之前的操作区扩展 | - |
+| toolbar\_\_action_middle | 重置按钮之后、新建按钮之前的操作区扩展；新建隐藏时仍正常显示 | - |
+| toolbar\_\_action_append | 工具栏操作区最后的扩展 | - |
 | toolbar\_\_插槽名 | 透传到 Toolbar | 与 Toolbar 一致 |
 | table\_\_action_prepend / table\_\_action_append | 默认行操作两侧内容 | Table 单元格上下文 |
 | table\_\_插槽名 | 透传到 Table | 与 Table 一致 |
