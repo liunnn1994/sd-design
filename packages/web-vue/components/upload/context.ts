@@ -8,6 +8,7 @@ export interface UploadContext {
   iconCls?: string;
   customIcon?: CustomIcon;
   showRemoveButton?: boolean;
+  showStartButton?: boolean;
   showRetryButton?: boolean;
   showCancelButton?: boolean;
   showPreviewButton?: boolean;

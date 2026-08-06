@@ -5,6 +5,7 @@ import { isActivationKey } from '../_utils/keyboard';
 import IconDelete from '../icon/icon-delete';
 import IconEye from '../icon/icon-eye';
 import IconImageClose from '../icon/icon-image-close';
+import IconPlayArrowFill from '../icon/icon-play-arrow-fill';
 import IconUpload from '../icon/icon-upload';
 import { useI18n } from '../locale';
 import { uploadInjectionKey } from './context';
@@ -59,7 +60,7 @@ export default defineComponent({
             />
           )}
           <div class={`${itemCls}-mask`}>
-            {props.file.status === 'error' && uploadCtx?.showCancelButton && (
+            {props.file.status === 'error' && (
               <div class={`${itemCls}-error-tip`}>
                 <span class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-error`]}>
                   {uploadCtx?.slots['error-icon']?.() ?? uploadCtx?.customIcon?.errorIcon?.() ?? (
@@ -82,21 +83,34 @@ export default defineComponent({
                     uploadCtx?.customIcon?.previewIcon?.() ?? <IconEye />}
                 </span>
               )}
-              {['init', 'error'].includes(props.file.status as string) &&
-                uploadCtx?.showRetryButton && (
-                  <span
-                    class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-upload`]}
-                    role="button"
-                    tabindex="0"
-                    aria-label={t('a11y.retryUpload')}
-                    onClick={() => uploadCtx?.onUpload(props.file)}
-                    onKeydown={onActionKeydown(() => uploadCtx?.onUpload(props.file))}
-                  >
-                    {uploadCtx?.slots['retry-icon']?.() ?? uploadCtx?.customIcon?.retryIcon?.() ?? (
-                      <IconUpload />
-                    )}
-                  </span>
-                )}
+              {props.file.status === 'init' && uploadCtx?.showStartButton && (
+                <span
+                  class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-start`]}
+                  role="button"
+                  tabindex="0"
+                  aria-label={t('upload.start')}
+                  onClick={() => uploadCtx?.onUpload(props.file)}
+                  onKeydown={onActionKeydown(() => uploadCtx?.onUpload(props.file))}
+                >
+                  {uploadCtx?.slots['start-icon']?.() ?? uploadCtx?.customIcon?.startIcon?.() ?? (
+                    <IconPlayArrowFill />
+                  )}
+                </span>
+              )}
+              {props.file.status === 'error' && uploadCtx?.showRetryButton && (
+                <span
+                  class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-upload`]}
+                  role="button"
+                  tabindex="0"
+                  aria-label={t('a11y.retryUpload')}
+                  onClick={() => uploadCtx?.onUpload(props.file)}
+                  onKeydown={onActionKeydown(() => uploadCtx?.onUpload(props.file))}
+                >
+                  {uploadCtx?.slots['retry-icon']?.() ?? uploadCtx?.customIcon?.retryIcon?.() ?? (
+                    <IconUpload />
+                  )}
+                </span>
+              )}
               {!uploadCtx?.disabled && uploadCtx?.showRemoveButton && (
                 <span
                   class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-remove`]}

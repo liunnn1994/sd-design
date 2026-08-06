@@ -32,18 +32,18 @@ export default defineComponent({
 
     const renderIcon = () => {
       if (props.file.status === 'error') {
+        if (!uploadCtx?.showRetryButton) {
+          return null;
+        }
+
         return (
           <span
             class={[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-upload`]}
             onClick={() => uploadCtx?.onUpload(props.file)}
           >
-            {(uploadCtx?.showRetryButton &&
-              (uploadCtx?.slots['retry-icon']?.() ?? uploadCtx?.customIcon?.retryIcon?.())) ||
-            props.listType === 'picture-card' ? (
-              <IconUpload />
-            ) : (
-              t('upload.retry')
-            )}
+            {uploadCtx.slots['retry-icon']?.() ??
+              uploadCtx.customIcon?.retryIcon?.() ??
+              (props.listType === 'picture-card' ? <IconUpload /> : t('upload.retry'))}
           </span>
         );
       }
@@ -57,6 +57,10 @@ export default defineComponent({
         );
       }
       if (props.file.status === 'init') {
+        if (!uploadCtx?.showStartButton) {
+          return null;
+        }
+
         return (
           <Tooltip content={t('upload.start')}>
             <span

@@ -151,6 +151,14 @@ export default defineComponent({
       default: true,
     },
     /**
+     * @zh 是否显示开始按钮
+     * @en Whether to display the start button
+     */
+    showStartButton: {
+      type: Boolean,
+      default: true,
+    },
+    /**
      * @zh 是否显示重试按钮
      * @en Whether to display the retry button
      * @version 2.11.0
@@ -393,6 +401,7 @@ export default defineComponent({
       disabled,
       listType,
       customIcon,
+      showStartButton,
       showRetryButton,
       showCancelButton,
       showRemoveButton,
@@ -646,6 +655,7 @@ export default defineComponent({
         listType,
         iconCls: `${prefixCls}-icon`,
         showRemoveButton,
+        showStartButton,
         showRetryButton,
         showCancelButton,
         showPreviewButton,
