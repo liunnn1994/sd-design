@@ -1,3 +1,16 @@
+# [3.28.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.27.0...web-vue-v3.28.0) (2026-08-06)
+
+
+### Bug Fixes
+
+* 🐛 修复错误的样式 ([2798b88](https://github.com/liunnn1994/sd-design/commit/2798b88d313fb75461f1f1a2331e2951c2f327dd))
+
+
+### Features
+
+* 🆕 新增 InputMask 组件 ([bafc2ea](https://github.com/liunnn1994/sd-design/commit/bafc2ea04a3ae966c1a8ffdf7d2f00e2d8cd5a1d))
+* 🆕 给crud的按钮/link添加props ([54b3fc3](https://github.com/liunnn1994/sd-design/commit/54b3fc36363079685ed5ac36a765f06cb4f587f2))
+
 # [3.27.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.26.0...web-vue-v3.27.0) (2026-08-05)
 
 
