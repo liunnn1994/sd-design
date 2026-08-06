@@ -1,0 +1,5 @@
+@use '@style/theme/index.scss' as global;
+
+@forward '@style/theme/index.scss';
+
+$input-mask-font-variant-numeric: tabular-nums;

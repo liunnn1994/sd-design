@@ -301,6 +301,19 @@ export type {
   InputPasswordInstance,
   InputSearchInstance,
 } from './input';
+export { default as InputMask } from './input-mask';
+export type {
+  InputMaskBeforeChange,
+  InputMaskInstance,
+  InputMaskPattern,
+  InputMaskPresetDefinition,
+  InputMaskPresetName,
+  InputMaskProps,
+  InputMaskSelection,
+  InputMaskState,
+  InputMaskToken,
+} from './input-mask';
+export { defaultInputMaskFormatChars, formatInputMask, inputMaskPresets } from './input-mask';
 export { default as InputNumber } from './input-number';
 export type {
   InputNumberChangeHandler,

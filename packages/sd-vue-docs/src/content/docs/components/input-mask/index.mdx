@@ -1,0 +1,145 @@
+---
+title: 输入掩码 InputMask
+description: 继承 Input 的输入体验，为固定位置、中英文和常见结构化格式提供实时输入约束。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import InputMaskBasicDemo from '../../../../components/generated/input-mask/basic.vue';
+import inputMaskBasicSource from '../../../../components/generated/input-mask/basic.vue?raw';
+import InputMaskMultilingualDemo from '../../../../components/generated/input-mask/multilingual.vue';
+import inputMaskMultilingualSource from '../../../../components/generated/input-mask/multilingual.vue?raw';
+import InputMaskPresetsDemo from '../../../../components/generated/input-mask/presets.vue';
+import inputMaskPresetsSource from '../../../../components/generated/input-mask/presets.vue?raw';
+import InputMaskControlledDemo from '../../../../components/generated/input-mask/controlled.vue';
+import inputMaskControlledSource from '../../../../components/generated/input-mask/controlled.vue?raw';
+import InputMaskSlotsDemo from '../../../../components/generated/input-mask/slots.vue';
+import inputMaskSlotsSource from '../../../../components/generated/input-mask/slots.vue?raw';
+
+`InputMask` 适合日期、编号、版本号、网络地址等具有可辨识输入结构的字段。它复用 `Input` 的尺寸、禁用、只读、清除、错误态、前后缀、字数统计和表单联动能力。
+
+掩码只负责限制输入过程中的字符与结构，不等于业务校验。比如 `preset="ipv4"` 会阻止单段超过 `255` 并限制为四段，但提交前仍应使用表单规则判断值是否完整有效。
+
+### 基本用法
+
+字符串 mask 会自动插入普通字符。默认 `9` 表示数字；将 `mask-char` 设为 `null` 可隐藏尚未填写的位置。
+
+<DemoBlock source={inputMaskBasicSource} mainFile="src/input-mask-basic.vue">
+
+<InputMaskBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 中文、英文与自定义规则
+
+默认 token 同时支持数字、英文、汉字和 Unicode 字母。复杂场景可以传入由字面量和 `RegExp` 组成的数组，每个正则表达式对应一个可编辑位置。
+
+<DemoBlock source={inputMaskMultilingualSource} mainFile="src/input-mask-multilingual.vue">
+
+<InputMaskMultilingualDemo client:only="vue" />
+
+</DemoBlock>
+
+| Token | 含义                    | 默认规则                 |
+| ----- | ----------------------- | ------------------------ |
+| `9`   | 数字                    | `[0-9]`                  |
+| `a`   | 英文字母                | `[A-Za-z]`               |
+| `*`   | 英文或数字              | `[A-Za-z0-9]`            |
+| `H`   | 汉字                    | `\p{Script=Han}`         |
+| `L`   | 任意 Unicode 字母       | `\p{Letter}`             |
+| `N`   | 任意 Unicode 字母或数字 | `[\p{Letter}\p{Number}]` |
+
+若要把 token 字符作为固定文本，使用反斜杠转义，例如 `\9` 表示固定字符 `9`。`format-chars` 可以覆盖或增加单字符 token。
+
+### 内置格式模板
+
+`preset` 提供常见结构化格式的开箱即用输入规则。下面的示例展示全部内置模板，每一项都可以直接编辑和清除。IPv4、URL 和 SemVer 等格式支持变长片段，不会被强制成不真实的固定长度。
+
+<DemoBlock source={inputMaskPresetsSource} mainFile="src/input-mask-presets.vue">
+
+<InputMaskPresetsDemo client:only="vue" />
+
+</DemoBlock>
+
+| 分类       | 内置模板                                                                     |
+| ---------- | ---------------------------------------------------------------------------- |
+| 日期时间   | `date`、`time`、`datetime`、`rfc3339`                                        |
+| 网络地址   | `ip`、`ipv4`、`ipv6`、`ip-range`、`url`、`fqdn`、`email`                     |
+| 开发格式   | `semver`、`uuid`、`jwt`、`mime-type`、`data-uri`、`mailto-uri`、`magnet-uri` |
+| 标识与编码 | `imei`、`issn`、`isrc`、`iso6346`、`iban`                                    |
+| 颜色与坐标 | `hex-color`、`rgb-color`、`hsl`、`lat-long`、`mac-address`                   |
+
+### 受控值与模板切换
+
+组件使用标准 `v-model`。切换 `preset` 或 `mask` 时会按新模板重新整理当前值；清除、焦点、回车和变更事件保持与 `Input` 一致。
+
+<DemoBlock source={inputMaskControlledSource} mainFile="src/input-mask-controlled.vue">
+
+<InputMaskControlledDemo client:only="vue" />
+
+</DemoBlock>
+
+### 组合 Input 能力
+
+前缀、后缀、前置标签和后置标签插槽会直接交给内部 `Input`。下面用前后缀补充版本号语义。
+
+<DemoBlock source={inputMaskSlotsSource} mainFile="src/input-mask-slots.vue">
+
+<InputMaskSlotsDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### `<input-mask>` Props
+
+除下表外，还支持 `Input` 的 `size`、`allow-clear`、`disabled`、`readonly`、`error`、`placeholder`、`fit-width`、`max-w-full`、`word-length`、`word-slice`、`input-attrs`、`prepend` 和 `append`。
+
+:::note当 `mask` 或 `preset` 生效时，`max-length` 与 `show-word-limit` 会被忽略：固定掩码的长度由模板决定，`Input` 的长度截断会切在原始输入的中间从而破坏掩码。变长模板（如 `semver`、`url`）若需要限制总长度，请在表单校验中处理。:::
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| model-value / v-model | 当前掩码值 | `string` | - |
+| default-value | 非受控默认值 | `string` | `''` |
+| mask | 固定位置掩码；优先级高于 `preset` | `string \| readonly (string \| RegExp)[]` | - |
+| preset | 内置格式模板 | `InputMaskPresetName` | - |
+| mask-char | 固定掩码中未填写位置的字符；`null` 表示隐藏 | `string \| null` | `'_'` |
+| format-chars | 字符串 mask 的自定义 token | `Readonly<Record<string, RegExp>>` | 内置六类 token |
+| always-show-mask | 空值且未聚焦时仍显示固定掩码 | `boolean` | `false` |
+| before-masked-value-change | 提交前纯函数调整值与选区 | `(nextState, previousState) => InputMaskState` | - |
+
+同时传入 `mask` 与 `preset` 时，使用 `mask` 的位置结构，并复用 `preset` 的提示和 `inputmode`。通常只需选择其中一种。
+
+:::note `before-masked-value-change` 的签名是 `(nextState, previousState)`，**不**包含 react-input-mask 的 `enteredString` 与 `config`。本组件采用「整体重排」引擎，不追踪每次输入的插入字符串；如需针对「刚输入的字符」做判断，请在回调中比较 `previousState.value` 与 `nextState.value`。:::
+
+### Events
+
+| 事件名             | 描述                                 | 参数                            |
+| ------------------ | ------------------------------------ | ------------------------------- |
+| update:model-value | 掩码值变化                           | `(value: string)`               |
+| input              | 用户输入后触发                       | `(value: string, event: Event)` |
+| change             | 失焦或按下回车且值变化时触发         | `(value: string, event: Event)` |
+| complete           | 固定位置 mask 的所有位置首次填写完成 | `(value: string)`               |
+| press-enter        | 按下回车时触发                       | `(event: KeyboardEvent)`        |
+| clear              | 点击清除按钮时触发                   | `(event: MouseEvent)`           |
+| focus              | 获得焦点时触发                       | `(event: FocusEvent)`           |
+| blur               | 失去焦点时触发                       | `(event: FocusEvent)`           |
+
+`complete` 只用于固定位置 mask。SemVer、URL 等变长模板没有唯一“输入完成”时刻，应在表单提交或失焦时执行最终校验。
+
+### Slots
+
+| 插槽名  | 描述             |
+| ------- | ---------------- |
+| prefix  | 输入框内前缀     |
+| suffix  | 输入框内后缀     |
+| prepend | 输入框外前置标签 |
+| append  | 输入框外后置标签 |
+
+### Methods
+
+| 方法名 | 描述                 | 参数 |
+| ------ | -------------------- | ---- |
+| focus  | 使内部输入框获得焦点 | `()` |
+| blur   | 使内部输入框失去焦点 | `()` |
+
+组件实例同时暴露只读的 `inputRef`，用于确有必要的原生选区或聚焦操作。

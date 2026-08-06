@@ -15,6 +15,7 @@ import {
 import { useSize } from '../_hooks/use-size';
 import { INPUT_EVENTS, Size } from '../_utils/constant';
 import { getPrefixCls } from '../_utils/global-config';
+import { countGraphemes, sliceGraphemes } from '../_utils/grapheme';
 import { isFunction, isNull, isObject, isUndefined } from '../_utils/is';
 import { isActivationKey } from '../_utils/keyboard';
 import { Enter } from '../_utils/keycode';
@@ -293,7 +294,7 @@ export default defineComponent({
       if (isFunction(props.wordLength)) {
         return props.wordLength(value);
       }
-      return value.length ?? 0;
+      return countGraphemes(value);
     };
 
     const valueLength = computed(() => getValueLength(computedValue.value));
@@ -326,7 +327,13 @@ export default defineComponent({
 
     const updateValue = (value: string) => {
       if (maxLength.value && !maxLengthErrorOnly.value && getValueLength(value) > maxLength.value) {
-        value = props.wordSlice?.(value, maxLength.value) ?? value.slice(0, defaultMaxLength.value);
+        if (isFunction(props.wordSlice)) {
+          value = props.wordSlice(value, maxLength.value);
+        } else if (isFunction(props.wordLength)) {
+          value = value.slice(0, defaultMaxLength.value);
+        } else {
+          value = sliceGraphemes(value, defaultMaxLength.value);
+        }
       }
 
       _value.value = value;

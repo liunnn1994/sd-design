@@ -361,6 +361,10 @@ export const docsSidebar = [
             label: '输入框 Input',
           },
           {
+            slug: 'components/input-mask',
+            label: '输入掩码 InputMask',
+          },
+          {
             slug: 'components/input-number',
             label: '数字输入框 InputNumber',
           },

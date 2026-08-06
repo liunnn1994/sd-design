@@ -75,6 +75,7 @@ declare module 'vue' {
     SdInputGroup: SDVue['InputGroup'];
     SdInputSearch: SDVue['InputSearch'];
     SdInputPassword: SDVue['InputPassword'];
+    SdInputMask: SDVue['InputMask'];
     SdInputNumber: SDVue['InputNumber'];
     SdInputTag: SDVue['InputTag'];
     SdLayout: SDVue['Layout'];

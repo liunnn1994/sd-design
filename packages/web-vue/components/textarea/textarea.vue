@@ -72,6 +72,7 @@
   } from '../_hooks/use-readonly-tip';
   import { INPUT_EVENTS } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
+  import { countGraphemes, sliceGraphemes } from '../_utils/grapheme';
   import { isFunction, isNull, isObject, isUndefined } from '../_utils/is';
   import { isActivationKey } from '../_utils/keyboard';
   import { omit } from '../_utils/omit';
@@ -301,7 +302,7 @@
     if (isFunction(props.wordLength)) {
       return props.wordLength(value);
     }
-    return value.length ?? 0;
+    return countGraphemes(value);
   };
 
   const valueLength = computed(() => getValueLength(computedValue.value));
@@ -346,9 +347,13 @@
       !maxLengthErrorOnly.value &&
       getValueLength(value) > computedMaxLength.value
     ) {
-      value =
-        props.wordSlice?.(value, computedMaxLength.value) ??
-        value.slice(0, computedMaxLength.value);
+      if (isFunction(props.wordSlice)) {
+        value = props.wordSlice(value, computedMaxLength.value);
+      } else if (isFunction(props.wordLength)) {
+        value = value.slice(0, computedMaxLength.value);
+      } else {
+        value = sliceGraphemes(value, computedMaxLength.value);
+      }
     }
 
     _value.value = value;

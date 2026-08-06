@@ -44,6 +44,7 @@ import Grid, { Row, Col, GridItem } from './grid';
 import Icon from './icon-component';
 import Image, { ImagePreview, ImagePreviewAction, ImagePreviewGroup } from './image';
 import Input, { InputGroup, InputSearch, InputPassword } from './input';
+import InputMask from './input-mask';
 import InputNumber from './input-number';
 import InputTag from './input-tag';
 import JsonForm from './json-form';
@@ -148,6 +149,7 @@ const components: Record<string, Plugin> = {
   JsonForm,
   KvList,
   Input,
+  InputMask,
   InputNumber,
   InputTag,
   Mention,
