@@ -1,6 +1,8 @@
 import type { UnknownRecord } from 'type-fest';
 
+import type { ButtonProps } from '../button';
 import type { JsonFormProps } from '../json-form';
+import type { LinkProps } from '../link';
 import type ModalComponent from '../modal/modal.vue';
 import type { SpinProps } from '../spin';
 import type { TableColumnData, TableData, TableInstance } from '../table';
@@ -17,7 +19,7 @@ export type BasicCrudTableTableProps = Omit<
   'columns' | 'data' | 'onChange' | 'onPageChange' | 'onPageSizeChange'
 >;
 
-export type BasicCrudTableToolbarProps = Omit<ToolbarProps, 'loading'>;
+export type BasicCrudTableToolbarProps = Omit<ToolbarProps, 'loading' | 'searchBtn' | 'resetBtn'>;
 
 export type BasicCrudTableModalProps = Omit<
   InstanceType<typeof ModalComponent>['$props'],
@@ -25,6 +27,10 @@ export type BasicCrudTableModalProps = Omit<
 >;
 
 export type BasicCrudTableModalFormProps = Omit<JsonFormProps, 'model'>;
+
+export type BasicCrudTableRowLinkProps<TRow extends TableData = TableData> =
+  | LinkProps
+  | ((row: TRow) => LinkProps);
 
 export interface BasicCrudTableProps<TRow extends TableData = TableData> {
   /** @zh 标题 @en Title */
@@ -35,6 +41,16 @@ export interface BasicCrudTableProps<TRow extends TableData = TableData> {
   tableProps?: BasicCrudTableTableProps;
   /** @zh Toolbar 专属属性 @en Props forwarded only to Toolbar */
   toolbarProps?: BasicCrudTableToolbarProps;
+  /** @zh 查询按钮属性 @en Props of the search button */
+  searchBtn?: ButtonProps;
+  /** @zh 重置按钮属性 @en Props of the reset button */
+  resetBtn?: ButtonProps;
+  /** @zh 新建按钮属性 @en Props of the create button */
+  createBtn?: ButtonProps;
+  /** @zh 编辑按钮属性 @en Props of the edit button */
+  editBtn?: BasicCrudTableRowLinkProps<TRow>;
+  /** @zh 删除按钮属性 @en Props of the delete button */
+  deleteBtn?: BasicCrudTableRowLinkProps<TRow>;
   /** @zh 加载遮罩 Spin 的属性 @en Props passed to the loading overlay Spin */
   spinProps?: SpinProps;
   /** @zh Modal 专属属性 @en Props forwarded only to Modal */

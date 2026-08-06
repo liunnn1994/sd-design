@@ -42,6 +42,17 @@ describe('Toolbar', () => {
     cy.contains('button', RESET_TEXT).should('not.exist');
   });
 
+  it('forwards searchBtn and resetBtn to the built-in buttons', () => {
+    cy.mount(Toolbar, {
+      props: {
+        searchBtn: { disabled: true },
+        resetBtn: { disabled: true },
+      },
+    });
+    cy.contains('button', SEARCH_TEXT).should('be.disabled');
+    cy.contains('button', RESET_TEXT).should('be.disabled');
+  });
+
   it('renders the default slot and skips the schema form', () => {
     cy.mount(Toolbar, {
       props: { schemas: [{ field: 'name', type: 'input' }] },

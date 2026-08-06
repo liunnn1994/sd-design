@@ -139,6 +139,71 @@ describe('BasicCrudTable', () => {
     cy.get('@edit').should('have.been.calledWithMatch', { name: '监控项' });
   });
 
+  it('透传所有内置操作按钮的 props', () => {
+    const onCreate = cy.spy().as('disabledCreate');
+    const onEdit = cy.spy().as('disabledEdit');
+    cy.mount(BasicCrudTable, {
+      props: {
+        columns,
+        tableData: [{ key: 1, name: '监控项' }],
+        fetchTableOnMounted: false,
+        openCreateModal: false,
+        searchBtn: { disabled: true },
+        resetBtn: { disabled: true },
+        createBtn: { disabled: true },
+        editBtn: { disabled: true },
+        deleteBtn: { disabled: true },
+        onCreate,
+        onEdit,
+      },
+    });
+
+    cy.contains('button', '查询').should('be.disabled');
+    cy.contains('button', '重置').should('be.disabled');
+    cy.contains('button', '新建').should('be.disabled');
+    cy.contains('编辑').should('have.class', 'sd-link-disabled').click({ force: true });
+    cy.contains('删除').should('have.class', 'sd-link-disabled').click({ force: true });
+    cy.get('@disabledCreate').should('not.have.been.called');
+    cy.get('@disabledEdit').should('not.have.been.called');
+    cy.get('.sd-popconfirm').should('not.exist');
+  });
+
+  it('按当前行解析编辑与删除按钮 props', () => {
+    const editBtn = cy.stub().callsFake((row: { readonly?: boolean }) => ({
+      disabled: row.readonly,
+    }));
+    const deleteBtn = cy.stub().callsFake((row: { readonly?: boolean }) => ({
+      status: row.readonly ? ('warning' as const) : ('success' as const),
+    }));
+    cy.mount(BasicCrudTable, {
+      props: {
+        columns,
+        tableData: [
+          { key: 1, name: '只读项', readonly: true },
+          { key: 2, name: '可编辑项', readonly: false },
+        ],
+        fetchTableOnMounted: false,
+        editBtn,
+        deleteBtn,
+      },
+    });
+
+    cy.contains('只读项')
+      .parents('.sd-table-tr')
+      .within(() => {
+        cy.contains('编辑').should('have.class', 'sd-link-disabled');
+        cy.contains('删除').should('have.class', 'sd-link-status-warning');
+      });
+    cy.contains('可编辑项')
+      .parents('.sd-table-tr')
+      .within(() => {
+        cy.contains('编辑').should('not.have.class', 'sd-link-disabled');
+        cy.contains('删除').should('have.class', 'sd-link-status-success');
+      });
+    cy.wrap(editBtn).should('have.been.calledWithMatch', { key: 1, name: '只读项' });
+    cy.wrap(deleteBtn).should('have.been.calledWithMatch', { key: 2, name: '可编辑项' });
+  });
+
   it('删除经 popconfirm 确认后调用 deleteApi 并刷新列表', () => {
     const fetchTableApi = cy.stub().resolves({ data: [{ key: 1, name: '监控项' }], total: 1 });
     const deleteApi = cy.stub().resolves();

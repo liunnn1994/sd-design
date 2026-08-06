@@ -1,3 +1,4 @@
+import type { ButtonProps } from '../button';
 import type { JsonFormSchema } from '../json-form';
 import type { SpinProps } from '../spin';
 
@@ -37,6 +38,16 @@ export interface ToolbarProps {
    * @en Whether to show the reset button
    */
   showReset?: boolean;
+  /**
+   * @zh 查询按钮属性
+   * @en Props of the search button
+   */
+  searchBtn?: ButtonProps;
+  /**
+   * @zh 重置按钮属性
+   * @en Props of the reset button
+   */
+  resetBtn?: ButtonProps;
   /**
    * @zh 是否显示右侧操作区
    * @en Whether to show the right-side action area

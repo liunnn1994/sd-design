@@ -20,6 +20,7 @@ export type {
   BasicCrudTableModalSlotProps,
   BasicCrudTableModalSubmitContext,
   BasicCrudTableProps,
+  BasicCrudTableRowLinkProps,
   BasicCrudTableTableProps,
   BasicCrudTableToolbarProps,
   InferBasicCrudTableRow,

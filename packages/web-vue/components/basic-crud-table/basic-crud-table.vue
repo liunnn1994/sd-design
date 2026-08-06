@@ -6,7 +6,7 @@
       </slot>
       <slot name="header__extra" />
       <div v-if="!showToolbar && showCreate" :class="`${prefixCls}-header-actions`">
-        <Button type="primary" @click="handleCreate">新建</Button>
+        <Button type="primary" v-bind="createBtn" @click="handleCreate">新建</Button>
       </div>
 
       <Toolbar
@@ -15,6 +15,8 @@
         v-model="toolbarModel"
         v-bind="toolbarProps"
         :loading="loading"
+        :search-btn="searchBtn"
+        :reset-btn="resetBtn"
         @search="handleSearch"
         @reset="handleReset"
       >
@@ -26,7 +28,9 @@
         </template>
         <template #action-append>
           <slot name="toolbar__action_append" />
-          <Button v-if="showCreate" type="primary" @click="handleCreate">新建</Button>
+          <Button v-if="showCreate" type="primary" v-bind="createBtn" @click="handleCreate">
+            新建
+          </Button>
         </template>
         <template v-for="name in toolbarSlotNames" :key="name" #[name]="data">
           <slot :name="`toolbar__${name}`" v-bind="data" />
@@ -51,7 +55,12 @@
         <template #basic-crud-action="data">
           <Space>
             <slot name="table__action_prepend" v-bind="data" />
-            <Link v-if="showEdit" :ellipsis="false" @click="handleEdit(data.record, data)">
+            <Link
+              v-if="showEdit"
+              :ellipsis="false"
+              v-bind="resolveRowLinkProps(editBtn, data.record)"
+              @click="handleEdit(data.record, data)"
+            >
               编辑
             </Link>
             <Popconfirm
@@ -61,7 +70,13 @@
               :on-before-ok="handleDeleteConfirm"
               @popup-visible-change="(visible) => handleDeletePopupChange(visible, data.record)"
             >
-              <Link :ellipsis="false" status="danger">删除</Link>
+              <Link
+                :ellipsis="false"
+                status="danger"
+                v-bind="resolveRowLinkProps(deleteBtn, data.record)"
+              >
+                删除
+              </Link>
             </Popconfirm>
             <slot name="table__action_append" v-bind="data" />
           </Space>
@@ -106,6 +121,7 @@
     BasicCrudTableDataResult,
     BasicCrudTableModalSubmitContext,
     BasicCrudTableProps,
+    BasicCrudTableRowLinkProps,
   } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
@@ -134,6 +150,11 @@
     columns,
     tableProps = {},
     toolbarProps = {},
+    searchBtn,
+    resetBtn,
+    createBtn,
+    editBtn,
+    deleteBtn,
     spinProps,
     modalProps = {},
     modalFormProps = { schemas: [] },
@@ -251,6 +272,12 @@
       .filter((name) => name.startsWith(prefix))
       .map((name) => name.slice(prefix.length))
       .filter((name) => !excluded.includes(name));
+  }
+  function resolveRowLinkProps(
+    value: BasicCrudTableRowLinkProps<TableData> | undefined,
+    row: TableData,
+  ) {
+    return isFunction(value) ? value(row) : value;
   }
   function resolvePaginationNumber(
     controlled: 'current' | 'pageSize',

@@ -87,6 +87,8 @@ import modalSource from '../../../../components/generated/basic-crud-table/modal
 | title | 标题区文案 | `string` | - |
 | table-props | 仅传给 Table 的属性，分页也在这里配置 | `BasicCrudTableTableProps` | `{}` |
 | toolbar-props | 仅传给 Toolbar 的属性 | `BasicCrudTableToolbarProps` | `{}` |
+| search-btn / reset-btn / create-btn | 查询、重置、新建按钮属性 | `ButtonProps` | - |
+| edit-btn / delete-btn | 编辑、删除链接按钮属性；传入函数时按当前行返回属性 | `LinkProps \| ((row) => LinkProps)` | - |
 | spin-props | 传递给列表加载遮罩 Spin 的属性 | `SpinProps` | `-` |
 | modal-props | 仅传给 Modal 的属性 | `BasicCrudTableModalProps` | `{}` |
 | modal-form-props | 仅传给弹窗 JsonForm 的属性 | `BasicCrudTableModalFormProps` | `{ schemas: [] }` |

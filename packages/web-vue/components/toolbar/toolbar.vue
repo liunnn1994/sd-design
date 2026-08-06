@@ -30,10 +30,10 @@
         <slot v-if="$slots.extra" name="extra" />
         <template v-else>
           <slot name="action-prepend" />
-          <Button v-if="showSearch" type="primary" @click="handleSearch">
+          <Button v-if="showSearch" type="primary" v-bind="searchBtn" @click="handleSearch">
             {{ searchText }}
           </Button>
-          <Button v-if="showReset" @click="reset()">{{ resetText }}</Button>
+          <Button v-if="showReset" v-bind="resetBtn" @click="reset()">{{ resetText }}</Button>
           <slot name="action-append" />
         </template>
       </div>
@@ -66,6 +66,8 @@
     spinProps,
     showSearch = true,
     showReset = true,
+    searchBtn,
+    resetBtn,
     showActions = true,
     searchText = '查询',
     resetText = '重置',
