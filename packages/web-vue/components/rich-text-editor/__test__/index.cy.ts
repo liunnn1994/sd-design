@@ -391,7 +391,7 @@ describe('RichTextEditor', () => {
       }
     });
 
-    expect(RICH_TEXT_EDITOR_JSON_FORM_NODE_NAMES).to.have.length(25);
+    expect(RICH_TEXT_EDITOR_JSON_FORM_NODE_NAMES).to.have.length(26);
     for (const name of RICH_TEXT_EDITOR_JSON_FORM_NODE_NAMES) {
       cy.get(`.sd-rich-text-editor-component-${name}`).should('exist');
       if (name !== 'noFormItem') {
