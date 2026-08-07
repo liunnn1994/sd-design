@@ -1,3 +1,15 @@
+# [3.30.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.29.0...web-vue-v3.30.0) (2026-08-07)
+
+
+### Bug Fixes
+
+* 🐛 修复 ts 报错 ([7346a3e](https://github.com/liunnn1994/sd-design/commit/7346a3e8e62cfde46fdbecbc03c7e031f3d6095b))
+
+
+### Features
+
+* 🆕 JsonForm 添加 inputMask 支持 ([58b2c41](https://github.com/liunnn1994/sd-design/commit/58b2c41fcce6cd7b3b82995501314cf398247bbb))
+
 # [3.29.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.28.0...web-vue-v3.29.0) (2026-08-06)
 
 
