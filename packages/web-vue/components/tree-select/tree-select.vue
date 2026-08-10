@@ -170,7 +170,7 @@
   import useFilterTreeNode from './hooks/use-filter-tree-node';
   import useSelectedState from './hooks/use-selected-state';
   import { LabelValue, TreeSelectValue } from './interface';
-  import Panel from './panel';
+  import Panel from './panel.vue';
 
   defineOptions({ name: 'TreeSelect', inheritAttrs: false });
 
@@ -966,7 +966,7 @@
 
   const onSearchValueChange = handleInputValueChange;
 
-  const onSelectChange = (newVal: string[]) => {
+  const onSelectChange = (newVal: TreeNodeKey[]) => {
     setSelectedKeys(newVal);
     if (!retainInputValue.value && computedInputValue.value) {
       updateInputValue('');
