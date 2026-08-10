@@ -14,7 +14,7 @@ import { useI18n } from '../locale';
 import Tooltip from '../tooltip';
 import { uploadInjectionKey } from './context';
 import { FileItem, ListType } from './interfaces';
-import UploadProgress from './upload-progress';
+import UploadProgress from './upload-progress.vue';
 
 export default defineComponent({
   name: 'UploadListItem',

@@ -10,7 +10,7 @@ import IconUpload from '../icon/icon-upload';
 import { useI18n } from '../locale';
 import { uploadInjectionKey } from './context';
 import { FileItem } from './interfaces';
-import UploadProgress from './upload-progress';
+import UploadProgress from './upload-progress.vue';
 
 export default defineComponent({
   name: 'UploadPictureItem',
