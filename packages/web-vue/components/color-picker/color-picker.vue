@@ -84,7 +84,7 @@
   import Input from '../input';
   import Tooltip from '../tooltip';
   import Trigger, { type TriggerProps } from '../trigger';
-  import Panel from './panel';
+  import Panel from './panel.vue';
   import {
     formatColorState,
     getColorBackground,
