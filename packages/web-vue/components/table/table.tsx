@@ -74,7 +74,7 @@ import Tbody from './table-tbody.vue';
 import Td from './table-td';
 import Th from './table-th';
 import Thead from './table-thead.vue';
-import Tr from './table-tr';
+import Tr from './table-tr.vue';
 import {
   getGroupColumns,
   getTableGridTemplate,

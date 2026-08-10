@@ -9,7 +9,7 @@ import _Tbody from './table-tbody.vue';
 import _Td from './table-td';
 import _Th from './table-th';
 import _Thead from './table-thead.vue';
-import _Tr from './table-tr';
+import _Tr from './table-tr.vue';
 
 const Table = Object.assign(_Table, {
   Thead: _Thead,
