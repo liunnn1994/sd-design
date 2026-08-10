@@ -7,7 +7,7 @@ import _Table from './table';
 import _Column from './table-column.vue';
 import _Tbody from './table-tbody.vue';
 import _Td from './table-td.vue';
-import _Th from './table-th';
+import _Th from './table-th.vue';
 import _Thead from './table-thead.vue';
 import _Tr from './table-tr.vue';
 
