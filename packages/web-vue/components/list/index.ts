@@ -4,8 +4,8 @@ import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _List from './list';
-import _ListItem from './list-item';
 import _ListItemMeta from './list-item-meta.vue';
+import _ListItem from './list-item.vue';
 
 const List = Object.assign(_List, {
   Item: Object.assign(_ListItem, {
