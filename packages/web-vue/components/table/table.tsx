@@ -68,7 +68,7 @@ import { usePagination } from './hooks/use-pagination';
 import { useRowSelection } from './hooks/use-row-selection';
 import { useSorter } from './hooks/use-sorter';
 import { useSpan } from './hooks/use-span';
-import OperationTd from './table-operation-td';
+import OperationTd from './table-operation-td.vue';
 import OperationTh from './table-operation-th.vue';
 import Tbody from './table-tbody.vue';
 import Td from './table-td';
