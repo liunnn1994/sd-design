@@ -9,7 +9,7 @@
     </div>
   </DefineSpinIcon>
 
-  <div role="status" aria-live="polite" :class="cls">
+  <div v-bind="$attrs" role="status" aria-live="polite" :class="cls">
     <template v-if="$slots.default">
       <slot />
       <div v-if="activeLoading" :class="`${prefixCls}-mask`">
@@ -35,7 +35,7 @@
   import IconLoading from '../icon/icon-loading';
   import DotLoading from './dot-loading.vue';
 
-  defineOptions({ name: 'Spin' });
+  defineOptions({ name: 'Spin', inheritAttrs: false });
 
   const props = withDefaults(
     defineProps<{

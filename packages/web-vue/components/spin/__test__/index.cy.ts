@@ -4,6 +4,11 @@ import ConfigProvider from '../../config-provider';
 import Spin from '../index';
 
 describe('Spin', () => {
+  it('forwards attributes to the status root', () => {
+    cy.mount(Spin, { attrs: { class: 'custom-spin' } });
+    cy.get('.sd-spin').should('have.class', 'custom-spin');
+  });
+
   it('exposes role=status / aria-live and hides the decorative icon', () => {
     cy.mount(Spin, { props: { tip: 'Loading data' } });
     cy.get('.sd-spin').should('have.attr', 'role', 'status');
