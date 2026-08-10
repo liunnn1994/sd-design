@@ -51,7 +51,7 @@
   import IconInfo from '../icon/icon-info';
   import ResultForbidden from './403.vue';
   import ResultNotFound from './404.vue';
-  import ResultServerError from './500';
+  import ResultServerError from './500.vue';
   import { RESULT_STATUS, type ResultStatus } from './utils';
 
   defineOptions({ name: 'Result' });
