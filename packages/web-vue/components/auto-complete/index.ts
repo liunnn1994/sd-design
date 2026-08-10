@@ -4,7 +4,7 @@ import type { SDOptions } from '../_utils/types';
 import type { FilterOption, SelectOptionData, SelectOptionGroup } from '../select/interface';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _AutoComplete from './auto-complete';
+import _AutoComplete from './auto-complete.vue';
 
 export type AutoCompleteData = Array<string | number | SelectOptionData | SelectOptionGroup>;
 export type AutoCompleteFilterOption = FilterOption;
