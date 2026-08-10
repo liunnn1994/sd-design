@@ -3,7 +3,7 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _OverflowList from './overflow-list';
+import _OverflowList from './overflow-list.vue';
 
 const OverflowList = Object.assign(_OverflowList, {
   install: (app: App, options?: SDOptions) => {
