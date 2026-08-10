@@ -11,7 +11,7 @@
 
   import type { BaseProps } from './interface';
 
-  import Base from './base';
+  import Base from './base.vue';
 
   defineOptions({
     name: 'TypographyText',

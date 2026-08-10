@@ -9,7 +9,7 @@
 <script setup lang="ts">
   import { computed, type PropType } from 'vue';
 
-  import Base from './base';
+  import Base from './base.vue';
 
   defineOptions({
     name: 'TypographyTitle',

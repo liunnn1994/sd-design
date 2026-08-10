@@ -10,7 +10,7 @@
   import { computed, type PropType } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import Base from './base';
+  import Base from './base.vue';
 
   defineOptions({
     name: 'TypographyParagraph',
