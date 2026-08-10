@@ -16,7 +16,7 @@
 
   import { getPrefixCls } from '../_utils/global-config';
   import UploadListItem from './upload-list-item';
-  import UploadPictureItem from './upload-picture-item';
+  import UploadPictureItem from './upload-picture-item.vue';
 
   defineOptions({ name: 'UploadList' });
 
