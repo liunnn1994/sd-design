@@ -3,7 +3,7 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Trigger from './trigger';
+import _Trigger from './trigger.vue';
 
 const Trigger = Object.assign(_Trigger, {
   install: (app: App, options?: SDOptions) => {
