@@ -3,7 +3,7 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _InputNumber from './input-number';
+import _InputNumber from './input-number.vue';
 
 export type InputNumberValue = string | number | null | undefined;
 export type InputNumberFormatter = (value: string | number | null | undefined) => string;
