@@ -81,7 +81,7 @@
   import IconHover from '../_components/icon-hover.vue';
   import { getPrefixCls } from '../_utils/global-config';
   import Checkbox from '../checkbox';
-  import Empty from '../empty/empty';
+  import Empty from '../empty/empty.vue';
   import IconDelete from '../icon/icon-delete';
   import Input from '../input';
   import List from '../list';
