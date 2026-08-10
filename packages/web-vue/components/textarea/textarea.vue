@@ -60,7 +60,7 @@
   } from 'vue';
 
   import IconHover from '../_components/icon-hover.vue';
-  import ResizeObserver from '../_components/resize-observer';
+  import ResizeObserver from '../_components/resize-observer.vue';
   import { useAllowClear } from '../_hooks/use-allow-clear';
   import { useCursor } from '../_hooks/use-cursor';
   import { useFitWidth } from '../_hooks/use-fit-width';

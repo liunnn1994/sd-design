@@ -15,7 +15,7 @@
   import type { CSSProperties, PropType, Ref } from 'vue';
   import { toRefs, ref, watchEffect, computed, onMounted } from 'vue';
 
-  import ResizeObserver from '../_components/resize-observer';
+  import ResizeObserver from '../_components/resize-observer.vue';
   import { on, off, getElement } from '../_utils/dom';
   import { getPrefixCls } from '../_utils/global-config';
   import { isWindow, isUndefined } from '../_utils/is';

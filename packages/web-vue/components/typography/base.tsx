@@ -17,7 +17,7 @@ import {
 
 import copy from 'copy-to-clipboard';
 
-import ResizeObserver from '../_components/resize-observer';
+import ResizeObserver from '../_components/resize-observer.vue';
 import useMergeState from '../_hooks/use-merge-state';
 import { getPrefixCls } from '../_utils/global-config';
 import { isObject } from '../_utils/is';

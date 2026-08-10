@@ -15,7 +15,7 @@ import type { Direction } from '../_utils/constant';
 import type { TabData, TabsType, ScrollPosition } from './interface';
 
 import IconHover from '../_components/icon-hover.vue';
-import ResizeObserver from '../_components/resize-observer';
+import ResizeObserver from '../_components/resize-observer.vue';
 import { off, on } from '../_utils/dom';
 import { getPrefixCls } from '../_utils/global-config';
 import { isUndefined, isNumber } from '../_utils/is';

@@ -34,7 +34,7 @@ import type {
   TableRowSelection,
 } from './interface';
 
-import ResizeObserver from '../_components/resize-observer';
+import ResizeObserver from '../_components/resize-observer.vue';
 import VirtualList from '../_components/virtual-list';
 import { useChildrenComponents } from '../_hooks/use-children-components';
 import { useComponentRef } from '../_hooks/use-component-ref';

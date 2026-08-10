@@ -26,7 +26,7 @@
   import IconDragDot from '../icon/icon-drag-dot';
   import IconDragDotVertical from '../icon/icon-drag-dot-vertical';
   import { useI18n } from '../locale';
-  import ResizeObserver from './resize-observer';
+  import ResizeObserver from './resize-observer.vue';
 
   defineOptions({ name: 'ResizeTrigger' });
 

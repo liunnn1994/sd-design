@@ -13,7 +13,7 @@ import {
 
 import type { FloatingOptions } from '../_utils/floating';
 
-import ResizeObserver from '../_components/resize-observer';
+import ResizeObserver from '../_components/resize-observer.vue';
 import { useAllowClear } from '../_hooks/use-allow-clear';
 import { useFormItem } from '../_hooks/use-form-item';
 import { getPrefixCls } from '../_utils/global-config';

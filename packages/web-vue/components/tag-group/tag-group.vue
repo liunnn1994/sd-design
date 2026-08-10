@@ -152,7 +152,7 @@
     TagGroupProps,
   } from './interface';
 
-  import ResizeObserver from '../_components/resize-observer';
+  import ResizeObserver from '../_components/resize-observer.vue';
   import { getPrefixCls } from '../_utils/global-config';
   import Ellipsis from '../ellipsis';
   import Popover from '../popover';
