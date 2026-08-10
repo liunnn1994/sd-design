@@ -5,7 +5,7 @@ import { MESSAGE_TYPES, MessageType } from '../_utils/constant';
 import { getOverlay } from '../_utils/dom';
 import { isFunction, isString, isUndefined } from '../_utils/is';
 import { MessageConfig, MessageItem, MessageMethod, MessagePosition } from './interface';
-import MessageList from './message-list';
+import MessageList from './message-list.vue';
 
 type _MessageConfig = MessageConfig & {
   type: MessageType | 'loading' | 'normal';

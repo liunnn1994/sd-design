@@ -1,5 +1,5 @@
 import Message from '../index';
-import MessageList from '../message-list';
+import MessageList from '../message-list.vue';
 
 describe('Message', () => {
   // Imperative messages mount into document.body outside the test component, so
