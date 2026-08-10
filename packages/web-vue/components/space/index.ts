@@ -3,7 +3,7 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Space from './space';
+import _Space from './space.vue';
 
 const Space = Object.assign(_Space, {
   install: (app: App, options?: SDOptions) => {
