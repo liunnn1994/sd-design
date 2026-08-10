@@ -4,7 +4,7 @@ import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _TypographyParagraph from './paragraph';
-import _TypographyText from './text';
+import _TypographyText from './text.vue';
 import _TypographyTitle from './title';
 import _Typography from './typography.vue';
 
