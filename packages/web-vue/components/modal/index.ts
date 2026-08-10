@@ -1,5 +1,5 @@
 import type { App, AppContext } from 'vue';
-import { nextTick, createVNode, render } from 'vue';
+import { createVNode, nextTick, render } from 'vue';
 
 import type { SDOptions } from '../_utils/types';
 import type { ModalConfig, ModalGlobalConfig, ModalMethod, ModalUpdateConfig } from './interface';
