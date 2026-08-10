@@ -61,7 +61,7 @@
   import Button from '../button';
   import IconLoading from '../icon/icon-loading';
   import IconSearch from '../icon/icon-search';
-  import Input from './input';
+  import Input from './input.vue';
 
   defineOptions({ name: 'InputSearch' });
 

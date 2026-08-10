@@ -37,7 +37,7 @@
   import useMergeState from '../_hooks/use-merge-state';
   import IconEye from '../icon/icon-eye';
   import IconEyeInvisible from '../icon/icon-eye-invisible';
-  import AInput from './input';
+  import AInput from './input.vue';
 
   defineOptions({ name: 'InputPassword' });
 
