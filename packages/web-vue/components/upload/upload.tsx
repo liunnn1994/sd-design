@@ -9,7 +9,7 @@ import { isBoolean, isFunction, isObject } from '../_utils/is';
 import { ImagePreviewGroup } from '../image';
 import { uploadInjectionKey } from './context';
 import UploadButton from './upload-button';
-import UploadList from './upload-list';
+import UploadList from './upload-list.vue';
 import { isImage, uploadRequest } from './utils';
 
 export default defineComponent({
