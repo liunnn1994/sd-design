@@ -131,7 +131,7 @@
   } from './interface';
   import type { CascaderEmits, CascaderProps } from './types';
 
-  import SelectView from '../_components/select-view/select-view';
+  import SelectView from '../_components/select-view/select-view.vue';
   import { useAllowClear } from '../_hooks/use-allow-clear';
   import { useAllowSearch } from '../_hooks/use-allow-search';
   import { useDropdownVirtualListProps } from '../_hooks/use-dropdown-virtual-list-props';

@@ -143,7 +143,7 @@
   import type { SpinProps } from '../spin';
 
   import { SelectViewValue } from '../_components/select-view/interface';
-  import SelectView from '../_components/select-view/select-view';
+  import SelectView from '../_components/select-view/select-view.vue';
   import { VirtualListProps } from '../_components/virtual-list/interface';
   import { useAllowClear } from '../_hooks/use-allow-clear';
   import { useAllowSearch } from '../_hooks/use-allow-search';

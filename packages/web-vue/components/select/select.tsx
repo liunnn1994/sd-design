@@ -29,7 +29,7 @@ import type {
   SelectOptionValue,
 } from './interface';
 
-import SelectView from '../_components/select-view/select-view';
+import SelectView from '../_components/select-view/select-view.vue';
 import VirtualList from '../_components/virtual-list';
 import { useAllowClear } from '../_hooks/use-allow-clear';
 import { useAllowSearch } from '../_hooks/use-allow-search';
