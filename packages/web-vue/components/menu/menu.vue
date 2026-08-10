@@ -37,7 +37,7 @@
   import { SiderContextInjectionKey } from '../layout/context';
   import BaseMenu from './base-menu.vue';
   import { LevelInjectionKey, MenuInjectionKey } from './context';
-  import OverflowWrap from './overflow-wrap';
+  import OverflowWrap from './overflow-wrap.vue';
 
   defineOptions({
     name: 'Menu',
