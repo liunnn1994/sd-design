@@ -7,7 +7,7 @@ import { getPrefixCls } from '../_utils/global-config';
 import { getFirstComponent } from '../_utils/vue-utils';
 import { configProviderInjectionKey } from '../config-provider/context';
 import IconLoading from '../icon/icon-loading';
-import DotLoading from './dot-loading';
+import DotLoading from './dot-loading.vue';
 
 export default defineComponent({
   name: 'Spin',
