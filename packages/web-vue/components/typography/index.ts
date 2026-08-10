@@ -3,7 +3,7 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _TypographyParagraph from './paragraph';
+import _TypographyParagraph from './paragraph.vue';
 import _TypographyText from './text.vue';
 import _TypographyTitle from './title.vue';
 import _Typography from './typography.vue';
