@@ -6,7 +6,7 @@ import { useFormItem } from '../_hooks/use-form-item';
 import { getPrefixCls } from '../_utils/global-config';
 import { isArray, isNull, isUndefined } from '../_utils/is';
 import { checkboxGroupKey } from './context';
-import IconCheck from './icon-check';
+import IconCheck from './icon-check.vue';
 
 export default defineComponent({
   name: 'Checkbox',
