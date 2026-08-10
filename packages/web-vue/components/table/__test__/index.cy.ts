@@ -3,7 +3,7 @@ import { h, reactive, ref } from 'vue';
 import type { TableColumnData, TableData } from '../interface';
 
 import ConfigProvider from '../../config-provider';
-import Table from '../table';
+import Table from '../table.vue';
 
 const demoData: TableData[] = [
   { key: '1', name: 'Jane Doe1', age: 1 },
