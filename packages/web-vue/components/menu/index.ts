@@ -6,7 +6,7 @@ import type { MenuProps } from './interface';
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _MenuItem from './item';
 import _MenuItemGroup from './item-group.vue';
-import _Menu from './menu';
+import _Menu from './menu.vue';
 import _MenuSubMenu from './sub-menu';
 
 export type {
