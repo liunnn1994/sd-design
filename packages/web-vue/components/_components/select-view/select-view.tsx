@@ -16,7 +16,7 @@ import InputTag from '../../input-tag';
 import { useI18n } from '../../locale';
 import FeedbackIcon from '../feedback-icon.vue';
 import IconHover from '../icon-hover.vue';
-import InputLabel from '../input-label/input-label';
+import InputLabel from '../input-label/input-label.vue';
 import { SelectViewValue } from './interface';
 
 export default defineComponent({
