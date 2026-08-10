@@ -3,9 +3,9 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Card from './card';
 import _CardGrid from './card-grid.vue';
 import _CardMeta from './card-meta.vue';
+import _Card from './card.vue';
 
 const Card = Object.assign(_Card, {
   Meta: _CardMeta,
