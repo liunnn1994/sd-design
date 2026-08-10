@@ -62,7 +62,7 @@
   import { configProviderInjectionKey } from '../config-provider/context';
   import Empty from '../empty';
   import Spin from '../spin';
-  import CascaderColumn from './cascader-column';
+  import CascaderColumn from './cascader-column.vue';
 
   defineOptions({ name: 'BaseCascaderPanel' });
 
