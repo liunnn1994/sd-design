@@ -93,6 +93,7 @@ $collapse-prefix-cls: string.unquote('#{theme.$prefix}-collapse');
 
       &-title {
         display: inline;
+        overflow: hidden;
       }
 
       &-extra {
