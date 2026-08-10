@@ -8,7 +8,7 @@ import { getPrefixCls } from '../_utils/global-config';
 import { isBoolean, isFunction, isObject } from '../_utils/is';
 import { ImagePreviewGroup } from '../image';
 import { uploadInjectionKey } from './context';
-import UploadButton from './upload-button';
+import UploadButton from './upload-button.vue';
 import UploadList from './upload-list.vue';
 import { isImage, uploadRequest } from './utils';
 
