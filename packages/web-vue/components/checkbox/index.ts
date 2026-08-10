@@ -4,7 +4,7 @@ import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _Checkbox from './checkbox';
-import _CheckboxGroup from './checkbox-group';
+import _CheckboxGroup from './checkbox-group.vue';
 
 const Checkbox = Object.assign(_Checkbox, {
   Group: _CheckboxGroup,
