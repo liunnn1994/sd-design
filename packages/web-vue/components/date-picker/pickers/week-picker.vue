@@ -1,11 +1,24 @@
-import { defineComponent, PropType } from 'vue';
+<template>
+  <Picker v-bind="{ ...props, ...$attrs }" mode="week">
+    <template v-for="(_, name) in $slots" #[name]="slotData">
+      <slot :name="name" v-bind="slotData ?? {}" />
+    </template>
+  </Picker>
+</template>
 
-import { WeekStart } from '../interface';
-import Picker from '../picker.vue';
+<script setup lang="ts">
+  import type { PropType } from 'vue';
 
-export default defineComponent({
-  name: 'WeekPicker',
-  props: {
+  import type { WeekStart } from '../interface';
+
+  import Picker from '../picker.vue';
+
+  defineOptions({
+    name: 'WeekPicker',
+    inheritAttrs: false,
+  });
+
+  const props = defineProps({
     /**
      * @zh 绑定值
      * @en Value
@@ -47,8 +60,5 @@ export default defineComponent({
       type: Number as PropType<WeekStart>,
       default: 0,
     },
-  },
-  setup(props, { attrs, slots }) {
-    return () => <Picker {...props} {...attrs} mode="week" v-slots={slots} />;
-  },
-});
+  });
+</script>

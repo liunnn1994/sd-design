@@ -7,7 +7,7 @@ import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _DatePicker from './pickers/date-picker';
 import _MonthPicker from './pickers/month-picker.vue';
 import _QuarterPicker from './pickers/quarter-picker.vue';
-import _WeekPicker from './pickers/week-picker';
+import _WeekPicker from './pickers/week-picker.vue';
 import _YearPicker from './pickers/year-picker.vue';
 import _RangePicker from './range-picker.vue';
 
