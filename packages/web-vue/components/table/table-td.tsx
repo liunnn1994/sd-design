@@ -1,6 +1,6 @@
 import { computed, createVNode, defineComponent, inject, PropType, ref, VNode } from 'vue';
 
-import AutoTooltip from '../_components/auto-tooltip/auto-tooltip';
+import AutoTooltip from '../_components/auto-tooltip/auto-tooltip.vue';
 import { getValueByPath } from '../_utils/get-value-by-path';
 import { getPrefixCls } from '../_utils/global-config';
 import { isFunction, isObject } from '../_utils/is';
