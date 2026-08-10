@@ -4,7 +4,7 @@ import type { SDOptions } from '../_utils/types';
 import type { CalendarValue } from './interface';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _DatePicker from './pickers/date-picker';
+import _DatePicker from './pickers/date-picker.vue';
 import _MonthPicker from './pickers/month-picker.vue';
 import _QuarterPicker from './pickers/quarter-picker.vue';
 import _WeekPicker from './pickers/week-picker.vue';

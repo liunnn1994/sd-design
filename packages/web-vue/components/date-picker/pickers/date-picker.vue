@@ -1,12 +1,25 @@
-import { defineComponent, PropType } from 'vue';
+<template>
+  <Picker v-bind="{ ...props, ...$attrs }" mode="date">
+    <template v-for="(_, name) in $slots" #[name]="slotData">
+      <slot :name="name" v-bind="slotData ?? {}" />
+    </template>
+  </Picker>
+</template>
 
-import { TimePickerProps } from '../../time-picker/interface';
-import { DisabledTimeProps, WeekStart } from '../interface';
-import Picker from '../picker.vue';
+<script setup lang="ts">
+  import type { PropType } from 'vue';
 
-export default defineComponent({
-  name: 'DatePicker',
-  props: {
+  import type { TimePickerProps } from '../../time-picker/interface';
+  import type { DisabledTimeProps, WeekStart } from '../interface';
+
+  import Picker from '../picker.vue';
+
+  defineOptions({
+    name: 'DatePicker',
+    inheritAttrs: false,
+  });
+
+  const props = defineProps({
     /**
      * @zh 绑定值
      * @en Value
@@ -41,42 +54,32 @@ export default defineComponent({
     /**
      * @zh 是否增加时间选择
      * @en Whether to increase time selection
-     * */
-    showTime: {
-      type: Boolean,
-    },
+     */
+    showTime: Boolean,
     /**
      * @zh 时间显示的参数，参考 [TimePickerProps](/vue/component/time-picker)
      * @en Time display parameters, refer to [TimePickerProps](/vue/component/time-picker)
-     * */
-    timePickerProps: {
-      type: Object as PropType<Partial<TimePickerProps>>,
-    },
+     */
+    timePickerProps: Object as PropType<Partial<TimePickerProps>>,
     /**
      * @zh 是否禁用
      * @en Whether to disable
      */
-    disabled: {
-      type: Boolean,
-    },
+    disabled: Boolean,
     /**
      * @zh 不可选取的日期
      * @en Unselectable date
      */
-    disabledDate: {
-      type: Function as PropType<(current?: Date) => boolean>,
-    },
+    disabledDate: Function as PropType<(current?: Date) => boolean>,
     /**
      * @zh 不可选取的时间
      * @en Unselectable time
-     * */
-    disabledTime: {
-      type: Function as PropType<(current: Date) => DisabledTimeProps>,
-    },
+     */
+    disabledTime: Function as PropType<(current: Date) => DisabledTimeProps>,
     /**
      * @zh 是否显示 `showTime` 时，选择当前时间的按钮
      * @en Whether to display `showTime`, select the button of the current time
-     * */
+     */
     showNowBtn: {
       type: Boolean,
       default: true,
@@ -97,8 +100,5 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-  },
-  setup(props, { attrs, slots }) {
-    return () => <Picker {...props} {...attrs} mode="date" v-slots={slots} />;
-  },
-});
+  });
+</script>
