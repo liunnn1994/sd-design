@@ -3,8 +3,8 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Descriptions from './descriptions';
 import _DescriptionsItem from './descriptions-item.vue';
+import _Descriptions from './descriptions.vue';
 
 const Descriptions = Object.assign(_Descriptions, {
   DescriptionsItem: _DescriptionsItem,
