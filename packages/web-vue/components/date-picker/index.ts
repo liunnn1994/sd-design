@@ -5,7 +5,7 @@ import type { CalendarValue } from './interface';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _DatePicker from './pickers/date-picker';
-import _MonthPicker from './pickers/month-picker';
+import _MonthPicker from './pickers/month-picker.vue';
 import _QuarterPicker from './pickers/quarter-picker';
 import _WeekPicker from './pickers/week-picker';
 import _YearPicker from './pickers/year-picker.vue';

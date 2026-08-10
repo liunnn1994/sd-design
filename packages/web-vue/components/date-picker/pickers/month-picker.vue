@@ -1,10 +1,22 @@
-import { defineComponent, PropType } from 'vue';
+<template>
+  <Picker v-bind="{ ...props, ...$attrs }" mode="month">
+    <template v-for="(_, name) in $slots" #[name]="slotData">
+      <slot :name="name" v-bind="slotData ?? {}" />
+    </template>
+  </Picker>
+</template>
 
-import Picker from '../picker.vue';
+<script setup lang="ts">
+  import type { PropType } from 'vue';
 
-export default defineComponent({
-  name: 'MonthPicker',
-  props: {
+  import Picker from '../picker.vue';
+
+  defineOptions({
+    name: 'MonthPicker',
+    inheritAttrs: false,
+  });
+
+  const props = defineProps({
     /**
      * @zh 绑定值
      * @en Value
@@ -27,8 +39,5 @@ export default defineComponent({
       type: String,
       default: 'YYYY-MM',
     },
-  },
-  setup(props, { attrs, slots }) {
-    return () => <Picker {...props} {...attrs} mode="month" v-slots={slots} />;
-  },
-});
+  });
+</script>
