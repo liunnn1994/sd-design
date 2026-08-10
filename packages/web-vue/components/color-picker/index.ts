@@ -3,7 +3,7 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _ColorPicker from './color-picker';
+import _ColorPicker from './color-picker.vue';
 
 const ColorPicker = Object.assign(_ColorPicker, {
   install: (app: App, options?: SDOptions) => {
