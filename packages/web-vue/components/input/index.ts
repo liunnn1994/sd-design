@@ -6,7 +6,7 @@ import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _Input from './input';
 import _InputGroup from './input-group.vue';
 import _InputPassword from './input-password.vue';
-import _InputSearch from './input-search';
+import _InputSearch from './input-search.vue';
 
 const Input = Object.assign(_Input, {
   Search: _InputSearch,
