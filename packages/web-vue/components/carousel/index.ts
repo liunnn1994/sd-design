@@ -3,8 +3,8 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Carousel from './carousel';
 import _CarouselItem from './carousel-item.vue';
+import _Carousel from './carousel.vue';
 
 export type {
   CarouselArrowType,
