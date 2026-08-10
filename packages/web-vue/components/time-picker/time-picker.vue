@@ -114,7 +114,7 @@
   import useTimeFormat from './hooks/use-time-format';
   import useTimeState from './hooks/use-time-state';
   import Panel from './panel.vue';
-  import RangePanel from './range-panel';
+  import RangePanel from './range-panel.vue';
   import { getFormattedValue, isValidInputValue, isValidRangeValue } from './utils';
 
   defineOptions({ name: 'TimePicker', inheritAttrs: false });
