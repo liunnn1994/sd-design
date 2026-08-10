@@ -47,7 +47,7 @@
   import Empty from '../empty';
   import Scrollbar from '../scrollbar';
   import Spin from '../spin';
-  import CascaderOption from './cascader-option';
+  import CascaderOption from './cascader-option.vue';
 
   defineOptions({ name: 'CascaderSearchPanel' });
 
