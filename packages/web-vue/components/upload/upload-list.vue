@@ -15,7 +15,7 @@
   import type { FileItem, ListType } from './interfaces';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import UploadListItem from './upload-list-item';
+  import UploadListItem from './upload-list-item.vue';
   import UploadPictureItem from './upload-picture-item.vue';
 
   defineOptions({ name: 'UploadList' });
