@@ -3,7 +3,7 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Mention from './mention';
+import _Mention from './mention.vue';
 
 const Mention = Object.assign(_Mention, {
   install: (app: App, options?: SDOptions) => {
