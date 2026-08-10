@@ -14,7 +14,7 @@ import { getStyle } from '../_utils/style';
 import { unFragment } from '../_utils/vue-utils';
 import useMenuContext from './hooks/use-menu-context';
 import { SubMenuProps } from './interface';
-import SubMenu from './sub-menu';
+import SubMenu from './sub-menu.vue';
 
 const OVERFLOW_THRESHOLD = 10;
 
