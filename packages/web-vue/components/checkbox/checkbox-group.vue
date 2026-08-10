@@ -27,7 +27,7 @@
   import { useFormItem } from '../_hooks/use-form-item';
   import { getPrefixCls } from '../_utils/global-config';
   import { isArray, isFunction, isNumber, isString } from '../_utils/is';
-  import Checkbox from './checkbox';
+  import Checkbox from './checkbox.vue';
   import { checkboxGroupKey } from './context';
 
   type CheckboxValue = string | number | boolean;
