@@ -58,7 +58,7 @@
   import { TreeInjectionKey } from './context';
   import useCheckedState from './hooks/use-checked-state';
   import useTreeData from './hooks/use-tree-data';
-  import TreeNode from './node';
+  import TreeNode from './node.vue';
   import { isLeafNode, isNodeExpandable, isNodeSelectable } from './utils';
   import { getCheckedStateByCheck, isNodeCheckable } from './utils/check-utils';
 
