@@ -4,7 +4,7 @@ import type { SDOptions } from '../_utils/types';
 
 import { getComponentPrefix, setGlobalConfig } from '../_utils/global-config';
 import _Table from './table';
-import _Column from './table-column';
+import _Column from './table-column.vue';
 import _Tbody from './table-tbody.vue';
 import _Td from './table-td.vue';
 import _Th from './table-th';
