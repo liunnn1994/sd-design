@@ -70,7 +70,7 @@ import { useSorter } from './hooks/use-sorter';
 import { useSpan } from './hooks/use-span';
 import OperationTd from './table-operation-td';
 import OperationTh from './table-operation-th';
-import Tbody from './table-tbody';
+import Tbody from './table-tbody.vue';
 import Td from './table-td';
 import Th from './table-th';
 import Thead from './table-thead';
