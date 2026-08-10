@@ -3,7 +3,7 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _InputTag from './input-tag';
+import _InputTag from './input-tag.vue';
 
 const InputTag = Object.assign(_InputTag, {
   install: (app: App, options?: SDOptions) => {
