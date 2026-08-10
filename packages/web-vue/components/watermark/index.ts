@@ -3,7 +3,7 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Watermark from './watermark';
+import _Watermark from './watermark.vue';
 
 const Watermark = Object.assign(_Watermark, {
   install: (app: App, options?: SDOptions) => {
