@@ -3,7 +3,7 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _VerificationCode from './verification-code';
+import _VerificationCode from './verification-code.vue';
 
 const VerificationCode = Object.assign(_VerificationCode, {
   install: (app: App, options?: SDOptions) => {
