@@ -25,7 +25,7 @@ import { onClickOutside, useEventListener } from '@vueuse/core';
 import type { TriggerEvent, TriggerPosition } from '../_utils/constant';
 import type { FloatingOptions } from '../_utils/floating';
 
-import ClientOnly from '../_components/client-only';
+import ClientOnly from '../_components/client-only.vue';
 import ResizeObserver from '../_components/resize-observer-v2';
 import { useFirstElement } from '../_hooks/use-first-element';
 import usePickSlots from '../_hooks/use-pick-slots';

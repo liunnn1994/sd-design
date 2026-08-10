@@ -129,7 +129,7 @@
 
   import type { EllipsisTooltipProps } from '../ellipsis';
 
-  import ClientOnly from '../_components/client-only';
+  import ClientOnly from '../_components/client-only.vue';
   import IconHover from '../_components/icon-hover.vue';
   import { useConfigProviderProp } from '../_hooks/use-config-provider-prop';
   import { getFocusableElements, useFocusTrap } from '../_hooks/use-focus-trap';
