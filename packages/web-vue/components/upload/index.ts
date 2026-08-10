@@ -3,7 +3,7 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Upload from './upload';
+import _Upload from './upload.vue';
 
 const Upload = Object.assign(_Upload, {
   install: (app: App, options?: SDOptions) => {
