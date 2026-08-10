@@ -10,7 +10,7 @@ import {
   NotificationMethod,
   NotificationPosition,
 } from './interface';
-import NotificationList from './notification-list';
+import NotificationList from './notification-list.vue';
 
 type _NotificationConfig = NotificationConfig & {
   type: MessageType;

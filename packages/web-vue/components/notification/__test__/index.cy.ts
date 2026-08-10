@@ -1,5 +1,5 @@
 import Notification from '../index';
-import NotificationList from '../notification-list';
+import NotificationList from '../notification-list.vue';
 
 describe('Notification', () => {
   afterEach(() => {
