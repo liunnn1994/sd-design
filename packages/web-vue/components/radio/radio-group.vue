@@ -38,7 +38,7 @@
   import { getPrefixCls } from '../_utils/global-config';
   import { isFunction, isNull, isNumber, isString, isUndefined } from '../_utils/is';
   import { radioGroupKey } from './context';
-  import Radio from './radio';
+  import Radio from './radio.vue';
 
   type RadioValue = string | number | boolean;
 
