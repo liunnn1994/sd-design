@@ -3,7 +3,7 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Badge from './badge';
+import _Badge from './badge.vue';
 
 const Badge = Object.assign(_Badge, {
   install: (app: App, options?: SDOptions) => {

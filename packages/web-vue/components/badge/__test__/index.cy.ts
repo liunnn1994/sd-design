@@ -1,3 +1,4 @@
+import { configProviderInjectionKey } from '../../config-provider/context';
 import Badge from '../index';
 
 describe('Badge', () => {
@@ -37,5 +38,20 @@ describe('Badge', () => {
   it('can set custom text', () => {
     cy.mount(Badge, { props: { text: 'hello world' } });
     cy.get('.sd-badge-text').should('contain.text', 'hello world');
+  });
+
+  it('uses the rtl direction from ConfigProvider', () => {
+    cy.mount(Badge, {
+      global: {
+        provide: {
+          [configProviderInjectionKey as symbol]: {
+            slots: {},
+            rtl: true,
+          },
+        },
+      },
+    });
+
+    cy.get('.sd-badge').should('have.class', 'sd-badge-rtl');
   });
 });
