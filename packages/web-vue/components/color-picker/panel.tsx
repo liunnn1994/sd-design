@@ -20,7 +20,7 @@ import {
   HSVA,
   RecentColorsValue,
 } from './interface';
-import Palette from './palette';
+import Palette from './palette.vue';
 import {
   TD_COLOR_USED_COLORS_MAX_SIZE,
   addGradientColor,
