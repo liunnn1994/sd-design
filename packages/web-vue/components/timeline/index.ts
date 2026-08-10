@@ -4,7 +4,7 @@ import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _TimelineItem from './item.vue';
-import _Timeline from './timeline';
+import _Timeline from './timeline.vue';
 
 export type { DotType, LabelPositionType, LineType, ModeType, PositionType } from './interface';
 
