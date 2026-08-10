@@ -73,7 +73,7 @@ import OperationTh from './table-operation-th';
 import Tbody from './table-tbody.vue';
 import Td from './table-td';
 import Th from './table-th';
-import Thead from './table-thead';
+import Thead from './table-thead.vue';
 import Tr from './table-tr';
 import {
   getGroupColumns,
