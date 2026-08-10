@@ -3,7 +3,7 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Divider from './divider';
+import _Divider from './divider.vue';
 
 const Divider = Object.assign(_Divider, {
   install: (app: App, options?: SDOptions) => {
