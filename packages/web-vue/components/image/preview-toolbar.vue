@@ -16,7 +16,7 @@
   import { PropType, toRefs, computed, VNodeTypes } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import PreviewAction from './preview-action';
+  import PreviewAction from './preview-action.vue';
 
   export interface ActionType {
     key: string;

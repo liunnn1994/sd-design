@@ -3,7 +3,7 @@ import { App } from 'vue';
 import { getComponentPrefix, setGlobalConfig } from '../_utils/global-config';
 import { SDOptions } from '../_utils/types';
 import _Image from './image.vue';
-import _ImagePreviewAction from './preview-action';
+import _ImagePreviewAction from './preview-action.vue';
 import _ImagePreviewGroup from './preview-group.vue';
 import _ImagePreview from './preview.vue';
 
