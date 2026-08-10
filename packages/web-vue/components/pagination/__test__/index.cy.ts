@@ -2,7 +2,7 @@ import { h, ref } from 'vue';
 
 import { configProviderInjectionKey } from '../../config-provider/context';
 import Select from '../../select';
-import Pagination from '../pagination';
+import Pagination from '../pagination.vue';
 
 describe('Pagination', () => {
   it('emits change on page and ellipsis clicks', () => {

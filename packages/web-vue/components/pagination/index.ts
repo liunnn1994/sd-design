@@ -3,7 +3,7 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Pagination from './pagination';
+import _Pagination from './pagination.vue';
 
 const Pagination = Object.assign(_Pagination, {
   install: (app: App, options?: SDOptions) => {
