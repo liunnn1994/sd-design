@@ -12,7 +12,7 @@ import {
 import { getPrefixCls } from '../_utils/global-config';
 import { getAllElements } from '../_utils/vue-utils';
 import { useI18n } from '../locale';
-import BreadcrumbItem from './breadcrumb-item';
+import BreadcrumbItem from './breadcrumb-item.vue';
 import { breadcrumbInjectKey } from './context';
 import { BreadcrumbRoute } from './interface';
 
