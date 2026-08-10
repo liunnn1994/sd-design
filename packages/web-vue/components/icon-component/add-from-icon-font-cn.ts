@@ -1,13 +1,20 @@
-import { defineComponent } from 'vue';
+import { h, type FunctionalComponent } from 'vue';
 
 import { isServerRendering } from '../_utils/dom';
-import Icon from './icon.vue';
+import IconFont from './icon-font.vue';
 
 const scriptUrlCache: string[] = [];
 
 export interface IconFontOptions {
   src?: string;
   extraProps?: { [key: string]: any };
+}
+
+interface IconFontProps {
+  type?: string;
+  size?: number | string;
+  rotate?: number;
+  spin?: boolean;
 }
 
 export const addFromIconFontCn = (options: IconFontOptions) => {
@@ -21,24 +28,16 @@ export const addFromIconFontCn = (options: IconFontOptions) => {
     document.body.appendChild(script);
   }
 
-  return defineComponent({
-    name: 'IconFont',
-    props: {
-      type: String,
-      size: [Number, String],
-      rotate: Number,
-      spin: Boolean,
-    },
-    setup(props, { slots }) {
-      return () => {
-        const children = props.type ? <use xlinkHref={`#${props.type}`} /> : slots.default?.();
+  const IconFontWithOptions: FunctionalComponent<IconFontProps> = (props, { slots }) =>
+    h(IconFont, { ...props, extraProps }, slots);
 
-        return (
-          <Icon {...props} {...extraProps}>
-            {children}
-          </Icon>
-        );
-      };
-    },
-  });
+  IconFontWithOptions.displayName = 'IconFont';
+  IconFontWithOptions.props = {
+    type: String,
+    size: [Number, String],
+    rotate: Number,
+    spin: Boolean,
+  };
+
+  return IconFontWithOptions;
 };
