@@ -3,7 +3,7 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Select from './select';
+import _Select from './select.vue';
 
 const Select = Object.assign(_Select, {
   install: (app: App, options?: SDOptions) => {
