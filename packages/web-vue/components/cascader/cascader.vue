@@ -146,7 +146,7 @@
   import { configProviderInjectionKey } from '../config-provider/context';
   import Tooltip from '../tooltip';
   import Trigger from '../trigger';
-  import BaseCascaderPanel from './base-cascader-panel';
+  import BaseCascaderPanel from './base-cascader-panel.vue';
   import CascaderSearchPanel from './cascader-search-panel.vue';
   import { cascaderInjectionKey } from './context';
   import { useSelectedPath } from './hooks/use-selected-path';

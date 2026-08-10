@@ -28,7 +28,7 @@
   import { isNull, isUndefined } from '../_utils/is';
   import { KEYBOARD_KEY, getKeyDownHandler } from '../_utils/keyboard';
   import { BaseType } from '../_utils/types';
-  import BaseCascaderPanel from './base-cascader-panel';
+  import BaseCascaderPanel from './base-cascader-panel.vue';
   import { cascaderInjectionKey } from './context';
   import { useSelectedPath } from './hooks/use-selected-path';
   import {
