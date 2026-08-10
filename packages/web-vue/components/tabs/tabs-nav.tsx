@@ -22,7 +22,7 @@ import { isUndefined, isNumber } from '../_utils/is';
 import { KEYBOARD_KEY } from '../_utils/keyboard';
 import { configProviderInjectionKey } from '../config-provider/context';
 import IconPlus from '../icon/icon-plus';
-import TabsButton from './tabs-button';
+import TabsButton from './tabs-button.vue';
 import TabsNavInk from './tabs-nav-ink.vue';
 import TabsTab from './tabs-tab.vue';
 import { updateScrollOffset } from './utils';
