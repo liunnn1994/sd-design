@@ -1,6 +1,8 @@
-import { createApp, VNodeTypes } from 'vue';
+import { h, render, type VNodeTypes } from 'vue';
 
-import { EllipsisInternalConfig } from '../interface';
+import type { EllipsisInternalConfig } from '../interface';
+
+import MeasureOperations from './measure-operations.vue';
 
 let ellipsisContainer: HTMLElement;
 
@@ -50,20 +52,18 @@ export default (
   // fix issue#1961
   ellipsisContainer.style.whiteSpace = 'normal';
 
-  const vm = createApp({
-    render() {
-      return <span>{operations}</span>;
-    },
-  });
-
-  vm.mount(ellipsisContainer);
+  render(
+    h(MeasureOperations, null, {
+      default: () => operations,
+    }),
+    ellipsisContainer,
+  );
 
   const operationsChildNodes = Array.prototype.slice.apply(
     ellipsisContainer.childNodes[0].cloneNode(true).childNodes,
   );
 
-  vm.unmount();
-  ellipsisContainer.innerHTML = '';
+  render(null, ellipsisContainer);
 
   // 省略号和后缀
   const ellipsisTextNode = document.createTextNode(`${ellipsisStr}${suffix}`);
