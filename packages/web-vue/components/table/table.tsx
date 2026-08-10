@@ -71,7 +71,7 @@ import { useSpan } from './hooks/use-span';
 import OperationTd from './table-operation-td.vue';
 import OperationTh from './table-operation-th.vue';
 import Tbody from './table-tbody.vue';
-import Td from './table-td';
+import Td from './table-td.vue';
 import Th from './table-th';
 import Thead from './table-thead.vue';
 import Tr from './table-tr.vue';
