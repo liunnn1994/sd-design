@@ -77,7 +77,7 @@
   import { isUndefined } from '../_utils/is';
   import { configProviderInjectionKey } from '../config-provider/context';
   import { tabsInjectionKey } from './context';
-  import TabsNav from './tabs-nav';
+  import TabsNav from './tabs-nav.vue';
 
   const VNodeRenderer = (_props: { content?: VNodeChild }) => _props.content;
 
