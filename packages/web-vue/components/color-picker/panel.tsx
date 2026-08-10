@@ -8,7 +8,7 @@ import InputNumber from '../input-number';
 import { useI18n } from '../locale';
 import Radio from '../radio';
 import Select from '../select';
-import ControlBar from './control-bar';
+import ControlBar from './control-bar.vue';
 import {
   Color,
   ColorFormat,
