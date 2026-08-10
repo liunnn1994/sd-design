@@ -4,8 +4,8 @@ import type { SDOptions } from '../_utils/types';
 import type { MenuProps } from './interface';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _MenuItem from './item';
 import _MenuItemGroup from './item-group.vue';
+import _MenuItem from './item.vue';
 import _Menu from './menu.vue';
 import _MenuSubMenu from './sub-menu.vue';
 
