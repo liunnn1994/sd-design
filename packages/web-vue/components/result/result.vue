@@ -49,7 +49,7 @@
   import IconClose from '../icon/icon-close';
   import IconExclamation from '../icon/icon-exclamation';
   import IconInfo from '../icon/icon-info';
-  import ResultForbidden from './403';
+  import ResultForbidden from './403.vue';
   import ResultNotFound from './404.vue';
   import ResultServerError from './500';
   import { RESULT_STATUS, type ResultStatus } from './utils';
