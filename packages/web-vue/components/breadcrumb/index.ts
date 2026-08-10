@@ -3,8 +3,8 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import _Breadcrumb from './breadcrumb';
 import _BreadcrumbItem from './breadcrumb-item.vue';
+import _Breadcrumb from './breadcrumb.vue';
 
 const Breadcrumb = Object.assign(_Breadcrumb, {
   Item: _BreadcrumbItem,
