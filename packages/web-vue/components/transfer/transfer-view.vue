@@ -88,7 +88,7 @@
   import Scrollbar from '../scrollbar';
   import { transferInjectionKey } from './context';
   import { DataInfo, TransferItem } from './interface';
-  import TransferListItem from './transfer-list-item';
+  import TransferListItem from './transfer-list-item.vue';
 
   defineOptions({ name: 'TransferView' });
 
