@@ -1,11 +1,18 @@
 <template>
   <div role="list" :class="classes">
-    <RenderTimelineItems />
+    <RenderDefaultItems />
+    <Item v-if="hasPending" pending line-type="dashed">
+      <template #dot>
+        <slot v-if="slots.dot" name="dot" />
+        <Spin v-else v-bind="mergedSpinProps" :size="12" />
+      </template>
+      <div v-if="pending !== true">{{ pending }}</div>
+    </Item>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { computed, h, inject, provide, reactive, toRef } from 'vue';
+  import { computed, inject, provide, reactive, toRef } from 'vue';
   import type { VNode } from 'vue';
 
   import type { SpinProps } from '../spin';
@@ -90,7 +97,7 @@
     ...spinProps,
   }));
   const prefixCls = getPrefixCls('timeline');
-  const hasPending = computed(() => pending || slots.pending);
+  const hasPending = computed(() => Boolean(pending || slots.pending));
   const { children, components } = useChildrenComponents('TimelineItem');
 
   const timelineContext = reactive({
@@ -99,6 +106,7 @@
     reverse: toRef(() => reverse),
     labelPosition: toRef(() => labelPosition),
     mode: toRef(() => mode),
+    hasPending: toRef(hasPending),
   });
   provide(timelineInjectionKey, timelineContext);
 
@@ -111,24 +119,8 @@
     },
   ]);
 
-  function RenderTimelineItems() {
-    if (hasPending.value) {
-      const pendingItem = h(
-        Item,
-        {
-          lineType: 'dashed',
-        },
-        {
-          dot: () => slots.dot?.() ?? h(Spin, { size: 12, ...mergedSpinProps.value }),
-          default: () => (pending !== true ? h('div', null, pending) : undefined),
-        },
-      );
-
-      children.value = slots.default?.()!.concat(pendingItem);
-    } else {
-      children.value = slots.default?.();
-    }
-
+  function RenderDefaultItems() {
+    children.value = slots.default?.();
     return children.value;
   }
 </script>

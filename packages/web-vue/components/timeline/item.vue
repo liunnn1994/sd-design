@@ -97,6 +97,8 @@
     position: {
       type: String as PropType<PositionType>,
     },
+    /** @private */
+    pending: Boolean,
   });
   /**
    * @zh 自定义节点
@@ -114,7 +116,11 @@
   const instance = getCurrentInstance();
   const context = inject<Partial<TimelineContext>>(timelineInjectionKey, {});
 
-  const index = computed(() => context.items?.indexOf(instance?.uid ?? -1) ?? -1);
+  const index = computed(() =>
+    props.pending
+      ? (context.items?.length ?? 0)
+      : (context.items?.indexOf(instance?.uid ?? -1) ?? -1),
+  );
 
   const contextDirection = computed(() => {
     return context?.direction ?? 'vertical';
@@ -133,7 +139,8 @@
       {
         [`${prefixCls}-${direction}-${computedPosition}`]: direction,
         [`${prefixCls}-label-${labelPosition}`]: labelPosition,
-        [`${prefixCls}-last`]: index.value === (reverse === true ? 0 : items.length - 1),
+        [`${prefixCls}-last`]:
+          index.value === (reverse === true ? 0 : items.length - 1 + Number(context.hasPending)),
       },
     ];
   });

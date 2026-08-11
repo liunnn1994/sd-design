@@ -10,6 +10,7 @@ export interface TimelineContext {
   reverse: boolean;
   labelPosition: LabelPositionType;
   mode: ModeType;
+  hasPending: boolean;
 }
 
 export const timelineInjectionKey: InjectionKey<TimelineContext> = Symbol('SDTimeline');
