@@ -89,9 +89,11 @@
     return !isLeaf && !props.showLine;
   });
 
-  const hasIcon = computed(
-    () => Boolean(switcherIconVNode.value) || !props.nodeStatus?.isLeaf || props.showLine,
-  );
+  // Matches the original render() gate: a switcher is shown only for
+  // expandable nodes (!isLeaf) or showLine leaves. A plain leaf (isLeaf &&
+  // !showLine) renders nothing, even when a custom switcherIcon is provided —
+  // the custom icon only wins for nodes that already show a switcher.
+  const hasIcon = computed(() => !props.nodeStatus?.isLeaf || props.showLine);
 
   const onClick = (e: Event) => emit('click', e);
 </script>
