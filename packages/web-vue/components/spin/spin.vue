@@ -1,7 +1,11 @@
 <template>
   <DefineSpinIcon>
     <div v-if="!mergedHideIcon" :class="`${prefixCls}-icon`" :style="iconStyle" aria-hidden="true">
-      <RenderIcon />
+      <VNodeRenderer v-if="customIcon" :content="customIcon" />
+      <slot v-else-if="slots.element" name="element" />
+      <DotLoading v-else-if="mergedDot" :size="mergedSize" />
+      <component :is="configCtx.slots.loading" v-else-if="configCtx?.slots.loading" />
+      <IconLoading v-else spin :size="mergedSize" />
     </div>
     <div v-if="hasTip" :class="`${prefixCls}-tip`">
       <slot v-if="$slots.tip" name="tip" />
@@ -23,8 +27,8 @@
 </template>
 
 <script setup lang="ts">
-  import type { VNode } from 'vue';
-  import { cloneVNode, computed, h, inject, shallowRef, toRef } from 'vue';
+  import type { VNode, VNodeChild } from 'vue';
+  import { cloneVNode, computed, inject, shallowRef, toRef } from 'vue';
 
   import { createReusableTemplate, watchDebounced } from '@vueuse/core';
 
@@ -34,6 +38,8 @@
   import { configProviderInjectionKey } from '../config-provider/context';
   import IconLoading from '../icon/icon-loading';
   import DotLoading from './dot-loading.vue';
+
+  const VNodeRenderer = ({ content }: { content: VNodeChild }) => content;
 
   defineOptions({ name: 'Spin', inheritAttrs: false });
 
@@ -157,22 +163,8 @@
   );
   const hasTip = computed(() => Boolean(slots.tip ?? mergedTip.value));
 
-  const RenderIcon = () => {
-    if (slots.icon) {
-      const iconVNode = getFirstComponent(slots.icon());
-      if (iconVNode) {
-        return cloneVNode(iconVNode, { spin: true });
-      }
-    }
-    if (slots.element) {
-      return slots.element();
-    }
-    if (mergedDot.value) {
-      return h(DotLoading, { size: mergedSize.value });
-    }
-    if (configCtx?.slots.loading) {
-      return configCtx.slots.loading();
-    }
-    return h(IconLoading, { spin: true, size: mergedSize.value });
-  };
+  const customIcon = computed(() => {
+    const iconVNode = slots.icon ? getFirstComponent(slots.icon()) : undefined;
+    return iconVNode ? cloneVNode(iconVNode, { spin: true }) : undefined;
+  });
 </script>
