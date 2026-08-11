@@ -5,7 +5,12 @@
   </DefineItem>
   <DefineEmpty>
     <slot v-if="!slots['scroll-loading']" name="empty">
-      <VNodeRenderer :content="emptyContent" />
+      <component
+        :is="configContext.slots.empty"
+        v-if="configContext?.slots.empty"
+        component="list"
+      />
+      <Empty v-else />
     </slot>
   </DefineEmpty>
   <DefineScrollLoading>
@@ -111,7 +116,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, h, inject, isVNode, onMounted, ref, toRef, useAttrs, useSlots } from 'vue';
+  import { computed, inject, isVNode, onMounted, ref, toRef, useAttrs, useSlots } from 'vue';
   import type { CSSProperties, PropType, VNodeChild } from 'vue';
 
   import { createReusableTemplate } from '@vueuse/core';
@@ -249,9 +254,6 @@
   const gridColumnProps = computed(() => omit(props.gridProps ?? {}, ['gutter']));
   const paginationRestProps = computed(() =>
     omit(props.paginationProps ?? {}, ['current', 'pageSize', 'defaultCurrent', 'defaultPageSize']),
-  );
-  const emptyContent = computed(
-    () => configContext?.slots.empty?.({ component: 'list' }) ?? h(Empty),
   );
   const cls = computed(() => [
     prefixCls,
