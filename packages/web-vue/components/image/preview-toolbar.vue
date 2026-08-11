@@ -12,8 +12,9 @@
     <slot />
   </div>
 </template>
-<script setup lang="tsx">
-  import { PropType, toRefs, computed, VNodeTypes } from 'vue';
+<script setup lang="ts">
+  import type { Component, PropType } from 'vue';
+  import { computed, toRefs } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
   import PreviewAction from './preview-action.vue';
@@ -21,7 +22,7 @@
   export interface ActionType {
     key: string;
     name: string;
-    content: () => VNodeTypes;
+    content: Component;
     onClick: () => void;
     disabled?: boolean;
   }

@@ -72,7 +72,7 @@
     </div>
   </teleport>
 </template>
-<script setup lang="tsx">
+<script setup lang="ts">
   import {
     computed,
     PropType,
@@ -80,7 +80,6 @@
     watch,
     toRefs,
     ref,
-    h,
     CSSProperties,
     onBeforeUnmount,
     nextTick,
@@ -452,28 +451,28 @@
     {
       key: 'fullScreen',
       name: t('imagePreview.fullScreen'),
-      content: () => h(IconFullscreen),
+      content: IconFullscreen,
       onClick: () => fullScreen(),
     },
     /** 顺时针旋转 */
     {
       key: 'rotateRight',
       name: t('imagePreview.rotateRight'),
-      content: () => h(IconRotateRight),
+      content: IconRotateRight,
       onClick: () => handleRotate('clockwise'),
     },
     /** 逆时针旋转 */
     {
       key: 'rotateLeft',
       name: t('imagePreview.rotateLeft'),
-      content: () => h(IconRotateLeft),
+      content: IconRotateLeft,
       onClick: () => handleRotate('counterclockwise'),
     },
     /** 放大 */
     {
       key: 'zoomIn',
       name: t('imagePreview.zoomIn'),
-      content: () => h(IconZoomIn),
+      content: IconZoomIn,
       onClick: () => handleScale('zoomIn'),
       disabled: scale.value === maxScale,
     },
@@ -481,7 +480,7 @@
     {
       key: 'zoomOut',
       name: t('imagePreview.zoomOut'),
-      content: () => h(IconZoomOut),
+      content: IconZoomOut,
       onClick: () => handleScale('zoomOut'),
       disabled: scale.value === minScale,
     },
@@ -489,7 +488,7 @@
     {
       key: 'originalSize',
       name: t('imagePreview.originalSize'),
-      content: () => h(IconOriginalSize),
+      content: IconOriginalSize,
       onClick: () => changeScale(1),
     },
   ]);
