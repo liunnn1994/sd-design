@@ -4,7 +4,7 @@
     <Item v-if="hasPending" pending line-type="dashed">
       <template #dot>
         <slot v-if="slots.dot" name="dot" />
-        <Spin v-else v-bind="mergedSpinProps" :size="12" />
+        <Spin v-else v-bind="{ size: 12, ...mergedSpinProps }" />
       </template>
       <div v-if="pending !== true">{{ pending }}</div>
     </Item>
