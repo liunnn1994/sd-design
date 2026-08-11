@@ -1,5 +1,21 @@
-<script lang="tsx">
-  import { defineComponent, h, PropType, toRefs, VNode } from 'vue';
+<template>
+  <VNodeRenderer v-if="loading && loadingIconVNode" :content="loadingIconVNode" />
+  <IconLoading v-else-if="loading" />
+  <template v-else-if="icon">
+    <IconHover v-if="needIconHover" :class="`${prefixCls}-icon-hover`">
+      <span :class="`${prefixCls}-switcher-icon`" @click="onClick">
+        <VNodeRenderer :content="icon" />
+      </span>
+    </IconHover>
+    <span v-else :class="`${prefixCls}-switcher-icon`" @click="onClick">
+      <VNodeRenderer :content="icon" />
+    </span>
+  </template>
+</template>
+
+<script setup lang="ts">
+  import type { PropType, VNode, VNodeChild } from 'vue';
+  import { computed, h, useSlots } from 'vue';
 
   import IconHover from '../_components/icon-hover.vue';
   import usePickSlots from '../_hooks/use-pick-slots';
@@ -9,102 +25,73 @@
   import useTreeContext from './hooks/use-tree-context';
   import { TreeNodeData } from './interface';
 
-  export default defineComponent({
-    name: 'TreeNodeSwitcher',
-    components: {
-      IconLoading,
+  const VNodeRenderer = ({ content }: { content: VNodeChild }) => content;
+
+  defineOptions({ name: 'TreeNodeSwitcher' });
+
+  const props = defineProps({
+    prefixCls: String,
+    loading: Boolean,
+    showLine: Boolean,
+    treeNodeData: {
+      type: Object as PropType<TreeNodeData>,
     },
-    props: {
-      prefixCls: String,
-      loading: Boolean,
-      showLine: Boolean,
-      treeNodeData: {
-        type: Object as PropType<TreeNodeData>,
-      },
-      icons: {
-        type: Object as PropType<Record<string, (() => VNode) | undefined>>,
-      },
-      nodeStatus: {
-        type: Object as PropType<{
-          loading?: boolean;
-          checked?: boolean;
-          selected?: boolean;
-          expanded?: boolean;
-          indeterminate?: boolean;
-          isLeaf?: boolean;
-        }>,
-      },
+    icons: {
+      type: Object as PropType<Record<string, (() => VNode) | undefined>>,
     },
-    emits: ['click'],
-    setup(props, { slots, emit }) {
-      const { icons, nodeStatus, treeNodeData } = toRefs(props);
-      const treeContext = useTreeContext();
-
-      const nodeSwitcherIcon = usePickSlots(slots, 'switcher-icon');
-      const nodeLoadingIcon = usePickSlots(slots, 'loading-icon');
-
-      return {
-        getSwitcherIcon: () => {
-          const icon = icons?.value?.switcherIcon ?? nodeSwitcherIcon.value;
-          return icon
-            ? icon(nodeStatus.value)
-            : treeContext.switcherIcon?.(treeNodeData.value, nodeStatus.value);
-        },
-        getLoadingIcon: () => {
-          const icon = icons?.value?.loadingIcon ?? nodeLoadingIcon.value;
-          return icon
-            ? icon(nodeStatus.value)
-            : treeContext.loadingIcon?.(treeNodeData.value, nodeStatus.value);
-        },
-        onClick(e: Event) {
-          emit('click', e);
-        },
-      };
-    },
-    render() {
-      const {
-        prefixCls,
-        getSwitcherIcon,
-        getLoadingIcon,
-        onClick,
-        nodeStatus = {},
-        loading,
-        showLine,
-      } = this;
-
-      const { expanded, isLeaf } = nodeStatus;
-
-      if (loading) {
-        return getLoadingIcon() ?? h(IconLoading);
-      }
-
-      let icon = null;
-      let needIconHover = false;
-
-      if (!isLeaf) {
-        const defaultIcon = showLine
-          ? h('span', {
-              class: `${prefixCls}-${expanded ? 'minus' : 'plus'}-icon`,
-            })
-          : h(IconCaretDown);
-        icon = getSwitcherIcon() ?? defaultIcon;
-        needIconHover = !showLine;
-      } else if (showLine) {
-        icon = getSwitcherIcon() ?? h(IconFile);
-      }
-
-      if (!icon) return null;
-
-      const content = h('span', { class: `${prefixCls}-switcher-icon`, onClick }, icon);
-      return needIconHover
-        ? h(
-            IconHover,
-            {
-              class: `${prefixCls}-icon-hover`,
-            },
-            () => content,
-          )
-        : content;
+    nodeStatus: {
+      type: Object as PropType<{
+        loading?: boolean;
+        checked?: boolean;
+        selected?: boolean;
+        expanded?: boolean;
+        indeterminate?: boolean;
+        isLeaf?: boolean;
+      }>,
     },
   });
+  const emit = defineEmits(['click']);
+
+  const slots = useSlots();
+  const nodeSwitcherIcon = usePickSlots(slots, 'switcher-icon');
+  const nodeLoadingIcon = usePickSlots(slots, 'loading-icon');
+  const treeContext = useTreeContext();
+
+  const loadingIconVNode = computed<VNode | undefined>(() => {
+    const icon = props.icons?.loadingIcon ?? nodeLoadingIcon.value;
+    return icon
+      ? icon(props.nodeStatus)
+      : treeContext.loadingIcon?.(props.treeNodeData, props.nodeStatus);
+  });
+
+  const switcherIconVNode = computed<VNode | undefined>(() => {
+    const icon = props.icons?.switcherIcon ?? nodeSwitcherIcon.value;
+    return icon
+      ? icon(props.nodeStatus)
+      : treeContext.switcherIcon?.(props.treeNodeData, props.nodeStatus);
+  });
+
+  const needIconHover = computed(() => {
+    const { isLeaf } = props.nodeStatus ?? {};
+    return !isLeaf && !props.showLine;
+  });
+
+  // Resolves the switcher icon: a custom icon (slot/context) wins over the
+  // default built-in icon (caret for expandable nodes, file for showLine leaves).
+  const icon = computed<VNode | null>(() => {
+    const { expanded, isLeaf } = props.nodeStatus ?? {};
+    const custom = switcherIconVNode.value;
+    if (!isLeaf) {
+      if (custom) return custom;
+      return props.showLine
+        ? h('span', { class: `${props.prefixCls}-${expanded ? 'minus' : 'plus'}-icon` })
+        : h(IconCaretDown);
+    }
+    if (props.showLine) {
+      return custom ?? h(IconFile);
+    }
+    return custom ?? null;
+  });
+
+  const onClick = (e: Event) => emit('click', e);
 </script>
