@@ -14,11 +14,10 @@
         </sd-breadcrumb>
       </template>
       <template #extra>
-        <sd-radio-group type="button" default-value="large">
-          <sd-radio value="mini">Mini</sd-radio>
-          <sd-radio value="small">Small</sd-radio>
-          <sd-radio value="large">Large</sd-radio>
-        </sd-radio-group>
+        <sd-space>
+          <sd-button>Cancel</sd-button>
+          <sd-button type="primary">Save</sd-button>
+        </sd-space>
       </template>
     </sd-page-header>
   </div>
