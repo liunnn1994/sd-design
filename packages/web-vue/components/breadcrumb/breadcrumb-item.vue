@@ -11,7 +11,13 @@
       :aria-label="displayMore ? t('a11y.breadcrumbEllipsis') : undefined"
       v-bind="$attrs"
     >
-      <RenderMoreIcon v-if="displayMore" />
+      <template v-if="displayMore">
+        <component
+          :is="breadcrumbCtx.slots['more-icon']"
+          v-if="breadcrumbCtx?.slots['more-icon']"
+        />
+        <IconMore v-else />
+      </template>
       <slot v-else />
       <span
         v-if="hasDroplist"
@@ -50,7 +56,7 @@
     <div v-if="showSeparator" aria-hidden="true" :class="`${prefixCls}-separator`">
       <slot v-if="$slots.separator" name="separator" />
       <template v-else-if="separator != null">{{ separator }}</template>
-      <RenderContextSeparator v-else-if="breadcrumbCtx?.slots.separator" />
+      <component :is="breadcrumbCtx.slots.separator" v-else-if="breadcrumbCtx?.slots.separator" />
       <template v-else-if="breadcrumbCtx?.separator != null">
         {{ breadcrumbCtx.separator }}
       </template>
@@ -61,7 +67,7 @@
 
 <script setup lang="ts">
   import type { VNode } from 'vue';
-  import { computed, h, inject, ref } from 'vue';
+  import { computed, inject, ref } from 'vue';
 
   import { createReusableTemplate } from '@vueuse/core';
 
@@ -146,8 +152,6 @@
     breadcrumbCtx ? props.index < breadcrumbCtx.total - 1 : true,
   );
 
-  const RenderMoreIcon = () => breadcrumbCtx?.slots['more-icon']?.() ?? h(IconMore);
-  const RenderContextSeparator = () => breadcrumbCtx?.slots.separator?.();
   const handleVisibleChange = (visible: boolean) => {
     dropdownVisible.value = visible;
   };
