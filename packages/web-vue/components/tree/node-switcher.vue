@@ -57,14 +57,14 @@
   const nodeLoadingIcon = usePickSlots(slots, 'loading-icon');
   const treeContext = useTreeContext();
 
-  const loadingIconVNode = computed<VNode | undefined>(() => {
+  const loadingIconVNode = computed<VNodeChild | undefined>(() => {
     const icon = props.icons?.loadingIcon ?? nodeLoadingIcon.value;
     return icon
       ? icon(props.nodeStatus)
       : treeContext.loadingIcon?.(props.treeNodeData, props.nodeStatus);
   });
 
-  const switcherIconVNode = computed<VNode | undefined>(() => {
+  const switcherIconVNode = computed<VNodeChild | undefined>(() => {
     const icon = props.icons?.switcherIcon ?? nodeSwitcherIcon.value;
     return icon
       ? icon(props.nodeStatus)
@@ -78,7 +78,7 @@
 
   // Resolves the switcher icon: a custom icon (slot/context) wins over the
   // default built-in icon (caret for expandable nodes, file for showLine leaves).
-  const icon = computed<VNode | null>(() => {
+  const icon = computed<VNodeChild | null>(() => {
     const { expanded, isLeaf } = props.nodeStatus ?? {};
     const custom = switcherIconVNode.value;
     if (!isLeaf) {
