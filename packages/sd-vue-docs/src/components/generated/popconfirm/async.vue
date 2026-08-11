@@ -2,7 +2,7 @@
   <sd-popconfirm @before-ok="handleBeforeOk">
     <sd-button>Click To Show</sd-button>
     <template #content>
-      <sd-form>
+      <sd-form :model="form">
         <sd-form-item label="Name">
           <sd-input />
         </sd-form-item>
@@ -17,6 +17,7 @@
 <script setup>
   import { ref } from 'vue';
 
+  const form = {};
   const visible = ref(false);
 
   const handleClick = () => {
