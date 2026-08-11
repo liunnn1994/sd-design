@@ -78,7 +78,6 @@
     watch,
     type PropType,
     type VNode,
-    type VNodeChild,
   } from 'vue';
 
   import { createReusableTemplate } from '@vueuse/core';
@@ -103,8 +102,6 @@
   interface BaseInternalProps extends BaseProps {
     component: keyof HTMLElementTagNameMap;
   }
-
-  const VNodeRenderer = (_props: { content?: VNodeChild }) => _props.content;
 
   const normalizeEllipsisConfig = (config: EllipsisConfig): EllipsisInternalConfig => {
     const showTooltip = !!config.showTooltip;

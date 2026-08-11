@@ -55,8 +55,11 @@ export default (
   const operationsApp = createApp(TypographyOperations, operationsProps);
   operationsApp.mount(ellipsisContainer);
 
+  // TypographyOperations renders <Operations> as a fragment root (edit/copy/expand
+  // are sibling top-level nodes), so capture every direct child of the mount
+  // container - not just the children of the first node.
   const operationsChildNodes = Array.prototype.slice.apply(
-    ellipsisContainer.childNodes[0].cloneNode(true).childNodes,
+    ellipsisContainer.cloneNode(true).childNodes,
   );
 
   operationsApp.unmount();
