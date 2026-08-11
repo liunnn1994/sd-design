@@ -1,31 +1,4 @@
 <template>
-  <DefineOperations v-slot="{ forceRenderExpand = false }">
-    <Operations
-      :editable="props.editable"
-      :copyable="props.copyable"
-      :expandable="ellipsisConfig.expandable"
-      :is-copied="isCopied"
-      :is-ellipsis="ellipsisConfig.css ? showCSSTooltip : isEllipsis"
-      :expanded="expanded"
-      :force-render-expand="forceRenderExpand || (ellipsisConfig.css && expanded)"
-      :edit-tooltip-props="props.editTooltipProps"
-      :copy-tooltip-props="props.copyTooltipProps"
-      @edit="onEditStart"
-      @copy="onCopyClick"
-      @expand="onExpandClick"
-    >
-      <template #copy-tooltip="slotProps">
-        <slot name="copy-tooltip" v-bind="slotProps" />
-      </template>
-      <template #copy-icon="slotProps">
-        <slot name="copy-icon" v-bind="slotProps" />
-      </template>
-      <template #expand-node="slotProps">
-        <slot name="expand-node" v-bind="slotProps" />
-      </template>
-    </Operations>
-  </DefineOperations>
-
   <DefineCssOuter>
     <component
       :is="props.component"
@@ -34,7 +7,9 @@
       :class="classNames"
       :style="ellipsisStyle"
     >
-      <span ref="contentRef"><VNodeRenderer :content="getWrappedChildren()" /></span>
+      <span ref="contentRef">
+        <TypographyContent :content="getChildren()" :tags="contentTags" :mark-style="markStyle" />
+      </span>
     </component>
   </DefineCssOuter>
 
@@ -66,12 +41,23 @@
         v-bind="ellipsisConfig.tooltipProps"
       >
         <template #content>{{ fullText }}</template>
-        <span><VNodeRenderer :content="getDisplayContent()" /></span>
+        <span>
+          <TypographyContent
+            :content="getDisplayContent()"
+            :tags="contentTags"
+            :mark-style="markStyle"
+          />
+        </span>
       </component>
-      <VNodeRenderer v-else :content="getDisplayContent()" />
+      <TypographyContent
+        v-else
+        :content="getDisplayContent()"
+        :tags="contentTags"
+        :mark-style="markStyle"
+      />
       <template v-if="showEllipsis">{{ ellipsisConfig.ellipsisStr }}</template>
       {{ ellipsisConfig.suffix }}
-      <ReuseOperations />
+      <TypographyOperations v-bind="getOperationsProps()" />
     </component>
   </ResizeObserver>
 </template>
@@ -81,7 +67,6 @@
 
   import {
     computed,
-    h,
     onMounted,
     onUnmounted,
     onUpdated,
@@ -110,7 +95,8 @@
   import Popover from '../popover';
   import Tooltip from '../tooltip';
   import EditContent from './edit-content.vue';
-  import Operations from './operations.vue';
+  import TypographyContent from './typography-content.vue';
+  import TypographyOperations from './typography-operations.vue';
   import getInnerText from './utils/getInnerText';
   import measure from './utils/measure';
 
@@ -190,9 +176,6 @@
 
   const attrs = useAttrs();
   const slots = useSlots();
-  const [DefineOperations, ReuseOperations] = createReusableTemplate<{
-    forceRenderExpand?: boolean;
-  }>();
   const [DefineCssOuter, ReuseCssOuter] = createReusableTemplate();
   const prefixCls = getPrefixCls('typography');
   const classNames = computed(() => [
@@ -259,36 +242,30 @@
     emit('expand', expanded.value);
   };
 
-  const renderOperations = (forceRenderExpand = false) =>
-    h(
-      Operations,
-      {
-        editable: props.editable,
-        copyable: props.copyable,
-        expandable: ellipsisConfig.value.expandable,
-        isCopied: isCopied.value,
-        isEllipsis: ellipsisConfig.value.css ? showCSSTooltip.value : isEllipsis.value,
-        expanded: expanded.value,
-        forceRenderExpand: forceRenderExpand || (ellipsisConfig.value.css && expanded.value),
-        editTooltipProps: props.editTooltipProps,
-        copyTooltipProps: props.copyTooltipProps,
-        onEdit: onEditStart,
-        onCopy: onCopyClick,
-        onExpand: onExpandClick,
-      },
-      {
-        'copy-tooltip': slots['copy-tooltip'],
-        'copy-icon': slots['copy-icon'],
-        'expand-node': slots['expand-node'],
-      },
-    );
+  const getOperationsProps = (forceRenderExpand = false) => ({
+    editable: props.editable,
+    copyable: props.copyable,
+    expandable: ellipsisConfig.value.expandable,
+    isCopied: isCopied.value,
+    isEllipsis: ellipsisConfig.value.css ? showCSSTooltip.value : isEllipsis.value,
+    expanded: expanded.value,
+    forceRenderExpand: forceRenderExpand || (ellipsisConfig.value.css && expanded.value),
+    editTooltipProps: props.editTooltipProps,
+    copyTooltipProps: props.copyTooltipProps,
+    onEdit: onEditStart,
+    onCopy: onCopyClick,
+    onExpand: onExpandClick,
+    copyTooltip: slots['copy-tooltip'],
+    copyIcon: slots['copy-icon'],
+    expandNode: slots['expand-node'],
+  });
 
   const calEllipsis = () => {
     if (!wrapperRef.value) return;
     const result = measure(
       wrapperRef.value,
       ellipsisConfig.value,
-      renderOperations(!!ellipsisConfig.value.expandable),
+      getOperationsProps(!!ellipsisConfig.value.expandable),
       fullText.value,
     );
     if (isEllipsis.value !== result.ellipsis) {
@@ -314,24 +291,19 @@
     children = slots.default?.() || [];
     return children;
   };
-  const getWrappedContent = (content: VNodeChild) => {
+  const contentTags = computed(() => {
     const tags: (keyof HTMLElementTagNameMap)[] = [];
     if (props.bold) tags.push('b');
     if (props.underline) tags.push('u');
     if (props.delete) tags.push('del');
     if (props.code) tags.push('code');
     if (props.mark) tags.push('mark');
-    const markStyle =
-      isObject(props.mark) && props.mark.color ? { backgroundColor: props.mark.color } : {};
-    return tags.reduce<VNodeChild>(
-      (wrapped, tag) =>
-        h(tag, tag === 'mark' ? { style: markStyle } : {}, wrapped == null ? [] : [wrapped]),
-      content,
-    );
-  };
-  const getWrappedChildren = () => getWrappedContent(getChildren());
-  const getDisplayContent = () =>
-    getWrappedContent(showEllipsis.value ? ellipsisText.value : getChildren());
+    return tags;
+  });
+  const markStyle = computed(() =>
+    isObject(props.mark) && props.mark.color ? { backgroundColor: props.mark.color } : {},
+  );
+  const getDisplayContent = () => (showEllipsis.value ? ellipsisText.value : getChildren());
   const updateFullText = () => {
     if (props.ellipsis || props.copyable || props.editable) {
       const text = getInnerText(children);

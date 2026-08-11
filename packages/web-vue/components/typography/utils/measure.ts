@@ -1,8 +1,8 @@
-import { h, render, type VNodeTypes } from 'vue';
+import { createApp } from 'vue';
 
 import type { EllipsisInternalConfig } from '../interface';
 
-import MeasureOperations from './measure-operations.vue';
+import TypographyOperations from '../typography-operations.vue';
 
 let ellipsisContainer: HTMLElement;
 
@@ -22,7 +22,7 @@ function pxToNumber(value: string | null): number {
 export default (
   originElement: HTMLElement,
   ellipsisConfig: EllipsisInternalConfig,
-  operations: VNodeTypes | VNodeTypes[],
+  operationsProps: Record<string, unknown>,
   fullText: string,
 ) => {
   if (!ellipsisContainer) {
@@ -52,18 +52,14 @@ export default (
   // fix issue#1961
   ellipsisContainer.style.whiteSpace = 'normal';
 
-  render(
-    h(MeasureOperations, null, {
-      default: () => operations,
-    }),
-    ellipsisContainer,
-  );
+  const operationsApp = createApp(TypographyOperations, operationsProps);
+  operationsApp.mount(ellipsisContainer);
 
   const operationsChildNodes = Array.prototype.slice.apply(
     ellipsisContainer.childNodes[0].cloneNode(true).childNodes,
   );
 
-  render(null, ellipsisContainer);
+  operationsApp.unmount();
 
   // 省略号和后缀
   const ellipsisTextNode = document.createTextNode(`${ellipsisStr}${suffix}`);
