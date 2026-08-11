@@ -1,4 +1,17 @@
 <template>
+  <DefineOptionLabel v-slot="{ label }">
+    <template v-if="props.ellipsis === false">{{ label }}</template>
+    <component
+      :is="props.ellipsis === 'performant-ellipsis' ? PerformantEllipsis : Ellipsis"
+      v-else
+    >
+      {{ label }}
+    </component>
+  </DefineOptionLabel>
+  <DefineOptionContent v-slot="{ optionInfo }">
+    <slot v-if="slots.option" name="option" :data="optionInfo.raw" />
+    <ReuseOptionLabel v-else :label="optionInfo.label" />
+  </DefineOptionContent>
   <DefineOption v-slot="{ optionInfo }">
     <li
       v-if="isGroupOptionInfo(optionInfo)"
@@ -8,7 +21,7 @@
       :class="groupPrefixCls"
     >
       <div :class="`${groupPrefixCls}-title`">
-        <VNodeRenderer :content="renderOptionLabel(optionInfo.label)" />
+        <ReuseOptionLabel :label="optionInfo.label" />
       </div>
       <ReuseOption v-for="child in optionInfo.options" :key="child.key" :option-info="child" />
     </li>
@@ -33,10 +46,10 @@
         :disabled="optionInfo.disabled"
         uninject-group-context
       >
-        <VNodeRenderer :content="renderOptionContent(optionInfo)" />
+        <ReuseOptionContent :option-info="optionInfo" />
       </Checkbox>
       <span v-else :class="`${optionPrefixCls}-content`">
-        <VNodeRenderer :content="renderOptionContent(optionInfo)" />
+        <ReuseOptionContent :option-info="optionInfo" />
       </span>
     </component>
   </DefineOption>
@@ -101,7 +114,6 @@
   import {
     computed,
     getCurrentInstance,
-    h,
     inject,
     nextTick,
     ref,
@@ -179,6 +191,11 @@
   }
 
   defineOptions({ name: 'Select', inheritAttrs: false });
+
+  const [DefineOptionLabel, ReuseOptionLabel] = createReusableTemplate<{ label: string }>();
+  const [DefineOptionContent, ReuseOptionContent] = createReusableTemplate<{
+    optionInfo: SelectOptionInfo;
+  }>();
 
   const props = defineProps({
     multiple: {
@@ -793,24 +810,6 @@
       .map((item) => item.option)
       .filter((option): option is SelectOptionData => Boolean(option)),
   );
-
-  const renderOptionLabel = (label: string): VNodeChild => {
-    if (props.ellipsis === false) {
-      return label;
-    }
-
-    const EllipsisComponent =
-      props.ellipsis === 'performant-ellipsis' ? PerformantEllipsis : Ellipsis;
-    return h(EllipsisComponent, null, { default: () => label });
-  };
-
-  const renderOptionContent = (optionInfo: SelectOptionInfo): VNodeChild => {
-    if (isFunction(slots.option)) {
-      return slots.option({ data: optionInfo.raw });
-    }
-
-    return renderOptionLabel(optionInfo.label);
-  };
 
   const optionPrefixCls = getPrefixCls('select-option');
   const groupPrefixCls = getPrefixCls('select-group');
