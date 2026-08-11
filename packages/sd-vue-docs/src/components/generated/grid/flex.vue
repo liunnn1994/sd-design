@@ -1,31 +1,31 @@
 <template>
-  <sd-row class="grid-demo sd:mb-4">
-    <sd-col flex="100px">
+  <sd-row class="grid-demo sd:mb-4 sd:text-white">
+    <sd-col flex="100px" class="sd:bg-[#4096ff]">
       <div>100px</div>
     </sd-col>
-    <sd-col flex="auto">
+    <sd-col flex="auto" class="sd:bg-[#0958d9]">
       <div>auto</div>
     </sd-col>
   </sd-row>
-  <sd-row class="grid-demo sd:mb-4">
-    <sd-col flex="100px">
+  <sd-row class="grid-demo sd:mb-4 sd:text-white">
+    <sd-col flex="100px" class="sd:bg-[#4096ff]">
       <div>100px</div>
     </sd-col>
-    <sd-col flex="auto">
+    <sd-col flex="auto" class="sd:bg-[#0958d9]">
       <div>auto</div>
     </sd-col>
-    <sd-col flex="100px">
+    <sd-col flex="100px" class="sd:bg-[#4096ff]">
       <div>100px</div>
     </sd-col>
   </sd-row>
-  <sd-row class="grid-demo sd:mb-4">
-    <sd-col :flex="3">
+  <sd-row class="grid-demo sd:mb-4 sd:text-white">
+    <sd-col :flex="3" class="sd:bg-[#4096ff]">
       <div>3 / 12</div>
     </sd-col>
-    <sd-col :flex="4">
+    <sd-col :flex="4" class="sd:bg-[#0958d9]">
       <div>4 / 12</div>
     </sd-col>
-    <sd-col :flex="5">
+    <sd-col :flex="5" class="sd:bg-[#4096ff]">
       <div>5 / 12</div>
     </sd-col>
   </sd-row>
@@ -34,16 +34,7 @@
 <style scoped>
   .grid-demo .sd-col {
     height: 48px;
-    color: var(--color-white);
     line-height: 48px;
     text-align: center;
-  }
-
-  .grid-demo .sd-col:nth-child(2n + 1) {
-    background-color: var(--color-primary-light-4);
-  }
-
-  .grid-demo .sd-col:nth-child(2n) {
-    background-color: rgb(var(--sdblue-6), 0.9);
   }
 </style>

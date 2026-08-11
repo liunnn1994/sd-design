@@ -1,77 +1,77 @@
 <template>
   <div>
     <p>Arrange left</p>
-    <sd-row class="grid-demo" justify="start">
-      <sd-col :span="4">
+    <sd-row class="grid-demo sd:text-white" justify="start">
+      <sd-col :span="4" class="sd:bg-[#4096ff]">
         <div>col - 4</div>
       </sd-col>
-      <sd-col :span="4">
+      <sd-col :span="4" class="sd:bg-[#0958d9]">
         <div>col - 4</div>
       </sd-col>
-      <sd-col :span="4">
+      <sd-col :span="4" class="sd:bg-[#4096ff]">
         <div>col - 4</div>
       </sd-col>
-      <sd-col :span="4">
+      <sd-col :span="4" class="sd:bg-[#0958d9]">
         <div>col - 4</div>
       </sd-col>
     </sd-row>
     <p>Arrange center</p>
-    <sd-row class="grid-demo" justify="center">
-      <sd-col :span="4">
+    <sd-row class="grid-demo sd:text-white" justify="center">
+      <sd-col :span="4" class="sd:bg-[#4096ff]">
         <div>col - 4</div>
       </sd-col>
-      <sd-col :span="4">
+      <sd-col :span="4" class="sd:bg-[#0958d9]">
         <div>col - 4</div>
       </sd-col>
-      <sd-col :span="4">
+      <sd-col :span="4" class="sd:bg-[#4096ff]">
         <div>col - 4</div>
       </sd-col>
-      <sd-col :span="4">
+      <sd-col :span="4" class="sd:bg-[#0958d9]">
         <div>col - 4</div>
       </sd-col>
     </sd-row>
     <p>Arrange right</p>
-    <sd-row class="grid-demo" justify="end">
-      <sd-col :span="4">
+    <sd-row class="grid-demo sd:text-white" justify="end">
+      <sd-col :span="4" class="sd:bg-[#4096ff]">
         <div>col - 4</div>
       </sd-col>
-      <sd-col :span="4">
+      <sd-col :span="4" class="sd:bg-[#0958d9]">
         <div>col - 4</div>
       </sd-col>
-      <sd-col :span="4">
+      <sd-col :span="4" class="sd:bg-[#4096ff]">
         <div>col - 4</div>
       </sd-col>
-      <sd-col :span="4">
+      <sd-col :span="4" class="sd:bg-[#0958d9]">
         <div>col - 4</div>
       </sd-col>
     </sd-row>
     <p>Space around</p>
-    <sd-row class="grid-demo" justify="space-around">
-      <sd-col :span="4">
+    <sd-row class="grid-demo sd:text-white" justify="space-around">
+      <sd-col :span="4" class="sd:bg-[#4096ff]">
         <div>col - 4</div>
       </sd-col>
-      <sd-col :span="4">
+      <sd-col :span="4" class="sd:bg-[#0958d9]">
         <div>col - 4</div>
       </sd-col>
-      <sd-col :span="4">
+      <sd-col :span="4" class="sd:bg-[#4096ff]">
         <div>col - 4</div>
       </sd-col>
-      <sd-col :span="4">
+      <sd-col :span="4" class="sd:bg-[#0958d9]">
         <div>col - 4</div>
       </sd-col>
     </sd-row>
     <p>Space between</p>
-    <sd-row class="grid-demo" justify="space-between">
-      <sd-col :span="4">
+    <sd-row class="grid-demo sd:text-white" justify="space-between">
+      <sd-col :span="4" class="sd:bg-[#4096ff]">
         <div>col - 4</div>
       </sd-col>
-      <sd-col :span="4">
+      <sd-col :span="4" class="sd:bg-[#0958d9]">
         <div>col - 4</div>
       </sd-col>
-      <sd-col :span="4">
+      <sd-col :span="4" class="sd:bg-[#4096ff]">
         <div>col - 4</div>
       </sd-col>
-      <sd-col :span="4">
+      <sd-col :span="4" class="sd:bg-[#0958d9]">
         <div>col - 4</div>
       </sd-col>
     </sd-row>
@@ -90,16 +90,7 @@
 
   .grid-demo .sd-col {
     height: 48px;
-    color: var(--color-white);
     line-height: 48px;
     text-align: center;
-  }
-
-  .grid-demo .sd-col:nth-child(2n) {
-    background-color: rgb(var(--sdblue-6), 0.9);
-  }
-
-  .grid-demo .sd-col:nth-child(2n + 1) {
-    background-color: var(--color-primary-light-4);
   }
 </style>

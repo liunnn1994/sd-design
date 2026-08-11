@@ -12,4 +12,22 @@ describe('Grid', () => {
     cy.mount(Col, { slots: { default: `<div class="text">abc</div>` } });
     cy.get('.text').should('contain.text', 'abc');
   });
+
+  it('should apply base span, offset, and order styles', () => {
+    cy.mount({
+      components: { Row, Col },
+      template: `
+        <Row style="width: 960px">
+          <Col :span="24" data-testid="full-width" />
+          <Col :span="6" :offset="6" :order="2" data-testid="configured" />
+        </Row>
+      `,
+    });
+
+    cy.get('[data-testid="full-width"]').should('have.css', 'width', '960px');
+    cy.get('[data-testid="configured"]')
+      .should('have.css', 'width', '240px')
+      .and('have.css', 'margin-left', '240px')
+      .and('have.css', 'order', '2');
+  });
 });

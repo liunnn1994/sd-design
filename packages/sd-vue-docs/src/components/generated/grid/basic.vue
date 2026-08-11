@@ -1,61 +1,61 @@
 <template>
   <div class="grid-demo-background">
     <sd-space direction="vertical" :size="16" class="sd:block">
-      <sd-row class="grid-demo">
-        <sd-col :span="24">
+      <sd-row class="grid-demo sd:text-white">
+        <sd-col :span="24" class="sd:bg-[#4096ff]">
           <div>24 - 100%</div>
         </sd-col>
       </sd-row>
-      <sd-row class="grid-demo">
-        <sd-col :span="12">
+      <sd-row class="grid-demo sd:text-white">
+        <sd-col :span="12" class="sd:bg-[#4096ff]">
           <div>12 - 50%</div>
         </sd-col>
-        <sd-col :span="12">
+        <sd-col :span="12" class="sd:bg-[#0958d9]">
           <div>12 - 50%</div>
         </sd-col>
       </sd-row>
-      <sd-row class="grid-demo">
-        <sd-col :span="8">
+      <sd-row class="grid-demo sd:text-white">
+        <sd-col :span="8" class="sd:bg-[#4096ff]">
           <div>8 - 33.33%</div>
         </sd-col>
-        <sd-col :span="8">
+        <sd-col :span="8" class="sd:bg-[#0958d9]">
           <div>8 - 33.33%</div>
         </sd-col>
-        <sd-col :span="8">
+        <sd-col :span="8" class="sd:bg-[#4096ff]">
           <div>8 - 33.33%</div>
         </sd-col>
       </sd-row>
-      <sd-row class="grid-demo">
-        <sd-col :span="6">
+      <sd-row class="grid-demo sd:text-white">
+        <sd-col :span="6" class="sd:bg-[#4096ff]">
           <div>6 - 25%</div>
         </sd-col>
-        <sd-col :span="6">
+        <sd-col :span="6" class="sd:bg-[#0958d9]">
           <div>6 - 25%</div>
         </sd-col>
-        <sd-col :span="6">
+        <sd-col :span="6" class="sd:bg-[#4096ff]">
           <div>6 - 25%</div>
         </sd-col>
-        <sd-col :span="6">
+        <sd-col :span="6" class="sd:bg-[#0958d9]">
           <div>6 - 25%</div>
         </sd-col>
       </sd-row>
-      <sd-row class="grid-demo">
-        <sd-col :span="4">
+      <sd-row class="grid-demo sd:text-white">
+        <sd-col :span="4" class="sd:bg-[#4096ff]">
           <div>4 - 16.66%</div>
         </sd-col>
-        <sd-col :span="4">
+        <sd-col :span="4" class="sd:bg-[#0958d9]">
           <div>4 - 16.66%</div>
         </sd-col>
-        <sd-col :span="4">
+        <sd-col :span="4" class="sd:bg-[#4096ff]">
           <div>4 - 16.66%</div>
         </sd-col>
-        <sd-col :span="4">
+        <sd-col :span="4" class="sd:bg-[#0958d9]">
           <div>4 - 16.66%</div>
         </sd-col>
-        <sd-col :span="4">
+        <sd-col :span="4" class="sd:bg-[#4096ff]">
           <div>4 - 16.66%</div>
         </sd-col>
-        <sd-col :span="4">
+        <sd-col :span="4" class="sd:bg-[#0958d9]">
           <div>4 - 16.66%</div>
         </sd-col>
       </sd-row>
@@ -118,16 +118,7 @@
 
   .grid-demo .sd-col {
     height: 48px;
-    color: var(--color-white);
     line-height: 48px;
     text-align: center;
-  }
-
-  .grid-demo .sd-col:nth-child(2n) {
-    background-color: rgb(var(--sdblue-6), 0.9);
-  }
-
-  .grid-demo .sd-col:nth-child(2n + 1) {
-    background-color: var(--color-primary-light-4);
   }
 </style>

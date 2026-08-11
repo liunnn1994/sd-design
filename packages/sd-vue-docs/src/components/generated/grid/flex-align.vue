@@ -1,47 +1,47 @@
 <template>
   <div>
     <p>Arrange top</p>
-    <sd-row class="grid-demo" align="start">
-      <sd-col :span="6">
+    <sd-row class="grid-demo sd:text-white" align="start">
+      <sd-col :span="6" class="sd:bg-[#4096ff]">
         <div>col - 6</div>
       </sd-col>
-      <sd-col :span="6">
+      <sd-col :span="6" class="sd:bg-[#0958d9]">
         <div>col - 6</div>
       </sd-col>
-      <sd-col :span="6">
+      <sd-col :span="6" class="sd:bg-[#4096ff]">
         <div>col - 6</div>
       </sd-col>
-      <sd-col :span="6">
+      <sd-col :span="6" class="sd:bg-[#0958d9]">
         <div>col - 6</div>
       </sd-col>
     </sd-row>
     <p>Arrange center</p>
-    <sd-row class="grid-demo" align="center">
-      <sd-col :span="6">
+    <sd-row class="grid-demo sd:text-white" align="center">
+      <sd-col :span="6" class="sd:bg-[#4096ff]">
         <div>col - 6</div>
       </sd-col>
-      <sd-col :span="6">
+      <sd-col :span="6" class="sd:bg-[#0958d9]">
         <div>col - 6</div>
       </sd-col>
-      <sd-col :span="6">
+      <sd-col :span="6" class="sd:bg-[#4096ff]">
         <div>col - 6</div>
       </sd-col>
-      <sd-col :span="6">
+      <sd-col :span="6" class="sd:bg-[#0958d9]">
         <div>col - 6</div>
       </sd-col>
     </sd-row>
     <p>Arrange bottom</p>
-    <sd-row class="grid-demo" align="end">
-      <sd-col :span="6">
+    <sd-row class="grid-demo sd:text-white" align="end">
+      <sd-col :span="6" class="sd:bg-[#4096ff]">
         <div>col - 6</div>
       </sd-col>
-      <sd-col :span="6">
+      <sd-col :span="6" class="sd:bg-[#0958d9]">
         <div>col - 6</div>
       </sd-col>
-      <sd-col :span="6">
+      <sd-col :span="6" class="sd:bg-[#4096ff]">
         <div>col - 6</div>
       </sd-col>
-      <sd-col :span="6">
+      <sd-col :span="6" class="sd:bg-[#0958d9]">
         <div>col - 6</div>
       </sd-col>
     </sd-row>
@@ -60,7 +60,6 @@
 
   .grid-demo .sd-col {
     height: 48px;
-    color: var(--color-white);
     line-height: 48px;
     text-align: center;
   }
@@ -83,13 +82,5 @@
   .grid-demo .sd-col:nth-of-type(4) {
     height: 60px;
     line-height: 60px;
-  }
-
-  .grid-demo .sd-col:nth-child(2n) {
-    background-color: rgb(var(--sdblue-6), 0.9);
-  }
-
-  .grid-demo .sd-col:nth-child(2n + 1) {
-    background-color: var(--color-primary-light-4);
   }
 </style>

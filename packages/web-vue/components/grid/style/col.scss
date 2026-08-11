@@ -8,23 +8,19 @@ $col-prefix-cls: string.unquote('#{$prefix}-col');
   box-sizing: border-box;
 
   @mixin span($span, $adaptation) {
-    @if ($span > 0) and ($adaptation == '') {
+    @if $span > 0 {
       @include span(($span - 1), $adaptation);
 
-      &-#{$span} {
-        flex: 0 0 math.div(100%, 24) * $span;
-        width: math.div(100%, 24) * $span;
-      }
-    }
-  }
-
-  @mixin span($span, $adaptation) {
-    @if ($span > 0) and (not ($adaptation == '')) {
-      @include span(($span - 1), $adaptation);
-
-      &-#{$adaptation}-#{$span} {
-        flex: 0 0 math.div(100%, 24) * $span;
-        width: math.div(100%, 24) * $span;
+      @if $adaptation == '' {
+        &-#{$span} {
+          flex: 0 0 math.div(100%, 24) * $span;
+          width: math.div(100%, 24) * $span;
+        }
+      } @else {
+        &-#{$adaptation}-#{$span} {
+          flex: 0 0 math.div(100%, 24) * $span;
+          width: math.div(100%, 24) * $span;
+        }
       }
     }
   }
@@ -32,21 +28,17 @@ $col-prefix-cls: string.unquote('#{$prefix}-col');
   @include span(24, '');
 
   @mixin offset($offset, $adaptation) {
-    @if ($offset > 0) and ($adaptation == '') {
+    @if $offset > 0 {
       @include offset(($offset - 1), $adaptation);
 
-      &-offset-#{$offset} {
-        margin-left: math.div(100%, 24) * $offset;
-      }
-    }
-  }
-
-  @mixin offset($offset, $adaptation) {
-    @if ($offset > 0) and (not ($adaptation == '')) {
-      @include offset(($offset - 1), $adaptation);
-
-      &-#{$adaptation}-offset-#{$offset} {
-        margin-left: math.div(100%, 24) * $offset;
+      @if $adaptation == '' {
+        &-offset-#{$offset} {
+          margin-left: math.div(100%, 24) * $offset;
+        }
+      } @else {
+        &-#{$adaptation}-offset-#{$offset} {
+          margin-left: math.div(100%, 24) * $offset;
+        }
       }
     }
   }
@@ -54,21 +46,17 @@ $col-prefix-cls: string.unquote('#{$prefix}-col');
   @include offset(23, '');
 
   @mixin order($order, $adaptation) {
-    @if ($order > 0) and ($adaptation == '') {
+    @if $order > 0 {
       @include order(($order - 1), $adaptation);
 
-      &-order-#{$order} {
-        order: $order;
-      }
-    }
-  }
-
-  @mixin order($order, $adaptation) {
-    @if ($order > 0) and (not ($adaptation == '')) {
-      @include order(($order - 1), $adaptation);
-
-      &-#{$adaptation}-order-#{$order} {
-        order: $order;
+      @if $adaptation == '' {
+        &-order-#{$order} {
+          order: $order;
+        }
+      } @else {
+        &-#{$adaptation}-order-#{$order} {
+          order: $order;
+        }
       }
     }
   }

@@ -1,16 +1,16 @@
 <template>
   <div>
-    <sd-row class="grid-demo">
-      <sd-col :span="6" :order="4">
+    <sd-row class="grid-demo sd:text-white">
+      <sd-col :span="6" :order="4" class="sd:bg-[#4096ff]">
         <div>1 col-order-4</div>
       </sd-col>
-      <sd-col :span="6" :order="3">
+      <sd-col :span="6" :order="3" class="sd:bg-[#0958d9]">
         <div>2 col-order-3</div>
       </sd-col>
-      <sd-col :span="6" :order="2">
+      <sd-col :span="6" :order="2" class="sd:bg-[#4096ff]">
         <div>3 col-order-2</div>
       </sd-col>
-      <sd-col :span="6" :order="1">
+      <sd-col :span="6" :order="1" class="sd:bg-[#0958d9]">
         <div>4 col-order-1</div>
       </sd-col>
     </sd-row>
@@ -20,16 +20,7 @@
 <style scoped>
   .grid-demo .sd-col {
     height: 48px;
-    color: var(--color-white);
     line-height: 48px;
     text-align: center;
-  }
-
-  .grid-demo .sd-col:nth-child(2n) {
-    background-color: rgb(var(--sdblue-6), 0.9);
-  }
-
-  .grid-demo .sd-col:nth-child(2n + 1) {
-    background-color: var(--color-primary-light-4);
   }
 </style>
