@@ -1,18 +1,4 @@
 <template>
-  <DefineActions v-slot="{ actions }">
-    <div :class="`${prefixCls}-actions`">
-      <div :class="`${prefixCls}-actions-right`">
-        <span
-          v-for="(action, index) in getAllElements(actions)"
-          :key="`action-${index}`"
-          :class="`${prefixCls}-actions-item`"
-        >
-          <RenderVNode :content="action" />
-        </span>
-      </div>
-    </div>
-  </DefineActions>
-
   <div v-bind="$attrs" :class="cls">
     <div
       v-if="hasTitle || hasExtra"
@@ -46,16 +32,14 @@
         <slot />
       </Scrollbar>
       <slot v-else />
-      <ReuseActions v-if="$slots.actions && !cardContext.hasMeta" :actions="$slots.actions()" />
+      <CardActions v-if="$slots.actions && !cardContext.hasMeta" :actions="$slots.actions()" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import type { CSSProperties, PropType, VNode } from 'vue';
-  import { computed, defineComponent, h, inject, provide, reactive, toRef } from 'vue';
-
-  import { createReusableTemplate } from '@vueuse/core';
+  import type { CSSProperties, VNode } from 'vue';
+  import { computed, inject, provide, reactive, toRef } from 'vue';
 
   import type { ScrollbarProps } from '../scrollbar';
   import type { SpinProps } from '../spin';
@@ -64,10 +48,10 @@
   import { useScrollbar } from '../_hooks/use-scrollbar';
   import { useSize } from '../_hooks/use-size';
   import { getPrefixCls } from '../_utils/global-config';
-  import { getAllElements } from '../_utils/vue-utils';
   import { configProviderInjectionKey } from '../config-provider/context';
   import Scrollbar from '../scrollbar';
   import Spin from '../spin';
+  import CardActions from './card-actions.vue';
   import { cardInjectionKey } from './context';
 
   defineOptions({ name: 'Card', inheritAttrs: false });
@@ -156,19 +140,6 @@
     actions?: () => VNode[];
   }>();
 
-  const [DefineActions, ReuseActions] = createReusableTemplate<{ actions: VNode[] }>();
-  const RenderVNode = defineComponent({
-    name: 'CardRenderVNode',
-    props: {
-      content: {
-        type: null as unknown as PropType<VNode>,
-        required: true,
-      },
-    },
-    setup(renderProps) {
-      return () => renderProps.content;
-    },
-  });
   const configCtx = inject(configProviderInjectionKey, undefined);
   const mergedSpinProps = computed(() => ({
     ...configCtx?.cardSpinProps,
@@ -181,12 +152,10 @@
   );
   const { scrollbarProps } = useScrollbar(toRef(props, 'scrollbar'));
   const scrollEnabled = computed(() => props.fullHeight && props.scrollbar !== false);
-  const renderActions = (actions: VNode[]) => h(ReuseActions, { actions });
   const cardContext: CardContext = reactive({
     hasMeta: false,
     hasGrid: false,
     slots,
-    renderActions,
   });
 
   provide(cardInjectionKey, cardContext);

@@ -22,7 +22,7 @@
       <div v-if="$slots.avatar" :class="`${prefixCls}-avatar`">
         <slot name="avatar" />
       </div>
-      <RenderActions />
+      <CardActions v-if="context?.slots.actions" :actions="context.slots.actions()" />
     </div>
   </div>
 </template>
@@ -32,6 +32,7 @@
   import { computed, inject, onMounted } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
+  import CardActions from './card-actions.vue';
   import { cardInjectionKey } from './context';
 
   defineOptions({ name: 'CardMeta' });
@@ -71,13 +72,6 @@
   const context = inject(cardInjectionKey, undefined);
   const hasTitle = computed(() => Boolean(slots.title ?? props.title));
   const hasDescription = computed(() => Boolean(slots.description ?? props.description));
-  const RenderActions = () => {
-    if (context?.slots.actions) {
-      return context.renderActions(context.slots.actions());
-    }
-    return null;
-  };
-
   onMounted(() => {
     if (context) {
       context.hasMeta = true;
