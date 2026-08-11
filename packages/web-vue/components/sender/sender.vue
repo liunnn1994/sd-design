@@ -207,7 +207,6 @@
     computed,
     defineComponent,
     getCurrentInstance,
-    h,
     nextTick,
     provide,
     shallowRef,
@@ -254,6 +253,9 @@
   import Textarea from '../textarea';
   import Tooltip from '../tooltip';
   import { senderInjectionKey } from './context';
+  import RecordingIcon from './sender-recording-icon.vue';
+  import SkillTag from './sender-skill-tag.vue';
+  import StopLoadingIcon from './sender-stop-loading-icon.vue';
   import { useRecorder } from './use-recorder';
 
   defineOptions({ name: 'Sender', inheritAttrs: false });
@@ -317,73 +319,6 @@
   // 技能标签：Tooltip 与非 Tooltip 两种外层共用同一份内层结构，避免重复 markup。
   // 外层不设 role="button"（标签本身无激活动作），仅在带 tooltip 时给 tabindex 作为触发器，
   // 以免与关闭按钮形成嵌套 button；关闭按钮单独为 role="button"。
-  const SkillTag = defineComponent({
-    name: 'SenderSkillTag',
-    props: {
-      skill: { type: Object as PropType<SenderSkill>, required: true },
-      disabled: Boolean,
-      readonly: Boolean,
-    },
-    emits: { remove: (_event: Event) => true },
-    setup(tagProps, { emit: emitRemove, slots }) {
-      const closeClass = computed(() => [
-        `${prefixCls}-skill-tag-close`,
-        {
-          [`${prefixCls}-skill-tag-close-disabled`]:
-            tagProps.disabled ||
-            tagProps.readonly ||
-            (typeof tagProps.skill.closable === 'object' && tagProps.skill.closable.disabled),
-        },
-      ]);
-      const tooltipProps = computed(() =>
-        typeof tagProps.skill.tooltip === 'string'
-          ? { content: tagProps.skill.tooltip }
-          : tagProps.skill.tooltip,
-      );
-      const handleRemove = (event: Event) => {
-        event.stopPropagation();
-        emitRemove('remove', event);
-      };
-      const handleRemoveKeydown = (event: KeyboardEvent) => {
-        if (event.key !== 'Enter' && event.key !== ' ') return;
-        event.preventDefault();
-        event.stopPropagation();
-        emitRemove('remove', event);
-      };
-      const renderTag = () =>
-        h(
-          'span',
-          {
-            class: `${prefixCls}-skill-tag`,
-            tabindex: tagProps.skill.tooltip ? '0' : undefined,
-          },
-          [
-            h('span', { class: `${prefixCls}-skill-tag-text` }, [
-              slots['skill-title']?.({ skill: tagProps.skill }),
-            ]),
-            tagProps.skill.closable
-              ? h(
-                  'span',
-                  {
-                    'class': closeClass.value,
-                    'role': 'button',
-                    'tabindex': '0',
-                    'aria-label': t('sender.removeSkill'),
-                    'onClick': handleRemove,
-                    'onKeydown': handleRemoveKeydown,
-                  },
-                  [slots['skill-close-icon']?.({ skill: tagProps.skill })],
-                )
-              : null,
-          ],
-        );
-      return () =>
-        tagProps.skill.tooltip
-          ? h(Tooltip, tooltipProps.value, { default: renderTag })
-          : renderTag();
-    },
-  });
-
   const attrs = useAttrs();
   const instance = getCurrentInstance();
   const prefixCls = getPrefixCls('sender');
@@ -935,85 +870,6 @@
       focus();
     }
   };
-
-  const StopLoadingIcon = defineComponent({
-    name: 'SenderStopLoadingIcon',
-    inheritAttrs: false,
-    setup(_, { attrs: iconAttrs }) {
-      return () =>
-        h(
-          'svg',
-          {
-            ...iconAttrs,
-            color: 'currentColor',
-            viewBox: '0 0 1000 1000',
-            xmlns: 'http://www.w3.org/2000/svg',
-          },
-          [
-            h('title', null, t('sender.stopGenerating')),
-            h('rect', {
-              fill: 'currentColor',
-              height: 250,
-              rx: 24,
-              ry: 24,
-              width: 250,
-              x: 375,
-              y: 375,
-            }),
-            h('circle', {
-              cx: 500,
-              cy: 500,
-              fill: 'none',
-              r: 450,
-              stroke: 'currentColor',
-              strokeWidth: 100,
-              opacity: 0.45,
-            }),
-            h('circle', {
-              class: `${prefixCls}-loading-spinner`,
-              cx: 500,
-              cy: 500,
-              fill: 'none',
-              r: 450,
-              stroke: 'currentColor',
-              strokeWidth: 100,
-              strokeDasharray: '600 9999999',
-            }),
-          ],
-        );
-    },
-  });
-
-  const RecordingIcon = defineComponent({
-    name: 'SenderRecordingIcon',
-    inheritAttrs: false,
-    setup(_, { attrs: iconAttrs }) {
-      const bars = Array.from({ length: 4 }, (__, index) =>
-        h('rect', {
-          class: `${prefixCls}-recording-bar`,
-          style: { animationDelay: `${index * 0.2}s` },
-          fill: 'currentColor',
-          rx: 70,
-          ry: 70,
-          height: 250,
-          width: 140,
-          x: index * 286.6667,
-          y: 375,
-        }),
-      );
-      return () =>
-        h(
-          'svg',
-          {
-            ...iconAttrs,
-            color: 'currentColor',
-            viewBox: '0 0 1000 1000',
-            xmlns: 'http://www.w3.org/2000/svg',
-          },
-          [h('title', null, t('sender.recording')), ...bars],
-        );
-    },
-  });
 
   defineExpose({
     Recorder,
