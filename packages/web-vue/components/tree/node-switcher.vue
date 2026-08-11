@@ -1,21 +1,33 @@
 <template>
+  <DefineSwitcherIcon>
+    <VNodeRenderer v-if="switcherIconVNode" :content="switcherIconVNode" />
+    <span
+      v-else-if="!nodeStatus?.isLeaf && showLine"
+      :class="`${prefixCls}-${nodeStatus?.expanded ? 'minus' : 'plus'}-icon`"
+    />
+    <IconCaretDown v-else-if="!nodeStatus?.isLeaf" />
+    <IconFile v-else-if="showLine" />
+  </DefineSwitcherIcon>
+
   <VNodeRenderer v-if="loading && loadingIconVNode" :content="loadingIconVNode" />
   <IconLoading v-else-if="loading" />
-  <template v-else-if="icon">
+  <template v-else-if="hasIcon">
     <IconHover v-if="needIconHover" :class="`${prefixCls}-icon-hover`">
       <span :class="`${prefixCls}-switcher-icon`" @click="onClick">
-        <VNodeRenderer :content="icon" />
+        <ReuseSwitcherIcon />
       </span>
     </IconHover>
     <span v-else :class="`${prefixCls}-switcher-icon`" @click="onClick">
-      <VNodeRenderer :content="icon" />
+      <ReuseSwitcherIcon />
     </span>
   </template>
 </template>
 
 <script setup lang="ts">
   import type { PropType, VNode, VNodeChild } from 'vue';
-  import { computed, h, useSlots } from 'vue';
+  import { computed, useSlots } from 'vue';
+
+  import { createReusableTemplate } from '@vueuse/core';
 
   import IconHover from '../_components/icon-hover.vue';
   import usePickSlots from '../_hooks/use-pick-slots';
@@ -53,6 +65,7 @@
   const emit = defineEmits(['click']);
 
   const slots = useSlots();
+  const [DefineSwitcherIcon, ReuseSwitcherIcon] = createReusableTemplate();
   const nodeSwitcherIcon = usePickSlots(slots, 'switcher-icon');
   const nodeLoadingIcon = usePickSlots(slots, 'loading-icon');
   const treeContext = useTreeContext();
@@ -76,22 +89,9 @@
     return !isLeaf && !props.showLine;
   });
 
-  // Resolves the switcher icon: a custom icon (slot/context) wins over the
-  // default built-in icon (caret for expandable nodes, file for showLine leaves).
-  const icon = computed<VNodeChild | null>(() => {
-    const { expanded, isLeaf } = props.nodeStatus ?? {};
-    const custom = switcherIconVNode.value;
-    if (!isLeaf) {
-      if (custom) return custom;
-      return props.showLine
-        ? h('span', { class: `${props.prefixCls}-${expanded ? 'minus' : 'plus'}-icon` })
-        : h(IconCaretDown);
-    }
-    if (props.showLine) {
-      return custom ?? h(IconFile);
-    }
-    return custom ?? null;
-  });
+  const hasIcon = computed(
+    () => Boolean(switcherIconVNode.value) || !props.nodeStatus?.isLeaf || props.showLine,
+  );
 
   const onClick = (e: Event) => emit('click', e);
 </script>
