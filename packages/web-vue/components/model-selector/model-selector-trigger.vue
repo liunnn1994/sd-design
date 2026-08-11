@@ -17,11 +17,8 @@
 </template>
 
 <script setup lang="ts">
-  import { defineComponent, h } from 'vue';
-
   import { getPrefixCls } from '../_utils/global-config';
-  import { mergeFirstChild } from '../_utils/vue-utils';
-  import Button from '../button';
+  import TriggerElement from './model-selector-trigger-element.vue';
   import { useModelSelectorContext } from './use-model-selector-context';
 
   defineOptions({ name: 'ModelSelectorTrigger' });
@@ -46,21 +43,6 @@
       visible: boolean;
     }): unknown;
   }>();
-
-  const TriggerElement = defineComponent({
-    name: 'ModelSelectorTriggerElement',
-    inheritAttrs: false,
-    setup: (_, { attrs, slots }) => {
-      return () => {
-        const children = slots.default?.() ?? [];
-        if (mergeFirstChild(children, attrs)) {
-          return children;
-        }
-
-        return h(Button, attrs, { default: () => children });
-      };
-    },
-  });
 
   const prefixCls = getPrefixCls('model-selector-trigger');
   const context = useModelSelectorContext('ModelSelectorTrigger');
