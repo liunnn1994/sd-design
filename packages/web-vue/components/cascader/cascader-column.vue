@@ -1,14 +1,14 @@
 <template>
-  <DefineOption v-slot="{ item }">
-    <CascaderOption
-      :option="item"
-      :active="selectedPath.includes(item.key) || item.key === activeKey"
-      :multiple="multiple"
-      :check-strictly="checkStrictly"
-    />
-  </DefineOption>
-
   <div :class="`${prefixCls}-panel-column`" :style="{ zIndex: totalLevel - level }" v-bind="$attrs">
+    <DefineOption v-slot="{ item }">
+      <CascaderOption
+        :option="item"
+        :active="selectedPath.includes(item.key) || item.key === activeKey"
+        :multiple="multiple"
+        :check-strictly="checkStrictly"
+      />
+    </DefineOption>
+
     <Scrollbar v-if="column.length === 0" :class="`${prefixCls}-column-content`">
       <div :class="`${prefixCls}-list-empty`">
         <slot v-if="$slots.empty" name="empty" />

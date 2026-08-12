@@ -21,6 +21,21 @@ const options = [
 const mountCascader = (opts: Record<string, unknown>) => cy.mount(Cascader, opts);
 
 describe('Cascader', () => {
+  it('opens without a transition root warning', () => {
+    cy.window().then((win) => {
+      cy.spy(win.console, 'warn').as('consoleWarn');
+    });
+
+    mountCascader({ props: { options } });
+    cy.get('input').click();
+    cy.get('.sd-cascader-dropdown-panel').should('be.visible');
+    cy.get('@consoleWarn').should((consoleWarn) => {
+      expect(consoleWarn).not.to.have.been.calledWithMatch(
+        Cypress.sinon.match('Component inside <Transition> renders non-element root node'),
+      );
+    });
+  });
+
   it('opens the panel from a custom trigger slot', () => {
     mountCascader({
       props: { options, defaultValue: 'haidian' },
