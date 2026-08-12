@@ -68,6 +68,7 @@
       uninjectGroupContext?: boolean;
     }>(),
     {
+      modelValue: undefined,
       defaultChecked: false,
       value: true,
       type: 'radio',

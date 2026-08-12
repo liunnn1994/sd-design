@@ -62,6 +62,7 @@
       disabled?: boolean;
     }>(),
     {
+      modelValue: undefined,
       defaultValue: '',
       type: 'radio',
       direction: 'horizontal',
