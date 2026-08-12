@@ -2331,10 +2331,6 @@ function applySliderTypeFixes(scriptContent) {
   return nextContent;
 }
 
-function applyOverflowListTypeFixes(source) {
-  return source.replace(/<sd-form\s+auto-label-width>/g, '<sd-form :auto-label-width="true">');
-}
-
 function applyMenuTypeFixes(scriptContent) {
   let nextContent = ensureImportSpecifiers(
     scriptContent,
@@ -2845,10 +2841,6 @@ function applyTypedScriptSetupFixes(source, relativePath) {
 
   if (relativePath.includes('/slider/')) {
     nextScriptContent = applySliderTypeFixes(nextScriptContent);
-  }
-
-  if (relativePath.includes('/overflow-list/')) {
-    nextSource = applyOverflowListTypeFixes(nextSource);
   }
 
   if (relativePath.includes('/menu/')) {

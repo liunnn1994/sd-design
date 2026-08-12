@@ -739,8 +739,6 @@ export type {
   UploadInstance,
   UploadRequest,
 } from './upload';
-export { default as OverflowList } from './overflow-list';
-export type { OverflowListInstance } from './overflow-list';
 export { default as VerificationCode } from './verification-code';
 export type { VerificationCodeInstance } from './verification-code';
 export { default as Watermark } from './watermark';

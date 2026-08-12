@@ -377,10 +377,6 @@ export const docsSidebar = [
             label: '提及 Mention',
           },
           {
-            slug: 'components/overflow-list',
-            label: '折叠列表 OverflowList',
-          },
-          {
             slug: 'components/radio',
             label: '单选框 Radio',
           },

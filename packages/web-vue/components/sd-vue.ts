@@ -59,7 +59,6 @@ import Message from './message';
 import Modal from './modal';
 import ModelSelector from './model-selector';
 import Notification from './notification';
-import OverflowList from './overflow-list';
 import PageHeader from './page-header';
 import Pagination from './pagination';
 import Popconfirm from './popconfirm';
@@ -198,7 +197,6 @@ const components: Record<string, Plugin> = {
   Trigger,
   Split,
   Icon,
-  OverflowList,
   Watermark,
   VerificationCode,
 };
