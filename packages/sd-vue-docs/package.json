@@ -5,9 +5,9 @@
   "description": "SD Design 文档站",
   "type": "module",
   "scripts": {
-    "dev": "pnpm run docs:vendor && astro dev --host",
-    "dev:serve": "astro dev --host",
-    "start": "pnpm run docs:vendor && astro dev --host",
+    "dev": "pnpm run docs:vendor && astro dev --host --force",
+    "dev:serve": "astro dev --host --force",
+    "start": "pnpm run docs:vendor && astro dev --host --force",
     "build": "pnpm run docs:vendor && astro build",
     "build:site": "astro build",
     "typecheck": "vue-tsc --noEmit -p tsconfig.vue-tsc.json",
