@@ -1,20 +1,5 @@
 <template>
-  <DefineUploadButton v-slot="{ rootAttrs }">
-    <span
-      v-if="props.tip && props.listType !== 'picture-card' && !props.draggable"
-      v-bind="rootAttrs"
-    >
-      <UploadButton v-bind="uploadButtonProps">
-        <slot name="upload-button" />
-      </UploadButton>
-      <div :class="`${prefixCls}-tip`">{{ props.tip }}</div>
-    </span>
-    <UploadButton v-else v-bind="getUploadButtonProps(rootAttrs)">
-      <slot name="upload-button" />
-    </UploadButton>
-  </DefineUploadButton>
-
-  <ReuseUploadButton v-if="!props.showFileList && props.showUploadButton" :root-attrs="attrs" />
+  <UploadButtonRenderer v-if="!props.showFileList && props.showUploadButton" :root-attrs="attrs" />
   <div v-else-if="props.showFileList" v-bind="wrapperAttrs">
     <ImagePreviewGroup
       v-if="props.imagePreview && imageList.length > 0"
@@ -24,9 +9,9 @@
       @change="handleImagePreviewChange"
       @visible-change="handleImagePreviewVisibleChange"
     />
-    <ReuseUploadButton v-if="props.listType !== 'picture-card' && props.showUploadButton" />
+    <UploadButtonRenderer v-if="props.listType !== 'picture-card' && props.showUploadButton" />
     <UploadList :file-list="innerFileList" :list-type="props.listType">
-      <template #upload-button><ReuseUploadButton /></template>
+      <template #upload-button><UploadButtonRenderer /></template>
       <template v-if="$slots['upload-item']" #upload-item="slotProps">
         <slot name="upload-item" v-bind="slotProps" />
       </template>
@@ -37,6 +22,8 @@
 <script setup lang="ts">
   import {
     computed,
+    defineComponent,
+    h,
     provide,
     reactive,
     ref,
@@ -46,8 +33,6 @@
     watch,
     type PropType,
   } from 'vue';
-
-  import { createReusableTemplate } from '@vueuse/core';
 
   import type { CustomIcon, FileItem, ListType, RequestOption, UploadRequest } from './interfaces';
 
@@ -133,9 +118,6 @@
   const innerFileList = ref<FileItem[]>([]);
   const fileMap = new Map<string, FileItem>();
   const requestMap = new Map<string, UploadRequest>();
-  const [DefineUploadButton, ReuseUploadButton] = createReusableTemplate<{
-    rootAttrs?: Record<string, unknown>;
-  }>();
   const isMax = computed(() => props.limit > 0 && innerFileList.value.length >= props.limit);
 
   const checkFileList = (fileList?: FileItem[]) => {
@@ -376,9 +358,30 @@
     accept: mergedAccept.value,
     onButtonClick: props.onButtonClick,
   }));
-  const getUploadButtonProps = (rootAttrs?: Record<string, unknown>) => ({
-    ...uploadButtonProps.value,
-    ...rootAttrs,
+  const UploadButtonRenderer = defineComponent({
+    name: 'UploadButtonRenderer',
+    inheritAttrs: false,
+    props: {
+      rootAttrs: Object as PropType<Record<string, unknown>>,
+    },
+    setup(renderProps) {
+      const renderButton = (rootAttrs?: Record<string, unknown>) =>
+        h(
+          UploadButton,
+          { ...uploadButtonProps.value, ...rootAttrs },
+          slots['upload-button'] ? { default: slots['upload-button'] } : undefined,
+        );
+
+      return () => {
+        if (props.tip && props.listType !== 'picture-card' && !props.draggable) {
+          return h('span', renderProps.rootAttrs, [
+            renderButton(),
+            h('div', { class: `${prefixCls}-tip` }, props.tip),
+          ]);
+        }
+        return renderButton(renderProps.rootAttrs);
+      };
+    },
   });
   const wrapperAttrs = computed(() => ({
     ...attrs,

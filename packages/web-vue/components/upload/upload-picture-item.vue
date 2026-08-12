@@ -1,18 +1,17 @@
 <template>
-  <DefineAction v-slot="{ action, className, label }">
-    <span
-      :class="[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-${className}`]"
-      role="button"
-      tabindex="0"
-      :aria-label="label"
-      @click="action"
-      @keydown="onActionKeydown(action)"
-    >
-      <slot />
-    </span>
-  </DefineAction>
-
   <span :class="cls">
+    <DefineAction v-slot="{ action, className, label }">
+      <span
+        :class="[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-${className}`]"
+        role="button"
+        tabindex="0"
+        :aria-label="label"
+        @click="action"
+        @keydown="onActionKeydown(action)"
+      >
+        <slot />
+      </span>
+    </DefineAction>
     <UploadProgress v-if="file.status === 'uploading'" :file="file" list-type="picture-card" />
     <template v-else>
       <component :is="uploadCtx.slots.image" v-if="uploadCtx?.slots.image" :file-item="file" />

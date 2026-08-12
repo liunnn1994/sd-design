@@ -5,11 +5,11 @@
 $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
 
 .#{$upload-prefix-cls} {
-  display: block;
+  display: inline-block;
   max-width: 100%;
   cursor: pointer;
 
-  .#{$upload-prefix-cls}.#{$upload-prefix-cls}-draggable {
+  &.#{$upload-prefix-cls}-draggable {
     width: 100%;
   }
 
@@ -107,7 +107,7 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
   &-wrapper {
     width: 100%;
 
-    .#{$upload-prefix-cls}-wrapper.#{$upload-prefix-cls}-wrapper-type-picture-card {
+    &.#{$upload-prefix-cls}-wrapper-type-picture-card {
       display: flex;
       justify-content: flex-start;
     }
@@ -195,8 +195,8 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
   padding: 0;
   list-style: none;
 
-  .#{$upload-prefix-cls}-list.#{$upload-prefix-cls}-list-type-text,
-  .#{$upload-prefix-cls}-list.#{$upload-prefix-cls}-list-type-picture {
+  &.#{$upload-prefix-cls}-list-type-text,
+  &.#{$upload-prefix-cls}-list-type-picture {
     width: 100%;
 
     .#{$upload-prefix-cls}-list-item:first-of-type {
@@ -334,7 +334,7 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
   }
 
   /*** end ****/
-  .#{$upload-prefix-cls}-list.#{$upload-prefix-cls}-list-type-picture-card {
+  &.#{$upload-prefix-cls}-list-type-picture-card {
     display: flex;
     flex-wrap: wrap;
     vertical-align: top;

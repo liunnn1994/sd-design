@@ -7,18 +7,41 @@ describe('Upload', () => {
     });
     cy.mount(Upload, {
       props: {
+        listType: 'picture-card',
         defaultFileList: [
           { uid: '1', name: 'done.png', status: 'done', url: 'data:image/svg+xml,%3Csvg/%3E' },
           { uid: '2', name: 'failed.png', status: 'error' },
         ],
       },
     });
-    cy.get('.sd-upload-list-item').should('have.length', 2);
+    cy.get('.sd-upload-list-picture').should('have.length', 2);
     cy.get('@consoleWarn').should((consoleWarn) => {
       expect(consoleWarn).not.to.have.been.calledWithMatch(
         Cypress.sinon.match('Component inside <Transition> renders non-element root node'),
       );
     });
+  });
+
+  it('renders the default upload button when no upload-button slot is provided', () => {
+    cy.mount(Upload);
+
+    cy.get('.sd-upload button').should('contain.text', '点击上传');
+  });
+
+  it('forwards root attributes without leaking the reusable-template binding', () => {
+    cy.mount(Upload, {
+      props: {
+        showFileList: false,
+        class: 'avatar-upload',
+      },
+      slots: {
+        'upload-button': '<div class="custom-upload-button">Upload</div>',
+      },
+    });
+
+    cy.get('.sd-upload').should('have.class', 'avatar-upload');
+    cy.get('.sd-upload').should('not.have.attr', 'root-attrs');
+    cy.get('.sd-upload .custom-upload-button').should('be.visible');
   });
 
   it('renders an accessible remove button for a listed file', () => {
