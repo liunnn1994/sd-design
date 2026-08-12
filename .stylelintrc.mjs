@@ -32,6 +32,8 @@ export default {
       customSyntax: 'postcss-scss',
       rules: {
         'annotation-no-unknown': null,
+        // Oxfmt owns SCSS whitespace and keeps `} @else {` on one line.
+        'at-rule-empty-line-before': null,
         'at-rule-prelude-no-invalid': null,
         'nesting-selector-no-missing-scoping-root': null,
         'scss/declaration-property-value-no-unknown': true,
