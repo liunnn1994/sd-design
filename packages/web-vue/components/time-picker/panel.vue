@@ -54,7 +54,7 @@
   </div>
   <div v-if="!hideFooter" :class="`${prefixCls}-footer-btn-wrapper`">
     <Button v-if="!isRange" size="mini" @click="onSelectNow">
-      {{ t('datePicker.Now') }}
+      {{ t('datePicker.now') }}
     </Button>
     <Button
       type="primary"

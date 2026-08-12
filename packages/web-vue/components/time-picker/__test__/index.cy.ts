@@ -24,3 +24,11 @@ describe('TimePicker custom trigger', () => {
     });
   });
 });
+
+describe('TimePicker locale', () => {
+  it('renders the localized now label', () => {
+    cy.mount(TimePicker, { props: { defaultPopupVisible: true } });
+    cy.get('.sd-timepicker-footer-btn-wrapper').should('contain.text', '此刻');
+    cy.get('.sd-timepicker-footer-btn-wrapper').should('not.contain.text', 'datePicker.Now');
+  });
+});
