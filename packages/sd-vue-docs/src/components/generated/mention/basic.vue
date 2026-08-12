@@ -1,5 +1,5 @@
 <template>
-  <sd-space direction="vertical" size="large" class="sd:w-full">
+  <div class="sd:flex sd:w-full sd:flex-col sd:gap-6">
     <sd-mention
       v-model="value"
       :data="['Bytedance', 'Bytedesign', 'Bytenumner']"
@@ -11,7 +11,7 @@
       type="textarea"
       placeholder="enter something"
     />
-  </sd-space>
+  </div>
 </template>
 
 <script setup lang="ts">
