@@ -7,7 +7,7 @@
       <sd-slider v-model="form.width" :min="0" :max="800" />
     </sd-form-item>
   </sd-form>
-  <div class="overflow-host sd:mt-5">
+  <div class="overflow-host sd:mt-5" :style="{ width: widthPx }">
     <sd-overflow-list>
       <div>DIV Element</div>
       <sd-tag v-for="item of tags" :key="item">Tag{{ item }}</sd-tag>
@@ -25,9 +25,3 @@
   const tags = computed(() => Array.from({ length: form.number }, (_, idx) => idx + 1));
   const widthPx = computed(() => `${form.width}px`);
 </script>
-
-<style scoped>
-  .overflow-host {
-    width: v-bind('widthPx');
-  }
-</style>
