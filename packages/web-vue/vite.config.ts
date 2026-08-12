@@ -168,7 +168,7 @@ function createIconModuleBuildConfig(): UserConfig {
         output: {
           format: 'es',
           entryFileNames: 'icon.js',
-          inlineDynamicImports: true,
+          codeSplitting: false,
         },
       },
       lib: {
