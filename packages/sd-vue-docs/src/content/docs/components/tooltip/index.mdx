@@ -10,6 +10,8 @@ import TooltipColorDemo from '../../../../components/generated/tooltip/color.vue
 import tooltipColorSource from '../../../../components/generated/tooltip/color.vue?raw';
 import TooltipMiniDemo from '../../../../components/generated/tooltip/mini.vue';
 import tooltipMiniSource from '../../../../components/generated/tooltip/mini.vue?raw';
+import TooltipMouseThroughDemo from '../../../../components/generated/tooltip/mouse-through.vue';
+import tooltipMouseThroughSource from '../../../../components/generated/tooltip/mouse-through.vue?raw';
 import TooltipPositionDemo from '../../../../components/generated/tooltip/position.vue';
 import tooltipPositionSource from '../../../../components/generated/tooltip/position.vue?raw';
 
@@ -20,6 +22,16 @@ import tooltipPositionSource from '../../../../components/generated/tooltip/posi
 <DemoBlock source={tooltipBasicSource} mainFile="src/tooltip-basic.vue">
 
 <TooltipBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 鼠标穿透
+
+文字气泡默认允许鼠标穿透，离开触发元素后会自动隐藏。设置 `mouse-through="false"` 后，鼠标可以移入气泡并保持显示。
+
+<DemoBlock source={tooltipMouseThroughSource} mainFile="src/tooltip-mouse-through.vue">
+
+<TooltipMouseThroughDemo client:only="vue" />
 
 </DemoBlock>
 
@@ -64,6 +76,7 @@ import tooltipPositionSource from '../../../../components/generated/tooltip/posi
 | popup-visible **(v-model)** | 文字气泡是否可见 | `boolean` | `-` |
 | default-popup-visible | 文字气泡默认是否可见（非受控模式） | `boolean` | `false` |
 | disabled | 文字气泡是否禁用 | `boolean` | `false` |
+| mouse-through | 鼠标是否穿透文字气泡 | `boolean` | `true` |
 | content | 文字气泡内容 | `string` | `-` |
 | position | 弹出位置 | `'top' \| 'tl' \| 'tr' \| 'bottom' \| 'bl' \| 'br' \| 'left' \| 'lt' \| 'lb' \| 'right' \| 'rt' \| 'rb'` | `'top'` |
 | mini | 是否展示为迷你尺寸 | `boolean` | `false` |

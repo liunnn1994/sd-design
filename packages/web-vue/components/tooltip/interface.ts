@@ -27,6 +27,11 @@ export interface TooltipProps {
    */
   disabled?: boolean;
   /**
+   * @zh 鼠标是否穿透文字气泡
+   * @en Whether pointer events pass through the tooltip
+   */
+  mouseThrough?: boolean;
+  /**
    * @zh 文字气泡内容
    * @en Tooltip content
    */

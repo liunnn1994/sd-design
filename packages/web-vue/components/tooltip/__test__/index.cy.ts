@@ -41,6 +41,26 @@ describe('Tooltip', () => {
     });
   });
 
+  it('allows mouse events to pass through by default', () => {
+    cy.mount(Tooltip, {
+      props: { defaultPopupVisible: true, renderToBody: false },
+      slots: { default: '<button>Button</button>', content: 'Content' },
+    });
+    cy.get('.sd-tooltip')
+      .should('have.class', 'sd-tooltip-mouse-through')
+      .and('have.css', 'pointer-events', 'none');
+  });
+
+  it('allows interacting with the tooltip when mouseThrough is false', () => {
+    cy.mount(Tooltip, {
+      props: { defaultPopupVisible: true, mouseThrough: false, renderToBody: false },
+      slots: { default: '<button>Button</button>', content: 'Content' },
+    });
+    cy.get('.sd-tooltip')
+      .should('not.have.class', 'sd-tooltip-mouse-through')
+      .and('have.css', 'pointer-events', 'auto');
+  });
+
   it('wires aria-describedby on the trigger to the role=tooltip popup', () => {
     cy.mount(Tooltip, {
       props: { defaultPopupVisible: true, renderToBody: false },

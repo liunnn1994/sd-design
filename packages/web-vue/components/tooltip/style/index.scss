@@ -2,6 +2,10 @@
 @use '@components/tooltip/style/token.scss' as *;
 
 .#{theme.$prefix}-tooltip {
+  &-mouse-through {
+    pointer-events: none;
+  }
+
   &-content {
     max-width: 350px;
     padding: $tooltip-padding-vertical $tooltip-padding-horizontal;

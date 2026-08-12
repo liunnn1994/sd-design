@@ -1,6 +1,6 @@
 <template>
   <Trigger
-    :class="prefixCls"
+    :class="[prefixCls, { [`${prefixCls}-mouse-through`]: mouseThrough }]"
     trigger="hover"
     :position="position"
     :popup-visible="computedPopupVisible"
@@ -40,6 +40,7 @@
     popupVisible: undefined,
     defaultPopupVisible: false,
     disabled: false,
+    mouseThrough: true,
     position: 'top',
     mini: false,
   });

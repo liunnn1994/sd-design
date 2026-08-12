@@ -674,7 +674,7 @@
       ...mergedPopupStyle.value,
       ...(isPositioned.value ? {} : { visibility: 'hidden' }),
       zIndex: zIndex.value,
-      pointerEvents: isAnimation.value ? 'none' : 'auto',
+      pointerEvents: isAnimation.value ? 'none' : undefined,
     },
     'trigger-placement': popupPosition.value,
     ...popupAttrs.value,
