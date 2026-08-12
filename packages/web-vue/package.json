@@ -100,7 +100,7 @@
     "motion-v": "^2.3.0",
     "number-precision": "^1.6.0",
     "overlayscrollbars": "^2.16.0",
-    "pdfjs-dist": "^6.1.200",
+    "pdfjs-dist": "^6.2.108",
     "qrcode": "^1.5.4",
     "recorder-core": "^1.3.26070800",
     "resize-observer-polyfill": "^1.5.1",
@@ -110,7 +110,7 @@
     "vue-draggable-plus": "^0.6.1"
   },
   "devDependencies": {
-    "@babel/types": "^7.29.7",
+    "@babel/types": "^7.29.8",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/exec": "^7.1.0",
@@ -127,15 +127,15 @@
     "cypress": "15.18.0",
     "fast-glob": "^3.3.3",
     "glob": "^13.0.6",
-    "sass": "^1.101.0",
-    "semantic-release": "^25.0.7",
+    "sass": "^1.102.0",
+    "semantic-release": "^25.0.9",
     "svgo": "^4.0.2",
     "type-fest": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:",
     "vue-docgen-api": "4.79.2",
-    "vue-tsc": "^3.3.7"
+    "vue-tsc": "^3.3.9"
   },
   "peerDependencies": {
     "vue": "catalog:"

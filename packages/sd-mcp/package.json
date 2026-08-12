@@ -55,7 +55,7 @@
     "zod": "4.4.3"
   },
   "devDependencies": {
-    "@babel/types": "^7.29.7",
+    "@babel/types": "^7.29.8",
     "@modelcontextprotocol/client": "2.0.0",
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/exec": "^7.1.0",
@@ -63,8 +63,8 @@
     "@semantic-release/release-notes-generator": "^14.1.1",
     "@types/node": "~24.13.3",
     "fast-glob": "^3.3.3",
-    "semantic-release": "^25.0.7",
-    "tsdown": "^0.22.9",
+    "semantic-release": "^25.0.9",
+    "tsdown": "^0.22.14",
     "typescript": "catalog:",
     "vue-docgen-api": "4.79.2"
   },
