@@ -1,18 +1,14 @@
 <template>
-  <sd-space direction="vertical" fill>
-    <sd-typography-text type="secondary">
+  <div>
+    <sd-typography-text type="secondary" class="sd:mb-2 sd:block">
       拖拽右侧手柄，观察标签组如何根据容器宽度自动折叠。
     </sd-typography-text>
-    <sd-resize-box
-      v-model:width="width"
-      :directions="['right']"
-      class="sd:min-w-25 sd:max-w-full sd:p-2"
-    >
+    <sd-resize-box v-model:width="width" :directions="['right']" class="sd:min-w-25 sd:p-2">
       <div class="sd:w-full">
         <sd-tag-group :options="options" />
       </div>
     </sd-resize-box>
-  </sd-space>
+  </div>
 </template>
 
 <script setup lang="ts">
