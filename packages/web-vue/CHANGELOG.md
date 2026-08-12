@@ -12,237 +12,205 @@
 
 # [3.29.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.28.0...web-vue-v3.29.0) (2026-08-06)
 
-
 ### Features
 
-* 🆕 crud 组件新增 action_middle slot ([7553a9d](https://github.com/liunnn1994/sd-design/commit/7553a9d0d599213544ff7867c377cd4cd31c5ab7))
-* 🆕 新增开始按钮的显隐 ([6d8c12d](https://github.com/liunnn1994/sd-design/commit/6d8c12de93835bd9ecd2bfa1c9d55659a69540c4))
+- 🆕 crud 组件新增 action_middle slot ([7553a9d](https://github.com/liunnn1994/sd-design/commit/7553a9d0d599213544ff7867c377cd4cd31c5ab7))
+- 🆕 新增开始按钮的显隐 ([6d8c12d](https://github.com/liunnn1994/sd-design/commit/6d8c12de93835bd9ecd2bfa1c9d55659a69540c4))
 
 # [3.28.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.27.0...web-vue-v3.28.0) (2026-08-06)
 
-
 ### Bug Fixes
 
-* 🐛 修复错误的样式 ([2798b88](https://github.com/liunnn1994/sd-design/commit/2798b88d313fb75461f1f1a2331e2951c2f327dd))
-
+- 🐛 修复错误的样式 ([2798b88](https://github.com/liunnn1994/sd-design/commit/2798b88d313fb75461f1f1a2331e2951c2f327dd))
 
 ### Features
 
-* 🆕 新增 InputMask 组件 ([bafc2ea](https://github.com/liunnn1994/sd-design/commit/bafc2ea04a3ae966c1a8ffdf7d2f00e2d8cd5a1d))
-* 🆕 给crud的按钮/link添加props ([54b3fc3](https://github.com/liunnn1994/sd-design/commit/54b3fc36363079685ed5ac36a765f06cb4f587f2))
+- 🆕 新增 InputMask 组件 ([bafc2ea](https://github.com/liunnn1994/sd-design/commit/bafc2ea04a3ae966c1a8ffdf7d2f00e2d8cd5a1d))
+- 🆕 给crud的按钮/link添加props ([54b3fc3](https://github.com/liunnn1994/sd-design/commit/54b3fc36363079685ed5ac36a765f06cb4f587f2))
 
 # [3.27.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.26.0...web-vue-v3.27.0) (2026-08-05)
 
-
 ### Features
 
-* 🆕 新增思考球组件 ([f046d1e](https://github.com/liunnn1994/sd-design/commit/f046d1e9317d0a5dded6212efdb933077862a384))
-* 🆕 移除不再维护的语言，仅保留简体中文和英文 ([67c63d3](https://github.com/liunnn1994/sd-design/commit/67c63d379f5a8aeeba461665b6403b6e9908a19d))
+- 🆕 新增思考球组件 ([f046d1e](https://github.com/liunnn1994/sd-design/commit/f046d1e9317d0a5dded6212efdb933077862a384))
+- 🆕 移除不再维护的语言，仅保留简体中文和英文 ([67c63d3](https://github.com/liunnn1994/sd-design/commit/67c63d379f5a8aeeba461665b6403b6e9908a19d))
 
 # [3.26.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.25.0...web-vue-v3.26.0) (2026-07-30)
 
-
 ### Features
 
-* 🆕 更新 mcp，支持 `2026-07-28` 协议并兼容旧版握手 ([7c85920](https://github.com/liunnn1994/sd-design/commit/7c85920aa50302452238cefc132d325b40a1df48))
+- 🆕 更新 mcp，支持 `2026-07-28` 协议并兼容旧版握手 ([7c85920](https://github.com/liunnn1994/sd-design/commit/7c85920aa50302452238cefc132d325b40a1df48))
 
 # [3.25.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.24.1...web-vue-v3.25.0) (2026-07-30)
 
-
 ### Features
 
-* 🆕 模型选择器组件新增自定义触发器功能 ([db7265c](https://github.com/liunnn1994/sd-design/commit/db7265ceef65566b08452788867120878eb8c305))
+- 🆕 模型选择器组件新增自定义触发器功能 ([db7265c](https://github.com/liunnn1994/sd-design/commit/db7265ceef65566b08452788867120878eb8c305))
 
 ## [3.24.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.24.0...web-vue-v3.24.1) (2026-07-30)
 
-
 ### Bug Fixes
 
-* 🐛 修复深色模式没有适配的问题 ([e55a0ba](https://github.com/liunnn1994/sd-design/commit/e55a0ba9dafc8e3bb724614b62cd119f7ba4b262))
+- 🐛 修复深色模式没有适配的问题 ([e55a0ba](https://github.com/liunnn1994/sd-design/commit/e55a0ba9dafc8e3bb724614b62cd119f7ba4b262))
 
 # [3.24.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.23.0...web-vue-v3.24.0) (2026-07-29)
 
-
 ### Bug Fixes
 
-* 🐛 修复富文本编辑器潜在的性能问题 ([86560da](https://github.com/liunnn1994/sd-design/commit/86560da938ccd265d08b0b48f9de21d348005d5a))
-* 🐛 由于 recorder-core 的类型都是 any，在这添加一个兜底的类型避免警告 ([0a60ee3](https://github.com/liunnn1994/sd-design/commit/0a60ee37b5ceddd185655b28f737a5067d722e93))
-
+- 🐛 修复富文本编辑器潜在的性能问题 ([86560da](https://github.com/liunnn1994/sd-design/commit/86560da938ccd265d08b0b48f9de21d348005d5a))
+- 🐛 由于 recorder-core 的类型都是 any，在这添加一个兜底的类型避免警告 ([0a60ee3](https://github.com/liunnn1994/sd-design/commit/0a60ee37b5ceddd185655b28f737a5067d722e93))
 
 ### Features
 
-* 🆕 新增模型选择组件 ([c267ad8](https://github.com/liunnn1994/sd-design/commit/c267ad866fd7b024830dfe8c4275c11cb58eac52))
+- 🆕 新增模型选择组件 ([c267ad8](https://github.com/liunnn1994/sd-design/commit/c267ad866fd7b024830dfe8c4275c11cb58eac52))
 
 # [3.23.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.22.3...web-vue-v3.23.0) (2026-07-29)
 
-
 ### Features
 
-* 🆕 使用 recorder-core 替换自封装的逻辑 ([2997598](https://github.com/liunnn1994/sd-design/commit/2997598412a40da4324dd80b6eeb8c78daf3fc98))
+- 🆕 使用 recorder-core 替换自封装的逻辑 ([2997598](https://github.com/liunnn1994/sd-design/commit/2997598412a40da4324dd80b6eeb8c78daf3fc98))
 
 ## [3.22.3](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.22.2...web-vue-v3.22.3) (2026-07-29)
 
-
 ### Bug Fixes
 
-* 🐛 修复卡死渲染进程的问题 ([de3f9cc](https://github.com/liunnn1994/sd-design/commit/de3f9cc787338442e1acb3659387b3d9de018295))
+- 🐛 修复卡死渲染进程的问题 ([de3f9cc](https://github.com/liunnn1994/sd-design/commit/de3f9cc787338442e1acb3659387b3d9de018295))
 
 ## [3.22.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.22.1...web-vue-v3.22.2) (2026-07-29)
 
-
 ### Bug Fixes
 
-* 🐛 修复 AudioWorklet 互斥的问题 ([e35a8cd](https://github.com/liunnn1994/sd-design/commit/e35a8cd341531912580507a7c7a22836ab2335e3))
+- 🐛 修复 AudioWorklet 互斥的问题 ([e35a8cd](https://github.com/liunnn1994/sd-design/commit/e35a8cd341531912580507a7c7a22836ab2335e3))
 
 ## [3.22.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.22.0...web-vue-v3.22.1) (2026-07-29)
 
-
 ### Bug Fixes
 
-* 🐛 修复 AudioContext 没有复用导致卡死的问题 ([3493b78](https://github.com/liunnn1994/sd-design/commit/3493b788d9baa3c8d3089170503ca39f20d08764))
+- 🐛 修复 AudioContext 没有复用导致卡死的问题 ([3493b78](https://github.com/liunnn1994/sd-design/commit/3493b788d9baa3c8d3089170503ca39f20d08764))
 
 # [3.22.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.21.0...web-vue-v3.22.0) (2026-07-28)
 
-
 ### Features
 
-* 🆕 为下拉组件添加 ellipsis 支持 ([6e57eab](https://github.com/liunnn1994/sd-design/commit/6e57eaba60693b7f2091bbd989a0162b697ab9d3))
+- 🆕 为下拉组件添加 ellipsis 支持 ([6e57eab](https://github.com/liunnn1994/sd-design/commit/6e57eaba60693b7f2091bbd989a0162b697ab9d3))
 
 # [3.21.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.20.0...web-vue-v3.21.0) (2026-07-28)
 
-
 ### Features
 
-* 🆕 Cascader、TimePicker、ColorPicker、DatePicker 全系列添加自定义元素功能 ([e39d9c2](https://github.com/liunnn1994/sd-design/commit/e39d9c241ecc55e82b2955ceda74491ff0c84a72))
-* 🆕 移除package.json中的版本号，由tag决定版本 ([832310c](https://github.com/liunnn1994/sd-design/commit/832310c41d38c39196be161cf156cb6e61acf01f))
+- 🆕 Cascader、TimePicker、ColorPicker、DatePicker 全系列添加自定义元素功能 ([e39d9c2](https://github.com/liunnn1994/sd-design/commit/e39d9c241ecc55e82b2955ceda74491ff0c84a72))
+- 🆕 移除package.json中的版本号，由tag决定版本 ([832310c](https://github.com/liunnn1994/sd-design/commit/832310c41d38c39196be161cf156cb6e61acf01f))
 
 # [3.20.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.19.0...web-vue-v3.20.0) (2026-07-28)
 
-
 ### Features
 
-* 🆕 spin 添加 delay 参数 ([35b4c32](https://github.com/liunnn1994/sd-design/commit/35b4c32398cfe98610c6d86524a7f9fe5e963748))
-* 🆕 不再支持浏览器自带的语音识别，改为语音采集 ([57f04c5](https://github.com/liunnn1994/sd-design/commit/57f04c5dc53399fefe23f51e5c0889bb49f10b71))
-* 🆕 新增定义 suffix 位置的功能 ([3c37fa5](https://github.com/liunnn1994/sd-design/commit/3c37fa5c5ec75b702eee7c6e02cae4157c01796a))
+- 🆕 spin 添加 delay 参数 ([35b4c32](https://github.com/liunnn1994/sd-design/commit/35b4c32398cfe98610c6d86524a7f9fe5e963748))
+- 🆕 不再支持浏览器自带的语音识别，改为语音采集 ([57f04c5](https://github.com/liunnn1994/sd-design/commit/57f04c5dc53399fefe23f51e5c0889bb49f10b71))
+- 🆕 新增定义 suffix 位置的功能 ([3c37fa5](https://github.com/liunnn1994/sd-design/commit/3c37fa5c5ec75b702eee7c6e02cae4157c01796a))
 
 # [3.19.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.18.0...web-vue-v3.19.0) (2026-07-27)
 
-
 ### Bug Fixes
 
-* 🐛 修复 sender 构建 dts 时的 TS2883 错误 ([f1d5759](https://github.com/liunnn1994/sd-design/commit/f1d57591c9ee49a641e4cf341d3f34afe0a28daa))
-
+- 🐛 修复 sender 构建 dts 时的 TS2883 错误 ([f1d5759](https://github.com/liunnn1994/sd-design/commit/f1d57591c9ee49a641e4cf341d3f34afe0a28daa))
 
 ### Features
 
-* 🆕 sender 词槽模式使用组件库的富文本编辑器 ([44f4d5d](https://github.com/liunnn1994/sd-design/commit/44f4d5dce7f1bec01179b6220bcd6962cc507a46))
-* 🆕 新增 sender 组件 ([21ebb9a](https://github.com/liunnn1994/sd-design/commit/21ebb9a4dd7fa72f9229c312c8b3f93c9086fc66))
-* 🆕 新增fit-width属性 ([6684697](https://github.com/liunnn1994/sd-design/commit/6684697fc9964cf4c6c4c03d940993be2610b7ce))
-* 🆕 新增富文本编辑器 ([5844f8b](https://github.com/liunnn1994/sd-design/commit/5844f8be3c81b43bdbcad38d4f1ade016a8aba3a))
+- 🆕 sender 词槽模式使用组件库的富文本编辑器 ([44f4d5d](https://github.com/liunnn1994/sd-design/commit/44f4d5dce7f1bec01179b6220bcd6962cc507a46))
+- 🆕 新增 sender 组件 ([21ebb9a](https://github.com/liunnn1994/sd-design/commit/21ebb9a4dd7fa72f9229c312c8b3f93c9086fc66))
+- 🆕 新增fit-width属性 ([6684697](https://github.com/liunnn1994/sd-design/commit/6684697fc9964cf4c6c4c03d940993be2610b7ce))
+- 🆕 新增富文本编辑器 ([5844f8b](https://github.com/liunnn1994/sd-design/commit/5844f8be3c81b43bdbcad38d4f1ade016a8aba3a))
 
 # [3.18.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.17.0...web-vue-v3.18.0) (2026-07-24)
 
-
 ### Features
 
-* 🆕 a2ui协议更新到 0.9.1 ([d987ff0](https://github.com/liunnn1994/sd-design/commit/d987ff02fa613c9bb5b351b264c1f10a7eacfddc))
-* 🆕 悬浮组件底层改为 floating-ui 实现 ([e0f0ee8](https://github.com/liunnn1994/sd-design/commit/e0f0ee8d8d4ed83997d8a3c92c2bf62e94192da3))
+- 🆕 a2ui协议更新到 0.9.1 ([d987ff0](https://github.com/liunnn1994/sd-design/commit/d987ff02fa613c9bb5b351b264c1f10a7eacfddc))
+- 🆕 悬浮组件底层改为 floating-ui 实现 ([e0f0ee8](https://github.com/liunnn1994/sd-design/commit/e0f0ee8d8d4ed83997d8a3c92c2bf62e94192da3))
 
 # [3.17.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.16.1...web-vue-v3.17.0) (2026-07-23)
 
-
 ### Bug Fixes
 
-* 🐛 修复 ts 报错 ([306a21d](https://github.com/liunnn1994/sd-design/commit/306a21db3aa375ae67284975ed254167881ba459))
-* 🐛 修复下拉没有数据的时候错误的展现形式 ([f01f59a](https://github.com/liunnn1994/sd-design/commit/f01f59aa7773025cf267c173b68ce2c46148b4b0))
-
+- 🐛 修复 ts 报错 ([306a21d](https://github.com/liunnn1994/sd-design/commit/306a21db3aa375ae67284975ed254167881ba459))
+- 🐛 修复下拉没有数据的时候错误的展现形式 ([f01f59a](https://github.com/liunnn1994/sd-design/commit/f01f59aa7773025cf267c173b68ce2c46148b4b0))
 
 ### Features
 
-* 🆕 按钮组件添加屏幕阅读器兼容 ([d978d9a](https://github.com/liunnn1994/sd-design/commit/d978d9aab9237d0a85bfa8368c015f399d66264a))
-* 🆕 添加 kv-list 组件 ([aae5a79](https://github.com/liunnn1994/sd-design/commit/aae5a79b92d222c59a92ba1cdaf5e641d5b58057))
+- 🆕 按钮组件添加屏幕阅读器兼容 ([d978d9a](https://github.com/liunnn1994/sd-design/commit/d978d9aab9237d0a85bfa8368c015f399d66264a))
+- 🆕 添加 kv-list 组件 ([aae5a79](https://github.com/liunnn1994/sd-design/commit/aae5a79b92d222c59a92ba1cdaf5e641d5b58057))
 
 ## [3.16.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.16.0...web-vue-v3.16.1) (2026-07-20)
 
-
 ### Bug Fixes
 
-* 🐛 修复 crudTable 中没有读取全局配置的问题 ([0274010](https://github.com/liunnn1994/sd-design/commit/0274010224e9d42ea027e5eafb68ad9f8881adf6))
-* 🐛 修复页码选择可清空的bug ([23b480c](https://github.com/liunnn1994/sd-design/commit/23b480c58f17e8ec68a1288c65d9d06d3c6951d7))
+- 🐛 修复 crudTable 中没有读取全局配置的问题 ([0274010](https://github.com/liunnn1994/sd-design/commit/0274010224e9d42ea027e5eafb68ad9f8881adf6))
+- 🐛 修复页码选择可清空的bug ([23b480c](https://github.com/liunnn1994/sd-design/commit/23b480c58f17e8ec68a1288c65d9d06d3c6951d7))
 
 # [3.16.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.15.0...web-vue-v3.16.0) (2026-07-20)
 
-
 ### Bug Fixes
 
-* 🐛 修复错误的组件引用 ([bb97a05](https://github.com/liunnn1994/sd-design/commit/bb97a05a57d49cba38af62670f22bd51dfa66e08))
-
+- 🐛 修复错误的组件引用 ([bb97a05](https://github.com/liunnn1994/sd-design/commit/bb97a05a57d49cba38af62670f22bd51dfa66e08))
 
 ### Features
 
-* 🆕 crud table 添加 fullheight 参数 ([48b39dc](https://github.com/liunnn1994/sd-design/commit/48b39dc2fd125f096ded118c006337d538525052))
-* 🆕 为 colorPicker 添加全局配置 ([bbad681](https://github.com/liunnn1994/sd-design/commit/bbad6819541ff9a3db09f2a4af0680887d3f6f26))
+- 🆕 crud table 添加 fullheight 参数 ([48b39dc](https://github.com/liunnn1994/sd-design/commit/48b39dc2fd125f096ded118c006337d538525052))
+- 🆕 为 colorPicker 添加全局配置 ([bbad681](https://github.com/liunnn1994/sd-design/commit/bbad6819541ff9a3db09f2a4af0680887d3f6f26))
 
 # [3.15.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.14.0...web-vue-v3.15.0) (2026-07-18)
 
-
 ### Bug Fixes
 
-* 🐛 修复 resize-box padding 测试与 ResizeObserver 的竞态 ([88e260b](https://github.com/liunnn1994/sd-design/commit/88e260bcb78e88fdd0ad60aa086b3858ee0cd4c6))
-
+- 🐛 修复 resize-box padding 测试与 ResizeObserver 的竞态 ([88e260b](https://github.com/liunnn1994/sd-design/commit/88e260bcb78e88fdd0ad60aa086b3858ee0cd4c6))
 
 ### Features
 
-* 🆕 完善 a11y ([308c01a](https://github.com/liunnn1994/sd-design/commit/308c01a0482ee26a1de407270e75e812c9c1db34))
-* 🆕 新增 demo，修复测试用例 ([44cab60](https://github.com/liunnn1994/sd-design/commit/44cab607bff12f6e1ef67d9396c82c201291b836))
-* 🆕 新增基础增删改查组件 ([832d622](https://github.com/liunnn1994/sd-design/commit/832d622511e854f1ac74010fd5d58701fd832dce))
+- 🆕 完善 a11y ([308c01a](https://github.com/liunnn1994/sd-design/commit/308c01a0482ee26a1de407270e75e812c9c1db34))
+- 🆕 新增 demo，修复测试用例 ([44cab60](https://github.com/liunnn1994/sd-design/commit/44cab607bff12f6e1ef67d9396c82c201291b836))
+- 🆕 新增基础增删改查组件 ([832d622](https://github.com/liunnn1994/sd-design/commit/832d622511e854f1ac74010fd5d58701fd832dce))
 
 # [3.14.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.13.0...web-vue-v3.14.0) (2026-07-18)
 
-
 ### Bug Fixes
 
-* 🐛 修复 Button fragment 根导致的 attrs 丢失与 ResizeObserver 崩溃 ([57823ed](https://github.com/liunnn1994/sd-design/commit/57823ed652a90d1eb415d2b91aa1e26dc0be47f0))
-
+- 🐛 修复 Button fragment 根导致的 attrs 丢失与 ResizeObserver 崩溃 ([57823ed](https://github.com/liunnn1994/sd-design/commit/57823ed652a90d1eb415d2b91aa1e26dc0be47f0))
 
 ### Features
 
-* 🆕 优化动画效果以及性能 ([d0f821c](https://github.com/liunnn1994/sd-design/commit/d0f821c41eda87bf72f387c39d56ddb624b1f7b4))
-* 🆕 新增 a11y 支持 ([5d60d33](https://github.com/liunnn1994/sd-design/commit/5d60d332ecb7b86397e5599213611ac4d45310f4))
-* 🆕 根据苹果设计原则优化按钮 ([abbc1ba](https://github.com/liunnn1994/sd-design/commit/abbc1badab9064b93614ebbb72c6d028dd525b31))
+- 🆕 优化动画效果以及性能 ([d0f821c](https://github.com/liunnn1994/sd-design/commit/d0f821c41eda87bf72f387c39d56ddb624b1f7b4))
+- 🆕 新增 a11y 支持 ([5d60d33](https://github.com/liunnn1994/sd-design/commit/5d60d332ecb7b86397e5599213611ac4d45310f4))
+- 🆕 根据苹果设计原则优化按钮 ([abbc1ba](https://github.com/liunnn1994/sd-design/commit/abbc1badab9064b93614ebbb72c6d028dd525b31))
 
 # [3.13.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.12.0...web-vue-v3.13.0) (2026-07-16)
 
-
 ### Features
 
-* 🆕 按钮添加 tooltip ([e8785b9](https://github.com/liunnn1994/sd-design/commit/e8785b95e7009139f62ec2605e8ba35416a83e21))
-* 🆕 操作型组件添加 readonly ([930bd7d](https://github.com/liunnn1994/sd-design/commit/930bd7d0c39d11084c6a5bed1a571894c69fce00))
-* 🆕 更新 scrollbar 样式，添加系统级样式 ([94e8404](https://github.com/liunnn1994/sd-design/commit/94e8404b6a6fa14af280787d562381bdf141998e))
-* 🆕 给 card 和 tabs 添加 fullHeight 属性 ([d7430b4](https://github.com/liunnn1994/sd-design/commit/d7430b4376056eaf13fe7860cd78f4de845b9e66))
+- 🆕 按钮添加 tooltip ([e8785b9](https://github.com/liunnn1994/sd-design/commit/e8785b95e7009139f62ec2605e8ba35416a83e21))
+- 🆕 操作型组件添加 readonly ([930bd7d](https://github.com/liunnn1994/sd-design/commit/930bd7d0c39d11084c6a5bed1a571894c69fce00))
+- 🆕 更新 scrollbar 样式，添加系统级样式 ([94e8404](https://github.com/liunnn1994/sd-design/commit/94e8404b6a6fa14af280787d562381bdf141998e))
+- 🆕 给 card 和 tabs 添加 fullHeight 属性 ([d7430b4](https://github.com/liunnn1994/sd-design/commit/d7430b4376056eaf13fe7860cd78f4de845b9e66))
 
 # [3.12.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.11.0...web-vue-v3.12.0) (2026-07-15)
 
-
 ### Features
 
-* 🆕 autoHideSuspend 默认设置为 false ([8ead4b5](https://github.com/liunnn1994/sd-design/commit/8ead4b5aa0ec8f44fdc383fde2699effd73a8703))
+- 🆕 autoHideSuspend 默认设置为 false ([8ead4b5](https://github.com/liunnn1994/sd-design/commit/8ead4b5aa0ec8f44fdc383fde2699effd73a8703))
 
 # [3.11.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.10.0...web-vue-v3.11.0) (2026-07-15)
 
-
 ### Features
 
-* 🆕 新增可选择卡片组件 ([83a7113](https://github.com/liunnn1994/sd-design/commit/83a7113f253692e17fcbf900ffdd2a5a4cd70693))
+- 🆕 新增可选择卡片组件 ([83a7113](https://github.com/liunnn1994/sd-design/commit/83a7113f253692e17fcbf900ffdd2a5a4cd70693))
 
 # [3.10.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.9.0...web-vue-v3.10.0) (2026-07-14)
 
-
 ### Features
 
-* 🆕 tree 组件添加隐藏 switcher 的参数 ([9d11b28](https://github.com/liunnn1994/sd-design/commit/9d11b288c94251753dbc17344ddaa0b12dbd6a53))
-* 🆕 使用 pdfjs 渲染 pdf ([da3ceab](https://github.com/liunnn1994/sd-design/commit/da3ceabe84c10c928a817fb619a4c1e0ec97abd1))
-* 🆕 新增 mcp ([c931d96](https://github.com/liunnn1994/sd-design/commit/c931d96442429a423213f78e55a6cbe4f889d971))
+- 🆕 tree 组件添加隐藏 switcher 的参数 ([9d11b28](https://github.com/liunnn1994/sd-design/commit/9d11b288c94251753dbc17344ddaa0b12dbd6a53))
+- 🆕 使用 pdfjs 渲染 pdf ([da3ceab](https://github.com/liunnn1994/sd-design/commit/da3ceabe84c10c928a817fb619a4c1e0ec97abd1))
+- 🆕 新增 mcp ([c931d96](https://github.com/liunnn1994/sd-design/commit/c931d96442429a423213f78e55a6cbe4f889d971))
 
 # [3.9.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.8.0...web-vue-v3.9.0) (2026-07-13)
 
