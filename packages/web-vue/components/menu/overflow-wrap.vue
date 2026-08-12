@@ -75,7 +75,7 @@
   const [DefineOverflowSubMenu, ReuseOverflowSubMenu] = createReusableTemplate<{
     children: VNode[];
     mirror: boolean;
-  }>();
+  }>({ inheritAttrs: false });
 
   function computeLastVisibleIndex() {
     const wrapperElement = refWrapper.value;

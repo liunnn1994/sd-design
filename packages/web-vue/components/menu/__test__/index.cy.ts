@@ -10,11 +10,12 @@ const MenuHarness = defineComponent({
     SubMenu: Menu.SubMenu,
   },
   props: {
+    mode: { type: String, default: 'vertical' },
     ellipsis: { type: Boolean, default: false },
     ellipsisProps: { type: Object, default: undefined },
   },
   template: `
-    <Menu :ellipsis="ellipsis" :ellipsis-props="ellipsisProps">
+    <Menu :mode="mode" :ellipsis="ellipsis" :ellipsis-props="ellipsisProps">
       <MenuItem key="item-1">A very long menu item title</MenuItem>
       <SubMenu key="sub-1" title="A very long submenu title">
         <MenuItem key="sub-1-item-1">Nested menu item</MenuItem>
@@ -45,6 +46,20 @@ describe('Menu', () => {
       expect(ellipsisList[0].props('lineClamp')).to.equal(2);
       expect(ellipsisList[0].props('tooltip')).to.equal(false);
     });
+  });
+
+  it('does not forward overflow template bindings to the DOM', () => {
+    cy.window().then((win) => {
+      cy.spy(win.console, 'warn').as('consoleWarn');
+    });
+
+    cy.mount(MenuHarness, {
+      props: {
+        mode: 'horizontal',
+      },
+    });
+
+    cy.get('@consoleWarn').should('not.be.calledWithMatch', 'Failed setting prop "children"');
   });
 
   it('exposes menu/menubar + menuitem roles and keyboard activation', () => {
