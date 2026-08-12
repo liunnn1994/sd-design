@@ -1,5 +1,5 @@
 <template>
-  <sd-popconfirm @before-ok="handleBeforeOk">
+  <sd-popconfirm :on-before-ok="handleBeforeOk">
     <sd-button>Click To Show</sd-button>
     <template #content>
       <sd-form :model="form">
@@ -14,23 +14,11 @@
   </sd-popconfirm>
 </template>
 
-<script setup>
-  import { ref } from 'vue';
-
+<script setup lang="ts">
   const form = {};
-  const visible = ref(false);
 
-  const handleClick = () => {
-    visible.value = true;
-  };
-
-  const handleBeforeOk = (done) => {
-    window.setTimeout(() => {
-      done();
-    }, 3000);
-  };
-
-  const handleCancel = () => {
-    visible.value = false;
-  };
+  const handleBeforeOk = () =>
+    new Promise<void>((resolve) => {
+      window.setTimeout(resolve, 3000);
+    });
 </script>
