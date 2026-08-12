@@ -10,7 +10,7 @@ export interface IconFontOptions {
   extraProps?: { [key: string]: any };
 }
 
-interface IconFontProps {
+export interface IconFontProps {
   type?: string;
   size?: number | string;
   rotate?: number;
