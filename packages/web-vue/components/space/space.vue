@@ -5,7 +5,7 @@
         <slot name="split" />
       </div>
       <div :class="`${prefixCls}-item`">
-        <component :is="item.component" />
+        <VNodeRenderer :content="item.content" />
       </div>
     </template>
   </div>
@@ -24,7 +24,7 @@
 
   interface SpaceItem {
     key: PropertyKey;
-    component: () => VNode;
+    content: VNode;
   }
 
   defineOptions({
@@ -81,6 +81,7 @@
   }>();
 
   const prefixCls = getPrefixCls('space');
+  const VNodeRenderer = ({ content }: { content: VNode }) => content;
   const configCtx = inject(configProviderInjectionKey, undefined);
   const rtl = computed(() => configCtx?.rtl ?? false);
   const mergedAlign = computed(() => align ?? (direction === 'horizontal' ? 'center' : ''));
@@ -130,7 +131,7 @@
       .filter((item) => item.type !== Comment)
       .map((child, index) => ({
         key: child.key ?? `item-${index}`,
-        component: () => child,
+        content: child,
       }));
   }
 </script>
