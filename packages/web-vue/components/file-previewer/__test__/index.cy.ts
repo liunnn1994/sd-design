@@ -3,10 +3,31 @@ import FilePreviewer from '../index';
 const imageSrc = 'https://picsum.photos/id/10/1000/1000?t=file-previewer-test';
 const videoSrc = 'https://developer.mozilla.org/shared-assets/videos/flower.webm';
 const audioSrc = 'https://developer.mozilla.org/shared-assets/audio/t-rex-roar.mp3';
-const pdfSrc = 'https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf';
+const pdfSrc = '/file-previewer-test.pdf';
 
-const callVm = (fn: (vm: any) => unknown) =>
-  cy.get('@vue').then(({ wrapper }) => cy.wrap(fn(wrapper.vm)));
+function createTestPdf() {
+  const objects = [
+    '<< /Type /Catalog /Pages 2 0 R >>',
+    '<< /Type /Pages /Kids [3 0 R 4 0 R] /Count 2 >>',
+    '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 100 100] /Resources <<>> /Contents 5 0 R >>',
+    '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 100 100] /Resources <<>> /Contents 6 0 R >>',
+    '<< /Length 0 >>\nstream\n\nendstream',
+    '<< /Length 0 >>\nstream\n\nendstream',
+  ];
+  let pdf = '%PDF-1.4\n';
+  const offsets = objects.map((object, index) => {
+    const offset = pdf.length;
+    pdf += `${index + 1} 0 obj\n${object}\nendobj\n`;
+    return offset;
+  });
+  const xrefOffset = pdf.length;
+  pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+  pdf += offsets.map((offset) => `${String(offset).padStart(10, '0')} 00000 n \n`).join('');
+  pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+  return new TextEncoder().encode(pdf);
+}
+
+const pdfProps = () => ({ documentParams: { data: createTestPdf() } });
 
 describe('FilePreviewer', () => {
   it('uses the Image preview without rendering the file preview overlay', () => {
@@ -16,7 +37,7 @@ describe('FilePreviewer', () => {
     cy.get('.sd-image').should('exist');
     cy.get('.sd-file-previewer').should('not.exist');
     cy.get('.sd-file-previewer-mask').should('not.exist');
-    callVm((vm) => vm.onImageLoad());
+    cy.get('.sd-image-img').trigger('load', { force: true });
     cy.get('.sd-image-preview').should('exist');
   });
 
@@ -42,7 +63,13 @@ describe('FilePreviewer', () => {
 
   it('renders a pdf preview with pdf.js instead of an iframe', () => {
     cy.mount(FilePreviewer, {
-      props: { src: pdfSrc, type: 'pdf', defaultVisible: true, renderToBody: false },
+      props: {
+        src: pdfSrc,
+        type: 'pdf',
+        defaultVisible: true,
+        renderToBody: false,
+        pdfProps: pdfProps(),
+      },
     });
     cy.get('iframe').should('not.exist');
     cy.get('.sd-file-previewer-pdf-canvas').should('exist');
@@ -50,7 +77,13 @@ describe('FilePreviewer', () => {
 
   it('passes src and render helpers to the pdf slot', () => {
     cy.mount(FilePreviewer, {
-      props: { src: pdfSrc, type: 'pdf', defaultVisible: true, renderToBody: false },
+      props: {
+        src: pdfSrc,
+        type: 'pdf',
+        defaultVisible: true,
+        renderToBody: false,
+        pdfProps: pdfProps(),
+      },
       slots: {
         pdf: `
           <template #pdf="slotProps">
@@ -70,7 +103,13 @@ describe('FilePreviewer', () => {
 
   it('loads the pdf and paginates via the toolbar', () => {
     cy.mount(FilePreviewer, {
-      props: { src: pdfSrc, type: 'pdf', defaultVisible: true, renderToBody: false },
+      props: {
+        src: pdfSrc,
+        type: 'pdf',
+        defaultVisible: true,
+        renderToBody: false,
+        pdfProps: pdfProps(),
+      },
     });
     cy.get('.sd-file-previewer-pdf-page', { timeout: 30000 })
       .invoke('text')
@@ -88,7 +127,13 @@ describe('FilePreviewer', () => {
 
   it('exposes the loaded pdf document via the pdf slot', () => {
     cy.mount(FilePreviewer, {
-      props: { src: pdfSrc, type: 'pdf', defaultVisible: true, renderToBody: false },
+      props: {
+        src: pdfSrc,
+        type: 'pdf',
+        defaultVisible: true,
+        renderToBody: false,
+        pdfProps: pdfProps(),
+      },
       slots: {
         pdf: `
           <template #pdf="slotProps">
@@ -113,7 +158,13 @@ describe('FilePreviewer', () => {
 
   it('passes preview context to the content slot and closes', () => {
     cy.mount(FilePreviewer, {
-      props: { src: pdfSrc, type: 'pdf', defaultVisible: true, renderToBody: false },
+      props: {
+        src: pdfSrc,
+        type: 'pdf',
+        defaultVisible: true,
+        renderToBody: false,
+        pdfProps: pdfProps(),
+      },
       slots: {
         content: `
           <template #content="slotProps">
@@ -161,7 +212,7 @@ describe('FilePreviewer', () => {
         type: 'pdf',
         defaultVisible: true,
         renderToBody: false,
-        pdfProps: { worker: false },
+        pdfProps: { ...pdfProps(), worker: false },
       },
     });
     cy.get('.sd-file-previewer-pdf-page', { timeout: 30000 })
