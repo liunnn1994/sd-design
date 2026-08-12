@@ -31,7 +31,7 @@
   import { getPrefixCls } from '../_utils/global-config';
   import Tooltip from '../tooltip';
 
-  defineOptions({ name: 'SliderButton' });
+  defineOptions({ name: 'SliderButton', inheritAttrs: false });
 
   const props = defineProps({
     direction: {
