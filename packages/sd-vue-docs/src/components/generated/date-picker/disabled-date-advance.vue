@@ -1,10 +1,11 @@
 <template>
-  <sd-range-picker
-    class="sd:w-75"
-    @select="onSelect"
-    @popupVisibleChange="onPopupVisibleChange"
-    :disabledDate="disabledDate"
-  />
+  <div class="sd:w-75">
+    <sd-range-picker
+      @select="onSelect"
+      @popupVisibleChange="onPopupVisibleChange"
+      :disabledDate="disabledDate"
+    />
+  </div>
 </template>
 <script setup lang="ts">
   import { shallowRef } from 'vue';

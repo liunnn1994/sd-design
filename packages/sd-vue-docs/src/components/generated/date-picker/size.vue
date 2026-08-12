@@ -7,7 +7,9 @@
       <sd-radio value="large">large</sd-radio>
     </sd-radio-group>
   </div>
-  <sd-date-picker :size="size" class="sd:w-63.5" />
+  <div class="sd:w-63.5">
+    <sd-date-picker :size="size" />
+  </div>
 </template>
 <script setup lang="ts">
   import { shallowRef } from 'vue';

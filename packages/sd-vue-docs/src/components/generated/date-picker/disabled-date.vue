@@ -1,20 +1,22 @@
 <template>
   <div>
-    <sd-date-picker class="sd:w-50 sd:mr-6 sd:mb-6" :disabledDate="disablePastDate" />
-    <sd-range-picker class="sd:w-90 sd:mr-6 sd:mb-6" :disabledDate="disablePastDate" />
-    <sd-date-picker
-      class="sd:w-50 sd:mr-6 sd:mb-6"
-      show-time
-      :disabledDate="disablePastDate"
-      :disabledTime="getDisabledTime"
-    />
-    <sd-range-picker
-      class="sd:w-90 sd:mb-6"
-      show-time
-      :timePickerProps="{ hideDisabledOptions: true }"
-      :disabledDate="disablePastDate"
-      :disabledTime="getDisabledRangeTime"
-    />
+    <div class="sd:w-50 sd:mr-6 sd:mb-6">
+      <sd-date-picker :disabledDate="disablePastDate" />
+    </div>
+    <div class="sd:w-90 sd:mr-6 sd:mb-6">
+      <sd-range-picker :disabledDate="disablePastDate" />
+    </div>
+    <div class="sd:w-50 sd:mr-6 sd:mb-6">
+      <sd-date-picker show-time :disabledDate="disablePastDate" :disabledTime="getDisabledTime" />
+    </div>
+    <div class="sd:w-90 sd:mb-6">
+      <sd-range-picker
+        show-time
+        :timePickerProps="{ hideDisabledOptions: true }"
+        :disabledDate="disablePastDate"
+        :disabledTime="getDisabledRangeTime"
+      />
+    </div>
   </div>
 </template>
 <script setup lang="ts">

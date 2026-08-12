@@ -1,7 +1,11 @@
 <template>
   <sd-space>
-    <sd-date-picker v-model="value" class="sd:w-50" />
-    <sd-range-picker v-model="rangeValue" class="sd:w-75" />
+    <div class="sd:w-50">
+      <sd-date-picker v-model="value" />
+    </div>
+    <div class="sd:w-75">
+      <sd-range-picker v-model="rangeValue" />
+    </div>
   </sd-space>
 </template>
 <script setup lang="ts">

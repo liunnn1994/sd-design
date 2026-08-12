@@ -1,13 +1,16 @@
 <template>
-  <sd-date-picker
-    class="sd:w-63.5 sd:mr-6 sd:mb-5"
-    shortcuts-position="left"
-    :shortcuts="shortcuts"
-  />
-  <sd-range-picker class="sd:w-75 sd:mb-5" shortcuts-position="left" :shortcuts="rangeShortcuts" />
-  <br />
-  <sd-date-picker class="sd:w-63.5 sd:mr-6" shortcuts-position="right" :shortcuts="shortcuts" />
-  <sd-range-picker class="sd:w-75" shortcuts-position="right" :shortcuts="rangeShortcuts" />
+  <div class="sd:w-63.5 sd:mr-6 sd:mb-5">
+    <sd-date-picker shortcuts-position="left" :shortcuts="shortcuts" />
+  </div>
+  <div class="sd:w-75 sd:mb-5">
+    <sd-range-picker shortcuts-position="left" :shortcuts="rangeShortcuts" />
+  </div>
+  <div class="sd:w-63.5 sd:mr-6">
+    <sd-date-picker shortcuts-position="right" :shortcuts="shortcuts" />
+  </div>
+  <div class="sd:w-75">
+    <sd-range-picker shortcuts-position="right" :shortcuts="rangeShortcuts" />
+  </div>
 </template>
 <script setup lang="ts">
   import dayjs from 'dayjs';
