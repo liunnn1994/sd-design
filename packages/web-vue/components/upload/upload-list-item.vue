@@ -1,15 +1,14 @@
 <template>
-  <DefineFileName>
-    <component
-      :is="uploadCtx.slots['file-name']"
-      v-if="uploadCtx?.slots['file-name']"
-      :file-item="file"
-    />
-    <VNodeRenderer v-else-if="customFileName" :content="customFileName" />
-    <template v-else>{{ file.name }}</template>
-  </DefineFileName>
-
   <div :class="[itemCls, `${itemCls}-${file.status}`]">
+    <DefineFileName>
+      <component
+        :is="uploadCtx.slots['file-name']"
+        v-if="uploadCtx?.slots['file-name']"
+        :file-item="file"
+      />
+      <VNodeRenderer v-else-if="customFileName" :content="customFileName" />
+      <template v-else>{{ file.name }}</template>
+    </DefineFileName>
     <div :class="`${itemCls}-content`">
       <span v-if="uploadCtx?.listType === 'picture'" :class="`${itemCls}-thumbnail`">
         <component :is="uploadCtx.slots.image" v-if="uploadCtx?.slots.image" :file-item="file" />

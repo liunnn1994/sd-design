@@ -1,6 +1,26 @@
 import Upload from '../index';
 
 describe('Upload', () => {
+  it('renders transition list items with an element root', () => {
+    cy.window().then((win) => {
+      cy.spy(win.console, 'warn').as('consoleWarn');
+    });
+    cy.mount(Upload, {
+      props: {
+        defaultFileList: [
+          { uid: '1', name: 'done.png', status: 'done', url: 'data:image/svg+xml,%3Csvg/%3E' },
+          { uid: '2', name: 'failed.png', status: 'error' },
+        ],
+      },
+    });
+    cy.get('.sd-upload-list-item').should('have.length', 2);
+    cy.get('@consoleWarn').should((consoleWarn) => {
+      expect(consoleWarn).not.to.have.been.calledWithMatch(
+        Cypress.sinon.match('Component inside <Transition> renders non-element root node'),
+      );
+    });
+  });
+
   it('renders an accessible remove button for a listed file', () => {
     cy.mount(Upload, {
       props: {
