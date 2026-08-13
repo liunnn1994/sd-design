@@ -1,3 +1,43 @@
+# [4.0.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.30.0...web-vue-v4.0.0) (2026-08-13)
+
+
+### Bug Fixes
+
+* 🐛 preserve spin root attributes ([fed2b5f](https://github.com/liunnn1994/sd-design/commit/fed2b5f37657b50f39435e3ac4f9dd83347b08fd))
+* 🐛 修复 grid 示例以及样式错误 ([c81d9f1](https://github.com/liunnn1994/sd-design/commit/c81d9f13d1e36e8542fd169d065ca3c7958890eb))
+* 🐛 修复 select 传入 class 时丢失 sd-select 类名 ([22d835e](https://github.com/liunnn1994/sd-design/commit/22d835e1759830b189b8c846d18864118db3b03a))
+* 🐛 修复 slider 组件中 tooltip 位置错误的问题 ([c4ade36](https://github.com/liunnn1994/sd-design/commit/c4ade36cf163f68a6502dcf70a4079be29753b8e))
+* 🐛 修复 upload 组件 ([95852e8](https://github.com/liunnn1994/sd-design/commit/95852e8a46169271230a7312af08367851113597))
+* **cascader:** avoid transition root warning ([4d7bc80](https://github.com/liunnn1994/sd-design/commit/4d7bc808dcabd134a039a7f73a0b51b20ee097b9))
+* **docs:** mount type enhancer without hydration ([ea25389](https://github.com/liunnn1994/sd-design/commit/ea253891f3d19ad464e60cd29e509333e36a3959))
+* **icon:** export icon font props type ([e9fee10](https://github.com/liunnn1994/sd-design/commit/e9fee10ddc9806b8a0025336876b901f8c3683ba))
+* **menu:** avoid forwarding overflow bindings ([c334f12](https://github.com/liunnn1994/sd-design/commit/c334f12cd7dca5580810d31138474e9002c99bf3))
+* **timeline:** preserve spinProps size override for pending dot ([f324f11](https://github.com/liunnn1994/sd-design/commit/f324f1186216b6dfa038e9f264c905886c00bef2))
+* **tree:** keep switcher hidden for plain leaves in node-switcher ([8173e7e](https://github.com/liunnn1994/sd-design/commit/8173e7e5c9af9d632c4a2e917551dbfb89ac599d))
+* **tree:** widen node-switcher computed types to VNodeChild ([62a2a03](https://github.com/liunnn1994/sd-design/commit/62a2a03aca69f5b1d67e3a85b44c8c471c7b1e74))
+* **typography:** capture all operation nodes in ellipsis measure ([50d410b](https://github.com/liunnn1994/sd-design/commit/50d410bec24098d4347d00dbb7bac95a38312413))
+* 修复 OverflowList 示例宽度控制 ([2227863](https://github.com/liunnn1994/sd-design/commit/2227863daec3282f4ffef314bc0d0f5d2d6ca493))
+* 修复 Popconfirm 异步关闭示例 ([dd137e0](https://github.com/liunnn1994/sd-design/commit/dd137e08a479429c5bcf3c0974a11d0a7bb7fa63))
+* 修复 Radio 非受控交互 ([bba3e64](https://github.com/liunnn1994/sd-design/commit/bba3e64e47269c47f31b9f30f82d6d1e88be7dfa))
+* 修复 Slider 百分比精度警告 ([dd724b7](https://github.com/liunnn1994/sd-design/commit/dd724b7aabe04fd86d843081c5b8367e191fafeb))
+* 修复 Space 子组件重复挂载 ([ff3e3ce](https://github.com/liunnn1994/sd-design/commit/ff3e3ce40c990da7b3c5242a031e4b5a3c03ae16))
+* 修复 TagGroup 示例连续拖拽 ([34be853](https://github.com/liunnn1994/sd-design/commit/34be8536f697a726b532d3d8eb0c707c5001808b))
+* 修复 Upload 列表过渡警告 ([12eff88](https://github.com/liunnn1994/sd-design/commit/12eff88e804af6a45583456ec4be5d612fa4f6a7))
+* 修复时间选择器当前时间文案 ([da675c0](https://github.com/liunnn1994/sd-design/commit/da675c0469d95010232dd25d4d4aea6bfc73177c))
+* 修复输入示例失焦 ([47bba36](https://github.com/liunnn1994/sd-design/commit/47bba369713fb57de54bfa736cdb724765efa8f0))
+
+
+### Features
+
+* 🆕 tooltip 组件新增鼠标穿透功能 ([f739e78](https://github.com/liunnn1994/sd-design/commit/f739e7831cdad4dd81cab8b0abd7af3b02ac8784))
+* 🆕 移除废弃的 overflow-list 组件 ([ca1ad0d](https://github.com/liunnn1994/sd-design/commit/ca1ad0d54bb827203a47057f1e6e13c5d521d780))
+* 🆕 避免文本超出范围 ([899c450](https://github.com/liunnn1994/sd-design/commit/899c450c0df37069b632dbd7f20a571c03c489a2))
+
+
+### BREAKING CHANGES
+
+* 🧨 OverflowList 现已不可用
+
 # [3.30.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.29.0...web-vue-v3.30.0) (2026-08-07)
 
 
