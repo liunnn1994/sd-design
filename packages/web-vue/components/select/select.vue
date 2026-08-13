@@ -915,7 +915,6 @@
     floatingOptions: props.floatingOptions ?? props.triggerProps?.floatingOptions,
   }));
   const selectViewBindings = computed(() => ({
-    class: prefixCls,
     modelValue: selectViewValue.value,
     inputValue: computedInputValue.value,
     multiple: props.multiple,
@@ -940,5 +939,6 @@
     onRemove: handleRemove,
     onClear: handleClear,
     ...attrs,
+    class: [prefixCls, attrs.class],
   }));
 </script>
