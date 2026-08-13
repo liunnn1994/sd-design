@@ -9,6 +9,7 @@
         :value="now + 1000 * 60 * 60 * 2"
         :now="now"
         format="HH:mm:ss.SSS"
+        :animation="false"
       />
     </sd-col>
     <sd-col :flex="1">

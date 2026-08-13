@@ -43,7 +43,7 @@
     />
 
     <span v-else-if="countValue !== 0" :class="`${prefixCls}-number`" :style="mergedStyle">
-      <span>{{ displayCount }}</span>
+      <NumberFlow :value="displayCount" :suffix="displaySuffix" :animated="animation" />
     </span>
   </span>
 </template>
@@ -76,6 +76,7 @@
 
   import { getPrefixCls } from '../_utils/global-config';
   import { configProviderInjectionKey } from '../config-provider/context';
+  import NumberFlow from '../number-flow';
 
   defineOptions({
     name: 'Badge',
@@ -90,6 +91,7 @@
     color,
     status,
     count,
+    animation = true,
   } = defineProps<{
     /**
      * @zh 自定义提示内容
@@ -132,6 +134,11 @@
      * @en Number to show in badge
      */
     count?: number;
+    /**
+     * @zh 是否开启数字切换动画
+     * @en Whether to enable the number transition animation
+     */
+    animation?: boolean;
   }>();
 
   const slots = defineSlots<{
@@ -181,7 +188,7 @@
     ...computedDotStyle.value,
   }));
 
-  const displayCount = computed(() =>
-    maxCount && countValue.value > maxCount ? `${maxCount}+` : countValue.value,
-  );
+  const isCountOverflow = computed(() => Boolean(maxCount && countValue.value > maxCount));
+  const displayCount = computed(() => (isCountOverflow.value ? maxCount : countValue.value));
+  const displaySuffix = computed(() => (isCountOverflow.value ? '+' : undefined));
 </script>

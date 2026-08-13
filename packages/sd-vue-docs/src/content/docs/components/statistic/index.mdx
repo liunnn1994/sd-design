@@ -15,7 +15,7 @@ import statisticPrefixSource from '../../../../components/generated/statistic/pr
 
 ### 数值动画
 
-通过 `animation` 可以开启数值动画。
+数值动画默认开启，可以通过 `animation` 关闭。
 
 <DemoBlock source={statisticAnimationSource} mainFile="src/statistic-animation.vue">
 
@@ -67,7 +67,7 @@ import statisticPrefixSource from '../../../../components/generated/statistic/pr
 | precision | 小数保留位数（数字模式使用） | `number` | `0` |  |
 | separator | 进位分隔符（数字模式使用） | `string` | `-` |  |
 | show-group-separator | 是否展示进位分隔符（数字模式使用） | `boolean` | `false` |  |
-| animation | 是否开启动画 | `boolean` | `false` |  |
+| animation | 是否开启动画 | `boolean` | `true` |  |
 | animation-duration | 动画的过度时间 | `number` | `2000` |  |
 | value-from | 动画的起始值 | `number` | `-` |  |
 | placeholder | 提示文字（当 value 为 undefined 时显示） | `string` | `-` | 2.28.0 |
@@ -91,6 +91,7 @@ import statisticPrefixSource from '../../../../components/generated/statistic/pr
 | now | 用于修正初始化时间显示不正确 | `number` | `() => Date.now()` |  |
 | format | 倒计时的展示格式 [dayjs](https://day.js.org/docs/en/display/format) | `string` | `'HH:mm:ss'` |  |
 | start | 是否开始倒计时 | `boolean` | `true` |  |
+| animation | 是否开启数字切换动画 | `boolean` | `true` |  |
 | value-style | 自定义显示值的样式 | `CSSProperties` | `-` | 2.32.0 |
 
 ### `<countdown>` Events

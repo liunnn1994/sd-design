@@ -3,6 +3,7 @@
 @use '@components/statistic/style/token.scss' as *;
 
 $statistic-prefix-cls: string.unquote('#{theme.$prefix}-statistic');
+$number-flow-prefix-cls: string.unquote('#{theme.$prefix}-number-flow');
 
 .#{$statistic-prefix-cls} {
   display: inline-block;
@@ -25,6 +26,10 @@ $statistic-prefix-cls: string.unquote('#{theme.$prefix}-statistic');
       &-integer {
         font-size: inherit;
         white-space: nowrap;
+      }
+
+      .#{$number-flow-prefix-cls}-fraction {
+        font-size: $statistic-font-decimal-size;
       }
 
       &-decimal {

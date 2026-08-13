@@ -12,16 +12,15 @@
           <span v-if="$slots.prefix" :class="`${prefixCls}-prefix`">
             <slot name="prefix" />
           </span>
-          <template v-if="formatValue.isNumber">
-            <span :class="`${prefixCls}-value-integer`">
-              {{ formatValue.integer }}
-            </span>
-            <span v-if="formatValue.decimal" :class="`${prefixCls}-value-decimal`">
-              .{{ formatValue.decimal }}
-            </span>
-          </template>
+          <NumberFlow
+            v-if="isNumber(displayValue)"
+            :value="displayValue"
+            :animated="animation"
+            :format="numberFormat"
+            :transform-timing="{ duration: animationDuration }"
+          />
           <template v-else>
-            {{ formatValue.value }}
+            {{ formattedDateValue }}
           </template>
           <span v-if="$slots.suffix" :class="`${prefixCls}-suffix`">
             <slot name="suffix" />
@@ -38,15 +37,15 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, CSSProperties, onMounted, PropType, ref, toRefs, watch } from 'vue';
+  import { computed, CSSProperties, nextTick, onMounted, PropType, shallowRef, watch } from 'vue';
 
-  import BTween from 'b-tween';
   import dayjs from 'dayjs';
-  import NP from 'number-precision';
+
+  import type { NumberFlowFormat } from '../number-flow';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { isNumber, isUndefined } from '../_utils/is';
-  import { Data } from '../_utils/types';
+  import NumberFlow from '../number-flow';
 
   defineOptions({ name: 'Statistic' });
 
@@ -111,7 +110,7 @@
      */
     animation: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     /**
      * @zh 动画的过度时间
@@ -169,92 +168,37 @@
    */
 
   const prefixCls = getPrefixCls('statistic');
-  type TweenController = InstanceType<typeof BTween> & {
-    stop?: () => void;
-  };
-  const numberValue = computed(() => {
-    if (isNumber(props.value)) {
-      return props.value;
-    }
-    return 0;
-  });
-  const innerValue = ref(props.valueFrom ?? props.value);
-  const tween = ref<TweenController | null>(null);
-  const { value } = toRefs(props);
-
   const showPlaceholder = computed(() => isUndefined(props.value));
+  const displayValue = shallowRef<number | Date | undefined>(
+    props.animation && props.valueFrom !== undefined ? props.valueFrom : props.value,
+  );
+  const numberFormat = computed<NumberFlowFormat>(() => ({
+    minimumFractionDigits: props.precision,
+    maximumFractionDigits: props.precision,
+    useGrouping: props.showGroupSeparator,
+  }));
+  const formattedDateValue = computed(() =>
+    props.format ? dayjs(displayValue.value).format(props.format) : displayValue.value,
+  );
 
-  const animation = (from: number = props.valueFrom ?? 0, to: number = numberValue.value) => {
-    if (from !== to) {
-      tween.value = new BTween({
-        from: {
-          value: from,
-        },
-        to: {
-          value: to,
-        },
-        duration: props.animationDuration,
-        easing: 'quartOut',
-        onUpdate: (keys: Data) => {
-          innerValue.value = keys.value;
-        },
-        onFinish: () => {
-          innerValue.value = to;
-        },
-      });
-      tween.value?.start();
-    }
-  };
-
-  const formatValue = computed(() => {
-    let _value: string | number | Date | undefined = innerValue.value;
-    if (isNumber(_value)) {
-      if (isNumber(props.precision)) {
-        _value = NP.round(_value, props.precision).toFixed(props.precision);
-      }
-      const splitValue = String(_value).split('.');
-      const integer = props.showGroupSeparator
-        ? Number(splitValue[0]).toLocaleString('en-US')
-        : splitValue[0];
-      const decimal = splitValue[1];
-      return {
-        isNumber: true,
-        integer,
-        decimal,
-      };
-    }
-    if (props.format) {
-      _value = dayjs(_value).format(props.format);
-    }
-    return {
-      isNumber: false,
-      value: _value,
-    };
-  });
-
-  onMounted(() => {
-    if (props.animation && props.start) {
-      animation();
+  onMounted(async () => {
+    if (props.animation && props.start && props.valueFrom !== undefined) {
+      await nextTick();
+      displayValue.value = props.value;
     }
   });
 
   watch(
     () => props.start,
     (value) => {
-      if (value && props.animation && !tween.value) {
-        animation();
-      }
+      if (value) displayValue.value = props.value;
     },
   );
 
-  watch(value!, (val) => {
-    if (tween.value) {
-      tween.value.stop?.();
-      tween.value = null;
-    }
-    innerValue.value = val;
-    if (props.animation && props.start) {
-      animation();
-    }
-  });
+  watch(
+    () => props.value,
+    (value) => {
+      displayValue.value = value;
+    },
+  );
 </script>

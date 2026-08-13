@@ -10,6 +10,12 @@ describe('Badge', () => {
   it('count should render the number', () => {
     cy.mount(Badge, { props: { count: 10 } });
     cy.get('.sd-badge-number').should('contain.text', '10');
+    cy.get('.sd-badge-number .sd-number-flow').should('have.class', 'sd-number-flow-animated');
+  });
+
+  it('can disable the count animation', () => {
+    cy.mount(Badge, { props: { count: 10, animation: false } });
+    cy.get('.sd-badge-number .sd-number-flow').should('not.have.class', 'sd-number-flow-animated');
   });
 
   it('maxCount should cap the display', () => {

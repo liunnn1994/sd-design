@@ -7,18 +7,36 @@
     </div>
     <div :class="`${prefixCls}-content`">
       <div :class="`${prefixCls}-value`" :style="valueStyle">
-        {{ displayValue }}
+        <template v-for="(part, index) in displayParts" :key="`${part.type}-${index}`">
+          <NumberFlow
+            v-if="part.type === 'number'"
+            :value="Number(part.value)"
+            :animated="animation"
+            :format="{ minimumIntegerDigits: part.value.length, useGrouping: false }"
+          />
+          <template v-else>{{ part.value }}</template>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { CSSProperties, onBeforeUnmount, onMounted, PropType, ref, toRefs, watch } from 'vue';
+  import {
+    computed,
+    CSSProperties,
+    onBeforeUnmount,
+    onMounted,
+    PropType,
+    ref,
+    toRefs,
+    watch,
+  } from 'vue';
 
-  import dayjs, { Dayjs } from 'dayjs';
+  import dayjs from 'dayjs';
 
   import { getPrefixCls } from '../_utils/global-config';
+  import NumberFlow from '../number-flow';
   import { getDateString } from './utils';
 
   defineOptions({ name: 'Countdown' });
@@ -62,6 +80,14 @@
       default: true,
     },
     /**
+     * @zh 是否开启数字切换动画
+     * @en Whether to enable the number transition animation
+     */
+    animation: {
+      type: Boolean,
+      default: true,
+    },
+    /**
      * @zh 自定义显示值的样式
      * @en Custom value style
      * @version 2.32.0
@@ -93,6 +119,13 @@
       Math.max(dayjs(props.value).diff(dayjs(props.now), 'millisecond'), 0),
       props.format,
     ),
+  );
+  const displayParts = computed(() =>
+    displayValue.value
+      .split(/(\d+)/)
+      .flatMap((value) =>
+        value ? [{ type: /^\d+$/.test(value) ? 'number' : 'text', value }] : [],
+      ),
   );
 
   watch([value, now, format], () => {
