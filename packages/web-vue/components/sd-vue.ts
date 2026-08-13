@@ -59,6 +59,7 @@ import Message from './message';
 import Modal from './modal';
 import ModelSelector from './model-selector';
 import Notification from './notification';
+import NumberFlow, { NumberFlowGroup } from './number-flow';
 import PageHeader from './page-header';
 import Pagination from './pagination';
 import Popconfirm from './popconfirm';
@@ -172,6 +173,7 @@ const components: Record<string, Plugin> = {
   Modal,
   ModelSelector,
   Notification,
+  NumberFlow,
   Popconfirm,
   Progress,
   QrCode,
@@ -265,6 +267,7 @@ const SDVue: Record<string, unknown> & {
   SkeletonLine,
   SkeletonShape,
   Countdown,
+  NumberFlowGroup,
   Step,
   Thead,
   Td,

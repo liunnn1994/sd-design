@@ -1,0 +1,90 @@
+---
+title: 数字动效 NumberFlow
+description: 使用本地化格式和逐位过渡展示会变化的数字。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import NumberFlowBasicDemo from '../../../../components/generated/number-flow/basic.vue';
+import numberFlowBasicSource from '../../../../components/generated/number-flow/basic.vue?raw';
+import NumberFlowFormatDemo from '../../../../components/generated/number-flow/format.vue';
+import numberFlowFormatSource from '../../../../components/generated/number-flow/format.vue?raw';
+import NumberFlowInteractiveDemo from '../../../../components/generated/number-flow/interactive.vue';
+import numberFlowInteractiveSource from '../../../../components/generated/number-flow/interactive.vue?raw';
+import NumberFlowCustomDemo from '../../../../components/generated/number-flow/custom.vue';
+import numberFlowCustomSource from '../../../../components/generated/number-flow/custom.vue?raw';
+
+当数值变化本身需要被关注时使用 NumberFlow；静态统计卡片仍建议使用 Statistic。
+
+### 基本用法
+
+传入数值即可使用，也可以通过 `Intl.NumberFormat` 选项展示百分比和货币。
+
+<DemoBlock source={numberFlowBasicSource} mainFile="src/number-flow-basic.vue">
+  <NumberFlowBasicDemo client:only="vue" />
+</DemoBlock>
+
+### 本地化格式
+
+通过 `locales` 和 `format` 控制分组、小数位、紧凑计数等格式。
+
+<DemoBlock source={numberFlowFormatSource} mainFile="src/number-flow-format.vue">
+  <NumberFlowFormatDemo client:only="vue" />
+</DemoBlock>
+
+### 交互更新
+
+修改 `value` 会触发逐位过渡。`continuous` 插件会让低位数字在跨位变化时保持连续滚动。
+
+<DemoBlock source={numberFlowInteractiveSource} mainFile="src/number-flow-interactive.vue">
+  <NumberFlowInteractiveDemo client:only="vue" />
+</DemoBlock>
+
+### 自定义前后缀
+
+`prefix` 和 `suffix` 插槽适合放置带样式的标签或单位；插槽存在时优先展示插槽内容。
+
+<DemoBlock source={numberFlowCustomSource} mainFile="src/number-flow-custom.vue">
+  <NumberFlowCustomDemo client:only="vue" />
+</DemoBlock>
+
+## API
+
+### `<number-flow>` Props
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| value | 当前数值 | `number \| string` | - |
+| locales | `Intl.NumberFormat` 的区域设置 | `Intl.LocalesArgument` | - |
+| format | 数字格式选项，不支持科学计数和工程计数 | `NumberFlowFormat` | - |
+| prefix | 文本前缀 | `string` | - |
+| suffix | 文本后缀 | `string` | - |
+| trend | 数字滚动方向，正数向上、负数向下 | `number \| ((oldValue, value) => number)` | 自动判断 |
+| plugins | 数字过渡插件 | `NumberFlowPlugin[]` | - |
+| animated | 是否开启动画 | `boolean` | `true` |
+| transform-timing | 布局与数字过渡配置 | `KeyframeAnimationOptions` | `{ duration: 900, ... }` |
+| spin-timing | 单独设置数字滚动配置 | `KeyframeAnimationOptions` | - |
+| opacity-timing | 淡入淡出配置 | `KeyframeAnimationOptions` | `{ duration: 450, ... }` |
+| respect-motion-preference | 是否遵循系统减少动态效果设置 | `boolean` | `true` |
+| digits | 指定数位的最大数字 | `Record<number, { max?: number }>` | - |
+| will-change | 是否为频繁更新启用 `will-change` | `boolean` | `false` |
+| nonce | 动态样式元素的 CSP nonce | `string` | - |
+
+### `<number-flow>` Events
+
+| 事件名           | 描述               | 参数 |
+| ---------------- | ------------------ | ---- |
+| animationsstart  | 数字动画开始时触发 | -    |
+| animationsfinish | 数字动画结束时触发 | -    |
+
+### `<number-flow>` Slots
+
+| 插槽名 | 描述                             | 参数 |
+| ------ | -------------------------------- | ---- |
+| prefix | 自定义前缀，优先于 `prefix` 属性 | -    |
+| suffix | 自定义后缀，优先于 `suffix` 属性 | -    |
+
+### `<number-flow-group>` Slots
+
+| 插槽名  | 描述                           | 参数 |
+| ------- | ------------------------------ | ---- |
+| default | 需要组合展示的 NumberFlow 组件 | -    |

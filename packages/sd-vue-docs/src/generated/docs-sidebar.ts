@@ -215,6 +215,10 @@ export const docsSidebar = [
             label: '数值显示 Statistic',
           },
           {
+            slug: 'components/number-flow',
+            label: '数字动效 NumberFlow',
+          },
+          {
             slug: 'components/basic-crud-table',
             label: '基础增删改查表格 BasicCrudTable',
           },

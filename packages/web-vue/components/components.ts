@@ -107,6 +107,8 @@ declare module 'vue' {
     SdModelSelectorSeparator: SDVue['ModelSelectorSeparator'];
     SdModelSelectorShortcut: SDVue['ModelSelectorShortcut'];
     SdModelSelectorTrigger: SDVue['ModelSelectorTrigger'];
+    SdNumberFlow: SDVue['NumberFlow'];
+    SdNumberFlowGroup: SDVue['NumberFlowGroup'];
     SdPageHeader: SDVue['PageHeader'];
     SdPagination: SDVue['Pagination'];
     SdPopconfirm: SDVue['Popconfirm'];

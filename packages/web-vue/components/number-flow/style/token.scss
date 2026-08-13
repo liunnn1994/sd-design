@@ -1,0 +1,5 @@
+@use '@style/theme/index.scss' as global;
+
+$number-flow-gap: global.$spacing-2;
+$number-flow-mask-height: 0.25em;
+$number-flow-mask-width: 0.2em;

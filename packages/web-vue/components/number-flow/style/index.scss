@@ -1,0 +1,93 @@
+@use 'sass:string';
+@use '@style/theme/index.scss' as theme;
+@use '@components/number-flow/style/token.scss' as *;
+
+$number-flow-prefix-cls: string.unquote('#{theme.$prefix}-number-flow');
+
+.#{$number-flow-prefix-cls} {
+  display: inline-flex;
+  align-items: baseline;
+  line-height: 1;
+  direction: ltr;
+  white-space: nowrap;
+  isolation: isolate;
+
+  &-content,
+  &-part,
+  &-digit-track,
+  &-digit-value,
+  &-symbol {
+    display: inline-block;
+  }
+
+  &-content {
+    margin: calc(-1 * $number-flow-mask-height) calc(-1 * $number-flow-mask-width);
+    padding: $number-flow-mask-height $number-flow-mask-width;
+    overflow: hidden;
+  }
+
+  &-part {
+    position: relative;
+    vertical-align: bottom;
+  }
+
+  &-digit {
+    height: 1em;
+    overflow: hidden;
+  }
+
+  &-digit-track {
+    display: flex;
+    flex-direction: column;
+    height: 1em;
+    transform: translateY(calc(1em * var(--sd-number-flow-start)));
+  }
+
+  &-digit-value {
+    flex: 0 0 1em;
+    height: 1em;
+    line-height: 1;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &-prepared &-digit-track {
+    transition: none;
+  }
+
+  &-animating &-digit-track {
+    transform: translateY(calc(1em * var(--sd-number-flow-end)));
+    transition:
+      transform var(--sd-number-flow-spin-duration, var(--sd-number-flow-duration))
+        var(--sd-number-flow-spin-easing, var(--sd-number-flow-easing)),
+      opacity var(--sd-number-flow-opacity-duration) ease-out;
+  }
+
+  &-symbol {
+    white-space: pre;
+  }
+
+  &-will-change :is(&-content, &-part, &-digit-track, &-symbol) {
+    will-change: transform;
+  }
+
+  &-custom-prefix {
+    margin-right: $number-flow-gap;
+  }
+
+  &-custom-suffix {
+    margin-left: $number-flow-gap;
+  }
+}
+
+.#{$number-flow-prefix-cls}-group {
+  display: inline-flex;
+  gap: $number-flow-gap;
+  align-items: baseline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .#{$number-flow-prefix-cls}-digit-track {
+    transition: none;
+  }
+}

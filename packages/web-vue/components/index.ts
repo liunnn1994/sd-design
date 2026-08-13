@@ -414,6 +414,22 @@ export type {
 } from './model-selector';
 export { default as Notification } from './notification';
 export type { NotificationMethod, NotificationConfig, NotificationReturn } from './notification';
+export { default as NumberFlow, NumberFlowGroup, continuous, useCanAnimate } from './number-flow';
+export type {
+  NumberFlowDigitContext,
+  NumberFlowDigitOptions,
+  NumberFlowDigits,
+  NumberFlowExposed,
+  NumberFlowFormat,
+  NumberFlowGroupInstance,
+  NumberFlowInstance,
+  NumberFlowPlugin,
+  NumberFlowPluginContext,
+  NumberFlowProps,
+  NumberFlowStyle,
+  NumberFlowTrend,
+  NumberFlowValue,
+} from './number-flow';
 export { default as PageHeader } from './page-header';
 export type { PageHeaderInstance } from './page-header';
 export { default as Pagination } from './pagination';
