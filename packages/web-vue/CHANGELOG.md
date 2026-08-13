@@ -1,3 +1,11 @@
+# [4.1.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.0.0...web-vue-v4.1.0) (2026-08-13)
+
+
+### Features
+
+* 🆕 Badge和Statistic使用新的动画组件 ([a99934d](https://github.com/liunnn1994/sd-design/commit/a99934dc68cd2bb49ad7b5a4b72cf3c0b8941ec6))
+* 🆕 新增数字动效组件 ([0867813](https://github.com/liunnn1994/sd-design/commit/0867813ecb257e69715d7791e3119c48e44750f7))
+
 # [4.0.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v3.30.0...web-vue-v4.0.0) (2026-08-13)
 
 
