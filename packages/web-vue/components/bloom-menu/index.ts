@@ -1,6 +1,6 @@
 import type { App } from 'vue';
 
-import type { SDOptions } from '../_utils/types';
+import type { SDOptions, SFCWithInstall } from '../_utils/types';
 
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _BloomMenu from './bloom-menu.vue';
@@ -13,7 +13,7 @@ const BloomMenu = Object.assign(_BloomMenu, {
     const componentPrefix = getComponentPrefix(options);
     app.component(componentPrefix + _BloomMenu.name, _BloomMenu);
   },
-});
+}) as SFCWithInstall<typeof _BloomMenu>;
 
 export type BloomMenuInstance = InstanceType<typeof _BloomMenu>;
 
