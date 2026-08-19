@@ -40,6 +40,8 @@ export type {
   BorderBeamFlowCoordinate,
   BorderBeamExposed,
 } from './border-beam';
+export { default as BloomMenu } from './bloom-menu';
+export type { BloomMenuInstance, BloomMenuItem, BloomMenuOffset } from './bloom-menu';
 export { default as Badge } from './badge';
 export type { BadgeInstance } from './badge';
 export { default as BasicCrudTable } from './basic-crud-table';

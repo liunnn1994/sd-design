@@ -11,6 +11,7 @@ import Avatar, { AvatarGroup } from './avatar';
 import BackTop from './back-top';
 import Badge from './badge';
 import BasicCrudTable from './basic-crud-table';
+import BloomMenu from './bloom-menu';
 import BorderBeam from './border-beam';
 import Breadcrumb, { BreadcrumbItem } from './breadcrumb';
 import Button, { ButtonGroup } from './button';
@@ -193,6 +194,7 @@ const components: Record<string, Plugin> = {
   Anchor,
   BackTop,
   BorderBeam,
+  BloomMenu,
   ConfigProvider,
   ThemeProvider,
   ResizeBox,

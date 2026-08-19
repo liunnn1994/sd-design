@@ -1,0 +1,95 @@
+---
+title: 绽放菜单 BloomMenu
+description: 从触发器中心向四周展开的操作菜单，适合集中展示一组创建入口或快捷动作。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import BloomMenuBasicDemo from '../../../../components/generated/bloom-menu/basic.vue';
+import bloomMenuBasicSource from '../../../../components/generated/bloom-menu/basic.vue?raw';
+import BloomMenuColumnsDemo from '../../../../components/generated/bloom-menu/columns.vue';
+import bloomMenuColumnsSource from '../../../../components/generated/bloom-menu/columns.vue?raw';
+import BloomMenuControlledDemo from '../../../../components/generated/bloom-menu/controlled.vue';
+import bloomMenuControlledSource from '../../../../components/generated/bloom-menu/controlled.vue?raw';
+import BloomMenuCustomDemo from '../../../../components/generated/bloom-menu/custom.vue';
+import bloomMenuCustomSource from '../../../../components/generated/bloom-menu/custom.vue?raw';
+
+BloomMenu 复用组件库的 Trigger 与 Button：Trigger 负责将浮层挂载到 body，并通过 Floating UI 在动画过程中持续保持浮层中心与触发按钮中心重合；Motion 根据当前触发按钮的实际尺寸、颜色、边框、圆角和阴影生成展开初始态。可通过 `button-props` 配置触发按钮，通过 `offset` 微调浮层中心位置。
+
+每个 BloomMenu 实例拥有独立的触发器和浮层，不会在多个 DemoBlock 或多个 Vue 应用之间共享动画节点。组件会响应系统的“减少动态效果”偏好，并支持 Escape、点击外部和关闭按钮收起。为避免面板过高，建议每次提供不超过 9 个项目。
+
+### 基本用法
+
+通过 `items` 传入菜单项。每项使用稳定的 `value` 标识，选择后会触发 `select` 并自动收起。
+
+<DemoBlock source={bloomMenuBasicSource} mainFile="src/bloom-menu-basic.vue">
+
+<BloomMenuBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 调整列数
+
+使用 `columns` 调整网格列数。项目名称较长或项目较少时，可使用两列布局。
+
+<DemoBlock source={bloomMenuColumnsSource} mainFile="src/bloom-menu-columns.vue">
+
+<BloomMenuColumnsDemo client:only="vue" />
+
+</DemoBlock>
+
+### 受控展开
+
+使用 `v-model` 从外部控制菜单展开状态；不传 `v-model` 时，组件会通过内部状态自行管理。
+
+<DemoBlock source={bloomMenuControlledSource} mainFile="src/bloom-menu-controlled.vue">
+
+<BloomMenuControlledDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义内容
+
+通过 `trigger`、`header`、`item` 和 `icon` 插槽定制内容。`item` 插槽会替换默认的图标与标签结构。
+
+<DemoBlock source={bloomMenuCustomSource} mainFile="src/bloom-menu-custom.vue">
+
+<BloomMenuCustomDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### Props
+
+| 参数 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| items | 菜单项列表 | `readonly BloomMenuItem[]` | - |
+| model-value / v-model | 是否展开 | `boolean` | - |
+| default-open | 非受控模式下的初始展开状态 | `boolean` | `false` |
+| columns | 每行列数，小于 1 时按 1 处理 | `number` | `3` |
+| title | 面板标题 | `string` | `'Create'` |
+| trigger-text | 默认触发器文本 | `string` | `'Create'` |
+| button-props | 透传给触发 Button 的属性 | `ButtonProps` | - |
+| offset | 浮层中心偏移，left 正值向右、top 正值向下 | `BloomMenuOffset` | `{ left: 0, top: 0 }` |
+| close-aria-label | 关闭按钮的无障碍标签 | `string` | `'关闭菜单'` |
+
+`BloomMenuItem` 包含 `value: string | number`、`label: string`、`icon?: Component` 和 `disabled?: boolean`。
+
+### Events
+
+| 事件              | 描述                   | 参数                                   |
+| ----------------- | ---------------------- | -------------------------------------- |
+| update:modelValue | 展开状态变化时触发     | `(open: boolean)`                      |
+| open              | 菜单请求展开时触发     | -                                      |
+| close             | 菜单请求收起时触发     | -                                      |
+| select            | 选择启用的菜单项时触发 | `(item: BloomMenuItem, index: number)` |
+
+### Slots
+
+| 插槽    | 描述                                  | 参数              |
+| ------- | ------------------------------------- | ----------------- |
+| trigger | 自定义触发器内容                      | `{ open }`        |
+| header  | 自定义面板头部                        | `{ close }`       |
+| icon    | 自定义项目图标                        | `{ item, index }` |
+| item    | 自定义完整项目内容，优先级高于 `icon` | `{ item, index }` |
+| empty   | `items` 为空时的内容                  | -                 |

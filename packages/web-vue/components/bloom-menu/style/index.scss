@@ -1,0 +1,153 @@
+@use '@style/theme/index.scss' as theme;
+@use 'sass:string';
+@use '@components/bloom-menu/style/token.scss' as *;
+
+$bloom-menu-prefix-cls: string.unquote('#{theme.$prefix}-bloom-menu');
+
+.#{$bloom-menu-prefix-cls} {
+  display: inline-flex;
+  font-family: theme.$font-family;
+
+  // 触发按钮的默认尺寸与字重由组件以 buttonProps 默认值(行内样式)提供,
+  // 避免 class 硬编码压过用户传入的 size/shape 等尺寸类
+  &-trigger-content {
+    display: inline-flex;
+    gap: $bloom-menu-item-gap;
+    align-items: center;
+    white-space: nowrap;
+
+    svg {
+      width: theme.$size-4;
+      height: theme.$size-4;
+    }
+  }
+
+  &-panel {
+    --bloom-menu-panel-width: #{$bloom-menu-panel-width};
+    --bloom-menu-panel-color: #{$bloom-menu-text-color};
+    --bloom-menu-panel-background: #{$bloom-menu-background};
+    --bloom-menu-panel-border-color: #{$bloom-menu-border-color};
+    --bloom-menu-panel-border-radius: #{theme.$radius-medium};
+    --bloom-menu-panel-shadow: #{$bloom-menu-shadow};
+
+    overflow: hidden;
+    border: $bloom-menu-border-width $bloom-menu-border-style $bloom-menu-border-color;
+  }
+
+  &-popup {
+    padding: 0;
+  }
+
+  &-content {
+    width: 100%;
+  }
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $bloom-menu-header-padding-block $bloom-menu-header-padding-inline;
+    color: $bloom-menu-muted-color;
+    border-bottom: $bloom-menu-border-width $bloom-menu-border-style $bloom-menu-border-color;
+  }
+
+  &-title {
+    font-weight: $bloom-menu-font-weight;
+    font-size: $bloom-menu-font-size;
+  }
+
+  &-close {
+    color: inherit;
+
+    &:hover {
+      color: $bloom-menu-text-color;
+    }
+
+    svg {
+      width: theme.$size-4;
+      height: theme.$size-4;
+    }
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--bloom-menu-columns), minmax(0, 1fr));
+  }
+
+  &-item {
+    min-width: 0;
+    height: auto;
+    padding: $bloom-menu-item-padding-block $bloom-menu-item-padding-inline;
+    color: $bloom-menu-muted-color;
+    border-radius: 0;
+
+    &:hover:not(:disabled) {
+      color: $bloom-menu-text-color;
+      background: $bloom-menu-hover-background;
+    }
+
+    &:focus-visible {
+      position: relative;
+      z-index: 1;
+      outline: 2px solid theme.$color-primary-6;
+      outline-offset: -2px;
+    }
+
+    &-border-right {
+      border-right: $bloom-menu-border-width $bloom-menu-border-style $bloom-menu-border-color;
+    }
+
+    &-border-bottom {
+      border-bottom: $bloom-menu-border-width $bloom-menu-border-style $bloom-menu-border-color;
+    }
+
+    &-disabled,
+    &:disabled {
+      color: $bloom-menu-disabled-color;
+      cursor: not-allowed;
+    }
+  }
+
+  &-item-content {
+    display: flex;
+    flex-direction: column;
+    gap: $bloom-menu-item-gap;
+    align-items: center;
+    min-width: 0;
+  }
+
+  &-item-icon {
+    display: inline-flex;
+    font-size: $bloom-menu-icon-size;
+
+    svg {
+      width: $bloom-menu-icon-size;
+      height: $bloom-menu-icon-size;
+    }
+  }
+
+  &-item-label {
+    max-width: 100%;
+    overflow: hidden;
+    font-weight: $bloom-menu-font-weight;
+    font-size: $bloom-menu-font-size;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &-empty {
+    padding: $bloom-menu-item-padding-block $bloom-menu-header-padding-inline;
+    color: $bloom-menu-muted-color;
+    font-size: $bloom-menu-font-size;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .#{$bloom-menu-prefix-cls} {
+    &-item,
+    &-close {
+      transition: none;
+    }
+  }
+}

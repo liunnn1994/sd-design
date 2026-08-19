@@ -204,6 +204,8 @@ const lang: SdLang = {
     goToSlide: 'Go to slide {0}',
     characterOf: 'Character {0} of {1}',
     qrCode: 'QR code: {0}',
+    bloomMenuClose: 'Close menu',
+    bloomMenuEmpty: 'No options available',
     thinkingOrb: {
       working: 'Working…',
       searching: 'Searching…',

@@ -1,0 +1,24 @@
+@use '@style/theme/index.scss' as global;
+@use 'sass:string';
+
+@forward '@style/theme/index.scss';
+@forward '@style/color/colors.scss' hide $sd-vars-prefix, $sd-cssvars-prefix;
+
+$bloom-menu-panel-width: min(86vw, 420px);
+$bloom-menu-border-width: global.$border-1;
+$bloom-menu-border-style: global.$border-solid;
+$bloom-menu-border-color: var(string.unquote('#{global.$sd-cssvars-prefix}-color-neutral-3'));
+$bloom-menu-background: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-2'));
+$bloom-menu-text-color: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
+$bloom-menu-muted-color: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-2'));
+$bloom-menu-hover-background: var(string.unquote('#{global.$sd-cssvars-prefix}-color-fill-2'));
+$bloom-menu-disabled-color: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-4'));
+$bloom-menu-header-padding-block: global.$spacing-6;
+$bloom-menu-header-padding-inline: global.$spacing-7;
+$bloom-menu-item-padding-block: global.$spacing-9;
+$bloom-menu-item-padding-inline: global.$spacing-6;
+$bloom-menu-item-gap: global.$spacing-4;
+$bloom-menu-font-size: global.$font-size-body-3;
+$bloom-menu-font-weight: global.$font-weight-500;
+$bloom-menu-icon-size: global.$size-5;
+$bloom-menu-shadow: global.$shadow2-down;

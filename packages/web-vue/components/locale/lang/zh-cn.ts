@@ -255,6 +255,8 @@ const lang: SdLang = {
     goToSlide: '跳转到第 {0} 张',
     characterOf: '第 {0} 个字符,共 {1} 个',
     qrCode: '二维码:{0}',
+    bloomMenuClose: '关闭菜单',
+    bloomMenuEmpty: '暂无可用选项',
     thinkingOrb: {
       working: '正在工作',
       searching: '正在搜索',

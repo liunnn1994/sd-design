@@ -153,6 +153,8 @@ export interface SdA11yLang {
   goToSlide: string;
   characterOf: string;
   qrCode: string;
+  bloomMenuClose: string;
+  bloomMenuEmpty: string;
   thinkingOrb: {
     working: string;
     searching: string;

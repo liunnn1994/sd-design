@@ -465,6 +465,10 @@ export const docsSidebar = [
             label: '工具栏 Toolbar',
           },
           {
+            slug: 'components/bloom-menu',
+            label: '绽放菜单 BloomMenu',
+          },
+          {
             slug: 'components/trigger',
             label: '触发器 Trigger',
           },
