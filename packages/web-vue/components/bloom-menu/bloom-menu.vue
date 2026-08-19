@@ -111,8 +111,9 @@
 <script lang="ts" setup>
   import type { Middleware } from '@floating-ui/vue';
   import type { Transition } from 'motion-v';
+  import type { Merge, UnknownRecord } from 'type-fest';
 
-  import type { CSSProperties, VNode } from 'vue';
+  import type { CSSProperties, HTMLAttributes, VNode } from 'vue';
   import {
     computed,
     nextTick,
@@ -127,7 +128,7 @@
   import { Motion, useReducedMotion } from 'motion-v';
 
   import type { FloatingOptions } from '../_utils/floating';
-  import type { ButtonInstance, ButtonProps } from '../button';
+  import type { ButtonInstance } from '../button';
   import type { BloomMenuItem, BloomMenuOffset } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
@@ -146,6 +147,8 @@
     boxShadow: string;
     color: string;
   }
+
+  type BloomMenuButtonProps = Merge<HTMLAttributes, ButtonInstance['$props']> & UnknownRecord;
 
   defineOptions({ name: 'BloomMenu' });
 
@@ -172,7 +175,7 @@
     /** @zh 默认触发器文本 @en Default trigger text */
     triggerText?: string;
     /** @zh 触发按钮属性 @en Trigger button props */
-    buttonProps?: ButtonProps;
+    buttonProps?: BloomMenuButtonProps;
     /** @zh 浮层中心相对触发按钮中心的偏移 @en Popup center offset relative to the trigger center */
     offset?: BloomMenuOffset;
     /** @zh 关闭按钮的无障碍标签,默认取国际化文案 @en Accessible label for the close button, defaults to the locale text */

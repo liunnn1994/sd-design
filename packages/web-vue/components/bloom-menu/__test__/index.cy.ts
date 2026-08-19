@@ -75,11 +75,23 @@ describe('BloomMenu', () => {
   });
 
   it('forwards button props and offsets the popup center', () => {
+    const onMouseenter = cy.spy().as('onMouseenter');
+
     cy.mount(BloomMenu, {
       props: {
         items,
         defaultOpen: true,
-        buttonProps: { type: 'primary', shape: 'circle', size: 'large' },
+        buttonProps: {
+          'type': 'primary',
+          'shape': 'circle',
+          'size': 'large',
+          'id': 'custom-trigger',
+          'class': 'custom-trigger',
+          'style': { opacity: 0.99 },
+          'data-testid': 'bloom-menu-trigger',
+          'aria-label': 'Create item',
+          onMouseenter,
+        },
         offset: { left: 24, top: -16 },
       },
     });
@@ -88,8 +100,14 @@ describe('BloomMenu', () => {
       .should('have.class', 'sd-btn-primary')
       .and('have.class', 'sd-btn-shape-circle')
       .and('have.class', 'sd-btn-size-large')
+      .and('have.class', 'custom-trigger')
+      .and('have.id', 'custom-trigger')
+      .and('have.attr', 'data-testid', 'bloom-menu-trigger')
+      .and('have.attr', 'aria-label', 'Create item')
+      .and('have.css', 'opacity', '0.99')
       // size 等尺寸类不被默认样式压制(large 高度 36 而非默认 44)
       .and('have.css', 'height', '36px')
+      .trigger('mouseenter', { force: true })
       .then(($trigger) => {
         const triggerRect = ($trigger[0] as HTMLElement).getBoundingClientRect();
         const expectedCenterX = triggerRect.left + triggerRect.width / 2 + 24;
@@ -101,6 +119,7 @@ describe('BloomMenu', () => {
           expect(panelRect.top + panelRect.height / 2).to.be.closeTo(expectedCenterY, 2);
         });
       });
+    cy.get('@onMouseenter').should('have.been.calledOnce');
   });
 
   it('emits selection and closes after selecting an enabled item', () => {
