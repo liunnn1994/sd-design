@@ -1,3 +1,16 @@
+# [4.2.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.1.0...web-vue-v4.2.0) (2026-08-19)
+
+
+### Bug Fixes
+
+* 🐛 修复错误的类型 ([7ce3d69](https://github.com/liunnn1994/sd-design/commit/7ce3d695c4e94e51a35775959d42e1afeea31d7d))
+* 🐛 修复错误的类型推断 ([fb2432b](https://github.com/liunnn1994/sd-design/commit/fb2432b1598d5722c0679a8af3dd5f311166cafb))
+
+
+### Features
+
+* 🆕 新增 BloomMenu 组件 ([1f44584](https://github.com/liunnn1994/sd-design/commit/1f445841c1fc9a63e2d249cd90bd7f6929fdb206))
+
 # [4.1.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.0.0...web-vue-v4.1.0) (2026-08-13)
 
 
