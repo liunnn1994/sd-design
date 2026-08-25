@@ -58,9 +58,8 @@ describe('Typography', () => {
   });
 
   it('Paragraph mounts with an ellipsis config', () => {
-    // The ellipsis JS measurement relies on mocked DOM metrics (offsetHeight /
-    // line-height) in the vitest version; in a real headless mount it is not
-    // deterministic, so just assert it renders without error.
+    // Browser layout decides the exact cut point; assert the clamped body renders
+    // the expected source prefix instead of coupling the test to a character count.
     const text = 'A design is a plan or specification for the construction'.repeat(10);
     cy.mount(
       defineComponent({
@@ -74,5 +73,43 @@ describe('Typography', () => {
       }),
     );
     cy.get('.sd-typography').should('exist');
+    cy.get('.sd-typography [data-part="body"]').should('contain.text', text.slice(0, 20));
+  });
+
+  it('shows the ellipsis tooltip only when the content is clamped', () => {
+    cy.mount(Paragraph, {
+      props: {
+        ellipsis: {
+          rows: 1,
+          showTooltip: {
+            type: 'tooltip',
+            props: { mouseEnterDelay: 0, mouseLeaveDelay: 0 },
+          },
+        },
+      },
+      attrs: { style: 'width: 240px;' },
+      slots: { default: 'short content' },
+    });
+    cy.get('.sd-typography').trigger('mouseenter');
+    cy.get('[role="tooltip"]').should('not.exist');
+
+    cy.get('@vue').then(({ wrapper }) => {
+      cy.wrap(wrapper.unmount());
+    });
+    cy.mount(Paragraph, {
+      props: {
+        ellipsis: {
+          rows: 1,
+          showTooltip: {
+            type: 'tooltip',
+            props: { mouseEnterDelay: 0, mouseLeaveDelay: 0 },
+          },
+        },
+      },
+      attrs: { style: 'width: 80px;' },
+      slots: { default: 'A design is a plan or specification for a system.' },
+    });
+    cy.get('.sd-typography').trigger('mouseenter');
+    cy.get('[role="tooltip"]').should('be.visible');
   });
 });

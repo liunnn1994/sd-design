@@ -387,6 +387,10 @@ export const docsSidebar = [
             label: '文本省略 Ellipsis',
           },
           {
+            slug: 'components/clamp',
+            label: '内容裁剪 Clamp',
+          },
+          {
             slug: 'components/copy',
             label: '复制 Copy',
           },

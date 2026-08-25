@@ -1,0 +1,59 @@
+---
+title: 内容裁剪 Clamp
+description: 原样提供 vue-clamp 的文本、富文本、单行字符串与原子项响应式裁剪能力。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import ClampLineDemo from '../../../../components/generated/clamp/line.vue';
+import clampLineSource from '../../../../components/generated/clamp/line.vue?raw';
+import ClampInlineDemo from '../../../../components/generated/clamp/inline.vue';
+import clampInlineSource from '../../../../components/generated/clamp/inline.vue?raw';
+import ClampExpandDemo from '../../../../components/generated/clamp/expand.vue';
+import clampExpandSource from '../../../../components/generated/clamp/expand.vue?raw';
+import ClampRichWrapDemo from '../../../../components/generated/clamp/rich-wrap.vue';
+import clampRichWrapSource from '../../../../components/generated/clamp/rich-wrap.vue?raw';
+
+Clamp 是 [`vue-clamp`](https://vue-clamp.void.app/) 的组件别名组，不增加包装 DOM，也不改写上游属性、事件、插槽与实例方法。通过全量安装可使用 `sd-line-clamp`、`sd-rich-line-clamp`、`sd-inline-clamp` 和 `sd-wrap-clamp`；按需引入时使用 `LineClamp`、`RichLineClamp`、`InlineClamp` 和 `WrapClamp`。
+
+### 纯文本多行裁剪
+
+`LineClamp` 根据真实布局裁剪纯文本，可通过 `max-lines` 或 `max-height` 约束空间。
+
+<DemoBlock source={clampLineSource} mainFile="src/clamp-line.vue">
+  <ClampLineDemo client:only="vue" />
+</DemoBlock>
+
+### 单行字符串
+
+`InlineClamp` 适合文件名等需要保留固定前后缀的字符串。
+
+<DemoBlock source={clampInlineSource} mainFile="src/clamp-inline.vue">
+  <ClampInlineDemo client:only="vue" />
+</DemoBlock>
+
+### 受控展开
+
+`LineClamp`、`RichLineClamp` 和 `WrapClamp` 都支持 `v-model:expanded`，并向 `before`、`after` 插槽提供控制方法与裁剪状态。
+
+<DemoBlock source={clampExpandSource} mainFile="src/clamp-expand.vue">
+  <ClampExpandDemo client:only="vue" />
+</DemoBlock>
+
+### 富文本与原子项
+
+`RichLineClamp` 仅用于已经清洗的可信 HTML；`WrapClamp` 保证标签、筛选项等原子项不会从中间截断。
+
+<DemoBlock source={clampRichWrapSource} mainFile="src/clamp-rich-wrap.vue">
+  <ClampRichWrapDemo client:only="vue" />
+</DemoBlock>
+
+## API
+
+四个组件完整沿用 `vue-clamp` 的 API，包括全部 Props、Events、Slots、实例方法与 TypeScript 类型。请以 [vue-clamp 官方文档](https://vue-clamp.void.app/) 为准。
+
+需要渲染不可信富文本时，必须先在业务侧完成清洗，再传给 `RichLineClamp` 的 `html` 属性。
+
+## 实现说明
+
+- `RichLineClamp` 在根元素内常驻一个 `aria-hidden` 的隐藏测量探针（含全文副本）。对根元素读取 `textContent` / `innerText` 会得到双份文本，需要精确取值时请选中 `[data-part="body"]`。
+- `LineClamp` 与 `RichLineClamp` 只接受字符串（`text` / `html`）作为测量内容，没有默认插槽。`Ellipsis` 会继续渲染原始 Vue 插槽，组件、事件、属性与 scoped 样式保持可用；同时把实际 DOM 的 HTML 副本交给隐藏的 `RichLineClamp` 计算裁剪状态。测量副本带有 `aria-hidden`，不会参与交互，但 DOM 查询可能匹配到同名隐藏节点；测试和取值应选中可见内容或明确的 `data-part`。

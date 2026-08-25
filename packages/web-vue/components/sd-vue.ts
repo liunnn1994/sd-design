@@ -20,6 +20,7 @@ import Card, { CardMeta, CardGrid } from './card';
 import Carousel, { CarouselItem } from './carousel';
 import Cascader, { CascaderPanel } from './cascader';
 import Checkbox, { CheckboxGroup } from './checkbox';
+import LineClamp, { InlineClamp, RichLineClamp, WrapClamp } from './clamp';
 import Collapse, { CollapseItem } from './collapse';
 import ColorPicker from './color-picker';
 import Comment from './comment';
@@ -145,6 +146,10 @@ const components: Record<string, Plugin> = {
   AutoComplete,
   Cascader,
   Checkbox,
+  LineClamp,
+  InlineClamp,
+  RichLineClamp,
+  WrapClamp,
   DatePicker,
   Form,
   JsonForm,

@@ -1,7 +1,7 @@
 <template>
   <div class="menu-demo">
     <sd-menu
-      class="sd:w-50 sd:h-full"
+      :style="{ width: '200px', height: '100%' }"
       :default-open-keys="['0']"
       :default-selected-keys="['0_1']"
       show-collapse-button

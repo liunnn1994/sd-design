@@ -37,6 +37,15 @@ $link-prefix-cls: string.unquote('#{theme.$prefix}-link');
     width: 100%;
   }
 
+  // WrapClamp 在根节点内注入一层 [data-part='content'] 包裹，gap 需要作用到这一层
+  &-inner[data-part='content'],
+  &-inner [data-part='content'] {
+    display: inline-flex;
+    gap: $tag-group-gap;
+    align-items: center;
+    max-width: 100%;
+  }
+
   &-popover {
     flex-wrap: wrap;
     max-width: $tag-group-popover-max-width;
@@ -61,10 +70,6 @@ $link-prefix-cls: string.unquote('#{theme.$prefix}-link');
     max-width: 100%;
   }
 
-  &-item-content-overflow {
-    min-width: 0;
-  }
-
   &-item-content > .#{$tag-prefix-cls},
   &-counter-content > .#{$tag-prefix-cls},
   &-item-content > .#{$link-prefix-cls},
@@ -74,35 +79,5 @@ $link-prefix-cls: string.unquote('#{theme.$prefix}-link');
   &-item-content > span,
   &-counter-content > span {
     max-width: 100%;
-  }
-
-  &-item-ellipsis {
-    max-width: 100%;
-  }
-
-  &-measure {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    display: inline-flex;
-    gap: $tag-group-gap;
-    align-items: center;
-    height: 0;
-    overflow: hidden;
-    white-space: nowrap;
-    visibility: hidden;
-    pointer-events: none;
-  }
-
-  &-measure &-item {
-    flex: 0 0 auto;
-    max-width: none;
-  }
-
-  &-resize-observer {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
   }
 }

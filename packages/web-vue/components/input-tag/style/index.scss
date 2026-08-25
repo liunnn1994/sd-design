@@ -46,3 +46,10 @@ $input-tag-prefix-cls: string.unquote('#{theme.$prefix}-input-tag');
 .input-tag-zoom-move {
   transition: transform theme.$transition-duration-3 theme.$transition-timing-function-overshoot;
 }
+
+// responsive 分支：WrapClamp 每个 item 外层的 TransitionGroup 容器
+.#{$input-tag-prefix-cls}-item-holder {
+  display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
+}

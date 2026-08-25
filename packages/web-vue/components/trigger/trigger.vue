@@ -57,6 +57,7 @@
     computed,
     getCurrentInstance,
     inject,
+    mergeProps,
     nextTick,
     onBeforeUnmount,
     onDeactivated,
@@ -667,18 +668,22 @@
     });
     return children.value;
   };
-  const popupElementAttrs = computed<Record<string, unknown>>(() => ({
-    'id': popupId,
-    'class': [`${prefixCls}-popup`, `${prefixCls}-position-${popupPosition.value}`],
-    'style': {
-      ...mergedPopupStyle.value,
-      ...(isPositioned.value ? {} : { visibility: 'hidden' }),
-      zIndex: zIndex.value,
-      pointerEvents: isAnimation.value ? 'none' : undefined,
-    },
-    'trigger-placement': popupPosition.value,
-    ...popupAttrs.value,
-  }));
+  const popupElementAttrs = computed<Record<string, unknown>>(() =>
+    mergeProps(
+      {
+        'id': popupId,
+        'class': [`${prefixCls}-popup`, `${prefixCls}-position-${popupPosition.value}`],
+        'style': {
+          ...mergedPopupStyle.value,
+          ...(isPositioned.value ? {} : { visibility: 'hidden' }),
+          zIndex: zIndex.value,
+          pointerEvents: isAnimation.value ? 'none' : undefined,
+        },
+        'trigger-placement': popupPosition.value,
+      },
+      popupAttrs.value,
+    ),
+  );
   const shouldRenderPopup = computed(
     () => (!props.unmountOnClose || computedVisible.value || mounted.value) && !hidePopup.value,
   );

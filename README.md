@@ -18,6 +18,8 @@ SD Design 是一个基于 Vue 3 的现代企业级组件库。本项目采用 pn
 
 锚点型悬浮层统一使用 `@floating-ui/vue` 定位，并通过 `floatingOptions` 原样透传上游配置。旧定位API 保持兼容；冲突规则与迁移示例见文档站的“Floating UI 迁移指南”。
 
+文本与响应式原子项裁剪统一由 `vue-clamp` 提供；组件库同时原样导出 `LineClamp`、`RichLineClamp`、`InlineClamp`、`WrapClamp`，现有 `Ellipsis` 及各组件的 responsive 行为复用同一测量内核。
+
 ## 🎯 导读与快速开始
 
 - 想要快速启动项目、了解本地开发流，请直接阅读 **[QUICK-START.md](QUICK-START.md)**。

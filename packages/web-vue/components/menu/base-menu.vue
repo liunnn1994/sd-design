@@ -417,7 +417,8 @@
     if (!forward && !backward && e.key !== KEYBOARD_KEY.HOME && e.key !== KEYBOARD_KEY.END) return;
     const container = e.currentTarget as HTMLElement;
     const items = Array.from(container.querySelectorAll<HTMLElement>('[role="menuitem"]')).filter(
-      (el) => el.tabIndex === 0,
+      (el) =>
+        el.tabIndex === 0 && el.offsetParent !== null && el.getAttribute('aria-hidden') !== 'true',
     );
     if (!items.length) return;
     const current = e.target as HTMLElement;

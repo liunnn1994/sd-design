@@ -1,66 +1,33 @@
 <template>
-  <DefineContent>
-    <span ref="containerRef" :class="prefix" v-bind="$attrs">
-      <ResizeObserver @resize="onResize">
-        <span ref="contentRef" :class="`${prefix}-content`">
-          <slot />
-        </span>
-      </ResizeObserver>
-    </span>
-  </DefineContent>
-  <Tooltip v-if="showTooltip" v-bind="{ content: text, ...tooltipProps }">
-    <ReuseContent />
-  </Tooltip>
-  <ResizeObserver v-else @resize="onResize">
-    <ReuseContent />
-  </ResizeObserver>
+  <Ellipsis v-bind="$attrs" :class="prefixCls" :tooltip="ellipsisTooltipProps">
+    <slot />
+    <template v-if="props.tooltipProps?.content !== undefined" #tooltip>
+      {{ props.tooltipProps.content }}
+    </template>
+  </Ellipsis>
 </template>
 
 <script setup lang="ts">
   import type { VNode } from 'vue';
-  import { onMounted, onUpdated, ref } from 'vue';
+  import { computed } from 'vue';
 
-  import { createReusableTemplate } from '@vueuse/core';
-
+  import type { EllipsisTooltipProps } from '../../ellipsis';
   import type { TooltipProps } from '../../tooltip/interface';
 
   import { getPrefixCls } from '../../_utils/global-config';
-  import Tooltip from '../../tooltip';
-  import ResizeObserver from '../resize-observer-v2';
+  import Ellipsis from '../../ellipsis';
 
   defineOptions({ name: 'AutoTooltip', inheritAttrs: false });
 
-  defineProps<{
+  const props = defineProps<{
     tooltipProps?: TooltipProps;
   }>();
   defineSlots<{
     default?: () => VNode[];
   }>();
 
-  const [DefineContent, ReuseContent] = createReusableTemplate();
-  const prefix = getPrefixCls('auto-tooltip');
-  const containerRef = ref<HTMLElement | null>(null);
-  const contentRef = ref<HTMLElement | null>(null);
-  const text = ref('');
-  const showTooltip = ref(false);
-  const calculateTooltip = () => {
-    if (containerRef.value && contentRef.value) {
-      const shouldShow = contentRef.value.offsetWidth > containerRef.value.offsetWidth;
-      if (shouldShow !== showTooltip.value) {
-        showTooltip.value = shouldShow;
-      }
-    }
-  };
-  const updateText = () => {
-    if (contentRef.value?.textContent && contentRef.value.textContent !== text.value) {
-      text.value = contentRef.value.textContent;
-    }
-  };
-  const onResize = () => {
-    updateText();
-    calculateTooltip();
-  };
-
-  onMounted(onResize);
-  onUpdated(onResize);
+  const prefixCls = getPrefixCls('auto-tooltip');
+  const ellipsisTooltipProps = computed(
+    () => props.tooltipProps as EllipsisTooltipProps | undefined,
+  );
 </script>

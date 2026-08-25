@@ -9,8 +9,10 @@
 
   &--single-line {
     overflow: hidden;
-    white-space: nowrap;
     text-overflow: ellipsis;
+
+    // 不要在共享类上设置 nowrap：RichLineClamp 的隐藏探针会继承该类，
+    // 探针永远只有一行时 clampchange 将无法报告溢出。单行行为由组件内联样式控制。
   }
 
   &-content {
@@ -19,7 +21,6 @@
   }
 
   &--line-clamp {
-    display: -webkit-box;
     width: 100%;
     word-break: break-word;
   }

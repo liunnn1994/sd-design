@@ -101,13 +101,14 @@ describe('Cascader', () => {
 
   it('supports showPath and separator', () => {
     mountCascader({ props: { options, defaultValue: 'chaoyang', showPath: true } });
-    cy.get('.sd-select-view-value').should('have.text', 'Beijing / ChaoYang');
+    // RichLineClamp 根节点内含 aria-hidden 测量探针（全文副本），断言可见文本而非根节点 textContent
+    cy.get('.sd-select-view-value [data-part="body"]').should('have.text', 'Beijing / ChaoYang');
     cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ showPath: false })));
-    cy.get('.sd-select-view-value').should('have.text', 'ChaoYang');
+    cy.get('.sd-select-view-value [data-part="body"]').should('have.text', 'ChaoYang');
     cy.get('@vue').then(({ wrapper }) =>
       cy.wrap(wrapper.setProps({ showPath: true, separator: ' | ' })),
     );
-    cy.get('.sd-select-view-value').should('have.text', 'Beijing | ChaoYang');
+    cy.get('.sd-select-view-value [data-part="body"]').should('have.text', 'Beijing | ChaoYang');
   });
 
   it('renders multiple tags with responsive maxTagCount', () => {

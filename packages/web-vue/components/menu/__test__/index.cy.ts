@@ -62,6 +62,56 @@ describe('Menu', () => {
     cy.get('@consoleWarn').should('not.be.calledWithMatch', 'Failed setting prop "children"');
   });
 
+  it('collapses overflowing horizontal items into the ... submenu', () => {
+    const WideMenu = defineComponent({
+      components: { Menu, MenuItem: Menu.Item },
+      template: `
+        <div style="width: 120px;">
+          <Menu mode="horizontal">
+            <MenuItem key="a">AAAA</MenuItem>
+            <MenuItem key="b">BBBB</MenuItem>
+            <MenuItem key="c">CCCC</MenuItem>
+          </Menu>
+        </div>
+      `,
+    });
+    cy.mount(WideMenu);
+    cy.wait(400);
+    cy.get('.sd-menu-overflow-wrap').should('exist');
+    cy.get('.sd-menu-overflow-sub-menu:visible').should('exist');
+    cy.get('.sd-menu-overflow-sub-menu-mirror').should('not.be.visible');
+    cy.get('.sd-menu-overflow-wrap .sd-menu-item:visible').should('have.length.lessThan', 3);
+    cy.get('.sd-menu-overflow-wrap').should(($wrap) => {
+      expect($wrap[0].getBoundingClientRect().height, 'single-row overflow height').to.be.lessThan(
+        80,
+      );
+    });
+  });
+
+  it('keeps menu and trigger positioning classes on popup submenus', () => {
+    const PopMenu = defineComponent({
+      components: { Menu, MenuItem: Menu.Item, SubMenu: Menu.SubMenu },
+      template: `
+        <div style="width: 200px;">
+          <Menu mode="pop">
+            <SubMenu key="cities" title="Cities">
+              <MenuItem key="beijing">Beijing</MenuItem>
+            </SubMenu>
+          </Menu>
+        </div>
+      `,
+    });
+    cy.mount(PopMenu);
+    cy.get('.sd-menu-pop-header').trigger('mouseenter');
+    cy.get('.sd-trigger-popup.sd-trigger-position-rt.sd-menu-pop-trigger:visible').should(
+      ($popup) => {
+        const triggerRect = Cypress.$('.sd-menu-pop-header')[0].getBoundingClientRect();
+        const popupGap = $popup[0].getBoundingClientRect().left - triggerRect.right;
+        expect(popupGap, 'popup leaves room for its arrow').to.be.at.least(11.5);
+      },
+    );
+  });
+
   it('exposes menu/menubar + menuitem roles and keyboard activation', () => {
     cy.mount(MenuHarness);
     // 垂直菜单（默认）→ role=menu；菜单项 role=menuitem + tabindex

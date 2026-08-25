@@ -35,6 +35,10 @@ declare module 'vue' {
     SdCascaderPanel: SDVue['CascaderPanel'];
     SdCheckbox: SDVue['Checkbox'];
     SdCheckboxGroup: SDVue['CheckboxGroup'];
+    SdLineClamp: SDVue['LineClamp'];
+    SdInlineClamp: SDVue['InlineClamp'];
+    SdRichLineClamp: SDVue['RichLineClamp'];
+    SdWrapClamp: SDVue['WrapClamp'];
     SdCollapse: SDVue['Collapse'];
     SdCollapseItem: SDVue['CollapseItem'];
     SdColorPicker: SDVue['ColorPicker'];

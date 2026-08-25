@@ -236,7 +236,12 @@ function extractTypeAlias(source, startIndex) {
 
     if (char === '{' || char === '[' || char === '(' || char === '<') {
       depth += 1;
-    } else if (char === '}' || char === ']' || char === ')' || char === '>') {
+    } else if (
+      char === '}' ||
+      char === ']' ||
+      char === ')' ||
+      (char === '>' && previousChar !== '=')
+    ) {
       depth = Math.max(0, depth - 1);
     } else if (char === ';' && depth === 0) {
       return source.slice(startIndex, index + 1);

@@ -379,7 +379,10 @@ $token-vars: map.merge(meta.module-variables('dropdownToken'), meta.module-varia
   // 水平菜单的动态折叠容器
   &-overflow {
     &-wrap {
+      display: flex;
+      align-items: center;
       width: 100%;
+      white-space: nowrap;
     }
 
     &-sub-menu-mirror,
@@ -509,7 +512,7 @@ $token-vars: map.merge(meta.module-variables('dropdownToken'), meta.module-varia
   // 弹出菜单浮层三角箭头
   &-pop-trigger {
     &.#{theme.$prefix}-trigger-position-bl {
-      transform: translateY($menu-horizontal-padding-vertical);
+      margin-top: $menu-horizontal-padding-vertical;
 
       .#{theme.$prefix}-trigger-arrow {
         z-index: 0;
@@ -519,7 +522,7 @@ $token-vars: map.merge(meta.module-variables('dropdownToken'), meta.module-varia
     }
 
     &.#{theme.$prefix}-trigger-position-rt {
-      transform: translateX($menu-vertical-padding-horizontal);
+      margin-left: $menu-vertical-padding-horizontal;
 
       .#{theme.$prefix}-trigger-arrow {
         z-index: 0;

@@ -1,9 +1,15 @@
 <template>
   <div class="menu-demo">
     <sd-menu mode="horizontal" :default-selected-keys="['1']">
-      <sd-menu-item key="0" class="sd:mr-[38px] sd:p-0" disabled>
+      <sd-menu-item key="0" :style="{ padding: 0, marginRight: '38px' }" disabled>
         <div
-          class="sd:h-[30px] sd:w-20 sd:cursor-text sd:rounded-[2px] sd:bg-[var(--color-fill-3)]"
+          :style="{
+            width: '80px',
+            height: '30px',
+            borderRadius: '2px',
+            background: `var(${getCssVarToken('--color-fill-3')})`,
+            cursor: 'text',
+          }"
         />
       </sd-menu-item>
       <sd-menu-item key="1">Home</sd-menu-item>
@@ -13,11 +19,14 @@
     </sd-menu>
   </div>
 </template>
+<script setup>
+  import { getCssVarToken } from '@sdata/web-vue';
+</script>
 <style scoped>
   .menu-demo {
     box-sizing: border-box;
     width: 100%;
     padding: 40px;
-    background-color: var(--color-neutral-2);
+    background-color: var(--sd-color-neutral-2);
   }
 </style>

@@ -34,7 +34,6 @@ $popover-prefix-cls: string.unquote('#{theme.$prefix}-popover');
   }
 
   &-popup-arrow {
-    z-index: 1;
     background-color: $popup-color-content-bg;
     border: global.$border-1 solid $popup-color-border;
   }

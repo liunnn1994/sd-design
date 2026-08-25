@@ -9,10 +9,7 @@
     @focus="handleFocus"
     @click="handleClick"
   >
-    <slot v-if="isLineClamp" />
-    <span v-else :class="`${prefixCls}-content`">
-      <slot />
-    </span>
+    <slot />
   </component>
 
   <Ellipsis
@@ -31,8 +28,8 @@
 </template>
 
 <script setup lang="ts">
-  import type { ComponentPublicInstance, CSSProperties, PropType } from 'vue';
-  import { computed, nextTick, ref } from 'vue';
+  import type { CSSProperties, PropType } from 'vue';
+  import { computed, nextTick, shallowRef } from 'vue';
 
   import type { EllipsisTooltipProps } from './interface';
 
@@ -42,27 +39,11 @@
   defineOptions({ name: 'PerformantEllipsis', inheritAttrs: false });
 
   const props = defineProps({
-    /**
-     * @zh 最大显示行数。不传时为单行省略。
-     * @en Maximum number of displayed lines. Single-line ellipsis is used by default.
-     */
-    lineClamp: {
-      type: [Number, String] as PropType<number | string>,
-      default: undefined,
-    },
-    /**
-     * @zh 展开的触发方式
-     * @en Trigger mode for expansion
-     * @values 'click'
-     */
-    expandTrigger: {
-      type: String as PropType<'click'>,
-      default: undefined,
-    },
-    /**
-     * @zh 省略时是否展示提示。可传入 Tooltip 属性。
-     * @en Whether to show a tooltip when ellipsis is active. Tooltip props are supported.
-     */
+    /** @zh 最大显示行数。不传时为单行省略。 @en Maximum displayed lines. */
+    lineClamp: { type: [Number, String] as PropType<number | string>, default: undefined },
+    /** @zh 展开的触发方式 @en Trigger mode for expansion */
+    expandTrigger: { type: String as PropType<'click'>, default: undefined },
+    /** @zh 省略时是否展示提示。可传入 Tooltip 属性。 @en Whether to show a tooltip when ellipsis is active. */
     tooltip: {
       type: [Boolean, Object] as PropType<boolean | EllipsisTooltipProps>,
       default: true,
@@ -80,8 +61,12 @@
    * @slot tooltip
    */
   const prefixCls = getPrefixCls('ellipsis');
-  const activated = ref(false);
-  const ellipsisRef = ref<ComponentPublicInstance | null>(null);
+  interface EllipsisExposed {
+    triggerElement?: HTMLElement;
+  }
+
+  const activated = shallowRef(false);
+  const ellipsisRef = shallowRef<EllipsisExposed>();
 
   const isLineClamp = computed(() => props.lineClamp !== undefined);
   const componentTag = computed(() => (isLineClamp.value ? 'div' : 'span'));
@@ -114,13 +99,7 @@
     };
   });
 
-  const getActivatedTriggerElement = () => {
-    const ellipsisInstance = ellipsisRef.value as
-      | (ComponentPublicInstance & { triggerRef?: HTMLElement })
-      | null;
-
-    return ellipsisInstance?.triggerRef ?? (ellipsisInstance?.$el as HTMLElement | undefined);
-  };
+  const getActivatedTriggerElement = () => ellipsisRef.value?.triggerElement;
 
   const replayInteraction = (type?: 'hover' | 'focus' | 'click') => {
     const triggerElement = getActivatedTriggerElement();
@@ -135,7 +114,7 @@
     }
 
     if (type === 'focus') {
-      triggerElement.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+      triggerElement.focus();
       return;
     }
 
@@ -149,6 +128,8 @@
 
     activated.value = true;
     await nextTick();
+    await nextTick();
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
     replayInteraction(interactionType);
   };

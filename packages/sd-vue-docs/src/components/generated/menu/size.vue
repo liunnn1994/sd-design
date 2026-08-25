@@ -2,10 +2,10 @@
   <div class="menu-demo">
     <sd-slider class="sd:w-80 sd:mb-6" v-model="width" :step="10" :min="160" :max="400" />
     <sd-menu
-      class="dynamic-menu"
       showCollapseButton
       :default-open-keys="['0']"
       :default-selected-keys="['0_1']"
+      :style="{ width: `${width}px`, height: 'calc(100% - 28px)' }"
     >
       <sd-sub-menu key="0">
         <template #icon><IconApps></IconApps></template>
@@ -32,12 +32,11 @@
   </div>
 </template>
 <script setup lang="ts">
-  import { computed, ref } from 'vue';
+  import { ref } from 'vue';
 
   import { IconApps, IconBug, IconBulb } from '@sdata/web-vue/es/icon/index.js';
 
-  const width = ref(160);
-  const widthPx = computed(() => `${width.value}px`);
+  const width = ref(240);
 </script>
 <style scoped>
   .menu-demo {
@@ -46,10 +45,5 @@
     height: 600px;
     padding: 40px;
     background-color: var(--color-neutral-2);
-  }
-
-  .menu-demo :deep(.dynamic-menu) {
-    width: v-bind('widthPx');
-    height: calc(100% - 28px);
   }
 </style>

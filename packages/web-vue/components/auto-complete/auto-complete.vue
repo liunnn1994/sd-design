@@ -17,9 +17,7 @@
     >
       <span :class="`${optionPrefixCls}-content`">
         <slot v-if="slots.option && item.value" name="option" :data="optionInfoMap.get(item.key)" />
-        <span v-else :class="[ellipsisPrefixCls, `${ellipsisPrefixCls}--single-line`]">
-          <span :class="`${ellipsisPrefixCls}-content`">{{ item.label }}</span>
-        </span>
+        <Ellipsis v-else>{{ item.label }}</Ellipsis>
       </span>
     </li>
   </DefineOption>
@@ -102,6 +100,7 @@
   import { getPrefixCls } from '../_utils/global-config';
   import { isFunction, isNull, isUndefined } from '../_utils/is';
   import { resolveDropdownVirtualListProps } from '../_utils/virtual-dropdown';
+  import Ellipsis from '../ellipsis';
   import SdInput from '../input';
   import { useSelect } from '../select/hooks/use-select';
   import SelectDropdown from '../select/select-dropdown.vue';
@@ -173,7 +172,6 @@
   const slots = useSlots();
   const [DefineOption, ReuseOption] = createReusableTemplate<{ item: SelectOptionInfo }>();
   const prefixCls = getPrefixCls('auto-complete');
-  const ellipsisPrefixCls = getPrefixCls('ellipsis');
   const optionPrefixCls = getPrefixCls('select-option');
   const { mergedDisabled, eventHandlers } = useFormItem({
     disabled: toRef(props, 'disabled'),

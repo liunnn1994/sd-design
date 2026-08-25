@@ -27,6 +27,8 @@ SD Design 是一个基于 Vue 3 的企业级组件库，采用 `pnpm workspace` 
 
 Trigger、Tooltip、Dropdown、Select、Tour 等锚点型悬浮层使用 `@floating-ui/vue` 作为统一定位内核。业务侧可通过 `floatingOptions` 使用完整的 Floating UI Vue 配置，原有定位属性继续兼容。
 
+内容裁剪统一依赖 `vue-clamp`：可直接使用 `LineClamp`、`RichLineClamp`、`InlineClamp`、`WrapClamp`，`Ellipsis`、TagGroup、InputTag、Menu 等既有组件也共享这套测量实现。
+
 ## 环境准备
 
 在开始之前，请确保你的本地环境满足以下要求：

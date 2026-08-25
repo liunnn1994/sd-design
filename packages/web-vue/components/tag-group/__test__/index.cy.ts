@@ -61,4 +61,71 @@ describe('TagGroup', () => {
     cy.get('.custom-counter').should('have.text', '更多:2');
     cy.get('.custom-counter .sd-ellipsis').should('not.exist');
   });
+
+  it('collapses to the counter when a single option exceeds the container width', () => {
+    const longLabel = 'AVeryLongLabelWithoutBreakOpportunityThatExceedsAnyNarrowContainerWidth';
+    cy.mount({
+      components: { TagGroup },
+      template: `
+        <div style="width: 120px; overflow: hidden;">
+          <TagGroup :options="options" />
+        </div>
+      `,
+      data: () => ({ options: [longLabel, 'B', 'C'] }),
+    });
+    cy.get('.sd-tag-group-inner').should('have.attr', 'role', 'list');
+    cy.get('.sd-tag-group-item:visible').should(($items) => {
+      const texts = $items.map((_i, el) => Cypress.$(el).text()).get();
+      expect(
+        texts.some((text) => text.includes(longLabel)),
+        'oversized item is hidden',
+      ).to.equal(false);
+      expect(
+        texts.some((text) => /^\+\d+$/.test(text)),
+        'counter appears',
+      ).to.equal(true);
+      expect($items.toArray().every((item) => item.getAttribute('role') === 'listitem')).to.equal(
+        true,
+      );
+    });
+  });
+
+  it('keeps items on one line in responsive mode and shows gap between tags', () => {
+    cy.mount({
+      components: { TagGroup },
+      template: `
+        <div style="width: 300px;">
+          <TagGroup :options="options" />
+        </div>
+      `,
+      data: () => ({ options: ['北京', '上海', '广州'] }),
+    });
+    cy.get('.sd-tag-group-inner > [data-part="content"]').should(($inner) => {
+      const style = getComputedStyle($inner[0]);
+      expect(Number.parseFloat(style.columnGap), 'gap is applied').to.be.greaterThan(0);
+      const visibleItems = $inner.children('[data-part="item"]:visible').toArray();
+      const top = visibleItems[0].getBoundingClientRect().top;
+      visibleItems.forEach((item) => {
+        expect(item.getBoundingClientRect().top, 'all items on one line').to.equal(top);
+      });
+    });
+  });
+
+  it('updates the responsive counter after options change', () => {
+    cy.mount({
+      components: { TagGroup },
+      template: `
+        <div style="width: 120px;">
+          <TagGroup :options="options" />
+          <button class="append-option" @click="options.push('four')">append</button>
+        </div>
+      `,
+      data: () => ({ options: ['one', 'two', 'three'] }),
+    });
+
+    cy.get('.sd-tag-group-item-counter:visible').should('have.text', '+1');
+    cy.get('.append-option').click();
+    cy.get('.sd-tag-group-inner [data-part="item"]:visible').should('have.length', 2);
+    cy.get('.sd-tag-group-item-counter:visible').should('have.text', '+2');
+  });
 });

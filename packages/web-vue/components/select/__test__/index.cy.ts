@@ -228,7 +228,7 @@ describe('Select', () => {
           h('span', { class: 'custom-label' }, `City:${data.label}`),
       },
     });
-    cy.get('.custom-label').should('have.text', 'City:Beijing');
+    cy.get('.custom-label:visible').should('have.text', 'City:Beijing');
   });
 
   it('renders a custom tag slot with selected option data', () => {
@@ -261,6 +261,28 @@ describe('Select', () => {
       },
     });
     cy.get('.sd-select-view-tag').should('exist');
+  });
+
+  it('updates the responsive counter after selected values change', () => {
+    cy.mount({
+      components: { Select },
+      template: `
+        <div style="width: 150px;">
+          <Select
+            v-model="value"
+            multiple
+            max-tag-count="responsive"
+            :options="['one', 'two', 'three', 'four']"
+          />
+          <button class="append-value" @click="value.push('four')">append</button>
+        </div>
+      `,
+      data: () => ({ value: ['one', 'two', 'three'] }),
+    });
+
+    cy.get('.sd-select-view-tag-counter:visible').should('have.text', '+2');
+    cy.get('.append-value').click();
+    cy.get('.sd-select-view-tag-counter:visible').should('have.text', '+3');
   });
 
   it('renders a single label without a native title', () => {

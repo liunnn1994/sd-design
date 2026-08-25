@@ -106,6 +106,33 @@ export type {
 } from './cascader';
 export { default as Checkbox, CheckboxGroup } from './checkbox';
 export type { CheckboxGroupInstance, CheckboxInstance, CheckboxOption } from './checkbox';
+export { default as LineClamp, InlineClamp, RichLineClamp, WrapClamp } from './clamp';
+export type {
+  ClampBoundary,
+  ClampLength,
+  InlineClampInstance,
+  InlineClampParts,
+  InlineClampProps,
+  InlineClampSplit,
+  LineClampExposed,
+  LineClampInstance,
+  LineClampLocation,
+  LineClampProps,
+  LineClampSlotProps,
+  LineClampSlots,
+  RichLineClampExposed,
+  RichLineClampInstance,
+  RichLineClampProps,
+  RichLineClampSlotProps,
+  RichLineClampSlots,
+  WrapClampExposed,
+  WrapClampInstance,
+  WrapClampItemKey,
+  WrapClampItemSlotProps,
+  WrapClampProps,
+  WrapClampSlotProps,
+  WrapClampSlots,
+} from './clamp';
 export { default as Collapse, CollapseItem } from './collapse';
 export type { CollapseInstance, CollapseItemInstance } from './collapse';
 export { default as Comment } from './comment';

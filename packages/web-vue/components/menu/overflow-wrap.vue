@@ -1,27 +1,27 @@
 <template>
-  <DefineOverflowSubMenu v-slot="{ children, mirror }">
+  <div ref="refWrapper" :class="`${overflowPrefixCls}-wrap`">
+    <SubMenu key="__sd-menu-overflow-sub-menu-mirror" :class="overflowSubMenuMirrorClass">
+      <template #title>
+        <span>...</span>
+      </template>
+    </SubMenu>
+    <component :is="item" v-for="item in menuItems" :key="item.key ?? undefined" />
     <SubMenu
-      :key="`__sd-menu-overflow-sub-menu${mirror ? '-mirror' : ''}`"
-      :class="mirror ? overflowSubMenuMirrorClass : overflowSubMenuClass"
+      v-if="overflowMenuItems.length > 0"
+      key="__sd-menu-overflow-sub-menu"
+      :class="overflowSubMenuClass"
     >
       <template #title>
         <span>...</span>
       </template>
-      <component :is="child" v-for="child in children" :key="child.key ?? undefined" />
+      <component :is="child" v-for="child in overflowMenuItems" :key="child.key ?? undefined" />
     </SubMenu>
-  </DefineOverflowSubMenu>
-
-  <div ref="refWrapper" :class="`${overflowPrefixCls}-wrap`">
-    <ReuseOverflowSubMenu mirror :children="[]" />
-    <component :is="item" v-for="item in menuItems" :key="item.key ?? undefined" />
-    <ReuseOverflowSubMenu v-if="overflowMenuItems" :children="overflowMenuItems" :mirror="false" />
   </div>
 </template>
 
 <script setup lang="ts">
   import { cloneVNode, computed, onMounted, onUnmounted, ref, useSlots, type VNode } from 'vue';
 
-  import { createReusableTemplate } from '@vueuse/core';
   import ResizeObserver from 'resize-observer-polyfill';
 
   import { getStyle } from '../_utils/style';
@@ -67,15 +67,11 @@
   );
   const overflowMenuItems = computed(() => {
     if (lastVisibleIndex.value === null) {
-      return null;
+      return [];
     }
 
     return children.value.slice(lastVisibleIndex.value + 1).map((child) => cloneVNode(child));
   });
-  const [DefineOverflowSubMenu, ReuseOverflowSubMenu] = createReusableTemplate<{
-    children: VNode[];
-    mirror: boolean;
-  }>({ inheritAttrs: false });
 
   function computeLastVisibleIndex() {
     const wrapperElement = refWrapper.value;

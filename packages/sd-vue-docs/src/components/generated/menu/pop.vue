@@ -1,6 +1,6 @@
 <template>
   <div class="menu-demo">
-    <sd-menu mode="pop" showCollapseButton>
+    <sd-menu class="menu-demo__pop-menu" mode="pop" showCollapseButton>
       <sd-menu-item key="1">
         <template #icon><icon-apps></icon-apps></template>
         Navigation 1
@@ -41,25 +41,25 @@
     background-color: var(--color-neutral-2);
   }
 
-  .menu-demo .sd-menu {
+  .menu-demo__pop-menu {
     width: 200px;
     height: 100%;
     box-shadow: 0 0 1px rgb(0 0 0 / 30%);
   }
 
-  .menu-demo .sd-menu :deep(.sd-menu-collapse-button) {
+  .menu-demo__pop-menu :deep(.sd-menu-collapse-button) {
     width: 32px;
     height: 32px;
     border-radius: 50%;
   }
 
-  .menu-demo .sd-menu:not(.sd-menu-collapsed) :deep(.sd-menu-collapse-button) {
+  .menu-demo__pop-menu:not(.sd-menu-collapsed) :deep(.sd-menu-collapse-button) {
     right: 0;
     bottom: 8px;
     transform: translateX(50%);
   }
 
-  .menu-demo .sd-menu:not(.sd-menu-collapsed)::before {
+  .menu-demo__pop-menu:not(.sd-menu-collapsed)::before {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -74,7 +74,7 @@
     content: '';
   }
 
-  .menu-demo .sd-menu.sd-menu-collapsed {
+  .menu-demo__pop-menu.sd-menu-collapsed {
     width: 48px;
     height: auto;
     padding-top: 24px;
@@ -82,7 +82,7 @@
     border-radius: 22px;
   }
 
-  .menu-demo .sd-menu.sd-menu-collapsed :deep(.sd-menu-collapse-button) {
+  .menu-demo__pop-menu.sd-menu-collapsed :deep(.sd-menu-collapse-button) {
     right: 8px;
     bottom: 8px;
   }

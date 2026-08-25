@@ -1,56 +1,70 @@
 <template>
   <DefineTagContent v-slot="{ item, index, measure }">
-    <template v-if="measure || !isCompressedResponsiveTag(index, item.value)">
-      <slot name="tag" :data="getSlotData(item)">{{
-        props.formatTag?.(item.raw) ?? item.label
-      }}</slot>
-    </template>
-    <Ellipsis v-else :class="`${prefixCls}-tag-ellipsis`">
-      <slot name="tag" :data="getSlotData(item)">{{
-        props.formatTag?.(item.raw) ?? item.label
-      }}</slot>
-    </Ellipsis>
+    <slot name="tag" :data="getSlotData(item)">{{
+      props.formatTag?.(item.raw) ?? item.label
+    }}</slot>
   </DefineTagContent>
 
   <Tooltip :popup-visible="tipVisible" :content="readonlyTipText" position="top">
     <span ref="wrapperRef" v-bind="wrapperAttrs" :class="cls" @mousedown="handleMousedown">
-      <ResizeObserver v-if="isResponsiveMaxTagCount && valueData.length > 0" @resize="handleResize">
-        <span :class="`${prefixCls}-resize-observer`" aria-hidden="true" />
-      </ResizeObserver>
       <ResizeObserver @resize="handleResize">
         <span ref="mirrorRef" :class="`${prefixCls}-mirror`">{{ mirrorText }}</span>
       </ResizeObserver>
-      <span
-        v-if="isResponsiveMaxTagCount && valueData.length > 1"
-        ref="measureRef"
-        :class="`${prefixCls}-measure`"
-        aria-hidden="true"
-      >
-        <Tag
-          v-for="(item, index) in valueData"
-          :key="`measure-tag-${item.value}`"
-          :class="`${prefixCls}-tag`"
-          visible
-          nowrap
-          :closable="isClosableTag(item)"
-          v-bind="item.tagProps"
-        >
-          <ReuseTagContent :item="item" :index="index" measure />
-        </Tag>
-        <Tag
-          v-for="hiddenCount in Math.max(valueData.length - 1, 0)"
-          :key="`measure-counter-${hiddenCount}`"
-          :class="[`${prefixCls}-tag`, `${prefixCls}-tag-counter`]"
-          data-overflow-counter="true"
-          :data-hidden-count="hiddenCount"
-          visible
-          nowrap
-        >
-          +{{ hiddenCount }}
-        </Tag>
-      </span>
       <span v-if="$slots.prefix" :class="`${prefixCls}-prefix`"><slot name="prefix" /></span>
+      <WrapClamp
+        v-if="isResponsiveMaxTagCount"
+        :items="valueData"
+        :item-key="(item: TagDataInfo) => item.value"
+        :max-lines="1"
+        as="span"
+        :class="[`${prefixCls}-inner`, `${prefixCls}-inner-responsive`]"
+      >
+        <template #item="{ item, index }">
+          <TransitionGroup tag="span" name="input-tag-zoom" :class="`${prefixCls}-item-holder`">
+            <Tag
+              :key="`tag-${item.value}`"
+              :class="`${prefixCls}-tag`"
+              :closable="isClosableTag(item)"
+              visible
+              nowrap
+              :ellipsis="!$slots.tag"
+              v-bind="item.tagProps"
+              @close="handleRemove(item.value, index, $event)"
+            >
+              <ReuseTagContent :item="item" :index="index" :measure="false" />
+            </Tag>
+          </TransitionGroup>
+        </template>
+        <template #after="{ hiddenItems }">
+          <Tag
+            v-if="hiddenItems.length"
+            :key="hiddenItems.length"
+            :class="[`${prefixCls}-tag`, `${prefixCls}-tag-counter`]"
+            visible
+            nowrap
+            :ellipsis="false"
+            v-text="`+${hiddenItems.length}`"
+          />
+          <input
+            ref="inputRef"
+            v-bind="mergedInputAttrs"
+            :class="`${prefixCls}-input`"
+            :style="inputElementStyle"
+            :placeholder="valueData.length === 0 ? props.placeholder : undefined"
+            :disabled="mergedDisabled"
+            :readonly="Boolean(props.readonly || props.disabledInput)"
+            @input="handleInput"
+            @keydown="handleKeyDown"
+            @focus="handleFocus"
+            @blur="handleBlur"
+            @compositionstart="handleComposition"
+            @compositionupdate="handleComposition"
+            @compositionend="handleComposition"
+          />
+        </template>
+      </WrapClamp>
       <TransitionGroup
+        v-else
         tag="span"
         name="input-tag-zoom"
         :class="[
@@ -68,13 +82,12 @@
             `${prefixCls}-tag`,
             {
               [`${prefixCls}-tag-counter`]: isOverflowCounterTag(item.value),
-              [`${prefixCls}-tag-overflow`]: isCompressedResponsiveTag(index, item.value),
             },
           ]"
           :closable="isClosableTag(item)"
           visible
+          :ellipsis="!$slots.tag"
           :nowrap="props.tagNowrap || isResponsiveMaxTagCount"
-          :style="getTagStyle(index)"
           v-bind="item.tagProps"
           @close="handleRemove(item.value, index, $event)"
         >
@@ -153,7 +166,7 @@
   import { Backspace, Enter } from '../_utils/keycode';
   import { omit } from '../_utils/omit';
   import pick from '../_utils/pick';
-  import Ellipsis from '../ellipsis';
+  import { WrapClamp } from '../clamp';
   import IconClose from '../icon/icon-close';
   import Tag from '../tag';
   import Tooltip from '../tooltip';
@@ -222,7 +235,6 @@
   const wrapperRef = ref<HTMLElement>();
   const inputRef = ref<HTMLInputElement>();
   const mirrorRef = ref<HTMLElement>();
-  const measureRef = ref<HTMLElement>();
   const {
     mergedSize: formSize,
     mergedDisabled,
@@ -249,8 +261,6 @@
   const isComposition = ref(false);
   const compositionValue = ref('');
   const inputStyle = reactive({ width: '12px' });
-  const responsiveVisibleTagCount = ref<number | null>(null);
-  const responsiveTagMaxWidth = ref(0);
   const [DefineTagContent, ReuseTagContent] = createReusableTemplate<{
     item: TagDataInfo;
     index: number;
@@ -332,13 +342,6 @@
   };
 
   const visibleTagCount = computed(() => {
-    if (isResponsiveMaxTagCount.value) {
-      if (!valueData.value.length) return 0;
-      return Math.min(
-        valueData.value.length,
-        Math.max(1, responsiveVisibleTagCount.value ?? valueData.value.length),
-      );
-    }
     if (typeof props.maxTagCount === 'number' && props.maxTagCount > 0) {
       return Math.min(props.maxTagCount, valueData.value.length);
     }
@@ -354,82 +357,9 @@
     const raw = { value: '__arco__more', label: `+${hiddenTagCount.value}`, closable: false };
     return visibleTags.concat({ raw, ...raw });
   });
-  const getOuterWidth = (element: HTMLElement | null | undefined) => {
-    if (!element) return 0;
-    const style = window.getComputedStyle(element);
-    return (
-      element.offsetWidth +
-      (Number.parseFloat(style.marginLeft || '0') || 0) +
-      (Number.parseFloat(style.marginRight || '0') || 0)
-    );
-  };
-  const getCounterWidth = (hiddenCount: number) => {
-    if (!measureRef.value || hiddenCount <= 0) return 0;
-    return getOuterWidth(
-      measureRef.value.querySelector(`[data-hidden-count="${hiddenCount}"]`) as HTMLElement | null,
-    );
-  };
   const isClosableTag = (item: TagDataInfo) =>
     Boolean(item.tagProps?.closable ?? (!mergedDisabled.value && !props.readonly && item.closable));
   const getSlotData = (item: TagDataInfo) => item.raw as TagDataInfo['raw'] & TagDataInfo;
-  const syncResponsiveTags = () => {
-    if (!isResponsiveMaxTagCount.value) {
-      responsiveVisibleTagCount.value = null;
-      responsiveTagMaxWidth.value = 0;
-      return;
-    }
-    const totalTags = valueData.value.length;
-    if (totalTags <= 1) {
-      responsiveVisibleTagCount.value = totalTags;
-      responsiveTagMaxWidth.value = 0;
-      return;
-    }
-    const wrapperElement = wrapperRef.value;
-    const measureElement = measureRef.value;
-    const innerElement = wrapperElement?.querySelector(`.${prefixCls}-inner`) as HTMLElement | null;
-    if (!wrapperElement || !measureElement || !innerElement) {
-      responsiveVisibleTagCount.value = totalTags;
-      responsiveTagMaxWidth.value = 0;
-      return;
-    }
-    const inputWidth = (inputRef.value?.offsetWidth ?? Number.parseFloat(inputStyle.width)) || 12;
-    const availableWidth = Math.max(innerElement.clientWidth - inputWidth, 0);
-    if (availableWidth <= 0) {
-      responsiveVisibleTagCount.value = 1;
-      responsiveTagMaxWidth.value = 0;
-      return;
-    }
-    const measuredTags = Array.from(
-      measureElement.querySelectorAll(`.${prefixCls}-tag`),
-    ) as HTMLElement[];
-    const tagWidths = measuredTags.slice(0, totalTags).map(getOuterWidth);
-    for (let candidate = totalTags; candidate >= 1; candidate -= 1) {
-      const hiddenCount = totalTags - candidate;
-      const counterWidth = getCounterWidth(hiddenCount);
-      const visibleWidth = tagWidths.slice(0, candidate).reduce((sum, width) => sum + width, 0);
-      if (hiddenCount === 0 && visibleWidth <= availableWidth) {
-        responsiveVisibleTagCount.value = candidate;
-        responsiveTagMaxWidth.value = 0;
-        return;
-      }
-      if (hiddenCount > 0 && candidate > 1 && visibleWidth + counterWidth <= availableWidth) {
-        responsiveVisibleTagCount.value = candidate;
-        responsiveTagMaxWidth.value = 0;
-        return;
-      }
-      if (hiddenCount > 0 && candidate === 1) {
-        const leadTagWidth = Math.max(availableWidth - counterWidth, 0);
-        if (leadTagWidth > 0) {
-          responsiveVisibleTagCount.value = 1;
-          responsiveTagMaxWidth.value = leadTagWidth;
-          return;
-        }
-      }
-    }
-    responsiveVisibleTagCount.value = 1;
-    responsiveTagMaxWidth.value = Math.max(availableWidth - getCounterWidth(totalTags - 1), 0);
-  };
-
   const updateValue = (value: (string | number | TagData)[], event: Event) => {
     innerValue.value = value;
     emit('update:modelValue', value);
@@ -506,24 +436,15 @@
   };
   const handleResize = () => {
     if (mirrorRef.value) setInputWidth(mirrorRef.value.offsetWidth);
-    nextTick(syncResponsiveTags);
   };
   onMounted(() => {
     if (mirrorRef.value) setInputWidth(mirrorRef.value.offsetWidth);
-    nextTick(syncResponsiveTags);
   });
   watch(computedInputValue, (value) => {
     if (inputRef.value && !isComposition.value && value !== inputRef.value.value) {
       inputRef.value.value = value;
     }
   });
-  watch(
-    [valueData, computedInputValue, () => props.maxTagCount],
-    () => nextTick(syncResponsiveTags),
-    {
-      deep: true,
-    },
-  );
 
   const cls = computed(() => [
     prefixCls,
@@ -552,25 +473,12 @@
     ...inputEventAttrs.value,
     ...props.inputAttrs,
   }));
-  const getTagStyle = (index: number): CSSProperties | undefined =>
-    isCompressedResponsiveTag(index, tags.value[index]?.value)
-      ? { maxWidth: `${responsiveTagMaxWidth.value}px` }
-      : undefined;
   const inputElementStyle = computed<CSSProperties>(() => {
     const width = props.fitWidth ? fitWidthValue : inputStyle.width;
     return isResponsiveMaxTagCount.value
       ? { ...inputStyle, width, flex: '0 0 auto', minWidth: width }
       : { ...inputStyle, width };
   });
-  function isCompressedResponsiveTag(index: number, value: string | number) {
-    return (
-      isResponsiveMaxTagCount.value &&
-      !isOverflowCounterTag(value) &&
-      hiddenTagCount.value > 0 &&
-      index === 0 &&
-      responsiveTagMaxWidth.value > 0
-    );
-  }
   const focus = () => inputRef.value?.focus();
   const blur = () => inputRef.value?.blur();
   defineExpose({ inputRef, focus, blur });

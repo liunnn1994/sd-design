@@ -16,7 +16,6 @@
   interface BrowserComponentExportEntry {
     importMode: 'default' | 'named';
     importedName?: string;
-    pluginSpecifier?: string | null;
     specifier: string;
   }
 
@@ -114,12 +113,11 @@
   }
 
   // Resolve a tag used in the demo (e.g. `sd-modal`) to its export name
-  // (`Modal`) using the web-vue naming convention. Each export's manifest entry
-  // carries the `pluginSpecifier` that globally registers it, so deriving the
-  // export directly from the tag — instead of from `vetur-tags.json` — keeps the
-  // REPL independent of that metadata file: a missing/stale vetur entry can no
-  // longer break a demo, and any newly added component auto-registers as long
-  // as it is exported from the entry under the conventional name.
+  // (`Modal`) using the web-vue naming convention. Deriving the export directly
+  // from the tag — instead of from `vetur-tags.json` — keeps the REPL independent
+  // of that metadata file: a missing/stale vetur entry can no longer break a
+  // demo, and any newly added component auto-registers as long as it is exported
+  // from the entry under the conventional name.
   function getExportNameForTag(tagName: string) {
     const rawName = tagName.startsWith('sd-')
       ? tagName.slice(3)
@@ -139,16 +137,28 @@
     manifest: BrowserComponentManifest | null,
     theme: 'light' | 'dark',
   ) {
-    const pluginSpecifiers = manifest
+    const components = manifest
       ? extractUsedTagNames(source)
-          .map((tagName) => manifest.exports[getExportNameForTag(tagName)]?.pluginSpecifier)
-          .filter((specifier): specifier is string => Boolean(specifier))
+          .map((tagName) => ({
+            entry: manifest.exports[getExportNameForTag(tagName)],
+            tagName,
+          }))
+          .filter(
+            (component): component is { entry: BrowserComponentExportEntry; tagName: string } =>
+              Boolean(component.entry),
+          )
       : [];
-    const uniquePluginSpecifiers = Array.from(new Set(pluginSpecifiers));
-    const importLines = uniquePluginSpecifiers.map(
-      (specifier, index) => `import __SdPlugin${index} from '${specifier}';`,
+    const importLines = components.map(({ entry, tagName }, index) => {
+      if (entry.importMode === 'named') {
+        const importedName = entry.importedName ?? getExportNameForTag(tagName);
+        return `import { ${importedName} as __SdComponent${index} } from '${entry.specifier}';`;
+      }
+
+      return `import __SdComponent${index} from '${entry.specifier}';`;
+    });
+    const useStatements = components.map(
+      ({ tagName }, index) => `app.component('${tagName}', __SdComponent${index});`,
     );
-    const useStatements = uniquePluginSpecifiers.map((_, index) => `app.use(__SdPlugin${index});`);
 
     if (previewUsesIconPlugin(source)) {
       importLines.push(`import SDVueIcon from '${iconPluginSpecifier}';`);

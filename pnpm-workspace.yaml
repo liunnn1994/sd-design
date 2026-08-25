@@ -131,4 +131,5 @@ minimumReleaseAgeExclude:
   - js-yaml@4.3.1
   - pdfjs-dist@6.2.108
   - nanoid@3.3.17
+  - vue-clamp@1.6.0
 trustLockfile: true

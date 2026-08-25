@@ -64,13 +64,19 @@ describe('TreeSelect', () => {
     cy.mount(TreeSelect, {
       props: { options, showPath: true, defaultValue: 'leaf-2', fieldNames },
     });
-    cy.get('.sd-select-view-value').should('have.text', 'Root / Leaf 2');
+    cy.get('.sd-select-view-value .sd-ellipsis-content:visible').should(
+      'have.text',
+      'Root / Leaf 2',
+    );
     cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ showPath: false })));
-    cy.get('.sd-select-view-value').should('have.text', 'Leaf 2');
+    cy.get('.sd-select-view-value .sd-ellipsis-content:visible').should('have.text', 'Leaf 2');
     cy.get('@vue').then(({ wrapper }) =>
       cy.wrap(wrapper.setProps({ showPath: true, separator: ' | ' })),
     );
-    cy.get('.sd-select-view-value').should('have.text', 'Root | Leaf 2');
+    cy.get('.sd-select-view-value .sd-ellipsis-content:visible').should(
+      'have.text',
+      'Root | Leaf 2',
+    );
   });
 
   it('supports the v-model:show alias', () => {
