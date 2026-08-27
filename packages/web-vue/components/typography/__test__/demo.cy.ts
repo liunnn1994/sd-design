@@ -30,16 +30,20 @@ runDemoTests('typography', demos, (demoName) => {
       .first()
       .should('have.css', 'width', '448px');
 
-    cy.get('.sd-typography[data-part="root"] [data-part="body"]').should(($bodies) => {
-      $bodies.each((_, body) => {
-        expect(body.textContent).to.contain('...');
-      });
-    });
+    cy.get('.sd-typography[data-part="root"]')
+      .eq(0)
+      .should('have.attr', 'title')
+      .and('contain', '设计是一套用于构造对象');
+    cy.get('.sd-typography[data-part="root"]').eq(2).should('contain.text', '——SD Design');
+    cy.get('.sd-typography[data-part="root"]')
+      .eq(3)
+      .should('have.attr', 'title')
+      .and('contain', '当正文较长时');
     cy.contains('.sd-typography-operation-expand', '展开').eq(0).click();
     cy.contains('.sd-typography-operation-expand', '收起').should('be.visible').click();
     cy.get('.sd-typography[data-part="root"]')
       .eq(2)
-      .find('[data-part="body"]')
-      .should('contain.text', '...');
+      .find('.sd-typography-operation-expand')
+      .should('contain.text', '展开');
   }
 });
