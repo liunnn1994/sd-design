@@ -1,3 +1,10 @@
+# [4.3.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.2.0...web-vue-v4.3.0) (2026-08-27)
+
+
+### Features
+
+* 🆕 新增 clamp 组件并且所有涉及到内容裁剪的组件底层都切换为 vue-clamp ([ebdf802](https://github.com/liunnn1994/sd-design/commit/ebdf80274cf5457160791b0292864c4e4aded655))
+
 # [4.2.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.1.0...web-vue-v4.2.0) (2026-08-19)
 
 
