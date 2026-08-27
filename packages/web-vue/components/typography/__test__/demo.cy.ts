@@ -30,8 +30,10 @@ runDemoTests('typography', demos, (demoName) => {
       .first()
       .should('have.css', 'width', '448px');
 
-    cy.get('.sd-typography[data-part="root"] [data-part="body"]').each(($body) => {
-      expect($body.text()).to.contain('...');
+    cy.get('.sd-typography[data-part="root"] [data-part="body"]').should(($bodies) => {
+      $bodies.each((_, body) => {
+        expect(body.textContent).to.contain('...');
+      });
     });
     cy.contains('.sd-typography-operation-expand', '展开').eq(0).click();
     cy.contains('.sd-typography-operation-expand', '收起').should('be.visible').click();
