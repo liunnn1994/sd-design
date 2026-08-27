@@ -30,6 +30,10 @@ runDemoTests('typography', demos, (demoName) => {
       .first()
       .should('have.css', 'width', '448px');
 
+    // Font metrics differ between CI and local browsers. Constrain the demo so
+    // every environment exercises the overflowing, clamped state below.
+    cy.get('.typography-ellipsis-demo').invoke('css', 'width', '240px');
+    cy.get('.sd-typography[data-part="root"]').first().should('have.css', 'width', '240px');
     cy.get('.sd-typography[data-part="root"]')
       .eq(0)
       .should('have.attr', 'title')
