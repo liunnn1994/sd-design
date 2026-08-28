@@ -1,3 +1,10 @@
+## [4.3.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.3.0...web-vue-v4.3.1) (2026-08-28)
+
+
+### Bug Fixes
+
+* 🐛 修复报错 TS18048 ([b4c221a](https://github.com/liunnn1994/sd-design/commit/b4c221a31bf7800e81a12489804a4cc1c2b00aca))
+
 # [4.3.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.2.0...web-vue-v4.3.0) (2026-08-27)
 
 
