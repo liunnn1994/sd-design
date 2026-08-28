@@ -16,7 +16,9 @@
       @mouseleave="handleOptionMouseLeave(item)"
     >
       <span :class="`${optionPrefixCls}-content`">
-        <slot v-if="slots.option && item.value" name="option" :data="optionInfoMap.get(item.key)" />
+        <!-- item 与 optionInfoMap 中是同一对象引用（use-options.ts），直接传 item 使插槽
+             data 类型为确定的 SelectOptionInfo，避免被推断为可能 undefined。 -->
+        <slot v-if="slots.option && item.value" name="option" :data="item" />
         <Ellipsis v-else>{{ item.label }}</Ellipsis>
       </span>
     </li>
