@@ -6,11 +6,11 @@ catalog:
   '@vitejs/plugin-vue-jsx': ^5.1.6
   '@vueuse/core': ^14.4.0
   typescript: ^6.0.3
-  vite: ^8.2.0
+  vite: ^8.2.2
   vue: ^3.5.41
-  'es-toolkit': ^1.50.0
+  'es-toolkit': ^1.51.0
   'type-fest': ^5.8.0
-  oxlint: ^1.78.0
+  oxlint: ^1.80.0
   oxfmt: ^0.55.0
   'vite-plus': ^0.1.24
 
@@ -53,6 +53,7 @@ overrides:
   js-yaml@>=4.0.0 <4.3.1: ^4.3.1
   micromatch@<4.0.8: '>=4.0.8'
   nanoid@<3.3.17: ^3.3.17
+  nanoid@<3.3.18: ^3.3.18
   pdfjs-dist@>=5.6.83 <6.2.108: ^6.2.108
   postcss@<8.4.31: '>=8.4.31'
   postcss@<8.5.10: '>=8.5.10'
@@ -132,4 +133,32 @@ minimumReleaseAgeExclude:
   - pdfjs-dist@6.2.108
   - nanoid@3.3.17
   - vue-clamp@1.6.0
+  - nanoid@3.3.18
+  - '@img/sharp-darwin-arm64@0.35.4'
+  - '@img/sharp-darwin-x64@0.35.4'
+  - '@img/sharp-freebsd-wasm32@0.35.4'
+  - '@img/sharp-libvips-darwin-arm64@1.3.3'
+  - '@img/sharp-libvips-darwin-x64@1.3.3'
+  - '@img/sharp-libvips-linux-arm64@1.3.3'
+  - '@img/sharp-libvips-linux-arm@1.3.3'
+  - '@img/sharp-libvips-linux-ppc64@1.3.3'
+  - '@img/sharp-libvips-linux-riscv64@1.3.3'
+  - '@img/sharp-libvips-linux-s390x@1.3.3'
+  - '@img/sharp-libvips-linux-x64@1.3.3'
+  - '@img/sharp-libvips-linuxmusl-arm64@1.3.3'
+  - '@img/sharp-libvips-linuxmusl-x64@1.3.3'
+  - '@img/sharp-linux-arm64@0.35.4'
+  - '@img/sharp-linux-arm@0.35.4'
+  - '@img/sharp-linux-ppc64@0.35.4'
+  - '@img/sharp-linux-riscv64@0.35.4'
+  - '@img/sharp-linux-s390x@0.35.4'
+  - '@img/sharp-linux-x64@0.35.4'
+  - '@img/sharp-linuxmusl-arm64@0.35.4'
+  - '@img/sharp-linuxmusl-x64@0.35.4'
+  - '@img/sharp-wasm32@0.35.4'
+  - '@img/sharp-webcontainers-wasm32@0.35.4'
+  - '@img/sharp-win32-arm64@0.35.4'
+  - '@img/sharp-win32-ia32@0.35.4'
+  - '@img/sharp-win32-x64@0.35.4'
+  - sharp@0.35.4
 trustLockfile: true

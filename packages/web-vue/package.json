@@ -93,11 +93,11 @@
     "chroma-js": "^3.2.0",
     "compute-scroll-into-view": "^3.1.1",
     "copy-to-clipboard": "^4.0.2",
-    "cropperjs": "^2.1.1",
-    "dayjs": "^1.11.21",
+    "cropperjs": "^2.2.0",
+    "dayjs": "^1.11.23",
     "es-toolkit": "catalog:",
     "lexical": "0.48.0",
-    "motion-v": "^2.3.0",
+    "motion-v": "^2.4.0",
     "number-precision": "^1.6.0",
     "overlayscrollbars": "^2.16.0",
     "pdfjs-dist": "^6.2.108",
@@ -128,7 +128,7 @@
     "cypress": "15.18.0",
     "fast-glob": "^3.3.3",
     "glob": "^13.0.6",
-    "sass": "^1.102.0",
+    "sass": "^1.103.1",
     "semantic-release": "^25.0.9",
     "svgo": "^4.0.2",
     "type-fest": "catalog:",
@@ -136,7 +136,7 @@
     "vite": "catalog:",
     "vite-plus": "catalog:",
     "vue-docgen-api": "4.79.2",
-    "vue-tsc": "^3.3.9"
+    "vue-tsc": "^3.3.11"
   },
   "peerDependencies": {
     "vue": "catalog:"

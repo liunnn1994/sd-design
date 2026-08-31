@@ -69,10 +69,10 @@ pnpm run check:ci
 以下版本号基于当前 [Browserslist 配置](https://web.dev/baseline?hl=zh-cn)自动生成：
 
 - and_chr>=121
-- and_ff>=122
+- and_ff>=123
 - chrome>=121
 - edge>=121
-- firefox>=122
+- firefox>=123
 - ios_saf>=17.2
 - safari>=17.2
 

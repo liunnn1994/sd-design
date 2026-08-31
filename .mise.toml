@@ -1,11 +1,9 @@
 [tools]
-node = "24.19.0"
+node = "24.20.0"
 python = "3.14"
 
-[hooks]
-postinstall = "npx corepack enable"
-
-[settings]
-experimental = true
+[tools.pnpm]
+version = "11.24.0"
+backend = "npm"
 
 
