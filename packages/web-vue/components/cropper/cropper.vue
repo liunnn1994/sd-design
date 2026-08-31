@@ -294,6 +294,34 @@
     );
   }
 
+  function syncSelectionGeometry() {
+    const { selectionX: x, selectionY: y, selectionWidth: width, selectionHeight: height } = props;
+
+    if (x === undefined && y === undefined && width === undefined && height === undefined) {
+      return;
+    }
+
+    const selection = getCropperSelection();
+    if (!selection) {
+      return;
+    }
+
+    const nextX = x ?? selection.x;
+    const nextY = y ?? selection.y;
+    const nextWidth = width ?? selection.width;
+    const nextHeight = height ?? selection.height;
+
+    if (typeof selection.$change !== 'function') {
+      selection.x = nextX;
+      selection.y = nextY;
+      selection.width = nextWidth;
+      selection.height = nextHeight;
+      return;
+    }
+
+    selection.$change(nextX, nextY, nextWidth, nextHeight);
+  }
+
   function destroy() {
     for (const { el, event, fn } of trackedHandlers) {
       el.removeEventListener(event, fn);
@@ -310,13 +338,17 @@
     }
 
     const CropperConstructor = await loadCropperConstructor();
+    const imageElement = imgRef.value;
+    if (!imageElement) {
+      return;
+    }
 
     const options: ConstructorParameters<typeof CropperConstructor>[1] = {};
     if (props.template !== undefined) {
       options.template = props.template;
     }
 
-    cropperInstance = new CropperConstructor(imgRef.value, options);
+    cropperInstance = new CropperConstructor(imageElement, options);
 
     nextTick(() => {
       syncChildProps();
@@ -328,6 +360,7 @@
 
       const selection = getCropperSelection();
       if (selection) {
+        syncSelectionGeometry();
         bindSelectionEvents(selection);
       }
 
@@ -409,27 +442,7 @@
         return;
       }
 
-      const selection = getCropperSelection();
-      if (!selection) {
-        return;
-      }
-
-      nextTick(() => {
-        const nextX = x ?? selection.x;
-        const nextY = y ?? selection.y;
-        const nextWidth = width ?? selection.width;
-        const nextHeight = height ?? selection.height;
-
-        if (typeof selection.$change !== 'function') {
-          selection.x = nextX;
-          selection.y = nextY;
-          selection.width = nextWidth;
-          selection.height = nextHeight;
-          return;
-        }
-
-        selection.$change(nextX, nextY, nextWidth, nextHeight);
-      });
+      nextTick(syncSelectionGeometry);
     },
   );
 
