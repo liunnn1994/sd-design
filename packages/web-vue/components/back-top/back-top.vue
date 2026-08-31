@@ -98,6 +98,11 @@
 
   const scrollToTop = () => {
     if (target.value) {
+      if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+        target.value.scrollTop = 0;
+        return;
+      }
+
       const { scrollTop } = target.value;
       const tween = new BTween({
         from: { scrollTop },

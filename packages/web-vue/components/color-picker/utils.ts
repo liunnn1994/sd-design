@@ -11,8 +11,8 @@ import type {
 import { formatInputToHSVA, hsvToRgb, rgbToHsv, rgbToHex, rgbaToHex } from '../_utils/color';
 
 const DEFAULT_HSVA: HSVA = { h: 0, s: 1, v: 1, a: 1 };
-export const DEFAULT_LINEAR_GRADIENT =
-  'linear-gradient(90deg, rgba(0, 82, 217, 1) 0%, rgba(255, 255, 255, 1) 100%)';
+const DEFAULT_PRIMARY_COLOR = 'rgba(22, 93, 255, 1)';
+export const DEFAULT_LINEAR_GRADIENT = `linear-gradient(90deg, ${DEFAULT_PRIMARY_COLOR} 0%, rgba(255, 255, 255, 1) 100%)`;
 export const TD_COLOR_USED_COLORS_MAX_SIZE = 8;
 
 const HSL_REGEXP = /^hsla?\((.+)\)$/i;
@@ -322,7 +322,7 @@ export const getDefaultGradientState = (baseColor?: string): ColorValueState => 
   const start =
     baseColor && !isGradientColor(baseColor)
       ? formatColor(parseColor(baseColor), 'CSS', true)
-      : 'rgba(0, 82, 217, 1)';
+      : DEFAULT_PRIMARY_COLOR;
   const end = 'rgba(255, 255, 255, 1)';
   const gradientColors = [createGradientPoint(0, start), createGradientPoint(100, end)];
 

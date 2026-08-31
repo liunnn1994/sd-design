@@ -127,7 +127,7 @@ $picker-prefix-cls: string.unquote('#{theme.$prefix}-picker');
       flex: 1;
       height: 32px;
       padding: 0;
-      color: #7d7d7f;
+      color: $picker-panel-color-text-week;
       font-weight: 400;
       line-height: 32px;
       text-align: center;

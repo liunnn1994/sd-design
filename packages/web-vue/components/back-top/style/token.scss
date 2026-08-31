@@ -20,6 +20,8 @@ $backtop-button-color-bg: global.$color-primary-6;
 
 $backtop-button-color-bg_hover: global.$color-primary-5;
 
+$backtop-button-color-focus-ring: global.$color-primary-3;
+
 $backtop-button-border-radius: global.$radius-circle;
 
 $backtop-button-color-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-white'));

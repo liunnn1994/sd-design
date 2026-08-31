@@ -84,3 +84,4 @@ $datepicker-view-tab-pane-spacing-text-icon: 8px;
 $picker-panel-color-bg-label_hover: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-fill-3')
 );
+$picker-panel-color-text-week: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-3'));

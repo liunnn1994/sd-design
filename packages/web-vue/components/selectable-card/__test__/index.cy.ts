@@ -10,7 +10,29 @@ describe('SelectableCard', () => {
     cy.contains('方案内容').should('exist');
     cy.get('input[type="checkbox"][aria-label="方案 A"]').should('be.checked');
     cy.get('.sd-selectable-card').should('have.class', 'sd-selectable-card--selected');
-    cy.get('.sd-selectable-card').should('have.css', 'border-radius', '8px');
+    cy.get('.sd-selectable-card')
+      .should('have.css', 'border-radius', '4px')
+      .and('have.css', 'border-width', '1px')
+      .and('have.css', 'box-shadow', 'none')
+      .and('have.css', 'padding', '12px');
+  });
+
+  it('uses the restrained default typography scale', () => {
+    cy.mount(SelectableCard, {
+      props: {
+        label: '标准版方案',
+        isSelected: true,
+        title: '标准版',
+        value: '¥99 / 月',
+        description: '适合小型团队协作',
+      },
+    });
+
+    cy.get('.sd-selectable-card-title').should('have.css', 'font-size', '14px');
+    cy.get('.sd-selectable-card-value')
+      .should('have.css', 'font-size', '16px')
+      .and('have.css', 'font-weight', '500');
+    cy.get('.sd-selectable-card-content').should('have.css', 'gap', '8px');
   });
 
   it('renders stat content, slots, size and Tag color classes', () => {
