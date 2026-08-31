@@ -37,6 +37,7 @@ describe('theme-provider standalone', () => {
   });
 
   it('keeps body-mounted popups synced with the local theme provider', () => {
+    let clickCount = 0;
     cy.mount(
       defineComponent({
         render() {
@@ -50,7 +51,15 @@ describe('theme-provider standalone', () => {
                   { trigger: 'click', defaultPopupVisible: true },
                   {
                     default: () => h('button', 'open'),
-                    content: () => h('div', { id: 'theme-popup-content' }, 'popup-content'),
+                    content: () =>
+                      h(
+                        'button',
+                        {
+                          id: 'theme-popup-content',
+                          onClick: () => clickCount++,
+                        },
+                        'popup-content',
+                      ),
                   },
                 ),
             },
@@ -63,7 +72,15 @@ describe('theme-provider standalone', () => {
     cy.get('@container').should('have.attr', 'sd-theme', 'dark');
     cy.get('@container').should(($el) => {
       expect(($el[0] as HTMLElement).style.getPropertyValue('--primary-6')).to.equal('98,76,54');
+      expect(getComputedStyle($el[0]).pointerEvents).to.equal('none');
     });
+    cy.get('#theme-popup-content')
+      .closest('.sd-trigger-popup')
+      .should(($popup) => {
+        expect(getComputedStyle($popup[0]).pointerEvents).to.equal('auto');
+      });
+    cy.get('#theme-popup-content').click();
+    cy.then(() => expect(clickCount).to.equal(1));
   });
 
   it('keeps the theme popup container above the modal when the popup opens later', () => {

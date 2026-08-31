@@ -12,6 +12,7 @@ $trigger-prefix-cls: string.unquote('#{theme.$prefix}-trigger');
   &-popup {
     position: absolute;
     z-index: theme.$z-index-popup;
+    pointer-events: auto;
   }
 
   &-arrow {
