@@ -383,6 +383,10 @@ export const docsSidebar = [
             label: '二维码 QrCode',
           },
           {
+            slug: 'components/regex-vis',
+            label: '正则可视化 RegexVis',
+          },
+          {
             slug: 'components/ellipsis',
             label: '文本省略 Ellipsis',
           },

@@ -1,0 +1,42 @@
+@use '@style/theme/index.scss' as global;
+@use 'sass:string';
+
+@forward '@style/theme/index.scss';
+
+$regex-vis-color-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-2'));
+$regex-vis-color-viewport-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-1'));
+$regex-vis-color-border: var(string.unquote('#{global.$sd-cssvars-prefix}-color-border-2'));
+$regex-vis-color-rail: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-3'));
+$regex-vis-color-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
+$regex-vis-color-text-secondary: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-3'));
+$regex-vis-color-node-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-primary-light-1'));
+$regex-vis-color-node-border: global.$color-primary-6;
+$regex-vis-color-assertion-bg: var(
+  string.unquote('#{global.$sd-cssvars-prefix}-color-success-light-1')
+);
+$regex-vis-color-assertion-border: global.$color-success-6;
+$regex-vis-color-group-border: var(string.unquote('#{global.$sd-cssvars-prefix}-color-border-3'));
+$regex-vis-color-hover-bg: var(
+  string.unquote('#{global.$sd-cssvars-prefix}-color-primary-light-2')
+);
+$regex-vis-color-selected-bg: var(
+  string.unquote('#{global.$sd-cssvars-prefix}-color-primary-light-3')
+);
+$regex-vis-color-focus: global.$color-primary-5;
+$regex-vis-color-error: global.$color-danger-6;
+$regex-vis-color-error-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-danger-light-1'));
+$regex-vis-border-width: global.$border-1;
+$regex-vis-border-width-active: global.$border-2;
+$regex-vis-border-radius: global.$radius-large;
+$regex-vis-node-border-radius: global.$radius-medium;
+$regex-vis-padding: global.$spacing-7;
+$regex-vis-padding-compact: global.$spacing-6;
+$regex-vis-control-gap: global.$spacing-6;
+$regex-vis-state-gap: global.$spacing-2;
+$regex-vis-min-height: global.$size-40;
+$regex-vis-font-size: global.$font-size-body-3;
+$regex-vis-font-size-secondary: global.$font-size-body-1;
+$regex-vis-font-size-node: global.$font-size-body-3;
+$regex-vis-font-size-quantifier: global.$font-size-body-3;
+$regex-vis-font-weight: global.$font-weight-500;
+$regex-vis-transition-duration: global.$transition-duration-1;

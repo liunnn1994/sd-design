@@ -296,6 +296,51 @@ export interface SdLang {
   richTextEditor: {
     ariaLabel: string;
   };
+  regexVis: {
+    invalid: string;
+    inputLabel: string;
+    flagsLabel: string;
+    graphLabel: string;
+    placeholder: string;
+    empty: string;
+    stringStart: string;
+    stringEnd: string;
+    wordBoundary: string;
+    notWordBoundary: string;
+    namedGroup: string;
+    captureGroup: string;
+    nonCaptureGroup: string;
+    backReference: string;
+    backReferenceDescription: string;
+    positiveLookahead: string;
+    negativeLookahead: string;
+    positiveLookbehind: string;
+    negativeLookbehind: string;
+    branch: string;
+    root: string;
+    emptyBranch: string;
+    choiceBranches: string;
+    text: string;
+    charClass: string;
+    charRange: string;
+    oneOf: string;
+    noneOf: string;
+    anyCharacter: string;
+    anyDigit: string;
+    nonDigit: string;
+    anyAlphanumeric: string;
+    nonAlphanumeric: string;
+    whiteSpace: string;
+    nonWhiteSpace: string;
+    horizontalTab: string;
+    carriageReturn: string;
+    linefeed: string;
+    verticalTab: string;
+    formFeed: string;
+    backspace: string;
+    nul: string;
+    regexDescription: string;
+  };
 }
 
 export type SdI18nMessages = Record<string, SdLang>;

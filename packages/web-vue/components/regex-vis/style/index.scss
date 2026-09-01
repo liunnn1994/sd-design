@@ -1,0 +1,213 @@
+@use '@style/theme/index.scss' as theme;
+@use 'sass:string';
+@use '@components/regex-vis/style/token.scss' as *;
+
+$regex-vis-prefix-cls: string.unquote('#{theme.$prefix}-regex-vis');
+
+.#{$regex-vis-prefix-cls} {
+  box-sizing: border-box;
+  overflow: hidden;
+  color: $regex-vis-color-text;
+  font-size: $regex-vis-font-size;
+  background: $regex-vis-color-bg;
+  border: $regex-vis-border-width theme.$border-solid $regex-vis-color-border;
+  border-radius: $regex-vis-border-radius;
+
+  &-controls {
+    display: flex;
+    gap: $regex-vis-control-gap;
+    align-items: center;
+    padding: $regex-vis-padding-compact $regex-vis-padding;
+    border-bottom: $regex-vis-border-width theme.$border-solid $regex-vis-color-border;
+  }
+
+  &-input {
+    flex: 1;
+    min-width: 0;
+    font-family: theme.$code-family;
+  }
+
+  &-flags {
+    flex: none;
+    white-space: nowrap;
+  }
+
+  &-viewport {
+    display: flex;
+    align-items: center;
+    min-height: $regex-vis-min-height;
+    padding: $regex-vis-padding;
+    overflow: auto;
+    background: $regex-vis-color-viewport-bg;
+  }
+
+  &-graph {
+    display: block;
+    flex: none;
+    margin: auto;
+    overflow: visible;
+    font-family: theme.$code-family;
+  }
+
+  &-rail {
+    fill: $regex-vis-color-viewport-bg;
+    stroke: $regex-vis-color-rail;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: $regex-vis-border-width;
+  }
+
+  &-empty-label {
+    font-size: $regex-vis-font-size-secondary;
+    fill: $regex-vis-color-text-secondary;
+  }
+
+  &-name-label {
+    font-weight: $regex-vis-font-weight;
+    font-size: $regex-vis-font-size-quantifier;
+    user-select: none;
+    fill: $regex-vis-color-text;
+  }
+
+  &-quantifier {
+    color: $regex-vis-color-text;
+
+    svg {
+      overflow: visible;
+      color: currentcolor;
+    }
+
+    text {
+      font-weight: $regex-vis-font-weight;
+      font-size: $regex-vis-font-size-quantifier;
+      user-select: none;
+      fill: currentcolor;
+    }
+  }
+
+  &-node {
+    color: $regex-vis-color-text;
+    outline: none;
+    cursor: default;
+
+    rect {
+      transition:
+        fill $regex-vis-transition-duration theme.$transition-timing-function-standard,
+        stroke $regex-vis-transition-duration theme.$transition-timing-function-standard;
+      fill: $regex-vis-color-node-bg;
+      stroke: $regex-vis-color-node-border;
+      stroke-width: $regex-vis-border-width;
+    }
+
+    text {
+      font-weight: $regex-vis-font-weight;
+      font-size: $regex-vis-font-size-node;
+      user-select: none;
+      pointer-events: none;
+      fill: currentcolor;
+    }
+
+    &-assertion rect {
+      fill: $regex-vis-color-assertion-bg;
+      stroke: $regex-vis-color-assertion-border;
+    }
+
+    &-group rect,
+    &-choice rect {
+      fill: none;
+      stroke: $regex-vis-color-group-border;
+    }
+
+    &-choice rect {
+      stroke-dasharray: theme.$spacing-3 theme.$spacing-2;
+    }
+
+    &:focus-visible rect {
+      stroke: $regex-vis-color-focus;
+      stroke-width: $regex-vis-border-width-active;
+    }
+
+    &-selected rect {
+      fill: $regex-vis-color-selected-bg;
+      stroke: $regex-vis-color-node-border;
+      stroke-width: $regex-vis-border-width-active;
+    }
+
+    &-group.#{$regex-vis-prefix-cls}-node-selected rect,
+    &-choice.#{$regex-vis-prefix-cls}-node-selected rect {
+      fill: none;
+    }
+  }
+
+  &-selectable &-node {
+    cursor: pointer;
+  }
+
+  &-empty,
+  &-error {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: $regex-vis-state-gap;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: $regex-vis-min-height;
+    color: $regex-vis-color-text-secondary;
+    text-align: center;
+  }
+
+  &-error {
+    box-sizing: border-box;
+    padding: $regex-vis-padding;
+    color: $regex-vis-color-error;
+    background: $regex-vis-color-error-bg;
+    border-radius: $regex-vis-node-border-radius;
+  }
+
+  &-error-title {
+    font-weight: $regex-vis-font-weight;
+  }
+
+  &-error-message {
+    max-width: 100%;
+    font-size: $regex-vis-font-size-secondary;
+    font-family: theme.$code-family;
+    overflow-wrap: anywhere;
+  }
+
+  &-footer {
+    padding: $regex-vis-padding-compact $regex-vis-padding;
+    color: $regex-vis-color-text-secondary;
+    border-top: $regex-vis-border-width theme.$border-solid $regex-vis-color-border;
+  }
+
+  @media (hover: hover) {
+    &-selectable &-node:hover rect {
+      fill: $regex-vis-color-hover-bg;
+    }
+
+    &-selectable &-node-group:hover rect,
+    &-selectable &-node-choice:hover rect {
+      fill: none;
+      stroke: $regex-vis-color-node-border;
+    }
+  }
+
+  @media (width <= 640px) {
+    &-controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    &-flags {
+      white-space: normal;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &-node rect {
+      transition: none;
+    }
+  }
+}

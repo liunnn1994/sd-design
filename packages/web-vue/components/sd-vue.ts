@@ -70,6 +70,7 @@ import Progress from './progress';
 import QrCode from './qr-code';
 import Radio, { RadioGroup } from './radio';
 import Rate from './rate';
+import RegexVis from './regex-vis';
 import ResizeBox from './resize-box';
 import Result from './result';
 import RichTextEditor from './rich-text-editor';
@@ -161,6 +162,7 @@ const components: Record<string, Plugin> = {
   Mention,
   Radio,
   Rate,
+  RegexVis,
   RichTextEditor,
   Select,
   Sender,

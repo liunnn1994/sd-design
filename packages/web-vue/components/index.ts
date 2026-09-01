@@ -481,6 +481,16 @@ export type {
 } from './radio';
 export { default as Rate } from './rate';
 export type { RateInstance } from './rate';
+export { default as RegexVis } from './regex-vis';
+export type {
+  RegexVisError,
+  RegexVisFlag,
+  RegexVisInstance,
+  RegexVisNode,
+  RegexVisProps,
+  RegexVisSelectInfo,
+  RegexVisSlots,
+} from './regex-vis';
 export { default as ResizeBox } from './resize-box';
 export type { ResizeBoxInstance } from './resize-box';
 export { default as Result } from './result';

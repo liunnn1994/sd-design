@@ -1,0 +1,93 @@
+---
+title: 正则可视化 RegexVis
+description: 将 ECMAScript 正则表达式解析为可交互的 SVG 铁路图，支持受控输入、标志、错误反馈和节点选择。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import RegexVisBasicDemo from '../../../../components/generated/regex-vis/basic.vue';
+import regexVisBasicSource from '../../../../components/generated/regex-vis/basic.vue?raw';
+import RegexVisBranchesDemo from '../../../../components/generated/regex-vis/branches.vue';
+import regexVisBranchesSource from '../../../../components/generated/regex-vis/branches.vue?raw';
+import RegexVisControlledDemo from '../../../../components/generated/regex-vis/controlled.vue';
+import regexVisControlledSource from '../../../../components/generated/regex-vis/controlled.vue?raw';
+import RegexVisCustomDemo from '../../../../components/generated/regex-vis/custom.vue';
+import regexVisCustomSource from '../../../../components/generated/regex-vis/custom.vue?raw';
+
+RegexVis 适合正则教学、规则配置和开发工具场景。组件会将字符、字符范围、断言、捕获组、前后行断言与分支转换为 SVG 铁路图；复杂表达式超出容器宽度时可横向滚动。
+
+可视图的背景、节点、连线、选中态、焦点态与错误态均使用 sd-design 语义 token，同一套样式会自动适配浅色和暗色主题。解析器能力内化自 MIT 许可的 regex-vis，不会引入 React、Jotai 或 Radix 等运行时依赖。
+
+### 基本用法
+
+使用 `v-model` 绑定表达式，使用 `v-model:flags` 绑定正则标志。输入无效表达式时，图形区会直接给出错误信息。
+
+<DemoBlock source={regexVisBasicSource} mainFile="src/regex-vis-basic.vue">
+
+<RegexVisBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 复杂分支
+
+隐藏输入区并启用只读模式，可把 RegexVis 用作纯展示型解释图。分组和分支使用嵌套轨道表达结构关系。
+
+<DemoBlock source={regexVisBranchesSource} mainFile="src/regex-vis-branches.vue">
+
+<RegexVisBranchesDemo client:only="vue" />
+
+</DemoBlock>
+
+### 受控状态
+
+由外部切换表达式时，可视图与校验状态会同步更新。错误反馈使用文字和危险色共同表达，不依赖颜色传递信息。
+
+<DemoBlock source={regexVisControlledSource} mainFile="src/regex-vis-controlled.vue">
+
+<RegexVisControlledDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义状态与说明
+
+通过 `empty`、`error` 和 `footer` 插槽定制空状态、错误内容及底部说明。
+
+<DemoBlock source={regexVisCustomSource} mainFile="src/regex-vis-custom.vue">
+
+<RegexVisCustomDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### Props
+
+| 参数 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| model-value / v-model | ECMAScript 正则表达式 | `string` | `''` |
+| flags / v-model:flags | 正则标志 | `RegexVisFlag[]` | `[]` |
+| readonly | 是否禁止修改表达式和标志 | `boolean` | `false` |
+| show-input | 是否显示正则输入框 | `boolean` | `true` |
+| show-flags | 是否显示正则标志选项 | `boolean` | `true` |
+| selectable | 是否允许通过鼠标或键盘选择图形节点 | `boolean` | `true` |
+| placeholder | 输入框占位文本 | `string` | `'请输入正则表达式，例如 ^[a-z]+$'` |
+| empty-text | 默认空状态文本 | `string` | `'输入正则表达式后将在这里生成可视图'` |
+| aria-label | SVG 可视图的无障碍名称 | `string` | `'正则表达式可视图'` |
+
+`RegexVisFlag` 可为 `'d' | 'g' | 'i' | 'm' | 's' | 'u' | 'y'`。默认标志面板展示常用的 `g`、`i`、`m`、`s`、`u` 和 `y`。
+
+### Events
+
+| 事件 | 描述 | 参数 |
+| --- | --- | --- |
+| update:modelValue | 表达式变化时触发 | `(value: string)` |
+| update:flags | 正则标志变化时触发 | `(flags: RegexVisFlag[])` |
+| select | 选择图形节点时触发 | `(info: RegexVisSelectInfo)` |
+| error | 校验状态变化时触发，无错误时参数为 `undefined` | `(error?: RegexVisError)` |
+
+### Slots
+
+| 插槽   | 描述           | 参数                                       |
+| ------ | -------------- | ------------------------------------------ |
+| empty  | 自定义空状态   | `{ text: string }`                         |
+| error  | 自定义错误状态 | `{ error: RegexVisError }`                 |
+| footer | 自定义底部说明 | `{ value: string, flags: RegexVisFlag[] }` |

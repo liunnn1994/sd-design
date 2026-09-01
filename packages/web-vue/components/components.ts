@@ -123,6 +123,7 @@ declare module 'vue' {
     SdRadio: SDVue['Radio'];
     SdRadioGroup: SDVue['RadioGroup'];
     SdRate: SDVue['Rate'];
+    SdRegexVis: SDVue['RegexVis'];
     SdResizeBox: SDVue['ResizeBox'];
     SdResult: SDVue['Result'];
     SdRichTextEditor: SDVue['RichTextEditor'];
@@ -182,5 +183,3 @@ declare module 'vue' {
     $drawer: DrawerMethod;
   }
 }
-
-export {};
