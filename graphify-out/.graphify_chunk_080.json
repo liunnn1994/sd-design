@@ -180,7 +180,7 @@
       "extraction": "EXTRACTED",
       "confidence_score": 0.95,
       "attributes": {
-        "title": "Modal 对话框",
+        "title": "对话框 Modal",
         "description": "在当前页面打开一个浮层，承载相关操作",
         "component": "modal",
         "subcomponents": [],

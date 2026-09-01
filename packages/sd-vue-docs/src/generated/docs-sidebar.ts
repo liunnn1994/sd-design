@@ -425,7 +425,7 @@ export const docsSidebar = [
           },
           {
             slug: 'components/modal',
-            label: 'Modal 对话框',
+            label: '对话框 Modal',
           },
           {
             slug: 'components/drawer',
