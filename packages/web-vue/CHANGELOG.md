@@ -1,3 +1,16 @@
+# [4.4.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.3.1...web-vue-v4.4.0) (2026-09-01)
+
+
+### Bug Fixes
+
+* 🐛 修复容器不可点击的问题 ([b1c7af2](https://github.com/liunnn1994/sd-design/commit/b1c7af2065b73db463057c13d51836b719d502ad))
+
+
+### Features
+
+* 🆕 新增正则可视化组件 ([ebe6901](https://github.com/liunnn1994/sd-design/commit/ebe6901a49f15a17944ab9ac65d35cba19758efc))
+* 🆕 根据设计规范优化组件 ([522d2ac](https://github.com/liunnn1994/sd-design/commit/522d2ac961626718ffd75b900c51003b8d248cbf))
+
 ## [4.3.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.3.0...web-vue-v4.3.1) (2026-08-28)
 
 
