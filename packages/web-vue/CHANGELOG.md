@@ -1,3 +1,16 @@
+## [4.4.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.4.0...web-vue-v4.4.1) (2026-09-07)
+
+
+### Bug Fixes
+
+* 🐛 button 点击守卫未使用 mergedDisabled ([061e9fe](https://github.com/liunnn1994/sd-design/commit/061e9fe1e40a596d99814d9aff3bbeb5ffdc9c49))
+* 🐛 icongen 重新生成时保留受版本控制的 icon __test__ 目录 ([2aff61f](https://github.com/liunnn1994/sd-design/commit/2aff61f25f04aac29ee9b7761082b133a29eda41))
+* 🐛 table Td/Th 组件丢失透传的事件监听 ([95045f8](https://github.com/liunnn1994/sd-design/commit/95045f8ff0b0335c71ef0414f7af86d3f1c4105a))
+* 🐛 theme-provider 卸载时释放弹层栈 zIndex ([a6201aa](https://github.com/liunnn1994/sd-design/commit/a6201aadc6b6121ddd4d7861830ea2333dfeb402))
+* 🐛 tree onDragOver 判断 draggable 时遗漏 .value ([c5509b8](https://github.com/liunnn1994/sd-design/commit/c5509b8aff57a44f735507490288647c2ec8c55c))
+* 🐛 upload 文件类型判断使用最后一个扩展名 ([6cc2a65](https://github.com/liunnn1994/sd-design/commit/6cc2a65a04d896ea13fd8b63692605a1dce3345b))
+* 🐛 修复 date-picker 范围选择器头部操作误判 isDateOrWeek ([47c9b60](https://github.com/liunnn1994/sd-design/commit/47c9b600c089e908c1b459d8cc114ffb3861f3b8))
+
 # [4.4.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.3.1...web-vue-v4.4.0) (2026-09-01)
 
 
