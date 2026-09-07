@@ -90,4 +90,131 @@ describe('Carousel', () => {
     cy.get('.sd-carousel').trigger('keydown', { key: 'ArrowRight' });
     activeIndicator(1);
   });
+
+  it('defaultCurrent sets the initial active indicator', () => {
+    mountCarousel({ defaultCurrent: 3, autoPlay: false });
+    activeIndicator(2);
+  });
+
+  it('out-of-range current wraps to a valid slide', () => {
+    mountCarousel({ current: 7, autoPlay: false });
+    activeIndicator(1);
+  });
+
+  it('manual navigation emits change [index, prevIndex, isManual] and update:current', () => {
+    mountCarousel({ autoPlay: false });
+    cy.get('.sd-carousel-arrow-right').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')).to.deep.equal([[2, 1, true]]);
+      expect(wrapper.emitted('update:current')).to.deep.equal([[2]]);
+    });
+  });
+
+  it('left arrow wraps from the first to the last slide and marks negative direction', () => {
+    mountCarousel({ autoPlay: false });
+    cy.get('.sd-carousel-arrow-left').click();
+    activeIndicator(4);
+    cy.get('.sd-carousel-negative').should('exist');
+  });
+
+  it('ArrowLeft key navigates backward with wrap', () => {
+    mountCarousel({ autoPlay: false });
+    cy.get('.sd-carousel').trigger('keydown', { key: 'ArrowLeft' });
+    activeIndicator(4);
+  });
+
+  it('arrow buttons are keyboard activatable with Enter and Space', () => {
+    mountCarousel({ autoPlay: false });
+    cy.get('.sd-carousel-arrow-right').trigger('keydown', { key: 'Enter' });
+    activeIndicator(1);
+    // 重新挂载，避免 moveSpeed 动画锁内第二次切换被丢弃
+    mountCarousel({ autoPlay: false });
+    cy.get('.sd-carousel-arrow-left').trigger('keydown', { key: ' ' });
+    activeIndicator(4);
+  });
+
+  it('indicator items activate with keyboard Enter', () => {
+    mountCarousel({ autoPlay: false });
+    cy.get('.sd-carousel-indicator-item').eq(3).trigger('keydown', { key: 'Enter' });
+    activeIndicator(3);
+  });
+
+  it('indicator trigger hover switches slides on mouseover', () => {
+    mountCarousel({ autoPlay: false, trigger: 'hover' });
+    cy.get('.sd-carousel-indicator-item').eq(2).trigger('mouseover');
+    activeIndicator(2);
+  });
+
+  it('indicator line type exposes data-index, aria-label and aria-current', () => {
+    mountCarousel({ autoPlay: false, indicatorType: 'line' });
+    cy.get('.sd-carousel-indicator-item')
+      .eq(0)
+      .should('have.attr', 'aria-current', 'true')
+      .and('have.attr', 'data-index', '0');
+    cy.get('.sd-carousel-indicator-item').eq(2).should('have.attr', 'aria-label', '跳转到第 3 张');
+  });
+
+  it('indicatorType never renders no indicator', () => {
+    mountCarousel({ autoPlay: false, indicatorType: 'never' });
+    cy.get('.sd-carousel-indicator').should('not.exist');
+  });
+
+  it('showArrow never renders no arrows and hover adds the hover class', () => {
+    mountCarousel({ autoPlay: false, showArrow: 'never' });
+    cy.get('.sd-carousel-arrow').should('not.exist');
+    mountCarousel({ autoPlay: false, showArrow: 'hover' });
+    cy.get('.sd-carousel-arrow-hover').should('exist');
+  });
+
+  it('indicatorPosition applies position classes on root and wrapper', () => {
+    mountCarousel({ autoPlay: false, indicatorPosition: 'top' });
+    cy.get('.sd-carousel').should('have.class', 'sd-carousel-indicator-position-top');
+    cy.get('.sd-carousel-indicator-wrapper-top').should('exist');
+  });
+
+  it('vertical direction renders top/bottom arrows and switches via bottom arrow', () => {
+    mountCarousel({ autoPlay: false, direction: 'vertical' });
+    cy.get('.sd-carousel-vertical').should('exist');
+    cy.get('.sd-carousel-arrow-right').should('not.exist');
+    cy.get('.sd-carousel-arrow-bottom').click();
+    activeIndicator(1);
+  });
+
+  it('animationName applies the fade/card content classes', () => {
+    mountCarousel({ autoPlay: false, animationName: 'fade' });
+    cy.get('.sd-carousel-fade').should('exist');
+    mountCarousel({ autoPlay: false, animationName: 'card' });
+    cy.get('.sd-carousel-card').should('exist');
+  });
+
+  it('moveSpeed and transitionTimingFunction apply to the slide transition style', () => {
+    mountCarousel({ autoPlay: false, moveSpeed: 800, transitionTimingFunction: 'ease-in' });
+    cy.get('.sd-carousel-item-current')
+      .should('have.css', 'transition-duration', '0.8s')
+      .and('have.css', 'animation-duration', '0.8s')
+      .and('have.css', 'transition-timing-function', 'ease-in');
+  });
+
+  it('marks the adjacent slides with prev/next classes and hides non-current slides', () => {
+    mountCarousel({ current: 3, autoPlay: false });
+    cy.get('.sd-carousel-item-prev')
+      .should('have.length', 1)
+      .and('have.attr', 'aria-hidden', 'true');
+    cy.get('.sd-carousel-item-next').should('have.length', 1);
+    cy.get('.sd-carousel-item-current').should('have.attr', 'aria-hidden', 'false');
+  });
+
+  it('arrowClass and indicatorClass pass through to the sub components', () => {
+    mountCarousel({ autoPlay: false, arrowClass: 'my-arrow', indicatorClass: 'my-indicator' });
+    cy.get('.my-arrow').should('exist');
+    cy.get('.my-indicator').should('exist');
+  });
+
+  it('clicking the active indicator again emits no change', () => {
+    mountCarousel({ autoPlay: false });
+    cy.get('.sd-carousel-indicator-item').eq(0).click({ force: true });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')).to.equal(undefined);
+    });
+  });
 });
