@@ -11,7 +11,8 @@ lib/
 es/
 json/
 
-components/icon
+components/icon/*
+!components/icon/__test__
 icon/icons.json
 
 .eslintcache
