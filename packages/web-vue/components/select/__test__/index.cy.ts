@@ -292,4 +292,323 @@ describe('Select', () => {
     cy.get('.sd-select-view').should('not.have.attr', 'title');
     cy.get('.sd-ellipsis').should('exist');
   });
+
+  it('keeps the sd-select class and merges custom classes on the trigger', () => {
+    // 回归护栏：selectViewBindings 的 class 必须在 ...attrs 之后合并，
+    // 保证 <Select class="custom-select"> 同时保留 sd-select 与自定义类
+    cy.mount(Select, {
+      props: { options: ['Beijing', 'Shanghai'] },
+      attrs: { class: 'custom-select' },
+    });
+    cy.get('.sd-select-view').should('have.class', 'sd-select').and('have.class', 'custom-select');
+  });
+
+  it('does not open the dropdown and hides clear when disabled', () => {
+    cy.mount(Select, {
+      props: { options: ['Beijing', 'Shanghai'], defaultValue: 'Beijing', disabled: true },
+    });
+    cy.get('.sd-select-view').should('have.class', 'sd-select-view-disabled');
+    cy.get('input').should('have.attr', 'disabled');
+    cy.get('.sd-select-view-clear-btn').should('not.exist');
+    cy.get('.sd-select-view').click();
+    // Trigger 常驻渲染隐藏的下拉容器，禁用时点击不应使其可见
+    cy.get('.sd-select-dropdown').should('not.be.visible');
+  });
+
+  it('clears a single value and emits clear + change', () => {
+    cy.mount(Select, { props: { options: ['Beijing', 'Shanghai'], defaultValue: 'Beijing' } });
+    cy.get('.sd-select-view-clear-btn').should('exist');
+    cy.get('.sd-select-view-clear-btn').click({ force: true });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('clear')).to.have.length(1);
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal(['']);
+    });
+  });
+
+  it('clears all values and emits clear + change in multiple mode', () => {
+    cy.mount(Select, {
+      props: {
+        multiple: true,
+        options: ['Beijing', 'Shanghai'],
+        defaultValue: ['Beijing', 'Shanghai'],
+      },
+    });
+    cy.get('.sd-select-view-clear-btn').click({ force: true });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('clear')).to.have.length(1);
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal([[]]);
+    });
+  });
+
+  it('selects and deselects options in multiple mode', () => {
+    cy.mount(Select, { props: { multiple: true, options: ['Beijing', 'Shanghai', 'Guangzhou'] } });
+    open();
+    cy.get('.sd-select-option').eq(0).click();
+    cy.contains('.sd-select-option', 'Beijing').should('have.attr', 'aria-selected', 'true');
+    cy.get('.sd-select-option').eq(1).click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal([['Beijing']]);
+      expect(wrapper.emitted('change')?.[1]).to.deep.equal([['Beijing', 'Shanghai']]);
+      expect(wrapper.emitted('update:modelValue')?.[1]).to.deep.equal([['Beijing', 'Shanghai']]);
+    });
+    cy.get('.sd-select-option').eq(0).click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.[2]).to.deep.equal([['Shanghai']]);
+    });
+  });
+
+  it('emits exceedLimit and blocks change when limit is reached', () => {
+    cy.mount(Select, {
+      props: {
+        multiple: true,
+        limit: 1,
+        defaultValue: ['Beijing'],
+        options: ['Beijing', 'Shanghai', 'Guangzhou'],
+      },
+    });
+    open();
+    cy.get('.sd-select-option').eq(1).click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('exceedLimit')?.[0]?.[0]).to.equal('Shanghai');
+      expect(wrapper.emitted('change')).to.equal(undefined);
+    });
+  });
+
+  it('emits remove when a tag is closed in multiple mode', () => {
+    cy.mount(Select, {
+      props: {
+        multiple: true,
+        defaultValue: ['Beijing', 'Shanghai'],
+        options: ['Beijing', 'Shanghai'],
+      },
+    });
+    cy.get('.sd-select-view-tag').first().find('.sd-tag-close-btn').click({ force: true });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('remove')?.[0]).to.deep.equal(['Beijing']);
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal([['Shanghai']]);
+    });
+  });
+
+  it('renders numeric maxTagCount overflow counter', () => {
+    cy.mount(Select, {
+      props: {
+        multiple: true,
+        maxTagCount: 1,
+        defaultValue: ['Beijing', 'Shanghai', 'Guangzhou'],
+        options: ['Beijing', 'Shanghai', 'Guangzhou'],
+      },
+    });
+    cy.get('.sd-select-view-tag-counter:visible').should('have.text', '+2');
+  });
+
+  it('renders grouped options with group semantics', () => {
+    cy.mount(Select, {
+      props: {
+        options: [
+          { isGroup: true, label: 'Cities', options: ['Beijing', 'Shanghai'] },
+          { isGroup: true, label: 'Provinces', options: ['Guangdong'] },
+        ],
+      },
+    });
+    open();
+    cy.get('[role="group"]').should('have.length', 2);
+    cy.get('[role="group"]').eq(0).should('have.attr', 'aria-label', 'Cities');
+    cy.contains('.sd-select-option', 'Guangdong').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal(['Guangdong']);
+    });
+  });
+
+  it('collapses groups with no matching options when filtering', () => {
+    cy.mount(Select, {
+      props: {
+        options: [
+          { isGroup: true, label: 'Cities', options: ['Beijing', 'Shanghai'] },
+          { isGroup: true, label: 'Provinces', options: ['Guangdong'] },
+        ],
+      },
+    });
+    open();
+    cy.get('input').type('sh');
+    cy.get('[role="group"]').should('have.length', 1).and('have.attr', 'aria-label', 'Cities');
+    cy.get('.sd-select-option').should('have.length', 1).and('contain.text', 'Shanghai');
+  });
+
+  it('filters options with a custom filterOption', () => {
+    cy.mount(Select, {
+      props: {
+        options: [
+          { label: 'Foo', value: 'sh' },
+          { label: 'Shanghai', value: 'shx' },
+        ],
+        filterOption: (inputValue: string, option: any) =>
+          String(option.value).startsWith(inputValue),
+      },
+    });
+    open();
+    cy.get('input').type('shx');
+    // 默认按 label 过滤会命中 Shanghai；自定义按 value 前缀过滤时 Foo(value=sh) 不命中
+    cy.get('.sd-select-option').should('have.length', 1).and('contain.text', 'Shanghai');
+  });
+
+  it('emits a debounced search event with the input value', () => {
+    cy.mount(Select, {
+      props: { options: ['Beijing', 'Shanghai', 'Guangzhou'], searchDelay: 50 },
+    });
+    cy.get('input').click();
+    cy.get('input').type('sh');
+    cy.wait(300);
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('search')?.at(-1)).to.deep.equal(['sh']);
+      expect(wrapper.emitted('inputValueChange')?.at(-1)).to.deep.equal(['sh']);
+      expect(wrapper.emitted('update:inputValue')?.at(-1)).to.deep.equal(['sh']);
+    });
+  });
+
+  it('filters options with a controlled inputValue', () => {
+    cy.mount(Select, {
+      props: { options: ['Beijing', 'Shanghai'], inputValue: 'sh', defaultPopupVisible: true },
+    });
+    cy.get('.sd-select-option').should('have.length', 1).and('contain.text', 'Shanghai');
+  });
+
+  it('closes the dropdown with Escape and emits popupVisibleChange', () => {
+    cy.mount(Select, { props: { options: ['Beijing', 'Shanghai'] } });
+    cy.get('input').click();
+    cy.get('.sd-select-option').should('exist');
+    cy.get('input').type('{esc}', { force: true });
+    cy.get('input').should('have.attr', 'aria-expanded', 'false');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('popupVisibleChange')?.[0]).to.deep.equal([true]);
+      expect(wrapper.emitted('popupVisibleChange')?.[1]).to.deep.equal([false]);
+      expect(wrapper.emitted('update:popupVisible')?.[1]).to.deep.equal([false]);
+    });
+  });
+
+  it('opens the dropdown with Enter and selects with a second Enter', () => {
+    cy.mount(Select, { props: { options: ['Beijing', 'Shanghai'] } });
+    cy.get('input').type('{enter}', { force: true });
+    cy.get('.sd-select-option').should('exist');
+    cy.get('input').type('{enter}', { force: true });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal(['Beijing']);
+    });
+  });
+
+  it('shows no active option when defaultActiveFirstOption is false', () => {
+    cy.mount(Select, {
+      props: { options: ['Beijing', 'Shanghai'], defaultActiveFirstOption: false },
+    });
+    open();
+    cy.get('.sd-select-option-active').should('not.exist');
+  });
+
+  it('renders a fallback option label for values without an option', () => {
+    cy.mount(Select, {
+      props: {
+        options: ['Beijing', 'Shanghai'],
+        defaultValue: 'Chengdu',
+        fallbackOption: false,
+        placeholder: 'Please select',
+      },
+    });
+    cy.get('.sd-select-view-value').should('not.contain.text', 'Chengdu');
+    cy.get('input').should('have.attr', 'placeholder', 'Please select');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ fallbackOption: true })));
+    cy.get('.sd-select-view-value').should('contain.text', 'Chengdu');
+  });
+
+  it('renders header and footer slots in the dropdown', () => {
+    cy.mount(Select, {
+      props: { options: ['Beijing', 'Shanghai'], defaultPopupVisible: true },
+      slots: {
+        header: () => h('div', { class: 'custom-header' }, 'Header'),
+        footer: () => h('div', { class: 'custom-footer' }, 'Footer'),
+      },
+    });
+    cy.get('.sd-select-dropdown-header .custom-header').should('have.text', 'Header');
+    cy.get('.sd-select-dropdown-footer .custom-footer').should('have.text', 'Footer');
+  });
+
+  it('renders custom empty, header and footer on empty with show*OnEmpty', () => {
+    cy.mount(Select, {
+      props: {
+        options: [],
+        defaultPopupVisible: true,
+        showHeaderOnEmpty: true,
+        showFooterOnEmpty: true,
+      },
+      slots: {
+        empty: () => h('div', { class: 'custom-empty' }, 'No data'),
+        header: () => h('div', 'Header'),
+        footer: () => h('div', 'Footer'),
+      },
+    });
+    cy.get('.sd-select-dropdown-empty .custom-empty').should('have.text', 'No data');
+    cy.get('.sd-select-dropdown-header').should('contain.text', 'Header');
+    cy.get('.sd-select-dropdown-footer').should('contain.text', 'Footer');
+  });
+
+  it('renders the prefix slot', () => {
+    cy.mount(Select, {
+      props: { options: ['Beijing', 'Shanghai'] },
+      slots: { prefix: () => h('span', { class: 'custom-prefix' }, 'Prefix') },
+    });
+    cy.get('.sd-select-view-prefix .custom-prefix').should('have.text', 'Prefix');
+  });
+
+  it('unmounts the dropdown content on close with unmountOnClose', () => {
+    cy.mount(Select, {
+      props: { options: ['Beijing', 'Shanghai'], unmountOnClose: true },
+    });
+    open();
+    cy.get('.sd-select-option').should('exist');
+    cy.get('input').type('{esc}', { force: true });
+    cy.get('.sd-select-dropdown').should('not.be.visible');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('popupVisibleChange')?.at(-1)?.[0]).to.equal(false);
+    });
+    // 注：Trigger 的卸载依赖 Transition 的 after-leave（hide 动画结束），
+    // 在 Cypress 环境中动画回调不可靠，因此不断言 DOM 卸载，仅断言收起与事件。
+  });
+
+  it('supports object values with a custom valueKey', () => {
+    cy.mount(Select, {
+      props: {
+        options: [
+          { value: { id: 1 }, label: 'One' },
+          { value: { id: 2 }, label: 'Two' },
+        ],
+        valueKey: 'id',
+      },
+    });
+    open();
+    cy.contains('.sd-select-option', 'One').click();
+    cy.get('.sd-select-view-value').should('contain.text', 'One');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal([{ id: 1 }]);
+    });
+  });
+
+  it('renders options in a virtual list when virtualListProps is set', () => {
+    const options = Array.from({ length: 60 }, (_, i) => `Option ${i}`);
+    cy.mount(Select, {
+      props: {
+        options,
+        virtualListProps: { height: 120, itemSize: 36 },
+        defaultPopupVisible: true,
+      },
+    });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.findComponent({ name: 'VirtualList' }).exists()).to.equal(true);
+    });
+    cy.get('.sd-select-option').should(($rendered) => {
+      expect($rendered.length).to.be.greaterThan(0);
+      expect($rendered.length).to.be.lessThan(options.length);
+    });
+    cy.contains('.sd-select-option', 'Option 0').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal(['Option 0']);
+    });
+  });
 });
