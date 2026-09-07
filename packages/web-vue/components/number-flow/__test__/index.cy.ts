@@ -285,4 +285,146 @@ describe('NumberFlow', () => {
     cy.get('.sd-number-flow-animating').should('have.length', 2);
     cy.then(() => expect(secondStartedAfterYield).to.equal(false));
   });
+
+  it('renders the final value immediately without animation when animated is false', () => {
+    cy.mount(NumberFlow, {
+      props: { value: 5, animated: false, respectMotionPreference: false },
+    });
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ value: 9 })));
+    cy.get('.sd-number-flow-animating').should('not.exist');
+    cy.get('.sd-number-flow-prepared').should('not.exist');
+    cy.get('.sd-number-flow').should('have.attr', 'aria-label', '9');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('animationsstart')).to.equal(undefined);
+      expect(wrapper.emitted('animationsfinish')).to.equal(undefined);
+    });
+  });
+
+  it('parses string values for formatting and animation', () => {
+    cy.clock();
+    cy.mount(NumberFlow, {
+      props: {
+        value: '1234.5',
+        locales: 'zh-CN',
+        format: { minimumFractionDigits: 2 },
+        respectMotionPreference: false,
+        spinTiming: { duration: 100, easing: 'linear' },
+      },
+    });
+    cy.get('.sd-number-flow').should('have.attr', 'aria-label', '1,234.50');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ value: '1235' })));
+    cy.get('.sd-number-flow-animating').should('exist');
+    cy.tick(151);
+    cy.get('.sd-number-flow-animating').should('not.exist');
+    cy.get('.sd-number-flow').should('have.attr', 'aria-label', '1,235.00');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('animationsstart')).to.have.length(1);
+      expect(wrapper.emitted('animationsfinish')).to.have.length(1);
+    });
+  });
+
+  it('renders negative values with a sign part and accessible label', () => {
+    cy.mount(NumberFlow, { props: { value: -42 } });
+    cy.get('.sd-number-flow-sign').should('contain.text', '-');
+    cy.get('.sd-number-flow').should('have.attr', 'aria-label', '-42');
+    cy.get('.sd-number-flow-content').should('contain.text', '-42');
+  });
+
+  it('hides decorative content from assistive tech', () => {
+    cy.mount(NumberFlow, {
+      props: { value: 5, prefix: '¥' },
+      slots: { prefix: () => h('strong', '收入') },
+    });
+    cy.get('.sd-number-flow-content').should('have.attr', 'aria-hidden', 'true');
+    cy.get('.sd-number-flow-custom-prefix').should('have.attr', 'aria-hidden', 'true');
+  });
+
+  it('toggles the will-change class from the willChange prop', () => {
+    cy.mount(NumberFlow, { props: { value: 1, willChange: true } });
+    cy.get('.sd-number-flow-will-change').should('exist');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ willChange: false })));
+    cy.get('.sd-number-flow-will-change').should('not.exist');
+  });
+
+  it('reflects object-form timing props as CSS variables and sanitizes unsafe easing', () => {
+    cy.mount(NumberFlow, {
+      props: {
+        value: 7,
+        transformTiming: { duration: 2000, easing: 'ease-in-out' },
+        opacityTiming: { duration: -5, easing: 'linear; } body{background:url(x)}' },
+      },
+    });
+    cy.get('.sd-number-flow > style')
+      .invoke('text')
+      .should((text) => {
+        expect(text).to.include('--sd-number-flow-duration:2000ms');
+        expect(text).to.include('--sd-number-flow-easing:ease-in-out');
+        expect(text).to.include('--sd-number-flow-opacity-duration:0ms');
+        expect(text).to.not.include('url(');
+        expect(text).to.not.include('background');
+      });
+  });
+
+  it('honors a numeric trend override when computing digit deltas', () => {
+    cy.clock();
+    cy.mount(NumberFlow, {
+      props: {
+        value: 98,
+        trend: 1,
+        format: { minimumIntegerDigits: 3 },
+        respectMotionPreference: false,
+      },
+    });
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ value: 91 })));
+    cy.get('.sd-number-flow-animating').should('exist');
+    cy.get('.sd-number-flow-digit-track').then((tracks) => {
+      expect(tracks.eq(0).children()).to.have.length(1);
+      expect(tracks.eq(1).children()).to.have.length(1);
+      expect(tracks.eq(2).children()).to.have.length(4);
+    });
+    cy.get('.sd-number-flow > style')
+      .invoke('text')
+      .should(
+        'match',
+        /data-number-flow-part="2"[^}]*--sd-number-flow-start:0;--sd-number-flow-end:-3/,
+      );
+  });
+
+  it('disables animation when reduced motion is preferred at mount time', () => {
+    cy.stub(window, 'matchMedia').returns({
+      matches: true,
+      addEventListener: cy.stub(),
+      removeEventListener: cy.stub(),
+    } as unknown as MediaQueryList);
+    cy.mount(NumberFlow, { props: { value: 1 } });
+    cy.get('.sd-number-flow-animated').should('not.exist');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ value: 2 })));
+    cy.get('.sd-number-flow-animating').should('not.exist');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('animationsstart')).to.equal(undefined);
+    });
+  });
+
+  it('stops synchronizing a flow after it unmounts from the group', () => {
+    const showSecond = shallowRef(true);
+    const first = shallowRef(10);
+    cy.clock();
+    cy.mount(() =>
+      h(NumberFlowGroup, null, {
+        default: () => [
+          h(NumberFlow, { value: first.value, respectMotionPreference: false }),
+          showSecond.value ? h(NumberFlow, { value: 30, respectMotionPreference: false }) : null,
+        ],
+      }),
+    );
+    cy.get('.sd-number-flow-group .sd-number-flow').should('have.length', 2);
+    cy.then(() => {
+      showSecond.value = false;
+    });
+    cy.get('.sd-number-flow-group .sd-number-flow').should('have.length', 1);
+    cy.then(() => {
+      first.value = 11;
+    });
+    cy.get('.sd-number-flow-animating').should('have.length', 1);
+  });
 });
