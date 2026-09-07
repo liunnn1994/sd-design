@@ -203,6 +203,244 @@ describe('FilePreviewer', () => {
     });
   });
 
+  it('closes via the close button and emits update:visible', () => {
+    cy.mount(FilePreviewer, {
+      props: {
+        src: videoSrc,
+        type: 'video',
+        defaultVisible: true,
+        renderToBody: false,
+        mediaProps: { skin: false },
+      },
+    });
+    cy.get('.sd-file-previewer-close-btn').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('close')).to.have.length(1);
+      expect(wrapper.emitted('visible-change')![0]).to.deep.equal([false]);
+      expect(wrapper.emitted('update:visible')![0]).to.deep.equal([false]);
+    });
+  });
+
+  it('hides the close button when closable is false', () => {
+    cy.mount(FilePreviewer, {
+      props: {
+        src: videoSrc,
+        type: 'video',
+        defaultVisible: true,
+        renderToBody: false,
+        closable: false,
+        mediaProps: { skin: false },
+      },
+    });
+    cy.get('.sd-file-previewer-close-btn').should('not.exist');
+  });
+
+  it('does not close on mask click when maskClosable is false', () => {
+    cy.mount(FilePreviewer, {
+      props: {
+        src: videoSrc,
+        type: 'video',
+        defaultVisible: true,
+        renderToBody: false,
+        maskClosable: false,
+        mediaProps: { skin: false },
+      },
+    });
+    cy.get('.sd-file-previewer-mask').click({ force: true });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('close')).to.equal(undefined);
+    });
+  });
+
+  it('closes on ESC keydown when escToClose is enabled', () => {
+    cy.mount(FilePreviewer, {
+      props: {
+        src: videoSrc,
+        type: 'video',
+        defaultVisible: true,
+        renderToBody: false,
+        mediaProps: { skin: false },
+      },
+    });
+    cy.get('.sd-file-previewer').trigger('keydown', { key: 'Escape' });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('close')).to.have.length(1);
+      expect(wrapper.emitted('visible-change')![0]).to.deep.equal([false]);
+      expect(wrapper.emitted('update:visible')![0]).to.deep.equal([false]);
+    });
+  });
+
+  it('does not close on ESC keydown when escToClose is false', () => {
+    cy.mount(FilePreviewer, {
+      props: {
+        src: videoSrc,
+        type: 'video',
+        defaultVisible: true,
+        renderToBody: false,
+        escToClose: false,
+        mediaProps: { skin: false },
+      },
+    });
+    cy.get('.sd-file-previewer').trigger('keydown', { key: 'Escape' });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('close')).to.equal(undefined);
+    });
+  });
+
+  it('renders the title header with dialog a11y attributes', () => {
+    cy.mount(FilePreviewer, {
+      props: {
+        src: videoSrc,
+        type: 'video',
+        title: '演示视频',
+        defaultVisible: true,
+        renderToBody: false,
+        mediaProps: { skin: false },
+      },
+    });
+    cy.get('.sd-file-previewer-header').should('exist');
+    cy.get('.sd-file-previewer-title').should('have.text', '演示视频');
+    cy.get('.sd-file-previewer-content')
+      .should('have.attr', 'role', 'dialog')
+      .and('have.attr', 'aria-modal', 'true')
+      .and('have.attr', 'aria-label', '演示视频');
+  });
+
+  it('supports overriding the title via the title slot', () => {
+    cy.mount(FilePreviewer, {
+      props: {
+        src: videoSrc,
+        type: 'video',
+        title: '默认标题',
+        defaultVisible: true,
+        renderToBody: false,
+        mediaProps: { skin: false },
+      },
+      slots: {
+        title: '<template #title><span class="custom-title">自定义标题</span></template>',
+      },
+    });
+    cy.get('.custom-title').should('have.text', '自定义标题');
+    cy.get('.sd-file-previewer-title').should('not.exist');
+  });
+
+  it('renders a native video element with pass-through media props when skin is native', () => {
+    cy.mount(FilePreviewer, {
+      props: {
+        src: videoSrc,
+        type: 'video',
+        defaultVisible: true,
+        renderToBody: false,
+        mediaProps: { skin: 'native', loop: true },
+      },
+    });
+    cy.get('video')
+      .should('have.attr', 'src', videoSrc)
+      .should(($video) => {
+        // controls/loop 为布尔属性，不能用 have.attr 的隐式值断言
+        expect($video[0].hasAttribute('controls')).to.equal(true);
+        expect($video[0].hasAttribute('loop')).to.equal(true);
+      });
+    cy.get('video-player').should('not.exist');
+    cy.get('video-skin').should('not.exist');
+  });
+
+  it('renders the minimal media skin when mediaProps.skin is minimal', () => {
+    cy.mount(FilePreviewer, {
+      props: {
+        src: videoSrc,
+        type: 'video',
+        defaultVisible: true,
+        renderToBody: false,
+        mediaProps: { skin: 'minimal' },
+      },
+    });
+    cy.get('minimal-video-skin').should('exist');
+    cy.get('video-skin').should('not.exist');
+  });
+
+  it('shows the loading indicator while the media has not loaded', () => {
+    cy.mount(FilePreviewer, {
+      props: {
+        src: videoSrc,
+        type: 'video',
+        defaultVisible: true,
+        renderToBody: false,
+        mediaProps: { skin: 'native', preload: 'none' },
+      },
+    });
+    cy.get('.sd-file-previewer-loading').should('have.attr', 'role', 'status');
+  });
+
+  it('renders the image slot inside the overlay and tracks status via slot callbacks', () => {
+    cy.mount(FilePreviewer, {
+      props: { src: imageSrc, defaultVisible: true, renderToBody: false },
+      slots: {
+        image: `
+          <template #image="slotProps">
+            <span class="image-slot-src">{{ slotProps.src }}</span>
+            <span class="image-slot-loaded">{{ String(slotProps.loaded) }}</span>
+            <button class="image-slot-error" @click="slotProps.onError()">fail</button>
+          </template>
+        `,
+      },
+    });
+    cy.get('.sd-file-previewer').should('exist');
+    cy.get('.sd-image').should('not.exist');
+    cy.get('.image-slot-src').should('have.text', imageSrc);
+    cy.get('.image-slot-loaded').should('have.text', 'true');
+    cy.get('.image-slot-error').click({ force: true });
+    cy.get('.sd-file-previewer-error').should('have.attr', 'role', 'alert');
+  });
+
+  it('teleports the fullscreen preview into popupContainer', () => {
+    cy.document().then((doc) => {
+      const holder = doc.createElement('div');
+      holder.id = 'custom-previewer-container';
+      doc.body.appendChild(holder);
+    });
+    cy.mount(FilePreviewer, {
+      props: {
+        src: videoSrc,
+        type: 'video',
+        defaultVisible: true,
+        popupContainer: '#custom-previewer-container',
+        mediaProps: { skin: false },
+      },
+    });
+    cy.get('#custom-previewer-container .sd-file-previewer').should('exist');
+  });
+
+  it('keeps rendering in controlled visible mode after a close request', () => {
+    cy.mount(FilePreviewer, {
+      props: {
+        src: videoSrc,
+        type: 'video',
+        visible: true,
+        renderToBody: false,
+        mediaProps: { skin: false },
+      },
+    });
+    cy.get('.sd-file-previewer-close-btn').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('close')).to.have.length(1);
+      expect(wrapper.emitted('update:visible')![0]).to.deep.equal([false]);
+    });
+    cy.get('.sd-file-previewer').should('be.visible');
+  });
+
+  it('does not render the overlay before it becomes visible', () => {
+    cy.mount(FilePreviewer, {
+      props: {
+        src: videoSrc,
+        type: 'video',
+        renderToBody: false,
+        mediaProps: { skin: false },
+      },
+    });
+    cy.get('.sd-file-previewer').should('not.exist');
+  });
+
   // `worker: false` 会全局切换 pdf.js 到主线程模式（一次性、不可逆），故放在最后执行，
   // 避免影响前面用例的 Worker 渲染路径。
   it('falls back to main-thread rendering when worker is false', () => {
