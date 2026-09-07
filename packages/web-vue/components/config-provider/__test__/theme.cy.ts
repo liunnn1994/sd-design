@@ -1,9 +1,15 @@
 import { defineComponent, h, ref } from 'vue';
 
 import AutoComplete from '../../auto-complete';
+import Button from '../../button';
 import Cascader from '../../cascader';
+import Empty from '../../empty';
 import Input from '../../input';
+import List from '../../list';
+import enUS from '../../locale/lang/en-us';
 import Select from '../../select';
+import Spin from '../../spin';
+import Tag from '../../tag';
 import TreeSelect from '../../tree-select';
 import ConfigProvider from '../config-provider.vue';
 import { applyThemeCSSVariables, normalizeTheme, resolveThemeToken } from '../theme';
@@ -310,5 +316,179 @@ describe('config-provider theme', () => {
       expect(dropdown.findComponent({ name: 'VirtualList' }).props('itemSize')).to.equal(28);
       expect(dropdown.findComponent({ name: 'VirtualList' }).props('height')).to.equal(160);
     });
+  });
+});
+
+describe('config-provider config propagation', () => {
+  afterEach(() => {
+    document.body.removeAttribute('style');
+    document.body.removeAttribute('sd-theme');
+  });
+
+  it('passes prefixCls down to descendants', () => {
+    mountProvider(
+      { prefixCls: 'custom' },
+      h(Button, () => 'OK'),
+    );
+    cy.get('button').should('have.class', 'custom-btn');
+    cy.get('button').should('not.have.class', 'sd-btn');
+  });
+
+  it('passes size down to descendants and reacts to runtime changes', () => {
+    const size = ref<'mini' | 'large'>('mini');
+    cy.mount(
+      defineComponent({
+        render() {
+          return h(
+            ConfigProvider,
+            { size: size.value },
+            { default: () => h(Input, { defaultValue: 'value' }) },
+          );
+        },
+      }),
+    );
+    cy.get('.sd-input').should('have.class', 'sd-input-size-mini');
+    cy.then(() => {
+      size.value = 'large';
+    });
+    cy.get('.sd-input').should('have.class', 'sd-input-size-large');
+    cy.get('.sd-input').should('not.have.class', 'sd-input-size-mini');
+  });
+
+  it('applies the configured locale to descendant i18n text', () => {
+    mountProvider({ locale: enUS }, h(Empty));
+    cy.get('.sd-empty-description').should('have.text', 'No Data');
+  });
+
+  it('keeps the default locale when none is configured', () => {
+    mountProvider({}, h(Empty));
+    cy.get('.sd-empty-description').should('have.text', '暂无数据');
+  });
+
+  it('enables autoInsertSpaceInButton for descendant buttons', () => {
+    mountProvider(
+      { autoInsertSpaceInButton: true },
+      h(Button, () => '确定'),
+    );
+    cy.get('button').should('have.class', 'sd-btn-two-chinese-chars');
+  });
+
+  it('does not add the two-chinese-chars class by default', () => {
+    mountProvider(
+      {},
+      h(Button, () => '确定'),
+    );
+    cy.get('button').should('not.have.class', 'sd-btn-two-chinese-chars');
+  });
+
+  it('applies rtl direction to descendants', () => {
+    mountProvider(
+      { rtl: true },
+      h(Tag, () => 'tag'),
+    );
+    cy.get('.sd-tag').should('have.class', 'sd-tag-rtl');
+  });
+
+  it('renders the provider empty slot inside descendants', () => {
+    cy.mount(
+      defineComponent({
+        render() {
+          return h(
+            ConfigProvider,
+            {},
+            {
+              default: () => h(List),
+              empty: () => h('div', { id: 'custom-empty' }, 'custom-empty'),
+            },
+          );
+        },
+      }),
+    );
+    cy.get('#custom-empty').should('exist');
+  });
+
+  it('renders the provider loading slot inside Spin', () => {
+    cy.mount(
+      defineComponent({
+        render() {
+          return h(
+            ConfigProvider,
+            {},
+            {
+              default: () => h(Spin),
+              loading: () => h('div', { id: 'custom-loading' }, 'custom-loading'),
+            },
+          );
+        },
+      }),
+    );
+    cy.get('#custom-loading').should('exist');
+  });
+
+  it('applies spinProps defaults to descendant Spin', () => {
+    mountProvider({ spinProps: { hideIcon: true } }, h(Spin));
+    cy.get('.sd-spin').should('exist');
+    cy.get('.sd-spin-icon').should('not.exist');
+  });
+
+  it('keeps the Spin icon when spinProps is unset', () => {
+    mountProvider({}, h(Spin));
+    cy.get('.sd-spin-icon').should('exist');
+  });
+
+  it('global provider makes config available outside the slot subtree', () => {
+    cy.mount(
+      defineComponent({
+        render() {
+          return [
+            h(
+              ConfigProvider,
+              { global: true, allowClear: true },
+              { default: () => h(Input, { defaultValue: 'inside' }) },
+            ),
+            h(Input, { defaultValue: 'outside' }),
+          ];
+        },
+      }),
+    );
+    cy.get('.sd-input-clear-btn').should('have.length', 2);
+  });
+
+  it('non-global provider does not affect components outside the slot subtree', () => {
+    cy.mount(
+      defineComponent({
+        render() {
+          return [
+            h(
+              ConfigProvider,
+              { allowClear: true },
+              { default: () => h(Input, { defaultValue: 'inside' }) },
+            ),
+            h(Input, { defaultValue: 'outside' }),
+          ];
+        },
+      }),
+    );
+    cy.get('.sd-input-clear-btn').should('have.length', 1);
+  });
+
+  it('propagates allowClear changes at runtime', () => {
+    const allowClear = ref(false);
+    cy.mount(
+      defineComponent({
+        render() {
+          return h(
+            ConfigProvider,
+            { allowClear: allowClear.value },
+            { default: () => h(Input, { defaultValue: 'value' }) },
+          );
+        },
+      }),
+    );
+    cy.get('.sd-input-clear-btn').should('not.exist');
+    cy.then(() => {
+      allowClear.value = true;
+    });
+    cy.get('.sd-input-clear-btn').should('exist');
   });
 });
