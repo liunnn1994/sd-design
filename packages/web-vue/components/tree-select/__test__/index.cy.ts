@@ -15,6 +15,17 @@ const options = [
 
 const fieldNames = { title: 'label' };
 
+const titleData = [
+  {
+    key: 'root',
+    title: 'Root',
+    children: [
+      { key: 'leaf-1', title: 'Leaf 1' },
+      { key: 'leaf-2', title: 'Leaf 2' },
+    ],
+  },
+];
+
 const openPopup = () => cy.get('.sd-select-view').click();
 
 const checkNode = (key: string) =>
@@ -211,5 +222,278 @@ describe('TreeSelect', () => {
     openPopup();
     cy.get('.sd-select-view').should('have.attr', 'aria-expanded', 'true');
     cy.get('input').should('have.attr', 'aria-expanded', 'true');
+  });
+
+  it('selects a leaf in single mode, closes the popup and emits change', () => {
+    cy.mount(TreeSelect, { props: { options, fieldNames } });
+    openPopup();
+    cy.get('.sd-tree-node[data-key="leaf-1"] .sd-tree-node-title').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal(['leaf-1']);
+      expect(wrapper.emitted('update:modelValue')?.[0]).to.deep.equal(['leaf-1']);
+      // [0] 是打开弹层时的 [true]，选中叶子后最后一条应为 [false]
+      const popupChanges = wrapper.emitted('update:popupVisible');
+      const lastPopupChange = popupChanges?.[popupChanges.length - 1];
+      expect(lastPopupChange).to.deep.equal([false]);
+    });
+    cy.get('.sd-tree-select-popup').should('not.be.visible');
+    cy.get('.sd-select-view-value .sd-ellipsis-content:visible').should('have.text', 'Leaf 1');
+  });
+
+  it('keeps the popup open and supports tag removal in multiple mode', () => {
+    cy.mount(TreeSelect, { props: { multiple: true, options, fieldNames } });
+    openPopup();
+    cy.get('.sd-tree-node[data-key="leaf-1"] .sd-tree-node-title').click();
+    cy.get('.sd-tree-node[data-key="leaf-2"] .sd-tree-node-title').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal([['leaf-1']]);
+      expect(wrapper.emitted('change')?.[1]).to.deep.equal([['leaf-1', 'leaf-2']]);
+    });
+    cy.get('.sd-tree-select-popup').should('be.visible');
+    // 移除第一个 tag
+    cy.get('.sd-select-view-tag').first().find('.sd-tag-close-btn').click({ force: true });
+    cy.get('.sd-select-view-tag').should('have.length', 1);
+    cy.get('.sd-select-view-tag').should('contain.text', 'Leaf 2');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.[2]).to.deep.equal([['leaf-2']]);
+    });
+  });
+
+  it('clears the value and emits clear + change when allowClear', () => {
+    cy.mount(TreeSelect, {
+      props: { options, fieldNames, defaultValue: 'leaf-1', allowClear: true, placeholder: 'pick' },
+    });
+    cy.get('.sd-select-view-clear-btn').should('exist');
+    cy.get('.sd-select-view-clear-btn').click({ force: true });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('clear')).to.have.length(1);
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal([undefined]);
+    });
+    cy.get('.sd-select-view input').should('have.attr', 'placeholder', 'pick');
+  });
+
+  it('filters nodes via search input and emits search + update:inputValue', () => {
+    cy.mount(TreeSelect, { props: { options, fieldNames, allowSearch: true } });
+    openPopup();
+    cy.get('.sd-select-view input').type('leaf-1');
+    cy.get('@vue').should(({ wrapper }) => {
+      const searches = wrapper.emitted('search');
+      expect(searches).to.not.equal(undefined);
+      const lastSearch = searches?.[searches.length - 1];
+      expect(lastSearch).to.deep.equal(['leaf-1']);
+      const inputChanges = wrapper.emitted('update:inputValue');
+      const lastInput = inputChanges?.[inputChanges.length - 1];
+      expect(lastInput).to.deep.equal(['leaf-1']);
+    });
+    // 默认按 key 过滤：root 作为父路径保留
+    cy.get('.sd-tree-node').should('have.length', 2);
+    cy.get('.sd-tree-node[data-key="leaf-1"]').should('be.visible');
+  });
+
+  it('shows the empty state when the filter has no matches', () => {
+    cy.mount(TreeSelect, { props: { options, fieldNames, allowSearch: true } });
+    openPopup();
+    cy.get('.sd-select-view input').type('zzz');
+    cy.get('.sd-tree-select-popup .sd-empty').should('be.visible');
+  });
+
+  it('supports custom filterTreeNode matching by title', () => {
+    cy.mount(TreeSelect, {
+      props: {
+        options,
+        fieldNames,
+        allowSearch: true,
+        filterTreeNode: (keyword: string, nodeData: unknown) =>
+          String((nodeData as { label: string }).label).includes(keyword),
+      },
+    });
+    openPopup();
+    cy.get('.sd-select-view input').type('Leaf 1');
+    // Root 作为父路径保留
+    cy.get('.sd-tree-node').should('have.length', 2);
+    cy.get('.sd-tree-node[data-key="leaf-1"]').should('be.visible');
+  });
+
+  it('keeps all nodes visible when disableFilter is true', () => {
+    cy.mount(TreeSelect, {
+      props: { options, fieldNames, allowSearch: true, disableFilter: true },
+    });
+    openPopup();
+    cy.get('.sd-select-view input').type('zzz');
+    cy.get('.sd-tree-node').should('have.length', 3);
+    cy.get('.sd-tree-select-popup .sd-empty').should('not.exist');
+  });
+
+  it('emits all checked keys with default strategy when checking a parent', () => {
+    cy.mount(TreeSelect, {
+      props: { modelValue: [], options, treeCheckable: true, allowSearch: true, fieldNames },
+    });
+    openPopup();
+    checkNode('root');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('update:modelValue')?.[0]).to.deep.equal([
+        ['root', 'leaf-1', 'leaf-2'],
+      ]);
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal([['root', 'leaf-1', 'leaf-2']]);
+    });
+  });
+
+  it('emits leaf keys only with treeCheckedStrategy=child (checkStrategy alias)', () => {
+    cy.mount(TreeSelect, {
+      props: {
+        modelValue: [],
+        options,
+        treeCheckable: true,
+        allowSearch: true,
+        fieldNames,
+        checkStrategy: 'child',
+      },
+    });
+    openPopup();
+    checkNode('root');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('update:modelValue')?.[0]).to.deep.equal([['leaf-1', 'leaf-2']]);
+    });
+  });
+
+  it('emits only the parent key with treeCheckedStrategy=parent', () => {
+    cy.mount(TreeSelect, {
+      props: {
+        modelValue: [],
+        options,
+        treeCheckable: true,
+        allowSearch: true,
+        fieldNames,
+        treeCheckedStrategy: 'parent',
+      },
+    });
+    openPopup();
+    checkNode('root');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('update:modelValue')?.[0]).to.deep.equal([['root']]);
+    });
+  });
+
+  it('does not cascade checks with treeCheckStrictly', () => {
+    cy.mount(TreeSelect, {
+      props: {
+        modelValue: [],
+        options,
+        treeCheckable: true,
+        allowSearch: true,
+        fieldNames,
+        treeCheckStrictly: true,
+      },
+    });
+    openPopup();
+    checkNode('root');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('update:modelValue')?.[0]).to.deep.equal([['root']]);
+    });
+    // 严格模式下 root 保持自身勾选，leaf-1 独立追加
+    checkNode('leaf-1');
+    cy.get('@vue').should(({ wrapper }) => {
+      const values = wrapper.emitted('update:modelValue') ?? [];
+      // 严格模式下各节点独立勾选，最后一次上报包含 leaf-1
+      const lastValue = values[values.length - 1]?.[0] as string[];
+      expect(lastValue).to.include('leaf-1');
+    });
+  });
+
+  it('shows fallback label = key for unknown values by default', () => {
+    cy.mount(TreeSelect, { props: { data: titleData, defaultValue: 'ghost' } });
+    cy.get('.sd-select-view-value .sd-ellipsis-content:visible').should('have.text', 'ghost');
+  });
+
+  it('drops unknown values when fallbackOption is false', () => {
+    cy.mount(TreeSelect, {
+      props: { data: titleData, defaultValue: 'ghost', fallbackOption: false, placeholder: 'pick' },
+    });
+    cy.get('.sd-select-view input').should('have.attr', 'placeholder', 'pick');
+    cy.get('.sd-select-view-value .sd-ellipsis-content:visible').should('not.exist');
+  });
+
+  it('supports a fallbackOption function for custom fallback labels', () => {
+    cy.mount(TreeSelect, {
+      props: {
+        data: titleData,
+        defaultValue: 'ghost',
+        fallbackOption: (key: string) => ({ key, title: `Fallback:${key}` }),
+      },
+    });
+    cy.get('.sd-select-view-value .sd-ellipsis-content:visible').should(
+      'have.text',
+      'Fallback:ghost',
+    );
+  });
+
+  it('renders header and footer slots in the popup', () => {
+    cy.mount(TreeSelect, {
+      props: { options, fieldNames, defaultPopupVisible: true },
+      slots: {
+        header: () => h('div', { class: 'ts-header' }, 'Header'),
+        footer: () => h('div', { class: 'ts-footer' }, 'Footer'),
+      },
+    });
+    cy.get('.sd-tree-select-popup').should('have.class', 'sd-tree-select-has-header');
+    cy.get('.sd-tree-select-popup').should('have.class', 'sd-tree-select-has-footer');
+    cy.get('.ts-header').should('be.visible');
+    cy.get('.ts-footer').should('be.visible');
+  });
+
+  it('selectable=leaf: parent click expands instead of selecting', () => {
+    cy.mount(TreeSelect, {
+      props: { options, fieldNames, selectable: 'leaf', treeProps: { defaultExpandAll: false } },
+    });
+    openPopup();
+    cy.get('.sd-tree-node[data-key="root"] .sd-tree-node-title').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')).to.equal(undefined);
+    });
+    // 点击父节点触发展开，子节点可见后可点选
+    cy.get('.sd-tree-node[data-key="leaf-1"]').should('be.visible');
+    cy.get('.sd-tree-node[data-key="leaf-1"] .sd-tree-node-title').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal(['leaf-1']);
+    });
+  });
+
+  it('collapses tags beyond maxTagCount', () => {
+    cy.mount(TreeSelect, {
+      props: {
+        multiple: true,
+        options,
+        fieldNames,
+        defaultValue: ['leaf-1', 'leaf-2'],
+        maxTagCount: 1,
+      },
+    });
+    cy.get('.sd-select-view-tag').first().should('contain.text', 'Leaf 1');
+    // 计数器可能存在测量克隆节点，取第一个断言文本
+    cy.get('.sd-select-view-tag-counter').first().should('contain.text', '+1');
+  });
+
+  it('emits LabelValue payloads with labelInValue', () => {
+    cy.mount(TreeSelect, { props: { labelInValue: true, options, fieldNames } });
+    openPopup();
+    cy.get('.sd-tree-node[data-key="leaf-1"] .sd-tree-node-title').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal([{ value: 'leaf-1', label: 'Leaf 1' }]);
+      expect(wrapper.emitted('update:modelValue')?.[0]).to.deep.equal([
+        { value: 'leaf-1', label: 'Leaf 1' },
+      ]);
+    });
+  });
+
+  it('renders a custom single label via the label slot', () => {
+    cy.mount(TreeSelect, {
+      props: { options, fieldNames, defaultValue: 'leaf-1' },
+      slots: {
+        label: ({ data }: { data: { label: string } }) =>
+          h('span', { class: 'tree-custom-label' }, `L:${data.label}`),
+      },
+    });
+    // fit-width 测量克隆会渲染两份，取第一个断言文本
+    cy.get('.tree-custom-label').first().should('contain.text', 'L:Leaf 1');
   });
 });
