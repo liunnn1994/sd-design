@@ -136,7 +136,7 @@
     if (file.value.file?.type) {
       type = file.value.file.type;
     } else {
-      const extension = file.value.name?.split('.')[1] ?? '';
+      const extension = file.value.name?.split('.').pop() ?? '';
       if (['png', 'jpg', 'jpeg', 'bmp', 'gif', 'webp'].includes(extension)) {
         type = 'image';
       } else if (['mp4', 'm2v', 'mkv', 'm4v', 'mov'].includes(extension)) {
