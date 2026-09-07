@@ -200,4 +200,177 @@ describe('InputMask', () => {
     expect(ipRange.accepts?.('192.168.1.0/33')).to.equal(false);
     expect(ipRange.accepts?.('192.168.1.0/abc')).to.equal(false);
   });
+
+  it('treats escaped characters and dangling backslashes in string masks as literals', () => {
+    // \9 in a string mask is a literal '9', not the numeric token.
+    const escaped = formatInputMask('1', null, '\\9-9', { maskChar: null, showMask: true });
+    expect(escaped.value).to.equal('9-1');
+
+    // A trailing lone backslash degrades to a literal backslash instead of throwing.
+    const dangling = formatInputMask('a', null, 'a\\', { maskChar: null, showMask: true });
+    expect(dangling.value).to.equal('a\\');
+  });
+
+  it('clears the next editable value when forward-deleting a separator', () => {
+    cy.mount(InputMask, { props: { mask: '9999-99-99' } });
+    cy.get('input')
+      .type('2026-08-06')
+      .then(($input) => {
+        const el = $input[0] as HTMLInputElement;
+        el.setSelectionRange(4, 4);
+        // Notify the component's selection tracker synchronously so the
+        // following {del} resolves against the new cursor, not a stale one.
+        el.dispatchEvent(new Event('select'));
+      })
+      .type('{del}')
+      .should('have.value', '2026-80-6_');
+  });
+
+  it('treats deleting an empty placeholder as a no-op', () => {
+    cy.mount(InputMask, { props: { mask: '9999-99-99' } });
+    // After typing 2026 the cursor sits at offset 5, right before an empty '_'.
+    cy.get('input').type('2026{del}').should('have.value', '2026-__-__');
+  });
+
+  it('shows the mask template on focus and hides it on blur when empty', () => {
+    cy.mount(InputMask, { props: { mask: '9999-99-99' } });
+
+    cy.get('input')
+      .should('have.value', '')
+      .focus()
+      .should('have.value', '____-__-__')
+      .blur()
+      .should('have.value', '');
+
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('focus')).to.have.length(1);
+      expect(wrapper.emitted('blur')).to.have.length(1);
+    });
+  });
+
+  it('formats raw digits pasted into the input and filters invalid paste content', () => {
+    cy.mount(InputMask, { props: { mask: '9999-99-99', maskChar: null } });
+    const paste = ($input: JQuery<HTMLInputElement>, text: string) => {
+      const el = $input[0] as HTMLInputElement;
+      el.value = text;
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    };
+
+    cy.get('input').then(($input) => paste($input, '20260806'));
+    cy.get('input').should('have.value', '2026-08-06');
+
+    // Pasting an already masked string is idempotent.
+    cy.get('input').then(($input) => paste($input, '2026-08-06'));
+    cy.get('input').should('have.value', '2026-08-06');
+
+    // Junk characters are stripped and the rest re-packed.
+    cy.get('input').then(($input) => paste($input, '2x0-2/6 0806'));
+    cy.get('input').should('have.value', '2026-08-06');
+
+    cy.get('@vue').should(({ wrapper }) => {
+      // complete fired exactly once even across repeated commits.
+      expect(wrapper.emitted('complete')).to.deep.equal([['2026-08-06']]);
+      const emitted = wrapper.emitted('update:modelValue');
+      const last = emitted?.[emitted.length - 1]?.[0];
+      expect(last).to.equal('2026-08-06');
+    });
+  });
+
+  it('derives the placeholder from the preset and lets the prop override it', () => {
+    cy.mount(InputMask, { props: { preset: 'date' } });
+    cy.get('input').should('have.attr', 'placeholder', 'YYYY-MM-DD');
+
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ placeholder: 'Birth date' })));
+    cy.get('input').should('have.attr', 'placeholder', 'Birth date');
+  });
+
+  it('sets inputmode and data-mask-preset from the preset, overridable via inputAttrs', () => {
+    cy.mount(InputMask, { props: { preset: 'ipv4' } });
+    cy.get('input')
+      .should('have.attr', 'inputmode', 'decimal')
+      .and('have.attr', 'data-mask-preset', 'ipv4');
+
+    cy.get('@vue').then(({ wrapper }) =>
+      cy.wrap(wrapper.setProps({ inputAttrs: { inputmode: 'tel' } })),
+    );
+    cy.get('input').should('have.attr', 'inputmode', 'tel');
+  });
+
+  it('transforms the committed value through beforeMaskedValueChange', () => {
+    cy.mount(InputMask, {
+      props: {
+        mask: 'aaa',
+        maskChar: null,
+        beforeMaskedValueChange: (next) => ({ ...next, value: next.value.toUpperCase() }),
+      },
+    });
+
+    cy.get('input').type('abc').should('have.value', 'ABC');
+    cy.get('@vue').should(({ wrapper }) => {
+      const emitted = wrapper.emitted('update:modelValue');
+      const last = emitted?.[emitted.length - 1]?.[0];
+      expect(last).to.equal('ABC');
+    });
+  });
+
+  it('passes disabled, readonly and error state through to the underlying input', () => {
+    cy.mount(InputMask, { props: { mask: '99', maskChar: null, disabled: true } });
+    cy.get('input').should('be.disabled');
+    cy.get('.sd-input-mask').should('have.class', 'sd-input-disabled');
+
+    cy.get('@vue').then(({ wrapper }) =>
+      cy.wrap(wrapper.setProps({ disabled: false, readonly: true })),
+    );
+    cy.get('input').should('have.attr', 'readonly');
+
+    cy.get('@vue').then(({ wrapper }) =>
+      cy.wrap(wrapper.setProps({ readonly: false, error: true })),
+    );
+    cy.get('.sd-input-mask').should('have.class', 'sd-input-error');
+  });
+
+  it('ignores maxLength and showWordLimit when a mask manages the length', () => {
+    cy.mount(InputMask, {
+      props: { mask: '9999-99-99', maskChar: null, maxLength: 5, showWordLimit: true },
+    });
+    cy.get('.sd-input-word-limit').should('not.exist');
+    cy.get('input').type('20260806').should('have.value', '2026-08-06');
+  });
+
+  it('supports custom formatChars tokens', () => {
+    cy.mount(InputMask, {
+      props: { mask: 'bb', maskChar: null, formatChars: { b: /[01]/ } },
+    });
+    cy.get('input').type('0119').should('have.value', '01');
+  });
+
+  it('truncates a multi-character maskChar to its first grapheme', () => {
+    cy.mount(InputMask, {
+      props: { mask: '99-99', maskChar: 'xy', alwaysShowMask: true },
+    });
+    cy.get('input').should('have.value', 'xx-xx').type('12').should('have.value', '12-xx');
+  });
+
+  it('echoes the normalized masked value back to v-model when modelValue changes', () => {
+    cy.mount(InputMask, { props: { modelValue: '2026', mask: '9999-99-99', maskChar: null } });
+    // 掩码模板会带出字面分隔符
+    cy.get('input').should('have.value', '2026-');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ modelValue: '20260806' })));
+    cy.get('@vue').should(({ wrapper }) => {
+      // The watcher re-packs raw digits and echoes the masked form so a parent
+      // that passed a raw string stays in sync.
+      const emitted = wrapper.emitted('update:modelValue');
+      const last = emitted?.[emitted.length - 1]?.[0];
+      expect(last).to.equal('2026-08-06');
+      expect(wrapper.emitted('complete')).to.deep.equal([['2026-08-06']]);
+    });
+    cy.get('input').should('have.value', '2026-08-06');
+  });
+
+  it('normalizes and groups IBAN input in uppercase', () => {
+    cy.mount(InputMask, { props: { preset: 'iban' } });
+    cy.get('input')
+      .type('gb82west12345698765432')
+      .should('have.value', 'GB82 WEST 1234 5698 7654 32');
+  });
 });

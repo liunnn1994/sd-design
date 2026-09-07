@@ -1,15 +1,16 @@
 import { defineComponent, ref } from 'vue';
 
+import { configProviderInjectionKey } from '../../config-provider/context';
 import Menu from '../../menu';
 import Layout from '../index';
 
-const { Sider, Content } = Layout;
+const { Sider, Content, Header, Footer } = Layout;
 const MenuItem = Menu.Item;
 
 const mountTpl = (template: string, extra: Record<string, unknown> = {}) =>
   cy.mount(
     defineComponent({
-      components: { Layout, Sider, Content, Menu, MenuItem },
+      components: { Layout, Sider, Content, Header, Footer, Menu, MenuItem },
       template,
       ...extra,
     } as Record<string, unknown>),
@@ -73,6 +74,32 @@ describe('Layout', () => {
     cy.get('.sd-layout').should('have.class', 'sd-layout-has-sider');
     cy.get('button').eq(1).click();
     cy.get('.sd-layout').should('not.have.class', 'sd-layout-has-sider');
+  });
+
+  it('renders Header, Content and Footer as semantic tags', () => {
+    mountTpl(
+      `<Layout><Header>Header</Header><Content>Content</Content><Footer>Footer</Footer></Layout>`,
+    );
+    cy.get('header.sd-layout-header').should('contain.text', 'Header');
+    cy.get('main.sd-layout-content').should('contain.text', 'Content');
+    cy.get('footer.sd-layout-footer').should('contain.text', 'Footer');
+  });
+
+  it('forces has-sider when hasSider is true without a Sider', () => {
+    mountTpl(`<Layout :has-sider="true"><Content>Content</Content></Layout>`);
+    cy.get('.sd-layout').should('have.class', 'sd-layout-has-sider');
+  });
+
+  it('adds rtl class when ConfigProvider provides rtl', () => {
+    cy.mount(Layout, {
+      global: {
+        provide: {
+          [configProviderInjectionKey as symbol]: { slots: {}, rtl: true },
+        },
+      },
+      slots: { default: 'Content' },
+    });
+    cy.get('.sd-layout').should('have.class', 'sd-layout-rtl');
   });
 
   it('adds has-trigger class when collapsible', () => {
@@ -204,6 +231,29 @@ describe('Sider responsive', () => {
     );
     cy.get('@onBreakpoint').should('have.been.calledWith', true);
   });
+
+  it('auto-collapses an uncontrolled sider when the breakpoint matches', () => {
+    stubMatchMedia(true);
+    const onCollapse = cy.spy().as('onCollapse');
+    mountTpl(
+      `<Layout><Sider collapsible breakpoint="md" @collapse="onCollapse">Sider</Sider><Content>Content</Content></Layout>`,
+      { setup: () => ({ onCollapse }) },
+    );
+    cy.get('@onCollapse').should('have.been.calledWith', true, 'responsive');
+    cy.get('.sd-layout-sider').should('have.class', 'sd-layout-sider-collapsed');
+    cy.get('.sd-layout-sider').should('have.class', 'sd-layout-sider-below');
+  });
+
+  it('emits collapse but keeps the controlled collapsed state when breakpoint matches', () => {
+    stubMatchMedia(true);
+    const onCollapse = cy.spy().as('onCollapse');
+    mountTpl(
+      `<Layout><Sider collapsible breakpoint="md" :collapsed="false" @collapse="onCollapse">Sider</Sider><Content>Content</Content></Layout>`,
+      { setup: () => ({ onCollapse }) },
+    );
+    cy.get('@onCollapse').should('have.been.calledWith', true, 'responsive');
+    cy.get('.sd-layout-sider').should('not.have.class', 'sd-layout-sider-collapsed');
+  });
 });
 
 describe('Sider temporary', () => {
@@ -327,6 +377,18 @@ describe('Sider rail', () => {
     cy.get('@onUpdateRail').should('not.have.been.called');
   });
 
+  it('hover expands the rail overlay and mouseleave collapses it', () => {
+    cy.mount(Sider, {
+      props: { rail: true, expandOnHover: true, railWidth: 72, width: 200 },
+      slots: { default: 'Sider' },
+    });
+    cy.get('.sd-layout-sider-rail-overlay').should('not.have.class', 'sd-layout-sider-rail-expand');
+    cy.get('.sd-layout-sider').trigger('mouseenter', { force: true });
+    cy.get('.sd-layout-sider-rail-overlay').should('have.class', 'sd-layout-sider-rail-expand');
+    cy.get('.sd-layout-sider').trigger('mouseleave', { force: true });
+    cy.get('.sd-layout-sider-rail-overlay').should('not.have.class', 'sd-layout-sider-rail-expand');
+  });
+
   it('rail aligns inner Menu collapsed width to railWidth', () => {
     mountTpl(
       `<Sider rail :rail-width="72" theme="dark"><Menu theme="dark"><MenuItem key="1">nav 1</MenuItem></Menu></Sider>`,
@@ -362,5 +424,111 @@ describe('Sider rail', () => {
       `<Sider theme="dark"><Menu theme="dark"><MenuItem key="1">nav 1</MenuItem></Menu></Sider>`,
     );
     cy.get('.sd-menu').should('not.have.class', 'sd-menu-in-sider-rail');
+  });
+});
+
+describe('Sider collapsed state', () => {
+  it('renders collapsed initially with defaultCollapsed and respects collapsedWidth', () => {
+    cy.mount(Sider, {
+      props: { collapsible: true, defaultCollapsed: true },
+      slots: { default: 'Sider' },
+    });
+    cy.get('.sd-layout-sider').should('have.class', 'sd-layout-sider-collapsed');
+    cy.get('.sd-layout-sider-trigger').should('have.attr', 'aria-expanded', 'false');
+    siderStyle('width', '48px');
+    siderStyle('flex', '0 0 48px');
+  });
+
+  it('trigger click expands an uncontrolled sider and emits collapse', () => {
+    const onCollapse = cy.spy().as('onCollapse');
+    cy.mount(Sider, {
+      props: { collapsible: true, defaultCollapsed: true },
+      attrs: { onCollapse },
+      slots: { default: 'Sider' },
+    });
+    cy.get('.sd-layout-sider-trigger').click();
+    cy.get('@onCollapse').should('have.been.calledWith', false, 'clickTrigger');
+    cy.get('.sd-layout-sider').should('not.have.class', 'sd-layout-sider-collapsed');
+    siderStyle('width', '200px');
+    siderStyle('flex', '0 0 200px');
+  });
+
+  it('applies collapsedWidth styles when controlled collapsed', () => {
+    cy.mount(Sider, {
+      props: { collapsible: true, collapsed: true, collapsedWidth: 64 },
+      slots: { default: 'Sider' },
+    });
+    siderStyle('width', '64px');
+    siderStyle('flex', '0 0 64px');
+  });
+
+  it('shows the left arrow when expanded and the right arrow when collapsed', () => {
+    cy.mount(Sider, { props: { collapsible: true }, slots: { default: 'Sider' } });
+    cy.get('.sd-layout-sider-trigger .sd-icon-left').should('exist');
+    cy.get('.sd-layout-sider-trigger').click();
+    cy.get('.sd-layout-sider-trigger .sd-icon-right').should('exist');
+  });
+
+  it('reverseArrow flips the trigger icon', () => {
+    cy.mount(Sider, {
+      props: { collapsible: true, reverseArrow: true },
+      slots: { default: 'Sider' },
+    });
+    cy.get('.sd-layout-sider-trigger .sd-icon-right').should('exist');
+  });
+
+  it('rtl flips the trigger icon direction', () => {
+    cy.mount(Sider, {
+      props: { collapsible: true },
+      global: {
+        provide: {
+          [configProviderInjectionKey as symbol]: { slots: {}, rtl: true },
+        },
+      },
+      slots: { default: 'Sider' },
+    });
+    cy.get('.sd-layout-sider-trigger .sd-icon-right').should('exist');
+  });
+
+  it('applies zeroWidthTriggerStyle to the zero-width trigger', () => {
+    cy.mount(Sider, {
+      props: {
+        collapsible: true,
+        collapsedWidth: 0,
+        zeroWidthTriggerStyle: { color: 'red' },
+      },
+      slots: { default: 'Sider' },
+    });
+    cy.get('.sd-layout-sider-zero-width-trigger').should(($el) => {
+      expect(($el[0] as HTMLElement).style.color).to.equal('red');
+    });
+  });
+
+  it('renders the native scrollbar container when scrollbar is false', () => {
+    cy.mount(Sider, {
+      props: { scrollbar: false },
+      slots: { default: 'Sider' },
+    });
+    cy.get('.sd-layout-sider-children-scroll').should('exist');
+  });
+
+  it('uses the component Scrollbar by default', () => {
+    cy.mount(Sider, { slots: { default: 'Sider' } });
+    cy.get('.sd-layout-sider-children-scroll').should('not.exist');
+    cy.get('.sd-layout-sider-children.sd-scrollbar').should('exist');
+  });
+
+  it('renders the header slot', () => {
+    cy.mount(Sider, {
+      slots: { default: 'Sider', header: '<div class="my-sider-header">H</div>' },
+    });
+    cy.get('.sd-layout-sider-header').should('contain.text', 'H');
+    cy.get('.sd-layout-sider-header .my-sider-header').should('exist');
+  });
+
+  it('renders no trigger when not collapsible', () => {
+    cy.mount(Sider, { slots: { default: 'Sider' } });
+    cy.get('.sd-layout-sider-trigger').should('not.exist');
+    cy.get('.sd-layout-sider-zero-width-trigger').should('not.exist');
   });
 });

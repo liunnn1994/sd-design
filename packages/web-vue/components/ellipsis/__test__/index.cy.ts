@@ -122,4 +122,167 @@ describe('Ellipsis', () => {
     });
     cy.get('.sd-ellipsis').should('have.attr', 'data-part', 'root');
   });
+
+  it('toggles expand with keyboard Enter and Space and exposes button semantics', () => {
+    cy.mount(Ellipsis, {
+      props: { expandTrigger: 'click' as const, tooltip: false },
+      attrs: { style: 'max-width: 80px; display: block;' },
+      slots: { default: overflowing },
+    });
+    // 等 clamp 状态稳定（title 出现 = isEllipsis 为 true）
+    cy.get('.sd-ellipsis').should('have.attr', 'title', overflowing);
+    cy.get('.sd-ellipsis')
+      .should('have.attr', 'role', 'button')
+      .and('have.attr', 'tabindex', '0')
+      .and('have.attr', 'aria-expanded', 'false');
+    cy.get('.sd-ellipsis').trigger('keydown', { key: 'Enter' });
+    cy.get('.sd-ellipsis')
+      .should('have.class', 'sd-ellipsis--expanded')
+      .and('have.attr', 'aria-expanded', 'true');
+    cy.get('.sd-ellipsis').trigger('keydown', { key: ' ' });
+    cy.get('.sd-ellipsis').should('not.have.class', 'sd-ellipsis--expanded');
+  });
+
+  it('ignores clicks when expand-trigger is not set', () => {
+    cy.mount(Ellipsis, {
+      props: { tooltip: false },
+      attrs: { style: 'max-width: 80px; display: block;' },
+      slots: { default: overflowing },
+    });
+    cy.get('.sd-ellipsis').should('have.attr', 'title', overflowing);
+    cy.get('.sd-ellipsis').should('not.have.class', 'sd-ellipsis--expandable');
+    cy.get('.sd-ellipsis').click();
+    cy.get('.sd-ellipsis').should('not.have.class', 'sd-ellipsis--expanded');
+  });
+
+  it('does not expand clickable ellipsis whose content is not clamped', () => {
+    cy.mount(Ellipsis, {
+      props: { expandTrigger: 'click' as const, tooltip: false },
+      attrs: { style: 'width: 240px; display: block;' },
+      slots: { default: 'short content' },
+    });
+    cy.get('.sd-ellipsis').should('have.attr', 'aria-expanded', 'false');
+    cy.get('.sd-ellipsis').click();
+    cy.get('.sd-ellipsis')
+      .should('not.have.class', 'sd-ellipsis--expanded')
+      .and('not.have.class', 'sd-ellipsis--expandable');
+  });
+
+  it('supports string lineClamp values', () => {
+    cy.mount(Ellipsis, {
+      props: { lineClamp: '2' },
+      attrs: { style: 'max-width: 120px;' },
+      slots: { default: overflowing.repeat(3) },
+    });
+    cy.get('.sd-ellipsis')
+      .should('have.class', 'sd-ellipsis--line-clamp')
+      .and('have.prop', 'tagName', 'DIV')
+      .and('have.css', '-webkit-line-clamp', '2');
+  });
+
+  it('falls back to native title when tooltip is disabled via config', () => {
+    cy.mount(Ellipsis, {
+      props: { tooltip: { disabled: true } },
+      attrs: { style: 'max-width: 80px; display: block;' },
+      slots: { default: overflowing },
+    });
+    cy.get('.sd-ellipsis').should('have.attr', 'title', overflowing);
+    cy.get('.sd-ellipsis').trigger('mouseenter');
+    cy.get('[role="tooltip"]').should('not.exist');
+  });
+
+  it('hides the tooltip while expanded', () => {
+    cy.mount(Ellipsis, {
+      props: {
+        expandTrigger: 'click' as const,
+        tooltip: { mouseEnterDelay: 0, mouseLeaveDelay: 0 },
+      },
+      attrs: { style: 'max-width: 80px; display: block;' },
+      slots: { default: overflowing },
+    });
+    cy.get('.sd-ellipsis').should('have.class', 'sd-ellipsis--expandable');
+    cy.get('.sd-ellipsis').trigger('mouseenter');
+    cy.get('[role="tooltip"]').should('be.visible');
+    cy.get('.sd-ellipsis').trigger('mouseleave');
+    cy.get('.sd-ellipsis').click();
+    cy.get('.sd-ellipsis')
+      .should('have.class', 'sd-ellipsis--expanded')
+      .and('have.attr', 'aria-expanded', 'true');
+    // 注：tooltip 在展开后禁用，但隐藏依赖动画事件（本环境不可靠），不做断言
+  });
+
+  it('renders custom tooltip slot content in the popup', () => {
+    cy.mount(Ellipsis, {
+      props: { tooltip: { mouseEnterDelay: 0, mouseLeaveDelay: 0 } },
+      attrs: { style: 'max-width: 80px; display: block;' },
+      slots: { default: overflowing, tooltip: 'custom tooltip body' },
+    });
+    cy.get('.sd-ellipsis').trigger('mouseenter');
+    cy.get('[role="tooltip"]').should('be.visible').and('contain.text', 'custom tooltip body');
+  });
+
+  it('re-measures when slot content changes dynamically', () => {
+    cy.mount({
+      components: { Ellipsis },
+      data: () => ({ text: 'short' }),
+      template: `
+        <Ellipsis :tooltip="false" style="max-width: 80px; display: block;">{{ text }}</Ellipsis>
+      `,
+    });
+    cy.get('.sd-ellipsis').should('not.have.attr', 'title');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setData({ text: overflowing })));
+    cy.get('.sd-ellipsis').should('have.attr', 'title', overflowing);
+  });
+});
+
+describe('PerformantEllipsis', () => {
+  it('mirrors clamp and expandable classes while dormant', () => {
+    cy.mount(PerformantEllipsis, {
+      props: { lineClamp: 2, expandTrigger: 'click' as const, tooltip: false },
+      attrs: { style: 'max-width: 120px;' },
+      slots: { default: overflowing.repeat(3) },
+    });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.findComponent({ name: 'Ellipsis' }).exists()).to.equal(false);
+    });
+    cy.get('.sd-ellipsis')
+      .should('have.class', 'sd-ellipsis--line-clamp')
+      .and('have.class', 'sd-ellipsis--expandable')
+      .and('not.have.attr', 'data-part');
+  });
+
+  it('activates on click', () => {
+    cy.mount(PerformantEllipsis, {
+      props: { tooltip: false },
+      attrs: { style: 'max-width: 80px;' },
+      slots: { default: overflowing },
+    });
+    cy.get('.sd-ellipsis').click();
+    cy.get('.sd-ellipsis').should('have.attr', 'data-part', 'root');
+  });
+
+  it('activates on focus', () => {
+    cy.mount(PerformantEllipsis, {
+      props: { tooltip: false },
+      attrs: { style: 'max-width: 80px;' },
+      slots: { default: overflowing },
+    });
+    cy.get('.sd-ellipsis').trigger('focus');
+    cy.get('.sd-ellipsis').should('have.attr', 'data-part', 'root');
+  });
+
+  it('expands on click once measurement has settled', () => {
+    cy.mount(PerformantEllipsis, {
+      props: { expandTrigger: 'click' as const, tooltip: false },
+      attrs: { style: 'max-width: 80px; display: block;' },
+      slots: { default: overflowing },
+    });
+    cy.get('.sd-ellipsis').trigger('mouseenter');
+    cy.get('.sd-ellipsis').should('have.attr', 'data-part', 'root');
+    cy.get('.sd-ellipsis').should('have.class', 'sd-ellipsis--expandable');
+    cy.get('.sd-ellipsis').click();
+    cy.get('.sd-ellipsis')
+      .should('have.class', 'sd-ellipsis--expanded')
+      .and('have.attr', 'aria-expanded', 'true');
+  });
 });

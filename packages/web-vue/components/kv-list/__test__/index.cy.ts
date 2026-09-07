@@ -1,4 +1,5 @@
 import { defineComponent, ref } from 'vue';
+import type { Ref } from 'vue';
 
 import { VueDraggable } from 'vue-draggable-plus';
 
@@ -18,6 +19,8 @@ const createHarness = ({
   keyProps,
   valueProps,
   withSlots = false,
+  withToolbarExtra = false,
+  withRowActions = false,
 }: {
   initialJson?: KvListItem[];
   initialBulk?: string;
@@ -27,6 +30,8 @@ const createHarness = ({
   keyProps?: Record<string, unknown>;
   valueProps?: Record<string, unknown>;
   withSlots?: boolean;
+  withToolbarExtra?: boolean;
+  withRowActions?: boolean;
 } = {}) =>
   defineComponent({
     components: { Input, KvList },
@@ -42,6 +47,8 @@ const createHarness = ({
         keyProps,
         valueProps,
         withSlots,
+        withToolbarExtra,
+        withRowActions,
       };
     },
     template: `
@@ -70,9 +77,43 @@ const createHarness = ({
             @update:model-value="update"
           />
         </template>
+        <template v-if="withToolbarExtra" #toolbar-extra>
+          <span data-testid="toolbar-extra">extra</span>
+        </template>
+        <template v-if="withRowActions" #row-actions="{ item, index }">
+          <span data-testid="row-action">{{ index }}|{{ JSON.stringify(item) }}</span>
+        </template>
       </KvList>
       <pre data-testid="json-model">{{ JSON.stringify(json) }}</pre>
       <pre data-testid="bulk-model">{{ bulk }}</pre>
+    `,
+  });
+
+const createSyncHarness = ({
+  jsonRef = ref<KvListItem[]>([]),
+  bulkRef = ref(''),
+  typeRef = ref<KvListType | undefined>(undefined),
+  bulkEditableRef = ref<boolean | undefined>(undefined),
+}: {
+  jsonRef?: Ref<KvListItem[]>;
+  bulkRef?: Ref<string>;
+  typeRef?: Ref<KvListType | undefined>;
+  bulkEditableRef?: Ref<boolean | undefined>;
+} = {}) =>
+  defineComponent({
+    components: { KvList },
+    setup() {
+      return { jsonRef, bulkRef, typeRef, bulkEditableRef };
+    },
+    template: `
+      <KvList
+        v-model:json="jsonRef"
+        v-model:bulk="bulkRef"
+        :type="typeRef"
+        :bulk-editable="bulkEditableRef"
+      />
+      <pre data-testid="json-model">{{ JSON.stringify(jsonRef) }}</pre>
+      <pre data-testid="bulk-model">{{ bulkRef }}</pre>
     `,
   });
 
@@ -190,5 +231,228 @@ describe('KvList', () => {
 
     cy.contains('button', 'Add item').should('exist');
     cy.get('[data-testid="kv-list-row"] input').eq(0).should('have.attr', 'placeholder', 'Key');
+  });
+
+  it('renders a single empty row when no items are provided', () => {
+    cy.mount(createHarness());
+
+    cy.get('[data-testid="kv-list-row"]').should('have.length', 1);
+    cy.get('[data-testid="kv-list-row"] input').eq(0).should('have.value', '');
+    cy.get('[data-testid="kv-list-row"] input').eq(1).should('have.value', '');
+    cy.get('[data-testid="json-model"]').should('have.text', '[]');
+    cy.get('[data-testid="bulk-model"]').should('have.text', '');
+  });
+
+  it('parses the initial bulk model into rows and json', () => {
+    cy.mount(createHarness({ initialBulk: 'x: 1' }));
+
+    cy.get('[data-testid="kv-list-row"] input').eq(0).should('have.value', 'x');
+    cy.get('[data-testid="kv-list-row"] input').eq(1).should('have.value', '1');
+    cy.get('[data-testid="json-model"]').should(
+      'have.text',
+      JSON.stringify([{ key: 'x', value: '1' }]),
+    );
+  });
+
+  it('prefers the json model when both models are initialized', () => {
+    cy.mount(
+      createHarness({
+        initialJson: [{ key: 'a', value: '1' }],
+        initialBulk: 'z: 9',
+      }),
+    );
+
+    cy.get('[data-testid="json-model"]').should(
+      'have.text',
+      JSON.stringify([{ key: 'a', value: '1' }]),
+    );
+    cy.get('[data-testid="bulk-model"]').should('have.text', 'a: 1');
+  });
+
+  it('filters rows with empty keys out of both models', () => {
+    cy.mount(createHarness());
+
+    cy.get('[data-testid="kv-list-row"] input').eq(1).type('orphan');
+    cy.get('[data-testid="json-model"]').should('have.text', '[]');
+    cy.get('[data-testid="bulk-model"]').should('have.text', '');
+    cy.get('[data-testid="kv-list-row"] input').eq(0).type('k');
+    cy.get('[data-testid="json-model"]').should(
+      'have.text',
+      JSON.stringify([{ key: 'k', value: 'orphan' }]),
+    );
+    cy.get('[data-testid="bulk-model"]').should('have.text', 'k: orphan');
+  });
+
+  it('adds an empty row without committing it to the models until it is edited', () => {
+    cy.mount(createHarness({ initialJson: [{ key: 'a', value: '1' }] }));
+
+    cy.contains('button', '新增键值对').click();
+    cy.get('[data-testid="kv-list-row"]').should('have.length', 2);
+    cy.get('[data-testid="json-model"]').should(
+      'have.text',
+      JSON.stringify([{ key: 'a', value: '1' }]),
+    );
+    cy.get('[data-testid="bulk-model"]').should('have.text', 'a: 1');
+    cy.get('[data-testid="kv-list-row"]').eq(1).find('input').eq(0).type('b');
+    cy.get('[data-testid="kv-list-row"]').eq(1).find('input').eq(1).type('2');
+    cy.get('[data-testid="json-model"]').should(
+      'have.text',
+      JSON.stringify([
+        { key: 'a', value: '1' },
+        { key: 'b', value: '2' },
+      ]),
+    );
+    cy.get('[data-testid="bulk-model"]').should('have.text', 'a: 1\nb: 2');
+  });
+
+  it('removes the targeted row and syncs both models', () => {
+    cy.mount(
+      createHarness({
+        initialJson: [
+          { key: 'a', value: '1' },
+          { key: 'b', value: '2' },
+        ],
+      }),
+    );
+
+    cy.get('[data-testid="kv-list-row"]').eq(0).contains('button', '删除键值对').click();
+    cy.get('[data-testid="kv-list-row"]').should('have.length', 1);
+    cy.get('[data-testid="kv-list-row"] input').eq(0).should('have.value', 'b');
+    cy.get('[data-testid="json-model"]').should(
+      'have.text',
+      JSON.stringify([{ key: 'b', value: '2' }]),
+    );
+    cy.get('[data-testid="bulk-model"]').should('have.text', 'b: 2');
+  });
+
+  it('keeps one empty row after removing the last row', () => {
+    cy.mount(createHarness({ initialJson: [{ key: 'a', value: '1' }] }));
+
+    cy.get('[data-testid="kv-list-row"]').eq(0).contains('button', '删除键值对').click();
+    cy.get('[data-testid="kv-list-row"]').should('have.length', 1);
+    cy.get('[data-testid="kv-list-row"] input').eq(0).should('have.value', '');
+    cy.get('[data-testid="json-model"]').should('have.text', '[]');
+    cy.get('[data-testid="bulk-model"]').should('have.text', '');
+  });
+
+  it('clears all rows and resets both models', () => {
+    cy.mount(
+      createHarness({
+        initialJson: [
+          { key: 'a', value: '1' },
+          { key: 'b', value: '2' },
+        ],
+      }),
+    );
+
+    cy.contains('button', '清空键值对').click();
+    cy.get('[data-testid="kv-list-row"]').should('have.length', 1);
+    cy.get('[data-testid="kv-list-row"] input').eq(0).should('have.value', '');
+    cy.get('[data-testid="json-model"]').should('have.text', '[]');
+    cy.get('[data-testid="bulk-model"]').should('have.text', '');
+  });
+
+  it('round-trips list edits through bulk mode', () => {
+    cy.mount(createHarness({ initialJson: [{ key: 'a', value: '1' }] }));
+
+    cy.contains('button', '切换到 Bulk 编辑').click();
+    cy.get('[data-testid="kv-list-bulk"] textarea')
+      .should('have.value', 'a: 1')
+      .type('{moveToEnd}{enter}b: 2');
+    cy.contains('button', '切换到列表编辑').click();
+    cy.get('[data-testid="kv-list-row"]').should('have.length', 2);
+    cy.get('[data-testid="kv-list-row"] input').eq(0).should('have.value', 'a');
+    cy.get('[data-testid="kv-list-row"] input').eq(1).should('have.value', '1');
+    cy.get('[data-testid="kv-list-row"] input').eq(2).should('have.value', 'b');
+    cy.get('[data-testid="kv-list-row"] input').eq(3).should('have.value', '2');
+    cy.get('[data-testid="json-model"]').should(
+      'have.text',
+      JSON.stringify([
+        { key: 'a', value: '1' },
+        { key: 'b', value: '2' },
+      ]),
+    );
+    cy.get('[data-testid="bulk-model"]').should('have.text', 'a: 1\nb: 2');
+  });
+
+  it('replaces rows when the json model is updated externally', () => {
+    const jsonRef = ref<KvListItem[]>([{ key: 'a', value: '1' }]);
+    cy.mount(createSyncHarness({ jsonRef }));
+
+    cy.get('[data-testid="kv-list-row"]').should('have.length', 1);
+    cy.get('@vue').then(() => {
+      jsonRef.value = [
+        { key: 'a', value: '1' },
+        { key: 'b', value: '2' },
+      ];
+    });
+    cy.get('[data-testid="kv-list-row"]').should('have.length', 2);
+    cy.get('[data-testid="kv-list-row"] input').eq(2).should('have.value', 'b');
+    cy.get('[data-testid="bulk-model"]').should('have.text', 'a: 1\nb: 2');
+  });
+
+  it('replaces rows when the bulk model is updated externally', () => {
+    const bulkRef = ref('x: 1');
+    cy.mount(createSyncHarness({ bulkRef }));
+
+    cy.get('[data-testid="kv-list-row"] input').eq(0).should('have.value', 'x');
+    cy.get('@vue').then(() => {
+      bulkRef.value = 'x: 1\ny: 2';
+    });
+    cy.get('[data-testid="kv-list-row"]').should('have.length', 2);
+    cy.get('[data-testid="kv-list-row"] input').eq(2).should('have.value', 'y');
+    cy.get('[data-testid="json-model"]').should(
+      'have.text',
+      JSON.stringify([
+        { key: 'x', value: '1' },
+        { key: 'y', value: '2' },
+      ]),
+    );
+  });
+
+  it('resets bulk mode when bulk editing becomes unavailable', () => {
+    const typeRef = ref<KvListType | undefined>('http-header');
+    const jsonRef = ref<KvListItem[]>([{ key: 'a', value: '1' }]);
+    cy.mount(createSyncHarness({ typeRef, jsonRef }));
+
+    cy.contains('button', '切换到 Bulk 编辑').click();
+    cy.get('[data-testid="kv-list-bulk"]').should('exist');
+    cy.get('@vue').then(() => {
+      typeRef.value = 'secret';
+    });
+    cy.get('[data-testid="kv-list-bulk"]').should('not.exist');
+    cy.contains('button', '切换到 Bulk 编辑').should('not.exist');
+    cy.get('[data-testid="json-model"]').should(
+      'have.text',
+      JSON.stringify([{ key: 'a', value: '1' }]),
+    );
+  });
+
+  it('renders the toolbar-extra slot', () => {
+    cy.mount(createHarness({ withToolbarExtra: true }));
+
+    cy.get('[data-testid="toolbar-extra"]').should('have.text', 'extra');
+  });
+
+  it('provides item and index to the row-actions slot', () => {
+    cy.mount(
+      createHarness({
+        initialJson: [
+          { key: 'a', value: '1' },
+          { key: 'b', value: '2' },
+        ],
+        withRowActions: true,
+      }),
+    );
+
+    cy.get('[data-testid="row-action"]').should('have.length', 2);
+    cy.get('[data-testid="row-action"]').eq(0).should('have.text', '0|{"key":"a","value":"1"}');
+    cy.get('[data-testid="row-action"]').eq(1).should('have.text', '1|{"key":"b","value":"2"}');
+  });
+
+  it('disables the bulk toggle when disabled', () => {
+    cy.mount(createHarness({ disabled: true }));
+
+    cy.contains('button', '切换到 Bulk 编辑').should('be.disabled');
   });
 });
