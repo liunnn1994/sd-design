@@ -269,7 +269,8 @@
   ]);
 
   const handleClick = (ev: MouseEvent) => {
-    if (props.disabled || props.loading) {
+    // 使用 mergedDisabled：表单/按钮组注入的禁用同样需要拦截（原生 a 链接无 disabled 属性兜底）
+    if (mergedDisabled.value || props.loading) {
       ev.preventDefault();
       return;
     }
