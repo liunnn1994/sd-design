@@ -47,7 +47,17 @@
 
   const themePopupContainerPrefixCls = getPrefixCls('theme-popup-container');
 
-  const { zIndex } = usePopupManager('popup', { visible: usesLocalThemeContainer });
+  const { zIndex, close: closePopupManager } = usePopupManager('popup', {
+    visible: usesLocalThemeContainer,
+  });
+
+  // visible 恒为 true 时卸载不会触发 watch 的 close，导致 zIndex 泄漏在全局弹层栈中
+  //（每次挂载/卸载都会抬高后续弹层的 z-index），卸载时手动释放。
+  onBeforeUnmount(() => {
+    if (usesLocalThemeContainer.value) {
+      closePopupManager();
+    }
+  });
 
   let appliedThemeKeys = new Set<string>();
   let appliedPopupThemeKeys = new Set<string>();
