@@ -1,6 +1,6 @@
 import { defineComponent, h, ref } from 'vue';
 
-import type { TableColumnData } from '../../table';
+import type { TableColumnData, TableData } from '../../table';
 
 import { configProviderInjectionKey } from '../../config-provider/context';
 import BasicCrudTable from '../basic-crud-table.vue';
@@ -319,5 +319,481 @@ describe('BasicCrudTable', () => {
     cy.get('.sd-modal-footer').contains('确定').click();
     cy.wrap(createApi).should('have.been.calledWithMatch', { name: '新记录' });
     cy.wrap(fetchTableApi).should('have.callCount', 2);
+  });
+
+  it('编辑弹窗回填行数据，提交后调用 updateApi 并刷新列表', () => {
+    const fetchTableApi = cy.stub().resolves({ data: [{ key: 1, name: '监控项' }], total: 1 });
+    const updateApi = cy.stub().resolves({ id: 1 });
+    cy.mount(BasicCrudTable, {
+      props: {
+        columns,
+        fetchTableApi,
+        updateApi,
+        modalFormProps: { schemas: [{ field: 'name', label: '名称', type: 'input' }] },
+      },
+    });
+    cy.contains('监控项').should('be.visible');
+    cy.contains('编辑').click();
+    cy.get('.sd-modal input').should('have.value', '监控项');
+    cy.get('.sd-modal-footer').contains('确定').click();
+    cy.wrap(updateApi).should('have.been.calledWithMatch', { name: '监控项' });
+    cy.wrap(fetchTableApi).should('have.callCount', 2);
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('edit')).to.have.length(1);
+      expect(wrapper.emitted('modalSuccess')).to.have.length(1);
+      expect(wrapper.emitted('modalSuccess')?.[0]?.[1]).to.include({ type: 'edit' });
+    });
+    cy.get('.sd-modal').should('not.be.visible');
+  });
+
+  it('编辑时经 detailApi 与 valueTransformer 回填表单', () => {
+    const detailApi = cy.stub().resolves({ key: 1, name: '详情名称' });
+    const valueTransformer = cy.stub().returns({ name: '转换后的名称' });
+    cy.mount(BasicCrudTable, {
+      props: {
+        columns,
+        tableData: [{ key: 1, name: '监控项' }],
+        fetchTableOnMounted: false,
+        detailApi,
+        valueTransformer,
+        modalFormProps: { schemas: [{ field: 'name', label: '名称', type: 'input' }] },
+      },
+    });
+    cy.contains('编辑').click();
+    cy.get('.sd-modal input').should('have.value', '转换后的名称');
+    cy.wrap(detailApi).should('have.been.calledWithMatch', { key: 1 });
+    cy.wrap(valueTransformer).should('have.been.calledWithMatch', { name: '详情名称' });
+  });
+
+  it('beforeModalSubmit 返回 false 时阻止提交', () => {
+    const createApi = cy.stub().resolves({ id: 1 });
+    const beforeModalSubmit = cy.stub().returns(false);
+    cy.mount(BasicCrudTable, {
+      props: {
+        columns,
+        tableData: [],
+        fetchTableOnMounted: false,
+        createApi,
+        beforeModalSubmit,
+        modalFormProps: { schemas: [{ field: 'name', label: '名称', type: 'input' }] },
+      },
+    });
+    cy.contains('新建').click();
+    cy.get('.sd-modal input').type('新记录');
+    cy.get('.sd-modal-footer').contains('确定').click();
+    cy.wrap(createApi).should('not.have.been.called');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('modalSuccess')).to.equal(undefined);
+    });
+    cy.get('.sd-modal').should('be.visible');
+  });
+
+  it('beforeDelete 返回 false 时阻止删除', () => {
+    const deleteApi = cy.stub().resolves();
+    const beforeDelete = cy.stub().resolves(false);
+    cy.mount(BasicCrudTable, {
+      props: {
+        columns,
+        tableData: [{ key: 1, name: '监控项' }],
+        fetchTableOnMounted: false,
+        deleteApi,
+        beforeDelete,
+      },
+    });
+    cy.contains('删除').click();
+    cy.get('.sd-popconfirm-footer').should('be.visible').contains('确定').click();
+    cy.wrap(beforeDelete).should('have.been.calledWithMatch', { name: '监控项' });
+    cy.wrap(deleteApi).should('not.have.been.called');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('delete')).to.equal(undefined);
+    });
+  });
+
+  it('deleteApi 失败时 emit error 且不刷新列表', () => {
+    const fetchTableApi = cy.stub().resolves({ data: [{ key: 1, name: '监控项' }], total: 1 });
+    const deleteApi = cy.stub().rejects(new Error('删除失败'));
+    cy.mount(BasicCrudTable, { props: { columns, fetchTableApi, deleteApi } });
+    cy.contains('监控项').should('be.visible');
+    cy.contains('删除').click();
+    cy.get('.sd-popconfirm-footer').should('be.visible').contains('确定').click();
+    cy.wrap(deleteApi).should('have.been.calledOnce');
+    cy.wrap(fetchTableApi).should('have.callCount', 1);
+    cy.get('@vue').should(({ wrapper }) => {
+      const errors = wrapper.emitted('error');
+      expect(errors?.length).to.equal(1);
+      expect((errors?.[0]?.[0] as Error | undefined)?.message).to.equal('删除失败');
+    });
+  });
+
+  it('deleteNameKey 在确认框中展示行名称', () => {
+    cy.mount(BasicCrudTable, {
+      props: {
+        columns,
+        tableData: [{ key: 1, name: '监控项' }],
+        fetchTableOnMounted: false,
+        deleteNameKey: 'name',
+      },
+    });
+    cy.contains('删除').click();
+    cy.get('.sd-popconfirm').should('be.visible').and('contain.text', '确定删除【监控项】吗？');
+  });
+
+  it('deleteContent 支持异步函数按行定制确认文案', () => {
+    const deleteContent = async (row: { name?: unknown }) => `确认移除 ${String(row.name)}`;
+    cy.mount(BasicCrudTable, {
+      props: {
+        columns,
+        tableData: [{ key: 1, name: '监控项' }],
+        fetchTableOnMounted: false,
+        deleteContent,
+      },
+    });
+    cy.contains('删除').click();
+    cy.get('.sd-popconfirm').should('be.visible').and('contain.text', '确认移除 监控项');
+  });
+
+  it('默认保留空值请求参数', () => {
+    const fetchTableApi = cy.stub().resolves({ data: [], total: 0 });
+    cy.mount(BasicCrudTable, {
+      props: { columns, fetchTableApi, toolbarModel: { keyword: '', status: null } },
+    });
+    cy.wrap(fetchTableApi).should((stub) => {
+      expect(stub.firstCall.args[0]).to.include({ keyword: '', status: null });
+    });
+  });
+
+  it('fetchExcludeEmptyValues 过滤空值请求参数', () => {
+    const fetchTableApi = cy.stub().resolves({ data: [], total: 0 });
+    cy.mount(BasicCrudTable, {
+      props: {
+        columns,
+        fetchTableApi,
+        fetchExcludeEmptyValues: true,
+        toolbarModel: { keyword: '', status: null, active: 1 },
+      },
+    });
+    cy.wrap(fetchTableApi).should((stub) => {
+      const requestParams = stub.firstCall.args[0] as Record<string, unknown>;
+      expect(requestParams).to.include({ active: 1, current: 1, pageSize: 10 });
+      expect(requestParams).to.not.have.property('keyword');
+      expect(requestParams).to.not.have.property('status');
+    });
+  });
+
+  it('tableDataTransformer 支持 count 字段并 emit tableFetched', () => {
+    const fetchTableApi = cy.stub().resolves({ list: [{ key: 1, name: '监控项' }], count: 42 });
+    const tableDataTransformer = cy
+      .stub()
+      .callsFake((raw: { list: TableData[]; count: number }) => ({
+        data: raw.list,
+        count: raw.count,
+      }));
+    cy.mount(BasicCrudTable, { props: { columns, fetchTableApi, tableDataTransformer } });
+    cy.contains('监控项').should('be.visible');
+    cy.wrap(tableDataTransformer).should('have.been.calledOnce');
+    cy.get('@vue').should(({ wrapper }) => {
+      const [rows, result] = wrapper.emitted('tableFetched')?.[0] ?? [];
+      expect(rows).to.deep.equal([{ key: 1, name: '监控项' }]);
+      expect(result).to.deep.equal({ data: [{ key: 1, name: '监控项' }], count: 42 });
+    });
+  });
+
+  it('fetchTableApi 直接返回数组时渲染并 emit tableFetched', () => {
+    const fetchTableApi = cy.stub().resolves([{ key: 1, name: '数组项' }]);
+    cy.mount(BasicCrudTable, { props: { columns, fetchTableApi } });
+    cy.contains('数组项').should('be.visible');
+    cy.get('@vue').should(({ wrapper }) => {
+      const [rows, result] = wrapper.emitted('tableFetched')?.[0] ?? [];
+      expect(rows).to.deep.equal([{ key: 1, name: '数组项' }]);
+      expect(result).to.deep.equal([{ key: 1, name: '数组项' }]);
+    });
+  });
+
+  it('fetchTableApi 失败时 emit error 并复位 loading', () => {
+    const fetchTableApi = cy.stub().rejects(new Error('网络错误'));
+    cy.mount(BasicCrudTable, {
+      props: {
+        columns,
+        fetchTableApi,
+        'onUpdate:loading': cy.spy().as('onUpdateLoading'),
+      },
+    });
+    cy.get('@onUpdateLoading').should((spy) => {
+      expect(spy.firstCall.args[0]).to.equal(true);
+      expect(spy.lastCall.args[0]).to.equal(false);
+    });
+    cy.get('section.sd-basic-crud-table').should('have.attr', 'aria-busy', 'false');
+    cy.get('@vue').should(({ wrapper }) => {
+      const errors = wrapper.emitted('error');
+      expect(errors?.length).to.equal(1);
+      expect((errors?.[0]?.[0] as Error | undefined)?.message).to.equal('网络错误');
+    });
+  });
+
+  it('点击第 2 页时以 current:2 重新请求', () => {
+    const data = Array.from({ length: 10 }, (_, index) => ({
+      key: index + 1,
+      name: `监控项 ${index + 1}`,
+    }));
+    const fetchTableApi = cy.stub().resolves({ data, total: 30 });
+    cy.mount(BasicCrudTable, { props: { columns, fetchTableApi } });
+    cy.contains('监控项 1').should('be.visible');
+    cy.get('.sd-pagination-item').contains('2').click();
+    cy.wrap(fetchTableApi).should('have.callCount', 2);
+    cy.wrap(fetchTableApi).should('have.been.calledWithMatch', { current: 2, pageSize: 10 });
+  });
+
+  it('排序变更时携带 sort_by 参数重新请求', () => {
+    const sortableColumns: TableColumnData[] = [
+      { title: '名称', dataIndex: 'name', sortable: { sortDirections: ['ascend', 'descend'] } },
+    ];
+    const fetchTableApi = cy.stub().resolves({ data: [{ key: 1, name: '监控项' }], total: 1 });
+    cy.mount(BasicCrudTable, { props: { columns: sortableColumns, fetchTableApi } });
+    cy.contains('监控项').should('be.visible');
+    cy.get('.sd-table-cell-with-sorter').click();
+    cy.wrap(fetchTableApi).should((stub) => {
+      expect(stub.getCalls().length).to.equal(2);
+      expect(stub.lastCall.args[0]).to.include({ sort_by: 'name', current: 1 });
+    });
+    cy.get('.sd-table-cell-with-sorter').click();
+    cy.wrap(fetchTableApi).should((stub) => {
+      expect(stub.getCalls().length).to.equal(3);
+      expect(stub.lastCall.args[0]).to.include({ sort_by: '-name' });
+    });
+  });
+
+  it('exposed：手动 fetchTableData、search、create 与状态', () => {
+    const fetchTableApi = cy.stub().resolves({ data: [{ key: 1, name: '监控项' }], total: 1 });
+    const onSearch = cy.spy().as('onSearch');
+    const onCreate = cy.spy().as('onCreate');
+    cy.mount(BasicCrudTable, {
+      props: { columns, fetchTableApi, fetchTableOnMounted: false, onSearch, onCreate },
+    });
+    cy.wrap(fetchTableApi).should('not.have.been.called');
+
+    cy.get('@vue').then(({ wrapper }) => {
+      (wrapper.vm as unknown as { fetchTableData(): void }).fetchTableData();
+    });
+    cy.wrap(fetchTableApi).should('have.callCount', 1);
+
+    cy.get('@vue').then(({ wrapper }) => {
+      (wrapper.vm as unknown as { search(): void }).search();
+    });
+    cy.wrap(fetchTableApi).should('have.callCount', 2);
+    cy.get('@onSearch').should('have.been.calledOnce');
+
+    // 点击查询按钮同样触发 search 事件
+    cy.contains('button', '查询').click();
+    cy.wrap(fetchTableApi).should('have.callCount', 3);
+    cy.get('@onSearch').should('have.callCount', 2);
+
+    cy.get('@vue').then(({ wrapper }) => {
+      (wrapper.vm as unknown as { create(): void }).create();
+    });
+    cy.get('@onCreate').should('have.been.calledOnce');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect((wrapper.vm as unknown as { isCreate: boolean }).isCreate).to.equal(true);
+      expect((wrapper.vm as unknown as { tableData: TableData[] }).tableData).to.deep.equal([
+        { key: 1, name: '监控项' },
+      ]);
+      expect((wrapper.vm as unknown as { fetchData: unknown }).fetchData).to.deep.equal({
+        data: [{ key: 1, name: '监控项' }],
+        total: 1,
+      });
+    });
+    cy.get('.sd-modal').should('be.visible');
+  });
+
+  it('exposed：edit 打开编辑弹窗，delete 直接执行删除', () => {
+    const fetchTableApi = cy.stub().resolves({ data: [], total: 0 });
+    const deleteApi = cy.stub().resolves();
+    cy.mount(BasicCrudTable, {
+      props: {
+        columns,
+        fetchTableApi,
+        fetchTableOnMounted: false,
+        deleteApi,
+        modalFormProps: { schemas: [{ field: 'name', label: '名称', type: 'input' }] },
+      },
+    });
+
+    cy.get('@vue').then(({ wrapper }) => {
+      (wrapper.vm as unknown as { edit(row: TableData): void }).edit({ key: 1, name: '监控项' });
+    });
+    cy.get('.sd-modal input').should('have.value', '监控项');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect((wrapper.vm as unknown as { isCreate: boolean }).isCreate).to.equal(false);
+      expect(wrapper.emitted('edit')?.length).to.equal(1);
+    });
+
+    cy.get('@vue').then(({ wrapper }) => {
+      (wrapper.vm as unknown as { delete(row: TableData): void }).delete({
+        key: 1,
+        name: '监控项',
+      });
+    });
+    cy.wrap(deleteApi).should('have.been.calledWithMatch', { key: 1 });
+    cy.wrap(fetchTableApi).should('have.callCount', 1);
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('delete')?.length).to.equal(1);
+    });
+  });
+
+  it('exposed：resetToolbar 仅重置筛选不请求，resetTable 重置分页并请求', () => {
+    const fetchTableApi = cy.stub().resolves({ data: [], total: 0 });
+    const Wrapper = defineComponent({
+      setup() {
+        const filters = ref<Record<string, unknown>>({ keyword: '初始' });
+        return { filters };
+      },
+      render() {
+        return h(BasicCrudTable, {
+          'ref': 'crud',
+          columns,
+          fetchTableApi,
+          'fetchTableOnMounted': false,
+          'toolbarModel': this.filters,
+          'onUpdate:toolbarModel': (value: Record<string, unknown>) => {
+            this.filters = value;
+          },
+          'toolbarProps': {
+            schemas: [{ field: 'keyword', label: '关键字', type: 'input' }],
+          },
+          'onReset': cy.spy().as('onReset'),
+        });
+      },
+    });
+    cy.mount(Wrapper);
+
+    // 修改筛选后，resetToolbar 应恢复为初始值且不发起请求
+    cy.get('@vue').then(({ wrapper }) => {
+      wrapper.vm.filters = { keyword: '改动' };
+    });
+    cy.get('@vue').then(({ wrapper }) => {
+      (wrapper.vm.$refs.crud as unknown as { resetToolbar(): void }).resetToolbar();
+    });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.vm.filters).to.deep.equal({ keyword: '初始' });
+    });
+    cy.wrap(fetchTableApi).should('not.have.been.called');
+
+    // resetTable 重置分页/排序并发起一次请求，但不动工具栏筛选
+    cy.get('@vue').then(({ wrapper }) => {
+      (wrapper.vm.$refs.crud as unknown as { resetTable(): void }).resetTable();
+    });
+    cy.wrap(fetchTableApi).should((stub) => {
+      expect(stub.getCalls().length).to.equal(1);
+      expect(stub.firstCall.args[0]).to.include({ current: 1, keyword: '初始' });
+    });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.vm.filters).to.deep.equal({ keyword: '初始' });
+    });
+    cy.get('@onReset').should((spy) => {
+      expect(spy.callCount).to.equal(1);
+    });
+  });
+
+  it('showToolbar/showHeader/showTitle 控制头部渲染', () => {
+    cy.mount(BasicCrudTable, {
+      props: { columns, title: '监控列表', fetchTableOnMounted: false },
+    });
+    cy.get('.sd-basic-crud-table-title').should('have.text', '监控列表');
+    cy.contains('button', '新建').should('be.visible');
+
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ showTitle: false }));
+    cy.get('.sd-basic-crud-table-title').should('not.exist');
+
+    // 隐藏工具栏后，新建按钮仍在 header actions 中
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ showToolbar: false }));
+    cy.get('.sd-toolbar').should('not.exist');
+    cy.contains('button', '新建').should('be.visible');
+
+    // 隐藏整个 header 后新建按钮一起消失
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ showHeader: false }));
+    cy.get('.sd-basic-crud-table-header').should('not.exist');
+    cy.contains('button', '新建').should('not.exist');
+  });
+
+  it('showEdit/showDelete/showActionColumn 控制操作列', () => {
+    cy.mount(BasicCrudTable, {
+      props: {
+        columns,
+        tableData: [{ key: 1, name: '监控项' }],
+        fetchTableOnMounted: false,
+      },
+    });
+    cy.get('.sd-table-th').contains('操作').should('be.visible');
+    cy.contains('编辑').should('be.visible');
+    cy.contains('删除').should('be.visible');
+
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ showEdit: false }));
+    cy.contains('编辑').should('not.exist');
+
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ showDelete: false }));
+    cy.contains('删除').should('not.exist');
+
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ showActionColumn: false }));
+    cy.get('.sd-table-th').contains('操作').should('not.exist');
+  });
+
+  it('插槽：header__title 覆盖标题，列 slotName 与操作列前后插槽收到行数据', () => {
+    const Wrapper = defineComponent({
+      render() {
+        return h(
+          BasicCrudTable,
+          {
+            title: '监控列表',
+            columns: [{ title: '名称', dataIndex: 'name', slotName: 'name-col' }],
+            tableData: [{ key: 1, name: '监控项' }],
+            fetchTableOnMounted: false,
+          },
+          {
+            'header__title': (data: Record<string, unknown>) => [
+              h('h2', { 'data-testid': 'header-title' }, `标题:${String(data.title)}`),
+            ],
+            'table__name-col': ({ record }: { record: TableData }) => [
+              h('span', { class: 'name-col' }, `列:${String(record.name)}`),
+            ],
+            'table__action_prepend': ({ record }: { record: TableData }) => [
+              h('span', { class: 'action-prepend' }, `前置:${String(record.name)}`),
+            ],
+            'table__action_append': () => [h('span', { class: 'action-append' }, '后置')],
+          },
+        );
+      },
+    });
+    cy.mount(Wrapper);
+
+    cy.get('[data-testid="header-title"]').should('have.text', '标题:监控列表');
+    cy.get('.sd-basic-crud-table-title').should('not.exist');
+    cy.get('.name-col').should('have.text', '列:监控项');
+    cy.get('.action-prepend').should('have.text', '前置:监控项');
+    cy.get('.action-append').should('have.text', '后置');
+  });
+
+  it('v-model：fetch 后同步 tableData，打开弹窗后同步 modalVisible，取消后 emit modalClose', () => {
+    const fetchTableApi = cy.stub().resolves({ data: [{ key: 1, name: '监控项' }], total: 1 });
+    cy.mount(BasicCrudTable, {
+      props: {
+        columns,
+        fetchTableApi,
+        'onUpdate:tableData': cy.spy().as('onUpdateTableData'),
+        'onUpdate:modalVisible': cy.spy().as('onUpdateModalVisible'),
+      },
+    });
+    cy.get('@onUpdateTableData').should((spy) => {
+      expect(spy.lastCall.args[0]).to.deep.equal([{ key: 1, name: '监控项' }]);
+    });
+
+    cy.contains('新建').click();
+    cy.get('@onUpdateModalVisible').should((spy) => {
+      expect(spy.lastCall.args[0]).to.equal(true);
+    });
+
+    cy.get('.sd-modal-footer').contains('取消').click();
+    // 取消按钮只更新 modalVisible；modalClose 仅在弹窗 close 事件时发出
+    cy.get('@onUpdateModalVisible').should((spy) => {
+      expect(spy.lastCall.args[0]).to.equal(false);
+    });
   });
 });
