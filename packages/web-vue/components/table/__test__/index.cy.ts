@@ -147,4 +147,138 @@ describe('Table', () => {
     cy.get('.sd-spin-icon').should('have.css', 'font-size', '31px');
     cy.get('.sd-spin-tip').should('have.text', 'Local tip');
   });
+
+  it('emits select/selectionChange/update:selectedKeys when a row checkbox is clicked', () => {
+    cy.mount(Table, {
+      props: {
+        'columns': JSONCopy(demoColumns),
+        'data': JSONCopy(demoData),
+        'rowSelection': { type: 'checkbox' },
+        'onSelect': cy.spy().as('onSelect'),
+        'onSelectionChange': cy.spy().as('onSelectionChange'),
+        'onUpdate:selectedKeys': cy.spy().as('onUpdateSelectedKeys'),
+      },
+    });
+    cy.get('.sd-table-tbody .sd-table-operation.sd-table-checkbox .sd-checkbox').first().click();
+    cy.get('.sd-table-tbody .sd-table-tr')
+      .first()
+      .should('have.class', 'sd-table-tr-checked')
+      .find('.sd-checkbox')
+      .should('have.class', 'sd-checkbox-checked');
+    cy.get('@onSelect').should((spy) => {
+      const [rowKeys, rowKey] = spy.firstCall.args as [string[], string];
+      expect(rowKeys).to.deep.equal(['1']);
+      expect(rowKey).to.equal('1');
+    });
+    cy.get('@onSelectionChange').should((spy) => {
+      expect(spy.firstCall.args[0]).to.deep.equal(['1']);
+    });
+    cy.get('@onUpdateSelectedKeys').should((spy) => {
+      expect(spy.firstCall.args[0]).to.deep.equal(['1']);
+    });
+  });
+
+  it('selects all enabled rows from the header checkbox and skips disabled rows', () => {
+    const data: TableData[] = [
+      { key: '1', name: 'Jane Doe1', age: 1 },
+      { key: '2', name: 'Jane Doe2', age: 2, disabled: true },
+      { key: '3', name: 'Jane Doe3', age: 3 },
+    ];
+    cy.mount(Table, {
+      props: {
+        columns: JSONCopy(demoColumns),
+        data,
+        rowSelection: { type: 'checkbox', showCheckedAll: true },
+        onSelectAll: cy.spy().as('onSelectAll'),
+        onSelectionChange: cy.spy().as('onSelectAllChange'),
+      },
+    });
+    cy.get('.sd-table-thead .sd-table-operation.sd-table-checkbox .sd-checkbox').click();
+    cy.get('.sd-table-tbody .sd-checkbox-checked').should('have.length', 2);
+    cy.get('@onSelectAll').should((spy) => {
+      expect(spy.firstCall.args[0]).to.equal(true);
+    });
+    cy.get('@onSelectAllChange').should((spy) => {
+      expect(spy.firstCall.args[0]).to.deep.equal(['1', '3']);
+    });
+  });
+
+  it('marks the header checkbox indeterminate for partial selection', () => {
+    cy.mount(Table, {
+      props: {
+        columns: JSONCopy(demoColumns),
+        data: JSONCopy(demoData),
+        rowSelection: { type: 'checkbox', showCheckedAll: true },
+        defaultSelectedKeys: ['1'],
+      },
+    });
+    cy.get('.sd-table-thead .sd-checkbox').should('have.class', 'sd-checkbox-indeterminate');
+    cy.get('.sd-table-tbody .sd-table-operation .sd-checkbox').first().click();
+    cy.get('.sd-table-thead .sd-checkbox').should('not.have.class', 'sd-checkbox-indeterminate');
+  });
+
+  it('supports radio selection replacing the previous choice', () => {
+    cy.mount(Table, {
+      props: {
+        columns: JSONCopy(demoColumns),
+        data: JSONCopy(demoData),
+        rowSelection: { type: 'radio' },
+        onSelect: cy.spy().as('onRadioSelect'),
+      },
+    });
+    cy.get('.sd-table-tbody .sd-table-operation.sd-table-radio .sd-radio').first().click();
+    cy.get('.sd-radio-checked').should('have.length', 1);
+    cy.get('.sd-table-tbody .sd-table-operation.sd-table-radio .sd-radio').eq(1).click();
+    cy.get('.sd-radio-checked').should('have.length', 1);
+    cy.get('@onRadioSelect').should((spy) => {
+      expect(spy.secondCall.args[0]).to.deep.equal(['2']);
+      expect(spy.secondCall.args[1]).to.equal('2');
+    });
+  });
+
+  it('keeps controlled selectedKeys unchanged in the UI while emitting updates', () => {
+    cy.mount(Table, {
+      props: {
+        'columns': JSONCopy(demoColumns),
+        'data': JSONCopy(demoData),
+        'rowSelection': { type: 'checkbox' },
+        'selectedKeys': ['1'],
+        'onUpdate:selectedKeys': cy.spy().as('onControlledUpdate'),
+      },
+    });
+    cy.get('.sd-table-tbody .sd-checkbox-checked').should('have.length', 1);
+    cy.get('.sd-table-tbody .sd-table-operation .sd-checkbox').first().click();
+    cy.get('@onControlledUpdate').should((spy) => {
+      expect(spy.firstCall.args[0]).to.deep.equal([]);
+    });
+    cy.get('.sd-table-tbody .sd-checkbox-checked').should('have.length', 1);
+  });
+
+  it('checks rows from defaultSelectedKeys without emitting select events', () => {
+    cy.mount(Table, {
+      props: {
+        columns: JSONCopy(demoColumns),
+        data: JSONCopy(demoData),
+        rowSelection: { type: 'checkbox' },
+        defaultSelectedKeys: ['2', '4'],
+      },
+    });
+    cy.get('.sd-table-tbody .sd-checkbox-checked').should('have.length', 2);
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('select')).to.equal(undefined);
+    });
+  });
+
+  it('applies ellipsis and align classes on cells', () => {
+    const columns: TableColumnData[] = [
+      { title: 'Name', dataIndex: 'name', ellipsis: true, align: 'center' },
+    ];
+    cy.mount(Table, { props: { columns, data: JSONCopy(demoData), pagination: false } });
+    cy.get('.sd-table-tbody .sd-table-td-content')
+      .first()
+      .should('have.class', 'sd-table-text-ellipsis');
+    cy.get('.sd-table-tbody .sd-table-cell')
+      .first()
+      .should('have.class', 'sd-table-cell-align-center');
+  });
 });
