@@ -312,4 +312,76 @@ describe('RegexVis', () => {
     cy.get('.sd-regex-vis-error').should('exist');
     cy.get('[data-testid="regex-vis-graph"]').should('not.exist');
   });
+
+  it('hides all controls when showInput is false', () => {
+    cy.mount(RegexVis, { props: { modelValue: 'abc', showInput: false } });
+
+    cy.get('.sd-regex-vis-controls').should('not.exist');
+  });
+
+  it('hides only the flag checkboxes when showFlags is false', () => {
+    cy.mount(RegexVis, { props: { modelValue: 'abc', showFlags: false } });
+
+    cy.get('.sd-regex-vis-controls').should('exist');
+    cy.get('.sd-regex-vis-flags').should('not.exist');
+  });
+
+  it('makes nodes inert when selectable is false', () => {
+    const onSelect = cy.spy().as('onSelect');
+    cy.mount(RegexVis, { props: { modelValue: 'abc', selectable: false, onSelect } });
+
+    cy.get('.sd-regex-vis-node-character').should('not.have.attr', 'role');
+    cy.get('.sd-regex-vis-node-character').should('not.have.attr', 'tabindex');
+    cy.get('.sd-regex-vis').should('not.have.class', 'sd-regex-vis-selectable');
+    cy.get('.sd-regex-vis-node-character').click();
+    cy.get('@onSelect').should('not.have.been.called');
+  });
+
+  it('shows the default empty state and placeholder for an empty value', () => {
+    cy.mount(RegexVis, { props: { modelValue: '' } });
+
+    cy.get('.sd-regex-vis-empty').should('have.text', '输入正则表达式后将在这里生成可视图');
+    cy.get('.sd-regex-vis-input input').should(
+      'have.attr',
+      'placeholder',
+      '请输入正则表达式，例如 ^[a-z]+$',
+    );
+  });
+
+  it('supports emptyText, placeholder and the empty slot binding', () => {
+    cy.mount(RegexVis, {
+      props: { modelValue: '', emptyText: 'Nothing yet', placeholder: 'Type a regex' },
+      slots: {
+        empty: '<template #empty="{ text }"><em class="custom-empty">{{ text }}</em></template>',
+      },
+    });
+
+    cy.get('.custom-empty').should('have.text', 'Nothing yet');
+    cy.get('.sd-regex-vis-input input').should('have.attr', 'placeholder', 'Type a regex');
+  });
+
+  it('exposes the custom ariaLabel on the graph', () => {
+    cy.mount(RegexVis, { props: { modelValue: 'abc', ariaLabel: 'My diagram' } });
+
+    cy.get('[data-testid="regex-vis-graph"]').should('have.attr', 'aria-label', 'My diagram：abc');
+  });
+
+  it('exposes value and flags to the footer slot', () => {
+    cy.mount(RegexVis, {
+      props: { modelValue: 'abc', flags: ['g', 'i'] },
+      slots: {
+        footer:
+          '<template #footer="{ value, flags }"><span class="custom-footer">{{ value }}|{{ flags.join("") }}</span></template>',
+      },
+    });
+
+    cy.get('.custom-footer').should('have.text', 'abc|gi');
+  });
+
+  it('marks the root invalid and hides the graph while the pattern fails to parse', () => {
+    cy.mount(RegexVis, { props: { modelValue: '(' } });
+
+    cy.get('.sd-regex-vis').should('have.class', 'sd-regex-vis-invalid');
+    cy.get('[data-testid="regex-vis-graph"]').should('not.exist');
+  });
 });

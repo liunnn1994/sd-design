@@ -1,3 +1,5 @@
+import { h } from 'vue';
+
 import { PerformantEllipsis } from '../../ellipsis';
 import Link from '../index';
 
@@ -45,5 +47,69 @@ describe('Link', () => {
       expect(tooltip.exists()).to.equal(true);
       expect(tooltip.props('content')).to.equal('打开链接');
     });
+  });
+
+  it('renders the href attribute when not disabled', () => {
+    cy.mount(Link, { props: { href: '/home' } });
+    cy.get('a').should('have.attr', 'href', '/home');
+  });
+
+  it('applies the status class', () => {
+    cy.mount(Link, { props: { status: 'danger' } });
+    cy.get('.sd-link').should('have.class', 'sd-link-status-danger');
+  });
+
+  it('emits click when enabled and clicked', () => {
+    cy.mount(Link, { props: { ellipsis: false }, slots: { default: 'Link text' } });
+    cy.get('.sd-link').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('click')).to.have.length(1);
+    });
+  });
+
+  it('does not emit click when disabled', () => {
+    cy.mount(Link, {
+      props: { disabled: true, ellipsis: false },
+      slots: { default: 'Link text' },
+    });
+    cy.get('.sd-link').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('click')).to.equal(undefined);
+    });
+  });
+
+  it('does not emit click while loading and shows the loading icon', () => {
+    cy.mount(Link, {
+      props: { loading: true, ellipsis: false },
+      slots: { default: 'Link text' },
+    });
+    cy.get('.sd-link').should('have.class', 'sd-link-loading');
+    cy.get('.sd-link .sd-icon-loading').should('exist');
+    cy.get('.sd-link').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('click')).to.equal(undefined);
+    });
+  });
+
+  it('renders a custom icon slot instead of the default icon', () => {
+    cy.mount(Link, {
+      props: { icon: true },
+      slots: { icon: () => h('span', { class: 'custom-icon' }) },
+    });
+    cy.get('.sd-link .custom-icon').should('exist');
+    cy.get('.sd-link .sd-icon-link').should('not.exist');
+  });
+
+  it('keeps the hoverless class off an icon-only link when hoverable is explicit', () => {
+    cy.mount(Link, { props: { icon: true, hoverable: true } });
+    cy.get('.sd-link').should('not.have.class', 'sd-link-hoverless');
+  });
+
+  it('marks a content link hoverless by default and hoverable when hoverable is true', () => {
+    cy.mount(Link, { slots: { default: 'Link text' } });
+    cy.get('.sd-link').should('have.class', 'sd-link-hoverless');
+
+    cy.mount(Link, { props: { hoverable: true }, slots: { default: 'Link text' } });
+    cy.get('.sd-link').should('not.have.class', 'sd-link-hoverless');
   });
 });

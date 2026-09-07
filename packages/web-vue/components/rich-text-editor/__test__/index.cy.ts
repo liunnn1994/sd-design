@@ -703,4 +703,160 @@ describe('RichTextEditor', () => {
       expect(cleaned).to.equal(true);
     });
   });
+
+  it('uses the localized aria-label by default and honours ariaLabel and spellcheck', () => {
+    cy.mount(RichTextEditor);
+    cy.get('[role="textbox"]').should('have.attr', 'aria-label', '富文本编辑器');
+    cy.get('[role="textbox"]').should('have.attr', 'spellcheck', 'true');
+
+    cy.mount(RichTextEditor, {
+      props: { ariaLabel: '备注说明', spellcheck: false },
+    });
+    cy.get('[role="textbox"]')
+      .should('have.attr', 'aria-label', '备注说明')
+      .and('have.attr', 'spellcheck', 'false');
+  });
+
+  it('marks readonly and disabled editors with aria attributes and drops the focusable class', () => {
+    cy.mount(RichTextEditor, { props: { defaultValue: '只读', readonly: true } });
+    cy.get('[role="textbox"]')
+      .should('have.attr', 'contenteditable', 'false')
+      .and('have.attr', 'aria-readonly', 'true');
+    cy.get('.sd-rich-text-editor').should('not.have.class', 'sd-rich-text-editor-focusable');
+
+    cy.mount(RichTextEditor, { props: { defaultValue: '禁用', disabled: true } });
+    cy.get('.sd-rich-text-editor').should('not.have.class', 'sd-rich-text-editor-focusable');
+
+    cy.mount(RichTextEditor, { props: { defaultValue: '可编辑' } });
+    cy.get('.sd-rich-text-editor').should('have.class', 'sd-rich-text-editor-focusable');
+  });
+
+  it('toggles editability when readonly changes at runtime', () => {
+    cy.mount(RichTextEditor, { props: { defaultValue: '可编辑' } });
+    cy.get('[role="textbox"]').should('have.attr', 'contenteditable', 'true');
+
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ readonly: true }));
+    cy.get('[role="textbox"]').should('have.attr', 'contenteditable', 'false');
+
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ readonly: false }));
+    cy.get('[role="textbox"]').should('have.attr', 'contenteditable', 'true');
+  });
+
+  it('emits focus and blur events through the content element', () => {
+    cy.mount(RichTextEditor);
+    cy.get('[role="textbox"]').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('focus')).to.have.length(1);
+      expect(wrapper.emitted('update')).to.not.equal(undefined);
+    });
+
+    cy.get('@vue').then(({ wrapper }) => {
+      getEditor(wrapper).blur();
+    });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('blur')).to.have.length(1);
+    });
+  });
+
+  it('tracks undo and redo availability through canUndo and canRedo', () => {
+    cy.mount(RichTextEditor, { props: { defaultValue: '初始值' } });
+    cy.get('@vue').then(({ wrapper }) => {
+      const editor = getEditor(wrapper);
+      expect(editor.canUndo).to.equal(false);
+      expect(editor.canRedo).to.equal(false);
+      editor.focus(() => editor.insertText('追加'));
+      cy.wrap(null).should(() => {
+        expect(editor.canUndo).to.equal(true);
+      });
+      cy.then(() => editor.undo());
+      cy.wrap(null).should(() => {
+        expect(editor.canUndo).to.equal(false);
+        expect(editor.canRedo).to.equal(true);
+      });
+    });
+  });
+
+  it('hides the placeholder when the editor only contains a component node', () => {
+    cy.mount(RichTextEditor, { props: { placeholder: '请输入内容' } });
+    cy.get('.sd-rich-text-editor-placeholder').should('contain.text', '请输入内容');
+
+    cy.get('@vue').then(({ wrapper }) => {
+      getEditor(wrapper).insertComponent({
+        key: 'only-component',
+        name: 'tag',
+        value: '标记',
+        textValue: '标记',
+      });
+    });
+    cy.get('.sd-rich-text-editor-placeholder').should('not.exist');
+  });
+
+  it('renders the placeholder slot in place of the placeholder prop', () => {
+    cy.mount(RichTextEditor, {
+      props: { placeholder: '默认占位' },
+      slots: {
+        placeholder: '<span class="custom-placeholder">自定义占位</span>',
+      },
+    });
+    cy.get('.sd-rich-text-editor-placeholder .custom-placeholder').should(
+      'have.text',
+      '自定义占位',
+    );
+    cy.get('.sd-rich-text-editor-placeholder').should('not.contain.text', '默认占位');
+  });
+
+  it('imports HTML through setHTML and exports it through getHTML', () => {
+    cy.mount(RichTextEditor, { props: { defaultValue: '旧内容' } });
+    cy.get('@vue').then(({ wrapper }) => {
+      const editor = getEditor(wrapper);
+      editor.setHTML('<h1>标题</h1><p>正文内容</p>');
+      cy.wrap(null).should(() => {
+        expect(editor.getHTML()).to.contain('<h1');
+        expect(editor.getText()).to.contain('标题');
+        expect(editor.getText()).to.contain('正文内容');
+      });
+    });
+  });
+
+  it('emits error and keeps the editor usable when setJSON receives invalid state', () => {
+    const errors: Error[] = [];
+    cy.mount(RichTextEditor, {
+      props: {
+        onError: (error: Error) => {
+          errors.push(error);
+        },
+      },
+    });
+    cy.get('@vue').then(({ wrapper }) => {
+      const editor = getEditor(wrapper);
+      editor.setJSON('{"root":');
+      expect(errors).to.have.length(1);
+      editor.insertText('恢复输入');
+      expect(editor.getText()).to.equal('恢复输入');
+    });
+  });
+
+  it('applies semantic classNames to the root, content and placeholder nodes', () => {
+    cy.mount(RichTextEditor, {
+      props: {
+        classNames: {
+          root: 'custom-root',
+          content: 'custom-content',
+          placeholder: 'custom-placeholder',
+        },
+      },
+    });
+    cy.get('.sd-rich-text-editor').should('have.class', 'custom-root');
+    cy.get('.sd-rich-text-editor-content').should('have.class', 'custom-content');
+    cy.get('.sd-rich-text-editor-placeholder').should('have.class', 'custom-placeholder');
+  });
+
+  it('inserts content at the start of the editor with position start', () => {
+    cy.mount(RichTextEditor, { props: { defaultValue: '已有内容' } });
+    cy.get('@vue').then(({ wrapper }) => {
+      const editor = getEditor(wrapper);
+      editor.insertContent(['前缀'], { position: 'start' });
+      expect(editor.getText()).to.equal('前缀已有内容');
+    });
+  });
 });

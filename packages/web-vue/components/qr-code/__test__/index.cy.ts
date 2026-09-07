@@ -75,4 +75,126 @@ describe('QrCode', () => {
     cy.mount(QrCode, { props: { value: '' } });
     cy.get('.sd-qr-code').should('not.exist');
   });
+
+  it('renders a canvas by default with img role and value in the accessible name', () => {
+    cy.mount(QrCode, { props: { value } });
+    cy.get('.sd-qr-code-canvas')
+      .should('have.attr', 'role', 'img')
+      .and('have.attr', 'width', '160')
+      .and(($canvas) => {
+        const label = $canvas[0].getAttribute('aria-label');
+        expect(label).to.contain(value);
+      });
+  });
+
+  it('applies size, borderless class and bgColor to the root', () => {
+    cy.mount(QrCode, {
+      props: { value, size: 200, bordered: false, bgColor: '#fffbfb' },
+    });
+    cy.get('.sd-qr-code')
+      .should('have.css', 'width', '200px')
+      .and('have.css', 'height', '200px')
+      .and('have.class', 'sd-qr-code-borderless')
+      .and('have.css', 'background-color', 'rgb(255, 251, 251)');
+  });
+
+  it('applies color and bgColor to the svg output', () => {
+    cy.mount(QrCode, {
+      props: { value, type: 'svg', color: '#0b8457', bgColor: '#fffbfb' },
+    });
+    cy.get('.sd-qr-code-svg svg path').eq(0).should('have.attr', 'fill', '#fffbfb');
+    cy.get('.sd-qr-code-svg svg path').eq(1).should('have.attr', 'stroke', '#0b8457');
+  });
+
+  it('joins array values with newlines in the accessible name', () => {
+    cy.mount(QrCode, {
+      props: { value: ['https://a.example', 'https://b.example'], type: 'svg' },
+    });
+    cy.get('.sd-qr-code-svg').should(($el) => {
+      const label = $el[0].getAttribute('aria-label');
+      expect(label).to.contain('https://a.example');
+      expect(label).to.contain('https://b.example');
+    });
+  });
+
+  it('applies marginSize to the quiet zone', () => {
+    cy.mount(QrCode, { props: { value, type: 'svg', marginSize: 10 } });
+    cy.get('.sd-qr-code-svg svg').should(($svg) => {
+      const viewBox = $svg[0].getAttribute('viewBox') ?? '';
+      const moduleCount = Number(viewBox.split(' ')[2]);
+      expect(moduleCount).to.be.greaterThan(30);
+    });
+  });
+
+  it('renders the icon prop with custom iconSize', () => {
+    cy.mount(QrCode, {
+      props: {
+        value,
+        icon: '/logo.png',
+        iconAlt: 'logo',
+        iconSize: { width: 24, height: 36 },
+      },
+    });
+    cy.get('.sd-qr-code-icon img')
+      .should('have.attr', 'src', '/logo.png')
+      .and('have.attr', 'alt', 'logo')
+      .and('have.css', 'width', '24px')
+      .and('have.css', 'height', '36px');
+  });
+
+  it('exposes the status overlay as a live region in loading state', () => {
+    cy.mount(QrCode, { props: { value, status: 'loading' } });
+    cy.get('.sd-qr-code-cover').should('exist');
+    cy.get('.sd-qr-code-status')
+      .should('have.attr', 'role', 'status')
+      .and('have.attr', 'aria-live', 'polite');
+    cy.get('.sd-spin-icon').should('exist');
+  });
+
+  it('supports the status slot with scoped status and onRefresh', () => {
+    cy.mount(
+      defineComponent({
+        components: { QrCode },
+        data: () => ({ value }),
+        template: `
+          <QrCode :value="value" status="expired" @refresh="$emit('refresh')">
+            <template #status="{ status, onRefresh }">
+              <span class="slot-status">{{ status }}</span>
+              <button class="slot-refresh" @click="onRefresh">refresh</button>
+            </template>
+          </QrCode>
+        `,
+      }),
+    );
+    cy.get('.slot-status').should('have.text', 'expired');
+    cy.get('.slot-refresh').click({ force: true });
+    cy.get('@vue').should(({ wrapper }) => {
+      const events = wrapper.emitted('refresh') ?? [];
+      expect(events.length).to.equal(1);
+    });
+  });
+
+  it('re-renders the accessible name when the value changes', () => {
+    cy.mount(
+      defineComponent({
+        components: { QrCode },
+        data: () => ({ value }),
+        template: `
+          <div>
+            <button @click="value = 'https://changed.example'">change</button>
+            <QrCode :value="value" type="svg" />
+          </div>
+        `,
+      }),
+    );
+    cy.get('.sd-qr-code-svg').should(($el) => {
+      const label = $el[0].getAttribute('aria-label');
+      expect(label).to.contain(value);
+    });
+    cy.get('button').click();
+    cy.get('.sd-qr-code-svg').should(($el) => {
+      const label = $el[0].getAttribute('aria-label');
+      expect(label).to.contain('https://changed.example');
+    });
+  });
 });
