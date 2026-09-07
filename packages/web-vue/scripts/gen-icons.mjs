@@ -1,6 +1,6 @@
 // oxlint-disable no-console
 import { globSync } from 'glob';
-import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { optimize } from 'svgo';
@@ -223,8 +223,12 @@ function getSvgData() {
 }
 
 async function ensureCleanIconDir() {
-  await rm(paths.iconComponents, { recursive: true, force: true });
-  await mkdir(paths.iconComponents, { recursive: true });
+  // __test__ 目录受版本控制（含组件测试）；生成时逐项删除目录内容而保留 __test__
+  const entries = await readdir(paths.iconComponents).catch(() => []);
+  for (const entry of entries) {
+    if (entry === '__test__') continue;
+    await rm(path.join(paths.iconComponents, entry), { recursive: true, force: true });
+  }
 }
 
 async function buildIconComponent(data) {
