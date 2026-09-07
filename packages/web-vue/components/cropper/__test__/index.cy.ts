@@ -278,4 +278,168 @@ describe('Cropper', () => {
       expect(wrapper.emitted('selection:change')).to.equal(undefined);
     });
   });
+
+  it('merges fallthrough class and updates container size css variables', () => {
+    cy.mount(Cropper, {
+      props: { src: imageSrc, fitSelectionToImage: false },
+      attrs: { class: 'custom-cropper' },
+    });
+    cy.get('cropper-canvas').should('exist');
+
+    cy.get('.sd-cropper')
+      .should('have.class', 'custom-cropper')
+      .and('have.attr', 'style')
+      .and('contain', '--sd-cropper-width: 100%')
+      .and('contain', '--sd-cropper-height: 100%');
+
+    getWrapper().then((wrapper) => wrapper.setProps({ width: 480, height: 240 }));
+    cy.get('.sd-cropper')
+      .should('have.attr', 'style')
+      .and('contain', '--sd-cropper-width: 480px')
+      .and('contain', '--sd-cropper-height: 240px');
+  });
+
+  it('reflects boolean child props as empty attributes and removes them when disabled', () => {
+    cy.mount(Cropper, {
+      props: {
+        src: imageSrc,
+        fitSelectionToImage: false,
+        canvasProps: { disabled: true, background: false },
+      },
+    });
+
+    cy.get('cropper-canvas').should('have.attr', 'disabled');
+    cy.get('cropper-canvas').should('not.have.attr', 'background');
+
+    getWrapper().then((wrapper) =>
+      wrapper.setProps({
+        canvasProps: { disabled: false, background: true },
+      }),
+    );
+    cy.get('cropper-canvas').should('not.have.attr', 'disabled');
+    cy.get('cropper-canvas').should('have.attr', 'background');
+  });
+
+  it('preserves unspecified selection geometry when only part of it is controlled', () => {
+    let initialWidth = 0;
+    let initialHeight = 0;
+
+    cy.mount(Cropper, {
+      props: { src: imageSrc, fitSelectionToImage: false, selectionX: 10 },
+    });
+
+    cy.get('cropper-selection').then(($selection) => {
+      const selection = $selection[0] as HTMLElement & {
+        width: number;
+        height: number;
+      };
+      initialWidth = selection.width;
+      initialHeight = selection.height;
+    });
+
+    getWrapper().then((wrapper) => wrapper.setProps({ selectionX: 25, selectionY: 35 }));
+
+    cy.get('cropper-selection').should(($selection) => {
+      const selection = $selection[0] as HTMLElement & {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+      };
+      expect(selection.x).to.equal(25);
+      expect(selection.y).to.equal(35);
+      expect(selection.width).to.equal(initialWidth);
+      expect(selection.height).to.equal(initialHeight);
+    });
+  });
+
+  it('assigns controlled selection geometry directly when $change is unavailable', () => {
+    cy.mount(Cropper, { props: { src: imageSrc, fitSelectionToImage: false } });
+
+    cy.get('cropper-selection').then(($selection) => {
+      Object.defineProperty($selection[0], '$change', {
+        configurable: true,
+        value: undefined,
+      });
+
+      getWrapper().then((wrapper) => wrapper.setProps({ selectionX: 44 }));
+    });
+
+    cy.get('cropper-selection').should(($selection) => {
+      const selection = $selection[0] as HTMLElement & { x: number };
+      expect(selection.x).to.equal(44);
+    });
+  });
+
+  it('fits the selection using the image element size when the image is not scaled up', () => {
+    cy.mount(Cropper);
+
+    cy.get('cropper-selection').then(($selection) => {
+      cy.spy($selection[0], '$change').as('fitSelectionChange');
+    });
+    cy.get('cropper-image').then(($image) => {
+      const image = $image[0] as HTMLElement & { $getTransform(): number[] };
+      cy.stub(image, '$getTransform').returns([1, 0, 0, 1, 0, 0]);
+      Object.defineProperties(image, {
+        clientWidth: { configurable: true, get: () => 400 },
+        clientHeight: { configurable: true, get: () => 200 },
+      });
+    });
+    cy.get('.sd-cropper-source-image').then(($image) => {
+      Object.defineProperties($image[0], {
+        naturalWidth: { configurable: true, value: 100 },
+        naturalHeight: { configurable: true, value: 50 },
+      });
+      $image[0].dispatchEvent(new Event('load'));
+    });
+
+    cy.get('@fitSelectionChange').should('have.been.calledWith', 1, 1, 398, 198);
+  });
+
+  it('emits v-model updates when the cropperjs selection changes for real', () => {
+    cy.mount(Cropper, { props: { src: imageSrc, fitSelectionToImage: false } });
+
+    cy.get('cropper-selection').then(($selection) => {
+      const selection = $selection[0] as HTMLElement & {
+        $change(x: number, y: number, width: number, height: number): unknown;
+      };
+      selection.$change(42, 36, 150, 120);
+    });
+
+    getWrapper().should((wrapper) => {
+      expect(wrapper.emitted('update:selectionX')?.at(-1)).to.deep.equal([42]);
+      expect(wrapper.emitted('update:selectionY')?.at(-1)).to.deep.equal([36]);
+      expect(wrapper.emitted('update:selectionWidth')?.at(-1)).to.deep.equal([150]);
+      expect(wrapper.emitted('update:selectionHeight')?.at(-1)).to.deep.equal([120]);
+      expect(wrapper.emitted('selection:change')?.at(-1)).to.deep.equal([
+        { x: 42, y: 36, width: 150, height: 120 },
+      ]);
+    });
+  });
+
+  it('returns null from every exposed getter after destroy', () => {
+    cy.mount(Cropper, { props: { src: imageSrc, fitSelectionToImage: false } });
+    cy.get('cropper-selection').should('exist');
+
+    getWrapper().then((wrapper) => {
+      const exposed = wrapper.vm as unknown as {
+        destroy(): void;
+        getInstance(): unknown;
+        getCropperCanvas(): Element | null;
+        getCropperImage(): Element | null;
+        getCropperSelection(): Element | null;
+        getCropperSelections(): ArrayLike<Element> | null;
+      };
+
+      expect(exposed.getCropperSelections()).to.have.length(1);
+
+      exposed.destroy();
+
+      expect(exposed.getInstance()).to.equal(null);
+      expect(exposed.getCropperCanvas()).to.equal(null);
+      expect(exposed.getCropperImage()).to.equal(null);
+      expect(exposed.getCropperSelection()).to.equal(null);
+      expect(exposed.getCropperSelections()).to.equal(null);
+    });
+  });
 });
