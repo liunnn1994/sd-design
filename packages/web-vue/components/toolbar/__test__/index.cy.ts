@@ -123,4 +123,146 @@ describe('Toolbar', () => {
     cy.get('.sd-spin-mask').should('exist');
     cy.get('.sd-spin-tip').should('have.text', '筛选项加载中');
   });
+
+  it('shows the loading mask immediately without a spin delay', () => {
+    cy.mount(Toolbar, { props: { loading: true } });
+    cy.get('.sd-spin-mask').should('exist');
+  });
+
+  it('hides the whole actions area with show-actions false', () => {
+    cy.mount(Toolbar, {
+      props: { showActions: false, schemas: [{ field: 'name', type: 'input' }] },
+    });
+    cy.get('.sd-toolbar-actions').should('not.exist');
+    cy.contains('button', SEARCH_TEXT).should('not.exist');
+  });
+
+  it('toggles the bottom divider with show-border-bottom', () => {
+    cy.mount(Toolbar, { props: { schemas: [{ field: 'name', type: 'input' }] } });
+    cy.get('.sd-toolbar').should('have.class', 'sd-toolbar-with-border');
+
+    cy.mount(Toolbar, { props: { showBorderBottom: false } });
+    cy.get('.sd-toolbar').should('not.have.class', 'sd-toolbar-with-border');
+  });
+
+  it('supports custom search and reset texts', () => {
+    cy.mount(Toolbar, {
+      props: { searchText: '搜索', resetText: '清空' },
+    });
+    cy.contains('button', '搜索').should('exist');
+    cy.contains('button', '清空').should('exist');
+    cy.contains('button', SEARCH_TEXT).should('not.exist');
+    cy.contains('button', RESET_TEXT).should('not.exist');
+  });
+
+  it('replaces built-in actions with the extra slot', () => {
+    cy.mount(Toolbar, {
+      slots: { extra: '<span class="toolbar-extra">导出</span>' },
+    });
+    cy.get('.toolbar-extra').should('exist');
+    cy.contains('button', SEARCH_TEXT).should('not.exist');
+    cy.contains('button', RESET_TEXT).should('not.exist');
+  });
+
+  it('supports the action-prepend and action-append slots', () => {
+    cy.mount(Toolbar, {
+      slots: {
+        'action-prepend': '<span class="action-prepend-slot">前置</span>',
+        'action-append': '<span class="action-append-slot">后置</span>',
+      },
+    });
+    cy.get('.action-prepend-slot').should('exist');
+    cy.get('.action-append-slot').should('exist');
+    cy.contains('button', SEARCH_TEXT).should('exist');
+    cy.contains('button', RESET_TEXT).should('exist');
+  });
+
+  it('search emits the live model after typing', () => {
+    // JsonForm mutates the bound object in place (no update:modelValue while typing),
+    // so search must carry the mutated live object.
+    cy.mount(Toolbar, {
+      props: { modelValue: { name: '' }, schemas: [{ field: 'name', type: 'input' }] },
+    });
+    cy.get('input').type('abc');
+    cy.contains('button', SEARCH_TEXT).click();
+    cy.get('@vue').should(({ wrapper }) => {
+      const searchEvents = wrapper.emitted('search');
+      const searchPayload = searchEvents?.[0]?.[0];
+      expect(searchPayload).to.deep.equal({ name: 'abc' });
+    });
+  });
+
+  it('exposed reset(false) updates the model without emitting reset', () => {
+    cy.mount(Toolbar, { props: { modelValue: { name: 'a' } } });
+    cy.get('@vue').then(({ wrapper }) => {
+      (wrapper.vm as unknown as ToolbarInstance).reset(false);
+    });
+    cy.get('@vue').should(({ wrapper }) => {
+      const updates = wrapper.emitted('update:modelValue');
+      const lastUpdate = updates?.at(-1)?.[0];
+      expect(lastUpdate).to.deep.equal({ name: 'a' });
+      expect(wrapper.emitted('reset')).to.equal(undefined);
+    });
+  });
+
+  it('exposes layout CSS variables and the max-width body modifier', () => {
+    cy.mount(Toolbar, {
+      props: { itemHeight: 40, spanWidth: 180, itemMaxWidth: '320px' },
+    });
+    cy.get('.sd-toolbar').then(($el) => {
+      const style = ($el[0] as HTMLElement).style;
+      expect(style.getPropertyValue('--toolbar-item-height')).to.equal('40px');
+      expect(style.getPropertyValue('--toolbar-span-width')).to.equal('180px');
+      expect(style.getPropertyValue('--toolbar-item-max-width')).to.equal('320px');
+    });
+    cy.get('.sd-toolbar-body').should('have.class', 'sd-toolbar-body--max-width');
+  });
+
+  it('shows the expand toggle on overflow and toggles expand/collapse', () => {
+    cy.mount(Toolbar, {
+      props: { allowExpand: true, itemHeight: 32 },
+      slots: { default: '<div class="tall-content" style="height:100px">内容</div>' },
+    });
+    cy.get('.sd-toolbar-expand').should('exist');
+    cy.get('.sd-toolbar-expand-text').should('contain.text', '展开');
+    cy.get('.sd-toolbar').then(($el) => {
+      const maxHeight = ($el[0] as HTMLElement).style.getPropertyValue('--toolbar-body-max-height');
+      expect(maxHeight).to.equal('32px');
+    });
+    cy.get('.sd-toolbar-expand').click();
+    cy.get('.sd-toolbar-expand-text').should('contain.text', '收起');
+    cy.get('.sd-toolbar').then(($el) => {
+      const maxHeight = ($el[0] as HTMLElement).style.getPropertyValue('--toolbar-body-max-height');
+      expect(maxHeight).to.not.equal('32px');
+    });
+    cy.get('.sd-toolbar-expand').click();
+    cy.get('.sd-toolbar-expand-text').should('contain.text', '展开');
+    cy.get('.sd-toolbar').then(($el) => {
+      const maxHeight = ($el[0] as HTMLElement).style.getPropertyValue('--toolbar-body-max-height');
+      expect(maxHeight).to.equal('32px');
+    });
+  });
+
+  it('starts expanded with default-expand', () => {
+    cy.mount(Toolbar, {
+      props: { allowExpand: true, defaultExpand: true },
+      slots: { default: '<div class="tall-content" style="height:100px">内容</div>' },
+    });
+    cy.get('.sd-toolbar-expand-text').should('contain.text', '收起');
+    cy.get('.sd-toolbar-expand-icon').should('have.class', 'sd-toolbar-expand-icon--up');
+  });
+
+  it('supports custom expand/collapse texts and a custom expand icon', () => {
+    cy.mount(Toolbar, {
+      props: { allowExpand: true, expandText: '更多', collapseText: '更少' },
+      slots: {
+        'default': '<div class="tall-content" style="height:100px">内容</div>',
+        'expand-icon': '<span class="custom-expand-icon">^</span>',
+      },
+    });
+    cy.get('.sd-toolbar-expand-text').should('have.text', '更多');
+    cy.get('.custom-expand-icon').should('exist');
+    cy.get('.sd-toolbar-expand').click();
+    cy.get('.sd-toolbar-expand-text').should('contain.text', '更少');
+  });
 });

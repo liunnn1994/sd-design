@@ -129,4 +129,86 @@ describe('Tag', () => {
       .invoke('attr', 'style')
       .should('contain', '--sd-tag-bg-color: rgb(255 0 86 / 0.3)');
   });
+
+  it('renders a checkable tag as checked by default (defaultChecked=true)', () => {
+    cy.mount(Tag, { props: { checkable: true } });
+    cy.get('.sd-tag').should('have.class', 'sd-tag-checked');
+    cy.get('.sd-tag').should('have.attr', 'aria-pressed', 'true');
+  });
+
+  it('emits update:checked and check(true) when an unchecked checkable tag is clicked', () => {
+    cy.mount(Tag, { props: { checkable: true, defaultChecked: false } });
+    cy.get('.sd-tag').click({ force: true });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('update:checked')?.[0]).to.deep.equal([true]);
+      const checkEvent = wrapper.emitted('check') as Array<[boolean]> | undefined;
+      expect(checkEvent?.[0][0]).to.equal(true);
+    });
+    cy.get('.sd-tag').should('have.attr', 'aria-pressed', 'true');
+  });
+
+  it('toggles a checkable tag with the Space key', () => {
+    cy.mount(Tag, { props: { checkable: true, defaultChecked: false } });
+    cy.get('.sd-tag').focus().trigger('keydown', { key: ' ' });
+    cy.get('.sd-tag').should('have.attr', 'aria-pressed', 'true');
+  });
+
+  it('keeps a controlled checked state when the checked prop does not change', () => {
+    cy.mount(Tag, { props: { checkable: true, checked: true } });
+    cy.get('.sd-tag').click({ force: true });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('update:checked')?.[0]).to.deep.equal([false]);
+    });
+    cy.get('.sd-tag').should('have.attr', 'aria-pressed', 'true');
+  });
+
+  it('does not render the tag when defaultVisible is false', () => {
+    cy.mount(Tag, { props: { defaultVisible: false }, slots: { default: 'Hidden' } });
+    cy.get('.sd-tag').should('not.exist');
+  });
+
+  it('keeps a controlled visible tag rendered after close and emits update:visible', () => {
+    cy.mount(Tag, { props: { visible: true, closable: true }, slots: { default: 'Pinned' } });
+    cy.get('.sd-tag-close-btn').click({ force: true });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('update:visible')?.[0]).to.deep.equal([false]);
+      expect(wrapper.emitted('close')).to.have.length(1);
+    });
+    cy.get('.sd-tag').should('exist');
+  });
+
+  it('closes the tag when pressing Space on the close button', () => {
+    cy.mount(Tag, { props: { closable: true }, slots: { default: 'Closable tag' } });
+    cy.get('.sd-tag-close-btn').trigger('keydown', { key: ' ' });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('close')).to.have.length(1);
+    });
+  });
+
+  it('emits close but not check when the close button of a checkable tag is clicked', () => {
+    cy.mount(Tag, { props: { checkable: true, closable: true }, slots: { default: 'Both' } });
+    cy.get('.sd-tag-close-btn').click({ force: true });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('close')).to.have.length(1);
+      expect(wrapper.emitted('check')).to.equal(undefined);
+    });
+  });
+
+  it('exposes the close button as a button with an aria-label', () => {
+    cy.mount(Tag, { props: { closable: true }, slots: { default: 'Closable tag' } });
+    cy.get('.sd-tag-close-btn')
+      .should('have.attr', 'role', 'button')
+      .and('have.attr', 'aria-label');
+  });
+
+  it('adds the loading class and renders a loading icon when loading', () => {
+    cy.mount(Tag, { props: { loading: true }, slots: { default: 'Loading' } });
+    cy.get('.sd-tag').should('have.class', 'sd-tag-loading');
+    cy.get('.sd-tag-loading-icon').should('exist');
+  });
+
+  it('applies the size class for size=small', () => {
+    cy.mount(Tag, { props: { size: 'small' }, slots: { default: 'Small' } });
+    cy.get('.sd-tag').should('have.class', 'sd-tag-size-small');
+  });
 });

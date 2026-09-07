@@ -667,6 +667,128 @@ describe('Sender', () => {
       .should('have.css', 'min-height', '60px')
       .and('have.css', 'max-height', '120px');
   });
+
+  it('disables the send button while empty and submits after typing', () => {
+    cy.mount(Sender);
+
+    cy.get('button[aria-label="发送"]').should('be.disabled');
+    cy.get('textarea').type('消息');
+    cy.get('button[aria-label="发送"]').should('not.be.disabled');
+    cy.get('button[aria-label="发送"]').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('submit')?.[0]?.[0]).to.equal('消息');
+    });
+  });
+
+  it('blocks Enter submit while disabled', () => {
+    cy.mount(Sender, {
+      props: { defaultValue: '内容', disabled: true },
+    });
+
+    cy.get('.sd-sender').should('have.class', 'sd-sender-disabled');
+    cy.get('button[aria-label="发送"]').should('be.disabled');
+    cy.get('textarea').trigger('keydown', { key: 'Enter', force: true });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('submit')).to.equal(undefined);
+    });
+  });
+
+  it('ignores Ctrl+Enter in the default submit mode', () => {
+    cy.mount(Sender, {
+      props: { defaultValue: '内容' },
+    });
+
+    cy.get('textarea').type('{ctrl+enter}');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('submit')).to.equal(undefined);
+    });
+  });
+
+  it('lets an onKeydown returning false block the submit shortcut', () => {
+    cy.mount(Sender, {
+      props: { defaultValue: '内容', onKeydown: () => false },
+    });
+
+    cy.get('textarea').type('{enter}');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('submit')).to.equal(undefined);
+    });
+  });
+
+  it('updates the textarea when the controlled modelValue changes', () => {
+    cy.mount(Sender, {
+      props: { modelValue: '初始' },
+    });
+
+    cy.get('textarea').should('have.value', '初始');
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ modelValue: '更新' }));
+    cy.get('textarea').should('have.value', '更新');
+  });
+
+  it('hides the default action area when showActions is false', () => {
+    cy.mount(Sender, {
+      props: { defaultValue: '内容', showActions: false },
+      slots: { suffix: '<button class="custom-suffix">发送</button>' },
+    });
+
+    cy.get('.sd-sender-actions-list').should('not.exist');
+    cy.get('button[aria-label="发送"]').should('not.exist');
+    cy.get('.custom-suffix').should('not.exist');
+  });
+
+  it('exposes send and clear actions to the suffix scoped slot', () => {
+    cy.mount(Sender, {
+      props: { defaultValue: '待清除' },
+      slots: {
+        suffix: ({ actions }: { actions: { clear: () => void } }) =>
+          h('button', { class: 'clear-btn', onClick: () => actions.clear() }, '清空'),
+      },
+    });
+
+    cy.get('.clear-btn').click();
+    cy.get('textarea').should('have.value', '');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.at(-1)?.[0]).to.equal('');
+    });
+  });
+
+  it('emits paste for plain-text paste without pasteFile', () => {
+    cy.mount(Sender);
+
+    cy.get('textarea').then(($textarea) => {
+      const dataTransfer = new DataTransfer();
+      dataTransfer.setData('text/plain', '文本');
+      $textarea[0].dispatchEvent(
+        new ClipboardEvent('paste', {
+          bubbles: true,
+          cancelable: true,
+          clipboardData: dataTransfer,
+        }),
+      );
+    });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('paste')).to.have.length(1);
+      expect(wrapper.emitted('pasteFile')).to.equal(undefined);
+    });
+  });
+
+  it('exposes inputElement and nativeElement on the instance', () => {
+    cy.mount(Sender, {
+      props: { defaultValue: '文本' },
+    });
+
+    cy.get('@vue').then(({ wrapper }) => {
+      const sender = wrapper.vm as unknown as SenderInstance;
+      const inputElement = sender.inputElement as HTMLTextAreaElement | null;
+      const isTextarea = inputElement instanceof HTMLTextAreaElement;
+      const inputValue = inputElement?.value;
+      const nativeElement = sender.nativeElement as HTMLElement | null;
+      const hasRootClass = nativeElement?.classList.contains('sd-sender');
+      expect(isTextarea).to.equal(true);
+      expect(inputValue).to.equal('文本');
+      expect(hasRootClass).to.equal(true);
+    });
+  });
 });
 
 describe('SenderHeader', () => {
@@ -688,6 +810,16 @@ describe('SenderHeader', () => {
       expect(wrapper.emitted('update:open')?.[0]).to.deep.equal([false]);
       expect(wrapper.emitted('openChange')?.[0]).to.deep.equal([false]);
     });
+  });
+
+  it('keeps a closed header mounted when forceRender is true', () => {
+    cy.mount(SenderHeader, {
+      props: { open: false, forceRender: true },
+      slots: { default: '<div class="header-content">文件列表</div>' },
+    });
+
+    cy.get('.sd-sender-header').should('exist').and('not.be.visible');
+    cy.get('.header-content').should('exist');
   });
 });
 
@@ -725,5 +857,23 @@ describe('SenderSwitch', () => {
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('change')).to.equal(undefined);
     });
+  });
+
+  it('supports a controlled modelValue', () => {
+    cy.mount(SenderSwitch, {
+      props: { modelValue: false },
+      slots: { checked: '深度思考', unchecked: '快速回答' },
+    });
+
+    cy.contains('button', '快速回答').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal([true]);
+    });
+    cy.get('.sd-sender-switch').should('not.have.class', 'sd-sender-switch-checked');
+    cy.contains('button', '快速回答').should('exist');
+
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ modelValue: true }));
+    cy.get('.sd-sender-switch').should('have.class', 'sd-sender-switch-checked');
+    cy.contains('button', '深度思考').should('exist');
   });
 });

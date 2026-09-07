@@ -128,4 +128,55 @@ describe('TagGroup', () => {
     cy.get('.sd-tag-group-inner [data-part="item"]:visible').should('have.length', 2);
     cy.get('.sd-tag-group-item-counter:visible').should('have.text', '+2');
   });
+
+  it('renders the default slot and the empty class when options are empty', () => {
+    cy.mount(TagGroup, {
+      props: { options: [] },
+      slots: { default: '<span class="empty-fallback">暂无标签</span>' },
+    });
+    cy.get('.sd-tag-group').should('have.class', 'sd-tag-group-empty');
+    cy.get('.sd-tag-group').find('.empty-fallback').should('have.text', '暂无标签');
+  });
+
+  it('passes explicit itemProps through to the rendered Tag', () => {
+    cy.mount(TagGroup, {
+      props: {
+        options: [{ label: '可关闭', value: 'closeable', itemProps: { closable: true } }],
+      },
+    });
+    cy.get('.sd-tag-group-item-content').first().find('.sd-tag-close-btn').should('exist');
+  });
+
+  it('applies extra option fields as Tag props (color)', () => {
+    cy.mount(TagGroup, {
+      props: { options: [{ label: '红色', value: 'red-1', color: 'red' }] },
+    });
+    cy.get('.sd-tag-group-item-content').first().should('have.class', 'sd-tag-red');
+  });
+
+  it('supports function labels', () => {
+    cy.mount(TagGroup, {
+      props: { options: [{ label: () => '函数标签', value: 'fn' }] },
+    });
+    cy.contains('函数标签').should('exist');
+  });
+
+  it('renders no counter when maxCount exceeds the number of options', () => {
+    cy.mount(TagGroup, {
+      props: { maxCount: 5, options: ['标签1', '标签2'] },
+    });
+    cy.get('.sd-tag-group-item').should('have.length', 2);
+    cy.get('.sd-tag-group-item-counter').should('not.exist');
+  });
+
+  it('supports a custom label slot rendered inside the Tag', () => {
+    cy.mount(TagGroup, {
+      props: { options: [{ label: '文档', value: 'doc' }] },
+      slots: {
+        label: ({ data }: any) => h('em', { class: 'custom-label' }, `前缀:${data.label}`),
+      },
+    });
+    // 内容含测量副本导致文本重复，用 contain 断言
+    cy.get('em.custom-label').should('contain.text', '前缀:文档');
+  });
 });
