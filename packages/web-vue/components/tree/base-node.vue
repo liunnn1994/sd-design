@@ -425,7 +425,7 @@
     setDragStatus('dragEnd', e);
   }
   function onDragOver(e: DragEvent) {
-    if (!draggable) return;
+    if (!draggable.value) return;
 
     e.stopPropagation();
     e.preventDefault();
