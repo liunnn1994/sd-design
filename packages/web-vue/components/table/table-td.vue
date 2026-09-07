@@ -1,5 +1,5 @@
 <template>
-  <component :is="getTdComponent()" :class="cls" :style="style" role="cell">
+  <component :is="getTdComponent()" v-bind="$attrs" :class="cls" :style="style" role="cell">
     <span :class="cellCls" :style="cellStyle">
       <span v-if="indentSize > 0" :style="{ paddingLeft: `${indentSize}px` }" />
       <span v-if="showExpandBtn" :class="`${prefixCls}-cell-inline-icon`" @click="handleClick">

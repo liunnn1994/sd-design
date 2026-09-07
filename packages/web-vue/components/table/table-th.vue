@@ -58,6 +58,7 @@
 
   <component
     :is="getThComponent()"
+    v-bind="$attrs"
     :class="cls"
     :style="style"
     role="columnheader"
