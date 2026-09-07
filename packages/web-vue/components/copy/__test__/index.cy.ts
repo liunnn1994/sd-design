@@ -70,4 +70,134 @@ describe('Copy', () => {
       'clipboard-text',
     );
   });
+
+  it('copies from a button trigger and emits copy', () => {
+    cy.window().then((win) => {
+      Object.defineProperty(win, 'isSecureContext', { configurable: true, value: true });
+      cy.stub(win.navigator.clipboard, 'writeText').resolves(undefined).as('writeText');
+    });
+    cy.mount(Copy, {
+      props: { content: 'button-content', component: 'button' },
+      slots: { default: '复制文本' },
+    });
+    cy.get('button').click();
+    cy.get('@writeText').should('have.been.calledWith', 'button-content');
+    cy.get('@success').should('have.been.calledWith', '复制成功');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('copy')).to.deep.equal([['button-content']]);
+    });
+  });
+
+  it('does not copy when disabled is passed as a prop to a button trigger', () => {
+    cy.window().then((win) => {
+      cy.stub(win.navigator.clipboard, 'writeText').resolves(undefined).as('writeText');
+    });
+    cy.mount(Copy, {
+      props: { content: 'blocked', component: 'button', disabled: true },
+      slots: { default: '不可复制' },
+    });
+    cy.get('button').click();
+    cy.get('@writeText').should('not.be.called');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('copy')).to.equal(undefined);
+    });
+  });
+
+  it('treats an empty-string disabled attribute as disabled', () => {
+    cy.window().then((win) => {
+      cy.stub(win.navigator.clipboard, 'writeText').resolves(undefined).as('writeText');
+    });
+    cy.mount(Copy, {
+      attrs: { disabled: '' },
+      props: { content: 'blocked' },
+      slots: { default: '不可复制' },
+    });
+    cy.get('a').click({ force: true });
+    cy.get('@writeText').should('not.be.called');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('copy')).to.equal(undefined);
+    });
+  });
+
+  it('applies the inherit class only to the link trigger when textInherit is true', () => {
+    cy.mount(Copy, {
+      props: { content: 'x', textInherit: false },
+      slots: { default: '不继承颜色' },
+    });
+    cy.get('a').should('have.class', 'sd-copy').and('not.have.class', 'sd-copy-inherit');
+  });
+
+  it('does not apply the inherit class to a button trigger', () => {
+    cy.mount(Copy, {
+      props: { content: 'x', component: 'button' },
+      slots: { default: '复制文本' },
+    });
+    cy.get('button').should('have.class', 'sd-copy').and('not.have.class', 'sd-copy-inherit');
+  });
+
+  it('renders the icon slot instead of the default copy icon', () => {
+    cy.mount(Copy, {
+      props: { content: 'x' },
+      slots: { icon: '<span class="custom-icon">C</span>' },
+    });
+    cy.get('.sd-copy .custom-icon').should('exist');
+    cy.get('.sd-copy .sd-icon-copy').should('not.exist');
+  });
+
+  it('shows a custom success message after copying', () => {
+    cy.window().then((win) => {
+      Object.defineProperty(win, 'isSecureContext', { configurable: true, value: true });
+      cy.stub(win.navigator.clipboard, 'writeText').resolves(undefined).as('writeText');
+    });
+    cy.mount(Copy, {
+      props: { content: 'x', successMessage: '已复制到剪贴板' },
+      slots: { default: '复制文本' },
+    });
+    cy.get('a').click();
+    cy.get('@writeText').should('have.been.calledWith', 'x');
+    cy.get('@success').should('have.been.calledWith', '已复制到剪贴板');
+  });
+
+  it('shows the default tooltip text when the tooltip is made visible', () => {
+    cy.mount(Copy, {
+      props: {
+        content: 'x',
+        tooltipProps: { defaultPopupVisible: true, renderToBody: false },
+      },
+      slots: { default: '复制链接' },
+    });
+    cy.get('.sd-tooltip').should('contain.text', '复制');
+  });
+
+  it('lets tooltipProps.content override the tooltip text', () => {
+    cy.mount(Copy, {
+      props: {
+        content: 'x',
+        tooltip: '复制',
+        tooltipProps: {
+          content: '点击复制链接',
+          defaultPopupVisible: true,
+          renderToBody: false,
+        },
+      },
+      slots: { default: '复制链接' },
+    });
+    cy.get('.sd-tooltip').should('contain.text', '点击复制链接');
+  });
+
+  it('lets a consumer aria-label override the tooltip-derived name', () => {
+    cy.mount(Copy, {
+      attrs: { 'aria-label': '自定义复制' },
+      props: { content: 'x', tooltip: '复制' },
+    });
+    cy.get('a').should('have.attr', 'aria-label', '自定义复制');
+  });
+
+  it('omits aria-label when visible text is provided', () => {
+    cy.mount(Copy, {
+      props: { content: 'x', tooltip: '复制' },
+      slots: { default: '复制链接' },
+    });
+    cy.get('a').should('not.have.attr', 'aria-label');
+  });
 });
