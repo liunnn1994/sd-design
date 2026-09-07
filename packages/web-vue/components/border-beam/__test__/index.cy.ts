@@ -24,6 +24,13 @@ const flowFrom = (arg?: unknown) =>
     (wrapper.vm as { flowFrom: (arg?: unknown) => void }).flowFrom(arg);
   });
 
+const fireAnimationEnd = (animationName: string) =>
+  cy.get('[data-beam]').then(($el) => {
+    ($el[0] as HTMLElement).dispatchEvent(
+      new AnimationEvent('animationend', { animationName, bubbles: true }),
+    );
+  });
+
 describe('BorderBeam', () => {
   it('renders with default props', () => {
     cy.mount(BorderBeam, { slots: slot });
@@ -150,5 +157,153 @@ describe('BorderBeam', () => {
           .should('contain', '[data-beam-flow]')
           .and('contain', 'beam-flow-spread');
       });
+  });
+
+  it('does not show data-paused while the beam is in view', () => {
+    cy.mount(BorderBeam, { slots: slot });
+    cy.get('[data-beam]').should('not.have.attr', 'data-paused');
+  });
+
+  it('clamps strength to 1 and density to the 0.1 minimum', () => {
+    cy.mount(BorderBeam, { props: { strength: 2, density: 0 }, slots: slot });
+    cy.get('[data-beam]')
+      .invoke('attr', 'style')
+      .should('contain', '--beam-strength: 1')
+      .and('contain', '--beam-density: 0.1');
+  });
+
+  it('applies the duration prop to the generated CSS', () => {
+    cy.mount(BorderBeam, { props: { duration: 2.5 }, slots: slot });
+    // Only one beam is mounted per test, so the per-instance style element is unique.
+    cy.get('style[data-beam-style]').invoke('text').should('contain', '2.5s linear infinite');
+  });
+
+  it('applies brightness and saturation overrides to the hue-shift keyframes', () => {
+    cy.mount(BorderBeam, { props: { brightness: 2.2, saturation: 0.8 }, slots: slot });
+    cy.get('style[data-beam-style]')
+      .invoke('text')
+      .should('contain', 'brightness(2.20)')
+      .and('contain', 'saturate(0.80)');
+  });
+
+  it('disables hue shift when staticColors is set', () => {
+    cy.mount(BorderBeam, { props: { staticColors: true }, slots: slot });
+    cy.get('style[data-beam-style]').invoke('text').should('not.contain', 'beam-hue-shift');
+  });
+
+  it('forces static colors for the mono color variant', () => {
+    cy.mount(BorderBeam, { props: { colorVariant: 'mono' }, slots: slot });
+    cy.get('style[data-beam-style]').invoke('text').should('not.contain', 'beam-hue-shift');
+  });
+
+  it('clamps hueRange to 13deg for the line size', () => {
+    cy.mount(BorderBeam, { props: { size: 'line', hueRange: 50 }, slots: slot });
+    cy.get('style[data-beam-style]')
+      .invoke('text')
+      .should('contain', 'hue-rotate(-13deg)')
+      .and('not.contain', 'hue-rotate(-50deg)');
+  });
+
+  it('uses light-theme gradients when theme is light', () => {
+    cy.mount(BorderBeam, { props: { theme: 'light' }, slots: slot });
+    cy.get('style[data-beam-style]').invoke('text').should('contain', 'rgba(0, 0, 0, 0.08)');
+  });
+
+  it('auto-detects the border radius from slot content', () => {
+    cy.mount(BorderBeam, {
+      slots: { default: '<div class="inner-content" style="border-radius: 10px">Hi</div>' },
+    });
+    cy.get('style[data-beam-style]').invoke('text').should('contain', 'border-radius: 10px');
+  });
+
+  it('borderRadius prop takes precedence over the detected radius', () => {
+    cy.mount(BorderBeam, {
+      props: { borderRadius: 24 },
+      slots: { default: '<div class="inner-content" style="border-radius: 10px">Hi</div>' },
+    });
+    cy.get('style[data-beam-style]')
+      .invoke('text')
+      .should('contain', 'border-radius: 24px')
+      .and('not.contain', 'border-radius: 10px');
+  });
+
+  it('maps the center preset to the element center during flow', () => {
+    cy.mount(BorderBeam, { slots: slot });
+    stubBeamRect();
+    flowFrom('center');
+    cy.get('[data-beam]')
+      .invoke('attr', 'style')
+      .should('contain', '--beam-flow-x: 100px')
+      .and('contain', '--beam-flow-y: 50px');
+  });
+
+  it('renders the flow overlay internals with the measured viewBox', () => {
+    cy.mount(BorderBeam, { slots: slot });
+    stubBeamRect();
+    flowFrom('top-left');
+    cy.get('[data-beam-flow]').should('have.attr', 'viewBox', '0 0 200 100');
+    cy.get('[data-beam-flow-front]').should('exist');
+    cy.get('[data-beam-flow-sheet]').should('exist');
+    cy.get('[data-beam-flow-blob]').should('have.length', 3);
+  });
+
+  it('gives each instance a unique beam id', () => {
+    cy.mount({ components: { BorderBeam }, template: '<div><BorderBeam /><BorderBeam /></div>' });
+    cy.get('[data-beam]').should('have.length', 2);
+    cy.get('[data-beam]').then(($els) => {
+      const ids = $els.toArray().map((el) => el.getAttribute('data-beam'));
+      expect(new Set(ids).size).to.equal(2);
+    });
+  });
+
+  it('removes the injected style element on unmount', () => {
+    cy.mount(BorderBeam, { slots: slot });
+    cy.get('style[data-beam-style]').should('have.length', 1);
+    cy.get('@vue').then(({ wrapper }) => wrapper.unmount());
+    cy.get('style[data-beam-style]').should('not.exist');
+  });
+
+  it('emits activate when the fade-in animation ends', () => {
+    cy.mount(BorderBeam, { slots: slot });
+    fireAnimationEnd('beam-fade-in-test');
+    cy.get('@vue').should(({ wrapper }) => {
+      const events = wrapper.emitted('activate') ?? [];
+      expect(events.length).to.be.greaterThan(0);
+    });
+  });
+
+  it('emits deactivate and clears fading when the fade-out animation ends', () => {
+    cy.mount(BorderBeam, { props: { active: true }, slots: slot });
+    cy.get('[data-active]').should('exist');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ active: false })));
+    cy.get('[data-fading]').should('exist');
+    fireAnimationEnd('beam-fade-out-test');
+    cy.get('@vue').should(({ wrapper }) => {
+      const events = wrapper.emitted('deactivate') ?? [];
+      expect(events.length).to.be.greaterThan(0);
+    });
+    cy.get('[data-fading]').should('not.exist');
+    cy.get('[data-active]').should('not.exist');
+  });
+
+  it('registers the shared pulse driver for pulse sizes', () => {
+    cy.mount(BorderBeam, { props: { size: 'pulse-inner' }, slots: slot });
+    cy.get('[data-beam]').invoke('attr', 'style').should('contain', '--bw1-');
+  });
+
+  it('does not register the pulse driver for rotating sizes', () => {
+    cy.mount(BorderBeam, { slots: slot });
+    cy.get('[data-beam]').invoke('attr', 'style').should('not.contain', '--bw1-');
+  });
+
+  it('scales the pulse-outside glow to the slot content size', () => {
+    cy.mount(BorderBeam, {
+      props: { size: 'pulse-outside' },
+      slots: { default: '<div class="inner-content" style="width: 700px; height: 280px">Hi</div>' },
+    });
+    cy.get('[data-beam]')
+      .invoke('attr', 'style')
+      .should('contain', '--pulse-glow-sx: 2')
+      .and('contain', '--pulse-glow-sy: 2');
   });
 });
