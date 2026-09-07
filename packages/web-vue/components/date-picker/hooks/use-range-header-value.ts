@@ -175,7 +175,7 @@ export default function useRangeHeaderValue(props: RangeHeaderValueProps) {
   const computedStartHeaderOperations = computed(() => {
     const operations: Array<keyof HeaderOperations> = ['onSuperPrev'];
     if (isDateOrWeek.value) operations.push('onPrev');
-    if (canShortenMonth.value && isDateOrWeek) operations.push('onNext');
+    if (canShortenMonth.value && isDateOrWeek.value) operations.push('onNext');
     if (canShortenYear.value) operations.push('onSuperNext');
     return pick(startHeaderOperations.value, operations);
   });
