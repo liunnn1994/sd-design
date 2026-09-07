@@ -277,4 +277,137 @@ describe('BloomMenu', () => {
       expect(rect.bottom, 'panel bottom').to.be.at.most(window.innerHeight);
     });
   });
+
+  it('emits open/close events and toggles the root open class', () => {
+    const onOpen = cy.spy().as('onOpen');
+    const onClose = cy.spy().as('onClose');
+    const onUpdate = cy.spy().as('onUpdate');
+
+    cy.mount(BloomMenu, {
+      props: {
+        items,
+        'onOpen': onOpen,
+        'onClose': onClose,
+        'onUpdate:modelValue': onUpdate,
+      },
+    });
+
+    cy.get('.sd-bloom-menu').should('not.have.class', 'sd-bloom-menu-open');
+    cy.get('[data-bloom-menu-trigger]').click();
+    cy.get('.sd-bloom-menu').should('have.class', 'sd-bloom-menu-open');
+    cy.get('@onOpen').should('have.been.calledOnce');
+    cy.get('@onUpdate').should('have.been.calledWith', true);
+    cy.get('.sd-bloom-menu-close').click();
+    cy.get('@onClose').should('have.been.calledOnce');
+    cy.get('@onUpdate').should('have.been.calledWith', false);
+  });
+
+  it('labels the close button with closeAriaLabel, defaulting to the locale text', () => {
+    cy.mount(BloomMenu, {
+      props: { items, defaultOpen: true, closeAriaLabel: '收起创建面板' },
+    });
+    cy.get('.sd-bloom-menu-close').should('have.attr', 'aria-label', '收起创建面板');
+
+    cy.mount(BloomMenu, { props: { items, defaultOpen: true } });
+    cy.get('.sd-bloom-menu-close').should('have.attr', 'aria-label', '关闭菜单');
+  });
+
+  it('renders the default trigger text, plus icon and default title', () => {
+    cy.mount(BloomMenu, { props: { items, triggerText: '新建' } });
+    cy.contains('.sd-bloom-menu-trigger-content', '新建').should('exist');
+    cy.get('.sd-bloom-menu-trigger-content svg').should('exist');
+
+    cy.mount(BloomMenu, { props: { items, defaultOpen: true } });
+    cy.contains('.sd-bloom-menu-trigger-content', 'Create').should('exist');
+    // 面板标题仅在菜单展开时渲染
+    cy.contains('.sd-bloom-menu-title', 'Create').should('exist');
+  });
+
+  it('renders item icons with the icon slot overriding them', () => {
+    const InlineIcon = () => h('i', { class: 'inline-item-icon' });
+    const itemsWithIcon: BloomMenuItem[] = [
+      { value: 'doc', label: '文档', icon: InlineIcon },
+      { value: 'board', label: '看板' },
+    ];
+
+    cy.mount(BloomMenu, {
+      props: { items: itemsWithIcon, defaultOpen: true },
+      slots: {
+        icon: ({ item, index }) => h('i', { class: 'slot-icon' }, `${item.value}-${index}`),
+      },
+    });
+    cy.get('.sd-bloom-menu-item-icon')
+      .should('have.length', 2)
+      .eq(0)
+      .find('.slot-icon')
+      .should('have.text', 'doc-0');
+
+    cy.mount(BloomMenu, { props: { items: itemsWithIcon, defaultOpen: true } });
+    cy.get('.sd-bloom-menu-item-icon').should('have.length', 1);
+    cy.get('.inline-item-icon').should('have.length', 1);
+  });
+
+  it('moves focus to the first enabled item, or the close button when all are disabled', () => {
+    cy.mount(BloomMenu, {
+      props: {
+        items: [
+          { value: 'a', label: '甲', disabled: true },
+          { value: 'b', label: '乙' },
+          { value: 'c', label: '丙' },
+        ],
+        defaultOpen: true,
+      },
+    });
+    cy.get('.sd-bloom-menu-item').eq(1).should('have.focus');
+
+    cy.mount(BloomMenu, {
+      props: {
+        items: [
+          { value: 'a', label: '甲', disabled: true },
+          { value: 'b', label: '乙', disabled: true },
+        ],
+        defaultOpen: true,
+      },
+    });
+    cy.get('.sd-bloom-menu-close').should('have.focus');
+  });
+
+  it('restores focus to the trigger after selecting a non-first item', () => {
+    const onSelect = cy.spy().as('onSelect');
+    cy.mount(BloomMenu, { props: { items, defaultOpen: true, onSelect } });
+
+    cy.contains('.sd-bloom-menu-item', '看板').click();
+    cy.get('@onSelect').should('have.been.calledWith', items[1], 1);
+    cy.get('[data-bloom-menu-trigger]').should('have.focus');
+  });
+
+  it('renders the header slot with a working close prop', () => {
+    const onUpdate = cy.spy().as('onUpdate');
+    cy.mount(BloomMenu, {
+      props: { items, 'defaultOpen': true, 'onUpdate:modelValue': onUpdate },
+      slots: {
+        header: ({ close }) =>
+          h('button', { class: 'custom-header', onClick: () => close() }, '收起面板'),
+      },
+    });
+
+    cy.get('.custom-header').should('have.text', '收起面板').click();
+    cy.get('@onUpdate').should('have.been.calledWith', false);
+  });
+
+  it('opens the menu from the trigger slot open prop', () => {
+    const onOpen = cy.spy().as('onOpen');
+    cy.mount(BloomMenu, {
+      props: { items, onOpen },
+      slots: {
+        trigger: ({ open }) =>
+          h('button', { class: 'custom-trigger-btn', onClick: open }, '打开菜单'),
+      },
+    });
+
+    cy.get('.custom-trigger-btn').click();
+    cy.get('@onOpen').should('have.been.calledOnce');
+    cy.get('[data-bloom-menu-panel]').should('be.visible');
+    cy.get('.sd-bloom-menu-item').eq(0).should('have.focus');
+  });
 });
