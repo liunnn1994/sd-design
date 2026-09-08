@@ -283,9 +283,25 @@
     }
   };
   const handlePageSizeChange = (pageSize: number) => {
+    const oldPageSize = computedPageSize.value;
     innerPageSize.value = pageSize;
     emit('update:pageSize', pageSize);
     emit('pageSizeChange', pageSize);
+    // autoAdjust：保持当前页首项在新页长下仍可见（如 100 条每页 10 第 3 页 → 每页 20 时落到第 2 页）
+    if (
+      props.autoAdjust &&
+      isNumber(computedCurrent.value) &&
+      oldPageSize !== pageSize &&
+      oldPageSize > 0
+    ) {
+      const firstItem = (computedCurrent.value - 1) * oldPageSize + 1;
+      const newCurrent = Math.floor((firstItem - 1) / pageSize) + 1;
+      if (newCurrent !== computedCurrent.value && newCurrent >= 1 && newCurrent <= pages.value) {
+        innerCurrent.value = newCurrent;
+        emit('update:current', newCurrent);
+        emit('change', newCurrent);
+      }
+    }
   };
 
   const pageList = computed<PageDescriptor[]>(() => {

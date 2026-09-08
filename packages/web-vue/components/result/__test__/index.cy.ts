@@ -93,4 +93,11 @@ describe('Result', () => {
     cy.mount(Result, { props: { status: 'error' } });
     cy.get('.sd-result-icon').should('have.attr', 'aria-hidden', 'true');
   });
+
+  it('falls back to the info icon branch for an invalid status', () => {
+    cy.mount(Result, { props: { status: 'unknown' as never } });
+    // invalid status no longer renders an empty icon block
+    cy.get('.sd-result-icon').should('have.class', 'sd-result-icon-info');
+    cy.get('.sd-result-icon svg.sd-icon-info').should('exist');
+  });
 });

@@ -14,7 +14,7 @@ export type SiderTheme = 'light' | 'dark';
  * @zh 触发折叠的类型
  * @en Trigger type of collapsing
  */
-export type CollapseType = 'clickTrigger' | 'responsive';
+export type CollapseType = 'clickTrigger' | 'responsive' | 'mask';
 
 /**
  * @zh Layout 容器属性

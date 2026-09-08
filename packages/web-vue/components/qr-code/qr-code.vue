@@ -311,6 +311,7 @@
     errorCorrectionLevel: props.errorLevel,
     margin: props.marginSize,
     width: props.size,
+    boostLevel: props.boostLevel,
     color: {
       dark: qrColor.value,
       light: qrBgColor.value,

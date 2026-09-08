@@ -5,20 +5,20 @@
       :class="[
         `${prefixCls}-icon`,
         {
-          [`${prefixCls}-icon-${status}`]: status,
-          [`${prefixCls}-icon-custom`]: status === null,
+          [`${prefixCls}-icon-${mergedStatus}`]: mergedStatus,
+          [`${prefixCls}-icon-custom`]: mergedStatus === null,
         },
       ]"
     >
       <div :class="`${prefixCls}-icon-tip`">
         <slot name="icon">
-          <icon-info v-if="status === 'info'" />
-          <icon-check v-else-if="status === 'success'" />
-          <icon-exclamation v-else-if="status === 'warning'" />
-          <icon-close v-else-if="status === 'error'" />
-          <result-forbidden v-else-if="status === '403'" />
-          <result-not-found v-else-if="status === '404'" />
-          <result-server-error v-else-if="status === '500'" />
+          <icon-info v-if="mergedStatus === 'info'" />
+          <icon-check v-else-if="mergedStatus === 'success'" />
+          <icon-exclamation v-else-if="mergedStatus === 'warning'" />
+          <icon-close v-else-if="mergedStatus === 'error'" />
+          <result-forbidden v-else-if="mergedStatus === '403'" />
+          <result-not-found v-else-if="mergedStatus === '404'" />
+          <result-server-error v-else-if="mergedStatus === '500'" />
         </slot>
       </div>
     </div>
@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-  import { PropType } from 'vue';
+  import { PropType, computed } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
   import IconCheck from '../icon/icon-check';
@@ -110,4 +110,9 @@
    */
 
   const prefixCls = getPrefixCls('result');
+
+  // 非法 status 回退到默认的 info 分支，避免渲染空的 icon 块
+  const mergedStatus = computed(() =>
+    RESULT_STATUS.includes(props.status) ? props.status : 'info',
+  );
 </script>

@@ -1,3 +1,4 @@
+import Affix from '../../affix';
 import Anchor from '../index';
 
 describe('Anchor', () => {
@@ -18,7 +19,18 @@ describe('Anchor', () => {
     cy.get('a').first().click();
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('change')?.[0]).to.deep.equal(['#anchor1']);
-      expect(wrapper.emitted('select')?.[0]).to.deep.equal(['#anchor1', '#anchor1']);
+      // select 第二参为点击前的 hash（preHash）
+      expect(wrapper.emitted('select')?.[0]).to.deep.equal(['#anchor1', '']);
+    });
+  });
+
+  it('emits select with the previous hash when navigating between links', () => {
+    cy.mount(Anchor, { slots: { default: twoLinks } });
+    cy.get('a').first().click();
+    cy.get('a').eq(1).click();
+    cy.get('@vue').should(({ wrapper }) => {
+      const selectEvents = wrapper.emitted('select') ?? [];
+      expect(selectEvents[selectEvents.length - 1]).to.deep.equal(['#anchor2', '#anchor1']);
     });
   });
 
@@ -50,7 +62,7 @@ describe('Anchor', () => {
     cy.get('a').first().click();
     cy.location('hash').should('equal', '');
     cy.get('@vue').should(({ wrapper }) => {
-      expect(wrapper.emitted('select')?.[0]).to.deep.equal(['#anchor1', '#anchor1']);
+      expect(wrapper.emitted('select')?.[0]).to.deep.equal(['#anchor1', '']);
     });
     cy.get('.sd-anchor-link-item').first().should('have.class', 'sd-anchor-link-active');
   });
@@ -74,6 +86,27 @@ describe('Anchor', () => {
     });
     cy.get('.sd-anchor-line-less').should('exist');
     cy.get('.sd-anchor-line-slider').should('not.exist');
+  });
+
+  it('affix wraps the anchor in the Affix component with forwarded props', () => {
+    // wrapperComponent must return the component object: the string 'Affix' only resolves
+    // against global registrations, which register SdAffix under the default prefix
+    cy.mount(Anchor, {
+      props: { affix: true, offsetTop: 10 },
+      slots: { default: twoLinks },
+    });
+    cy.get('.sd-anchor').should('exist');
+    cy.get('@vue').should(({ wrapper }) => {
+      const affix = wrapper.findComponent(Affix);
+      expect(affix.exists()).to.equal(true);
+      expect(affix.props('offsetTop')).to.equal(10);
+    });
+  });
+
+  it('renders a plain div wrapper when affix is false', () => {
+    cy.mount(Anchor, { slots: { default: twoLinks } });
+    cy.get('.sd-anchor').should('exist');
+    cy.get('.sd-affix').should('not.exist');
   });
 
   it('applies the horizontal class when direction is horizontal', () => {
@@ -232,5 +265,21 @@ describe('Anchor', () => {
       win.dispatchEvent(new win.Event('scroll'));
     });
     cy.get('.sd-anchor-link-item').eq(1).should('have.class', 'sd-anchor-link-active');
+  });
+
+  it('smooth=false jumps instantly without the scroll animation', () => {
+    cy.mount({ template: scrollTemplate(' :smooth="false"') });
+    let s2DocTop = 0;
+    cy.document().then((doc) => {
+      const el = doc.getElementById('cy-s2');
+      if (el) {
+        s2DocTop = el.getBoundingClientRect().top + (doc.defaultView?.scrollY ?? 0);
+      }
+    });
+    cy.get('a[href="#cy-s2"]').click();
+    // click handler lands synchronously, no 300ms animation
+    cy.window().then((win) => {
+      expect(win.scrollY).to.be.closeTo(s2DocTop, 2);
+    });
   });
 });

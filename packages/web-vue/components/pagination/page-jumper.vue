@@ -7,7 +7,7 @@
       v-model="inputValue"
       :class="`${prefixCls}-input`"
       :min="1"
-      :max="pages"
+      :max="jumperMax"
       :size="size"
       :disabled="disabled"
       hide-button
@@ -65,7 +65,10 @@
 
   const prefixCls = getPrefixCls('pagination-jumper');
   const { t } = useI18n();
-  const inputValue = ref(props.simple ? props.current : undefined);
+  const inputValue = ref<Exclude<InputNumberValue, null>>(props.simple ? props.current : undefined);
+
+  // total=0 时 pages=0，min=1/max=0 是不可能区间；钳到至少 1，保证 jumper 始终可用
+  const jumperMax = computed(() => Math.max(props.pages, 1));
 
   const handleFormatter = (value: number) => {
     const parseIntVal = parseInt(value.toString(), 10);
@@ -80,7 +83,9 @@
     emit('change', value);
     nextTick(() => {
       if (!props.simple) {
-        inputValue.value = undefined;
+        // InputNumber 的 modelValue watcher 对 undefined→undefined 是 no-op，输入框不会被清空；
+        // 置为 '' 会走 watcher 分支，确定性地重置输入框
+        inputValue.value = '';
       }
     });
   };

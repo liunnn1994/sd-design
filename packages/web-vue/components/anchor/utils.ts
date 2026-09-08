@@ -2,7 +2,13 @@ import BTween from 'b-tween';
 
 import { isFunction } from '../_utils/is';
 
-export function slide(el: HTMLElement, top: number, cb: () => void): void {
+export function slide(el: HTMLElement, top: number, cb: () => void, smooth = true): void {
+  if (!smooth) {
+    // smooth=false: no animation, jump instantly
+    el.scrollTop = top;
+    cb();
+    return;
+  }
   const tween = new BTween({
     from: {
       scrollTop: el.scrollTop,

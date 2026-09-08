@@ -179,6 +179,15 @@ describe('Pagination', () => {
       expect(wrapper.emitted('change')?.[0]).to.deep.equal([5]);
     });
   });
+  it('clears the jumper input after a jump', () => {
+    cy.mount(Pagination, { props: { total: 50, showJumper: true } });
+    cy.get('.sd-pagination-jumper-input input').type('4').blur();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal([4]);
+    });
+    // the input is cleared after the jump instead of keeping the typed value
+    cy.get('.sd-pagination-jumper-input input').should('have.value', '');
+  });
 
   it('simple mode syncs the jumper input with step navigation', () => {
     cy.mount(Pagination, { props: { total: 50, simple: true } });
@@ -218,7 +227,28 @@ describe('Pagination', () => {
       expect(wrapper.emitted('change')).to.equal(undefined);
     });
   });
+  it('disabled pagination also disables the ellipsis pager', () => {
+    cy.mount(Pagination, { props: { total: 200, disabled: true } });
+    cy.get('.sd-pagination-item-ellipsis')
+      .should('have.attr', 'aria-disabled', 'true')
+      .and('have.attr', 'tabindex', '-1')
+      .and('have.class', 'sd-pagination-item-disabled');
+    cy.get('.sd-pagination-item-ellipsis').click({ force: true });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')).to.equal(undefined);
+    });
+  });
 
+  it('total=0 keeps the jumper usable and disables paging', () => {
+    cy.mount(Pagination, { props: { total: 0, showJumper: true, simple: true } });
+    // jumper max clamped to 1 so min=1/max=1 is a valid range
+    cy.get('.sd-pagination-jumper-input input')
+      .should('have.attr', 'aria-valuemax', '1')
+      .and('have.attr', 'aria-valuemin', '1');
+    // no pages -> step pagers disabled
+    cy.get('.sd-pagination-item-next').should('have.class', 'sd-pagination-item-disabled');
+    cy.get('.sd-pagination-item-previous').should('have.class', 'sd-pagination-item-disabled');
+  });
   it('showMore adds a second ellipsis that advances by the buffer step', () => {
     cy.mount(Pagination, { props: { total: 200, showMore: true } });
     cy.get('.sd-pagination-item-ellipsis').should('have.length', 2);

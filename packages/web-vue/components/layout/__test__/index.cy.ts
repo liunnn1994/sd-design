@@ -1,8 +1,14 @@
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, h, ref } from 'vue';
 
 import { configProviderInjectionKey } from '../../config-provider/context';
 import Menu from '../../menu';
+import { useHasSider } from '../hooks/use-has-sider';
 import Layout from '../index';
+
+const CySiderWrap = defineComponent({
+  name: 'CySiderWrap',
+  template: '<div><slot /></div>',
+});
 
 const { Sider, Content, Header, Footer } = Layout;
 const MenuItem = Menu.Item;
@@ -10,7 +16,7 @@ const MenuItem = Menu.Item;
 const mountTpl = (template: string, extra: Record<string, unknown> = {}) =>
   cy.mount(
     defineComponent({
-      components: { Layout, Sider, Content, Header, Footer, Menu, MenuItem },
+      components: { Layout, Sider, Content, Header, Footer, Menu, MenuItem, CySiderWrap },
       template,
       ...extra,
     } as Record<string, unknown>),
@@ -50,6 +56,38 @@ describe('Layout', () => {
   it('detects the sider nested inside children', () => {
     mountTpl(`<Layout><div><Sider>Sider</Sider></div><Content>Content</Content></Layout>`);
     cy.get('.sd-layout').should('have.class', 'sd-layout-has-sider');
+  });
+
+  it('statically scans slot-object children and detects a Sider wrapped in another component', () => {
+    mountTpl(
+      `<Layout><cy-sider-wrap><Sider>Sider</Sider></cy-sider-wrap><Content>Content</Content></Layout>`,
+    );
+    cy.get('.sd-layout').should('have.class', 'sd-layout-has-sider');
+  });
+
+  it('useHasSider detects a Sider inside slot functions and slot objects without registration', () => {
+    const SiderStub = { name: 'LayoutSider', render: () => null };
+    const siderVNode = h(SiderStub);
+    const fnChild = h({ name: 'Wrap', render: () => null }, null, () => [siderVNode]);
+    const slotObjChild = h({ name: 'Wrap', render: () => null }, null, {
+      default: () => [siderVNode],
+    });
+    const directArray = h('div', [siderVNode]);
+    const result = useHasSider(
+      ref([]),
+      computed(() => [fnChild, slotObjChild, directArray]),
+      ref(undefined),
+    );
+    expect(result.value).to.equal(true);
+  });
+
+  it('useHasSider returns false when no Sider exists anywhere', () => {
+    const result = useHasSider(
+      ref([]),
+      computed(() => [h('div', ['text'])]),
+      ref(undefined),
+    );
+    expect(result.value).to.equal(false);
   });
 
   it('does not add has-sider when hasSider is false', () => {
@@ -332,7 +370,8 @@ describe('Sider temporary', () => {
     cy.get('@vue').then(({ wrapper }) => {
       wrapper.findComponent({ name: 'Drawer' }).vm.$emit('update:visible', false);
     });
-    cy.get('@onCollapse').should('have.been.calledWith', true, 'clickTrigger');
+    // 抽屉/遮罩关闭路径现发独立 'mask' 类型
+    cy.get('@onCollapse').should('have.been.calledWith', true, 'mask');
   });
 });
 

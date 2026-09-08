@@ -1,6 +1,36 @@
 import { computed, type ComputedRef, type Ref, type VNode } from 'vue';
 
+import { isFunction } from '../../_utils/is';
+
 const SIDER_COMPONENT_NAME = 'LayoutSider';
+
+/**
+ * @zh 归一化 vnode 的 children 为 vnode 列表，供静态扫描递归：
+ *     - 数组：直接返回；
+ *     - 函数：h() 风格的单插槽函数，调用后返回列表；
+ *     - 对象：编译模板的 slots 对象（调用 default 插槽），否则视为单个 vnode。
+ * @en Normalize a vnode children into a vnode list for static scanning:
+ *     - array: returned as is;
+ *     - function: single slot function (h() style), invoked;
+ *     - object: compiled-template slots object (default slot invoked), otherwise treated as a single vnode.
+ */
+function normalizeChildren(vnode: VNode): VNode[] | undefined {
+  const { children } = vnode;
+  if (Array.isArray(children)) {
+    return children as VNode[];
+  }
+  if (isFunction(children)) {
+    return children();
+  }
+  if (children && typeof children === 'object') {
+    const { default: defaultSlot } = children as { default?: unknown };
+    if (isFunction(defaultSlot)) {
+      return defaultSlot();
+    }
+    return [children as unknown as VNode];
+  }
+  return undefined;
+}
 
 /**
  * @zh 递归判断 VNode 列表中是否存在 Sider 组件
@@ -26,8 +56,8 @@ function hasSiderInVNodes(vnodes: VNode[] | undefined): boolean {
       return true;
     }
 
-    const { children } = vnode;
-    if (Array.isArray(children) && hasSiderInVNodes(children as VNode[])) {
+    const childVNodes = normalizeChildren(vnode);
+    if (childVNodes && hasSiderInVNodes(childVNodes)) {
       return true;
     }
   }

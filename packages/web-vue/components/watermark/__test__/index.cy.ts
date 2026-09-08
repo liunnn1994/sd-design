@@ -172,4 +172,36 @@ describe('Watermark', () => {
       expect(layer.style.backgroundImage.indexOf('data:image/png') >= 0).to.equal(true);
     });
   });
+
+  it('measures mark size with the full font shorthand (bold is not clipped)', () => {
+    let normalTile = 0;
+    let boldTile = 0;
+    cy.mount(Watermark, { props: { content: 'SD Design' } });
+    cy.get('.sd-watermark').then(($container) => {
+      normalTile = Number.parseFloat(layerOf($container).style.backgroundSize);
+    });
+    cy.mount(Watermark, { props: { content: 'SD Design', font: { fontWeight: 'bold' } } });
+    cy.get('.sd-watermark').then(($container) => {
+      boldTile = Number.parseFloat(layerOf($container).style.backgroundSize);
+    });
+    cy.then(() => {
+      expect(boldTile).to.be.greaterThan(normalTile);
+    });
+  });
+
+  it('falls back to the untinted layer when grayscale getImageData throws', () => {
+    // 跨域未带 CORS 头的图片会污染 canvas；灰阶处理失败时应仍渲染未灰阶图层
+    cy.window().then((win) => {
+      cy.stub(win.CanvasRenderingContext2D.prototype, 'getImageData').throws(
+        new Error('SecurityError'),
+      );
+    });
+    const png =
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
+    cy.mount(Watermark, { props: { image: png, width: 20, height: 20, grayscale: true } });
+    cy.get('.sd-watermark').should(($container) => {
+      const layer = layerOf($container);
+      expect(layer.style.backgroundImage.indexOf('data:image/png') >= 0).to.equal(true);
+    });
+  });
 });

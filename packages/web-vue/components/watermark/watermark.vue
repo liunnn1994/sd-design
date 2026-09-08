@@ -209,7 +209,8 @@
     let defaultWidth = 120;
     let defaultHeight = 28;
     if (!image.value && ctx.measureText) {
-      ctx.font = `${fontSize.value}px ${fontFamily.value}`;
+      // 测量字体需与绘制字体一致（含 fontStyle/fontWeight），否则粗体/斜体会贴边裁切
+      ctx.font = `${fontStyle.value} normal ${fontWeight.value} ${fontSize.value}px ${fontFamily.value}`;
       const widths = contents.value.map((item) => ctx.measureText(item!).width);
       defaultWidth = Math.ceil(Math.max(...widths));
       defaultHeight = fontSize.value * contents.value.length + (contents.value.length - 1) * 3;
@@ -257,7 +258,15 @@
           canvasHeight,
         );
       }
-      grayscale.value && canvasToGray(canvas);
+      if (grayscale.value) {
+        // 跨域图片（未带 CORS 头）会让 canvas 被污染，getImageData 抛 SecurityError；
+        // 此时回退为绘制未灰阶的原图，而不是在 img.onload 内抛出未捕获异常
+        try {
+          canvasToGray(canvas);
+        } catch {
+          // noop
+        }
+      }
       appendWatermark(canvas.toDataURL(), fillWidth);
     };
 

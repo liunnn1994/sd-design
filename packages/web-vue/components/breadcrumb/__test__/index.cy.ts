@@ -1,4 +1,4 @@
-import Breadcrumb from '../index';
+import Breadcrumb, { BreadcrumbItem } from '../index';
 
 const BreadcrumbItem = Breadcrumb.Item;
 
@@ -233,5 +233,30 @@ describe('Breadcrumb', () => {
     cy.get('.custom-item').eq(2).should('have.text', 'Detail');
     // 自定义渲染覆盖默认的链接/纯文本行为
     cy.get('.sd-breadcrumb-item a').should('not.exist');
+  });
+
+  it('does not render a trailing separator on a standalone item', () => {
+    cy.mount(BreadcrumbItem, { slots: { default: 'Home' } });
+    cy.get('.sd-breadcrumb-item').should('exist');
+    cy.get('.sd-breadcrumb-item-separator').should('not.exist');
+  });
+
+  it('renders all dropdown options when children share the same path', () => {
+    cy.mount(Breadcrumb, {
+      props: {
+        routes: [
+          {
+            label: 'List',
+            path: 'list',
+            children: [
+              { label: 'Child A', path: 'same' },
+              { label: 'Child B', path: 'same' },
+            ],
+          },
+        ],
+      },
+    });
+    cy.get('.sd-breadcrumb-item').eq(0).click();
+    cy.get('.sd-dropdown-option').should('have.length', 2);
   });
 });

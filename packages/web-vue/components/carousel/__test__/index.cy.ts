@@ -217,4 +217,69 @@ describe('Carousel', () => {
       expect(wrapper.emitted('change')).to.equal(undefined);
     });
   });
+
+  it('ignores rapid clicks during the animation but recovers once the lock clears', () => {
+    mountCarousel({ autoPlay: false });
+    cy.get('.sd-carousel-arrow-right').click();
+    cy.get('.sd-carousel-arrow-right').click();
+    activeIndicator(1);
+    // 锁内第二次点击被忽略：只发一次 change
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')).to.have.length(1);
+    });
+    // 锁清除后（moveSpeed 500ms）继续切换，不会死锁
+    cy.wait(600);
+    cy.get('.sd-carousel-arrow-right').click();
+    activeIndicator(2);
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')).to.have.length(2);
+    });
+  });
+
+  it('does not re-emit an identical change when controlled current is not written back', () => {
+    mountCarousel({ current: 1, autoPlay: false, moveSpeed: 50 });
+    cy.get('.sd-carousel-arrow-right').click();
+    cy.wait(150);
+    cy.get('.sd-carousel-arrow-right').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      // 受控 current 未回写时第二次点击仍是同一目标 → 不重复 emit 相同 change
+      expect(wrapper.emitted('change')).to.deep.equal([[2, 1, true]]);
+    });
+  });
+
+  it('forward wrap from the last indicator to the first is not marked negative', () => {
+    mountCarousel({ autoPlay: false, defaultCurrent: 5 });
+    activeIndicator(4);
+    cy.get('.sd-carousel-indicator-item').eq(0).click({ force: true });
+    activeIndicator(0);
+    cy.get('.sd-carousel-negative').should('not.exist');
+  });
+
+  it('backward indicator jumps from the first to the last are marked negative', () => {
+    mountCarousel({ autoPlay: false });
+    cy.get('.sd-carousel-indicator-item').eq(4).click({ force: true });
+    activeIndicator(4);
+    cy.get('.sd-carousel-negative').should('exist');
+  });
+
+  it('exposes prev/next/goTo methods', () => {
+    mountCarousel({ autoPlay: false });
+    const vm = () =>
+      cy.get('@vue').then(
+        ({ wrapper }) =>
+          wrapper.findComponent({ name: 'Carousel' }).vm as unknown as {
+            prev: () => void;
+            next: () => void;
+            goTo: (index: number) => void;
+          },
+      );
+    vm().then((carousel) => carousel.next());
+    activeIndicator(1);
+    cy.wait(600);
+    vm().then((carousel) => carousel.goTo(4));
+    activeIndicator(3);
+    cy.wait(600);
+    vm().then((carousel) => carousel.prev());
+    activeIndicator(2);
+  });
 });

@@ -1,7 +1,8 @@
 <template>
   <li
     :class="cls"
-    tabindex="0"
+    :tabindex="mergedDisabled ? -1 : 0"
+    :aria-disabled="mergedDisabled || undefined"
     :aria-label="t('a11y.morePages')"
     @click="handleClick"
     @keydown="handleKeydown"
@@ -36,6 +37,10 @@
       type: Number,
       required: true,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   });
 
   const emit = defineEmits<{ click: [_nextPage: number] }>();
@@ -51,16 +56,30 @@
     }),
   );
 
+  const mergedDisabled = computed(() => props.disabled || !props.pages);
+
   const handleClick = (e: MouseEvent) => {
+    if (mergedDisabled.value) {
+      return;
+    }
     emit('click', nextPage.value);
   };
 
   const handleKeydown = (e: KeyboardEvent) => {
+    if (mergedDisabled.value) {
+      return;
+    }
     if (isActivationKey(e)) {
       e.preventDefault();
       emit('click', nextPage.value);
     }
   };
 
-  const cls = computed(() => [prefixCls, `${prefixCls}-ellipsis`]);
+  const cls = computed(() => [
+    prefixCls,
+    `${prefixCls}-ellipsis`,
+    {
+      [`${prefixCls}-disabled`]: mergedDisabled.value,
+    },
+  ]);
 </script>

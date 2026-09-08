@@ -1,5 +1,7 @@
 import { defineComponent, h } from 'vue';
 
+import QRCode from 'qrcode';
+
 import QrCode from '../index';
 
 const value = 'https://sd-design.js.org';
@@ -195,6 +197,22 @@ describe('QrCode', () => {
     cy.get('.sd-qr-code-svg').should(($el) => {
       const label = $el[0].getAttribute('aria-label');
       expect(label).to.contain('https://changed.example');
+    });
+  });
+
+  it('forwards boostLevel to the QRCode render options', () => {
+    cy.spy(QRCode, 'toCanvas').as('toCanvas');
+    cy.mount(QrCode, { props: { value, boostLevel: false } });
+    cy.get('@toCanvas').should((spy) => {
+      expect(spy.called).to.equal(true);
+      const opts = spy.lastCall.args[2] as { boostLevel?: boolean };
+      expect(opts.boostLevel).to.equal(false);
+    });
+    // default is true
+    cy.mount(QrCode, { props: { value, boostLevel: true } });
+    cy.get('@toCanvas').should((spy) => {
+      const opts = spy.lastCall.args[2] as { boostLevel?: boolean };
+      expect(opts.boostLevel).to.equal(true);
     });
   });
 });

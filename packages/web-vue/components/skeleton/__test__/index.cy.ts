@@ -90,4 +90,22 @@ describe('Skeleton', () => {
       .and('have.class', 'sd-skeleton-shape-small')
       .and('not.have.class', 'sd-skeleton-shape-circle');
   });
+
+  it('SkeletonLine re-renders when rows/widths/lineHeight/lineSpacing props change', () => {
+    cy.mount(SkeletonLine, { props: { rows: 2, lineHeight: 20, lineSpacing: 10 } });
+    cy.get('.sd-skeleton-line').should('have.length', 2);
+    cy.get('@vue').then(({ wrapper }) =>
+      wrapper.setProps({ rows: 4, lineHeight: 30, lineSpacing: 5, widths: ['40%'] }),
+    );
+    cy.get('.sd-skeleton-line').should('have.length', 4);
+    cy.get('.sd-skeleton-line-row')
+      .eq(0)
+      .should('have.attr', 'style')
+      .and('contain', 'width: 40%')
+      .and('contain', 'height: 30px');
+    cy.get('.sd-skeleton-line-row')
+      .eq(1)
+      .should('have.attr', 'style')
+      .and('contain', 'margin-top: 5px');
+  });
 });

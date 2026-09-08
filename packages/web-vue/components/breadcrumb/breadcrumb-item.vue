@@ -45,7 +45,11 @@
       <template #content>
         <slot v-if="$slots.droplist" name="droplist" />
         <template v-else>
-          <Doption v-for="item in droplist" :key="item.path" :value="item.path">
+          <Doption
+            v-for="(item, dIndex) in droplist"
+            :key="`${dIndex}-${item.path}`"
+            :value="item.path"
+          >
             {{ item.label }}
           </Doption>
         </template>
@@ -149,7 +153,7 @@
     return false;
   });
   const showSeparator = computed(() =>
-    breadcrumbCtx ? props.index < breadcrumbCtx.total - 1 : true,
+    breadcrumbCtx ? props.index < breadcrumbCtx.total - 1 : false,
   );
 
   const handleVisibleChange = (visible: boolean) => {

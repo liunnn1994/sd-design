@@ -5,6 +5,7 @@
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue';
   import type { PropType, CSSProperties } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
@@ -49,18 +50,22 @@
 
   const prefixCls = getPrefixCls('skeleton-line');
 
-  const lines: CSSProperties[] = [];
-  for (let i = 0; i < props.rows; i++) {
-    const style: CSSProperties = {};
-    if (isNumber(props.widths[i])) {
-      style.width = `${props.widths[i]}px`;
-    } else if (isString(props.widths[i])) {
-      style.width = String(props.widths[i]);
+  // computed 保证 rows/widths/lineHeight/lineSpacing 变化时行样式响应式更新
+  const lines = computed<CSSProperties[]>(() => {
+    const result: CSSProperties[] = [];
+    for (let i = 0; i < props.rows; i++) {
+      const style: CSSProperties = {};
+      if (isNumber(props.widths[i])) {
+        style.width = `${props.widths[i]}px`;
+      } else if (isString(props.widths[i])) {
+        style.width = String(props.widths[i]);
+      }
+      style.height = `${props.lineHeight}px`;
+      if (i > 0) {
+        style.marginTop = `${props.lineSpacing}px`;
+      }
+      result.push(style);
     }
-    style.height = `${props.lineHeight}px`;
-    if (i > 0) {
-      style.marginTop = `${props.lineSpacing}px`;
-    }
-    lines.push(style);
-  }
+    return result;
+  });
 </script>

@@ -173,11 +173,13 @@
     if (!props.changeHash) {
       e.preventDefault();
     }
+    // select 的第二参数是上一个 hash，必须在 currentLink 更新前捕获
+    const preHash = currentLink.value;
     if (hash) {
       scrollIntoView(hash);
       handleAnchorChange(hash);
     }
-    emit('select', hash, currentLink.value);
+    emit('select', hash, preHash);
   };
 
   const scrollIntoView = (hash: string) => {
@@ -197,9 +199,14 @@
       if (!actions.length) return;
       const { el, top } = actions[0];
       const targetTop = top - diff;
-      slide(el as HTMLElement, targetTop, () => {
-        isScrolling.value = false;
-      });
+      slide(
+        el as HTMLElement,
+        targetTop,
+        () => {
+          isScrolling.value = false;
+        },
+        props.smooth,
+      );
       isScrolling.value = true;
     } catch (e) {
       // oxlint-disable-next-line no-console
@@ -217,12 +224,6 @@
   });
 
   const handleAnchorChange = (hash: string) => {
-    if (!links[hash] && anchorRef.value) {
-      const element = getElement(`a[data-href='${hash}']`, anchorRef.value);
-      if (!element) return;
-
-      links[hash] = element;
-    }
     if (hash !== currentLink.value) {
       currentLink.value = hash;
       nextTick(() => {
@@ -326,7 +327,9 @@
     },
   ]);
 
-  const wrapperComponent = computed(() => (props.affix ? 'Affix' : 'div'));
+  // 返回组件对象而非字符串：字符串组件名只在全局注册表里解析，
+  // 默认前缀下 Affix 注册名为 SdAffix，'Affix' 会解析失败渲染成未知元素
+  const wrapperComponent = computed(() => (props.affix ? Affix : 'div'));
 
   const wrapperProps = computed(() => {
     if (!props.affix) {

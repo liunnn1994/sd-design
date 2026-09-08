@@ -292,8 +292,8 @@
      */
     (e: 'breakpoint', broken: boolean): void;
     /**
-     * @zh 窄轨状态变化时触发（仅 hover 展开收回时，受控 rail 不经此事件）
-     * @en Triggered when the rail state changes (only on hover expand/collapse; controlled rail does not go through this)
+     * @zh 窄轨 hover 展开/收回时触发（仅通知，不存在 v-model:rail，rail 展开态由组件内部管理）
+     * @en Triggered when the rail hover expands/collapses (notify-only; there is no v-model:rail, the rail expanded state is managed internally)
      */
     (e: 'update:rail', rail: boolean): void;
   }>();
@@ -561,10 +561,10 @@
   }));
 
   // Drawer 的 visible 由 collapsed 反向派生；关闭（点遮罩/ESC/取消）时回写 collapsed=true，
-  // 复用现有的受控/非受控与 collapse 事件链路。
+  // 复用现有的受控/非受控与 collapse 事件链路，type 用独立的 'mask' 以区分点击触发器。
   const onDrawerVisibleChange = (visible: boolean) => {
     if (visible !== !mergedCollapsed.value) {
-      handleSetCollapsed(!visible, 'clickTrigger');
+      handleSetCollapsed(!visible, 'mask');
     }
   };
 

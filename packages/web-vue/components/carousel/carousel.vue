@@ -42,6 +42,7 @@
     ref,
     toRef,
     useSlots,
+    watch,
     watchEffect,
     type PropType,
     type VNodeChild,
@@ -145,6 +146,17 @@
   let animationTimer = 0;
   const { children, components } = useChildrenComponents('CarouselItem');
   const innerIndex = ref(props.defaultCurrent - 1);
+
+  // Sync innerIndex from controlled current so the slideTo dedupe matches the display;
+  // without this, a controlled carousel that never writes back re-emits identical change events.
+  watch(
+    () => props.current,
+    (val) => {
+      if (isNumber(val) && components.value.length > 0) {
+        innerIndex.value = getValidIndex(val - 1, components.value.length);
+      }
+    },
+  );
   const mergedIndexes = computed(() => {
     const childrenLength = components.value.length;
     const mergedIndex = isNumber(props.current)
@@ -169,21 +181,37 @@
   });
   provide(carouselInjectionKey, carouselContext);
 
-  const clearTimer = () => {
-    if (intervalTimer) window.clearInterval(intervalTimer);
+  // interval 与动画锁分开管理：watchEffect 依赖 mergedIndexes（含 innerIndex），
+  // 每次 slide 后都会重跑；若在此清除 animationTimer 会把 pending 的解锁 setTimeout
+  // 一并取消，导致动画锁永远无法释放、后续切换全部被丢弃。
+  const clearIntervalTimer = () => {
+    if (intervalTimer) {
+      window.clearInterval(intervalTimer);
+      intervalTimer = 0;
+    }
+  };
+
+  const clearAnimationTimer = () => {
+    if (animationTimer) {
+      window.clearTimeout(animationTimer);
+      animationTimer = 0;
+    }
   };
 
   watchEffect(() => {
     const { interval } = computedAutoPlay.value || {};
     const { mergedNextIndex } = mergedIndexes.value;
     const shouldInterval = components.value.length > 1 && !isPause.value && Boolean(interval);
-    clearTimer();
+    clearIntervalTimer();
     if (shouldInterval) {
       intervalTimer = window.setInterval(() => slideTo({ targetIndex: mergedNextIndex }), interval);
     }
   });
 
-  onBeforeUnmount(clearTimer);
+  onBeforeUnmount(() => {
+    clearIntervalTimer();
+    clearAnimationTimer();
+  });
 
   function getValidIndex(index: number, length: number): number {
     const indexNumber = +index;
@@ -201,7 +229,9 @@
     isNegative?: boolean;
     isManual?: boolean;
   }) {
-    if (!animationTimer && targetIndex !== mergedIndexes.value.mergedIndex) {
+    // animationTimer lock is always cleared by setTimeout/onBeforeUnmount.
+    // Dedupe against innerIndex: no duplicate identical change when controlled current is not written back.
+    if (!animationTimer && targetIndex !== innerIndex.value) {
       previousIndex.value = innerIndex.value;
       innerIndex.value = targetIndex;
       slideDirection.value = isNegative ? 'negative' : 'positive';
@@ -221,12 +251,17 @@
     });
   const onNextClick = () =>
     slideTo({ targetIndex: mergedIndexes.value.mergedNextIndex, isManual: true });
-  const onSelect = (index: number) =>
+  const onSelect = (index: number) => {
+    const count = components.value.length;
+    if (!count) return;
+    // Shortest-path direction: last->first indicator jump is a forward wrap (not negative).
+    const forwardDistance = (index - mergedIndexes.value.mergedIndex + count) % count;
     slideTo({
       targetIndex: index,
-      isNegative: index < mergedIndexes.value.mergedIndex,
+      isNegative: forwardDistance * 2 > count,
       isManual: true,
     });
+  };
 
   const onKeydown = (event: KeyboardEvent) => {
     if (event.key === KEYBOARD_KEY.ARROW_RIGHT || event.key === KEYBOARD_KEY.ARROW_DOWN) {
@@ -272,4 +307,25 @@
     children.value = slots.default?.();
     return children.value;
   };
+  /**
+   * @zh 切换到上一张
+   * @en Go to the previous slide
+   */
+  const prev = () => onPreviousClick();
+  /**
+   * @zh 切换到下一张
+   * @en Go to the next slide
+   */
+  const next = () => onNextClick();
+  /**
+   * @zh 切换到指定 slide（从 1 开始，与 current/change 的序号一致）
+   * @en Go to the given slide (1-based, consistent with current/change)
+   */
+  const goTo = (index: number) => {
+    const count = components.value.length;
+    if (!count) return;
+    onSelect(getValidIndex(index - 1, count));
+  };
+
+  defineExpose({ prev, next, goTo });
 </script>
