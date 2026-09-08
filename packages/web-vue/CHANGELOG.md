@@ -1,3 +1,23 @@
+## [4.4.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.4.1...web-vue-v4.4.2) (2026-09-08)
+
+
+### Bug Fixes
+
+* 🐛 gen-icons faceBook 命名归一化；更新审计台账 ([f6c9e0e](https://github.com/liunnn1994/sd-design/commit/f6c9e0e58f3114dc1db0a6b9367a5bf7d91327b7))
+* 🐛 修复 grid/ellipsis 审计问题 ([c1b71af](https://github.com/liunnn1994/sd-design/commit/c1b71af2d7f4c9db58594d9ebfa3c0004a67107c))
+* 🐛 修复 transfer/upload/tree-select 审计问题 ([3d24680](https://github.com/liunnn1994/sd-design/commit/3d246807c1ce09c4655d9184a043bec11e7dbff1))
+* 🐛 修复交互工具审计问题（resize-box/split/slider/spin/cropper/copy/border-beam/typography/bloom-menu） ([c49ceb2](https://github.com/liunnn1994/sd-design/commit/c49ceb21246c1c6a9f4531449026f9ce55f066a7))
+* 🐛 修复反馈弹层审计问题（modal/drawer/popconfirm/notification/message） ([a36346f](https://github.com/liunnn1994/sd-design/commit/a36346fdb7d64c1f2a7edc7a7d57865fdfc90b4a))
+* 🐛 修复基础配置审计问题（model-selector/empty/config-provider/color-picker/file-previewer/global-config/icon） ([e5c6c31](https://github.com/liunnn1994/sd-design/commit/e5c6c317c19e5bbe1b70afbe6f5b6eed192f0106))
+* 🐛 修复布局导航审计问题（watermark/qr-code/skeleton/result/layout/anchor/breadcrumb/pagination/carousel） ([535e33b](https://github.com/liunnn1994/sd-design/commit/535e33b900f99bdb36b0911f1dc208f3d061d8d8))
+* 🐛 修复弹层触发审计问题（tour/trigger/popover/dropdown） ([99ed53f](https://github.com/liunnn1994/sd-design/commit/99ed53fbfde72c607fc98bc30e1a699e534aa129))
+* 🐛 修复数据展示审计问题（avatar/badge/tag/list/comment/kv-list/statistic/timeline/number-flow/page-header） ([8f294db](https://github.com/liunnn1994/sd-design/commit/8f294dbd33633d183ca6687eb283e15ba22701c6))
+* 🐛 修复数据展示审计问题（image/table/calendar） ([65d9937](https://github.com/liunnn1994/sd-design/commit/65d9937f0e037aa61ad805fc7114aeb8df0ee34f))
+* 🐛 修复表单审计问题（form/json-form） ([4084c50](https://github.com/liunnn1994/sd-design/commit/4084c50d7ebb5f2737c8af480a96730666b9df2c))
+* 🐛 修复输入类组件审计问题 ([b34c570](https://github.com/liunnn1994/sd-design/commit/b34c570b0cbad98e4feb35cdb0fcd6f319d817a0))
+* 🐛 修复选择类组件审计问题（select/cascader/auto-complete/mention） ([256104b](https://github.com/liunnn1994/sd-design/commit/256104befd0ce7d3449a9f858ddcd3401b0dd079))
+* 🐛 稳定 CI 下的测试断言（popover/split/radio/ellipsis/table/date-picker） ([b0dbcf3](https://github.com/liunnn1994/sd-design/commit/b0dbcf36b71fe5abf13cdde32c5d21b470d1b63a))
+
 ## [4.4.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.4.0...web-vue-v4.4.1) (2026-09-07)
 
 
