@@ -6,7 +6,7 @@
       </template>
       <template #header="{ close }">
         <strong>选择邀请方式</strong>
-        <sd-button size="mini" type="text" @click="close(true)">取消</sd-button>
+        <sd-button size="mini" type="text" @click="close()">取消</sd-button>
       </template>
       <template #item="{ item }">
         <span class="custom-item">

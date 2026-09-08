@@ -41,7 +41,7 @@
     console.log('broken:', broken);
   };
 
-  const onCollapse = (collapsed: boolean, type: 'clickTrigger' | 'responsive') => {
+  const onCollapse = (collapsed: boolean, type: 'clickTrigger' | 'responsive' | 'mask') => {
     // eslint-disable-next-line no-console
     console.log('collapsed:', collapsed, type);
   };
