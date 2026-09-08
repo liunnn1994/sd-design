@@ -51,10 +51,6 @@
   defineOptions({ name: 'DropdownPanel' });
 
   const props = defineProps({
-    loading: {
-      type: Boolean,
-      default: false,
-    },
     isEmpty: {
       type: Boolean,
       default: false,

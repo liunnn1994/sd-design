@@ -148,22 +148,23 @@ describe('Tour', () => {
   it('closes on Escape, emitting close with the active index and update:visible', () => {
     cy.mount(Tour, { props: { defaultVisible: true, steps }, slots: defaultSlots });
     cy.get('.sd-tour-popover').should('exist');
-    cy.get('body').trigger('keyup', { key: 'Escape' });
+    cy.get('body').trigger('keydown', { key: 'Escape' });
     cy.get('.sd-tour-popover').should('not.exist');
     cy.get('@vue').should(({ wrapper }) => {
-      // teardown 会因 mergedVisible watch 跑两轮，close 发出两次（第二次 payload 为 undefined）
+      // 生命周期事件每次真实的打开/关闭只发出一次（teardown 幂等守卫 + wasActive 守卫）
       const closeEvents = wrapper.emitted('close') ?? [];
-      expect(closeEvents.length, 'close emitted').to.be.greaterThan(0);
+      expect(closeEvents).to.have.length(1);
       expect(closeEvents[0][0]).to.equal(0);
 
       const visibleEvents = wrapper.emitted('update:visible') ?? [];
-      expect(visibleEvents.length, 'update:visible emitted').to.be.greaterThan(0);
-      expect(visibleEvents[visibleEvents.length - 1][0]).to.equal(false);
+      expect(visibleEvents).to.have.length(2);
+      expect(visibleEvents[0][0]).to.equal(true);
+      expect(visibleEvents[1][0]).to.equal(false);
 
       const visibleChangeEvents = wrapper.emitted('visibleChange') ?? [];
-      expect(visibleChangeEvents.length, 'visibleChange emitted').to.be.greaterThan(0);
-      const lastVisibleChange = visibleChangeEvents[visibleChangeEvents.length - 1];
-      expect(lastVisibleChange[0]).to.equal(false);
+      expect(visibleChangeEvents).to.have.length(2);
+      expect(visibleChangeEvents[0][0]).to.equal(true);
+      expect(visibleChangeEvents[1][0]).to.equal(false);
     });
   });
 
@@ -171,14 +172,14 @@ describe('Tour', () => {
     cy.mount(Tour, { props: { defaultVisible: true, steps }, slots: defaultSlots });
     cy.get('.sd-tour-popover-title').should('contain.text', '步骤一');
 
-    cy.get('body').trigger('keyup', { key: 'ArrowRight' });
+    cy.get('body').trigger('keydown', { key: 'ArrowRight' });
     cy.get('.sd-tour-popover-title').should('contain.text', '步骤二');
 
-    cy.get('body').trigger('keyup', { key: 'ArrowLeft' });
+    cy.get('body').trigger('keydown', { key: 'ArrowLeft' });
     cy.get('.sd-tour-popover-title').should('contain.text', '步骤一');
 
     // 第一步 ArrowLeft 不回退（previous 按钮在首步被禁用）
-    cy.get('body').trigger('keyup', { key: 'ArrowLeft' });
+    cy.get('body').trigger('keydown', { key: 'ArrowLeft' });
     cy.get('.sd-tour-popover-title').should('contain.text', '步骤一');
     cy.get('@vue').should(({ wrapper }) => {
       // 前进/后退各产生一次 change：1->0 与 0->1
@@ -196,9 +197,9 @@ describe('Tour', () => {
       props: { defaultVisible: true, steps, allowKeyboardControl: false },
       slots: defaultSlots,
     });
-    cy.get('body').trigger('keyup', { key: 'Escape' });
+    cy.get('body').trigger('keydown', { key: 'Escape' });
     cy.get('.sd-tour-popover').should('exist');
-    cy.get('body').trigger('keyup', { key: 'ArrowRight' });
+    cy.get('body').trigger('keydown', { key: 'ArrowRight' });
     cy.get('.sd-tour-popover-title').should('contain.text', '步骤一');
   });
 
@@ -356,6 +357,8 @@ describe('Tour', () => {
       .and('have.attr', 'aria-haspopup', 'dialog')
       .and('have.attr', 'aria-expanded', 'true')
       .and('have.attr', 'aria-controls', 'sd-tour-popover-content');
+    // aria-controls 必须指向真实存在的内容 id
+    cy.get('#sd-tour-popover-content').should('exist');
   });
 
   it('invokes step lifecycle hooks during navigation and destroy', () => {
@@ -375,16 +378,31 @@ describe('Tour', () => {
     cy.get('.sd-tour-popover-title').should('contain.text', '步骤二');
     cy.get('.sd-tour-popover-close-btn').click();
     cy.get('.sd-tour-popover').should('not.exist');
-    // 首次打开会经由 onMounted 与 mergedVisible watch 双重 driveTo（started/ed 各 2 次），
-    // 导航再加 1 次；关闭时 teardown 也会跑两轮（destroyed 2 次）
+    // 打开 1 次 + 导航 1 次；关闭只跑一轮 teardown（幂等守卫）
     cy.get('@vue').should(() => {
-      // 生命周期触发次数受 open/close 的双重 driveTo/teardown 影响，只断言下限
-      expect(calls.filter((name) => name === 'started').length).to.be.at.least(2);
-      expect(calls.filter((name) => name === 'ed').length).to.be.at.least(2);
-      expect(calls.filter((name) => name === 'deselected').length).to.be.at.least(1);
-      expect(calls.filter((name) => name === 'destroyed').length).to.be.at.least(1);
+      expect(calls.filter((name) => name === 'started').length).to.equal(2);
+      expect(calls.filter((name) => name === 'ed').length).to.equal(2);
+      expect(calls.filter((name) => name === 'deselected').length).to.equal(1);
+      expect(calls.filter((name) => name === 'destroyed').length).to.equal(1);
       expect(calls[calls.length - 1]).to.equal('destroyed');
     });
+  });
+
+  it('hides all buttons when highlight() forces showButtons to an empty array', () => {
+    cy.mount(Tour, { props: { steps }, slots: defaultSlots });
+    cy.get('.sd-tour-popover').should('not.exist');
+    cy.get('@vue').then(({ wrapper }) => {
+      (wrapper.vm as unknown as { highlight: (step: TourStep) => void }).highlight({
+        element: '#tour-step-a',
+        popover: { title: '高亮', description: '无按钮' },
+      });
+    });
+    cy.get('.sd-tour-popover-title').should('contain.text', '高亮');
+    // showButtons: [] 表示"无按钮"，不再回退到顶层配置按钮
+    cy.get('.sd-tour-popover-next-btn').should('not.exist');
+    cy.get('.sd-tour-popover-prev-btn').should('not.exist');
+    cy.get('.sd-tour-popover-close-btn').should('not.exist');
+    cy.get('.sd-tour-popover-footer').should('not.exist');
   });
 
   it('lets onNextClick intercept next-button navigation', () => {

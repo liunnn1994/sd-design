@@ -223,6 +223,30 @@ describe('Popover', () => {
     cy.get('.sd-popover-popup-arrow.custom-arrow').should('exist');
   });
 
+  it('renders the content without an embedded Scrollbar when scrollbar is false', () => {
+    cy.mount(Popover, {
+      props: {
+        content: 'Popup content',
+        defaultPopupVisible: true,
+        renderToBody: false,
+        scrollbar: false,
+      },
+      slots: { default: '<button>Trigger</button>' },
+    });
+    cy.get('.sd-popover-content').should('exist').and('not.have.class', 'sd-scrollbar');
+
+    // 默认行为不变：embed Scrollbar 包裹内容
+    cy.mount(Popover, {
+      props: {
+        content: 'Popup content',
+        defaultPopupVisible: true,
+        renderToBody: false,
+      },
+      slots: { default: '<button>Trigger</button>' },
+    });
+    cy.get('.sd-popover-content').should('have.class', 'sd-scrollbar-type-embed');
+  });
+
   it('mounts the popup into the popupContainer element', () => {
     cy.mount(Popover, {
       props: {

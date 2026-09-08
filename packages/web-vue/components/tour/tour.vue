@@ -66,6 +66,7 @@
           ></div>
 
           <div
+            :id="popoverContentId"
             :class="`${prefixCls}-content`"
             v-bind="resolvedPopover.contentProps"
             :style="resolvedPopover.contentStyle"
@@ -689,11 +690,16 @@
   const resolvedShowButtons = computed<TourAllowedButton[]>(() => {
     const popoverButtons = resolvedPopover.value.showButtons;
     const configButtons = mergedConfig.value.showButtons ?? DEFAULT_SHOW_BUTTONS;
-    const sourceButtons = popoverButtons?.length ? popoverButtons : configButtons;
+    // 区分"未设置"与"空数组"：单步显式提供的 showButtons（含空数组 = 无按钮）优先于顶层配置
+    const sourceButtons = popoverButtons !== undefined ? popoverButtons : configButtons;
+    if (sourceButtons.length === 0) {
+      return [];
+    }
+
     const allowClose = mergedConfig.value.allowClose !== false;
 
     return ['previous', 'next', ...(allowClose ? ['close'] : [])].filter((button) => {
-      return !sourceButtons?.length || sourceButtons.includes(button as TourAllowedButton);
+      return sourceButtons.includes(button as TourAllowedButton);
     }) as TourAllowedButton[];
   });
 
@@ -1107,6 +1113,12 @@
     currentStepIndex: number | undefined,
     previousActiveStep = activeStep.value,
   ) {
+    // 已无活跃步骤时（如受控 visible 翻转触发 closeTourForce，而 teardown 已先跑过）
+    // 不重复清理，避免 close/visibleChange/onDestroyed 重复 emit（第二次 close payload 为 undefined）
+    if (!isInitialized.value) {
+      return;
+    }
+
     const element = activeElement.value;
 
     clearElementState(element);
@@ -1157,6 +1169,7 @@
       return;
     }
 
+    const wasActive = isInitialized.value;
     const previousActiveStep = activeStep.value;
     const previousActiveElement = activeElement.value;
 
@@ -1177,7 +1190,10 @@
     activeElement.value = element;
     activeIndex.value = stepIndex;
     isInitialized.value = true;
-    syncVisible(true);
+    // 仅在真正打开（此前无活跃步骤）时同步可见性事件，避免每次步骤切换都重复 emit
+    if (!wasActive) {
+      syncVisible(true);
+    }
     if (typeof stepIndex === 'number') {
       syncCurrent(stepIndex);
     }
@@ -1372,7 +1388,7 @@
     handleOverlayClick();
   }
 
-  function handleKeyup(event: KeyboardEvent) {
+  function handleKeydown(event: KeyboardEvent) {
     if (!isActive.value || mergedConfig.value.allowKeyboardControl === false) {
       return;
     }
@@ -1429,7 +1445,7 @@
     placePopover();
   });
 
-  useEventListener('keyup', handleKeyup);
+  useEventListener('keydown', handleKeydown);
   useEventListener(document, 'click', handleDocumentClick, { capture: true });
 
   const controllerRef = shallowRef<TourController>({
@@ -1506,18 +1522,23 @@
     releaseDialogLayer();
   });
 
-  watch(mergedVisible, (visible) => {
-    if (!mounted.value) {
-      return;
-    }
+  // 只监听外部受控的 visible prop：internalVisible 的内部翻转（activateStep/teardown 里的
+  // syncVisible）若再触发 driveTo/closeTourForce 会造成双重 driveTo 与重复 emit
+  watch(
+    () => props.visible,
+    (visible) => {
+      if (!mounted.value || typeof visible !== 'boolean') {
+        return;
+      }
 
-    if (visible) {
-      void driveTo();
-      return;
-    }
+      if (visible) {
+        void driveTo();
+        return;
+      }
 
-    closeTourForce();
-  });
+      closeTourForce();
+    },
+  );
 
   watch(
     () => props.current,

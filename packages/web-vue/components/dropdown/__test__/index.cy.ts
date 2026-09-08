@@ -295,7 +295,25 @@ describe('Dropdown', () => {
       const bottomCalls = panel.emitted('reachBottom') ?? [];
       expect(scrollCalls).to.have.length(1);
       expect(bottomCalls).to.have.length(1);
+      // Dropdown 本体转发 scroll/reachBottom
+      const forwardedScroll = wrapper.emitted('scroll') ?? [];
+      const forwardedBottom = wrapper.emitted('reachBottom') ?? [];
+      expect(forwardedScroll).to.have.length(1);
+      expect(forwardedBottom).to.have.length(1);
+      expect(forwardedScroll[0][0]).to.be.instanceOf(Event);
     });
+  });
+
+  it('passes isEmpty through to the panel to show the empty state', () => {
+    cy.mount(Dropdown, {
+      props: { defaultPopupVisible: true, isEmpty: true },
+      slots: {
+        default: '<button>Trigger</button>',
+        footer: '<div id="dd-footer">Footer</div>',
+      },
+    });
+    cy.get('.sd-dropdown-empty').should('exist');
+    cy.get('#dd-footer').should('not.exist');
   });
 
   it('renders the footer slot under the options', () => {

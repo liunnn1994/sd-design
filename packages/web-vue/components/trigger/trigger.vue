@@ -128,7 +128,6 @@
     popupTranslate?: TriggerPopupTranslate;
     showArrow?: boolean;
     alignPoint?: boolean;
-    popupHoverStay?: boolean;
     blurToClose?: boolean;
     clickToClose?: boolean;
     clickOutsideToClose?: boolean;
@@ -227,7 +226,6 @@
     popupOffset: 0,
     showArrow: false,
     alignPoint: false,
-    popupHoverStay: true,
     blurToClose: true,
     clickToClose: true,
     clickOutsideToClose: true,

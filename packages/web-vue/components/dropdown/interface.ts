@@ -14,6 +14,8 @@ export interface DropDownProps {
   popupContainer?: string | HTMLElement;
   floatingOptions?: FloatingOptions;
   popupMaxHeight?: boolean | number;
+  hideOnSelect?: boolean;
+  isEmpty?: boolean;
 }
 
 export interface DOption {

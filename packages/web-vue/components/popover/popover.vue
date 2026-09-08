@@ -23,7 +23,10 @@
       <div v-if="title || $slots.title" :class="`${prefixCls}-title`">
         <slot name="title">{{ title }}</slot>
       </div>
-      <Scrollbar :class="`${prefixCls}-content`" v-bind="scrollbarProps">
+      <div v-if="!isScrollbarEnabled" :class="`${prefixCls}-content`">
+        <slot name="content">{{ content }}</slot>
+      </div>
+      <Scrollbar v-else :class="`${prefixCls}-content`" v-bind="scrollbarProps">
         <slot name="content">{{ content }}</slot>
       </Scrollbar>
     </template>
@@ -161,6 +164,8 @@
   const computedPopupVisible = computed(() => props.popupVisible ?? _popupVisible.value);
   const { scrollbar } = toRefs(props);
   const { scrollbarProps } = useScrollbar(scrollbar);
+  // scrollbar: false 时不渲染内嵌 Scrollbar，直接渲染内容（同 Card 的原生滚动意图）
+  const isScrollbarEnabled = computed(() => scrollbar.value !== false);
 
   const handlePopupVisibleChange = (visible: boolean) => {
     _popupVisible.value = visible;

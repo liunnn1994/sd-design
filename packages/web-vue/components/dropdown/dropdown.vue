@@ -15,7 +15,12 @@
   >
     <slot />
     <template #content>
-      <DropdownPanel :trigger="trigger">
+      <DropdownPanel
+        :trigger="trigger"
+        :is-empty="isEmpty"
+        @scroll="handlePanelScroll"
+        @reach-bottom="handlePanelReachBottom"
+      >
         <slot name="content" />
         <template v-if="$slots.footer" #footer>
           <slot name="footer" />
@@ -104,6 +109,14 @@
       type: Boolean,
       default: true,
     },
+    /**
+     * @zh 下拉内容是否为空（为空时面板显示空态、隐藏页脚）
+     * @en Whether the dropdown content is empty (shows the empty state and hides the footer)
+     */
+    isEmpty: {
+      type: Boolean,
+      default: false,
+    },
   });
 
   const emit = defineEmits<{
@@ -121,6 +134,18 @@
      * @param {Event} ev
      */
     'select': [_value: string | number | Record<string, unknown> | undefined, _ev: Event];
+    /**
+     * @zh 面板滚动时触发
+     * @en Triggered when the panel scrolls
+     * @param {Event} ev
+     */
+    'scroll': [_e: Event];
+    /**
+     * @zh 面板滚动到底部时触发
+     * @en Triggered when the panel is scrolled to the bottom
+     * @param {Event} ev
+     */
+    'reachBottom': [_e: Event];
   }>();
   /**
    * @zh 内容
@@ -160,6 +185,15 @@
   ) => {
     emit('select', value, ev);
     props.hideOnSelect && handlePopupVisibleChange(false);
+  };
+
+  // 面板的 isEmpty / scroll / reachBottom 通过 Dropdown 本体透出
+  const handlePanelScroll = (ev: Event) => {
+    emit('scroll', ev);
+  };
+
+  const handlePanelReachBottom = (ev: Event) => {
+    emit('reachBottom', ev);
   };
 
   provide(

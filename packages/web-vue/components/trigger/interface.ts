@@ -24,7 +24,6 @@ export interface TriggerProps {
   popupTranslate?: TriggerPopupTranslate;
   showArrow?: boolean;
   alignPoint?: boolean;
-  popupHoverStay?: boolean;
   blurToClose?: boolean;
   clickToClose?: boolean;
   clickOutsideToClose?: boolean;
@@ -51,7 +50,7 @@ export interface TriggerProps {
   updateAtScroll?: boolean;
   autoFitTransformOrigin?: boolean;
   hideEmpty?: boolean;
-  opendClass?: string | string[] | Record<string, boolean>;
+  openedClass?: string | string[] | Record<string, boolean>;
   autoFitPosition?: boolean;
   renderToBody?: boolean;
   preventFocus?: boolean;
