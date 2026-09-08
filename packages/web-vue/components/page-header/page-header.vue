@@ -23,7 +23,11 @@
           <span :class="`${prefixCls}-title`">
             <slot name="title">{{ title }}</slot>
           </span>
-          <span v-if="$slots.subtitle || subtitle" :class="`${prefixCls}-divider`" />
+          <span
+            v-if="$slots.subtitle || subtitle"
+            :class="`${prefixCls}-divider`"
+            aria-hidden="true"
+          />
           <span v-if="$slots.subtitle || subtitle" :class="`${prefixCls}-subtitle`">
             <slot name="subtitle">{{ subtitle }}</slot>
           </span>

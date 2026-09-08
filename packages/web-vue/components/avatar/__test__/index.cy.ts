@@ -145,6 +145,19 @@ describe('Avatar', () => {
     cy.get('.sd-avatar-trigger-icon-button').should('have.css', 'color', 'rgb(255, 0, 0)');
   });
 
+  it('triggerIconStyle reacts to prop changes after mount', () => {
+    cy.mount(Avatar, {
+      slots: { 'trigger-icon': '<div class="ti">i</div>' },
+    });
+    cy.get('.sd-avatar-trigger-icon-button').should(($el) => {
+      expect($el[0].style.color).to.equal('');
+    });
+    cy.get('@vue').then(({ wrapper }) =>
+      cy.wrap(wrapper.setProps({ triggerIconStyle: { color: 'rgb(0, 128, 0)' } })),
+    );
+    cy.get('.sd-avatar-trigger-icon-button').should('have.css', 'color', 'rgb(0, 128, 0)');
+  });
+
   it('button trigger icon inherits the avatar background color', () => {
     cy.mount(Avatar, {
       slots: { 'trigger-icon': '<div class="ti">i</div>' },
@@ -219,5 +232,18 @@ describe('Avatar', () => {
     });
     cy.get('.sd-avatar-group-max-count-avatar').click();
     cy.get('.sd-trigger-popup .sd-avatar').should('have.length', 1);
+  });
+
+  it('popover content wrapper carries the popover spacing class and spacing', () => {
+    cy.mount(AvatarGroup, {
+      slots: { default: [Avatar, Avatar, Avatar, Avatar] },
+      props: { maxCount: 1, maxPopoverTriggerProps: { trigger: 'click' } },
+    });
+    cy.get('.sd-avatar-group-max-count-avatar').click();
+    cy.get('.sd-trigger-popup .sd-avatar-group-popover').should('exist');
+    // 气泡内头像使用 4px 正向间距，而不是条带布局的 -10px 内联 margin
+    cy.get('.sd-trigger-popup .sd-avatar-group-popover .sd-avatar')
+      .eq(1)
+      .should('have.css', 'margin-left', '4px');
   });
 });

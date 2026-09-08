@@ -222,11 +222,13 @@
     return style;
   });
 
-  const computedTriggerIconStyle = useTriggerIconStyle({
-    triggerIconStyle: triggerIconStyle?.value,
-    inlineStyle: attrs.style as CSSProperties,
-    triggerType: triggerType.value,
-  });
+  const computedTriggerIconStyle = computed(() =>
+    useTriggerIconStyle({
+      triggerIconStyle: triggerIconStyle?.value,
+      inlineStyle: attrs.style as CSSProperties,
+      triggerType: triggerType.value,
+    }),
+  );
 
   const autoFixFontSizeHandler = () => {
     if (!isImage.value && !props.imageUrl) {

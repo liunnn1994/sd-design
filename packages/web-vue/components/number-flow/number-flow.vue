@@ -54,7 +54,12 @@
   } from 'vue';
 
   import type { NumberFlowData } from './formatter';
-  import type { NumberFlowDigitContext, NumberFlowExposed, NumberFlowProps } from './types';
+  import type {
+    NumberFlowDigitContext,
+    NumberFlowExposed,
+    NumberFlowProps,
+    NumberFlowValue,
+  } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { formatNumberFlow, type NumberFlowPart } from './formatter';
@@ -116,9 +121,9 @@
     );
   }
 
-  const previousData = shallowRef(formatData(value));
-  const currentValue = computed(() => value);
-  const currentData = computed(() => formatData(value));
+  const previousData = shallowRef(formatData(sanitizeValue(value)));
+  const currentValue = computed(() => sanitizeValue(value));
+  const currentData = computed(() => formatData(currentValue.value));
   const animationPhase = shallowRef<'idle' | 'prepared' | 'animating'>('idle');
   const isAnimating = computed(() => animationPhase.value === 'animating');
   let animationVersion = 0;
@@ -132,16 +137,14 @@
   );
 
   const transformDuration = computed(() =>
-    typeof resolvedTransformTiming.value.duration === 'number'
-      ? resolvedTransformTiming.value.duration
-      : 900,
+    parseDuration(resolvedTransformTiming.value.duration, 900),
   );
   const transformEasing = computed(
     () => resolvedTransformTiming.value.easing?.toString() ?? 'cubic-bezier(0.16, 1, 0.3, 1)',
   );
 
   const spinDuration = computed(() => {
-    if (spinTiming && typeof spinTiming.duration === 'number') return spinTiming.duration;
+    if (spinTiming) return parseDuration(spinTiming.duration, transformDuration.value);
     return transformDuration.value;
   });
   const spinEasing = computed(() => {
@@ -149,11 +152,7 @@
     return transformEasing.value;
   });
 
-  const opacityDuration = computed(() =>
-    typeof resolvedOpacityTiming.value.duration === 'number'
-      ? resolvedOpacityTiming.value.duration
-      : 450,
-  );
+  const opacityDuration = computed(() => parseDuration(resolvedOpacityTiming.value.duration, 450));
 
   const motionCanAnimate = useCanAnimate({
     respectMotionPreference: () => respectMotionPreference,
@@ -176,6 +175,30 @@
 
   function sanitizeDuration(duration: number) {
     return Number.isFinite(duration) && duration >= 0 ? duration : 0;
+  }
+
+  /** 解析 duration，支持 '2s' / '500ms' 等字符串形式；非法值回退到 fallback */
+  function parseDuration(
+    duration: number | string | CSSNumericValue | undefined,
+    fallback: number,
+  ): number {
+    if (typeof duration === 'number') {
+      return Number.isFinite(duration) ? duration : fallback;
+    }
+    if (typeof duration === 'string') {
+      const match = /^(\d+(?:\.\d+)?)(ms|s)?$/i.exec(duration.trim());
+      if (match) {
+        const amount = Number.parseFloat(match[1]);
+        return (match[2] ?? '').toLowerCase() === 's' ? amount * 1000 : amount;
+      }
+    }
+    return fallback;
+  }
+
+  /** NaN 等非法数值统一回退为 0，避免渲染出 'NaN' */
+  function sanitizeValue(val: NumberFlowValue): number {
+    const numeric = typeof val === 'string' ? Number.parseFloat(val) : val;
+    return Number.isNaN(numeric) ? 0 : numeric;
   }
 
   function sanitizeEasing(easing: string) {
@@ -304,13 +327,17 @@
     if (version !== animationVersion || animationPhase.value !== 'prepared') return;
     animationPhase.value = 'animating';
     emit('animationsstart');
-    finishTimer = setTimeout(() => finishAnimation(version), spinDuration.value + 50);
+    // 以三种动画中最长的时长兜底，避免数字滚动动画仍在进行时提前触发 finish
+    const finishDelay =
+      Math.max(spinDuration.value, transformDuration.value, opacityDuration.value) + 50;
+    finishTimer = setTimeout(() => finishAnimation(version), finishDelay);
   }
 
   if (group) {
     const unregister = group.register({
       value: currentValue,
-      prepare: () => prepareAnimation(previousData.value, currentData.value, true),
+      // 不强制动画：仅当子项自身 value 变化时才参与本次动画
+      prepare: () => prepareAnimation(previousData.value, currentData.value),
       commit: commitAnimationStart,
       start: startAnimation,
     });

@@ -53,6 +53,32 @@ describe('Comment', () => {
     cy.get('.sd-comment-title').should('have.class', 'sd-comment-title-align-right');
   });
 
+  it('align object with missing keys defaults to left', () => {
+    cy.mount(Comment, {
+      slots: { actions: `<div class="custom-action"/>` },
+      props: {
+        author: 'Stephen',
+        datetime: '1 hour',
+        align: {},
+      },
+    });
+    cy.get('.sd-comment-title').should('have.class', 'sd-comment-title-align-left');
+    cy.get('.sd-comment-actions').should('have.class', 'sd-comment-actions-align-left');
+  });
+
+  it('partial align object falls back to left for the missing key', () => {
+    cy.mount(Comment, {
+      slots: { actions: `<div class="custom-action"/>` },
+      props: {
+        author: 'Stephen',
+        datetime: '1 hour',
+        align: { actions: 'right' },
+      },
+    });
+    cy.get('.sd-comment-title').should('have.class', 'sd-comment-title-align-left');
+    cy.get('.sd-comment-actions').should('have.class', 'sd-comment-actions-align-right');
+  });
+
   it('avatar prop should render an img with the given src', () => {
     const src = 'data:image/gif;base64,R0lGODlhAQABAAAAACw=';
 

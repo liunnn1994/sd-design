@@ -129,6 +129,8 @@
   );
 
   watch([value, now, format], () => {
+    // start 为 false（暂停/未开始）时不覆盖当前展示值
+    if (!props.start) return;
     const _value = getDateString(
       Math.max(dayjs(props.value).diff(dayjs(props.now), 'millisecond'), 0),
       props.format,
@@ -163,6 +165,12 @@
   };
 
   onMounted(() => {
+    if (dayjs(props.value).valueOf() <= Date.now()) {
+      // 挂载时截止时间已过：不再启动计时，且 finish 只触发一次
+      stopTimer();
+      emit('finish');
+      return;
+    }
     if (props.start) {
       startTimer();
     }
@@ -175,6 +183,8 @@
   watch(start, (value) => {
     if (value && !timer.value) {
       startTimer();
+    } else if (!value) {
+      stopTimer();
     }
   });
 </script>

@@ -7,7 +7,7 @@
           +{{ getOverflowAvatars(children).length }}
         </Avatar>
         <template #content>
-          <div>
+          <div :class="`${avatarPrefixCls}-group-popover`">
             <RenderVNodes :content="getOverflowAvatars(children)" />
           </div>
         </template>
@@ -103,6 +103,7 @@
     },
   });
   const prefixCls = getPrefixCls('avatar-group');
+  const avatarPrefixCls = getPrefixCls('avatar');
   const configCtx = inject(configProviderInjectionKey, undefined);
   const rtl = computed(() => configCtx?.rtl ?? false);
   const total = ref(0);

@@ -122,4 +122,54 @@ describe('Countdown', () => {
       expect(wrapper.emitted('finish')).to.not.equal(undefined);
     });
   });
+
+  it('stops the running timer when start flips to false', () => {
+    const now = Date.now();
+    cy.clock(now);
+    cy.mount(Countdown, {
+      props: { value: now + 10000, now, animation: false, format: 'mm:ss' },
+    });
+    cy.get('.sd-statistic-value .sd-number-flow').eq(1).should('have.attr', 'aria-label', '10');
+    cy.tick(3000);
+    cy.get('.sd-statistic-value .sd-number-flow').eq(1).should('have.attr', 'aria-label', '07');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ start: false })));
+    cy.tick(5000);
+    cy.get('.sd-statistic-value .sd-number-flow').eq(1).should('have.attr', 'aria-label', '07');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('finish')).to.equal(undefined);
+    });
+  });
+
+  it('emits finish once when the deadline has already passed at mount', () => {
+    const now = Date.now();
+    cy.clock(now);
+    cy.mount(Countdown, {
+      props: { value: now - 5000, now, animation: false, format: 'mm:ss' },
+    });
+    cy.get('.sd-statistic-value .sd-number-flow').eq(1).should('have.attr', 'aria-label', '00');
+    cy.get('@vue').should(({ wrapper }) => {
+      const finish = wrapper.emitted('finish');
+      expect(finish).to.not.equal(undefined);
+      expect(finish!.length).to.equal(1);
+    });
+    cy.tick(2000);
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('finish')!.length).to.equal(1);
+    });
+  });
+
+  it('does not overwrite the display when value changes while start is false', () => {
+    const now = Date.now();
+    cy.clock(now);
+    cy.mount(Countdown, {
+      props: { value: now + 5000, now, start: false, animation: false, format: 'mm:ss' },
+    });
+    cy.get('.sd-statistic-value .sd-number-flow').eq(1).should('have.attr', 'aria-label', '05');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ value: now + 9000 })));
+    cy.get('.sd-statistic-value .sd-number-flow').eq(1).should('have.attr', 'aria-label', '05');
+    // 恢复后按新 deadline 继续倒计时
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ start: true })));
+    cy.tick(100);
+    cy.get('.sd-statistic-value .sd-number-flow').eq(1).should('have.attr', 'aria-label', '08');
+  });
 });

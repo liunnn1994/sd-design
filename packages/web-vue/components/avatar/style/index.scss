@@ -156,6 +156,7 @@ $avatar-prefix-cls: string.unquote('#{theme.$prefix}-avatar');
   }
 
   &-group-popover &:not(:first-child) {
-    margin-left: $avatar-group-popover-item-spacing;
+    // 气泡内头像使用正向间距，需覆盖条带布局写入的内联 margin-left
+    margin-left: $avatar-group-popover-item-spacing !important;
   }
 }

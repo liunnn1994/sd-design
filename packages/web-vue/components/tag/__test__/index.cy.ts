@@ -20,6 +20,19 @@ describe('Tag', () => {
     cy.get('.sd-tag').should('have.attr', 'aria-pressed', 'true');
   });
 
+  it('keyboard activation passes the KeyboardEvent as the check payload', () => {
+    cy.mount(Tag, { props: { checkable: true, defaultChecked: false } });
+    // Cypress trigger 合成的是普通 Event，需用真实 KeyboardEvent 验证 payload 类型
+    cy.get('.sd-tag').then(($tag) => {
+      $tag[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    });
+    cy.get('@vue').should(({ wrapper }) => {
+      const checkEvent = wrapper.emitted('check') as Array<[boolean, Event]> | undefined;
+      expect(checkEvent?.[0][0]).to.equal(true);
+      expect(checkEvent?.[0][1]).to.be.an.instanceOf(KeyboardEvent);
+    });
+  });
+
   it('enables ellipsis by default and forwards ellipsis props', () => {
     cy.mount(Tag, {
       props: { ellipsisLineClamp: 2, ellipsisTooltip: false },
@@ -70,6 +83,16 @@ describe('Tag', () => {
       .and('contain', '--sd-tag-bg-color');
     cy.get('.sd-tag').should('have.class', 'sd-tag-custom-color');
     cy.get('.sd-tag').should('not.have.class', 'sd-tag-red');
+  });
+
+  it('non-bordered custom color tag is fully opaque (backgroundAlpha falls back to 1)', () => {
+    cy.mount(Tag, { props: { color: '#ff5722' }, slots: { default: 'Opaque' } });
+    cy.get('.sd-tag').should('have.css', 'background-color', 'rgb(255, 87, 34)');
+  });
+
+  it('explicitly bordered custom color tag keeps the default 0.8 alpha', () => {
+    cy.mount(Tag, { props: { color: '#ff5722', bordered: true }, slots: { default: 'Bordered' } });
+    cy.get('.sd-tag').should('have.css', 'background-color', 'rgba(255, 87, 34, 0.8)');
   });
 
   it('uses the textColor prop to override auto text color', () => {

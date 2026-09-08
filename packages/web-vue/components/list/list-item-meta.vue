@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-  import { useSlots } from 'vue';
+  import { computed, useSlots } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { PerformantEllipsis } from '../ellipsis';
@@ -56,5 +56,7 @@
   const slots = useSlots();
 
   const prefixCls = getPrefixCls('list-item-meta');
-  const hasContent = Boolean(props.title || props.description || slots.title || slots.description);
+  const hasContent = computed(() =>
+    Boolean(props.title || props.description || slots.title || slots.description),
+  );
 </script>

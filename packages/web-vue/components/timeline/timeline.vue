@@ -6,7 +6,10 @@
         <slot v-if="slots.dot" name="dot" />
         <Spin v-else v-bind="{ size: 12, ...mergedSpinProps }" />
       </template>
-      <div v-if="pending !== true">{{ pending }}</div>
+      <div v-if="slots.pending || pending !== true">
+        <slot v-if="slots.pending" name="pending" />
+        <template v-else>{{ pending }}</template>
+      </div>
     </Item>
   </div>
 </template>

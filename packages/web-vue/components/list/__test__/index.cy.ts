@@ -256,4 +256,12 @@ describe('ListItemMeta', () => {
     cy.mount(ListItemMeta, {});
     cy.get('.sd-list-item-meta-content').should('not.exist');
   });
+
+  it('shows the content area reactively when title is set after mount', () => {
+    cy.mount(ListItemMeta, {});
+    cy.get('.sd-list-item-meta-content').should('not.exist');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ title: 'Late title' })));
+    cy.get('.sd-list-item-meta-content').should('exist');
+    cy.get('.sd-list-item-meta-title').should('have.text', 'Late title');
+  });
 });

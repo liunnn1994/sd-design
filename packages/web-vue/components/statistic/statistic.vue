@@ -92,11 +92,6 @@
       default: 0,
     },
     /**
-     * @zh 进位分隔符（数字模式使用）
-     * @en Carry separator (used in number mode)
-     */
-    separator: String,
-    /**
      * @zh 是否展示进位分隔符（数字模式使用）
      * @en Whether to display the carry separator (used in number mode)
      */

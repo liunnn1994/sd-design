@@ -98,6 +98,22 @@ describe('Badge', () => {
     cy.get('.sd-badge-status-text').should('contain.text', 'Running');
   });
 
+  it('status with count renders the status dot and the count number', () => {
+    cy.mount(Badge, { props: { status: 'danger', text: 'Error', count: 12 } });
+    cy.get('.sd-badge-status-dot').should('exist');
+    cy.get('.sd-badge-status-text').should('contain.text', 'Error');
+    cy.get('.sd-badge-number').should('contain.text', '12');
+  });
+
+  it('negative count renders nothing like zero', () => {
+    cy.mount(Badge, { props: { count: -5 } });
+    cy.get('.sd-badge-number').should('not.exist');
+    cy.get('.sd-badge-dot').should('not.exist');
+
+    cy.mount(Badge, { props: { dot: true, count: -5 } });
+    cy.get('.sd-badge-dot').should('not.exist');
+  });
+
   it('dotStyle is applied to the dot', () => {
     cy.mount(Badge, { props: { dot: true, count: 1, dotStyle: { borderRadius: '3px' } } });
     cy.get('.sd-badge-dot').should('have.css', 'border-radius', '3px');
@@ -106,6 +122,24 @@ describe('Badge', () => {
   it('offset shifts the dot via negative margin-right and margin-top', () => {
     cy.mount(Badge, { props: { dot: true, count: 1, offset: [10, 20] } });
     cy.get('.sd-badge-dot').should('have.css', 'margin-right', '-10px');
+    cy.get('.sd-badge-dot').should('have.css', 'margin-top', '20px');
+  });
+
+  it('offset mirrors the horizontal shift under rtl', () => {
+    cy.mount(Badge, {
+      props: { dot: true, count: 1, offset: [10, 20] },
+      global: {
+        provide: {
+          [configProviderInjectionKey as symbol]: {
+            slots: {},
+            rtl: true,
+          },
+        },
+      },
+    });
+    cy.get('.sd-badge').should('have.class', 'sd-badge-rtl');
+    cy.get('.sd-badge-dot').should('have.css', 'margin-left', '-10px');
+    cy.get('.sd-badge-dot').should('have.css', 'margin-right', '0px');
     cy.get('.sd-badge-dot').should('have.css', 'margin-top', '20px');
   });
 

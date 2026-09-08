@@ -213,6 +213,8 @@
   function addItem() {
     if (disabled) return;
     rows.value.push(createWorkingItem({ key: '', value: '' }));
+    // 空键行仍会被 normalizeKvList 过滤，commit 仅用于保持两个模型与行列表一致
+    commitRows();
   }
 
   function updateItem(index: number, item: KvListWorkingItem) {

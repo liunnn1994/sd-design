@@ -1,6 +1,6 @@
-/** * NumberFlowGroup synchronizes animation timing across child NumberFlow instances. * When any
-child's value changes, all children in the group are triggered to animate * on the same frame for a
-cohesive visual effect. */
+/** * NumberFlowGroup synchronizes animation timing across child NumberFlow instances. * Children
+whose value changes in the same flush are triggered to animate * on the same frame for a cohesive
+visual effect. Children whose value did not change stay idle. */
 
 <script setup lang="ts">
   import { nextTick, provide, watch } from 'vue';

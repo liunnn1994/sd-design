@@ -96,7 +96,7 @@
      */
     bordered: {
       type: Boolean,
-      default: false,
+      default: undefined,
     },
     /**
      * @zh 标签是否可见
@@ -241,9 +241,9 @@
      * @zh 用户选中时触发（仅在可选中模式下触发）
      * @en Emitted when the user check (emit only in the checkable mode)
      * @param {boolean} checked
-     * @param {MouseEvent} ev
+     * @param {MouseEvent | KeyboardEvent} ev
      */
-    'check': [_checked: boolean, _ev: MouseEvent];
+    'check': [_checked: boolean, _ev: MouseEvent | KeyboardEvent];
   }>();
 
   const slots = useSlots();
@@ -437,7 +437,6 @@
       [`${prefixCls}-ellipsis`]: shouldRenderEllipsis.value,
       [`${prefixCls}-ellipsis-line-clamp`]: hasLineClampEllipsis.value,
       [`${prefixCls}-loading`]: props.loading,
-      [`${prefixCls}-hide`]: !computedVisible.value,
       [`${prefixCls}-no-ellipsis`]: !shouldRenderEllipsis.value,
       [`${prefixCls}-${props.color}`]: isBuiltInColor.value,
       [`${prefixCls}-bordered`]: props.bordered,
@@ -493,7 +492,7 @@
     handleClose(ev);
   };
 
-  const handleClick = (ev: MouseEvent) => {
+  const handleClick = (ev: MouseEvent | KeyboardEvent) => {
     if (props.checkable) {
       const newChecked = !computedChecked.value;
       _checked.value = newChecked;
@@ -507,7 +506,7 @@
     if (!props.checkable) return;
     if (isActivationKey(ev)) {
       ev.preventDefault();
-      handleClick(ev as unknown as MouseEvent);
+      handleClick(ev);
     }
   };
 </script>

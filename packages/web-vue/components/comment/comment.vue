@@ -125,13 +125,15 @@
 
   const computedAlign = computed(() => {
     const { align } = props;
+    if (isString(align)) {
+      return {
+        datetime: align,
+        actions: align,
+      };
+    }
     return {
-      ...(isString(align)
-        ? {
-            datetime: align,
-            actions: align,
-          }
-        : align),
+      datetime: align?.datetime ?? 'left',
+      actions: align?.actions ?? 'left',
     };
   });
 </script>

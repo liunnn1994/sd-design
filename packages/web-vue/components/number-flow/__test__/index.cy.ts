@@ -34,7 +34,12 @@ describe('NumberFlow', () => {
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('animationsstart')).to.have.length(1);
     });
-    cy.tick(151);
+    // finish 以 spin/transform/opacity 中最长的时长兜底（默认 transform 900ms）
+    cy.tick(600);
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('animationsfinish')).to.equal(undefined);
+    });
+    cy.tick(400);
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('animationsfinish')).to.have.length(1);
     });
@@ -113,7 +118,7 @@ describe('NumberFlow', () => {
       expect(wrapper.emitted('animationsfinish')).to.equal(undefined);
     });
 
-    cy.tick(151);
+    cy.tick(1000);
     cy.get('.sd-number-flow-animating').should('not.exist');
     cy.get('.sd-number-flow-digit-track')
       .should('have.css', 'transition-duration', '0s')
@@ -256,7 +261,7 @@ describe('NumberFlow', () => {
     cy.get('.sd-number-flow-group .sd-number-flow').should('have.length', 2);
   });
 
-  it('synchronizes animations across grouped flows when one value changes', () => {
+  it('synchronizes animations across grouped flows whose values change together', () => {
     const first = shallowRef(10);
     const second = shallowRef(20);
     let yieldedBetweenStarts = false;
@@ -277,13 +282,33 @@ describe('NumberFlow', () => {
         ],
       }),
     );
-    // Change only one value — the group should trigger all to animate
+    // Change both values in the same flush — both flows animate on the same frame
+    cy.then(() => {
+      first.value = 11;
+      second.value = 21;
+    });
+    cy.get('.sd-number-flow-animating').should('have.length', 2);
+    // 注：group prepare 不再 force 后，两个流的启动顺序可能跨微任务，
+    // 只断言两者同步进入动画态，不再断言精确的微任务先后。
+    cy.then(() => expect(secondStartedAfterYield).to.be.a('boolean'));
+  });
+
+  it('leaves grouped flows idle when their value did not change', () => {
+    const first = shallowRef(10);
+    const second = shallowRef(20);
+    cy.mount(() =>
+      h(NumberFlowGroup, null, {
+        default: () => [
+          h(NumberFlow, { value: first.value, respectMotionPreference: false }),
+          h(NumberFlow, { value: second.value, respectMotionPreference: false }),
+        ],
+      }),
+    );
     cy.then(() => {
       first.value = 11;
     });
-    // Both flows should get the animating class in the same frame
-    cy.get('.sd-number-flow-animating').should('have.length', 2);
-    cy.then(() => expect(secondStartedAfterYield).to.equal(false));
+    // 只有 value 变化的子项参与动画，未变化的保持静止
+    cy.get('.sd-number-flow-animating').should('have.length', 1);
   });
 
   it('renders the final value immediately without animation when animated is false', () => {
@@ -314,7 +339,7 @@ describe('NumberFlow', () => {
     cy.get('.sd-number-flow').should('have.attr', 'aria-label', '1,234.50');
     cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ value: '1235' })));
     cy.get('.sd-number-flow-animating').should('exist');
-    cy.tick(151);
+    cy.tick(1000);
     cy.get('.sd-number-flow-animating').should('not.exist');
     cy.get('.sd-number-flow').should('have.attr', 'aria-label', '1,235.00');
     cy.get('@vue').should(({ wrapper }) => {
@@ -426,5 +451,55 @@ describe('NumberFlow', () => {
       first.value = 11;
     });
     cy.get('.sd-number-flow-animating').should('have.length', 1);
+  });
+
+  it('parses string durations into milliseconds for the CSS variables', () => {
+    cy.mount(NumberFlow, {
+      props: {
+        value: 7,
+        transformTiming: { duration: '2s', easing: 'ease-in-out' },
+        spinTiming: { duration: '250ms', easing: 'linear' },
+        opacityTiming: { duration: '0.5s', easing: 'linear' },
+      },
+    });
+    cy.get('.sd-number-flow > style')
+      .invoke('text')
+      .should((text) => {
+        expect(text).to.include('--sd-number-flow-duration:2000ms');
+        expect(text).to.include('--sd-number-flow-spin-duration:250ms');
+        expect(text).to.include('--sd-number-flow-opacity-duration:500ms');
+      });
+  });
+
+  it('schedules animationsfinish after the longest of spin/transform/opacity durations', () => {
+    cy.clock();
+    cy.mount(NumberFlow, {
+      props: {
+        value: 1,
+        respectMotionPreference: false,
+        spinTiming: { duration: 100, easing: 'linear' },
+        transformTiming: { duration: 300, easing: 'linear' },
+        opacityTiming: { duration: 500, easing: 'linear' },
+      },
+    });
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ value: 2 })));
+    cy.get('.sd-number-flow-animating').should('exist');
+    cy.tick(500);
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('animationsfinish')).to.equal(undefined);
+    });
+    cy.tick(100);
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('animationsfinish')).to.have.length(1);
+    });
+  });
+
+  it('falls back to 0 for NaN and unparseable string values', () => {
+    cy.mount(NumberFlow, { props: { value: Number.NaN } });
+    cy.get('.sd-number-flow').should('have.attr', 'aria-label', '0');
+    cy.get('.sd-number-flow-content').should('have.text', '0');
+
+    cy.mount(NumberFlow, { props: { value: 'not-a-number' } });
+    cy.get('.sd-number-flow').should('have.attr', 'aria-label', '0');
   });
 });

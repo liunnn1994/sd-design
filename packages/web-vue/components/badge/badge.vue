@@ -45,6 +45,11 @@
     <span v-else-if="countValue !== 0" :class="`${prefixCls}-number`" :style="mergedStyle">
       <NumberFlow :value="displayCount" :suffix="displaySuffix" :animated="animation" />
     </span>
+
+    <!-- status 与 count 同时传入时，额外渲染数字，避免 count 被静默丢弃 -->
+    <span v-if="status && countValue > 0" :class="`${prefixCls}-number`" :style="mergedStyle">
+      <NumberFlow :value="displayCount" :suffix="displaySuffix" :animated="animation" />
+    </span>
   </span>
 </template>
 
@@ -158,7 +163,7 @@
   const configCtx = inject(configProviderInjectionKey, undefined);
   const rtl = computed(() => configCtx?.rtl ?? false);
   const hasCount = computed(() => count != null);
-  const countValue = computed(() => Number(count));
+  const countValue = computed(() => Math.max(Number(count) || 0, 0));
 
   const wrapperClassName = computed(() => [
     prefixCls,
@@ -172,9 +177,11 @@
   const computedDotStyle = computed<CSSProperties>(() => {
     const style = { ...dotStyle };
     const [leftOffset, topOffset] = offset;
+    // RTL 下水平偏移镜像到 margin-left
+    const horizontalMargin = rtl.value ? 'marginLeft' : 'marginRight';
 
     if (leftOffset) {
-      style.marginRight = `${-leftOffset}px`;
+      style[horizontalMargin] = `${-leftOffset}px`;
     }
     if (topOffset) {
       style.marginTop = `${topOffset}px`;

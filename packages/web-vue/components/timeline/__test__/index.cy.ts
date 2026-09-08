@@ -125,6 +125,20 @@ describe('Timeline', () => {
     });
     cy.get('.sd-timeline-item').should('have.length', 2);
     cy.get('.sd-timeline-item').eq(1).should('have.class', 'sd-timeline-item-last');
+    cy.get('.sd-timeline-item').eq(1).find('.ghost-content').should('have.text', '加载中');
+  });
+
+  it('prefers the pending slot content over the pending prop text', () => {
+    cy.mount(Timeline, {
+      props: { pending: '正在加载' },
+      global: { components: { TimelineItem: Item } },
+      slots: {
+        default: '<timeline-item>1</timeline-item>',
+        pending: '<div class="ghost-content">自定义加载中</div>',
+      },
+    });
+    cy.get('.sd-timeline-item').eq(1).find('.ghost-content').should('have.text', '自定义加载中');
+    cy.get('.sd-timeline-item').eq(1).should('not.contain', '正在加载');
   });
 
   it('renders labels inside the content wrapper by default and outside when relative', () => {

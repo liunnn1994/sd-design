@@ -27,6 +27,7 @@ describe('PageHeader', () => {
     cy.mount(PageHeader, { props: { title: '订单详情', subtitle: '共 3 笔交易' } });
     cy.get('.sd-page-header-title').should('have.text', '订单详情');
     cy.get('.sd-page-header-divider').should('exist');
+    cy.get('.sd-page-header-divider').should('have.attr', 'aria-hidden', 'true');
     cy.get('.sd-page-header-subtitle').should('have.text', '共 3 笔交易');
   });
 

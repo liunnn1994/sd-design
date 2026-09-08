@@ -305,6 +305,24 @@ describe('KvList', () => {
     cy.get('[data-testid="bulk-model"]').should('have.text', 'a: 1\nb: 2');
   });
 
+  it('keeps both models free of stale entries after add and remove cycles', () => {
+    cy.mount(createHarness({ initialJson: [{ key: 'a', value: '1' }] }));
+
+    // 新增空行后删除已有行：空键行不应写进任何模型
+    cy.contains('button', '新增键值对').click();
+    cy.get('[data-testid="kv-list-row"]').eq(0).contains('button', '删除键值对').click();
+    cy.get('[data-testid="kv-list-row"]').should('have.length', 1);
+    cy.get('[data-testid="json-model"]').should('have.text', '[]');
+    cy.get('[data-testid="bulk-model"]').should('have.text', '');
+
+    // 再次编辑该行后模型恢复正常
+    cy.get('[data-testid="kv-list-row"] input').eq(0).type('k');
+    cy.get('[data-testid="json-model"]').should(
+      'have.text',
+      JSON.stringify([{ key: 'k', value: '' }]),
+    );
+  });
+
   it('removes the targeted row and syncs both models', () => {
     cy.mount(
       createHarness({
