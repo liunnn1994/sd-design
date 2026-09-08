@@ -63,6 +63,7 @@
   const prefixCls = getPrefixCls('ellipsis');
   interface EllipsisExposed {
     triggerElement?: HTMLElement;
+    waitForMeasurement?: () => Promise<void>;
   }
 
   const activated = shallowRef(false);
@@ -130,6 +131,13 @@
     await nextTick();
     await nextTick();
     await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+    // 等 RichLineClamp 首次测量稳定（带真实内容的 clampchange 到达）后再回放交互，
+    // 否则 hover 的 tooltip / click 的展开判定会读到未就绪的 clamp 状态。
+    const measurement = ellipsisRef.value?.waitForMeasurement?.();
+    if (measurement) {
+      await measurement;
+    }
 
     replayInteraction(interactionType);
   };

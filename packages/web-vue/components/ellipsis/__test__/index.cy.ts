@@ -233,6 +233,10 @@ describe('Ellipsis', () => {
     cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setData({ text: overflowing })));
     cy.get('.sd-ellipsis').should('have.attr', 'title', overflowing);
   });
+
+  // 注：内部交互元素的 click 守卫已实现（ellipsis.vue handleClick 的 closest 检查），
+  // 但真实浏览器中省略布局/测量副本会覆盖 slot 按钮，无法确定性地点击验证，
+  // 故不做 e2e 断言（记录于 TEST-AUDIT-FINDINGS.md「ellipsis」条目）。
 });
 
 describe('PerformantEllipsis', () => {
@@ -284,5 +288,14 @@ describe('PerformantEllipsis', () => {
     cy.get('.sd-ellipsis')
       .should('have.class', 'sd-ellipsis--expanded')
       .and('have.attr', 'aria-expanded', 'true');
+  });
+  it('shows the tooltip after hover activation once measurement settles', () => {
+    cy.mount(PerformantEllipsis, {
+      props: { tooltip: { mouseEnterDelay: 0, mouseLeaveDelay: 0 } },
+      attrs: { style: 'max-width: 80px; display: block;' },
+      slots: { default: overflowing },
+    });
+    cy.get('.sd-ellipsis').trigger('mouseenter');
+    cy.get('[role="tooltip"]').should('be.visible');
   });
 });

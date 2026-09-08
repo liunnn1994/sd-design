@@ -18,6 +18,7 @@
         <slot v-if="isLineClamp" />
         <span v-else :class="`${prefixCls}-content`"><slot /></span>
         <RichLineClamp
+          :key="measurementHtml"
           data-ellipsis-measure
           aria-hidden="true"
           :html="measurementHtml"
@@ -49,6 +50,7 @@
       <slot v-if="isLineClamp" />
       <span v-else :class="`${prefixCls}-content`"><slot /></span>
       <RichLineClamp
+        :key="measurementHtml"
         data-ellipsis-measure
         aria-hidden="true"
         :html="measurementHtml"
@@ -198,12 +200,60 @@
     if (nextPadding !== measurementPadding.value) measurementPadding.value = nextPadding;
   }
 
-  function handleClampChange(clamped: boolean) {
-    isEllipsis.value = clamped;
+  // 等待 RichLineClamp 首次完成测量（收到带真实测量内容的 clampchange），
+  // 供 PerformantEllipsis 激活后回放交互前等待测量稳定。
+  // 测量副本以 measurementHtml 为 key：内容变化时强制重建一次测量组件，
+  // 保证每次内容变化都触发全新的 clampchange（不依赖 vue-clamp 对同尺寸
+  // 文本变更的内部重算判定）。
+  let measurementSettled = false;
+  let measurementWaiters: Array<() => void> = [];
+
+  function flushMeasurementWaiters() {
+    const waiters = measurementWaiters;
+    measurementWaiters = [];
+    waiters.forEach((resolve) => resolve());
   }
 
-  function handleClick() {
-    if (props.expandTrigger === 'click' && (isEllipsis.value || expanded.value)) {
+  function handleClampChange(clamped: boolean) {
+    isEllipsis.value = clamped;
+    // setup 期的 immediate clampchange 到达时测量副本还是空内容，不能视为测量完成；
+    // 只有携带真实测量内容（measurementHtml 已同步）的 clampchange 才算测量稳定。
+    if (!measurementSettled && measurementHtml.value !== '') {
+      measurementSettled = true;
+      flushMeasurementWaiters();
+    }
+  }
+
+  function waitForMeasurement(): Promise<void> {
+    if (measurementSettled) {
+      return Promise.resolve();
+    }
+    return new Promise((resolve) => {
+      measurementWaiters.push(resolve);
+    });
+  }
+
+  // 点击来源为内部交互元素（链接/按钮/输入框等）时不触发展开，交还给元素自身的默认行为。
+  // 注意根元素自身可展开时会带 role="button"，因此命中后还需确认是根元素的内部后代而非根元素本身。
+  const INTERACTIVE_SELECTOR = 'a,button,input,textarea,select,[role="button"]';
+
+  function handleClick(event?: MouseEvent) {
+    if (props.expandTrigger !== 'click') {
+      return;
+    }
+    const triggerElement = triggerRef.value;
+    const target = event?.target;
+    const interactiveElement =
+      target instanceof Element ? target.closest(INTERACTIVE_SELECTOR) : null;
+    if (
+      interactiveElement &&
+      triggerElement &&
+      interactiveElement !== triggerElement &&
+      triggerElement.contains(interactiveElement)
+    ) {
+      return;
+    }
+    if (isEllipsis.value || expanded.value) {
       expanded.value = !expanded.value;
     }
   }
@@ -222,11 +272,17 @@
       void nextTick(syncMeasurement);
     },
   );
-  onMounted(() => void nextTick(syncMeasurement));
+  onMounted(() => {
+    void nextTick(syncMeasurement);
+    // 内容未被截断时 RichLineClamp 的 isClamped 不再变化、clampchange 不会再次触发，
+    // 用短超时兜底，保证 waitForMeasurement 的等待方不会永久挂起。
+    window.setTimeout(flushMeasurementWaiters, 200);
+  });
   onUpdated(() => void nextTick(syncMeasurement));
 
   defineExpose({
     triggerRef,
+    waitForMeasurement,
     get triggerElement() {
       return triggerRef.value;
     },

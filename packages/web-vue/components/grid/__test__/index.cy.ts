@@ -1,3 +1,5 @@
+import { defineComponent } from 'vue';
+
 import Grid, { GridItem } from '../index';
 
 const { Row, Col } = Grid;
@@ -43,8 +45,8 @@ describe('Grid', () => {
 
     cy.get('.sd-grid')
       .should('have.attr', 'style')
-      .and('include', 'grid-template-columns:repeat(3, minmax(0px, 1fr))')
-      .and('include', 'gap:16px 8px');
+      .and('include', 'grid-template-columns: repeat(3, minmax(0px, 1fr))')
+      .and('include', 'gap: 16px 8px');
   });
 
   it('applies default span of 1 and explicit span to GridItem', () => {
@@ -303,12 +305,27 @@ describe('Grid', () => {
     cy.get('.cell').should('have.class', 'sd-col-xs-12').and('not.have.class', 'sd-col-24');
   });
 
-  it('removes Col from the DOM when responsive span resolves to 0', () => {
+  it('removes Col from the DOM when responsive span resolves to 0 via object config', () => {
     cy.mount({
       components: { Row, Col },
       template: `
         <Row>
           <Col :xs="{ span: 0 }" class="hidden-cell" />
+          <Col :xs="12" class="visible-cell" />
+        </Row>
+      `,
+    });
+
+    cy.get('.hidden-cell').should('not.exist');
+    cy.get('.visible-cell').should('exist');
+  });
+
+  it('hides Col with a numeric 0 breakpoint value', () => {
+    cy.mount({
+      components: { Row, Col },
+      template: `
+        <Row>
+          <Col :xs="0" class="hidden-cell" />
           <Col :xs="12" class="visible-cell" />
         </Row>
       `,
@@ -331,5 +348,30 @@ describe('Grid', () => {
 
     cy.get('.flex-cell').should('have.css', 'flex', '0 0 200px').and('not.have.class', 'sd-col-24');
     cy.get('.auto-cell').should('have.css', 'flex-grow', '1').and('have.css', 'flex-basis', 'auto');
+  });
+  it('re-resolves responsive config when a Col prop switches from number to responsive object', () => {
+    cy.viewport(500, 660);
+    cy.mount(
+      defineComponent({
+        components: { Row, Col },
+        props: {
+          xsProp: { type: Object, default: undefined },
+          mdProp: { type: Object, default: undefined },
+        },
+        template: `
+        <Row style="width: 960px">
+          <Col :xs="xsProp" :md="mdProp" class="cell" />
+        </Row>
+      `,
+      }),
+    );
+    // 无响应式 prop 时 val 是数字，screens 不会从订阅回调得到更新；切到响应式对象后
+    // 必须用当前视口的 matchMedia 快照：xs 命中 0 → 隐藏。若 screens 停留在过期的
+    // 全 true，会错误命中更高断点 md=12 → 仍然可见
+    cy.get('.cell').should('exist');
+    cy.get('@vue').then(({ wrapper }) =>
+      cy.wrap(wrapper.setProps({ xsProp: { span: 0 }, mdProp: { span: 12 } })),
+    );
+    cy.get('.cell').should('not.exist');
   });
 });

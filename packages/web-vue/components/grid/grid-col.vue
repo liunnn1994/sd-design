@@ -8,7 +8,7 @@
   import { computed, inject, PropType } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import { isNumber, isObject, isString } from '../_utils/is';
+  import { isNull, isNumber, isObject, isString, isUndefined } from '../_utils/is';
   import pick from '../_utils/pick';
   import { responsiveArray } from '../_utils/responsive-observe';
   import { RowContextInjectionKey } from './context';
@@ -109,6 +109,10 @@
 
   const prefixCls = getPrefixCls('col');
   const rowContext = inject(RowContextInjectionKey, {});
+
+  // 数字断点值 0 是合法配置（如 xs={0} 隐藏列），必须用显式 undefined/null 判断而非 falsy 守卫
+  const hasBreakpointValue = (value: unknown): boolean => !isUndefined(value) && !isNull(value);
+
   const flexValue = computed(() => getAllowableFlexValue(props.flex));
   const mergeClassName = computed(() => {
     const { div } = rowContext;
@@ -116,7 +120,14 @@
     const result = {
       [`${prefixCls}`]: !div,
       [`${prefixCls}-order-${order}`]: order,
-      [`${prefixCls}-${span}`]: !div && !xs && !sm && !md && !lg && !xl && !xxl,
+      [`${prefixCls}-${span}`]:
+        !div &&
+        !hasBreakpointValue(xs) &&
+        !hasBreakpointValue(sm) &&
+        !hasBreakpointValue(md) &&
+        !hasBreakpointValue(lg) &&
+        !hasBreakpointValue(xl) &&
+        !hasBreakpointValue(xxl),
       [`${prefixCls}-offset-${offset}`]: offset && offset > 0,
     };
 
@@ -126,9 +137,9 @@
 
     Object.keys(screenList).forEach((screen) => {
       const screenValue = screenList[screen];
-      if (screenValue && isNumber(screenValue)) {
+      if (hasBreakpointValue(screenValue) && isNumber(screenValue)) {
         result[`${prefixCls}-${screen}-${screenValue}`] = true;
-      } else if (screenValue && isObject(screenValue)) {
+      } else if (hasBreakpointValue(screenValue) && isObject(screenValue)) {
         result[`${prefixCls}-${screen}-${screenValue.span}`] = screenValue.span;
         result[`${prefixCls}-${screen}-offset-${screenValue.offset}`] = screenValue.offset;
         result[`${prefixCls}-${screen}-order-${screenValue.order}`] = screenValue.order;
