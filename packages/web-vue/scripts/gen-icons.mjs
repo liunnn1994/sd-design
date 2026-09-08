@@ -130,7 +130,10 @@ const getIconVue = ({ name, componentName, svgHtml }) => `<template>
       styles.fontSize = isNumber(size) ? \`\${size}px\` : size;
     }
     if (rotate) {
+      // transform 供无 spin 场景直接生效；--icon-rotate 供 spin 动画以
+      // 自定义属性为基准合成旋转，避免动画 transform 覆盖静态 rotate
       styles.transform = \`rotate(\${rotate}deg)\`;
+      styles['--icon-rotate'] = \`\${rotate}deg\`;
     }
     return styles;
   });
@@ -208,7 +211,10 @@ function getSvgData() {
     });
 
     for (const filePath of files) {
-      const name = `icon-${path.basename(filePath, '.svg')}`;
+      // 'faceBook-circle-fill' 是 288 个 svg 名里唯一的非 camelCase：
+      // 归一化为 facebook，保证目录名/导出名稳定
+      const basename = path.basename(filePath, '.svg').replace(/faceBook/g, 'facebook');
+      const name = `icon-${basename}`;
       iconData.list.push({
         name,
         componentName: toPascalCase(name),
