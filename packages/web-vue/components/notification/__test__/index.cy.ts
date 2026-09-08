@@ -245,4 +245,68 @@ describe('Notification', () => {
     cy.get('@onClose').should('have.been.calledOnce');
     cy.get('@onClose').its('firstCall.args.0').should('contain', '__arco_notification_');
   });
+
+  it('re-adds a notification with the same id after clear()', () => {
+    cy.mount({
+      template:
+        '<button id="add" @click="handleAdd">Add</button>' +
+        '<button id="clear" @click="handleClear">Clear</button>',
+      methods: {
+        handleAdd() {
+          Notification.info({ id: 'reusable', content: '可复用 ID 通知' });
+        },
+        handleClear() {
+          Notification.clear();
+        },
+      },
+    });
+    cy.get('#add').click();
+    cy.get('.sd-notification').should('have.length', 1);
+    cy.get('#clear').click();
+    cy.get('.sd-notification').should('have.length', 0);
+    // clear 后 notificationIds 未清理会导致同 id 重新 add 静默失败
+    cy.get('#add').click();
+    cy.get('.sd-notification').should('have.length', 1).and('contain.text', '可复用 ID 通知');
+  });
+
+  it('keeps a user-set resetOnUpdate when the update config has no duration', () => {
+    cy.clock();
+    cy.mount({
+      template:
+        '<button id="add" @click="handleAdd">Add</button>' +
+        '<button id="update" @click="handleUpdate">Update</button>',
+      methods: {
+        handleAdd() {
+          Notification.info({ id: 'keep', content: '第一条', duration: 5000, resetOnUpdate: true });
+        },
+        handleUpdate() {
+          // 更新配置无 duration、无 resetOnUpdate：不应把用户设置的 true 覆盖为 false
+          Notification.info({ id: 'keep', content: '更新后' });
+        },
+      },
+    });
+    cy.get('#add').click();
+    cy.get('.sd-notification').should('contain.text', '第一条');
+    cy.tick(2000);
+    cy.get('#update').click();
+    cy.get('.sd-notification').should('contain.text', '更新后');
+    // t=6000ms：若 resetOnUpdate 被覆盖为 false，原 5000ms 计时器已关闭通知
+    cy.tick(4000);
+    cy.get('.sd-notification').should('have.length', 1);
+    // t=8000ms：重启后的 5000ms 计时器到期
+    cy.tick(2000);
+    cy.get('.sd-notification').should('have.length', 0);
+  });
+
+  it('updates list position class when the position prop changes', () => {
+    cy.mount(NotificationList, {
+      props: {
+        notifications: [{ id: 0, content: '位置通知', type: 'info' }],
+        position: 'topRight',
+      },
+    });
+    cy.get('.sd-notification-list').should('have.class', 'sd-notification-list-top-right');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ position: 'bottomLeft' })));
+    cy.get('.sd-notification-list').should('have.class', 'sd-notification-list-bottom-left');
+  });
 });

@@ -211,6 +211,21 @@ describe('Modal', () => {
     cy.get('.sd-modal').should('not.be.visible');
   });
 
+  it('closes when the mask element itself is clicked programmatically', () => {
+    cy.mount(ModalComponent, {
+      props: { defaultVisible: true, renderToBody: false, title: 'Title' },
+      slots: { default: '<div>Modal Body</div>' },
+    });
+    // 程序化 click()：无 mousedown 前置，遮罩自身为 click 目标时应可关闭
+    cy.get('.sd-modal-mask').then(($mask) => {
+      $mask[0].click();
+    });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('cancel')).to.have.length(1);
+    });
+    cy.get('.sd-modal').should('not.be.visible');
+  });
+
   it('does not close on mask click when mask-closable is false', () => {
     cy.mount(ModalComponent, {
       props: { defaultVisible: true, renderToBody: false, title: 'Title', maskClosable: false },
@@ -315,6 +330,33 @@ describe('Modal', () => {
     cy.get('.sd-modal').should('not.be.visible');
   });
 
+  it('onBeforeOk rejecting clears loading, blocks ok and keeps the modal open', () => {
+    // 延迟拒绝：立即 reject 的 promise 会在同一批微任务内完成 loading 设置与清除，
+    // Cypress 无法观察到 loading 中间态
+    cy.clock();
+    cy.mount(ModalComponent, {
+      props: {
+        defaultVisible: true,
+        renderToBody: false,
+        title: 'Title',
+        onBeforeOk: () =>
+          new Promise<boolean>((_resolve, reject) => {
+            setTimeout(() => reject(new Error('rejected')), 500);
+          }),
+      },
+      slots: { default: '<div>Modal Body</div>' },
+    });
+    cy.get('.sd-btn').eq(1).click({ force: true });
+    cy.get('.sd-btn').eq(1).should('have.class', 'sd-btn-loading');
+    cy.tick(600);
+    // 拒绝视同阻止关闭，loading 必须清除且 await 落定
+    cy.get('.sd-btn').eq(1).should('not.have.class', 'sd-btn-loading');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('ok')).to.equal(undefined);
+    });
+    cy.get('.sd-modal').should('be.visible');
+  });
+
   it('onBeforeCancel returning false blocks the cancel', () => {
     cy.mount(ModalComponent, {
       props: {
@@ -330,6 +372,23 @@ describe('Modal', () => {
       expect(wrapper.emitted('cancel')).to.equal(undefined);
     });
     cy.get('.sd-modal').should('be.visible');
+  });
+
+  it('onBeforeCancel returning void proceeds with the cancel', () => {
+    cy.mount(ModalComponent, {
+      props: {
+        defaultVisible: true,
+        renderToBody: false,
+        title: 'Title',
+        onBeforeCancel: () => undefined,
+      },
+      slots: { default: '<div>Modal Body</div>' },
+    });
+    cy.get('.sd-modal-close-btn').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('cancel')).to.have.length(1);
+    });
+    cy.get('.sd-modal').should('not.be.visible');
   });
 
   it('onBeforeCancel returning true allows the cancel', () => {
@@ -473,11 +532,16 @@ describe('Modal', () => {
     cy.get('.sd-modal-header').trigger('mousemove', { force: true, clientX: 560, clientY: 340 });
     // 拖拽行为以 moved class 为准（transform 数值受 alignCenter 定位路径影响，不直接断言）
     cy.get('.sd-modal-wrapper').should('have.class', 'sd-modal-wrapper-moved');
+    // 从标题栏发起的拖拽不应触发遮罩关闭
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('cancel')).to.equal(undefined);
+    });
   });
 
-  it('hides via the returned close handle without firing onOk/onCancel', () => {
+  it('hides via the returned close handle without firing onOk/onCancel, and fires onClose', () => {
     const onOk = cy.spy().as('handleOnOk');
     const onCancel = cy.spy().as('handleOnCancel');
+    const onClose = cy.spy().as('handleOnClose');
     let handle: ModalReturn | undefined;
     cy.mount(
       defineComponent({
@@ -486,7 +550,7 @@ describe('Modal', () => {
           return {
             handleClick: () => {
               handle = Modal.open(
-                { title: 'title', content: 'content', onOk, onCancel },
+                { title: 'title', content: 'content', onOk, onCancel, onClose },
                 instance!.appContext,
               );
             },
@@ -503,6 +567,48 @@ describe('Modal', () => {
     });
     cy.get('@handleOnOk').should('not.have.been.called');
     cy.get('@handleOnCancel').should('not.have.been.called');
+    cy.get('@handleOnClose').should('have.been.calledOnce');
+  });
+
+  it('fires onClose on the close-emit path (handle.close) but not when destroyAll unmounts an open modal', () => {
+    const onCloseA = cy.spy().as('onCloseA');
+    const onCloseB = cy.spy().as('onCloseB');
+    let handleA: ModalReturn | undefined;
+    cy.mount(
+      defineComponent({
+        setup() {
+          const instance = getCurrentInstance();
+          return {
+            handleOpen: () => {
+              handleA = Modal.open(
+                { title: 'One', content: 'content', okText: 'OK A', onClose: onCloseA },
+                instance!.appContext,
+              );
+              Modal.open(
+                { title: 'Two', content: 'content', onClose: onCloseB },
+                instance!.appContext,
+              );
+            },
+            handleCloseA: () => handleA!.close(),
+            handleDestroyAll: () => Modal.destroyAll(),
+          };
+        },
+        template:
+          '<button id="open" @click="handleOpen">Open</button>' +
+          '<button id="close-a" @click="handleCloseA">Close A</button>' +
+          '<button id="destroy" @click="handleDestroyAll">Destroy</button>',
+      }),
+    );
+    cy.get('#open').click();
+    cy.get('body .sd-modal').should('have.length', 2);
+    // 通过 close handle 关闭 A → 走组件 close emit → onClose 触发
+    cy.get('#close-a').click({ force: true });
+    cy.get('@onCloseA').should('have.been.calledOnce');
+    cy.get('@onCloseB').should('not.have.been.called');
+    // destroyAll 直接卸载仍打开的 B → 非用户关闭路径，onClose 不触发
+    cy.get('#destroy').click({ force: true });
+    cy.get('body .sd-modal').should('not.exist');
+    cy.get('@onCloseB').should('not.have.been.called');
   });
 
   it('updates config via the returned update handle', () => {

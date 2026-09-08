@@ -92,7 +92,9 @@ class MessageManger {
   destroy = () => {
     if (this.messages.value.length === 0 && this.container) {
       render(null, this.container);
-      document.body.removeChild(this.container);
+      if (this.container.parentNode) {
+        this.container.parentNode.removeChild(this.container);
+      }
       this.container = null;
       messageInstance[this.position] = undefined;
     }

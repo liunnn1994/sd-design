@@ -14,6 +14,8 @@ import NotificationList from './notification-list.vue';
 
 type _NotificationConfig = NotificationConfig & {
   type: MessageType;
+  /** resetOnUpdate 可由调用方显式传入以保留计时器重启意图（同 NotificationItem） */
+  resetOnUpdate?: boolean;
 };
 
 class NotificationManger {
@@ -66,8 +68,12 @@ class NotificationManger {
   update = (id: number | string, config: _NotificationConfig) => {
     for (let i = 0; i < this.notifications.value.length; i++) {
       if (this.notifications.value[i].id === id) {
-        const resetOnUpdate = !isUndefined(config.duration);
-        Object.assign(this.notifications.value[i], {
+        const item = this.notifications.value[i];
+        // 仅在本次更新配置与既有项都未显式设置 resetOnUpdate 时，才按 duration 推导默认值，
+        // 避免无 duration 的更新把用户显式设置的 resetOnUpdate 覆盖回 false
+        const resetOnUpdate =
+          config.resetOnUpdate ?? item.resetOnUpdate ?? !isUndefined(config.duration);
+        Object.assign(item, {
           ...config,
           id,
           resetOnUpdate,
@@ -98,6 +104,7 @@ class NotificationManger {
 
   clear = () => {
     this.notifications.value.splice(0);
+    this.notificationIds.clear();
   };
 
   destroy = () => {

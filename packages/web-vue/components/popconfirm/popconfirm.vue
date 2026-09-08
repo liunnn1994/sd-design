@@ -276,9 +276,9 @@
             try {
               // if onBeforeOk is Promise<void> ,set Defaults true
               result = (await result) ?? true;
-            } catch (error) {
+            } catch {
+              // rejected onBeforeOk blocks the ok path and must not hang the await
               result = false;
-              throw error;
             }
           }
           if (isBoolean(result)) {
@@ -301,14 +301,12 @@
   };
 
   const handleCancel = () => {
-    let result = true;
-    if (isFunction(props.onBeforeCancel)) {
-      result = props.onBeforeCancel() ?? false;
+    // 仅当 onBeforeCancel 显式返回 false 时阻止取消，返回 void/true 均继续关闭
+    if (isFunction(props.onBeforeCancel) && props.onBeforeCancel() === false) {
+      return;
     }
-    if (result) {
-      emit('cancel');
-      close();
-    }
+    emit('cancel');
+    close();
   };
 
   const contentCls = computed(() => [`${prefixCls}-popup-content`, props.contentClass]);

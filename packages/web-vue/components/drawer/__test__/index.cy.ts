@@ -12,7 +12,8 @@ describe('Drawer', () => {
       props: { title: 'Title', defaultVisible: true, renderToBody: false },
       slots: baseSlots,
     });
-    cy.get('.sd-drawer').should('exist');
+    // defaultVisible 非受控模式应直接渲染可见抽屉
+    cy.get('.sd-drawer').should('be.visible');
     cy.contains('Drawer Body').should('exist');
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.findComponent(Ellipsis).props('tooltip')).to.equal(true);
@@ -24,10 +25,12 @@ describe('Drawer', () => {
       props: { title: 'Title', defaultVisible: true, renderToBody: false },
       slots: baseSlots,
     });
-    cy.get('.sd-btn').eq(0).click({ force: true });
+    // defaultVisible 生效后按钮真实可见，取消按钮无需 force 点击
+    cy.get('.sd-btn').eq(0).click();
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('cancel')).to.have.length(1);
     });
+    // 取消后抽屉已隐藏（非卸载），ok 按钮不可见，需 force 点击
     cy.get('.sd-btn').eq(1).click({ force: true });
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('ok')).to.have.length(1);
@@ -116,20 +119,11 @@ describe('Drawer', () => {
   });
 
   it('moves focus into the drawer on open and releases it on ESC close', () => {
-    // drawer 的 `visible` 默认 false（非 modal 的 undefined），defaultVisible 无效，
-    // 故用受控 visible 起始 true 来让抽屉真正显示，v-model 处理 ESC 关闭。
-    const Outer = defineComponent({
-      components: { Drawer },
-      data: () => ({ visible: true }),
-      template: `
-        <drawer
-          v-model:visible="visible"
-          :render-to-body="false"
-          title="Title"
-        ><div>Drawer Body</div></drawer>
-      `,
+    // defaultVisible 非受控打开（回归：visible 默认 undefined 才能回退到 _visible）
+    cy.mount(Drawer, {
+      props: { title: 'Title', defaultVisible: true, renderToBody: false },
+      slots: baseSlots,
     });
-    cy.mount(Outer);
     // 打开后焦点进入抽屉（焦点陷阱激活）
     cy.wrap(null).should(() => {
       expect(document.activeElement?.closest('.sd-drawer')).to.not.equal(null);
@@ -275,6 +269,45 @@ describe('Drawer', () => {
     });
   });
 
+  it('rejected onBeforeOk clears loading, blocks ok and keeps the drawer open', () => {
+    // 延迟拒绝：立即 reject 的 promise 会在同一批微任务内完成 loading 设置与清除，
+    // Cypress 无法观察到 loading 中间态
+    cy.clock();
+    cy.mount(
+      defineComponent({
+        components: { Drawer },
+        data: () => ({ visible: true }),
+        methods: {
+          onBeforeOk: () =>
+            new Promise((_resolve, reject) => {
+              setTimeout(() => reject(new Error('rejected')), 500);
+            }),
+        },
+        template: `
+          <drawer
+            v-model:visible="visible"
+            :render-to-body="false"
+            title="Title"
+            :on-before-ok="onBeforeOk"
+            @ok="$emit('ok')"
+          >
+            <div>Drawer Body</div>
+          </drawer>
+        `,
+      }),
+    );
+    cy.get('.sd-btn').eq(1).click();
+    cy.get('.sd-btn').eq(1).should('have.class', 'sd-btn-loading');
+    cy.tick(600);
+    // 拒绝视同阻止关闭，loading 必须清除且 await 落定
+    cy.get('.sd-btn').eq(1).should('not.have.class', 'sd-btn-loading');
+    cy.get('.sd-drawer').should('be.visible');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('ok')).to.equal(undefined);
+      expect(wrapper.emitted('update:visible')).to.equal(undefined);
+    });
+  });
+
   it('blocks cancel when onBeforeCancel returns false', () => {
     cy.mount(
       defineComponent({
@@ -301,6 +334,38 @@ describe('Drawer', () => {
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('cancel')).to.equal(undefined);
       expect(wrapper.emitted('update:visible')).to.equal(undefined);
+    });
+  });
+
+  it('onBeforeCancel returning void proceeds with the cancel', () => {
+    cy.mount(
+      defineComponent({
+        components: { Drawer },
+        data: () => ({ visible: true }),
+        methods: {
+          onBeforeCancel: () => undefined,
+        },
+        template: `
+          <drawer
+            v-model:visible="visible"
+            :render-to-body="false"
+            title="Title"
+            :on-before-cancel="onBeforeCancel"
+            @cancel="$emit('cancel')"
+            @update:visible="$emit('update:visible', $event)"
+          >
+            <div>Drawer Body</div>
+          </drawer>
+        `,
+      }),
+    );
+    cy.get('.sd-drawer-close-btn').click();
+    cy.get('.sd-drawer').should('not.be.visible');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('cancel')).to.have.length(1);
+      const updates = wrapper.emitted('update:visible');
+      expect(updates).to.have.length(1);
+      expect(updates![0][0]).to.equal(false);
     });
   });
 

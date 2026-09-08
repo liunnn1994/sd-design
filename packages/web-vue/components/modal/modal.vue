@@ -15,6 +15,8 @@
             ref="maskRef"
             :class="`${prefixCls}-mask`"
             :style="mergedMaskStyle"
+            @mousedown="handleMaskMouseDown"
+            @click="handleMaskClick"
           />
         </transition>
         <div
@@ -525,6 +527,7 @@
   const slots = useSlots();
   const wrapperRef = ref<HTMLElement>();
   const modalRef = ref<HTMLElement>();
+  const maskRef = ref<HTMLElement>();
 
   const titleId = `sd-modal-title-${getCurrentInstance()!.uid}`;
   const bodyId = `sd-modal-body-${getCurrentInstance()!.uid}`;
@@ -680,9 +683,9 @@
             try {
               // if onBeforeOk is Promise<void> ,set Defaults true
               result = (await result) ?? true;
-            } catch (error) {
+            } catch {
+              // rejected onBeforeOk blocks the ok path and must not hang the await
               result = false;
-              throw error;
             }
           }
           if (isBoolean(result)) {
@@ -705,28 +708,32 @@
   };
 
   const handleCancel = (e: Event) => {
-    let result = true;
-    if (isFunction(props.onBeforeCancel)) {
-      result = props.onBeforeCancel() ?? false;
+    // 仅当 onBeforeCancel 显式返回 false 时阻止取消，返回 void/true 均继续关闭
+    if (isFunction(props.onBeforeCancel) && props.onBeforeCancel() === false) {
+      return;
     }
-    if (result) {
-      emit('cancel', e);
-      close();
-    }
+    emit('cancel', e);
+    close();
   };
 
   const currentIsMask = ref(false);
 
   const handleMaskMouseDown = (ev: Event) => {
-    if (ev.target === wrapperRef.value) {
+    if (ev.target === maskRef.value || ev.target === wrapperRef.value) {
       currentIsMask.value = true;
     }
   };
 
   const handleMaskClick = (e: Event) => {
-    if (mergedMask.value && mergedMaskClosable.value && currentIsMask.value) {
+    // 遮罩自身作为 click 目标（如程序化 click()）无需 mousedown 前置也可关闭；
+    // 其余情况要求 mousedown 同样发生在遮罩区域，避免拖拽标题栏结束时误关
+    if (e.target !== maskRef.value && !currentIsMask.value) {
+      return;
+    }
+    if (mergedMask.value && mergedMaskClosable.value) {
       handleCancel(e);
     }
+    currentIsMask.value = false;
   };
 
   const handleOpen = () => {

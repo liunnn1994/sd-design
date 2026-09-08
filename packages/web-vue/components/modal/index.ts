@@ -46,6 +46,19 @@ const removeModalDestroyFn = (destroyFn: () => void) => {
 const open = (config: ModalConfig, appContext?: AppContext) => {
   let container: HTMLElement | null = getOverlay('modal');
   let closed = false;
+  let onCloseFired = false;
+
+  // onClose 恰好触发一次：ok/cancel/esc/mask/handle.close 等用户关闭路径都会经过 closeModal，
+  // 在关闭发起时兜底触发；close emit（动画结束）路径的 handleClose 不会重复触发；
+  // destroyAll 等直接卸载路径不触发 onClose
+  const fireOnClose = () => {
+    if (!onCloseFired) {
+      onCloseFired = true;
+      if (isFunction(config.onClose)) {
+        config.onClose();
+      }
+    }
+  };
 
   const destroyModal = () => {
     if (closed) {
@@ -60,16 +73,13 @@ const open = (config: ModalConfig, appContext?: AppContext) => {
     }
     container = null;
     removeModalDestroyFn(destroyModal);
-
-    if (isFunction(config.onClose)) {
-      config.onClose();
-    }
   };
 
   const closeModal = () => {
     if (vm.component) {
       vm.component.props.visible = false;
     }
+    fireOnClose();
   };
 
   const handleOk = () => {
@@ -89,8 +99,10 @@ const open = (config: ModalConfig, appContext?: AppContext) => {
   };
 
   const handleClose = async () => {
+    // 组件 close emit（动画结束）路径：负责卸载并兜底触发 onClose
     await nextTick();
     destroyModal();
+    fireOnClose();
   };
 
   const handleReturnClose = () => {

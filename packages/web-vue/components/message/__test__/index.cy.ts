@@ -260,4 +260,21 @@ describe('Message', () => {
     cy.get('.sd-message-list-top .sd-message').should('have.length', 0);
     cy.get('.sd-message-list-bottom .sd-message').should('have.length', 1);
   });
+
+  it('does not throw when the container is removed externally before auto destroy', () => {
+    cy.clock();
+    cy.then(() => {
+      Message.info({ content: '外部移除容器', duration: 1000 });
+    });
+    cy.get('.sd-message').should('contain.text', '外部移除容器');
+    // 外部直接移除容器后，自动关闭触发的 destroy 不应因 removeChild 抛错
+    cy.document().then((doc) => {
+      const overlay = doc.querySelector('.sd-overlay-message');
+      if (overlay) {
+        overlay.remove();
+      }
+    });
+    cy.tick(2000);
+    cy.get('.sd-message').should('not.exist');
+  });
 });

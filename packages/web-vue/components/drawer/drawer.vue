@@ -130,7 +130,7 @@
      */
     visible: {
       type: Boolean,
-      default: false,
+      default: undefined,
     },
     /**
      * @zh 抽屉默认是否可见（非受控模式）
@@ -557,9 +557,9 @@
             try {
               // if onBeforeOk is Promise<void> ,set Defaults true
               result = (await result) ?? true;
-            } catch (error) {
+            } catch {
+              // rejected onBeforeOk blocks the ok path; the await must settle so loading clears
               result = false;
-              throw error;
             }
           }
           if (isBoolean(result)) {
@@ -582,14 +582,12 @@
   };
 
   const handleCancel = (e: Event) => {
-    let result = true;
-    if (isFunction(props.onBeforeCancel)) {
-      result = props.onBeforeCancel() ?? false;
+    // 仅当 onBeforeCancel 显式返回 false 时阻止取消，返回 void/true 均继续关闭
+    if (isFunction(props.onBeforeCancel) && props.onBeforeCancel() === false) {
+      return;
     }
-    if (result) {
-      emit('cancel', e);
-      close();
-    }
+    emit('cancel', e);
+    close();
   };
 
   const handleMask = (e: Event) => {

@@ -40,6 +40,7 @@
 
 <script setup lang="ts">
   import type { PropType } from 'vue';
+  import { computed } from 'vue';
 
   import type { NotificationItem, NotificationPosition } from './interface';
 
@@ -70,7 +71,7 @@
   }>();
 
   const prefixCls = getPrefixCls('notification-list');
-  const kebabPosition = toKebabCase(props.position);
-  const isRight = props.position.includes('Right');
+  const kebabPosition = computed(() => toKebabCase(props.position));
+  const isRight = computed(() => props.position.includes('Right'));
   const { zIndex } = usePopupManager('message', { runOnMounted: true });
 </script>
