@@ -244,7 +244,9 @@ describe('Popover', () => {
       },
       slots: { default: '<button>Trigger</button>' },
     });
-    cy.get('.sd-popover-content').should('have.class', 'sd-scrollbar-type-embed');
+    // content 类在 Scrollbar 内部容器上，embed 类型类在 Scrollbar 根元素上
+    cy.get('.sd-popover-content').should('have.class', 'sd-popover-content');
+    cy.get('.sd-popover-content').closest('.sd-scrollbar').should('have.class', 'sd-scrollbar-type-embed');
   });
 
   it('mounts the popup into the popupContainer element', () => {

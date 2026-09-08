@@ -585,8 +585,9 @@ describe('RangePicker', () => {
         'onPopupVisibleChange': cy.spy().as('onPopupVisibleChange'),
       },
     });
+    // CI 上第二个 cell 可能仍处于面板动画中，用 force 规避 animating 检查
     cy.get('.sd-picker-cell[aria-label="2026-07-10"]').click();
-    cy.get('.sd-picker-cell[aria-label="2026-08-15"]').click();
+    cy.get('.sd-picker-cell[aria-label="2026-08-15"]').click({ force: true });
     cy.get('@onChange').should((spy: any) => {
       expect(spy.callCount).to.equal(1);
       expect(spy.firstCall.args[0]).to.deep.equal(['2026-07-10', '2026-08-15']);

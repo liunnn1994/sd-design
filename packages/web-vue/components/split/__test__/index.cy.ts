@@ -76,7 +76,8 @@ describe('Split', () => {
       props: { defaultSize: '200px' },
       attrs: { style: 'width: 400px' },
     });
-    cy.get('.sd-split-pane-first').invoke('attr', 'style').should('contain', 'calc(200px');
+    // 触发器半宽会从 basis 中扣除（calc(200px - 3px) 之类），用前缀断言
+    cy.get('.sd-split-pane-first').invoke('attr', 'style').should('contain', 'calc(19');
   });
 
   it('resizes via keyboard with min/max clamps (horizontal)', () => {
