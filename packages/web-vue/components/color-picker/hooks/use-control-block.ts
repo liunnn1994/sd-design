@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { throttleByRaf } from '../../_utils/throttle-by-raf';
 
 interface ControlBlockParams {
-  value: [number, number];
+  value: () => [number, number];
   onChange: (value: [number, number]) => void;
 }
 
@@ -12,7 +12,6 @@ export const useControlBlock = ({ value, onChange }: ControlBlockParams) => {
   const blockRef = ref<HTMLDivElement>();
   const handlerRef = ref<HTMLDivElement>();
 
-  // 快速拖拽时按帧合并颜色更新，避免每次 mousemove 都触发完整的颜色重算与重渲染
   const throttledChange = throttleByRaf(onChange);
 
   const getPercentNumber = (value: number, max: number) => {
@@ -29,7 +28,8 @@ export const useControlBlock = ({ value, onChange }: ControlBlockParams) => {
       getPercentNumber(clientX - rect.x, rect.width),
       getPercentNumber(clientY - rect.y, rect.height),
     ];
-    if (newValue[0] !== value[0] || newValue[1] !== value[1]) {
+    // value 是 getter：读取最新值，避免 setup 期捕获造成陈旧闭包
+    if (newValue[0] !== value()[0] || newValue[1] !== value()[1]) {
       throttledChange(newValue);
     }
   };
@@ -41,16 +41,6 @@ export const useControlBlock = ({ value, onChange }: ControlBlockParams) => {
     window.removeEventListener('contextmenu', removeListener);
   };
 
-  const onMouseDown = (ev: MouseEvent) => {
-    // 阻止默认行为，避免快速拖拽时浏览器触发页面文字选中
-    ev.preventDefault();
-    active.value = true;
-    setCurrentPosition(ev);
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', removeListener);
-    window.addEventListener('contextmenu', removeListener);
-  };
-
   function onMouseMove(ev: MouseEvent) {
     ev.preventDefault();
     if (ev.buttons > 0) {
@@ -59,6 +49,15 @@ export const useControlBlock = ({ value, onChange }: ControlBlockParams) => {
       removeListener();
     }
   }
+
+  const onMouseDown = (ev: MouseEvent) => {
+    ev.preventDefault();
+    active.value = true;
+    setCurrentPosition(ev);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', removeListener);
+    window.addEventListener('contextmenu', removeListener);
+  };
 
   return {
     active,

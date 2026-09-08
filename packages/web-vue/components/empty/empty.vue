@@ -2,6 +2,7 @@
   <component
     :is="getCustomEmpty()"
     v-if="!inConfigProvider && getCustomEmpty() && !slots.image && !imgSrc && !description"
+    v-bind="$attrs"
     component="empty"
   />
   <div v-else :class="prefixCls" v-bind="$attrs">

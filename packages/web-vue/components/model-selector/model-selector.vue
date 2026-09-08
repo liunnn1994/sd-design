@@ -13,13 +13,30 @@
 
   const SHORTCUT_MODIFIER_KEYS = new Set(['alt', 'control', 'meta', 'shift']);
 
+  // 常见命名键别名（vueuse useMagicKeys 原生支持之外的常用写法）
+  const NAMED_KEY_ALIASES: Record<string, string> = {
+    cmd: 'meta',
+    command: 'meta',
+    ctrl: 'control',
+    option: 'alt',
+    esc: 'escape',
+    del: 'delete',
+    ins: 'insert',
+    return: 'enter',
+    spacebar: 'space',
+  };
+
+  // 仅按 “+” 切分：键名本身可能包含 “-”/“_”（如 “-”、“page_up”），
+  // 旧实现按 [+_-] 切分会把这类键名切碎而无法表达。
   function getShortcutKeys(shortcut: string) {
     return shortcut
       .toLocaleLowerCase()
-      .split(/[+_-]/g)
+      .split('+')
+      .map((part) => part.trim())
       .filter(Boolean)
       .map((key) => {
-        const normalizedKey = /^\d$/.test(key) ? `digit${key}` : key;
+        const namedKey = NAMED_KEY_ALIASES[key] ?? key;
+        const normalizedKey = /^\d$/.test(key) ? `digit${key}` : namedKey;
         return DefaultMagicKeysAliasMap[normalizedKey] ?? normalizedKey;
       });
   }

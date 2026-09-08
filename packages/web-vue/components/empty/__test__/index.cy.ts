@@ -100,6 +100,9 @@ describe('Empty', () => {
     cy.get('.sd-empty-image img').should('have.attr', 'alt', 'empty');
   });
 
+  // 已知限制：ConfigProvider 自定义 empty 分支把 $attrs 作为 props 传给插槽函数，
+  // 插槽模板未消费即丢弃——需 API 层面决策（包装元素或文档声明），暂不透传。
+  // 回归记录见 TEST-AUDIT-FINDINGS.md「empty」条目。
   it('inConfigProvider should render the default markup even when a custom empty slot is configured', () => {
     cy.mount(Empty, {
       props: {

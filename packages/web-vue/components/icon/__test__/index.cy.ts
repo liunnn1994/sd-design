@@ -47,6 +47,15 @@ describe('Icon', () => {
     cy.get('svg.sd-icon').should('have.css', 'transform', 'matrix(0, 1, -1, 0, 0, 0)');
   });
 
+  it('should emit --icon-rotate so the spin animation composes with the rotate prop', () => {
+    cy.mount(IconPlus, { props: { rotate: 90, spin: true } });
+    // spin 动画以 --icon-rotate 为基准合成（90deg + [0, 360deg)），
+    // 而不是把静态 rotate 覆盖回 0
+    cy.get('svg.sd-icon')
+      .should('have.attr', 'style')
+      .and('contain', '--icon-rotate: 90deg');
+  });
+
   it('should add the spin class when spin is true and not otherwise', () => {
     cy.mount(IconLoading, { props: { spin: true } });
     cy.get('svg.sd-icon').should('have.class', 'sd-icon-spin');

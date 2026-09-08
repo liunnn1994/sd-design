@@ -39,7 +39,7 @@
   const hsv = computed(() => props.color.hsv);
 
   const { blockRef, handlerRef, onMouseDown } = useControlBlock({
-    value: [hsv.value.s, 1 - hsv.value.v],
+    value: () => [hsv.value.s, 1 - hsv.value.v],
     onChange: (value) => props.onChange?.(value[0], 1 - value[1]),
   });
 

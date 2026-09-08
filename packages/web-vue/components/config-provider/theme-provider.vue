@@ -59,6 +59,14 @@
     }
   });
 
+  // 容器的 z-index 只在主题同步时写入一次；后开的 Modal/Drawer 会占据更高的弹层栈位
+  // 把容器盖住。监听 zIndex 变化，让容器样式跟随 usePopupManager 分配的值。
+  watch(zIndex, (value) => {
+    if (popupContainer.value) {
+      popupContainer.value.style.zIndex = String(value);
+    }
+  });
+
   let appliedThemeKeys = new Set<string>();
   let appliedPopupThemeKeys = new Set<string>();
   let activeTarget: HTMLElement | null = null;

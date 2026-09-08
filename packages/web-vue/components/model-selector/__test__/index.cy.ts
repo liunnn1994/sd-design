@@ -537,6 +537,32 @@ describe('ModelSelector', () => {
     cy.get('@onItemSelect').its('firstCall.args.1').should('be.instanceOf', MouseEvent);
   });
 
+  it('external v-model drives filtering through context.query', () => {
+    cy.mount(
+      defineComponent({
+        components: { ModelSelector, ModelSelectorContent, ModelSelectorInput, ModelSelectorList, ModelSelectorItem },
+        setup() {
+          const query = shallowRef('claude');
+          return { query };
+        },
+        template: `
+          <ModelSelector default-visible>
+            <ModelSelectorContent :render-to-body="false">
+              <ModelSelectorInput v-model="query" />
+              <ModelSelectorList>
+                <ModelSelectorItem value="gpt-4o">GPT-4o</ModelSelectorItem>
+                <ModelSelectorItem value="claude-4">Claude 4</ModelSelectorItem>
+              </ModelSelectorList>
+            </ModelSelectorContent>
+          </ModelSelector>
+        `,
+      }),
+    );
+
+    cy.contains('.sd-model-selector-item', 'Claude 4').should('be.visible');
+    cy.contains('.sd-model-selector-item', 'GPT-4o').should('not.be.visible');
+  });
+
   it('supports v-model on the search input and forwards custom input attributes', () => {
     cy.mount(
       defineComponent({
@@ -630,6 +656,80 @@ describe('ModelSelector', () => {
     cy.get('input[placeholder="搜索模型"]').type('千问');
     cy.contains('.sd-model-selector-item', '通义千问').should('be.visible');
     cy.contains('.sd-model-selector-item', 'GPT').should('not.be.visible');
+  });
+
+  it('re-reads the rendered label when slot text changes', () => {
+    cy.mount(
+      defineComponent({
+        components: { ModelSelector, ModelSelectorContent, ModelSelectorInput, ModelSelectorList, ModelSelectorItem },
+        data: () => ({ text: '通义千问' }),
+        template: `
+          <ModelSelector default-visible>
+            <ModelSelectorContent :render-to-body="false">
+              <ModelSelectorInput placeholder="搜索模型" />
+              <ModelSelectorList>
+                <ModelSelectorItem value="qwen">{{ text }}</ModelSelectorItem>
+                <ModelSelectorItem value="gpt">GPT</ModelSelectorItem>
+                </ModelSelectorList>
+            </ModelSelectorContent>
+          </ModelSelector>
+        `,
+      }),
+    );
+
+    cy.contains('.sd-model-selector-item', '通义千问').should('be.visible');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setData({ text: 'Qwen-Max' })));
+    // 渲染文本变化后过滤必须读取新文本：搜索旧文本不再命中，搜索新文本命中
+    cy.get('input[placeholder="搜索模型"]').type('Qwen');
+    cy.contains('.sd-model-selector-item', 'Qwen-Max').should('be.visible');
+    cy.contains('.sd-model-selector-item', 'GPT').should('not.be.visible');
+  });
+
+  it('matches shortcuts with dash/underscore key names and Ctrl alias', () => {
+    const onSelect = cy.spy().as('onSelect');
+    cy.mount(
+      defineComponent({
+        components: { ModelSelector, ModelSelectorContent, ModelSelectorList, ModelSelectorItem },
+        emits: ['select'],
+        template: `
+          <ModelSelector default-visible :close-on-select="false" @select="(value) => $emit('select', value)">
+            <ModelSelectorContent :render-to-body="false">
+              <ModelSelectorList>
+                <ModelSelectorItem value="minus" shortcut="Ctrl+-">Minus</ModelSelectorItem>
+                <ModelSelectorItem value="k" shortcut="Ctrl+K">K</ModelSelectorItem>
+              </ModelSelectorList>
+            </ModelSelectorContent>
+          </ModelSelector>
+        `,
+      }),
+      { props: { onSelect } },
+    );
+
+    cy.window().then((window) => {
+      window.dispatchEvent(
+        new window.KeyboardEvent('keydown', {
+          bubbles: true,
+          code: 'Minus',
+          key: '-',
+          ctrlKey: true,
+        }),
+      );
+    });
+    cy.get('@onSelect').should('have.been.calledOnce');
+    cy.get('@onSelect').its('firstCall.args.0').should('equal', 'minus');
+
+    cy.window().then((window) => {
+      window.dispatchEvent(
+        new window.KeyboardEvent('keydown', {
+          bubbles: true,
+          code: 'KeyK',
+          key: 'k',
+          ctrlKey: true,
+        }),
+      );
+    });
+    cy.get('@onSelect').should('have.been.calledTwice');
+    cy.get('@onSelect').its('secondCall.args.0').should('equal', 'k');
   });
 
   it('renders ModelSelectorDialog with its own props and forwards events', () => {

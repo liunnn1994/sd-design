@@ -147,6 +147,65 @@ describe('FilePreviewer', () => {
     cy.get('.pdf-has-doc').should('have.text', 'yes');
   });
 
+  it('routes the error message through the locale system', () => {
+    cy.mount(FilePreviewer, {
+      props: {
+        src: '/no-such-file.pdf',
+        type: 'pdf',
+        defaultVisible: true,
+        renderToBody: false,
+      },
+    });
+    cy.get('.sd-file-previewer-error')
+      .should('be.visible')
+      .and('have.text', '文件预览加载失败');
+  });
+
+  it('emits close once for repeated inline close() calls', () => {
+    cy.mount(FilePreviewer, {
+      props: {
+        src: videoSrc,
+        type: 'video',
+        defaultVisible: true,
+        fullscreen: false,
+        renderToBody: false,
+        mediaProps: { skin: false },
+      },
+      slots: {
+        content: `
+          <template #content="slotProps">
+            <button class="inline-close" @click="slotProps.close()">close</button>
+          </template>
+        `,
+      },
+    });
+    cy.get('.inline-close').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('close')).to.have.length(1);
+      expect(wrapper.emitted('visible-change')![0]).to.deep.equal([false]);
+    });
+    cy.get('.inline-close').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('close')).to.have.length(1);
+    });
+  });
+
+  it('exposes one canonical name per exposed function', () => {
+    cy.mount(FilePreviewer, {
+      props: { src: videoSrc, type: 'video', renderToBody: false, mediaProps: { skin: false } },
+    });
+    cy.get('@vue').should(({ wrapper }) => {
+      // 直接检查 defineExpose 的暴露对象：dev 模式下 wrapper.vm 代理会泄漏全部
+      // setup 内部绑定，不能用于断言“是否暴露”
+      const exposed = (wrapper.vm.$ as unknown as { exposed?: Record<string, unknown> }).exposed;
+      expect(typeof exposed?.onLoad).to.equal('function');
+      expect(typeof exposed?.onError).to.equal('function');
+      expect(exposed?.onImageLoad).to.equal(undefined);
+      expect(exposed?.onPdfLoad).to.equal(undefined);
+      expect(exposed?.onLoadError).to.equal(undefined);
+    });
+  });
+
   it('renders an inline preview when fullscreen is false', () => {
     cy.mount(FilePreviewer, {
       props: { src: imageSrc, fullscreen: false, visible: false },

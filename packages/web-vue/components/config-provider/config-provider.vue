@@ -303,6 +303,7 @@
     timelineSpinProps,
     toolbarSpinProps,
     treeSelectSpinProps,
+    jsonForm,
   } = toRefs(props);
 
   const config = reactive({
@@ -334,7 +335,7 @@
     timelineSpinProps,
     toolbarSpinProps,
     treeSelectSpinProps,
-    jsonForm: toRefs(props).jsonForm,
+    jsonForm,
     theme: normalizeTheme(props.theme),
   });
 
@@ -349,12 +350,22 @@
     },
   );
 
-  if (props.global) {
-    const instance = getCurrentInstance();
-    if (instance) {
-      instance.appContext.app.provide(configProviderInjectionKey, config);
-    }
-  } else {
-    provide(configProviderInjectionKey, config);
-  }
+  // 子树内永远提供本组件的 config（与 global=true 时 app 级 provide 的值是同一对象，语义不变）。
+  // global=true 时额外注册到 app 级 provide，让子树外的组件也能注入。
+  provide(configProviderInjectionKey, config);
+
+  const instance = getCurrentInstance();
+  watch(
+    () => props.global,
+    (global) => {
+      if (global && instance) {
+        instance.appContext.app.provide(configProviderInjectionKey, config);
+      }
+    },
+    { immediate: true },
+  );
+  // 注意：Vue 的 provide 一旦注册无法撤销。global 在运行时从 true 切回 false 时，
+  // app 级注入无法收回（子树外组件继续拿到 config）；子树内的生效范围由组件级
+  // provide 决定，不受影响。app.provide 仅对之后创建的组件生效，已挂载的子树外
+  // 组件不会重新注入——这是 Vue 提供体系的固有限制。
 </script>

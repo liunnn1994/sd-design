@@ -83,6 +83,45 @@ describe('theme-provider standalone', () => {
     cy.then(() => expect(clickCount).to.equal(1));
   });
 
+  it('applies and withdraws body theme effects when global flips at runtime', () => {
+    cy.mount(ThemeProvider, {
+      props: { themeMode: 'dark' },
+      slots: { default: () => h('div', 'local-content') },
+    });
+    cy.get('.sd-theme-provider').should('have.attr', 'sd-theme', 'dark');
+    cy.get('body').should('not.have.attr', 'sd-theme');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ global: true })));
+    cy.get('body').should('have.attr', 'sd-theme', 'dark');
+    cy.get('.sd-theme-provider').should('not.exist');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ global: false })));
+    cy.get('body').should('not.have.attr', 'sd-theme');
+  });
+
+  it('restores the previous body theme per provider with simultaneous global providers', () => {
+    cy.mount(
+      defineComponent({
+        components: { ThemeProvider },
+        data: () => ({ showSecond: false }),
+        template: `
+          <div>
+            <ThemeProvider global theme-mode="dark">
+              <div class="first-provider">first</div>
+            </ThemeProvider>
+            <ThemeProvider v-if="showSecond" global theme-mode="light">
+              <div class="second-provider">second</div>
+            </ThemeProvider>
+          </div>
+        `,
+      }),
+    );
+
+    cy.get('body').should('have.attr', 'sd-theme', 'dark');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setData({ showSecond: true })));
+    cy.get('body').should('have.attr', 'sd-theme', 'light');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setData({ showSecond: false })));
+    cy.get('body').should('have.attr', 'sd-theme', 'dark');
+  });
+
   it('keeps the theme popup container above the modal when the popup opens later', () => {
     const visible = shallowRef(false);
     cy.mount(

@@ -436,6 +436,26 @@ describe('config-provider config propagation', () => {
     cy.get('.sd-spin-icon').should('exist');
   });
 
+  it('moves theme effects to body when global flips at runtime', () => {
+    const global = ref(false);
+    cy.mount(
+      defineComponent({
+        render() {
+          return h(ConfigProvider, { themeMode: 'dark', global: global.value }, {
+            default: () => h('div', 'content'),
+          });
+        },
+      }),
+    );
+    cy.get('.sd-theme-provider').should('have.attr', 'sd-theme', 'dark');
+    cy.get('body').should('not.have.attr', 'sd-theme');
+    cy.then(() => {
+      global.value = true;
+    });
+    cy.get('body').should('have.attr', 'sd-theme', 'dark');
+    cy.get('.sd-theme-provider').should('not.exist');
+  });
+
   it('global provider makes config available outside the slot subtree', () => {
     cy.mount(
       defineComponent({

@@ -46,6 +46,7 @@
                 'aria-haspopup': 'dialog',
                 'aria-expanded': popupVisible,
               }"
+              @input="handleTriggerInput"
               @change="handleTriggerInputChange"
               @clear="handleClear"
             >
@@ -61,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, inject, ref, toRef } from 'vue';
+  import { computed, inject, ref, toRef, watch } from 'vue';
   import type { PropType } from 'vue';
 
   import { createReusableTemplate } from '@vueuse/core';
@@ -195,7 +196,14 @@
     return configProvider?.colorPicker?.swatchColors ?? [];
   });
   const colorState = computed(() => parseColorState(mergedValue.value, props.colorModes));
+  // 触发器输入框的“草稿值”：Input 的 keepControl 会把 DOM 回写为受控值 triggerInputValue，
+  // 如果不在每次击键时同步更新受控值，打字会被下一次 keepControl 覆盖（表现为打字不可用）。
+  // 输入事件里把草稿值并入受控值，下一次 keepControl 回写的就是用户敲入的文本。
+  const inputDraft = ref<string | null>(null);
   const triggerInputValue = computed(() => {
+    if (inputDraft.value !== null) {
+      return inputDraft.value;
+    }
     if (!mergedValue.value) return '';
     return formatColorState(colorState.value, normalizedFormat.value, mergedEnableAlpha.value);
   });
@@ -230,6 +238,7 @@
   };
 
   const handleClear = (event: MouseEvent) => {
+    inputDraft.value = null;
     syncValue('');
     emit('clear', { e: event });
     emit('change', '', {
@@ -238,9 +247,11 @@
     });
   };
 
+  // 只处理提交（blur/Enter）时的 change；空字符串的清除只走 @clear 一个通道，
+  // 否则 Input 的 change('') + clear 会各触发一次 handleClear，clear/change 双份 emit。
   const handleTriggerInputChange = (value: string) => {
+    inputDraft.value = null;
     if (!value) {
-      handleClear(new MouseEvent('click'));
       return;
     }
     const nextState = parseColorState(value, props.colorModes);
@@ -249,6 +260,17 @@
       'input',
     );
   };
+
+  // keepControl 每次击键都会把受控值回写进 DOM——把敲入文本并入受控值（草稿），
+  // 这样下一次 keepControl 回写的就是用户敲入的文本，打字才不会被覆盖。
+  const handleTriggerInput = (value: string) => {
+    inputDraft.value = value;
+  };
+
+  // 外部值变化（含自身提交后的回写）时丢弃草稿，展示格式化后的颜色文本
+  watch(mergedValue, () => {
+    inputDraft.value = null;
+  });
 
   const onPopupVisibleChange = (visible: boolean) => {
     popupVisible.value = visible;

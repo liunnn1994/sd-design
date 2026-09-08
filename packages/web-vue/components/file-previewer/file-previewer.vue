@@ -145,7 +145,9 @@
       >
         <IconLoading />
       </div>
-      <div v-if="isError" :class="`${prefixCls}-error`" role="alert">文件预览加载失败</div>
+      <div v-if="isError" :class="`${prefixCls}-error`" role="alert">
+        {{ t('filePreview.loadFailed') }}
+      </div>
     </div>
   </teleport>
 </template>
@@ -581,7 +583,9 @@
   }
 
   function close() {
-    if (fullscreen.value && !mergedVisible.value) return;
+    // 与 fullscreen 相同的守卫：已经不可见时不再重复 emit close（inline 模式下 close
+    // 只通过 slot/defineExpose 触发，无守卫时重复调用会多次 emit）
+    if (!mergedVisible.value) return;
     emit('close');
     setVisible(false);
   }
@@ -693,8 +697,5 @@
     close,
     onLoad: onPreviewLoad,
     onError: onLoadError,
-    onImageLoad: onPreviewLoad,
-    onPdfLoad: onPreviewLoad,
-    onLoadError,
   });
 </script>

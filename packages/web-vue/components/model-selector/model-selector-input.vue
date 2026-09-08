@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue';
+  import { computed, watch } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
   import IconSearch from '../icon/icon-search';
@@ -59,6 +59,15 @@
     context.query.value = value;
     emit('update:modelValue', value);
   }
+
+  // 外部 v-model 也必须驱动 context.query，让过滤与受控值保持一致
+  watch(
+    () => props.modelValue,
+    (value) => {
+      context.query.value = value ?? '';
+    },
+    { immediate: true },
+  );
 
   function handleKeydown(event: KeyboardEvent) {
     if (event.key === 'ArrowDown') {

@@ -67,7 +67,7 @@
   const [DefineHandler, ReuseHandler] = createReusableTemplate();
 
   const { blockRef, handlerRef, onMouseDown } = useControlBlock({
-    value: [props.x, 0],
+    value: () => [props.x, 0],
     onChange: (pos) => props.onChange?.(pos[0]),
   });
 </script>

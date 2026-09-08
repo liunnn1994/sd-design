@@ -29,6 +29,7 @@
     inject,
     onBeforeUnmount,
     onMounted,
+    shallowRef,
     useTemplateRef,
     watch,
   } from 'vue';
@@ -98,9 +99,38 @@
   const id = Symbol(`model-selector-item-${uid}`);
   const domId = `${context.listId}-item-${uid}`;
   const itemRef = useTemplateRef<HTMLElement>('item');
-  const renderedLabel = computed(
-    () => props.label || itemRef.value?.textContent?.trim() || props.value,
-  );
+  // label 未通过 prop 提供时读取渲染文本；slot 文本是纯 DOM 变更（不经 Vue 响应式），
+  // 用 MutationObserver 触发重算，保证过滤始终拿到最新的渲染文本。
+  const domTextVersion = shallowRef(0);
+  let labelObserver: MutationObserver | undefined;
+
+  const renderedLabel = computed(() => {
+    void domTextVersion.value;
+    return props.label || itemRef.value?.textContent?.trim() || props.value;
+  });
+
+  function updateRenderedLabel() {
+    const nextLabel = props.label || itemRef.value?.textContent?.trim() || props.value;
+    if (nextLabel !== renderedLabel.value) {
+      domTextVersion.value += 1;
+    }
+  }
+  onMounted(() => {
+    if (itemRef.value && typeof MutationObserver === 'function') {
+      labelObserver = new MutationObserver(updateRenderedLabel);
+      labelObserver.observe(itemRef.value, {
+        childList: true,
+        characterData: true,
+        subtree: true,
+      });
+    }
+  });
+
+  onBeforeUnmount(() => {
+    labelObserver?.disconnect();
+    labelObserver = undefined;
+  });
+
   const isActive = computed(() => context.activeId.value === id);
   const isVisible = computed(() => {
     void context.itemsVersion.value;
@@ -139,4 +169,9 @@
     () => context.updateItem(getItemData()),
     { deep: true },
   );
+
+  // 渲染文本变化（MutationObserver 触发重算）后同步注册表，保证过滤数据最新
+  watch(renderedLabel, () => {
+    context.updateItem(getItemData());
+  });
 </script>

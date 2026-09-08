@@ -2,6 +2,7 @@ import { defineComponent, h } from 'vue';
 
 import ConfigProvider from '../../config-provider';
 import ColorPicker from '../index';
+import Palette from '../palette.vue';
 
 const gradientValue = 'linear-gradient(45deg, rgba(79, 172, 254, 1) 0%, rgba(0, 242, 254, 1) 100%)';
 const threeStopGradient =
@@ -238,11 +239,12 @@ describe('ColorPicker', () => {
     cy.mount(ColorPicker, { props: { clearable: true, defaultValue: '#165DFF' } });
     cy.get('.sd-input-clear-btn').click({ force: true });
     cy.get('@vue').should(({ wrapper }) => {
-      // Suspected bug: the clear is handled twice (Input change '' -> handleTriggerInputChange
-      // -> handleClear, plus Input clear -> handleClear), so 'clear'/'change' emit twice.
-      expect(wrapper.emitted('clear')?.length).to.equal(2);
+      // clear 只走 Input @clear 一个通道（change('') 不再触发 clear），
+      // 因此 clear/update:modelValue/change 各只 emit 一次
+      expect(wrapper.emitted('clear')?.length).to.equal(1);
       expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).to.equal('');
       const change = wrapper.emitted('change') as Array<[string, { trigger: string }]> | undefined;
+      expect(change?.length).to.equal(1);
       expect(change?.at(-1)?.[0]).to.equal('');
       expect(change?.at(-1)?.[1]?.trigger).to.equal('clear');
     });
@@ -251,6 +253,49 @@ describe('ColorPicker', () => {
   it('displays the trigger input value in the configured format', () => {
     cy.mount(ColorPicker, { props: { format: 'HEX', defaultValue: '#165DFF' } });
     cy.get('.sd-color-picker-trigger-input input').should('have.value', '#165DFF');
+  });
+
+  it('allows typing in the trigger input', () => {
+    cy.mount(ColorPicker, { props: { format: 'HEX', defaultValue: '#165DFF' } });
+    cy.get('.sd-color-picker-trigger-input input')
+      .clear()
+      .type('#00B42A')
+      .should('have.value', '#00B42A');
+    cy.get('.sd-color-picker-trigger-input input').type('{enter}');
+    cy.get('@vue').should(({ wrapper }) => {
+      const change = wrapper.emitted('change') as Array<[string, { trigger: string }]> | undefined;
+      expect(change?.at(-1)?.[0]).to.equal('#00B42A');
+      expect(change?.at(-1)?.[1]?.trigger).to.equal('input');
+    });
+  });
+
+  it('reads the latest color value during palette drags (stale closure regression)', () => {
+    cy.mount(Palette, {
+      props: {
+        color: { hsv: { h: 0, s: 1, v: 1, a: 1 } },
+        onChange: cy.spy().as('onChange'),
+      },
+      attrs: { style: 'width: 200px; height: 200px;' },
+    });
+    // value getter 初始化捕获 [1, 0]（s=1, v=1）。把颜色切换为白色（s=0）后，
+    // 拖到右下角应产生 [1, 0] 的更新并发射 change；陈旧闭包会因 newValue 等于
+    // 捕获值而吞掉这次更新。
+    cy.get('@vue').then(({ wrapper }) =>
+      cy.wrap(wrapper.setProps({ color: { hsv: { h: 0, s: 0, v: 1, a: 1 } } })),
+    );
+    // 拖到右上角：hook 内部坐标为 [1, 0]——恰好等于初始捕获值 [s=1, v=1 的 1-v=0]，
+    // 陈旧闭包会因 newValue 等于捕获值而吞掉这次更新；getter 修复后 [1, 0] 与当前
+    // 白色 [0, 0] 不同，正常发射。Palette 的 onChange 输出 (s, 1-v) = (1, 1)。
+    cy.get('.sd-color-picker-palette')
+      .then(($palette) => {
+        const rect = $palette[0].getBoundingClientRect();
+        cy.wrap($palette).trigger('mousedown', rect.width, 0, { force: true });
+      })
+      .then(() => {
+        cy.window().then((win) => win.dispatchEvent(new MouseEvent('mouseup')));
+      });
+    cy.get('@onChange').should('have.been.calledOnce');
+    cy.get('@onChange').should('have.been.calledWith', 1, 1);
   });
 
   it('renders the default slot as the trigger element', () => {
