@@ -542,6 +542,8 @@ describe('RichTextEditor', () => {
             },
           ],
           placeholder: '选择技术栈',
+          // tree-select defaultExpandAll 现默认 false（对齐上游），此处显式展开子节点
+          treeProps: { defaultExpandAll: true },
         },
         textValue: '技术栈',
       });
