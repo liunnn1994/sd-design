@@ -166,10 +166,83 @@ describe('InputNumber', () => {
   it('discards non-numeric typed text and emits no input events', () => {
     cy.mount(InputNumber);
     cy.get('input').type('abc').blur();
+    cy.get('input').should('have.value', '');
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('input')).to.equal(undefined);
       expect(wrapper.emitted('update:modelValue')).to.equal(undefined);
       expect(wrapper.emitted('change')).to.equal(undefined);
+    });
+  });
+
+  it('restores the previous value when non-numeric text is typed into a filled input', () => {
+    cy.mount(InputNumber, { props: { modelValue: 12 } });
+    cy.get('input').should('have.value', '12');
+    cy.get('input').type('x');
+    cy.get('input').should('have.value', '12');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('update:modelValue')).to.equal(undefined);
+    });
+  });
+
+  it('rejects Infinity typed or pasted into the input', () => {
+    cy.mount(InputNumber);
+    cy.get('input').then(($input) => {
+      const el = $input[0] as HTMLInputElement;
+      el.value = 'Infinity';
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    cy.get('input').should('have.value', '');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('input')).to.equal(undefined);
+      expect(wrapper.emitted('update:modelValue')).to.equal(undefined);
+    });
+  });
+
+  it('treats an Infinity model value as empty', () => {
+    cy.mount(InputNumber, { props: { modelValue: Number.POSITIVE_INFINITY } });
+    cy.get('input').should('have.value', '');
+  });
+
+  it('stringMode emits string values and preserves high-precision decimals', () => {
+    cy.mount(InputNumber, { props: { stringMode: true } });
+    cy.get('input').type('9007199254740993').blur();
+    cy.get('input').should('have.value', '9007199254740993');
+    cy.get('@vue').should(({ wrapper }) => {
+      const emitted = wrapper.emitted('update:modelValue');
+      const last = emitted?.[emitted.length - 1]?.[0];
+      expect(last).to.equal('9007199254740993');
+      const change = wrapper.emitted('change');
+      const lastChange = change?.[change.length - 1]?.[0];
+      expect(lastChange).to.equal('9007199254740993');
+    });
+  });
+
+  it('stringMode preserves trailing decimals exactly', () => {
+    cy.mount(InputNumber, { props: { stringMode: true } });
+    cy.get('input').type('5.10').blur();
+    cy.get('input').should('have.value', '5.10');
+    cy.get('@vue').should(({ wrapper }) => {
+      const emitted = wrapper.emitted('update:modelValue');
+      const last = emitted?.[emitted.length - 1]?.[0];
+      expect(last).to.equal('5.10');
+    });
+  });
+
+  it('stringMode emits string values for step and clear', () => {
+    cy.mount(InputNumber, { props: { stringMode: true, allowClear: true } });
+    cy.get('button').first().trigger('mousedown').trigger('mouseup');
+    cy.get('button').first().trigger('mousedown').trigger('mouseup');
+    cy.get('input').should('have.value', '1');
+    cy.get('@vue').should(({ wrapper }) => {
+      const emitted = wrapper.emitted('update:modelValue');
+      const last = emitted?.[emitted.length - 1]?.[0];
+      expect(last).to.equal('1');
+    });
+    cy.get('input').clear().blur();
+    cy.get('@vue').should(({ wrapper }) => {
+      const emitted = wrapper.emitted('update:modelValue');
+      const last = emitted?.[emitted.length - 1]?.[0];
+      expect(last).to.equal('');
     });
   });
 

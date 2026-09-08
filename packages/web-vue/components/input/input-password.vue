@@ -43,8 +43,8 @@
 
   const props = defineProps({
     /**
-     * @zh 是否可见，受控属性
-     * @en Whether is visible
+     * @zh 是否为掩码（隐藏）状态，受控属性。true 表示输入框显示为密码掩码态（type=password，显示 eye-invisible 图标）
+     * @en Whether the input is in the masked (hidden) state. `true` renders the input masked (type=password, shows the eye-invisible icon)
      * @vModel
      */
     visibility: {
@@ -52,8 +52,8 @@
       default: undefined,
     },
     /**
-     * @zh 默认是否可见，非受控
-     * @en Default visibility
+     * @zh 默认是否为掩码状态，非受控
+     * @en Whether the input is masked by default
      */
     defaultVisibility: {
       type: Boolean,
@@ -87,8 +87,8 @@
 
   const emit = defineEmits<{
     /**
-     * @zh visibility 改变时触发
-     * @en Callback when visibility changes
+     * @zh visibility 改变时触发，载荷与 visibility 语义一致（true 表示掩码态）
+     * @en Callback when visibility changes; the payload follows the visibility semantics (true means masked)
      * @param {boolean} visible
      */
     'visibility-change': [_visible: boolean];
@@ -98,6 +98,9 @@
   const { visibility, defaultVisibility } = toRefs(props);
   const inputRef = ref();
 
+  // NOTE: `visibility`/`mergedVisible` follow arco's inherited inverted naming:
+  // true = masked (type="password"), false = plaintext. This is documented in
+  // the prop JSDoc; the tests in input/__test__/index.cy.ts pin this behavior.
   const handleInvisible = () => {
     setVisible(!mergedVisible.value);
   };

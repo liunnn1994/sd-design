@@ -189,4 +189,50 @@ describe('VerificationCode', () => {
     cy.get('input').eq(0).should('have.value', 'c');
     cy.get('input').eq(1).should('have.value', 'd');
   });
+
+  it('does not persist typed characters when the parent ignores update:modelValue (controlled)', () => {
+    cy.mount(VerificationCode, { props: { modelValue: 'ab' } });
+    cy.get('input').eq(0).type('9');
+    // 受控：prop 未被写回时输入不留存，格子还原为 props 值
+    cy.get('input').eq(0).should('have.value', 'a');
+    cy.get('input').eq(1).should('have.value', 'b');
+    cy.get('@vue').should(({ wrapper }) => {
+      const emissions = wrapper.emitted('update:modelValue') ?? [];
+      expect(emissions).to.have.length(1);
+      const first = emissions[0] ?? [];
+      expect(first[0]).to.equal('9b');
+    });
+  });
+
+  it('takes the last non-space character when a cell value arrives padded (trim fix)', () => {
+    cy.mount(VerificationCode, { props: { length: 4 } });
+    cy.get('input')
+      .eq(0)
+      .then(($el) => {
+        const input = $el[0] as HTMLInputElement;
+        input.value = ' 1';
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+      });
+    // 旧实现 value.trim().charAt(value.length-1) 取到空串，格子被清空；应取 '1'
+    cy.get('input').eq(0).should('have.value', '1');
+    cy.get('@vue').should(({ wrapper }) => {
+      const changes = wrapper.emitted('change') ?? [];
+      const last = changes[changes.length - 1] ?? [];
+      expect(last[0]).to.equal('1');
+    });
+  });
+
+  it('exposes focus()/blur() targeting the first empty cell and the active cell', () => {
+    cy.mount(VerificationCode, { props: { defaultValue: 'ab', length: 4 } });
+    cy.get('@vue').then(({ wrapper }) => {
+      (wrapper.vm as { focus: () => void }).focus();
+      cy.get('input')
+        .eq(2)
+        .should('be.focused')
+        .then(() => {
+          (wrapper.vm as { blur: () => void }).blur();
+        });
+      cy.get('input').eq(2).should('not.be.focused');
+    });
+  });
 });

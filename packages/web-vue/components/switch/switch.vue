@@ -294,6 +294,8 @@
         if (result ?? true) {
           handleChange(checked, ev);
         }
+      } catch {
+        // 拒绝视为“阻止切换”（与 drawer 的 onBeforeOk 语义一致）：不翻转状态。
       } finally {
         beforeChangeLoading.value = false;
       }

@@ -94,7 +94,8 @@ describe('Rate', () => {
 
   it('allowClear clears to 0 when clicking the current value', () => {
     const handleChange = cy.spy().as('handleChange');
-    cy.mount(Rate, { props: { modelValue: 3, allowClear: true, onChange: handleChange } });
+    // 非受控（defaultValue）：受控 modelValue 不回写时 UI 正确地保持不变
+    cy.mount(Rate, { props: { defaultValue: 3, allowClear: true, onChange: handleChange } });
     cy.get('.sd-rate-character-full').should('have.length', 3);
     cy.get('.sd-rate-character-right').eq(2).click({ force: true });
     cy.get('@handleChange').should('have.been.calledWith', 0);
@@ -154,13 +155,17 @@ describe('Rate', () => {
     // 已到最大值：ArrowRight 不再触发
     cy.get('.sd-rate').trigger('keydown', { key: 'ArrowRight' });
     cy.get('.sd-rate').trigger('keydown', { key: 'ArrowDown' });
+    cy.get('@vue').should(({ wrapper }) => {
+      const change = wrapper.emitted('change');
+      expect(change).to.have.length(2);
+      expect(change?.[1]).to.deep.equal([4]);
+    });
+    // ArrowUp 回到最大值 5
     cy.get('.sd-rate').trigger('keydown', { key: 'ArrowUp' });
     cy.get('@vue').should(({ wrapper }) => {
       const change = wrapper.emitted('change');
-      expect(change).to.have.length(4);
-      expect(change?.[1]).to.deep.equal([4]);
-      expect(change?.[2]).to.deep.equal([3]);
-      expect(change?.[3]).to.deep.equal([4]);
+      expect(change).to.have.length(3);
+      expect(change?.[2]).to.deep.equal([5]);
     });
   });
 
@@ -194,6 +199,22 @@ describe('Rate', () => {
       .eq(2)
       .should('have.css', 'color')
       .and('not.equal', 'rgb(255, 0, 0)');
+  });
+
+  it('color object maps per-index colors by threshold instead of the last-filled color', () => {
+    // 回归：此前所有已填充字符都用 parsedDisplayIndex（最后一档）的颜色，
+    // color={1:'green',3:'red'} 时 1–3 全红；现在第 1 颗星用阈值 1 的绿色。
+    cy.mount(Rate, {
+      props: { modelValue: 3, color: { 1: 'rgb(0, 128, 0)', 3: 'rgb(255, 0, 0)' } },
+    });
+    cy.get('.sd-rate-character-right')
+      .eq(0)
+      .should('have.css', 'color')
+      .and('equal', 'rgb(0, 128, 0)');
+    cy.get('.sd-rate-character-right')
+      .eq(2)
+      .should('have.css', 'color')
+      .and('equal', 'rgb(255, 0, 0)');
   });
 
   it('exposes radio semantics on characters (aria-checked/posinset/setsize)', () => {

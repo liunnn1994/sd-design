@@ -263,13 +263,14 @@
   };
 
   const getCharacterColor = (index: number, isHalf: boolean) => {
-    const parsedDisplayIndex = Math.ceil(displayIndex.value) - 1;
+    // 按每个字符自身的 index 取 customColor（per-index 阈值色表），
+    // 而非 parsedDisplayIndex（会让所有已填充字符都染上最后一档的颜色）。
     if (
       customColor.value &&
       ((isHalf && props.allowHalf && index + 0.5 === displayIndex.value) ||
         (!isHalf && index + 1 <= displayIndex.value))
     ) {
-      return { color: customColor.value[parsedDisplayIndex] };
+      return { color: customColor.value[index] };
     }
     return undefined;
   };

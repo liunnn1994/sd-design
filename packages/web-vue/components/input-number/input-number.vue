@@ -143,6 +143,10 @@
 
   const FIRST_DELAY = 800;
   const SPEED = 150;
+  // Plain decimal (no exponent). stringMode validates the raw digit string in
+  // this shape instead of round-tripping through Number, which loses precision
+  // beyond Number.MAX_SAFE_INTEGER.
+  const DECIMAL_PATTERN = /^[-+]?(\d+(\.\d*)?|\.\d+)$/;
   NP.enableBoundaryChecking(false);
 
   defineOptions({ name: 'InputNumber' });
@@ -190,6 +194,14 @@
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 开启高精度小数支持，update:modelValue 返回 string 类型；内部不再把值转换为 Number，避免超过 2^53 丢失精度
+     * @en Enables high-precision decimal support; update:modelValue emits string values. The accepted digit string is kept verbatim instead of being converted to Number, avoiding precision loss beyond Number.MAX_SAFE_INTEGER
+     */
+    stringMode: {
+      type: Boolean,
+      default: false,
+    },
     size: String as PropType<Size>,
     allowClear: {
       type: Boolean,
@@ -231,7 +243,9 @@
   const { mergedSize } = useSize(formSize);
   const { mergedAllowClear } = useAllowClear(toRef(props, 'allowClear'));
   const valueMode = ref<InputNumberValueMode>(
-    typeof (props.modelValue ?? props.defaultValue) === 'string' ? 'string' : 'number',
+    props.stringMode || typeof (props.modelValue ?? props.defaultValue) === 'string'
+      ? 'string'
+      : 'number',
   );
   const mergedPrecision = computed(() => {
     if (isNumber(props.precision)) {
@@ -242,30 +256,42 @@
   });
   const getNumberValue = (value: InputNumberValue) => {
     if (isUndefined(value) || value === null || value === '') return undefined;
-    if (typeof value === 'number') return Number.isNaN(value) ? undefined : value;
+    if (typeof value === 'number') return Number.isFinite(value) ? value : undefined;
     const normalizedValue = value.trim();
     if (!normalizedValue || /^[-.]$/.test(normalizedValue)) return undefined;
     const parsed = Number(props.parser?.(normalizedValue) ?? normalizedValue);
-    return Number.isNaN(parsed) ? undefined : parsed;
+    // Strict numeric mode: NaN, Infinity and empty-string results are not values.
+    return Number.isFinite(parsed) ? parsed : undefined;
+  };
+  const toPlainString = (number: number | undefined) => {
+    if (!isNumber(number)) return '';
+    return mergedPrecision.value ? number.toFixed(mergedPrecision.value) : String(number);
   };
   const getStringValue = (number: number | undefined) => {
-    if (!isNumber(number)) return '';
-    const value = mergedPrecision.value ? number.toFixed(mergedPrecision.value) : String(number);
+    const value = toPlainString(number);
     return props.formatter?.(value) ?? value;
   };
   const getDisplayValue = (value: InputNumberValue) => {
     if (typeof value === 'string') {
       const normalizedValue = value.trim();
       if (!normalizedValue || /^[-.]$/.test(normalizedValue)) return value;
+      // stringMode keeps canonical decimal strings verbatim so values beyond
+      // Number's safe range never round-trip through Number.
+      if (props.stringMode && DECIMAL_PATTERN.test(normalizedValue)) return normalizedValue;
       const parsed = getNumberValue(value);
-      return isNumber(parsed) ? getStringValue(parsed) : value;
+      return isNumber(parsed) ? getStringValue(parsed) : '';
     }
+    // 非有限数值（Infinity 等）不作为值显示
+    if (typeof value === 'number' && !Number.isFinite(value)) return '';
     return getStringValue(value ?? undefined);
   };
   const getModelValue = (value: number | undefined): InputNumberValue =>
     valueMode.value === 'string' ? (isUndefined(value) ? '' : String(value)) : value;
 
   const innerValue = ref(getDisplayValue(props.modelValue ?? props.defaultValue));
+  // The last accepted raw text (post-parser, pre-formatter). In stringMode this
+  // is the precision-preserving source of truth for emitted values.
+  const rawText = ref(DECIMAL_PATTERN.test(innerValue.value) ? innerValue.value : '');
   const valueNumber = computed(() => getNumberValue(innerValue.value));
   const isMin = ref(isNumber(valueNumber.value) && valueNumber.value <= props.min);
   const isMax = ref(isNumber(valueNumber.value) && valueNumber.value >= props.max);
@@ -286,12 +312,20 @@
     isMin.value = isNumber(number) && number <= props.min;
     isMax.value = isNumber(number) && number >= props.max;
   };
-  const handleExceedRange = () => {
+  const handleExceedRange = (): InputNumberValue => {
     const finalValue = getLegalValue(valueNumber.value);
-    const stringValue = getStringValue(finalValue);
-    if (finalValue !== valueNumber.value || innerValue.value !== stringValue)
-      innerValue.value = stringValue;
-    emit('update:modelValue', getModelValue(finalValue));
+    const clamped = finalValue !== valueNumber.value;
+    // In stringMode a valid raw digit string is authoritative: keep it verbatim
+    // so the display/emit is not rewritten through Number.
+    const keepRaw = props.stringMode && !clamped && DECIMAL_PATTERN.test(rawText.value);
+    if (!keepRaw) {
+      const stringValue = getStringValue(finalValue);
+      if (clamped || innerValue.value !== stringValue) innerValue.value = stringValue;
+      rawText.value = isNumber(finalValue) ? toPlainString(finalValue) : '';
+    }
+    const emitted = keepRaw ? rawText.value : getModelValue(finalValue);
+    emit('update:modelValue', emitted);
+    return emitted;
   };
   watch(
     () => [props.max, props.min],
@@ -313,6 +347,7 @@
         ? 0
         : props.min;
     innerValue.value = getStringValue(nextValue);
+    rawText.value = toPlainString(nextValue);
     updateNumberStatus(nextValue);
     const emittedValue = getModelValue(nextValue);
     emit('update:modelValue', emittedValue);
@@ -321,6 +356,14 @@
   const handleStepButton = (event: Event, method: StepMethods, needRepeat = false) => {
     event.preventDefault();
     if (props.readonly) return;
+    // Mirror nextStep's guard before focusing so a disabled/boundary button
+    // never steals focus from wherever the user currently is.
+    if (
+      mergedDisabled.value ||
+      (method === 'plus' && isMax.value) ||
+      (method === 'minus' && isMin.value)
+    )
+      return;
     inputRef.value?.focus();
     nextStep(method, event);
     if (needRepeat) {
@@ -333,26 +376,41 @@
   const handleInput = (value: string, event: Event) => {
     const normalizedValue = value.trim().replace(/。/g, '.');
     const parsedValue = props.parser?.(normalizedValue) ?? normalizedValue;
-    if (isNumber(Number(parsedValue)) || /^[-.]$/.test(String(parsedValue))) {
+    if (
+      parsedValue === '' ||
+      Number.isFinite(Number(parsedValue)) ||
+      /^[-.]$/.test(String(parsedValue))
+    ) {
+      rawText.value = String(parsedValue);
       innerValue.value = props.formatter?.(parsedValue) ?? String(parsedValue);
       updateNumberStatus(valueNumber.value);
-      const emittedValue = getModelValue(valueNumber.value);
+      const emittedValue = getEmittedValue();
       emit('input', emittedValue, innerValue.value, event);
       if (props.modelEvent === 'input') {
         emit('update:modelValue', emittedValue);
         emit('change', emittedValue, event);
       }
     }
+    // Non-numeric text is rejected outright; the underlying SdInput's
+    // keepControl restores the DOM to innerValue on the next tick, so the
+    // invalid text never lingers in the input.
+  };
+  const getEmittedValue = (): InputNumberValue => {
+    // In stringMode the accepted raw digit string is emitted as-is so typed
+    // high-precision decimals survive the Number round-trip.
+    if (props.stringMode && DECIMAL_PATTERN.test(rawText.value)) return rawText.value;
+    return getModelValue(valueNumber.value);
   };
   const handleFocus = (event: FocusEvent) => emit('focus', event);
   const handleChange = (value: string, event: Event) => {
     if (event instanceof MouseEvent && !value) return;
-    handleExceedRange();
-    emit('change', getModelValue(valueNumber.value), event);
+    const emitted = handleExceedRange();
+    emit('change', emitted, event);
   };
   const handleBlur = (event: FocusEvent) => emit('blur', event);
   const handleClear = (event: Event) => {
     innerValue.value = '';
+    rawText.value = '';
     const emittedValue = getModelValue(undefined);
     emit('update:modelValue', emittedValue);
     emit('change', emittedValue, event);
@@ -384,14 +442,21 @@
   watch(
     () => props.modelValue,
     (value: InputNumberValue) => {
-      if (typeof value === 'string') valueMode.value = 'string';
-      else if (typeof value === 'number') valueMode.value = 'number';
+      if (props.stringMode) {
+        valueMode.value = 'string';
+      } else if (typeof value === 'string') {
+        valueMode.value = 'string';
+      } else if (typeof value === 'number') {
+        valueMode.value = 'number';
+      }
       const nextNumberValue = getNumberValue(value);
       if (value !== innerValue.value && nextNumberValue !== valueNumber.value) {
         innerValue.value = getDisplayValue(value);
+        rawText.value = DECIMAL_PATTERN.test(innerValue.value) ? innerValue.value : '';
         updateNumberStatus(nextNumberValue);
       } else if (value === '' && innerValue.value !== '') {
         innerValue.value = '';
+        rawText.value = '';
         updateNumberStatus(undefined);
       }
     },

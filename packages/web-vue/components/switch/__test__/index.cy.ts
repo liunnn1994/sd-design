@@ -136,6 +136,18 @@ describe('Switch', () => {
     });
   });
 
+  it('treats a rejected beforeChange promise as blocking the change (no unhandled rejection)', () => {
+    const beforeChange = () => Promise.reject(new Error('blocked'));
+    cy.mount(Switch, { props: { beforeChange } });
+    cy.get('button').click();
+    // 拒绝 = 阻止切换：状态不翻转，loading 复位；若有 unhandled rejection Cypress 会直接失败本用例
+    cy.get('button').should('not.have.class', 'sd-switch-loading');
+    cy.get('button').should('have.attr', 'aria-checked', 'false');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')).to.equal(undefined);
+    });
+  });
+
   it('keeps loading during an async beforeChange and changes after it resolves', () => {
     let resolveBeforeChange: (value: boolean) => void = () => undefined;
     const beforeChange = () =>

@@ -260,9 +260,10 @@ describe('InputSearch', () => {
 });
 
 describe('InputPassword', () => {
-  // NOTE: per current implementation (inherited from upstream), visibility=true
-  // renders a MASKED input and shows icon-eye-invisible; visibility=false shows
-  // plaintext with icon-eye. Tests encode the actual behavior.
+  // Documented semantics (see input-password.vue JSDoc): visibility=true means
+  // the input is MASKED (type="password", icon-eye-invisible shown);
+  // visibility=false shows plaintext with icon-eye. defaultVisibility defaults
+  // to true, so the component starts masked.
   it('starts masked and toggles to plaintext, emitting visibility-change', () => {
     cy.mount(InputPassword);
     cy.get('input').should('have.attr', 'type', 'password');

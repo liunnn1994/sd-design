@@ -46,7 +46,7 @@
 
   import { getPrefixCls } from '../_utils/global-config';
   import Input from '../input';
-  import { formatInputMask, resolveDeletion } from './mask-engine';
+  import { formatInputMask, resolveDeletion, stripMaskPlaceholders } from './mask-engine';
   import { inputMaskPresets } from './presets';
 
   defineOptions({ name: 'InputMask', inheritAttrs: false });
@@ -176,6 +176,17 @@
     complete.value = nextComplete;
   };
 
+  // The committed value must not contain maskChar placeholders: emit only the
+  // filled editable characters plus literals (aligned with react-input-mask),
+  // while innerValue keeps the placeholder-filled form for display/cursor math.
+  const toCommittedValue = (value: string) => {
+    if (!effectiveMask.value) return value;
+    return stripMaskPlaceholders(value, effectiveMask.value, {
+      maskChar: effectiveMaskChar.value,
+      formatChars: effectiveFormatChars.value,
+    });
+  };
+
   const commitValue = (rawValue: string) => {
     const input = getInputElement();
     const rawCursor = input?.selectionStart ?? rawValue.length;
@@ -216,22 +227,36 @@
       }
     } else {
       const value = normalizePresetValue(rawValue, innerValue.value);
+      // A rejected mid-string insertion (or one whose characters the preset
+      // normalization strips) leaves the raw cursor one slot past the removed
+      // character; without the -1 correction the restored cursor drifts.
+      const rejectedInsertion =
+        value === innerValue.value && rawValue.length === innerValue.value.length + 1;
       const cursor =
-        rawCursor === rawValue.length ? value.length : Math.min(rawCursor, value.length);
+        rawCursor === rawValue.length
+          ? value.length
+          : Math.min(Math.max(rawCursor - (rejectedInsertion ? 1 : 0), 0), value.length);
       nextState = { value, selection: { start: cursor, end: cursor } };
     }
 
     nextState = props.beforeMaskedValueChange?.(nextState, previousState) ?? nextState;
     innerValue.value = nextState.value;
     lastSelection.value = nextState.selection;
-    emit('update:modelValue', nextState.value);
-    syncComplete(nextState.value, nextComplete);
+    const committedValue = toCommittedValue(nextState.value);
+    emit('update:modelValue', committedValue);
+    syncComplete(committedValue, nextComplete);
 
     nextTick(() => {
-      const element = getInputElement();
-      if (focused.value && element && nextState.selection) {
-        element.setSelectionRange(nextState.selection.start, nextState.selection.end);
-      }
+      // Nested nextTick: the underlying Input's keepControl() (registered after
+      // this callback) rewrites the DOM value and re-derives the cursor when the
+      // committed value differs from the raw DOM text; the selection must be
+      // applied after that restore or it is overwritten.
+      nextTick(() => {
+        const element = getInputElement();
+        if (focused.value && element && nextState.selection) {
+          element.setSelectionRange(nextState.selection.start, nextState.selection.end);
+        }
+      });
     });
   };
 
@@ -270,6 +295,13 @@
       trackedEvents.forEach((event) => input.addEventListener(event, updateSelectionFromDom));
     }
     document.addEventListener('selectionchange', updateSelectionFromDom);
+
+    // Establish the initial complete state: a fully-filled initial modelValue
+    // mounts as complete (the modelValue watcher below is not immediate).
+    if (effectiveMask.value) {
+      const { complete: initialComplete } = applyNormalization(innerValue.value);
+      syncComplete(toCommittedValue(innerValue.value), initialComplete);
+    }
   });
   onBeforeUnmount(() => {
     const input = getInputElement();
@@ -282,13 +314,14 @@
   watch(
     () => props.modelValue,
     (value) => {
-      if (value === undefined) return;
+      // Treat undefined (and null) as a reset request instead of early-returning.
       const { value: next, complete: nextComplete } = applyNormalization(value ?? '');
       innerValue.value = next;
       // Echo the normalized value back so a parent that passed a raw string (or
-      // null) stays in sync with the masked representation.
-      if (next !== value) emit('update:modelValue', next);
-      syncComplete(next, nextComplete);
+      // null/undefined) stays in sync with the masked representation. The echo
+      // and the complete payload use the placeholder-free committed form.
+      if (next !== value) emit('update:modelValue', toCommittedValue(next));
+      syncComplete(toCommittedValue(next), nextComplete);
     },
   );
   watch([effectiveMask, presetDefinition, effectiveMaskChar, effectiveFormatChars], () => {
@@ -297,8 +330,8 @@
     innerValue.value = next;
     // The component changed its own template, so propagate the re-normalized
     // value to keep v-model in sync (otherwise switching mask/preset can desync).
-    if (changed) emit('update:modelValue', next);
-    syncComplete(next, nextComplete);
+    if (changed) emit('update:modelValue', toCommittedValue(next));
+    syncComplete(toCommittedValue(next), nextComplete);
   });
 
   defineExpose({

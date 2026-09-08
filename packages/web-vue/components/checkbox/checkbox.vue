@@ -72,6 +72,11 @@
       uninjectGroupContext?: boolean;
     }>(),
     {
+      // `modelValue`/`value` 的类型并集含 Boolean：Vue 3.5 对缺失且无 default 的
+      // Boolean-cast prop 会取 `false` 而非 `undefined`，击穿 `?? internalChecked` / `?? true`
+      // 的非受控链路（radio 通过显式 `modelValue: undefined` default 规避了这一点）。
+      modelValue: undefined,
+      value: undefined,
       defaultChecked: false,
       disabled: false,
       indeterminate: false,
@@ -95,6 +100,13 @@
     ? inject(checkboxGroupKey, undefined)
     : undefined;
   const isGroup = checkboxGroupCtx?.name === 'SDCheckboxGroup';
+  if (import.meta.env.DEV && isGroup && props.value === undefined) {
+    // oxlint-disable-next-line no-console -- dev-only 用户提示
+    console.warn(
+      '[SdCheckbox] 组内子项未传 `value` prop，将向组数组贡献布尔 `true`。' +
+        '请为组内每个 Checkbox 显式声明 `value`。',
+    );
+  }
   const { mergedDisabled: formItemDisabled, eventHandlers } = useFormItem({
     disabled: toRef(props, 'disabled'),
   });

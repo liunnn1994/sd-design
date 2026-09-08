@@ -25,6 +25,7 @@
 <script setup lang="ts">
   import {
     computed,
+    nextTick,
     ref,
     watch,
     type ComponentPublicInstance,
@@ -90,7 +91,11 @@
     'input': (_inputValue: string, _index: number, _event: Event) => true,
   });
 
-  type FocusableInput = ComponentPublicInstance & { focus: () => void };
+  type FocusableInput = ComponentPublicInstance & {
+    focus: () => void;
+    blur: () => void;
+    inputRef: HTMLInputElement | null;
+  };
 
   const { t } = useI18n();
   const prefixCls = getPrefixCls('verification-code');
@@ -111,10 +116,13 @@
       isExist(newValue[index]) ? String(newValue[index]) : '',
     );
   });
-  const innerValue = ref(filledValue.value);
+  const innerValue = ref(filledValue.value.slice());
+  // 克隆：避免 innerValue 与 filledValue 的 computed 缓存数组同引用，
+  // 否则输入的原地修改会污染缓存，受控还原时取到的是已输入的脏数组。
+  // （watcher 与 keepControl 中的赋值同理。）
 
   watch(mergedValue, () => {
-    innerValue.value = filledValue.value;
+    innerValue.value = filledValue.value.slice();
   });
 
   function setInputRef(element: Element | ComponentPublicInstance | null, index: number) {
@@ -125,12 +133,32 @@
 
   function updateValue() {
     const value = innerValue.value.join('').trim();
+    const prevModelValue = props.modelValue;
     emit('update:modelValue', value);
     emit('change', value);
     if (value.length === props.length) {
       emit('finish', value);
     }
     focusFirstEmptyInput();
+    // 受控用法（父组件传了 modelValue 却未回写 update:modelValue）时输入不留存：
+    // 仿 Input 的 keepControl，在 nextTick 校验 prop 是否被写回，未写回则按 props 还原。
+    nextTick(() => keepControl(prevModelValue));
+  }
+
+  function keepControl(prevModelValue: string | undefined) {
+    if (props.modelValue === undefined || props.modelValue !== prevModelValue) return;
+    // 注意必须克隆：innerValue 初始化时与 filledValue 的缓存数组同引用，
+    // 原地修改（输入）会污染 computed 缓存，直接取值会拿到已输入的数组。
+    const restored = filledValue.value.slice();
+    innerValue.value = restored;
+    // innerValue 还原后格子组件的 model-value prop 不变，Vue 不会重补丁其内部 input DOM，
+    // 需通过 SdInput 暴露的 inputRef 手动还原 DOM。
+    inputRefList.value.forEach((cell, index) => {
+      const inputEl = cell?.inputRef;
+      if (inputEl && inputEl.value !== restored[index]) {
+        inputEl.value = restored[index];
+      }
+    });
   }
 
   function handleFocus(index: number) {
@@ -195,7 +223,8 @@
   }
 
   function handleInput(index: number, value: string, event: Event) {
-    let character = (value || '').trim().charAt(value.length - 1);
+    const trimmed = (value || '').trim();
+    let character = trimmed.charAt(trimmed.length - 1);
     emit('input', character, index, event);
 
     if (isFunction(props.formatter)) {
@@ -209,4 +238,18 @@
     innerValue.value[index] = character;
     updateValue();
   }
+
+  function focus() {
+    focusFirstEmptyInput();
+  }
+
+  function blur() {
+    const active = document.activeElement;
+    const cell = inputRefList.value.find((cell) => cell?.inputRef === active);
+    if (cell) {
+      cell.blur();
+    }
+  }
+
+  defineExpose({ focus, blur });
 </script>

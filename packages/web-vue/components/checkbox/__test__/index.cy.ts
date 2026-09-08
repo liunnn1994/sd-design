@@ -81,16 +81,44 @@ describe('Checkbox', () => {
     cy.get('@handleUpdate').should('have.been.calledTwice');
   });
 
-  it('toggles uncontrolled state and emits change', () => {
-    // 注：defaultChecked 初始不生效（疑似 bug，见报告），非受控翻转以点击为准
+  it('applies defaultChecked to the initial state and then toggles uncontrolled', () => {
+    // 回归（🔴）：defaultChecked 此前被 Vue 3.5 的 Boolean-cast 击穿——
+    // modelValue 缺失时被 cast 成 false，`?? internalChecked` 永远取不到 defaultChecked，
+    // 初始勾选不生效且非受控点击不持久。修复方式与 radio 对齐：
+    // withDefaults 显式声明 `modelValue: undefined`（和 `value: undefined`）default。
     cy.mount(Checkbox, { props: { defaultChecked: true }, slots: { default: 'Label' } });
+    cy.get('input').should('be.checked');
     cy.get('.sd-checkbox').click();
-    cy.get('@vue').should(({ wrapper }) => {
-      expect(wrapper.emitted('change')).to.have.length(1);
-    });
+    cy.get('input').should('not.be.checked');
     cy.get('.sd-checkbox').click();
+    cy.get('input').should('be.checked');
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('change')).to.have.length(2);
+    });
+  });
+
+  it('keeps uncontrolled toggling persistent without modelValue', () => {
+    cy.mount(Checkbox, { props: {}, slots: { default: 'Label' } });
+    cy.get('.sd-checkbox').click();
+    cy.get('input').should('be.checked');
+    cy.get('.sd-checkbox').click();
+    cy.get('input').should('not.be.checked');
+  });
+
+  it('warns in dev when a group child has no explicit value', () => {
+    cy.spy(console, 'warn').as('warnSpy');
+    cy.mount(Checkbox.Group, {
+      slots: { default: '<sd-checkbox>无 value</sd-checkbox>' },
+    });
+    cy.get('@warnSpy').should('have.been.calledWithMatch', /SdCheckbox/);
+    // `?? true` 行为保持：无 value 的子项点击后向组数组贡献布尔 true
+    cy.get('.sd-checkbox').first().click();
+    cy.get('@vue').should(({ wrapper }) => {
+      const change = wrapper.emitted('change');
+      expect(change).to.have.length(1);
+      const payload = change?.[0];
+      const firstArg = payload?.[0] as Array<string | number | boolean>;
+      expect(firstArg).to.deep.equal([true]);
     });
   });
 

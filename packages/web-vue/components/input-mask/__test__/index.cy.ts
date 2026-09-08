@@ -373,4 +373,64 @@ describe('InputMask', () => {
       .type('gb82west12345698765432')
       .should('have.value', 'GB82 WEST 1234 5698 7654 32');
   });
+
+  it('does not leak maskChar placeholders into update:modelValue', () => {
+    // Aligned with react-input-mask: the committed value contains only filled
+    // editable characters plus literals, never the '_' placeholder characters
+    // (the placeholder-filled form stays a display-only concern).
+    cy.mount(InputMask, { props: { mask: '9999-99-99' } });
+    cy.get('input').type('2026').should('have.value', '2026-__-__');
+    cy.get('@vue').should(({ wrapper }) => {
+      const emitted = wrapper.emitted('update:modelValue');
+      const last = emitted?.[emitted.length - 1]?.[0];
+      expect(last).to.equal('2026-');
+    });
+    cy.get('input').type('0806').should('have.value', '2026-08-06');
+    cy.get('@vue').should(({ wrapper }) => {
+      const emitted = wrapper.emitted('update:modelValue');
+      const last = emitted?.[emitted.length - 1]?.[0];
+      expect(last).to.equal('2026-08-06');
+    });
+  });
+
+  it('emits complete on mount when the initial modelValue fills the mask', () => {
+    cy.mount(InputMask, { props: { modelValue: '2026-08-06', mask: '9999-99-99' } });
+    cy.get('input').should('have.value', '2026-08-06');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('complete')).to.deep.equal([['2026-08-06']]);
+    });
+  });
+
+  it('resets to empty when modelValue becomes undefined', () => {
+    cy.mount(InputMask, {
+      props: { modelValue: '2026-08-06', mask: '9999-99-99', maskChar: null },
+    });
+    cy.get('input').should('have.value', '2026-08-06');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ modelValue: undefined })));
+    cy.get('input').should('have.value', '');
+    cy.get('@vue').should(({ wrapper }) => {
+      const emitted = wrapper.emitted('update:modelValue');
+      const last = emitted?.[emitted.length - 1]?.[0];
+      expect(last).to.equal('');
+    });
+  });
+
+  it('restores the cursor without drift when a mid-string insertion is rejected', () => {
+    // The ipv4 preset normalization strips the 'x'; the restored cursor must sit
+    // right after '1' (raw cursor minus the removed character), not drift to 2.
+    cy.mount(InputMask, { props: { preset: 'ipv4' } });
+    cy.get('input')
+      .type('192.168.1.1')
+      .then(($input) => {
+        const el = $input[0] as HTMLInputElement;
+        el.setSelectionRange(1, 1);
+        el.dispatchEvent(new Event('select'));
+      })
+      .type('x')
+      .then(($input) => {
+        const el = $input[0] as HTMLInputElement;
+        expect(el.value).to.equal('192.168.1.1');
+        expect(el.selectionStart).to.equal(1);
+      });
+  });
 });

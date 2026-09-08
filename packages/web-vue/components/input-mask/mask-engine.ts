@@ -160,6 +160,23 @@ const renderMask = (
     .join('');
 };
 
+/**
+ * Removes unfilled placeholder characters from a rendered fixed-mask value,
+ * keeping only the filled editable characters plus literals. This mirrors the
+ * value react-input-mask consumers read back: the committed value never
+ * contains placeholder characters.
+ */
+export function stripMaskPlaceholders(
+  value: string,
+  mask: InputMaskPattern,
+  options: { maskChar?: string | null; formatChars?: Readonly<Record<string, RegExp>> } = {},
+): string {
+  const formatChars = mergeFormatChars(options.formatChars);
+  const tokens = parseMask(mask, formatChars);
+  const values = readEditableCharacters(value, tokens, options.maskChar ?? null);
+  return renderMask(tokens, values, null, true);
+}
+
 const sliceToGraphemeBoundary = (value: string, cursor: number) => {
   const graphemeIndex = codeUnitToGraphemeIndex(value, cursor);
   return value.slice(0, graphemeIndexToCodeUnit(value, graphemeIndex));
