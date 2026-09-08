@@ -3,6 +3,7 @@
 @use '@components/json-form/style/token.scss' as *;
 
 $json-form-prefix-cls: string.unquote('#{theme.$prefix}-json-form');
+$checkbox-prefix-cls: string.unquote('#{theme.$prefix}-checkbox');
 
 .#{$json-form-prefix-cls} {
   &-row {
@@ -19,4 +20,24 @@ $json-form-prefix-cls: string.unquote('#{theme.$prefix}-json-form');
   // 不要在这里设 min-width，否则会覆盖 switch 这类靠 min-width 撑开根元素
   // （滑块绝对定位、无文档流内容）的控件，把它压成 0 宽度。min-width: 0 只留在
   // 撑满型 &-control 上，用于在 flex 容器里收缩防溢出。
+
+  // A2UI ChoicePicker displayStyle: 'chips' —— 没有专用 chips 控件，用复选组
+  // 模拟芯片样式：组内水平排列 + 描边胶囊，选中态用主题色描边。
+  &-chips {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: theme.$spacing-2;
+    align-items: center;
+
+    .#{$checkbox-prefix-cls} {
+      margin-right: 0;
+      padding: theme.$spacing-1 theme.$spacing-3;
+      border: 1px solid theme.$color-border-2;
+      border-radius: theme.$border-radius-medium;
+    }
+
+    .#{$checkbox-prefix-cls}-checked {
+      border-color: theme.$color-primary-6;
+    }
+  }
 }

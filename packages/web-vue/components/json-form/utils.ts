@@ -2,6 +2,7 @@ import type { Component } from 'vue';
 
 import { isPlainObject } from 'es-toolkit';
 
+import { getPrefixCls } from '../_utils/global-config';
 import AutoComplete from '../auto-complete';
 import Cascader from '../cascader';
 import Checkbox, { CheckboxGroup } from '../checkbox';
@@ -180,11 +181,24 @@ function resolveA2UI_0_9_1Path(value: unknown) {
   return undefined;
 }
 
-function resolveA2UI_0_9_1Text(value: unknown) {
-  return typeof value === 'string' ? value : undefined;
+function resolveA2UI_0_9_1Text(value: unknown, model?: JsonFormModel) {
+  if (typeof value === 'string') {
+    return value;
+  }
+
+  // 非 literal 文本：`{ path }` 绑定解析为模型中的实际值，解析失败返回 undefined
+  const path = resolveA2UI_0_9_1Path(value);
+  if (path && model) {
+    const resolved = getJsonFormValue(model, path, A2UI_0_9_1);
+    if (typeof resolved === 'string' || typeof resolved === 'number') {
+      return String(resolved);
+    }
+  }
+
+  return undefined;
 }
 
-function translateA2UI_0_9_1Field(node: JsonFormA2UI_0_9_1ComponentNode): JsonFormSchema<string>[] {
+function translateA2UI_0_9_1Field(node: JsonFormA2UI_0_9_1ComponentNode, model?: JsonFormModel) {
   const field = resolveA2UI_0_9_1Path((node as { value?: unknown }).value);
 
   if (!field) {
@@ -207,7 +221,7 @@ function translateA2UI_0_9_1Field(node: JsonFormA2UI_0_9_1ComponentNode): JsonFo
       return [
         {
           field,
-          label: resolveA2UI_0_9_1Text(textField.label),
+          label: resolveA2UI_0_9_1Text(textField.label, model),
           type,
           componentProps: textField.validationRegexp
             ? { inputAttrs: { pattern: textField.validationRegexp } }
@@ -220,24 +234,29 @@ function translateA2UI_0_9_1Field(node: JsonFormA2UI_0_9_1ComponentNode): JsonFo
       return [
         {
           field,
-          label: resolveA2UI_0_9_1Text(node.label),
+          label: resolveA2UI_0_9_1Text(node.label, model),
           type: JSON_FORM_COMPONENT_TYPES.checkbox,
         },
       ];
 
     case 'ChoicePicker': {
       const choicePicker = node as JsonFormA2UI_0_9_1ChoicePickerComponent;
+      // displayStyle: 'chips' 没有专用 chips 控件，用带芯片样式 class 的复选组模拟（见 style/index.scss）
       return [
         {
           field,
-          label: resolveA2UI_0_9_1Text(choicePicker.label),
+          label: resolveA2UI_0_9_1Text(choicePicker.label, model),
           type: JSON_FORM_COMPONENT_TYPES.checkboxGroup,
           componentProps: {
             options: choicePicker.options.map((option) => ({
-              label: resolveA2UI_0_9_1Text(option.label) ?? option.value,
+              label: resolveA2UI_0_9_1Text(option.label, model) ?? option.value,
               value: option.value,
             })),
             max: choicePicker.variant === 'multipleSelection' ? undefined : 1,
+            class:
+              choicePicker.displayStyle === 'chips'
+                ? `${getPrefixCls('json-form')}-chips`
+                : undefined,
           },
         },
       ];
@@ -248,7 +267,7 @@ function translateA2UI_0_9_1Field(node: JsonFormA2UI_0_9_1ComponentNode): JsonFo
       return [
         {
           field,
-          label: resolveA2UI_0_9_1Text(slider.label),
+          label: resolveA2UI_0_9_1Text(slider.label, model),
           type: JSON_FORM_COMPONENT_TYPES.slider,
           componentProps: {
             min: slider.min ?? 0,
@@ -266,7 +285,7 @@ function translateA2UI_0_9_1Field(node: JsonFormA2UI_0_9_1ComponentNode): JsonFo
       return [
         {
           field,
-          label: resolveA2UI_0_9_1Text(dateTimeInput.label),
+          label: resolveA2UI_0_9_1Text(dateTimeInput.label, model),
           type: enableDate
             ? JSON_FORM_COMPONENT_TYPES.datePicker
             : JSON_FORM_COMPONENT_TYPES.timePicker,
@@ -280,7 +299,10 @@ function translateA2UI_0_9_1Field(node: JsonFormA2UI_0_9_1ComponentNode): JsonFo
   }
 }
 
-export function translateA2UI_0_9_1ToJsonFormSchemas(nodes: JsonFormA2UI_0_9_1ComponentNode[]) {
+export function translateA2UI_0_9_1ToJsonFormSchemas(
+  nodes: JsonFormA2UI_0_9_1ComponentNode[],
+  model?: JsonFormModel,
+) {
   const nodeMap = new Map(nodes.map((node) => [node.id, node]));
   const visitedIds = new Set<string>();
 
@@ -321,7 +343,7 @@ export function translateA2UI_0_9_1ToJsonFormSchemas(nodes: JsonFormA2UI_0_9_1Co
       ];
     }
 
-    return translateA2UI_0_9_1Field(node);
+    return translateA2UI_0_9_1Field(node, model);
   };
 
   const root = nodeMap.get('root');

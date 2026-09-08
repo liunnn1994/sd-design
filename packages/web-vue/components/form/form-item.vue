@@ -437,13 +437,13 @@
 
     return new Promise((resolve) => {
       schema.validate({ [_field]: _value }, (err: Record<string, any> | undefined) => {
-        const isError = Boolean(err?.[_field]);
+        const hasError = Boolean(err?.[_field]);
         updateValidateState(_field, {
-          status: isError ? 'error' : '',
+          status: hasError ? 'error' : '',
           message: err?.[_field].message ?? '',
         });
 
-        const error = isError
+        const error = hasError
           ? {
               label: props.label,
               field: field.value,
@@ -588,10 +588,5 @@
     },
   ]);
 
-  const wrapperColCls = computed(() => [
-    `${prefixCls}-wrapper-col`,
-    {
-      [`${prefixCls}-wrapper-col-flex`]: !mergedWrapperCol.value,
-    },
-  ]);
+  const wrapperColCls = `${prefixCls}-wrapper-col`;
 </script>

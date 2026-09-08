@@ -436,4 +436,58 @@ describe('Form', () => {
     cy.mount(LabelAttrsHarness);
     cy.get('.sd-form-item-label').should('have.attr', 'for', 'custom-id');
   });
+
+  const ScrollHarness = defineComponent({
+    name: 'FormScrollHarness',
+    components: { SdForm: Form, SdFormItem: FormItem, SdInput: Input },
+    props: ['scrollToFirstError'],
+    data: () => ({
+      form: { post: '' },
+      rules: { post: [{ required: true, message: 'post is required' }] },
+    }),
+    template: `
+      <sd-form :model="form" :rules="rules" :scroll-to-first-error="scrollToFirstError">
+        <sd-form-item field="post" label="Post">
+          <sd-input id="f-post" v-model="form.post" />
+        </sd-form-item>
+      </sd-form>
+    `,
+  });
+
+  it('scrollToFirstError (boolean) scrolls to the first error field with default options', () => {
+    cy.mount(ScrollHarness, { props: { scrollToFirstError: true } });
+    cy.window().then((win) => {
+      cy.spy(win.Element.prototype, 'scrollIntoView').as('scrollIntoView');
+    });
+    cy.get('@vue').then(async ({ wrapper }) => {
+      const errors = await getFormVm(wrapper).validate();
+      expect(errors).to.not.equal(undefined);
+      expect(Object.keys(errors as Record<string, ValidatedError>)).to.deep.equal(['post']);
+    });
+    cy.get('.sd-form-item-message').should('have.text', 'post is required');
+    cy.get('@scrollIntoView').should('have.been.called');
+    cy.get('@scrollIntoView').should((spy) => {
+      const options = spy.getCall(0).args[0] as Record<string, unknown>;
+      expect(options).to.be.an('object');
+      expect(options).to.have.property('behavior', 'smooth');
+      expect(options).to.have.property('block', 'nearest');
+    });
+  });
+
+  it('scrollToFirstError accepts an options object and passes it to scrollIntoView', () => {
+    cy.mount(ScrollHarness, { props: { scrollToFirstError: { block: 'center' } } });
+    cy.window().then((win) => {
+      cy.spy(win.Element.prototype, 'scrollIntoView').as('scrollIntoView');
+    });
+    cy.get('@vue').then(async ({ wrapper }) => {
+      const errors = await getFormVm(wrapper).validate();
+      expect(errors).to.not.equal(undefined);
+    });
+    cy.get('@scrollIntoView').should('have.been.called');
+    cy.get('@scrollIntoView').should((spy) => {
+      const options = spy.getCall(0).args[0] as Record<string, unknown>;
+      expect(options).to.be.an('object');
+      expect(options).to.have.property('block', 'center');
+    });
+  });
 });

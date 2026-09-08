@@ -1,10 +1,12 @@
 import { defineComponent, h } from 'vue';
 
-import type { ValidatedError } from '../../form';
+import type { FormInstance, ValidatedError } from '../../form';
 import type { JsonFormInstance } from '../index';
 
 import ConfigProvider from '../../config-provider';
+import Form from '../../form';
 import JsonForm, { A2UI_0_9_1 } from '../index';
+import JsonFormItem from '../json-form-item.vue';
 
 describe('JsonForm', () => {
   it('renders the default schema and updates a nested model', () => {
@@ -710,6 +712,120 @@ describe('JsonForm', () => {
       expect(Object.keys(data.errors as Record<string, ValidatedError>)).to.deep.equal([
         'user.name',
       ]);
+    });
+  });
+
+  it('A2UI 0.9.1 slotName 分支使用规范化 field，required 校验读取真实值', () => {
+    const Harness = defineComponent({
+      name: 'A2UISlotNameValidateHarness',
+      components: { SdForm: Form, JsonFormItem },
+      props: ['initialName'],
+      data() {
+        return {
+          model: { contact: { name: this.initialName } },
+          schema: {
+            field: '/contact/name',
+            label: '姓名',
+            required: true,
+            slotName: 'custom',
+          },
+          components: {} as Record<string, unknown>,
+        };
+      },
+      template: `
+        <sd-form :model="model">
+          <json-form-item
+            v-model="model"
+            :schema="schema"
+            adapter="a2ui-0.9.1"
+            :components="components"
+            prefix-cls="sd-json-form"
+          >
+            <template #custom>
+              <em class="slot-marker">custom-content</em>
+            </template>
+          </json-form-item>
+        </sd-form>
+      `,
+    });
+
+    // 空值：required 校验失败，错误 key 是规范化后的 field
+    cy.mount(Harness, { props: { initialName: '' } });
+    cy.get('@vue').then(async ({ wrapper }) => {
+      const form = wrapper.findComponent({ name: 'Form' }).vm as unknown as FormInstance;
+      const errors = await form.validate();
+      expect(errors).to.not.equal(undefined);
+      expect(Object.keys(errors as Record<string, ValidatedError>)).to.deep.equal(['contact.name']);
+      expect((errors as Record<string, ValidatedError>)['contact.name'].message).to.equal(
+        '姓名不能为空',
+      );
+    });
+
+    // 有值：required 校验通过（旧实现把 '/contact/name' 当 field，永远读不到值）
+    cy.mount(Harness, { props: { initialName: 'Alice' } });
+    cy.get('.slot-marker').should('exist');
+    cy.get('@vue').then(async ({ wrapper }) => {
+      const form = wrapper.findComponent({ name: 'Form' }).vm as unknown as FormInstance;
+      const errors = await form.validate();
+      expect(errors).to.equal(undefined);
+    });
+  });
+
+  it('emits update:modelValue with a fresh reference on control changes', () => {
+    const onUpdate = cy.stub().as('modelUpdate');
+    cy.mount(JsonForm, {
+      props: {
+        'modelValue': { name: '' },
+        'onUpdate:modelValue': onUpdate,
+        'schemas': [{ field: 'name', label: '名称', type: 'input' }],
+      },
+    });
+    cy.get('input').eq(0).type('ab');
+    cy.get('@modelUpdate').should((stub) => {
+      expect(stub.callCount).to.equal(2);
+      const first = stub.getCall(0).args[0] as Record<string, unknown>;
+      const second = stub.getCall(1).args[0] as Record<string, unknown>;
+      expect(first).to.not.equal(second);
+      expect(first.name).to.equal('a');
+      expect(second.name).to.equal('ab');
+    });
+  });
+
+  it("A2UI 0.9.1 ChoicePicker displayStyle 'chips' 渲染芯片样式并解析绑定 label", () => {
+    const model = {
+      channels: [] as string[],
+      pickerLabel: '通知渠道',
+      optionLabels: { sms: '短信', email: '邮件' },
+    };
+    cy.mount(JsonForm, {
+      props: {
+        adapter: A2UI_0_9_1,
+        modelValue: model,
+        schemas: [
+          { id: 'root', component: 'Column', children: ['c'] },
+          {
+            id: 'c',
+            component: 'ChoicePicker',
+            label: { path: '/pickerLabel' },
+            displayStyle: 'chips',
+            options: [
+              { label: { path: '/optionLabels/sms' }, value: 'sms' },
+              { label: { path: '/optionLabels/email' }, value: 'email' },
+            ],
+            value: { path: '/channels' },
+          },
+        ],
+      },
+    });
+
+    cy.get('.sd-json-form-chips').should('exist');
+    cy.contains('.sd-form-item-label', '通知渠道').should('exist');
+    cy.contains('.sd-checkbox', '短信').should('exist');
+    cy.contains('.sd-checkbox', '邮件').should('exist');
+
+    cy.contains('.sd-checkbox', '短信').click();
+    cy.wrap(model).should((m) => {
+      expect(m.channels).to.deep.equal(['sms']);
     });
   });
 });

@@ -24,7 +24,6 @@ export interface FormContext {
   size: Size;
   rules?: Record<string, FieldRule | FieldRule[]>;
   fields: FormItemInfo[];
-  touchedFields: FormItemInfo[];
   addField: (field: FormItemInfo) => void;
   removeField: (field: FormItemInfo) => void;
   validateField: (
@@ -60,7 +59,7 @@ export interface FormItemInfo {
   disabled: boolean;
   error: boolean;
   labelWidth?: number;
-  validate: () => Promise<undefined | Record<string, ValidatedError>>;
+  validate: () => Promise<ValidatedError | undefined>;
   clearValidate: () => void;
   resetField: () => void;
   setField: (data: FieldData) => void;

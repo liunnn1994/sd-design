@@ -14,7 +14,7 @@
   <FormItem
     v-else-if="schema.slotName && $slots[schema.slotName]"
     :label="schema.label"
-    :field="schema.field"
+    :field="normalizedField"
     :hide-label="schema.formItemProps?.hideLabel ?? hideLabel"
     :hide-asterisk="schema.formItemProps?.hideAsterisk ?? hideAsterisk"
     :show-colon="schema.formItemProps?.showColon ?? showColon"
@@ -30,7 +30,7 @@
   <FormItem
     v-else-if="schema.render"
     :label="schema.label"
-    :field="schema.field"
+    :field="normalizedField"
     :hide-label="schema.formItemProps?.hideLabel ?? hideLabel"
     :hide-asterisk="schema.formItemProps?.hideAsterisk ?? hideAsterisk"
     :show-colon="schema.formItemProps?.showColon ?? showColon"
@@ -48,7 +48,8 @@
   >
     <Col v-for="child in schema.children ?? []" :key="child.field" v-bind="resolveColProps(child)">
       <JsonFormItem
-        v-model="workingModel"
+        :model-value="modelValue"
+        @update:model-value="$emit('update:modelValue', $event)"
         :schema="child"
         :adapter="adapter"
         :components="components"
@@ -110,6 +111,7 @@
 
   const props = withDefaults(
     defineProps<{
+      modelValue: JsonFormModel;
       schema: JsonFormSchema<string>;
       adapter: JsonFormAdapter;
       components: Record<string, unknown>;
@@ -125,9 +127,11 @@
     },
   );
 
-  defineSlots<Record<string, (props?: Record<string, unknown>) => unknown>>();
+  const emit = defineEmits<{
+    'update:modelValue': [value: JsonFormModel];
+  }>();
 
-  const workingModel = defineModel<JsonFormModel>({ required: true });
+  defineSlots<Record<string, (props?: Record<string, unknown>) => unknown>>();
 
   const normalizedField = computed(() => {
     return props.adapter === 'a2ui-0.9.1'
@@ -137,10 +141,15 @@
 
   const fieldModel = computed({
     get() {
-      return getJsonFormValue(workingModel.value, props.schema.field, props.adapter);
+      return getJsonFormValue(props.modelValue, props.schema.field, props.adapter);
     },
     set(value) {
-      setJsonFormValue(workingModel.value, props.schema.field, value, props.adapter);
+      // 就地变更共享的 model 对象（非受控/单向 prop 的状态载体），再以新引用
+      // emit update:modelValue 供受控 v-model（不可变更新）的父组件消费。
+      // 不用 defineModel：其 localValue 缓存会让"只传 prop 不传监听"的用法
+      // 在首次赋值后与调用方对象脱钩（后续变更写进内部克隆）。
+      setJsonFormValue(props.modelValue, props.schema.field, value, props.adapter);
+      emit('update:modelValue', { ...props.modelValue });
     },
   });
 

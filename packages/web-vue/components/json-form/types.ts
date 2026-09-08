@@ -217,6 +217,11 @@ export type JsonFormProps<TExternal extends JsonFormExternalComponentMap = {}> =
   schemas:
     | JsonFormSchema<JsonFormComponentType<TExternal>, TExternal>[]
     | JsonFormA2UI_0_9_1ComponentNode[];
+  /**
+   * @zh 表单数据对象（v-model）
+   * @en Form data object (v-model)
+   */
+  modelValue?: JsonFormModel;
   adapter?: JsonFormAdapter;
   model?: JsonFormModel;
   hideLabel?: boolean;

@@ -7,8 +7,6 @@
 <script setup lang="ts">
   import { computed, PropType, provide, reactive, toRefs, ref } from 'vue';
 
-  import scrollIntoView, { Options as ScrollIntoViewOptions } from 'scroll-into-view-if-needed';
-
   import { useSize } from '../_hooks/use-size';
   import { Size } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
@@ -110,12 +108,12 @@
       type: String,
     },
     /**
-     * @zh 验证失败后滚动到第一个错误字段
-     * @en Scroll to the first error field after verification fails
+     * @zh 验证失败后滚动到第一个错误字段，支持传入 scrollIntoView 的选项对象
+     * @en Scroll to the first error field after verification fails; accepts a scrollIntoView options object
      * @version 2.51.0
      */
     scrollToFirstError: {
-      type: Boolean,
+      type: [Boolean, Object] as PropType<boolean | ScrollIntoViewOptions>,
       default: false,
     },
   });
@@ -176,7 +174,6 @@
   const autoLabelWidth = computed(() => props.layout === 'horizontal' && props.autoLabelWidth);
 
   const fields: FormItemInfo[] = [];
-  const touchedFields: FormItemInfo[] = [];
 
   const labelWidth = reactive<Record<string, number>>({});
   const maxLabelWidth = computed(() => Math.max(...Object.values(labelWidth)));
@@ -231,7 +228,7 @@
     });
   };
 
-  const scrollToField = (field: string, options?: Parameters<typeof scrollIntoView>[1]) => {
+  const scrollToField = (field: string, options?: ScrollIntoViewOptions) => {
     const node = formRef.value || document.body;
     const fieldNode = node.querySelector(`#${getFormElementId(props.id, field as string)}`);
 
@@ -239,6 +236,7 @@
       (fieldNode as HTMLDivElement).scrollIntoView({
         behavior: 'smooth',
         block: 'nearest',
+        ...options,
       });
     }
   };
@@ -251,7 +249,7 @@
   const validate = (
     callback?: (errors: undefined | Record<string, ValidatedError>) => void,
   ): Promise<undefined | Record<string, ValidatedError>> => {
-    const list: Promise<any>[] = [];
+    const list: Promise<ValidatedError | undefined>[] = [];
 
     fields.forEach((field) => {
       list.push(field.validate());
@@ -283,7 +281,7 @@
     field: string | string[],
     callback?: (errors: undefined | Record<string, ValidatedError>) => void,
   ) => {
-    const list: Promise<any>[] = [];
+    const list: Promise<ValidatedError | undefined>[] = [];
 
     for (const ctx of fields) {
       if ((isArray(field) && field.includes(ctx.field)) || field === ctx.field) {
@@ -314,7 +312,7 @@
   };
 
   const handleSubmit = (e: Event) => {
-    const list: Promise<any>[] = [];
+    const list: Promise<ValidatedError | undefined>[] = [];
     fields.forEach((field) => {
       list.push(field.validate());
     });
@@ -353,7 +351,6 @@
       size: mergedSize,
       rules,
       fields,
-      touchedFields,
       addField,
       removeField,
       validateField,
