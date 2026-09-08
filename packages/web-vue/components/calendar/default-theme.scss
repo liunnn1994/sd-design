@@ -438,7 +438,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     }
   }
 
-  .#{$calendar-prefix-cls}__cell--out-of-scope .#{$calendar-prefix-cls}__cell-date {
+  .#{$calendar-prefix-cls}__cell--out-of-range .#{$calendar-prefix-cls}__cell-date {
     opacity: 0.4;
   }
 

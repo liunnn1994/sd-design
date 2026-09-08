@@ -6,7 +6,7 @@
       v-bind="imgProps"
       :style="{ ...imgStyle, ...fitStyle }"
       :title="title"
-      :alt="alt"
+      :alt="alt ?? description"
       @load="onImgLoaded"
       @error="onImgLoadError"
       @click="onImgClick"
@@ -290,9 +290,9 @@
       [`${prefixCls}-loading`]: isLoading.value,
       [`${prefixCls}-loading-error`]: isError.value,
       [`${prefixCls}-with-footer-inner`]:
-        isLoaded && showFooter && footerPosition.value === 'inner',
+        isLoaded.value && showFooter.value && footerPosition.value === 'inner',
       [`${prefixCls}-with-footer-outer`]:
-        isLoaded && showFooter && footerPosition.value === 'outer',
+        isLoaded.value && showFooter.value && footerPosition.value === 'outer',
     },
     attrs.class,
   ]);
@@ -320,6 +320,9 @@
 
   watchEffect(() => {
     if (isServerRendering || !refImg.value) return;
+    // Without a src, keep the image in the beforeLoad state: assigning `undefined` to the DOM
+    // src would resolve to the string "undefined" and request the page URL.
+    if (!src?.value) return;
     refImg.value.src = src?.value;
     setLoadStatus('loading');
   });

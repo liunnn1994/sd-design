@@ -290,6 +290,27 @@ describe('Calendar', () => {
       cy.get('.sd-calendar__event--all-day').should('have.length', 1);
     });
 
+    it('renders a same-day all-day event in the all-day bar', () => {
+      cy.mount(Calendar, {
+        props: {
+          view: 'week',
+          viewDate: '2025-01-08',
+          allDayEvents: true,
+          locale: 'en-us',
+          events: [
+            { start: '2025-01-08', end: '2025-01-08', allDay: true, title: 'Same-day offsite' },
+          ],
+        },
+      });
+      // A same-day all-day event used to be collapsed onto its start instant (end at midnight) and
+      // was never matched by getEventsInRange once multiday events were enabled (the default).
+      cy.get('.sd-calendar__all-day .sd-calendar__event').should('have.length', 1);
+      cy.get('.sd-calendar__all-day .sd-calendar__event-title').should(
+        'have.text',
+        'Same-day offsite',
+      );
+    });
+
     it('renders events in their own schedule column with schedules', () => {
       cy.mount(Calendar, {
         props: {
@@ -428,6 +449,7 @@ describe('Calendar', () => {
       // Events are absolutely positioned inside a scrollable grid: force the double click.
       cy.get('.sd-calendar__event').dblclick({ force: true });
       cy.get('.sd-calendar__event-delete').should('exist');
+      cy.get('.sd-calendar__event-delete').should('have.text', '删除');
       cy.get('.sd-calendar__event-delete').click({ force: true });
       cy.get('.sd-calendar__event').should('not.exist');
       cy.get('@vue').should(({ wrapper }) => {
@@ -435,6 +457,22 @@ describe('Calendar', () => {
         expect(wrapper.emitted('update:events')).to.have.length(1);
         expect(wrapper.emitted('update:events')[0][0]).to.have.length(0);
       });
+    });
+
+    it('disables all event interactions with editableEvents false', () => {
+      cy.mount(Calendar, {
+        props: {
+          view: 'week',
+          viewDate: '2025-01-08',
+          editableEvents: false,
+          locale: 'en-us',
+          events: [{ start: '2025-01-08 10:00', end: '2025-01-08 11:00', title: 'Event 1' }],
+        },
+        attrs: { style: 'height: 600px' },
+      });
+      // `editableEvents: false` must fully disable the drag/resize/delete/create flags.
+      cy.get('.sd-calendar__event').dblclick({ force: true });
+      cy.get('.sd-calendar__event-delete').should('not.exist');
     });
   });
 
@@ -475,6 +513,20 @@ describe('Calendar', () => {
       cy.get('.sd-calendar__cell--out-of-range').should('have.length', 11);
       cy.get('.sd-calendar__title').should('contain.text', 'January 2025');
       cy.get('.sd-calendar__cell-date').first().should('have.text', '30');
+    });
+
+    it('renders cell dates in a multi-row days view', () => {
+      cy.mount(Calendar, {
+        props: {
+          view: 'days',
+          viewDate: '2025-01-08',
+          views: { days: { rows: 2 } },
+          locale: 'en-us',
+        },
+      });
+      // 10 cols x 2 rows = 20 cells starting at the view date 2025-01-08.
+      cy.get('.sd-calendar__cell-date').should('have.length', 20);
+      cy.get('.sd-calendar__cell-date').first().should('have.text', '8');
     });
 
     it('renders week numbers on month view with weekNumbers', () => {

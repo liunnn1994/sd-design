@@ -511,6 +511,24 @@ export const useEvents = (calendar) => {
     const excludeSet = new Set(excludeIds);
     const eventsArray = [];
 
+    // Mirror isEventInRange: for all-day (or timeless) events, expand the end to the end of day so
+    // a same-day all-day event is not collapsed onto its start instant. An end exactly at midnight
+    // counts as the end of the PREVIOUS day (1ms convention, see buildEventsIndex), so it is kept
+    // out of the midnight day itself.
+    const getEventRangeTimestamps = (event) => {
+      const allDayOrTimeless = event.allDay || !config.time;
+      if (!allDayOrTimeless) {
+        return { eventStart: event.start.getTime(), eventEnd: event.end.getTime() };
+      }
+      const eventStart = new Date(event.start).setHours(0, 0, 0, 0);
+      const endMidnight = new Date(event.end).setHours(0, 0, 0, 0);
+      const eventEnd =
+        event.end.getTime() === endMidnight && !dateUtils.isSameDate(event.start, event.end)
+          ? endMidnight - 1 // Ends at next midnight: effectively ends the previous day.
+          : new Date(event.end).setHours(23, 59, 59, 999);
+      return { eventStart, eventEnd };
+    };
+
     // If there are less than 100 events, we can use a simple loop to find events in the range.
     if (totalEvents <= 100) {
       for (const event of Object.values(byId)) {
@@ -520,7 +538,8 @@ export const useEvents = (calendar) => {
         if (config.allDayEvents && ((allDay && !event.allDay) || (!allDay && event.allDay)))
           continue;
         // Accept events that overlap the range.
-        if (event.start.getTime() < rangeEndTimestamp && event.end.getTime() > rangeStartTimestamp)
+        const { eventStart, eventEnd } = getEventRangeTimestamps(event);
+        if (eventEnd > rangeStartTimestamp && eventStart < rangeEndTimestamp)
           eventsArray.push(event);
       }
       return eventsArray;
@@ -559,7 +578,8 @@ export const useEvents = (calendar) => {
             if (background === false && e.background) continue;
             if (config.allDayEvents && ((allDay && !e.allDay) || (!allDay && e.allDay))) continue;
             // Accept events that overlap the range.
-            if (e.start.getTime() < rangeEndTimestamp && e.end.getTime() > rangeStartTimestamp)
+            const { eventStart, eventEnd } = getEventRangeTimestamps(e);
+            if (eventEnd > rangeStartTimestamp && eventStart < rangeEndTimestamp)
               eventsArray.push(e);
           }
         }

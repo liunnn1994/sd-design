@@ -409,7 +409,10 @@ export const useConfig = (calendar, props, attrs) => {
     };
     if (props.editableEvents === true) return defaults;
     if (props.editableEvents === false)
-      return Object.keys(defaults).map((key) => (defaults[key] = false));
+      return Object.keys(defaults).reduce((obj, key) => {
+        obj[key] = false;
+        return obj;
+      }, {});
     return { ...defaults, ...props.editableEvents };
   });
 

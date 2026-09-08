@@ -44,7 +44,7 @@
         @click.stop="event.delete(3)"
         :class="`${prefixCls}__event-delete`"
       >
-        Delete
+        {{ calendar.texts.deleteEvent }}
       </div>
     </transition>
   </div>

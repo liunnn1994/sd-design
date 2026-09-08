@@ -376,15 +376,22 @@
     }
   };
 
-  watch([src, mergedVisible], () => {
-    if (mergedVisible.value) {
-      reset();
-      setLoadStatus('loading');
-      addGlobalKeyDownListener();
-    } else {
-      removeGlobalKeyDownListener();
-    }
-  });
+  // `immediate` covers previews that are already visible on mount (e.g. default-visible or a
+  // controlled `visible`): they must attach the keyboard listeners and enter the loading state
+  // without waiting for a prop change.
+  watch(
+    [src, mergedVisible],
+    () => {
+      if (mergedVisible.value) {
+        reset();
+        setLoadStatus('loading');
+        addGlobalKeyDownListener();
+      } else {
+        removeGlobalKeyDownListener();
+      }
+    },
+    { immediate: true },
+  );
 
   function close() {
     if (mergedVisible.value) {

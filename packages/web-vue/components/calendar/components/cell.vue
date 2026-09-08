@@ -380,7 +380,9 @@
       case 'day':
         return '';
       case 'days':
-        if (config.availableViews.days.rows > 1) dateUtils.formatDate(props.start, 'D');
+        // Multi-row days views render the date inside each cell (the headings bar only covers
+        // the first row), otherwise the date stays hidden.
+        if (config.availableViews.days.rows > 1) return dateUtils.formatDate(props.start, 'D');
         return '';
       case 'week':
         return '';

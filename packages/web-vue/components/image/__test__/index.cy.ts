@@ -167,6 +167,23 @@ describe('Image', () => {
       cy.get('.sd-image.sd-image-with-footer-outer').should('exist');
     });
 
+    it('applies with-footer classes only when the image is loaded', () => {
+      // In the loading/error state the footer is hidden, so the wrapper must not carry the
+      // with-footer classes (they used to be applied because a ComputedRef was always truthy).
+      cy.mount(Image, { props: { src: invalidImgSrc, description: 'My description' } });
+      cy.get('.sd-image').should('not.have.class', 'sd-image-with-footer-inner');
+      cy.mount(Image, { props: { src: imgSrc, description: 'My description' } });
+      cy.get('.sd-image').should('have.class', 'sd-image-with-footer-inner');
+      cy.get('.sd-image-footer').should('exist');
+    });
+
+    it('stays in the beforeLoad state when src is not provided', () => {
+      // Assigning `undefined` to the img src used to request the page URL and set loading state.
+      cy.mount(Image, { props: {} });
+      cy.get('.sd-image-img').should('not.have.attr', 'src');
+      cy.get('.sd-image.sd-image-loading').should('not.exist');
+    });
+
     it('renders the extra slot in the footer', () => {
       cy.mount(Image, {
         props: { src: imgSrc },
@@ -194,6 +211,13 @@ describe('Image', () => {
       cy.get('.sd-image-error-alt').should('have.text', 'Broken picture');
       cy.mount(Image, { props: { src: invalidImgSrc, description: 'Some description' } });
       cy.get('.sd-image-error-alt').should('have.text', 'Some description');
+    });
+
+    it('falls back to description for the img alt attribute when alt is unset', () => {
+      cy.mount(Image, { props: { src: imgSrc, description: 'My description' } });
+      cy.get('.sd-image-img').should('have.attr', 'alt', 'My description');
+      cy.mount(Image, { props: { src: imgSrc, description: 'My description', alt: 'Custom alt' } });
+      cy.get('.sd-image-img').should('have.attr', 'alt', 'Custom alt');
     });
   });
 
