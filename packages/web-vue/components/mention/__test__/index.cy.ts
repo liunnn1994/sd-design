@@ -4,16 +4,6 @@ import Mention from '../index';
 
 const data = ['Bytedance', 'Bytedesign', 'Bytenumner'];
 
-// 与 demo.cy.ts 同源的问题：textarea 变体的 handleResize 会在 onMounted 之前被真实
-// ResizeObserver 触发，此时 styleDeclaration 尚未赋值，getSizeStyles 读
-// getComputedStyle 报错。仅在挂载初期出现，按 demo 的方式忽略该噪音。
-Cypress.on('uncaught:exception', (err) => {
-  if (err.message.includes('getPropertyValue')) {
-    return false;
-  }
-  return undefined;
-});
-
 describe('Mention', () => {
   it('renders the dropdown on @', () => {
     cy.mount(Mention, { props: { data } });
@@ -172,6 +162,28 @@ describe('Mention', () => {
       const lastSearch = searchEvents.at(-1);
       expect(lastSearch).to.deep.equal(['de', '#']);
     });
+  });
+
+  it('does not duplicate the tail text when selecting with a multi-character prefix', () => {
+    cy.mount(Mention, { props: { data, prefix: '##' } });
+    cy.get('input').focus();
+    cy.get('input').type('##by');
+    cy.get('.sd-select-option').should('exist');
+    cy.get('input').type('{enter}');
+    cy.get('@vue').should(({ wrapper }) => {
+      const changes = wrapper.emitted('change') ?? [];
+      const lastChange = changes.at(-1);
+      // tail 需要按 prefix 长度截取，'##by' 选中后不能残留 'y'
+      expect(lastChange).to.deep.equal(['##Bytedance']);
+    });
+  });
+
+  it('shows all options when filterOption is false', () => {
+    cy.mount(Mention, { props: { data, filterOption: false } });
+    cy.get('input').focus();
+    // '@design' 默认过滤后只命中 Bytedesign；关闭过滤后应显示全部选项
+    cy.get('input').type('@design');
+    cy.get('.sd-select-option').should('have.length', 3);
   });
 
   it('renders the option slot for object options', () => {

@@ -1,4 +1,4 @@
-import { h } from 'vue';
+import { h, reactive } from 'vue';
 
 import Cascader from '../cascader.vue';
 import { CascaderPanel } from '../index';
@@ -536,6 +536,33 @@ describe('Cascader', () => {
       cy.get('@vue').should(({ wrapper }) => {
         expect(wrapper.emitted('change')?.[0]).to.deep.equal(['chaoyang']);
       });
+    });
+
+    it('re-renders when the options prop is mutated in place (deep watch)', () => {
+      // 必须是 reactive 代理：raw 数组的深层变更不会触发 deep watch（Vue 深层遍历跟踪依赖）
+      const panelOptions = reactive([
+        {
+          value: 'beijing',
+          label: 'Beijing',
+          children: [{ value: 'chaoyang', label: 'ChaoYang' }],
+        },
+      ]);
+      cy.mount(CascaderPanel, { props: { options: panelOptions } });
+      cy.get('.sd-cascader-option').eq(0).should('contain.text', 'Beijing');
+      // 原地修改嵌套属性（数组引用不变），依赖 options watch 的 deep: true
+      cy.get('@vue').then(() => {
+        panelOptions[0].label = 'Beijing2';
+      });
+      cy.get('.sd-cascader-option').eq(0).should('contain.text', 'Beijing2');
+    });
+
+    it('expands columns on hover when expandTrigger changes on the standalone panel', () => {
+      cy.mount(CascaderPanel, { props: { options, expandTrigger: 'click' } });
+      cy.get('.sd-cascader-panel-column').should('have.length', 1);
+      cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ expandTrigger: 'hover' })));
+      cy.get('.sd-cascader-option').eq(0).trigger('mouseenter');
+      // expandTrigger/ellipsis 以 ref 形式 provide，prop 变更需保持响应式
+      cy.get('.sd-cascader-panel-column').should('have.length', 2);
     });
   });
 });

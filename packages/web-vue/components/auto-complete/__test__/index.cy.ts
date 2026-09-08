@@ -127,6 +127,57 @@ describe('AutoComplete', () => {
     cy.get('.sd-select-option').should('have.length', 1).and('contain', 'Beijing');
   });
 
+  it('applies strict case-sensitive filtering for plain string data', () => {
+    cy.mount(AutoComplete, {
+      props: { strict: true, data: ['Beijing', 'Shanghai'] },
+    });
+    cy.get('input').focus();
+    // 大写 BEI 不匹配（区分大小写）→ 无有效选项 → 弹层关闭
+    cy.get('input').type('BEI');
+    cy.get('.sd-select-dropdown').should('not.be.visible');
+    cy.get('input').type('{backspace}{backspace}{backspace}');
+    cy.get('input').type('jing');
+    cy.get('.sd-select-option').should('have.length', 1).and('contain', 'Beijing');
+  });
+
+  it('applies strict filtering to options without a label by falling back to the value', () => {
+    cy.mount(AutoComplete, {
+      props: { strict: true, data: [{ value: 'beijing' }] },
+    });
+    cy.get('input').focus();
+    // 缺 label 时与非 strict 路径一致地回退到 value 的字符串形式
+    cy.get('input').type('bei');
+    cy.get('.sd-select-option').should('have.length', 1).and('contain', 'beijing');
+  });
+
+  it('renders group data as group titles instead of selectable options', () => {
+    cy.mount(AutoComplete, {
+      props: {
+        data: [{ isGroup: true, label: 'Cities', options: ['Beijing', 'Shanghai'] }, 'Chengdu'],
+      },
+    });
+    cy.get('input').focus();
+    cy.get('[role="group"]')
+      .should('have.length', 1)
+      .and('have.attr', 'aria-label', 'Cities')
+      .should('contain.text', 'Cities');
+    // 分组本身不是 option：role=option 只有组内选项和顶层选项
+    cy.get('.sd-select-option').should('have.length', 3);
+    // 点击分组标题不触发 select/change
+    cy.get('.sd-select-group-title').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('select')).to.equal(undefined);
+      expect(wrapper.emitted('change')).to.equal(undefined);
+    });
+    // 键盘高亮跳过分组标题，落在第一个真实选项上
+    cy.get('.sd-select-option-active').should('contain.text', 'Beijing');
+    // 点击组内选项正常选择
+    cy.contains('.sd-select-option', 'Shanghai').click();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('select')?.[0]).to.deep.equal(['Shanghai']);
+    });
+  });
+
   it('shows all options when filterOption is false', () => {
     cy.mount(AutoComplete, {
       props: { filterOption: false, data: ['Beijing', 'Shanghai'] },

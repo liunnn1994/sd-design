@@ -130,7 +130,12 @@
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { FloatingOptions } from '../_utils/floating';
-  import type { SelectOptionData, SelectOptionGroup, SelectOptionInfo } from '../select/interface';
+  import type {
+    FilterOption,
+    SelectOptionData,
+    SelectOptionGroup,
+    SelectOptionInfo,
+  } from '../select/interface';
   import type { MeasureInfo } from './interface';
 
   import ResizeObserver from '../_components/resize-observer.vue';
@@ -166,6 +171,10 @@
     split: {
       type: String,
       default: ' ',
+    },
+    filterOption: {
+      type: [Boolean, Function] as PropType<FilterOption>,
+      default: true,
     },
     type: {
       type: String as PropType<'input' | 'textarea'>,
@@ -229,7 +238,7 @@
   };
   const inputRef = ref<InstanceType<typeof SdInput> | InstanceType<typeof SdTextarea>>();
   const measureText = computed(() => measureInfo.value.text);
-  const filterOption = ref(true);
+  const filterOption = toRef(props, 'filterOption');
   const innerPopupVisible = ref(false);
   const computedPopupVisible = computed(
     () =>
@@ -269,8 +278,10 @@
     const { value } = optionInfoMap.get(key) ?? {};
     const measureStart = measureInfo.value.location;
     const measureEnd = measureStart + measureInfo.value.text.length;
+    // tail 从「前缀 + 搜索文本」整体之后开始，不能假定前缀长度为 1，
+    // 否则 prefix="##" 时尾部文本会重复进入值
     let head = innerValue.value.slice(0, measureStart);
-    let tail = innerValue.value.slice(measureEnd + 1);
+    let tail = innerValue.value.slice(measureEnd + measureInfo.value.prefix.length);
     head += !head || head.endsWith(props.split) || head.endsWith('\n') ? '' : props.split;
     tail =
       (!tail || tail.startsWith(props.split) || tail.startsWith('\n') ? '' : props.split) + tail;
@@ -311,18 +322,27 @@
     if (!item.disabled) setActiveKey();
   };
 
-  let styleDeclaration: CSSStyleDeclaration;
+  let styleDeclaration: CSSStyleDeclaration | undefined;
   const mirrorStyle = ref();
-  const handleResize = () => {
-    if (styleDeclaration) mirrorStyle.value = getSizeStyles(styleDeclaration);
-  };
-  onMounted(() => {
-    const textareaElement = (inputRef.value as { textareaRef?: HTMLElement } | undefined)
-      ?.textareaRef;
-    if (props.type === 'textarea' && textareaElement) {
-      styleDeclaration = window.getComputedStyle(textareaElement);
+  // ResizeObserver 的回调可能早于 onMounted 触发，此时 styleDeclaration 尚未赋值；
+  // 延迟初始化，避免 getSizeStyles 读到 undefined 抛错
+  const syncMirrorStyles = () => {
+    if (!styleDeclaration && props.type === 'textarea') {
+      const textareaElement = (inputRef.value as { textareaRef?: HTMLElement } | undefined)
+        ?.textareaRef;
+      if (textareaElement) {
+        styleDeclaration = window.getComputedStyle(textareaElement);
+      }
+    }
+    if (styleDeclaration) {
       mirrorStyle.value = getSizeStyles(styleDeclaration);
     }
+  };
+  const handleResize = () => {
+    syncMirrorStyles();
+  };
+  onMounted(() => {
+    syncMirrorStyles();
   });
   const mirrorRef = ref<HTMLElement>();
   watch(computedPopupVisible, (visible) => {

@@ -1,6 +1,19 @@
 <template>
   <DefineOption v-slot="{ item }">
     <li
+      v-if="isGroupOptionInfo(item)"
+      :key="item.key"
+      role="group"
+      :aria-label="item.label"
+      :class="groupPrefixCls"
+    >
+      <div :class="`${groupPrefixCls}-title`">
+        <Ellipsis>{{ item.label }}</Ellipsis>
+      </div>
+      <ReuseOption v-for="child in item.options" :key="child.key" :item="child" />
+    </li>
+    <li
+      v-else
       :ref="(element) => setOptionRef(item.key, element)"
       :class="[
         optionPrefixCls,
@@ -34,14 +47,14 @@
         @reach-bottom="handleDropdownReachBottom"
       >
         <ReuseOption
-          v-for="item in validOptions as SelectOptionInfo[]"
+          v-for="item in validOptions as (SelectOptionInfo | SelectOptionGroupInfo)[]"
           :key="item.key"
           :item="item"
         />
         <template #virtual-list>
           <VirtualList ref="virtualListRef" v-bind="resolvedVirtualListProps" :items="validOptions">
             <template #item="{ item }">
-              <ReuseOption :item="item as SelectOptionInfo" />
+              <ReuseOption :item="item as SelectOptionInfo | SelectOptionGroupInfo" />
             </template>
           </VirtualList>
         </template>
@@ -92,6 +105,7 @@
     FilterOption,
     SelectOptionData,
     SelectOptionGroup,
+    SelectOptionGroupInfo,
     SelectOptionInfo,
   } from '../select/interface';
 
@@ -106,7 +120,7 @@
   import SdInput from '../input';
   import { useSelect } from '../select/hooks/use-select';
   import SelectDropdown from '../select/select-dropdown.vue';
-  import { getKeyFromValue } from '../select/utils';
+  import { getKeyFromValue, isGroupOptionInfo } from '../select/utils';
   import Trigger, { type TriggerProps } from '../trigger';
 
   const DEFAULT_AUTOCOMPLETE_VIRTUAL_ITEM_SIZE = 36;
@@ -172,9 +186,12 @@
 
   const attrs = useAttrs();
   const slots = useSlots();
-  const [DefineOption, ReuseOption] = createReusableTemplate<{ item: SelectOptionInfo }>();
+  const [DefineOption, ReuseOption] = createReusableTemplate<{
+    item: SelectOptionInfo | SelectOptionGroupInfo;
+  }>();
   const prefixCls = getPrefixCls('auto-complete');
   const optionPrefixCls = getPrefixCls('select-option');
+  const groupPrefixCls = getPrefixCls('select-group');
   const { mergedDisabled, eventHandlers } = useFormItem({
     disabled: toRef(props, 'disabled'),
   });
@@ -214,7 +231,10 @@
     innerPopupVisible.value = popupVisible;
   };
   const strictFilterOption = (inputValue: string, option: SelectOptionData) =>
-    Boolean(option.label?.includes(inputValue));
+    // 与非 strict 路径对齐：非 strict 基于归一化后的 optionInfo.label 匹配
+    // （缺 label 时回退到 value 的字符串形式），strict 同样基于该归一化 label
+    // 做大小写敏感匹配，避免字符串/数字或缺 label 的数据一输入就被过滤成空
+    Boolean(String(option.label ?? option.value ?? '').includes(inputValue));
   const mergedFilterOption = computed(() => {
     if (isFunction(props.filterOption)) return props.filterOption;
     if (props.filterOption && props.strict) return strictFilterOption;

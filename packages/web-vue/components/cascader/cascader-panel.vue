@@ -144,6 +144,7 @@
     },
     {
       immediate: true,
+      deep: true,
     },
   );
 
@@ -239,8 +240,10 @@
       addLazyLoadOptions,
       slots,
       valueMap: computedValueMap,
-      expandTrigger: expandTrigger.value,
-      ellipsis: ellipsis.value,
+      // 传入 ref 而非 .value，reactive 会在属性访问时解包并保持响应式，
+      // 独立面板上修改 expandTrigger/ellipsis prop 才能生效（与 cascader.vue 一致）
+      expandTrigger,
+      ellipsis,
     }),
   );
 
