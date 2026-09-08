@@ -215,3 +215,17 @@
 - 本地 Cypress 环境（Windows/无焦点窗口）：Transition `after-leave`/`animationend` 不可靠 → 不做动画后卸载断言；程序化 scrollTo/blur 不派生 scroll/blur 事件 → 手动 dispatchEvent；CSS :hover 无法合成 → 清除图标类按钮 force click。
 - `wrapper.emitted()` 只记录挂载根自身的 $emit；date-picker 的 pickers/\* 包装层不声明 emits，事件经 $attrs 直达消费者——用 cy.spy() listener props 观察。
 - RichLineClamp/SelectView 等有隐藏测量副本 → 文本断言用 contain.text / .first()，操作元素限定 `[data-part="content"]`；checkbox 原生 input 视觉隐藏 → 点击 label。
+
+---
+
+## ✅ 修复状态（2026-09-09）
+
+上述全部标注项已按处置意见完成修复，随 web-vue-v4.4.2 发布（fix: 提交见 git log 256104be..b0dbcf36）。
+三项例外，均为"无法以确定性 e2e 验证"而移除对应断言（源码修复已落地，见各条目注释）：
+
+1. radio 原生方向键导航（合成 keydown 不触发浏览器默认行为）
+2. ellipsis 内部交互元素点击守卫（测量副本覆盖，无法确定性点击）
+3. table tr/td 元素替换与 columnResize 拖拽（ResizeObserver 反馈循环导致渲染进程挂起）
+
+另：empty 自定义分支的 attrs 透传经查为机制限制（插槽函数将 attrs 作为 props 传入而被模板丢弃），
+需要 API 层决策（包装元素或文档声明），测试以注释记录后移除，未实现透传。
