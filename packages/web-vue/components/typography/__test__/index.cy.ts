@@ -342,6 +342,37 @@ describe('Typography', () => {
     cy.get('[role="tooltip"]').should('be.visible').and('contain.text', 'CUSTOM TOOLTIP');
   });
 
+  it('removes the inner-text measurement container after measuring', () => {
+    cy.document().then((doc) => {
+      const selector = 'body > div[aria-hidden="true"]';
+      const before = doc.querySelectorAll(selector).length;
+
+      cy.mount(Paragraph, {
+        props: { copyable: true },
+        slots: { default: 'my text' },
+      });
+      cy.get('.sd-typography-operation-copy').should('exist');
+
+      cy.document().then((doc2) => {
+        expect(doc2.querySelectorAll(selector).length).to.equal(before);
+      });
+    });
+  });
+
+  it('keeps the copied state across rapid re-copy within copyDelay', () => {
+    cy.mount(Paragraph, {
+      props: { copyable: true, copyDelay: 200 },
+      slots: { default: 'my text' },
+    });
+    cy.get('.sd-typography-operation-copy').click({ force: true });
+    cy.get('.sd-typography-operation-copied').should('exist');
+    cy.wait(120);
+    cy.get('.sd-typography-operation-copy').click({ force: true });
+    // 若未先 clearTimeout 旧 timer，第一次的 timer 会提前复位 copied 状态
+    cy.wait(120);
+    cy.get('.sd-typography-operation-copied').should('exist');
+  });
+
   it('Typography wrapper renders an article root', () => {
     cy.mount(Typography, { slots: { default: '<p>body</p>' } });
     cy.get('article.sd-typography').should('contain.text', 'body');

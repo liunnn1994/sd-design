@@ -224,14 +224,24 @@
   };
 
   const handleStartChange = (value?: number) => {
-    value = value ?? props.min;
-    startValue.value = value;
+    let next = value ?? props.min;
+    if (props.range && next > endValue.value) {
+      // showInput 输入 start > end：排序后整体更新，而不是发出倒序区间
+      const oldEnd = endValue.value;
+      endValue.value = next;
+      next = oldEnd;
+    }
+    startValue.value = next;
     handleChange();
   };
 
   const handleEndChange = (value?: number) => {
-    value = value ?? props.min;
-    endValue.value = value;
+    let next = value ?? props.min;
+    if (props.range && next < startValue.value) {
+      next = startValue.value;
+      startValue.value = value ?? props.min;
+    }
+    endValue.value = next;
     handleChange();
   };
 
@@ -281,7 +291,8 @@
       return [startValue.value, endValue.value];
     }
     if (isArray(props.modelValue)) {
-      return [props.min ?? 0, props.modelValue[1]];
+      // 非 range 模式收到数组 modelValue 时取第一项，而不是静默丢弃
+      return [props.min ?? 0, props.modelValue[0] ?? endValue.value];
     }
     return [props.min ?? 0, props.modelValue];
   });
@@ -344,7 +355,21 @@
       trackRect.value = trackRef.value.getBoundingClientRect();
     }
 
-    endValue.value = getValueByCoords(clientX, clientY);
+    const value = getValueByCoords(clientX, clientY);
+
+    if (props.range) {
+      // range 模式：轨道点击移动距离点击位置最近的把手
+      const startDist = Math.abs(startValue.value - value);
+      const endDist = Math.abs(endValue.value - value);
+      if (startDist < endDist) {
+        startValue.value = value;
+      } else {
+        endValue.value = value;
+      }
+    } else {
+      endValue.value = value;
+    }
+
     handleChange();
   };
 

@@ -24,10 +24,33 @@ const flowFrom = (arg?: unknown) =>
     (wrapper.vm as { flowFrom: (arg?: unknown) => void }).flowFrom(arg);
   });
 
-const fireAnimationEnd = (animationName: string) =>
+// fade 动画名按实例后缀生成（beam-fade-in-bb-N），从 DOM 上读当前实例 id
+const fireAnimationEnd = (kind: 'in' | 'out') =>
+  cy.get('[data-beam]').then(($el) => {
+    const id = $el[0].getAttribute('data-beam');
+    ($el[0] as HTMLElement).dispatchEvent(
+      new AnimationEvent('animationend', {
+        animationName: `beam-fade-${kind}-${id}`,
+        bubbles: true,
+      }),
+    );
+  });
+
+const fireAnimationEndOnPseudoElement = (kind: 'in' | 'out') =>
+  cy.get('[data-beam]').then(($el) => {
+    const id = $el[0].getAttribute('data-beam');
+    ($el[0] as HTMLElement).dispatchEvent(
+      new AnimationEvent('animationend', {
+        animationName: `beam-fade-${kind}-${id}`,
+        pseudoElement: '::before',
+      }),
+    );
+  });
+
+const fireForeignAnimationEnd = () =>
   cy.get('[data-beam]').then(($el) => {
     ($el[0] as HTMLElement).dispatchEvent(
-      new AnimationEvent('animationend', { animationName, bubbles: true }),
+      new AnimationEvent('animationend', { animationName: 'fade-in-up', bubbles: true }),
     );
   });
 
@@ -265,7 +288,7 @@ describe('BorderBeam', () => {
 
   it('emits activate when the fade-in animation ends', () => {
     cy.mount(BorderBeam, { slots: slot });
-    fireAnimationEnd('beam-fade-in-test');
+    fireAnimationEnd('in');
     cy.get('@vue').should(({ wrapper }) => {
       const events = wrapper.emitted('activate') ?? [];
       expect(events.length).to.be.greaterThan(0);
@@ -277,7 +300,7 @@ describe('BorderBeam', () => {
     cy.get('[data-active]').should('exist');
     cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ active: false })));
     cy.get('[data-fading]').should('exist');
-    fireAnimationEnd('beam-fade-out-test');
+    fireAnimationEnd('out');
     cy.get('@vue').should(({ wrapper }) => {
       const events = wrapper.emitted('deactivate') ?? [];
       expect(events.length).to.be.greaterThan(0);
@@ -305,5 +328,32 @@ describe('BorderBeam', () => {
       .invoke('attr', 'style')
       .should('contain', '--pulse-glow-sx: 2')
       .and('contain', '--pulse-glow-sy: 2');
+  });
+
+  it('ignores animationend from pseudo elements and foreign animation names', () => {
+    cy.mount(BorderBeam, { slots: slot });
+    fireAnimationEndOnPseudoElement('in');
+    fireForeignAnimationEnd();
+    fireAnimationEndOnPseudoElement('out');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('activate')).to.equal(undefined);
+      expect(wrapper.emitted('deactivate')).to.equal(undefined);
+    });
+  });
+
+  it('emits deactivate only for the exact per-instance fade-out animation', () => {
+    // 插槽内容里常见的 fade-in-up 等动画结束不会误触 activate/deactivate
+    cy.mount(BorderBeam, { props: { active: true }, slots: slot });
+    fireForeignAnimationEnd();
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('deactivate')).to.equal(undefined);
+      expect(wrapper.emitted('activate')).to.equal(undefined);
+    });
+  });
+
+  it('does not measure the internal bloom div when the slot is empty', () => {
+    // 无插槽内容时不应测量内部 bloom div，脉冲缩放保持默认 1
+    cy.mount(BorderBeam, { props: { size: 'pulse-outside' } });
+    cy.get('[data-beam]').invoke('attr', 'style').should('contain', '--pulse-glow-sx: 1');
   });
 });

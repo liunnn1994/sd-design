@@ -48,7 +48,7 @@
               :class="`${prefixCls}-content`"
             >
               <div :class="`${prefixCls}-header`">
-                <slot name="header" :close="close">
+                <slot name="header" :close="closeHeaderSlot">
                   <span :class="`${prefixCls}-title`">{{ title }}</span>
                   <Button
                     type="text"
@@ -120,6 +120,7 @@
     onBeforeUnmount,
     onMounted,
     shallowRef,
+    useSlots,
     useTemplateRef,
     watch,
   } from 'vue';
@@ -197,7 +198,7 @@
     /** @zh 自定义触发器 @en Custom trigger */
     trigger(props: { open: () => void }): VNode[];
     /** @zh 自定义头部 @en Custom header */
-    header(props: { close: (restoreFocus?: boolean) => void }): VNode[];
+    header(props: { close: () => void }): VNode[];
     /** @zh 自定义菜单项图标 @en Custom item icon */
     icon(props: { item: BloomMenuItem; index: number }): VNode[];
     /** @zh 自定义完整菜单项内容 @en Custom complete item content */
@@ -208,6 +209,7 @@
 
   const prefixCls = getPrefixCls('bloom-menu');
   const { t } = useI18n();
+  const slots = useSlots();
   const triggerButtonRef = useTemplateRef<ButtonInstance>('triggerButton');
   const panelRootRef = useTemplateRef<HTMLDivElement>('panelRoot');
   const internalOpen = shallowRef(defaultOpen);
@@ -309,9 +311,16 @@
     ease: [0.16, 1, 0.3, 1],
   }));
 
-  function getTriggerElement(event?: Event) {
+  function getTriggerElement(event?: Event): HTMLElement | undefined {
     if (event?.currentTarget instanceof HTMLElement) return event.currentTarget;
-    return triggerButtonRef.value?.$el as HTMLElement | undefined;
+    const buttonEl = triggerButtonRef.value?.$el as HTMLElement | undefined;
+    if (!slots.trigger) return buttonEl;
+    // 自定义 trigger 插槽：morph 源取插槽根元素（实际可见的触发器），
+    // 而不是回退到硬编码的 144×44 默认快照
+    const slotRoot = buttonEl?.querySelector<HTMLElement>(
+      `:scope .${prefixCls}-trigger-content > *`,
+    );
+    return slotRoot ?? buttonEl;
   }
 
   function captureTriggerStyle(event?: Event) {
@@ -341,6 +350,9 @@
 
   function handlePopupVisibleChange(visible: boolean) {
     if (visible) {
+      // 受控开启被父级忽略后 popupVisible 可能被强制复位过，这里同步回来
+      popupVisible.value = true;
+      window.clearTimeout(closeTimer);
       captureTriggerStyle();
       setOpen(true);
     } else {
@@ -352,6 +364,12 @@
         focusTrigger();
       }
       setOpen(false);
+      if (modelValue !== undefined && isOpen.value) {
+        // 强制受控开启：父级忽略 update:modelValue(false) 时 Trigger 已在关闭，
+        // 内部 popupVisible 必须同步复位，避免 Trigger 与内部弹层状态失同步
+        popupVisible.value = false;
+        window.clearTimeout(closeTimer);
+      }
     }
   }
 
@@ -379,6 +397,12 @@
   function close(restoreFocus = false) {
     setOpen(false);
     if (restoreFocus) nextTick(focusTrigger);
+  }
+
+  // header 插槽的 close 需要稳定包装：直接把 close 传给 @click 时 MouseEvent
+  // 会漏进 restoreFocus 参数（truthy 恰好无害，但签名失真），这里固定为关闭并还焦点
+  function closeHeaderSlot() {
+    close(true);
   }
 
   function focusPanel(attempt = 0) {

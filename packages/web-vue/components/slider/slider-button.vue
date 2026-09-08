@@ -110,7 +110,9 @@
   const handleMouseUp = () => {
     isDragging.value = false;
     off(window, 'mousemove', handleMouseMove);
+    off(window, 'touchmove', handleMouseMove);
     off(window, 'mouseup', handleMouseUp);
+    off(window, 'contextmenu', handleMouseUp);
     off(window, 'touchend', handleMouseUp);
     emit('moveend');
   };

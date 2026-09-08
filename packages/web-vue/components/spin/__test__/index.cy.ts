@@ -121,9 +121,17 @@ describe('Spin', () => {
   });
 
   it('sizes dot loading from the size prop', () => {
-    cy.mount(Spin, { props: { dot: true, size: 8 } });
-    cy.get('.sd-dot-loading').should('have.css', 'width', '56px').and('have.css', 'height', '8px');
-    cy.get('.sd-dot-loading-item').first().should('have.css', 'width', '8px');
+    // 刻意用 10px：scss 默认尺寸恰为 8px（$size-2 → 容器 56px×8px），
+    // 用 8px 断言无法区分 size prop 是否真正生效
+    cy.mount(Spin, { props: { dot: true, size: 10 } });
+    cy.get('.sd-dot-loading').should('have.css', 'width', '70px').and('have.css', 'height', '10px');
+    // dot item 是绝对定位 + scale(0) 动画元素（见 dot-loading.scss），
+    // computed width 会被动画干扰，这里断言内联样式以验证 size 透传
+    cy.get('.sd-dot-loading-item')
+      .first()
+      .invoke('attr', 'style')
+      .should('contain', 'width: 10px')
+      .and('contain', 'height: 10px');
   });
 
   it('renders the icon slot with spin applied and gives it precedence over element and dot', () => {
@@ -181,5 +189,20 @@ describe('Spin', () => {
   it('always shows the indicator in standalone mode regardless of loading', () => {
     cy.mount(Spin, { props: { loading: false } });
     cy.get('.sd-spin-icon').should('exist');
+  });
+
+  it('keeps the -loading class in sync with the visible indicator in standalone mode', () => {
+    // standalone 模式下 -loading class 与指示器渲染条件（requestedLoading）保持一致，
+    // loading:false 时指示器仍显示，class 也必须同步存在
+    cy.mount(Spin, { props: { loading: false } });
+    cy.get('.sd-spin').should('have.class', 'sd-spin-loading');
+
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.unmount()));
+    cy.clock();
+    cy.mount(Spin, { props: { loading: false, delay: 100 } });
+    // delay 未到期前 class 与指示器一起保持隐藏
+    cy.get('.sd-spin').should('not.have.class', 'sd-spin-loading');
+    cy.tick(100);
+    cy.get('.sd-spin').should('have.class', 'sd-spin-loading');
   });
 });

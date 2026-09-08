@@ -171,6 +171,18 @@ describe('ResizeBox', () => {
     });
   });
 
+  it('clamps mouse-drag resize at zero', () => {
+    cy.mount(ResizeBox, { props: { width: 5 } });
+    cy.get('.sd-resizebox-direction-right').then(($el) => mouseDown($el[0], 200, 0));
+    // 向左拖出起点（delta -100）→ 负宽度被钳制为 0
+    windowMouse('mousemove', 100, 0);
+    cy.get('@vue').should(({ wrapper }) => {
+      const ev = wrapper.emitted('update:width');
+      expect(ev, 'update:width emitted').to.not.equal(undefined);
+      expect(ev[0][0]).to.equal(0);
+    });
+  });
+
   it('clamps keyboard resize at zero', () => {
     cy.mount(ResizeBox, { props: { width: 5, directions: ['right'] } });
     cy.get('.sd-resizebox-direction-right').trigger('keydown', { key: 'ArrowLeft', force: true });

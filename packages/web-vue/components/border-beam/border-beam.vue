@@ -387,12 +387,22 @@
 
   let mutationObserver: MutationObserver | null = null;
 
+  // 插槽根元素：跳过组件内部的 bloom/flow 装饰节点，避免无插槽内容时
+  // 测量到内部 bloom div
+  function getSlotElement(): HTMLElement | null {
+    const el = wrapperRef.value;
+    if (!el) return null;
+    for (const child of Array.from(el.children)) {
+      if (child.hasAttribute('data-beam-bloom') || child.hasAttribute('data-beam-flow')) continue;
+      return child as HTMLElement;
+    }
+    return null;
+  }
+
   onMounted(() => {
     const detect = () => {
       if (props.borderRadius != null) return;
-      const el = wrapperRef.value;
-      if (!el) return;
-      const child = el.firstElementChild as HTMLElement | null;
+      const child = getSlotElement();
       if (!child) return;
       const computed = getComputedStyle(child);
       const raw = parseFloat(computed.borderTopLeftRadius);
@@ -406,26 +416,22 @@
       const el = wrapperRef.value;
       if (!el) return;
       mutationObserver = new MutationObserver(detect);
-      mutationObserver.observe(el, { childList: true, subtree: false });
+      mutationObserver.observe(el, {
+        childList: true,
+        subtree: false,
+        attributes: true,
+        attributeFilter: ['class', 'style'],
+      });
+      // 首个子元素上的 class/style 变化（例如插槽内容圆角被动态修改）也要触发重测
+      const child = getSlotElement();
+      if (child) {
+        mutationObserver.observe(child, {
+          attributes: true,
+          attributeFilter: ['class', 'style'],
+        });
+      }
     });
   });
-
-  onUnmounted(() => {
-    clearFlowTimer();
-    mutationObserver?.disconnect();
-  });
-
-  // ── Active / fading state management ────────────────────────────────────────
-  watch(
-    () => props.active,
-    (active) => {
-      if (active && !isActive.value && !isFading.value) {
-        isActive.value = true;
-      } else if (!active && isActive.value && !isFading.value) {
-        isFading.value = true;
-      }
-    },
-  );
 
   // ── IntersectionObserver for offscreen pausing ──────────────────────────────
   let intersectionCleanup: (() => void) | null = null;
@@ -444,6 +450,23 @@
     observer.observe(el);
     intersectionCleanup = () => observer.disconnect();
   });
+
+  onUnmounted(() => {
+    clearFlowTimer();
+    mutationObserver?.disconnect();
+  });
+
+  // ── Active / fading state management ────────────────────────────────────────
+  watch(
+    () => props.active,
+    (active) => {
+      if (active && !isActive.value && !isFading.value) {
+        isActive.value = true;
+      } else if (!active && isActive.value && !isFading.value) {
+        isFading.value = true;
+      }
+    },
+  );
 
   onUnmounted(() => {
     intersectionCleanup?.();
@@ -471,7 +494,7 @@
     const clamp = (value: number) => Math.max(MIN_SCALE, Math.min(MAX_SCALE, value));
 
     const measure = () => {
-      const child = el.firstElementChild as HTMLElement | null;
+      const child = getSlotElement();
       if (!child) return;
       const rect = child.getBoundingClientRect();
       if (!rect.width || !rect.height) return;
@@ -485,7 +508,7 @@
     nextTick(() => {
       measure();
       if (typeof ResizeObserver === 'undefined') return;
-      const child = el.firstElementChild as HTMLElement | null;
+      const child = getSlotElement();
       if (!child) return;
       const ro = new ResizeObserver(measure);
       ro.observe(child);
@@ -502,12 +525,16 @@
 
   // ── Animation end handler ───────────────────────────────────────────────────
   function handleAnimationEnd(e: AnimationEvent) {
-    const animationName = (e as AnimationEvent).animationName || '';
-    if (animationName.includes('fade-out')) {
+    // 伪元素动画结束事件不参与 activate/deactivate 判定
+    if (e.pseudoElement) return;
+    // 只匹配本实例的 fade 动画名（精确匹配），插槽内元素自己的 fade-in-up
+    // 等动画不再误触
+    const animationName = e.animationName || '';
+    if (animationName === `beam-fade-out-${id}`) {
       isActive.value = false;
       isFading.value = false;
       emit('deactivate');
-    } else if (animationName.includes('fade-in')) {
+    } else if (animationName === `beam-fade-in-${id}`) {
       emit('activate');
     }
   }

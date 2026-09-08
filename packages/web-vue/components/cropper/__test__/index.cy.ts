@@ -357,6 +357,7 @@ describe('Cropper', () => {
     cy.mount(Cropper, { props: { src: imageSrc, fitSelectionToImage: false } });
 
     cy.get('cropper-selection').then(($selection) => {
+      cy.spy($selection[0], '$render').as('selectionRender');
       Object.defineProperty($selection[0], '$change', {
         configurable: true,
         value: undefined,
@@ -369,6 +370,55 @@ describe('Cropper', () => {
       const selection = $selection[0] as HTMLElement & { x: number };
       expect(selection.x).to.equal(44);
     });
+    // 无 $change 的回退路径要补一次 $render，让 cropperjs 重绘选区
+    cy.get('@selectionRender').should('have.been.called');
+  });
+
+  it('re-runs fitSelectionToImage alignment after src changes', () => {
+    cy.mount(Cropper);
+
+    cy.get('cropper-image').then(($image) => {
+      const image = $image[0] as HTMLElement & { $getTransform(): number[] };
+      cy.stub(image, '$getTransform').returns([2, 0, 0, 2, 0, 0]);
+    });
+    cy.get('cropper-selection').then(($selection) => {
+      cy.spy($selection[0], '$change').as('srcChangeFit');
+    });
+
+    getWrapper().then((wrapper) => wrapper.setProps({ src: nextImageSrc }));
+
+    cy.get('.sd-cropper-source-image').then(($image) => {
+      Object.defineProperties($image[0], {
+        naturalWidth: { configurable: true, value: 100 },
+        naturalHeight: { configurable: true, value: 50 },
+      });
+      $image[0].dispatchEvent(new Event('load'));
+    });
+
+    cy.get('@srcChangeFit').should('have.been.calledWith', 1, 1, 198, 98);
+  });
+
+  it('removes the raw img load listener on destroy', () => {
+    // 空 src 时 img 不会真正加载，load 监听一定还挂着
+    cy.mount(Cropper);
+
+    cy.get('cropper-selection').then(($selection) => {
+      cy.spy($selection[0], '$change').as('destroyedFit');
+    });
+
+    getWrapper().then((wrapper) => {
+      (wrapper.vm as unknown as { destroy(): void }).destroy();
+    });
+
+    cy.get('.sd-cropper-source-image').then(($image) => {
+      Object.defineProperties($image[0], {
+        naturalWidth: { configurable: true, value: 100 },
+        naturalHeight: { configurable: true, value: 50 },
+      });
+      $image[0].dispatchEvent(new Event('load'));
+    });
+
+    cy.get('@destroyedFit').should('not.have.been.called');
   });
 
   it('fits the selection using the image element size when the image is not scaled up', () => {

@@ -229,6 +229,8 @@
     copy(text, props.clipboardProps);
     isCopied.value = true;
     emit('copy', text);
+    // copyDelay 内连点时先清掉上一个 timer，避免被上一次提前复位
+    if (copyTimer) clearTimeout(copyTimer);
     copyTimer = setTimeout(() => (isCopied.value = false), props.copyDelay);
   };
   const onExpandClick = () => {

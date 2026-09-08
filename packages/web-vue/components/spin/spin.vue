@@ -154,7 +154,9 @@
   const cls = computed(() => [
     prefixCls,
     {
-      [`${prefixCls}-loading`]: slots.default ? activeLoading.value : Boolean(mergedLoading.value),
+      // standalone 与容器模式统一使用 activeLoading，保证 -loading class
+      // 与指示器实际可见性同步（standalone 下 requestedLoading 恒为 true）
+      [`${prefixCls}-loading`]: activeLoading.value,
       [`${prefixCls}-with-tip`]: mergedTip.value && !slots.default,
     },
   ]);

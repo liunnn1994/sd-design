@@ -143,6 +143,9 @@ const lang: SdLang = {
   image: {
     loading: 'loading',
   },
+  filePreview: {
+    loadFailed: 'File preview failed to load',
+  },
   imagePreview: {
     fullScreen: 'Full Screen',
     rotateRight: 'Rotate Right',
@@ -157,6 +160,10 @@ const lang: SdLang = {
     expand: 'Expand',
     collapse: 'Collapse',
     edit: 'Edit',
+  },
+  copy: {
+    copy: 'Copy',
+    copied: 'Copied successfully',
   },
   form: {
     validateMessages: DefaultValidateMessage as unknown as ValidateMessage,

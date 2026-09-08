@@ -93,9 +93,10 @@ describe('Slider', () => {
       expect(wrapper.emitted('change')?.[0]?.[0]).to.equal(40);
     });
     cy.get('.sd-slider-btn').should('have.attr', 'aria-valuenow', '40');
+    // 单值模式 bar 从最小值填充到当前值（0% → 40%）
     cy.get('.sd-slider-bar')
       .should('have.attr', 'style')
-      .and('contain', 'left: 40%')
+      .and('contain', 'left: 0%')
       .and('contain', 'right: 60%');
   });
 
@@ -249,5 +250,45 @@ describe('Slider', () => {
       expect(wrapper.emitted('change')?.at(-1)?.[0]).to.deep.equal([30, 80]);
     });
     cy.get('.sd-slider-btn').eq(1).should('have.attr', 'aria-valuenow', '80');
+  });
+
+  it('moves the nearest handle on range track clicks', () => {
+    cy.mount(Slider, {
+      props: { range: true, defaultValue: [20, 60] },
+      attrs: { style: 'width: 400px; margin: 100px;' },
+    });
+
+    // 点击 5% 处：距 start(20) 15、距 end(60) 55 → 移动 start
+    cy.get('.sd-slider-track').trigger('click', 20, 5);
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.[0]?.[0]).to.deep.equal([5, 60]);
+    });
+
+    // 点击 95% 处：距 start(5) 90、距 end(60) 35 → 移动 end
+    cy.get('.sd-slider-track').trigger('click', 380, 5);
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.at(-1)?.[0]).to.deep.equal([5, 95]);
+    });
+  });
+
+  it('sorts the range instead of emitting inverted values when start input exceeds end', () => {
+    cy.mount(Slider, { props: { showInput: true, range: true, defaultValue: [30, 50] } });
+
+    cy.get('.sd-slider-input input').eq(0).clear().type('80{enter}');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.at(-1)?.[0]).to.deep.equal([50, 80]);
+    });
+    cy.get('.sd-slider-btn').eq(0).should('have.attr', 'aria-valuenow', '50');
+    cy.get('.sd-slider-btn').eq(1).should('have.attr', 'aria-valuenow', '80');
+  });
+
+  it('uses modelValue[0] when a non-range slider receives an array modelValue', () => {
+    cy.mount(Slider, { props: { modelValue: [50, 60] } });
+    cy.get('.sd-slider-btn').should('have.attr', 'aria-valuenow', '50');
+  });
+
+  it('clamps handle position at 100% for values beyond max', () => {
+    cy.mount(Slider, { props: { modelValue: 120 } });
+    cy.get('.sd-slider-btn').should('have.attr', 'style').and('contain', 'left: 100%');
   });
 });

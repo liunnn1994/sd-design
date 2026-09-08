@@ -381,6 +381,48 @@ describe('BloomMenu', () => {
     cy.get('[data-bloom-menu-trigger]').should('have.focus');
   });
 
+  it('uses the custom trigger slot root as the morph source', () => {
+    cy.mount(BloomMenu, {
+      props: { items },
+      slots: {
+        trigger:
+          '<span class="custom-trigger" style="display:inline-block;width:200px;">新建内容</span>',
+      },
+    });
+
+    cy.get('[data-bloom-menu-trigger]').click();
+    cy.get('[data-bloom-menu-panel]').should('have.css', '--bloom-menu-source-width', '200px');
+  });
+
+  it('re-derives popupVisible when forced controlled open is closed via Escape', () => {
+    cy.mount(BloomMenu, {
+      props: { items, 'modelValue': true, 'onUpdate:modelValue': () => {} },
+    });
+
+    cy.get('[data-bloom-menu-panel]').should('be.visible');
+    cy.get('body').type('{esc}');
+    // 父级忽略 update:modelValue(false) 时，内部 popupVisible 同步复位，
+    // 面板保持关闭而不是被 popupVisible prop 拉回常开
+    cy.get('[data-bloom-menu-panel]').should('not.be.visible');
+    // 再次点击触发器仍可重新打开
+    cy.get('[data-bloom-menu-trigger]').click();
+    cy.get('[data-bloom-menu-panel]').should('be.visible');
+  });
+
+  it('closes and restores focus when the header close prop is used as a direct event handler', () => {
+    const onUpdate = cy.spy().as('onUpdate');
+    cy.mount(BloomMenu, {
+      props: { items, 'defaultOpen': true, 'onUpdate:modelValue': onUpdate },
+      slots: {
+        header: ({ close }) => h('button', { class: 'custom-header', onClick: close }, '收起面板'),
+      },
+    });
+
+    cy.get('.custom-header').click();
+    cy.get('@onUpdate').should('have.been.calledWith', false);
+    cy.get('[data-bloom-menu-trigger]').should('have.focus');
+  });
+
   it('renders the header slot with a working close prop', () => {
     const onUpdate = cy.spy().as('onUpdate');
     cy.mount(BloomMenu, {

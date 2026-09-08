@@ -238,6 +238,9 @@ export interface SdLang {
   image: {
     loading: string;
   };
+  filePreview: {
+    loadFailed: string;
+  };
   imagePreview: {
     fullScreen: string;
     rotateRight: string;
@@ -252,6 +255,10 @@ export interface SdLang {
     expand: string;
     collapse: string;
     edit: string;
+  };
+  copy: {
+    copy: string;
+    copied: string;
   };
 
   form?: {

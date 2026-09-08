@@ -138,6 +138,17 @@
     trackedHandlers.push({ el, event, fn });
   }
 
+  function removeTrackedListener(el: Element, event: string, fn: CropperEventListener) {
+    const index = trackedHandlers.findIndex(
+      (handler) => handler.el === el && handler.event === event && handler.fn === fn,
+    );
+    if (index === -1) {
+      return;
+    }
+    trackedHandlers.splice(index, 1);
+    el.removeEventListener(event, fn);
+  }
+
   function toKebabCase(key: string) {
     return key.replace(/([A-Z])/g, '-$1').toLowerCase();
   }
@@ -262,6 +273,16 @@
       return;
     }
 
+    scheduleAlignOnLoad();
+  }
+
+  // fitSelectionToImage：等待原始 img 加载完成后重新对齐选区。
+  // 监听走 addTrackedListener，destroy() 会统一移除；触发一次后自移除，避免重复堆积。
+  function scheduleAlignOnLoad() {
+    if (!props.fitSelectionToImage) {
+      return;
+    }
+
     const imageElement = imgRef.value;
     if (!imageElement) {
       return;
@@ -274,12 +295,12 @@
       return;
     }
 
-    const onLoad = () => {
-      imageElement.removeEventListener('load', onLoad);
+    const onLoad: CropperEventListener = () => {
+      removeTrackedListener(imageElement, 'load', onLoad);
       align();
     };
 
-    imageElement.addEventListener('load', onLoad);
+    addTrackedListener(imageElement, 'load', onLoad);
   }
 
   function syncChildProps() {
@@ -316,6 +337,9 @@
       selection.y = nextY;
       selection.width = nextWidth;
       selection.height = nextHeight;
+      if (typeof selection.$render === 'function') {
+        selection.$render();
+      }
       return;
     }
 
@@ -382,12 +406,13 @@
 
       if (cropperImage) {
         (cropperImage as unknown as HTMLImageElement).src = value ?? '';
-        return;
-      }
-
-      if (imgRef.value) {
+      } else if (imgRef.value) {
         imgRef.value.src = value ?? '';
       }
+
+      // 换图后重新执行 fitSelectionToImage 对齐：等 DOM 换上新的 src，
+      // 新图加载完成后再对齐
+      nextTick(() => scheduleAlignOnLoad());
     },
   );
 

@@ -177,7 +177,7 @@ describe('Split', () => {
     });
   });
 
-  it('clamps an out-of-range defaultSize on mount and emits update:size', () => {
+  it('clamps an out-of-range defaultSize on mount silently (no update:size emit)', () => {
     cy.mount(Split, {
       props: { defaultSize: '50px', min: '150px' },
       attrs: { style: 'width: 400px' },
@@ -189,9 +189,9 @@ describe('Split', () => {
       const basis = m ? parseFloat(m[1]) : NaN;
       expect(basis, 'first pane basis clamped to min 150px').to.be.closeTo(150, 4);
     });
+    // 挂载期只做视觉钳制，不发 update:size（v-model 消费方不应收到挂载期更新）
     cy.get('@vue').should(({ wrapper }) => {
-      const ev = wrapper.emitted('update:size') ?? [];
-      expect(ev.map((item) => item[0])).to.deep.equal(['150px']);
+      expect(wrapper.emitted('update:size')).to.equal(undefined);
     });
   });
 });

@@ -139,6 +139,9 @@ const lang: SdLang = {
   image: {
     loading: '加载中',
   },
+  filePreview: {
+    loadFailed: '文件预览加载失败',
+  },
   imagePreview: {
     fullScreen: '全屏',
     rotateRight: '向右旋转',
@@ -153,6 +156,10 @@ const lang: SdLang = {
     expand: '展开',
     collapse: '折叠',
     edit: '编辑',
+  },
+  copy: {
+    copy: '复制',
+    copied: '复制成功',
   },
   form: {
     validateMessages: {

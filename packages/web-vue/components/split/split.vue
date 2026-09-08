@@ -337,6 +337,12 @@
   onMounted(async () => {
     const containerSize = (await getContainerSize()) ?? 0;
     const fixedPxSize = getLegalPxSize(mergedSize.value, containerSize);
-    updateSize(fixedPxSize, containerSize);
+    const clampedSize = sizeConfig.value.isPx
+      ? `${fixedPxSize}px`
+      : px2percent(fixedPxSize, containerSize);
+    // 挂载期只做视觉钳制：不 emit update:size，避免 v-model 消费方在挂载期收到意外更新
+    if (clampedSize !== mergedSize.value) {
+      setMergedSize(clampedSize);
+    }
   });
 </script>

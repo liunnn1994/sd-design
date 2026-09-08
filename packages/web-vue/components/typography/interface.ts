@@ -1,7 +1,5 @@
 import type { Options as ClipboardOptions } from 'copy-to-clipboard';
 
-import type { VNode } from 'vue';
-
 export interface EllipsisConfig {
   /**
    * @zh 显示省略的行数
@@ -76,8 +74,4 @@ export interface TitleProps extends BaseProps {
 export interface ParagraphProps extends BaseProps {
   blockquote: boolean;
   spacing: 'default' | 'close';
-}
-
-export interface TextProps extends BaseProps {
-  icon?: VNode;
 }

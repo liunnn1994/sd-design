@@ -14,7 +14,7 @@
       "
       @resize="
         (entry) => {
-          onTiggerResize(direction, entry);
+          onTriggerResize(direction, entry);
         }
       "
       @keydown="
@@ -203,22 +203,22 @@
 
     switch (direction) {
       case DIRECTION_LEFT:
-        newWidth = startWidth - offsetX;
+        newWidth = Math.max(0, startWidth - offsetX);
         setResWidth(newWidth);
         emit('update:width', newWidth);
         break;
       case DIRECTION_RIGHT:
-        newWidth = startWidth + offsetX;
+        newWidth = Math.max(0, startWidth + offsetX);
         setResWidth(newWidth);
         emit('update:width', newWidth);
         break;
       case DIRECTION_TOP:
-        newHeight = startHeight - offsetY;
+        newHeight = Math.max(0, startHeight - offsetY);
         setResHeight(newHeight);
         emit('update:height', newHeight);
         break;
       case DIRECTION_BOTTOM:
-        newHeight = startHeight + offsetY;
+        newHeight = Math.max(0, startHeight + offsetY);
         setResHeight(newHeight);
         emit('update:height', newHeight);
         break;
@@ -267,7 +267,7 @@
     document.body.style.cursor = isHorizontal(direction) ? 'row-resize' : 'col-resize';
   }
 
-  function onTiggerResize(direction: DirectionType, entry: ResizeObserverEntry) {
+  function onTriggerResize(direction: DirectionType, entry: ResizeObserverEntry) {
     const { width, height } = entry.contentRect;
     const size = isHorizontal(direction) ? height : width;
     record.padding[direction] = size;
@@ -289,14 +289,30 @@
     const sign = key === posKey ? 1 : -1;
     const delta = step * sign * dirSign;
     if (horiz) {
-      const base = isNumber(resWidth.value) ? resWidth.value : (wrapperRef.value?.clientWidth ?? 0);
+      // 与鼠标路径同源：取当前内联宽度（若已设置），否则取扣除 padding 后的
+      // clientWidth，且不允许从 0 以下起步
+      const base = isNumber(resWidth.value)
+        ? resWidth.value
+        : Math.max(
+            0,
+            getRealSize(
+              wrapperRef.value?.clientWidth || 0,
+              record.padding.left + record.padding.right,
+            ),
+          );
       const newWidth = Math.max(0, base + delta);
       setResWidth(newWidth);
       emit('update:width', newWidth);
     } else {
       const base = isNumber(resHeight.value)
         ? resHeight.value
-        : (wrapperRef.value?.clientHeight ?? 0);
+        : Math.max(
+            0,
+            getRealSize(
+              wrapperRef.value?.clientHeight || 0,
+              record.padding.top + record.padding.bottom,
+            ),
+          );
       const newHeight = Math.max(0, base + delta);
       setResHeight(newHeight);
       emit('update:height', newHeight);
