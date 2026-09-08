@@ -101,7 +101,12 @@ describe('TreeSelect', () => {
 
   it('renders every default option with Ellipsis and supports performant mode', () => {
     cy.mount(TreeSelect, {
-      props: { options, fieldNames, defaultPopupVisible: true },
+      props: {
+        options,
+        fieldNames,
+        defaultPopupVisible: true,
+        treeProps: { defaultExpandAll: true },
+      },
     });
     cy.get('@vue').should(({ wrapper }) => {
       const panel = wrapper.findComponent({ name: 'TreeSelectPanel' });
@@ -187,9 +192,40 @@ describe('TreeSelect', () => {
     cy.get('.sd-select-view-arrow-icon').should('not.exist');
   });
 
+  it('collapses child nodes by default and expands them via the switcher', () => {
+    cy.mount(TreeSelect, { props: { options, fieldNames, defaultPopupVisible: true } });
+    // defaultExpandAll 默认 false：仅根节点可见
+    cy.get('.sd-tree-node').should('have.length', 1);
+    cy.get('.sd-tree-node[data-key="leaf-1"]').should('not.exist');
+    // 通过 switcher 展开后子节点可见
+    cy.get('.sd-tree-node[data-key="root"] .sd-tree-node-switcher-icon').click();
+    cy.get('.sd-tree-node[data-key="leaf-1"]').should('be.visible');
+    cy.get('.sd-tree-node[data-key="leaf-2"]').should('be.visible');
+  });
+
+  it('expands all nodes when treeProps.defaultExpandAll is true', () => {
+    cy.mount(TreeSelect, {
+      props: {
+        options,
+        fieldNames,
+        defaultPopupVisible: true,
+        treeProps: { defaultExpandAll: true },
+      },
+    });
+    cy.get('.sd-tree-node[data-key="leaf-1"]').should('be.visible');
+    cy.get('.sd-tree-node[data-key="leaf-2"]').should('be.visible');
+  });
+
   it('supports treeCheckable checkbox selection', () => {
     cy.mount(TreeSelect, {
-      props: { modelValue: [], options, treeCheckable: true, allowSearch: true, fieldNames },
+      props: {
+        modelValue: [],
+        options,
+        treeCheckable: true,
+        allowSearch: true,
+        fieldNames,
+        treeProps: { defaultExpandAll: true },
+      },
     });
     openPopup();
     checkNode('leaf-1');
@@ -201,7 +237,14 @@ describe('TreeSelect', () => {
 
   it('supports the checkable alias as checkbox mode', () => {
     cy.mount(TreeSelect, {
-      props: { modelValue: [], options, checkable: true, allowSearch: true, fieldNames },
+      props: {
+        modelValue: [],
+        options,
+        checkable: true,
+        allowSearch: true,
+        fieldNames,
+        treeProps: { defaultExpandAll: true },
+      },
     });
     openPopup();
     checkNode('leaf-2');
@@ -225,7 +268,9 @@ describe('TreeSelect', () => {
   });
 
   it('selects a leaf in single mode, closes the popup and emits change', () => {
-    cy.mount(TreeSelect, { props: { options, fieldNames } });
+    cy.mount(TreeSelect, {
+      props: { options, fieldNames, treeProps: { defaultExpandAll: true } },
+    });
     openPopup();
     cy.get('.sd-tree-node[data-key="leaf-1"] .sd-tree-node-title').click();
     cy.get('@vue').should(({ wrapper }) => {
@@ -241,7 +286,9 @@ describe('TreeSelect', () => {
   });
 
   it('keeps the popup open and supports tag removal in multiple mode', () => {
-    cy.mount(TreeSelect, { props: { multiple: true, options, fieldNames } });
+    cy.mount(TreeSelect, {
+      props: { multiple: true, options, fieldNames, treeProps: { defaultExpandAll: true } },
+    });
     openPopup();
     cy.get('.sd-tree-node[data-key="leaf-1"] .sd-tree-node-title').click();
     cy.get('.sd-tree-node[data-key="leaf-2"] .sd-tree-node-title').click();
@@ -273,7 +320,9 @@ describe('TreeSelect', () => {
   });
 
   it('filters nodes via search input and emits search + update:inputValue', () => {
-    cy.mount(TreeSelect, { props: { options, fieldNames, allowSearch: true } });
+    cy.mount(TreeSelect, {
+      props: { options, fieldNames, allowSearch: true, treeProps: { defaultExpandAll: true } },
+    });
     openPopup();
     cy.get('.sd-select-view input').type('leaf-1');
     cy.get('@vue').should(({ wrapper }) => {
@@ -303,6 +352,7 @@ describe('TreeSelect', () => {
         options,
         fieldNames,
         allowSearch: true,
+        treeProps: { defaultExpandAll: true },
         filterTreeNode: (keyword: string, nodeData: unknown) =>
           String((nodeData as { label: string }).label).includes(keyword),
       },
@@ -316,7 +366,13 @@ describe('TreeSelect', () => {
 
   it('keeps all nodes visible when disableFilter is true', () => {
     cy.mount(TreeSelect, {
-      props: { options, fieldNames, allowSearch: true, disableFilter: true },
+      props: {
+        options,
+        fieldNames,
+        allowSearch: true,
+        disableFilter: true,
+        treeProps: { defaultExpandAll: true },
+      },
     });
     openPopup();
     cy.get('.sd-select-view input').type('zzz');
@@ -383,6 +439,7 @@ describe('TreeSelect', () => {
         allowSearch: true,
         fieldNames,
         treeCheckStrictly: true,
+        treeProps: { defaultExpandAll: true },
       },
     });
     openPopup();
@@ -474,7 +531,9 @@ describe('TreeSelect', () => {
   });
 
   it('emits LabelValue payloads with labelInValue', () => {
-    cy.mount(TreeSelect, { props: { labelInValue: true, options, fieldNames } });
+    cy.mount(TreeSelect, {
+      props: { labelInValue: true, options, fieldNames, treeProps: { defaultExpandAll: true } },
+    });
     openPopup();
     cy.get('.sd-tree-node[data-key="leaf-1"] .sd-tree-node-title').click();
     cy.get('@vue').should(({ wrapper }) => {

@@ -214,8 +214,8 @@
      */
     'select': [_selected: string[]];
     /**
-     * @zh 用户搜索时触发
-     * @en Triggered when the user searches
+     * @zh 搜索框值改变时触发（按下 Enter、失焦或清空搜索内容时触发，非逐键触发）
+     * @en Triggered when the search input value changes (on Enter, blur, or clearing the input — not on every keystroke)
      * @property {string} value
      * @property {'target'|'source'} type
      */

@@ -191,6 +191,19 @@ describe('Transfer', () => {
       .and('contain.text', 'Option 1#option1');
   });
 
+  it('dedupes the select-all payload when the panel already has selected keys', () => {
+    cy.mount(Transfer, { props: { data, defaultSelected: ['option1'] } });
+    cy.get('.sd-transfer-view-source .sd-transfer-view-header .sd-checkbox-target')
+      .first()
+      .click({ force: true });
+    cy.get('@vue').should(({ wrapper }) => {
+      const selected = wrapper.emitted('select')?.[0]?.[0] ?? [];
+      // 已选项与全选有效值合并不产生重复 key
+      expect(selected).to.deep.equal(['option1', 'option2', 'option3', 'option4']);
+      expect(new Set(selected).size).to.equal(selected.length);
+    });
+  });
+
   it('passes header bindings to the source-title slot', () => {
     cy.mount(Transfer, {
       props: { data, defaultSelected: ['option1'] },
@@ -216,9 +229,9 @@ describe('Transfer', () => {
     cy.get('.title-select-all').should('have.text', '4|1||false|true');
     cy.get('.title-select-all').click();
     cy.get('@vue').should(({ wrapper }) => {
-      // 疑似缺陷：全选时先展开已选再拼接全部有效值，已选项会重复出现
+      // 已选项 defaultSelected=['option1'] 与全选合并后不重复
       expect(wrapper.emitted('select')?.[0]).to.deep.equal([
-        ['option1', 'option1', 'option2', 'option3', 'option4'],
+        ['option1', 'option2', 'option3', 'option4'],
       ]);
     });
   });

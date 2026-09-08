@@ -47,6 +47,9 @@
 
   defineOptions({ name: 'Upload', inheritAttrs: false });
 
+  // 模块级自增计数：同一毫秒内多批选择的文件 uid 也不会冲突
+  let uidCounter = 0;
+
   const props = defineProps({
     fileList: { type: Array as PropType<FileItem[]>, default: undefined },
     defaultFileList: { type: Array as PropType<FileItem[]>, default: () => [] },
@@ -222,6 +225,8 @@
     if (file) {
       file.status = 'error';
       file.percent = 0;
+      // 取消上传视为错误结束，发出 error 事件让消费方感知取消
+      emit('error', file);
       updateFileList(file);
     }
   };
@@ -235,8 +240,8 @@
       if (item.status === 'init') uploadFile(item);
     }
   };
-  const initUpload = (file: File, index: number) => {
-    const uid = `${Date.now()}-${index}`;
+  const initUpload = (file: File) => {
+    const uid = `${Date.now()}-${uidCounter++}`;
     const fileItem: FileItem = reactive({
       uid,
       file,
@@ -255,18 +260,18 @@
       emit('exceedLimit', innerFileList.value, files);
       return;
     }
-    files.forEach((file, index) => {
+    files.forEach((file) => {
       if (isFunction(props.onBeforeUpload)) {
         Promise.resolve(props.onBeforeUpload(file))
           .then((result: boolean | File) => {
-            if (result) initUpload(isBoolean(result) ? file : result, index);
+            if (result) initUpload(isBoolean(result) ? file : result);
           })
           .catch((error) => {
             // oxlint-disable-next-line no-console
             console.error(error);
           });
       } else {
-        initUpload(file, index);
+        initUpload(file);
       }
     });
   };

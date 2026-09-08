@@ -145,7 +145,8 @@
   const handleSelectAllChange = (value: boolean | (string | number | boolean)[]) => {
     const checked = Boolean(value);
     if (checked) {
-      transferCtx?.onSelect([...props.selected, ...props.dataInfo.allValidValues]);
+      // 全选时与已选项合并去重，避免 select/update:selected 载荷出现重复 key
+      transferCtx?.onSelect([...new Set([...props.selected, ...props.dataInfo.allValidValues])]);
     } else {
       transferCtx?.onSelect(
         props.selected.filter((value) => !props.dataInfo.allValidValues.includes(value)),

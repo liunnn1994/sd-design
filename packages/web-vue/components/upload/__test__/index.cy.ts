@@ -326,8 +326,30 @@ describe('Upload', () => {
     cy.get('.sd-upload-list-item-uploading').should('have.length', 1);
     cy.get('.sd-upload-icon-cancel').click();
     cy.get('.sd-upload-list-item-error').should('have.length', 1);
-    cy.get('@vue').should(() => {
+    cy.get('@vue').should(({ wrapper }) => {
       expect(aborted).to.equal(true);
+      // 取消上传后消费方应收到 error 事件
+      expect(wrapper.emitted('error')).to.have.length(1);
+      const fileItem = (wrapper.emitted('error')?.[0]?.[0] ?? {}) as FileItem;
+      expect(fileItem.name).to.equal('a.txt');
+      expect(fileItem.status).to.equal('error');
+    });
+  });
+
+  it('assigns unique uids to files selected in the same batch', () => {
+    cy.mount(Upload, { props: { multiple: true, autoUpload: false } });
+    cy.get('input[type=file]').selectFile(
+      [
+        { contents: Cypress.Buffer.from('one'), fileName: 'a.txt', mimeType: 'text/plain' },
+        { contents: Cypress.Buffer.from('two'), fileName: 'b.txt', mimeType: 'text/plain' },
+      ],
+      { force: true },
+    );
+    cy.get('@vue').should(({ wrapper }) => {
+      const fileList = (wrapper.emitted('update:fileList')?.at(-1)?.[0] ?? []) as FileItem[];
+      expect(fileList).to.have.length(2);
+      const uids = fileList.map((item) => item.uid);
+      expect(new Set(uids).size).to.equal(2);
     });
   });
 

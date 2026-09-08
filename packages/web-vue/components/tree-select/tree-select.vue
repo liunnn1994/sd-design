@@ -736,10 +736,15 @@
       props.triggerProps,
     );
 
+    // 下拉树默认不展开全部节点（可用 treeProps.defaultExpandAll 覆盖），
+    // 与内部 Tree 组件默认 true 的行为区分开
+    const defaultExpandAll = props.treeProps?.defaultExpandAll ?? false;
+
     if (virtualScroll!.value !== false) {
       return {
         ...treeProps!.value,
         ellipsis: props.ellipsis ?? treeProps!.value?.ellipsis ?? true,
+        defaultExpandAll,
         ...(resolvedVirtualListProps ? { virtualListProps: resolvedVirtualListProps } : {}),
       };
     }
@@ -747,6 +752,7 @@
     const nextTreeProps = {
       ...treeProps!.value,
       ellipsis: props.ellipsis ?? treeProps!.value?.ellipsis ?? true,
+      defaultExpandAll,
     };
 
     delete nextTreeProps.virtualListProps;

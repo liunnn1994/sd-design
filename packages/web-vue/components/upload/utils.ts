@@ -32,25 +32,6 @@ export const getProgressStatus = (status?: FileStatus) => {
   }
 };
 
-/**
- * Used to process the file information entered by the user. Generate a new array object without changing the original information
- * @param fileList
- */
-export const processFileList = (fileList?: FileItem[]): FileItem[] => {
-  if (isArray(fileList)) {
-    return fileList.map(
-      (file, index) =>
-        ({
-          status: 'done' as const,
-          percent: 1,
-          ...file,
-          uid: `${Date.now()}${index}`,
-        }) as FileItem,
-    );
-  }
-  return [];
-};
-
 const getValue = (obj: any, fileItem: FileItem) => {
   if (isFunction(obj)) {
     return obj(fileItem);
