@@ -1,4 +1,7 @@
+import { defineComponent, h } from 'vue';
+
 import FilePreviewer from '../index';
+import { usePdfJs } from '../use-pdf-js';
 
 const imageSrc = 'https://picsum.photos/id/10/1000/1000?t=file-previewer-test';
 const videoSrc = 'https://developer.mozilla.org/shared-assets/videos/flower.webm';
@@ -30,6 +33,50 @@ function createTestPdf() {
 const pdfProps = () => ({ documentParams: { data: createTestPdf() } });
 
 describe('FilePreviewer', () => {
+  it('cancels PDF initialization when destroyed immediately after loading starts', () => {
+    let completion: Promise<unknown>;
+    const onDocumentLoad = cy.spy().as('documentLoaded');
+    cy.mount(
+      defineComponent({
+        setup() {
+          const pdf = usePdfJs({
+            src: () => pdfSrc,
+            pdfProps: () => ({ ...pdfProps(), onDocumentLoad }),
+            onStatus: () => {},
+          });
+          return () =>
+            h('div', [
+              h(
+                'button',
+                {
+                  onClick: () => {
+                    const pending = pdf.load();
+                    completion = Promise.all([pending, pdf.destroy()]);
+                  },
+                },
+                'Load and cancel',
+              ),
+              h('span', { class: 'page-count' }, String(pdf.numPages.value)),
+            ]);
+        },
+      }),
+    );
+    cy.contains('button', 'Load and cancel').click();
+    cy.then(() => completion);
+    cy.get('.page-count').should('have.text', '0');
+    cy.get('@documentLoaded').should('not.have.been.called');
+  });
+
+  it('releases the old PDF when its source is cleared', () => {
+    cy.mount(FilePreviewer, {
+      props: { type: 'pdf', src: pdfSrc, fullscreen: false, pdfProps: pdfProps() },
+    });
+    cy.get('.sd-file-previewer-pdf-page').should('contain.text', '2');
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ src: '' }));
+    cy.get('.sd-file-previewer-pdf-toolbar').should('not.exist');
+    cy.get('.sd-file-previewer-pdf-canvas').should('have.prop', 'width', 0);
+  });
+
   it('uses the Image preview without rendering the file preview overlay', () => {
     cy.mount(FilePreviewer, {
       props: { src: imageSrc, defaultVisible: true, renderToBody: false },
@@ -156,9 +203,7 @@ describe('FilePreviewer', () => {
         renderToBody: false,
       },
     });
-    cy.get('.sd-file-previewer-error')
-      .should('be.visible')
-      .and('have.text', '文件预览加载失败');
+    cy.get('.sd-file-previewer-error').should('be.visible').and('have.text', '文件预览加载失败');
   });
 
   it('emits close once for repeated inline close() calls', () => {

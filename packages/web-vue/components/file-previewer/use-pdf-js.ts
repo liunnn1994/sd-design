@@ -103,7 +103,11 @@ export function usePdfJs(context: UsePdfJsContext): UsePdfJsReturn {
 
   async function load(): Promise<void> {
     const url = context.src();
-    if (!url || isServerRendering) return;
+    if (isServerRendering) return;
+    if (!url) {
+      await destroy();
+      return;
+    }
 
     const currentId = ++loadId;
     context.onStatus('loading');
@@ -113,15 +117,15 @@ export function usePdfJs(context: UsePdfJsContext): UsePdfJsReturn {
 
       const props = context.pdfProps() ?? {};
       await resolveWorker(props, pdfjs);
+      if (currentId !== loadId) return;
 
-      await destroy();
+      await releaseResources();
       if (currentId !== loadId) return;
 
       loadingTask = pdfjs.getDocument({ url, ...props.documentParams });
       const pdfDoc = await loadingTask.promise;
       if (currentId !== loadId) {
         // A newer load started; the previous loadingTask was already destroyed by it.
-        loadingTask = null;
         return;
       }
 
@@ -139,6 +143,7 @@ export function usePdfJs(context: UsePdfJsContext): UsePdfJsReturn {
   async function render(canvas: HTMLCanvasElement, pageNumber = page.value): Promise<void> {
     const pdfDoc = doc.value;
     if (!pdfDoc) return;
+    const documentId = loadId;
 
     const props = context.pdfProps() ?? {};
     const scale = props.scale ?? 1;
@@ -162,6 +167,7 @@ export function usePdfJs(context: UsePdfJsContext): UsePdfJsReturn {
     }
 
     const pdfPage = await pdfDoc.getPage(target);
+    if (documentId !== loadId || doc.value !== pdfDoc) return;
     activePage = pdfPage;
     const viewport = pdfPage.getViewport({ scale, rotation });
     if (!canvas.getContext('2d')) return;
@@ -203,6 +209,11 @@ export function usePdfJs(context: UsePdfJsContext): UsePdfJsReturn {
   }
 
   async function destroy(): Promise<void> {
+    loadId++;
+    await releaseResources();
+  }
+
+  async function releaseResources(): Promise<void> {
     if (renderTask) {
       try {
         renderTask.cancel();

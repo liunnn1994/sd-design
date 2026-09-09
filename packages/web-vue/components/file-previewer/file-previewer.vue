@@ -575,7 +575,12 @@
   watch(
     [pdfDoc, pdfCurrentPage, () => pdfProps?.value?.scale, () => pdfProps?.value?.rotation],
     () => {
-      if (!pdfDoc.value || !pdfCanvasRef.value) return;
+      if (!pdfCanvasRef.value) return;
+      if (!pdfDoc.value) {
+        pdfCanvasRef.value.width = 0;
+        pdfCanvasRef.value.height = 0;
+        return;
+      }
       void pdfRender(pdfCanvasRef.value, pdfCurrentPage.value);
     },
     { flush: 'post' },
