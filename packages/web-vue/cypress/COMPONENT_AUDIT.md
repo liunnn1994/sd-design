@@ -45,7 +45,7 @@ pnpm --filter @sdata/web-vue run cypress:run --spec 'components/<component>/__te
 
 - Clamp: 22 passing (14 behavior/integration + 4 demos + 4 recalculation cases), retries disabled. Local code directly installs and re-exports the four vue-clamp 1.6.0 primitives. Reviewed the local integration and installed resize/cleanup lifecycle code; added real-browser content replacement for LineClamp/RichLineClamp, container-width growth and WrapClamp item replacement. Existing tests cover expansion controls, custom ellipsis/location, inline splitting, rich content and hidden-item accounting. No production change needed. Standard TypeScript validation remains part of the final repository gate.
 
-- Collapse checkpoint: 30 passing cases (16 behavior + 9 demos + 1 nested keyboard + 2 icon layout + 2 real-transition cases), retries disabled. Fix header inputs consuming Enter to toggle the panel and apply the existing no-icon layout class when icons are hidden. All three regressions failed before fixes; full 28-case run passed afterward. Two added real-transition tests then passed: complete leave destroys/recreates content, while reversing after 40ms of an observed active leave retains the original DOM node and restores auto height. Initial reversal test used ordinary clicks and input value, which did not establish interruption timing; replaced with explicit timing and node identity. Review remains in progress for dynamic destroyOnHide configuration. Standard TypeScript validation remains pending.
+- Collapse: 32 passing cases (16 behavior + 9 demos + 1 nested keyboard + 2 icon layout + 2 real-transition cases + 2 dynamic-destruction cases), retries disabled. Fix header inputs consuming Enter to toggle the panel and apply the existing no-icon layout class when icons are hidden. All three regressions failed before fixes; full 28-case run passed afterward. Two added real-transition tests then passed: complete leave destroys/recreates content, while reversing after 40ms of an observed active leave retains the original DOM node and restores auto height. Initial reversal test used ordinary clicks and input value, which did not establish interruption timing; replaced with explicit timing and node identity. Dynamic destroyOnHide now updates already hidden content immediately and defers destruction during an active leave until the transition completes. The hidden-content regression failed before the fix. Final full component run passed all 32 cases together with retries disabled; component review is complete. Standard TypeScript validation remains pending.
 
 ## Calendar audit details
 
@@ -55,7 +55,7 @@ pnpm --filter @sdata/web-vue run cypress:run --spec 'components/<component>/__te
 
 After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and Anchor together: 115 tests passed with retries disabled (exit 0).
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: collapse.
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: color-picker.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -81,7 +81,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | chat-composer                 | Empty; no tracked implementation     |
 | checkbox                      | Reviewed; browser cases above passed |
 | clamp                         | Reviewed; browser cases above passed |
-| collapse                      | Pending                              |
+| collapse                      | Reviewed                             |
 | color-picker                  | Pending                              |
 | comment                       | Pending                              |
 | config-provider               | Pending                              |

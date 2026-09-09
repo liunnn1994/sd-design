@@ -161,6 +161,7 @@
       collapseCtx.handleClick?.(key, event);
     }
   };
+  let leaving = false;
   const transitionEvents: TransitionProps = {
     onEnter: (element: Element) => {
       (element as HTMLDivElement).style.height = `${element.scrollHeight}px`;
@@ -169,17 +170,31 @@
       (element as HTMLDivElement).style.height = 'auto';
     },
     onBeforeLeave: (element: Element) => {
+      leaving = true;
       (element as HTMLDivElement).style.height = `${element.scrollHeight}px`;
     },
     onLeave: (element: Element) => {
       (element as HTMLDivElement).style.height = '0';
     },
     onAfterLeave: () => {
+      leaving = false;
       if (mergedDestroyOnHide.value) {
         mounted.value = false;
       }
     },
+    onLeaveCancelled: () => {
+      leaving = false;
+    },
   };
+
+  watch(
+    mergedDestroyOnHide,
+    (destroy) => {
+      if (!destroy) mounted.value = true;
+      else if (!isActive.value && !leaving) mounted.value = false;
+    },
+    { flush: 'post' },
+  );
 
   watch(isActive, (active) => {
     if (active && !mounted.value) {
