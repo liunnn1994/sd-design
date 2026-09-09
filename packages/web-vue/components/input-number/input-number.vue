@@ -250,8 +250,7 @@
   );
   const mergedPrecision = computed(() => {
     if (isNumber(props.precision)) {
-      const decimal = `${props.step}`.split('.')[1];
-      return Math.max(decimal?.length || 0, props.precision);
+      return Math.max(NP.digitLength(props.step), props.precision);
     }
     return undefined;
   });

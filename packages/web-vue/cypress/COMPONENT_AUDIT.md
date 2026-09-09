@@ -297,6 +297,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - InputNumber dynamic formatting: full 59-case Chrome suite passes with retries disabled. Replacing the formatter/parser pair reproduced stale displayed units. A configuration watcher now reformats the accepted raw value, using the previous parser when the initial display has not yet established raw numeric text, and refreshes boundary status. The new browser flow replaces kg with lb, steps up, removes both callbacks and steps down while preserving the number. This is a display-format change, not unit conversion. Remaining numeric precision boundaries are still pending.
 
+- InputNumber scientific-notation precision: full 60-case Chrome suite passes with retries disabled. A regression reproduced step=1e-7 with precision=0 remaining at zero after ArrowUp because splitting the step string at a decimal point counted no fractional digits. Effective precision now uses the existing number-precision digitLength helper, whose installed API was inspected. The browser case verifies two increments, a decrement, fixed decimal display and exact emitted numeric values. Remaining precision/range interactions still need review before InputNumber is complete.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
