@@ -7,6 +7,8 @@
 <script setup lang="ts">
   import { computed, PropType, provide, reactive, toRefs, ref } from 'vue';
 
+  import { cloneDeep } from 'es-toolkit';
+
   import { useSize } from '../_hooks/use-size';
   import { Size } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
@@ -313,6 +315,7 @@
   };
 
   const handleSubmit = (e: Event) => {
+    const values = cloneDeep(model.value);
     const list: Promise<ValidatedError | undefined>[] = [];
     fields.forEach((field) => {
       list.push(field.validate());
@@ -329,11 +332,11 @@
       });
       if (hasError) {
         props.scrollToFirstError && scrollToFirstError(Object.keys(errors)[0]);
-        emit('submitFailed', { values: model.value, errors }, e);
+        emit('submitFailed', { values, errors }, e);
       } else {
-        emit('submitSuccess', model.value, e);
+        emit('submitSuccess', values, e);
       }
-      emit('submit', { values: model.value, errors: hasError ? errors : undefined }, e);
+      emit('submit', { values, errors: hasError ? errors : undefined }, e);
     });
   };
 

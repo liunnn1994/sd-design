@@ -115,6 +115,8 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Form validation result follow-up: full 48-case Chrome suite passes with retries disabled. One deferred-validator browser case reproduced a first-field error returned under the second field after changing the path and label. Validation now captures the original label alongside the existing field/value snapshot and uses that field in the error result. The case checks original field, label, value and message, the callback receiving the same result, and no stale error UI on the replacement field. Async submission lifecycle remains pending; Form stays in progress.
 
+- Form submission snapshot follow-up: full 51-case Chrome suite passes with retries disabled. Two deferred-validator cases reproduced success and failure events carrying newly edited values while validation concerned the original value. Submission now captures a deep model snapshot before validation and shares it across submitSuccess/submitFailed/submit payloads. The cases inspect both outcome and common event values, failure error value, the native submit event and the input retaining edits. A third case confirms no submission callbacks after unmount without requiring a production change. Custom validator throw/rejection recovery remains to be checked; Form stays in progress.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: form.
 
 | Component / support directory | Review status                        |
