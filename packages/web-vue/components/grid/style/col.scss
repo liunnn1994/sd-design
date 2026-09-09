@@ -28,7 +28,7 @@ $col-prefix-cls: string.unquote('#{$prefix}-col');
   @include span(24, '');
 
   @mixin offset($offset, $adaptation) {
-    @if $offset > 0 {
+    @if $offset >= 0 {
       @include offset(($offset - 1), $adaptation);
 
       @if $adaptation == '' {
@@ -46,7 +46,7 @@ $col-prefix-cls: string.unquote('#{$prefix}-col');
   @include offset(23, '');
 
   @mixin order($order, $adaptation) {
-    @if $order > 0 {
+    @if $order >= 0 {
       @include order(($order - 1), $adaptation);
 
       @if $adaptation == '' {

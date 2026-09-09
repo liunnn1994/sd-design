@@ -141,8 +141,12 @@
         result[`${prefixCls}-${screen}-${screenValue}`] = true;
       } else if (hasBreakpointValue(screenValue) && isObject(screenValue)) {
         result[`${prefixCls}-${screen}-${screenValue.span}`] = screenValue.span;
-        result[`${prefixCls}-${screen}-offset-${screenValue.offset}`] = screenValue.offset;
-        result[`${prefixCls}-${screen}-order-${screenValue.order}`] = screenValue.order;
+        result[`${prefixCls}-${screen}-offset-${screenValue.offset}`] = hasBreakpointValue(
+          screenValue.offset,
+        );
+        result[`${prefixCls}-${screen}-order-${screenValue.order}`] = hasBreakpointValue(
+          screenValue.order,
+        );
       }
     });
 

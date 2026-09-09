@@ -121,6 +121,8 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Grid (in progress): full 38-case Chrome suite passes with retries disabled (25 behavior + 11 demos + 2 plain-div lifecycle). Read Row/Col, responsive hooks, Grid/GridItem main logic, utilities, exports, public interfaces and styles. New cases reproduced Row modifier classes leaking into div mode and zero-span Col being removed despite plain-container mode; review also found Col flex styles bypassing div mode. Plain mode now suppresses grid classes/styles and span visibility, preserving caller classes. Browser assertions verify switching back restores flex and gutter styles. All 53 Form cases pass after the shared Row/Col change. Dynamic collapse/item collection and responsive boundary review remain pending. Standard TypeScript verification remains pending.
 
+- Grid responsive zero follow-up: full 39-case Chrome suite passes with retries disabled. A real viewport transition from 500px to 900px reproduced a column retaining its 120px xs offset despite md offset: 0. Responsive offset/order classes now use explicit presence checks, and SCSS emits zero-value rules so larger breakpoints can override smaller ones. The browser case verifies both offset and order reset to zero and restore on returning to the smaller viewport. Dynamic collapse/item collection and remaining layout boundaries stay pending.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: grid.
 
 | Component / support directory | Review status                        |
