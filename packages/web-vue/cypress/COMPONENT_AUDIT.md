@@ -89,7 +89,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - PerformantEllipsis click follow-up: full 33-case Chrome suite passes with retries disabled. Two native first-click regressions reproduced duplicate external click notifications and an inner button unintentionally expanding its parent during lazy activation. Expansion replay now calls the underlying Ellipsis action directly instead of dispatching another DOM click; activation checks whether the original click came from an inner interactive control. Both regressions failed before the fixes. Dormant keyboard reachability still needs verification before completing Ellipsis review.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: ellipsis.
+- Ellipsis completion: full 34-case Chrome suite passes together with retries disabled (21 existing behavior + 5 demos + 2 nested keyboard + 3 measurement lifecycle + 2 lazy click + 1 native keyboard case). Chrome native Tab reproduced the dormant expandable wrapper being skipped entirely. It now exposes default button semantics and tabindex before activation while preserving explicit attributes. Native Tab/Enter verifies reaching the component, retaining focus after activation, expanding/collapsing and continuing to the following button. Both Ellipsis and PerformantEllipsis review complete; full-repository and standard TypeScript gates remain pending.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: empty.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -126,7 +128,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | divider                       | Reviewed; browser cases above passed |
 | drawer                        | Reviewed                             |
 | dropdown                      | Reviewed                             |
-| ellipsis                      | In progress                          |
+| ellipsis                      | Reviewed                             |
 | empty                         | Pending                              |
 | file-previewer                | Pending                              |
 | form                          | Pending                              |

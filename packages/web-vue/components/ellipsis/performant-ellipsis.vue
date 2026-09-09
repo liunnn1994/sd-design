@@ -2,6 +2,9 @@
   <component
     :is="componentTag"
     v-if="!activated"
+    :role="expandTrigger === 'click' ? 'button' : undefined"
+    :tabindex="expandTrigger === 'click' ? 0 : undefined"
+    :aria-expanded="expandTrigger === 'click' ? 'false' : undefined"
     v-bind="$attrs"
     :class="rootCls"
     :style="rootStyle"
