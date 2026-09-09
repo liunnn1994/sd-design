@@ -309,6 +309,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - InputTag (in progress): full 38-case Chrome suite passes with retries disabled (29 behavior + 4 demos + 2 readonly + 3 draft lifecycle). Read the component, value mapping utility, public types/exports and complete styles/tokens. Initial inputValue/defaultInputValue regressions reproduced blank DOM inputs; newly mounted input nodes now receive the current draft. Responsive layout switching additionally triggered blur clearing during node replacement, so the internal replacement preserves the draft and restores prior focus. Browser cases verify initial draft submission and both layout directions with preserved draft/focus and subsequent Enter. Existing ordinary blur clearing remains passing. Tag deletion, unique object values, composition and remaining responsive/transition boundaries are still pending.
 
+- InputTag removal rules: full 41-case Chrome suite passes with retries disabled. Three regressions reproduced Backspace removing a tag whose tagProps.closable was false, and tagProps.closable=true exposing removal controls despite component disabled/readonly state. Both template branches now apply the resolved closable value after tagProps; resolution prioritizes component state. Backspace selection and removal handling share that resolution. Browser cases verify skipping and retaining the locked tag, absent controls while disabled/readonly, then ordinary click removal after re-enabling. Unique object values, composition and remaining responsive/transition review are still pending.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.

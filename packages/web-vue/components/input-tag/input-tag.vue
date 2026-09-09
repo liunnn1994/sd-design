@@ -24,11 +24,11 @@
             <Tag
               :key="`tag-${item.value}`"
               :class="`${prefixCls}-tag`"
-              :closable="isClosableTag(item)"
               visible
               nowrap
               :ellipsis="!$slots.tag"
               v-bind="item.tagProps"
+              :closable="isClosableTag(item)"
               @close="handleRemove(item.value, index, $event)"
             >
               <ReuseTagContent :item="item" :index="index" :measure="false" />
@@ -84,11 +84,11 @@
               [`${prefixCls}-tag-counter`]: isOverflowCounterTag(item.value),
             },
           ]"
-          :closable="isClosableTag(item)"
           visible
           :ellipsis="!$slots.tag"
           :nowrap="props.tagNowrap || isResponsiveMaxTagCount"
           v-bind="item.tagProps"
+          :closable="isClosableTag(item)"
           @close="handleRemove(item.value, index, $event)"
         >
           <ReuseTagContent :item="item" :index="index" :measure="false" />
@@ -367,7 +367,7 @@
     return visibleTags.concat({ raw, ...raw });
   });
   const isClosableTag = (item: TagDataInfo) =>
-    Boolean(item.tagProps?.closable ?? (!mergedDisabled.value && !props.readonly && item.closable));
+    !mergedDisabled.value && !props.readonly && Boolean(item.tagProps?.closable ?? item.closable);
   const getSlotData = (item: TagDataInfo) => item.raw as TagDataInfo['raw'] & TagDataInfo;
   const updateValue = (value: (string | number | TagData)[], event: Event) => {
     innerValue.value = value;
@@ -376,6 +376,8 @@
     eventHandlers.value?.onChange?.(event);
   };
   const handleRemove = (value: string | number, index: number, event: Event) => {
+    const item = valueData.value[index];
+    if (!item || !isClosableTag(item)) return;
     updateValue(
       computedValue.value?.filter((_, itemIndex) => itemIndex !== index),
       event,
@@ -418,7 +420,7 @@
   };
   const getLastClosableIndex = () => {
     for (let index = valueData.value.length - 1; index >= 0; index -= 1) {
-      if (valueData.value[index].closable) return index;
+      if (isClosableTag(valueData.value[index])) return index;
     }
     return -1;
   };
