@@ -29,4 +29,5 @@ export interface DescItemData {
 export interface RenderData {
   data: DescData | VNode;
   span: number;
+  index: number;
 }

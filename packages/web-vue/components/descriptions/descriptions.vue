@@ -28,13 +28,13 @@
                   :class="[`${prefixCls}-item-label`, `${prefixCls}-item-label-inline`]"
                   :style="mergedLabelStyle"
                 >
-                  <ReuseLabel :item="item.data" :index="itemIndex" />
+                  <ReuseLabel :item="item.data" :index="item.index" />
                 </div>
                 <div
                   :class="[`${prefixCls}-item-value`, `${prefixCls}-item-value-inline`]"
                   :style="mergedValueStyle"
                 >
-                  <ReuseValue :item="item.data" :index="itemIndex" />
+                  <ReuseValue :item="item.data" :index="item.index" />
                 </div>
               </td>
             </tr>
@@ -47,7 +47,7 @@
                   :style="mergedLabelStyle"
                   :colspan="item.span"
                 >
-                  <ReuseLabel :item="item.data" :index="itemIndex" />
+                  <ReuseLabel :item="item.data" :index="item.index" />
                 </td>
               </tr>
               <tr :class="`${prefixCls}-row`">
@@ -58,7 +58,7 @@
                   :style="mergedValueStyle"
                   :colspan="item.span"
                 >
-                  <ReuseValue :item="item.data" :index="itemIndex" />
+                  <ReuseValue :item="item.data" :index="item.index" />
                 </td>
               </tr>
             </template>
@@ -68,14 +68,14 @@
                   :class="[`${prefixCls}-item-label`, `${prefixCls}-item-label-block`]"
                   :style="mergedLabelStyle"
                 >
-                  <ReuseLabel :item="item.data" :index="rowIndex" />
+                  <ReuseLabel :item="item.data" :index="item.index" />
                 </td>
                 <td
                   :class="[`${prefixCls}-item-value`, `${prefixCls}-item-value-block`]"
                   :style="mergedValueStyle"
                   :colspan="item.span * 2 - 1"
                 >
-                  <ReuseValue :item="item.data" :index="rowIndex" />
+                  <ReuseValue :item="item.data" :index="item.index" />
                 </td>
               </template>
             </tr>
@@ -196,7 +196,7 @@
       result.push(currentRow);
     }
 
-    data.forEach((item) => {
+    data.forEach((item, index) => {
       const itemSpan = Math.min(
         (isVNode(item) ? item.props?.span : item.span) ?? 1,
         computedColumn.value,
@@ -206,7 +206,7 @@
         currentRow = [];
         currentSpan = 0;
       }
-      currentRow.push({ data: item, span: itemSpan });
+      currentRow.push({ data: item, span: itemSpan, index });
       currentSpan += itemSpan;
     });
     addRow();
