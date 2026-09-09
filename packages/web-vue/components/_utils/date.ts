@@ -222,7 +222,7 @@ export function getDayjsValue(
   };
 
   const formatValue = (value: Date | string | number | undefined) => {
-    if (!value) return undefined;
+    if (!value && value !== 0) return undefined;
 
     if (typeof value === 'string') {
       if (isQuarter(format)) {
