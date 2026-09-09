@@ -59,6 +59,8 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Comment: 29 passing (18 behavior + 4 demos + 4 dynamic slots + 3 update/interaction cases), retries disabled. Reviewed component, installation entrypoint and styles. Four browser regressions reproduced author/avatar/content/datetime slots remaining hidden when added after mount because slot presence was cached in computed values. Render-time checks now read current slots while preserving prop precedence. Dynamic insertion/removal, prop updates/clearing, prop-to-slot fallback, alignment CSS and action callbacks all pass in the full component run. Standard TypeScript and final repository gates remain pending.
 
+- ConfigProvider checkpoint: 47 passing cases (30 configuration/theme cases, including helper assertions + 5 standalone theme-provider + 11 demos + 1 global-mode restoration), retries disabled. The new browser regression reproduced loss of the preexisting body theme when global changes from true to false. Theme cleanup now records whether the previous active target was global instead of using the new prop value; local mode and subsequent unmount preserve the restored body mode. Full component run passes. Review remains in progress for nested configuration, overlapping global providers, token restoration and popup cleanup. Standard TypeScript validation remains pending.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: config-provider.
 
 | Component / support directory | Review status                        |

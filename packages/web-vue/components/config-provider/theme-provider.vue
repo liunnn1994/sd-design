@@ -70,6 +70,7 @@
   let appliedThemeKeys = new Set<string>();
   let appliedPopupThemeKeys = new Set<string>();
   let activeTarget: HTMLElement | null = null;
+  let activeTargetIsGlobal = false;
   let previousGlobalThemeMode: string | null | undefined;
 
   function cleanupPopupContainer() {
@@ -183,7 +184,7 @@
     clearThemeCSSVariables(target, appliedThemeKeys);
     appliedThemeKeys = new Set<string>();
 
-    if (props.global) {
+    if (activeTargetIsGlobal) {
       if (previousGlobalThemeMode === undefined) {
         target.removeAttribute('sd-theme');
       } else if (previousGlobalThemeMode === null) {
@@ -220,6 +221,7 @@
     restoreThemeMode(nextTarget);
 
     activeTarget = nextTarget;
+    activeTargetIsGlobal = props.global;
     syncPopupContainerTheme(nextTarget);
   }
 
