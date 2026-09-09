@@ -9,6 +9,7 @@
       ]"
       v-bind="$attrs"
       @mousedown="onMouseDown"
+      @click="onClick"
     >
       <span :class="`${prefixCls}-content`"><slot /></span>
     </div>
@@ -38,7 +39,7 @@
     inheritAttrs: false,
   });
 
-  defineProps({
+  const props = defineProps({
     /**
      * @zh 名称
      * @en the name of the action
@@ -54,6 +55,11 @@
       type: Boolean,
     },
   });
+
+  const emit = defineEmits<{ click: [event: MouseEvent] }>();
+  const onClick = (event: MouseEvent) => {
+    if (!props.disabled) emit('click', event);
+  };
 
   const slots = useSlots();
   const prefixCls = getPrefixCls('image-preview-toolbar-action');

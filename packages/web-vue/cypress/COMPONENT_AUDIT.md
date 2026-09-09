@@ -263,6 +263,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - Image group source updates: full 67-case Chrome suite passes with retries disabled. Updating the first child source while its preview was open reproduced an unexpected jump to the second child: effect invalidation deleted and reinserted the registration at the end of the Map. Image now updates its registration in place and unregisters only on component unmount. The decoded-image regression verifies the current preview changes to the replacement source, remains at the first position and navigates right to the original second child. Existing removal and explicit-list cases also pass. Preview action boundary review remains pending; Image remains in progress.
 
+- Image action disabled lifecycle: full 69-case Chrome suite passes with retries disabled. Both tooltip and plain ImagePreviewAction regressions reproduced disabled actions executing consumer click handlers. The action now declares its click event and emits it only when enabled. Browser cases verify disabled to enabled to disabled transitions and exactly one callback from the enabled click. Existing built-in toolbar interactions remain passing. Final zoom-boundary and real-transition checks remain pending; Image remains in progress.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
