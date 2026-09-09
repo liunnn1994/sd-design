@@ -271,6 +271,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - InputSearch disabled lifecycle: full 48-case Chrome suite passes with retries disabled. The new direct-disabled icon test reproduced search emission from a disabled input. The handler now checks the native input's effective disabled state, covering direct and FormItem-inherited disabling without duplicating the existing state resolution. Both browser cases verify no disabled search event, re-enabling, exactly one successful search and its current-value payload. The inherited fixture includes Form and FormItem with a model; Form alone does not provide the field context used by Input. Composition and remaining Search/Password interactions are still pending.
 
+- Input composition and accepted-value events: full 51-case Chrome suite passes with retries disabled. Browser-dispatched composition events confirm model/input updates are deferred and Enter is suppressed during composition. A regression reproduced the model and DOM being truncated to two characters while the input callback still received all three. updateValue now returns its accepted value, used by both regular and composition input emissions. Tests cover composition completion, its subsequent Enter, and paste-style input truncation. These are browser event-sequence tests, not operating-system IME automation. Remaining dynamic attributes and Password/Search interaction review are pending.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.

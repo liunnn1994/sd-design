@@ -249,6 +249,7 @@
     }
     innerValue.value = nextValue;
     emit('update:modelValue', nextValue);
+    return nextValue;
   };
   const handleMousedown = (event: MouseEvent) => {
     if (inputRef.value && event.target !== inputRef.value) {
@@ -299,8 +300,8 @@
         keepControl();
         return;
       }
-      updateValue(value);
-      emit('input', value, event);
+      const nextValue = updateValue(value);
+      emit('input', nextValue, event);
       eventHandlers.value?.onInput?.(event);
       keepControl();
     } else {
@@ -321,8 +322,8 @@
         keepControl();
         return;
       }
-      updateValue(value);
-      emit('input', value, event);
+      const nextValue = updateValue(value);
+      emit('input', nextValue, event);
       eventHandlers.value?.onInput?.(event);
       keepControl();
     }
