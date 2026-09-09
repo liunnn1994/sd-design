@@ -428,6 +428,20 @@
     const schema = new Schema(
       {
         [_field]: rules.map(({ ...rule }) => {
+          if (rule.validator) {
+            const validator = rule.validator;
+            rule.validator = async (value, callback) => {
+              try {
+                await validator(value, callback);
+              } catch (error) {
+                callback(
+                  error instanceof Error && error.message
+                    ? error.message
+                    : String(error) || 'Error',
+                );
+              }
+            };
+          }
           if (!rule.type && !rule.validator) {
             rule.type = 'string';
           }

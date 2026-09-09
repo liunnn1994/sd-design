@@ -117,7 +117,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Form submission snapshot follow-up: full 51-case Chrome suite passes with retries disabled. Two deferred-validator cases reproduced success and failure events carrying newly edited values while validation concerned the original value. Submission now captures a deep model snapshot before validation and shares it across submitSuccess/submitFailed/submit payloads. The cases inspect both outcome and common event values, failure error value, the native submit event and the input retaining edits. A third case confirms no submission callbacks after unmount without requiring a production change. Custom validator throw/rejection recovery remains to be checked; Form stays in progress.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: form.
+- Form final exception review: full 53-case Chrome suite passes with retries disabled (24 original behavior + 14 demos + 15 added lifecycle cases). Both synchronous custom-validator throws and rejected Promises reproduced unhandled rejections during native form submission. Custom validators now report exceptions through the existing field-error callback, allowing validation and submission to settle. New cases verify failure events and visible messages, then editing and successful resubmission with cleared errors. Completed source, public contract, helper, style and lifecycle review; the earlier dynamic registration, reset, nested cleanup, result identity and submission regressions remain passing. Standard TypeScript verification remains pending for the repository gate.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: grid.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -157,7 +159,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | ellipsis                      | Reviewed                             |
 | empty                         | Reviewed                             |
 | file-previewer                | Reviewed                             |
-| form                          | In progress                          |
+| form                          | Reviewed                             |
 | grid                          | Pending                              |
 | header-list                   | Pending                              |
 | icon                          | Pending                              |
