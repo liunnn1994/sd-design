@@ -236,10 +236,10 @@
     const renderedHeight = naturalHeight * scaleY;
 
     selection.$change(
-      1,
-      1,
-      (scaleX > 1 ? renderedWidth : image.clientWidth) - 2,
-      (scaleY > 1 ? renderedHeight : image.clientHeight) - 2,
+      props.selectionX ?? 1,
+      props.selectionY ?? 1,
+      props.selectionWidth ?? (scaleX > 1 ? renderedWidth : image.clientWidth) - 2,
+      props.selectionHeight ?? (scaleY > 1 ? renderedHeight : image.clientHeight) - 2,
     );
   }
 
