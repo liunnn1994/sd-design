@@ -1,8 +1,9 @@
-import { Ref } from 'vue';
+import { Ref, toRaw } from 'vue';
 
 import { isArray, isNull, isNumber, isObject, isString, isUndefined } from '../_utils/is';
 import { BaseType } from '../_utils/types';
 import {
+  CascaderLazyLoadOptions,
   CascaderFieldNames,
   CascaderModelValue,
   CascaderOption,
@@ -33,7 +34,7 @@ export const getOptionInfos = (
     totalLevel: Ref<number>;
     checkStrictly: Ref<boolean>;
     enabledLazyLoad: boolean;
-    lazyLoadOptions: Record<string, CascaderOption[]>;
+    lazyLoadOptions: CascaderLazyLoadOptions;
     valueKey: Ref<string>;
     fieldNames: Required<CascaderFieldNames>;
   },
@@ -68,8 +69,9 @@ export const getOptionInfos = (
 
     if (enabledLazyLoad && !data.isLeaf) {
       data.isLeaf = false;
-      if (lazyLoadOptions[key]) {
-        data.children = travelOptions(lazyLoadOptions[key], data, level + 1);
+      const cached = lazyLoadOptions[key];
+      if (cached && toRaw(cached.source) === toRaw(item)) {
+        data.children = travelOptions(cached.children, data, level + 1);
       }
       return;
     }
@@ -158,9 +160,8 @@ export const getCheckedStatus = (option: CascaderOptionInfo, valueMap?: Map<stri
       checked = true;
     }
   } else {
-    const reg = new RegExp(`^${option.key}(-|$)`);
     const checkedLeafOptionNumber = Array.from(valueMap?.keys() ?? []).reduce((pre, key) => {
-      if (reg.test(key)) {
+      if (key === option.key || key.startsWith(`${option.key}-`)) {
         return pre + 1;
       }
       return pre;

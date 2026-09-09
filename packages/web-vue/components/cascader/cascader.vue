@@ -125,6 +125,7 @@
   } from 'vue';
 
   import type {
+    CascaderLazyLoadOptions,
     CascaderModelValue,
     CascaderOption,
     CascaderOptionInfo,
@@ -358,10 +359,11 @@
   const leafOptionValueMap = reactive(new Map<BaseType, string>());
   const leafOptionSet = reactive(new Set<CascaderOptionInfo>());
 
-  const lazyLoadOptions = reactive<Record<string, CascaderOption[]>>({});
+  const lazyLoadOptions = reactive<CascaderLazyLoadOptions>({});
 
   const addLazyLoadOptions = (children: CascaderOption[], key: string) => {
-    lazyLoadOptions[key] = children;
+    const source = optionMap.get(key)?.raw;
+    if (source) lazyLoadOptions[key] = { source, children };
   };
 
   const DEFAULT_FIELD_NAMES = {
@@ -379,7 +381,7 @@
   }));
 
   watch(
-    [options, lazyLoadOptions, mergedFieldNames],
+    [options, lazyLoadOptions, mergedFieldNames, loadMore],
     ([_options, _lazyLoadOptions, _fieldNames]) => {
       optionMap.clear();
       leafOptionMap.clear();

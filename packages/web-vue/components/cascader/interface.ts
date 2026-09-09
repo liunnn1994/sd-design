@@ -1,6 +1,11 @@
 import { BaseType, FieldString } from '../_utils/types';
 import { TagProps } from '../tag';
 
+export type CascaderLazyLoadOptions = Record<
+  string,
+  { source: CascaderOption; children: CascaderOption[] }
+>;
+
 export type CascaderOptionValue = BaseType | Record<string, unknown>;
 
 export type CascaderPathValue = CascaderOptionValue[];
