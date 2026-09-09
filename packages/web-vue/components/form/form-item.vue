@@ -568,6 +568,7 @@
   });
 
   onBeforeUnmount(() => {
+    clearValidate();
     if (formItemInfo.field) {
       formCtx.removeField?.(formItemInfo);
     }
