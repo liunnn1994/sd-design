@@ -186,7 +186,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | header-list                   | Empty directory; not implemented     |
 | icon                          | Reviewed                             |
 | icon-component                | Reviewed                             |
-| image                         | Pending                              |
+| image                         | In progress                          |
 | input                         | Pending                              |
 | input-mask                    | Pending                              |
 | input-number                  | Pending                              |
@@ -250,6 +250,8 @@ Includes every immediate directory in components; internal helpers and styles re
 | upload                        | Pending                              |
 | verification-code             | Pending                              |
 | watermark                     | Pending                              |
+
+- Image (in progress): full 56-case Chrome suite passes with retries disabled (44 existing behavior/helper + 11 demos + 1 group identity lifecycle). Read Image, preview/group rendering and lifecycle, drag/load hooks, footer/action/toolbar/arrow components, utilities, exports, public types and primary image/preview SCSS. The browser regression reproduced clicking the first child opening the last child because a script-setup counter restarted at zero for every instance. Registration now uses the Vue instance uid. Three decoded SVG images can be opened and navigated independently; removing the middle child leaves the other registrations working. Dynamic source, explicit source-list and preview cleanup review remain pending. Standard TypeScript validation remains pending.
 
 ## Release gates still pending
 

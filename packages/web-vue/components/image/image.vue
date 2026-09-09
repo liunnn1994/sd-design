@@ -73,6 +73,7 @@
     useAttrs,
     StyleValue,
     CSSProperties,
+    getCurrentInstance,
   } from 'vue';
 
   import type { ImagePreviewProps } from './interface';
@@ -90,8 +91,6 @@
   import ImageFooter from './image-footer.vue';
   import ImagePreview from './preview.vue';
   import { normalizeImageSizeProp } from './utils';
-
-  let uuid = 0;
 
   defineOptions({ name: 'Image', inheritAttrs: false });
 
@@ -327,7 +326,7 @@
     setLoadStatus('loading');
   });
 
-  const imageId = uuid++;
+  const imageId = getCurrentInstance()!.uid;
   watchEffect((onInvalidate) => {
     const unRegister = groupContext?.registerImageUrl?.(
       imageId,
