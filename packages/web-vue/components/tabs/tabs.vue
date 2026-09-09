@@ -6,9 +6,7 @@
           `${prefixCls}-content-list`,
           { [`${prefixCls}-content-animation`]: props.animation },
         ]"
-        :style="
-          rtl ? { marginRight: `-${activeIndex * 100}%` } : { marginLeft: `-${activeIndex * 100}%` }
-        "
+        :style="contentStyle"
       >
         <VNodeRenderer :content="getChildren()" />
       </div>
@@ -202,6 +200,13 @@
     const index = tabKeys.value.indexOf(computedActiveKey.value);
     return index === -1 ? 0 : index;
   });
+  const configContext = inject(configProviderInjectionKey, undefined);
+  const rtl = computed(() => configContext?.rtl ?? false);
+  // 用 transform 代替 margin 做滑动位移：transform 不参与布局，动画期间
+  // 由合成器处理，重型面板不会逐帧 reflow。RTL 布局下面板向左溢出，滑动方向相反。
+  const contentStyle = computed(() => ({
+    transform: `translateX(${rtl.value ? '' : '-'}${activeIndex.value * 100}%)`,
+  }));
   const { scrollbarProps } = useScrollbar(toRef(props, 'scrollbar'));
   const paneScrollbar = computed<ScrollbarProps | false>(() =>
     props.fullHeight && props.scrollbar !== false ? scrollbarProps.value : false,
@@ -247,8 +252,6 @@
   };
   const handleDelete = (key: string | number, event: Event) => emit('delete', key, event);
 
-  const configContext = inject(configProviderInjectionKey, undefined);
-  const rtl = computed(() => configContext?.rtl ?? false);
   const cls = computed(() => [
     prefixCls,
     `${prefixCls}-${mergedDirection.value}`,

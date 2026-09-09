@@ -4,6 +4,8 @@ description: 将内容组织同一视图中，一次可查看一个视图内容�
 ---
 
 import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import TabsAsyncDemo from '../../../../components/generated/tabs/async.vue';
+import tabsAsyncSource from '../../../../components/generated/tabs/async.vue?raw';
 import TabsBasicDemo from '../../../../components/generated/tabs/basic.vue';
 import tabsBasicSource from '../../../../components/generated/tabs/basic.vue?raw';
 import TabsEditableDemo from '../../../../components/generated/tabs/editable.vue';
@@ -122,6 +124,19 @@ import tabsTypeSource from '../../../../components/generated/tabs/type.vue?raw';
 <DemoBlock source={tabsTypeSource} mainFile="src/tabs-type.vue">
 
 <TabsTypeDemo client:only="vue" />
+
+</DemoBlock>
+
+### 性能建议
+
+面板内容多而复杂导致切换卡顿时，按以下顺序处理：
+
+1. **lazy-load**：面板首次激活才挂载内容，降低首屏成本。
+2. **异步面板 + loading**：把重型面板拆成异步组件，切换进入时先渲染 loading 占位：
+
+<DemoBlock source={tabsAsyncSource} mainFile="src/tabs-async.vue">
+
+<TabsAsyncDemo client:only="vue" />
 
 </DemoBlock>
 

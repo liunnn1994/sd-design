@@ -15,9 +15,9 @@
         :outer-class="`${prefixCls}-pane-scrollbar`"
         v-bind="paneScrollbarProps"
       >
-        <slot />
+        <PaneContent />
       </Scrollbar>
-      <slot v-else />
+      <PaneContent v-else />
     </div>
   </div>
 </template>
@@ -25,6 +25,7 @@
 <script setup lang="ts">
   import {
     computed,
+    defineComponent,
     getCurrentInstance,
     inject,
     onBeforeUnmount,
@@ -34,6 +35,7 @@
     toRefs,
     useSlots,
     watch,
+    type VNode,
   } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
@@ -106,6 +108,26 @@
     `${prefixCls}-pane`,
     { [`${prefixCls}-pane-scroll`]: hasPaneScrollbar.value },
   ]);
+
+  /**
+   * 非激活时冻结面板内容：复用上次渲染的同一批 vnode 引用，Vue 渲染器对
+   * 相同引用会整体跳过 patch，避免切换标签时重型面板子树被反复重建和 diff。
+   * 面板激活期间始终渲染最新内容并同步缓存，重新激活时自动补上隐藏期间
+   * 错过的父作用域数据更新。
+   */
+  const PaneContent = defineComponent({
+    name: 'TabPaneContent',
+    setup() {
+      let cache: VNode[] | null = null;
+      return () => {
+        if (active.value) {
+          cache = slots.default?.() ?? null;
+          return cache;
+        }
+        return cache ?? (cache = slots.default?.() ?? null);
+      };
+    },
+  });
 
   const data = reactive({
     key,

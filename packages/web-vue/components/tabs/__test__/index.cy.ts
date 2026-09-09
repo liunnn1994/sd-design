@@ -1,3 +1,6 @@
+import { defineComponent, h, ref } from 'vue';
+
+import ConfigProvider from '../../config-provider';
 import Tabs from '../index';
 
 const { TabPane } = Tabs;
@@ -306,5 +309,118 @@ describe('Tabs', () => {
     });
     cy.get('.sd-tabs').should('have.class', 'sd-tabs-bottom');
     cy.get('.sd-tabs').children().first().should('have.class', 'sd-tabs-content');
+  });
+
+  it('slides content via transform and animates the transform (not margin)', () => {
+    cy.mount(Tabs, {
+      global: { components: { TabPane } },
+      props: { animation: true },
+      slots: { default: panes3 },
+    });
+    cy.get('.sd-tabs-content-list').should('have.css', 'transition-property', 'transform');
+    cy.get('.sd-tabs-tab').eq(2).click();
+    cy.get('.sd-tabs-content-list')
+      .should('have.attr', 'style')
+      .and('match', /translateX\(-200%\)/);
+  });
+
+  it('reverses the transform slide direction under RTL', () => {
+    const Harness = defineComponent({
+      setup() {
+        return () =>
+          h(
+            ConfigProvider,
+            { rtl: true },
+            {
+              default: () =>
+                h(Tabs, null, {
+                  default: () => [
+                    h(TabPane, { key: '1', title: 'Tab 1' }, () => 'Panel 1'),
+                    h(TabPane, { key: '2', title: 'Tab 2' }, () => 'Panel 2'),
+                    h(TabPane, { key: '3', title: 'Tab 3' }, () => 'Panel 3'),
+                  ],
+                }),
+            },
+          );
+      },
+    });
+    cy.mount(Harness);
+    cy.get('.sd-tabs-tab').eq(2).click();
+    cy.get('.sd-tabs-content-list')
+      .should('have.attr', 'style')
+      .and('match', /translateX\(200%\)/);
+  });
+
+  it('freezes inactive pane content: slot fns not re-run while hidden, updates land on reactivation', () => {
+    const renderCounts = [0, 0, 0];
+    const slotCalls = [0, 0, 0];
+    const label = ref('A');
+    const Heavy = defineComponent({
+      name: 'Heavy',
+      props: {
+        index: { type: Number, required: true },
+        label: { type: String, required: true },
+      },
+      setup(props) {
+        return () => {
+          renderCounts[props.index] += 1;
+          return h(
+            'div',
+            { class: `heavy heavy-${props.index}` },
+            `pane-${props.index}:${props.label}`,
+          );
+        };
+      },
+    });
+    const pane = (i: number) =>
+      h(
+        TabPane,
+        { key: i, title: `Tab ${i + 1}` },
+        {
+          default: () => {
+            slotCalls[i] += 1;
+            return h(Heavy, { index: i, label: label.value });
+          },
+        },
+      );
+    cy.mount(Tabs, {
+      slots: { default: () => [pane(0), pane(1), pane(2)] },
+    });
+
+    let baseCalls: number[] = [];
+    let baseRenders: number[] = [];
+    cy.get('@vue').then(() => {
+      baseCalls = [...slotCalls];
+      baseRenders = [...renderCounts];
+    });
+    const frozenDelta = (calls: number[], renders: number[]) =>
+      cy.get('@vue').should(() => {
+        expect([slotCalls[0] - baseCalls[0], slotCalls[2] - baseCalls[2]]).to.deep.equal(calls);
+        expect([renderCounts[0] - baseRenders[0], renderCounts[2] - baseRenders[2]]).to.deep.equal(
+          renders,
+        );
+      });
+
+    // 冻结断言只看非激活面板（pane0/pane2）的增量；激活面板因既有 onUpdated 链路会多次执行 slot，不在此断言
+
+    // 切换后：只有新激活面板重新执行 slot；非激活面板走缓存跳过 patch
+    cy.get('.sd-tabs-tab').eq(1).click();
+    frozenDelta([0, 0], [0, 0]);
+    cy.get('.heavy-0').should('have.text', 'pane-0:A');
+
+    // 隐藏期间父作用域数据变化：激活面板立即更新；
+    // 冻结面板不重渲染，重新激活时补渲染最新数据
+    cy.get('.heavy-1')
+      .should('have.text', 'pane-1:A')
+      .then(() => {
+        label.value = 'B';
+      });
+    frozenDelta([0, 0], [0, 0]);
+    cy.get('.heavy-1').should('have.text', 'pane-1:B');
+
+    cy.get('.sd-tabs-tab').eq(0).click();
+    frozenDelta([1, 0], [1, 0]);
+    cy.get('.heavy-0').should('have.text', 'pane-0:B');
+    cy.get('.heavy-2').should('have.text', 'pane-2:A');
   });
 });

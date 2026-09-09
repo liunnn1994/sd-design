@@ -627,7 +627,8 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
   }
 
   &-content-animation {
-    transition: margin theme.$transition-duration-2 theme.$transition-timing-function-standard;
+    // transform 位移动画由合成器处理，避免重型面板逐帧 reflow
+    transition: transform theme.$transition-duration-2 theme.$transition-timing-function-standard;
   }
 
   &-horizontal#{&}-justify {
