@@ -2,6 +2,7 @@ import type { Component } from 'vue';
 
 import { isPlainObject } from 'es-toolkit';
 
+import { hasUnsafePathSegment } from '../_utils/get-value-by-path';
 import { getPrefixCls } from '../_utils/global-config';
 import AutoComplete from '../auto-complete';
 import Cascader from '../cascader';
@@ -124,6 +125,7 @@ export function getJsonFormValue(
   adapter: 'default' | typeof A2UI_0_9_1 = 'default',
 ) {
   const segments = parseJsonFormPath(path, adapter);
+  if (hasUnsafePathSegment(segments)) return undefined;
   let current: unknown = model;
 
   for (const segment of segments) {
@@ -149,7 +151,7 @@ export function setJsonFormValue(
 
   const segments = parseJsonFormPath(path, adapter);
 
-  if (segments.length === 0) {
+  if (segments.length === 0 || hasUnsafePathSegment(segments)) {
     return;
   }
 

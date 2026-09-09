@@ -3,6 +3,11 @@ import { toPath } from 'es-toolkit/compat';
 import { isArray, isObject, isUndefined } from './is';
 import { Data } from './types';
 
+export const hasUnsafePathSegment = (segments: readonly string[]) =>
+  segments.some(
+    (segment) => segment === '__proto__' || segment === 'constructor' || segment === 'prototype',
+  );
+
 export const getValueByPath = <T = Data>(
   obj: Data | undefined,
   path: string | undefined,
@@ -11,7 +16,7 @@ export const getValueByPath = <T = Data>(
     return undefined;
   }
   const keys = toPath(path);
-  if (keys.length === 0) {
+  if (keys.length === 0 || hasUnsafePathSegment(keys)) {
     return undefined;
   }
 
@@ -41,7 +46,7 @@ export const setValueByPath = (
     return;
   }
   const keys = toPath(path);
-  if (keys.length === 0) {
+  if (keys.length === 0 || hasUnsafePathSegment(keys)) {
     return;
   }
 
