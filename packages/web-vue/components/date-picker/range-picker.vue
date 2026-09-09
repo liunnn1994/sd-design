@@ -622,6 +622,11 @@
 
   const refInput = ref();
   const focusedIndex = ref(getFocusedIndex());
+  watch(disabledArray, () => {
+    if (!triggerDisabled.value) {
+      focusedIndex.value = getFocusedIndex(focusedIndex.value);
+    }
+  });
   const nextFocusedIndex = computed(() => {
     const cur = focusedIndex.value;
     const next = cur ^ 1;
@@ -865,6 +870,7 @@
     showPanel?: boolean,
     emitOk?: boolean,
   ) {
+    if (triggerDisabled.value || props.readonly) return;
     if (isDisabledDate(value?.[0], 'start') || isDisabledDate(value?.[1], 'end')) {
       return;
     }
@@ -910,6 +916,7 @@
       updateHeader?: boolean;
     },
   ) {
+    if (triggerDisabled.value || props.readonly) return;
     const { emitSelect = false, updateHeader = false } = options || {};
 
     let newValue = [...value];
@@ -939,6 +946,7 @@
       updateHeader?: boolean;
     },
   ) {
+    if (triggerDisabled.value || props.readonly) return;
     const { updateHeader = false } = options || {};
     setPreviewValue(value);
     setInputValue(undefined);
@@ -989,6 +997,7 @@
   }
 
   function onPanelCellClick(date: Dayjs) {
+    if (triggerDisabled.value || props.readonly) return;
     const newValue = getValueToModify();
     const mergedOpValue = getMergedOpValue(date, timePickerValue.value[focusedIndex.value]);
     newValue[focusedIndex.value] = mergedOpValue;
@@ -1007,6 +1016,7 @@
   }
 
   function onTimePickerSelect(time: Dayjs, type: 'start' | 'end') {
+    if (triggerDisabled.value || props.readonly) return;
     const updateIndex = type === 'start' ? 0 : 1;
     const mergedOpValue = getMergedOpValue(timePickerValue.value[updateIndex], time);
     const newTimeValue = [...timePickerValue.value];
@@ -1040,6 +1050,7 @@
   }
 
   function onPanelShortcutClick(value: Array<Dayjs | undefined>, shortcut: ShortcutType) {
+    if (triggerDisabled.value || props.readonly) return;
     emit('select-shortcut', shortcut);
     confirm(value, false);
   }
