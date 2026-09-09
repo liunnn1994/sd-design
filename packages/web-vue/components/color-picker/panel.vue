@@ -132,8 +132,8 @@
               :disabled="props.disabled"
               :model-value="draft"
               @input="updateDraft(index, $event)"
-              @change="commitDrafts"
-              @press-enter="commitDrafts"
+              @change="commitDrafts(index)"
+              @press-enter="commitDrafts(index)"
             />
           </InputGroup>
         </div>
@@ -418,9 +418,13 @@
     nextDrafts[index] = value;
     formatDrafts.value = nextDrafts;
   };
-  const commitDrafts = () => {
+  const commitDrafts = (index: number) => {
+    const drafts = [...formatDrafts.value];
+    if (index === 1 && normalizeFormat(selectedFormat.value, props.enableAlpha) === 'HEX8') {
+      drafts[0] = drafts[0].slice(0, 6);
+    }
     handleHsvaChange(
-      parseFormatInputValues(formatDrafts.value, selectedFormat.value, props.enableAlpha),
+      parseFormatInputValues(drafts, selectedFormat.value, props.enableAlpha),
       'input',
     );
   };
