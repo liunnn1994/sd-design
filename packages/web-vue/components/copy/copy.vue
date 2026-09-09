@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, useAttrs, useSlots } from 'vue';
+  import { computed, onBeforeUnmount, useAttrs, useSlots } from 'vue';
 
   import copy from 'copy-to-clipboard';
 
@@ -92,6 +92,11 @@
     content: props.tooltipProps?.content ?? mergedTooltip.value,
   }));
 
+  let disposed = false;
+  onBeforeUnmount(() => {
+    disposed = true;
+  });
+
   async function handleCopy() {
     if (isDisabled.value || !props.content) {
       return;
@@ -99,11 +104,13 @@
 
     // copy-to-clipboard 在所有 fallback（clipboard API → execCommand → prompt）
     // 都失败时 resolve false：这里把失败抛出来，而不是静默提示"复制成功"
-    const success = await copy(props.content, props.clipboardProps);
+    const content = props.content;
+    const success = await copy(content, props.clipboardProps);
+    if (disposed) return;
     if (!success) {
       throw new Error('[sdCopy] failed to copy content to the clipboard');
     }
     Message.success(mergedSuccessMessage.value);
-    emit('copy', props.content);
+    emit('copy', content);
   }
 </script>
