@@ -158,7 +158,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, watch, type CSSProperties, type PropType } from 'vue';
+  import { computed, nextTick, ref, watch, type CSSProperties, type PropType } from 'vue';
 
   import { createReusableTemplate } from '@vueuse/core';
 
@@ -386,6 +386,16 @@
     syncDrafts();
     props.onChange?.(formatColorState(nextState, selectedFormat.value, props.enableAlpha), trigger);
     if (notifyPaletteBar) props.onPaletteBarChange?.({ color: getColorObject(nextState) });
+    nextTick(() => {
+      const acceptedState = parseColorState(props.value, props.colorModes);
+      if (
+        formatColorState(colorState.value, selectedFormat.value, props.enableAlpha) ===
+        formatColorState(acceptedState, selectedFormat.value, props.enableAlpha)
+      )
+        return;
+      colorState.value = reconcileGradientState(colorState.value, acceptedState);
+      syncDrafts();
+    });
   };
   const handleHsvaChange = (
     nextHsva: HSVA,

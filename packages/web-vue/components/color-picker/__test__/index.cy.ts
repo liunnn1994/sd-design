@@ -148,7 +148,7 @@ describe('ColorPicker', () => {
         hideTrigger: true,
         enableMultipleGradient: true,
         colorModes: ['linear-gradient'],
-        modelValue: gradientValue,
+        defaultValue: gradientValue,
       },
     });
     cy.get('.sd-color-picker-gradient-bar').click('center');
@@ -412,7 +412,7 @@ describe('ColorPicker', () => {
 
   it('adds a gradient stop with keyboard Enter', () => {
     cy.mount(ColorPicker, {
-      props: { hideTrigger: true, colorModes: ['linear-gradient'], modelValue: gradientValue },
+      props: { hideTrigger: true, colorModes: ['linear-gradient'], defaultValue: gradientValue },
     });
     cy.get('.sd-color-picker-gradient-thumb').should('have.length', 2);
     cy.get('.sd-color-picker-gradient-bar').trigger('keydown', { key: 'Enter' });
@@ -424,7 +424,11 @@ describe('ColorPicker', () => {
 
   it('removes a gradient stop with the Delete key', () => {
     cy.mount(ColorPicker, {
-      props: { hideTrigger: true, colorModes: ['linear-gradient'], modelValue: threeStopGradient },
+      props: {
+        hideTrigger: true,
+        colorModes: ['linear-gradient'],
+        defaultValue: threeStopGradient,
+      },
     });
     cy.get('.sd-color-picker-gradient-thumb').should('have.length', 3);
     cy.get('.sd-color-picker-gradient-thumb').eq(0).trigger('keydown', { key: 'Delete' });
@@ -438,7 +442,7 @@ describe('ColorPicker', () => {
 
   it('updates the gradient degree from the angle input', () => {
     cy.mount(ColorPicker, {
-      props: { hideTrigger: true, colorModes: ['linear-gradient'], modelValue: gradientValue },
+      props: { hideTrigger: true, colorModes: ['linear-gradient'], defaultValue: gradientValue },
     });
     cy.get('.sd-color-picker-gradient-degree input').clear().type('180{enter}');
     cy.get('@vue').should(({ wrapper }) => {

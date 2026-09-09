@@ -6,7 +6,7 @@
       :enable-multiple-gradient="props.enableMultipleGradient"
       :recent-colors="mergedRecentColors"
       :swatch-colors="mergedSwatchColors"
-      :disabled="props.disabled"
+      :disabled="props.disabled || !!props.readonly"
       :enable-alpha="mergedEnableAlpha"
       :format="normalizedFormat"
       :show-primary-color-preview="props.showPrimaryColorPreview"
@@ -234,7 +234,7 @@
   };
 
   const handleColorChange = (value: string, trigger: ColorPickerChangeTrigger) => {
-    if (!props.disabled) emitChange(value, trigger);
+    if (!props.disabled && !props.readonly) emitChange(value, trigger);
   };
 
   const handleClear = (event: MouseEvent) => {
