@@ -8,7 +8,7 @@
     <template v-if="showCheckboxLabel">
       {{ checkboxLabel }}
     </template>
-    <template v-for="(_, name) in forwardedSlotNames" #[name]="slotProps">
+    <template v-for="name in forwardedSlotNames" #[name]="slotProps">
       <slot :name="name" v-bind="slotProps" />
     </template>
     <template v-for="(slotRenderer, name) in schema.componentSlots ?? {}" #[name]="slotProps">

@@ -317,6 +317,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - InputTag completion: full 47-case Chrome suite passes with retries disabled. Two final browser cases disable transition stubs and verify tag removal, enter completion with full opacity, subsequent Backspace, actual container resizing from 400px to 150px and back, overflow counter recalculation, removal, clearing and successful new entry afterward. No production change was needed for these flows. The clear control uses a forced click because its visibility depends on CSS hover; tag close controls use ordinary clicks. Source, data mapping, public exports/types, styles/tokens, draft lifecycle, deletion rules, uniqueness, composition and responsive/transition review completed. Standard TypeScript/build and final full-repository browser validation remain release gates. Next component: JsonForm.
 
+- JsonForm (in progress): full 35-case Chrome suite passes with retries disabled (30 behavior + 3 demos + 2 component-slot regressions). Read form/model handling, field rendering, control mapping, the complete path/A2UI utility implementation, exports and styles/tokens. Both new browser cases reproduced missing prefix/suffix content because the control wrapper iterated a slot-name array using its index as the slot name. Forwarding now uses each actual name. Cases verify slot placement and updated field values after typing. Public type review, path boundaries, dynamic configuration and validation lifecycle remain pending; standard TypeScript validation remains a repository gate.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
