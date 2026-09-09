@@ -191,7 +191,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | input-mask                    | Reviewed                             |
 | input-number                  | Reviewed                             |
 | input-tag                     | Reviewed                             |
-| json-form                     | Pending                              |
+| json-form                     | Reviewed                             |
 | kv-list                       | Pending                              |
 | layout                        | Pending                              |
 | link                          | Pending                              |
@@ -328,6 +328,8 @@ Includes every immediate directory in components; internal helpers and styles re
 - JsonForm literal-key paths: combined Chrome regression passes all 43 JsonForm and 53 Form cases with retries disabled. Three new regressions reproduced literal dot/bracket keys validating as missing and an empty key bypassing required validation. A2UI field normalization now quotes ambiguous path segments; the shared getValueByPath/setValueByPath helpers use the already installed es-toolkit toPath parser, supporting quoted literal and empty segments. All five pointer cases were then extended with a user-clicked reset and passed again, verifying both reads and writes. Other path boundaries and remaining JsonForm lifecycle checks are pending; standard TypeScript/build validation remains a repository gate.
 
 - JsonForm prototype-path isolation: combined Chrome regression passes all 44 JsonForm and 53 Form cases with retries disabled. A browser regression reproduced editing a **proto** path adding a property to Object.prototype; its afterEach cleanup removed the temporary audit property. JsonForm and shared form path readers/writers now reject parsed **proto**, constructor and prototype segments before traversal. The case verifies editing and reset both leave Object.prototype untouched, while the combined suite covers normal nested paths, quoted special keys and form validation/reset behavior. Remaining JsonForm lifecycle checks and repository TypeScript/build gates are pending.
+
+- JsonForm final validation lifecycle: 45 distinct Chrome cases pass with retries disabled (previous full 44-case run plus the new lifecycle case). User-clicked validation rejects an empty required field, succeeds while that field is hidden, rejects it again when restored, accepts typed content, and rejects the initial empty value restored by reset. No production change was needed. Component rendering, adapters, models, paths, slots, public types and styles have been reviewed. Standard TypeScript/build validation remains a repository gate. Next component: KvList.
 
 ## Release gates still pending
 
