@@ -190,7 +190,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | input                         | Reviewed                             |
 | input-mask                    | Reviewed                             |
 | input-number                  | Reviewed                             |
-| input-tag                     | Pending                              |
+| input-tag                     | Reviewed                             |
 | json-form                     | Pending                              |
 | kv-list                       | Pending                              |
 | layout                        | Pending                              |
@@ -314,6 +314,8 @@ Includes every immediate directory in components; internal helpers and styles re
 - InputTag unique object values: full 43-case Chrome suite passes with retries disabled. Both default and custom field-name regressions reproduced uniqueValue accepting an existing object's value as a new string tag. Duplicate checks now use normalized valueData instead of comparing the input string to raw object identities. Both browser cases verify no model update for a duplicate, preserved pressEnter notification, and successful creation of a different value afterward. Composition and remaining responsive/transition review are still pending.
 
 - InputTag composition: two additional Chrome cases pass with retries disabled, bringing verified coverage to 45 distinct cases (previous full 43-case run plus the new spec). Browser-dispatched composition events verify deferred draft/model updates, Enter suppression while composing, one tag submission after completion, Backspace suppression during composition and removal afterward. No production change was needed. These are browser event-sequence checks, not operating-system IME automation. Remaining responsive/transition review is still pending.
+
+- InputTag completion: full 47-case Chrome suite passes with retries disabled. Two final browser cases disable transition stubs and verify tag removal, enter completion with full opacity, subsequent Backspace, actual container resizing from 400px to 150px and back, overflow counter recalculation, removal, clearing and successful new entry afterward. No production change was needed for these flows. The clear control uses a forced click because its visibility depends on CSS hover; tag close controls use ordinary clicks. Source, data mapping, public exports/types, styles/tokens, draft lifecycle, deletion rules, uniqueness, composition and responsive/transition review completed. Standard TypeScript/build and final full-repository browser validation remain release gates. Next component: JsonForm.
 
 ## Release gates still pending
 
