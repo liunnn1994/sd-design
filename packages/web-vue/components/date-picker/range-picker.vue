@@ -871,14 +871,14 @@
     emitOk?: boolean,
   ) {
     if (triggerDisabled.value || props.readonly) return;
-    if (isDisabledDate(value?.[0], 'start') || isDisabledDate(value?.[1], 'end')) {
-      return;
-    }
-
     let newValue = value ? [...value] : undefined;
 
     if (isCompleteRangeValue(newValue)) {
       newValue = getSortedDayjsArrayByExchangeTimeOrNot(newValue);
+    }
+
+    if (isDisabledDate(newValue?.[0], 'start') || isDisabledDate(newValue?.[1], 'end')) {
+      return;
     }
 
     emitChange(newValue, emitOk);
