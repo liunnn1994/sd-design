@@ -381,7 +381,7 @@
   }));
 
   watch(
-    [options, lazyLoadOptions, mergedFieldNames, loadMore],
+    [options, lazyLoadOptions, mergedFieldNames, loadMore, checkStrictly, valueKey],
     ([_options, _lazyLoadOptions, _fieldNames]) => {
       optionMap.clear();
       leafOptionMap.clear();
@@ -531,6 +531,7 @@
   };
 
   const handleClickOption = (option: CascaderOptionInfo, checked?: boolean) => {
+    if (!props.multiple && !props.checkStrictly && !option.isLeaf) return;
     if (props.multiple) {
       selectMultiple(option, checked ?? true);
     } else {
