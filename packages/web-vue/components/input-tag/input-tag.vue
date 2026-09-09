@@ -398,7 +398,10 @@
   const handlePressEnter = (event: KeyboardEvent) => {
     if (!computedInputValue.value) return;
     event.preventDefault();
-    if (props.uniqueValue && computedValue.value?.includes(computedInputValue.value)) {
+    if (
+      props.uniqueValue &&
+      valueData.value.some((item) => item.value === computedInputValue.value)
+    ) {
       emit('pressEnter', computedInputValue.value, event);
       return;
     }

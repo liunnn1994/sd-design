@@ -311,6 +311,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - InputTag removal rules: full 41-case Chrome suite passes with retries disabled. Three regressions reproduced Backspace removing a tag whose tagProps.closable was false, and tagProps.closable=true exposing removal controls despite component disabled/readonly state. Both template branches now apply the resolved closable value after tagProps; resolution prioritizes component state. Backspace selection and removal handling share that resolution. Browser cases verify skipping and retaining the locked tag, absent controls while disabled/readonly, then ordinary click removal after re-enabling. Unique object values, composition and remaining responsive/transition review are still pending.
 
+- InputTag unique object values: full 43-case Chrome suite passes with retries disabled. Both default and custom field-name regressions reproduced uniqueValue accepting an existing object's value as a new string tag. Duplicate checks now use normalized valueData instead of comparing the input string to raw object identities. Both browser cases verify no model update for a duplicate, preserved pressEnter notification, and successful creation of a different value afterward. Composition and remaining responsive/transition review are still pending.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
