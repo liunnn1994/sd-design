@@ -293,6 +293,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - InputNumber formatted accessibility: full 55-case Chrome suite passes with retries disabled. A new browser regression reproduced aria-valuenow containing the formatted text `5 kg`. It now uses the emitted numeric value (retaining stringMode precision), while formatted text is exposed through aria-valuetext. Empty values omit both attributes, and caller inputAttrs still have final precedence. The case verifies initial display/attributes, keyboard stepping and clearing. This verifies browser attributes, not screen-reader output. Remaining dynamic formatting and numeric precision review are pending.
 
+- InputNumber dynamic mode/state: three additional Chrome cases pass with retries disabled, bringing verified coverage to 58 distinct cases (the previous full 55-case run plus this new spec). Switching embed to button and back preserves the current value and subsequent stepping. Both modes block ArrowUp while dynamically readonly and resume ArrowDown after re-enabling editing. No production change was needed. Dynamic formatter/parser replacement and remaining numeric precision review are still pending.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
