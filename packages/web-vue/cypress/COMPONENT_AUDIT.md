@@ -192,7 +192,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | input-number                  | Reviewed                             |
 | input-tag                     | Reviewed                             |
 | json-form                     | Reviewed                             |
-| kv-list                       | Pending                              |
+| kv-list                       | Reviewed                             |
 | layout                        | Pending                              |
 | link                          | Pending                              |
 | list                          | Pending                              |
@@ -334,6 +334,8 @@ Includes every immediate directory in components; internal helpers and styles re
 - KvList (in progress): full 32-case Chrome suite passes with retries disabled (25 existing behavior, 4 demos and 3 text-preservation cases). Read both components, synchronization/parsing helpers, public types, exports, header constants and styles/tokens. Browser regressions reproduced typing a space rebuilding the row and interrupting input, truncating `hello world` to `hello` and dropping leading spaces. The bulk watcher now skips text identical to the current rows' serialization before parsing, avoiding its own lossy round trip. Cases verify internal and surrounding spaces, a URL containing colons, emitted JSON and retained focus; existing external model updates and bulk editing also pass. Actual drag sorting and remaining dynamic model/slot lifecycle review are pending; standard TypeScript/build validation remains a repository gate.
 
 - KvList drag lifecycle: two additional Chrome cases pass with retries disabled, bringing verified coverage to 34 distinct cases (previous full 32-case run plus the new spec). DOM pointer/drag events run through the real sortable library to move the first row to the end, verify JSON and Bulk order, edit the moved row, remove it and check drag-class cleanup. A second case verifies disabled rows cannot initiate dragging, enabling restores initiation, and releasing without movement preserves order. No production change was needed. This covers browser-dispatched drag events rather than operating-system mouse automation. Remaining dynamic model/slot lifecycle review and repository TypeScript/build gates are pending.
+
+- KvList final dynamic lifecycle: full 36-case Chrome suite passes with retries disabled. Two new user flows switch a value editor from built-in to custom slot and back while continuing edits, and apply an external nested JSON mutation containing surrounding spaces followed by an external Bulk replacement and further input. Both JSON and Bulk outputs remain correct; no additional production change was needed. Component rendering, models, bulk parsing, slots, drag lifecycle, disabled state, types, exports and styles have been reviewed. Standard TypeScript/build validation remains a repository gate. Next component: Layout.
 
 ## Release gates still pending
 
