@@ -74,6 +74,7 @@
     StyleValue,
     CSSProperties,
     getCurrentInstance,
+    onBeforeUnmount,
   } from 'vue';
 
   import type { ImagePreviewProps } from './interface';
@@ -331,16 +332,15 @@
   });
 
   const imageId = getCurrentInstance()!.uid;
-  watchEffect((onInvalidate) => {
-    const unRegister = groupContext?.registerImageUrl?.(
+  let unregisterImage: (() => void) | undefined;
+  watchEffect(() => {
+    unregisterImage = groupContext?.registerImageUrl?.(
       imageId,
       (previewProps?.value?.src ?? src?.value) || '',
       preview.value,
     );
-    onInvalidate(() => {
-      unRegister?.();
-    });
   });
+  onBeforeUnmount(() => unregisterImage?.());
 
   function onImgLoaded() {
     if (!src?.value) return;

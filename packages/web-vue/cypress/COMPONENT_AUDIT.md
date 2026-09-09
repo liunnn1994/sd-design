@@ -261,6 +261,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - Image drag lifecycle: full 66-case Chrome suite passes with retries disabled. Browser MouseEvent tests cover dragging a decoded SVG, small-image recentering on mouse release, and closing/reopening during an active drag. The interrupted-drag regression reproduced the moving class surviving reopening. Drag-effect cleanup now removes mousedown from the captured original image, releases window handlers and clears moving. Reopened previews remain at their reset position during mouse movement without a new press. Remaining dynamic group registration and preview action boundary review are pending; Image remains in progress.
 
+- Image group source updates: full 67-case Chrome suite passes with retries disabled. Updating the first child source while its preview was open reproduced an unexpected jump to the second child: effect invalidation deleted and reinserted the registration at the end of the Map. Image now updates its registration in place and unregisters only on component unmount. The decoded-image regression verifies the current preview changes to the replacement source, remains at the first position and navigates right to the original second child. Existing removal and explicit-list cases also pass. Preview action boundary review remains pending; Image remains in progress.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
