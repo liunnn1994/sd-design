@@ -276,6 +276,8 @@
   );
 
   watch(bulkModel, (value) => {
+    if (value === stringifyKvList(publicRows())) return;
+
     const items = parseBulkKvList(value);
     if (isSameKvList(items, publicRows())) return;
 

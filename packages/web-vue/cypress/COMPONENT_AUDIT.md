@@ -331,6 +331,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - JsonForm final validation lifecycle: 45 distinct Chrome cases pass with retries disabled (previous full 44-case run plus the new lifecycle case). User-clicked validation rejects an empty required field, succeeds while that field is hidden, rejects it again when restored, accepts typed content, and rejects the initial empty value restored by reset. No production change was needed. Component rendering, adapters, models, paths, slots, public types and styles have been reviewed. Standard TypeScript/build validation remains a repository gate. Next component: KvList.
 
+- KvList (in progress): full 32-case Chrome suite passes with retries disabled (25 existing behavior, 4 demos and 3 text-preservation cases). Read both components, synchronization/parsing helpers, public types, exports, header constants and styles/tokens. Browser regressions reproduced typing a space rebuilding the row and interrupting input, truncating `hello world` to `hello` and dropping leading spaces. The bulk watcher now skips text identical to the current rows' serialization before parsing, avoiding its own lossy round trip. Cases verify internal and surrounding spaces, a URL containing colons, emitted JSON and retained focus; existing external model updates and bulk editing also pass. Actual drag sorting and remaining dynamic model/slot lifecycle review are pending; standard TypeScript/build validation remains a repository gate.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
