@@ -139,7 +139,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - IconComponent script recovery follow-up: full 17-case Chrome suite passes with retries disabled. A browser request returning 503 followed by a successful symbol script reproduced a permanently cached failure. An error listener now removes the failed URL and script node so a later factory call retries; successful requests stay cached. The regression verifies actual loaded symbol geometry and exactly two total requests with one retained script. The old deduplication test was corrected to create scripts after intercept registration and wait for the successful request; it had previously retained a failed node without checking the network. Dynamic symbol/attribute review remains pending.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: icon-component.
+- IconComponent final symbol review: full 18-case Chrome suite passes with retries disabled (12 original + 4 style + 1 script recovery + 1 dynamic symbol). The final browser case uses real SVG symbols, verifies geometry changing from 10px to 20px, clears type to render a 6px fallback circle, and restores the original symbol. It also verifies dynamic aria-label/data attributes and one click callback. No further production change was needed. Source, exports, styles, factory script loading, runtime props/slots and animation review completed; standard TypeScript verification remains pending for the repository gate.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: image.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -183,7 +185,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | grid                          | Reviewed                             |
 | header-list                   | Empty directory; not implemented     |
 | icon                          | Reviewed                             |
-| icon-component                | In progress                          |
+| icon-component                | Reviewed                             |
 | image                         | Pending                              |
 | input                         | Pending                              |
 | input-mask                    | Pending                              |
