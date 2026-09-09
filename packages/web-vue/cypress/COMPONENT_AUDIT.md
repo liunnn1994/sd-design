@@ -189,7 +189,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | image                         | Reviewed                             |
 | input                         | Reviewed                             |
 | input-mask                    | Reviewed                             |
-| input-number                  | Pending                              |
+| input-number                  | Reviewed                             |
 | input-tag                     | Pending                              |
 | json-form                     | Pending                              |
 | kv-list                       | Pending                              |
@@ -304,6 +304,8 @@ Includes every immediate directory in components; internal helpers and styles re
 - InputNumber exact string stepping: full 66-case Chrome suite passes with retries disabled. Two regressions reproduced an increment of 9007199254740993 producing a smaller value and a long fractional value losing its last digit. A local decimal helper aligns digit strings and performs signed column addition/subtraction; stringMode retains that result when numeric range/precision normalization does not alter it. The implementation avoids BigInt literals to respect the existing ES2015 build target. Four browser cases verify round-trip increments/decrements, emitted strings, negative-to-positive crossing and a scientific-notation step. Exact string range comparisons and precision interactions still require follow-up; standard TypeScript/build validation remains pending.
 
 - InputNumber exact string bounds: full 69-case Chrome suite passes with retries disabled. Three regressions reproduced an increment disabled just below max=1 and values just above/below a bound surviving blur because Number rounded them to the same value. Decimal comparison now reuses exact subtraction for finite bounds. Initial and updated button state, blur normalization and retaining stepped strings use exact range checks. Browser cases verify stepping exactly to the maximum and back, plus both directions of out-of-range correction with emitted string values. Explicit precision combined with stringMode remains to be reviewed before component completion.
+
+- InputNumber completion: full 72-case Chrome suite passes with retries disabled. Two regressions reproduced explicit precision being ignored for positive/negative high-precision values. String rounding now truncates decimal text and performs exact carry with the existing local addition helper, retaining the numeric mode's half-away-from-zero behavior. String commits and steps share exact rounding followed by finite-bound clamping instead of deciding normalization through Number. Three cases verify large positive/negative values, carry into the integer part, emitted strings and subsequent round-trip stepping. Component source, public exports, styles, ordinary input, clear/commit behavior, formatting, dynamic state, long-press lifecycle, accessibility attributes and numeric/string boundary review completed. Standard TypeScript/build and full-repository browser validation remain release gates. Next component: InputTag.
 
 ## Release gates still pending
 

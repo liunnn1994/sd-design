@@ -45,3 +45,14 @@ export function compareDecimal(value: string, boundary: number): number {
   if (!/[1-9]/.test(difference)) return 0;
   return difference.startsWith('-') ? -1 : 1;
 }
+
+export function roundDecimal(value: string, precision: number): string {
+  const negative = value.startsWith('-');
+  const [integer, fraction = ''] = value.replace(/^[+-]/, '').split('.');
+  if (fraction.length <= precision) return value;
+  let rounded = `${integer || '0'}${precision ? `.${fraction.slice(0, precision)}` : ''}`;
+  if (Number(fraction[precision]) >= 5) {
+    rounded = addDecimal(rounded, Number(`1e-${precision}`), false);
+  }
+  return negative && /[1-9]/.test(rounded) ? `-${rounded}` : rounded;
+}

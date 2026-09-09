@@ -134,7 +134,7 @@
   import IconUp from '../icon/icon-up';
   import SdInput from '../input';
   import { useI18n } from '../locale';
-  import { addDecimal, compareDecimal } from './decimal';
+  import { addDecimal, compareDecimal, roundDecimal } from './decimal';
 
   type StepMethods = 'minus' | 'plus';
   type InputNumberValue = string | number | null | undefined;
@@ -304,9 +304,6 @@
     props.stringMode && DECIMAL_PATTERN.test(rawText.value) && Number.isFinite(boundary)
       ? compareDecimal(rawText.value, boundary)
       : (value ?? NaN) - boundary;
-  const isOutsideRange = (value: string) =>
-    (Number.isFinite(props.min) && compareDecimal(value, props.min) < 0) ||
-    (Number.isFinite(props.max) && compareDecimal(value, props.max) > 0);
   const isMin = ref(compareToBoundary(valueNumber.value, props.min) <= 0);
   const isMax = ref(compareToBoundary(valueNumber.value, props.max) >= 0);
   let repeatTimer = 0;
@@ -327,23 +324,28 @@
     isMin.value = compareToBoundary(number, props.min) <= 0;
     isMax.value = compareToBoundary(number, props.max) >= 0;
   };
+  const getLegalString = (value: string) => {
+    if (isNumber(mergedPrecision.value)) value = roundDecimal(value, mergedPrecision.value);
+    if (Number.isFinite(props.min) && compareDecimal(value, props.min) < 0) {
+      value = addDecimal('0', props.min, false);
+    }
+    if (Number.isFinite(props.max) && compareDecimal(value, props.max) > 0) {
+      value = addDecimal('0', props.max, false);
+    }
+    return value;
+  };
   const handleExceedRange = (): InputNumberValue => {
     const finalValue = getLegalValue(valueNumber.value);
-    const clamped = finalValue !== valueNumber.value;
-    // In stringMode a valid raw digit string is authoritative: keep it verbatim
-    // so the display/emit is not rewritten through Number.
-    const keepRaw =
-      props.stringMode &&
-      !clamped &&
-      DECIMAL_PATTERN.test(rawText.value) &&
-      !isOutsideRange(rawText.value);
-    if (!keepRaw) {
-      const stringValue = getStringValue(finalValue);
-      if (clamped || innerValue.value !== stringValue) innerValue.value = stringValue;
+    const useString = props.stringMode && DECIMAL_PATTERN.test(rawText.value);
+    if (useString) {
+      rawText.value = getLegalString(rawText.value);
+      innerValue.value = props.formatter?.(rawText.value) ?? rawText.value;
+    } else {
+      innerValue.value = getStringValue(finalValue);
       rawText.value = isNumber(finalValue) ? toPlainString(finalValue) : '';
     }
-    updateNumberStatus(finalValue);
-    const emitted = keepRaw ? rawText.value : getModelValue(finalValue);
+    updateNumberStatus(valueNumber.value);
+    const emitted = useString ? rawText.value : getModelValue(finalValue);
     committedValue = emitted;
     emit('update:modelValue', emitted);
     return emitted;
@@ -372,25 +374,21 @@
       return;
     const steppedText =
       props.stringMode && DECIMAL_PATTERN.test(rawText.value) && Number.isFinite(props.step)
-        ? addDecimal(rawText.value, props.step, method === 'minus')
+        ? getLegalString(addDecimal(rawText.value, props.step, method === 'minus'))
         : undefined;
-    const nextValue = isNumber(valueNumber.value)
-      ? getLegalValue(
-          steppedText === undefined
-            ? NP[method](valueNumber.value, props.step)
-            : Number(steppedText),
-        )
-      : getLegalValue(props.min === -Infinity ? 0 : props.min);
-    const keepSteppedText =
-      steppedText !== undefined &&
-      Number(steppedText) === nextValue &&
-      !isOutsideRange(steppedText);
-    rawText.value = keepSteppedText ? steppedText : toPlainString(nextValue);
-    innerValue.value = keepSteppedText
-      ? (props.formatter?.(rawText.value) ?? rawText.value)
-      : getStringValue(nextValue);
+    const nextValue =
+      steppedText !== undefined
+        ? Number(steppedText)
+        : isNumber(valueNumber.value)
+          ? getLegalValue(NP[method](valueNumber.value, props.step))
+          : getLegalValue(props.min === -Infinity ? 0 : props.min);
+    rawText.value = steppedText ?? toPlainString(nextValue);
+    innerValue.value =
+      steppedText !== undefined
+        ? (props.formatter?.(rawText.value) ?? rawText.value)
+        : getStringValue(nextValue);
     updateNumberStatus(nextValue);
-    const emittedValue = keepSteppedText ? rawText.value : getModelValue(nextValue);
+    const emittedValue = steppedText ?? getModelValue(nextValue);
     committedValue = emittedValue;
     emit('update:modelValue', emittedValue);
     emit('change', emittedValue, event);
