@@ -524,7 +524,11 @@
     }
   };
 
-  const { zIndex, isLastDialog } = usePopupManager('dialog', {
+  const {
+    zIndex,
+    isLastDialog,
+    close: releasePopup,
+  } = usePopupManager('dialog', {
     visible: computedVisible,
   });
   const isFixed = computed(() => {
@@ -629,6 +633,7 @@
 
   onBeforeUnmount(() => {
     invalidatePendingOk();
+    releasePopup();
     resetOverflow();
     removeGlobalKeyDownListener();
   });
