@@ -1,3 +1,4 @@
+import './real-transitions';
 import type { Component } from 'vue';
 
 import { runDemoTests } from '../../../cypress/support/demo-test';

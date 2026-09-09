@@ -1,3 +1,4 @@
+import './real-transitions';
 import Calendar from '../index';
 
 const overlapEvents = [

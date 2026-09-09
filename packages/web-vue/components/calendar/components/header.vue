@@ -38,6 +38,7 @@
             <div :key="view.id + view.start.getTime()">
               <component
                 :is="config.clickToNavigate && view.broaderView ? 'button' : 'div'"
+                :type="config.clickToNavigate && view.broaderView ? 'button' : undefined"
                 v-if="$slots.title || $slots[`title.${view.id}`]"
                 v-on="titleEventHandlers"
                 :class="`${prefixCls}__title`"
@@ -51,6 +52,7 @@
               </component>
               <component
                 :is="config.clickToNavigate && view.broaderView ? 'button' : 'div'"
+                :type="config.clickToNavigate && view.broaderView ? 'button' : undefined"
                 v-else
                 v-on="titleEventHandlers"
                 :class="`${prefixCls}__title`"

@@ -594,7 +594,7 @@
   const cellEventListeners = shallowRef<Record<string, any>>({});
 
   watch(
-    () => [isDisabled.value, config.eventListeners.cell],
+    () => [isDisabled.value, config.eventListeners.cell, config.editableEvents.drag],
     () => {
       if (isDisabled.value) {
         cellEventListeners.value = {};

@@ -28,7 +28,7 @@ export const useView = (
   // [firstCellDate-endCellDate]: the full visible range including out-of-scope days in month view.
   const startTheoretical = ref(new Date(viewDate));
 
-  // For the now line when watchRealTime is true. 2 timeouts: 1 to snap to round minutes, then 1 every minute.
+  // One pending timeout: align to the next minute, then update every minute.
   let timeTickerId = null;
 
   const start = computed(() => {
@@ -108,11 +108,14 @@ export const useView = (
   }
 
   function initTimeTicker() {
+    clearTimeout(timeTickerId);
+    now.value = new Date();
     // Snap the time ticker on round minutes (when seconds = 0), so that we can set
     // the time ticker interval to 60 seconds and spare some function calls.
-    timeTickerId = setTimeout(timeTick, (60 - new Date().getSeconds()) * 1000);
-
-    timeTick();
+    timeTickerId = setTimeout(
+      timeTick,
+      60000 - (now.value.getSeconds() * 1000 + now.value.getMilliseconds()),
+    );
   }
   // ------------------------------------------------------
 
@@ -682,9 +685,9 @@ export const useView = (
     },
   );
   watch(
-    () => config.watchRealTime,
-    (watchRealTime) => {
-      if (watchRealTime && config.time) initTimeTicker();
+    () => config.watchRealTime && config.time,
+    (enabled) => {
+      if (enabled) initTimeTicker();
       else timeTickerId = clearTimeout(timeTickerId);
     },
   );

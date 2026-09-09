@@ -141,7 +141,7 @@ const buildSpecialHoursDisallowed = (normalizedByWeekday) => {
       for (const scheduleId in schedSrc) {
         if (!Object.prototype.hasOwnProperty.call(schedSrc, scheduleId)) continue;
         const ranges = schedSrc[scheduleId];
-        if (!ranges || !ranges.length) continue;
+        if (!ranges) continue;
         const arr = [];
         for (let ri = 0; ri < ranges.length; ri++) {
           const r = ranges[ri];
@@ -155,10 +155,9 @@ const buildSpecialHoursDisallowed = (normalizedByWeekday) => {
             hasAny = true;
           }
         }
-        if (arr.length) {
-          if (!schedulesOut) schedulesOut = {};
-          schedulesOut[scheduleId] = arr;
-        }
+        // Preserve empty overrides so this schedule does not inherit default restrictions.
+        if (!schedulesOut) schedulesOut = {};
+        schedulesOut[scheduleId] = arr;
       }
     }
 
@@ -457,18 +456,12 @@ export const useConfig = (calendar, props, attrs) => {
 
   // Keep a local copy of the events so the prop is not mandatory.
   const events = reactive(props.events || []);
-  // Watch both reference (full replacement) and length (push/pop/splice) changes.
-  // Avoids deep watching which would traverse every event property on each mutation.
+  // Track array membership after prop replacement without watching nested event edits.
   watch(
-    () => props.events,
-    (evts) => events.splice(0, events.length, ...(evts || [])),
-  );
-  // Watch events length to catch push/pop/splice mutations.
-  watch(
-    () => props.events?.length,
-    () => {
-      const evts = props.events;
-      if (evts) events.splice(0, events.length, ...evts);
+    () => props.events?.slice() || [],
+    (evts) => {
+      if (events.length !== evts.length || events.some((event, i) => event !== evts[i]))
+        events.splice(0, events.length, ...evts);
     },
   );
 

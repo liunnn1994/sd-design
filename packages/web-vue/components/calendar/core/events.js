@@ -1,4 +1,4 @@
-import { computed, reactive, shallowReactive, watch } from 'vue';
+import { computed, onBeforeUnmount, reactive, shallowReactive, watch } from 'vue';
 
 import { percentageToMinutes } from '../utils/conversions';
 import {
@@ -17,6 +17,8 @@ export const useEvents = (calendar) => {
   const { dateUtils, config } = calendar;
   const prefixCls = calendar.prefixCls;
   let uid = 0; // Internal unique ID events counter.
+  let disposed = false;
+  let resizeRevision = 0;
 
   // Use shallowReactive for the events index so that mutations to individual event
   // properties (start/end during drag/resize) do NOT trigger a full re-index cascade.
@@ -239,23 +241,16 @@ export const useEvents = (calendar) => {
     }
   };
 
-  // Rebuild the index initially and when events are added or removed (length change).
+  // Rebuild on additions, removals and replacements, including same-length array edits.
   // Individual event property mutations (start/end during drag/resize) do NOT trigger a rebuild —
   // the event references in the index remain valid and the event component's own reactivity
   // handles re-rendering at the individual event level.
   // NOTE: watches must be placed AFTER normalizeEventDates/injectMetaData definitions
   // to avoid temporal dead zone errors when immediate:true fires synchronously.
   watch(
-    () => config.events.length,
+    () => config.events.slice(),
     () => buildEventsIndex(),
     { immediate: true },
-  );
-
-  // Also handle full array reference replacement (e.g., props.events replaced entirely).
-  watch(
-    () => config.events,
-    () => buildEventsIndex(),
-    { deep: false },
   );
 
   // Retrieve an event by its ID.
@@ -279,14 +274,7 @@ export const useEvents = (calendar) => {
       return;
     }
 
-    // If `snapToInterval` is enabled in the configuration, adjust the `start` and `end` times to the
-    // nearest interval specified by `config.snapToInterval`.
-    if (config.snapToInterval) {
-      dateUtils.snapToInterval(newEvent.start, config.snapToInterval);
-      dateUtils.snapToInterval(newEvent.end, config.snapToInterval);
-    }
-
-    // Create a clean deep copy of the event to prevent reference issues.
+    // Copy the event and its dates before applying interval snapping.
     newEvent = { ...newEvent };
 
     const start =
@@ -297,6 +285,10 @@ export const useEvents = (calendar) => {
       typeof newEvent.end === 'string'
         ? dateUtils.stringToDate(newEvent.end)
         : new Date(newEvent.end);
+    if (config.snapToInterval) {
+      dateUtils.snapToInterval(start, config.snapToInterval);
+      dateUtils.snapToInterval(end, config.snapToInterval);
+    }
     if (
       !newEvent.allDay &&
       config.time &&
@@ -733,6 +725,7 @@ export const useEvents = (calendar) => {
 
   // Document event handlers for event resizing.
   const onDocumentMousemove = async (e) => {
+    const revision = ++resizeRevision;
     const { clientX, clientY } = e.touches?.[0] || e; // Handle click or touch event.
 
     const adx = clientX - resizeState.resizeAnchorClientX;
@@ -767,15 +760,21 @@ export const useEvents = (calendar) => {
       const { resize: resizeEventHandler } = config.eventListeners?.event || {};
       // Call external validation of event resizing. If successful, update the event details.
       if (internalOk && resizeEventHandler) {
-        acceptResize = await resizeEventHandler({
-          e,
-          event: { ...resizeState.resizingEvent, start: newStart, end: newEnd },
-          overlaps: resizeState.resizingEvent.getOverlappingEvents({
-            start: newStart,
-            end: newEnd,
-          }),
-        });
+        try {
+          acceptResize = await resizeEventHandler({
+            e,
+            event: { ...resizeState.resizingEvent, start: newStart, end: newEnd },
+            overlaps: resizeState.resizingEvent.getOverlappingEvents({
+              start: newStart,
+              end: newEnd,
+            }),
+          });
+        } catch (error) {
+          console.warn('Calendar: Event resize handler rejected the resize.', error);
+          acceptResize = false;
+        }
       }
+      if (disposed || revision !== resizeRevision) return;
       // If the event resizing is accepted, apply to new time range to the event.
       if (acceptResize !== false) {
         resizeState.resizingEvent.start = newStart;
@@ -801,6 +800,9 @@ export const useEvents = (calendar) => {
   };
 
   const onDocumentMouseup = async (e) => {
+    const revision = ++resizeRevision;
+    document.removeEventListener('mousemove', onDocumentMousemove);
+    document.removeEventListener('touchmove', onDocumentMousemove);
     if (calendar.touch?.isResizingEvent && resizeState.resizingEvent) {
       const { clientX, clientY } = e.changedTouches?.[0] || e;
       if (!resizeState.resizeSlopExceeded) {
@@ -820,17 +822,23 @@ export const useEvents = (calendar) => {
         const resizeEndHandler = eventListeners['resize-end'];
         // Call external validation of event resize-end. If successful, update the event details.
         if (internalOk && resizeEndHandler) {
-          acceptResize = await resizeEndHandler({
-            e,
-            event: resizeState.resizingEvent,
-            original: resizeState.resizingOriginalEvent, // Original event details before resizing.
-            overlaps: resizeState.resizingEvent.getOverlappingEvents({
-              start: newStart,
-              end: newEnd,
-            }),
-          });
+          try {
+            acceptResize = await resizeEndHandler({
+              e,
+              event: resizeState.resizingEvent,
+              original: resizeState.resizingOriginalEvent, // Original event details before resizing.
+              overlaps: resizeState.resizingEvent.getOverlappingEvents({
+                start: newStart,
+                end: newEnd,
+              }),
+            });
+          } catch (error) {
+            console.warn('Calendar: Event resize-end handler rejected the resize.', error);
+            acceptResize = false;
+          }
         }
 
+        if (disposed || revision !== resizeRevision) return;
         // If the event resize is accepted apply new range, if refused (SPECIFICALLY FALSE) revert to original.
         resizeState.resizingEvent.start =
           acceptResize === false
@@ -852,15 +860,19 @@ export const useEvents = (calendar) => {
       calendar.touch.currentHoveredCell = null; // Reset current hovered cell.
     }
 
-    // Clean up document event listeners.
-    document.removeEventListener(
-      e.type === 'touchend' ? 'touchmove' : 'mousemove',
-      onDocumentMousemove,
-      { passive: !resizeState.fromResizer },
-    );
+    cleanupResize();
+  };
+
+  const cleanupResize = () => {
+    resizeRevision++;
+    document.removeEventListener('mousemove', onDocumentMousemove);
+    document.removeEventListener('touchmove', onDocumentMousemove);
+    document.removeEventListener('mouseup', onDocumentMouseup);
+    document.removeEventListener('touchend', onDocumentMouseup);
 
     // Reset resizing state.
     calendar.touch.isResizingEvent = false;
+    calendar.touch.currentHoveredCell = null;
     resizeState.fromResizer = false;
     resizeState.resizingEvent = null;
     resizeState.resizingOriginalEvent = null;
@@ -884,6 +896,11 @@ export const useEvents = (calendar) => {
     resizeState.resizeSlopExceeded = false;
   };
 
+  onBeforeUnmount(() => {
+    disposed = true;
+    cleanupResize();
+  });
+
   // Handle mousedown/touchstart on event elements
   const handleEventResize = (e, event, eventEl) => {
     const domEvent = e.touches?.[0] || e; // Handle click or touch event.
@@ -891,6 +908,7 @@ export const useEvents = (calendar) => {
     resizeState.fromResizer = !!domEvent.target.closest(`.${prefixCls}__event-resizer`);
 
     if (resizeState.fromResizer) {
+      resizeRevision++;
       // Set the resizing flag immediately to prevent drag from starting.
       calendar.touch.isResizingEvent = true;
 

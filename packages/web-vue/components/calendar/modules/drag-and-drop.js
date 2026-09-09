@@ -1,4 +1,4 @@
-import { reactive } from 'vue';
+import { onBeforeUnmount, reactive } from 'vue';
 
 import { pxToPercentage, percentageToMinutes } from '../utils/conversions';
 import { eventRangeViolatesAllowEvents } from '../utils/special-hours-allow-events';
@@ -13,16 +13,39 @@ let pressPrevOrNextInterval = null;
 const viewBeforeDrag = reactive({ id: null, date: null }); // To go back if cancelling.
 let viewChanged = false;
 let cancelViewChange = true;
-const dragOverCell = reactive({ el: null, cell: null, timeout: null });
+const dragOverCell = reactive({ el: null, cell: null, timeout: null, calendarUid: null });
+function clearDragHover() {
+  clearTimeout(dragOverCell.timeout);
+  if (dragOverCell.cell) {
+    dragOverCell.cell.highlighted = false;
+    dragOverCell.cell.highlightedSchedule = null;
+  }
+  Object.assign(dragOverCell, { el: null, cell: null, timeout: null, calendarUid: null });
+}
 const dragging = reactive({
   eventId: null,
   fromCalendar: null,
   toCalendar: null,
+  removeSource: null,
 });
 
 export function useDragAndDrop(calendar) {
   const { config, view, eventsManager, emit, uid: calendarUid, dateUtils } = calendar;
   const prefixCls = calendar.prefixCls;
+  let disposed = false;
+  onBeforeUnmount(() => {
+    disposed = true;
+    if (dragOverCell.calendarUid === calendarUid || dragging.fromCalendar === calendarUid)
+      clearDragHover();
+    if (dragging.fromCalendar === calendarUid) {
+      Object.assign(dragging, {
+        eventId: null,
+        fromCalendar: null,
+        toCalendar: null,
+        removeSource: null,
+      });
+    } else if (dragging.toCalendar === calendarUid) dragging.toCalendar = null;
+  });
 
   /**
    * Calculate event start time based on cursor position.
@@ -129,6 +152,9 @@ export function useDragAndDrop(calendar) {
 
     dragging.eventId = event._.id;
     dragging.fromCalendar = calendarUid;
+    dragging.removeSource = () => {
+      if (!disposed) return eventsManager.deleteEvent(event._.id, 3);
+    };
 
     // Emit `event-drag-start` and return the updated event.
     // `external` is when the event is not coming from this Calendar instance.
@@ -160,24 +186,16 @@ export function useDragAndDrop(calendar) {
    * @param {Object} event The event being dragged.
    */
   const eventDragEnd = (e, event) => {
+    clearDragHover();
     dragging.eventId = null;
 
     e.target
       .closest(`.${prefixCls}__event`)
       .classList.remove(`${prefixCls}__event--dragging-original`);
 
-    // If an event is dragged from a Calendar instance and dropped in a different one, remove the
-    // event from the first one.
-    const { fromCalendar, toCalendar } = dragging;
-    // First check if the destination is a Calendar (toCalendar), then the event can be deleted from
-    // the source.
-    // This is to prevent the event from being deleted when dragging and dropping to nowhere.
-    // When dropping the event to an external source, the event has to be deleted manually.
-    if (toCalendar && fromCalendar !== toCalendar) eventsManager.deleteEvent(event._.id, 3);
-
     // When dropping the event, cancel view change if no cell received the event (in cellDragDrop).
     if (viewChanged && cancelViewChange && viewBeforeDrag.id) {
-      view.switchView(viewBeforeDrag.id, viewBeforeDrag.date, true);
+      view.switch(viewBeforeDrag.id, viewBeforeDrag.date);
     }
 
     // Emit `event-drag-end` and return the updated event.
@@ -190,6 +208,7 @@ export function useDragAndDrop(calendar) {
 
     dragging.fromCalendar = null;
     dragging.toCalendar = null;
+    dragging.removeSource = null;
     calendar.touch.isDraggingEvent = false; // For the global dragging class and cursor.
   };
 
@@ -208,18 +227,28 @@ export function useDragAndDrop(calendar) {
 
     // Cancel dragEnter event if hovering a child.
     if (e.currentTarget.contains(e.relatedTarget)) return;
-    if (target === dragOverCell.el || !target.className.includes(`${prefixCls}__cell-content`))
+    if (target === dragOverCell.el || !target.classList.contains(`${prefixCls}__cell`))
       return false;
 
     // Un-highlight the previous cell.
     if (dragOverCell.el) dragOverCell.cell.highlighted = false;
 
-    Object.assign(dragOverCell, { el: target, cell, timeout: clearTimeout(dragOverCell.timeout) });
+    Object.assign(dragOverCell, {
+      el: target,
+      cell,
+      calendarUid,
+      timeout: clearTimeout(dragOverCell.timeout),
+    });
     cell.highlighted = true;
 
     // On `years`, `year` & `month` views, go to narrower view on drag and hold.
     if (['years', 'year', 'month'].includes(view.id)) {
-      dragOverCell.timeout = setTimeout(() => calendar.switchToNarrowerView(cellDate), 2000);
+      dragOverCell.timeout = setTimeout(() => {
+        if (view.narrowerView) {
+          viewChanged = true;
+          view.switch(view.narrowerView, cellDate);
+        }
+      }, 2000);
     }
   };
 
@@ -275,6 +304,10 @@ export function useDragAndDrop(calendar) {
    * @param {Boolean} allDay Whether the event is dropped as all-day.
    */
   const cellDragDrop = async (e, cell, allDay = false) => {
+    const sourceCalendar = dragging.fromCalendar;
+    const sourceEventId = dragging.eventId;
+    const removeSource = dragging.removeSource;
+    const external = sourceCalendar !== calendarUid;
     // Needed to prevent navigation to the text set in dataTransfer from eventDragStart().
     e.preventDefault();
 
@@ -396,29 +429,40 @@ export function useDragAndDrop(calendar) {
       acceptDrop = false;
     } else if (dropEventHandler) {
       // acceptDrop may be false, true or a modified event object.
-      acceptDrop = await dropEventHandler({
-        e,
-        event: { ...event, start: newStart, end: newEnd, schedule: newSchedule },
-        overlaps: event.getOverlappingEvents({
-          start: newStart,
-          end: newEnd,
-          schedule: newSchedule,
-        }),
-        cell,
-        external: dragging.fromCalendar !== calendarUid,
-      });
+      try {
+        acceptDrop = await dropEventHandler({
+          e,
+          event: { ...event, start: newStart, end: newEnd, schedule: newSchedule },
+          overlaps: event.getOverlappingEvents({
+            start: newStart,
+            end: newEnd,
+            schedule: newSchedule,
+          }),
+          cell,
+          external,
+        });
+      } catch (error) {
+        console.warn('Calendar: Event drop handler rejected the drop.', error);
+        acceptDrop = false;
+      }
       // Can externally use event.isOverlapping() to check if the event overlaps with other events.
     }
     // If the event drop is accepted, add the event to the events array (source of truth).
-    if (acceptDrop !== false) onAcceptedDrop(acceptDrop);
+    if (disposed) return;
+    if (acceptDrop !== false) {
+      onAcceptedDrop(acceptDrop);
+      if (event && external) removeSource?.();
+    }
 
     // Refresh event metadata so the index and display reflect the new position.
     if (event && acceptDrop !== false) eventsManager.refreshEventMeta(event);
 
     cell.highlighted = false;
     cell.highlightedSchedule = null;
-    cancelViewChange = false;
-    dragging.toCalendar = calendarUid;
+    if (dragging.fromCalendar === sourceCalendar && dragging.eventId === sourceEventId) {
+      cancelViewChange = acceptDrop === false;
+      dragging.toCalendar = acceptDrop === false ? null : calendarUid;
+    }
 
     // Emit `event-dropped` and return the updated event.
     // `external` is when the event is not coming from this Calendar instance.
@@ -427,7 +471,7 @@ export function useDragAndDrop(calendar) {
       cell,
       event,
       originalEvent: incomingEvent,
-      external: dragging.fromCalendar !== calendarUid,
+      external,
     });
   };
 
