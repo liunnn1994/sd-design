@@ -1,5 +1,5 @@
 <template>
-  <span :class="wrapperClassName">
+  <span :class="wrapperClassName()">
     <slot />
 
     <span v-if="$slots.content" :class="`${prefixCls}-custom-dot`" :style="computedDotStyle">
@@ -47,7 +47,11 @@
     </span>
 
     <!-- status 与 count 同时传入时，额外渲染数字，避免 count 被静默丢弃 -->
-    <span v-if="status && countValue > 0" :class="`${prefixCls}-number`" :style="mergedStyle">
+    <span
+      v-if="!$slots.content && status && countValue > 0"
+      :class="`${prefixCls}-number`"
+      :style="mergedStyle"
+    >
       <NumberFlow :value="displayCount" :suffix="displaySuffix" :animated="animation" />
     </span>
   </span>
@@ -165,14 +169,14 @@
   const hasCount = computed(() => count != null);
   const countValue = computed(() => Math.max(Number(count) || 0, 0));
 
-  const wrapperClassName = computed(() => [
+  const wrapperClassName = () => [
     prefixCls,
     {
       [`${prefixCls}-status`]: status,
       [`${prefixCls}-no-children`]: !slots.default,
       [`${prefixCls}-rtl`]: rtl.value,
     },
-  ]);
+  ];
 
   const computedDotStyle = computed<CSSProperties>(() => {
     const style = { ...dotStyle };

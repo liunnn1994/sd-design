@@ -21,11 +21,13 @@ pnpm --filter @sdata/web-vue run cypress:run --spec 'components/<component>/__te
 
 - BackTop: 16 passing (9 behavior + 2 demos + 5 lifecycle), retries disabled. Fix reactive visibleHeight and targetContainer, zero-duration scrolling and cancellation on target changes/repeated activation/unmount. Real scroll containers verify isolation and cleanup; native Enter activation uses Chrome keyDown with carriage-return text plus keyUp because key events without the text event did not activate the native button in this runner. Package vue-tsc passed using installed TNB.
 
+- Badge: 36 passing (24 behavior + 7 demos + 5 state transitions), retries disabled. Fix custom content incorrectly accompanied by a status count and stale standalone positioning after default-slot changes. Browser cases also verify reactive overflow thresholds, zero removal, custom color/offset cleanup and omitted-versus-zero counts. Package vue-tsc passed using installed TNB.
+
 ## Inventory
 
 After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and Anchor together: 115 tests passed with retries disabled (exit 0).
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: badge.
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: basic-crud-table.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -38,7 +40,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | auto-complete                 | Reviewed; browser cases above passed |
 | avatar                        | Reviewed; browser cases above passed |
 | back-top                      | Reviewed; browser cases above passed |
-| badge                         | Pending                              |
+| badge                         | Reviewed; browser cases above passed |
 | basic-crud-table              | Pending                              |
 | bloom-menu                    | Pending                              |
 | border-beam                   | Pending                              |
