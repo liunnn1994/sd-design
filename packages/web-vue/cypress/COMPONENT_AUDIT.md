@@ -259,6 +259,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - Image explicit source-list lifecycle: full 64-case Chrome suite passes with retries disabled. Two regressions reproduced child images being appended to explicit srcList on initial rendering and after dynamic list replacement. Child registrations now have their own map, and a computed map selects either the explicit list or registered children. Clicking a child while an explicit list is supplied opens that list at its current index rather than mixing unrelated instance ids with list indexes. Browser checks cover navigation boundaries, close/reopen, removing the explicit list to restore children and supplying a new list. Drag and remaining lifecycle review are still pending; Image remains in progress.
 
+- Image drag lifecycle: full 66-case Chrome suite passes with retries disabled. Browser MouseEvent tests cover dragging a decoded SVG, small-image recentering on mouse release, and closing/reopening during an active drag. The interrupted-drag regression reproduced the moving class surviving reopening. Drag-effect cleanup now removes mousedown from the captured original image, releases window handlers and clears moving. Reopened previews remain at their reset position during mouse movement without a new press. Remaining dynamic group registration and preview action boundary review are pending; Image remains in progress.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.

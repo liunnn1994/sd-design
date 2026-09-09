@@ -74,11 +74,13 @@ export default function useImageDrag(props: ImageDragProps) {
 
   // Initialization, each time the image changes will be re-initialized
   watchEffect((onInvalidate) => {
-    imageEl.value && on(imageEl.value, 'mousedown', onMoveStart as EventListener);
+    const image = imageEl.value;
+    image && on(image, 'mousedown', onMoveStart as EventListener);
 
     onInvalidate(() => {
-      imageEl.value && off(imageEl.value, 'mousedown', onMoveStart as EventListener);
+      image && off(image, 'mousedown', onMoveStart as EventListener);
       offEvents();
+      moving.value = false;
     });
   });
 
