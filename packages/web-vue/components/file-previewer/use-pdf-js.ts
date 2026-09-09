@@ -168,32 +168,36 @@ export function usePdfJs(context: UsePdfJsContext): UsePdfJsReturn {
       }
     }
 
-    const pdfPage = await pdfDoc.getPage(target);
-    if (documentId !== loadId || doc.value !== pdfDoc || currentRenderId !== renderId) return;
-    activePage = pdfPage;
-    const viewport = pdfPage.getViewport({ scale, rotation });
-    if (!canvas.getContext('2d')) return;
-
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = Math.floor(viewport.width * dpr);
-    canvas.height = Math.floor(viewport.height * dpr);
-    canvas.style.width = `${Math.floor(viewport.width)}px`;
-    canvas.style.height = `${Math.floor(viewport.height)}px`;
-
-    const renderParams = {
-      canvas,
-      viewport,
-      ...(dpr !== 1 ? { transform: [dpr, 0, 0, dpr, 0, 0] } : {}),
-      ...props.renderParams,
-    };
-    const task = pdfPage.render(renderParams);
-    renderTask = task;
     try {
-      await task.promise;
+      const pdfPage = await pdfDoc.getPage(target);
+      if (documentId !== loadId || doc.value !== pdfDoc || currentRenderId !== renderId) return;
+      activePage = pdfPage;
+      const viewport = pdfPage.getViewport({ scale, rotation });
+      if (!canvas.getContext('2d')) return;
+
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(viewport.width * dpr);
+      canvas.height = Math.floor(viewport.height * dpr);
+      canvas.style.width = `${Math.floor(viewport.width)}px`;
+      canvas.style.height = `${Math.floor(viewport.height)}px`;
+
+      const renderParams = {
+        canvas,
+        viewport,
+        ...(dpr !== 1 ? { transform: [dpr, 0, 0, dpr, 0, 0] } : {}),
+        ...props.renderParams,
+      };
+      const task = pdfPage.render(renderParams);
+      renderTask = task;
+      try {
+        await task.promise;
+      } finally {
+        if (renderTask === task) renderTask = null;
+      }
     } catch (error) {
-      if (!isCancelledError(error)) throw error;
-    } finally {
-      if (renderTask === task) renderTask = null;
+      if (documentId === loadId && currentRenderId === renderId && !isCancelledError(error)) {
+        context.onStatus('error');
+      }
     }
   }
 

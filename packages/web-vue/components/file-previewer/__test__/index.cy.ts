@@ -35,6 +35,31 @@ function createTestPdf() {
 const pdfProps = () => ({ documentParams: { data: createTestPdf() } });
 
 describe('FilePreviewer', () => {
+  it('shows page retrieval errors and recovers when another PDF is loaded', () => {
+    cy.mount(FilePreviewer, {
+      props: {
+        type: 'pdf',
+        src: pdfSrc,
+        fullscreen: false,
+        pdfProps: {
+          ...pdfProps(),
+          onDocumentLoad: (doc) => {
+            cy.stub(doc, 'getPage').rejects(new Error('Page retrieval failed'));
+          },
+        },
+      },
+    });
+    cy.get('.sd-file-previewer-error').should('be.visible');
+    cy.get('@vue').then(({ wrapper }) =>
+      wrapper.setProps({ src: '/recovered.pdf', pdfProps: pdfProps() }),
+    );
+    cy.get('.sd-file-previewer-error').should('not.exist');
+    cy.get('.sd-file-previewer-pdf-canvas').should(($canvas) => {
+      expect(($canvas[0] as HTMLCanvasElement).width).to.be.greaterThan(0);
+    });
+    cy.get('.sd-file-previewer-pdf-page').should('contain.text', '2');
+  });
+
   it('does not paint a stale page after a newer render finishes', () => {
     let releaseFirst!: () => void;
     let firstRender!: Promise<void>;

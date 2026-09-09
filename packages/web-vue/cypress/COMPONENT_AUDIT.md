@@ -101,6 +101,8 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - FilePreviewer page-render follow-up: full 42-case Chrome suite passes with retries disabled (33 behavior/helper + 7 demos + 2 dynamic content). A browser hook harness loads the real generated PDF, delays only the first getPage result, renders page two to a real canvas, then releases page one. It reproduced the stale first page rendering afterward. Render generations now invalidate earlier page retrievals, including during resource release; the newer page renders once and the obsolete page never paints. Remaining audit includes media lifecycle and PDF error handling.
 
+- FilePreviewer PDF error follow-up: full 43-case Chrome suite passes with retries disabled (34 behavior/helper + 7 demos + 2 dynamic content). A real loaded document with a rejected getPage reproduced an unhandled Promise rejection and no preview error state. Page retrieval and rendering now share an error boundary that reports only failures from the current document/render generation, ignoring cancelled or obsolete requests. The regression verifies a visible error followed by loading a fresh real PDF, cleared error UI and a nonzero canvas. Media lifecycle review remains pending.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: file-previewer.
 
 | Component / support directory | Review status                        |
