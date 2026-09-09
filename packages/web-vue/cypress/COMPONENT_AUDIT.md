@@ -321,6 +321,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - JsonForm placeholder precedence: full 36-case Chrome suite passes with retries disabled. The new browser regression reproduced an explicit empty placeholder being replaced by generated label text. Default generation now checks for undefined rather than truthiness. The case verifies empty text, dynamic custom text, removal restoring a newly generated label placeholder and continued typing. Read the complete public type definitions and schema helpers; standard TypeScript validation remains pending. Path handling, dynamic schema and validation lifecycle review remain to be completed.
 
+- JsonForm dynamic model/schema: two additional Chrome cases pass with retries disabled, bringing verified coverage to 38 distinct cases (previous full 36-case run plus the new spec). Replacing the model prop updates displayed input and routes edits to the new object without modifying the old one. Replacing a top-level schema field with a nested path removes the old field, updates the label/value and writes subsequent input only to the new path. No production change was needed. Path boundaries and validation lifecycle remain pending.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
