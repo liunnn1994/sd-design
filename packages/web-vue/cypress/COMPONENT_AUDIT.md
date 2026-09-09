@@ -141,7 +141,7 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - IconComponent final symbol review: full 18-case Chrome suite passes with retries disabled (12 original + 4 style + 1 script recovery + 1 dynamic symbol). The final browser case uses real SVG symbols, verifies geometry changing from 10px to 20px, clears type to render a 6px fallback circle, and restores the original symbol. It also verifies dynamic aria-label/data attributes and one click callback. No further production change was needed. Source, exports, styles, factory script loading, runtime props/slots and animation review completed; standard TypeScript verification remains pending for the repository gate.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: input-mask.
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: input-number.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -188,7 +188,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | icon-component                | Reviewed                             |
 | image                         | Reviewed                             |
 | input                         | Reviewed                             |
-| input-mask                    | In progress                          |
+| input-mask                    | Reviewed                             |
 | input-number                  | Pending                              |
 | input-tag                     | Pending                              |
 | json-form                     | Pending                              |
@@ -282,6 +282,8 @@ Includes every immediate directory in components; internal helpers and styles re
 - InputMask placeholder graphemes: full 50-case Chrome suite passes with retries disabled. Two regressions reproduced maskChar truncating a combining sequence to its base letter and a joined emoji to its first code point. The component now uses the existing splitGraphemes helper instead of Array.from when selecting the first placeholder character. Browser cases cover intact initial templates, incremental typing, placeholder-free model values and clearing back to the template. Read shared grapheme handling and the remaining initial IP/URL/email/preset definitions. Dynamic normalization and final preset/lifecycle checks remain pending.
 
 - InputMask dynamic mask removal: full 51-case Chrome suite passes with retries disabled. The browser regression reproduced placeholder-filled internal text surviving mask removal as unrestricted input. Configuration changes now strip placeholders using the old mask, placeholder character and format rules before normalizing under the new configuration. The test verifies removal preserves the committed value and literals, then restores the mask and continues typing to completion. Existing preset changes, model normalization and Unicode placeholder cases remain passing. Final preset and lifecycle checks remain pending.
+
+- InputMask final preset review: full 58-case Chrome suite passes with retries disabled. Read all remaining preset definitions. Six new browser typing cases cover MIME type, JWT, FQDN, ISSN, ISRC and ISO6346 formatting and emitted model values. A dynamic case switches date to email with a new model value, verifies formatting and inputmode, then removes the preset and continues unrestricted typing without stale preset attributes. No additional production change was needed. Component state, formatting/deletion engine, Unicode handling, callbacks, presets, exports and style review completed. Standard TypeScript validation remains a repository gate. Next component: InputNumber.
 
 ## Release gates still pending
 
