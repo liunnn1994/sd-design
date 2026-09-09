@@ -1,3 +1,10 @@
+# [4.5.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.4.3...web-vue-v4.5.0) (2026-09-09)
+
+
+### Features
+
+* 🆕 优化 tab 切换卡顿的问题 ([0b797c6](https://github.com/liunnn1994/sd-design/commit/0b797c605ec974ff530261a73009da14019161cc))
+
 ## [4.4.3](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.4.2...web-vue-v4.4.3) (2026-09-09)
 
 
