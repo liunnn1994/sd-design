@@ -134,6 +134,7 @@
   import IconUp from '../icon/icon-up';
   import SdInput from '../input';
   import { useI18n } from '../locale';
+  import { addDecimal } from './decimal';
 
   type StepMethods = 'minus' | 'plus';
   type InputNumberValue = string | number | null | undefined;
@@ -358,13 +359,24 @@
       (method === 'minus' && isMin.value)
     )
       return;
+    const steppedText =
+      props.stringMode && DECIMAL_PATTERN.test(rawText.value) && Number.isFinite(props.step)
+        ? addDecimal(rawText.value, props.step, method === 'minus')
+        : undefined;
     const nextValue = isNumber(valueNumber.value)
-      ? getLegalValue(NP[method](valueNumber.value, props.step))
+      ? getLegalValue(
+          steppedText === undefined
+            ? NP[method](valueNumber.value, props.step)
+            : Number(steppedText),
+        )
       : getLegalValue(props.min === -Infinity ? 0 : props.min);
-    innerValue.value = getStringValue(nextValue);
-    rawText.value = toPlainString(nextValue);
+    const keepSteppedText = steppedText !== undefined && Number(steppedText) === nextValue;
+    rawText.value = keepSteppedText ? steppedText : toPlainString(nextValue);
+    innerValue.value = keepSteppedText
+      ? (props.formatter?.(rawText.value) ?? rawText.value)
+      : getStringValue(nextValue);
     updateNumberStatus(nextValue);
-    const emittedValue = getModelValue(nextValue);
+    const emittedValue = keepSteppedText ? rawText.value : getModelValue(nextValue);
     committedValue = emittedValue;
     emit('update:modelValue', emittedValue);
     emit('change', emittedValue, event);
