@@ -14,11 +14,14 @@ pnpm --filter @sdata/web-vue run cypress:run --spec 'components/<component>/__te
 
 - Alert: 27 passing (19 behavior + 8 demos), commit `19db9662`. Real leave transition, close/afterClose ordering, keyboard close/non-activation, reactive visibility/title/type, slots and variants.
 - Affix: 15 passing (9 behavior + 5 demos + 1 real-scroll regression), commit `5416d2c0`. Fix reactive offset updates; real scrolling, geometry, placeholder, release; existing top/bottom/target/container and exposed-method cases.
-- Anchor: 31 passing (20 behavior + 5 demos + 6 lifecycle), included with this audit. Fix instant-scroll tracking, href registration/removal, animation cancellation on navigation/unmount, replacement containers and restored indicator position. Full component suite passed with retries disabled. Package vue-tsc passed using the worktree's installed TNB compiler.
+- Anchor: 31 passing (20 behavior + 5 demos + 6 lifecycle), commit `08984200`. Fix instant-scroll tracking, href registration/removal, animation cancellation on navigation/unmount, replacement containers and restored indicator position. Full component suite passed with retries disabled. Package vue-tsc passed using the worktree's installed TNB compiler.
+- AutoComplete: 42 passing (24 behavior + 6 demos + 2 readonly-tip + 10 boundary interactions). Fix zero/empty option slots, numeric-to-string selection, dynamic readonly/disabled closure, popupContainer forwarding, virtual keyboard scrolling, recycled option identity and virtual scroll/reach-bottom events. Also verifies IME Enter, disabled-option skipping and asynchronous suggestion replacement. Cypress support now imports OverlayScrollbars CSS, matching the dependency included by the production build; without it virtual viewports had overflow: visible and could not scroll. Package vue-tsc passed using installed TNB.
 
 ## Inventory
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: auto-complete.
+After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and Anchor together: 115 tests passed with retries disabled (exit 0).
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: avatar.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -28,7 +31,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | affix                         | Reviewed; browser cases above passed |
 | alert                         | Reviewed; browser cases above passed |
 | anchor                        | Reviewed; browser cases above passed |
-| auto-complete                 | Pending                              |
+| auto-complete                 | Reviewed; browser cases above passed |
 | avatar                        | Pending                              |
 | back-top                      | Pending                              |
 | badge                         | Pending                              |

@@ -1,6 +1,7 @@
 import type { Component } from 'vue';
 
 import { mount } from 'cypress/vue';
+import 'overlayscrollbars/overlayscrollbars.css';
 
 import '../../components/index.scss';
 import SDVue from '../../components';

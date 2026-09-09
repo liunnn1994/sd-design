@@ -31,7 +31,7 @@
       <span :class="`${optionPrefixCls}-content`">
         <!-- item 与 optionInfoMap 中是同一对象引用（use-options.ts），直接传 item 使插槽
              data 类型为确定的 SelectOptionInfo，避免被推断为可能 undefined。 -->
-        <slot v-if="slots.option && item.value" name="option" :data="item" />
+        <slot v-if="slots.option" name="option" :data="item" />
         <Ellipsis v-else>{{ item.label }}</Ellipsis>
       </span>
     </li>
@@ -52,9 +52,18 @@
           :item="item"
         />
         <template #virtual-list>
-          <VirtualList ref="virtualListRef" v-bind="resolvedVirtualListProps" :items="validOptions">
+          <VirtualList
+            ref="virtualListRef"
+            v-bind="resolvedVirtualListProps"
+            :items="validOptions"
+            @scroll="handleDropdownScroll"
+            @reach-bottom="handleDropdownReachBottom"
+          >
             <template #item="{ item }">
-              <ReuseOption :item="item as SelectOptionInfo | SelectOptionGroupInfo" />
+              <ReuseOption
+                :key="(item as SelectOptionInfo | SelectOptionGroupInfo).key"
+                :item="item as SelectOptionInfo | SelectOptionGroupInfo"
+              />
             </template>
           </VirtualList>
         </template>
@@ -210,6 +219,9 @@
   const dropdownRef = ref();
   const optionRefs = ref<Record<string, HTMLElement>>({});
   const innerPopupVisible = ref(false);
+  watch([mergedDisabled, () => props.readonly], ([disabled, readonly]) => {
+    if (disabled || readonly) innerPopupVisible.value = false;
+  });
   const computedPopupVisible = computed(
     () => innerPopupVisible.value && validOptionInfos.value.length > 0,
   );
@@ -227,7 +239,7 @@
   );
 
   const handlePopupVisibleChange = (popupVisible: boolean) => {
-    if (popupVisible && props.readonly) return;
+    if (popupVisible && (props.readonly || mergedDisabled.value)) return;
     innerPopupVisible.value = popupVisible;
   };
   const strictFilterOption = (inputValue: string, option: SelectOptionData) =>
@@ -254,7 +266,8 @@
     emit('clear', event);
   };
   const handleSelect = (key: string, _event: Event) => {
-    const value = optionInfoMap.get(key)?.value as string;
+    if (props.readonly || mergedDisabled.value) return;
+    const value = String(optionInfoMap.get(key)?.value ?? '');
     emit('select', value);
     handleChange(value);
     inputRef.value?.blur();
@@ -276,6 +289,7 @@
       component,
       dropdownRef,
       optionRefs,
+      virtualListRef,
       onSelect: handleSelect,
       onPopupVisibleChange: handlePopupVisibleChange,
     });
@@ -304,6 +318,7 @@
     popupOffset: 4,
     disabled: mergedDisabled.value,
     autoFitPopupWidth: true,
+    popupContainer: props.popupContainer ?? undefined,
     ...props.triggerProps,
     floatingOptions: props.floatingOptions ?? props.triggerProps?.floatingOptions,
   }));
