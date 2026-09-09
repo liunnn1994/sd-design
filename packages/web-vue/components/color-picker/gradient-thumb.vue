@@ -2,6 +2,7 @@
   <button
     ref="thumbRef"
     type="button"
+    :disabled="props.disabled"
     :class="[
       `${props.prefixCls}-gradient-thumb`,
       { [`${props.prefixCls}-gradient-thumb-active`]: props.active },
@@ -64,10 +65,12 @@
 
   const handleClick = (event: MouseEvent) => {
     event.stopPropagation();
+    if (props.disabled) return;
     if (!shouldIgnoreClick.value) props.onSelect?.();
   };
 
   const handleKeyDown = (event: KeyboardEvent) => {
+    if (props.disabled) return;
     if (event.key === 'Delete' || event.key === 'Backspace') props.onRemove?.();
   };
 </script>

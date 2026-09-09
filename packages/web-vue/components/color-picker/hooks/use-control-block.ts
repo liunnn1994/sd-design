@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { onBeforeUnmount, ref } from 'vue';
 
 import { throttleByRaf } from '../../_utils/throttle-by-raf';
 
@@ -58,6 +58,11 @@ export const useControlBlock = ({ value, onChange }: ControlBlockParams) => {
     window.addEventListener('mouseup', removeListener);
     window.addEventListener('contextmenu', removeListener);
   };
+
+  onBeforeUnmount(() => {
+    removeListener();
+    throttledChange.cancel();
+  });
 
   return {
     active,

@@ -55,6 +55,8 @@ pnpm --filter @sdata/web-vue run cypress:run --spec 'components/<component>/__te
 
 After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and Anchor together: 115 tests passed with retries disabled (exit 0).
 
+- ColorPicker checkpoint: 54 cases covered (38 behavior + 9 demos + 2 readonly-tip + 2 drag lifecycle + 3 disabled-panel cases), retries disabled. Both drag regressions reproduced retained window listeners and a queued callback after unmount; the shared control hook now removes listeners and cancels its animation frame. The full 51-case run passed after that fix. Three additional regressions reproduced disabled swatches changing the panel display, recent-color additions, and gradient deletion. Panel state/recent changes are now guarded and buttons expose native disabled state. Following that fix, the existing 51 cases passed again; the disabled keyboard test initially stopped at Cypress actionability on the newly disabled button, then all three targeted cases passed using explicit DOM dispatch/native click. This is not a single full 54-case pass. Review remains in progress for readonly inline panels, controlled state, format conversion, gradient interactions, and styles. Standard TypeScript validation remains pending.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: color-picker.
 
 | Component / support directory | Review status                        |

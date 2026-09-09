@@ -7,6 +7,7 @@
           v-if="trigger === 'recent' && values"
           type="button"
           :class="`${prefixCls}-colors-action`"
+          :disabled="props.disabled"
           @click="addRecentColor"
         >
           添加当前颜色
@@ -19,6 +20,7 @@
             :key="value"
             type="button"
             :class="`${prefixCls}-color-block`"
+            :disabled="props.disabled"
             :aria-label="t('a11y.selectColor', value)"
             @click="selectColorBlock(value, trigger)"
           >
@@ -379,6 +381,7 @@
     trigger: ColorPickerChangeTrigger,
     notifyPaletteBar?: boolean,
   ) => {
+    if (props.disabled) return;
     colorState.value = nextState;
     syncDrafts();
     props.onChange?.(formatColorState(nextState, selectedFormat.value, props.enableAlpha), trigger);
@@ -473,6 +476,7 @@
     syncDrafts();
   };
   const addRecentColor = () => {
+    if (props.disabled) return;
     if (props.recentColors === null || props.recentColors === false) return;
     const currentValue = formatColorState(
       colorState.value,
