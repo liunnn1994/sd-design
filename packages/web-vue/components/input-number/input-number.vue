@@ -324,6 +324,7 @@
       rawText.value = isNumber(finalValue) ? toPlainString(finalValue) : '';
     }
     const emitted = keepRaw ? rawText.value : getModelValue(finalValue);
+    committedValue = emitted;
     emit('update:modelValue', emitted);
     return emitted;
   };
@@ -350,6 +351,7 @@
     rawText.value = toPlainString(nextValue);
     updateNumberStatus(nextValue);
     const emittedValue = getModelValue(nextValue);
+    committedValue = emittedValue;
     emit('update:modelValue', emittedValue);
     emit('change', emittedValue, event);
   };
@@ -387,6 +389,7 @@
       const emittedValue = getEmittedValue();
       emit('input', emittedValue, innerValue.value, event);
       if (props.modelEvent === 'input') {
+        committedValue = emittedValue;
         emit('update:modelValue', emittedValue);
         emit('change', emittedValue, event);
       }
@@ -401,17 +404,23 @@
     if (props.stringMode && DECIMAL_PATTERN.test(rawText.value)) return rawText.value;
     return getModelValue(valueNumber.value);
   };
+  let committedValue = getEmittedValue();
   const handleFocus = (event: FocusEvent) => emit('focus', event);
   const handleChange = (value: string, event: Event) => {
     if (event instanceof MouseEvent && !value) return;
     const emitted = handleExceedRange();
     emit('change', emitted, event);
   };
-  const handleBlur = (event: FocusEvent) => emit('blur', event);
+  const handleBlur = (event: FocusEvent) => {
+    if (getEmittedValue() !== committedValue) handleChange(innerValue.value, event);
+    emit('blur', event);
+  };
   const handleClear = (event: Event) => {
     innerValue.value = '';
     rawText.value = '';
+    updateNumberStatus(undefined);
     const emittedValue = getModelValue(undefined);
+    committedValue = emittedValue;
     emit('update:modelValue', emittedValue);
     emit('change', emittedValue, event);
     eventHandlers.value?.onChange?.(event);
@@ -459,6 +468,7 @@
         rawText.value = '';
         updateNumberStatus(undefined);
       }
+      committedValue = getEmittedValue();
     },
   );
   const cls = computed(() => [
