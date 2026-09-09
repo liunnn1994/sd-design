@@ -59,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-  import { defineAsyncComponent } from 'vue';
+  import { defineAsyncComponent, type Component } from 'vue';
 
   import { createReusableTemplate } from '@vueuse/core';
 
@@ -84,7 +84,7 @@
   }));
 
   const AsyncReport = defineAsyncComponent({
-    loader: () => new Promise((resolve) => setTimeout(() => resolve(ReuseReport), 1000)),
+    loader: () => new Promise<Component>((resolve) => setTimeout(() => resolve(ReuseReport), 1000)),
     loadingComponent: ReuseLoading,
     delay: 0,
   });
