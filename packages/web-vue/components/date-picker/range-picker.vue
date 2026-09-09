@@ -800,6 +800,17 @@
         isDisabledDate(forSelectedValue.value[1], 'end')),
   );
 
+  watch(
+    modelValue,
+    () => {
+      setProcessValue(undefined);
+      setPreviewValue(undefined);
+      setInputValue(undefined);
+      resetHeaderValue();
+    },
+    { deep: true },
+  );
+
   watch(panelVisible, (newVisible) => {
     startHeaderMode.value = undefined;
     endHeaderMode.value = undefined;

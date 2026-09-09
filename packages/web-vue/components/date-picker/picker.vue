@@ -755,6 +755,12 @@
 
   const headerMode = ref<'year' | 'month' | undefined>();
 
+  watch(modelValue, () => {
+    setProcessValue(undefined);
+    setPreviewValue(undefined);
+    setInputValue(undefined);
+  });
+
   watch(panelVisible, (newVisible) => {
     setProcessValue(undefined);
     setPreviewValue(undefined);
