@@ -119,6 +119,7 @@
     prefixCls,
     {
       [`${prefixCls}-active`]: isActive.value,
+      [`${prefixCls}-no-icon`]: !mergedShowExpandIcon.value,
     },
   ]);
   const headerCls = computed(() => [
@@ -152,6 +153,9 @@
   };
   const handleKeydown = (event: KeyboardEvent) => {
     if (props.disabled) return;
+    const target = event.target as HTMLElement | null;
+    if (target?.closest('input, textarea, select, button, a[href], [contenteditable="true"]'))
+      return;
     if (isActivationKey(event)) {
       event.preventDefault();
       collapseCtx.handleClick?.(key, event);
