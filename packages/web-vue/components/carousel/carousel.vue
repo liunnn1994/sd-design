@@ -149,14 +149,11 @@
 
   // Sync innerIndex from controlled current so the slideTo dedupe matches the display;
   // without this, a controlled carousel that never writes back re-emits identical change events.
-  watch(
-    () => props.current,
-    (val) => {
-      if (isNumber(val) && components.value.length > 0) {
-        innerIndex.value = getValidIndex(val - 1, components.value.length);
-      }
-    },
-  );
+  watch([() => props.current, () => components.value.length], ([val, count]) => {
+    if (count > 0) {
+      innerIndex.value = getValidIndex(isNumber(val) ? val - 1 : innerIndex.value, count);
+    }
+  });
   const mergedIndexes = computed(() => {
     const childrenLength = components.value.length;
     const mergedIndex = isNumber(props.current)
@@ -201,7 +198,8 @@
   watchEffect(() => {
     const { interval } = computedAutoPlay.value || {};
     const { mergedNextIndex } = mergedIndexes.value;
-    const shouldInterval = components.value.length > 1 && !isPause.value && Boolean(interval);
+    const paused = computedAutoPlay.value.hoverToPause && isPause.value;
+    const shouldInterval = components.value.length > 1 && !paused && Boolean(interval);
     clearIntervalTimer();
     if (shouldInterval) {
       intervalTimer = window.setInterval(() => slideTo({ targetIndex: mergedNextIndex }), interval);
@@ -215,9 +213,9 @@
 
   function getValidIndex(index: number, length: number): number {
     const indexNumber = +index;
-    return typeof indexNumber === 'number' && !Number.isNaN(indexNumber)
-      ? (indexNumber + length) % length
-      : index;
+    return length > 0 && Number.isFinite(indexNumber)
+      ? ((Math.trunc(indexNumber) % length) + length) % length
+      : 0;
   }
 
   function slideTo({
@@ -231,8 +229,8 @@
   }) {
     // animationTimer lock is always cleared by setTimeout/onBeforeUnmount.
     // Dedupe against innerIndex: no duplicate identical change when controlled current is not written back.
-    if (!animationTimer && targetIndex !== innerIndex.value) {
-      previousIndex.value = innerIndex.value;
+    if (components.value.length > 1 && !animationTimer && targetIndex !== innerIndex.value) {
+      previousIndex.value = mergedIndexes.value.mergedIndex;
       innerIndex.value = targetIndex;
       slideDirection.value = isNegative ? 'negative' : 'positive';
       animationTimer = window.setTimeout(() => {
@@ -264,6 +262,8 @@
   };
 
   const onKeydown = (event: KeyboardEvent) => {
+    const target = event.target as HTMLElement | null;
+    if (target?.closest('input, textarea, select, [contenteditable="true"]')) return;
     if (event.key === KEYBOARD_KEY.ARROW_RIGHT || event.key === KEYBOARD_KEY.ARROW_DOWN) {
       event.preventDefault();
       onNextClick();
@@ -273,18 +273,14 @@
     }
   };
 
-  const eventListeners = computed(() =>
-    computedAutoPlay.value.hoverToPause
-      ? {
-          mouseenter: () => {
-            isPause.value = true;
-          },
-          mouseleave: () => {
-            isPause.value = false;
-          },
-        }
-      : {},
-  );
+  const eventListeners = {
+    mouseenter: () => {
+      isPause.value = true;
+    },
+    mouseleave: () => {
+      isPause.value = false;
+    },
+  };
   const hasIndicator = computed(
     () => props.indicatorType !== 'never' && components.value.length > 1,
   );
