@@ -80,14 +80,8 @@
       'grid-template-columns': `repeat(${resCols.value}, minmax(0px, 1fr))`,
     },
   ]);
-  const itemDataMap = reactive<Map<number, GridItemData>>(new Map());
-  const itemDataList = computed(() => {
-    const list: GridItemData[] = [];
-    for (const [index, itemData] of itemDataMap.entries()) {
-      list[index] = itemData;
-    }
-    return list;
-  });
+  const itemDataMap = reactive(new Map<number, { index: number; data: GridItemData }>());
+  const itemEntries = computed(() => [...itemDataMap.values()].sort((a, b) => a.index - b.index));
   const gridContext = reactive<{
     overflow: boolean;
     displayIndexList: number[];
@@ -109,19 +103,21 @@
       cols: resCols.value,
       collapsed: collapsed.value,
       collapsedRows: collapsedRows.value,
-      itemDataList: itemDataList.value,
+      itemDataList: itemEntries.value.map((item) => item.data),
     });
     gridContext.overflow = displayInfo.overflow;
-    gridContext.displayIndexList = displayInfo.displayIndexList;
+    gridContext.displayIndexList = displayInfo.displayIndexList.map(
+      (index) => itemEntries.value[index].index,
+    );
   });
 
   provide(GridContextInjectionKey, gridContext);
   provide(GridDataCollectorInjectionKey, {
-    collectItemData(index, itemData) {
-      itemDataMap.set(index, itemData);
+    collectItemData(id, index, itemData) {
+      itemDataMap.set(id, { index, data: itemData });
     },
-    removeItemData(index) {
-      itemDataMap.delete(index);
+    removeItemData(id) {
+      itemDataMap.delete(id);
     },
   });
 </script>

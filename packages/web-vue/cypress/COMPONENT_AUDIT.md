@@ -123,6 +123,8 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Grid responsive zero follow-up: full 39-case Chrome suite passes with retries disabled. A real viewport transition from 500px to 900px reproduced a column retaining its 120px xs offset despite md offset: 0. Responsive offset/order classes now use explicit presence checks, and SCSS emits zero-value rules so larger breakpoints can override smaller ones. The browser case verifies both offset and order reset to zero and restore on returning to the smaller viewport. Dynamic collapse/item collection and remaining layout boundaries stay pending.
 
+- Grid collection follow-up: full 40-case Chrome suite passes with retries disabled. Removing a middle keyed GridItem reproduced an unhandled undefined.suffix error in collapsed layout because the positional data array acquired holes. Collection now uses stable component ids, stores each current index separately and calculates visibility from sorted dense entries before mapping back to DOM indices. Unmount removes only the departing instance. The browser regression verifies deletion, insertion and keyed reorder with visible items and suffix overflow updating correctly. Multirow collapsed geometry and remaining layout boundaries are still pending.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: grid.
 
 | Component / support directory | Review status                        |

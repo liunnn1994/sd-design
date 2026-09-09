@@ -20,8 +20,8 @@ export type GridContext = Readonly<{
 export const GridContextInjectionKey: InjectionKey<GridContext> = Symbol('GridContextInjectionKey');
 
 export type GridDataCollector = Readonly<{
-  collectItemData: (index: number, itemData: GridItemData) => void;
-  removeItemData: (index: number) => void;
+  collectItemData: (id: number, index: number, itemData: GridItemData) => void;
+  removeItemData: (id: number) => void;
 }>;
 
 export const GridDataCollectorInjectionKey: InjectionKey<GridDataCollector> = Symbol(

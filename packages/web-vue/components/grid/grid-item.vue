@@ -5,7 +5,16 @@
 </template>
 
 <script setup lang="ts">
-  import { onUnmounted, ref, inject, watchEffect, computed, PropType, toRefs } from 'vue';
+  import {
+    getCurrentInstance,
+    onUnmounted,
+    ref,
+    inject,
+    watchEffect,
+    computed,
+    PropType,
+    toRefs,
+  } from 'vue';
 
   import { useIndex } from '../_hooks/use-index';
   import { getPrefixCls } from '../_utils/global-config';
@@ -50,6 +59,7 @@
 
   const prefixCls = getPrefixCls('grid-item');
   const domRef = ref<HTMLDivElement>();
+  const itemId = getCurrentInstance()!.uid;
   const { computedIndex } = useIndex({
     itemRef: domRef,
     selector: `.${prefixCls}`,
@@ -111,13 +121,11 @@
 
   watchEffect(() => {
     if (computedIndex.value !== -1) {
-      gridDataCollector?.collectItemData(computedIndex.value, itemData.value);
+      gridDataCollector?.collectItemData(itemId, computedIndex.value, itemData.value);
     }
   });
 
   onUnmounted(() => {
-    if (computedIndex.value !== -1) {
-      gridDataCollector?.removeItemData(computedIndex.value);
-    }
+    gridDataCollector?.removeItemData(itemId);
   });
 </script>
