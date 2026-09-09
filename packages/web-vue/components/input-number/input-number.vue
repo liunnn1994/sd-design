@@ -408,8 +408,9 @@
   const handleFocus = (event: FocusEvent) => emit('focus', event);
   const handleChange = (value: string, event: Event) => {
     if (event instanceof MouseEvent && !value) return;
+    const previousValue = committedValue;
     const emitted = handleExceedRange();
-    emit('change', emitted, event);
+    if (emitted !== previousValue) emit('change', emitted, event);
   };
   const handleBlur = (event: FocusEvent) => {
     if (getEmittedValue() !== committedValue) handleChange(innerValue.value, event);
@@ -459,7 +460,10 @@
         valueMode.value = 'number';
       }
       const nextNumberValue = getNumberValue(value);
-      if (value !== innerValue.value && nextNumberValue !== valueNumber.value) {
+      if (
+        value !== innerValue.value &&
+        (props.stringMode || nextNumberValue !== valueNumber.value)
+      ) {
         innerValue.value = getDisplayValue(value);
         rawText.value = DECIMAL_PATTERN.test(innerValue.value) ? innerValue.value : '';
         updateNumberStatus(nextNumberValue);
