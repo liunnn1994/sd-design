@@ -2,6 +2,8 @@ import { computed, reactive, toRefs, watch } from 'vue';
 
 import { initializeDateLocale } from '../../_utils/date';
 import { useI18n } from '../../locale';
+import enUS from '../../locale/lang/en-us';
+import zhCN from '../../locale/lang/zh-cn';
 import { createCalendarTexts } from './i18n';
 
 export const defaults = {
@@ -447,7 +449,9 @@ export const useConfig = (calendar, props, attrs) => {
     const dateLocale = await initializeDateLocale(effectiveLocale, weekStart);
 
     // 2. Get calendar section from the library's locale messages.
-    const calendarLang = i18nMessage.value?.calendar;
+    const calendarLang = props.locale
+      ? (dateLocale === 'en' ? enUS : zhCN).calendar
+      : i18nMessage.value?.calendar;
 
     // 3. Build texts from dayjs locale data + library UI text.
     const translations = createCalendarTexts(calendarLang, dateLocale);

@@ -450,7 +450,7 @@ describe('Calendar', () => {
       // Events are absolutely positioned inside a scrollable grid: force the double click.
       cy.get('.sd-calendar__event').dblclick({ force: true });
       cy.get('.sd-calendar__event-delete').should('exist');
-      cy.get('.sd-calendar__event-delete').should('have.text', '删除');
+      cy.get('.sd-calendar__event-delete').should('have.text', 'Delete');
       cy.get('.sd-calendar__event-delete').click({ force: true });
       cy.get('.sd-calendar__event').should('not.exist');
       cy.get('@vue').should(({ wrapper }) => {
