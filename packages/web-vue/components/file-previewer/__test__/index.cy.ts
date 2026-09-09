@@ -1,3 +1,5 @@
+import type { PDFDocumentLoadingTask } from 'pdfjs-dist';
+
 import { defineComponent, h } from 'vue';
 
 import FilePreviewer from '../index';
@@ -33,6 +35,35 @@ function createTestPdf() {
 const pdfProps = () => ({ documentParams: { data: createTestPdf() } });
 
 describe('FilePreviewer', () => {
+  for (const action of ['close', 'switch type'] as const) {
+    it(`destroys the loaded PDF task on ${action}`, () => {
+      let task: PDFDocumentLoadingTask | undefined;
+      cy.mount(FilePreviewer, {
+        props: {
+          type: 'pdf',
+          src: pdfSrc,
+          defaultVisible: true,
+          pdfProps: {
+            ...pdfProps(),
+            onDocumentLoad: (doc) => {
+              task = doc.loadingTask;
+            },
+          },
+        },
+      });
+      cy.get('.sd-file-previewer-pdf-page').should('contain.text', '2');
+      if (action === 'close') cy.get('.sd-file-previewer-close-btn').click();
+      else
+        cy.get('@vue').then(({ wrapper }) =>
+          wrapper.setProps({ type: 'video', src: '', mediaProps: { skin: 'native' } }),
+        );
+      cy.wrap(null).should(() => {
+        expect(task?.destroyed).to.equal(true);
+      });
+      cy.get('.sd-file-previewer-pdf').should('not.exist');
+    });
+  }
+
   it('cancels PDF initialization when destroyed immediately after loading starts', () => {
     let completion: Promise<unknown>;
     const onDocumentLoad = cy.spy().as('documentLoaded');

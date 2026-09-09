@@ -674,6 +674,9 @@
     [src, type, shouldRender, previewSlots],
     () => {
       requestId.value += 1;
+      if (!shouldRender.value || type.value !== 'pdf' || previewSlots.value.includes('content')) {
+        void destroyPdf();
+      }
       if (!shouldRender.value) return;
 
       resetPreviewState();
