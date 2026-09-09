@@ -141,7 +141,7 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - IconComponent final symbol review: full 18-case Chrome suite passes with retries disabled (12 original + 4 style + 1 script recovery + 1 dynamic symbol). The final browser case uses real SVG symbols, verifies geometry changing from 10px to 20px, clears type to render a 6px fallback circle, and restores the original symbol. It also verifies dynamic aria-label/data attributes and one click callback. No further production change was needed. Source, exports, styles, factory script loading, runtime props/slots and animation review completed; standard TypeScript verification remains pending for the repository gate.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: image.
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: input.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -186,7 +186,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | header-list                   | Empty directory; not implemented     |
 | icon                          | Reviewed                             |
 | icon-component                | Reviewed                             |
-| image                         | In progress                          |
+| image                         | Reviewed                             |
 | input                         | Pending                              |
 | input-mask                    | Pending                              |
 | input-number                  | Pending                              |
@@ -264,6 +264,8 @@ Includes every immediate directory in components; internal helpers and styles re
 - Image group source updates: full 67-case Chrome suite passes with retries disabled. Updating the first child source while its preview was open reproduced an unexpected jump to the second child: effect invalidation deleted and reinserted the registration at the end of the Map. Image now updates its registration in place and unregisters only on component unmount. The decoded-image regression verifies the current preview changes to the replacement source, remains at the first position and navigates right to the original second child. Existing removal and explicit-list cases also pass. Preview action boundary review remains pending; Image remains in progress.
 
 - Image action disabled lifecycle: full 69-case Chrome suite passes with retries disabled. Both tooltip and plain ImagePreviewAction regressions reproduced disabled actions executing consumer click handlers. The action now declares its click event and emits it only when enabled. Browser cases verify disabled to enabled to disabled transitions and exactly one callback from the enabled click. Existing built-in toolbar interactions remain passing. Final zoom-boundary and real-transition checks remain pending; Image remains in progress.
+
+- Image final boundary review: 72 distinct Chrome cases pass with retries disabled. The expanded full run passed the other 71 cases; its real-transition case initially used a visibility assertion on the mask covered by the image. After correcting the assertion to check mask display/opacity and the visible preview wrapper, all 3 boundary cases passed. Tests verify both 25%/500% toolbar and keyboard limits, movement back inside the range, actual enter/leave transitions, transform reset on reopening and working keyboard zoom afterward. No additional production change was needed. Image component review is complete; standard TypeScript validation remains a repository gate. Next component: Input.
 
 ## Release gates still pending
 
