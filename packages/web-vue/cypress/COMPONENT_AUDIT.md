@@ -103,7 +103,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - FilePreviewer PDF error follow-up: full 43-case Chrome suite passes with retries disabled (34 behavior/helper + 7 demos + 2 dynamic content). A real loaded document with a rejected getPage reproduced an unhandled Promise rejection and no preview error state. Page retrieval and rendering now share an error boundary that reports only failures from the current document/render generation, ignoring cancelled or obsolete requests. The regression verifies a visible error followed by loading a fresh real PDF, cleared error UI and a nonzero canvas. Media lifecycle review remains pending.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: file-previewer.
+- FilePreviewer final lifecycle review: full 46-case Chrome suite passes with retries disabled (34 behavior/helper + 7 demos + 2 dynamic content + 2 real media + 1 popup lifecycle). Completed public type, export, template and SCSS/token review. Browser-created WAV data loads and plays in native audio and video elements, reports the user callback once, removes loading UI and stops on close; this exercises media playback, not encoded video frames. These cases reproduced the incorrectly cased native loadeddata binding, now corrected while preserving the onLoadedData callback API. A separate regression reproduced a removed preview blocking Escape in a lower Drawer; unmount now releases its popup stack entry. Existing PDF cancellation, error recovery, page ordering and close/type resource regressions remain passing. Standard TypeScript validation remains pending for the repository gate.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: form.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -142,7 +144,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | dropdown                      | Reviewed                             |
 | ellipsis                      | Reviewed                             |
 | empty                         | Reviewed                             |
-| file-previewer                | In progress                          |
+| file-previewer                | Reviewed                             |
 | form                          | Pending                              |
 | grid                          | Pending                              |
 | header-list                   | Pending                              |

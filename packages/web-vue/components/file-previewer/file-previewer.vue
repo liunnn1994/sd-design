@@ -399,7 +399,7 @@
 
   const container = usePopupContainer(document.body, reactive({ popupContainer }));
   const popupVisible = computed(() => fullscreen.value && mergedVisible.value);
-  const { zIndex } = usePopupManager('dialog', { visible: popupVisible });
+  const { zIndex, close: releasePopup } = usePopupManager('dialog', { visible: popupVisible });
   const isFixed = computed(() => container.value === document.body);
 
   const currentSrc = computed(() => src?.value ?? '');
@@ -495,7 +495,7 @@
       ...(type.value === 'video' ? { playsinline: true } : undefined),
       ...userProps,
       src: currentSrc.value,
-      onLoadedData: (event: Event) => {
+      onLoadeddata: (event: Event) => {
         if (currentRequestId !== requestId.value) return;
         callEventHandler(onLoadedData, event);
         onPreviewLoad();
@@ -587,6 +587,7 @@
   );
 
   onBeforeUnmount(() => {
+    releasePopup();
     void destroyPdf();
   });
 
