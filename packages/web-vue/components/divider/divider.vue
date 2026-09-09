@@ -1,6 +1,7 @@
 <template>
   <div
     role="separator"
+    :aria-orientation="direction"
     :class="[
       prefixCls,
       `${prefixCls}-${direction}`,
@@ -76,7 +77,7 @@
   const mergedStyles = computed<CSSProperties>(() => {
     const styles: CSSProperties = {};
 
-    if (size) {
+    if (!isUndefined(size)) {
       if (isHorizontal.value) {
         styles.borderBottomWidth = `${size}px`;
       } else {

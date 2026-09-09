@@ -69,7 +69,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Descriptions: 15 passing Chrome cases (6 demos + 4 data-slot index regressions + 3 dynamic layout + 2 presentation cases), retries disabled. Read component grouping/rendering, item wrapper, public types, installation, responsive column hook and styles/tokens. All four layouts reproduced incorrect slot indexes across spanned rows: horizontal used the row index and the others reset indexes within each row. Render records now retain the original data index and label/value slots consume it consistently. Browser viewport changes verify 3/2/1-column regrouping and recovery. Dynamic data replacement, empty state, colspan updates and slot-item insertion/removal pass. Presentation tests verify title removal, border/size classes, real table-layout CSS, alignment/style precedence and clickable functional VNode content. Full 15-case Chrome run passes with retries disabled. Component review complete. Standard TypeScript validation remains pending.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: divider.
+- Divider: 23 passing Chrome cases (16 existing behavior + 3 demos + 4 dynamic state cases), retries disabled. Read component props/rendering, installation, styles and tokens. New browser regressions reproduced zero size falling back to a 1px border in both directions and missing accessible orientation for vertical separators. Explicit zero now produces a zero-width border; aria-orientation follows direction. Removing size restores defaults and dynamic text-slot insertion/removal passes. Full component run passes; component review complete. Standard TypeScript validation remains pending.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: drawer.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -103,7 +105,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | cropper                       | Reviewed; browser cases above passed |
 | date-picker                   | Reviewed; browser cases above passed |
 | descriptions                  | Reviewed; browser cases above passed |
-| divider                       | Pending                              |
+| divider                       | Reviewed; browser cases above passed |
 | drawer                        | Pending                              |
 | dropdown                      | Pending                              |
 | ellipsis                      | Pending                              |
