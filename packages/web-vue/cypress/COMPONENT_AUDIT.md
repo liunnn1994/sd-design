@@ -105,6 +105,8 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - FilePreviewer final lifecycle review: full 46-case Chrome suite passes with retries disabled (34 behavior/helper + 7 demos + 2 dynamic content + 2 real media + 1 popup lifecycle). Completed public type, export, template and SCSS/token review. Browser-created WAV data loads and plays in native audio and video elements, reports the user callback once, removes loading UI and stops on close; this exercises media playback, not encoded video frames. These cases reproduced the incorrectly cased native loadeddata binding, now corrected while preserving the onLoadedData callback API. A separate regression reproduced a removed preview blocking Escape in a lower Drawer; unmount now releases its popup stack entry. Existing PDF cancellation, error recovery, page ordering and close/type resource regressions remain passing. Standard TypeScript validation remains pending for the repository gate.
 
+- Form (in progress): full 41-case Chrome suite passes with retries disabled (24 existing behavior + 14 demos + 3 async validation lifecycle). Read form/item state, validation, registration, methods and submission logic plus label/message components, context, utilities and exports. Promise-returning custom validators reproduce obsolete results overwriting newer validation and restoring errors after clear/reset; all three regressions fail before the fix. Validation generations now restrict state writes to the latest request, and clear/reset invalidate pending state writes. Requests still settle through the existing public validation result API. Tests await the actual Form validation Promises; an initial callback-only fixture was replaced because b-validate treats a non-Promise validator as synchronous. Dynamic registration, nested noStyle cleanup, mutable initial values, submission races, remaining types and styles still require review. Standard TypeScript validation remains pending.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: form.
 
 | Component / support directory | Review status                        |
@@ -145,7 +147,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | ellipsis                      | Reviewed                             |
 | empty                         | Reviewed                             |
 | file-previewer                | Reviewed                             |
-| form                          | Pending                              |
+| form                          | In progress                          |
 | grid                          | Pending                              |
 | header-list                   | Pending                              |
 | icon                          | Pending                              |

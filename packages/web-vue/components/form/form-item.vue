@@ -361,6 +361,7 @@
   const finalMessage = computed(() => getFinalValidateMessage(validateMessage));
   // 用于重置表单时，不触发校验
   const validateDisabled = ref(false);
+  let validationId = 0;
 
   const fieldValue = computed(() => getValueByPath(formCtx.model, props.field));
 
@@ -404,6 +405,7 @@
     if (validateDisabled.value) {
       return Promise.resolve();
     }
+    const currentValidationId = ++validationId;
 
     const rules = mergedRules.value;
     if (!field.value || rules.length === 0) {
@@ -438,10 +440,12 @@
     return new Promise((resolve) => {
       schema.validate({ [_field]: _value }, (err: Record<string, any> | undefined) => {
         const hasError = Boolean(err?.[_field]);
-        updateValidateState(_field, {
-          status: hasError ? 'error' : '',
-          message: err?.[_field].message ?? '',
-        });
+        if (currentValidationId === validationId) {
+          updateValidateState(_field, {
+            status: hasError ? 'error' : '',
+            message: err?.[_field].message ?? '',
+          });
+        }
 
         const error = hasError
           ? {
@@ -506,6 +510,7 @@
   );
 
   const clearValidate = () => {
+    validationId++;
     if (field.value) {
       updateValidateState(field.value, {
         status: '',
