@@ -323,6 +323,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - JsonForm dynamic model/schema: two additional Chrome cases pass with retries disabled, bringing verified coverage to 38 distinct cases (previous full 36-case run plus the new spec). Replacing the model prop updates displayed input and routes edits to the new object without modifying the old one. Replacing a top-level schema field with a nested path removes the old field, updates the label/value and writes subsequent input only to the new path. No production change was needed. Path boundaries and validation lifecycle remain pending.
 
+- JsonForm escaped-pointer validation: full 40-case Chrome suite passes with retries disabled. Both `/a~1b` and `/a~0b` regressions reproduced required validation failing despite a populated input because the control decoded its path but FormItem did not. FormItem path normalization now uses the existing JSON Pointer parser before joining segments. Browser harnesses use actual Form and JsonFormItem controls and validate via a user-clicked button; both verify populated success, empty failure and successful correction. Literal-dot/other path boundaries and remaining form lifecycle review are still pending.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.

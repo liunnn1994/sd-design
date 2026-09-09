@@ -103,7 +103,7 @@
     type JsonFormModel,
     type JsonFormSchema,
   } from './types';
-  import { getJsonFormValue, setJsonFormValue } from './utils';
+  import { getJsonFormValue, parseJsonFormPath, setJsonFormValue } from './utils';
 
   defineOptions({
     name: 'JsonFormItem',
@@ -135,7 +135,7 @@
 
   const normalizedField = computed(() => {
     return props.adapter === 'a2ui-0.9.1'
-      ? props.schema.field.replace(/^\//, '').replaceAll('/', '.')
+      ? parseJsonFormPath(props.schema.field, props.adapter).join('.')
       : props.schema.field;
   });
 
