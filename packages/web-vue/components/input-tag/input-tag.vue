@@ -274,6 +274,15 @@
   );
   const mergedFocused = computed(() => props.focused || innerFocused.value);
   const isResponsiveMaxTagCount = computed(() => props.maxTagCount === 'responsive');
+  let replacingInput = false;
+  watch(isResponsiveMaxTagCount, () => {
+    const restoreFocus = innerFocused.value;
+    replacingInput = true;
+    nextTick(() => {
+      replacingInput = false;
+      if (restoreFocus) inputRef.value?.focus();
+    });
+  });
   const computedValue = computed(() => props.modelValue ?? innerValue.value);
   const computedInputValue = computed(() => props.inputValue ?? innerInputValue.value);
   const valueData = computed(() => getValueData(computedValue.value, mergedFieldNames.value));
@@ -402,7 +411,8 @@
   };
   const handleBlur = (event: FocusEvent) => {
     innerFocused.value = false;
-    if (!retainInputValue.value.blur && computedInputValue.value) updateInputValue('', event);
+    if (!replacingInput && !retainInputValue.value.blur && computedInputValue.value)
+      updateInputValue('', event);
     emit('blur', event);
     eventHandlers.value?.onBlur?.(event);
   };
@@ -444,6 +454,9 @@
     if (inputRef.value && !isComposition.value && value !== inputRef.value.value) {
       inputRef.value.value = value;
     }
+  });
+  watch(inputRef, (input) => {
+    if (input) input.value = computedInputValue.value;
   });
 
   const cls = computed(() => [
