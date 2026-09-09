@@ -18,7 +18,8 @@
       'role': 'spinbutton',
       'aria-valuemax': props.max,
       'aria-valuemin': props.min,
-      'aria-valuenow': innerValue,
+      'aria-valuenow': getEmittedValue() === '' ? undefined : getEmittedValue(),
+      'aria-valuetext': props.formatter && !isUndefined(valueNumber) ? innerValue : undefined,
       ...props.inputAttrs,
     }"
     @input="handleInput"

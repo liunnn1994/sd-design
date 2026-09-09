@@ -291,6 +291,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - InputNumber numeric boundaries: full 54-case Chrome suite passes with retries disabled. All three new regressions failed before fixes: rounding to min/max on blur left the boundary step enabled, and an empty negative-only range stepped to zero above its maximum. Committing a normalized value now refreshes boundary status, and the initial empty-value step passes through the existing range normalization. Browser cases verify both rounded limits, stepping back away from each limit, and initial/subsequent keyboard stepping with the emitted values in a negative-only range. Dynamic formatting and remaining numeric precision review are still pending before completing InputNumber.
 
+- InputNumber formatted accessibility: full 55-case Chrome suite passes with retries disabled. A new browser regression reproduced aria-valuenow containing the formatted text `5 kg`. It now uses the emitted numeric value (retaining stringMode precision), while formatted text is exposed through aria-valuetext. Empty values omit both attributes, and caller inputAttrs still have final precedence. The case verifies initial display/attributes, keyboard stepping and clearing. This verifies browser attributes, not screen-reader output. Remaining dynamic formatting and numeric precision review are pending.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
