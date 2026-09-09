@@ -141,7 +141,7 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - IconComponent final symbol review: full 18-case Chrome suite passes with retries disabled (12 original + 4 style + 1 script recovery + 1 dynamic symbol). The final browser case uses real SVG symbols, verifies geometry changing from 10px to 20px, clears type to render a 6px fallback circle, and restores the original symbol. It also verifies dynamic aria-label/data attributes and one click callback. No further production change was needed. Source, exports, styles, factory script loading, runtime props/slots and animation review completed; standard TypeScript verification remains pending for the repository gate.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: input.
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: input-mask.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -187,7 +187,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | icon                          | Reviewed                             |
 | icon-component                | Reviewed                             |
 | image                         | Reviewed                             |
-| input                         | In progress                          |
+| input                         | Reviewed                             |
 | input-mask                    | Pending                              |
 | input-number                  | Pending                              |
 | input-tag                     | Pending                              |
@@ -272,6 +272,8 @@ Includes every immediate directory in components; internal helpers and styles re
 - InputSearch disabled lifecycle: full 48-case Chrome suite passes with retries disabled. The new direct-disabled icon test reproduced search emission from a disabled input. The handler now checks the native input's effective disabled state, covering direct and FormItem-inherited disabling without duplicating the existing state resolution. Both browser cases verify no disabled search event, re-enabling, exactly one successful search and its current-value payload. The inherited fixture includes Form and FormItem with a model; Form alone does not provide the field context used by Input. Composition and remaining Search/Password interactions are still pending.
 
 - Input composition and accepted-value events: full 51-case Chrome suite passes with retries disabled. Browser-dispatched composition events confirm model/input updates are deferred and Enter is suppressed during composition. A regression reproduced the model and DOM being truncated to two characters while the input callback still received all three. updateValue now returns its accepted value, used by both regular and composition input emissions. Tests cover composition completion, its subsequent Enter, and paste-style input truncation. These are browser event-sequence tests, not operating-system IME automation. Remaining dynamic attributes and Password/Search interaction review are pending.
+
+- Input final dynamic-attribute and Password review: 54 distinct Chrome cases pass with retries disabled. The expanded full run passed the other 53 cases; the native-attribute test needed independent queries after negative attribute assertions and the browser's actual default letter-spacing value of 0. The corrected 3-case spec passes. It covers removal of autocomplete, aria-invalid and spacing overrides, updated aria-label, live wrapper title/style/event listeners, password value/focus across reveal and masking, and removing the reveal button while continuing input. No production change was needed. Input, Search, Password and Group review completed; standard TypeScript validation remains a repository gate. Next component: InputMask.
 
 ## Release gates still pending
 
