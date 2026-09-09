@@ -153,13 +153,29 @@
     return key.replace(/([A-Z])/g, '-$1').toLowerCase();
   }
 
+  const originalAttributes = new WeakMap<Element, Map<string, string | null>>();
+
   function syncPropsToElement(el: Element | null | undefined, propsObject: UnknownRecord) {
     if (!el) {
       return;
     }
 
+    let originals = originalAttributes.get(el);
+    if (!originals) {
+      originals = new Map();
+      originalAttributes.set(el, originals);
+    }
+    for (const [key, original] of originals) {
+      if (Object.hasOwn(propsObject, key)) continue;
+      const attrName = toKebabCase(key);
+      if (original === null) el.removeAttribute(attrName);
+      else el.setAttribute(attrName, original);
+      originals.delete(key);
+    }
+
     for (const [key, value] of Object.entries(propsObject)) {
       const attrName = toKebabCase(key);
+      if (!originals.has(key)) originals.set(key, el.getAttribute(attrName));
 
       if (value === undefined || value === null || value === false) {
         el.removeAttribute(attrName);
