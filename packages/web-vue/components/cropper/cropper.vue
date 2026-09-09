@@ -107,6 +107,7 @@
   const trackedHandlers: TrackedHandler[] = [];
 
   let cropperInstance: Cropper | null = null;
+  let destroyed = false;
   let cropperConstructorPromise: Promise<typeof import('cropperjs').default> | null = null;
 
   function loadCropperConstructor() {
@@ -364,6 +365,7 @@
   }
 
   function destroy() {
+    destroyed = true;
     for (const { el, event, fn } of trackedHandlers) {
       el.removeEventListener(event, fn);
     }
@@ -380,7 +382,7 @@
 
     const CropperConstructor = await loadCropperConstructor();
     const imageElement = imgRef.value;
-    if (!imageElement) {
+    if (destroyed || !imageElement) {
       return;
     }
 
