@@ -1,11 +1,11 @@
 <template>
   <div :class="prefixCls">
-    <div v-if="hasTitle || hasDescription" :class="`${prefixCls}-content`">
-      <div v-if="hasTitle" :class="`${prefixCls}-title`">
+    <div v-if="hasTitle() || hasDescription()" :class="`${prefixCls}-content`">
+      <div v-if="hasTitle()" :class="`${prefixCls}-title`">
         <slot v-if="$slots.title" name="title" />
         <template v-else>{{ title }}</template>
       </div>
-      <div v-if="hasDescription" :class="`${prefixCls}-description`">
+      <div v-if="hasDescription()" :class="`${prefixCls}-description`">
         <slot v-if="$slots.description" name="description" />
         <template v-else>{{ description }}</template>
       </div>
@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
   import type { VNode } from 'vue';
-  import { computed, inject, onMounted } from 'vue';
+  import { inject, onMounted, onBeforeUnmount } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
   import CardActions from './card-actions.vue';
@@ -70,12 +70,15 @@
 
   const prefixCls = getPrefixCls('card-meta');
   const context = inject(cardInjectionKey, undefined);
-  const hasTitle = computed(() => Boolean(slots.title ?? props.title));
-  const hasDescription = computed(() => Boolean(slots.description ?? props.description));
+  const hasTitle = () => Boolean(slots.title ?? props.title);
+  const hasDescription = () => Boolean(slots.description ?? props.description);
   onMounted(() => {
     if (context) {
-      context.hasMeta = true;
+      context.metaCount++;
     }
+  });
+  onBeforeUnmount(() => {
+    if (context) context.metaCount--;
   });
 </script>
 

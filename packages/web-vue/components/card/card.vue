@@ -1,20 +1,20 @@
 <template>
   <div v-bind="$attrs" :class="cls">
     <div
-      v-if="hasTitle || hasExtra"
+      v-if="hasTitle() || hasExtra()"
       :class="[
         `${prefixCls}-header`,
         {
-          [`${prefixCls}-header-no-title`]: !hasTitle,
+          [`${prefixCls}-header-no-title`]: !hasTitle(),
         },
       ]"
       :style="headerStyle"
     >
-      <div v-if="hasTitle" :class="`${prefixCls}-header-title`">
+      <div v-if="hasTitle()" :class="`${prefixCls}-header-title`">
         <slot v-if="$slots.title" name="title" />
         <template v-else>{{ title }}</template>
       </div>
-      <div v-if="hasExtra" :class="`${prefixCls}-header-extra`">
+      <div v-if="hasExtra()" :class="`${prefixCls}-header-extra`">
         <slot v-if="$slots.extra" name="extra" />
         <template v-else>{{ extra }}</template>
       </div>
@@ -153,15 +153,21 @@
   const { scrollbarProps } = useScrollbar(toRef(props, 'scrollbar'));
   const scrollEnabled = computed(() => props.fullHeight && props.scrollbar !== false);
   const cardContext: CardContext = reactive({
-    hasMeta: false,
-    hasGrid: false,
+    metaCount: 0,
+    gridCount: 0,
+    get hasMeta() {
+      return this.metaCount > 0;
+    },
+    get hasGrid() {
+      return this.gridCount > 0;
+    },
     slots,
   });
 
   provide(cardInjectionKey, cardContext);
 
-  const hasTitle = computed(() => Boolean(slots.title ?? props.title));
-  const hasExtra = computed(() => Boolean(slots.extra ?? props.extra));
+  const hasTitle = () => Boolean(slots.title ?? props.title);
+  const hasExtra = () => Boolean(slots.extra ?? props.extra);
   const cls = computed(() => [
     prefixCls,
     `${prefixCls}-size-${mergedSize.value}`,

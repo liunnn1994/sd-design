@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, inject, onMounted } from 'vue';
+  import { computed, inject, onMounted, onBeforeUnmount } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { CardContext, cardInjectionKey } from './context';
@@ -29,8 +29,11 @@
 
   onMounted(() => {
     if (context) {
-      context.hasGrid = true;
+      context.gridCount++;
     }
+  });
+  onBeforeUnmount(() => {
+    if (context) context.gridCount--;
   });
 
   const cls = computed(() => {
