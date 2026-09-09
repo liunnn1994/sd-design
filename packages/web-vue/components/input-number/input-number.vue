@@ -265,7 +265,13 @@
   };
   const toPlainString = (number: number | undefined) => {
     if (!isNumber(number)) return '';
-    return mergedPrecision.value ? number.toFixed(mergedPrecision.value) : String(number);
+    const precision = mergedPrecision.value;
+    if (!precision) return String(number);
+    const displayPrecision =
+      number === props.min || number === props.max
+        ? Math.max(precision, NP.digitLength(number))
+        : precision;
+    return number.toFixed(displayPrecision);
   };
   const getStringValue = (number: number | undefined) => {
     const value = toPlainString(number);
@@ -304,9 +310,10 @@
   };
   const getLegalValue = (value: number | undefined) => {
     if (isUndefined(value)) return undefined;
+    if (isNumber(mergedPrecision.value)) value = NP.round(value, mergedPrecision.value);
     if (isNumber(props.min) && value < props.min) value = props.min;
     if (isNumber(props.max) && value > props.max) value = props.max;
-    return isNumber(mergedPrecision.value) ? NP.round(value, mergedPrecision.value) : value;
+    return value;
   };
   const updateNumberStatus = (number: number | undefined) => {
     isMin.value = isNumber(number) && number <= props.min;

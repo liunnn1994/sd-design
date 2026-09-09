@@ -299,6 +299,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - InputNumber scientific-notation precision: full 60-case Chrome suite passes with retries disabled. A regression reproduced step=1e-7 with precision=0 remaining at zero after ArrowUp because splitting the step string at a decimal point counted no fractional digits. Effective precision now uses the existing number-precision digitLength helper, whose installed API was inspected. The browser case verifies two increments, a decrement, fixed decimal display and exact emitted numeric values. Remaining precision/range interactions still need review before InputNumber is complete.
 
+- InputNumber precision/range priority: full 62-case Chrome suite passes with retries disabled. Two browser regressions reproduced precision=1 turning max=1.26 into 1.3 and min=1.24 into 1.2 after blur, violating the explicit bounds. Normalization now rounds before applying the bounds, and display formatting retains any extra digits needed for an exact bound. Both tests verify displayed value, emitted model and disabled boundary button. High-precision string arithmetic remains to be checked before final component completion.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
