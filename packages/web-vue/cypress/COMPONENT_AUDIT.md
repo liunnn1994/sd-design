@@ -188,7 +188,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | icon-component                | Reviewed                             |
 | image                         | Reviewed                             |
 | input                         | Reviewed                             |
-| input-mask                    | Pending                              |
+| input-mask                    | In progress                          |
 | input-number                  | Pending                              |
 | input-tag                     | Pending                              |
 | json-form                     | Pending                              |
@@ -274,6 +274,8 @@ Includes every immediate directory in components; internal helpers and styles re
 - Input composition and accepted-value events: full 51-case Chrome suite passes with retries disabled. Browser-dispatched composition events confirm model/input updates are deferred and Enter is suppressed during composition. A regression reproduced the model and DOM being truncated to two characters while the input callback still received all three. updateValue now returns its accepted value, used by both regular and composition input emissions. Tests cover composition completion, its subsequent Enter, and paste-style input truncation. These are browser event-sequence tests, not operating-system IME automation. Remaining dynamic attributes and Password/Search interaction review are pending.
 
 - Input final dynamic-attribute and Password review: 54 distinct Chrome cases pass with retries disabled. The expanded full run passed the other 53 cases; the native-attribute test needed independent queries after negative attribute assertions and the browser's actual default letter-spacing value of 0. The corrected 3-case spec passes. It covers removal of autocomplete, aria-invalid and spacing overrides, updated aria-label, live wrapper title/style/event listeners, password value/focus across reveal and masking, and removing the reveal button while continuing input. No production change was needed. Input, Search, Password and Group review completed; standard TypeScript validation remains a repository gate. Next component: InputMask.
+
+- InputMask (in progress): full 46-case Chrome suite passes with retries disabled (38 existing behavior/helper + 6 demo + 2 empty lifecycle). Read component state/events/selection tracking, public types, exports/styles and initial mask-engine parsing/layout; remaining engine and preset review is pending. Both fixed-mask empty regressions reproduced a retained clear button after clearing or deleting all input because placeholder-only internal state was treated as content. A computed check of the placeholder-free committed value now controls clear availability and blurred template visibility. Both cases verify empty model output, no clear control, blank display on blur, restored focus template and further typing. Dynamic normalization, callback and engine boundaries remain pending; standard TypeScript verification remains pending.
 
 ## Release gates still pending
 

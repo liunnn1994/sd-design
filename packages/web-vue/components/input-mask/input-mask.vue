@@ -4,7 +4,7 @@
     v-bind="forwardedAttrs"
     :model-value="displayValue"
     :size="size"
-    :allow-clear="allowClear && Boolean(innerValue)"
+    :allow-clear="allowClear && hasValue"
     :disabled="disabled"
     :readonly="readonly"
     :error="error"
@@ -146,7 +146,7 @@
     if (!effectiveMask.value) return innerValue.value;
     return formatInputMask(innerValue.value, null, effectiveMask.value, {
       maskChar: effectiveMaskChar.value,
-      showMask: focused.value || props.alwaysShowMask || Boolean(innerValue.value),
+      showMask: focused.value || props.alwaysShowMask || hasValue.value,
       formatChars: effectiveFormatChars.value,
     }).value;
   });
@@ -186,6 +186,8 @@
       formatChars: effectiveFormatChars.value,
     });
   };
+
+  const hasValue = computed(() => Boolean(toCommittedValue(innerValue.value)));
 
   const commitValue = (rawValue: string) => {
     const input = getInputElement();
