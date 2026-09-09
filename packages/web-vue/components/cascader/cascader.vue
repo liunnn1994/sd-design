@@ -113,6 +113,7 @@
     computed,
     getCurrentInstance,
     inject,
+    onBeforeUnmount,
     provide,
     reactive,
     ref,
@@ -138,7 +139,6 @@
   import { useFormItem } from '../_hooks/use-form-item';
   import { useReadonlyTip, useReadonlyTipText } from '../_hooks/use-readonly-tip';
   import { useTrigger } from '../_hooks/use-trigger';
-  import { debounce } from '../_utils/debounce';
   import { isArray, isFunction, isNull, isUndefined } from '../_utils/is';
   import { KEYBOARD_KEY, getKeyDownHandler } from '../_utils/keyboard';
   import { BaseType } from '../_utils/types';
@@ -536,9 +536,15 @@
     }
   };
 
-  const handleSearch = debounce((value: string) => {
-    emit('search', value);
-  }, props.searchDelay);
+  let searchTimer: ReturnType<typeof setTimeout> | undefined;
+  const handleSearch = (value: string) => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      searchTimer = undefined;
+      emit('search', value);
+    }, props.searchDelay);
+  };
+  onBeforeUnmount(() => clearTimeout(searchTimer));
 
   const handleInputValueChange = (value: string, reason: string): void => {
     if (value !== computedInputValue.value) {
