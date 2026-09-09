@@ -357,37 +357,24 @@
     changeScale(newScale);
   });
 
-  let globalKeyDownListener = false;
+  watch(
+    [mergedVisible, () => props.keyboard, container],
+    ([visible, keyboard, target], _, onCleanup) => {
+      if (!visible || !keyboard) return;
+      on(target, 'keydown', handleKeyDown);
+      onCleanup(() => off(target, 'keydown', handleKeyDown));
+    },
+    { immediate: true },
+  );
 
-  const addGlobalKeyDownListener = () => {
-    nextTick(() => {
-      refWrapper?.value?.focus();
-    });
-    if (props.keyboard && !globalKeyDownListener) {
-      globalKeyDownListener = true;
-      on(container.value, 'keydown', handleKeyDown);
-    }
-  };
-
-  const removeGlobalKeyDownListener = () => {
-    if (globalKeyDownListener) {
-      globalKeyDownListener = false;
-      off(container.value, 'keydown', handleKeyDown);
-    }
-  };
-
-  // `immediate` covers previews that are already visible on mount (e.g. default-visible or a
-  // controlled `visible`): they must attach the keyboard listeners and enter the loading state
-  // without waiting for a prop change.
+  // Previews visible on mount also need their initial loading state and focus.
   watch(
     [src, mergedVisible],
     () => {
       if (mergedVisible.value) {
         reset();
         setLoadStatus('loading');
-        addGlobalKeyDownListener();
-      } else {
-        removeGlobalKeyDownListener();
+        nextTick(() => refWrapper.value?.focus());
       }
     },
     { immediate: true },
@@ -440,7 +427,6 @@
   }
 
   onBeforeUnmount(() => {
-    removeGlobalKeyDownListener();
     releasePopup();
   });
 

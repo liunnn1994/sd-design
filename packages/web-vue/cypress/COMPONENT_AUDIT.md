@@ -255,6 +255,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - Image source and popup lifecycle: full 59-case Chrome suite passes with retries disabled. Two regressions reproduced old decoded images and captions surviving src removal (undefined and empty string). Clearing src now removes the DOM attribute and restores beforeLoad; late load/error callbacks cannot restore a state without a source. Browser cases verify clearing, reloading and opening the restored image. A third regression reproduced an open ImagePreview unmount leaving a popup-stack entry that blocked Escape on the lower Drawer. Preview unmount now releases its popup entry; the lower Drawer closes successfully afterward. Explicit source-list, dynamic keyboard/container, drag and remaining lifecycle review are still pending; Image remains in progress.
 
+- Image keyboard lifecycle: full 61-case Chrome run passed, followed by all 3 cases in the expanded keyboard spec (62 distinct passing cases total, retries disabled). Two regressions reproduced keyboard=true to false retaining active shortcuts and false to true leaving shortcuts unbound. A dedicated watcher now tracks visibility, keyboard configuration and popup container, and its cleanup removes the listener from the captured original element. The additional container case verifies teleport movement, no scaling from the old container and working scaling from the new one. Explicit source-list, drag and remaining lifecycle review are still pending; Image remains in progress.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
