@@ -62,6 +62,7 @@
   const { gutter, align, justify, div, wrap } = toRefs(props);
   const prefixCls = getPrefixCls('row');
   const classNames = computed(() => {
+    if (div.value) return {};
     return {
       [`${prefixCls}`]: !div.value,
       [`${prefixCls}-nowrap`]: !wrap.value,

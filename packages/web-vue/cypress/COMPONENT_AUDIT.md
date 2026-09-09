@@ -119,6 +119,8 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Form final exception review: full 53-case Chrome suite passes with retries disabled (24 original behavior + 14 demos + 15 added lifecycle cases). Both synchronous custom-validator throws and rejected Promises reproduced unhandled rejections during native form submission. Custom validators now report exceptions through the existing field-error callback, allowing validation and submission to settle. New cases verify failure events and visible messages, then editing and successful resubmission with cleared errors. Completed source, public contract, helper, style and lifecycle review; the earlier dynamic registration, reset, nested cleanup, result identity and submission regressions remain passing. Standard TypeScript verification remains pending for the repository gate.
 
+- Grid (in progress): full 38-case Chrome suite passes with retries disabled (25 behavior + 11 demos + 2 plain-div lifecycle). Read Row/Col, responsive hooks, Grid/GridItem main logic, utilities, exports, public interfaces and styles. New cases reproduced Row modifier classes leaking into div mode and zero-span Col being removed despite plain-container mode; review also found Col flex styles bypassing div mode. Plain mode now suppresses grid classes/styles and span visibility, preserving caller classes. Browser assertions verify switching back restores flex and gutter styles. All 53 Form cases pass after the shared Row/Col change. Dynamic collapse/item collection and responsive boundary review remain pending. Standard TypeScript verification remains pending.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: grid.
 
 | Component / support directory | Review status                        |
@@ -160,7 +162,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | empty                         | Reviewed                             |
 | file-previewer                | Reviewed                             |
 | form                          | Reviewed                             |
-| grid                          | Pending                              |
+| grid                          | In progress                          |
 | header-list                   | Pending                              |
 | icon                          | Pending                              |
 | icon-component                | Pending                              |

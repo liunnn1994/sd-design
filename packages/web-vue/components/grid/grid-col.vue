@@ -149,6 +149,7 @@
     return result;
   });
   const classNames = computed(() => {
+    if (rowContext.div) return undefined;
     return flexValue.value ? prefixCls : mergeClassName.value;
   });
   const paddingStyles = computed(() => {
@@ -188,6 +189,8 @@
   );
   const responsiveSpan = useResponsiveState(propSpan, 24, true);
 
-  const visible = computed(() => !!responsiveSpan.value);
-  const styles = computed(() => ({ ...paddingStyles.value, ...flexStyles.value }));
+  const visible = computed(() => rowContext.div || !!responsiveSpan.value);
+  const styles = computed(() =>
+    rowContext.div ? {} : { ...paddingStyles.value, ...flexStyles.value },
+  );
 </script>
