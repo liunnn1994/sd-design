@@ -19,7 +19,16 @@
 
 <script setup lang="ts">
   import type { VNode } from 'vue';
-  import { computed, mergeProps, provide, reactive, ref, toRef, watchEffect } from 'vue';
+  import {
+    computed,
+    mergeProps,
+    onBeforeUpdate,
+    provide,
+    reactive,
+    ref,
+    toRef,
+    watchEffect,
+  } from 'vue';
 
   import type { BreadcrumbRoute } from './interface';
 
@@ -105,11 +114,13 @@
     }),
   );
 
-  watchEffect(() => {
+  const syncRouteTotal = () => {
     if (!slots.default) {
       total.value = props.routes?.length ?? 0;
     }
-  });
+  };
+  watchEffect(syncRouteTotal);
+  onBeforeUpdate(syncRouteTotal);
 
   const routeEntries = computed(() => {
     if (!props.routes?.length) {

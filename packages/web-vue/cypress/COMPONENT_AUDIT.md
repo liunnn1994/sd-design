@@ -29,11 +29,13 @@ pnpm --filter @sdata/web-vue run cypress:run --spec 'components/<component>/__te
 
 - BorderBeam: 55 passing (38 behavior + 7 demos + 10 lifecycle), retries disabled. Fix interrupted fade reversal, zero/automatic radius detection, replaced-slot observation and pulse glow resize tracking. React to reduced-motion changes, stop the pulse driver and complete deactivation without waiting for disabled CSS animations; all five presets retain a static visible effect. Package vue-tsc passed using installed TNB.
 
+- Breadcrumb: 23 passing (14 behavior + 7 demos + 2 lifecycle), retries disabled. Fix dynamic droplist availability and stale route totals when removing a default slot. Remove the duplicate BreadcrumbItem declaration that prevented the existing test file from compiling. Package vue-tsc passed using installed TNB.
+
 ## Inventory
 
 After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and Anchor together: 115 tests passed with retries disabled (exit 0).
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: breadcrumb.
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: button.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -50,7 +52,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | basic-crud-table              | Reviewed; browser cases above passed |
 | bloom-menu                    | Reviewed; browser cases above passed |
 | border-beam                   | Reviewed; browser cases above passed |
-| breadcrumb                    | Pending                              |
+| breadcrumb                    | Reviewed; browser cases above passed |
 | button                        | Pending                              |
 | calendar                      | Pending                              |
 | card                          | Pending                              |

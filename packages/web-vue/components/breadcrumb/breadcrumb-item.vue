@@ -71,7 +71,7 @@
 
 <script setup lang="ts">
   import type { VNode } from 'vue';
-  import { computed, inject, ref } from 'vue';
+  import { computed, inject, onBeforeUpdate, ref, watchEffect } from 'vue';
 
   import { createReusableTemplate } from '@vueuse/core';
 
@@ -137,7 +137,13 @@
   const prefixCls = getPrefixCls('breadcrumb-item');
   const breadcrumbCtx = inject(breadcrumbInjectKey, undefined);
   const dropdownVisible = ref(false);
-  const hasDroplist = computed(() => Boolean(props.droplist || slots.droplist));
+  const hasDroplist = ref(false);
+  const syncDroplist = () => {
+    hasDroplist.value = Boolean(props.droplist || slots.droplist);
+    if (!hasDroplist.value) dropdownVisible.value = false;
+  };
+  watchEffect(syncDroplist);
+  onBeforeUpdate(syncDroplist);
   const show = computed(() => {
     if (breadcrumbCtx && breadcrumbCtx.needHide) {
       if (props.index > 1 && props.index <= breadcrumbCtx.total - breadcrumbCtx.maxCount) {

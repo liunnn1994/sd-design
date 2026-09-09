@@ -1,7 +1,5 @@
 import Breadcrumb, { BreadcrumbItem } from '../index';
 
-const BreadcrumbItem = Breadcrumb.Item;
-
 describe('Breadcrumb', () => {
   it('exposes a labeled list (role=list + aria-label) and listitem roles', () => {
     cy.mount(Breadcrumb, {
