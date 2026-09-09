@@ -64,7 +64,15 @@
 
 <script setup lang="ts">
   import type { CSSProperties, PropType, VNode } from 'vue';
-  import { computed, nextTick, onMounted, onUpdated, shallowRef, watch } from 'vue';
+  import {
+    computed,
+    nextTick,
+    onBeforeUnmount,
+    onMounted,
+    onUpdated,
+    shallowRef,
+    watch,
+  } from 'vue';
 
   import type { EllipsisTooltipProps } from './interface';
 
@@ -206,9 +214,12 @@
   // 保证每次内容变化都触发全新的 clampchange（不依赖 vue-clamp 对同尺寸
   // 文本变更的内部重算判定）。
   let measurementSettled = false;
+  let measurementTimer = 0;
   let measurementWaiters: Array<() => void> = [];
 
   function flushMeasurementWaiters() {
+    measurementSettled = true;
+    window.clearTimeout(measurementTimer);
     const waiters = measurementWaiters;
     measurementWaiters = [];
     waiters.forEach((resolve) => resolve());
@@ -219,7 +230,6 @@
     // setup 期的 immediate clampchange 到达时测量副本还是空内容，不能视为测量完成；
     // 只有携带真实测量内容（measurementHtml 已同步）的 clampchange 才算测量稳定。
     if (!measurementSettled && measurementHtml.value !== '') {
-      measurementSettled = true;
       flushMeasurementWaiters();
     }
   }
@@ -286,8 +296,9 @@
     void nextTick(syncMeasurement);
     // 内容未被截断时 RichLineClamp 的 isClamped 不再变化、clampchange 不会再次触发，
     // 用短超时兜底，保证 waitForMeasurement 的等待方不会永久挂起。
-    window.setTimeout(flushMeasurementWaiters, 200);
+    measurementTimer = window.setTimeout(flushMeasurementWaiters, 200);
   });
+  onBeforeUnmount(flushMeasurementWaiters);
   onUpdated(() => void nextTick(syncMeasurement));
 
   defineExpose({
