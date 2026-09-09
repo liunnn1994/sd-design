@@ -253,6 +253,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - Image (in progress): full 56-case Chrome suite passes with retries disabled (44 existing behavior/helper + 11 demos + 1 group identity lifecycle). Read Image, preview/group rendering and lifecycle, drag/load hooks, footer/action/toolbar/arrow components, utilities, exports, public types and primary image/preview SCSS. The browser regression reproduced clicking the first child opening the last child because a script-setup counter restarted at zero for every instance. Registration now uses the Vue instance uid. Three decoded SVG images can be opened and navigated independently; removing the middle child leaves the other registrations working. Dynamic source, explicit source-list and preview cleanup review remain pending. Standard TypeScript validation remains pending.
 
+- Image source and popup lifecycle: full 59-case Chrome suite passes with retries disabled. Two regressions reproduced old decoded images and captions surviving src removal (undefined and empty string). Clearing src now removes the DOM attribute and restores beforeLoad; late load/error callbacks cannot restore a state without a source. Browser cases verify clearing, reloading and opening the restored image. A third regression reproduced an open ImagePreview unmount leaving a popup-stack entry that blocked Escape on the lower Drawer. Preview unmount now releases its popup entry; the lower Drawer closes successfully afterward. Explicit source-list, dynamic keyboard/container, drag and remaining lifecycle review are still pending; Image remains in progress.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.

@@ -321,7 +321,11 @@
     if (isServerRendering || !refImg.value) return;
     // Without a src, keep the image in the beforeLoad state: assigning `undefined` to the DOM
     // src would resolve to the string "undefined" and request the page URL.
-    if (!src?.value) return;
+    if (!src?.value) {
+      refImg.value.removeAttribute('src');
+      setLoadStatus('beforeLoad');
+      return;
+    }
     refImg.value.src = src?.value;
     setLoadStatus('loading');
   });
@@ -339,10 +343,12 @@
   });
 
   function onImgLoaded() {
+    if (!src?.value) return;
     setLoadStatus('loaded');
   }
 
   function onImgLoadError() {
+    if (!src?.value) return;
     setLoadStatus('error');
   }
 

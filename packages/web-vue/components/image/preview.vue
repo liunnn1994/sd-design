@@ -273,7 +273,7 @@
   const container = usePopupContainer(document.body, reactive({ popupContainer }));
 
   const isFixed = computed(() => container.value === document.body);
-  const { zIndex } = usePopupManager('dialog', { visible: mergedVisible });
+  const { zIndex, close: releasePopup } = usePopupManager('dialog', { visible: mergedVisible });
 
   const wrapperStyles = computed<CSSProperties>(() => {
     const positionStyles: CSSProperties = isFixed.value
@@ -441,6 +441,7 @@
 
   onBeforeUnmount(() => {
     removeGlobalKeyDownListener();
+    releasePopup();
   });
 
   const onCloseClick = close;
