@@ -534,11 +534,15 @@
   // Used to ignore closed Promises
   let promiseNumber = 0;
 
-  const close = () => {
+  const invalidatePendingOk = () => {
     promiseNumber++;
     if (_okLoading.value) {
       _okLoading.value = false;
     }
+  };
+
+  const close = () => {
+    invalidatePendingOk();
     _visible.value = false;
     emit('update:visible', false);
   };
@@ -624,6 +628,7 @@
   });
 
   onBeforeUnmount(() => {
+    invalidatePendingOk();
     resetOverflow();
     removeGlobalKeyDownListener();
   });
@@ -640,9 +645,18 @@
       // 等待 v-show 生效后激活焦点陷阱（确定性触发，不依赖 CSS 过渡的 after-enter）
       nextTick(() => activateFocusTrap());
     } else {
+      invalidatePendingOk();
       emit('beforeClose');
       removeGlobalKeyDownListener();
       deactivateFocusTrap();
+    }
+  });
+
+  watch(mergedEscToClose, (enabled) => {
+    if (enabled && computedVisible.value) {
+      addGlobalKeyDownListener();
+    } else {
+      removeGlobalKeyDownListener();
     }
   });
 

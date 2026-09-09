@@ -71,6 +71,8 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Divider: 23 passing Chrome cases (16 existing behavior + 3 demos + 4 dynamic state cases), retries disabled. Read component props/rendering, installation, styles and tokens. New browser regressions reproduced zero size falling back to a 1px border in both directions and missing accessible orientation for vertical separators. Explicit zero now produces a zero-width border; aria-orientation follows direction. Removing size restores defaults and dynamic text-slot insertion/removal passes. Full component run passes; component review complete. Standard TypeScript validation remains pending.
 
+- Drawer (in progress): 34 passing Chrome cases (23 existing behavior + 8 demos + 3 async/dynamic Escape regressions), retries disabled. Read component confirmation/visibility handling, public imperative API and types, styles/tokens, teleport/focus/overflow/popup hooks. Both callback and Promise regressions reproduced an obsolete confirmation emitting ok after a parent-controlled close and reopen. Pending confirmation generations now invalidate on close and unmount; loading resets and a new confirmation still succeeds. Enabling escToClose while already open reproduced a missing listener; the listener now follows the reactive configuration. All 34 cases pass together. Imperative API, stacked-drawer cleanup and real-transition lifecycle coverage remain to be completed before marking this component reviewed. Standard TypeScript validation remains pending.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: drawer.
 
 | Component / support directory | Review status                        |
@@ -106,7 +108,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | date-picker                   | Reviewed; browser cases above passed |
 | descriptions                  | Reviewed; browser cases above passed |
 | divider                       | Reviewed; browser cases above passed |
-| drawer                        | Pending                              |
+| drawer                        | In progress                          |
 | dropdown                      | Pending                              |
 | ellipsis                      | Pending                              |
 | empty                         | Pending                              |
