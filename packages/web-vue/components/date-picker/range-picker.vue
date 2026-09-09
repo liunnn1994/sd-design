@@ -876,6 +876,12 @@
     return sortedValue;
   }
 
+  function changesDisabledEndpoint(value: Array<Dayjs | undefined> | undefined) {
+    return disabledArray.value.some(
+      (disabled, index) => disabled && isValueChange(value?.[index], selectedValue.value[index]),
+    );
+  }
+
   function confirm(
     value: Array<Dayjs | undefined> | undefined,
     showPanel?: boolean,
@@ -891,6 +897,7 @@
     if (isDisabledDate(newValue?.[0], 'start') || isDisabledDate(newValue?.[1], 'end')) {
       return;
     }
+    if (changesDisabledEndpoint(newValue)) return;
 
     emitChange(newValue, emitOk);
     setSelectedValue(newValue || []);
@@ -935,6 +942,7 @@
       newValue = getSortedDayjsArrayByExchangeTimeOrNot(newValue);
     }
 
+    if (changesDisabledEndpoint(newValue)) return;
     setProcessValue(newValue);
     setPreviewValue(undefined);
     setInputValue(undefined);
@@ -959,6 +967,7 @@
   ) {
     if (triggerDisabled.value || props.readonly) return;
     const { updateHeader = false } = options || {};
+    if (changesDisabledEndpoint(value)) return;
     setPreviewValue(value);
     setInputValue(undefined);
 
