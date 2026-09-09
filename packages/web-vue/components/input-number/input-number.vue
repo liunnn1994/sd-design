@@ -330,6 +330,14 @@
     emit('update:modelValue', emitted);
     return emitted;
   };
+  watch([() => props.formatter, () => props.parser], ([formatter], [, previousParser]) => {
+    const rawValue = DECIMAL_PATTERN.test(rawText.value)
+      ? rawText.value
+      : (previousParser?.(innerValue.value) ?? innerValue.value);
+    rawText.value = String(rawValue);
+    innerValue.value = formatter?.(rawValue) ?? rawText.value;
+    updateNumberStatus(valueNumber.value);
+  });
   watch(
     () => [props.max, props.min],
     () => {

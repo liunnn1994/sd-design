@@ -295,6 +295,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - InputNumber dynamic mode/state: three additional Chrome cases pass with retries disabled, bringing verified coverage to 58 distinct cases (the previous full 55-case run plus this new spec). Switching embed to button and back preserves the current value and subsequent stepping. Both modes block ArrowUp while dynamically readonly and resume ArrowDown after re-enabling editing. No production change was needed. Dynamic formatter/parser replacement and remaining numeric precision review are still pending.
 
+- InputNumber dynamic formatting: full 59-case Chrome suite passes with retries disabled. Replacing the formatter/parser pair reproduced stale displayed units. A configuration watcher now reformats the accepted raw value, using the previous parser when the initial display has not yet established raw numeric text, and refreshes boundary status. The new browser flow replaces kg with lb, steps up, removes both callbacks and steps down while preserving the number. This is a display-format change, not unit conversion. Remaining numeric precision boundaries are still pending.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
