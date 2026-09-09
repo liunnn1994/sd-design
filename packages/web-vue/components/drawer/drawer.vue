@@ -29,7 +29,7 @@
             :style="style"
             role="dialog"
             aria-modal="true"
-            :aria-labelledby="hasTitle ? titleId : undefined"
+            :aria-labelledby="hasTitle() ? titleId : undefined"
             :aria-describedby="bodyId"
             tabindex="-1"
           >
@@ -415,9 +415,8 @@
   const drawerRef = ref<HTMLElement>();
   const titleId = `sd-drawer-title-${getCurrentInstance()!.uid}`;
   const bodyId = `sd-drawer-body-${getCurrentInstance()!.uid}`;
-  const hasTitle = computed(
-    () => mergedHeader.value && !slots.header && (Boolean(props.title) || Boolean(slots.title)),
-  );
+  const hasTitle = () =>
+    mergedHeader.value && !slots.header && (Boolean(props.title) || Boolean(slots.title));
   const { activate: activateFocusTrap, deactivate: deactivateFocusTrap } = useFocusTrap(drawerRef, {
     // 打开时聚焦首个「非 close」可聚焦元素（close 按钮已在 Tab 序列中，但不作首焦，避免一打开就停在 X 上）
     initialFocus: (c) => getFocusableElements(c).find((el) => !el.closest('.sd-drawer-close-btn')),
@@ -553,31 +552,28 @@
 
   const handleOk = async (e: Event) => {
     const currentPromiseNumber = promiseNumber;
-    const closed = await new Promise<boolean>(
-      // oxlint-disable-next-line no-async-promise-executor
-      async (resolve) => {
+    const closed = await new Promise<boolean>((resolve) => {
+      try {
         if (isFunction(props.onBeforeOk)) {
-          let result = props.onBeforeOk((closed = true) => resolve(closed));
+          const result = props.onBeforeOk((closed = true) => resolve(closed));
           if (isPromise(result) || !isBoolean(result)) {
             _okLoading.value = true;
           }
           if (isPromise(result)) {
-            try {
-              // if onBeforeOk is Promise<void> ,set Defaults true
-              result = (await result) ?? true;
-            } catch {
-              // rejected onBeforeOk blocks the ok path; the await must settle so loading clears
-              result = false;
-            }
-          }
-          if (isBoolean(result)) {
+            result.then(
+              (value) => resolve(value ?? true),
+              () => resolve(false),
+            );
+          } else if (isBoolean(result)) {
             resolve(result);
           }
         } else {
           resolve(true);
         }
-      },
-    );
+      } catch {
+        resolve(false);
+      }
+    });
 
     if (currentPromiseNumber === promiseNumber) {
       if (closed) {

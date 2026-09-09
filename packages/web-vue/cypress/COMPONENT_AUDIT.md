@@ -75,7 +75,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Drawer follow-up: 38 covered cases across the full 36-case run and the final two imperative API cases. Unmounting an open upper drawer reproduced a stale popup-stack entry preventing Escape from closing the lower drawer. Drawer now releases its stack entry during unmount. A real-transition case verifies open/close events, destroyed draft content, restored trigger focus, reopening and teleport cleanup. Imperative tests execute open/update/close and asynchronous confirmation, including overlay removal; both pass after disabling Vue Test Utils transition stubs. No imperative production changes were needed. Remaining review includes synchronous confirmation errors and dynamic named-slot accessibility before completing this component.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: drawer.
+- Drawer completion: full 41-case Chrome suite passes together with retries disabled (23 behavior + 8 demos + 3 async/Escape + 2 stack/transition + 2 imperative + 3 confirmation/title boundary cases). A synchronously thrown onBeforeOk reproduced an unhandled Promise rejection; the confirmation executor now settles both synchronous failures and rejected Promises as a blocked confirmation, and the browser verifies successful retry. Dynamic title/header slot changes reproduced missing or dangling aria-labelledby; title availability now evaluates during rendering rather than caching nonreactive slot presence. All three final regressions failed before fixes and pass in the full run. Component review complete; final repository validation and standard TypeScript gate remain pending.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: dropdown.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -110,7 +112,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | date-picker                   | Reviewed; browser cases above passed |
 | descriptions                  | Reviewed; browser cases above passed |
 | divider                       | Reviewed; browser cases above passed |
-| drawer                        | In progress                          |
+| drawer                        | Reviewed                             |
 | dropdown                      | Pending                              |
 | ellipsis                      | Pending                              |
 | empty                         | Pending                              |
