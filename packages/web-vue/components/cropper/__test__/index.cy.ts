@@ -1,3 +1,5 @@
+import type { CropperImage } from 'cropperjs';
+
 import type { VueWrapper } from '@vue/test-utils';
 
 import Cropper from '../index';
@@ -235,6 +237,7 @@ describe('Cropper', () => {
     });
     cy.get('cropper-image').then(($image) => {
       cy.stub($image[0], '$getTransform').returns([2, 0, 0, 2, 0, 0]);
+      cy.stub($image[0] as CropperImage, '$ready').resolves();
     });
     cy.get('.sd-cropper-source-image').then(($image) => {
       Object.defineProperties($image[0], {
@@ -380,6 +383,7 @@ describe('Cropper', () => {
     cy.get('cropper-image').then(($image) => {
       const image = $image[0] as HTMLElement & { $getTransform(): number[] };
       cy.stub(image, '$getTransform').returns([2, 0, 0, 2, 0, 0]);
+      cy.stub(image as CropperImage, '$ready').resolves();
     });
     cy.get('cropper-selection').then(($selection) => {
       cy.spy($selection[0], '$change').as('srcChangeFit');
@@ -430,6 +434,7 @@ describe('Cropper', () => {
     cy.get('cropper-image').then(($image) => {
       const image = $image[0] as HTMLElement & { $getTransform(): number[] };
       cy.stub(image, '$getTransform').returns([1, 0, 0, 1, 0, 0]);
+      cy.stub(image as CropperImage, '$ready').resolves();
       Object.defineProperties(image, {
         clientWidth: { configurable: true, get: () => 400 },
         clientHeight: { configurable: true, get: () => 200 },

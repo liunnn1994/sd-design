@@ -108,6 +108,7 @@
 
   let cropperInstance: Cropper | null = null;
   let destroyed = false;
+  let fittedImageElement: HTMLImageElement | null = null;
   let cropperConstructorPromise: Promise<typeof import('cropperjs').default> | null = null;
 
   function loadCropperConstructor() {
@@ -306,7 +307,24 @@
       return;
     }
 
-    const align = () => nextTick(() => alignSelectionToImage());
+    const align = () => {
+      const image = getCropperImage();
+      if (!image) return;
+      image.$ready().then(
+        (loadedImage) => {
+          if (destroyed) return;
+          if (loadedImage && fittedImageElement !== loadedImage) {
+            fittedImageElement = loadedImage;
+            // 已解码的图片可能先完成 $ready，随后 load 才更新 Cropper 的尺寸和变换。
+            addTrackedListener(loadedImage, 'load', () => {
+              nextTick(() => alignSelectionToImage());
+            });
+          }
+          nextTick(() => alignSelectionToImage());
+        },
+        () => undefined,
+      );
+    };
 
     if (imageElement.complete && imageElement.naturalWidth > 0) {
       align();
