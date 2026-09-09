@@ -93,6 +93,8 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Empty: full 16-case Chrome suite passes with retries disabled (12 existing behavior + 2 demos + 2 dynamic state cases). Read component rendering, props, slots, ConfigProvider fallback, installation and styles/tokens. New browser regression reproduced the global empty slot hiding an explicit local default slot and its Retry action. The global branch now applies only when no local default slot exists. Insertion/removal restores local/global content correctly while preserving attributes; actual retry clicks pass. Dynamic description updates propagate to image alt text and removing the image source restores the default icon and localized description. Component review complete; full-repository and standard TypeScript gates remain pending.
 
+- FilePreviewer (in progress): 37 covered Chrome cases (28 existing behavior including real generated-PDF loading/pagination + 7 demos + 2 dynamic-content cases), retries disabled. Read preview branch/state/event logic and the PDF loading/rendering helper. Adding a content slot reproduced a cached image-preview branch and a stale video status overlay. Preview slot presence now updates reactively and restarts preview initialization; native media callbacks capture the request generation so removed media cannot overwrite the replacement content's status. Final two regressions pass after asserting restored native video DOM instead of its transient loading state for an empty URL. The other 35 cases passed in the preceding full run with the same production fixes. PDF cancellation/render races, source changes, media lifecycle and remaining type/style review are still pending. Standard TypeScript validation remains pending.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: file-previewer.
 
 | Component / support directory | Review status                        |
@@ -132,7 +134,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | dropdown                      | Reviewed                             |
 | ellipsis                      | Reviewed                             |
 | empty                         | Reviewed                             |
-| file-previewer                | Pending                              |
+| file-previewer                | In progress                          |
 | form                          | Pending                              |
 | grid                          | Pending                              |
 | header-list                   | Pending                              |

@@ -154,7 +154,16 @@
 
 <script setup lang="ts">
   import type { CSSProperties, PropType } from 'vue';
-  import { computed, nextTick, onBeforeUnmount, reactive, shallowRef, toRefs, watch } from 'vue';
+  import {
+    computed,
+    nextTick,
+    onBeforeUnmount,
+    onBeforeUpdate,
+    reactive,
+    shallowRef,
+    toRefs,
+    watch,
+  } from 'vue';
 
   import type {
     FilePreviewerContentSlotProps,
@@ -359,6 +368,18 @@
   const { t } = useI18n();
 
   const prefixCls = getPrefixCls('file-previewer');
+  const previewSlotNames = ['content', 'image', 'video', 'audio', 'pdf'] as const;
+  const getPreviewSlots = () => previewSlotNames.filter((name) => Boolean(slots[name]));
+  const previewSlots = shallowRef(getPreviewSlots());
+  onBeforeUpdate(() => {
+    const next = getPreviewSlots();
+    if (
+      next.length !== previewSlots.value.length ||
+      next.some((name, index) => name !== previewSlots.value[index])
+    ) {
+      previewSlots.value = next;
+    }
+  });
   const wrapperRef = shallowRef<HTMLElement>();
   const status = shallowRef<FilePreviewerStatus>('beforeLoad');
   const requestId = shallowRef(0);
@@ -369,7 +390,11 @@
   const mergedVisible = computed(() => visible?.value ?? localVisible.value);
   const shouldRender = computed(() => !fullscreen.value || mergedVisible.value);
   const useImagePreview = computed(
-    () => type.value === 'image' && fullscreen.value && !slots.content && !slots.image,
+    () =>
+      type.value === 'image' &&
+      fullscreen.value &&
+      !previewSlots.value.includes('content') &&
+      !previewSlots.value.includes('image'),
   );
 
   const container = usePopupContainer(document.body, reactive({ popupContainer }));
@@ -456,6 +481,7 @@
   const mediaPlayerProps = computed(() => mediaProps?.value?.playerProps ?? {});
   const mediaSkinProps = computed(() => mediaProps?.value?.skinProps ?? {});
   const mergedMediaProps = computed<FilePreviewerMediaProps>(() => {
+    const currentRequestId = requestId.value;
     const userProps = { ...mediaProps?.value };
     const { onLoadedData, onError } = userProps;
     delete userProps.skin;
@@ -470,10 +496,12 @@
       ...userProps,
       src: currentSrc.value,
       onLoadedData: (event: Event) => {
+        if (currentRequestId !== requestId.value) return;
         callEventHandler(onLoadedData, event);
         onPreviewLoad();
       },
       onError: (event: Event) => {
+        if (currentRequestId !== requestId.value) return;
         callEventHandler(onError, event);
         onLoadError();
       },
@@ -498,20 +526,7 @@
   });
   const pdfCanvasRef = shallowRef<HTMLCanvasElement>();
 
-  const hasTypeSlot = computed(() => {
-    switch (type.value) {
-      case 'image':
-        return !!slots.image;
-      case 'video':
-        return !!slots.video;
-      case 'audio':
-        return !!slots.audio;
-      case 'pdf':
-        return !!slots.pdf;
-      default:
-        return false;
-    }
-  });
+  const hasTypeSlot = computed(() => previewSlots.value.includes(type.value));
   const pdfSlotProps = computed<FilePreviewerPdfSlotProps>(() => ({
     src: currentSrc.value,
     status: status.value,
@@ -651,7 +666,7 @@
   }
 
   watch(
-    [src, type, shouldRender],
+    [src, type, shouldRender, previewSlots],
     () => {
       requestId.value += 1;
       if (!shouldRender.value) return;
@@ -659,7 +674,7 @@
       resetPreviewState();
       if (fullscreen.value) void nextTick(() => wrapperRef.value?.focus());
 
-      if (slots.content) {
+      if (previewSlots.value.includes('content')) {
         status.value = 'loaded';
         return;
       }
