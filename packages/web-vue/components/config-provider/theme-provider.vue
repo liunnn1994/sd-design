@@ -8,10 +8,10 @@
   import usePopupManager from '../_hooks/use-popup-manager';
   import { getPrefixCls } from '../_utils/global-config';
   import { themePopupContainerInjectionKey } from './context';
+  import { applyGlobalTheme, releaseGlobalTheme } from './global-theme';
   import {
     applyThemeCSSVariables,
     clearThemeCSSVariables,
-    getThemeCSSVariables,
     normalizeTheme,
     type SdThemeConfig,
     type SdThemeMode,
@@ -72,8 +72,7 @@
   let appliedPopupThemeKeys = new Set<string>();
   let activeTarget: HTMLElement | null = null;
   let activeTargetIsGlobal = false;
-  const previousGlobalVariables = new Map<string, { value: string; priority: string }>();
-  let previousGlobalThemeMode: string | null | undefined;
+  const globalOwner = Symbol('ThemeProvider');
 
   function cleanupPopupContainer() {
     if (!popupContainer.value) {
@@ -143,32 +142,6 @@
     return rootElement.value;
   }
 
-  function restoreThemeMode(target: HTMLElement) {
-    if (!props.global) {
-      if (props.themeMode) {
-        target.setAttribute('sd-theme', props.themeMode);
-      } else {
-        target.removeAttribute('sd-theme');
-      }
-
-      return;
-    }
-
-    if (props.themeMode) {
-      target.setAttribute('sd-theme', props.themeMode);
-      return;
-    }
-
-    if (previousGlobalThemeMode === null) {
-      target.removeAttribute('sd-theme');
-      return;
-    }
-
-    if (previousGlobalThemeMode) {
-      target.setAttribute('sd-theme', previousGlobalThemeMode);
-    }
-  }
-
   function resetActiveTarget() {
     if (!activeTarget) {
       return;
@@ -178,40 +151,19 @@
     activeTarget = null;
   }
 
-  function restoreGlobalVariables(target: HTMLElement, retainedKeys: Set<string>) {
-    for (const [key, previous] of previousGlobalVariables) {
-      if (retainedKeys.has(key)) continue;
-      if (previous.value) target.style.setProperty(key, previous.value, previous.priority);
-      else target.style.removeProperty(key);
-      previousGlobalVariables.delete(key);
-    }
-  }
-
   function cleanupTarget(target: HTMLElement | null) {
     if (!target) {
       return;
     }
 
-    clearThemeCSSVariables(target, appliedThemeKeys);
-    appliedThemeKeys = new Set<string>();
-
     if (activeTargetIsGlobal) {
-      restoreGlobalVariables(target, appliedThemeKeys);
-      if (previousGlobalThemeMode === undefined) {
-        target.removeAttribute('sd-theme');
-      } else if (previousGlobalThemeMode === null) {
-        target.removeAttribute('sd-theme');
-      } else {
-        target.setAttribute('sd-theme', previousGlobalThemeMode);
-      }
-
-      previousGlobalThemeMode = undefined;
-      return;
+      releaseGlobalTheme(target, globalOwner);
+    } else {
+      clearThemeCSSVariables(target, appliedThemeKeys);
+      appliedThemeKeys = new Set<string>();
+      target.removeAttribute('sd-theme');
     }
-
-    target.removeAttribute('sd-theme');
   }
-
   function syncThemeTarget() {
     const nextTarget = resolveThemeTarget();
     if (!nextTarget) {
@@ -224,24 +176,17 @@
       cleanupTarget(activeTarget);
     }
 
-    if (props.global && activeTarget !== nextTarget && previousGlobalThemeMode === undefined) {
-      previousGlobalThemeMode = nextTarget.getAttribute('sd-theme');
-    }
-
     if (props.global) {
-      for (const key of Object.keys(getThemeCSSVariables(normalizedTheme.value))) {
-        if (!previousGlobalVariables.has(key)) {
-          previousGlobalVariables.set(key, {
-            value: nextTarget.style.getPropertyValue(key),
-            priority: nextTarget.style.getPropertyPriority(key),
-          });
-        }
-      }
+      applyGlobalTheme(nextTarget, globalOwner, normalizedTheme.value, props.themeMode);
+    } else {
+      appliedThemeKeys = applyThemeCSSVariables(
+        nextTarget,
+        normalizedTheme.value,
+        appliedThemeKeys,
+      );
+      if (props.themeMode) nextTarget.setAttribute('sd-theme', props.themeMode);
+      else nextTarget.removeAttribute('sd-theme');
     }
-    appliedThemeKeys = applyThemeCSSVariables(nextTarget, normalizedTheme.value, appliedThemeKeys);
-    if (props.global) restoreGlobalVariables(nextTarget, appliedThemeKeys);
-
-    restoreThemeMode(nextTarget);
 
     activeTarget = nextTarget;
     activeTargetIsGlobal = props.global;
