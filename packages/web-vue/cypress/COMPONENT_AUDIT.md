@@ -277,6 +277,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - InputMask (in progress): full 46-case Chrome suite passes with retries disabled (38 existing behavior/helper + 6 demo + 2 empty lifecycle). Read component state/events/selection tracking, public types, exports/styles and initial mask-engine parsing/layout; remaining engine and preset review is pending. Both fixed-mask empty regressions reproduced a retained clear button after clearing or deleting all input because placeholder-only internal state was treated as content. A computed check of the placeholder-free committed value now controls clear availability and blurred template visibility. Both cases verify empty model output, no clear control, blank display on blur, restored focus template and further typing. Dynamic normalization, callback and engine boundaries remain pending; standard TypeScript verification remains pending.
 
+- InputMask callback completion: full 48-case Chrome suite passes with retries disabled. Two browser regressions reproduced completion using the pre-callback state: rejecting the final character emitted complete for an incomplete value, while supplying remaining characters emitted no complete event. Completion is now recalculated from the callback's final value. Tests verify model/display consistency, no rejected completion, a later valid completion and callback-supplied completion. Read the remaining mask-engine formatting, cursor and deletion logic and initial preset normalization helpers. Dynamic normalization and remaining preset boundaries are still pending.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.

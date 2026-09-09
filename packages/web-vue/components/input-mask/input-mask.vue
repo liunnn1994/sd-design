@@ -242,6 +242,9 @@
     }
 
     nextState = props.beforeMaskedValueChange?.(nextState, previousState) ?? nextState;
+    if (props.beforeMaskedValueChange) {
+      nextComplete = applyNormalization(nextState.value).complete;
+    }
     innerValue.value = nextState.value;
     lastSelection.value = nextState.selection;
     const committedValue = toCommittedValue(nextState.value);
