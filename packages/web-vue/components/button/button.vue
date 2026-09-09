@@ -2,6 +2,7 @@
   <component :is="tooltipWrapper" v-bind="tooltipBindings">
     <a
       v-if="href"
+      v-bind="$attrs"
       ref="buttonRef"
       :class="[cls, { [`${prefixCls}-only-icon`]: $slots.icon && !$slots.default }]"
       :href="mergedDisabled || loading ? undefined : href"
@@ -19,6 +20,7 @@
     </a>
     <button
       v-else
+      v-bind="$attrs"
       ref="buttonRef"
       :class="[cls, { [`${prefixCls}-only-icon`]: $slots.icon && !$slots.default }]"
       :type="htmlType"
@@ -53,6 +55,8 @@
     ref,
     onMounted,
     onUpdated,
+    onBeforeUpdate,
+    watchEffect,
     useSlots,
   } from 'vue';
 
@@ -71,7 +75,7 @@
 
   const regexTwoCNChar = /^[一-龥]{2}$/;
 
-  defineOptions({ name: 'Button' });
+  defineOptions({ name: 'Button', inheritAttrs: false });
 
   const props = defineProps({
     /**
@@ -208,7 +212,12 @@
   });
 
   const slots = useSlots();
-  const hasTooltip = computed(() => props.tooltip != null || Boolean(slots.tooltip));
+  const hasTooltip = ref(false);
+  const syncTooltip = () => {
+    hasTooltip.value = props.tooltip != null || Boolean(slots.tooltip);
+  };
+  watchEffect(syncTooltip);
+  onBeforeUpdate(syncTooltip);
   const tooltipWrapper = computed(() => (hasTooltip.value ? Tooltip : PassThrough));
   const tooltipBindings = computed(() => {
     if (!hasTooltip.value) {
