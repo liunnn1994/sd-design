@@ -1,25 +1,25 @@
 <template>
   <div :class="prefixCls">
-    <div v-if="hasAvatar" :class="`${prefixCls}-avatar`">
+    <div v-if="avatar || $slots.avatar" :class="`${prefixCls}-avatar`">
       <img v-if="avatar" :src="avatar" alt="comment-avatar" />
       <slot v-else name="avatar" />
     </div>
     <div :class="`${prefixCls}-inner`">
       <div :class="`${prefixCls}-inner-content`">
         <div
-          v-if="hasAuthor || hasDatetime"
+          v-if="author || $slots.author || datetime || $slots.datetime"
           :class="`${prefixCls}-title ${prefixCls}-title-align-${computedAlign.datetime}`"
         >
-          <span v-if="hasAuthor" :class="`${prefixCls}-author`">
+          <span v-if="author || $slots.author" :class="`${prefixCls}-author`">
             <span v-if="author"> {{ author }} </span>
             <slot v-else name="author" />
           </span>
-          <span v-if="hasDatetime" :class="`${prefixCls}-datetime`">
+          <span v-if="datetime || $slots.datetime" :class="`${prefixCls}-datetime`">
             <span v-if="datetime"> {{ datetime }} </span>
             <slot v-else name="datetime" />
           </span>
         </div>
-        <div v-if="hasContent" :class="`${prefixCls}-content`">
+        <div v-if="content || $slots.content" :class="`${prefixCls}-content`">
           <span v-if="content"> {{ content }} </span>
           <slot v-else name="content" />
         </div>
@@ -39,11 +39,10 @@
 
 <script setup lang="ts">
   import type { PropType } from 'vue';
-  import { computed, useSlots } from 'vue';
+  import { computed } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { isString } from '../_utils/is';
-  import { hasPropOrSlot } from '../_utils/use-prop-or-slot';
 
   defineOptions({ name: 'Comment' });
 
@@ -115,13 +114,7 @@
    * @slot actions
    */
 
-  const slots = useSlots();
-
   const prefixCls = getPrefixCls('comment');
-
-  const [hasAuthor, hasAvatar, hasContent, hasDatetime] = (
-    ['author', 'avatar', 'content', 'datetime'] as const
-  ).map((propName) => hasPropOrSlot(props, slots, propName));
 
   const computedAlign = computed(() => {
     const { align } = props;
