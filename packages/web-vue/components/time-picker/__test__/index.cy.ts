@@ -40,11 +40,11 @@ describe('TimePicker selection and events', () => {
     const onUpdateModelValue = cy.spy().as('onUpdateModelValue');
     cy.mount(TimePicker, {
       props: {
-        defaultValue: '09:30:00',
-        defaultPopupVisible: true,
+        'defaultValue': '09:30:00',
+        'defaultPopupVisible': true,
         onSelect,
         onChange,
-        onUpdateModelValue,
+        'onUpdate:modelValue': onUpdateModelValue,
       },
     });
     cy.get('.sd-timepicker-container').should('be.visible');
@@ -210,7 +210,7 @@ describe('TimePicker input and clear', () => {
     const onChange = cy.spy().as('onChange');
     const onUpdateModelValue = cy.spy().as('onUpdateModelValue');
     cy.mount(TimePicker, {
-      props: { defaultValue: '09:30:00', onChange, onUpdateModelValue },
+      props: { 'defaultValue': '09:30:00', onChange, 'onUpdate:modelValue': onUpdateModelValue },
     });
     // 清除图标依赖 CSS :hover 显示（合成事件无法触发），使用 force click
     cy.get('.sd-picker-clear-icon').click({ force: true });
