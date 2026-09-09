@@ -192,6 +192,7 @@
   }
 
   function alignSelectionToImage() {
+    if (!props.fitSelectionToImage) return;
     const image = getCropperImage();
     const selection = getCropperSelection();
     const imageElement = imgRef.value;
@@ -398,6 +399,8 @@
   onBeforeUnmount(() => {
     destroy();
   });
+
+  watch(() => props.fitSelectionToImage, scheduleAlignOnLoad, { flush: 'post' });
 
   watch(
     () => props.src,
