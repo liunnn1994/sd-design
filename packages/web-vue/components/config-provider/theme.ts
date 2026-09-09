@@ -184,7 +184,14 @@ export function applyThemeCSSVariables(
   theme: SDThemeNormalized,
   previousKeys: Set<string> = new Set(),
 ): Set<string> {
-  const variableMap = getThemeCSSVariables(theme);
+  return applyThemeCSSVariableMap(target, getThemeCSSVariables(theme), previousKeys);
+}
+
+export function applyThemeCSSVariableMap(
+  target: HTMLElement,
+  variableMap: Record<string, string>,
+  previousKeys: Set<string>,
+): Set<string> {
   const nextKeys = new Set(Object.keys(variableMap));
 
   for (const key of previousKeys) {

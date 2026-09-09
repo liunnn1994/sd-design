@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { computed, onBeforeUnmount, provide, shallowRef, watch } from 'vue';
+  import { computed, inject, onBeforeUnmount, provide, shallowRef, watch } from 'vue';
 
   defineOptions({
     name: 'ThemeProvider',
@@ -7,11 +7,13 @@
 
   import usePopupManager from '../_hooks/use-popup-manager';
   import { getPrefixCls } from '../_utils/global-config';
-  import { themePopupContainerInjectionKey } from './context';
+  import { inheritedThemeInjectionKey, themePopupContainerInjectionKey } from './context';
   import { applyGlobalTheme, releaseGlobalTheme } from './global-theme';
   import {
     applyThemeCSSVariables,
+    applyThemeCSSVariableMap,
     clearThemeCSSVariables,
+    getThemeCSSVariables,
     normalizeTheme,
     type SdThemeConfig,
     type SdThemeMode,
@@ -33,8 +35,19 @@
 
   const rootElement = shallowRef<HTMLElement | null>(null);
   const popupContainer = shallowRef<HTMLElement | null>(null);
-  provide(themePopupContainerInjectionKey, popupContainer);
+  const parentPopupContainer = inject(themePopupContainerInjectionKey, undefined);
+  provide(
+    themePopupContainerInjectionKey,
+    computed(() => popupContainer.value ?? parentPopupContainer?.value ?? null),
+  );
   const normalizedTheme = computed(() => normalizeTheme(props.theme));
+  const parentTheme = inject(inheritedThemeInjectionKey, undefined);
+  const popupVariables = computed(() => ({
+    ...parentTheme?.variables.value,
+    ...getThemeCSSVariables(normalizedTheme.value),
+  }));
+  const popupMode = computed(() => props.themeMode ?? parentTheme?.mode.value);
+  provide(inheritedThemeInjectionKey, { variables: popupVariables, mode: popupMode });
   const usesLocalThemeContainer = computed(() => {
     if (props.global) {
       return false;
@@ -112,13 +125,14 @@
 
     // 响应式设置 z-index，和 Trigger 机制一致
     popupContainer.value.style.zIndex = String(zIndex.value);
-    appliedPopupThemeKeys = applyThemeCSSVariables(
+    appliedPopupThemeKeys = applyThemeCSSVariableMap(
       popupContainer.value,
-      normalizedTheme.value,
+      popupVariables.value,
       appliedPopupThemeKeys,
     );
 
-    const inheritedThemeMode = target.closest<HTMLElement>('[sd-theme]')?.getAttribute('sd-theme');
+    const inheritedThemeMode =
+      popupMode.value ?? target.closest<HTMLElement>('[sd-theme]')?.getAttribute('sd-theme');
     if (inheritedThemeMode) {
       popupContainer.value.setAttribute('sd-theme', inheritedThemeMode);
     } else {
@@ -196,6 +210,8 @@
   watch(
     [
       normalizedTheme,
+      popupVariables,
+      popupMode,
       () => props.themeMode,
       () => props.global,
       usesLocalThemeContainer,

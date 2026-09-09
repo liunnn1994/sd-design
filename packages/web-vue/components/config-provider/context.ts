@@ -10,7 +10,7 @@ import type { JsonFormProviderConfig } from '../json-form/types';
 import type { SdLang } from '../locale/interface';
 import type { PaginationSelectProps } from '../pagination/interface';
 import type { SpinProps } from '../spin';
-import type { SDThemeNormalized } from './theme';
+import type { SDThemeNormalized, SdThemeMode } from './theme';
 
 export interface ConfigProviderModal {
   mask?: boolean;
@@ -114,3 +114,8 @@ export const configProviderInjectionKey: InjectionKey<ConfigProvider> = Symbol('
 
 export const themePopupContainerInjectionKey: InjectionKey<Ref<HTMLElement | null>> =
   Symbol('SDThemePopupContainer');
+
+export const inheritedThemeInjectionKey: InjectionKey<{
+  variables: Ref<Record<string, string>>;
+  mode: Ref<SdThemeMode | undefined>;
+}> = Symbol('SDInheritedTheme');
