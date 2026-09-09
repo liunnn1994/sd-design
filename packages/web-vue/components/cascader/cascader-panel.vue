@@ -211,6 +211,7 @@
   };
 
   const handleClickOption = (option: CascaderOptionInfo, checked?: boolean) => {
+    if (option.disabled || option.selectionDisabled) return;
     if (!props.multiple && !props.checkStrictly && !option.isLeaf) return;
     if (props.multiple) {
       selectMultiple(option, checked ?? true);
@@ -255,7 +256,7 @@
       [
         KEYBOARD_KEY.ENTER,
         (_ev: Event) => {
-          if (activeOption.value) {
+          if (activeOption.value && !activeOption.value.disabled) {
             let checked: boolean;
             if (props.checkStrictly || activeOption.value.isLeaf) {
               checked = !computedValueMap.value.has(activeOption.value.key);
@@ -287,9 +288,9 @@
         KEYBOARD_KEY.ARROW_RIGHT,
         (ev: Event) => {
           ev.preventDefault();
-          if (activeOption.value?.children) {
+          if (activeOption.value?.children && !activeOption.value.disabled) {
             setSelectedPath(activeOption.value.key);
-            setActiveKey(activeOption.value.children[0]?.key);
+            setActiveKey(activeOption.value.children.find((option) => !option.disabled)?.key);
           }
         },
       ],
