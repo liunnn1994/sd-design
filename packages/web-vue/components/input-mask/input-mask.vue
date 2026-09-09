@@ -45,6 +45,7 @@
   } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
+  import { splitGraphemes } from '../_utils/grapheme';
   import Input from '../input';
   import { formatInputMask, resolveDeletion, stripMaskPlaceholders } from './mask-engine';
   import { inputMaskPresets } from './presets';
@@ -113,7 +114,7 @@
   }));
   const effectiveMaskChar = computed(() => {
     if (props.maskChar === null) return null;
-    return Array.from(props.maskChar)[0] ?? '_';
+    return splitGraphemes(props.maskChar)[0] ?? '_';
   });
   // A fixed mask or preset manages its own length, so Input's maxLength/showWordLimit
   // would truncate the raw value mid-format and break masking. Ignore them in that case.

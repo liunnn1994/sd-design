@@ -279,6 +279,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - InputMask callback completion: full 48-case Chrome suite passes with retries disabled. Two browser regressions reproduced completion using the pre-callback state: rejecting the final character emitted complete for an incomplete value, while supplying remaining characters emitted no complete event. Completion is now recalculated from the callback's final value. Tests verify model/display consistency, no rejected completion, a later valid completion and callback-supplied completion. Read the remaining mask-engine formatting, cursor and deletion logic and initial preset normalization helpers. Dynamic normalization and remaining preset boundaries are still pending.
 
+- InputMask placeholder graphemes: full 50-case Chrome suite passes with retries disabled. Two regressions reproduced maskChar truncating a combining sequence to its base letter and a joined emoji to its first code point. The component now uses the existing splitGraphemes helper instead of Array.from when selecting the first placeholder character. Browser cases cover intact initial templates, incremental typing, placeholder-free model values and clearing back to the template. Read shared grapheme handling and the remaining initial IP/URL/email/preset definitions. Dynamic normalization and final preset/lifecycle checks remain pending.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
