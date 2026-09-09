@@ -227,5 +227,9 @@
 2. ellipsis 内部交互元素点击守卫（测量副本覆盖，无法确定性点击）
 3. table tr/td 元素替换与 columnResize 拖拽（ResizeObserver 反馈循环导致渲染进程挂起）
 
-另：empty 自定义分支的 attrs 透传经查为机制限制（插槽函数将 attrs 作为 props 传入而被模板丢弃），
-需要 API 层决策（包装元素或文档声明），测试以注释记录后移除，未实现透传。
+另：empty 自定义分支的 attrs 透传最终以容器 div 方案修复（v4.4.2 后追加）：
+ConfigProvider 插槽返回的 vnode 无法安全 clone 合并 attrs（cloneVNode 会触发渲染循环），
+现用容器 div 承载 $attrs，插槽 vnode 由模块级函数式组件渲染，DOM 增加一层包裹 div。
+
+另：color-picker 触发输入打字不可用与双通道 clear 重复已修复（inputDraft 草稿态 + 单通道 clear），
+use-control-block 陈旧闭包已改为 getter 读取。
