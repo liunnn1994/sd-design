@@ -187,7 +187,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | icon                          | Reviewed                             |
 | icon-component                | Reviewed                             |
 | image                         | Reviewed                             |
-| input                         | Pending                              |
+| input                         | In progress                          |
 | input-mask                    | Pending                              |
 | input-number                  | Pending                              |
 | input-tag                     | Pending                              |
@@ -266,6 +266,8 @@ Includes every immediate directory in components; internal helpers and styles re
 - Image action disabled lifecycle: full 69-case Chrome suite passes with retries disabled. Both tooltip and plain ImagePreviewAction regressions reproduced disabled actions executing consumer click handlers. The action now declares its click event and emits it only when enabled. Browser cases verify disabled to enabled to disabled transitions and exactly one callback from the enabled click. Existing built-in toolbar interactions remain passing. Final zoom-boundary and real-transition checks remain pending; Image remains in progress.
 
 - Image final boundary review: 72 distinct Chrome cases pass with retries disabled. The expanded full run passed the other 71 cases; its real-transition case initially used a visibility assertion on the mask covered by the image. After correcting the assertion to check mask display/opacity and the visible preview wrapper, all 3 boundary cases passed. Tests verify both 25%/500% toolbar and keyboard limits, movement back inside the range, actual enter/leave transitions, transform reset on reopening and working keyboard zoom afterward. No additional production change was needed. Image component review is complete; standard TypeScript validation remains a repository gate. Next component: Input.
+
+- Input (in progress): full 46-case Chrome suite passes with retries disabled (29 existing behavior + 12 demos + 3 readonly-tip + 2 change lifecycle). Read Input, Search, Password, Group, exports, fit-width hook and primary input/search/password/group styles. The new regression reproduced change firing after typing back the original value: the computed-value watcher replaced the commit baseline on every edit. The baseline now starts on focus and advances through emitChange, preserving Enter/blur deduplication. The second case checks clear followed by blur emits only once; its clear click uses force because the control is hover-only in the existing CSS. The complete Form Chrome regression suite also passes after this shared-input change. Composition, dynamic attributes and Search/Password interaction review remain pending; standard TypeScript verification remains pending.
 
 ## Release gates still pending
 

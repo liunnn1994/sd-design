@@ -195,9 +195,6 @@
   watch(toRef(props, 'modelValue'), (value) => {
     if (isUndefined(value) || isNull(value)) innerValue.value = '';
   });
-  watch(computedValue, (_value, oldValue) => {
-    previousValue = oldValue;
-  });
 
   const focused = ref(false);
   const showClearBtn = computed(
@@ -267,6 +264,7 @@
     }
   };
   const handleFocus = (event: FocusEvent) => {
+    previousValue = computedValue.value;
     focused.value = true;
     emit('focus', event);
     eventHandlers.value?.onFocus?.(event);
