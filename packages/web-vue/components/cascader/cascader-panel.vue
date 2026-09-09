@@ -31,6 +31,7 @@
   import { BaseType } from '../_utils/types';
   import BaseCascaderPanel from './base-cascader-panel.vue';
   import { cascaderInjectionKey } from './context';
+  import { useLazyLoad } from './hooks/use-lazy-load';
   import { useSelectedPath } from './hooks/use-selected-path';
   import {
     getCheckedStatus,
@@ -108,6 +109,8 @@
     const source = optionMap.get(key)?.raw;
     if (source) lazyLoadOptions[key] = { source, children };
   };
+
+  const { loadOption, isLoading } = useLazyLoad(loadMore, optionMap, addLazyLoadOptions);
 
   const DEFAULT_FIELD_NAMES = {
     value: 'value',
@@ -240,8 +243,8 @@
       onClickOption: handleClickOption,
       setActiveKey,
       setSelectedPath,
-      loadMore,
-      addLazyLoadOptions,
+      loadOption,
+      isLoading,
       slots,
       valueMap: computedValueMap,
       // 传入 ref 而非 .value，reactive 会在属性访问时解包并保持响应式，
@@ -263,6 +266,7 @@
             } else {
               checked = !getCheckedStatus(activeOption.value, computedValueMap.value).checked;
             }
+            loadOption(activeOption.value);
             setSelectedPath(activeOption.value.key);
             handleClickOption(activeOption.value, checked);
           }
@@ -288,9 +292,12 @@
         KEYBOARD_KEY.ARROW_RIGHT,
         (ev: Event) => {
           ev.preventDefault();
-          if (activeOption.value?.children && !activeOption.value.disabled) {
+          if (activeOption.value && !activeOption.value.disabled) {
+            loadOption(activeOption.value);
             setSelectedPath(activeOption.value.key);
-            setActiveKey(activeOption.value.children.find((option) => !option.disabled)?.key);
+            if (activeOption.value.children) {
+              setActiveKey(activeOption.value.children.find((option) => !option.disabled)?.key);
+            }
           }
         },
       ],

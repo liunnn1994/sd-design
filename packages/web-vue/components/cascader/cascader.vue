@@ -150,6 +150,7 @@
   import BaseCascaderPanel from './base-cascader-panel.vue';
   import CascaderSearchPanel from './cascader-search-panel.vue';
   import { cascaderInjectionKey } from './context';
+  import { useLazyLoad } from './hooks/use-lazy-load';
   import { useSelectedPath } from './hooks/use-selected-path';
   import {
     getCheckedStatus,
@@ -365,6 +366,8 @@
     const source = optionMap.get(key)?.raw;
     if (source) lazyLoadOptions[key] = { source, children };
   };
+
+  const { loadOption, isLoading } = useLazyLoad(loadMore, optionMap, addLazyLoadOptions);
 
   const DEFAULT_FIELD_NAMES = {
     value: 'value',
@@ -636,10 +639,10 @@
       onClickOption: handleClickOption,
       setActiveKey,
       setSelectedPath,
-      loadMore,
+      loadOption,
+      isLoading,
       expandTrigger,
       ellipsis,
-      addLazyLoadOptions,
       formatLabel,
       separator: props.separator,
       slots,
@@ -660,6 +663,7 @@
               } else {
                 checked = !getCheckedStatus(activeOption.value, computedValueMap.value).checked;
               }
+              loadOption(activeOption.value);
               setSelectedPath(activeOption.value.key);
               handleClickOption(activeOption.value, checked);
             }
@@ -695,9 +699,12 @@
         (ev: Event) => {
           if (!showSearchPanel.value) {
             ev.preventDefault();
-            if (activeOption.value?.children && !activeOption.value.disabled) {
+            if (activeOption.value && !activeOption.value.disabled) {
+              loadOption(activeOption.value);
               setSelectedPath(activeOption.value.key);
-              setActiveKey(activeOption.value.children.find((option) => !option.disabled)?.key);
+              if (activeOption.value.children) {
+                setActiveKey(activeOption.value.children.find((option) => !option.disabled)?.key);
+              }
             }
           }
         },

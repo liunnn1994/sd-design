@@ -52,14 +52,13 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, inject, onBeforeUnmount, ref, toRef, watch, type PropType } from 'vue';
+  import { computed, inject, toRef, type PropType } from 'vue';
 
   import { createReusableTemplate } from '@vueuse/core';
 
-  import type { CascaderOption, CascaderOptionInfo } from './interface';
+  import type { CascaderOptionInfo } from './interface';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import { isFunction } from '../_utils/is';
   import Checkbox from '../checkbox';
   import Ellipsis, { PerformantEllipsis } from '../ellipsis';
   import IconLoading from '../icon/icon-loading';
@@ -88,14 +87,7 @@
   const option = toRef(props, 'option');
   const prefixCls = getPrefixCls('cascader-option');
   const cascaderCtx = inject<Partial<CascaderContext>>(cascaderInjectionKey, {});
-  const isLoading = ref(false);
-  let loadRevision = 0;
-  const invalidateLoad = () => {
-    loadRevision++;
-    isLoading.value = false;
-  };
-  watch(() => option.value.raw, invalidateLoad);
-  onBeforeUnmount(invalidateLoad);
+  const isLoading = computed(() => cascaderCtx.isLoading?.(option.value) ?? false);
   const [DefineEllipsis, ReuseEllipsis] = createReusableTemplate<{ label: string }>();
   const cls = computed(() => [
     prefixCls,
@@ -120,25 +112,7 @@
   );
 
   function handlePathChange() {
-    if (isFunction(cascaderCtx.loadMore) && !option.value.isLeaf) {
-      const { isLeaf, children, key, raw } = option.value;
-      if (!isLeaf && !children && !isLoading.value) {
-        const revision = ++loadRevision;
-        isLoading.value = true;
-        new Promise<CascaderOption[] | undefined>((resolve, reject) => {
-          Promise.resolve(cascaderCtx.loadMore?.(raw, resolve)).catch(reject);
-        })
-          .then((children) => {
-            if (revision === loadRevision && option.value.raw === raw && children) {
-              cascaderCtx.addLazyLoadOptions?.(children, key);
-            }
-          })
-          .catch(() => undefined)
-          .finally(() => {
-            if (revision === loadRevision) isLoading.value = false;
-          });
-      }
-    }
+    cascaderCtx.loadOption?.(option.value);
     cascaderCtx.setSelectedPath?.(option.value.key);
   }
 
