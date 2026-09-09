@@ -25,11 +25,13 @@ pnpm --filter @sdata/web-vue run cypress:run --spec 'components/<component>/__te
 
 - BasicCrudTable: 53 passing (33 behavior + 7 demos + 2 action-modal + 11 async boundaries), retries disabled. Fix obsolete list/detail results, loading ownership, unmount cleanup, rejected submit/delete hooks, rejected/stale delete confirmation content and dynamic slot forwarding. Delete confirmation executes against its own row. Dynamic column slots also required reactive slot propagation to Table cells; all 66 existing Table cases passed in the combined 116-case run before the final three CRUD regressions, and the final 53-case CRUD suite passed after those fixes. Table remains pending its individual audit. Full-height regression now checks the actual OverlayScrollbars viewport. Package vue-tsc passed using installed TNB.
 
+- BloomMenu: 32 passing (22 behavior + 4 demos + 6 lifecycle), retries disabled. Fix a rejected controlled open request displaying the collapsed panel; stop delayed focus attempts once closed. Added native Chrome Enter open/select, rapid controlled reopen, item reorder/disabled changes and empty/column transitions. Existing attribute-forwarding and declaration export types preserved. Package vue-tsc passed using installed TNB.
+
 ## Inventory
 
 After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and Anchor together: 115 tests passed with retries disabled (exit 0).
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: bloom-menu.
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: border-beam.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -44,7 +46,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | back-top                      | Reviewed; browser cases above passed |
 | badge                         | Reviewed; browser cases above passed |
 | basic-crud-table              | Reviewed; browser cases above passed |
-| bloom-menu                    | Pending                              |
+| bloom-menu                    | Reviewed; browser cases above passed |
 | border-beam                   | Pending                              |
 | breadcrumb                    | Pending                              |
 | button                        | Pending                              |

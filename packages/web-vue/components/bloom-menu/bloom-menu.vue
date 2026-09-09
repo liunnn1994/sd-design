@@ -351,10 +351,10 @@
   function handlePopupVisibleChange(visible: boolean) {
     if (visible) {
       // 受控开启被父级忽略后 popupVisible 可能被强制复位过，这里同步回来
-      popupVisible.value = true;
       window.clearTimeout(closeTimer);
       captureTriggerStyle();
       setOpen(true);
+      if (isOpen.value) popupVisible.value = true;
     } else {
       // popup 即将卸载,若焦点在面板内(Esc 关闭)则还给触发器,避免焦点丢失
       if (
@@ -407,6 +407,7 @@
 
   function focusPanel(attempt = 0) {
     nextTick(() => {
+      if (!isOpen.value || !popupVisible.value) return;
       const firstItem = panelRootRef.value?.querySelector<HTMLButtonElement>(
         `.${prefixCls}-item:not(:disabled)`,
       );
