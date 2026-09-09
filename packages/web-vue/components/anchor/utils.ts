@@ -2,7 +2,7 @@ import BTween from 'b-tween';
 
 import { isFunction } from '../_utils/is';
 
-export function slide(el: HTMLElement, top: number, cb: () => void, smooth = true): void {
+export function slide(el: HTMLElement, top: number, cb: () => void, smooth = true) {
   if (!smooth) {
     // smooth=false: no animation, jump instantly
     el.scrollTop = top;
@@ -28,6 +28,7 @@ export function slide(el: HTMLElement, top: number, cb: () => void, smooth = tru
     },
   });
   tween.start();
+  return () => tween.stop();
 }
 
 export const BOUNDARY_POSITIONS = ['start', 'end', 'center', 'nearest'] as const;

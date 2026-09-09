@@ -11,6 +11,7 @@ declare module 'b-tween' {
   class BTween {
     constructor(opts: BTweenOptions);
     start(): void;
+    stop(): void;
   }
 
   export default BTween;

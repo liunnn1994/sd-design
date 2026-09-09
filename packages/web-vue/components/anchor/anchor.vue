@@ -21,6 +21,7 @@
     reactive,
     ref,
     watch,
+    watchPostEffect,
   } from 'vue';
 
   import { compute as computeScrollIntoView } from 'compute-scroll-into-view';
@@ -156,6 +157,7 @@
   const links = reactive<Record<string, HTMLElement>>({});
   const currentLink = ref('');
   const isScrolling = ref(false);
+  let cancelScroll: (() => void) | undefined;
 
   const scrollContainerEle = ref<HTMLElement | Window>();
   const containerEle = ref<HTMLElement>();
@@ -183,6 +185,8 @@
   };
 
   const scrollIntoView = (hash: string) => {
+    cancelScroll?.();
+    isScrolling.value = false;
     try {
       const element = getElement(hash, containerEle.value) ?? getElement(hash);
       if (!element) return;
@@ -199,7 +203,8 @@
       if (!actions.length) return;
       const { el, top } = actions[0];
       const targetTop = top - diff;
-      slide(
+      isScrolling.value = true;
+      cancelScroll = slide(
         el as HTMLElement,
         targetTop,
         () => {
@@ -207,7 +212,6 @@
         },
         props.smooth,
       );
-      isScrolling.value = true;
     } catch (e) {
       // oxlint-disable-next-line no-console
       console.error(e);
@@ -258,7 +262,7 @@
     return undefined;
   };
 
-  watch(currentLink, () => {
+  watchPostEffect(() => {
     const link = links[currentLink.value];
     if (!props.lineLess && link && lineSliderRef.value) {
       lineSliderRef.value.style.top = `${link.offsetTop}px`;
@@ -291,6 +295,19 @@
     }
   };
 
+  watch(
+    () => props.scrollContainer,
+    () => {
+      cancelScroll?.();
+      isScrolling.value = false;
+      unbindScrollEvent();
+      getContainer();
+      bindScrollEvent();
+      handleScroll();
+    },
+    { flush: 'post' },
+  );
+
   onMounted(() => {
     getContainer();
 
@@ -306,6 +323,8 @@
   });
 
   onBeforeUnmount(() => {
+    cancelScroll?.();
+    handleScroll.cancel();
     unbindScrollEvent();
   });
 

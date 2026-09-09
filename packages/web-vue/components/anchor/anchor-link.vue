@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, inject, onMounted, ref } from 'vue';
+  import { computed, inject, watchEffect, ref } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { anchorInjectionKey } from './context';
@@ -41,9 +41,11 @@
 
   const context = inject(anchorInjectionKey, undefined);
 
-  onMounted(() => {
+  watchEffect((onCleanup) => {
     if (props.href && linkRef.value) {
-      context?.addLink(props.href, linkRef.value);
+      const hash = props.href;
+      context?.addLink(hash, linkRef.value);
+      onCleanup(() => context?.removeLink(hash));
     }
   });
 

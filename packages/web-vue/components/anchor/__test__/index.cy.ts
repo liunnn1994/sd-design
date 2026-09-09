@@ -88,6 +88,19 @@ describe('Anchor', () => {
     cy.get('.sd-anchor-line-slider').should('not.exist');
   });
 
+  it('positions the line slider when lineLess is disabled after selecting a link', () => {
+    cy.mount(Anchor, { props: { lineLess: true }, slots: { default: twoLinks } });
+    cy.get('a').eq(1).click();
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ lineLess: false })));
+    cy.get('.sd-anchor-link-item')
+      .eq(1)
+      .then(($li) => {
+        cy.get('.sd-anchor-line-slider').should(($slider) => {
+          expect($slider[0].style.top).to.equal(`${$li[0].offsetTop}px`);
+        });
+      });
+  });
+
   it('affix wraps the anchor in the Affix component with forwarded props', () => {
     // wrapperComponent must return the component object: the string 'Affix' only resolves
     // against global registrations, which register SdAffix under the default prefix
