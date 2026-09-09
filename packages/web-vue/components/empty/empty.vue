@@ -1,7 +1,17 @@
 <template>
   <!-- ConfigProvider 自定义分支：用容器 div 承载 $attrs（与默认分支行为一致），
        避免对 ConfigProvider 插槽返回的 vnode 做 clone 合并引发渲染循环 -->
-  <div v-if="!inConfigProvider && getCustomEmpty() && !slots.image && !imgSrc && !description" v-bind="$attrs">
+  <div
+    v-if="
+      !inConfigProvider &&
+      getCustomEmpty() &&
+      !slots.default &&
+      !slots.image &&
+      !imgSrc &&
+      !description
+    "
+    v-bind="$attrs"
+  >
     <CustomEmptyRenderer :vnode="getCustomEmpty()" />
   </div>
   <div v-else :class="prefixCls" v-bind="$attrs">
@@ -74,7 +84,7 @@
     const slot = configCtx?.slots.empty;
     // 在渲染期调用插槽（模板内联触发），拿到 ConfigProvider 提供的自定义空状态 vnode
     const vnode = slot ? slot({ component: 'empty' }) : undefined;
-    if (vnode && (typeof vnode === 'object')) {
+    if (vnode && typeof vnode === 'object') {
       return vnode as VNode | VNode[];
     }
     return undefined;

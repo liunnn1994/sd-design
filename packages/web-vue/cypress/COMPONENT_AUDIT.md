@@ -91,7 +91,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Ellipsis completion: full 34-case Chrome suite passes together with retries disabled (21 existing behavior + 5 demos + 2 nested keyboard + 3 measurement lifecycle + 2 lazy click + 1 native keyboard case). Chrome native Tab reproduced the dormant expandable wrapper being skipped entirely. It now exposes default button semantics and tabindex before activation while preserving explicit attributes. Native Tab/Enter verifies reaching the component, retaining focus after activation, expanding/collapsing and continuing to the following button. Both Ellipsis and PerformantEllipsis review complete; full-repository and standard TypeScript gates remain pending.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: empty.
+- Empty: full 16-case Chrome suite passes with retries disabled (12 existing behavior + 2 demos + 2 dynamic state cases). Read component rendering, props, slots, ConfigProvider fallback, installation and styles/tokens. New browser regression reproduced the global empty slot hiding an explicit local default slot and its Retry action. The global branch now applies only when no local default slot exists. Insertion/removal restores local/global content correctly while preserving attributes; actual retry clicks pass. Dynamic description updates propagate to image alt text and removing the image source restores the default icon and localized description. Component review complete; full-repository and standard TypeScript gates remain pending.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: file-previewer.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -129,7 +131,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | drawer                        | Reviewed                             |
 | dropdown                      | Reviewed                             |
 | ellipsis                      | Reviewed                             |
-| empty                         | Pending                              |
+| empty                         | Reviewed                             |
 | file-previewer                | Pending                              |
 | form                          | Pending                              |
 | grid                          | Pending                              |
