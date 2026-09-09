@@ -3,10 +3,17 @@ import { computed, toRefs } from 'vue';
 import { Dayjs } from 'dayjs';
 
 import { getDateValue } from '../../_utils/date';
-import { DisabledDate, DisabledTime, RangeDisabledDate, RangeDisabledTime } from '../interface';
+import {
+  DisabledDate,
+  DisabledTime,
+  Mode,
+  RangeDisabledDate,
+  RangeDisabledTime,
+} from '../interface';
+import { isDisabledDate as isPeriodDisabledDate } from '../utils';
 
 interface IsDisabledProps {
-  mode?: string;
+  mode?: Mode;
   showTime?: boolean;
   disabledDate?: DisabledDate | RangeDisabledDate;
   disabledTime?: DisabledTime | RangeDisabledTime;
@@ -20,10 +27,13 @@ export default function useIsDisabledDate(props: IsDisabledProps) {
     return (current: Dayjs, type: 'start' | 'end') => {
       if (!disabledDate?.value) return false;
 
-      const dateValue = getDateValue(current);
-
-      if (isRange?.value) return (disabledDate.value as RangeDisabledDate)(dateValue, type);
-      return (disabledDate.value as DisabledDate)(dateValue);
+      return isPeriodDisabledDate(
+        current,
+        isRange?.value
+          ? (date) => (disabledDate.value as RangeDisabledDate)(date, type)
+          : (disabledDate.value as DisabledDate),
+        mode?.value,
+      );
     };
   });
 
