@@ -418,6 +418,7 @@
     }
 
     const _field = field.value;
+    const _label = props.label;
     const _value = fieldValue.value;
     updateValidateState(_field, {
       status: '',
@@ -451,8 +452,8 @@
 
         const error = hasError
           ? {
-              label: props.label,
-              field: field.value,
+              label: _label,
+              field: _field,
               value: err![_field].value,
               type: err![_field].type,
               isRequiredError: Boolean(err![_field].requiredError),
