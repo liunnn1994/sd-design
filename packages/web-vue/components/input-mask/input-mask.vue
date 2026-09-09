@@ -330,15 +330,24 @@
       syncComplete(toCommittedValue(next), nextComplete);
     },
   );
-  watch([effectiveMask, presetDefinition, effectiveMaskChar, effectiveFormatChars], () => {
-    const { value: next, complete: nextComplete } = applyNormalization(innerValue.value);
-    const changed = next !== innerValue.value;
-    innerValue.value = next;
-    // The component changed its own template, so propagate the re-normalized
-    // value to keep v-model in sync (otherwise switching mask/preset can desync).
-    if (changed) emit('update:modelValue', toCommittedValue(next));
-    syncComplete(toCommittedValue(next), nextComplete);
-  });
+  watch(
+    [effectiveMask, presetDefinition, effectiveMaskChar, effectiveFormatChars],
+    (_, [oldMask, , oldMaskChar, oldFormatChars]) => {
+      const value = oldMask
+        ? stripMaskPlaceholders(innerValue.value, oldMask, {
+            maskChar: oldMaskChar,
+            formatChars: oldFormatChars,
+          })
+        : innerValue.value;
+      const { value: next, complete: nextComplete } = applyNormalization(value);
+      const changed = next !== innerValue.value;
+      innerValue.value = next;
+      // The component changed its own template, so propagate the re-normalized
+      // value to keep v-model in sync (otherwise switching mask/preset can desync).
+      if (changed) emit('update:modelValue', toCommittedValue(next));
+      syncComplete(toCommittedValue(next), nextComplete);
+    },
+  );
 
   defineExpose({
     get inputRef() {

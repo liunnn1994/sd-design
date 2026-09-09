@@ -281,6 +281,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - InputMask placeholder graphemes: full 50-case Chrome suite passes with retries disabled. Two regressions reproduced maskChar truncating a combining sequence to its base letter and a joined emoji to its first code point. The component now uses the existing splitGraphemes helper instead of Array.from when selecting the first placeholder character. Browser cases cover intact initial templates, incremental typing, placeholder-free model values and clearing back to the template. Read shared grapheme handling and the remaining initial IP/URL/email/preset definitions. Dynamic normalization and final preset/lifecycle checks remain pending.
 
+- InputMask dynamic mask removal: full 51-case Chrome suite passes with retries disabled. The browser regression reproduced placeholder-filled internal text surviving mask removal as unrestricted input. Configuration changes now strip placeholders using the old mask, placeholder character and format rules before normalizing under the new configuration. The test verifies removal preserves the committed value and literals, then restores the mask and continues typing to completion. Existing preset changes, model normalization and Unicode placeholder cases remain passing. Final preset and lifecycle checks remain pending.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
