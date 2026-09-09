@@ -99,6 +99,8 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - FilePreviewer close/type follow-up: full 41-case Chrome suite passes with retries disabled (32 behavior/helper + 7 demos + 2 dynamic content). Two real pdf.js cases inspect the loaded document's public loadingTask.destroyed flag; both reproduced tasks remaining alive after closing or changing to video. Preview initialization now destroys PDF resources when hidden, switching away from PDF, or handing control to the content slot. Both task destruction and PDF DOM removal pass. Read exports, worker URL module, public media/PDF types and main layout styles. PDF page-render ordering and remaining media lifecycle coverage are still pending.
 
+- FilePreviewer page-render follow-up: full 42-case Chrome suite passes with retries disabled (33 behavior/helper + 7 demos + 2 dynamic content). A browser hook harness loads the real generated PDF, delays only the first getPage result, renders page two to a real canvas, then releases page one. It reproduced the stale first page rendering afterward. Render generations now invalidate earlier page retrievals, including during resource release; the newer page renders once and the obsolete page never paints. Remaining audit includes media lifecycle and PDF error handling.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: file-previewer.
 
 | Component / support directory | Review status                        |

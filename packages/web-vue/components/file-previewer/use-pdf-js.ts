@@ -100,6 +100,7 @@ export function usePdfJs(context: UsePdfJsContext): UsePdfJsReturn {
   let renderTask: RenderTask | null = null;
   let activePage: PDFPageProxy | null = null;
   let loadId = 0;
+  let renderId = 0;
 
   async function load(): Promise<void> {
     const url = context.src();
@@ -144,6 +145,7 @@ export function usePdfJs(context: UsePdfJsContext): UsePdfJsReturn {
     const pdfDoc = doc.value;
     if (!pdfDoc) return;
     const documentId = loadId;
+    const currentRenderId = ++renderId;
 
     const props = context.pdfProps() ?? {};
     const scale = props.scale ?? 1;
@@ -167,7 +169,7 @@ export function usePdfJs(context: UsePdfJsContext): UsePdfJsReturn {
     }
 
     const pdfPage = await pdfDoc.getPage(target);
-    if (documentId !== loadId || doc.value !== pdfDoc) return;
+    if (documentId !== loadId || doc.value !== pdfDoc || currentRenderId !== renderId) return;
     activePage = pdfPage;
     const viewport = pdfPage.getViewport({ scale, rotation });
     if (!canvas.getContext('2d')) return;
@@ -214,6 +216,7 @@ export function usePdfJs(context: UsePdfJsContext): UsePdfJsReturn {
   }
 
   async function releaseResources(): Promise<void> {
+    renderId++;
     if (renderTask) {
       try {
         renderTask.cancel();

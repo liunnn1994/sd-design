@@ -35,6 +35,46 @@ function createTestPdf() {
 const pdfProps = () => ({ documentParams: { data: createTestPdf() } });
 
 describe('FilePreviewer', () => {
+  it('does not paint a stale page after a newer render finishes', () => {
+    let releaseFirst!: () => void;
+    let firstRender!: Promise<void>;
+    let pdf!: ReturnType<typeof usePdfJs>;
+    cy.mount(
+      defineComponent({
+        setup() {
+          pdf = usePdfJs({ src: () => pdfSrc, pdfProps, onStatus: () => {} });
+          return () => h('canvas', { class: 'race-canvas' });
+        },
+      }),
+    );
+    cy.then(() => pdf.load());
+    cy.then(async () => {
+      const doc = pdf.doc.value!;
+      const first = await doc.getPage(1);
+      const second = await doc.getPage(2);
+      cy.spy(first, 'render').as('firstPaint');
+      cy.spy(second, 'render').as('secondPaint');
+      cy.stub(doc, 'getPage').callsFake((page: number) =>
+        page === 1
+          ? new Promise((resolve) => {
+              releaseFirst = () => resolve(first);
+            })
+          : Promise.resolve(second),
+      );
+    });
+    cy.get('.race-canvas').then(($canvas) => {
+      firstRender = pdf.render($canvas[0] as HTMLCanvasElement, 1);
+      return pdf.render($canvas[0] as HTMLCanvasElement, 2);
+    });
+    cy.get('@secondPaint').should('have.been.calledOnce');
+    cy.then(() => {
+      releaseFirst();
+      return firstRender;
+    });
+    cy.get('@firstPaint').should('not.have.been.called');
+    cy.then(() => pdf.destroy());
+  });
+
   for (const action of ['close', 'switch type'] as const) {
     it(`destroys the loaded PDF task on ${action}`, () => {
       let task: PDFDocumentLoadingTask | undefined;
