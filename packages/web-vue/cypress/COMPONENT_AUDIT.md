@@ -135,6 +135,8 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Icon final catalog review: full 16-case Chrome suite passes with retries disabled. The catalog case compares named exports against all 287 generated catalog entries and mounts every icon, checking SVG namespace, positive viewBox dimensions and nonempty actual geometry. The dynamic case observes a running browser animation, then verifies disabling spin removes animations and rotation state, stroke updates include zero and later rotation applies correctly. No additional production fix was needed. Generator, shared SFC behavior, installers/exports, SVG rendering, sizing and animation review completed; standard TypeScript verification remains pending. Generic icon-component is a separate next audit.
 
+- IconComponent (in progress): full 16-case Chrome suite passes with retries disabled (12 existing + 4 style lifecycle). Read generic Icon, IconFont, script factory and exports. Both generic SVG and factory-created IconFont reproduced ignored zero size and spin overriding the rotate prop. The shared Icon now preserves zero and supplies --icon-rotate to the existing CSS animation. Browser tests verify zero/inherited size, actual animation paused at its first frame retaining 90 degrees, disabling spin with 180-degree rotation, and clearing rotation/animation state. Script loading and dynamic symbol/attribute review remain pending; standard TypeScript verification remains pending.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: icon-component.
 
 | Component / support directory | Review status                        |
@@ -179,7 +181,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | grid                          | Reviewed                             |
 | header-list                   | Empty directory; not implemented     |
 | icon                          | Reviewed                             |
-| icon-component                | Pending                              |
+| icon-component                | In progress                          |
 | image                         | Pending                              |
 | input                         | Pending                              |
 | input-mask                    | Pending                              |

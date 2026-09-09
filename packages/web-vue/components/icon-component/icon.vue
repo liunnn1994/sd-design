@@ -23,11 +23,12 @@
 
   const innerStyle = computed(() => {
     const styles: CSSProperties = {};
-    if (props.size) {
+    if (props.size !== undefined) {
       styles.fontSize = isNumber(props.size) ? `${props.size}px` : props.size;
     }
     if (props.rotate) {
       styles.transform = `rotate(${props.rotate}deg)`;
+      styles['--icon-rotate'] = `${props.rotate}deg`;
     }
     return styles;
   });
