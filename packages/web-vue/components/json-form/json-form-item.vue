@@ -134,9 +134,14 @@
   defineSlots<Record<string, (props?: Record<string, unknown>) => unknown>>();
 
   const normalizedField = computed(() => {
-    return props.adapter === 'a2ui-0.9.1'
-      ? parseJsonFormPath(props.schema.field, props.adapter).join('.')
-      : props.schema.field;
+    if (props.adapter !== 'a2ui-0.9.1') return props.schema.field;
+    const segments = parseJsonFormPath(props.schema.field, props.adapter);
+    if (segments.some((segment) => !segment || /[.[\]]/.test(segment))) {
+      return segments
+        .map((segment) => `["${segment.replaceAll('\\', '\\\\').replaceAll('"', '\\"')}"]`)
+        .join('');
+    }
+    return segments.join('.');
   });
 
   const fieldModel = computed({

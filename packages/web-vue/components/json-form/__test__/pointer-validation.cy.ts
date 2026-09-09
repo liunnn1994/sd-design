@@ -8,6 +8,9 @@ describe('JsonForm JSON Pointer validation', () => {
   for (const example of [
     { key: 'a/b', path: '/a~1b' },
     { key: 'a~b', path: '/a~0b' },
+    { key: 'a.b', path: '/a.b' },
+    { key: 'a[0]', path: '/a[0]' },
+    { key: '', path: '/' },
   ]) {
     it(`validates the decoded field ${example.key}`, () => {
       cy.mount(
@@ -36,6 +39,7 @@ describe('JsonForm JSON Pointer validation', () => {
                   },
                   'Validate',
                 ),
+                h('button', { onClick: () => form.value?.resetFields() }, 'Reset'),
                 h('output', result.value),
               ]);
           },
@@ -50,6 +54,8 @@ describe('JsonForm JSON Pointer validation', () => {
       cy.get('input').type('restored');
       cy.contains('button', 'Validate').click();
       cy.get('output').should('have.text', 'valid');
+      cy.contains('button', 'Reset').click();
+      cy.get('input').should('have.value', 'filled');
     });
   }
 });

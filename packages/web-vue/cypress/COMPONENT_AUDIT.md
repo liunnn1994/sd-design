@@ -325,6 +325,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - JsonForm escaped-pointer validation: full 40-case Chrome suite passes with retries disabled. Both `/a~1b` and `/a~0b` regressions reproduced required validation failing despite a populated input because the control decoded its path but FormItem did not. FormItem path normalization now uses the existing JSON Pointer parser before joining segments. Browser harnesses use actual Form and JsonFormItem controls and validate via a user-clicked button; both verify populated success, empty failure and successful correction. Literal-dot/other path boundaries and remaining form lifecycle review are still pending.
 
+- JsonForm literal-key paths: combined Chrome regression passes all 43 JsonForm and 53 Form cases with retries disabled. Three new regressions reproduced literal dot/bracket keys validating as missing and an empty key bypassing required validation. A2UI field normalization now quotes ambiguous path segments; the shared getValueByPath/setValueByPath helpers use the already installed es-toolkit toPath parser, supporting quoted literal and empty segments. All five pointer cases were then extended with a user-clicked reset and passed again, verifying both reads and writes. Other path boundaries and remaining JsonForm lifecycle checks are pending; standard TypeScript/build validation remains a repository gate.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
