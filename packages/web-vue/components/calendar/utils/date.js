@@ -155,9 +155,15 @@ const getWeek = (date) => dayjs(date).week();
 
 /**
  * Returns the first day of the week containing `date`.
- * Respects the locale's `weekStart` setting configured via `initializeDateLocale()`.
+ * Uses this calendar's week-start setting independently of the global date locale.
  */
-const getPreviousFirstDayOfWeek = (date) => dayjs(date).startOf('week').toDate();
+const getPreviousFirstDayOfWeek = (date, startWeekOnSunday = false) => {
+  const start = new Date(date);
+  const firstWeekday = startWeekOnSunday ? 0 : 1;
+  start.setDate(start.getDate() - ((start.getDay() - firstWeekday + 7) % 7));
+  start.setHours(0, 0, 0, 0);
+  return start;
+};
 
 /**
  * Converts a string or Date to a JavaScript Date object.
