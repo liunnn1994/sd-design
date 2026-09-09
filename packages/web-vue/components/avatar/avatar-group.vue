@@ -1,27 +1,22 @@
 <template>
   <div :class="[prefixCls, { [`${prefixCls}-rtl`]: rtl }]">
-    <DefineAvatarContent v-slot="{ children }">
-      <RenderVNodes :content="getVisibleAvatars(children)" />
-      <Popover v-if="getOverflowAvatars(children).length > 0" v-bind="maxPopoverTriggerProps">
-        <Avatar :class="`${prefixCls}-max-count-avatar`" :style="maxStyle">
-          +{{ getOverflowAvatars(children).length }}
-        </Avatar>
-        <template #content>
-          <div :class="`${avatarPrefixCls}-group-popover`">
-            <RenderVNodes :content="getOverflowAvatars(children)" />
-          </div>
-        </template>
-      </Popover>
-    </DefineAvatarContent>
-    <ReuseAvatarContent :children="getChildren()" />
+    <RenderVNodes :content="getVisibleAvatars(children)" />
+    <Popover v-if="getOverflowAvatars(children).length > 0" v-bind="maxPopoverTriggerProps">
+      <Avatar :class="`${prefixCls}-max-count-avatar`" :style="maxStyle">
+        +{{ getOverflowAvatars(children).length }}
+      </Avatar>
+      <template #content>
+        <div :class="`${avatarPrefixCls}-group-popover`">
+          <RenderVNodes :content="getOverflowAvatars(children)" />
+        </div>
+      </template>
+    </Popover>
   </div>
 </template>
 
 <script setup lang="ts">
   import type { CSSProperties, PropType, VNode } from 'vue';
-  import { computed, defineComponent, inject, provide, reactive, ref, toRef } from 'vue';
-
-  import { createReusableTemplate } from '@vueuse/core';
+  import { computed, defineComponent, inject, provide, reactive, toRef } from 'vue';
 
   import type { TriggerProps } from '../trigger';
   import type { AvatarShape } from './interface';
@@ -87,9 +82,6 @@
   const slots = defineSlots<{
     default?: () => VNode[];
   }>();
-  const [DefineAvatarContent, ReuseAvatarContent] = createReusableTemplate<{
-    children: VNode[];
-  }>();
   const RenderVNodes = defineComponent({
     name: 'AvatarGroupRenderVNodes',
     props: {
@@ -106,12 +98,8 @@
   const avatarPrefixCls = getPrefixCls('avatar');
   const configCtx = inject(configProviderInjectionKey, undefined);
   const rtl = computed(() => configCtx?.rtl ?? false);
-  const total = ref(0);
-  const getChildren = () => {
-    const children = getAllElements(slots.default?.() ?? []);
-    total.value = children.length;
-    return children;
-  };
+  const children = computed(() => getAllElements(slots.default?.() ?? []));
+  const total = computed(() => children.value.length);
   const getVisibleAvatars = (children: VNode[]) =>
     props.maxCount > 0 ? children.slice(0, props.maxCount) : children;
   const getOverflowAvatars = (children: VNode[]) =>

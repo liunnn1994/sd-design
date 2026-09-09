@@ -17,11 +17,13 @@ pnpm --filter @sdata/web-vue run cypress:run --spec 'components/<component>/__te
 - Anchor: 31 passing (20 behavior + 5 demos + 6 lifecycle), commit `08984200`. Fix instant-scroll tracking, href registration/removal, animation cancellation on navigation/unmount, replacement containers and restored indicator position. Full component suite passed with retries disabled. Package vue-tsc passed using the worktree's installed TNB compiler.
 - AutoComplete: 42 passing (24 behavior + 6 demos + 2 readonly-tip + 10 boundary interactions). Fix zero/empty option slots, numeric-to-string selection, dynamic readonly/disabled closure, popupContainer forwarding, virtual keyboard scrolling, recycled option identity and virtual scroll/reach-bottom events. Also verifies IME Enter, disabled-option skipping and asynchronous suggestion replacement. Cypress support now imports OverlayScrollbars CSS, matching the dependency included by the production build; without it virtual viewports had overflow: visible and could not scroll. Package vue-tsc passed using installed TNB.
 
+- Avatar: 40 passing (26 behavior + 6 demos + 8 lifecycle), retries disabled. Fix failed-image retry on URL changes, group image sizing, stale text scaling, dynamic image/text slots, group overflow updates and RTL overlap. Preserve slotted image-component support. Package vue-tsc passed using installed TNB.
+
 ## Inventory
 
 After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and Anchor together: 115 tests passed with retries disabled (exit 0).
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: avatar.
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: back-top.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -32,7 +34,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | alert                         | Reviewed; browser cases above passed |
 | anchor                        | Reviewed; browser cases above passed |
 | auto-complete                 | Reviewed; browser cases above passed |
-| avatar                        | Pending                              |
+| avatar                        | Reviewed; browser cases above passed |
 | back-top                      | Pending                              |
 | badge                         | Pending                              |
 | basic-crud-table              | Pending                              |

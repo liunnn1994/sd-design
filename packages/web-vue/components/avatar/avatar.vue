@@ -25,8 +25,6 @@
             v-if="!(hasError || !shouldLoad)"
             :src="imageUrl"
             :style="{
-              width: size + 'px',
-              height: size + 'px',
               objectFit: objectFit,
             }"
             alt="avatar"
@@ -54,6 +52,7 @@
     watch,
     ref,
     onMounted,
+    onUpdated,
     nextTick,
     CSSProperties,
     PropType,
@@ -66,6 +65,7 @@
   import { useIndex } from '../_hooks/use-index';
   import { getPrefixCls } from '../_utils/global-config';
   import { isNumber } from '../_utils/is';
+  import { getAllElements } from '../_utils/vue-utils';
   import { configProviderInjectionKey } from '../config-provider/context';
   import IconImageClose from '../icon/icon-image-close';
   import IconLoading from '../icon/icon-loading';
@@ -193,11 +193,26 @@
   const mergedShape = computed(() => groupCtx?.shape ?? shape.value);
   const mergedSize = computed(() => groupCtx?.size ?? props.size);
   const mergedAutoFixFontSize = computed(() => groupCtx?.autoFixFontSize ?? autoFixFontSize.value);
-  const isImage = ref(false);
+  const isImage = computed(() => {
+    const firstChild = getAllElements(slots.default?.() ?? [])[0];
+    if (typeof firstChild?.type === 'object' || typeof firstChild?.type === 'function') {
+      const tag = wrapperRef.value?.firstElementChild?.tagName;
+      return tag === 'IMG' || tag === 'PICTURE';
+    }
+    return firstChild?.type === 'img' || firstChild?.type === 'picture';
+  });
 
   const hasError = ref(false);
   const shouldLoad = ref(true);
   const isLoaded = ref(false);
+
+  watch(
+    () => props.imageUrl,
+    () => {
+      hasError.value = false;
+      isLoaded.value = false;
+    },
+  );
 
   const index = groupCtx
     ? useIndex({
@@ -216,7 +231,9 @@
       : {};
     if (groupCtx) {
       style.zIndex = groupCtx.zIndexAscend ? index.value + 1 : groupCtx.total - index.value;
-      style.marginLeft = index.value !== 0 ? `-${(mergedSize.value ?? 40) / 4}px` : '0';
+      const margin = index.value !== 0 ? `-${(mergedSize.value ?? 40) / 4}px` : '0';
+      style.marginLeft = rtl.value ? '0' : margin;
+      style.marginRight = rtl.value ? margin : undefined;
     }
 
     return style;
@@ -231,43 +248,28 @@
   );
 
   const autoFixFontSizeHandler = () => {
-    if (!isImage.value && !props.imageUrl) {
-      nextTick(() => {
-        if (!wrapperRef.value || !itemRef.value) {
-          return;
-        }
-        const textWidth = wrapperRef.value.clientWidth;
-        const avatarWidth = mergedSize.value ?? itemRef.value.offsetWidth;
+    nextTick(() => {
+      if (!wrapperRef.value || !itemRef.value) {
+        return;
+      }
+      if (isImage.value || props.imageUrl || !mergedAutoFixFontSize.value) {
+        wrapperRef.value.style.transform = '';
+        return;
+      }
+      const textWidth = wrapperRef.value.clientWidth;
+      const avatarWidth = mergedSize.value ?? itemRef.value.offsetWidth;
 
-        const scale = avatarWidth / (textWidth + 8);
-        if (avatarWidth && scale < 1) {
-          wrapperRef.value.style.transform = `scale(${scale}) translateX(-50%)`;
-        }
-        shouldLoad.value = true;
-      });
-    }
+      const scale = avatarWidth / (textWidth + 8);
+      wrapperRef.value.style.transform =
+        avatarWidth && scale < 1 ? `scale(${scale}) translateX(-50%)` : '';
+      shouldLoad.value = true;
+    });
   };
 
-  onMounted(() => {
-    if (
-      wrapperRef.value?.firstElementChild &&
-      ['IMG', 'PICTURE'].includes(wrapperRef.value.firstElementChild.tagName)
-    ) {
-      isImage.value = true;
-    }
-    if (mergedAutoFixFontSize.value) {
-      autoFixFontSizeHandler();
-    }
-  });
+  onMounted(autoFixFontSizeHandler);
+  onUpdated(autoFixFontSizeHandler);
 
-  watch(
-    () => props.size,
-    () => {
-      if (mergedAutoFixFontSize.value) {
-        autoFixFontSizeHandler();
-      }
-    },
-  );
+  watch([mergedSize, mergedAutoFixFontSize], autoFixFontSizeHandler);
 
   const cls = computed(() => [prefixCls, `${prefixCls}-${mergedShape.value}`]);
   const wrapperCls = computed(() =>
