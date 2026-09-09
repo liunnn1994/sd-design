@@ -148,10 +148,9 @@ const isLeapYear = (date) => {
 
 /**
  * Returns the ISO week number for the given date.
- * The locale's `weekStart` must be set via `initializeDateLocale()` beforehand
- * so that `dayjs.week()` returns the correct value.
+ * ISO numbering is independent of the display locale and first visible weekday.
  */
-const getWeek = (date) => dayjs(date).week();
+const getWeek = (date) => dayjs(date).isoWeek();
 
 /**
  * Returns the first day of the week containing `date`.
