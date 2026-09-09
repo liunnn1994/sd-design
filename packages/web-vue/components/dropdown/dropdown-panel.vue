@@ -29,7 +29,16 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, CSSProperties, inject, nextTick, onMounted, PropType, ref } from 'vue';
+  import {
+    computed,
+    CSSProperties,
+    inject,
+    nextTick,
+    onBeforeUnmount,
+    onMounted,
+    PropType,
+    ref,
+  } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { isNumber } from '../_utils/is';
@@ -146,18 +155,23 @@
     return Array.isArray(trigger) ? trigger.includes('hover') : trigger === 'hover';
   });
 
+  let focusFrame = 0;
+  onBeforeUnmount(() => cancelAnimationFrame(focusFrame));
+
   onMounted(() => {
     // 面板随弹出层挂载即打开：把焦点放进首个可操作项，键盘用户立即可用。
     // 但 hover 触发属于被动展开（鼠标移入），不应抢走键盘焦点/触发滚动，故跳过。
     if (isHoverTrigger.value) return;
-    nextTick(() => {
+    const focusFirst = () => {
       const items = getMenuitems();
-      if (items.length > 0) {
-        items[0].focus();
-      } else {
-        listRef.value?.focus();
+      const target = items[0] ?? listRef.value;
+      if (!target) return;
+      target.focus();
+      if (document.activeElement !== target) {
+        focusFrame = requestAnimationFrame(focusFirst);
       }
-    });
+    };
+    nextTick(focusFirst);
   });
 
   const style = computed<CSSProperties | undefined>(() => {

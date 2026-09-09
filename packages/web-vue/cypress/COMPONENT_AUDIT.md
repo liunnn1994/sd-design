@@ -81,7 +81,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Dropdown keyboard follow-up: full 40-case Chrome suite passes with retries disabled. Three real typing regressions reproduced input, textarea and contenteditable content losing spaces because the menu intercepted their keydown events. Panel keyboard handling now leaves editable controls to handle their own keys. The cases verify text containing a space, ArrowDown retaining editor focus, and ordinary menu navigation afterward. Nested-menu, reopen-focus and real-scroll coverage remain pending.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: dropdown.
+- Dropdown completion: full 43-case Chrome suite passes together with retries disabled (25 behavior/helper + 9 demos + 3 dynamic state + 3 editable keyboard + 3 real browser lifecycle cases). Real transitions reproduced initial focus failing in both root and nested menus because the first focus attempt preceded popup visibility. Panel now retries focusing until successful and cancels the pending animation frame on unmount. Browser flows verify enabled-first focus after reopen, nested Enter selecting exactly once and removing both popup levels, and actual OverlayScrollbars viewport movement with scroll/reachBottom events and final-item selection. Component review complete; full-repository validation and standard TypeScript remain pending.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: ellipsis.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -117,7 +119,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | descriptions                  | Reviewed; browser cases above passed |
 | divider                       | Reviewed; browser cases above passed |
 | drawer                        | Reviewed                             |
-| dropdown                      | In progress                          |
+| dropdown                      | Reviewed                             |
 | ellipsis                      | Pending                              |
 | empty                         | Pending                              |
 | file-previewer                | Pending                              |
