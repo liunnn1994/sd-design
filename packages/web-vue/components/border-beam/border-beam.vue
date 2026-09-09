@@ -217,6 +217,7 @@
   }
 
   let mediaQueryCleanup: (() => void) | null = null;
+  const reducedMotion = ref(false);
 
   onMounted(() => {
     updateSystemTheme();
@@ -225,7 +226,16 @@
       systemTheme.value = e.matches ? 'dark' : 'light';
     };
     mq.addEventListener('change', handler);
-    mediaQueryCleanup = () => mq.removeEventListener('change', handler);
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updateMotion = () => {
+      reducedMotion.value = motionQuery.matches;
+    };
+    updateMotion();
+    motionQuery.addEventListener('change', updateMotion);
+    mediaQueryCleanup = () => {
+      mq.removeEventListener('change', handler);
+      motionQuery.removeEventListener('change', updateMotion);
+    };
   });
 
   onUnmounted(() => {
@@ -400,36 +410,39 @@
   }
 
   onMounted(() => {
+    let observedChild: HTMLElement | null = null;
     const detect = () => {
-      if (props.borderRadius != null) return;
       const child = getSlotElement();
-      if (!child) return;
+      if (child !== observedChild && mutationObserver && wrapperRef.value) {
+        mutationObserver.disconnect();
+        mutationObserver.observe(wrapperRef.value, { childList: true });
+        if (child)
+          mutationObserver.observe(child, {
+            attributes: true,
+            attributeFilter: ['class', 'style'],
+          });
+        observedChild = child;
+        setupPulseGlowScale();
+      }
+      if (!child) {
+        detectedRadius.value = null;
+        return;
+      }
       const computed = getComputedStyle(child);
       const raw = parseFloat(computed.borderTopLeftRadius);
-      if (!isNaN(raw) && raw > 0) {
+      if (!isNaN(raw) && raw >= 0) {
         detectedRadius.value = raw;
       }
     };
 
     nextTick(() => {
-      detect();
       const el = wrapperRef.value;
       if (!el) return;
       mutationObserver = new MutationObserver(detect);
       mutationObserver.observe(el, {
         childList: true,
-        subtree: false,
-        attributes: true,
-        attributeFilter: ['class', 'style'],
       });
-      // 首个子元素上的 class/style 变化（例如插槽内容圆角被动态修改）也要触发重测
-      const child = getSlotElement();
-      if (child) {
-        mutationObserver.observe(child, {
-          attributes: true,
-          attributeFilter: ['class', 'style'],
-        });
-      }
+      detect();
     });
   });
 
@@ -460,10 +473,14 @@
   watch(
     () => props.active,
     (active) => {
-      if (active && !isActive.value && !isFading.value) {
+      if (active) {
         isActive.value = true;
+        isFading.value = false;
       } else if (!active && isActive.value && !isFading.value) {
-        isFading.value = true;
+        if (shouldReduceMotion()) {
+          isActive.value = false;
+          emit('deactivate');
+        } else isFading.value = true;
       }
     },
   );
@@ -474,8 +491,10 @@
 
   // ── Pulse-outside glow geometry ─────────────────────────────────────────────
   let resizeObserverCleanup: (() => void) | null = null;
+  let resizeGeneration = 0;
 
   function setupPulseGlowScale() {
+    const generation = ++resizeGeneration;
     resizeObserverCleanup?.();
     resizeObserverCleanup = null;
 
@@ -495,7 +514,10 @@
 
     const measure = () => {
       const child = getSlotElement();
-      if (!child) return;
+      if (!child) {
+        pulseGlowScale.value = { x: 1, y: 1 };
+        return;
+      }
       const rect = child.getBoundingClientRect();
       if (!rect.width || !rect.height) return;
       const x = +clamp(rect.width / REF_WIDTH).toFixed(3);
@@ -506,6 +528,7 @@
     };
 
     nextTick(() => {
+      if (generation !== resizeGeneration || !wrapperRef.value) return;
       measure();
       if (typeof ResizeObserver === 'undefined') return;
       const child = getSlotElement();
@@ -521,7 +544,10 @@
     () => setupPulseGlowScale(),
   );
   onMounted(() => setupPulseGlowScale());
-  onUnmounted(() => resizeObserverCleanup?.());
+  onUnmounted(() => {
+    resizeGeneration++;
+    resizeObserverCleanup?.();
+  });
 
   // ── Animation end handler ───────────────────────────────────────────────────
   function handleAnimationEnd(e: AnimationEvent) {
@@ -653,7 +679,16 @@
   }
 
   onMounted(() => syncPulseDriver());
-  watch([driverConfig, isActive, isFading, isVisible], () => syncPulseDriver());
+  watch([driverConfig, isActive, isFading, isVisible, reducedMotion], () => syncPulseDriver());
+  watch(reducedMotion, (reduce) => {
+    if (!reduce) return;
+    if (isFlowing.value) finishFlow();
+    if (isFading.value) {
+      isActive.value = false;
+      isFading.value = false;
+      emit('deactivate');
+    }
+  });
 
   onUnmounted(() => {
     if (unregisterPulse) {

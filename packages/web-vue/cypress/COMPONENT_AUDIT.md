@@ -27,11 +27,13 @@ pnpm --filter @sdata/web-vue run cypress:run --spec 'components/<component>/__te
 
 - BloomMenu: 32 passing (22 behavior + 4 demos + 6 lifecycle), retries disabled. Fix a rejected controlled open request displaying the collapsed panel; stop delayed focus attempts once closed. Added native Chrome Enter open/select, rapid controlled reopen, item reorder/disabled changes and empty/column transitions. Existing attribute-forwarding and declaration export types preserved. Package vue-tsc passed using installed TNB.
 
+- BorderBeam: 55 passing (38 behavior + 7 demos + 10 lifecycle), retries disabled. Fix interrupted fade reversal, zero/automatic radius detection, replaced-slot observation and pulse glow resize tracking. React to reduced-motion changes, stop the pulse driver and complete deactivation without waiting for disabled CSS animations; all five presets retain a static visible effect. Package vue-tsc passed using installed TNB.
+
 ## Inventory
 
 After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and Anchor together: 115 tests passed with retries disabled (exit 0).
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: border-beam.
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: breadcrumb.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -47,7 +49,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | badge                         | Reviewed; browser cases above passed |
 | basic-crud-table              | Reviewed; browser cases above passed |
 | bloom-menu                    | Reviewed; browser cases above passed |
-| border-beam                   | Pending                              |
+| border-beam                   | Reviewed; browser cases above passed |
 | breadcrumb                    | Pending                              |
 | button                        | Pending                              |
 | calendar                      | Pending                              |

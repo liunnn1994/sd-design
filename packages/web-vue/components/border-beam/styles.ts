@@ -1298,25 +1298,25 @@ interface GenerateStylesOptions {
  * @param options
  */
 export function generateBeamCSS(options: GenerateStylesOptions): string {
-  const { size } = options;
-
-  if (size === 'line') {
-    return generateLineVariantCSS(options);
+  const render = {
+    'line': generateLineVariantCSS,
+    'sm': generateSmallVariantCSS,
+    'md': generateBorderVariantCSS,
+    'pulse-inner': generatePulseInnerVariantCSS,
+    'pulse-outside': generatePulseOuterVariantCSS,
+  }[options.size];
+  const selector = `[data-beam="${options.id}"]`;
+  return `${render(options)}
+@media (prefers-reduced-motion: reduce) {
+  ${selector}, ${selector}::before, ${selector}::after,
+  ${selector} [data-beam-bloom] {
+    animation: none !important;
   }
-
-  if (size === 'sm') {
-    return generateSmallVariantCSS(options);
+  ${selector}[data-active] {
+    --beam-opacity-${options.id}: 1;
   }
-
-  if (size === 'pulse-inner') {
-    return generatePulseInnerVariantCSS(options);
-  }
-
-  if (size === 'pulse-outside') {
-    return generatePulseOuterVariantCSS(options);
-  }
-
-  return generateBorderVariantCSS(options);
+}
+`;
 }
 
 /**
