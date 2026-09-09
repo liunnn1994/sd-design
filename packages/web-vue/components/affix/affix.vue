@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
   import type { CSSProperties, PropType, Ref } from 'vue';
-  import { toRefs, ref, watchEffect, computed, onMounted } from 'vue';
+  import { toRefs, ref, watch, watchEffect, computed, onMounted } from 'vue';
 
   import ResizeObserver from '../_components/resize-observer.vue';
   import { on, off, getElement } from '../_utils/dom';
@@ -127,6 +127,8 @@
       ...(newIsFixed ? newPlaceholderStyles : {}),
     };
   });
+
+  watch(() => [props.offsetTop, props.offsetBottom], updatePositionThrottle);
 
   onMounted(() => {
     // Binding of scroll events inside the scroll container
