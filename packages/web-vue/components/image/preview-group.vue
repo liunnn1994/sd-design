@@ -18,7 +18,7 @@
   </ImagePreview>
 </template>
 <script setup lang="tsx">
-  import { PropType, reactive, toRefs, provide, computed, ref, watch } from 'vue';
+  import { PropType, reactive, toRefs, provide, computed, ref } from 'vue';
 
   import useMergeState from '../_hooks/use-merge-state';
   import { isArray, isUndefined } from '../_utils/is';
@@ -170,29 +170,22 @@
       ),
   );
 
-  const imageUrlMap = ref(new Map(propImageUrlMap.value || []));
+  const registeredImages = ref(new Map<number, { url: string; canPreview: boolean }>());
+  const imageUrlMap = computed(() =>
+    isArray(srcList?.value) ? propImageUrlMap.value : registeredImages.value,
+  );
 
   const imageIdList = computed(() => Array.from(imageUrlMap.value.keys()));
 
   const imageCount = computed(() => imageIdList.value.length);
 
   function registerImageUrl(id: number, url: string, canPreview: boolean) {
-    if (!propImageUrlMap.value.has(id))
-      imageUrlMap.value.set(id, {
-        url,
-        canPreview,
-      });
+    registeredImages.value.set(id, { url, canPreview });
 
     return function unRegisterPreviewUrl() {
-      if (!propImageUrlMap.value.has(id)) {
-        imageUrlMap.value.delete(id);
-      }
+      registeredImages.value.delete(id);
     };
   }
-
-  watch(propImageUrlMap, () => {
-    imageUrlMap.value = new Map(propImageUrlMap.value || []);
-  });
 
   const [currentIndex, setLocalCurrentIndex] = useMergeState(
     defaultCurrent.value,
@@ -224,7 +217,7 @@
       registerImageUrl,
       preview: (imageId: number) => {
         setVisible(true);
-        setCurrentId(imageId);
+        if (!isArray(srcList?.value)) setCurrentId(imageId);
       },
     }),
   );
