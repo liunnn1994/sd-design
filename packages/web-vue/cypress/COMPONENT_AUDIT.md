@@ -83,6 +83,8 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Dropdown completion: full 43-case Chrome suite passes together with retries disabled (25 behavior/helper + 9 demos + 3 dynamic state + 3 editable keyboard + 3 real browser lifecycle cases). Real transitions reproduced initial focus failing in both root and nested menus because the first focus attempt preceded popup visibility. Panel now retries focusing until successful and cancels the pending animation frame on unmount. Browser flows verify enabled-first focus after reopen, nested Enter selecting exactly once and removing both popup levels, and actual OverlayScrollbars viewport movement with scroll/reachBottom events and final-item selection. Component review complete; full-repository validation and standard TypeScript remain pending.
 
+- Ellipsis (in progress): full 28-case Chrome suite passes with retries disabled (21 existing behavior, including PerformantEllipsis + 5 demos + 2 nested keyboard cases). Read both implementations, public types, exports and styles/tokens. The baseline dynamic-slot regression failed because DOM updates did not reliably rerun measurement; a scoped MutationObserver now resynchronizes actual content and disconnects when its root changes or unmounts. New regressions reproduced an inner button's Enter expanding the parent and an inner input losing spaces. Keyboard expansion now respects the existing interactive-descendant boundary. Root keyboard expansion still passes. Test selectors distinguish the real Ellipsis root from hidden measurement roots. Remaining audit includes resize, lazy activation and measurement-waiter cleanup. Standard TypeScript validation remains pending.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: ellipsis.
 
 | Component / support directory | Review status                        |
@@ -120,7 +122,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | divider                       | Reviewed; browser cases above passed |
 | drawer                        | Reviewed                             |
 | dropdown                      | Reviewed                             |
-| ellipsis                      | Pending                              |
+| ellipsis                      | In progress                          |
 | empty                         | Pending                              |
 | file-previewer                | Pending                              |
 | form                          | Pending                              |

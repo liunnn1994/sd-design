@@ -259,12 +259,22 @@
   }
 
   function handleKeydown(event: KeyboardEvent) {
+    const target = event.target;
+    const interactiveElement =
+      target instanceof Element ? target.closest(INTERACTIVE_SELECTOR) : null;
+    if (interactiveElement && interactiveElement !== triggerRef.value) return;
     if (isExpandable.value && (event.key === 'Enter' || event.key === ' ')) {
       event.preventDefault();
       handleClick();
     }
   }
 
+  watch(triggerRef, (element, _previous, onCleanup) => {
+    if (!element) return;
+    const observer = new MutationObserver(syncMeasurement);
+    observer.observe(element, { childList: true, subtree: true, characterData: true });
+    onCleanup(() => observer.disconnect());
+  });
   watch(
     () => props.lineClamp,
     () => {
