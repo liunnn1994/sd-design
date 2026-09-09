@@ -1,3 +1,10 @@
+## [4.4.3](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.4.2...web-vue-v4.4.3) (2026-09-09)
+
+
+### Bug Fixes
+
+* 🐛 empty ConfigProvider 自定义分支透传 attrs ([44d8612](https://github.com/liunnn1994/sd-design/commit/44d86128263445df306cbde05350a636453b267b))
+
 ## [4.4.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.4.1...web-vue-v4.4.2) (2026-09-08)
 
 
