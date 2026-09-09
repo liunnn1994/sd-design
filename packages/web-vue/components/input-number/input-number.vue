@@ -323,6 +323,7 @@
       if (clamped || innerValue.value !== stringValue) innerValue.value = stringValue;
       rawText.value = isNumber(finalValue) ? toPlainString(finalValue) : '';
     }
+    updateNumberStatus(finalValue);
     const emitted = keepRaw ? rawText.value : getModelValue(finalValue);
     committedValue = emitted;
     emit('update:modelValue', emitted);
@@ -344,9 +345,7 @@
       return;
     const nextValue = isNumber(valueNumber.value)
       ? getLegalValue(NP[method](valueNumber.value, props.step))
-      : props.min === -Infinity
-        ? 0
-        : props.min;
+      : getLegalValue(props.min === -Infinity ? 0 : props.min);
     innerValue.value = getStringValue(nextValue);
     rawText.value = toPlainString(nextValue);
     updateNumberStatus(nextValue);

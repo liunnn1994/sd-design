@@ -289,6 +289,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - InputNumber lifecycle follow-up: full 51-case Chrome suite passes with retries disabled. A controlled stringMode regression reproduced adjacent integers beyond Number.MAX_SAFE_INTEGER being treated as the same value; stringMode model updates now compare the actual strings, including trailing decimal zeros, and further typing preserves the updated text. A held-button unmount flow reproduced an extra change notification for the already committed value during blur. Change notifications now compare against the last numeric commit. Four new browser cases cover those flows, the 800ms initial repeat and 150ms interval, mouseup/mouseleave stopping, and hiding the held button. Hiding already passed before the fixes; no timer production change was made. Remaining numeric boundaries and dynamic formatting review are pending before marking InputNumber complete.
 
+- InputNumber numeric boundaries: full 54-case Chrome suite passes with retries disabled. All three new regressions failed before fixes: rounding to min/max on blur left the boundary step enabled, and an empty negative-only range stepped to zero above its maximum. Committing a normalized value now refreshes boundary status, and the initial empty-value step passes through the existing range normalization. Browser cases verify both rounded limits, stepping back away from each limit, and initial/subsequent keyboard stepping with the emitted values in a negative-only range. Dynamic formatting and remaining numeric precision review are still pending before completing InputNumber.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
