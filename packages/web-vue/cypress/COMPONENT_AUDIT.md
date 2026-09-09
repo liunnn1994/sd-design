@@ -79,6 +79,8 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Dropdown (in progress): full 37-case Chrome suite passes with retries disabled (25 existing behavior/helper cases + 9 demos + 3 dynamic state regressions). Read Dropdown, Option, Panel, Submenu, Button, Group, exports, types, traversal utilities and styles/tokens. Browser regressions reproduced stale fallback selection text after a label update, missing footer class after slot insertion, and disabled submenu entries receiving keyboard focus. Selection now reads current DOM text when no value is supplied; footer class evaluates slot presence during rendering; submenu disabled state reaches the menuitem. All three failed before fixes. Remaining audit includes editable content keyboard handling, nested menus, reopen focus and actual scrollbar behavior. Standard TypeScript validation remains pending.
 
+- Dropdown keyboard follow-up: full 40-case Chrome suite passes with retries disabled. Three real typing regressions reproduced input, textarea and contenteditable content losing spaces because the menu intercepted their keydown events. Panel keyboard handling now leaves editable controls to handle their own keys. The cases verify text containing a space, ArrowDown retaining editor focus, and ordinary menu navigation afterward. Nested-menu, reopen-focus and real-scroll coverage remain pending.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: dropdown.
 
 | Component / support directory | Review status                        |

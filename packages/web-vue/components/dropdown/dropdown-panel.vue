@@ -106,6 +106,13 @@
   };
 
   const handleKeydown = (ev: KeyboardEvent) => {
+    const target = ev.target;
+    if (
+      target instanceof HTMLElement &&
+      (target.isContentEditable || target.closest('input, textarea, select'))
+    ) {
+      return;
+    }
     switch (ev.key) {
       case KEYBOARD_KEY.ARROW_DOWN:
         ev.preventDefault();
