@@ -154,7 +154,7 @@
   });
   const classNames = computed(() => {
     if (rowContext.div) return undefined;
-    return flexValue.value ? prefixCls : mergeClassName.value;
+    return flexValue.value !== undefined ? prefixCls : mergeClassName.value;
   });
   const paddingStyles = computed(() => {
     const { gutter, div } = rowContext;
@@ -180,7 +180,7 @@
     return result;
   });
   const flexStyles = computed<{ flex?: FlexType }>(() =>
-    flexValue.value ? { flex: flexValue.value } : {},
+    flexValue.value !== undefined ? { flex: flexValue.value } : {},
   );
 
   const responsiveConfig = computed(() => pick(props, responsiveArray));

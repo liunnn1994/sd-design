@@ -127,7 +127,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Grid multirow geometry follow-up: full 42-case Chrome suite passes with retries disabled. Two browser cases reproduced extra visible content beyond collapsedRows when varying spans leave unused cells at row ends, with and without a suffix. Visibility calculation now counts skipped row-tail cells before adding each normal item and reserves suffix capacity separately. With fixed 20px items and 10px gaps, real layout measures 50px for two collapsed rows, 80px after expansion and 50px after collapsing again; suffix overflow also matches. Remaining layout boundary review is pending.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: grid.
+- Grid final flex review: full 43-case Chrome suite passes with retries disabled (25 original behavior + 11 demos + 7 added lifecycle/layout cases). Numeric flex: 0 reproduced retaining span classes instead of applying flex layout. Explicit undefined checks now preserve zero in class selection and inline flex styles. The browser regression transitions a 400px row from a 200px span column through zero flex, flex: 1 at 400px, then back to the 200px span width. Completed Grid/Row/Col/GridItem, responsive hooks, collection, utilities, interfaces, exports and SCSS review, with dynamic items, actual collapse geometry, div mode and breakpoint zero regressions passing. Standard TypeScript verification remains pending for the repository gate.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: header-list.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -168,7 +170,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | empty                         | Reviewed                             |
 | file-previewer                | Reviewed                             |
 | form                          | Reviewed                             |
-| grid                          | In progress                          |
+| grid                          | Reviewed                             |
 | header-list                   | Pending                              |
 | icon                          | Pending                              |
 | icon-component                | Pending                              |
