@@ -319,6 +319,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - JsonForm (in progress): full 35-case Chrome suite passes with retries disabled (30 behavior + 3 demos + 2 component-slot regressions). Read form/model handling, field rendering, control mapping, the complete path/A2UI utility implementation, exports and styles/tokens. Both new browser cases reproduced missing prefix/suffix content because the control wrapper iterated a slot-name array using its index as the slot name. Forwarding now uses each actual name. Cases verify slot placement and updated field values after typing. Public type review, path boundaries, dynamic configuration and validation lifecycle remain pending; standard TypeScript validation remains a repository gate.
 
+- JsonForm placeholder precedence: full 36-case Chrome suite passes with retries disabled. The new browser regression reproduced an explicit empty placeholder being replaced by generated label text. Default generation now checks for undefined rather than truthiness. The case verifies empty text, dynamic custom text, removal restoring a newly generated label placeholder and continued typing. Read the complete public type definitions and schema helpers; standard TypeScript validation remains pending. Path handling, dynamic schema and validation lifecycle review remain to be completed.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.

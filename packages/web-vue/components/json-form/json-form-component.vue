@@ -85,7 +85,7 @@
   const mergedComponentProps = computed(() => {
     const componentProps = { ...props.schema.componentProps } as Record<string, unknown>;
 
-    if (!componentProps.placeholder && defaultPlaceholder.value) {
+    if (componentProps.placeholder === undefined && defaultPlaceholder.value) {
       componentProps.placeholder = defaultPlaceholder.value;
     }
 
