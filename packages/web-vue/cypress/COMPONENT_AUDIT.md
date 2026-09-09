@@ -125,6 +125,8 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Grid collection follow-up: full 40-case Chrome suite passes with retries disabled. Removing a middle keyed GridItem reproduced an unhandled undefined.suffix error in collapsed layout because the positional data array acquired holes. Collection now uses stable component ids, stores each current index separately and calculates visibility from sorted dense entries before mapping back to DOM indices. Unmount removes only the departing instance. The browser regression verifies deletion, insertion and keyed reorder with visible items and suffix overflow updating correctly. Multirow collapsed geometry and remaining layout boundaries are still pending.
 
+- Grid multirow geometry follow-up: full 42-case Chrome suite passes with retries disabled. Two browser cases reproduced extra visible content beyond collapsedRows when varying spans leave unused cells at row ends, with and without a suffix. Visibility calculation now counts skipped row-tail cells before adding each normal item and reserves suffix capacity separately. With fixed 20px items and 10px gaps, real layout measures 50px for two collapsed rows, 80px after expansion and 50px after collapsing again; suffix overflow also matches. Remaining layout boundary review is pending.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: grid.
 
 | Component / support directory | Review status                        |

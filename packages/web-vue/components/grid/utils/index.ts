@@ -42,13 +42,18 @@ export function setItemVisible({
 
     if (!isOverflow(spanSum)) {
       let current = 0;
+      let occupied = 0;
       while (current < itemDataList.length) {
         const item = itemDataList[current];
 
         if (!item.suffix) {
-          spanSum += item.span;
+          const column = occupied % cols;
+          if (column + item.span > cols) {
+            occupied += cols - column;
+          }
+          occupied += item.span;
 
-          if (isOverflow(spanSum)) {
+          if (isOverflow(occupied + spanSum)) {
             break;
           }
 
