@@ -64,6 +64,7 @@
     ref,
     toRef,
     toRefs,
+    watch,
   } from 'vue';
 
   import { Schema } from 'b-validate';
@@ -354,7 +355,7 @@
   }));
 
   // 记录初始值，用于重置表单
-  const initialValue = cloneDeep(getValueByPath(formCtx.model, props.field));
+  let initialValue = cloneDeep(getValueByPath(formCtx.model, props.field));
 
   const formValidateStatus = reactive<Record<string, ValidateStatus | ''>>({});
   const validateMessage = reactive<Record<string, string>>({});
@@ -565,6 +566,19 @@
   onMounted(() => {
     if (formItemInfo.field) {
       formCtx.addField?.(formItemInfo);
+    }
+  });
+
+  watch(field, (nextField, previousField) => {
+    validationId++;
+    if (previousField) {
+      updateValidateState(previousField, { status: '', message: '' });
+    }
+    initialValue = cloneDeep(getValueByPath(formCtx.model, nextField));
+    if (!previousField && nextField) {
+      formCtx.addField?.(formItemInfo);
+    } else if (previousField && !nextField) {
+      formCtx.removeField?.(formItemInfo);
     }
   });
 

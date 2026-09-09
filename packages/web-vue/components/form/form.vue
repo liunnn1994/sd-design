@@ -185,8 +185,9 @@
   };
 
   const removeField = (formItemInfo: FormItemInfo) => {
-    if (formItemInfo && formItemInfo.field) {
-      fields.splice(fields.indexOf(formItemInfo), 1);
+    const index = fields.indexOf(formItemInfo);
+    if (index !== -1) {
+      fields.splice(index, 1);
     }
   };
 

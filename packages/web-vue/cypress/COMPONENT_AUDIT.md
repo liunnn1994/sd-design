@@ -111,6 +111,8 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Form mutable reset follow-up: full 45-case Chrome suite passes with retries disabled (24 behavior + 14 demos + 3 async validation + 2 nested lifecycle + 2 mutable reset). Array push and object-property mutation both reproduced resetFields retaining edited values because initialValue shared the model reference. The existing es-toolkit cloneDeep now snapshots initial values and creates a fresh copy on every reset. Browser buttons exercise two edit/reset cycles for both value kinds, preventing the first reset from exposing the saved snapshot to later edits. Dynamic field registration and submission races remain pending; Form stays in progress.
 
+- Form dynamic field follow-up: full 47-case Chrome suite passes with retries disabled (24 behavior + 14 demos + 3 async validation + 2 nested lifecycle + 2 mutable reset + 2 dynamic field). Regressions reproduced fields assigned after mount being omitted from validation and old errors surviving path changes. A field watcher now updates registration for empty/nonempty transitions, invalidates pending state writes, clears the old path and snapshots the new path for reset. Removal locates the registered item by identity even after its path becomes empty. Browser cases verify registration, removal, re-registration, error cleanup and resetting the replacement field. Async submission/result identity review remains pending; Form stays in progress.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: form.
 
 | Component / support directory | Review status                        |
