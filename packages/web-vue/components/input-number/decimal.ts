@@ -39,3 +39,9 @@ export function addDecimal(value: string, step: number, subtract: boolean): stri
   const sign = left.negative && /[1-9]/.test(digits) ? '-' : '';
   return scale ? `${sign}${digits.slice(0, -scale)}.${digits.slice(-scale)}` : `${sign}${digits}`;
 }
+
+export function compareDecimal(value: string, boundary: number): number {
+  const difference = addDecimal(value, boundary, true);
+  if (!/[1-9]/.test(difference)) return 0;
+  return difference.startsWith('-') ? -1 : 1;
+}

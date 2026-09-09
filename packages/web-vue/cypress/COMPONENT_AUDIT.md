@@ -303,6 +303,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - InputNumber exact string stepping: full 66-case Chrome suite passes with retries disabled. Two regressions reproduced an increment of 9007199254740993 producing a smaller value and a long fractional value losing its last digit. A local decimal helper aligns digit strings and performs signed column addition/subtraction; stringMode retains that result when numeric range/precision normalization does not alter it. The implementation avoids BigInt literals to respect the existing ES2015 build target. Four browser cases verify round-trip increments/decrements, emitted strings, negative-to-positive crossing and a scientific-notation step. Exact string range comparisons and precision interactions still require follow-up; standard TypeScript/build validation remains pending.
 
+- InputNumber exact string bounds: full 69-case Chrome suite passes with retries disabled. Three regressions reproduced an increment disabled just below max=1 and values just above/below a bound surviving blur because Number rounded them to the same value. Decimal comparison now reuses exact subtraction for finite bounds. Initial and updated button state, blur normalization and retaining stepped strings use exact range checks. Browser cases verify stepping exactly to the maximum and back, plus both directions of out-of-range correction with emitted string values. Explicit precision combined with stringMode remains to be reviewed before component completion.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.

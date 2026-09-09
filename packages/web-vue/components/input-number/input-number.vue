@@ -134,7 +134,7 @@
   import IconUp from '../icon/icon-up';
   import SdInput from '../input';
   import { useI18n } from '../locale';
-  import { addDecimal } from './decimal';
+  import { addDecimal, compareDecimal } from './decimal';
 
   type StepMethods = 'minus' | 'plus';
   type InputNumberValue = string | number | null | undefined;
@@ -300,8 +300,15 @@
   // is the precision-preserving source of truth for emitted values.
   const rawText = ref(DECIMAL_PATTERN.test(innerValue.value) ? innerValue.value : '');
   const valueNumber = computed(() => getNumberValue(innerValue.value));
-  const isMin = ref(isNumber(valueNumber.value) && valueNumber.value <= props.min);
-  const isMax = ref(isNumber(valueNumber.value) && valueNumber.value >= props.max);
+  const compareToBoundary = (value: number | undefined, boundary: number) =>
+    props.stringMode && DECIMAL_PATTERN.test(rawText.value) && Number.isFinite(boundary)
+      ? compareDecimal(rawText.value, boundary)
+      : (value ?? NaN) - boundary;
+  const isOutsideRange = (value: string) =>
+    (Number.isFinite(props.min) && compareDecimal(value, props.min) < 0) ||
+    (Number.isFinite(props.max) && compareDecimal(value, props.max) > 0);
+  const isMin = ref(compareToBoundary(valueNumber.value, props.min) <= 0);
+  const isMax = ref(compareToBoundary(valueNumber.value, props.max) >= 0);
   let repeatTimer = 0;
   const clearRepeatTimer = () => {
     if (repeatTimer) {
@@ -317,15 +324,19 @@
     return value;
   };
   const updateNumberStatus = (number: number | undefined) => {
-    isMin.value = isNumber(number) && number <= props.min;
-    isMax.value = isNumber(number) && number >= props.max;
+    isMin.value = compareToBoundary(number, props.min) <= 0;
+    isMax.value = compareToBoundary(number, props.max) >= 0;
   };
   const handleExceedRange = (): InputNumberValue => {
     const finalValue = getLegalValue(valueNumber.value);
     const clamped = finalValue !== valueNumber.value;
     // In stringMode a valid raw digit string is authoritative: keep it verbatim
     // so the display/emit is not rewritten through Number.
-    const keepRaw = props.stringMode && !clamped && DECIMAL_PATTERN.test(rawText.value);
+    const keepRaw =
+      props.stringMode &&
+      !clamped &&
+      DECIMAL_PATTERN.test(rawText.value) &&
+      !isOutsideRange(rawText.value);
     if (!keepRaw) {
       const stringValue = getStringValue(finalValue);
       if (clamped || innerValue.value !== stringValue) innerValue.value = stringValue;
@@ -370,7 +381,10 @@
             : Number(steppedText),
         )
       : getLegalValue(props.min === -Infinity ? 0 : props.min);
-    const keepSteppedText = steppedText !== undefined && Number(steppedText) === nextValue;
+    const keepSteppedText =
+      steppedText !== undefined &&
+      Number(steppedText) === nextValue &&
+      !isOutsideRange(steppedText);
     rawText.value = keepSteppedText ? steppedText : toPlainString(nextValue);
     innerValue.value = keepSteppedText
       ? (props.formatter?.(rawText.value) ?? rawText.value)
