@@ -87,6 +87,8 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Ellipsis measurement follow-up: full 31-case Chrome suite passes with retries disabled. Browser resizing verifies truncation/title removal and restoration when widening and narrowing the root. Two exposed-method lifecycle regressions reproduced unresolved measurement Promises after the empty-content fallback and during unmount. Settling waiters now records completion and cancels the fallback timer; unmount also settles outstanding requests. Both timed out before the fix and now resolve. PerformantEllipsis lazy-interaction lifecycle review remains pending.
 
+- PerformantEllipsis click follow-up: full 33-case Chrome suite passes with retries disabled. Two native first-click regressions reproduced duplicate external click notifications and an inner button unintentionally expanding its parent during lazy activation. Expansion replay now calls the underlying Ellipsis action directly instead of dispatching another DOM click; activation checks whether the original click came from an inner interactive control. Both regressions failed before the fixes. Dormant keyboard reachability still needs verification before completing Ellipsis review.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: ellipsis.
 
 | Component / support directory | Review status                        |

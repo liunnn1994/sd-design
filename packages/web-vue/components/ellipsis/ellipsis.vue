@@ -304,6 +304,7 @@
   defineExpose({
     triggerRef,
     waitForMeasurement,
+    toggleExpanded: handleClick,
     get triggerElement() {
       return triggerRef.value;
     },

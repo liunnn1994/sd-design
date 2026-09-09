@@ -64,6 +64,7 @@
   interface EllipsisExposed {
     triggerElement?: HTMLElement;
     waitForMeasurement?: () => Promise<void>;
+    toggleExpanded?: () => void;
   }
 
   const activated = shallowRef(false);
@@ -119,7 +120,7 @@
       return;
     }
 
-    triggerElement.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    ellipsisRef.value?.toggleExpanded?.();
   };
 
   const activate = async (interactionType?: 'hover' | 'focus' | 'click') => {
@@ -150,7 +151,13 @@
     void activate('focus');
   };
 
-  const handleClick = () => {
-    void activate(props.expandTrigger === 'click' ? 'click' : undefined);
+  const handleClick = (event: MouseEvent) => {
+    const target = event.target;
+    const interactive =
+      target instanceof Element
+        ? target.closest('a,button,input,textarea,select,[role="button"]')
+        : null;
+    const isInnerControl = interactive && interactive !== event.currentTarget;
+    void activate(props.expandTrigger === 'click' && !isInnerControl ? 'click' : undefined);
   };
 </script>
