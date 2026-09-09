@@ -1,5 +1,6 @@
-import { h } from 'vue';
+import { defineComponent, h } from 'vue';
 
+import ConfigProvider from '../../config-provider';
 import { configProviderInjectionKey } from '../../config-provider/context';
 import Empty from '../index';
 
@@ -100,9 +101,29 @@ describe('Empty', () => {
     cy.get('.sd-empty-image img').should('have.attr', 'alt', 'empty');
   });
 
-  // 已知限制：ConfigProvider 自定义 empty 分支把 $attrs 作为 props 传给插槽函数，
-  // 插槽模板未消费即丢弃——需 API 层面决策（包装元素或文档声明），暂不透传。
-  // 回归记录见 TEST-AUDIT-FINDINGS.md「empty」条目。
+  it('forwards attributes to the ConfigProvider custom empty branch', () => {
+    cy.mount(
+      defineComponent({
+        components: { ConfigProvider, Empty },
+        template: `
+          <ConfigProvider>
+            <template #empty="{ component }">
+              <div :data-component="component">Custom empty</div>
+            </template>
+            <Empty data-testid="empty" class="extra-class" />
+          </ConfigProvider>
+        `,
+      }),
+    );
+
+    // 容器 div 承载 attrs，内层为 ConfigProvider 插槽内容
+    cy.get('[data-testid="empty"]')
+      .should('contain.text', 'Custom empty')
+      .find('[data-component="empty"]')
+      .should('exist');
+    cy.get('[data-testid="empty"]').should('have.class', 'extra-class');
+    cy.get('.sd-empty').should('not.exist');
+  });
   it('inConfigProvider should render the default markup even when a custom empty slot is configured', () => {
     cy.mount(Empty, {
       props: {
