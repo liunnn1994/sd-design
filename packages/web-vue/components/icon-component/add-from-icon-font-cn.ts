@@ -24,6 +24,14 @@ export const addFromIconFontCn = (options: IconFontOptions) => {
     const script = document.createElement('script');
     script.setAttribute('src', src);
     script.setAttribute('data-namespace', src);
+    script.addEventListener(
+      'error',
+      () => {
+        scriptUrlCache.splice(scriptUrlCache.indexOf(src), 1);
+        script.remove();
+      },
+      { once: true },
+    );
     scriptUrlCache.push(src);
     document.body.appendChild(script);
   }

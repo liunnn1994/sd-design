@@ -68,13 +68,12 @@ describe('IconFont', () => {
     const src = '/iconfont-under-test.js';
     cy.intercept('GET', src, { body: '' }).as('iconfontScript');
 
-    const IconFont = addFromIconFontCn({ src });
-    cy.mount(IconFont, { props: { type: 'example' } });
-
-    const IconFontAgain = addFromIconFontCn({ src });
-    cy.mount(IconFontAgain, { props: { type: 'example' } });
+    cy.then(() => cy.mount(addFromIconFontCn({ src }), { props: { type: 'example' } }));
+    cy.wait('@iconfontScript');
+    cy.then(() => cy.mount(addFromIconFontCn({ src }), { props: { type: 'example' } }));
 
     cy.get(`body script[src="${src}"]`).should('have.length', 1);
+    cy.get('@iconfontScript.all').should('have.length', 1);
   });
 });
 

@@ -137,6 +137,8 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - IconComponent (in progress): full 16-case Chrome suite passes with retries disabled (12 existing + 4 style lifecycle). Read generic Icon, IconFont, script factory and exports. Both generic SVG and factory-created IconFont reproduced ignored zero size and spin overriding the rotate prop. The shared Icon now preserves zero and supplies --icon-rotate to the existing CSS animation. Browser tests verify zero/inherited size, actual animation paused at its first frame retaining 90 degrees, disabling spin with 180-degree rotation, and clearing rotation/animation state. Script loading and dynamic symbol/attribute review remain pending; standard TypeScript verification remains pending.
 
+- IconComponent script recovery follow-up: full 17-case Chrome suite passes with retries disabled. A browser request returning 503 followed by a successful symbol script reproduced a permanently cached failure. An error listener now removes the failed URL and script node so a later factory call retries; successful requests stay cached. The regression verifies actual loaded symbol geometry and exactly two total requests with one retained script. The old deduplication test was corrected to create scripts after intercept registration and wait for the successful request; it had previously retained a failed node without checking the network. Dynamic symbol/attribute review remains pending.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: icon-component.
 
 | Component / support directory | Review status                        |
