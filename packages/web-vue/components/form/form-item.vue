@@ -67,6 +67,7 @@
   } from 'vue';
 
   import { Schema } from 'b-validate';
+  import { cloneDeep } from 'es-toolkit';
 
   import { getValueByPath, setValueByPath } from '../_utils/get-value-by-path';
   import { getPrefixCls } from '../_utils/global-config';
@@ -353,7 +354,7 @@
   }));
 
   // 记录初始值，用于重置表单
-  const initialValue = getValueByPath(formCtx.model, props.field);
+  const initialValue = cloneDeep(getValueByPath(formCtx.model, props.field));
 
   const formValidateStatus = reactive<Record<string, ValidateStatus | ''>>({});
   const validateMessage = reactive<Record<string, string>>({});
@@ -543,7 +544,7 @@
     clearValidate();
     validateDisabled.value = true;
     if (formCtx?.model && field.value) {
-      setValueByPath(formCtx.model, field.value, initialValue);
+      setValueByPath(formCtx.model, field.value, cloneDeep(initialValue));
     }
 
     nextTick(() => {

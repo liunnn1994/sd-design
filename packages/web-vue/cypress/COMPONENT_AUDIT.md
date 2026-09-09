@@ -109,6 +109,8 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Form nested cleanup follow-up: full 43-case Chrome suite passes with retries disabled (24 behavior + 14 demos + 3 async validation + 2 nested lifecycle). Both completed and pending Promise-based validation reproduced parent error messages surviving removal of a noStyle child. FormItem now clears validation on unmount, which also invalidates pending state writes; tests verify the parent error disappears and subsequent whole-form validation excludes the removed field. Completed SCSS/status/token and remaining public interface review. Dynamic field registration, mutable reset values and submission races remain pending; Form stays in progress.
 
+- Form mutable reset follow-up: full 45-case Chrome suite passes with retries disabled (24 behavior + 14 demos + 3 async validation + 2 nested lifecycle + 2 mutable reset). Array push and object-property mutation both reproduced resetFields retaining edited values because initialValue shared the model reference. The existing es-toolkit cloneDeep now snapshots initial values and creates a fresh copy on every reset. Browser buttons exercise two edit/reset cycles for both value kinds, preventing the first reset from exposing the saved snapshot to later edits. Dynamic field registration and submission races remain pending; Form stays in progress.
+
 Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: form.
 
 | Component / support directory | Review status                        |
