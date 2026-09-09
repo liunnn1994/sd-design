@@ -115,13 +115,51 @@ describe('Alert', () => {
   });
 
   it('emits close and removes the element after the leave animation', () => {
-    cy.mount(Alert, { props: { closable: true } });
+    const events: string[] = [];
+    cy.mount(Alert, {
+      props: {
+        closable: true,
+        onClose: () => events.push('close'),
+        onAfterClose: () => events.push('afterClose'),
+      },
+      global: { stubs: { transition: false } },
+    });
     cy.get('.sd-alert-close-btn').click();
     cy.get('.sd-alert').should('not.exist');
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('close')).to.have.length(1);
-      // 注：afterClose 依赖 leave 动画结束事件，本测试环境不可靠，不做断言
+      expect(wrapper.emitted('afterClose')).to.have.length(1);
+      expect(events).to.deep.equal(['close', 'afterClose']);
     });
+  });
+
+  it('ignores unrelated keys and reacts to closable updates', () => {
+    cy.mount(Alert, { props: { closable: true } });
+    cy.get('.sd-alert-close-btn').focus().trigger('keydown', { key: 'Escape' });
+    sdAlert().should('be.visible');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('close')).to.equal(undefined);
+    });
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ closable: false })));
+    cy.get('.sd-alert-close-btn').should('not.exist');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ closable: true })));
+    cy.get('.sd-alert-close-btn').click();
+    sdAlert().should('not.exist');
+  });
+
+  it('updates title and icon visibility without remounting', () => {
+    cy.mount(Alert, { props: { title: 'Initial', type: 'info' } });
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ title: '', type: 'normal' })));
+    cy.get('.sd-alert-title').should('not.exist');
+    sdAlert().should('not.have.class', 'sd-alert-with-title');
+    cy.get('.sd-alert-icon').should('not.exist');
+    cy.get('@vue').then(({ wrapper }) =>
+      cy.wrap(wrapper.setProps({ title: 'Updated', type: 'success', showIcon: false })),
+    );
+    cy.get('.sd-alert-title').should('have.text', 'Updated');
+    cy.get('.sd-alert-icon').should('not.exist');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ showIcon: true })));
+    cy.get('.sd-alert-icon').should('be.visible');
   });
 
   it('closes via the Space key on the close button', () => {
