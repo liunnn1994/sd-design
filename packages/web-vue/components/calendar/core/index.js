@@ -56,7 +56,7 @@ export const useCalendar = ({ props, emit, attrs, calendarEl, scrollbarRef, uid,
     },
   });
 
-  state.dateUtils = createDateUtils();
+  state.dateUtils = createDateUtils(() => state.texts.dateLocale);
   state.config = useConfig(state, props, attrs);
   state.eventsManager = useEvents(state);
   state.view = useView(state, calendarEl, scrollbarRef);

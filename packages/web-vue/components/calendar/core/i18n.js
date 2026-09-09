@@ -25,8 +25,8 @@ const reorderSunToMon = (arr) => [arr[1], arr[2], arr[3], arr[4], arr[5], arr[6]
  * @param {object} [calendarLang] — The `calendar` section from SdLang (from `useI18n().i18nMessage.value.calendar`).
  * @returns {object} Calendar texts ready to merge into `calendar.texts`.
  */
-export const createCalendarTexts = (calendarLang) => {
-  const localeData = dayjs.Ls[dayjs.locale()] || dayjs.Ls.en;
+export const createCalendarTexts = (calendarLang, locale = dayjs.locale()) => {
+  const localeData = dayjs.Ls[locale] || dayjs.Ls.en;
 
   // Weekday names — reordered from dayjs Sun-first to calendar Mon-first.
   const weekDays = reorderSunToMon(localeData.weekdays || []);

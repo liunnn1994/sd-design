@@ -280,6 +280,7 @@ export async function initializeDateLocale(localeName: string, weekStart: number
 
   const baseLocale = dayjs.Ls[dayjsLocaleName] ?? dayjs.Ls.en;
   dayjs.locale({ ...baseLocale, name: dayjsLocaleName, weekStart });
+  return dayjsLocaleName;
 }
 
 export function pickDataAttributes<T extends Record<string, unknown>>(

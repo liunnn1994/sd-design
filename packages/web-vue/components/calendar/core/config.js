@@ -444,14 +444,14 @@ export const useConfig = (calendar, props, attrs) => {
     const weekStart = props.startWeekOnSunday ? 0 : 1;
 
     // 1. Initialize dayjs locale (loads locale data, sets weekStart).
-    await initializeDateLocale(effectiveLocale, weekStart);
+    const dateLocale = await initializeDateLocale(effectiveLocale, weekStart);
 
     // 2. Get calendar section from the library's locale messages.
     const calendarLang = i18nMessage.value?.calendar;
 
     // 3. Build texts from dayjs locale data + library UI text.
-    const translations = createCalendarTexts(calendarLang);
-    Object.assign(calendar.texts, defaults.texts, translations);
+    const translations = createCalendarTexts(calendarLang, dateLocale);
+    Object.assign(calendar.texts, defaults.texts, translations, { dateLocale });
   };
 
   // Keep a local copy of the events so the prop is not mandatory.

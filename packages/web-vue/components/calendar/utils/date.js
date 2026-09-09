@@ -43,11 +43,12 @@ const formatTimeLite = (date) => {
  * @param {Object} _txts deprecated — kept for API compatibility, no longer used.
  * @return {String} the formatted date.
  */
-const formatDate = (date, format = 'YYYY-MM-DD', _txts = null) => {
+const formatDate = (date, format = 'YYYY-MM-DD', _txts = null, locale) => {
   if (!format) format = 'YYYY-MM-DD';
   // Fast path for the most common format.
   if (format === 'YYYY-MM-DD') return formatDateLite(date);
-  return dayjs(date).format(mapTokens(format));
+  const value = dayjs(date);
+  return (locale ? value.locale(locale) : value).format(mapTokens(format));
 };
 
 /**
@@ -59,7 +60,7 @@ const formatDate = (date, format = 'YYYY-MM-DD', _txts = null) => {
  * @param {Boolean} round if time is 23:59:59, rounds up to 24:00 for formatting only.
  * @return {String} the formatted time.
  */
-const formatTime = (date, format = 'HH:mm', _txts = null, round = false) => {
+const formatTime = (date, format = 'HH:mm', _txts = null, round = false, locale) => {
   let shouldRound = false;
   if (round && date instanceof Date) {
     const [h, m, s] = [date.getHours(), date.getMinutes(), date.getSeconds()];
@@ -80,6 +81,7 @@ const formatTime = (date, format = 'HH:mm', _txts = null, round = false) => {
   }
 
   const dayjsFormat = mapTokens(format);
+  if (locale) d = d.locale(locale);
   let formatted = d.format(dayjsFormat);
 
   // Round 23:59:59 to 24:00 for display.
@@ -224,7 +226,7 @@ const snapToInterval = (input, interval) => {
  * The returned method signatures are kept stable so that component files
  * need no changes.
  */
-export const createDateUtils = () => ({
+export const createDateUtils = (getLocale = () => undefined) => ({
   addDays,
   subtractDays,
   addHours,
@@ -243,9 +245,11 @@ export const createDateUtils = () => ({
   countDays,
   datesInSameTimeStep,
   isValid,
-  formatDate,
+  formatDate: (date, format = 'YYYY-MM-DD', texts = null) =>
+    formatDate(date, format, texts, getLocale()),
   formatDateLite,
-  formatTime,
+  formatTime: (date, format = 'HH:mm', texts = null, round = false) =>
+    formatTime(date, format, texts, round, getLocale()),
   formatTimeLite,
   formatMinutes,
   // Kept as no-op for backward compat (config.js calls it).
