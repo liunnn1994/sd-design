@@ -133,7 +133,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Icon (in progress): full 14-case Chrome suite passes with retries disabled (13 existing behavior + 1 size lifecycle). Read the complete generator, representative generated SFC/installer, bundle exports and shared icon SCSS. The new regression reproduced size: 0 falling back to inherited 14px because the generation template used a truthy guard. The template now checks undefined explicitly; regenerated the icon outputs before the full test run. Browser checks cover 24px to zero to 32px to inherited size with aria-label retained. Generated catalog and remaining dynamic attribute/animation review are pending; icon-component remains a separate pending audit. Standard TypeScript verification remains pending.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: icon.
+- Icon final catalog review: full 16-case Chrome suite passes with retries disabled. The catalog case compares named exports against all 287 generated catalog entries and mounts every icon, checking SVG namespace, positive viewBox dimensions and nonempty actual geometry. The dynamic case observes a running browser animation, then verifies disabling spin removes animations and rotation state, stroke updates include zero and later rotation applies correctly. No additional production fix was needed. Generator, shared SFC behavior, installers/exports, SVG rendering, sizing and animation review completed; standard TypeScript verification remains pending. Generic icon-component is a separate next audit.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: icon-component.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -176,7 +178,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | form                          | Reviewed                             |
 | grid                          | Reviewed                             |
 | header-list                   | Empty directory; not implemented     |
-| icon                          | In progress                          |
+| icon                          | Reviewed                             |
 | icon-component                | Pending                              |
 | image                         | Pending                              |
 | input                         | Pending                              |
