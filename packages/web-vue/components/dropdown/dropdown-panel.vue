@@ -1,5 +1,5 @@
 <template>
-  <div :class="cls">
+  <div :class="[prefixCls, { [`${prefixCls}-has-footer`]: Boolean($slots.footer) }]">
     <div v-if="isEmpty" :class="`${prefixCls}-empty`">
       <slot name="empty">
         <empty />
@@ -29,16 +29,7 @@
 </template>
 
 <script setup lang="ts">
-  import {
-    computed,
-    CSSProperties,
-    inject,
-    nextTick,
-    onMounted,
-    PropType,
-    ref,
-    useSlots,
-  } from 'vue';
+  import { computed, CSSProperties, inject, nextTick, onMounted, PropType, ref } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { isNumber } from '../_utils/is';
@@ -79,8 +70,6 @@
     scroll: [_e: Event];
     reachBottom: [_e: Event];
   }>();
-
-  const slots = useSlots();
 
   const prefixCls = getPrefixCls('dropdown');
   const dropdownCtx = inject<Partial<DropdownContext>>(dropdownInjectionKey, {});
@@ -178,11 +167,4 @@
     }
     return undefined;
   });
-
-  const cls = computed(() => [
-    prefixCls,
-    {
-      [`${prefixCls}-has-footer`]: Boolean(slots.footer),
-    },
-  ]);
 </script>

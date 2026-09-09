@@ -8,7 +8,12 @@
     :floating-options="floatingOptions"
     @popup-visible-change="handlePopupVisibleChange"
   >
-    <dropdown-option v-bind="optionProps" :active="computedPopupVisible" uninject-context>
+    <dropdown-option
+      v-bind="optionProps"
+      :disabled="disabled || optionProps?.disabled"
+      :active="computedPopupVisible"
+      uninject-context
+    >
       <slot />
       <template v-if="$slots.icon" #icon>
         <slot name="icon" />

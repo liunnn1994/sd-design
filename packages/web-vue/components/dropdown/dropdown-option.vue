@@ -65,14 +65,12 @@
   const prefixCls = getPrefixCls('dropdown-option');
   const liRef = ref<HTMLElement>();
 
-  const computedValue = computed(() => props.value ?? liRef.value?.textContent ?? undefined);
-
   const dropdownCtx = !props.uninjectContext ? inject(dropdownInjectionKey, undefined) : undefined;
 
   const handleClick = (ev: MouseEvent) => {
     if (!props.disabled) {
       emit('click', ev);
-      dropdownCtx?.onOptionClick(computedValue.value, ev);
+      dropdownCtx?.onOptionClick(props.value ?? liRef.value?.textContent ?? undefined, ev);
     }
   };
 
