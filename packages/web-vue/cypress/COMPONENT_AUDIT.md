@@ -313,6 +313,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - InputTag unique object values: full 43-case Chrome suite passes with retries disabled. Both default and custom field-name regressions reproduced uniqueValue accepting an existing object's value as a new string tag. Duplicate checks now use normalized valueData instead of comparing the input string to raw object identities. Both browser cases verify no model update for a duplicate, preserved pressEnter notification, and successful creation of a different value afterward. Composition and remaining responsive/transition review are still pending.
 
+- InputTag composition: two additional Chrome cases pass with retries disabled, bringing verified coverage to 45 distinct cases (previous full 43-case run plus the new spec). Browser-dispatched composition events verify deferred draft/model updates, Enter suppression while composing, one tag submission after completion, Backspace suppression during composition and removal afterward. No production change was needed. These are browser event-sequence checks, not operating-system IME automation. Remaining responsive/transition review is still pending.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
