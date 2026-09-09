@@ -135,8 +135,9 @@
   const inputRef = ref<InstanceType<typeof Input>>();
 
   const handleClick = (event: MouseEvent) => {
-    if (inputRef.value?.inputRef) {
-      emit('search', inputRef.value.inputRef.value, event);
+    const input = inputRef.value?.inputRef;
+    if (input && !input.disabled) {
+      emit('search', input.value, event);
     }
   };
 

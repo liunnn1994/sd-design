@@ -269,6 +269,8 @@ Includes every immediate directory in components; internal helpers and styles re
 
 - Input (in progress): full 46-case Chrome suite passes with retries disabled (29 existing behavior + 12 demos + 3 readonly-tip + 2 change lifecycle). Read Input, Search, Password, Group, exports, fit-width hook and primary input/search/password/group styles. The new regression reproduced change firing after typing back the original value: the computed-value watcher replaced the commit baseline on every edit. The baseline now starts on focus and advances through emitChange, preserving Enter/blur deduplication. The second case checks clear followed by blur emits only once; its clear click uses force because the control is hover-only in the existing CSS. The complete Form Chrome regression suite also passes after this shared-input change. Composition, dynamic attributes and Search/Password interaction review remain pending; standard TypeScript verification remains pending.
 
+- InputSearch disabled lifecycle: full 48-case Chrome suite passes with retries disabled. The new direct-disabled icon test reproduced search emission from a disabled input. The handler now checks the native input's effective disabled state, covering direct and FormItem-inherited disabling without duplicating the existing state resolution. Both browser cases verify no disabled search event, re-enabling, exactly one successful search and its current-value payload. The inherited fixture includes Form and FormItem with a model; Form alone does not provide the field context used by Input. Composition and remaining Search/Password interactions are still pending.
+
 ## Release gates still pending
 
 - Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
