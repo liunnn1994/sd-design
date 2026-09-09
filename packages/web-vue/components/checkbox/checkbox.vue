@@ -167,6 +167,7 @@
     }
 
     nextTick(() => {
+      if (checkboxRef.value) checkboxRef.value.indeterminate = props.indeterminate;
       if (checkboxRef.value && checkboxRef.value.checked !== computedChecked.value) {
         checkboxRef.value.checked = computedChecked.value;
       }
