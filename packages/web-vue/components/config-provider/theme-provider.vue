@@ -11,6 +11,7 @@
   import {
     applyThemeCSSVariables,
     clearThemeCSSVariables,
+    getThemeCSSVariables,
     normalizeTheme,
     type SdThemeConfig,
     type SdThemeMode,
@@ -71,6 +72,7 @@
   let appliedPopupThemeKeys = new Set<string>();
   let activeTarget: HTMLElement | null = null;
   let activeTargetIsGlobal = false;
+  const previousGlobalVariables = new Map<string, { value: string; priority: string }>();
   let previousGlobalThemeMode: string | null | undefined;
 
   function cleanupPopupContainer() {
@@ -176,6 +178,15 @@
     activeTarget = null;
   }
 
+  function restoreGlobalVariables(target: HTMLElement, retainedKeys: Set<string>) {
+    for (const [key, previous] of previousGlobalVariables) {
+      if (retainedKeys.has(key)) continue;
+      if (previous.value) target.style.setProperty(key, previous.value, previous.priority);
+      else target.style.removeProperty(key);
+      previousGlobalVariables.delete(key);
+    }
+  }
+
   function cleanupTarget(target: HTMLElement | null) {
     if (!target) {
       return;
@@ -185,6 +196,7 @@
     appliedThemeKeys = new Set<string>();
 
     if (activeTargetIsGlobal) {
+      restoreGlobalVariables(target, appliedThemeKeys);
       if (previousGlobalThemeMode === undefined) {
         target.removeAttribute('sd-theme');
       } else if (previousGlobalThemeMode === null) {
@@ -216,7 +228,18 @@
       previousGlobalThemeMode = nextTarget.getAttribute('sd-theme');
     }
 
+    if (props.global) {
+      for (const key of Object.keys(getThemeCSSVariables(normalizedTheme.value))) {
+        if (!previousGlobalVariables.has(key)) {
+          previousGlobalVariables.set(key, {
+            value: nextTarget.style.getPropertyValue(key),
+            priority: nextTarget.style.getPropertyPriority(key),
+          });
+        }
+      }
+    }
     appliedThemeKeys = applyThemeCSSVariables(nextTarget, normalizedTheme.value, appliedThemeKeys);
+    if (props.global) restoreGlobalVariables(nextTarget, appliedThemeKeys);
 
     restoreThemeMode(nextTarget);
 
