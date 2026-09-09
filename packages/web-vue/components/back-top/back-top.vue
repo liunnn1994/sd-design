@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
   import type { PropType } from 'vue';
-  import { onMounted, onUnmounted, ref } from 'vue';
+  import { onMounted, onUnmounted, ref, watch } from 'vue';
 
   import BTween from 'b-tween';
 
@@ -64,7 +64,7 @@
   const prefixCls = getPrefixCls('back-top');
   const visible = ref(false);
   const target = ref<HTMLElement>();
-  const isWindow = !props.targetContainer;
+  let tween: BTween | undefined;
 
   const scrollHandler = throttleByRaf(() => {
     if (target.value) {
@@ -82,29 +82,43 @@
   };
 
   onMounted(() => {
-    target.value = isWindow ? document?.documentElement : getContainer(props.targetContainer);
-    if (target.value) {
-      on(isWindow ? window : target.value, 'scroll', scrollHandler);
-      scrollHandler();
-    }
+    watch(
+      () => props.targetContainer,
+      (container, _previous, onCleanup) => {
+        target.value = container ? getContainer(container) : document.documentElement;
+        visible.value = false;
+        if (target.value) {
+          const eventTarget = container ? target.value : window;
+          on(eventTarget, 'scroll', scrollHandler);
+          scrollHandler();
+          onCleanup(() => {
+            off(eventTarget, 'scroll', scrollHandler);
+            scrollHandler.cancel();
+            tween?.stop();
+          });
+        }
+      },
+      { immediate: true },
+    );
   });
+
+  watch(() => props.visibleHeight, scrollHandler);
 
   onUnmounted(() => {
     scrollHandler.cancel();
-    if (target.value) {
-      off(isWindow ? window : target.value, 'scroll', scrollHandler);
-    }
+    tween?.stop();
   });
 
   const scrollToTop = () => {
+    tween?.stop();
     if (target.value) {
-      if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      if (props.duration <= 0 || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
         target.value.scrollTop = 0;
         return;
       }
 
       const { scrollTop } = target.value;
-      const tween = new BTween({
+      tween = new BTween({
         from: { scrollTop },
         to: { scrollTop: 0 },
         easing: props.easing,
