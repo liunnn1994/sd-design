@@ -5,7 +5,9 @@
       v-bind="attrs"
       :disabled="isDisabled"
       :class="componentClass"
-      :aria-label="computedAriaLabel"
+      :aria-label="
+        (attrs['aria-label'] as string | undefined) ?? (hasTextSlot ? undefined : mergedTooltip)
+      "
       @click="handleCopy"
     >
       <template #icon>
@@ -19,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, onBeforeUnmount, useAttrs, useSlots } from 'vue';
+  import { computed, onBeforeUnmount, onBeforeUpdate, shallowRef, useAttrs, useSlots } from 'vue';
 
   import copy from 'copy-to-clipboard';
 
@@ -58,16 +60,12 @@
 
   const attrs = useAttrs();
   const slots = useSlots();
+  const hasTextSlot = shallowRef(Boolean(slots.default));
+  onBeforeUpdate(() => {
+    hasTextSlot.value = Boolean(slots.default);
+  });
   const { t } = useI18n();
   const prefixCls = getPrefixCls('copy');
-  // 图标态（无默认插槽文案）时复用 tooltip 文案做无障碍名，避免 SR 只读到无名的图标按钮；
-  // 消费者显式 aria-label 或有可见文案时优先之。
-  const computedAriaLabel = computed(() => {
-    const consumer = attrs['aria-label'];
-    if (consumer !== undefined) return consumer as string;
-    if (slots.default) return undefined;
-    return mergedTooltip.value;
-  });
   const componentMap: Record<CopyComponentType, typeof Link | typeof Button> = {
     link: Link,
     button: Button,
