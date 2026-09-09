@@ -13,6 +13,9 @@ import {
   CascaderSingleValue,
 } from './interface';
 
+const getPathKey = (values: unknown[]) =>
+  values.map((value) => String(value).replaceAll('%', '%25').replaceAll('-', '%2D')).join('-');
+
 export const getOptionInfos = (
   options: CascaderOption[],
   {
@@ -113,12 +116,12 @@ export const getOptionInfos = (
       };
       const path = parentPath.concat(data);
       const pathValue: CascaderPathValue = [];
-      const key = path
-        .map((pathItem) => {
+      const key = getPathKey(
+        path.map((pathItem) => {
           pathValue.push(pathItem.value);
           return pathItem.valueKey;
-        })
-        .join('-');
+        }),
+      );
       data.path = path;
       data.pathValue = pathValue;
       data.key = key;
@@ -212,15 +215,15 @@ export const getValueKey = (
   { valueKey, leafOptionValueMap }: { valueKey: string; leafOptionValueMap: Map<BaseType, string> },
 ): string => {
   if (isArray(value)) {
-    return value
-      .map((item) => {
+    return getPathKey(
+      value.map((item) => {
         if (isObject(item)) return item[valueKey];
         return item;
-      })
-      .join('-');
+      }),
+    );
   }
   const _value = isObject(value) ? value[valueKey] : value;
-  return leafOptionValueMap.get(String(_value)) ?? String(_value);
+  return leafOptionValueMap.get(String(_value)) ?? getPathKey([_value]);
 };
 
 export const getValidValues = (
@@ -272,14 +275,14 @@ export const getKeysFromValue = (
     }
   } else if (isArray(value) && value.length > 0) {
     if (isString(value[0]) || isNumber(value[0])) {
-      const key = value.join('-');
+      const key = getPathKey(value);
       if (leafOptionMap.has(key)) {
         keys.push(key);
       }
     } else {
       value.forEach((item) => {
         if (isArray(item)) {
-          const key = item.join('-');
+          const key = getPathKey(item);
           if (leafOptionMap.has(key)) {
             keys.push(key);
           }
