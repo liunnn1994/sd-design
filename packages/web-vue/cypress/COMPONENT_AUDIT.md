@@ -129,7 +129,11 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Grid final flex review: full 43-case Chrome suite passes with retries disabled (25 original behavior + 11 demos + 7 added lifecycle/layout cases). Numeric flex: 0 reproduced retaining span classes instead of applying flex layout. Explicit undefined checks now preserve zero in class selection and inline flex styles. The browser regression transitions a 400px row from a 200px span column through zero flex, flex: 1 at 400px, then back to the 200px span width. Completed Grid/Row/Col/GridItem, responsive hooks, collection, utilities, interfaces, exports and SCSS review, with dynamic items, actual collapse geometry, div mode and breakpoint zero regressions passing. Standard TypeScript verification remains pending for the repository gate.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: header-list.
+- HeaderList: the directory contains only empty **test** and style directories, with no source files or component exports found. Classified as not implemented rather than a tested component.
+
+- Icon (in progress): full 14-case Chrome suite passes with retries disabled (13 existing behavior + 1 size lifecycle). Read the complete generator, representative generated SFC/installer, bundle exports and shared icon SCSS. The new regression reproduced size: 0 falling back to inherited 14px because the generation template used a truthy guard. The template now checks undefined explicitly; regenerated the icon outputs before the full test run. Browser checks cover 24px to zero to 32px to inherited size with aria-label retained. Generated catalog and remaining dynamic attribute/animation review are pending; icon-component remains a separate pending audit. Standard TypeScript verification remains pending.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: icon.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -171,8 +175,8 @@ Includes every immediate directory in components; internal helpers and styles re
 | file-previewer                | Reviewed                             |
 | form                          | Reviewed                             |
 | grid                          | Reviewed                             |
-| header-list                   | Pending                              |
-| icon                          | Pending                              |
+| header-list                   | Empty directory; not implemented     |
+| icon                          | In progress                          |
 | icon-component                | Pending                              |
 | image                         | Pending                              |
 | input                         | Pending                              |

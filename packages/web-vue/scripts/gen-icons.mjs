@@ -126,7 +126,7 @@ const getIconVue = ({ name, componentName, svgHtml }) => `<template>
 
   const innerStyle = computed(() => {
     const styles: CSSProperties = {};
-    if (size) {
+    if (size !== undefined) {
       styles.fontSize = isNumber(size) ? \`\${size}px\` : size;
     }
     if (rotate) {
