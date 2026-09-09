@@ -113,7 +113,7 @@ describe('BasicCrudTable', () => {
     });
     // 行为：表格内容（20 行）超出可视区——body 被约束在剩余空间内，
     // scrollHeight > clientHeight 说明多出的行进入内部滚动，而非把组件撑高
-    cy.get('.sd-table-body').should(($body) => {
+    cy.get('.sd-table-body [data-overlayscrollbars-viewport]').should(($body) => {
       expect($body[0].scrollHeight, '表格内部存在溢出/可滚动').to.be.greaterThan(
         $body[0].clientHeight,
       );

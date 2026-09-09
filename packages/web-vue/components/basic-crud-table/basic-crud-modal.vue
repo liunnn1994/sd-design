@@ -10,7 +10,7 @@
       <slot name="title" v-bind="slotContext" />
     </template>
     <JsonForm ref="formRef" v-model="model" v-bind="modalFormProps">
-      <template v-for="name in formSlotNames" :key="name" #[name]="data">
+      <template v-for="name in formSlotNames()" :key="name" #[name]="data">
         <slot :name="name" v-bind="{ ...data, ...slotContext }" />
       </template>
     </JsonForm>
@@ -24,7 +24,7 @@
   import type { UnknownRecord } from 'type-fest';
 
   import type { VNode } from 'vue';
-  import { computed, nextTick, shallowRef, useSlots } from 'vue';
+  import { computed, nextTick, onBeforeUnmount, shallowRef, useSlots } from 'vue';
 
   import { cloneDeep } from 'es-toolkit';
 
@@ -84,38 +84,45 @@
     row: editingRow.value,
     model: model.value,
   }));
-  const formSlotNames = computed(() =>
-    Object.keys(slots).filter((name) => !['title', 'footer'].includes(name)),
-  );
+  const formSlotNames = () =>
+    Object.keys(slots).filter((name) => !['title', 'footer'].includes(name));
+  let openRequestId = 0;
+  onBeforeUnmount(() => {
+    openRequestId++;
+  });
 
   async function open(row?: TableData) {
+    const requestId = ++openRequestId;
     type.value = row ? 'edit' : 'create';
     editingRow.value = row;
     model.value = cloneDeep(initialModel.value);
     if (row) {
       try {
         const detail = detailApi ? await detailApi(row) : cloneDeep({ ...row });
+        if (requestId !== openRequestId) return false;
         model.value = valueTransformer ? valueTransformer(detail) : detail;
       } catch (error) {
-        emit('error', error);
-        return;
+        if (requestId === openRequestId) emit('error', error);
+        return false;
       }
     }
     visible.value = true;
     await nextTick();
+    if (requestId !== openRequestId) return false;
     formRef.value?.clearValidate();
+    return true;
   }
 
   async function handleBeforeOk() {
-    const errors = await formRef.value?.validate();
-    if (errors) return false;
-    const context: BasicCrudTableModalSubmitContext<TableData> = {
-      type: type.value,
-      row: editingRow.value,
-      model: model.value,
-    };
-    if (beforeSubmit && (await beforeSubmit(context)) === false) return false;
     try {
+      const errors = await formRef.value?.validate();
+      if (errors) return false;
+      const context: BasicCrudTableModalSubmitContext<TableData> = {
+        type: type.value,
+        row: editingRow.value,
+        model: model.value,
+      };
+      if (beforeSubmit && (await beforeSubmit(context)) === false) return false;
       const api = type.value === 'create' ? createApi : updateApi;
       const result = api ? await api(model.value) : undefined;
       emit('success', result, context);
@@ -127,6 +134,7 @@
   }
 
   function handleClose() {
+    openRequestId++;
     model.value = cloneDeep(initialModel.value);
     editingRow.value = undefined;
     type.value = 'create';

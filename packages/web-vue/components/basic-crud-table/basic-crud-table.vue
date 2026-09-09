@@ -33,7 +33,7 @@
           </Button>
           <slot name="toolbar__action_append" />
         </template>
-        <template v-for="name in toolbarSlotNames" :key="name" #[name]="data">
+        <template v-for="name in toolbarSlotNames()" :key="name" #[name]="data">
           <slot :name="`toolbar__${name}`" v-bind="data" />
         </template>
       </Toolbar>
@@ -50,7 +50,7 @@
         @page-size-change="handlePageSizeChange"
         @change="handleTableChange"
       >
-        <template v-for="name in tableSlotNames" :key="name" #[name]="data">
+        <template v-for="name in tableSlotNames()" :key="name" #[name]="data">
           <slot :name="`table__${name}`" v-bind="data" />
         </template>
         <template #basic-crud-action="data">
@@ -68,7 +68,7 @@
               v-if="showDelete"
               :content="deleteConfirmContent"
               type="warning"
-              :on-before-ok="handleDeleteConfirm"
+              :on-before-ok="() => executeDelete(data.record)"
               @popup-visible-change="(visible) => handleDeletePopupChange(visible, data.record)"
             >
               <Link
@@ -100,7 +100,7 @@
       @close="emit('modalClose')"
       @error="emit('error', $event)"
     >
-      <template v-for="name in modalSlotNames" :key="name" #[name]="data">
+      <template v-for="name in modalSlotNames()" :key="name" #[name]="data">
         <slot :name="`modal__${name}`" v-bind="data" />
       </template>
     </BasicCrudModal>
@@ -111,7 +111,16 @@
   import type { UnknownRecord } from 'type-fest';
 
   import type { VNode } from 'vue';
-  import { computed, inject, nextTick, onMounted, ref, shallowRef, useSlots } from 'vue';
+  import {
+    computed,
+    inject,
+    nextTick,
+    onBeforeUnmount,
+    onMounted,
+    ref,
+    shallowRef,
+    useSlots,
+  } from 'vue';
 
   import { isFunction, isNil, isString, omitBy } from 'es-toolkit';
 
@@ -126,7 +135,6 @@
   } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import { isPromise } from '../_utils/is';
   import Button from '../button';
   import { configProviderInjectionKey } from '../config-provider/context';
   import Link from '../link';
@@ -223,18 +231,16 @@
       [`${prefixCls}-loading`]: loading.value,
     },
   ]);
-  const toolbarSlotNames = computed(() =>
+  const toolbarSlotNames = () =>
     getForwardedSlotNames('toolbar__', [
       'default',
       'action_prepend',
       'action_middle',
       'action_append',
-    ]),
-  );
-  const tableSlotNames = computed(() =>
-    getForwardedSlotNames('table__', ['action_prepend', 'action_append']),
-  );
-  const modalSlotNames = computed(() => getForwardedSlotNames('modal__'));
+    ]);
+  const tableSlotNames = () =>
+    getForwardedSlotNames('table__', ['action_prepend', 'action_append']);
+  const modalSlotNames = () => getForwardedSlotNames('modal__');
   const resolvedColumns = computed(() =>
     showActionColumn
       ? [
@@ -307,18 +313,27 @@
       !!value && typeof value === 'object' && Array.isArray((value as { data?: unknown }).data)
     );
   }
+  let fetchRequestId = 0;
+  onBeforeUnmount(() => {
+    fetchRequestId++;
+    deleteContentRequestId++;
+  });
+
   async function handleFetchData(fetchParams: UnknownRecord = params.value) {
     if (isNil(fetchTableApi)) return;
+    const requestId = ++fetchRequestId;
     loading.value = true;
     try {
       const requestParams = fetchExcludeEmptyValues
         ? omitBy(fetchParams, (value) => value === '' || value === null || value === undefined)
         : fetchParams;
       const response = await fetchTableApi(requestParams);
-      fetchData.value = response;
+      if (requestId !== fetchRequestId) return;
       const result = isFunction(tableDataTransformer)
         ? await tableDataTransformer(response)
         : (response as BasicCrudTableDataResult<TableData>);
+      if (requestId !== fetchRequestId) return;
+      fetchData.value = response;
       if (Array.isArray(result)) {
         tableData.value = result;
         total.value = result.length;
@@ -328,9 +343,9 @@
       } else return;
       emit('tableFetched', tableData.value, result);
     } catch (error) {
-      emit('error', error);
+      if (requestId === fetchRequestId) emit('error', error);
     } finally {
-      loading.value = false;
+      if (requestId === fetchRequestId) loading.value = false;
     }
   }
   async function handleSearch() {
@@ -364,11 +379,11 @@
     emit('create');
   }
   async function handleEdit(row: TableData, context?: unknown) {
-    await modalRef.value?.open(row);
-    emit('edit', row, context);
+    if (await modalRef.value?.open(row)) emit('edit', row, context);
   }
   const deleteConfirmContent = ref('确定要删除此条记录吗？');
   const pendingDeleteRow = shallowRef<TableData>();
+  let deleteContentRequestId = 0;
 
   function resolveDeleteContent(row: TableData): string | Promise<string> {
     if (isString(deleteContent)) return deleteContent;
@@ -377,23 +392,29 @@
     return name ? `确定删除【${String(name)}】吗？` : '确定要删除此条记录吗？';
   }
 
-  function handleDeletePopupChange(visible: boolean, row: TableData) {
-    if (!visible) return;
+  async function handleDeletePopupChange(visible: boolean, row: TableData) {
+    if (!visible) {
+      if (pendingDeleteRow.value === row) {
+        pendingDeleteRow.value = undefined;
+        deleteContentRequestId++;
+      }
+      return;
+    }
     pendingDeleteRow.value = row;
-    const resolved = resolveDeleteContent(row);
-    if (isPromise(resolved)) {
-      resolved.then((content) => {
-        if (pendingDeleteRow.value === row) deleteConfirmContent.value = content;
-      });
-    } else {
-      deleteConfirmContent.value = resolved;
+    const requestId = ++deleteContentRequestId;
+    deleteConfirmContent.value = '确定要删除此条记录吗？';
+    try {
+      const content = await resolveDeleteContent(row);
+      if (requestId === deleteContentRequestId) deleteConfirmContent.value = content;
+    } catch (error) {
+      if (requestId === deleteContentRequestId) emit('error', error);
     }
   }
 
   async function executeDelete(row: TableData, context?: unknown): Promise<boolean> {
-    if (beforeDelete && (await beforeDelete(row)) === false) return false;
-    emit('delete', row, context);
     try {
+      if (beforeDelete && (await beforeDelete(row)) === false) return false;
+      emit('delete', row, context);
       if (deleteApi) await deleteApi(row);
       await handleFetchData();
       return true;
@@ -403,11 +424,6 @@
     }
   }
 
-  function handleDeleteConfirm(): Promise<boolean> {
-    const row = pendingDeleteRow.value;
-    if (!row) return Promise.resolve(false);
-    return executeDelete(row);
-  }
   async function handleModalSuccess(
     result: unknown,
     context: BasicCrudTableModalSubmitContext<TableData>,

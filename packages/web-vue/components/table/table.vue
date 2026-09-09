@@ -7,10 +7,12 @@
   import {
     computed,
     inject,
+    onBeforeUpdate,
     onMounted,
     provide,
     reactive,
     ref,
+    shallowReactive,
     toRef,
     useSlots,
     watch,
@@ -691,6 +693,14 @@
    * @version 2.26.0
    */
   const slots = useSlots();
+  // Slot additions/removals must also invalidate cells reading slots through injection.
+  const cellSlots = shallowReactive({ ...slots });
+  onBeforeUpdate(() => {
+    for (const name of Object.keys(cellSlots)) {
+      if (!slots[name]) delete cellSlots[name];
+    }
+    Object.assign(cellSlots, slots);
+  });
   const VNodeRenderer = ({ content }: { content: VNodeChild }) => content;
   const columns = toRef(props, 'columns');
   const rowKey = toRef(props, 'rowKey');
@@ -1337,7 +1347,7 @@
     reactive({
       loadMore,
       addLazyLoadData,
-      slots,
+      slots: cellSlots,
       sorter: computedSorter,
       filters: computedFilters,
       filterIconAlignLeft,
