@@ -153,7 +153,13 @@ export function useDragAndDrop(calendar) {
     dragging.eventId = event._.id;
     dragging.fromCalendar = calendarUid;
     dragging.removeSource = () => {
-      if (!disposed) return eventsManager.deleteEvent(event._.id, 3);
+      if (disposed) return;
+      // Moving is governed by drag eligibility, independently of the delete control.
+      const index = config.events.findIndex((item) => item._.id === event._.id);
+      if (index === -1) return;
+      config.events.splice(index, 1);
+      emit('update:events', config.events);
+      emit('event-delete', event);
     };
 
     // Emit `event-drag-start` and return the updated event.
