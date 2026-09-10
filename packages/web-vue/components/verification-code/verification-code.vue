@@ -121,8 +121,8 @@
   // 否则输入的原地修改会污染缓存，受控还原时取到的是已输入的脏数组。
   // （watcher 与 keepControl 中的赋值同理。）
 
-  watch(mergedValue, () => {
-    innerValue.value = filledValue.value.slice();
+  watch(filledValue, (value) => {
+    innerValue.value = value.slice();
   });
 
   function setInputRef(element: Element | ComponentPublicInstance | null, index: number) {

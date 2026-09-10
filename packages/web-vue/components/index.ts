@@ -797,7 +797,7 @@ export type {
   UploadRequest,
 } from './upload';
 export { default as VerificationCode } from './verification-code';
-export type { VerificationCodeInstance } from './verification-code';
+export type { VerificationCodeInstance, VerificationCodeProps } from './verification-code';
 export { default as Watermark } from './watermark';
 export type { WatermarkInstance } from './watermark';
 // hooks

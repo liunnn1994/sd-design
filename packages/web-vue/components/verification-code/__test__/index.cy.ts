@@ -190,6 +190,20 @@ describe('VerificationCode', () => {
     cy.get('input').eq(1).should('have.value', 'd');
   });
 
+  it('resizes and preserves the available value when length changes', () => {
+    cy.mount(VerificationCode, { props: { modelValue: 'abcd', length: 4 } });
+    cy.get('input').should('have.length', 4);
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ length: 6 }));
+    cy.get('input').should('have.length', 6);
+    cy.get('input').eq(0).should('have.value', 'a');
+    cy.get('input').eq(3).should('have.value', 'd');
+    cy.get('input').eq(4).should('have.value', '');
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ length: 2 }));
+    cy.get('input').should('have.length', 2);
+    cy.get('input').eq(0).should('have.value', 'a');
+    cy.get('input').eq(1).should('have.value', 'b');
+  });
+
   it('does not persist typed characters when the parent ignores update:modelValue (controlled)', () => {
     cy.mount(VerificationCode, { props: { modelValue: 'ab' } });
     cy.get('input').eq(0).type('9');

@@ -15,5 +15,6 @@ const VerificationCode = Object.assign(_VerificationCode, {
 });
 
 export type VerificationCodeInstance = InstanceType<typeof _VerificationCode>;
+export type VerificationCodeProps = VerificationCodeInstance['$props'];
 
 export default VerificationCode;
