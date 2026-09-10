@@ -219,10 +219,21 @@ describe('Rate', () => {
 
   it('exposes radio semantics on characters (aria-checked/posinset/setsize)', () => {
     cy.mount(Rate, { props: { modelValue: 2 } });
-    cy.get('.sd-rate-character').eq(0).should('have.attr', 'aria-checked', 'true');
+    cy.get('.sd-rate-character').eq(0).should('have.attr', 'aria-checked', 'false');
     cy.get('.sd-rate-character').eq(1).should('have.attr', 'aria-checked', 'true');
     cy.get('.sd-rate-character').eq(2).should('have.attr', 'aria-checked', 'false');
     cy.get('.sd-rate-character').eq(0).should('have.attr', 'aria-posinset', '1');
     cy.get('.sd-rate-character').eq(4).should('have.attr', 'aria-setsize', '5');
+  });
+
+  it('exposes valid ordinal radio semantics for half ratings', () => {
+    cy.mount(Rate, { props: { modelValue: 1.5, allowHalf: true } });
+    cy.get('[role="radio"]').should('have.length', 10);
+    cy.get('[role="radio"][aria-checked="true"]')
+      .should('have.length', 1)
+      .and('have.attr', 'aria-posinset', '3')
+      .and('have.attr', 'aria-setsize', '10');
+    cy.get('[role="radio"]').eq(0).should('have.attr', 'aria-posinset', '1');
+    cy.get('[role="radio"]').eq(9).should('have.attr', 'aria-posinset', '10');
   });
 });

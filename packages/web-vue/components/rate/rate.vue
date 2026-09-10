@@ -241,12 +241,15 @@
     }
   };
 
-  const getAriaProps = (index: number, isHalf = false) => ({
-    'role': 'radio',
-    'aria-checked': index + (isHalf ? 0.5 : 1) <= computedValue.value,
-    'aria-setsize': indexArray.value.length,
-    'aria-posinset': index + (isHalf ? 0.5 : 1),
-  });
+  const getAriaProps = (index: number, isHalf = false) => {
+    const value = index + (isHalf ? 0.5 : 1);
+    return {
+      'role': 'radio',
+      'aria-checked': value === computedValue.value,
+      'aria-setsize': props.allowHalf ? indexArray.value.length * 2 : indexArray.value.length,
+      'aria-posinset': props.allowHalf ? index * 2 + (isHalf ? 1 : 2) : index + 1,
+    };
+  };
 
   const getInteractionProps = (index: number, isHalf: boolean) =>
     props.allowHalf ? getAriaProps(index, isHalf) : {};
