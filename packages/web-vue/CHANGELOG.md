@@ -1,3 +1,10 @@
+## [4.5.3](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.5.2...web-vue-v4.5.3) (2026-09-10)
+
+
+### Bug Fixes
+
+* **build:** remove TypeScript deprecation suppression ([0de8cba](https://github.com/liunnn1994/sd-design/commit/0de8cba9b05b35db8ed48ed3f99dae458a842743))
+
 ## [4.5.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.5.1...web-vue-v4.5.2) (2026-09-10)
 
 
