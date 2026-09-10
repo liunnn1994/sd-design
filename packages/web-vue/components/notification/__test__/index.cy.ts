@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue';
+import { defineComponent, getCurrentInstance } from 'vue';
 
 import Notification from '../index';
 import NotificationList from '../notification-list.vue';
@@ -219,6 +219,28 @@ describe('Notification', () => {
 
     cy.get('#close-handle').click();
     cy.get('.sd-notification').should('have.length', 0);
+  });
+
+  it('exposes remove through the installed $notification API', () => {
+    const PluginHarness = defineComponent({
+      setup() {
+        const notification = getCurrentInstance()!.appContext.config.globalProperties.$notification;
+        return {
+          add: () => notification.info({ id: 'plugin-notification', content: 'Plugin notice' }),
+          remove: () => notification.remove('plugin-notification'),
+        };
+      },
+      template: `
+        <button id="plugin-add" @click="add">Add</button>
+        <button id="plugin-remove" @click="remove">Remove</button>
+      `,
+    });
+
+    cy.mount(PluginHarness, { global: { plugins: [Notification] } });
+    cy.get('#plugin-add').click();
+    cy.get('.sd-notification').should('contain.text', 'Plugin notice');
+    cy.get('#plugin-remove').click();
+    cy.get('.sd-notification').should('not.exist');
   });
 
   it('accepts string content and invokes onClose with the id', () => {

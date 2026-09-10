@@ -166,6 +166,7 @@ const Notification = {
   install: (app: App) => {
     const _notification = {
       clear: notification.clear,
+      remove: notification.remove,
     } as NotificationMethod;
 
     for (const key of MESSAGE_TYPES) {
