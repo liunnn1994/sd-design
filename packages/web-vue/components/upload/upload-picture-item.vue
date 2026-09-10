@@ -7,7 +7,7 @@
         tabindex="0"
         :aria-label="label"
         @click="action"
-        @keydown="onActionKeydown(action)"
+        @keydown="onActionKeydown($event, action)"
       >
         <slot />
       </span>
@@ -153,7 +153,7 @@
   }>();
 
   // 图标按钮（span）键盘激活
-  const onActionKeydown = (action: (() => void) | undefined) => (event: KeyboardEvent) => {
+  const onActionKeydown = (event: KeyboardEvent, action: (() => void) | undefined) => {
     if (action && isActivationKey(event)) {
       event.preventDefault();
       action();

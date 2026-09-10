@@ -391,8 +391,11 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
     }
 
     &-operation {
-      display: none;
+      display: flex;
+      justify-content: space-evenly;
       font-size: $upload-picture-item-size-operation-icon;
+      opacity: 0;
+      pointer-events: none;
 
       .#{$upload-prefix-cls}-icon-retry {
         color: $upload-picture-item-color-operation-icon;
@@ -406,16 +409,19 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
       }
     }
 
-    &-mask:hover {
+    &-mask:hover,
+    &-mask:focus-within {
       opacity: 1;
     }
 
-    &-mask:hover &-operation {
-      display: flex;
-      justify-content: space-evenly;
+    &-mask:hover &-operation,
+    &-mask:focus-within &-operation {
+      opacity: 1;
+      pointer-events: auto;
     }
 
-    &-mask:hover &-error-tip {
+    &-mask:hover &-error-tip,
+    &-mask:focus-within &-error-tip {
       display: none;
     }
   }

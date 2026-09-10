@@ -212,7 +212,11 @@ describe('Upload', () => {
     });
     cy.get('.sd-upload-list-item-error').should('have.length', 1);
     cy.intercept('POST', '/upload', { statusCode: 200, body: 'ok' }).as('uploadRetry');
-    cy.get('.sd-upload-icon-upload').click();
+    cy.get('.sd-upload-icon-upload')
+      .should('have.attr', 'role', 'button')
+      .and('have.attr', 'tabindex', '0')
+      .and('have.attr', 'aria-label');
+    cy.get('.sd-upload-icon-upload').focus().type('{enter}');
     cy.wait('@uploadRetry');
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('success')).to.have.length(1);
@@ -324,7 +328,11 @@ describe('Upload', () => {
       { force: true },
     );
     cy.get('.sd-upload-list-item-uploading').should('have.length', 1);
-    cy.get('.sd-upload-icon-cancel').click();
+    cy.get('.sd-upload-icon-cancel')
+      .should('have.attr', 'role', 'button')
+      .and('have.attr', 'tabindex', '0')
+      .and('have.attr', 'aria-label');
+    cy.get('.sd-upload-icon-cancel').focus().type(' ');
     cy.get('.sd-upload-list-item-error').should('have.length', 1);
     cy.get('@vue').should(({ wrapper }) => {
       expect(aborted).to.equal(true);
@@ -368,7 +376,11 @@ describe('Upload', () => {
       { force: true },
     );
     cy.get('.sd-upload-list-item-init').should('have.length', 1);
-    cy.get('.sd-upload-icon-start').click();
+    cy.get('.sd-upload-icon-start')
+      .should('have.attr', 'role', 'button')
+      .and('have.attr', 'tabindex', '0')
+      .and('have.attr', 'aria-label');
+    cy.get('.sd-upload-icon-start').focus().type('{enter}');
     cy.get('.sd-upload-list-item-done').should('have.length', 1);
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('success')).to.have.length(1);
@@ -505,6 +517,21 @@ describe('Upload', () => {
     cy.mount(Upload, { props: { listType: 'picture-card', tip: '上传图片' } });
     cy.get('.sd-upload-picture-card-text').should('exist');
     cy.get('.sd-upload-tip').should('contain.text', '上传图片');
+  });
+
+  it('activates a picture-card preview action from the keyboard', () => {
+    const onPreview = cy.stub().as('preview');
+    cy.mount(Upload, {
+      props: {
+        listType: 'picture-card',
+        onPreview,
+        defaultFileList: [
+          { uid: '1', name: 'a.png', status: 'done', url: 'data:image/svg+xml,%3Csvg/%3E' },
+        ],
+      },
+    });
+    cy.get('.sd-upload-icon-preview').focus().type('{enter}');
+    cy.get('@preview').should('have.been.calledOnce');
   });
 
   it('exposes programmatic upload and submit control', () => {

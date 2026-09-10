@@ -233,7 +233,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Typography: full 31-case Chrome suite passes with retries disabled (25 behavior + 6 demos). Enter during IME composition previously ended inline editing before the candidate text was committed; the editor now ignores composing Enter and still completes on a normal Enter. Expand/collapse controls now expose their current state through `aria-expanded`, with browser assertions across both transitions. Paragraph, Text and all heading levels, copy and clipboard options, controlled and default editing, keyboard operations, copied-state timers, clamping, tooltip/popover and title fallbacks, expansion, styling flags and custom marks, blockquotes, scoped operation slots, temporary text measurement cleanup, installation, styles and the existing public surface were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: upload.
+- Upload: full 43-case Chrome suite passes with retries disabled (29 behavior + 14 demos). Text-list start, cancel and retry actions were pointer-only; they now have button semantics, names, tab stops and Enter/Space activation. Picture-card actions had matching keyboard markup but their higher-order handler was never invoked, and `display:none` kept them out of the focus order. The handler now receives the event directly, while the overlay keeps actions focusable and reveals them with `:focus-within`; browser flows perform retry, cancel, manual start and picture preview from the keyboard. Selection and limits, drag/drop and directories, before hooks, default XHR and custom requests, progress/success/error, abort/retry, controlled lists, links and thumbnails, slots and custom icons, exposed controls, installation, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: verification-code.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -339,7 +341,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | tree-select                   | Reviewed                             |
 | trigger                       | Reviewed                             |
 | typography                    | Reviewed                             |
-| upload                        | Pending                              |
+| upload                        | Reviewed                             |
 | verification-code             | Pending                              |
 | watermark                     | Pending                              |
 

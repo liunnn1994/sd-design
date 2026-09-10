@@ -12,7 +12,11 @@
     <span
       v-if="file.status === 'error' && uploadCtx?.showRetryButton"
       :class="[uploadCtx.iconCls, `${uploadCtx.iconCls}-upload`]"
+      role="button"
+      tabindex="0"
+      :aria-label="t('a11y.retryUpload')"
       @click="uploadCtx.onUpload(file)"
+      @keydown="onActionKeydown($event, () => uploadCtx?.onUpload(file))"
     >
       <component :is="uploadCtx.slots['retry-icon']" v-if="uploadCtx.slots['retry-icon']" />
       <component :is="uploadCtx.customIcon.retryIcon" v-else-if="uploadCtx.customIcon?.retryIcon" />
@@ -38,7 +42,11 @@
     >
       <span
         :class="[uploadCtx.iconCls, `${uploadCtx.iconCls}-start`]"
+        role="button"
+        tabindex="0"
+        :aria-label="t('upload.start')"
         @click="uploadCtx.onUpload(file)"
+        @keydown="onActionKeydown($event, () => uploadCtx?.onUpload(file))"
       >
         <component :is="uploadCtx.slots['start-icon']" v-if="uploadCtx.slots['start-icon']" />
         <component
@@ -52,7 +60,11 @@
     <Tooltip v-else-if="uploadCtx?.showCancelButton" :content="t('upload.cancel')">
       <span
         :class="[uploadCtx.iconCls, `${uploadCtx.iconCls}-cancel`]"
+        role="button"
+        tabindex="0"
+        :aria-label="t('upload.cancel')"
         @click="uploadCtx.onAbort(file)"
+        @keydown="onActionKeydown($event, () => uploadCtx?.onAbort(file))"
       >
         <component :is="uploadCtx.slots['cancel-icon']" v-if="uploadCtx.slots['cancel-icon']" />
         <component
@@ -71,6 +83,7 @@
   import type { FileItem, ListType } from './interfaces';
 
   import { getPrefixCls } from '../_utils/global-config';
+  import { isActivationKey } from '../_utils/keyboard';
   import IconCheck from '../icon/icon-check';
   import IconPause from '../icon/icon-pause';
   import IconPlayArrowFill from '../icon/icon-play-arrow-fill';
@@ -97,4 +110,10 @@
   const prefixCls = getPrefixCls('upload-progress');
   const { t } = useI18n();
   const uploadCtx = inject(uploadInjectionKey, undefined);
+  const onActionKeydown = (event: KeyboardEvent, action: () => void) => {
+    if (isActivationKey(event)) {
+      event.preventDefault();
+      action();
+    }
+  };
 </script>
