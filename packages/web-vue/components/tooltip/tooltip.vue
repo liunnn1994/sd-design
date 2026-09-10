@@ -1,7 +1,7 @@
 <template>
   <Trigger
     :class="[prefixCls, { [`${prefixCls}-mouse-through`]: mouseThrough }]"
-    trigger="hover"
+    :trigger="['hover', 'focus']"
     :position="position"
     :popup-visible="computedPopupVisible"
     :disabled="disabled"

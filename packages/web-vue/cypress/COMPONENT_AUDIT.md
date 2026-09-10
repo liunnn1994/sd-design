@@ -219,7 +219,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Toolbar: full 29-case Chrome suite passes with retries disabled (25 behavior + 4 demos). The root Enter shortcut previously duplicated native search-button activation and caused keyboard reset to emit an unrelated search. It now ignores button, link, textarea and editable targets, prevented events and IME composition; browser cases verify one search from the search button, reset without search, and multiline/composition suppression. Schema and slot rendering, model updates, reset snapshots and skipped keys, exposed methods, loading, action customization, overflow expansion, layout variables, ResizeObserver cleanup, installation, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: tooltip.
+- Tooltip: full 18-case Chrome suite passes with retries disabled (13 behavior + 5 demos). Tooltips previously opened only from pointer hover, so keyboard focus never displayed the help or established `aria-describedby`. Tooltip now uses both hover and focus triggers; the regression verifies the visible role=tooltip relationship on focus, its removal on blur and both visibility events. The existing `TooltipProps` contract is exported from the package entry. Controlled and uncontrolled visibility, disabled behavior, pointer pass-through, content and slots, all positions, mini and color/style variants, popup semantics, installation and styles were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: tour.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -318,7 +320,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | time-picker                   | Reviewed                             |
 | timeline                      | Reviewed                             |
 | toolbar                       | Reviewed                             |
-| tooltip                       | Pending                              |
+| tooltip                       | Reviewed                             |
 | tour                          | Pending                              |
 | transfer                      | Pending                              |
 | tree                          | Pending                              |

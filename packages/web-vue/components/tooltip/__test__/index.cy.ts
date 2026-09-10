@@ -75,6 +75,24 @@ describe('Tooltip', () => {
     });
   });
 
+  it('shows for keyboard focus and removes the description relationship on blur', () => {
+    cy.mount(Tooltip, {
+      props: { content: 'Keyboard help', renderToBody: false, focusDelay: 0 },
+      slots: { default: '<button>Button</button>' },
+    });
+    cy.get('button').focus().should('have.attr', 'aria-describedby');
+    cy.get('button')
+      .invoke('attr', 'aria-describedby')
+      .then((popupId) => {
+        cy.get(`#${popupId}`).should('have.attr', 'role', 'tooltip').and('be.visible');
+      });
+    cy.get('button').blur().should('not.have.attr', 'aria-describedby');
+    cy.get('@vue').should(({ wrapper }) => {
+      const events = wrapper.emitted('popupVisibleChange') ?? [];
+      expect(events.map(([visible]) => visible)).to.deep.equal([true, false]);
+    });
+  });
+
   it('shows the content prop on hover and reports hidden after mouse leave', () => {
     cy.mount(Tooltip, {
       props: { content: 'Helpful text', renderToBody: false },

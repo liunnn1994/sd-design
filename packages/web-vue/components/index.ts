@@ -715,7 +715,7 @@ export type {
   TimelineProps,
 } from './timeline';
 export { default as Tooltip } from './tooltip';
-export type { TooltipInstance } from './tooltip';
+export type { TooltipInstance, TooltipProps } from './tooltip';
 export { default as Tour } from './tour';
 export type {
   TourAlignment,
