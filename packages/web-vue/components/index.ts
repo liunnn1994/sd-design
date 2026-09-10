@@ -799,7 +799,7 @@ export type {
 export { default as VerificationCode } from './verification-code';
 export type { VerificationCodeInstance, VerificationCodeProps } from './verification-code';
 export { default as Watermark } from './watermark';
-export type { WatermarkInstance } from './watermark';
+export type { WatermarkFont, WatermarkInstance, WatermarkProps } from './watermark';
 // hooks
 export { useFormItem } from './_hooks/use-form-item';
 // utils

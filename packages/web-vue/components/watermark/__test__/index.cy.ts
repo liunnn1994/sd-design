@@ -173,6 +173,39 @@ describe('Watermark', () => {
     });
   });
 
+  it('ignores an image load that finishes after a newer text render', () => {
+    const pendingLoads: Array<() => void> = [];
+    let restoreImage = () => {};
+    cy.window().then((win) => {
+      const NativeImage = win.Image;
+      cy.stub(win.CanvasRenderingContext2D.prototype, 'drawImage');
+      class DeferredImage {
+        onload: (() => void) | null = null;
+        crossOrigin = '';
+        referrerPolicy = '';
+
+        set src(_value: string) {
+          pendingLoads.push(() => this.onload?.());
+        }
+      }
+      Object.defineProperty(win, 'Image', { configurable: true, value: DeferredImage });
+      restoreImage = () =>
+        Object.defineProperty(win, 'Image', { configurable: true, value: NativeImage });
+    });
+    cy.mount(Watermark, { props: { image: 'first.png', width: 20, height: 20 } });
+    cy.then(() => expect(pendingLoads).to.have.length(1));
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ image: undefined, content: 'Latest' }));
+    let currentLayer: HTMLElement | undefined;
+    cy.get('.sd-watermark').then(($container) => {
+      currentLayer = layerOf($container);
+    });
+    cy.then(() => pendingLoads[0]?.());
+    cy.get('.sd-watermark').should(($container) => {
+      expect(layerOf($container)).to.equal(currentLayer);
+    });
+    cy.then(() => restoreImage());
+  });
+
   it('measures mark size with the full font shorthand (bold is not clipped)', () => {
     let normalTile = 0;
     let boldTile = 0;

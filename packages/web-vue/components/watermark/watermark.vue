@@ -180,6 +180,7 @@
     } as CSSProperties;
   });
   const isStaggered = computed(() => props.repeat && props.staggered);
+  let renderId = 0;
 
   const appendWatermark = (base64: string, width: number) => {
     if (containerRef.value) {
@@ -219,6 +220,7 @@
   };
 
   const renderWatermark = () => {
+    const currentRenderId = ++renderId;
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -273,6 +275,7 @@
     if (image.value) {
       const img = new Image();
       img.onload = () => {
+        if (currentRenderId !== renderId) return;
         ctx.drawImage(img, drawX, drawY, realMarkWidth, realMarkHeight);
         drawImage();
       };

@@ -237,7 +237,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - VerificationCode: full 29-case Chrome suite passes with retries disabled (21 behavior + 2 readonly-tip + 6 demos). Changing `length` after mount left the old number of cells because synchronization observed only the bound value. The component now watches the complete derived cell array, preserving or truncating available characters while resizing immediately; the browser regression covers both growth and shrinkage. `VerificationCodeProps` is exported from the component and package entries. Controlled and default values, character and finish events, typing, paste and formatter rejection/transformation, focus and cursor movement, Backspace and arrow navigation, masked, disabled, readonly and error states, separators, exposed focus methods, form/demo integration, installation and styles were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: watermark.
+- Watermark: full 21-case Chrome suite passes with retries disabled (17 behavior + 4 demos). A slow image load could finish after newer props had already rendered a text or replacement watermark, then overwrite the current layer. Each render now receives a generation id and stale image callbacks are ignored; a controlled browser regression completes the old image after a newer text render and verifies layer identity is preserved. `WatermarkProps` and the documented `WatermarkFont` type are exported from component and package entries. Text, multiline and image drawing, font measurement, grayscale fallback, sizing, gaps, offsets, repeat and stagger patterns, alpha and rotation, theme redraws, mutation protection and opt-out, slot mutation isolation, attributes, installation and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components. All public components are reviewed; next shared-support review: `_components`.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -345,7 +347,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | typography                    | Reviewed                             |
 | upload                        | Reviewed                             |
 | verification-code             | Reviewed                             |
-| watermark                     | Pending                              |
+| watermark                     | Reviewed                             |
 
 - Image (in progress): full 56-case Chrome suite passes with retries disabled (44 existing behavior/helper + 11 demos + 1 group identity lifecycle). Read Image, preview/group rendering and lifecycle, drag/load hooks, footer/action/toolbar/arrow components, utilities, exports, public types and primary image/preview SCSS. The browser regression reproduced clicking the first child opening the last child because a script-setup counter restarted at zero for every instance. Registration now uses the Vue instance uid. Three decoded SVG images can be opened and navigated independently; removing the middle child leaves the other registrations working. Dynamic source, explicit source-list and preview cleanup review remain pending. Standard TypeScript validation remains pending.
 

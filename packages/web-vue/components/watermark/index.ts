@@ -15,5 +15,7 @@ const Watermark = Object.assign(_Watermark, {
 });
 
 export type WatermarkInstance = InstanceType<typeof _Watermark>;
+export type WatermarkProps = WatermarkInstance['$props'];
+export type { WatermarkFont } from './interface';
 
 export default Watermark;
