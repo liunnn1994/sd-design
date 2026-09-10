@@ -197,7 +197,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | link                          | Reviewed                             |
 | list                          | Reviewed                             |
 | locale                        | Reviewed                             |
-| mention                       | Pending                              |
+| mention                       | Reviewed                             |
 | menu                          | Pending                              |
 | message                       | Pending                              |
 | modal                         | Pending                              |
