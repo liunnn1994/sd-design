@@ -801,7 +801,7 @@
   );
 
   watch(
-    modelValue,
+    () => props.modelValue,
     () => {
       setProcessValue(undefined);
       setPreviewValue(undefined);

@@ -755,11 +755,14 @@
 
   const headerMode = ref<'year' | 'month' | undefined>();
 
-  watch(modelValue, () => {
-    setProcessValue(undefined);
-    setPreviewValue(undefined);
-    setInputValue(undefined);
-  });
+  watch(
+    () => props.modelValue,
+    () => {
+      setProcessValue(undefined);
+      setPreviewValue(undefined);
+      setInputValue(undefined);
+    },
+  );
 
   watch(panelVisible, (newVisible) => {
     setProcessValue(undefined);
@@ -795,7 +798,7 @@
   }
 
   function confirm(value: Dayjs | undefined, showPanel?: boolean, emitOk?: boolean) {
-    if (mergedDisabled.value || readonly.value || isDisabledDate(value)) {
+    if (mergedDisabled.value || props.readonly || isDisabledDate(value)) {
       return;
     }
 
@@ -811,7 +814,7 @@
   }
 
   function select(value: Dayjs | undefined, emitSelect?: boolean) {
-    if (mergedDisabled.value || readonly.value) return;
+    if (mergedDisabled.value || props.readonly) return;
     setProcessValue(value);
     setPreviewValue(undefined);
     setInputValue(undefined);
@@ -912,7 +915,7 @@
   });
 
   function onPanelShortcutMouseEnter(value: Dayjs) {
-    if (mergedDisabled.value || readonly.value) return;
+    if (mergedDisabled.value || props.readonly) return;
     clearTimeout(clearPreviewTimer);
     setPreviewValue(value);
     setInputValue(undefined);
@@ -926,7 +929,7 @@
   }
 
   function onPanelShortcutClick(value: Dayjs, shortcut: ShortcutType) {
-    if (mergedDisabled.value || readonly.value) return;
+    if (mergedDisabled.value || props.readonly) return;
     emit('select-shortcut', shortcut);
     confirm(value, false);
   }
