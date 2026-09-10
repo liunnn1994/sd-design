@@ -15,5 +15,6 @@ const Secret = Object.assign(_Secret, {
 });
 
 export type SecretInstance = InstanceType<typeof _Secret>;
+export type { SecretProps } from './interface';
 
 export default Secret;

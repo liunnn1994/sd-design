@@ -175,7 +175,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Scrollbar: full 12-case Chrome suite passes with retries disabled (8 behavior + 4 demos). New browser regressions exercise real horizontal and vertical movement through the exposed API and verify that unmount destroys the underlying OverlayScrollbars instance. No production change was needed. Slot and attribute forwarding, track/embed themes, merged and reactive options, event forwarding, native viewport methods, instance proxies, sizing observers, teardown, installation, styles and the public type surface were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: secret.
+- Secret: full 9-case Chrome suite passes with retries disabled (5 behavior + 4 demos). The toggle tooltip was hard-coded in Chinese while its accessible name followed ConfigProvider locale; an English browser regression reproduced the mismatch, and both surfaces now use the same localized message. The existing props are exported as `SecretProps`, including the visible model. Hidden and visible content, uncontrolled and controlled state, custom masking, copy visibility, keyboard-capable native control semantics, installation, styles and tokens were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: select.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -251,7 +253,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | result                        | Reviewed                             |
 | rich-text-editor              | Reviewed                             |
 | scrollbar                     | Reviewed                             |
-| secret                        | Pending                              |
+| secret                        | Reviewed                             |
 | select                        | Pending                              |
 | selectable-card               | Pending                              |
 | sender                        | Pending                              |
