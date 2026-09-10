@@ -6,7 +6,7 @@
   >
     <div
       v-bind="$attrs"
-      tabindex="0"
+      :tabindex="disabled ? -1 : 0"
       role="slider"
       :aria-disabled="disabled"
       :aria-valuemax="max"
@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, PropType, ref } from 'vue';
+  import { computed, onBeforeUnmount, PropType, ref } from 'vue';
 
   import { DIRECTIONS } from '../_utils/constant';
   import { off, on } from '../_utils/dom';
@@ -107,15 +107,21 @@
     emit('moving', clientX, clientY);
   };
 
-  const handleMouseUp = () => {
+  const cleanupDragging = () => {
     isDragging.value = false;
     off(window, 'mousemove', handleMouseMove);
     off(window, 'touchmove', handleMouseMove);
     off(window, 'mouseup', handleMouseUp);
     off(window, 'contextmenu', handleMouseUp);
     off(window, 'touchend', handleMouseUp);
+  };
+
+  const handleMouseUp = () => {
+    cleanupDragging();
     emit('moveend');
   };
+
+  onBeforeUnmount(cleanupDragging);
 
   const cls = computed(() => [prefixCls]);
 

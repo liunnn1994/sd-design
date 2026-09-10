@@ -49,7 +49,7 @@
       :max="max"
       :step="step"
       :range="range"
-      :disabled="disabled"
+      :disabled="mergedDisabled"
       @start-change="handleStartChange"
       @end-change="handleEndChange"
     />
@@ -197,7 +197,7 @@
 
   const trackRef = ref<HTMLElement | null>(null);
   const trackRect = ref<DOMRect>();
-  const defaultValue = props.modelValue ? props.modelValue : props.defaultValue;
+  const defaultValue = isUndefined(props.modelValue) ? props.defaultValue : props.modelValue;
 
   const startValue = ref(isArray(defaultValue) ? defaultValue[0] : 0);
 

@@ -28,6 +28,28 @@ describe('Slider', () => {
     cy.get('.sd-slider-btn').should('exist');
   });
 
+  it('removes active drag listeners when unmounted', () => {
+    cy.mount(Slider);
+    cy.get('@vue').then(({ wrapper }) => {
+      const win = wrapper.element.ownerDocument.defaultView!;
+      const add = cy.spy(win, 'addEventListener');
+      const remove = cy.spy(win, 'removeEventListener');
+
+      wrapper
+        .find('.sd-slider-btn')
+        .element.dispatchEvent(
+          new MouseEvent('mousedown', { bubbles: true, clientX: 20, clientY: 0 }),
+        );
+      wrapper.unmount();
+
+      for (const type of ['mousemove', 'touchmove', 'mouseup', 'contextmenu', 'touchend']) {
+        const registration = add.getCalls().find((call) => call.args[0] === type);
+        expect(registration, `${type} registered`).not.to.equal(undefined);
+        expect(remove.calledWith(type, registration!.args[1]), `${type} removed`).to.equal(true);
+      }
+    });
+  });
+
   it('keeps the tooltip anchored to the handle while dragging', () => {
     cy.mount(Slider, {
       props: { defaultValue: 20 },
@@ -80,6 +102,15 @@ describe('Slider', () => {
     });
   });
 
+  it('steps from a controlled zero value', () => {
+    cy.mount(Slider, { props: { modelValue: 0, defaultValue: 50, step: 5 } });
+
+    cy.get('.sd-slider-btn').trigger('keydown', { key: 'ArrowRight' });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('update:modelValue')?.[0]?.[0]).to.equal(5);
+    });
+  });
+
   it('sets the value from a track click and emits update:modelValue and change', () => {
     cy.mount(Slider, {
       props: { min: 0, max: 100 },
@@ -104,6 +135,7 @@ describe('Slider', () => {
     cy.mount(Slider, { props: { disabled: true } });
 
     cy.get('.sd-slider-track').should('have.class', 'sd-slider-track-disabled');
+    cy.get('.sd-slider-btn').should('have.attr', 'tabindex', '-1');
     cy.get('.sd-slider-track').trigger('click', 100, 5);
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('change')).to.equal(undefined);
