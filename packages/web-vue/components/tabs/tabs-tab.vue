@@ -12,13 +12,15 @@
     <span :class="`${prefixCls}-title`">
       <slot />
     </span>
-    <icon-hover
+    <button
       v-if="editable && tab.closable"
+      type="button"
       :class="`${prefixCls}-close-btn`"
+      :aria-label="t('a11y.closeTab')"
       @click.stop="handleDelete"
     >
-      <icon-close />
-    </icon-hover>
+      <icon-hover><icon-close /></icon-hover>
+    </button>
   </div>
 </template>
 
@@ -32,6 +34,7 @@
   import { getPrefixCls } from '../_utils/global-config';
   import { KEYBOARD_KEY } from '../_utils/keyboard';
   import IconClose from '../icon/icon-close';
+  import { useI18n } from '../locale';
   import { TabsContext, tabsInjectionKey } from './context';
 
   defineOptions({ name: 'TabsTab' });
@@ -51,6 +54,7 @@
   }>();
 
   const prefixCls = getPrefixCls('tabs-tab');
+  const { t } = useI18n();
   const tabsCtx = inject<Partial<TabsContext>>(tabsInjectionKey, {});
   const tabsId = computed(() => tabsCtx.tabsId ?? '');
   const tabId = computed(() => `${tabsId.value}-${props.tab.key}-tab`);

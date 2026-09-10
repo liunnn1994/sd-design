@@ -201,7 +201,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Table: full 67-case Chrome suite passes with retries disabled (41 behavior + 26 demos). Sortable headers previously responded only to pointer clicks; their sort control now has button semantics, enters the tab order, and handles Enter and Space without letting nested controls trigger sorting. The browser regression verifies focus, both keyboard transitions, row order and `aria-sort`. Rendering, virtual scrolling, sticky and fixed layouts, sorting, filtering, pagination, selection, expansion and lazy trees, drag behavior, resizing, merged and summary cells, empty/loading states, event surfaces, slots, compound components, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: tabs.
+- Tabs: full 42-case Chrome suite passes with retries disabled (31 behavior + 11 demos). Add, close and overflow controls were pointer-only anonymous elements; they are now native buttons with localized accessible names, native keyboard activation and disabled behavior, with browser coverage for add and overflow actions. Button reset styles preserve the existing presentation, and props are exported for Tabs and TabPane. Controlled/uncontrolled activation, roving keyboard focus, disabled tabs, ARIA tab/panel wiring, editable events, overflow, positions and RTL, lazy and destroyed panes, frozen inactive content, full-height scrolling, animation, slots, installation and styles were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: tag.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -291,7 +293,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | style                         | Pending                              |
 | switch                        | Reviewed                             |
 | table                         | Reviewed                             |
-| tabs                          | Pending                              |
+| tabs                          | Reviewed                             |
 | tag                           | Pending                              |
 | tag-group                     | Pending                              |
 | textarea                      | Pending                              |

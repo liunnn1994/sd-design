@@ -19,6 +19,8 @@ const Tabs = Object.assign(_Tabs, {
 
 export type TabsInstance = InstanceType<typeof _Tabs>;
 export type TabPaneInstance = InstanceType<typeof _TabPane>;
+export type TabsProps = TabsInstance['$props'];
+export type TabPaneProps = TabPaneInstance['$props'];
 export type { ScrollPosition, TabTriggerEvent, TabsPosition, TabsType } from './interface';
 
 export { _TabPane as TabPane };

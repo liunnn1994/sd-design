@@ -134,6 +134,10 @@ export interface SdA11yLang {
   anchorNav: string;
   carousel: string;
   steps: string;
+  addTab: string;
+  closeTab: string;
+  nextTabs: string;
+  prevTabs: string;
   verificationCode: string;
   rating: string;
   toggleSidebar: string;

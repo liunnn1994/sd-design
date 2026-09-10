@@ -2,6 +2,7 @@ import { defineComponent, h, ref } from 'vue';
 
 import ConfigProvider from '../../config-provider';
 import Tabs from '../index';
+import TabsButton from '../tabs-button.vue';
 
 const { TabPane } = Tabs;
 
@@ -28,14 +29,36 @@ describe('Tabs', () => {
       props: { editable: true, showAddButton: true },
       slots: { default: panes },
     });
-    cy.get('.sd-tabs-nav-add-btn').click({ force: true });
+    cy.get('button.sd-tabs-nav-add-btn').should('have.attr', 'aria-label');
+    cy.get('button.sd-tabs-nav-add-btn').click({ force: true });
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('add')).to.have.length(1);
     });
-    cy.get('.sd-tabs-tab-close-btn').first().click({ force: true });
+    cy.get('button.sd-tabs-tab-close-btn').first().should('have.attr', 'aria-label');
+    cy.get('button.sd-tabs-tab-close-btn').first().click({ force: true });
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('delete')).to.have.length(1);
     });
+  });
+
+  it('supports native keyboard activation for add and overflow controls', () => {
+    cy.mount(Tabs, {
+      global: { components: { TabPane } },
+      props: { editable: true, showAddButton: true },
+      slots: { default: panes },
+    });
+    cy.get('button.sd-tabs-nav-add-btn').focus().type('{enter}');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('add')).to.have.length(1);
+    });
+
+    const onClick = cy.spy().as('overflowClick');
+    cy.mount(TabsButton, {
+      props: { type: 'next', direction: 'horizontal', onClick },
+    });
+    cy.get('button.sd-tabs-nav-button').should('have.attr', 'aria-label');
+    cy.get('button.sd-tabs-nav-button').focus().type('{enter}');
+    cy.get('@overflowClick').should('have.been.calledOnce');
   });
 
   it('fullHeight should add the full-height class', () => {

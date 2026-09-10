@@ -1,14 +1,16 @@
 <template>
   <DefineAddButton>
-    <div
+    <button
       v-if="mergedEditable && props.showAddButton"
+      type="button"
       :class="`${prefixCls}-add-btn`"
+      :aria-label="t('a11y.addTab')"
       @click="emit('add', $event)"
     >
       <IconHover>
         <IconPlus />
       </IconHover>
-    </div>
+    </button>
   </DefineAddButton>
 
   <div v-bind="attrs" :class="cls">
@@ -98,6 +100,7 @@
   import { KEYBOARD_KEY } from '../_utils/keyboard';
   import { configProviderInjectionKey } from '../config-provider/context';
   import IconPlus from '../icon/icon-plus';
+  import { useI18n } from '../locale';
   import TabsButton from './tabs-button.vue';
   import TabsNavInk from './tabs-nav-ink.vue';
   import TabsTab from './tabs-tab.vue';
@@ -166,6 +169,7 @@
   const attrs = useAttrs();
   const [DefineAddButton, ReuseAddButton] = createReusableTemplate();
   const prefixCls = getPrefixCls('tabs-nav');
+  const { t } = useI18n();
   const configContext = inject(configProviderInjectionKey, undefined);
   const rtl = computed(() => configContext?.rtl ?? false);
   const wrapperRef = ref<HTMLElement>();

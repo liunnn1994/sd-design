@@ -79,6 +79,11 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
 
   &-tab-close-btn {
     margin-left: $tabs-margin-close-icon-left;
+    padding: 0;
+    color: inherit;
+    font: inherit;
+    background: none;
+    border: 0;
     user-select: none;
   }
 
@@ -87,7 +92,11 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
     align-items: center;
     justify-content: center;
     padding: 0 $tabs-margin-add-icon-left;
+    color: inherit;
+    font: inherit;
     font-size: $tabs-size-icon;
+    background: none;
+    border: 0;
     user-select: none;
   }
 
@@ -96,6 +105,12 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
   }
 
   &-nav-button {
+    padding: 0;
+    color: inherit;
+    font: inherit;
+    background: none;
+    border: 0;
+
     &-left {
       margin-right: $tabs-spacing-nav-icon-header;
       margin-left: $tabs-padding-header-wrapper-horizontal;

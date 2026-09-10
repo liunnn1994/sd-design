@@ -1,12 +1,18 @@
 <template>
-  <div :class="cls" @click="handleClick">
+  <button
+    type="button"
+    :class="cls"
+    :disabled="disabled"
+    :aria-label="t(type === 'next' ? 'a11y.nextTabs' : 'a11y.prevTabs')"
+    @click="handleClick"
+  >
     <IconHover :disabled="disabled">
       <IconRight v-if="direction === 'horizontal' && type === 'next'" />
       <IconLeft v-else-if="direction === 'horizontal'" />
       <IconDown v-else-if="type === 'next'" />
       <IconUp v-else />
     </IconHover>
-  </div>
+  </button>
 </template>
 
 <script setup lang="ts">
@@ -21,6 +27,7 @@
   import IconLeft from '../icon/icon-left';
   import IconRight from '../icon/icon-right';
   import IconUp from '../icon/icon-up';
+  import { useI18n } from '../locale';
 
   type ButtonTypes = 'previous' | 'next';
 
@@ -49,6 +56,7 @@
   }>();
 
   const prefixCls = getPrefixCls('tabs-nav-button');
+  const { t } = useI18n();
 
   const handleClick = (event: MouseEvent) => {
     if (!props.disabled) {
