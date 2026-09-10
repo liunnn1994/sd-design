@@ -442,6 +442,38 @@ describe('Trigger', () => {
     });
   });
 
+  it('closes an initially visible popup on window scroll', () => {
+    const visibleChanges: boolean[] = [];
+    cy.mount(
+      defineComponent({
+        setup() {
+          return () =>
+            h('div', [
+              h('div', { style: 'height: 2000px' }),
+              h(
+                Trigger,
+                {
+                  defaultPopupVisible: true,
+                  scrollToClose: true,
+                  onPopupVisibleChange: (visible: boolean) => visibleChanges.push(visible),
+                },
+                {
+                  default: () => h('button', 'Test'),
+                  content: () => h('div', { id: 'popup-content' }, 'Popup Content'),
+                },
+              ),
+            ]);
+        },
+      }),
+    );
+    cy.get('#popup-content').should('be.visible');
+    cy.scrollTo(0, 200);
+    cy.get('#popup-content').should('not.be.visible');
+    cy.then(() => {
+      expect(visibleChanges).to.deep.equal([false]);
+    });
+  });
+
   it('prevents default on popup mousedown when preventFocus is set', () => {
     cy.mount(Trigger, {
       slots: {

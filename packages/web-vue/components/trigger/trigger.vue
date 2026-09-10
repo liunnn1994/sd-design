@@ -561,6 +561,16 @@
     off(window, 'scroll', onWindowScroll);
     windowListener = false;
   };
+  const updateWindowScrollListener = (visible: boolean) => {
+    if (visible && (props.scrollToClose || configCtx?.scrollToClose)) {
+      if (!windowListener) {
+        on(window, 'scroll', onWindowScroll);
+        windowListener = true;
+      }
+    } else if (windowListener) {
+      removeWindowScroll();
+    }
+  };
   const onWindowScroll = throttleByRaf((event: Event) => {
     const element = (event.target as Document).documentElement;
     windowScrollPosition ??= [element.scrollTop, element.scrollLeft];
@@ -592,10 +602,7 @@
   let scrollElements: HTMLElement[] | undefined;
   const mounted = ref(computedVisible.value);
   watch(computedVisible, (value) => {
-    if (props.scrollToClose || configCtx?.scrollToClose) {
-      on(window, 'scroll', onWindowScroll);
-      windowListener = true;
-    }
+    updateWindowScrollListener(value);
     if (props.updateAtScroll || configCtx?.updateAtScroll) {
       if (value) {
         scrollElements = getScrollElements(firstElement.value);
@@ -621,6 +628,7 @@
     createResizeObserver();
     if (computedVisible.value) {
       updateFloatingPosition();
+      updateWindowScrollListener(true);
       if (props.updateAtScroll || configCtx?.updateAtScroll) {
         scrollElements = getScrollElements(firstElement.value);
         for (const item of scrollElements) item.addEventListener('scroll', handleScroll);

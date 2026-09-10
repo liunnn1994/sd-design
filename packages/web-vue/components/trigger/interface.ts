@@ -17,7 +17,7 @@ export interface TriggerProps {
   floatingOptions?: FloatingOptions;
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
-  trigger?: TriggerEvent;
+  trigger?: TriggerEvent | TriggerEvent[];
   position?: TriggerPosition;
   disabled?: boolean;
   popupOffset?: number;
@@ -56,4 +56,7 @@ export interface TriggerProps {
   preventFocus?: boolean;
   scrollToClose?: boolean;
   scrollToCloseDistance?: number;
+  escToClose?: boolean;
+  ariaHasPopup?: boolean | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
+  ariaDescribedbyPopup?: boolean;
 }

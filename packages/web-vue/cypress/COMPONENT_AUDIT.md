@@ -229,7 +229,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - TreeSelect: full 54-case Chrome suite passes with retries disabled (35 behavior + 2 readonly-tip + 17 demos). The trigger described its popup as a listbox even though the rendered widget uses tree/treeitem semantics. Both focusable trigger surfaces now expose `aria-haspopup=tree`; the browser regression also verifies expanded state and that `aria-controls` targets the visible tree popup. Single, multiple and checkbox selection, checked strategies, strict checking, filtering and search, virtual rendering, fallback values, custom triggers/tags/labels, path labels, expansion, readonly tips, installation, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: trigger.
+- Trigger: full 29-case Chrome suite passes with retries disabled (22 behavior + 7 demos). An initially visible popup with `scrollToClose` never registered its window listener, while a normally closed popup retained that listener. Listener setup now follows visible state during initial mount and later transitions; the browser regression scrolls an initially open popup and verifies its close event. The exported `TriggerProps` now matches runtime support for trigger arrays, Escape closing and popup ARIA relationships. Click, hover, focus and context-menu triggers, nested and controlled state, delays and close policies, Floating UI placement and overrides, arrows, sizing, teleport targets, scroll/resize behavior, persistent and empty content, emitted lifecycle, installation, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: typography.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -333,7 +335,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | transfer                      | Reviewed                             |
 | tree                          | Reviewed                             |
 | tree-select                   | Reviewed                             |
-| trigger                       | Pending                              |
+| trigger                       | Reviewed                             |
 | typography                    | Pending                              |
 | upload                        | Pending                              |
 | verification-code             | Pending                              |
