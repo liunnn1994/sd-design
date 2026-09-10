@@ -731,7 +731,7 @@ export type {
   TourStep,
 } from './tour';
 export { default as Transfer } from './transfer';
-export type { TransferInstance, TransferItem } from './transfer';
+export type { TransferInstance, TransferItem, TransferProps } from './transfer';
 export { default as Tree } from './tree';
 export type {
   CheckedStrategy,

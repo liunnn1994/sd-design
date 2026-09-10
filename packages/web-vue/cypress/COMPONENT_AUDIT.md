@@ -223,7 +223,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Tour: full 34-case Chrome suite passes with retries disabled (30 behavior + 4 demos). Global ArrowLeft/ArrowRight handling previously changed steps while focus was inside editable custom tour content, preventing normal caret movement. Direction keys now stay with inputs, textareas, selects and contenteditable elements while Escape and non-editing navigation remain active. The lifecycle regression now waits for each asynchronous highlight and correctly expects both visited steps to be deselected, removing its timing failure. Controlled and default navigation, overlay behavior, keyboard and focus handling, button policies and hooks, target and popup ARIA state, dynamic configuration, controller methods, Floating UI placement, teardown, installation, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: transfer.
+- Transfer: full 25-case Chrome suite passes with retries disabled (17 behavior + 8 demos). Move controls were removed from the tab order, and an overall-disabled Transfer with an existing selection left its operation buttons enabled. The buttons now retain native Tab/Enter access and include form-merged disabled state in their guards; browser coverage moves an item by keyboard and verifies both operations are disabled for a preselected disabled component. `TransferProps` is exported from the package entry. Controlled and default target/selection state, bidirectional, one-way and simple modes, disabled items, select-all, search, custom items/headers/icons, form integration, installation, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: tree.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -324,7 +326,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | toolbar                       | Reviewed                             |
 | tooltip                       | Reviewed                             |
 | tour                          | Reviewed                             |
-| transfer                      | Pending                              |
+| transfer                      | Reviewed                             |
 | tree                          | Pending                              |
 | tree-select                   | Pending                              |
 | trigger                       | Pending                              |

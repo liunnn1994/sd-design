@@ -23,11 +23,10 @@
     </transfer-view>
     <div v-if="!simple" :class="[`${prefixCls}-operations`]">
       <sd-button
-        tabindex="-1"
         :aria-label="t('a11y.moveSelectedRight')"
         size="small"
         shape="round"
-        :disabled="dataInfo.sourceInfo.validSelected.length === 0"
+        :disabled="mergedDisabled || dataInfo.sourceInfo.validSelected.length === 0"
         @click="handleClick('target')"
       >
         <template #icon>
@@ -36,11 +35,10 @@
       </sd-button>
       <sd-button
         v-if="!oneWay"
-        tabindex="-1"
         :aria-label="t('a11y.moveSelectedLeft')"
         size="small"
         shape="round"
-        :disabled="dataInfo.targetInfo.validSelected.length === 0"
+        :disabled="mergedDisabled || dataInfo.targetInfo.validSelected.length === 0"
         @click="handleClick('source')"
       >
         <template #icon>

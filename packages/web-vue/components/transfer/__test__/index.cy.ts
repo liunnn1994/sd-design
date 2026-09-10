@@ -65,6 +65,21 @@ describe('Transfer', () => {
     });
   });
 
+  it('keeps move buttons keyboard accessible and disables them with the component', () => {
+    cy.mount(Transfer, { props: { data, defaultSelected: ['option1'] } });
+    cy.get('.sd-transfer-operations button')
+      .first()
+      .should('not.have.attr', 'tabindex', '-1')
+      .focus()
+      .type('{enter}');
+    cy.get('.sd-transfer-view-target .sd-transfer-list-item').should('contain.text', 'Option 1');
+
+    cy.mount(Transfer, {
+      props: { data, defaultSelected: ['option1'], disabled: true },
+    });
+    cy.get('.sd-transfer-operations button').should('be.disabled');
+  });
+
   it('renders defaultValue items in the target panel', () => {
     cy.mount(Transfer, { props: { data, defaultValue: ['option2'] } });
     cy.get('.sd-transfer-view-target').should('contain.text', 'Option 2');
