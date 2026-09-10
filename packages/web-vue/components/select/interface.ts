@@ -1,7 +1,9 @@
 import type { VirtualListProps } from '../_components/virtual-list/interface';
 import type { FitWidthProps } from '../_hooks/use-fit-width';
 import type { Size } from '../_utils/constant';
+import type { FloatingOptions } from '../_utils/floating';
 import type { ScrollbarProps } from '../scrollbar';
+import type { SpinProps } from '../spin';
 import type { TriggerProps } from '../trigger';
 
 export type SelectOptionValue = string | number | boolean | Record<string, unknown>;
@@ -106,7 +108,9 @@ export interface SelectProps extends FitWidthProps {
   size?: Size;
   placeholder?: string;
   loading?: boolean;
+  spinProps?: SpinProps;
   disabled?: boolean;
+  readonly?: boolean | string;
   error?: boolean;
   allowClear?: boolean;
   allowSearch?: boolean | { retainInputValue?: boolean };
@@ -124,6 +128,7 @@ export interface SelectProps extends FitWidthProps {
   filterOption?: FilterOption;
   virtualListProps?: VirtualListProps;
   triggerProps?: TriggerProps;
+  floatingOptions?: FloatingOptions;
   fallbackOption?: boolean | SelectFallbackOption;
   showExtraOptions?: boolean;
   valueKey?: string;

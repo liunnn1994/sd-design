@@ -159,6 +159,19 @@ describe('Select', () => {
     });
   });
 
+  it('keeps the keyboard-active option visible in a long dropdown', () => {
+    cy.mount(Select, {
+      props: { options: Array.from({ length: 30 }, (_, index) => `Option ${index + 1}`) },
+    });
+    cy.get('.sd-select-view').click();
+    cy.get('input').focus();
+    Cypress._.times(20, () => cy.get('input').type('{downArrow}'));
+    cy.get('.sd-select-option-active').should('contain.text', 'Option 21').and('be.visible');
+    cy.get('.sd-select-dropdown [data-overlayscrollbars-viewport]').should(($viewport) => {
+      expect($viewport.scrollTop()).to.be.greaterThan(0);
+    });
+  });
+
   it('supports mouse selection', () => {
     cy.mount(Select, { props: { options: ['Beijing', 'Shanghai', 'Guangzhou'] } });
     cy.get('input').click();

@@ -177,7 +177,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Secret: full 9-case Chrome suite passes with retries disabled (5 behavior + 4 demos). The toggle tooltip was hard-coded in Chinese while its accessible name followed ConfigProvider locale; an English browser regression reproduced the mismatch, and both surfaces now use the same localized message. The existing props are exported as `SecretProps`, including the visible model. Hidden and visible content, uncontrolled and controlled state, custom masking, copy visibility, keyboard-capable native control semantics, installation, styles and tokens were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: select.
+- Select: full 69-case Chrome suite passes with retries disabled (47 behavior + 2 readonly-tip + 20 demos). Keyboard navigation in a long non-virtual dropdown changed the active option without scrolling OverlayScrollbars' actual viewport, leaving the option clipped. The dropdown now exposes that viewport to the navigation hook, and the regression follows twenty ArrowDown actions to verify both visibility and scroll movement. `SelectProps` now includes the existing spin, readonly and floating options. Single/multiple selection, filtering and creation, controlled aliases, disabled/readonly/loading states, clear/remove/limit events, grouping, slots, fallback and object values, responsive tags, virtual lists, ARIA relationships, installation, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: selectable-card.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -254,7 +256,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | rich-text-editor              | Reviewed                             |
 | scrollbar                     | Reviewed                             |
 | secret                        | Reviewed                             |
-| select                        | Pending                              |
+| select                        | Reviewed                             |
 | selectable-card               | Pending                              |
 | sender                        | Pending                              |
 | skeleton                      | Pending                              |

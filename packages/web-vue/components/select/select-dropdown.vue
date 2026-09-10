@@ -31,12 +31,12 @@
 
 <script setup lang="ts">
   import type { PropType } from 'vue';
-  import { computed, toRefs, inject, useSlots } from 'vue';
+  import { computed, toRefs, inject, ref, useSlots } from 'vue';
 
   import type { EmitType } from '../_utils/types';
+  import type { ScrollbarInstance } from '../scrollbar';
   import type { SpinProps } from '../spin';
 
-  import { useComponentRef } from '../_hooks/use-component-ref';
   import { useScrollbar } from '../_hooks/use-scrollbar';
   import { getPrefixCls } from '../_utils/global-config';
   import { configProviderInjectionKey } from '../config-provider/context';
@@ -84,8 +84,13 @@
   const configCtx = inject(configProviderInjectionKey, undefined);
   const SelectEmpty = configCtx?.slots.empty?.({ component: 'select' })?.[0];
 
-  const { componentRef: wrapperComRef, elementRef: wrapperRef } = useComponentRef('containerRef');
+  const wrapperComRef = ref<ScrollbarInstance>();
+  const wrapperRef = computed(
+    () => wrapperComRef.value?.elements()?.scrollOffsetElement as HTMLElement | undefined,
+  );
   const { scrollbarProps } = useScrollbar(scrollbar);
+
+  defineExpose({ wrapperRef });
 
   const handleScroll = (e: Event) => {
     const { scrollTop, scrollHeight, offsetHeight } = e.target as HTMLElement;
