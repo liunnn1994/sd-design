@@ -1,5 +1,5 @@
 <template>
-  <div :class="cls">
+  <div :class="getCls()">
     <div :class="`${prefixCls}-wrapper`">
       <div v-if="$slots.breadcrumb" :class="`${prefixCls}-breadcrumb`">
         <slot name="breadcrumb" />
@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, useSlots } from 'vue';
+  import { useSlots } from 'vue';
 
   import AIconHover from '../_components/icon-hover.vue';
   import { getPrefixCls } from '../_utils/global-config';
@@ -126,11 +126,11 @@
     }
   };
 
-  const cls = computed(() => [
+  const getCls = () => [
     prefixCls,
     {
       [`${prefixCls}-with-breadcrumb`]: Boolean(slots.breadcrumb),
       [`${prefixCls}-with-content`]: Boolean(slots.default),
     },
-  ]);
+  ];
 </script>

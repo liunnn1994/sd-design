@@ -1,4 +1,4 @@
-import { h } from 'vue';
+import { defineComponent, h, ref } from 'vue';
 
 import PageHeader from '../index';
 
@@ -98,5 +98,35 @@ describe('PageHeader', () => {
       slots: { 'back-icon': () => h('i', { class: 'custom-back-icon' }, '回') },
     });
     cy.get('.sd-page-header-back-btn .custom-back-icon').should('contain.text', '回');
+  });
+
+  it('updates layout modifiers when slots are added dynamically', () => {
+    const DynamicHeader = defineComponent({
+      setup() {
+        const showSlots = ref(false);
+        return () =>
+          h('div', [
+            h('button', { onClick: () => (showSlots.value = true) }, 'Show slots'),
+            h(
+              PageHeader,
+              { title: '详情' },
+              showSlots.value
+                ? {
+                    breadcrumb: () => h('nav', '首页 / 详情'),
+                    default: () => h('p', '动态内容'),
+                  }
+                : {},
+            ),
+          ]);
+      },
+    });
+
+    cy.mount(DynamicHeader);
+    cy.get('.sd-page-header').should('not.have.class', 'sd-page-header-with-content');
+    cy.contains('button', 'Show slots').click();
+    cy.get('.sd-page-header-content').should('contain.text', '动态内容');
+    cy.get('.sd-page-header')
+      .should('have.class', 'sd-page-header-with-content')
+      .and('have.class', 'sd-page-header-with-breadcrumb');
   });
 });
