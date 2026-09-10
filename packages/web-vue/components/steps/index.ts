@@ -23,6 +23,8 @@ const Steps = Object.assign(_Steps, {
 
 export type StepsInstance = InstanceType<typeof _Steps>;
 export type StepsStepInstance = InstanceType<typeof _StepsStep>;
+export type StepsProps = StepsInstance['$props'];
+export type StepsStepProps = StepsStepInstance['$props'];
 
 export { _StepsStep as Step };
 

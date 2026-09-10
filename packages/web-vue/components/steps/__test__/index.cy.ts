@@ -100,11 +100,27 @@ describe('Steps', () => {
       },
     });
     cy.get('.sd-steps-item').eq(1).should('have.class', 'sd-steps-item-disabled');
+    cy.get('.sd-steps-item').eq(1).should('have.attr', 'aria-disabled', 'true');
     cy.get('.sd-steps-item').eq(1).should('not.have.attr', 'tabindex');
     cy.get('.sd-steps-item').eq(1).click();
     cy.get('.sd-steps-item').eq(1).trigger('keydown', { key: 'Enter' });
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('change')).to.equal(undefined);
+    });
+  });
+
+  it('keeps a controlled current step unchanged until its prop is updated', () => {
+    cy.mount(Steps, {
+      props: { changeable: true, current: 1 },
+      slots: {
+        default: '<sd-step>Step1</sd-step><sd-step>Step2</sd-step>',
+      },
+    });
+    cy.get('.sd-steps-item').eq(1).click();
+    cy.get('.sd-steps-item').eq(0).should('have.attr', 'aria-current', 'step');
+    cy.get('.sd-steps-item').eq(1).should('not.have.attr', 'aria-current');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted<[number]>('update:current')?.[0][0]).to.equal(2);
     });
   });
 

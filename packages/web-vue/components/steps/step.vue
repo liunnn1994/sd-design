@@ -4,6 +4,7 @@
     :class="cls"
     role="listitem"
     :aria-current="stepNumber === stepsCtx?.current ? 'step' : undefined"
+    :aria-disabled="props.disabled || undefined"
     :tabindex="stepsCtx?.changeable && !props.disabled ? 0 : undefined"
     @click="handleClick"
     @keydown="onKeydown"

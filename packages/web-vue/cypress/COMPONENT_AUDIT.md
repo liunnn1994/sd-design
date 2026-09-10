@@ -195,7 +195,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Statistic: full 20-case Chrome suite passes with retries disabled (16 behavior + 4 demos). Changing an already-finished Countdown to a future deadline updated the display but left its timer stopped; the deadline watcher now restarts the timer, and the regression verifies the second finish event. Statistic numeric and date formatting, NumberFlow animation, precision and grouping, delayed starts, reactive values, slots and styles; Countdown initialization, pause/resume, deadline changes, finish-once behavior and cleanup; compound installation and the public surface were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: steps.
+- Steps: full 27-case Chrome suite passes with retries disabled (13 behavior + 14 demos). Disabled steps now expose `aria-disabled` in addition to suppressing pointer and keyboard changes, and controlled-current coverage verifies that interaction emits an update without changing the displayed step before the parent responds. Public prop aliases are exported for both compound components. Indexing through nested wrappers, status and error propagation, default and controlled state, click and Enter/Space activation, disabled behavior, direction and label constraints, line and size variants, slots, installation and styles were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: switch.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -281,7 +283,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | spin                          | Reviewed                             |
 | split                         | Reviewed                             |
 | statistic                     | Reviewed                             |
-| steps                         | Pending                              |
+| steps                         | Reviewed                             |
 | style                         | Pending                              |
 | switch                        | Pending                              |
 | table                         | Pending                              |
