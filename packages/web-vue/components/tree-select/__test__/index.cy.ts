@@ -254,17 +254,22 @@ describe('TreeSelect', () => {
     });
   });
 
-  it('trigger exposes aria-haspopup=listbox and aria-expanded', () => {
+  it('trigger exposes the tree popup relationship and expanded state', () => {
     cy.mount(TreeSelect, { props: { options, fieldNames } });
-    cy.get('.sd-select-view').should('have.attr', 'aria-haspopup', 'listbox');
+    cy.get('.sd-select-view').should('have.attr', 'aria-haspopup', 'tree');
     cy.get('.sd-select-view').should('have.attr', 'aria-expanded', 'false');
     // combobox 语义落到可聚焦的 input（经 inputAttrs）
     cy.get('input').should('have.attr', 'role', 'combobox');
-    cy.get('input').should('have.attr', 'aria-haspopup', 'listbox');
+    cy.get('input').should('have.attr', 'aria-haspopup', 'tree');
     cy.get('input').should('have.attr', 'aria-expanded', 'false');
     openPopup();
     cy.get('.sd-select-view').should('have.attr', 'aria-expanded', 'true');
     cy.get('input').should('have.attr', 'aria-expanded', 'true');
+    cy.get('.sd-select-view')
+      .invoke('attr', 'aria-controls')
+      .then((popupId) => {
+        cy.get(`#${popupId}`).find('[role="tree"]').should('be.visible');
+      });
   });
 
   it('selects a leaf in single mode, closes the popup and emits change', () => {

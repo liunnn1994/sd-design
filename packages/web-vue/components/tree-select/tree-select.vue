@@ -15,7 +15,7 @@
       :popup-container="popupContainer"
       :click-to-close="!Boolean(mergedAllowSearch)"
       auto-fit-transform-origin
-      aria-has-popup="listbox"
+      aria-has-popup="tree"
       @popupVisibleChange="onVisibleChange"
     >
       <slot
@@ -904,7 +904,7 @@
   const triggerInputAttrs = computed(() => ({
     'role': 'combobox',
     'aria-expanded': panelVisible.value,
-    'aria-haspopup': 'listbox',
+    'aria-haspopup': 'tree',
     'aria-autocomplete': mergedAllowSearch.value ? 'list' : 'none',
   }));
 

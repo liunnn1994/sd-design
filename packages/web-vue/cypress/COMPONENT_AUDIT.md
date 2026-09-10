@@ -227,7 +227,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Tree: full 73-case Chrome suite passes with retries disabled (44 component behavior + 6 check utilities + 3 tree-data utilities + 2 virtual-list behavior + 18 demos). A dynamically removed active node left its stale key in the roving-tabindex calculation, causing every remaining treeitem to receive `tabindex=-1`. The active key now applies only while it remains visible, with a browser regression deleting the focused final node and verifying exactly one fallback tab stop. Selection, checking and strategies, expansion and lazy loading, keyboard navigation and ARIA tree semantics, filtering and field mapping, slots and ellipsis, line and icon variants, drag events and guards, virtual rendering, exposed methods, installation, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: tree-select.
+- TreeSelect: full 54-case Chrome suite passes with retries disabled (35 behavior + 2 readonly-tip + 17 demos). The trigger described its popup as a listbox even though the rendered widget uses tree/treeitem semantics. Both focusable trigger surfaces now expose `aria-haspopup=tree`; the browser regression also verifies expanded state and that `aria-controls` targets the visible tree popup. Single, multiple and checkbox selection, checked strategies, strict checking, filtering and search, virtual rendering, fallback values, custom triggers/tags/labels, path labels, expansion, readonly tips, installation, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: trigger.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -330,7 +332,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | tour                          | Reviewed                             |
 | transfer                      | Reviewed                             |
 | tree                          | Reviewed                             |
-| tree-select                   | Pending                              |
+| tree-select                   | Reviewed                             |
 | trigger                       | Pending                              |
 | typography                    | Pending                              |
 | upload                        | Pending                              |
