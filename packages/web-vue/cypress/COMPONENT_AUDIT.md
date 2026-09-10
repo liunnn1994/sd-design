@@ -165,7 +165,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Rate: full 29-case Chrome suite passes with retries disabled (19 behavior + 2 readonly-tip + 8 demos). The radio semantics previously marked every filled star as selected, and half ratings exposed fractional `aria-posinset` values with the wrong set size. Exactly one score option is now selected; half ratings expose ten integer-positioned options for the default five-character scale. Controlled/uncontrolled values, click/clear/hover and keyboard interaction, disabled/readonly behavior, grading, colors, custom characters, installation and styles were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: regex-vis.
+- RegexVis: full 37-case Chrome suite passes with retries disabled (32 behavior + 5 demos). No production change was needed. Parser coverage includes branches, groups, assertions, quantifiers, character ranges and escapes, Annex-B syntax, Unicode code points/properties, named groups and backreferences, literal and controlled flags, invalid recovery, selection persistence, keyboard interaction, custom states and footer, readonly/hidden controls, accessible state, dark theme, layout containment, installation, styles and public types. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: resize-box.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -236,7 +238,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | qr-code                       | Reviewed                             |
 | radio                         | Reviewed                             |
 | rate                          | Reviewed                             |
-| regex-vis                     | Pending                              |
+| regex-vis                     | Reviewed                             |
 | resize-box                    | Pending                              |
 | result                        | Pending                              |
 | rich-text-editor              | Pending                              |
