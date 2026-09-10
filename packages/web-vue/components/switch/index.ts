@@ -21,5 +21,6 @@ const Switch = Object.assign(_Switch, {
 });
 
 export type SwitchInstance = InstanceType<typeof _Switch>;
+export type SwitchProps = SwitchInstance['$props'];
 
 export default Switch;

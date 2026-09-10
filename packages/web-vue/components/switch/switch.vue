@@ -4,6 +4,7 @@
     role="switch"
     :aria-checked="computedCheck"
     :aria-busy="computedLoading || undefined"
+    :aria-disabled="computedLoading || undefined"
     :class="cls"
     :style="buttonStyle"
     :disabled="mergedDisabled"

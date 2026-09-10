@@ -118,6 +118,7 @@ describe('Switch', () => {
     cy.mount(Switch, { props: { loading: true, defaultChecked: true } });
     cy.get('button').should('have.class', 'sd-switch-loading');
     cy.get('button').should('have.attr', 'aria-busy', 'true');
+    cy.get('button').should('have.attr', 'aria-disabled', 'true');
     cy.get('.sd-switch-handle-icon svg.sd-icon-loading').should('exist');
     cy.get('button').click();
     cy.get('button').should('have.attr', 'aria-checked', 'true');
