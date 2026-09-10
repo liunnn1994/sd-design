@@ -147,7 +147,7 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Modal: full 48-case Chrome suite passes with retries disabled (37 behavior + 11 demos). Unmounting during a drag reproduced leaked window mousemove, mouseup and contextmenu listeners; contextmenu also remained after a normal drag ended. The drag cleanup now removes all three listeners and runs before unmount. The browser regression matches each registered handler to its removal. Declarative and imperative APIs, async confirmation, controlled visibility, focus/ESC stacking, mask behavior, global defaults, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: model-selector.
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: notification.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -207,7 +207,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | menu                          | Reviewed                             |
 | message                       | Reviewed                             |
 | modal                         | Reviewed                             |
-| model-selector                | Pending                              |
+| model-selector                | Reviewed                             |
 | notification                  | Pending                              |
 | number-flow                   | Pending                              |
 | page-header                   | Pending                              |
