@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, h } from 'vue';
 
 import ThemeProvider from '../index';
 
@@ -151,6 +151,36 @@ describe('ThemeProvider', () => {
     });
     cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.unmount()));
     cy.get('.sd-theme-popup-container').should('not.exist');
+  });
+
+  it('inherits parent variables while preserving child overrides and popup themes', () => {
+    cy.mount(() =>
+      h(
+        ThemeProvider,
+        {
+          themeMode: 'dark',
+          theme: { tokens: { primary6: '1,2,3', colorWarning6: '7,8,9' } },
+        },
+        () =>
+          h(ThemeProvider, { theme: { tokens: { primary6: '4,5,6' } } }, () => h('span', 'nested')),
+      ),
+    );
+    cy.get('.sd-theme-provider')
+      .eq(1)
+      .should(($child) => {
+        const style = getComputedStyle($child[0]);
+        expect(style.getPropertyValue('--primary-6')).to.equal('4,5,6');
+        expect(style.getPropertyValue('--color-warning-6')).to.equal('7,8,9');
+      });
+    cy.get('.sd-theme-popup-container')
+      .filter((_index, element) => element.style.getPropertyValue('--primary-6') === '4,5,6')
+      .should('have.length', 1)
+      .should(($popup) => {
+        const style = ($popup[0] as HTMLElement).style;
+        expect(style.getPropertyValue('--primary-6')).to.equal('4,5,6');
+        expect(style.getPropertyValue('--color-warning-6')).to.equal('7,8,9');
+        expect($popup.attr('sd-theme')).to.equal('dark');
+      });
   });
 
   it('installs itself as SdThemeProvider on an app', () => {

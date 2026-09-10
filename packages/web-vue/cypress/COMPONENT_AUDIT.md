@@ -209,7 +209,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Textarea: full 19-case Chrome suite passes with retries disabled (12 behavior + 3 readonly-tip + 4 demos). Native textarea attributes were captured once during setup and ignored later updates; they are now derived reactively. The clear control was focusable in markup but hidden until pointer hover, so focus within the field now reveals it and the keyboard regression runs without forced interaction. `TextareaProps` is exported from the package entry. Controlled/uncontrolled and IME input ordering, grapheme and custom word limits, error-only limits, clear/change/focus events, disabled and readonly behavior, readonly tips, native attributes, fit width and auto size, form integration, exposed focus methods, slots, installation and styles were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: theme-provider.
+- ThemeProvider: full 14-case Chrome suite passes with retries disabled (13 behavior + 1 demo). New nested-provider coverage verifies inherited variables, child overrides, inherited mode and the same merged theme on body-level popup containers; the previously untested generated demo is now included. `ThemeProviderProps` is exported. Wrapper-free, local and global modes, custom tags, token and component normalization, custom prefixes, reactive pruning, body-state restoration, popup-container lifecycle and z-index, nested inheritance, installation and prefix options were reviewed. No production change was needed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: thinking-orb.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -303,7 +305,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | tag                           | Reviewed                             |
 | tag-group                     | Reviewed                             |
 | textarea                      | Reviewed                             |
-| theme-provider                | Pending                              |
+| theme-provider                | Reviewed                             |
 | thinking-orb                  | Pending                              |
 | time-picker                   | Pending                              |
 | timeline                      | Pending                              |

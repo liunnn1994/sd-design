@@ -15,5 +15,6 @@ const ThemeProvider = Object.assign(_ThemeProvider, {
 });
 
 export type ThemeProviderInstance = InstanceType<typeof _ThemeProvider>;
+export type ThemeProviderProps = ThemeProviderInstance['$props'];
 
 export default ThemeProvider;
