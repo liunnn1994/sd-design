@@ -31,7 +31,7 @@
   </DefineItem>
 
   <DefineCounter v-slot="{ hiddenOptions, itemTag }">
-    <Popover v-if="hiddenOptions.length > 0">
+    <Popover v-if="hiddenOptions.length > 0" :trigger="['hover', 'focus']">
       <template #default>
         <component
           :is="itemTag"
@@ -51,6 +51,7 @@
               :visible="true"
               :nowrap="true"
               :ellipsis="false"
+              tabindex="0"
               v-text="`+${hiddenOptions.length}`"
             />
           </slot>

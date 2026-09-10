@@ -205,7 +205,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Tag: full 41-case Chrome suite passes with retries disabled (30 behavior + 11 demos). New browser regressions verify that native attributes reach the root and that ConfigProvider RTL state is reflected in the rendered tag. No production change was needed. Controlled and uncontrolled visibility/checking, mouse and keyboard interaction, close isolation and accessible naming, loading and size states, built-in, custom, alpha and gradient color handling, automatic text contrast, ellipsis implementations and options, slots, installation, styles and the existing public interface were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: tag-group.
+- TagGroup: full 21-case Chrome suite passes with retries disabled (15 behavior + 6 demos/interactions). The collapsed counter previously revealed hidden tags only on pointer hover; its default content is now focusable and the Popover also responds to focus, with browser assertions for popup semantics and hidden content. Responsive measurement and live resizing, numeric limits, dynamic options, one-line gaps, list semantics, field remapping, primitive/object/function labels, Tag prop forwarding, empty content, item/label/counter slots, installation, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: textarea.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -297,7 +299,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | table                         | Reviewed                             |
 | tabs                          | Reviewed                             |
 | tag                           | Reviewed                             |
-| tag-group                     | Pending                              |
+| tag-group                     | Reviewed                             |
 | textarea                      | Pending                              |
 | theme-provider                | Pending                              |
 | thinking-orb                  | Pending                              |

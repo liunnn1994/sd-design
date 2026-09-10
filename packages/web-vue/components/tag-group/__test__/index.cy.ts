@@ -21,6 +21,17 @@ describe('TagGroup', () => {
     });
   });
 
+  it('reveals hidden tags when the default counter receives keyboard focus', () => {
+    cy.mount(TagGroup, {
+      props: { maxCount: 1, options: ['Visible', 'Hidden one', 'Hidden two'] },
+    });
+    cy.get('.sd-tag-group-item-counter').should('have.attr', 'aria-haspopup', 'true');
+    cy.get('.sd-tag-group-counter-content').should('have.attr', 'tabindex', '0');
+    cy.get('.sd-tag-group-counter-content').focus();
+    cy.get('.sd-tag-group-popover').should('be.visible').and('contain.text', 'Hidden one');
+    cy.get('.sd-tag-group-popover').should('contain.text', 'Hidden two');
+  });
+
   it('supports fieldNames', () => {
     cy.mount(TagGroup, {
       props: {
