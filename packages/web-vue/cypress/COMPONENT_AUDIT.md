@@ -217,7 +217,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Timeline: full 28-case Chrome suite passes with retries disabled (18 behavior + 10 demos). A new browser flow changes mode, direction, pending content and reverse order after mount, verifying that injected child positions, item count and the visual last marker all update together. The inferred runtime prop surfaces are exported as `TimelineProps` and `TimelineItemProps`. Static and dynamic direction/mode/reverse behavior, pending content and spin customization, labels, dot and line variants, slots, list semantics, installation, styles and public types were reviewed. No production behavior change was needed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: toolbar.
+- Toolbar: full 29-case Chrome suite passes with retries disabled (25 behavior + 4 demos). The root Enter shortcut previously duplicated native search-button activation and caused keyboard reset to emit an unrelated search. It now ignores button, link, textarea and editable targets, prevented events and IME composition; browser cases verify one search from the search button, reset without search, and multiline/composition suppression. Schema and slot rendering, model updates, reset snapshots and skipped keys, exposed methods, loading, action customization, overflow expansion, layout variables, ResizeObserver cleanup, installation, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: tooltip.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -315,7 +317,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | thinking-orb                  | Reviewed                             |
 | time-picker                   | Reviewed                             |
 | timeline                      | Reviewed                             |
-| toolbar                       | Pending                              |
+| toolbar                       | Reviewed                             |
 | tooltip                       | Pending                              |
 | tour                          | Pending                              |
 | transfer                      | Pending                              |

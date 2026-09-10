@@ -34,6 +34,34 @@ describe('Toolbar', () => {
     });
   });
 
+  it('does not duplicate button actions when they are activated with Enter', () => {
+    const onSearch = cy.spy().as('onSearch');
+    const onReset = cy.spy().as('onReset');
+    cy.mount(Toolbar, {
+      props: { modelValue: { name: 'value' }, onSearch, onReset },
+    });
+
+    cy.contains('button', SEARCH_TEXT).focus().type('{enter}');
+    cy.get('@onSearch').should('have.been.calledOnce');
+
+    cy.contains('button', RESET_TEXT).focus().type('{enter}');
+    cy.get('@onReset').should('have.been.calledOnce');
+    cy.get('@onSearch').should('have.been.calledOnce');
+  });
+
+  it('does not search from multiline or composing input', () => {
+    const onSearch = cy.spy().as('onSearch');
+    cy.mount(Toolbar, {
+      props: { onSearch },
+      slots: { default: '<textarea class="notes"></textarea>' },
+    });
+    cy.get('.notes').type('{enter}');
+    cy.get('@onSearch').should('not.have.been.called');
+
+    cy.get('.notes').trigger('keydown', { key: 'Enter', isComposing: true });
+    cy.get('@onSearch').should('not.have.been.called');
+  });
+
   it('toggles the action buttons with show-search / show-reset', () => {
     cy.mount(Toolbar, {
       props: { showSearch: false, showReset: false, schemas: [{ field: 'name', type: 'input' }] },

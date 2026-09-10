@@ -1,5 +1,5 @@
 <template>
-  <div :class="cls" :style="styleVars" @keydown.enter="handleSearch">
+  <div :class="cls" :style="styleVars" @keydown.enter="onEnter">
     <Spin v-bind="resolvedSpinProps" :loading="loading" :class="`${prefixCls}-inner`">
       <div ref="bodyRef" :class="bodyCls">
         <slot v-if="$slots.default" />
@@ -176,6 +176,20 @@
 
   function handleSearch() {
     emit('search', modelValue.value);
+  }
+
+  function onEnter(event: KeyboardEvent) {
+    if (event.isComposing || event.defaultPrevented) return;
+
+    const target = event.target;
+    if (
+      target instanceof Element &&
+      target.closest('button, a, textarea, [contenteditable="true"]')
+    ) {
+      return;
+    }
+
+    handleSearch();
   }
 
   function reset(emitReset: unknown = true) {
