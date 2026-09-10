@@ -146,6 +146,19 @@ describe('Tree', () => {
     cy.focused().should('have.attr', 'data-key', 'a2');
   });
 
+  it('restores a tab stop when dynamic data removes the active node', () => {
+    cy.mount(Tree, { props: { data: navData, defaultExpandAll: true } });
+    cy.get('[data-key="b"]').focus().trigger('keydown', { key: 'Home' });
+    cy.get('[data-key="a"]').should('have.attr', 'tabindex', '0');
+    cy.get('[data-key="a"]').trigger('keydown', { key: 'End' });
+    cy.get('[data-key="b"]').should('have.attr', 'tabindex', '0');
+
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ data: [navData[0]] }));
+    cy.get('[data-key="b"]').should('not.exist');
+    cy.get('[data-key="a"]').should('have.attr', 'tabindex', '0');
+    cy.get('.sd-tree-node[tabindex="0"]').should('have.length', 1);
+  });
+
   it('toggles the checkbox with Space on a focused checkable node', () => {
     cy.mount(Tree, { props: { data: navData, checkable: true, defaultExpandAll: true } });
     cy.get('[data-key="a1"]').trigger('keydown', { key: ' ' });

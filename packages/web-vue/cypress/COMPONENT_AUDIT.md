@@ -225,7 +225,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Transfer: full 25-case Chrome suite passes with retries disabled (17 behavior + 8 demos). Move controls were removed from the tab order, and an overall-disabled Transfer with an existing selection left its operation buttons enabled. The buttons now retain native Tab/Enter access and include form-merged disabled state in their guards; browser coverage moves an item by keyboard and verifies both operations are disabled for a preselected disabled component. `TransferProps` is exported from the package entry. Controlled and default target/selection state, bidirectional, one-way and simple modes, disabled items, select-all, search, custom items/headers/icons, form integration, installation, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: tree.
+- Tree: full 73-case Chrome suite passes with retries disabled (44 component behavior + 6 check utilities + 3 tree-data utilities + 2 virtual-list behavior + 18 demos). A dynamically removed active node left its stale key in the roving-tabindex calculation, causing every remaining treeitem to receive `tabindex=-1`. The active key now applies only while it remains visible, with a browser regression deleting the focused final node and verifying exactly one fallback tab stop. Selection, checking and strategies, expansion and lazy loading, keyboard navigation and ARIA tree semantics, filtering and field mapping, slots and ellipsis, line and icon variants, drag events and guards, virtual rendering, exposed methods, installation, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: tree-select.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -327,7 +329,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | tooltip                       | Reviewed                             |
 | tour                          | Reviewed                             |
 | transfer                      | Reviewed                             |
-| tree                          | Pending                              |
+| tree                          | Reviewed                             |
 | tree-select                   | Pending                              |
 | trigger                       | Pending                              |
 | typography                    | Pending                              |

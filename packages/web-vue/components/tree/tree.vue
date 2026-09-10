@@ -747,7 +747,12 @@
   // 活动节点：默认选中节点或首个可见节点；用户用方向键后跟踪当前焦点。
   const activeKey = ref<TreeNodeKey | undefined>(undefined);
   const effectiveActiveKey = computed<TreeNodeKey | undefined>(() => {
-    if (activeKey.value !== undefined) return activeKey.value;
+    if (
+      activeKey.value !== undefined &&
+      visibleTreeNodeList.value.some((node) => node.key === activeKey.value)
+    ) {
+      return activeKey.value;
+    }
     const selected = mergedSelectedKeys.value.find((k) => key2TreeNode.value.has(k));
     if (selected !== undefined) return selected;
     return visibleTreeNodeList.value[0]?.key;
