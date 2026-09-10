@@ -245,7 +245,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - `_utils`: shared utility review complete. Read all 31 runtime/type utility files, covering DOM lookup and measurement, keyboard constants, reactive global configuration, responsive media registration, RAF throttling, debouncing, floating option forwarding, virtual dropdown defaults, date/locale conversion, grapheme handling, path access safety, equality, VNode traversal and collection helpers. The direct global-config suite passes both Chrome cases with retries disabled, and the completed component suites cover the remaining consumers. The shared debounce helper could not cancel pending work, leaving Select search, TreeSelect filtering and Table hover timers alive after owner unmount. It now exposes `cancel()`, and all three consumers call it during teardown. A Select browser regression verifies the exact search timer is cleared; full Select, TreeSelect and Table suites pass 71, 54 and 67 cases respectively with retries disabled. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components. All public components and code support directories are reviewed; final shared-style review: `style`.
+- `style`: shared style review complete. Read the root style/theme entry chain, normalize layer, animation and reduced-motion entries, icon-hover mixin, palette generators, CSS-variable emitters, token functions/mixins/legacy aliases and z-index constants. Stylelint passes the complete shared style directory. The configured Vite build-style mode compiles all 99 discovered component style entries plus the root bundle and exits successfully; the `vp run task:build-style` wrapper itself cannot resolve the installed Vite executable in this Windows environment, so the exact configured Vite command was run directly. ThemeProvider's full 14-case Chrome suite passes with retries disabled, covering local/global light/dark attributes, runtime token variables, prefixing, updates, popup inheritance and teardown. No production change was needed.
+
+Includes every immediate directory in components. All public components and shared support directories are reviewed; final repository gates follow.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -332,7 +334,7 @@ Includes every immediate directory in components. All public components and code
 | split                         | Reviewed                             |
 | statistic                     | Reviewed                             |
 | steps                         | Reviewed                             |
-| style                         | Pending                              |
+| style                         | Reviewed; shared support             |
 | switch                        | Reviewed                             |
 | table                         | Reviewed                             |
 | tabs                          | Reviewed                             |
