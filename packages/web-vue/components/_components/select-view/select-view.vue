@@ -183,7 +183,9 @@
   );
   const isEmptyValue = computed(() => props.modelValue.length === 0);
   const enabledInput = computed(() => props.allowSearch || props.allowCreate);
-  const showClearBtn = computed(() => props.allowClear && !props.disabled && !isEmptyValue.value);
+  const showClearBtn = computed(
+    () => props.allowClear && !mergedDisabled.value && !isEmptyValue.value,
+  );
   const cls = computed(() => [
     `${prefixCls}-${props.multiple ? 'multiple' : 'single'}`,
     {

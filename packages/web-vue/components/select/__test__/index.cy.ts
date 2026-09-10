@@ -1,5 +1,6 @@
 import { h } from 'vue';
 
+import Form, { FormItem } from '../../form';
 import Select from '../index';
 
 const open = () => cy.get('.sd-select-view').click();
@@ -326,6 +327,24 @@ describe('Select', () => {
     cy.get('.sd-select-view').click();
     // Trigger 常驻渲染隐藏的下拉容器，禁用时点击不应使其可见
     cy.get('.sd-select-dropdown').should('not.be.visible');
+  });
+
+  it('hides clear when disabled by the form context', () => {
+    cy.mount({
+      components: { Form, FormItem, Select },
+      template: `
+        <Form :model="model" disabled>
+          <FormItem field="city">
+            <Select v-model="model.city" :options="['Beijing', 'Shanghai']" />
+          </FormItem>
+        </Form>
+      `,
+      data: () => ({ model: { city: 'Beijing' } }),
+    });
+
+    cy.get('.sd-select-view').should('have.class', 'sd-select-view-disabled');
+    cy.get('input').should('be.disabled');
+    cy.get('.sd-select-view-clear-btn').should('not.exist');
   });
 
   it('clears a single value and emits clear + change', () => {

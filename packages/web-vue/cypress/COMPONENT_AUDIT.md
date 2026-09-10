@@ -239,11 +239,13 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Watermark: full 21-case Chrome suite passes with retries disabled (17 behavior + 4 demos). A slow image load could finish after newer props had already rendered a text or replacement watermark, then overwrite the current layer. Each render now receives a generation id and stale image callbacks are ignored; a controlled browser regression completes the old image after a newer text render and verifies layer identity is preserved. `WatermarkProps` and the documented `WatermarkFont` type are exported from component and package entries. Text, multiline and image drawing, font measurement, grayscale fallback, sizing, gaps, offsets, repeat and stagger patterns, alpha and rotation, theme redraws, mutation protection and opt-out, slot mutation isolation, attributes, installation and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components. All public components are reviewed; next shared-support review: `_components`.
+- `_components`: shared support review complete. Read the virtual-list implementation and legacy unreferenced size helper, both resize-observer variants, resize trigger, expand transition, SelectView/InputLabel, picker inputs, AutoTooltip, ClientOnly, IconHover, FeedbackIcon, interfaces and SCSS entries. Their public consumers were already exercised through the completed component suites. A Form-disabled Select still rendered the shared SelectView clear button because visibility checked only the local prop; it now follows the merged form state. The new real Form/FormItem/Select browser regression passes, and the full Select suite passes all 70 cases with retries disabled. No unsupported public component status is inferred for these internal modules. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components. All public components and `_components` are reviewed; next shared-support review: `_hooks`.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
-| \_components                  | Pending                              |
+| \_components                  | Reviewed; shared support             |
 | \_hooks                       | Pending                              |
 | \_utils                       | Pending                              |
 | affix                         | Reviewed; browser cases above passed |
