@@ -23,6 +23,7 @@ const Skeleton = Object.assign(_Skeleton, {
 export type SkeletonInstance = InstanceType<typeof _Skeleton>;
 export type SkeletonLineInstance = InstanceType<typeof _SkeletonLine>;
 export type SkeletonShapeInstance = InstanceType<typeof _SkeletonShape>;
+export type { SkeletonLineProps, SkeletonProps, SkeletonShapeProps } from './interface';
 
 export { _SkeletonLine as SkeletonLine, _SkeletonShape as SkeletonShape };
 

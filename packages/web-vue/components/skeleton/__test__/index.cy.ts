@@ -54,7 +54,7 @@ describe('Skeleton', () => {
       },
     });
 
-    cy.get('.sd-skeleton-line').should('have.length', 3);
+    cy.get('.sd-skeleton-line').should('have.length', 1).and('match', 'ul');
     cy.get('.sd-skeleton-line-row').should('have.length', 3);
     cy.get('.sd-skeleton-line-row')
       .eq(0)
@@ -93,11 +93,11 @@ describe('Skeleton', () => {
 
   it('SkeletonLine re-renders when rows/widths/lineHeight/lineSpacing props change', () => {
     cy.mount(SkeletonLine, { props: { rows: 2, lineHeight: 20, lineSpacing: 10 } });
-    cy.get('.sd-skeleton-line').should('have.length', 2);
+    cy.get('.sd-skeleton-line').should('have.length', 1);
     cy.get('@vue').then(({ wrapper }) =>
       wrapper.setProps({ rows: 4, lineHeight: 30, lineSpacing: 5, widths: ['40%'] }),
     );
-    cy.get('.sd-skeleton-line').should('have.length', 4);
+    cy.get('.sd-skeleton-line').should('have.length', 1);
     cy.get('.sd-skeleton-line-row')
       .eq(0)
       .should('have.attr', 'style')

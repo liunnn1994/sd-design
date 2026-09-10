@@ -1,6 +1,6 @@
 <template>
-  <ul v-for="(style, index) of lines" :key="index" :class="prefixCls">
-    <li :class="`${prefixCls}-row`" :style="style" />
+  <ul :class="prefixCls">
+    <li v-for="(style, index) of lines" :key="index" :class="`${prefixCls}-row`" :style="style" />
   </ul>
 </template>
 

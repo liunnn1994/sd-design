@@ -183,7 +183,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Sender: full 64-case Chrome suite passes with retries disabled (46 component behavior + 18 demo and interactive cases). A new browser regression verifies that Enter does not submit while an IME composition is active. No production change was needed. Text and structured editors, controlled updates, submit modes and modifiers, readonly and disabled interactions, loading cancellation, paste and file handling, recorder permission/start/stop/cleanup, auto sizing, selection and insertion APIs, skills and custom slots, locale and ARIA labels, SenderHeader, SenderSwitch, installation, styles and the public type surface were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: skeleton.
+- Skeleton: full 10-case Chrome suite passes with retries disabled (7 behavior + 3 demos). SkeletonLine previously rendered one `ul` for every row, producing several one-item lists; it now renders one semantic list containing all rows, with browser assertions covering the structure and reactive row changes. Public props are exported for Skeleton, SkeletonLine and SkeletonShape. Loading/content switching, `aria-busy`, animation, line dimensions and spacing, shape and size variants, compound installation, styles and tokens were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: slider.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -263,7 +265,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | select                        | Reviewed                             |
 | selectable-card               | Reviewed                             |
 | sender                        | Reviewed                             |
-| skeleton                      | Pending                              |
+| skeleton                      | Reviewed                             |
 | slider                        | Pending                              |
 | space                         | Pending                              |
 | spin                          | Pending                              |
