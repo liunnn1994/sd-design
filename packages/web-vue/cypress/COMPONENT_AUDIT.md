@@ -203,7 +203,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Tabs: full 42-case Chrome suite passes with retries disabled (31 behavior + 11 demos). Add, close and overflow controls were pointer-only anonymous elements; they are now native buttons with localized accessible names, native keyboard activation and disabled behavior, with browser coverage for add and overflow actions. Button reset styles preserve the existing presentation, and props are exported for Tabs and TabPane. Controlled/uncontrolled activation, roving keyboard focus, disabled tabs, ARIA tab/panel wiring, editable events, overflow, positions and RTL, lazy and destroyed panes, frozen inactive content, full-height scrolling, animation, slots, installation and styles were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: tag.
+- Tag: full 41-case Chrome suite passes with retries disabled (30 behavior + 11 demos). New browser regressions verify that native attributes reach the root and that ConfigProvider RTL state is reflected in the rendered tag. No production change was needed. Controlled and uncontrolled visibility/checking, mouse and keyboard interaction, close isolation and accessible naming, loading and size states, built-in, custom, alpha and gradient color handling, automatic text contrast, ellipsis implementations and options, slots, installation, styles and the existing public interface were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: tag-group.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -294,7 +296,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | switch                        | Reviewed                             |
 | table                         | Reviewed                             |
 | tabs                          | Reviewed                             |
-| tag                           | Pending                              |
+| tag                           | Reviewed                             |
 | tag-group                     | Pending                              |
 | textarea                      | Pending                              |
 | theme-provider                | Pending                              |

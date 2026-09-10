@@ -1,3 +1,6 @@
+import { h } from 'vue';
+
+import ConfigProvider from '../../config-provider';
 import Ellipsis, { PerformantEllipsis } from '../../ellipsis';
 import Tag from '../index';
 
@@ -233,5 +236,20 @@ describe('Tag', () => {
   it('applies the size class for size=small', () => {
     cy.mount(Tag, { props: { size: 'small' }, slots: { default: 'Small' } });
     cy.get('.sd-tag').should('have.class', 'sd-tag-size-small');
+  });
+
+  it('forwards native attributes to the tag root', () => {
+    cy.mount(Tag, {
+      attrs: { 'aria-label': 'Build status', 'data-testid': 'status-tag' },
+      slots: { default: 'Ready' },
+    });
+    cy.get('[data-testid="status-tag"]')
+      .should('have.class', 'sd-tag')
+      .and('have.attr', 'aria-label', 'Build status');
+  });
+
+  it('follows ConfigProvider RTL direction', () => {
+    cy.mount(() => h(ConfigProvider, { rtl: true }, () => h(Tag, null, () => 'RTL')));
+    cy.get('.sd-tag').should('have.class', 'sd-tag-rtl');
   });
 });
