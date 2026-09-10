@@ -215,7 +215,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - TimePicker: full 28-case Chrome suite passes with retries disabled (12 behavior + 2 readonly-tip + 14 demos). The custom-trigger browser flow now locks down the popup relationship through `aria-haspopup`, reactive `aria-expanded` and `aria-controls` targeting the visible panel. The component's inferred runtime prop surface is exported as `TimePickerProps`. Single and range values, controlled and uncontrolled visibility, typed input, clear, 12-hour formatting, steps, disabled options, direct and confirmed selection, range sorting, custom triggers, readonly tips, locale, installation, styles and public types were reviewed. No production behavior change was needed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: timeline.
+- Timeline: full 28-case Chrome suite passes with retries disabled (18 behavior + 10 demos). A new browser flow changes mode, direction, pending content and reverse order after mount, verifying that injected child positions, item count and the visual last marker all update together. The inferred runtime prop surfaces are exported as `TimelineProps` and `TimelineItemProps`. Static and dynamic direction/mode/reverse behavior, pending content and spin customization, labels, dot and line variants, slots, list semantics, installation, styles and public types were reviewed. No production behavior change was needed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: toolbar.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -312,7 +314,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | theme-provider                | Reviewed                             |
 | thinking-orb                  | Reviewed                             |
 | time-picker                   | Reviewed                             |
-| timeline                      | Pending                              |
+| timeline                      | Reviewed                             |
 | toolbar                       | Pending                              |
 | tooltip                       | Pending                              |
 | tour                          | Pending                              |

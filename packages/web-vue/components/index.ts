@@ -711,6 +711,8 @@ export type {
   PositionType,
   TimelineInstance,
   TimelineItemInstance,
+  TimelineItemProps,
+  TimelineProps,
 } from './timeline';
 export { default as Tooltip } from './tooltip';
 export type { TooltipInstance } from './tooltip';

@@ -62,6 +62,28 @@ describe('Timeline', () => {
     cy.get('.sd-timeline-item').should('have.class', 'sd-timeline-item-horizontal-top');
   });
 
+  it('updates item positions, pending state and the last marker when props change', () => {
+    cy.mount(Timeline, {
+      global: { components: { TimelineItem: Item } },
+      slots: { default: '<timeline-item>1</timeline-item><timeline-item>2</timeline-item>' },
+    });
+    cy.get('.sd-timeline-item').eq(1).should('have.class', 'sd-timeline-item-last');
+
+    cy.get('@vue').then(({ wrapper }) =>
+      wrapper.setProps({ mode: 'alternate', direction: 'horizontal', pending: '等待中' }),
+    );
+    cy.get('.sd-timeline-item').should('have.length', 3);
+    cy.get('.sd-timeline-item').eq(0).should('have.class', 'sd-timeline-item-horizontal-top');
+    cy.get('.sd-timeline-item').eq(1).should('have.class', 'sd-timeline-item-horizontal-bottom');
+    cy.get('.sd-timeline-item').eq(1).should('not.have.class', 'sd-timeline-item-last');
+    cy.get('.sd-timeline-item').eq(2).should('have.class', 'sd-timeline-item-last');
+
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ reverse: true, pending: false }));
+    cy.get('.sd-timeline-item').should('have.length', 2);
+    cy.get('.sd-timeline-item').eq(0).should('have.class', 'sd-timeline-item-last');
+    cy.get('.sd-timeline-item').eq(1).should('not.have.class', 'sd-timeline-item-last');
+  });
+
   it('marks only the last item as last, and shifts the marker when reversed', () => {
     cy.mount(Timeline, {
       global: { components: { TimelineItem: Item } },

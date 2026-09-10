@@ -21,6 +21,8 @@ const Timeline = Object.assign(_Timeline, {
 
 export type TimelineInstance = InstanceType<typeof _Timeline>;
 export type TimelineItemInstance = InstanceType<typeof _TimelineItem>;
+export type TimelineProps = TimelineInstance['$props'];
+export type TimelineItemProps = TimelineItemInstance['$props'];
 
 export { _TimelineItem as TimelineItem };
 
