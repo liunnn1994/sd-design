@@ -191,7 +191,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Spin: full 29-case Chrome suite passes with retries disabled (22 behavior + 7 demos). The status region now exposes `aria-busy` only while its delayed or immediate indicator is actually active, with assertions for standalone and inactive container states. Loading transitions and anti-flash delay behavior, masks and content, icon/element/dot/global-slot precedence, tips, sizing, ConfigProvider overrides, attribute forwarding, installation, styles and the inferred public props were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: split.
+- Split: full 15-case Chrome suite passes with retries disabled (13 behavior + 2 demos). Unmounting during an active resize leaked its mousemove, mouseup and contextmenu listeners and left the body resize cursor active. Shared drag cleanup now runs on normal completion and unmount, with exact listener-pair assertions. The existing `SplitProps` contract is exported and its fields correctly reflect runtime optional defaults. Percentage/pixel sizing, mount-time and interactive min/max clamps, horizontal/vertical mouse and keyboard resizing, separator semantics, slots, custom root elements, installation and styles were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: statistic.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -275,7 +277,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | slider                        | Reviewed                             |
 | space                         | Reviewed                             |
 | spin                          | Reviewed                             |
-| split                         | Pending                              |
+| split                         | Reviewed                             |
 | statistic                     | Pending                              |
 | steps                         | Pending                              |
 | style                         | Pending                              |

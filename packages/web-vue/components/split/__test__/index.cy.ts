@@ -178,6 +178,27 @@ describe('Split', () => {
     });
   });
 
+  it('removes active drag listeners and restores the cursor when unmounted', () => {
+    cy.mount(Split, { attrs: { style: 'width: 400px' } });
+    cy.get('@vue').then(({ wrapper }) => {
+      const win = wrapper.element.ownerDocument.defaultView!;
+      const add = cy.spy(win, 'addEventListener');
+      const remove = cy.spy(win, 'removeEventListener');
+      dragStart(wrapper.find('.sd-split-trigger').element, 200, 0);
+
+      cy.get('body').should('have.css', 'cursor', 'col-resize');
+      cy.then(() => {
+        wrapper.unmount();
+        for (const type of ['mousemove', 'mouseup', 'contextmenu']) {
+          const registration = add.getCalls().find((call) => call.args[0] === type);
+          expect(registration, `${type} registered`).not.to.equal(undefined);
+          expect(remove.calledWith(type, registration!.args[1]), `${type} removed`).to.equal(true);
+        }
+        expect(win.document.body.style.cursor).to.equal('default');
+      });
+    });
+  });
+
   it('clamps an out-of-range defaultSize on mount silently (no update:size emit)', () => {
     cy.mount(Split, {
       props: { defaultSize: '50px', min: '150px' },

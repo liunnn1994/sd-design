@@ -24,7 +24,16 @@
   </component>
 </template>
 <script setup lang="ts">
-  import { computed, PropType, reactive, ref, toRefs, onMounted, nextTick } from 'vue';
+  import {
+    computed,
+    PropType,
+    reactive,
+    ref,
+    toRefs,
+    onBeforeUnmount,
+    onMounted,
+    nextTick,
+  } from 'vue';
 
   import ResizeTrigger from '../_components/resize-trigger.vue';
   import useMergeState from '../_hooks/use-merge-state';
@@ -286,12 +295,16 @@
   }
 
   // 移动结束，解除事件绑定
-  function onMovingEnd(e: MouseEvent) {
+  function cleanupMoving() {
     off(window, 'mousemove', onMoving);
     off(window, 'mouseup', onMovingEnd);
     off(window, 'contextmenu', onMovingEnd);
 
     document.body.style.cursor = 'default';
+  }
+
+  function onMovingEnd(e: MouseEvent) {
+    cleanupMoving();
     emit('moveEnd', e);
   }
 
@@ -345,4 +358,6 @@
       setMergedSize(clampedSize);
     }
   });
+
+  onBeforeUnmount(cleanupMoving);
 </script>

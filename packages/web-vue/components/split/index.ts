@@ -15,5 +15,6 @@ const Split = Object.assign(_Split, {
 });
 
 export type SplitInstance = InstanceType<typeof _Split>;
+export type { SplitProps } from './interface';
 
 export default Split;
