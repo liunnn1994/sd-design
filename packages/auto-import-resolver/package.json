@@ -45,7 +45,7 @@
     "@semantic-release/github": "^12.0.9",
     "@semantic-release/release-notes-generator": "^14.1.1",
     "semantic-release": "^25.0.9",
-    "tsdown": "^0.22.14",
+    "tsdown": "^0.23.0",
     "unplugin-vue-components": "^32.1.0"
   },
   "peerDependencies": {
