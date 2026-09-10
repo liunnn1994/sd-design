@@ -121,6 +121,15 @@ describe('Sender', () => {
     });
   });
 
+  it('does not submit while an IME composition is active', () => {
+    cy.mount(Sender, { props: { defaultValue: '正在输入' } });
+
+    cy.get('textarea').trigger('keydown', { key: 'Enter', isComposing: true });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('submit')).to.equal(undefined);
+    });
+  });
+
   it('supports shiftEnter submit mode', () => {
     cy.mount(Sender, {
       props: {

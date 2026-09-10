@@ -181,7 +181,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - SelectableCard: full 11-case Chrome suite passes with retries disabled (7 behavior + 4 demos). New browser coverage verifies native Space-key activation and that enabled nested action controls do not toggle the card. The existing documented prop contract is now exported as `SelectableCardProps`. Controlled selection, disabled behavior, checkbox semantics, card and nested-control clicks, content and named slots, visual variants, sizes, layouts, custom dimensions, installation, styles and Tag-derived color tokens were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: sender.
+- Sender: full 64-case Chrome suite passes with retries disabled (46 component behavior + 18 demo and interactive cases). A new browser regression verifies that Enter does not submit while an IME composition is active. No production change was needed. Text and structured editors, controlled updates, submit modes and modifiers, readonly and disabled interactions, loading cancellation, paste and file handling, recorder permission/start/stop/cleanup, auto sizing, selection and insertion APIs, skills and custom slots, locale and ARIA labels, SenderHeader, SenderSwitch, installation, styles and the public type surface were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: skeleton.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -260,7 +262,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | secret                        | Reviewed                             |
 | select                        | Reviewed                             |
 | selectable-card               | Reviewed                             |
-| sender                        | Pending                              |
+| sender                        | Reviewed                             |
 | skeleton                      | Pending                              |
 | slider                        | Pending                              |
 | space                         | Pending                              |
