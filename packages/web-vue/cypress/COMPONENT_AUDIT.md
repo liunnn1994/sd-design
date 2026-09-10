@@ -167,7 +167,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - RegexVis: full 37-case Chrome suite passes with retries disabled (32 behavior + 5 demos). No production change was needed. Parser coverage includes branches, groups, assertions, quantifiers, character ranges and escapes, Annex-B syntax, Unicode code points/properties, named groups and backreferences, literal and controlled flags, invalid recovery, selection persistence, keyboard interaction, custom states and footer, readonly/hidden controls, accessible state, dark theme, layout containment, installation, styles and public types. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: resize-box.
+- ResizeBox: full 26-case Chrome suite passes with retries disabled (22 behavior + 4 demos). Unmounting during an active drag leaked the window mousemove, mouseup and contextmenu listeners and left the body resize cursor active. A shared cleanup now runs on both drag end and unmount; the regression matches registered handlers to their removal and verifies cursor restoration. Mouse and keyboard resizing in every direction, zero clamping, controlled dimensions, trigger measurement and slots, semantic separators, installation and styles were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: result.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -239,7 +241,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | radio                         | Reviewed                             |
 | rate                          | Reviewed                             |
 | regex-vis                     | Reviewed                             |
-| resize-box                    | Pending                              |
+| resize-box                    | Reviewed                             |
 | result                        | Pending                              |
 | rich-text-editor              | Pending                              |
 | scrollbar                     | Pending                              |

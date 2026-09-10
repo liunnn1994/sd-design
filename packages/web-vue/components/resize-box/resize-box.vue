@@ -31,7 +31,7 @@
   </component>
 </template>
 <script setup lang="ts">
-  import { computed, PropType, toRefs, ref, reactive } from 'vue';
+  import { computed, onBeforeUnmount, PropType, toRefs, ref, reactive } from 'vue';
 
   import ResizeTrigger from '../_components/resize-trigger.vue';
   import useMergeState from '../_hooks/use-merge-state';
@@ -236,7 +236,7 @@
     );
   }
 
-  function onMoveEnd(e: MouseEvent) {
+  function cleanupDragging() {
     record.moving = false;
 
     off(window, 'mousemove', onMoving);
@@ -244,7 +244,10 @@
     off(window, 'contextmenu', onMoveEnd);
 
     document.body.style.cursor = 'default';
+  }
 
+  function onMoveEnd(e: MouseEvent) {
+    cleanupDragging();
     emit('movingEnd', e);
   }
 
@@ -318,4 +321,6 @@
       emit('update:height', newHeight);
     }
   }
+
+  onBeforeUnmount(cleanupDragging);
 </script>

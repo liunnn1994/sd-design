@@ -238,4 +238,25 @@ describe('ResizeBox', () => {
 
     cy.get('.custom-icon').should('have.attr', 'data-direction', 'left');
   });
+
+  it('removes active drag listeners and restores the cursor when unmounted', () => {
+    cy.mount(ResizeBox, { props: { width: 500, height: 200 } });
+    cy.get('@vue').then(({ wrapper }) => {
+      const win = wrapper.element.ownerDocument.defaultView!;
+      const add = cy.spy(win, 'addEventListener');
+      const remove = cy.spy(win, 'removeEventListener');
+      const trigger = wrapper.find('.sd-resizebox-direction-right').element;
+
+      mouseDown(trigger, 200, 0);
+      expect(win.document.body.style.cursor).to.equal('col-resize');
+      wrapper.unmount();
+
+      for (const type of ['mousemove', 'mouseup', 'contextmenu']) {
+        const registration = add.getCalls().find((call) => call.args[0] === type);
+        expect(registration, `${type} registered`).not.to.equal(undefined);
+        expect(remove.calledWith(type, registration!.args[1]), `${type} removed`).to.equal(true);
+      }
+      expect(win.document.body.style.cursor).to.equal('default');
+    });
+  });
 });
