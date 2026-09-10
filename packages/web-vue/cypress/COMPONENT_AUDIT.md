@@ -151,7 +151,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - PageHeader: full 15-case Chrome suite passes with retries disabled (11 behavior + 4 demos). Dynamically adding breadcrumb and default slots reproduced rendered content without the matching layout modifier classes because slot presence was cached in a computed value without reactive dependencies. Layout classes now read current slots during render. Static props, slots, keyboard back activation, installation, styles and tokens were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: pagination.
+- Pagination: full 34-case Chrome suite passes with retries disabled (25 behavior + 9 demos). A ConfigProvider `autoAdjust: false` setting still moved the current page when the user changed page size because the direct handler read the local prop instead of the merged configuration. The handler now uses the merged value, and the exported `PaginationProps` includes the existing `autoAdjust` runtime prop. Paging boundaries, controlled and uncontrolled state, page-size changes, jumper behavior, keyboard access, slots, global defaults, installation, styles and tokens were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: popconfirm.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -215,7 +217,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | notification                  | Reviewed                             |
 | number-flow                   | Reviewed                             |
 | page-header                   | Reviewed                             |
-| pagination                    | Pending                              |
+| pagination                    | Reviewed                             |
 | popconfirm                    | Pending                              |
 | popover                       | Pending                              |
 | progress                      | Pending                              |

@@ -271,8 +271,32 @@ describe('Pagination', () => {
         expect(wrapper.emitted('update:pageSize')?.[0]).to.deep.equal([20]);
         expect(wrapper.emitted('pageSizeChange')?.[0]).to.deep.equal([20]);
         // autoAdjust: first item of page 3 (item 21) lands on page 2 at pageSize 20
-        expect(wrapper.emitted('update:current')?.[0]).to.deep.equal([2]);
-        expect(wrapper.emitted('change')?.[0]).to.deep.equal([2]);
+        expect(wrapper.emitted('update:current')).to.deep.equal([[2]]);
+        expect(wrapper.emitted('change')).to.deep.equal([[2]]);
+      });
+  });
+
+  it('honors ConfigProvider autoAdjust when the page size changes', () => {
+    cy.mount(Pagination, {
+      props: { total: 100, defaultCurrent: 3, showPageSize: true },
+      global: {
+        provide: {
+          [configProviderInjectionKey as symbol]: {
+            slots: {},
+            pagination: { autoAdjust: false },
+          },
+        },
+      },
+    });
+    cy.get('@vue')
+      .then(({ wrapper }) => {
+        wrapper.findComponent({ name: 'PageOptions' }).vm.$emit('change', 20);
+      })
+      .should(({ wrapper }) => {
+        expect(wrapper.emitted('update:pageSize')).to.deep.equal([[20]]);
+        expect(wrapper.emitted('pageSizeChange')).to.deep.equal([[20]]);
+        expect(wrapper.emitted('update:current')).to.equal(undefined);
+        expect(wrapper.emitted('change')).to.equal(undefined);
       });
   });
 

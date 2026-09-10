@@ -289,7 +289,7 @@
     emit('pageSizeChange', pageSize);
     // autoAdjust：保持当前页首项在新页长下仍可见（如 100 条每页 10 第 3 页 → 每页 20 时落到第 2 页）
     if (
-      props.autoAdjust &&
+      mergedAutoAdjust.value &&
       isNumber(computedCurrent.value) &&
       oldPageSize !== pageSize &&
       oldPageSize > 0
