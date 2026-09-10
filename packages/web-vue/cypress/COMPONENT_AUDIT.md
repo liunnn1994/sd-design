@@ -195,7 +195,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | kv-list                       | Reviewed                             |
 | layout                        | Reviewed                             |
 | link                          | Reviewed                             |
-| list                          | Pending                              |
+| list                          | Reviewed                             |
 | locale                        | Pending                              |
 | mention                       | Pending                              |
 | menu                          | Pending                              |
