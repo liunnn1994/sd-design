@@ -161,7 +161,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - QrCode: full 23-case Chrome suite passes with retries disabled (18 behavior + 5 demos). An out-of-order SVG render reproduced an older asynchronous result replacing the newest value. Render generations now suppress stale SVG results, and canvas generation occurs offscreen before the active result is copied to the visible canvas, preventing the equivalent drawing race. Values, canvas/SVG modes, palette and theme changes, error and boost options, margins, icons, status overlays and refresh actions, slots, accessibility, installation, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: radio.
+- Radio: full 31-case Chrome suite passes with retries disabled (18 behavior + 13 demo and interactive cases). No production change was needed. Standalone and group controlled/uncontrolled state, native change payloads, shared names and radiogroup semantics, disabled and form-derived state, radio/button variants, directions and sizes, primitive/object/function options, label and radio slots, context opt-out, installation, styles and public exports were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: rate.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -230,7 +232,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | popover                       | Reviewed                             |
 | progress                      | Reviewed                             |
 | qr-code                       | Reviewed                             |
-| radio                         | Pending                              |
+| radio                         | Reviewed                             |
 | rate                          | Pending                              |
 | regex-vis                     | Pending                              |
 | resize-box                    | Pending                              |
