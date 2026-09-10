@@ -15,5 +15,6 @@ const Result = Object.assign(_Result, {
 });
 
 export type ResultInstance = InstanceType<typeof _Result>;
+export type { ResultStatus } from './utils';
 
 export default Result;

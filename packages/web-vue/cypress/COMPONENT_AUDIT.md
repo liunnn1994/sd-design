@@ -169,7 +169,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - ResizeBox: full 26-case Chrome suite passes with retries disabled (22 behavior + 4 demos). Unmounting during an active drag leaked the window mousemove, mouseup and contextmenu listeners and left the body resize cursor active. A shared cleanup now runs on both drag end and unmount; the regression matches registered handlers to their removal and verifies cursor restoration. Mouse and keyboard resizing in every direction, zero clamping, controlled dimensions, trigger measurement and slots, semantic separators, installation and styles were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: result.
+- Result: full 19-case Chrome suite passes with retries disabled (10 behavior + 9 demos). The existing public `ResultStatus` union is now exported from the component entry, and its runtime validator no longer uses `any`. Default, custom and HTTP-status illustrations, invalid-status fallback, title/subtitle/icon/extra/content slots, decorative icon semantics, dynamic classes, installation and styles were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: rich-text-editor.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -242,7 +244,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | rate                          | Reviewed                             |
 | regex-vis                     | Reviewed                             |
 | resize-box                    | Reviewed                             |
-| result                        | Pending                              |
+| result                        | Reviewed                             |
 | rich-text-editor              | Pending                              |
 | scrollbar                     | Pending                              |
 | secret                        | Pending                              |

@@ -65,8 +65,8 @@
     status: {
       type: String as PropType<ResultStatus>,
       default: 'info',
-      validator: (value: any) => {
-        return RESULT_STATUS.includes(value);
+      validator: (value: unknown) => {
+        return RESULT_STATUS.includes(value as ResultStatus);
       },
     },
     /**
