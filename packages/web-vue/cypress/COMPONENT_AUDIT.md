@@ -153,7 +153,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Pagination: full 34-case Chrome suite passes with retries disabled (25 behavior + 9 demos). A ConfigProvider `autoAdjust: false` setting still moved the current page when the user changed page size because the direct handler read the local prop instead of the merged configuration. The handler now uses the merged value, and the exported `PaginationProps` includes the existing `autoAdjust` runtime prop. Paging boundaries, controlled and uncontrolled state, page-size changes, jumper behavior, keyboard access, slots, global defaults, installation, styles and tokens were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: popconfirm.
+- Popconfirm: full 21-case Chrome suite passes with retries disabled (15 behavior + 6 demos). The added controlled-lifecycle regression verifies that closing the popup while an asynchronous confirmation is pending invalidates its eventual result and suppresses the stale `ok` callback. No production change was needed. Confirmation and cancellation guards, promise resolve/reject/loading behavior, controlled visibility, ESC handling, trigger ARIA state, content/icon/button customization, installation, styles and tokens were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: popover.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -218,7 +220,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | number-flow                   | Reviewed                             |
 | page-header                   | Reviewed                             |
 | pagination                    | Reviewed                             |
-| popconfirm                    | Pending                              |
+| popconfirm                    | Reviewed                             |
 | popover                       | Pending                              |
 | progress                      | Pending                              |
 | qr-code                       | Pending                              |

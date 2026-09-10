@@ -1,3 +1,5 @@
+import { h, ref } from 'vue';
+
 import Popconfirm from '../index';
 
 describe('Popconfirm', () => {
@@ -202,6 +204,37 @@ describe('Popconfirm', () => {
       expect(wrapper.emitted('ok')).to.equal(undefined);
     });
     cy.get('.sd-popconfirm-popup-content').should('be.visible');
+  });
+
+  it('ignores a pending confirmation after controlled visibility closes', () => {
+    const visible = ref(true);
+    let resolveConfirmation!: (confirmed: boolean) => void;
+    const onOk = cy.spy().as('onOk');
+
+    cy.mount(() =>
+      h(
+        Popconfirm,
+        {
+          content: 'Content',
+          popupVisible: visible.value,
+          renderToBody: false,
+          onBeforeOk: () =>
+            new Promise<boolean>((resolve) => {
+              resolveConfirmation = resolve;
+            }),
+          onOk,
+        },
+        { default: () => h('button', 'Button') },
+      ),
+    );
+    cy.get('.sd-popconfirm-footer .sd-btn').eq(1).click({ force: true });
+    cy.get('.sd-popconfirm-popup-content .sd-btn-loading').should('exist');
+    cy.then(() => {
+      visible.value = false;
+    });
+    cy.get('.sd-popconfirm-popup-content').should('not.be.visible');
+    cy.then(() => resolveConfirmation(true));
+    cy.get('@onOk').should('not.have.been.called');
   });
 
   it('closes on ESC and emits the visibility events', () => {
