@@ -64,7 +64,13 @@
     role="columnheader"
     :aria-sort="ariaSort"
   >
-    <span :class="cellCls" @click="hasSorter ? handleClickSorter($event) : undefined">
+    <span
+      :class="cellCls"
+      :role="hasSorter ? 'button' : undefined"
+      :tabindex="hasSorter ? 0 : undefined"
+      @click="hasSorter ? handleClickSorter($event) : undefined"
+      @keydown="handleSorterKeydown"
+    >
       <AutoTooltip
         v-if="column.ellipsis && column.tooltip"
         :class="`${prefixCls}-th-title`"
@@ -117,6 +123,7 @@
   import IconHover from '../_components/icon-hover.vue';
   import { getPrefixCls } from '../_utils/global-config';
   import { isBoolean, isFunction, isObject } from '../_utils/is';
+  import { isActivationKey } from '../_utils/keyboard';
   import Button from '../button';
   import Checkbox from '../checkbox';
   import IconCaretDown from '../icon/icon-caret-down';
@@ -275,5 +282,12 @@
 
   function handleMouseDown(event: MouseEvent) {
     if (props.column.dataIndex) tableCtx.onThMouseDown?.(props.column.dataIndex, event);
+  }
+
+  function handleSorterKeydown(event: KeyboardEvent) {
+    if (hasSorter.value && event.target === event.currentTarget && isActivationKey(event)) {
+      event.preventDefault();
+      handleClickSorter(event);
+    }
   }
 </script>

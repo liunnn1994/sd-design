@@ -199,7 +199,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Switch: full 26-case Chrome suite passes with retries disabled (15 behavior + 11 demos). A loading switch already suppresses changes and exposes busy state; it now also announces that it is temporarily unavailable through `aria-disabled`. The existing component props are exported as `SwitchProps`. Native switch semantics, controlled and uncontrolled values, custom checked values, auto-loading, synchronous and asynchronous change guards, disabled and loading states, focus/blur and form hooks, text and icon slots, sizes, shapes, colors, installation and styles were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: table.
+- Table: full 67-case Chrome suite passes with retries disabled (41 behavior + 26 demos). Sortable headers previously responded only to pointer clicks; their sort control now has button semantics, enters the tab order, and handles Enter and Space without letting nested controls trigger sorting. The browser regression verifies focus, both keyboard transitions, row order and `aria-sort`. Rendering, virtual scrolling, sticky and fixed layouts, sorting, filtering, pagination, selection, expansion and lazy trees, drag behavior, resizing, merged and summary cells, empty/loading states, event surfaces, slots, compound components, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: tabs.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -288,7 +290,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | steps                         | Reviewed                             |
 | style                         | Pending                              |
 | switch                        | Reviewed                             |
-| table                         | Pending                              |
+| table                         | Reviewed                             |
 | tabs                          | Pending                              |
 | tag                           | Pending                              |
 | tag-group                     | Pending                              |

@@ -110,6 +110,25 @@ describe('Table', () => {
     });
   });
 
+  it('sorts from the keyboard and exposes an operable sorter control', () => {
+    const data = reactive(JSONCopy(demoData));
+    const columns = JSONCopy(demoColumns);
+    columns[1].sortable = { sortDirections: ['ascend', 'descend'] };
+    cy.mount(Table, { props: { columns, data, pagination: false } });
+
+    cy.get('.sd-table-cell-with-sorter')
+      .should('have.attr', 'role', 'button')
+      .and('have.attr', 'tabindex', '0')
+      .focus()
+      .trigger('keydown', { key: 'Enter' });
+    cy.get('.sd-table-th').eq(1).should('have.attr', 'aria-sort', 'ascending');
+    cy.get('.sd-table-td').eq(1).should('have.text', '1');
+
+    cy.get('.sd-table-cell-with-sorter').trigger('keydown', { key: ' ' });
+    cy.get('.sd-table-th').eq(1).should('have.attr', 'aria-sort', 'descending');
+    cy.get('.sd-table-td').eq(1).should('have.text', '5');
+  });
+
   it('exposes table grid semantics (table/rowgroup/row/columnheader/cell)', () => {
     const data = JSONCopy(demoData);
     const columns: TableColumnData[] = [
