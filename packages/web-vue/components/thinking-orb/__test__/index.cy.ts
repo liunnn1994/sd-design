@@ -89,4 +89,27 @@ describe('ThinkingOrb', () => {
     cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ paused: false })));
     cy.get('@requestAnimationFrame').should('have.been.called');
   });
+
+  it('draws a static reduced-motion frame and releases the media listener', () => {
+    cy.window().then((window) => {
+      const addEventListener = cy.spy().as('addMotionListener');
+      const removeEventListener = cy.spy().as('removeMotionListener');
+      cy.stub(window, 'matchMedia').returns({
+        matches: true,
+        media: '(prefers-reduced-motion: reduce)',
+        onchange: null,
+        addEventListener,
+        removeEventListener,
+        addListener: () => undefined,
+        removeListener: () => undefined,
+        dispatchEvent: () => false,
+      });
+      cy.spy(window, 'requestAnimationFrame').as('requestAnimationFrame');
+    });
+    cy.mount(ThinkingOrb);
+    cy.get('@addMotionListener').should('have.been.calledOnce');
+    cy.get('@requestAnimationFrame').should('not.have.been.called');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.unmount()));
+    cy.get('@removeMotionListener').should('have.been.calledOnce');
+  });
 });

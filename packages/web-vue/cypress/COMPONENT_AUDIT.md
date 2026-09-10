@@ -211,7 +211,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - ThemeProvider: full 14-case Chrome suite passes with retries disabled (13 behavior + 1 demo). New nested-provider coverage verifies inherited variables, child overrides, inherited mode and the same merged theme on body-level popup containers; the previously untested generated demo is now included. `ThemeProviderProps` is exported. Wrapper-free, local and global modes, custom tags, token and component normalization, custom prefixes, reactive pruning, body-state restoration, popup-container lifecycle and z-index, nested inheritance, installation and prefix options were reviewed. No production change was needed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: thinking-orb.
+- ThinkingOrb: full 11-case Chrome suite passes with retries disabled (7 behavior + 4 demos). New browser coverage verifies that reduced-motion users receive a static frame without animation scheduling and that the media-query listener is removed on unmount. No production change was needed. Accessible state labels and attribute overrides, tuned size fallback, inherited and explicit themes, light/dark raster colors, paused and reduced-motion rendering, renderer restart and cleanup, presets and drawing engines, installation, styles and the public type surface were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: time-picker.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -306,7 +308,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | tag-group                     | Reviewed                             |
 | textarea                      | Reviewed                             |
 | theme-provider                | Reviewed                             |
-| thinking-orb                  | Pending                              |
+| thinking-orb                  | Reviewed                             |
 | time-picker                   | Pending                              |
 | timeline                      | Pending                              |
 | toolbar                       | Pending                              |
