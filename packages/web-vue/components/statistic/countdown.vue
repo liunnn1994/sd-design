@@ -138,6 +138,9 @@
     if (_value !== displayValue.value) {
       displayValue.value = _value;
     }
+    if (!timer.value && dayjs(props.value).valueOf() > Date.now()) {
+      startTimer();
+    }
   });
 
   const timer = ref(0);

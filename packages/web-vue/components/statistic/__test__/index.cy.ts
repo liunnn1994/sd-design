@@ -172,4 +172,18 @@ describe('Countdown', () => {
     cy.tick(100);
     cy.get('.sd-statistic-value .sd-number-flow').eq(1).should('have.attr', 'aria-label', '08');
   });
+
+  it('restarts after a finished countdown receives a future deadline', () => {
+    cy.clock(10_000);
+    cy.mount(Countdown, { props: { value: 9_000, now: 10_000, format: 'ss' } });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('finish')).to.have.length(1);
+      return wrapper.setProps({ value: 12_000, now: 10_000 });
+    });
+    cy.get('.sd-statistic-value .sd-number-flow').should('have.attr', 'aria-label', '02');
+    cy.tick(2_100);
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('finish')).to.have.length(2);
+    });
+  });
 });
