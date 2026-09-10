@@ -15,6 +15,7 @@ const TimePicker = Object.assign(_TimePicker, {
 });
 
 export type TimePickerInstance = InstanceType<typeof _TimePicker>;
+export type TimePickerProps = TimePickerInstance['$props'];
 export type { TimePickerTriggerSlotProps, TimeValue } from './interface';
 
 export default TimePicker;

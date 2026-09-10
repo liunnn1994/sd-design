@@ -16,9 +16,21 @@ describe('TimePicker custom trigger', () => {
       },
     });
     cy.get('.sd-picker').should('not.exist');
-    cy.get('.custom-trigger').should('have.text', '09:30:00|9|false');
+    cy.get('.custom-trigger')
+      .should('have.text', '09:30:00|9|false')
+      .and('have.attr', 'aria-haspopup', 'dialog')
+      .and('have.attr', 'aria-expanded', 'false')
+      .and('not.have.attr', 'aria-controls');
     cy.get('.custom-trigger').click();
-    cy.get('.custom-trigger').should('have.text', '09:30:00|9|true');
+    cy.get('.custom-trigger')
+      .should('have.text', '09:30:00|9|true')
+      .and('have.attr', 'aria-expanded', 'true')
+      .and('have.attr', 'aria-controls');
+    cy.get('.custom-trigger')
+      .invoke('attr', 'aria-controls')
+      .then((popupId) => {
+        cy.get(`#${popupId}`).should('be.visible');
+      });
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('popup-visible-change')?.at(-1)?.[0]).to.equal(true);
     });

@@ -701,7 +701,7 @@ export type {
 export { default as Textarea } from './textarea';
 export type { TextareaInstance } from './textarea';
 export { default as TimePicker } from './time-picker';
-export type { TimePickerInstance, TimeValue } from './time-picker';
+export type { TimePickerInstance, TimePickerProps, TimeValue } from './time-picker';
 export { default as Timeline, TimelineItem } from './timeline';
 export type {
   DotType,
