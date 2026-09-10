@@ -196,7 +196,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | layout                        | Reviewed                             |
 | link                          | Reviewed                             |
 | list                          | Reviewed                             |
-| locale                        | Pending                              |
+| locale                        | Reviewed                             |
 | mention                       | Pending                              |
 | menu                          | Pending                              |
 | message                       | Pending                              |
