@@ -243,13 +243,15 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - `_hooks`: shared composable review complete. Read all 30 hooks, including controlled-state helpers, form/config merging, cursor and input handling, popup stacking/containers/overflow, focus trapping, responsive subscriptions, resize observation, theme observation, fit-width measurement and slot/child indexing. Existing direct hook suites pass all 27 Chrome cases with retries disabled, while completed public component suites exercise the consumer lifecycles. Changing a mounted Menu breakpoint did not recalculate from the already known media-query state; `useResponsive` now caches the latest screen map and applies it when the reactive breakpoint changes. The new browser regression switches from a matching `md` breakpoint to a nonmatching `xl` breakpoint at a fixed viewport, and the full Menu suite passes all 33 cases with retries disabled. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components. All public components, `_components` and `_hooks` are reviewed; next shared-support review: `_utils`.
+- `_utils`: shared utility review complete. Read all 31 runtime/type utility files, covering DOM lookup and measurement, keyboard constants, reactive global configuration, responsive media registration, RAF throttling, debouncing, floating option forwarding, virtual dropdown defaults, date/locale conversion, grapheme handling, path access safety, equality, VNode traversal and collection helpers. The direct global-config suite passes both Chrome cases with retries disabled, and the completed component suites cover the remaining consumers. The shared debounce helper could not cancel pending work, leaving Select search, TreeSelect filtering and Table hover timers alive after owner unmount. It now exposes `cancel()`, and all three consumers call it during teardown. A Select browser regression verifies the exact search timer is cleared; full Select, TreeSelect and Table suites pass 71, 54 and 67 cases respectively with retries disabled. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components. All public components and code support directories are reviewed; final shared-style review: `style`.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
 | \_components                  | Reviewed; shared support             |
 | \_hooks                       | Reviewed; shared support             |
-| \_utils                       | Pending                              |
+| \_utils                       | Reviewed; shared support             |
 | affix                         | Reviewed; browser cases above passed |
 | alert                         | Reviewed; browser cases above passed |
 | anchor                        | Reviewed; browser cases above passed |

@@ -7,6 +7,7 @@
   import {
     computed,
     inject,
+    onBeforeUnmount,
     onBeforeUpdate,
     onMounted,
     provide,
@@ -1242,6 +1243,10 @@
     },
     30,
   );
+  onBeforeUnmount(() => {
+    handleCellMouseEnter.cancel();
+    handleCellMouseLeave.cancel();
+  });
   const handleCellDblclick = (record: TableDataWithRaw, column: TableColumnData, ev: Event) => {
     emit('cellDblclick', record.raw, column, ev);
   };

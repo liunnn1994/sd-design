@@ -2,7 +2,7 @@ const target = typeof window === 'undefined' ? global : window;
 
 export function debounce<T extends unknown[]>(callback: (...args: T) => void, delay: number) {
   let timer = 0;
-  return (...args: T) => {
+  const debounced = (...args: T) => {
     if (timer) {
       target.clearTimeout(timer);
     }
@@ -11,4 +11,13 @@ export function debounce<T extends unknown[]>(callback: (...args: T) => void, de
       callback(...args);
     }, delay) as unknown as number;
   };
+
+  debounced.cancel = () => {
+    if (timer) {
+      target.clearTimeout(timer);
+      timer = 0;
+    }
+  };
+
+  return debounced;
 }

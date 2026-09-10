@@ -1,4 +1,4 @@
-import { computed, toRefs, watchEffect, ref } from 'vue';
+import { computed, onBeforeUnmount, toRefs, watchEffect, ref } from 'vue';
 
 import { debounce } from '../../_utils/debounce';
 import { isUndefined } from '../../_utils/is';
@@ -66,6 +66,7 @@ export default function useFilterTreeNode(props: {
 
     filteredKeysSet.value = _keysSet;
   }, 100);
+  onBeforeUnmount(updateFilteredKeysSet.cancel);
 
   watchEffect(() => {
     if (disableFilter?.value) {

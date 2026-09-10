@@ -116,6 +116,7 @@
     getCurrentInstance,
     inject,
     nextTick,
+    onBeforeUnmount,
     ref,
     toRef,
     toRefs,
@@ -706,6 +707,7 @@
   const handleSearch = debounce((value: string) => {
     emit('search', value);
   }, props.searchDelay);
+  onBeforeUnmount(handleSearch.cancel);
 
   const handleInputValueChange = (inputValue: string) => {
     if (inputValue === computedInputValue.value) {
