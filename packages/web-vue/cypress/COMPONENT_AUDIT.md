@@ -171,7 +171,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Result: full 19-case Chrome suite passes with retries disabled (10 behavior + 9 demos). The existing public `ResultStatus` union is now exported from the component entry, and its runtime validator no longer uses `any`. Default, custom and HTTP-status illustrations, invalid-status fallback, title/subtitle/icon/extra/content slots, decorative icon semantics, dynamic classes, installation and styles were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: rich-text-editor.
+- RichTextEditor: full 41-case Chrome suite passes with retries disabled (33 behavior + 8 demos). No production change was needed. Lexical creation and teardown, plugins and commands, controlled serialization without echo, text/HTML/Markdown APIs, streaming corrections, history, focus and editability, auto sizing, semantic styling, placeholder and error states, custom and all built-in component nodes, ConfigProvider overrides, node isolation and selection, installation and the complete public type surface were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: scrollbar.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -245,7 +247,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | regex-vis                     | Reviewed                             |
 | resize-box                    | Reviewed                             |
 | result                        | Reviewed                             |
-| rich-text-editor              | Pending                              |
+| rich-text-editor              | Reviewed                             |
 | scrollbar                     | Pending                              |
 | secret                        | Pending                              |
 | select                        | Pending                              |
