@@ -64,7 +64,7 @@
   const prefixCls = getPrefixCls('back-top');
   const visible = ref(false);
   const target = ref<HTMLElement>();
-  let tween: BTween | undefined;
+  let tween: InstanceType<typeof BTween> | undefined;
 
   const scrollHandler = throttleByRaf(() => {
     if (target.value) {
