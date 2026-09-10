@@ -77,6 +77,18 @@ describe('Message', () => {
     cy.get('.sd-message').should('contain.text', 'Info Message 2');
   });
 
+  it('can recreate a cleared message with the same id before the container leaves', () => {
+    cy.then(() => {
+      Message.info({ id: 'reused', content: 'Before clear', duration: 0 });
+    });
+    cy.get('.sd-message').should('contain.text', 'Before clear');
+    cy.then(() => {
+      Message.clear();
+      Message.info({ id: 'reused', content: 'After clear', duration: 0 });
+    });
+    cy.get('.sd-message').should('have.length', 1).and('contain.text', 'After clear');
+  });
+
   // --- message.vue component-level coverage ---
 
   it('shows the type icon by default and hides it when show-icon is false', () => {

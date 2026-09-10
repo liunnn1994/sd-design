@@ -87,6 +87,7 @@ class MessageManger {
 
   clear = () => {
     this.messages.value.splice(0);
+    this.messageIds.clear();
   };
 
   destroy = () => {
