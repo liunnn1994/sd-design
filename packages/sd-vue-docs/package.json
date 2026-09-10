@@ -21,14 +21,14 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.8",
-    "@astrojs/starlight": "^0.41.10",
+    "@astrojs/starlight": "^0.41.11",
     "@astrojs/vue": "^7.0.2",
     "@sdata/web-vue": "workspace:*",
     "@tailwindcss/vite": "^4.3.3",
     "@vue/repl": "^4.7.2",
     "@vueuse/core": "catalog:",
-    "astro": "^7.2.9",
-    "sharp": "^0.35.3",
+    "astro": "^7.3.2",
+    "sharp": "^0.35.4",
     "shiki": "^4.4.3",
     "tailwindcss": "^4.3.3",
     "unist-util-visit": "^5.1.0",
@@ -36,7 +36,7 @@
     "vue": "catalog:"
   },
   "devDependencies": {
-    "rolldown": "^1.2.5",
+    "rolldown": "^1.2.6",
     "vue-tsc": "^3.3.11"
   }
 }

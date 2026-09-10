@@ -67,7 +67,11 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ## typescript
 
-Use `vue-tsc`/`tsc` (the `typescript` package) for type-checking, and `type-fest` whenever possible for type combinations. Do not use `@typescript/native-preview` (tsgo/ts7) — it has unresolved Vue compatibility issues.
+Type-checking runs on **typescript-native-bridge** (TNB) — a drop-in `typescript` package whose checker is tsgo (TypeScript 7, Go-native), behind the classic `typescript` API. It is pinned exactly in `pnpm-workspace.yaml` (both `catalog:` and `overrides:` — update both, exact version, no caret) and covers `vue-tsc`, `tsc`, and `build:dts`. Editors need `js/ts.tsdk.path` in `.vscode/settings.json` plus "TypeScript: Select TypeScript Version → Use Workspace Version".
+
+- The checker's behavior is tsgo's, not stock TypeScript's — diagnostics can differ from stock; if output looks wrong, compare against tsgo before assuming a repo bug.
+- Use `vue-tsc`/`tsc` (the `typescript` package) for type-checking, and `type-fest` whenever possible for type combinations.
+- Do not use `@typescript/native-preview` or install `typescript@7` directly — the classic API (`createProgram`, `vue-tsc`, tsserver plugins) is not a drop-in fit for them; TNB exists for this reason.
 
 ## style
 

@@ -193,7 +193,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | input-tag                     | Reviewed                             |
 | json-form                     | Reviewed                             |
 | kv-list                       | Reviewed                             |
-| layout                        | Pending                              |
+| layout                        | Reviewed                             |
 | link                          | Pending                              |
 | list                          | Pending                              |
 | locale                        | Pending                              |

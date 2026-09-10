@@ -42,7 +42,7 @@ export function scrollTo(element: HTMLElement, to: number, duration: number) {
         from: { scrollTop: element.scrollTop },
         to: { scrollTop: to },
         duration,
-        onUpdate: (keys: { scrollTop: number }) => {
+        onUpdate: (keys: Record<string, number>) => {
           element.scrollTop = keys.scrollTop;
         },
       });

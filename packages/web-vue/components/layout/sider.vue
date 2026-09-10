@@ -387,6 +387,7 @@
     handler(mql);
 
     return () => {
+      below.value = false;
       if (typeof mql.removeEventListener === 'function') {
         mql.removeEventListener('change', handler as (e: MediaQueryListEvent) => void);
       } else if (typeof mql.removeListener === 'function') {
@@ -405,6 +406,7 @@
     () => props.breakpoint,
     () => {
       cleanupResponsive?.();
+      below.value = false;
       cleanupResponsive = setupResponsive();
     },
   );
@@ -470,6 +472,12 @@
       emit('update:rail', true);
     }
   };
+
+  watch(railHoverEnabled, (val) => {
+    if (!val) {
+      isHovering.value = false;
+    }
+  });
 
   // 实际渲染宽度：rail 悬停展开用 width；rail 常驻用 railWidth；否则按 collapsed 决定。
   const rawWidth = computed(() => {
