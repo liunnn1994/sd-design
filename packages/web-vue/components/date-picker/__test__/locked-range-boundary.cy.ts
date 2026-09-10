@@ -18,7 +18,7 @@ describe('RangePicker locked endpoint boundaries', () => {
         else
           cy.get(`.sd-picker-cell[aria-label="${locked === 0 ? '2026-07-01' : '2026-08-15'}"]`)
             .first()
-            .click();
+            .click({ waitForAnimations: false });
         cy.then(() => Cypress.Promise.delay(0));
         cy.get('.sd-picker input')
           .eq(locked)
