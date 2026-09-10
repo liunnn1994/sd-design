@@ -33,7 +33,7 @@
   },
   "scripts": {
     "build": "pnpm run build:package",
-    "build:package": "tsup && pnpm run build:postbuild",
+    "build:package": "tsdown && pnpm run build:postbuild",
     "build:postbuild": "node ./scripts/postbuild.mjs",
     "dev:link": "pnpm link --global && npm link",
     "test:release": "node --test ./scripts/path-scoped-release.test.mjs"
@@ -45,11 +45,12 @@
     "@semantic-release/github": "^12.0.9",
     "@semantic-release/release-notes-generator": "^14.1.1",
     "semantic-release": "^25.0.9",
-    "tsup": "^8.5.1",
+    "tsdown": "^0.22.14",
     "unplugin-vue-components": "^32.1.0"
   },
   "peerDependencies": {
     "@sdata/web-vue": "*",
+    "unplugin-vue-components": "*",
     "vite": "*"
   }
 }

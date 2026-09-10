@@ -73,6 +73,7 @@ Type-checking runs on **typescript-native-bridge** (TNB) — a drop-in `typescri
 - Use `vue-tsc`/`tsc` (the `typescript` package) for type-checking, and `type-fest` whenever possible for type combinations.
 - Do not use `@typescript/native-preview` or install `typescript@7` directly — the classic API (`createProgram`, `vue-tsc`, tsserver plugins) is not a drop-in fit for them; TNB exists for this reason.
 - Do not replace TNB with stock TypeScript while diagnosing a tool failure. First reproduce the failure against the exact consumer; Cypress 15 supports TypeScript 5, 6 and 7 and uses the workspace TNB without a separate compiler.
+- Do not silence TypeScript deprecations with `ignoreDeprecations`; update deprecated compiler options or code so type-checking is clean without suppression.
 - If a specific tool is proven incompatible with TNB, keep TNB as the workspace `typescript` override and add stock TypeScript only to that package as an exact alias: `"typescript-stock": "npm:typescript@6.0.3"`. Invoke the aliased compiler explicitly so it cannot replace `vue-tsc`, editor or repository-wide type-checking.
 
 ## style
