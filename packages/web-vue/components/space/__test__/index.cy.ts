@@ -6,6 +6,18 @@ import Space from '../index';
 const sizes = ['mini', 'small', 'medium', 'large'] as const;
 
 describe('Space', () => {
+  it('forwards native attributes to the root container', () => {
+    cy.mount(() =>
+      h(Space, { 'id': 'space-root', 'aria-label': 'Related actions' }, () => [
+        h('button', 'Save'),
+      ]),
+    );
+
+    cy.get('.sd-space')
+      .should('have.attr', 'id', 'space-root')
+      .and('have.attr', 'aria-label', 'Related actions');
+  });
+
   it('preserves slotted element identity across updates', () => {
     const TestComponent = defineComponent({
       setup() {

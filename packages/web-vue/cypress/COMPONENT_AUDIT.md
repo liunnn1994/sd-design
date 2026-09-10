@@ -187,7 +187,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Slider: full 34-case Chrome suite passes with retries disabled (26 behavior + 8 demos). Three browser-backed defects were addressed: a controlled zero value initialized keyboard stepping from `defaultValue`, unmounting during a drag leaked five window listeners, and disabled handles remained in the tab order. Initialization now distinguishes zero from undefined, drag teardown runs on unmount, and disabled handles use `tabindex=-1`; form-derived disabled state also reaches optional number inputs. Single/range clicks, drag and keyboard bounds, controlled updates, marks/ticks, tooltips and formatted ARIA values, vertical mode, inputs, form integration, installation, styles and public aliases were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: space.
+- Space: full 21-case Chrome suite passes with retries disabled (15 behavior + 6 demos). A new browser regression verifies native root attributes used to label grouped actions. No production change was needed. Element identity across rerenders, text/comment normalization, split placement, horizontal/vertical and RTL layouts, alignment, wrapping, fill behavior, named/numeric/tuple gaps, installation and styles were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: spin.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -269,7 +271,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | sender                        | Reviewed                             |
 | skeleton                      | Reviewed                             |
 | slider                        | Reviewed                             |
-| space                         | Pending                              |
+| space                         | Reviewed                             |
 | spin                          | Pending                              |
 | split                         | Pending                              |
 | statistic                     | Pending                              |
