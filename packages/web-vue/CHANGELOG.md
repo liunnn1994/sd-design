@@ -1,3 +1,10 @@
+## [4.5.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.5.1...web-vue-v4.5.2) (2026-09-10)
+
+
+### Bug Fixes
+
+* **build:** restore TNB TypeScript toolchain ([aff46dd](https://github.com/liunnn1994/sd-design/commit/aff46dd31591a0fdead4c393e2d669ebab0f2d2b))
+
 ## [4.5.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.5.0...web-vue-v4.5.1) (2026-09-10)
 
 ### Bug Fixes
