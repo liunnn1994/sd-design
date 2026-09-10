@@ -194,7 +194,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | json-form                     | Reviewed                             |
 | kv-list                       | Reviewed                             |
 | layout                        | Reviewed                             |
-| link                          | Pending                              |
+| link                          | Reviewed                             |
 | list                          | Pending                              |
 | locale                        | Pending                              |
 | mention                       | Pending                              |
