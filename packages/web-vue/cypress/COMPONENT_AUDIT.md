@@ -157,7 +157,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Popover: full 16-case Chrome suite passes with retries disabled (13 behavior + 3 demos). The added runtime regression keeps a controlled popover open while changing its content and switching from the embedded Scrollbar to a plain content wrapper, verifying that no stale wrapper remains. No production change was needed. Hover, click, focus and context-menu triggers, controlled visibility, ESC and ARIA behavior, positions, teleport targets, slots, popup styling, installation, styles and tokens were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: progress.
+- Progress: full 14-case Chrome suite passes with retries disabled (6 behavior + 8 demos). New browser coverage reproduced four defects: progressbar ARIA exposed fractional values against a 100 maximum, line animation never received its existing animation class, a circle could not react from a solid color to a gradient, and steps ignored an explicit stroke width. Line, circle and steps now expose percentage ARIA values; animation, reactive gradients and requested step thickness work as declared. Variant switching, inferred status, text slots, installation, styles and tokens were also reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: qr-code.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -224,7 +226,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | pagination                    | Reviewed                             |
 | popconfirm                    | Reviewed                             |
 | popover                       | Reviewed                             |
-| progress                      | Pending                              |
+| progress                      | Reviewed                             |
 | qr-code                       | Pending                              |
 | radio                         | Pending                              |
 | rate                          | Pending                              |

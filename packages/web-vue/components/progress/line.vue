@@ -3,12 +3,15 @@
     role="progressbar"
     aria-valuemin="0"
     aria-valuemax="100"
-    :aria-valuenow="percent"
+    :aria-valuenow="NP.times(percent, 100)"
     :class="`${prefixCls}-wrapper`"
   >
     <div :class="prefixCls" :style="style">
       <div :class="`${prefixCls}-bar-buffer`" />
-      <div :class="[`${prefixCls}-bar`]" :style="barStyle" />
+      <div
+        :class="[`${prefixCls}-bar`, { [`${prefixCls}-bar-animate`]: animation }]"
+        :style="barStyle"
+      />
     </div>
     <div v-if="showText" :class="`${prefixCls}-text`">
       <slot name="text" :percent="percent">

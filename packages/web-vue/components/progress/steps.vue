@@ -3,7 +3,7 @@
     role="progressbar"
     aria-valuemin="0"
     aria-valuemax="100"
-    :aria-valuenow="percent"
+    :aria-valuenow="NP.times(percent, 100)"
     :class="`${prefixCls}-wrapper`"
   >
     <div :class="prefixCls" :style="{ height: `${mergedStrokeWidth}px` }">
@@ -71,7 +71,7 @@
   const prefixCls = getPrefixCls('progress-steps');
   const activeColor = computed(() => (typeof props.color === 'string' ? props.color : undefined));
 
-  const mergedStrokeWidth = computed(() => ((props.strokeWidth ?? props.size === 'small') ? 8 : 4));
+  const mergedStrokeWidth = computed(() => props.strokeWidth ?? (props.size === 'small' ? 8 : 4));
 
   const stepList = computed(() =>
     [...Array(props.steps)].map((_, index) => {

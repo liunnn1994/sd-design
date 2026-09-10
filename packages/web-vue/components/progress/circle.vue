@@ -3,7 +3,7 @@
     role="progressbar"
     aria-valuemin="0"
     aria-valuemax="100"
-    :aria-valuenow="percent"
+    :aria-valuenow="NP.times(percent, 100)"
     :class="`${prefixCls}-wrapper`"
     :style="{ width: `${mergedWidth}px`, height: `${mergedWidth}px` }"
   >
@@ -121,7 +121,7 @@
 
   const prefixCls = getPrefixCls('progress-circle');
 
-  const isLinearGradient = isObject(props.color);
+  const isLinearGradient = computed(() => isObject(props.color));
   const gradientStops = computed<[string, string][]>(() => {
     if (!isObject(props.color)) {
       return [];
@@ -165,7 +165,7 @@
     stroke: props.trackColor,
   }));
   const circleStyle = computed<CSSProperties>(() => ({
-    stroke: isLinearGradient ? `url(#${linearGradientId.value})` : solidColor.value,
+    stroke: isLinearGradient.value ? `url(#${linearGradientId.value})` : solidColor.value,
     strokeDasharray: perimeter.value,
     strokeDashoffset: (props.percent >= 1 ? 0 : 1 - props.percent) * perimeter.value,
   }));
