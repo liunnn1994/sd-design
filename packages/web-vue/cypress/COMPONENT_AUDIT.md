@@ -173,7 +173,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - RichTextEditor: full 41-case Chrome suite passes with retries disabled (33 behavior + 8 demos). No production change was needed. Lexical creation and teardown, plugins and commands, controlled serialization without echo, text/HTML/Markdown APIs, streaming corrections, history, focus and editability, auto sizing, semantic styling, placeholder and error states, custom and all built-in component nodes, ConfigProvider overrides, node isolation and selection, installation and the complete public type surface were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: scrollbar.
+- Scrollbar: full 12-case Chrome suite passes with retries disabled (8 behavior + 4 demos). New browser regressions exercise real horizontal and vertical movement through the exposed API and verify that unmount destroys the underlying OverlayScrollbars instance. No production change was needed. Slot and attribute forwarding, track/embed themes, merged and reactive options, event forwarding, native viewport methods, instance proxies, sizing observers, teardown, installation, styles and the public type surface were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: secret.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -248,7 +250,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | resize-box                    | Reviewed                             |
 | result                        | Reviewed                             |
 | rich-text-editor              | Reviewed                             |
-| scrollbar                     | Pending                              |
+| scrollbar                     | Reviewed                             |
 | secret                        | Pending                              |
 | select                        | Pending                              |
 | selectable-card               | Pending                              |

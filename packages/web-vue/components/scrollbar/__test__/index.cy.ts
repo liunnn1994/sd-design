@@ -22,6 +22,28 @@ describe('Scrollbar', () => {
     });
   });
 
+  it('scrolls the generated viewport through the exposed methods', () => {
+    cy.mount(Scrollbar, {
+      props: {
+        outerStyle: { width: '120px', height: '80px' },
+      },
+      slots: {
+        default: '<div style="width: 400px; height: 300px">oversized content</div>',
+      },
+    });
+
+    cy.get('@vue').then(({ wrapper }) => {
+      const vm = wrapper.vm as {
+        elements: () => { scrollOffsetElement: HTMLElement };
+        scrollTo: (options: { left: number; top: number }) => void;
+      };
+      vm.scrollTo({ left: 70, top: 60 });
+      cy.wrap(vm.elements().scrollOffsetElement)
+        .should('have.prop', 'scrollLeft', 70)
+        .and('have.prop', 'scrollTop', 60);
+    });
+  });
+
   it('merges OverlayScrollbars options props', () => {
     cy.mount(Scrollbar, {
       props: {
@@ -70,6 +92,18 @@ describe('Scrollbar', () => {
       // OverlayScrollbars intercepts scroll on its viewport; assert the host
       // element still accepts a scroll event without error.
       expect(() => $el[0].dispatchEvent(new Event('scroll'))).not.to.throw();
+    });
+  });
+
+  it('destroys the OverlayScrollbars instance when unmounted', () => {
+    let instance: { state: () => { destroyed: boolean } };
+
+    cy.mount(Scrollbar);
+    cy.get('@vue').then(({ wrapper }) => {
+      instance = (wrapper.vm as { getOSInstance: () => typeof instance }).getOSInstance();
+      expect(instance.state().destroyed).to.equal(false);
+      wrapper.unmount();
+      expect(instance.state().destroyed).to.equal(true);
     });
   });
 });
