@@ -1398,6 +1398,14 @@
       return;
     }
 
+    const target = event.target;
+    if (
+      target instanceof Element &&
+      target.closest('input, textarea, select, [contenteditable="true"]')
+    ) {
+      return;
+    }
+
     if (event.key === 'ArrowRight') {
       handleNextButtonClick();
       return;

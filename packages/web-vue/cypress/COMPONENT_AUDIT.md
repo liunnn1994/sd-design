@@ -221,7 +221,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Tooltip: full 18-case Chrome suite passes with retries disabled (13 behavior + 5 demos). Tooltips previously opened only from pointer hover, so keyboard focus never displayed the help or established `aria-describedby`. Tooltip now uses both hover and focus triggers; the regression verifies the visible role=tooltip relationship on focus, its removal on blur and both visibility events. The existing `TooltipProps` contract is exported from the package entry. Controlled and uncontrolled visibility, disabled behavior, pointer pass-through, content and slots, all positions, mini and color/style variants, popup semantics, installation and styles were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: tour.
+- Tour: full 34-case Chrome suite passes with retries disabled (30 behavior + 4 demos). Global ArrowLeft/ArrowRight handling previously changed steps while focus was inside editable custom tour content, preventing normal caret movement. Direction keys now stay with inputs, textareas, selects and contenteditable elements while Escape and non-editing navigation remain active. The lifecycle regression now waits for each asynchronous highlight and correctly expects both visited steps to be deselected, removing its timing failure. Controlled and default navigation, overlay behavior, keyboard and focus handling, button policies and hooks, target and popup ARIA state, dynamic configuration, controller methods, Floating UI placement, teardown, installation, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: transfer.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -321,7 +323,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | timeline                      | Reviewed                             |
 | toolbar                       | Reviewed                             |
 | tooltip                       | Reviewed                             |
-| tour                          | Pending                              |
+| tour                          | Reviewed                             |
 | transfer                      | Pending                              |
 | tree                          | Pending                              |
 | tree-select                   | Pending                              |

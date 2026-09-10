@@ -203,6 +203,21 @@ describe('Tour', () => {
     cy.get('.sd-tour-popover-title').should('contain.text', '步骤一');
   });
 
+  it('leaves arrow keys to editable content before resuming tour navigation', () => {
+    cy.mount(Tour, {
+      props: { defaultVisible: true, steps },
+      slots: {
+        ...defaultSlots,
+        footer: '<input class="tour-field" value="editable" />',
+      },
+    });
+    cy.get('.tour-field').focus().type('{rightarrow}');
+    cy.get('.sd-tour-popover-title').should('contain.text', '步骤一');
+
+    cy.get('body').trigger('keydown', { key: 'ArrowRight' });
+    cy.get('.sd-tour-popover-title').should('contain.text', '步骤二');
+  });
+
   it('closes on overlay click by default', () => {
     cy.mount(Tour, { props: { defaultVisible: true, steps }, slots: defaultSlots });
     cy.get('.sd-tour-popover').should('exist');
@@ -374,15 +389,22 @@ describe('Tour', () => {
       },
       slots: defaultSlots,
     });
+    cy.get('@vue').should(() => {
+      expect(calls.filter((name) => name === 'started').length).to.equal(1);
+      expect(calls.filter((name) => name === 'ed').length).to.equal(1);
+    });
     cy.get('.sd-tour-popover-next-btn').click();
     cy.get('.sd-tour-popover-title').should('contain.text', '步骤二');
+    cy.get('@vue').should(() => {
+      expect(calls.filter((name) => name === 'ed').length).to.equal(2);
+    });
     cy.get('.sd-tour-popover-close-btn').click();
     cy.get('.sd-tour-popover').should('not.exist');
-    // 打开 1 次 + 导航 1 次；关闭只跑一轮 teardown（幂等守卫）
+    // 两个步骤各完成一轮高亮/取消高亮；关闭只跑一轮 teardown（幂等守卫）
     cy.get('@vue').should(() => {
       expect(calls.filter((name) => name === 'started').length).to.equal(2);
       expect(calls.filter((name) => name === 'ed').length).to.equal(2);
-      expect(calls.filter((name) => name === 'deselected').length).to.equal(1);
+      expect(calls.filter((name) => name === 'deselected').length).to.equal(2);
       expect(calls.filter((name) => name === 'destroyed').length).to.equal(1);
       expect(calls[calls.length - 1]).to.equal('destroyed');
     });
