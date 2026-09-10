@@ -47,9 +47,10 @@ $textarea-prefix-cls: string.unquote('#{theme.$prefix}-textarea');
     right: $textarea-layout-tip-right + 15px;
   }
 
-  &:hover {
+  &:hover,
+  &:focus-within {
     .#{$textarea-prefix-cls}-clear-btn {
-      display: block;
+      visibility: visible;
     }
   }
 

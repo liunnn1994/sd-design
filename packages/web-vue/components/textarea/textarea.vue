@@ -472,11 +472,11 @@
       style: [fitWidthStyle.value, wrapperAttrs.style as StyleValue],
     };
   };
-  const getTextareaAttrs = (attr: Record<string, any>) => pick(attrs, INPUT_EVENTS);
-  const rawTextareaAttrs = getTextareaAttrs(attrs);
+  const getTextareaAttrs = (attr: Record<string, any>) => pick(attr, INPUT_EVENTS);
+  const rawTextareaAttrs = computed(() => getTextareaAttrs(attrs));
   const mergeTextareaAttrs = computed(() => {
     const attrs = {
-      ...rawTextareaAttrs,
+      ...rawTextareaAttrs.value,
       ...props.textareaAttrs,
     };
     // 关联 form-item 的 label（`for`）：消费者未显式给 textarea id 时，用 form-item 注入的 fieldId

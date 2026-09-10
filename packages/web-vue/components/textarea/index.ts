@@ -15,5 +15,6 @@ const Textarea = Object.assign(_Textarea, {
 });
 
 export type TextareaInstance = InstanceType<typeof _Textarea>;
+export type TextareaProps = TextareaInstance['$props'];
 
 export default Textarea;

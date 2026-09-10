@@ -162,6 +162,8 @@ describe('Textarea', () => {
     const onClear = cy.spy().as('onClear');
     const onChange = cy.spy().as('onChange');
     cy.mount(Textarea, { props: { defaultValue: 'text', allowClear: true, onClear, onChange } });
+    cy.get('textarea').focus();
+    cy.get('.sd-textarea-clear-btn').should('be.visible');
     cy.get('.sd-textarea-clear-btn').focus().type('{enter}');
     cy.get('textarea').should('have.value', '');
     cy.get('@onClear').should((spy: any) => {
@@ -192,5 +194,14 @@ describe('Textarea', () => {
     cy.mount(Textarea, { props: { textareaAttrs: { name: 'bio', maxLength: 30 } } });
     cy.get('textarea').should('have.attr', 'name', 'bio');
     cy.get('textarea').should('have.attr', 'maxlength', '30');
+  });
+
+  it('reacts to native textarea attribute updates', () => {
+    cy.mount(Textarea, { attrs: { name: 'summary', required: true } });
+    cy.get('textarea').should('have.attr', 'name', 'summary').and('have.attr', 'required');
+    cy.get('@vue').then(({ wrapper }) =>
+      cy.wrap(wrapper.setProps({ name: 'details', required: false })),
+    );
+    cy.get('textarea').should('have.attr', 'name', 'details').and('not.have.attr', 'required');
   });
 });
