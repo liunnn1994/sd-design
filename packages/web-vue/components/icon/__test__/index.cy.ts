@@ -51,9 +51,7 @@ describe('Icon', () => {
     cy.mount(IconPlus, { props: { rotate: 90, spin: true } });
     // spin 动画以 --icon-rotate 为基准合成（90deg + [0, 360deg)），
     // 而不是把静态 rotate 覆盖回 0
-    cy.get('svg.sd-icon')
-      .should('have.attr', 'style')
-      .and('contain', '--icon-rotate: 90deg');
+    cy.get('svg.sd-icon').should('have.attr', 'style').and('contain', '--icon-rotate: 90deg');
   });
 
   it('should add the spin class when spin is true and not otherwise', () => {

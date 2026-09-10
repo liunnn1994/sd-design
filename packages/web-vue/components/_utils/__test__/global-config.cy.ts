@@ -1,5 +1,4 @@
 import type { App } from 'vue';
-
 import { computed, defineComponent, h } from 'vue';
 
 import { getPrefixCls, setGlobalConfig } from '../global-config';
@@ -27,7 +26,6 @@ describe('global-config', () => {
 
     cy.get('.sd-probe').should('exist');
   });
-
 
   it('getPrefixCls reacts to runtime classPrefix changes inside computed()', () => {
     cy.mount(

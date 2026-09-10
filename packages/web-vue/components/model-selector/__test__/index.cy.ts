@@ -540,7 +540,13 @@ describe('ModelSelector', () => {
   it('external v-model drives filtering through context.query', () => {
     cy.mount(
       defineComponent({
-        components: { ModelSelector, ModelSelectorContent, ModelSelectorInput, ModelSelectorList, ModelSelectorItem },
+        components: {
+          ModelSelector,
+          ModelSelectorContent,
+          ModelSelectorInput,
+          ModelSelectorList,
+          ModelSelectorItem,
+        },
         setup() {
           const query = shallowRef('claude');
           return { query };
@@ -661,7 +667,13 @@ describe('ModelSelector', () => {
   it('re-reads the rendered label when slot text changes', () => {
     cy.mount(
       defineComponent({
-        components: { ModelSelector, ModelSelectorContent, ModelSelectorInput, ModelSelectorList, ModelSelectorItem },
+        components: {
+          ModelSelector,
+          ModelSelectorContent,
+          ModelSelectorInput,
+          ModelSelectorList,
+          ModelSelectorItem,
+        },
         data: () => ({ text: '通义千问' }),
         template: `
           <ModelSelector default-visible>

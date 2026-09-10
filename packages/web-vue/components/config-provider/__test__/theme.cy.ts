@@ -441,9 +441,13 @@ describe('config-provider config propagation', () => {
     cy.mount(
       defineComponent({
         render() {
-          return h(ConfigProvider, { themeMode: 'dark', global: global.value }, {
-            default: () => h('div', 'content'),
-          });
+          return h(
+            ConfigProvider,
+            { themeMode: 'dark', global: global.value },
+            {
+              default: () => h('div', 'content'),
+            },
+          );
         },
       }),
     );
