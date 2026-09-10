@@ -155,7 +155,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Popconfirm: full 21-case Chrome suite passes with retries disabled (15 behavior + 6 demos). The added controlled-lifecycle regression verifies that closing the popup while an asynchronous confirmation is pending invalidates its eventual result and suppresses the stale `ok` callback. No production change was needed. Confirmation and cancellation guards, promise resolve/reject/loading behavior, controlled visibility, ESC handling, trigger ARIA state, content/icon/button customization, installation, styles and tokens were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: popover.
+- Popover: full 16-case Chrome suite passes with retries disabled (13 behavior + 3 demos). The added runtime regression keeps a controlled popover open while changing its content and switching from the embedded Scrollbar to a plain content wrapper, verifying that no stale wrapper remains. No production change was needed. Hover, click, focus and context-menu triggers, controlled visibility, ESC and ARIA behavior, positions, teleport targets, slots, popup styling, installation, styles and tokens were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: progress.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -221,7 +223,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | page-header                   | Reviewed                             |
 | pagination                    | Reviewed                             |
 | popconfirm                    | Reviewed                             |
-| popover                       | Pending                              |
+| popover                       | Reviewed                             |
 | progress                      | Pending                              |
 | qr-code                       | Pending                              |
 | radio                         | Pending                              |

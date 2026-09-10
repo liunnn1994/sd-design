@@ -1,3 +1,5 @@
+import { h, ref } from 'vue';
+
 import Popover from '../index';
 
 describe('Popover', () => {
@@ -246,7 +248,39 @@ describe('Popover', () => {
     });
     // content 类在 Scrollbar 内部容器上，embed 类型类在 Scrollbar 根元素上
     cy.get('.sd-popover-content').should('have.class', 'sd-popover-content');
-    cy.get('.sd-popover-content').closest('.sd-scrollbar').should('have.class', 'sd-scrollbar-type-embed');
+    cy.get('.sd-popover-content')
+      .closest('.sd-scrollbar')
+      .should('have.class', 'sd-scrollbar-type-embed');
+  });
+
+  it('updates open content and switches the scrollbar wrapper at runtime', () => {
+    const content = ref('First content');
+    const scrollbar = ref(true);
+
+    cy.mount(() =>
+      h(
+        Popover,
+        {
+          content: content.value,
+          popupVisible: true,
+          renderToBody: false,
+          scrollbar: scrollbar.value,
+        },
+        { default: () => h('button', 'Trigger') },
+      ),
+    );
+    cy.get('.sd-popover-content').should('have.text', 'First content');
+    cy.get('.sd-popover-content').closest('.sd-scrollbar').should('exist');
+
+    cy.then(() => {
+      content.value = 'Updated content';
+      scrollbar.value = false;
+    });
+    cy.get('.sd-popover-content')
+      .should('have.text', 'Updated content')
+      .and('not.have.class', 'sd-scrollbar');
+    cy.get('.sd-popover-content').closest('.sd-scrollbar').should('not.exist');
+    cy.get('.sd-popover-content').should('have.length', 1);
   });
 
   it('mounts the popup into the popupContainer element', () => {
