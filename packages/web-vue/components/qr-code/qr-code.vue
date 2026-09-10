@@ -243,6 +243,7 @@
   const themeMode = useThemeMode(rootRef);
   const canvasRef = ref<HTMLCanvasElement>();
   const svgMarkup = ref('');
+  let renderGeneration = 0;
 
   const handleRefresh = () => {
     emit('refresh');
@@ -318,48 +319,70 @@
     },
   }));
 
-  const renderCanvas = async () => {
-    if (!canvasRef.value || !hasValue.value) {
+  const renderCanvas = async (generation: number) => {
+    const targetCanvas = canvasRef.value;
+    if (!targetCanvas || !hasValue.value) {
       return;
     }
 
     try {
-      await QRCode.toCanvas(canvasRef.value, mergedValue.value, { ...qrOptions.value });
+      const nextCanvas = document.createElement('canvas');
+      await QRCode.toCanvas(nextCanvas, mergedValue.value, { ...qrOptions.value });
+      if (
+        generation !== renderGeneration ||
+        canvasRef.value !== targetCanvas ||
+        props.type !== 'canvas' ||
+        !hasValue.value
+      ) {
+        return;
+      }
+      targetCanvas.width = nextCanvas.width;
+      targetCanvas.height = nextCanvas.height;
+      targetCanvas.getContext('2d')?.drawImage(nextCanvas, 0, 0);
     } catch {
       // noop
     }
   };
 
-  const renderSvg = async () => {
+  const renderSvg = async (generation: number) => {
     if (!hasValue.value) {
       svgMarkup.value = '';
       return;
     }
 
     try {
-      svgMarkup.value = await QRCode.toString(mergedValue.value, {
+      const markup = await QRCode.toString(mergedValue.value, {
         ...qrOptions.value,
         type: 'svg',
       });
+      if (generation === renderGeneration && props.type === 'svg' && hasValue.value) {
+        svgMarkup.value = markup;
+      }
     } catch {
-      svgMarkup.value = '';
+      if (generation === renderGeneration) {
+        svgMarkup.value = '';
+      }
     }
   };
 
   const renderCode = async () => {
+    const generation = ++renderGeneration;
     if (!hasValue.value) {
       svgMarkup.value = '';
       return;
     }
 
     await nextTick();
-
-    if (props.type === 'canvas') {
-      await renderCanvas();
+    if (generation !== renderGeneration) {
       return;
     }
 
-    await renderSvg();
+    if (props.type === 'canvas') {
+      await renderCanvas(generation);
+      return;
+    }
+
+    await renderSvg(generation);
   };
 
   watch(

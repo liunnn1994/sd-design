@@ -159,7 +159,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Progress: full 14-case Chrome suite passes with retries disabled (6 behavior + 8 demos). New browser coverage reproduced four defects: progressbar ARIA exposed fractional values against a 100 maximum, line animation never received its existing animation class, a circle could not react from a solid color to a gradient, and steps ignored an explicit stroke width. Line, circle and steps now expose percentage ARIA values; animation, reactive gradients and requested step thickness work as declared. Variant switching, inferred status, text slots, installation, styles and tokens were also reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: qr-code.
+- QrCode: full 23-case Chrome suite passes with retries disabled (18 behavior + 5 demos). An out-of-order SVG render reproduced an older asynchronous result replacing the newest value. Render generations now suppress stale SVG results, and canvas generation occurs offscreen before the active result is copied to the visible canvas, preventing the equivalent drawing race. Values, canvas/SVG modes, palette and theme changes, error and boost options, margins, icons, status overlays and refresh actions, slots, accessibility, installation, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: radio.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -227,7 +229,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | popconfirm                    | Reviewed                             |
 | popover                       | Reviewed                             |
 | progress                      | Reviewed                             |
-| qr-code                       | Pending                              |
+| qr-code                       | Reviewed                             |
 | radio                         | Pending                              |
 | rate                          | Pending                              |
 | regex-vis                     | Pending                              |

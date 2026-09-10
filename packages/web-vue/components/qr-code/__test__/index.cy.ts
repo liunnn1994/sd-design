@@ -1,4 +1,4 @@
-import { defineComponent, h } from 'vue';
+import { defineComponent, h, nextTick, ref } from 'vue';
 
 import QRCode from 'qrcode';
 
@@ -198,6 +198,32 @@ describe('QrCode', () => {
       const label = $el[0].getAttribute('aria-label');
       expect(label).to.contain('https://changed.example');
     });
+  });
+
+  it('keeps the newest svg when asynchronous renders finish out of order', () => {
+    const currentValue = ref('first-value');
+    const pending = new Map<string, (markup: string) => void>();
+    cy.stub(QRCode, 'toString').callsFake(
+      (text: string) =>
+        new Promise<string>((resolve) => {
+          pending.set(text, resolve);
+        }),
+    );
+
+    cy.mount(() => h(QrCode, { value: currentValue.value, type: 'svg' }));
+    cy.wrap(pending).should((renders) => expect(renders.has('first-value')).to.equal(true));
+    cy.then(() => {
+      currentValue.value = 'second-value';
+    });
+    cy.wrap(pending).should((renders) => expect(renders.has('second-value')).to.equal(true));
+    cy.then(() => pending.get('second-value')?.('<svg data-value="second-value"></svg>'));
+    cy.get('.sd-qr-code-svg svg').should('have.attr', 'data-value', 'second-value');
+    cy.then(async () => {
+      pending.get('first-value')?.('<svg data-value="first-value"></svg>');
+      await Promise.resolve();
+      await nextTick();
+    });
+    cy.get('.sd-qr-code-svg svg').should('have.attr', 'data-value', 'second-value');
   });
 
   it('forwards boostLevel to the QRCode render options', () => {
