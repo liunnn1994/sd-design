@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 import Ellipsis from '../../ellipsis';
 import Menu from '../index';
@@ -86,6 +86,39 @@ describe('Menu', () => {
         80,
       );
     });
+  });
+
+  it('recalculates horizontal overflow when menu item content grows', () => {
+    const DynamicMenu = defineComponent({
+      components: { Menu, MenuItem: Menu.Item },
+      setup() {
+        const label = ref('A');
+        return { label };
+      },
+      template: `
+        <div>
+          <button
+            data-testid="resize-item"
+            @click="label = label === 'A' ? 'A menu item with much longer content' : 'A'"
+          >
+            Resize item
+          </button>
+          <div style="width: 320px;">
+            <Menu mode="horizontal">
+              <MenuItem key="a">{{ label }}</MenuItem>
+              <MenuItem key="b">B</MenuItem>
+            </Menu>
+          </div>
+        </div>
+      `,
+    });
+
+    cy.mount(DynamicMenu);
+    cy.get('.sd-menu-overflow-sub-menu').should('not.exist');
+    cy.get('[data-testid="resize-item"]').click();
+    cy.get('.sd-menu-overflow-sub-menu:visible').should('exist');
+    cy.get('[data-testid="resize-item"]').click();
+    cy.get('.sd-menu-overflow-sub-menu').should('not.exist');
   });
 
   it('keeps menu and trigger positioning classes on popup submenus', () => {

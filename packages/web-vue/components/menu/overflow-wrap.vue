@@ -54,6 +54,7 @@
   const refWrapper = ref<HTMLDivElement>();
   const lastVisibleIndex = ref<number | null>(null);
   const refResizeObserver = ref<ResizeObserver>();
+  const refMutationObserver = ref<MutationObserver>();
   const children = computed(() => unFragment(slots.default?.() ?? []) as VNode[]);
   const menuItems = computed(() =>
     children.value.map((child, index) =>
@@ -130,10 +131,18 @@
 
     if (refWrapper.value) {
       refResizeObserver.value.observe(refWrapper.value);
+
+      refMutationObserver.value = new MutationObserver(computeLastVisibleIndex);
+      refMutationObserver.value.observe(refWrapper.value, {
+        childList: true,
+        characterData: true,
+        subtree: true,
+      });
     }
   });
 
   onUnmounted(() => {
     refResizeObserver.value?.disconnect();
+    refMutationObserver.value?.disconnect();
   });
 </script>

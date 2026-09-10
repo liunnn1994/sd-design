@@ -141,7 +141,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - IconComponent final symbol review: full 18-case Chrome suite passes with retries disabled (12 original + 4 style + 1 script recovery + 1 dynamic symbol). The final browser case uses real SVG symbols, verifies geometry changing from 10px to 20px, clears type to render a 6px fallback circle, and restores the original symbol. It also verifies dynamic aria-label/data attributes and one click callback. No further production change was needed. Source, exports, styles, factory script loading, runtime props/slots and animation review completed; standard TypeScript verification remains pending for the repository gate.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: input-number.
+- Menu: full 32-case Chrome suite passes with retries disabled (23 behavior + 9 demos). A horizontal menu item growing after mount reproduced stale overflow state because only the fixed-width wrapper was observed. The overflow wrapper now also observes slotted DOM content changes and releases both observers on unmount. The regression verifies overflow appears when text grows and disappears when it shrinks. Source, public contracts, collectors, open-state hooks, exports and SCSS/tokens were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: message.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -198,7 +200,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | list                          | Reviewed                             |
 | locale                        | Reviewed                             |
 | mention                       | Reviewed                             |
-| menu                          | Pending                              |
+| menu                          | Reviewed                             |
 | message                       | Pending                              |
 | modal                         | Pending                              |
 | model-selector                | Pending                              |
