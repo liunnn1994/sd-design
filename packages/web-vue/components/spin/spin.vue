@@ -13,7 +13,13 @@
     </div>
   </DefineSpinIcon>
 
-  <div v-bind="$attrs" role="status" aria-live="polite" :class="cls">
+  <div
+    v-bind="$attrs"
+    role="status"
+    aria-live="polite"
+    :aria-busy="activeLoading || undefined"
+    :class="cls"
+  >
     <template v-if="$slots.default">
       <slot />
       <div v-if="activeLoading" :class="`${prefixCls}-mask`">

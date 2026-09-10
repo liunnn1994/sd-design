@@ -13,6 +13,7 @@ describe('Spin', () => {
     cy.mount(Spin, { props: { tip: 'Loading data' } });
     cy.get('.sd-spin').should('have.attr', 'role', 'status');
     cy.get('.sd-spin').should('have.attr', 'aria-live', 'polite');
+    cy.get('.sd-spin').should('have.attr', 'aria-busy', 'true');
     cy.get('.sd-spin-icon').should('have.attr', 'aria-hidden', 'true');
     cy.get('.sd-spin-tip').should('contain', 'Loading data');
   });
@@ -174,6 +175,7 @@ describe('Spin', () => {
     cy.get('.sd-spin-mask').should('not.exist');
     cy.get('.sd-spin-icon').should('not.exist');
     cy.get('.sd-spin').should('not.have.class', 'sd-spin-loading');
+    cy.get('.sd-spin').should('not.have.attr', 'aria-busy');
     cy.get('.sd-spin').should('contain', 'Content');
   });
 
