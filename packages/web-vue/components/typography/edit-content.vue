@@ -6,7 +6,7 @@
       :model-value="text"
       @blur="onBlur"
       @input="onChange"
-      @keydown.enter="onEnd"
+      @keydown.enter="onEnter"
     />
   </div>
 </template>
@@ -46,6 +46,10 @@
 
   function onEnd() {
     emit('end');
+  }
+
+  function onEnter(event: KeyboardEvent) {
+    if (!event.isComposing) onEnd();
   }
 
   onMounted(() => {

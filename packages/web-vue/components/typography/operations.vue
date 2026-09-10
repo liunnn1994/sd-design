@@ -43,6 +43,7 @@
     :class="`${prefixCls}-operation-expand`"
     role="button"
     tabindex="0"
+    :aria-expanded="expanded"
     @click.stop="onExpandClick"
     @keydown="onExpandKeydown"
   >

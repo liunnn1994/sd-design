@@ -231,7 +231,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Trigger: full 29-case Chrome suite passes with retries disabled (22 behavior + 7 demos). An initially visible popup with `scrollToClose` never registered its window listener, while a normally closed popup retained that listener. Listener setup now follows visible state during initial mount and later transitions; the browser regression scrolls an initially open popup and verifies its close event. The exported `TriggerProps` now matches runtime support for trigger arrays, Escape closing and popup ARIA relationships. Click, hover, focus and context-menu triggers, nested and controlled state, delays and close policies, Floating UI placement and overrides, arrows, sizing, teleport targets, scroll/resize behavior, persistent and empty content, emitted lifecycle, installation, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: typography.
+- Typography: full 31-case Chrome suite passes with retries disabled (25 behavior + 6 demos). Enter during IME composition previously ended inline editing before the candidate text was committed; the editor now ignores composing Enter and still completes on a normal Enter. Expand/collapse controls now expose their current state through `aria-expanded`, with browser assertions across both transitions. Paragraph, Text and all heading levels, copy and clipboard options, controlled and default editing, keyboard operations, copied-state timers, clamping, tooltip/popover and title fallbacks, expansion, styling flags and custom marks, blockquotes, scoped operation slots, temporary text measurement cleanup, installation, styles and the existing public surface were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: upload.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -336,7 +338,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | tree                          | Reviewed                             |
 | tree-select                   | Reviewed                             |
 | trigger                       | Reviewed                             |
-| typography                    | Pending                              |
+| typography                    | Reviewed                             |
 | upload                        | Pending                              |
 | verification-code             | Pending                              |
 | watermark                     | Pending                              |

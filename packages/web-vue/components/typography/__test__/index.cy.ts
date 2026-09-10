@@ -157,6 +157,26 @@ describe('Typography', () => {
     cy.get('.sd-typography-edit-content input').should('have.value', 'my text').and('be.focused');
   });
 
+  it('does not end editing when Enter confirms an IME composition', () => {
+    const onEditEnd = cy.stub().as('editEnd');
+    cy.mount(Paragraph, {
+      props: { editable: true, defaultEditing: true, onEditEnd },
+      slots: { default: 'my text' },
+    });
+    cy.get('.sd-typography-edit-content input').trigger('keydown', {
+      key: 'Enter',
+      isComposing: true,
+    });
+    cy.get('.sd-typography-edit-content').should('exist');
+    cy.get('@editEnd').should('not.have.been.called');
+    cy.get('.sd-typography-edit-content input').trigger('keydown', {
+      key: 'Enter',
+      isComposing: false,
+    });
+    cy.get('.sd-typography-edit-content').should('not.exist');
+    cy.get('@editEnd').should('have.been.calledOnce');
+  });
+
   it('emits copy with the slot text by default and copyText when provided', () => {
     const onCopy = cy.stub().as('copy');
     cy.mount(Paragraph, {
@@ -285,6 +305,7 @@ describe('Typography', () => {
     cy.get('.sd-typography [data-part="content"] .sd-typography-operation-expand')
       .first()
       .should('exist')
+      .and('have.attr', 'aria-expanded', 'false')
       .click({ force: true });
     cy.get('@expand').should('have.been.calledWith', true);
     // 展开后完整文本可见
@@ -292,11 +313,13 @@ describe('Typography', () => {
     cy.get('.sd-typography [data-part="content"] .sd-typography-operation-expand')
       .first()
       .should('contain.text', '折叠')
+      .and('have.attr', 'aria-expanded', 'true')
       .click({ force: true });
     cy.get('@expand').should('have.been.calledWith', false);
     cy.get('.sd-typography [data-part="content"] .sd-typography-operation-expand')
       .first()
-      .should('contain.text', '展开');
+      .should('contain.text', '展开')
+      .and('have.attr', 'aria-expanded', 'false');
   });
 
   it('emits the ellipsis event only when the content is clamped', () => {
