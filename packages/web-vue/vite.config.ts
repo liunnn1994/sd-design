@@ -74,7 +74,8 @@ function createRunConfig() {
         command: 'node ./scripts/gen-web-types.mjs',
       },
       'task:dev-component': {
-        command: 'vite build --config vite.config.ts --mode dev-component --watch',
+        command:
+          'node ./node_modules/vite/bin/vite.js build --config vite.config.ts --mode dev-component --watch',
         cache: false,
       },
       'task:build-module': {
@@ -82,11 +83,13 @@ function createRunConfig() {
           'vp run clean:outputs && vp run task:build-module-main && vp run task:build-module-icon && vp run write:icon-compat',
       },
       'task:build-module-main': {
-        command: 'vite build --config vite.config.ts --mode build-module',
+        command:
+          'node ./node_modules/vite/bin/vite.js build --config vite.config.ts --mode build-module',
         cache: false,
       },
       'task:build-module-icon': {
-        command: 'vite build --config vite.config.ts --mode build-module-icon',
+        command:
+          'node ./node_modules/vite/bin/vite.js build --config vite.config.ts --mode build-module-icon',
         cache: false,
       },
       'write:icon-compat': {
@@ -94,25 +97,30 @@ function createRunConfig() {
         cache: false,
       },
       'task:build-umd-component': {
-        command: 'vite build --config vite.config.ts --mode build-umd-component',
+        command:
+          'node ./node_modules/vite/bin/vite.js build --config vite.config.ts --mode build-umd-component',
         cache: false,
       },
       'task:build-umd-component-min': {
-        command: 'vite build --config vite.config.ts --mode build-umd-component-min',
+        command:
+          'node ./node_modules/vite/bin/vite.js build --config vite.config.ts --mode build-umd-component-min',
         cache: false,
       },
       'task:build-umd-icon': {
-        command: 'vite build --config vite.config.ts --mode build-umd-icon',
+        command:
+          'node ./node_modules/vite/bin/vite.js build --config vite.config.ts --mode build-umd-icon',
       },
       'task:build-umd-icon-min': {
-        command: 'vite build --config vite.config.ts --mode build-umd-icon-min',
+        command:
+          'node ./node_modules/vite/bin/vite.js build --config vite.config.ts --mode build-umd-icon-min',
       },
       'task:build-component': {
         command:
           'vp run clean:outputs && vp run task:build-module && vp run task:build-umd-component && vp run task:build-umd-component-min && vp run task:build-umd-icon && vp run task:build-umd-icon-min',
       },
       'task:build-style': {
-        command: 'vite build --config vite.config.ts --mode build-style',
+        command:
+          'node ./node_modules/vite/bin/vite.js build --config vite.config.ts --mode build-style',
       },
       'task:build-dts': {
         command: 'node ./scripts/build-dts.mjs',

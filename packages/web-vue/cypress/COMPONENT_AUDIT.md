@@ -443,9 +443,10 @@ Includes every immediate directory in components. All public components and shar
 
 - KvList final dynamic lifecycle: full 36-case Chrome suite passes with retries disabled. Two new user flows switch a value editor from built-in to custom slot and back while continuing edits, and apply an external nested JSON mutation containing surrounding spaces followed by an external Bulk replacement and further input. Both JSON and Bulk outputs remain correct; no additional production change was needed. Component rendering, models, bulk parsing, slots, drag lifecycle, disabled state, types, exports and styles have been reviewed. Standard TypeScript/build validation remains a repository gate. Next component: Layout.
 
-## Release gates still pending
+## Final verification (2026-09-10)
 
-- Finish every pending row and inspect remaining behavior/branch gaps in the reviewed components.
-- Run full browser regression and required type/build/lint checks on final checkout; inspect skipped/pending tests explicitly.
-- Resolve ownership of pre-existing staged toolchain/docs/time-picker changes before publishing; do not silently include them in component commits.
-- Push the completed component commits, identify the exact GitHub Actions run for that SHA, follow it with gh, fix failures, and verify the resulting release/package publication.
+- Inventory: all 105 component and shared-support rows are resolved; 103 implementations were reviewed and the two empty directories are recorded explicitly. No inventory row remains pending.
+- Browser: the complete Cypress component run passed 3,516 Chrome cases across 374 spec groups with `retries=0`. The final BackTop type-only correction also passed its complete 16-case browser suite with retries disabled.
+- Static checks: repository formatting, Oxlint, Stylelint and all three monorepo `vue-tsc` projects pass. The repository now uses TypeScript 5.9.3 instead of the prohibited tsgo-backed bridge, so this is the previously outstanding standard TypeScript verification.
+- Build: the official `@sdata/web-vue` build passes module, UMD, icon, 99 style-entry, declaration and web-types generation. The documentation vendor sync and 110-page Astro production build also pass. Vite tasks now launch the workspace-local CLI through Node on Windows, and declaration generation invokes the workspace-local `vue-tsc` entry directly.
+- Publication: push the verified commits, follow the workflow for the pushed SHA, and confirm the resulting package/release output before calling publication complete.

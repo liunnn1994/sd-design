@@ -30,13 +30,8 @@ async function linkAmbientDeclarations() {
 
 async function runVueTsc() {
   await new Promise((resolve, reject) => {
-    const command = process.platform === 'win32' ? (process.env.ComSpec ?? 'cmd.exe') : 'pnpm';
-    const args =
-      process.platform === 'win32'
-        ? ['/d', '/s', '/c', 'pnpm exec vue-tsc -p tsconfig.build.json']
-        : ['exec', 'vue-tsc', '-p', 'tsconfig.build.json'];
-
-    const child = spawn(command, args, {
+    const vueTsc = resolveFromRoot('node_modules', 'vue-tsc', 'bin', 'vue-tsc.js');
+    const child = spawn(process.execPath, [vueTsc, '-p', 'tsconfig.build.json'], {
       cwd: packageRoot,
       stdio: 'inherit',
     });
