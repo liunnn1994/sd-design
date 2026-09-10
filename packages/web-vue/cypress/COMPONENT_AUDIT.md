@@ -149,7 +149,7 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Notification: full 25-case Chrome suite passes with retries disabled (17 behavior + 8 demos). The installed `$notification` API omitted the public `remove(id)` method even though the default export and `NotificationMethod` exposed it. Plugin installation now forwards `remove`; the browser regression installs the plugin, creates a notification and removes it through the injected global API. Component timers, keyed updates, positions, clear/reuse behavior, slots, styles, exports and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: number-flow.
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: page-header.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -211,7 +211,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | modal                         | Reviewed                             |
 | model-selector                | Reviewed                             |
 | notification                  | Reviewed                             |
-| number-flow                   | Pending                              |
+| number-flow                   | Reviewed                             |
 | page-header                   | Pending                              |
 | pagination                    | Pending                              |
 | popconfirm                    | Pending                              |
