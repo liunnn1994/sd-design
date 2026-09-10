@@ -241,12 +241,14 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - `_components`: shared support review complete. Read the virtual-list implementation and legacy unreferenced size helper, both resize-observer variants, resize trigger, expand transition, SelectView/InputLabel, picker inputs, AutoTooltip, ClientOnly, IconHover, FeedbackIcon, interfaces and SCSS entries. Their public consumers were already exercised through the completed component suites. A Form-disabled Select still rendered the shared SelectView clear button because visibility checked only the local prop; it now follows the merged form state. The new real Form/FormItem/Select browser regression passes, and the full Select suite passes all 70 cases with retries disabled. No unsupported public component status is inferred for these internal modules. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components. All public components and `_components` are reviewed; next shared-support review: `_hooks`.
+- `_hooks`: shared composable review complete. Read all 30 hooks, including controlled-state helpers, form/config merging, cursor and input handling, popup stacking/containers/overflow, focus trapping, responsive subscriptions, resize observation, theme observation, fit-width measurement and slot/child indexing. Existing direct hook suites pass all 27 Chrome cases with retries disabled, while completed public component suites exercise the consumer lifecycles. Changing a mounted Menu breakpoint did not recalculate from the already known media-query state; `useResponsive` now caches the latest screen map and applies it when the reactive breakpoint changes. The new browser regression switches from a matching `md` breakpoint to a nonmatching `xl` breakpoint at a fixed viewport, and the full Menu suite passes all 33 cases with retries disabled. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components. All public components, `_components` and `_hooks` are reviewed; next shared-support review: `_utils`.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
 | \_components                  | Reviewed; shared support             |
-| \_hooks                       | Pending                              |
+| \_hooks                       | Reviewed; shared support             |
 | \_utils                       | Pending                              |
 | affix                         | Reviewed; browser cases above passed |
 | alert                         | Reviewed; browser cases above passed |

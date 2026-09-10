@@ -430,6 +430,18 @@ describe('Menu', () => {
     });
   });
 
+  it('recalculates collapsed state when breakpoint changes', () => {
+    cy.viewport(1000, 600);
+    cy.mount(Menu, {
+      props: { breakpoint: 'md' },
+      slots: { default: () => 'Menu content' },
+    });
+
+    cy.get('.sd-menu').should('not.have.class', 'sd-menu-collapsed');
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ breakpoint: 'xl' }));
+    cy.get('.sd-menu').should('have.class', 'sd-menu-collapsed');
+  });
+
   it('renders collapsed with defaultCollapsed and shows level-1 item tooltips on hover', () => {
     const CollapsedMenu = defineComponent({
       components: { Menu, MenuItem: Menu.Item },
