@@ -145,7 +145,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Message: full 26-case Chrome suite passes with retries disabled (20 behavior + 6 demos). Clearing messages and immediately recreating the same id reproduced a dropped message because the manager retained cleared ids. `clear()` now resets the message array and id index together. The regression exercises recreation before the leaving container is destroyed. Component timers, hover/update behavior, imperative type methods, positions, external container removal, public types, exports and SCSS/tokens were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: modal.
+- Modal: full 48-case Chrome suite passes with retries disabled (37 behavior + 11 demos). Unmounting during a drag reproduced leaked window mousemove, mouseup and contextmenu listeners; contextmenu also remained after a normal drag ended. The drag cleanup now removes all three listeners and runs before unmount. The browser regression matches each registered handler to its removal. Declarative and imperative APIs, async confirmation, controlled visibility, focus/ESC stacking, mask behavior, global defaults, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: model-selector.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -204,7 +206,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | mention                       | Reviewed                             |
 | menu                          | Reviewed                             |
 | message                       | Reviewed                             |
-| modal                         | Pending                              |
+| modal                         | Reviewed                             |
 | model-selector                | Pending                              |
 | notification                  | Pending                              |
 | number-flow                   | Pending                              |

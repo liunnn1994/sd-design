@@ -1,4 +1,4 @@
-import { Ref, ref } from 'vue';
+import { onBeforeUnmount, Ref, ref } from 'vue';
 
 import { off, on } from '../../_utils/dom';
 
@@ -87,7 +87,10 @@ export const useDraggable = ({
     isDragging.value = false;
     off(window, 'mousemove', handleMouseMove);
     off(window, 'mouseup', handleMouseUp);
+    off(window, 'contextmenu', handleMouseUp);
   };
+
+  onBeforeUnmount(handleMouseUp);
 
   return {
     position,

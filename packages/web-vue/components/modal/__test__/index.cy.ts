@@ -538,6 +538,31 @@ describe('Modal', () => {
     });
   });
 
+  it('removes active drag listeners when unmounted during a drag', () => {
+    cy.mount(ModalComponent, {
+      props: { defaultVisible: true, renderToBody: false, title: 'Title', draggable: true },
+      slots: { default: '<div>Modal Body</div>' },
+    });
+    cy.get('@vue').then(({ wrapper }) => {
+      const element = wrapper.element as HTMLElement;
+      const win = element.ownerDocument.defaultView!;
+      const add = cy.spy(win, 'addEventListener');
+      const remove = cy.spy(win, 'removeEventListener');
+      const header = wrapper.find('.sd-modal-header').element as HTMLElement;
+
+      header.dispatchEvent(
+        new MouseEvent('mousedown', { bubbles: true, clientX: 500, clientY: 300 }),
+      );
+      wrapper.unmount();
+
+      for (const type of ['mousemove', 'mouseup', 'contextmenu']) {
+        const registration = add.getCalls().find((call) => call.args[0] === type);
+        expect(registration, `${type} registered`).not.to.equal(undefined);
+        expect(remove.calledWith(type, registration!.args[1]), `${type} removed`).to.equal(true);
+      }
+    });
+  });
+
   it('hides via the returned close handle without firing onOk/onCancel, and fires onClose', () => {
     const onOk = cy.spy().as('handleOnOk');
     const onCancel = cy.spy().as('handleOnCancel');
