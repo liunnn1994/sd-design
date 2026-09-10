@@ -18,6 +18,7 @@ export type {
   SelectableCardAlign,
   SelectableCardColor,
   SelectableCardLayout,
+  SelectableCardProps,
   SelectableCardSize,
   SelectableCardSizeValue,
   SelectableCardVariant,

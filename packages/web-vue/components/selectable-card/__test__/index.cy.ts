@@ -74,6 +74,27 @@ describe('SelectableCard', () => {
     cy.get('@onChange').should('have.been.calledOnceWith', true);
   });
 
+  it('supports native keyboard activation', () => {
+    const onChange = cy.spy().as('onChange');
+    cy.mount(SelectableCard, {
+      props: { label: '方案 A', isSelected: false, onChange },
+    });
+
+    cy.get('input[type="checkbox"]').focus().type(' ');
+    cy.get('@onChange').should('have.been.calledOnceWith', true);
+  });
+
+  it('leaves nested interactive controls independent', () => {
+    const onChange = cy.spy().as('onChange');
+    cy.mount(SelectableCard, {
+      props: { label: '方案 A', isSelected: false, onChange },
+      slots: { actions: '<button type="button">查看详情</button>' },
+    });
+
+    cy.contains('button', '查看详情').click();
+    cy.get('@onChange').should('not.have.been.called');
+  });
+
   it('does not toggle from nested controls or while disabled', () => {
     const onChange = cy.spy().as('onChange');
     cy.mount(SelectableCard, {

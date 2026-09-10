@@ -179,7 +179,9 @@ After the AutoComplete support-CSS change, reran AutoComplete, Alert, Affix and 
 
 - Select: full 69-case Chrome suite passes with retries disabled (47 behavior + 2 readonly-tip + 20 demos). Keyboard navigation in a long non-virtual dropdown changed the active option without scrolling OverlayScrollbars' actual viewport, leaving the option clipped. The dropdown now exposes that viewport to the navigation hook, and the regression follows twenty ArrowDown actions to verify both visibility and scroll movement. `SelectProps` now includes the existing spin, readonly and floating options. Single/multiple selection, filtering and creation, controlled aliases, disabled/readonly/loading states, clear/remove/limit events, grouping, slots, fallback and object values, responsive tags, virtual lists, ARIA relationships, installation, styles and public types were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
 
-Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: selectable-card.
+- SelectableCard: full 11-case Chrome suite passes with retries disabled (7 behavior + 4 demos). New browser coverage verifies native Space-key activation and that enabled nested action controls do not toggle the card. The existing documented prop contract is now exported as `SelectableCardProps`. Controlled selection, disabled behavior, checkbox semantics, card and nested-control clicks, content and named slots, visual variants, sizes, layouts, custom dimensions, installation, styles and Tag-derived color tokens were reviewed. Standard TypeScript verification remains pending with the pre-existing TNB toolchain and date-picker errors.
+
+Includes every immediate directory in components; internal helpers and styles require shared-support review rather than pretending they are public components. Next public component: sender.
 
 | Component / support directory | Review status                        |
 | ----------------------------- | ------------------------------------ |
@@ -257,7 +259,7 @@ Includes every immediate directory in components; internal helpers and styles re
 | scrollbar                     | Reviewed                             |
 | secret                        | Reviewed                             |
 | select                        | Reviewed                             |
-| selectable-card               | Pending                              |
+| selectable-card               | Reviewed                             |
 | sender                        | Pending                              |
 | skeleton                      | Pending                              |
 | slider                        | Pending                              |
