@@ -1,3 +1,10 @@
+## [4.5.5](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.5.4...web-vue-v4.5.5) (2026-09-11)
+
+
+### Bug Fixes
+
+* **build:** 🐛 重命名 vue-tsc 3.x 输出的 .d.vue.ts 声明为 .d.ts ([5f8510f](https://github.com/liunnn1994/sd-design/commit/5f8510fc8301c3425443a3c79d0ccb64c362dee4))
+
 ## [4.5.4](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.5.3...web-vue-v4.5.4) (2026-09-11)
 
 
