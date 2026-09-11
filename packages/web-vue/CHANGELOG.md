@@ -1,3 +1,10 @@
+## [4.5.4](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.5.3...web-vue-v4.5.4) (2026-09-11)
+
+
+### Bug Fixes
+
+* 🐛 修复高度被挤压的问题 ([a76646f](https://github.com/liunnn1994/sd-design/commit/a76646fadb9a3f9eaad0c0b051c9570763260be4))
+
 ## [4.5.3](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.5.2...web-vue-v4.5.3) (2026-09-10)
 
 
