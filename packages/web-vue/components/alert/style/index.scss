@@ -9,6 +9,7 @@ $alert-prefix-cls: string.unquote('#{theme.$prefix}-alert');
   align-items: center;
   box-sizing: border-box;
   width: 100%;
+  min-height: fit-content;
   padding: $alert-padding-vertical $alert-padding-horizontal;
   overflow: hidden;
   font-size: $alert-font-size-text-content;
