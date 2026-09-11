@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import { cp, mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, readdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const packageRoot = path.resolve(import.meta.dirname, '..');
@@ -11,9 +11,31 @@ await rm(resolveFromRoot('.temp-types'), { recursive: true, force: true });
 try {
   await runVueTsc();
   await moveDirectoryContents(resolveFromRoot('.temp-types', 'components'), resolveFromRoot('es'));
+  await renameVueDeclarations(resolveFromRoot('es'));
   await linkAmbientDeclarations();
 } finally {
   await rm(resolveFromRoot('.temp-types'), { recursive: true, force: true });
+}
+
+// vue-tsc 3.x 会把 SFC 声明输出为 `foo.vue.d.vue.ts`,该命名无法被任何消费方的
+// TypeScript 模块解析命中(标准探测只找 `foo.vue.d.ts`,`allowArbitraryExtensions`
+// 只找 `foo.d.vue.ts`),统一改回 `foo.vue.d.ts`。
+async function renameVueDeclarations(rootDir) {
+  for (const entry of await readdir(rootDir, { withFileTypes: true })) {
+    const entryPath = path.resolve(rootDir, entry.name);
+
+    if (entry.isDirectory()) {
+      await renameVueDeclarations(entryPath);
+      continue;
+    }
+
+    if (entry.name.endsWith('.d.vue.ts')) {
+      await rename(
+        entryPath,
+        path.resolve(rootDir, `${entry.name.slice(0, -'.d.vue.ts'.length)}.d.ts`),
+      );
+    }
+  }
 }
 
 async function linkAmbientDeclarations() {
