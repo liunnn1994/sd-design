@@ -11,7 +11,7 @@ describe('SelectableCard', () => {
     cy.get('input[type="checkbox"][aria-label="方案 A"]').should('be.checked');
     cy.get('.sd-selectable-card').should('have.class', 'sd-selectable-card--selected');
     cy.get('.sd-selectable-card')
-      .should('have.css', 'border-radius', '4px')
+      .should('have.css', 'border-radius', '6px')
       .and('have.css', 'border-width', '1px')
       .and('have.css', 'box-shadow', 'none')
       .and('have.css', 'padding', '12px');
