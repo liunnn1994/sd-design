@@ -1,3 +1,10 @@
+# [4.6.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.5.5...web-vue-v4.6.0) (2026-09-14)
+
+
+### Features
+
+* 🆕 使用更先进的面板组替换伸缩框组件 ([f947175](https://github.com/liunnn1994/sd-design/commit/f947175d5fbf1cf2c24afccfe1655fba777da3ba))
+
 ## [4.5.5](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.5.4...web-vue-v4.5.5) (2026-09-11)
 
 
