@@ -27,11 +27,11 @@ $border-dashed: dashed;
 $border-dotted: dotted;
 
 /******** radius *******/
-
+// Apple HIG「Clarity」：更圆润的连续圆角观感（squircle 以 CSS 近似取整数值）
 $border-radius-none: 0;
-$border-radius-small: 2px;
-$border-radius-medium: 4px;
-$border-radius-large: 8px;
+$border-radius-small: 4px;
+$border-radius-medium: 6px;
+$border-radius-large: 10px;
 $border-radius-circle: 50%;
 
 /******** shadow distance *******/
@@ -131,35 +131,73 @@ $color-transparent: transparent;
 
 /******** shadow *******/
 
+// Apple HIG「Depth」：低透明度、双层（贴地 + 环境）的柔和投影；
+// 保持原有的方向 / 层级语义不变，仅重设各层模糊与透明度。
 $shadow-none: none;
 $shadow-special: 0 0 1px rgb(0 0 0 / 30%);
-$shadow1-center: 0 0 5px rgb(0 0 0 / 10%);
-$shadow1-up: 0 -2px 5px rgb(0 0 0 / 10%);
-$shadow1-down: 0 2px 5px rgb(0 0 0 / 10%);
-$shadow1-left: -2px 0 5px rgb(0 0 0 / 10%);
-$shadow1-right: 2px 0 5px rgb(0 0 0 / 10%);
-$shadow1-left-up: -2px -2px 5px rgb(0 0 0 / 10%);
-$shadow1-left-down: -2px 2px 5px rgb(0 0 0 / 10%);
-$shadow1-right-up: 2px -2px 5px rgb(0 0 0 / 10%);
-$shadow1-right-down: 2px 2px 5px rgb(0 0 0 / 10%);
-$shadow2-center: 0 0 10px rgb(0 0 0 / 10%);
-$shadow2-up: 0 -4px 10px rgb(0 0 0 / 10%);
-$shadow2-down: 0 4px 10px rgb(0 0 0 / 10%);
-$shadow2-left: -4px 0 10px rgb(0 0 0 / 10%);
-$shadow2-right: 4px 0 10px rgb(0 0 0 / 10%);
-$shadow2-left-up: -4px -4px 10px rgb(0 0 0 / 10%);
-$shadow2-left-down: -4px 4px 10px rgb(0 0 0 / 10%);
-$shadow2-right-up: 4px -4px 10px rgb(0 0 0 / 10%);
-$shadow2-right-down: 4px 4px 10px rgb(0 0 0 / 10%);
-$shadow3-center: 0 0 20px rgb(0 0 0 / 10%);
-$shadow3-up: 0 -8px 20px rgb(0 0 0 / 10%);
-$shadow3-down: 0 8px 20px rgb(0 0 0 / 10%);
-$shadow3-left: -8px 0 20px rgb(0 0 0 / 10%);
-$shadow3-right: 8px 0 20px rgb(0 0 0 / 10%);
-$shadow3-left-up: -8px -8px 20px rgb(0 0 0 / 10%);
-$shadow3-left-down: -8px 8px 20px rgb(0 0 0 / 10%);
-$shadow3-right-up: 8px -8px 20px rgb(0 0 0 / 10%);
-$shadow3-right-down: 8px 8px 20px rgb(0 0 0 / 10%);
+$shadow1-center: 0 0 3px rgb(0 0 0 / 6%);
+$shadow1-up: 0 -1px 3px rgb(0 0 0 / 6%);
+$shadow1-down: 0 1px 3px rgb(0 0 0 / 6%);
+$shadow1-left: -1px 0 3px rgb(0 0 0 / 6%);
+$shadow1-right: 1px 0 3px rgb(0 0 0 / 6%);
+$shadow1-left-up: -1px -1px 3px rgb(0 0 0 / 6%);
+$shadow1-left-down: -1px 1px 3px rgb(0 0 0 / 6%);
+$shadow1-right-up: 1px -1px 3px rgb(0 0 0 / 6%);
+$shadow1-right-down: 1px 1px 3px rgb(0 0 0 / 6%);
+$shadow2-center:
+  0 0 6px rgb(0 0 0 / 6%),
+  0 0 20px rgb(0 0 0 / 8%);
+$shadow2-up:
+  0 -2px 6px rgb(0 0 0 / 6%),
+  0 -8px 24px rgb(0 0 0 / 8%);
+$shadow2-down:
+  0 2px 6px rgb(0 0 0 / 6%),
+  0 8px 24px rgb(0 0 0 / 8%);
+$shadow2-left:
+  -2px 0 6px rgb(0 0 0 / 6%),
+  -8px 0 24px rgb(0 0 0 / 8%);
+$shadow2-right:
+  2px 0 6px rgb(0 0 0 / 6%),
+  8px 0 24px rgb(0 0 0 / 8%);
+$shadow2-left-up:
+  -2px -2px 6px rgb(0 0 0 / 6%),
+  -6px -6px 24px rgb(0 0 0 / 8%);
+$shadow2-left-down:
+  -2px 2px 6px rgb(0 0 0 / 6%),
+  -6px 6px 24px rgb(0 0 0 / 8%);
+$shadow2-right-up:
+  2px -2px 6px rgb(0 0 0 / 6%),
+  6px -6px 24px rgb(0 0 0 / 8%);
+$shadow2-right-down:
+  2px 2px 6px rgb(0 0 0 / 6%),
+  6px 6px 24px rgb(0 0 0 / 8%);
+$shadow3-center:
+  0 0 12px rgb(0 0 0 / 8%),
+  0 0 40px rgb(0 0 0 / 10%);
+$shadow3-up:
+  0 -4px 12px rgb(0 0 0 / 8%),
+  0 -16px 40px rgb(0 0 0 / 10%);
+$shadow3-down:
+  0 4px 12px rgb(0 0 0 / 8%),
+  0 16px 40px rgb(0 0 0 / 10%);
+$shadow3-left:
+  -4px 0 12px rgb(0 0 0 / 8%),
+  -16px 0 40px rgb(0 0 0 / 10%);
+$shadow3-right:
+  4px 0 12px rgb(0 0 0 / 8%),
+  16px 0 40px rgb(0 0 0 / 10%);
+$shadow3-left-up:
+  -4px -4px 12px rgb(0 0 0 / 8%),
+  -10px -10px 40px rgb(0 0 0 / 10%);
+$shadow3-left-down:
+  -4px 4px 12px rgb(0 0 0 / 8%),
+  -10px 10px 40px rgb(0 0 0 / 10%);
+$shadow3-right-up:
+  4px -4px 12px rgb(0 0 0 / 8%),
+  10px -10px 40px rgb(0 0 0 / 10%);
+$shadow3-right-down:
+  4px 4px 12px rgb(0 0 0 / 8%),
+  10px 10px 40px rgb(0 0 0 / 10%);
 
 /******** opacity *******/
 

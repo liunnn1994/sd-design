@@ -17,7 +17,9 @@ $sd-cssvars-prefix: string.unquote('--sd');
 $prefix: sd;
 
 $font-family:
-  inter, '-apple-system', blinkmacsystemfont, 'PingFang SC', 'Hiragino Sans GB', 'noto sans',
+  // Apple HIG「Deference」：优先系统字体（SF Pro / PingFang），宿主再按需提供 inter
+
+  -apple-system, blinkmacsystemfont, 'inter', 'PingFang SC', 'Hiragino Sans GB', 'noto sans',
   'Microsoft YaHei', 'Helvetica Neue', helvetica, arial, sans-serif;
 
 $code-family: consolas, menlo;
@@ -55,4 +57,5 @@ $z-index-image-preview: $z-index-modal; // 1001
 
 $line-height-base: 1.5715;
 
-$popup-box-shadow-base: $shadow1-down;
+// 与 select / dropdown 等弹层统一使用二层阴影，保持「Depth」一致
+$popup-box-shadow-base: $shadow2-down;
