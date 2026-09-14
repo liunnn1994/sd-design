@@ -1,0 +1,118 @@
+// PanelGroup / Panel / PanelSeparator 样式实现。
+@use 'sass:string';
+@use '@style/theme/index.scss' as theme;
+@use '@components/panel-group/style/token.scss' as *;
+
+$panel-group-prefix-cls: string.unquote('#{theme.$prefix}-panel-group');
+$panel-prefix-cls: string.unquote('#{theme.$prefix}-panel');
+$panel-separator-prefix-cls: string.unquote('#{theme.$prefix}-panel-separator');
+
+// 主组件：flex 容器
+.#{$panel-group-prefix-cls} {
+  position: relative;
+}
+
+// 有尺寸面板：裁剪容器
+.#{$panel-prefix-cls} {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  min-width: 0;
+  min-height: 0;
+}
+
+.#{$panel-prefix-cls}-content,
+.#{$panel-prefix-cls}-fill-inner {
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+// 填充面板
+.#{$panel-prefix-cls}-fill {
+  min-width: 0;
+  min-height: 0;
+}
+
+// —— 伸缩杆 ——
+.#{$panel-separator-prefix-cls} {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: none;
+  flex-direction: inherit;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+}
+
+.#{$panel-separator-prefix-cls}-edge {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.#{$panel-separator-prefix-cls}-grip {
+  position: relative;
+  flex-shrink: 0;
+  outline: none;
+  cursor: var(--sd-panel-separator-cursor, col-resize);
+  touch-action: none;
+
+  // 横向组中的竖直杆：命中区域全高、厚度有限
+  &[aria-orientation='vertical'] {
+    width: $panel-separator-hit-size;
+    height: 100%;
+  }
+
+  // 纵向组中的水平杆
+  &[aria-orientation='horizontal'] {
+    width: 100%;
+    height: $panel-separator-hit-size;
+  }
+
+  &:focus-visible {
+    border-radius: 4px;
+    box-shadow: $panel-separator-focus-ring;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .#{$panel-prefix-cls}-content {
+    transition: none !important;
+  }
+}
+
+// 保留旧 ResizeBox 默认伸缩杆的外观与 class；命中区域仍由面板引擎管理。
+.#{theme.$prefix}-resizebox-trigger {
+  &-icon-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: $panel-separator-color-icon;
+    font-size: $panel-separator-font-size-icon;
+    line-height: 1;
+    background-color: $panel-separator-color-background;
+    transform: translate(-50%, -50%);
+  }
+
+  &-icon {
+    display: inline-block;
+    margin: -($panel-separator-font-size-icon * 0.25);
+  }
+
+  &-vertical > &-icon-wrapper {
+    width: $panel-separator-trigger-size;
+  }
+
+  &-horizontal > &-icon-wrapper {
+    height: $panel-separator-trigger-size;
+  }
+}

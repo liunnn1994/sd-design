@@ -11,23 +11,20 @@ runDemoTests('tag-group', demos, () => {
 });
 
 describe('<tag-group> responsive demo', () => {
-  it('resizes continuously while dragging the right trigger', () => {
+  it('resizes continuously while dragging the panel separator', () => {
     cy.wrap(
       demos['../../../../sd-vue-docs/src/components/generated/tag-group/responsive.vue'](),
     ).then((mod) => cy.mount(mod.default));
 
     cy.viewport(500, 500);
-    cy.get('.sd-resizebox').should('have.css', 'width', '300px');
-    cy.get('.sd-resizebox').should('have.css', 'max-width', 'none');
-    cy.get('.sd-resizebox-direction-right').trigger('mousedown', {
-      pageX: 300,
-      pageY: 0,
-      force: true,
-    });
-    cy.window().trigger('mousemove', { pageX: 400, pageY: 0 });
-    cy.get('.sd-resizebox').should('have.css', 'width', '394px');
-    cy.window().trigger('mousemove', { pageX: 600, pageY: 0 });
-    cy.get('.sd-resizebox').should('have.css', 'width', '594px');
-    cy.window().trigger('mouseup', { pageX: 600, pageY: 0 });
+    // 等待初始同步与动画稳定后再断言
+    cy.wait(450);
+    cy.get('.sd-panel').should('have.css', 'width', '300px');
+    // 引擎只消费指针位移的增量，坐标本身不需要对准 grip
+    cy.get('.sd-panel-separator-grip')
+      .trigger('pointerdown', { clientX: 320, clientY: 40, pointerId: 1 })
+      .trigger('pointermove', { clientX: 220, clientY: 40, pointerId: 1 })
+      .trigger('pointerup', { clientX: 220, clientY: 40, pointerId: 1 });
+    cy.get('.sd-panel').should('have.css', 'width', '200px');
   });
 });

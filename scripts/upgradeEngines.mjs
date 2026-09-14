@@ -6,12 +6,7 @@ import { format as oxfmtFormat } from 'oxfmt';
 const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
 const mise = parseTOML(readFileSync('.mise.toml', 'utf8'));
 
-const pnpmVersion = pkg.packageManager?.split('@')[1];
 const nodeVersion = await getNodeLtsVersion();
-
-if (!pnpmVersion) {
-  throw new Error('packageManager not found in package.json');
-}
 
 if (!nodeVersion) {
   throw new Error('node version not found');

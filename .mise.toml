@@ -1,9 +1,9 @@
 [tools]
-node = "24"
+node = "24.21.0"
 python = "3.14"
 
 [tools.pnpm]
-version = "12"
+version = "11.26.0"
 backend = "npm"
 
 

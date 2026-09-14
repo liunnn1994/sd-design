@@ -124,7 +124,9 @@ declare module 'vue' {
     SdRadioGroup: SDVue['RadioGroup'];
     SdRate: SDVue['Rate'];
     SdRegexVis: SDVue['RegexVis'];
-    SdResizeBox: SDVue['ResizeBox'];
+    SdPanelGroup: SDVue['PanelGroup'];
+    SdPanel: SDVue['Panel'];
+    SdPanelSeparator: SDVue['PanelSeparator'];
     SdResult: SDVue['Result'];
     SdRichTextEditor: SDVue['RichTextEditor'];
     SdSelect: SDVue['Select'];

@@ -1,4 +1,3 @@
-@use '@components/resize-box/style/token.scss' as resizeBoxToken;
 @use '@style/theme/index.scss' as theme;
 @use 'sass:string';
 @use '@components/split/style/token.scss' as *;
@@ -41,7 +40,7 @@ $split-trigger-prefix-cls: string.unquote('#{$split-prefix-cls}-trigger');
 
   &-icon {
     display: inline-block;
-    margin: -(resizeBoxToken.$resizeBox-trigger-font-size-icon * 0.25);
+    margin: -($split-trigger-font-size-icon * 0.25);
   }
 
   &-vertical {

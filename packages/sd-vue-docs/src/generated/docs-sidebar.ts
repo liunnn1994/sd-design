@@ -123,8 +123,8 @@ export const docsSidebar = [
             label: '面板分割 Split',
           },
           {
-            slug: 'components/resize-box',
-            label: '伸缩框 ResizeBox',
+            slug: 'components/panel-group',
+            label: '面板组 PanelGroup',
           },
           {
             slug: 'components/scrollbar',

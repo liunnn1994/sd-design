@@ -5,10 +5,7 @@
 
 @use 'sass:string';
 
-@forward '@components/resize-box/style/token.scss';
-
 @use '@style/theme/index.scss' as *;
-@use '@components/resize-box/style/token.scss' as *;
 
 $split-trigger-color-background: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-neutral-3')

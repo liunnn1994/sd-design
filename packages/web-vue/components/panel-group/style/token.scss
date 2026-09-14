@@ -1,0 +1,16 @@
+// PanelGroup / Panel / PanelSeparator 样式 token。
+@use '@style/theme/index.scss' as global;
+@use 'sass:string';
+
+// 默认外观沿用旧 resizebox-trigger：6px 底色杆、12px 拖拽点图标。
+$panel-separator-trigger-size: 6px;
+$panel-separator-font-size-icon: 12px;
+$panel-separator-color-background: var(
+  string.unquote('#{global.$sd-cssvars-prefix}-color-neutral-3')
+);
+$panel-separator-color-icon: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
+// 保留独立伸缩杆的指针命中范围。
+$panel-separator-hit-size: 14px;
+// 聚焦环
+$panel-separator-focus-ring: 0 0 0 3px
+  var(string.unquote('#{global.$sd-cssvars-prefix}-color-primary-light-2'));

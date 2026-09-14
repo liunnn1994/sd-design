@@ -14,6 +14,7 @@
     "url": "git+https://github.com/liunnn1994/sd-design.git"
   },
   "files": [
+    "THIRD_PARTY_NOTICES.md",
     "es",
     "dist",
     "json"
@@ -97,7 +98,7 @@
     "dayjs": "^1.11.23",
     "es-toolkit": "catalog:",
     "lexical": "0.48.0",
-    "motion-v": "^2.4.0",
+    "motion-v": "^2.4.2",
     "number-precision": "^1.6.0",
     "overlayscrollbars": "^2.16.0",
     "pdfjs-dist": "^6.3.289",
@@ -128,7 +129,7 @@
     "cypress": "15.18.0",
     "fast-glob": "^3.3.3",
     "glob": "^13.0.6",
-    "sass": "^1.103.1",
+    "sass": "^1.104.0",
     "semantic-release": "^25.0.9",
     "svgo": "^4.1.0",
     "type-fest": "catalog:",

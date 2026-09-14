@@ -64,6 +64,7 @@ import Notification from './notification';
 import NumberFlow, { NumberFlowGroup } from './number-flow';
 import PageHeader from './page-header';
 import Pagination from './pagination';
+import PanelGroup, { Panel, PanelSeparator } from './panel-group';
 import Popconfirm from './popconfirm';
 import Popover from './popover';
 import Progress from './progress';
@@ -71,7 +72,6 @@ import QrCode from './qr-code';
 import Radio, { RadioGroup } from './radio';
 import Rate from './rate';
 import RegexVis from './regex-vis';
-import ResizeBox from './resize-box';
 import Result from './result';
 import RichTextEditor from './rich-text-editor';
 import Scrollbar from './scrollbar';
@@ -204,7 +204,9 @@ const components: Record<string, Plugin> = {
   BloomMenu,
   ConfigProvider,
   ThemeProvider,
-  ResizeBox,
+  PanelGroup,
+  Panel,
+  PanelSeparator,
   Trigger,
   Split,
   Icon,

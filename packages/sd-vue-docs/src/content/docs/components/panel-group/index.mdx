@@ -1,0 +1,191 @@
+---
+title: 面板组 PanelGroup
+description: 可拖拽伸缩、带折叠动画的面板布局组件组，用于替代 ResizeBox。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import PanelGroupBasicDemo from '../../../../components/generated/panel-group/basic.vue';
+import panelGroupBasicSource from '../../../../components/generated/panel-group/basic.vue?raw';
+import PanelGroupBothEdgesDemo from '../../../../components/generated/panel-group/both-edges.vue';
+import panelGroupBothEdgesSource from '../../../../components/generated/panel-group/both-edges.vue?raw';
+import PanelGroupVerticalDemo from '../../../../components/generated/panel-group/vertical.vue';
+import panelGroupVerticalSource from '../../../../components/generated/panel-group/vertical.vue?raw';
+import PanelGroupFoldDemo from '../../../../components/generated/panel-group/fold.vue';
+import panelGroupFoldSource from '../../../../components/generated/panel-group/fold.vue?raw';
+import PanelGroupPinDemo from '../../../../components/generated/panel-group/pin.vue';
+import panelGroupPinSource from '../../../../components/generated/panel-group/pin.vue?raw';
+import PanelGroupNestedDemo from '../../../../components/generated/panel-group/nested.vue';
+import panelGroupNestedSource from '../../../../components/generated/panel-group/nested.vue?raw';
+import HorizontalDemo from '../../../../components/generated/panel-group/horizontal.vue';
+import horizontalSource from '../../../../components/generated/panel-group/horizontal.vue?raw';
+import SeparatorDemo from '../../../../components/generated/panel-group/separator.vue';
+import separatorSource from '../../../../components/generated/panel-group/separator.vue?raw';
+import DeepNestedDemo from '../../../../components/generated/panel-group/deep-nested.vue';
+import deepNestedSource from '../../../../components/generated/panel-group/deep-nested.vue?raw';
+
+### 基本用法
+
+保留原伸缩框“基本用法”的单内容面板：拖拽右侧或底部调整宽高，交汇处可同时调整两个方向。通过横、纵两层面板组组合实现，空白填充面板只用于提供可伸缩空间。
+
+<DemoBlock source={panelGroupBasicSource} mainFile="src/panel-group-basic.vue">
+
+<PanelGroupBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 水平布局
+
+`PanelGroup` 内至少需要一个未设置 `size` 的填充面板，自动占据剩余空间。有尺寸的面板在未放置独立 `PanelSeparator` 时，会在朝向填充面板的一侧自带边缘伸缩杆。每个方向中，填充面板的每侧最多一个有尺寸面板；更多面板通过嵌套布局实现。
+
+<DemoBlock source={horizontalSource} mainFile="src/panel-group-horizontal.vue">
+
+<HorizontalDemo client:only="vue" />
+
+</DemoBlock>
+
+### 自定义伸缩杆与重排
+
+通过 `PanelSeparator` 默认插槽自定义伸缩杆。为面板设置稳定的 `key` 后，切换位置会播放重排动画，伸缩方向随位置更新。双击伸缩杆恢复 `defaultSize`（未设置时恢复首次传入的 `size`）。
+
+<DemoBlock source={separatorSource} mainFile="src/panel-group-separator.vue">
+
+<SeparatorDemo client:only="vue" />
+
+</DemoBlock>
+
+### 双侧伸缩
+
+一组中填充面板的两侧各允许一个有尺寸面板，两侧都可以拖拽伸缩。
+
+<DemoBlock source={panelGroupBothEdgesSource} mainFile="src/panel-group-both-edges.vue">
+
+<PanelGroupBothEdgesDemo client:only="vue" />
+
+</DemoBlock>
+
+### 垂直方向
+
+`orientation="vertical"` 时面板沿纵向排列，伸缩杆变为水平方向。
+
+<DemoBlock source={panelGroupVerticalSource} mainFile="src/panel-group-vertical.vue">
+
+<PanelGroupVerticalDemo client:only="vue" />
+
+</DemoBlock>
+
+### 折叠动画
+
+面板支持 `collapsed` 折叠，并通过 `fold` 配置内容在折叠/展开时应用的样式姿态，折叠与展开是真实的动画（宽度过渡 + 内容姿态过渡）。
+
+<DemoBlock source={panelGroupFoldSource} mainFile="src/panel-group-fold.vue">
+
+<PanelGroupFoldDemo client:only="vue" />
+
+</DemoBlock>
+
+### 固定内容
+
+填充面板设置 `pin` 后，内容按面板折叠结束时的宽度排版，折叠动画期间不再逐帧重新换行，避免真实内容付出回流代价。
+
+<DemoBlock source={panelGroupPinSource} mainFile="src/panel-group-pin.vue">
+
+<PanelGroupPinDemo client:only="vue" />
+
+</DemoBlock>
+
+### 嵌套
+
+`PanelGroup` 支持嵌套：填充面板内可以再放一个不同方向的 `PanelGroup`。
+
+<DemoBlock source={panelGroupNestedSource} mainFile="src/panel-group-nested.vue">
+
+<PanelGroupNestedDemo client:only="vue" />
+
+</DemoBlock>
+
+### 多层嵌套与交叉拖拽
+
+三层面板组组合文件列表、编辑器、大纲与终端，各面板可以独立折叠。两根伸缩杆交汇处支持同时调整两个方向的尺寸。
+
+<DemoBlock source={deepNestedSource} mainFile="src/panel-group-deep-nested.vue">
+
+<DeepNestedDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+### PanelGroup Props
+
+| 参数名      | 描述                         | 类型                         |     默认值     |
+| ----------- | ---------------------------- | ---------------------------- | :------------: |
+| orientation | 面板排列方向，仅初始化时生效 | `'horizontal' \| 'vertical'` | `'horizontal'` |
+| reorder     | 面板重排时是否播放位移动画   | `boolean`                    |     `true`     |
+| transition  | 重排动画的过渡配置（毫秒）   | `PanelTransition`            |      `-`       |
+
+### Panel Props
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| size **(v-model)** | 面板尺寸，像素或百分比字符串；不传时为填充面板 | `number \| \`${number}%\`` | `-` |
+| collapsed **(v-model)** | 是否折叠 | `boolean` | `false` |
+| defaultSize | 双击伸缩杆时恢复的尺寸 | `number \| \`${number}%\`` | 首次传入的 `size` |
+| fold | 折叠/展开时应用到内容层上的样式姿态 | `{ shown?: PanelPose; hidden?: PanelPose }` | `-` |
+| minSize | 最小尺寸 | `number \| \`${number}%\`` | `0` |
+| maxSize | 最大尺寸 | `number \| \`${number}%\`` | `-` |
+| pin | 填充面板是否固定内容宽度（避免折叠动画期间内容回流） | `boolean` | `false` |
+| keepMounted | 折叠后是否保持内容挂载 | `boolean` | `true` |
+| transition | 面板尺寸/折叠动画的过渡配置（毫秒） | `PanelTransition` | `{ duration: 250 }` |
+
+`size` 和 `collapsed` 是受控状态，交互时使用 `v-model:size` / `v-model:collapsed` 接收更新。 `size` 数值变化会更新尺寸，但挂载后不能通过添加或移除 `size` 切换填充/有尺寸面板类型。 `pin` 仅对填充面板生效。`class`、`style` 和普通 HTML 属性应用到内容层，避免内边距、边框阻止外层完全折叠。 `keepMounted=false` 时，内容在退出动画完成后卸载，下一次展开重新创建。
+
+### PanelTransition
+
+`duration` 为毫秒；`easing` 为 cubic-bezier 四元组。设置 `type: 'spring'` 可启用弹簧尺寸动画，支持 `bounce`、`stiffness`、`damping` 和 `mass`。设置 `duration: 0` 可关闭动画。系统启用“减少动态效果”时，尺寸和内容动画会关闭。重排和内容的 `opacity` / `transform` 使用 `duration`、`easing`；弹簧配置作用于面板尺寸。
+
+### Panel Events
+
+| 事件名 | 描述 | 参数 |
+| --- | --- | --- |
+| update:size | 拖拽结束或键盘调整后面板尺寸变化 | size: `number \| \`${number}%\`` |
+| update:collapsed | 折叠状态变化（含拖拽中越过最小尺寸的自动折叠） | collapsed: `boolean` |
+
+### Panel Slots
+
+| 插槽名  | 描述     | 参数                                                          |
+| ------- | -------- | ------------------------------------------------------------- |
+| default | 面板内容 | collapsed: `boolean`，dragging: `boolean`，folding: `boolean` |
+
+### PanelSeparator Props
+
+| 参数名     | 描述               | 类型     |    默认值    |
+| ---------- | ------------------ | -------- | :----------: |
+| aria-label | 伸缩杆的无障碍标签 | `string` | `'调整大小'` |
+
+### PanelSeparator Slots
+
+| 插槽名  | 描述             | 参数 |
+| ------- | ---------------- | ---- |
+| default | 自定义伸缩杆内容 | `-`  |
+
+### PanelGroup Slots
+
+| 插槽名  | 描述                             |
+| ------- | -------------------------------- |
+| default | 组合 `Panel` 与 `PanelSeparator` |
+
+### 键盘操作
+
+伸缩杆支持 Tab 聚焦、方向键调整 10px、Shift + 方向键或 PageUp / PageDown 调整 50px，Home / End 移到最小/最大尺寸，Enter 请求折叠或展开，Escape 取消当前拖拽。水平布局支持 RTL。伸缩杆的普通属性和监听器会透传到可聚焦元素。
+
+## 从 ResizeBox 迁移
+
+`PanelGroup` 组件组替代已移除的 `ResizeBox`（伸缩框）。迁移对照：
+
+| ResizeBox | PanelGroup 组件组 |
+| --- | --- |
+| `<resize-box :width="w" :directions="['right']">` | `<panel-group>` + `<panel v-model:size="w">` + 填充 `<panel>` |
+| `width` / `height` (v-model) | `size` (v-model)，方向由 `orientation` 决定 |
+| `moving-start` / `moving` / `moving-end` | 拖拽结束触发 `update:size`；拖拽中间过程可读 `dragging` 插槽参数 |
+| `directions`（四边伸缩） | 每组每侧最多一个有尺寸面板；更复杂的布局用嵌套 `PanelGroup` 表达 |
+| `resize-trigger` 插槽 | `<panel-separator>` 的 default 插槽 |

@@ -1,0 +1,108 @@
+import type { PanelController } from './panel';
+
+// 伸缩杆命中检测与交叉标记。移植自 vendor/motion-panels 的 core/grips.ts。
+import { coarsePointer } from './env';
+import { emitter } from './utils';
+
+const HIT_MARGIN_FINE = 5;
+const HIT_MARGIN_COARSE = 12;
+
+export type GripState = 'crossed' | 'held' | null;
+
+export interface Point {
+  clientX: number;
+  clientY: number;
+}
+
+const registry = new Map<HTMLElement, PanelController>();
+const bus = emitter();
+const marks = { crossed: new Set<HTMLElement>(), held: new Set<HTMLElement>() };
+
+let rects: { element: HTMLElement; rect: DOMRect }[] | null = null;
+let watching: AbortController | undefined;
+
+const invalidate = () => {
+  rects = null;
+};
+
+const sameSet = (elements: HTMLElement[], current: Set<HTMLElement>) =>
+  elements.length === current.size && elements.every((element) => current.has(element));
+
+const measure = () => {
+  rects ??= [...registry.keys()].map((element) => ({
+    element,
+    rect: element.getBoundingClientRect(),
+  }));
+
+  return rects;
+};
+
+export const grips = {
+  /** 返回与该点相交（需 ≥2 个杆同时命中）的元素列表。 */
+  at(point: Point) {
+    if (registry.size < 2) {
+      return [];
+    }
+    const margin = coarsePointer.get() ? HIT_MARGIN_COARSE : HIT_MARGIN_FINE;
+    const hits = measure()
+      .filter(
+        ({ rect }) =>
+          point.clientX >= rect.left - margin &&
+          point.clientX <= rect.right + margin &&
+          point.clientY >= rect.top - margin &&
+          point.clientY <= rect.bottom + margin,
+      )
+      .map(({ element }) => element);
+
+    return hits.length > 1 ? hits : [];
+  },
+  invalidate,
+  mark(key: 'crossed' | 'held', elements: HTMLElement[]) {
+    if (sameSet(elements, marks[key])) {
+      return;
+    }
+    marks[key] = new Set(elements);
+    bus.emit();
+  },
+  partners(elements: HTMLElement[], self: HTMLElement | null) {
+    return elements
+      .filter((element) => element !== self)
+      .map((element) => registry.get(element))
+      .filter((controller) => controller !== undefined);
+  },
+  register(element: HTMLElement, controller: PanelController) {
+    registry.set(element, controller);
+    invalidate();
+    if (!watching && typeof window !== 'undefined') {
+      watching = new AbortController();
+      const { signal } = watching;
+      addEventListener('resize', invalidate, { signal });
+      addEventListener('scroll', invalidate, {
+        capture: true,
+        passive: true,
+        signal,
+      });
+    }
+    const stop = controller.motion.size.on('change', invalidate);
+
+    return () => {
+      stop();
+      registry.delete(element);
+      marks.crossed.delete(element);
+      marks.held.delete(element);
+      invalidate();
+      if (registry.size === 0) {
+        watching?.abort();
+        watching = undefined;
+      }
+    };
+  },
+  state(element: HTMLElement | null): GripState {
+    if (!element) {
+      return null;
+    }
+
+    return marks.held.has(element) ? 'held' : marks.crossed.has(element) ? 'crossed' : null;
+  },
+  subscribe: bus.subscribe,
+};

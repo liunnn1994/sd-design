@@ -491,8 +491,17 @@ export type {
   RegexVisSelectInfo,
   RegexVisSlots,
 } from './regex-vis';
-export { default as ResizeBox } from './resize-box';
-export type { ResizeBoxInstance } from './resize-box';
+export { default as PanelGroup, Panel, PanelSeparator } from './panel-group';
+export type {
+  PanelGroupInstance,
+  PanelInstance,
+  PanelSeparatorInstance,
+  PanelFold,
+  PanelPose,
+  PanelSize,
+  PanelSlotProps,
+  PanelTransition,
+} from './panel-group';
 export { default as Result } from './result';
 export type { ResultInstance } from './result';
 export { default as RichTextEditor } from './rich-text-editor';
