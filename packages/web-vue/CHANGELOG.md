@@ -1,3 +1,15 @@
+# [4.7.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.6.0...web-vue-v4.7.0) (2026-09-14)
+
+
+### Bug Fixes
+
+* 🐛 修正 selectable-card 测试对 medium 圆角令牌新值的断言 ([a74cc27](https://github.com/liunnn1994/sd-design/commit/a74cc27d3ff4596aa5ae5f089b3cbbd7de317a09))
+
+
+### Features
+
+* 🎨 按 Apple HIG 优化视觉设计令牌（圆角/阴影/字体栈） ([eb9f9e9](https://github.com/liunnn1994/sd-design/commit/eb9f9e97817fa574c287ae6bb995dbc36c980af6))
+
 # [4.6.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.5.5...web-vue-v4.6.0) (2026-09-14)
 
 
