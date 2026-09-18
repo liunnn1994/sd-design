@@ -1,3 +1,10 @@
+## [4.7.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.7.0...web-vue-v4.7.1) (2026-09-18)
+
+
+### Bug Fixes
+
+* 🐛 修复尺寸存在小数的时候会意外触发tooltip的问题 ([197d8d5](https://github.com/liunnn1994/sd-design/commit/197d8d599342a1c43702a63ed41021c79aa1ab3f))
+
 # [4.7.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.6.0...web-vue-v4.7.0) (2026-09-14)
 
 
