@@ -202,8 +202,16 @@
 
     if (nextHtml !== measurementHtml.value) measurementHtml.value = nextHtml;
     if (nextText !== text.value) text.value = nextText;
-    if (triggerElement.clientWidth !== measurementWidth.value) {
-      measurementWidth.value = triggerElement.clientWidth;
+    // 使用触发元素真实的 fractional 盒宽（clientWidth 会被取整）。若测量副本比
+    // 真实内容窄零点几像素，副本自身的 text-overflow: ellipsis 会把内部行盒撑大
+    // （如 "10" 16.03px 在 16px 副本中变成 "1…" 19.09px），scrollWidth 虚增，
+    // clamp 检测将误报“已截断”并弹出 tooltip（两位数字/字母内容的典型场景）。
+    const paddingBoxWidth =
+      triggerElement.getBoundingClientRect().width -
+      (parseFloat(computedStyle.borderLeftWidth) || 0) -
+      (parseFloat(computedStyle.borderRightWidth) || 0);
+    if (paddingBoxWidth !== measurementWidth.value) {
+      measurementWidth.value = paddingBoxWidth;
     }
     if (nextPadding !== measurementPadding.value) measurementPadding.value = nextPadding;
   }
