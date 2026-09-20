@@ -1,3 +1,10 @@
+## [4.7.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.7.1...web-vue-v4.7.2) (2026-09-20)
+
+
+### Bug Fixes
+
+* 🐛 修复 radio group button 类型的时候宽度的问题 ([059a885](https://github.com/liunnn1994/sd-design/commit/059a885aad04758953ed5bb690a7ce077a573ef8))
+
 ## [4.7.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.7.0...web-vue-v4.7.1) (2026-09-18)
 
 
