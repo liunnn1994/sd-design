@@ -144,6 +144,7 @@ $radio-prefix-cls: string.unquote('#{theme.$prefix}-radio');
   // button type
   &-button {
     display: inline-flex;
+    width: fit-content;
     padding: ($radio-button-spacing * 0.5);
     line-height: $radio-size-default-height - $radio-button-spacing * 2;
     background-color: $radio-group-button-color-bg;
