@@ -229,156 +229,180 @@
       "openspec_propose_skill"
     ],
     "23": [
-      "astro_starlight"
+      "astro_content"
     ],
     "24": [
-      "build_dts_script"
+      "astro_starlight"
     ],
     "25": [
-      "cascader_index_cascaderoption"
+      "basehttprequesthandler"
     ],
     "26": [
-      "cascader_index_cascaderpanel"
+      "build_dts_script"
     ],
     "27": [
-      "cascader_index_migration_naive"
+      "cascader_index_cascaderoption"
     ],
     "28": [
-      "chunk_082_selectview"
+      "cascader_index_cascaderpanel"
     ],
     "29": [
-      "chunk_082_trigger_component"
+      "cascader_index_migration_naive"
     ],
     "30": [
-      "chunk_082_virtual_list_migration"
+      "chunk_082_selectview"
     ],
     "31": [
-      "color_picker_index_migration"
+      "chunk_082_trigger_component"
     ],
     "32": [
-      "components_progress_progress_component"
+      "chunk_082_virtual_list_migration"
     ],
     "33": [
-      "components_rate_rate_component"
+      "color_picker_index_migration"
     ],
     "34": [
-      "components_result_result_component"
+      "components"
     ],
     "35": [
-      "components_spin"
+      "components_progress_progress_component"
     ],
     "36": [
-      "components_split"
+      "components_rate_rate_component"
     ],
     "37": [
-      "components_steps"
+      "components_result_result_component"
     ],
     "38": [
-      "components_switch"
+      "components_spin"
     ],
     "39": [
-      "components_switch_switch_component"
+      "components_split"
     ],
     "40": [
-      "components_tabs"
+      "components_steps"
     ],
     "41": [
-      "components_tag_tag_component"
+      "components_switch"
     ],
     "42": [
-      "components_timeline"
+      "components_switch_switch_component"
     ],
     "43": [
-      "components_timeline_timeline_component"
+      "components_tabs"
     ],
     "44": [
-      "components_transfer"
+      "components_tag_tag_component"
     ],
     "45": [
-      "components_typography_typography_component"
+      "components_timeline"
     ],
     "46": [
-      "components_upload"
+      "components_timeline_timeline_component"
     ],
     "47": [
-      "components_upload_upload_component"
+      "components_transfer"
     ],
     "48": [
-      "components_verification_code"
+      "components_typography_typography_component"
     ],
     "49": [
-      "components_verification_code_verification_code_component"
+      "components_upload"
     ],
     "50": [
-      "components_watermark"
+      "components_upload_upload_component"
     ],
     "51": [
-      "components_watermark_watermark_component"
+      "components_verification_code"
     ],
     "52": [
-      "cropper_index_cropperjs"
+      "components_verification_code_verification_code_component"
     ],
     "53": [
-      "date_picker_index_rangepicker"
+      "components_watermark"
     ],
     "54": [
-      "date_picker_index_shortcuttype"
+      "components_watermark_watermark_component"
     ],
     "55": [
-      "descriptions_index_descriptionsitem"
+      "cropper_index_cropperjs"
     ],
     "56": [
-      "docs_index"
+      "d_work_sd_design_packages_sd_vue_docs_src_generated_docs_sidebar"
     ],
     "57": [
-      "guides_start"
+      "d_work_sd_design_packages_sd_vue_docs_src_styles_demo_css"
     ],
     "58": [
-      "icongen"
+      "date_picker_index_rangepicker"
     ],
     "59": [
-      "jest"
+      "date_picker_index_shortcuttype"
     ],
     "60": [
-      "jsongen"
+      "descriptions_index_descriptionsitem"
     ],
     "61": [
-      "link_index"
+      "docs_index"
     ],
     "62": [
-      "release_auto_import_resolver_workflow"
+      "graphify_report"
     ],
     "63": [
-      "result_index"
+      "guides_start"
     ],
     "64": [
-      "root_directory"
+      "icongen"
     ],
     "65": [
-      "scrollbar_index_overlayscrollbars"
+      "jest"
     ],
     "66": [
-      "select_index_migration_arco"
+      "jsongen"
     ],
     "67": [
-      "select_index_migration_naive"
+      "license_agpl3"
     ],
     "68": [
-      "select_index_selectoptiondata"
+      "link_index"
     ],
     "69": [
-      "select_index_virtuallistprops"
+      "markdowncontent_astro"
     ],
     "70": [
-      "skeleton_index"
+      "release_auto_import_resolver_workflow"
     ],
     "71": [
-      "space_index"
+      "result_index"
     ],
     "72": [
-      "vite"
+      "root_directory"
     ],
     "73": [
+      "scrollbar_index_overlayscrollbars"
+    ],
+    "74": [
+      "select_index_migration_arco"
+    ],
+    "75": [
+      "select_index_migration_naive"
+    ],
+    "76": [
+      "select_index_selectoptiondata"
+    ],
+    "77": [
+      "select_index_virtuallistprops"
+    ],
+    "78": [
+      "skeleton_index"
+    ],
+    "79": [
+      "space_index"
+    ],
+    "80": [
+      "vite"
+    ],
+    "81": [
       "web_vue_build_migration_spec"
     ]
   },
@@ -456,10 +480,45 @@
     "70": 1.0,
     "71": 1.0,
     "72": 1.0,
-    "73": 1.0
+    "73": 1.0,
+    "74": 1.0,
+    "75": 1.0,
+    "76": 1.0,
+    "77": 1.0,
+    "78": 1.0,
+    "79": 1.0,
+    "80": 1.0,
+    "81": 1.0
   },
-  "gods": [],
+  "gods": [
+    {
+      "id": "d_work_sd_design_packages_sd_vue_docs_src_styles_demo_css",
+      "label": "../../styles/demo.css",
+      "degree": 0
+    },
+    {
+      "id": "markdowncontent_astro",
+      "label": "@astrojs/starlight/components/MarkdownContent.astro",
+      "degree": 0
+    },
+    {
+      "id": "graphify_report",
+      "label": "Graph Report (graphify-out)",
+      "degree": 0
+    }
+  ],
   "surprises": [
+    {
+      "source": "Migrate Generated Demos to Script Setup + Tailwind",
+      "target": "Generated Demo Components",
+      "source_files": [
+        "",
+        ""
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "modifies",
+      "note": "Bridges community 10 \u2192 community 3"
+    },
     {
       "source": "Form Component Doc",
       "target": "DemoBlock component",
@@ -467,7 +526,7 @@
         "",
         ""
       ],
-      "confidence": "INFERRED",
+      "confidence": "EXTRACTED",
       "relation": "uses",
       "note": "Bridges community 1 \u2192 community 0"
     },
@@ -478,20 +537,9 @@
         "",
         ""
       ],
-      "confidence": "INFERRED",
+      "confidence": "EXTRACTED",
       "relation": "uses",
-      "note": "Bridges community 0 \u2192 community 6"
-    },
-    {
-      "source": "Migrate Generated Demos to Script Setup + Tailwind",
-      "target": "Generated Demo Components",
-      "source_files": [
-        "",
-        ""
-      ],
-      "confidence": "INFERRED",
-      "relation": "modifies",
-      "note": "Bridges community 10 \u2192 community 3"
+      "note": "Bridges community 6 \u2192 community 0"
     }
   ],
   "tokens": {
