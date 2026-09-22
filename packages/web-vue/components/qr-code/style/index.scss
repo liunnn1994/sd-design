@@ -100,12 +100,10 @@ $qr-code-prefix-cls: string.unquote('#{theme.$prefix}-qr-code');
     cursor: pointer;
   }
 
-  &-refresh-btn:hover {
-    color: theme.$color-primary-7;
-  }
-
+  // 键盘焦点与 hover 保持同一视觉
+  &-refresh-btn:hover,
   &-refresh-btn:focus-visible {
-    outline: theme.$border-1 theme.$border-solid theme.$color-primary-6;
-    outline-offset: theme.$spacing-2;
+    color: theme.$color-primary-7;
+    outline: none;
   }
 }

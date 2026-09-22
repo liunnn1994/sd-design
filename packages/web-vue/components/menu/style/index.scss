@@ -182,6 +182,18 @@ $token-vars: map.merge(meta.module-variables('dropdownToken'), meta.module-varia
         }
       }
 
+      // 键盘焦点与 hover 保持同一视觉（item/header 均在 base-menu 键盘导航范围内）
+      &:focus-visible {
+        color: token-var('menu-#{$theme}-color-item_hover');
+        background-color: token-var('menu-#{$theme}-color-bg-item_hover');
+        outline: none;
+
+        .#{theme.$prefix}-icon,
+        .#{$menu-prefix-cls}-icon {
+          color: token-var('menu-#{$theme}-color-icon_hover');
+        }
+      }
+
       &.#{$menu-prefix-cls}-selected {
         color: token-var('menu-#{$theme}-color-item_selected');
 
@@ -266,10 +278,6 @@ $token-vars: map.merge(meta.module-variables('dropdownToken'), meta.module-varia
   font-size: $menu-font-size;
   line-height: $menu-line-height;
   transition: width theme.$transition-duration-2 theme.$transition-timing-function-standard;
-
-  &:focus-visible {
-    outline: 3px solid var(string.unquote('#{global.$sd-cssvars-prefix}-color-primary-light-2'));
-  }
 
   // 设置菜单层级的缩进
   &-indent {

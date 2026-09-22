@@ -51,11 +51,13 @@ $dropdown-prefix-cls: string.unquote('#{theme.$prefix}-dropdown');
       justify-content: space-between;
     }
 
-    // hover
+    // 键盘焦点（程序化聚焦后属于 focus-visible）与 hover 保持同一视觉
     &-active,
-    &:not(#{&}-disabled):hover {
+    &:not(#{&}-disabled):hover,
+    &:not(#{&}-disabled):focus-visible {
       color: $dropdown-option-color-text_hover;
       background-color: $dropdown-option-color-bg_hover;
+      outline: none;
       transition:
         color theme.$transition-duration-1 theme.$transition-timing-function-standard,
         background-color theme.$transition-duration-1 theme.$transition-timing-function-standard;

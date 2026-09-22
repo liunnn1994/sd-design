@@ -191,9 +191,12 @@ $transfer-prefix-cls: string.unquote('#{theme.$prefix}-transfer');
       cursor: not-allowed;
     }
 
-    &:not(#{&}-disabled):hover {
+    // 键盘焦点与 hover 保持同一视觉
+    &:not(#{&}-disabled):hover,
+    &:not(#{&}-disabled):focus-visible {
       color: $transfer-item-color_hover;
       background-color: $transfer-item-color-bg_hover;
+      outline: none;
     }
 
     .#{theme.$prefix}-checkbox {

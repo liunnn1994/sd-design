@@ -302,9 +302,12 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
       }
     }
 
+    // 键盘焦点与 hover 保持同一视觉
     &:focus-visible {
+      outline: none;
+
       .#{$tabs-prefix-cls}-tab-title::before {
-        border: 2px solid global.$color-primary-6;
+        background-color: $tabs-line-color-title-bg_hover;
       }
     }
   }
@@ -344,17 +347,6 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
         .#{theme.$prefix}-icon-hover:hover::before {
         background-color: $tabs-card-color-close-icon-bg_hover;
       }
-
-      &:focus-visible::before {
-        position: absolute;
-        inset: -1px 0 -1px -1px;
-        border: 2px solid global.$color-primary-6;
-        content: '';
-      }
-
-      &:last-child:focus-visible::before {
-        right: -1px;
-      }
     }
   }
 
@@ -378,8 +370,10 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
       border-top-left-radius: $tabs-card-border-radius;
     }
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
       background-color: $tabs-card-color-title-bg_hover;
+      outline: none;
     }
 
     &-disabled,
@@ -400,8 +394,10 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
     border-right: $tabs-card-border-width solid $tabs-card-color-title-border;
     border-radius: $tabs-card-border-radius $tabs-card-border-radius 0 0;
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
       background-color: $tabs-card-gutter-color-title-bg_hover;
+      outline: none;
     }
 
     &-disabled,
@@ -481,10 +477,12 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
         }
       }
 
+      // 键盘焦点与 hover 保持同一视觉
       &:focus-visible {
+        outline: none;
+
         .#{$tabs-prefix-cls}-tab-title {
-          margin: -2px;
-          border: 2px solid global.$color-primary-6;
+          background-color: $tabs-text-color-title-bg_hover;
         }
       }
     }
@@ -511,6 +509,12 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
 
       &:hover {
         background-color: $tabs-rounded-color-title-bg_hover;
+      }
+
+      // 键盘焦点与 hover 保持同一视觉
+      &:focus-visible {
+        background-color: $tabs-rounded-color-title-bg_hover;
+        outline: none;
       }
 
       &-disabled:hover {
@@ -555,6 +559,12 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
 
       &:hover {
         background-color: $tabs-capsule-color-title-bg_hover;
+      }
+
+      // 键盘焦点与 hover 保持同一视觉
+      &:focus-visible {
+        background-color: $tabs-capsule-color-title-bg_hover;
+        outline: none;
       }
 
       &-disabled:hover {

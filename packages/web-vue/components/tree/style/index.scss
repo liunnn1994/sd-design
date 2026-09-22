@@ -160,6 +160,16 @@ $tree-node-prefix-cls: string.unquote('#{theme.$prefix}-tree-node');
       transition: color theme.$transition-duration-2 theme.$transition-timing-function-standard;
     }
 
+    // 键盘焦点（roving tabindex + 程序化聚焦后属于 focus-visible）与 hover 保持同一视觉
+    &:not(&-disabled):focus-visible {
+      outline: none;
+
+      .#{$tree-node-prefix-cls}-title {
+        color: $tree-color-title-text_hover;
+        background-color: $tree-color-title-bg_hover;
+      }
+    }
+
     &-disabled-selectable,
     &-disabled {
       .#{$tree-node-prefix-cls}-title,

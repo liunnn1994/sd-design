@@ -48,9 +48,13 @@ $colors:
     background: $selectable-card-overlay-active;
   }
 
+  // 键盘焦点与 hover 保持同一视觉（::after 覆盖层）
   &:has(&-input:focus-visible) {
-    outline: 2px solid $selectable-card-color-focus;
-    outline-offset: 2px;
+    outline: none;
+
+    &::after {
+      background: $selectable-card-overlay-hover;
+    }
   }
 
   &-body {

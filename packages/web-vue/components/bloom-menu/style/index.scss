@@ -86,11 +86,11 @@ $bloom-menu-prefix-cls: string.unquote('#{theme.$prefix}-bloom-menu');
       background: $bloom-menu-hover-background;
     }
 
-    &:focus-visible {
-      position: relative;
-      z-index: 1;
-      outline: 2px solid theme.$color-primary-6;
-      outline-offset: -2px;
+    // 键盘焦点与 hover 保持同一视觉
+    &:focus-visible:not(:disabled) {
+      color: $bloom-menu-text-color;
+      background: $bloom-menu-hover-background;
+      outline: none;
     }
 
     &-border-right {
