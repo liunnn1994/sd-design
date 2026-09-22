@@ -1,3 +1,24 @@
+# [5.0.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.7.2...web-vue-v5.0.0) (2026-09-22)
+
+
+### Bug Fixes
+
+* 🐛 修复深色模式文字颜色未跟随灰阶色板的问题 ([776bd4f](https://github.com/liunnn1994/sd-design/commit/776bd4f49fd62e6d96cf96bb07964081f2e7c40e))
+
+
+### Features
+
+* 🆕 tag 组件支持手动设置 tooltip ([8ca4f86](https://github.com/liunnn1994/sd-design/commit/8ca4f86ddd1ce1dbf5e373fef7ff7d5cd94defda))
+* 🆕 上传组件新增跨标签页上传互斥功能 ([d66181c](https://github.com/liunnn1994/sd-design/commit/d66181c52739a391ae5751236759b945247167bd))
+* 🆕 优化主题的使用，新增主题编辑器 ([e29d99e](https://github.com/liunnn1994/sd-design/commit/e29d99efab6cea882ea8a78b7e22ce30cb24e94b))
+* 🆕 优化键盘选中的样式 ([0d83a39](https://github.com/liunnn1994/sd-design/commit/0d83a39da20313c2b4e24e414b089e3268017ebf))
+* 🆕 移除 cjs 的支持 ([8514dcd](https://github.com/liunnn1994/sd-design/commit/8514dcd41d31d6580c5861b59a5fa835092492f1))
+
+
+### BREAKING CHANGES
+
+* 🧨 此版本后仅支持 esm
+
 ## [4.7.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.7.1...web-vue-v4.7.2) (2026-09-20)
 
 
