@@ -391,10 +391,10 @@ $dark-color-bg-3: #2a2a2b; // Secondary container background
 $dark-color-bg-4: #313132; // Three-level container background
 $dark-color-bg-5: #373739; // Drop-down box, Tooltips background
 $dark-color-bg-white: #f6f6f6; // In bright color mode radio, switch white background
-$dark-color-text-1: rgb(255 255 255 / 90%);
-$dark-color-text-2: rgb(255 255 255 / 70%);
-$dark-color-text-3: rgb(255 255 255 / 50%);
-$dark-color-text-4: rgb(255 255 255 / 30%);
+$dark-color-text-1: rgb(var(string.unquote('#{$sd-cssvars-prefix}-gray-10')));
+$dark-color-text-2: rgb(var(string.unquote('#{$sd-cssvars-prefix}-gray-8')));
+$dark-color-text-3: rgb(var(string.unquote('#{$sd-cssvars-prefix}-gray-6')));
+$dark-color-text-4: rgb(var(string.unquote('#{$sd-cssvars-prefix}-gray-4')));
 $dark-color-fill-1: rgb(255 255 255 / 4%);
 $dark-color-fill-2: rgb(255 255 255 / 8%);
 $dark-color-fill-3: rgb(255 255 255 / 12%);
