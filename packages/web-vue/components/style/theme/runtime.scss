@@ -1,0 +1,29 @@
+@use 'sass:string';
+
+// 组件覆盖 → 简写兼容别名 → 全局值 → Sass 默认值。
+@function token($component, $name, $fallback, $global: null) {
+  $prefix-length: string.length($component) + 1;
+
+  @if string.slice($name, 1, $prefix-length) != '#{$component}-' {
+    $prefix-length: string.index($name, '-');
+  }
+
+  $alias: $name;
+
+  @if $prefix-length {
+    $alias: string.slice($name, $prefix-length + 1);
+  }
+
+  @if $global {
+    @if string.index($global, 'color-') == 1 {
+      $fallback: var(--sd-#{$global}, #{$fallback});
+    }
+
+    $fallback: var(--#{$global}, #{$fallback});
+  }
+
+  @return var(
+    --component-#{$component}-#{$name},
+    var(--component-#{$component}-#{$alias}, #{$fallback})
+  );
+}

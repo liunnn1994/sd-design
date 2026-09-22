@@ -36,6 +36,10 @@ import themeProviderBasicSource from '../../../../components/generated/theme-pro
 
 ## FAQ
 
+### 暗色模式如何影响基础色？
+
+`theme-mode` 优先于 `theme.algorithm`，未指定时继承祖先模式；`compact` 不改变明暗。`seed` 色阶会按生效模式重新派生，主题浮层同步更新。显式 `tokens` 和组件覆盖仍拥有最高优先级，切换模式不会删除用户配置。
+
 ### 和 ConfigProvider 的区别是什么？
 
 - `ThemeProvider` 只处理主题作用域（`theme` / `theme-mode` / CSS variables）。

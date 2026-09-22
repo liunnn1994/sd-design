@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -41,3 +42,99 @@ $breadcrumb-color-icon: var(string.unquote('#{global.$sd-cssvars-prefix}-color-t
 $breadcrumb-color-link-text_hover: global.$color-link-6;
 
 $breadcrumb-color-dropdown-icon: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-2'));
+
+// @generated runtime tokens — pnpm theme:generate
+$breadcrumb-color-text: theme-runtime.token(
+  'breadcrumb',
+  'breadcrumb-color-text',
+  $breadcrumb-color-text
+);
+$breadcrumb-color-text_active: theme-runtime.token(
+  'breadcrumb',
+  'breadcrumb-color-text-active',
+  $breadcrumb-color-text_active
+);
+$breadcrumb-color-link-text: theme-runtime.token(
+  'breadcrumb',
+  'breadcrumb-color-link-text',
+  $breadcrumb-color-link-text
+);
+$breadcrumb-color-separator: theme-runtime.token(
+  'breadcrumb',
+  'breadcrumb-color-separator',
+  $breadcrumb-color-separator
+);
+$breadcrumb-color-bg_hover: theme-runtime.token(
+  'breadcrumb',
+  'breadcrumb-color-bg-hover',
+  $breadcrumb-color-bg_hover
+);
+$breadcrumb-color-bg: theme-runtime.token(
+  'breadcrumb',
+  'breadcrumb-color-bg',
+  $breadcrumb-color-bg,
+  'color-transparent'
+);
+$breadcrumb-margin-separator-horizontal: theme-runtime.token(
+  'breadcrumb',
+  'breadcrumb-margin-separator-horizontal',
+  $breadcrumb-margin-separator-horizontal,
+  'spacing-2'
+);
+$breadcrumb-margin-dropdown-icon-left: theme-runtime.token(
+  'breadcrumb',
+  'breadcrumb-margin-dropdown-icon-left',
+  $breadcrumb-margin-dropdown-icon-left,
+  'spacing-2'
+);
+$breadcrumb-border-text-radius_hover: theme-runtime.token(
+  'breadcrumb',
+  'breadcrumb-border-text-radius-hover',
+  $breadcrumb-border-text-radius_hover
+);
+$breadcrumb-size-text-height: theme-runtime.token(
+  'breadcrumb',
+  'breadcrumb-size-text-height',
+  $breadcrumb-size-text-height,
+  'size-6'
+);
+$breadcrumb-size-separator-height: theme-runtime.token(
+  'breadcrumb',
+  'breadcrumb-size-separator-height',
+  $breadcrumb-size-separator-height,
+  'size-3'
+);
+$breadcrumb-size-dropdown-icon: theme-runtime.token(
+  'breadcrumb',
+  'breadcrumb-size-dropdown-icon',
+  $breadcrumb-size-dropdown-icon,
+  'size-3'
+);
+$breadcrumb-size-font-size: theme-runtime.token(
+  'breadcrumb',
+  'breadcrumb-size-font-size',
+  $breadcrumb-size-font-size,
+  'font-size-body-3'
+);
+$breadcrumb-font-weight_active: theme-runtime.token(
+  'breadcrumb',
+  'breadcrumb-font-weight-active',
+  $breadcrumb-font-weight_active,
+  'font-weight-500'
+);
+$breadcrumb-color-icon: theme-runtime.token(
+  'breadcrumb',
+  'breadcrumb-color-icon',
+  $breadcrumb-color-icon
+);
+$breadcrumb-color-link-text_hover: theme-runtime.token(
+  'breadcrumb',
+  'breadcrumb-color-link-text-hover',
+  $breadcrumb-color-link-text_hover,
+  'color-link-6'
+);
+$breadcrumb-color-dropdown-icon: theme-runtime.token(
+  'breadcrumb',
+  'breadcrumb-color-dropdown-icon',
+  $breadcrumb-color-dropdown-icon
+);

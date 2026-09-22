@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -67,3 +68,153 @@ $select-popup-group-title-color-text: var(
 );
 
 $dropdown-margin-left-suffix-icon: global.$spacing-6;
+
+// @generated runtime tokens — pnpm theme:generate
+$select-popup-max-height: theme-runtime.token(
+  'select',
+  'select-popup-max-height',
+  $select-popup-max-height,
+  'size-50'
+);
+$select-popup-border-radius: theme-runtime.token(
+  'select',
+  'select-popup-border-radius',
+  $select-popup-border-radius
+);
+$select-popup-padding-vertical: theme-runtime.token(
+  'select',
+  'select-popup-padding-vertical',
+  $select-popup-padding-vertical,
+  'spacing-2'
+);
+$select-popup-font-size: theme-runtime.token(
+  'select',
+  'select-popup-font-size',
+  $select-popup-font-size,
+  'font-size-body-3'
+);
+$select-popup-color-bg: theme-runtime.token(
+  'select',
+  'select-popup-color-bg',
+  $select-popup-color-bg
+);
+$select-popup-color-border: theme-runtime.token(
+  'select',
+  'select-popup-color-border',
+  $select-popup-color-border
+);
+$select-popup-box-shadow: theme-runtime.token(
+  'select',
+  'select-popup-box-shadow',
+  $select-popup-box-shadow
+);
+$select-popup-option-height: theme-runtime.token(
+  'select',
+  'select-popup-option-height',
+  $select-popup-option-height,
+  'size-9'
+);
+$select-popup-option-font-weight_selected: theme-runtime.token(
+  'select',
+  'select-popup-option-font-weight-selected',
+  $select-popup-option-font-weight_selected,
+  'font-weight-500'
+);
+$select-signal-popup-option-padding-horizontal: theme-runtime.token(
+  'select',
+  'select-signal-popup-option-padding-horizontal',
+  $select-signal-popup-option-padding-horizontal,
+  'spacing-6'
+);
+$select-multi-popup-option-padding-horizontal: theme-runtime.token(
+  'select',
+  'select-multi-popup-option-padding-horizontal',
+  $select-multi-popup-option-padding-horizontal,
+  'spacing-2'
+);
+$select-popup-option-color-bg_default: theme-runtime.token(
+  'select',
+  'select-popup-option-color-bg-default',
+  $select-popup-option-color-bg_default
+);
+$select-popup-option-color-bg_hover: theme-runtime.token(
+  'select',
+  'select-popup-option-color-bg-hover',
+  $select-popup-option-color-bg_hover
+);
+$select-popup-option-color-bg_selected: theme-runtime.token(
+  'select',
+  'select-popup-option-color-bg-selected',
+  $select-popup-option-color-bg_selected
+);
+$select-popup-option-color-bg_disabled: theme-runtime.token(
+  'select',
+  'select-popup-option-color-bg-disabled',
+  $select-popup-option-color-bg_disabled
+);
+$select-popup-option-color-text_default: theme-runtime.token(
+  'select',
+  'select-popup-option-color-text-default',
+  $select-popup-option-color-text_default
+);
+$select-popup-option-color-text_hover: theme-runtime.token(
+  'select',
+  'select-popup-option-color-text-hover',
+  $select-popup-option-color-text_hover
+);
+$select-popup-option-color-text_selected: theme-runtime.token(
+  'select',
+  'select-popup-option-color-text-selected',
+  $select-popup-option-color-text_selected
+);
+$select-popup-option-color-text_disabled: theme-runtime.token(
+  'select',
+  'select-popup-option-color-text-disabled',
+  $select-popup-option-color-text_disabled
+);
+$select-popup-option-color-highlight-text: theme-runtime.token(
+  'select',
+  'select-popup-option-color-highlight-text',
+  $select-popup-option-color-highlight-text
+);
+$select-popup-option-font-highlight-weight: theme-runtime.token(
+  'select',
+  'select-popup-option-font-highlight-weight',
+  $select-popup-option-font-highlight-weight,
+  'font-weight-500'
+);
+$select-popup-group-title-height: theme-runtime.token(
+  'select',
+  'select-popup-group-title-height',
+  $select-popup-group-title-height,
+  'size-5'
+);
+$select-popup-group-title-padding-horizontal: theme-runtime.token(
+  'select',
+  'select-popup-group-title-padding-horizontal',
+  $select-popup-group-title-padding-horizontal,
+  'spacing-6'
+);
+$select-popup-group-title-padding-top: theme-runtime.token(
+  'select',
+  'select-popup-group-title-padding-top',
+  $select-popup-group-title-padding-top,
+  'spacing-4'
+);
+$select-popup-group-title-font-size: theme-runtime.token(
+  'select',
+  'select-popup-group-title-font-size',
+  $select-popup-group-title-font-size,
+  'font-size-body-1'
+);
+$select-popup-group-title-color-text: theme-runtime.token(
+  'select',
+  'select-popup-group-title-color-text',
+  $select-popup-group-title-color-text
+);
+$dropdown-margin-left-suffix-icon: theme-runtime.token(
+  'select',
+  'dropdown-margin-left-suffix-icon',
+  $dropdown-margin-left-suffix-icon,
+  'spacing-6'
+);

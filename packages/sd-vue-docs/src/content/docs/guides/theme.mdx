@@ -22,12 +22,22 @@ SD Design 现在以 ConfigProvider 的 theme 对象作为主题入口。你不�
 
 如果你已经在用 `ConfigProvider`，也可以直接通过 `theme` 和 `theme-mode` 这两个配置项得到同样的局部主题容器能力。
 
-注意：局部容器不会覆盖挂载到 `body` 的浮层节点（例如 Popover、Tooltip、Select 下拉）。这类场景需要全局主题能力（`global`）。
+局部主题通过独立浮层容器同步到 Popover、Tooltip、Select 等浮层；使用 `global` 时则对整个页面生效。
 
 ## 主题对象结构
 
 ```ts
 interface SdThemeConfig {
+  seed?: {
+    primary?: string;
+    success?: string;
+    warning?: string;
+    danger?: string;
+    radius?: number;
+    fontSize?: number;
+    controlHeight?: number;
+  };
+  algorithm?: Array<'dark' | 'compact'>;
   tokens?: Record<string, string | number>;
   components?: Record<string, Record<string, string | number>>;
   meta?: {
@@ -40,6 +50,7 @@ interface SdThemeConfig {
 
 推荐的约定：
 
+- seed 定义基础设计，自动派生色阶和尺寸；algorithm 可组合暗色、紧凑模式
 - tokens 存放全局颜色、圆角、语义中性色等可跨组件复用的变量
 - components 存放组件级覆盖，用于表达某个组件相对全局 token 的偏移
 - meta 用来标记 schemaVersion、导出名称和 CSS 变量前缀
@@ -92,7 +103,7 @@ Scss 迁移后的组件样式优先消费 CSS variables。当前已经稳定使�
 
 ## 主题编辑器
 
-如果想查看主题结构和 JSON 约定，参考 [主题编辑器说明](/guides/theme-editor/)。
+使用 [在线主题编辑器](/guides/theme-editor/) 调整基础、全局和组件主题，查看真实文档示例并导出可直接使用的 JSON。
 
 ## 迁移建议
 

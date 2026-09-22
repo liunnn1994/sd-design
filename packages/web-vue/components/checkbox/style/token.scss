@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/component.scss' as component;
 @use '@style/theme/index.scss' as global;
 
@@ -68,3 +69,136 @@ $checkbox-color-indeterminate-icon-width: 6px;
 $checkbox-color-indeterminate-icon-height: 2px;
 
 $checkbox-color-indeterminate-icon: var(string.unquote('#{global.$sd-cssvars-prefix}-color-white'));
+
+// @generated runtime tokens — pnpm theme:generate
+$checkbox-mask-border-width: theme-runtime.token(
+  'checkbox',
+  'checkbox-mask-border-width',
+  $checkbox-mask-border-width,
+  'border-2'
+);
+$checkbox-mask-border-style: theme-runtime.token(
+  'checkbox',
+  'checkbox-mask-border-style',
+  $checkbox-mask-border-style,
+  'border-solid'
+);
+$checkbox-mask-border-radius: theme-runtime.token(
+  'checkbox',
+  'checkbox-mask-border-radius',
+  $checkbox-mask-border-radius
+);
+$checkbox-mask-bg-color-bg: theme-runtime.token(
+  'checkbox',
+  'checkbox-mask-bg-color-bg',
+  $checkbox-mask-bg-color-bg
+);
+$checkbox-mask-color-bg: theme-runtime.token(
+  'checkbox',
+  'checkbox-mask-color-bg',
+  $checkbox-mask-color-bg
+);
+$checkbox-mask-color-bg_checked: theme-runtime.token(
+  'checkbox',
+  'checkbox-mask-color-bg-checked',
+  $checkbox-mask-color-bg_checked,
+  'color-primary-6'
+);
+$checkbox-mask-color-bg_disabled: theme-runtime.token(
+  'checkbox',
+  'checkbox-mask-color-bg-disabled',
+  $checkbox-mask-color-bg_disabled
+);
+$checkbox-mask-color-bg_checked_disabled: theme-runtime.token(
+  'checkbox',
+  'checkbox-mask-color-bg-checked-disabled',
+  $checkbox-mask-color-bg_checked_disabled
+);
+$checkbox-mask-color-border: theme-runtime.token(
+  'checkbox',
+  'checkbox-mask-color-border',
+  $checkbox-mask-color-border
+);
+$checkbox-mask-color-border_hover: theme-runtime.token(
+  'checkbox',
+  'checkbox-mask-color-border-hover',
+  $checkbox-mask-color-border_hover
+);
+$checkbox-mask-color-border_checked: theme-runtime.token(
+  'checkbox',
+  'checkbox-mask-color-border-checked',
+  $checkbox-mask-color-border_checked,
+  'color-transparent'
+);
+$checkbox-mask-color-border_checked_disabled: theme-runtime.token(
+  'checkbox',
+  'checkbox-mask-color-border-checked-disabled',
+  $checkbox-mask-color-border_checked_disabled,
+  'color-transparent'
+);
+$checkbox-mask-color-border_disabled: theme-runtime.token(
+  'checkbox',
+  'checkbox-mask-color-border-disabled',
+  $checkbox-mask-color-border_disabled
+);
+$checkbox-color-text: theme-runtime.token('checkbox', 'checkbox-color-text', $checkbox-color-text);
+$checkbox-color-text_disabled: theme-runtime.token(
+  'checkbox',
+  'checkbox-color-text-disabled',
+  $checkbox-color-text_disabled
+);
+$checkbox-group-spacing: theme-runtime.token(
+  'checkbox',
+  'checkbox-group-spacing',
+  $checkbox-group-spacing,
+  'spacing-7'
+);
+$checkbox-text-mask-spacing: theme-runtime.token(
+  'checkbox',
+  'checkbox-text-mask-spacing',
+  $checkbox-text-mask-spacing,
+  'spacing-4'
+);
+$checkbox-text-font-size: theme-runtime.token(
+  'checkbox',
+  'checkbox-text-font-size',
+  $checkbox-text-font-size,
+  'font-size-body-3'
+);
+$checkbox-group-size-line-height_vertical: theme-runtime.token(
+  'checkbox',
+  'checkbox-group-size-line-height-vertical',
+  $checkbox-group-size-line-height_vertical,
+  'size-8'
+);
+$checkbox-size-check-icon: theme-runtime.token(
+  'checkbox',
+  'checkbox-size-check-icon',
+  $checkbox-size-check-icon,
+  'size-2'
+);
+$checkbox-color-check-icon: theme-runtime.token(
+  'checkbox',
+  'checkbox-color-check-icon',
+  $checkbox-color-check-icon
+);
+$checkbox-color-check-icon_disabled: theme-runtime.token(
+  'checkbox',
+  'checkbox-color-check-icon-disabled',
+  $checkbox-color-check-icon_disabled
+);
+$checkbox-color-indeterminate-icon-width: theme-runtime.token(
+  'checkbox',
+  'checkbox-color-indeterminate-icon-width',
+  $checkbox-color-indeterminate-icon-width
+);
+$checkbox-color-indeterminate-icon-height: theme-runtime.token(
+  'checkbox',
+  'checkbox-color-indeterminate-icon-height',
+  $checkbox-color-indeterminate-icon-height
+);
+$checkbox-color-indeterminate-icon: theme-runtime.token(
+  'checkbox',
+  'checkbox-color-indeterminate-icon',
+  $checkbox-color-indeterminate-icon
+);

@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -6,3 +7,22 @@
 $basic-crud-table-gap: global.$spacing-4;
 $basic-crud-table-title-size: global.$font-size-title-3;
 $basic-crud-table-title-color: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
+
+// @generated runtime tokens — pnpm theme:generate
+$basic-crud-table-gap: theme-runtime.token(
+  'basic-crud-table',
+  'basic-crud-table-gap',
+  $basic-crud-table-gap,
+  'spacing-4'
+);
+$basic-crud-table-title-size: theme-runtime.token(
+  'basic-crud-table',
+  'basic-crud-table-title-size',
+  $basic-crud-table-title-size,
+  'font-size-title-3'
+);
+$basic-crud-table-title-color: theme-runtime.token(
+  'basic-crud-table',
+  'basic-crud-table-title-color',
+  $basic-crud-table-title-color
+);

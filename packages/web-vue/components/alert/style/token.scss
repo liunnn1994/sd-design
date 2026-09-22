@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -80,3 +81,259 @@ $alert-color-close-icon_hover: var(string.unquote('#{global.$sd-cssvars-prefix}-
 $alert-margin-close-icon-left: global.$spacing-4;
 $alert-margin-action-left: global.$spacing-4;
 $alert-margin-action-right: global.$spacing-4;
+
+// @generated runtime tokens — pnpm theme:generate
+$alert-border-width: theme-runtime.token(
+  'alert',
+  'alert-border-width',
+  $alert-border-width,
+  'border-1'
+);
+$alert-min-height: theme-runtime.token('alert', 'alert-min-height', $alert-min-height, 'size-10');
+$alert-border-radius: theme-runtime.token('alert', 'alert-border-radius', $alert-border-radius);
+$alert-line-height: theme-runtime.token('alert', 'alert-line-height', $alert-line-height);
+$alert-title-line-height: theme-runtime.token(
+  'alert',
+  'alert-title-line-height',
+  $alert-title-line-height
+);
+$alert-title-margin-bottom: theme-runtime.token(
+  'alert',
+  'alert-title-margin-bottom',
+  $alert-title-margin-bottom,
+  'spacing-2'
+);
+$alert-margin-icon-right: theme-runtime.token(
+  'alert',
+  'alert-margin-icon-right',
+  $alert-margin-icon-right,
+  'spacing-4'
+);
+$alert-padding-horizontal: theme-runtime.token(
+  'alert',
+  'alert-padding-horizontal',
+  $alert-padding-horizontal
+);
+$alert-padding-vertical: theme-runtime.token(
+  'alert',
+  'alert-padding-vertical',
+  $alert-padding-vertical
+);
+$alert-padding-horizontal_with_title: theme-runtime.token(
+  'alert',
+  'alert-padding-horizontal-with-title',
+  $alert-padding-horizontal_with_title
+);
+$alert-padding-vertical_with_title: theme-runtime.token(
+  'alert',
+  'alert-padding-vertical-with-title',
+  $alert-padding-vertical_with_title
+);
+$alert-font-weight-title: theme-runtime.token(
+  'alert',
+  'alert-font-weight-title',
+  $alert-font-weight-title,
+  'font-weight-500'
+);
+$alert-font-size-text-title: theme-runtime.token(
+  'alert',
+  'alert-font-size-text-title',
+  $alert-font-size-text-title,
+  'font-size-title-1'
+);
+$alert-font-size-text-content: theme-runtime.token(
+  'alert',
+  'alert-font-size-text-content',
+  $alert-font-size-text-content,
+  'font-size-body-3'
+);
+$alert-font-size-icon: theme-runtime.token('alert', 'alert-font-size-icon', $alert-font-size-icon);
+$alert-font-size-icon_with_title: theme-runtime.token(
+  'alert',
+  'alert-font-size-icon-with-title',
+  $alert-font-size-icon_with_title
+);
+$alert-font-size-close-icon: theme-runtime.token(
+  'alert',
+  'alert-font-size-close-icon',
+  $alert-font-size-close-icon
+);
+$alert-normal-color-bg: theme-runtime.token(
+  'alert',
+  'alert-normal-color-bg',
+  $alert-normal-color-bg
+);
+$alert-normal-color-border: theme-runtime.token(
+  'alert',
+  'alert-normal-color-border',
+  $alert-normal-color-border,
+  'color-transparent'
+);
+$alert-normal-color-icon: theme-runtime.token(
+  'alert',
+  'alert-normal-color-icon',
+  $alert-normal-color-icon
+);
+$alert-normal-color-text-title: theme-runtime.token(
+  'alert',
+  'alert-normal-color-text-title',
+  $alert-normal-color-text-title
+);
+$alert-normal-color-text-content: theme-runtime.token(
+  'alert',
+  'alert-normal-color-text-content',
+  $alert-normal-color-text-content
+);
+$alert-normal-color-text-content_title: theme-runtime.token(
+  'alert',
+  'alert-normal-color-text-content-title',
+  $alert-normal-color-text-content_title
+);
+$alert-info-color-bg: theme-runtime.token('alert', 'alert-info-color-bg', $alert-info-color-bg);
+$alert-info-color-border: theme-runtime.token(
+  'alert',
+  'alert-info-color-border',
+  $alert-info-color-border,
+  'color-transparent'
+);
+$alert-info-color-icon: theme-runtime.token(
+  'alert',
+  'alert-info-color-icon',
+  $alert-info-color-icon,
+  'color-primary-6'
+);
+$alert-info-color-text-title: theme-runtime.token(
+  'alert',
+  'alert-info-color-text-title',
+  $alert-info-color-text-title
+);
+$alert-info-color-text-content: theme-runtime.token(
+  'alert',
+  'alert-info-color-text-content',
+  $alert-info-color-text-content
+);
+$alert-info-color-text-content_title: theme-runtime.token(
+  'alert',
+  'alert-info-color-text-content-title',
+  $alert-info-color-text-content_title
+);
+$alert-warning-color-bg: theme-runtime.token(
+  'alert',
+  'alert-warning-color-bg',
+  $alert-warning-color-bg
+);
+$alert-warning-color-border: theme-runtime.token(
+  'alert',
+  'alert-warning-color-border',
+  $alert-warning-color-border,
+  'color-transparent'
+);
+$alert-warning-color-icon: theme-runtime.token(
+  'alert',
+  'alert-warning-color-icon',
+  $alert-warning-color-icon,
+  'color-warning-6'
+);
+$alert-warning-color-text-title: theme-runtime.token(
+  'alert',
+  'alert-warning-color-text-title',
+  $alert-warning-color-text-title
+);
+$alert-warning-color-text-content: theme-runtime.token(
+  'alert',
+  'alert-warning-color-text-content',
+  $alert-warning-color-text-content
+);
+$alert-warning-color-text-content_title: theme-runtime.token(
+  'alert',
+  'alert-warning-color-text-content-title',
+  $alert-warning-color-text-content_title
+);
+$alert-error-color-bg: theme-runtime.token('alert', 'alert-error-color-bg', $alert-error-color-bg);
+$alert-error-color-border: theme-runtime.token(
+  'alert',
+  'alert-error-color-border',
+  $alert-error-color-border,
+  'color-transparent'
+);
+$alert-error-color-icon: theme-runtime.token(
+  'alert',
+  'alert-error-color-icon',
+  $alert-error-color-icon,
+  'color-danger-6'
+);
+$alert-error-color-text-title: theme-runtime.token(
+  'alert',
+  'alert-error-color-text-title',
+  $alert-error-color-text-title
+);
+$alert-error-color-text-content: theme-runtime.token(
+  'alert',
+  'alert-error-color-text-content',
+  $alert-error-color-text-content
+);
+$alert-error-color-text-content_title: theme-runtime.token(
+  'alert',
+  'alert-error-color-text-content-title',
+  $alert-error-color-text-content_title
+);
+$alert-success-color-bg: theme-runtime.token(
+  'alert',
+  'alert-success-color-bg',
+  $alert-success-color-bg
+);
+$alert-success-color-border: theme-runtime.token(
+  'alert',
+  'alert-success-color-border',
+  $alert-success-color-border,
+  'color-transparent'
+);
+$alert-success-color-icon: theme-runtime.token(
+  'alert',
+  'alert-success-color-icon',
+  $alert-success-color-icon,
+  'color-success-6'
+);
+$alert-success-color-text-title: theme-runtime.token(
+  'alert',
+  'alert-success-color-text-title',
+  $alert-success-color-text-title
+);
+$alert-success-color-text-content: theme-runtime.token(
+  'alert',
+  'alert-success-color-text-content',
+  $alert-success-color-text-content
+);
+$alert-success-color-text-content_title: theme-runtime.token(
+  'alert',
+  'alert-success-color-text-content-title',
+  $alert-success-color-text-content_title
+);
+$alert-color-close-icon: theme-runtime.token(
+  'alert',
+  'alert-color-close-icon',
+  $alert-color-close-icon
+);
+$alert-color-close-icon_hover: theme-runtime.token(
+  'alert',
+  'alert-color-close-icon-hover',
+  $alert-color-close-icon_hover
+);
+$alert-margin-close-icon-left: theme-runtime.token(
+  'alert',
+  'alert-margin-close-icon-left',
+  $alert-margin-close-icon-left,
+  'spacing-4'
+);
+$alert-margin-action-left: theme-runtime.token(
+  'alert',
+  'alert-margin-action-left',
+  $alert-margin-action-left,
+  'spacing-4'
+);
+$alert-margin-action-right: theme-runtime.token(
+  'alert',
+  'alert-margin-action-right',
+  $alert-margin-action-right,
+  'spacing-4'
+);

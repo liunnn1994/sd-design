@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -137,3 +138,329 @@ $input-feedback-icon-color_success: global.$color-success-6;
 $input-feedback-icon-color_error: global.$color-danger-6;
 $input-feedback-icon-color_warning: global.$color-warning-6;
 $input-feedback-icon-color_validating: global.$color-primary-6;
+
+// @generated runtime tokens — pnpm theme:generate
+$input-color-bg: theme-runtime.token('input', 'input-color-bg', $input-color-bg);
+$input-color-bg_hover: theme-runtime.token('input', 'input-color-bg-hover', $input-color-bg_hover);
+$input-color-bg_focus: theme-runtime.token('input', 'input-color-bg-focus', $input-color-bg_focus);
+$input-color-bg_disabled: theme-runtime.token(
+  'input',
+  'input-color-bg-disabled',
+  $input-color-bg_disabled
+);
+$input-color-addon-bg: theme-runtime.token('input', 'input-color-addon-bg', $input-color-bg);
+$input-color-addon-border: theme-runtime.token(
+  'input',
+  'input-color-addon-border',
+  $input-color-addon-border
+);
+$input-border-addon-separator-width: theme-runtime.token(
+  'input',
+  'input-border-addon-separator-width',
+  $input-border-addon-separator-width,
+  'border-1'
+);
+$input-color-border_focus: theme-runtime.token(
+  'input',
+  'input-color-border-focus',
+  $input-color-border_focus,
+  'color-primary-6'
+);
+$input-color-shadow_focus: theme-runtime.token(
+  'input',
+  'input-color-shadow-focus',
+  $input-color-shadow_focus
+);
+$input-size-shadow_focus: theme-runtime.token(
+  'input',
+  'input-size-shadow-focus',
+  $input-size-shadow_focus,
+  'shadow-distance-none'
+);
+$input-color-addon-border_default: theme-runtime.token(
+  'input',
+  'input-color-addon-border-default',
+  $input-color-addon-border_default,
+  'color-transparent'
+);
+$input-color-text: theme-runtime.token('input', 'input-color-text', $input-color-text);
+$input-color-placeholder-text: theme-runtime.token(
+  'input',
+  'input-color-placeholder-text',
+  $input-color-placeholder-text
+);
+$input-color-text_disabled: theme-runtime.token(
+  'input',
+  'input-color-text-disabled',
+  $input-color-text_disabled
+);
+$textarea-color-tip-text: theme-runtime.token(
+  'input',
+  'textarea-color-tip-text',
+  $textarea-color-tip-text
+);
+$input-color-bg_error: theme-runtime.token('input', 'input-color-bg-error', $input-color-bg_error);
+$input-color-bg_error_hover: theme-runtime.token(
+  'input',
+  'input-color-bg-error-hover',
+  $input-color-bg_error_hover
+);
+$input-color-bg_error_focus: theme-runtime.token(
+  'input',
+  'input-color-bg-error-focus',
+  $input-color-bg_focus
+);
+$input-color-border_error_focus: theme-runtime.token(
+  'input',
+  'input-color-border-error-focus',
+  $input-color-border_error_focus,
+  'color-danger-6'
+);
+$input-color-shadow_error_focus: theme-runtime.token(
+  'input',
+  'input-color-shadow-error-focus',
+  $input-color-shadow_error_focus
+);
+$input-size-shadow_error_focus: theme-runtime.token(
+  'input',
+  'input-size-shadow-error-focus',
+  $input-size-shadow_error_focus,
+  'shadow-distance-none'
+);
+$input-border-radius: theme-runtime.token('input', 'input-border-radius', $input-border-radius);
+$input-color-border: theme-runtime.token(
+  'input',
+  'input-color-border',
+  $input-color-border,
+  'color-transparent'
+);
+$input-color-border_disabled: theme-runtime.token(
+  'input',
+  'input-color-border-disabled',
+  $input-color-border_disabled,
+  'color-transparent'
+);
+$input-color-border_hover: theme-runtime.token(
+  'input',
+  'input-color-border-hover',
+  $input-color-border_hover,
+  'color-transparent'
+);
+$input-color-border_error: theme-runtime.token(
+  'input',
+  'input-color-border-error',
+  $input-color-border_error,
+  'color-transparent'
+);
+$input-color-border_error_hover: theme-runtime.token(
+  'input',
+  'input-color-border-error-hover',
+  $input-color-border_error_hover,
+  'color-transparent'
+);
+$input-size-default-font-size: theme-runtime.token(
+  'input',
+  'input-size-default-font-size',
+  $input-size-default-font-size,
+  'font-size-body-3'
+);
+$input-size-small-font-size: theme-runtime.token(
+  'input',
+  'input-size-small-font-size',
+  $input-size-small-font-size,
+  'font-size-body-3'
+);
+$input-size-large-font-size: theme-runtime.token(
+  'input',
+  'input-size-large-font-size',
+  $input-size-large-font-size,
+  'font-size-body-3'
+);
+$input-size-mini-font-size: theme-runtime.token(
+  'input',
+  'input-size-mini-font-size',
+  $input-size-mini-font-size,
+  'font-size-body-1'
+);
+$input-font-tip-size: theme-runtime.token(
+  'input',
+  'input-font-tip-size',
+  $input-font-tip-size,
+  'font-size-body-1'
+);
+$input-size-mini-icon-suffix-size: theme-runtime.token(
+  'input',
+  'input-size-mini-icon-suffix-size',
+  $input-size-mini-icon-suffix-size,
+  'size-3'
+);
+$input-size-small-icon-suffix-size: theme-runtime.token(
+  'input',
+  'input-size-small-icon-suffix-size',
+  $input-size-small-icon-suffix-size
+);
+$input-size-default-icon-suffix-size: theme-runtime.token(
+  'input',
+  'input-size-default-icon-suffix-size',
+  $input-size-default-icon-suffix-size
+);
+$input-size-large-icon-suffix-size: theme-runtime.token(
+  'input',
+  'input-size-large-icon-suffix-size',
+  $input-size-large-icon-suffix-size
+);
+$input-size-mini-icon-addon-size: theme-runtime.token(
+  'input',
+  'input-size-mini-icon-addon-size',
+  $input-size-mini-icon-addon-size,
+  'size-3'
+);
+$input-size-small-icon-addon-size: theme-runtime.token(
+  'input',
+  'input-size-small-icon-addon-size',
+  $input-size-small-icon-addon-size
+);
+$input-size-default-icon-addon-size: theme-runtime.token(
+  'input',
+  'input-size-default-icon-addon-size',
+  $input-size-default-icon-addon-size
+);
+$input-size-large-icon-addon-size: theme-runtime.token(
+  'input',
+  'input-size-large-icon-addon-size',
+  $input-size-large-icon-addon-size
+);
+$input-size-icon-clear: theme-runtime.token(
+  'input',
+  'input-size-icon-clear',
+  $input-size-icon-clear,
+  'size-3'
+);
+$input-color-suffix-text: theme-runtime.token(
+  'input',
+  'input-color-suffix-text',
+  $input-color-suffix-text
+);
+$input-color-tip-text: theme-runtime.token('input', 'input-color-tip-text', $input-color-tip-text);
+$input-color-icon-clear: theme-runtime.token(
+  'input',
+  'input-color-icon-clear',
+  $input-color-icon-clear
+);
+$input-color-icon-clear-bg_hover: theme-runtime.token(
+  'input',
+  'input-color-icon-clear-bg-hover',
+  $input-color-icon-clear-bg_hover
+);
+$search-color-icon: theme-runtime.token('input', 'search-color-icon', $search-color-icon);
+$search-size-icon: theme-runtime.token('input', 'search-size-icon', $search-size-icon);
+$input-margin-left-clear-btn: theme-runtime.token(
+  'input',
+  'input-margin-left-clear-btn',
+  $input-margin-left-clear-btn,
+  'spacing-6'
+);
+$input-spacing-clear-icon-right: theme-runtime.token(
+  'input',
+  'input-spacing-clear-icon-right',
+  $input-spacing-clear-icon-right,
+  'spacing-4'
+);
+$input-padding-word-limit-left: theme-runtime.token(
+  'input',
+  'input-padding-word-limit-left',
+  $input-padding-word-limit-left,
+  'spacing-4'
+);
+$textarea-font-size: theme-runtime.token(
+  'input',
+  'textarea-font-size',
+  $textarea-font-size,
+  'font-size-body-3'
+);
+$textarea-font-tip-size: theme-runtime.token(
+  'input',
+  'textarea-font-tip-size',
+  $textarea-font-tip-size,
+  'font-size-body-1'
+);
+$textarea-layout-tip-bottom: theme-runtime.token(
+  'input',
+  'textarea-layout-tip-bottom',
+  $textarea-layout-tip-bottom,
+  'spacing-3'
+);
+$textarea-size-min-height: theme-runtime.token(
+  'input',
+  'textarea-size-min-height',
+  $textarea-size-min-height,
+  'size-default'
+);
+$textarea-size-icon-clear: theme-runtime.token(
+  'input',
+  'textarea-size-icon-clear',
+  $textarea-size-icon-clear,
+  'font-size-body-1'
+);
+$textarea-layout-top-icon-clear: theme-runtime.token(
+  'input',
+  'textarea-layout-top-icon-clear',
+  $textarea-layout-top-icon-clear,
+  'spacing-5'
+);
+$password-color-eye-icon: theme-runtime.token(
+  'input',
+  'password-color-eye-icon',
+  $password-color-eye-icon
+);
+$password-size-eye-icon: theme-runtime.token(
+  'input',
+  'password-size-eye-icon',
+  $password-size-eye-icon,
+  'size-3'
+);
+$input-group-border-radius_compact: theme-runtime.token(
+  'input',
+  'input-group-border-radius-compact',
+  $input-group-border-radius_compact
+);
+$input-group-border-separator-width: theme-runtime.token(
+  'input',
+  'input-group-border-separator-width',
+  $input-group-border-separator-width,
+  'border-1'
+);
+$input-group-color-separator-border: theme-runtime.token(
+  'input',
+  'input-group-color-separator-border',
+  $input-group-color-separator-border
+);
+$input-size-medium-font-size: theme-runtime.token(
+  'input',
+  'input-size-medium-font-size',
+  $input-size-default-font-size
+);
+$input-feedback-icon-color_success: theme-runtime.token(
+  'input',
+  'input-feedback-icon-color-success',
+  $input-feedback-icon-color_success,
+  'color-success-6'
+);
+$input-feedback-icon-color_error: theme-runtime.token(
+  'input',
+  'input-feedback-icon-color-error',
+  $input-feedback-icon-color_error,
+  'color-danger-6'
+);
+$input-feedback-icon-color_warning: theme-runtime.token(
+  'input',
+  'input-feedback-icon-color-warning',
+  $input-feedback-icon-color_warning,
+  'color-warning-6'
+);
+$input-feedback-icon-color_validating: theme-runtime.token(
+  'input',
+  'input-feedback-icon-color-validating',
+  $input-feedback-icon-color_validating,
+  'color-primary-6'
+);

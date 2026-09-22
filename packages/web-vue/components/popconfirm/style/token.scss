@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -24,3 +25,85 @@ $popconfirm-color-title-icon: global.$color-warning-6;
 $popconfirm-color-title-icon_danger: global.$color-danger-6;
 $popconfirm-color-title-icon_success: global.$color-success-6;
 $popconfirm-color-title-icon_info: global.$color-primary-6;
+
+// @generated runtime tokens — pnpm theme:generate
+$popconfirm-padding-horizontal: theme-runtime.token(
+  'popconfirm',
+  'popconfirm-padding-horizontal',
+  $popconfirm-padding-horizontal,
+  'spacing-7'
+);
+$popconfirm-padding-vertical: theme-runtime.token(
+  'popconfirm',
+  'popconfirm-padding-vertical',
+  $popconfirm-padding-vertical,
+  'spacing-7'
+);
+$popconfirm-margin-title-bottom: theme-runtime.token(
+  'popconfirm',
+  'popconfirm-margin-title-bottom',
+  $popconfirm-margin-title-bottom,
+  'spacing-7'
+);
+$popconfirm-size-title-icon: theme-runtime.token(
+  'popconfirm',
+  'popconfirm-size-title-icon',
+  $popconfirm-size-title-icon
+);
+$popconfirm-margin-icon-right: theme-runtime.token(
+  'popconfirm',
+  'popconfirm-margin-icon-right',
+  $popconfirm-margin-icon-right,
+  'spacing-4'
+);
+$popconfirm-margin-button-left: theme-runtime.token(
+  'popconfirm',
+  'popconfirm-margin-button-left',
+  $popconfirm-margin-button-left,
+  'spacing-4'
+);
+$popconfirm-color-title-text: theme-runtime.token(
+  'popconfirm',
+  'popconfirm-color-title-text',
+  $popconfirm-color-title-text
+);
+$popconfirm-color-content-bg: theme-runtime.token(
+  'popconfirm',
+  'popconfirm-color-content-bg',
+  $popconfirm-color-content-bg
+);
+$popconfirm-color-border: theme-runtime.token(
+  'popconfirm',
+  'popconfirm-color-border',
+  $popconfirm-color-border
+);
+$popconfirm-border-radius: theme-runtime.token(
+  'popconfirm',
+  'popconfirm-border-radius',
+  $popconfirm-border-radius
+);
+$popconfirm-shadow: theme-runtime.token('popconfirm', 'popconfirm-shadow', $popconfirm-shadow);
+$popconfirm-color-title-icon: theme-runtime.token(
+  'popconfirm',
+  'popconfirm-color-title-icon',
+  $popconfirm-color-title-icon,
+  'color-warning-6'
+);
+$popconfirm-color-title-icon_danger: theme-runtime.token(
+  'popconfirm',
+  'popconfirm-color-title-icon-danger',
+  $popconfirm-color-title-icon_danger,
+  'color-danger-6'
+);
+$popconfirm-color-title-icon_success: theme-runtime.token(
+  'popconfirm',
+  'popconfirm-color-title-icon-success',
+  $popconfirm-color-title-icon_success,
+  'color-success-6'
+);
+$popconfirm-color-title-icon_info: theme-runtime.token(
+  'popconfirm',
+  'popconfirm-color-title-icon-info',
+  $popconfirm-color-title-icon_info,
+  'color-primary-6'
+);

@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -11,3 +12,21 @@ $trigger-color-arrow-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-
 $trigger-size-arrow-width: global.$size-2;
 
 $trigger-border-arrow-radius: global.$radius-small;
+
+// @generated runtime tokens — pnpm theme:generate
+$trigger-color-arrow-bg: theme-runtime.token(
+  'trigger',
+  'trigger-color-arrow-bg',
+  $trigger-color-arrow-bg
+);
+$trigger-size-arrow-width: theme-runtime.token(
+  'trigger',
+  'trigger-size-arrow-width',
+  $trigger-size-arrow-width,
+  'size-2'
+);
+$trigger-border-arrow-radius: theme-runtime.token(
+  'trigger',
+  'trigger-border-arrow-radius',
+  $trigger-border-arrow-radius
+);

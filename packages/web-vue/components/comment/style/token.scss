@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -33,3 +34,85 @@ $comment-margin-actions-right: global.$spacing-4;
 $comment-size-avatar-width: global.$size-8;
 
 $comment-font-action-size: global.$font-size-body-3;
+
+// @generated runtime tokens — pnpm theme:generate
+$comment-color-author-text: theme-runtime.token(
+  'comment',
+  'comment-color-author-text',
+  $comment-color-author-text
+);
+$comment-color-datetime-text: theme-runtime.token(
+  'comment',
+  'comment-color-datetime-text',
+  $comment-color-datetime-text
+);
+$comment-color-content-text: theme-runtime.token(
+  'comment',
+  'comment-color-content-text',
+  $comment-color-content-text
+);
+$comment-color-actions-text: theme-runtime.token(
+  'comment',
+  'comment-color-actions-text',
+  $comment-color-actions-text
+);
+$comment-font-size: theme-runtime.token(
+  'comment',
+  'comment-font-size',
+  $comment-font-size,
+  'font-size-body-3'
+);
+$comment-font-author-size: theme-runtime.token(
+  'comment',
+  'comment-font-author-size',
+  $comment-font-author-size,
+  'font-size-body-3'
+);
+$comment-font-datetime-size: theme-runtime.token(
+  'comment',
+  'comment-font-datetime-size',
+  $comment-font-datetime-size,
+  'font-size-body-1'
+);
+$comment-margin-avatar-right: theme-runtime.token(
+  'comment',
+  'comment-margin-avatar-right',
+  $comment-margin-avatar-right,
+  'spacing-6'
+);
+$comment-margin-author-right: theme-runtime.token(
+  'comment',
+  'comment-margin-author-right',
+  $comment-margin-author-right,
+  'spacing-4'
+);
+$comment-margin-actions-top: theme-runtime.token(
+  'comment',
+  'comment-margin-actions-top',
+  $comment-margin-actions-top,
+  'spacing-4'
+);
+$comment-margin-bottom: theme-runtime.token(
+  'comment',
+  'comment-margin-bottom',
+  $comment-margin-bottom,
+  'spacing-8'
+);
+$comment-margin-actions-right: theme-runtime.token(
+  'comment',
+  'comment-margin-actions-right',
+  $comment-margin-actions-right,
+  'spacing-4'
+);
+$comment-size-avatar-width: theme-runtime.token(
+  'comment',
+  'comment-size-avatar-width',
+  $comment-size-avatar-width,
+  'size-8'
+);
+$comment-font-action-size: theme-runtime.token(
+  'comment',
+  'comment-font-action-size',
+  $comment-font-action-size,
+  'font-size-body-3'
+);

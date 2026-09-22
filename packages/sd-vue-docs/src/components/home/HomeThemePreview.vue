@@ -19,15 +19,13 @@
   });
 
   const previewSurfaceStyle = computed(() => {
-    const tokens = activeRuntimePayload.value.theme.tokens;
-
     return {
-      '--home-preview-accent': `rgb(${String(tokens?.primary6 ?? '20,118,255')})`,
-      '--home-preview-surface': String(tokens?.colorBg2 ?? '#ffffff'),
-      '--home-preview-surface-elevated': String(tokens?.colorBg5 ?? tokens?.colorBg2 ?? '#ffffff'),
-      '--home-preview-text': String(tokens?.colorNeutral10 ?? '#0f172a'),
-      '--home-preview-text-muted': String(tokens?.colorNeutral6 ?? '#64748b'),
-      '--home-preview-border': String(tokens?.colorNeutral3 ?? '#d9e2f0'),
+      '--home-preview-accent': 'rgb(var(--sd-primary-6))',
+      '--home-preview-surface': 'var(--sd-color-bg-2)',
+      '--home-preview-surface-elevated': 'var(--sd-color-bg-5)',
+      '--home-preview-text': 'var(--sd-color-text-1)',
+      '--home-preview-text-muted': 'var(--sd-color-text-3)',
+      '--home-preview-border': 'var(--sd-color-border-2)',
     };
   });
 </script>

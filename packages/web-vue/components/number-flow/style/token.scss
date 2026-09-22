@@ -1,5 +1,24 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 $number-flow-gap: global.$spacing-2;
 $number-flow-mask-height: 0.25em;
 $number-flow-mask-width: 0.2em;
+
+// @generated runtime tokens — pnpm theme:generate
+$number-flow-gap: theme-runtime.token(
+  'number-flow',
+  'number-flow-gap',
+  $number-flow-gap,
+  'spacing-2'
+);
+$number-flow-mask-height: theme-runtime.token(
+  'number-flow',
+  'number-flow-mask-height',
+  $number-flow-mask-height
+);
+$number-flow-mask-width: theme-runtime.token(
+  'number-flow',
+  'number-flow-mask-width',
+  $number-flow-mask-width
+);

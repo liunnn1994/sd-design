@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -12,3 +13,24 @@ $mentions-padding-vertical: global.$spacing-2;
 $mentions-font-size: global.$font-size-body-3;
 
 $mentions-line-height: $line-height-base;
+
+// @generated runtime tokens — pnpm theme:generate
+$mentions-padding-horizontal: theme-runtime.token(
+  'mention',
+  'mentions-padding-horizontal',
+  $mentions-padding-horizontal,
+  'spacing-6'
+);
+$mentions-padding-vertical: theme-runtime.token(
+  'mention',
+  'mentions-padding-vertical',
+  $mentions-padding-vertical,
+  'spacing-2'
+);
+$mentions-font-size: theme-runtime.token(
+  'mention',
+  'mentions-font-size',
+  $mentions-font-size,
+  'font-size-body-3'
+);
+$mentions-line-height: theme-runtime.token('mention', 'mentions-line-height', $line-height-base);

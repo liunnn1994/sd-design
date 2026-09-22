@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -61,4 +62,97 @@ $auto-complete-option-color-text_selected: var(
 
 $auto-complete-option-color-text_disabled: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-text-4')
+);
+
+// @generated runtime tokens — pnpm theme:generate
+$auto-complete-popup-max-height: theme-runtime.token(
+  'auto-complete',
+  'auto-complete-popup-max-height',
+  $auto-complete-popup-max-height,
+  'size-50'
+);
+$auto-complete-popup-border-radius: theme-runtime.token(
+  'auto-complete',
+  'auto-complete-popup-border-radius',
+  $auto-complete-popup-border-radius
+);
+$auto-complete-popup-padding-vertical: theme-runtime.token(
+  'auto-complete',
+  'auto-complete-popup-padding-vertical',
+  $auto-complete-popup-padding-vertical,
+  'spacing-2'
+);
+$auto-complete-popup-font-size: theme-runtime.token(
+  'auto-complete',
+  'auto-complete-popup-font-size',
+  $auto-complete-popup-font-size,
+  'font-size-body-3'
+);
+$auto-complete-popup-color-border: theme-runtime.token(
+  'auto-complete',
+  'auto-complete-popup-color-border',
+  $auto-complete-popup-color-border
+);
+$auto-complete-popup-box-shadow: theme-runtime.token(
+  'auto-complete',
+  'auto-complete-popup-box-shadow',
+  $auto-complete-popup-box-shadow
+);
+$auto-complete-option-height: theme-runtime.token(
+  'auto-complete',
+  'auto-complete-option-height',
+  $auto-complete-option-height,
+  'size-9'
+);
+$auto-complete-option-font-weight_selected: theme-runtime.token(
+  'auto-complete',
+  'auto-complete-option-font-weight-selected',
+  $auto-complete-option-font-weight_selected,
+  'font-weight-500'
+);
+$auto-complete-option-padding-horizontal: theme-runtime.token(
+  'auto-complete',
+  'auto-complete-option-padding-horizontal',
+  $auto-complete-option-padding-horizontal,
+  'spacing-6'
+);
+$auto-complete-option-color-bg_default: theme-runtime.token(
+  'auto-complete',
+  'auto-complete-option-color-bg-default',
+  $auto-complete-option-color-bg_default
+);
+$auto-complete-option-color-bg_hover: theme-runtime.token(
+  'auto-complete',
+  'auto-complete-option-color-bg-hover',
+  $auto-complete-option-color-bg_hover
+);
+$auto-complete-option-color-bg_selected: theme-runtime.token(
+  'auto-complete',
+  'auto-complete-option-color-bg-selected',
+  $auto-complete-option-color-bg_selected
+);
+$auto-complete-option-color-bg_disabled: theme-runtime.token(
+  'auto-complete',
+  'auto-complete-option-color-bg-disabled',
+  $auto-complete-option-color-bg_disabled
+);
+$auto-complete-option-color-text_default: theme-runtime.token(
+  'auto-complete',
+  'auto-complete-option-color-text-default',
+  $auto-complete-option-color-text_default
+);
+$auto-complete-option-color-text_hover: theme-runtime.token(
+  'auto-complete',
+  'auto-complete-option-color-text-hover',
+  $auto-complete-option-color-text_hover
+);
+$auto-complete-option-color-text_selected: theme-runtime.token(
+  'auto-complete',
+  'auto-complete-option-color-text-selected',
+  $auto-complete-option-color-text_selected
+);
+$auto-complete-option-color-text_disabled: theme-runtime.token(
+  'auto-complete',
+  'auto-complete-option-color-text-disabled',
+  $auto-complete-option-color-text_disabled
 );

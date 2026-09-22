@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -5,3 +6,23 @@
 $json-form-spacing-row-gap: global.$spacing-4;
 $json-form-spacing-col-gap: global.$spacing-4;
 $json-form-border-radius-control: global.$border-radius-medium;
+
+// @generated runtime tokens — pnpm theme:generate
+$json-form-spacing-row-gap: theme-runtime.token(
+  'json-form',
+  'json-form-spacing-row-gap',
+  $json-form-spacing-row-gap,
+  'spacing-4'
+);
+$json-form-spacing-col-gap: theme-runtime.token(
+  'json-form',
+  'json-form-spacing-col-gap',
+  $json-form-spacing-col-gap,
+  'spacing-4'
+);
+$json-form-border-radius-control: theme-runtime.token(
+  'json-form',
+  'json-form-border-radius-control',
+  $json-form-border-radius-control,
+  'border-radius-medium'
+);

@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -55,3 +56,120 @@ $avatar-border-trigger-button-radius: global.$radius-circle;
 $avatar-font-size-max-count: 20px;
 
 $avatar-color-max-count-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-white'));
+
+// @generated runtime tokens — pnpm theme:generate
+$avatar-size-default: theme-runtime.token(
+  'avatar',
+  'avatar-size-default',
+  $avatar-size-default,
+  'size-10'
+);
+$avatar-font-size-text: theme-runtime.token(
+  'avatar',
+  'avatar-font-size-text',
+  $avatar-font-size-text
+);
+$avatar-color-text: theme-runtime.token('avatar', 'avatar-color-text', $avatar-color-text);
+$avatar-color-bg: theme-runtime.token('avatar', 'avatar-color-bg', $avatar-color-bg);
+$avatar-color-group-item-border: theme-runtime.token(
+  'avatar',
+  'avatar-color-group-item-border',
+  $avatar-color-group-item-border
+);
+$avatar-group-item-border-width: theme-runtime.token(
+  'avatar',
+  'avatar-group-item-border-width',
+  $avatar-group-item-border-width
+);
+$avatar-group-item-margin-left: theme-runtime.token(
+  'avatar',
+  'avatar-group-item-margin-left',
+  $avatar-group-item-margin-left
+);
+$avatar-group-popover-item-spacing: theme-runtime.token(
+  'avatar',
+  'avatar-group-popover-item-spacing',
+  $avatar-group-popover-item-spacing,
+  'spacing-2'
+);
+$avatar-font-weight-text: theme-runtime.token(
+  'avatar',
+  'avatar-font-weight-text',
+  $avatar-font-weight-text,
+  'font-weight-500'
+);
+$avatar-circle-border-radius: theme-runtime.token(
+  'avatar',
+  'avatar-circle-border-radius',
+  $avatar-circle-border-radius
+);
+$avatar-square-border-radius: theme-runtime.token(
+  'avatar',
+  'avatar-square-border-radius',
+  $avatar-square-border-radius
+);
+$avatar-size-trigger-button: theme-runtime.token(
+  'avatar',
+  'avatar-size-trigger-button',
+  $avatar-size-trigger-button,
+  'size-5'
+);
+$avatar-color-trigger-button-bg: theme-runtime.token(
+  'avatar',
+  'avatar-color-trigger-button-bg',
+  $avatar-color-trigger-button-bg
+);
+$avatar-color-trigger-button-bg_hover: theme-runtime.token(
+  'avatar',
+  'avatar-color-trigger-button-bg-hover',
+  $avatar-color-trigger-button-bg_hover
+);
+$avatar-color-trigger-mask-icon: theme-runtime.token(
+  'avatar',
+  'avatar-color-trigger-mask-icon',
+  $avatar-color-trigger-mask-icon
+);
+$avatar-opacity-trigger-mask-bg: theme-runtime.token(
+  'avatar',
+  'avatar-opacity-trigger-mask-bg',
+  $avatar-opacity-trigger-mask-bg,
+  'opacity-6'
+);
+$avatar-color-trigger-icon-button: theme-runtime.token(
+  'avatar',
+  'avatar-color-trigger-icon-button',
+  $avatar-color-trigger-icon-button
+);
+$avatar-spacing-trigger-button-right: theme-runtime.token(
+  'avatar',
+  'avatar-spacing-trigger-button-right',
+  $avatar-spacing-trigger-button-right,
+  'spacing-2'
+);
+$avatar-spacing-trigger-button-bottom: theme-runtime.token(
+  'avatar',
+  'avatar-spacing-trigger-button-bottom',
+  $avatar-spacing-trigger-button-bottom,
+  'spacing-2'
+);
+$avatar-size-trigger-icon: theme-runtime.token(
+  'avatar',
+  'avatar-size-trigger-icon',
+  $avatar-size-trigger-icon,
+  'size-3'
+);
+$avatar-border-trigger-button-radius: theme-runtime.token(
+  'avatar',
+  'avatar-border-trigger-button-radius',
+  $avatar-border-trigger-button-radius
+);
+$avatar-font-size-max-count: theme-runtime.token(
+  'avatar',
+  'avatar-font-size-max-count',
+  $avatar-font-size-max-count
+);
+$avatar-color-max-count-text: theme-runtime.token(
+  'avatar',
+  'avatar-color-max-count-text',
+  $avatar-color-max-count-text
+);

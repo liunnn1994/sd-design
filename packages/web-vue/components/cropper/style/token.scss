@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 $cropper-background-color: global.$color-fill-2;
@@ -6,3 +7,26 @@ $cropper-border-radius: global.$border-radius-medium;
 $cropper-min-width: 200px;
 $cropper-min-height: 120px;
 $cropper-theme-color: rgb(var(--primary-6));
+
+// @generated runtime tokens — pnpm theme:generate
+$cropper-background-color: theme-runtime.token(
+  'cropper',
+  'cropper-background-color',
+  $cropper-background-color,
+  'color-fill-2'
+);
+$cropper-border-color: theme-runtime.token(
+  'cropper',
+  'cropper-border-color',
+  $cropper-border-color,
+  'color-border-2'
+);
+$cropper-border-radius: theme-runtime.token(
+  'cropper',
+  'cropper-border-radius',
+  $cropper-border-radius,
+  'border-radius-medium'
+);
+$cropper-min-width: theme-runtime.token('cropper', 'cropper-min-width', $cropper-min-width);
+$cropper-min-height: theme-runtime.token('cropper', 'cropper-min-height', $cropper-min-height);
+$cropper-theme-color: theme-runtime.token('cropper', 'cropper-theme-color', $cropper-theme-color);

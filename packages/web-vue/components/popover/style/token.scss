@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -31,3 +32,60 @@ $popup-color-border: var(string.unquote('#{global.$sd-cssvars-prefix}-color-neut
 $popup-font-size: global.$font-size-body-3;
 
 $popup-border-radius: global.$radius-medium;
+
+// @generated runtime tokens — pnpm theme:generate
+$popup-color-content-text: theme-runtime.token(
+  'popover',
+  'popup-color-content-text',
+  $popup-color-content-text
+);
+$popup-border-radius: theme-runtime.token('popover', 'popup-border-radius', $popup-border-radius);
+$popup-color-content-bg: theme-runtime.token(
+  'popover',
+  'popup-color-content-bg',
+  $popup-color-content-bg
+);
+$popup-shadow: theme-runtime.token('popover', 'popup-shadow', $popup-shadow);
+$popup-padding-content-top: theme-runtime.token(
+  'popover',
+  'popup-padding-content-top',
+  $popup-padding-content-top,
+  'spacing-2'
+);
+$popup-padding-horizontal: theme-runtime.token(
+  'popover',
+  'popup-padding-horizontal',
+  $popup-padding-horizontal,
+  'spacing-7'
+);
+$popup-padding-vertical: theme-runtime.token(
+  'popover',
+  'popup-padding-vertical',
+  $popup-padding-vertical,
+  'spacing-6'
+);
+$popup-color-title-text: theme-runtime.token(
+  'popover',
+  'popup-color-title-text',
+  $popup-color-title-text
+);
+$popup-font-title-size: theme-runtime.token(
+  'popover',
+  'popup-font-title-size',
+  $popup-font-title-size,
+  'font-size-title-1'
+);
+$popup-margin-content-top: theme-runtime.token(
+  'popover',
+  'popup-margin-content-top',
+  $popup-margin-content-top,
+  'spacing-2'
+);
+$popup-color-border: theme-runtime.token('popover', 'popup-color-border', $popup-color-border);
+$popup-font-size: theme-runtime.token(
+  'popover',
+  'popup-font-size',
+  $popup-font-size,
+  'font-size-body-3'
+);
+$popup-border-radius: theme-runtime.token('popover', 'popup-border-radius', $popup-border-radius);

@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -130,4 +131,244 @@ $notification-error-color-text-content: var(
 
 $notification-error-color-border: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-neutral-3')
+);
+
+// @generated runtime tokens — pnpm theme:generate
+$notification-wrapper-margin-top: theme-runtime.token(
+  'notification',
+  'notification-wrapper-margin-top',
+  $notification-wrapper-margin-top,
+  'spacing-8'
+);
+$notification-wrapper-margin-bottom: theme-runtime.token(
+  'notification',
+  'notification-wrapper-margin-bottom',
+  $notification-wrapper-margin-bottom,
+  'spacing-8'
+);
+$notification-wrapper-margin-left: theme-runtime.token(
+  'notification',
+  'notification-wrapper-margin-left',
+  $notification-wrapper-margin-left,
+  'spacing-8'
+);
+$notification-wrapper-margin-right: theme-runtime.token(
+  'notification',
+  'notification-wrapper-margin-right',
+  $notification-wrapper-margin-right,
+  'spacing-8'
+);
+$notification-border-radius: theme-runtime.token(
+  'notification',
+  'notification-border-radius',
+  $notification-border-radius
+);
+$notification-margin-bottom: theme-runtime.token(
+  'notification',
+  'notification-margin-bottom',
+  $notification-margin-bottom,
+  'spacing-8'
+);
+$notification-padding-top: theme-runtime.token(
+  'notification',
+  'notification-padding-top',
+  $notification-padding-top,
+  'spacing-8'
+);
+$notification-padding-bottom: theme-runtime.token(
+  'notification',
+  'notification-padding-bottom',
+  $notification-padding-bottom,
+  'spacing-8'
+);
+$notification-font-size-icon: theme-runtime.token(
+  'notification',
+  'notification-font-size-icon',
+  $notification-font-size-icon
+);
+$notification-font-size-title: theme-runtime.token(
+  'notification',
+  'notification-font-size-title',
+  $notification-font-size-title,
+  'font-size-title-1'
+);
+$notification-font-size-content: theme-runtime.token(
+  'notification',
+  'notification-font-size-content',
+  $notification-font-size-content,
+  'font-size-body-3'
+);
+$notification-icon-margin-right: theme-runtime.token(
+  'notification',
+  'notification-icon-margin-right',
+  $notification-icon-margin-right,
+  'spacing-7'
+);
+$notification-title-margin-bottom: theme-runtime.token(
+  'notification',
+  'notification-title-margin-bottom',
+  $notification-title-margin-bottom,
+  'spacing-2'
+);
+$notification-btn-wrapper-margin-top: theme-runtime.token(
+  'notification',
+  'notification-btn-wrapper-margin-top',
+  $notification-btn-wrapper-margin-top,
+  'spacing-7'
+);
+$notification-border-width: theme-runtime.token(
+  'notification',
+  'notification-border-width',
+  $notification-border-width
+);
+$notification-border-style: theme-runtime.token(
+  'notification',
+  'notification-border-style',
+  $notification-border-style
+);
+$notification-color-close-icon: theme-runtime.token(
+  'notification',
+  'notification-color-close-icon',
+  $notification-color-close-icon
+);
+$notification-close-icon-top: theme-runtime.token(
+  'notification',
+  'notification-close-icon-top',
+  $notification-close-icon-top,
+  'spacing-6'
+);
+$notification-close-icon-right: theme-runtime.token(
+  'notification',
+  'notification-close-icon-right',
+  $notification-close-icon-right,
+  'spacing-6'
+);
+$notification-normal-color-bg: theme-runtime.token(
+  'notification',
+  'notification-normal-color-bg',
+  $notification-normal-color-bg
+);
+$notification-normal-color-icon: theme-runtime.token(
+  'notification',
+  'notification-normal-color-icon',
+  $notification-normal-color-icon
+);
+$notification-normal-color-text-title: theme-runtime.token(
+  'notification',
+  'notification-normal-color-text-title',
+  $notification-normal-color-text-title
+);
+$notification-normal-color-text-content: theme-runtime.token(
+  'notification',
+  'notification-normal-color-text-content',
+  $notification-normal-color-text-content
+);
+$notification-normal-color-border: theme-runtime.token(
+  'notification',
+  'notification-normal-color-border',
+  $notification-normal-color-border
+);
+$notification-info-color-bg: theme-runtime.token(
+  'notification',
+  'notification-info-color-bg',
+  $notification-info-color-bg
+);
+$notification-info-color-icon: theme-runtime.token(
+  'notification',
+  'notification-info-color-icon',
+  $notification-info-color-icon,
+  'color-primary-6'
+);
+$notification-info-color-text-title: theme-runtime.token(
+  'notification',
+  'notification-info-color-text-title',
+  $notification-info-color-text-title
+);
+$notification-info-color-text-content: theme-runtime.token(
+  'notification',
+  'notification-info-color-text-content',
+  $notification-info-color-text-content
+);
+$notification-info-color-border: theme-runtime.token(
+  'notification',
+  'notification-info-color-border',
+  $notification-info-color-border
+);
+$notification-success-color-bg: theme-runtime.token(
+  'notification',
+  'notification-success-color-bg',
+  $notification-success-color-bg
+);
+$notification-success-color-icon: theme-runtime.token(
+  'notification',
+  'notification-success-color-icon',
+  $notification-success-color-icon,
+  'color-success-6'
+);
+$notification-success-color-text-title: theme-runtime.token(
+  'notification',
+  'notification-success-color-text-title',
+  $notification-success-color-text-title
+);
+$notification-success-color-text-content: theme-runtime.token(
+  'notification',
+  'notification-success-color-text-content',
+  $notification-success-color-text-content
+);
+$notification-success-color-border: theme-runtime.token(
+  'notification',
+  'notification-success-color-border',
+  $notification-success-color-border
+);
+$notification-warning-color-bg: theme-runtime.token(
+  'notification',
+  'notification-warning-color-bg',
+  $notification-warning-color-bg
+);
+$notification-warning-color-icon: theme-runtime.token(
+  'notification',
+  'notification-warning-color-icon',
+  $notification-warning-color-icon,
+  'color-warning-6'
+);
+$notification-warning-color-text-title: theme-runtime.token(
+  'notification',
+  'notification-warning-color-text-title',
+  $notification-warning-color-text-title
+);
+$notification-warning-color-text-content: theme-runtime.token(
+  'notification',
+  'notification-warning-color-text-content',
+  $notification-warning-color-text-content
+);
+$notification-warning-color-border: theme-runtime.token(
+  'notification',
+  'notification-warning-color-border',
+  $notification-warning-color-border
+);
+$notification-error-color-bg: theme-runtime.token(
+  'notification',
+  'notification-error-color-bg',
+  $notification-error-color-bg
+);
+$notification-error-color-icon: theme-runtime.token(
+  'notification',
+  'notification-error-color-icon',
+  $notification-error-color-icon,
+  'color-danger-6'
+);
+$notification-error-color-text-title: theme-runtime.token(
+  'notification',
+  'notification-error-color-text-title',
+  $notification-error-color-text-title
+);
+$notification-error-color-text-content: theme-runtime.token(
+  'notification',
+  'notification-error-color-text-content',
+  $notification-error-color-text-content
+);
+$notification-error-color-border: theme-runtime.token(
+  'notification',
+  'notification-error-color-border',
+  $notification-error-color-border
 );

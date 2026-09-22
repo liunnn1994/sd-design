@@ -1,5 +1,13 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
 
 $input-mask-font-variant-numeric: tabular-nums;
+
+// @generated runtime tokens — pnpm theme:generate
+$input-mask-font-variant-numeric: theme-runtime.token(
+  'input-mask',
+  'input-mask-font-variant-numeric',
+  $input-mask-font-variant-numeric
+);

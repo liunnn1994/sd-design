@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -137,3 +138,342 @@ $form-color-tip-icon-text_warning: global.$color-warning-6;
 $form-color-tip-text_validating: global.$color-primary-6;
 
 $form-color-tip-icon-text_validating: global.$color-primary-6;
+
+// @generated runtime tokens — pnpm theme:generate
+$form-size-mini-margin-item-bottom: theme-runtime.token(
+  'form',
+  'form-size-mini-margin-item-bottom',
+  $form-size-mini-margin-item-bottom,
+  'spacing-7'
+);
+$form-size-small-margin-item-bottom: theme-runtime.token(
+  'form',
+  'form-size-small-margin-item-bottom',
+  $form-size-small-margin-item-bottom,
+  'spacing-8'
+);
+$form-size-default-margin-item-bottom: theme-runtime.token(
+  'form',
+  'form-size-default-margin-item-bottom',
+  $form-size-default-margin-item-bottom,
+  'spacing-8'
+);
+$form-size-large-margin-item-bottom: theme-runtime.token(
+  'form',
+  'form-size-large-margin-item-bottom',
+  $form-size-large-margin-item-bottom,
+  'spacing-8'
+);
+$form-size-mini-font-label-size: theme-runtime.token(
+  'form',
+  'form-size-mini-font-label-size',
+  $form-size-mini-font-label-size,
+  'font-size-body-1'
+);
+$form-size-small-font-label-size: theme-runtime.token(
+  'form',
+  'form-size-small-font-label-size',
+  $form-size-small-font-label-size,
+  'font-size-body-3'
+);
+$form-size-large-font-label-size: theme-runtime.token(
+  'form',
+  'form-size-large-font-label-size',
+  $form-size-large-font-label-size,
+  'font-size-body-3'
+);
+$form-size-default-font-label-size: theme-runtime.token(
+  'form',
+  'form-size-default-font-label-size',
+  $form-size-default-font-label-size,
+  'font-size-body-3'
+);
+$form-font-extra-text-size: theme-runtime.token(
+  'form',
+  'form-font-extra-text-size',
+  $form-font-extra-text-size,
+  'font-size-body-1'
+);
+$form-font-error-text-size: theme-runtime.token(
+  'form',
+  'form-font-error-text-size',
+  $form-font-error-text-size,
+  'font-size-body-1'
+);
+$form-margin-label-right: theme-runtime.token(
+  'form',
+  'form-margin-label-right',
+  $form-margin-label-right,
+  'spacing-7'
+);
+$form-margin-extra-bottom: theme-runtime.token(
+  'form',
+  'form-margin-extra-bottom',
+  $form-margin-extra-bottom,
+  'spacing-2'
+);
+$form-margin-extra-top: theme-runtime.token(
+  'form',
+  'form-margin-extra-top',
+  $form-margin-extra-top,
+  'spacing-2'
+);
+$form-inline-margin-item-right: theme-runtime.token(
+  'form',
+  'form-inline-margin-item-right',
+  $form-inline-margin-item-right,
+  'spacing-9'
+);
+$form-inline-margin-item-bottom: theme-runtime.token(
+  'form',
+  'form-inline-margin-item-bottom',
+  $form-inline-margin-item-bottom,
+  'spacing-4'
+);
+$form-vertical-margin-label-bottom: theme-runtime.token(
+  'form',
+  'form-vertical-margin-label-bottom',
+  $form-vertical-margin-label-bottom,
+  'spacing-4'
+);
+$form-color-extra-text: theme-runtime.token(
+  'form',
+  'form-color-extra-text',
+  $form-color-extra-text
+);
+$form-color-text-label: theme-runtime.token(
+  'form',
+  'form-color-text-label',
+  $form-color-text-label
+);
+$form-margin-tooltip-left: theme-runtime.token(
+  'form',
+  'form-margin-tooltip-left',
+  $form-margin-tooltip-left,
+  'spacing-2'
+);
+$form-color-text-tooltip: theme-runtime.token(
+  'form',
+  'form-color-text-tooltip',
+  $form-color-text-tooltip
+);
+$form-color-bg_warning: theme-runtime.token(
+  'form',
+  'form-color-bg-warning',
+  $form-color-bg_warning
+);
+$form-color-bg_warning_hover: theme-runtime.token(
+  'form',
+  'form-color-bg-warning-hover',
+  $form-color-bg_warning_hover
+);
+$form-color-bg_warning_focus: theme-runtime.token(
+  'form',
+  'form-color-bg-warning-focus',
+  $form-color-bg_warning_focus
+);
+$form-color-border_warning: theme-runtime.token(
+  'form',
+  'form-color-border-warning',
+  $form-color-border_warning,
+  'color-transparent'
+);
+$form-color-border_warning_focus: theme-runtime.token(
+  'form',
+  'form-color-border-warning-focus',
+  $form-color-border_warning_focus,
+  'color-warning-6'
+);
+$form-color-border_warning_hover: theme-runtime.token(
+  'form',
+  'form-color-border-warning-hover',
+  $form-color-border_warning_hover,
+  'color-transparent'
+);
+$form-size-shadow_warning_focus: theme-runtime.token(
+  'form',
+  'form-size-shadow-warning-focus',
+  $form-size-shadow_warning_focus,
+  'shadow-distance-none'
+);
+$form-color-shadow_warning_focus: theme-runtime.token(
+  'form',
+  'form-color-shadow-warning-focus',
+  $form-color-shadow_warning_focus
+);
+$form-color-bg_success: theme-runtime.token(
+  'form',
+  'form-color-bg-success',
+  $form-color-bg_success
+);
+$form-color-bg_success_hover: theme-runtime.token(
+  'form',
+  'form-color-bg-success-hover',
+  $form-color-bg_success_hover
+);
+$form-color-bg_success_focus: theme-runtime.token(
+  'form',
+  'form-color-bg-success-focus',
+  $form-color-bg_success_focus
+);
+$form-color-border_success: theme-runtime.token(
+  'form',
+  'form-color-border-success',
+  $form-color-border_success,
+  'color-transparent'
+);
+$form-color-border_success_focus: theme-runtime.token(
+  'form',
+  'form-color-border-success-focus',
+  $form-color-border_success_focus,
+  'color-success-6'
+);
+$form-color-border_success_hover: theme-runtime.token(
+  'form',
+  'form-color-border-success-hover',
+  $form-color-border_success_hover,
+  'color-transparent'
+);
+$form-size-shadow_success_focus: theme-runtime.token(
+  'form',
+  'form-size-shadow-success-focus',
+  $form-size-shadow_success_focus,
+  'shadow-distance-none'
+);
+$form-color-shadow_success_focus: theme-runtime.token(
+  'form',
+  'form-color-shadow-success-focus',
+  $form-color-shadow_success_focus
+);
+$form-color-bg_error: theme-runtime.token('form', 'form-color-bg-error', $form-color-bg_error);
+$form-color-bg_error_hover: theme-runtime.token(
+  'form',
+  'form-color-bg-error-hover',
+  $form-color-bg_error_hover
+);
+$form-color-bg_error_focus: theme-runtime.token(
+  'form',
+  'form-color-bg-error-focus',
+  $form-color-bg_error_focus
+);
+$form-color-border_error: theme-runtime.token(
+  'form',
+  'form-color-border-error',
+  $form-color-border_error,
+  'color-transparent'
+);
+$form-color-border_error_focus: theme-runtime.token(
+  'form',
+  'form-color-border-error-focus',
+  $form-color-border_error_focus,
+  'color-danger-6'
+);
+$form-color-border_error_hover: theme-runtime.token(
+  'form',
+  'form-color-border-error-hover',
+  $form-color-border_error_hover,
+  'color-transparent'
+);
+$form-size-shadow_error_focus: theme-runtime.token(
+  'form',
+  'form-size-shadow-error-focus',
+  $form-size-shadow_error_focus,
+  'shadow-distance-none'
+);
+$form-color-shadow_error_focus: theme-runtime.token(
+  'form',
+  'form-color-shadow-error-focus',
+  $form-color-shadow_error_focus
+);
+$form-color-bg_validating: theme-runtime.token(
+  'form',
+  'form-color-bg-validating',
+  $form-color-bg_validating
+);
+$form-color-bg_validating_hover: theme-runtime.token(
+  'form',
+  'form-color-bg-validating-hover',
+  $form-color-bg_validating_hover
+);
+$form-color-bg_validating_focus: theme-runtime.token(
+  'form',
+  'form-color-bg-validating-focus',
+  $form-color-bg_validating_focus
+);
+$form-color-border_validating: theme-runtime.token(
+  'form',
+  'form-color-border-validating',
+  $form-color-border_validating,
+  'color-transparent'
+);
+$form-color-border_validating_focus: theme-runtime.token(
+  'form',
+  'form-color-border-validating-focus',
+  $form-color-border_validating_focus,
+  'color-primary-6'
+);
+$form-color-border_validating_hover: theme-runtime.token(
+  'form',
+  'form-color-border-validating-hover',
+  $form-color-border_validating_hover,
+  'color-transparent'
+);
+$form-size-shadow_validating_focus: theme-runtime.token(
+  'form',
+  'form-size-shadow-validating-focus',
+  $form-size-shadow_validating_focus,
+  'shadow-distance-none'
+);
+$form-color-shadow_validating_focus: theme-runtime.token(
+  'form',
+  'form-color-shadow-validating-focus',
+  $form-color-shadow_validating_focus
+);
+$form-color-tip-text_success: theme-runtime.token(
+  'form',
+  'form-color-tip-text-success',
+  $form-color-tip-text_success,
+  'color-success-6'
+);
+$form-color-tip-icon-text_success: theme-runtime.token(
+  'form',
+  'form-color-tip-icon-text-success',
+  $form-color-tip-icon-text_success,
+  'color-success-6'
+);
+$form-color-tip-text_error: theme-runtime.token(
+  'form',
+  'form-color-tip-text-error',
+  $form-color-tip-text_error,
+  'color-danger-6'
+);
+$form-color-tip-icon-text_error: theme-runtime.token(
+  'form',
+  'form-color-tip-icon-text-error',
+  $form-color-tip-icon-text_error,
+  'color-danger-6'
+);
+$form-color-tip-text_warning: theme-runtime.token(
+  'form',
+  'form-color-tip-text-warning',
+  $form-color-tip-text_warning,
+  'color-warning-6'
+);
+$form-color-tip-icon-text_warning: theme-runtime.token(
+  'form',
+  'form-color-tip-icon-text-warning',
+  $form-color-tip-icon-text_warning,
+  'color-warning-6'
+);
+$form-color-tip-text_validating: theme-runtime.token(
+  'form',
+  'form-color-tip-text-validating',
+  $form-color-tip-text_validating,
+  'color-primary-6'
+);
+$form-color-tip-icon-text_validating: theme-runtime.token(
+  'form',
+  'form-color-tip-icon-text-validating',
+  $form-color-tip-icon-text_validating,
+  'color-primary-6'
+);

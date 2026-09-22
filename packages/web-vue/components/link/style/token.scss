@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -75,3 +76,119 @@ $link-padding-vertical: 1px;
 $link-size-icon: global.$size-3;
 
 $link-border-radius: global.$radius-small;
+
+// @generated runtime tokens — pnpm theme:generate
+$link-font-size: theme-runtime.token('link', 'link-font-size', $link-font-size, 'font-size-body-3');
+$link-color-bg_hover: theme-runtime.token('link', 'link-color-bg-hover', $link-color-bg_hover);
+$link-color-bg_active: theme-runtime.token('link', 'link-color-bg-active', $link-color-bg_active);
+$link-padding-horizontal: theme-runtime.token(
+  'link',
+  'link-padding-horizontal',
+  $link-padding-horizontal,
+  'spacing-2'
+);
+$link-line-height: theme-runtime.token('link', 'link-line-height', $line-height-base);
+$link-color-text: theme-runtime.token('link', 'link-color-text', $link-color-text, 'color-link-6');
+$link-color-text_hover: theme-runtime.token('link', 'link-color-text-hover', $link-color-text);
+$link-color-text_active: theme-runtime.token('link', 'link-color-text-active', $link-color-text);
+$link-color-text_disabled: theme-runtime.token(
+  'link',
+  'link-color-text-disabled',
+  $link-color-text_disabled
+);
+$link-color-text_loading: theme-runtime.token(
+  'link',
+  'link-color-text-loading',
+  $link-color-text_loading
+);
+$link-color-text_success: theme-runtime.token(
+  'link',
+  'link-color-text-success',
+  $link-color-text_success,
+  'color-success-6'
+);
+$link-color-text_success_hover: theme-runtime.token(
+  'link',
+  'link-color-text-success-hover',
+  $link-color-text_success
+);
+$link-color-text_success_active: theme-runtime.token(
+  'link',
+  'link-color-text-success-active',
+  $link-color-text_success
+);
+$link-color-text_success_disabled: theme-runtime.token(
+  'link',
+  'link-color-text-success-disabled',
+  $link-color-text_success_disabled
+);
+$link-color-text_success_loading: theme-runtime.token(
+  'link',
+  'link-color-text-success-loading',
+  $link-color-text_success_loading
+);
+$link-color-text_error: theme-runtime.token(
+  'link',
+  'link-color-text-error',
+  $link-color-text_error,
+  'color-danger-6'
+);
+$link-color-text_error_active: theme-runtime.token(
+  'link',
+  'link-color-text-error-active',
+  $link-color-text_error
+);
+$link-color-text_error_hover: theme-runtime.token(
+  'link',
+  'link-color-text-error-hover',
+  $link-color-text_error
+);
+$link-color-text_error_disabled: theme-runtime.token(
+  'link',
+  'link-color-text-error-disabled',
+  $link-color-text_error_disabled
+);
+$link-color-text_error_loading: theme-runtime.token(
+  'link',
+  'link-color-text-error-loading',
+  $link-color-text_error_loading
+);
+$link-color-text_warning: theme-runtime.token(
+  'link',
+  'link-color-text-warning',
+  $link-color-text_warning,
+  'color-warning-6'
+);
+$link-color-text_warning_hover: theme-runtime.token(
+  'link',
+  'link-color-text-warning-hover',
+  $link-color-text_warning
+);
+$link-color-text_warning_active: theme-runtime.token(
+  'link',
+  'link-color-text-warning-active',
+  $link-color-text_warning
+);
+$link-color-text_warning_disabled: theme-runtime.token(
+  'link',
+  'link-color-text-warning-disabled',
+  $link-color-text_warning_disabled
+);
+$link-color-text_warning_loading: theme-runtime.token(
+  'link',
+  'link-color-text-warning-loading',
+  $link-color-text_warning_loading
+);
+$link-margin-icon-right: theme-runtime.token(
+  'link',
+  'link-margin-icon-right',
+  $link-margin-icon-right,
+  'spacing-3'
+);
+$link-padding-vertical: theme-runtime.token(
+  'link',
+  'link-padding-vertical',
+  $link-padding-vertical
+);
+$link-size-icon: theme-runtime.token('link', 'link-size-icon', $link-size-icon, 'size-3');
+$link-border-radius: theme-runtime.token('link', 'link-border-radius', $link-border-radius);

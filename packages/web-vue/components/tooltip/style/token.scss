@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -23,3 +24,48 @@ $tooltip-border-radius: global.$radius-small;
 $tooltip-color-text: #fff;
 
 $tooltip-color-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-tooltip-bg'));
+
+// @generated runtime tokens — pnpm theme:generate
+$tooltip-padding-horizontal: theme-runtime.token(
+  'tooltip',
+  'tooltip-padding-horizontal',
+  $tooltip-padding-horizontal,
+  'spacing-6'
+);
+$tooltip-padding-vertical: theme-runtime.token(
+  'tooltip',
+  'tooltip-padding-vertical',
+  $tooltip-padding-vertical,
+  'spacing-4'
+);
+$tooltip-mini-padding-horizontal: theme-runtime.token(
+  'tooltip',
+  'tooltip-mini-padding-horizontal',
+  $tooltip-mini-padding-horizontal,
+  'spacing-6'
+);
+$tooltip-mini-padding-vertical: theme-runtime.token(
+  'tooltip',
+  'tooltip-mini-padding-vertical',
+  $tooltip-mini-padding-vertical,
+  'spacing-2'
+);
+$tooltip-mini-font-size: theme-runtime.token(
+  'tooltip',
+  'tooltip-mini-font-size',
+  $tooltip-mini-font-size,
+  'font-size-body-3'
+);
+$tooltip-font-size: theme-runtime.token(
+  'tooltip',
+  'tooltip-font-size',
+  $tooltip-font-size,
+  'font-size-body-3'
+);
+$tooltip-border-radius: theme-runtime.token(
+  'tooltip',
+  'tooltip-border-radius',
+  $tooltip-border-radius
+);
+$tooltip-color-text: theme-runtime.token('tooltip', 'tooltip-color-text', $tooltip-color-text);
+$tooltip-color-bg: theme-runtime.token('tooltip', 'tooltip-color-bg', $tooltip-color-bg);

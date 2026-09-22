@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -49,3 +50,91 @@ $cascader-color-item-bg_disabled_active: var(
 $cascader-color-checkbox-bg_hover: var(string.unquote('#{global.$sd-cssvars-prefix}-color-fill-3'));
 
 $cascader-margin-checkbox-right: global.$spacing-4;
+
+// @generated runtime tokens — pnpm theme:generate
+$cascader-size-item-height: theme-runtime.token(
+  'cascader',
+  'cascader-size-item-height',
+  $cascader-size-item-height,
+  'size-9'
+);
+$cascader-font-item-size: theme-runtime.token(
+  'cascader',
+  'cascader-font-item-size',
+  $cascader-font-item-size,
+  'font-size-body-3'
+);
+$cascader-color-item-text: theme-runtime.token(
+  'cascader',
+  'cascader-color-item-text',
+  $cascader-color-item-text
+);
+$cascader-color-item-icon: theme-runtime.token(
+  'cascader',
+  'cascader-color-item-icon',
+  $cascader-color-item-icon
+);
+$cascader-padding-item-left: theme-runtime.token(
+  'cascader',
+  'cascader-padding-item-left',
+  $cascader-padding-item-left,
+  'spacing-6'
+);
+$cascader-color-item-text_hover: theme-runtime.token(
+  'cascader',
+  'cascader-color-item-text-hover',
+  $cascader-color-item-text
+);
+$cascader-color-item-text_active: theme-runtime.token(
+  'cascader',
+  'cascader-color-item-text-active',
+  $cascader-color-item-text
+);
+$cascader-color-item-text_disabled: theme-runtime.token(
+  'cascader',
+  'cascader-color-item-text-disabled',
+  $cascader-color-item-text_disabled
+);
+$cascader-color-item-text_disabled_active: theme-runtime.token(
+  'cascader',
+  'cascader-color-item-text-disabled-active',
+  $cascader-color-item-text_disabled_active
+);
+$cascader-font-item-weight_active: theme-runtime.token(
+  'cascader',
+  'cascader-font-item-weight-active',
+  $cascader-font-item-weight_active,
+  'font-weight-500'
+);
+$cascader-color-item-bg_active: theme-runtime.token(
+  'cascader',
+  'cascader-color-item-bg-active',
+  $cascader-color-item-bg_active
+);
+$cascader-color-item-bg_hover: theme-runtime.token(
+  'cascader',
+  'cascader-color-item-bg-hover',
+  $cascader-color-item-bg_active
+);
+$cascader-color-item-bg_disabled: theme-runtime.token(
+  'cascader',
+  'cascader-color-item-bg-disabled',
+  $cascader-color-item-bg_disabled,
+  'color-transparent'
+);
+$cascader-color-item-bg_disabled_active: theme-runtime.token(
+  'cascader',
+  'cascader-color-item-bg-disabled-active',
+  $cascader-color-item-bg_disabled_active
+);
+$cascader-color-checkbox-bg_hover: theme-runtime.token(
+  'cascader',
+  'cascader-color-checkbox-bg-hover',
+  $cascader-color-checkbox-bg_hover
+);
+$cascader-margin-checkbox-right: theme-runtime.token(
+  'cascader',
+  'cascader-margin-checkbox-right',
+  $cascader-margin-checkbox-right,
+  'spacing-4'
+);

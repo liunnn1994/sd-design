@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -43,3 +44,77 @@ $timeline-vertical-margin-line-top: global.$spacing-2;
 $timeline-vertical-margin-line-bottom: global.$spacing-2;
 
 $timeline-size-line-width: global.$border-1;
+
+// @generated runtime tokens — pnpm theme:generate
+$timeline-color-content-text: theme-runtime.token(
+  'timeline',
+  'timeline-color-content-text',
+  $timeline-color-content-text
+);
+$timeline-color-label-text: theme-runtime.token(
+  'timeline',
+  'timeline-color-label-text',
+  $timeline-color-label-text
+);
+$timeline-color-dot-bg: theme-runtime.token(
+  'timeline',
+  'timeline-color-dot-bg',
+  $timeline-color-dot-bg,
+  'color-primary-6'
+);
+$timeline-color-line-bg: theme-runtime.token(
+  'timeline',
+  'timeline-color-line-bg',
+  $timeline-color-line-bg
+);
+$timeline-font-label-size: theme-runtime.token(
+  'timeline',
+  'timeline-font-label-size',
+  $timeline-font-label-size,
+  'font-size-body-1'
+);
+$timeline-item-min-height: theme-runtime.token(
+  'timeline',
+  'timeline-item-min-height',
+  $timeline-item-min-height
+);
+$timeline-dot-border-radius: theme-runtime.token(
+  'timeline',
+  'timeline-dot-border-radius',
+  $timeline-dot-border-radius
+);
+$timeline-dot-border-width_hollow: theme-runtime.token(
+  'timeline',
+  'timeline-dot-border-width-hollow',
+  $timeline-dot-border-width_hollow,
+  'border-2'
+);
+$timeline-color-dot-bg_hollow: theme-runtime.token(
+  'timeline',
+  'timeline-color-dot-bg-hollow',
+  $timeline-color-dot-bg_hollow
+);
+$timeline-horizontal-margin-content-spacing: theme-runtime.token(
+  'timeline',
+  'timeline-horizontal-margin-content-spacing',
+  $timeline-horizontal-margin-content-spacing,
+  'spacing-7'
+);
+$timeline-horizontal-margin-line-right: theme-runtime.token(
+  'timeline',
+  'timeline-horizontal-margin-line-right',
+  $timeline-horizontal-margin-line-right,
+  'spacing-2'
+);
+$timeline-vertical-margin-content-bottom: theme-runtime.token(
+  'timeline',
+  'timeline-vertical-margin-content-bottom',
+  $timeline-vertical-margin-content-bottom,
+  'spacing-2'
+);
+$timeline-size-line-width: theme-runtime.token(
+  'timeline',
+  'timeline-size-line-width',
+  $timeline-size-line-width,
+  'border-1'
+);

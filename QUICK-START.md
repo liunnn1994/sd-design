@@ -117,6 +117,20 @@ pnpm run dev:all
   pnpm run check:ci
   ```
 
+## 主题开发
+
+启动文档站后打开 `/guides/theme-editor/`。基础模式调整品牌色、圆角、字号和控件高度；高级模式可搜索、分类和重置全局或组件 token，切换真实文档示例检查结果。
+
+切换到“页面示例”可预览交付工作台中的表格、表单、告警、进度和弹窗状态。空白区域或抓手模式可拖动；Ctrl/⌘ + 滚轮缩放，工具栏“适应宽度”复位。键盘聚焦画布后可用方向键平移、+/− 缩放、0 复位，输入框中的键盘操作不受影响。
+
+新增组件时在 `components/<name>/style/token.scss` 中定义 Sass token，并添加对应 `src/components/generated/<name>/*.vue` 文档示例。运行 `pnpm --filter @sdata/web-vue run theme:generate`（常规开发启动、构建也会自动执行），组件和字段会进入编辑器。不要手改 token 文件的 `@generated runtime tokens` 区域或 `theme-catalog.json`。
+
+导出的 JSON 可直接作为 `<sd-config-provider :theme="theme">` 的输入。主题的 `algorithm: ['dark', 'compact']` 也会随文件保存，不需要另存页面开关状态。
+
+内置预设支持明暗往返切换；`theme-mode` 同时控制背景语义和 seed 色板，compact 不改变继承模式。旧 JSON 中显式设置的浅色背景不会自动删除，可在高级模式重置对应 token 或重新选择预设。
+
+主题回归：`pnpm --filter @sdata/web-vue run test:theme`。文档站在 `http://localhost:4321` 运行时，可执行 `pnpm --filter @sdata/web-vue run test:theme:e2e` 验证实际路由、文件导入导出和移动布局。
+
 ## 测试与验证
 
 项目使用 Vitest 进行单元测试。我们要求所有核心逻辑和组件都需包含充足的单测覆盖。

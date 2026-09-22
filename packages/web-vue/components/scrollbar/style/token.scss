@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -26,4 +27,36 @@ $scrollbar-thumb-bar-bg_color_hover: var(
 
 $scrollbar-thumb-bar-bg_color_active: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-neutral-6')
+);
+
+// @generated runtime tokens — pnpm theme:generate
+$scrollbar-track-border_color: theme-runtime.token(
+  'scrollbar',
+  'scrollbar-track-border-color',
+  $scrollbar-track-border_color
+);
+$scrollbar-track-bg_color: theme-runtime.token(
+  'scrollbar',
+  'scrollbar-track-bg-color',
+  $scrollbar-track-bg_color
+);
+$scrollbar-thumb-bar-border_radius: theme-runtime.token(
+  'scrollbar',
+  'scrollbar-thumb-bar-border-radius',
+  $scrollbar-thumb-bar-border_radius
+);
+$scrollbar-thumb-bar-bg_color: theme-runtime.token(
+  'scrollbar',
+  'scrollbar-thumb-bar-bg-color',
+  $scrollbar-thumb-bar-bg_color
+);
+$scrollbar-thumb-bar-bg_color_hover: theme-runtime.token(
+  'scrollbar',
+  'scrollbar-thumb-bar-bg-color-hover',
+  $scrollbar-thumb-bar-bg_color_hover
+);
+$scrollbar-thumb-bar-bg_color_active: theme-runtime.token(
+  'scrollbar',
+  'scrollbar-thumb-bar-bg-color-active',
+  $scrollbar-thumb-bar-bg_color_active
 );

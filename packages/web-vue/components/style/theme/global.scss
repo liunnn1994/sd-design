@@ -1,7 +1,7 @@
 @use 'sass:string';
 @use '@style/color/colors.scss' as *;
 
-$sd-theme-tag: ':where(body, [sd-theme])'; // css 变量定义的选择器
+$sd-theme-tag: ':where(body, [sd-theme], [data-sd-theme])'; // css 变量定义的选择器
 
 $sd-vars-prefix: 'sd'; // css 变量的前缀
 

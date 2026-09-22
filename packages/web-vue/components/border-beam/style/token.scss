@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -10,3 +11,30 @@ $border-beam-border-radius-md: 16px;
 $border-beam-border-radius-line: 16px;
 $border-beam-border-radius-pulse-outside: 16px;
 $border-beam-border-radius-pulse-inner: 16px;
+
+// @generated runtime tokens — pnpm theme:generate
+$border-beam-border-radius-sm: theme-runtime.token(
+  'border-beam',
+  'border-beam-border-radius-sm',
+  $border-beam-border-radius-sm
+);
+$border-beam-border-radius-md: theme-runtime.token(
+  'border-beam',
+  'border-beam-border-radius-md',
+  $border-beam-border-radius-md
+);
+$border-beam-border-radius-line: theme-runtime.token(
+  'border-beam',
+  'border-beam-border-radius-line',
+  $border-beam-border-radius-line
+);
+$border-beam-border-radius-pulse-outside: theme-runtime.token(
+  'border-beam',
+  'border-beam-border-radius-pulse-outside',
+  $border-beam-border-radius-pulse-outside
+);
+$border-beam-border-radius-pulse-inner: theme-runtime.token(
+  'border-beam',
+  'border-beam-border-radius-pulse-inner',
+  $border-beam-border-radius-pulse-inner
+);

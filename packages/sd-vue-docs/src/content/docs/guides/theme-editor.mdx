@@ -1,9 +1,14 @@
 ---
 title: 主题编辑器
-description: 运行时 theme 对象约定与 JSON 结构说明。
+description: 在线定制全局和组件主题，实时预览并导入导出 JSON。
+tableOfContents: false
 ---
 
-SD Design 的主题协议已经统一为 ConfigProvider 的 theme 对象。以下是主题结构与导入导出约定：
+import ThemeEditorPlayground from '../../../components/theme/ThemeEditorPlayground.vue';
+
+<ThemeEditorPlayground client:only="vue" />
+
+SD Design 的主题协议统一为 ConfigProvider 的 theme 对象。
 
 - 可以切换默认、暗色、紧凑、品牌色、赛博朋克等预设主题
 - 可以直接编辑 meta、tokens、components，覆盖运行时可调参数
@@ -37,8 +42,23 @@ SD Design 的主题协议已经统一为 ConfigProvider 的 theme 对象。以�
 }
 ```
 
-上传时会执行三类校验：
+## 使用方式
+
+- **基础**：调整品牌主色、语义色、基础圆角、字号和控件高度，自动派生配套值。
+- **高级 / 全局**：搜索和分类查看完整运行时 token，按颜色选择器或文本编辑，筛选已修改字段并单项重置。
+- **高级 / 组件**：选择组件，编辑该组件的独立覆盖；从关联 token 可跳转到受影响组件。
+- **预览**：复用组件文档中的真实示例，支持示例切换、缩放和页面预览。
+- **页面示例**：交付工作台包含任务筛选与分页、状态进度、发布设置、四类语义提示、新建任务校验和详情浮层。所有内容跟随当前组件库主题，不跟随文档导航配色。示例数据仅保存在当前预览内。
+- **画布**：拖动空白处，或开启抓手后拖动页面；Ctrl/⌘ + 滚轮围绕鼠标缩放。工具栏可缩放及适应宽度。聚焦画布后，空格拖动、方向键平移、+/− 缩放、0 复位、Esc 退出抓手。移动端可用抓手拖动与工具栏缩放；默认交互模式保留页面组件操作。
+- **主题配置**：编辑或粘贴 JSON；也可直接上传、下载和复制。验证失败会保留当前主题。
+- **暗色 / 紧凑**：组合算法随 `algorithm` 一起保存。显式高级 token 的优先级高于基础派生值。
+- **预设与明暗切换**：内置预设不固化浅色背景，中性色、容器和状态背景随模式切换。旧 JSON 中手动覆盖的背景仍会保留；若出现白底白字，可在高级模式重置对应 token，或重新选择预设。
+
+组件目录和字段自动从组件库样式生成，预览自动发现文档示例。新增组件按既有 `style/token.scss` 和文档 demo 约定开发即可，不需要维护编辑器注册表。
+
+上传时会执行以下校验：
 
 - schemaVersion 必须和当前文档站支持的版本一致
-- 至少需要包含 tokens 或 components 其中之一
+- 空对象表示默认主题；可提供 seed、tokens、components 和 algorithm
 - token 值只能是字符串或数字，避免把嵌套对象误传进来
+- algorithm 仅支持 dark、compact；基础色使用六位十六进制，尺寸为有效数字

@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -89,3 +90,201 @@ $transfer-pagination-gap-separator: global.$spacing-4;
 $transfer-operation-padding-horizontal: global.$spacing-8;
 
 $transfer-operation-gap-buttons: global.$spacing-6;
+
+// @generated runtime tokens — pnpm theme:generate
+$transfer-width: theme-runtime.token('transfer', 'transfer-width', $transfer-width);
+$transfer-height: theme-runtime.token('transfer', 'transfer-height', $transfer-height);
+$transfer-height-title: theme-runtime.token(
+  'transfer',
+  'transfer-height-title',
+  $transfer-height-title,
+  'size-10'
+);
+$transfer-height-footer: theme-runtime.token(
+  'transfer',
+  'transfer-height-footer',
+  $transfer-height-footer,
+  'size-10'
+);
+$transfer-padding-horizontal-footer: theme-runtime.token(
+  'transfer',
+  'transfer-padding-horizontal-footer',
+  $transfer-padding-horizontal-footer,
+  'spacing-4'
+);
+$transfer-border-color: theme-runtime.token(
+  'transfer',
+  'transfer-border-color',
+  $transfer-border-color
+);
+$transfer-border-width: theme-runtime.token(
+  'transfer',
+  'transfer-border-width',
+  $transfer-border-width,
+  'border-1'
+);
+$transfer-border-radius: theme-runtime.token(
+  'transfer',
+  'transfer-border-radius',
+  $transfer-border-radius
+);
+$transfer-font-size-header: theme-runtime.token(
+  'transfer',
+  'transfer-font-size-header',
+  $transfer-font-size-header,
+  'font-size-body-3'
+);
+$transfer-font-size-header-unit: theme-runtime.token(
+  'transfer',
+  'transfer-font-size-header-unit',
+  $transfer-font-size-header-unit,
+  'font-size-body-1'
+);
+$transfer-font-size-icon: theme-runtime.token(
+  'transfer',
+  'transfer-font-size-icon',
+  $transfer-font-size-icon,
+  'font-size-body-1'
+);
+$transfer-font-weight-header: theme-runtime.token(
+  'transfer',
+  'transfer-font-weight-header',
+  $transfer-font-weight-header,
+  'font-weight-500'
+);
+$transfer-color-text-header: theme-runtime.token(
+  'transfer',
+  'transfer-color-text-header',
+  $transfer-color-text-header
+);
+$transfer-color-text-header-unit: theme-runtime.token(
+  'transfer',
+  'transfer-color-text-header-unit',
+  $transfer-color-text-header-unit
+);
+$transfer-color-icon: theme-runtime.token('transfer', 'transfer-color-icon', $transfer-color-icon);
+$transfer-color-bg-icon: theme-runtime.token(
+  'transfer',
+  'transfer-color-bg-icon',
+  $transfer-color-bg-icon
+);
+$transfer-color-bg-header: theme-runtime.token(
+  'transfer',
+  'transfer-color-bg-header',
+  $transfer-color-bg-header
+);
+$transfer-search-padding-left: theme-runtime.token(
+  'transfer',
+  'transfer-search-padding-left',
+  $transfer-search-padding-left
+);
+$transfer-search-padding-right: theme-runtime.token(
+  'transfer',
+  'transfer-search-padding-right',
+  $transfer-search-padding-right
+);
+$transfer-search-padding-top: theme-runtime.token(
+  'transfer',
+  'transfer-search-padding-top',
+  $transfer-search-padding-top
+);
+$transfer-search-padding-bottom: theme-runtime.token(
+  'transfer',
+  'transfer-search-padding-bottom',
+  $transfer-search-padding-bottom
+);
+$transfer-item-color-bg_default: theme-runtime.token(
+  'transfer',
+  'transfer-item-color-bg-default',
+  $transfer-item-color-bg_default,
+  'color-transparent'
+);
+$transfer-item-color-bg_hover: theme-runtime.token(
+  'transfer',
+  'transfer-item-color-bg-hover',
+  $transfer-item-color-bg_hover
+);
+$transfer-item-color-bg_disabled: theme-runtime.token(
+  'transfer',
+  'transfer-item-color-bg-disabled',
+  $transfer-item-color-bg_disabled,
+  'color-transparent'
+);
+$transfer-item-color_default: theme-runtime.token(
+  'transfer',
+  'transfer-item-color-default',
+  $transfer-item-color_default
+);
+$transfer-item-color_hover: theme-runtime.token(
+  'transfer',
+  'transfer-item-color-hover',
+  $transfer-item-color_hover
+);
+$transfer-item-color_disabled: theme-runtime.token(
+  'transfer',
+  'transfer-item-color-disabled',
+  $transfer-item-color_disabled
+);
+$transfer-item-height: theme-runtime.token(
+  'transfer',
+  'transfer-item-height',
+  $transfer-item-height,
+  'size-9'
+);
+$transfer-item-padding-horizontal: theme-runtime.token(
+  'transfer',
+  'transfer-item-padding-horizontal',
+  $transfer-item-padding-horizontal,
+  'spacing-5'
+);
+$transfer-item-font-size: theme-runtime.token(
+  'transfer',
+  'transfer-item-font-size',
+  $transfer-item-font-size,
+  'font-size-body-3'
+);
+$transfer-item-draggable-color-bg-gap: theme-runtime.token(
+  'transfer',
+  'transfer-item-draggable-color-bg-gap',
+  $transfer-item-draggable-color-bg-gap,
+  'color-primary-6'
+);
+$transfer-item-draggable-color-bg_dragging: theme-runtime.token(
+  'transfer',
+  'transfer-item-draggable-color-bg-dragging',
+  $transfer-item-draggable-color-bg_dragging
+);
+$transfer-item-draggable-color_dragging: theme-runtime.token(
+  'transfer',
+  'transfer-item-draggable-color-dragging',
+  $transfer-item-draggable-color_dragging
+);
+$transfer-item-draggable-color_blink: theme-runtime.token(
+  'transfer',
+  'transfer-item-draggable-color-blink',
+  $transfer-item-draggable-color_blink
+);
+$transfer-pagination-width-input: theme-runtime.token(
+  'transfer',
+  'transfer-pagination-width-input',
+  $transfer-pagination-width-input,
+  'size-6'
+);
+$transfer-pagination-gap-separator: theme-runtime.token(
+  'transfer',
+  'transfer-pagination-gap-separator',
+  $transfer-pagination-gap-separator,
+  'spacing-4'
+);
+$transfer-operation-padding-horizontal: theme-runtime.token(
+  'transfer',
+  'transfer-operation-padding-horizontal',
+  $transfer-operation-padding-horizontal,
+  'spacing-8'
+);
+$transfer-operation-gap-buttons: theme-runtime.token(
+  'transfer',
+  'transfer-operation-gap-buttons',
+  $transfer-operation-gap-buttons,
+  'spacing-6'
+);

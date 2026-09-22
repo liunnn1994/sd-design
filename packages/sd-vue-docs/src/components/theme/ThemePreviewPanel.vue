@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import { computed } from 'vue';
 
+  import { normalizeTheme } from '@sdata/web-vue';
+
   import type { ThemeConfig, ThemePreset } from './theme-playground';
 
   const props = defineProps<{
@@ -11,37 +13,27 @@
     inheritProvider?: boolean;
   }>();
 
-  const heroMetric = computed(() => {
-    if (props.preset.key === 'compact') {
-      return '32';
-    }
-
-    if (props.preset.key === 'cyberpunk') {
-      return '64';
-    }
-
-    return '48';
-  });
+  const heroMetric = computed(
+    () =>
+      Object.keys(normalizeTheme(props.theme).tokens).length +
+      Object.values(props.theme.components ?? {}).reduce(
+        (sum, tokens) => sum + Object.keys(tokens).length,
+        0,
+      ),
+  );
 
   const wrapperClass = computed(() => {
     return [`theme-preview-panel`, `is-${props.preset.key}`, props.compact ? 'is-compact' : ''];
   });
 
   const spotlightStyle = computed(() => {
-    const primaryColor = String(props.theme.tokens?.primary6 ?? '20,118,255');
-    const backgroundColor = String(props.theme.tokens?.colorBg2 ?? '#ffffff');
-    const surfaceColor = String(props.theme.tokens?.colorBg5 ?? backgroundColor);
-    const textColor = String(props.theme.tokens?.colorNeutral10 ?? '#0f172a');
-    const mutedTextColor = String(props.theme.tokens?.colorNeutral6 ?? '#64748b');
-    const borderColor = String(props.theme.tokens?.colorNeutral3 ?? '#d9e2f0');
-
     return {
-      '--theme-preview-primary': `rgb(${primaryColor})`,
-      '--theme-preview-background': backgroundColor,
-      '--theme-preview-surface': surfaceColor,
-      '--theme-preview-text': textColor,
-      '--theme-preview-text-muted': mutedTextColor,
-      '--theme-preview-border': borderColor,
+      '--theme-preview-primary': 'rgb(var(--sd-primary-6))',
+      '--theme-preview-background': 'var(--sd-color-bg-2)',
+      '--theme-preview-surface': 'var(--sd-color-bg-5)',
+      '--theme-preview-text': 'var(--sd-color-text-1)',
+      '--theme-preview-text-muted': 'var(--sd-color-text-3)',
+      '--theme-preview-border': 'var(--sd-color-border-2)',
     };
   });
 

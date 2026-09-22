@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -34,3 +35,61 @@ $qr-code-font-size: global.$font-size-body-3;
 $qr-code-font-size-secondary: global.$font-size-body-2;
 
 $qr-code-font-weight: global.$font-weight-500;
+
+// @generated runtime tokens — pnpm theme:generate
+$qr-code-color-border: theme-runtime.token(
+  'qr-code',
+  'qr-code-color-border',
+  $qr-code-color-border
+);
+$qr-code-color-bg: theme-runtime.token('qr-code', 'qr-code-color-bg', $qr-code-color-bg);
+$qr-code-color-mask-bg: theme-runtime.token(
+  'qr-code',
+  'qr-code-color-mask-bg',
+  $qr-code-color-mask-bg
+);
+$qr-code-color-text: theme-runtime.token('qr-code', 'qr-code-color-text', $qr-code-color-text);
+$qr-code-color-text-secondary: theme-runtime.token(
+  'qr-code',
+  'qr-code-color-text-secondary',
+  $qr-code-color-text-secondary
+);
+$qr-code-color-refresh: theme-runtime.token('qr-code', 'qr-code-color-refresh', $color-primary-6);
+$qr-code-color-scanned: theme-runtime.token('qr-code', 'qr-code-color-scanned', $color-success-6);
+$qr-code-color-expired: theme-runtime.token('qr-code', 'qr-code-color-expired', $color-danger-6);
+$qr-code-border-radius: theme-runtime.token(
+  'qr-code',
+  'qr-code-border-radius',
+  $qr-code-border-radius
+);
+$qr-code-padding: theme-runtime.token('qr-code', 'qr-code-padding', $qr-code-padding, 'spacing-5');
+$qr-code-icon-padding: theme-runtime.token(
+  'qr-code',
+  'qr-code-icon-padding',
+  $qr-code-icon-padding,
+  'spacing-3'
+);
+$qr-code-status-gap: theme-runtime.token(
+  'qr-code',
+  'qr-code-status-gap',
+  $qr-code-status-gap,
+  'spacing-4'
+);
+$qr-code-font-size: theme-runtime.token(
+  'qr-code',
+  'qr-code-font-size',
+  $qr-code-font-size,
+  'font-size-body-3'
+);
+$qr-code-font-size-secondary: theme-runtime.token(
+  'qr-code',
+  'qr-code-font-size-secondary',
+  $qr-code-font-size-secondary,
+  'font-size-body-2'
+);
+$qr-code-font-weight: theme-runtime.token(
+  'qr-code',
+  'qr-code-font-weight',
+  $qr-code-font-weight,
+  'font-weight-500'
+);

@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -31,3 +32,75 @@ $statistic-font-suffix-size: 14px;
 $statistic-color-title-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-2'));
 
 $statistic-color-extra-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-2'));
+
+// @generated runtime tokens — pnpm theme:generate
+$statistic-font-title-size: theme-runtime.token(
+  'statistic',
+  'statistic-font-title-size',
+  $statistic-font-title-size,
+  'font-size-body-3'
+);
+$statistic-margin-title-bottom: theme-runtime.token(
+  'statistic',
+  'statistic-margin-title-bottom',
+  $statistic-margin-title-bottom,
+  'spacing-4'
+);
+$statistic-margin-extra-top: theme-runtime.token(
+  'statistic',
+  'statistic-margin-extra-top',
+  $statistic-margin-extra-top,
+  'spacing-4'
+);
+$statistic-font-value-size: theme-runtime.token(
+  'statistic',
+  'statistic-font-value-size',
+  $statistic-font-value-size,
+  'font-size-body-3'
+);
+$statistic-font-int-size: theme-runtime.token(
+  'statistic',
+  'statistic-font-int-size',
+  $statistic-font-int-size
+);
+$statistic-font-decimal-size: theme-runtime.token(
+  'statistic',
+  'statistic-font-decimal-size',
+  $statistic-font-decimal-size
+);
+$statistic-font-value-weight: theme-runtime.token(
+  'statistic',
+  'statistic-font-value-weight',
+  $statistic-font-value-weight,
+  'font-weight-500'
+);
+$statistic-color-value-text: theme-runtime.token(
+  'statistic',
+  'statistic-color-value-text',
+  $statistic-color-value-text
+);
+$statistic-color-text: theme-runtime.token(
+  'statistic',
+  'statistic-color-text',
+  $statistic-color-text
+);
+$statistic-size-value-icon: theme-runtime.token(
+  'statistic',
+  'statistic-size-value-icon',
+  $statistic-size-value-icon
+);
+$statistic-font-suffix-size: theme-runtime.token(
+  'statistic',
+  'statistic-font-suffix-size',
+  $statistic-font-suffix-size
+);
+$statistic-color-title-text: theme-runtime.token(
+  'statistic',
+  'statistic-color-title-text',
+  $statistic-color-title-text
+);
+$statistic-color-extra-text: theme-runtime.token(
+  'statistic',
+  'statistic-color-extra-text',
+  $statistic-color-extra-text
+);

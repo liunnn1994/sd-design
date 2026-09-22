@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as *;
 @use 'sass:string';
 
@@ -42,3 +43,200 @@ $file-previewer-size-pdf-btn: 28px;
 $file-previewer-size-pdf-btn-min-width: 28px;
 $file-previewer-font-size-pdf-btn: 16px;
 $file-previewer-font-size-pdf-page: $font-size-body-3;
+
+// @generated runtime tokens — pnpm theme:generate
+$file-previewer-color-mask-bg: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-color-mask-bg',
+  $file-previewer-color-mask-bg
+);
+$file-previewer-color-content-bg: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-color-content-bg',
+  $file-previewer-color-content-bg
+);
+$file-previewer-color-content-text: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-color-content-text',
+  $file-previewer-color-content-text
+);
+$file-previewer-color-inline-border: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-color-inline-border',
+  $file-previewer-color-inline-border
+);
+$file-previewer-color-inline-bg: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-color-inline-bg',
+  $file-previewer-color-inline-bg
+);
+$file-previewer-color-close-bg: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-color-close-bg',
+  $file-previewer-color-close-bg
+);
+$file-previewer-color-close-text: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-color-close-text',
+  $file-previewer-color-close-text
+);
+$file-previewer-color-loading-bg: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-color-loading-bg',
+  $file-previewer-color-loading-bg
+);
+$file-previewer-color-loading-text: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-color-loading-text',
+  $color-primary-6
+);
+$file-previewer-color-error-text: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-color-error-text',
+  $file-previewer-color-error-text
+);
+$file-previewer-color-inline-error-text: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-color-inline-error-text',
+  $file-previewer-color-inline-error-text
+);
+$file-previewer-spacing-viewport-padding: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-spacing-viewport-padding',
+  $spacing-12
+);
+$file-previewer-spacing-panel-padding: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-spacing-panel-padding',
+  $spacing-8
+);
+$file-previewer-spacing-header-padding-vertical: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-spacing-header-padding-vertical',
+  $spacing-6
+);
+$file-previewer-spacing-header-padding-horizontal: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-spacing-header-padding-horizontal',
+  $spacing-8
+);
+$file-previewer-radius-panel: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-radius-panel',
+  $radius-medium
+);
+$file-previewer-size-close: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-size-close',
+  $file-previewer-size-close
+);
+$file-previewer-size-close-icon: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-size-close-icon',
+  $file-previewer-size-close-icon
+);
+$file-previewer-size-loading: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-size-loading',
+  $file-previewer-size-loading
+);
+$file-previewer-size-inline-min-height: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-size-inline-min-height',
+  $file-previewer-size-inline-min-height
+);
+$file-previewer-position-close-top: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-position-close-top',
+  $file-previewer-position-close-top
+);
+$file-previewer-position-close-right: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-position-close-right',
+  $file-previewer-position-close-right
+);
+$file-previewer-font-size-title: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-font-size-title',
+  $font-size-title-1
+);
+$file-previewer-size-audio-width: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-size-audio-width',
+  $file-previewer-size-audio-width
+);
+$file-previewer-size-media-width: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-size-media-width',
+  $file-previewer-size-media-width
+);
+$file-previewer-size-media-height: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-size-media-height',
+  $file-previewer-size-media-height
+);
+$file-previewer-color-pdf-canvas-bg: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-color-pdf-canvas-bg',
+  $file-previewer-color-pdf-canvas-bg
+);
+$file-previewer-color-pdf-toolbar-bg: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-color-pdf-toolbar-bg',
+  $file-previewer-color-pdf-toolbar-bg
+);
+$file-previewer-color-pdf-toolbar-text: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-color-pdf-toolbar-text',
+  $file-previewer-color-pdf-toolbar-text
+);
+$file-previewer-color-pdf-btn-disabled: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-color-pdf-btn-disabled',
+  $file-previewer-color-pdf-btn-disabled
+);
+$file-previewer-spacing-pdf-gap: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-spacing-pdf-gap',
+  $spacing-3
+);
+$file-previewer-spacing-pdf-toolbar-padding: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-spacing-pdf-toolbar-padding',
+  $spacing-2
+);
+$file-previewer-spacing-pdf-toolbar-gap: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-spacing-pdf-toolbar-gap',
+  $spacing-3
+);
+$file-previewer-radius-pdf-canvas: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-radius-pdf-canvas',
+  $radius-medium
+);
+$file-previewer-radius-pdf-btn: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-radius-pdf-btn',
+  $radius-small
+);
+$file-previewer-size-pdf-btn: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-size-pdf-btn',
+  $file-previewer-size-pdf-btn
+);
+$file-previewer-size-pdf-btn-min-width: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-size-pdf-btn-min-width',
+  $file-previewer-size-pdf-btn-min-width
+);
+$file-previewer-font-size-pdf-btn: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-font-size-pdf-btn',
+  $file-previewer-font-size-pdf-btn
+);
+$file-previewer-font-size-pdf-page: theme-runtime.token(
+  'file-previewer',
+  'file-previewer-font-size-pdf-page',
+  $font-size-body-3
+);

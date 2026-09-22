@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -16,3 +17,20 @@ $split-trigger-size-icon-wrapper: 6px;
 $split-trigger-font-size-icon: 12px;
 
 $split-trigger-color-icon: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
+
+// @generated runtime tokens — pnpm theme:generate
+$split-trigger-color-background: theme-runtime.token(
+  'split',
+  'split-trigger-color-background',
+  $split-trigger-color-background
+);
+$split-trigger-size-icon-wrapper: theme-runtime.token(
+  'split',
+  'split-trigger-size-icon-wrapper',
+  $split-trigger-size-icon-wrapper
+);
+$split-trigger-color-icon: theme-runtime.token(
+  'split',
+  'split-trigger-color-icon',
+  $split-trigger-color-icon
+);

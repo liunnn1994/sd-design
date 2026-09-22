@@ -133,7 +133,7 @@ $token-var-aliases: (
       inset: -1px;
       z-index: 1;
       display: block;
-      background: #fff;
+      background: $btn-color-loading-mask;
       border-radius: inherit;
       opacity: 0.4;
       transition: opacity theme.$transition-duration-1 theme.$transition-timing-function-standard;
@@ -251,8 +251,8 @@ $token-var-aliases: (
   }
 
   .#{$btn-prefix-cls}-#{$size-type}.#{$btn-prefix-cls}-loading-fixed-width.#{$btn-prefix-cls}-loading {
-    padding-right: token-var($bsp) - ((token-var($bsf) + token-var($bss)) * 0.5);
-    padding-left: token-var($bsp) - ((token-var($bsf) + token-var($bss)) * 0.5);
+    padding-right: calc(token-var($bsp) - (token-var($bsf) + token-var($bss)) * 0.5);
+    padding-left: calc(token-var($bsp) - (token-var($bsf) + token-var($bss)) * 0.5);
   }
 
   .#{$btn-prefix-cls}-#{$size-type}.#{$btn-prefix-cls}-only-icon {

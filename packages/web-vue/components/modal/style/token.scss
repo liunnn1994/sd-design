@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -55,3 +56,117 @@ $modal-simple-margin-content-top: global.$spacing-9;
 $modal-position-close-icon-right: 16px;
 
 $modal-font-size-close-icon: 12px;
+
+// @generated runtime tokens — pnpm theme:generate
+$modal-border-radius: theme-runtime.token('modal', 'modal-border-radius', $modal-border-radius);
+$modal-size-tip-icon: theme-runtime.token('modal', 'modal-size-tip-icon', $modal-size-tip-icon);
+$modal-margin-top: theme-runtime.token('modal', 'modal-margin-top', $modal-margin-top);
+$modal-margin-tip-icon-right: theme-runtime.token(
+  'modal',
+  'modal-margin-tip-icon-right',
+  $modal-margin-tip-icon-right,
+  'spacing-5'
+);
+$modal-margin-footer-button-left: theme-runtime.token(
+  'modal',
+  'modal-margin-footer-button-left',
+  $modal-margin-footer-button-left,
+  'spacing-6'
+);
+$modal-color-border: theme-runtime.token('modal', 'modal-color-border', $modal-color-border);
+$modal-color-header-text: theme-runtime.token(
+  'modal',
+  'modal-color-header-text',
+  $modal-color-header-text
+);
+$modal-color-content-text: theme-runtime.token(
+  'modal',
+  'modal-color-content-text',
+  $modal-color-content-text
+);
+$modal-font-header-size: theme-runtime.token(
+  'modal',
+  'modal-font-header-size',
+  $modal-font-header-size,
+  'font-size-title-1'
+);
+$modal-default-padding-horizontal: theme-runtime.token(
+  'modal',
+  'modal-default-padding-horizontal',
+  $modal-default-padding-horizontal,
+  'spacing-8'
+);
+$modal-default-size-header-height: theme-runtime.token(
+  'modal',
+  'modal-default-size-header-height',
+  $modal-default-size-header-height,
+  'size-12'
+);
+$modal-default-padding-content-vertical: theme-runtime.token(
+  'modal',
+  'modal-default-padding-content-vertical',
+  $modal-default-padding-content-vertical,
+  'spacing-9'
+);
+$modal-default-padding-footer-vertical: theme-runtime.token(
+  'modal',
+  'modal-default-padding-footer-vertical',
+  $modal-default-padding-footer-vertical,
+  'spacing-7'
+);
+$modal-default-size-width: theme-runtime.token(
+  'modal',
+  'modal-default-size-width',
+  $modal-default-size-width
+);
+$modal-font-content-size: theme-runtime.token(
+  'modal',
+  'modal-font-content-size',
+  $modal-font-content-size,
+  'font-size-body-3'
+);
+$modal-simple-align-header: theme-runtime.token(
+  'modal',
+  'modal-simple-align-header',
+  $modal-simple-align-header
+);
+$modal-simple-size-width: theme-runtime.token(
+  'modal',
+  'modal-simple-size-width',
+  $modal-simple-size-width
+);
+$modal-simple-padding-horizontal: theme-runtime.token(
+  'modal',
+  'modal-simple-padding-horizontal',
+  $modal-simple-padding-horizontal,
+  'spacing-10'
+);
+$modal-simple-padding-top: theme-runtime.token(
+  'modal',
+  'modal-simple-padding-top',
+  $modal-simple-padding-top,
+  'spacing-9'
+);
+$modal-simple-padding-bottom: theme-runtime.token(
+  'modal',
+  'modal-simple-padding-bottom',
+  $modal-simple-padding-bottom,
+  'spacing-10'
+);
+$modal-simple-margin-footer-top: theme-runtime.token(
+  'modal',
+  'modal-simple-margin-footer-top',
+  $modal-simple-margin-footer-top,
+  'spacing-10'
+);
+$modal-simple-margin-content-top: theme-runtime.token(
+  'modal',
+  'modal-simple-margin-content-top',
+  $modal-simple-margin-content-top,
+  'spacing-9'
+);
+$modal-position-close-icon-right: theme-runtime.token(
+  'modal',
+  'modal-position-close-icon-right',
+  $modal-position-close-icon-right
+);

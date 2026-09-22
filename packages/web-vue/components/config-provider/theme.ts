@@ -1,3 +1,7 @@
+import { deriveThemeTokens, type SdThemeSeed } from './algorithms';
+import { normalizeTokenKey } from './token-key';
+export { normalizeTokenKey } from './token-key';
+
 export type ThemeTokenValue = string | number;
 
 export type ThemeTokenMap = Record<string, ThemeTokenValue>;
@@ -11,6 +15,8 @@ export interface SdThemeMeta {
 export type SdThemeMode = 'light' | 'dark';
 
 export interface SdThemeConfig {
+  seed?: SdThemeSeed;
+  algorithm?: Array<'dark' | 'compact'>;
   tokens?: ThemeTokenMap;
   components?: Record<string, ThemeTokenMap>;
   meta?: SdThemeMeta;
@@ -30,7 +36,15 @@ const DEFAULT_THEME_META: SDThemeNormalized['meta'] = {
   cssVarPrefix: '--',
 };
 
-const RESERVED_THEME_KEYS = new Set(['tokens', 'components', 'meta', 'token', 'component']);
+const RESERVED_THEME_KEYS = new Set([
+  'tokens',
+  'components',
+  'meta',
+  'token',
+  'component',
+  'seed',
+  'algorithm',
+]);
 
 function normalizeCssVarPrefix(prefix?: string): string {
   if (!prefix) {
@@ -47,18 +61,6 @@ function normalizeCssVarPrefix(prefix?: string): string {
   }
 
   return `--${trimmed.replace(/^-+/, '')}${trimmed.endsWith('-') ? '' : '-'}`;
-}
-
-export function normalizeTokenKey(key: string): string {
-  return key
-    .trim()
-    .replace(/([a-z\d])([A-Z])/g, '$1-$2')
-    .replace(/([a-zA-Z])(\d+)/g, '$1-$2')
-    .replace(/(\d+)([a-zA-Z])/g, '$1-$2')
-    .replace(/[_\s]+/g, '-')
-    .replace(/-{2,}/g, '-')
-    .replace(/^-|-$/g, '')
-    .toLowerCase();
 }
 
 function normalizeTokenMap(tokens?: unknown): ThemeTokenMap {
@@ -140,6 +142,7 @@ export function normalizeTheme(theme?: SdThemeConfig): SDThemeNormalized {
 
   return {
     tokens: {
+      ...deriveThemeTokens(theme),
       ...legacyRootTokens,
       ...themeTokens,
     },

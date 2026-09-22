@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -95,3 +96,228 @@ $input-tag-tag-remove-icon-color-bg_focus: var(
 $input-tag-size-medium-height: $input-tag-size-default-height;
 $input-tag-size-medium-tag-height: $input-tag-size-default-tag-height;
 $input-tag-size-medium-font-size: $input-tag-size-default-font-size;
+
+// @generated runtime tokens — pnpm theme:generate
+$input-tag-color-text_default: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-text-default',
+  $input-tag-color-text_default
+);
+$input-tag-color-text_error: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-text-error',
+  $input-tag-color-text_error
+);
+$input-tag-color-text_disabled: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-text-disabled',
+  $input-tag-color-text_disabled
+);
+$input-tag-color-placeholder: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-placeholder',
+  $input-tag-color-placeholder
+);
+$input-tag-color-icon-clear: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-icon-clear',
+  $input-tag-color-icon-clear
+);
+$input-tag-color-icon-clear-bg_hover: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-icon-clear-bg-hover',
+  $input-tag-color-icon-clear-bg_hover
+);
+$input-tag-color-border_default: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-border-default',
+  $input-tag-color-border_default,
+  'color-transparent'
+);
+$input-tag-color-border_default_hover: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-border-default-hover',
+  $input-tag-color-border_default_hover,
+  'color-transparent'
+);
+$input-tag-color-border_default_focus: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-border-default-focus',
+  $input-tag-color-border_default_focus,
+  'color-primary-6'
+);
+$input-tag-color-border_error: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-border-error',
+  $input-tag-color-border_error,
+  'color-transparent'
+);
+$input-tag-color-border_error_hover: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-border-error-hover',
+  $input-tag-color-border_error_hover,
+  'color-transparent'
+);
+$input-tag-color-border_error_focus: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-border-error-focus',
+  $input-tag-color-border_error_focus,
+  'color-danger-6'
+);
+$input-tag-color-border_disabled: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-border-disabled',
+  $input-tag-color-border_disabled,
+  'color-transparent'
+);
+$input-tag-color-border_disabled_hover: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-border-disabled-hover',
+  $input-tag-color-border_disabled
+);
+$input-tag-color-border_disabled_focus: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-border-disabled-focus',
+  $input-tag-color-border_disabled
+);
+$input-tag-color-bg_default: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-bg-default',
+  $input-tag-color-bg_default
+);
+$input-tag-color-bg_default_hover: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-bg-default-hover',
+  $input-tag-color-bg_default_hover
+);
+$input-tag-color-bg_default_focus: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-bg-default-focus',
+  $input-tag-color-bg_default_focus
+);
+$input-tag-color-bg_error: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-bg-error',
+  $input-tag-color-bg_error,
+  'color-danger-1'
+);
+$input-tag-color-bg_error_hover: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-bg-error-hover',
+  $input-tag-color-bg_error_hover,
+  'color-danger-2'
+);
+$input-tag-color-bg_error_focus: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-bg-error-focus',
+  $input-tag-color-bg_error_focus
+);
+$input-tag-color-bg_disabled: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-bg-disabled',
+  $input-tag-color-bg_disabled
+);
+$input-tag-color-bg_disabled_hover: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-bg-disabled-hover',
+  $input-tag-color-bg_disabled
+);
+$input-tag-color-shadow_default_focus: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-shadow-default-focus',
+  $input-tag-color-shadow_default_focus,
+  'color-primary-2'
+);
+$input-tag-color-shadow_error_focus: theme-runtime.token(
+  'input-tag',
+  'input-tag-color-shadow-error-focus',
+  $input-tag-color-shadow_error_focus,
+  'color-danger-2'
+);
+$input-tag-size-shadow_error_focus: theme-runtime.token(
+  'input-tag',
+  'input-tag-size-shadow-error-focus',
+  $input-tag-size-shadow_error_focus,
+  'shadow-distance-none'
+);
+$input-tag-size-shadow_default_focus: theme-runtime.token(
+  'input-tag',
+  'input-tag-size-shadow-default-focus',
+  $input-tag-size-shadow_default_focus,
+  'shadow-distance-none'
+);
+$input-tag-tag-margin-right: theme-runtime.token(
+  'input-tag',
+  'input-tag-tag-margin-right',
+  $input-tag-tag-margin-right,
+  'spacing-2'
+);
+$input-tag-padding-horizontal: theme-runtime.token(
+  'input-tag',
+  'input-tag-padding-horizontal',
+  $input-tag-padding-horizontal,
+  'spacing-2'
+);
+$input-tag-border-radius: theme-runtime.token(
+  'input-tag',
+  'input-tag-border-radius',
+  $input-tag-border-radius
+);
+$input-tag-size-icon-clear: theme-runtime.token(
+  'input-tag',
+  'input-tag-size-icon-clear',
+  $input-tag-size-icon-clear,
+  'size-3'
+);
+$input-tag-size-icon-clear_hover: theme-runtime.token(
+  'input-tag',
+  'input-tag-size-icon-clear-hover',
+  $input-tag-size-icon-clear_hover,
+  'size-5'
+);
+$input-tag-tag-font-size: theme-runtime.token(
+  'input-tag',
+  'input-tag-tag-font-size',
+  $input-tag-tag-font-size,
+  'font-size-body-1'
+);
+$input-tag-tag-color-bg: theme-runtime.token(
+  'input-tag',
+  'input-tag-tag-color-bg',
+  $input-tag-tag-color-bg
+);
+$input-tag-tag-color-bg_focus: theme-runtime.token(
+  'input-tag',
+  'input-tag-tag-color-bg-focus',
+  $input-tag-tag-color-bg_focus
+);
+$input-tag-tag-color-bg_disabled: theme-runtime.token(
+  'input-tag',
+  'input-tag-tag-color-bg-disabled',
+  $input-tag-tag-color-bg_disabled
+);
+$input-tag-tag-color-border: theme-runtime.token(
+  'input-tag',
+  'input-tag-tag-color-border',
+  $input-tag-tag-color-border
+);
+$input-tag-tag-color-border_disabled: theme-runtime.token(
+  'input-tag',
+  'input-tag-tag-color-border-disabled',
+  $input-tag-tag-color-border_disabled
+);
+$input-tag-tag-color-border_focus: theme-runtime.token(
+  'input-tag',
+  'input-tag-tag-color-border-focus',
+  $input-tag-tag-color-border_focus
+);
+$input-tag-tag-remove-icon-color-bg: theme-runtime.token(
+  'input-tag',
+  'input-tag-tag-remove-icon-color-bg',
+  $input-tag-tag-remove-icon-color-bg
+);
+$input-tag-tag-remove-icon-color-bg_focus: theme-runtime.token(
+  'input-tag',
+  'input-tag-tag-remove-icon-color-bg-focus',
+  $input-tag-tag-remove-icon-color-bg_focus
+);

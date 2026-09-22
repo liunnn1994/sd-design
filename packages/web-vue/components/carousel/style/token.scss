@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -42,3 +43,103 @@ $carousel-indicator-outer-color_active: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-fill-4')
 );
 $carousel-indicator-outer-color-bg: global.$color-transparent;
+
+// @generated runtime tokens — pnpm theme:generate
+$carousel-content-border-radius: theme-runtime.token(
+  'carousel',
+  'carousel-content-border-radius',
+  $carousel-content-border-radius
+);
+$carousel-arrow-position: theme-runtime.token(
+  'carousel',
+  'carousel-arrow-position',
+  $carousel-arrow-position,
+  'spacing-6'
+);
+$carousel-arrow-size: theme-runtime.token(
+  'carousel',
+  'carousel-arrow-size',
+  $carousel-arrow-size,
+  'size-6'
+);
+$carousel-arrow-font-size: theme-runtime.token(
+  'carousel',
+  'carousel-arrow-font-size',
+  $carousel-arrow-font-size,
+  'font-size-body-3'
+);
+$carousel-arrow-color-icon: theme-runtime.token(
+  'carousel',
+  'carousel-arrow-color-icon',
+  $carousel-arrow-color-icon
+);
+$carousel-arrow-color-bg: theme-runtime.token(
+  'carousel',
+  'carousel-arrow-color-bg',
+  $carousel-arrow-color-bg
+);
+$carousel-arrow-color-bg_hover: theme-runtime.token(
+  'carousel',
+  'carousel-arrow-color-bg-hover',
+  $carousel-arrow-color-bg_hover
+);
+$carousel-indicator-size-wrapper: theme-runtime.token(
+  'carousel',
+  'carousel-indicator-size-wrapper',
+  $carousel-indicator-size-wrapper,
+  'size-12'
+);
+$carousel-indicator-line-size-width: theme-runtime.token(
+  'carousel',
+  'carousel-indicator-line-size-width',
+  $carousel-indicator-line-size-width,
+  'size-3'
+);
+$carousel-indicator-slider-size-width: theme-runtime.token(
+  'carousel',
+  'carousel-indicator-slider-size-width',
+  $carousel-indicator-slider-size-width,
+  'size-12'
+);
+$carousel-indicator-gap: theme-runtime.token(
+  'carousel',
+  'carousel-indicator-gap',
+  $carousel-indicator-gap,
+  'spacing-4'
+);
+$carousel-indicator-border-radius: theme-runtime.token(
+  'carousel',
+  'carousel-indicator-border-radius',
+  $carousel-indicator-border-radius
+);
+$carousel-indicator-color_default: theme-runtime.token(
+  'carousel',
+  'carousel-indicator-color-default',
+  $carousel-indicator-color_default
+);
+$carousel-indicator-color_active: theme-runtime.token(
+  'carousel',
+  'carousel-indicator-color-active',
+  $carousel-indicator-color_active
+);
+$carousel-indicator-outer-border-radius: theme-runtime.token(
+  'carousel',
+  'carousel-indicator-outer-border-radius',
+  $carousel-indicator-outer-border-radius
+);
+$carousel-indicator-outer-color_default: theme-runtime.token(
+  'carousel',
+  'carousel-indicator-outer-color-default',
+  $carousel-indicator-outer-color_default
+);
+$carousel-indicator-outer-color_active: theme-runtime.token(
+  'carousel',
+  'carousel-indicator-outer-color-active',
+  $carousel-indicator-outer-color_active
+);
+$carousel-indicator-outer-color-bg: theme-runtime.token(
+  'carousel',
+  'carousel-indicator-outer-color-bg',
+  $carousel-indicator-outer-color-bg,
+  'color-transparent'
+);

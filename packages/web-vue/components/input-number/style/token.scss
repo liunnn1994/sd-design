@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -50,4 +51,85 @@ $input-number-step-button-color-bg_disabled_hover: var(
 
 $input-number-step-button-color-bg_disabled_active: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-fill-2')
+);
+
+// @generated runtime tokens — pnpm theme:generate
+$input-number-border-radius: theme-runtime.token(
+  'input-number',
+  'input-number-border-radius',
+  $input-number-border-radius
+);
+$input-number-step-layer-border-radius: theme-runtime.token(
+  'input-number',
+  'input-number-step-layer-border-radius',
+  $input-number-step-layer-border-radius
+);
+$input-number-size-mini-step-button-width: theme-runtime.token(
+  'input-number',
+  'input-number-size-mini-step-button-width',
+  $input-number-size-mini-step-button-width,
+  'size-mini'
+);
+$input-number-size-small-step-button-width: theme-runtime.token(
+  'input-number',
+  'input-number-size-small-step-button-width',
+  $input-number-size-small-step-button-width,
+  'size-small'
+);
+$input-number-size-default-step-button-width: theme-runtime.token(
+  'input-number',
+  'input-number-size-default-step-button-width',
+  $input-number-size-default-step-button-width,
+  'size-default'
+);
+$input-number-size-large-step-button-width: theme-runtime.token(
+  'input-number',
+  'input-number-size-large-step-button-width',
+  $input-number-size-large-step-button-width,
+  'size-large'
+);
+$input-number-step-button-color: theme-runtime.token(
+  'input-number',
+  'input-number-step-button-color',
+  $input-number-step-button-color
+);
+$input-number-step-button-color_disabled: theme-runtime.token(
+  'input-number',
+  'input-number-step-button-color-disabled',
+  $input-number-step-button-color_disabled
+);
+$input-number-step-button-color-border: theme-runtime.token(
+  'input-number',
+  'input-number-step-button-color-border',
+  $input-number-step-button-color-border
+);
+$input-number-step-button-color-bg_default: theme-runtime.token(
+  'input-number',
+  'input-number-step-button-color-bg-default',
+  $input-number-step-button-color-bg_default
+);
+$input-number-step-button-color-bg_default_hover: theme-runtime.token(
+  'input-number',
+  'input-number-step-button-color-bg-default-hover',
+  $input-number-step-button-color-bg_default_hover
+);
+$input-number-step-button-color-bg_default_active: theme-runtime.token(
+  'input-number',
+  'input-number-step-button-color-bg-default-active',
+  $input-number-step-button-color-bg_default_active
+);
+$input-number-step-button-color-bg_disabled: theme-runtime.token(
+  'input-number',
+  'input-number-step-button-color-bg-disabled',
+  $input-number-step-button-color-bg_disabled
+);
+$input-number-step-button-color-bg_disabled_hover: theme-runtime.token(
+  'input-number',
+  'input-number-step-button-color-bg-disabled-hover',
+  $input-number-step-button-color-bg_disabled_hover
+);
+$input-number-step-button-color-bg_disabled_active: theme-runtime.token(
+  'input-number',
+  'input-number-step-button-color-bg-disabled-active',
+  $input-number-step-button-color-bg_disabled_active
 );

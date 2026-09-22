@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -58,3 +59,102 @@ $layout-radius-lg: global.$border-radius-large;
 $layout-motion-duration-mid: global.$transition-duration-2;
 $layout-motion-duration-slow: global.$transition-duration-3;
 $layout-font-size: global.$font-size-body;
+
+// @generated runtime tokens — pnpm theme:generate
+$layout-body-bg: theme-runtime.token('layout', 'layout-body-bg', $layout-body-bg);
+$layout-footer-bg: theme-runtime.token('layout', 'layout-footer-bg', $layout-footer-bg);
+$layout-header-bg: theme-runtime.token('layout', 'layout-header-bg', $layout-header-bg);
+$layout-header-height: theme-runtime.token(
+  'layout',
+  'layout-header-height',
+  $layout-header-height,
+  'size-16'
+);
+$layout-header-padding-horizontal: theme-runtime.token(
+  'layout',
+  'layout-header-padding-horizontal',
+  $layout-header-padding-horizontal
+);
+$layout-header-padding: theme-runtime.token(
+  'layout',
+  'layout-header-padding',
+  $layout-header-padding
+);
+$layout-header-color: theme-runtime.token('layout', 'layout-header-color', $layout-header-color);
+$layout-footer-padding: theme-runtime.token(
+  'layout',
+  'layout-footer-padding',
+  $layout-footer-padding
+);
+$layout-sider-bg: theme-runtime.token('layout', 'layout-sider-bg', $layout-sider-bg);
+$layout-sider-trigger-height: theme-runtime.token(
+  'layout',
+  'layout-sider-trigger-height',
+  $layout-sider-trigger-height,
+  'size-11'
+);
+$layout-sider-trigger-bg: theme-runtime.token(
+  'layout',
+  'layout-sider-trigger-bg',
+  $layout-sider-trigger-bg
+);
+$layout-sider-trigger-color: theme-runtime.token(
+  'layout',
+  'layout-sider-trigger-color',
+  $layout-sider-trigger-color
+);
+$layout-sider-zero-trigger-width: theme-runtime.token(
+  'layout',
+  'layout-sider-zero-trigger-width',
+  $layout-sider-zero-trigger-width,
+  'size-10'
+);
+$layout-sider-zero-trigger-height: theme-runtime.token(
+  'layout',
+  'layout-sider-zero-trigger-height',
+  $layout-sider-zero-trigger-height,
+  'size-10'
+);
+$layout-sider-zero-trigger-font-size: theme-runtime.token(
+  'layout',
+  'layout-sider-zero-trigger-font-size',
+  $layout-sider-zero-trigger-font-size
+);
+$layout-sider-rail-width: theme-runtime.token(
+  'layout',
+  'layout-sider-rail-width',
+  $layout-sider-rail-width,
+  'size-18'
+);
+$layout-sider-rail-expand-z-index: theme-runtime.token(
+  'layout',
+  'layout-sider-rail-expand-z-index',
+  $layout-sider-rail-expand-z-index
+);
+$layout-light-sider-bg: theme-runtime.token(
+  'layout',
+  'layout-light-sider-bg',
+  $layout-light-sider-bg
+);
+$layout-light-trigger-bg: theme-runtime.token(
+  'layout',
+  'layout-light-trigger-bg',
+  $layout-light-trigger-bg
+);
+$layout-light-trigger-color: theme-runtime.token(
+  'layout',
+  'layout-light-trigger-color',
+  $layout-light-trigger-color
+);
+$layout-radius-lg: theme-runtime.token(
+  'layout',
+  'layout-radius-lg',
+  $layout-radius-lg,
+  'border-radius-large'
+);
+$layout-motion-duration-slow: theme-runtime.token(
+  'layout',
+  'layout-motion-duration-slow',
+  $layout-motion-duration-slow
+);
+$layout-font-size: theme-runtime.token('layout', 'layout-font-size', $layout-font-size);

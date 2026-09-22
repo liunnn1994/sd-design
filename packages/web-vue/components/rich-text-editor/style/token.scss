@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 @use 'sass:string';
 
@@ -35,3 +36,122 @@ $rich-text-editor-focus-shadow: 0 0 0 2px
   color-mix(in srgb, #{global.$color-primary-6} 15%, transparent);
 $rich-text-editor-motion-duration: global.$transition-duration-2;
 $rich-text-editor-motion-easing: global.$transition-timing-function-standard;
+
+// @generated runtime tokens — pnpm theme:generate
+$rich-text-editor-font-size: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-font-size',
+  $rich-text-editor-font-size,
+  'font-size-body-3'
+);
+$rich-text-editor-line-height: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-line-height',
+  $rich-text-editor-line-height
+);
+$rich-text-editor-border-radius: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-border-radius',
+  $rich-text-editor-border-radius
+);
+$rich-text-editor-component-gap: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-component-gap',
+  $rich-text-editor-component-gap,
+  'spacing-2'
+);
+$rich-text-editor-component-inline-width: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-component-inline-width',
+  $rich-text-editor-component-inline-width
+);
+$rich-text-editor-component-range-width: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-component-range-width',
+  $rich-text-editor-component-range-width
+);
+$rich-text-editor-code-padding: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-code-padding',
+  $rich-text-editor-code-padding,
+  'spacing-2'
+);
+$rich-text-editor-color-text: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-color-text',
+  $rich-text-editor-color-text,
+  'color-text-1'
+);
+$rich-text-editor-color-text-disabled: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-color-text-disabled',
+  $rich-text-editor-color-text-disabled,
+  'color-text-4'
+);
+$rich-text-editor-color-placeholder: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-color-placeholder',
+  $rich-text-editor-color-placeholder,
+  'color-text-4'
+);
+$rich-text-editor-color-background: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-color-background',
+  $rich-text-editor-color-background
+);
+$rich-text-editor-color-background-disabled: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-color-background-disabled',
+  $rich-text-editor-color-background-disabled,
+  'color-fill-2'
+);
+$rich-text-editor-color-border: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-color-border',
+  $rich-text-editor-color-border,
+  'color-border-2'
+);
+$rich-text-editor-color-border-hover: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-color-border-hover',
+  $rich-text-editor-color-border-hover,
+  'color-primary-5'
+);
+$rich-text-editor-color-border-focus: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-color-border-focus',
+  $rich-text-editor-color-border-focus,
+  'color-primary-6'
+);
+$rich-text-editor-color-link: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-color-link',
+  $rich-text-editor-color-link,
+  'color-link-6'
+);
+$rich-text-editor-color-code-background: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-color-code-background',
+  $rich-text-editor-color-code-background,
+  'color-fill-2'
+);
+$rich-text-editor-color-component-background: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-color-component-background',
+  $rich-text-editor-color-component-background
+);
+$rich-text-editor-focus-shadow: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-focus-shadow',
+  $rich-text-editor-focus-shadow
+);
+$rich-text-editor-motion-duration: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-motion-duration',
+  $rich-text-editor-motion-duration
+);
+$rich-text-editor-motion-easing: theme-runtime.token(
+  'rich-text-editor',
+  'rich-text-editor-motion-easing',
+  $rich-text-editor-motion-easing
+);

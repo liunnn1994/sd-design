@@ -149,6 +149,9 @@ export type {
   ThemeTokenValue,
 } from './config-provider';
 export { default as ThemeProvider } from './theme-provider';
+export { normalizeTheme, getThemeCSSVariables, normalizeTokenKey } from './config-provider/theme';
+export type { SdThemeSeed } from './config-provider/algorithms';
+export { validateThemeConfig, parseThemeConfig } from './config-provider/theme-config';
 export type { ThemeProviderInstance } from './theme-provider';
 export { default as Copy } from './copy';
 export type {

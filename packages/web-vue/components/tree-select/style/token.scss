@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -14,3 +15,23 @@ $tree-select-padding-popup-left: global.$spacing-5;
 $tree-select-padding-popup-right: global.$spacing-2;
 
 $tree-select-padding-popup-vertical: global.$spacing-2;
+
+// @generated runtime tokens — pnpm theme:generate
+$tree-select-padding-popup-left: theme-runtime.token(
+  'tree-select',
+  'tree-select-padding-popup-left',
+  $tree-select-padding-popup-left,
+  'spacing-5'
+);
+$tree-select-padding-popup-right: theme-runtime.token(
+  'tree-select',
+  'tree-select-padding-popup-right',
+  $tree-select-padding-popup-right,
+  'spacing-2'
+);
+$tree-select-padding-popup-vertical: theme-runtime.token(
+  'tree-select',
+  'tree-select-padding-popup-vertical',
+  $tree-select-padding-popup-vertical,
+  'spacing-2'
+);

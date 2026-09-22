@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -34,3 +35,76 @@ $anchor-font-size-title: 14px;
 $anchor-lineless-color-title_active: global.$color-primary-6;
 $anchor-lineless-bg-title_active: var(string.unquote('#{global.$sd-cssvars-prefix}-color-fill-2'));
 $anchor-lineless-font-weight-title_active: global.$font-weight-500;
+
+// @generated runtime tokens — pnpm theme:generate
+$anchor-width: theme-runtime.token('anchor', 'anchor-width', $anchor-width);
+$anchor-line-width: theme-runtime.token('anchor', 'anchor-line-width', $anchor-line-width);
+$anchor-color-bg-line: theme-runtime.token('anchor', 'anchor-color-bg-line', $anchor-color-bg-line);
+$anchor-color-bg-line_active: theme-runtime.token(
+  'anchor',
+  'anchor-color-bg-line-active',
+  $anchor-color-bg-line_active,
+  'color-primary-6'
+);
+$anchor-border-radius-title-hover: theme-runtime.token(
+  'anchor',
+  'anchor-border-radius-title-hover',
+  $anchor-border-radius-title-hover
+);
+$anchor-item-inner-margin-left: theme-runtime.token(
+  'anchor',
+  'anchor-item-inner-margin-left',
+  $anchor-item-inner-margin-left,
+  'spacing-7'
+);
+$anchor-title-margin-bottom: theme-runtime.token(
+  'anchor',
+  'anchor-title-margin-bottom',
+  $anchor-title-margin-bottom,
+  'spacing-1'
+);
+$anchor-color-title: theme-runtime.token('anchor', 'anchor-color-title', $anchor-color-title);
+$anchor-color-title_hover: theme-runtime.token(
+  'anchor',
+  'anchor-color-title-hover',
+  $anchor-color-title_hover
+);
+$anchor-color-title_active: theme-runtime.token(
+  'anchor',
+  'anchor-color-title-active',
+  $anchor-color-title_active
+);
+$anchor-font-weight-title_hover: theme-runtime.token(
+  'anchor',
+  'anchor-font-weight-title-hover',
+  $anchor-font-weight-title_hover,
+  'font-weight-500'
+);
+$anchor-font-weight-title_active: theme-runtime.token(
+  'anchor',
+  'anchor-font-weight-title-active',
+  $anchor-font-weight-title_active,
+  'font-weight-500'
+);
+$anchor-color-bg-title_hover: theme-runtime.token(
+  'anchor',
+  'anchor-color-bg-title-hover',
+  $anchor-color-bg-title_hover
+);
+$anchor-lineless-color-title_active: theme-runtime.token(
+  'anchor',
+  'anchor-lineless-color-title-active',
+  $anchor-lineless-color-title_active,
+  'color-primary-6'
+);
+$anchor-lineless-bg-title_active: theme-runtime.token(
+  'anchor',
+  'anchor-lineless-bg-title-active',
+  $anchor-lineless-bg-title_active
+);
+$anchor-lineless-font-weight-title_active: theme-runtime.token(
+  'anchor',
+  'anchor-lineless-font-weight-title-active',
+  $anchor-lineless-font-weight-title_active,
+  'font-weight-500'
+);

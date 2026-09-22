@@ -40,20 +40,36 @@
     themePopupContainerInjectionKey,
     computed(() => popupContainer.value ?? parentPopupContainer?.value ?? null),
   );
-  const normalizedTheme = computed(() => normalizeTheme(props.theme));
   const parentTheme = inject(inheritedThemeInjectionKey, undefined);
+  const inheritedMode = shallowRef<SdThemeMode>();
+  const effectiveMode = computed(
+    () => props.themeMode ?? (props.theme?.algorithm?.includes('dark') ? 'dark' : undefined),
+  );
+  // 紧凑只改变尺寸；未显式指定明暗时继承父容器或 DOM 主题。
+  const popupMode = computed(
+    () => effectiveMode.value ?? parentTheme?.mode.value ?? inheritedMode.value,
+  );
+  const normalizedTheme = computed(() => {
+    if (!props.theme) return normalizeTheme();
+    return normalizeTheme({
+      ...props.theme,
+      algorithm: [
+        ...(props.theme.algorithm ?? []).filter((algorithm) => algorithm !== 'dark'),
+        ...(popupMode.value === 'dark' ? ['dark' as const] : []),
+      ],
+    });
+  });
   const popupVariables = computed(() => ({
     ...parentTheme?.variables.value,
     ...getThemeCSSVariables(normalizedTheme.value),
   }));
-  const popupMode = computed(() => props.themeMode ?? parentTheme?.mode.value);
   provide(inheritedThemeInjectionKey, { variables: popupVariables, mode: popupMode });
   const usesLocalThemeContainer = computed(() => {
     if (props.global) {
       return false;
     }
     return (
-      Boolean(props.themeMode) ||
+      Boolean(effectiveMode.value) ||
       Object.keys(normalizedTheme.value.tokens).length > 0 ||
       Object.keys(normalizedTheme.value.components).length > 0
     );
@@ -86,6 +102,8 @@
   let activeTarget: HTMLElement | null = null;
   let activeTargetIsGlobal = false;
   const globalOwner = Symbol('ThemeProvider');
+  let inheritedModeObserver: MutationObserver | undefined;
+  let observedModeSource: Element | null = null;
 
   function cleanupPopupContainer() {
     if (!popupContainer.value) {
@@ -133,9 +151,11 @@
 
     const inheritedThemeMode =
       popupMode.value ?? target.closest<HTMLElement>('[sd-theme]')?.getAttribute('sd-theme');
+    // 弹层容器在 body 下，处于 subtree 观察范围内，仅在值变化时写入。
     if (inheritedThemeMode) {
-      popupContainer.value.setAttribute('sd-theme', inheritedThemeMode);
-    } else {
+      if (popupContainer.value.getAttribute('sd-theme') !== inheritedThemeMode)
+        popupContainer.value.setAttribute('sd-theme', inheritedThemeMode);
+    } else if (popupContainer.value.hasAttribute('sd-theme')) {
       popupContainer.value.removeAttribute('sd-theme');
     }
   }
@@ -176,11 +196,18 @@
       clearThemeCSSVariables(target, appliedThemeKeys);
       appliedThemeKeys = new Set<string>();
       target.removeAttribute('sd-theme');
+      target.removeAttribute('data-sd-theme');
     }
   }
   function syncThemeTarget() {
     const nextTarget = resolveThemeTarget();
     if (!nextTarget) {
+      // 透传（无容器无目标）：停止跟踪环境明暗并清空继承值，
+      // 避免向后代永久注入过期的模式。
+      inheritedModeObserver?.disconnect();
+      inheritedModeObserver = undefined;
+      observedModeSource = null;
+      inheritedMode.value = undefined;
       resetActiveTarget();
       cleanupPopupContainer();
       return;
@@ -190,16 +217,49 @@
       cleanupTarget(activeTarget);
     }
 
+    // 环境明暗来源：global 以挂载点自身为准（body），local 跟随最近祖先。
+    // Token-only 边界不声明明暗，持续跟随来源，让 deriveThemeTokens 按真实
+    // 模式推导色阶，而不是把亮色变量内联覆盖到暗色页面上。
+    const source = props.global
+      ? (nextTarget.closest('[sd-theme], [data-sd-theme]') ?? nextTarget)
+      : (nextTarget.parentElement?.closest('[sd-theme], [data-sd-theme]') ?? document.body);
+    inheritedMode.value =
+      (source.getAttribute('sd-theme') ?? source.getAttribute('data-sd-theme')) === 'dark'
+        ? 'dark'
+        : 'light';
+
     if (props.global) {
-      applyGlobalTheme(nextTarget, globalOwner, normalizedTheme.value, props.themeMode);
+      applyGlobalTheme(nextTarget, globalOwner, normalizedTheme.value, effectiveMode.value);
     } else {
       appliedThemeKeys = applyThemeCSSVariables(
         nextTarget,
         normalizedTheme.value,
         appliedThemeKeys,
       );
-      if (props.themeMode) nextTarget.setAttribute('sd-theme', props.themeMode);
-      else nextTarget.removeAttribute('sd-theme');
+      // 仅在值变化时写入：subtree 观察会把 mutation 广播给所有 provider，
+      // 无变化的 setAttribute 同样产生记录，会造成 provider 间互相唤醒空转。
+      if (effectiveMode.value) {
+        if (nextTarget.getAttribute('sd-theme') !== effectiveMode.value)
+          nextTarget.setAttribute('sd-theme', effectiveMode.value);
+      } else if (nextTarget.hasAttribute('sd-theme')) {
+        nextTarget.removeAttribute('sd-theme');
+      }
+      const resolvedMode = popupMode.value ?? 'light';
+      if (nextTarget.getAttribute('data-sd-theme') !== resolvedMode)
+        nextTarget.setAttribute('data-sd-theme', resolvedMode);
+    }
+
+    if (observedModeSource !== source) {
+      inheritedModeObserver?.disconnect();
+      observedModeSource = source;
+      inheritedModeObserver = new MutationObserver(syncThemeTarget);
+      // subtree：中间动态挂载的 provider 会在来源子树内写入 data-sd-theme，
+      // 必须重解析 source 才能跟上嵌套结构变化。
+      inheritedModeObserver.observe(source, {
+        attributes: true,
+        attributeFilter: ['sd-theme', 'data-sd-theme'],
+        subtree: true,
+      });
     }
 
     activeTarget = nextTarget;
@@ -212,7 +272,7 @@
       normalizedTheme,
       popupVariables,
       popupMode,
-      () => props.themeMode,
+      effectiveMode,
       () => props.global,
       usesLocalThemeContainer,
       rootElement,
@@ -226,6 +286,7 @@
   );
 
   onBeforeUnmount(() => {
+    inheritedModeObserver?.disconnect();
     cleanupTarget(activeTarget);
     cleanupPopupContainer();
     activeTarget = null;

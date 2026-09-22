@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -61,3 +62,141 @@ $page-header-padding-content-vertical: global.$spacing-8;
 $page-header-padding-content-horizontal: global.$spacing-10;
 
 $page-header-margin-breadcrumb-bottom: global.$spacing-2;
+
+// @generated runtime tokens — pnpm theme:generate
+$page-header-padding-left: theme-runtime.token(
+  'page-header',
+  'page-header-padding-left',
+  $page-header-padding-left,
+  'spacing-9'
+);
+$page-header-padding-right: theme-runtime.token(
+  'page-header',
+  'page-header-padding-right',
+  $page-header-padding-right,
+  'spacing-8'
+);
+$page-header-padding-vertical: theme-runtime.token(
+  'page-header',
+  'page-header-padding-vertical',
+  $page-header-padding-vertical,
+  'spacing-7'
+);
+$page-header-padding-vertical_breadcrumb: theme-runtime.token(
+  'page-header',
+  'page-header-padding-vertical-breadcrumb',
+  $page-header-padding-vertical_breadcrumb,
+  'spacing-6'
+);
+$page-header-color-back-icon: theme-runtime.token(
+  'page-header',
+  'page-header-color-back-icon',
+  $page-header-color-back-icon
+);
+$page-header-margin-back-icon-right: theme-runtime.token(
+  'page-header',
+  'page-header-margin-back-icon-right',
+  $page-header-margin-back-icon-right,
+  'spacing-6'
+);
+$page-header-line-height: theme-runtime.token(
+  'page-header',
+  'page-header-line-height',
+  $page-header-line-height,
+  'size-7'
+);
+$page-header-color-title-text: theme-runtime.token(
+  'page-header',
+  'page-header-color-title-text',
+  $page-header-color-title-text
+);
+$page-header-weight-title-text: theme-runtime.token(
+  'page-header',
+  'page-header-weight-title-text',
+  $page-header-weight-title-text
+);
+$page-header-color-back-icon-bg_hover: theme-runtime.token(
+  'page-header',
+  'page-header-color-back-icon-bg-hover',
+  $page-header-color-back-icon-bg_hover
+);
+$page-header-size-title-text: theme-runtime.token(
+  'page-header',
+  'page-header-size-title-text',
+  $page-header-size-title-text,
+  'font-size-title-2'
+);
+$page-header-color-divider-bg: theme-runtime.token(
+  'page-header',
+  'page-header-color-divider-bg',
+  $page-header-color-divider-bg
+);
+$page-header-size-divider-height: theme-runtime.token(
+  'page-header',
+  'page-header-size-divider-height',
+  $page-header-size-divider-height,
+  'size-4'
+);
+$page-header-size-divider-width: theme-runtime.token(
+  'page-header',
+  'page-header-size-divider-width',
+  $page-header-size-divider-width
+);
+$page-header-margin-divider-left: theme-runtime.token(
+  'page-header',
+  'page-header-margin-divider-left',
+  $page-header-margin-divider-left,
+  'spacing-6'
+);
+$page-header-margin-divider-right: theme-runtime.token(
+  'page-header',
+  'page-header-margin-divider-right',
+  $page-header-margin-divider-right,
+  'spacing-6'
+);
+$page-header-color-sub-title-text: theme-runtime.token(
+  'page-header',
+  'page-header-color-sub-title-text',
+  $page-header-color-sub-title-text
+);
+$page-header-size-sub-title-text: theme-runtime.token(
+  'page-header',
+  'page-header-size-sub-title-text',
+  $page-header-size-sub-title-text,
+  'font-size-body-3'
+);
+$page-header-color-header-border: theme-runtime.token(
+  'page-header',
+  'page-header-color-header-border',
+  $page-header-color-header-border
+);
+$page-header-border-header-width: theme-runtime.token(
+  'page-header',
+  'page-header-border-header-width',
+  $page-header-border-header-width,
+  'border-1'
+);
+$page-header-border-header-style: theme-runtime.token(
+  'page-header',
+  'page-header-border-header-style',
+  $page-header-border-header-style,
+  'border-solid'
+);
+$page-header-padding-content-vertical: theme-runtime.token(
+  'page-header',
+  'page-header-padding-content-vertical',
+  $page-header-padding-content-vertical,
+  'spacing-8'
+);
+$page-header-padding-content-horizontal: theme-runtime.token(
+  'page-header',
+  'page-header-padding-content-horizontal',
+  $page-header-padding-content-horizontal,
+  'spacing-10'
+);
+$page-header-margin-breadcrumb-bottom: theme-runtime.token(
+  'page-header',
+  'page-header-margin-breadcrumb-bottom',
+  $page-header-margin-breadcrumb-bottom,
+  'spacing-2'
+);

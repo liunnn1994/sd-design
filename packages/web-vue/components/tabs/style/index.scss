@@ -57,7 +57,7 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
 
 @function get-title-padding($header-height, $font-size, $padding-vertical) {
   // prettier-ignore
-  @return max(0, math.round(($header-height * 0.5) - theme.$line-height-base * ($font-size * 0.5) - $padding-vertical));
+  @return max(0px, calc(($header-height - theme.$line-height-base * $font-size) / 2 - max(0px, $padding-vertical)));
 }
 
 // tabs icon style

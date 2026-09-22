@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -87,3 +88,220 @@ $message-loading-color-icon: global.$color-primary-6;
 $message-loading-color-content: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
 
 $message-loading-color-border: var(string.unquote('#{global.$sd-cssvars-prefix}-color-neutral-3'));
+
+// @generated runtime tokens — pnpm theme:generate
+$message-wrapper-margin-top: theme-runtime.token(
+  'message',
+  'message-wrapper-margin-top',
+  $message-wrapper-margin-top,
+  'spacing-12'
+);
+$message-wrapper-margin-bottom: theme-runtime.token(
+  'message',
+  'message-wrapper-margin-bottom',
+  $message-wrapper-margin-bottom,
+  'spacing-12'
+);
+$message-padding-top: theme-runtime.token(
+  'message',
+  'message-padding-top',
+  $message-padding-top,
+  'spacing-5'
+);
+$message-padding-bottom: theme-runtime.token(
+  'message',
+  'message-padding-bottom',
+  $message-padding-bottom,
+  'spacing-5'
+);
+$message-padding-left: theme-runtime.token(
+  'message',
+  'message-padding-left',
+  $message-padding-left,
+  'spacing-7'
+);
+$message-padding-right: theme-runtime.token(
+  'message',
+  'message-padding-right',
+  $message-padding-right,
+  'spacing-7'
+);
+$message-margin-bottom: theme-runtime.token(
+  'message',
+  'message-margin-bottom',
+  $message-margin-bottom,
+  'spacing-7'
+);
+$message-border-radius: theme-runtime.token(
+  'message',
+  'message-border-radius',
+  $message-border-radius
+);
+$message-font-size-icon: theme-runtime.token(
+  'message',
+  'message-font-size-icon',
+  $message-font-size-icon
+);
+$message-font-size-content: theme-runtime.token(
+  'message',
+  'message-font-size-content',
+  $message-font-size-content,
+  'font-size-body-3'
+);
+$message-icon-margin-right: theme-runtime.token(
+  'message',
+  'message-icon-margin-right',
+  $message-icon-margin-right,
+  'spacing-4'
+);
+$message-border-width: theme-runtime.token(
+  'message',
+  'message-border-width',
+  $message-border-width
+);
+$message-border-style: theme-runtime.token(
+  'message',
+  'message-border-style',
+  $message-border-style
+);
+$message-color-close-icon: theme-runtime.token(
+  'message',
+  'message-color-close-icon',
+  $message-color-close-icon
+);
+$message-close-icon-top: theme-runtime.token(
+  'message',
+  'message-close-icon-top',
+  $message-close-icon-top
+);
+$message-close-icon-right: theme-runtime.token(
+  'message',
+  'message-close-icon-right',
+  $message-close-icon-right,
+  'spacing-7'
+);
+$message-normal-color-bg: theme-runtime.token(
+  'message',
+  'message-normal-color-bg',
+  $message-normal-color-bg
+);
+$message-normal-color-icon: theme-runtime.token(
+  'message',
+  'message-normal-color-icon',
+  $message-normal-color-icon
+);
+$message-normal-color-content: theme-runtime.token(
+  'message',
+  'message-normal-color-content',
+  $message-normal-color-content
+);
+$message-normal-color-border: theme-runtime.token(
+  'message',
+  'message-normal-color-border',
+  $message-normal-color-border
+);
+$message-info-color-bg: theme-runtime.token(
+  'message',
+  'message-info-color-bg',
+  $message-info-color-bg
+);
+$message-info-color-icon: theme-runtime.token(
+  'message',
+  'message-info-color-icon',
+  $message-info-color-icon,
+  'color-primary-6'
+);
+$message-info-color-content: theme-runtime.token(
+  'message',
+  'message-info-color-content',
+  $message-info-color-content
+);
+$message-info-color-border: theme-runtime.token(
+  'message',
+  'message-info-color-border',
+  $message-info-color-border
+);
+$message-success-color-bg: theme-runtime.token(
+  'message',
+  'message-success-color-bg',
+  $message-success-color-bg
+);
+$message-success-color-icon: theme-runtime.token(
+  'message',
+  'message-success-color-icon',
+  $message-success-color-icon,
+  'color-success-6'
+);
+$message-success-color-content: theme-runtime.token(
+  'message',
+  'message-success-color-content',
+  $message-success-color-content
+);
+$message-success-color-border: theme-runtime.token(
+  'message',
+  'message-success-color-border',
+  $message-success-color-border
+);
+$message-warning-color-bg: theme-runtime.token(
+  'message',
+  'message-warning-color-bg',
+  $message-warning-color-bg
+);
+$message-warning-color-icon: theme-runtime.token(
+  'message',
+  'message-warning-color-icon',
+  $message-warning-color-icon,
+  'color-warning-6'
+);
+$message-warning-color-content: theme-runtime.token(
+  'message',
+  'message-warning-color-content',
+  $message-warning-color-content
+);
+$message-warning-color-border: theme-runtime.token(
+  'message',
+  'message-warning-color-border',
+  $message-warning-color-border
+);
+$message-error-color-bg: theme-runtime.token(
+  'message',
+  'message-error-color-bg',
+  $message-error-color-bg
+);
+$message-error-color-icon: theme-runtime.token(
+  'message',
+  'message-error-color-icon',
+  $message-error-color-icon,
+  'color-danger-6'
+);
+$message-error-color-content: theme-runtime.token(
+  'message',
+  'message-error-color-content',
+  $message-error-color-content
+);
+$message-error-color-border: theme-runtime.token(
+  'message',
+  'message-error-color-border',
+  $message-error-color-border
+);
+$message-loading-color-bg: theme-runtime.token(
+  'message',
+  'message-loading-color-bg',
+  $message-loading-color-bg
+);
+$message-loading-color-icon: theme-runtime.token(
+  'message',
+  'message-loading-color-icon',
+  $message-loading-color-icon,
+  'color-primary-6'
+);
+$message-loading-color-content: theme-runtime.token(
+  'message',
+  'message-loading-color-content',
+  $message-loading-color-content
+);
+$message-loading-color-border: theme-runtime.token(
+  'message',
+  'message-loading-color-border',
+  $message-loading-color-border
+);

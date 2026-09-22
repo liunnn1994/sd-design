@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 @use 'sass:string';
 
@@ -12,3 +13,31 @@ $kv-list-border-radius: global.$radius-medium;
 $kv-list-gap: global.$spacing-4;
 $kv-list-padding: global.$spacing-4;
 $kv-list-transition-duration: global.$transition-duration-2;
+
+// @generated runtime tokens — pnpm theme:generate
+$kv-list-color-bg: theme-runtime.token('kv-list', 'kv-list-color-bg', $kv-list-color-bg);
+$kv-list-color-border: theme-runtime.token(
+  'kv-list',
+  'kv-list-color-border',
+  $kv-list-color-border
+);
+$kv-list-color-drag: theme-runtime.token('kv-list', 'kv-list-color-drag', $kv-list-color-drag);
+$kv-list-color-ghost: theme-runtime.token('kv-list', 'kv-list-color-ghost', $kv-list-color-ghost);
+$kv-list-border-width: theme-runtime.token(
+  'kv-list',
+  'kv-list-border-width',
+  $kv-list-border-width,
+  'border-1'
+);
+$kv-list-border-radius: theme-runtime.token(
+  'kv-list',
+  'kv-list-border-radius',
+  $kv-list-border-radius
+);
+$kv-list-gap: theme-runtime.token('kv-list', 'kv-list-gap', $kv-list-gap, 'spacing-4');
+$kv-list-padding: theme-runtime.token('kv-list', 'kv-list-padding', $kv-list-padding, 'spacing-4');
+$kv-list-transition-duration: theme-runtime.token(
+  'kv-list',
+  'kv-list-transition-duration',
+  $kv-list-transition-duration
+);

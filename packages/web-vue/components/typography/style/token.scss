@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -71,3 +72,222 @@ $typography-color-blockquote-bg: var(string.unquote('#{global.$sd-cssvars-prefix
 
 $typography-heading-margin-top: 1em;
 $typography-heading-margin-bottom: 0.5em;
+
+// @generated runtime tokens — pnpm theme:generate
+$typography-font-size-h1: theme-runtime.token(
+  'typography',
+  'typography-font-size-h-1',
+  $typography-font-size-h1
+);
+$typography-font-size-h2: theme-runtime.token(
+  'typography',
+  'typography-font-size-h-2',
+  $typography-font-size-h2
+);
+$typography-font-size-h3: theme-runtime.token(
+  'typography',
+  'typography-font-size-h-3',
+  $typography-font-size-h3
+);
+$typography-font-size-h4: theme-runtime.token(
+  'typography',
+  'typography-font-size-h-4',
+  $typography-font-size-h4
+);
+$typography-font-size-h5: theme-runtime.token(
+  'typography',
+  'typography-font-size-h-5',
+  $typography-font-size-h5
+);
+$typography-font-size-h6: theme-runtime.token(
+  'typography',
+  'typography-font-size-h-6',
+  $typography-font-size-h6
+);
+$typography-heading-font-weight: theme-runtime.token(
+  'typography',
+  'typography-heading-font-weight',
+  $typography-heading-font-weight,
+  'font-weight-500'
+);
+$typography-color-text: theme-runtime.token(
+  'typography',
+  'typography-color-text',
+  $typography-color-text
+);
+$typography-text-color-text-primary: theme-runtime.token(
+  'typography',
+  'typography-text-color-text-primary',
+  $typography-text-color-text-primary,
+  'color-primary-6'
+);
+$typography-text-color-text-secondary: theme-runtime.token(
+  'typography',
+  'typography-text-color-text-secondary',
+  $typography-text-color-text-secondary
+);
+$typography-text-color-text-success: theme-runtime.token(
+  'typography',
+  'typography-text-color-text-success',
+  $typography-text-color-text-success,
+  'color-success-6'
+);
+$typography-text-color-text-warning: theme-runtime.token(
+  'typography',
+  'typography-text-color-text-warning',
+  $typography-text-color-text-warning,
+  'color-warning-6'
+);
+$typography-text-color-text-error: theme-runtime.token(
+  'typography',
+  'typography-text-color-text-error',
+  $typography-text-color-text-error,
+  'color-danger-6'
+);
+$typography-text-color-text_disabled: theme-runtime.token(
+  'typography',
+  'typography-text-color-text-disabled',
+  $typography-text-color-text_disabled
+);
+$typography-text-color-bg-mark: theme-runtime.token(
+  'typography',
+  'typography-text-color-bg-mark',
+  $typography-text-color-bg-mark
+);
+$typography-text-font-weight-bold: theme-runtime.token(
+  'typography',
+  'typography-text-font-weight-bold',
+  $typography-text-font-weight-bold,
+  'font-weight-500'
+);
+$typography-text-color-code: theme-runtime.token(
+  'typography',
+  'typography-text-color-code',
+  $typography-text-color-code
+);
+$typography-text-color-code-border: theme-runtime.token(
+  'typography',
+  'typography-text-color-code-border',
+  $typography-text-color-code-border
+);
+$typography-text-color-code-bg: theme-runtime.token(
+  'typography',
+  'typography-text-color-code-bg',
+  $typography-text-color-code-bg
+);
+$typography-text-padding-code-vertical: theme-runtime.token(
+  'typography',
+  'typography-text-padding-code-vertical',
+  $typography-text-padding-code-vertical
+);
+$typography-text-padding-code-horizontal: theme-runtime.token(
+  'typography',
+  'typography-text-padding-code-horizontal',
+  $typography-text-padding-code-horizontal
+);
+$typography-text-margin-code-horizontal: theme-runtime.token(
+  'typography',
+  'typography-text-margin-code-horizontal',
+  $typography-text-margin-code-horizontal
+);
+$typography-paragraph-line-height: theme-runtime.token(
+  'typography',
+  'typography-paragraph-line-height',
+  $line-height-base
+);
+$typography-paragraph-line-height-close: theme-runtime.token(
+  'typography',
+  'typography-paragraph-line-height-close',
+  $typography-paragraph-line-height-close
+);
+$typography-operation-margin-left: theme-runtime.token(
+  'typography',
+  'typography-operation-margin-left',
+  $typography-operation-margin-left,
+  'spacing-1'
+);
+$typography-color-icon-copy: theme-runtime.token(
+  'typography',
+  'typography-color-icon-copy',
+  $typography-color-icon-copy
+);
+$typography-color-bg-icon-copy: theme-runtime.token(
+  'typography',
+  'typography-color-bg-icon-copy',
+  $typography-color-bg-icon-copy,
+  'color-transparent'
+);
+$typography-color-icon-copy_hover: theme-runtime.token(
+  'typography',
+  'typography-color-icon-copy-hover',
+  $typography-color-icon-copy_hover
+);
+$typography-color-bg-icon-copy_hover: theme-runtime.token(
+  'typography',
+  'typography-color-bg-icon-copy-hover',
+  $typography-color-bg-icon-copy_hover
+);
+$typography-color-icon-copy_copied: theme-runtime.token(
+  'typography',
+  'typography-color-icon-copy-copied',
+  $typography-color-icon-copy_copied,
+  'color-success-6'
+);
+$typography-color-icon-edit: theme-runtime.token(
+  'typography',
+  'typography-color-icon-edit',
+  $typography-color-icon-edit
+);
+$typography-color-bg-icon-edit: theme-runtime.token(
+  'typography',
+  'typography-color-bg-icon-edit',
+  $typography-color-bg-icon-edit,
+  'color-transparent'
+);
+$typography-color-icon-edit_hover: theme-runtime.token(
+  'typography',
+  'typography-color-icon-edit-hover',
+  $typography-color-icon-edit_hover
+);
+$typography-color-bg-icon-edit_hover: theme-runtime.token(
+  'typography',
+  'typography-color-bg-icon-edit-hover',
+  $typography-color-bg-icon-edit_hover
+);
+$typography-color-expand-text: theme-runtime.token(
+  'typography',
+  'typography-color-expand-text',
+  $typography-color-expand-text,
+  'color-primary-6'
+);
+$typography-color-expand-text_hover: theme-runtime.token(
+  'typography',
+  'typography-color-expand-text-hover',
+  $typography-color-expand-text_hover,
+  'color-primary-5'
+);
+$typography-color-blockquote-border-width: theme-runtime.token(
+  'typography',
+  'typography-color-blockquote-border-width',
+  $typography-color-blockquote-border-width
+);
+$typography-color-blockquote-border-left: theme-runtime.token(
+  'typography',
+  'typography-color-blockquote-border-left',
+  $typography-color-blockquote-border-left
+);
+$typography-color-blockquote-bg: theme-runtime.token(
+  'typography',
+  'typography-color-blockquote-bg',
+  $typography-color-blockquote-bg
+);
+$typography-heading-margin-top: theme-runtime.token(
+  'typography',
+  'typography-heading-margin-top',
+  $typography-heading-margin-top
+);
+$typography-heading-margin-bottom: theme-runtime.token(
+  'typography',
+  'typography-heading-margin-bottom',
+  $typography-heading-margin-bottom
+);

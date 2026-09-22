@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/component.scss' as component;
 @use '@style/theme/index.scss' as global;
 
@@ -106,3 +107,187 @@ $radio-size-mini-height: global.$size-mini;
 $radio-size-large-height: global.$size-large;
 
 $radio-group-size-line-height_vertical: global.$size-8;
+
+// @generated runtime tokens — pnpm theme:generate
+$radio-color-border: theme-runtime.token('radio', 'radio-color-border', $radio-color-border);
+$radio-color-border_hover: theme-runtime.token(
+  'radio',
+  'radio-color-border-hover',
+  $radio-color-border_hover
+);
+$radio-color-border_disabled: theme-runtime.token(
+  'radio',
+  'radio-color-border-disabled',
+  $radio-color-border_disabled
+);
+$radio-color-bg: theme-runtime.token('radio', 'radio-color-bg', $radio-color-bg);
+$radio-color-bg_checked: theme-runtime.token(
+  'radio',
+  'radio-color-bg-checked',
+  $radio-color-bg_checked,
+  'color-primary-6'
+);
+$radio-border-radius: theme-runtime.token('radio', 'radio-border-radius', $radio-border-radius);
+$radio-color-bg_disabled: theme-runtime.token(
+  'radio',
+  'radio-color-bg-disabled',
+  $radio-color-bg_disabled
+);
+$radio-color-bg_checked_disabled: theme-runtime.token(
+  'radio',
+  'radio-color-bg-checked-disabled',
+  $radio-color-bg_checked_disabled
+);
+$radio-color-dot-bg_checked_disabled: theme-runtime.token(
+  'radio',
+  'radio-color-dot-bg-checked-disabled',
+  $radio-color-bg_disabled
+);
+$radio-color-text: theme-runtime.token('radio', 'radio-color-text', $radio-color-text);
+$radio-color-text_disabled: theme-runtime.token(
+  'radio',
+  'radio-color-text-disabled',
+  $radio-color-text_disabled
+);
+$radio-color-text_checked_disabled: theme-runtime.token(
+  'radio',
+  'radio-color-text-checked-disabled',
+  $radio-color-text_checked_disabled
+);
+$radio-font-text-size: theme-runtime.token(
+  'radio',
+  'radio-font-text-size',
+  $radio-font-text-size,
+  'font-size-body-3'
+);
+$radio-font-text-size_large: theme-runtime.token(
+  'radio',
+  'radio-font-text-size-large',
+  $radio-font-text-size_large,
+  'font-size-body-3'
+);
+$radio-font-text-size_mini: theme-runtime.token(
+  'radio',
+  'radio-font-text-size-mini',
+  $radio-font-text-size_mini,
+  'font-size-body-1'
+);
+$radio-font-text-size_small: theme-runtime.token(
+  'radio',
+  'radio-font-text-size-small',
+  $radio-font-text-size_small,
+  'font-size-body-3'
+);
+$radio-margin-text-left: theme-runtime.token(
+  'radio',
+  'radio-margin-text-left',
+  $radio-margin-text-left,
+  'spacing-4'
+);
+$radio-mask-bg-color-bg: theme-runtime.token(
+  'radio',
+  'radio-mask-bg-color-bg',
+  $radio-mask-bg-color-bg
+);
+$radio-group-margin-right: theme-runtime.token(
+  'radio',
+  'radio-group-margin-right',
+  $radio-group-margin-right,
+  'spacing-8'
+);
+$radio-group-button-color-bg: theme-runtime.token(
+  'radio',
+  'radio-group-button-color-bg',
+  $radio-group-button-color-bg
+);
+$radio-button-padding-horizontal: theme-runtime.token(
+  'radio',
+  'radio-button-padding-horizontal',
+  $radio-button-padding-horizontal,
+  'spacing-6'
+);
+$radio-button-color-bg_active: theme-runtime.token(
+  'radio',
+  'radio-button-color-bg-active',
+  $radio-button-color-bg_active
+);
+$radio-button-color-bg_hover: theme-runtime.token(
+  'radio',
+  'radio-button-color-bg-hover',
+  $radio-button-color-bg_active
+);
+$radio-button-color-text_active: theme-runtime.token(
+  'radio',
+  'radio-button-color-text-active',
+  $radio-button-color-text_active,
+  'color-primary-6'
+);
+$radio-button-font-text-weight_active: theme-runtime.token(
+  'radio',
+  'radio-button-font-text-weight-active',
+  $radio-button-font-text-weight_active,
+  'font-weight-500'
+);
+$radio-button-color-text_hover: theme-runtime.token(
+  'radio',
+  'radio-button-color-text-hover',
+  $radio-color-text
+);
+$radio-button-border-radius: theme-runtime.token(
+  'radio',
+  'radio-button-border-radius',
+  $radio-button-border-radius
+);
+$radio-button-bg-border-radius: theme-runtime.token(
+  'radio',
+  'radio-button-bg-border-radius',
+  $radio-button-border-radius
+);
+$radio-button-color-bg: theme-runtime.token(
+  'radio',
+  'radio-button-color-bg',
+  $radio-button-color-bg,
+  'color-transparent'
+);
+$radio-button-color-text: theme-runtime.token(
+  'radio',
+  'radio-button-color-text',
+  $radio-button-color-text
+);
+$radio-button-color-bg_disabled: theme-runtime.token(
+  'radio',
+  'radio-button-color-bg-disabled',
+  $radio-button-color-bg_disabled,
+  'color-transparent'
+);
+$radio-button-color-text_disabled: theme-runtime.token(
+  'radio',
+  'radio-button-color-text-disabled',
+  $radio-button-color-text_disabled
+);
+$radio-button-color-bg_checked_disabled: theme-runtime.token(
+  'radio',
+  'radio-button-color-bg-checked-disabled',
+  $radio-button-color-bg_active
+);
+$radio-button-color-text_checked_disabled: theme-runtime.token(
+  'radio',
+  'radio-button-color-text-checked-disabled',
+  $radio-button-color-text_checked_disabled
+);
+$radio-button-color-separator-bg: theme-runtime.token(
+  'radio',
+  'radio-button-color-separator-bg',
+  $radio-button-color-separator-bg
+);
+$radio-button-size-separator-height: theme-runtime.token(
+  'radio',
+  'radio-button-size-separator-height',
+  $radio-button-size-separator-height
+);
+$radio-group-size-line-height_vertical: theme-runtime.token(
+  'radio',
+  'radio-group-size-line-height-vertical',
+  $radio-group-size-line-height_vertical,
+  'size-8'
+);

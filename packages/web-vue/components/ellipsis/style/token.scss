@@ -1,5 +1,10 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as *;
 
 $ellipsis-max-width: 100%;
 
 $ellipsis-color-text: inherit;
+
+// @generated runtime tokens — pnpm theme:generate
+$ellipsis-max-width: theme-runtime.token('ellipsis', 'ellipsis-max-width', $ellipsis-max-width);
+$ellipsis-color-text: theme-runtime.token('ellipsis', 'ellipsis-color-text', $ellipsis-color-text);

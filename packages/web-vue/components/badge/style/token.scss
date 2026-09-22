@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/color/colors.scss';
 @use '@style/theme/index.scss' as global;
 
@@ -62,3 +63,150 @@ $badge-purple-color-dot-bg: rgb(var(string.unquote('#{global.$sd-cssvars-prefix}
 $badge-magenta-color-dot-bg: rgb(var(string.unquote('#{global.$sd-cssvars-prefix}-magenta-6')));
 
 $badge-gray-color-dot-bg: rgb(var(string.unquote('#{global.$sd-cssvars-prefix}-gray-4')));
+
+// @generated runtime tokens — pnpm theme:generate
+$badge-size-count-height: theme-runtime.token(
+  'badge',
+  'badge-size-count-height',
+  $badge-size-count-height,
+  'size-5'
+);
+$badge-padding-count-horizontal: theme-runtime.token(
+  'badge',
+  'badge-padding-count-horizontal',
+  $badge-padding-count-horizontal,
+  'spacing-3'
+);
+$badge-margin-status-text-left: theme-runtime.token(
+  'badge',
+  'badge-margin-status-text-left',
+  $badge-margin-status-text-left,
+  'spacing-4'
+);
+$badge-font-count-size: theme-runtime.token(
+  'badge',
+  'badge-font-count-size',
+  $badge-font-count-size,
+  'font-size-body-1'
+);
+$badge-font-status-text-size: theme-runtime.token(
+  'badge',
+  'badge-font-status-text-size',
+  $badge-font-status-text-size,
+  'font-size-body-1'
+);
+$badge-color-count-text: theme-runtime.token(
+  'badge',
+  'badge-color-count-text',
+  $badge-color-count-text
+);
+$badge-color-status-text: theme-runtime.token(
+  'badge',
+  'badge-color-status-text',
+  $badge-color-status-text
+);
+$badge-color-count-bg: theme-runtime.token(
+  'badge',
+  'badge-color-count-bg',
+  $badge-color-count-bg,
+  'color-danger-6'
+);
+$badge-size-dot-width: theme-runtime.token('badge', 'badge-size-dot-width', $badge-size-dot-width);
+$badge-color-dot-bg_default: theme-runtime.token(
+  'badge',
+  'badge-color-dot-bg-default',
+  $badge-color-dot-bg_default
+);
+$badge-color-dot-bg_processing: theme-runtime.token(
+  'badge',
+  'badge-color-dot-bg-processing',
+  $badge-color-dot-bg_processing,
+  'color-primary-6'
+);
+$badge-color-dot-bg_success: theme-runtime.token(
+  'badge',
+  'badge-color-dot-bg-success',
+  $badge-color-dot-bg_success,
+  'color-success-6'
+);
+$badge-color-dot-bg_warning: theme-runtime.token(
+  'badge',
+  'badge-color-dot-bg-warning',
+  $badge-color-dot-bg_warning,
+  'color-warning-6'
+);
+$badge-color-dot-bg_error: theme-runtime.token(
+  'badge',
+  'badge-color-dot-bg-error',
+  $badge-color-dot-bg_error,
+  'color-danger-6'
+);
+$badge-font-count-weight: theme-runtime.token(
+  'badge',
+  'badge-font-count-weight',
+  $badge-font-count-weight,
+  'font-weight-500'
+);
+$badge-red-color-dot-bg: theme-runtime.token(
+  'badge',
+  'badge-red-color-dot-bg',
+  $badge-red-color-dot-bg,
+  'color-danger-6'
+);
+$badge-orangered-color-dot-bg: theme-runtime.token(
+  'badge',
+  'badge-orangered-color-dot-bg',
+  $badge-orangered-color-dot-bg
+);
+$badge-orange-color-dot-bg: theme-runtime.token(
+  'badge',
+  'badge-orange-color-dot-bg',
+  $badge-orange-color-dot-bg
+);
+$badge-lime-color-dot-bg: theme-runtime.token(
+  'badge',
+  'badge-lime-color-dot-bg',
+  $badge-lime-color-dot-bg
+);
+$badge-gold-color-dot-bg: theme-runtime.token(
+  'badge',
+  'badge-gold-color-dot-bg',
+  $badge-gold-color-dot-bg
+);
+$badge-green-color-dot-bg: theme-runtime.token(
+  'badge',
+  'badge-green-color-dot-bg',
+  $badge-green-color-dot-bg,
+  'color-success-6'
+);
+$badge-cyan-color-dot-bg: theme-runtime.token(
+  'badge',
+  'badge-cyan-color-dot-bg',
+  $badge-cyan-color-dot-bg
+);
+$badge-sdblue-color-dot-bg: theme-runtime.token(
+  'badge',
+  'badge-sdblue-color-dot-bg',
+  $badge-sdblue-color-dot-bg,
+  'color-primary-6'
+);
+$badge-pinkpurple-color-dot-bg: theme-runtime.token(
+  'badge',
+  'badge-pinkpurple-color-dot-bg',
+  $badge-pinkpurple-color-dot-bg
+);
+$badge-purple-color-dot-bg: theme-runtime.token(
+  'badge',
+  'badge-purple-color-dot-bg',
+  $badge-purple-color-dot-bg
+);
+$badge-magenta-color-dot-bg: theme-runtime.token(
+  'badge',
+  'badge-magenta-color-dot-bg',
+  $badge-magenta-color-dot-bg
+);
+$badge-gray-color-dot-bg: theme-runtime.token(
+  'badge',
+  'badge-gray-color-dot-bg',
+  $badge-gray-color-dot-bg
+);

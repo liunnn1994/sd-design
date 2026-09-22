@@ -1,3 +1,12 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 $copy-border-radius: global.$border-radius-small;
+
+// @generated runtime tokens — pnpm theme:generate
+$copy-border-radius: theme-runtime.token(
+  'copy',
+  'copy-border-radius',
+  $copy-border-radius,
+  'border-radius-small'
+);

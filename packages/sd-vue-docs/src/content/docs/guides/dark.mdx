@@ -51,4 +51,20 @@ document.body.removeAttribute('sd-theme');
 
 ## 原理和内置颜色
 
+### 基础色与模式保持一致
+
+`theme-mode` 的优先级高于 `theme.algorithm`；未指定模式时继承祖先主题。`compact` 只调整尺寸，不会将暗色改回浅色。`seed` 色板按最终生效的模式重新派生，局部浮层也同步更新。
+
+```vue
+<sd-config-provider theme-mode="dark" :theme="{ seed: { primary: '#1476ff' } }">
+  <sd-config-provider :theme="{ algorithm: ['compact'] }">
+    <sd-button type="primary">继承暗色的紧凑按钮</sd-button>
+  </sd-config-provider>
+</sd-config-provider>
+```
+
+背景、填充、边框与文字使用对应的语义 token（如 `--sd-color-bg-2`、`--sd-color-fill-2`、`--sd-color-text-1`）。不要把浅色模式解析后的颜色批量写入 `tokens`：显式 `tokens` / `components` 是用户覆盖，切换模式时不会自动删除或反转它们。如果导入旧主题后仍有白底，请在编辑器高级模式中重置相应覆盖，或重新选择内置预设。
+
+主题编辑器的内置预设只保存基础色、尺寸和算法，背景与中性色由库的明暗语义层提供，因此可以双向切换而不残留另一模式的颜色。
+
 可参考 [暗黑模式](https://arco.design/react/docs/palette) 和 [颜色](https://arco.design/react/docs/palette)

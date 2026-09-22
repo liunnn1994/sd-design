@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 @use 'sass:string';
 
@@ -25,3 +26,62 @@ $selectable-card-size-large-gap: global.$spacing-6;
 $selectable-card-size-small-value: global.$font-size-body-3;
 $selectable-card-size-medium-value: global.$font-size-title-1;
 $selectable-card-size-large-value: global.$font-size-title-2;
+
+// @generated runtime tokens — pnpm theme:generate
+$selectable-card-color-bg: theme-runtime.token(
+  'selectable-card',
+  'selectable-card-color-bg',
+  $selectable-card-color-bg
+);
+$selectable-card-color-border: theme-runtime.token(
+  'selectable-card',
+  'selectable-card-color-border',
+  $selectable-card-color-border
+);
+$selectable-card-color-title: theme-runtime.token(
+  'selectable-card',
+  'selectable-card-color-title',
+  $selectable-card-color-title
+);
+$selectable-card-color-value: theme-runtime.token(
+  'selectable-card',
+  'selectable-card-color-value',
+  $selectable-card-color-value
+);
+$selectable-card-color-description: theme-runtime.token(
+  'selectable-card',
+  'selectable-card-color-description',
+  $selectable-card-color-description
+);
+$selectable-card-color-focus: theme-runtime.token(
+  'selectable-card',
+  'selectable-card-color-focus',
+  $selectable-card-color-focus,
+  'color-primary-6'
+);
+$selectable-card-border-width: theme-runtime.token(
+  'selectable-card',
+  'selectable-card-border-width',
+  $selectable-card-border-width,
+  'border-1'
+);
+$selectable-card-border-radius: theme-runtime.token(
+  'selectable-card',
+  'selectable-card-border-radius',
+  $selectable-card-border-radius
+);
+$selectable-card-disabled-opacity: theme-runtime.token(
+  'selectable-card',
+  'selectable-card-disabled-opacity',
+  $selectable-card-disabled-opacity
+);
+$selectable-card-overlay-hover: theme-runtime.token(
+  'selectable-card',
+  'selectable-card-overlay-hover',
+  $selectable-card-overlay-hover
+);
+$selectable-card-overlay-active: theme-runtime.token(
+  'selectable-card',
+  'selectable-card-overlay-active',
+  $selectable-card-overlay-active
+);

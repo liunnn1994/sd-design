@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 @use 'sass:string';
 
@@ -42,3 +43,157 @@ $sender-box-shadow:
 $sender-motion-duration: global.$transition-duration-3;
 $sender-motion-duration-fast: global.$transition-duration-2;
 $sender-motion-easing: global.$transition-timing-function-standard;
+
+// @generated runtime tokens — pnpm theme:generate
+$sender-font-size: theme-runtime.token(
+  'sender',
+  'sender-font-size',
+  $sender-font-size,
+  'font-size-body-3'
+);
+$sender-line-height: theme-runtime.token('sender', 'sender-line-height', $sender-line-height);
+$sender-border-width: theme-runtime.token(
+  'sender',
+  'sender-border-width',
+  $sender-border-width,
+  'border-1'
+);
+$sender-border-radius: theme-runtime.token('sender', 'sender-border-radius', $sender-border-radius);
+$sender-slot-border-radius: theme-runtime.token(
+  'sender',
+  'sender-slot-border-radius',
+  $sender-slot-border-radius
+);
+$sender-control-height: theme-runtime.token(
+  'sender',
+  'sender-control-height',
+  $sender-control-height,
+  'size-default'
+);
+$sender-padding-inline: theme-runtime.token(
+  'sender',
+  'sender-padding-inline',
+  $sender-padding-inline,
+  'spacing-6'
+);
+$sender-content-gap: theme-runtime.token(
+  'sender',
+  'sender-content-gap',
+  $sender-content-gap,
+  'spacing-4'
+);
+$sender-footer-padding-top: theme-runtime.token(
+  'sender',
+  'sender-footer-padding-top',
+  $sender-footer-padding-top,
+  'spacing-2'
+);
+$sender-slot-gap: theme-runtime.token('sender', 'sender-slot-gap', $sender-slot-gap, 'spacing-2');
+$sender-skill-padding-inline: theme-runtime.token(
+  'sender',
+  'sender-skill-padding-inline',
+  $sender-skill-padding-inline,
+  'spacing-4'
+);
+$sender-skill-holder-width: theme-runtime.token(
+  'sender',
+  'sender-skill-holder-width',
+  $sender-skill-holder-width,
+  'spacing-5'
+);
+$sender-color-primary: theme-runtime.token(
+  'sender',
+  'sender-color-primary',
+  $sender-color-primary,
+  'color-primary-6'
+);
+$sender-color-primary-hover: theme-runtime.token(
+  'sender',
+  'sender-color-primary-hover',
+  $sender-color-primary-hover,
+  'color-primary-5'
+);
+$sender-color-text: theme-runtime.token(
+  'sender',
+  'sender-color-text',
+  $sender-color-text,
+  'color-text-1'
+);
+$sender-color-text-disabled: theme-runtime.token(
+  'sender',
+  'sender-color-text-disabled',
+  $sender-color-text-disabled,
+  'color-text-4'
+);
+$sender-color-text-placeholder: theme-runtime.token(
+  'sender',
+  'sender-color-text-placeholder',
+  $sender-color-text-placeholder,
+  'color-text-4'
+);
+$sender-color-bg: theme-runtime.token('sender', 'sender-color-bg', $sender-color-bg);
+$sender-color-bg-disabled: theme-runtime.token(
+  'sender',
+  'sender-color-bg-disabled',
+  $sender-color-bg-disabled,
+  'color-fill-2'
+);
+$sender-color-header-bg: theme-runtime.token(
+  'sender',
+  'sender-color-header-bg',
+  $sender-color-header-bg,
+  'color-fill-2'
+);
+$sender-color-border: theme-runtime.token(
+  'sender',
+  'sender-color-border',
+  $sender-color-border,
+  'color-border-2'
+);
+$sender-color-border-input: theme-runtime.token(
+  'sender',
+  'sender-color-border-input',
+  $sender-color-border-input
+);
+$sender-color-bg-skill: theme-runtime.token(
+  'sender',
+  'sender-color-bg-skill',
+  $sender-color-bg-skill
+);
+$sender-color-bg-skill-hover: theme-runtime.token(
+  'sender',
+  'sender-color-bg-skill-hover',
+  $sender-color-bg-skill-hover
+);
+$sender-color-bg-actions-disabled: theme-runtime.token(
+  'sender',
+  'sender-color-bg-actions-disabled',
+  $sender-color-bg-actions-disabled
+);
+$sender-switch-checked-bg: theme-runtime.token(
+  'sender',
+  'sender-switch-checked-bg',
+  $sender-switch-checked-bg
+);
+$sender-switch-checked-hover-bg: theme-runtime.token(
+  'sender',
+  'sender-switch-checked-hover-bg',
+  $sender-switch-checked-hover-bg
+);
+$sender-switch-unchecked-hover-bg: theme-runtime.token(
+  'sender',
+  'sender-switch-unchecked-hover-bg',
+  $sender-switch-unchecked-hover-bg
+);
+$sender-box-shadow: theme-runtime.token('sender', 'sender-box-shadow', $sender-box-shadow);
+$sender-motion-duration: theme-runtime.token(
+  'sender',
+  'sender-motion-duration',
+  $sender-motion-duration
+);
+$sender-motion-duration-fast: theme-runtime.token(
+  'sender',
+  'sender-motion-duration-fast',
+  $sender-motion-duration-fast
+);
+$sender-motion-easing: theme-runtime.token('sender', 'sender-motion-easing', $sender-motion-easing);

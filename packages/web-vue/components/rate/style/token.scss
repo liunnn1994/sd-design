@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -22,3 +23,21 @@ $rate-color-bg_active: rgb(var(string.unquote('#{global.$sd-cssvars-prefix}-gold
 $rate-color-bg_default: var(string.unquote('#{global.$sd-cssvars-prefix}-color-fill-3'));
 
 $rate-color-bg_hover: rgb(var(string.unquote('#{global.$sd-cssvars-prefix}-gold-5')));
+
+// @generated runtime tokens — pnpm theme:generate
+$rate-min-height: theme-runtime.token('rate', 'rate-min-height', $rate-min-height, 'size-default');
+$rate-gap-size: theme-runtime.token('rate', 'rate-gap-size', $rate-gap-size, 'spacing-4');
+$rate-font-size: theme-runtime.token(
+  'rate',
+  'rate-font-size',
+  $rate-font-size,
+  'font-size-title-3'
+);
+$rate-scale_active: theme-runtime.token('rate', 'rate-scale-active', $rate-scale_active);
+$rate-color-bg_active: theme-runtime.token('rate', 'rate-color-bg-active', $rate-color-bg_active);
+$rate-color-bg_default: theme-runtime.token(
+  'rate',
+  'rate-color-bg-default',
+  $rate-color-bg_default
+);
+$rate-color-bg_hover: theme-runtime.token('rate', 'rate-color-bg-hover', $rate-color-bg_hover);

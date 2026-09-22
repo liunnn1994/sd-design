@@ -10,7 +10,7 @@
 colors.$sd-vars-prefix: string.unquote('sd');
 colors.$sd-cssvars-prefix: string.unquote('--sd');
 
-$sd-theme-tag: ':where(body, [sd-theme])';
+$sd-theme-tag: ':where(body, [sd-theme], [data-sd-theme])';
 $sd-vars-prefix: string.unquote('sd');
 $sd-cssvars-prefix: string.unquote('--sd');
 

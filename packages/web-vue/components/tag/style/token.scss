@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -179,3 +180,515 @@ $tag-gray-color-text: rgb(var(string.unquote('#{global.$sd-cssvars-prefix}-gray-
 // vue overwrite token
 $tag-size-medium: $tag-size-default;
 $tag-size-medium-font-size: $tag-size-default-font-size;
+
+// @generated runtime tokens — pnpm theme:generate
+$tag-border-type: theme-runtime.token('tag', 'tag-border-type', $tag-border-type);
+$tag-padding-horizontal: theme-runtime.token(
+  'tag',
+  'tag-padding-horizontal',
+  $tag-padding-horizontal
+);
+$tag-icon-margin-right: theme-runtime.token(
+  'tag',
+  'tag-icon-margin-right',
+  $tag-icon-margin-right,
+  'spacing-2'
+);
+$tag-text-font-weight: theme-runtime.token(
+  'tag',
+  'tag-text-font-weight',
+  $tag-text-font-weight,
+  'font-weight-500'
+);
+$tag-border-radius: theme-runtime.token('tag', 'tag-border-radius', $tag-border-radius);
+$tag-size-small-font-size: theme-runtime.token(
+  'tag',
+  'tag-size-small-font-size',
+  $tag-size-small-font-size
+);
+$tag-size-default-font-size: theme-runtime.token(
+  'tag',
+  'tag-size-default-font-size',
+  $tag-size-default-font-size
+);
+$tag-size-medium-font-size: theme-runtime.token(
+  'tag',
+  'tag-size-medium-font-size',
+  $tag-size-medium-font-size
+);
+$tag-size-large-font-size: theme-runtime.token(
+  'tag',
+  'tag-size-large-font-size',
+  $tag-size-large-font-size
+);
+$tag-color-bg-not-checked_hover: theme-runtime.token(
+  'tag',
+  'tag-color-bg-not-checked-hover',
+  $tag-color-bg-not-checked_hover
+);
+$tag-custom-color-text: theme-runtime.token('tag', 'tag-custom-color-text', $tag-custom-color-text);
+$tag-custom-color-icon-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-custom-color-icon-bg-hover',
+  $tag-custom-color-icon-bg_hover
+);
+$tag-default-color-bg: theme-runtime.token('tag', 'tag-default-color-bg', $tag-default-color-bg);
+$tag-default-color-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-default-color-bg-hover',
+  $tag-default-color-bg_hover
+);
+$tag-default-color-icon: theme-runtime.token(
+  'tag',
+  'tag-default-color-icon',
+  $tag-default-color-icon
+);
+$tag-default-color-text: theme-runtime.token(
+  'tag',
+  'tag-default-color-text',
+  $tag-default-color-text
+);
+$tag-default-color-border: theme-runtime.token(
+  'tag',
+  'tag-default-color-border',
+  $tag-default-color-border,
+  'color-transparent'
+);
+$tag-default-bordered-color-border: theme-runtime.token(
+  'tag',
+  'tag-default-bordered-color-border',
+  $tag-default-bordered-color-border
+);
+$tag-default-color-border_hover: theme-runtime.token(
+  'tag',
+  'tag-default-color-border-hover',
+  $tag-default-color-border_hover,
+  'color-transparent'
+);
+$tag-red-color-bg: theme-runtime.token('tag', 'tag-red-color-bg', $tag-red-color-bg);
+$tag-red-color-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-red-color-bg-hover',
+  $tag-red-color-bg_hover
+);
+$tag-red-color-border: theme-runtime.token(
+  'tag',
+  'tag-red-color-border',
+  $tag-red-color-border,
+  'color-transparent'
+);
+$tag-red-bordered-color-border: theme-runtime.token(
+  'tag',
+  'tag-red-bordered-color-border',
+  $tag-red-bordered-color-border
+);
+$tag-red-color-border_hover: theme-runtime.token(
+  'tag',
+  'tag-red-color-border-hover',
+  $tag-red-color-border_hover,
+  'color-transparent'
+);
+$tag-red-color-icon: theme-runtime.token('tag', 'tag-red-color-icon', $tag-red-color-icon);
+$tag-red-color-icon-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-red-color-icon-bg-hover',
+  $tag-red-color-icon-bg_hover
+);
+$tag-red-color-text: theme-runtime.token('tag', 'tag-red-color-text', $tag-red-color-text);
+$tag-orangered-color-bg: theme-runtime.token(
+  'tag',
+  'tag-orangered-color-bg',
+  $tag-orangered-color-bg
+);
+$tag-orangered-color-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-orangered-color-bg-hover',
+  $tag-orangered-color-bg_hover
+);
+$tag-orangered-color-border: theme-runtime.token(
+  'tag',
+  'tag-orangered-color-border',
+  $tag-orangered-color-border,
+  'color-transparent'
+);
+$tag-orangered-bordered-color-border: theme-runtime.token(
+  'tag',
+  'tag-orangered-bordered-color-border',
+  $tag-orangered-bordered-color-border
+);
+$tag-orangered-color-border_hover: theme-runtime.token(
+  'tag',
+  'tag-orangered-color-border-hover',
+  $tag-orangered-color-border_hover,
+  'color-transparent'
+);
+$tag-orangered-color-icon: theme-runtime.token(
+  'tag',
+  'tag-orangered-color-icon',
+  $tag-orangered-color-icon
+);
+$tag-orangered-color-icon-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-orangered-color-icon-bg-hover',
+  $tag-orangered-color-icon-bg_hover
+);
+$tag-orangered-color-text: theme-runtime.token(
+  'tag',
+  'tag-orangered-color-text',
+  $tag-orangered-color-text
+);
+$tag-orange-color-bg: theme-runtime.token('tag', 'tag-orange-color-bg', $tag-orange-color-bg);
+$tag-orange-color-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-orange-color-bg-hover',
+  $tag-orange-color-bg_hover
+);
+$tag-orange-color-border: theme-runtime.token(
+  'tag',
+  'tag-orange-color-border',
+  $tag-orange-color-border,
+  'color-transparent'
+);
+$tag-orange-bordered-color-border: theme-runtime.token(
+  'tag',
+  'tag-orange-bordered-color-border',
+  $tag-orange-bordered-color-border
+);
+$tag-orange-color-border_hover: theme-runtime.token(
+  'tag',
+  'tag-orange-color-border-hover',
+  $tag-orange-color-border_hover,
+  'color-transparent'
+);
+$tag-orange-color-icon: theme-runtime.token('tag', 'tag-orange-color-icon', $tag-orange-color-icon);
+$tag-orange-color-icon-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-orange-color-icon-bg-hover',
+  $tag-orange-color-icon-bg_hover
+);
+$tag-orange-color-text: theme-runtime.token('tag', 'tag-orange-color-text', $tag-orange-color-text);
+$tag-gold-color-bg: theme-runtime.token('tag', 'tag-gold-color-bg', $tag-gold-color-bg);
+$tag-gold-color-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-gold-color-bg-hover',
+  $tag-gold-color-bg_hover
+);
+$tag-gold-color-border: theme-runtime.token(
+  'tag',
+  'tag-gold-color-border',
+  $tag-gold-color-border,
+  'color-transparent'
+);
+$tag-gold-bordered-color-border: theme-runtime.token(
+  'tag',
+  'tag-gold-bordered-color-border',
+  $tag-gold-bordered-color-border
+);
+$tag-gold-color-border_hover: theme-runtime.token(
+  'tag',
+  'tag-gold-color-border-hover',
+  $tag-gold-color-border_hover,
+  'color-transparent'
+);
+$tag-gold-color-icon: theme-runtime.token('tag', 'tag-gold-color-icon', $tag-gold-color-icon);
+$tag-gold-color-icon-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-gold-color-icon-bg-hover',
+  $tag-gold-color-icon-bg_hover
+);
+$tag-gold-color-text: theme-runtime.token('tag', 'tag-gold-color-text', $tag-gold-color-text);
+$tag-lime-color-bg: theme-runtime.token('tag', 'tag-lime-color-bg', $tag-lime-color-bg);
+$tag-lime-color-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-lime-color-bg-hover',
+  $tag-lime-color-bg_hover
+);
+$tag-lime-color-border: theme-runtime.token(
+  'tag',
+  'tag-lime-color-border',
+  $tag-lime-color-border,
+  'color-transparent'
+);
+$tag-lime-bordered-color-border: theme-runtime.token(
+  'tag',
+  'tag-lime-bordered-color-border',
+  $tag-lime-bordered-color-border
+);
+$tag-lime-color-border_hover: theme-runtime.token(
+  'tag',
+  'tag-lime-color-border-hover',
+  $tag-lime-color-border_hover,
+  'color-transparent'
+);
+$tag-lime-color-icon: theme-runtime.token('tag', 'tag-lime-color-icon', $tag-lime-color-icon);
+$tag-lime-color-icon-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-lime-color-icon-bg-hover',
+  $tag-lime-color-icon-bg_hover
+);
+$tag-lime-color-text: theme-runtime.token('tag', 'tag-lime-color-text', $tag-lime-color-text);
+$tag-green-color-bg: theme-runtime.token('tag', 'tag-green-color-bg', $tag-green-color-bg);
+$tag-green-color-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-green-color-bg-hover',
+  $tag-green-color-bg_hover
+);
+$tag-green-color-border: theme-runtime.token(
+  'tag',
+  'tag-green-color-border',
+  $tag-green-color-border,
+  'color-transparent'
+);
+$tag-green-bordered-color-border: theme-runtime.token(
+  'tag',
+  'tag-green-bordered-color-border',
+  $tag-green-bordered-color-border
+);
+$tag-green-color-border_hover: theme-runtime.token(
+  'tag',
+  'tag-green-color-border-hover',
+  $tag-green-color-border_hover,
+  'color-transparent'
+);
+$tag-green-color-icon: theme-runtime.token('tag', 'tag-green-color-icon', $tag-green-color-icon);
+$tag-green-color-icon-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-green-color-icon-bg-hover',
+  $tag-green-color-icon-bg_hover
+);
+$tag-green-color-text: theme-runtime.token('tag', 'tag-green-color-text', $tag-green-color-text);
+$tag-cyan-color-bg: theme-runtime.token('tag', 'tag-cyan-color-bg', $tag-cyan-color-bg);
+$tag-cyan-color-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-cyan-color-bg-hover',
+  $tag-cyan-color-bg_hover
+);
+$tag-cyan-color-border: theme-runtime.token(
+  'tag',
+  'tag-cyan-color-border',
+  $tag-cyan-color-border,
+  'color-transparent'
+);
+$tag-cyan-bordered-color-border: theme-runtime.token(
+  'tag',
+  'tag-cyan-bordered-color-border',
+  $tag-cyan-bordered-color-border
+);
+$tag-cyan-color-border_hover: theme-runtime.token(
+  'tag',
+  'tag-cyan-color-border-hover',
+  $tag-cyan-color-border_hover,
+  'color-transparent'
+);
+$tag-cyan-color-icon: theme-runtime.token('tag', 'tag-cyan-color-icon', $tag-cyan-color-icon);
+$tag-cyan-color-icon-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-cyan-color-icon-bg-hover',
+  $tag-cyan-color-icon-bg_hover
+);
+$tag-cyan-color-text: theme-runtime.token('tag', 'tag-cyan-color-text', $tag-cyan-color-text);
+$tag-blue-color-bg: theme-runtime.token('tag', 'tag-blue-color-bg', $tag-blue-color-bg);
+$tag-blue-color-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-blue-color-bg-hover',
+  $tag-blue-color-bg_hover
+);
+$tag-blue-color-border: theme-runtime.token(
+  'tag',
+  'tag-blue-color-border',
+  $tag-blue-color-border,
+  'color-transparent'
+);
+$tag-blue-bordered-color-border: theme-runtime.token(
+  'tag',
+  'tag-blue-bordered-color-border',
+  $tag-blue-bordered-color-border
+);
+$tag-blue-color-border_hover: theme-runtime.token(
+  'tag',
+  'tag-blue-color-border-hover',
+  $tag-blue-color-border_hover,
+  'color-transparent'
+);
+$tag-blue-color-icon: theme-runtime.token('tag', 'tag-blue-color-icon', $tag-blue-color-icon);
+$tag-blue-color-icon-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-blue-color-icon-bg-hover',
+  $tag-blue-color-icon-bg_hover
+);
+$tag-blue-color-text: theme-runtime.token('tag', 'tag-blue-color-text', $tag-blue-color-text);
+$tag-sdblue-color-bg: theme-runtime.token('tag', 'tag-sdblue-color-bg', $tag-sdblue-color-bg);
+$tag-sdblue-color-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-sdblue-color-bg-hover',
+  $tag-sdblue-color-bg_hover
+);
+$tag-sdblue-color-border: theme-runtime.token(
+  'tag',
+  'tag-sdblue-color-border',
+  $tag-sdblue-color-border,
+  'color-transparent'
+);
+$tag-sdblue-bordered-color-border: theme-runtime.token(
+  'tag',
+  'tag-sdblue-bordered-color-border',
+  $tag-sdblue-bordered-color-border
+);
+$tag-sdblue-color-border_hover: theme-runtime.token(
+  'tag',
+  'tag-sdblue-color-border-hover',
+  $tag-sdblue-color-border_hover,
+  'color-transparent'
+);
+$tag-sdblue-color-icon: theme-runtime.token('tag', 'tag-sdblue-color-icon', $tag-sdblue-color-icon);
+$tag-sdblue-color-icon-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-sdblue-color-icon-bg-hover',
+  $tag-sdblue-color-icon-bg_hover
+);
+$tag-sdblue-color-text: theme-runtime.token('tag', 'tag-sdblue-color-text', $tag-sdblue-color-text);
+$tag-purple-color-bg: theme-runtime.token('tag', 'tag-purple-color-bg', $tag-purple-color-bg);
+$tag-purple-color-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-purple-color-bg-hover',
+  $tag-purple-color-bg_hover
+);
+$tag-purple-color-border: theme-runtime.token(
+  'tag',
+  'tag-purple-color-border',
+  $tag-purple-color-border,
+  'color-transparent'
+);
+$tag-purple-bordered-color-border: theme-runtime.token(
+  'tag',
+  'tag-purple-bordered-color-border',
+  $tag-purple-bordered-color-border
+);
+$tag-purple-color-border_hover: theme-runtime.token(
+  'tag',
+  'tag-purple-color-border-hover',
+  $tag-purple-color-border_hover,
+  'color-transparent'
+);
+$tag-purple-color-icon: theme-runtime.token('tag', 'tag-purple-color-icon', $tag-purple-color-icon);
+$tag-purple-color-icon-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-purple-color-icon-bg-hover',
+  $tag-purple-color-icon-bg_hover
+);
+$tag-purple-color-text: theme-runtime.token('tag', 'tag-purple-color-text', $tag-purple-color-text);
+$tag-pinkpurple-color-bg: theme-runtime.token(
+  'tag',
+  'tag-pinkpurple-color-bg',
+  $tag-pinkpurple-color-bg
+);
+$tag-pinkpurple-color-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-pinkpurple-color-bg-hover',
+  $tag-pinkpurple-color-bg_hover
+);
+$tag-pinkpurple-color-border: theme-runtime.token(
+  'tag',
+  'tag-pinkpurple-color-border',
+  $tag-pinkpurple-color-border,
+  'color-transparent'
+);
+$tag-pinkpurple-bordered-color-border: theme-runtime.token(
+  'tag',
+  'tag-pinkpurple-bordered-color-border',
+  $tag-pinkpurple-bordered-color-border
+);
+$tag-pinkpurple-color-border_hover: theme-runtime.token(
+  'tag',
+  'tag-pinkpurple-color-border-hover',
+  $tag-pinkpurple-color-border_hover,
+  'color-transparent'
+);
+$tag-pinkpurple-color-icon: theme-runtime.token(
+  'tag',
+  'tag-pinkpurple-color-icon',
+  $tag-pinkpurple-color-icon
+);
+$tag-pinkpurple-color-icon-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-pinkpurple-color-icon-bg-hover',
+  $tag-pinkpurple-color-icon-bg_hover
+);
+$tag-pinkpurple-color-text: theme-runtime.token(
+  'tag',
+  'tag-pinkpurple-color-text',
+  $tag-pinkpurple-color-text
+);
+$tag-magenta-color-bg: theme-runtime.token('tag', 'tag-magenta-color-bg', $tag-magenta-color-bg);
+$tag-magenta-color-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-magenta-color-bg-hover',
+  $tag-magenta-color-bg_hover
+);
+$tag-magenta-color-border: theme-runtime.token(
+  'tag',
+  'tag-magenta-color-border',
+  $tag-magenta-color-border,
+  'color-transparent'
+);
+$tag-magenta-bordered-color-border: theme-runtime.token(
+  'tag',
+  'tag-magenta-bordered-color-border',
+  $tag-magenta-bordered-color-border
+);
+$tag-magenta-color-border_hover: theme-runtime.token(
+  'tag',
+  'tag-magenta-color-border-hover',
+  $tag-magenta-color-border_hover,
+  'color-transparent'
+);
+$tag-magenta-color-icon: theme-runtime.token(
+  'tag',
+  'tag-magenta-color-icon',
+  $tag-magenta-color-icon
+);
+$tag-magenta-color-icon-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-magenta-color-icon-bg-hover',
+  $tag-magenta-color-icon-bg_hover
+);
+$tag-magenta-color-text: theme-runtime.token(
+  'tag',
+  'tag-magenta-color-text',
+  $tag-magenta-color-text
+);
+$tag-gray-color-bg: theme-runtime.token('tag', 'tag-gray-color-bg', $tag-gray-color-bg);
+$tag-gray-color-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-gray-color-bg-hover',
+  $tag-gray-color-bg_hover
+);
+$tag-gray-color-border: theme-runtime.token(
+  'tag',
+  'tag-gray-color-border',
+  $tag-gray-color-border,
+  'color-transparent'
+);
+$tag-gray-bordered-color-border: theme-runtime.token(
+  'tag',
+  'tag-gray-bordered-color-border',
+  $tag-gray-bordered-color-border
+);
+$tag-gray-color-border_hover: theme-runtime.token(
+  'tag',
+  'tag-gray-color-border-hover',
+  $tag-gray-color-border_hover,
+  'color-transparent'
+);
+$tag-gray-color-icon: theme-runtime.token('tag', 'tag-gray-color-icon', $tag-gray-color-icon);
+$tag-gray-color-icon-bg_hover: theme-runtime.token(
+  'tag',
+  'tag-gray-color-icon-bg-hover',
+  $tag-gray-color-icon-bg_hover
+);
+$tag-gray-color-text: theme-runtime.token('tag', 'tag-gray-color-text', $tag-gray-color-text);
+$tag-size-medium-font-size: theme-runtime.token(
+  'tag',
+  'tag-size-medium-font-size',
+  $tag-size-default-font-size
+);

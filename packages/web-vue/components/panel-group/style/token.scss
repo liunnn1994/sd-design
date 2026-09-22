@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 // PanelGroup / Panel / PanelSeparator 样式 token。
 @use '@style/theme/index.scss' as global;
 @use 'sass:string';
@@ -14,3 +15,30 @@ $panel-separator-hit-size: 14px;
 // 聚焦环
 $panel-separator-focus-ring: 0 0 0 3px
   var(string.unquote('#{global.$sd-cssvars-prefix}-color-primary-light-2'));
+
+// @generated runtime tokens — pnpm theme:generate
+$panel-separator-trigger-size: theme-runtime.token(
+  'panel-group',
+  'panel-separator-trigger-size',
+  $panel-separator-trigger-size
+);
+$panel-separator-color-background: theme-runtime.token(
+  'panel-group',
+  'panel-separator-color-background',
+  $panel-separator-color-background
+);
+$panel-separator-color-icon: theme-runtime.token(
+  'panel-group',
+  'panel-separator-color-icon',
+  $panel-separator-color-icon
+);
+$panel-separator-hit-size: theme-runtime.token(
+  'panel-group',
+  'panel-separator-hit-size',
+  $panel-separator-hit-size
+);
+$panel-separator-focus-ring: theme-runtime.token(
+  'panel-group',
+  'panel-separator-focus-ring',
+  $panel-separator-focus-ring
+);

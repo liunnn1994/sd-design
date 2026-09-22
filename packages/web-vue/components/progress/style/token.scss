@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -117,3 +118,255 @@ $progress-circle-color-path-stroke_warning: $color-warning-6;
 $progress-circle-color-icon_warning: $color-warning-6;
 
 $progress-steps-color-item-bg_warning: $color-warning-6;
+
+// @generated runtime tokens — pnpm theme:generate
+$progress-line-color-line-bg: theme-runtime.token(
+  'progress',
+  'progress-line-color-line-bg',
+  $progress-line-color-line-bg
+);
+$progress-line-color-inner-bg: theme-runtime.token(
+  'progress',
+  'progress-line-color-inner-bg',
+  $color-primary-6
+);
+$progress-line-color-inner-bg_success: theme-runtime.token(
+  'progress',
+  'progress-line-color-inner-bg-success',
+  $color-success-6
+);
+$progress-line-color-inner-bg_error: theme-runtime.token(
+  'progress',
+  'progress-line-color-inner-bg-error',
+  $color-danger-6
+);
+$progress-line-color-buffer-bg: theme-runtime.token(
+  'progress',
+  'progress-line-color-buffer-bg',
+  $progress-line-color-buffer-bg
+);
+$progress-line-size-large-font-size: theme-runtime.token(
+  'progress',
+  'progress-line-size-large-font-size',
+  $progress-line-size-large-font-size
+);
+$progress-line-size-small-font-size: theme-runtime.token(
+  'progress',
+  'progress-line-size-small-font-size',
+  $font-size-body-1
+);
+$progress-line-size-default-font-size: theme-runtime.token(
+  'progress',
+  'progress-line-size-default-font-size',
+  $font-size-body-1
+);
+$progress-line-size-large-margin-text-left: theme-runtime.token(
+  'progress',
+  'progress-line-size-large-margin-text-left',
+  $spacing-7
+);
+$progress-line-size-small-margin-text-left: theme-runtime.token(
+  'progress',
+  'progress-line-size-small-margin-text-left',
+  $spacing-7
+);
+$progress-line-color-icon_success: theme-runtime.token(
+  'progress',
+  'progress-line-color-icon-success',
+  $color-success-6
+);
+$progress-line-color-icon_error: theme-runtime.token(
+  'progress',
+  'progress-line-color-icon-error',
+  $color-danger-6
+);
+$progress-line-margin-text-left: theme-runtime.token(
+  'progress',
+  'progress-line-margin-text-left',
+  $spacing-7
+);
+$progress-line-margin-icon-left: theme-runtime.token(
+  'progress',
+  'progress-line-margin-icon-left',
+  $spacing-2
+);
+$progress-line-color-text: theme-runtime.token(
+  'progress',
+  'progress-line-color-text',
+  $progress-line-color-text
+);
+$progress-line-color-icon_normal: theme-runtime.token(
+  'progress',
+  'progress-line-color-icon-normal',
+  $progress-line-color-icon_normal
+);
+$progress-line-size-text-width: theme-runtime.token(
+  'progress',
+  'progress-line-size-text-width',
+  $size-8
+);
+$progress-line-size-default-icon-size: theme-runtime.token(
+  'progress',
+  'progress-line-size-default-icon-size',
+  $progress-line-size-default-icon-size
+);
+$progress-line-size-small-icon-size: theme-runtime.token(
+  'progress',
+  'progress-line-size-small-icon-size',
+  $progress-line-size-small-icon-size
+);
+$progress-line-size-large-icon-size: theme-runtime.token(
+  'progress',
+  'progress-line-size-large-icon-size',
+  $progress-line-size-large-icon-size
+);
+$progress-circle-size-small-font-size: theme-runtime.token(
+  'progress',
+  'progress-circle-size-small-font-size',
+  $font-size-body-2
+);
+$progress-circle-size-default-font-size: theme-runtime.token(
+  'progress',
+  'progress-circle-size-default-font-size',
+  $font-size-body-3
+);
+$progress-circle-size-large-font-size: theme-runtime.token(
+  'progress',
+  'progress-circle-size-large-font-size',
+  $progress-circle-size-large-font-size
+);
+$progress-circle-size-small-icon-size: theme-runtime.token(
+  'progress',
+  'progress-circle-size-small-icon-size',
+  $progress-circle-size-small-icon-size
+);
+$progress-circle-size-default-icon-size: theme-runtime.token(
+  'progress',
+  'progress-circle-size-default-icon-size',
+  $size-4
+);
+$progress-circle-size-large-icon-size: theme-runtime.token(
+  'progress',
+  'progress-circle-size-large-icon-size',
+  $size-4
+);
+$progress-circle-color-text: theme-runtime.token(
+  'progress',
+  'progress-circle-color-text',
+  $progress-circle-color-text
+);
+$progress-circle-color-mask-stroke: theme-runtime.token(
+  'progress',
+  'progress-circle-color-mask-stroke',
+  $progress-circle-color-mask-stroke
+);
+$progress-circle-size-mini-color-mask-stroke: theme-runtime.token(
+  'progress',
+  'progress-circle-size-mini-color-mask-stroke',
+  $progress-circle-size-mini-color-mask-stroke
+);
+$progress-circle-size-mini-color-mask-stroke_success: theme-runtime.token(
+  'progress',
+  'progress-circle-size-mini-color-mask-stroke-success',
+  $progress-circle-size-mini-color-mask-stroke_success
+);
+$progress-circle-size-mini-color-mask-stroke_error: theme-runtime.token(
+  'progress',
+  'progress-circle-size-mini-color-mask-stroke-error',
+  $progress-circle-size-mini-color-mask-stroke_error
+);
+$progress-circle-color-path-stroke: theme-runtime.token(
+  'progress',
+  'progress-circle-color-path-stroke',
+  $color-primary-6
+);
+$progress-circle-color-path-stroke_success: theme-runtime.token(
+  'progress',
+  'progress-circle-color-path-stroke-success',
+  $color-success-6
+);
+$progress-circle-color-path-stroke_error: theme-runtime.token(
+  'progress',
+  'progress-circle-color-path-stroke-error',
+  $color-danger-6
+);
+$progress-circle-color-icon_success: theme-runtime.token(
+  'progress',
+  'progress-circle-color-icon-success',
+  $color-success-6
+);
+$progress-circle-color-icon_error: theme-runtime.token(
+  'progress',
+  'progress-circle-color-icon-error',
+  $color-danger-6
+);
+$progress-steps-size-small-steps-item-width: theme-runtime.token(
+  'progress',
+  'progress-steps-size-small-steps-item-width',
+  $progress-steps-size-small-steps-item-width
+);
+$progress-steps-margin-steps-item-right: theme-runtime.token(
+  'progress',
+  'progress-steps-margin-steps-item-right',
+  $progress-steps-margin-steps-item-right
+);
+$progress-steps-margin-steps-item-right_small: theme-runtime.token(
+  'progress',
+  'progress-steps-margin-steps-item-right-small',
+  $progress-steps-margin-steps-item-right_small
+);
+$progress-steps-color-item-bg: theme-runtime.token(
+  'progress',
+  'progress-steps-color-item-bg',
+  $progress-steps-color-item-bg
+);
+$progress-steps-color-item-bg_normal: theme-runtime.token(
+  'progress',
+  'progress-steps-color-item-bg-normal',
+  $color-primary-6
+);
+$progress-steps-color-item-bg_success: theme-runtime.token(
+  'progress',
+  'progress-steps-color-item-bg-success',
+  $color-success-6
+);
+$progress-steps-color-item-bg_error: theme-runtime.token(
+  'progress',
+  'progress-steps-color-item-bg-error',
+  $color-danger-6
+);
+$progress-steps-margin-text-left: theme-runtime.token(
+  'progress',
+  'progress-steps-margin-text-left',
+  $spacing-4
+);
+$progress-line-color-inner-bg_warning: theme-runtime.token(
+  'progress',
+  'progress-line-color-inner-bg-warning',
+  $color-warning-6
+);
+$progress-line-color-icon_warning: theme-runtime.token(
+  'progress',
+  'progress-line-color-icon-warning',
+  $color-warning-6
+);
+$progress-circle-size-mini-color-mask-stroke_warning: theme-runtime.token(
+  'progress',
+  'progress-circle-size-mini-color-mask-stroke-warning',
+  $progress-circle-size-mini-color-mask-stroke_warning
+);
+$progress-circle-color-path-stroke_warning: theme-runtime.token(
+  'progress',
+  'progress-circle-color-path-stroke-warning',
+  $color-warning-6
+);
+$progress-circle-color-icon_warning: theme-runtime.token(
+  'progress',
+  'progress-circle-color-icon-warning',
+  $color-warning-6
+);
+$progress-steps-color-item-bg_warning: theme-runtime.token(
+  'progress',
+  'progress-steps-color-item-bg-warning',
+  $color-warning-6
+);

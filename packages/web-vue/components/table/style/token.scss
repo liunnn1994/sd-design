@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -140,3 +141,427 @@ $table-filters-icon-bg_hover: var(string.unquote('#{global.$sd-cssvars-prefix}-c
 
 // new
 $table-color-border_resizing: global.$color-primary-6;
+
+// @generated runtime tokens — pnpm theme:generate
+$table-size-default-padding-horizontal: theme-runtime.token(
+  'table',
+  'table-size-default-padding-horizontal',
+  $table-size-default-padding-horizontal,
+  'spacing-7'
+);
+$table-size-default-padding-vertical: theme-runtime.token(
+  'table',
+  'table-size-default-padding-vertical',
+  $table-size-default-padding-vertical
+);
+$table-size-middle-padding-horizontal: theme-runtime.token(
+  'table',
+  'table-size-middle-padding-horizontal',
+  $table-size-middle-padding-horizontal,
+  'spacing-7'
+);
+$table-size-middle-padding-vertical: theme-runtime.token(
+  'table',
+  'table-size-middle-padding-vertical',
+  $table-size-middle-padding-vertical
+);
+$table-size-small-padding-horizontal: theme-runtime.token(
+  'table',
+  'table-size-small-padding-horizontal',
+  $table-size-small-padding-horizontal,
+  'spacing-7'
+);
+$table-size-small-padding-vertical: theme-runtime.token(
+  'table',
+  'table-size-small-padding-vertical',
+  $table-size-small-padding-vertical
+);
+$table-size-mini-padding-horizontal: theme-runtime.token(
+  'table',
+  'table-size-mini-padding-horizontal',
+  $table-size-mini-padding-horizontal,
+  'spacing-7'
+);
+$table-size-mini-padding-vertical: theme-runtime.token(
+  'table',
+  'table-size-mini-padding-vertical',
+  $table-size-mini-padding-vertical
+);
+$table-size-default-font-size: theme-runtime.token(
+  'table',
+  'table-size-default-font-size',
+  $table-size-default-font-size,
+  'font-size-body-3'
+);
+$table-size-middle-font-size: theme-runtime.token(
+  'table',
+  'table-size-middle-font-size',
+  $table-size-middle-font-size,
+  'font-size-body-3'
+);
+$table-size-small-font-size: theme-runtime.token(
+  'table',
+  'table-size-small-font-size',
+  $table-size-small-font-size,
+  'font-size-body-3'
+);
+$table-size-mini-font-size: theme-runtime.token(
+  'table',
+  'table-size-mini-font-size',
+  $table-size-mini-font-size,
+  'font-size-body-1'
+);
+$table-size-default-font-header-size: theme-runtime.token(
+  'table',
+  'table-size-default-font-header-size',
+  $table-size-default-font-header-size,
+  'font-size-body-3'
+);
+$table-size-middle-font-header-size: theme-runtime.token(
+  'table',
+  'table-size-middle-font-header-size',
+  $table-size-middle-font-header-size,
+  'font-size-body-3'
+);
+$table-size-small-font-header-size: theme-runtime.token(
+  'table',
+  'table-size-small-font-header-size',
+  $table-size-small-font-header-size,
+  'font-size-body-3'
+);
+$table-size-mini-font-header-size: theme-runtime.token(
+  'table',
+  'table-size-mini-font-header-size',
+  $table-size-mini-font-header-size,
+  'font-size-body-1'
+);
+$table-border-style: theme-runtime.token('table', 'table-border-style', $table-border-style);
+$table-size-expand-button: theme-runtime.token(
+  'table',
+  'table-size-expand-button',
+  $table-size-expand-button
+);
+$table-spacing-expand-button-margin-right: theme-runtime.token(
+  'table',
+  'table-spacing-expand-button-margin-right',
+  $table-spacing-expand-button-margin-right,
+  'spacing-2'
+);
+$table-font-size-expand-button: theme-runtime.token(
+  'table',
+  'table-font-size-expand-button',
+  $table-font-size-expand-button
+);
+$table-border-radius-expand-button: theme-runtime.token(
+  'table',
+  'table-border-radius-expand-button',
+  $table-border-radius-expand-button
+);
+$table-border-radius: theme-runtime.token('table', 'table-border-radius', $table-border-radius);
+$table-color-text-header-cell: theme-runtime.token(
+  'table',
+  'table-color-text-header-cell',
+  $table-color-text-header-cell
+);
+$table-color-bg-header-cell: theme-runtime.token(
+  'table',
+  'table-color-bg-header-cell',
+  $table-color-bg-header-cell
+);
+$table-color-bg-header-sorted-cell: theme-runtime.token(
+  'table',
+  'table-color-bg-header-sorted-cell',
+  $table-color-bg-header-sorted-cell
+);
+$table-color-bg-header-sorted-cell_hover: theme-runtime.token(
+  'table',
+  'table-color-bg-header-sorted-cell-hover',
+  $table-color-bg-header-sorted-cell_hover
+);
+$table-color-header-filters-icon: theme-runtime.token(
+  'table',
+  'table-color-header-filters-icon',
+  $table-color-header-filters-icon
+);
+$table-color-header-filters-icon_active: theme-runtime.token(
+  'table',
+  'table-color-header-filters-icon-active',
+  $table-color-header-filters-icon_active,
+  'color-primary-6'
+);
+$table-color-bg-header-filters-icon_hover: theme-runtime.token(
+  'table',
+  'table-color-bg-header-filters-icon-hover',
+  $table-color-bg-header-filters-icon_hover
+);
+$table-font-size-filters-icon: theme-runtime.token(
+  'table',
+  'table-font-size-filters-icon',
+  $table-font-size-filters-icon
+);
+$table-size-filters-width: theme-runtime.token(
+  'table',
+  'table-size-filters-width',
+  $table-size-filters-width
+);
+$table-font-weight-header-text: theme-runtime.token(
+  'table',
+  'table-font-weight-header-text',
+  $table-font-weight-header-text,
+  'font-weight-500'
+);
+$table-color-text-body-cell: theme-runtime.token(
+  'table',
+  'table-color-text-body-cell',
+  $table-color-text-body-cell
+);
+$table-color-bg-body-cell: theme-runtime.token(
+  'table',
+  'table-color-bg-body-cell',
+  $table-color-bg-body-cell
+);
+$table-color-bg-body-sorted-cell: theme-runtime.token(
+  'table',
+  'table-color-bg-body-sorted-cell',
+  $table-color-bg-body-sorted-cell
+);
+$table-color-bg-body-stripe-row: theme-runtime.token(
+  'table',
+  'table-color-bg-body-stripe-row',
+  $table-color-bg-body-stripe-row
+);
+$table-color-bg-body-row_hover: theme-runtime.token(
+  'table',
+  'table-color-bg-body-row-hover',
+  $table-color-bg-body-row_hover
+);
+$table-color-bg-body-row_active: theme-runtime.token(
+  'table',
+  'table-color-bg-body-row-active',
+  $table-color-bg-body-row_active
+);
+$table-color-bg-body-row_active_dark: theme-runtime.token(
+  'table',
+  'table-color-bg-body-row-active-dark',
+  $table-color-bg-body-row_active_dark
+);
+$table-color-expand-icon: theme-runtime.token(
+  'table',
+  'table-color-expand-icon',
+  $table-color-expand-icon
+);
+$table-color-expand-icon-border: theme-runtime.token(
+  'table',
+  'table-color-expand-icon-border',
+  $table-color-expand-icon-border,
+  'color-transparent'
+);
+$table-color-expand-icon-border_hover: theme-runtime.token(
+  'table',
+  'table-color-expand-icon-border-hover',
+  $table-color-expand-icon-border_hover,
+  'color-transparent'
+);
+$table-color-expand-icon_hover: theme-runtime.token(
+  'table',
+  'table-color-expand-icon-hover',
+  $table-color-expand-icon_hover
+);
+$table-color-bg-expand-icon: theme-runtime.token(
+  'table',
+  'table-color-bg-expand-icon',
+  $table-color-bg-expand-icon
+);
+$table-color-bg-expand-icon_hover: theme-runtime.token(
+  'table',
+  'table-color-bg-expand-icon-hover',
+  $table-color-bg-expand-icon_hover
+);
+$table-color-bg-expand-content: theme-runtime.token(
+  'table',
+  'table-color-bg-expand-content',
+  $table-color-bg-expand-content
+);
+$table-color-bg-expand-content_hover: theme-runtime.token(
+  'table',
+  'table-color-bg-expand-content-hover',
+  $table-color-bg-expand-content_hover
+);
+$table-border-expand-icon-width: theme-runtime.token(
+  'table',
+  'table-border-expand-icon-width',
+  $table-border-expand-icon-width,
+  'border-1'
+);
+$table-color-header-sorter-icon: theme-runtime.token(
+  'table',
+  'table-color-header-sorter-icon',
+  $table-color-header-sorter-icon
+);
+$table-color-header-sorter-icon_next: theme-runtime.token(
+  'table',
+  'table-color-header-sorter-icon-next',
+  $table-color-header-sorter-icon_next
+);
+$table-color-header-sorter-icon_active: theme-runtime.token(
+  'table',
+  'table-color-header-sorter-icon-active',
+  $table-color-header-sorter-icon_active,
+  'color-primary-6'
+);
+$table-spacing-header-sorter-icon-margin-left: theme-runtime.token(
+  'table',
+  'table-spacing-header-sorter-icon-margin-left',
+  $table-spacing-header-sorter-icon-margin-left,
+  'spacing-4'
+);
+$table-size-header-sorter-icon-height: theme-runtime.token(
+  'table',
+  'table-size-header-sorter-icon-height',
+  $table-size-header-sorter-icon-height
+);
+$table-size-header-sorter-icon-width: theme-runtime.token(
+  'table',
+  'table-size-header-sorter-icon-width',
+  $table-size-header-sorter-icon-width
+);
+$table-font-size-header-sorter-icon: theme-runtime.token(
+  'table',
+  'table-font-size-header-sorter-icon',
+  $table-font-size-header-sorter-icon
+);
+$table-position-header-sorter-icon-up-top: theme-runtime.token(
+  'table',
+  'table-position-header-sorter-icon-up-top',
+  $table-position-header-sorter-icon-up-top
+);
+$table-position-header-sorter-icon-down-top: theme-runtime.token(
+  'table',
+  'table-position-header-sorter-icon-down-top',
+  $table-position-header-sorter-icon-down-top
+);
+$table-position-header-sorter-icon-left: theme-runtime.token(
+  'table',
+  'table-position-header-sorter-icon-left',
+  $table-position-header-sorter-icon-left
+);
+$table-color-bg-filters-popup: theme-runtime.token(
+  'table',
+  'table-color-bg-filters-popup',
+  $table-color-bg-filters-popup
+);
+$table-color-border-filters-popup: theme-runtime.token(
+  'table',
+  'table-color-border-filters-popup',
+  $table-color-border-filters-popup
+);
+$table-popup-min-width: theme-runtime.token(
+  'table',
+  'table-popup-min-width',
+  $table-popup-min-width
+);
+$table-popup-max-height: theme-runtime.token(
+  'table',
+  'table-popup-max-height',
+  $table-popup-max-height
+);
+$table-popup-border-radius: theme-runtime.token(
+  'table',
+  'table-popup-border-radius',
+  $table-popup-border-radius
+);
+$table-shadow-left: theme-runtime.token('table', 'table-shadow-left', $table-shadow-left);
+$table-shadow-right: theme-runtime.token('table', 'table-shadow-right', $table-shadow-right);
+$table-size-shadow-wrapper-width: theme-runtime.token(
+  'table',
+  'table-size-shadow-wrapper-width',
+  $table-size-shadow-wrapper-width
+);
+$table-color-editable-body-cell-border: theme-runtime.token(
+  'table',
+  'table-color-editable-body-cell-border',
+  $table-color-editable-body-cell-border
+);
+$table-spacing-pagination-margin: theme-runtime.token(
+  'table',
+  'table-spacing-pagination-margin',
+  $table-spacing-pagination-margin,
+  'spacing-6'
+);
+$table-size-selection-col-width: theme-runtime.token(
+  'table',
+  'table-size-selection-col-width',
+  $table-size-selection-col-width
+);
+$table-size-expand-icon-col-width: theme-runtime.token(
+  'table',
+  'table-size-expand-icon-col-width',
+  $table-size-expand-icon-col-width
+);
+$table-size-drag-handle-col-width: theme-runtime.token(
+  'table',
+  'table-size-drag-handle-col-width',
+  $table-size-drag-handle-col-width
+);
+$table-size-body-min-width: theme-runtime.token(
+  'table',
+  'table-size-body-min-width',
+  $table-size-body-min-width
+);
+$table-color-body-background: theme-runtime.token(
+  'table',
+  'table-color-body-background',
+  $table-color-body-background
+);
+$table-size-large-padding-horizontal: theme-runtime.token(
+  'table',
+  'table-size-large-padding-horizontal',
+  $table-size-default-padding-horizontal
+);
+$table-size-large-padding-vertical: theme-runtime.token(
+  'table',
+  'table-size-large-padding-vertical',
+  $table-size-default-padding-vertical
+);
+$table-size-large-font-size: theme-runtime.token(
+  'table',
+  'table-size-large-font-size',
+  $table-size-default-font-size
+);
+$table-size-large-font-header-size: theme-runtime.token(
+  'table',
+  'table-size-large-font-header-size',
+  $table-size-default-font-header-size
+);
+$table-size-medium-padding-horizontal: theme-runtime.token(
+  'table',
+  'table-size-medium-padding-horizontal',
+  $table-size-middle-padding-horizontal
+);
+$table-size-medium-padding-vertical: theme-runtime.token(
+  'table',
+  'table-size-medium-padding-vertical',
+  $table-size-middle-padding-vertical
+);
+$table-size-medium-font-size: theme-runtime.token(
+  'table',
+  'table-size-medium-font-size',
+  $table-size-middle-font-size
+);
+$table-size-medium-font-header-size: theme-runtime.token(
+  'table',
+  'table-size-medium-font-header-size',
+  $table-size-middle-font-header-size
+);
+$table-color-bg-tfoot: theme-runtime.token('table', 'table-color-bg-tfoot', $table-color-bg-tfoot);
+$table-filters-icon-bg_hover: theme-runtime.token(
+  'table',
+  'table-filters-icon-bg-hover',
+  $table-filters-icon-bg_hover
+);
+$table-color-border_resizing: theme-runtime.token(
+  'table',
+  'table-color-border-resizing',
+  $table-color-border_resizing,
+  'color-primary-6'
+);

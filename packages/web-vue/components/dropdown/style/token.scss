@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -50,3 +51,125 @@ $dropdown-group-title-font-size: global.$font-size-body-1;
 $dropdown-group-title-color-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-3'));
 
 $dropdown-margin-left-suffix-icon: global.$spacing-6;
+
+// @generated runtime tokens — pnpm theme:generate
+$dropdown-max-height: theme-runtime.token(
+  'dropdown',
+  'dropdown-max-height',
+  $dropdown-max-height,
+  'size-50'
+);
+$dropdown-border-radius: theme-runtime.token(
+  'dropdown',
+  'dropdown-border-radius',
+  $dropdown-border-radius
+);
+$dropdown-font-size: theme-runtime.token(
+  'dropdown',
+  'dropdown-font-size',
+  $dropdown-font-size,
+  'font-size-body-3'
+);
+$dropdown-color-bg: theme-runtime.token('dropdown', 'dropdown-color-bg', $dropdown-color-bg);
+$dropdown-color-border: theme-runtime.token(
+  'dropdown',
+  'dropdown-color-border',
+  $dropdown-color-border
+);
+$dropdown-box-shadow: theme-runtime.token('dropdown', 'dropdown-box-shadow', $dropdown-box-shadow);
+$dropdown-option-height: theme-runtime.token(
+  'dropdown',
+  'dropdown-option-height',
+  $dropdown-option-height,
+  'size-9'
+);
+$dropdown-option-padding-horizontal: theme-runtime.token(
+  'dropdown',
+  'dropdown-option-padding-horizontal',
+  $dropdown-option-padding-horizontal,
+  'spacing-6'
+);
+$dropdown-option-font-weight_selected: theme-runtime.token(
+  'dropdown',
+  'dropdown-option-font-weight-selected',
+  $dropdown-option-font-weight_selected,
+  'font-weight-500'
+);
+$dropdown-option-color-bg_default: theme-runtime.token(
+  'dropdown',
+  'dropdown-option-color-bg-default',
+  $dropdown-option-color-bg_default,
+  'color-transparent'
+);
+$dropdown-option-color-bg_hover: theme-runtime.token(
+  'dropdown',
+  'dropdown-option-color-bg-hover',
+  $dropdown-option-color-bg_hover
+);
+$dropdown-option-color-bg_selected: theme-runtime.token(
+  'dropdown',
+  'dropdown-option-color-bg-selected',
+  $dropdown-option-color-bg_selected,
+  'color-transparent'
+);
+$dropdown-option-color-bg_disabled: theme-runtime.token(
+  'dropdown',
+  'dropdown-option-color-bg-disabled',
+  $dropdown-option-color-bg_disabled,
+  'color-transparent'
+);
+$dropdown-option-color-text_default: theme-runtime.token(
+  'dropdown',
+  'dropdown-option-color-text-default',
+  $dropdown-option-color-text_default
+);
+$dropdown-option-color-text_hover: theme-runtime.token(
+  'dropdown',
+  'dropdown-option-color-text-hover',
+  $dropdown-option-color-text_hover
+);
+$dropdown-option-color-text_selected: theme-runtime.token(
+  'dropdown',
+  'dropdown-option-color-text-selected',
+  $dropdown-option-color-text_selected
+);
+$dropdown-option-color-text_disabled: theme-runtime.token(
+  'dropdown',
+  'dropdown-option-color-text-disabled',
+  $dropdown-option-color-text_disabled
+);
+$dropdown-group-title-height: theme-runtime.token(
+  'dropdown',
+  'dropdown-group-title-height',
+  $dropdown-group-title-height,
+  'size-5'
+);
+$dropdown-group-title-padding-horizontal: theme-runtime.token(
+  'dropdown',
+  'dropdown-group-title-padding-horizontal',
+  $dropdown-group-title-padding-horizontal,
+  'spacing-6'
+);
+$dropdown-group-title-margin-top: theme-runtime.token(
+  'dropdown',
+  'dropdown-group-title-margin-top',
+  $dropdown-group-title-margin-top,
+  'spacing-4'
+);
+$dropdown-group-title-font-size: theme-runtime.token(
+  'dropdown',
+  'dropdown-group-title-font-size',
+  $dropdown-group-title-font-size,
+  'font-size-body-1'
+);
+$dropdown-group-title-color-text: theme-runtime.token(
+  'dropdown',
+  'dropdown-group-title-color-text',
+  $dropdown-group-title-color-text
+);
+$dropdown-margin-left-suffix-icon: theme-runtime.token(
+  'dropdown',
+  'dropdown-margin-left-suffix-icon',
+  $dropdown-margin-left-suffix-icon,
+  'spacing-6'
+);

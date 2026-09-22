@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -21,3 +22,47 @@ $toolbar-color-border: var(string.unquote('#{global.$sd-cssvars-prefix}-color-ne
 $toolbar-border-width: global.$border-1;
 
 $toolbar-border-style: global.$border-solid;
+
+// @generated runtime tokens — pnpm theme:generate
+$toolbar-gap: theme-runtime.token('toolbar', 'toolbar-gap', $toolbar-gap, 'spacing-6');
+$toolbar-body-gap: theme-runtime.token(
+  'toolbar',
+  'toolbar-body-gap',
+  $toolbar-body-gap,
+  'spacing-4'
+);
+$toolbar-actions-gap: theme-runtime.token(
+  'toolbar',
+  'toolbar-actions-gap',
+  $toolbar-actions-gap,
+  'spacing-4'
+);
+$toolbar-expand-gap: theme-runtime.token(
+  'toolbar',
+  'toolbar-expand-gap',
+  $toolbar-expand-gap,
+  'spacing-2'
+);
+$toolbar-padding-bottom: theme-runtime.token(
+  'toolbar',
+  'toolbar-padding-bottom',
+  $toolbar-padding-bottom,
+  'spacing-4'
+);
+$toolbar-color-border: theme-runtime.token(
+  'toolbar',
+  'toolbar-color-border',
+  $toolbar-color-border
+);
+$toolbar-border-width: theme-runtime.token(
+  'toolbar',
+  'toolbar-border-width',
+  $toolbar-border-width,
+  'border-1'
+);
+$toolbar-border-style: theme-runtime.token(
+  'toolbar',
+  'toolbar-border-style',
+  $toolbar-border-style,
+  'border-solid'
+);

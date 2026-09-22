@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -73,3 +74,164 @@ $card-border-width-title-bottom: global.$border-1;
 $card-border-radius: global.$radius-small;
 
 $card-border-radius-no-border: global.$radius-none;
+
+// @generated runtime tokens — pnpm theme:generate
+$card-size-small-height-title: theme-runtime.token(
+  'card',
+  'card-size-small-height-title',
+  $card-size-small-height-title,
+  'size-10'
+);
+$card-size-small-font-size-title: theme-runtime.token(
+  'card',
+  'card-size-small-font-size-title',
+  $card-size-small-font-size-title,
+  'font-size-title-1'
+);
+$card-size-small-font-size-title-extra: theme-runtime.token(
+  'card',
+  'card-size-small-font-size-title-extra',
+  $card-size-small-font-size-title-extra,
+  'font-size-body-3'
+);
+$card-size-small-font-size: theme-runtime.token(
+  'card',
+  'card-size-small-font-size',
+  $card-size-small-font-size,
+  'font-size-body-3'
+);
+$card-size-small-padding-horizontal-title: theme-runtime.token(
+  'card',
+  'card-size-small-padding-horizontal-title',
+  $card-size-small-padding-horizontal-title,
+  'spacing-7'
+);
+$card-size-small-padding-vertical-title: theme-runtime.token(
+  'card',
+  'card-size-small-padding-vertical-title',
+  $card-size-small-padding-vertical-title,
+  'spacing-4'
+);
+$card-size-small-padding-horizontal-body: theme-runtime.token(
+  'card',
+  'card-size-small-padding-horizontal-body',
+  $card-size-small-padding-horizontal-body,
+  'spacing-7'
+);
+$card-size-small-padding-vertical-body: theme-runtime.token(
+  'card',
+  'card-size-small-padding-vertical-body',
+  $card-size-small-padding-vertical-body,
+  'spacing-6'
+);
+$card-size-default-height-title: theme-runtime.token(
+  'card',
+  'card-size-default-height-title',
+  $card-size-default-height-title
+);
+$card-size-default-font-size-title: theme-runtime.token(
+  'card',
+  'card-size-default-font-size-title',
+  $card-size-default-font-size-title,
+  'font-size-title-1'
+);
+$card-size-default-font-size-title-extra: theme-runtime.token(
+  'card',
+  'card-size-default-font-size-title-extra',
+  $card-size-default-font-size-title-extra,
+  'font-size-body-3'
+);
+$card-size-default-font-size: theme-runtime.token(
+  'card',
+  'card-size-default-font-size',
+  $card-size-default-font-size,
+  'font-size-body-3'
+);
+$card-size-default-padding-horizontal-title: theme-runtime.token(
+  'card',
+  'card-size-default-padding-horizontal-title',
+  $card-size-default-padding-horizontal-title,
+  'spacing-7'
+);
+$card-size-default-padding-vertical-title: theme-runtime.token(
+  'card',
+  'card-size-default-padding-vertical-title',
+  $card-size-default-padding-vertical-title,
+  'spacing-5'
+);
+$card-size-default-padding-horizontal-body: theme-runtime.token(
+  'card',
+  'card-size-default-padding-horizontal-body',
+  $card-size-default-padding-horizontal-body,
+  'spacing-7'
+);
+$card-size-default-padding-vertical-body: theme-runtime.token(
+  'card',
+  'card-size-default-padding-vertical-body',
+  $card-size-default-padding-vertical-body,
+  'spacing-7'
+);
+$card-line-height: theme-runtime.token('card', 'card-line-height', $line-height-base);
+$card-font-weight-title: theme-runtime.token(
+  'card',
+  'card-font-weight-title',
+  $card-font-weight-title,
+  'font-weight-500'
+);
+$card-margin-top-meta-footer: theme-runtime.token(
+  'card',
+  'card-margin-top-meta-footer',
+  $card-margin-top-meta-footer,
+  'spacing-8'
+);
+$card-margin-top-meta-description: theme-runtime.token(
+  'card',
+  'card-margin-top-meta-description',
+  $card-margin-top-meta-description,
+  'spacing-2'
+);
+$card-margin-right-action-item: theme-runtime.token(
+  'card',
+  'card-margin-right-action-item',
+  $card-margin-right-action-item,
+  'spacing-6'
+);
+$card-color-bg: theme-runtime.token('card', 'card-color-bg', $card-color-bg);
+$card-color-border: theme-runtime.token('card', 'card-color-border', $card-color-border);
+$card-color-title: theme-runtime.token('card', 'card-color-title', $card-color-title);
+$card-color-title-extra: theme-runtime.token(
+  'card',
+  'card-color-title-extra',
+  $card-color-title-extra,
+  'color-primary-6'
+);
+$card-color-body: theme-runtime.token('card', 'card-color-body', $card-color-body);
+$card-color-action: theme-runtime.token('card', 'card-color-action', $card-color-action);
+$card-color-action_hover: theme-runtime.token(
+  'card',
+  'card-color-action-hover',
+  $card-color-action_hover,
+  'color-primary-6'
+);
+$card-color-box-shadow: theme-runtime.token(
+  'card',
+  'card-color-box-shadow',
+  $card-color-box-shadow
+);
+$card-color-box-shadow_dark: theme-runtime.token(
+  'card',
+  'card-color-box-shadow-dark',
+  $card-color-box-shadow_dark
+);
+$card-border-width-title-bottom: theme-runtime.token(
+  'card',
+  'card-border-width-title-bottom',
+  $card-border-width-title-bottom,
+  'border-1'
+);
+$card-border-radius: theme-runtime.token('card', 'card-border-radius', $card-border-radius);
+$card-border-radius-no-border: theme-runtime.token(
+  'card',
+  'card-border-radius-no-border',
+  $card-border-radius-no-border
+);

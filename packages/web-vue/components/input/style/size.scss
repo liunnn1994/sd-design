@@ -7,10 +7,10 @@ $input-prefix-cls: string.unquote('#{theme.$prefix}-input');
 
 @mixin get-padding($input-size-height, $input-font-size) {
   /* prettier-ignore */
-  padding-top: (math.round($input-size-height - $input-border-width * 2 - theme.$line-height-base * $input-font-size) * 0.5);
+  padding-top: calc(($input-size-height - $input-border-width * 2 - theme.$line-height-base * $input-font-size) * 0.5);
 
   /* prettier-ignore */
-  padding-bottom: (math.round($input-size-height - $input-border-width * 2 - theme.$line-height-base * $input-font-size) * 0.5);
+  padding-bottom: calc(($input-size-height - $input-border-width * 2 - theme.$line-height-base * $input-font-size) * 0.5);
 }
 
 // 前置后置标签
@@ -79,10 +79,10 @@ $input-prefix-cls: string.unquote('#{theme.$prefix}-input');
 .size-height {
   &-size-mini {
     /* prettier-ignore */
-    padding-top: (math.round($input-size-mini-height - $input-border-width * 2 - 1.667 * $input-size-mini-font-size) * 0.5);
+    padding-top: calc(($input-size-mini-height - $input-border-width * 2 - 1.667 * $input-size-mini-font-size) * 0.5);
 
     /* prettier-ignore */
-    padding-bottom: (math.round($input-size-mini-height - $input-border-width * 2 - 1.667 * $input-size-mini-font-size) * 0.5);
+    padding-bottom: calc(($input-size-mini-height - $input-border-width * 2 - 1.667 * $input-size-mini-font-size) * 0.5);
     font-size: $input-size-mini-font-size;
     line-height: 1.667;
   }

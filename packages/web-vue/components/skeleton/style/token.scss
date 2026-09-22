@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -25,3 +26,62 @@ $skeleton-size-row-height: global.$size-4;
 $skeleton-spacing-last_row-margin-bottom: global.$spacing-7;
 
 $skeleton-color-animate-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-fill-3'));
+
+// @generated runtime tokens — pnpm theme:generate
+$skeleton-color-bg-base: theme-runtime.token(
+  'skeleton',
+  'skeleton-color-bg-base',
+  $skeleton-color-bg-base
+);
+$skeleton-radius-image-border: theme-runtime.token(
+  'skeleton',
+  'skeleton-radius-image-border',
+  $skeleton-radius-image-border
+);
+$skeleton-size-image_default: theme-runtime.token(
+  'skeleton',
+  'skeleton-size-image-default',
+  $skeleton-size-image_default,
+  'size-12'
+);
+$skeleton-size-image_small: theme-runtime.token(
+  'skeleton',
+  'skeleton-size-image-small',
+  $skeleton-size-image_small,
+  'size-9'
+);
+$skeleton-size-image_large: theme-runtime.token(
+  'skeleton',
+  'skeleton-size-image-large',
+  $skeleton-size-image_large,
+  'size-15'
+);
+$skeleton-spacing-image_left-margin-right: theme-runtime.token(
+  'skeleton',
+  'skeleton-spacing-image-left-margin-right',
+  $skeleton-spacing-image_left-margin-right,
+  'spacing-7'
+);
+$skeleton-spacing-image_right-margin-left: theme-runtime.token(
+  'skeleton',
+  'skeleton-spacing-image-right-margin-left',
+  $skeleton-spacing-image_right-margin-left,
+  'spacing-7'
+);
+$skeleton-size-row-height: theme-runtime.token(
+  'skeleton',
+  'skeleton-size-row-height',
+  $skeleton-size-row-height,
+  'size-4'
+);
+$skeleton-spacing-last_row-margin-bottom: theme-runtime.token(
+  'skeleton',
+  'skeleton-spacing-last-row-margin-bottom',
+  $skeleton-spacing-last_row-margin-bottom,
+  'spacing-7'
+);
+$skeleton-color-animate-bg: theme-runtime.token(
+  'skeleton',
+  'skeleton-color-animate-bg',
+  $skeleton-color-animate-bg
+);

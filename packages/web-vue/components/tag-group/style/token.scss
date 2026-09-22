@@ -1,6 +1,15 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
 
 $tag-group-gap: global.$spacing-2;
 $tag-group-popover-max-width: 320px;
+
+// @generated runtime tokens — pnpm theme:generate
+$tag-group-gap: theme-runtime.token('tag-group', 'tag-group-gap', $tag-group-gap, 'spacing-2');
+$tag-group-popover-max-width: theme-runtime.token(
+  'tag-group',
+  'tag-group-popover-max-width',
+  $tag-group-popover-max-width
+);

@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -205,3 +206,466 @@ $steps-navigation-margin-right: global.$spacing-10;
 $steps-navigation-spacing-arrow-right: global.$spacing-5;
 $steps-navigation-spacing-ink-left: global.$spacing-none;
 $steps-navigation-spacing-ink-right: 30px;
+
+// @generated runtime tokens — pnpm theme:generate
+$steps-size-default-font-size-icon: theme-runtime.token(
+  'steps',
+  'steps-size-default-font-size-icon',
+  $steps-size-default-font-size-icon,
+  'size-4'
+);
+$steps-size-default-font-size-title: theme-runtime.token(
+  'steps',
+  'steps-size-default-font-size-title',
+  $steps-size-default-font-size-title,
+  'font-size-title-1'
+);
+$steps-size-default-font-size-description: theme-runtime.token(
+  'steps',
+  'steps-size-default-font-size-description',
+  $steps-size-default-font-size-description,
+  'font-size-body-1'
+);
+$steps-size-small-font-size-icon: theme-runtime.token(
+  'steps',
+  'steps-size-small-font-size-icon',
+  $steps-size-small-font-size-icon
+);
+$steps-size-small-font-size-title: theme-runtime.token(
+  'steps',
+  'steps-size-small-font-size-title',
+  $steps-size-small-font-size-title,
+  'font-size-body-3'
+);
+$steps-size-small-font-size-description: theme-runtime.token(
+  'steps',
+  'steps-size-small-font-size-description',
+  $steps-size-small-font-size-description,
+  'font-size-body-1'
+);
+$steps-direction-horizontal-description-width: theme-runtime.token(
+  'steps',
+  'steps-direction-horizontal-description-width',
+  $steps-direction-horizontal-description-width
+);
+$steps-circle-font-weight-item-title_active: theme-runtime.token(
+  'steps',
+  'steps-circle-font-weight-item-title-active',
+  $steps-circle-font-weight-item-title_active,
+  'font-weight-500'
+);
+$steps-circle-border-radius-item-icon: theme-runtime.token(
+  'steps',
+  'steps-circle-border-radius-item-icon',
+  $steps-circle-border-radius-item-icon
+);
+$steps-circle-horizontal-item-description-margin-top: theme-runtime.token(
+  'steps',
+  'steps-circle-horizontal-item-description-margin-top',
+  $steps-circle-horizontal-item-description-margin-top,
+  'spacing-1'
+);
+$steps-circle-vertical-item-description-margin-top: theme-runtime.token(
+  'steps',
+  'steps-circle-vertical-item-description-margin-top',
+  $steps-circle-vertical-item-description-margin-top,
+  'spacing-1'
+);
+$steps-circle-color-item-bg_wait: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-bg-wait',
+  $steps-circle-color-item-bg_wait
+);
+$steps-circle-color-item-border_wait: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-border-wait',
+  $steps-circle-color-item-border_wait,
+  'color-transparent'
+);
+$steps-circle-color-item-icon-text_wait: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-icon-text-wait',
+  $steps-circle-color-item-icon-text_wait
+);
+$steps-circle-color-item-tail_wait: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-tail-wait',
+  $steps-circle-color-item-tail_wait
+);
+$steps-circle-color-item-title_wait: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-title-wait',
+  $steps-circle-color-item-title_wait
+);
+$steps-circle-color-item-description_wait: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-description-wait',
+  $steps-circle-color-item-description_wait
+);
+$steps-circle-color-item-bg_process: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-bg-process',
+  $steps-circle-color-item-bg_process,
+  'color-primary-6'
+);
+$steps-circle-color-item-border_process: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-border-process',
+  $steps-circle-color-item-border_process,
+  'color-transparent'
+);
+$steps-circle-color-item-icon-text_process: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-icon-text-process',
+  $steps-circle-color-item-icon-text_process
+);
+$steps-circle-color-item-tail_process: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-tail-process',
+  $steps-circle-color-item-tail_process,
+  'color-primary-6'
+);
+$steps-circle-color-item-title_process: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-title-process',
+  $steps-circle-color-item-title_process
+);
+$steps-circle-color-item-description_process: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-description-process',
+  $steps-circle-color-item-description_process
+);
+$steps-circle-color-item-bg_finish: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-bg-finish',
+  $steps-circle-color-item-bg_finish
+);
+$steps-circle-color-item-border_finish: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-border-finish',
+  $steps-circle-color-item-border_finish,
+  'color-transparent'
+);
+$steps-circle-color-item-icon-text_finish: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-icon-text-finish',
+  $steps-circle-color-item-icon-text_finish,
+  'color-primary-6'
+);
+$steps-circle-color-item-title_finish: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-title-finish',
+  $steps-circle-color-item-title_finish
+);
+$steps-circle-color-item-description_finish: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-description-finish',
+  $steps-circle-color-item-description_finish
+);
+$steps-circle-color-item-bg_error: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-bg-error',
+  $steps-circle-color-item-bg_error,
+  'color-danger-6'
+);
+$steps-circle-color-item-border_error: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-border-error',
+  $steps-circle-color-item-border_error,
+  'color-transparent'
+);
+$steps-circle-color-item-icon-text_error: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-icon-text-error',
+  $steps-circle-color-item-icon-text_error
+);
+$steps-circle-color-item-tail_error: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-tail-error',
+  $steps-circle-color-item-tail_error,
+  'color-danger-6'
+);
+$steps-circle-color-item-title_error: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-title-error',
+  $steps-circle-color-item-title_error
+);
+$steps-circle-color-item-description_error: theme-runtime.token(
+  'steps',
+  'steps-circle-color-item-description-error',
+  $steps-circle-color-item-description_error
+);
+$steps-dot-horizontal-item-title-margin-top: theme-runtime.token(
+  'steps',
+  'steps-dot-horizontal-item-title-margin-top',
+  $steps-dot-horizontal-item-title-margin-top,
+  'spacing-2'
+);
+$steps-dot-horizontal-item-description-margin-top: theme-runtime.token(
+  'steps',
+  'steps-dot-horizontal-item-description-margin-top',
+  $steps-dot-horizontal-item-description-margin-top,
+  'spacing-2'
+);
+$steps-dot-vertical-item-title-margin-top: theme-runtime.token(
+  'steps',
+  'steps-dot-vertical-item-title-margin-top',
+  $steps-dot-vertical-item-title-margin-top
+);
+$steps-dot-vertical-item-description-margin-top: theme-runtime.token(
+  'steps',
+  'steps-dot-vertical-item-description-margin-top',
+  $steps-dot-vertical-item-description-margin-top,
+  'spacing-2'
+);
+$steps-dot-vertical-item-icon-margin-right: theme-runtime.token(
+  'steps',
+  'steps-dot-vertical-item-icon-margin-right',
+  $steps-dot-vertical-item-icon-margin-right,
+  'spacing-7'
+);
+$steps-dot-font-weight-item-title_active: theme-runtime.token(
+  'steps',
+  'steps-dot-font-weight-item-title-active',
+  $steps-dot-font-weight-item-title_active,
+  'font-weight-500'
+);
+$steps-dot-border-radius-item-icon: theme-runtime.token(
+  'steps',
+  'steps-dot-border-radius-item-icon',
+  $steps-dot-border-radius-item-icon
+);
+$steps-dot-color-item-bg_wait: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-bg-wait',
+  $steps-dot-color-item-bg_wait
+);
+$steps-dot-color-item-border_wait: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-border-wait',
+  $steps-dot-color-item-border_wait
+);
+$steps-dot-color-item-tail_wait: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-tail-wait',
+  $steps-dot-color-item-tail_wait
+);
+$steps-dot-color-item-title_wait: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-title-wait',
+  $steps-dot-color-item-title_wait
+);
+$steps-dot-color-item-description_wait: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-description-wait',
+  $steps-dot-color-item-description_wait
+);
+$steps-dot-color-item-bg_process: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-bg-process',
+  $steps-dot-color-item-bg_process,
+  'color-primary-6'
+);
+$steps-dot-color-item-border_process: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-border-process',
+  $steps-dot-color-item-border_process,
+  'color-primary-6'
+);
+$steps-dot-color-item-tail_process: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-tail-process',
+  $steps-dot-color-item-tail_process,
+  'color-primary-6'
+);
+$steps-dot-color-item-title_process: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-title-process',
+  $steps-dot-color-item-title_process
+);
+$steps-dot-color-item-description_process: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-description-process',
+  $steps-dot-color-item-description_process
+);
+$steps-dot-color-item-bg_finish: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-bg-finish',
+  $steps-dot-color-item-bg_finish,
+  'color-primary-6'
+);
+$steps-dot-color-item-border_finish: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-border-finish',
+  $steps-dot-color-item-border_finish,
+  'color-primary-6'
+);
+$steps-dot-color-item-title_finish: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-title-finish',
+  $steps-dot-color-item-title_finish
+);
+$steps-dot-color-item-description_finish: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-description-finish',
+  $steps-dot-color-item-description_finish
+);
+$steps-dot-color-item-bg_error: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-bg-error',
+  $steps-dot-color-item-bg_error,
+  'color-danger-6'
+);
+$steps-dot-color-item-border_error: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-border-error',
+  $steps-dot-color-item-border_error,
+  'color-danger-6'
+);
+$steps-dot-color-item-tail_error: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-tail-error',
+  $steps-dot-color-item-tail_error,
+  'color-danger-6'
+);
+$steps-dot-color-item-title_error: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-title-error',
+  $steps-dot-color-item-title_error
+);
+$steps-dot-color-item-description_error: theme-runtime.token(
+  'steps',
+  'steps-dot-color-item-description-error',
+  $steps-dot-color-item-description_error
+);
+$steps-arrow-size-item-gap: theme-runtime.token(
+  'steps',
+  'steps-arrow-size-item-gap',
+  $steps-arrow-size-item-gap,
+  'spacing-2'
+);
+$steps-arrow-item-description-margin-top: theme-runtime.token(
+  'steps',
+  'steps-arrow-item-description-margin-top',
+  $steps-arrow-item-description-margin-top
+);
+$steps-arrow-font-weight-item-title_active: theme-runtime.token(
+  'steps',
+  'steps-arrow-font-weight-item-title-active',
+  $steps-arrow-font-weight-item-title_active,
+  'font-weight-500'
+);
+$steps-arrow-color-item-title_wait: theme-runtime.token(
+  'steps',
+  'steps-arrow-color-item-title-wait',
+  $steps-arrow-color-item-title_wait
+);
+$steps-arrow-color-item-description_wait: theme-runtime.token(
+  'steps',
+  'steps-arrow-color-item-description-wait',
+  $steps-arrow-color-item-description_wait
+);
+$steps-arrow-color-item-title_process: theme-runtime.token(
+  'steps',
+  'steps-arrow-color-item-title-process',
+  $steps-arrow-color-item-title_process
+);
+$steps-arrow-color-item-description_process: theme-runtime.token(
+  'steps',
+  'steps-arrow-color-item-description-process',
+  $steps-arrow-color-item-description_process
+);
+$steps-arrow-color-item-title_finish: theme-runtime.token(
+  'steps',
+  'steps-arrow-color-item-title-finish',
+  $steps-arrow-color-item-title_finish
+);
+$steps-arrow-color-item-description_finish: theme-runtime.token(
+  'steps',
+  'steps-arrow-color-item-description-finish',
+  $steps-arrow-color-item-description_finish
+);
+$steps-arrow-color-item-title_error: theme-runtime.token(
+  'steps',
+  'steps-arrow-color-item-title-error',
+  $steps-arrow-color-item-title_error
+);
+$steps-arrow-color-item-description_error: theme-runtime.token(
+  'steps',
+  'steps-arrow-color-item-description-error',
+  $steps-arrow-color-item-description_error
+);
+$steps-navigation-color-arrow: theme-runtime.token(
+  'steps',
+  'steps-navigation-color-arrow',
+  $steps-navigation-color-arrow
+);
+$steps-navigation-size-arrow: theme-runtime.token(
+  'steps',
+  'steps-navigation-size-arrow',
+  $steps-navigation-size-arrow
+);
+$steps-navigation-size-arrow-line-width: theme-runtime.token(
+  'steps',
+  'steps-navigation-size-arrow-line-width',
+  $steps-navigation-size-arrow-line-width
+);
+$steps-navigation-size-arrow-top: theme-runtime.token(
+  'steps',
+  'steps-navigation-size-arrow-top',
+  $steps-navigation-size-arrow-top,
+  'spacing-5'
+);
+$steps-circle-vertical-spacing-tail-top: theme-runtime.token(
+  'steps',
+  'steps-circle-vertical-spacing-tail-top',
+  $steps-circle-vertical-spacing-tail-top,
+  'spacing-3'
+);
+$steps-circle-vertical-spacing-tail-bottom: theme-runtime.token(
+  'steps',
+  'steps-circle-vertical-spacing-tail-bottom',
+  $steps-circle-vertical-spacing-tail-bottom,
+  'spacing-3'
+);
+$steps-dot-vertical-spacing-tail-top: theme-runtime.token(
+  'steps',
+  'steps-dot-vertical-spacing-tail-top',
+  $steps-dot-vertical-spacing-tail-top,
+  'spacing-2'
+);
+$steps-dot-vertical-spacing-tail-bottom: theme-runtime.token(
+  'steps',
+  'steps-dot-vertical-spacing-tail-bottom',
+  $steps-dot-vertical-spacing-tail-bottom,
+  'spacing-2'
+);
+$steps-navigation-padding-left: theme-runtime.token(
+  'steps',
+  'steps-navigation-padding-left',
+  $steps-navigation-padding-left,
+  'spacing-8'
+);
+$steps-navigation-margin-right: theme-runtime.token(
+  'steps',
+  'steps-navigation-margin-right',
+  $steps-navigation-margin-right,
+  'spacing-10'
+);
+$steps-navigation-spacing-arrow-right: theme-runtime.token(
+  'steps',
+  'steps-navigation-spacing-arrow-right',
+  $steps-navigation-spacing-arrow-right,
+  'spacing-5'
+);
+$steps-navigation-spacing-ink-left: theme-runtime.token(
+  'steps',
+  'steps-navigation-spacing-ink-left',
+  $steps-navigation-spacing-ink-left,
+  'spacing-none'
+);
+$steps-navigation-spacing-ink-right: theme-runtime.token(
+  'steps',
+  'steps-navigation-spacing-ink-right',
+  $steps-navigation-spacing-ink-right
+);

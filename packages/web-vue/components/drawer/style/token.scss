@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -29,3 +30,70 @@ $drawer-color-content-text: var(string.unquote('#{global.$sd-cssvars-prefix}-col
 $drawer-position-close-icon-right: global.$spacing-7;
 
 $drawer-font-size-close-icon: global.$size-3;
+
+// @generated runtime tokens — pnpm theme:generate
+$drawer-size-header-height: theme-runtime.token(
+  'drawer',
+  'drawer-size-header-height',
+  $drawer-size-header-height,
+  'size-12'
+);
+$drawer-margin-footer-button-left: theme-runtime.token(
+  'drawer',
+  'drawer-margin-footer-button-left',
+  $drawer-margin-footer-button-left,
+  'spacing-6'
+);
+$drawer-font-header-size: theme-runtime.token(
+  'drawer',
+  'drawer-font-header-size',
+  $drawer-font-header-size,
+  'font-size-title-1'
+);
+$drawer-padding-horizontal: theme-runtime.token(
+  'drawer',
+  'drawer-padding-horizontal',
+  $drawer-padding-horizontal,
+  'spacing-7'
+);
+$drawer-padding-footer-vertical: theme-runtime.token(
+  'drawer',
+  'drawer-padding-footer-vertical',
+  $drawer-padding-footer-vertical,
+  'spacing-7'
+);
+$drawer-padding-content-vertical: theme-runtime.token(
+  'drawer',
+  'drawer-padding-content-vertical',
+  $drawer-padding-content-vertical,
+  'spacing-6'
+);
+$drawer-font-header-weight: theme-runtime.token(
+  'drawer',
+  'drawer-font-header-weight',
+  $drawer-font-header-weight,
+  'font-weight-500'
+);
+$drawer-color-border: theme-runtime.token('drawer', 'drawer-color-border', $drawer-color-border);
+$drawer-color-header-text: theme-runtime.token(
+  'drawer',
+  'drawer-color-header-text',
+  $drawer-color-header-text
+);
+$drawer-color-content-text: theme-runtime.token(
+  'drawer',
+  'drawer-color-content-text',
+  $drawer-color-content-text
+);
+$drawer-position-close-icon-right: theme-runtime.token(
+  'drawer',
+  'drawer-position-close-icon-right',
+  $drawer-position-close-icon-right,
+  'spacing-7'
+);
+$drawer-font-size-close-icon: theme-runtime.token(
+  'drawer',
+  'drawer-font-size-close-icon',
+  $drawer-font-size-close-icon,
+  'size-3'
+);

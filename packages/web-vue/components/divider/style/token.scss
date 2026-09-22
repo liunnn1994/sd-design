@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -29,3 +30,62 @@ $divider-line-style: global.$border-solid;
 $divider-color-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-neutral-3'));
 
 $divider-color-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
+
+// @generated runtime tokens — pnpm theme:generate
+$divider-margin-horizontal: theme-runtime.token(
+  'divider',
+  'divider-margin-horizontal',
+  $divider-margin-horizontal,
+  'spacing-6'
+);
+$divider-margin-vertical: theme-runtime.token(
+  'divider',
+  'divider-margin-vertical',
+  $divider-margin-vertical,
+  'spacing-8'
+);
+$divider-margin-vertical_text: theme-runtime.token(
+  'divider',
+  'divider-margin-vertical-text',
+  $divider-margin-vertical_text,
+  'spacing-8'
+);
+$divider-margin-text: theme-runtime.token(
+  'divider',
+  'divider-margin-text',
+  $divider-margin-text,
+  'spacing-7'
+);
+$divider-position-text-left: theme-runtime.token(
+  'divider',
+  'divider-position-text-left',
+  $divider-position-text-left,
+  'spacing-9'
+);
+$divider-position-text-right: theme-runtime.token(
+  'divider',
+  'divider-position-text-right',
+  $divider-position-text-right,
+  'spacing-9'
+);
+$divider-font-size: theme-runtime.token(
+  'divider',
+  'divider-font-size',
+  $divider-font-size,
+  'font-size-body-3'
+);
+$divider-font-weight: theme-runtime.token(
+  'divider',
+  'divider-font-weight',
+  $divider-font-weight,
+  'font-weight-500'
+);
+$divider-size: theme-runtime.token('divider', 'divider-size', $divider-size);
+$divider-line-style: theme-runtime.token(
+  'divider',
+  'divider-line-style',
+  $divider-line-style,
+  'border-solid'
+);
+$divider-color-bg: theme-runtime.token('divider', 'divider-color-bg', $divider-color-bg);
+$divider-color-text: theme-runtime.token('divider', 'divider-color-text', $divider-color-text);

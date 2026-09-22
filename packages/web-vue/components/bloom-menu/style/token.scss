@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 @use 'sass:string';
 
@@ -22,3 +23,101 @@ $bloom-menu-font-size: global.$font-size-body-3;
 $bloom-menu-font-weight: global.$font-weight-500;
 $bloom-menu-icon-size: global.$size-5;
 $bloom-menu-shadow: global.$shadow2-down;
+
+// @generated runtime tokens — pnpm theme:generate
+$bloom-menu-panel-width: theme-runtime.token(
+  'bloom-menu',
+  'bloom-menu-panel-width',
+  $bloom-menu-panel-width
+);
+$bloom-menu-border-width: theme-runtime.token(
+  'bloom-menu',
+  'bloom-menu-border-width',
+  $bloom-menu-border-width,
+  'border-1'
+);
+$bloom-menu-border-style: theme-runtime.token(
+  'bloom-menu',
+  'bloom-menu-border-style',
+  $bloom-menu-border-style,
+  'border-solid'
+);
+$bloom-menu-border-color: theme-runtime.token(
+  'bloom-menu',
+  'bloom-menu-border-color',
+  $bloom-menu-border-color
+);
+$bloom-menu-background: theme-runtime.token(
+  'bloom-menu',
+  'bloom-menu-background',
+  $bloom-menu-background
+);
+$bloom-menu-text-color: theme-runtime.token(
+  'bloom-menu',
+  'bloom-menu-text-color',
+  $bloom-menu-text-color
+);
+$bloom-menu-muted-color: theme-runtime.token(
+  'bloom-menu',
+  'bloom-menu-muted-color',
+  $bloom-menu-muted-color
+);
+$bloom-menu-hover-background: theme-runtime.token(
+  'bloom-menu',
+  'bloom-menu-hover-background',
+  $bloom-menu-hover-background
+);
+$bloom-menu-disabled-color: theme-runtime.token(
+  'bloom-menu',
+  'bloom-menu-disabled-color',
+  $bloom-menu-disabled-color
+);
+$bloom-menu-header-padding-block: theme-runtime.token(
+  'bloom-menu',
+  'bloom-menu-header-padding-block',
+  $bloom-menu-header-padding-block,
+  'spacing-6'
+);
+$bloom-menu-header-padding-inline: theme-runtime.token(
+  'bloom-menu',
+  'bloom-menu-header-padding-inline',
+  $bloom-menu-header-padding-inline,
+  'spacing-7'
+);
+$bloom-menu-item-padding-block: theme-runtime.token(
+  'bloom-menu',
+  'bloom-menu-item-padding-block',
+  $bloom-menu-item-padding-block,
+  'spacing-9'
+);
+$bloom-menu-item-padding-inline: theme-runtime.token(
+  'bloom-menu',
+  'bloom-menu-item-padding-inline',
+  $bloom-menu-item-padding-inline,
+  'spacing-6'
+);
+$bloom-menu-item-gap: theme-runtime.token(
+  'bloom-menu',
+  'bloom-menu-item-gap',
+  $bloom-menu-item-gap,
+  'spacing-4'
+);
+$bloom-menu-font-size: theme-runtime.token(
+  'bloom-menu',
+  'bloom-menu-font-size',
+  $bloom-menu-font-size,
+  'font-size-body-3'
+);
+$bloom-menu-font-weight: theme-runtime.token(
+  'bloom-menu',
+  'bloom-menu-font-weight',
+  $bloom-menu-font-weight,
+  'font-weight-500'
+);
+$bloom-menu-icon-size: theme-runtime.token(
+  'bloom-menu',
+  'bloom-menu-icon-size',
+  $bloom-menu-icon-size,
+  'size-5'
+);
+$bloom-menu-shadow: theme-runtime.token('bloom-menu', 'bloom-menu-shadow', $bloom-menu-shadow);

@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -81,3 +82,193 @@ $descriptions-border-item-size-default-padding-vertical: 7px;
 $descriptions-border-item-size-large-padding-horizontal: global.$spacing-8;
 
 $descriptions-border-item-size-large-padding-vertical: 9px;
+
+// @generated runtime tokens — pnpm theme:generate
+$descriptions-border-width: theme-runtime.token(
+  'descriptions',
+  'descriptions-border-width',
+  $descriptions-border-width
+);
+$descriptions-border-style: theme-runtime.token(
+  'descriptions',
+  'descriptions-border-style',
+  $descriptions-border-style
+);
+$descriptions-color-border: theme-runtime.token(
+  'descriptions',
+  'descriptions-color-border',
+  $descriptions-color-border
+);
+$descriptions-border-radius: theme-runtime.token(
+  'descriptions',
+  'descriptions-border-radius',
+  $descriptions-border-radius
+);
+$descriptions-font-size-title: theme-runtime.token(
+  'descriptions',
+  'descriptions-font-size-title',
+  $descriptions-font-size-title,
+  'font-size-title-1'
+);
+$descriptions-size-mini-title-margin-bottom: theme-runtime.token(
+  'descriptions',
+  'descriptions-size-mini-title-margin-bottom',
+  $descriptions-size-mini-title-margin-bottom
+);
+$descriptions-size-small-title-margin-bottom: theme-runtime.token(
+  'descriptions',
+  'descriptions-size-small-title-margin-bottom',
+  $descriptions-size-small-title-margin-bottom
+);
+$descriptions-size-medium-title-margin-bottom: theme-runtime.token(
+  'descriptions',
+  'descriptions-size-medium-title-margin-bottom',
+  $descriptions-size-medium-title-margin-bottom
+);
+$descriptions-size-default-title-margin-bottom: theme-runtime.token(
+  'descriptions',
+  'descriptions-size-default-title-margin-bottom',
+  $descriptions-size-default-title-margin-bottom
+);
+$descriptions-size-large-title-margin-bottom: theme-runtime.token(
+  'descriptions',
+  'descriptions-size-large-title-margin-bottom',
+  $descriptions-size-large-title-margin-bottom
+);
+$descriptions-size-mini-font-size-text: theme-runtime.token(
+  'descriptions',
+  'descriptions-size-mini-font-size-text',
+  $descriptions-size-mini-font-size-text,
+  'font-size-body-1'
+);
+$descriptions-size-small-font-size-text: theme-runtime.token(
+  'descriptions',
+  'descriptions-size-small-font-size-text',
+  $descriptions-size-small-font-size-text,
+  'font-size-body-3'
+);
+$descriptions-size-medium-font-size-text: theme-runtime.token(
+  'descriptions',
+  'descriptions-size-medium-font-size-text',
+  $descriptions-size-medium-font-size-text,
+  'font-size-body-3'
+);
+$descriptions-size-default-font-size-text: theme-runtime.token(
+  'descriptions',
+  'descriptions-size-default-font-size-text',
+  $descriptions-size-default-font-size-text,
+  'font-size-body-3'
+);
+$descriptions-size-large-font-size-text: theme-runtime.token(
+  'descriptions',
+  'descriptions-size-large-font-size-text',
+  $descriptions-size-large-font-size-text,
+  'font-size-body-3'
+);
+$descriptions-color-title: theme-runtime.token(
+  'descriptions',
+  'descriptions-color-title',
+  $descriptions-color-title
+);
+$descriptions-color-text-label: theme-runtime.token(
+  'descriptions',
+  'descriptions-color-text-label',
+  $descriptions-color-text-label
+);
+$descriptions-color-text-value: theme-runtime.token(
+  'descriptions',
+  'descriptions-color-text-value',
+  $descriptions-color-text-value
+);
+$descriptions-font-weight-title: theme-runtime.token(
+  'descriptions',
+  'descriptions-font-weight-title',
+  $descriptions-font-weight-title,
+  'font-weight-500'
+);
+$descriptions-font-weight-text-label: theme-runtime.token(
+  'descriptions',
+  'descriptions-font-weight-text-label',
+  $descriptions-font-weight-text-label,
+  'font-weight-500'
+);
+$descriptions-font-weight-text-value: theme-runtime.token(
+  'descriptions',
+  'descriptions-font-weight-text-value',
+  $descriptions-font-weight-text-value,
+  'font-weight-400'
+);
+$descriptions-border-color-bg-label: theme-runtime.token(
+  'descriptions',
+  'descriptions-border-color-bg-label',
+  $descriptions-border-color-bg-label
+);
+$descriptions-item-size-mini-spacing-bottom: theme-runtime.token(
+  'descriptions',
+  'descriptions-item-size-mini-spacing-bottom',
+  $descriptions-item-size-mini-spacing-bottom
+);
+$descriptions-item-size-small-spacing-bottom: theme-runtime.token(
+  'descriptions',
+  'descriptions-item-size-small-spacing-bottom',
+  $descriptions-item-size-small-spacing-bottom
+);
+$descriptions-item-size-medium-spacing-bottom: theme-runtime.token(
+  'descriptions',
+  'descriptions-item-size-medium-spacing-bottom',
+  $descriptions-item-size-medium-spacing-bottom
+);
+$descriptions-item-size-default-spacing-bottom: theme-runtime.token(
+  'descriptions',
+  'descriptions-item-size-default-spacing-bottom',
+  $descriptions-item-size-default-spacing-bottom
+);
+$descriptions-item-size-large-spacing-bottom: theme-runtime.token(
+  'descriptions',
+  'descriptions-item-size-large-spacing-bottom',
+  $descriptions-item-size-large-spacing-bottom
+);
+$descriptions-border-item-size-mini-padding-horizontal: theme-runtime.token(
+  'descriptions',
+  'descriptions-border-item-size-mini-padding-horizontal',
+  $descriptions-border-item-size-mini-padding-horizontal,
+  'spacing-8'
+);
+$descriptions-border-item-size-mini-padding-vertical: theme-runtime.token(
+  'descriptions',
+  'descriptions-border-item-size-mini-padding-vertical',
+  $descriptions-border-item-size-mini-padding-vertical
+);
+$descriptions-border-item-size-small-padding-horizontal: theme-runtime.token(
+  'descriptions',
+  'descriptions-border-item-size-small-padding-horizontal',
+  $descriptions-border-item-size-small-padding-horizontal,
+  'spacing-8'
+);
+$descriptions-border-item-size-small-padding-vertical: theme-runtime.token(
+  'descriptions',
+  'descriptions-border-item-size-small-padding-vertical',
+  $descriptions-border-item-size-small-padding-vertical
+);
+$descriptions-border-item-size-medium-padding-horizontal: theme-runtime.token(
+  'descriptions',
+  'descriptions-border-item-size-medium-padding-horizontal',
+  $descriptions-border-item-size-medium-padding-horizontal,
+  'spacing-8'
+);
+$descriptions-border-item-size-medium-padding-vertical: theme-runtime.token(
+  'descriptions',
+  'descriptions-border-item-size-medium-padding-vertical',
+  $descriptions-border-item-size-medium-padding-vertical
+);
+$descriptions-border-item-size-large-padding-horizontal: theme-runtime.token(
+  'descriptions',
+  'descriptions-border-item-size-large-padding-horizontal',
+  $descriptions-border-item-size-large-padding-horizontal,
+  'spacing-8'
+);
+$descriptions-border-item-size-large-padding-vertical: theme-runtime.token(
+  'descriptions',
+  'descriptions-border-item-size-large-padding-vertical',
+  $descriptions-border-item-size-large-padding-vertical
+);

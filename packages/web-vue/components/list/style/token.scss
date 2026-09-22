@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -59,3 +60,180 @@ $list-size-medium-padding-vertical-header: $list-size-default-padding-vertical-h
 $list-size-medium-padding-horizontal-header: $list-size-default-padding-horizontal-header;
 $list-size-medium-padding-vertical-item: $list-size-default-padding-vertical-item;
 $list-size-medium-padding-horizontal-item: $list-size-default-padding-horizontal-item;
+
+// @generated runtime tokens — pnpm theme:generate
+$list-border-width: theme-runtime.token('list', 'list-border-width', $list-border-width);
+$list-border-color: theme-runtime.token('list', 'list-border-color', $list-border-color);
+$list-border-radius: theme-runtime.token('list', 'list-border-radius', $list-border-radius);
+$list-color-text: theme-runtime.token('list', 'list-color-text', $list-color-text);
+$list-font-size: theme-runtime.token('list', 'list-font-size', $list-font-size, 'font-size-body-3');
+$list-line-height: theme-runtime.token('list', 'list-line-height', $line-height-base);
+$list-color-text-header: theme-runtime.token(
+  'list',
+  'list-color-text-header',
+  $list-color-text-header
+);
+$list-color-bg-item-hover: theme-runtime.token(
+  'list',
+  'list-color-bg-item-hover',
+  $list-color-bg-item-hover
+);
+$list-font-size-header: theme-runtime.token(
+  'list',
+  'list-font-size-header',
+  $list-font-size-header,
+  'font-size-title-1'
+);
+$list-font-weight-header: theme-runtime.token(
+  'list',
+  'list-font-weight-header',
+  $list-font-weight-header,
+  'font-weight-500'
+);
+$list-line-height-header: theme-runtime.token(
+  'list',
+  'list-line-height-header',
+  $list-line-height-header
+);
+$list-size-small-padding-vertical-header: theme-runtime.token(
+  'list',
+  'list-size-small-padding-vertical-header',
+  $list-size-small-padding-vertical-header,
+  'spacing-4'
+);
+$list-size-small-padding-horizontal-header: theme-runtime.token(
+  'list',
+  'list-size-small-padding-horizontal-header',
+  $list-size-small-padding-horizontal-header,
+  'spacing-8'
+);
+$list-size-small-padding-vertical-item: theme-runtime.token(
+  'list',
+  'list-size-small-padding-vertical-item',
+  $list-size-small-padding-vertical-item
+);
+$list-size-small-padding-horizontal-item: theme-runtime.token(
+  'list',
+  'list-size-small-padding-horizontal-item',
+  $list-size-small-padding-horizontal-item,
+  'spacing-8'
+);
+$list-size-default-padding-vertical-header: theme-runtime.token(
+  'list',
+  'list-size-default-padding-vertical-header',
+  $list-size-default-padding-vertical-header,
+  'spacing-6'
+);
+$list-size-default-padding-horizontal-header: theme-runtime.token(
+  'list',
+  'list-size-default-padding-horizontal-header',
+  $list-size-default-padding-horizontal-header,
+  'spacing-8'
+);
+$list-size-default-padding-vertical-item: theme-runtime.token(
+  'list',
+  'list-size-default-padding-vertical-item',
+  $list-size-default-padding-vertical-item
+);
+$list-size-default-padding-horizontal-item: theme-runtime.token(
+  'list',
+  'list-size-default-padding-horizontal-item',
+  $list-size-default-padding-horizontal-item,
+  'spacing-8'
+);
+$list-size-large-padding-vertical-header: theme-runtime.token(
+  'list',
+  'list-size-large-padding-vertical-header',
+  $list-size-large-padding-vertical-header,
+  'spacing-7'
+);
+$list-size-large-padding-horizontal-header: theme-runtime.token(
+  'list',
+  'list-size-large-padding-horizontal-header',
+  $list-size-large-padding-horizontal-header,
+  'spacing-8'
+);
+$list-size-large-padding-vertical-item: theme-runtime.token(
+  'list',
+  'list-size-large-padding-vertical-item',
+  $list-size-large-padding-vertical-item
+);
+$list-size-large-padding-horizontal-item: theme-runtime.token(
+  'list',
+  'list-size-large-padding-horizontal-item',
+  $list-size-large-padding-horizontal-item,
+  'spacing-8'
+);
+$list-meta-font-weight-title: theme-runtime.token(
+  'list',
+  'list-meta-font-weight-title',
+  $list-meta-font-weight-title,
+  'font-weight-500'
+);
+$list-meta-color-title: theme-runtime.token(
+  'list',
+  'list-meta-color-title',
+  $list-meta-color-title
+);
+$list-mete-color-description: theme-runtime.token(
+  'list',
+  'list-mete-color-description',
+  $list-mete-color-description
+);
+$list-meta-margin-right-avatar: theme-runtime.token(
+  'list',
+  'list-meta-margin-right-avatar',
+  $list-meta-margin-right-avatar,
+  'spacing-7'
+);
+$list-meta-margin-bottom-title: theme-runtime.token(
+  'list',
+  'list-meta-margin-bottom-title',
+  $list-meta-margin-bottom-title,
+  'spacing-1'
+);
+$list-meta-padding-horizontal: theme-runtime.token(
+  'list',
+  'list-meta-padding-horizontal',
+  $list-meta-padding-horizontal,
+  'spacing-none'
+);
+$list-meta-padding-vertical: theme-runtime.token(
+  'list',
+  'list-meta-padding-vertical',
+  $list-meta-padding-vertical,
+  'spacing-2'
+);
+$list-action-gap: theme-runtime.token('list', 'list-action-gap', $list-action-gap, 'spacing-8');
+$list-action-margin-top: theme-runtime.token(
+  'list',
+  'list-action-margin-top',
+  $list-action-margin-top,
+  'spacing-2'
+);
+$list-pagination-margin-top: theme-runtime.token(
+  'list',
+  'list-pagination-margin-top',
+  $list-pagination-margin-top,
+  'spacing-9'
+);
+$list-size-medium-padding-vertical-header: theme-runtime.token(
+  'list',
+  'list-size-medium-padding-vertical-header',
+  $list-size-default-padding-vertical-header
+);
+$list-size-medium-padding-horizontal-header: theme-runtime.token(
+  'list',
+  'list-size-medium-padding-horizontal-header',
+  $list-size-default-padding-horizontal-header
+);
+$list-size-medium-padding-vertical-item: theme-runtime.token(
+  'list',
+  'list-size-medium-padding-vertical-item',
+  $list-size-default-padding-vertical-item
+);
+$list-size-medium-padding-horizontal-item: theme-runtime.token(
+  'list',
+  'list-size-medium-padding-horizontal-item',
+  $list-size-default-padding-horizontal-item
+);

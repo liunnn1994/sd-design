@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -31,3 +32,52 @@ $timepicker-color-text-cell_disabled: var(
 $timepicker-font-weight-cell: global.$font-weight-500;
 
 $timepicker-font-weight-cell_active: global.$font-weight-500;
+
+// @generated runtime tokens — pnpm theme:generate
+$timepicker-wrapper-border-radius: theme-runtime.token(
+  'time-picker',
+  'timepicker-wrapper-border-radius',
+  $timepicker-wrapper-border-radius
+);
+$timepicker-column-width: theme-runtime.token(
+  'time-picker',
+  'timepicker-column-width',
+  $timepicker-column-width
+);
+$timepicker-color-border: theme-runtime.token(
+  'time-picker',
+  'timepicker-color-border',
+  $timepicker-color-border
+);
+$timepicker-color-text-cell: theme-runtime.token(
+  'time-picker',
+  'timepicker-color-text-cell',
+  $timepicker-color-text-cell
+);
+$timepicker-color-bg-cell_hover: theme-runtime.token(
+  'time-picker',
+  'timepicker-color-bg-cell-hover',
+  $timepicker-color-bg-cell_hover
+);
+$timepicker-color-bg-cell_active: theme-runtime.token(
+  'time-picker',
+  'timepicker-color-bg-cell-active',
+  $timepicker-color-bg-cell_active
+);
+$timepicker-color-text-cell_disabled: theme-runtime.token(
+  'time-picker',
+  'timepicker-color-text-cell-disabled',
+  $timepicker-color-text-cell_disabled
+);
+$timepicker-font-weight-cell: theme-runtime.token(
+  'time-picker',
+  'timepicker-font-weight-cell',
+  $timepicker-font-weight-cell,
+  'font-weight-500'
+);
+$timepicker-font-weight-cell_active: theme-runtime.token(
+  'time-picker',
+  'timepicker-font-weight-cell-active',
+  $timepicker-font-weight-cell_active,
+  'font-weight-500'
+);

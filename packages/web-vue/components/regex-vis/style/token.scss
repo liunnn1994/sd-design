@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 @use 'sass:string';
 
@@ -40,3 +41,172 @@ $regex-vis-font-size-node: global.$font-size-body-3;
 $regex-vis-font-size-quantifier: global.$font-size-body-3;
 $regex-vis-font-weight: global.$font-weight-500;
 $regex-vis-transition-duration: global.$transition-duration-1;
+
+// @generated runtime tokens — pnpm theme:generate
+$regex-vis-color-bg: theme-runtime.token('regex-vis', 'regex-vis-color-bg', $regex-vis-color-bg);
+$regex-vis-color-viewport-bg: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-color-viewport-bg',
+  $regex-vis-color-viewport-bg
+);
+$regex-vis-color-border: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-color-border',
+  $regex-vis-color-border
+);
+$regex-vis-color-rail: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-color-rail',
+  $regex-vis-color-rail
+);
+$regex-vis-color-text: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-color-text',
+  $regex-vis-color-text
+);
+$regex-vis-color-text-secondary: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-color-text-secondary',
+  $regex-vis-color-text-secondary
+);
+$regex-vis-color-node-bg: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-color-node-bg',
+  $regex-vis-color-node-bg
+);
+$regex-vis-color-node-border: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-color-node-border',
+  $regex-vis-color-node-border,
+  'color-primary-6'
+);
+$regex-vis-color-assertion-bg: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-color-assertion-bg',
+  $regex-vis-color-assertion-bg
+);
+$regex-vis-color-assertion-border: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-color-assertion-border',
+  $regex-vis-color-assertion-border,
+  'color-success-6'
+);
+$regex-vis-color-group-border: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-color-group-border',
+  $regex-vis-color-group-border
+);
+$regex-vis-color-hover-bg: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-color-hover-bg',
+  $regex-vis-color-hover-bg
+);
+$regex-vis-color-selected-bg: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-color-selected-bg',
+  $regex-vis-color-selected-bg
+);
+$regex-vis-color-focus: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-color-focus',
+  $regex-vis-color-focus,
+  'color-primary-5'
+);
+$regex-vis-color-error: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-color-error',
+  $regex-vis-color-error,
+  'color-danger-6'
+);
+$regex-vis-color-error-bg: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-color-error-bg',
+  $regex-vis-color-error-bg
+);
+$regex-vis-border-width: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-border-width',
+  $regex-vis-border-width,
+  'border-1'
+);
+$regex-vis-border-width-active: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-border-width-active',
+  $regex-vis-border-width-active,
+  'border-2'
+);
+$regex-vis-border-radius: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-border-radius',
+  $regex-vis-border-radius
+);
+$regex-vis-node-border-radius: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-node-border-radius',
+  $regex-vis-node-border-radius
+);
+$regex-vis-padding: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-padding',
+  $regex-vis-padding,
+  'spacing-7'
+);
+$regex-vis-padding-compact: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-padding-compact',
+  $regex-vis-padding-compact,
+  'spacing-6'
+);
+$regex-vis-control-gap: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-control-gap',
+  $regex-vis-control-gap,
+  'spacing-6'
+);
+$regex-vis-state-gap: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-state-gap',
+  $regex-vis-state-gap,
+  'spacing-2'
+);
+$regex-vis-min-height: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-min-height',
+  $regex-vis-min-height,
+  'size-40'
+);
+$regex-vis-font-size: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-font-size',
+  $regex-vis-font-size,
+  'font-size-body-3'
+);
+$regex-vis-font-size-secondary: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-font-size-secondary',
+  $regex-vis-font-size-secondary,
+  'font-size-body-1'
+);
+$regex-vis-font-size-node: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-font-size-node',
+  $regex-vis-font-size-node,
+  'font-size-body-3'
+);
+$regex-vis-font-size-quantifier: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-font-size-quantifier',
+  $regex-vis-font-size-quantifier,
+  'font-size-body-3'
+);
+$regex-vis-font-weight: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-font-weight',
+  $regex-vis-font-weight,
+  'font-weight-500'
+);
+$regex-vis-transition-duration: theme-runtime.token(
+  'regex-vis',
+  'regex-vis-transition-duration',
+  $regex-vis-transition-duration
+);

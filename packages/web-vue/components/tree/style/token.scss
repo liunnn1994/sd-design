@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -97,3 +98,165 @@ $tree-size-small-line-height: global.$size-small;
 $tree-size-default-line-height: global.$size-default;
 
 $tree-size-large-line-height: global.$size-large;
+
+// @generated runtime tokens — pnpm theme:generate
+$tree-color-title-text: theme-runtime.token(
+  'tree',
+  'tree-color-title-text',
+  $tree-color-title-text
+);
+$tree-color-title-text_hover: theme-runtime.token(
+  'tree',
+  'tree-color-title-text-hover',
+  $tree-color-title-text_hover
+);
+$tree-color-title-text_active: theme-runtime.token(
+  'tree',
+  'tree-color-title-text-active',
+  $tree-color-title-text_active,
+  'color-primary-6'
+);
+$tree-color-title-text_disabled: theme-runtime.token(
+  'tree',
+  'tree-color-title-text-disabled',
+  $tree-color-title-text_disabled
+);
+$tree-color-title-text_active_disabled: theme-runtime.token(
+  'tree',
+  'tree-color-title-text-active-disabled',
+  $tree-color-title-text_active_disabled
+);
+$tree-color-title-bg_hover: theme-runtime.token(
+  'tree',
+  'tree-color-title-bg-hover',
+  $tree-color-title-bg_hover
+);
+$tree-color-title-bg_highlight: theme-runtime.token(
+  'tree',
+  'tree-color-title-bg-highlight',
+  $tree-color-title-bg_highlight
+);
+$tree-color-title-text_highlight: theme-runtime.token(
+  'tree',
+  'tree-color-title-text-highlight',
+  $tree-color-title-text_highlight
+);
+$tree-color-title-bg_dragging: theme-runtime.token(
+  'tree',
+  'tree-color-title-bg-dragging',
+  $tree-color-title-bg_dragging
+);
+$tree-color-title-text_dragging: theme-runtime.token(
+  'tree',
+  'tree-color-title-text-dragging',
+  $tree-color-title-text_dragging
+);
+$tree-color-loading-icon: theme-runtime.token(
+  'tree',
+  'tree-color-loading-icon',
+  $tree-color-loading-icon,
+  'color-primary-6'
+);
+$tree-color-switcher-icon: theme-runtime.token(
+  'tree',
+  'tree-color-switcher-icon',
+  $tree-color-switcher-icon
+);
+$tree-color-drag-icon: theme-runtime.token(
+  'tree',
+  'tree-color-drag-icon',
+  $tree-color-drag-icon,
+  'color-primary-6'
+);
+$tree-node-border-radius: theme-runtime.token(
+  'tree',
+  'tree-node-border-radius',
+  $tree-node-border-radius
+);
+$tree-margin-checkbox-right: theme-runtime.token(
+  'tree',
+  'tree-margin-checkbox-right',
+  $tree-margin-checkbox-right,
+  'spacing-5'
+);
+$tree-margin-switcher-icon-right: theme-runtime.token(
+  'tree',
+  'tree-margin-switcher-icon-right',
+  $tree-margin-switcher-icon-right,
+  'spacing-5'
+);
+$tree-margin-custom-icon-right: theme-runtime.token(
+  'tree',
+  'tree-margin-custom-icon-right',
+  $tree-margin-custom-icon-right,
+  'spacing-5'
+);
+$tree-padding-title-horizontal: theme-runtime.token(
+  'tree',
+  'tree-padding-title-horizontal',
+  $tree-padding-title-horizontal,
+  'spacing-2'
+);
+$tree-spacing-drag-icon-right: theme-runtime.token(
+  'tree',
+  'tree-spacing-drag-icon-right',
+  $tree-spacing-drag-icon-right,
+  'spacing-6'
+);
+$tree-spacing-drag-icon-text: theme-runtime.token(
+  'tree',
+  'tree-spacing-drag-icon-text',
+  $tree-spacing-drag-icon-text,
+  'spacing-22'
+);
+$tree-draggable-color-gap-bg: theme-runtime.token(
+  'tree',
+  'tree-draggable-color-gap-bg',
+  $tree-draggable-color-gap-bg,
+  'color-primary-6'
+);
+$tree-showline-color-line-bg: theme-runtime.token(
+  'tree',
+  'tree-showline-color-line-bg',
+  $tree-showline-color-line-bg
+);
+$tree-showline-color-plus-icon-bg: theme-runtime.token(
+  'tree',
+  'tree-showline-color-plus-icon-bg',
+  $tree-showline-color-plus-icon-bg
+);
+$tree-showline-size-line-width: theme-runtime.token(
+  'tree',
+  'tree-showline-size-line-width',
+  $tree-showline-size-line-width,
+  'border-1'
+);
+$tree-showline-style-line: theme-runtime.token(
+  'tree',
+  'tree-showline-style-line',
+  $tree-showline-style-line,
+  'border-solid'
+);
+$tree-showline-border-plus-icon-radius: theme-runtime.token(
+  'tree',
+  'tree-showline-border-plus-icon-radius',
+  $tree-showline-border-plus-icon-radius
+);
+$tree-size-mini-icon-size: theme-runtime.token(
+  'tree',
+  'tree-size-mini-icon-size',
+  $tree-size-mini-icon-size,
+  'size-3'
+);
+$tree-size-small-icon-size: theme-runtime.token(
+  'tree',
+  'tree-size-small-icon-size',
+  $tree-size-small-icon-size,
+  'size-3'
+);
+$tree-size-large-icon-size: theme-runtime.token(
+  'tree',
+  'tree-size-large-icon-size',
+  $tree-size-large-icon-size,
+  'size-3'
+);

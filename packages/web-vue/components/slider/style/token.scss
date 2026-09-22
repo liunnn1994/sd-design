@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -58,3 +59,146 @@ $slider-color-input_range_content-bg: rgb(
 // vertical
 $slider-size-height_vertical: 200px;
 $slider-spacing-mark-left: 3px; // mark 文本和滑动路径的距离
+
+// @generated runtime tokens — pnpm theme:generate
+$slider-color-road-bg: theme-runtime.token('slider', 'slider-color-road-bg', $slider-color-road-bg);
+$slider-color-road-bg_disabled: theme-runtime.token(
+  'slider',
+  'slider-color-road-bg-disabled',
+  $slider-color-road-bg_disabled
+);
+$slider-color-bar-bg: theme-runtime.token(
+  'slider',
+  'slider-color-bar-bg',
+  $slider-color-bar-bg,
+  'color-primary-6'
+);
+$slider-color-bar-bg_disabled: theme-runtime.token(
+  'slider',
+  'slider-color-bar-bg-disabled',
+  $slider-color-bar-bg_disabled
+);
+$slider-color-button-bg: theme-runtime.token(
+  'slider',
+  'slider-color-button-bg',
+  $slider-color-button-bg
+);
+$slider-border-size-button: theme-runtime.token(
+  'slider',
+  'slider-border-size-button',
+  $slider-border-size-button,
+  'border-2'
+);
+$slider-color-button-border: theme-runtime.token(
+  'slider',
+  'slider-color-button-border',
+  $slider-color-button-border,
+  'color-primary-6'
+);
+$slider-color-button-border_disabled: theme-runtime.token(
+  'slider',
+  'slider-color-button-border-disabled',
+  $slider-color-button-border_disabled
+);
+$slider-shadow-button_active: theme-runtime.token(
+  'slider',
+  'slider-shadow-button-active',
+  $slider-shadow-button_active
+);
+$slider-color-dot-bg: theme-runtime.token('slider', 'slider-color-dot-bg', $slider-color-dot-bg);
+$slider-border-size-dot: theme-runtime.token(
+  'slider',
+  'slider-border-size-dot',
+  $slider-border-size-dot,
+  'border-2'
+);
+$slider-font-size-dot: theme-runtime.token(
+  'slider',
+  'slider-font-size-dot',
+  $slider-font-size-dot,
+  'font-size-body-1'
+);
+$slider-size-dot-width: theme-runtime.token(
+  'slider',
+  'slider-size-dot-width',
+  $slider-size-dot-width,
+  'size-2'
+);
+$slider-spacing-margin-bottom_with-mark: theme-runtime.token(
+  'slider',
+  'slider-spacing-margin-bottom-with-mark',
+  $slider-spacing-margin-bottom_with-mark,
+  'spacing-9'
+);
+$slider-spacing-padding_width-mark: theme-runtime.token(
+  'slider',
+  'slider-spacing-padding-width-mark',
+  $slider-spacing-padding_width-mark,
+  'spacing-8'
+);
+$slider-spacing-padding_width-mark_vertical: theme-runtime.token(
+  'slider',
+  'slider-spacing-padding-width-mark-vertical',
+  $slider-spacing-padding_width-mark_vertical,
+  'spacing-8'
+);
+$slider-font-size-mark: theme-runtime.token(
+  'slider',
+  'slider-font-size-mark',
+  $slider-font-size-mark,
+  'font-size-body-3'
+);
+$slider-color-mark-font: theme-runtime.token(
+  'slider',
+  'slider-color-mark-font',
+  $slider-color-mark-font
+);
+$slider-size-tick-width: theme-runtime.token(
+  'slider',
+  'slider-size-tick-width',
+  $slider-size-tick-width
+);
+$slider-size-tick-height: theme-runtime.token(
+  'slider',
+  'slider-size-tick-height',
+  $slider-size-tick-height
+);
+$slider-spacing-input-margin-left: theme-runtime.token(
+  'slider',
+  'slider-spacing-input-margin-left',
+  $slider-spacing-input-margin-left,
+  'spacing-8'
+);
+$slider-size-input-width: theme-runtime.token(
+  'slider',
+  'slider-size-input-width',
+  $slider-size-input-width,
+  'size-15'
+);
+$slider-size-input-height: theme-runtime.token(
+  'slider',
+  'slider-size-input-height',
+  $slider-size-input-height,
+  'size-8'
+);
+$slider-size-input_range-height: theme-runtime.token(
+  'slider',
+  'slider-size-input-range-height',
+  $slider-size-input_range-height,
+  'size-8'
+);
+$slider-size-input_range_content-height: theme-runtime.token(
+  'slider',
+  'slider-size-input-range-content-height',
+  $slider-size-input_range_content-height
+);
+$slider-color-input_range_content-bg: theme-runtime.token(
+  'slider',
+  'slider-color-input-range-content-bg',
+  $slider-color-input_range_content-bg
+);
+$slider-size-height_vertical: theme-runtime.token(
+  'slider',
+  'slider-size-height-vertical',
+  $slider-size-height_vertical
+);

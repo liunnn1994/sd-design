@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -63,3 +64,141 @@ $result-color-icon-bg_info: var(
 $result-size-icon_custom: 45px;
 
 $result-color-icon_default: inherit;
+
+// @generated runtime tokens — pnpm theme:generate
+$result-padding-top: theme-runtime.token(
+  'result',
+  'result-padding-top',
+  $result-padding-top,
+  'spacing-9'
+);
+$result-padding-top_icon: theme-runtime.token(
+  'result',
+  'result-padding-top-icon',
+  $result-padding-top_icon,
+  'spacing-10'
+);
+$result-padding-bottom: theme-runtime.token(
+  'result',
+  'result-padding-bottom',
+  $result-padding-bottom,
+  'spacing-9'
+);
+$result-padding-horizontal: theme-runtime.token(
+  'result',
+  'result-padding-horizontal',
+  $result-padding-horizontal,
+  'spacing-10'
+);
+$result-margin-icon-bottom: theme-runtime.token(
+  'result',
+  'result-margin-icon-bottom',
+  $result-margin-icon-bottom,
+  'spacing-7'
+);
+$result-margin-extra-top: theme-runtime.token(
+  'result',
+  'result-margin-extra-top',
+  $result-margin-extra-top,
+  'spacing-8'
+);
+$result-margin-content-top: theme-runtime.token(
+  'result',
+  'result-margin-content-top',
+  $result-margin-content-top,
+  'spacing-8'
+);
+$result-font-title-size: theme-runtime.token(
+  'result',
+  'result-font-title-size',
+  $result-font-title-size,
+  'font-size-body-3'
+);
+$result-font-title-weight: theme-runtime.token(
+  'result',
+  'result-font-title-weight',
+  $result-font-title-weight,
+  'font-weight-500'
+);
+$result-font-subtitle-size: theme-runtime.token(
+  'result',
+  'result-font-subtitle-size',
+  $result-font-subtitle-size,
+  'font-size-body-3'
+);
+$result-color-title-text: theme-runtime.token(
+  'result',
+  'result-color-title-text',
+  $result-color-title-text
+);
+$result-color-subtitle-text: theme-runtime.token(
+  'result',
+  'result-color-subtitle-text',
+  $result-color-subtitle-text
+);
+$result-size-icon: theme-runtime.token('result', 'result-size-icon', $result-size-icon, 'size-5');
+$result-size-icon-wrapper: theme-runtime.token(
+  'result',
+  'result-size-icon-wrapper',
+  $result-size-icon-wrapper
+);
+$result-size-image-width: theme-runtime.token(
+  'result',
+  'result-size-image-width',
+  $result-size-image-width,
+  'size-23'
+);
+$result-color-icon_success: theme-runtime.token(
+  'result',
+  'result-color-icon-success',
+  $result-color-icon_success,
+  'color-success-6'
+);
+$result-color-icon-bg_success: theme-runtime.token(
+  'result',
+  'result-color-icon-bg-success',
+  $result-color-icon-bg_success
+);
+$result-color-icon_error: theme-runtime.token(
+  'result',
+  'result-color-icon-error',
+  $result-color-icon_error,
+  'color-danger-6'
+);
+$result-color-icon-bg_error: theme-runtime.token(
+  'result',
+  'result-color-icon-bg-error',
+  $result-color-icon-bg_error
+);
+$result-color-icon_warning: theme-runtime.token(
+  'result',
+  'result-color-icon-warning',
+  $result-color-icon_warning,
+  'color-warning-6'
+);
+$result-color-icon-bg_warning: theme-runtime.token(
+  'result',
+  'result-color-icon-bg-warning',
+  $result-color-icon-bg_warning
+);
+$result-color-icon_info: theme-runtime.token(
+  'result',
+  'result-color-icon-info',
+  $result-color-icon_info,
+  'color-primary-6'
+);
+$result-color-icon-bg_info: theme-runtime.token(
+  'result',
+  'result-color-icon-bg-info',
+  $result-color-icon-bg_info
+);
+$result-size-icon_custom: theme-runtime.token(
+  'result',
+  'result-size-icon-custom',
+  $result-size-icon_custom
+);
+$result-color-icon_default: theme-runtime.token(
+  'result',
+  'result-color-icon-default',
+  $result-color-icon_default
+);

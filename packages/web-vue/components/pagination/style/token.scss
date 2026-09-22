@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -95,3 +96,305 @@ $pagination-color-jumper-goto: var(string.unquote('#{global.$sd-cssvars-prefix}-
 
 // total text
 $pagination-color-text-total: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
+
+// @generated runtime tokens — pnpm theme:generate
+$pagination-item-border-radius: theme-runtime.token(
+  'pagination',
+  'pagination-item-border-radius',
+  $pagination-item-border-radius
+);
+$pagination-item-spacing: theme-runtime.token(
+  'pagination',
+  'pagination-item-spacing',
+  $pagination-item-spacing,
+  'spacing-4'
+);
+$pagination-margin-total-spacing: theme-runtime.token(
+  'pagination',
+  'pagination-margin-total-spacing',
+  $pagination-margin-total-spacing,
+  'spacing-4'
+);
+$pagination-margin-option-left: theme-runtime.token(
+  'pagination',
+  'pagination-margin-option-left',
+  $pagination-margin-option-left,
+  'spacing-4'
+);
+$pagination-margin-jumper-left: theme-runtime.token(
+  'pagination',
+  'pagination-margin-jumper-left',
+  $pagination-margin-jumper-left,
+  'spacing-4'
+);
+$pagination-size-mini: theme-runtime.token(
+  'pagination',
+  'pagination-size-mini',
+  $pagination-size-mini,
+  'size-mini'
+);
+$pagination-size-small: theme-runtime.token(
+  'pagination',
+  'pagination-size-small',
+  $pagination-size-small,
+  'size-small'
+);
+$pagination-size-default: theme-runtime.token(
+  'pagination',
+  'pagination-size-default',
+  $pagination-size-default,
+  'size-default'
+);
+$pagination-size-large: theme-runtime.token(
+  'pagination',
+  'pagination-size-large',
+  $pagination-size-large,
+  'size-large'
+);
+$pagination-padding-horizontal: theme-runtime.token(
+  'pagination',
+  'pagination-padding-horizontal',
+  $pagination-padding-horizontal
+);
+$pagination-size-mini-font-size: theme-runtime.token(
+  'pagination',
+  'pagination-size-mini-font-size',
+  $pagination-size-mini-font-size,
+  'font-size-body-1'
+);
+$pagination-size-small-font-size: theme-runtime.token(
+  'pagination',
+  'pagination-size-small-font-size',
+  $pagination-size-small-font-size,
+  'font-size-body-3'
+);
+$pagination-size-default-font-size: theme-runtime.token(
+  'pagination',
+  'pagination-size-default-font-size',
+  $pagination-size-default-font-size,
+  'font-size-body-3'
+);
+$pagination-size-large-font-size: theme-runtime.token(
+  'pagination',
+  'pagination-size-large-font-size',
+  $pagination-size-large-font-size,
+  'font-size-body-3'
+);
+$pagination-size-icon-arrow_mini: theme-runtime.token(
+  'pagination',
+  'pagination-size-icon-arrow-mini',
+  $pagination-size-icon-arrow_mini,
+  'size-3'
+);
+$pagination-size-icon-arrow_small: theme-runtime.token(
+  'pagination',
+  'pagination-size-icon-arrow-small',
+  $pagination-size-icon-arrow_small,
+  'size-3'
+);
+$pagination-size-icon-arrow_default: theme-runtime.token(
+  'pagination',
+  'pagination-size-icon-arrow-default',
+  $pagination-size-icon-arrow_default,
+  'size-3'
+);
+$pagination-size-icon-arrow_large: theme-runtime.token(
+  'pagination',
+  'pagination-size-icon-arrow-large',
+  $pagination-size-icon-arrow_large
+);
+$pagination-size-icon-ellipsis: theme-runtime.token(
+  'pagination',
+  'pagination-size-icon-ellipsis',
+  $pagination-size-icon-ellipsis,
+  'size-4'
+);
+$pagination-border-width: theme-runtime.token(
+  'pagination',
+  'pagination-border-width',
+  $pagination-border-width,
+  'border-none'
+);
+$pagination-color-bg-item: theme-runtime.token(
+  'pagination',
+  'pagination-color-bg-item',
+  $pagination-color-bg-item,
+  'color-transparent'
+);
+$pagination-color-bg-item_active: theme-runtime.token(
+  'pagination',
+  'pagination-color-bg-item-active',
+  $pagination-color-bg-item_active
+);
+$pagination-color-bg-item_hover: theme-runtime.token(
+  'pagination',
+  'pagination-color-bg-item-hover',
+  $pagination-color-bg-item_hover
+);
+$pagination-color-bg-item_disabled: theme-runtime.token(
+  'pagination',
+  'pagination-color-bg-item-disabled',
+  $pagination-color-bg-item_disabled,
+  'color-transparent'
+);
+$pagination-color-bg-item_active_disabled: theme-runtime.token(
+  'pagination',
+  'pagination-color-bg-item-active-disabled',
+  $pagination-color-bg-item_active_disabled
+);
+$pagination-color-item-text: theme-runtime.token(
+  'pagination',
+  'pagination-color-item-text',
+  $pagination-color-item-text
+);
+$pagination-color-item-text_hover: theme-runtime.token(
+  'pagination',
+  'pagination-color-item-text-hover',
+  $pagination-color-item-text_hover
+);
+$pagination-color-item-text_active: theme-runtime.token(
+  'pagination',
+  'pagination-color-item-text-active',
+  $pagination-color-item-text_active,
+  'color-primary-6'
+);
+$pagination-color-item-text_disabled: theme-runtime.token(
+  'pagination',
+  'pagination-color-item-text-disabled',
+  $pagination-color-item-text_disabled
+);
+$pagination-color-item-text_active_disabled: theme-runtime.token(
+  'pagination',
+  'pagination-color-item-text-active-disabled',
+  $pagination-color-item-text_active_disabled
+);
+$pagination-color-item-border: theme-runtime.token(
+  'pagination',
+  'pagination-color-item-border',
+  $pagination-color-item-border,
+  'color-transparent'
+);
+$pagination-color-item-border_active: theme-runtime.token(
+  'pagination',
+  'pagination-color-item-border-active',
+  $pagination-color-item-border_active,
+  'color-transparent'
+);
+$pagination-color-item-border_hover: theme-runtime.token(
+  'pagination',
+  'pagination-color-item-border-hover',
+  $pagination-color-item-border_hover,
+  'color-transparent'
+);
+$pagination-color-item-border_disabled: theme-runtime.token(
+  'pagination',
+  'pagination-color-item-border-disabled',
+  $pagination-color-item-border_disabled,
+  'color-transparent'
+);
+$pagination-color-item-border_active_disabled: theme-runtime.token(
+  'pagination',
+  'pagination-color-item-border-active-disabled',
+  $pagination-color-item-border_active_disabled,
+  'color-transparent'
+);
+$pagination-color-icon-arrow: theme-runtime.token(
+  'pagination',
+  'pagination-color-icon-arrow',
+  $pagination-color-icon-arrow
+);
+$pagination-color-icon-arrow-bg: theme-runtime.token(
+  'pagination',
+  'pagination-color-icon-arrow-bg',
+  $pagination-color-icon-arrow-bg,
+  'color-transparent'
+);
+$pagination-color-icon-arrow-bg_hover: theme-runtime.token(
+  'pagination',
+  'pagination-color-icon-arrow-bg-hover',
+  $pagination-color-icon-arrow-bg_hover
+);
+$pagination-color-icon-arrow-bg_disabled: theme-runtime.token(
+  'pagination',
+  'pagination-color-icon-arrow-bg-disabled',
+  $pagination-color-icon-arrow-bg_disabled,
+  'color-transparent'
+);
+$pagination-color-icon-arrow-text_hover: theme-runtime.token(
+  'pagination',
+  'pagination-color-icon-arrow-text-hover',
+  $pagination-color-icon-arrow-text_hover,
+  'color-primary-6'
+);
+$pagination-color-icon-arrow-text_disabled: theme-runtime.token(
+  'pagination',
+  'pagination-color-icon-arrow-text-disabled',
+  $pagination-color-icon-arrow-text_disabled
+);
+$pagination-simple-input-width: theme-runtime.token(
+  'pagination',
+  'pagination-simple-input-width',
+  $pagination-simple-input-width,
+  'size-10'
+);
+$pagination-simple-color-icon-arrow: theme-runtime.token(
+  'pagination',
+  'pagination-simple-color-icon-arrow',
+  $pagination-simple-color-icon-arrow
+);
+$pagination-simple-color-icon-arrow-bg: theme-runtime.token(
+  'pagination',
+  'pagination-simple-color-icon-arrow-bg',
+  $pagination-simple-color-icon-arrow-bg,
+  'color-transparent'
+);
+$pagination-simple-color-icon-arrow-bg_hover: theme-runtime.token(
+  'pagination',
+  'pagination-simple-color-icon-arrow-bg-hover',
+  $pagination-simple-color-icon-arrow-bg_hover
+);
+$pagination-simple-color-icon-arrow-bg_disabled: theme-runtime.token(
+  'pagination',
+  'pagination-simple-color-icon-arrow-bg-disabled',
+  $pagination-simple-color-icon-arrow-bg_disabled,
+  'color-transparent'
+);
+$pagination-simple-color-icon-arrow-text_hover: theme-runtime.token(
+  'pagination',
+  'pagination-simple-color-icon-arrow-text-hover',
+  $pagination-simple-color-icon-arrow-text_hover,
+  'color-primary-6'
+);
+$pagination-simple-color-icon-arrow-text_disabled: theme-runtime.token(
+  'pagination',
+  'pagination-simple-color-icon-arrow-text-disabled',
+  $pagination-simple-color-icon-arrow-text_disabled
+);
+$pagination-simple-margin-separator-left: theme-runtime.token(
+  'pagination',
+  'pagination-simple-margin-separator-left',
+  $pagination-simple-margin-separator-left,
+  'spacing-6'
+);
+$pagination-simple-margin-separator-right: theme-runtime.token(
+  'pagination',
+  'pagination-simple-margin-separator-right',
+  $pagination-simple-margin-separator-right,
+  'spacing-6'
+);
+$patination-jumper-input-width: theme-runtime.token(
+  'pagination',
+  'patination-jumper-input-width',
+  $patination-jumper-input-width,
+  'size-10'
+);
+$pagination-color-jumper-goto: theme-runtime.token(
+  'pagination',
+  'pagination-color-jumper-goto',
+  $pagination-color-jumper-goto
+);
+$pagination-color-text-total: theme-runtime.token(
+  'pagination',
+  'pagination-color-text-total',
+  $pagination-color-text-total
+);

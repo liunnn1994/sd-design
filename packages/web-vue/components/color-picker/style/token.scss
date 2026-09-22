@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -98,3 +99,202 @@ $color-panel-block-margin: global.$spacing-3;
 $color-panel-block-border-radius: global.$border-2;
 
 $color-panel-border-color: var(string.unquote('#{global.$sd-cssvars-prefix}-color-border-2'));
+
+// @generated runtime tokens — pnpm theme:generate
+$color-preview-size-mini: theme-runtime.token(
+  'color-picker',
+  'color-preview-size-mini',
+  $color-preview-size-mini,
+  'size-4'
+);
+$color-preview-size-small: theme-runtime.token(
+  'color-picker',
+  'color-preview-size-small',
+  $color-preview-size-small
+);
+$color-preview-size-medium: theme-runtime.token(
+  'color-picker',
+  'color-preview-size-medium',
+  $color-preview-size-medium,
+  'size-6'
+);
+$color-preview-size-large: theme-runtime.token(
+  'color-picker',
+  'color-preview-size-large',
+  $color-preview-size-large
+);
+$color-input-bg-color: theme-runtime.token(
+  'color-picker',
+  'color-input-bg-color',
+  $color-input-bg-color
+);
+$color-value-margin-left: theme-runtime.token(
+  'color-picker',
+  'color-value-margin-left',
+  $color-value-margin-left,
+  'spacing-2'
+);
+$color-value-font-color: theme-runtime.token(
+  'color-picker',
+  'color-value-font-color',
+  $color-value-font-color
+);
+$color-value-font-color_disabled: theme-runtime.token(
+  'color-picker',
+  'color-value-font-color-disabled',
+  $color-value-font-color_disabled
+);
+$color-value-size-mini-font-size: theme-runtime.token(
+  'color-picker',
+  'color-value-size-mini-font-size',
+  $color-value-size-mini-font-size,
+  'font-size-body-1'
+);
+$color-value-size-small-font-size: theme-runtime.token(
+  'color-picker',
+  'color-value-size-small-font-size',
+  $color-value-size-small-font-size,
+  'font-size-body-3'
+);
+$color-value-size-medium-font-size: theme-runtime.token(
+  'color-picker',
+  'color-value-size-medium-font-size',
+  $color-value-size-medium-font-size,
+  'font-size-body-3'
+);
+$color-value-size-large-font-size: theme-runtime.token(
+  'color-picker',
+  'color-value-size-large-font-size',
+  $color-value-size-large-font-size,
+  'font-size-body-3'
+);
+$color-input-border-radius: theme-runtime.token(
+  'color-picker',
+  'color-input-border-radius',
+  $color-input-border-radius,
+  'border-radius-small'
+);
+$color-preview-border-size: theme-runtime.token(
+  'color-picker',
+  'color-preview-border-size',
+  $color-preview-border-size,
+  'border-1'
+);
+$color-preview-border-color: theme-runtime.token(
+  'color-picker',
+  'color-preview-border-color',
+  $color-preview-border-color
+);
+$color-value-font-size: theme-runtime.token(
+  'color-picker',
+  'color-value-font-size',
+  $color-value-font-size,
+  'font-weight-400'
+);
+$color-panel-width: theme-runtime.token('color-picker', 'color-panel-width', $color-panel-width);
+$color-panel-padding: theme-runtime.token(
+  'color-picker',
+  'color-panel-padding',
+  $color-panel-padding,
+  'spacing-6'
+);
+$color-panel-border-radius: theme-runtime.token(
+  'color-picker',
+  'color-panel-border-radius',
+  $color-panel-border-radius,
+  'border-radius-small'
+);
+$color-panel-bg-color: theme-runtime.token(
+  'color-picker',
+  'color-panel-bg-color',
+  $color-panel-bg-color
+);
+$color-panel-box-shadow: theme-runtime.token(
+  'color-picker',
+  'color-panel-box-shadow',
+  $color-panel-box-shadow
+);
+$color-palette-height: theme-runtime.token(
+  'color-picker',
+  'color-palette-height',
+  $color-palette-height
+);
+$color-palette-handle-size: theme-runtime.token(
+  'color-picker',
+  'color-palette-handle-size',
+  $color-palette-handle-size,
+  'size-4'
+);
+$color-palette-handle-border-size: theme-runtime.token(
+  'color-picker',
+  'color-palette-handle-border-size',
+  $color-palette-handle-border-size,
+  'border-2'
+);
+$color-control-bar-width: theme-runtime.token(
+  'color-picker',
+  'color-control-bar-width',
+  $color-control-bar-width
+);
+$color-control-bar-height: theme-runtime.token(
+  'color-picker',
+  'color-control-bar-height',
+  $color-control-bar-height
+);
+$color-control-bar-alpha-margin-top: theme-runtime.token(
+  'color-picker',
+  'color-control-bar-alpha-margin-top',
+  $color-control-bar-alpha-margin-top,
+  'spacing-6'
+);
+$color-control-bar-border-radius: theme-runtime.token(
+  'color-picker',
+  'color-control-bar-border-radius',
+  $color-control-bar-border-radius
+);
+$color-panel-input-margin-top: theme-runtime.token(
+  'color-picker',
+  'color-panel-input-margin-top',
+  $color-panel-input-margin-top,
+  'spacing-6'
+);
+$color-panel-input-group-margin-left: theme-runtime.token(
+  'color-picker',
+  'color-panel-input-group-margin-left',
+  $color-panel-input-group-margin-left,
+  'spacing-6'
+);
+$color-panel-format-select-width: theme-runtime.token(
+  'color-picker',
+  'color-panel-format-select-width',
+  $color-panel-format-select-width
+);
+$color-panel-section-title-font-size: theme-runtime.token(
+  'color-picker',
+  'color-panel-section-title-font-size',
+  $color-panel-section-title-font-size,
+  'font-size-caption'
+);
+$color-panel-empty-font-size: theme-runtime.token(
+  'color-picker',
+  'color-panel-empty-font-size',
+  $color-panel-empty-font-size,
+  'font-size-body-1'
+);
+$color-panel-block-size: theme-runtime.token(
+  'color-picker',
+  'color-panel-block-size',
+  $color-panel-block-size,
+  'size-4'
+);
+$color-panel-block-border-radius: theme-runtime.token(
+  'color-picker',
+  'color-panel-block-border-radius',
+  $color-panel-block-border-radius,
+  'border-2'
+);
+$color-panel-border-color: theme-runtime.token(
+  'color-picker',
+  'color-panel-border-color',
+  $color-panel-border-color
+);

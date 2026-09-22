@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -85,3 +86,231 @@ $picker-panel-color-bg-label_hover: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-fill-3')
 );
 $picker-panel-color-text-week: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-3'));
+
+// @generated runtime tokens — pnpm theme:generate
+$picker-container-border-radius: theme-runtime.token(
+  'date-picker',
+  'picker-container-border-radius',
+  $picker-container-border-radius
+);
+$picker-header-padding-horizontal: theme-runtime.token(
+  'date-picker',
+  'picker-header-padding-horizontal',
+  $picker-header-padding-horizontal
+);
+$picker-header-padding-vertical: theme-runtime.token(
+  'date-picker',
+  'picker-header-padding-vertical',
+  $picker-header-padding-vertical
+);
+$picker-panel-date-width: theme-runtime.token(
+  'date-picker',
+  'picker-panel-date-width',
+  $picker-panel-date-width
+);
+$picker-panel-month-width: theme-runtime.token(
+  'date-picker',
+  'picker-panel-month-width',
+  $picker-panel-month-width
+);
+$picker-panel-year-width: theme-runtime.token(
+  'date-picker',
+  'picker-panel-year-width',
+  $picker-panel-year-width
+);
+$picker-panel-week-width: theme-runtime.token(
+  'date-picker',
+  'picker-panel-week-width',
+  $picker-panel-week-width
+);
+$picker-panel-quarter-width: theme-runtime.token(
+  'date-picker',
+  'picker-panel-quarter-width',
+  $picker-panel-quarter-width
+);
+$picker-panel-time-cell-width: theme-runtime.token(
+  'date-picker',
+  'picker-panel-time-cell-width',
+  $picker-panel-time-cell-width
+);
+$picker-panel-time-cell-spacing-horizontal: theme-runtime.token(
+  'date-picker',
+  'picker-panel-time-cell-spacing-horizontal',
+  $picker-panel-time-cell-spacing-horizontal
+);
+$picker-panel-time-padding-horizontal: theme-runtime.token(
+  'date-picker',
+  'picker-panel-time-padding-horizontal',
+  $picker-panel-time-padding-horizontal
+);
+$picker-panel-cell-padding-vertical: theme-runtime.token(
+  'date-picker',
+  'picker-panel-cell-padding-vertical',
+  $picker-panel-cell-padding-vertical
+);
+$picker-panel-cell-circle-height: theme-runtime.token(
+  'date-picker',
+  'picker-panel-cell-circle-height',
+  $picker-panel-cell-circle-height
+);
+$picker-color-switch-icon: theme-runtime.token(
+  'date-picker',
+  'picker-color-switch-icon',
+  $picker-color-switch-icon
+);
+$picker-color-bg-switch-icon: theme-runtime.token(
+  'date-picker',
+  'picker-color-bg-switch-icon',
+  $picker-color-bg-switch-icon
+);
+$picker-color-bg-switch-icon_hover: theme-runtime.token(
+  'date-picker',
+  'picker-color-bg-switch-icon-hover',
+  $picker-color-bg-switch-icon_hover
+);
+$picker-cell-font-weight-in-view: theme-runtime.token(
+  'date-picker',
+  'picker-cell-font-weight-in-view',
+  $picker-cell-font-weight-in-view,
+  'font-weight-500'
+);
+$picker-color-cell-text-in-view: theme-runtime.token(
+  'date-picker',
+  'picker-color-cell-text-in-view',
+  $picker-color-cell-text-in-view
+);
+$picker-color-cell-text-not-in-view: theme-runtime.token(
+  'date-picker',
+  'picker-color-cell-text-not-in-view',
+  $picker-color-cell-text-not-in-view
+);
+$picker-color-bg-circle_selected: theme-runtime.token(
+  'date-picker',
+  'picker-color-bg-circle-selected',
+  $picker-color-bg-circle_selected,
+  'color-primary-6'
+);
+$picker-color-bg-circle_selected: theme-runtime.token(
+  'date-picker',
+  'picker-color-bg-circle-selected',
+  $picker-color-bg-circle_selected,
+  'color-primary-6'
+);
+$picker-color-bg-cell-in-range: theme-runtime.token(
+  'date-picker',
+  'picker-color-bg-cell-in-range',
+  $picker-color-bg-cell-in-range
+);
+$picker-color-bg-cell-disabled: theme-runtime.token(
+  'date-picker',
+  'picker-color-bg-cell-disabled',
+  $picker-color-bg-cell-disabled
+);
+$picker-color-text-cell-range-boundary: theme-runtime.token(
+  'date-picker',
+  'picker-color-text-cell-range-boundary',
+  $picker-color-text-cell-range-boundary
+);
+$picker-color-bg-cell-range-boundary: theme-runtime.token(
+  'date-picker',
+  'picker-color-bg-cell-range-boundary',
+  $picker-color-bg-cell-range-boundary,
+  'color-primary-6'
+);
+$picker-color-bg-cell-hover-in-range: theme-runtime.token(
+  'date-picker',
+  'picker-color-bg-cell-hover-in-range',
+  $picker-color-bg-cell-hover-in-range
+);
+$picker-color-text-cell-hover-range-boundary: theme-runtime.token(
+  'date-picker',
+  'picker-color-text-cell-hover-range-boundary',
+  $picker-color-text-cell-hover-range-boundary
+);
+$picker-color-bg-cell-hover-range-boundary: theme-runtime.token(
+  'date-picker',
+  'picker-color-bg-cell-hover-range-boundary',
+  $picker-color-bg-cell-hover-range-boundary
+);
+$picker-panel-color-border: theme-runtime.token(
+  'date-picker',
+  'picker-panel-color-border',
+  $picker-panel-color-border
+);
+$picker-panel-color-text-cell_hover: theme-runtime.token(
+  'date-picker',
+  'picker-panel-color-text-cell-hover',
+  $picker-panel-color-text-cell_hover
+);
+$picker-panel-color-bg-cell_hover: theme-runtime.token(
+  'date-picker',
+  'picker-panel-color-bg-cell-hover',
+  $picker-panel-color-bg-cell_hover
+);
+$picker-panel-color-text-cell_selected: theme-runtime.token(
+  'date-picker',
+  'picker-panel-color-text-cell-selected',
+  $picker-panel-color-text-cell_selected
+);
+$picker-panel-color-bg-cell_selected: theme-runtime.token(
+  'date-picker',
+  'picker-panel-color-bg-cell-selected',
+  $picker-panel-color-bg-cell_selected,
+  'color-primary-6'
+);
+$picker-panel-color-current-time-dot: theme-runtime.token(
+  'date-picker',
+  'picker-panel-color-current-time-dot',
+  $picker-panel-color-current-time-dot,
+  'color-primary-6'
+);
+$picker-panel-border-radius-cell_selected: theme-runtime.token(
+  'date-picker',
+  'picker-panel-border-radius-cell-selected',
+  $picker-panel-border-radius-cell_selected
+);
+$picker-panel-cell-boundary-border-radius: theme-runtime.token(
+  'date-picker',
+  'picker-panel-cell-boundary-border-radius',
+  $picker-panel-cell-circle-height
+);
+$picker-panel-cell-border-radius: theme-runtime.token(
+  'date-picker',
+  'picker-panel-cell-border-radius',
+  $picker-panel-cell-circle-height
+);
+$datepicker-view-tabs-height: theme-runtime.token(
+  'date-picker',
+  'datepicker-view-tabs-height',
+  $datepicker-view-tabs-height
+);
+$datepicker-view-tab-pane-color-text_unactive: theme-runtime.token(
+  'date-picker',
+  'datepicker-view-tab-pane-color-text-unactive',
+  $datepicker-view-tab-pane-color-text_unactive
+);
+$datepicker-view-tab-pane-color-text_active: theme-runtime.token(
+  'date-picker',
+  'datepicker-view-tab-pane-color-text-active',
+  $datepicker-view-tab-pane-color-text_active
+);
+$datepicker-view-tab-pane-font-size: theme-runtime.token(
+  'date-picker',
+  'datepicker-view-tab-pane-font-size',
+  $datepicker-view-tab-pane-font-size
+);
+$datepicker-view-tab-pane-spacing-text-icon: theme-runtime.token(
+  'date-picker',
+  'datepicker-view-tab-pane-spacing-text-icon',
+  $datepicker-view-tab-pane-spacing-text-icon
+);
+$picker-panel-color-bg-label_hover: theme-runtime.token(
+  'date-picker',
+  'picker-panel-color-bg-label-hover',
+  $picker-panel-color-bg-label_hover
+);
+$picker-panel-color-text-week: theme-runtime.token(
+  'date-picker',
+  'picker-panel-color-text-week',
+  $picker-panel-color-text-week
+);

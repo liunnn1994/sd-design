@@ -1,3 +1,4 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@style/theme/index.scss' as global;
 
 @forward '@style/theme/index.scss';
@@ -65,4 +66,138 @@ $switch-color-dot-icon_on_loading: var(
 );
 $switch-color-dot-icon_off_loading: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-neutral-3')
+);
+
+// @generated runtime tokens — pnpm theme:generate
+$switch-font-size-text: theme-runtime.token(
+  'switch',
+  'switch-font-size-text',
+  $switch-font-size-text,
+  'font-size-caption'
+);
+$switch-circle-default-width: theme-runtime.token(
+  'switch',
+  'switch-circle-default-width',
+  $switch-circle-default-width,
+  'size-10'
+);
+$switch-circle-small-width: theme-runtime.token(
+  'switch',
+  'switch-circle-small-width',
+  $switch-circle-small-width,
+  'size-7'
+);
+$switch-round-default-width: theme-runtime.token(
+  'switch',
+  'switch-round-default-width',
+  $switch-round-default-width,
+  'size-10'
+);
+$switch-round-small-width: theme-runtime.token(
+  'switch',
+  'switch-round-small-width',
+  $switch-round-small-width,
+  'size-7'
+);
+$switch-line-default-width: theme-runtime.token(
+  'switch',
+  'switch-line-default-width',
+  $switch-line-default-width,
+  'size-9'
+);
+$switch-line-small-width: theme-runtime.token(
+  'switch',
+  'switch-line-small-width',
+  $switch-line-small-width,
+  'size-7'
+);
+$switch-line-color-dot-shadow: theme-runtime.token(
+  'switch',
+  'switch-line-color-dot-shadow',
+  $switch-line-color-dot-shadow
+);
+$switch-color-bg_on: theme-runtime.token(
+  'switch',
+  'switch-color-bg-on',
+  $switch-color-bg_on,
+  'color-primary-6'
+);
+$switch-color-bg_off: theme-runtime.token('switch', 'switch-color-bg-off', $switch-color-bg_off);
+$switch-color-bg_on_disabled: theme-runtime.token(
+  'switch',
+  'switch-color-bg-on-disabled',
+  $switch-color-bg_on_disabled
+);
+$switch-color-bg_off_disabled: theme-runtime.token(
+  'switch',
+  'switch-color-bg-off-disabled',
+  $switch-color-bg_off_disabled
+);
+$switch-color-bg_on_loading: theme-runtime.token(
+  'switch',
+  'switch-color-bg-on-loading',
+  $switch-color-bg_on_loading
+);
+$switch-color-bg_off_loading: theme-runtime.token(
+  'switch',
+  'switch-color-bg-off-loading',
+  $switch-color-bg_off_loading
+);
+$switch-color-dot-bg: theme-runtime.token('switch', 'switch-color-dot-bg', $switch-color-dot-bg);
+$switch-color-text_on: theme-runtime.token('switch', 'switch-color-text-on', $switch-color-text_on);
+$switch-color-text_off: theme-runtime.token(
+  'switch',
+  'switch-color-text-off',
+  $switch-color-text_off
+);
+$switch-color-text_on_disabled: theme-runtime.token(
+  'switch',
+  'switch-color-text-on-disabled',
+  $switch-color-text_on_disabled
+);
+$switch-color-text_off_disabled: theme-runtime.token(
+  'switch',
+  'switch-color-text-off-disabled',
+  $switch-color-text_off_disabled
+);
+$switch-color-text_on_loading: theme-runtime.token(
+  'switch',
+  'switch-color-text-on-loading',
+  $switch-color-text_on_loading
+);
+$switch-color-text_off_loading: theme-runtime.token(
+  'switch',
+  'switch-color-text-off-loading',
+  $switch-color-text_off_loading
+);
+$switch-color-dot-icon_on: theme-runtime.token(
+  'switch',
+  'switch-color-dot-icon-on',
+  $switch-color-dot-icon_on,
+  'color-primary-6'
+);
+$switch-color-dot-icon_off: theme-runtime.token(
+  'switch',
+  'switch-color-dot-icon-off',
+  $switch-color-dot-icon_off
+);
+$switch-color-dot-icon_on_disabled: theme-runtime.token(
+  'switch',
+  'switch-color-dot-icon-on-disabled',
+  $switch-color-dot-icon_on_disabled
+);
+$switch-color-dot-icon_off_disabled: theme-runtime.token(
+  'switch',
+  'switch-color-dot-icon-off-disabled',
+  $switch-color-dot-icon_off_disabled
+);
+$switch-color-dot-icon_on_loading: theme-runtime.token(
+  'switch',
+  'switch-color-dot-icon-on-loading',
+  $switch-color-dot-icon_on_loading
+);
+$switch-color-dot-icon_off_loading: theme-runtime.token(
+  'switch',
+  'switch-color-dot-icon-off-loading',
+  $switch-color-dot-icon_off_loading
 );

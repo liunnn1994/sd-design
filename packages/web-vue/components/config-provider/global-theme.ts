@@ -15,11 +15,14 @@ const targets = new WeakMap<HTMLElement, GlobalThemeTarget>();
 
 function render(target: HTMLElement, state: GlobalThemeTarget) {
   const variables: Record<string, string> = {};
-  let mode = state.mode;
+  let declared: SdThemeMode | undefined;
   for (const layer of state.layers.values()) {
     Object.assign(variables, layer.variables);
-    if (layer.mode !== undefined) mode = layer.mode;
+    if (layer.mode !== undefined) declared = layer.mode;
   }
+  // 有 layer 显式声明模式时用声明的值；有 layer 但都未声明时跟随目标当前的
+  // sd-theme（外部可能运行时修改，mode 基线只用于全部释放后的还原）。
+  const mode = declared ?? (state.layers.size ? target.getAttribute('sd-theme') : state.mode);
   for (const [key, original] of state.variables) {
     if (variables[key] !== undefined) {
       target.style.setProperty(key, variables[key]);
@@ -29,8 +32,13 @@ function render(target: HTMLElement, state: GlobalThemeTarget) {
       state.variables.delete(key);
     }
   }
-  if (mode === null) target.removeAttribute('sd-theme');
-  else target.setAttribute('sd-theme', mode);
+  // 仅在值变化时写入：ThemeProvider 以 subtree 观察目标，无变化的
+  // setAttribute/removeAttribute 也会触发 mutation 记录，导致同步空转。
+  if (mode === null) {
+    if (target.hasAttribute('sd-theme')) target.removeAttribute('sd-theme');
+  } else if (target.getAttribute('sd-theme') !== mode) {
+    target.setAttribute('sd-theme', mode);
+  }
 }
 
 export function applyGlobalTheme(

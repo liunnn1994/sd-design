@@ -25,12 +25,11 @@ const checks = [
   },
   {
     file: 'src/components/theme/ThemeEditorPlayground.vue',
-    mustContain: [
-      'previewRuntimePayload',
-      'buildThemeRuntimePayload',
-      ':theme="previewRuntimePayload.theme"',
-      ':theme-mode="previewRuntimePayload.mode"',
-    ],
+    mustContain: ['useThemeEditor', 'ThemeDemoPreview', ':theme="theme"', ':theme-mode="mode"'],
+  },
+  {
+    file: 'src/components/theme/ThemeDemoPreview.vue',
+    mustContain: ['<sd-config-provider :theme="theme">', 'loadDemo'],
   },
 ];
 
