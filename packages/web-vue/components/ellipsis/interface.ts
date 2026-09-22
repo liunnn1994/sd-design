@@ -53,4 +53,10 @@ export interface EllipsisTooltipProps extends Omit<
    * @en Whether to disable the ellipsis tooltip
    */
   disabled?: boolean;
+  /**
+   * @zh 是否无论内容是否省略都在 hover 时展示提示
+   * @en Whether to always show the tooltip on hover, whether or not the content is truncated
+   * @version 4.8.0
+   */
+  always?: boolean;
 }

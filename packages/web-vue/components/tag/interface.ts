@@ -98,6 +98,12 @@ export interface TagProps {
    */
   ellipsisTooltip?: boolean | EllipsisTooltipProps;
   /**
+   * @zh 自定义提示内容。设置后（或使用 tooltip 插槽时）无论内容是否省略，hover 时都会显示提示；ellipsis-tooltip 显式关闭（false 或 disabled: true）时除外
+   * @en Custom tooltip content. When set (or when the tooltip slot is used), the tooltip shows on hover whether or not the content is truncated, unless the ellipsis tooltip is explicitly disabled (false or disabled: true)
+   * @version 4.8.0
+   */
+  tooltip?: string;
+  /**
    * @zh 是否使用高性能省略实现
    * @en Whether to use the performant ellipsis implementation
    */

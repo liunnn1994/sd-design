@@ -18,13 +18,25 @@
       :class="`${prefixCls}-text`"
       :line-clamp="ellipsisLineClamp"
       :expand-trigger="ellipsisExpandTrigger"
-      :tooltip="ellipsisTooltip"
+      :tooltip="mergedEllipsisTooltip"
     >
       <slot />
-      <template v-if="$slots.tooltip" #tooltip>
-        <slot name="tooltip" />
+      <template v-if="hasCustomTooltip" #tooltip>
+        <slot name="tooltip">{{ tooltip }}</slot>
       </template>
     </component>
+    <Tooltip
+      v-else-if="hasCustomTooltip && ellipsisTooltip !== false && $slots.default"
+      v-bind="tooltipBindings"
+      :content="tooltip"
+    >
+      <span :class="`${prefixCls}-text`">
+        <slot />
+      </span>
+      <template #content>
+        <slot name="tooltip">{{ tooltip }}</slot>
+      </template>
+    </Tooltip>
     <span v-else-if="$slots.default" :class="`${prefixCls}-text`">
       <slot />
     </span>
@@ -63,12 +75,14 @@
   import { isGradientString, extractColorsFromGradient } from '../_utils/color';
   import { Size } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
+  import { isObject } from '../_utils/is';
   import { isActivationKey } from '../_utils/keyboard';
   import { configProviderInjectionKey } from '../config-provider/context';
   import Ellipsis, { PerformantEllipsis } from '../ellipsis';
   import IconClose from '../icon/icon-close';
   import IconLoading from '../icon/icon-loading';
   import { useI18n } from '../locale';
+  import Tooltip from '../tooltip';
   import { TAG_COLORS } from './interface';
 
   const props = defineProps({
@@ -199,6 +213,14 @@
     ellipsisTooltip: {
       type: [Boolean, Object] as PropType<boolean | EllipsisTooltipProps>,
       default: true,
+    },
+    /**
+     * @zh 自定义提示内容。设置后（或使用 tooltip 插槽时）无论内容是否省略，hover 时都会显示提示；ellipsis-tooltip 显式关闭（false 或 disabled: true）时除外
+     * @en Custom tooltip content. When set (or when the tooltip slot is used), the tooltip shows on hover whether or not the content is truncated, unless the ellipsis tooltip is explicitly disabled (false or disabled: true)
+     * @version 4.8.0
+     */
+    tooltip: {
+      type: String,
     },
     /**
      * @zh 是否使用高性能省略实现
@@ -425,6 +447,32 @@
   const ellipsisComponent = computed(() =>
     props.ellipsisPerformant ? PerformantEllipsis : Ellipsis,
   );
+
+  // ---- Tooltip ----
+  // 显式传入 tooltip 属性或 tooltip 插槽时，无论内容是否被省略，hover 都展示提示
+  const hasCustomTooltip = computed(() => Boolean(props.tooltip) || Boolean(slots.tooltip));
+  // 自定义提示内容时，让 Ellipsis 的提示常显（always）；ellipsis-tooltip 显式关闭
+  // （false 或 disabled: true）时尊重该配置，不展示提示
+  const mergedEllipsisTooltip = computed<boolean | EllipsisTooltipProps>(() => {
+    if (!hasCustomTooltip.value) {
+      return props.ellipsisTooltip;
+    }
+    if (props.ellipsisTooltip === false) {
+      return false;
+    }
+    const config: EllipsisTooltipProps = isObject(props.ellipsisTooltip)
+      ? { ...props.ellipsisTooltip }
+      : {};
+    config.always = true;
+    return config;
+  });
+  // 非省略渲染路径的自定义提示：转发给 Tooltip 的绑定（always 非 Tooltip 属性，剔除；
+  // disabled 原样透传以尊重显式关闭）
+  const tooltipBindings = computed(() => {
+    if (!isObject(props.ellipsisTooltip)) return {};
+    const { always: _always, ...rest } = props.ellipsisTooltip;
+    return rest;
+  });
 
   // ---- RTL ----
   const rtl = computed(() => configCtx?.rtl ?? false);

@@ -122,12 +122,15 @@
     isObject(props.tooltip) ? props.tooltip : {},
   );
   const tooltipBindings = computed(() => {
-    const { disabled: _disabled, ...rest } = tooltipConfig.value;
+    const { always: _always, disabled: _disabled, ...rest } = tooltipConfig.value;
     return rest;
   });
   const enableTooltip = computed(() => props.tooltip !== false);
   const tooltipDisabled = computed(
-    () => !isEllipsis.value || expanded.value || Boolean(tooltipConfig.value.disabled),
+    () =>
+      expanded.value ||
+      Boolean(tooltipConfig.value.disabled) ||
+      (!isEllipsis.value && !tooltipConfig.value.always),
   );
   const isExpandable = computed(
     () => props.expandTrigger === 'click' && (isEllipsis.value || expanded.value),

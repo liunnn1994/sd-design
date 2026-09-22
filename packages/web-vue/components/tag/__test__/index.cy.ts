@@ -252,4 +252,142 @@ describe('Tag', () => {
     cy.mount(() => h(ConfigProvider, { rtl: true }, () => h(Tag, null, () => 'RTL')));
     cy.get('.sd-tag').should('have.class', 'sd-tag-rtl');
   });
+
+  describe('custom tooltip', () => {
+    const LONG_TEXT = 'A very long tag content that should be truncated.';
+    const HOVER_CONFIG = { mouseEnterDelay: 0, mouseLeaveDelay: 0 };
+
+    it('forwards an always-on tooltip config to Ellipsis', () => {
+      cy.mount(Tag, {
+        props: { tooltip: 'custom tip', ellipsisTooltip: { ...HOVER_CONFIG } },
+        slots: { default: 'Short' },
+      });
+      cy.get('@vue').should(({ wrapper }) => {
+        const ellipsis = wrapper.findComponent(Ellipsis);
+        expect(ellipsis.exists()).to.equal(true);
+        expect(ellipsis.props('tooltip')).to.deep.equal({
+          mouseEnterDelay: 0,
+          mouseLeaveDelay: 0,
+          always: true,
+        });
+        expect(ellipsis.props('tooltip')).to.not.have.property('disabled');
+      });
+    });
+
+    it('shows the custom tooltip on hover even when content is not truncated', () => {
+      cy.mount(Tag, {
+        props: { tooltip: 'custom tip', ellipsisTooltip: { ...HOVER_CONFIG } },
+        slots: { default: 'Short' },
+      });
+      cy.get('.sd-tag-text').trigger('mouseenter');
+      cy.get('[role="tooltip"]').should('be.visible').and('contain.text', 'custom tip');
+    });
+
+    it('shows the custom tooltip content when the content is truncated', () => {
+      cy.mount(Tag, {
+        props: { tooltip: 'custom tip', ellipsisTooltip: { ...HOVER_CONFIG } },
+        attrs: { style: 'max-width: 120px;' },
+        slots: { default: LONG_TEXT },
+      });
+      cy.get('.sd-tag-text').trigger('mouseenter');
+      cy.get('[role="tooltip"]').should('be.visible').and('contain.text', 'custom tip');
+      cy.get('.sd-tag-text').should('not.have.attr', 'title');
+    });
+
+    it('renders the tooltip slot content on hover', () => {
+      cy.mount(Tag, {
+        props: { ellipsisTooltip: { ...HOVER_CONFIG } },
+        slots: { default: 'Short', tooltip: 'slot tip' },
+      });
+      cy.get('.sd-tag-text').trigger('mouseenter');
+      cy.get('[role="tooltip"]').should('be.visible').and('contain.text', 'slot tip');
+    });
+
+    it('shows the custom tooltip when ellipsis is disabled', () => {
+      cy.mount(Tag, {
+        props: { ellipsis: false, tooltip: 'plain tip', ellipsisTooltip: { ...HOVER_CONFIG } },
+        slots: { default: 'Plain' },
+      });
+      cy.get('.sd-tag-text').trigger('mouseenter');
+      cy.get('[role="tooltip"]').should('be.visible').and('contain.text', 'plain tip');
+    });
+
+    it('does not show a tooltip on hover without a custom tooltip', () => {
+      cy.mount(Tag, {
+        props: { ellipsisTooltip: { ...HOVER_CONFIG } },
+        slots: { default: 'Short' },
+      });
+      cy.get('.sd-tag-text').trigger('mouseenter');
+      cy.get('[role="tooltip"]').should('not.exist');
+    });
+
+    it('shows the custom tooltip through the performant ellipsis path', () => {
+      cy.mount(Tag, {
+        props: {
+          ellipsisPerformant: true,
+          tooltip: 'perf tip',
+          ellipsisTooltip: { ...HOVER_CONFIG },
+        },
+        slots: { default: 'Short' },
+      });
+      cy.get('.sd-tag-text').trigger('mouseenter');
+      cy.get('[role="tooltip"]').should('be.visible').and('contain.text', 'perf tip');
+    });
+
+    it('respects ellipsis-tooltip=false even with a custom tooltip', () => {
+      cy.mount(Tag, {
+        props: { tooltip: 'custom tip', ellipsisTooltip: false },
+        slots: { default: 'Short' },
+      });
+      cy.get('.sd-tag-text').trigger('mouseenter');
+      cy.get('[role="tooltip"]').should('not.exist');
+    });
+
+    it('respects ellipsis-tooltip.disabled even with a custom tooltip', () => {
+      cy.mount(Tag, {
+        props: {
+          tooltip: 'custom tip',
+          ellipsisTooltip: { ...HOVER_CONFIG, disabled: true },
+        },
+        slots: { default: 'Short' },
+      });
+      cy.get('.sd-tag-text').trigger('mouseenter');
+      cy.get('[role="tooltip"]').should('not.exist');
+    });
+
+    it('respects ellipsis-tooltip=false in the non-ellipsis path', () => {
+      cy.mount(Tag, {
+        props: {
+          ellipsis: false,
+          tooltip: 'plain tip',
+          ellipsisTooltip: false,
+        },
+        slots: { default: 'Plain' },
+      });
+      cy.get('.sd-tag-text').trigger('mouseenter');
+      cy.get('[role="tooltip"]').should('not.exist');
+    });
+
+    it('respects ellipsis-tooltip.disabled in the non-ellipsis path', () => {
+      cy.mount(Tag, {
+        props: {
+          ellipsis: false,
+          tooltip: 'plain tip',
+          ellipsisTooltip: { ...HOVER_CONFIG, disabled: true },
+        },
+        slots: { default: 'Plain' },
+      });
+      cy.get('.sd-tag-text').trigger('mouseenter');
+      cy.get('[role="tooltip"]').should('not.exist');
+    });
+
+    it('does not treat an empty tooltip string as a custom tooltip', () => {
+      cy.mount(Tag, {
+        props: { tooltip: '', ellipsisTooltip: { ...HOVER_CONFIG } },
+        slots: { default: 'Short' },
+      });
+      cy.get('.sd-tag-text').trigger('mouseenter');
+      cy.get('[role="tooltip"]').should('not.exist');
+    });
+  });
 });
