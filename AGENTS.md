@@ -76,6 +76,17 @@ Type-checking runs on **typescript-native-bridge** (TNB) — a drop-in `typescri
 - Do not silence TypeScript deprecations with `ignoreDeprecations`; update deprecated compiler options or code so type-checking is clean without suppression.
 - If a specific tool is proven incompatible with TNB, keep TNB as the workspace `typescript` override and add stock TypeScript only to that package as an exact alias: `"typescript-stock": "npm:typescript@6.0.3"`. Invoke the aliased compiler explicitly so it cannot replace `vue-tsc`, editor or repository-wide type-checking.
 
+## modules
+
+**This repository is ESM-only. No CJS compatibility.**
+
+All packages (including the root) declare `"type": "module"` — this is a deliberate decision, not something to fix:
+
+- New code uses `import`/`export` only; never write `require()`/`module.exports`.
+- Do not add compatibility layers for CJS consumers (dual-format builds, require exports, require-able UMD, etc.).
+- Existing `.cjs` config files (e.g. `changelog.config.cjs`) are deliberate exceptions — do not rename them to `.js`.
+- Prefer `.mjs`/`.mts` for Node scripts; Node ≥24 can import `.ts` directly (e.g. `theme-catalog.mjs` imports `token-key.ts`).
+
 ## style
 
 Using scss for styles, and follow the existing style conventions in the codebase. Do not introduce new patterns or libraries unless explicitly required.

@@ -19,6 +19,7 @@
     "dist",
     "json"
   ],
+  "type": "module",
   "sideEffects": [
     "dist/*",
     "es/**/style/*",
