@@ -24,6 +24,7 @@
     computed,
     defineComponent,
     h,
+    onBeforeUnmount,
     provide,
     reactive,
     ref,
@@ -67,6 +68,11 @@
     name: [String, Function] as PropType<string | ((fileItem: FileItem) => string)>,
     withCredentials: { type: Boolean, default: false },
     customRequest: Function as PropType<(option: RequestOption) => UploadRequest>,
+    /**
+     * @zh 跨标签页上传互斥标识；相同标识同时只允许一个文件上传
+     * @en Cross-tab upload lock key; only one file per key may upload at a time
+     */
+    lockKey: [String, Function] as PropType<string | ((fileItem: FileItem) => string | undefined)>,
     limit: { type: Number, default: 0 },
     autoUpload: { type: Boolean, default: true },
     showFileList: { type: Boolean, default: true },
@@ -120,7 +126,30 @@
   const { mergedDisabled, eventHandlers } = useFormItem({ disabled });
   const innerFileList = ref<FileItem[]>([]);
   const fileMap = new Map<string, FileItem>();
-  const requestMap = new Map<string, UploadRequest>();
+  interface UploadTask {
+    request?: UploadRequest;
+    cancelled: boolean;
+    releaseLock?: () => void;
+  }
+  const requestMap = new Map<string, UploadTask>();
+  let disposed = false;
+  let pendingFiles = 0;
+  const cancelRequest = (uid: string) => {
+    const task = requestMap.get(uid);
+    if (!task) return;
+    // 先使回调失效，abort 也可能同步触发自定义请求的回调。
+    requestMap.delete(uid);
+    task.cancelled = true;
+    try {
+      task.request?.abort?.();
+    } finally {
+      task.releaseLock?.();
+    }
+  };
+  onBeforeUnmount(() => {
+    disposed = true;
+    for (const uid of requestMap.keys()) cancelRequest(uid);
+  });
   const isMax = computed(() => props.limit > 0 && innerFileList.value.length >= props.limit);
 
   const checkFileList = (fileList?: FileItem[]) => {
@@ -137,6 +166,9 @@
       return fileItem;
     });
     innerFileList.value = nextFileList ?? [];
+    for (const uid of requestMap.keys()) {
+      if (!fileMap.has(uid)) cancelRequest(uid);
+    }
   };
   checkFileList(props.defaultFileList);
   watch(
@@ -162,7 +194,12 @@
     }
   };
   const uploadFile = (fileItem: FileItem) => {
+    if (disposed || !fileMap.has(fileItem.uid) || requestMap.has(fileItem.uid)) return;
+    const task: UploadTask = { cancelled: false };
+    requestMap.set(fileItem.uid, task);
+    const isCurrent = () => !disposed && requestMap.get(fileItem.uid) === task;
     const handleProgress = (percent: number, event?: ProgressEvent) => {
+      if (!isCurrent()) return;
       const file = fileMap.get(fileItem.uid);
       if (!file) return;
       file.status = 'uploading';
@@ -171,6 +208,7 @@
       updateFileList(file);
     };
     const handleSuccess = (response: unknown) => {
+      if (!isCurrent()) return;
       const file = fileMap.get(fileItem.uid);
       if (!file) return;
       file.status = 'done';
@@ -184,16 +222,19 @@
         }
       }
       requestMap.delete(file.uid);
+      task.releaseLock?.();
       emit('success', file);
       updateFileList(file);
     };
     const handleError = (response: unknown) => {
+      if (!isCurrent()) return;
       const file = fileMap.get(fileItem.uid);
       if (!file) return;
       file.status = 'error';
       file.percent = 0;
       file.response = response;
       requestMap.delete(file.uid);
+      task.releaseLock?.();
       emit('error', file);
       updateFileList(file);
     };
@@ -210,17 +251,55 @@
     };
     fileItem.status = 'uploading';
     fileItem.percent = 0;
-    const request = isFunction(props.customRequest)
-      ? props.customRequest(option)
-      : uploadRequest(option);
-    requestMap.set(fileItem.uid, request);
-    updateFileList(fileItem);
+    const startRequest = () => {
+      if (!isCurrent()) return;
+      try {
+        task.request = isFunction(props.customRequest)
+          ? props.customRequest(option)
+          : uploadRequest(option);
+        if (task.cancelled) task.request.abort?.();
+        if (isCurrent()) updateFileList(fileItem);
+      } catch (error) {
+        handleError(error);
+      }
+    };
+    try {
+      // 在本次上传开始时确定 key，后续 prop 变化不影响已持有的锁。
+      const key = isFunction(props.lockKey) ? props.lockKey(fileItem) : props.lockKey;
+      if (key === undefined) {
+        startRequest();
+        return;
+      }
+      if (!globalThis.navigator?.locks) {
+        handleError({ code: 'UPLOAD_LOCK_UNSUPPORTED', message: 'Web Locks API is unavailable' });
+        return;
+      }
+      void navigator.locks
+        .request(`sd-upload:${key}`, { ifAvailable: true }, (lock) => {
+          if (!isCurrent()) return;
+          if (!lock) {
+            handleError({
+              code: 'UPLOAD_LOCK_BUSY',
+              message: 'An upload with this lock key is already running',
+            });
+            return;
+          }
+          // 回调返回的 Promise 必须等到上传结束，否则浏览器会提前释放锁。
+          return new Promise<void>((resolve) => {
+            task.releaseLock = resolve;
+            startRequest();
+          });
+        })
+        .catch(handleError);
+      updateFileList(fileItem);
+    } catch (error) {
+      handleError(error);
+    }
   };
   const abort = (fileItem: FileItem) => {
     const request = requestMap.get(fileItem.uid);
     if (!request) return;
-    request.abort?.();
-    requestMap.delete(fileItem.uid);
+    cancelRequest(fileItem.uid);
     const file = fileMap.get(fileItem.uid);
     if (file) {
       file.status = 'error';
@@ -241,6 +320,11 @@
     }
   };
   const initUpload = (file: File) => {
+    if (disposed) return;
+    if (props.limit > 0 && innerFileList.value.length >= props.limit) {
+      emit('exceedLimit', innerFileList.value, [file]);
+      return;
+    }
     const uid = `${Date.now()}-${uidCounter++}`;
     const fileItem: FileItem = reactive({
       uid,
@@ -256,26 +340,31 @@
     if (props.autoUpload) uploadFile(fileItem);
   };
   const uploadFiles = (files: File[]) => {
-    if (props.limit > 0 && innerFileList.value.length + files.length > props.limit) {
+    if (disposed) return;
+    if (props.limit > 0 && innerFileList.value.length + pendingFiles + files.length > props.limit) {
       emit('exceedLimit', innerFileList.value, files);
       return;
     }
-    files.forEach((file) => {
-      if (isFunction(props.onBeforeUpload)) {
-        Promise.resolve(props.onBeforeUpload(file))
-          .then((result: boolean | File) => {
-            if (result) initUpload(isBoolean(result) ? file : result);
-          })
-          .catch((error) => {
-            // oxlint-disable-next-line no-console
-            console.error(error);
-          });
-      } else {
-        initUpload(file);
+    // 整批预占名额，异步校验和同步事件重入都不能突破 limit。
+    pendingFiles += files.length;
+    files.forEach(async (file) => {
+      let result: boolean | File = true;
+      try {
+        if (isFunction(props.onBeforeUpload)) result = await props.onBeforeUpload(file);
+      } catch (error) {
+        result = false;
+        // oxlint-disable-next-line no-console
+        console.error(error);
+      } finally {
+        pendingFiles -= 1;
       }
+      if (result) initUpload(isBoolean(result) ? file : result);
     });
   };
   const removeFile = (fileItem: FileItem) => {
+    if (disposed || !fileMap.has(fileItem.uid)) return;
+    fileMap.delete(fileItem.uid);
+    cancelRequest(fileItem.uid);
     innerFileList.value = innerFileList.value.filter((item) => item.uid !== fileItem.uid);
     updateFileList(fileItem);
   };

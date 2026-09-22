@@ -22,6 +22,8 @@ import UploadDraggableDemo from '../../../../components/generated/upload/draggab
 import uploadDraggableSource from '../../../../components/generated/upload/draggable.vue?raw';
 import UploadLimitDemo from '../../../../components/generated/upload/limit.vue';
 import uploadLimitSource from '../../../../components/generated/upload/limit.vue?raw';
+import UploadLockDemo from '../../../../components/generated/upload/lock.vue';
+import uploadLockSource from '../../../../components/generated/upload/lock.vue?raw';
 import UploadPictureCardDemo from '../../../../components/generated/upload/picture-card.vue';
 import uploadPictureCardSource from '../../../../components/generated/upload/picture-card.vue?raw';
 import UploadPictureListDemo from '../../../../components/generated/upload/picture-list.vue';
@@ -123,6 +125,22 @@ import uploadUploadListSource from '../../../../components/generated/upload/uplo
 
 </DemoBlock>
 
+### 跨标签页上传互斥
+
+通过 `lock-key` 传入业务定义的互斥标识，例如用户 ID、用户名或上传任务 ID，组件不解释其含义。同源的标签页和组件实例中，相同 key 同时只允许一个文件上传，不同 key 可并行；未传入时不启用互斥。也可传入 `(fileItem) => key` 为每个文件计算标识，返回 `undefined` 表示该文件不加锁。空字符串仍是有效的锁标识。
+
+锁被占用时，本次上传不会发送请求，也不会排队自动重传。文件状态变为 `error`，通过现有 `error` 事件返回 `fileItem.response.code === 'UPLOAD_LOCK_BUSY'`，可在原任务结束后手动重试。锁覆盖默认 XHR 和 `custom-request`，上传成功、失败、取消、移除或组件卸载后释放。每次开始上传时确定 key，修改 prop 不会迁移进行中的锁。
+
+<DemoBlock source={uploadLockSource} mainFile="src/upload-lock.vue">
+
+<UploadLockDemo client:only="vue" />
+
+</DemoBlock>
+
+`lock-key` 为字符串时，该组件所有文件共用一个 key，因此批量上传时也会互斥。若业务允许不同任务并行，应通过函数返回各任务稳定的业务标识；不要使用组件自动生成的 `uid` 作为跨标签页任务标识。
+
+此功能使用 [Web Locks API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Locks_API)，要求支持该 API 的安全上下文（HTTPS 或 localhost）。启用互斥但 API 不可用时，不发送请求，通过 `error` 事件返回 `UPLOAD_LOCK_UNSUPPORTED`；其他锁请求异常保留原始错误。自定义请求应在完成时调用 `onSuccess` / `onError`，并提供能实际终止传输的 `abort`，以便正确结束锁的生命周期。互斥仅协调同一浏览器存储分区内同源、使用相同 key 的上传，不记录已完成任务，也不替代服务端跨设备的幂等校验。
+
 ### 照片墙
 
 通过设置 `list-type="picture-card"` 开启照片墙模式。
@@ -193,6 +211,7 @@ import uploadUploadListSource from '../../../../components/generated/upload/uplo
 | name | 上传的文件名 | `string \| ((fileItem: FileItem) => string)` | `-` |  |
 | with-credentials | 上传请求是否携带 cookie | `boolean` | `false` |  |
 | custom-request | 自定义上传行为 | `(option: RequestOption) => UploadRequest` | `-` |  |
+| lock-key | 跨标签页上传互斥标识；相同 key 同时只允许一个文件上传，函数返回 undefined 时不加锁 | `string \| ((fileItem: FileItem) => string \| undefined)` | `-` |  |
 | limit | 限制上传文件的数量。`0`表示不限制 | `number` | `0` |  |
 | auto-upload | 是否自动上传文件 | `boolean` | `true` |  |
 | show-file-list | 是否显示文件列表 | `boolean` | `true` |  |
