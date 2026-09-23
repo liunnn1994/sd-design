@@ -1,3 +1,11 @@
+# [5.1.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.0.0...web-vue-v5.1.0) (2026-09-23)
+
+
+### Features
+
+* 🆕 dropdown 新增 header slot ([de31c5d](https://github.com/liunnn1994/sd-design/commit/de31c5d62332f12bcd683d0dc66d5725b71a9b5c))
+* 🆕 优化间距样式 ([8703b49](https://github.com/liunnn1994/sd-design/commit/8703b498eb913a14cb04f3220da959549464ee8e))
+
 # [5.0.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.7.2...web-vue-v5.0.0) (2026-09-22)
 
 
