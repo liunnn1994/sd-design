@@ -103,6 +103,14 @@ $dropdown-prefix-cls: string.unquote('#{theme.$prefix}-dropdown');
     margin-top: -$dropdown-padding-vertical;
   }
 
+  &#{&}-has-header {
+    padding-top: 0;
+  }
+
+  &-header {
+    border-bottom: 1px solid $dropdown-color-border;
+  }
+
   &#{&}-has-footer {
     padding-bottom: 0;
   }

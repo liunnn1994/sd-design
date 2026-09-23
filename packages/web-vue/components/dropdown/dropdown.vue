@@ -21,6 +21,9 @@
         @scroll="handlePanelScroll"
         @reach-bottom="handlePanelReachBottom"
       >
+        <template v-if="$slots.header" #header>
+          <slot name="header" />
+        </template>
         <slot name="content" />
         <template v-if="$slots.footer" #footer>
           <slot name="footer" />
@@ -147,6 +150,11 @@
      */
     'reachBottom': [_e: Event];
   }>();
+  /**
+   * @zh 页眉
+   * @en Header
+   * @slot header
+   */
   /**
    * @zh 内容
    * @en Content

@@ -316,16 +316,27 @@ describe('Dropdown', () => {
     cy.get('#dd-footer').should('not.exist');
   });
 
-  it('renders the footer slot under the options', () => {
+  it('renders header, content, and footer in order', () => {
     cy.mount(Dropdown, {
       slots: {
         default: '<button>Trigger</button>',
+        header: '<div id="dd-header">Header</div>',
         content: '<sd-doption value="1">Option 1</sd-doption>',
         footer: '<div id="dd-footer">Footer</div>',
       },
     });
     cy.get('button').click();
+    cy.get('.sd-dropdown').should('have.class', 'sd-dropdown-has-header');
     cy.get('.sd-dropdown').should('have.class', 'sd-dropdown-has-footer');
+    cy.get('.sd-dropdown')
+      .children()
+      .should('have.length', 3)
+      .then(($children) => {
+        expect($children.eq(0)).to.have.class('sd-dropdown-header');
+        expect($children.eq(1).find('.sd-dropdown-list-wrapper')).to.have.length(1);
+        expect($children.eq(2)).to.have.class('sd-dropdown-footer');
+      });
+    cy.get('.sd-dropdown-header').should('contain.text', 'Header');
     cy.get('.sd-dropdown-footer').should('contain.text', 'Footer');
   });
 

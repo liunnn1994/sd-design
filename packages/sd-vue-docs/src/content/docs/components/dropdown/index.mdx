@@ -20,6 +20,8 @@ import DropdownPositionDemo from '../../../../components/generated/dropdown/posi
 import dropdownPositionSource from '../../../../components/generated/dropdown/position.vue?raw';
 import DropdownSubmenuDemo from '../../../../components/generated/dropdown/submenu.vue';
 import dropdownSubmenuSource from '../../../../components/generated/dropdown/submenu.vue?raw';
+import DropdownSlotsDemo from '../../../../components/generated/dropdown/slots.vue';
+import dropdownSlotsSource from '../../../../components/generated/dropdown/slots.vue?raw';
 import DropdownTriggerDemo from '../../../../components/generated/dropdown/trigger.vue';
 import dropdownTriggerSource from '../../../../components/generated/dropdown/trigger.vue?raw';
 
@@ -30,6 +32,16 @@ import dropdownTriggerSource from '../../../../components/generated/dropdown/tri
 <DemoBlock source={dropdownBasicSource} mainFile="src/dropdown-basic.vue">
 
 <DropdownBasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 页眉与页脚
+
+使用 `header`、`content` 和 `footer` 插槽自定义菜单内容，三者从上到下依次排列。
+
+<DemoBlock source={dropdownSlotsSource} mainFile="src/dropdown-slots.vue">
+
+<DropdownSlotsDemo client:only="vue" />
 
 </DemoBlock>
 
@@ -139,6 +151,7 @@ import dropdownTriggerSource from '../../../../components/generated/dropdown/tri
 
 | 插槽名  | 描述 | 参数 | 版本   |
 | ------- | :--: | ---- | :----- |
+| header  | 页眉 | -    |        |
 | content | 内容 | -    |        |
 | footer  | 页脚 | -    | 2.10.0 |
 

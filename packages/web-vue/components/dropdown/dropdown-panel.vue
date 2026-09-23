@@ -1,5 +1,16 @@
 <template>
-  <div :class="[prefixCls, { [`${prefixCls}-has-footer`]: Boolean($slots.footer) }]">
+  <div
+    :class="[
+      prefixCls,
+      {
+        [`${prefixCls}-has-header`]: Boolean($slots.header),
+        [`${prefixCls}-has-footer`]: Boolean($slots.footer),
+      },
+    ]"
+  >
+    <div v-if="$slots.header" :class="`${prefixCls}-header`">
+      <slot name="header" />
+    </div>
     <div v-if="isEmpty" :class="`${prefixCls}-empty`">
       <slot name="empty">
         <empty />
