@@ -46,7 +46,8 @@ $model-selector-prefix-cls: string.unquote('#{theme.$prefix}-model-selector');
     box-sizing: border-box;
     width: 100%;
     min-width: 0;
-    padding: $model-selector-padding $model-selector-padding-horizontal;
+    padding: $model-selector-padding-horizontal $model-selector-padding-horizontal
+      $model-selector-padding;
   }
 
   &-list {
