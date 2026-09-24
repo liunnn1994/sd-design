@@ -170,6 +170,7 @@ import configProviderSpinPropsSource from '../../../../components/generated/conf
 | modal | Modal 组件默认配置 | `ConfigProviderModal` | `-` |  |
 | drawer | Drawer 组件默认配置 | `ConfigProviderDrawer` | `-` |  |
 | pagination | Pagination 组件默认配置 | `ConfigProviderPagination` | `-` |  |
+| table | Table 组件默认配置 | `ConfigProviderTable` | `-` |  |
 | color-picker | ColorPicker 组件默认配置 | `ConfigProviderColorPicker` | `-` |  |
 | spin-props | Spin 组件默认属性 | `SpinProps` | `-` |  |
 | basic-crud-table-spin-props | BasicCrudTable 内部 Spin 的默认属性 | `SpinProps` | `-` |  |
@@ -212,6 +213,16 @@ import configProviderSpinPropsSource from '../../../../components/generated/conf
 `drawer` 支持以下全局默认字段：`placement`、`mask`、`maskClosable`、`escToClose`、`closable`、`header`、`footer`、`titleEllipsisTooltip`、`hideCancel`、`okText`、`cancelText`、`okButtonProps`、`cancelButtonProps`、`width`、`height`。
 
 `pagination` 支持以下全局默认字段：`pageSizeOptions`、`defaultPageSize`、`showTotal`、`showMore`、`showJumper`、`showPageSize`、`autoAdjust`、`baseSize`、`bufferSize`、`pageSizeProps`。
+
+`table` 支持 `bordered`、`hoverable`、`stripe`、`tableLayoutFixed`、`pagination`、`pagePosition`、`indentSize`、`showHeader`、`filterIconAlignLeft`、`hideExpandButtonOnEmpty`、`columnResizable`、`summaryText`、`stickyHeader`、`scrollbar`、`showEmptyTree`。例如，一次开启当前 ConfigProvider 子树内所有 Table 的列宽调整：
+
+```vue
+<ConfigProvider :table="{ columnResizable: true }">
+  <Table :columns="columns" :data="data" />
+</ConfigProvider>
+```
+
+`table.pagination` 控制 Table 是否显示分页或传入 Table 的分页参数；顶层 `pagination` 配置的是 Pagination 组件自身的默认属性。Table 显式传入的同名 prop 优先于 `table` 默认值。
 
 `color-picker` 支持通过 `swatchColors` 配置 ColorPicker 的默认系统色板。组件显式传入 `swatch-colors` 时优先使用组件配置；两处均未配置时系统色板为空。
 

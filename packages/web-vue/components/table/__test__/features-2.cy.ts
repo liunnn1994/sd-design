@@ -1,8 +1,9 @@
-import { h } from 'vue';
+import { defineComponent, h } from 'vue';
 
 import type { TableColumnData, TableData } from '../interface';
 
 import { TableColumn } from '..';
+import ConfigProvider from '../../config-provider';
 import Table from '../table.vue';
 
 type TableExposedMethods = {
@@ -144,9 +145,79 @@ describe('Table features', () => {
     cy.get('.sd-table-th').eq(2).should('have.class', 'sd-table-col-fixed-right-first');
   });
 
-  // 注：columnResize 的拖拽链路（thRefs 注册 × window mousemove）在 Cypress 合成
-  // 事件下无法确定性触发（本地/CI 均复现），且该 spec 是 CI 挂起的诱因之一，
-  // 暂不做 e2e 断言（功能由文档 demo 覆盖，记录于 TEST-AUDIT-FINDINGS.md）。
+  it('resizes a column by dragging its header handle', () => {
+    cy.mount(Table, {
+      props: {
+        columns: [
+          { title: 'Name', dataIndex: 'name', width: 150 },
+          { title: 'Age', dataIndex: 'age', width: 120 },
+        ],
+        data: JSONCopy(demoData),
+        pagination: false,
+        columnResizable: true,
+      },
+    });
+    cy.get('.sd-table-th')
+      .first()
+      .then(($th) => {
+        const right = $th[0].getBoundingClientRect().right;
+        cy.wrap($th).find('.sd-table-column-handle').trigger('mousedown', { clientX: right });
+        cy.window().trigger('mousemove', { clientX: right + 80 });
+        cy.window().trigger('mouseup');
+      });
+    cy.get('.sd-table-element')
+      .first()
+      .should('have.css', '--sd-table-grid-template', '230px 120px');
+    cy.get('.sd-table-th')
+      .first()
+      .should(($th) => {
+        expect(Math.round($th[0].getBoundingClientRect().width)).to.equal(230);
+      });
+  });
+
+  it('uses ConfigProvider table defaults while explicit table props take precedence', () => {
+    const columns = [
+      { title: 'Name', dataIndex: 'name', width: 150 },
+      { title: 'Age', dataIndex: 'age', width: 120 },
+    ];
+    cy.mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            ConfigProvider,
+            {
+              table: { columnResizable: true, pagination: false, stripe: true, hoverable: false },
+            },
+            {
+              default: () => [
+                h(Table, { columns, data: demoData }),
+                h(Table, {
+                  columns,
+                  data: demoData,
+                  columnResizable: false,
+                  stripe: false,
+                  hoverable: true,
+                }),
+              ],
+            },
+          ),
+      }),
+    );
+    cy.get('.sd-table')
+      .first()
+      .should('have.class', 'sd-table-stripe')
+      .and('not.have.class', 'sd-table-hover')
+      .find('.sd-table-column-handle')
+      .should('have.length', 1);
+    cy.get('.sd-table')
+      .eq(1)
+      .should('not.have.class', 'sd-table-stripe')
+      .and('have.class', 'sd-table-hover')
+      .find('.sd-table-column-handle')
+      .should('not.exist');
+    cy.get('.sd-table-pagination').should('not.exist');
+  });
+
   it('exposes imperative selection and expand methods', () => {
     const data = demoData.map((row) => ({ ...row, expand: `Expanded ${row.name}` }));
     cy.mount(Table, {

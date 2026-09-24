@@ -229,7 +229,7 @@ import tableVirtualListSource from '../../../../components/generated/table/virtu
 
 ### 调整列宽
 
-使用 `column-resizable` 属性开启列宽调整。建议初始设置除最后一列外其他列的默认列宽。
+使用 `column-resizable` 属性开启列宽调整。建议初始设置除最后一列外其他列的默认列宽。也可以在 `ConfigProvider` 中设置 `:table="{ columnResizable: true }"`，为其子树中的所有 Table 开启此功能；单个 Table 显式传入 `:column-resizable="false"` 时会覆盖默认值。
 
 <DemoBlock source={tableResizeSource} mainFile="src/table-resize.vue">
 

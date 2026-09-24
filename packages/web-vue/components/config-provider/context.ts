@@ -8,8 +8,11 @@ import type { ShortcutType, WeekStart } from '../date-picker/interface';
 import type { EllipsisTooltipProps } from '../ellipsis';
 import type { JsonFormProviderConfig } from '../json-form/types';
 import type { SdLang } from '../locale/interface';
+import type { PaginationProps } from '../pagination';
 import type { PaginationSelectProps } from '../pagination/interface';
+import type { ScrollbarProps } from '../scrollbar';
 import type { SpinProps } from '../spin';
+import type { TableBorder, TablePagePosition } from '../table/interface';
 import type { SDThemeNormalized, SdThemeMode } from './theme';
 
 export interface ConfigProviderModal {
@@ -77,6 +80,24 @@ export interface ConfigProviderColorPicker {
   swatchColors?: string[];
 }
 
+export interface ConfigProviderTable {
+  bordered?: boolean | TableBorder;
+  hoverable?: boolean;
+  stripe?: boolean;
+  tableLayoutFixed?: boolean;
+  pagination?: boolean | PaginationProps;
+  pagePosition?: TablePagePosition;
+  indentSize?: number;
+  showHeader?: boolean;
+  filterIconAlignLeft?: boolean;
+  hideExpandButtonOnEmpty?: boolean;
+  columnResizable?: boolean;
+  summaryText?: string;
+  stickyHeader?: boolean | number;
+  scrollbar?: boolean | ScrollbarProps;
+  showEmptyTree?: boolean;
+}
+
 export interface ConfigProvider {
   slots: Slots;
   prefixCls?: string;
@@ -95,6 +116,7 @@ export interface ConfigProvider {
   drawer?: ConfigProviderDrawer;
   pagination?: ConfigProviderPagination;
   colorPicker?: ConfigProviderColorPicker;
+  table?: ConfigProviderTable;
   spinProps?: SpinProps;
   basicCrudTableSpinProps?: SpinProps;
   cardSpinProps?: SpinProps;

@@ -135,7 +135,7 @@
      */
     bordered: {
       type: [Boolean, Object] as PropType<boolean | TableBorder>,
-      default: true,
+      default: () => inject(configProviderInjectionKey, undefined)?.table?.bordered ?? true,
     },
     /**
      * @zh 是否显示选中效果
@@ -143,7 +143,7 @@
      */
     hoverable: {
       type: Boolean,
-      default: true,
+      default: () => inject(configProviderInjectionKey, undefined)?.table?.hoverable ?? true,
     },
     /**
      * @zh 是否开启斑马纹效果
@@ -151,7 +151,7 @@
      */
     stripe: {
       type: Boolean,
-      default: false,
+      default: () => inject(configProviderInjectionKey, undefined)?.table?.stripe ?? false,
     },
     /**
      * @zh 表格的大小
@@ -169,7 +169,8 @@
      */
     tableLayoutFixed: {
       type: Boolean,
-      default: false,
+      default: () =>
+        inject(configProviderInjectionKey, undefined)?.table?.tableLayoutFixed ?? false,
     },
     /**
      * @zh 是否为加载中状态
@@ -218,7 +219,7 @@
      */
     pagination: {
       type: [Boolean, Object] as PropType<boolean | PaginationProps>,
-      default: true,
+      default: () => inject(configProviderInjectionKey, undefined)?.table?.pagination ?? true,
     },
     /**
      * @zh 分页选择器的位置
@@ -227,7 +228,7 @@
      */
     pagePosition: {
       type: String as PropType<TablePagePosition>,
-      default: 'br',
+      default: () => inject(configProviderInjectionKey, undefined)?.table?.pagePosition ?? 'br',
     },
     /**
      * @zh 树形表格的缩进距离
@@ -235,7 +236,7 @@
      */
     indentSize: {
       type: Number,
-      default: 16,
+      default: () => inject(configProviderInjectionKey, undefined)?.table?.indentSize ?? 16,
     },
     /**
      * @zh 表格行 `key` 的取值字段
@@ -251,7 +252,7 @@
      */
     showHeader: {
       type: Boolean,
-      default: true,
+      default: () => inject(configProviderInjectionKey, undefined)?.table?.showHeader ?? true,
     },
     /**
      * @zh 传递虚拟列表属性，传入此参数以开启虚拟滚动 [VirtualListProps](#VirtualListProps)
@@ -308,7 +309,8 @@
      */
     filterIconAlignLeft: {
       type: Boolean,
-      default: false,
+      default: () =>
+        inject(configProviderInjectionKey, undefined)?.table?.filterIconAlignLeft ?? false,
     },
     /**
      * @zh 是否在子树为空时隐藏展开按钮
@@ -317,7 +319,8 @@
      */
     hideExpandButtonOnEmpty: {
       type: Boolean,
-      default: false,
+      default: () =>
+        inject(configProviderInjectionKey, undefined)?.table?.hideExpandButtonOnEmpty ?? false,
     },
     /**
      * @zh 表格行元素的类名。`2.34.0` 版本增加函数值支持
@@ -347,6 +350,7 @@
      */
     columnResizable: {
       type: Boolean,
+      default: () => inject(configProviderInjectionKey, undefined)?.table?.columnResizable ?? false,
     },
     /**
      * @zh 显示表尾总结行
@@ -365,7 +369,7 @@
      */
     summaryText: {
       type: String,
-      default: 'Summary',
+      default: () => inject(configProviderInjectionKey, undefined)?.table?.summaryText ?? 'Summary',
     },
     /**
      * @zh 总结行的单元格合并方法
@@ -433,7 +437,7 @@
      */
     stickyHeader: {
       type: [Boolean, Number],
-      default: false,
+      default: () => inject(configProviderInjectionKey, undefined)?.table?.stickyHeader ?? false,
     },
     /**
      * @zh 是否开启虚拟滚动条
@@ -442,7 +446,7 @@
      */
     scrollbar: {
       type: [Object, Boolean] as PropType<boolean | ScrollbarProps>,
-      default: true,
+      default: () => inject(configProviderInjectionKey, undefined)?.table?.scrollbar ?? true,
     },
     /**
      * @zh 是否展示空子树
@@ -451,7 +455,7 @@
      */
     showEmptyTree: {
       type: Boolean,
-      default: false,
+      default: () => inject(configProviderInjectionKey, undefined)?.table?.showEmptyTree ?? false,
     },
   });
   const emit = defineEmits({
@@ -1885,7 +1889,12 @@
     key: string | undefined,
     instance: Element | ComponentPublicInstance | null,
   ) => {
-    const element = instance && '$el' in instance ? instance.$el : instance;
+    const element =
+      instance && 'getThElement' in instance && typeof instance.getThElement === 'function'
+        ? instance.getThElement()
+        : instance && '$el' in instance
+          ? instance.$el
+          : instance;
     if (key && element instanceof HTMLElement) thRefs.value[key] = element;
   };
   const renderHeader = () =>

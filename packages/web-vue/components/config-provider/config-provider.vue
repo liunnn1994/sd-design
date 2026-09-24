@@ -20,6 +20,7 @@
     type JsonFormProviderConfig,
     ConfigProviderModal,
     ConfigProviderPagination,
+    ConfigProviderTable,
     configProviderInjectionKey,
   } from './context';
   import { SdThemeConfig, SdThemeMode, normalizeTheme } from './theme';
@@ -162,6 +163,13 @@
       type: Object as PropType<ConfigProviderColorPicker>,
     },
     /**
+     * @zh Table 组件默认配置
+     * @en Default config for Table
+     */
+    table: {
+      type: Object as PropType<ConfigProviderTable>,
+    },
+    /**
      * @zh Spin 组件默认属性
      * @en Default props for Spin
      */
@@ -292,6 +300,7 @@
     drawer,
     pagination,
     colorPicker,
+    table,
     spinProps,
     basicCrudTableSpinProps,
     cardSpinProps,
@@ -324,6 +333,7 @@
     drawer,
     pagination,
     colorPicker,
+    table,
     spinProps,
     basicCrudTableSpinProps,
     cardSpinProps,

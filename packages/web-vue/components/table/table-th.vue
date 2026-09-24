@@ -58,6 +58,7 @@
 
   <component
     :is="getThComponent()"
+    :ref="setThElement"
     v-bind="$attrs"
     :class="cls"
     :style="style"
@@ -112,7 +113,15 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, inject, toRef, type PropType, type VNodeChild } from 'vue';
+  import {
+    computed,
+    inject,
+    shallowRef,
+    toRef,
+    type ComponentPublicInstance,
+    type PropType,
+    type VNodeChild,
+  } from 'vue';
 
   import { createReusableTemplate } from '@vueuse/core';
 
@@ -161,6 +170,12 @@
   }>();
   const column = toRef(props, 'column');
   const prefixCls = getPrefixCls('table');
+  const thElement = shallowRef<HTMLElement>();
+  const setThElement = (instance: Element | ComponentPublicInstance | null) => {
+    const element = instance && '$el' in instance ? instance.$el : instance;
+    thElement.value = element instanceof HTMLElement ? element : undefined;
+  };
+  defineExpose({ getThElement: () => thElement.value });
   const { t } = useI18n();
   const tableCtx = inject<Partial<TableContext>>(tableInjectionKey, {});
   const VNodeRenderer = ({ content }: { content: VNodeChild }) => content;
