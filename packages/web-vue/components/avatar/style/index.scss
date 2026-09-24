@@ -8,6 +8,7 @@ $avatar-prefix-cls: string.unquote('#{theme.$prefix}-avatar');
 .#{$avatar-prefix-cls} {
   position: relative;
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
   box-sizing: border-box;
   width: $avatar-size-default;

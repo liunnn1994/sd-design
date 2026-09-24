@@ -1,3 +1,5 @@
+import { h } from 'vue';
+
 import Avatar from '../index';
 
 const { Group: AvatarGroup } = Avatar;
@@ -22,6 +24,20 @@ describe('Avatar', () => {
     cy.mount(Avatar, { props: { size: 100 } });
     cy.get('.sd-avatar').invoke('attr', 'style').should('contain', 'width: 100px');
   });
+
+  for (const size of [undefined, 64]) {
+    it(`keeps its ${size ? `${size}px` : 'default'} size in a narrow flex row`, () => {
+      cy.mount({
+        render: () =>
+          h('div', { style: { display: 'flex', width: '120px' } }, [
+            h(Avatar, { size }),
+            h('div', { style: { flex: '0 0 200px' } }),
+          ]),
+      });
+      cy.get('.sd-avatar').should('have.css', 'width', `${size ?? 40}px`);
+      cy.get('.sd-avatar').should('have.css', 'height', `${size ?? 40}px`);
+    });
+  }
 
   it('should emit click', () => {
     cy.mount(Avatar, { slots: { default: 'A' } });
