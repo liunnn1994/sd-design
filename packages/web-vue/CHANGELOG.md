@@ -1,3 +1,10 @@
+## [5.1.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.1.0...web-vue-v5.1.1) (2026-09-24)
+
+
+### Bug Fixes
+
+* 🐛 修复 Avatar 在 flex 布局中被挤变形的问题 ([2873cde](https://github.com/liunnn1994/sd-design/commit/2873cdef2fe2ee3dc50c53febe599503bfec3744))
+
 # [5.1.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.0.0...web-vue-v5.1.0) (2026-09-23)
 
 
