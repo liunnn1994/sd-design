@@ -34,6 +34,10 @@ const TestSelector = defineComponent({
       type: Boolean,
       default: true,
     },
+    defaultExpanded: {
+      type: Boolean,
+      default: true,
+    },
   },
   setup() {
     const visible = shallowRef(false);
@@ -43,6 +47,7 @@ const TestSelector = defineComponent({
     <ModelSelector
       v-model:visible="visible"
       :close-on-select="closeOnSelect"
+      :default-expanded="defaultExpanded"
       @select="(value, event) => $emit('select', value, event)"
     >
       <ModelSelectorTrigger>选择模型</ModelSelectorTrigger>
@@ -129,6 +134,73 @@ function pressAltShiftDigit(digit: '1' | '2', shiftedKey: '!' | '@') {
 }
 
 describe('ModelSelector', () => {
+  it('expands groups by default and toggles the group from its heading', () => {
+    cy.mount(TestSelector);
+    cy.contains('button', '选择模型').click();
+
+    cy.contains('button.sd-model-selector-group-heading', '常用模型')
+      .should('have.attr', 'aria-expanded', 'true')
+      .find('svg')
+      .should('exist');
+    cy.contains('.sd-model-selector-item', 'GPT-4o').should('be.visible');
+
+    cy.contains('button.sd-model-selector-group-heading', '常用模型').click();
+    cy.contains('button.sd-model-selector-group-heading', '常用模型').should(
+      'have.attr',
+      'aria-expanded',
+      'false',
+    );
+    cy.contains('.sd-model-selector-item', 'GPT-4o').should('not.be.visible');
+    cy.get('input[placeholder="搜索模型"]').type('{downArrow}{enter}');
+    cy.get('.sd-modal').should('be.visible');
+
+    cy.contains('button.sd-model-selector-group-heading', '常用模型').click();
+    cy.contains('.sd-model-selector-item', 'GPT-4o').should('be.visible');
+  });
+
+  it('starts with groups collapsed when default-expanded is false', () => {
+    cy.mount(TestSelector, { props: { defaultExpanded: false } });
+    cy.contains('button', '选择模型').click();
+
+    cy.contains('button.sd-model-selector-group-heading', '常用模型').should(
+      'have.attr',
+      'aria-expanded',
+      'false',
+    );
+    cy.contains('.sd-model-selector-item', 'GPT-4o').should('not.be.visible');
+    cy.get('.sd-model-selector-empty').should('not.exist');
+
+    cy.contains('button.sd-model-selector-group-heading', '常用模型').click();
+    cy.contains('.sd-model-selector-item', 'GPT-4o').should('be.visible');
+  });
+
+  it('temporarily expands matching groups during search and restores their prior state', () => {
+    cy.mount(TestSelector, { props: { defaultExpanded: false } });
+    cy.contains('button', '选择模型').click();
+
+    const heading = () => cy.contains('button.sd-model-selector-group-heading', '常用模型');
+    const input = () => cy.get('input[placeholder="搜索模型"]');
+
+    heading().should('have.attr', 'aria-expanded', 'false');
+    input().type('GPT');
+    heading().should('have.attr', 'aria-expanded', 'true');
+    cy.contains('.sd-model-selector-item', 'GPT-4o').should('be.visible');
+
+    heading().click().should('have.attr', 'aria-expanded', 'false');
+    input().clear().type('Claude');
+    heading().should('have.attr', 'aria-expanded', 'true');
+    cy.contains('.sd-model-selector-item', 'Claude 4').should('be.visible');
+
+    input().clear();
+    heading().should('have.attr', 'aria-expanded', 'false');
+
+    heading().click().should('have.attr', 'aria-expanded', 'true');
+    input().type('GPT');
+    heading().click().should('have.attr', 'aria-expanded', 'false');
+    input().clear();
+    heading().should('have.attr', 'aria-expanded', 'true');
+  });
+
   it('supports default visibility without a controlled model', () => {
     cy.mount(
       defineComponent({

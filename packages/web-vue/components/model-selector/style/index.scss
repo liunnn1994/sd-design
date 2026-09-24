@@ -66,16 +66,62 @@ $model-selector-prefix-cls: string.unquote('#{theme.$prefix}-model-selector');
     }
 
     &-heading {
+      display: flex;
+      gap: $model-selector-gap;
+      align-items: center;
+      box-sizing: border-box;
+      width: 100%;
       padding: $model-selector-padding $model-selector-padding-horizontal;
       color: $model-selector-color-text-secondary;
       font-weight: theme.$font-weight-500;
       font-size: $model-selector-font-size-secondary;
+      text-align: left;
+      background: none;
+      border: 0;
+      cursor: pointer;
+
+      &-text {
+        flex: 1;
+        min-width: 0;
+      }
+    }
+
+    &-chevron {
+      flex: none;
+      transition: transform 180ms ease;
+
+      &--expanded {
+        transform: rotate(90deg);
+      }
     }
 
     &-content {
-      display: flex;
-      flex-direction: column;
-      gap: theme.$spacing-1;
+      display: grid;
+      grid-template-rows: 1fr;
+      opacity: 1;
+      transition:
+        grid-template-rows 180ms ease,
+        opacity 180ms ease;
+
+      &--collapsed {
+        grid-template-rows: 0fr;
+        opacity: 0;
+      }
+
+      &-inner {
+        display: flex;
+        flex-direction: column;
+        gap: theme.$spacing-1;
+        min-height: 0;
+        overflow: hidden;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &-chevron,
+      &-content {
+        transition: none;
+      }
     }
   }
 

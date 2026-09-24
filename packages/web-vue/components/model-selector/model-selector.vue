@@ -4,6 +4,7 @@
 
 <script setup lang="ts">
   import { computed, getCurrentInstance, provide, shallowRef, watch } from 'vue';
+  import type { Ref } from 'vue';
 
   import { DefaultMagicKeysAliasMap, useMagicKeys } from '@vueuse/core';
 
@@ -78,6 +79,7 @@
 
   const {
     defaultVisible = false,
+    defaultExpanded = true,
     closeOnSelect = true,
     resetQueryOnClose = true,
   } = defineProps<{
@@ -86,6 +88,11 @@
      * @en Whether the model selector is visible by default
      */
     defaultVisible?: boolean;
+    /**
+     * @zh 分组默认是否全部展开
+     * @en Whether all groups are expanded by default
+     */
+    defaultExpanded?: boolean;
     /**
      * @zh 选择模型后是否自动关闭
      * @en Whether to close after selecting a model
@@ -122,6 +129,7 @@
   const activeId = shallowRef<symbol>();
   const itemsVersion = shallowRef(0);
   const items = new Map<symbol, ModelSelectorItemData>();
+  const groups = new Map<symbol, Ref<boolean>>();
   const listId = `sd-model-selector-list-${instance.uid}`;
 
   const normalizedQuery = computed(() => query.value.trim().toLocaleLowerCase());
@@ -145,6 +153,9 @@
   }
 
   const visibleItems = computed(() => getVisibleItems());
+  const navigableItems = computed(() =>
+    visibleItems.value.filter((item) => !item.groupId || groups.get(item.groupId)?.value !== false),
+  );
   const visibleItemCount = computed(() => visibleItems.value.length);
   const activeDescendant = computed(() =>
     activeId.value ? items.get(activeId.value)?.domId : undefined,
@@ -156,7 +167,7 @@
         return;
       }
 
-      const item = visibleItems.value.find(
+      const item = navigableItems.value.find(
         ({ disabled, shortcut }) =>
           !disabled && shortcut && isShortcutPressed(shortcut, event, magicKeys.current),
       );
@@ -185,6 +196,14 @@
     itemsVersion.value += 1;
   }
 
+  function registerGroup(id: symbol, expanded: Ref<boolean>) {
+    groups.set(id, expanded);
+  }
+
+  function unregisterGroup(id: symbol) {
+    groups.delete(id);
+  }
+
   function updateItem(item: ModelSelectorItemData) {
     items.set(item.id, item);
     itemsVersion.value += 1;
@@ -203,7 +222,7 @@
   }
 
   function moveActive(offset: number) {
-    const enabledItems = visibleItems.value.filter((item) => !item.disabled);
+    const enabledItems = navigableItems.value.filter((item) => !item.disabled);
     if (!enabledItems.length) {
       activeId.value = undefined;
       return;
@@ -237,14 +256,20 @@
       return;
     }
 
-    const item = items.get(activeId.value);
+    const item = navigableItems.value.find((item) => item.id === activeId.value);
     if (item) {
       selectItem(item, event);
     }
   }
 
   watch(query, () => {
-    activeId.value = visibleItems.value.find((item) => !item.disabled)?.id;
+    activeId.value = navigableItems.value.find((item) => !item.disabled)?.id;
+  });
+
+  watch(navigableItems, (availableItems) => {
+    if (activeId.value && !availableItems.some((item) => item.id === activeId.value)) {
+      activeId.value = availableItems.find((item) => !item.disabled)?.id;
+    }
   });
 
   watch(mergedVisible, (visible) => {
@@ -257,17 +282,20 @@
   provide(modelSelectorInjectionKey, {
     activeDescendant,
     activeId,
+    defaultExpanded,
     getVisibleItems,
     itemsVersion,
     listId,
     moveActive,
     query,
+    registerGroup,
     registerItem,
     selectActive,
     selectItem,
     setActive,
     setVisible,
     unregisterItem,
+    unregisterGroup,
     updateItem,
     visible: mergedVisible,
     visibleItemCount,

@@ -2,6 +2,7 @@
   <ModelSelector
     :visible="mergedVisible"
     :default-visible="defaultVisible"
+    :default-expanded="defaultExpanded"
     :close-on-select="closeOnSelect"
     :reset-query-on-close="resetQueryOnClose"
     @update:visible="handleVisibleUpdate"
@@ -31,6 +32,7 @@
 
   const {
     defaultVisible = false,
+    defaultExpanded = true,
     closeOnSelect = true,
     resetQueryOnClose = true,
     title = '模型选择',
@@ -41,6 +43,7 @@
     escToClose = true,
   } = defineProps<{
     defaultVisible?: boolean;
+    defaultExpanded?: boolean;
     closeOnSelect?: boolean;
     resetQueryOnClose?: boolean;
     title?: string;

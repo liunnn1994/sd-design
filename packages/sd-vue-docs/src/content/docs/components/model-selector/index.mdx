@@ -31,7 +31,7 @@ ModelSelector 适用于模型数量较多、需要按厂商或能力检索的选
 
 ### 搜索、分组与空状态
 
-搜索不区分大小写，会匹配选项值、`label` 和 `keywords`。过滤后没有可见选项的分组会自动隐藏，所有分组均为空时显示 `ModelSelectorEmpty`。
+搜索不区分大小写，会匹配选项值、`label` 和 `keywords`。过滤后没有匹配选项的分组会自动隐藏，所有分组均无匹配项时显示 `ModelSelectorEmpty`。搜索时有匹配项的分组会临时展开，清空搜索后恢复搜索前的展开状态。点击分组标题可独立展开或收起；`default-expanded={false}` 可让所有分组初始收起，默认全部展开。收起的模型不会参与键盘导航或快捷键选择。
 
 <DemoBlock source={modelSelectorSearchSource} mainFile="src/model-selector-search.vue">
 
@@ -94,6 +94,7 @@ import { MODEL_SELECTOR_PROVIDERS } from '@sdata/web-vue';
 | --------------------- | ------------------------ | --------- | ------- |
 | visible **(v-model)** | 是否显示选择器           | `boolean` | -       |
 | default-visible       | 非受控模式的默认显隐状态 | `boolean` | `false` |
+| default-expanded      | 分组是否默认全部展开     | `boolean` | `true`  |
 | close-on-select       | 选择后是否自动关闭       | `boolean` | `true`  |
 | reset-query-on-close  | 关闭时是否清空搜索条件   | `boolean` | `true`  |
 
@@ -133,7 +134,7 @@ import { MODEL_SELECTOR_PROVIDERS } from '@sdata/web-vue';
 
 ### `<ModelSelectorDialog>` Props 与 Events
 
-`ModelSelectorDialog` 同时接受 `ModelSelector` 的 `visible`、`default-visible`、`close-on-select`、`reset-query-on-close`，以及 `ModelSelectorContent` 的全部 props。它同样触发 `visible-change` 和 `select`。
+`ModelSelectorDialog` 同时接受 `ModelSelector` 的 `visible`、`default-visible`、`default-expanded`、`close-on-select`、`reset-query-on-close`，以及 `ModelSelectorContent` 的全部 props。它同样触发 `visible-change` 和 `select`。
 
 ### `<ModelSelectorInput>` Props
 
