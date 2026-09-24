@@ -1,3 +1,11 @@
+# [5.2.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.1.1...web-vue-v5.2.0) (2026-09-24)
+
+
+### Features
+
+* 🆕 model selector 新增分组展开收起功能 ([8d92a82](https://github.com/liunnn1994/sd-design/commit/8d92a824ad04afc2c87961843dde8147a5ca1ca6))
+* 🆕 修复调整列宽的功能并添加到 configprovider 中 ([204d61d](https://github.com/liunnn1994/sd-design/commit/204d61df42ebb947ef0e1176593cdbc19d52b998))
+
 ## [5.1.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.1.0...web-vue-v5.1.1) (2026-09-24)
 
 
