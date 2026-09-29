@@ -131,6 +131,7 @@ declare module 'vue' {
     SdRichTextEditor: SDVue['RichTextEditor'];
     SdSelect: SDVue['Select'];
     SdSender: SDVue['Sender'];
+    SdVoiceGlow: SDVue['VoiceGlow'];
     SdSenderHeader: SDVue['SenderHeader'];
     SdSenderSwitch: SDVue['SenderSwitch'];
     SdSecret: SDVue['Secret'];

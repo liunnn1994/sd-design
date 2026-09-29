@@ -87,7 +87,9 @@ import senderAgentSource from '../../../../components/generated/sender/agent.vue
 
 ### recorder-core 语音录制
 
-`allow-speech` 设为 `true` 后使用 recorder-core 默认配置；传入对象时，该对象会原样交给 `Recorder(config)`。实时 PCM、编码分片、采样率、音频约束和自定义媒体流等能力分别使用 recorder-core 原生的 `onProcess`、`takeoffEncodeChunk`、`sampleRate`、`audioTrackSet` 和 `sourceStream` 配置，不再经过 Sender 自定义事件转换。
+`allow-speech` 设为 `true` 后使用 recorder-core 默认配置；传入对象时，配置会交给 `Recorder(config)`。Sender 会包装 `onProcess` 以读取音量，并以原始参数和调用上下文继续调用传入的回调。实时 PCM、编码分片、采样率、音频约束和自定义媒体流等能力分别使用 recorder-core 原生的 `onProcess`、`takeoffEncodeChunk`、`sampleRate`、`audioTrackSet` 和 `sourceStream` 配置，不再经过 Sender 自定义事件转换。
+
+启用语音后，`VoiceGlow` 默认在检测到说话时才激活；静音时不播放呼吸光效，短暂的字词停顿会平滑衔接。默认说话门限是录音功率的 4%，可通过 `voice-glow.threshold` 调整。`voice-glow` 传入 `false` 可隐藏，传入 `true` 使用上述默认行为；传入 `VoiceGlowProps` 对象可设置 `colorVariant`、`type`、`processing` 等参数。显式设置 `active` 可覆盖自动激活。默认音量来自同一次录音的 `onProcess`，不会再次申请麦克风权限；对象中的 `level`、`stream`、`theme` 可覆盖默认输入。传入的 `onProcess` 回调仍会收到原始参数。
 
 <DemoBlock source={senderSpeechSource} mainFile="src/sender-speech.vue">
 
@@ -174,6 +176,7 @@ Sender 已注册 recorder-core 包内提供的全部格式编码器和扩展，�
 | slot-config | 结构化词槽配置 | `SenderSlotConfig[]` | - |
 | skill | 技能标签配置 | `SenderSkill` | - |
 | allow-speech | 是否显示录音入口；对象值为 recorder-core 原生 `Recorder(config)` 配置 | `boolean \| RecorderCoreOptions` | `false` |
+| voice-glow | 声控光效；默认只在检测到说话时激活，对象值可覆盖 VoiceGlow 参数 | `boolean \| VoiceGlowProps` | `true` |
 | auto-size | 输入区自适应高度 | `boolean \| { minRows?: number; maxRows?: number }` | `{ maxRows: 8 }` |
 | placeholder | 占位文本 | `string` | - |
 | show-actions | 是否显示后缀操作区 | `boolean` | `true` |

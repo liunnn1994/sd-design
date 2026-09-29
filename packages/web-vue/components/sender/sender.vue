@@ -195,6 +195,16 @@
           <ReuseSuffix />
         </div>
       </div>
+      <VoiceGlow
+        v-if="allowSpeech && voiceGlow"
+        v-bind="voiceGlowOptions"
+        :class="`${prefixCls}-voice-glow`"
+        :level="voiceGlowOptions.level ?? speechLevel"
+        :theme="voiceGlowOptions.theme ?? themeMode"
+        :idle="voiceGlowOptions.idle ?? 0"
+        :active="voiceGlowActive"
+        aria-hidden="true"
+      />
     </div>
   </Tooltip>
 </template>
@@ -208,6 +218,7 @@
     defineComponent,
     getCurrentInstance,
     nextTick,
+    onBeforeUnmount,
     provide,
     shallowRef,
     toRef,
@@ -224,6 +235,7 @@
     RichTextEditorContentSnapshot,
     RichTextEditorRef,
   } from '../rich-text-editor';
+  import type { VoiceGlowProps } from '../voice-glow';
   import type {
     SenderActionContext,
     SenderCustomSlotConfig,
@@ -242,6 +254,7 @@
     useReadonlyTip,
     useReadonlyTipText,
   } from '../_hooks/use-readonly-tip';
+  import { useThemeMode } from '../_hooks/use-theme-mode';
   import { getPrefixCls } from '../_utils/global-config';
   import Button from '../button';
   import IconArrowUp from '../icon/icon-arrow-up';
@@ -252,6 +265,7 @@
   import RichTextEditor from '../rich-text-editor';
   import Textarea from '../textarea';
   import Tooltip from '../tooltip';
+  import VoiceGlow from '../voice-glow';
   import { senderInjectionKey } from './context';
   import RecordingIcon from './sender-recording-icon.vue';
   import SkillTag from './sender-skill-tag.vue';
@@ -265,11 +279,15 @@
     submitType: 'enter',
     autoSize: () => ({ maxRows: 8 }),
     showActions: true,
+    voiceGlow: true,
     suffixPlacement: 'content',
     classNames: () => ({}),
     styles: () => ({}),
   });
   const emit = defineEmits<SenderEmits>();
+  const voiceGlowOptions = computed<VoiceGlowProps>(() =>
+    typeof props.voiceGlow === 'object' ? props.voiceGlow : {},
+  );
   const { t } = useI18n();
   const [DefineSuffix, ReuseSuffix] = createReusableTemplate();
 
@@ -338,7 +356,8 @@
       !readonlyTipDisabled.value &&
       (readonlyTipHoverVisible.value || readonlyTipInteractionVisible.value),
   );
-  const containerRef = shallowRef<HTMLDivElement>();
+  const containerRef = shallowRef<HTMLDivElement | null>(null);
+  const themeMode = useThemeMode(containerRef);
   const textareaRef = shallowRef<
     ComponentPublicInstance & { focus?: () => void; blur?: () => void }
   >();
@@ -662,6 +681,7 @@
     available: speechAvailable,
     recorder,
     recording,
+    level: speechLevel,
     requesting: speechRequesting,
     stopping: speechStopping,
     statusText: speechStatusText,
@@ -670,6 +690,34 @@
     onStop: (blob, duration, mime) => emit('speechEnd', blob, duration, mime),
     onError: (message, isUserNotAllow) => emit('speechError', message, isUserNotAllow),
   });
+
+  const DEFAULT_VOICE_GLOW_SPEECH_THRESHOLD = 0.04;
+  const voiceActivity = shallowRef(false);
+  const speaking = computed(
+    () =>
+      recording.value &&
+      speechLevel.value > (voiceGlowOptions.value.threshold ?? DEFAULT_VOICE_GLOW_SPEECH_THRESHOLD),
+  );
+  let silenceTimer: ReturnType<typeof setTimeout> | undefined;
+  watch([speaking, recording], ([detected, isRecording]) => {
+    clearTimeout(silenceTimer);
+    if (!isRecording) voiceActivity.value = false;
+    else if (detected) voiceActivity.value = true;
+    else if (voiceActivity.value) {
+      silenceTimer = setTimeout(() => {
+        voiceActivity.value = false;
+      }, 350);
+    }
+  });
+  onBeforeUnmount(() => clearTimeout(silenceTimer));
+  const voiceGlowActive = computed(
+    () =>
+      voiceGlowOptions.value.active ??
+      (Boolean(voiceGlowOptions.value.processing) ||
+        voiceGlowOptions.value.level !== undefined ||
+        voiceGlowOptions.value.stream != null ||
+        voiceActivity.value),
+  );
 
   const actionContext = computed<SenderActionContext>(() => ({
     send: triggerSend,

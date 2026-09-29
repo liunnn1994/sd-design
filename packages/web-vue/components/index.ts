@@ -30,6 +30,27 @@ export type { AvatarInstance, AvatarGroupInstance } from './avatar';
 export { default as BackTop } from './back-top';
 export type { BackTopInstance } from './back-top';
 export { default as BorderBeam } from './border-beam';
+export { default as VoiceGlow } from './voice-glow';
+export type {
+  VoiceGlowInstance,
+  VoiceGlowProps,
+  VoiceGlowType,
+  VoiceGlowTheme,
+  VoiceGlowColorVariant,
+  VoiceGlowLevel,
+} from './voice-glow';
+export {
+  useVoiceMicrophone,
+  voiceDefaults,
+  voiceTypePresets,
+  resolveVoiceDefaults,
+  resolveVoiceStyle,
+} from './voice-glow';
+export type {
+  UseVoiceMicrophoneOptions,
+  UseVoiceMicrophoneResult,
+  VoiceMicrophoneState,
+} from './voice-glow';
 export type {
   BorderBeamInstance,
   BorderBeamSize,

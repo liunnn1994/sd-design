@@ -1,0 +1,13 @@
+@use '@style/theme/runtime.scss' as theme-runtime;
+@use '@style/theme/index.scss' as global;
+
+$voice-glow-display: inline-flex;
+$voice-glow-position: relative;
+
+// @generated runtime tokens — pnpm theme:generate
+$voice-glow-display: theme-runtime.token('voice-glow', 'voice-glow-display', $voice-glow-display);
+$voice-glow-position: theme-runtime.token(
+  'voice-glow',
+  'voice-glow-position',
+  $voice-glow-position
+);

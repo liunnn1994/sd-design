@@ -1,0 +1,15 @@
+@use './token.scss' as *;
+@use '@style/theme/index.scss' as theme;
+@use 'sass:string';
+
+$voice-glow-prefix-cls: string.unquote('#{theme.$prefix}-voice-glow');
+
+.#{$voice-glow-prefix-cls} {
+  position: $voice-glow-position;
+  display: $voice-glow-display;
+
+  &-filter {
+    position: absolute;
+    pointer-events: none;
+  }
+}

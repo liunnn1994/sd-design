@@ -146,6 +146,7 @@
     BorderBeamExposed,
   } from './types';
 
+  import { useBeamPreferences } from '../_hooks/use-beam-preferences';
   import { getPrefixCls } from '../_utils/global-config';
   import { registerPulseInstance } from './pulseDriver';
   import { sizePresets, sizeThemePresets, generateBeamCSS, getPulseDriverConfig } from './styles';
@@ -207,40 +208,7 @@
   const cls = computed(() => [prefixCls]);
 
   // ── System theme detection ──────────────────────────────────────────────────
-  const systemTheme = ref<'dark' | 'light'>('dark');
-
-  function updateSystemTheme() {
-    if (typeof window === 'undefined') return;
-    systemTheme.value = window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light';
-  }
-
-  let mediaQueryCleanup: (() => void) | null = null;
-  const reducedMotion = ref(false);
-
-  onMounted(() => {
-    updateSystemTheme();
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const handler = (e: MediaQueryListEvent) => {
-      systemTheme.value = e.matches ? 'dark' : 'light';
-    };
-    mq.addEventListener('change', handler);
-    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const updateMotion = () => {
-      reducedMotion.value = motionQuery.matches;
-    };
-    updateMotion();
-    motionQuery.addEventListener('change', updateMotion);
-    mediaQueryCleanup = () => {
-      mq.removeEventListener('change', handler);
-      motionQuery.removeEventListener('change', updateMotion);
-    };
-  });
-
-  onUnmounted(() => {
-    mediaQueryCleanup?.();
-  });
+  const { systemTheme, reducedMotion } = useBeamPreferences();
 
   function resolveTheme(theme: BorderBeamTheme, sysTheme: 'dark' | 'light'): 'dark' | 'light' {
     return theme === 'auto' ? sysTheme : theme;

@@ -49,6 +49,50 @@ afterEach(() => {
 });
 
 describe('Sender', () => {
+  it('shows the voice glow only when speech is enabled and the switch is on', () => {
+    cy.mount(Sender);
+    cy.get('.sd-sender-voice-glow').should('not.exist');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ allowSpeech: true })));
+    cy.get('.sd-sender-voice-glow').should('exist').and('have.css', 'position', 'absolute');
+    cy.get('.sd-sender-voice-glow').should('not.have.attr', 'data-active');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ voiceGlow: false })));
+    cy.get('.sd-sender-voice-glow').should('not.exist');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ voiceGlow: true })));
+    cy.get('.sd-sender-voice-glow').should('exist');
+    cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ allowSpeech: false })));
+    cy.get('.sd-sender-voice-glow').should('not.exist');
+  });
+
+  it('passes VoiceGlow props through the voiceGlow object', () => {
+    cy.mount(Sender, {
+      props: {
+        allowSpeech: true,
+        voiceGlow: { type: 'pill', processing: true, strength: 0.6, colorVariant: 'ocean' },
+      },
+    });
+    cy.get('.sd-sender-voice-glow')
+      .should('have.attr', 'data-voice-type', 'pill')
+      .and('have.attr', 'data-processing');
+    cy.get('.sd-sender-voice-glow').should('have.css', '--voice-strength', '0.6');
+  });
+
+  it('keeps the glow inactive while recording silence', () => {
+    cy.window().then((win) => {
+      const context = new win.AudioContext();
+      const destination = context.createMediaStreamDestination();
+      cy.mount(Sender, {
+        props: { allowSpeech: { type: 'pcm', sourceStream: destination.stream } },
+      });
+      cy.get('button[aria-label="开始语音输入"]').click();
+      cy.get('@vue').should(({ wrapper }) => {
+        expect(wrapper.vm.recording).to.equal(true);
+      });
+      cy.get('.sd-sender-voice-glow').should('not.have.attr', 'data-active');
+      cy.get('@vue').then(({ wrapper }) => wrapper.unmount());
+      cy.then(() => context.close());
+    });
+  });
+
   it('uses dark theme colors with the RichTextEditor input', () => {
     cy.mount(
       defineComponent({
@@ -237,6 +281,11 @@ describe('Sender', () => {
       .should('have.attr', 'aria-label', '开始语音输入')
       .click();
     cy.get('@recorderProcess').should('have.been.called');
+    cy.get('.sd-sender-voice-glow').should(($element) => {
+      const id = $element.attr('data-voice-beam');
+      expect(Number($element[0].style.getPropertyValue(`--vb-level-${id}`))).to.be.greaterThan(0);
+    });
+    cy.get('.sd-sender-voice-glow').should('have.attr', 'data-active');
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.vm.Recorder).to.equal(RecorderCore);
       expect(wrapper.vm.recorder.set.type).to.equal('pcm');
@@ -262,6 +311,7 @@ describe('Sender', () => {
     });
     cy.get('.sd-sender-actions-btn').first().click();
     cy.get('.sd-sender-actions-btn').first().should('have.attr', 'aria-label', '开始语音输入');
+    cy.get('.sd-sender-voice-glow').should('not.have.attr', 'data-active');
     cy.get('@vue').should(({ wrapper }) => {
       const end = wrapper.emitted('speechEnd');
       expect(end).to.have.length(1);

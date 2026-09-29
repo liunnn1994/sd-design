@@ -501,6 +501,10 @@ export const docsSidebar = [
             slug: 'components/border-beam',
             label: '边框光束 BorderBeam',
           },
+          {
+            slug: 'components/voice-glow',
+            label: '语音光效 VoiceGlow',
+          },
         ],
       },
     ],

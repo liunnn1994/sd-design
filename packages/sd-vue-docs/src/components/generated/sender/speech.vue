@@ -4,6 +4,7 @@
       ref="senderRef"
       v-model="value"
       :allow-speech="recorderOptions"
+      :voice-glow="{ colorVariant: 'ocean', strength: 0.8 }"
       placeholder="点击语音按钮开始采集音频"
     />
     <div class="sender-speech-demo-status" aria-live="polite">

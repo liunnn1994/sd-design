@@ -3,6 +3,7 @@ import type { UnknownRecord } from 'type-fest';
 import type { CSSProperties, Component, VNodeChild } from 'vue';
 
 import type { TooltipProps } from '../tooltip';
+import type { VoiceGlowProps } from '../voice-glow';
 import type { RecorderCore, RecorderCoreInstance, RecorderCoreOptions } from './recorder-core';
 
 export type SenderSubmitType = 'enter' | 'shiftEnter';
@@ -202,6 +203,11 @@ export interface SenderProps {
    * @en Whether recording is enabled; an object value is passed to recorder-core as-is
    */
   allowSpeech?: SenderAllowSpeech;
+  /**
+   * @zh 启用语音时的声控光效：布尔值控制默认效果，对象值用于精细配置
+   * @en Voice glow when speech is enabled: boolean for defaults, object for detailed configuration
+   */
+  voiceGlow?: boolean | VoiceGlowProps;
   /**
    * @zh 文本域自适应高度配置
    * @en Textarea auto-size configuration

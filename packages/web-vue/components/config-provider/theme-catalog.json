@@ -16843,6 +16843,23 @@
           "dependencies": []
         }
       ]
+    },
+    {
+      "name": "voice-glow",
+      "tokens": [
+        {
+          "key": "voice-glow-display",
+          "name": "voice-glow-display",
+          "value": "inline-flex",
+          "dependencies": []
+        },
+        {
+          "key": "voice-glow-position",
+          "name": "voice-glow-position",
+          "value": "relative",
+          "dependencies": []
+        }
+      ]
     }
   ]
 }

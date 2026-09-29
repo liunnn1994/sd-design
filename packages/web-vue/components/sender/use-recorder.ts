@@ -26,6 +26,7 @@ export function useRecorder(
   const config = computed(() => toValue(allowSpeech));
   const supported = shallowRef(false);
   const recording = shallowRef(false);
+  const level = shallowRef(0);
   const requesting = shallowRef(false);
   const stopping = shallowRef(false);
   const permissionDenied = shallowRef(false);
@@ -51,6 +52,7 @@ export function useRecorder(
     recorder.value?.close();
     recorder.value = undefined;
     recording.value = false;
+    level.value = 0;
     requesting.value = false;
     stopping.value = false;
   };
@@ -61,6 +63,7 @@ export function useRecorder(
     stopping.value = true;
     const finish = () => {
       recording.value = false;
+      level.value = 0;
       requesting.value = false;
       stopping.value = false;
       recorder.value = undefined;
@@ -85,8 +88,22 @@ export function useRecorder(
     requesting.value = true;
     permissionDenied.value = false;
     captureError.value = undefined;
-    const recorderOptions = typeof config.value === 'object' ? config.value : {};
-    const current = Recorder(recorderOptions);
+    const recorderOptions: Record<string, unknown> =
+      config.value && typeof config.value === 'object'
+        ? (config.value as Record<string, unknown>)
+        : {};
+    const originalOnProcess =
+      typeof recorderOptions.onProcess === 'function'
+        ? (recorderOptions.onProcess as (...args: unknown[]) => void)
+        : undefined;
+    const current = Recorder({
+      ...recorderOptions,
+      onProcess: function (this: unknown, ...args: unknown[]) {
+        const power = args[1];
+        if (typeof power === 'number') level.value = Math.min(1, Math.max(0, power / 100));
+        originalOnProcess?.apply(this, args);
+      },
+    });
     recorder.value = current;
     current.open(
       () => {
@@ -147,6 +164,7 @@ export function useRecorder(
     available,
     recorder,
     recording,
+    level,
     requesting,
     stopping,
     statusText,

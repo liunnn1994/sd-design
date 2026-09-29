@@ -106,6 +106,7 @@ import Trigger from './trigger';
 import Typography, { TypographyParagraph, TypographyTitle, TypographyText } from './typography';
 import Upload from './upload';
 import VerificationCode from './verification-code';
+import VoiceGlow from './voice-glow';
 import Watermark from './watermark';
 
 const components: Record<string, Plugin> = {
@@ -166,6 +167,7 @@ const components: Record<string, Plugin> = {
   RichTextEditor,
   Select,
   Sender,
+  VoiceGlow,
   Secret,
   Slider,
   Switch,

@@ -17,6 +17,14 @@ $sender-prefix-cls: string.unquote('#{theme.$prefix}-sender');
     box-shadow: $sender-box-shadow;
   }
 
+  &-voice-glow[data-voice-beam] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
   &-disabled {
     background: $sender-color-bg-disabled;
     border-color: transparent;

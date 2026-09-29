@@ -1,0 +1,89 @@
+---
+title: 语音光效 VoiceGlow
+description: 为语音输入区域添加随音量变化的底部光效。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import BasicDemo from '../../../../components/generated/voice-glow/basic.vue';
+import basicSource from '../../../../components/generated/voice-glow/basic.vue?raw';
+import VariantsDemo from '../../../../components/generated/voice-glow/variants.vue';
+import variantsSource from '../../../../components/generated/voice-glow/variants.vue?raw';
+import InteractiveDemo from '../../../../components/generated/voice-glow/interactive.vue';
+import interactiveSource from '../../../../components/generated/voice-glow/interactive.vue?raw';
+import CompositionDemo from '../../../../components/generated/voice-glow/composition.vue';
+import compositionSource from '../../../../components/generated/voice-glow/composition.vue?raw';
+
+`VoiceGlow` 适合展示语音采集状态。它只负责显示光效；麦克风权限和录音生命周期由使用者管理。传入 `stream` 时会分析音频，传入 `level` 时可由现有音量数据驱动。
+
+独立使用时可调用 `useVoiceMicrophone()` 获取 `stream`、`state`、`start()` 和 `stop()`，并从用户点击事件中调用 `start()`。组件卸载后会停止已获取的音轨。`Sender` 已有录音管理，无需调用这个组合函数。
+
+### 基本用法
+
+用 `level` 提供 0 到 1 的音量值；也可以传入返回音量的函数，供动画逐帧读取。示例同时展示 `theme="dark"` 和 `theme="light"`，使用时让光效主题与所在背景一致。
+
+<DemoBlock source={basicSource} mainFile="src/voice-glow-basic.vue">
+  <BasicDemo client:only="vue" />
+</DemoBlock>
+
+### 预设与颜色
+
+`type="pill"` 适合较窄的录音按钮区域。`color-variant` 控制配色。
+
+<DemoBlock source={variantsSource} mainFile="src/voice-glow-variants.vue">
+  <VariantsDemo client:only="vue" />
+</DemoBlock>
+
+### 音量与处理状态
+
+录音结束后可设置 `processing`，使光效切换为往返移动的处理动画。
+
+<DemoBlock source={interactiveSource} mainFile="src/voice-glow-interactive.vue">
+  <InteractiveDemo client:only="vue" />
+</DemoBlock>
+
+### 自定义内容
+
+默认插槽承载光效所在的区域；光效覆盖层不会拦截鼠标操作。
+
+<DemoBlock source={compositionSource} mainFile="src/voice-glow-composition.vue">
+  <CompositionDemo client:only="vue" />
+</DemoBlock>
+
+## API
+
+### Props
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| stream | 要分析的音频流，优先于 `level` | `MediaStream \| null` | - |
+| level | 手动音量或逐帧取值函数 | `number \| (() => number)` | `0` |
+| type | 容器尺寸预设 | `'default' \| 'pill' \| 'mobile'` | `'default'` |
+| theme | 光效主题 | `'dark' \| 'light' \| 'auto'` | `'auto'` |
+| color-variant | 配色 | `'colorful' \| 'mono' \| 'ocean' \| 'sunset' \| 'forest' \| 'candy' \| 'ice' \| 'gold'` | `'colorful'` |
+| processing | 显示处理态光束 | `boolean` | `false` |
+| active | 是否启用光效 | `boolean` | `true` |
+| paused | 是否暂停动画与音频分析 | `boolean` | `false` |
+| sensitivity / threshold | 输入增益 / 噪声门限 | `number` | `3.1` / `0.015` |
+| attack / release | 响应上升 / 回落时长，单位秒 | `number` | `0.325` / `0.86` |
+| scale / strength | 整体尺寸 / 光效强度 | `number` | 由预设决定 |
+| colors / band-colors | 自定义光瓣 / 光带颜色 | `string[]` / `VoiceBeamBandColors` | 由配色决定 |
+
+其他几何参数可参考导出的 `VoiceGlowProps` 类型。
+
+### Events
+
+| 事件名     | 描述             | 参数            |
+| ---------- | ---------------- | --------------- |
+| level      | 当前平滑后的音量 | `value: number` |
+| activate   | 淡入动画结束     | -               |
+| deactivate | 淡出动画结束     | -               |
+
+### Slots
+
+| 插槽名  | 描述             |
+| ------- | ---------------- |
+| default | 光效所包裹的内容 |
+
+### 与 Sender 组合
+
+`Sender` 在启用 `allow-speech` 后使用此光效，但默认只在录音功率超过 4% 时激活，静音时不显示呼吸动画。`voice-glow` 接受布尔值或 `VoiceGlowProps`：设为 `false` 可隐藏，设为 `true` 使用说话检测默认行为，传入 `{ colorVariant: 'ocean', type: 'pill' }` 等对象可细调。`threshold` 可调整检测门限，显式设置 `active` 可覆盖自动激活。Sender 默认传入 recorder-core 的音量数据和当前主题；对象中的 `level`、`stream`、`theme` 可以覆盖对应默认值，不会额外请求麦克风权限。
