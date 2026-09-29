@@ -443,6 +443,10 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
     padding-left: 0;
   }
 
+  &-th#{&}-checkbox .#{theme.$prefix}-checkbox-label:empty {
+    display: none;
+  }
+
   // operation column sizing
   &-selection-checkbox-col,
   &-selection-radio-col {

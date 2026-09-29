@@ -212,6 +212,14 @@ describe('Table', () => {
         onSelectionChange: cy.spy().as('onSelectAllChange'),
       },
     });
+    cy.get('.sd-table').should(($table) => {
+      const header = $table[0].querySelector<HTMLElement>('.sd-table-thead .sd-checkbox');
+      const row = $table[0].querySelector<HTMLElement>('.sd-table-tbody .sd-checkbox');
+      expect(header).to.not.equal(null);
+      expect(row).to.not.equal(null);
+      expect(header!.getBoundingClientRect().width).to.equal(row!.getBoundingClientRect().width);
+      expect(header!.getBoundingClientRect().left).to.equal(row!.getBoundingClientRect().left);
+    });
     cy.get('.sd-table-thead .sd-table-operation.sd-table-checkbox .sd-checkbox').click();
     cy.get('.sd-table-tbody .sd-checkbox-checked').should('have.length', 2);
     cy.get('@onSelectAll').should((spy) => {
