@@ -1,3 +1,10 @@
+# [5.4.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.3.0...web-vue-v5.4.0) (2026-09-29)
+
+
+### Features
+
+* 🆕 新增 voice glow 组件 ([e4718b3](https://github.com/liunnn1994/sd-design/commit/e4718b36774c293e95c79579ff1eef40cbafda8b))
+
 # [5.3.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.2.1...web-vue-v5.3.0) (2026-09-29)
 
 
