@@ -1,3 +1,11 @@
+# [5.3.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.2.1...web-vue-v5.3.0) (2026-09-29)
+
+
+### Features
+
+* 🆕 去掉浏览器自带的 :focus-visible 黑边 ([8ed2a23](https://github.com/liunnn1994/sd-design/commit/8ed2a23becd3e08e4980050c027701490266c8f5))
+* 🆕 更新依赖 ([3c0c918](https://github.com/liunnn1994/sd-design/commit/3c0c918c19597bef7029c622454de7314fd33616))
+
 ## [5.2.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.2.0...web-vue-v5.2.1) (2026-09-29)
 
 
