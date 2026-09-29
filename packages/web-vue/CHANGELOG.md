@@ -1,3 +1,10 @@
+## [5.2.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.2.0...web-vue-v5.2.1) (2026-09-29)
+
+
+### Bug Fixes
+
+* 🐛 修复表头没有对齐的问题 ([81a58d9](https://github.com/liunnn1994/sd-design/commit/81a58d98ac91d48b632f327ca9564085e4fde68e))
+
 # [5.2.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.1.1...web-vue-v5.2.0) (2026-09-24)
 
 
