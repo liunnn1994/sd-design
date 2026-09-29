@@ -239,23 +239,23 @@ $carousel-prefix-cls: string.unquote('#{theme.$prefix}-carousel');
 
       &.#{$carousel-prefix-cls}-indicator-dot {
         bottom: -(
-            $carousel-indicator-position + $carousel-indicator-dot-size +
-              $carousel-indicator-outer-padding
-          );
+          $carousel-indicator-position + $carousel-indicator-dot-size +
+            $carousel-indicator-outer-padding
+        );
       }
 
       &.#{$carousel-prefix-cls}-indicator-line {
         bottom: -(
-            $carousel-indicator-position + $carousel-indicator-line-size-height +
-              $carousel-indicator-outer-padding
-          );
+          $carousel-indicator-position + $carousel-indicator-line-size-height +
+            $carousel-indicator-outer-padding
+        );
       }
 
       &.#{$carousel-prefix-cls}-indicator-slider {
         bottom: -(
-            $carousel-indicator-position + $carousel-indicator-slider-size-height +
-              $carousel-indicator-outer-padding
-          );
+          $carousel-indicator-position + $carousel-indicator-slider-size-height +
+            $carousel-indicator-outer-padding
+        );
         padding: 0;
         background-color: $carousel-indicator-outer-color_default;
       }

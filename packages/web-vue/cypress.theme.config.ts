@@ -5,7 +5,6 @@ import path from 'node:path';
 
 export default defineConfig({
   video: false,
-  allowCypressEnv: false,
   viewportWidth: 1600,
   viewportHeight: 1100,
   e2e: {

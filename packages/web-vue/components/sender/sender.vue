@@ -719,7 +719,7 @@
     if (!modifierPressed) {
       event.preventDefault();
       event.stopPropagation();
-      slotInputRef.value?.dispatchCommand(INSERT_LINE_BREAK_COMMAND, undefined);
+      slotInputRef.value?.dispatchCommand(INSERT_LINE_BREAK_COMMAND, false);
     }
   };
 

@@ -345,12 +345,8 @@ $color-bg-5: #fff; // Popup, dropdown background
 $color-bg-white: #fff;
 $color-text-1: var(string.unquote('#{$sd-cssvars-prefix}-color-neutral-10')); // Title, body
 $color-text-2: var(string.unquote('#{$sd-cssvars-prefix}-color-neutral-8')); // Statement
-$color-text-3: var(
-  string.unquote('#{$sd-cssvars-prefix}-color-neutral-6')
-); // Secondary information
-$color-text-4: var(
-  string.unquote('#{$sd-cssvars-prefix}-color-neutral-4')
-); // Secondary information
+$color-text-3: var(string.unquote('#{$sd-cssvars-prefix}-color-neutral-6')); // Secondary information
+$color-text-4: var(string.unquote('#{$sd-cssvars-prefix}-color-neutral-4')); // Secondary information
 $color-fill-1: var(string.unquote('#{$sd-cssvars-prefix}-color-neutral-1'));
 $color-fill-2: var(string.unquote('#{$sd-cssvars-prefix}-color-neutral-2'));
 $color-fill-3: var(string.unquote('#{$sd-cssvars-prefix}-color-neutral-3'));

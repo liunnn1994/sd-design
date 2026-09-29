@@ -52,19 +52,19 @@
   },
   "dependencies": {
     "@modelcontextprotocol/server": "2.0.0",
-    "zod": "4.4.3"
+    "zod": "4.6.5"
   },
   "devDependencies": {
-    "@babel/types": "^7.29.8",
+    "@babel/types": "^8.0.6",
     "@modelcontextprotocol/client": "2.0.0",
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/exec": "^7.1.0",
-    "@semantic-release/github": "^12.0.9",
+    "@semantic-release/github": "^12.0.10",
     "@semantic-release/release-notes-generator": "^14.1.1",
-    "@types/node": "~24.13.4",
+    "@types/node": "~26.6.3",
     "fast-glob": "^3.3.3",
     "semantic-release": "^25.0.9",
-    "tsdown": "^0.22.14",
+    "tsdown": "^0.23.0",
     "typescript": "catalog:",
     "vue-docgen-api": "4.79.2"
   },

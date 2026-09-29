@@ -453,8 +453,7 @@ export const useView = (
 
       if (emitUpdate && viewId.value !== id) emit('update:view', id); // Emit the view change only if the view is actually changing.
       viewId.value = id;
-      if (date)
-        updateViewDate(date); // Then calls updateView().
+      if (date) updateViewDate(date); // Then calls updateView().
       else updateView();
     } else !!console.warn(`Calendar: the \`${id}\` view is not available.`);
   }

@@ -41,11 +41,9 @@
   $font-size-token: string.unquote('input-tag-size-#{$size}-font-size');
   $height-token: string.unquote('input-tag-size-#{$size}-height');
   $tag-height-token: string.unquote('input-tag-size-#{$size}-tag-height');
-  $vertical-padding: math.div(token-var($height-token), 2) - math.div(
-      token-var($tag-height-token),
-      2
-    ) -
-    $input-tag-border-width - math.div($input-tag-tag-margin-vertical, 2);
+  $vertical-padding: math.div(token-var($height-token), 2) -
+    math.div(token-var($tag-height-token), 2) - $input-tag-border-width -
+    math.div($input-tag-tag-margin-vertical, 2);
   $vertical-margin: math.div($input-tag-tag-margin-vertical, 2);
 
   &.#{$cls}-size-#{$size} {

@@ -625,7 +625,7 @@ describe('Sender', () => {
     cy.get('.sd-rich-text-editor-content').as('editor').should('be.focused');
     cy.get('@editor').type('{enter}');
     cy.get('@vue').then(({ wrapper }) => {
-      expect((wrapper.vm as unknown as SenderInstance).getValue().value).to.equal('');
+      expect((wrapper.vm as unknown as SenderInstance).getValue().value).to.equal('\n');
       expect(wrapper.emitted('submit')).to.equal(undefined);
     });
   });

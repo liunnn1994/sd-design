@@ -102,9 +102,9 @@ $timeline-item-prefix-cls: string.unquote('#{theme.$prefix}-timeline-item');
     top: 1.5715 * ($timeline-font-content-size * 0.5) + ($timeline-dot-size-width * 0.5) +
       $timeline-vertical-margin-line-top;
     bottom: -(
-        1.5715 * ($timeline-font-content-size * 0.5) - ($timeline-dot-size-width * 0.5) -
-          $timeline-vertical-margin-line-bottom
-      );
+      1.5715 * ($timeline-font-content-size * 0.5) - ($timeline-dot-size-width * 0.5) -
+        $timeline-vertical-margin-line-bottom
+    );
     left: 50%;
     box-sizing: border-box;
     width: $timeline-size-line-width;

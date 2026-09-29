@@ -311,7 +311,7 @@ describe('Image', () => {
     });
 
     it('closes the preview when Escape is pressed', () => {
-      mountPreview();
+      mountLoadedPreview();
       cy.get('body').type('{esc}');
       cy.get('@vue').should(({ wrapper }) => {
         expect(wrapper.emitted('close')).to.have.lengthOf(1);

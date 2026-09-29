@@ -7,108 +7,93 @@
 
 # [5.2.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.1.1...web-vue-v5.2.0) (2026-09-24)
 
-
 ### Features
 
-* 🆕 model selector 新增分组展开收起功能 ([8d92a82](https://github.com/liunnn1994/sd-design/commit/8d92a824ad04afc2c87961843dde8147a5ca1ca6))
-* 🆕 修复调整列宽的功能并添加到 configprovider 中 ([204d61d](https://github.com/liunnn1994/sd-design/commit/204d61df42ebb947ef0e1176593cdbc19d52b998))
+- 🆕 model selector 新增分组展开收起功能 ([8d92a82](https://github.com/liunnn1994/sd-design/commit/8d92a824ad04afc2c87961843dde8147a5ca1ca6))
+- 🆕 修复调整列宽的功能并添加到 configprovider 中 ([204d61d](https://github.com/liunnn1994/sd-design/commit/204d61df42ebb947ef0e1176593cdbc19d52b998))
 
 ## [5.1.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.1.0...web-vue-v5.1.1) (2026-09-24)
 
-
 ### Bug Fixes
 
-* 🐛 修复 Avatar 在 flex 布局中被挤变形的问题 ([2873cde](https://github.com/liunnn1994/sd-design/commit/2873cdef2fe2ee3dc50c53febe599503bfec3744))
+- 🐛 修复 Avatar 在 flex 布局中被挤变形的问题 ([2873cde](https://github.com/liunnn1994/sd-design/commit/2873cdef2fe2ee3dc50c53febe599503bfec3744))
 
 # [5.1.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.0.0...web-vue-v5.1.0) (2026-09-23)
 
-
 ### Features
 
-* 🆕 dropdown 新增 header slot ([de31c5d](https://github.com/liunnn1994/sd-design/commit/de31c5d62332f12bcd683d0dc66d5725b71a9b5c))
-* 🆕 优化间距样式 ([8703b49](https://github.com/liunnn1994/sd-design/commit/8703b498eb913a14cb04f3220da959549464ee8e))
+- 🆕 dropdown 新增 header slot ([de31c5d](https://github.com/liunnn1994/sd-design/commit/de31c5d62332f12bcd683d0dc66d5725b71a9b5c))
+- 🆕 优化间距样式 ([8703b49](https://github.com/liunnn1994/sd-design/commit/8703b498eb913a14cb04f3220da959549464ee8e))
 
 # [5.0.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.7.2...web-vue-v5.0.0) (2026-09-22)
 
-
 ### Bug Fixes
 
-* 🐛 修复深色模式文字颜色未跟随灰阶色板的问题 ([776bd4f](https://github.com/liunnn1994/sd-design/commit/776bd4f49fd62e6d96cf96bb07964081f2e7c40e))
-
+- 🐛 修复深色模式文字颜色未跟随灰阶色板的问题 ([776bd4f](https://github.com/liunnn1994/sd-design/commit/776bd4f49fd62e6d96cf96bb07964081f2e7c40e))
 
 ### Features
 
-* 🆕 tag 组件支持手动设置 tooltip ([8ca4f86](https://github.com/liunnn1994/sd-design/commit/8ca4f86ddd1ce1dbf5e373fef7ff7d5cd94defda))
-* 🆕 上传组件新增跨标签页上传互斥功能 ([d66181c](https://github.com/liunnn1994/sd-design/commit/d66181c52739a391ae5751236759b945247167bd))
-* 🆕 优化主题的使用，新增主题编辑器 ([e29d99e](https://github.com/liunnn1994/sd-design/commit/e29d99efab6cea882ea8a78b7e22ce30cb24e94b))
-* 🆕 优化键盘选中的样式 ([0d83a39](https://github.com/liunnn1994/sd-design/commit/0d83a39da20313c2b4e24e414b089e3268017ebf))
-* 🆕 移除 cjs 的支持 ([8514dcd](https://github.com/liunnn1994/sd-design/commit/8514dcd41d31d6580c5861b59a5fa835092492f1))
-
+- 🆕 tag 组件支持手动设置 tooltip ([8ca4f86](https://github.com/liunnn1994/sd-design/commit/8ca4f86ddd1ce1dbf5e373fef7ff7d5cd94defda))
+- 🆕 上传组件新增跨标签页上传互斥功能 ([d66181c](https://github.com/liunnn1994/sd-design/commit/d66181c52739a391ae5751236759b945247167bd))
+- 🆕 优化主题的使用，新增主题编辑器 ([e29d99e](https://github.com/liunnn1994/sd-design/commit/e29d99efab6cea882ea8a78b7e22ce30cb24e94b))
+- 🆕 优化键盘选中的样式 ([0d83a39](https://github.com/liunnn1994/sd-design/commit/0d83a39da20313c2b4e24e414b089e3268017ebf))
+- 🆕 移除 cjs 的支持 ([8514dcd](https://github.com/liunnn1994/sd-design/commit/8514dcd41d31d6580c5861b59a5fa835092492f1))
 
 ### BREAKING CHANGES
 
-* 🧨 此版本后仅支持 esm
+- 🧨 此版本后仅支持 esm
 
 ## [4.7.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.7.1...web-vue-v4.7.2) (2026-09-20)
 
-
 ### Bug Fixes
 
-* 🐛 修复 radio group button 类型的时候宽度的问题 ([059a885](https://github.com/liunnn1994/sd-design/commit/059a885aad04758953ed5bb690a7ce077a573ef8))
+- 🐛 修复 radio group button 类型的时候宽度的问题 ([059a885](https://github.com/liunnn1994/sd-design/commit/059a885aad04758953ed5bb690a7ce077a573ef8))
 
 ## [4.7.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.7.0...web-vue-v4.7.1) (2026-09-18)
 
-
 ### Bug Fixes
 
-* 🐛 修复尺寸存在小数的时候会意外触发tooltip的问题 ([197d8d5](https://github.com/liunnn1994/sd-design/commit/197d8d599342a1c43702a63ed41021c79aa1ab3f))
+- 🐛 修复尺寸存在小数的时候会意外触发tooltip的问题 ([197d8d5](https://github.com/liunnn1994/sd-design/commit/197d8d599342a1c43702a63ed41021c79aa1ab3f))
 
 # [4.7.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.6.0...web-vue-v4.7.0) (2026-09-14)
 
-
 ### Bug Fixes
 
-* 🐛 修正 selectable-card 测试对 medium 圆角令牌新值的断言 ([a74cc27](https://github.com/liunnn1994/sd-design/commit/a74cc27d3ff4596aa5ae5f089b3cbbd7de317a09))
-
+- 🐛 修正 selectable-card 测试对 medium 圆角令牌新值的断言 ([a74cc27](https://github.com/liunnn1994/sd-design/commit/a74cc27d3ff4596aa5ae5f089b3cbbd7de317a09))
 
 ### Features
 
-* 🎨 按 Apple HIG 优化视觉设计令牌（圆角/阴影/字体栈） ([eb9f9e9](https://github.com/liunnn1994/sd-design/commit/eb9f9e97817fa574c287ae6bb995dbc36c980af6))
+- 🎨 按 Apple HIG 优化视觉设计令牌（圆角/阴影/字体栈） ([eb9f9e9](https://github.com/liunnn1994/sd-design/commit/eb9f9e97817fa574c287ae6bb995dbc36c980af6))
 
 # [4.6.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.5.5...web-vue-v4.6.0) (2026-09-14)
 
-
 ### Features
 
-* 🆕 使用更先进的面板组替换伸缩框组件 ([f947175](https://github.com/liunnn1994/sd-design/commit/f947175d5fbf1cf2c24afccfe1655fba777da3ba))
+- 🆕 使用更先进的面板组替换伸缩框组件 ([f947175](https://github.com/liunnn1994/sd-design/commit/f947175d5fbf1cf2c24afccfe1655fba777da3ba))
 
 ## [4.5.5](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.5.4...web-vue-v4.5.5) (2026-09-11)
 
-
 ### Bug Fixes
 
-* **build:** 🐛 重命名 vue-tsc 3.x 输出的 .d.vue.ts 声明为 .d.ts ([5f8510f](https://github.com/liunnn1994/sd-design/commit/5f8510fc8301c3425443a3c79d0ccb64c362dee4))
+- **build:** 🐛 重命名 vue-tsc 3.x 输出的 .d.vue.ts 声明为 .d.ts ([5f8510f](https://github.com/liunnn1994/sd-design/commit/5f8510fc8301c3425443a3c79d0ccb64c362dee4))
 
 ## [4.5.4](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.5.3...web-vue-v4.5.4) (2026-09-11)
 
-
 ### Bug Fixes
 
-* 🐛 修复高度被挤压的问题 ([a76646f](https://github.com/liunnn1994/sd-design/commit/a76646fadb9a3f9eaad0c0b051c9570763260be4))
+- 🐛 修复高度被挤压的问题 ([a76646f](https://github.com/liunnn1994/sd-design/commit/a76646fadb9a3f9eaad0c0b051c9570763260be4))
 
 ## [4.5.3](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.5.2...web-vue-v4.5.3) (2026-09-10)
 
-
 ### Bug Fixes
 
-* **build:** remove TypeScript deprecation suppression ([0de8cba](https://github.com/liunnn1994/sd-design/commit/0de8cba9b05b35db8ed48ed3f99dae458a842743))
+- **build:** remove TypeScript deprecation suppression ([0de8cba](https://github.com/liunnn1994/sd-design/commit/0de8cba9b05b35db8ed48ed3f99dae458a842743))
 
 ## [4.5.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.5.1...web-vue-v4.5.2) (2026-09-10)
 
-
 ### Bug Fixes
 
-* **build:** restore TNB TypeScript toolchain ([aff46dd](https://github.com/liunnn1994/sd-design/commit/aff46dd31591a0fdead4c393e2d669ebab0f2d2b))
+- **build:** restore TNB TypeScript toolchain ([aff46dd](https://github.com/liunnn1994/sd-design/commit/aff46dd31591a0fdead4c393e2d669ebab0f2d2b))
 
 ## [4.5.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v4.5.0...web-vue-v4.5.1) (2026-09-10)
 

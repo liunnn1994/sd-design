@@ -4,7 +4,7 @@ import { defineConfig } from 'cypress';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { transformWithEsbuild } from 'vite';
+import { transformWithOxc } from 'vite';
 
 const require = createRequire(import.meta.url);
 const toPosix = (value: string) => value.replaceAll('\\', '/');
@@ -49,9 +49,8 @@ const resolveAlias = [
 // extension and ignores the `lang.*` query, so it parses Vue's virtual
 // `*.vue?vue&type=script...lang.tsx` script blocks as plain JavaScript and
 // errors on `import type` / `as` assertions. This pre-transform strips TS via
-// esbuild (with the correct loader from the `lang` query) before oxc runs. The
-// `.tsx` blocks in this repo use `h()` rather than JSX, so default JSX handling
-// is fine.
+// oxc (with the correct language from the `lang` query) before Vite's transform runs.
+// Compile JSX in TSX blocks with Vue's runtime before Vite parses the virtual module as JavaScript.
 function vueScriptLangTransform() {
   return {
     name: 'sd:vue-script-lang-transform',
@@ -66,8 +65,9 @@ function vueScriptLangTransform() {
         return null;
       }
 
-      const result = await transformWithEsbuild(code, id, {
-        loader: match[1] as 'ts' | 'tsx' | 'js' | 'jsx',
+      const result = await transformWithOxc(code, id, {
+        lang: match[1] as 'ts' | 'tsx' | 'js' | 'jsx',
+        jsx: { runtime: 'automatic', importSource: 'vue' },
         target: 'esnext',
       });
 
@@ -80,8 +80,8 @@ export default defineConfig({
   // Real browser (Chromium via Electron by default). No virtual/jsdom env.
   video: false,
   screenshotOnRunFailure: false,
-  // No Cypress.env() exposure to browser code (none of our specs use it).
-  allowCypressEnv: false,
+  // Cypress 16's browser memory management can stall when switching component specs.
+  manageBrowserMemory: false,
   // Retry flaky specs in `run` (CI) mode only. The component-test support module
   // imports the entire SDVue library, so under a full-suite load the Vite dev
   // server occasionally times out transforming it ("Failed to fetch ... component.ts").
@@ -92,6 +92,7 @@ export default defineConfig({
     openMode: 0,
   },
   component: {
+    experimentalSingleTabRunMode: true,
     devServer: {
       framework: 'vue',
       bundler: 'vite',

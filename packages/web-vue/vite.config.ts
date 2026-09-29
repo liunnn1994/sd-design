@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import CleanCSS from 'clean-css';
 import { globSync } from 'glob';
-import { access, cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { access, cp, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -289,7 +289,6 @@ async function emitStyleArtifacts(log?: (message: string) => void) {
   const css = withOverlayScrollbarsCss(await compileStyleEntry(indexScssPath, 'index.scss'));
   await writeFile(resolveFromRoot('es', 'index.css'), css, 'utf8');
 
-  await rm(resolveFromRoot('dist'), { recursive: true, force: true });
   await mkdir(resolveFromRoot('dist'), { recursive: true });
 
   await writeFile(resolveFromRoot('dist', 'sd.scss'), "@import '../es/index.scss';\n\n", 'utf8');

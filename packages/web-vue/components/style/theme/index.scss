@@ -18,9 +18,8 @@ $prefix: sd;
 
 $font-family:
   // Apple HIG「Deference」：优先系统字体（SF Pro / PingFang），宿主再按需提供 inter
-
-  -apple-system, blinkmacsystemfont, 'inter', 'PingFang SC', 'Hiragino Sans GB', 'noto sans',
-  'Microsoft YaHei', 'Helvetica Neue', helvetica, arial, sans-serif;
+    -apple-system, blinkmacsystemfont, 'inter', 'PingFang SC', 'Hiragino Sans GB', 'noto sans',
+    'Microsoft YaHei', 'Helvetica Neue', helvetica, arial, sans-serif;
 
 $code-family: consolas, menlo;
 

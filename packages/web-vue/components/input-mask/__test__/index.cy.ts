@@ -115,7 +115,12 @@ describe('InputMask', () => {
     // Typing 2026 leaves the cursor right after the auto-inserted '-' (offset 5),
     // so the next backspace hits the literal and should clear the preceding '6'
     // rather than restoring the literal (the old no-op behavior).
-    cy.get('input').type('2026{backspace}');
+    cy.get('input')
+      .type('2026')
+      .then(($input) => {
+        expect(($input[0] as HTMLInputElement).selectionStart).to.equal(5);
+      });
+    cy.get('input').type('{backspace}');
     cy.get('input').should('have.value', '202_-__-__');
   });
 

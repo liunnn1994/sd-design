@@ -190,11 +190,9 @@ $calendar-css-prefix: string.unquote('--#{theme.$prefix}-calendar');
         height: 100%;
         margin-top: 0;
         margin-left: calc(
-          (
-              var(#{$calendar-css-prefix}-weekday-bar-size) +
-                var(#{$calendar-css-prefix}-schedules-bar-size) +
-                var(#{$calendar-css-prefix}-all-day-bar-size)
-            ) *
+          (var(#{$calendar-css-prefix}-weekday-bar-size) +
+              var(#{$calendar-css-prefix}-schedules-bar-size) +
+              var(#{$calendar-css-prefix}-all-day-bar-size)) *
             -1
         );
         padding-top: 0;

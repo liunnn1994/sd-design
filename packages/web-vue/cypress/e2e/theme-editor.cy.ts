@@ -3,8 +3,7 @@ describe('文档站主题编辑器', () => {
     cy.viewport(1280, 1000);
     cy.visit('/guides/theme-editor/');
     cy.get('[data-testid="theme-editor"]', { timeout: 60000 }).should('be.visible');
-    cy.get('.preview-toolbar .preview-select').first().click();
-    cy.get('[role="option"]').contains('页面示例').click();
+    cy.get('.preview-toolbar').contains('页面示例').click();
     cy.get('.editor-settings [aria-label="暗色"]').click();
     const assertDark = () => {
       for (const selector of [
@@ -54,8 +53,7 @@ describe('文档站主题编辑器', () => {
     cy.viewport(1600, 1000);
     cy.visit('/guides/theme-editor/');
     cy.get('[data-testid="seed-warning"] input', { timeout: 60000 }).clear().type('#9933cc').blur();
-    cy.get('.preview-toolbar .preview-select').first().click();
-    cy.get('[role="option"]').contains('页面示例').click();
+    cy.get('.preview-toolbar').contains('页面示例').click();
     cy.get('[data-testid="workspace-warning"] .sd-alert-icon svg').should(
       'have.css',
       'color',

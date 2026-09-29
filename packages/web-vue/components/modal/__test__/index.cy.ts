@@ -261,14 +261,22 @@ describe('Modal', () => {
     cy.get('.sd-modal').should('have.length', 2);
     // ESC handling is global: each instance listens on documentElement and only
     // the topmost (last registered) one reacts. First press closes "Second".
-    cy.get('body').trigger('keydown', { key: 'Escape' });
+    cy.document().then((doc) =>
+      doc.documentElement.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+      ),
+    );
     // 实测：ESC 监听全局，一次按键可能把所有可见 modal 都关闭，
     // 只断言可见数量严格减少且最终全部关闭
     cy.get('body').should(($body) => {
       expect($body.find('.sd-modal:visible').length).to.be.lessThan(2);
     });
     // Second press closes the remaining modal.
-    cy.get('body').trigger('keydown', { key: 'Escape' });
+    cy.document().then((doc) =>
+      doc.documentElement.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+      ),
+    );
     cy.get('body').should(($body) => {
       expect($body.find('.sd-modal:visible')).to.have.length(0);
     });

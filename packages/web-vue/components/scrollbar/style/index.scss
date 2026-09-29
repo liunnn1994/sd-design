@@ -81,7 +81,7 @@ $scroll-prefix-cls: string.unquote('#{theme.$prefix}-scrollbar');
       #{$scrollbar-thumb-bar-size}
     );
     --os-padding-axis: #{($scrollbar-track-size - $scrollbar-thumb-bar-size) * 0.5 -
-      $scrollbar-track-border_size};
+        $scrollbar-track-border_size};
   }
 
   &#{&}-type-embed {

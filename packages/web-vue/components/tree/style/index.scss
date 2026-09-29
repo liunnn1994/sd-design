@@ -21,9 +21,9 @@ $tree-node-prefix-cls: string.unquote('#{theme.$prefix}-tree-node');
     $tree-showline-spacing-line-vertical;
   bottom: math.min(
     -(
-        ($size * 0.5) - ($tree-showline-size-switcher-icon * 0.5) -
-          $tree-showline-spacing-line-vertical
-      ),
+      ($size * 0.5) - ($tree-showline-size-switcher-icon * 0.5) -
+        $tree-showline-spacing-line-vertical
+    ),
     0
   );
 }
@@ -34,9 +34,9 @@ $tree-node-prefix-cls: string.unquote('#{theme.$prefix}-tree-node');
   // 计算：距离上一节点的图标和下一节点的图标都是 $tree-showline-spacing-line-vertical
   bottom: math.min(
     -(
-        ($size * 0.5) - ($tree-showline-size-switcher-icon * 0.5) -
-          $tree-showline-spacing-line-vertical
-      ),
+      ($size * 0.5) - ($tree-showline-size-switcher-icon * 0.5) -
+        $tree-showline-spacing-line-vertical
+    ),
     0
   );
 }
