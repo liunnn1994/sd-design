@@ -15,6 +15,10 @@
     border: 0 solid;
   }
 
+  :where(:focus-visible) {
+    outline: none;
+  }
+
   html,
   :host {
     font-family:
