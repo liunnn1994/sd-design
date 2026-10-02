@@ -128,5 +128,5 @@ export function getCheckedStateByInitKeys(options: {
     initCheckedKeys.forEach(SetAdd(checkedKeySet));
   }
 
-  return [[...checkedKeySet, ...childCheckedKeySet], [...indeterminateKeySet]];
+  return [[...new Set([...checkedKeySet, ...childCheckedKeySet])], [...indeterminateKeySet]];
 }

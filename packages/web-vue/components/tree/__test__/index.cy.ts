@@ -658,4 +658,56 @@ describe('Tree', () => {
       expect(vm.getExpandedNodes().map((n) => n.key)).to.deep.equal(['a']);
     });
   });
+  for (const key of [0, '']) {
+    it(`includes the target node in events for a falsy key (${JSON.stringify(key)})`, () => {
+      const data: TreeNodeData[] = [
+        { key, title: 'Parent', children: [{ key: 'child', title: 'Child' }] },
+      ];
+      cy.mount(Tree, {
+        props: { data, checkable: true, defaultExpandAll: false, animation: false },
+      });
+      cy.get('.sd-tree-node-title').click();
+      cy.get('.sd-checkbox').click();
+      cy.get('.sd-tree-node-switcher-icon').click();
+      cy.get('@vue').should(({ wrapper }) => {
+        for (const event of ['select', 'check', 'expand']) {
+          expect(wrapper.emitted(event)?.[0]?.[1].node, event).to.deep.equal(data[0]);
+        }
+      });
+    });
+  }
+
+  it('keeps a visible tab stop when the selected child is collapsed', () => {
+    cy.mount(Tree, {
+      props: {
+        data: navData,
+        defaultSelectedKeys: ['a1'],
+        defaultExpandAll: false,
+        animation: false,
+      },
+    });
+    cy.get('.sd-tree-node[tabindex="0"]')
+      .should('have.length', 1)
+      .and('have.attr', 'data-key', 'a');
+    cy.get('[data-key="a"]').focus().trigger('keydown', { key: 'ArrowDown' });
+    cy.get('[data-key="b"]').should('be.focused');
+  });
+
+  it('prevents dropping the node with key zero onto its own child', () => {
+    const data: TreeNodeData[] = [
+      { key: 0, title: 'Parent', children: [{ key: 'child', title: 'Child' }] },
+    ];
+    cy.mount(Tree, { props: { data, draggable: true } });
+    cy.get('[data-key="0"] .sd-tree-node-title').trigger('dragstart');
+    cy.get('[data-key="child"] .sd-tree-node-title').then(($title) => {
+      const rect = $title[0].getBoundingClientRect();
+      cy.wrap($title).trigger('dragover', {
+        pageY: rect.top + rect.height / 2,
+        eventConstructor: 'DragEvent',
+      });
+    });
+    cy.get('[data-key="child"] .sd-tree-node-title-highlight').should('exist');
+    cy.get('[data-key="child"] .sd-tree-node-title').trigger('drop');
+    cy.get('@vue').should(({ wrapper }) => expect(wrapper.emitted('drop')).to.equal(undefined));
+  });
 });

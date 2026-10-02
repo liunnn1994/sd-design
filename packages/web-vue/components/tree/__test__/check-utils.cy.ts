@@ -120,4 +120,8 @@ describe('checkUtils', () => {
     expect(checkedResult.length).to.equal(1);
     expect(indeterminateResult.length).to.equal(0);
   });
+  it('returns unique checked keys when a child appears before its parent in initial keys', () => {
+    const [keys] = getCheckedStateByInitKeys({ initCheckedKeys: ['0-0-1', '0-0'], key2TreeNode });
+    expect(keys).to.have.members(['0-0', '0-0-1']).and.to.have.length(2);
+  });
 });

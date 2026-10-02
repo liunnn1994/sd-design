@@ -753,7 +753,9 @@
     ) {
       return activeKey.value;
     }
-    const selected = mergedSelectedKeys.value.find((k) => key2TreeNode.value.has(k));
+    const selected = mergedSelectedKeys.value.find((k) =>
+      visibleTreeNodeList.value.some((node) => node.key === k),
+    );
     if (selected !== undefined) return selected;
     return visibleTreeNodeList.value[0]?.key;
   });
@@ -861,7 +863,7 @@
     event?: Event;
   }) {
     const { targetKey, targetChecked, newCheckedKeys, newIndeterminateKeys, event } = options;
-    const targetNode = targetKey ? key2TreeNode.value.get(targetKey) : undefined;
+    const targetNode = isUndefined(targetKey) ? undefined : key2TreeNode.value.get(targetKey);
     const publicCheckedKeys = getPublicCheckedKeys(newCheckedKeys);
     emit('update:checkedKeys', publicCheckedKeys);
     emit('update:halfCheckedKeys', newIndeterminateKeys);
@@ -882,7 +884,7 @@
     event?: Event;
   }) {
     const { targetKey, targetSelected, newSelectedKeys, event } = options;
-    const targetNode = targetKey ? key2TreeNode.value.get(targetKey) : undefined;
+    const targetNode = isUndefined(targetKey) ? undefined : key2TreeNode.value.get(targetKey);
     emit('update:selectedKeys', newSelectedKeys);
     emit('select', newSelectedKeys, {
       selected: targetSelected,
@@ -899,7 +901,7 @@
     event?: Event;
   }) {
     const { targetKey, targetExpanded, newExpandedKeys, event } = options;
-    const targetNode = targetKey ? key2TreeNode.value.get(targetKey) : undefined;
+    const targetNode = isUndefined(targetKey) ? undefined : key2TreeNode.value.get(targetKey);
     emit('expand', newExpandedKeys, {
       expanded: targetExpanded,
       node: targetNode?.treeNodeData,
@@ -1283,7 +1285,7 @@
       if (
         dragNode.value &&
         node &&
-        !(node.key === dragNode.value.key || node.pathParentKeys.includes(dragNode.value.key || ''))
+        !(node.key === dragNode.value.key || node.pathParentKeys.includes(dragNode.value.key))
       ) {
         emit('drop', {
           e,
