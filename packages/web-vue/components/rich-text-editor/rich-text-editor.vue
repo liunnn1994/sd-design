@@ -101,6 +101,7 @@
     $nodesOfType,
     $getRoot,
     $getSelection,
+    $isDecoratorNode,
     $isElementNode,
     $isLineBreakNode,
     $isRangeSelection,
@@ -464,9 +465,17 @@
     editor.update(() => {
       const dom = new DOMParser().parseFromString(html, 'text/html');
       const nodes = $generateNodesFromDOM(editor, dom);
-      $getRoot()
-        .clear()
-        .append(...nodes);
+      const root = $getRoot().clear();
+      let paragraph: ReturnType<typeof $createParagraphNode> | undefined;
+      for (const node of nodes) {
+        if (($isElementNode(node) || $isDecoratorNode(node)) && !node.isInline()) {
+          root.append(node);
+          paragraph = undefined;
+        } else {
+          if (!paragraph) root.append((paragraph = $createParagraphNode()));
+          paragraph.append(node);
+        }
+      }
     }, withDiscreteUpdate(options));
   };
   const getMarkdown = (transformers = props.transformers) =>
