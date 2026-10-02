@@ -491,13 +491,18 @@
     { deep: true },
   );
 
+  const getRemainingScroll = (target: HTMLElement) =>
+    isHorizontal.value
+      ? target.scrollWidth - (target.scrollLeft + target.clientWidth)
+      : target.scrollHeight - (target.scrollTop + target.clientHeight);
+
   const onScroll = (ev: Event) => {
     emit('scroll', ev);
     const target = ev.target as HTMLElement | undefined;
     if (!target) {
       return;
     }
-    const bottom = Math.floor(target.scrollHeight - (target.scrollTop + target.clientHeight));
+    const bottom = Math.floor(getRemainingScroll(target));
     if (bottom <= 0) {
       emit('reachBottom', ev);
     }
@@ -519,7 +524,9 @@
     if (!target) {
       return;
     }
-    emit('reachBottom', new Event('scroll'));
+    if (Math.floor(getRemainingScroll(target)) <= 0) {
+      emit('reachBottom', new Event('scroll'));
+    }
   };
 
   const normalizeAlign = (align: ListAlign | undefined): ScrollAlign | undefined => {
@@ -570,11 +577,12 @@
     }
 
     if (options?.smooth) {
-      viewport.scrollTo({ top: position, behavior: 'smooth' });
+      viewport.scrollTo({ [isHorizontal.value ? 'left' : 'top']: position, behavior: 'smooth' });
       return;
     }
 
-    viewport.scrollTop = position;
+    if (isHorizontal.value) viewport.scrollLeft = position;
+    else viewport.scrollTop = position;
   };
 
   const findItemIndex = (offset: number) => getVirtua()?.findItemIndex(offset) ?? -1;
