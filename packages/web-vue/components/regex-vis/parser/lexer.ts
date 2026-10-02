@@ -182,9 +182,10 @@ class Lexer {
     if (this.curRegex[0] === '\\') {
       return this.readBackslash(true);
     }
+    const size = this.unicodeMode && this.curRegex.codePointAt(0)! > 0xffff ? 2 : 1;
     return {
       type: TokenType.NormalCharacter,
-      span: { start, end: this.advance(1) },
+      span: { start, end: this.advance(size) },
     };
   }
 

@@ -87,8 +87,8 @@ export class Parser {
     const pushCharacterString = (str: string, quantifier: AST.Quantifier | null) => {
       let qStr = '';
       if (quantifier) {
-        qStr = str.slice(-1);
-        str = str.slice(0, str.length - 1);
+        qStr = this.unicodeMode ? [...str].at(-1)! : str.slice(-1);
+        str = str.slice(0, str.length - qStr.length);
       }
       if (str && nodes.length > 0) {
         const lastNode = nodes[nodes.length - 1];
