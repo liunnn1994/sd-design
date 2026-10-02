@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, inject, provide, reactive, toRef } from 'vue';
+  import { computed, inject, onBeforeUpdate, provide, reactive, ref, toRef } from 'vue';
   import type { VNode } from 'vue';
 
   import type { SpinProps } from '../spin';
@@ -100,7 +100,10 @@
     ...spinProps,
   }));
   const prefixCls = getPrefixCls('timeline');
-  const hasPending = computed(() => Boolean(pending || slots.pending));
+  const hasPending = ref(Boolean(pending || slots.pending));
+  onBeforeUpdate(() => {
+    hasPending.value = Boolean(pending || slots.pending);
+  });
   const { children, components } = useChildrenComponents('TimelineItem');
 
   const timelineContext = reactive({
