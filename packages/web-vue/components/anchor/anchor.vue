@@ -311,7 +311,12 @@
   onMounted(() => {
     getContainer();
 
-    const hash = decodeURIComponent(window.location.hash);
+    let hash = window.location.hash;
+    try {
+      hash = decodeURIComponent(hash);
+    } catch {
+      // 含未编码百分号的 hash 无法解码，保留原值以匹配元素 ID。
+    }
     if (hash) {
       scrollIntoView(hash);
       handleAnchorChange(hash);
