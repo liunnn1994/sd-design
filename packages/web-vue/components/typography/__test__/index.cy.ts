@@ -31,7 +31,7 @@ describe('Typography', () => {
     cy.get('@execCommand').should('have.been.calledWith', 'copy');
     cy.get('@prompt').should(
       'have.been.calledWith',
-      'Copy to clipboard: Ctrl+C, Enter',
+      Cypress.sinon.match(/^Copy to clipboard: (?:Ctrl|⌘)\+C, Enter$/),
       'clipboard-text',
     );
   });
