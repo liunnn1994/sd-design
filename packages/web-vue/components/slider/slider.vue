@@ -253,9 +253,9 @@
     const current = which === 'start' ? startValue.value : endValue.value;
     let next: number | undefined;
     if (e.key === KEYBOARD_KEY.ARROW_RIGHT || e.key === KEYBOARD_KEY.ARROW_UP) {
-      next = current + props.step;
+      next = NP.plus(current, props.step);
     } else if (e.key === KEYBOARD_KEY.ARROW_LEFT || e.key === KEYBOARD_KEY.ARROW_DOWN) {
-      next = current - props.step;
+      next = NP.minus(current, props.step);
     } else if (e.key === KEYBOARD_KEY.HOME) {
       next = minV;
     } else if (e.key === KEYBOARD_KEY.END) {
@@ -268,7 +268,7 @@
       if (which === 'start') {
         next = Math.max(minV, Math.min(next, endValue.value - props.step));
       } else {
-        next = Math.max(startValue.value + props.step, Math.min(next, maxV));
+        next = Math.min(maxV, Math.max(NP.plus(startValue.value, props.step), next));
       }
     } else {
       next = Math.max(minV, Math.min(next, maxV));
@@ -336,7 +336,10 @@
     // 根据diff计算步数
     const steps = Math.round(diff / stepLength);
 
-    return NP.plus(props.min, NP.times(steps, props.step));
+    return Math.min(
+      props.max,
+      Math.max(props.min, NP.plus(props.min, NP.times(steps, props.step))),
+    );
   }
 
   const handleEndMoving = (x: number, y: number) => {
