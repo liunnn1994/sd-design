@@ -1,6 +1,36 @@
 import VoiceGlow from '../index';
 
 describe('VoiceGlow', () => {
+  for (const event of ['activate', 'deactivate'] as const) {
+    it(`calls the ${event} listener once per emitted event`, () => {
+      const listener = cy.stub().as('listener');
+      cy.mount(VoiceGlow, {
+        props: event === 'activate' ? { onActivate: listener } : { onDeactivate: listener },
+      });
+      if (event === 'deactivate') {
+        cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ active: false }));
+      }
+      cy.get('.sd-voice-glow').then(($element) => {
+        const id = $element.attr('data-voice-beam');
+        $element[0].dispatchEvent(
+          new AnimationEvent('animationend', {
+            animationName: `vb-fade-${event === 'activate' ? 'in' : 'out'}-${id}`,
+          }),
+        );
+      });
+      cy.get('@listener').should('have.been.calledOnce');
+    });
+  }
+
+  it('calls the level listener once per emitted event', () => {
+    const onLevel = cy.stub();
+    cy.mount(VoiceGlow, { props: { onLevel, paused: true } });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('level')).to.have.length.greaterThan(0);
+      expect(onLevel.callCount).to.equal(wrapper.emitted('level')!.length);
+    });
+  });
+
   it('renders the slot and installs its own stylesheet', () => {
     cy.mount(VoiceGlow, { slots: { default: '<div class="glow-content">内容</div>' } });
     cy.get('.sd-voice-glow').should('have.attr', 'data-active');

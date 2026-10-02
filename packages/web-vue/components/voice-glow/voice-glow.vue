@@ -254,13 +254,11 @@
     if (event.target !== wrapperRef.value || event.pseudoElement) return;
     if (event.animationName === `vb-fade-in-${id}`) {
       emit('activate');
-      props.onActivate?.();
     }
     if (event.animationName === `vb-fade-out-${id}`) {
       isActive.value = false;
       isFading.value = false;
       emit('deactivate');
-      props.onDeactivate?.();
     }
   };
 
@@ -285,7 +283,6 @@
       },
       (level) => {
         emit('level', level);
-        props.onLevel?.(level);
       },
     );
     onCleanup(cleanup);
