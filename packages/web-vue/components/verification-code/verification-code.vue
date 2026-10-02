@@ -183,6 +183,7 @@
   }
 
   function handlePaste(event: ClipboardEvent, index: number) {
+    if (props.readonly || props.disabled) return;
     event.preventDefault();
     const text = event.clipboardData?.getData('text');
     if (!text) return;
@@ -209,7 +210,12 @@
 
   function handleKeydown(index: number, event: KeyboardEvent) {
     const keyCode = event.code || event.key;
-    if (keyCode === Backspace.code && !innerValue.value[index]) {
+    if (
+      keyCode === Backspace.code &&
+      !innerValue.value[index] &&
+      !props.readonly &&
+      !props.disabled
+    ) {
       event.preventDefault();
       innerValue.value[Math.max(index - 1, 0)] = '';
       updateValue();

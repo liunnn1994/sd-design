@@ -249,4 +249,24 @@ describe('VerificationCode', () => {
       cy.get('input').eq(2).should('not.be.focused');
     });
   });
+  it('preserves readonly cells when pasting', () => {
+    cy.mount(VerificationCode, { props: { readonly: true, defaultValue: '12', length: 4 } });
+    cy.get('input')
+      .first()
+      .then(($el) => {
+        const data = new DataTransfer();
+        data.setData('text/plain', '34');
+        $el[0].dispatchEvent(new ClipboardEvent('paste', { bubbles: true, clipboardData: data }));
+      });
+    cy.get('input').eq(0).should('have.value', '1');
+    cy.get('input').eq(1).should('have.value', '2');
+    cy.get('@vue').should(({ wrapper }) => expect(wrapper.emitted('change')).to.equal(undefined));
+  });
+
+  it('preserves the previous readonly cell when pressing Backspace on an empty cell', () => {
+    cy.mount(VerificationCode, { props: { readonly: true, defaultValue: '12', length: 4 } });
+    cy.get('input').eq(2).focus().trigger('keydown', { key: 'Backspace', code: 'Backspace' });
+    cy.get('input').eq(1).should('have.value', '2');
+    cy.get('@vue').should(({ wrapper }) => expect(wrapper.emitted('change')).to.equal(undefined));
+  });
 });
