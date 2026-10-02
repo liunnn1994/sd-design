@@ -72,7 +72,7 @@
             :style="resolvedPopover.contentStyle"
           >
             <header
-              v-if="hasTitle"
+              v-if="hasTitle()"
               :id="popoverTitleId"
               ref="titleRef"
               :class="`${prefixCls}-popover-title`"
@@ -91,7 +91,7 @@
             </header>
 
             <div
-              v-if="hasDescription"
+              v-if="hasDescription()"
               :id="popoverDescriptionId"
               ref="descriptionRef"
               :class="`${prefixCls}-popover-description`"
@@ -640,7 +640,7 @@
 
   const getElementFromRef = (value: HTMLElement | ComponentPublicInstance | null) => {
     const element = unrefElement(value);
-    return element instanceof HTMLElement ? element : null;
+    return typeof HTMLElement !== 'undefined' && element instanceof HTMLElement ? element : null;
   };
 
   const popoverDom = computed<TourPopoverDom>(() => ({
@@ -682,10 +682,8 @@
       footerProps,
     };
   });
-  const hasTitle = computed(() => Boolean(resolvedPopover.value.title || slots.title));
-  const hasDescription = computed(() =>
-    Boolean(resolvedPopover.value.description || slots.description),
-  );
+  const hasTitle = () => Boolean(resolvedPopover.value.title || slots.title);
+  const hasDescription = () => Boolean(resolvedPopover.value.description || slots.description);
 
   const resolvedShowButtons = computed<TourAllowedButton[]>(() => {
     const popoverButtons = resolvedPopover.value.showButtons;
@@ -1102,6 +1100,7 @@
     }
 
     await nextTick();
+    if (!activeElement.value) return;
     activeRect.value = activeElement.value.getBoundingClientRect();
     updateActiveBounding();
     await nextTick();
@@ -1209,6 +1208,7 @@
     applyElementState(element, step);
     await updateLayout();
     await nextTick();
+    if (activeStep.value !== step || activeElement.value !== element) return;
     invokeHook(step.onHighlighted ?? mergedConfig.value.onHighlighted, element, step);
     invokePopoverRender();
     focusFirstInteractive();
@@ -1454,7 +1454,9 @@
   });
 
   useEventListener('keydown', handleKeydown);
-  useEventListener(document, 'click', handleDocumentClick, { capture: true });
+  if (typeof document !== 'undefined') {
+    useEventListener(document, 'click', handleDocumentClick, { capture: true });
+  }
 
   const controllerRef = shallowRef<TourController>({
     isActive: () => isActive.value,

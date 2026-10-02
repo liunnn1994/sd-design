@@ -1,6 +1,6 @@
-import { h } from 'vue';
+import { defineComponent, h, ref } from 'vue';
 
-import type { TourStep } from '../types';
+import type { TourExpose, TourStep } from '../types';
 
 import Tour from '../index';
 
@@ -37,6 +37,59 @@ describe('Tour', () => {
     cy.get('.sd-tour-popover-title').should('contain.text', '步骤一');
     cy.get('.sd-tour-popover-close-btn').click();
     cy.get('.sd-tour-popover').should('not.exist');
+  });
+
+  it('can be destroyed while its initial layout is pending', () => {
+    cy.mount(Tour, {
+      props: { steps, onHighlighted: cy.spy().as('onPendingHighlighted') },
+      slots: defaultSlots,
+    });
+    cy.get('@vue').then(({ wrapper }) => {
+      const tour = wrapper.vm as unknown as TourExpose;
+      const pending = tour.drive(0);
+      tour.destroy();
+      return pending;
+    });
+    cy.get('.sd-tour-popover').should('not.exist');
+    cy.get('@onPendingHighlighted').should('not.have.been.called');
+  });
+
+  it('updates title and description when their slots are added or removed', () => {
+    const showContent = ref(false);
+    const slotSteps: TourStep[] = [{ element: '#tour-step-a' }];
+    cy.mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            Tour,
+            {
+              defaultVisible: true,
+              steps: slotSteps,
+            },
+            {
+              ...defaultSlots,
+              default: () => h('button', { id: 'tour-step-a' }, 'A'),
+              ...(showContent.value
+                ? {
+                    title: () => 'Dynamic title',
+                    description: () => 'Dynamic description',
+                  }
+                : {}),
+            },
+          ),
+      }),
+    );
+    cy.get('.sd-tour-popover').should('exist');
+    cy.get('.sd-tour-popover-title, .sd-tour-popover-description').should('not.exist');
+    cy.then(() => {
+      showContent.value = true;
+    });
+    cy.get('.sd-tour-popover-title').should('have.text', 'Dynamic title');
+    cy.get('.sd-tour-popover-description').should('have.text', 'Dynamic description');
+    cy.then(() => {
+      showContent.value = false;
+    });
+    cy.get('.sd-tour-popover-title, .sd-tour-popover-description').should('not.exist');
   });
 
   it('starts from the default state', () => {

@@ -126,7 +126,7 @@
     "pretypecheck": "pnpm run icongen",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json",
     "pretest": "pnpm run icongen",
-    "test": "pnpm run test:markdown:types && pnpm run test:model-selector:production && pnpm run test:bloom-menu:ssr && pnpm run test:calendar:ssr && pnpm run test:file-previewer:ssr && pnpm run test:image:ssr && cypress run --quiet --component --browser chrome",
+    "test": "pnpm run test:markdown:types && pnpm run test:model-selector:production && pnpm run test:bloom-menu:ssr && pnpm run test:calendar:ssr && pnpm run test:file-previewer:ssr && pnpm run test:image:ssr && pnpm run test:tour:ssr && cypress run --quiet --component --browser chrome",
     "test:image:ssr": "node --test ./scripts/image-ssr.test.ts",
     "test:file-previewer:ssr": "node --test ./scripts/file-previewer-ssr.test.ts",
     "test:calendar:ssr": "node --test ./scripts/calendar-ssr.test.ts",
@@ -138,7 +138,8 @@
     "cypress:open": "cypress open --component",
     "cypress:run": "cypress run --quiet --component --browser chrome",
     "test:markdown:e2e": "cypress run --quiet --browser chrome --config-file cypress.markdown.config.ts",
-    "test:markdown:types": "node --test ./scripts/markdown-exports.test.ts"
+    "test:markdown:types": "node --test ./scripts/markdown-exports.test.ts",
+    "test:tour:ssr": "node --test ./scripts/tour-ssr.test.ts"
   },
   "dependencies": {
     "@arco-design/color": "^0.4.0",
