@@ -91,7 +91,7 @@ pnpm run build:component
 # 根目录：运行测试
 pnpm run test
 
-# 根目录：运行组件测试和截图测试
+# 根目录：运行组件与回归测试
 pnpm run test:all
 
 # 根目录：CI 检查
@@ -107,7 +107,7 @@ pnpm run test:ci
 pnpm run release:check
 ```
 
-`pnpm run dev`、`pnpm run build`、`pnpm run test` 会调用当前仓库已经切换完成的 Vite+ 和 Vitest 工作流。
+开发和构建使用 Vite+；`pnpm run test` 先执行 Node 回归测试，再运行 Cypress 组件测试。ModelSelector 的生产模式插槽回归可通过 `pnpm --filter @sdata/web-vue run test:model-selector:production` 单独执行。
 
 如果只想在组件包内执行命令，也可以直接运行：
 

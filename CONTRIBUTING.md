@@ -29,8 +29,8 @@
 - 认领 issue： 在 github 建立 issue 并认领（或直接认领已有 issue），告知大家自己正在修复，避免重复工作。
 - 项目开发：在完成开发前准备后，进行 bug 修复或功能开发。
 - 添加单测：针对代码变动添加单元测试，确认测试用例通过，尽量保证一定的测试覆盖率。
-- 更新快照：如果涉及到组件 dom 层级变动，类名增删或新增/删除了 Demo，快照需要重新生成更新。
-- 文档维护：如组件 API、示例或说明变更，请同步更新对应 README、demo 以及文档站中的 MDX 页面。
+- 回归验证：组件行为变更需通过相关 Cypress 组件测试；工具脚本与生产模式行为使用对应的 Node 回归测试。
+- 文档维护：如组件 API、示例或说明变更，请同步更新文档站的 MDX 页面和 Vue 示例。
 - 提交 PR
 
 ### 开发
@@ -50,12 +50,12 @@ pnpm install
 3. 启动和预览站点
 
 ```bash
-pnpm run start
+pnpm run dev
 ```
 
 ```bash
-# 启动 storybook 。 这里启动不启动都可以，官网也可以调试组件
-pnpm run storybook
+# 仅启动组件调试站
+pnpm run dev:web-vue
 ```
 
 4. 对代码库进行更改。如果适用的话，请确保写了相应的测试。
@@ -75,6 +75,8 @@ Commit messages 请遵循[conventional-changelog 标准](https://www.conventiona
 [可选 脚注]
 ```
 
+通过 `pnpm cz` 启动 czg 交互提交。中文提示、类型和校验规则统一维护在 `commitlint.config.ts`。
+
 ### Commit 类型
 
 以下是 commit 类型列表:
@@ -82,11 +84,16 @@ Commit messages 请遵循[conventional-changelog 标准](https://www.conventiona
 - feat: 新特性或功能
 - fix: 缺陷修复
 - docs: 文档更新
-- style: 代码风格或者组件样式更新
+- style: 不影响代码含义的格式调整，不指界面样式
 - refactor: 代码重构，不引入新功能和缺陷修复
 - perf: 性能优化
-- test: 单元测试
-- chore: 其他不修改 src 或测试文件的提交
+- test: 添加或修正测试
+- chore: 其他维护工作，例如辅助工具或仓库管理配置调整
+- build: 构建系统或依赖调整
+- ci: 持续集成配置调整
+- revert: 撤回之前的提交
+- wip: 提交尚未完成的工作
+- release: 创建版本提交
 
 ## Web-Vue 项目结构
 
@@ -94,21 +101,25 @@ Commit messages 请遵循[conventional-changelog 标准](https://www.conventiona
 
 1. `web-vue`: Vue 组件库
 2. `sd-vue-docs`: Astro Starlight 文档站
+3. `web-vue-debug`: 组件源码调试站
+4. `sd-mcp`: 组件 API 查询服务
+5. `auto-import-resolver`: 自动导入解析器
 
 ### Web-Vue 组件目录
 
 > components/componentName
 
-```
+```text
 ├── __test__
-│   ├── __snapshots__
-│   │   └── demo.test.js.snap
-│   ├── demo.test.ts (快照测试)
-│   └── index.test.ts (单元测试)
-├── index.tsx(组件导出)
+│   ├── index.cy.ts（Cypress 组件测试）
+│   └── demo.cy.ts（示例回归，按需添加）
+├── component-name.vue（组件逻辑使用 script setup lang="ts"）
+├── interface.ts（类型定义，按需添加）
+├── index.ts（组件导出）
 └── style
-    └── index.less(组件样式)
-    └── index.ts (组件样式导出)
+    ├── token.scss（样式 token）
+    ├── index.scss（组件样式）
+    └── index.ts（样式导出）
 ```
 
 请注意: 如果进行了会影响组件说明文档的变更(例如 API、示例、说明文本调整)，请直接修改 `packages/sd-vue-docs/src/content/docs/**/*.mdx` 与 `packages/sd-vue-docs/src/components/generated/**/*.vue`，不要再向 `packages/web-vue/components` 添加 README、TEMPLATE 或 `__demo__` 文档文件。
@@ -117,4 +128,4 @@ Commit messages 请遵循[conventional-changelog 标准](https://www.conventiona
 
 ## License
 
-[MIT 协议](./LICENSE).
+[AGPL-3.0-only 协议](./LICENSE)。

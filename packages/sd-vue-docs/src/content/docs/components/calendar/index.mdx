@@ -222,7 +222,7 @@ import calendarSchedulesExtSource from '../../../../components/generated/calenda
 
 `editable-events` 可以是一个布尔值，也可以是一个细粒度权限对象：
 
-```js
+```ts
 {
   create: true,   // 允许创建事件（默认：点击拖拽单元格）
   resize: true,   // 允许拖动事件底部边缘调整时长
@@ -430,7 +430,7 @@ import calendarSchedulesExtSource from '../../../../components/generated/calenda
 
 `special-hours` 结构为以星期几为 key 的对象，每个值可以是一个时间块或时间块数组：
 
-```js
+```ts
 const specialHours = {
   mon: { from: 9 * 60, to: 18 * 60, class: 'business-hours', label: '营业中' },
   wed: [
@@ -462,13 +462,13 @@ const specialHours = {
 
 `schedules` 数组每项结构：
 
-```js
+```ts
 { id: 'dr-lee', label: '李医生', class: 'doctor--lee' }
 ```
 
 排班可与 `special-hours` 结合，通过 `default` 定义共用时段、`schedules` 定义按排班区分的时段：
 
-```js
+```ts
 const specialHours = {
   mon: {
     default: { from: 8 * 60, to: 18 * 60, class: 'clinic-hours' },

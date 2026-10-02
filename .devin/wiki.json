@@ -124,7 +124,7 @@
     },
     {
       "title": "SCSS Style Architecture & Migration",
-      "purpose": "The SCSS token/mixin/function base layer in components/style/, legacy Less-to-SCSS migration, fix-scss-legacy-props.mjs, per-component style/index.ts side-effect entries, and the style build pipeline.",
+      "purpose": "The SCSS token/mixin/function base layer in components/style/, legacy Less-to-SCSS migration, per-component style/index.ts side-effect entries, and the style build pipeline.",
       "parent": "Theming & Style Architecture",
       "page_notes": [
         {

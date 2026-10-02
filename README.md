@@ -16,7 +16,7 @@
 
 SD Design 是一个基于 Vue 3 的现代企业级组件库。本项目采用 pnpm workspace 架构组织，实现了组件源码、调试环境和文档站的紧密协同。
 
-项目维护的组件、文档站、调试站、MCP、构建与发布脚本均使用 TypeScript，Vue 逻辑统一使用 `<script setup lang="ts">`。类型检查使用 TS7（typescript-native-bridge）；Node 24 原生执行 `.ts` 脚本。`pnpm run typecheck` 同时检查源码约定、脚本和各工作区包。保留的两个 `.cjs` 工具配置及编译产物边界见 [架构说明](ARCHITECTURE.md#typescript-源码与运行边界)。
+项目维护的组件、文档站、调试站、MCP、构建与发布脚本均使用 TypeScript，Vue 逻辑统一使用 `<script setup lang="ts">`。类型检查使用 TS7（typescript-native-bridge）；Node 24 原生执行 `.ts` 脚本。`pnpm run typecheck` 同时检查源码约定、脚本和各工作区包。工具配置也使用 ESM TypeScript；编译产物与第三方代码边界见 [架构说明](ARCHITECTURE.md#typescript-源码与运行边界)。
 
 锚点型悬浮层统一使用 `@floating-ui/vue` 定位，并通过 `floatingOptions` 原样透传上游配置。旧定位API 保持兼容；冲突规则与迁移示例见文档站的“Floating UI 迁移指南”。
 

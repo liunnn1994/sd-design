@@ -13,7 +13,7 @@ description: 在 SD Design 组件库中与 Tailwind CSS v3/v4 共存的完整实
 ## 适用范围
 
 - 组件库：@sdata/web-vue
-- Tailwind：v3 / v4
+- Tailwind：v3.3+ / v4
 - 构建工具：Vite（其他构建工具同理）
 
 浏览器兼容目标请以项目当前 Browserslist 为准。对于 CSS Layer 等特性，建议确保目标浏览器满足现代能力基线。
@@ -110,16 +110,19 @@ import './styles/app.css';
 1. 关闭 Preflight
 2. 对 utilities 提升优先级
 
-Tailwind 配置示例：
+Tailwind v3.3+ 配置示例（v4 使用 CSS 配置）：
 
-```js
-// tailwind.config.js
-module.exports = {
+```ts
+// tailwind.config.ts
+import type { Config } from 'tailwindcss';
+
+export default {
+  content: ['./index.html', './src/**/*.{vue,ts,tsx}'],
   corePlugins: {
     preflight: false,
   },
   important: '#app',
-};
+} satisfies Config;
 ```
 
 说明：
@@ -176,10 +179,13 @@ module.exports = {
 
 ### Tailwind v3
 
-在 tailwind.config.js 中做 extend 映射：
+在 tailwind.config.ts 中做 extend 映射：
 
-```js
-module.exports = {
+```ts
+import type { Config } from 'tailwindcss';
+
+export default {
+  content: ['./index.html', './src/**/*.{vue,ts,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -192,7 +198,7 @@ module.exports = {
       },
     },
   },
-};
+} satisfies Config;
 ```
 
 ### 完整版：自动生成 Token 映射（含 GitHub raw）
@@ -209,8 +215,8 @@ module.exports = {
 1. Tailwind v4 的 `@theme` 映射块
 2. Tailwind v3 的 `theme.extend` 片段
 
-```js
-// scripts/generate-sd-tailwind-tokens.mjs
+```ts
+// scripts/generate-sd-tailwind-tokens.ts
 import { writeFile } from 'node:fs/promises';
 
 const RAW_URL =
@@ -227,11 +233,11 @@ const source = await response.text();
 const tokenMatches = [...source.matchAll(/\$sd-cssvars-prefix\}-([a-z0-9-]+):/g)];
 const tokenNames = [...new Set(tokenMatches.map((match) => match[1]))].sort();
 
-const isRgbToken = (name) => {
+const isRgbToken = (name: string) => {
   return /^(primary|success|warning|danger|link|gray)-\d+$/.test(name);
 };
 
-const toTailwindKey = (name) => `sd-${name}`;
+const toTailwindKey = (name: string) => `sd-${name}`;
 
 const v4ThemeBlock = [
   '@theme {',
@@ -260,22 +266,22 @@ const v3ExtendBlock = [
 ].join('\n');
 
 await writeFile('tailwind.sd-theme.v4.css', `${v4ThemeBlock}\n`, 'utf8');
-await writeFile('tailwind.sd-theme.v3.cjs', `${v3ExtendBlock}\n`, 'utf8');
+await writeFile('tailwind.sd-theme.v3.txt', `${v3ExtendBlock}\n`, 'utf8');
 
 console.log(`Generated ${tokenNames.length} tokens.`);
-console.log('Output: tailwind.sd-theme.v4.css, tailwind.sd-theme.v3.cjs');
+console.log('Output: tailwind.sd-theme.v4.css, tailwind.sd-theme.v3.txt');
 ```
 
-执行方式：
+将上面的示例保存为 `scripts/generate-sd-tailwind-tokens.ts`，使用 Node 24 执行（此文件需自行创建）：
 
 ```bash
-node scripts/generate-sd-tailwind-tokens.mjs
+node scripts/generate-sd-tailwind-tokens.ts
 ```
 
 产物接入方式：
 
 - v4: 将 `tailwind.sd-theme.v4.css` 合并到你的入口 CSS（`@import "tailwindcss"` 后）
-- v3: 将 `tailwind.sd-theme.v3.cjs` 内容合并到 `tailwind.config.js`
+- v3: 将 `tailwind.sd-theme.v3.txt` 中的 `theme` 片段合并到 `tailwind.config.ts` 的默认导出对象（这是文本片段，不是可导入的模块）
 
 ## 兼容性与降级策略
 

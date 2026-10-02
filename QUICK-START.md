@@ -116,7 +116,7 @@ Node 24 可直接运行 `node scripts/upgradeEngines.ts` 这类脚本。原生�
   # 若需自动修复可执行
   pnpm run lint:fix
   ```
-- **本地全量检查（提交前建议执行）**：包含了 lint、类型检查(typecheck) 和 单元测试(test)。
+- **本地全量检查（提交前建议执行）**：包含了 lint、类型检查（typecheck）和组件及回归测试（test）。
   ```bash
   pnpm run check
   ```
@@ -141,12 +141,18 @@ Node 24 可直接运行 `node scripts/upgradeEngines.ts` 这类脚本。原生�
 
 ## 测试与验证
 
-项目使用 Vitest 进行单元测试。我们要求所有核心逻辑和组件都需包含充足的单测覆盖。
+组件测试使用 Cypress（Chrome），工具脚本和生产模式回归使用 Node 内置测试运行器。`pnpm run test` 依次执行 Markdown 导出检查、ModelSelector 生产模式插槽回归和 Cypress 组件测试。
 
 - **运行组件库测试**：
   ```bash
   pnpm run test
   ```
+
+单独执行生产模式插槽回归：
+
+```bash
+pnpm --filter @sdata/web-vue run test:model-selector:production
+```
 
 ## 发布与维护
 
