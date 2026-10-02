@@ -1033,7 +1033,7 @@
         return false;
       });
     return Object.keys(computedFilters.value).length > 0
-      ? travel(processedData.value)
+      ? travel(mapArrayWithChildren(processedData.value))
       : processedData.value;
   });
   const sortedData = computed(() => {

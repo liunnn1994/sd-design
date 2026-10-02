@@ -145,6 +145,65 @@ describe('Table features', () => {
     cy.get('.sd-table-th').eq(2).should('have.class', 'sd-table-col-fixed-right-first');
   });
 
+  it('aligns nested grouped headers fixed to the right', () => {
+    cy.mount(Table, {
+      props: {
+        columns: [
+          { title: 'Name', dataIndex: 'name', width: 150 },
+          {
+            title: 'Outer',
+            fixed: 'right',
+            children: [
+              {
+                title: 'Inner',
+                children: [
+                  { title: 'Age', dataIndex: 'age', width: 100 },
+                  { title: 'Address', dataIndex: 'address', width: 100 },
+                ],
+              },
+            ],
+          },
+        ],
+        data: JSONCopy(demoData),
+        pagination: false,
+        scroll: { x: 600 },
+      },
+    });
+    cy.contains('.sd-table-th', 'Outer').should('have.css', 'right', '0px');
+    cy.contains('.sd-table-th', 'Inner').should('have.css', 'right', '0px');
+    cy.contains('.sd-table-th', 'Age').should('have.class', 'sd-table-col-fixed-right');
+    cy.contains('.sd-table-th', 'Age').should('have.css', 'right', '100px');
+    cy.contains('.sd-table-th', 'Address').should('have.class', 'sd-table-col-fixed-right');
+  });
+
+  it('updates right fixed offsets after resizing a following column', () => {
+    cy.mount(Table, {
+      props: {
+        columns: [
+          { title: 'Name', dataIndex: 'name', width: 150, fixed: 'right' },
+          { title: 'Age', dataIndex: 'age', width: 100, fixed: 'right' },
+          { title: 'Address', dataIndex: 'address', width: 100, fixed: 'right' },
+        ],
+        data: JSONCopy(demoData),
+        pagination: false,
+        columnResizable: true,
+        scroll: { x: 600 },
+      },
+    });
+    cy.get('.sd-table-th')
+      .eq(1)
+      .then(($th) => {
+        const right = $th[0].getBoundingClientRect().right;
+        cy.wrap($th)
+          .find('.sd-table-column-handle')
+          .trigger('mousedown', { clientX: right, force: true });
+        cy.window().trigger('mousemove', { clientX: right + 50 });
+        cy.window().trigger('mouseup');
+      });
+    cy.get('.sd-table-th').first().should('have.css', 'right', '250px');
+    cy.get('.sd-table-tbody .sd-table-td').first().should('have.css', 'right', '250px');
+  });
+
   it('resizes a column by dragging its header handle', () => {
     cy.mount(Table, {
       props: {
@@ -265,6 +324,118 @@ describe('Table features', () => {
       (wrapper.vm as unknown as TableExposedMethods).clearSorters();
     });
     cy.get('.sd-table-th').eq(1).should('have.attr', 'aria-sort', 'none');
+  });
+
+  for (const method of ['clearFilters', 'resetFilters'] as const) {
+    it(`${method} preserves filters on other columns`, () => {
+      const columns: TableColumnData[] = [
+        {
+          title: 'Name',
+          dataIndex: 'name',
+          filterable: {
+            filters: [{ text: 'Jane', value: 'Jane' }],
+            defaultFilteredValue: ['Jane'],
+            filter: (values, record) => record.name.includes(values[0]),
+          },
+        },
+        {
+          title: 'Age',
+          dataIndex: 'age',
+          filterable: {
+            filters: [{ text: 'Age 1', value: '1' }],
+            defaultFilteredValue: ['1'],
+            filter: (values, record) => String(record.age) === values[0],
+          },
+        },
+      ];
+      cy.mount(Table, { props: { columns, data: JSONCopy(demoData), pagination: false } });
+      cy.get('.sd-table-tbody .sd-table-tr').should('have.length', 1);
+      cy.get('@vue').then(({ wrapper }) => {
+        (wrapper.vm as unknown as TableExposedMethods)[method]('name');
+      });
+      cy.wait(150);
+      cy.get('.sd-table-tbody .sd-table-tr').should('have.length', 1);
+      cy.get('.sd-table-th')
+        .eq(1)
+        .find('.sd-table-filters')
+        .should('have.class', 'sd-table-filters-active');
+      cy.get('@vue').then(({ wrapper }) => {
+        (wrapper.vm as unknown as TableExposedMethods).clearFilters('name');
+      });
+      cy.get('.sd-table-tbody .sd-table-tr').should('have.length', 1);
+      cy.get('@vue').then(({ wrapper }) => {
+        (wrapper.vm as unknown as TableExposedMethods).clearFilters();
+      });
+      cy.get('.sd-table-tbody .sd-table-tr').should('have.length', 5);
+    });
+  }
+
+  it('removes column resize listeners when unmounted during a drag', () => {
+    cy.mount(Table, {
+      props: {
+        columns: [
+          { title: 'Name', dataIndex: 'name', width: 150 },
+          { title: 'Age', dataIndex: 'age', width: 120 },
+        ],
+        data: JSONCopy(demoData),
+        pagination: false,
+        columnResizable: true,
+      },
+    });
+    cy.get('@vue').then(({ wrapper }) => {
+      const win = wrapper.element.ownerDocument.defaultView!;
+      const add = cy.spy(win, 'addEventListener');
+      const remove = cy.spy(win, 'removeEventListener');
+      wrapper
+        .find('.sd-table-column-handle')
+        .element.dispatchEvent(new win.MouseEvent('mousedown', { bubbles: true }));
+      wrapper.unmount();
+      for (const type of ['mousemove', 'mouseup', 'contextmenu']) {
+        const registration = add.getCalls().find((call) => call.args[0] === type);
+        expect(registration, `${type} registered`).not.to.equal(undefined);
+        expect(remove.calledWith(type, registration!.args[1]), `${type} removed`).to.equal(true);
+      }
+    });
+  });
+
+  it('restores filtered tree children without changing the input data', () => {
+    const data: TableData[] = [
+      {
+        key: 'parent',
+        name: 'Parent',
+        age: 1,
+        children: [
+          { key: 'child1', name: 'Child 1', age: 1 },
+          { key: 'child2', name: 'Child 2', age: 2 },
+        ],
+      },
+    ];
+    const columns: TableColumnData[] = [
+      { title: 'Name', dataIndex: 'name' },
+      {
+        title: 'Age',
+        dataIndex: 'age',
+        filterable: {
+          filters: [{ text: 'Age 1', value: '1' }],
+          filter: (values, record) => String(record.age) === values[0],
+        },
+      },
+    ];
+    cy.mount(Table, {
+      props: { columns, data, pagination: false, defaultExpandedKeys: ['parent'] },
+    });
+    cy.get('.sd-table-tbody .sd-table-tr').should('have.length', 3);
+    cy.get('.sd-table-filters').first().click();
+    cy.get('.sd-table-filters-list .sd-radio').first().click();
+    cy.get('.sd-table-filters-bottom .sd-btn-primary').click();
+    cy.get('.sd-table-tbody .sd-table-tr').should('have.length', 2);
+    cy.then(() => expect(data[0].children).to.have.length(2));
+    cy.get('@vue').then(({ wrapper }) => {
+      (wrapper.vm as unknown as TableExposedMethods).clearFilters();
+    });
+    cy.wait(150);
+    cy.get('.sd-table-tbody .sd-table-tr').should('have.length', 3);
+    cy.then(() => expect(data[0].children).to.have.length(2));
   });
 
   it('lazy-loads tree children via loadMore', () => {

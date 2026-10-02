@@ -1,4 +1,4 @@
-import { reactive, ref, Ref } from 'vue';
+import { onBeforeUnmount, reactive, ref, Ref } from 'vue';
 
 import { off, on } from '../../_utils/dom';
 import { EmitFn2 } from '../../_utils/types';
@@ -25,6 +25,10 @@ export const useColumnResize = (
     off(window, 'mouseup', handleThMouseUp);
     off(window, 'contextmenu', handleThMouseUp);
   };
+
+  onBeforeUnmount(() => {
+    if (resizingColumn.value) handleThMouseUp();
+  });
 
   const handleThMouseMoving = (ev: MouseEvent) => {
     const element = thRefs.value[resizingColumn.value];

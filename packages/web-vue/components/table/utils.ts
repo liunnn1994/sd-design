@@ -91,6 +91,7 @@ export const getGroupColumns = (
     for (const item of columns) {
       const cell: TableColumnData = { ...item, parent };
       if (isArray(cell.children)) {
+        cell.fixed = cell.fixed ?? fixed;
         const colSpan = getDataColumnsNumber(cell.children);
         if (colSpan > 1) {
           cell.colSpan = colSpan;
@@ -179,7 +180,7 @@ const getFirstDataColumn = (column: TableColumnData): TableColumnData => {
 
 const getLastDataColumn = (column: TableColumnData): TableColumnData => {
   if (column.children && column.children.length > 0)
-    return getFirstDataColumn(column.children[column.children.length - 1]);
+    return getLastDataColumn(column.children[column.children.length - 1]);
   return column;
 };
 
@@ -218,7 +219,7 @@ export const getFixedNumber = (
     }
 
     if (item.fixed === 'right') {
-      count += item.width as number;
+      count += item._resizeWidth ?? item.width ?? 0;
     }
   }
   return count;
@@ -373,7 +374,7 @@ export function mapRawTableData<T extends TableDataWithRaw[]>(arr: T): TableData
   return arr.map((item) => {
     const rawItem = item.raw;
     if (item.children && rawItem.children) {
-      rawItem.children = mapRawTableData(item.children);
+      return { ...rawItem, children: mapRawTableData(item.children) };
     }
     return item.raw;
   });
