@@ -1,3 +1,10 @@
+# [5.5.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.4.0...web-vue-v5.5.0) (2026-10-02)
+
+
+### Features
+
+* 🆕 新增 MarkdownRender 组件 ([a4ee870](https://github.com/liunnn1994/sd-design/commit/a4ee8702f734c28dc355e700b4d6bed15b638a8e))
+
 # [5.4.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.3.0...web-vue-v5.4.0) (2026-09-29)
 
 
