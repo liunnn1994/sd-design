@@ -7,7 +7,7 @@
     :class="`${prefixCls}-image`"
     @preview-visible-change="onImagePreviewVisibleChange"
   />
-  <teleport v-else :to="container" :disabled="!fullscreen || !renderToBody">
+  <teleport v-else :to="container || 'body'" :disabled="!fullscreen || !renderToBody">
     <div
       v-if="shouldRender"
       ref="wrapperRef"
@@ -397,10 +397,13 @@
       !previewSlots.value.includes('image'),
   );
 
-  const container = usePopupContainer(document.body, reactive({ popupContainer }));
+  const container = usePopupContainer(
+    isServerRendering ? undefined : document.body,
+    reactive({ popupContainer }),
+  );
   const popupVisible = computed(() => fullscreen.value && mergedVisible.value);
   const { zIndex, close: releasePopup } = usePopupManager('dialog', { visible: popupVisible });
-  const isFixed = computed(() => container.value === document.body);
+  const isFixed = computed(() => !isServerRendering && container.value === document.body);
 
   const currentSrc = computed(() => src?.value ?? '');
   const isLoading = computed(() => status.value === 'loading');

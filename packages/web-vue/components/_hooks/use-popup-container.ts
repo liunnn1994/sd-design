@@ -6,8 +6,8 @@ import { isString } from '../_utils/is';
 interface PopupContainerProps {
   popupContainer: string | HTMLElement | undefined;
 }
-export default function usePopupContainer(
-  defaultPopupContainer: HTMLElement,
+export default function usePopupContainer<T extends HTMLElement | undefined>(
+  defaultPopupContainer: T,
   props: PopupContainerProps,
 ) {
   const { popupContainer } = toRefs(props);
@@ -19,5 +19,5 @@ export default function usePopupContainer(
         : popupContainer.value) || defaultPopupContainer,
   );
 
-  return container as ComputedRef<HTMLElement>;
+  return container as ComputedRef<HTMLElement | T>;
 }
