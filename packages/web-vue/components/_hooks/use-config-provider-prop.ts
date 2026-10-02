@@ -1,4 +1,4 @@
-import { computed, getCurrentInstance, inject, Ref } from 'vue';
+import { computed, getCurrentInstance, inject, onBeforeUpdate, Ref, shallowRef } from 'vue';
 
 import { ConfigProvider, configProviderInjectionKey } from '../config-provider/context';
 
@@ -12,10 +12,14 @@ export const useConfigProviderProp = <T>(
   options: UseConfigProviderPropOptions<T>,
 ) => {
   const instance = getCurrentInstance();
+  const vnodeProps = shallowRef(instance?.vnode.props);
+  onBeforeUpdate(() => {
+    vnodeProps.value = instance?.vnode.props;
+  });
   const configProviderCtx = inject(configProviderInjectionKey, undefined);
 
   const hasLocalProp = computed(() => {
-    const rawProps = instance?.vnode.props;
+    const rawProps = vnodeProps.value;
 
     if (!rawProps) {
       return false;
