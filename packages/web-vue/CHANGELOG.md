@@ -1,38 +1,33 @@
 # [5.6.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.5.0...web-vue-v5.6.0) (2026-10-02)
 
-
 ### Features
 
-* 🆕 整体迁移到 ts ([56f2937](https://github.com/liunnn1994/sd-design/commit/56f2937b27511b093991f7464b965eed8c308264))
+- 🆕 整体迁移到 ts ([56f2937](https://github.com/liunnn1994/sd-design/commit/56f2937b27511b093991f7464b965eed8c308264))
 
 # [5.5.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.4.0...web-vue-v5.5.0) (2026-10-02)
 
-
 ### Features
 
-* 🆕 新增 MarkdownRender 组件 ([a4ee870](https://github.com/liunnn1994/sd-design/commit/a4ee8702f734c28dc355e700b4d6bed15b638a8e))
+- 🆕 新增 MarkdownRender 组件 ([a4ee870](https://github.com/liunnn1994/sd-design/commit/a4ee8702f734c28dc355e700b4d6bed15b638a8e))
 
 # [5.4.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.3.0...web-vue-v5.4.0) (2026-09-29)
 
-
 ### Features
 
-* 🆕 新增 voice glow 组件 ([e4718b3](https://github.com/liunnn1994/sd-design/commit/e4718b36774c293e95c79579ff1eef40cbafda8b))
+- 🆕 新增 voice glow 组件 ([e4718b3](https://github.com/liunnn1994/sd-design/commit/e4718b36774c293e95c79579ff1eef40cbafda8b))
 
 # [5.3.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.2.1...web-vue-v5.3.0) (2026-09-29)
 
-
 ### Features
 
-* 🆕 去掉浏览器自带的 :focus-visible 黑边 ([8ed2a23](https://github.com/liunnn1994/sd-design/commit/8ed2a23becd3e08e4980050c027701490266c8f5))
-* 🆕 更新依赖 ([3c0c918](https://github.com/liunnn1994/sd-design/commit/3c0c918c19597bef7029c622454de7314fd33616))
+- 🆕 去掉浏览器自带的 :focus-visible 黑边 ([8ed2a23](https://github.com/liunnn1994/sd-design/commit/8ed2a23becd3e08e4980050c027701490266c8f5))
+- 🆕 更新依赖 ([3c0c918](https://github.com/liunnn1994/sd-design/commit/3c0c918c19597bef7029c622454de7314fd33616))
 
 ## [5.2.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.2.0...web-vue-v5.2.1) (2026-09-29)
 
-
 ### Bug Fixes
 
-* 🐛 修复表头没有对齐的问题 ([81a58d9](https://github.com/liunnn1994/sd-design/commit/81a58d98ac91d48b632f327ca9564085e4fde68e))
+- 🐛 修复表头没有对齐的问题 ([81a58d9](https://github.com/liunnn1994/sd-design/commit/81a58d98ac91d48b632f327ca9564085e4fde68e))
 
 # [5.2.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.1.1...web-vue-v5.2.0) (2026-09-24)
 
