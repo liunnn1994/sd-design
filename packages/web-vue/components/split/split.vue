@@ -171,6 +171,7 @@
   const { direction, size: propSize, defaultSize, min, max } = toRefs(props);
   const triggerSize = ref(0);
   const wrapperRef = ref<HTMLDivElement>();
+  let unmounted = false;
   const prefixCls = getPrefixCls('split');
   const [mergedSize, setMergedSize] = useMergeState(
     defaultSize.value,
@@ -315,6 +316,7 @@
     record.startPageX = e.pageX;
     record.startPageY = e.pageY;
     record.startContainerSize = (await getContainerSize()) ?? 0;
+    if (unmounted) return;
     record.startSize = mergedSize.value;
 
     on(window, 'mousemove', onMoving);
@@ -359,5 +361,8 @@
     }
   });
 
-  onBeforeUnmount(cleanupMoving);
+  onBeforeUnmount(() => {
+    unmounted = true;
+    cleanupMoving();
+  });
 </script>
