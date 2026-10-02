@@ -41,6 +41,46 @@ describe('Tabs', () => {
     });
   });
 
+  it('closes an inactive tab with Enter without activating it', () => {
+    cy.mount(Tabs, {
+      global: { components: { TabPane } },
+      props: { editable: true },
+      slots: { default: panes },
+    });
+    cy.get('.sd-tabs-tab').eq(1).find('.sd-tabs-tab-close-btn').focus().type('{enter}');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('delete')).to.have.length(1);
+      expect(wrapper.emitted('change')).to.equal(undefined);
+      expect(wrapper.emitted('tabClick')).to.equal(undefined);
+    });
+    cy.get('.sd-tabs-tab').eq(0).should('have.attr', 'aria-selected', 'true');
+  });
+
+  it('keeps an already visible active tab in view after scrolling', () => {
+    cy.mount(Tabs, {
+      attrs: { style: 'width: 300px' },
+      slots: {
+        default: () =>
+          Array.from({ length: 8 }, (_, index) =>
+            h(TabPane, { key: index, title: `Tab ${index}` }, () => `Panel ${index}`),
+          ),
+      },
+    });
+    cy.get('.sd-tabs-nav-button').should('have.length', 2);
+    cy.get('.sd-tabs-tab').last().click({ force: true });
+    cy.wait(150);
+    cy.get('.sd-tabs-tab').eq(6).click({ force: true });
+    cy.wait(150);
+    cy.get('.sd-tabs-nav-tab').then(($wrapper) => {
+      const bounds = $wrapper[0].getBoundingClientRect();
+      cy.get('.sd-tabs-tab-active').should(($tab) => {
+        const tab = $tab[0].getBoundingClientRect();
+        expect(tab.left).to.be.at.least(bounds.left - 1);
+        expect(tab.right).to.be.at.most(bounds.right + 1);
+      });
+    });
+  });
+
   it('supports native keyboard activation for add and overflow controls', () => {
     cy.mount(Tabs, {
       global: { components: { TabPane } },

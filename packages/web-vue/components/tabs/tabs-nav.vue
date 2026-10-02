@@ -257,6 +257,7 @@
         if (tabPosition < offset.value) targetOffset = tabPosition - tabMargin;
         else if (tabPosition + tabSize > offset.value + wrapperSize)
           targetOffset = tabPosition + tabSize - wrapperSize + tabMargin;
+        else targetOffset = offset.value;
         break;
       case 'center':
         targetOffset = tabPosition + (tabSize - wrapperSize + tabMargin) / 2;

@@ -18,6 +18,7 @@
       :class="`${prefixCls}-close-btn`"
       :aria-label="t('a11y.closeTab')"
       @click.stop="handleDelete"
+      @keydown.stop
     >
       <icon-hover><icon-close /></icon-hover>
     </button>
