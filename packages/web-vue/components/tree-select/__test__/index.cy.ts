@@ -560,4 +560,47 @@ describe('TreeSelect', () => {
     // fit-width 测量克隆会渲染两份，取第一个断言文本
     cy.get('.tree-custom-label').first().should('contain.text', 'L:Leaf 1');
   });
+  it('keeps a matching node with numeric key zero in search results', () => {
+    cy.mount(TreeSelect, {
+      props: {
+        data: [
+          { key: 0, title: 'Zero' },
+          { key: 1, title: 'One' },
+        ],
+        allowSearch: true,
+        inputValue: '0',
+        defaultPopupVisible: true,
+      },
+    });
+    cy.get('.sd-tree-node[data-key="0"]').should('be.visible');
+    cy.get('.sd-tree-node[data-key="1"]').should('not.exist');
+    cy.get('.sd-tree-node[data-key="0"] .sd-tree-node-title').click();
+    cy.get('@vue').should(({ wrapper }) =>
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal([0]),
+    );
+  });
+
+  it('refreshes search results when the filter callback changes', () => {
+    cy.mount(TreeSelect, {
+      props: {
+        options,
+        fieldNames,
+        allowSearch: true,
+        inputValue: 'match',
+        defaultPopupVisible: true,
+        treeProps: { defaultExpandAll: true },
+        filterTreeNode: (_keyword, node) => node.key === 'leaf-1',
+      },
+    });
+    cy.get('.sd-tree-node[data-key="leaf-1"]').should('be.visible');
+    cy.get('.sd-tree-node[data-key="leaf-2"]').should('not.exist');
+    cy.get('@vue').then(({ wrapper }) =>
+      wrapper.setProps({
+        filterTreeNode: (_keyword: string, node: import('../../tree/interface').TreeNodeData) =>
+          node.key === 'leaf-2',
+      }),
+    );
+    cy.get('.sd-tree-node[data-key="leaf-2"]').should('be.visible');
+    cy.get('.sd-tree-node[data-key="leaf-1"]').should('not.exist');
+  });
 });

@@ -48,31 +48,34 @@ export default function useFilterTreeNode(props: {
           if (!isFiltering.value) return true;
 
           const key = node[keyField.value] as TreeNodeKey;
-          return filteredKeysSet.value?.has(key || '') ?? false;
+          return filteredKeysSet.value?.has(key) ?? false;
         },
   );
 
-  const updateFilteredKeysSet = debounce((treeData: Node[], keyword: string) => {
-    const hitNodes = treeData.filter((node) => filterMethod.value(keyword, node.treeNodeData));
+  const updateFilteredKeysSet = debounce(
+    (treeData: Node[], keyword: string, method: FilterTreeNode) => {
+      const hitNodes = treeData.filter((node) => method(keyword, node.treeNodeData));
 
-    const _keysSet = new Set<TreeNodeKey>();
+      const _keysSet = new Set<TreeNodeKey>();
 
-    hitNodes.forEach((node) => {
-      _keysSet.add(node.key);
-      node.pathParentKeys.forEach((_key) => {
-        _keysSet.add(_key);
+      hitNodes.forEach((node) => {
+        _keysSet.add(node.key);
+        node.pathParentKeys.forEach((_key) => {
+          _keysSet.add(_key);
+        });
       });
-    });
 
-    filteredKeysSet.value = _keysSet;
-  }, 100);
+      filteredKeysSet.value = _keysSet;
+    },
+    100,
+  );
   onBeforeUnmount(updateFilteredKeysSet.cancel);
 
   watchEffect(() => {
     if (disableFilter?.value) {
       filteredKeysSet.value = undefined;
     } else {
-      updateFilteredKeysSet(flattenTreeData.value, searchValue.value);
+      updateFilteredKeysSet(flattenTreeData.value, searchValue.value, filterMethod.value);
     }
   });
 
