@@ -272,13 +272,13 @@
     const previous = getPreviousDigit(part);
     const delta = getDigitDelta(part);
     if (animationPhase.value === 'idle' || delta === 0)
-      return [{ key: `current-${current}`, value: current }];
+      return [{ key: `current-${current}`, value: part.value }];
 
     const length = (digits?.[part.position ?? 0]?.max ?? 9) + 1;
     const start = delta > 0 ? previous : current;
     return Array.from({ length: Math.abs(delta) + 1 }, (_, index) => ({
       key: `step-${index}`,
-      value: (start + index) % length,
+      value: currentData.value.digitCharacters[(start + index) % length],
     }));
   }
 
