@@ -38,7 +38,7 @@
               :style="mergedModalStyle"
               role="dialog"
               aria-modal="true"
-              :aria-labelledby="hasTitle ? titleId : undefined"
+              :aria-labelledby="hasTitle() ? titleId : undefined"
               :aria-describedby="bodyId"
               tabindex="-1"
             >
@@ -531,9 +531,7 @@
 
   const titleId = `sd-modal-title-${getCurrentInstance()!.uid}`;
   const bodyId = `sd-modal-body-${getCurrentInstance()!.uid}`;
-  const hasTitle = computed(
-    () => !props.hideTitle && (Boolean(props.title) || Boolean(slots.title)),
-  );
+  const hasTitle = () => !props.hideTitle && (Boolean(props.title) || Boolean(slots.title));
   const { activate: activateFocusTrap, deactivate: deactivateFocusTrap } = useFocusTrap(modalRef, {
     // 打开时聚焦首个「非 close」可聚焦元素（close 按钮已在 Tab 序列中，但不作首焦，避免一打开就停在 X 上）
     initialFocus: (c) => getFocusableElements(c).find((el) => !el.closest('.sd-modal-close-btn')),
@@ -626,7 +624,11 @@
   const okDisplayText = computed(() => mergedOkText.value || t('modal.okText'));
   const cancelDisplayText = computed(() => mergedCancelText.value || t('modal.cancelText'));
 
-  const { zIndex, isLastDialog } = usePopupManager('dialog', {
+  const {
+    zIndex,
+    isLastDialog,
+    close: releasePopup,
+  } = usePopupManager('dialog', {
     visible: computedVisible,
   });
 
@@ -660,42 +662,43 @@
     alignCenter: mergedAlignCenterBoolean,
   });
 
-  const close = () => {
+  const invalidatePendingOk = () => {
     promiseNumber++;
     if (_okLoading.value) {
       _okLoading.value = false;
     }
+  };
+
+  const close = () => {
+    invalidatePendingOk();
     _visible.value = false;
     emit('update:visible', false);
   };
 
   const handleOk = async (e: Event) => {
     const currentPromiseNumber = promiseNumber;
-    const closed = await new Promise<boolean>(
-      // oxlint-disable-next-line no-async-promise-executor
-      async (resolve) => {
+    const closed = await new Promise<boolean>((resolve) => {
+      try {
         if (isFunction(props.onBeforeOk)) {
-          let result = props.onBeforeOk((closed = true) => resolve(closed));
+          const result = props.onBeforeOk((closed = true) => resolve(closed));
           if (isPromise(result) || !isBoolean(result)) {
             _okLoading.value = true;
           }
           if (isPromise(result)) {
-            try {
-              // if onBeforeOk is Promise<void> ,set Defaults true
-              result = (await result) ?? true;
-            } catch {
-              // rejected onBeforeOk blocks the ok path and must not hang the await
-              result = false;
-            }
-          }
-          if (isBoolean(result)) {
+            result.then(
+              (value) => resolve(value ?? true),
+              () => resolve(false),
+            );
+          } else if (isBoolean(result)) {
             resolve(result);
           }
         } else {
           resolve(true);
         }
-      },
-    );
+      } catch {
+        resolve(false);
+      }
+    });
 
     if (currentPromiseNumber === promiseNumber) {
       if (closed) {
@@ -768,6 +771,8 @@
   });
 
   onBeforeUnmount(() => {
+    invalidatePendingOk();
+    releasePopup();
     resetOverflow();
     removeGlobalKeyDownListener();
   });
@@ -785,9 +790,18 @@
       // 等待 v-show 生效后激活焦点陷阱（确定性触发，不依赖 CSS 过渡的 after-enter）
       nextTick(() => activateFocusTrap());
     } else {
+      invalidatePendingOk();
       emit('beforeClose');
       removeGlobalKeyDownListener();
       deactivateFocusTrap();
+    }
+  });
+
+  watch(mergedEscToClose, (enabled) => {
+    if (enabled && computedVisible.value) {
+      addGlobalKeyDownListener();
+    } else {
+      removeGlobalKeyDownListener();
     }
   });
 
