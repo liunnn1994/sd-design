@@ -217,3 +217,7 @@ Procfile          text
 .gitattributes    export-ignore
 .gitignore        export-ignore
 .gitkeep          export-ignore
+
+# Exclude agent tooling from GitHub language statistics
+.agents/**       linguist-vendored
+.claude/**       linguist-vendored
