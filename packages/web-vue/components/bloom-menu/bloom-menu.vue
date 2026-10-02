@@ -471,6 +471,7 @@
   watch(
     isOpen,
     (openState) => {
+      if (typeof window === 'undefined') return;
       if (!openState) {
         schedulePopupHide();
         return;
