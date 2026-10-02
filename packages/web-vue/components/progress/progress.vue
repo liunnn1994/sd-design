@@ -8,6 +8,7 @@
       :track-color="trackColor"
       :width="width"
       :steps="steps"
+      :status="computedStatus"
       :size="mergedSize"
       :show-text="showText"
     >

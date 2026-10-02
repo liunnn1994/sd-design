@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, PropType, type CSSProperties } from 'vue';
+  import { computed, PropType, useId, type CSSProperties } from 'vue';
 
   import NP from 'number-precision';
 
@@ -63,8 +63,6 @@
   import { isObject } from '../_utils/is';
   import IconCheck from '../icon/icon-check';
   import IconExclamation from '../icon/icon-exclamation';
-
-  let __ARCO_PROGRESS_SEED = 0;
 
   const DEFAULT_WIDTH = {
     mini: 16,
@@ -151,10 +149,7 @@
   const perimeter = computed(() => Math.PI * 2 * radius.value);
   const center = computed(() => mergedWidth.value / 2);
 
-  const linearGradientId = computed(() => {
-    __ARCO_PROGRESS_SEED += 1;
-    return `${prefixCls}-linear-gradient-${__ARCO_PROGRESS_SEED}`;
-  });
+  const linearGradientId = `${prefixCls}-linear-gradient-${useId()}`;
 
   const text = computed(() => `${NP.times(props.percent, 100)}%`);
   const iconStyle = computed<CSSProperties>(() => ({
@@ -165,7 +160,7 @@
     stroke: props.trackColor,
   }));
   const circleStyle = computed<CSSProperties>(() => ({
-    stroke: isLinearGradient.value ? `url(#${linearGradientId.value})` : solidColor.value,
+    stroke: isLinearGradient.value ? `url(#${linearGradientId})` : solidColor.value,
     strokeDasharray: perimeter.value,
     strokeDashoffset: (props.percent >= 1 ? 0 : 1 - props.percent) * perimeter.value,
   }));
