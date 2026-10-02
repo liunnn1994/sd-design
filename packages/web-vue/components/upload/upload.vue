@@ -126,6 +126,19 @@
   const { mergedDisabled, eventHandlers } = useFormItem({ disabled });
   const innerFileList = ref<FileItem[]>([]);
   const fileMap = new Map<string, FileItem>();
+  const previewUrls = new Set<string>();
+  const releasePreviewUrls = (retainedUrls: Set<string | undefined>) => {
+    for (const url of previewUrls) {
+      if (!retainedUrls.has(url)) {
+        URL.revokeObjectURL(url);
+        previewUrls.delete(url);
+      }
+    }
+  };
+  watch(
+    () => innerFileList.value.map((file) => file.url),
+    (urls) => releasePreviewUrls(new Set(urls)),
+  );
   interface UploadTask {
     request?: UploadRequest;
     cancelled: boolean;
@@ -148,6 +161,7 @@
   };
   onBeforeUnmount(() => {
     disposed = true;
+    releasePreviewUrls(new Set());
     for (const uid of requestMap.keys()) cancelRequest(uid);
   });
   const isMax = computed(() => props.limit > 0 && innerFileList.value.length >= props.limit);
@@ -326,10 +340,12 @@
       return;
     }
     const uid = `${Date.now()}-${uidCounter++}`;
+    const url = isImage(file) ? URL.createObjectURL(file) : undefined;
+    if (url) previewUrls.add(url);
     const fileItem: FileItem = reactive({
       uid,
       file,
-      url: isImage(file) ? URL.createObjectURL(file) : undefined,
+      url,
       name: file.name,
       status: 'init',
       percent: 0,
@@ -369,6 +385,7 @@
     updateFileList(fileItem);
   };
   const handleRemove = (fileItem: FileItem) => {
+    if (mergedDisabled.value) return;
     if (isFunction(props.onBeforeRemove)) {
       Promise.resolve(props.onBeforeRemove(fileItem))
         .then((result) => {
@@ -421,8 +438,12 @@
       download,
       customIcon,
       slots,
-      onUpload: uploadFile,
-      onAbort: abort,
+      onUpload: (fileItem: FileItem) => {
+        if (!mergedDisabled.value) uploadFile(fileItem);
+      },
+      onAbort: (fileItem: FileItem) => {
+        if (!mergedDisabled.value) abort(fileItem);
+      },
       onRemove: handleRemove,
       onPreview: handlePreview,
     }),
