@@ -1,3 +1,10 @@
+# [5.6.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.5.0...web-vue-v5.6.0) (2026-10-02)
+
+
+### Features
+
+* 🆕 整体迁移到 ts ([56f2937](https://github.com/liunnn1994/sd-design/commit/56f2937b27511b093991f7464b965eed8c308264))
+
 # [5.5.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.4.0...web-vue-v5.5.0) (2026-10-02)
 
 
