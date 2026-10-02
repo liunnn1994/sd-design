@@ -402,6 +402,7 @@
   };
   const changeVisible = (visible: boolean, delay?: number) => {
     if (visible === computedVisible.value && delayTimer === 0) return;
+    cleanDelayTimer();
     const update = () => {
       popupVisible.value = visible;
       emit('update:popupVisible', visible);
@@ -413,7 +414,6 @@
       windowScrollPosition = null;
     }
     if (delay) {
-      cleanDelayTimer();
       if (visible !== computedVisible.value) delayTimer = window.setTimeout(update, delay);
     } else {
       update();
@@ -637,6 +637,7 @@
   });
   onDeactivated(() => changeVisible(false));
   onBeforeUnmount(() => {
+    cleanDelayTimer();
     triggerCtx?.removeChildRef(popupRef.value as HTMLElement);
     destroyResizeObserver();
     if (windowListener) removeWindowScroll();

@@ -506,4 +506,48 @@ describe('Trigger', () => {
       cy.get(`#${$btn.attr('aria-describedby')}`).should('exist');
     });
   });
+  for (const trigger of ['hover', 'focus'] as const) {
+    it(`cancels a pending ${trigger} open when closing without a delay`, () => {
+      cy.clock(undefined, ['setTimeout', 'clearTimeout']);
+      cy.mount(Trigger, {
+        props: {
+          trigger,
+          mouseEnterDelay: 200,
+          mouseLeaveDelay: 0,
+          focusDelay: 200,
+          ariaHasPopup: 'menu',
+        },
+        slots: { default: '<button>Test</button>', content: '<div id="popup-content">Popup</div>' },
+      });
+      cy.get('button').trigger(trigger === 'hover' ? 'mouseenter' : 'focusin');
+      cy.get('button').trigger(trigger === 'hover' ? 'mouseleave' : 'focusout');
+      cy.tick(250);
+      cy.get('button').should('have.attr', 'aria-expanded', 'false');
+      cy.get('@vue').should(({ wrapper }) =>
+        expect(
+          wrapper.emitted('update:popupVisible')?.some(([visible]) => visible === true) ?? false,
+        ).to.equal(false),
+      );
+    });
+  }
+
+  it('clears the pending hover timer on unmount', () => {
+    let timerId: number;
+    cy.window().then((win) => {
+      cy.spy(win, 'setTimeout').as('setTimeout');
+      cy.spy(win, 'clearTimeout').as('clearTimeout');
+    });
+    cy.mount(Trigger, {
+      props: { mouseEnterDelay: 5000 },
+      slots: { default: '<button>Test</button>', content: '<div>Popup</div>' },
+    });
+    cy.get('button').trigger('mouseenter');
+    cy.get('@setTimeout').then((spy: ReturnType<typeof cy.spy>) => {
+      timerId = spy.getCalls().find((call) => call.args[1] === 5000)!.returnValue;
+    });
+    cy.get('@vue').then(({ wrapper }) => wrapper.unmount());
+    cy.get('@clearTimeout').should((spy: ReturnType<typeof cy.spy>) =>
+      expect(spy.calledWith(timerId)).to.equal(true),
+    );
+  });
 });
