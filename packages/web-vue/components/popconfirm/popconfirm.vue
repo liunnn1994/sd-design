@@ -264,31 +264,28 @@
 
   const handleOk = async () => {
     const currentPromiseNumber = promiseNumber;
-    const closed = await new Promise<boolean>(
-      // oxlint-disable-next-line no-async-promise-executor
-      async (resolve) => {
+    const closed = await new Promise<boolean>((resolve) => {
+      try {
         if (isFunction(props.onBeforeOk)) {
-          let result = props.onBeforeOk((closed = true) => resolve(closed));
+          const result = props.onBeforeOk((closed = true) => resolve(closed));
           if (isPromise(result) || !isBoolean(result)) {
             _okLoading.value = true;
           }
           if (isPromise(result)) {
-            try {
-              // if onBeforeOk is Promise<void> ,set Defaults true
-              result = (await result) ?? true;
-            } catch {
-              // rejected onBeforeOk blocks the ok path and must not hang the await
-              result = false;
-            }
-          }
-          if (isBoolean(result)) {
+            result.then(
+              (value) => resolve(value ?? true),
+              () => resolve(false),
+            );
+          } else if (isBoolean(result)) {
             resolve(result);
           }
         } else {
           resolve(true);
         }
-      },
-    );
+      } catch {
+        resolve(false);
+      }
+    });
 
     if (currentPromiseNumber === promiseNumber) {
       if (closed) {
