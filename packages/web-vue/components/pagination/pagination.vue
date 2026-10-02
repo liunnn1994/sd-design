@@ -338,8 +338,10 @@
     return items;
   });
 
+  // 非受控页大小已在 handlePageSizeChange 中调整，避免 watcher 再次改变当前页。
   watch(computedPageSize, (currentPageSize, previousPageSize) => {
     if (
+      props.pageSize !== undefined &&
       mergedAutoAdjust.value &&
       currentPageSize !== previousPageSize &&
       computedCurrent.value > 1

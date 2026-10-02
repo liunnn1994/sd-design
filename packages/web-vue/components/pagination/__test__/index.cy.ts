@@ -274,6 +274,21 @@ describe('Pagination', () => {
         expect(wrapper.emitted('update:current')).to.deep.equal([[2]]);
         expect(wrapper.emitted('change')).to.deep.equal([[2]]);
       });
+    cy.get('.sd-pagination-item-active').should('have.text', '2');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('update:current')).to.deep.equal([[2]]);
+      expect(wrapper.emitted('change')).to.deep.equal([[2]]);
+    });
+  });
+
+  it('adjusts the current page when the controlled page size changes', () => {
+    cy.mount(Pagination, { props: { total: 100, defaultCurrent: 3, pageSize: 10 } });
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ pageSize: 20 }));
+    cy.get('.sd-pagination-item-active').should('have.text', '2');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('update:current')).to.deep.equal([[2]]);
+      expect(wrapper.emitted('change')).to.deep.equal([[2]]);
+    });
   });
 
   it('honors ConfigProvider autoAdjust when the page size changes', () => {
