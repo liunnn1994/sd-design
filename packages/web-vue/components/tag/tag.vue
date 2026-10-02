@@ -290,7 +290,7 @@
   // ---- 自定义颜色处理 ----
   // 通过 DOM 解析 CSS 颜色值为标准 rgb 格式
   const resolvedColor = computed(() => {
-    if (!isCustomColor.value) return props.color;
+    if (!isCustomColor.value || isGradientString(props.color)) return props.color;
     try {
       const dom = document.createElement('div');
       dom.style.color = props.color as string;
