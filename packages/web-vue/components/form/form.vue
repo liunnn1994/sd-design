@@ -233,7 +233,7 @@
 
   const scrollToField = (field: string, options?: ScrollIntoViewOptions) => {
     const node = formRef.value || document.body;
-    const fieldNode = node.querySelector(`#${getFormElementId(props.id, field as string)}`);
+    const fieldNode = node.querySelector(`#${CSS.escape(getFormElementId(props.id, field))}`);
 
     if (fieldNode) {
       (fieldNode as HTMLDivElement).scrollIntoView({
