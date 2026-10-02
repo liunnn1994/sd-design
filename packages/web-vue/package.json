@@ -47,16 +47,68 @@
     "./es/*": "./es/*",
     "./dist/*": "./dist/*",
     "./json/*": "./json/*",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./markstream": {
+      "types": "./es/markdown-render/upstream.d.ts",
+      "import": "./es/markdown-render/upstream.js"
+    },
+    "./markstream/utils": {
+      "types": "./es/markdown-render/compat/utils.d.ts",
+      "import": "./es/markdown-render/compat/utils.js"
+    },
+    "./markstream/utils/katex-threshold": {
+      "types": "./es/markdown-render/compat/utils/katex-threshold.d.ts",
+      "import": "./es/markdown-render/compat/utils/katex-threshold.js"
+    },
+    "./markstream/utils/performance-monitor": {
+      "types": "./es/markdown-render/compat/utils/performance-monitor.d.ts",
+      "import": "./es/markdown-render/compat/utils/performance-monitor.js"
+    },
+    "./markstream/utils/safeRaf": {
+      "types": "./es/markdown-render/compat/utils/safeRaf.d.ts",
+      "import": "./es/markdown-render/compat/utils/safeRaf.js"
+    },
+    "./markstream/tailwind": {
+      "types": "./es/markdown-render/compat/tailwind.d.ts",
+      "import": "./es/markdown-render/compat/tailwind.js"
+    },
+    "./markstream/workers/katexWorkerClient": {
+      "types": "./es/markdown-render/compat/workers/katexWorkerClient.d.ts",
+      "import": "./es/markdown-render/compat/workers/katexWorkerClient.js"
+    },
+    "./markstream/workers/mermaidWorkerClient": {
+      "types": "./es/markdown-render/compat/workers/mermaidWorkerClient.d.ts",
+      "import": "./es/markdown-render/compat/workers/mermaidWorkerClient.js"
+    },
+    "./markstream/workers/katexCdnWorker": {
+      "types": "./es/markdown-render/compat/workers/katexCdnWorker.d.ts",
+      "import": "./es/markdown-render/compat/workers/katexCdnWorker.js"
+    },
+    "./markstream/workers/mermaidCdnWorker": {
+      "types": "./es/markdown-render/compat/workers/mermaidCdnWorker.d.ts",
+      "import": "./es/markdown-render/compat/workers/mermaidCdnWorker.js"
+    },
+    "./markstream/workers/katexRenderer.worker": {
+      "types": "./es/markdown-render/compat/workers/katexRenderer.worker.d.ts",
+      "import": "./es/markdown-render/compat/workers/katexRenderer.worker.js"
+    },
+    "./markstream/workers/mermaidParser.worker": {
+      "types": "./es/markdown-render/compat/workers/mermaidParser.worker.d.ts",
+      "import": "./es/markdown-render/compat/workers/mermaidParser.worker.js"
+    },
+    "./markstream/index.css": "./es/markdown-render/style/upstream.css",
+    "./markstream/index.px.css": "./es/markdown-render/style/index.px.css",
+    "./markstream/index.tailwind.css": "./es/markdown-render/style/index.tailwind.css"
   },
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
+    "style:sync": "node ./scripts/sync-markstream-style.mjs",
     "theme:generate": "node ./scripts/theme-catalog.mjs",
     "test:theme": "node --test ./scripts/theme-catalog.test.mjs && cypress run --quiet --component --browser chrome --spec components/config-provider/__test__/*.cy.ts",
     "test:theme:e2e": "cypress run --quiet --browser chrome --config-file cypress.theme.config.ts",
-    "predev": "pnpm run icongen",
+    "predev": "pnpm run style:sync && pnpm run icongen",
     "dev": "vp run task:dev-component",
     "start": "pnpm run dev",
     "icongen": "pnpm run theme:generate && vp run gen:icons",
@@ -66,7 +118,7 @@
     "build:component": "vp run task:build-component",
     "prebuild:module": "pnpm run icongen",
     "build:module": "vp run task:build-module",
-    "prebuild:style": "pnpm run theme:generate",
+    "prebuild:style": "pnpm run style:sync && pnpm run theme:generate",
     "build:style": "vp run task:build-style",
     "fix:scss-legacy-props": "node ./scripts/fix-scss-legacy-property-refs.mjs",
     "prebuild:dts": "pnpm run icongen",
@@ -75,12 +127,14 @@
     "pretypecheck": "pnpm run icongen",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json",
     "pretest": "pnpm run icongen",
-    "test": "cypress run --quiet --component --browser chrome",
+    "test": "pnpm run test:markdown:types && cypress run --quiet --component --browser chrome",
     "test:affected": "node ./scripts/find-affected-cypress-specs.mjs",
     "test:affected:unit": "node --test ./scripts/find-affected-cypress-specs.test.mjs",
     "test:headed": "cypress run --quiet --component --browser chrome --headed",
     "cypress:open": "cypress open --component",
-    "cypress:run": "cypress run --quiet --component --browser chrome"
+    "cypress:run": "cypress run --quiet --component --browser chrome",
+    "test:markdown:e2e": "cypress run --quiet --browser chrome --config-file cypress.markdown.config.ts",
+    "test:markdown:types": "node --test ./scripts/markdown-exports.test.mjs"
   },
   "dependencies": {
     "@arco-design/color": "^0.4.0",
@@ -103,6 +157,7 @@
     "dayjs": "^1.11.23",
     "es-toolkit": "catalog:",
     "lexical": "^0.52.0",
+    "markstream-vue": "2.0.13",
     "motion-v": "^2.4.4",
     "number-precision": "^1.6.0",
     "overlayscrollbars": "^2.16.0",

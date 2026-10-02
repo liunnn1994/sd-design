@@ -158,3 +158,15 @@ pnpm run dev:all
   ```
 
 > 深入了解项目架构、模块依赖关系，请参阅 [`ARCHITECTURE.md`](ARCHITECTURE.md)。
+
+## Markdown 内容
+
+```vue
+<template><MarkdownRender :content="content" final /></template>
+<script setup lang="ts">
+  import { MarkdownRender } from '@sdata/web-vue';
+  const content = '## SD Markdown\n\n**富文本**与[链接](https://example.com)';
+</script>
+```
+
+全量样式已包含 Markdown 基础样式，无需额外导入；只使用按需样式时改为导入 `@sdata/web-vue/es/markdown-render/style/index.js`。从 Markstream 迁移时只需替换组件 import 和模板名称，并移除原 Markstream CSS。可选 KaTeX、Mermaid、D2、Infographic 和代码增强保留原 loader 配置与降级路径，组件不会自动添加 CDN。

@@ -195,7 +195,9 @@ function resolveAliasedPath(url: string, componentsDir: string): string | null {
 }
 
 function getComponentsDir(packageName: string): string {
-  const packageRoot = path.dirname(createRequire(import.meta.url)(`${packageName}/package.json`));
+  const packageRoot = path.dirname(
+    createRequire(import.meta.url).resolve(`${packageName}/package.json`),
+  );
 
   return path.resolve(packageRoot, 'es');
 }

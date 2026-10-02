@@ -89,6 +89,7 @@ declare module 'vue' {
     SdLayoutFooter: SDVue['LayoutFooter'];
     SdLayoutSider: SDVue['LayoutSider'];
     SdLink: SDVue['Link'];
+    SdMarkdownRender: SDVue['MarkdownRender'];
     SdList: SDVue['List'];
     SdListItem: SDVue['ListItem'];
     SdListItemMeta: SDVue['ListItemMeta'];

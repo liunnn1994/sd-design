@@ -86,6 +86,10 @@ export const docsSidebar = [
             label: '链接 Link',
           },
           {
+            slug: 'components/markdown-render',
+            label: 'Markdown 渲染 MarkdownRender',
+          },
+          {
             slug: 'components/typography',
             label: '排版 Typography',
           },

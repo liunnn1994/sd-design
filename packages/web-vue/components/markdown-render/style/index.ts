@@ -1,0 +1,10 @@
+import '../../style/index.scss';
+import '../../typography/style/index.scss';
+import '../../link/style/index.scss';
+import '../../image/style/index.scss';
+import '../../checkbox/style/index.scss';
+import '../../divider/style/index.scss';
+import '../../button/style/index.scss';
+import '../../tooltip/style/index.scss';
+import '../../alert/style/index.scss';
+import './index.scss';

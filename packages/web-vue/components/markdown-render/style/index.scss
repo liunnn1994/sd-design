@@ -1,0 +1,88 @@
+@use '@style/theme/index.scss' as theme;
+@use './token.scss' as *;
+@use './upstream.css';
+
+.#{theme.$prefix}-markdown-render {
+  color: $markdown-render-color-text;
+  font-size: $markdown-render-font-size;
+
+  --ms-flow-block-gap: #{$markdown-render-spacing-block};
+  --ms-flow-list-indent: #{$markdown-render-spacing-inset};
+  // 段落不注册 SD 组件（见 nodes/index.ts 的原因），改在这里用 Typography token
+  // 对齐上游原生段落的排版，变量入口走上游公开的 CSS 变量，不重复声明选择器。
+  --ms-text-body: #{$markdown-render-font-size};
+  --ms-leading-body: #{$markdown-render-line-height};
+  --ms-flow-paragraph-y: #{$markdown-render-spacing-block};
+
+  // 与 TypographyParagraph 对齐字号和行高。刻意不覆盖 white-space：上游把正文包在
+  // .text-node（pre-wrap）里，流式增量依赖它保留空白，这里改写会在上游调整包裹
+  // 结构后静默吞掉空格。
+  .paragraph-node {
+    color: inherit;
+    line-height: $markdown-render-line-height;
+    overflow-wrap: anywhere;
+  }
+
+  .#{theme.$prefix}-link {
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  .#{theme.$prefix}-typography {
+    color: inherit;
+  }
+  .#{theme.$prefix}-markdown-render-image {
+    margin: $markdown-render-spacing-block 0;
+    .#{theme.$prefix}-image {
+      max-width: 100%;
+    }
+  }
+
+  blockquote {
+    border-color: $markdown-render-color-border;
+  }
+
+  table {
+    border-color: $markdown-render-color-border;
+  }
+
+  pre,
+  :not(pre) > code {
+    background: $markdown-render-color-surface;
+    border-radius: $markdown-render-border-radius;
+  }
+}
+
+.#{theme.$prefix}-markdown-render-link-loading {
+  position: relative;
+  display: inline-block;
+
+  &-indicator {
+    position: absolute;
+    right: 0;
+    bottom: var(--sd-markdown-link-underline-bottom);
+    left: 0;
+    height: var(--sd-markdown-link-underline-height);
+    background: currentcolor;
+    opacity: var(--sd-markdown-link-rest-opacity);
+    animation: sd-markdown-link-pulse var(--sd-markdown-link-duration)
+      var(--sd-markdown-link-timing) var(--sd-markdown-link-iteration);
+  }
+}
+
+@keyframes sd-markdown-link-pulse {
+  0%,
+  100% {
+    opacity: var(--sd-markdown-link-rest-opacity);
+  }
+
+  50% {
+    opacity: var(--sd-markdown-link-opacity);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .#{theme.$prefix}-markdown-render-link-loading-indicator {
+    animation: none;
+  }
+}

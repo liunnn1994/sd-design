@@ -313,6 +313,10 @@
       "value": "var(--sd-color-neutral-4)"
     },
     {
+      "key": "color-fill-1",
+      "value": "var(--sd-color-neutral-1)"
+    },
+    {
       "key": "color-fill-2",
       "value": "var(--sd-color-neutral-2)"
     },
@@ -423,10 +427,6 @@
     {
       "key": "color-border-4",
       "value": "var(--sd-color-neutral-6)"
-    },
-    {
-      "key": "color-fill-1",
-      "value": "var(--sd-color-neutral-1)"
     },
     {
       "key": "color-fill-3",
@@ -8762,6 +8762,59 @@
           "name": "list-size-medium-padding-horizontal-item",
           "value": "var(--component-list-list-size-default-padding-horizontal-item, var(--component-list-size-default-padding-horizontal-item, var(--spacing-8, 20px)))",
           "dependencies": []
+        }
+      ]
+    },
+    {
+      "name": "markdown-render",
+      "tokens": [
+        {
+          "key": "markdown-render-color-text",
+          "name": "markdown-render-color-text",
+          "value": "var(--color-text-1, var(--sd-color-text-1, var(--sd-color-neutral-10)))",
+          "dependencies": ["color-text-1"]
+        },
+        {
+          "key": "markdown-render-color-border",
+          "name": "markdown-render-color-border",
+          "value": "var(--color-border-2, var(--sd-color-border-2, var(--sd-color-neutral-3)))",
+          "dependencies": ["color-border-2"]
+        },
+        {
+          "key": "markdown-render-color-surface",
+          "name": "markdown-render-color-surface",
+          "value": "var(--color-fill-1, var(--sd-color-fill-1, var(--sd-color-neutral-1)))",
+          "dependencies": ["color-fill-1"]
+        },
+        {
+          "key": "markdown-render-font-size",
+          "name": "markdown-render-font-size",
+          "value": "var(--font-size-body-3, 14px)",
+          "dependencies": ["font-size-body-3"]
+        },
+        {
+          "key": "markdown-render-line-height",
+          "name": "markdown-render-line-height",
+          "value": "1.5715",
+          "dependencies": ["line-height-base"]
+        },
+        {
+          "key": "markdown-render-spacing-block",
+          "name": "markdown-render-spacing-block",
+          "value": "var(--spacing-4, 8px)",
+          "dependencies": ["spacing-4"]
+        },
+        {
+          "key": "markdown-render-spacing-inset",
+          "name": "markdown-render-spacing-inset",
+          "value": "var(--spacing-6, 12px)",
+          "dependencies": ["spacing-6"]
+        },
+        {
+          "key": "markdown-render-border-radius",
+          "name": "markdown-render-border-radius",
+          "value": "var(--border-radius-medium, 6px)",
+          "dependencies": ["border-radius-medium"]
         }
       ]
     },

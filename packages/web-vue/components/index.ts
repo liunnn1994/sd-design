@@ -401,6 +401,15 @@ export { default as Link } from './link';
 export type { LinkInstance, LinkProps } from './link';
 export { default as List, ListItem, ListItemMeta } from './list';
 export type { ListInstance, ListItemInstance, ListItemMetaInstance } from './list';
+export { default as MarkdownRender } from './markdown-render';
+export type {
+  MarkdownRenderInstance,
+  MarkdownRenderProps,
+  MarkdownRenderEmits,
+  MarkdownRenderSlots,
+  MarkdownRenderMethods,
+} from './markdown-render';
+export * from './markdown-render/upstream';
 export { default as Mention } from './mention';
 export type { MentionInstance } from './mention';
 export { default as Menu, MenuItem, MenuItemGroup, SubMenu } from './menu';

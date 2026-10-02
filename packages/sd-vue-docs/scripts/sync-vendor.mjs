@@ -250,7 +250,10 @@ async function bundleVendorDependencies(vendorDependencyOutputs) {
       logLevel: 'silent',
       write: true,
       output: {
-        file: outfile,
+        dir: path.dirname(outfile),
+        entryFileNames: path.basename(outfile),
+        chunkFileNames: 'chunks/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash][extname]',
         format: 'esm',
       },
     });

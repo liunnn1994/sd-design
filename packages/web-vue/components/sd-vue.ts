@@ -55,6 +55,7 @@ import Layout, { LayoutHeader, LayoutContent, LayoutFooter, LayoutSider } from '
 import Link from './link';
 import List, { ListItem, ListItemMeta } from './list';
 import { addI18nMessages, useLocale, getLocale } from './locale';
+import MarkdownRender from './markdown-render';
 import Mention from './mention';
 import Menu, { MenuItem, MenuItemGroup, SubMenu } from './menu';
 import Message from './message';
@@ -112,6 +113,7 @@ import Watermark from './watermark';
 const components: Record<string, Plugin> = {
   Button,
   Link,
+  MarkdownRender,
   Typography,
   Divider,
   Grid,

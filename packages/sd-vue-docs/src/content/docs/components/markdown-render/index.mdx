@@ -1,0 +1,222 @@
+---
+title: Markdown 渲染 MarkdownRender
+description: 使用 SD 主题显示 Markdown、流式内容与自定义节点。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import BasicDemo from '../../../../components/generated/markdown-render/basic.vue';
+import basicSource from '../../../../components/generated/markdown-render/basic.vue?raw';
+import StreamingDemo from '../../../../components/generated/markdown-render/streaming.vue';
+import streamingSource from '../../../../components/generated/markdown-render/streaming.vue?raw';
+import CustomDemo from '../../../../components/generated/markdown-render/custom.vue';
+import customSource from '../../../../components/generated/markdown-render/custom.vue?raw';
+import HtmlDemo from '../../../../components/generated/markdown-render/html.vue';
+import htmlSource from '../../../../components/generated/markdown-render/html.vue?raw';
+import CodeDemo from '../../../../components/generated/markdown-render/code.vue';
+import codeSource from '../../../../components/generated/markdown-render/code.vue?raw';
+import ThemeDemo from '../../../../components/generated/markdown-render/theme.vue';
+import themeSource from '../../../../components/generated/markdown-render/theme.vue?raw';
+import UpstreamDemo from '../../../../components/generated/markdown-render/upstream.vue';
+import upstreamSource from '../../../../components/generated/markdown-render/upstream.vue?raw';
+import LongDocumentDemo from '../../../../components/generated/markdown-render/long-document.vue';
+import longDocumentSource from '../../../../components/generated/markdown-render/long-document.vue?raw';
+
+从 Markstream 迁移时，将包名替换为 `@sdata/web-vue`，模板使用 `SdMarkdownRender`（全量插件）或命名导入 `MarkdownRender`。保留 `content`、`nodes`、流式配置、事件和实例方法。
+
+样式通过现有 SD 全量样式或 `@sdata/web-vue/es/markdown-render/style/index.js` 接入。请删除原来单独导入的 Markstream CSS，基础样式已纳入组件库的 CSS 层。
+
+### 基本排版
+
+覆盖六级标题、富内联、转义与换行、链接、引用、嵌套列表、任务项、表格、图片、分隔线、脚注、提示块、命名容器和原始 HTML；补充 `nodes` 方式的定义列表、emoji、引用编号与复选框节点，以及代码、数学和三种图表节点。数学和图表需要对应可选 peer/loader；未配置时展示上游降级状态。自定义业务节点的完整覆盖方式见下方「覆盖节点与嵌入 SD 组件」。
+
+<DemoBlock source={basicSource} mainFile="src/markdown-render-basic.vue">
+
+<BasicDemo client:only="vue" />
+
+</DemoBlock>
+
+### 追加流式内容
+
+以《临江仙·滚滚长江东逝水》为内容，分六次追加诗词、引用、列表、表格、代码与脚注。加粗标记和代码围栏跨批次闭合，仅最后一批将 `final` 设为 true；重置后可重新观察完整过程。
+
+<DemoBlock source={streamingSource} mainFile="src/markdown-render-streaming.vue">
+
+<StreamingDemo client:only="vue" />
+
+</DemoBlock>
+
+### 长文档与虚拟化
+
+300 段长文档（标题、段落、列表，每 25 节插入一个代码块），在固定高度滚动容器内开启 `nodeVirtual` 与 `virtualScroll`。切换「SD 封装 / 上游原生」对比：两种引擎的**文档节点总数**和**实际挂载节点**一致，**嵌套渲染器恒为 0**。
+
+这条对比是组件库刻意维护的边界。上游对列表项里的段落有两条路径——映射表里没有 `paragraph` 键时走轻量行内渲染，只要出现该键（无论映射到哪个组件）就退化为给每个列表项创建一个嵌套渲染器，带来约 2/3 的额外 DOM、撑破 `maxLiveNodes` / `liveNodeBuffer` 预算，并让嵌套的 `data-node-index` 与父级索引空间冲突。因此段落保留上游原生 `p.paragraph-node`，只由组件库用正文 token 对齐观感；标题、引用、链接、图片、复选框、行内代码、分隔线、提示块和原始 HTML 仍使用 SD 组件——这些键不触发该分支。回归用例见 `__test__/perf.cy.ts`。
+
+<DemoBlock source={longDocumentSource} mainFile="src/markdown-render-long-document.vue">
+
+<LongDocumentDemo client:only="vue" />
+
+</DemoBlock>
+
+### 覆盖节点与嵌入 SD 组件
+
+用 SD 组件覆盖 TypeScript 与 JSON 代码节点，显示语言标签、代码正文和可展开的节点信息，周围的诗词和引用仍使用默认渲染。调用方显式映射优先于默认适配；卸载时注销自己创建的作用域。
+
+<DemoBlock source={customSource} mainFile="src/markdown-render-custom.vue">
+
+<CustomDemo client:only="vue" />
+
+</DemoBlock>
+
+### 原始 HTML
+
+对同一份诗词 HTML 切换 safe、trusted 和 escape，比较标题、段落、链接、引用与按钮的处理。按钮仅在显式 trusted、且上游清理后仍保留该标签时适配；escape 显示字面内容。
+
+<DemoBlock source={htmlSource} mainFile="src/markdown-render-html.vue">
+
+<HtmlDemo client:only="vue" />
+
+</DemoBlock>
+
+### 代码、图表与数学
+
+展示诗词数据的 TypeScript 与 JSON 代码、Mermaid 阅读流程，以及行内和块级数学公式。使用轻量代码节点，保留复制事件；图表和数学沿用可选依赖的加载方式，未配置时显示原有降级内容。
+
+<DemoBlock source={codeSource} mainFile="src/markdown-render-code.vue">
+
+<CodeDemo client:only="vue" />
+
+</DemoBlock>
+
+#### 图表与数学的可选依赖
+
+组件库**不依赖**任何图表或公式引擎。`markstream-vue` 把它们全部声明为 optional peer，未安装时对应代码块降级为展示源码，Markdown 渲染的其余部分不受影响。需要哪种能力就在业务项目里安装哪种：
+
+| 能力     | 包                  | 装上后是否需要配置                            |
+| -------- | ------------------- | --------------------------------------------- |
+| Mermaid  | `mermaid`           | 否，装上即用（默认已启用）                    |
+| 数学公式 | `katex`             | 否，装上即用（默认已启用）                    |
+| D2       | `@terrastruct/d2`   | 否，装上即用（默认已启用）                    |
+| 信息图   | `@antv/infographic` | **是**，默认关闭且无自动加载，必须提供 loader |
+
+前三者由上游在检测到包后动态 `import()`。信息图既默认关闭、也没有自动加载兜底，需要显式提供 loader（同样从 `@sdata/web-vue` 导入）：
+
+```bash
+pnpm add mermaid katex @terrastruct/d2 @antv/infographic
+```
+
+```ts
+import { setInfographicLoader } from '@sdata/web-vue';
+
+setInfographicLoader(() => import('@antv/infographic'));
+```
+
+两点需要注意：
+
+- **前三者是隐式启用的。** 一旦业务项目装了 `mermaid`，Markdown 就会开始渲染图表并把它打进产物，没有额外开关。不需要时用 `disableMermaid()`（同理 `disableKatex()` / `disableD2()`）显式关闭，或用自己的 loader 覆盖默认行为。
+- **没有任何 CDN 或自动下载行为。** 组件库不注入脚本、不发起外部请求；完全离线可用。
+
+本页示例之所以能真实出图，是因为文档站作为消费方安装了上述四个包——组件库本身依旧零可选依赖。
+
+### 跟随主题
+
+在独立背景中对照诗词、富内联、引用、表格、任务项和提示块的明暗颜色。最近的 ThemeProvider 控制默认明暗；显式 is-dark 优先。容器中的 SD 按钮维持自己的尺寸与交互。
+
+<DemoBlock source={themeSource} mainFile="src/markdown-render-theme.vue">
+
+<ThemeDemo client:only="vue" />
+
+</DemoBlock>
+
+### 直接使用上游组件
+
+直接传入代码和公式节点，再用公开解析器生成完整诗词结构；节点统计和 HTML 标签解析结果显示在示例中。组件、工具与节点类型均由 SD 包提供；公式未配置可选 loader 时保持上游降级行为。
+
+<DemoBlock source={upstreamSource} mainFile="src/markdown-render-upstream.vue">
+
+<UpstreamDemo client:only="vue" />
+
+</DemoBlock>
+
+## API
+
+组件属性与 `markstream-vue@2.0.13` 的 `NodeRendererProps` 完全对应，导出为 `MarkdownRenderProps`。下表列出常用入口，其余代码、图表、性能与虚拟化选项保持上游类型和语义。
+
+| 属性 | 类型 | 说明 | 默认值 |
+| --- | --- | --- | --- |
+| content | string | Markdown 文本，nodes 未传时解析 | — |
+| nodes | BaseNode[] | 已解析节点，优先于 content | — |
+| final | boolean | 内容是否传输完成 | false |
+| parse-options | ParseOptions | 组合使用上游解析配置及 hooks | — |
+| custom-markdown-it | (md: MarkdownIt) => MarkdownIt | 扩展 MarkdownIt 实例 | — |
+| debug-performance | boolean | 性能调试开关 | false |
+| custom-html-tags | readonly string[] | 调用方自定义 HTML 标签 | — |
+| mode | docs / chat / minimal | 展示与性能预设 | docs |
+| dom-mode | full / minimal | 节点 DOM 模式 | full |
+| html-policy | safe / trusted / escape | HTML 信任策略 | safe |
+| viewport-priority | boolean | 优先调度视口节点 | 上游自动选择 |
+| viewport-priority-options | MarkstreamViewportPriorityOptions | 视口调度配置 | — |
+| code-block-stream | boolean | 代码流式更新 | true |
+| code-block-dark-theme / code-block-light-theme | CodeBlockTheme | 代码增强主题 | — |
+| render-code-blocks-as-pre | boolean | 轻量代码展示 | false |
+| code-block-min-width / code-block-max-width | string / number | 代码块宽度约束 | — |
+| code-block-options | CodeBlockOptions | 代码渲染器配置 | — |
+| code-block-props | NodeRendererProps[codeBlockProps] | 代码节点展示与工具栏属性 | — |
+| mermaid-props / d2-props / infographic-props | 对应节点的 Partial Props | 图表展示及工具栏配置 | — |
+| show-tooltips | boolean | 节点提示 | 按 mode |
+| themes | CodeBlockThemes | 代码主题组合 | — |
+| is-dark | boolean | 显式主题优先于最近 SD 主题容器 | SD 主题 |
+| custom-id | string | 调用方已注册的节点映射作用域 | — |
+| index-key | string / number | 节点会话键前缀 | — |
+| typewriter | boolean / simple / precise | 打字机显示方式 | false |
+| smooth-streaming | boolean / auto | 平滑流式更新 | auto |
+| smooth-streaming-options | SmoothMarkdownStreamOptions | 平滑流控制配置 | — |
+| parse-coalesce-ms | number | 解析合并间隔 | 上游默认 |
+| fade | boolean | 节点淡入 | 按 mode |
+| batch-rendering | boolean | 分批渲染 | true |
+| initial-render-batch-size | number | 首批渲染节点数 | 按 mode |
+| render-batch-size | number | 后续批次节点数 | 按 mode |
+| render-batch-delay | number | 批次间隔毫秒 | 按 mode |
+| render-batch-budget-ms | number | 批次工作预算 | 按 mode |
+| render-batch-idle-timeout-ms | number | 空闲回调等待上限 | 按 mode |
+| defer-nodes-until-visible | boolean | 视口外节点延迟激活 | true |
+| max-live-nodes | number | 活动节点数限制 | 按 mode |
+| live-node-buffer | number | 活动范围缓冲 | 按 mode |
+| node-virtual | boolean / auto | 节点虚拟化 | auto |
+| virtual-scroll | MarkstreamVirtualScrollOptions | 独立虚拟滚动会话配置 | — |
+| render-as-fragment | boolean | 不创建上游根容器 | false |
+
+### 事件
+
+普通模式与 `render-as-fragment` 模式均保留鼠标事件，每次操作只转发一次。
+
+| 事件                                        | 参数                                    |
+| ------------------------------------------- | --------------------------------------- |
+| copy、copy-code                             | code: string                            |
+| click                                       | event: MouseEvent, referenceId?: string |
+| mouseover、mouseout                         | event: MouseEvent                       |
+| handleArtifactClick                         | CodeBlockPreviewPayload                 |
+| virtual-state-change                        | MarkstreamVirtualState                  |
+| height-change、render-settled、render-final | MarkstreamVirtualMetrics                |
+| anchor-change                               | MarkstreamVirtualAnchor                 |
+
+### 插槽
+
+锁定版本的根渲染器没有公开插槽，因此 `SdMarkdownRender` 不接受具名插槽。代码块的 `header-left`、`header-center`、`header-right` 属于 `CodeBlockNode` 等节点组件自身，只能通过 `setCustomComponents` 整体替换对应节点组件来接管，替换后需自行实现复制、折叠、预览和字号等动作。图片节点适配保留了上游的 `placeholder` 与 `error` 插槽。
+
+### 实例方法
+
+`getVirtualMetrics`、`captureVirtualState`、`restoreVirtualState`、`forceMeasure`、`settle`、`scrollToNode` 保留上游参数及返回类型。
+
+### 其他公开入口
+
+上游其余组件、运行时配置和类型可直接从 SD 根入口引入，例如 `MathBlockNode`、`CodeBlockNode`、`setCustomComponents`、`CodeBlockNodeProps`。SD 的 `Tooltip` 保持原义，上游 Tooltip 的根入口名称为 `MarkstreamTooltip`。
+
+需要完整保留上游名称或默认导出时使用 `@sdata/web-vue/markstream`；上游 `utils`、`tailwind` 和 worker 子路径对应 `@sdata/web-vue/markstream/<原子路径>`。这些直接导出的组件保持原行为，SD 默认节点适配仅作用于 `MarkdownRender`。
+
+### 适配边界
+
+标题使用 TypographyTitle，引用块使用 TypographyParagraph 的引用模式。段落保留上游原生节点、用 SD 正文 token 对齐观感，原因见上方「长文档与虚拟化」。Strong/Emphasis 保留 strong/em 语义，表格保留原生 table 的对齐、富内容与流式状态。代码、公式、图表和脚注继续使用上游引擎。
+
+**代码块工具栏无法通过 `MarkdownRender` 定制。** 锁定版本的根渲染器不提供任何插槽，上游也不把 `header-left` / `header-center` / `header-right` 传给节点组件——插槽只存在于 `CodeBlockNode` 自身。因此复制、折叠、展开、预览和字号控制保持上游原控件（用 SD token 统一外观）。需要自定义头部时，请整体替换 `code_block` 节点组件（见「覆盖节点与嵌入 SD 组件」），并自行保留上述动作；`SdMarkdownRender` 不会转发节点级插槽。
+
+原始 HTML 的未完成节点、自定义业务标签和 escape 内容继续交给上游 HTML 节点。适配不执行 HTML 内联事件，不自动增加信任标签，不切换到 trusted，也不覆盖调用方解析 hooks。

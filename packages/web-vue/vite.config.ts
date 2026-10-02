@@ -142,7 +142,12 @@ function createModuleBuildConfig(): UserConfig {
       minify: false,
       reportCompressedSize: false,
       rollupOptions: {
-        input: ['components/index.ts', ...langFiles],
+        input: [
+          'components/index.ts',
+          'components/markdown-render/upstream.ts',
+          ...globSync('components/markdown-render/compat/**/*.{ts,js}', { posix: true }),
+          ...langFiles,
+        ],
         output: {
           format: 'es',
           dir: 'es',
@@ -246,15 +251,23 @@ async function emitStyleArtifacts(log?: (message: string) => void) {
     'utf8',
   );
   const withOverlayScrollbarsCss = (css: string) => `${overlayScrollbarsCss}\n${css}`;
-  const files = globSync('**/*.{scss,js}', {
-    cwd: componentsRoot,
-    posix: true,
-  });
+  const files = [
+    ...globSync('**/*.{scss,js}', {
+      cwd: componentsRoot,
+      posix: true,
+    }),
+    // 只有 markdown-render 需要把已生成的 .css 当作样式源随包发布。
+    ...globSync('markdown-render/style/*.css', {
+      cwd: componentsRoot,
+      posix: true,
+    }),
+  ];
   const styleEntries = globSync('**/style/index.ts', {
     cwd: componentsRoot,
     posix: true,
   }).map((filename) => filename.replace(/\.ts$/, '.scss'));
-  const styleEntrySet = new Set(styleEntries);
+  // 基础样式目录只有 style/index.scss，没有配套的 style/index.ts。
+  const styleEntrySet = new Set([...styleEntries, 'style/index.scss']);
   let compiledStyleEntryCount = 0;
 
   log?.(

@@ -91,3 +91,7 @@ pnpm run check:ci
 ## 📜 许可与规范
 
 本项目遵循 [AGPL-3.0-only](LICENSE) 开源协议。如需贡献代码，请阅读 [CONTRIBUTING.md](CONTRIBUTING.md) 和 [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)。
+
+### Markdown 渲染
+
+`MarkdownRender`（全量注册名 `SdMarkdownRender`）基于精确锁定的 `markstream-vue@2.0.13`。保留解析、流式、虚拟化和可选图表/数学引擎，默认在组件子树内使用 SD 标题、段落、链接、图片与任务项。公共上游 API 和类型可从 SD 根入口导入；同名 Tooltip 使用 `MarkstreamTooltip`，完整原名入口为 `@sdata/web-vue/markstream`。样式沿用现有全量或按需接入方式，基础 CSS 已包含，不再单独导入 Markstream CSS。详见 [Markdown 文档](packages/sd-vue-docs/src/content/docs/components/markdown-render/index.mdx) 和 [兼容清单](packages/web-vue/components/markdown-render/COMPATIBILITY.md)。

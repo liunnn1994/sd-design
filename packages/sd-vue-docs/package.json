@@ -20,14 +20,18 @@
     "docs:vendor:only": "node ./scripts/sync-vendor.mjs"
   },
   "dependencies": {
+    "@antv/infographic": "0.2.20",
     "@astrojs/mdx": "^8.0.2",
     "@astrojs/starlight": "^0.42.4",
     "@astrojs/vue": "^7.0.3",
     "@sdata/web-vue": "workspace:*",
     "@tailwindcss/vite": "^4.3.3",
+    "@terrastruct/d2": "0.1.33",
     "@vue/repl": "^4.7.2",
     "@vueuse/core": "catalog:",
     "astro": "^7.3.5",
+    "katex": "0.18.9",
+    "mermaid": "12.0.0",
     "sharp": "^0.35.4",
     "shiki": "^4.4.3",
     "tailwindcss": "^4.3.3",

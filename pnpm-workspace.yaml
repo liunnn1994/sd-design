@@ -89,4 +89,16 @@ allowBuilds:
   vue-demi: true
   vue-inbrowser-compiler-demi: true
 minimumReleaseAge: 10080
+# 本仓库自己的工具链：版本由上方 catalog / overrides 精确钉死（含 TNB 桥接包名和
+# vite-plus 平台二进制），不受发布年龄约束。否则 catalog 一旦把版本抬到 7 天内，
+# 任何 pnpm install 都会在全工作区重新解析时失败——已验证 lockfile、catalog 和
+# node_modules 三者会就此不一致，且与新增依赖无关。
+minimumReleaseAgeExclude:
+  - oxlint
+  - oxfmt
+  - vite-plus
+  - '@voidzero-dev/vite-plus*'
+  - typescript-native-bridge
+  - '@typescript-native-bridge/*'
+  - '@types/node'
 trustLockfile: true

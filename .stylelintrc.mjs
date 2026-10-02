@@ -12,6 +12,7 @@ export default {
     'packages/sd-vue-docs/public/vendor/**',
     'packages/sd-vue-docs/src/components/generated/**',
     'packages/web-vue/es/**',
+    'packages/web-vue/components/markdown-render/style/*.css',
     'packages/web-vue/lib/**',
     '**/dist/**',
     'packages/web-vue/components/_components/input-label/style/token.less',
