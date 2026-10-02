@@ -35,7 +35,7 @@ export function useCursor(input: Ref<HTMLInputElement | undefined>): [() => void
     const { value } = input.value;
     const { beforeTxt, afterTxt, selectionStart } = selectionRef.value;
 
-    if (!beforeTxt || !afterTxt || !selectionStart) return;
+    if (beforeTxt === undefined || afterTxt === undefined || selectionStart === undefined) return;
 
     let startPos = value.length;
 
