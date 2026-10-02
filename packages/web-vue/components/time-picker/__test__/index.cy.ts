@@ -156,6 +156,92 @@ describe('TimePicker selection and events', () => {
     cy.get('.sd-picker input').should('have.value', '01:30:00 am');
   });
 
+  for (const hideDisabledOptions of [false, true]) {
+    it(`uses 24-hour values for disabled hours in 12-hour mode (hide=${hideDisabledOptions})`, () => {
+      cy.mount(TimePicker, {
+        props: {
+          defaultValue: '13:30:00',
+          use12Hours: true,
+          defaultPopupVisible: true,
+          disabledHours: () => [0, 12, 14],
+          hideDisabledOptions,
+        },
+      });
+      if (hideDisabledOptions) {
+        cy.get('.sd-timepicker-column').eq(0).contains('li', /^02$/).should('not.exist');
+        cy.get('.sd-timepicker-column').eq(0).contains('li', /^12$/).should('not.exist');
+      } else {
+        cy.get('.sd-timepicker-column')
+          .eq(0)
+          .contains('li', /^02$/)
+          .should('have.class', 'sd-timepicker-cell-disabled')
+          .click({ force: true });
+        cy.get('@vue').should(({ wrapper }) =>
+          expect(wrapper.emitted('select')).to.equal(undefined),
+        );
+        cy.get('.sd-timepicker-column')
+          .eq(0)
+          .contains('li', /^12$/)
+          .should('have.class', 'sd-timepicker-cell-disabled');
+      }
+      cy.get('.sd-timepicker-column').eq(3).contains('li', /^am$/).click();
+      cy.get('.sd-timepicker-column')
+        .eq(0)
+        .contains('li', /^02$/)
+        .should('not.have.class', 'sd-timepicker-cell-disabled');
+      if (hideDisabledOptions) {
+        cy.get('.sd-timepicker-column').eq(0).contains('li', /^12$/).should('not.exist');
+      } else {
+        cy.get('.sd-timepicker-column')
+          .eq(0)
+          .contains('li', /^12$/)
+          .should('have.class', 'sd-timepicker-cell-disabled');
+      }
+    });
+  }
+
+  it('passes the 24-hour selection to disabled minute and second callbacks', () => {
+    cy.mount(TimePicker, {
+      props: {
+        defaultValue: '13:30:00',
+        use12Hours: true,
+        defaultPopupVisible: true,
+        disabledMinutes: (hour) => (hour === 13 ? [45] : []),
+        disabledSeconds: (hour, minute) => (hour === 13 && minute === 30 ? [20] : []),
+      },
+    });
+    cy.get('.sd-timepicker-column')
+      .eq(1)
+      .contains('li', /^45$/)
+      .should('have.class', 'sd-timepicker-cell-disabled');
+    cy.get('.sd-timepicker-column')
+      .eq(2)
+      .contains('li', /^20$/)
+      .should('have.class', 'sd-timepicker-cell-disabled');
+    cy.get('.sd-timepicker-column').eq(3).contains('li', /^am$/).click();
+    cy.get('.sd-timepicker-column')
+      .eq(1)
+      .contains('li', /^45$/)
+      .should('not.have.class', 'sd-timepicker-cell-disabled');
+    cy.get('.sd-timepicker-column')
+      .eq(2)
+      .contains('li', /^20$/)
+      .should('not.have.class', 'sd-timepicker-cell-disabled');
+  });
+
+  it('ignores bracketed literal text when choosing time columns', () => {
+    cy.mount(TimePicker, {
+      props: {
+        format: 'HH:mm [seconds]',
+        defaultValue: '13:30 seconds',
+        defaultPopupVisible: true,
+      },
+    });
+    cy.get('.sd-timepicker-column').should('have.length', 2);
+    cy.get('.sd-timepicker-column').first().find('li').should('have.length', 24);
+    cy.get('.sd-picker input').should('have.value', '13:30 seconds');
+  });
+
   it('applies step intervals to the hour, minute and second columns', () => {
     cy.mount(TimePicker, {
       props: { step: { hour: 2, minute: 10, second: 15 }, defaultPopupVisible: true },
@@ -226,6 +312,7 @@ describe('TimePicker input and clear', () => {
     });
     // 清除图标依赖 CSS :hover 显示（合成事件无法触发），使用 force click
     cy.get('.sd-picker-clear-icon').click({ force: true });
+    cy.get('@vue').should(({ wrapper }) => expect(wrapper.emitted('clear')).to.deep.equal([[]]));
     cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(1);
       expect(spy.lastCall.args[0]).to.equal(undefined);

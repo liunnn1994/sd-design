@@ -6,11 +6,12 @@ import { isArray, isUndefined, isDayjs } from '../../_utils/is';
 import { TimePickerProps } from '../interface';
 
 export function getColumnsFromFormat(format: string) {
+  const tokens = format.replace(/\[[^\]]*]/g, '');
   const units = ['H', 'h', 'm', 's', 'a', 'A'];
   const list: string[] = [];
   let use12Hours = false;
   units.forEach((unit) => {
-    if (format.indexOf(unit) !== -1) {
+    if (tokens.indexOf(unit) !== -1) {
       list.push(unit);
       if (unit === 'a' || unit === 'A') {
         use12Hours = true;
@@ -23,7 +24,7 @@ export function getColumnsFromFormat(format: string) {
   };
 }
 
-const scrollIds = new Map<HTMLElement, number>();
+const scrollIds = new WeakMap<HTMLElement, number>();
 
 export function scrollTo(element: HTMLElement, to: number, duration: number) {
   const scrollId = scrollIds.get(element);

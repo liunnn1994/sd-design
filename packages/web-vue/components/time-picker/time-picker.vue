@@ -630,6 +630,7 @@
     e.stopPropagation();
     setPanelValue(undefined);
     confirm(undefined, isRange.value);
+    emit('clear');
   }
 
   // 1. 每次打开关闭重新赋值 panelValue

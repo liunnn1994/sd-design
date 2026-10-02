@@ -44,6 +44,12 @@ export default function useTimeList(props: TimeListProps): {
     disabled,
   } = toRefs(props);
 
+  const getHour = (hour: number) =>
+    use12Hours.value ? (hour % 12) + (selectedAmpm.value === 'pm' ? 12 : 0) : hour;
+  const selectedHour24 = computed(() =>
+    selectedHour.value === undefined ? undefined : getHour(selectedHour.value),
+  );
+
   // 小时
   const hours = computed(() => {
     const { hour: hourStep = 1 } = step?.value || {};
@@ -56,20 +62,20 @@ export default function useTimeList(props: TimeListProps): {
       list[0] = 12;
     }
     if (hideDisabledOptions.value && disabledList.length) {
-      list = list.filter((h) => disabledList.indexOf(h) < 0);
+      list = list.filter((h) => disabledList.indexOf(getHour(h)) < 0);
     }
     return list.map((h) => ({
       label: padStart(h, 2, '0'),
       value: h,
       selected: selectedHour.value === h,
-      disabled: disabled?.value || disabledList.includes(h),
+      disabled: disabled?.value || disabledList.includes(getHour(h)),
     }));
   });
 
   // 分钟
   const minutes = computed(() => {
     const { minute: minuteStep = 1 } = step?.value || {};
-    const disabledList = disabledMinutes?.value?.(selectedHour.value) || [];
+    const disabledList = disabledMinutes?.value?.(selectedHour24.value) || [];
     let list = [];
     for (let i = 0; i < 60; i += minuteStep) {
       list.push(i);
@@ -88,7 +94,7 @@ export default function useTimeList(props: TimeListProps): {
   // 秒
   const seconds = computed(() => {
     const { second: secondStep = 1 } = step?.value || {};
-    const disabledList = disabledSeconds?.value?.(selectedHour.value, selectedMinute.value) || [];
+    const disabledList = disabledSeconds?.value?.(selectedHour24.value, selectedMinute.value) || [];
     let list = [];
     for (let i = 0; i < 60; i += secondStep) {
       list.push(i);
