@@ -30,7 +30,7 @@
       role="button"
       tabindex="0"
       :aria-label="t('a11y.remove')"
-      @click="handleRemove"
+      @click.stop="handleRemove"
       @keydown="handleRemoveKeydown"
     >
       <IconHover>

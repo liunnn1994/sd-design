@@ -265,6 +265,38 @@ describe('Transfer', () => {
     cy.get('.custom-left-icon').should('exist');
   });
 
+  it('keeps one-way target items when the disabled clear control is clicked', () => {
+    cy.mount(Transfer, {
+      props: { data, oneWay: true, disabled: true, defaultValue: ['option1'] },
+    });
+    cy.get('.sd-transfer-view-target .sd-transfer-view-header-clear-btn').click();
+    cy.get('.sd-transfer-view-target .sd-transfer-list-item').should('have.length', 1);
+    cy.get('@vue').should(({ wrapper }) => expect(wrapper.emitted('change')).to.equal(undefined));
+  });
+
+  for (const selected of [['disabled'], [...data.map((item) => item.value), 'disabled']]) {
+    it(`computes select-all status from enabled selected items (${selected.length} selected)`, () => {
+      cy.mount(Transfer, {
+        props: {
+          data: [...data, { value: 'disabled', label: 'Disabled', disabled: true }],
+          defaultSelected: selected,
+        },
+      });
+      cy.get('.sd-transfer-view-source .sd-transfer-view-header .sd-checkbox')
+        .should(selected.length > 1 ? 'have.class' : 'not.have.class', 'sd-checkbox-checked')
+        .and('not.have.class', 'sd-checkbox-indeterminate');
+    });
+  }
+
+  it('removes an item only once in simple one-way mode', () => {
+    cy.mount(Transfer, { props: { data, simple: true, oneWay: true, defaultValue: ['option1'] } });
+    cy.get('.sd-transfer-list-item-remove-btn').click();
+    cy.get('.sd-transfer-view-target .sd-transfer-list-item').should('not.exist');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')).to.deep.equal([[[]]]);
+    });
+  });
+
   it('disables item checkboxes and operation buttons when disabled', () => {
     cy.mount(Transfer, { props: { data, disabled: true } });
     cy.get('.sd-transfer').should('have.class', 'sd-transfer-disabled');

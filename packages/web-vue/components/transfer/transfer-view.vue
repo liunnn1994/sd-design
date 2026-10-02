@@ -133,13 +133,13 @@
 
   const checked = computed(
     () =>
-      props.dataInfo.selected.length > 0 &&
-      props.dataInfo.selected.length === props.dataInfo.allValidValues.length,
+      props.dataInfo.validSelected.length > 0 &&
+      props.dataInfo.validSelected.length === props.dataInfo.allValidValues.length,
   );
   const indeterminate = computed(
     () =>
-      props.dataInfo.selected.length > 0 &&
-      props.dataInfo.selected.length < props.dataInfo.allValidValues.length,
+      props.dataInfo.validSelected.length > 0 &&
+      props.dataInfo.validSelected.length < props.dataInfo.allValidValues.length,
   );
 
   const handleSelectAllChange = (value: boolean | (string | number | boolean)[]) => {
@@ -168,6 +168,7 @@
   };
 
   const handleClear = () => {
+    if (props.disabled) return;
     transferCtx?.moveTo(props.dataInfo.allValidValues, 'source');
   };
 </script>
