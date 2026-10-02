@@ -1,6 +1,6 @@
 import { nextTick, ref, toRefs, watch, watchEffect } from 'vue';
 
-import { off, on } from '../../_utils/dom';
+import { isServerRendering, off, on } from '../../_utils/dom';
 import getFixTranslate from '../utils/get-fix-translate';
 
 interface ImageDragProps {
@@ -68,6 +68,7 @@ export default function useImageDrag(props: ImageDragProps) {
   };
 
   function offEvents() {
+    if (isServerRendering) return;
     off(window, 'mousemove', onMoving as EventListener, false);
     off(window, 'mouseup', onMoveEnd as EventListener, false);
   }

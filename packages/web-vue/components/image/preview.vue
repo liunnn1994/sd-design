@@ -1,5 +1,5 @@
 <template>
-  <teleport :to="container" :disabled="!renderToBody">
+  <teleport :to="container || 'body'" :disabled="!renderToBody">
     <div :class="classNames" :style="wrapperStyles">
       <transition
         name="image-fade"
@@ -89,7 +89,7 @@
   import usePopupContainer from '../_hooks/use-popup-container';
   import usePopupManager from '../_hooks/use-popup-manager';
   import usePopupOverHidden from '../_hooks/use-popup-overflow-hidden';
-  import { off, on } from '../_utils/dom';
+  import { isServerRendering, off, on } from '../_utils/dom';
   import { getPrefixCls } from '../_utils/global-config';
   import { KEYBOARD_KEY } from '../_utils/keyboard';
   import { throttleByRaf } from '../_utils/throttle-by-raf';
@@ -270,9 +270,12 @@
     },
   ]);
 
-  const container = usePopupContainer(document.body, reactive({ popupContainer }));
+  const container = usePopupContainer(
+    isServerRendering ? undefined : document.body,
+    reactive({ popupContainer }),
+  );
 
-  const isFixed = computed(() => container.value === document.body);
+  const isFixed = computed(() => !isServerRendering && container.value === document.body);
   const { zIndex, close: releasePopup } = usePopupManager('dialog', { visible: mergedVisible });
 
   const wrapperStyles = computed<CSSProperties>(() => {
@@ -360,7 +363,7 @@
   watch(
     [mergedVisible, () => props.keyboard, container],
     ([visible, keyboard, target], _, onCleanup) => {
-      if (!visible || !keyboard) return;
+      if (!visible || !keyboard || !target) return;
       on(target, 'keydown', handleKeyDown);
       onCleanup(() => off(target, 'keydown', handleKeyDown));
     },
