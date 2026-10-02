@@ -561,6 +561,15 @@
     computeIsScroll();
   });
 
+  watch(
+    () => props.autoSize,
+    (autoSize) => {
+      if (autoSize && mirrorRef.value) getMirrorStyle();
+      else if (!autoSize) textareaStyle.value = undefined;
+    },
+    { deep: true, flush: 'post' },
+  );
+
   const handleResize = () => {
     if (props.autoSize && mirrorRef.value) {
       getMirrorStyle();
