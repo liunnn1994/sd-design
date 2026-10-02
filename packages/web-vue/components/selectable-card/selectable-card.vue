@@ -23,7 +23,7 @@
         <div v-if="$slots.title || title" :class="`${prefixCls}-title`">
           <slot name="title">{{ title }}</slot>
         </div>
-        <div v-if="$slots.value || value" :class="`${prefixCls}-value`">
+        <div v-if="$slots.value || value || value === 0" :class="`${prefixCls}-value`">
           <slot name="value">{{ value }}</slot>
         </div>
         <div v-if="$slots.description || description" :class="`${prefixCls}-description`">
@@ -129,7 +129,8 @@
     toggle();
   }
 
-  function handleInputChange() {
+  function handleInputChange(event: Event) {
     toggle();
+    (event.target as HTMLInputElement).checked = isSelected;
   }
 </script>
