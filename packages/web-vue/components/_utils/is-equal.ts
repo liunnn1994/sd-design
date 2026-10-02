@@ -5,10 +5,12 @@ export const isEqualObject = (
   if (!obj || !other) {
     return false;
   }
-  if (obj.length !== other.length) {
+  const keys = Object.keys(obj);
+  if (keys.length !== Object.keys(other).length) {
     return false;
   }
-  for (const key of Object.keys(obj)) {
+  for (const key of keys) {
+    if (!Object.hasOwn(other, key)) return false;
     const result = isEqual(obj[key], other[key]);
     if (!result) return false;
   }
