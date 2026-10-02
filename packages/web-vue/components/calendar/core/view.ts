@@ -123,6 +123,7 @@ export const useView = (
   }
 
   function initTimeTicker() {
+    if (typeof window === 'undefined') return;
     clearTimeout(timeTickerId);
     now.value = new Date();
     // Snap the time ticker on round minutes (when seconds = 0), so that we can set

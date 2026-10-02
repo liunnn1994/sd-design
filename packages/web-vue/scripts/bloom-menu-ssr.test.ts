@@ -1,4 +1,3 @@
-import { renderToString } from '@vue/server-renderer';
 import { createSSRApp, h } from 'vue';
 
 import vue from '@vitejs/plugin-vue';
@@ -7,6 +6,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { test } from 'node:test';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { build } from 'vite';
+import { renderToString } from 'vue/server-renderer';
 
 test('BloomMenu renders on the server in closed and open states', async () => {
   const component = fileURLToPath(
