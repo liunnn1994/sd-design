@@ -140,7 +140,7 @@
   const alpha = toRef(props, 'alpha');
   const grayscale = toRef(props, 'grayscale');
   const prefixCls = getPrefixCls('watermark');
-  const ratio = window.devicePixelRatio || 1;
+  const ratio = typeof window === 'undefined' ? 1 : window.devicePixelRatio || 1;
   const containerRef = shallowRef<HTMLDivElement>();
   const watermarkMap = ref(new Map<HTMLDivElement, HTMLDivElement>());
 

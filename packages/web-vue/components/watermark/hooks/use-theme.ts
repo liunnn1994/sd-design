@@ -19,8 +19,9 @@ export const useTheme = (callback?: () => void) => {
     return element.getAttribute(THEME_TOKEN) === Theme.Dark ? Theme.Dark : Theme.Light;
   };
 
+  const body = typeof document === 'undefined' ? undefined : document.body;
   useMutationObserver(
-    document.body,
+    body,
     (mutations) => {
       for (const mutation of mutations) {
         if (mutation.type === 'attributes' && mutation.attributeName === THEME_TOKEN) {
@@ -39,7 +40,7 @@ export const useTheme = (callback?: () => void) => {
     },
   );
 
-  setTheme(getTheme(document.body));
+  if (body) setTheme(getTheme(body));
 
   return {
     theme,
