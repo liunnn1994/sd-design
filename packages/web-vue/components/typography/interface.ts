@@ -33,8 +33,8 @@ export interface EllipsisConfig {
 
 export interface EllipsisInternalConfig extends Required<EllipsisConfig> {
   showTooltip: boolean;
-  TooltipComponent: any;
-  tooltipProps: { [key: string]: any };
+  TooltipComponent: import('vue').Component;
+  tooltipProps: { [key: string]: unknown };
 }
 
 export interface EllipsisProps {

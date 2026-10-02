@@ -207,7 +207,7 @@
     'update:modelValue': (_value: string) => true,
     'change': (_value: string) => true,
     'search': (_value: string, _prefix: string) => true,
-    'select': (_value: string | number | Record<string, any> | undefined) => true,
+    'select': (_value: string | number | Record<string, unknown> | undefined) => true,
     'clear': (_event: Event) => true,
     'focus': (_event: FocusEvent) => true,
     'blur': (_event: FocusEvent) => true,
@@ -287,7 +287,7 @@
       (!tail || tail.startsWith(props.split) || tail.startsWith('\n') ? '' : props.split) + tail;
     const nextValue = `${head}${measureInfo.value.prefix}${value}${tail}`;
     innerValue.value = nextValue;
-    emit('select', value as string | number | Record<string, any> | undefined);
+    emit('select', value as string | number | Record<string, unknown> | undefined);
     emit('update:modelValue', nextValue);
     emit('change', nextValue);
     resetMeasureInfo();

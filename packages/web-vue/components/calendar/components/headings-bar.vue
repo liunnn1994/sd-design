@@ -121,7 +121,7 @@
       });
   });
 
-  const headingCell = (day: any) => ({
+  const headingCell = (day: { date: Date; isToday: boolean }) => ({
     start: day.date,
     end: new Date(day.date.getTime() + 24 * 60 * 60 * 1000 - 1),
     isToday: day.isToday,

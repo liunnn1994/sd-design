@@ -1,4 +1,4 @@
-import { renderLlmsIndex } from '../core.mjs';
+import { renderLlmsIndex } from '../core.ts';
 
 export async function GET({ site }: { site?: URL }) {
   const body = await renderLlmsIndex({ siteUrl: site?.toString() });

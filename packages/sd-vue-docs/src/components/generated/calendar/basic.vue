@@ -108,7 +108,10 @@
     },
   ];
 
-  const onEventAction = (action: string, event: any) => {
+  const onEventAction = (
+    action: string,
+    event: import('../../../../../web-vue/components/calendar/types').CalendarEvent,
+  ) => {
     statusMsg.value = `${action}了事件「${event.title ?? '新事件'}」`;
   };
 </script>

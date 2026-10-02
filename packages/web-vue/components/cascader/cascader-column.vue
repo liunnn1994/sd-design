@@ -93,7 +93,8 @@
 
   const prefixCls = getPrefixCls('cascader');
   const configCtx = inject(configProviderInjectionKey, undefined);
-  const virtualListRef = ref<InstanceType<typeof VirtualList>>();
+  const virtualListRef =
+    ref<import('vue-component-type-helpers').ComponentExposed<typeof VirtualList>>();
   const isVirtual = computed(() => Boolean(props.virtualListProps));
   const [DefineOption, ReuseOption] = createReusableTemplate<{
     item: CascaderOptionInfo;

@@ -26,7 +26,7 @@ describe('DatePicker custom trigger', () => {
     cy.mount(DatePicker, {
       props: { defaultValue: '2026-07-28' },
       slots: {
-        trigger: (scope: any) =>
+        trigger: (scope: import('../interface').DatePickerTriggerSlotProps) =>
           h(
             'button',
             { class: 'custom-date-trigger' },
@@ -45,7 +45,7 @@ describe('DatePicker custom trigger', () => {
     cy.mount(RangePicker, {
       props: { defaultValue: ['2026-07-01', '2026-07-28'] },
       slots: {
-        trigger: (scope: any) =>
+        trigger: (scope: import('../interface').RangePickerTriggerSlotProps) =>
           h(
             'button',
             { class: 'custom-range-trigger' },
@@ -84,13 +84,13 @@ describe('DatePicker selection and events', () => {
       },
     });
     cy.get('.sd-picker-cell[aria-label="2026-07-15"]').click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(1);
       expect(spy.firstCall.args[0]).to.equal('2026-07-15');
       expect(spy.firstCall.args[1]).to.be.instanceOf(Date);
       expect(spy.firstCall.args[2]).to.equal('2026-07-15');
     });
-    cy.get('@onUpdateModelValue').should((spy: any) => {
+    cy.get('@onUpdateModelValue').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal('2026-07-15');
     });
     cy.get('.sd-picker input').should('have.value', '2026-07-15');
@@ -111,13 +111,13 @@ describe('DatePicker selection and events', () => {
     cy.get('.sd-picker input').click();
     cy.get('.sd-picker-container').should('be.visible');
     cy.get('.sd-picker-cell[aria-label="2026-07-15"]').click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal('2026-07-15');
     });
-    cy.get('@onPopupVisibleChange').should((spy: any) => {
+    cy.get('@onPopupVisibleChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.lastCall.args[0]).to.equal(false);
     });
-    cy.get('@onUpdatePopupVisible').should((spy: any) => {
+    cy.get('@onUpdatePopupVisible').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.lastCall.args[0]).to.equal(false);
     });
     cy.get('.sd-picker-container').should('not.be.visible');
@@ -134,16 +134,16 @@ describe('DatePicker selection and events', () => {
     });
     // 清除按钮依赖 CSS :hover 显示（合成事件无法触发），使用 force click
     cy.get('.sd-picker-clear-icon').click({ force: true });
-    cy.get('@onClear').should((spy: any) => {
+    cy.get('@onClear').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(1);
     });
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(1);
       expect(spy.lastCall.args[0]).to.equal(undefined);
       expect(spy.lastCall.args[1]).to.equal(undefined);
       expect(spy.lastCall.args[2]).to.equal(undefined);
     });
-    cy.get('@onUpdateModelValue').should((spy: any) => {
+    cy.get('@onUpdateModelValue').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.lastCall.args[0]).to.equal(undefined);
     });
     cy.get('.sd-picker input').should('have.value', '');
@@ -159,7 +159,7 @@ describe('DatePicker selection and events', () => {
     });
     cy.get('.sd-picker input').should('have.value', '2026/07/10');
     cy.get('.sd-picker input').clear().type('2026/07/20{enter}');
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(1);
       expect(spy.firstCall.args[0]).to.equal('2026-07-20');
     });
@@ -171,11 +171,11 @@ describe('DatePicker selection and events', () => {
       props: { onChange: cy.spy().as('onChange') },
     });
     cy.get('.sd-picker input').type('abc');
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(0);
     });
     cy.get('.sd-picker input').clear().type('2026-07-15{enter}');
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(1);
       expect(spy.firstCall.args[0]).to.equal('2026-07-15');
     });
@@ -194,7 +194,7 @@ describe('DatePicker selection and events', () => {
     });
     cy.get('.sd-picker input').should('have.value', '2026-07-10');
     cy.get('.sd-picker-cell[aria-label="2026-07-15"]').click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal(dayjs('2026-07-15').valueOf());
     });
   });
@@ -210,7 +210,7 @@ describe('DatePicker selection and events', () => {
       },
     });
     cy.get('.sd-picker-cell[aria-label="2026-07-15"]').click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       const value = spy.firstCall.args[0];
       expect(value).to.be.instanceOf(Date);
       expect(value.getTime()).to.equal(dayjs('2026-07-15').valueOf());
@@ -227,10 +227,10 @@ describe('DatePicker selection and events', () => {
       },
     });
     cy.get('.sd-picker-header-icon').eq(2).click();
-    cy.get('@onPickerValueChange').should((spy: any) => {
+    cy.get('@onPickerValueChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.lastCall.args[0]).to.equal('2026-08-05');
     });
-    cy.get('@onUpdatePickerValue').should((spy: any) => {
+    cy.get('@onUpdatePickerValue').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.lastCall.args[0]).to.equal('2026-08-05');
     });
     cy.get('.sd-picker-header-title').should('contain.text', '2026-08');
@@ -245,7 +245,7 @@ describe('DatePicker selection and events', () => {
       },
     });
     cy.get('.sd-picker-header-icon').eq(2).click();
-    cy.get('@onUpdatePickerValue').should((spy: any) => {
+    cy.get('@onUpdatePickerValue').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.lastCall.args[0]).to.equal('2026-08-05');
     });
     cy.get('.sd-picker-header-title').should('contain.text', '2026-07');
@@ -276,10 +276,10 @@ describe('DatePicker selection and events', () => {
       },
     });
     cy.get('.sd-picker-shortcuts').contains('button', '前一周').click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal('2026-07-03');
     });
-    cy.get('@onSelectShortcut').should((spy: any) => {
+    cy.get('@onSelectShortcut').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0].label).to.equal('前一周');
     });
     cy.get('.sd-picker input').should('have.value', '2026-07-03');
@@ -297,10 +297,10 @@ describe('DatePicker selection and events', () => {
     });
     cy.get('.sd-picker-shortcuts').contains('button', '前一周').trigger('mouseenter');
     cy.get('.sd-picker input').should('have.value', '2026-07-03');
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(0);
     });
-    cy.get('@onSelect').should((spy: any) => {
+    cy.get('@onSelect').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(0);
     });
   });
@@ -320,11 +320,11 @@ describe('DatePicker disabled dates and confirm flow', () => {
       .should('have.class', 'sd-picker-cell-disabled')
       .and('have.attr', 'aria-disabled', 'true')
       .click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(0);
     });
     cy.get('.sd-picker-cell[aria-label="2026-07-16"]').click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal('2026-07-16');
     });
   });
@@ -342,19 +342,19 @@ describe('DatePicker disabled dates and confirm flow', () => {
     });
     cy.get('.sd-picker-btn-confirm').should('have.attr', 'disabled');
     cy.get('.sd-picker-cell[aria-label="2026-07-15"]').click();
-    cy.get('@onSelect').should((spy: any) => {
+    cy.get('@onSelect').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal('2026-07-15');
     });
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(0);
     });
     cy.get('.sd-picker input').should('have.value', '2026-07-15');
     cy.get('.sd-picker-btn-confirm').should('not.have.attr', 'disabled');
     cy.get('.sd-picker-btn-confirm').click();
-    cy.get('@onOk').should((spy: any) => {
+    cy.get('@onOk').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal('2026-07-15');
     });
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal('2026-07-15');
     });
   });
@@ -371,18 +371,18 @@ describe('DatePicker disabled dates and confirm flow', () => {
       },
     });
     cy.get('.sd-picker-cell[aria-label="2026-07-15"]').click();
-    cy.get('@onSelect').should((spy: any) => {
+    cy.get('@onSelect').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal('2026-07-15 08:30:00');
     });
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(0);
     });
     cy.get('.sd-picker-btn-confirm').should('not.have.attr', 'disabled');
     cy.get('.sd-picker-btn-confirm').click();
-    cy.get('@onOk').should((spy: any) => {
+    cy.get('@onOk').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal('2026-07-15 08:30:00');
     });
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal('2026-07-15 08:30:00');
     });
   });
@@ -399,7 +399,7 @@ describe('DatePicker mode pickers', () => {
     });
     cy.get('.sd-picker input').should('have.value', '2026-03');
     cy.get('.sd-panel-month .sd-picker-cell[aria-label="2026-07-01"]').click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal('2026-07');
     });
     cy.get('.sd-picker input').should('have.value', '2026-07');
@@ -414,7 +414,7 @@ describe('DatePicker mode pickers', () => {
       },
     });
     cy.get('.sd-panel-year .sd-picker-cell[aria-label="2028-01-01"]').click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal('2028');
     });
     cy.get('.sd-picker input').should('have.value', '2028');
@@ -430,7 +430,7 @@ describe('DatePicker mode pickers', () => {
     });
     cy.get('.sd-picker input').should('have.value', '2026-Q2');
     cy.get('.sd-panel-quarter .sd-picker-cell[aria-label="2026-10-01"]').click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal('2026-10');
     });
     cy.get('.sd-picker input').should('have.value', '2026-Q4');
@@ -445,7 +445,7 @@ describe('DatePicker mode pickers', () => {
       },
     });
     cy.get('.sd-panel-week .sd-picker-cell[aria-label="2026-07-15"]').click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       // 周模式归一化到当周第一天（默认周日开始 → 2026-07-12）
       expect(spy.firstCall.args[0]).to.equal('2026-07-12');
     });
@@ -494,7 +494,7 @@ describe('DatePicker states', () => {
     cy.get('.sd-picker input').should('not.exist');
     cy.get('.sd-picker-container-panel-only').should('be.visible');
     cy.get('.sd-picker-cell[aria-label="2026-07-15"]').click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal('2026-07-15');
     });
   });
@@ -526,7 +526,8 @@ describe('DatePicker slots', () => {
     cy.mount(DatePicker, {
       props: { popupVisible: true, defaultPickerValue: '2026-07-05' },
       slots: {
-        cell: ({ date }: any) => h('em', { class: 'custom-cell' }, String(date.getDate())),
+        cell: ({ date }: { date: Date }) =>
+          h('em', { class: 'custom-cell' }, String(date.getDate())),
       },
     });
     cy.get('.custom-cell').should('have.length', 42);
@@ -562,13 +563,15 @@ describe('DatePicker slots', () => {
         onChange: cy.spy().as('onChange'),
       },
       slots: {
-        panelRender: (scope: any) =>
-          h('div', { class: 'custom-panel-render' }, [h(scope.component, scope.props)]),
+        panelRender: (scope: {
+          component: import('vue').Component;
+          props: Record<string, unknown>;
+        }) => h('div', { class: 'custom-panel-render' }, [h(scope.component, scope.props)]),
       },
     });
     cy.get('.custom-panel-render .sd-picker-cell').should('exist');
     cy.get('.custom-panel-render .sd-picker-cell[aria-label="2026-07-15"]').click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal('2026-07-15');
     });
   });
@@ -588,14 +591,14 @@ describe('RangePicker', () => {
     // CI 上第二个 cell 可能仍处于面板动画中，用 force 规避 animating 检查
     cy.get('.sd-picker-cell[aria-label="2026-07-10"]').click();
     cy.get('.sd-picker-cell[aria-label="2026-08-15"]').click({ force: true });
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(1);
       expect(spy.firstCall.args[0]).to.deep.equal(['2026-07-10', '2026-08-15']);
     });
-    cy.get('@onUpdateModelValue').should((spy: any) => {
+    cy.get('@onUpdateModelValue').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.deep.equal(['2026-07-10', '2026-08-15']);
     });
-    cy.get('@onPopupVisibleChange').should((spy: any) => {
+    cy.get('@onPopupVisibleChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.lastCall.args[0]).to.equal(false);
     });
     cy.get('.sd-picker input').eq(0).should('have.value', '2026-07-10');
@@ -611,7 +614,7 @@ describe('RangePicker', () => {
       },
     });
     cy.get('.sd-picker-cell[aria-label="2026-07-10"]').click();
-    cy.get('@onSelect').should((spy: any) => {
+    cy.get('@onSelect').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(1);
       expect(spy.firstCall.args[0]).to.deep.equal(['2026-07-10']);
       expect(spy.firstCall.args[1][0]).to.be.instanceOf(Date);
@@ -664,10 +667,10 @@ describe('RangePicker', () => {
       },
     });
     cy.get('.sd-picker-cell[aria-label="2026-07-12"]').click();
-    cy.get('@onSelect').should((spy: any) => {
+    cy.get('@onSelect').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.lastCall.args[0]).to.deep.equal(['2026-07-12']);
     });
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(0);
     });
   });
@@ -682,10 +685,10 @@ describe('RangePicker', () => {
       },
     });
     cy.get('.sd-picker-shortcuts').contains('button', '七月').click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.deep.equal(['2026-07-01', '2026-07-31']);
     });
-    cy.get('@onSelectShortcut').should((spy: any) => {
+    cy.get('@onSelectShortcut').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0].label).to.equal('七月');
     });
   });

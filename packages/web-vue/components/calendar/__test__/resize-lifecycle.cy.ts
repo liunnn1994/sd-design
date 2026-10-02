@@ -178,9 +178,13 @@ describe('Calendar resize lifecycle', () => {
     });
     cy.get('.sd-calendar__event-resizer').trigger('mousedown', { clientY: 200, force: true });
     cy.get('@vue').then(({ wrapper }) => wrapper.unmount());
-    cy.get('@addListener').then((addListener: any) => {
+    cy.get('@addListener').then((addListener: ReturnType<typeof cy.spy>) => {
       for (const type of ['mousemove', 'mouseup']) {
-        const registrations = addListener.getCalls().filter((call: any) => call.args[0] === type);
+        const registrations = addListener
+          .getCalls()
+          .filter(
+            (call: ReturnType<ReturnType<typeof cy.spy>['getCall']>) => call.args[0] === type,
+          );
         expect(registrations.length, `${type} registered`).to.be.greaterThan(0);
         for (const registration of registrations) {
           cy.get('@removeListener').should('have.been.calledWith', type, registration.args[1]);

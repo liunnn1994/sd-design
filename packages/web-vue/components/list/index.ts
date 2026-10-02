@@ -21,7 +21,7 @@ const List = Object.assign(_List, {
   },
 });
 
-export type ListInstance = InstanceType<typeof _List>;
+export type ListInstance = import('vue-component-type-helpers').ComponentExposed<typeof _List>;
 export type ListItemInstance = InstanceType<typeof _ListItem>;
 export type ListItemMetaInstance = InstanceType<typeof _ListItemMeta>;
 

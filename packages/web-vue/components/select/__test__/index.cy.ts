@@ -10,7 +10,7 @@ describe('Select', () => {
     cy.mount(Select, {
       props: { options: ['Beijing', 'Shanghai'], defaultValue: 'Shanghai' },
       slots: {
-        trigger: (scope: any) =>
+        trigger: (scope: import('../interface').SelectTriggerSlotProps) =>
           h(
             'button',
             { class: 'custom-trigger' },
@@ -473,8 +473,10 @@ describe('Select', () => {
           { label: 'Foo', value: 'sh' },
           { label: 'Shanghai', value: 'shx' },
         ],
-        filterOption: (inputValue: string, option: any) =>
-          String(option.value).startsWith(inputValue),
+        filterOption: (
+          inputValue: string,
+          option: import('../../select/interface').SelectOptionData,
+        ) => String(option.value).startsWith(inputValue),
       },
     });
     open();

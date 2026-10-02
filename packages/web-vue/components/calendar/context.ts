@@ -1,25 +1,34 @@
 import type { InjectionKey, Ref } from 'vue';
 
-import type { EmitFn } from '../_utils/types';
+import type {
+  CalendarId,
+  CalendarEmit,
+  CalendarTexts,
+  CalendarDateUtils,
+  CalendarConfig,
+  CalendarEventsManager,
+  CalendarView,
+  CalendarDnd,
+} from './types';
 
-/**
- * The calendar state provided/injected across all calendar sub-components.
- * The core is written in JS, so this interface captures the shape used by the Vue templates.
- */
+/** Shared reactive state provided to calendar sub-components. */
 export interface CalendarState {
-  uid: string | number;
+  uid: CalendarId;
   prefixCls: string;
-  emit: EmitFn<string>;
-  texts: Record<string, any>;
-  dateUtils: Record<string, any>;
+  emit: CalendarEmit;
+  texts: CalendarTexts;
+  dateUtils: CalendarDateUtils;
   now: Date;
-  config: Record<string, any>;
-  eventsManager: Record<string, any>;
-  view: Record<string, any>;
-  dnd: Record<string, any>;
-  touch: Record<string, any>;
+  config: CalendarConfig;
+  eventsManager: CalendarEventsManager;
+  view: CalendarView;
+  dnd: CalendarDnd;
+  touch: {
+    isDraggingCell: boolean;
+    isDraggingEvent: boolean;
+    isResizingEvent: boolean;
+    currentHoveredCell: HTMLElement | null;
+  };
 }
-
 export const calendarInjectionKey: InjectionKey<CalendarState> = Symbol('SDCalendar');
-
 export const calendarElInjectionKey: InjectionKey<Ref<HTMLElement | null>> = Symbol('SDCalendarEl');

@@ -65,7 +65,7 @@
     },
     {
       "title": "Icon Generation System",
-      "purpose": "How SVG assets in packages/web-vue/icon/_svgs/ are processed by gen-icons.mjs using svgo into Vue functional components, the write-icon-compat-entry step, and the icon sub-path export.",
+      "purpose": "How SVG assets in packages/web-vue/icon/_svgs/ are processed by gen-icons.ts using svgo into Vue functional components, the write-icon-compat-entry step, and the icon sub-path export.",
       "parent": "Build System & Release Pipeline",
       "page_notes": [
         {
@@ -75,7 +75,7 @@
     },
     {
       "title": "TypeScript Declarations & IDE Metadata",
-      "purpose": "How build-dts.mjs generates .d.ts files, gen-web-types.mjs produces web-types.json and vetur tags/attributes for JetBrains and VS Code IDE support.",
+      "purpose": "How build-dts.ts generates .d.ts files, gen-web-types.ts produces web-types.json and vetur tags/attributes for JetBrains and VS Code IDE support.",
       "parent": "Build System & Release Pipeline",
       "page_notes": [
         {
@@ -85,7 +85,7 @@
     },
     {
       "title": "CI/CD & Release Automation",
-      "purpose": "GitHub Actions release workflow, semantic-release configuration, prepare-release-package.mjs, NPM publishing to @sdata scope, and Netlify documentation deployment webhook.",
+      "purpose": "GitHub Actions release workflow, semantic-release configuration, prepare-release-package.ts, NPM publishing to @sdata scope, and Netlify documentation deployment webhook.",
       "parent": "Build System & Release Pipeline",
       "page_notes": [
         {

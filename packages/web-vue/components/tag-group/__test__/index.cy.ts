@@ -47,7 +47,15 @@ describe('TagGroup', () => {
     cy.mount(TagGroup, {
       props: { maxCount: 1, options: [{ label: '帮助文档', value: 'doc', href: '/docs' }] },
       slots: {
-        item: ({ data, itemClass, itemStyle }: any) =>
+        item: ({
+          data,
+          itemClass,
+          itemStyle,
+        }: {
+          data: { label: string; href?: string };
+          itemClass?: string;
+          itemStyle?: import('vue').CSSProperties;
+        }) =>
           h(
             'a',
             { class: ['custom-item', itemClass], style: itemStyle, href: data.href },
@@ -62,9 +70,15 @@ describe('TagGroup', () => {
     cy.mount(TagGroup, {
       props: { maxCount: 1, options: ['标签1', '标签2', '标签3'] },
       slots: {
-        item: ({ data, itemClass }: any) =>
-          h('span', { class: ['custom-item', itemClass] }, data.label),
-        counter: ({ hiddenCount, counterClass }: any) =>
+        item: ({
+          data,
+          itemClass,
+        }: {
+          data: { label: string; href?: string };
+          itemClass?: string;
+          itemStyle?: import('vue').CSSProperties;
+        }) => h('span', { class: ['custom-item', itemClass] }, data.label),
+        counter: ({ hiddenCount, counterClass }: { hiddenCount: number; counterClass?: string }) =>
           h('span', { class: ['custom-counter', counterClass] }, `更多:${hiddenCount}`),
       },
     });
@@ -184,7 +198,8 @@ describe('TagGroup', () => {
     cy.mount(TagGroup, {
       props: { options: [{ label: '文档', value: 'doc' }] },
       slots: {
-        label: ({ data }: any) => h('em', { class: 'custom-label' }, `前缀:${data.label}`),
+        label: ({ data }: { data: { label: string } }) =>
+          h('em', { class: 'custom-label' }, `前缀:${data.label}`),
       },
     });
     // 内容含测量副本导致文本重复，用 contain 断言

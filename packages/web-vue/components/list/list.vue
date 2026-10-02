@@ -1,7 +1,7 @@
 <template>
   <DefineItem v-slot="{ item, index }">
     <VNodeRenderer v-if="isVNode(item)" :content="item" />
-    <slot v-else name="item" :item="item" :index="index" />
+    <slot v-else name="item" :item="item as TItem" :index="index" />
   </DefineItem>
   <DefineEmpty>
     <slot v-if="!slots['scroll-loading']" name="empty">
@@ -46,7 +46,7 @@
               @scroll="handleScroll"
             >
               <template #item="{ item, index }">
-                <slot name="item" :item="item" :index="index" />
+                <slot name="item" :item="item as TItem" :index="index" />
               </template>
             </VirtualList>
             <ReuseEmpty v-else />
@@ -115,9 +115,9 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="TItem = VNode">
   import { computed, inject, isVNode, onMounted, ref, toRef, useAttrs, useSlots } from 'vue';
-  import type { CSSProperties, PropType, VNodeChild } from 'vue';
+  import type { CSSProperties, PropType, VNodeChild, VNode } from 'vue';
 
   import { createReusableTemplate } from '@vueuse/core';
 
@@ -147,7 +147,7 @@
   defineOptions({ name: 'List', inheritAttrs: false });
 
   const props = defineProps({
-    data: Array as PropType<any[]>,
+    data: Array as PropType<TItem[]>,
     size: {
       type: String as PropType<'small' | 'medium' | 'large'>,
       default: 'medium',
@@ -228,7 +228,7 @@
     emit: emit as (event: string, ...args: unknown[]) => void,
   });
 
-  const getCurrentPageItems = (data: unknown[]) => {
+  const getCurrentPageItems = (data: TItem[]) => {
     if (!props.paginationProps) return data;
     if (data.length > pageSize.value) {
       const startIndex = (current.value - 1) * pageSize.value;
@@ -238,7 +238,7 @@
   };
 
   const sourceItems = computed(() =>
-    slots.default ? getAllElements(slots.default()) : (props.data ?? []),
+    slots.default ? (getAllElements(slots.default()) as TItem[]) : (props.data ?? []),
   );
   const currentPageItems = computed(() => getCurrentPageItems(sourceItems.value));
   const virtualItems = computed(() => getCurrentPageItems(props.data ?? []));
@@ -246,7 +246,7 @@
     const span = props.gridProps?.span;
     if (!span) return [];
     const rowSize = 24 / span;
-    const rows: unknown[][] = [];
+    const rows: TItem[][] = [];
     for (let index = 0; index < currentPageItems.value.length; index += rowSize)
       rows.push(currentPageItems.value.slice(index, index + rowSize));
     return rows;
@@ -276,7 +276,8 @@
     `${prefixCls}-content`,
     { [`${prefixCls}-virtual`]: isVirtualList.value },
   ]);
-  const virtualListRef = ref<InstanceType<typeof VirtualList>>();
+  const virtualListRef =
+    ref<import('vue-component-type-helpers').ComponentExposed<typeof VirtualList>>();
   const resolvedVirtualListProps = computed<VirtualListProps | undefined>(() => {
     if (!props.virtualListProps) return undefined;
     if (props.virtualListProps.height !== undefined) return props.virtualListProps;

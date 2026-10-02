@@ -112,9 +112,9 @@ describe('Tour', () => {
       },
       slots: {
         ...defaultSlots,
-        title: ({ current, title }: any) =>
+        title: ({ current, title }: { current?: number; title?: string }) =>
           h('div', { class: 'tour-title-slot' }, `${title}-${(current ?? 0) + 1}`),
-        description: ({ current, description }: any) =>
+        description: ({ current, description }: { current?: number; description?: string }) =>
           h('div', { class: 'tour-description-slot' }, [
             h('span', `${description}-${(current ?? 0) + 1}`),
             h('table', { class: 'tour-description-table' }, [

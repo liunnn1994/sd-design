@@ -54,7 +54,7 @@ jobs:
             base="$(git rev-list --max-parents=0 "$head")"
           fi
 
-          # 当下列任一输入变更时才发版（均为 gen-component-data.mjs 生成 components.json 的来源）：
+          # 当下列任一输入变更时才发版（均为 gen-component-data.ts 生成 components.json 的来源）：
           # - packages/sd-mcp：MCP 脚本/源码本身
           # - packages/web-vue/components：组件源码（新增组件或 props/events/slots 变更）
           # - packages/sd-vue-docs 侧边栏 + 组件文档 frontmatter：分类、标题、描述

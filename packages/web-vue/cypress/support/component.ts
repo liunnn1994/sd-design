@@ -1,6 +1,6 @@
 import type { Component } from 'vue';
 
-import { mount } from 'cypress/vue';
+import { mount, type CyMountOptions } from 'cypress/vue';
 import 'overlayscrollbars/overlayscrollbars.css';
 
 import '../../components/index.scss';
@@ -20,19 +20,22 @@ Cypress.on('uncaught:exception', (err) => {
 // Replicates `vitest.setup.ts`: every mounted component runs inside an app that
 // has the full SD Design Vue + icon plugins installed globally (so demos using
 // `<sd-button>` resolve) and the `$sd` class-prefix config (`sd-btn`, ...).
-Cypress.Commands.add('mount', (component: Component, options: Record<string, any> = {}) => {
-  options.global = options.global ?? {};
-  options.global.plugins = [...(options.global.plugins ?? []), SDVue, SDVueIcon];
-  options.global.config = {
-    ...options.global.config,
-    globalProperties: {
-      ...options.global.config?.globalProperties,
-      $sd: { classPrefix: 'sd' },
-    },
-  };
+Cypress.Commands.add(
+  'mount',
+  (component: Component, options: CyMountOptions<Record<string, unknown>> = {}) => {
+    options.global = options.global ?? {};
+    options.global.plugins = [...(options.global.plugins ?? []), SDVue, SDVueIcon];
+    options.global.config = {
+      ...options.global.config,
+      globalProperties: {
+        ...options.global.config?.globalProperties,
+        $sd: { classPrefix: 'sd' },
+      },
+    };
 
-  // Exposes the @vue/test-utils wrapper (as part of the mount return) via the
-  // `@vue` alias, so specs can assert on `wrapper.emitted()` while keeping
-  // Cypress retryability: `cy.get('@vue').should(({ wrapper }) => ...)`.
-  return mount(component, options).then((mountReturn) => cy.wrap(mountReturn).as('vue'));
-});
+    // Exposes the @vue/test-utils wrapper (as part of the mount return) via the
+    // `@vue` alias, so specs can assert on `wrapper.emitted()` while keeping
+    // Cypress retryability: `cy.get('@vue').should(({ wrapper }) => ...)`.
+    return mount(component, options).then((mountReturn) => cy.wrap(mountReturn).as('vue'));
+  },
+);

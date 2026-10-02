@@ -5,7 +5,8 @@
       "@sdata/web-vue": ["../web-vue/components/index.ts"],
       "@sdata/web-vue/es/icon": ["../web-vue/components/icon-component/index.ts"],
       "@sdata/web-vue/es/icon.js": ["../web-vue/components/icon-component/index.ts"],
-      "@sdata/web-vue/es/locale/lang/*": ["../web-vue/components/locale/lang/*"]
+      "@sdata/web-vue/es/locale/lang/*": ["../web-vue/components/locale/lang/*"],
+      "@sdata/web-vue/es/icon/index.js": ["../web-vue/components/icon/index.ts"]
     }
   },
   "exclude": ["dist", "src/types/sdata-web-vue-vue-tsc.d.ts"]

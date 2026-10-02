@@ -104,9 +104,9 @@
     "access": "public"
   },
   "scripts": {
-    "style:sync": "node ./scripts/sync-markstream-style.mjs",
-    "theme:generate": "node ./scripts/theme-catalog.mjs",
-    "test:theme": "node --test ./scripts/theme-catalog.test.mjs && cypress run --quiet --component --browser chrome --spec components/config-provider/__test__/*.cy.ts",
+    "style:sync": "node ./scripts/sync-markstream-style.ts",
+    "theme:generate": "node ./scripts/theme-catalog.ts",
+    "test:theme": "node --test ./scripts/theme-catalog.test.ts && cypress run --quiet --component --browser chrome --spec components/config-provider/__test__/*.cy.ts",
     "test:theme:e2e": "cypress run --quiet --browser chrome --config-file cypress.theme.config.ts",
     "predev": "pnpm run style:sync && pnpm run icongen",
     "dev": "vp run task:dev-component",
@@ -120,21 +120,21 @@
     "build:module": "vp run task:build-module",
     "prebuild:style": "pnpm run style:sync && pnpm run theme:generate",
     "build:style": "vp run task:build-style",
-    "fix:scss-legacy-props": "node ./scripts/fix-scss-legacy-property-refs.mjs",
     "prebuild:dts": "pnpm run icongen",
-    "build:dts": "node ./scripts/build-dts.mjs",
+    "build:dts": "node ./scripts/build-dts.ts",
     "dtsgen": "pnpm run build:dts",
     "pretypecheck": "pnpm run icongen",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json",
     "pretest": "pnpm run icongen",
-    "test": "pnpm run test:markdown:types && cypress run --quiet --component --browser chrome",
-    "test:affected": "node ./scripts/find-affected-cypress-specs.mjs",
-    "test:affected:unit": "node --test ./scripts/find-affected-cypress-specs.test.mjs",
+    "test": "pnpm run test:markdown:types && pnpm run test:model-selector:production && cypress run --quiet --component --browser chrome",
+    "test:model-selector:production": "node --test ./scripts/model-selector-trigger-element.test.ts",
+    "test:affected": "node ./scripts/find-affected-cypress-specs.ts",
+    "test:affected:unit": "node --test ./scripts/find-affected-cypress-specs.test.ts",
     "test:headed": "cypress run --quiet --component --browser chrome --headed",
     "cypress:open": "cypress open --component",
     "cypress:run": "cypress run --quiet --component --browser chrome",
     "test:markdown:e2e": "cypress run --quiet --browser chrome --config-file cypress.markdown.config.ts",
-    "test:markdown:types": "node --test ./scripts/markdown-exports.test.mjs"
+    "test:markdown:types": "node --test ./scripts/markdown-exports.test.ts"
   },
   "dependencies": {
     "@arco-design/color": "^0.4.0",
@@ -169,6 +169,7 @@
     "virtua": "^0.52.5",
     "vue": "catalog:",
     "vue-clamp": "^1.7.1",
+    "vue-component-type-helpers": "3.3.11",
     "vue-draggable-plus": "^0.6.1"
   },
   "devDependencies": {
@@ -179,6 +180,7 @@
     "@semantic-release/git": "^11.0.1",
     "@semantic-release/github": "^12.0.10",
     "@semantic-release/release-notes-generator": "^14.1.1",
+    "@types/chroma-js": "3.1.2",
     "@types/clean-css": "^4.2.11",
     "@types/qrcode": "^1.5.6",
     "@vitejs/plugin-vue": "catalog:",

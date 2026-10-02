@@ -147,21 +147,20 @@
 
   const logEvent = (name: string, params: LogArg) => {
     const sanitized = { ...params };
-    if ((sanitized as any).cell) {
-      const cell = (sanitized as any).cell;
-      (sanitized as any).cell = `[Cell] ${cell.formattedDate || cell.start}`;
+    if (sanitized.cell) {
+      const cell = sanitized.cell as { formattedDate?: string; start: Date };
+      sanitized.cell = `[Cell] ${cell.formattedDate || cell.start}`;
     }
-    if ((sanitized as any).e)
-      (sanitized as any).e = `[${(sanitized as any).e?.constructor?.name || 'Event'}]`;
-    if ((sanitized as any).event) {
-      const ev = (sanitized as any).event;
-      (sanitized as any).event = `"${ev.title || 'untitled'}"`;
+    if (sanitized.e) sanitized.e = `[${sanitized.e.constructor.name || 'Event'}]`;
+    if (sanitized.event) {
+      const ev = sanitized.event as { title?: string };
+      sanitized.event = `"${ev.title || 'untitled'}"`;
     }
     logs.value.unshift({ name, args: JSON.stringify(sanitized, null, 2) });
     if (logs.value.length > 50) logs.value.pop();
   };
 
-  const onEventDropLog = (params: any) => {
+  const onEventDropLog = (params: LogArg) => {
     logEvent('event-drop', params);
     return true;
   };
@@ -172,7 +171,9 @@
 
   // ---------- 从后端加载 ----------
   const loading = ref(false);
-  const backendEvents = ref<Array<Record<string, any>>>([]);
+  const backendEvents = ref<
+    import('../../../../../web-vue/components/calendar/types').CalendarEventInput[]
+  >([]);
 
   const generateEvents = (start: Date, end: Date) => {
     const days = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
@@ -203,7 +204,7 @@
     return evts;
   };
 
-  const onViewChange = async (view: any) => {
+  const onViewChange = async (view: { start: Date; end: Date }) => {
     loading.value = true;
     await new Promise((resolve) => setTimeout(resolve, 400));
     backendEvents.value = generateEvents(new Date(view.start), new Date(view.end));
@@ -211,7 +212,7 @@
   };
 
   // ---------- 外部控件 ----------
-  const calRef = ref<any>(null);
+  const calRef = ref<import('@sdata/web-vue').CalendarInstance | null>(null);
   const externalView = ref('month');
   const externalViewDate = ref('');
   const views = ['day', 'week', 'month', 'year', 'years'];

@@ -20,7 +20,7 @@
     </div>
   </ResizeObserver>
 </template>
-<script setup lang="tsx">
+<script setup lang="ts">
   import { computed, PropType, toRefs } from 'vue';
 
   import IconDragDot from '../icon/icon-drag-dot';

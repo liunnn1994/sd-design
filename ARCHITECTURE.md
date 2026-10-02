@@ -9,6 +9,16 @@
 - `packages/sd-vue-docs` 负责文档页面、在线示例、主题桥接和站点构建。
 - `packages/sd-mcp` 负责把组件 API 元数据封装为 MCP 服务，供 AI 助手查询。
 
+## TypeScript 源码与运行边界
+
+项目维护的所有业务与工具源码使用 `.ts` / `.mts` / `.tsx`，包含文档站的 Astro 配置、集成、生成与同步脚本，以及 MCP、自动导入解析器、发布配置。Vue 组件逻辑使用 `<script setup lang="ts">`；纯模板组件无需增加空脚本。模块级计数器和常量放入独立 TS 模块，保留各组件实例共享状态的语义。
+
+Node 24 直接执行维护脚本，以 `tsconfig.scripts.json` 的 `NodeNext`、`strict`、`erasableSyntaxOnly` 和 `verbatimModuleSyntax` 约束原生可执行语法。脚本导入写明 `.ts` / `.mts` 扩展名，类型导入使用 `import type`。Node 运行时只擦除类型，不负责检查。根目录 `typecheck` 依次检查生成准备、源码约定、脚本、Vue 工作区、MCP 和解析器，统一使用精确锁定的 TS7/TNB。
+
+提交交互使用 `czg`，通过 `pnpm cz` 启动；中文提示、提交类型和 emoji 与校验规则集中在 `commitlint.config.ts`。依赖升级使用现有 `pnpm update` 流程，不保留 npm-check-updates 配置。编译后的 `es` / `dist`、文档站同步的 `public/vendor`、第三方依赖与外部技能包使用上游或目标运行环境需要的格式，不作为维护源码转换。浏览器内联脚本和 REPL 生成内容同样需要输出可执行 JavaScript。REPL 根据浏览器运行时清单生成的值导出声明仍使用动态类型占位：该清单仅记录导入路径，不包含泛型函数和组件值的完整签名；这些沙箱声明不参与工作区源码检查。
+
+类型边界使用 `unknown` 和明确的数据结构；第三方未公开的运行时接口（例如 Day.js `$utils`）在调用边界描述最小结构。虚拟列表和 List 通过 Vue 泛型传播项类型，泛型组件的公开实例类型通过 `ComponentExposed` 提取。
+
 ## 模块关系图
 
 ```mermaid
@@ -16,9 +26,9 @@ flowchart TD
 	Root[根目录调度层\npackage.json\npnpm workspace scripts]
 	WebVue[组件库生产层\npackages/web-vue]
 	Components[源码与入口\ncomponents/index.ts\ncomponents/sd-vue.ts]
-	Build[构建与类型产出\nvite.config.ts\nscripts/build-dts.mjs]
+	Build[构建与类型产出\nvite.config.ts\nscripts/build-dts.ts]
 	Artifacts[组件库产物\nes dist json]
-	Vendor[Vendor 桥接层\nsd-vue-docs/scripts/sync-vendor.mjs]
+	Vendor[Vendor 桥接层\nsd-vue-docs/scripts/sync-vendor.ts]
 	Docs[文档站消费层\npackages/sd-vue-docs]
 	Runtime[站点运行时\nAstro Starlight MDX Vue]
 	Theme[主题桥接\nsd-theme + theme bridge]
@@ -67,7 +77,7 @@ flowchart TD
 - `components/trigger` 与 `components/tour`：锚点型悬浮层统一通过 `@floating-ui/vue` 定位；各公开组件的 `floatingOptions` 类型直接继承上游 `UseFloatingOptions`，运行时不维护参数白名单。
 - `components/markdown-render`：以精确锁定的 `markstream-vue@2.0.13` 为渲染内核的二次封装，承担流式解析、虚拟化调度和重节点渲染。节点映射与样式分层约定见「Markdown 渲染分层」。
 - `vite.config.ts`：定义模块构建、UMD 构建、样式构建和测试支持配置。
-- `scripts/build-dts.mjs`：负责类型声明构建和复制。
+- `scripts/build-dts.ts`：负责类型声明构建和复制。
 - `json/`：承载 web-types、vetur 等 IDE 元数据。
 
 这个包的职责不只是“把 Vue 组件编译出来”，而是同时服务四类场景：
@@ -85,7 +95,7 @@ flowchart TD
 - **默认节点映射不能注册 `paragraph`。** 上游 `ListItemNode` 只判断注入的映射表里有没有该子节点类型的键：有键就放弃轻量行内路径，改为给每个列表项 spawn 一个完整嵌套渲染器，代价是约 2/3 的额外 DOM、被撑破的 `maxLiveNodes` / `liveNodeBuffer` 预算，以及嵌套 `data-node-index` 与父级索引空间冲突。其余键（标题、引用、链接、图片、复选框、行内代码、分隔线、提示块、原始 HTML）不触发该分支，正常替换为 SD 组件。段落改由 `style/index.scss` 的 `.paragraph-node` 规则和 `--ms-*` 变量入口用 SD 正文 token 对齐观感。`components/markdown-render/__test__/perf.cy.ts` 用真实长文档守住这条边界，`nodes/index.ts` 有注释禁止补回。
 - **默认映射通过 `app.provide` 桥接，不写全局状态。** `context.ts` 以 Proxy 拦截 `VueRendererMarkdown.install` 的 `app.component` 与 `app.provide`，把上游插件的 app 级下发收敛为当前子树的 `provide`，因此多实例、卸载、路由切换和 SSR 都不会串扰。桥接依赖上游三条实现细节，任一变化会让映射静默失效，dev 下有显式告警。
 
-样式分层为 `@layer sd-design, markstream`：现有 reset 留在 `sd-design`，上游 CSS 整份收进 `markstream`，SD 组件与 Markdown 适配规则保持未分层因而优先。上游 CSS 由 `scripts/sync-markstream-style.mjs` 从锁定依赖生成并可重复执行；生成时把上游 Tailwind 残留的未作用域 `.container` 工具类收敛进 `.markstream-vue`，避免全量 CSS 把全局工具类带进消费方应用。
+样式分层为 `@layer sd-design, markstream`：现有 reset 留在 `sd-design`，上游 CSS 整份收进 `markstream`，SD 组件与 Markdown 适配规则保持未分层因而优先。上游 CSS 由 `scripts/sync-markstream-style.ts` 从锁定依赖生成并可重复执行；生成时把上游 Tailwind 残留的未作用域 `.container` 工具类收敛进 `.markstream-vue`，避免全量 CSS 把全局工具类带进消费方应用。
 
 锁定版本的根渲染器不提供插槽，因此 `MarkdownRender` 不转发具名插槽，代码块头部等节点级插槽需通过整体替换 `code_block` 节点组件接管。完整契约、节点清单和实测数据见 `components/markdown-render/COMPATIBILITY.md`。
 
@@ -103,13 +113,13 @@ flowchart TD
 `packages/sd-mcp` 是面向 AI 助手（Claude Code、Codex、VS Code Copilot 等）的组件元数据服务，让 AI 在编码时能查询到组件真实的 API。
 
 - 基于 `@modelcontextprotocol/server` v2 的 `McpServer` 与 `serveStdio` 提供 stdio MCP 服务，支持 `2026-07-28` 协议并兼容旧版握手，bin 名为 `sd-design-mcp`。
-- `data/components.json` 为提交的静态数据，由 `scripts/gen-component-data.mjs` 生成：组件清单、分类与标题来自文档站侧边栏与各组件 MDX frontmatter，Props / Events / Slots 由 `vue-docgen-api` 从 `web-vue` 组件源码提取。构建时由 `tsdown` 内联进 `dist/index.js`。
+- `data/components.json` 为提交的静态数据，由 `scripts/gen-component-data.ts` 生成：组件清单、分类与标题来自文档站侧边栏与各组件 MDX frontmatter，Props / Events / Slots 由 `vue-docgen-api` 从 `web-vue` 组件源码提取。构建时由 `tsdown` 内联进 `dist/index.js`。
 - API 提取逻辑与 `web-vue` 的 `web-types` 生成保持一致（同一套 `vue-docgen-api` 解析），因此二者对同一组件的 API 描述一致。
 - 该包独立构建与测试（`pnpm --filter @sdata/web-vue-mcp run build` / `gen` / `test`），不参与根目录的 `dev` / `build:all` / `check:ci` 流程，避免影响组件库主链路。
 
 ### Vendor 桥接层
 
-`packages/sd-vue-docs/scripts/sync-vendor.mjs` 是当前架构里非常关键的一层。
+`packages/sd-vue-docs/scripts/sync-vendor.ts` 是当前架构里非常关键的一层。
 
 它会把组件库产出的浏览器可消费资源同步到文档站的 `public/vendor`，主要包括：
 
@@ -207,7 +217,7 @@ flowchart TD
 
 ### 主题目录与运行时覆盖
 
-主题链路为 `style/token.scss → scripts/theme-catalog.mjs → CSS 变量回退 + theme-catalog.json → ConfigProvider / 文档编辑器`。
+主题链路为 `style/token.scss → scripts/theme-catalog.ts → CSS 变量回退 + theme-catalog.json → ConfigProvider / 文档编辑器`。
 
 - 全局基础值通过 `seed` 派生色阶、圆角、字号和控件高度；`algorithm` 保存暗色和紧凑选项，显式 `themeMode` 优先于暗色算法。
 - ThemeProvider 按最终有效模式派生 seed：显式模式 → 暗色算法 → 父 Provider / DOM 主题；compact 不覆盖明暗。内置预设只存 seed、尺寸和算法，避免将浅色背景/中性色作为显式覆盖带入暗色模式。用户显式 token 的优先级保持不变。

@@ -1,7 +1,7 @@
 {
   "js/ts.tsdk.path": "node_modules/typescript/lib",
   "js/ts.tsdk.promptToUseWorkspaceVersion": true,
-  "stylelint.configFile": "${workspaceFolder}/.stylelintrc.mjs",
+  "stylelint.configFile": "${workspaceFolder}/stylelint.config.ts",
   "stylelint.configBasedir": "${workspaceFolder}",
   "oxc.enable": true,
   "oxc.useExecPath": true,

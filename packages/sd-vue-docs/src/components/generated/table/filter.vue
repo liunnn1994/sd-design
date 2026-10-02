@@ -26,7 +26,7 @@
       title: 'Name',
       dataIndex: 'name',
       filterable: {
-        filter: (value, record) => record.name.includes(value),
+        filter: (value, record) => String(record.name).includes(String(value)),
         slotName: 'name-filter',
         icon: () => h(IconSearch),
       },
@@ -75,7 +75,7 @@
   const handleChange = (
     data: TableData[],
     extra: TableChangeExtra,
-    currentDataSource: TableData[],
+    currentDataSource: import('../../../../../web-vue/components/table/interface').TableDataWithRaw[],
   ) => {
     console.log('change', data, extra, currentDataSource);
   };

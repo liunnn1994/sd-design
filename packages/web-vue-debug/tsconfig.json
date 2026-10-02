@@ -10,7 +10,7 @@
       "@web-vue-src/*": ["../web-vue/components/*"]
     },
     "strict": true,
-    "allowJs": true,
+    "allowJs": false,
     "allowImportingTsExtensions": true,
     "jsx": "preserve",
     "jsxImportSource": "vue",
@@ -21,6 +21,11 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["node", "vite/client"]
   },
-  "include": ["src/**/*.d.ts", "vite.config.ts"],
+  "include": [
+    "src/**/*",
+    "vite.config.ts",
+    "../web-vue/global.d.ts",
+    "../web-vue/components/shims.d.ts"
+  ],
   "exclude": ["node_modules", "dist"]
 }

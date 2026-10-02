@@ -16,7 +16,7 @@
   </sd-space>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { ref } from 'vue';
 
   const gradient = ref(
@@ -34,7 +34,7 @@
     'linear-gradient(120deg, rgba(67, 233, 123, 1) 0%, rgba(56, 249, 215, 1) 100%)',
   ];
 
-  const updateRecentColors = (value) => {
+  const updateRecentColors = (value: string[]) => {
     recentColors.value = value;
   };
 </script>

@@ -65,7 +65,7 @@
     boundary: {
       type: [Number, String] as PropType<BoundaryPosition | number>,
       default: 'start',
-      validator: (value: any) => {
+      validator: (value: BoundaryPosition | number) => {
         return isNumber(value) || BOUNDARY_POSITIONS.includes(value);
       },
     },
@@ -115,7 +115,7 @@
     direction: {
       type: String as PropType<Direction>,
       default: 'vertical',
-      validator: (value: any) => ['vertical', 'horizontal'].includes(value),
+      validator: (value: string) => ['vertical', 'horizontal'].includes(value),
     },
     /**
      * @zh 锚点区域边界相对于滚动容器顶部的偏移量。未设置时，默认值为滚动容器高度的一半

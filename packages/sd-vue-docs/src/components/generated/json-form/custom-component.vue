@@ -6,10 +6,8 @@
   <sd-alert type="success"> 当前数据：{{ JSON.stringify(formState) }} </sd-alert>
 </template>
 
-<script setup lang="tsx">
-  /** @jsxRuntime automatic */
-  /** @jsxImportSource vue */
-  import { computed, defineComponent, ref } from 'vue';
+<script setup lang="ts">
+  import { computed, defineComponent, h, ref } from 'vue';
 
   import {
     Textarea,
@@ -36,21 +34,21 @@
     },
     emits: ['update:modelValue'],
     setup(props, { emit }) {
-      return () => (
-        <div class="demo-script-field">
-          <div class="demo-script-field__hint">这里用 sd-textarea 模拟业务里的自定义字段组件。</div>
-          <Textarea
-            autoSize={{
-              minRows: 6,
-              maxRows: 10,
-            }}
-            modelValue={props.modelValue}
-            placeholder={props.placeholder}
-            disabled={props.disabled}
-            onUpdate:modelValue={(value: string) => emit('update:modelValue', value)}
-          />
-        </div>
-      );
+      return () =>
+        h('div', { class: 'demo-script-field' }, [
+          h(
+            'div',
+            { class: 'demo-script-field__hint' },
+            '这里用 sd-textarea 模拟业务里的自定义字段组件。',
+          ),
+          h(Textarea, {
+            'autoSize': { minRows: 6, maxRows: 10 },
+            'modelValue': props.modelValue,
+            'placeholder': props.placeholder,
+            'disabled': props.disabled,
+            'onUpdate:modelValue': (value: string) => emit('update:modelValue', value),
+          }),
+        ]);
     },
   });
 

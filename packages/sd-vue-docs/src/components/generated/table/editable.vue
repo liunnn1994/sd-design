@@ -9,7 +9,10 @@
       />
     </template>
     <template #city="{ rowIndex }">
-      <sd-select :options="options[data[rowIndex].province] || []" v-model="data[rowIndex].city" />
+      <sd-select
+        :options="options[data[rowIndex].province ?? ''] || []"
+        v-model="data[rowIndex].city"
+      />
     </template>
   </sd-table>
   <!-- support from v2.25.0  -->
@@ -48,7 +51,7 @@
     { title: 'City', dataIndex: 'city', slotName: 'city' },
     { title: 'Email', dataIndex: 'email' },
   ];
-  const data = reactive<TableData[]>([
+  const data = reactive<(TableData & { name: string; province?: string; city?: string })[]>([
     {
       key: '1',
       name: 'Jane Doe',

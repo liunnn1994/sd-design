@@ -36,7 +36,7 @@ describe('TreeSelect', () => {
     cy.mount(TreeSelect, {
       props: { options, fieldNames, defaultValue: '0-0' },
       slots: {
-        trigger: (scope: any) =>
+        trigger: (scope: import('../interface').TreeSelectTriggerSlotProps) =>
           h(
             'button',
             { class: 'custom-trigger' },

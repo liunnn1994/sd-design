@@ -151,10 +151,10 @@
     /**
      * @zh 用户选择时触发
      * @en Triggered when the user selects
-     * @param {string | number | Record<string, any> | undefined} value
+     * @param {string | number | Record<string, unknown> | undefined} value
      * @param {Event} ev
      */
-    'select': [_value: string | number | Record<string, any> | undefined, _ev: Event];
+    'select': [_value: string | number | Record<string, unknown> | undefined, _ev: Event];
   }>();
   /**
    * @zh 内容

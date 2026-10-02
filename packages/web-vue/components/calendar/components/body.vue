@@ -77,7 +77,7 @@
     [`--${prefixCls}-grid-rows`]: view.rows,
     [`--${prefixCls}-body-max-height`]: config.time
       ? `${(config.timeCellHeight * (config.timeTo - config.timeFrom)) / config.timeStep}px`
-      : null,
+      : undefined,
   }));
 
   // Computes the time at the current cursor position.
@@ -108,7 +108,8 @@
     const domEvent = (e as TouchEvent).touches?.[0] || e; // Handle click or touch event.
     const { clientX, clientY } = domEvent;
 
-    if (needsResizeCellUpdate) resizeState.cellEl = getCellUnderMouse(clientX, clientY);
+    if (needsResizeCellUpdate)
+      resizeState.cellEl = getCellUnderMouse(clientX, clientY) as HTMLElement | null;
 
     if (config.timeAtCursor && bodyEl.value) {
       const { top, left } = bodyEl.value.getBoundingClientRect();

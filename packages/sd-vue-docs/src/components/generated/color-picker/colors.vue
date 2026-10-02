@@ -7,13 +7,13 @@
   />
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { ref } from 'vue';
 
   const recentColors = ref(['#165DFF', 'rgba(54, 207, 201, 1)']);
   const swatchColors = ['#165DFF', '#0FC6C2', '#00B42A', '#FF7D00', '#F53F3F'];
 
-  const updateRecentColors = (value) => {
+  const updateRecentColors = (value: string[]) => {
     recentColors.value = value;
   };
 </script>

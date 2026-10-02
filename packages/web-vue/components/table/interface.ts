@@ -5,7 +5,7 @@ import { CSSProperties, RenderFunction, Slots, VNodeChild } from 'vue';
 import type { FloatingOptions } from '../_utils/floating';
 import type { SpinProps } from '../spin';
 
-import { BaseType, ClassName, Data } from '../_utils/types';
+import { BaseType, ClassName } from '../_utils/types';
 import { TriggerProps } from '../trigger';
 
 export const TABLE_PAGE_POSITION = ['tl', 'top', 'tr', 'bl', 'bottom', 'br'] as const;
@@ -39,7 +39,7 @@ export interface TableData {
    */
   isLeaf?: boolean;
 
-  [name: string]: any;
+  [name: string]: unknown;
 }
 
 export interface TableDataWithRaw {
@@ -196,7 +196,7 @@ export interface TableColumnData {
    * @en Whether to show a text hint when an ellipsis is displayed. Can be filled in tooltip component properties
    * @version 2.26.0
    */
-  tooltip?: boolean | Record<string, any>;
+  tooltip?: boolean | Record<string, unknown>;
   /**
    * @zh 排序相关选项
    * @en Sorting related options
@@ -488,7 +488,7 @@ export interface TableProps {
   bordered?: boolean | TableBorder;
   rowSelection?: TableRowSelection;
   expandable?: TableExpandable;
-  pagination?: boolean | Data;
+  pagination?: boolean | import('../pagination/interface').PaginationProps;
   pagePosition?: string;
   loading?: boolean | SpinProps;
   spinProps?: SpinProps;

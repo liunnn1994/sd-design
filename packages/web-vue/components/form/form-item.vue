@@ -258,7 +258,7 @@
      */
     mergeProps: {
       type: [Boolean, Function] as PropType<
-        boolean | ((props: Record<string, any>) => Record<string, any>)
+        boolean | ((props: Record<string, unknown>) => Record<string, unknown>)
       >,
       default: true,
     },
@@ -323,7 +323,7 @@
   const fieldId = computed(() => `sd-form-item-${instance?.uid}`);
 
   const mergedLabelCol = computed(() => {
-    const colProps: Record<string, any> = { ...(props.labelColProps ?? formCtx.labelColProps) };
+    const colProps: Record<string, unknown> = { ...(props.labelColProps ?? formCtx.labelColProps) };
     if (props.labelColFlex) {
       colProps.flex = props.labelColFlex;
     } else if (formCtx.autoLabelWidth) {
@@ -333,7 +333,7 @@
   });
 
   const mergedWrapperCol = computed(() => {
-    const colProps: Record<string, any> = {
+    const colProps: Record<string, unknown> = {
       ...(props.wrapperColProps ?? formCtx.wrapperColProps),
     };
     if (field.value) {
@@ -403,9 +403,9 @@
     props.feedback && computedValidateStatus.value ? computedValidateStatus.value : undefined,
   );
 
-  const validateField = (): Promise<any> => {
+  const validateField = (): Promise<import('./interface').ValidatedError | undefined> => {
     if (validateDisabled.value) {
-      return Promise.resolve();
+      return Promise.resolve(undefined);
     }
     const currentValidationId = ++validationId;
 
@@ -414,7 +414,7 @@
       if (finalStatus.value) {
         clearValidate();
       }
-      return Promise.resolve();
+      return Promise.resolve(undefined);
     }
 
     const _field = field.value;
@@ -455,28 +455,38 @@
     );
 
     return new Promise((resolve) => {
-      schema.validate({ [_field]: _value }, (err: Record<string, any> | undefined) => {
-        const hasError = Boolean(err?.[_field]);
-        if (currentValidationId === validationId) {
-          updateValidateState(_field, {
-            status: hasError ? 'error' : '',
-            message: err?.[_field].message ?? '',
-          });
-        }
+      schema.validate(
+        { [_field]: _value },
+        (
+          err:
+            | Record<
+                string,
+                { value: unknown; type: string; requiredError?: boolean; message?: string }
+              >
+            | undefined,
+        ) => {
+          const hasError = Boolean(err?.[_field]);
+          if (currentValidationId === validationId) {
+            updateValidateState(_field, {
+              status: hasError ? 'error' : '',
+              message: err?.[_field]?.message ?? '',
+            });
+          }
 
-        const error = hasError
-          ? {
-              label: _label,
-              field: _field,
-              value: err![_field].value,
-              type: err![_field].type,
-              isRequiredError: Boolean(err![_field].requiredError),
-              message: err![_field].message,
-            }
-          : undefined;
+          const error = hasError
+            ? {
+                label: _label,
+                field: _field,
+                value: err![_field].value,
+                type: err![_field].type,
+                isRequiredError: Boolean(err![_field].requiredError),
+                message: err![_field].message ?? '',
+              }
+            : undefined;
 
-        resolve(error);
-      });
+          resolve(error);
+        },
+      );
     });
   };
 

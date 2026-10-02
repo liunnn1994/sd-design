@@ -9,7 +9,7 @@ import {
   isSlotsChildren,
   resolveProps,
 } from '../_utils/vue-utils';
-import { DropdownOption, DGroup, DSubmenu } from './interface';
+import { DropdownOption, DGroup, DSubmenu, DOption } from './interface';
 
 export const isGroup = (option: DropdownOption): option is DGroup => {
   return isObject(option) && 'isGroup' in option;
@@ -25,7 +25,7 @@ export const travelDropDownChildren = (children: VNode[]): DropdownOption[] => {
   for (const child of children) {
     if (!child) continue;
     if (isNamedComponent(child, 'Dgroup')) {
-      const props = resolveProps(child);
+      const props = resolveProps<DGroup>(child);
       let slots: Slots | undefined;
       const _options = [];
 
@@ -46,20 +46,20 @@ export const travelDropDownChildren = (children: VNode[]): DropdownOption[] => {
         options: _options,
       });
     } else if (isNamedComponent(child, 'Doption')) {
-      const props = resolveProps(child);
+      const props = resolveProps<DOption>(child);
       let slots: Slots | undefined;
       if (isSlotsChildren(child, child.children)) {
         slots = child.children;
       }
 
       options.push({
-        _props: props,
+        _props: { ...props },
         _slots: slots,
         value: props.value ?? getChildrenString((child.children as Slots).default?.() ?? []),
         disabled: props.disabled,
       });
     } else if (isNamedComponent(child, 'Dsubmenu')) {
-      const props = resolveProps(child);
+      const props = resolveProps<DSubmenu & { triggerProps?: unknown }>(child);
 
       options.push({
         _props: omit(props, ['trigger', 'position', 'triggerProps']),

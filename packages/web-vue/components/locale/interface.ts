@@ -69,7 +69,7 @@ export interface SDCalendarLang {
 }
 
 export interface ValidateMessage {
-  [key: string]: any;
+  [key: string]: unknown;
   required: string;
   type: {
     string: string;

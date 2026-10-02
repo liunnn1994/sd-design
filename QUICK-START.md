@@ -33,7 +33,7 @@ Trigger、Tooltip、Dropdown、Select、Tour 等锚点型悬浮层使用 `@float
 
 在开始之前，请确保你的本地环境满足以下要求：
 
-- Node.js >= 24.16.0 (建议使用 `nvm` 或 `fnm` 管理)
+- Node.js ~24.21.0 (建议使用 `nvm` 或 `fnm` 管理)
 - pnpm >= 11.0.9 (推荐使用 `corepack enable pnpm` 启用)
 
 ## 快速启动
@@ -95,6 +95,14 @@ pnpm run dev:all
 ```
 
 ## 代码规范与检查
+
+提交变更使用 `pnpm cz`（映射到 `czg`）。中文提示、提交类型、emoji 和校验规则统一维护在根目录 `commitlint.config.ts`。
+
+组件、站点和维护脚本都使用 TypeScript；Vue 中包含逻辑的组件统一使用 `<script setup lang="ts">`。动态输入先使用 `unknown`，通过类型守卫缩小类型，避免 `any`。类型组合优先使用 `type-fest`。
+
+Node 24 可直接运行 `node scripts/upgradeEngines.ts` 这类脚本。原生运行仅擦除类型，不读取 `tsconfig` 的路径映射，也不做类型检查：Node 脚本使用显式 `.ts` 导入扩展名、`import type` 和可擦除语法；提交前运行 `pnpm run typecheck`。脚本由 `tsconfig.scripts.json` 严格检查，Vue、站点配置、MCP 和自动导入解析器使用各包配置检查。源码约定检查会阻止新增 JS 文件和非 TS 的 Vue 脚本。
+
+仓库的 `typescript` 是精确锁定的 TS7/TNB，继续使用工作区 `tsc`、`vue-tsc`，不要改装原生预览包。编辑器选择 Workspace TypeScript Version。
 
 为了保证代码质量，项目中引入了严格的 lint 和格式化工具（如 `oxlint`, `oxfmt`, `stylelint`）。
 

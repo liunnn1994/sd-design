@@ -14,7 +14,7 @@
   </sd-drawer>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { ref } from 'vue';
 
   const visible = ref(false);
@@ -23,9 +23,9 @@
     visible.value = true;
   };
 
-  const handleBeforeOk = (done) => {
+  const handleBeforeOk = (done: (closed: boolean) => void) => {
     window.setTimeout(() => {
-      done();
+      done(true);
     }, 3000);
   };
 

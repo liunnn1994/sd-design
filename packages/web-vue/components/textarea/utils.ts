@@ -20,7 +20,7 @@ const sizeStyles = [
 ];
 
 export const getSizeStyles = (styleDeclaration: CSSStyleDeclaration) => {
-  const styles: Record<string, any> = {};
+  const styles: Record<string, string> = {};
   sizeStyles.forEach((item) => {
     styles[item] = styleDeclaration.getPropertyValue(item);
   });

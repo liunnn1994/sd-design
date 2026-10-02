@@ -576,10 +576,10 @@
     }
   }
 
-  function onInputChange(e: any) {
+  function onInputChange(e: Event) {
     setPanelVisible(true);
 
-    const targetValue = e.target.value;
+    const targetValue = (e.target as HTMLInputElement).value;
     setInputValue(targetValue);
 
     if (!isValidInputValue(targetValue, computedFormat.value)) return;
@@ -595,10 +595,10 @@
     }
   }
 
-  function onRangeInputChange(e: any) {
+  function onRangeInputChange(e: Event) {
     setPanelVisible(true);
 
-    const targetValue = e.target.value;
+    const targetValue = (e.target as HTMLInputElement).value;
     const newInputValue = isArray(inputValue.value)
       ? [...inputValue.value]
       : (isArray(panelValue.value) &&

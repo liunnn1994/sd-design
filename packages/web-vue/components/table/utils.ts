@@ -224,12 +224,15 @@ export const getFixedNumber = (
   return count;
 };
 
-export const getOperationFixedCls = (prefixCls: string, column: TableOperationColumn): any[] => {
+export const getOperationFixedCls = (
+  prefixCls: string,
+  column: TableOperationColumn,
+): import('../_utils/types').ClassName[] => {
   if (column.fixed) {
     return [
       `${prefixCls}-col-fixed-left`,
       {
-        [`${prefixCls}-col-fixed-left-last`]: column.isLastLeftFixed,
+        [`${prefixCls}-col-fixed-left-last`]: Boolean(column.isLastLeftFixed),
       },
     ];
   }
@@ -239,12 +242,12 @@ export const getOperationFixedCls = (prefixCls: string, column: TableOperationCo
 export const getFixedCls = (
   prefixCls: string,
   column: Pick<TableColumnData, 'fixed' | 'isLastLeftFixed' | 'isFirstRightFixed'>,
-): any[] => {
+): import('../_utils/types').ClassName[] => {
   if (column.fixed === 'left') {
     return [
       `${prefixCls}-col-fixed-left`,
       {
-        [`${prefixCls}-col-fixed-left-last`]: column.isLastLeftFixed,
+        [`${prefixCls}-col-fixed-left-last`]: Boolean(column.isLastLeftFixed),
       },
     ];
   }
@@ -252,7 +255,7 @@ export const getFixedCls = (
     return [
       `${prefixCls}-col-fixed-right`,
       {
-        [`${prefixCls}-col-fixed-right-first`]: column.isFirstRightFixed,
+        [`${prefixCls}-col-fixed-right-first`]: Boolean(column.isFirstRightFixed),
       },
     ];
   }
@@ -340,11 +343,9 @@ export const getColumnsFromSlot = (vns: VNode[]) => {
           column.children = getColumnsFromSlot(vn.children.default());
         }
         if (vn.children.cell) {
-          // @ts-ignore
           column.render = vn.children.cell;
         }
         if (vn.children.title) {
-          // @ts-ignore
           column.title = vn.children.title;
         }
       }
@@ -358,9 +359,7 @@ export const getColumnsFromSlot = (vns: VNode[]) => {
   return columns;
 };
 
-export function mapArrayWithChildren<T extends Array<{ [key: string]: any; children?: T }>>(
-  arr: T,
-): T {
+export function mapArrayWithChildren<T extends Array<{ children?: T }>>(arr: T): T {
   return arr.map((item) => {
     const newItem = { ...item };
     if (newItem.children) {

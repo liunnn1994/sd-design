@@ -191,7 +191,13 @@
       color: '#fff',
     },
   ]);
-  const onVModelEventCreate = ({ event, resolve }: { event: any; resolve: (e: any) => void }) => {
+  const onVModelEventCreate = ({
+    event,
+    resolve,
+  }: {
+    event: import('../../../../../web-vue/components/calendar/types').CalendarEvent;
+    resolve: (e: import('../../../../../web-vue/components/calendar/types').CalendarEvent) => void;
+  }) => {
     eventCounter.value++;
     resolve({
       ...event,
@@ -221,7 +227,6 @@
             lastEventEnd.getSeconds(),
           )
         : new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0), // will be adjusted
-      // @ts-ignore
       title: `事件 ${eventCounter.value}`,
       backgroundColor: '#f59e0b',
       color: '#fff',
@@ -310,11 +315,19 @@
       color: '#fff',
     },
   ]);
-  const onEventDrop = ({ overlaps }: { overlaps: any[] }) => {
+  const onEventDrop = ({
+    overlaps,
+  }: {
+    overlaps: import('../../../../../web-vue/components/calendar/types').CalendarEvent[];
+  }) => {
     if (preventOverlapDrop.value && overlaps && overlaps.length) return false;
     return true;
   };
-  const onEventResize = ({ overlaps }: { overlaps: any[] }) => {
+  const onEventResize = ({
+    overlaps,
+  }: {
+    overlaps: import('../../../../../web-vue/components/calendar/types').CalendarEvent[];
+  }) => {
     if (preventOverlapResize.value && overlaps && overlaps.length) return false;
     return true;
   };

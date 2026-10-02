@@ -148,7 +148,7 @@
     placement: {
       type: String as PropType<DrawerPlacements>,
       default: 'right',
-      validator: (value: any) => DRAWER_PLACEMENTS.includes(value),
+      validator: (value: (typeof DRAWER_PLACEMENTS)[number]) => DRAWER_PLACEMENTS.includes(value),
     },
     /**
      * @zh 标题
@@ -265,7 +265,7 @@
      * @version 2.57.0
      */
     bodyClass: {
-      type: [String, Array] as PropType<string | any[]>,
+      type: [String, Array] as PropType<string | string[]>,
     },
     /**
      * @zh 抽屉内容部分的样式

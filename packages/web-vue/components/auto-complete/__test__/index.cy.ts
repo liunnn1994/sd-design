@@ -194,8 +194,10 @@ describe('AutoComplete', () => {
           { value: 'beijing', label: 'Beijing' },
           { value: 'shanghai', label: 'Shanghai' },
         ],
-        filterOption: (inputValue: string, option: any) =>
-          String(option.label).startsWith(inputValue),
+        filterOption: (
+          inputValue: string,
+          option: import('../../select/interface').SelectOptionData,
+        ) => String(option.label).startsWith(inputValue),
       },
     });
     cy.get('input').focus();
@@ -281,10 +283,10 @@ describe('AutoComplete', () => {
 
   it('exposes focus and blur methods', () => {
     cy.mount(AutoComplete, { props: { data: ['Beijing', 'Shanghai'] } });
-    cy.get('@vue').then(({ wrapper }) => (wrapper.vm as any).focus());
+    cy.get('@vue').then(({ wrapper }) => (wrapper.vm as { focus(): void; blur(): void }).focus());
     cy.get('input').should('be.focused');
     cy.get('.sd-select-option').should('have.length', 2);
-    cy.get('@vue').then(({ wrapper }) => (wrapper.vm as any).blur());
+    cy.get('@vue').then(({ wrapper }) => (wrapper.vm as { focus(): void; blur(): void }).blur());
     cy.get('input').should('not.be.focused');
   });
 

@@ -1,0 +1,54 @@
+import type { PackageJson } from 'type-fest';
+
+import axios from 'axios';
+import { parseTOML, stringifyTOML } from 'confbox';
+import { writeFileSync, readFileSync } from 'node:fs';
+import { format as oxfmtFormat } from 'oxfmt';
+
+const pkg: PackageJson = JSON.parse(readFileSync('package.json', 'utf8'));
+const mise = parseTOML<{ tools?: Record<string, string> }>(readFileSync('.mise.toml', 'utf8'));
+
+const nodeVersion = await getNodeLtsVersion();
+
+if (!nodeVersion) {
+  throw new Error('node version not found');
+}
+
+if (!pkg.engines) {
+  pkg.engines = {};
+}
+
+if (!mise.tools) {
+  mise.tools = {};
+}
+
+pkg.engines.node = `~${nodeVersion}`;
+mise.tools.node = nodeVersion;
+
+console.log('格式化配置...');
+const pkgResult = await oxfmtFormat('package.json', JSON.stringify(pkg), {
+  sortPackageJson: false,
+});
+
+const miseResult = await oxfmtFormat('.mise.toml', stringifyTOML(mise), {
+  parser: 'toml',
+});
+
+const errors = [...pkgResult.errors, ...miseResult.errors];
+
+if (errors.length > 0) {
+  throw new Error(errors.map((error) => error.message).join('\n'));
+}
+
+writeFileSync('package.json', pkgResult.code, 'utf-8');
+writeFileSync('.mise.toml', miseResult.code, 'utf-8');
+
+async function getNodeLtsVersion() {
+  return (
+    await axios.get<{ lts: string | false; version: string }[]>(
+      'https://cdn.npmmirror.com/binaries/node/index.json',
+    )
+  ).data
+    .find((v) => v.lts)
+    ?.version.replace('v', '');
+}

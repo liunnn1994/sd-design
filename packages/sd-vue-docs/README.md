@@ -6,13 +6,13 @@
 
 ```text
 packages/sd-vue-docs/
-├── astro.config.mjs                 # Astro/Starlight 站点配置
+├── astro.config.ts                 # Astro/Starlight 站点配置
 ├── public/
 │   └── vendor/                      # 在线示例运行时依赖，构建前自动生成，不提交 Git
 ├── scripts/
-│   ├── migrate-generated-demo-conventions.mjs
+│   ├── migrate-generated-demo-conventions.ts
 │   │                               # generated 示例自动转换脚本
-│   └── sync-vendor.mjs              # 同步在线示例运行时依赖
+│   └── sync-vendor.ts              # 同步在线示例运行时依赖
 ├── src/
 │   ├── browser-repl/                # Vue REPL 使用的浏览器模块桥接
 │   ├── components/

@@ -1,7 +1,12 @@
 {
   "compilerOptions": {
-    "module": "es2022",
-    "moduleResolution": "Bundler"
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "allowJs": false
   },
-  "exclude": ["node_modules", "dist"]
+  "include": ["index.ts", "tsdown.config.ts"]
 }

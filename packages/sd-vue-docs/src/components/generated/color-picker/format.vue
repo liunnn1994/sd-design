@@ -7,9 +7,10 @@
   </sd-space>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { ref } from 'vue';
 
-  const format = ref('RGBA');
-  const formatList = ['HEX', 'RGBA', 'HSL', 'HSV', 'CSS'];
+  type DemoFormat = 'HEX' | 'RGBA' | 'HSL' | 'HSV' | 'CSS';
+  const format = ref<DemoFormat>('RGBA');
+  const formatList: DemoFormat[] = ['HEX', 'RGBA', 'HSL', 'HSV', 'CSS'];
 </script>

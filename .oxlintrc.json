@@ -16,6 +16,8 @@
     "packages/sd-vue-docs/.astro/**",
     ".*/"
   ],
+  "plugins": ["typescript"],
+  "rules": { "typescript/no-explicit-any": "error" },
   "overrides": [
     {
       "files": [
@@ -43,6 +45,28 @@
         "no-console": "error",
         "no-unused-vars": "error"
       }
+    },
+    {
+      "files": [
+        "scripts/**/*.ts",
+        "packages/*/scripts/**/*.{ts,mts}",
+        "packages/*/release.config.ts"
+      ],
+      "plugins": ["import", "typescript"],
+      "rules": { "import/extensions": "off", "no-console": "off" }
+    },
+    {
+      "files": ["packages/*/vite.config.ts", "packages/*/astro.config.ts"],
+      "plugins": ["import", "typescript"],
+      "rules": { "import/extensions": "off" }
+    },
+    {
+      "files": [
+        "packages/web-vue/components/calendar/core/**/*.ts",
+        "packages/web-vue/components/calendar/modules/drag-and-drop.ts",
+        "packages/web-vue/components/calendar/utils/date.ts"
+      ],
+      "rules": { "no-console": "off" }
     },
     {
       "files": ["packages/web-vue/**/*.vue"],

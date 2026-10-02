@@ -10,10 +10,10 @@ export const getValueData = (
     if (isObject(item)) {
       result.push({
         raw: item,
-        value: item[fieldNames.value],
-        label: item[fieldNames.label],
-        closable: item[fieldNames.closable],
-        tagProps: item[fieldNames.tagProps],
+        value: item[fieldNames.value] as string | number,
+        label: item[fieldNames.label] as string,
+        closable: item[fieldNames.closable] as boolean,
+        tagProps: item[fieldNames.tagProps] as TagDataInfo['tagProps'],
       });
     } else if (value || isNumber(value)) {
       const raw = {

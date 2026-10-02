@@ -15,7 +15,7 @@ export default function useDatePickerTransform(props: DatePickerTransform) {
   const { locale: i18nLocale, t } = useI18n();
   dayjs.locale(i18nLocale.value.toLowerCase());
 
-  const datePickerT: typeof t = (key: string, ...args: any[]): any => {
+  const datePickerT: typeof t = (key: string, ...args: unknown[]): string => {
     const keyForLocale = key.startsWith('datePicker.') ? key.split('.').slice(1).join('.') : key;
 
     return getValueByPath(locale?.value || {}, keyForLocale) || t(key, ...args);

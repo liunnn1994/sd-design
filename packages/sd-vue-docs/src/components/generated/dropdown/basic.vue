@@ -34,7 +34,10 @@
 </template>
 
 <script setup lang="ts">
-  const handleSelect = (v: string | number | Record<string, any> | undefined, _event: Event) => {
+  const handleSelect = (
+    v: string | number | Record<string, unknown> | undefined,
+    _event: Event,
+  ) => {
     console.log(v);
   };
 </script>

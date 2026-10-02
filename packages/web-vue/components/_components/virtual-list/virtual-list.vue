@@ -30,12 +30,12 @@
         <template #default="{ item, index }">
           <slot
             name="item"
-            :item="item as any"
+            :item="item as TItem"
             :index="index"
             :active="true"
             :item-with-size="undefined"
           >
-            <slot :item="item as any" :index="index" :active="true" :item-with-size="undefined" />
+            <slot :item="item as TItem" :index="index" :active="true" :item-with-size="undefined" />
           </slot>
         </template>
       </Virtualizer>
@@ -45,7 +45,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="TItem">
   import type { CacheSnapshot } from 'virtua';
 
   import {
@@ -102,7 +102,7 @@
 
   const props = defineProps({
     items: {
-      type: Array as PropType<unknown[]>,
+      type: Array as PropType<TItem[]>,
       default: () => [],
     },
     height: {

@@ -13,7 +13,7 @@ describe('ColorPicker', () => {
     cy.mount(ColorPicker, {
       props: { defaultValue: '#165dff' },
       slots: {
-        trigger: (scope: any) =>
+        trigger: (scope: import('../interface').ColorPickerTriggerSlotProps) =>
           h(
             'button',
             { class: 'custom-trigger' },

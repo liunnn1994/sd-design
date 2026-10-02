@@ -183,13 +183,16 @@ describe('Affix Behavior', () => {
         // shadow the prototype stub for the target element only: its rect
         // decides the fix position (top: 0px), the wrapper rect decides when.
         // 直接赋值实例属性以遮蔽原型 stub，避免 sinon "already wrapped" 冲突
-        (targetEl as any).getBoundingClientRect = () => ({
+        targetEl.getBoundingClientRect = () => ({
           top: 0,
           bottom: 300,
           left: 0,
           right: 0,
           width: 0,
           height: 300,
+          x: 0,
+          y: 0,
+          toJSON: () => ({}),
         });
         rect.top = -50;
       });

@@ -41,7 +41,11 @@ describe('Cascader', () => {
     mountCascader({
       props: { options, defaultValue: 'haidian' },
       slots: {
-        trigger: (scope: any) =>
+        trigger: (scope: {
+          displayValue: string;
+          selectedPaths: unknown[][];
+          popupVisible: boolean;
+        }) =>
           h(
             'button',
             { class: 'custom-trigger' },

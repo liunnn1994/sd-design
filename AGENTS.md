@@ -84,8 +84,8 @@ All packages (including the root) declare `"type": "module"` — this is a delib
 
 - New code uses `import`/`export` only; never write `require()`/`module.exports`.
 - Do not add compatibility layers for CJS consumers (dual-format builds, require exports, require-able UMD, etc.).
-- Existing `.cjs` config files (e.g. `changelog.config.cjs`) are deliberate exceptions — do not rename them to `.js`.
-- Prefer `.mjs`/`.mts` for Node scripts; Node ≥24 can import `.ts` directly (e.g. `theme-catalog.mjs` imports `token-key.ts`).
+- Tool configuration uses ESM TypeScript; do not introduce `.cjs` configuration files.
+- Use `.ts`/`.mts` for Node scripts; Node ≥24 can import `.ts` directly (e.g. `theme-catalog.ts` imports `token-key.ts`).
 
 ## style
 

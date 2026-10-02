@@ -7,7 +7,7 @@ type RuntimeDomReservedProps = import('@vue/runtime-dom').ReservedProps;
 declare module '*.vue' {
   import type { DefineComponent } from 'vue';
   // oxlint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
-  const component: DefineComponent<{}, {}, any>;
+  const component: DefineComponent;
   export default component;
 }
 
@@ -22,7 +22,7 @@ declare namespace JSX {
     $props: {};
   }
   export interface IntrinsicElements extends RuntimeDomNativeElements {
-    [name: string]: any;
+    [name: string]: Record<string, unknown>;
   }
   export type IntrinsicAttributes = RuntimeDomReservedProps;
 }
@@ -39,24 +39,22 @@ declare module '*.css' {
 
 declare module '*.md' {
   import type { DefineComponent } from 'vue';
-  const component: DefineComponent<Record<string, never>, Record<string, never>, any>;
+  const component: DefineComponent;
   export default component;
 }
 
 declare module '../icon/*' {
   import type { DefineComponent } from 'vue';
-  const component: DefineComponent<Record<string, never>, Record<string, never>, any>;
+  const component: DefineComponent;
   export default component;
 }
 
 declare module '../../icon/*' {
   import type { DefineComponent } from 'vue';
-  const component: DefineComponent<Record<string, never>, Record<string, never>, any>;
+  const component: DefineComponent;
   export default component;
 }
 
-declare module 'clean-css';
-declare module 'chroma-js';
 declare module 'recorder-core/src/engine/*';
 declare module 'recorder-core/src/extensions/*';
 

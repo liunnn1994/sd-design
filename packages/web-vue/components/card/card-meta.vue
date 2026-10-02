@@ -81,8 +81,3 @@
     if (context) context.metaCount--;
   });
 </script>
-
-<script lang="ts">
-  export const SIZES = ['default', 'small'] as const;
-  export type SizeType = (typeof SIZES)[number];
-</script>

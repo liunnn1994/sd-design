@@ -1,3 +1,5 @@
+import type { UnionToIntersection } from 'type-fest';
+
 import type { App, RenderFunction } from 'vue';
 import { VNode } from 'vue';
 
@@ -14,27 +16,21 @@ export interface SDGlobalConfig {
   classPrefix?: string;
 }
 
-type UnionToIntersection<U> = (U extends unknown ? (k: U) => void : never) extends (
-  k: infer I,
-) => void
-  ? I
-  : never;
-
 export type BaseType = string | number;
-export type UnionType = BaseType | Record<string, any>;
-export type Data = Record<string, any>;
+export type UnionType = BaseType | Record<string, unknown>;
+export type Data = Record<string, unknown>;
 export type RenderContent = string | RenderFunction;
 
-export type EmitFn<T> = (event: T, ...args: any[]) => void;
+export type EmitFn<T> = (event: T, ...args: unknown[]) => void;
 
 export type EmitFn2<
-  Options = Record<string, any>,
+  Options = Record<string, unknown>,
   Event extends keyof Options = keyof Options,
 > = UnionToIntersection<
   {
-    [key in Event]: Options[key] extends (...args: infer Args) => any
+    [key in Event]: Options[key] extends (...args: infer Args) => unknown
       ? (event: key, ...args: Args) => void
-      : (event: key, ...args: any[]) => void;
+      : (event: key, ...args: unknown[]) => void;
   }[Event]
 >;
 
@@ -60,7 +56,7 @@ export interface ValueData {
   label: string;
   closable?: boolean;
 
-  [other: string]: any;
+  [other: string]: unknown;
 }
 
 export type AnimationDuration =

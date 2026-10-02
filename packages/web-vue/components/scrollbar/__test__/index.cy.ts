@@ -55,7 +55,9 @@ describe('Scrollbar', () => {
       },
     });
     cy.get('@vue').should(({ wrapper }) => {
-      const options = (wrapper.vm as { options: () => Record<string, any> }).options();
+      const options = (
+        wrapper.vm as { options: () => import('overlayscrollbars').Options }
+      ).options();
       const debounce = options?.update?.debounce;
       expect(options?.paddingAbsolute).to.equal(true);
       expect(options?.overflow.y).to.equal('hidden');

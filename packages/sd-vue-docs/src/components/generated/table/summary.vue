@@ -33,7 +33,7 @@
       title: 'Salary',
       dataIndex: 'salary',
       summaryCellStyle: (record): CSSProperties => {
-        if (record.salary > 100000) {
+        if (Number(record.salary) > 100000) {
           return { backgroundColor: 'rgb(var(--sdblue-6))', color: '#fff' };
         }
         return {};
@@ -52,9 +52,9 @@
   const summary: TableSummary = ({ columns, data }: TableSummaryContext) => {
     let countData = { salary: 0, data1: 0, data2: 0 };
     data.forEach((record) => {
-      countData.salary += record.salary;
-      countData.data1 += record.data1;
-      countData.data2 += record.data2;
+      countData.salary += Number(record.salary);
+      countData.data1 += Number(record.data1);
+      countData.data2 += Number(record.data2);
     });
     return [
       {
@@ -69,7 +69,7 @@
   const getColorClass = (column: TableColumnData, record: TableData) => {
     const dataIndex = column.dataIndex;
     if (dataIndex && ['data1', 'data2'].includes(dataIndex)) {
-      return record[dataIndex] > 0 ? 'sd:text-[red]' : 'sd:text-[green]';
+      return Number(record[dataIndex]) > 0 ? 'sd:text-[red]' : 'sd:text-[green]';
     }
     return undefined;
   };

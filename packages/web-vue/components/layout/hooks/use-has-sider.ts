@@ -15,17 +15,17 @@ const SIDER_COMPONENT_NAME = 'LayoutSider';
  *     - object: compiled-template slots object (default slot invoked), otherwise treated as a single vnode.
  */
 function normalizeChildren(vnode: VNode): VNode[] | undefined {
-  const { children } = vnode;
+  const children: unknown = vnode.children;
   if (Array.isArray(children)) {
     return children as VNode[];
   }
   if (isFunction(children)) {
-    return children();
+    return children() as VNode[];
   }
   if (children && typeof children === 'object') {
     const { default: defaultSlot } = children as { default?: unknown };
     if (isFunction(defaultSlot)) {
-      return defaultSlot();
+      return defaultSlot() as VNode[];
     }
     return [children as unknown as VNode];
   }

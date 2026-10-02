@@ -225,7 +225,7 @@ export const formatInputToHSVA = (color: string) => {
   };
 };
 
-export const hexToRgb = (color: string): any => {
+export const hexToRgb = (color: string) => {
   color = color.trim().toLowerCase();
   if (color.length === 0) {
     return false;

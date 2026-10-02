@@ -99,20 +99,20 @@ describe('Textarea', () => {
     cy.mount(Textarea, { props: { onFocus, onBlur, onChange } });
     cy.get('textarea').type('abc');
     cy.get('textarea').blur();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(1);
       expect(spy.firstCall.args[0]).to.equal('abc');
       expect(spy.firstCall.args[1]).to.be.instanceOf(Event);
     });
     // A second focus/blur cycle without modification does not re-emit change.
     cy.get('textarea').focus().blur();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(1);
     });
-    cy.get('@onFocus').should((spy: any) => {
+    cy.get('@onFocus').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(2);
     });
-    cy.get('@onBlur').should((spy: any) => {
+    cy.get('@onBlur').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(2);
     });
   });
@@ -166,10 +166,10 @@ describe('Textarea', () => {
     cy.get('.sd-textarea-clear-btn').should('be.visible');
     cy.get('.sd-textarea-clear-btn').focus().type('{enter}');
     cy.get('textarea').should('have.value', '');
-    cy.get('@onClear').should((spy: any) => {
+    cy.get('@onClear').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(1);
     });
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal('');
     });
     cy.get('.sd-textarea-clear-btn').should('not.exist');

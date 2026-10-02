@@ -7,7 +7,7 @@ const scriptUrlCache: string[] = [];
 
 export interface IconFontOptions {
   src?: string;
-  extraProps?: { [key: string]: any };
+  extraProps?: { [key: string]: unknown };
 }
 
 export interface IconFontProps {

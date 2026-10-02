@@ -17,7 +17,7 @@
   </sd-form>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { ref } from 'vue';
 
   import { Message } from '@sdata/web-vue';
@@ -27,5 +27,5 @@
   const form = ref({
     code: '',
   });
-  const onFinish = (value) => Message.info(`Verification code: ${value}`);
+  const onFinish = (value: string) => Message.info(`Verification code: ${value}`);
 </script>

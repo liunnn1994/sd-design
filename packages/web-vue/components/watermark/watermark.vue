@@ -296,7 +296,8 @@
     }
   };
 
-  const isWatermarkEle = (ele: any) => Array.from(watermarkMap.value.values()).includes(ele);
+  const isWatermarkEle = (ele: Node) =>
+    Array.from(watermarkMap.value.values()).some((watermark) => watermark === ele);
 
   const handleMutations = (mutations: MutationRecord[]) => {
     if (!props.antiTamper) return;

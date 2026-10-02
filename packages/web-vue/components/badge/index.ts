@@ -15,5 +15,6 @@ const Badge = Object.assign(_Badge, {
 });
 
 export type BadgeInstance = InstanceType<typeof _Badge>;
+export type { ColorType, BadgeStatus } from './constants';
 
 export default Badge;

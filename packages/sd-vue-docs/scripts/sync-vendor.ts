@@ -1,0 +1,379 @@
+type BrowserBinding = {
+  importedName: string;
+  importMode: 'named' | 'namespace' | 'default';
+  modulePath: string;
+};
+
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
+import { build as rolldownBuild } from 'rolldown';
+import { build as viteBuild } from 'vite';
+
+import { buildTypeReferenceManifest } from './build-type-reference-manifest.ts';
+
+const docsNextRoot = path.resolve(import.meta.dirname, '..');
+const workspaceRoot = path.resolve(docsNextRoot, '..', '..');
+const webVueRoot = path.resolve(workspaceRoot, 'packages', 'web-vue');
+const webVueComponentsRoot = path.resolve(webVueRoot, 'components');
+const webVueStyleRoot = path.resolve(webVueComponentsRoot, 'style');
+const publicVendorRoot = path.resolve(docsNextRoot, 'public', 'vendor', 'sd-web-vue');
+const tempStyleBuildRoot = path.resolve(docsNextRoot, '.temp-vendor-style');
+const webVuePackageName = '@sdata/web-vue';
+const importLikePatterns = [
+  /(?<![\w-])(?:import|export)\b[^'"`]*?from\s*['"]([^./][^'"`]*)['"]/g,
+  /(?<![\w-])import\s*['"]([^./][^'"`]*)['"]/g,
+  /(?<![\w-])import\s*\(\s*['"]([^./][^'"`]*)['"]\s*\)/g,
+];
+const excludedSpecifiers = new Set(['vue', '@vue/shared']);
+
+await resetVendorRoot();
+await syncVendorAssets();
+
+console.log('Synced docs vendor assets.');
+
+async function resetVendorRoot() {
+  await fs.rm(publicVendorRoot, { recursive: true, force: true });
+  await fs.mkdir(publicVendorRoot, { recursive: true });
+}
+
+async function syncVendorAssets() {
+  const webVueEsRoot = path.resolve(webVueRoot, 'es');
+  const styleEntryCandidates = [path.resolve(webVueRoot, 'components', 'index.scss')];
+  const styleEntryPath = await resolveFirstExistingPath(styleEntryCandidates);
+
+  await assertExists(webVueEsRoot, 'packages/web-vue/es 不存在，无法同步在线编辑器浏览器模块。');
+  if (!styleEntryPath) {
+    throw new Error('packages/web-vue/components/index.scss 不存在，无法编译在线编辑器样式。');
+  }
+
+  const vendorDependencyOutputs = await collectVendorDependencyOutputs(webVueEsRoot);
+  const componentManifest = await collectBrowserComponentManifest(webVueEsRoot);
+  const typeReferenceManifest = await buildTypeReferenceManifest({
+    workspaceRoot,
+    webVueRoot,
+  });
+
+  await fs.cp(webVueEsRoot, path.resolve(publicVendorRoot, 'es'), {
+    recursive: true,
+    force: true,
+  });
+  await fs.mkdir(path.resolve(publicVendorRoot, 'dist'), { recursive: true });
+  await bundleVendorDependencies(vendorDependencyOutputs);
+  await writeVendorImportMap(vendorDependencyOutputs);
+  await writeComponentManifest(componentManifest);
+  await writeTypeReferenceManifest(typeReferenceManifest);
+
+  await bundleVendorStyles(styleEntryPath);
+}
+
+function parseExportBindingClause(
+  clause: string,
+  modulePath: string,
+  bindingMap: Map<string, BrowserBinding>,
+) {
+  const trimmedClause = clause.trim();
+
+  if (!trimmedClause) {
+    return;
+  }
+
+  const namedOnlyMatch = /^\{([\s\S]*)\}$/.exec(trimmedClause);
+
+  if (namedOnlyMatch) {
+    const namedImports =
+      namedOnlyMatch[1]
+        ?.split(',')
+        .map((item) => item.trim())
+        .filter(Boolean) ?? [];
+
+    for (const namedImport of namedImports) {
+      const [importedName, localName] = namedImport.split(/\s+as\s+/i).map((item) => item.trim());
+
+      if (!importedName) {
+        continue;
+      }
+
+      bindingMap.set(localName ?? importedName, {
+        importedName,
+        importMode: 'named',
+        modulePath,
+      });
+    }
+
+    return;
+  }
+
+  const namespaceMatch = /^\*\s+as\s+([A-Za-z_$][\w$]*)$/.exec(trimmedClause);
+
+  if (namespaceMatch?.[1]) {
+    bindingMap.set(namespaceMatch[1], {
+      importedName: '*',
+      importMode: 'namespace',
+      modulePath,
+    });
+    return;
+  }
+
+  const [defaultImport, remainingClause] = trimmedClause
+    .split(/,\s*(?=\{|\*\s+as\s+)/)
+    .map((item: string) => item.trim());
+
+  if (defaultImport) {
+    bindingMap.set(defaultImport, {
+      importedName: 'default',
+      importMode: 'default',
+      modulePath,
+    });
+  }
+
+  if (!remainingClause) {
+    return;
+  }
+
+  parseExportBindingClause(remainingClause, modulePath, bindingMap);
+}
+
+async function collectBrowserComponentManifest(webVueEsRoot: string) {
+  const entryPath = path.resolve(webVueEsRoot, 'index.js');
+  const entrySource = await fs.readFile(entryPath, 'utf8');
+  const bindingMap = collectBrowserEntryBindings(entrySource);
+  const exports = collectBrowserExportEntries(entrySource, bindingMap);
+
+  return { exports };
+}
+
+function collectBrowserEntryBindings(entrySource: string) {
+  const bindingMap = new Map<string, BrowserBinding>();
+
+  for (const match of entrySource.matchAll(/import\s+([\s\S]*?)\s+from\s+["'](\.[^"']+)["'];/g)) {
+    const clause = match[1];
+    const modulePath = match[2];
+
+    if (!clause || !modulePath) {
+      continue;
+    }
+
+    parseExportBindingClause(clause, modulePath, bindingMap);
+  }
+
+  return bindingMap;
+}
+
+function createBrowserExportEntry(binding: BrowserBinding) {
+  const relativeModulePath = binding.modulePath.replace(/^\.\//, '');
+  const isPluginExport =
+    !binding.modulePath.startsWith('./_') && binding.modulePath !== './sd-vue.js';
+
+  return {
+    importMode: binding.importMode,
+    importedName: binding.importMode === 'named' ? binding.importedName : undefined,
+    pluginSpecifier: isPluginExport
+      ? `${webVuePackageName}/es/${relativeModulePath.split('/')[0]}/index.js`
+      : null,
+    specifier: `${webVuePackageName}/es/${relativeModulePath}`,
+  };
+}
+
+function collectBrowserExportEntries(entrySource: string, bindingMap: Map<string, BrowserBinding>) {
+  const exportBlockMatch = /export\s*\{([\s\S]*?)\};?\s*$/.exec(entrySource);
+  const exports: Record<string, ReturnType<typeof createBrowserExportEntry>> = {};
+
+  if (!exportBlockMatch?.[1]) {
+    return exports;
+  }
+
+  const exportSpecifiers = exportBlockMatch[1]
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  for (const exportSpecifier of exportSpecifiers) {
+    const [localName, exportedName] = exportSpecifier.split(/\s+as\s+/i).map((item) => item.trim());
+    const exportName = exportedName ?? localName;
+
+    if (!localName || !exportName || exportName === 'default') {
+      continue;
+    }
+
+    const binding = bindingMap.get(localName);
+
+    if (!binding || binding.importMode === 'namespace') {
+      continue;
+    }
+
+    exports[exportName] = createBrowserExportEntry(binding);
+  }
+
+  return exports;
+}
+
+async function bundleVendorStyles(styleEntryPath: string) {
+  await fs.rm(tempStyleBuildRoot, { recursive: true, force: true });
+
+  await viteBuild({
+    configFile: false,
+    publicDir: false,
+    logLevel: 'silent',
+    root: webVueRoot,
+    resolve: {
+      alias: {
+        '@style': webVueStyleRoot,
+        '@components': webVueComponentsRoot,
+      },
+    },
+    build: {
+      emptyOutDir: true,
+      outDir: tempStyleBuildRoot,
+      rollupOptions: {
+        input: styleEntryPath,
+        output: {
+          assetFileNames: 'assets/[name][extname]',
+          chunkFileNames: 'assets/[name].js',
+          entryFileNames: 'assets/[name].js',
+        },
+      },
+    },
+  });
+
+  const cssFiles = (await collectFiles(tempStyleBuildRoot)).filter((filePath: string) =>
+    filePath.endsWith('.css'),
+  );
+
+  if (cssFiles.length !== 1) {
+    throw new Error(`期望 Vite 产出 1 个 CSS 文件，实际得到 ${cssFiles.length} 个。`);
+  }
+
+  await fs.copyFile(cssFiles[0], path.resolve(publicVendorRoot, 'dist', 'sd.css'));
+  await fs.rm(tempStyleBuildRoot, { recursive: true, force: true });
+}
+
+async function bundleVendorDependencies(vendorDependencyOutputs: Record<string, string>) {
+  for (const [specifier, outputPath] of Object.entries(vendorDependencyOutputs)) {
+    const outfile = path.resolve(publicVendorRoot, outputPath);
+
+    await fs.mkdir(path.dirname(outfile), { recursive: true });
+    await rolldownBuild({
+      input: specifier,
+      cwd: webVueRoot,
+      external: Array.from(excludedSpecifiers),
+      platform: 'browser',
+      logLevel: 'silent',
+      write: true,
+      output: {
+        dir: path.dirname(outfile),
+        entryFileNames: path.basename(outfile),
+        chunkFileNames: 'chunks/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash][extname]',
+        format: 'esm',
+      },
+    });
+  }
+}
+
+async function collectVendorDependencyOutputs(webVueEsRoot: string) {
+  const sourceFiles = await collectFiles(webVueEsRoot);
+  const specifiers = new Set<string>();
+
+  for (const filePath of sourceFiles) {
+    if (!filePath.endsWith('.js')) {
+      continue;
+    }
+
+    const source = await fs.readFile(filePath, 'utf8');
+
+    for (const pattern of importLikePatterns) {
+      pattern.lastIndex = 0;
+
+      for (const match of source.matchAll(pattern)) {
+        const specifier = match[1];
+
+        if (!specifier || excludedSpecifiers.has(specifier)) {
+          continue;
+        }
+
+        specifiers.add(specifier);
+      }
+    }
+  }
+
+  return Object.fromEntries(
+    Array.from(specifiers)
+      .sort((left, right) => left.localeCompare(right))
+      .map((specifier) => [specifier, `deps/${specifier}.js`]),
+  );
+}
+
+async function writeVendorImportMap(vendorDependencyOutputs: Record<string, string>) {
+  const importMap = {
+    imports: Object.fromEntries(
+      Object.entries(vendorDependencyOutputs).map(([specifier, outputPath]) => [
+        specifier,
+        `/vendor/sd-web-vue/${outputPath.replaceAll('\\', '/')}`,
+      ]),
+    ),
+  };
+
+  await fs.writeFile(
+    path.resolve(publicVendorRoot, 'deps', 'import-map.json'),
+    JSON.stringify(importMap, null, 2),
+  );
+}
+
+async function writeComponentManifest(
+  componentManifest: ReturnType<typeof collectBrowserComponentManifest> extends Promise<infer T>
+    ? T
+    : never,
+) {
+  await fs.writeFile(
+    path.resolve(publicVendorRoot, 'deps', 'component-manifest.json'),
+    JSON.stringify(componentManifest, null, 2),
+  );
+}
+
+async function writeTypeReferenceManifest(
+  typeReferenceManifest: Awaited<ReturnType<typeof buildTypeReferenceManifest>>,
+) {
+  await fs.writeFile(
+    path.resolve(publicVendorRoot, 'deps', 'type-reference-manifest.json'),
+    JSON.stringify(typeReferenceManifest, null, 2),
+  );
+}
+
+async function collectFiles(rootPath: string): Promise<string[]> {
+  const entries = await fs.readdir(rootPath, { withFileTypes: true });
+  const files = [];
+
+  for (const entry of entries) {
+    const entryPath = path.resolve(rootPath, entry.name);
+
+    if (entry.isDirectory()) {
+      files.push(...(await collectFiles(entryPath)));
+      continue;
+    }
+
+    files.push(entryPath);
+  }
+
+  return files;
+}
+
+async function assertExists(targetPath: string, errorMessage: string) {
+  try {
+    await fs.access(targetPath);
+  } catch {
+    throw new Error(errorMessage);
+  }
+}
+
+async function resolveFirstExistingPath(candidates: string[]) {
+  for (const candidate of candidates) {
+    try {
+      await fs.access(candidate);
+      return candidate;
+    } catch {
+      // continue searching
+    }
+  }
+
+  return null;
+}

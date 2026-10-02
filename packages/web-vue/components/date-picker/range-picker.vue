@@ -231,7 +231,7 @@
      * @en Native input attributes
      */
     inputProps: {
-      type: Array as PropType<Record<string, any>[]>,
+      type: Array as PropType<Record<string, unknown>[]>,
       default: () => [],
     },
     /**
@@ -307,7 +307,7 @@
       type: [String, Object] as PropType<string | HTMLElement>,
     },
     locale: {
-      type: Object as PropType<Record<string, any>>,
+      type: Object as PropType<Record<string, unknown>>,
     },
     hideTrigger: {
       type: Boolean,
@@ -1050,7 +1050,7 @@
     }
   }
 
-  let clearShortcutPreviewTimer: any;
+  let clearShortcutPreviewTimer: ReturnType<typeof setTimeout> | undefined;
   onUnmounted(() => {
     clearTimeout(clearShortcutPreviewTimer);
   });
@@ -1085,10 +1085,10 @@
     emit('clear');
   }
 
-  function onInputChange(e: any) {
+  function onInputChange(e: Event) {
     setPanelVisible(true);
 
-    const targetValue = e.target.value;
+    const targetValue = (e.target as HTMLInputElement).value;
 
     // TODO: Null value should be restored to the current value, invalid when deleted as a whole
     if (!targetValue) {

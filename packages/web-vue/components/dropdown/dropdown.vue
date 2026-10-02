@@ -133,7 +133,7 @@
     /**
      * @zh 用户选择时触发
      * @en Triggered when the user selects
-     * @param {string | number | Record<string, any> | undefined } value
+     * @param {string | number | Record<string, unknown> | undefined } value
      * @param {Event} ev
      */
     'select': [_value: string | number | Record<string, unknown> | undefined, _ev: Event];
@@ -188,7 +188,7 @@
   });
 
   const handleOptionClick = (
-    value: string | number | Record<string, any> | undefined,
+    value: string | number | Record<string, unknown> | undefined,
     ev: Event,
   ) => {
     emit('select', value, ev);

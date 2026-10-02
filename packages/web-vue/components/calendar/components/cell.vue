@@ -75,7 +75,7 @@
           :class="`${prefixCls}__cell-events`"
         >
           <event
-            v-for="event in cellEventsPerSchedule[schedule.id]"
+            v-for="event in cellEventsPerSchedule?.[schedule.id]"
             :key="event._.id"
             :event="event"
             @event-deleted="onEventDelete"
@@ -185,6 +185,7 @@
 </template>
 
 <script setup lang="ts">
+  import type { CSSProperties } from 'vue';
   import {
     computed,
     inject,
@@ -195,6 +196,8 @@
     shallowRef,
     watch,
   } from 'vue';
+
+  import type { CalendarEvent, CalendarId, CalendarSchedule, CalendarListener } from '../types';
 
   import { calendarInjectionKey } from '../context';
   import { months, weekdays } from '../core/config';
@@ -269,7 +272,13 @@
   let clickTimeout: ReturnType<typeof setTimeout> | null = null;
 
   // Overlapping events calculation (only updates when event IDs or date ranges change).
-  const overlappingEvents = ref<{ cellOverlaps: Record<string, any>; longestStreak: number }>({
+  const overlappingEvents = ref<{
+    cellOverlaps: Record<
+      string,
+      { overlaps: CalendarId[]; maxConcurrent: number; position: number }
+    >;
+    longestStreak: number;
+  }>({
     cellOverlaps: {},
     longestStreak: 0,
   });
@@ -406,7 +415,7 @@
   });
 
   const cellForegroundEvents = computed(() =>
-    cellEvents.value.filter((event: any) => !event.background),
+    cellEvents.value.filter((event) => !event.background),
   );
 
   /**
@@ -417,22 +426,22 @@
    */
   const cellEventsPerSchedule = computed(() => {
     return config.schedules?.reduce(
-      (obj: Record<string, any>, schedule: any) => {
-        obj[schedule.id] = cellEvents.value.filter((event: any) => event.schedule === schedule.id);
+      (obj: Record<string, CalendarEvent[]>, schedule) => {
+        obj[schedule.id] = cellEvents.value.filter((event) => event.schedule === schedule.id);
         return obj;
       },
-      {} as Record<string, any>,
+      {} as Record<string, CalendarEvent[]>,
     );
   });
 
   // Compute styles for event width & offset.
   const eventStyles = computed(() => {
     if (view.isMonth || view.isYear || view.isYears || props.allDay || !config.time)
-      return {} as Record<string, any>;
+      return {} as Record<CalendarId, CSSProperties>;
     const isRTL =
       typeof document !== 'undefined' && document.documentElement.getAttribute('dir') === 'rtl';
     const isHzl = config.horizontal;
-    const styles: Record<string, any> = {};
+    const styles: Record<CalendarId, CSSProperties> = {};
 
     for (const event of cellEvents.value) {
       const eventId = event._.id;
@@ -459,7 +468,7 @@
    *                   representing the event class.
    */
   const eventClasses = computed(() => {
-    const classes: Record<string, any> = {};
+    const classes: Record<CalendarId, string> = {};
     for (const event of cellEvents.value) {
       const eventId = event._.id;
       const { maxConcurrent = 1, position = 0 } =
@@ -550,14 +559,14 @@
 
     const sh = specialHours.value;
     if (!sh)
-      return schedules.map((schedule: any) => ({
+      return schedules.map((schedule: CalendarSchedule & { id: CalendarId }) => ({
         schedule,
         ranges: [] as PositionedSpecialHour[],
       }));
 
     const { default: defaultRanges, schedules: byScheduleId } = sh;
 
-    return schedules.map((schedule: any) => {
+    return schedules.map((schedule: CalendarSchedule & { id: CalendarId }) => {
       const scheduleKey = String(schedule.id);
       const ranges = Object.prototype.hasOwnProperty.call(byScheduleId, scheduleKey)
         ? byScheduleId[scheduleKey]
@@ -591,7 +600,7 @@
   // Automatically forwards any event listener attached to calendar starting with @cell- to the cell.
   // Uses shallowRef + watch instead of computed so the listeners object reference stays stable
   // unless the set of external event listeners or disabled state actually changes.
-  const cellEventListeners = shallowRef<Record<string, any>>({});
+  const cellEventListeners = shallowRef<Record<string, CalendarListener>>({});
 
   watch(
     () => [isDisabled.value, config.eventListeners.cell, config.editableEvents.drag],
@@ -601,27 +610,32 @@
         return;
       }
 
-      const listeners: Record<string, any> = { ...config.eventListeners.cell };
+      const listeners: Record<string, CalendarListener> = { ...config.eventListeners.cell };
 
       // Inject the cell details in each eventListener handler call as 2nd param.
       for (const [eventListener, handler] of Object.entries(listeners)) {
-        listeners[eventListener] = (e: any) => {
+        listeners[eventListener] = (e: Event | { e: Event }) => {
           // When interacting with an event, skip calling the cell DOM event handler.
           // The DOM event bubbles up to the cell from the event but we don't stop it on purpose so
           // we can receive the on mouseup from the document and stop event drag&drop.
-          if ((e.target || e.e?.target)?.closest?.(`.${prefixCls}__event`)) return;
+          if (
+            (('e' in e ? e.e?.target : e.target) as Element | null)?.closest?.(
+              `.${prefixCls}__event`,
+            )
+          )
+            return;
 
           // Check if e.type to not rewrap the DOM event in an object if already done.
-          handler(e.type ? { e, cell: cellInfo.value, cursor: cursorInfo.value, view } : e);
+          handler('type' in e ? { e, cell: cellInfo.value, cursor: cursorInfo.value, view } : e);
         };
       }
 
       // Store a copy of any potential external handler to combine with internal handlers like
       // click, touchstart, mousedown.
-      const externalHandlers: Record<string, any> = { ...listeners };
+      const externalHandlers: Record<string, CalendarListener> = { ...listeners };
 
       // `cell-delayed-click` is only fired after 400ms if there was no dblclick.
-      listeners.click = (e: any) => {
+      listeners.click = (e: MouseEvent | TouchEvent) => {
         onCellClick();
         const cursor = getTimeAtCursor(e);
 
@@ -638,8 +652,8 @@
       };
 
       if ((config.time && view.isDay) || view.isDays || view.isWeek) {
-        listeners.touchstart = (e: any) => {
-          onMousedown(e.e || e);
+        listeners.touchstart = (e: MouseEvent | TouchEvent) => {
+          onMousedown(e);
           externalHandlers.touchstart?.({
             e,
             cell: cellInfo.value,
@@ -647,8 +661,8 @@
             view,
           });
         };
-        listeners.mousedown = (e: any) => {
-          onMousedown(e.e || e);
+        listeners.mousedown = (e: MouseEvent | TouchEvent) => {
+          onMousedown(e);
 
           externalHandlers.mousedown?.({ e, cell: cellInfo.value, cursor: cursorInfo.value, view });
         };
@@ -660,7 +674,7 @@
         // Note: increasing the touch object longevity to keep the cursor position and date would
         // not work because the dblclick can have a fast click and a long hold second click and it
         // should still fire.
-        listeners.dblclick = (e: any) => {
+        listeners.dblclick = (e: MouseEvent | TouchEvent) => {
           externalHandlers.dblclick?.({
             e,
             cell: cellInfo.value,
@@ -698,8 +712,8 @@
     narrower: view.narrowerView,
   }));
 
-  const scheduleEvents = (schedule: any) => {
-    return cellEventsPerSchedule.value[schedule.id] || [];
+  const scheduleEvents = (schedule: CalendarSchedule & { id: CalendarId }) => {
+    return cellEventsPerSchedule.value?.[schedule.id] || [];
   };
 
   /**
@@ -776,7 +790,7 @@
     const rawSchedule = ((e.target as HTMLElement)?.closest('[data-schedule]') as HTMLElement)
       ?.dataset?.schedule;
     if (rawSchedule !== undefined && config.schedules?.length) {
-      const match = config.schedules.find((s: any) => String(s.id) === String(rawSchedule));
+      const match = config.schedules.find((s) => String(s.id) === String(rawSchedule));
       touch.schedule = match ? match.id : rawSchedule;
     } else touch.schedule = null;
     if (!cellEl.value) return;
@@ -910,10 +924,10 @@
   const createEventIfAllowed = async (e: MouseEvent | TouchEvent) => {
     if (!isCreatingEvent.value) return;
 
-    let { start, end, startMinutes, endMinutes } = eventPlaceholder.value;
-    start = new Date(props.start);
+    const { startMinutes, endMinutes } = eventPlaceholder.value;
+    const start = new Date(props.start);
     start.setMinutes(startMinutes);
-    end = new Date(props.start);
+    const end = new Date(props.start);
     end.setMinutes(endMinutes);
 
     let eventToCreate = { ...eventPlaceholder.value, start, end };
@@ -963,7 +977,7 @@
       !view.isYears &&
       !view.isYear &&
       cellForegroundEvents.value
-        .map((e: any) => `${e._.id}${e.start.getTime()}${e.end.getTime()}`)
+        .map((e) => `${e._.id}${e.start.getTime()}${e.end.getTime()}`)
         .join(),
     async () => {
       await nextTick(); // Use nextTick to avoid recursive updates.

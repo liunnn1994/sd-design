@@ -106,7 +106,7 @@ export interface QuarterPickerProps {
 }
 
 export interface BasePickerProps extends FitWidthProps {
-  locale?: Record<string, any>;
+  locale?: Record<string, unknown>;
   hideTrigger: boolean;
   allowClear: boolean;
   readonly: boolean;
@@ -119,7 +119,7 @@ export interface BasePickerProps extends FitWidthProps {
   defaultPopupVisible: boolean;
   triggerProps?: Record<string, unknown>;
   unmountOnClose: boolean;
-  inputProps?: Record<string, any>;
+  inputProps?: Record<string, unknown>;
   valueFormat?: ValueFormat;
   previewShortcut: boolean;
   showConfirm?: boolean;
@@ -138,7 +138,7 @@ export type PickerProps = BasePickerProps &
     mode: Mode;
   };
 
-export interface RangePickerProps extends BasePickerProps {
+export interface RangePickerProps extends Omit<BasePickerProps, 'inputProps'> {
   mode: Mode;
   modelValue?: CalendarValue[];
   defaultValue?: CalendarValue[];
@@ -154,7 +154,7 @@ export interface RangePickerProps extends BasePickerProps {
   disabledTime?: RangeDisabledTime;
   separator?: string;
   exchangeTime: boolean;
-  inputProps?: Record<string, any>[];
+  inputProps?: Record<string, unknown>[];
   fixedTime?: boolean;
   clearRangeOnReselect?: boolean;
 }

@@ -7,11 +7,11 @@ describe('TimePicker custom trigger', () => {
     cy.mount(TimePicker, {
       props: { defaultValue: '09:30:00' },
       slots: {
-        trigger: (scope: any) =>
+        trigger: (scope: import('../interface').TimePickerTriggerSlotProps) =>
           h(
             'button',
             { class: 'custom-trigger' },
-            `${scope.displayValue}|${scope.date?.getHours()}|${scope.popupVisible}`,
+            `${scope.displayValue}|${scope.date instanceof Date ? scope.date.getHours() : undefined}|${scope.popupVisible}`,
           ),
       },
     });
@@ -63,7 +63,7 @@ describe('TimePicker selection and events', () => {
     cy.get('.sd-timepicker-column').eq(0).contains('li', /^10$/).click();
     cy.get('.sd-timepicker-column').eq(1).contains('li', /^45$/).click();
     cy.get('.sd-timepicker-column').eq(2).contains('li', /^20$/).click();
-    cy.get('@onSelect').should((spy: any) => {
+    cy.get('@onSelect').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(3);
       expect(spy.firstCall.args[0]).to.equal('10:30:00');
       expect(spy.secondCall.args[0]).to.equal('10:45:00');
@@ -72,12 +72,12 @@ describe('TimePicker selection and events', () => {
     });
     // Confirm with Enter on the input — same confirm() path as the OK button.
     cy.get('.sd-picker input').type('{enter}');
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(1);
       expect(spy.firstCall.args[0]).to.equal('10:45:20');
       expect(spy.firstCall.args[1]).to.be.instanceOf(Date);
     });
-    cy.get('@onUpdateModelValue').should((spy: any) => {
+    cy.get('@onUpdateModelValue').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal('10:45:20');
     });
     cy.get('.sd-picker input').should('have.value', '10:45:20');
@@ -99,12 +99,12 @@ describe('TimePicker selection and events', () => {
       },
     });
     cy.get('.sd-timepicker-column').eq(0).contains('li', /^10$/).click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(1);
       expect(spy.firstCall.args[0]).to.equal('10:00:00');
     });
     cy.get('.sd-timepicker-column').eq(1).contains('li', /^30$/).click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(2);
       expect(spy.secondCall.args[0]).to.equal('10:30:00');
     });
@@ -130,7 +130,7 @@ describe('TimePicker selection and events', () => {
     // value differs), so select minute 45 first — 13:30 stays pm -> 13:45.
     cy.get('.sd-timepicker-column').eq(1).contains('li', /^45$/).click();
     cy.get('.sd-timepicker-footer-btn-wrapper').contains('button', '确定').click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(1);
       expect(spy.firstCall.args[0]).to.equal('13:45:00');
     });
@@ -150,7 +150,7 @@ describe('TimePicker selection and events', () => {
     cy.get('.sd-timepicker-column').should('have.length', 4);
     cy.get('.sd-timepicker-column').eq(3).contains('li', /^am$/).click();
     cy.get('.sd-timepicker-footer-btn-wrapper').contains('button', '确定').click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.firstCall.args[0]).to.equal('01:30:00 am');
     });
     cy.get('.sd-picker input').should('have.value', '01:30:00 am');
@@ -183,13 +183,13 @@ describe('TimePicker selection and events', () => {
       .should('have.class', 'sd-timepicker-cell-disabled')
       .and('have.attr', 'aria-disabled', 'true');
     cy.get('.sd-timepicker-column').eq(0).contains('li', /^09$/).click();
-    cy.get('@onSelect').should((spy: any) => {
+    cy.get('@onSelect').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(0);
     });
     // The OK button stays disabled while the selected time is disabled.
     cy.get('.sd-timepicker-footer-btn-wrapper').contains('button', '确定').should('be.disabled');
     cy.get('.sd-timepicker-column').eq(0).contains('li', /^12$/).click();
-    cy.get('@onSelect').should((spy: any) => {
+    cy.get('@onSelect').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(1);
       expect(spy.firstCall.args[0]).to.equal('12:30:00');
     });
@@ -211,7 +211,7 @@ describe('TimePicker input and clear', () => {
       expect(last).to.equal(true);
     });
     cy.get('.sd-picker input').type('10:30:00{enter}');
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(1);
       expect(spy.firstCall.args[0]).to.equal('10:30:00');
     });
@@ -226,12 +226,12 @@ describe('TimePicker input and clear', () => {
     });
     // 清除图标依赖 CSS :hover 显示（合成事件无法触发），使用 force click
     cy.get('.sd-picker-clear-icon').click({ force: true });
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(1);
       expect(spy.lastCall.args[0]).to.equal(undefined);
       expect(spy.lastCall.args[1]).to.equal(undefined);
     });
-    cy.get('@onUpdateModelValue').should((spy: any) => {
+    cy.get('@onUpdateModelValue').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.lastCall.args[0]).to.equal(undefined);
     });
     cy.get('.sd-picker input').should('have.value', '');
@@ -251,7 +251,7 @@ describe('TimePicker input and clear', () => {
     cy.get('.sd-picker input').eq(0).should('have.value', '18:45:00');
     cy.get('.sd-picker input').eq(1).should('have.value', '09:30:00');
     cy.get('.sd-timepicker-footer-btn-wrapper').contains('button', '确定').click();
-    cy.get('@onChange').should((spy: any) => {
+    cy.get('@onChange').should((spy: ReturnType<typeof cy.spy>) => {
       expect(spy.callCount).to.equal(1);
       expect(spy.firstCall.args[0]).to.deep.equal(['09:30:00', '18:45:00']);
       expect(spy.firstCall.args[1]).to.have.length(2);

@@ -1,7 +1,5 @@
 import { DefaultValidateMessage } from 'b-validate';
 
-import type { ValidateMessage } from '../interface';
-
 import { SDCalendarLang, SdLang } from '../interface';
 import { kvListEnUS } from './kv-list';
 
@@ -166,7 +164,7 @@ const lang: SdLang = {
     copied: 'Copied successfully',
   },
   form: {
-    validateMessages: DefaultValidateMessage as unknown as ValidateMessage,
+    validateMessages: DefaultValidateMessage,
   },
   colorPicker: {
     history: 'History Colors',

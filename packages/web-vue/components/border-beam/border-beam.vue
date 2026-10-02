@@ -127,13 +127,6 @@
   </div>
 </template>
 
-<script lang="ts">
-  // Module-scoped counter so every instance on a page gets a unique id.
-  // Must live in a plain <script> block — inside <script setup> it would reset
-  // per instance, causing CSS selector collisions when multiple beams coexist.
-  let instanceCounter = 0;
-</script>
-
 <script lang="ts" setup>
   import { ref, computed, watch, onMounted, onUnmounted, nextTick, shallowRef } from 'vue';
 
@@ -148,6 +141,7 @@
 
   import { useBeamPreferences } from '../_hooks/use-beam-preferences';
   import { getPrefixCls } from '../_utils/global-config';
+  import { nextInstanceId } from './instance-id';
   import { registerPulseInstance } from './pulseDriver';
   import { sizePresets, sizeThemePresets, generateBeamCSS, getPulseDriverConfig } from './styles';
 
@@ -200,7 +194,7 @@
   }>();
 
   // ── Unique instance ID ──────────────────────────────────────────────────────
-  const id = `bb-${++instanceCounter}`;
+  const id = `bb-${nextInstanceId()}`;
 
   // ── CSS prefix ──────────────────────────────────────────────────────────────
   const prefixCls = getPrefixCls('border-beam');

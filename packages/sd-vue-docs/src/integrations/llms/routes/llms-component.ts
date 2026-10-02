@@ -1,4 +1,4 @@
-import { getLlmsCatalog, renderComponentMarkdown } from '../core.mjs';
+import { getLlmsCatalog, renderComponentMarkdown } from '../core.ts';
 
 export async function getStaticPaths() {
   const catalog = await getLlmsCatalog();

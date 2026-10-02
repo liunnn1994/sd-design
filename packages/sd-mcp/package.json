@@ -44,9 +44,9 @@
     "access": "public"
   },
   "scripts": {
-    "gen": "node ./scripts/gen-component-data.mjs",
-    "build": "node ./scripts/build.mjs",
-    "test": "node ./scripts/build.mjs 9.8.7-test && node --test ./test/*.test.mjs",
+    "gen": "node ./scripts/gen-component-data.ts",
+    "build": "node ./scripts/build.ts",
+    "test": "node ./scripts/build.ts 9.8.7-test && node --test ./test/*.test.ts",
     "typecheck": "pnpm run gen && tsc --noEmit",
     "dev:link": "pnpm link --global && npm link"
   },

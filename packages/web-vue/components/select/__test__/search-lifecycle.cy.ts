@@ -11,8 +11,10 @@ describe('Select search lifecycle', () => {
     });
     cy.mount(Select, { props: { allowSearch: true, searchDelay: 1000, onSearch: search } });
     cy.get('input').type('query', { delay: 0 });
-    cy.get('@setTimer').then((timer: any) => {
-      const calls = timer.getCalls().filter((call: any) => call.args[1] === 1000);
+    cy.get('@setTimer').then((timer: ReturnType<typeof cy.spy>) => {
+      const calls = timer
+        .getCalls()
+        .filter((call: ReturnType<ReturnType<typeof cy.spy>['getCall']>) => call.args[1] === 1000);
       expect(calls.length).to.be.greaterThan(0);
       searchTimer = calls[calls.length - 1].returnValue;
     });

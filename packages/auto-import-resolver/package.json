@@ -34,9 +34,9 @@
   "scripts": {
     "build": "pnpm run build:package",
     "build:package": "tsdown && pnpm run build:postbuild",
-    "build:postbuild": "node ./scripts/postbuild.mjs",
+    "build:postbuild": "node ./scripts/postbuild.ts",
     "dev:link": "pnpm link --global && npm link",
-    "test:release": "node --test ./scripts/path-scoped-release.test.mjs"
+    "test:release": "node --test ./scripts/path-scoped-release.test.ts"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^7.0.0",

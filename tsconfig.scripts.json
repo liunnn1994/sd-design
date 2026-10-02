@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "types": ["node"]
+  },
+  "include": [
+    "scripts/**/*.ts",
+    "packages/*/scripts/**/*.ts",
+    "packages/sd-mcp/test/**/*.ts",
+    "commitlint.config.ts",
+    "lint-staged.config.ts",
+    "stylelint.config.ts",
+    "packages/*/scripts/**/*.mts",
+    "packages/*/release.config.ts"
+  ]
+}

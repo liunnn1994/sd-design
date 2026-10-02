@@ -18,10 +18,10 @@
       </sd-tag>
     </template>
     <template #table__action_prepend="{ record }">
-      <sd-link :ellipsis="false" @click="selected = record.name">详情</sd-link>
+      <sd-link :ellipsis="false" @click="selected = String(record.name)">详情</sd-link>
     </template>
     <template #table__action_append="{ record }">
-      <sd-link :ellipsis="false" @click="selected = record.name">查看</sd-link>
+      <sd-link :ellipsis="false" @click="selected = String(record.name)">查看</sd-link>
       <sd-popconfirm
         :content="`确定禁用【${record.name}】吗？`"
         type="warning"

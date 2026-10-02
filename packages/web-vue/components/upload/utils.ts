@@ -4,7 +4,7 @@ import { NOOP } from '../_utils/dom';
 import { isArray, isFunction } from '../_utils/is';
 import { FileItem, FileStatus, RequestOption, UploadRequest } from './interfaces';
 
-const getResponse = (xhr: XMLHttpRequest) => {
+const getResponse = (xhr: XMLHttpRequest): unknown => {
   const res = xhr.responseText || xhr.response;
   if (!res) {
     return undefined;
@@ -32,11 +32,11 @@ export const getProgressStatus = (status?: FileStatus) => {
   }
 };
 
-const getValue = (obj: any, fileItem: FileItem) => {
+const getValue = <T>(obj: T | ((fileItem: FileItem) => T), fileItem: FileItem): T => {
   if (isFunction(obj)) {
-    return obj(fileItem);
+    return (obj as (fileItem: FileItem) => T)(fileItem);
   }
-  return obj;
+  return obj as T;
 };
 
 export const uploadRequest = ({

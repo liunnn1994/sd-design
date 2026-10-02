@@ -1,23 +1,21 @@
-import type { PluginOption, UserConfig } from 'vite';
+import type { PluginOption, UserConfig } from 'vite-plus';
 
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import CleanCSS from 'clean-css';
 import { globSync } from 'glob';
 import { access, cp, mkdir, readFile, writeFile } from 'node:fs/promises';
-import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite-plus';
 
-import cssjsPlugin from './scripts/plugins/vite-plugin-cssjs.mjs';
-import externalPlugin from './scripts/plugins/vite-plugin-external.mjs';
-import pdfjsWorkerAssetPlugin from './scripts/plugins/vite-plugin-pdfjs-worker-asset.mjs';
-import vueExportHelperPlugin from './scripts/plugins/vite-plugin-vue-export-helper.mjs';
+import cssjsPlugin from './scripts/plugins/vite-plugin-cssjs.ts';
+import externalPlugin from './scripts/plugins/vite-plugin-external.ts';
+import pdfjsWorkerAssetPlugin from './scripts/plugins/vite-plugin-pdfjs-worker-asset.ts';
+import vueExportHelperPlugin from './scripts/plugins/vite-plugin-vue-export-helper.ts';
 import { createSassStyleSupport } from './scripts/utils/sass-support.mts';
 
 const packageRoot = path.dirname(fileURLToPath(import.meta.url));
-const require = createRequire(import.meta.url);
 
 const resolveFromRoot = (...segments: string[]) => path.resolve(packageRoot, ...segments);
 
@@ -67,11 +65,11 @@ function createRunConfig() {
         cache: false,
       },
       'gen:icons': {
-        command: 'node ./scripts/gen-icons.mjs',
+        command: 'node ./scripts/gen-icons.ts',
         cache: false,
       },
       'gen:web-types': {
-        command: 'node ./scripts/gen-web-types.mjs',
+        command: 'node ./scripts/gen-web-types.ts',
       },
       'task:dev-component': {
         command:
@@ -93,7 +91,7 @@ function createRunConfig() {
         cache: false,
       },
       'write:icon-compat': {
-        command: 'node ./scripts/write-icon-compat-entry.mjs',
+        command: 'node ./scripts/write-icon-compat-entry.ts',
         cache: false,
       },
       'task:build-umd-component': {
@@ -123,7 +121,7 @@ function createRunConfig() {
           'node ./node_modules/vite/bin/vite.js build --config vite.config.ts --mode build-style',
       },
       'task:build-dts': {
-        command: 'node ./scripts/build-dts.mjs',
+        command: 'node ./scripts/build-dts.ts',
       },
     },
   };
@@ -247,7 +245,7 @@ async function canAccessFile(filePath: string) {
 
 async function emitStyleArtifacts(log?: (message: string) => void) {
   const overlayScrollbarsCss = await readFile(
-    require.resolve('overlayscrollbars/overlayscrollbars.css'),
+    fileURLToPath(import.meta.resolve('overlayscrollbars/overlayscrollbars.css')),
     'utf8',
   );
   const withOverlayScrollbarsCss = (css: string) => `${overlayScrollbarsCss}\n${css}`;
@@ -307,7 +305,7 @@ async function emitStyleArtifacts(log?: (message: string) => void) {
   await writeFile(resolveFromRoot('dist', 'sd.scss'), "@import '../es/index.scss';\n\n", 'utf8');
   await writeFile(resolveFromRoot('dist', 'sd.css'), css, 'utf8');
 
-  const compress = (new CleanCSS() as any).minify(css);
+  const compress = new CleanCSS().minify(css);
   await writeFile(resolveFromRoot('dist', 'sd.min.css'), compress.styles, 'utf8');
   log?.('Style artifact generation completed.');
 }
@@ -392,36 +390,36 @@ export default defineConfig(({ mode }) => {
   const run = createRunConfig();
 
   if (mode === 'dev-component') {
-    return { ...createDevBuildConfig(), run } as any;
+    return { ...createDevBuildConfig(), run };
   }
 
   if (mode === 'build-module') {
-    return { ...createModuleBuildConfig(), run } as any;
+    return { ...createModuleBuildConfig(), run };
   }
 
   if (mode === 'build-module-icon') {
-    return { ...createIconModuleBuildConfig(), run } as any;
+    return { ...createIconModuleBuildConfig(), run };
   }
 
   if (mode === 'build-umd-component') {
-    return { ...createUmdBuildConfig('component', false), run } as any;
+    return { ...createUmdBuildConfig('component', false), run };
   }
 
   if (mode === 'build-umd-component-min') {
-    return { ...createUmdBuildConfig('component', true), run } as any;
+    return { ...createUmdBuildConfig('component', true), run };
   }
 
   if (mode === 'build-umd-icon') {
-    return { ...createUmdBuildConfig('icon', false), run } as any;
+    return { ...createUmdBuildConfig('icon', false), run };
   }
 
   if (mode === 'build-umd-icon-min') {
-    return { ...createUmdBuildConfig('icon', true), run } as any;
+    return { ...createUmdBuildConfig('icon', true), run };
   }
 
   if (mode === 'build-style') {
-    return { ...createStyleBuildConfig(), run } as any;
+    return { ...createStyleBuildConfig(), run };
   }
 
-  return { ...createTestSupportConfig(), run } as any;
+  return { ...createTestSupportConfig(), run };
 });

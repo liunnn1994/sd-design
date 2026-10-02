@@ -3,7 +3,13 @@ import { computed, ref } from 'vue';
 import { isObject } from '../../_utils/is';
 import { TableProps } from '../interface';
 
-export const usePagination = (props: TableProps, emit: any) => {
+export const usePagination = (
+  props: TableProps,
+  emit: {
+    (event: 'pageChange', value: number): void;
+    (event: 'pageSizeChange', value: number): void;
+  },
+) => {
   const _page = ref(isObject(props.pagination) ? (props.pagination.defaultCurrent ?? 1) : 1);
   const _pageSize = ref(isObject(props.pagination) ? (props.pagination.defaultPageSize ?? 10) : 10);
 

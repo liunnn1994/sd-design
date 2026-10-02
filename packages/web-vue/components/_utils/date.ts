@@ -1,4 +1,4 @@
-import originDayjs, { Dayjs, OpUnitType, UnitType } from 'dayjs';
+import originDayjs, { Dayjs, OpUnitType, UnitType, PluginFunc, ConfigType } from 'dayjs';
 import AdvancedFormat from 'dayjs/plugin/advancedFormat';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import isBetween from 'dayjs/plugin/isBetween';
@@ -18,26 +18,34 @@ const localeLoaders: Record<string, () => Promise<unknown>> = {
 
 const loadedLocales = new Set<string>();
 
-const overwriteIsDayjs = (_: any, Dayjs: any, dayjs: any) => {
-  // oxlint-disable-next-line func-names
-  dayjs = function (date: Dayjs, c: any) {
-    if (isDayjs(date)) {
-      return date.clone();
-    }
+// Day.js does not expose its constructor configuration or $utils hook in public types.
+interface DayjsConfig {
+  date?: ConfigType;
+  args?: IArguments;
+}
+interface DayjsInternals extends Dayjs {
+  $utils(): { i: (value: unknown) => boolean };
+}
+const overwriteIsDayjs: PluginFunc = (_, DayjsConstructor, dayjs) => {
+  const PrivateDayjs = DayjsConstructor as unknown as {
+    new (config: DayjsConfig): DayjsInternals;
+    prototype: DayjsInternals;
+  };
+  dayjs = function (date: ConfigType, c?: DayjsConfig) {
+    if (isDayjs(date)) return date.clone();
     const cfg = typeof c === 'object' ? c : {};
     cfg.date = date;
-    cfg.args = arguments; // oxlint-disable-line prefer-rest-params
-    return new Dayjs(cfg);
-  };
+    cfg.args = arguments;
+    return new PrivateDayjs(cfg);
+  } as unknown as typeof originDayjs;
 
-  const proto = Dayjs.prototype;
+  const proto = PrivateDayjs.prototype;
   const old$Utils = proto.$utils;
   proto.$utils = () => {
     const newUtils = old$Utils();
     newUtils.i = isDayjs;
     return newUtils;
   };
-
   dayjs.isDayjs = isDayjs;
 };
 

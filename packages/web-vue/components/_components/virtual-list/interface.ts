@@ -47,7 +47,7 @@ interface VirtualListCommonProps<TItem = unknown> {
   height?: number | string;
   itemSize?: ItemSizeValue<TItem>;
   minItemSize?: number | string | null;
-  keyField?: KeyFieldValue<any>;
+  keyField?: KeyFieldValue<TItem>;
   direction?: ScrollDirection;
   pageMode?: boolean;
   listTag?: string;

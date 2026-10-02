@@ -169,7 +169,7 @@
      * @en Scroll to the configuration items in the visible area and receive all the parameters of [scroll-into-view-if-needed](https://github.com/stipsan/scroll-into-view-if-needed)
      */
     scrollConfig: {
-      type: Object as PropType<{ [key: string]: any }>,
+      type: Object as PropType<{ [key: string]: unknown }>,
     },
     /**
      * @zh 弹出模式下可接受所有 `Trigger` 的 `Props`

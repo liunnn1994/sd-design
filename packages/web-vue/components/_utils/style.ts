@@ -4,9 +4,9 @@ const transformNames = [
   'msTransform',
   'MozTransform',
   'OTransform',
-];
+] as const;
 
-export function fixedWidth(width: number): Record<string, unknown> {
+export function fixedWidth(width: number): import('vue').CSSProperties {
   return {
     maxWidth: width,
     minWidth: width,
@@ -14,8 +14,8 @@ export function fixedWidth(width: number): Record<string, unknown> {
   };
 }
 
-export function setTransformStyle(value: string): Record<string, unknown> {
-  const style: Record<string, unknown> = {};
+export function setTransformStyle(value: string): import('vue').CSSProperties {
+  const style: import('vue').CSSProperties = {};
   transformNames.forEach((name) => {
     style[name] = value;
   });

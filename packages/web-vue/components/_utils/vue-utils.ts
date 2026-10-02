@@ -59,8 +59,8 @@ export const getValueFromSlotsOrProps = (name: string, props?: Data, slots?: Slo
   return undefined;
 };
 
-export const isComponentInstance = (value: any): value is ComponentPublicInstance => {
-  return value?.$ !== undefined;
+export const isComponentInstance = (value: unknown): value is ComponentPublicInstance => {
+  return typeof value === 'object' && value !== null && '$' in value && value.$ !== undefined;
 };
 
 export const isElement = (vn: VNode) => {
@@ -401,7 +401,7 @@ export function unFragment(nodeList: VNode[]) {
   return loop(nodeList);
 }
 
-export const resolveProps = (vn: VNode) => {
+export const resolveProps = <T extends object = Data>(vn: VNode): T => {
   const props: Data = {};
   const options = (vn.type as Component & { props?: Record<string, unknown> })?.props ?? {};
   for (const key of Object.keys(vn.props ?? {})) {
@@ -417,7 +417,7 @@ export const resolveProps = (vn: VNode) => {
     }
     props[camelKey] = resolveValue;
   }
-  return props;
+  return props as T;
 };
 
 export const getFirstElement = (vn: VNode | VNode[]): HTMLElement | null => {

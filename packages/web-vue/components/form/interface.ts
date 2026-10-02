@@ -4,7 +4,7 @@ export type ValidateStatus = (typeof VALIDATE_STATUSES)[number];
 export const VALIDATE_TRIGGERS = ['change', 'input', 'focus', 'blur'] as const;
 export type ValidateTrigger = (typeof VALIDATE_TRIGGERS)[number];
 
-export interface FieldRule<FieldValue = any> {
+export interface FieldRule<FieldValue = unknown> {
   /**
    * @zh 校验的值的类型，默认为 `'string'`
    * @en The type of the value to be checked, the default is `'string'`
@@ -119,7 +119,7 @@ export interface FieldData {
    * @zh 字段的值
    * @en Field value
    */
-  value?: any;
+  value?: unknown;
   /**
    * @zh 字段的状态
    * @en Field status
@@ -138,7 +138,7 @@ export interface ValidatedError {
    * @en Label text
    * @version 2.18.0
    */
-  label: string;
+  label?: string;
   /**
    * @zh 字段名
    * @en Field name
@@ -148,7 +148,7 @@ export interface ValidatedError {
    * @zh 字段值
    * @en Field value
    */
-  value: any;
+  value: unknown;
   /**
    * @zh 字段类型
    * @en Field Type

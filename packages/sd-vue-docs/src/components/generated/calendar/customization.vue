@@ -5,13 +5,13 @@
        '医生 1|全天班'        → <strong> 主标题 + 换行 <em> 副标题
        '午餐休息|(不可预约)'   → <strong> 主标题 + 空格 + 备注     -->
   <DefineSpecialHoursLabel v-slot="{ range }">
-    <template v-if="range.label.includes('|')">
-      <strong>{{ range.label.split('|')[0] }}</strong>
-      <template v-if="range.label.split('|')[1].startsWith('(')">
-        {{ ' ' + range.label.split('|')[1] }}
+    <template v-if="(range.label ?? '').includes('|')">
+      <strong>{{ (range.label ?? '').split('|')[0] }}</strong>
+      <template v-if="(range.label ?? '').split('|')[1].startsWith('(')">
+        {{ ' ' + (range.label ?? '').split('|')[1] }}
       </template>
       <template v-else>
-        <br /><em>{{ range.label.split('|')[1] }}</em>
+        <br /><em>{{ (range.label ?? '').split('|')[1] }}</em>
       </template>
     </template>
     <template v-else>
@@ -130,7 +130,7 @@
   //   - '医生 1|全天班'        → 主标题 <strong> + 换行 + <em>副标题</em>
   //   - '午餐休息|(不可预约)'   → 主标题 <strong> + 空格 + 备注文本
   const [DefineSpecialHoursLabel, ReuseSpecialHoursLabel] = createReusableTemplate<{
-    range: { label: string; class?: string; style?: Record<string, string> };
+    range: { label?: string; class?: string; style?: Record<string, string> };
   }>();
 
   // ---------- 特殊时段 ----------

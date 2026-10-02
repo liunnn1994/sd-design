@@ -1,7 +1,7 @@
 import { VALIDATE_STATUSES, ValidateStatus } from './interface';
 
 export function getValueByPath(
-  obj: any,
+  obj: Record<string, unknown>,
   path: string,
   strict: boolean,
 ): {
@@ -9,7 +9,7 @@ export function getValueByPath(
   k: string;
   v: unknown;
 } {
-  let tempObj = obj;
+  let tempObj: Record<string, unknown> | undefined = obj;
   path = path.replace(/\[(\w+)\]/g, '.$1');
   path = path.replace(/^\./, '');
 
@@ -19,8 +19,8 @@ export function getValueByPath(
     if (!tempObj && !strict) break;
     const key = keyArr[i];
 
-    if (key in tempObj) {
-      tempObj = tempObj[key];
+    if (tempObj && key in tempObj) {
+      tempObj = tempObj[key] as Record<string, unknown> | undefined;
     } else {
       if (strict) {
         throw new Error('please transfer a valid prop path to form item!');

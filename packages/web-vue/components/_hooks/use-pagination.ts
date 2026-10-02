@@ -5,7 +5,7 @@ import type { PaginationProps } from '../pagination/interface';
 import { isObject } from '../_utils/is';
 
 export const usePagination = (
-  props: { pagination?: PaginationProps },
+  props: { pagination?: boolean | PaginationProps },
   { emit }: { emit: (event: string, ...args: unknown[]) => void },
 ) => {
   const _current = ref(isObject(props.pagination) ? (props.pagination.defaultCurrent ?? 1) : 1);

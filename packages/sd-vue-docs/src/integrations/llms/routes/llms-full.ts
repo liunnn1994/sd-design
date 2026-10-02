@@ -1,4 +1,4 @@
-import { renderLlmsFull } from '../core.mjs';
+import { renderLlmsFull } from '../core.ts';
 
 export async function GET({ site }: { site?: URL }) {
   const body = await renderLlmsFull({ siteUrl: site?.toString() });

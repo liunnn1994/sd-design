@@ -23,7 +23,7 @@ export interface TagData {
    */
   tagProps?: TagProps;
 
-  [other: string]: any;
+  [other: string]: unknown;
 }
 
 export type InputTagFieldNames = FieldString<TagData>;

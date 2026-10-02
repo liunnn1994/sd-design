@@ -151,7 +151,7 @@
      * @en Internationalization configuration, used to cover the locale file in the `datePicker` field
      */
     locale: {
-      type: Object as PropType<Record<string, any>>,
+      type: Object as PropType<Record<string, unknown>>,
     },
     /**
      * @zh 没有触发元素，只显示选择面板
@@ -283,7 +283,7 @@
      * @en Native input attributes
      */
     inputProps: {
-      type: Object as PropType<Record<string, any>>,
+      type: Object as PropType<Record<string, unknown>>,
     },
     /**
      * @zh 是否禁用
@@ -853,10 +853,10 @@
     eventHandlers.value?.onBlur?.();
   }
 
-  function onInputChange(e: any) {
+  function onInputChange(e: Event) {
     setPanelVisible(true);
 
-    const targetValue = e.target.value;
+    const targetValue = (e.target as HTMLInputElement).value;
     setInputValue(targetValue);
 
     if (!isValidInputValue(targetValue, computedFormat.value)) return;
@@ -909,7 +909,7 @@
     }
   }
 
-  let clearPreviewTimer: any;
+  let clearPreviewTimer: ReturnType<typeof setTimeout> | undefined;
   onUnmounted(() => {
     clearTimeout(clearPreviewTimer);
   });

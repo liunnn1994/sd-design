@@ -27,7 +27,7 @@
           { text: '> 20000', value: '20000' },
           { text: '> 30000', value: '30000' },
         ],
-        filter: (value, record) => record.salary > value,
+        filter: (value, record) => Number(record.salary) > Number(value),
         multiple: true,
       },
     },
@@ -39,7 +39,7 @@
           { text: 'London', value: 'London' },
           { text: 'Paris', value: 'Paris' },
         ],
-        filter: (value, row) => row.address.includes(value),
+        filter: (value, row) => String(row.address).includes(String(value)),
       },
     },
     { title: 'Email', dataIndex: 'email' },
@@ -84,7 +84,7 @@
   const handleChange = (
     data: TableData[],
     extra: TableChangeExtra,
-    currentDataSource: TableData[],
+    currentDataSource: import('../../../../../web-vue/components/table/interface').TableDataWithRaw[],
   ) => {
     console.log('change', data, extra, currentDataSource);
   };

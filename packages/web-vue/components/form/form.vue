@@ -124,12 +124,12 @@
     /**
      * @zh 表单提交时触发
      * @en Triggered when the form is submitted
-     * @param {{values: Record<string, any>; errors: Record<string, ValidatedError> | undefined}} data
+     * @param {{values: Record<string, unknown>; errors: Record<string, ValidatedError> | undefined}} data
      * @param {Event} ev
      */
     submit: [
       _data: {
-        values: Record<string, any>;
+        values: Record<string, unknown>;
         errors: Record<string, ValidatedError> | undefined;
       },
       _ev: Event,
@@ -137,19 +137,19 @@
     /**
      * @zh 验证成功时触发
      * @en Triggered when verification is successful
-     * @param {Record<string, any>} values
+     * @param {Record<string, unknown>} values
      * @param {Event} ev
      */
-    submitSuccess: [_values: Record<string, any>, _ev: Event];
+    submitSuccess: [_values: Record<string, unknown>, _ev: Event];
     /**
      * @zh 验证失败时触发
      * @en Triggered when verification failed
-     * @param {{values: Record<string, any>; errors: Record<string, ValidatedError>}} data
+     * @param {{values: Record<string, unknown>; errors: Record<string, ValidatedError>}} data
      * @param {Event} ev
      */
     submitFailed: [
       _data: {
-        values: Record<string, any>;
+        values: Record<string, unknown>;
         errors: Record<string, ValidatedError>;
       },
       _ev: Event,

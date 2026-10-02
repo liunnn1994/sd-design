@@ -35,7 +35,7 @@ function createWebVueSourceStylePlugin() {
 
       return compileStyleEntry(webVueIndexScssPath, 'index.scss');
     },
-    handleHotUpdate(context: { file: string; server: any }) {
+    handleHotUpdate(context: import('vite').HmrContext) {
       if (
         !context.file.startsWith(webVueComponentsRoot) ||
         !/\.(?:scss|sass|css)$/i.test(context.file)

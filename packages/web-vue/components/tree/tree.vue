@@ -1295,7 +1295,7 @@
     },
   });
 
-  provide(TreeInjectionKey, treeContext as any);
+  provide(TreeInjectionKey, treeContext as import('./context').TreeContext);
 
   function toggleCheck(key: TreeNodeKey, e: Event) {
     const { key2TreeNode, onCheck, checkedKeys } = treeContext;

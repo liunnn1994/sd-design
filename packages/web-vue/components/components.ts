@@ -1,5 +1,4 @@
 import { DrawerMethod } from './drawer';
-// @ts-nocheck
 import { MessageMethod } from './message';
 import { ModalMethod } from './modal';
 import { NotificationMethod } from './notification';

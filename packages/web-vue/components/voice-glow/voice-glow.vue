@@ -59,10 +59,6 @@
   </div>
 </template>
 
-<script lang="ts">
-  let instanceCounter = 0;
-</script>
-
 <script setup lang="ts">
   import { computed, onBeforeUnmount, onMounted, shallowRef, watch, watchEffect } from 'vue';
 
@@ -71,6 +67,7 @@
   import { useBeamPreferences } from '../_hooks/use-beam-preferences';
   import { getPrefixCls } from '../_utils/global-config';
   import { toTriple } from './color';
+  import { nextInstanceId } from './instance-id';
   import { resolveVoiceDefaults, resolveVoiceStyle } from './presets';
   import { generateVoiceBeamCSS, themePresets } from './styles';
   import { registerVoiceInstance, type VoiceDriverConfig } from './voiceDriver';
@@ -105,7 +102,7 @@
   defineSlots<{ default?: () => unknown }>();
 
   const prefixCls = getPrefixCls('voice-glow');
-  const id = `vg-${++instanceCounter}`;
+  const id = `vg-${nextInstanceId()}`;
   const wrapperRef = shallowRef<HTMLElement>();
   const isActive = shallowRef(props.active);
   const isFading = shallowRef(false);

@@ -6,7 +6,7 @@
     "moduleResolution": "bundler",
     "removeComments": true,
     "strict": true,
-    "allowJs": true,
+    "allowJs": false,
     "allowArbitraryExtensions": true,
     "allowImportingTsExtensions": true,
     "isolatedModules": true,

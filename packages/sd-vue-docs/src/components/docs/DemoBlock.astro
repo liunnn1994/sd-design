@@ -29,32 +29,7 @@ const { source, mainFile } = Astro.props;
   <template class="demo-block__deferred-island">
     <slot />
   </template>
-  <script is:inline>
-    (function () {
-      var block = document.currentScript.parentElement;
-      var tmpl = block.querySelector(".demo-block__deferred-island");
-      var mount = block.querySelector(".demo-block__preview-content");
-      if (!tmpl || !mount) return;
-
-      var io = new IntersectionObserver(
-        function (entries) {
-          for (var i = 0; i < entries.length; i++) {
-            if (!entries[i].isIntersecting) continue;
-            io.disconnect();
-            customElements.whenDefined("astro-island").then(function () {
-              mount.appendChild(tmpl.content);
-              block.removeAttribute("data-deferred");
-              block.setAttribute("data-loaded", "");
-            });
-            return;
-          }
-        },
-        { rootMargin: "300px 0px" },
-      );
-
-      io.observe(block);
-    })();
-  </script>
+  <script src="./deferred-demo.ts"></script>
 </div>
 
 <style>

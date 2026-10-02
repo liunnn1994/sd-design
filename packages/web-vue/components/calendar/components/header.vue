@@ -17,7 +17,7 @@
             { [`${prefixCls}__view-button--active`]: view.id === id },
           ]"
           type="button"
-          >{{ calendar.texts[id] }}</button
+          >{{ calendar.texts[id as keyof CalendarTexts] }}</button
         >
       </div>
 
@@ -103,6 +103,8 @@
 
 <script setup lang="ts">
   import { computed, inject } from 'vue';
+
+  import type { CalendarTexts } from '../types';
 
   import { calendarInjectionKey } from '../context';
 

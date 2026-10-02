@@ -123,7 +123,7 @@
         to: { scrollTop: 0 },
         easing: props.easing,
         duration: props.duration,
-        onUpdate: (keys: any) => {
+        onUpdate: (keys: Record<string, number>) => {
           if (target.value) {
             target.value.scrollTop = keys.scrollTop;
           }

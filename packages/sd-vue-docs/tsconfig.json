@@ -2,7 +2,7 @@
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "moduleResolution": "bundler",
-    "allowJs": true,
+    "allowJs": false,
     "allowArbitraryExtensions": true,
     "jsx": "preserve",
     "jsxImportSource": "vue",
@@ -16,7 +16,8 @@
     "src/**/*",
     "../web-vue/global.d.ts",
     "../web-vue/components/shims.d.ts",
-    "../web-vue/components/components.ts"
+    "../web-vue/components/components.ts",
+    "astro.config.ts"
   ],
   "exclude": ["dist"]
 }

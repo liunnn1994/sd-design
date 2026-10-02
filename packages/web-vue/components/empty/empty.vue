@@ -28,12 +28,14 @@
 </template>
 
 <script setup lang="ts">
+  import type { VNode } from 'vue';
   import { inject } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { configProviderInjectionKey } from '../config-provider/context';
   import IconEmpty from '../icon/icon-empty';
   import { useI18n } from '../locale';
+  import { CustomEmptyRenderer } from './custom-empty-renderer';
 
   defineOptions({
     name: 'Empty',
@@ -89,13 +91,4 @@
     }
     return undefined;
   };
-</script>
-
-<script lang="ts">
-  // 稳定标识的函数式组件：接住 ConfigProvider 插槽返回的 vnode 作为唯一子节点渲染。
-  // 必须定义在模块级保持标识稳定，否则每次渲染都识别为新组件导致整树重挂载。
-  import type { VNode } from 'vue';
-
-  const CustomEmptyRenderer = (props: { vnode?: VNode | VNode[] }) => props.vnode;
-  CustomEmptyRenderer.props = ['vnode'];
 </script>

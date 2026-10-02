@@ -102,7 +102,7 @@
   const getRecordKey = (
     record: TableData,
     rowKey: string | ((record: TableData) => BaseType),
-  ): BaseType => (isFunction(rowKey) ? rowKey(record) : record[rowKey]);
+  ): BaseType => (isFunction(rowKey) ? rowKey(record) : (record[rowKey] as BaseType));
   const DEFAULT_BORDERED = {
     wrapper: true,
     cell: false,
@@ -329,7 +329,8 @@
      */
     rowClass: {
       type: [String, Array, Object, Function] as PropType<
-        string | any[] | Record<string, any> | ((record: TableData, rowIndex: number) => any)
+        | import('../_utils/types').ClassName
+        | ((record: TableData, rowIndex: number) => import('../_utils/types').ClassName)
       >,
     },
     /**
@@ -528,7 +529,8 @@
      * @param {TableData[]} currentData
      * @version 2.40.0 增加 currentData
      */
-    'change': (_data: TableData[], _extra: TableChangeExtra, _currentData: TableData[]) => true,
+    'change': (_data: TableData[], _extra: TableChangeExtra, _currentData: TableDataWithRaw[]) =>
+      true,
     /**
      * @zh 单元格 hover 进入时触发
      * @en Triggered when hovering into a cell
@@ -1137,7 +1139,7 @@
         }
         return per;
       },
-      {} as Record<string, any>,
+      {} as Record<string, unknown>,
     );
   };
   const getTableDataWithRaw = (data?: TableData[]): TableDataWithRaw[] => {
@@ -1666,7 +1668,7 @@
       indentSize: number;
       indexPath: number[];
       allowDrag: boolean;
-      expandContent: any;
+      expandContent: import('vue').VNodeChild;
     },
   ) => {
     if (record.hasSubtree) {
@@ -2021,9 +2023,9 @@
                     VirtualList,
                     _mergeProps(
                       {
-                        ref: (ins: any) => {
-                          if (ins?.$el) {
-                            virtualListRef.value = ins;
+                        ref: (ins: Element | import('vue').ComponentPublicInstance | null) => {
+                          if (ins && '$el' in ins) {
+                            virtualListRef.value = ins as unknown as VirtualListRef;
                             tbodyRef.value = ins.$el;
                             virtualRef.value = ins.$el.querySelector?.(
                               `.${virtualListPrefixCls}-scroller`,
@@ -2035,7 +2037,7 @@
                           }
                         },
                         class: `${prefixCls}-body`,
-                        items: flattenData.value as Record<string, any>[],
+                        items: flattenData.value,
                         keyField: '_key',
                         listTag: 'div',
                         itemTag: 'div',

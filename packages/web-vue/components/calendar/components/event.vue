@@ -56,6 +56,7 @@
    * If the event is multi-day, it renders a fragment of the event only.
    */
 
+  import type { PropType, CSSProperties } from 'vue';
   import {
     computed,
     inject,
@@ -67,12 +68,14 @@
     onBeforeUnmount,
   } from 'vue';
 
+  import type { CalendarEvent, CalendarListener } from '../types';
+
   import { PerformantEllipsis } from '../../ellipsis';
   import { calendarInjectionKey } from '../context';
   import { minutesToPercentage, percentageToMinutes } from '../utils/conversions';
 
   const props = defineProps({
-    event: { type: Object, required: true },
+    event: { type: Object as PropType<CalendarEvent>, required: true },
     inAllDayBar: { type: Boolean, default: false },
     cellStart: { type: Date, required: true },
     cellEnd: { type: Date, required: true },
@@ -112,8 +115,8 @@
     documentMouseX: number;
     documentMouseY: number;
     resizeStartDate: Date | null;
-    resizingOriginalEvent: any;
-    resizingLastAcceptedEvent: any;
+    resizingOriginalEvent: CalendarEvent | null;
+    resizingLastAcceptedEvent: CalendarEvent | null;
     cellEl: HTMLElement | null;
     schedule: string | number | null;
   }>({
@@ -174,7 +177,7 @@
 
     return {
       [`${prefixCls}__event--${event._.id}`]: true,
-      [event.class]: !!event.class,
+      [event.class ?? '']: !!event.class,
       [`${prefixCls}__event--recurring`]: !!event.recurring,
       [`${prefixCls}__event--background`]: !!event.background,
       [`${prefixCls}__event--all-day`]:
@@ -225,9 +228,9 @@
 
     if (!hasPosition && !event.backgroundColor && !event.color) return false;
 
-    const styles: { backgroundColor: any; color: any; [key: string]: any } = {
-      backgroundColor: event.backgroundColor || null,
-      color: event.color || null,
+    const styles: CSSProperties = {
+      backgroundColor: event.backgroundColor || undefined,
+      color: event.color || undefined,
     };
 
     if (hasPosition) {
@@ -258,21 +261,21 @@
   // Uses shallowRef + watch instead of computed so the listeners object reference stays stable
   // unless the set of external event listeners actually changes — preventing unnecessary
   // remove/re-add of DOM event listeners via v-on on every render.
-  const eventListeners = shallowRef<Record<string, any>>({});
+  const eventListeners = shallowRef<Record<string, CalendarListener>>({});
 
   watch(
     () => config.eventListeners.event,
     (extListeners) => {
-      const listeners: Record<string, any> = {};
+      const listeners: Record<string, CalendarListener> = {};
 
       // Inject the event details in each eventListener handler call as 2nd param.
       for (const [eventListener, handler] of Object.entries(extListeners) as [
         string,
-        (...args: any[]) => void,
+        CalendarListener,
       ][]) {
         // `event-resize-end` is handled in `onDocMouseup` in this file.
         if (!['resize-end'].includes(eventListener)) {
-          listeners[eventListener] = (e: any) => {
+          listeners[eventListener] = (e: Event | { e: Event }) => {
             // SHOULD NOT PREVENT BUBBLING UP TO THE CELL WHEN INTERACTING WITH THE EVENT:
             // if we stop bubbling, we will not receive the onMouseup listened from document if
             // releasing on the event. Instead, in the cell don't call the mouseup handler if
@@ -281,16 +284,16 @@
 
             // Check if e.type to not rewrap the DOM event in an object if already done.
             // `event-drop` is handled in the drag-and-drop composable.
-            if (e.type !== 'drop') handler(e.type ? { e, event } : e);
+            if (!('type' in e) || e.type !== 'drop') handler('type' in e ? { e, event } : e);
           };
         }
       }
 
       // Store a copy of any potential external handler to combine with internal handlers like
       // click, touchstart, mousedown.
-      const externalHandlers: Record<string, any> = { ...listeners };
+      const externalHandlers: Record<string, CalendarListener> = { ...listeners };
 
-      listeners.touchstart = (e: any) => {
+      listeners.touchstart = (e: MouseEvent | TouchEvent) => {
         e.stopPropagation();
         touch.touchAndDragTimer = setTimeout(() => {
           touch.canTouchAndDrag = true;
@@ -299,7 +302,7 @@
 
         externalHandlers.touchstart?.({ e, event });
       };
-      listeners.mousedown = (e: any) => {
+      listeners.mousedown = (e: MouseEvent | TouchEvent) => {
         e.stopPropagation();
         onMousedown(e);
 
@@ -307,7 +310,7 @@
       };
 
       // `event-delayed-click` is only fired after 400ms if there was no dblclick.
-      listeners.click = (e: any) => {
+      listeners.click = (e: MouseEvent | TouchEvent) => {
         externalHandlers.click?.({ e, event }); // Handle single click.
 
         // Handle double click in eventListeners.dblclick.
@@ -319,7 +322,7 @@
           }, 400);
         }
       };
-      listeners.dblclick = (e: any) => {
+      listeners.dblclick = (e: MouseEvent | TouchEvent) => {
         if (externalHandlers.dblclick) externalHandlers.dblclick({ e, event });
         // Show delete button on event on double click by default except if dblclick is used
         // externally.
@@ -371,7 +374,7 @@
   };
 
   // Register the DOM node within the event in order to emit `event-deleted` to the cell.
-  onMounted(() => event._.register(eventEl.value));
+  onMounted(() => event._.register!(eventEl.value!));
 
   onBeforeUnmount(() => {
     // Clean up timers to prevent memory leaks.
@@ -380,6 +383,6 @@
       touch.touchAndDragTimer = clearTimeout(touch.touchAndDragTimer) as unknown as null;
     if (clickTimeout) clickTimeout = clearTimeout(clickTimeout) as unknown as null;
 
-    event._.unregister();
+    event._.unregister!();
   });
 </script>

@@ -8,12 +8,12 @@
   </sd-space>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { ref } from 'vue';
 
   const triggerProps = ref({
     popupVisible: false,
     unmountOnClose: true,
-    position: 'bl',
+    position: 'bl' as const,
   });
 </script>

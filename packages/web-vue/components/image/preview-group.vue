@@ -17,7 +17,7 @@
     </template>
   </ImagePreview>
 </template>
-<script setup lang="tsx">
+<script setup lang="ts">
   import { PropType, reactive, toRefs, provide, computed, ref } from 'vue';
 
   import useMergeState from '../_hooks/use-merge-state';

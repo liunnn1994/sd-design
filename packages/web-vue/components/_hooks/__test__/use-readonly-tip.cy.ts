@@ -18,7 +18,7 @@ const mountHarness = (readonly: boolean, disabled: boolean, duration = 200) => {
 
 const callShow = () =>
   cy.get('@vue').then(({ wrapper }) => {
-    (wrapper.vm as any).show();
+    (wrapper.vm as { show(): void }).show();
   });
 
 describe('isReadonlyModificationKey', () => {

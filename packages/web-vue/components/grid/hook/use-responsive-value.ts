@@ -37,8 +37,8 @@ export function useResponsiveValue(
       const config = props.value[breakpoint];
       if (isNumber(config)) {
         result[breakpoint] = config;
-      } else if (isObject(config) && isNumber((config as Record<string, any>)[key])) {
-        result[breakpoint] = (config as Record<string, any>)[key];
+      } else if (isObject(config) && isNumber((config as Record<string, unknown>)[key])) {
+        result[breakpoint] = (config as Record<string, unknown>)[key] as number;
       }
     });
     return result;

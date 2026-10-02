@@ -115,7 +115,7 @@
   </client-only>
 </template>
 
-<script setup lang="tsx">
+<script setup lang="ts">
   import type { CSSProperties, PropType, StyleValue } from 'vue';
   import {
     computed,
@@ -257,7 +257,7 @@
      */
     simple: {
       type: Boolean,
-      default: (props: any) => {
+      default: (props: { simple: boolean; notice: boolean }) => {
         return props.notice;
       },
     },
@@ -337,7 +337,7 @@
      * @en The classname of the modal
      */
     modalClass: {
-      type: [String, Array] as PropType<string | any[]>,
+      type: [String, Array] as PropType<string | string[]>,
     },
     /**
      * @zh 对话框的样式
@@ -399,7 +399,7 @@
      */
     maskAnimationName: {
       type: String,
-      default: (props: Record<string, any>) => {
+      default: (props: Record<string, unknown>) => {
         if (props.fullscreen) {
           return 'fade-in-standard';
         }
@@ -414,7 +414,7 @@
      */
     modalAnimationName: {
       type: String,
-      default: (props: Record<string, any>) => {
+      default: (props: Record<string, unknown>) => {
         if (props.fullscreen) {
           return 'zoom-in';
         }
@@ -427,7 +427,7 @@
      * @version 2.31.0
      */
     bodyClass: {
-      type: [String, Array] as PropType<string | any[]>,
+      type: [String, Array] as PropType<string | string[]>,
     },
     /**
      * @zh 对话框内容部分的样式

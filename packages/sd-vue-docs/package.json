@@ -11,13 +11,13 @@
     "build": "pnpm run docs:vendor && astro build",
     "build:site": "astro build",
     "typecheck": "vue-tsc --noEmit -p tsconfig.vue-tsc.json",
-    "migrate:generated-demos": "node ./scripts/migrate-generated-demo-conventions.mjs",
-    "verify:theme-runtime": "node ./scripts/verify-theme-runtime-paths.mjs",
+    "migrate:generated-demos": "node ./scripts/migrate-generated-demo-conventions.ts",
+    "verify:theme-runtime": "node ./scripts/verify-theme-runtime-paths.ts",
     "preview": "pnpm run docs:vendor && astro preview",
     "astro": "astro",
     "docs:prepare": "pnpm --filter @sdata/web-vue run build:module && pnpm --filter @sdata/web-vue run jsongen",
     "docs:vendor": "pnpm run docs:prepare && pnpm run docs:vendor:only",
-    "docs:vendor:only": "node ./scripts/sync-vendor.mjs"
+    "docs:vendor:only": "node ./scripts/sync-vendor.ts"
   },
   "dependencies": {
     "@antv/infographic": "0.2.20",

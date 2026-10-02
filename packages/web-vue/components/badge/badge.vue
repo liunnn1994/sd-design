@@ -57,28 +57,6 @@
   </span>
 </template>
 
-<script lang="ts">
-  export const COLORS = [
-    'red',
-    'orangered',
-    'orange',
-    'gold',
-    'lime',
-    'green',
-    'cyan',
-    'sdblue',
-    'purple',
-    'pinkpurple',
-    'magenta',
-    'gray',
-  ] as const;
-
-  export type ColorType = (typeof COLORS)[number];
-
-  export const BADGE_STATUSES = ['normal', 'processing', 'success', 'warning', 'danger'] as const;
-  export type BadgeStatus = (typeof BADGE_STATUSES)[number];
-</script>
-
 <script setup lang="ts">
   import { computed, inject } from 'vue';
   import type { CSSProperties } from 'vue';
@@ -86,6 +64,7 @@
   import { getPrefixCls } from '../_utils/global-config';
   import { configProviderInjectionKey } from '../config-provider/context';
   import NumberFlow from '../number-flow';
+  import { COLORS, type ColorType, type BadgeStatus } from './constants';
 
   defineOptions({
     name: 'Badge',

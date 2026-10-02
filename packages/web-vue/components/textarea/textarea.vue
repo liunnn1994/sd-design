@@ -196,7 +196,7 @@
      * @en Attributes passed to textarea
      */
     textareaAttrs: {
-      type: Object as PropType<Record<string, any>>,
+      type: Object as PropType<Record<string, unknown>>,
     },
   });
 
@@ -465,14 +465,14 @@
     },
   );
 
-  const getWrapperAttrs = (attr: Record<string, any>) => {
+  const getWrapperAttrs = (attr: Record<string, unknown>) => {
     const wrapperAttrs = omit(attr, INPUT_EVENTS) as Record<string, unknown>;
     return {
       ...wrapperAttrs,
       style: [fitWidthStyle.value, wrapperAttrs.style as StyleValue],
     };
   };
-  const getTextareaAttrs = (attr: Record<string, any>) => pick(attr, INPUT_EVENTS);
+  const getTextareaAttrs = (attr: Record<string, unknown>) => pick(attr, INPUT_EVENTS);
   const rawTextareaAttrs = computed(() => getTextareaAttrs(attrs));
   const mergeTextareaAttrs = computed(() => {
     const attrs = {
@@ -521,11 +521,11 @@
   const getMirrorStyle = () => {
     const styles = getSizeStyles(styleDeclaration);
 
-    lineHeight.value = Number.parseInt(styles['line-height'] || 0, 10);
+    lineHeight.value = Number.parseInt(styles['line-height'] || '0', 10);
     outerHeight.value =
-      Number.parseInt(styles['border-width'] || 0, 10) * 2 +
-      Number.parseInt(styles['padding-top'] || 0, 10) +
-      Number.parseInt(styles['padding-bottom'] || 0, 10);
+      Number.parseInt(styles['border-width'] || '0', 10) * 2 +
+      Number.parseInt(styles['padding-top'] || '0', 10) +
+      Number.parseInt(styles['padding-bottom'] || '0', 10);
 
     mirrorStyle.value = styles;
 

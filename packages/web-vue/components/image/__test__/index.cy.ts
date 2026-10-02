@@ -14,7 +14,7 @@ const mountLoadedPreview = () => {
   cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.vm.onImgLoad()));
 };
 
-const mountPreview = (props: Record<string, any> = {}) => {
+const mountPreview = (props: Record<string, unknown> = {}) => {
   cy.mount(Preview, {
     props: { src: imgSrc, renderToBody: false, ...props },
   });
