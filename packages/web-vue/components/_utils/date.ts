@@ -99,11 +99,11 @@ export const methods = {
     return time.set(unit, value);
   },
   isSameWeek(date1: Dayjs, date2: Dayjs, weekStart: number) {
-    // calculate week number of the given date considering the given start of week
+    // Compare week start dates so the year is included.
     const getWeek = (date: Dayjs) => {
       const day = date.day();
       const diff = day - weekStart + (day < weekStart ? 7 : 0);
-      return date.subtract(diff, 'day').week();
+      return date.subtract(diff, 'day').format('YYYY-MM-DD');
     };
     return getWeek(date1) === getWeek(date2);
   },
