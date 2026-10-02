@@ -93,11 +93,9 @@ export default function usePopupManager(
     onMounted(() => {
       open();
     });
-
-    onBeforeUnmount(() => {
-      close();
-    });
   }
+
+  onBeforeUnmount(close);
 
   return {
     zIndex: readonly(zIndex),
