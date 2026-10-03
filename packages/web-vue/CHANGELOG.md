@@ -1,3 +1,10 @@
+# [5.7.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.6.8...web-vue-v5.7.0) (2026-10-03)
+
+
+### Features
+
+* **mcp:** 把事件声明改为类型式，使 MCP 能提取到组件事件 ([f64f38b](https://github.com/liunnn1994/sd-design/commit/f64f38bbb98ed833d78ca21232013b91d2ca6c5d))
+
 ## [5.6.8](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.6.7...web-vue-v5.6.8) (2026-10-03)
 
 
