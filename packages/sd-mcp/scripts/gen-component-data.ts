@@ -17,7 +17,7 @@ import fg from 'fast-glob';
 // Re-run with: pnpm --filter @sdata/web-vue-mcp run gen
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { parse as parseComponent } from 'vue-docgen-api';
 
 import { extractDescription } from '../../web-vue/scripts/utils/doc-tags.ts';
@@ -63,15 +63,21 @@ const resolveExistingPath = async (basePath: string) => {
   throw new Error(`Unable to resolve component source from index import: ${basePath}`);
 };
 
-const getComponentSources = async () => {
+/**
+ * 每个组件目录（`components/<name>`）下它自己 index.ts 导入的源码文件。
+ *
+ * 必须带上所属目录：不同目录下的子组件可能共用同一个 displayName
+ * （例如 menu/item.vue 与 timeline/item.vue 都叫 `item`）。只按 displayName
+ * 建索引会让它们互相覆盖，因此调用方要按目录取回自己的那一份。
+ */
+export const getComponentSources = async () => {
   const indexes = (
     await fg('components/*/index.{ts,tsx}', {
       cwd: WEB_VUE,
       ignore: ['components/locale/index.ts'],
     })
   ).sort((left, right) => left.localeCompare(right));
-  const sources = [];
-  const seen = new Set<string>();
+  const sources: { dirname: string; file: string }[] = [];
 
   for (const item of indexes) {
     const dirname = path.dirname(item);
@@ -87,9 +93,9 @@ const getComponentSources = async () => {
       }
 
       const resolvedPath = await resolveExistingPath(path.resolve(WEB_VUE, dirname, importPath));
-      if (!seen.has(resolvedPath)) {
-        seen.add(resolvedPath);
-        sources.push(resolvedPath);
+      // 同目录内去重即可；跨目录的同名文件必须各自保留。
+      if (!sources.some((entry) => entry.file === resolvedPath)) {
+        sources.push({ dirname, file: resolvedPath });
       }
     }
   }
@@ -197,33 +203,28 @@ const readFrontmatter = async (name: string) => {
   }
 };
 
-const buildApiMap = async () => {
+export const buildApiMap = async () => {
   const sources = await getComponentSources();
-  const map = new Map<string, ReturnType<typeof resolveComponent>>();
-  const origin = new Map<string, string>();
+  // 外层键是组件目录，内层键才是 tag：这样 `components/menu` 的 item 和
+  // `components/timeline` 的 item 各自独立，不会再互相覆盖。
+  const map = new Map<string, Map<string, ReturnType<typeof resolveComponent>>>();
 
-  for (const source of sources) {
+  for (const { dirname, file } of sources) {
+    let group = map.get(dirname);
+    if (!group) {
+      group = new Map();
+      map.set(dirname, group);
+    }
     try {
       const doc = resolveComponent(
-        await parseComponent(source, { addScriptHandlers: [slotTagHandler] }),
+        await parseComponent(file, { addScriptHandlers: [slotTagHandler] }),
       );
       if (doc.name) {
-        // 多个组件目录下的子组件可能共用同一个 displayName（如 menu/item.vue 和
-        // timeline/item.vue 都是 item）。直接 set 会让后解析的静默覆盖前一个，
-        // 这里保留先出现的并告警，避免元数据被无声地写错。
-        const previous = origin.get(doc.name);
-        if (previous) {
-          console.warn(
-            `[docgen] duplicate tag ${doc.name}: keep ${previous}, skip ${path.relative(WEB_VUE, source)}`,
-          );
-          continue;
-        }
-        origin.set(doc.name, path.relative(WEB_VUE, source));
-        map.set(doc.name, doc);
+        group.set(doc.name, doc);
       }
     } catch (error) {
       console.warn(
-        `[docgen] skip ${path.relative(WEB_VUE, source)}: ${error instanceof Error ? error.message : String(error)}`,
+        `[docgen] skip ${path.relative(WEB_VUE, file)}: ${error instanceof Error ? error.message : String(error)}`,
       );
     }
   }
@@ -248,7 +249,8 @@ const main = async () => {
 
   for (const item of list) {
     const tag = resolveTagName(toPascalCase(item.name));
-    const api = apiMap.get(tag);
+    // 只在同名组件自己的目录里找，避免跨目录的 displayName 撞车
+    const api = apiMap.get(`components/${item.name}`)?.get(tag);
     const frontmatter = await readFrontmatter(item.name);
 
     if (!api) {
@@ -304,7 +306,12 @@ const main = async () => {
   }
 };
 
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+// 仅在直接执行时生成；被测试 import 时不触发。
+const isDirectRun = !!process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (isDirectRun) {
+  main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}

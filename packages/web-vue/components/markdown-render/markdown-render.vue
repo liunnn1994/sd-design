@@ -58,7 +58,10 @@
     nodeVirtual: undefined,
     renderAsFragment: undefined,
   });
-  /** @zh 事件名称和载荷与上游一致，每次仅转发一次。 @en Forward upstream events exactly once. */
+  /**
+   * @zh 事件名称和载荷与上游一致，每次仅转发一次。
+   * @en Forward upstream events exactly once.
+   */
   const emit = defineEmits<MarkdownRenderEmits>();
   const renderer = ref<UpstreamMarkdownRenderInstance | null>(null);
   const element = computed(() =>

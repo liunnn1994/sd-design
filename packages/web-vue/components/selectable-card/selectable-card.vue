@@ -69,22 +69,43 @@
   } = defineProps<SelectableCardProps>();
 
   const emit = defineEmits<{
-    /** @zh 选择状态变化时触发 @en Emitted when the selection state changes */
+    /**
+     * @zh 选择状态变化时触发
+     * @en Emitted when the selection state changes
+     */
     change: [isSelected: boolean];
   }>();
 
   defineSlots<{
-    /** @zh 自定义补充内容 @en Custom supplementary content */
+    /**
+     * @zh 自定义补充内容
+     * @en Custom supplementary content
+     */
     default?: () => unknown;
-    /** @zh 图标或图片 @en Icon or image */
+    /**
+     * @zh 图标或图片
+     * @en Icon or image
+     */
     figure?: () => unknown;
-    /** @zh 标题 @en Title */
+    /**
+     * @zh 标题
+     * @en Title
+     */
     title?: () => unknown;
-    /** @zh 主要值 @en Primary value */
+    /**
+     * @zh 主要值
+     * @en Primary value
+     */
     value?: () => unknown;
-    /** @zh 描述 @en Description */
+    /**
+     * @zh 描述
+     * @en Description
+     */
     description?: () => unknown;
-    /** @zh 操作区域 @en Actions */
+    /**
+     * @zh 操作区域
+     * @en Actions
+     */
     actions?: () => unknown;
   }>();
 

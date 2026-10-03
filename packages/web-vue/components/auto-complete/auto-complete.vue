@@ -137,49 +137,105 @@
   defineOptions({ name: 'AutoComplete', inheritAttrs: false });
 
   const props = defineProps({
+    /**
+     * @zh 绑定值
+     * @en Value of the input
+     */
     modelValue: {
       type: String,
       default: undefined,
     },
+    /**
+     * @zh 默认值（非受控状态）
+     * @en Default value (uncontrolled state)
+     */
     defaultValue: {
       type: String,
       default: '',
     },
+    /**
+     * @zh 是否禁用
+     * @en Whether the component is disabled
+     */
     disabled: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 是否只读
+     * @en Whether the component is readonly
+     */
     readonly: {
       type: [Boolean, String],
       default: false,
     },
+    /**
+     * @zh 自动填充的可选项数据
+     * @en Data of the suggestion options
+     */
     data: {
       type: Array as PropType<(string | number | SelectOptionData | SelectOptionGroup)[]>,
       default: () => [],
     },
+    /**
+     * @zh 浮层挂载的容器
+     * @en Container the popup is mounted into
+     */
     popupContainer: [String, Object] as PropType<string | HTMLElement | null | undefined>,
+    /**
+     * @zh 是否要求完全匹配才选中
+     * @en Whether only an exact match can be selected
+     */
     strict: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 选项的过滤方式
+     * @en How the options are filtered
+     */
     filterOption: {
       type: [Boolean, Function] as PropType<FilterOption>,
       default: true,
     },
+    /**
+     * @zh 触发器的组件属性
+     * @en Props forwarded to the trigger
+     */
     triggerProps: Object as PropType<TriggerProps>,
+    /**
+     * @zh 浮层的定位配置
+     * @en Floating options of the popup
+     */
     floatingOptions: Object as PropType<FloatingOptions>,
+    /**
+     * @zh 是否允许清除
+     * @en Whether the value can be cleared
+     */
     allowClear: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 宽度是否适应内容
+     * @en Whether the width adapts to the content
+     */
     fitWidth: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 最大宽度是否限制为父容器宽度
+     * @en Whether the maximum width is limited to the parent container width
+     */
     maxWFull: {
       type: Boolean,
       default: true,
     },
+    /**
+     * @zh 虚拟列表的属性，用于大数据量渲染
+     * @en Props forwarded to the virtual list, used for large data sets
+     */
     virtualListProps: Object as PropType<VirtualListProps>,
   });
 

@@ -46,15 +46,31 @@
 
   const props = defineProps({
     /** 菜单风格 */
+    /**
+     * @zh 菜单主题
+     * @en Theme of the menu
+     */
     theme: String as PropType<'light' | 'dark'>,
+    /**
+     * @zh 菜单展开模式
+     * @en Expansion mode of the menu
+     */
     mode: {
       type: String as PropType<'vertical' | 'horizontal' | 'pop' | 'popButton'>,
       default: 'vertical',
     },
+    /**
+     * @zh 是否在空间不足时折叠为省略号
+     * @en Whether to collapse overflowing items into an ellipsis
+     */
     ellipsis: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 省略号弹层的组件属性
+     * @en Props forwarded to the ellipsis popup
+     */
     ellipsisProps: {
       type: Object as PropType<{
         lineClamp?: number | string;
@@ -63,6 +79,10 @@
       }>,
       default: undefined,
     },
+    /**
+     * @zh 省略号浮层的定位配置
+     * @en Floating options for the ellipsis popup
+     */
     floatingOptions: Object as PropType<FloatingOptions>,
   });
 

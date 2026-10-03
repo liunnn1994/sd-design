@@ -7,7 +7,10 @@ import type {
 import type { MarkdownRender as UpstreamMarkdownRender, NodeRendererProps } from 'markstream-vue';
 import type { BaseNode } from 'markstream-vue';
 
-/** @zh 与锁定版本的上游属性保持一致；默认值由上游组件自己拥有。 @en Props of the pinned upstream renderer. */
+/**
+ * @zh 与锁定版本的上游属性保持一致；默认值由上游组件自己拥有。
+ * @en Props of the pinned upstream renderer.
+ */
 export type MarkdownRenderProps = NodeRendererProps;
 export type UpstreamMarkdownRenderInstance = InstanceType<typeof UpstreamMarkdownRender>;
 export type MarkdownRenderMethods = Pick<
@@ -25,7 +28,10 @@ export type MarkdownRenderMethods = Pick<
  */
 export type MarkdownRenderSlots = UpstreamMarkdownRenderInstance['$slots'];
 
-/** @zh 容器节点由 SD 显式递归渲染子节点。 @en Container nodes render their children explicitly. */
+/**
+ * @zh 容器节点由 SD 显式递归渲染子节点。
+ * @en Container nodes render their children explicitly.
+ */
 export interface MarkdownContainerProps {
   node: {
     type?: string;
@@ -38,7 +44,10 @@ export interface MarkdownContainerProps {
   indexKey?: string | number;
 }
 
-/** @zh 上游事件名称与载荷。 @en Upstream event names and payloads. */
+/**
+ * @zh 上游事件名称与载荷。
+ * @en Upstream event names and payloads.
+ */
 export interface MarkdownRenderEmits {
   'copy': [code: string];
   'copy-code': [code: string];

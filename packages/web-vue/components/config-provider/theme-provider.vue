@@ -21,9 +21,25 @@
 
   const props = withDefaults(
     defineProps<{
+      /**
+       * @zh 主题配置，包含设计令牌、算法与组件级变量
+       * @en Theme configuration: design tokens, algorithms and component variables
+       */
       theme?: SdThemeConfig;
+      /**
+       * @zh 明暗模式
+       * @en Light or dark mode
+       */
       themeMode?: SdThemeMode;
+      /**
+       * @zh 是否把主题应用到全局，而非仅当前容器
+       * @en Whether the theme is applied globally instead of to this container only
+       */
       global?: boolean;
+      /**
+       * @zh 渲染的根元素标签
+       * @en Tag rendered as the provider root
+       */
       tag?: string;
     }>(),
     {

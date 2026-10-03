@@ -49,11 +49,20 @@
 
   defineSlots<{
     default?: () => VNode[];
-    /** @zh 操作组 @en Actions */
+    /**
+     * @zh 操作组
+     * @en Actions
+     */
     actions?: () => VNode[];
-    /** @zh 额外内容 @en Extra content */
+    /**
+     * @zh 额外内容
+     * @en Extra content
+     */
     extra?: () => VNode[];
-    /** @zh meta信息 @en Meta data */
+    /**
+     * @zh meta信息
+     * @en Meta data
+     */
     meta?: () => VNode[];
   }>();
 

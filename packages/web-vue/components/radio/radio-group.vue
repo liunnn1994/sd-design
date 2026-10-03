@@ -46,19 +46,42 @@
 
   const props = withDefaults(
     defineProps<{
-      /** @zh 绑定值 @en Value @vModel */
+      /**
+       * @zh 绑定值
+       * @en Value
+       * @vModel
+       */
       modelValue?: RadioValue;
-      /** @zh 默认值（非受控状态） @en Default value (uncontrolled state) */
+      /**
+       * @zh 默认值（非受控状态）
+       * @en Default value (uncontrolled state)
+       */
       defaultValue?: RadioValue;
-      /** @zh 单选框组的类型 @en Types of radio group */
+      /**
+       * @zh 单选框组的类型
+       * @en Types of radio group
+       */
       type?: RadioType;
-      /** @zh 单选框组的尺寸 @en The size of the radio group */
+      /**
+       * @zh 单选框组的尺寸
+       * @en The size of the radio group
+       */
       size?: Size;
-      /** @zh 选项 @en Options @version 2.27.0 */
+      /**
+       * @zh 选项
+       * @en Options
+       * @version 2.27.0
+       */
       options?: Array<string | number | RadioOption>;
-      /** @zh 单选框组的方向 @en The direction of the radio group */
+      /**
+       * @zh 单选框组的方向
+       * @en The direction of the radio group
+       */
       direction?: Direction;
-      /** @zh 是否禁用 @en Whether to disable */
+      /**
+       * @zh 是否禁用
+       * @en Whether to disable
+       */
       disabled?: boolean;
     }>(),
     {
@@ -72,14 +95,25 @@
 
   const emit = defineEmits<{
     'update:modelValue': [value: RadioValue];
-    /** @zh 值改变时触发 @en Trigger when the value changes */
+    /**
+     * @zh 值改变时触发
+     * @en Trigger when the value changes
+     */
     'change': [value: RadioValue, ev: Event];
   }>();
   const slots = defineSlots<{
     default?: () => VNode[];
-    /** @zh radio 文案内容 @en radio label content @version 2.27.0 */
+    /**
+     * @zh radio 文案内容
+     * @en radio label content
+     * @version 2.27.0
+     */
     label?: (props: { data: RadioOption }) => VNode[];
-    /** @zh 自定义单选框 @en Custom radio @version 2.27.0 */
+    /**
+     * @zh 自定义单选框
+     * @en Custom radio
+     * @version 2.27.0
+     */
     radio?: (props: { checked: boolean; disabled: boolean }) => VNode[];
   }>();
   const RenderOptionLabel = defineComponent({

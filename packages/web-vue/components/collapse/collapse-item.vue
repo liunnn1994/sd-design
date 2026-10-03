@@ -71,13 +71,26 @@
 
   const props = withDefaults(
     defineProps<{
-      /** @zh 面板的标题 @en The title of the panel */
+      /**
+       * @zh 面板的标题
+       * @en The title of the panel
+       */
       header?: string;
-      /** @zh 是否禁用 @en Whether to disable */
+      /**
+       * @zh 是否禁用
+       * @en Whether to disable
+       */
       disabled?: boolean;
-      /** @zh 是否显示展开图标 @en Whether to show the expand icon */
+      /**
+       * @zh 是否显示展开图标
+       * @en Whether to show the expand icon
+       */
       showExpandIcon?: boolean;
-      /** @zh 是否在隐藏时销毁内容 @en Whether to destroy content when hidden @version 2.27.0 */
+      /**
+       * @zh 是否在隐藏时销毁内容
+       * @en Whether to destroy content when hidden
+       * @version 2.27.0
+       */
       destroyOnHide?: boolean;
     }>(),
     {
@@ -88,15 +101,25 @@
   );
   const slots = defineSlots<{
     'default'?: () => VNode[];
-    /** @zh 面板的标题 @en The title of the panel */
+    /**
+     * @zh 面板的标题
+     * @en The title of the panel
+     */
     'header'?: () => VNode[];
-    /** @zh 展开图标 @en Expand icon @version 2.33.0 */
+    /**
+     * @zh 展开图标
+     * @en Expand icon
+     * @version 2.33.0
+     */
     'expand-icon'?: (props: {
       active: boolean | undefined;
       disabled: boolean;
       position: 'left' | 'right';
     }) => VNode[];
-    /** @zh 额外内容 @en Extra Content */
+    /**
+     * @zh 额外内容
+     * @en Extra Content
+     */
     'extra'?: () => VNode[];
   }>();
   const instance = getCurrentInstance();

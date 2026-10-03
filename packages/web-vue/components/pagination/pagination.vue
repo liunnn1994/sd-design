@@ -136,64 +136,144 @@
   defineOptions({ name: 'Pagination', inheritAttrs: false });
 
   const props = defineProps({
+    /**
+     * @zh 数据总数
+     * @en Total number of records
+     */
     total: {
       type: Number,
       required: true,
     },
+    /**
+     * @zh 当前页码（受控）
+     * @en Current page (controlled)
+     */
     current: Number,
+    /**
+     * @zh 默认页码（非受控）
+     * @en Default page (uncontrolled state)
+     */
     defaultCurrent: {
       type: Number,
       default: 1,
     },
+    /**
+     * @zh 每页条数（受控）
+     * @en Number of items per page (controlled)
+     */
     pageSize: Number,
+    /**
+     * @zh 默认每页条数（非受控）
+     * @en Default page size (uncontrolled state)
+     */
     defaultPageSize: {
       type: Number,
       default: 10,
     },
+    /**
+     * @zh 是否禁用
+     * @en Whether the pagination is disabled
+     */
     disabled: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 仅一页时是否隐藏分页器
+     * @en Whether to hide the pagination when there is only one page
+     */
     hideOnSinglePage: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 是否使用简洁模式
+     * @en Whether to use the simple mode
+     */
     simple: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 是否显示总条数
+     * @en Whether to show the total count
+     */
     showTotal: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 是否显示更多按钮
+     * @en Whether to show the more button
+     */
     showMore: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 是否显示跳页器
+     * @en Whether to show the page jumper
+     */
     showJumper: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 是否显示每页条数选择器
+     * @en Whether to show the page size selector
+     */
     showPageSize: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 每页条数的可选值
+     * @en Options for the page size selector
+     */
     pageSizeOptions: {
       type: Array as PropType<number[]>,
       default: () => [10, 20, 30, 40, 50],
     },
+    /**
+     * @zh 每页条数选择器的组件属性
+     * @en Props forwarded to the page size selector
+     */
     pageSizeProps: Object as PropType<PaginationSelectProps>,
+    /**
+     * @zh 尺寸
+     * @en Size of the pagination
+     */
     size: String as PropType<Size>,
+    /**
+     * @zh 页码项的样式
+     * @en Style of the page items
+     */
     pageItemStyle: Object as PropType<CSSProperties>,
+    /**
+     * @zh 当前页码项的样式
+     * @en Style of the active page item
+     */
     activePageItemStyle: Object as PropType<CSSProperties>,
+    /**
+     * @zh 基础页码数量，超出后折叠为省略号
+     * @en Number of page items shown before collapsing into ellipsis
+     */
     baseSize: {
       type: Number,
       default: 6,
     },
+    /**
+     * @zh 省略号两侧保留的页码数量
+     * @en Number of page items kept on each side of the ellipsis
+     */
     bufferSize: {
       type: Number,
       default: 2,
     },
+    /**
+     * @zh 总条数变化时是否自动修正当前页码
+     * @en Whether to correct the current page when the total changes
+     */
     autoAdjust: {
       type: Boolean,
       default: true,

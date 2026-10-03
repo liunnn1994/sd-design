@@ -82,75 +82,151 @@
   defineOptions({ name: 'Tabs', inheritAttrs: false });
 
   const props = defineProps({
+    /**
+     * @zh 当前激活的标签页 key（受控）
+     * @en Key of the active tab (controlled)
+     */
     activeKey: {
       type: [String, Number],
       default: undefined,
     },
+    /**
+     * @zh 默认激活的标签页 key（非受控）
+     * @en Key of the initially active tab (uncontrolled state)
+     */
     defaultActiveKey: {
       type: [String, Number],
       default: undefined,
     },
+    /**
+     * @zh 标签页的位置
+     * @en Position of the tab bar
+     */
     position: {
       type: String as PropType<TabsPosition>,
       default: 'top',
     },
+    /**
+     * @zh 尺寸
+     * @en Size of the tabs
+     */
     size: String as PropType<Size>,
+    /**
+     * @zh 标签页的类型
+     * @en Type of the tabs
+     */
     type: {
       type: String as PropType<TabsType>,
       default: 'line',
     },
+    /**
+     * @zh 水平/垂直方向
+     * @en Horizontal or vertical direction
+     */
     direction: {
       type: String as PropType<Direction>,
       default: 'horizontal',
     },
+    /**
+     * @zh 是否支持添加和关闭标签页
+     * @en Whether tabs can be added and closed
+     */
     editable: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 是否显示添加按钮
+     * @en Whether to show the add button
+     */
     showAddButton: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 隐藏时是否销毁内容
+     * @en Whether tab content is destroyed when hidden
+     */
     destroyOnHide: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 是否懒加载标签页内容
+     * @en Whether tab content is lazy loaded
+     */
     lazyLoad: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 标签页的对齐方式
+     * @en Alignment of the tab items
+     */
     justify: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 切换动画类型
+     * @en Transition used when switching tabs
+     */
     animation: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 标签栏的内边距
+     * @en Padding of the tab bar
+     */
     headerPadding: {
       type: Boolean,
       default: true,
     },
+    /**
+     * @zh 鼠标悬停时是否自动切换
+     * @en Whether hovering an item switches to it
+     */
     autoSwitch: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 是否只渲染标签栏
+     * @en Whether to render the tab bar only
+     */
     hideContent: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 标签页的触发方式
+     * @en Trigger behaviour of the tabs
+     */
     trigger: {
       type: String as PropType<TabTriggerEvent>,
       default: 'click',
     },
+    /**
+     * @zh 初始滚动位置
+     * @en Initial scroll position of the tab bar
+     */
     scrollPosition: {
       type: [String, Number] as PropType<ScrollPosition>,
       default: 'auto',
     },
+    /**
+     * @zh 是否撑满父容器高度
+     * @en Whether the tabs fill the parent height
+     */
     fullHeight: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 滚动条配置
+     * @en Scrollbar configuration
+     */
     scrollbar: {
       type: [Boolean, Object] as PropType<boolean | ScrollbarProps>,
       default: true,

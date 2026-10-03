@@ -79,48 +79,93 @@
   defineOptions({ name: 'Rate', inheritAttrs: false });
 
   const props = defineProps({
+    /**
+     * @zh 评分的总数量
+     * @en Total number of rating items
+     */
     count: {
       type: Number,
       default: 5,
     },
+    /**
+     * @zh 绑定值
+     * @en Value of the rating
+     * @vModel
+     */
     modelValue: {
       type: Number,
       default: undefined,
     },
+    /**
+     * @zh 默认评分（非受控状态）
+     * @en Default rating (uncontrolled state)
+     */
     defaultValue: {
       type: Number,
       default: 0,
     },
+    /**
+     * @zh 是否允许半选
+     * @en Whether half-star selection is allowed
+     */
     allowHalf: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 是否允许清除评分
+     * @en Whether the rating can be cleared
+     */
     allowClear: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 是否分级显示颜色
+     * @en Whether to grade the star colors
+     */
     grading: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 是否只读
+     * @en Whether the rating is readonly
+     */
     readonly: {
       type: [Boolean, String],
       default: false,
     },
+    /**
+     * @zh 是否禁用
+     * @en Whether the rating is disabled
+     */
     disabled: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 评分颜色。传入对象时可按分值指定颜色
+     * @en Rating color. Pass an object to color each score
+     */
     color: {
       type: [String, Object] as PropType<string | Record<string, string>>,
     },
   });
 
-  const emit = defineEmits({
-    'update:modelValue': (_value: number) => true,
-    'change': (_value: number) => true,
-    'hoverChange': (_value: number) => true,
-  });
+  const emit = defineEmits<{
+    'update:modelValue': [_value: number];
+    /**
+     * @zh 评分变化时触发
+     * @en Trigger when the rating changes
+     */
+    'change': [_value: number];
+    /**
+     * @zh 鼠标悬停的评分变化时触发
+     * @en Trigger when the hovered rating changes
+     */
+    'hoverChange': [_value: number];
+  }>();
 
   defineSlots<{
     character(props: { index: number }): unknown;

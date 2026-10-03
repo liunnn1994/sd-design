@@ -97,61 +97,137 @@
   defineOptions({ name: 'ColorPicker' });
 
   const props = defineProps({
+    /**
+     * @zh 是否无边框
+     * @en Whether the trigger has no border
+     */
     borderless: Boolean,
+    /**
+     * @zh 是否可清空
+     * @en Whether the value can be cleared
+     */
     clearable: Boolean,
+    /**
+     * @zh 可选的颜色模式
+     * @en Selectable colour modes
+     */
     colorModes: {
       type: Array as PropType<ColorModes>,
       default: () => ['monochrome'],
     },
+    /**
+     * @zh 是否支持多段渐变
+     * @en Whether multi-stop gradients are supported
+     */
     enableMultipleGradient: {
       type: Boolean,
       default: true,
     },
+    /**
+     * @zh 绑定值
+     * @en Value of the picker
+     */
     modelValue: String,
+    /**
+     * @zh 默认值（非受控状态）
+     * @en Default value (uncontrolled state)
+     */
     defaultValue: {
       type: String,
       default: '',
     },
+    /**
+     * @zh 值的格式
+     * @en Format of the value
+     */
     format: {
       type: String as PropType<ColorFormat | LegacyFormat>,
       default: 'RGB',
     },
+    /**
+     * @zh 尺寸
+     * @en Size of the picker
+     */
     size: {
       type: String as PropType<Size | 'small' | 'medium' | 'large'>,
       default: 'medium',
     },
+    /**
+     * @zh 是否支持透明度
+     * @en Whether the alpha channel is supported
+     */
     enableAlpha: Boolean,
+    /**
+     * @zh 是否展示当前颜色预览
+     * @en Whether to show the current colour preview
+     */
     showPrimaryColorPreview: {
       type: Boolean,
       default: true,
     },
+    /**
+     * @zh 输入框的组件属性
+     * @en Props forwarded to the inner input
+     */
     inputProps: {
       type: Object as PropType<Record<string, unknown>>,
     },
+    /**
+     * @zh 最近使用的颜色
+     * @en Recently used colours
+     */
     recentColors: {
       type: [Array, Boolean] as PropType<RecentColorsValue>,
       default: undefined,
     },
+    /**
+     * @zh 默认的最近使用颜色
+     * @en Default recently used colours
+     */
     defaultRecentColors: {
       type: [Array, Boolean] as PropType<RecentColorsValue>,
       default: () => [],
     },
+    /**
+     * @zh 色板预设颜色
+     * @en Preset swatch colours
+     */
     swatchColors: {
       type: Array as PropType<string[] | null>,
       default: undefined,
     },
+    /**
+     * @zh 是否禁用
+     * @en Whether the picker is disabled
+     */
     disabled: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 是否只读
+     * @en Whether the picker is readonly
+     */
     readonly: {
       type: [Boolean, String],
       default: false,
     },
+    /**
+     * @zh 是否隐藏触发器
+     * @en Whether to hide the trigger
+     */
     hideTrigger: Boolean,
+    /**
+     * @zh 触发器的组件属性
+     * @en Props forwarded to the trigger
+     */
     triggerProps: {
       type: Object as PropType<Partial<TriggerProps>>,
     },
+    /**
+     * @zh 浮层的定位配置
+     * @en Floating options of the popup
+     */
     floatingOptions: {
       type: Object as PropType<FloatingOptions>,
     },

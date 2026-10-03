@@ -38,52 +38,108 @@
      * @en Identifies the column information, corresponding to the data in TableData
      */
     dataIndex: String,
-    /** @zh 列标题 @en Column title */
+    /**
+     * @zh 列标题
+     * @en Column title
+     */
     title: String,
-    /** @zh 列宽度 @en Column width */
+    /**
+     * @zh 列宽度
+     * @en Column width
+     */
     width: Number,
-    /** @zh 最小列宽 @en Minimum column width */
+    /**
+     * @zh 最小列宽
+     * @en Minimum column width
+     */
     minWidth: Number,
-    /** @zh 对齐方向 @en Alignment direction */
+    /**
+     * @zh 对齐方向
+     * @en Alignment direction
+     */
     align: String as PropType<TableColumnData['align']>,
-    /** @zh 固定位置 @en Fixed position */
+    /**
+     * @zh 固定位置
+     * @en Fixed position
+     */
     fixed: String as PropType<TableColumnData['fixed']>,
-    /** @zh 是否显示为省略 @en Whether to display as omitted */
+    /**
+     * @zh 是否显示为省略
+     * @en Whether to display as omitted
+     */
     ellipsis: {
       type: Boolean,
       default: false,
     },
-    /** @zh 排序相关选项 @en Sorting related options */
+    /**
+     * @zh 排序相关选项
+     * @en Sorting related options
+     */
     sortable: {
       type: Object as PropType<TableSortable>,
       default: undefined,
     },
-    /** @zh 过滤相关选项 @en Filter related options */
+    /**
+     * @zh 过滤相关选项
+     * @en Filter related options
+     */
     filterable: {
       type: Object as PropType<TableFilterable>,
       default: undefined,
     },
-    /** @zh 自定义单元格类名 @en Custom cell class @version 2.36.0 */
+    /**
+     * @zh 自定义单元格类名
+     * @en Custom cell class
+     * @version 2.36.0
+     */
     cellClass: [String, Array, Object] as PropType<ClassName>,
-    /** @zh 自定义表头单元格类名 @en Custom header cell class @version 2.36.0 */
+    /**
+     * @zh 自定义表头单元格类名
+     * @en Custom header cell class
+     * @version 2.36.0
+     */
     headerCellClass: [String, Array, Object] as PropType<ClassName>,
-    /** @zh 自定义内容单元格类名 @en Custom body cell class @version 2.36.0 */
+    /**
+     * @zh 自定义内容单元格类名
+     * @en Custom body cell class
+     * @version 2.36.0
+     */
     bodyCellClass: [String, Array, Object, Function] as PropType<
       ClassName | ((record: TableData) => ClassName)
     >,
-    /** @zh 自定义总结栏单元格类名 @en Custom summary cell class @version 2.36.0 */
+    /**
+     * @zh 自定义总结栏单元格类名
+     * @en Custom summary cell class
+     * @version 2.36.0
+     */
     summaryCellClass: [String, Array, Object, Function] as PropType<
       ClassName | ((record: TableData) => ClassName)
     >,
-    /** @zh 自定义单元格样式 @en Custom cell style @version 2.11.0 */
+    /**
+     * @zh 自定义单元格样式
+     * @en Custom cell style
+     * @version 2.11.0
+     */
     cellStyle: Object as PropType<CSSProperties>,
-    /** @zh 自定义表头单元格样式 @en Custom header cell style @version 2.29.0 */
+    /**
+     * @zh 自定义表头单元格样式
+     * @en Custom header cell style
+     * @version 2.29.0
+     */
     headerCellStyle: Object as PropType<CSSProperties>,
-    /** @zh 自定义内容单元格样式 @en Custom body cell style @version 2.29.0 */
+    /**
+     * @zh 自定义内容单元格样式
+     * @en Custom body cell style
+     * @version 2.29.0
+     */
     bodyCellStyle: [Object, Function] as PropType<
       CSSProperties | ((record: TableData) => CSSProperties)
     >,
-    /** @zh 自定义总结栏单元格样式 @en Custom summary cell style @version 2.30.0 */
+    /**
+     * @zh 自定义总结栏单元格样式
+     * @en Custom summary cell style
+     * @version 2.30.0
+     */
     summaryCellStyle: [Object, Function] as PropType<
       CSSProperties | ((record: TableData) => CSSProperties)
     >,
@@ -93,7 +149,11 @@
      * @version 2.20.2
      */
     index: Number,
-    /** @zh 在省略时是否显示文字提示 @en Whether to show text hints when omitted @version 2.26.0 */
+    /**
+     * @zh 在省略时是否显示文字提示
+     * @en Whether to show text hints when omitted
+     * @version 2.26.0
+     */
     tooltip: {
       type: [Boolean, Object],
       default: false,
@@ -108,14 +168,21 @@
    * @binding {TableColumnData} column
    * @binding {number} rowIndex
    */
-  /** @zh 标题 @en Title @slot title */
+  /**
+   * @zh 标题
+   * @en Title @slot title
+   */
   /**
    * @zh 自定义筛选弹出框内容
    * @en Custom filter popup content
    * @slot filter-content
    * @version 2.23.0
    */
-  /** @zh 筛选按钮图标 @en Filter button icon @slot filter-icon @version 2.23.0 */
+  /**
+   * @zh 筛选按钮图标
+   * @en Filter button icon @slot filter-icon
+   * @version 2.23.0
+   */
   const slots = useSlots();
   const VNodeRenderer = ({ content }: { content: VNodeChild }) => content;
   const { dataIndex, title, width, align, fixed, ellipsis, index, minWidth } = toRefs(props);

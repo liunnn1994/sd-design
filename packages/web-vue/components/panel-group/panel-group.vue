@@ -16,7 +16,10 @@
 
   defineOptions({ name: 'PanelGroup' });
 
-  /** @zh 面板与伸缩杆 @en Panels and separators */
+  /**
+   * @zh 面板与伸缩杆
+   * @en Panels and separators
+   */
   defineSlots<{ default?: () => unknown }>();
 
   const props = defineProps<{

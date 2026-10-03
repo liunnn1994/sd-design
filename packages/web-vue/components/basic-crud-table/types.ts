@@ -33,31 +33,70 @@ export type BasicCrudTableRowLinkProps<TRow extends TableData = TableData> =
   | ((row: TRow) => LinkProps);
 
 export interface BasicCrudTableProps<TRow extends TableData = TableData> {
-  /** @zh 标题 @en Title */
+  /**
+   * @zh 标题
+   * @en Title
+   */
   title?: string;
-  /** @zh 表格列 @en Table columns */
+  /**
+   * @zh 表格列
+   * @en Table columns
+   */
   columns: TableColumnData[];
-  /** @zh Table 专属属性 @en Props forwarded only to Table */
+  /**
+   * @zh Table 专属属性
+   * @en Props forwarded only to Table
+   */
   tableProps?: BasicCrudTableTableProps;
-  /** @zh Toolbar 专属属性 @en Props forwarded only to Toolbar */
+  /**
+   * @zh Toolbar 专属属性
+   * @en Props forwarded only to Toolbar
+   */
   toolbarProps?: BasicCrudTableToolbarProps;
-  /** @zh 查询按钮属性 @en Props of the search button */
+  /**
+   * @zh 查询按钮属性
+   * @en Props of the search button
+   */
   searchBtn?: ButtonProps;
-  /** @zh 重置按钮属性 @en Props of the reset button */
+  /**
+   * @zh 重置按钮属性
+   * @en Props of the reset button
+   */
   resetBtn?: ButtonProps;
-  /** @zh 新建按钮属性 @en Props of the create button */
+  /**
+   * @zh 新建按钮属性
+   * @en Props of the create button
+   */
   createBtn?: ButtonProps;
-  /** @zh 编辑按钮属性 @en Props of the edit button */
+  /**
+   * @zh 编辑按钮属性
+   * @en Props of the edit button
+   */
   editBtn?: BasicCrudTableRowLinkProps<TRow>;
-  /** @zh 删除按钮属性 @en Props of the delete button */
+  /**
+   * @zh 删除按钮属性
+   * @en Props of the delete button
+   */
   deleteBtn?: BasicCrudTableRowLinkProps<TRow>;
-  /** @zh 加载遮罩 Spin 的属性 @en Props passed to the loading overlay Spin */
+  /**
+   * @zh 加载遮罩 Spin 的属性
+   * @en Props passed to the loading overlay Spin
+   */
   spinProps?: SpinProps;
-  /** @zh Modal 专属属性 @en Props forwarded only to Modal */
+  /**
+   * @zh Modal 专属属性
+   * @en Props forwarded only to Modal
+   */
   modalProps?: BasicCrudTableModalProps;
-  /** @zh 弹窗 JsonForm 专属属性 @en Props forwarded only to the modal JsonForm */
+  /**
+   * @zh 弹窗 JsonForm 专属属性
+   * @en Props forwarded only to the modal JsonForm
+   */
   modalFormProps?: BasicCrudTableModalFormProps;
-  /** @zh 是否占满父级高度，并让表格区域滚动 @en Whether to fill the parent height and scroll the table area */
+  /**
+   * @zh 是否占满父级高度，并让表格区域滚动
+   * @en Whether to fill the parent height and scroll the table area
+   */
   fullHeight?: boolean;
   showCreate?: boolean;
   openCreateModal?: boolean;

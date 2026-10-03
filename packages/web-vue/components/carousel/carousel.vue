@@ -76,51 +76,103 @@
   defineOptions({ name: 'Carousel' });
 
   const props = defineProps({
+    /**
+     * @zh 当前幻灯片下标（受控）
+     * @en Index of the current slide (controlled)
+     */
     current: Number,
+    /**
+     * @zh 默认幻灯片下标（非受控）
+     * @en Index of the initially active slide (uncontrolled state)
+     */
     defaultCurrent: {
       type: Number,
       default: 1,
     },
+    /**
+     * @zh 是否自动播放，可配置间隔等参数
+     * @en Whether to autoplay; accepts interval and related options
+     */
     autoPlay: {
       type: [Boolean, Object] as PropType<boolean | CarouselAutoPlayConfig>,
       default: false,
     },
+    /**
+     * @zh 切换动画的时长（毫秒）
+     * @en Duration of the slide transition in milliseconds
+     */
     moveSpeed: {
       type: Number,
       default: 500,
     },
+    /**
+     * @zh 切换动画类型
+     * @en Transition used when sliding
+     */
     animationName: {
       type: String as PropType<'slide' | 'fade' | 'card'>,
       default: 'slide',
     },
+    /**
+     * @zh 切换的触发方式
+     * @en Trigger behaviour of the carousel
+     */
     trigger: {
       type: String as PropType<CarouselTriggerEvent>,
       default: 'click',
     },
+    /**
+     * @zh 幻灯片排列方向
+     * @en Direction the slides are laid out in
+     */
     direction: {
       type: String as PropType<Direction>,
       default: 'horizontal',
     },
+    /**
+     * @zh 是否显示左右箭头
+     * @en Whether to show the previous/next arrows
+     */
     showArrow: {
       type: String as PropType<CarouselArrowType>,
       default: 'always',
     },
+    /**
+     * @zh 箭头的类名
+     * @en Class name of the arrows
+     */
     arrowClass: {
       type: String,
       default: '',
     },
+    /**
+     * @zh 指示器的类型
+     * @en Type of the indicators
+     */
     indicatorType: {
       type: String as PropType<CarouselIndicatorType>,
       default: 'dot',
     },
+    /**
+     * @zh 指示器的位置
+     * @en Position of the indicators
+     */
     indicatorPosition: {
       type: String as PropType<CarouselIndicatorPosition>,
       default: 'bottom',
     },
+    /**
+     * @zh 指示器的类名
+     * @en Class name of the indicators
+     */
     indicatorClass: {
       type: String,
       default: '',
     },
+    /**
+     * @zh 切换动画的缓动函数
+     * @en Easing function of the slide transition
+     */
     transitionTimingFunction: {
       type: String,
       default: 'cubic-bezier(0.34, 0.69, 0.1, 1)',

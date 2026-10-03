@@ -116,30 +116,73 @@
   });
 
   const props = defineProps({
+    /**
+     * @zh 描述列表的数据
+     * @en Data of the descriptions list
+     */
     data: {
       type: Array as PropType<DescData[]>,
       default: () => [],
     },
+    /**
+     * @zh 每行的列数，支持响应式对象
+     * @en Number of columns per row; accepts a responsive object
+     */
     column: {
       type: [Number, Object] as PropType<number | ResponsiveValue>,
       default: 3,
     },
+    /**
+     * @zh 标题
+     * @en Title of the descriptions
+     */
     title: String,
+    /**
+     * @zh 排列方式
+     * @en Layout of the label/value pairs
+     * @values horizontal, vertical, inline-horizontal, inline-vertical
+     */
     layout: {
       type: String as PropType<'horizontal' | 'vertical' | 'inline-horizontal' | 'inline-vertical'>,
       default: 'horizontal',
     },
+    /**
+     * @zh 对齐方式，可分别指定 label 与 value
+     * @en Text alignment; `label` and `value` can be set separately
+     * @values left, center, right
+     */
     align: {
       type: [String, Object] as PropType<TextAlign | { label?: TextAlign; value?: TextAlign }>,
       default: 'left',
     },
+    /**
+     * @zh 尺寸
+     * @en Size of the descriptions
+     */
     size: String as PropType<Size>,
+    /**
+     * @zh 是否显示边框
+     * @en Whether to show borders
+     */
     bordered: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh label 的样式
+     * @en Style of the label cells
+     */
     labelStyle: Object as PropType<CSSProperties>,
+    /**
+     * @zh value 的样式
+     * @en Style of the value cells
+     */
     valueStyle: Object as PropType<CSSProperties>,
+    /**
+     * @zh 表格布局算法
+     * @en Table layout algorithm
+     * @values auto, fixed
+     */
     tableLayout: {
       type: String as PropType<'auto' | 'fixed'>,
       default: 'auto',

@@ -56,7 +56,10 @@
 
   defineOptions({ name: 'PanelSeparator', inheritAttrs: false });
 
-  /** @zh 自定义伸缩杆内容 @en Custom resize grip content */
+  /**
+   * @zh 自定义伸缩杆内容
+   * @en Custom resize grip content
+   */
   defineSlots<{ default?: () => unknown }>();
 
   const props = defineProps<{

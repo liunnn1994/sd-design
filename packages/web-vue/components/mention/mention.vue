@@ -155,51 +155,103 @@
   defineOptions({ name: 'Mention', inheritAttrs: false });
 
   const props = defineProps({
+    /**
+     * @zh 绑定值
+     * @en Value of the text
+     */
     modelValue: String,
+    /**
+     * @zh 默认值（非受控状态）
+     * @en Default value (uncontrolled state)
+     */
     defaultValue: {
       type: String,
       default: '',
     },
+    /**
+     * @zh 提及的可选项数据
+     * @en Data of the mention options
+     */
     data: {
       type: Array as PropType<(string | number | SelectOptionData | SelectOptionGroup)[]>,
       default: () => [],
     },
+    /**
+     * @zh 触发提及的前缀符
+     * @en Prefix that triggers the mention popup
+     */
     prefix: {
       type: [String, Array] as PropType<string | string[]>,
       default: '@',
     },
+    /**
+     * @zh 搜索关键字的分隔符
+     * @en Separator that ends the search keyword
+     */
     split: {
       type: String,
       default: ' ',
     },
+    /**
+     * @zh 选项的过滤方式
+     * @en How the options are filtered
+     */
     filterOption: {
       type: [Boolean, Function] as PropType<FilterOption>,
       default: true,
     },
+    /**
+     * @zh 输入框类型
+     * @en Type of the inner input
+     */
     type: {
       type: String as PropType<'input' | 'textarea'>,
       default: 'input',
     },
+    /**
+     * @zh 是否禁用
+     * @en Whether the component is disabled
+     */
     disabled: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 是否只读
+     * @en Whether the component is readonly
+     */
     readonly: {
       type: [Boolean, String],
       default: false,
     },
+    /**
+     * @zh 是否允许清除
+     * @en Whether the value can be cleared
+     */
     allowClear: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 宽度是否适应内容
+     * @en Whether the width adapts to the content
+     */
     fitWidth: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 最大宽度是否限制为父容器宽度
+     * @en Whether the maximum width is limited to the parent container width
+     */
     maxWFull: {
       type: Boolean,
       default: true,
     },
+    /**
+     * @zh 浮层的定位配置
+     * @en Floating options of the popup
+     */
     floatingOptions: Object as PropType<FloatingOptions>,
   });
 

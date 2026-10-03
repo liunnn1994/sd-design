@@ -66,32 +66,68 @@
   });
 
   const emit = defineEmits<{
-    /** @zh 绑定值变化 @en Value update */
+    /**
+     * @zh 绑定值变化
+     * @en Value update
+     */
     'update:modelValue': [value: string];
-    /** @zh 用户输入时触发 @en Triggered on user input */
+    /**
+     * @zh 用户输入时触发
+     * @en Triggered on user input
+     */
     'input': [value: string, event: Event];
-    /** @zh 失焦或按下回车且值变化时触发 @en Triggered after blur or Enter when changed */
+    /**
+     * @zh 失焦或按下回车且值变化时触发
+     * @en Triggered after blur or Enter when changed
+     */
     'change': [value: string, event: Event];
-    /** @zh 固定位置掩码全部填写时触发 @en Triggered when a fixed mask is completely filled */
+    /**
+     * @zh 固定位置掩码全部填写时触发
+     * @en Triggered when a fixed mask is completely filled
+     */
     'complete': [value: string];
-    /** @zh 用户按下回车时触发 @en Triggered on Enter */
+    /**
+     * @zh 用户按下回车时触发
+     * @en Triggered on Enter
+     */
     'pressEnter': [event: KeyboardEvent];
-    /** @zh 用户点击清除按钮时触发 @en Triggered when clear is clicked */
+    /**
+     * @zh 用户点击清除按钮时触发
+     * @en Triggered when clear is clicked
+     */
     'clear': [event: MouseEvent];
-    /** @zh 输入框获得焦点时触发 @en Triggered on focus */
+    /**
+     * @zh 输入框获得焦点时触发
+     * @en Triggered on focus
+     */
     'focus': [event: FocusEvent];
-    /** @zh 输入框失去焦点时触发 @en Triggered on blur */
+    /**
+     * @zh 输入框失去焦点时触发
+     * @en Triggered on blur
+     */
     'blur': [event: FocusEvent];
   }>();
 
   defineSlots<{
-    /** @zh 输入框内前缀 @en Inner prefix */
+    /**
+     * @zh 输入框内前缀
+     * @en Inner prefix
+     */
     prefix?: () => unknown;
-    /** @zh 输入框内后缀 @en Inner suffix */
+    /**
+     * @zh 输入框内后缀
+     * @en Inner suffix
+     */
     suffix?: () => unknown;
-    /** @zh 输入框外前置标签 @en Outer prepend label */
+    /**
+     * @zh 输入框外前置标签
+     * @en Outer prepend label
+     */
     prepend?: () => unknown;
-    /** @zh 输入框外后置标签 @en Outer append label */
+    /**
+     * @zh 输入框外后置标签
+     * @en Outer append label
+     */
     append?: () => unknown;
   }>();
 

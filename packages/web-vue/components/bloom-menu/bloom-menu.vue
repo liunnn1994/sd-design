@@ -163,47 +163,101 @@
     buttonProps,
     offset,
   } = defineProps<{
-    /** @zh 菜单项 @en Menu items */
+    /**
+     * @zh 菜单项
+     * @en Menu items
+     */
     items: readonly BloomMenuItem[];
-    /** @zh 是否展开 @en Whether the menu is open */
+    /**
+     * @zh 是否展开
+     * @en Whether the menu is open
+     */
     modelValue?: boolean;
-    /** @zh 非受控模式下的初始展开状态 @en Initial open state in uncontrolled mode */
+    /**
+     * @zh 非受控模式下的初始展开状态
+     * @en Initial open state in uncontrolled mode
+     */
     defaultOpen?: boolean;
-    /** @zh 每行列数 @en Number of columns per row */
+    /**
+     * @zh 每行列数
+     * @en Number of columns per row
+     */
     columns?: number;
-    /** @zh 面板标题 @en Panel title */
+    /**
+     * @zh 面板标题
+     * @en Panel title
+     */
     title?: string;
-    /** @zh 默认触发器文本 @en Default trigger text */
+    /**
+     * @zh 默认触发器文本
+     * @en Default trigger text
+     */
     triggerText?: string;
-    /** @zh 触发按钮属性 @en Trigger button props */
+    /**
+     * @zh 触发按钮属性
+     * @en Trigger button props
+     */
     buttonProps?: BloomMenuButtonProps;
-    /** @zh 浮层中心相对触发按钮中心的偏移 @en Popup center offset relative to the trigger center */
+    /**
+     * @zh 浮层中心相对触发按钮中心的偏移
+     * @en Popup center offset relative to the trigger center
+     */
     offset?: BloomMenuOffset;
-    /** @zh 关闭按钮的无障碍标签,默认取国际化文案 @en Accessible label for the close button, defaults to the locale text */
+    /**
+     * @zh 关闭按钮的无障碍标签,默认取国际化文案
+     * @en Accessible label for the close button, defaults to the locale text
+     */
     closeAriaLabel?: string;
   }>();
 
   const emit = defineEmits<{
-    /** @zh 展开状态变化 @en Open state update */
+    /**
+     * @zh 展开状态变化
+     * @en Open state update
+     */
     'update:modelValue': [value: boolean];
-    /** @zh 菜单展开时触发 @en Emitted when the menu opens */
+    /**
+     * @zh 菜单展开时触发
+     * @en Emitted when the menu opens
+     */
     'open': [];
-    /** @zh 菜单收起时触发 @en Emitted when the menu closes */
+    /**
+     * @zh 菜单收起时触发
+     * @en Emitted when the menu closes
+     */
     'close': [];
-    /** @zh 选择菜单项时触发 @en Emitted when an item is selected */
+    /**
+     * @zh 选择菜单项时触发
+     * @en Emitted when an item is selected
+     */
     'select': [item: BloomMenuItem, index: number];
   }>();
 
   defineSlots<{
-    /** @zh 自定义触发器 @en Custom trigger */
+    /**
+     * @zh 自定义触发器
+     * @en Custom trigger
+     */
     trigger(props: { open: () => void }): VNode[];
-    /** @zh 自定义头部 @en Custom header */
+    /**
+     * @zh 自定义头部
+     * @en Custom header
+     */
     header(props: { close: () => void }): VNode[];
-    /** @zh 自定义菜单项图标 @en Custom item icon */
+    /**
+     * @zh 自定义菜单项图标
+     * @en Custom item icon
+     */
     icon(props: { item: BloomMenuItem; index: number }): VNode[];
-    /** @zh 自定义完整菜单项内容 @en Custom complete item content */
+    /**
+     * @zh 自定义完整菜单项内容
+     * @en Custom complete item content
+     */
     item(props: { item: BloomMenuItem; index: number }): VNode[];
-    /** @zh 空状态内容 @en Empty state content */
+    /**
+     * @zh 空状态内容
+     * @en Empty state content
+     */
     empty(): VNode[];
   }>();
 

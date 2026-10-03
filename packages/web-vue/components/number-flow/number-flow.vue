@@ -87,16 +87,28 @@
   } = defineProps<NumberFlowProps>();
 
   defineSlots<{
-    /** @zh 自定义前缀，优先于 prefix 属性 @en Custom prefix, takes precedence over prefix */
+    /**
+     * @zh 自定义前缀，优先于 prefix 属性
+     * @en Custom prefix, takes precedence over prefix
+     */
     prefix(): unknown;
-    /** @zh 自定义后缀，优先于 suffix 属性 @en Custom suffix, takes precedence over suffix */
+    /**
+     * @zh 自定义后缀，优先于 suffix 属性
+     * @en Custom suffix, takes precedence over suffix
+     */
     suffix(): unknown;
   }>();
 
   const emit = defineEmits<{
-    /** @zh 数字动画开始时触发 @en Emitted when number animations start */
+    /**
+     * @zh 数字动画开始时触发
+     * @en Emitted when number animations start
+     */
     animationsstart: [];
-    /** @zh 数字动画结束时触发 @en Emitted when number animations finish */
+    /**
+     * @zh 数字动画结束时触发
+     * @en Emitted when number animations finish
+     */
     animationsfinish: [];
   }>();
 

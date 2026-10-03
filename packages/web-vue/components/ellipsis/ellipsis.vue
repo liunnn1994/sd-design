@@ -85,20 +85,35 @@
   defineOptions({ name: 'Ellipsis', inheritAttrs: false });
 
   const props = defineProps({
-    /** @zh 最大显示行数。不传时为单行省略。 @en Maximum displayed lines. */
+    /**
+     * @zh 最大显示行数。不传时为单行省略。
+     * @en Maximum displayed lines.
+     */
     lineClamp: { type: [Number, String] as PropType<number | string>, default: undefined },
-    /** @zh 展开的触发方式 @en Trigger mode for expansion */
+    /**
+     * @zh 展开的触发方式
+     * @en Trigger mode for expansion
+     */
     expandTrigger: { type: String as PropType<'click'>, default: undefined },
-    /** @zh 省略时是否展示提示。 @en Whether to show a tooltip when clamped. */
+    /**
+     * @zh 省略时是否展示提示。
+     * @en Whether to show a tooltip when clamped.
+     */
     tooltip: {
       type: [Boolean, Object] as PropType<boolean | EllipsisTooltipProps>,
       default: true,
     },
   });
   defineSlots<{
-    /** @zh 默认内容 @en Default content */
+    /**
+     * @zh 默认内容
+     * @en Default content
+     */
     default?: () => VNode[];
-    /** @zh 自定义提示内容 @en Custom tooltip content */
+    /**
+     * @zh 自定义提示内容
+     * @en Custom tooltip content
+     */
     tooltip?: () => VNode[];
   }>();
 

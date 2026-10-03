@@ -130,13 +130,25 @@
 
   const slots = defineSlots<{
     default?: () => VNode[];
-    /** @zh 卡片标题 @en Title of card */
+    /**
+     * @zh 卡片标题
+     * @en Title of card
+     */
     title?: () => VNode[];
-    /** @zh 卡片右上角的操作区域 @en Content to render in the top-right corner of the card */
+    /**
+     * @zh 卡片右上角的操作区域
+     * @en Content to render in the top-right corner of the card
+     */
     extra?: () => VNode[];
-    /** @zh 卡片封面 @en Cover of card */
+    /**
+     * @zh 卡片封面
+     * @en Cover of card
+     */
     cover?: () => VNode[];
-    /** @zh 卡片底部的操作组 @en The action list which shows at the bottom of the Card */
+    /**
+     * @zh 卡片底部的操作组
+     * @en The action list which shows at the bottom of the Card
+     */
     actions?: () => VNode[];
   }>();
 

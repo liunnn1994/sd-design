@@ -54,15 +54,31 @@
 
   const props = withDefaults(
     defineProps<{
-      /** @zh 绑定值 @en Value @vModel */
+      /**
+       * @zh 绑定值
+       * @en Value
+       * @vModel
+       */
       modelValue?: RadioValue;
-      /** @zh 默认是否选中（非受控状态） @en Whether checked by default (uncontrolled state) */
+      /**
+       * @zh 默认是否选中（非受控状态）
+       * @en Whether checked by default (uncontrolled state)
+       */
       defaultChecked?: boolean;
-      /** @zh 选项的 `value` @en The `value` of the option */
+      /**
+       * @zh 选项的 `value`
+       * @en The `value` of the option
+       */
       value?: RadioValue;
-      /** @zh 单选的类型 @en Radio type */
+      /**
+       * @zh 单选的类型
+       * @en Radio type
+       */
       type?: RadioType;
-      /** @zh 是否禁用 @en Whether to disable */
+      /**
+       * @zh 是否禁用
+       * @en Whether to disable
+       */
       disabled?: boolean;
       /** @private */
       uninjectGroupContext?: boolean;
@@ -79,12 +95,19 @@
 
   const emit = defineEmits<{
     'update:modelValue': [value: RadioValue];
-    /** @zh 值改变时触发 @en Trigger when the value changes */
+    /**
+     * @zh 值改变时触发
+     * @en Trigger when the value changes
+     */
     'change': [value: RadioValue, ev: Event];
   }>();
   const slots = defineSlots<{
     default?: () => VNode[];
-    /** @zh 自定义单选框 @en Custom radio @version 2.18.0 */
+    /**
+     * @zh 自定义单选框
+     * @en Custom radio
+     * @version 2.18.0
+     */
     radio?: (props: { checked: boolean; disabled: boolean }) => VNode[];
   }>();
   const prefixCls = getPrefixCls('radio');

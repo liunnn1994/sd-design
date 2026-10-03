@@ -261,110 +261,218 @@
   const DEFAULT_PROGRESS_TEXT = '{{current}} / {{total}}';
 
   const props = defineProps({
+    /**
+     * @zh 是否显示引导（受控）
+     * @en Whether the tour is visible (controlled)
+     */
     visible: {
       type: Boolean,
       default: undefined,
     },
+    /**
+     * @zh 是否默认显示引导（非受控）
+     * @en Whether the tour is visible by default (uncontrolled state)
+     */
     defaultVisible: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 当前步骤下标（受控）
+     * @en Index of the current step (controlled)
+     */
     current: {
       type: Number,
       default: undefined,
     },
+    /**
+     * @zh 默认步骤下标（非受控）
+     * @en Index of the initially active step (uncontrolled state)
+     */
     defaultCurrent: {
       type: Number,
       default: 0,
     },
+    /**
+     * @zh 引导步骤的数据
+     * @en Data of the tour steps
+     */
     steps: {
       type: Array as PropType<TourStep[]>,
       default: () => [],
     },
+    /**
+     * @zh 浮层层级
+     * @en Z-index of the tour overlay
+     */
     zIndex: {
       type: Number,
       default: undefined,
     },
+    /**
+     * @zh 是否开启动画
+     * @en Whether animations are enabled
+     */
     animate: {
       type: Boolean,
       default: undefined,
     },
+    /**
+     * @zh 是否允许关闭
+     * @en Whether the tour can be closed
+     */
     allowClose: {
       type: Boolean,
       default: undefined,
     },
+    /**
+     * @zh 是否允许键盘操作
+     * @en Whether keyboard navigation is enabled
+     */
     allowKeyboardControl: {
       type: Boolean,
       default: undefined,
     },
+    /**
+     * @zh 点击遮罩时的行为
+     * @en Behaviour when the overlay is clicked
+     */
     overlayClickBehavior: {
       type: [String, Function] as PropType<TourOverlayClickBehavior>,
       default: undefined,
     },
+    /**
+     * @zh 遮罩透明度
+     * @en Opacity of the overlay
+     */
     overlayOpacity: {
       type: Number,
       default: undefined,
     },
+    /**
+     * @zh 遮罩颜色
+     * @en Color of the overlay
+     */
     overlayColor: {
       type: String,
       default: undefined,
     },
+    /**
+     * @zh 是否平滑滚动到目标元素
+     * @en Whether to smooth-scroll to the target
+     */
     smoothScroll: {
       type: Boolean,
       default: undefined,
     },
+    /**
+     * @zh 是否禁止与高亮元素交互
+     * @en Whether interaction with the highlighted element is disabled
+     */
     disableActiveInteraction: {
       type: Boolean,
       default: undefined,
     },
+    /**
+     * @zh 是否显示步骤进度
+     * @en Whether to show the step progress
+     */
     showProgress: {
       type: Boolean,
       default: undefined,
     },
+    /**
+     * @zh 高亮区域相对元素的外边距
+     * @en Padding around the highlighted element
+     */
     stagePadding: {
       type: Number,
       default: undefined,
     },
+    /**
+     * @zh 高亮区域的圆角
+     * @en Border radius of the highlight
+     */
     stageRadius: {
       type: Number,
       default: undefined,
     },
+    /**
+     * @zh 气泡相对高亮区域的偏移
+     * @en Offset between the popover and the highlight
+     */
     popoverOffset: {
       type: Number,
       default: undefined,
     },
+    /**
+     * @zh 气泡的定位配置
+     * @en Floating options of the popover
+     */
     floatingOptions: {
       type: Object as PropType<FloatingOptions>,
       default: undefined,
     },
+    /**
+     * @zh 是否显示上一步/下一步按钮
+     * @en Whether to show the prev/next buttons
+     */
     showButtons: {
       type: Array as PropType<TourAllowedButton[]>,
       default: undefined,
     },
+    /**
+     * @zh 禁用的按钮名称列表
+     * @en Names of the buttons to disable
+     */
     disableButtons: {
       type: Array as PropType<TourAllowedButton[]>,
       default: undefined,
     },
+    /**
+     * @zh 上一步按钮文案
+     * @en Text of the previous button
+     */
     prevBtnText: {
       type: String,
       default: undefined,
     },
+    /**
+     * @zh 下一步按钮文案
+     * @en Text of the next button
+     */
     nextBtnText: {
       type: String,
       default: undefined,
     },
+    /**
+     * @zh 完成按钮文案
+     * @en Text of the done button
+     */
     doneBtnText: {
       type: String,
       default: undefined,
     },
+    /**
+     * @zh 进度文案，接收当前/总数
+     * @en Progress text, receives the current and total step count
+     */
     progressText: {
       type: String,
       default: undefined,
     },
+    /**
+     * @zh 气泡的类名
+     * @en Class name of the popover
+     */
     popoverClass: {
       type: String,
       default: undefined,
     },
+    /**
+     * @zh 按钮的组件属性
+     * @en Props forwarded to the buttons
+     */
     buttonProps: {
       type: Object as PropType<TourButtonProps>,
       default: undefined,

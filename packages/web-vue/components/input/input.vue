@@ -98,69 +98,171 @@
   defineOptions({ name: 'Input', inheritAttrs: false });
 
   const props = defineProps({
+    /**
+     * @zh 绑定值
+     * @en Value of the input
+     * @vModel
+     */
     modelValue: String,
+    /**
+     * @zh 默认值（非受控状态）
+     * @en Default value (uncontrolled state)
+     */
     defaultValue: {
       type: String,
       default: '',
     },
+    /**
+     * @zh 输入框尺寸
+     * @en Size of the input
+     */
     size: String as PropType<Size>,
+    /**
+     * @zh 是否允许清除
+     * @en Whether to allow clearing
+     */
     allowClear: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 是否禁用
+     * @en Whether the input is disabled
+     */
     disabled: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 是否只读
+     * @en Whether the input is readonly
+     */
     readonly: {
       type: [Boolean, String],
       default: false,
     },
+    /**
+     * @zh 是否为错误状态
+     * @en Whether the input is in error state
+     */
     error: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 占位符
+     * @en Placeholder of the input
+     */
     placeholder: String,
+    /**
+     * @zh 宽度是否适应文字内容
+     * @en Whether the width adapts to the text content
+     */
     fitWidth: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 最大宽度是否限制为父容器宽度
+     * @en Whether the maximum width is limited to the parent container width
+     */
     maxWFull: {
       type: Boolean,
       default: true,
     },
+    /**
+     * @zh 最大长度。传入对象时可配置 `length` 与 `errorOnly`（仅超出时提示）
+     * @en Maximum length. Accepts an object with `length` and `errorOnly`
+     */
     maxLength: {
       type: [Number, Object] as PropType<number | { length: number; errorOnly?: boolean }>,
       default: 0,
     },
+    /**
+     * @zh 是否显示字数统计
+     * @en Whether to show the word count
+     */
     showWordLimit: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 自定义字数统计方法
+     * @en Custom function used to count words
+     */
     wordLength: Function as PropType<(value: string) => number>,
+    /**
+     * @zh 自定义超长文本的截断方法
+     * @en Custom function used to slice overlong text
+     */
     wordSlice: Function as PropType<(value: string, maxLength: number) => string>,
+    /**
+     * @zh 透传给原生 `input` 的属性
+     * @en Attributes forwarded to the native `input`
+     */
     inputAttrs: Object,
+    /**
+     * @zh 输入框类型
+     * @en Type of the input
+     * @values text, password
+     */
     type: {
       type: String as PropType<'text' | 'password'>,
       default: 'text',
     },
+    /**
+     * @zh 适应宽度时使用的兜底宽度
+     * @en Fallback width used when fitting to content
+     */
     fitWidthFallback: {
       type: String,
       default: '4ch',
     },
+    /**
+     * @zh 前缀内容
+     * @en Content prepended to the input
+     */
     prepend: String,
+    /**
+     * @zh 后缀内容
+     * @en Content appended to the input
+     */
     append: String,
   });
 
-  const emit = defineEmits({
-    'update:modelValue': (_value: string) => true,
-    'input': (_value: string, _event: Event) => true,
-    'change': (_value: string, _event: Event) => true,
-    'pressEnter': (_event: KeyboardEvent) => true,
-    'clear': (_event: MouseEvent) => true,
-    'focus': (_event: FocusEvent) => true,
-    'blur': (_event: FocusEvent) => true,
-  });
+  const emit = defineEmits<{
+    'update:modelValue': [_value: string];
+    /**
+     * @zh 输入时触发
+     * @en Trigger while typing
+     */
+    'input': [_value: string, _event: Event];
+    /**
+     * @zh 值变化时触发
+     * @en Trigger when the value changes
+     */
+    'change': [_value: string, _event: Event];
+    /**
+     * @zh 按下回车键时触发
+     * @en Trigger when Enter is pressed
+     */
+    'pressEnter': [_event: KeyboardEvent];
+    /**
+     * @zh 点击清除按钮时触发
+     * @en Trigger when the clear button is clicked
+     */
+    'clear': [_event: MouseEvent];
+    /**
+     * @zh 获得焦点时触发
+     * @en Trigger when the input gains focus
+     */
+    'focus': [_event: FocusEvent];
+    /**
+     * @zh 失去焦点时触发
+     * @en Trigger when the input loses focus
+     */
+    'blur': [_event: FocusEvent];
+  }>();
 
   const attrs = useAttrs();
   const slots = useSlots();

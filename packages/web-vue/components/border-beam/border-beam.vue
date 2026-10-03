@@ -149,29 +149,73 @@
 
   const props = withDefaults(
     defineProps<{
-      /** 尺寸/类型预设 Size/type preset @default 'md' @zh 尺寸/类型预设 */
+      /**
+       * @zh 尺寸/类型预设
+       * @en Size/type preset
+       * @default 'md'
+       */
       size?: BorderBeamSize;
-      /** 颜色变体 Color variant @default 'colorful' @zh 颜色变体 */
+      /**
+       * @zh 颜色变体
+       * @en Color variant
+       * @default 'colorful'
+       */
       colorVariant?: BorderBeamColorVariant;
-      /** 主题模式 Theme mode @default 'dark' @zh 主题模式 */
+      /**
+       * @zh 主题模式
+       * @en Theme mode
+       * @default 'dark'
+       */
       theme?: BorderBeamTheme;
-      /** 禁用色相偏移动画 Disable hue-shift animation @default false @zh 禁用色相偏移动画 */
+      /**
+       * @zh 禁用色相偏移动画
+       * @en Disable hue-shift animation
+       * @default false
+       */
       staticColors?: boolean;
-      /** 旋转/移动持续时间（秒）Rotation/travel duration in seconds @zh 旋转/移动持续时间（秒） */
+      /**
+       * @zh 旋转/移动持续时间（秒）Rotation/travel
+       * @en duration in seconds
+       */
       duration?: number;
-      /** 动画是否激活 Whether the animation is active @default true @zh 动画是否激活 */
+      /**
+       * @zh 动画是否激活
+       * @en Whether the animation is active
+       * @default true
+       */
       active?: boolean;
-      /** 自定义边框圆角（像素），省略时自动检测 Custom border radius in pixels @zh 自定义边框圆角（像素） */
+      /**
+       * @zh 自定义边框圆角（像素），省略时自动检测
+       * @en Custom border radius in pixels
+       */
       borderRadius?: number;
-      /** 亮度倍率，默认使用预设值 Brightness multiplier @zh 亮度倍率 */
+      /**
+       * @zh 亮度倍率，默认使用预设值
+       * @en Brightness multiplier
+       */
       brightness?: number;
-      /** 饱和度倍率，默认使用预设值 Saturation multiplier @zh 饱和度倍率 */
+      /**
+       * @zh 饱和度倍率，默认使用预设值
+       * @en Saturation multiplier
+       */
       saturation?: number;
-      /** 色相旋转范围（度） Hue rotation range in degrees @default 30 @zh 色相旋转范围（度） */
+      /**
+       * @zh 色相旋转范围（度）
+       * @en Hue rotation range in degrees
+       * @default 30
+       */
       hueRange?: number;
-      /** 整体效果强度 0–1 Overall strength/opacity @default 1 @zh 整体效果强度 */
+      /**
+       * @zh 整体效果强度
+       * @en 0–1 Overall strength/opacity
+       * @default 1
+       */
       strength?: number;
-      /** 渐变尺寸倍率 Gradient size multiplier @default 1 @zh 渐变尺寸倍率 */
+      /**
+       * @zh 渐变尺寸倍率
+       * @en Gradient size multiplier
+       * @default 1
+       */
       density?: number;
     }>(),
     {
@@ -187,9 +231,15 @@
   );
 
   const emit = defineEmits<{
-    /** 淡入动画完成时触发 Fired when fade-in animation completes @zh 淡入动画完成时触发 */
+    /**
+     * @zh 淡入动画完成时触发
+     * @en Fired when fade-in animation completes
+     */
     activate: [];
-    /** 淡出动画完成时触发 Fired when fade-out animation completes @zh 淡出动画完成时触发 */
+    /**
+     * @zh 淡出动画完成时触发
+     * @en Fired when fade-out animation completes
+     */
     deactivate: [];
   }>();
 

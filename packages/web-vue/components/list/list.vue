@@ -147,39 +147,91 @@
   defineOptions({ name: 'List', inheritAttrs: false });
 
   const props = defineProps({
+    /**
+     * @zh 列表数据
+     * @en Data of the list
+     */
     data: Array as PropType<TItem[]>,
+    /**
+     * @zh 列表尺寸
+     * @en Size of the list
+     */
     size: {
       type: String as PropType<'small' | 'medium' | 'large'>,
       default: 'medium',
     },
+    /**
+     * @zh 是否显示边框
+     * @en Whether to show borders
+     */
     bordered: {
       type: Boolean,
       default: true,
     },
+    /**
+     * @zh 是否显示分割线
+     * @en Whether to show dividers between items
+     */
     split: {
       type: Boolean,
       default: true,
     },
+    /**
+     * @zh 是否展示加载状态
+     * @en Whether the list is loading
+     */
     loading: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 加载状态的组件属性
+     * @en Props forwarded to the loading indicator
+     */
     spinProps: Object as PropType<SpinProps>,
+    /**
+     * @zh 列表项是否可悬停高亮
+     * @en Whether list items highlight on hover
+     */
     hoverable: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 分页组件的属性
+     * @en Props forwarded to the pagination
+     */
     paginationProps: Object as PropType<PaginationProps>,
+    /**
+     * @zh 栅格组件的属性
+     * @en Props forwarded to the grid
+     */
     gridProps: Object,
+    /**
+     * @zh 最大高度，超出后列表内部滚动
+     * @en Maximum height; the list scrolls internally beyond it
+     */
     maxHeight: {
       type: [String, Number] as PropType<string | number>,
       default: 0,
     },
+    /**
+     * @zh 触底加载的偏移量
+     * @en Offset used to trigger loading on scroll
+     */
     bottomOffset: {
       type: Number,
       default: 0,
     },
+    /**
+     * @zh 虚拟列表的属性，用于大数据量渲染
+     * @en Props forwarded to the virtual list, used for large data sets
+     */
     virtualListProps: Object as PropType<VirtualListProps>,
+    /**
+     * @zh 滚动条配置
+     * @en Scrollbar configuration
+     */
     scrollbar: {
       type: [Object, Boolean] as PropType<boolean | ScrollbarProps>,
       default: true,

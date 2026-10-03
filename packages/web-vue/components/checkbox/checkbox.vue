@@ -53,15 +53,31 @@
 
   const props = withDefaults(
     defineProps<{
-      /** @zh 绑定值 @en Value @vModel */
+      /**
+       * @zh 绑定值
+       * @en Value
+       * @vModel
+       */
       modelValue?: CheckboxModelValue;
-      /** @zh 默认是否选中（非受控状态） @en Whether checked by default (uncontrolled state) */
+      /**
+       * @zh 默认是否选中（非受控状态）
+       * @en Whether checked by default (uncontrolled state)
+       */
       defaultChecked?: boolean;
-      /** @zh 选项的 `value` @en The `value` of the option */
+      /**
+       * @zh 选项的 `value`
+       * @en The `value` of the option
+       */
       value?: CheckboxValue;
-      /** @zh 是否禁用 @en Whether to disable */
+      /**
+       * @zh 是否禁用
+       * @en Whether to disable
+       */
       disabled?: boolean;
-      /** @zh 是否为半选状态 @en Whether it is half-selected */
+      /**
+       * @zh 是否为半选状态
+       * @en Whether it is half-selected
+       */
       indeterminate?: boolean;
       /**
        * @zh 原生 input 的 tabindex（默认不渲染，input 保持原生可聚焦；树节点内传 -1 把 checkbox 移出 Tab 序列，改由 treeitem 统一聚焦/操作）
@@ -86,12 +102,19 @@
 
   const emit = defineEmits<{
     'update:modelValue': [value: CheckboxModelValue];
-    /** @zh 值改变时触发 @en Trigger when the value changes */
+    /**
+     * @zh 值改变时触发
+     * @en Trigger when the value changes
+     */
     'change': [value: CheckboxModelValue, ev: Event];
   }>();
   const slots = defineSlots<{
     default?: () => VNode[];
-    /** @zh 自定义复选框 @en Custom checkbox @version 2.18.0 */
+    /**
+     * @zh 自定义复选框
+     * @en Custom checkbox
+     * @version 2.18.0
+     */
     checkbox?: (props: { checked: boolean; disabled: boolean }) => VNode[];
   }>();
   const prefixCls = getPrefixCls('checkbox');

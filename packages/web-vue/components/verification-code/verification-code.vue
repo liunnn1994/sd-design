@@ -47,36 +47,66 @@
   });
 
   const props = defineProps({
-    /** @zh 绑定值 @en Value */
+    /**
+     * @zh 绑定值
+     * @en Value
+     */
     modelValue: String,
-    /** @zh 默认值（非受控状态） @en Default value (uncontrolled state) */
+    /**
+     * @zh 默认值（非受控状态）
+     * @en Default value (uncontrolled state)
+     */
     defaultValue: {
       type: String,
       default: '',
     },
-    /** @zh 验证码的长度，根据长度渲染对应个数的输入框 @en Verification code length */
+    /**
+     * @zh 验证码的长度，根据长度渲染对应个数的输入框
+     * @en Verification code length
+     */
     length: {
       type: Number,
       default: 6,
     },
-    /** @zh 输入框大小 @en Input size */
+    /**
+     * @zh 输入框大小
+     * @en Input size
+     */
     size: String as PropType<Size>,
-    /** @zh 是否禁用 @en Whether to disable */
+    /**
+     * @zh 是否禁用
+     * @en Whether to disable
+     */
     disabled: Boolean,
-    /** @zh 是否密码模式 @en Password mode */
+    /**
+     * @zh 是否密码模式
+     * @en Password mode
+     */
     masked: Boolean,
-    /** @zh 只读 @en Readonly */
+    /**
+     * @zh 只读
+     * @en Readonly
+     */
     readonly: { type: [Boolean, String], default: false },
-    /** @zh 是否为错误状态 @en Whether it is an error state */
+    /**
+     * @zh 是否为错误状态
+     * @en Whether it is an error state
+     */
     error: {
       type: Boolean,
       default: false,
     },
-    /** @zh 分隔符 @en Separator */
+    /**
+     * @zh 分隔符
+     * @en Separator
+     */
     separator: {
       type: Function as PropType<(index: number, character: string) => VNode>,
     },
-    /** @zh 格式化函数 @en Formatter */
+    /**
+     * @zh 格式化函数
+     * @en Formatter
+     */
     formatter: {
       type: Function as PropType<
         (inputValue: string, index: number, value: string) => string | boolean

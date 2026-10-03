@@ -11,9 +11,15 @@ export type VoiceMicrophoneState =
   | 'error';
 
 export interface UseVoiceMicrophoneOptions {
-  /** @zh 麦克风音频约束 @en Microphone audio constraints */
+  /**
+   * @zh 麦克风音频约束
+   * @en Microphone audio constraints
+   */
   constraints?: MediaTrackConstraints;
-  /** @zh 挂载后自动请求权限 @en Request permission on mount */
+  /**
+   * @zh 挂载后自动请求权限
+   * @en Request permission on mount
+   */
   autoStart?: boolean;
 }
 

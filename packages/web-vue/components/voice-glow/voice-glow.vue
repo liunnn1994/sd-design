@@ -92,11 +92,20 @@
     staticColors: false,
   });
   const emit = defineEmits<{
-    /** @zh 当前平滑音量 @en Current smoothed level */
+    /**
+     * @zh 当前平滑音量
+     * @en Current smoothed level
+     */
     level: [value: number];
-    /** @zh 淡入结束 @en Fade-in completed */
+    /**
+     * @zh 淡入结束
+     * @en Fade-in completed
+     */
     activate: [];
-    /** @zh 淡出结束 @en Fade-out completed */
+    /**
+     * @zh 淡出结束
+     * @en Fade-out completed
+     */
     deactivate: [];
   }>();
   defineSlots<{ default?: () => unknown }>();
