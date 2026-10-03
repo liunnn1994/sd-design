@@ -219,14 +219,14 @@ export function getDayjsValue(
 ) {
   const parseQuarterToMonth = (value: string) => {
     const reg = /(Q1)|(Q2)|(Q3)|(Q4)/;
-    const quarter = {
+    const quarter: Record<string, string> = {
       Q1: '01',
       Q2: '04',
       Q3: '07',
       Q4: '10',
     };
-    const [q] = reg.exec(value) as ('Q1' | 'Q2' | 'Q3' | 'Q4')[];
-    return value.replace(reg, quarter[q]);
+    const [q] = reg.exec(value) ?? [];
+    return q ? value.replace(reg, quarter[q]) : value;
   };
 
   const formatValue = (value: Date | string | number | undefined) => {

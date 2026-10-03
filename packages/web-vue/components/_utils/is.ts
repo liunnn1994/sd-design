@@ -80,7 +80,8 @@ export function isExist(obj: unknown): boolean {
 }
 
 export function isWindow(el: unknown): el is Window {
-  return el === window;
+  // 服务端渲染下没有 window，直接引用会抛 ReferenceError
+  return typeof window !== 'undefined' && el === window;
 }
 
 export const isComponentInstance = (value: unknown): value is ComponentPublicInstance => {

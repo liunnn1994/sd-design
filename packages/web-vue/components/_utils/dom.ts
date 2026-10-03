@@ -154,7 +154,10 @@ export const isScroll = (element: HTMLElement) => {
 };
 
 export const getScrollBarWidth = (element: HTMLElement) => {
+  // BODY 用 documentElement.clientWidth（视口宽度扣掉滚动条）而不是 getDocumentSize 的
+  // scrollWidth：页面出现横向溢出时 scrollWidth 会大于视口宽度，算出来是负数，
+  // use-overflow 会用 offsetWidth - 负数 把容器宽度撑大。
   return element.tagName === 'BODY'
-    ? window.innerWidth - getDocumentSize().width
+    ? Math.max(0, window.innerWidth - document.documentElement.clientWidth)
     : element.offsetWidth - element.clientWidth;
 };
