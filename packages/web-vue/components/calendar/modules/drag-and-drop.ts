@@ -22,7 +22,6 @@ import { eventRangeViolatesAllowEvents } from '../utils/special-hours-allow-even
 
 const _holdOverTimeout = 800; // How long we should hold over an element before it reacts.
 let _changeViewTimeout: ReturnType<typeof setTimeout> | undefined;
-let _pressPrevOrNextInterval: ReturnType<typeof setInterval> | undefined;
 const viewBeforeDrag = reactive({ id: null as string | null, date: null as Date | null }); // To go back if cancelling.
 let viewChanged = false;
 let cancelViewChange = true;
