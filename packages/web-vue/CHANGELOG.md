@@ -1,3 +1,11 @@
+## [5.7.3](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.7.2...web-vue-v5.7.3) (2026-10-03)
+
+
+### Bug Fixes
+
+* **image:** 卸载时清理缩放数值提示的隐藏定时器 ([3e1eaaf](https://github.com/liunnn1994/sd-design/commit/3e1eaaf3269ae7c8f10198d40065e2c2a6cb9004))
+* **model-selector:** 弹层标题改为走语言包，不再硬编码中文 ([6f07a6f](https://github.com/liunnn1994/sd-design/commit/6f07a6fb63a2b6eaba1d1eb255dc6b9ffd0381b9))
+
 ## [5.7.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.7.1...web-vue-v5.7.2) (2026-10-03)
 
 
