@@ -220,15 +220,39 @@
     inputAttrs: Object,
   });
 
-  const emit = defineEmits({
-    'update:modelValue': (_value: InputNumberValue) => true,
-    'change': (_value: InputNumberValue, _event: Event) => true,
-    'focus': (_event: FocusEvent) => true,
-    'blur': (_event: FocusEvent) => true,
-    'clear': (_event: Event) => true,
-    'input': (_value: InputNumberValue, _inputValue: string, _event: Event) => true,
-    'keydown': (_event: KeyboardEvent) => true,
-  });
+  const emit = defineEmits<{
+    'update:modelValue': [_value: InputNumberValue];
+    /**
+     * @zh 值变化时触发
+     * @en Trigger when the value changes
+     */
+    'change': [_value: InputNumberValue, _event: Event];
+    /**
+     * @zh 获得焦点时触发
+     * @en Trigger when the input gains focus
+     */
+    'focus': [_event: FocusEvent];
+    /**
+     * @zh 失去焦点时触发
+     * @en Trigger when the input loses focus
+     */
+    'blur': [_event: FocusEvent];
+    /**
+     * @zh 点击清除按钮时触发
+     * @en Trigger when the clear button is clicked
+     */
+    'clear': [_event: Event];
+    /**
+     * @zh 输入时触发
+     * @en Trigger while typing
+     */
+    'input': [_value: InputNumberValue, _inputValue: string, _event: Event];
+    /**
+     * @zh 按下按键时触发
+     * @en Trigger when a key is pressed
+     */
+    'keydown': [_event: KeyboardEvent];
+  }>();
 
   const slots = useSlots();
   const { t } = useI18n();

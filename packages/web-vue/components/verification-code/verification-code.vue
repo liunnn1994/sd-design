@@ -114,12 +114,24 @@
     },
   });
 
-  const emit = defineEmits({
-    'update:modelValue': (_value: string) => true,
-    'change': (_value: string) => true,
-    'finish': (_value: string) => true,
-    'input': (_inputValue: string, _index: number, _event: Event) => true,
-  });
+  const emit = defineEmits<{
+    'update:modelValue': [_value: string];
+    /**
+     * @zh 验证码变化时触发
+     * @en Trigger when the code changes
+     */
+    'change': [_value: string];
+    /**
+     * @zh 输入完成时触发
+     * @en Trigger when all inputs are filled
+     */
+    'finish': [_value: string];
+    /**
+     * @zh 输入单个验证码时触发
+     * @en Trigger when a single input is entered
+     */
+    'input': [_inputValue: string, _index: number, _event: Event];
+  }>();
 
   type FocusableInput = ComponentPublicInstance & {
     focus: () => void;

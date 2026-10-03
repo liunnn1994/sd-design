@@ -239,15 +239,39 @@
     virtualListProps: Object as PropType<VirtualListProps>,
   });
 
-  const emit = defineEmits({
-    'update:modelValue': (_value: string) => true,
-    'change': (_value: string) => true,
-    'search': (_value: string) => true,
-    'select': (_value: string) => true,
-    'clear': (_event: Event) => true,
-    'dropdownScroll': (_event: Event) => true,
-    'dropdownReachBottom': (_event: Event) => true,
-  });
+  const emit = defineEmits<{
+    'update:modelValue': [_value: string];
+    /**
+     * @zh 值变化时触发
+     * @en Trigger when the value changes
+     */
+    'change': [_value: string];
+    /**
+     * @zh 搜索时触发
+     * @en Trigger while searching
+     */
+    'search': [_value: string];
+    /**
+     * @zh 选中选项时触发
+     * @en Trigger when an option is selected
+     */
+    'select': [_value: string];
+    /**
+     * @zh 点击清除按钮时触发
+     * @en Trigger when the clear button is clicked
+     */
+    'clear': [_event: Event];
+    /**
+     * @zh 下拉列表滚动时触发
+     * @en Trigger when the dropdown scrolls
+     */
+    'dropdownScroll': [_event: Event];
+    /**
+     * @zh 下拉列表滚动到底部时触发
+     * @en Trigger when the dropdown reaches the bottom
+     */
+    'dropdownReachBottom': [_event: Event];
+  }>();
 
   const attrs = useAttrs();
   const slots = useSlots();

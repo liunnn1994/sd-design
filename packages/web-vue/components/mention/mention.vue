@@ -255,15 +255,39 @@
     floatingOptions: Object as PropType<FloatingOptions>,
   });
 
-  const emit = defineEmits({
-    'update:modelValue': (_value: string) => true,
-    'change': (_value: string) => true,
-    'search': (_value: string, _prefix: string) => true,
-    'select': (_value: string | number | Record<string, unknown> | undefined) => true,
-    'clear': (_event: Event) => true,
-    'focus': (_event: FocusEvent) => true,
-    'blur': (_event: FocusEvent) => true,
-  });
+  const emit = defineEmits<{
+    'update:modelValue': [_value: string];
+    /**
+     * @zh 值变化时触发
+     * @en Trigger when the value changes
+     */
+    'change': [_value: string];
+    /**
+     * @zh 搜索提及项时触发
+     * @en Trigger while searching mentions
+     */
+    'search': [_value: string, _prefix: string];
+    /**
+     * @zh 选中提及项时触发
+     * @en Trigger when a mention is selected
+     */
+    'select': [_value: string | number | Record<string, unknown> | undefined];
+    /**
+     * @zh 点击清除按钮时触发
+     * @en Trigger when the clear button is clicked
+     */
+    'clear': [_event: Event];
+    /**
+     * @zh 获得焦点时触发
+     * @en Trigger when the input gains focus
+     */
+    'focus': [_event: FocusEvent];
+    /**
+     * @zh 失去焦点时触发
+     * @en Trigger when the input loses focus
+     */
+    'blur': [_event: FocusEvent];
+  }>();
 
   const attrs = useAttrs();
   const slots = useSlots();

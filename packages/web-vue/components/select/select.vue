@@ -385,22 +385,62 @@
       default: false,
     },
   });
-  const emit = defineEmits({
-    'update:modelValue': (_value: SelectModelValue) => true,
-    'update:inputValue': (_inputValue: string) => true,
-    'update:popupVisible': (_visible: boolean) => true,
-    'update:show': (_visible: boolean) => true,
-    'change': (_value: SelectModelValue) => true,
-    'inputValueChange': (_inputValue: string) => true,
-    'popupVisibleChange': (_visible: boolean) => true,
-    'showChange': (_visible: boolean) => true,
-    'clear': (_ev: Event) => true,
-    'remove': (_removed: SelectOptionValue | undefined) => true,
-    'search': (_inputValue: string) => true,
-    'dropdownScroll': (_ev: Event) => true,
-    'dropdownReachBottom': (_ev: Event) => true,
-    'exceedLimit': (_value: SelectOptionValue | undefined, _ev: Event) => true,
-  });
+  const emit = defineEmits<{
+    'update:modelValue': [_value: SelectModelValue];
+    'update:inputValue': [_inputValue: string];
+    'update:popupVisible': [_visible: boolean];
+    'update:show': [_visible: boolean];
+    /**
+     * @zh 选中值变化时触发
+     * @en Trigger when the selected value changes
+     */
+    'change': [_value: SelectModelValue];
+    /**
+     * @zh 输入框值变化时触发
+     * @en Trigger when the input value changes
+     */
+    'inputValueChange': [_inputValue: string];
+    /**
+     * @zh 下拉框显示状态变化时触发
+     * @en Trigger when the popup visibility changes
+     */
+    'popupVisibleChange': [_visible: boolean];
+    /**
+     * @zh 下拉框显示状态变化时触发
+     * @en Trigger when the dropdown visibility changes
+     */
+    'showChange': [_visible: boolean];
+    /**
+     * @zh 点击清除按钮时触发
+     * @en Trigger when the clear button is clicked
+     */
+    'clear': [_ev: Event];
+    /**
+     * @zh 移除选项时触发
+     * @en Trigger when an option is removed
+     */
+    'remove': [_removed: SelectOptionValue | undefined];
+    /**
+     * @zh 搜索时触发
+     * @en Trigger while searching
+     */
+    'search': [_inputValue: string];
+    /**
+     * @zh 下拉列表滚动时触发
+     * @en Trigger when the dropdown scrolls
+     */
+    'dropdownScroll': [_ev: Event];
+    /**
+     * @zh 下拉列表滚动到底部时触发
+     * @en Trigger when the dropdown reaches the bottom
+     */
+    'dropdownReachBottom': [_ev: Event];
+    /**
+     * @zh 超出可选数量限制时触发
+     * @en Trigger when the selection limit is exceeded
+     */
+    'exceedLimit': [_value: SelectOptionValue | undefined, _ev: Event];
+  }>();
   const slots = useSlots();
   const attrs = useAttrs();
   const VNodeRenderer = ({ content }: { content: VNodeChild }) => content;

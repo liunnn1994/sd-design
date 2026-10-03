@@ -308,17 +308,45 @@
     inputAttrs: Object as PropType<Record<string, unknown>>,
   });
 
-  const emit = defineEmits({
-    'update:modelValue': (_value: (string | number | TagData)[]) => true,
-    'update:inputValue': (_inputValue: string) => true,
-    'change': (_value: (string | number | TagData)[], _event: Event) => true,
-    'inputValueChange': (_inputValue: string, _event: Event) => true,
-    'pressEnter': (_inputValue: string, _event: KeyboardEvent) => true,
-    'remove': (_removed: string | number, _event: Event) => true,
-    'clear': (_event: MouseEvent) => true,
-    'focus': (_event: FocusEvent) => true,
-    'blur': (_event: FocusEvent) => true,
-  });
+  const emit = defineEmits<{
+    'update:modelValue': [_value: (string | number | TagData)[]];
+    'update:inputValue': [_inputValue: string];
+    /**
+     * @zh 标签值变化时触发
+     * @en Trigger when the tag values change
+     */
+    'change': [_value: (string | number | TagData)[], _event: Event];
+    /**
+     * @zh 输入框值变化时触发
+     * @en Trigger when the input value changes
+     */
+    'inputValueChange': [_inputValue: string, _event: Event];
+    /**
+     * @zh 按下回车键时触发
+     * @en Trigger when Enter is pressed
+     */
+    'pressEnter': [_inputValue: string, _event: KeyboardEvent];
+    /**
+     * @zh 移除标签时触发
+     * @en Trigger when a tag is removed
+     */
+    'remove': [_removed: string | number, _event: Event];
+    /**
+     * @zh 点击清除按钮时触发
+     * @en Trigger when the clear button is clicked
+     */
+    'clear': [_event: MouseEvent];
+    /**
+     * @zh 获得焦点时触发
+     * @en Trigger when the input gains focus
+     */
+    'focus': [_event: FocusEvent];
+    /**
+     * @zh 失去焦点时触发
+     * @en Trigger when the input loses focus
+     */
+    'blur': [_event: FocusEvent];
+  }>();
 
   const attrs = useAttrs();
   const slots = useSlots();

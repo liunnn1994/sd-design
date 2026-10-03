@@ -233,13 +233,29 @@
     },
   });
 
-  const emit = defineEmits({
-    'update:activeKey': (_key: string | number) => true,
-    'change': (_key: string | number) => true,
-    'tabClick': (_key: string | number, _event: Event) => true,
-    'add': (_event: Event) => true,
-    'delete': (_key: string | number, _event: Event) => true,
-  });
+  const emit = defineEmits<{
+    'update:activeKey': [_key: string | number];
+    /**
+     * @zh 当前标签页变化时触发
+     * @en Trigger when the active tab changes
+     */
+    'change': [_key: string | number];
+    /**
+     * @zh 点击标签页时触发
+     * @en Trigger when a tab is clicked
+     */
+    'tabClick': [_key: string | number, _event: Event];
+    /**
+     * @zh 点击添加按钮时触发
+     * @en Trigger when the add button is clicked
+     */
+    'add': [_event: Event];
+    /**
+     * @zh 关闭标签页时触发
+     * @en Trigger when a tab is closed
+     */
+    'delete': [_key: string | number, _event: Event];
+  }>();
 
   defineSlots<{
     default(): unknown;

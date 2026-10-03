@@ -238,12 +238,28 @@
     },
   });
 
-  const emit = defineEmits({
-    scroll: () => true,
-    reachBottom: () => true,
-    pageChange: (_page: number) => true,
-    pageSizeChange: (_pageSize: number) => true,
-  });
+  const emit = defineEmits<{
+    /**
+     * @zh 列表滚动时触发
+     * @en Trigger when the list scrolls
+     */
+    scroll: [];
+    /**
+     * @zh 滚动到底部时触发
+     * @en Trigger when the list reaches the bottom
+     */
+    reachBottom: [];
+    /**
+     * @zh 页码变化时触发
+     * @en Trigger when the page changes
+     */
+    pageChange: [_page: number];
+    /**
+     * @zh 每页条数变化时触发
+     * @en Trigger when the page size changes
+     */
+    pageSizeChange: [_pageSize: number];
+  }>();
 
   const attrs = useAttrs();
   const slots = useSlots();

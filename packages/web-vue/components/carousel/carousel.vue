@@ -179,10 +179,14 @@
     },
   });
 
-  const emit = defineEmits({
-    'update:current': (_index: number) => true,
-    'change': (_index: number, _prevIndex: number, _isManual: boolean) => true,
-  });
+  const emit = defineEmits<{
+    'update:current': [_index: number];
+    /**
+     * @zh 幻灯片切换时触发
+     * @en Trigger when the slide changes
+     */
+    'change': [_index: number, _prevIndex: number, _isManual: boolean];
+  }>();
 
   const slots = useSlots();
   const { t } = useI18n();

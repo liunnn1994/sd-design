@@ -233,17 +233,34 @@
     },
   });
 
-  const emit = defineEmits({
-    'update:modelValue': (_value: string) => true,
-    'change': (
-      _value: string,
-      _context: { color: ColorObject; trigger: ColorPickerChangeTrigger },
-    ) => true,
-    'popup-visible-change': (_visible: boolean, _value: string) => true,
-    'clear': (_context: { e: MouseEvent }) => true,
-    'palette-bar-change': (_context: { color: ColorObject }) => true,
-    'recent-colors-change': (_value: string[]) => true,
-  });
+  const emit = defineEmits<{
+    'update:modelValue': [_value: string];
+    /**
+     * @zh 选中颜色变化时触发
+     * @en Trigger when the selected colour changes
+     */
+    'change': [_value: string, _context: { color: ColorObject; trigger: ColorPickerChangeTrigger }];
+    /**
+     * @zh 取色面板显示状态变化时触发
+     * @en Trigger when the panel visibility changes
+     */
+    'popup-visible-change': [_visible: boolean, _value: string];
+    /**
+     * @zh 点击清除按钮时触发
+     * @en Trigger when the clear button is clicked
+     */
+    'clear': [_context: { e: MouseEvent }];
+    /**
+     * @zh 调色板上的颜色变化时触发
+     * @en Trigger when the colour on the palette bar changes
+     */
+    'palette-bar-change': [_context: { color: ColorObject }];
+    /**
+     * @zh 最近使用的颜色变化时触发
+     * @en Trigger when the recently used colours change
+     */
+    'recent-colors-change': [_value: string[]];
+  }>();
 
   defineSlots<{
     default(): unknown;

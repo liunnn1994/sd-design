@@ -280,12 +280,20 @@
     },
   });
 
-  const emit = defineEmits({
-    'update:current': (_current: number) => true,
-    'update:pageSize': (_pageSize: number) => true,
-    'change': (_current: number) => true,
-    'pageSizeChange': (_pageSize: number) => true,
-  });
+  const emit = defineEmits<{
+    'update:current': [_current: number];
+    'update:pageSize': [_pageSize: number];
+    /**
+     * @zh 页码变化时触发
+     * @en Trigger when the page changes
+     */
+    'change': [_current: number];
+    /**
+     * @zh 每页条数变化时触发
+     * @en Trigger when the page size changes
+     */
+    'pageSizeChange': [_pageSize: number];
+  }>();
 
   const attrs = useAttrs();
   const [DefinePageItem, ReusePageItem] = createReusableTemplate<{

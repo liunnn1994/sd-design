@@ -97,15 +97,39 @@
     onButtonClick: Function as PropType<(event: Event) => Promise<FileList> | void>,
   });
 
-  const emit = defineEmits({
-    'update:fileList': (_fileList: FileItem[]) => true,
-    'exceedLimit': (_fileList: FileItem[], _files: File[]) => true,
-    'change': (_fileList: FileItem[], _fileItem: FileItem) => true,
-    'progress': (_fileItem: FileItem, _event?: ProgressEvent) => true,
-    'preview': (_fileItem: FileItem) => true,
-    'success': (_fileItem: FileItem) => true,
-    'error': (_fileItem: FileItem) => true,
-  });
+  const emit = defineEmits<{
+    'update:fileList': [_fileList: FileItem[]];
+    /**
+     * @zh 超出数量限制时触发
+     * @en Trigger when the file limit is exceeded
+     */
+    'exceedLimit': [_fileList: FileItem[], _files: File[]];
+    /**
+     * @zh 文件列表或状态变化时触发
+     * @en Trigger when the file list or a file status changes
+     */
+    'change': [_fileList: FileItem[], _fileItem: FileItem];
+    /**
+     * @zh 上传进度变化时触发
+     * @en Trigger when upload progress changes
+     */
+    'progress': [_fileItem: FileItem, _event?: ProgressEvent];
+    /**
+     * @zh 点击预览时触发
+     * @en Trigger when a file is previewed
+     */
+    'preview': [_fileItem: FileItem];
+    /**
+     * @zh 上传成功时触发
+     * @en Trigger when an upload succeeds
+     */
+    'success': [_fileItem: FileItem];
+    /**
+     * @zh 上传失败时触发
+     * @en Trigger when an upload fails
+     */
+    'error': [_fileItem: FileItem];
+  }>();
 
   const attrs = useAttrs();
   const slots = useSlots();
