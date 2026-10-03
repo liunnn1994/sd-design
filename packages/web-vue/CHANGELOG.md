@@ -1,3 +1,10 @@
+## [5.6.5](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.6.4...web-vue-v5.6.5) (2026-10-03)
+
+
+### Bug Fixes
+
+* **time-picker:** 修复滚动定位动画未中断导致位置错乱 ([5c49a05](https://github.com/liunnn1994/sd-design/commit/5c49a0576ebe6e90925c9f1c503c9b967b9b8340))
+
 ## [5.6.4](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.6.3...web-vue-v5.6.4) (2026-10-03)
 
 
