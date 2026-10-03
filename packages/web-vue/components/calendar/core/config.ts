@@ -363,9 +363,10 @@ export const useConfig = (
   const selectedDate = computed(() => {
     if (typeof props.selectedDate === 'string') return dateUtils.stringToDate(props.selectedDate);
     if (props.selectedDate instanceof Date) return props.selectedDate;
-    if (!props.selectedDate)
-      console.log('Calendar: Info - The provided selected date is undefined.');
-    else console.warn('Calendar: The provided selected date is invalid:', props.selectedDate);
+    // 未选择是正常状态，不需要提示；只有传了非法值才告警
+    if (props.selectedDate) {
+      console.warn('Calendar: The provided selected date is invalid:', props.selectedDate);
+    }
   });
 
   // An array of specific dates to disable.
