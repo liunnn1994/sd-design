@@ -1,44 +1,9 @@
-import { VNode } from 'vue';
-
 import { isString } from './is';
 
 export const NOOP = () => {
   return undefined;
 };
-export interface Size {
-  height: number;
-  width: number;
-}
-export const getDocumentSize = (): Size => {
-  const { body } = document;
-  const html = document.documentElement;
-  let topBody;
-  try {
-    const topWindow = window.top || window.self || window;
-    topBody = topWindow.document.body;
-  } catch {}
 
-  return {
-    height: Math.max(
-      body.scrollHeight,
-      body.offsetHeight,
-      html.clientHeight,
-      html.scrollHeight,
-      html.offsetHeight,
-      topBody?.scrollHeight || 0,
-      topBody?.clientHeight || 0,
-    ),
-    width: Math.max(
-      body.scrollWidth,
-      body.offsetWidth,
-      html.clientWidth,
-      html.scrollWidth,
-      html.offsetWidth,
-      topBody?.scrollWidth || 0,
-      topBody?.clientWidth || 0,
-    ),
-  };
-};
 export const isServerRendering = (() => {
   try {
     return !(typeof window !== 'undefined' && document !== undefined);
@@ -79,14 +44,6 @@ export const off = (() => {
     element.removeEventListener(type, handler as EventListenerOrEventListenerObject, options);
   };
 })();
-
-export const findDomNode = (vnode: VNode) => {
-  let node = vnode.el;
-  while (node && !node.tagName) {
-    node = node.nextSibling;
-  }
-  return node as HTMLElement;
-};
 
 export const contains = (root: Node | null | undefined, ele: Node | null) => {
   if (!root || !ele) {
@@ -154,8 +111,8 @@ export const isScroll = (element: HTMLElement) => {
 };
 
 export const getScrollBarWidth = (element: HTMLElement) => {
-  // BODY 用 documentElement.clientWidth（视口宽度扣掉滚动条）而不是 getDocumentSize 的
-  // scrollWidth：页面出现横向溢出时 scrollWidth 会大于视口宽度，算出来是负数，
+  // BODY 用 documentElement.clientWidth（视口宽度扣掉滚动条），不能用 scrollWidth：
+  // 页面出现横向溢出时 scrollWidth 会大于视口宽度，算出来是负数，
   // use-overflow 会用 offsetWidth - 负数 把容器宽度撑大。
   return element.tagName === 'BODY'
     ? Math.max(0, window.innerWidth - document.documentElement.clientWidth)

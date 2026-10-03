@@ -292,22 +292,3 @@ export async function initializeDateLocale(localeName: string, weekStart: number
   dayjs.locale({ ...baseLocale, name: dayjsLocaleName, weekStart });
   return dayjsLocaleName;
 }
-
-export function pickDataAttributes<T extends Record<string, unknown>>(
-  obj: T,
-): Record<`data-${string}` | `aria-${string}`, unknown> {
-  const clone = {} as Record<`data-${string}` | `aria-${string}`, unknown>;
-
-  obj &&
-    Object.keys(obj).forEach((key) => {
-      const k = key as Extract<keyof T, string>;
-      if (k.indexOf('data-') === 0) {
-        clone[k as `data-${string}`] = obj[k];
-      }
-      if (k.indexOf('aria-') === 0) {
-        clone[k as `aria-${string}`] = obj[k];
-      }
-    });
-
-  return clone;
-}

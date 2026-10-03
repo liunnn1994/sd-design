@@ -18,11 +18,11 @@
           <slot v-if="hasError" name="error">
             <div :class="`${prefixCls}-image-icon`" aria-hidden="true"><IconImageClose /></div>
           </slot>
-          <slot v-if="!(hasError || !shouldLoad) && !isLoaded">
+          <slot v-if="!hasError && !isLoaded">
             <div :class="`${prefixCls}-image-icon`" aria-hidden="true"><IconLoading /></div>
           </slot>
           <img
-            v-if="!(hasError || !shouldLoad)"
+            v-if="!hasError"
             :src="imageUrl"
             :style="{
               objectFit: objectFit,
@@ -203,7 +203,6 @@
   });
 
   const hasError = ref(false);
-  const shouldLoad = ref(true);
   const isLoaded = ref(false);
 
   watch(
@@ -262,7 +261,6 @@
       const scale = avatarWidth / (textWidth + 8);
       wrapperRef.value.style.transform =
         avatarWidth && scale < 1 ? `scale(${scale}) translateX(-50%)` : '';
-      shouldLoad.value = true;
     });
   };
 

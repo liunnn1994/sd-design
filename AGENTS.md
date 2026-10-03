@@ -36,12 +36,13 @@ When editing existing code:
 - Don't "improve" adjacent code, comments, or formatting.
 - Don't refactor things that aren't broken.
 - Match existing style, even if you'd do it differently.
-- If you notice unrelated dead code, mention it - don't delete it.
 
-When your changes create orphans:
+When you find dead code:
 
-- Remove imports/variables/functions that YOUR changes made unused.
-- Don't remove pre-existing dead code unless asked.
+- Delete it. Dead code is a defect, not something to leave for someone else.
+- Cover every kind: unused imports/variables/functions, unreachable branches, vestigial state, files nothing references.
+- Verify nothing references it first (including deep imports of built output and test helpers) — a "dead" file that ships in `es/` may still be deep-imported.
+- Report what you removed.
 
 The test: Every changed line should trace directly to the user's request.
 

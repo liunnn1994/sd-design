@@ -125,8 +125,6 @@
       const _index = newActiveKeys.indexOf(key);
       if (_index > -1) {
         newActiveKeys.splice(_index, 1);
-      } else if (props.accordion) {
-        newActiveKeys = [key];
       } else {
         newActiveKeys.push(key);
       }
