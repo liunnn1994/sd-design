@@ -200,6 +200,7 @@ const readFrontmatter = async (name: string) => {
 const buildApiMap = async () => {
   const sources = await getComponentSources();
   const map = new Map<string, ReturnType<typeof resolveComponent>>();
+  const origin = new Map<string, string>();
 
   for (const source of sources) {
     try {
@@ -207,6 +208,17 @@ const buildApiMap = async () => {
         await parseComponent(source, { addScriptHandlers: [slotTagHandler] }),
       );
       if (doc.name) {
+        // 多个组件目录下的子组件可能共用同一个 displayName（如 menu/item.vue 和
+        // timeline/item.vue 都是 item）。直接 set 会让后解析的静默覆盖前一个，
+        // 这里保留先出现的并告警，避免元数据被无声地写错。
+        const previous = origin.get(doc.name);
+        if (previous) {
+          console.warn(
+            `[docgen] duplicate tag ${doc.name}: keep ${previous}, skip ${path.relative(WEB_VUE, source)}`,
+          );
+          continue;
+        }
+        origin.set(doc.name, path.relative(WEB_VUE, source));
         map.set(doc.name, doc);
       }
     } catch (error) {
@@ -229,6 +241,10 @@ const main = async () => {
 
   const components = [];
   let missingApi = 0;
+  // 解析成功但一条 API 都没留下：源码里的 props/events/slots 缺少 @en 注释，
+  // 会被 resolveComponent 的过滤器全部丢掉。这类组件在产物里表现为「没有任何 props」，
+  // 必须在生成时暴露出来，否则下游（MCP）会以为它本来就没有 API。
+  const undocumented: string[] = [];
 
   for (const item of list) {
     const tag = resolveTagName(toPascalCase(item.name));
@@ -239,6 +255,13 @@ const main = async () => {
       missingApi += 1;
     }
 
+    const props = api?.props ?? [];
+    const events = api?.events ?? [];
+    const slots = api?.slots ?? [];
+    if (api && props.length === 0 && events.length === 0 && slots.length === 0) {
+      undocumented.push(tag);
+    }
+
     components.push({
       name: tag,
       title: frontmatter.title || item.label,
@@ -247,9 +270,9 @@ const main = async () => {
       docUrl: `${SITE_URL}/components/${item.name}`,
       importPath: '@sdata/web-vue',
       importName: toPascalCase(item.name),
-      props: api?.props ?? [],
-      events: api?.events ?? [],
-      slots: api?.slots ?? [],
+      props,
+      events,
+      slots,
     });
   }
 
@@ -274,6 +297,11 @@ const main = async () => {
   console.log(
     `Generated ${components.length} components (${propTotal} props, ${missingApi} without parsed API) → data/components.json`,
   );
+  if (undocumented.length) {
+    console.warn(
+      `[docgen] ${undocumented.length} component(s) have no API left after filtering — their props/events/slots are missing @en annotations: ${undocumented.join(', ')}`,
+    );
+  }
 };
 
 main().catch((error) => {
