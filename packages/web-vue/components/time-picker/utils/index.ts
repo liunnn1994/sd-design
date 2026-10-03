@@ -25,15 +25,21 @@ export function getColumnsFromFormat(format: string) {
 }
 
 const scrollIds = new WeakMap<HTMLElement, number>();
+const scrollTweens = new WeakMap<HTMLElement, InstanceType<typeof BTween>>();
 
 export function scrollTo(element: HTMLElement, to: number, duration: number) {
   const scrollId = scrollIds.get(element);
   if (!isUndefined(scrollId)) {
     cancelAnimationFrame(scrollId);
   }
+  // 连点切换时间时，上一段滚动动画可能还在跑；不先停掉的话两个 tween 会同时写
+  // scrollTop，滚动过程出现抖动（与 BackTop 的处理保持一致）。
+  scrollTweens.get(element)?.stop();
+  scrollTweens.delete(element);
 
   if (duration <= 0) {
     element.scrollTop = to;
+    return;
   }
 
   scrollIds.set(
@@ -47,6 +53,7 @@ export function scrollTo(element: HTMLElement, to: number, duration: number) {
           element.scrollTop = keys.scrollTop;
         },
       });
+      scrollTweens.set(element, tween);
       tween.start();
     }),
   );
