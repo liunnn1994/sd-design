@@ -1,3 +1,10 @@
+## [5.6.8](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.6.7...web-vue-v5.6.8) (2026-10-03)
+
+
+### Bug Fixes
+
+* **mcp:** 修复 slot 注释取不到导致 MCP 里所有插槽丢失 ([3d1c8d7](https://github.com/liunnn1994/sd-design/commit/3d1c8d7002ef721334b29c930096ca780b540cb0))
+
 ## [5.6.7](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.6.6...web-vue-v5.6.7) (2026-10-03)
 
 
