@@ -1,3 +1,10 @@
+## [5.6.4](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.6.3...web-vue-v5.6.4) (2026-10-03)
+
+
+### Bug Fixes
+
+* **calendar:** 移除未选择日期时的调试日志 ([1c02512](https://github.com/liunnn1994/sd-design/commit/1c02512842fb4023f67795c3cf4f1e950233c486))
+
 ## [5.6.3](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.6.2...web-vue-v5.6.3) (2026-10-03)
 
 
