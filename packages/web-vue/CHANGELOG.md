@@ -1,3 +1,10 @@
+## [5.7.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.7.0...web-vue-v5.7.1) (2026-10-03)
+
+
+### Bug Fixes
+
+* **utils:** 移除会被打包发布但全仓无人使用的工具函数 ([4ae5ff7](https://github.com/liunnn1994/sd-design/commit/4ae5ff728e9a68530066939203037bb7866099de))
+
 # [5.7.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.6.8...web-vue-v5.7.0) (2026-10-03)
 
 
