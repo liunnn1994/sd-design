@@ -1,3 +1,10 @@
+## [5.6.3](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.6.2...web-vue-v5.6.3) (2026-10-03)
+
+
+### Bug Fixes
+
+* **components:** 补全 Scrollbar/ThemeProvider/Icon 的全局组件类型声明 ([9041e48](https://github.com/liunnn1994/sd-design/commit/9041e4863ea4af35ce8b985e48bed6c9902fc7fd))
+
 ## [5.6.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.6.1...web-vue-v5.6.2) (2026-10-03)
 
 
