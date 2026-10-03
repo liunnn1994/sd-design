@@ -1,6 +1,6 @@
 import { Ref, toRaw } from 'vue';
 
-import { isArray, isNull, isNumber, isObject, isString, isUndefined } from '../_utils/is';
+import { isArray, isNull, isNumber, isObject, isUndefined } from '../_utils/is';
 import { BaseType } from '../_utils/types';
 import {
   CascaderLazyLoadOptions,
@@ -237,60 +237,6 @@ export const getValidValues = (
     return [value as CascaderPathValue];
   }
   return value as CascaderSingleValue[];
-};
-
-export const getKeysFromValue = (
-  value:
-    | string
-    | number
-    | Array<string | number>
-    | undefined
-    | (string | number | Array<string | number>)[],
-  {
-    pathMode,
-    leafOptionMap,
-    leafOptionValueMap,
-  }: {
-    pathMode: boolean;
-    leafOptionMap: Map<string | number, CascaderOptionInfo>;
-    leafOptionValueMap: Map<string | number, CascaderOptionInfo>;
-  },
-) => {
-  const keys: string[] = [];
-  if (!pathMode) {
-    if (isArray(value)) {
-      value.forEach((item) => {
-        if (isString(item) || isNumber(item)) {
-          const option = leafOptionValueMap.get(item);
-          if (option) {
-            keys.push(option.key);
-          }
-        }
-      });
-    } else if (isString(value) || isNumber(value)) {
-      const option = leafOptionValueMap.get(value);
-      if (option) {
-        keys.push(option.key);
-      }
-    }
-  } else if (isArray(value) && value.length > 0) {
-    if (isString(value[0]) || isNumber(value[0])) {
-      const key = getPathKey(value);
-      if (leafOptionMap.has(key)) {
-        keys.push(key);
-      }
-    } else {
-      value.forEach((item) => {
-        if (isArray(item)) {
-          const key = getPathKey(item);
-          if (leafOptionMap.has(key)) {
-            keys.push(key);
-          }
-        }
-      });
-    }
-  }
-  return keys;
 };
 
 export const getOptionLabel = (

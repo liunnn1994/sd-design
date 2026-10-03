@@ -176,24 +176,6 @@ export const getOptionInfos = (
   return infos;
 };
 
-export const createOptionInfoMap = (optionInfos: (SelectOptionInfo | SelectOptionGroupInfo)[]) => {
-  const optionInfoMap = new Map<string, SelectOptionInfo>();
-
-  const travel = (optionInfos: (SelectOptionInfo | SelectOptionGroupInfo)[]) => {
-    for (const item of optionInfos) {
-      if (isGroupOptionInfo(item)) {
-        travel(item.options ?? []);
-      } else if (!optionInfoMap.get(item.key)) {
-        optionInfoMap.set(item.key, item);
-      }
-    }
-  };
-
-  travel(optionInfos);
-
-  return optionInfoMap;
-};
-
 export const getValidOptions = (
   optionInfos: (SelectOptionInfo | SelectOptionGroupInfo)[],
   {
