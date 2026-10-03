@@ -110,8 +110,15 @@ const importStatements = (component: ComponentEntry) => ({
   ].join('\n'),
 });
 
+/**
+ * 比较前统一去掉分隔符：属性名在数据里是 kebab-case（`allow-clear`），
+ * 而调用方（尤其是 AI）多半按代码里的写法提问（`allowClear`）。
+ * 不归一化的话 camelCase 查询会一条都搜不到。
+ */
+const normalizeForSearch = (value: string) => value.toLowerCase().replace(/[-_\s]/g, '');
+
 const search = (query: string) => {
-  const needle = query.toLowerCase().trim();
+  const needle = normalizeForSearch(query.trim());
   if (!needle) {
     return [];
   }
@@ -142,7 +149,7 @@ const search = (query: string) => {
 
     const matched = new Set<string>();
     for (const field of haystack) {
-      if (typeof field === 'string' && field.toLowerCase().includes(needle)) {
+      if (typeof field === 'string' && normalizeForSearch(field).includes(needle)) {
         matched.add(field);
         if (matched.size >= 3) {
           break;
