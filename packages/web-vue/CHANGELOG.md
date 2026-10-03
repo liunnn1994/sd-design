@@ -1,3 +1,12 @@
+## [5.6.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.6.1...web-vue-v5.6.2) (2026-10-03)
+
+
+### Bug Fixes
+
+* **notification:** 修复容器被外部移除后销毁时抛出异常 ([0d08f11](https://github.com/liunnn1994/sd-design/commit/0d08f11f35d9d773ff4af6639187e0ffde8f6ada))
+* **popup:** 修复弹层锁定期间切换容器后旧容器样式未还原 ([07f42f2](https://github.com/liunnn1994/sd-design/commit/07f42f289d54318579779663cf64d6157b77ab27))
+* **utils:** 修复滚动条宽度算成负数、季度格式解析抛异常和 isWindow 服务端渲染报错 ([bd251e6](https://github.com/liunnn1994/sd-design/commit/bd251e6bf64fb64eff9f8a34f6131aa1b6887493))
+
 ## [5.6.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.6.0...web-vue-v5.6.1) (2026-10-02)
 
 
