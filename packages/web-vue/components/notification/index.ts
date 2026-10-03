@@ -110,7 +110,10 @@ class NotificationManger {
   destroy = () => {
     if (this.notifications.value.length === 0 && this.container) {
       render(null, this.container);
-      document.body.removeChild(this.container);
+      // 容器可能已被外部移除（如 body 被替换），直接 removeChild 会抛 NotFoundError
+      if (this.container.parentNode) {
+        this.container.parentNode.removeChild(this.container);
+      }
       this.container = null;
       notificationInstance[this.position] = undefined;
     }
