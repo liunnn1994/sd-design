@@ -35,30 +35,6 @@ export function isNumber(obj: unknown): obj is number {
   return opt.call(obj) === '[object Number]' && obj === obj; // oxlint-disable-line
 }
 
-export function isRegExp(obj: unknown) {
-  return opt.call(obj) === '[object RegExp]';
-}
-
-export function isDate(obj: unknown) {
-  return opt.call(obj) === '[object Date]';
-}
-
-function isHex(color: string) {
-  return /^#[a-fA-F0-9]{3}$|#[a-fA-F0-9]{6}$/.test(color);
-}
-
-function isRgb(color: string) {
-  return /^rgb\((\s*\d+\s*,?){3}\)$/.test(color);
-}
-
-function isRgba(color: string) {
-  return /^rgba\((\s*\d+\s*,\s*){3}\s*\d(\.\d+)?\s*\)$/.test(color);
-}
-
-export function isColor(color: string): boolean {
-  return isHex(color) || isRgb(color) || isRgba(color);
-}
-
 export function isUndefined(obj: unknown): obj is undefined {
   return obj === undefined;
 }
