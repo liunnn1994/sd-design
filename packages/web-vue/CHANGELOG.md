@@ -1,3 +1,10 @@
+## [5.7.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.7.1...web-vue-v5.7.2) (2026-10-03)
+
+
+### Bug Fixes
+
+* **toolbar:** 内置按钮文案改为走语言包，不再硬编码中文 ([cf6f212](https://github.com/liunnn1994/sd-design/commit/cf6f212206a96120f84a6fb35ff7f26a6c75a71c))
+
 ## [5.7.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.7.0...web-vue-v5.7.1) (2026-10-03)
 
 
