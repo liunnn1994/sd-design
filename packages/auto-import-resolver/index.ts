@@ -94,14 +94,19 @@ const getComponentExportSet = (): Set<string> => {
     parseImportClause(clause, modulePath, importPathMap);
   }
 
-  const exportBlockMatch = /export\s*\{([\s\S]*?)\};?\s*$/.exec(source);
+  // 取文件中最后一个 `export { ... }` 块。原来用 `$` 锚点把它钉在文件末尾，
+  // 一旦构建在末尾追加 sourcemap 注释之类内容就会整段失配，
+  // 结果是组件集合变空、自动导入对所有组件静默失效。语义与原来一致，
+  // 只是不再依赖「必须是文件最后一段」这个脆弱前提。
+  const exportBlocks = [...source.matchAll(/export\s*\{([\s\S]*?)\}\s*;?/g)];
+  const lastExportBlock = exportBlocks.at(-1);
 
-  if (!exportBlockMatch?.[1]) {
+  if (!lastExportBlock?.[1]) {
     cachedComponentSet = new Set();
     return cachedComponentSet;
   }
 
-  const exportSpecifiers = exportBlockMatch[1]
+  const exportSpecifiers = lastExportBlock[1]
     .split(',')
     .map((item) => item.trim())
     .filter(Boolean);
