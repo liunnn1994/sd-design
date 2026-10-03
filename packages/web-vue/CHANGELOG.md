@@ -1,3 +1,10 @@
+## [5.7.4](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.7.3...web-vue-v5.7.4) (2026-10-03)
+
+
+### Bug Fixes
+
+* 移除会被打包发布但无人引用的组件内部导出 ([fa3f49d](https://github.com/liunnn1994/sd-design/commit/fa3f49ddc2d2c6d1c0bb6381573cfcd2e6993da3))
+
 ## [5.7.3](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.7.2...web-vue-v5.7.3) (2026-10-03)
 
 
