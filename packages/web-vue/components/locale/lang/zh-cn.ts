@@ -73,6 +73,12 @@ const calendarLang: SDCalendarLang = {
 
 const lang: SdLang = {
   locale: DEFAULT_LOCALE,
+  toolbar: {
+    search: '查询',
+    reset: '重置',
+    expand: '展开',
+    collapse: '收起',
+  },
   readonlyTip: '当前为只读模式',
   empty: {
     description: '暂无数据',

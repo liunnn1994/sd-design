@@ -19,7 +19,7 @@
       <div v-if="showActions" :class="`${prefixCls}-actions`">
         <Link v-if="allowExpand && isOverflow" :class="`${prefixCls}-expand`" @click="toggleExpand">
           <span :class="`${prefixCls}-expand-text`">
-            {{ isExpand ? collapseText : expandText }}
+            {{ isExpand ? resolvedCollapseText : resolvedExpandText }}
           </span>
           <slot name="expand-icon">
             <IconDown
@@ -31,9 +31,11 @@
         <template v-else>
           <slot name="action-prepend" />
           <Button v-if="showSearch" type="primary" v-bind="searchBtn" @click="handleSearch">
-            {{ searchText }}
+            {{ resolvedSearchText }}
           </Button>
-          <Button v-if="showReset" v-bind="resetBtn" @click="reset()">{{ resetText }}</Button>
+          <Button v-if="showReset" v-bind="resetBtn" @click="reset()">{{
+            resolvedResetText
+          }}</Button>
           <slot name="action-append" />
         </template>
       </div>
@@ -56,6 +58,7 @@
   import IconDown from '../icon/icon-down';
   import JsonForm from '../json-form';
   import Link from '../link';
+  import { useI18n } from '../locale';
   import Spin from '../spin';
 
   defineOptions({ name: 'Toolbar' });
@@ -68,11 +71,12 @@
     showReset = true,
     searchBtn,
     resetBtn,
+    // 内置按钮文案：不设默认值，未传时由语言包解析（见下方 resolved*Text）
+    searchText,
+    resetText,
+    expandText,
+    collapseText,
     showActions = true,
-    searchText = '查询',
-    resetText = '重置',
-    expandText = '展开',
-    collapseText = '收起',
     allowExpand = false,
     defaultExpand = false,
     itemHeight = 32,
@@ -91,7 +95,14 @@
   const modelValue = defineModel<ToolbarModelValue>({ default: () => ({}) });
 
   const prefixCls = getPrefixCls('toolbar');
+  const { t } = useI18n();
   const configCtx = inject(configProviderInjectionKey, undefined);
+  // 内置按钮文案走语言包：此前硬编码中文，切换到 en-US 时仍显示中文
+  // searchText 等来自响应式解构，直接读即可保持联动
+  const resolvedSearchText = computed(() => searchText ?? t('toolbar.search'));
+  const resolvedResetText = computed(() => resetText ?? t('toolbar.reset'));
+  const resolvedExpandText = computed(() => expandText ?? t('toolbar.expand'));
+  const resolvedCollapseText = computed(() => collapseText ?? t('toolbar.collapse'));
   const resolvedSpinProps = computed(() => ({
     ...configCtx?.toolbarSpinProps,
     ...spinProps,

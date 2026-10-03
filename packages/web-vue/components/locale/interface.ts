@@ -175,6 +175,12 @@ export interface SdA11yLang {
 export interface SdLang {
   locale: string;
   readonlyTip?: string;
+  toolbar: {
+    search: string;
+    reset: string;
+    expand: string;
+    collapse: string;
+  };
   empty: {
     description: string;
   };
