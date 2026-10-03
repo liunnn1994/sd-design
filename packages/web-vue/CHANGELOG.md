@@ -1,3 +1,11 @@
+## [5.6.6](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.6.5...web-vue-v5.6.6) (2026-10-03)
+
+
+### Bug Fixes
+
+* **build:** 排除自动生成的发布日志并清理无用变量 ([d04fb34](https://github.com/liunnn1994/sd-design/commit/d04fb3486ee07f36833ebeb39627d4759509d309))
+* **mcp:** 修复同名子组件互相覆盖，并暴露缺少注释导致的空 API ([7aa9747](https://github.com/liunnn1994/sd-design/commit/7aa9747e08146c69ebd37e9ccf1e9b44d33458d7))
+
 ## [5.6.5](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.6.4...web-vue-v5.6.5) (2026-10-03)
 
 
