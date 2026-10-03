@@ -1,3 +1,12 @@
+## [5.7.5](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.7.4...web-vue-v5.7.5) (2026-10-03)
+
+
+### Bug Fixes
+
+* **auto-import-resolver:** 解析组件导出时不再依赖「export 块必须在文件末尾」 ([5962f85](https://github.com/liunnn1994/sd-design/commit/5962f8559c6bfcef470bdd7312e87a273aee2ebd))
+* **locale:** 缺键时回退到默认语言包，并把后增语言段改为可选 ([d5213d1](https://github.com/liunnn1994/sd-design/commit/d5213d1f3de4123d0557a42e4589f1a8cdc3da3e))
+* **mcp:** 组件检索忽略分隔符，camelCase 属性名此前搜不到 ([7aee46d](https://github.com/liunnn1994/sd-design/commit/7aee46d471602ed18af85a479563c194bd3e433f))
+
 ## [5.7.4](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.7.3...web-vue-v5.7.4) (2026-10-03)
 
 
