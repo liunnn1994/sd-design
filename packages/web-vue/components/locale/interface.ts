@@ -175,13 +175,17 @@ export interface SdA11yLang {
 export interface SdLang {
   locale: string;
   readonlyTip?: string;
-  toolbar: {
+  /**
+   * 后增的语言段一律可选：使用方自建的语言包升级后不必立刻补齐，
+   * 缺失的键由 useI18n 回退到默认语言包。
+   */
+  toolbar?: {
     search: string;
     reset: string;
     expand: string;
     collapse: string;
   };
-  modelSelector: {
+  modelSelector?: {
     title: string;
   };
   empty: {

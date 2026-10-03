@@ -60,24 +60,36 @@ export const useI18n = () => {
   );
   const locale = computed(() => i18nMessage.value.locale);
 
-  const transform = (key: string, ...args: unknown[]): string => {
-    const keyArray = key.split('.');
-    let temp: unknown = i18nMessage.value;
+  const resolveKey = (message: unknown, keyArray: string[]): string | undefined => {
+    let temp: unknown = message;
 
     for (const keyItem of keyArray) {
       if (!isObject(temp) || !temp[keyItem]) {
-        return key;
+        return undefined;
       }
       temp = temp[keyItem];
     }
-    if (isString(temp)) {
-      if (args.length > 0) {
-        return (temp as string).replace(/{(\d+)}/g, (sub, index) => String(args[index] ?? sub));
-      }
 
-      return temp as string;
+    return isString(temp) ? temp : undefined;
+  };
+
+  const transform = (key: string, ...args: unknown[]): string => {
+    const keyArray = key.split('.');
+    // 使用方自建语言包可能不含组件后续新增的键（例如先接入、后升级），
+    // 此时不能把原始 key 渲染到界面上，先回退到默认语言包。
+    const text =
+      resolveKey(i18nMessage.value, keyArray) ??
+      resolveKey(I18N_MESSAGES[DEFAULT_LOCALE], keyArray);
+
+    if (text === undefined) {
+      return key;
     }
-    return temp as unknown as string;
+
+    if (args.length > 0) {
+      return text.replace(/{(\d+)}/g, (sub, index) => String(args[index] ?? sub));
+    }
+
+    return text;
   };
 
   return {
