@@ -2,7 +2,8 @@
   const overlayOptions = {
     update: {
       debounce: {
-        event: [10, 20],
+        // debounce 的值是 [timeout, maxWait] 元组，字面量数组会被推断成 number[]
+        event: [10, 20] as [number, number],
       },
     },
     scrollbars: {

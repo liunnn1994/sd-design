@@ -72,6 +72,7 @@ declare module 'vue' {
     SdCol: SDVue['Col'];
     SdRow: SDVue['Row'];
     SdImage: SDVue['Image'];
+    SdIcon: SDVue['Icon'];
     SdImagePreview: SDVue['ImagePreview'];
     SdImagePreviewAction: SDVue['ImagePreviewAction'];
     SdImagePreviewGroup: SDVue['ImagePreviewGroup'];
@@ -135,6 +136,7 @@ declare module 'vue' {
     SdSenderHeader: SDVue['SenderHeader'];
     SdSenderSwitch: SDVue['SenderSwitch'];
     SdSecret: SDVue['Secret'];
+    SdScrollbar: SDVue['Scrollbar'];
     SdSkeleton: SDVue['Skeleton'];
     SdSkeletonLine: SDVue['SkeletonLine'];
     SdSkeletonShape: SDVue['SkeletonShape'];
@@ -160,6 +162,7 @@ declare module 'vue' {
     SdTag: SDVue['Tag'];
     SdTagGroup: SDVue['TagGroup'];
     SdTextarea: SDVue['Textarea'];
+    SdThemeProvider: SDVue['ThemeProvider'];
     SdTimePicker: SDVue['TimePicker'];
     SdTimeline: SDVue['Timeline'];
     SdTimelineItem: SDVue['TimelineItem'];
