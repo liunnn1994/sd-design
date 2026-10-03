@@ -10,6 +10,9 @@ export default function usePopupOverflowHidden(props: PopupOverflowHiddenProps) 
 
   let needResetContainerStyle = false;
   let originContainerStyle: Partial<CSSStyleDeclaration> = {};
+  // 记录真正被锁定的元素：container 在锁定期间被换掉时，还原要作用在旧的这个元素上，
+  // 否则旧的容器会永远留着 overflow: hidden。
+  let lockedElement: HTMLElement | undefined;
 
   const getScrollBarWidth = (element: HTMLElement) => {
     return element.tagName === 'BODY'
@@ -21,6 +24,7 @@ export default function usePopupOverflowHidden(props: PopupOverflowHiddenProps) 
     if (container.value && container.value.style.overflow !== 'hidden') {
       const originStyle = container.value.style;
       needResetContainerStyle = true;
+      lockedElement = container.value;
 
       // Record and set the width
       const containerScrollBarWidth = getScrollBarWidth(container.value);
@@ -38,15 +42,16 @@ export default function usePopupOverflowHidden(props: PopupOverflowHiddenProps) 
   };
 
   const resetContainerStyle = () => {
-    if (container.value && needResetContainerStyle) {
+    if (lockedElement && needResetContainerStyle) {
       const originStyle = originContainerStyle;
       Object.keys(originStyle).forEach((i) => {
-        (container.value!.style as unknown as Record<string, string>)[i] =
+        (lockedElement!.style as unknown as Record<string, string>)[i] =
           (originStyle as unknown as Record<string, string>)[i] ?? '';
       });
     }
     needResetContainerStyle = false;
     originContainerStyle = {};
+    lockedElement = undefined;
   };
 
   watchEffect((onInvalidate) => {
