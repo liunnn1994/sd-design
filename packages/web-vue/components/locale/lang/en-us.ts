@@ -75,6 +75,9 @@ const calendarLang: SDCalendarLang = {
 
 const lang: SdLang = {
   locale: 'en-US',
+  modelSelector: {
+    title: 'Select a model',
+  },
   toolbar: {
     search: 'Search',
     reset: 'Reset',

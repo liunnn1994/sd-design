@@ -1,7 +1,7 @@
 <template>
   <Modal
     :visible="context.visible.value"
-    :title="title"
+    :title="resolvedTitle"
     :width="width"
     :render-to-body="renderToBody"
     :unmount-on-close="unmountOnClose"
@@ -20,14 +20,17 @@
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue';
+
   import { getPrefixCls } from '../_utils/global-config';
+  import { useI18n } from '../locale';
   import Modal from '../modal';
   import { useModelSelectorContext } from './use-model-selector-context';
 
   defineOptions({ name: 'ModelSelectorContent' });
 
   const {
-    title = '模型选择',
+    title,
     width = 640,
     renderToBody = true,
     unmountOnClose = true,
@@ -67,5 +70,8 @@
   }>();
 
   const prefixCls = getPrefixCls('model-selector');
+  const { t } = useI18n();
+  // 弹层标题走语言包：此前硬编码中文，切换到 en-US 时仍显示中文
+  const resolvedTitle = computed(() => title ?? t('modelSelector.title'));
   const context = useModelSelectorContext('ModelSelectorContent');
 </script>

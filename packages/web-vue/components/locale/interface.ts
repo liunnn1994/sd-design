@@ -181,6 +181,9 @@ export interface SdLang {
     expand: string;
     collapse: string;
   };
+  modelSelector: {
+    title: string;
+  };
   empty: {
     description: string;
   };

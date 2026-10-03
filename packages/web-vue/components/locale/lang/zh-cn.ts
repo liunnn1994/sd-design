@@ -73,6 +73,9 @@ const calendarLang: SDCalendarLang = {
 
 const lang: SdLang = {
   locale: DEFAULT_LOCALE,
+  modelSelector: {
+    title: '模型选择',
+  },
   toolbar: {
     search: '查询',
     reset: '重置',

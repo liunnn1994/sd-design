@@ -35,7 +35,7 @@
     defaultExpanded = true,
     closeOnSelect = true,
     resetQueryOnClose = true,
-    title = '模型选择',
+    title,
     width = 640,
     renderToBody = true,
     unmountOnClose = true,
