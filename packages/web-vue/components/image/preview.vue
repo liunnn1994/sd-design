@@ -430,6 +430,11 @@
   }
 
   onBeforeUnmount(() => {
+    // 缩放数值提示的隐藏定时器最长 1s，卸载后仍会触发
+    if (hideScaleTimer) {
+      clearTimeout(hideScaleTimer);
+      hideScaleTimer = null;
+    }
     releasePopup();
   });
 
