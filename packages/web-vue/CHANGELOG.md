@@ -1,3 +1,10 @@
+## [5.6.7](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.6.6...web-vue-v5.6.7) (2026-10-03)
+
+
+### Bug Fixes
+
+* **mcp:** 按组件目录隔离 API 索引，并为缺失注释的组件补齐双语文档 ([661731c](https://github.com/liunnn1994/sd-design/commit/661731cca34512d304734f38204477e08599448a))
+
 ## [5.6.6](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.6.5...web-vue-v5.6.6) (2026-10-03)
 
 
