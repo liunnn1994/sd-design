@@ -15,7 +15,7 @@ $tag-prefix-cls: string.unquote('#{theme.$prefix}-tag');
 
 $colors:
   'red', 'orangered', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'sdblue', 'purple',
-  'pinkpurple', 'magenta';
+  'pinkpurple', 'magenta', 'gray';
 
 @function _str-replace-all($string, $search, $replace) {
   $index: string.index($string, $search);
