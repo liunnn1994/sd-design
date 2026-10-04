@@ -264,8 +264,12 @@ async function emitStyleArtifacts(log?: (message: string) => void) {
     cwd: componentsRoot,
     posix: true,
   }).map((filename) => filename.replace(/\.ts$/, '.scss'));
-  // 基础样式目录只有 style/index.scss，没有配套的 style/index.ts。
-  const styleEntrySet = new Set([...styleEntries, 'style/index.scss']);
+  // 基础样式和共享 picker 样式没有配套的 style/index.ts，但会被样式入口直接引用。
+  const styleEntrySet = new Set([
+    ...styleEntries,
+    'style/index.scss',
+    '_components/picker/style/index.scss',
+  ]);
   let compiledStyleEntryCount = 0;
 
   log?.(

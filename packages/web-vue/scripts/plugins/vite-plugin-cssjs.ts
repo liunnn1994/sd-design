@@ -11,7 +11,9 @@ export default function cssjsPlugin(): Plugin {
         this.emitFile({
           type: 'asset',
           fileName: filename.replace('index.js', 'css.js'),
-          source: chunk.code.replace(/\.scss/g, '.css'),
+          source: chunk.code
+            .replace(/\.scss/g, '.css')
+            .replace(/\/style\/index\.js/g, '/style/css.js'),
         });
       }
     },
