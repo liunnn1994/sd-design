@@ -253,7 +253,7 @@ $switch-size-small-line-gap: (($switch-size-small - $switch-line-size-dot-small)
   }
 
   &-type-line#{&}-custom-color {
-    --custom-color: $switch-color-bg_off;
+    --custom-color: #{$switch-color-bg_off};
 
     &::after {
       background-color: var(--custom-color);
@@ -261,7 +261,7 @@ $switch-size-small-line-gap: (($switch-size-small - $switch-line-size-dot-small)
   }
 
   &-type-line#{&}-custom-color#{&}-checked {
-    --custom-color: $switch-color-bg_on;
+    --custom-color: #{$switch-color-bg_on};
   }
 
   &-type-line#{&}-checked &-handle {
