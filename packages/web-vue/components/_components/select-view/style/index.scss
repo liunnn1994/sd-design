@@ -19,7 +19,7 @@ $select-view-prefix-cls: string.unquote('#{theme.$prefix}-select-view');
     }
   }
 
-  .#{$select-view-prefix-cls}.#{$select-view-prefix-cls}-borderless {
+  &.#{$select-view-prefix-cls}-borderless {
     background: none !important;
     border: none !important;
     box-shadow: none !important;
