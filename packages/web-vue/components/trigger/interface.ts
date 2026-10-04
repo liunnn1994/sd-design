@@ -170,13 +170,49 @@ export interface TriggerProps {
    * @en Whether to hide the popup when the content is empty
    */
   hideEmpty?: boolean;
+  /**
+   * @zh 浮层打开时附加到触发元素的类名
+   * @en Class applied to the trigger while the popup is open
+   */
   openedClass?: string | string[] | Record<string, boolean>;
+  /**
+   * @zh 浮层超出视口时是否自动调整位置
+   * @en Whether the popup flips/shifts to stay inside the viewport
+   */
   autoFitPosition?: boolean;
+  /**
+   * @zh 浮层是否挂载到 body
+   * @en Whether the popup is mounted to body
+   */
   renderToBody?: boolean;
+  /**
+   * @zh 打开浮层时是否阻止触发元素获得焦点
+   * @en Whether opening the popup prevents the trigger from taking focus
+   */
   preventFocus?: boolean;
+  /**
+   * @zh 滚动时是否关闭浮层
+   * @en Whether scrolling closes the popup
+   */
   scrollToClose?: boolean;
+  /**
+   * @zh 滚动多少距离后关闭浮层
+   * @en Scroll distance after which the popup closes
+   */
   scrollToCloseDistance?: number;
+  /**
+   * @zh 按 Esc 是否关闭浮层
+   * @en Whether pressing Escape closes the popup
+   */
   escToClose?: boolean;
+  /**
+   * @zh 写入 aria-haspopup 的值
+   * @en Value written to aria-haspopup
+   */
   ariaHasPopup?: boolean | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
+  /**
+   * @zh 浮层内容是否通过 aria-describedby 关联
+   * @en Whether the popup content is linked via aria-describedby
+   */
   ariaDescribedbyPopup?: boolean;
 }

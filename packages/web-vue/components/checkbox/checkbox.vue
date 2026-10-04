@@ -85,6 +85,10 @@
        */
       tabindex?: number | string;
       /** @private */
+      /**
+       * @zh 是否忽略外层 Group 的上下文
+       * @en Whether to ignore the outer Group context
+       */
       uninjectGroupContext?: boolean;
     }>(),
     {
@@ -96,6 +100,10 @@
       defaultChecked: false,
       disabled: false,
       indeterminate: false,
+      /**
+       * @zh 是否忽略外层 Group 的上下文
+       * @en Whether to ignore the outer Group context
+       */
       uninjectGroupContext: false,
     },
   );

@@ -326,7 +326,15 @@ export interface VoiceGlowProps {
    * @default 1
    */
   strokeOpacity?: number;
+  /**
+   * @zh 内层光晕的不透明度（0–1）
+   * @en Opacity of the inner glow, 0–1
+   */
   innerOpacity?: number;
+  /**
+   * @zh 外层光晕的不透明度（0–1）
+   * @en Opacity of the outer bloom, 0–1
+   */
   bloomOpacity?: number;
 
   /* ── Shape ──────────────────────────────────────────────────────────

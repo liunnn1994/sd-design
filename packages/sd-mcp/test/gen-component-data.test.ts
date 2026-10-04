@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
+import componentsData from '../data/components.json' with { type: 'json' };
 import { buildApiMap, getComponentSources } from '../scripts/gen-component-data.ts';
 
 test('components sharing a displayName keep their own API', async () => {
@@ -186,27 +187,47 @@ test('discovers new public contracts without component names or file paths in a 
   }
 });
 
-test('keeps the documented-only contract but never empties an undocumented component', async () => {
-  const map = await buildApiMap();
-  const describeProps = (name: string) =>
-    map.get(`components/${name}`)?.get(`sd-${name}`)?.props ?? [];
-
-  // 有带描述条目的组件：沿用「只收录有文档的 API」
-  const calendar = describeProps('calendar');
-  assert.equal(calendar.length, 44, 'calendar 全部 prop 都没有注释，应整体回退保留');
-  // 完全没有注释的组件同样整体保留，而不是变空
-  assert.ok(describeProps('markdown-render').length > 0);
-
-  // 只要组件存在带描述的 prop，无描述的条目就不应混进来
-  for (const [, group] of map) {
-    for (const [tag, api] of group) {
-      const props = api.props ?? [];
-      const documented = props.filter((prop) => prop.description.en || prop.description.zh);
-      if (documented.length && props.length !== documented.length) {
-        assert.fail(`${tag} mixes ${props.length - documented.length} undocumented props`);
-      }
+test('every published prop declared in our own source carries a description', async () => {
+  // 交付面是 data/components.json：只有文档侧边栏覆盖的组件会发布，
+  // 其余子组件不进入 MCP 索引，因此不在这里断言。
+  const published = componentsData.components;
+  // 这些组件的 props 来自第三方包（markstream-vue / vue-clamp），仓库内没有声明处
+  const upstream = new Set([
+    'sd-markdown-render',
+    'sd-line-clamp',
+    'sd-rich-line-clamp',
+    'sd-inline-clamp',
+    'sd-wrap-clamp',
+  ]);
+  const missing: string[] = [];
+  for (const entry of published) {
+    if (upstream.has(entry.name)) continue;
+    for (const prop of entry.props) {
+      if (!prop.description.en && !prop.description.zh) missing.push(`${entry.name}.${prop.name}`);
     }
   }
+  assert.deepEqual(missing, [], `undocumented published props: ${missing.slice(0, 20).join(', ')}`);
+});
+
+test('keeps the third-party components listed so the gap stays visible', () => {
+  const published = componentsData.components;
+  for (const name of ['sd-markdown-render', 'sd-line-clamp', 'sd-wrap-clamp']) {
+    assert.ok(
+      published.some((entry) => entry.name === name),
+      `${name} should still be published`,
+    );
+  }
+});
+
+test('recovers props that docgen alone cannot see', async () => {
+  const map = await buildApiMap();
+  const props = (dir: string, tag: string) => map.get(dir)?.get(tag)?.props ?? [];
+  // 这些组件此前在 MCP 里是空的：props 写在外部接口/对象或指向第三方类型
+  assert.equal(props('components/calendar', 'sd-calendar').length, 44);
+  assert.equal(props('components/select', 'sd-select').length, 45);
+  assert.equal(props('components/cascader', 'sd-cascader').length, 45);
+  assert.equal(props('components/tree', 'sd-tree').length, 75);
+  assert.ok(props('components/markdown-render', 'sd-markdown-render').length > 0);
 });
 
 test('never publishes TypeScript-internal type kind names', async () => {

@@ -289,6 +289,10 @@
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 自定义组件插槽映射，按插槽名指定要渲染的组件
+     * @en Custom component slot map, specifying the component rendered for a slot name
+     */
     components: {
       type: Object as PropType<TableComponents>,
     },
@@ -341,6 +345,10 @@
     draggable: {
       type: Object as PropType<TableDraggable>,
     },
+    /**
+     * @zh 是否显示行号，可传入对象自定义展示
+     * @en Whether to show row numbers; accepts an object for custom rendering
+     */
     rowNumber: {
       type: [Boolean, Object],
     },

@@ -107,14 +107,50 @@ export type TourConfig = {
   progressText?: string;
   popoverClass?: string;
   buttonProps?: TourButtonProps;
+  /**
+   * @zh 高亮某个步骤开始时触发
+   * @en Triggered when highlighting a step starts
+   */
   onHighlightStarted?: TourStepHook;
+  /**
+   * @zh 步骤高亮完成时触发
+   * @en Triggered when a step finishes highlighting
+   */
   onHighlighted?: TourStepHook;
+  /**
+   * @zh 取消选中步骤时触发
+   * @en Triggered when a step is deselected
+   */
   onDeselected?: TourStepHook;
+  /**
+   * @zh 步骤被销毁时触发
+   * @en Triggered when a step is destroyed
+   */
   onDestroyed?: TourStepHook;
+  /**
+   * @zh 步骤开始销毁时触发
+   * @en Triggered when destroying a step starts
+   */
   onDestroyStarted?: TourStepHook;
+  /**
+   * @zh 步骤气泡渲染时触发，可返回内容覆盖默认渲染
+   * @en Triggered when a step popover renders; may return content to replace the default
+   */
   onPopoverRender?: TourPopoverRenderHook;
+  /**
+   * @zh 点击「下一步」时触发
+   * @en Triggered when the next button is clicked
+   */
   onNextClick?: TourStepHook;
+  /**
+   * @zh 点击「上一步」时触发
+   * @en Triggered when the previous button is clicked
+   */
   onPrevClick?: TourStepHook;
+  /**
+   * @zh 点击关闭时触发
+   * @en Triggered when the close button is clicked
+   */
   onCloseClick?: TourStepHook;
 };
 

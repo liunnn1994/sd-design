@@ -303,53 +303,113 @@
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 浮层挂载的容器
+     * @en Container the popup is mounted into
+     */
     popupContainer: {
       type: [String, Object] as PropType<string | HTMLElement>,
     },
+    /**
+     * @zh 该选择器的语言包覆盖
+     * @en Locale override for this picker
+     */
     locale: {
       type: Object as PropType<Record<string, unknown>>,
     },
+    /**
+     * @zh 是否隐藏触发器，仅展示浮层
+     * @en Whether to hide the trigger and only show the popup
+     */
     hideTrigger: {
       type: Boolean,
     },
+    /**
+     * @zh 是否允许清除
+     * @en Whether the value can be cleared
+     */
     allowClear: {
       type: Boolean,
       default: true,
     },
+    /**
+     * @zh 是否只读，传入字符串时作为提示文案
+     * @en Whether the picker is readonly; a string is shown as a tip
+     */
     readonly: {
       type: [Boolean, String],
     },
+    /**
+     * @zh 是否为错误状态
+     * @en Whether the picker is in error state
+     */
     error: {
       type: Boolean,
     },
+    /**
+     * @zh 尺寸
+     * @en Size of the picker
+     */
     size: {
       type: String as PropType<Size>,
     },
+    /**
+     * @zh 快捷时间范围列表
+     * @en List of shortcut time ranges
+     */
     shortcuts: {
       type: Array as PropType<ShortcutType[]>,
       default: () => [],
     },
+    /**
+     * @zh 快捷选项的位置
+     * @en Position of the shortcuts panel
+     */
     shortcutsPosition: {
       type: String as PropType<'left' | 'bottom' | 'right'>,
       default: 'bottom',
     },
+    /**
+     * @zh 浮层相对触发器的位置
+     * @en Position of the popup relative to the trigger
+     */
     position: {
       type: String as PropType<'top' | 'tl' | 'tr' | 'bottom' | 'bl' | 'br'>,
       default: 'bl',
     },
+    /**
+     * @zh 浮层是否显示（受控）
+     * @en Whether the popup is visible (controlled)
+     */
     popupVisible: {
       type: Boolean,
       default: undefined,
     },
+    /**
+     * @zh 浮层是否默认显示（非受控状态）
+     * @en Whether the popup is visible by default (uncontrolled state)
+     */
     defaultPopupVisible: {
       type: Boolean,
     },
+    /**
+     * @zh 触发器的组件属性
+     * @en Props forwarded to the trigger
+     */
     triggerProps: {
       type: Object as PropType<TriggerProps>,
     },
+    /**
+     * @zh 浮层的定位配置
+     * @en Floating options of the popup
+     */
     floatingOptions: {
       type: Object as PropType<FloatingOptions>,
     },
+    /**
+     * @zh 关闭时是否卸载浮层内容
+     * @en Whether the popup content is unmounted when closed
+     */
     unmountOnClose: {
       type: Boolean,
     },
@@ -360,10 +420,18 @@
     hideNotInViewDates: {
       type: Boolean,
     },
+    /**
+     * @zh 是否在选择过程中预览快捷范围
+     * @en Whether shortcut ranges are previewed while selecting
+     */
     previewShortcut: {
       type: Boolean,
       default: true,
     },
+    /**
+     * @zh 是否显示确定按钮
+     * @en Whether the confirm button is shown
+     */
     showConfirmBtn: {
       type: Boolean,
     },
@@ -393,6 +461,10 @@
     /**
      * @zh 是否启用缩写
      * @en Whether to enable abbreviation
+     */
+    /**
+     * @zh 是否缩写日期与月份
+     * @en Whether dates and months are abbreviated
      */
     abbreviation: {
       type: Boolean,

@@ -81,6 +81,10 @@
        */
       disabled?: boolean;
       /** @private */
+      /**
+       * @zh 是否忽略外层 Group 的上下文
+       * @en Whether to ignore the outer Group context
+       */
       uninjectGroupContext?: boolean;
     }>(),
     {
@@ -89,6 +93,10 @@
       value: true,
       type: 'radio',
       disabled: false,
+      /**
+       * @zh 是否忽略外层 Group 的上下文
+       * @en Whether to ignore the outer Group context
+       */
       uninjectGroupContext: false,
     },
   );

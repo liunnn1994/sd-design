@@ -98,14 +98,38 @@
       type: Object as PropType<ScrollbarProps['events']>,
     },
     // private
+    /**
+     * @zh 是否隐藏滚动条
+     * @en Whether to hide the scrollbar
+     */
+    /**
+     * @zh 是否隐藏滚动条
+     * @en Whether to hide the scrollbar
+     */
     hide: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 是否禁用横向滚动
+     * @en Whether to disable horizontal scrolling
+     */
+    /**
+     * @zh 是否禁用横向滚动
+     * @en Whether to disable horizontal scrolling
+     */
     disableHorizontal: {
       type: Boolean,
       default: false,
     },
+    /**
+     * @zh 是否禁用纵向滚动
+     * @en Whether to disable vertical scrolling
+     */
+    /**
+     * @zh 是否禁用纵向滚动
+     * @en Whether to disable vertical scrolling
+     */
     disableVertical: {
       type: Boolean,
       default: false,

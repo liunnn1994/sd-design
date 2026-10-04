@@ -96,6 +96,10 @@
   defineOptions({ name: 'Image', inheritAttrs: false });
 
   const props = defineProps({
+    /**
+     * @zh 预览浮层是否挂载到 body
+     * @en Whether the preview popup is mounted to body
+     */
     renderToBody: {
       type: Boolean,
       default: true,

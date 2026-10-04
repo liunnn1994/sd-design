@@ -248,7 +248,23 @@ export interface SenderProps {
    * @en Semantic node styles
    */
   styles?: Partial<Record<SenderSemanticType, CSSProperties>>;
+  /**
+   * @zh 按键按下时触发
+   * @en Triggered when a key is pressed
+   */
+  /**
+   * @zh 按键按下时触发
+   * @en Triggered when a key is pressed
+   */
   onKeydown?: (event: KeyboardEvent) => void | false;
+  /**
+   * @zh 按键松开时触发
+   * @en Triggered when a key is released
+   */
+  /**
+   * @zh 按键松开时触发
+   * @en Triggered when a key is released
+   */
   onKeyup?: (event: KeyboardEvent) => void;
 }
 
@@ -293,7 +309,15 @@ export interface SenderHeaderProps {
    * @en Whether to show the close button
    */
   closable?: boolean;
+  /**
+   * @zh 各语义节点的类名映射
+   * @en Class name map for each semantic node
+   */
   classNames?: Partial<Record<SenderHeaderSemanticType, string>>;
+  /**
+   * @zh 各语义节点的样式映射
+   * @en Style map for each semantic node
+   */
   styles?: Partial<Record<SenderHeaderSemanticType, CSSProperties>>;
 }
 
@@ -308,8 +332,24 @@ export interface SenderSwitchProps {
    * @en Default value in uncontrolled mode
    */
   defaultValue?: boolean;
+  /**
+   * @zh 是否禁用
+   * @en Whether the component is disabled
+   */
   disabled?: boolean;
+  /**
+   * @zh 是否处于加载状态
+   * @en Whether the component is loading
+   */
   loading?: boolean;
+  /**
+   * @zh 各语义节点的类名映射
+   * @en Class name map for each semantic node
+   */
   classNames?: Partial<Record<'root' | 'content' | 'icon' | 'title', string>>;
+  /**
+   * @zh 各语义节点的样式映射
+   * @en Style map for each semantic node
+   */
   styles?: Partial<Record<'root' | 'content' | 'icon' | 'title', CSSProperties>>;
 }

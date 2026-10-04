@@ -214,6 +214,10 @@ export type JsonFormProviderConfig<TExternal extends JsonFormExternalComponentMa
 export type JsonFormModel = Record<string, unknown>;
 
 export type JsonFormProps<TExternal extends JsonFormExternalComponentMap = {}> = {
+  /**
+   * @zh 表单结构描述，声明每个字段及其组件
+   * @en Form schema describing each field and its component
+   */
   schemas:
     | JsonFormSchema<JsonFormComponentType<TExternal>, TExternal>[]
     | JsonFormA2UI_0_9_1ComponentNode[];
@@ -222,11 +226,35 @@ export type JsonFormProps<TExternal extends JsonFormExternalComponentMap = {}> =
    * @en Form data object (v-model)
    */
   modelValue?: JsonFormModel;
+  /**
+   * @zh 结构描述的适配器，用于兼容 A2UI 等外部格式
+   * @en Adapter of the schema format, for A2UI and other external formats
+   */
   adapter?: JsonFormAdapter;
+  /**
+   * @zh 表单数据对象（非受控状态），字段就地变更
+   * @en Form data object (uncontrolled state), mutated in place
+   */
   model?: JsonFormModel;
+  /**
+   * @zh 是否隐藏字段标签
+   * @en Whether to hide field labels
+   */
   hideLabel?: boolean;
+  /**
+   * @zh 是否隐藏必填标记
+   * @en Whether to hide the required marker
+   */
   hideAsterisk?: boolean;
+  /**
+   * @zh 是否在标签后显示冒号
+   * @en Whether to show a colon after the label
+   */
   showColon?: boolean;
+  /**
+   * @zh 默认的表单容器组件
+   * @en Default form container component
+   */
   component?: string | Component;
 };
 

@@ -210,13 +210,29 @@ export interface TreeProps {
   size: Size;
   blockNode: boolean;
   switcher: boolean;
+  /**
+   * @zh 是否默认展开所有节点
+   * @en Whether every node is expanded by default
+   */
   defaultExpandAll: boolean;
   multiple: boolean;
   checkable: CheckableType;
   draggable: boolean;
+  /**
+   * @zh 是否允许把节点拖放到目标位置，返回 false 拒绝
+   * @en Whether a node may be dropped at the target; return false to reject
+   */
   allowDrop?: (options: { dropNode: TreeNodeData; dropPosition: DropPosition }) => boolean;
   selectable: CheckableType;
+  /**
+   * @zh 是否父子不关联，勾选父节点不会自动勾选子节点
+   * @en Whether parent and child are independent, so checking a parent does not check its children
+   */
   checkStrictly: boolean;
+  /**
+   * @zh 勾选父子关联时的勾选策略
+   * @en How checked keys are derived when parent and child are linked
+   */
   checkedStrategy: CheckedStrategy;
   defaultSelectedKeys?: TreeNodeKey[];
   selectedKeys?: TreeNodeKey[];
@@ -226,24 +242,100 @@ export interface TreeProps {
   defaultExpandedKeys?: TreeNodeKey[];
   expandedKeys?: TreeNodeKey[];
   data: TreeNodeData[];
+  /**
+   * @zh 数据结构字段映射
+   * @en Field mapping of the node data source
+   */
   fieldNames?: TreeFieldNames;
+  /**
+   * @zh 虚拟列表的属性，用于大数据量渲染
+   * @en Props forwarded to the virtual list, used for large data sets
+   */
   virtualListProps?: VirtualListProps;
+  /**
+   * @zh 是否显示节点之间的连线
+   * @en Whether to show the line between nodes
+   */
   showLine: boolean;
+  /**
+   * @zh 异步加载子节点数据的方法
+   * @en Function that loads children asynchronously
+   */
   loadMore?: LoadMore;
+  /**
+   * @zh 搜索关键字
+   * @en Keyword used to search the tree
+   */
   searchValue?: string;
+  /**
+   * @zh 是否默认展开选中节点的父级
+   * @en Whether the parents of selected nodes are expanded by default
+   */
   defaultExpandSelected?: boolean;
+  /**
+   * @zh 是否默认展开勾选节点的父级
+   * @en Whether the parents of checked nodes are expanded by default
+   */
   defaultExpandChecked?: boolean;
+  /**
+   * @zh 勾选父节点时是否自动展开其子级
+   * @en Whether checking a parent expands its children
+   */
   autoExpandParent?: boolean;
+  /**
+   * @zh 是否只能勾选叶子节点
+   * @en Whether only leaf nodes can be checked
+   */
   onlyCheckLeaf: boolean;
+  /**
+   * @zh 展开收起是否有动画
+   * @en Whether expand/collapse is animated
+   */
   animation: boolean;
+  /**
+   * @zh 标题超出宽度时的省略方式
+   * @en How the title is ellipsized when it overflows
+   */
   ellipsis: TreeEllipsis;
+  /**
+   * @zh 点击节点时执行的动作
+   * @en Action performed when a node is clicked
+   */
   actionOnNodeClick?: 'expand';
+  /**
+   * @zh 禁用选中动作，节点只能用于展开等其它操作
+   * @en Disable the select action so nodes can only be used for expansion and similar actions
+   */
   disableSelectActionOnly: boolean;
+  /**
+   * @zh 拖拽图标插槽
+   * @en Slot for the drag icon
+   */
   dragIcon?: Slot;
+  /**
+   * @zh 展开/收起图标插槽
+   * @en Slot for the expand/collapse icon
+   */
   switcherIcon?: Slot;
+  /**
+   * @zh 加载图标插槽
+   * @en Slot for the loading icon
+   */
   loadingIcon?: Slot;
+  /**
+   * @zh 节点右侧额外内容插槽
+   * @en Slot for extra content on the right of a node
+   */
   extra?: Slot;
+  /**
+   * @zh 节点标题插槽
+   * @en Slot for the node title
+   */
   title?: Slot;
+  /**
+   * @zh 选中节点时触发
+   * @en Triggered when the selection changes
+   */
   onSelect?: (
     selectedKeys: TreeNodeKey[],
     event: {
@@ -253,6 +345,10 @@ export interface TreeProps {
       e?: Event;
     },
   ) => void;
+  /**
+   * @zh 勾选状态变化时触发
+   * @en Triggered when the checked keys change
+   */
   onCheck?: (
     checkedKeys: TreeNodeKey[],
     event: {
@@ -264,6 +360,10 @@ export interface TreeProps {
       e?: Event;
     },
   ) => void;
+  /**
+   * @zh 展开或收起节点时触发
+   * @en Triggered when a node is expanded or collapsed
+   */
   onExpand?: (
     expandedKeys: TreeNodeKey[],
     event: {
@@ -273,45 +373,185 @@ export interface TreeProps {
       e?: Event;
     },
   ) => void;
+  /**
+   * @zh 开始拖拽节点时触发
+   * @en Triggered when dragging a node starts
+   */
   onDragStart?: (e: DragEvent, node: TreeNodeData) => void;
+  /**
+   * @zh 结束拖拽节点时触发
+   * @en Triggered when dragging a node ends
+   */
   onDragEnd?: (e: DragEvent, node: TreeNodeData) => void;
+  /**
+   * @zh 拖拽经过节点时触发
+   * @en Triggered when a dragged node moves over a node
+   */
   onDragOver?: (e: DragEvent, node: TreeNodeData) => void;
+  /**
+   * @zh 拖拽离开节点时触发
+   * @en Triggered when a dragged node leaves a node
+   */
   onDragLeave?: (e: DragEvent, node: TreeNodeData) => void;
+  /**
+   * @zh 把节点拖放到目标位置时触发
+   * @en Triggered when a node is dropped onto a target
+   */
   onDrop?: (event: {
     e: DragEvent;
     dragNode: TreeNodeData;
     dropNode: TreeNodeData;
     dropPosition: number;
   }) => void;
+  /**
+   * @zh 点击节点时触发
+   * @en Triggered when a node is 点击
+   */
   onNodeClick?: TreeNodeEventHandler;
+  /**
+   * @zh 双击节点时触发
+   * @en Triggered when a node is 双击
+   */
   onNodeDblclick?: TreeNodeEventHandler;
+  /**
+   * @zh 右键点击节点时触发
+   * @en Triggered when a node is 右键点击
+   */
   onNodeContextmenu?: TreeNodeEventHandler;
+  /**
+   * @zh 鼠标移入节点时触发
+   * @en Triggered when a node fires 鼠标移入
+   */
   onNodeMouseover?: TreeNodeEventHandler;
+  /**
+   * @zh 鼠标进入节点时触发
+   * @en Triggered when a node fires 鼠标进入
+   */
   onNodeMouseenter?: TreeNodeEventHandler;
+  /**
+   * @zh 鼠标离开节点时触发
+   * @en Triggered when a node fires 鼠标离开
+   */
   onNodeMouseleave?: TreeNodeEventHandler;
+  /**
+   * @zh 鼠标移动节点时触发
+   * @en Triggered when a node fires 鼠标移动
+   */
   onNodeMousemove?: TreeNodeEventHandler;
+  /**
+   * @zh 鼠标移出节点时触发
+   * @en Triggered when a node fires 鼠标移出
+   */
   onNodeMouseout?: TreeNodeEventHandler;
+  /**
+   * @zh 鼠标按下节点时触发
+   * @en Triggered when a node fires 鼠标按下
+   */
   onNodeMousedown?: TreeNodeEventHandler;
+  /**
+   * @zh 鼠标抬起节点时触发
+   * @en Triggered when a node fires 鼠标抬起
+   */
   onNodeMouseup?: TreeNodeEventHandler;
+  /**
+   * @zh 指针按下时触发
+   * @en Triggered when a node fires 指针按下
+   */
   onNodePointerdown?: TreeNodeEventHandler;
+  /**
+   * @zh 指针移动时触发
+   * @en Triggered when a node fires 指针移动
+   */
   onNodePointermove?: TreeNodeEventHandler;
+  /**
+   * @zh 指针抬起时触发
+   * @en Triggered when a node fires 指针抬起
+   */
   onNodePointerup?: TreeNodeEventHandler;
+  /**
+   * @zh 指针进入时触发
+   * @en Triggered when a node fires 指针进入
+   */
   onNodePointerenter?: TreeNodeEventHandler;
+  /**
+   * @zh 指针离开时触发
+   * @en Triggered when a node fires 指针离开
+   */
   onNodePointerleave?: TreeNodeEventHandler;
+  /**
+   * @zh 指针悬停时触发
+   * @en Triggered when a node fires 指针悬停
+   */
   onNodePointerover?: TreeNodeEventHandler;
+  /**
+   * @zh 指针移出时触发
+   * @en Triggered when a node fires 指针移出
+   */
   onNodePointerout?: TreeNodeEventHandler;
+  /**
+   * @zh 指针交互被取消时触发
+   * @en Triggered when a node fires 指针交互被取消
+   */
   onNodePointercancel?: TreeNodeEventHandler;
+  /**
+   * @zh 触摸开始节点时触发
+   * @en Triggered when a node is touched: 触摸开始
+   */
   onNodeTouchstart?: TreeNodeEventHandler;
+  /**
+   * @zh 触摸移动节点时触发
+   * @en Triggered when a node is touched: 触摸移动
+   */
   onNodeTouchmove?: TreeNodeEventHandler;
+  /**
+   * @zh 触摸结束节点时触发
+   * @en Triggered when a node is touched: 触摸结束
+   */
   onNodeTouchend?: TreeNodeEventHandler;
+  /**
+   * @zh 触摸被取消节点时触发
+   * @en Triggered when a node is touched: 触摸被取消
+   */
   onNodeTouchcancel?: TreeNodeEventHandler;
+  /**
+   * @zh 按下按键节点时触发
+   * @en Triggered when a node fires 按下按键
+   */
   onNodeKeydown?: TreeNodeEventHandler;
+  /**
+   * @zh 松开按键节点时触发
+   * @en Triggered when a node fires 松开按键
+   */
   onNodeKeyup?: TreeNodeEventHandler;
+  /**
+   * @zh 按下并触发按键节点时触发
+   * @en Triggered when a node fires 按下并触发按键
+   */
   onNodeKeypress?: TreeNodeEventHandler;
+  /**
+   * @zh 长按节点时触发
+   * @en Triggered when a node is long-pressed
+   */
   onNodeLongPress?: TreeNodeEventHandler<PointerEvent>;
+  /**
+   * @zh 开始滑动节点时触发
+   * @en Triggered when a node is swiped: 开始滑动
+   */
   onNodeSwipeStart?: TreeNodeSwipeEventHandler;
+  /**
+   * @zh 滑动中节点时触发
+   * @en Triggered when a node is swiped: 滑动中
+   */
   onNodeSwipe?: TreeNodeSwipeEventHandler;
+  /**
+   * @zh 滑动结束节点时触发
+   * @en Triggered when a node is swiped: 滑动结束
+   */
   onNodeSwipeEnd?: TreeNodeSwipeEventHandler;
+  /**
+   * @zh 搜索时用于过滤节点的函数
+   * @en Function used to filter nodes while searching
+   */
   filterTreeNode?: (node: TreeNodeData) => boolean;
 }
 

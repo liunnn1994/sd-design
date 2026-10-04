@@ -277,28 +277,8 @@ export const buildApiMap = async () => {
     });
     map.set(dirname, group);
   }
-  return applyDocumentedOnlyRule(map);
-};
-
-/**
- * 只要组件存在带描述的条目，就沿用「只收录有文档的 API」这一约定；
- * 一个描述都没有时才整体回退，避免 calendar / trigger / clamp 这类源码未写注释的
- * 组件重新变成空条目。对所有来源（docgen 与类型契约）统一生效。
- */
-function applyDocumentedOnlyRule<K extends string, V extends { props?: unknown[] }>(
-  map: Map<K, Map<string, V>>,
-): Map<K, Map<string, V>> {
-  for (const group of map.values()) {
-    for (const [tag, api] of group) {
-      const props = (api.props ?? []) as Array<{ description?: { zh?: string; en?: string } }>;
-      const documented = props.filter((prop) => prop.description?.en || prop.description?.zh);
-      if (documented.length && documented.length !== props.length) {
-        group.set(tag, { ...api, props: documented });
-      }
-    }
-  }
   return map;
-}
+};
 
 const main = async () => {
   const sidebar = await loadSidebar();

@@ -307,6 +307,10 @@
     triggerProps: {
       type: Object as PropType<TriggerProps>,
     },
+    /**
+     * @zh 浮层的定位配置
+     * @en Floating options of the popup
+     */
     floatingOptions: {
       type: Object as PropType<FloatingOptions>,
     },

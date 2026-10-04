@@ -97,30 +97,122 @@ export interface BasicCrudTableProps<TRow extends TableData = TableData> {
    * @zh 是否占满父级高度，并让表格区域滚动
    * @en Whether to fill the parent height and scroll the table area
    */
+  /**
+   * @zh 表格是否撑满父容器高度
+   * @en Whether the table fills the parent height
+   */
   fullHeight?: boolean;
+  /**
+   * @zh 是否显示新建按钮
+   * @en Whether to show the create button
+   */
   showCreate?: boolean;
+  /**
+   * @zh 挂载后是否直接打开新建弹窗
+   * @en Whether to open the create modal on mount
+   */
   openCreateModal?: boolean;
+  /**
+   * @zh 是否显示编辑操作
+   * @en Whether to show the edit action
+   */
   showEdit?: boolean;
+  /**
+   * @zh 是否显示删除操作
+   * @en Whether to show the delete action
+   */
   showDelete?: boolean;
+  /**
+   * @zh 是否显示工具栏
+   * @en Whether to show the toolbar
+   */
   showToolbar?: boolean;
+  /**
+   * @zh 是否显示表头
+   * @en Whether to show the table header
+   */
   showHeader?: boolean;
+  /**
+   * @zh 是否显示标题
+   * @en Whether to show the title
+   */
   showTitle?: boolean;
+  /**
+   * @zh 是否显示操作列
+   * @en Whether to show the action column
+   */
   showActionColumn?: boolean;
+  /**
+   * @zh 请求表格数据时是否剔除空值参数
+   * @en Whether to drop empty values from the table request params
+   */
   fetchExcludeEmptyValues?: boolean;
+  /**
+   * @zh 挂载后是否自动请求表格数据
+   * @en Whether to fetch table data on mount
+   */
   fetchTableOnMounted?: boolean;
+  /**
+   * @zh 操作列宽度（像素）
+   * @en Width of the action column in pixels
+   */
   actionWidth?: number;
+  /**
+   * @zh 请求表格数据的接口
+   * @en API used to fetch table data
+   */
   fetchTableApi?: (params: UnknownRecord) => MaybePromise<unknown>;
+  /**
+   * @zh 表格数据的转换函数
+   * @en Function used to transform the fetched table data
+   */
   tableDataTransformer?: (data: unknown) => MaybePromise<BasicCrudTableDataResult<TRow>>;
+  /**
+   * @zh 新建数据的接口
+   * @en API used to create a record
+   */
   createApi?: (data: UnknownRecord) => MaybePromise<unknown>;
+  /**
+   * @zh 更新数据的接口
+   * @en API used to update a record
+   */
   updateApi?: (data: UnknownRecord) => MaybePromise<unknown>;
+  /**
+   * @zh 获取单条详情的接口
+   * @en API used to fetch a record detail
+   */
   detailApi?: (row: TRow) => MaybePromise<UnknownRecord>;
+  /**
+   * @zh 提交前对表单数据的转换
+   * @en Transform applied to the form data before submitting
+   */
   valueTransformer?: (data: UnknownRecord) => UnknownRecord;
+  /**
+   * @zh 弹窗提交前的钩子，返回 false 可阻止提交
+   * @en Hook run before the modal submits; return false to block it
+   */
   beforeModalSubmit?: (
     context: BasicCrudTableModalSubmitContext<TRow>,
   ) => MaybePromise<boolean | void>;
+  /**
+   * @zh 删除确认文案
+   * @en Confirmation text shown before deleting
+   */
   deleteContent?: string | ((row: TRow) => MaybePromise<string>);
+  /**
+   * @zh 删除数据的接口
+   * @en API used to delete a record
+   */
   deleteApi?: (row: TRow) => MaybePromise<unknown>;
+  /**
+   * @zh 删除前的钩子，返回 false 可阻止删除
+   * @en Hook run before deleting; return false to block it
+   */
   beforeDelete?: (row: TRow) => MaybePromise<boolean | void>;
+  /**
+   * @zh 删除确认文案中用于取名称的字段
+   * @en Field used to read the record name in the confirmation text
+   */
   deleteNameKey?: string;
 }
 
