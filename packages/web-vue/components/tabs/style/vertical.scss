@@ -57,6 +57,10 @@ $tabs-prefix-cls-vertical: string.unquote('#{$tabs-prefix-cls}-vertical');
     transition:
       top theme.$transition-duration-2 theme.$transition-timing-function-standard,
       height theme.$transition-duration-2 theme.$transition-timing-function-standard;
+
+    &:not(.#{$tabs-prefix-cls}-nav-ink-animation) {
+      transition: none;
+    }
   }
 
   &-nav-vertical &-nav-tab-list {

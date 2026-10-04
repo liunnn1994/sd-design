@@ -14,7 +14,7 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
   }
 
   .#{$tabs-prefix-cls} {
-    &-close-icon {
+    &-tab-close-btn {
       margin-right: $tabs-margin-close-icon-left;
       margin-left: 0;
     }
@@ -26,40 +26,28 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
     }
   }
 
-  .#{$tabs-prefix-cls}-nav-type-line {
-    > .#{$tabs-prefix-cls}-nav-type-horizontal {
-      .#{$tabs-prefix-cls}-header-scroll {
-        > .#{$tabs-prefix-cls}-header-title {
-          &:first-of-type {
-            margin-right: 0;
-          }
-        }
-      }
+  .#{$tabs-prefix-cls}-nav-type-line.#{$tabs-prefix-cls}-nav-horizontal {
+    .#{$tabs-prefix-cls}-nav-tab-list > .#{$tabs-prefix-cls}-tab:first-of-type {
+      margin-right: 0;
     }
   }
 
-  .#{$tabs-prefix-cls}-nav-type-line,
-  .#{$tabs-prefix-cls}-nav-type-text {
-    > .#{$tabs-prefix-cls}-nav-type-horizontal {
-      .#{$tabs-prefix-cls}-header-no-padding {
-        > .#{$tabs-prefix-cls}-header-title {
-          &:first-of-type {
-            margin-right: 0;
-          }
-        }
-      }
+  .#{$tabs-prefix-cls}-nav-type-line.#{$tabs-prefix-cls}-nav-horizontal,
+  .#{$tabs-prefix-cls}-nav-type-text.#{$tabs-prefix-cls}-nav-horizontal {
+    .#{$tabs-prefix-cls}-nav-tab-list-no-padding > .#{$tabs-prefix-cls}-tab:first-of-type {
+      margin-right: 0;
     }
   }
 
   .#{$tabs-prefix-cls}-nav-type-card,
   .#{$tabs-prefix-cls}-nav-type-card-gutter {
-    .#{$tabs-prefix-cls}-header-title-editable {
+    .#{$tabs-prefix-cls}-tab-closable {
       padding-right: $tabs-card-padding-title-horizontal;
       padding-left: $tabs-card-padding-title-right_editable;
     }
   }
 
-  .#{$tabs-prefix-cls}-nav-type-card .#{$tabs-prefix-cls}-header-title {
+  .#{$tabs-prefix-cls}-nav-type-card .#{$tabs-prefix-cls}-tab {
     border-right: $tabs-card-border-width solid $tabs-card-color-title-border;
     border-left: none;
 
@@ -75,8 +63,9 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
     }
   }
 
-  .#{$tabs-prefix-cls}-nav-type-card-gutter .#{$tabs-prefix-cls}-header-title {
+  .#{$tabs-prefix-cls}-nav-type-card-gutter .#{$tabs-prefix-cls}-tab {
     margin-right: $tabs-card-gutter-spacing-horizontal;
+    margin-left: 0;
 
     &:first-child {
       margin-right: 0;
@@ -84,7 +73,7 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
   }
 
   .#{$tabs-prefix-cls}-nav-type-text {
-    .#{$tabs-prefix-cls}-header-title {
+    .#{$tabs-prefix-cls}-tab {
       &:not(:first-of-type)::before {
         right: -($tabs-text-margin-title-horizontal + ($tabs-text-size-separator-width * 0.5));
         left: initial;
@@ -92,8 +81,8 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
     }
   }
 
-  .#{$tabs-prefix-cls}-nav-type-capsule.#{$tabs-prefix-cls}-nav-type-horizontal {
-    .#{$tabs-prefix-cls}-header-title:not(:first-of-type) {
+  .#{$tabs-prefix-cls}-nav-type-capsule.#{$tabs-prefix-cls}-nav-horizontal {
+    .#{$tabs-prefix-cls}-tab:not(:first-of-type) {
       margin-right: $tabs-capsule-margin-title-horizontal;
       margin-left: 0;
 

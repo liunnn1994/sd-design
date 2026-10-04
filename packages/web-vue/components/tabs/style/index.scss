@@ -235,7 +235,7 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
       left theme.$transition-duration-2 theme.$transition-timing-function-standard,
       width theme.$transition-duration-2 theme.$transition-timing-function-standard;
 
-    &.#{$tabs-prefix-cls}-header-ink-no-animation {
+    &:not(.#{$tabs-prefix-cls}-nav-ink-animation) {
       transition: none;
     }
 
@@ -312,13 +312,13 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
     }
   }
 
-  &-nav-type-line#{&}-nav-horizontal > &-tab:first-of-type {
+  &-nav-type-line#{&}-nav-horizontal &-nav-tab-list > &-tab:first-of-type {
     margin-left: $tabs-line-margin-title-horizontal_first;
   }
 
   // headerPadding==false & type === line/text & horizontal
   &-nav-type-line#{&}-nav-horizontal &-nav-tab-list-no-padding > &-tab:first-of-type,
-  &-nav-text#{&}-nav-horizontal &-nav-tab-list-no-padding > &-tab:first-of-type {
+  &-nav-type-text#{&}-nav-horizontal &-nav-tab-list-no-padding > &-tab:first-of-type {
     margin-left: 0;
   }
 
