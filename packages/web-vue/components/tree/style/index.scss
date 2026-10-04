@@ -378,13 +378,13 @@ $tree-node-prefix-cls: string.unquote('#{theme.$prefix}-tree-node');
     line-height: 1.667;
   }
 
-  .#{$tree-prefix-cls}-node-indent-block::after {
-    @include getLinePos($tree-size-mini-line-height);
+  .#{$tree-prefix-cls}-node-indent-block::before {
+    @include getIndentLinePos($tree-size-mini-line-height);
   }
 
   .#{$tree-prefix-cls}-node-is-leaf:not(.#{$tree-prefix-cls}-node-is-tail)
-    .#{$tree-prefix-cls}-node-indent::before {
-    @include getIndentLinePos($tree-size-mini-line-height);
+    .#{$tree-prefix-cls}-node-indent::after {
+    @include getLinePos($tree-size-mini-line-height);
   }
 }
 
@@ -415,13 +415,13 @@ $tree-node-prefix-cls: string.unquote('#{theme.$prefix}-tree-node');
     font-size: $tree-size-small-font-size;
   }
 
-  .#{$tree-prefix-cls}-node-indent-block::after {
-    @include getLinePos($tree-size-small-line-height);
+  .#{$tree-prefix-cls}-node-indent-block::before {
+    @include getIndentLinePos($tree-size-small-line-height);
   }
 
   .#{$tree-prefix-cls}-node-is-leaf:not(.#{$tree-prefix-cls}-node-is-tail)
-    .#{$tree-prefix-cls}-node-indent::before {
-    @include getIndentLinePos($tree-size-small-line-height);
+    .#{$tree-prefix-cls}-node-indent::after {
+    @include getLinePos($tree-size-small-line-height);
   }
 }
 
@@ -452,13 +452,13 @@ $tree-node-prefix-cls: string.unquote('#{theme.$prefix}-tree-node');
     font-size: $tree-size-large-font-size;
   }
 
-  .#{$tree-prefix-cls}-node-indent-block::after {
-    @include getLinePos($tree-size-large-line-height);
+  .#{$tree-prefix-cls}-node-indent-block::before {
+    @include getIndentLinePos($tree-size-large-line-height);
   }
 
   .#{$tree-prefix-cls}-node-is-leaf:not(.#{$tree-prefix-cls}-node-is-tail)
-    .#{$tree-prefix-cls}-node-indent::before {
-    @include getIndentLinePos($tree-size-large-line-height);
+    .#{$tree-prefix-cls}-node-indent::after {
+    @include getLinePos($tree-size-large-line-height);
   }
 }
 
