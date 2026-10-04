@@ -5,7 +5,7 @@
 @use '@components/auto-complete/style/token.scss' as token;
 @use '@components/auto-complete/style/token.scss' as *;
 
-$auto-complete-prefix-cls: string.unquote('#{theme.$prefix}-autocomplete');
+$auto-complete-prefix-cls: string.unquote('#{theme.$prefix}-auto-complete');
 $select-prefix-cls: string.unquote('#{theme.$prefix}-select');
 
 @function _str-replace-all($string, $search, $replace) {
@@ -40,15 +40,15 @@ $select-prefix-cls: string.unquote('#{theme.$prefix}-select');
 }
 
 .#{$auto-complete-prefix-cls} {
-  &-popup .#{$select-prefix-cls}-popup {
+  &-dropdown {
+    padding: $auto-complete-popup-padding-vertical 0;
     background-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-bg-popup'));
     border: 1px solid $auto-complete-popup-color-border;
     border-radius: $auto-complete-popup-border-radius;
     box-shadow: $auto-complete-popup-box-shadow;
 
-    .#{$select-prefix-cls}-popup-inner {
+    .#{$select-prefix-cls}-dropdown-list-wrapper {
       max-height: $auto-complete-popup-max-height;
-      padding: $auto-complete-popup-padding-vertical 0;
     }
 
     .#{$select-prefix-cls}-option {
@@ -64,9 +64,17 @@ $select-prefix-cls: string.unquote('#{theme.$prefix}-select');
           $class-suffix: string.unquote('');
         }
 
-        &#{$class-suffix} {
-          color: token-var('auto-complete-option-color-text_#{$status}');
-          background-color: token-var('auto-complete-option-color-bg_#{$status}');
+        @if $status == hover {
+          &-active,
+          &:not(#{&}-disabled):hover {
+            color: token-var('auto-complete-option-color-text_#{$status}');
+            background-color: token-var('auto-complete-option-color-bg_#{$status}');
+          }
+        } @else {
+          &#{$class-suffix} {
+            color: token-var('auto-complete-option-color-text_#{$status}');
+            background-color: token-var('auto-complete-option-color-bg_#{$status}');
+          }
         }
       }
 
