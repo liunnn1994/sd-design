@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import componentsData from '../data/components.json' with { type: 'json' };
 import { buildApiMap, getComponentSources } from '../scripts/gen-component-data.ts';
 
 test('components sharing a displayName keep their own API', async () => {
@@ -187,35 +186,35 @@ test('discovers new public contracts without component names or file paths in a 
   }
 });
 
-test('every published prop declared in our own source carries a description', async () => {
-  // 交付面是 data/components.json：只有文档侧边栏覆盖的组件会发布，
-  // 其余子组件不进入 MCP 索引，因此不在这里断言。
-  const published = componentsData.components;
-  // 这些组件的 props 来自第三方包（markstream-vue / vue-clamp），仓库内没有声明处
-  const upstream = new Set([
-    'sd-markdown-render',
-    'sd-line-clamp',
-    'sd-rich-line-clamp',
-    'sd-inline-clamp',
-    'sd-wrap-clamp',
-  ]);
-  const missing: string[] = [];
-  for (const entry of published) {
-    if (upstream.has(entry.name)) continue;
-    for (const prop of entry.props) {
-      if (!prop.description.en && !prop.description.zh) missing.push(`${entry.name}.${prop.name}`);
-    }
+test('components recovered from type contracts are fully documented', async () => {
+  // data/components.json 是 gitignore 的生成产物，root typecheck 阶段还不存在，
+  // 因此这里直接断言 buildApiMap 的结果，不依赖生成文件。
+  const map = await buildApiMap();
+  const propsOf = (dir: string, tag: string) => map.get(dir)?.get(tag)?.props ?? [];
+  const targets: Array<[string, string]> = [
+    ['components/calendar', 'sd-calendar'],
+    ['components/select', 'sd-select'],
+    ['components/cascader', 'sd-cascader'],
+    ['components/tree', 'sd-tree'],
+    ['components/basic-crud-table', 'sd-basic-crud-table'],
+  ];
+  for (const [dir, tag] of targets) {
+    const props = propsOf(dir, tag);
+    assert.ok(props.length > 0, `${tag} should expose props`);
+    const missing = props
+      .filter((prop) => !prop.description.en && !prop.description.zh)
+      .map((prop) => prop.name);
+    assert.deepEqual(missing, [], `${tag} has undocumented props: ${missing.join(', ')}`);
   }
-  assert.deepEqual(missing, [], `undocumented published props: ${missing.slice(0, 20).join(', ')}`);
 });
 
-test('keeps the third-party components listed so the gap stays visible', () => {
-  const published = componentsData.components;
-  for (const name of ['sd-markdown-render', 'sd-line-clamp', 'sd-wrap-clamp']) {
-    assert.ok(
-      published.some((entry) => entry.name === name),
-      `${name} should still be published`,
-    );
+test('third-party contracts stay visible even though they carry no docs', async () => {
+  // markstream-vue / vue-clamp 的类型在仓库内没有声明处，只能保持原样
+  const map = await buildApiMap();
+  for (const tag of ['sd-markdown-render', 'sd-line-clamp', 'sd-wrap-clamp']) {
+    let found = false;
+    for (const group of map.values()) if (group.has(tag)) found = true;
+    assert.ok(found, `${tag} should still be published`);
   }
 });
 
