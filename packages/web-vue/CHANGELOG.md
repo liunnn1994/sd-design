@@ -1,3 +1,24 @@
+## [5.8.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.8.1...web-vue-v5.8.2) (2026-10-04)
+
+
+### Bug Fixes
+
+* **auto-complete:** 修复下拉样式选择器失配导致主题配置无效 ([45bc41c](https://github.com/liunnn1994/sd-design/commit/45bc41c7bb3199dcd1fb30bd0ca6a0afbd69c6c1))
+* **calendar:** 修复超过百条事件时跨日事件遗漏 ([50519f7](https://github.com/liunnn1994/sd-design/commit/50519f7a2bcfb6f400f8686a841f6a73844040c8))
+* **checkbox:** 修复禁用项悬停时边框主题色失效 ([aa876cd](https://github.com/liunnn1994/sd-design/commit/aa876cdcdcbefd0e74c01c1caa7aa7ec947c111a))
+* **qr-code:** 补齐按需入口的加载状态样式 ([d66c825](https://github.com/liunnn1994/sd-design/commit/d66c82566b7ab38acfbadb90a102c678422c5cd0))
+* **select:** 修复无边框模式背景与边框样式失效 ([1d99cbf](https://github.com/liunnn1994/sd-design/commit/1d99cbfe5a357e0bab4014d40903ff8fcc607594))
+* **sender:** 修复操作按钮主题颜色与禁用样式失效 ([fef5a16](https://github.com/liunnn1994/sd-design/commit/fef5a168e09a3289d244abf7213bb90a3ea98dd6))
+* **switch:** 修复线型开关单侧自定义颜色时轨道透明 ([747af34](https://github.com/liunnn1994/sd-design/commit/747af3414377681faedce3176f527d76c101af17))
+* **table:** 修复左对齐筛选图标打开时背景样式失效 ([231e4d7](https://github.com/liunnn1994/sd-design/commit/231e4d7a9bdf8e5eab1e6b3c5c95c9835e69caab))
+* **tabs:** 修复首项间距与 RTL 样式及指示线动画失效 ([aa5ce84](https://github.com/liunnn1994/sd-design/commit/aa5ce84a56a7f66ec1ffe5e0639ec3901de1462a))
+* **tag:** 修复灰色标签主题样式未生效 ([1619d15](https://github.com/liunnn1994/sd-design/commit/1619d15a349cd0f9d031ae933515df2df6f2c1f2))
+* **tour:** 修复默认标题与描述间距主题配置失效 ([71a901a](https://github.com/liunnn1994/sd-design/commit/71a901ad17468aef1fb94d0f5c14d3eb841c8f09))
+* **tree:** 修复非默认尺寸节点连接线错位 ([24970d4](https://github.com/liunnn1994/sd-design/commit/24970d485060d151bd0f4b2a72ee8130bc869213))
+* **verification-code:** 补齐按需入口的输入格样式 ([b393d59](https://github.com/liunnn1994/sd-design/commit/b393d590a175744424f89b36ad74db37b9b72520))
+* **web-vue:** 修复按需样式产物的依赖与入口缺失 ([b8916b6](https://github.com/liunnn1994/sd-design/commit/b8916b61124c648a49b138d17122675d81fd944a))
+* **web-vue:** 补齐发布产物所需的运行时与类型依赖 ([fcfa408](https://github.com/liunnn1994/sd-design/commit/fcfa40886fa1f7dc4b34b45233b732bf4a3ac04a))
+
 ## [5.8.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.8.0...web-vue-v5.8.1) (2026-10-04)
 
 
