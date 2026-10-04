@@ -75,7 +75,7 @@ body.#{$tour-prefix-cls}-active .#{$tour-prefix-cls}-popover * {
 }
 
 .#{$tour-prefix-cls}-popover
-  .#{$tour-prefix-cls}-popover-title[style*='block']
+  .#{$tour-prefix-cls}-popover-title
   + .#{$tour-prefix-cls}-popover-description {
   margin-top: $tour-gap-title;
 }

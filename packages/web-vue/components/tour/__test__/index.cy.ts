@@ -19,6 +19,19 @@ const zIndex = (selector: string, value: string) =>
   });
 
 describe('Tour', () => {
+  it('applies the title gap without requiring inline title styles', () => {
+    cy.mount(Tour, { props: { defaultVisible: true, steps }, slots: defaultSlots });
+    cy.get('.sd-tour-popover').invoke('css', '--component-tour-gap-title', '13px');
+    cy.get('.sd-tour-popover-description').should('have.css', 'margin-top', '13px');
+    cy.get('@vue').then(({ wrapper }) =>
+      wrapper.setProps({
+        steps: [{ element: '#tour-step-a', popover: { description: '仅描述' } }],
+      }),
+    );
+    cy.get('.sd-tour-popover-title').should('not.exist');
+    cy.get('.sd-tour-popover-description').should('have.css', 'margin-top', '0px');
+  });
+
   afterEach(() => {
     // Tour portals its overlay/popover to document.body; remove only those,
     // never the whole body (that would wipe Cypress's [data-cy-root] mount point).
