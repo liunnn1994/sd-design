@@ -133,3 +133,50 @@ test('find_by_prop accepts camelCase and kebab-case prop names', async () => {
     await client.close();
   }
 });
+
+test('querying a documentation group returns every exported variant', async () => {
+  const client = await connect();
+  try {
+    const get = async (name: string) => {
+      const response = await client.callTool({ name: 'get_component', arguments: { name } });
+      const content = response.content[0];
+      assert.equal(content?.type, 'text');
+      return JSON.parse(content.text) as {
+        name: string;
+        props: Array<{ name: string }>;
+        variants?: Array<{ name: string; props: Array<{ name: string }> }>;
+      };
+    };
+    // 只给出文档分组名时，应当一次拿到全部公开导出，且彼此不能串味
+    for (const group of ['clamp', 'sd-clamp']) {
+      const detail = await get(group);
+      assert.equal(detail.name, 'sd-line-clamp');
+      assert.deepEqual(detail.variants?.map((variant) => variant.name).sort(), [
+        'sd-inline-clamp',
+        'sd-rich-line-clamp',
+        'sd-wrap-clamp',
+      ]);
+      for (const variant of detail.variants ?? []) {
+        assert.ok(variant.props.length > 0, `${variant.name} should expose its own props`);
+      }
+      // 四个变体的 prop 集合必须彼此不同，否则说明解析时串到了同一个组件
+      const fingerprints = [detail, ...(detail.variants ?? [])].map((entry) =>
+        entry.props
+          .map((prop) => prop.name)
+          .sort()
+          .join(','),
+      );
+      assert.equal(new Set(fingerprints).size, fingerprints.length, 'variants must differ');
+    }
+    // 精确到某个变体时，主组件就是它自己，变体列表列出其余三个
+    const wrap = await get('WrapClamp');
+    assert.equal(wrap.name, 'sd-wrap-clamp');
+    assert.deepEqual(wrap.variants?.map((variant) => variant.name).sort(), [
+      'sd-inline-clamp',
+      'sd-line-clamp',
+      'sd-rich-line-clamp',
+    ]);
+  } finally {
+    await client.close();
+  }
+});

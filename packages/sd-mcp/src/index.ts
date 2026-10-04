@@ -41,6 +41,8 @@ interface ComponentEntry {
   config?: PropDescriptor[];
   methods?: PropDescriptor[];
   aliases?: string[];
+  /** 同一文档分组下的其它公开导出（如 clamp 的四个变体） */
+  variants?: string[];
 }
 
 interface ComponentsData {
@@ -71,7 +73,15 @@ for (const component of components) {
   byKey.set(normalizeKey(component.name), component);
   byKey.set(component.importName.toLowerCase(), component);
   for (const alias of component.aliases ?? []) byKey.set(normalizeKey(alias), component);
+  // 变体名不额外建索引：每个变体在上面的 name/importName 处已经各自可被解析。
 }
+
+/** 解析同组其它变体的完整条目；只查组名（如 clamp）时用于一次返回全部变体。 */
+const resolveVariants = (component: ComponentEntry): ComponentEntry[] =>
+  (component.variants ?? [])
+    .map((name) => byKey.get(name.toLowerCase()))
+    .filter((entry): entry is ComponentEntry => Boolean(entry))
+    .filter((entry) => entry.name !== component.name);
 
 const findComponent = (input?: unknown): ComponentEntry | undefined => {
   if (typeof input !== 'string' || !input.trim()) {
@@ -101,6 +111,7 @@ const summary = (component: ComponentEntry) => ({
   propCount: component.props.length,
   eventCount: component.events.length,
   slotCount: component.slots.length,
+  ...(component.variants?.length ? { variantCount: component.variants.length } : {}),
   ...(component.kind
     ? {
         kind: component.kind,
@@ -146,6 +157,7 @@ const search = (query: string) => {
       component.title,
       component.description,
       ...(component.aliases ?? []),
+      ...(component.variants ?? []),
       ...[...component.props, ...(component.config ?? []), ...(component.methods ?? [])].flatMap(
         (prop) => [prop.name, prop.description.zh, prop.description.en, prop.type],
       ),
@@ -273,12 +285,27 @@ const createServer = () => {
         return notFound(name);
       }
 
+      // 只给出文档分组名（如 clamp）时，一次返回该组的全部公开变体，
+      // 免去调用方逐个猜测具体导出名。
+      const variants = resolveVariants(component);
+
       return result({
         ...summary(component),
         import: importStatements(component),
         props: component.props,
         events: component.events,
         slots: component.slots,
+        ...(variants.length
+          ? {
+              variants: variants.map((variant) => ({
+                ...summary(variant),
+                import: importStatements(variant),
+                props: variant.props,
+                events: variant.events,
+                slots: variant.slots,
+              })),
+            }
+          : {}),
         ...(component.kind ? { config: component.config, methods: component.methods } : {}),
       });
     },

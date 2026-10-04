@@ -307,16 +307,18 @@ const main = async () => {
     const group = apiMap.get(`components/${item.name}`);
     const tag = resolveTagName(toPascalCase(item.name));
     if (group?.has(tag) || !group?.size)
-      return [{ ...item, docName: item.name, aliases: [] as string[] }];
+      return [{ ...item, docName: item.name, aliases: [] as string[], variants: [] as string[] }];
     // A documentation group can represent multiple publicly exported components.
-    return [...group.values()]
-      .filter((api) => api.importName)
-      .map((api, index) => ({
-        ...item,
-        name: api.name.slice(3),
-        docName: item.name,
-        aliases: index === 0 ? [item.name, tag] : [],
-      }));
+    const expanded = [...group.values()].filter((api) => api.importName);
+    // 只查组名（如 clamp）时应当能看到全部变体，因此把同组名写进每个变体。
+    const variants = expanded.length > 1 ? expanded.map((api) => api.name) : [];
+    return expanded.map((api, index) => ({
+      ...item,
+      name: api.name.slice(3),
+      docName: item.name,
+      aliases: index === 0 ? [item.name, tag] : [],
+      variants,
+    }));
   });
   const webPkg: PackageJson = JSON.parse(
     await readFile(path.join(WEB_VUE, 'package.json'), 'utf8'),
@@ -364,6 +366,7 @@ const main = async () => {
       slots,
       ...(api?.config ? { kind: 'service', config: api.config, methods: api.methods } : {}),
       ...(item.aliases.length ? { aliases: item.aliases } : {}),
+      ...(item.variants.length ? { variants: item.variants } : {}),
     });
   }
 
