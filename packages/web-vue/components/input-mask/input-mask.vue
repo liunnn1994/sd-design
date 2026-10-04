@@ -47,6 +47,7 @@
   import { getPrefixCls } from '../_utils/global-config';
   import { splitGraphemes } from '../_utils/grapheme';
   import Input from '../input';
+  import { useI18n } from '../locale';
   import { formatInputMask, resolveDeletion, stripMaskPlaceholders } from './mask-engine';
   import { inputMaskPresets } from './presets';
 
@@ -188,8 +189,12 @@
     }).value;
   });
 
+  const { t } = useI18n();
+
   const mergedPlaceholder = computed(
-    () => props.placeholder ?? presetDefinition.value?.placeholder,
+    () =>
+      props.placeholder ??
+      (props.preset === 'ip' ? t('inputMask.ipPlaceholder') : presetDefinition.value?.placeholder),
   );
   const mergedInputAttrs = computed(() => {
     const result: Record<string, unknown> = { ...props.inputAttrs };

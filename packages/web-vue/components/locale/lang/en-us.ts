@@ -77,12 +77,41 @@ const lang: SdLang = {
   locale: 'en-US',
   modelSelector: {
     title: 'Select a model',
+    empty: 'No matching models found',
   },
   toolbar: {
     search: 'Search',
     reset: 'Reset',
     expand: 'Expand',
     collapse: 'Collapse',
+  },
+  qrCode: {
+    expired: 'QR code expired',
+    scanned: 'QR code scanned',
+    refresh: 'Refresh',
+  },
+  jsonForm: {
+    inputPlaceholder: 'Enter {0}',
+    selectPlaceholder: 'Select {0}',
+    required: 'This field is required',
+    requiredField: '{0} is required',
+  },
+  basicCrudTable: {
+    create: 'Create',
+    createTitle: 'Create',
+    edit: 'Edit',
+    delete: 'Delete',
+    actions: 'Actions',
+    deleteConfirm: 'Delete this record?',
+    deleteNamedConfirm: 'Delete "{0}"?',
+  },
+  tour: {
+    previous: 'Previous',
+    next: 'Next',
+    done: 'Done',
+  },
+  inputMask: {
+    ipPlaceholder: '192.168.1.1 or 2001:db8::1',
   },
   readonlyTip: 'Read-only mode',
   empty: {
@@ -179,6 +208,12 @@ const lang: SdLang = {
     history: 'History Colors',
     preset: 'Preset Colors',
     empty: 'Empty',
+    addCurrent: 'Add current color',
+    angle: 'Angle',
+    recent: 'Recent colors',
+    swatches: 'System swatches',
+    monochrome: 'Solid',
+    gradient: 'Gradient',
   },
   kvList: kvListEnUS,
   a11y: {

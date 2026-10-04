@@ -2,19 +2,24 @@
   <div :class="`${prefixCls}-status`" role="status" aria-live="polite">
     <sd-spin v-if="status === 'loading'" v-bind="spinProps" />
     <template v-else-if="status === 'expired'">
-      <p :class="`${prefixCls}-expired`">二维码已过期</p>
+      <p :class="`${prefixCls}-expired`">{{ t('qrCode.expired') }}</p>
       <button type="button" :class="`${prefixCls}-refresh-btn`" @click="handleRefresh">
-        刷新
+        {{ t('qrCode.refresh') }}
       </button>
     </template>
-    <p v-else-if="status === 'scanned'" :class="`${prefixCls}-scanned`">二维码已扫码</p>
+    <p v-else-if="status === 'scanned'" :class="`${prefixCls}-scanned`">{{
+      t('qrCode.scanned')
+    }}</p>
   </div>
 </template>
 
 <script lang="ts" setup>
   import type { QrCodeStatusProps } from './types';
 
+  import { useI18n } from '../locale';
   import SdSpin from '../spin';
+
+  const { t } = useI18n();
 
   const { prefixCls, status, spinProps } = defineProps<QrCodeStatusProps>();
 

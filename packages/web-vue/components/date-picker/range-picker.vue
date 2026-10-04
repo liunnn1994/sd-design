@@ -642,15 +642,10 @@
       return placeholder.value.filter((item): item is string => typeof item === 'string');
     }
 
-    const fallback = {
-      date: datePickerT('datePicker.rangePlaceholder.date'),
-      month: datePickerT('datePicker.rangePlaceholder.month'),
-      year: datePickerT('datePicker.rangePlaceholder.year'),
-      week: datePickerT('datePicker.rangePlaceholder.week'),
-      quarter: datePickerT('datePicker.rangePlaceholder.quarter'),
-    }[mode.value];
-
-    return (fallback ?? datePickerT('datePicker.rangePlaceholder.date')) as unknown as string[];
+    return [
+      datePickerT(`datePicker.rangePlaceholder.${mode.value}.0`),
+      datePickerT(`datePicker.rangePlaceholder.${mode.value}.1`),
+    ];
   });
 
   const {

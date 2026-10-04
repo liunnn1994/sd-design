@@ -532,8 +532,12 @@ export const useConfig = (
 
   // React to locale changes from either the `locale` prop or the library's global locale.
   watch(
-    () => props.locale || globalLocal.value,
-    (newLocale) => loadTexts(newLocale),
+    [
+      () => props.locale || globalLocal.value,
+      () => (props.locale ? undefined : i18nMessage.value.calendar),
+    ],
+    ([newLocale]) => loadTexts(newLocale),
+    { deep: true },
   );
 
   // When startWeekOnSunday changes, re-initialize dayjs locale with new weekStart.

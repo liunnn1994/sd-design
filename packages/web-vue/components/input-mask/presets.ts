@@ -1,5 +1,7 @@
 import type { InputMaskPresetDefinition, InputMaskPresetName } from './types';
 
+import zhCN from '../locale/lang/zh-cn';
+
 const testPattern = (pattern: RegExp, value: string) => {
   pattern.lastIndex = 0;
   return pattern.test(value);
@@ -88,7 +90,7 @@ export const inputMaskPresets: Readonly<Record<InputMaskPresetName, InputMaskPre
       ),
   },
   'ip': {
-    placeholder: '192.168.1.1 或 2001:db8::1',
+    placeholder: zhCN.inputMask!.ipPlaceholder,
     inputMode: 'text',
     normalize: filterCharacters(/[0-9A-Fa-f:.]/),
     accepts: (value) => acceptsIpv4(value) || acceptsIpv6(value),

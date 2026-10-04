@@ -96,6 +96,7 @@
 
   import { FormItem } from '../form';
   import { Col, Row } from '../grid';
+  import { useI18n } from '../locale';
   import JsonFormComponent from './json-form-component.vue';
   import {
     JSON_FORM_COMPONENT_TYPES,
@@ -158,6 +159,8 @@
     },
   });
 
+  const { t } = useI18n();
+
   const resolvedRules = computed(() => {
     if (props.schema.formItemRules) {
       return props.schema.formItemRules;
@@ -167,7 +170,9 @@
       return [
         {
           required: true,
-          message: props.schema.label ? `${props.schema.label}不能为空` : '必填项不能为空',
+          message: props.schema.label
+            ? t('jsonForm.requiredField', props.schema.label)
+            : t('jsonForm.required'),
         },
       ];
     }

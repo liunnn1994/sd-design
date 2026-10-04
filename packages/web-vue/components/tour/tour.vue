@@ -248,6 +248,7 @@
   import { createFloatingOptions } from '../_utils/floating';
   import { getPrefixCls } from '../_utils/global-config';
   import Button from '../button';
+  import { useI18n } from '../locale';
 
   defineOptions({
     name: 'Tour',
@@ -255,9 +256,6 @@
   });
 
   const DEFAULT_SHOW_BUTTONS: TourAllowedButton[] = ['next', 'previous', 'close'];
-  const DEFAULT_PREVIOUS_TEXT = '上一步';
-  const DEFAULT_NEXT_TEXT = '下一步';
-  const DEFAULT_DONE_TEXT = '完成';
   const DEFAULT_PROGRESS_TEXT = '{{current}} / {{total}}';
 
   const props = defineProps({
@@ -587,6 +585,8 @@
   }>();
 
   const slots = useSlots();
+  const { t } = useI18n();
+
   const prefixCls = getPrefixCls('tour');
   const overlayClass = `${prefixCls}-overlay`;
   const overlayAnimatedClass = `${prefixCls}-overlay-animated`;
@@ -697,9 +697,9 @@
       showButtons: DEFAULT_SHOW_BUTTONS,
       disableButtons: [],
       overlayColor: '#000',
-      prevBtnText: DEFAULT_PREVIOUS_TEXT,
-      nextBtnText: DEFAULT_NEXT_TEXT,
-      doneBtnText: DEFAULT_DONE_TEXT,
+      prevBtnText: t('tour.previous'),
+      nextBtnText: t('tour.next'),
+      doneBtnText: t('tour.done'),
       progressText: DEFAULT_PROGRESS_TEXT,
       ...userConfig.value,
       ...override,
@@ -845,17 +845,15 @@
   }));
   const previousButtonText = computed(() => {
     return (
-      resolvedPopover.value.prevBtnText ?? mergedConfig.value.prevBtnText ?? DEFAULT_PREVIOUS_TEXT
+      resolvedPopover.value.prevBtnText ?? mergedConfig.value.prevBtnText ?? t('tour.previous')
     );
   });
   const nextButtonText = computed(() => {
     if (isLastStep.value) {
-      return (
-        resolvedPopover.value.doneBtnText ?? mergedConfig.value.doneBtnText ?? DEFAULT_DONE_TEXT
-      );
+      return resolvedPopover.value.doneBtnText ?? mergedConfig.value.doneBtnText ?? t('tour.done');
     }
 
-    return resolvedPopover.value.nextBtnText ?? mergedConfig.value.nextBtnText ?? DEFAULT_NEXT_TEXT;
+    return resolvedPopover.value.nextBtnText ?? mergedConfig.value.nextBtnText ?? t('tour.next');
   });
   const mergedProgressText = computed(() => {
     const template =

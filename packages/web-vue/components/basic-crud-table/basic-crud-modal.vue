@@ -38,6 +38,7 @@
   } from './types';
 
   import JsonForm from '../json-form';
+  import { useI18n } from '../locale';
   import Modal from '../modal';
 
   defineOptions({ name: 'BasicCrudModal' });
@@ -78,7 +79,11 @@
   const editingRow = shallowRef<TableData>();
   const initialModel = shallowRef<UnknownRecord>(cloneDeep(model.value));
 
-  const resolvedTitle = computed(() => (type.value === 'create' ? '创建' : '编辑'));
+  const { t } = useI18n();
+
+  const resolvedTitle = computed(() =>
+    t(type.value === 'create' ? 'basicCrudTable.createTitle' : 'basicCrudTable.edit'),
+  );
   const slotContext = computed(() => ({
     type: type.value,
     row: editingRow.value,

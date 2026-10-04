@@ -2,7 +2,7 @@ import { ref, reactive, inject, computed } from 'vue';
 
 import type { SdI18nMessages, SdLang } from './interface';
 
-import { isString, isObject } from '../_utils/is';
+import { isString, isObject, isArray } from '../_utils/is';
 import { configProviderInjectionKey } from '../config-provider/context';
 import { DEFAULT_LOCALE } from './constant';
 import zhCN from './lang/zh-cn';
@@ -64,10 +64,7 @@ export const useI18n = () => {
     let temp: unknown = message;
 
     for (const keyItem of keyArray) {
-      if (!isObject(temp) || !temp[keyItem]) {
-        return undefined;
-      }
-      temp = temp[keyItem];
+      temp = isObject(temp) ? temp[keyItem] : isArray(temp) ? temp[Number(keyItem)] : undefined;
     }
 
     return isString(temp) ? temp : undefined;

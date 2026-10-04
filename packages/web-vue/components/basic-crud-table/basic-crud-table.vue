@@ -6,7 +6,9 @@
       </slot>
       <slot name="header__extra" />
       <div v-if="!showToolbar && showCreate" :class="`${prefixCls}-header-actions`">
-        <Button type="primary" v-bind="createBtn" @click="handleCreate">新建</Button>
+        <Button type="primary" v-bind="createBtn" @click="handleCreate">{{
+          t('basicCrudTable.create')
+        }}</Button>
       </div>
 
       <Toolbar
@@ -29,7 +31,7 @@
         <template #action-append>
           <slot name="toolbar__action_middle" />
           <Button v-if="showCreate" type="primary" v-bind="createBtn" @click="handleCreate">
-            新建
+            {{ t('basicCrudTable.create') }}
           </Button>
           <slot name="toolbar__action_append" />
         </template>
@@ -62,7 +64,7 @@
               v-bind="resolveRowLinkProps(editBtn, data.record)"
               @click="handleEdit(data.record, data)"
             >
-              编辑
+              {{ t('basicCrudTable.edit') }}
             </Link>
             <Popconfirm
               v-if="showDelete"
@@ -76,7 +78,7 @@
                 status="danger"
                 v-bind="resolveRowLinkProps(deleteBtn, data.record)"
               >
-                删除
+                {{ t('basicCrudTable.delete') }}
               </Link>
             </Popconfirm>
             <slot name="table__action_append" v-bind="data" />
@@ -138,6 +140,7 @@
   import Button from '../button';
   import { configProviderInjectionKey } from '../config-provider/context';
   import Link from '../link';
+  import { useI18n } from '../locale';
   import Popconfirm from '../popconfirm';
   import Space from '../space';
   import Spin from '../spin';
@@ -223,6 +226,8 @@
   const total = shallowRef(0);
   const sorter = shallowRef<UnknownRecord>({});
   const fetchData = shallowRef<unknown>();
+  const { t } = useI18n();
+
   const prefixCls = getPrefixCls('basic-crud-table');
   const cls = computed(() => [
     prefixCls,
@@ -246,7 +251,7 @@
       ? [
           ...columns,
           {
-            title: '操作',
+            title: t('basicCrudTable.actions'),
             dataIndex: '__basic_crud_action__',
             slotName: 'basic-crud-action',
             width: actionWidth,
@@ -381,15 +386,21 @@
   async function handleEdit(row: TableData, context?: unknown) {
     if (await modalRef.value?.open(row)) emit('edit', row, context);
   }
-  const deleteConfirmContent = ref('确定要删除此条记录吗？');
+  const customDeleteConfirmContent = ref<string>();
   const pendingDeleteRow = shallowRef<TableData>();
+  const deleteConfirmContent = computed(() => {
+    if (customDeleteConfirmContent.value !== undefined) return customDeleteConfirmContent.value;
+    const name = deleteNameKey ? pendingDeleteRow.value?.[deleteNameKey] : undefined;
+    return name
+      ? t('basicCrudTable.deleteNamedConfirm', String(name))
+      : t('basicCrudTable.deleteConfirm');
+  });
   let deleteContentRequestId = 0;
 
-  function resolveDeleteContent(row: TableData): string | Promise<string> {
+  function resolveDeleteContent(row: TableData): string | Promise<string> | undefined {
     if (isString(deleteContent)) return deleteContent;
     if (isFunction(deleteContent)) return deleteContent(row);
-    const name = deleteNameKey ? row[deleteNameKey] : undefined;
-    return name ? `确定删除【${String(name)}】吗？` : '确定要删除此条记录吗？';
+    return undefined;
   }
 
   async function handleDeletePopupChange(visible: boolean, row: TableData) {
@@ -402,10 +413,10 @@
     }
     pendingDeleteRow.value = row;
     const requestId = ++deleteContentRequestId;
-    deleteConfirmContent.value = '确定要删除此条记录吗？';
+    customDeleteConfirmContent.value = undefined;
     try {
       const content = await resolveDeleteContent(row);
-      if (requestId === deleteContentRequestId) deleteConfirmContent.value = content;
+      if (requestId === deleteContentRequestId) customDeleteConfirmContent.value = content;
     } catch (error) {
       if (requestId === deleteContentRequestId) emit('error', error);
     }

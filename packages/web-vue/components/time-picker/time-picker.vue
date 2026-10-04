@@ -466,7 +466,7 @@
     }
     // 范围
     if (isUndefined(_placeholder)) {
-      return t('datePicker.rangePlaceholder.time');
+      return [t('datePicker.rangePlaceholder.time.0'), t('datePicker.rangePlaceholder.time.1')];
     }
     if (!isArray(_placeholder)) {
       return [_placeholder, _placeholder];

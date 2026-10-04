@@ -20,6 +20,7 @@
 <script lang="ts" setup>
   import { computed } from 'vue';
 
+  import { useI18n } from '../locale';
   import { JSON_FORM_COMPONENT_TYPES, type JsonFormSchema } from './types';
   import { mergeJsonFormClassName, shouldStretchJsonFormControl } from './utils';
 
@@ -43,6 +44,8 @@
     );
   });
 
+  const { t } = useI18n();
+
   const defaultPlaceholder = computed(() => {
     const type = props.schema.type ?? JSON_FORM_COMPONENT_TYPES.input;
 
@@ -61,7 +64,7 @@
         ] as string[]
       ).includes(type)
     ) {
-      return props.schema.label ? `请输入${props.schema.label}` : undefined;
+      return props.schema.label ? t('jsonForm.inputPlaceholder', props.schema.label) : undefined;
     }
 
     if (
@@ -76,7 +79,7 @@
         ] as string[]
       ).includes(type)
     ) {
-      return props.schema.label ? `请选择${props.schema.label}` : undefined;
+      return props.schema.label ? t('jsonForm.selectPlaceholder', props.schema.label) : undefined;
     }
 
     return undefined;

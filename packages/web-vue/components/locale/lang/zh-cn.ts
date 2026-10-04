@@ -75,12 +75,41 @@ const lang: SdLang = {
   locale: DEFAULT_LOCALE,
   modelSelector: {
     title: '模型选择',
+    empty: '未找到匹配的模型',
   },
   toolbar: {
     search: '查询',
     reset: '重置',
     expand: '展开',
     collapse: '收起',
+  },
+  qrCode: {
+    expired: '二维码已过期',
+    scanned: '二维码已扫码',
+    refresh: '刷新',
+  },
+  jsonForm: {
+    inputPlaceholder: '请输入{0}',
+    selectPlaceholder: '请选择{0}',
+    required: '必填项不能为空',
+    requiredField: '{0}不能为空',
+  },
+  basicCrudTable: {
+    create: '新建',
+    createTitle: '创建',
+    edit: '编辑',
+    delete: '删除',
+    actions: '操作',
+    deleteConfirm: '确定要删除此条记录吗？',
+    deleteNamedConfirm: '确定删除【{0}】吗？',
+  },
+  tour: {
+    previous: '上一步',
+    next: '下一步',
+    done: '完成',
+  },
+  inputMask: {
+    ipPlaceholder: '192.168.1.1 或 2001:db8::1',
   },
   readonlyTip: '当前为只读模式',
   empty: {
@@ -222,6 +251,12 @@ const lang: SdLang = {
     history: '最近使用颜色',
     preset: '系统预设颜色',
     empty: '暂无',
+    addCurrent: '添加当前颜色',
+    angle: '角度',
+    recent: '最近使用',
+    swatches: '系统色板',
+    monochrome: '单色',
+    gradient: '渐变',
   },
   kvList: {
     switchToList: '切换到列表编辑',

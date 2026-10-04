@@ -10,7 +10,7 @@
           :disabled="props.disabled"
           @click="addRecentColor"
         >
-          添加当前颜色
+          {{ t('colorPicker.addCurrent') }}
         </button>
       </div>
       <div :class="`${prefixCls}-colors-wrapper`">
@@ -27,7 +27,7 @@
             <div :class="`${prefixCls}-block`" :style="getColorBlockStyle(value)" />
           </button>
         </div>
-        <span v-else :class="`${prefixCls}-colors-empty`">暂无颜色</span>
+        <span v-else :class="`${prefixCls}-colors-empty`">{{ t('colorPicker.empty') }}</span>
       </div>
     </div>
   </DefineColorSection>
@@ -68,7 +68,7 @@
         />
       </div>
       <div :class="`${prefixCls}-gradient-meta`">
-        <span :class="`${prefixCls}-gradient-label`">角度</span>
+        <span :class="`${prefixCls}-gradient-label`">{{ t('colorPicker.angle') }}</span>
         <InputNumber
           :class="`${prefixCls}-gradient-degree`"
           size="mini"
@@ -143,13 +143,13 @@
     <div v-if="recentColorList || swatchColorList?.length" :class="`${prefixCls}-panel-colors`">
       <ReuseColorSection
         v-if="recentColorList"
-        text="最近使用"
+        :text="t('colorPicker.recent')"
         :values="recentColorList"
         trigger="recent"
       />
       <ReuseColorSection
         v-if="swatchColorList?.length"
-        text="系统色板"
+        :text="t('colorPicker.swatches')"
         :values="swatchColorList"
         trigger="preset"
       />
@@ -210,10 +210,10 @@
 
   type ColorSectionTrigger = 'recent' | 'preset';
 
-  const modeOptions = [
-    { value: 'monochrome', label: '单色' },
-    { value: 'linear-gradient', label: '渐变' },
-  ];
+  const modeOptions = computed(() => [
+    { value: 'monochrome', label: t('colorPicker.monochrome') },
+    { value: 'linear-gradient', label: t('colorPicker.gradient') },
+  ]);
   const RadioGroup = Radio.Group;
   const clampPercent = (value: number) => Math.min(100, Math.max(0, value));
   const getGradientPointComparableColor = (point: GradientColorPoint) =>

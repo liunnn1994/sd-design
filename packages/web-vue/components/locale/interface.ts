@@ -187,6 +187,35 @@ export interface SdLang {
   };
   modelSelector?: {
     title: string;
+    empty?: string;
+  };
+  qrCode?: {
+    expired: string;
+    scanned: string;
+    refresh: string;
+  };
+  jsonForm?: {
+    inputPlaceholder: string;
+    selectPlaceholder: string;
+    required: string;
+    requiredField: string;
+  };
+  basicCrudTable?: {
+    create: string;
+    createTitle: string;
+    edit: string;
+    delete: string;
+    actions: string;
+    deleteConfirm: string;
+    deleteNamedConfirm: string;
+  };
+  tour?: {
+    previous: string;
+    next: string;
+    done: string;
+  };
+  inputMask?: {
+    ipPlaceholder: string;
   };
   empty: {
     description: string;
@@ -285,6 +314,12 @@ export interface SdLang {
     history: string;
     preset: string;
     empty: string;
+    addCurrent?: string;
+    angle?: string;
+    recent?: string;
+    swatches?: string;
+    monochrome?: string;
+    gradient?: string;
   };
   kvList: {
     switchToList: string;

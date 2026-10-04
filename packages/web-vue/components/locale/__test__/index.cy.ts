@@ -1,5 +1,6 @@
 import { defineComponent, h } from 'vue';
 
+import ConfigProvider from '../../config-provider';
 import { addI18nMessages, getLocale, useLocale, useI18n } from '../index';
 import zhCN from '../lang/zh-cn';
 
@@ -46,6 +47,46 @@ const makeTestLang = (description: string) => ({
 });
 
 describe('Locale', () => {
+  it('resolves every string leaf, including array entries, in each language pack', () => {
+    Object.values(languageModules).forEach((loadLanguage) => {
+      cy.then(() => loadLanguage()).then(({ default: lang }) => {
+        const messages: Record<string, string> = {};
+        const collect = (value: unknown, path: string) => {
+          if (typeof value === 'string') {
+            messages[path] = value;
+          } else if (value && typeof value === 'object') {
+            Object.entries(value).forEach(([key, child]) =>
+              collect(child, path ? `${path}.${key}` : key),
+            );
+          }
+        };
+        collect(lang, '');
+        const Harness = defineComponent({
+          setup() {
+            const { t } = useI18n();
+            return () =>
+              h(
+                'div',
+                Object.keys(messages).map((key) => h('span', { 'data-key': key }, t(key))),
+              );
+          },
+        });
+        cy.mount(
+          defineComponent({
+            setup: () => () => h(ConfigProvider, { locale: lang }, () => h(Harness)),
+          }),
+        );
+        cy.get('[data-key]').should(($elements) => {
+          $elements.each((_, element) => {
+            expect(element.textContent, `${lang.locale}: ${element.dataset.key}`).to.equal(
+              messages[element.dataset.key!],
+            );
+          });
+        });
+      });
+    });
+  });
+
   it('all language files match the zh-cn structure', () => {
     cy.then(async () => {
       const languages = Object.entries(languageModules).filter(
