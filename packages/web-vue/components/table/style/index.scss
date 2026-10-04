@@ -585,7 +585,7 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
       }
 
       &:hover,
-      &-open {
+      &.#{$table-prefix-cls}-filters-open {
         background: none;
       }
 
