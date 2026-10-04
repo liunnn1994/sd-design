@@ -1,37 +1,36 @@
 import { getScrollBarWidth } from '../dom';
 
+// Cypress 的 AUT 跑在 iframe 里，documentElement.scrollWidth 会被钳到视口宽度，
+// 加一个超宽的子节点并不会真正产生横向溢出。要让旧实现算出负数，
+// 必须直接把 body 撑宽（body.offsetWidth 会跟着变，而 scrollWidth 不会）。
+const withOversizedBody = (run: () => void) => {
+  const previous = document.body.style.width;
+  document.body.style.width = '4000px';
+  try {
+    run();
+  } finally {
+    document.body.style.width = previous;
+  }
+};
+
 describe('getScrollBarWidth', () => {
-  let style: HTMLStyleElement;
-
-  beforeEach(() => {
-    style = document.createElement('style');
-    document.head.appendChild(style);
-  });
-
-  afterEach(() => {
-    style.remove();
-  });
-
   it('does not return a negative width for BODY when the page overflows horizontally', () => {
-    style.textContent = 'body { height: 3000px } #sd-probe-wide { width: 4000px }';
-    const wide = document.createElement('div');
-    wide.id = 'sd-probe-wide';
-    document.body.appendChild(wide);
-
-    // 横向溢出时 scrollWidth 大于视口宽度，不能拿它算滚动条宽度
-    expect(getScrollBarWidth(document.body)).to.be.at.least(0);
-
-    wide.remove();
+    withOversizedBody(() => {
+      // 旧实现用 scrollWidth 推算，这里会得到 500 - 4000 = -3500
+      expect(getScrollBarWidth(document.body)).to.be.at.least(0);
+    });
   });
 
   it('measures a scrollable element from its offset and client width', () => {
-    style.textContent = '#sd-probe-scroll { width: 100px; height: 50px; overflow: scroll }';
-    const el = document.createElement('div');
-    el.id = 'sd-probe-scroll';
-    document.body.appendChild(el);
+    const element = document.createElement('div');
+    Object.defineProperty(element, 'scrollTop', { writable: true, configurable: true, value: 0 });
+    element.style.width = '100px';
+    element.style.height = '50px';
+    element.style.overflow = 'scroll';
+    document.body.appendChild(element);
 
-    expect(getScrollBarWidth(el)).to.eq(el.offsetWidth - el.clientWidth);
+    expect(getScrollBarWidth(element)).to.eq(element.offsetWidth - element.clientWidth);
 
-    el.remove();
+    element.remove();
   });
 });
