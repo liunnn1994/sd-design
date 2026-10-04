@@ -1,3 +1,10 @@
+## [5.8.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.8.0...web-vue-v5.8.1) (2026-10-04)
+
+
+### Bug Fixes
+
+* 🐛 修复类型被覆盖的问题 ([bd295b7](https://github.com/liunnn1994/sd-design/commit/bd295b7deac13e5579096398d9b6b8e8384c94d9))
+
 # [5.8.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.7.6...web-vue-v5.8.0) (2026-10-04)
 
 
