@@ -1,3 +1,15 @@
+# [5.8.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.7.6...web-vue-v5.8.0) (2026-10-04)
+
+
+### Bug Fixes
+
+* **mcp:** 统一文档筛选口径、避免 gen 阻断 CI、消除内部类型名与 camelCase 漏检 ([9f88b18](https://github.com/liunnn1994/sd-design/commit/9f88b1814d32cf7d46e3e9eeff8d1fc5cdbbfe16))
+
+
+### Features
+
+* **mcp:** 只查文档分组名时一次返回全部公开导出变体 ([04faba9](https://github.com/liunnn1994/sd-design/commit/04faba9a0f662d014ef7484ac7cb820667c2340e))
+
 ## [5.7.6](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.7.5...web-vue-v5.7.6) (2026-10-04)
 
 
