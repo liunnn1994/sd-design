@@ -624,6 +624,17 @@ export const useEvents = (
       }
     }
 
+    // Multi-day events are kept outside byYear, so check their ranges separately.
+    for (const id of eventsIndex.multiday) {
+      const event = byId[id];
+      if (!event || excludeSet.has(event._.id)) continue;
+      if (schedule !== null && schedule !== event.schedule) continue;
+      if (background === false && event.background) continue;
+      if (config.allDayEvents && ((allDay && !event.allDay) || (!allDay && event.allDay))) continue;
+      const { eventStart, eventEnd } = getEventRangeTimestamps(event);
+      if (eventEnd > rangeStartTimestamp && eventStart < rangeEndTimestamp) eventsArray.push(event);
+    }
+
     return eventsArray;
   };
 
