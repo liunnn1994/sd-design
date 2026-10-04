@@ -1,3 +1,11 @@
+## [5.8.3](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.8.2...web-vue-v5.8.3) (2026-10-04)
+
+
+### Bug Fixes
+
+* 🐛 修复 i18n 的问题 ([b5726dc](https://github.com/liunnn1994/sd-design/commit/b5726dc775cf2c9c7caeb01d586bbd82a893bdbf))
+* 🐛 修复文档的间距问题 ([876dd1c](https://github.com/liunnn1994/sd-design/commit/876dd1c21ef17cdcd35fa315b53ed4a065b4b4b8))
+
 ## [5.8.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.8.1...web-vue-v5.8.2) (2026-10-04)
 
 
