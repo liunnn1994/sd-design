@@ -91,16 +91,16 @@ $sender-prefix-cls: string.unquote('#{theme.$prefix}-sender');
   }
 
   &-actions-btn {
-    &.sd-button-text {
+    .#{$sender-prefix-cls} &.sd-btn-text {
       color: $sender-color-primary;
     }
 
-    &-disabled.sd-button-text {
+    .#{$sender-prefix-cls} &-disabled.sd-btn-text.sd-btn-disabled {
       color: $sender-color-bg-actions-disabled;
       border-color: transparent;
     }
 
-    &-disabled:not(.sd-button-text) {
+    .#{$sender-prefix-cls} &-disabled.sd-btn-disabled:not(.sd-btn-text) {
       color: #fff;
       background: $sender-color-bg-actions-disabled;
       border-color: transparent;
