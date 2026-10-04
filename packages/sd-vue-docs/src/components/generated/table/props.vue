@@ -1,32 +1,40 @@
 <template>
-  <sd-form layout="inline" :model="form">
-    <sd-form-item label="Border" field="border"> <sd-switch v-model="form.border" /> </sd-form-item>
-    <sd-form-item label="Hover" field="hover"> <sd-switch v-model="form.hover" /> </sd-form-item>
-    <sd-form-item label="stripe" field="stripe"> <sd-switch v-model="form.stripe" /> </sd-form-item>
-    <sd-form-item label="checkbox" field="checkbox">
-      <sd-switch v-model="form.checkbox" />
-    </sd-form-item>
-    <sd-form-item label="checkAll" field="checkAll">
-      <sd-switch v-model="rowSelection.showCheckedAll" />
-    </sd-form-item>
-    <sd-form-item label="loading" field="loading">
-      <sd-switch v-model="form.loading" />
-    </sd-form-item>
-    <sd-form-item label="tableHeader" field="tableHeader">
-      <sd-switch v-model="form.tableHeader" />
-    </sd-form-item>
-    <sd-form-item label="noData" field="noData"> <sd-switch v-model="form.noData" /> </sd-form-item>
-  </sd-form>
-  <sd-table
-    :columns="columns"
-    :data="form.noData ? [] : data"
-    :bordered="form.border"
-    :hoverable="form.hover"
-    :stripe="form.stripe"
-    :loading="form.loading"
-    :show-header="form.tableHeader"
-    :row-selection="form.checkbox ? rowSelection : undefined"
-  />
+  <div class="sd:grid sd:gap-4">
+    <sd-form layout="inline" :model="form">
+      <sd-form-item label="Border" field="border">
+        <sd-switch v-model="form.border" />
+      </sd-form-item>
+      <sd-form-item label="Hover" field="hover"> <sd-switch v-model="form.hover" /> </sd-form-item>
+      <sd-form-item label="stripe" field="stripe">
+        <sd-switch v-model="form.stripe" />
+      </sd-form-item>
+      <sd-form-item label="checkbox" field="checkbox">
+        <sd-switch v-model="form.checkbox" />
+      </sd-form-item>
+      <sd-form-item label="checkAll" field="checkAll">
+        <sd-switch v-model="rowSelection.showCheckedAll" />
+      </sd-form-item>
+      <sd-form-item label="loading" field="loading">
+        <sd-switch v-model="form.loading" />
+      </sd-form-item>
+      <sd-form-item label="tableHeader" field="tableHeader">
+        <sd-switch v-model="form.tableHeader" />
+      </sd-form-item>
+      <sd-form-item label="noData" field="noData">
+        <sd-switch v-model="form.noData" />
+      </sd-form-item>
+    </sd-form>
+    <sd-table
+      :columns="columns"
+      :data="form.noData ? [] : data"
+      :bordered="form.border"
+      :hoverable="form.hover"
+      :stripe="form.stripe"
+      :loading="form.loading"
+      :show-header="form.tableHeader"
+      :row-selection="form.checkbox ? rowSelection : undefined"
+    />
+  </div>
 </template>
 <script setup lang="ts">
   import type { TableColumnData, TableData, TableRowSelection } from '@sdata/web-vue';

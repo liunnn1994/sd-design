@@ -2,6 +2,31 @@ import { h } from 'vue';
 
 import TimePicker from '../index';
 
+describe('TimePicker layout attributes', () => {
+  for (const type of ['time', 'time-range'] as const) {
+    it(`keeps layout attributes on the ${type} input`, () => {
+      const onClick = cy.spy().as('onClick');
+      cy.mount(TimePicker, {
+        props: { type, readonly: true },
+        attrs: {
+          'class': 'picker-layout',
+          'style': 'width: 194px; margin-right: 24px; margin-bottom: 20px',
+          'data-layout': 'example',
+          onClick,
+        },
+      });
+      cy.get('.sd-picker')
+        .should('have.class', 'picker-layout')
+        .and('have.attr', 'data-layout', 'example')
+        .and('have.css', 'width', '194px')
+        .and('have.css', 'margin-right', '24px')
+        .and('have.css', 'margin-bottom', '20px')
+        .click();
+      cy.get('@onClick').should('have.been.calledOnce');
+    });
+  }
+});
+
 describe('TimePicker custom trigger', () => {
   it('opens the panel from the trigger slot', () => {
     cy.mount(TimePicker, {

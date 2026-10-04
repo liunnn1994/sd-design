@@ -5,7 +5,7 @@
     <sd-radio value="medium">medium</sd-radio>
     <sd-radio value="large">large</sd-radio>
   </sd-radio-group>
-  <div class="sd:mt-5">
+  <div class="sd:mt-5 sd:grid sd:gap-6">
     <sd-descriptions :data="data" :size="size" title="User Info (horizontal)" bordered />
     <sd-descriptions
       :data="data"

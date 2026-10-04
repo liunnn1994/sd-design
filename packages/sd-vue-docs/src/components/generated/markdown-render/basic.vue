@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="sd:grid sd:gap-6">
     <MarkdownRender
       :style="completeLayout"
       :content="content"

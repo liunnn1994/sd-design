@@ -1,15 +1,17 @@
 <template>
-  <sd-basic-crud-table
-    v-model:table-data="rows"
-    title="本地数据（受控）"
-    :columns="columns"
-    :fetch-table-on-mounted="false"
-    :show-toolbar="false"
-    :open-create-modal="false"
-    :delete-api="deleteRow"
-    @create="addRow"
-  />
-  <p>当前共 {{ rows.length }} 条记录，数据完全由外部控制。</p>
+  <div class="sd:grid sd:gap-4">
+    <sd-basic-crud-table
+      v-model:table-data="rows"
+      title="本地数据（受控）"
+      :columns="columns"
+      :fetch-table-on-mounted="false"
+      :show-toolbar="false"
+      :open-create-modal="false"
+      :delete-api="deleteRow"
+      @create="addRow"
+    />
+    <p>当前共 {{ rows.length }} 条记录，数据完全由外部控制。</p>
+  </div>
 </template>
 
 <script setup lang="ts">

@@ -1,20 +1,22 @@
 <template>
-  <sd-basic-crud-table
-    v-model:modal-visible="visible"
-    v-model:modal-model="form"
-    title="受控弹窗"
-    :columns="columns"
-    :table-data="rows"
-    :fetch-table-on-mounted="false"
-    :show-toolbar="false"
-    :create-api="createRow"
-    :modal-form-props="{ schemas }"
-  >
-    <template #modal__title="{ type }">
-      {{ type === 'create' ? '新增成员' : '编辑成员' }}
-    </template>
-  </sd-basic-crud-table>
-  <p>弹窗状态：{{ visible ? '打开' : '关闭' }}；表单数据：{{ JSON.stringify(form) }}</p>
+  <div class="sd:grid sd:gap-4">
+    <sd-basic-crud-table
+      v-model:modal-visible="visible"
+      v-model:modal-model="form"
+      title="受控弹窗"
+      :columns="columns"
+      :table-data="rows"
+      :fetch-table-on-mounted="false"
+      :show-toolbar="false"
+      :create-api="createRow"
+      :modal-form-props="{ schemas }"
+    >
+      <template #modal__title="{ type }">
+        {{ type === 'create' ? '新增成员' : '编辑成员' }}
+      </template>
+    </sd-basic-crud-table>
+    <p>弹窗状态：{{ visible ? '打开' : '关闭' }}；表单数据：{{ JSON.stringify(form) }}</p>
+  </div>
 </template>
 
 <script setup lang="ts">

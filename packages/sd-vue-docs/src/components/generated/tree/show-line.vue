@@ -1,9 +1,11 @@
 <template>
-  <div>
-    <sd-typography-text>showLine</sd-typography-text>
-    <sd-switch v-model="showLine" class="sd:ml-3" />
+  <div class="sd:grid sd:gap-4">
+    <div>
+      <sd-typography-text>showLine</sd-typography-text>
+      <sd-switch v-model="showLine" class="sd:ml-3" />
+    </div>
+    <sd-tree :default-selected-keys="['0-0-1']" :data="treeData" :show-line="showLine" />
   </div>
-  <sd-tree :default-selected-keys="['0-0-1']" :data="treeData" :show-line="showLine" />
 </template>
 <script setup lang="ts">
   import type { TreeNodeData } from '@sdata/web-vue';

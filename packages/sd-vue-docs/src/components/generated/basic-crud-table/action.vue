@@ -1,37 +1,39 @@
 <template>
-  <sd-basic-crud-table
-    v-model:modal-model="form"
-    :columns="columns"
-    :table-data="rows"
-    :fetch-table-on-mounted="false"
-    :show-toolbar="false"
-    :action-width="260"
-    :create-api="createRow"
-    :update-api="updateRow"
-    :delete-api="deleteRow"
-    delete-name-key="name"
-    :modal-form-props="{ schemas: formSchemas }"
-  >
-    <template #table__enabled="{ record }">
-      <sd-tag :color="record.enabled ? 'green' : 'gray'">
-        {{ record.enabled ? '启用' : '禁用' }}
-      </sd-tag>
-    </template>
-    <template #table__action_prepend="{ record }">
-      <sd-link :ellipsis="false" @click="selected = String(record.name)">详情</sd-link>
-    </template>
-    <template #table__action_append="{ record }">
-      <sd-link :ellipsis="false" @click="selected = String(record.name)">查看</sd-link>
-      <sd-popconfirm
-        :content="`确定禁用【${record.name}】吗？`"
-        type="warning"
-        @ok="selected = `已禁用 ${record.name}`"
-      >
-        <sd-link :ellipsis="false" status="warning">禁用</sd-link>
-      </sd-popconfirm>
-    </template>
-  </sd-basic-crud-table>
-  <p>当前选择：{{ selected || '无' }}</p>
+  <div class="sd:grid sd:gap-4">
+    <sd-basic-crud-table
+      v-model:modal-model="form"
+      :columns="columns"
+      :table-data="rows"
+      :fetch-table-on-mounted="false"
+      :show-toolbar="false"
+      :action-width="260"
+      :create-api="createRow"
+      :update-api="updateRow"
+      :delete-api="deleteRow"
+      delete-name-key="name"
+      :modal-form-props="{ schemas: formSchemas }"
+    >
+      <template #table__enabled="{ record }">
+        <sd-tag :color="record.enabled ? 'green' : 'gray'">
+          {{ record.enabled ? '启用' : '禁用' }}
+        </sd-tag>
+      </template>
+      <template #table__action_prepend="{ record }">
+        <sd-link :ellipsis="false" @click="selected = String(record.name)">详情</sd-link>
+      </template>
+      <template #table__action_append="{ record }">
+        <sd-link :ellipsis="false" @click="selected = String(record.name)">查看</sd-link>
+        <sd-popconfirm
+          :content="`确定禁用【${record.name}】吗？`"
+          type="warning"
+          @ok="selected = `已禁用 ${record.name}`"
+        >
+          <sd-link :ellipsis="false" status="warning">禁用</sd-link>
+        </sd-popconfirm>
+      </template>
+    </sd-basic-crud-table>
+    <p>当前选择：{{ selected || '无' }}</p>
+  </div>
 </template>
 
 <script setup lang="ts">

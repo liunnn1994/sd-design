@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="sd:grid sd:gap-4">
     <sd-steps changeable :current="current" @change="setCurrent">
       <sd-step description="This is a description">Succeeded</sd-step>
       <sd-step description="This is a description">Processing</sd-step>

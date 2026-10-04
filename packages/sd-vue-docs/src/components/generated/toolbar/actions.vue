@@ -1,24 +1,26 @@
 <template>
-  <sd-toolbar v-model="formState" :schemas="schemas" @search="onSearch">
-    <template #keyword>
-      <sd-input
-        v-model="formState.keyword"
-        placeholder="请输入关键字"
-        allow-clear
-        style="width: 220px"
-      />
-    </template>
+  <div class="sd:grid sd:gap-4">
+    <sd-toolbar v-model="formState" :schemas="schemas" @search="onSearch">
+      <template #keyword>
+        <sd-input
+          v-model="formState.keyword"
+          placeholder="请输入关键字"
+          allow-clear
+          style="width: 220px"
+        />
+      </template>
 
-    <template #action-prepend>
-      <sd-button>导入</sd-button>
-    </template>
+      <template #action-prepend>
+        <sd-button>导入</sd-button>
+      </template>
 
-    <template #action-append>
-      <sd-button type="outline">导出</sd-button>
-    </template>
-  </sd-toolbar>
+      <template #action-append>
+        <sd-button type="outline">导出</sd-button>
+      </template>
+    </sd-toolbar>
 
-  <sd-alert type="info"> 当前查询条件：{{ JSON.stringify(formState) }} </sd-alert>
+    <sd-alert type="info"> 当前查询条件：{{ JSON.stringify(formState) }} </sd-alert>
+  </div>
 </template>
 
 <script setup lang="ts">

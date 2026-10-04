@@ -1,7 +1,9 @@
 <template>
-  <sd-toolbar v-model="formState" :schemas="schemas" @search="onSearch" />
+  <div class="sd:grid sd:gap-4">
+    <sd-toolbar v-model="formState" :schemas="schemas" @search="onSearch" />
 
-  <sd-alert type="info"> 当前查询条件：{{ JSON.stringify(formState) }} </sd-alert>
+    <sd-alert type="info"> 当前查询条件：{{ JSON.stringify(formState) }} </sd-alert>
+  </div>
 </template>
 
 <script setup lang="ts">

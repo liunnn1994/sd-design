@@ -1,16 +1,18 @@
 <template>
-  <sd-table :columns="columns" :data="data" :summary="true" :summary-span-method="spanMethod" />
-  <sd-table
-    :columns="columns"
-    :data="data"
-    :scroll="scroll"
-    :expandable="expandable"
-    :summary="summary"
-  >
-    <template #summary-cell="{ column, record, rowIndex }">
-      <div :class="getColorClass(column, record)">{{ getSummaryValue(column, record) }}</div>
-    </template>
-  </sd-table>
+  <div class="sd:grid sd:gap-4">
+    <sd-table :columns="columns" :data="data" :summary="true" :summary-span-method="spanMethod" />
+    <sd-table
+      :columns="columns"
+      :data="data"
+      :scroll="scroll"
+      :expandable="expandable"
+      :summary="summary"
+    >
+      <template #summary-cell="{ column, record, rowIndex }">
+        <div :class="getColorClass(column, record)">{{ getSummaryValue(column, record) }}</div>
+      </template>
+    </sd-table>
+  </div>
 </template>
 <script setup lang="ts">
   import type {

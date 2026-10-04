@@ -1,6 +1,6 @@
 <template>
   <Tooltip :popup-visible="tipVisible" :content="readonlyTipText" position="top">
-    <div :class="classNames" @keydown="onReadonlyKeydown">
+    <div v-bind="$attrs" :class="classNames" @keydown="onReadonlyKeydown">
       <div v-if="$slots.prefix" :class="`${prefixCls}-prefix`">
         <slot name="prefix" />
       </div>
@@ -55,7 +55,7 @@
   import FeedbackIcon from '../feedback-icon.vue';
   import IconHover from '../icon-hover.vue';
 
-  defineOptions({ name: 'DateInput' });
+  defineOptions({ name: 'DateInput', inheritAttrs: false });
 
   const props = defineProps({
     size: {
