@@ -154,7 +154,7 @@
   }
 
   &-disabled:hover &-icon {
-    border-color: $checkbox-mask-color-border;
+    border-color: $checkbox-mask-color-border_disabled;
   }
 
   &-disabled &-label {
