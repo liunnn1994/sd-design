@@ -37,6 +37,10 @@ interface ComponentEntry {
   props: PropDescriptor[];
   events: EventDescriptor[];
   slots: SlotDescriptor[];
+  kind?: 'service';
+  config?: PropDescriptor[];
+  methods?: PropDescriptor[];
+  aliases?: string[];
 }
 
 interface ComponentsData {
@@ -66,6 +70,7 @@ for (const component of components) {
   byKey.set(component.name.toLowerCase(), component);
   byKey.set(normalizeKey(component.name), component);
   byKey.set(component.importName.toLowerCase(), component);
+  for (const alias of component.aliases ?? []) byKey.set(normalizeKey(alias), component);
 }
 
 const findComponent = (input?: unknown): ComponentEntry | undefined => {
@@ -96,6 +101,13 @@ const summary = (component: ComponentEntry) => ({
   propCount: component.props.length,
   eventCount: component.events.length,
   slotCount: component.slots.length,
+  ...(component.kind
+    ? {
+        kind: component.kind,
+        configCount: component.config?.length ?? 0,
+        methodCount: component.methods?.length ?? 0,
+      }
+    : {}),
 });
 
 const importStatements = (component: ComponentEntry) => ({
@@ -133,12 +145,10 @@ const search = (query: string) => {
       component.name,
       component.title,
       component.description,
-      ...component.props.flatMap((prop) => [
-        prop.name,
-        prop.description.zh,
-        prop.description.en,
-        prop.type,
-      ]),
+      ...(component.aliases ?? []),
+      ...[...component.props, ...(component.config ?? []), ...(component.methods ?? [])].flatMap(
+        (prop) => [prop.name, prop.description.zh, prop.description.en, prop.type],
+      ),
       ...component.events.flatMap((event) => [
         event.name,
         event.description.zh,
@@ -166,7 +176,9 @@ const search = (query: string) => {
 };
 
 const findByProp = (prop: string) => {
-  const needle = normalizeKey(prop);
+  // 属性名在元数据里是 kebab-case，调用方（尤其 AI）多半按代码写法提问（allowClear），
+  // 与 search 一样忽略分隔符，两种写法都能命中。
+  const needle = normalizeForSearch(prop.trim());
   if (!needle) {
     return [];
   }
@@ -180,7 +192,7 @@ const findByProp = (prop: string) => {
 
   for (const component of components) {
     for (const descriptor of component.props) {
-      const name = normalizeKey(descriptor.name);
+      const name = normalizeForSearch(descriptor.name);
       if (name === needle || name.includes(needle)) {
         results.push({
           component: component.name,
@@ -249,7 +261,7 @@ const createServer = () => {
     {
       description:
         'Get full detail for a component: description, import statements, documentation URL, ' +
-        'and every documented prop, event and slot (bilingual zh/en). ' +
+        'and props, events, slots or service configuration and methods. ' +
         'Accepts the tag (sd-button), kebab (button) or PascalCase (Button) name.',
       inputSchema: z.object({
         name: z.string().describe('Component name, e.g. "sd-button", "button" or "Button".'),
@@ -267,6 +279,7 @@ const createServer = () => {
         props: component.props,
         events: component.events,
         slots: component.slots,
+        ...(component.kind ? { config: component.config, methods: component.methods } : {}),
       });
     },
   );
@@ -291,7 +304,7 @@ const createServer = () => {
     'get_component_props',
     {
       description:
-        'Get only the documented props for a component (name, type, default, bilingual description).',
+        'Get component props (name, type, default, description), or config fields for a service.',
       inputSchema: z.object({ name: z.string().describe('Component name.') }),
     },
     ({ name }) => {
@@ -300,7 +313,12 @@ const createServer = () => {
         return notFound(name);
       }
 
-      return result({ name: component.name, title: component.title, props: component.props });
+      return result({
+        name: component.name,
+        title: component.title,
+        props: component.props,
+        ...(component.kind ? { kind: component.kind, config: component.config } : {}),
+      });
     },
   );
 

@@ -8,7 +8,7 @@
 
 服务基于 MCP TypeScript SDK v2，支持当前的 `2026-07-28` 协议，并继续兼容使用 `initialize` 握手的旧版客户端。
 
-数据来源与组件库对外发布的 `web-types` / `vetur` IDE 元数据一致（均由 [`vue-docgen-api`](https://github.com/vue-styleguidist/vue-docgen) 从组件源码提取），覆盖全部文档化组件。
+SFC API 由 `vue-docgen-api` 从源码提取；对导入的运行时 props、第三方类型和服务 API，使用工作区 TypeScript 编译器 API 读取已有契约，覆盖全部文档化组件。
 
 ## 安装
 
@@ -126,16 +126,16 @@ pnpm --filter @sdata/web-vue-mcp run test
 
 ## 可用工具
 
-| 工具                   | 说明                                                                |
-| ---------------------- | ------------------------------------------------------------------- |
-| `list_components`      | 列出所有组件（分类、双语标题、API 数量），可按分类过滤              |
-| `get_categories`       | 列出所有组件分类及各分类组件数量                                    |
-| `get_component`        | 获取组件完整信息：描述、导入语句、文档链接、全部 Props/Events/Slots |
-| `search_components`    | 跨名称、标题、描述与 Props/Events/Slots 文本搜索（中英文）          |
-| `get_component_props`  | 仅获取组件的 Props                                                  |
-| `get_component_events` | 仅获取组件的 Events                                                 |
-| `get_component_slots`  | 仅获取组件的 Slots                                                  |
-| `find_by_prop`         | 查找暴露了某个 Prop 的组件（如「哪些组件有 size 属性？」）          |
+| 工具 | 说明 |
+| --- | --- |
+| `list_components` | 列出所有组件（分类、双语标题、API 数量），可按分类过滤 |
+| `get_categories` | 列出所有组件分类及各分类组件数量 |
+| `get_component` | 获取组件完整信息：描述、导入语句、文档链接、Props/Events/Slots 或服务配置与方法 |
+| `search_components` | 跨名称、标题、描述及 API 文本搜索（含服务配置与方法） |
+| `get_component_props` | 获取组件 Props；服务 API 同时返回配置项 |
+| `get_component_events` | 仅获取组件的 Events |
+| `get_component_slots` | 仅获取组件的 Slots |
+| `find_by_prop` | 查找暴露了某个 Prop 的组件（如「哪些组件有 size 属性？」） |
 
 ## 示例提问
 
@@ -151,12 +151,14 @@ pnpm --filter @sdata/web-vue-mcp run test
 ## 数据说明
 
 - 组件清单、分类与标题来自文档站侧边栏（`sd-vue-docs/src/generated/docs-sidebar.ts`）与各组件 MDX frontmatter。
-- Props / Events / Slots 由 `vue-docgen-api` 从 `packages/web-vue` 组件源码提取，与组件库对外发布的 `web-types` 元数据一致。
+- Props / Events / Slots 由 `vue-docgen-api` 提取；`scripts/type-api.ts` 从 `components/index.ts` 的公开导出和 SFC `defineProps` 自动发现契约，并读取同目录下的 `组件名Props` / `组件名Slots`；没有 SFC 的服务按 `组件名Config` + `组件名Method` 识别。不维护逐组件清单，也不复制属性定义。
+- Message / Notification 标记为 `kind: "service"`，配置项和方法分别返回在 `config`、`methods`，不伪装成 SFC props。
+- 没有同名组件的文档分组按真实公开导出自动展开；Clamp 文档展开为 LineClamp、RichLineClamp、InlineClamp、WrapClamp 四个真实组件；`clamp` / `sd-clamp` 查询兼容指向 LineClamp。
 - 重新生成：`pnpm --filter @sdata/web-vue-mcp run gen`，产物为 `data/components.json`（`build` 时自动生成并内联进 `dist/index.js`，不提交到版本库）。
 
 ### 已知限制
 
-部分组件（如 `select`、`menu`、`cascader`、`typography`）的 Props 文档写在 TypeScript `interface.ts` 中，`vue-docgen-api` 无法追踪到外部接口定义，因此这些组件的 API 字段可能为空——这与组件库自身发布的 `web-types` 表现一致。遇到此类情况，`get_component` 返回的 `docUrl` 指向完整的文档页面，可直接参考。
+补齐的 API 即使没有 `@en` 注释也会保留字段，缺失的描述为空。第三方组件未在本地声明的默认值为空，不推测上游默认值；Calendar 默认值从运行时 props 定义读取。需要具体行为和示例时，请参考返回的 `docUrl`。
 
 ## 环境要求
 
