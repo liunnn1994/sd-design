@@ -69,8 +69,8 @@ $avatar-prefix-cls: string.unquote('#{theme.$prefix}-avatar');
 
   &-trigger-icon-button {
     position: absolute;
-    right: -$avatar-spacing-trigger-button-right;
-    bottom: -$avatar-spacing-trigger-button-bottom;
+    right: calc(-1 * $avatar-spacing-trigger-button-right);
+    bottom: calc(-1 * $avatar-spacing-trigger-button-bottom);
     z-index: 1;
     width: $avatar-size-trigger-button;
     height: $avatar-size-trigger-button;
@@ -129,7 +129,7 @@ $avatar-prefix-cls: string.unquote('#{theme.$prefix}-avatar');
 
   &-rtl &-trigger-icon-button {
     right: unset;
-    left: -$avatar-spacing-trigger-button-right;
+    left: calc(-1 * $avatar-spacing-trigger-button-right);
   }
 
   // Group
