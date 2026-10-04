@@ -49,6 +49,8 @@ $badge-prefix-cls: string.unquote('#{theme.$prefix}-badge');
   &-rtl &-text,
   &-rtl &-custom-dot {
     right: unset;
+    left: 2px;
+    transform: translate(-50%, -50%);
   }
 
   &-custom-dot {
@@ -82,6 +84,7 @@ $badge-prefix-cls: string.unquote('#{theme.$prefix}-badge');
     position: relative;
     top: unset;
     right: unset;
+    left: unset;
     display: inline-block;
     transform: none;
   }
