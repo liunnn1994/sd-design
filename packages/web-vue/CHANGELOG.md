@@ -1,3 +1,10 @@
+## [5.7.6](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.7.5...web-vue-v5.7.6) (2026-10-04)
+
+
+### Bug Fixes
+
+* **typography:** 补上默认插槽的双语文档 ([9f4803e](https://github.com/liunnn1994/sd-design/commit/9f4803ee617e3cb691a7522182607ad164a085cc))
+
 ## [5.7.5](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.7.4...web-vue-v5.7.5) (2026-10-03)
 
 
