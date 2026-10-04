@@ -108,8 +108,8 @@
        * @version 2.36.0
        */
       dropdownProps?: DropDownProps;
-      /** @private */
       /**
+       * @private
        * @zh 该项在面包屑中的序号
        * @en Index of this item in the breadcrumb
        */

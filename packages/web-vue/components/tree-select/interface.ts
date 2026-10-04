@@ -58,19 +58,11 @@ export interface TreeSelectProps extends FitWidthProps {
    * @zh 是否显示下拉箭头
    * @en Whether to show the dropdown arrow
    */
-  /**
-   * @zh 是否显示下拉箭头
-   * @en Whether to show the dropdown arrow
-   */
   showArrow: boolean;
   placeholder: string | undefined;
   maxTagCount: number | 'responsive' | undefined;
   defaultValue: TreeSelectValue | undefined;
   modelValue: TreeSelectValue | undefined;
-  /**
-   * @zh 绑定值（受控）
-   * @en Bound value (controlled)
-   */
   /**
    * @zh 绑定值（受控）
    * @en Bound value (controlled)
@@ -99,15 +91,7 @@ export interface TreeSelectProps extends FitWidthProps {
    * @zh 是否显示下拉浮层（受控）
    * @en Whether the dropdown popup is shown (controlled)
    */
-  /**
-   * @zh 是否显示下拉浮层（受控）
-   * @en Whether the dropdown popup is shown (controlled)
-   */
   show: boolean | undefined;
-  /**
-   * @zh 是否默认显示下拉浮层（非受控状态）
-   * @en Whether the dropdown popup is shown by default (uncontrolled state)
-   */
   /**
    * @zh 是否默认显示下拉浮层（非受控状态）
    * @en Whether the dropdown popup is shown by default (uncontrolled state)

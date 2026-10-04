@@ -462,10 +462,6 @@
      * @zh 是否启用缩写
      * @en Whether to enable abbreviation
      */
-    /**
-     * @zh 是否缩写日期与月份
-     * @en Whether dates and months are abbreviated
-     */
     abbreviation: {
       type: Boolean,
       default: true,

@@ -8,7 +8,7 @@ import { pathToFileURL } from 'node:url';
 import { parse as parseComponent } from 'vue-docgen-api';
 
 import { toKebabCase } from './utils/convert-case.ts';
-import { extractDescription } from './utils/doc-tags.ts';
+import { extractDescription, isPrivateApi } from './utils/doc-tags.ts';
 import { getPackage } from './utils/package.ts';
 import { slotTagHandler } from './utils/slot-tag-handler.ts';
 
@@ -68,6 +68,7 @@ const resolveComponent = (doc: ComponentDoc) => ({
   name: resolveTagName(doc.displayName),
   props:
     doc.props
+      ?.filter((descriptor) => !isPrivateApi(descriptor.tags))
       ?.map((descriptor) => ({
         name: toKebabCase(descriptor.name),
         type: descriptor.type?.name,

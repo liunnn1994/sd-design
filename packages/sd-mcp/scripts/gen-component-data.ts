@@ -20,7 +20,7 @@ import { parse as parseComponent } from 'vue-docgen-api';
 
 import type { TypeApi } from './type-api.ts';
 
-import { extractDescription } from '../../web-vue/scripts/utils/doc-tags.ts';
+import { extractDescription, isPrivateApi } from '../../web-vue/scripts/utils/doc-tags.ts';
 import { slotTagHandler } from '../../web-vue/scripts/utils/slot-tag-handler.ts';
 import { readTypeApi } from './type-api.ts';
 
@@ -113,6 +113,7 @@ const resolveComponent = (doc: ComponentDoc, retainUndocumented = false) => ({
   name: resolveTagName(doc.displayName),
   props:
     doc.props
+      ?.filter((descriptor) => !isPrivateApi(descriptor.tags))
       ?.map((descriptor) => ({
         name: toKebabCase(descriptor.name),
         type: descriptor.type?.name ?? '',
@@ -251,10 +252,12 @@ export const buildApiMap = async () => {
       const descriptor = parsed?.props.find((entry) => entry.name === prop.name);
       return {
         ...prop,
-        // docgen 偶尔会吐出 `TSFunctionType` 这类内部类型种名，对调用方毫无信息量；
-        // 这种情况下改用类型契约解析出的可读类型。
+        // docgen 的内部种名与 union / Array 等占位类型会丢失具体信息。
         type:
-          descriptor?.type.trim() && !/^TS[A-Z]/.test(descriptor.type.trim())
+          descriptor?.type.trim() &&
+          !/^(?:TS[A-Z].*|any|unknown|union|intersection|Array|Object|Function|Record|Partial|Readonly|Pick|Omit)$/.test(
+            descriptor.type.trim(),
+          )
             ? descriptor.type
             : prop.type,
         default: descriptor?.default || prop.default,

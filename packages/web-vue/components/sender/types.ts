@@ -252,15 +252,7 @@ export interface SenderProps {
    * @zh 按键按下时触发
    * @en Triggered when a key is pressed
    */
-  /**
-   * @zh 按键按下时触发
-   * @en Triggered when a key is pressed
-   */
   onKeydown?: (event: KeyboardEvent) => void | false;
-  /**
-   * @zh 按键松开时触发
-   * @en Triggered when a key is released
-   */
   /**
    * @zh 按键松开时触发
    * @en Triggered when a key is released

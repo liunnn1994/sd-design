@@ -19,15 +19,7 @@ export interface ImageProps {
    * @zh 图片下方的附加内容插槽
    * @en Slot for extra content below the image
    */
-  /**
-   * @zh 图片下方的附加内容插槽
-   * @en Slot for extra content below the image
-   */
   extra?: Slot;
-  /**
-   * @zh 加载失败时的内容插槽
-   * @en Slot rendered when the image fails to load
-   */
   /**
    * @zh 加载失败时的内容插槽
    * @en Slot rendered when the image fails to load
@@ -37,15 +29,7 @@ export interface ImageProps {
    * @zh 加载中的内容插槽
    * @en Slot rendered while the image is loading
    */
-  /**
-   * @zh 加载中的内容插槽
-   * @en Slot rendered while the image is loading
-   */
   loader?: Slot;
-  /**
-   * @zh 预览浮层显示状态变化时触发
-   * @en Triggered when the preview visibility changes
-   */
   /**
    * @zh 预览浮层显示状态变化时触发
    * @en Triggered when the preview visibility changes

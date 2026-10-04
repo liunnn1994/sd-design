@@ -29,17 +29,9 @@ export interface MenuProps {
    * @zh 菜单容器的行内样式
    * @en Inline style of the menu container
    */
-  /**
-   * @zh 菜单容器的行内样式
-   * @en Inline style of the menu container
-   */
   style: StyleValue | undefined;
   theme: MenuTheme | undefined;
   mode: MenuMode;
-  /**
-   * @zh 每一级菜单的缩进宽度（像素）
-   * @en Indent width of each menu level in pixels
-   */
   /**
    * @zh 每一级菜单的缩进宽度（像素）
    * @en Indent width of each menu level in pixels
@@ -49,15 +41,7 @@ export interface MenuProps {
    * @zh 是否默认展开所有子菜单
    * @en Whether all submenus are expanded by default
    */
-  /**
-   * @zh 是否默认展开所有子菜单
-   * @en Whether all submenus are expanded by default
-   */
   autoOpen: boolean;
-  /**
-   * @zh 是否折叠为图标模式（受控）
-   * @en Whether the menu is collapsed to icons (controlled)
-   */
   /**
    * @zh 是否折叠为图标模式（受控）
    * @en Whether the menu is collapsed to icons (controlled)
@@ -67,15 +51,7 @@ export interface MenuProps {
    * @zh 是否默认折叠为图标模式（非受控状态）
    * @en Whether the menu is collapsed to icons by default (uncontrolled state)
    */
-  /**
-   * @zh 是否默认折叠为图标模式（非受控状态）
-   * @en Whether the menu is collapsed to icons by default (uncontrolled state)
-   */
   defaultCollapsed: boolean;
-  /**
-   * @zh 折叠态的宽度（像素）
-   * @en Width of the collapsed menu in pixels
-   */
   /**
    * @zh 折叠态的宽度（像素）
    * @en Width of the collapsed menu in pixels
@@ -85,15 +61,7 @@ export interface MenuProps {
    * @zh 同一时间是否只展开一个子菜单
    * @en Whether only one submenu can be open at a time
    */
-  /**
-   * @zh 同一时间是否只展开一个子菜单
-   * @en Whether only one submenu can be open at a time
-   */
   accordion: boolean;
-  /**
-   * @zh 选中项是否自动滚动到可视区域
-   * @en Whether the selected item scrolls into view
-   */
   /**
    * @zh 选中项是否自动滚动到可视区域
    * @en Whether the selected item scrolls into view
@@ -103,15 +71,7 @@ export interface MenuProps {
    * @zh 是否显示折叠/展开按钮
    * @en Whether the collapse/expand button is shown
    */
-  /**
-   * @zh 是否显示折叠/展开按钮
-   * @en Whether the collapse/expand button is shown
-   */
   showCollapseButton: boolean;
-  /**
-   * @zh 选中的菜单项 key（受控）
-   * @en Keys of the selected menu items (controlled)
-   */
   /**
    * @zh 选中的菜单项 key（受控）
    * @en Keys of the selected menu items (controlled)
@@ -121,15 +81,7 @@ export interface MenuProps {
    * @zh 默认选中的菜单项 key（非受控状态）
    * @en Keys of the menu items selected by default (uncontrolled state)
    */
-  /**
-   * @zh 默认选中的菜单项 key（非受控状态）
-   * @en Keys of the menu items selected by default (uncontrolled state)
-   */
   defaultSelectedKeys: string[];
-  /**
-   * @zh 展开的子菜单 key（受控）
-   * @en Keys of the expanded submenus (controlled)
-   */
   /**
    * @zh 展开的子菜单 key（受控）
    * @en Keys of the expanded submenus (controlled)
@@ -139,15 +91,7 @@ export interface MenuProps {
    * @zh 默认展开的子菜单 key（非受控状态）
    * @en Keys of the submenus expanded by default (uncontrolled state)
    */
-  /**
-   * @zh 默认展开的子菜单 key（非受控状态）
-   * @en Keys of the submenus expanded by default (uncontrolled state)
-   */
   defaultOpenKeys: string[];
-  /**
-   * @zh 虚拟滚动的配置
-   * @en Configuration of the virtual scrolling
-   */
   /**
    * @zh 虚拟滚动的配置
    * @en Configuration of the virtual scrolling
@@ -157,16 +101,8 @@ export interface MenuProps {
    * @zh 触发器的组件属性
    * @en Props forwarded to the trigger
    */
-  /**
-   * @zh 触发器的组件属性
-   * @en Props forwarded to the trigger
-   */
   triggerProps: TriggerProps | undefined;
   floatingOptions: FloatingOptions | undefined;
-  /**
-   * @zh 折叠态提示浮层的组件属性
-   * @en Props forwarded to the tooltip shown in collapsed mode
-   */
   /**
    * @zh 折叠态提示浮层的组件属性
    * @en Props forwarded to the tooltip shown in collapsed mode
@@ -178,24 +114,12 @@ export interface MenuProps {
    * @zh 是否自动展开选中项的父级菜单
    * @en Whether the parents of the selected item are expanded automatically
    */
-  /**
-   * @zh 是否自动展开选中项的父级菜单
-   * @en Whether the parents of the selected item are expanded automatically
-   */
   autoOpenSelected: boolean;
   /**
    * @zh 触发折叠的响应式断点
    * @en Responsive breakpoint that triggers collapsing
    */
-  /**
-   * @zh 触发折叠的响应式断点
-   * @en Responsive breakpoint that triggers collapsing
-   */
   breakpoint: Breakpoint | undefined;
-  /**
-   * @zh 弹出子菜单的最大高度
-   * @en Maximum height of the popup submenus
-   */
   /**
    * @zh 弹出子菜单的最大高度
    * @en Maximum height of the popup submenus

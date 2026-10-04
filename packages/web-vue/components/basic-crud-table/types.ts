@@ -97,10 +97,6 @@ export interface BasicCrudTableProps<TRow extends TableData = TableData> {
    * @zh 是否占满父级高度，并让表格区域滚动
    * @en Whether to fill the parent height and scroll the table area
    */
-  /**
-   * @zh 表格是否撑满父容器高度
-   * @en Whether the table fills the parent height
-   */
   fullHeight?: boolean;
   /**
    * @zh 是否显示新建按钮

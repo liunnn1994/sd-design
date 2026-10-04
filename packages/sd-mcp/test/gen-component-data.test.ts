@@ -247,3 +247,62 @@ test('never publishes TypeScript-internal type kind names', async () => {
     '((paths: string[]) => string) | undefined',
   );
 });
+
+test('uses concrete contracts instead of docgen placeholder types', async () => {
+  const map = await buildApiMap();
+  const trigger = map.get('components/trigger')?.get('sd-trigger');
+  assert.equal(
+    trigger?.props.find((prop) => prop.name === 'trigger')?.type,
+    '"click" | "hover" | "focus" | "contextMenu" | ("click" | "hover" | "focus" | "contextMenu")[] | undefined',
+  );
+  assert.equal(
+    trigger?.props.find((prop) => prop.name === 'duration')?.type,
+    'number | { enter: number; leave: number; } | undefined',
+  );
+  assert.equal(
+    trigger?.props.find((prop) => prop.name === 'popup-container')?.type,
+    'string | HTMLElement | undefined',
+  );
+  assert.equal(
+    map
+      .get('components/voice-glow')
+      ?.get('sd-voice-glow')
+      ?.props.find((prop) => prop.name === 'stream')?.type,
+    'MediaStream | null | undefined',
+  );
+  assert.equal(
+    map
+      .get('components/breadcrumb')
+      ?.get('sd-breadcrumb')
+      ?.props.find((prop) => prop.name === 'routes')?.type,
+    'BreadcrumbRoute[] | undefined',
+  );
+});
+
+test('keeps private props out of public metadata from both extraction sources', async () => {
+  const map = await buildApiMap();
+  for (const name of ['checkbox', 'radio']) {
+    const api = map.get(`components/${name}`)?.get(`sd-${name}`);
+    assert.ok(api);
+    assert.ok(!api.props.some((prop) => prop.name === 'uninject-group-context'));
+  }
+  const item = map.get('components/breadcrumb')?.get('sd-breadcrumb-item');
+  assert.ok(item);
+  assert.ok(!item.props.some((prop) => prop.name === 'index'));
+  const scrollbar = map.get('components/scrollbar')?.get('sd-scrollbar');
+  assert.ok(scrollbar);
+  for (const name of ['hide', 'disable-horizontal', 'disable-vertical'])
+    assert.ok(!scrollbar.props.some((prop) => prop.name === name));
+});
+
+test('describes autoExpandParent as expanding ancestors of expanded nodes', async () => {
+  const prop = (await buildApiMap())
+    .get('components/tree')
+    ?.get('sd-tree')
+    ?.props.find((entry) => entry.name === 'auto-expand-parent');
+  assert.equal(prop?.description.zh, '是否自动展开已展开节点的父节点');
+  assert.equal(
+    prop?.description.en,
+    'Whether to automatically expand the parent node of the expanded node',
+  );
+});

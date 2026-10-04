@@ -84,8 +84,8 @@
        * @en tabindex for the native input (omitted by default so the input stays natively focusable; pass -1 in tree nodes to remove the checkbox from the Tab order and operate it via the treeitem)
        */
       tabindex?: number | string;
-      /** @private */
       /**
+       * @private
        * @zh 是否忽略外层 Group 的上下文
        * @en Whether to ignore the outer Group context
        */
@@ -100,10 +100,6 @@
       defaultChecked: false,
       disabled: false,
       indeterminate: false,
-      /**
-       * @zh 是否忽略外层 Group 的上下文
-       * @en Whether to ignore the outer Group context
-       */
       uninjectGroupContext: false,
     },
   );

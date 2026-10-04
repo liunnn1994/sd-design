@@ -278,8 +278,8 @@ export interface TreeProps {
    */
   defaultExpandChecked?: boolean;
   /**
-   * @zh 勾选父节点时是否自动展开其子级
-   * @en Whether checking a parent expands its children
+   * @zh 是否自动展开已展开节点的父节点
+   * @en Whether to automatically expand the parent node of the expanded node
    */
   autoExpandParent?: boolean;
   /**
@@ -405,127 +405,127 @@ export interface TreeProps {
   }) => void;
   /**
    * @zh 点击节点时触发
-   * @en Triggered when a node is 点击
+   * @en Triggered when a node is clicked
    */
   onNodeClick?: TreeNodeEventHandler;
   /**
    * @zh 双击节点时触发
-   * @en Triggered when a node is 双击
+   * @en Triggered when a node is double-clicked
    */
   onNodeDblclick?: TreeNodeEventHandler;
   /**
    * @zh 右键点击节点时触发
-   * @en Triggered when a node is 右键点击
+   * @en Triggered when a node is right-clicked
    */
   onNodeContextmenu?: TreeNodeEventHandler;
   /**
    * @zh 鼠标移入节点时触发
-   * @en Triggered when a node fires 鼠标移入
+   * @en Triggered when a node receives a mouseover event
    */
   onNodeMouseover?: TreeNodeEventHandler;
   /**
    * @zh 鼠标进入节点时触发
-   * @en Triggered when a node fires 鼠标进入
+   * @en Triggered when a node receives a mouseenter event
    */
   onNodeMouseenter?: TreeNodeEventHandler;
   /**
    * @zh 鼠标离开节点时触发
-   * @en Triggered when a node fires 鼠标离开
+   * @en Triggered when a node receives a mouseleave event
    */
   onNodeMouseleave?: TreeNodeEventHandler;
   /**
    * @zh 鼠标移动节点时触发
-   * @en Triggered when a node fires 鼠标移动
+   * @en Triggered when a node receives a mousemove event
    */
   onNodeMousemove?: TreeNodeEventHandler;
   /**
    * @zh 鼠标移出节点时触发
-   * @en Triggered when a node fires 鼠标移出
+   * @en Triggered when a node receives a mouseout event
    */
   onNodeMouseout?: TreeNodeEventHandler;
   /**
    * @zh 鼠标按下节点时触发
-   * @en Triggered when a node fires 鼠标按下
+   * @en Triggered when a node receives a mousedown event
    */
   onNodeMousedown?: TreeNodeEventHandler;
   /**
    * @zh 鼠标抬起节点时触发
-   * @en Triggered when a node fires 鼠标抬起
+   * @en Triggered when a node receives a mouseup event
    */
   onNodeMouseup?: TreeNodeEventHandler;
   /**
    * @zh 指针按下时触发
-   * @en Triggered when a node fires 指针按下
+   * @en Triggered when a node receives a pointerdown event
    */
   onNodePointerdown?: TreeNodeEventHandler;
   /**
    * @zh 指针移动时触发
-   * @en Triggered when a node fires 指针移动
+   * @en Triggered when a node receives a pointermove event
    */
   onNodePointermove?: TreeNodeEventHandler;
   /**
    * @zh 指针抬起时触发
-   * @en Triggered when a node fires 指针抬起
+   * @en Triggered when a node receives a pointerup event
    */
   onNodePointerup?: TreeNodeEventHandler;
   /**
    * @zh 指针进入时触发
-   * @en Triggered when a node fires 指针进入
+   * @en Triggered when a node receives a pointerenter event
    */
   onNodePointerenter?: TreeNodeEventHandler;
   /**
    * @zh 指针离开时触发
-   * @en Triggered when a node fires 指针离开
+   * @en Triggered when a node receives a pointerleave event
    */
   onNodePointerleave?: TreeNodeEventHandler;
   /**
    * @zh 指针悬停时触发
-   * @en Triggered when a node fires 指针悬停
+   * @en Triggered when a node receives a pointerover event
    */
   onNodePointerover?: TreeNodeEventHandler;
   /**
    * @zh 指针移出时触发
-   * @en Triggered when a node fires 指针移出
+   * @en Triggered when a node receives a pointerout event
    */
   onNodePointerout?: TreeNodeEventHandler;
   /**
    * @zh 指针交互被取消时触发
-   * @en Triggered when a node fires 指针交互被取消
+   * @en Triggered when a node receives a pointercancel event
    */
   onNodePointercancel?: TreeNodeEventHandler;
   /**
    * @zh 触摸开始节点时触发
-   * @en Triggered when a node is touched: 触摸开始
+   * @en Triggered when a node receives a touchstart event
    */
   onNodeTouchstart?: TreeNodeEventHandler;
   /**
    * @zh 触摸移动节点时触发
-   * @en Triggered when a node is touched: 触摸移动
+   * @en Triggered when a node receives a touchmove event
    */
   onNodeTouchmove?: TreeNodeEventHandler;
   /**
    * @zh 触摸结束节点时触发
-   * @en Triggered when a node is touched: 触摸结束
+   * @en Triggered when a node receives a touchend event
    */
   onNodeTouchend?: TreeNodeEventHandler;
   /**
    * @zh 触摸被取消节点时触发
-   * @en Triggered when a node is touched: 触摸被取消
+   * @en Triggered when a node receives a touchcancel event
    */
   onNodeTouchcancel?: TreeNodeEventHandler;
   /**
    * @zh 按下按键节点时触发
-   * @en Triggered when a node fires 按下按键
+   * @en Triggered when a node receives a keydown event
    */
   onNodeKeydown?: TreeNodeEventHandler;
   /**
    * @zh 松开按键节点时触发
-   * @en Triggered when a node fires 松开按键
+   * @en Triggered when a node receives a keyup event
    */
   onNodeKeyup?: TreeNodeEventHandler;
   /**
    * @zh 按下并触发按键节点时触发
-   * @en Triggered when a node fires 按下并触发按键
+   * @en Triggered when a node receives a keypress event
    */
   onNodeKeypress?: TreeNodeEventHandler;
   /**
@@ -535,17 +535,17 @@ export interface TreeProps {
   onNodeLongPress?: TreeNodeEventHandler<PointerEvent>;
   /**
    * @zh 开始滑动节点时触发
-   * @en Triggered when a node is swiped: 开始滑动
+   * @en Triggered when a swipe on a node starts
    */
   onNodeSwipeStart?: TreeNodeSwipeEventHandler;
   /**
    * @zh 滑动中节点时触发
-   * @en Triggered when a node is swiped: 滑动中
+   * @en Triggered when a swipe on a node continues
    */
   onNodeSwipe?: TreeNodeSwipeEventHandler;
   /**
    * @zh 滑动结束节点时触发
-   * @en Triggered when a node is swiped: 滑动结束
+   * @en Triggered when a swipe on a node ends
    */
   onNodeSwipeEnd?: TreeNodeSwipeEventHandler;
   /**

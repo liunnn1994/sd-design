@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import ts from 'typescript';
 
-import { extractDescription } from '../../web-vue/scripts/utils/doc-tags.ts';
+import { extractDescription, isPrivateApi } from '../../web-vue/scripts/utils/doc-tags.ts';
 
 const kebab = (name: string) =>
   name.replace(/[A-Z]/g, (letter, offset: number) => `${offset ? '-' : ''}${letter.toLowerCase()}`);
@@ -135,41 +135,52 @@ export async function readTypeApi(webVue: string, sources: { dirname: string; fi
     return description;
   };
   const fieldsOf = (symbol: ts.Symbol, camelCase = false) =>
-    checker.getPropertiesOfType(checker.getDeclaredTypeOfSymbol(symbol)).map((field) => {
-      const declaration = field.valueDeclaration ?? field.declarations?.[0];
-      if (!declaration) throw new Error(`Missing declaration: ${symbol.name}.${field.name}`);
-      const type = checker.getTypeOfSymbolAtLocation(field, declaration);
-      // Imports of other SFC instances may be unresolved in this TS-only program.
-      // Preserve the declared reference instead of publishing an inferred `any`.
-      const declaredType = ts.isPropertySignature(declaration) ? declaration.type : undefined;
-      // `any` 与 `TSFunctionType`/`TSTypeOperator` 这类内部类型种名都无法给调用方提供信息，
-      // 回退到声明处的源码文本（形如 `(paths: string[]) => string`）。
-      let printed = checker.typeToString(
-        type,
-        declaration,
-        ts.TypeFormatFlags.NoTruncation | ts.TypeFormatFlags.WriteArrowStyleSignature,
-      );
-      // 函数类型打印不出来时（`TSFunctionType`），按调用签名手工拼出可读签名。
-      if (/^TSFunctionType/.test(printed.trim())) {
-        const signature = type.getCallSignatures()[0];
-        if (signature) {
-          const parameters = signature
-            .getParameters()
-            .map(
-              (parameter) =>
-                `${parameter.name}: ${checker.typeToString(checker.getTypeOfSymbolAtLocation(parameter, declaration))}`,
-            );
-          printed = `(${parameters.join(', ')}) => ${checker.typeToString(signature.getReturnType(), declaration, ts.TypeFormatFlags.NoTruncation)}`;
+    checker
+      .getPropertiesOfType(checker.getDeclaredTypeOfSymbol(symbol))
+      .filter(
+        (field) =>
+          !isPrivateApi(
+            field.getJsDocTags(checker).map((tag) => ({
+              title: tag.name,
+              description: ts.displayPartsToString(tag.text),
+            })),
+          ),
+      )
+      .map((field) => {
+        const declaration = field.valueDeclaration ?? field.declarations?.[0];
+        if (!declaration) throw new Error(`Missing declaration: ${symbol.name}.${field.name}`);
+        const type = checker.getTypeOfSymbolAtLocation(field, declaration);
+        // Imports of other SFC instances may be unresolved in this TS-only program.
+        // Preserve the declared reference instead of publishing an inferred `any`.
+        const declaredType = ts.isPropertySignature(declaration) ? declaration.type : undefined;
+        // `any` 与 `TSFunctionType`/`TSTypeOperator` 这类内部类型种名都无法给调用方提供信息，
+        // 回退到声明处的源码文本（形如 `(paths: string[]) => string`）。
+        let printed = checker.typeToString(
+          type,
+          declaration,
+          ts.TypeFormatFlags.NoTruncation | ts.TypeFormatFlags.WriteArrowStyleSignature,
+        );
+        // 函数类型打印不出来时（`TSFunctionType`），按调用签名手工拼出可读签名。
+        if (/^TSFunctionType/.test(printed.trim())) {
+          const signature = type.getCallSignatures()[0];
+          if (signature) {
+            const parameters = signature
+              .getParameters()
+              .map(
+                (parameter) =>
+                  `${parameter.name}: ${checker.typeToString(checker.getTypeOfSymbolAtLocation(parameter, declaration))}`,
+              );
+            printed = `(${parameters.join(', ')}) => ${checker.typeToString(signature.getReturnType(), declaration, ts.TypeFormatFlags.NoTruncation)}`;
+          }
         }
-      }
-      const unreadable = (type.flags & ts.TypeFlags.Any) !== 0 || /^TS[A-Z]/.test(printed.trim());
-      return {
-        name: camelCase ? field.name : kebab(field.name),
-        type: unreadable && declaredType ? declaredType.getText() : printed,
-        default: '',
-        description: descriptionOf(field),
-      };
-    });
+        const unreadable = (type.flags & ts.TypeFlags.Any) !== 0 || /^TS[A-Z]/.test(printed.trim());
+        return {
+          name: camelCase ? field.name : kebab(field.name),
+          type: unreadable && declaredType ? declaredType.getText() : printed,
+          default: '',
+          description: descriptionOf(field),
+        };
+      });
   const apis = new Map<
     string,
     {

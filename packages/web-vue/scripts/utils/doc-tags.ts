@@ -17,3 +17,17 @@ export function extractDescription(tags: unknown, field: 'description' | 'conten
   }
   return description;
 }
+
+/** Both docgen's normalized access tags and TypeScript's raw @private tags. */
+export function isPrivateApi(tags: unknown) {
+  const values = Array.isArray(tags)
+    ? tags
+    : Object.values(tags && typeof tags === 'object' ? tags : {}).flat();
+  return values.some((tag) => {
+    if (!tag || typeof tag !== 'object' || !('title' in tag)) return false;
+    return (
+      tag.title === 'private' ||
+      (tag.title === 'access' && 'description' in tag && tag.description === 'private')
+    );
+  });
+}

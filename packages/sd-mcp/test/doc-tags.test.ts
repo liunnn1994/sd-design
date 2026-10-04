@@ -1,7 +1,14 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { extractDescription } from '../../web-vue/scripts/utils/doc-tags.ts';
+import { extractDescription, isPrivateApi } from '../../web-vue/scripts/utils/doc-tags.ts';
+
+test('recognizes private tags from docgen and TypeScript without hiding public APIs', () => {
+  assert.equal(isPrivateApi({ access: [{ title: 'access', description: 'private' }] }), true);
+  assert.equal(isPrivateApi([{ title: 'private', description: '' }]), true);
+  assert.equal(isPrivateApi({ en: [{ title: 'en', description: 'Public field' }] }), false);
+  assert.equal(isPrivateApi(undefined), false);
+});
 
 // vue-docgen-api 各描述符存文案的字段并不一致：
 // prop 用 description，event 用 content，slot 又是 description。
