@@ -1,2 +1,2 @@
-import '../../../tooltip/style';
+import '../../../ellipsis/style';
 import './index.scss';

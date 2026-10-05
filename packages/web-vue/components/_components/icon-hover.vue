@@ -23,9 +23,9 @@
 
   defineOptions({ name: 'IconHover' });
 
-  const emit = defineEmits<{ click: [_e: MouseEvent] }>();
+  defineEmits<{ click: [_e: MouseEvent] }>();
 
-  const props = defineProps({
+  defineProps({
     prefix: {
       type: String,
     },
