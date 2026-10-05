@@ -48,7 +48,7 @@
       :prefix="prefixCls"
       :class="`${prefixCls}-close-btn`"
       @click.stop="handleClose"
-      @keydown.stop.prevent="handleCloseKeydown"
+      @keydown.stop="handleCloseKeydown"
     >
       <slot name="close-icon">
         <icon-close />
@@ -62,7 +62,7 @@
 
 <script setup lang="ts">
   import type { CSSProperties, PropType } from 'vue';
-  import { computed, inject, ref, useSlots } from 'vue';
+  import { computed, inject, onBeforeUpdate, ref, useSlots } from 'vue';
 
   import chroma from 'chroma-js';
   import { isNil } from 'es-toolkit/compat';
@@ -306,14 +306,6 @@
   // 是否为渐变颜色
   const isGradientColor = computed(() => isGradientString(resolvedColor.value));
 
-  // 用于传递给 hook 等消费方的 computedColor（内置颜色返回原色，自定义返回 undefined）
-  const computedColor = computed(() => {
-    if (isBuiltInColor.value) {
-      return resolvedColor.value;
-    }
-    return undefined;
-  });
-
   // 背景颜色（自定义颜色时使用）
   const resolvedBackgroundColor = computed(() => {
     if (isBuiltInColor.value) {
@@ -438,7 +430,12 @@
   });
 
   // ---- Ellipsis ----
-  const hasDefaultSlot = computed(() => Boolean(slots.default));
+  const hasDefaultSlot = ref(Boolean(slots.default));
+  const hasTooltipSlot = ref(Boolean(slots.tooltip));
+  onBeforeUpdate(() => {
+    hasDefaultSlot.value = Boolean(slots.default);
+    hasTooltipSlot.value = Boolean(slots.tooltip);
+  });
   const resolvedEllipsis = computed(() => props.ellipsis ?? props.nowrap ?? true);
   const shouldRenderEllipsis = computed(() => resolvedEllipsis.value && hasDefaultSlot.value);
   const hasLineClampEllipsis = computed(
@@ -450,7 +447,7 @@
 
   // ---- Tooltip ----
   // 显式传入 tooltip 属性或 tooltip 插槽时，无论内容是否被省略，hover 都展示提示
-  const hasCustomTooltip = computed(() => Boolean(props.tooltip) || Boolean(slots.tooltip));
+  const hasCustomTooltip = computed(() => Boolean(props.tooltip) || hasTooltipSlot.value);
   // 自定义提示内容时，让 Ellipsis 的提示常显（always）；ellipsis-tooltip 显式关闭
   // （false 或 disabled: true）时尊重该配置，不展示提示
   const mergedEllipsisTooltip = computed<boolean | EllipsisTooltipProps>(() => {
@@ -537,6 +534,7 @@
     if (ev.key !== 'Enter' && ev.key !== ' ') {
       return;
     }
+    ev.preventDefault();
     handleClose(ev);
   };
 

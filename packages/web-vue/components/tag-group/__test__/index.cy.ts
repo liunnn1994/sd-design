@@ -36,7 +36,7 @@ describe('TagGroup', () => {
     cy.mount(TagGroup, {
       props: {
         maxCount: 1,
-        options: [{ label: '文档', value: 'doc', text: '文档', id: 'doc' }],
+        options: [{ text: '文档', id: 'doc' }],
         fieldNames: { label: 'text', value: 'id' },
       },
     });

@@ -7,8 +7,8 @@ export type TagGroupOptionLabel = string | number | (() => string | number);
 export type TagGroupObjectOption = Merge<
   Partial<TagProps>,
   {
-    label: TagGroupOptionLabel;
-    value: string | number;
+    label?: TagGroupOptionLabel;
+    value?: string | number;
     itemProps?: Record<string, unknown>;
   }
 > &
