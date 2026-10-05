@@ -97,7 +97,6 @@ $timeline-item-prefix-cls: string.unquote('#{theme.$prefix}-timeline-item');
   }
 
   &-dot-line {
-    // bottom: -7px;
     position: absolute;
     top: 1.5715 * ($timeline-font-content-size * 0.5) + ($timeline-dot-size-width * 0.5) +
       $timeline-vertical-margin-line-top;
