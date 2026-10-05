@@ -548,6 +548,7 @@
 
   const setField = (data: FieldData) => {
     if (field.value) {
+      validationId++;
       validateDisabled.value = true;
       if ('value' in data && formCtx?.model && field.value) {
         setValueByPath(formCtx.model, field.value, data.value);
