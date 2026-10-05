@@ -377,6 +377,7 @@
     emit('pageSizeChange', pageSize);
     // autoAdjust：保持当前页首项在新页长下仍可见（如 100 条每页 10 第 3 页 → 每页 20 时落到第 2 页）
     if (
+      props.pageSize === undefined &&
       mergedAutoAdjust.value &&
       isNumber(computedCurrent.value) &&
       oldPageSize !== pageSize &&
@@ -426,36 +427,26 @@
     return items;
   });
 
-  // 非受控页大小已在 handlePageSizeChange 中调整，避免 watcher 再次改变当前页。
-  watch(computedPageSize, (currentPageSize, previousPageSize) => {
-    if (
-      props.pageSize !== undefined &&
-      mergedAutoAdjust.value &&
-      currentPageSize !== previousPageSize &&
-      computedCurrent.value > 1
-    ) {
-      const index = previousPageSize * (computedCurrent.value - 1) + 1;
-      const newPage = Math.ceil(index / currentPageSize);
-      if (newPage !== computedCurrent.value) {
-        innerCurrent.value = newPage;
-        emit('update:current', newPage);
-        emit('change', newPage);
+  // 非受控页大小已在 handlePageSizeChange 中调整；受控页大小与总页数在同一次检查中调整。
+  watch(
+    [computedPageSize, pages],
+    ([currentPageSize, currentPages], [previousPageSize, previousPages]) => {
+      if (!mergedAutoAdjust.value || computedCurrent.value <= 1) return;
+
+      let newCurrent = computedCurrent.value;
+      if (props.pageSize !== undefined && currentPageSize !== previousPageSize) {
+        const index = previousPageSize * (computedCurrent.value - 1) + 1;
+        newCurrent = Math.max(1, Math.min(Math.ceil(index / currentPageSize), currentPages));
+      } else if (currentPages !== previousPages && computedCurrent.value > currentPages) {
+        newCurrent = Math.max(currentPages, 1);
       }
-    }
-  });
-  watch(pages, (currentPages, previousPages) => {
-    if (
-      mergedAutoAdjust.value &&
-      currentPages !== previousPages &&
-      computedCurrent.value > 1 &&
-      computedCurrent.value > currentPages
-    ) {
-      const newCurrent = Math.max(currentPages, 1);
-      innerCurrent.value = newCurrent;
-      emit('update:current', newCurrent);
-      emit('change', newCurrent);
-    }
-  });
+      if (newCurrent !== computedCurrent.value) {
+        innerCurrent.value = newCurrent;
+        emit('update:current', newCurrent);
+        emit('change', newCurrent);
+      }
+    },
+  );
   const cls = computed(() => [
     prefixCls,
     `${prefixCls}-size-${mergedSize.value}`,

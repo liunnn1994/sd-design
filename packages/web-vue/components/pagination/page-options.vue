@@ -4,8 +4,8 @@
       :model-value="modelValue"
       :options="options"
       :size="size"
-      :disabled="disabled"
       v-bind="selectProps"
+      :disabled="disabled || selectProps?.disabled"
       :allow-clear="false"
       @change="handleChange"
     />
