@@ -1,4 +1,4 @@
-import { Ref, watch } from 'vue';
+import { onBeforeUnmount, Ref, watch } from 'vue';
 
 import { getScrollBarWidth, isScroll } from '../_utils/dom';
 import { acquireOverflowLock, releaseOverflowLock } from '../_utils/overflow-lock';
@@ -34,6 +34,8 @@ export const useOverflow = (elementRef: Ref<HTMLElement | undefined>) => {
       setOverflowHidden();
     }
   });
+
+  onBeforeUnmount(resetOverflow);
 
   return {
     setOverflowHidden,

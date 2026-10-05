@@ -59,12 +59,17 @@ export default function usePopupManager(
   } = {},
 ) {
   const zIndex = ref(0);
+  let opened = false;
 
   const open = () => {
+    if (opened) return;
+    opened = true;
     zIndex.value = popupManager.add(type);
   };
 
   const close = () => {
+    if (!opened) return;
+    opened = false;
     popupManager.delete(zIndex.value, type);
   };
 

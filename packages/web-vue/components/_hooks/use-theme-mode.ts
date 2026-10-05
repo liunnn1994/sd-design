@@ -33,7 +33,7 @@ export function useThemeMode<T extends HTMLElement = HTMLElement>(
   // Observe any sd-theme attribute change in the subtree so both local
   // and ancestor ThemeProvider mutations are caught.
   useMutationObserver(
-    typeof document !== 'undefined' ? document.body : undefined,
+    typeof document !== 'undefined' ? document.documentElement : undefined,
     (mutations) => {
       for (const mutation of mutations) {
         if (mutation.type === 'attributes' && mutation.attributeName === THEME_ATTR) {

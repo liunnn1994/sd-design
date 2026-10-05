@@ -23,57 +23,60 @@ const createContainer = (overflow: string) => {
 };
 
 describe('usePopupOverflowHidden', () => {
-  it('restores overflow when the popup closes', async () => {
+  it('restores overflow when the popup closes', () => {
     const container = createContainer('auto');
     const { state, Host } = createHost(container, true);
 
-    cy.mount(Host);
-    await nextTick();
-    expect(container.style.overflow).to.eq('hidden');
+    cy.mount(Host).then(async () => {
+      await nextTick();
+      expect(container.style.overflow).to.eq('hidden');
 
-    state.hidden = false;
-    await nextTick();
-    expect(container.style.overflow).to.eq('auto');
+      state.hidden = false;
+      await nextTick();
+      expect(container.style.overflow).to.eq('auto');
 
-    container.remove();
+      container.remove();
+    });
   });
 
-  it('restores the locked element when the container changes while hidden', async () => {
+  it('restores the locked element when the container changes while hidden', () => {
     const first = createContainer('auto');
     const second = createContainer('auto');
     const { state, Host } = createHost(first, true);
 
-    cy.mount(Host);
-    await nextTick();
-    expect(first.style.overflow).to.eq('hidden');
+    cy.mount(Host).then(async () => {
+      await nextTick();
+      expect(first.style.overflow).to.eq('hidden');
 
-    // 锁定期间换容器：旧的容器必须被还原，不能永远留着 overflow: hidden
-    state.container = second;
-    await nextTick();
+      // 锁定期间换容器：旧的容器必须被还原，不能永远留着 overflow: hidden
+      state.container = second;
+      await nextTick();
 
-    expect(first.style.overflow).to.eq('auto');
-    expect(second.style.overflow).to.eq('hidden');
+      expect(first.style.overflow).to.eq('auto');
+      expect(second.style.overflow).to.eq('hidden');
 
-    state.hidden = false;
-    await nextTick();
-    expect(second.style.overflow).to.eq('auto');
+      state.hidden = false;
+      await nextTick();
+      expect(second.style.overflow).to.eq('auto');
 
-    first.remove();
-    second.remove();
+      first.remove();
+      second.remove();
+    });
   });
 
-  it('keeps the original width of the locked element', async () => {
+  it('keeps the original width of the locked element', () => {
     const container = createContainer('auto');
     container.style.width = '320px';
     const { state, Host } = createHost(container, true);
 
-    cy.mount(Host);
-    await nextTick();
+    cy.mount(Host).then(async () => {
+      await nextTick();
 
-    state.hidden = false;
-    await nextTick();
-    expect(container.style.width).to.eq('320px');
+      state.hidden = false;
+      await nextTick();
+      expect(container.style.width).to.eq('320px');
 
-    container.remove();
+      container.remove();
+    });
   });
 });
