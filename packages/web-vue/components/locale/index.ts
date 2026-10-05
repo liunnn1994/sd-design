@@ -10,9 +10,7 @@ import zhCN from './lang/zh-cn';
 export { DEFAULT_LOCALE, DEFAULT_LOCALE_KEY } from './constant';
 
 const LOCALE = ref(DEFAULT_LOCALE);
-const I18N_MESSAGES = reactive<SdI18nMessages>({
-  [DEFAULT_LOCALE]: zhCN,
-});
+const I18N_MESSAGES = reactive(new Map<string, SdLang>([[DEFAULT_LOCALE, zhCN]]));
 
 /**
  * 添加地区语言包。添加过后的语言包可以通过 `useLocale` 使用
@@ -26,8 +24,8 @@ export const addI18nMessages = (
   },
 ) => {
   for (const key of Object.keys(messages)) {
-    if (!I18N_MESSAGES[key] || options?.overwrite) {
-      I18N_MESSAGES[key] = messages[key];
+    if (!I18N_MESSAGES.has(key) || options?.overwrite) {
+      I18N_MESSAGES.set(key, messages[key]);
     }
   }
 };
@@ -37,7 +35,7 @@ export const addI18nMessages = (
  * @param locale
  */
 export const useLocale = (locale: string) => {
-  if (!I18N_MESSAGES[locale]) {
+  if (!I18N_MESSAGES.has(locale)) {
     // oxlint-disable-next-line no-console
     console.warn(`use ${locale} failed! Please add ${locale} first`);
     return;
@@ -56,7 +54,10 @@ export const getLocale = () => {
 export const useI18n = () => {
   const configProvider = inject(configProviderInjectionKey, undefined);
   const i18nMessage = computed<SdLang>(
-    () => configProvider?.locale ?? I18N_MESSAGES[LOCALE.value] ?? I18N_MESSAGES[DEFAULT_LOCALE],
+    () =>
+      configProvider?.locale ??
+      I18N_MESSAGES.get(LOCALE.value) ??
+      I18N_MESSAGES.get(DEFAULT_LOCALE)!,
   );
   const locale = computed(() => i18nMessage.value.locale);
 
@@ -76,7 +77,7 @@ export const useI18n = () => {
     // 此时不能把原始 key 渲染到界面上，先回退到默认语言包。
     const text =
       resolveKey(i18nMessage.value, keyArray) ??
-      resolveKey(I18N_MESSAGES[DEFAULT_LOCALE], keyArray);
+      resolveKey(I18N_MESSAGES.get(DEFAULT_LOCALE), keyArray);
 
     if (text === undefined) {
       return key;
