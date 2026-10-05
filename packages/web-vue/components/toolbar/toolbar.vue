@@ -116,7 +116,7 @@
   const bodyHeight = ref(0);
 
   // Snapshot the initial values so reset can restore them.
-  const initModel = cloneDeep(modelValue.value ?? {});
+  const initModel = Object.fromEntries(cloneDeep(Object.entries(modelValue.value ?? {})));
 
   const { createResizeObserver, destroyResizeObserver } = useResizeObserver({
     elementRef: bodyRef,
@@ -206,15 +206,18 @@
   function reset(emitReset: unknown = true) {
     // Restore initial values (minus skipped keys), preserve skipped keys' current
     // values, and drop any keys that were added after mount.
-    const initMinusSkip = omit(initModel, resetSkipKeys) as ToolbarModelValue;
-    const next: ToolbarModelValue = {};
+    const next: ToolbarModelValue = Object.fromEntries(
+      cloneDeep(Object.entries(omit(initModel, resetSkipKeys))),
+    );
     for (const key of resetSkipKeys) {
       if (Object.hasOwn(modelValue.value, key)) {
-        next[key] = modelValue.value[key];
+        Object.defineProperty(next, key, {
+          value: modelValue.value[key],
+          enumerable: true,
+          configurable: true,
+          writable: true,
+        });
       }
-    }
-    for (const key of Object.keys(initMinusSkip)) {
-      next[key] = initMinusSkip[key];
     }
     modelValue.value = next;
     formRef.value?.clearValidate();
