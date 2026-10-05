@@ -88,14 +88,6 @@ $switch-size-small-line-gap: (($switch-size-small - $switch-line-size-dot-small)
     color: $switch-color-dot-icon_on_disabled;
   }
 
-  &[disabled] &-handle {
-    color: $switch-color-dot-icon_off_disabled;
-  }
-
-  &[disabled]#{&}-checked &-handle {
-    color: $switch-color-dot-icon_on_disabled;
-  }
-
   &-text-holder {
     margin: 0 8px 0 $switch-size-dot-default + $switch-size-default-gap + 6px;
     font-size: $switch-font-size-text;

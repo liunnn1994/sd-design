@@ -43,7 +43,15 @@
 
 <script setup lang="ts">
   import type { PropType } from 'vue';
-  import { computed, getCurrentInstance, ref, toRefs, watch } from 'vue';
+  import {
+    computed,
+    getCurrentInstance,
+    ref,
+    toRefs,
+    watch,
+    shallowRef,
+    onBeforeUpdate,
+  } from 'vue';
 
   import { useFormItem } from '../_hooks/use-form-item';
   import { useSize } from '../_hooks/use-size';
@@ -232,24 +240,16 @@
   );
   const beforeChangeLoading = ref(false);
   const autoChangeLoading = ref(false);
-  const hasLoadingProp = computed(() => {
-    const rawProps = instance?.vnode.props;
-
-    if (!rawProps) {
-      return false;
-    }
-
-    return Object.hasOwn(rawProps, 'loading');
+  const rawProps = shallowRef(instance?.vnode.props);
+  onBeforeUpdate(() => {
+    rawProps.value = instance?.vnode.props;
   });
-  const hasModelValueProp = computed(() => {
-    const rawProps = instance?.vnode.props;
-
-    if (!rawProps) {
-      return false;
-    }
-
-    return Object.hasOwn(rawProps, 'modelValue');
-  });
+  const hasLoadingProp = computed(() => Object.hasOwn(rawProps.value ?? {}, 'loading'));
+  const hasModelValueProp = computed(
+    () =>
+      Object.hasOwn(rawProps.value ?? {}, 'modelValue') ||
+      Object.hasOwn(rawProps.value ?? {}, 'model-value'),
+  );
   const computedLoading = computed(
     () => beforeChangeLoading.value || props.loading || autoChangeLoading.value,
   );
@@ -257,14 +257,17 @@
   watch(
     modelValue!,
     () => {
-      if (!hasModelValueProp.value) {
-        return;
-      }
-
       autoChangeLoading.value = false;
     },
     {
       flush: 'post',
+    },
+  );
+
+  watch(
+    [() => props.autoLoading, hasLoadingProp, hasModelValueProp],
+    ([autoLoading, hasLoading, hasModelValue]) => {
+      if (!autoLoading || hasLoading || !hasModelValue) autoChangeLoading.value = false;
     },
   );
 
@@ -292,7 +295,7 @@
       beforeChangeLoading.value = true;
       try {
         const result = await shouldChange(checkedValue);
-        if (result ?? true) {
+        if ((result ?? true) && !mergedDisabled.value) {
           handleChange(checked, ev);
         }
       } catch {
