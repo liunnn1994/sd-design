@@ -128,7 +128,7 @@
       default: 'div',
     },
     itemSize: {
-      type: [Number, Function, Object] as PropType<ItemSizeValue>,
+      type: [Number, String, Function, Object] as PropType<ItemSizeValue>,
       default: undefined,
     },
     gridItems: Number,

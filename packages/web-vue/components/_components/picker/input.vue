@@ -143,7 +143,7 @@
     },
   ]);
   const displayValue = computed(() => {
-    if (inputValue?.value) return inputValue?.value;
+    if (inputValue?.value !== undefined) return inputValue.value;
     if (value?.value && isDayjs(value.value)) {
       return isFunction(format.value)
         ? format.value(value.value)
