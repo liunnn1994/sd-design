@@ -16,7 +16,7 @@
 
   defineOptions({ name: 'MenuIndent' });
 
-  const props = defineProps({
+  defineProps({
     level: {
       type: Number,
       default: 1,

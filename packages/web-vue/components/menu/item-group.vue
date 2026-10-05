@@ -31,7 +31,7 @@
 
   defineOptions({ name: 'MenuItemGroup' });
 
-  const props = defineProps({
+  defineProps({
     /**
      * @zh 菜单组的标题
      * @en The title of the menu group

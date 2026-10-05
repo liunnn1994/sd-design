@@ -376,7 +376,7 @@ $token-vars: map.merge(meta.module-variables('dropdownToken'), meta.module-varia
 
     .#{$menu-prefix-cls}-pop::after {
       position: absolute;
-      bottom: -$menu-horizontal-padding-vertical;
+      bottom: calc(-1 * $menu-horizontal-padding-vertical);
       left: 0;
       width: 100%;
       height: $menu-horizontal-padding-vertical;
@@ -406,7 +406,7 @@ $token-vars: map.merge(meta.module-variables('dropdownToken'), meta.module-varia
   &-selected-label {
     position: absolute;
     right: $menu-horizontal-item-padding-horizontal;
-    bottom: -$menu-horizontal-padding-vertical;
+    bottom: calc(-1 * $menu-horizontal-padding-vertical);
     left: $menu-horizontal-item-padding-horizontal;
     height: $menu-height-label-item-selected;
     background-color: $menu-color-label-item-selected;
