@@ -31,12 +31,11 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, useSlots } from 'vue';
+  import { computed, onBeforeUpdate, reactive, useSlots } from 'vue';
 
   import type { LinkProps } from './interface';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import { hasPropOrSlot } from '../_utils/use-prop-or-slot';
   import { PerformantEllipsis } from '../ellipsis';
   import IconLink from '../icon/icon-link';
   import IconLoading from '../icon/icon-loading';
@@ -68,9 +67,14 @@
   });
 
   const slots = useSlots();
+  const slotPresence = reactive({ default: Boolean(slots.default), icon: Boolean(slots.icon) });
+  onBeforeUpdate(() => {
+    slotPresence.default = Boolean(slots.default);
+    slotPresence.icon = Boolean(slots.icon);
+  });
   const prefixCls = getPrefixCls('link');
-  const showIcon = hasPropOrSlot(props, slots, 'icon');
-  const hasDefaultSlot = computed(() => Boolean(slots.default));
+  const showIcon = computed(() => props.icon || slotPresence.icon);
+  const hasDefaultSlot = computed(() => slotPresence.default);
   const resolvedHoverable = computed(() => props.hoverable ?? hasDefaultSlot.value);
   const shouldRenderEllipsis = computed(() => props.ellipsis && hasDefaultSlot.value);
 
