@@ -77,11 +77,11 @@
       >
         <Tag
           v-for="(item, index) in tags"
-          :key="`tag-${item.value}`"
+          :key="isOverflowCounterTag(index) ? '__arco__more' : `tag-${item.value}`"
           :class="[
             `${prefixCls}-tag`,
             {
-              [`${prefixCls}-tag-counter`]: isOverflowCounterTag(item.value),
+              [`${prefixCls}-tag-counter`]: isOverflowCounterTag(index),
             },
           ]"
           visible
@@ -131,6 +131,7 @@
   import {
     computed,
     nextTick,
+    onBeforeUpdate,
     onMounted,
     reactive,
     ref,
@@ -350,6 +351,11 @@
 
   const attrs = useAttrs();
   const slots = useSlots();
+  const slotPresence = reactive({ prefix: Boolean(slots.prefix), suffix: Boolean(slots.suffix) });
+  onBeforeUpdate(() => {
+    slotPresence.prefix = Boolean(slots.prefix);
+    slotPresence.suffix = Boolean(slots.suffix);
+  });
   const { size, disabled, error, uninjectFormItemContext, allowClear } = toRefs(props);
   const prefixCls = props.baseCls || getPrefixCls('input-tag');
   const wrapperRef = ref<HTMLElement>();
@@ -479,7 +485,8 @@
   const hiddenTagCount = computed(() =>
     Math.max(valueData.value.length - visibleTagCount.value, 0),
   );
-  const isOverflowCounterTag = (value: string | number) => value === '__arco__more';
+  const isOverflowCounterTag = (index: number) =>
+    hiddenTagCount.value > 0 && index === visibleTagCount.value;
   const tags = computed(() => {
     const visibleTags = valueData.value.slice(0, visibleTagCount.value);
     if (!hiddenTagCount.value) return visibleTags;
@@ -595,8 +602,8 @@
       [`${prefixCls}-readonly`]: props.readonly,
       [`${prefixCls}-responsive`]: isResponsiveMaxTagCount.value,
       [`${prefixCls}-has-tag`]: valueData.value.length > 0,
-      [`${prefixCls}-has-prefix`]: Boolean(slots.prefix),
-      [`${prefixCls}-has-suffix`]: Boolean(slots.suffix) || showClearBtn.value || feedback.value,
+      [`${prefixCls}-has-prefix`]: slotPresence.prefix,
+      [`${prefixCls}-has-suffix`]: slotPresence.suffix || showClearBtn.value || feedback.value,
       [`${prefixCls}-has-placeholder`]: !computedValue.value.length,
       [`${prefixCls}-fit-width`]: props.fitWidth,
       [`${prefixCls}-max-w-full`]: props.maxWFull,

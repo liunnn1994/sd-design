@@ -1,4 +1,4 @@
-import { isNumber, isObject } from '../_utils/is';
+import { isObject } from '../_utils/is';
 import { InputTagFieldNames, TagData, TagDataInfo } from './interface';
 
 export const getValueData = (
@@ -15,7 +15,7 @@ export const getValueData = (
         closable: item[fieldNames.closable] as boolean,
         tagProps: item[fieldNames.tagProps] as TagDataInfo['tagProps'],
       });
-    } else if (value || isNumber(value)) {
+    } else {
       const raw = {
         value: item,
         label: String(item),
