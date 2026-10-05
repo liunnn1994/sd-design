@@ -13,7 +13,8 @@ describe('Shared utility robustness', () => {
   });
 
   it('pads long values without overflowing the stack', () => {
-    expect(padStart('1', 50000, '0')).to.equal(`${'0'.repeat(49999)  }1`);
+    const prefix = '0'.repeat(49999);
+    expect(padStart('1', 50000, '0')).to.equal(`${prefix}1`);
     expect(padStart(3, 2, '0')).to.equal('03');
   });
 
