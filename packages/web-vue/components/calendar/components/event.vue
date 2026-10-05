@@ -72,7 +72,7 @@
 
   import { PerformantEllipsis } from '../../ellipsis';
   import { calendarInjectionKey } from '../context';
-  import { minutesToPercentage, percentageToMinutes } from '../utils/conversions';
+  import { minutesToPercentage } from '../utils/conversions';
 
   const props = defineProps({
     event: { type: Object as PropType<CalendarEvent>, required: true },
@@ -81,12 +81,7 @@
     cellEnd: { type: Date, required: true },
   });
 
-  const emit = defineEmits([
-    'event-drag-start',
-    'event-drag-end',
-    'event-resize-start',
-    'event-resize-end',
-  ]);
+  defineEmits(['event-drag-start', 'event-drag-end', 'event-resize-start', 'event-resize-end']);
 
   const calendar = inject(calendarInjectionKey)!;
   const { config, view, dnd, touch: globalTouchState, dateUtils, eventsManager } = calendar;

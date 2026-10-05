@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, inject, onBeforeUnmount, onMounted, ref, reactive } from 'vue';
+  import { computed, inject, onBeforeUnmount, onMounted, ref } from 'vue';
 
   import { calendarInjectionKey } from '../context';
   import { percentageToMinutes, pxToPercentage } from '../utils/conversions';

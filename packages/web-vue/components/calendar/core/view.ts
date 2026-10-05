@@ -332,7 +332,7 @@ export const useView = (
   });
 
   const title = computed(() => {
-    const { dateFormat, months, monthsGenitive, week: _weekText, truncations } = texts;
+    const { dateFormat, months, monthsGenitive, truncations } = texts;
     const locale = config.locale;
     const canTruncate = truncations !== false;
 

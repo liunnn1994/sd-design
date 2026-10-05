@@ -20,8 +20,6 @@ import { eventRangeViolatesAllowEvents } from '../utils/special-hours-allow-even
  * Events drag and drop composable.
  */
 
-const _holdOverTimeout = 800; // How long we should hold over an element before it reacts.
-let _changeViewTimeout: ReturnType<typeof setTimeout> | undefined;
 const viewBeforeDrag = reactive({ id: null as string | null, date: null as Date | null }); // To go back if cancelling.
 let viewChanged = false;
 let cancelViewChange = true;
@@ -57,7 +55,7 @@ export function useDragAndDrop(
     'config' | 'view' | 'eventsManager' | 'emit' | 'uid' | 'dateUtils' | 'prefixCls' | 'touch'
   >,
 ) {
-  const { config, view, eventsManager, emit, uid: calendarUid, dateUtils: _dateUtils } = calendar;
+  const { config, view, eventsManager, emit, uid: calendarUid } = calendar;
   const prefixCls = calendar.prefixCls;
   let disposed = false;
   onBeforeUnmount(() => {
@@ -305,7 +303,7 @@ export function useDragAndDrop(
    * @param {Number|String} schedule The optional schedule being hovered if any.
    */
   const cellDragOver = (e: CalendarDragEvent, cell: CalendarCell) => {
-    const { start: _cellDate, schedule } = cell;
+    const { schedule } = cell;
     e.preventDefault();
     cell.highlighted = true;
     if (schedule || schedule === 0) cell.highlightedSchedule = schedule;
