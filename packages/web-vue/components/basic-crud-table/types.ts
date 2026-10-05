@@ -104,8 +104,8 @@ export interface BasicCrudTableProps<TRow extends TableData = TableData> {
    */
   showCreate?: boolean;
   /**
-   * @zh 挂载后是否直接打开新建弹窗
-   * @en Whether to open the create modal on mount
+   * @zh 点击新建按钮时是否打开新建弹窗
+   * @en Whether to open the create modal when the create button is clicked
    */
   openCreateModal?: boolean;
   /**

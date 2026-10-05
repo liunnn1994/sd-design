@@ -1,2 +1,11 @@
 import '../../style/index.scss';
+import '../../button/style';
+import '../../json-form/style';
+import '../../link/style';
+import '../../modal/style';
+import '../../popconfirm/style';
+import '../../space/style';
+import '../../spin/style';
+import '../../table/style';
+import '../../toolbar/style';
 import './index.scss';
