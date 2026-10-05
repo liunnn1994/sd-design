@@ -142,6 +142,7 @@
   });
   const { mergedSize } = useSize(formItemSize);
   const internalValue = ref(props.defaultValue);
+  const changeCount = ref(0);
   const computedValue = computed(() => props.modelValue ?? internalValue.value);
   const options = computed(() =>
     (props.options ?? []).map((option) => {
@@ -163,6 +164,7 @@
     },
   ]);
   const handleChange = (value: RadioValue, event: Event) => {
+    changeCount.value++;
     internalValue.value = value;
     emit('update:modelValue', value);
     emit('change', value, event);
@@ -178,6 +180,7 @@
       size: mergedSize,
       type: toRef(props, 'type'),
       disabled: mergedDisabled,
+      changeCount,
       slots,
       handleChange,
     }),

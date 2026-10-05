@@ -180,12 +180,14 @@
       }
     },
   );
-  watch(computedChecked, (value, previousValue) => {
-    if (value !== previousValue) {
+  watch(
+    [computedChecked, () => radioGroupCtx?.changeCount],
+    ([value]) => {
       internalChecked.value = value;
       if (inputRef.value) {
         inputRef.value.checked = value;
       }
-    }
-  });
+    },
+    { flush: 'post' },
+  );
 </script>

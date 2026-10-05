@@ -13,6 +13,7 @@ export interface RadioGroupContext {
   size: Size;
   type: RadioType;
   disabled: boolean;
+  changeCount: number;
   slots: Slots;
   handleChange: (value: string | number | boolean, e: Event) => void;
 }
