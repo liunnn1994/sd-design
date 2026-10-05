@@ -46,6 +46,7 @@
     inject,
     nextTick,
     onBeforeUnmount,
+    onBeforeUpdate,
     onMounted,
     shallowRef,
     useSlots,
@@ -114,6 +115,12 @@
 
   const prefixCls = getPrefixCls('number-flow');
   const slots = useSlots();
+  const hasPrefixSlot = shallowRef(Boolean(slots.prefix));
+  const hasSuffixSlot = shallowRef(Boolean(slots.suffix));
+  onBeforeUpdate(() => {
+    hasPrefixSlot.value = Boolean(slots.prefix);
+    hasSuffixSlot.value = Boolean(slots.suffix);
+  });
   const rootRef = useTemplateRef<HTMLElement>('rootRef');
   const styleScope = shallowRef<string>();
 
@@ -128,8 +135,8 @@
     return formatNumberFlow(
       val,
       numberFormatter.value,
-      slots.prefix ? undefined : prefix,
-      slots.suffix ? undefined : suffix,
+      hasPrefixSlot.value ? undefined : prefix,
+      hasSuffixSlot.value ? undefined : suffix,
     );
   }
 

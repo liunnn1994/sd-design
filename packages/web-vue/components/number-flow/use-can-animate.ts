@@ -25,6 +25,7 @@ export function useCanAnimate({
       reducedMotion.value = matches;
     };
     const query = mediaQuery.value;
+    if (query) reducedMotion.value = query.matches;
     query?.addEventListener('change', onChange);
     onCleanup(() => {
       query?.removeEventListener('change', onChange);
