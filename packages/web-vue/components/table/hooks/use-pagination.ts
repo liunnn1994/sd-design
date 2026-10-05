@@ -4,7 +4,7 @@ import { isObject } from '../../_utils/is';
 import { TableProps } from '../interface';
 
 export const usePagination = (
-  props: TableProps,
+  props: Pick<TableProps, 'pagination'>,
   emit: {
     (event: 'pageChange', value: number): void;
     (event: 'pageSizeChange', value: number): void;

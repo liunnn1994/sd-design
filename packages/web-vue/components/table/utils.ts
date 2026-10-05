@@ -121,7 +121,7 @@ export const getGroupColumns = (
           cell.dataIndex = `__sd_data_index_${dataColumns.length}`;
         }
 
-        if (columnWidth[cell.dataIndex]) {
+        if (Object.hasOwn(columnWidth, cell.dataIndex) && columnWidth[cell.dataIndex]) {
           cell._resizeWidth = columnWidth[cell.dataIndex];
         }
 
@@ -319,7 +319,9 @@ export const getTableGridTemplate = (
     .concat(
       dataColumns.map((item) =>
         getColumnTrack(
-          (item.dataIndex && columnWidth?.[item.dataIndex]) || item.width,
+          (item.dataIndex && columnWidth && Object.hasOwn(columnWidth, item.dataIndex)
+            ? columnWidth[item.dataIndex]
+            : undefined) || item.width,
           item.minWidth,
         ),
       ),

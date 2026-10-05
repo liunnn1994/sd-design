@@ -14,15 +14,17 @@ export const useFilter = ({
 }) => {
   const _filters = ref<Filters>(getDefaultFilters(columns.value));
 
-  watch(columns, (columns) => {
-    const newFilters = getDefaultFilters(columns);
-    if (!isEqual(newFilters, _filters.value)) {
-      _filters.value = newFilters;
-    }
-  });
+  watch(
+    () => getDefaultFilters(columns.value),
+    (defaults, previousDefaults) => {
+      if (!isEqual(defaults, previousDefaults)) {
+        _filters.value = defaults;
+      }
+    },
+  );
 
   const computedFilters = computed<Filters>(() => {
-    const filters: Filters = {};
+    const filters: Filters = Object.create(null);
     for (const item of columns.value) {
       if (item.dataIndex) {
         const value = item.filterable?.filteredValue ?? _filters.value[item.dataIndex];
@@ -37,7 +39,7 @@ export const useFilter = ({
   const resetFilters = (dataIndex?: string | string[]) => {
     const _dataIndex = dataIndex ? ([] as string[]).concat(dataIndex) : [];
 
-    const filters: Filters = _dataIndex.length > 0 ? { ..._filters.value } : {};
+    const filters: Filters = _dataIndex.length > 0 ? { ..._filters.value } : Object.create(null);
     for (const item of columns.value) {
       if (item.dataIndex && item.filterable) {
         if (_dataIndex.length === 0 || _dataIndex.includes(item.dataIndex)) {
@@ -53,7 +55,7 @@ export const useFilter = ({
   const clearFilters = (dataIndex?: string | string[]) => {
     const _dataIndex = dataIndex ? ([] as string[]).concat(dataIndex) : [];
 
-    const filters: Filters = _dataIndex.length > 0 ? { ..._filters.value } : {};
+    const filters: Filters = _dataIndex.length > 0 ? { ..._filters.value } : Object.create(null);
     for (const item of columns.value) {
       if (item.dataIndex && item.filterable) {
         if (_dataIndex.length === 0 || _dataIndex.includes(item.dataIndex)) {
@@ -75,7 +77,7 @@ export const useFilter = ({
 };
 
 const getDefaultFilters = (columns: TableColumnData[]) => {
-  const filters: Filters = {};
+  const filters: Filters = Object.create(null);
   for (const item of columns) {
     if (item.dataIndex && item.filterable?.defaultFilteredValue) {
       filters[item.dataIndex] = item.filterable.defaultFilteredValue;

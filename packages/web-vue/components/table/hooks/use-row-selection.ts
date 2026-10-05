@@ -59,7 +59,11 @@ export const useRowSelection = ({
   };
 
   const handleSelectAllLeafs = (record: TableDataWithRaw, checked: boolean) => {
-    const newKeys = union(selectedRowKeys.value, getLeafKeys(record), !checked);
+    const newKeys = union(
+      selectedRowKeys.value,
+      getLeafKeys(record).filter((key) => currentAllEnabledRowKeys.value.includes(key)),
+      !checked,
+    );
     _selectedRowKeys.value = newKeys;
     emit('select', newKeys, record.key, record.raw);
     emit('selectionChange', newKeys);
@@ -69,7 +73,9 @@ export const useRowSelection = ({
   const select = (rowKey: BaseType | BaseType[], checked = true) => {
     const _rowKeys = ([] as BaseType[]).concat(rowKey);
     const newSelectedRowKeys = isRadio.value
-      ? _rowKeys
+      ? checked
+        ? _rowKeys
+        : selectedRowKeys.value.filter((key) => !_rowKeys.includes(key))
       : union(selectedRowKeys.value, _rowKeys, !checked);
     _selectedRowKeys.value = newSelectedRowKeys;
     emit('selectionChange', newSelectedRowKeys);

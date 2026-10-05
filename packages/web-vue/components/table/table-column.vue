@@ -7,6 +7,8 @@
     getCurrentInstance,
     inject,
     onBeforeUnmount,
+    onBeforeUpdate,
+    shallowReactive,
     provide,
     reactive,
     ref,
@@ -184,6 +186,13 @@
    * @version 2.23.0
    */
   const slots = useSlots();
+  const columnSlots = shallowReactive({ ...slots });
+  onBeforeUpdate(() => {
+    for (const name of Object.keys(columnSlots)) {
+      if (!slots[name]) delete columnSlots[name];
+    }
+    Object.assign(columnSlots, slots);
+  });
   const VNodeRenderer = ({ content }: { content: VNodeChild }) => content;
   const { dataIndex, title, width, align, fixed, ellipsis, index, minWidth } = toRefs(props);
   const sortable = usePureProp(props, 'sortable');
@@ -253,7 +262,7 @@
     index,
     tooltip,
     children: childrenColumns,
-    slots,
+    slots: columnSlots,
   });
 
   if (instance) {

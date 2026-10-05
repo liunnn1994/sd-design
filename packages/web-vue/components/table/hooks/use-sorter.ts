@@ -15,12 +15,14 @@ export const useSorter = ({
 }) => {
   const _sorter = ref<Sorter | undefined>(getDefaultSorter(columns.value));
 
-  watch(columns, (columns) => {
-    const newSorter = getDefaultSorter(columns);
-    if (!isEqual(newSorter, _sorter.value)) {
-      _sorter.value = newSorter;
-    }
-  });
+  watch(
+    () => getDefaultSorter(columns.value),
+    (defaults, previousDefaults) => {
+      if (!isEqual(defaults, previousDefaults)) {
+        _sorter.value = defaults;
+      }
+    },
+  );
 
   const computedSorter = computed<Sorter | undefined>(() => {
     for (const item of columns.value) {

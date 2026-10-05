@@ -5,6 +5,7 @@ import type { TableContext } from '../context';
 import type { TableColumnData } from '../interface';
 
 import { isArray } from '../../_utils/is';
+import { isEqual } from '../../_utils/is-equal';
 
 export const useColumnFilter = ({
   column,
@@ -26,7 +27,7 @@ export const useColumnFilter = ({
   const columnFilterValue = ref<string[]>(filterValue.value);
 
   watch(filterValue, (value) => {
-    if (isArray(value) && String(value) !== String(columnFilterValue.value)) {
+    if (isArray(value) && !isEqual(value, columnFilterValue.value)) {
       columnFilterValue.value = value;
     }
   });

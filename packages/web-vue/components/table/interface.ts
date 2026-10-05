@@ -3,7 +3,6 @@ import type { Simplify } from 'type-fest';
 import { CSSProperties, RenderFunction, Slots, VNodeChild } from 'vue';
 
 import type { FloatingOptions } from '../_utils/floating';
-import type { SpinProps } from '../spin';
 
 import { BaseType, ClassName } from '../_utils/types';
 import { TriggerProps } from '../trigger';
@@ -481,17 +480,7 @@ export interface TableChangeExtra {
   dragTarget?: TableData;
 }
 
-export interface TableProps {
-  columns: TableColumnData[];
-  data: TableData[];
-  bordered?: boolean | TableBorder;
-  rowSelection?: TableRowSelection;
-  expandable?: TableExpandable;
-  pagination?: boolean | import('../pagination/interface').PaginationProps;
-  pagePosition?: string;
-  loading?: boolean | SpinProps;
-  spinProps?: SpinProps;
-}
+export type TableProps = InstanceType<typeof import('./table.vue').default>['$props'];
 
 export type TableRowKey = string | ((record: TableData) => BaseType);
 export type TableSpanMethodContext = Simplify<{

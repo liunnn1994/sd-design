@@ -764,7 +764,7 @@
   });
 
   const summaryRef = ref<HTMLElement>();
-  const thRefs = ref<Record<string, HTMLElement>>({});
+  const thRefs = ref<Record<string, HTMLElement>>(Object.create(null));
   const virtualListRef = ref<VirtualListRef | null>(null);
   const { componentRef: contentComRef, elementRef: contentRef } = useComponentRef('containerRef');
   const { componentRef: tbodyComRef, elementRef: tbodyRef } = useComponentRef('containerRef');
@@ -805,13 +805,23 @@
   const dataColumnMap = new Map<string, TableColumnData>();
   const dataColumns = ref<TableColumnData[]>([]);
   const groupColumns = ref<TableColumnData[][]>([]);
-  const { resizingColumn, columnWidth, handleThMouseDown } = useColumnResize(thRefs, emit);
+  const { resizingColumn, columnWidth, handleThMouseDown, handleThMouseUp } = useColumnResize(
+    thRefs,
+    emit,
+  );
+  watch(
+    () => props.columnResizable,
+    (resizable) => {
+      if (!resizable) handleThMouseUp();
+    },
+  );
   watch(
     [columns, slotColumns, columnWidth],
     ([columns, slotColumns]) => {
       const result = getGroupColumns(slotColumns ?? columns ?? [], dataColumnMap, columnWidth);
       dataColumns.value = result.dataColumns;
       groupColumns.value = result.groupColumns;
+      if (resizingColumn.value && !dataColumnMap.has(resizingColumn.value)) handleThMouseUp();
     },
     {
       immediate: true,
@@ -892,17 +902,12 @@
     columns: dataColumns,
     onSorterChange: handleSorterChange,
   });
-  const disabledKeys = new Set();
   const allRowKeys = computed(() => {
     const allRowKeys: BaseType[] = [];
-    disabledKeys.clear();
     const travelData = (data: TableData[]) => {
       if (isArray(data) && data.length > 0) {
         for (const record of data) {
           allRowKeys.push(getRecordKey(record, rowKey.value));
-          if (record.disabled) {
-            disabledKeys.add(getRecordKey(record, rowKey.value));
-          }
           if (record.children) {
             travelData(record.children);
           }
@@ -965,10 +970,10 @@
     allRowKeys,
     emit,
   });
-  const lazyLoadData = reactive<Record<string, TableData[]>>({});
+  const lazyLoadData = reactive(new Map<BaseType, TableData[]>());
   const addLazyLoadData = (children: TableData[] | undefined, record: TableDataWithRaw) => {
     if (children) {
-      lazyLoadData[record.key] = children;
+      lazyLoadData.set(record.key, children);
     }
   };
   const isValidRecord = (record: TableDataWithRaw) => {
@@ -1009,8 +1014,8 @@
           record.children = travel(_record.children);
         } else if (props.loadMore && !_record.isLeaf) {
           record.isLeaf = false;
-          if (lazyLoadData[record.key]) {
-            record.children = travel(lazyLoadData[record.key]);
+          if (lazyLoadData.has(record.key)) {
+            record.children = travel(lazyLoadData.get(record.key)!);
           }
         } else {
           record.isLeaf = true;
@@ -1062,7 +1067,7 @@
             if (valueA === undefined || valueB === undefined) {
               return 0;
             }
-            const result = valueA > valueB ? 1 : -1;
+            const result = valueA === valueB ? 0 : valueA > valueB ? 1 : -1;
             return direction === 'descend' ? -result : result;
           });
         }
@@ -1457,9 +1462,9 @@
     };
   });
   const isVirtualList = computed(() => Boolean(props.virtualListProps));
-  const thWidth = ref<Record<string, number>>({});
+  const thWidth = ref<Record<string, number>>(Object.create(null));
   const getThWidth = () => {
-    const width: Record<string, number> = {};
+    const width: Record<string, number> = Object.create(null);
     for (const key of Object.keys(thRefs.value)) {
       width[key] = thRefs.value[key].offsetWidth;
     }
@@ -1904,7 +1909,10 @@
         : instance && '$el' in instance
           ? instance.$el
           : instance;
-    if (key && element instanceof HTMLElement) thRefs.value[key] = element;
+    if (key) {
+      if (element instanceof HTMLElement) thRefs.value[key] = element;
+      else delete thRefs.value[key];
+    }
   };
   const renderHeader = () =>
     _createVNode(Thead, null, {
@@ -2045,7 +2053,7 @@
                         },
                         class: `${prefixCls}-body`,
                         items: flattenData.value,
-                        keyField: '_key',
+                        keyField: 'key',
                         listTag: 'div',
                         itemTag: 'div',
                         listClass: `${prefixCls}-element`,

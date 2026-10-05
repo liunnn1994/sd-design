@@ -55,7 +55,7 @@ export const useExpand = ({
   const expand = (rowKey: BaseType | BaseType[], expanded = true) => {
     const _rowKeys = ([] as BaseType[]).concat(rowKey);
     const newExpandedRowKeys = expanded
-      ? expandedRowKeys.value.concat(_rowKeys)
+      ? Array.from(new Set(expandedRowKeys.value.concat(_rowKeys)))
       : expandedRowKeys.value.filter((key) => !_rowKeys.includes(key));
     _expandedRowKeys.value = newExpandedRowKeys;
     emit('expandedChange', newExpandedRowKeys);

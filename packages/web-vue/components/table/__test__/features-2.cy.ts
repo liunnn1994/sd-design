@@ -513,7 +513,4 @@ describe('Table features', () => {
     cy.get('.my-cell').should('have.length', 5);
     cy.get('.my-cell').first().should('have.text', 'custom-Jane Doe1');
   });
-
-  // 注：tr/td 元素替换插槽会触发表格 ResizeObserver 反馈循环，导致 spec 收尾后
-  // 渲染进程死循环（本地与 CI 均复现挂起），暂不做 e2e 断言（见 TEST-AUDIT-FINDINGS.md）。
 });

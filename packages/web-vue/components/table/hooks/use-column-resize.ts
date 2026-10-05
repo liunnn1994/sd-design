@@ -8,7 +8,7 @@ export const useColumnResize = (
   emit: EmitFn2<{ columnResize: (dataIndex: string, width: number) => true }>,
 ) => {
   const resizingColumn = ref('');
-  const columnWidth = reactive<Record<string, number>>({});
+  const columnWidth = reactive<Record<string, number>>(Object.create(null));
 
   const handleThMouseDown = (dataIndex: string, ev: MouseEvent) => {
     ev.preventDefault();

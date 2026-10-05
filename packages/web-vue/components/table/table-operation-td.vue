@@ -115,7 +115,11 @@
     ...getOperationFixedCls(prefixCls, props.operationColumn),
   ]);
 
-  const leafKeys = computed(() => getLeafKeys(props.record));
+  const leafKeys = computed(() =>
+    getLeafKeys(props.record).filter(
+      (key) => tableCtx.currentAllEnabledRowKeys?.includes(key) ?? true,
+    ),
+  );
   const selectionStatus = computed(() =>
     getSelectionStatus(tableCtx.currentSelectedRowKeys ?? [], leafKeys.value),
   );

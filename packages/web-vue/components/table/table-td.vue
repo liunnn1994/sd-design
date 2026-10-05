@@ -4,7 +4,7 @@
       <span v-if="indentSize > 0" :style="{ paddingLeft: `${indentSize}px` }" />
       <span v-if="showExpandBtn" :class="`${prefixCls}-cell-inline-icon`" @click="handleClick">
         <IconLoading v-if="isLoading" />
-        <VNodeRenderer v-else-if="expandButton" :content="expandButton" />
+        <VNodeRenderer v-else :content="getExpandButton()" />
       </span>
       <AutoTooltip
         v-if="column?.ellipsis && column?.tooltip"
@@ -162,7 +162,7 @@
       [`${prefixCls}-cell-expand-icon`]: props.showExpandBtn,
     },
   ]);
-  const expandButton = computed(() => props.renderExpandBtn?.(props.record, false));
+  const getExpandButton = () => props.renderExpandBtn?.(props.record, false);
 
   function getCustomClass() {
     if (props.summary) {
@@ -202,7 +202,12 @@
   }
 
   function handleClick(event: Event) {
-    if (isFunction(tableCtx.loadMore) && !props.record?.isLeaf && !props.record?.children) {
+    if (
+      !isLoading.value &&
+      isFunction(tableCtx.loadMore) &&
+      !props.record?.isLeaf &&
+      !props.record?.children
+    ) {
       isLoading.value = true;
       new Promise<TableData[] | undefined>((resolve) => {
         tableCtx.loadMore?.(props.record.raw, resolve);
