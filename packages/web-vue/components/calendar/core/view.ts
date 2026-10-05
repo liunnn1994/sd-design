@@ -569,6 +569,7 @@ export const useView = (
    * @returns void
    */
   function updateViewDate(date: Date | string, emitUpdate = true, forceUpdate = false) {
+    if (typeof date === 'string') date = dateUtils.stringToDate(date);
     if (!dateUtils.isValid(date))
       return console.warn(
         "Calendar: can't navigate to the given date: invalid date provided to `updateViewDate(date)`.",
@@ -683,7 +684,10 @@ export const useView = (
   );
   watch(
     () => config.selectedDate,
-    (date) => updateSelectedDate(date!, false),
+    (date) => {
+      if (date === undefined) selectedDate.value = null;
+      else updateSelectedDate(date, false);
+    },
   );
   watch(
     () => config.startWeekOnSunday,

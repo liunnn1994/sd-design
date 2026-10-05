@@ -155,10 +155,6 @@
     );
   });
 
-  const isDeletable = computed(
-    () => config.editableEvents.delete && event.deletable !== false && !event.background,
-  );
-
   const classes = computed(() => {
     const isMultiday = !!event._?.multiday;
     const isHzl = config.horizontal;

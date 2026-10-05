@@ -361,6 +361,7 @@ export const useConfig = (
   });
 
   const selectedDate = computed(() => {
+    if (!props.selectedDate) return;
     if (typeof props.selectedDate === 'string') return dateUtils.stringToDate(props.selectedDate);
     if (props.selectedDate instanceof Date) return props.selectedDate;
     // 未选择是正常状态，不需要提示；只有传了非法值才告警
@@ -402,7 +403,7 @@ export const useConfig = (
     if (props.minDate && typeof props.minDate === 'string')
       date = dateUtils.stringToDate(props.minDate);
     else if (props.minDate && props.minDate instanceof Date) date = props.minDate;
-    return date?.getTime() || null;
+    return dateUtils.isValid(date) ? date.getTime() : null;
   });
 
   /**
@@ -413,7 +414,7 @@ export const useConfig = (
     if (props.maxDate && typeof props.maxDate === 'string')
       date = dateUtils.stringToDate(props.maxDate);
     else if (props.maxDate && props.maxDate instanceof Date) date = props.maxDate;
-    return date?.getTime() || null;
+    return dateUtils.isValid(date) ? date.getTime() : null;
   });
 
   const schedules = computed<(CalendarSchedule & { id: string | number })[] | undefined>(() => {

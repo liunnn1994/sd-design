@@ -581,7 +581,7 @@
   });
 
   const isAfterMaxDate = computed(() => {
-    return config.maxTimestamp && config.maxTimestamp < props.start.getTime();
+    return config.maxTimestamp !== null && config.maxTimestamp < props.start.getTime();
   });
 
   // Is the current cell disabled or not (disabled date or before min date or after max date).
@@ -993,6 +993,13 @@
     for (const eventId of eventsDeleted.value) eventsManager.deleteEvent(eventId, 3);
 
     removeEventListeners(); // Prevent potential memory leaks.
+    document.removeEventListener('mousemove', onDocMousemove);
+    document.removeEventListener('touchmove', onDocMousemove);
+    document.removeEventListener('mouseup', onDocMouseup);
+    document.removeEventListener('touchend', onDocMouseup);
+    if (touch.holdTimer) clearTimeout(touch.holdTimer);
+    if (touch.touchAndDragTimer) clearTimeout(touch.touchAndDragTimer);
+    if (touch.dragging) globalTouchState.isDraggingCell = false;
     if (clickTimeout) clickTimeout = clearTimeout(clickTimeout) as unknown as null;
     await nextTick(); // Batch updates to avoid multiple re-renders.
   });
