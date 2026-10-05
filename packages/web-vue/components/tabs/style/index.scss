@@ -720,11 +720,6 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
           $tabs-padding-title-text-vertical
         );
 
-        .#{$tabs-prefix-cls}-nav-extra {
-          font-size: token-var($font-size);
-          line-height: token-var($height);
-        }
-
         .#{$tabs-prefix-cls}-tab {
           padding-top: $padding;
           padding-bottom: $padding;

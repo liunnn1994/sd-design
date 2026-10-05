@@ -92,8 +92,8 @@
   const key = computed(() => instance?.vnode.key as string | number);
   const active = computed(() => key.value === tabsCtx.activeKey);
   const tabsId = computed(() => tabsCtx.tabsId ?? '');
-  const panelId = computed(() => `${tabsId.value}-${key.value}-panel`);
-  const tabLabelledBy = computed(() => `${tabsId.value}-${key.value}-tab`);
+  const panelId = computed(() => `${tabsId.value}-${typeof key.value}-${key.value}-panel`);
+  const tabLabelledBy = computed(() => `${tabsId.value}-${typeof key.value}-${key.value}-tab`);
   const mounted = ref(tabsCtx.lazyLoad ? active.value : true);
 
   const paneScrollbarProps = computed<ScrollbarProps>(() => {

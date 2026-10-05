@@ -153,7 +153,7 @@
       default: true,
     },
     scrollPosition: {
-      type: String as PropType<ScrollPosition>,
+      type: [String, Number] as PropType<ScrollPosition>,
       default: 'auto',
     },
   });
@@ -174,9 +174,9 @@
   const rtl = computed(() => configContext?.rtl ?? false);
   const wrapperRef = ref<HTMLElement>();
   const listRef = ref<HTMLElement>();
-  const tabsRef = ref<Record<string | number, HTMLElement>>({});
+  const tabsRef = ref(new Map<string | number, HTMLElement>());
   const activeTabRef = computed(() => {
-    if (!isUndefined(props.activeKey)) return tabsRef.value[props.activeKey];
+    if (!isUndefined(props.activeKey)) return tabsRef.value.get(props.activeKey);
     return undefined;
   });
   const isRtlHorizontal = computed(() => rtl.value && props.direction === 'horizontal');
@@ -283,14 +283,13 @@
   const handleClick = (key: string | number, event: Event) => emit('click', key, event);
   const handleDelete = (key: string | number, event: Event) => {
     emit('delete', key, event);
-    nextTick(() => delete tabsRef.value[key]);
   };
   const handleButtonClick = (type: string) => {
     const scrollDirection = (type === 'previous') !== isRtlHorizontal.value ? -1 : 1;
     setOffset(offset.value + scrollDirection * wrapperLength.value);
   };
   const focusAndActivate = (key: string | number, event: KeyboardEvent) => {
-    const element = tabsRef.value[key];
+    const element = tabsRef.value.get(key);
     if (element instanceof HTMLElement) element.focus();
     emit('click', key, event);
   };
@@ -346,7 +345,8 @@
 
   const setTabRef = (key: string | number, component: Element | ComponentPublicInstance | null) => {
     if (component && '$el' in component && component.$el instanceof HTMLElement)
-      tabsRef.value[key] = component.$el;
+      tabsRef.value.set(key, component.$el);
+    else tabsRef.value.delete(key);
   };
   const cls = computed(() => [
     prefixCls,

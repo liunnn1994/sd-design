@@ -58,8 +58,8 @@
   const { t } = useI18n();
   const tabsCtx = inject<Partial<TabsContext>>(tabsInjectionKey, {});
   const tabsId = computed(() => tabsCtx.tabsId ?? '');
-  const tabId = computed(() => `${tabsId.value}-${props.tab.key}-tab`);
-  const panelId = computed(() => `${tabsId.value}-${props.tab.key}-panel`);
+  const tabId = computed(() => `${tabsId.value}-${typeof props.tab.key}-${props.tab.key}-tab`);
+  const panelId = computed(() => `${tabsId.value}-${typeof props.tab.key}-${props.tab.key}-panel`);
   const handleClick = (e: Event) => {
     if (!props.tab.disabled) {
       emit('click', props.tab.key, e);
