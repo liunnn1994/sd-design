@@ -70,12 +70,12 @@ export function useRecorder(
     };
     current.stop(
       (blob: Blob, duration: number, mime: string) => {
-        if (disposed) return;
+        if (disposed || recorder.value !== current) return;
         options.onStop?.(blob, duration, mime);
         finish();
       },
       (message: string) => {
-        if (disposed) return;
+        if (disposed || recorder.value !== current) return;
         options.onError?.(message, false);
         finish();
       },
@@ -101,7 +101,7 @@ export function useRecorder(
       onProcess: function (this: unknown, ...args: unknown[]) {
         const power = args[1];
         if (typeof power === 'number') level.value = Math.min(1, Math.max(0, power / 100));
-        originalOnProcess?.apply(this, args);
+        return originalOnProcess?.apply(this, args);
       },
     });
     recorder.value = current;

@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, getCurrentInstance, inject, shallowRef, watch } from 'vue';
+  import { computed, getCurrentInstance, inject, onBeforeUpdate, shallowRef, watch } from 'vue';
 
   import type { SenderSwitchProps } from './types';
 
@@ -55,11 +55,19 @@
   }>();
 
   const instance = getCurrentInstance();
+  const vnodeProps = shallowRef(instance?.vnode.props);
+  onBeforeUpdate(() => {
+    vnodeProps.value = instance?.vnode.props;
+  });
   const context = inject(senderInjectionKey, undefined);
   const prefixCls = context?.prefixCls ?? getPrefixCls('sender');
   const switchCls = `${prefixCls}-switch`;
   const innerChecked = shallowRef(props.defaultValue);
-  const controlled = computed(() => Object.hasOwn(instance?.vnode.props ?? {}, 'modelValue'));
+  const controlled = computed(
+    () =>
+      Object.hasOwn(vnodeProps.value ?? {}, 'modelValue') ||
+      Object.hasOwn(vnodeProps.value ?? {}, 'model-value'),
+  );
   const mergedChecked = computed(() =>
     controlled.value ? Boolean(props.modelValue) : innerChecked.value,
   );

@@ -71,12 +71,9 @@
   const headerCls = `${prefixCls}-header`;
   const rendered = shallowRef(props.forceRender || props.open);
 
-  watch(
-    () => props.open,
-    (open) => {
-      if (open) rendered.value = true;
-    },
-  );
+  watch([() => props.open, () => props.forceRender], ([open, forceRender]) => {
+    if (open || forceRender) rendered.value = true;
+  });
 
   const handleClose = () => {
     const nextOpen = !props.open;

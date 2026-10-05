@@ -219,6 +219,7 @@
     getCurrentInstance,
     nextTick,
     onBeforeUnmount,
+    onBeforeUpdate,
     provide,
     shallowRef,
     toRef,
@@ -339,6 +340,10 @@
   // 以免与关闭按钮形成嵌套 button；关闭按钮单独为 role="button"。
   const attrs = useAttrs();
   const instance = getCurrentInstance();
+  const vnodeProps = shallowRef(instance?.vnode.props);
+  onBeforeUpdate(() => {
+    vnodeProps.value = instance?.vnode.props;
+  });
   const prefixCls = getPrefixCls('sender');
   const readonlyTipHoverVisible = shallowRef(false);
   const {
@@ -378,7 +383,11 @@
     styles: toRef(props, 'styles'),
   });
 
-  const isControlled = computed(() => Object.hasOwn(instance?.vnode.props ?? {}, 'modelValue'));
+  const isControlled = computed(
+    () =>
+      Object.hasOwn(vnodeProps.value ?? {}, 'modelValue') ||
+      Object.hasOwn(vnodeProps.value ?? {}, 'model-value'),
+  );
   const mergedValue = computed(() =>
     isControlled.value ? (props.modelValue ?? '') : innerValue.value,
   );
@@ -466,7 +475,9 @@
     config: Exclude<SenderSlotConfig, { type: 'text' }>,
     previousValue?: unknown,
   ): RichTextEditorComponentNodeData => {
-    const value = toJsonValue(previousValue ?? getSlotDefaultValue(config));
+    const value = toJsonValue(
+      previousValue === undefined ? getSlotDefaultValue(config) : previousValue,
+    );
     if (config.type === 'input' || config.type === 'content') {
       return {
         key: config.key,
@@ -685,11 +696,16 @@
     requesting: speechRequesting,
     stopping: speechStopping,
     statusText: speechStatusText,
-    trigger: triggerSpeech,
+    trigger: _triggerSpeech,
   } = useRecorder(toRef(props, 'allowSpeech'), {
     onStop: (blob, duration, mime) => emit('speechEnd', blob, duration, mime),
     onError: (message, isUserNotAllow) => emit('speechError', message, isUserNotAllow),
   });
+
+  const triggerSpeech = () => {
+    if (props.disabled) return;
+    _triggerSpeech();
+  };
 
   const DEFAULT_VOICE_GLOW_SPEECH_THRESHOLD = 0.04;
   const voiceActivity = shallowRef(false);
