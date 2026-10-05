@@ -163,13 +163,18 @@
   // 否则输入的原地修改会污染缓存，受控还原时取到的是已输入的脏数组。
   // （watcher 与 keepControl 中的赋值同理。）
 
-  watch(filledValue, (value) => {
-    innerValue.value = value.slice();
+  watch([mergedValue, () => props.length], ([value], [previousValue]) => {
+    innerValue.value =
+      props.modelValue === undefined && value === previousValue
+        ? filledValue.value.map((_, index) => innerValue.value[index] ?? '')
+        : filledValue.value.slice();
   });
 
   function setInputRef(element: Element | ComponentPublicInstance | null, index: number) {
     if (element) {
       inputRefList.value[index] = element as FocusableInput;
+    } else {
+      delete inputRefList.value[index];
     }
   }
 
@@ -204,7 +209,7 @@
   }
 
   function handleFocus(index: number) {
-    inputRefList.value[index].focus();
+    inputRefList.value[index]?.focus();
   }
 
   function focusFirstEmptyInput(index?: number) {
