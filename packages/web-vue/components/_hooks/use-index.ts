@@ -22,7 +22,7 @@ export const useIndex = ({
   const getParent = () => {
     let parent = itemRef.value?.parentElement ?? undefined;
     if (parentClassName) {
-      while (parent && !parent.className.includes(parentClassName)) {
+      while (parent && !parent.classList.contains(parentClassName)) {
         parent = parent.parentElement ?? undefined;
       }
     }
@@ -31,7 +31,10 @@ export const useIndex = ({
 
   const getIndex = () => {
     if (isUndefined(index?.value) && parent.value && itemRef.value) {
-      const index = Array.from(parent.value.querySelectorAll(selector)).indexOf(itemRef.value);
+      const items = Array.from(parent.value.querySelectorAll(selector)).filter(
+        (item) => !parentClassName || item.closest(`.${parentClassName}`) === parent.value,
+      );
+      const index = items.indexOf(itemRef.value);
       if (index !== _index.value) {
         _index.value = index;
       }
@@ -44,13 +47,27 @@ export const useIndex = ({
     }
   });
 
+  watch(
+    parent,
+    (element, _, onCleanup) => {
+      if (!element) return;
+      const observer = new MutationObserver(getIndex);
+      observer.observe(element, { childList: true, subtree: true });
+      onCleanup(() => observer.disconnect());
+    },
+    { flush: 'post' },
+  );
+
   onMounted(() => {
     if (itemRef.value) {
       parent.value = getParent();
     }
     getIndex();
   });
-  onUpdated(() => getIndex());
+  onUpdated(() => {
+    parent.value = getParent();
+    getIndex();
+  });
 
   return {
     computedIndex,
