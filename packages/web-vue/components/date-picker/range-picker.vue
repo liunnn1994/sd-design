@@ -578,11 +578,11 @@
     propNames: ['dayStartOfWeek', 'day-start-of-week'],
     getGlobalValue: (configProviderCtx) => configProviderCtx?.datePicker?.dayStartOfWeek,
   });
-  const { mergedValue: mergedShortcuts } = useConfigProviderProp(shortcuts, {
+  useConfigProviderProp(shortcuts, {
     propNames: ['shortcuts'],
     getGlobalValue: (configProviderCtx) => configProviderCtx?.datePicker?.shortcuts,
   });
-  const { mergedValue: mergedShortcutsPosition } = useConfigProviderProp(shortcutsPosition, {
+  useConfigProviderProp(shortcutsPosition, {
     propNames: ['shortcutsPosition', 'shortcuts-position'],
     getGlobalValue: (configProviderCtx) => configProviderCtx?.datePicker?.shortcutsPosition,
   });
@@ -610,12 +610,7 @@
   });
   const { mergedAllowClear } = useAllowClear(allowClear);
 
-  const {
-    mergedSize,
-    mergedDisabled: formDisabled,
-    mergedError,
-    eventHandlers,
-  } = useFormItem({
+  const { mergedDisabled: formDisabled, eventHandlers } = useFormItem({
     size,
     error,
   });

@@ -155,7 +155,6 @@
 
   import { getDayjsValue } from '../_utils/date';
   import { isArray, isFunction } from '../_utils/is';
-  import pick from '../_utils/pick';
   import DatePanel from './panels/date/index.vue';
   import PanelFooter from './panels/footer.vue';
   import MonthPanel from './panels/month/index.vue';

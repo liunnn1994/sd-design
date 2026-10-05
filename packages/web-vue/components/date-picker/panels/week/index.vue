@@ -21,7 +21,6 @@
   import { Dayjs } from 'dayjs';
 
   import { methods } from '../../../_utils/date';
-  import { useI18n } from '../../../locale';
   import { HeaderIcons, HeaderOperations, IsSameTime, WeekStart } from '../../interface';
   import DatePanel from '../date/index.vue';
 
@@ -51,7 +50,6 @@
     'cell-mouse-enter': [_value: Dayjs];
   }>();
 
-  const { locale } = useI18n();
   const isSameTime: IsSameTime = (current, target) => {
     return methods.isSameWeek(current, target, props.dayStartOfWeek);
   };

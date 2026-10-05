@@ -34,7 +34,7 @@
 
   defineOptions({ name: 'PanelShortcuts' });
 
-  const props = defineProps({
+  defineProps({
     prefixCls: {
       type: String,
       required: true,

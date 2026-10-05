@@ -3,11 +3,9 @@
 </template>
 
 <script setup lang="ts">
-  import { getPrefixCls } from '../_utils/global-config';
-
   defineOptions({ name: 'DescriptionsItem' });
 
-  const props = defineProps({
+  defineProps({
     /**
      * @zh 所占列数
      * @en number of columns
@@ -30,5 +28,4 @@
    * @slot label
    * @version 2.18.0
    */
-  const prefixCls = getPrefixCls('descriptions');
 </script>

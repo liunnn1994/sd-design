@@ -572,11 +572,11 @@
     propNames: ['dayStartOfWeek', 'day-start-of-week'],
     getGlobalValue: (configProviderCtx) => configProviderCtx?.datePicker?.dayStartOfWeek,
   });
-  const { mergedValue: mergedShortcuts } = useConfigProviderProp(shortcuts, {
+  useConfigProviderProp(shortcuts, {
     propNames: ['shortcuts'],
     getGlobalValue: (configProviderCtx) => configProviderCtx?.datePicker?.shortcuts,
   });
-  const { mergedValue: mergedShortcutsPosition } = useConfigProviderProp(shortcutsPosition, {
+  useConfigProviderProp(shortcutsPosition, {
     propNames: ['shortcutsPosition', 'shortcuts-position'],
     getGlobalValue: (configProviderCtx) => configProviderCtx?.datePicker?.shortcutsPosition,
   });
@@ -829,10 +829,6 @@
     }
   }
 
-  function focusInput(index?: number) {
-    refInput.value && refInput.value.focus && refInput.value.focus(index);
-  }
-
   function getMergedOpValue(date: Dayjs, time?: Dayjs) {
     if (!isDateTime.value && !timePickerProps?.value) return date;
     return mergeValueWithTime(getNow(utcOffset?.value, timezone?.value), date, time);
@@ -901,12 +897,6 @@
 
   function onPanelConfirm() {
     confirm(panelValue.value, false, true);
-  }
-
-  function onPanelClick() {
-    if (props.disabledInput) {
-      focusInput();
-    }
   }
 
   let clearPreviewTimer: ReturnType<typeof setTimeout> | undefined;

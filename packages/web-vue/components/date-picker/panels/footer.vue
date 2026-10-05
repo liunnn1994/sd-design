@@ -31,7 +31,7 @@
 
   defineOptions({ name: 'PanelFooter' });
 
-  const props = defineProps({
+  defineProps({
     prefixCls: {
       type: String,
       required: true,
