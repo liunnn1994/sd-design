@@ -254,10 +254,12 @@ export const getChildrenComponents = (
         result.push(item);
       }
     } else if (isArrayChildren(item, item.children)) {
-      result.push(...getChildrenComponents(item.children, name, props, result.length));
+      result.push(...getChildrenComponents(item.children, name, props, startIndex + result.length));
     } else if (isSlotsChildren(item, item.children)) {
       const defaultChildren = item.children.default?.() ?? [];
-      result.push(...getChildrenComponents(defaultChildren, name, props, result.length));
+      result.push(
+        ...getChildrenComponents(defaultChildren, name, props, startIndex + result.length),
+      );
     }
   }
   return result;
