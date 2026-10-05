@@ -174,7 +174,6 @@
   const canRedo = shallowRef(false);
   const cleanups: Array<() => void> = [];
   let lastSerialized = '';
-  let applyingExternalValue = false;
 
   interface ComponentHost {
     nodeKey: NodeKey;
@@ -255,7 +254,7 @@
     if (props.modelValue === undefined && !hasStateListeners()) return;
     const value = serializeEditorState(payload.editorState);
     lastSerialized = serializeValue(value);
-    if (!applyingExternalValue) {
+    if (!payload.tags.has('sd-rich-text-external')) {
       emit('update:modelValue', value);
       emit('change', value, context);
     }
@@ -476,6 +475,7 @@
           paragraph.append(node);
         }
       }
+      if (root.getChildrenSize() === 0) root.append($createParagraphNode());
     }, withDiscreteUpdate(options));
   };
   const getMarkdown = (transformers = props.transformers) =>
@@ -637,11 +637,7 @@
       if (!value || !editorRef.value) return;
       const serialized = serializeValue(value);
       if (serialized === lastSerialized) return;
-      applyingExternalValue = true;
       setJSON(value, { tag: 'sd-rich-text-external' });
-      queueMicrotask(() => {
-        applyingExternalValue = false;
-      });
     },
     { deep: true },
   );

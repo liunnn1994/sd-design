@@ -80,7 +80,11 @@
   const resolvedComponents = computed(() =>
     resolveJsonFormComponents(configProvider?.jsonForm?.components),
   );
-  const resolvedComponent = computed(() => resolvedComponents.value[node.name]);
+  const resolvedComponent = computed(() =>
+    Object.hasOwn(resolvedComponents.value, node.name)
+      ? resolvedComponents.value[node.name]
+      : undefined,
+  );
   const componentSupportsFitWidth = computed(() => {
     const componentProps = (
       resolvedComponent.value as { props?: readonly string[] | Record<string, unknown> } | undefined
