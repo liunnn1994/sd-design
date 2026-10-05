@@ -141,7 +141,7 @@
   import { MessageType } from '../_utils/constant';
   import { getElement, off, on } from '../_utils/dom';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isBoolean, isFunction, isNumber, isPromise } from '../_utils/is';
+  import { isBoolean, isFunction, isNumber, isPromise, isUndefined } from '../_utils/is';
   import { KEYBOARD_KEY, onActivate } from '../_utils/keyboard';
   import SdButton, { ButtonProps } from '../button';
   import Ellipsis from '../ellipsis';
@@ -844,7 +844,7 @@
     if (mergedWidth.value && !props.fullscreen) {
       style.width = isNumber(mergedWidth.value) ? `${mergedWidth.value}px` : mergedWidth.value;
     }
-    if (!mergedAlignCenterBoolean.value && mergedTop.value) {
+    if (!mergedAlignCenterBoolean.value && !isUndefined(mergedTop.value)) {
       style.top = isNumber(mergedTop.value) ? `${mergedTop.value}px` : mergedTop.value;
     }
     if (position.value) {

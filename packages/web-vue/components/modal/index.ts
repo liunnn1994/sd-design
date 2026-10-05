@@ -76,6 +76,9 @@ const open = (config: ModalConfig, appContext?: AppContext) => {
   };
 
   const closeModal = () => {
+    if (closed) {
+      return;
+    }
     if (vm.component) {
       vm.component.props.visible = false;
     }
