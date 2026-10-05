@@ -24,6 +24,11 @@ const decodeRangeCharacter = (raw: string) => {
   if (/^c[A-Za-z]$/.test(escape)) return String.fromCharCode(escape.charCodeAt(1) % 32);
   if (/^x[0-9A-Fa-f]{2}$/.test(escape))
     return String.fromCharCode(Number.parseInt(escape.slice(1), 16));
+  if (/^u[0-9A-Fa-f]{4}\\u[0-9A-Fa-f]{4}$/.test(escape))
+    return String.fromCharCode(
+      Number.parseInt(escape.slice(1, 5), 16),
+      Number.parseInt(escape.slice(7), 16),
+    );
   if (/^u[0-9A-Fa-f]{4}$/.test(escape))
     return String.fromCharCode(Number.parseInt(escape.slice(1), 16));
   if (/^u\{[0-9A-Fa-f]{1,6}\}$/.test(escape))

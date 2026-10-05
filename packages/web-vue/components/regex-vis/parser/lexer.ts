@@ -78,7 +78,9 @@ class Lexer {
       this.advance(1);
       start++;
     }
-    const matches = this.readByRegex(patterns.characterClass);
+    const matches =
+      (this.unicodeMode && this.readByRegex(patterns.unicodeSurrogatePair)) ||
+      this.readByRegex(patterns.characterClass);
     if (matches) {
       return {
         type: TokenType.CharacterClass,

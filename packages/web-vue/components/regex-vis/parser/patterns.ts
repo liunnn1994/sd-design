@@ -15,6 +15,7 @@ export const namedCapturing = new RegExp(`^\\?<(${groupName})>`, 'u');
 export const quantifier = /^\{(\d+)(,|,(\d+))?\}/;
 export const specialCharacter = /[()[|\\.^$?+*]|\{(\d+)(,|,(\d+))?\}/;
 export const characterClass = /^\\(?:[dDwWsStrnvf0]|c[A-Za-z]|x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4})/;
+export const unicodeSurrogatePair = /^\\uD[89AB][0-9A-F]{2}\\uD[C-F][0-9A-F]{2}/i;
 export const unicodeCodePoint = /^\\u\{[0-9A-Fa-f]{1,6}\}/;
 export const unicodeProperty = /^\\[pP]\{[^}]+\}/;
 export const backReference = new RegExp(`^\\\\(\\d+|k<(${groupName})>)`, 'u');
