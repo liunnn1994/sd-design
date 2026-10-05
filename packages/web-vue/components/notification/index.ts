@@ -14,8 +14,6 @@ import NotificationList from './notification-list.vue';
 
 type _NotificationConfig = NotificationConfig & {
   type: MessageType;
-  /** resetOnUpdate 可由调用方显式传入以保留计时器重启意图（同 NotificationItem） */
-  resetOnUpdate?: boolean;
 };
 
 class NotificationManger {
@@ -52,11 +50,16 @@ class NotificationManger {
 
   add = (config: _NotificationConfig) => {
     this.notificationCount++;
-    const id = config.id ?? `__sd_notification_${this.notificationCount}`;
+    let id = config.id ?? `__sd_notification_${this.notificationCount}`;
+    if (isUndefined(config.id)) {
+      while (this.notificationIds.has(id)) {
+        id = `__sd_notification_${++this.notificationCount}`;
+      }
+    }
     if (this.notificationIds.has(id)) {
       return this.update(id, config);
     }
-    const notification: NotificationItem = reactive({ id, ...config });
+    const notification: NotificationItem = reactive({ ...config, id });
     this.notifications.value.push(notification);
     this.notificationIds.add(id);
 
@@ -91,12 +94,12 @@ class NotificationManger {
       const item = this.notifications.value[i];
 
       if (item.id === id) {
+        this.notifications.value.splice(i, 1);
+        this.notificationIds.delete(id);
         if (isFunction(item.onClose)) {
           item.onClose(id);
         }
 
-        this.notifications.value.splice(i, 1);
-        this.notificationIds.delete(id);
         break;
       }
     }
@@ -140,6 +143,8 @@ const notification = MESSAGE_TYPES.reduce((pre, value) => {
     const _config: _NotificationConfig = { type: value, ...config };
     const { position = 'topRight' } = _config;
     if (notificationInstance[position]?.isDisconnected()) {
+      notificationInstance[position]?.clear();
+      notificationInstance[position]?.destroy();
       notificationInstance[position] = undefined;
     }
     if (!notificationInstance[position]) {
@@ -151,9 +156,7 @@ const notification = MESSAGE_TYPES.reduce((pre, value) => {
 }, {} as NotificationMethod);
 
 notification.remove = (id: string) => {
-  if (id) {
-    Object.values(notificationInstance).forEach((item) => item?.remove(id));
-  }
+  Object.values(notificationInstance).forEach((item) => item?.remove(id));
 };
 
 notification.clear = (position?: NotificationPosition) => {

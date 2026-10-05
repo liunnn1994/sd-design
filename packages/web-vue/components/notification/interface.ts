@@ -96,6 +96,11 @@ export interface NotificationConfig {
    */
   duration?: number;
   /**
+   * @zh 更新通知时是否重新开始计时；未设置时在提供 duration 的更新中重启
+   * @en Whether to restart the timer on update; defaults to restarting when duration is supplied
+   */
+  resetOnUpdate?: boolean;
+  /**
    * @zh 底部内容
    * @en Footer Content
    * @version 2.25.0
