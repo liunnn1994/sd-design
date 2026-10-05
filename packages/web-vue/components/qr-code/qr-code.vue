@@ -27,7 +27,7 @@
       v-html="svgMarkup"
     />
 
-    <div v-if="hasIcon" :class="`${prefixCls}-icon`">
+    <div v-if="icon || $slots.icon" :class="`${prefixCls}-icon`">
       <slot name="icon">
         <img v-if="icon" :src="icon" :alt="iconAlt" :style="iconStyle" />
       </slot>
@@ -37,16 +37,7 @@
 
 <script lang="ts" setup>
   import type { PropType, StyleValue, VNodeChild } from 'vue';
-  import {
-    computed,
-    defineComponent,
-    inject,
-    nextTick,
-    ref,
-    useSlots,
-    useTemplateRef,
-    watch,
-  } from 'vue';
+  import { computed, defineComponent, inject, nextTick, ref, useTemplateRef, watch } from 'vue';
 
   import QRCode from 'qrcode';
 
@@ -81,8 +72,6 @@
       return () => renderProps.node;
     },
   });
-
-  const slots = useSlots();
 
   const props = defineProps({
     /**
@@ -258,7 +247,6 @@
   });
 
   const hasValue = computed(() => Boolean(mergedValue.value));
-  const hasIcon = computed(() => Boolean(props.icon || slots.icon));
   const inactiveStatus = computed(() =>
     props.status === 'active' ? null : (props.status as QrCodeInactiveStatus),
   );
