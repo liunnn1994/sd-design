@@ -64,7 +64,9 @@ export type JsonFormBuiltinComponentType =
 export type JsonFormExternalComponentMap = Record<string, Component>;
 
 type ComponentPropsOf<T> = T extends new (...args: never[]) => { $props: infer P } ? P : never;
-type ComponentEmitOf<T> = T extends new (...args: never[]) => { $emit: infer E } ? E : never;
+type ComponentEventsOf<TProps> = {
+  [K in keyof TProps as K extends `on${infer Event}` ? Uncapitalize<Event> : never]: TProps[K];
+};
 
 type JsonFormBuiltInComponentPropsMap = {
   autoComplete: AutoCompleteInstance['$props'];
@@ -96,31 +98,31 @@ type JsonFormBuiltInComponentPropsMap = {
 };
 
 type JsonFormBuiltInComponentEventsMap = {
-  autoComplete: AutoCompleteInstance['$emit'];
-  cascader: CascaderInstance['$emit'];
-  checkbox: CheckboxInstance['$emit'];
-  checkboxGroup: CheckboxGroupInstance['$emit'];
-  datePicker: DatePickerInstance['$emit'];
-  input: InputInstance['$emit'];
-  inputMask: InputMaskInstance['$emit'];
-  inputNumber: InputNumberInstance['$emit'];
-  inputPassword: InputPasswordInstance['$emit'];
-  inputSearch: InputSearchInstance['$emit'];
-  inputTag: InputTagInstance['$emit'];
-  mention: MentionInstance['$emit'];
-  radio: RadioInstance['$emit'];
-  radioGroup: RadioGroupInstance['$emit'];
-  rangePicker: RangePickerInstance['$emit'];
-  rate: RateInstance['$emit'];
-  row: GridRowInstance['$emit'];
-  select: SelectInstance['$emit'];
-  slider: SliderInstance['$emit'];
-  switch: SwitchInstance['$emit'];
-  textarea: TextareaInstance['$emit'];
-  timePicker: TimePickerInstance['$emit'];
-  transfer: TransferInstance['$emit'];
-  treeSelect: TreeSelectInstance['$emit'];
-  verificationCode: VerificationCodeInstance['$emit'];
+  autoComplete: ComponentEventsOf<AutoCompleteInstance['$props']>;
+  cascader: ComponentEventsOf<CascaderInstance['$props']>;
+  checkbox: ComponentEventsOf<CheckboxInstance['$props']>;
+  checkboxGroup: ComponentEventsOf<CheckboxGroupInstance['$props']>;
+  datePicker: ComponentEventsOf<DatePickerInstance['$props']>;
+  input: ComponentEventsOf<InputInstance['$props']>;
+  inputMask: ComponentEventsOf<InputMaskInstance['$props']>;
+  inputNumber: ComponentEventsOf<InputNumberInstance['$props']>;
+  inputPassword: ComponentEventsOf<InputPasswordInstance['$props']>;
+  inputSearch: ComponentEventsOf<InputSearchInstance['$props']>;
+  inputTag: ComponentEventsOf<InputTagInstance['$props']>;
+  mention: ComponentEventsOf<MentionInstance['$props']>;
+  radio: ComponentEventsOf<RadioInstance['$props']>;
+  radioGroup: ComponentEventsOf<RadioGroupInstance['$props']>;
+  rangePicker: ComponentEventsOf<RangePickerInstance['$props']>;
+  rate: ComponentEventsOf<RateInstance['$props']>;
+  row: ComponentEventsOf<GridRowInstance['$props']>;
+  select: ComponentEventsOf<SelectInstance['$props']>;
+  slider: ComponentEventsOf<SliderInstance['$props']>;
+  switch: ComponentEventsOf<SwitchInstance['$props']>;
+  textarea: ComponentEventsOf<TextareaInstance['$props']>;
+  timePicker: ComponentEventsOf<TimePickerInstance['$props']>;
+  transfer: ComponentEventsOf<TransferInstance['$props']>;
+  treeSelect: ComponentEventsOf<TreeSelectInstance['$props']>;
+  verificationCode: ComponentEventsOf<VerificationCodeInstance['$props']>;
   noFormItem: Record<string, (...args: unknown[]) => unknown>;
 };
 
@@ -153,7 +155,7 @@ type JsonFormResolvedComponentEvents<
 > = TType extends keyof JsonFormBuiltInComponentEventsMap
   ? JsonFormBuiltInComponentEventsMap[TType]
   : TType extends keyof TExternal
-    ? ComponentEmitOf<TExternal[TType]>
+    ? ComponentEventsOf<ComponentPropsOf<TExternal[TType]>>
     : Record<string, (...args: unknown[]) => unknown>;
 
 export type JsonFormComponentType<TExternal extends JsonFormExternalComponentMap = {}> =
@@ -191,7 +193,7 @@ type JsonFormBaseSchema<TType extends string, TExternal extends JsonFormExternal
   colProps?: GridColInstance['$props'];
   formItemProps?: Omit<FormItemInstance['$props'], 'field' | 'label' | 'rules'>;
   formItemRules?: FieldRule | FieldRule[];
-  formItemEvents?: ComponentEmitOf<FormItemInstance>;
+  formItemEvents?: ComponentEventsOf<FormItemInstance['$props'] & HTMLAttributes>;
   componentProps?: JsonFormComponentProps<TType, TExternal>;
   componentEvents?: JsonFormComponentEvents<TType, TExternal>;
   componentSlots?: Record<string, JsonFormComponentSlotRenderer>;

@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed } from 'vue';
+  import { computed, onBeforeUpdate, shallowRef } from 'vue';
 
   import { useI18n } from '../locale';
   import { JSON_FORM_COMPONENT_TYPES, type JsonFormSchema } from './types';
@@ -35,6 +35,10 @@
   }>();
 
   const slots = defineSlots<Record<string, (props?: Record<string, unknown>) => unknown>>();
+  const slotNames = shallowRef(Object.keys(slots));
+  onBeforeUpdate(() => {
+    slotNames.value = Object.keys(slots);
+  });
   const modelValue = defineModel<unknown>();
 
   const resolvedComponent = computed(() => {
@@ -106,7 +110,7 @@
     return (
       props.schema.type === JSON_FORM_COMPONENT_TYPES.checkbox &&
       Boolean(props.schema.label) &&
-      !slots.default
+      !slotNames.value.includes('default')
     );
   });
 
@@ -117,6 +121,6 @@
 
   const forwardedSlotNames = computed(() => {
     const schemaSlotNames = new Set(Object.keys(props.schema.componentSlots ?? {}));
-    return Object.keys(slots).filter((name) => name !== 'default' && !schemaSlotNames.has(name));
+    return slotNames.value.filter((name) => name !== 'default' && !schemaSlotNames.has(name));
   });
 </script>

@@ -92,7 +92,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, useSlots } from 'vue';
+  import { computed, onBeforeUpdate, shallowRef, useSlots } from 'vue';
 
   import { FormItem } from '../form';
   import { Col, Row } from '../grid';
@@ -133,6 +133,11 @@
   }>();
 
   defineSlots<Record<string, (props?: Record<string, unknown>) => unknown>>();
+  const slots = useSlots();
+  const slotNames = shallowRef(Object.keys(slots));
+  onBeforeUpdate(() => {
+    slotNames.value = Object.keys(slots);
+  });
 
   const normalizedField = computed(() => {
     if (props.adapter !== 'a2ui-0.9.1') return props.schema.field;
@@ -181,12 +186,12 @@
   });
 
   const forwardedSlotNames = computed(() => {
-    return Object.keys(useSlots()).filter((name) => name !== props.schema.slotName);
+    return slotNames.value.filter((name) => name !== props.schema.slotName);
   });
 
   const componentForwardedSlotNames = computed(() => {
     const schemaSlotNames = new Set(Object.keys(props.schema.componentSlots ?? {}));
-    return Object.keys(useSlots()).filter(
+    return slotNames.value.filter(
       (name) => name !== props.schema.slotName && !schemaSlotNames.has(name),
     );
   });

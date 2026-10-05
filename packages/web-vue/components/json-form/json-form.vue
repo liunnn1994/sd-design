@@ -32,7 +32,16 @@
 
 <script lang="ts" setup>
   import type { Component } from 'vue';
-  import { reactive, Comment, computed, inject, shallowRef, useSlots, watch } from 'vue';
+  import {
+    reactive,
+    Comment,
+    computed,
+    inject,
+    onBeforeUpdate,
+    shallowRef,
+    useSlots,
+    watch,
+  } from 'vue';
 
   import type { FormInstance } from '../form';
 
@@ -73,6 +82,10 @@
   const internalModel = shallowRef<JsonFormModel>(reactive(props.model ?? {}));
   const configProvider = inject(configProviderInjectionKey, undefined);
   const slots = useSlots();
+  const defaultSlot = shallowRef(slots.default);
+  onBeforeUpdate(() => {
+    defaultSlot.value = slots.default;
+  });
   const prefixCls = getPrefixCls('json-form');
 
   watch(
@@ -122,7 +135,7 @@
   });
 
   const hasDefaultSlot = computed(() => {
-    return (slots.default?.() ?? []).some((node) => node.type !== Comment);
+    return (defaultSlot.value?.() ?? []).some((node) => node.type !== Comment);
   });
 
   const rootClass = computed(() => [prefixCls, `${prefixCls}--${resolvedAdapter.value}`]);
