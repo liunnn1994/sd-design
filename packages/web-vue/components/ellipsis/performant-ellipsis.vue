@@ -84,6 +84,11 @@
 
   const isLineClamp = computed(() => props.lineClamp !== undefined);
   const componentTag = computed(() => (isLineClamp.value ? 'div' : 'span'));
+  const maxLines = computed(() => {
+    if (props.lineClamp === undefined) return 1;
+    const value = Number(props.lineClamp);
+    return Number.isFinite(value) && value > 0 ? value : 1;
+  });
 
   const rootCls = computed(() => [
     prefixCls,
@@ -101,7 +106,7 @@
         textOverflow: 'ellipsis',
         display: '-webkit-box',
         whiteSpace: 'normal',
-        WebkitLineClamp: String(props.lineClamp),
+        WebkitLineClamp: String(maxLines.value),
         WebkitBoxOrient: 'vertical',
       };
     }

@@ -212,7 +212,7 @@
     if (!triggerElement) return;
 
     const clone = triggerElement.cloneNode(true) as HTMLElement;
-    clone.querySelector('[data-ellipsis-measure]')?.remove();
+    clone.querySelectorAll('[data-ellipsis-measure]').forEach((probe) => probe.remove());
     const nextHtml = clone.innerHTML;
     const nextText = clone.textContent?.trim() ?? '';
     const computedStyle = window.getComputedStyle(triggerElement);
