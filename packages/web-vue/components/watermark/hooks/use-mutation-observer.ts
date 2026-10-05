@@ -50,7 +50,9 @@ export function useMutationObserver(
       cleanup();
 
       if (isSupported && window && el) {
-        observer = new MutationObserver(callback);
+        observer = new (
+          window as Window & Pick<typeof globalThis, 'MutationObserver'>
+        ).MutationObserver(callback);
         observer.observe(el, mutationOptions);
       }
     },

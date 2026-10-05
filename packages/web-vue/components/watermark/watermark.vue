@@ -209,7 +209,7 @@
   const getMarkSize = (ctx: CanvasRenderingContext2D) => {
     let defaultWidth = 120;
     let defaultHeight = 28;
-    if (!image.value && ctx.measureText) {
+    if (!image.value && contents.value.length && ctx.measureText) {
       // 测量字体需与绘制字体一致（含 fontStyle/fontWeight），否则粗体/斜体会贴边裁切
       ctx.font = `${fontStyle.value} normal ${fontWeight.value} ${fontSize.value}px ${fontFamily.value}`;
       const widths = contents.value.map((item) => ctx.measureText(item!).width);
@@ -288,7 +288,13 @@
       ctx.fillStyle = color.value;
       ctx.textAlign = textAlign.value;
       ctx.textBaseline = 'top';
-      ctx.translate(realMarkWidth / 2, 0);
+      const textX =
+        textAlign.value === 'left'
+          ? 0
+          : textAlign.value === 'right'
+            ? realMarkWidth
+            : realMarkWidth / 2;
+      ctx.translate(textX, 0);
       contents.value?.forEach((item, index) => {
         ctx.fillText(item ?? '', drawX, drawY + index * (mergedFontSize + 3 * ratio));
       });
