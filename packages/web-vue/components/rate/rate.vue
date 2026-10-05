@@ -233,6 +233,10 @@
     }
   };
 
+  watch(mergedDisabled, (disabled) => {
+    if (disabled) resetHoverIndex();
+  });
+
   const handleMouseEnter = (index: number, isHalf: boolean) => {
     const nextHoverIndex = isHalf && props.allowHalf ? index + 0.5 : index + 1;
     if (nextHoverIndex !== hoverIndex.value) {
