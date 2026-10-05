@@ -6,7 +6,15 @@
 
 <script setup lang="ts">
   import type { PropType } from 'vue';
-  import { provide, reactive, toRefs, getCurrentInstance, watch, useSlots } from 'vue';
+  import {
+    provide,
+    reactive,
+    toRefs,
+    getCurrentInstance,
+    watch,
+    useSlots,
+    onBeforeUpdate,
+  } from 'vue';
 
   import type { SpinProps } from '../spin';
 
@@ -316,7 +324,7 @@
   } = toRefs(props);
 
   const config = reactive({
-    slots,
+    slots: { ...slots },
     prefixCls,
     locale,
     size,
@@ -347,6 +355,10 @@
     treeSelectSpinProps,
     jsonForm,
     theme: normalizeTheme(props.theme),
+  });
+
+  onBeforeUpdate(() => {
+    config.slots = { ...slots };
   });
 
   watch(
