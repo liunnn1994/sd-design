@@ -111,13 +111,6 @@
     backgroundColor: props.trackColor,
   }));
 
-  // const computedText = computed(() => {
-  //   if (isFunction(props.formatText)) {
-  //     return props.formatText(props.percent);
-  //   }
-  //   return `${props.percent}%`;
-  // });
-
   const barStyle = computed(() => ({
     width: `${props.percent * 100}%`,
     ...getBackground(props.color),
