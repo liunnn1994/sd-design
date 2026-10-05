@@ -129,6 +129,11 @@
   });
 
   watch(() => [props.offsetTop, props.offsetBottom], updatePositionThrottle);
+  watch(
+    () => props.target,
+    () => updatePositionThrottle(),
+    { flush: 'post' },
+  );
 
   onMounted(() => {
     // Binding of scroll events inside the scroll container
