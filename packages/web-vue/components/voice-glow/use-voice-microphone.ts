@@ -56,10 +56,10 @@ export function useVoiceMicrophone(
     if (!supported) return null;
     if (stream.value) return stream.value;
     const currentRequest = ++requestId;
-    getAudioContext();
     state.value = 'requesting';
     error.value = null;
     try {
+      getAudioContext();
       const next = await navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: false,

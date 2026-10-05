@@ -281,21 +281,24 @@
     }
   });
 
-  watchEffect((onCleanup) => {
-    if (!wrapperRef.value || !(isActive.value || isFading.value)) return;
-    const cleanup = registerVoiceInstance(
-      wrapperRef.value,
-      driverConfig.value,
-      {
-        stream: props.stream,
-        getLevel: () => (typeof props.level === 'function' ? props.level() : props.level),
-      },
-      (level) => {
-        emit('level', level);
-      },
-    );
-    onCleanup(cleanup);
-  });
+  watchEffect(
+    (onCleanup) => {
+      if (!wrapperRef.value || !(isActive.value || isFading.value)) return;
+      const cleanup = registerVoiceInstance(
+        wrapperRef.value,
+        driverConfig.value,
+        {
+          stream: props.stream,
+          getLevel: () => (typeof props.level === 'function' ? props.level() : props.level),
+        },
+        (level) => {
+          emit('level', level);
+        },
+      );
+      onCleanup(cleanup);
+    },
+    { flush: 'post' },
+  );
   let styleElement: HTMLStyleElement | undefined;
   watch(css, (value) => {
     if (styleElement) styleElement.textContent = value;
