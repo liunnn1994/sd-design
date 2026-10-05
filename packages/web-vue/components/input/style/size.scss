@@ -1,5 +1,4 @@
 @use '@style/theme/index.scss' as theme;
-@use 'sass:math';
 @use 'sass:string';
 $input-prefix-cls: string.unquote('#{theme.$prefix}-input');
 

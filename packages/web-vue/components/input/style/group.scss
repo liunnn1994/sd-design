@@ -49,7 +49,7 @@ $input-prefix-cls: string.unquote('#{theme.$prefix}-input');
   > .#{$input-prefix-cls}-outer:not(:last-child),
   > .#{theme.$prefix}-input-tag:not(:last-child),
   > .#{theme.$prefix}-select-view:not(:last-child) {
-    margin-right: -$input-group-border-separator-width;
+    margin-right: calc(-1 * $input-group-border-separator-width);
     border-right: $input-group-border-separator-width solid $input-group-color-separator-border;
 
     &:focus-within {
