@@ -32,7 +32,7 @@ $text-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-text-1'));
   }
 
   .#{$layout-prefix-cls}-header,
-  &.#{$layout-prefix-cls}-footer {
+  .#{$layout-prefix-cls}-footer {
     flex: 0 0 auto;
   }
 
@@ -158,7 +158,7 @@ $text-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-text-1'));
     }
 
     &-right {
-      inset-inline-start: -$layout-sider-zero-trigger-width;
+      inset-inline-start: calc(-1 * $layout-sider-zero-trigger-width);
       border-radius: $layout-radius-lg 0 0 $layout-radius-lg;
     }
   }
