@@ -5,4 +5,5 @@ import '../../empty/style';
 import '../../checkbox/style';
 import '../../ellipsis/style';
 import '../../scrollbar/style';
+import '../../spin/style';
 import './index.scss';
