@@ -10600,12 +10600,6 @@
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
-          "key": "popup-border-radius",
-          "name": "popup-border-radius",
-          "value": "var(--sd-border-radius-medium)",
-          "dependencies": ["radius-medium"]
-        },
-        {
           "key": "popup-color-content-bg",
           "name": "popup-color-content-bg",
           "value": "var(--sd-color-bg-popup)",
@@ -10664,6 +10658,12 @@
           "name": "popup-font-size",
           "value": "var(--font-size-body-3, 14px)",
           "dependencies": ["font-size-body-3"]
+        },
+        {
+          "key": "popup-border-radius",
+          "name": "popup-border-radius",
+          "value": "var(--sd-border-radius-medium)",
+          "dependencies": ["radius-medium"]
         }
       ]
     },
