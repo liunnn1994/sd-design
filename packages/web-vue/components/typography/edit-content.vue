@@ -20,7 +20,7 @@
 
   defineOptions({ name: 'TypographyEditContent' });
 
-  const props = defineProps({
+  defineProps({
     text: {
       type: String,
       required: true,
