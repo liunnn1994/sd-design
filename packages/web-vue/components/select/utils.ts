@@ -42,16 +42,16 @@ export const getValueString = (value: SelectOptionValue, valueKey = 'value') =>
 
 export const getKeyFromValue = (value?: SelectOptionValue, valueKey = 'value') => {
   if (isObject(value)) {
-    return `__arco__option__object__${value[valueKey]}`;
+    return `__sd__option__object__${value[valueKey]}`;
   }
   if (value || isNumber(value) || isString(value) || isBoolean(value)) {
-    return `__arco__option__${typeof value}-${value}`;
+    return `__sd__option__${typeof value}-${value}`;
   }
   return '';
 };
 
 export const hasEmptyStringKey = (optionInfoMap: Map<string, SelectOptionInfo>) => {
-  return optionInfoMap.has(`__arco__option__string-`);
+  return optionInfoMap.has(`__sd__option__string-`);
 };
 
 export const createOptionInfo = (
@@ -130,7 +130,7 @@ const createGroupInfo = (
     isGroup: true,
     label,
     options,
-    key: `__arco__group__${label}`,
+    key: `__sd__group__${label}`,
   };
 };
 

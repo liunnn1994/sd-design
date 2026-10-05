@@ -101,7 +101,7 @@
   const prefixCls = getPrefixCls('input-password');
   const inputRef = ref();
 
-  // NOTE: `visibility`/`mergedVisible` follow arco's inherited inverted naming:
+  // NOTE: `visibility`/`mergedVisible` use inverted naming:
   // true = masked (type="password"), false = plaintext. This is documented in
   // the prop JSDoc; the tests in input/__test__/index.cy.ts pin this behavior.
   const handleInvisible = () => {

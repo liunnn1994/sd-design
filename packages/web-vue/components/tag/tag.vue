@@ -306,7 +306,7 @@
   // 是否为渐变颜色
   const isGradientColor = computed(() => isGradientString(resolvedColor.value));
 
-  // 用于传递给 Arco/hook 等消费方的 computedColor（内置颜色返回原色，自定义返回 undefined）
+  // 用于传递给 hook 等消费方的 computedColor（内置颜色返回原色，自定义返回 undefined）
   const computedColor = computed(() => {
     if (isBuiltInColor.value) {
       return resolvedColor.value;

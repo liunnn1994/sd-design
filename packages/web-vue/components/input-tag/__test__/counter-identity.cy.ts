@@ -3,7 +3,7 @@ import InputTag from '../index';
 describe('InputTag overflow counter identity', () => {
   it('renders a user value matching the internal counter value as an ordinary tag', () => {
     cy.mount(InputTag, {
-      props: { defaultValue: ['__arco__more', 'second', 'hidden'], maxTagCount: 2 },
+      props: { defaultValue: ['__sd__more', 'second', 'hidden'], maxTagCount: 2 },
     });
     cy.get('.sd-input-tag-tag-counter').should('have.length', 1).and('contain.text', '+1');
     cy.get('.sd-input-tag-tag').first().should('not.have.class', 'sd-input-tag-tag-counter');

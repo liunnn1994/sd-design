@@ -30,7 +30,7 @@ describe('Message robustness', () => {
 
   it('does not update a custom id when generating a new message id', () => {
     cy.then(() => {
-      Message.info({ id: '__arco_message_2', content: 'Custom', position: 'bottom', duration: 0 });
+      Message.info({ id: '__sd_message_2', content: 'Custom', position: 'bottom', duration: 0 });
       Message.info({ content: 'Generated', position: 'bottom', duration: 0 });
     });
     cy.get('.sd-message-list-bottom .sd-message').should('have.length', 2);

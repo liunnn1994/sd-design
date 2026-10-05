@@ -77,7 +77,7 @@
       >
         <Tag
           v-for="(item, index) in tags"
-          :key="isOverflowCounterTag(index) ? '__arco__more' : `tag-${item.value}`"
+          :key="isOverflowCounterTag(index) ? '__sd__more' : `tag-${item.value}`"
           :class="[
             `${prefixCls}-tag`,
             {
@@ -490,7 +490,7 @@
   const tags = computed(() => {
     const visibleTags = valueData.value.slice(0, visibleTagCount.value);
     if (!hiddenTagCount.value) return visibleTags;
-    const raw = { value: '__arco__more', label: `+${hiddenTagCount.value}`, closable: false };
+    const raw = { value: '__sd__more', label: `+${hiddenTagCount.value}`, closable: false };
     return visibleTags.concat({ raw, ...raw });
   });
   const isClosableTag = (item: TagDataInfo) =>

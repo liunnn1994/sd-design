@@ -45,10 +45,10 @@ class MessageManger {
 
   add = (config: _MessageConfig) => {
     this.messageCount++;
-    let id = config.id ?? `__arco_message_${this.messageCount}`;
+    let id = config.id ?? `__sd_message_${this.messageCount}`;
     if (isUndefined(config.id)) {
       while (this.messageIds.has(id)) {
-        id = `__arco_message_${++this.messageCount}`;
+        id = `__sd_message_${++this.messageCount}`;
       }
     }
     if (this.messageIds.has(id)) {

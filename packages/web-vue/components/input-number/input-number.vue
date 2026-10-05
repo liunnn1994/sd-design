@@ -1,6 +1,6 @@
 <template>
   <SdInput
-    :key="`__arco__${props.mode}`"
+    :key="`__sd__${props.mode}`"
     ref="inputRef"
     :class="cls"
     type="text"

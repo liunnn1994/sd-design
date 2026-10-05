@@ -118,7 +118,7 @@ export const getGroupColumns = (
         }
 
         if (isUndefined(cell.dataIndex) || isNull(cell.dataIndex)) {
-          cell.dataIndex = `__arco_data_index_${dataColumns.length}`;
+          cell.dataIndex = `__sd_data_index_${dataColumns.length}`;
         }
 
         if (columnWidth[cell.dataIndex]) {

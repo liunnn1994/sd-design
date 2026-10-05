@@ -265,7 +265,7 @@ describe('Notification', () => {
 
     cy.get('.sd-notification-close-btn').click({ force: true });
     cy.get('@onClose').should('have.been.calledOnce');
-    cy.get('@onClose').its('firstCall.args.0').should('contain', '__arco_notification_');
+    cy.get('@onClose').its('firstCall.args.0').should('contain', '__sd_notification_');
   });
 
   it('re-adds a notification with the same id after clear()', () => {
