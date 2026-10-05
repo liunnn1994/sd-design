@@ -471,7 +471,7 @@
   );
   const mediaSkinTag = computed(() => {
     if (mediaSkin.value === 'minimal') {
-      return type.value === 'audio' ? 'minimal-audio-skin' : 'minimal-video-skin';
+      return type.value === 'audio' ? 'audio-minimal-skin' : 'video-minimal-skin';
     }
     if (mediaSkin.value && mediaSkin.value !== 'default') return String(mediaSkin.value);
     return type.value === 'audio' ? 'audio-skin' : 'video-skin';
@@ -654,11 +654,25 @@
       });
     }
     if (type.value === 'audio') {
-      if (!videoJsAudioPromise) videoJsAudioPromise = import('@videojs/html/audio');
+      if (!videoJsAudioPromise) {
+        videoJsAudioPromise = import('@videojs/html/audio/player').then(() =>
+          Promise.all([
+            import('@videojs/html/audio/skin'),
+            import('@videojs/html/audio/minimal-skin'),
+          ]),
+        );
+      }
       await videoJsAudioPromise;
       return;
     }
-    if (!videoJsVideoPromise) videoJsVideoPromise = import('@videojs/html/video');
+    if (!videoJsVideoPromise) {
+      videoJsVideoPromise = import('@videojs/html/video/player').then(() =>
+        Promise.all([
+          import('@videojs/html/video/skin'),
+          import('@videojs/html/video/minimal-skin'),
+        ]),
+      );
+    }
     await videoJsVideoPromise;
   }
 
@@ -675,7 +689,13 @@
   }
 
   watch(
-    [src, type, shouldRender, previewSlots],
+    [
+      src,
+      type,
+      shouldRender,
+      previewSlots,
+      () => (type.value === 'video' || type.value === 'audio') && useVideoJsMediaSkin.value,
+    ],
     () => {
       requestId.value += 1;
       if (!shouldRender.value || type.value !== 'pdf' || previewSlots.value.includes('content')) {

@@ -61,21 +61,19 @@ function defaultWorkerSrc(): Promise<string> {
   return bundledWorkerSrcPromise;
 }
 
-async function resolveWorker(props: FilePreviewerPdfProps, pdfjs: PdfJsModule): Promise<void> {
+async function resolveWorker(props: FilePreviewerPdfProps): Promise<string | undefined> {
   // GlobalWorkerOptions 是全局单例；按优先级配置：显式关闭 > workerPort > workerSrc > 默认打包 Worker。
   if (props.worker === false) {
     await ensureMainThreadWorker();
     return;
   }
   if (props.workerPort) {
-    pdfjs.GlobalWorkerOptions.workerPort = props.workerPort;
     return;
   }
   if (props.workerSrc) {
-    pdfjs.GlobalWorkerOptions.workerSrc = props.workerSrc;
-    return;
+    return props.workerSrc;
   }
-  pdfjs.GlobalWorkerOptions.workerSrc = await defaultWorkerSrc();
+  return defaultWorkerSrc();
 }
 
 function isCancelledError(error: unknown): boolean {
@@ -117,12 +115,15 @@ export function usePdfJs(context: UsePdfJsContext): UsePdfJsReturn {
       if (currentId !== loadId) return;
 
       const props = context.pdfProps() ?? {};
-      await resolveWorker(props, pdfjs);
+      const workerSrc = await resolveWorker(props);
       if (currentId !== loadId) return;
 
       await releaseResources();
       if (currentId !== loadId) return;
 
+      pdfjs.GlobalWorkerOptions.workerPort =
+        props.worker === false ? null : (props.workerPort ?? null);
+      if (workerSrc) pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
       loadingTask = pdfjs.getDocument({ url, ...props.documentParams });
       const pdfDoc = await loadingTask.promise;
       if (currentId !== loadId) {

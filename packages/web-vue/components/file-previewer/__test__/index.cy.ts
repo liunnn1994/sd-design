@@ -555,7 +555,7 @@ describe('FilePreviewer', () => {
         mediaProps: { skin: 'minimal' },
       },
     });
-    cy.get('minimal-video-skin').should('exist');
+    cy.get('video-minimal-skin').should('exist');
     cy.get('video-skin').should('not.exist');
   });
 

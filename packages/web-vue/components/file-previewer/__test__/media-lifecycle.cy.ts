@@ -32,37 +32,42 @@ describe('FilePreviewer real media lifecycle', () => {
     URL.revokeObjectURL(src);
   });
 
-  for (const type of ['audio', 'video'] as const) {
-    it(`loads and plays a WAV stream in ${type}, then stops on close`, () => {
-      let media: HTMLMediaElement;
-      const onLoadedData = cy.spy().as('loaded');
-      cy.mount(FilePreviewer, {
-        props: {
-          type,
-          src,
-          defaultVisible: true,
-          mediaProps: { skin: 'native', muted: true, loop: true, onLoadedData },
-        },
-      });
-      cy.get(type)
-        .should(($media) => {
-          expect(($media[0] as HTMLMediaElement).readyState).to.be.at.least(2);
-        })
-        .then(($media) => {
-          media = $media[0] as HTMLMediaElement;
-          return media.play();
+  for (const skin of ['native', 'default', 'minimal'] as const) {
+    for (const type of ['audio', 'video'] as const) {
+      it(`loads and plays a WAV stream in ${type} with ${skin} controls, then stops on close`, () => {
+        let media: HTMLMediaElement;
+        const onLoadedData = cy.spy().as('loaded');
+        cy.mount(FilePreviewer, {
+          props: {
+            type,
+            src,
+            defaultVisible: true,
+            mediaProps: { skin, muted: true, loop: true, onLoadedData },
+          },
         });
-      cy.get('@loaded').should('have.been.calledOnce');
-      cy.get('.sd-file-previewer-loading').should('not.exist');
-      cy.get(type).should(() => {
-        expect(media.paused).to.equal(false);
-        expect(media.currentTime).to.be.greaterThan(0);
+        cy.get(type)
+          .should(($media) => {
+            expect(($media[0] as HTMLMediaElement).readyState).to.be.at.least(2);
+          })
+          .then(($media) => {
+            media = $media[0] as HTMLMediaElement;
+            if (skin === 'native') return media.play();
+          });
+        if (skin !== 'native') {
+          cy.get('media-play-button', { includeShadowDom: true }).first().click({ force: true });
+        }
+        cy.get('@loaded').should('have.been.calledOnce');
+        cy.get('.sd-file-previewer-loading').should('not.exist');
+        cy.get(type).should(() => {
+          expect(media.paused).to.equal(false);
+          expect(media.currentTime).to.be.greaterThan(0);
+        });
+        cy.get('.sd-file-previewer-close-btn').click();
+        cy.get(type).should('not.exist');
+        cy.wrap(null).should(() => {
+          expect(media.paused).to.equal(true);
+        });
       });
-      cy.get('.sd-file-previewer-close-btn').click();
-      cy.get(type).should('not.exist');
-      cy.wrap(null).should(() => {
-        expect(media.paused).to.equal(true);
-      });
-    });
+    }
   }
 });
