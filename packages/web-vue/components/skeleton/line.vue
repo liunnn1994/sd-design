@@ -61,6 +61,7 @@
         style.width = String(props.widths[i]);
       }
       style.height = `${props.lineHeight}px`;
+      style.marginBottom = '0';
       if (i > 0) {
         style.marginTop = `${props.lineSpacing}px`;
       }
