@@ -43,17 +43,15 @@
     PropType,
     reactive,
     ref,
-    watch,
   } from 'vue';
 
   import { useIndex } from '../_hooks/use-index';
-  import { Direction } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
   import { isActivationKey } from '../_utils/keyboard';
   import IconCheck from '../icon/icon-check';
   import IconClose from '../icon/icon-close';
   import { stepsInjectionKey } from './context';
-  import { StepStatus, StepsType } from './interface';
+  import { StepStatus } from './interface';
 
   defineOptions({ name: 'Step' });
 
@@ -173,7 +171,6 @@
       [`${prefixCls}-active`]: stepNumber.value === stepsCtx?.current,
       [`${prefixCls}-next-error`]: nextStepError.value,
       [`${prefixCls}-disabled`]: props.disabled,
-      // [`${prefixCls}-custom`]: !!icon,
     },
   ]);
 </script>

@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, PropType, provide, reactive, ref, toRefs, useSlots } from 'vue';
+  import { computed, PropType, provide, reactive, ref, toRefs } from 'vue';
 
   import { Direction } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
@@ -105,8 +105,6 @@
      */
     'change': [_step: number, _ev: Event];
   }>();
-
-  const slots = useSlots();
 
   const { type, lineLess } = toRefs(props);
   const { t } = useI18n();
