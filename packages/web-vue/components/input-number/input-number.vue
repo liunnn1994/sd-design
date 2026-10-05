@@ -308,7 +308,9 @@
       if (!normalizedValue || /^[-.]$/.test(normalizedValue)) return value;
       // stringMode keeps canonical decimal strings verbatim so values beyond
       // Number's safe range never round-trip through Number.
-      if (props.stringMode && DECIMAL_PATTERN.test(normalizedValue)) return normalizedValue;
+      if (props.stringMode && DECIMAL_PATTERN.test(normalizedValue)) {
+        return props.formatter?.(normalizedValue) ?? normalizedValue;
+      }
       const parsed = getNumberValue(value);
       return isNumber(parsed) ? getStringValue(parsed) : '';
     }
@@ -318,11 +320,15 @@
   };
   const getModelValue = (value: number | undefined): InputNumberValue =>
     valueMode.value === 'string' ? (isUndefined(value) ? '' : String(value)) : value;
+  const getRawText = (value: InputNumberValue, displayValue: string) => {
+    const text = props.stringMode && typeof value === 'string' ? value.trim() : displayValue;
+    return DECIMAL_PATTERN.test(text) ? text : '';
+  };
 
   const innerValue = ref(getDisplayValue(props.modelValue ?? props.defaultValue));
   // The last accepted raw text (post-parser, pre-formatter). In stringMode this
   // is the precision-preserving source of truth for emitted values.
-  const rawText = ref(DECIMAL_PATTERN.test(innerValue.value) ? innerValue.value : '');
+  const rawText = ref(getRawText(props.modelValue ?? props.defaultValue, innerValue.value));
   const valueNumber = computed(() => getNumberValue(innerValue.value));
   const compareToBoundary = (value: number | undefined, boundary: number) =>
     props.stringMode && DECIMAL_PATTERN.test(rawText.value) && Number.isFinite(boundary)
@@ -527,7 +533,7 @@
         (props.stringMode || nextNumberValue !== valueNumber.value)
       ) {
         innerValue.value = getDisplayValue(value);
-        rawText.value = DECIMAL_PATTERN.test(innerValue.value) ? innerValue.value : '';
+        rawText.value = getRawText(value, innerValue.value);
         updateNumberStatus(nextNumberValue);
       } else if (value === '' && innerValue.value !== '') {
         innerValue.value = '';
