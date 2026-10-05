@@ -128,8 +128,6 @@
   const prefixCls = getPrefixCls('transfer-view');
   const filter = ref('');
   const transferCtx = inject(transferInjectionKey, undefined);
-  const countSelected = computed(() => props.dataInfo.selected.length);
-  const countRendered = computed(() => props.dataInfo.data.length);
 
   const checked = computed(
     () =>
