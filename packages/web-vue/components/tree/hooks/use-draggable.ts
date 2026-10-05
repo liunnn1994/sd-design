@@ -70,8 +70,6 @@ export default function useDraggable(props: {
           dropPosition.value = 0;
           updateDropPosition.cancel();
           break;
-        default:
-          break;
       }
     },
   };

@@ -1,6 +1,13 @@
 import { computed, ref, toRefs, watchEffect } from 'vue';
 
-import { TreeFieldNames, TreeNodeData, Node, LoadMore, CheckableType } from '../interface';
+import {
+  TreeFieldNames,
+  TreeNodeData,
+  TreeNodeKey,
+  Node,
+  LoadMore,
+  CheckableType,
+} from '../interface';
 import { getFlattenTreeData, getKey2TreeNode } from '../utils';
 import { generateTreeData } from '../utils/tree-data';
 
@@ -26,17 +33,22 @@ export default function useTreeData(props: {
   } = toRefs(props);
 
   const treeData = ref<Node[]>([]);
+  const keyCache = new WeakMap<TreeNodeData, TreeNodeKey[]>();
 
   watchEffect(() => {
-    treeData.value = generateTreeData(propTreeData.value || [], {
-      selectable: selectable?.value ?? false,
-      showLine: !!showLine?.value,
-      blockNode: !!blockNode?.value,
-      checkable: checkable?.value ?? false,
-      fieldNames: fieldNames?.value,
-      loadMore: !!loadMore?.value,
-      draggable: !!draggable?.value,
-    });
+    treeData.value = generateTreeData(
+      propTreeData.value || [],
+      {
+        selectable: selectable?.value ?? false,
+        showLine: !!showLine?.value,
+        blockNode: !!blockNode?.value,
+        checkable: checkable?.value ?? false,
+        fieldNames: fieldNames?.value,
+        loadMore: !!loadMore?.value,
+        draggable: !!draggable?.value,
+      },
+      keyCache,
+    );
   });
 
   const flattenTreeData = computed(() => getFlattenTreeData(treeData.value));

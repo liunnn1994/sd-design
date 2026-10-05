@@ -1,6 +1,6 @@
 import { isFunction, isUndefined } from '../../_utils/is';
 import { omit } from '../../_utils/omit';
-import { TreeNodeData, Node, TreeFieldNames, CheckableType } from '../interface';
+import { TreeNodeData, TreeNodeKey, Node, TreeFieldNames, CheckableType } from '../interface';
 
 interface TreeProps {
   fieldNames?: TreeFieldNames;
@@ -15,6 +15,8 @@ interface TreeProps {
 interface NodeOptions {
   treeNodeData: TreeNodeData;
   treeProps: TreeProps;
+  keyCache: WeakMap<TreeNodeData, TreeNodeKey[]>;
+  keyIndex: number;
   parentNode?: Node;
   isTail?: boolean;
 }
@@ -74,16 +76,23 @@ function getEnableResult({
 }
 
 function generateNode(options: NodeOptions): Node {
-  const { treeNodeData, parentNode, isTail = true, treeProps } = options;
+  const { treeNodeData, parentNode, isTail = true, treeProps, keyCache, keyIndex } = options;
   const { fieldNames } = treeProps || {};
 
   const mapTreeNodeData = mapObject<TreeNodeData, TreeNodeData>(treeNodeData, fieldNames);
   const isLeaf = treeProps.loadMore ? !!mapTreeNodeData.isLeaf : !mapTreeNodeData.children?.length;
   const level = parentNode ? parentNode.level + 1 : 0;
 
+  const cachedKeys = keyCache.get(treeNodeData) ?? [];
+  const key = mapTreeNodeData.key ?? cachedKeys[keyIndex] ?? generateKey();
+  if (isUndefined(mapTreeNodeData.key)) {
+    cachedKeys[keyIndex] = key;
+    keyCache.set(treeNodeData, cachedKeys);
+  }
+
   const treeNodeProps = {
     ...omit(mapTreeNodeData, ['children']),
-    key: mapTreeNodeData.key ?? generateKey(),
+    key,
     selectable: getEnableResult({
       subEnable: mapTreeNodeData.selectable,
       superEnable: treeProps?.selectable,
@@ -123,16 +132,25 @@ function generateNode(options: NodeOptions): Node {
   return node;
 }
 
-export function generateTreeData(treeData: TreeNodeData[], treeProps: TreeProps) {
+export function generateTreeData(
+  treeData: TreeNodeData[],
+  treeProps: TreeProps,
+  keyCache = new WeakMap<TreeNodeData, TreeNodeKey[]>(),
+) {
+  const nodeOccurrences = new WeakMap<TreeNodeData, number>();
   function preOrder(tree: TreeNodeData[] | undefined, parentNode?: Node) {
     if (!tree) return undefined;
 
     const { fieldNames } = treeProps;
     const nodes: Node[] = [];
     tree.forEach((treeNodeData, index) => {
+      const keyIndex = nodeOccurrences.get(treeNodeData) ?? 0;
+      nodeOccurrences.set(treeNodeData, keyIndex + 1);
       const node = generateNode({
         treeNodeData,
         treeProps,
+        keyCache,
+        keyIndex,
         parentNode,
         isTail: index === tree.length - 1,
       });

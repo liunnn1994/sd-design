@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, PropType, toRefs } from 'vue';
+  import { computed, PropType, toRefs, watchEffect } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
   import BaseTreeNode from './base-node.vue';
@@ -56,6 +56,12 @@
   const show = computed(
     () => treeContext.currentExpandKeys?.includes(nodeKey.value) && visibleNodeList.value?.length,
   );
+
+  watchEffect(() => {
+    if (treeContext.currentExpandKeys?.includes(nodeKey.value) && !visibleNodeList.value?.length) {
+      treeContext.onExpandEnd?.(nodeKey.value);
+    }
+  });
 
   function onTransitionEnd() {
     treeContext.onExpandEnd?.(nodeKey.value);

@@ -764,7 +764,7 @@
     activeKey.value = targetKey;
     nextTick(() => {
       const el = rootEl.value?.querySelector<HTMLElement>(
-        `[data-key="${CSS.escape(String(targetKey))}"]`,
+        `[data-key="${CSS.escape(String(targetKey))}"][data-key-type="${typeof targetKey}"]`,
       );
       el?.focus();
     });
@@ -797,8 +797,12 @@
         break;
       case KEYBOARD_KEY.ARROW_RIGHT:
         e.preventDefault();
-        if (hasChildren && !isExpanded) {
-          onExpand(true, key, e);
+        if (!node.isLeaf && !isExpanded) {
+          if (!node.children?.length && onLoadMore.value) {
+            void onLoadMore.value(key);
+          } else {
+            onExpand(true, key, e);
+          }
         } else if (hasChildren && isExpanded) {
           // 展开态：移到首个子节点（直接取结构，避免依赖受展开动画影响的可见列表）
           const firstChild = node.children?.[0];
@@ -1191,7 +1195,7 @@
   const onLoadMore = computed(() =>
     loadMore?.value
       ? async (key: TreeNodeKey) => {
-          if (!isFunction(loadMore.value)) return;
+          if (!isFunction(loadMore.value) || loadingKeys.value.includes(key)) return;
 
           const node = key2TreeNode.value.get(key);
           if (!node) return;
@@ -1299,7 +1303,7 @@
 
   provide(TreeInjectionKey, treeContext as import('./context').TreeContext);
 
-  function toggleCheck(key: TreeNodeKey, e: Event) {
+  function toggleCheck(key: TreeNodeKey, e?: Event) {
     const { key2TreeNode, onCheck, checkedKeys } = treeContext;
     const checked = !checkedKeys.includes(key);
     const node = key2TreeNode.get(key);

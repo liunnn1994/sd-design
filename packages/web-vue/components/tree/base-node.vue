@@ -3,6 +3,7 @@
     :class="classNames"
     :data-level="level"
     :data-key="nodekey"
+    :data-key-type="typeof nodekey"
     role="treeitem"
     :tabindex="treeContext.activeKey === nodekey ? 0 : -1"
     :aria-level="level + 1"
