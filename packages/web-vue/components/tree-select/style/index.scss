@@ -7,8 +7,6 @@
 $tree-prefix-cls: string.unquote('#{theme.$prefix}-tree');
 $tree-select-prefix-cls: string.unquote('#{theme.$prefix}-tree-select');
 
-// .select-view($tree-select-prefix-cls);
-
 .#{$tree-select-prefix-cls} {
   &-popup {
     box-sizing: border-box;
