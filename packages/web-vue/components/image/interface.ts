@@ -8,7 +8,7 @@ export interface ImageProps {
   description?: string;
   fit?: '' | 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
   alt?: string;
-  hideFooter: boolean;
+  hideFooter: boolean | 'never';
   footerPosition: 'inner' | 'outer';
   showLoader: boolean;
   preview: boolean;

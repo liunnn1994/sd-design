@@ -276,7 +276,13 @@
   );
 
   const isFixed = computed(() => !isServerRendering && container.value === document.body);
-  const { zIndex, close: releasePopup } = usePopupManager('dialog', { visible: mergedVisible });
+  const {
+    zIndex,
+    close: releasePopup,
+    isLastDialog,
+  } = usePopupManager('dialog', {
+    visible: mergedVisible,
+  });
 
   const wrapperStyles = computed<CSSProperties>(() => {
     const positionStyles: CSSProperties = isFixed.value
@@ -321,6 +327,7 @@
   const isIncludes = (action: string) => actionsLayout.value.includes(action);
 
   const handleKeyDown = (ev: KeyboardEvent) => {
+    if (!isLastDialog()) return;
     ev.stopPropagation();
     ev.preventDefault();
 

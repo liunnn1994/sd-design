@@ -8,7 +8,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { build } from 'vite';
 import { renderToString } from 'vue/server-renderer';
 
-test('ImagePreview and ImagePreviewGroup render on the server in closed and open states', async () => {
+test('Image preserves server-rendered sources and previews render in closed and open states', async () => {
   const component = fileURLToPath(new URL('../components/image/index.ts', import.meta.url));
   const output = await mkdtemp(
     fileURLToPath(new URL('../node_modules/.image-ssr-', import.meta.url)),
@@ -26,6 +26,14 @@ test('ImagePreview and ImagePreviewGroup render on the server in closed and open
       },
     });
     const { default: Image } = await import(pathToFileURL(`${output}/entry.js`).href);
+    const imageHtml = await renderToString(
+      createSSRApp({ render: () => h(Image, { src: 'original.png' }) }),
+    );
+    assert.match(imageHtml, /<img[^>]+src="original\.png"/);
+    for (const src of [undefined, '']) {
+      const emptyHtml = await renderToString(createSSRApp({ render: () => h(Image, { src }) }));
+      assert.doesNotMatch(emptyHtml, /<img[^>]+\ssrc=/);
+    }
     for (const component of [Image.Preview, Image.PreviewGroup]) {
       for (const props of [{}, { defaultVisible: true }, { visible: true }]) {
         const errors: unknown[] = [];

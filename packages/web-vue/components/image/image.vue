@@ -4,6 +4,7 @@
       ref="refImg"
       :class="`${prefixCls}-img`"
       v-bind="imgProps"
+      :src="src || undefined"
       :style="{ ...imgStyle, ...fitStyle }"
       :title="title"
       :alt="alt ?? description"
@@ -75,6 +76,7 @@
     CSSProperties,
     getCurrentInstance,
     onBeforeUnmount,
+    onBeforeUpdate,
   } from 'vue';
 
   import type { ImagePreviewProps } from './interface';
@@ -251,6 +253,10 @@
    */
 
   const slots = useSlots();
+  const hasExtra = ref(Boolean(slots.extra));
+  onBeforeUpdate(() => {
+    hasExtra.value = Boolean(slots.extra);
+  });
   const attrs = useAttrs();
 
   const { t } = useI18n();
@@ -304,7 +310,7 @@
   const wrapperStyles = computed<StyleValue[]>(() => [sizeStyle.value, attrs.style as StyleValue]);
 
   const showFooter = computed(() => {
-    if (!(title?.value || description?.value || slots.extra)) {
+    if (!(title?.value || description?.value || hasExtra.value)) {
       return false;
     }
     if (isBoolean(hideFooter.value)) return !hideFooter.value && isLoaded.value;
@@ -324,14 +330,11 @@
 
   watchEffect(() => {
     if (isServerRendering || !refImg.value) return;
-    // Without a src, keep the image in the beforeLoad state: assigning `undefined` to the DOM
-    // src would resolve to the string "undefined" and request the page URL.
+    // Without a src, keep the image in the beforeLoad state.
     if (!src?.value) {
-      refImg.value.removeAttribute('src');
       setLoadStatus('beforeLoad');
       return;
     }
-    refImg.value.src = src?.value;
     setLoadStatus('loading');
   });
 
