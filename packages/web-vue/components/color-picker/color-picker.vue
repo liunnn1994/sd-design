@@ -271,7 +271,8 @@
   const prefixCls = getPrefixCls('color-picker');
   const configProvider = inject(configProviderInjectionKey, undefined);
   const innerValue = ref(props.defaultValue);
-  const popupVisible = ref(false);
+  const innerPopupVisible = ref(props.triggerProps?.defaultPopupVisible ?? false);
+  const popupVisible = computed(() => props.triggerProps?.popupVisible ?? innerPopupVisible.value);
   const innerRecentColors = ref<string[]>(
     Array.isArray(props.defaultRecentColors) ? props.defaultRecentColors : [],
   );
@@ -366,7 +367,7 @@
   });
 
   const onPopupVisibleChange = (visible: boolean) => {
-    popupVisible.value = visible;
+    innerPopupVisible.value = visible;
     emit('popup-visible-change', visible, triggerInputValue.value);
   };
 
