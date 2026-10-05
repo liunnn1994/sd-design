@@ -109,7 +109,7 @@
       if (running) animationFrame = requestAnimationFrame(loop);
     };
     const start = () => {
-      if (running || paused) return;
+      if (running || paused || document.visibilityState === 'hidden') return;
       running = true;
       animationFrame = requestAnimationFrame(loop);
     };

@@ -79,7 +79,8 @@ const SEG = HOLD + MORPH;
 
 export const drawMorph: ModeDraw = (ctx, size, t, dark, o) => {
   const K = CYCLE.length;
-  const tc = t % (SEG * K);
+  let tc = t % (SEG * K);
+  if (tc < 0) tc += SEG * K;
   const k = Math.floor(tc / SEG);
   const local = tc - k * SEG;
   const m = local > HOLD ? smoothE((local - HOLD) / MORPH) : 0;
