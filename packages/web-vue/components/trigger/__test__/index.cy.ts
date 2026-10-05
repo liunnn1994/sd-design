@@ -409,6 +409,13 @@ describe('Trigger', () => {
   });
 
   it('closes on window scroll when scrollToClose is set', () => {
+    cy.window().then((win) => {
+      win.scrollTo(0, 0);
+      return new Promise<void>((resolve) => {
+        win.requestAnimationFrame(() => win.requestAnimationFrame(() => resolve()));
+      });
+    });
+    cy.window().its('scrollY').should('equal', 0);
     const visibleChanges: boolean[] = [];
     cy.mount(
       defineComponent({
@@ -443,6 +450,13 @@ describe('Trigger', () => {
   });
 
   it('closes an initially visible popup on window scroll', () => {
+    cy.window().then((win) => {
+      win.scrollTo(0, 0);
+      return new Promise<void>((resolve) => {
+        win.requestAnimationFrame(() => win.requestAnimationFrame(() => resolve()));
+      });
+    });
+    cy.window().its('scrollY').should('equal', 0);
     const visibleChanges: boolean[] = [];
     cy.mount(
       defineComponent({
@@ -508,7 +522,6 @@ describe('Trigger', () => {
   });
   for (const trigger of ['hover', 'focus'] as const) {
     it(`cancels a pending ${trigger} open when closing without a delay`, () => {
-      cy.clock(undefined, ['setTimeout', 'clearTimeout']);
       cy.mount(Trigger, {
         props: {
           trigger,
@@ -521,7 +534,7 @@ describe('Trigger', () => {
       });
       cy.get('button').trigger(trigger === 'hover' ? 'mouseenter' : 'focusin');
       cy.get('button').trigger(trigger === 'hover' ? 'mouseleave' : 'focusout');
-      cy.tick(250);
+      cy.wait(250);
       cy.get('button').should('have.attr', 'aria-expanded', 'false');
       cy.get('@vue').should(({ wrapper }) =>
         expect(

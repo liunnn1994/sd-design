@@ -270,12 +270,16 @@
   const childrenRefs = new Set<ChildRef>();
   const triggerCtx = inject(triggerInjectionKey, undefined);
   const { children, firstElement } = useFirstElement();
+  const targetWidth = ref(0);
+  watch(firstElement, (element) => {
+    targetWidth.value = element?.getBoundingClientRect().width ?? 0;
+  });
   const popupRef = ref<HTMLElement>();
   const popupVisible = ref(props.defaultPopupVisible);
   const popupPosition = ref(props.position);
   const arrowRef = ref<HTMLElement>();
   const mousePosition = ref({ top: 0, left: 0 });
-  let scrollPosition: [number, number] | null = null;
+  let scrollPositions = new WeakMap<HTMLElement, [number, number]>();
   let windowScrollPosition: [number, number] | null = null;
   const computedVisible = computed(() => props.popupVisible ?? popupVisible.value);
   const pointReference: VirtualElement = {
@@ -334,11 +338,9 @@
   const mergedPopupStyle = computed<CSSProperties>(() => ({
     ...props.popupStyle,
     ...(props.autoFitPopupMinWidth && firstElement.value
-      ? { minWidth: `${firstElement.value.getBoundingClientRect().width}px` }
+      ? { minWidth: `${targetWidth.value}px` }
       : {}),
-    ...(props.autoFitPopupWidth && firstElement.value
-      ? { width: `${firstElement.value.getBoundingClientRect().width}px` }
-      : {}),
+    ...(props.autoFitPopupWidth && firstElement.value ? { width: `${targetWidth.value}px` } : {}),
     ...floatingStyles.value,
   }));
   const transformStyle = computed<CSSProperties>(() =>
@@ -410,7 +412,7 @@
       if (visible) nextTick(updateFloatingPosition);
     };
     if (!visible) {
-      scrollPosition = null;
+      scrollPositions = new WeakMap();
       windowScrollPosition = null;
     }
     if (delay) {
@@ -419,6 +421,7 @@
       update();
     }
   };
+  watch([() => props.disabled, triggerMethods], cleanDelayTimer);
   const handleClick = (event: MouseEvent) => {
     triggerEventAttrs.onClick?.(event);
     if (props.disabled || (computedVisible.value && !props.clickToClose)) return;
@@ -553,8 +556,8 @@
   const handleScroll = throttleByRaf((event: Event) => {
     if (computedVisible.value && (props.scrollToClose || configCtx?.scrollToClose)) {
       const element = event.target as HTMLElement;
-      scrollPosition ??= [element.scrollTop, element.scrollLeft];
-      if (isExceedThreshold(scrollPosition, element)) changeVisible(false);
+      const position = scrollPositions.get(element);
+      if (position && isExceedThreshold(position, element)) changeVisible(false);
     }
   });
   const removeWindowScroll = () => {
@@ -564,6 +567,8 @@
   const updateWindowScrollListener = (visible: boolean) => {
     if (visible && (props.scrollToClose || configCtx?.scrollToClose)) {
       if (!windowListener) {
+        const element = document.documentElement;
+        windowScrollPosition = [element.scrollTop, element.scrollLeft];
         on(window, 'scroll', onWindowScroll);
         windowListener = true;
       }
@@ -583,6 +588,7 @@
     if (computedVisible.value) updateFloatingPosition();
   };
   const onTargetResize = () => {
+    targetWidth.value = firstElement.value?.getBoundingClientRect().width ?? 0;
     handleResize();
     emit('resize');
   };
@@ -601,19 +607,31 @@
   const triggerCls = computed(() => (computedVisible.value ? props.openedClass : undefined));
   let scrollElements: HTMLElement[] | undefined;
   const mounted = ref(computedVisible.value);
-  watch(computedVisible, (value) => {
-    updateWindowScrollListener(value);
-    if (props.updateAtScroll || configCtx?.updateAtScroll) {
-      if (value) {
-        scrollElements = getScrollElements(firstElement.value);
-        for (const item of scrollElements) item.addEventListener('scroll', handleScroll);
-      } else if (scrollElements) {
+  watch(
+    [
+      computedVisible,
+      () => props.updateAtScroll || configCtx?.updateAtScroll,
+      () => props.scrollToClose || configCtx?.scrollToClose,
+      firstElement,
+    ],
+    ([value, updateAtScroll, scrollToClose]) => {
+      updateWindowScrollListener(value);
+      if (scrollElements) {
         for (const item of scrollElements) item.removeEventListener('scroll', handleScroll);
         scrollElements = undefined;
       }
-    }
-    if (value) mounted.value = true;
-  });
+      scrollPositions = new WeakMap();
+      if (value && (updateAtScroll || scrollToClose)) {
+        scrollElements = getScrollElements(firstElement.value);
+        for (const item of scrollElements) {
+          scrollPositions.set(item, [item.scrollTop, item.scrollLeft]);
+          item.addEventListener('scroll', handleScroll);
+        }
+      }
+      if (value) mounted.value = true;
+    },
+    { flush: 'post' },
+  );
   watch(
     () => [props.autoFitPopupWidth, props.autoFitPopupMinWidth],
     () => {
@@ -628,11 +646,6 @@
     createResizeObserver();
     if (computedVisible.value) {
       updateFloatingPosition();
-      updateWindowScrollListener(true);
-      if (props.updateAtScroll || configCtx?.updateAtScroll) {
-        scrollElements = getScrollElements(firstElement.value);
-        for (const item of scrollElements) item.addEventListener('scroll', handleScroll);
-      }
     }
   });
   onDeactivated(() => changeVisible(false));
