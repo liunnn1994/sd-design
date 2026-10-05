@@ -53,7 +53,7 @@
 
 <script setup lang="ts">
   import type { PropType } from 'vue';
-  import { computed, CSSProperties, ref } from 'vue';
+  import { computed, CSSProperties, ref, watch } from 'vue';
 
   import type { MessageType, TriggerPosition } from '../_utils/constant';
   import type { FloatingOptions } from '../_utils/floating';
@@ -241,6 +241,13 @@
 
   // Used to ignore closed Promises
   let promiseNumber = 0;
+
+  watch(computedPopupVisible, (visible) => {
+    if (!visible) {
+      promiseNumber++;
+      _okLoading.value = false;
+    }
+  });
 
   const close = () => {
     promiseNumber++;
