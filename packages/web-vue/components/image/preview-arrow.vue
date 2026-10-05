@@ -41,7 +41,7 @@
 
   defineOptions({ name: 'ImagePreviewArrow' });
 
-  const props = defineProps({
+  defineProps({
     onPrev: {
       type: Function,
     },

@@ -18,7 +18,7 @@
 
   defineOptions({ name: 'ImageFooter' });
 
-  const props = defineProps({
+  defineProps({
     title: {
       type: String,
     },

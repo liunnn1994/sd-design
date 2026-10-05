@@ -23,7 +23,6 @@
   import useMergeState from '../_hooks/use-merge-state';
   import { isArray, isUndefined } from '../_utils/is';
   import { PreviewGroupContext, PreviewGroupInjectionKey } from './context';
-  import { ImagePreviewGroupProps } from './interface';
   import ImagePreview from './preview.vue';
 
   defineOptions({ name: 'ImagePreviewGroup', inheritAttrs: false });
