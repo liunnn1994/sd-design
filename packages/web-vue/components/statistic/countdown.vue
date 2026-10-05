@@ -128,7 +128,10 @@
       ),
   );
 
-  watch([value, now, format], () => {
+  let finished = false;
+
+  watch([value, now, format], ([deadline], [previousDeadline]) => {
+    if (deadline !== previousDeadline) finished = false;
     // start 为 false（暂停/未开始）时不覆盖当前展示值
     if (!props.start) return;
     const _value = getDateString(
@@ -152,16 +155,26 @@
     }
   };
 
+  const finishCountdown = () => {
+    stopTimer();
+    displayValue.value = getDateString(0, props.format);
+    if (!finished) {
+      finished = true;
+      emit('finish');
+    }
+  };
+
   const startTimer = () => {
-    if (dayjs(props.value).valueOf() < Date.now()) {
+    if (dayjs(props.value).valueOf() <= Date.now()) {
+      finishCountdown();
       return;
     }
 
     timer.value = window.setInterval(() => {
       const _value = dayjs(props.value).diff(dayjs(), 'millisecond');
       if (_value <= 0) {
-        stopTimer();
-        emit('finish');
+        finishCountdown();
+        return;
       }
       displayValue.value = getDateString(Math.max(_value, 0), props.format);
     }, 1000 / 30);
@@ -170,8 +183,7 @@
   onMounted(() => {
     if (dayjs(props.value).valueOf() <= Date.now()) {
       // 挂载时截止时间已过：不再启动计时，且 finish 只触发一次
-      stopTimer();
-      emit('finish');
+      finishCountdown();
       return;
     }
     if (props.start) {
