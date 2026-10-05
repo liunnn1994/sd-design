@@ -611,6 +611,16 @@
   const previousStep = shallowRef<TourStep | undefined>(undefined);
   const previousElement = shallowRef<HTMLElement | null>(null);
   const activeRect = shallowRef<DOMRect | null>(null);
+  const elementStates = new WeakMap<
+    HTMLElement,
+    {
+      attributes: Map<string, string | null>;
+      zIndex: string;
+      zIndexPriority: string;
+      activeClass: boolean;
+      noInteractionClass: boolean;
+    }
+  >();
   const mounted = shallowRef(false);
   const isInitialized = shallowRef(false);
   const activeOnDestroyed = shallowRef<HTMLElement | null>(null);
@@ -1179,15 +1189,36 @@
       return;
     }
 
-    element.classList.remove(activeElementClass, noInteractionClass);
-    element.style.removeProperty('--sd-tour-active-z-index');
-    element.removeAttribute('aria-haspopup');
-    element.removeAttribute('aria-expanded');
-    element.removeAttribute('aria-controls');
+    const state = elementStates.get(element);
+    if (!state) return;
+    element.classList.toggle(activeElementClass, state.activeClass);
+    element.classList.toggle(noInteractionClass, state.noInteractionClass);
+    if (state.zIndex) {
+      element.style.setProperty('--sd-tour-active-z-index', state.zIndex, state.zIndexPriority);
+    } else {
+      element.style.removeProperty('--sd-tour-active-z-index');
+    }
+    for (const [name, value] of state.attributes) {
+      if (value === null) element.removeAttribute(name);
+      else element.setAttribute(name, value);
+    }
+    elementStates.delete(element);
   }
 
   function applyElementState(element: HTMLElement, step: TourStep) {
     clearElementState(element);
+    elementStates.set(element, {
+      attributes: new Map(
+        ['aria-haspopup', 'aria-expanded', 'aria-controls'].map((name) => [
+          name,
+          element.getAttribute(name),
+        ]),
+      ),
+      zIndex: element.style.getPropertyValue('--sd-tour-active-z-index'),
+      zIndexPriority: element.style.getPropertyPriority('--sd-tour-active-z-index'),
+      activeClass: element.classList.contains(activeElementClass),
+      noInteractionClass: element.classList.contains(noInteractionClass),
+    });
     const disableInteraction =
       step.disableActiveInteraction ?? mergedConfig.value.disableActiveInteraction;
     element.classList.add(activeElementClass);
@@ -1278,7 +1309,11 @@
     const previousActiveStep = activeStep.value;
     const previousActiveElement = activeElement.value;
 
-    if (previousActiveStep && previousActiveElement && previousActiveElement !== element) {
+    if (
+      previousActiveStep &&
+      previousActiveElement &&
+      (previousActiveStep !== step || previousActiveElement !== element)
+    ) {
       invokeHook(
         previousActiveStep.onDeselected ?? mergedConfig.value.onDeselected,
         previousActiveElement,
@@ -1304,6 +1339,7 @@
     }
 
     invokeHook(step.onHighlightStarted ?? mergedConfig.value.onHighlightStarted, element, step);
+    if (activeStep.value !== step || activeElement.value !== element) return;
 
     if (mergedConfig.value.smoothScroll) {
       element.scrollIntoView?.({ behavior: 'smooth', block: 'center', inline: 'center' });
@@ -1316,6 +1352,7 @@
     await nextTick();
     if (activeStep.value !== step || activeElement.value !== element) return;
     invokeHook(step.onHighlighted ?? mergedConfig.value.onHighlighted, element, step);
+    if (activeStep.value !== step || activeElement.value !== element) return;
     invokePopoverRender();
     focusFirstInteractive();
   }
@@ -1500,7 +1537,7 @@
     }
 
     if (event.key === 'Escape') {
-      closeTour();
+      if (mergedConfig.value.allowClose !== false) closeTour();
       return;
     }
 
