@@ -8,7 +8,7 @@
         [`${prefixCls}-disabled`]: disabled,
       },
     ]"
-    @click="!disabled && $emit('click', $event)"
+    @click="$emit('click', $event)"
   >
     <slot />
   </span>

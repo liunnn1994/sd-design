@@ -5,13 +5,13 @@ import DateInput from '../picker/input.vue';
 import VirtualList from '../virtual-list/virtual-list.vue';
 
 describe('Shared component robustness', () => {
-  it('does not emit clicks from a disabled icon', () => {
+  it('preserves click forwarding when only the hover appearance is disabled', () => {
     cy.mount(IconHover, { props: { disabled: true }, slots: { default: 'Icon' } });
     cy.get('.sd-icon-hover').click();
-    cy.get('@vue').should(({ wrapper }) => expect(wrapper.emitted('click')).to.equal(undefined));
+    cy.get('@vue').should(({ wrapper }) => expect(wrapper.emitted('click')).to.have.length(1));
     cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ disabled: false }));
     cy.get('.sd-icon-hover').click();
-    cy.get('@vue').should(({ wrapper }) => expect(wrapper.emitted('click')).to.have.length(1));
+    cy.get('@vue').should(({ wrapper }) => expect(wrapper.emitted('click')).to.have.length(2));
   });
 
   it('shows an explicitly empty picker draft instead of the committed date', () => {
