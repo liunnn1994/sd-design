@@ -217,7 +217,7 @@ $timeline-item-prefix-cls: string.unquote('#{theme.$prefix}-timeline-item');
       transform: translateY(-100%);
     }
 
-    > .#{$timeline-prefix-cls}-item-content {
+    > .#{$timeline-prefix-cls}-item-content-wrapper > .#{$timeline-prefix-cls}-item-content {
       margin-bottom: 0;
     }
   }
@@ -225,7 +225,7 @@ $timeline-item-prefix-cls: string.unquote('#{theme.$prefix}-timeline-item');
   &-horizontal-bottom#{&}-label-relative {
     margin-bottom: 50px;
 
-    > .#{$timeline-prefix-cls}-item-content {
+    > .#{$timeline-prefix-cls}-item-content-wrapper > .#{$timeline-prefix-cls}-item-content {
       margin-bottom: 0;
     }
 

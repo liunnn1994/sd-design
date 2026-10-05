@@ -27,5 +27,6 @@ export const useChildrenComponents = (name: string) => {
   return {
     children,
     components,
+    getComponents,
   };
 };

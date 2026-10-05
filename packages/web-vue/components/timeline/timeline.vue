@@ -15,7 +15,17 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, inject, onBeforeUpdate, provide, reactive, ref, toRef } from 'vue';
+  import {
+    computed,
+    defineComponent,
+    inject,
+    onBeforeUpdate,
+    onUpdated,
+    provide,
+    reactive,
+    ref,
+    toRef,
+  } from 'vue';
   import type { VNode } from 'vue';
 
   import type { SpinProps } from '../spin';
@@ -104,7 +114,7 @@
   onBeforeUpdate(() => {
     hasPending.value = Boolean(pending || slots.pending);
   });
-  const { children, components } = useChildrenComponents('TimelineItem');
+  const { children, components, getComponents } = useChildrenComponents('TimelineItem');
 
   const timelineContext = reactive({
     items: components,
@@ -125,8 +135,13 @@
     },
   ]);
 
-  function RenderDefaultItems() {
-    children.value = slots.default?.();
-    return children.value;
-  }
+  const RenderDefaultItems = defineComponent({
+    setup() {
+      onUpdated(getComponents);
+      return () => {
+        children.value = slots.default?.();
+        return children.value;
+      };
+    },
+  });
 </script>
