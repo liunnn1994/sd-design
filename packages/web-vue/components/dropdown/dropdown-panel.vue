@@ -17,7 +17,6 @@
       </slot>
     </div>
     <Scrollbar
-      ref="wrapperRef"
       :class="`${prefixCls}-list-wrapper`"
       :style="style"
       disable-horizontal
@@ -93,7 +92,6 @@
 
   const prefixCls = getPrefixCls('dropdown');
   const dropdownCtx = inject<Partial<DropdownContext>>(dropdownInjectionKey, {});
-  const wrapperRef = ref<HTMLElement>();
   const listRef = ref<HTMLElement>();
 
   const handleScroll = (e: Event) => {
