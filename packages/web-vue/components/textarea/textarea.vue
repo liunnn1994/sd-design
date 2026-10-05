@@ -329,7 +329,6 @@
 
   // 输入法相关
   const isComposition = ref(false);
-  const compositionValue = ref('');
 
   const keepControl = () => {
     recordCursor();
@@ -392,7 +391,6 @@
 
     if (e.type === 'compositionend') {
       isComposition.value = false;
-      compositionValue.value = '';
 
       if (
         computedMaxLength.value &&
@@ -430,8 +428,6 @@
       updateValue(value);
       emit('input', value, e);
       eventHandlers.value?.onInput?.(e);
-    } else {
-      compositionValue.value = value;
     }
   };
 
