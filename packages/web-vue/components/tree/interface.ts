@@ -187,7 +187,7 @@ export interface TreeFieldNames {
   /**
    * @zh 指定 icon 在 TreeNodeData 中的字段名
    * @en Specify the field name of icon in TreeNodeData
-   * @defaultValue checkable
+   * @defaultValue icon
    */
   icon?: string;
 

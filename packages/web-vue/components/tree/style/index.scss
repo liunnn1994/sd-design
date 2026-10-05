@@ -243,7 +243,7 @@ $tree-node-prefix-cls: string.unquote('#{theme.$prefix}-tree-node');
     position: relative;
     display: flex;
     align-items: center;
-    margin-left: -$tree-padding-title-horizontal;
+    margin-left: calc(-1 * $tree-padding-title-horizontal);
     padding: (
         math.round(
             (
@@ -259,7 +259,6 @@ $tree-node-prefix-cls: string.unquote('#{theme.$prefix}-tree-node');
     font-size: $tree-size-default-font-size;
     border-radius: $tree-node-border-radius;
 
-    // overflow: hidden;
     &:hover {
       color: $tree-color-title-text_hover;
       background-color: $tree-color-title-bg_hover;
@@ -269,9 +268,6 @@ $tree-node-prefix-cls: string.unquote('#{theme.$prefix}-tree-node');
       }
     }
 
-    // &-draggable {
-    //   margin-top: $tree-draggable-size-gap-height;
-    // }
     &-draggable::before {
       position: absolute;
       top: -$tree-draggable-size-gap-height;
