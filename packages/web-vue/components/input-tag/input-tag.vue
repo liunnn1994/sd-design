@@ -1,5 +1,5 @@
 <template>
-  <DefineTagContent v-slot="{ item, index, measure }">
+  <DefineTagContent v-slot="{ item }">
     <slot name="tag" :data="getSlotData(item)">{{
       props.formatTag?.(item.raw) ?? item.label
     }}</slot>
