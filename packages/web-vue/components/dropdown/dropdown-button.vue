@@ -40,7 +40,6 @@
 
   import { useTrigger } from '../_hooks/use-trigger';
   import { TriggerEvent } from '../_utils/constant';
-  import { getPrefixCls } from '../_utils/global-config';
   import Button, { ButtonGroup, ButtonProps } from '../button';
   import IconMore from '../icon/icon-more';
   import Dropdown from './dropdown.vue';
@@ -169,7 +168,6 @@
    */
 
   const { defaultPopupVisible, popupVisible } = toRefs(props);
-  const prefixCls = getPrefixCls('dropdown');
 
   const emitVisibleChange = (
     event: 'update:popupVisible' | 'popupVisibleChange' | 'update:show' | 'showChange',
