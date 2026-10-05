@@ -30,7 +30,7 @@
   import { onMounted, onUnmounted, onUpdated } from 'vue';
 
   import AIconHover from '../_components/icon-hover.vue';
-  import { MESSAGE_TYPES, MessageType } from '../_utils/constant';
+  import { MessageType } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
   import IconCheckCircleFill from '../icon/icon-check-circle-fill';
   import IconClose from '../icon/icon-close';
@@ -72,13 +72,14 @@
 
   const prefixCls = getPrefixCls('message');
   let timer = 0;
+  let hovered = false;
 
   const handleClose = () => {
     emit('close');
   };
 
   const startTimer = () => {
-    if (props.duration > 0) {
+    if (props.duration > 0 && !(props.resetOnHover && hovered)) {
       timer = window.setTimeout(handleClose, props.duration);
     }
   };
@@ -106,12 +107,14 @@
   });
 
   const handleMouseEnter = () => {
+    hovered = true;
     if (props.resetOnHover) {
       clearTimer();
     }
   };
 
   const handleMouseLeave = () => {
+    hovered = false;
     if (props.resetOnHover) {
       startTimer();
     }

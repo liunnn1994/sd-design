@@ -12,6 +12,7 @@
       :type="item.type"
       :duration="item.duration"
       :closable="item.closable"
+      :show-icon="item.showIcon"
       :reset-on-update="item.resetOnUpdate"
       :reset-on-hover="item.resetOnHover"
       @close="emit('close', item.id)"

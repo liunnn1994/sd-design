@@ -45,11 +45,16 @@ class MessageManger {
 
   add = (config: _MessageConfig) => {
     this.messageCount++;
-    const id = config.id ?? `__arco_message_${this.messageCount}`;
+    let id = config.id ?? `__arco_message_${this.messageCount}`;
+    if (isUndefined(config.id)) {
+      while (this.messageIds.has(id)) {
+        id = `__arco_message_${++this.messageCount}`;
+      }
+    }
     if (this.messageIds.has(id)) {
       return this.update(id, config);
     }
-    const message: MessageItem = reactive({ id, ...config });
+    const message: MessageItem = reactive({ ...config, id });
     this.messages.value.push(message);
     this.messageIds.add(id);
     return {
@@ -74,12 +79,11 @@ class MessageManger {
     for (let i = 0; i < this.messages.value.length; i++) {
       const item = this.messages.value[i];
       if (item.id === id) {
+        this.messages.value.splice(i, 1);
+        this.messageIds.delete(id);
         if (isFunction(item.onClose)) {
           item.onClose(id);
         }
-
-        this.messages.value.splice(i, 1);
-        this.messageIds.delete(id);
         break;
       }
     }
@@ -121,6 +125,8 @@ const message = types.reduce((pre, value) => {
     const _config: _MessageConfig = { type: value, ...config };
     const { position = 'top' } = _config;
     if (messageInstance[position]?.isDisconnected()) {
+      messageInstance[position]?.clear();
+      messageInstance[position]?.destroy();
       messageInstance[position] = undefined;
     }
     if (!messageInstance[position]) {
