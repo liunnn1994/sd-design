@@ -2,7 +2,7 @@
   <DefineDropdown>
     <SelectDropdown ref="dropdownRef">
       <li
-        v-for="item in validOptions as SelectOptionInfo[]"
+        v-for="item in validOptionInfos"
         :key="item.key"
         :ref="(element) => setOptionRef(item.key, element)"
         :class="[
@@ -19,11 +19,7 @@
         @mouseleave="handleOptionMouseLeave(item)"
       >
         <span :class="`${optionPrefixCls}-content`">
-          <slot
-            v-if="slots.option && item.value"
-            name="option"
-            :data="optionInfoMap.get(item.key)"
-          />
+          <slot v-if="slots.option" name="option" :data="optionInfoMap.get(item.key)" />
           <template v-else>{{ item.label }}</template>
         </span>
       </li>
@@ -318,7 +314,11 @@
   const innerPopupVisible = ref(false);
   const computedPopupVisible = computed(
     () =>
-      innerPopupVisible.value && measureInfo.value.measuring && validOptionInfos.value.length > 0,
+      !mergedDisabled.value &&
+      !props.readonly &&
+      innerPopupVisible.value &&
+      measureInfo.value.measuring &&
+      validOptionInfos.value.length > 0,
   );
 
   const handleInput = (value: string, event: Event) => {
@@ -356,8 +356,8 @@
     const measureEnd = measureStart + measureInfo.value.text.length;
     // tail 从「前缀 + 搜索文本」整体之后开始，不能假定前缀长度为 1，
     // 否则 prefix="##" 时尾部文本会重复进入值
-    let head = innerValue.value.slice(0, measureStart);
-    let tail = innerValue.value.slice(measureEnd + measureInfo.value.prefix.length);
+    let head = computedValue.value.slice(0, measureStart);
+    let tail = computedValue.value.slice(measureEnd + measureInfo.value.prefix.length);
     head += !head || head.endsWith(props.split) || head.endsWith('\n') ? '' : props.split;
     tail =
       (!tail || tail.startsWith(props.split) || tail.startsWith('\n') ? '' : props.split) + tail;
@@ -370,19 +370,18 @@
     eventHandlers.value?.onChange?.();
   };
 
-  const { validOptions, optionInfoMap, validOptionInfos, activeKey, setActiveKey, handleKeyDown } =
-    useSelect({
-      options: toRef(props, 'data'),
-      inputValue: measureText,
-      filterOption,
-      popupVisible: computedPopupVisible,
-      valueKeys: computedValueKeys,
-      dropdownRef,
-      optionRefs,
-      onSelect: handleSelect,
-      onPopupVisibleChange: handlePopupVisibleChange,
-      enterToOpen: false,
-    });
+  const { optionInfoMap, validOptionInfos, activeKey, setActiveKey, handleKeyDown } = useSelect({
+    options: toRef(props, 'data'),
+    inputValue: measureText,
+    filterOption,
+    popupVisible: computedPopupVisible,
+    valueKeys: computedValueKeys,
+    dropdownRef,
+    optionRefs,
+    onSelect: handleSelect,
+    onPopupVisibleChange: handlePopupVisibleChange,
+    enterToOpen: false,
+  });
 
   const setOptionRef = (key: string, element: Element | ComponentPublicInstance | null) => {
     const resolved = element && '$el' in element ? (element.$el as Element | undefined) : element;
