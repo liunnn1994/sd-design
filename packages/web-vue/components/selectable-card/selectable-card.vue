@@ -145,7 +145,7 @@
     if (isDisabled) return;
 
     const target = event.target as HTMLElement;
-    if (target.closest('a, button, input, select, textarea, [role="button"]')) return;
+    if (target.closest('a, button, input, label, select, textarea, [role="button"]')) return;
 
     toggle();
   }
