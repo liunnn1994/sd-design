@@ -79,7 +79,8 @@ export const getElement = (
   container?: Document | HTMLElement,
 ): HTMLElement | undefined => {
   if (isString(target)) {
-    const selector = target.startsWith('#') ? `[id='${target.slice(1)}']` : target;
+    const selector =
+      target.startsWith('#') && !isServerRendering ? `#${CSS.escape(target.slice(1))}` : target;
     return querySelector(selector, container);
   }
   return target;
