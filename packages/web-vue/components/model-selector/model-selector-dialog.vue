@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, getCurrentInstance, shallowRef } from 'vue';
+  import { computed, getCurrentInstance, onBeforeUpdate, shallowRef } from 'vue';
 
   import ModelSelectorContent from './model-selector-content.vue';
   import ModelSelector from './model-selector.vue';
@@ -102,7 +102,10 @@
   const instance = getCurrentInstance()!;
   const visibleModel = defineModel<boolean>('visible');
   const innerVisible = shallowRef(defaultVisible);
-  const hasVisibleProp = computed(() => Object.hasOwn(instance.vnode.props ?? {}, 'visible'));
+  const hasVisibleProp = shallowRef(Object.hasOwn(instance.vnode.props ?? {}, 'visible'));
+  onBeforeUpdate(() => {
+    hasVisibleProp.value = Object.hasOwn(instance.vnode.props ?? {}, 'visible');
+  });
   const mergedVisible = computed(() =>
     hasVisibleProp.value ? Boolean(visibleModel.value) : innerVisible.value,
   );

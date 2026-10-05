@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, getCurrentInstance, provide, shallowRef, watch } from 'vue';
+  import { computed, getCurrentInstance, onBeforeUpdate, provide, shallowRef, watch } from 'vue';
   import type { Ref } from 'vue';
 
   import { DefaultMagicKeysAliasMap, useMagicKeys } from '@vueuse/core';
@@ -121,7 +121,10 @@
   const instance = getCurrentInstance()!;
   const visibleModel = defineModel<boolean>('visible');
   const innerVisible = shallowRef(defaultVisible);
-  const hasVisibleProp = computed(() => Object.hasOwn(instance.vnode.props ?? {}, 'visible'));
+  const hasVisibleProp = shallowRef(Object.hasOwn(instance.vnode.props ?? {}, 'visible'));
+  onBeforeUpdate(() => {
+    hasVisibleProp.value = Object.hasOwn(instance.vnode.props ?? {}, 'visible');
+  });
   const mergedVisible = computed(() =>
     hasVisibleProp.value ? Boolean(visibleModel.value) : innerVisible.value,
   );
@@ -258,7 +261,7 @@
 
     const item = navigableItems.value.find((item) => item.id === activeId.value);
     if (item) {
-      selectItem(item, event);
+      item.select(event);
     }
   }
 

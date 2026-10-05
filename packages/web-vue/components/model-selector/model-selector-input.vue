@@ -64,12 +64,17 @@
   watch(
     () => props.modelValue,
     (value) => {
-      context.query.value = value ?? '';
+      if (value !== undefined) {
+        context.query.value = value;
+      }
     },
     { immediate: true },
   );
 
   function handleKeydown(event: KeyboardEvent) {
+    if (event.isComposing) {
+      return;
+    }
     if (event.key === 'ArrowDown') {
       event.preventDefault();
       context.moveActive(1);
