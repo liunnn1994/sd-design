@@ -119,15 +119,17 @@
   }
 
   async function handleBeforeOk() {
+    const requestId = openRequestId;
     try {
       const errors = await formRef.value?.validate();
-      if (errors) return false;
+      if (requestId !== openRequestId || errors) return false;
       const context: BasicCrudTableModalSubmitContext<TableData> = {
         type: type.value,
         row: editingRow.value,
         model: model.value,
       };
       if (beforeSubmit && (await beforeSubmit(context)) === false) return false;
+      if (requestId !== openRequestId) return false;
       const api = type.value === 'create' ? createApi : updateApi;
       const result = api ? await api(model.value) : undefined;
       emit('success', result, context);
