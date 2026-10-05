@@ -180,6 +180,7 @@
       return;
     }
 
+    const scrollElement = getScrollOffsetElement() ?? containerElement;
     const nextStyle: Record<string, string> = {};
     const styleObject = normalizedOuterStyle.value;
     const computedStyle = window.getComputedStyle(outerElement);
@@ -190,7 +191,7 @@
       const maxHeight = parseComputedPx(computedStyle.maxHeight);
 
       if (maxHeight !== null) {
-        nextStyle.height = `${Math.min(containerElement.scrollHeight, maxHeight)}px`;
+        nextStyle.height = `${Math.min(scrollElement.scrollHeight, maxHeight)}px`;
       }
     }
 
@@ -198,7 +199,7 @@
       const maxWidth = parseComputedPx(computedStyle.maxWidth);
 
       if (maxWidth !== null) {
-        nextStyle.width = `${Math.min(containerElement.scrollWidth, maxWidth)}px`;
+        nextStyle.width = `${Math.min(scrollElement.scrollWidth, maxWidth)}px`;
       }
     }
 
@@ -307,6 +308,14 @@
       containerRef.value,
       mergedOptions.value as Parameters<typeof OverlayScrollbars>[1],
       {
+        initialized: (instance) => {
+          const listeners = props.events?.initialized;
+          if (Array.isArray(listeners)) {
+            listeners.forEach((listener) => listener(instance));
+          } else {
+            listeners?.(instance);
+          }
+        },
         scroll: (_instance, event) => {
           emit('scroll', event);
         },
@@ -328,6 +337,8 @@
   useResizeObserver(outerRef, () => {
     updateAutoSizeStyle();
   });
+
+  watch(normalizedOuterStyle, updateAutoSizeStyle, { deep: true, flush: 'post' });
 
   watch(
     mergedOptions,

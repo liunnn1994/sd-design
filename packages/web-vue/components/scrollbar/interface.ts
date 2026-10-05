@@ -14,7 +14,7 @@ import type {
   State as OverlayScrollbarState,
 } from 'overlayscrollbars';
 
-import type { CSSProperties } from 'vue';
+import type { StyleValue } from 'vue';
 
 export type ScrollbarType = 'track' | 'embed';
 
@@ -94,7 +94,7 @@ export type ScrollbarPlugin = InstancePlugin;
 export interface ScrollbarProps {
   type?: ScrollbarType;
   outerClass?: string | Record<string, unknown> | unknown[];
-  outerStyle?: CSSProperties | CSSProperties[];
+  outerStyle?: StyleValue;
   paddingAbsolute?: OverlayScrollbarPartialOptions['paddingAbsolute'];
   showNativeOverlaidScrollbars?: OverlayScrollbarPartialOptions['showNativeOverlaidScrollbars'];
   updateOptions?: ScrollbarUpdateOptions;
