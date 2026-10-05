@@ -7,11 +7,11 @@
       <div :class="`${prefixCls}-input`" :style="[fitWidthStyle, fitWidthContentStyle]">
         <input
           ref="refInput"
+          v-bind="{ ...inputProps, ...(readonly ? { readonly: true } : {}) }"
           :disabled="mergedDisabled"
           :placeholder="placeholder"
           :class="`${prefixCls}-start-time`"
           :value="displayValue"
-          v-bind="readonly ? { readonly: true } : {}"
           @keydown.enter="onPressEnter"
           @input="onChange"
           @blur="onBlur"
@@ -91,6 +91,9 @@
     fitWidthFallbackText: String,
     inputValue: {
       type: String,
+    },
+    inputProps: {
+      type: Object as PropType<Record<string, unknown>>,
     },
     value: {
       type: Object as PropType<Dayjs>,

@@ -1,5 +1,10 @@
 <template>
-  <Picker v-bind="{ ...props, ...$attrs }" mode="date">
+  <Picker
+    v-bind="{ ...props, ...$attrs }"
+    mode="date"
+    :day-start-of-week="mergedDayStartOfWeek"
+    :show-now-btn="mergedShowNowBtn"
+  >
     <template v-for="(_, name) in $slots" #[name]="slotData">
       <slot :name="name" v-bind="slotData ?? {}" />
     </template>
@@ -7,11 +12,12 @@
 </template>
 
 <script setup lang="ts">
-  import type { PropType } from 'vue';
+  import { type PropType, toRef } from 'vue';
 
   import type { TimePickerProps } from '../../time-picker/interface';
   import type { DisabledTimeProps, WeekStart } from '../interface';
 
+  import { useConfigProviderProp } from '../../_hooks/use-config-provider-prop';
   import Picker from '../picker.vue';
 
   defineOptions({
@@ -100,5 +106,17 @@
       type: Boolean,
       default: true,
     },
+  });
+
+  const { mergedValue: mergedDayStartOfWeek } = useConfigProviderProp(
+    toRef(props, 'dayStartOfWeek'),
+    {
+      propNames: ['dayStartOfWeek', 'day-start-of-week'],
+      getGlobalValue: (config) => config?.datePicker?.dayStartOfWeek,
+    },
+  );
+  const { mergedValue: mergedShowNowBtn } = useConfigProviderProp(toRef(props, 'showNowBtn'), {
+    propNames: ['showNowBtn', 'show-now-btn'],
+    getGlobalValue: (config) => config?.datePicker?.showNowBtn,
   });
 </script>

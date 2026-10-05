@@ -96,6 +96,8 @@
     watch,
     watchEffect,
     useSlots,
+    shallowRef,
+    onBeforeUpdate,
   } from 'vue';
 
   import { Dayjs } from 'dayjs';
@@ -539,7 +541,11 @@
    * @binding {object} props
    */
 
-  const slots = useSlots();
+  const rawSlots = useSlots();
+  const slots = shallowRef({ ...rawSlots });
+  onBeforeUpdate(() => {
+    slots.value = { ...rawSlots };
+  });
 
   const {
     mode,
@@ -578,11 +584,11 @@
     propNames: ['dayStartOfWeek', 'day-start-of-week'],
     getGlobalValue: (configProviderCtx) => configProviderCtx?.datePicker?.dayStartOfWeek,
   });
-  useConfigProviderProp(shortcuts, {
+  const { mergedValue: mergedShortcuts } = useConfigProviderProp(shortcuts, {
     propNames: ['shortcuts'],
     getGlobalValue: (configProviderCtx) => configProviderCtx?.datePicker?.shortcuts,
   });
-  useConfigProviderProp(shortcutsPosition, {
+  const { mergedValue: mergedShortcutsPosition } = useConfigProviderProp(shortcutsPosition, {
     propNames: ['shortcutsPosition', 'shortcuts-position'],
     getGlobalValue: (configProviderCtx) => configProviderCtx?.datePicker?.shortcutsPosition,
   });
@@ -1198,10 +1204,10 @@
   }));
 
   const headerIcons = computed(() => ({
-    prev: slots['icon-prev'],
-    prevDouble: slots['icon-prev-double'],
-    next: slots['icon-next'],
-    nextDouble: slots['icon-next-double'],
+    prev: slots.value['icon-prev'],
+    prevDouble: slots.value['icon-prev-double'],
+    next: slots.value['icon-next'],
+    nextDouble: slots.value['icon-next-double'],
   }));
 
   const startHeaderProps = reactive({
@@ -1220,17 +1226,17 @@
     ...pick(props, [
       'mode',
       'showTime',
-      'shortcuts',
-      'shortcutsPosition',
-      'dayStartOfWeek',
       'disabledDate',
       'disabledTime',
       'hideTrigger',
-      'abbreviation',
       'hideNotInViewDates',
       'utcOffset',
       'timezone',
     ]),
+    shortcuts: mergedShortcuts.value,
+    shortcutsPosition: mergedShortcutsPosition.value,
+    dayStartOfWeek: mergedDayStartOfWeek.value,
+    abbreviation: mergedAbbreviation.value,
     prefixCls,
     now: getNow(utcOffset?.value, timezone?.value),
     format: parseValueFormat.value,

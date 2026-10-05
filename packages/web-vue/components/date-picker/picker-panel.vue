@@ -267,9 +267,13 @@
     }),
   );
 
-  watch(headerValue, (val) => {
-    setHeaderPanelHeaderValue(val);
-  });
+  watch(
+    headerValue,
+    (val) => {
+      setHeaderPanelHeaderValue(val);
+    },
+    { immediate: true },
+  );
 
   function getShortcutValue(shortcut: ShortcutType) {
     const { value } = shortcut;

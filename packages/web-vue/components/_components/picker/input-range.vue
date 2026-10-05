@@ -7,10 +7,10 @@
       <div :class="getInputWrapClassName(0)" :style="[fitWidthStyle0, fitWidthContentStyle]">
         <input
           ref="refInput0"
+          v-bind="{ ...inputProps[0], ...(readonly ? { readonly: true } : {}) }"
           :disabled="disabled0"
           :placeholder="placeholder[0]"
           :value="displayValue0"
-          v-bind="readonly ? { readonly: true } : {}"
           @input="onChange"
           @keydown.enter="onPressEnter"
           @keydown.tab="onPressTab"
@@ -23,10 +23,10 @@
       <div :class="getInputWrapClassName(1)" :style="[fitWidthStyle1, fitWidthContentStyle]">
         <input
           ref="refInput1"
+          v-bind="{ ...inputProps[1], ...(readonly ? { readonly: true } : {}) }"
           :disabled="disabled1"
           :placeholder="placeholder[1]"
           :value="displayValue1"
-          v-bind="readonly ? { readonly: true } : {}"
           @input="onChange"
           @keydown.enter="onPressEnter"
           @keydown.tab="onPressTab"
@@ -111,6 +111,10 @@
     fitWidthFallbackText: String,
     inputValue: {
       type: Array as PropType<(string | undefined)[]>,
+    },
+    inputProps: {
+      type: Array as PropType<Record<string, unknown>[]>,
+      default: () => [],
     },
     value: {
       type: Array as PropType<(Dayjs | undefined)[]>,
