@@ -210,6 +210,12 @@
     }
   });
 
+  const syncValue = () => {
+    const [start, end] = computedValue.value;
+    startValue.value = start;
+    endValue.value = end;
+  };
+
   const handleChange = () => {
     if (props.range) {
       emit('update:modelValue', [startValue.value, endValue.value]);
@@ -222,6 +228,7 @@
   };
 
   const handleStartChange = (value?: number) => {
+    syncValue();
     let next = value ?? props.min;
     if (props.range && next > endValue.value) {
       // showInput 输入 start > end：排序后整体更新，而不是发出倒序区间
@@ -234,6 +241,7 @@
   };
 
   const handleEndChange = (value?: number) => {
+    syncValue();
     let next = value ?? props.min;
     if (props.range && next < startValue.value) {
       next = startValue.value;
@@ -246,6 +254,7 @@
   // 键盘：方向键按 step 增减，Home/End 到极值（range 时起点/终点互相夹紧）
   const handleButtonKeydown = (which: 'start' | 'end', e: KeyboardEvent) => {
     if (mergedDisabled.value) return;
+    syncValue();
     const minV = props.min;
     const maxV = props.max;
     const current = which === 'start' ? startValue.value : endValue.value;
@@ -264,7 +273,7 @@
     e.preventDefault();
     if (props.range) {
       if (which === 'start') {
-        next = Math.max(minV, Math.min(next, endValue.value - props.step));
+        next = Math.max(minV, Math.min(next, NP.minus(endValue.value, props.step)));
       } else {
         next = Math.min(maxV, Math.max(NP.plus(startValue.value, props.step), next));
       }
@@ -338,6 +347,7 @@
   }
 
   const handleEndMoving = (x: number, y: number) => {
+    syncValue();
     endValue.value = getValueByCoords(x, y);
     handleChange();
   };
@@ -347,6 +357,7 @@
       return;
     }
 
+    syncValue();
     const { clientX, clientY } = e;
 
     if (trackRef.value) {
@@ -387,6 +398,7 @@
   }
 
   const handleStartMoving = (x: number, y: number) => {
+    syncValue();
     startValue.value = getValueByCoords(x, y);
     handleChange();
   };

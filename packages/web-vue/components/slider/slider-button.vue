@@ -24,7 +24,9 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, onBeforeUnmount, PropType, ref } from 'vue';
+  import { computed, onBeforeUnmount, PropType, ref, watch } from 'vue';
+
+  import type { TriggerPosition } from '../_utils/constant';
 
   import { DIRECTIONS } from '../_utils/constant';
   import { off, on } from '../_utils/dom';
@@ -55,7 +57,7 @@
     },
     value: [String, Number],
     tooltipPosition: {
-      type: String,
+      type: String as PropType<TriggerPosition>,
     },
     showTooltip: {
       type: Boolean,
@@ -91,6 +93,7 @@
     on(window, 'mouseup', handleMouseUp);
     on(window, 'contextmenu', handleMouseUp);
     on(window, 'touchend', handleMouseUp);
+    on(window, 'touchcancel', handleMouseUp);
     emit('movestart');
   };
 
@@ -114,6 +117,7 @@
     off(window, 'mouseup', handleMouseUp);
     off(window, 'contextmenu', handleMouseUp);
     off(window, 'touchend', handleMouseUp);
+    off(window, 'touchcancel', handleMouseUp);
   };
 
   const handleMouseUp = () => {
@@ -121,12 +125,19 @@
     emit('moveend');
   };
 
+  watch(
+    () => props.disabled,
+    (disabled) => {
+      if (disabled) cleanupDragging();
+    },
+  );
+
   onBeforeUnmount(cleanupDragging);
 
   const cls = computed(() => [prefixCls]);
 
-  const mergedTooltipPosition = computed(() =>
-    (props.tooltipPosition ?? props.direction === 'vertical') ? 'right' : 'top',
+  const mergedTooltipPosition = computed(
+    () => props.tooltipPosition ?? (props.direction === 'vertical' ? 'right' : 'top'),
   );
 
   const tooltipContent = computed(() => props.formatTooltip?.(props.value) ?? `${props.value}`);
