@@ -40,7 +40,7 @@ export interface ColResponsiveConfig {
 export type FlexType = number | string | 'initial' | 'auto' | 'none';
 
 export interface RowProps {
-  gutter?: number | ResponsiveValue | ResponsiveValue[];
+  gutter?: number | ResponsiveValue | [number | ResponsiveValue, number | ResponsiveValue];
   justify?: 'start' | 'center' | 'end' | 'space-around' | 'space-between';
   align?: 'start' | 'center' | 'end' | 'stretch';
   div?: boolean;
