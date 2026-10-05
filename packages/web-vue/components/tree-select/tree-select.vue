@@ -458,6 +458,7 @@
      * */
     defaultPopupVisible: {
       type: Boolean,
+      default: undefined,
     },
     defaultShow: {
       type: Boolean,
@@ -725,9 +726,9 @@
         (props.virtualScroll === true ? {} : undefined),
     ),
   );
-  const TreeSelectEmpty = configCtx?.slots.empty?.({
-    component: 'tree-select',
-  })?.[0];
+  const TreeSelectEmpty = computed(
+    () => configCtx?.slots.empty?.({ component: 'tree-select' })?.[0],
+  );
   const mergedModelValue = computed(() => modelValue!.value);
   const mergedData = computed(() => options!.value ?? data.value);
   const mergedTreeCheckable = computed(() => treeCheckable.value || checkable.value);
@@ -775,6 +776,7 @@
   const { flattenTreeData, key2TreeNode } = useTreeData(
     reactive({
       treeData: mergedData,
+      loadMore: toRef(props, 'loadMore'),
       fieldNames,
       selectable: isSelectable,
       checkable: isCheckable,
@@ -878,7 +880,7 @@
   };
 
   const [panelVisible, setLocalPanelVisible] = useMergeState(
-    defaultPopupVisible.value ?? defaultShow!.value,
+    defaultPopupVisible!.value ?? defaultShow!.value ?? false,
     reactive({
       value: computed(() => popupVisible!.value ?? show!.value),
     }),
@@ -977,6 +979,7 @@
   const onSearchValueChange = handleInputValueChange;
 
   const onSelectChange = (newVal: TreeNodeKey[]) => {
+    if (mergedDisabled.value || props.readonly) return;
     setSelectedKeys(newVal);
     if (!retainInputValue.value && computedInputValue.value) {
       updateInputValue('');
@@ -990,12 +993,13 @@
   const onVisibleChange = setPanelVisible;
 
   const onInnerClear = () => {
+    if (mergedDisabled.value || props.readonly) return;
     setSelectedKeys([]);
     emit('clear');
   };
 
   const onItemRemove = (id: string) => {
-    if (mergedDisabled.value) return;
+    if (mergedDisabled.value || props.readonly) return;
     const node = key2TreeNode.value.get(id);
     if (mergedTreeCheckable.value && node) {
       if (isNodeClosable(node)) {

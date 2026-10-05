@@ -1,7 +1,6 @@
 import type { App } from 'vue';
 
 import type { SDOptions, SFCWithInstall } from '../_utils/types';
-import type { TreeSelectProps } from './interface';
 
 import { getComponentPrefix, setGlobalConfig } from '../_utils/global-config';
 import _TreeSelect from './tree-select.vue';
@@ -14,7 +13,6 @@ export type {
   LabelValue,
   PopupVisibleChangeHandler as TreeSelectPopupVisibleChangeHandler,
   SearchHandler as TreeSelectSearchHandler,
-  TreeSelectProps,
   TreeSelectTriggerSlotProps,
   TreeSelectValue,
 } from './interface';
@@ -29,6 +27,7 @@ const TreeSelect = Object.assign(_TreeSelect, {
 }) as SFCWithInstall<typeof _TreeSelect>;
 
 export type TreeSelectInstance = InstanceType<typeof _TreeSelect>;
+export type TreeSelectProps = TreeSelectInstance['$props'];
 export type TreeSelectLoadMore = NonNullable<TreeSelectProps['loadMore']>;
 
 export default TreeSelect;
