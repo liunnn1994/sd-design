@@ -50,6 +50,8 @@ export interface UseFocusTrapReturn {
   deactivate: () => void;
 }
 
+const activeTraps: Array<(ev: KeyboardEvent) => void> = [];
+
 /**
  * 对话框/抽屉等弹层的焦点陷阱。
  *
@@ -67,7 +69,7 @@ export const useFocusTrap = (
   let savedFocus: HTMLElement | null = null;
 
   const handleKeydown = (ev: KeyboardEvent) => {
-    if (ev.key !== KEYBOARD_KEY.TAB) return;
+    if (ev.key !== KEYBOARD_KEY.TAB || activeTraps.at(-1) !== handleKeydown) return;
     const container = containerRef.value;
     if (!container) return;
 
@@ -118,18 +120,23 @@ export const useFocusTrap = (
   };
 
   const activate = () => {
+    if (activeTraps.includes(handleKeydown)) return;
+    activeTraps.push(handleKeydown);
     savedFocus = (document.activeElement as HTMLElement) ?? null;
     on(document.documentElement, 'keydown', handleKeydown, true);
     if (focusIntoContainer()) return;
     // 过渡期间元素可能尚未可聚焦，下一帧重试，直到成功
     const retry = () => {
-      if (focusIntoContainer()) return;
+      if (activeTraps.at(-1) !== handleKeydown || focusIntoContainer()) return;
       focusRetryHandle = requestAnimationFrame(retry);
     };
     focusRetryHandle = requestAnimationFrame(retry);
   };
 
   const deactivate = () => {
+    const index = activeTraps.indexOf(handleKeydown);
+    const wasTop = index >= 0 && index === activeTraps.length - 1;
+    if (index >= 0) activeTraps.splice(index, 1);
     if (focusRetryHandle) {
       cancelAnimationFrame(focusRetryHandle);
       focusRetryHandle = 0;
@@ -137,7 +144,7 @@ export const useFocusTrap = (
     off(document.documentElement, 'keydown', handleKeydown, true);
     const target = savedFocus;
     savedFocus = null;
-    if (target && typeof target.focus === 'function') {
+    if (wasTop && target && typeof target.focus === 'function') {
       target.focus();
     }
   };
