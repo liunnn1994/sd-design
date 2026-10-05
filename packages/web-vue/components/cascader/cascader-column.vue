@@ -23,7 +23,6 @@
     <VirtualList
       v-else-if="isVirtual"
       :key="column.length"
-      ref="virtualListRef"
       v-bind="virtualListProps"
       :items="column"
     >
@@ -49,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, inject, ref, type PropType } from 'vue';
+  import { computed, inject, type PropType } from 'vue';
 
   import { createReusableTemplate } from '@vueuse/core';
 
@@ -93,8 +92,6 @@
 
   const prefixCls = getPrefixCls('cascader');
   const configCtx = inject(configProviderInjectionKey, undefined);
-  const virtualListRef =
-    ref<import('vue-component-type-helpers').ComponentExposed<typeof VirtualList>>();
   const isVirtual = computed(() => Boolean(props.virtualListProps));
   const [DefineOption, ReuseOption] = createReusableTemplate<{
     item: CascaderOptionInfo;

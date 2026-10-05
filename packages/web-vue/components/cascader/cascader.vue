@@ -114,9 +114,11 @@
     getCurrentInstance,
     inject,
     onBeforeUnmount,
+    onBeforeUpdate,
     provide,
     reactive,
     ref,
+    shallowRef,
     toRef,
     toRefs,
     useAttrs,
@@ -252,11 +254,15 @@
   );
   const _inputValue = ref(props.defaultInputValue);
   const instance = getCurrentInstance();
-  const rawProps = instance?.vnode.props;
+  const rawProps = shallowRef(instance?.vnode.props);
+  onBeforeUpdate(() => {
+    rawProps.value = instance?.vnode.props;
+  });
 
   const { mergedDisabled, eventHandlers } = useFormItem({ disabled });
   const hasTriggerProp = (propNames: string[]) => {
-    return !!rawProps && propNames.some((propName) => Object.hasOwn(rawProps, propName));
+    const vnodeProps = rawProps.value;
+    return !!vnodeProps && propNames.some((propName) => Object.hasOwn(vnodeProps, propName));
   };
   const { mergedAllowSearch } = useAllowSearch(
     computed(() => props.allowSearch ?? props.multiple),
@@ -640,7 +646,7 @@
       expandTrigger,
       ellipsis,
       formatLabel,
-      separator: props.separator,
+      separator: toRef(props, 'separator'),
       slots,
       valueMap: computedValueMap,
     }),
