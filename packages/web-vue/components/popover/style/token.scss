@@ -9,8 +9,6 @@
 
 $popup-color-content-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-2'));
 
-$popup-border-radius: global.$radius-large;
-
 $popup-color-content-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-popup'));
 
 $popup-shadow: global.$shadow2-down;
