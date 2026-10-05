@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, inject, provide, ref, useSlots } from 'vue';
+  import { computed, inject, onBeforeUpdate, provide, ref, shallowRef, useSlots } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { configProviderInjectionKey } from '../config-provider/context';
@@ -28,10 +28,14 @@
   const tagName = 'div';
   const prefixCls = getPrefixCls('layout');
   const slots = useSlots();
+  const defaultSlot = shallowRef(slots.default);
+  onBeforeUpdate(() => {
+    defaultSlot.value = slots.default;
+  });
 
   const siders = ref<string[]>([]);
 
-  const slotVNodes = computed(() => slots.default?.());
+  const slotVNodes = computed(() => defaultSlot.value?.());
   const mergedHasSider = useHasSider(
     siders,
     slotVNodes,

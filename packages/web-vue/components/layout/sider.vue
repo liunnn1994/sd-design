@@ -113,6 +113,7 @@
 <script setup lang="ts">
   import {
     computed,
+    getCurrentInstance,
     inject,
     onMounted,
     onUnmounted,
@@ -140,12 +141,6 @@
   import { useI18n } from '../locale';
   import Scrollbar, { type ScrollbarProps } from '../scrollbar';
   import { LayoutContextInjectionKey, SiderContextInjectionKey } from './context';
-
-  let siderUuid = 0;
-  const generateId = (prefix = '') => {
-    siderUuid += 1;
-    return `${prefix}${siderUuid}`;
-  };
 
   defineOptions({ name: 'LayoutSider' });
 
@@ -423,9 +418,8 @@
     },
   });
 
-  let siderId = '';
+  const siderId = `sd-sider-${getCurrentInstance()!.uid}`;
   onMounted(() => {
-    siderId = generateId('sd-sider-');
     siderHook.addSider(siderId);
   });
   onUnmounted(() => {
