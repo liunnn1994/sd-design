@@ -375,7 +375,12 @@ export const createPanel = (group: EngineGroup, initial: PanelOptions): PanelCon
       place();
       refit();
       const parent = node.parentElement;
-      const watch = parent ? new ResizeObserver(refit) : undefined;
+      const watch = parent
+        ? new ResizeObserver(() => {
+            refit();
+            group.notify();
+          })
+        : undefined;
       if (parent) {
         watch?.observe(parent);
       }
