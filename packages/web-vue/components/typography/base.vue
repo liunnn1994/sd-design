@@ -43,9 +43,10 @@
 <script setup lang="ts">
   import type { Options as ClipboardOptions } from 'copy-to-clipboard';
 
-  import type { PropType, VNode } from 'vue';
+  import type { AppContext, ComponentInternalInstance, PropType } from 'vue';
   import {
     computed,
+    getCurrentInstance,
     onMounted,
     onUnmounted,
     onUpdated,
@@ -130,6 +131,8 @@
 
   const attrs = useAttrs();
   const slots = useSlots();
+  const instance = getCurrentInstance() as ComponentInternalInstance & Pick<AppContext, 'provides'>;
+  const textAppContext = { ...instance.appContext, provides: instance.provides };
   const [DefineDisplay, ReuseDisplay] = createReusableTemplate();
   const prefixCls = getPrefixCls('typography');
   const classNames = computed(() => [
@@ -149,7 +152,7 @@
     normalizeEllipsisConfig((isObject(props.ellipsis) && props.ellipsis) || {}),
   );
   const rootAttrs = computed(() => ({
-    ...(isEllipsis.value && !expanded.value && !ellipsisConfig.value.showTooltip
+    ...(props.ellipsis && isEllipsis.value && !expanded.value && !ellipsisConfig.value.showTooltip
       ? { title: fullText.value }
       : {}),
     ...attrs,
@@ -169,7 +172,11 @@
     return style;
   });
   const escapeHtml = (value: string) =>
-    value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+    value
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;');
   const styleAttribute = (style?: Record<string, string>) => {
     const text = style
       ? Object.entries(style)
@@ -189,11 +196,10 @@
     }, escapeHtml(fullText.value)),
   );
 
-  let children: VNode[] = [];
-  const getChildren = () => (children = slots.default?.() || []);
+  const getChildren = () => slots.default?.() || [];
   const updateFullText = () => {
     if (props.ellipsis || props.copyable || props.editable) {
-      const nextFullText = getInnerText(getChildren());
+      const nextFullText = getInnerText(getChildren(), textAppContext);
       if (fullText.value !== nextFullText) {
         fullText.value = nextFullText;
       }
@@ -225,6 +231,7 @@
   const isCopied = shallowRef(false);
   let copyTimer: ReturnType<typeof setTimeout> | null = null;
   const onCopyClick = () => {
+    if (props.copyText === undefined) updateFullText();
     const text = props.copyText ?? fullText.value;
     copy(text, props.clipboardProps);
     isCopied.value = true;
@@ -244,7 +251,7 @@
     isCopied: isCopied.value,
     isEllipsis: isEllipsis.value,
     expanded: expanded.value,
-    forceRenderExpand: expanded.value,
+    forceRenderExpand: Boolean(props.ellipsis) && expanded.value,
     editTooltipProps: props.editTooltipProps,
     copyTooltipProps: props.copyTooltipProps,
     onEdit: onEditStart,
