@@ -712,18 +712,6 @@ export const useEvents = (
     let newStart = event.start;
     let newEnd = new Date(cellStart.getTime() + minutes * 60000);
 
-    // If the event is resizing horizontally by the user dragging and crossing a cell,
-    // Set the end date to the hovered cell's start date while preserving the time at cursor position.
-    if (resizeState.moveX && calendar.touch?.currentHoveredCell && resizeState.cellEl) {
-      // Get the current hovered cell date from global touch state.
-      const _currentCellDate = new Date(parseInt(calendar.touch.currentHoveredCell.dataset.start!));
-
-      // Set the event end date to the hovered cell's date.
-      // newEnd.setDate(currentCellDate.getDate())
-      // newEnd.setMonth(currentCellDate.getMonth())
-      // newEnd.setYear(currentCellDate.getFullYear())
-    }
-
     // While resizing and event end is before event start.
     if (newEnd < resizeState.resizeStartDate!) {
       newStart = newEnd;
