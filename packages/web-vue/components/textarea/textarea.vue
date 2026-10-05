@@ -361,6 +361,7 @@
     }
 
     keepControl();
+    return value;
   };
 
   let preValue = computedValue.value;
@@ -395,15 +396,15 @@
       if (
         computedMaxLength.value &&
         !maxLengthErrorOnly.value &&
-        computedValue.value.length >= computedMaxLength.value &&
+        valueLength.value >= computedMaxLength.value &&
         getValueLength(value) > computedMaxLength.value
       ) {
         keepControl();
         return;
       }
 
-      updateValue(value);
-      emit('input', value, e);
+      const nextValue = updateValue(value);
+      emit('input', nextValue, e);
       eventHandlers.value?.onInput?.(e);
     } else {
       isComposition.value = true;
@@ -417,7 +418,7 @@
       if (
         computedMaxLength.value &&
         !maxLengthErrorOnly.value &&
-        computedValue.value.length >= computedMaxLength.value &&
+        valueLength.value >= computedMaxLength.value &&
         getValueLength(value) > computedMaxLength.value &&
         e.inputType === 'insertText'
       ) {
@@ -425,8 +426,8 @@
         return;
       }
 
-      updateValue(value);
-      emit('input', value, e);
+      const nextValue = updateValue(value);
+      emit('input', nextValue, e);
       eventHandlers.value?.onInput?.(e);
     }
   };
