@@ -71,8 +71,10 @@ const parseMask = (
   formatChars: Readonly<Record<string, RegExp>>,
 ): ParsedMaskToken[] => {
   if (typeof mask === 'string') return parseStringMask(mask, formatChars);
-  return mask.map((token: InputMaskToken) =>
-    token instanceof RegExp ? { pattern: token } : { literal: token },
+  return mask.flatMap((token: InputMaskToken): ParsedMaskToken[] =>
+    token instanceof RegExp
+      ? [{ pattern: token }]
+      : splitGraphemes(token).map((literal) => ({ literal })),
   );
 };
 
