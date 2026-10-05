@@ -298,7 +298,7 @@
   // fitSelectionToImage：等待原始 img 加载完成后重新对齐选区。
   // 监听走 addTrackedListener，destroy() 会统一移除；触发一次后自移除，避免重复堆积。
   function scheduleAlignOnLoad() {
-    if (!props.fitSelectionToImage) {
+    if (destroyed || !props.fitSelectionToImage) {
       return;
     }
 
