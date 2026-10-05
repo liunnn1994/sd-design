@@ -105,7 +105,7 @@
      */
     'change': [value: RadioValue, ev: Event];
   }>();
-  const slots = defineSlots<{
+  defineSlots<{
     default?: () => VNode[];
     /**
      * @zh 自定义单选框
