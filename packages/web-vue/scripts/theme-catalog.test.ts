@@ -17,7 +17,7 @@ test('新增组件从样式声明自动进入主题目录，重复生成结果�
     const tokenPath = path.join(temporary, 'future-widget/style/token.scss');
     await fs.writeFile(
       tokenPath,
-      "@use '@style/theme/global.scss' as global;\n$future-widget-color: global.$color-primary-6;\n$future-widget-radius: 12px;\n$accent2: blue;\n$radius: 4px;\n",
+      "@use '@style/theme/global.scss' as global;\n$future-widget-color: global.$color-primary-6;\n$future-widget-radius: 12px;\n$accent2: blue;\n$radius: 4px;\n$future-widget-color: global.$color-success-6;\n",
     );
     await generateThemeCatalog(temporary);
     const first = await fs.readFile(tokenPath, 'utf8');
@@ -32,7 +32,7 @@ test('新增组件从样式声明自动进入主题目录，重复生成结果�
       ['future-widget-color', 'future-widget-radius', 'accent-2', 'radius'],
     );
     assert.match(first, /theme-runtime\.token\(\s*'future-widget',\s*'future-widget-radius'/);
-    assert.deepEqual(catalogue.components[0].tokens[0].dependencies, ['color-primary-6']);
+    assert.deepEqual(catalogue.components[0].tokens[0].dependencies, ['color-success-6']);
     await generateThemeCatalog(temporary);
     assert.equal(await fs.readFile(tokenPath, 'utf8'), first);
     // css-variables 的 var() 包装必须幂等：oxfmt 折行后的长值不得再次包裹。

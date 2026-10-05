@@ -190,12 +190,6 @@ $picker-color-bg-circle_selected: theme-runtime.token(
   $picker-color-bg-circle_selected,
   'color-primary-6'
 );
-$picker-color-bg-circle_selected: theme-runtime.token(
-  'date-picker',
-  'picker-color-bg-circle-selected',
-  $picker-color-bg-circle_selected,
-  'color-primary-6'
-);
 $picker-color-bg-cell-in-range: theme-runtime.token(
   'date-picker',
   'picker-color-bg-cell-in-range',

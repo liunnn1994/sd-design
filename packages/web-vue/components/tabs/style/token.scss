@@ -332,12 +332,6 @@ $tabs-size-small-font-size_rounded: theme-runtime.token(
   $tabs-size-small-font-size_rounded,
   'font-size-body-3'
 );
-$tabs-size-default-font-size_rounded: theme-runtime.token(
-  'tabs',
-  'tabs-size-default-font-size-rounded',
-  $tabs-size-default-font-size_rounded,
-  'font-size-body-3'
-);
 $tabs-size-large-font-size_rounded: theme-runtime.token(
   'tabs',
   'tabs-size-large-font-size-rounded',
@@ -432,12 +426,6 @@ $tabs-size-default-header-height_text: theme-runtime.token(
   'tabs',
   'tabs-size-default-header-height-text',
   $tabs-size-default-header-height_text,
-  'size-8'
-);
-$tabs-size-default-header-height_rounded: theme-runtime.token(
-  'tabs',
-  'tabs-size-default-header-height-rounded',
-  $tabs-size-default-header-height_rounded,
   'size-8'
 );
 $tabs-color-title-text: theme-runtime.token(

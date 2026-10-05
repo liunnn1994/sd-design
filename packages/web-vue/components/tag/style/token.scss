@@ -214,7 +214,7 @@ $tag-size-default-font-size: theme-runtime.token(
 $tag-size-medium-font-size: theme-runtime.token(
   'tag',
   'tag-size-medium-font-size',
-  $tag-size-medium-font-size
+  $tag-size-default-font-size
 );
 $tag-size-large-font-size: theme-runtime.token(
   'tag',
@@ -687,8 +687,3 @@ $tag-gray-color-icon-bg_hover: theme-runtime.token(
   $tag-gray-color-icon-bg_hover
 );
 $tag-gray-color-text: theme-runtime.token('tag', 'tag-gray-color-text', $tag-gray-color-text);
-$tag-size-medium-font-size: theme-runtime.token(
-  'tag',
-  'tag-size-medium-font-size',
-  $tag-size-default-font-size
-);

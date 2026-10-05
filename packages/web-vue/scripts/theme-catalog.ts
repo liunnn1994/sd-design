@@ -93,7 +93,8 @@ export async function generateThemeCatalog(root = componentsRoot) {
     source = source.split('// @generated runtime tokens')[0].trimEnd();
     if (!source.includes('as theme-runtime;'))
       source = `@use '@style/theme/runtime.scss' as theme-runtime;\n${source}`;
-    const tokens = declarations(source).filter(
+    const declarationsByName = new Map(declarations(source).map((token) => [token.name, token]));
+    const tokens = [...declarationsByName.values()].filter(
       ({ name, value }) =>
         !/prefix|selector/.test(name) &&
         !value.startsWith('(') &&

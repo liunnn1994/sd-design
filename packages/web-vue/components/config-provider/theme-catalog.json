@@ -5466,13 +5466,7 @@
         {
           "key": "picker-color-bg-circle-selected",
           "name": "picker-color-bg-circle_selected",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, var(--component-date-picker-picker-color-bg-circle-selected, var(--component-date-picker-color-bg-circle-selected, var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))))))",
-          "dependencies": ["color-primary-6"]
-        },
-        {
-          "key": "picker-color-bg-circle-selected",
-          "name": "picker-color-bg-circle_selected",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, var(--component-date-picker-picker-color-bg-circle-selected, var(--component-date-picker-color-bg-circle-selected, var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))))))",
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
           "dependencies": ["color-primary-6"]
         },
         {
@@ -10608,8 +10602,8 @@
         {
           "key": "popup-border-radius",
           "name": "popup-border-radius",
-          "value": "var(--component-popover-popup-border-radius, var(--component-popover-border-radius, var(--sd-border-radius-medium)))",
-          "dependencies": ["radius-large"]
+          "value": "var(--sd-border-radius-medium)",
+          "dependencies": ["radius-medium"]
         },
         {
           "key": "popup-color-content-bg",
@@ -10670,12 +10664,6 @@
           "name": "popup-font-size",
           "value": "var(--font-size-body-3, 14px)",
           "dependencies": ["font-size-body-3"]
-        },
-        {
-          "key": "popup-border-radius",
-          "name": "popup-border-radius",
-          "value": "var(--component-popover-popup-border-radius, var(--component-popover-border-radius, var(--sd-border-radius-medium)))",
-          "dependencies": ["radius-medium"]
         }
       ]
     },
@@ -14001,7 +13989,7 @@
         {
           "key": "tabs-size-default-font-size-rounded",
           "name": "tabs-size-default-font-size_rounded",
-          "value": "var(--font-size-body-3, var(--component-tabs-tabs-size-default-font-size-rounded, var(--component-tabs-size-default-font-size-rounded, var(--font-size-body-3, 14px))))",
+          "value": "var(--font-size-body-3, 14px)",
           "dependencies": ["font-size-body-3"]
         },
         {
@@ -14038,12 +14026,6 @@
           "key": "tabs-size-small-font-size-rounded",
           "name": "tabs-size-small-font-size_rounded",
           "value": "var(--font-size-body-3, 14px)",
-          "dependencies": ["font-size-body-3"]
-        },
-        {
-          "key": "tabs-size-default-font-size-rounded",
-          "name": "tabs-size-default-font-size_rounded",
-          "value": "var(--font-size-body-3, var(--component-tabs-tabs-size-default-font-size-rounded, var(--component-tabs-size-default-font-size-rounded, var(--font-size-body-3, 14px))))",
           "dependencies": ["font-size-body-3"]
         },
         {
@@ -14127,7 +14109,7 @@
         {
           "key": "tabs-size-default-header-height-rounded",
           "name": "tabs-size-default-header-height_rounded",
-          "value": "var(--size-8, var(--component-tabs-tabs-size-default-header-height-rounded, var(--component-tabs-size-default-header-height-rounded, var(--size-8, 32px))))",
+          "value": "var(--size-8, 32px)",
           "dependencies": ["size-8"]
         },
         {
@@ -14140,12 +14122,6 @@
           "key": "tabs-size-default-header-height-text",
           "name": "tabs-size-default-header-height_text",
           "value": "var(--size-8, 32px)",
-          "dependencies": ["size-8"]
-        },
-        {
-          "key": "tabs-size-default-header-height-rounded",
-          "name": "tabs-size-default-header-height_rounded",
-          "value": "var(--size-8, var(--component-tabs-tabs-size-default-header-height-rounded, var(--component-tabs-size-default-header-height-rounded, var(--size-8, 32px))))",
           "dependencies": ["size-8"]
         },
         {
@@ -15268,12 +15244,6 @@
           "name": "tag-gray-color-text",
           "value": "rgb(var(--sd-gray-6))",
           "dependencies": ["sd-cssvars-prefix"]
-        },
-        {
-          "key": "tag-size-medium-font-size",
-          "name": "tag-size-medium-font-size",
-          "value": "var(--component-tag-tag-size-default-font-size, var(--component-tag-size-default-font-size, 12px))",
-          "dependencies": []
         }
       ]
     },
