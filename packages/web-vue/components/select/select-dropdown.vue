@@ -1,12 +1,12 @@
 <template>
-  <div :class="cls">
+  <div :class="cls()">
     <div v-if="$slots.header && (!empty || showHeaderOnEmpty)" :class="`${prefixCls}-header`">
       <slot name="header" />
     </div>
     <spin v-if="loading" v-bind="spinProps" :class="`${prefixCls}-loading`" />
     <div v-else-if="empty" :class="`${prefixCls}-empty`">
       <slot name="empty">
-        <component :is="SelectEmpty || Empty" />
+        <component :is="configCtx?.slots.empty?.({ component: 'select' })?.[0] || Empty" />
       </slot>
     </div>
     <slot v-if="virtualList && !loading && !empty" name="virtual-list" />
@@ -82,7 +82,6 @@
   const { scrollbar } = toRefs(props);
   const prefixCls = getPrefixCls('select-dropdown');
   const configCtx = inject(configProviderInjectionKey, undefined);
-  const SelectEmpty = configCtx?.slots.empty?.({ component: 'select' })?.[0];
 
   const wrapperComRef = ref<ScrollbarInstance>();
   const wrapperRef = computed(
@@ -101,11 +100,11 @@
     emit('scroll', e);
   };
 
-  const cls = computed(() => [
+  const cls = () => [
     prefixCls,
     {
       [`${prefixCls}-has-header`]: Boolean(slots.header),
       [`${prefixCls}-has-footer`]: Boolean(slots.footer),
     },
-  ]);
+  ];
 </script>

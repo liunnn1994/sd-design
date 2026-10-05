@@ -115,26 +115,30 @@ export const useSelect = ({
   };
 
   // Handling when the drop-down box is displayed/hide
-  watch(popupVisible, (visible) => {
-    if (visible) {
-      // get last value key
-      const current = valueKeys.value[valueKeys.value.length - 1];
-      let _activeKey =
-        (defaultActiveFirstOption?.value ?? true) ? enabledOptionKeys.value[0] : undefined;
-      if (enabledOptionKeys.value.includes(current)) {
-        _activeKey = current;
-      }
-      if (_activeKey !== activeKey.value) {
-        activeKey.value = _activeKey;
-      }
-      // Execute scrollIntoView after the pop-up animation ends, otherwise unnecessary scrolling will occur
-      nextTick(() => {
-        if (activeKey.value) {
-          scrollIntoView(activeKey.value);
+  watch(
+    popupVisible,
+    (visible) => {
+      if (visible) {
+        // get last value key
+        const current = valueKeys.value[valueKeys.value.length - 1];
+        let _activeKey =
+          (defaultActiveFirstOption?.value ?? true) ? enabledOptionKeys.value[0] : undefined;
+        if (enabledOptionKeys.value.includes(current)) {
+          _activeKey = current;
         }
-      });
-    }
-  });
+        if (_activeKey !== activeKey.value) {
+          activeKey.value = _activeKey;
+        }
+        // Execute scrollIntoView after the pop-up animation ends, otherwise unnecessary scrolling will occur
+        nextTick(() => {
+          if (activeKey.value) {
+            scrollIntoView(activeKey.value);
+          }
+        });
+      }
+    },
+    { immediate: true },
+  );
 
   const handleKeyDown = getKeyDownHandler(
     new Map([

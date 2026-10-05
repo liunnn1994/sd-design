@@ -114,10 +114,12 @@
   import {
     computed,
     getCurrentInstance,
+    getCurrentScope,
     inject,
     nextTick,
     onBeforeUnmount,
     ref,
+    toRaw,
     toRef,
     toRefs,
     watch,
@@ -306,7 +308,7 @@
     },
     defaultPopupVisible: {
       type: Boolean,
-      default: false,
+      default: undefined,
     },
     defaultShow: {
       type: Boolean,
@@ -526,7 +528,7 @@
 
   const _value = ref<SelectModelValue>(props.defaultValue);
   const computedValueObjects = computed<OptionValueWithKey[]>(() => {
-    const mergedValue = props.modelValue ?? _value.value;
+    const mergedValue = props.modelValue !== undefined ? props.modelValue : _value.value;
     const valueArray: SelectOptionValue[] = [];
 
     if (isArray(mergedValue)) {
@@ -649,20 +651,27 @@
     }),
   );
 
+  const componentScope = getCurrentScope();
   nextTick(() => {
-    watchEffect(() => {
-      const valueData = getExtraValueData();
-      if (valueData.length !== extraValueObjects.value.length) {
-        extraValueObjects.value = valueData;
-        return;
-      }
-
-      for (let index = 0; index < valueData.length; index += 1) {
-        if (valueData[index].key !== extraValueObjects.value[index]?.key) {
+    if (!componentScope?.active) return;
+    componentScope.run(() => {
+      watchEffect(() => {
+        const valueData = getExtraValueData();
+        if (valueData.length !== extraValueObjects.value.length) {
           extraValueObjects.value = valueData;
-          break;
+          return;
         }
-      }
+
+        for (let index = 0; index < valueData.length; index += 1) {
+          if (
+            valueData[index].key !== extraValueObjects.value[index]?.key ||
+            toRaw(valueData[index].value) !== toRaw(extraValueObjects.value[index]?.value)
+          ) {
+            extraValueObjects.value = valueData;
+            break;
+          }
+        }
+      });
     });
   });
 
@@ -736,6 +745,7 @@
   };
 
   const handleSelect = (key: string, ev: Event) => {
+    if (props.readonly) return;
     if (props.multiple) {
       handleMultipleSelect(key, ev);
       return;
@@ -766,6 +776,7 @@
   };
 
   const handleRemove = (key: string) => {
+    if (props.readonly) return;
     const optionInfo = optionInfoMap.get(key);
     updateValue(computedValueKeys.value.filter((currentKey) => currentKey !== key));
     emit('remove', optionInfo?.value);
@@ -773,6 +784,7 @@
 
   const handleClear = (event: Event) => {
     event.stopPropagation();
+    if (props.readonly) return;
     const newKeys = computedValueKeys.value.filter((key) => optionInfoMap.get(key)?.disabled);
     updateValue(newKeys);
     updateInputValue('');
