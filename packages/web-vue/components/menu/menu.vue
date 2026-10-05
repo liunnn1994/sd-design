@@ -24,6 +24,8 @@
     computed,
     inject,
     provide,
+    onBeforeUpdate,
+    shallowRef,
     useAttrs,
     useSlots,
     type InjectionKey,
@@ -88,6 +90,10 @@
 
   const attrs = useAttrs();
   const slots = useSlots();
+  const slotNames = shallowRef(Object.keys(slots));
+  onBeforeUpdate(() => {
+    slotNames.value = Object.keys(slots);
+  });
   const siderContext = inject(SiderContextInjectionKey, undefined);
   const siderCollapsed = computed(() => siderContext?.siderCollapsed || false);
   // rail 常驻态同样收起菜单文字（仅显图标），hover 展开时由 Sider 把 siderRail 置 false。
@@ -109,7 +115,7 @@
       : {},
   );
   const mergedClass = computed(() => [attrs.class, siderRailCls.value].filter(Boolean).join(' '));
-  const namedSlotNames = computed(() => Object.keys(slots).filter((name) => name !== 'default'));
+  const namedSlotNames = computed(() => slotNames.value.filter((name) => name !== 'default'));
 
   // 截断上下文
   provide(MenuInjectionKey as InjectionKey<MenuContext | undefined>, undefined);

@@ -27,7 +27,15 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, toRef, useAttrs, useSlots, type PropType } from 'vue';
+  import {
+    computed,
+    onBeforeUpdate,
+    shallowRef,
+    toRef,
+    useAttrs,
+    useSlots,
+    type PropType,
+  } from 'vue';
 
   import IconDown from '../icon/icon-down';
   import IconRight from '../icon/icon-right';
@@ -76,6 +84,10 @@
 
   const attrs = useAttrs();
   const slots = useSlots();
+  const slotNames = shallowRef(Object.keys(slots));
+  onBeforeUpdate(() => {
+    slotNames.value = Object.keys(slots);
+  });
   const { key } = useMenu();
   const { level } = useLevel();
   const menuContext = useMenuContext();
@@ -111,9 +123,7 @@
   });
 
   const forwardedSlotNames = computed(() =>
-    Object.keys(slots).filter(
-      (name) => name !== 'expand-icon-down' && name !== 'expand-icon-right',
-    ),
+    slotNames.value.filter((name) => name !== 'expand-icon-down' && name !== 'expand-icon-right'),
   );
 
   defineExpose({

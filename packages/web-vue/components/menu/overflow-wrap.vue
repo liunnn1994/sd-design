@@ -20,7 +20,17 @@
 </template>
 
 <script setup lang="ts">
-  import { cloneVNode, computed, onMounted, onUnmounted, ref, useSlots, type VNode } from 'vue';
+  import {
+    cloneVNode,
+    computed,
+    onBeforeUpdate,
+    onMounted,
+    onUnmounted,
+    ref,
+    shallowRef,
+    useSlots,
+    type VNode,
+  } from 'vue';
 
   import ResizeObserver from 'resize-observer-polyfill';
 
@@ -45,6 +55,10 @@
   }
 
   const slots = useSlots();
+  const defaultSlot = shallowRef(slots.default);
+  onBeforeUpdate(() => {
+    defaultSlot.value = slots.default;
+  });
   const menuContext = useMenuContext();
   const overflowPrefixCls = `${menuContext.prefixCls}-overflow`;
   const overflowSubMenuClass = `${overflowPrefixCls}-sub-menu`;
@@ -55,7 +69,7 @@
   const lastVisibleIndex = ref<number | null>(null);
   const refResizeObserver = ref<ResizeObserver>();
   const refMutationObserver = ref<MutationObserver>();
-  const children = computed(() => unFragment(slots.default?.() ?? []) as VNode[]);
+  const children = computed(() => unFragment(defaultSlot.value?.() ?? []) as VNode[]);
   const menuItems = computed(() =>
     children.value.map((child, index) =>
       cloneVNode(

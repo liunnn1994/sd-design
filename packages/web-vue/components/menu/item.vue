@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, onMounted, onUnmounted, ref, useSlots, watch } from 'vue';
+  import { computed, onBeforeUpdate, onMounted, onUnmounted, ref, useSlots, watch } from 'vue';
 
   import { createReusableTemplate } from '@vueuse/core';
   import scrollIntoView from 'scroll-into-view-if-needed';
@@ -94,6 +94,10 @@
   const menuContext = useMenuContext();
   const menuDataCollector = useMenuDataCollectorContext();
   const slots = useSlots();
+  const hasIcon = ref(Boolean(slots.icon));
+  onBeforeUpdate(() => {
+    hasIcon.value = Boolean(slots.icon);
+  });
   const refItemElement = ref<HTMLDivElement>();
   const [DefineItemElement, ReuseItemElement] = createReusableTemplate();
 
@@ -111,7 +115,7 @@
   const titleClassNames = computed(() => [
     `${prefixCls.value}-item-inner`,
     {
-      [`${prefixCls.value}-title`]: Boolean(slots.icon),
+      [`${prefixCls.value}-title`]: hasIcon.value,
     },
   ]);
   const tooltipClassNames = computed(() =>

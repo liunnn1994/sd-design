@@ -63,13 +63,13 @@ export default function useMenuDataCollector(props: {
       }
     },
     removeSubMenu(key) {
-      data.value = data.value.filter((item) => item.key !== key);
+      data.value.splice(0, data.value.length, ...data.value.filter((item) => item.key !== key));
     },
     collectMenuItem(key) {
       data.value.push({ key });
     },
     removeMenuItem(key) {
-      data.value = data.value.filter((item) => item.key !== key);
+      data.value.splice(0, data.value.length, ...data.value.filter((item) => item.key !== key));
     },
     reportMenuData(reportData) {
       data.value = reportData;
