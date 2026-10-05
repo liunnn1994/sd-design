@@ -682,7 +682,7 @@
    */
   /**
    * @zh 总结行
-   * @en Content on the right side of the pagination
+   * @en Summary row cell
    * @slot summary-cell
    * @binding {TableColumnData} column
    * @binding {TableData} record
@@ -763,7 +763,6 @@
     };
   });
 
-  // const theadRef = ref<HTMLElement>();
   const summaryRef = ref<HTMLElement>();
   const thRefs = ref<Record<string, HTMLElement>>({});
   const virtualListRef = ref<VirtualListRef | null>(null);

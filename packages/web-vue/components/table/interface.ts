@@ -232,7 +232,7 @@ export interface TableColumnData {
   bodyCellClass?: ClassName | ((record: TableData) => ClassName);
   /**
    * @zh 自定义总结栏单元格类名
-   * @en Custom body cell class
+   * @en Custom summary cell class
    * @version 2.36.0
    */
   summaryCellClass?: ClassName | ((record: TableData) => ClassName);
@@ -292,7 +292,7 @@ export interface TableColumnData {
 export interface TableBorder {
   /**
    * @zh 是否展示外边框
-   * @en TWhether to display the outer border
+   * @en Whether to display the outer border
    */
   wrapper?: boolean;
   /**
@@ -333,7 +333,6 @@ export interface TableRowSelection {
    * @en Whether to show the select all selector
    */
   showCheckedAll?: boolean;
-  // crossPage?: boolean;
   /**
    * @zh 列标题
    * @en Column title
