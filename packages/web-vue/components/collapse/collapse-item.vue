@@ -99,7 +99,7 @@
       destroyOnHide: false,
     },
   );
-  const slots = defineSlots<{
+  defineSlots<{
     'default'?: () => VNode[];
     /**
      * @zh 面板的标题

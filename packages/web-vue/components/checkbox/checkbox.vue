@@ -112,7 +112,7 @@
      */
     'change': [value: CheckboxModelValue, ev: Event];
   }>();
-  const slots = defineSlots<{
+  defineSlots<{
     default?: () => VNode[];
     /**
      * @zh 自定义复选框
