@@ -1,4 +1,3 @@
-@use 'sass:string';
 @use '@style/theme/index.scss' as *;
 
 @keyframes #{$prefix}-carousel-slide-x-in {
