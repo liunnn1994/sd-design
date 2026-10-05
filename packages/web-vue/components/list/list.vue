@@ -46,7 +46,7 @@
               @scroll="handleScroll"
             >
               <template #item="{ item, index }">
-                <slot name="item" :item="item as TItem" :index="index" />
+                <ReuseItem :item="item" :index="index" />
               </template>
             </VirtualList>
             <ReuseEmpty v-else />
@@ -69,7 +69,7 @@
                       :class="`${prefixCls}-col`"
                       :span="props.gridProps.span"
                     >
-                      <ReuseItem :item="item" :index="index" />
+                      <ReuseItem :item="item" :index="rowIndex * gridRowSize + index" />
                     </Grid.Col>
                   </Grid.Row>
                 </template>
@@ -105,7 +105,7 @@
         v-if="props.paginationProps"
         v-bind="paginationRestProps"
         :class="`${prefixCls}-pagination`"
-        :total="props.paginationProps.total ?? props.data?.length ?? 0"
+        :total="props.paginationProps.total ?? sourceItems.length"
         :current="current"
         :page-size="pageSize"
         @change="handlePageChange"
@@ -116,7 +116,18 @@
 </template>
 
 <script setup lang="ts" generic="TItem = VNode">
-  import { computed, inject, isVNode, onMounted, ref, toRef, useAttrs, useSlots } from 'vue';
+  import {
+    computed,
+    inject,
+    isVNode,
+    onBeforeUpdate,
+    onMounted,
+    ref,
+    shallowRef,
+    toRef,
+    useAttrs,
+    useSlots,
+  } from 'vue';
   import type { CSSProperties, PropType, VNodeChild, VNode } from 'vue';
 
   import { createReusableTemplate } from '@vueuse/core';
@@ -263,6 +274,10 @@
 
   const attrs = useAttrs();
   const slots = useSlots();
+  const defaultSlot = shallowRef(slots.default);
+  onBeforeUpdate(() => {
+    defaultSlot.value = slots.default;
+  });
   const [DefineItem, ReuseItem] = createReusableTemplate<{ item: unknown; index: number }>();
   const [DefineEmpty, ReuseEmpty] = createReusableTemplate();
   const [DefineScrollLoading, ReuseScrollLoading] = createReusableTemplate();
@@ -306,14 +321,15 @@
   };
 
   const sourceItems = computed(() =>
-    slots.default ? (getAllElements(slots.default()) as TItem[]) : (props.data ?? []),
+    defaultSlot.value ? (getAllElements(defaultSlot.value()) as TItem[]) : (props.data ?? []),
   );
   const currentPageItems = computed(() => getCurrentPageItems(sourceItems.value));
   const virtualItems = computed(() => getCurrentPageItems(props.data ?? []));
+  const gridRowSize = computed(() => Math.max(1, Math.floor(24 / (props.gridProps?.span || 24))));
   const gridRows = computed(() => {
     const span = props.gridProps?.span;
     if (!span) return [];
-    const rowSize = 24 / span;
+    const rowSize = gridRowSize.value;
     const rows: TItem[][] = [];
     for (let index = 0; index < currentPageItems.value.length; index += rowSize)
       rows.push(currentPageItems.value.slice(index, index + rowSize));

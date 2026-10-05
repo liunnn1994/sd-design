@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, useSlots } from 'vue';
+  import { computed, onBeforeUpdate, reactive, useSlots } from 'vue';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { PerformantEllipsis } from '../ellipsis';
@@ -54,9 +54,17 @@
    * @slot avatar
    */
   const slots = useSlots();
+  const slotPresence = reactive({
+    title: Boolean(slots.title),
+    description: Boolean(slots.description),
+  });
+  onBeforeUpdate(() => {
+    slotPresence.title = Boolean(slots.title);
+    slotPresence.description = Boolean(slots.description);
+  });
 
   const prefixCls = getPrefixCls('list-item-meta');
   const hasContent = computed(() =>
-    Boolean(props.title || props.description || slots.title || slots.description),
+    Boolean(props.title || props.description || slotPresence.title || slotPresence.description),
   );
 </script>
