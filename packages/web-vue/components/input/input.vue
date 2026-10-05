@@ -66,7 +66,17 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, nextTick, ref, toRef, useAttrs, useSlots, watch } from 'vue';
+  import {
+    computed,
+    nextTick,
+    onBeforeUpdate,
+    reactive,
+    ref,
+    toRef,
+    useAttrs,
+    useSlots,
+    watch,
+  } from 'vue';
   import type { PropType, StyleValue } from 'vue';
 
   import { createReusableTemplate } from '@vueuse/core';
@@ -266,6 +276,16 @@
 
   const attrs = useAttrs();
   const slots = useSlots();
+  const slotPresence = reactive({
+    prepend: Boolean(slots.prepend),
+    append: Boolean(slots.append),
+    suffix: Boolean(slots.suffix),
+  });
+  onBeforeUpdate(() => {
+    slotPresence.prepend = Boolean(slots.prepend);
+    slotPresence.append = Boolean(slots.append);
+    slotPresence.suffix = Boolean(slots.suffix);
+  });
   const [DefineInput, ReuseInput] = createReusableTemplate<{ hasOuter?: boolean }>();
   const { t } = useI18n();
   const prefixCls = getPrefixCls('input');
@@ -452,13 +472,13 @@
   };
 
   const hasOuter = computed(() =>
-    Boolean(slots.prepend || slots.append || props.prepend || props.append),
+    Boolean(slotPresence.prepend || slotPresence.append || props.prepend || props.append),
   );
   const outerCls = computed(() => [
     `${prefixCls}-outer`,
     `${prefixCls}-outer-size-${mergedSize.value}`,
     {
-      [`${prefixCls}-outer-has-suffix`]: Boolean(slots.suffix),
+      [`${prefixCls}-outer-has-suffix`]: slotPresence.suffix,
       [`${prefixCls}-outer-disabled`]: mergedDisabled.value,
       [`${prefixCls}-fit-width`]: props.fitWidth,
       [`${prefixCls}-max-w-full`]: props.maxWFull,

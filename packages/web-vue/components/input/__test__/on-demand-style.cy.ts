@@ -2,7 +2,7 @@ import { h } from 'vue';
 
 import { mount } from 'cypress/vue';
 
-import Input, { InputGroup, InputSearch } from '../index';
+import Input, { InputGroup, InputPassword, InputSearch } from '../index';
 import '../style';
 
 describe('Input on-demand styles', () => {
@@ -34,6 +34,11 @@ describe('Input on-demand styles', () => {
   it('styles the search button with only the component style entry', () => {
     mount(InputSearch, { props: { searchButton: true } });
     cy.get('.sd-input-search-btn').should('have.css', 'height', '32px');
+  });
+
+  it('applies the password visibility icon size with only the component style entry', () => {
+    mount(InputPassword);
+    cy.get('.sd-input-suffix').should('have.css', 'font-size', '12px');
   });
 
   it('overlaps the adjacent group borders', () => {

@@ -1,6 +1,7 @@
 <template>
   <a-input
     ref="inputRef"
+    :class="prefixCls"
     :type="mergedVisible ? 'password' : 'text'"
     :fit-width="fitWidth"
     :max-w-full="maxWFull"
@@ -35,6 +36,7 @@
 
   import AIconHover from '../_components/icon-hover.vue';
   import useMergeState from '../_hooks/use-merge-state';
+  import { getPrefixCls } from '../_utils/global-config';
   import IconEye from '../icon/icon-eye';
   import IconEyeInvisible from '../icon/icon-eye-invisible';
   import AInput from './input.vue';
@@ -96,6 +98,7 @@
   }>();
 
   const { visibility, defaultVisibility } = toRefs(props);
+  const prefixCls = getPrefixCls('input-password');
   const inputRef = ref();
 
   // NOTE: `visibility`/`mergedVisible` follow arco's inherited inverted naming:
