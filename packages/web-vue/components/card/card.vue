@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
   import type { CSSProperties, VNode } from 'vue';
-  import { computed, inject, provide, reactive, toRef } from 'vue';
+  import { computed, inject, onBeforeUpdate, provide, reactive, toRef } from 'vue';
 
   import type { ScrollbarProps } from '../scrollbar';
   import type { SpinProps } from '../spin';
@@ -173,7 +173,11 @@
     get hasGrid() {
       return this.gridCount > 0;
     },
-    slots,
+    slots: { ...slots },
+  });
+
+  onBeforeUpdate(() => {
+    cardContext.slots = { ...slots };
   });
 
   provide(cardInjectionKey, cardContext);
