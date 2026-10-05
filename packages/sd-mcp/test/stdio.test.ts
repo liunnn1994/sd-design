@@ -98,7 +98,11 @@ test('serves recovered APIs and valid clamp imports', async () => {
     assert.equal(message.kind, 'service');
     assert.equal(message.configCount, 9);
     assert.ok(message.methods.some((method: { name: string }) => method.name === 'success'));
-    assert.equal((await get('Notification')).configCount, 14);
+    const notification = await get('Notification');
+    assert.equal(notification.configCount, 15);
+    assert.ok(
+      notification.config.some((field: { name: string }) => field.name === 'resetOnUpdate'),
+    );
     const search = await client.callTool({
       name: 'search_components',
       arguments: { query: 'resetOnHover' },
