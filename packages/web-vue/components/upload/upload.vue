@@ -25,9 +25,11 @@
     defineComponent,
     h,
     onBeforeUnmount,
+    onBeforeUpdate,
     provide,
     reactive,
     ref,
+    shallowRef,
     toRefs,
     useAttrs,
     useSlots,
@@ -92,7 +94,7 @@
     responseUrlKey: [String, Function] as PropType<string | ((fileItem: FileItem) => string)>,
     customIcon: Object as PropType<CustomIcon>,
     imagePreview: { type: Boolean, default: false },
-    onBeforeUpload: Function as PropType<(file: File) => boolean | Promise<boolean | File>>,
+    onBeforeUpload: Function as PropType<(file: File) => boolean | File | Promise<boolean | File>>,
     onBeforeRemove: Function as PropType<(fileItem: FileItem) => Promise<boolean>>,
     onButtonClick: Function as PropType<(event: Event) => Promise<FileList> | void>,
   });
@@ -133,6 +135,10 @@
 
   const attrs = useAttrs();
   const slots = useSlots();
+  const contextSlots = shallowRef({ ...slots });
+  onBeforeUpdate(() => {
+    contextSlots.value = { ...slots };
+  });
   const {
     disabled,
     listType,
@@ -179,6 +185,9 @@
     task.cancelled = true;
     try {
       task.request?.abort?.();
+    } catch (error) {
+      // oxlint-disable-next-line no-console
+      console.error(error);
     } finally {
       task.releaseLock?.();
     }
@@ -252,12 +261,19 @@
       file.status = 'done';
       file.percent = 1;
       file.response = response;
-      if (props.responseUrlKey) {
-        if (isFunction(props.responseUrlKey)) {
-          file.url = props.responseUrlKey(file);
-        } else if (isObject(response) && response[props.responseUrlKey]) {
-          file.url = String(response[props.responseUrlKey]);
+      try {
+        if (props.responseUrlKey) {
+          if (isFunction(props.responseUrlKey)) {
+            const url = props.responseUrlKey(file);
+            if (!isCurrent()) return;
+            file.url = url;
+          } else if (isObject(response) && response[props.responseUrlKey]) {
+            file.url = String(response[props.responseUrlKey]);
+          }
         }
+      } catch (error) {
+        handleError(error);
+        return;
       }
       requestMap.delete(file.uid);
       task.releaseLock?.();
@@ -363,7 +379,10 @@
       emit('exceedLimit', innerFileList.value, [file]);
       return;
     }
-    const uid = `${Date.now()}-${uidCounter++}`;
+    let uid: string;
+    do {
+      uid = `${Date.now()}-${uidCounter++}`;
+    } while (fileMap.has(uid));
     const url = isImage(file) ? URL.createObjectURL(file) : undefined;
     if (url) previewUrls.add(url);
     const fileItem: FileItem = reactive({
@@ -461,7 +480,7 @@
       imageLoading,
       download,
       customIcon,
-      slots,
+      slots: contextSlots,
       onUpload: (fileItem: FileItem) => {
         if (!mergedDisabled.value) uploadFile(fileItem);
       },
@@ -508,7 +527,9 @@
         h(
           UploadButton,
           { ...uploadButtonProps.value, ...rootAttrs },
-          slots['upload-button'] ? { default: slots['upload-button'] } : undefined,
+          contextSlots.value['upload-button']
+            ? { default: contextSlots.value['upload-button'] }
+            : undefined,
         );
 
       return () => {

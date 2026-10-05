@@ -4,14 +4,18 @@
       <component
         :is="uploadCtx.slots['file-name']"
         v-if="uploadCtx?.slots['file-name']"
-        :file-item="file"
+        v-bind="{ fileItem: file }"
       />
       <VNodeRenderer v-else-if="customFileName" :content="customFileName" />
       <template v-else>{{ file.name }}</template>
     </DefineFileName>
     <div :class="`${itemCls}-content`">
       <span v-if="uploadCtx?.listType === 'picture'" :class="`${itemCls}-thumbnail`">
-        <component :is="uploadCtx.slots.image" v-if="uploadCtx?.slots.image" :file-item="file" />
+        <component
+          :is="uploadCtx.slots.image"
+          v-if="uploadCtx?.slots.image"
+          v-bind="{ fileItem: file }"
+        />
         <img
           v-else
           :src="file.url"
@@ -24,7 +28,7 @@
           <component
             :is="uploadCtx.slots['file-icon']"
             v-if="uploadCtx?.slots['file-icon']"
-            :file-item="file"
+            v-bind="{ fileItem: file }"
           />
           <VNodeRenderer v-else-if="customFileIcon" :content="customFileIcon" />
           <component :is="fileIconComponent" v-else />
@@ -80,7 +84,7 @@
     <component
       :is="uploadCtx.slots['extra-button']"
       v-if="uploadCtx?.slots['extra-button']"
-      :file-item="file"
+      v-bind="{ fileItem: file }"
     />
   </div>
 </template>

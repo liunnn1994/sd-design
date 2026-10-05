@@ -57,7 +57,10 @@
       </span>
     </Tooltip>
 
-    <Tooltip v-else-if="uploadCtx?.showCancelButton" :content="t('upload.cancel')">
+    <Tooltip
+      v-else-if="file.status === 'uploading' && uploadCtx?.showCancelButton"
+      :content="t('upload.cancel')"
+    >
       <span
         :class="[uploadCtx.iconCls, `${uploadCtx.iconCls}-cancel`]"
         role="button"

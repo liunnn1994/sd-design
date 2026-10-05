@@ -155,9 +155,14 @@ export const loopDirectory = (
 ) => {
   const files: File[] = [];
 
-  let restFileCount = 0; // 剩余上传文件的数量
+  let restFileCount = 1; // 初始遍历也占一个名额，避免同步空条目提前完成
   const onFinish = () => {
     !restFileCount && callback(files);
+  };
+
+  const onReadError = () => {
+    restFileCount -= 1;
+    onFinish();
   };
 
   const _loopDirectory = (item: FileSystemEntry | null) => {
@@ -173,7 +178,7 @@ export const loopDirectory = (
           files.push(file);
         }
         onFinish();
-      });
+      }, onReadError);
       return;
     }
     if (item?.isDirectory) {
@@ -188,7 +193,7 @@ export const loopDirectory = (
             entries.forEach(_loopDirectory);
             readEntries(); // the maximum files read using readEntries is 100
           }
-        });
+        }, onReadError);
       };
       readEntries();
       return;
@@ -203,6 +208,8 @@ export const loopDirectory = (
     .forEach(
       (item: DataTransferItem) => item.webkitGetAsEntry && _loopDirectory(item.webkitGetAsEntry()),
     );
+  restFileCount -= 1;
+  onFinish();
 };
 
 export const isImage = (file: File) => {

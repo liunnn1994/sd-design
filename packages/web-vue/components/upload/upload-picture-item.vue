@@ -14,7 +14,11 @@
     </DefineAction>
     <UploadProgress v-if="file.status === 'uploading'" :file="file" list-type="picture-card" />
     <template v-else>
-      <component :is="uploadCtx.slots.image" v-if="uploadCtx?.slots.image" :file-item="file" />
+      <component
+        :is="uploadCtx.slots.image"
+        v-if="uploadCtx?.slots.image"
+        v-bind="{ fileItem: file }"
+      />
       <img
         v-else
         :src="file.url"
@@ -94,7 +98,7 @@
           <component
             :is="uploadCtx.slots['extra-button']"
             v-if="uploadCtx?.slots['extra-button']"
-            v-bind="file"
+            v-bind="{ fileItem: file }"
           />
         </div>
       </div>

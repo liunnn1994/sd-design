@@ -113,10 +113,6 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
     }
   }
 
-  &-drag {
-    width: 100%;
-  }
-
   &-hide {
     display: none;
   }

@@ -1,6 +1,6 @@
 <template>
   <TransitionGroup tag="div" :class="cls">
-    <template v-for="(fileItem, index) in fileList" :key="`item-${index}`">
+    <template v-for="(fileItem, index) in fileList" :key="fileItem.uid">
       <slot v-if="$slots['upload-item']" name="upload-item" :file-item="fileItem" :index="index" />
       <UploadPictureItem v-else-if="listType === 'picture-card'" :file="fileItem" />
       <UploadListItem v-else :file="fileItem" :list-type="listType" />
