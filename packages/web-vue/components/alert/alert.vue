@@ -1,6 +1,10 @@
 <template>
   <transition name="zoom-in-top" @after-leave="handleAfterLeave">
-    <div v-if="visible" role="alert" :class="cls">
+    <div
+      v-if="visible"
+      role="alert"
+      :class="[cls, { [`${prefixCls}-with-title`]: Boolean(title || $slots.title) }]"
+    >
       <div
         v-if="showIcon && !(type === 'normal' && !$slots.icon)"
         aria-hidden="true"
@@ -47,7 +51,7 @@
 
 <script setup lang="ts">
   import type { PropType } from 'vue';
-  import { computed, ref, useSlots } from 'vue';
+  import { computed, ref } from 'vue';
 
   import IconHover from '../_components/icon-hover.vue';
   import { MessageType } from '../_utils/constant';
@@ -147,8 +151,6 @@
    * @version 2.36.0
    */
 
-  const slots = useSlots();
-
   const { t } = useI18n();
 
   const prefixCls = getPrefixCls('alert');
@@ -175,7 +177,6 @@
     prefixCls,
     `${prefixCls}-${props.type}`,
     {
-      [`${prefixCls}-with-title`]: Boolean(props.title || slots.title),
       [`${prefixCls}-banner`]: props.banner,
       [`${prefixCls}-center`]: props.center,
     },
