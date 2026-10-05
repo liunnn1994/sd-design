@@ -1,6 +1,8 @@
 import '../../style/index.scss';
 import '../../_components/select-view/style';
 import '../../trigger/style';
+import '../../tooltip/style';
+import '../../spin/style';
 import '../../empty/style';
 import '../../checkbox/style';
 import '../../ellipsis/style';
