@@ -138,6 +138,10 @@ describe('Split', () => {
   });
 
   it('emits moveStart/moving/moveEnd and a ratio update:size across a drag', () => {
+    let previousCursor: string;
+    cy.get('body').then(($body) => {
+      previousCursor = getComputedStyle($body[0]).cursor;
+    });
     cy.mount(Split, {
       props: { defaultSize: 0.5 },
       attrs: { style: 'width: 400px' },
@@ -158,7 +162,9 @@ describe('Split', () => {
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('moveEnd')).to.have.length(1);
     });
-    cy.get('body').should('have.css', 'cursor', 'default');
+    cy.get('body').should(($body) => {
+      expect(getComputedStyle($body[0]).cursor).to.equal(previousCursor);
+    });
   });
 
   it('clamps drags to min and max', () => {
@@ -182,6 +188,7 @@ describe('Split', () => {
     cy.mount(Split, { attrs: { style: 'width: 400px' } });
     cy.get('@vue').then(({ wrapper }) => {
       const win = wrapper.element.ownerDocument.defaultView!;
+      const previousCursor = win.document.body.style.cursor;
       const add = cy.spy(win, 'addEventListener');
       const remove = cy.spy(win, 'removeEventListener');
       dragStart(wrapper.find('.sd-split-trigger').element, 200, 0);
@@ -194,7 +201,7 @@ describe('Split', () => {
           expect(registration, `${type} registered`).not.to.equal(undefined);
           expect(remove.calledWith(type, registration!.args[1]), `${type} removed`).to.equal(true);
         }
-        expect(win.document.body.style.cursor).to.equal('default');
+        expect(win.document.body.style.cursor).to.equal(previousCursor);
       });
     });
   });

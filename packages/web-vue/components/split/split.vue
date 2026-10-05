@@ -33,6 +33,7 @@
     onBeforeUnmount,
     onMounted,
     nextTick,
+    watch,
   } from 'vue';
 
   import ResizeTrigger from '../_components/resize-trigger.vue';
@@ -172,6 +173,7 @@
   const triggerSize = ref(0);
   const wrapperRef = ref<HTMLDivElement>();
   let unmounted = false;
+  let previousCursor: string | undefined;
   const prefixCls = getPrefixCls('split');
   const [mergedSize, setMergedSize] = useMergeState(
     defaultSize.value,
@@ -301,7 +303,10 @@
     off(window, 'mouseup', onMovingEnd);
     off(window, 'contextmenu', onMovingEnd);
 
-    document.body.style.cursor = 'default';
+    if (previousCursor !== undefined) {
+      document.body.style.cursor = previousCursor;
+      previousCursor = undefined;
+    }
   }
 
   function onMovingEnd(e: MouseEvent) {
@@ -311,18 +316,20 @@
 
   // 移动开始，记录初始值，绑定移动事件
   async function onMoveStart(e: MouseEvent) {
+    if (props.disabled) return;
     emit('moveStart', e);
 
     record.startPageX = e.pageX;
     record.startPageY = e.pageY;
     record.startContainerSize = (await getContainerSize()) ?? 0;
-    if (unmounted) return;
+    if (unmounted || props.disabled) return;
     record.startSize = mergedSize.value;
 
     on(window, 'mousemove', onMoving);
     on(window, 'mouseup', onMovingEnd);
     on(window, 'contextmenu', onMovingEnd);
 
+    previousCursor ??= document.body.style.cursor;
     document.body.style.cursor = isHorizontal.value ? 'col-resize' : 'row-resize';
   }
 
@@ -360,6 +367,13 @@
       setMergedSize(clampedSize);
     }
   });
+
+  watch(
+    () => props.disabled,
+    (disabled) => {
+      if (disabled) cleanupMoving();
+    },
+  );
 
   onBeforeUnmount(() => {
     unmounted = true;

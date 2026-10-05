@@ -5,6 +5,10 @@ import Split from '../index';
 describe('Split drag lifecycle', () => {
   it('does not start a drag after being unmounted by moveStart', () => {
     let unmount: () => void;
+    let previousCursor: string;
+    cy.get('body').then(($body) => {
+      previousCursor = getComputedStyle($body[0]).cursor;
+    });
     const onMoveStart = cy.spy(() => unmount()).as('onMoveStart');
     cy.mount(Split, { props: { onMoveStart } });
     cy.get('@vue').then(async ({ wrapper }) => {
@@ -16,6 +20,8 @@ describe('Split drag lifecycle', () => {
       await nextTick();
     });
     cy.get('@onMoveStart').should('have.been.calledOnce');
-    cy.get('body').should('have.css', 'cursor', 'default');
+    cy.get('body').should(($body) => {
+      expect(getComputedStyle($body[0]).cursor).to.equal(previousCursor);
+    });
   });
 });
