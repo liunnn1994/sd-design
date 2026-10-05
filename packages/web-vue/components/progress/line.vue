@@ -73,7 +73,6 @@
     },
     strokeWidth: {
       type: Number,
-      default: 4,
     },
     width: {
       type: [Number, String],
@@ -96,17 +95,12 @@
 
   const prefixCls = getPrefixCls('progress-line');
 
-  const strokeWidth = computed(() => {
-    if (props.strokeWidth !== 4) {
-      return props.strokeWidth;
-    }
-    return DEFAULT_STROKE_WIDTH[props.size];
-  });
+  const strokeWidth = computed(() => props.strokeWidth ?? DEFAULT_STROKE_WIDTH[props.size]);
 
   const text = computed(() => `${NP.times(props.percent, 100)}%`);
 
   const style = computed(() => ({
-    width: props.width,
+    width: typeof props.width === 'number' ? `${props.width}px` : props.width,
     height: `${strokeWidth.value}px`,
     backgroundColor: props.trackColor,
   }));
