@@ -89,7 +89,7 @@ export interface VoiceGlowProps {
   /**
    * Audio to react to. When set, the beam analyses this stream (level plus
    * low / mid / high bands) and ignores `level`. Get one from the
-   * `useMicrophone` hook or any `getUserMedia` / WebRTC source.
+   * `useVoiceMicrophone` hook or any `getUserMedia` / WebRTC source.
    */
   stream?: MediaStream | null;
 
@@ -130,7 +130,7 @@ export interface VoiceGlowProps {
   /**
    * Resting presence, 0–1 — how much the beam breathes while silent so it
    * never looks dead. 0 hides it completely between sounds.
-   * @default 0.23
+   * @default 0.18
    */
   idle?: number;
 
@@ -255,7 +255,7 @@ export interface VoiceGlowProps {
   /**
    * Theme mode — adapts beam colors for dark or light backgrounds;
    * 'auto' follows prefers-color-scheme
-   * @default 'dark'
+   * @default 'auto'
    */
   theme?: VoiceGlowTheme;
 
@@ -461,7 +461,7 @@ export interface VoiceGlowProps {
 
   /**
    * Called every frame with the smoothed level (0–1) the beam is showing.
-   * Handy for a meter or a "listening" label; avoid setting React state
+   * Handy for a meter or a "listening" label; avoid updating reactive state
    * from it on every call.
    */
   onLevel?: (level: number) => void;
