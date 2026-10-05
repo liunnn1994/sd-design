@@ -77,6 +77,7 @@
           :disabled-seconds="disabledSeconds"
           :hide-disabled-options="hideDisabledOptions"
           :hide-footer="disableConfirm"
+          :disabled="mergedDisabled || !!readonly"
           @select="onPanelSelect"
           @confirm="onPanelConfirm"
         >
@@ -493,7 +494,7 @@
   }
 
   function confirm(value: Dayjs | Array<Dayjs | undefined> | undefined, showPanel: boolean) {
-    if (isDisabledTime(value)) return;
+    if (mergedDisabled.value || props.readonly || isDisabledTime(value)) return;
 
     let newValue = value;
 

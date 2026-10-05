@@ -50,12 +50,14 @@ export default function useTimeList(props: TimeListProps): {
     selectedHour.value === undefined ? undefined : getHour(selectedHour.value),
   );
 
+  const getStep = (value = 1) => (Number.isInteger(value) && value > 0 ? value : 1);
+
   // 小时
   const hours = computed(() => {
     const { hour: hourStep = 1 } = step?.value || {};
     const disabledList = disabledHours?.value?.() || [];
     let list = [];
-    for (let i = 0; i < (use12Hours.value ? 12 : 24); i += hourStep) {
+    for (let i = 0; i < (use12Hours.value ? 12 : 24); i += getStep(hourStep)) {
       list.push(i);
     }
     if (use12Hours.value) {
@@ -77,7 +79,7 @@ export default function useTimeList(props: TimeListProps): {
     const { minute: minuteStep = 1 } = step?.value || {};
     const disabledList = disabledMinutes?.value?.(selectedHour24.value) || [];
     let list = [];
-    for (let i = 0; i < 60; i += minuteStep) {
+    for (let i = 0; i < 60; i += getStep(minuteStep)) {
       list.push(i);
     }
     if (hideDisabledOptions.value && disabledList.length) {
@@ -96,7 +98,7 @@ export default function useTimeList(props: TimeListProps): {
     const { second: secondStep = 1 } = step?.value || {};
     const disabledList = disabledSeconds?.value?.(selectedHour24.value, selectedMinute.value) || [];
     let list = [];
-    for (let i = 0; i < 60; i += secondStep) {
+    for (let i = 0; i < 60; i += getStep(secondStep)) {
       list.push(i);
     }
     if (hideDisabledOptions.value && disabledList.length) {

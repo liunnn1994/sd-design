@@ -53,13 +53,13 @@
     <slot name="extra-footer"></slot>
   </div>
   <div v-if="!hideFooter" :class="`${prefixCls}-footer-btn-wrapper`">
-    <Button v-if="!isRange" size="mini" @click="onSelectNow">
+    <Button v-if="!isRange" size="mini" :disabled="disabled" @click="onSelectNow">
       {{ t('datePicker.now') }}
     </Button>
     <Button
       type="primary"
       size="mini"
-      :disabled="confirmBtnDisabled || !selectedValue"
+      :disabled="disabled || confirmBtnDisabled || !selectedValue"
       @click="onConfirm"
     >
       {{ t('datePicker.ok') }}
@@ -76,7 +76,7 @@
 
   import { dayjs } from '../_utils/date';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isDayjs, isUndefined } from '../_utils/is';
+  import { isUndefined } from '../_utils/is';
   import Button from '../button';
   import { useI18n } from '../locale';
   import useIsDisabledTime from './hooks/use-is-disabled-time';
@@ -242,8 +242,6 @@
       case 'ampm':
         newValue = `${hour}:${minute}:${second} ${value}`;
         break;
-      default:
-        newValue = '00:00:00';
     }
 
     let valueFormat = 'HH:mm:ss';
