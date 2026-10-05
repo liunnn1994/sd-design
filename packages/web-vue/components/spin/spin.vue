@@ -7,7 +7,7 @@
       <component :is="configCtx.slots.loading" v-else-if="configCtx?.slots.loading" />
       <IconLoading v-else spin :size="mergedSize" />
     </div>
-    <div v-if="hasTip" :class="`${prefixCls}-tip`">
+    <div v-if="slots.tip || mergedTip" :class="`${prefixCls}-tip`">
       <slot v-if="$slots.tip" name="tip" />
       <template v-else>{{ mergedTip }}</template>
     </div>
@@ -34,9 +34,9 @@
 
 <script setup lang="ts">
   import type { VNode, VNodeChild } from 'vue';
-  import { cloneVNode, computed, inject, shallowRef, toRef } from 'vue';
+  import { cloneVNode, computed, inject, shallowRef, toRef, onBeforeUpdate, watch } from 'vue';
 
-  import { createReusableTemplate, watchDebounced } from '@vueuse/core';
+  import { createReusableTemplate } from '@vueuse/core';
 
   import { useConfigProviderProp } from '../_hooks/use-config-provider-prop';
   import { getPrefixCls } from '../_utils/global-config';
@@ -141,15 +141,29 @@
   const delayTime = computed(() =>
     mergedDelay.value === true ? 400 : Math.max(0, Number(mergedDelay.value) || 0),
   );
-  const requestedLoading = computed(() => (slots.default ? Boolean(mergedLoading.value) : true));
+  const hasDefaultSlot = shallowRef(Boolean(slots.default));
+  const iconSlot = shallowRef(slots.icon);
+  onBeforeUpdate(() => {
+    hasDefaultSlot.value = Boolean(slots.default);
+    iconSlot.value = slots.icon;
+  });
+  const requestedLoading = computed(() =>
+    hasDefaultSlot.value ? Boolean(mergedLoading.value) : true,
+  );
   const delayedLoading = shallowRef(false);
 
-  watchDebounced(
-    requestedLoading,
-    (loading) => {
-      delayedLoading.value = loading;
+  watch(
+    [requestedLoading, delayTime],
+    ([loading, delay], _, onCleanup) => {
+      delayedLoading.value = loading && delay === 0;
+      if (loading && delay > 0) {
+        const timer = setTimeout(() => {
+          delayedLoading.value = true;
+        }, delay);
+        onCleanup(() => clearTimeout(timer));
+      }
     },
-    { debounce: delayTime, immediate: true },
+    { immediate: true },
   );
 
   const activeLoading = computed(() =>
@@ -163,16 +177,15 @@
       // standalone 与容器模式统一使用 activeLoading，保证 -loading class
       // 与指示器实际可见性同步（standalone 下 requestedLoading 恒为 true）
       [`${prefixCls}-loading`]: activeLoading.value,
-      [`${prefixCls}-with-tip`]: mergedTip.value && !slots.default,
+      [`${prefixCls}-with-tip`]: mergedTip.value && !hasDefaultSlot.value,
     },
   ]);
   const iconStyle = computed(() =>
     mergedSize.value ? { fontSize: `${mergedSize.value}px` } : undefined,
   );
-  const hasTip = computed(() => Boolean(slots.tip ?? mergedTip.value));
 
   const customIcon = computed(() => {
-    const iconVNode = slots.icon ? getFirstComponent(slots.icon()) : undefined;
+    const iconVNode = iconSlot.value ? getFirstComponent(iconSlot.value()) : undefined;
     return iconVNode ? cloneVNode(iconVNode, { spin: true }) : undefined;
   });
 </script>
