@@ -141,6 +141,7 @@
   );
 
   const handleSelectAllChange = (value: boolean | (string | number | boolean)[]) => {
+    if (props.disabled) return;
     const checked = Boolean(value);
     if (checked) {
       // 全选时与已选项合并去重，避免 select/update:selected 载荷出现重复 key

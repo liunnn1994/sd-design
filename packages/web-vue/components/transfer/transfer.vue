@@ -72,7 +72,17 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, PropType, provide, reactive, ref, toRef, useSlots } from 'vue';
+  import {
+    computed,
+    onBeforeUpdate,
+    PropType,
+    provide,
+    reactive,
+    ref,
+    shallowRef,
+    toRef,
+    useSlots,
+  } from 'vue';
 
   import { useFormItem } from '../_hooks/use-form-item';
   import { getPrefixCls } from '../_utils/global-config';
@@ -284,6 +294,10 @@
    */
 
   const slots = useSlots();
+  const contextSlots = shallowRef({ ...slots });
+  onBeforeUpdate(() => {
+    contextSlots.value = { ...slots };
+  });
 
   const { mergedDisabled, eventHandlers } = useFormItem({
     disabled: toRef(props, 'disabled'),
@@ -381,7 +395,7 @@
     transferInjectionKey,
     reactive({
       selected: computedSelected,
-      slots,
+      slots: contextSlots,
       moveTo,
       onSelect: handleSelect,
     }),
