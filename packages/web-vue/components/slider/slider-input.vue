@@ -34,7 +34,7 @@
 
   defineOptions({ name: 'SliderInput' });
 
-  const props = defineProps({
+  defineProps({
     modelValue: {
       type: Array as unknown as PropType<[number, number]>,
       required: true,

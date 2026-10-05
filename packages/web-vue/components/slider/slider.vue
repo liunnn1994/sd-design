@@ -24,7 +24,6 @@
         :show-tooltip="showTooltip"
         @movestart="handleMoveStart"
         @moving="handleStartMoving"
-        @moveend="handleMoveEnd"
         @keydown="(e) => handleButtonKeydown('start', e)"
       />
       <slider-button
@@ -38,7 +37,6 @@
         :show-tooltip="showTooltip"
         @movestart="handleMoveStart"
         @moving="handleEndMoving"
-        @moveend="handleMoveEnd"
         @keydown="(e) => handleButtonKeydown('end', e)"
       />
     </div>
@@ -63,7 +61,7 @@
   import NP from 'number-precision';
 
   import { useFormItem } from '../_hooks/use-form-item';
-  import { Direction, DIRECTIONS } from '../_utils/constant';
+  import { Direction } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
   import { isArray, isUndefined } from '../_utils/is';
   import { KEYBOARD_KEY } from '../_utils/keyboard';
@@ -312,10 +310,7 @@
   const getBtnStyle = (value: number) =>
     getPositionStyle(getOffsetPercent(value, [props.min, props.max]), props.direction);
 
-  const isDragging = ref(false);
-
   const handleMoveStart = () => {
-    isDragging.value = true;
     if (trackRef.value) {
       trackRect.value = trackRef.value.getBoundingClientRect();
     }
@@ -394,10 +389,6 @@
   const handleStartMoving = (x: number, y: number) => {
     startValue.value = getValueByCoords(x, y);
     handleChange();
-  };
-
-  const handleMoveEnd = () => {
-    isDragging.value = false;
   };
 
   const cls = computed(() => [

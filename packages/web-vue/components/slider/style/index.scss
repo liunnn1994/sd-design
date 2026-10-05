@@ -158,9 +158,7 @@ $slider-prefix: string.unquote('#{theme.$prefix}-slider');
     &:hover {
       &::after {
         box-shadow: $slider-shadow-button_active;
-        transform: scale(
-          (math.unit(math.div($slider-size-button-width_active, $slider-size-button-width)))
-        );
+        transform: scale(math.div($slider-size-button-width_active, $slider-size-button-width));
       }
     }
 
