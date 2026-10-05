@@ -39,7 +39,7 @@
 
   defineOptions({ name: 'FormItemLabel' });
 
-  const props = defineProps({
+  defineProps({
     required: {
       type: Boolean,
       default: false,

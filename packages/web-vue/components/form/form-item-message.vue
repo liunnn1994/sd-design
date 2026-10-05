@@ -24,7 +24,7 @@
 
   defineOptions({ name: 'FormItemMessage' });
 
-  const props = defineProps({
+  defineProps({
     error: {
       type: Array as PropType<string[]>,
       default: () => [],
