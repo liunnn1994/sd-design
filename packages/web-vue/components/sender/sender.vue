@@ -783,7 +783,9 @@
     if (!modifierPressed) {
       event.preventDefault();
       event.stopPropagation();
-      slotInputRef.value?.dispatchCommand(INSERT_LINE_BREAK_COMMAND, false);
+      if (!props.disabled && !props.readonly) {
+        slotInputRef.value?.dispatchCommand(INSERT_LINE_BREAK_COMMAND, false);
+      }
     }
   };
 
