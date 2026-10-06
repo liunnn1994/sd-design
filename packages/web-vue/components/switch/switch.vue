@@ -25,7 +25,8 @@
     <template
       v-if="
         type !== 'line' &&
-        size !== 'small' &&
+        mergedSize !== 'small' &&
+        mergedSize !== 'mini' &&
         ($slots.checked || checkedText || $slots.unchecked || uncheckedText)
       "
     >
