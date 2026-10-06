@@ -27,8 +27,8 @@
 
 <style scoped>
   .layout-fixed-demo {
-    min-height: 360px;
-    overflow: hidden;
+    height: 360px;
+    overflow: auto;
     border-radius: 8px;
   }
 
@@ -38,9 +38,15 @@
     z-index: 1;
     height: 64px;
     line-height: 64px;
+    color: var(--sd-color-text-1);
     text-align: center;
     background: var(--sd-color-fill-3);
     padding-inline: 48px;
+  }
+
+  .body {
+    flex: none;
+    min-height: 480px;
   }
 
   .sider {
