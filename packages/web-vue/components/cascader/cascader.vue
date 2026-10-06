@@ -488,6 +488,10 @@
   });
 
   const handleRemove = (key: string) => {
+    if (props.readonly) {
+      showReadonlyTip();
+      return;
+    }
     if (props.multiple) {
       const option = leafOptionMap.get(key);
       if (option) {
@@ -536,6 +540,10 @@
   };
 
   const handleClickOption = (option: CascaderOptionInfo, checked?: boolean) => {
+    if (props.readonly) {
+      showReadonlyTip();
+      return;
+    }
     if (option.disabled || option.selectionDisabled) return;
     if (!props.multiple && !props.checkStrictly && !option.isLeaf) return;
     if (props.multiple) {
@@ -592,6 +600,10 @@
 
   const handleClear = (e: MouseEvent) => {
     e.stopPropagation();
+    if (props.readonly) {
+      showReadonlyTip();
+      return;
+    }
     if (props.multiple) {
       const newValues: CascaderSingleValue[] = [];
       computedValueMap.value.forEach((_value, key) => {
