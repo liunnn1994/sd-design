@@ -420,6 +420,7 @@ export function useDragAndDrop(
         ...incomingEvent,
         start: newStart,
         end: newEnd,
+        allDay,
         ...(newSchedule !== undefined && { schedule: newSchedule }),
         _: {
           id: incomingEvent._?.id || incomingEvent.id,
