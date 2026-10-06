@@ -37,8 +37,10 @@ describe('Watermark robustness', () => {
   });
   for (const [textAlign, expectedX] of [
     ['left', 0],
+    ['start', 0],
     ['center', 50],
     ['right', 100],
+    ['end', 100],
   ] as const) {
     it(`positions ${textAlign}-aligned text within its measured tile`, () => {
       let textX: number | undefined;

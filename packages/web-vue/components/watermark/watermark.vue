@@ -248,6 +248,7 @@
     const drawImage = () => {
       ctx.restore();
       if (isStaggered.value) {
+        ctx.globalAlpha = 1;
         ctx.drawImage(
           canvas,
           0,
@@ -289,9 +290,9 @@
       ctx.textAlign = textAlign.value;
       ctx.textBaseline = 'top';
       const textX =
-        textAlign.value === 'left'
+        textAlign.value === 'left' || textAlign.value === 'start'
           ? 0
-          : textAlign.value === 'right'
+          : textAlign.value === 'right' || textAlign.value === 'end'
             ? realMarkWidth
             : realMarkWidth / 2;
       ctx.translate(textX, 0);
