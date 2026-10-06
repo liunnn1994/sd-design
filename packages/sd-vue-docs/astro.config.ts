@@ -112,7 +112,20 @@ export default defineConfig({
     },
     optimizeDeps: {
       exclude: ['@vue/repl'],
-      include: dayjsLocaleDependencies,
+      // Pre-bundle lazy renderers before the first demo opens. Discovering these
+      // on demand invalidates URLs already held by hydrated Vue islands.
+      include: [
+        ...dayjsLocaleDependencies,
+        '@sdata/web-vue > cropperjs',
+        '@sdata/web-vue > pdfjs-dist',
+        '@sdata/web-vue > pdfjs-dist/build/pdf.worker.min.mjs',
+        '@sdata/web-vue > @videojs/html/audio/player',
+        '@sdata/web-vue > @videojs/html/audio/skin',
+        '@sdata/web-vue > @videojs/html/audio/minimal-skin',
+        '@sdata/web-vue > @videojs/html/video/player',
+        '@sdata/web-vue > @videojs/html/video/skin',
+        '@sdata/web-vue > @videojs/html/video/minimal-skin',
+      ],
     },
     plugins: [tailwindcss()],
   },
