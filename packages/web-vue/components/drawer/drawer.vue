@@ -50,7 +50,7 @@
                   :aria-label="t('a11y.close')"
                   :class="`${prefixCls}-close-btn`"
                   @click="handleCancel"
-                  @keydown="onActivate(handleCancel)"
+                  @keydown="handleCancelKeydown"
                 >
                   <icon-hover>
                     <icon-close />
@@ -593,6 +593,8 @@
     emit('cancel', e);
     close();
   };
+
+  const handleCancelKeydown = onActivate(handleCancel);
 
   const handleMask = (e: Event) => {
     if (mergedMaskClosable.value) {
