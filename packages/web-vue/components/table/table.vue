@@ -1786,7 +1786,6 @@
             key: currentKey,
             class: [
               {
-                [`${prefixCls}-tr-draggable`]: dragType.value === 'row',
                 [`${prefixCls}-tr-drag`]: isDragTarget,
               },
               isFunction(props.rowClass) ? props.rowClass(record.raw, rowIndex) : props.rowClass,
@@ -1798,7 +1797,6 @@
             onDblclick: (ev: Event) => handleRowDblclick(record, ev),
             onContextmenu: (ev: Event) => handleRowContextMenu(record, ev),
           },
-          dragType.value === 'row' ? dragSourceEvent : {},
           dragTargetEvent,
         ),
         {

@@ -5,15 +5,7 @@ import type { BaseType } from '../../_utils/types';
 import { TableDraggable } from '../interface';
 
 export const useDrag = (draggable: Ref<TableDraggable | undefined>) => {
-  const dragType = computed(() => {
-    if (draggable.value) {
-      if (draggable.value.type === 'handle') {
-        return 'handle';
-      }
-      return 'row';
-    }
-    return undefined;
-  });
+  const dragType = computed(() => (draggable.value ? 'handle' : undefined));
 
   const dragState = reactive({
     dragging: false,

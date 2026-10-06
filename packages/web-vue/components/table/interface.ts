@@ -410,7 +410,7 @@ export interface TableDraggable {
    * @zh 拖拽类型
    * @en drag type
    */
-  type?: 'row' | 'handle';
+  type?: 'handle';
   /**
    * @zh 列标题
    * @en Column title

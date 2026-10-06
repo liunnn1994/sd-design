@@ -14,8 +14,6 @@ import TableCustomDemo from '../../../../components/generated/table/custom.vue';
 import tableCustomSource from '../../../../components/generated/table/custom.vue?raw';
 import TableDragHandleDemo from '../../../../components/generated/table/drag-handle.vue';
 import tableDragHandleSource from '../../../../components/generated/table/drag-handle.vue?raw';
-import TableDragRowDemo from '../../../../components/generated/table/drag-row.vue';
-import tableDragRowSource from '../../../../components/generated/table/drag-row.vue?raw';
 import TableEditableDemo from '../../../../components/generated/table/editable.vue';
 import tableEditableSource from '../../../../components/generated/table/editable.vue?raw';
 import TableEllipsisDemo from '../../../../components/generated/table/ellipsis.vue';
@@ -104,16 +102,6 @@ import tableVirtualListSource from '../../../../components/generated/table/virtu
 <DemoBlock source={tableDragHandleSource} mainFile="src/table-drag-handle.vue">
 
 <TableDragHandleDemo client:only="vue" />
-
-</DemoBlock>
-
-### 可拖拽表格
-
-（实验性）开启表格行可拖拽功能
-
-<DemoBlock source={tableDragRowSource} mainFile="src/table-drag-row.vue">
-
-<TableDragRowDemo client:only="vue" />
 
 </DemoBlock>
 
@@ -572,12 +560,12 @@ type Sorter = { filed: string; direction: 'ascend' | 'descend' } | Record<string
 
 ### TableDraggable
 
-| 参数名 | 描述     | 类型                | 默认值  |
-| ------ | -------- | ------------------- | :-----: |
-| type   | 拖拽类型 | `'row' \| 'handle'` |   `-`   |
-| title  | 列标题   | `string`            |   `-`   |
-| width  | 列宽度   | `number`            |   `-`   |
-| fixed  | 是否固定 | `boolean`           | `false` |
+| 参数名 | 描述     | 类型       | 默认值  |
+| ------ | -------- | ---------- | :-----: |
+| type   | 拖拽类型 | `'handle'` |   `-`   |
+| title  | 列标题   | `string`   |   `-`   |
+| width  | 列宽度   | `number`   |   `-`   |
+| fixed  | 是否固定 | `boolean`  | `false` |
 
 ### TableChangeExtra
 

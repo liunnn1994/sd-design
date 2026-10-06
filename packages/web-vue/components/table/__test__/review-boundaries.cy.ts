@@ -36,12 +36,13 @@ describe('Table source review boundaries', () => {
         columns: [{ dataIndex: 'name', title: 'Name' }],
         data: [1, 2, 3, 4].map((key) => ({ key, name: `Row ${key}` })),
         pagination: { defaultCurrent: 2, defaultPageSize: 2 },
-        draggable: { type: 'row' },
+        draggable: { type: 'handle' },
         onChange: change,
       },
     });
 
-    cy.get('.sd-table-tbody .sd-table-tr').first().trigger('dragstart', { force: true });
+    cy.get('.sd-table-tbody .sd-table-tr').first().should('not.have.attr', 'draggable');
+    cy.get('.sd-table-tbody [draggable=true]').first().trigger('dragstart', { force: true });
     cy.get('.sd-table-tbody .sd-table-tr').last().trigger('dragenter', { force: true });
     cy.get('.sd-table-tbody .sd-table-tr').last().trigger('drop', { force: true });
     cy.get('@change').should('have.been.calledOnce');
