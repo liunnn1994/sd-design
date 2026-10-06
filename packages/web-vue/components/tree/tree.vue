@@ -6,9 +6,14 @@
       ref="virtualListRef"
       v-bind="resolvedVirtualListProps"
       :items="visibleTreeNodeList"
+      @scroll-end="focusPendingNode"
     >
       <template #item="{ item: node }">
-        <TreeNode :key="`${searchValue}-${node.key}`" v-bind="node.treeNodeProps" />
+        <TreeNode
+          :key="`${searchValue}-${node.key}`"
+          v-bind="node.treeNodeProps"
+          @vue:mounted="focusPendingNode"
+        />
       </template>
     </VirtualList>
     <template v-else>
@@ -760,14 +765,24 @@
     return visibleTreeNodeList.value[0]?.key;
   });
 
+  let pendingFocusKey: TreeNodeKey | undefined;
+
+  function focusPendingNode() {
+    if (pendingFocusKey === undefined) return;
+    const el = rootEl.value?.querySelector<HTMLElement>(
+      `[data-key="${CSS.escape(String(pendingFocusKey))}"][data-key-type="${typeof pendingFocusKey}"]`,
+    );
+    if (el) {
+      el.focus();
+      if (el.ownerDocument.activeElement === el) pendingFocusKey = undefined;
+    }
+  }
+
   function focusNodeKey(targetKey: TreeNodeKey) {
     activeKey.value = targetKey;
-    nextTick(() => {
-      const el = rootEl.value?.querySelector<HTMLElement>(
-        `[data-key="${CSS.escape(String(targetKey))}"][data-key-type="${typeof targetKey}"]`,
-      );
-      el?.focus();
-    });
+    pendingFocusKey = targetKey;
+    scrollIntoView({ key: targetKey, align: 'auto' });
+    nextTick(focusPendingNode);
   }
 
   function onNodeKeydown(key: TreeNodeKey, e: KeyboardEvent) {
