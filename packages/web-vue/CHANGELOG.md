@@ -1,3 +1,26 @@
+## [5.8.7](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.8.6...web-vue-v5.8.7) (2026-10-06)
+
+
+### Bug Fixes
+
+* 🐛 修复 radio 样式 ([084bf3b](https://github.com/liunnn1994/sd-design/commit/084bf3b823305069a3063317f9c5b69d0fbc2965))
+* **cascader:** 修正列上下文注入的可选类型 ([3d19d7d](https://github.com/liunnn1994/sd-design/commit/3d19d7d4097a20c73fe7b5aca7eddfeae50e639d))
+* **docs:** 修复滚动条验证码输入框和浮层示例的样式覆盖 ([7ed0d17](https://github.com/liunnn1994/sd-design/commit/7ed0d17c17da59a9aab254f418b78c576b60a303))
+* **docs:** 恢复复选和单选卡片的选中样式 ([4bdcd38](https://github.com/liunnn1994/sd-design/commit/4bdcd3896fdc56b5f941e9c8d2629f14eb21e015))
+* **docs:** 预构建媒体预览和裁剪器依赖以避免加载时出现504 ([1aa63e5](https://github.com/liunnn1994/sd-design/commit/1aa63e5f3671e0dffde7e9fea469833a3ba9cb5a))
+* **form:** 保留无错误提示文案时的表单项间距 ([564c7fa](https://github.com/liunnn1994/sd-design/commit/564c7faad194a3f8ad201913fc08555e25320f0a))
+* **layout:** 修复嵌套侧栏导致外层布局方向错误 ([ae5176b](https://github.com/liunnn1994/sd-design/commit/ae5176b2534543867b1af88d44561df22bb06ab6))
+* **layout:** 完善固定头部示例的滚动区域和文字对比度 ([0abdce3](https://github.com/liunnn1994/sd-design/commit/0abdce357c31f22688887e7064732e7243ecfe48))
+* **panel-group:** 修复快速拖拽松手时尺寸回弹 ([b34a943](https://github.com/liunnn1994/sd-design/commit/b34a943a1bcfe9a9f86adb76ce8f3c5e9beba96f))
+* **progress:** 修复渐变进度条示例的颜色变量 ([b2b2995](https://github.com/liunnn1994/sd-design/commit/b2b2995e8a390b2235b81e544213e106ef00ad34))
+* **select:** 约束级联列宽和树选择弹层以恢复文本省略 ([599dd76](https://github.com/liunnn1994/sd-design/commit/599dd7684c50583a8b8260ced4bfd3ab0d4351ad))
+* **sender:** 清理被取消的展开动画以避免状态回写错乱 ([98d4ea4](https://github.com/liunnn1994/sd-design/commit/98d4ea492b730603f8c9e1dc63389f9e2682882c))
+* **sender:** 补全功能开关的输入与提交示例 ([5bb7bc6](https://github.com/liunnn1994/sd-design/commit/5bb7bc611a8fe87f16302b8df618c2ca0b0ab2c3))
+* **table:** 移除整行拖拽并保留锚点拖拽排序 ([857c38b](https://github.com/liunnn1994/sd-design/commit/857c38bc4c3251908cf997ef0c32e3ea686bf088))
+* **table:** 让空拖拽配置默认使用锚点模式 ([995fa5e](https://github.com/liunnn1994/sd-design/commit/995fa5e7c8146ceba30e296a2708628c0250117b))
+* **trigger:** 恢复弹层示例的背景颜色 ([15f06db](https://github.com/liunnn1994/sd-design/commit/15f06dbb1cf22d427707352662522290bfa103fa))
+* **voice-glow:** 隔离示例卡片样式并修复浅色背景 ([c59f83a](https://github.com/liunnn1994/sd-design/commit/c59f83a34d2f88ee3df2161ad7e0192b86b7f837))
+
 ## [5.8.6](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.8.5...web-vue-v5.8.6) (2026-10-06)
 
 
