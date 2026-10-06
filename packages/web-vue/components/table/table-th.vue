@@ -32,7 +32,7 @@
                 uninject-group-context
                 @change="handleCheckboxChange"
               >
-                {{ item.text }}
+                <VNodeRenderer :content="isFunction(item.text) ? item.text() : item.text" />
               </Checkbox>
               <Radio
                 v-else
@@ -41,7 +41,7 @@
                 uninject-group-context
                 @change="handleRadioChange"
               >
-                {{ item.text }}
+                <VNodeRenderer :content="isFunction(item.text) ? item.text() : item.text" />
               </Radio>
             </li>
           </ul>

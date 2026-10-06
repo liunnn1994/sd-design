@@ -1738,7 +1738,13 @@
     } = {},
   ): VNodeChild => {
     const currentKey = record.key;
-    const currentPath = (indexPath ?? []).concat(rowIndex);
+    const currentPath = indexPath
+      ? indexPath.concat(rowIndex)
+      : [
+          props.pagination && sortedData.value.length > pageSize.value
+            ? (page.value - 1) * pageSize.value + rowIndex
+            : rowIndex,
+        ];
     const expandContent = renderExpandContent(record);
     const showExpand = expandedRowKeys.value.includes(currentKey);
     const isDragTarget = dragState.sourceKey === record.key;

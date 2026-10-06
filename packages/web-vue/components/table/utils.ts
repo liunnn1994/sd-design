@@ -167,7 +167,7 @@ export const getOperationFixedNumber = (
   let count = 0;
   const _operations = operations.slice(0, index);
   for (const item of _operations) {
-    count += item.width ?? 0;
+    count += item.width ?? 40;
   }
 
   return count;
