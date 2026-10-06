@@ -972,12 +972,12 @@
   };
 
   watch(
-    // Watch event IDs and start/end dates (only) to detect event resizing/dnd.
+    // Watch event IDs, dates and schedules to detect changes affecting overlap layout.
     () =>
       !view.isYears &&
       !view.isYear &&
       cellForegroundEvents.value
-        .map((e) => `${e._.id}${e.start.getTime()}${e.end.getTime()}`)
+        .map((e) => `${e._.id}${e.start.getTime()}${e.end.getTime()}:${e.schedule}`)
         .join(),
     async () => {
       await nextTick(); // Use nextTick to avoid recursive updates.
