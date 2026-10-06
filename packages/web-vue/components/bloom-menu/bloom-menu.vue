@@ -284,19 +284,18 @@
   const rowCount = computed(() => Math.max(1, Math.ceil(items.length / normalizedColumns.value)));
   const isOpen = computed(() => modelValue ?? internalOpen.value);
   const rootClasses = computed(() => [prefixCls, { [`${prefixCls}-open`]: isOpen.value }]);
-  const centerMiddleware = computed<Middleware>(() => ({
-    name: 'bloomMenuCenter',
-    fn: ({ rects }) => ({
-      x:
-        rects.reference.x +
-        (rects.reference.width - rects.floating.width) / 2 +
-        (offset?.left ?? 0),
-      y:
-        rects.reference.y +
-        (rects.reference.height - rects.floating.height) / 2 +
-        (offset?.top ?? 0),
-    }),
-  }));
+  const centerMiddleware = computed<Middleware>(() => {
+    const left = offset?.left ?? 0;
+    const top = offset?.top ?? 0;
+    return {
+      name: 'bloomMenuCenter',
+      options: { left, top },
+      fn: ({ rects }) => ({
+        x: rects.reference.x + (rects.reference.width - rects.floating.width) / 2 + left,
+        y: rects.reference.y + (rects.reference.height - rects.floating.height) / 2 + top,
+      }),
+    };
+  });
   const floatingOptions = computed<FloatingOptions>(() => ({
     placement: 'top',
     // shift 在中心定位之后执行,把面板收回视口内(修复原版会溢出屏幕的缺陷);
