@@ -2,7 +2,7 @@
   <ResizeObserver @resize="updatePositionThrottle">
     <div ref="wrapperRef">
       <div v-if="isFixed" :style="placeholderStyles" />
-      <div :class="classNames" :style="fixedStyles">
+      <div ref="contentRef" :class="classNames" :style="fixedStyles">
         <ResizeObserver @resize="updatePositionThrottle">
           <slot />
         </ResizeObserver>
@@ -76,6 +76,7 @@
   const prefixCls = getPrefixCls('affix');
   const { target, targetContainer } = toRefs(props);
   const wrapperRef = ref<HTMLElement>();
+  const contentRef = ref<HTMLElement>();
   const targetRef = ref<HTMLElement | Window>();
   const isFixed = ref(false);
   const placeholderStyles: Ref<CSSProperties> = ref({});
@@ -93,7 +94,7 @@
     let newFixedStyles = {};
     const newPlaceholderStyles: CSSProperties = {
       width: `${wrapperRef.value.offsetWidth}px`,
-      height: `${wrapperRef.value.offsetHeight}px`,
+      height: `${isFixed.value && contentRef.value ? contentRef.value.offsetHeight : wrapperRef.value.offsetHeight}px`,
     };
 
     if (offsetType === 'top') {
@@ -124,7 +125,7 @@
     // update fixedStyles
     fixedStyles.value = {
       ...newFixedStyles,
-      ...(newIsFixed ? newPlaceholderStyles : {}),
+      ...(newIsFixed ? { width: newPlaceholderStyles.width } : {}),
     };
   });
 
