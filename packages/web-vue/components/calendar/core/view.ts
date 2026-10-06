@@ -144,12 +144,18 @@ export const useView = (
 
     // Includes all the weekdays, but some may need to be hidden.
     let cols = config.availableViews[viewId.value].cols;
-    // In Week and month views only, the grid rows must be decreased from 7 to `7 - all hidden weekdays`.
-    if (config.hasHiddenDays && ['week', 'month'].includes(viewId.value))
+    // Hidden weekdays reduce columns in month and vertical week layouts.
+    if (
+      config.hasHiddenDays &&
+      (viewId.value === 'month' || (viewId.value === 'week' && !config.horizontal))
+    )
       cols -= config.hasHiddenDays;
     return cols;
   });
-  const rows = computed(() => config.availableViews[viewId.value]?.rows || 1);
+  const rows = computed(() => {
+    const rows = config.availableViews[viewId.value]?.rows || 1;
+    return viewId.value === 'week' && config.horizontal ? rows - config.hasHiddenDays : rows;
+  });
 
   // Create as many grid cells as defined in the availableViews map (cols * rows).
   const cellsCount = computed(() => cols.value * rows.value);
