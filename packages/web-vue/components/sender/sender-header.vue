@@ -4,9 +4,11 @@
     @before-enter="handleBeforeEnter"
     @enter="handleEnter"
     @after-enter="handleAfterEnter"
+    @enter-cancelled="cancelFrame"
     @before-leave="handleBeforeLeave"
     @leave="handleLeave"
     @after-leave="handleAfterLeave"
+    @leave-cancelled="handleAfterEnter"
   >
     <div v-if="rendered" v-show="open" :class="[prefixCls, headerCls]" v-bind="$attrs">
       <div
@@ -40,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-  import { inject, shallowRef, watch } from 'vue';
+  import { inject, onBeforeUnmount, shallowRef, watch } from 'vue';
 
   import type { SenderHeaderProps } from './types';
 
@@ -81,33 +83,48 @@
     emit('openChange', nextOpen);
   };
 
+  let frame: number | undefined;
+  const cancelFrame = () => {
+    if (frame !== undefined) cancelAnimationFrame(frame);
+    frame = undefined;
+  };
+  onBeforeUnmount(cancelFrame);
+
   const handleBeforeEnter = (element: Element) => {
+    cancelFrame();
     const target = element as HTMLElement;
     target.style.height = '0';
     target.style.borderBottomColor = 'transparent';
   };
   const handleEnter = (element: Element) => {
     const target = element as HTMLElement;
-    requestAnimationFrame(() => {
+    frame = requestAnimationFrame(() => {
+      frame = undefined;
       target.style.height = `${target.scrollHeight}px`;
       target.style.borderBottomColor = '';
     });
   };
   const handleAfterEnter = (element: Element) => {
-    (element as HTMLElement).style.height = 'auto';
+    cancelFrame();
+    const target = element as HTMLElement;
+    target.style.height = 'auto';
+    target.style.borderBottomColor = '';
   };
   const handleBeforeLeave = (element: Element) => {
+    cancelFrame();
     const target = element as HTMLElement;
     target.style.height = `${target.scrollHeight}px`;
   };
   const handleLeave = (element: Element) => {
     const target = element as HTMLElement;
-    requestAnimationFrame(() => {
+    frame = requestAnimationFrame(() => {
+      frame = undefined;
       target.style.height = '0';
       target.style.borderBottomColor = 'transparent';
     });
   };
   const handleAfterLeave = () => {
-    if (!props.forceRender) rendered.value = false;
+    cancelFrame();
+    if (!props.open && !props.forceRender) rendered.value = false;
   };
 </script>
