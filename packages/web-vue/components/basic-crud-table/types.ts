@@ -179,8 +179,8 @@ export interface BasicCrudTableProps<TRow extends TableData = TableData> {
    */
   detailApi?: (row: TRow) => MaybePromise<UnknownRecord>;
   /**
-   * @zh 提交前对表单数据的转换
-   * @en Transform applied to the form data before submitting
+   * @zh 编辑详情回填时对详情数据的转换
+   * @en Transform applied to detail data when populating the edit form
    */
   valueTransformer?: (data: UnknownRecord) => UnknownRecord;
   /**
