@@ -58,7 +58,7 @@ $form-item-message-prefix-cls: string.unquote('#{theme.$prefix}-form-item-messag
       padding-right: $form-margin-label-right;
     }
 
-    &#{&}-error,
+    &#{&}-has-message,
     &#{&}-has-help {
       margin-bottom: 0;
     }

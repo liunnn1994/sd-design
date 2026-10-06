@@ -5,6 +5,7 @@
     :class="[
       cls,
       {
+        [`${prefixCls}-has-message`]: isError && finalMessage.length > 0,
         [`${prefixCls}-has-help`]: Boolean($slots.help ?? help),
       },
     ]"
