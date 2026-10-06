@@ -375,7 +375,10 @@
     );
   }
 
-  onBeforeUnmount(() => clearTimeout(finishTimer));
+  onBeforeUnmount(() => {
+    animationVersion++;
+    clearTimeout(finishTimer);
+  });
 
   defineExpose<NumberFlowExposed>({
     get el() {
