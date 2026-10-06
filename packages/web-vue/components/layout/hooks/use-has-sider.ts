@@ -56,6 +56,11 @@ function hasSiderInVNodes(vnodes: VNode[] | undefined): boolean {
       return true;
     }
 
+    // A nested Layout owns its own Siders and must not change this Layout's direction.
+    if (type && typeof type === 'object' && 'name' in type && type.name === 'Layout') {
+      continue;
+    }
+
     const childVNodes = normalizeChildren(vnode);
     if (childVNodes && hasSiderInVNodes(childVNodes)) {
       return true;

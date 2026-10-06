@@ -3,6 +3,19 @@ import { defineComponent, h, ref } from 'vue';
 import Layout, { LayoutSider } from '../index';
 
 describe('Layout sider registration', () => {
+  it('keeps the outer layout vertical when a nested layout owns the sider', () => {
+    cy.mount({
+      setup: () => () =>
+        h(Layout, { class: 'outer' }, () => [
+          h('header', 'Header'),
+          h(Layout, { class: 'inner' }, () => [h(LayoutSider), h('main', 'Content')]),
+          h('footer', 'Footer'),
+        ]),
+    });
+    cy.get('.outer').should('not.have.class', 'sd-layout-has-sider');
+    cy.get('.inner').should('have.class', 'sd-layout-has-sider');
+  });
+
   it('keeps the layout horizontal when one of two opaque sider wrappers is removed', () => {
     const WrappedSider = defineComponent({ setup: () => () => h(LayoutSider) });
     const first = ref(true);
