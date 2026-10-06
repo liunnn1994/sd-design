@@ -133,7 +133,6 @@
               :model-value="draft"
               @input="updateDraft(index, $event)"
               @change="commitDrafts(index)"
-              @press-enter="commitDrafts(index)"
             />
           </InputGroup>
         </div>
