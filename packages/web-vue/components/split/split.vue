@@ -358,6 +358,7 @@
 
   onMounted(async () => {
     const containerSize = (await getContainerSize()) ?? 0;
+    if (!containerSize) return;
     const fixedPxSize = getLegalPxSize(mergedSize.value, containerSize);
     const clampedSize = sizeConfig.value.isPx
       ? `${fixedPxSize}px`
