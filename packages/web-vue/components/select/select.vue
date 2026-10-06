@@ -891,6 +891,7 @@
   const setOptionRef = (key: string, value: unknown) => {
     const element = (value as (ComponentPublicInstance & { $el?: Element }) | null)?.$el ?? value;
     if (element instanceof HTMLElement) optionRefs.value[key] = element;
+    else delete optionRefs.value[key];
   };
   const handleOptionClick = (optionInfo: SelectOptionInfo, event: MouseEvent) => {
     if (!optionInfo.disabled) handleSelect(optionInfo.key, event);
