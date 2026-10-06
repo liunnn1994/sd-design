@@ -295,7 +295,7 @@
       return [startValue.value, props.modelValue ?? endValue.value];
     }
     if (isUndefined(props.modelValue)) {
-      return [startValue.value, endValue.value];
+      return [props.min, endValue.value];
     }
     if (isArray(props.modelValue)) {
       // 非 range 模式收到数组 modelValue 时取第一项，而不是静默丢弃
