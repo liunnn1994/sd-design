@@ -255,6 +255,10 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
 
     &.#{$table-prefix-cls}-drag-handle {
       cursor: move;
+
+      .#{$table-prefix-cls}-cell {
+        padding-inline: 0;
+      }
     }
   }
 

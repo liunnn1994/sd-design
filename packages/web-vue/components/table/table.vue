@@ -50,6 +50,7 @@
   import VirtualList from '../_components/virtual-list';
   import { useChildrenComponents } from '../_hooks/use-children-components';
   import { useComponentRef } from '../_hooks/use-component-ref';
+  import useDragSort from '../_hooks/use-drag-sort';
   import { useScrollbar } from '../_hooks/use-scrollbar';
   import { debounce } from '../_utils/debounce';
   import { getValueByPath, setValueByPath } from '../_utils/get-value-by-path';
@@ -73,7 +74,6 @@
   import Spin from '../spin';
   import { tableInjectionKey } from './context';
   import { useColumnResize } from './hooks/use-column-resize';
-  import { useDrag } from './hooks/use-drag';
   import { useExpand } from './hooks/use-expand';
   import { useFilter } from './hooks/use-filter';
   import { usePagination } from './hooks/use-pagination';
@@ -729,7 +729,6 @@
   const defaultExpandedKeys = toRef(props, 'defaultExpandedKeys');
   const defaultExpandAllRows = toRef(props, 'defaultExpandAllRows');
   const spanMethod = toRef(props, 'spanMethod');
-  const draggable = toRef(props, 'draggable');
   const summarySpanMethod = toRef(props, 'summarySpanMethod');
   const scrollbar = toRef(props, 'scrollbar');
   const showEmptyTree = toRef(props, 'showEmptyTree');
@@ -989,15 +988,65 @@
     }
     return true;
   };
-  const {
-    dragType,
-    dragState,
-    handleDragStart,
-    handleDragEnter,
-    handleDragover,
-    handleDragEnd,
-    handleDrop,
-  } = useDrag(draggable);
+  const dragRoot = ref<HTMLElement>();
+  const dragState = reactive({
+    dragging: false,
+    committing: false,
+    sourceKey: undefined as TableDataWithRaw['key'] | undefined,
+    sourcePath: [] as number[],
+    targetPath: [] as number[],
+    data: {} as TableData,
+  });
+  const recordAtPath = (path: number[]) => {
+    let records = sortedData.value;
+    let record: TableDataWithRaw | undefined;
+    for (const index of path) {
+      record = records[index];
+      records = record?.children ?? [];
+    }
+    return record;
+  };
+  useDragSort(dragRoot, {
+    draggable: '[data-table-drag-path]',
+    handle: `.${prefixCls}-drag-handle`,
+    onStart(item) {
+      const path: number[] = JSON.parse(item.dataset.tableDragPath!);
+      const record = recordAtPath(path);
+      if (!props.draggable || !record) return;
+      dragState.dragging = true;
+      dragState.sourceKey = record.key;
+      dragState.sourcePath = path;
+      dragState.targetPath = [];
+      dragState.data = record.raw;
+    },
+    onOver(item) {
+      const path: number[] = item ? JSON.parse(item.dataset.tableDragPath!) : [];
+      const source = dragState.sourcePath;
+      dragState.targetPath =
+        path.length === source.length &&
+        path.slice(0, -1).toString() === source.slice(0, -1).toString()
+          ? path
+          : [];
+    },
+    onEnd(_event, cancelled) {
+      if (
+        !cancelled &&
+        props.draggable &&
+        dragState.dragging &&
+        dragState.targetPath.length &&
+        dragState.targetPath.toString() !== dragState.sourcePath.toString()
+      ) {
+        dragState.committing = true;
+        handleChange('drag');
+      }
+      dragState.committing = false;
+      dragState.dragging = false;
+      dragState.sourceKey = undefined;
+      dragState.sourcePath = [];
+      dragState.targetPath = [];
+      dragState.data = {};
+    },
+  });
   const processedData = computed(() => {
     const travel = (data: TableData[]) => {
       const result: TableDataWithRaw[] = [];
@@ -1075,7 +1124,7 @@
       const { sourcePath, targetPath } = dragState;
       // drag row to another row
       if (
-        dragState.dragging &&
+        dragState.committing &&
         targetPath.length &&
         targetPath.toString() !== sourcePath.toString()
       ) {
@@ -1748,57 +1797,30 @@
     const expandContent = renderExpandContent(record);
     const showExpand = expandedRowKeys.value.includes(currentKey);
     const isDragTarget = dragState.sourceKey === record.key;
-    const dragSourceEvent = dragType.value
-      ? {
-          draggable: allowDrag,
-          onDragstart: (ev: DragEvent) => {
-            if (!allowDrag) return;
-            handleDragStart(ev, record.key, currentPath, record.raw);
-          },
-          onDragend: (ev: DragEvent) => {
-            if (!allowDrag) return;
-            handleDragEnd(ev);
-          },
-        }
-      : {};
-    const dragTargetEvent = dragType.value
-      ? {
-          onDragenter: (ev: DragEvent) => {
-            if (!allowDrag) return;
-            handleDragEnter(ev, currentPath);
-          },
-          onDragover: (ev: DragEvent) => {
-            if (!allowDrag) return;
-            handleDragover(ev);
-          },
-          onDrop: (ev: DragEvent) => {
-            if (!allowDrag) return;
-            handleChange('drag');
-            handleDrop(ev);
-          },
-        }
-      : {};
     return _createVNode(_Fragment, null, [
       _createVNode(
         Tr,
-        _mergeProps(
-          {
-            key: currentKey,
-            class: [
-              {
-                [`${prefixCls}-tr-drag`]: isDragTarget,
-              },
-              isFunction(props.rowClass) ? props.rowClass(record.raw, rowIndex) : props.rowClass,
-            ],
-            rowIndex: rowIndex,
-            record: record,
-            checked: props.rowSelection && selectedRowKeys.value?.includes(currentKey),
-            onClick: (ev: Event) => handleRowClick(record, ev),
-            onDblclick: (ev: Event) => handleRowDblclick(record, ev),
-            onContextmenu: (ev: Event) => handleRowContextMenu(record, ev),
-          },
-          dragTargetEvent,
-        ),
+        _mergeProps({
+          'key': currentKey,
+          'data-table-drag-path':
+            props.draggable && allowDrag ? JSON.stringify(currentPath) : undefined,
+          'class': [
+            {
+              [`${prefixCls}-tr-drag`]: isDragTarget,
+              [`${prefixCls}-tr-drop-target`]:
+                dragState.dragging &&
+                currentPath.toString() === dragState.targetPath.toString() &&
+                !isDragTarget,
+            },
+            isFunction(props.rowClass) ? props.rowClass(record.raw, rowIndex) : props.rowClass,
+          ],
+          'rowIndex': rowIndex,
+          'record': record,
+          'checked': props.rowSelection && selectedRowKeys.value?.includes(currentKey),
+          'onClick': (ev: Event) => handleRowClick(record, ev),
+          'onDblclick': (ev: Event) => handleRowDblclick(record, ev),
+          'onContextmenu': (ev: Event) => handleRowContextMenu(record, ev),
+        }),
         {
           default: () => [
             operations.value.map((operation, index) => {
@@ -1812,21 +1834,18 @@
               const style = getVirtualColumnStyle(operation.name);
               return _createVNode(
                 OperationTd,
-                _mergeProps(
-                  {
-                    key: `operation-td-${index}`,
-                    style: style,
-                    operationColumn: operation,
-                    operations: operations.value,
-                    record: record,
-                    hasExpand: Boolean(expandContent),
-                    selectedRowKeys: currentSelectedRowKeys.value,
-                    rowSpan: rowspan,
-                    colSpan: colspan,
-                    renderExpandBtn: renderExpandBtn,
-                  },
-                  dragType.value === 'handle' ? dragSourceEvent : {},
-                ),
+                _mergeProps({
+                  key: `operation-td-${index}`,
+                  style: style,
+                  operationColumn: operation,
+                  operations: operations.value,
+                  record: record,
+                  hasExpand: Boolean(expandContent),
+                  selectedRowKeys: currentSelectedRowKeys.value,
+                  rowSpan: rowspan,
+                  colSpan: colspan,
+                  renderExpandBtn: renderExpandBtn,
+                }),
                 {
                   'drag-handle-icon': slots['drag-handle-icon'],
                 },
@@ -2297,6 +2316,7 @@
     return _createVNode(
       'div',
       {
+        ref: dragRoot,
         class: cls.value,
         style: style.value,
         role: 'table',

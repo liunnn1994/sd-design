@@ -3,6 +3,7 @@
     :class="classNames"
     :data-level="level"
     :data-key="nodekey"
+    :data-tree-draggable="draggable || undefined"
     :data-key-type="typeof nodekey"
     role="treeitem"
     :tabindex="treeContext.activeKey === nodekey ? 0 : -1"
@@ -74,12 +75,6 @@
     <span
       ref="refTitle"
       :class="titleClassNames"
-      :draggable="draggable"
-      @dragstart="onDragStart"
-      @dragend="onDragEnd"
-      @dragover="onDragOver"
-      @dragleave="onDragLeave"
-      @drop="onDrop"
       @click="onTitleClick"
       @dblclick="onNodeDomEvent('dblclick', $event)"
       @contextmenu="onNodeDomEvent('contextmenu', $event)"
@@ -276,12 +271,7 @@
     treeContext.onNodeLongPress?.(key.value, event);
   });
 
-  const { isDragOver, isDragging, isAllowDrop, dropPosition, setDragStatus } = useDraggable(
-    reactive({
-      key,
-      refTitle,
-    }),
-  );
+  const { isDragOver, isDragging, isAllowDrop, dropPosition } = useDraggable(key);
 
   const titleClassNames = computed(() => [
     `${prefixCls}-title`,
@@ -400,52 +390,5 @@
   function onTreeitemKeydown(e: KeyboardEvent) {
     onNodeDomEvent('keydown', e);
     treeContext.onNodeKeydown?.(key.value, e);
-  }
-  function onDragStart(e: DragEvent) {
-    if (!draggable.value) return;
-
-    e.stopPropagation();
-
-    setDragStatus('dragStart', e);
-
-    try {
-      // ie throw error
-      // firefox-need-it
-      e.dataTransfer?.setData('text/plain', '');
-    } catch (error) {
-      if (!(error instanceof DOMException)) {
-        throw error;
-      }
-    }
-  }
-  function onDragEnd(e: DragEvent) {
-    if (!draggable.value) return;
-
-    e.stopPropagation();
-
-    setDragStatus('dragEnd', e);
-  }
-  function onDragOver(e: DragEvent) {
-    if (!draggable.value) return;
-
-    e.stopPropagation();
-    e.preventDefault();
-
-    setDragStatus('dragOver', e);
-  }
-  function onDragLeave(e: DragEvent) {
-    if (!draggable.value) return;
-
-    e.stopPropagation();
-
-    setDragStatus('dragLeave', e);
-  }
-  function onDrop(e: DragEvent) {
-    if (!draggable.value || !isAllowDrop.value) return;
-
-    e.stopPropagation();
-    e.preventDefault();
-
-    setDragStatus('drop', e);
   }
 </script>

@@ -55,6 +55,7 @@
   } from './interface';
 
   import VirtualList from '../_components/virtual-list';
+  import useDragSort from '../_hooks/use-drag-sort';
   import useMergeState from '../_hooks/use-merge-state';
   import usePickSlots from '../_hooks/use-pick-slots';
   import { getPrefixCls } from '../_utils/global-config';
@@ -652,6 +653,55 @@
   const loadingKeys = ref<TreeNodeKey[]>([]);
 
   const dragNode = ref<Node>();
+  const dragState = reactive({
+    sourceKey: undefined as TreeNodeKey | undefined,
+    targetKey: undefined as TreeNodeKey | undefined,
+    position: 0 as DropPosition,
+    allowed: false,
+  });
+  function nodeFromElement(item: HTMLElement) {
+    const key = item.dataset.keyType === 'number' ? Number(item.dataset.key) : item.dataset.key!;
+    return key2TreeNode.value.get(key);
+  }
+  useDragSort(rootEl, {
+    draggable: '[data-tree-draggable]',
+    handle: `.${getPrefixCls('tree-node')}-title-draggable`,
+    onStart(item, event) {
+      const node = nodeFromElement(item);
+      if (!node) return;
+      dragState.sourceKey = node.key;
+      treeContext.onDragStart(node.key, event);
+    },
+    onOver(item, event) {
+      const node = item ? nodeFromElement(item) : undefined;
+      if (dragState.targetKey !== undefined && dragState.targetKey !== node?.key) {
+        treeContext.onDragLeave(dragState.targetKey, event);
+      }
+      dragState.targetKey = node?.key;
+      dragState.allowed = false;
+      if (!node || !dragNode.value || !item) return;
+      const title = item.querySelector(`.${getPrefixCls('tree-node')}-title`);
+      const rect = (title ?? item).getBoundingClientRect();
+      const offset = event.clientY - rect.top;
+      dragState.position = offset < rect.height / 4 ? -1 : offset > (rect.height * 3) / 4 ? 1 : 0;
+      dragState.allowed =
+        node.key !== dragNode.value.key &&
+        !node.pathParentKeys.includes(dragNode.value.key) &&
+        treeContext.allowDrop(node.key, dragState.position);
+      treeContext.onDragOver(node.key, event);
+    },
+    onEnd(event, cancelled) {
+      if (!cancelled && dragState.allowed && dragState.targetKey !== undefined) {
+        treeContext.onDrop(dragState.targetKey, dragState.position, event);
+      }
+      if (dragState.targetKey !== undefined) treeContext.onDragLeave(dragState.targetKey, event);
+      if (dragState.sourceKey !== undefined) treeContext.onDragEnd(dragState.sourceKey, event);
+      dragState.sourceKey = undefined;
+      dragState.targetKey = undefined;
+      dragState.allowed = false;
+      dragState.position = 0;
+    },
+  });
 
   function getDefaultExpandedKeys() {
     if (defaultExpandedKeys?.value) {
@@ -1237,6 +1287,7 @@
 
   const treeContext = reactive({
     treeProps: props,
+    dragState,
     switcherIcon,
     loadingIcon,
     dragIcon,

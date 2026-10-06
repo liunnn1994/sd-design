@@ -4,13 +4,14 @@
 
 <script setup lang="ts">
   import type { VNode } from 'vue';
-  import { computed, createVNode } from 'vue';
+  import { computed, createVNode, mergeProps, useAttrs } from 'vue';
 
   import type { TableDataWithRaw } from './interface';
 
   import { getPrefixCls } from '../_utils/global-config';
 
-  defineOptions({ name: 'Tr' });
+  defineOptions({ name: 'Tr', inheritAttrs: false });
+  const attrs = useAttrs();
 
   const props = withDefaults(
     defineProps<{
@@ -43,7 +44,7 @@
   const RenderTr = () =>
     createVNode(
       slots.tr?.({ rowIndex: props.rowIndex, record: props.record.raw })[0] ?? 'div',
-      { class: cls.value, role: 'row' },
+      mergeProps({ class: cls.value, role: 'row' }, attrs),
       { default: slots.default },
     );
 </script>

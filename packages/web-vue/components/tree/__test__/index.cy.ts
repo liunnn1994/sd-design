@@ -3,6 +3,7 @@ import { h } from 'vue';
 import type { TreeInstance } from '../index';
 import type { TreeNodeData } from '../interface';
 
+import { startDrag, moveDrag } from '../../../cypress/support/drag-sort';
 import Tree from '../index';
 
 const treeData: TreeNodeData[] = [{ title: 'Node 1', key: 'node-1' }];
@@ -465,21 +466,10 @@ describe('Tree', () => {
     cy.mount(Tree, {
       props: { data: navData, defaultExpandAll: true, draggable: true },
     });
-    cy.get('[data-key="a1"] .sd-tree-node-title').trigger('dragstart');
-    cy.get('[data-key="a2"] .sd-tree-node-title').then(($title) => {
-      const rect = $title[0].getBoundingClientRect();
-      // pageY at the vertical middle of the target => dropPosition 0
-      cy.wrap($title).trigger('dragover', {
-        pageX: rect.left + rect.width / 2,
-        pageY: window.pageYOffset + rect.top + rect.height / 2,
-      });
-    });
-    // dropPosition is updated through a raf-throttled handler
-    cy.wait(60);
+    startDrag('[data-key="a1"] .sd-tree-node-title');
+    moveDrag('[data-key="a2"] .sd-tree-node-title', 0.5, false);
     cy.get('[data-key="a2"] .sd-tree-node-title-highlight').should('exist');
-    cy.get('[data-key="a2"] .sd-tree-node-title').trigger('drop');
-    cy.get('[data-key="a2"] .sd-tree-node-title').trigger('dragleave');
-    cy.get('[data-key="a1"] .sd-tree-node-title').trigger('dragend');
+    moveDrag('[data-key="a2"] .sd-tree-node-title');
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('dragStart')?.[0]?.[1].key).to.equal('a1');
       expect(wrapper.emitted('dragOver')?.[0]?.[1].key).to.equal('a2');
@@ -501,17 +491,9 @@ describe('Tree', () => {
         allowDrop: () => false,
       },
     });
-    cy.get('[data-key="a1"] .sd-tree-node-title').trigger('dragstart');
-    cy.get('[data-key="a2"] .sd-tree-node-title').then(($title) => {
-      const rect = $title[0].getBoundingClientRect();
-      cy.wrap($title).trigger('dragover', {
-        pageX: rect.left + rect.width / 2,
-        pageY: window.pageYOffset + rect.top + rect.height / 2,
-      });
-    });
-    cy.wait(60);
+    startDrag('[data-key="a1"] .sd-tree-node-title');
+    moveDrag('[data-key="a2"] .sd-tree-node-title');
     cy.get('[data-key="a2"] .sd-tree-node-title-highlight').should('not.exist');
-    cy.get('[data-key="a2"] .sd-tree-node-title').trigger('drop');
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('drop')).to.equal(undefined);
     });
@@ -698,16 +680,9 @@ describe('Tree', () => {
       { key: 0, title: 'Parent', children: [{ key: 'child', title: 'Child' }] },
     ];
     cy.mount(Tree, { props: { data, draggable: true } });
-    cy.get('[data-key="0"] .sd-tree-node-title').trigger('dragstart');
-    cy.get('[data-key="child"] .sd-tree-node-title').then(($title) => {
-      const rect = $title[0].getBoundingClientRect();
-      cy.wrap($title).trigger('dragover', {
-        pageY: rect.top + rect.height / 2,
-        eventConstructor: 'DragEvent',
-      });
-    });
-    cy.get('[data-key="child"] .sd-tree-node-title-highlight').should('exist');
-    cy.get('[data-key="child"] .sd-tree-node-title').trigger('drop');
+    startDrag('[data-key="0"] .sd-tree-node-title');
+    moveDrag('[data-key="child"] .sd-tree-node-title');
+    cy.get('[data-key="child"] .sd-tree-node-title-highlight').should('not.exist');
     cy.get('@vue').should(({ wrapper }) => expect(wrapper.emitted('drop')).to.equal(undefined));
   });
 });

@@ -1,5 +1,6 @@
 import { h } from 'vue';
 
+import { startDrag, moveDrag } from '../../../cypress/support/drag-sort';
 import Table from '../index';
 
 describe('Table source review boundaries', () => {
@@ -41,10 +42,8 @@ describe('Table source review boundaries', () => {
       },
     });
 
-    cy.get('.sd-table-tbody .sd-table-tr').first().should('not.have.attr', 'draggable');
-    cy.get('.sd-table-tbody [draggable=true]').first().trigger('dragstart', { force: true });
-    cy.get('.sd-table-tbody .sd-table-tr').last().trigger('dragenter', { force: true });
-    cy.get('.sd-table-tbody .sd-table-tr').last().trigger('drop', { force: true });
+    startDrag('.sd-table-tbody .sd-table-drag-handle');
+    moveDrag('.sd-table-tbody .sd-table-tr');
     cy.get('@change').should('have.been.calledOnce');
     cy.then(() => {
       const [page, extra, all] = change.firstCall.args;

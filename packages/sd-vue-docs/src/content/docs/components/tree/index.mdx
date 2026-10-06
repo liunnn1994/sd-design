@@ -93,7 +93,9 @@ import treeVirtualSource from '../../../../components/generated/tree/virtual.vue
 
 ### 拖拽
 
-可拖拽的树节点。
+拖拽节点可调整顺序或移动层级。节点上部、中央和下部对应 `dropPosition` 的 `-1`、`0`、`1`，通过 `allow-drop` 限制落点，并在 `drop` 回调中更新数据。
+
+支持虚拟列表滚动后的拖拽，节点不能放入自身或后代节点。拖到树外或按 Escape 取消，不会触发 `drop`。
 
 <DemoBlock source={treeDraggableSource} mainFile="src/tree-draggable.vue">
 

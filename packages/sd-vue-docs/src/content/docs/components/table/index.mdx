@@ -14,6 +14,8 @@ import TableCustomDemo from '../../../../components/generated/table/custom.vue';
 import tableCustomSource from '../../../../components/generated/table/custom.vue?raw';
 import TableDragHandleDemo from '../../../../components/generated/table/drag-handle.vue';
 import tableDragHandleSource from '../../../../components/generated/table/drag-handle.vue?raw';
+import TableVirtualDragDemo from '../../../../components/generated/table/virtual-drag.vue';
+import tableVirtualDragSource from '../../../../components/generated/table/virtual-drag.vue?raw';
 import TableEditableDemo from '../../../../components/generated/table/editable.vue';
 import tableEditableSource from '../../../../components/generated/table/editable.vue?raw';
 import TableEllipsisDemo from '../../../../components/generated/table/ellipsis.vue';
@@ -97,11 +99,23 @@ import tableVirtualListSource from '../../../../components/generated/table/virtu
 
 ### 拖拽锚点
 
-（实验性）开启锚点拖拽功能
+通过拖拽锚点调整同级行的顺序，松手后触发 `change`。请在回调中更新 `data`；分页时第一个参数为当前页数据，第三个参数为完整排序结果（每条记录的 `raw` 为原始数据）。
+
+可与 `virtual-list-props` 同时使用，滚动后的拖拽仍按完整数据位置排序。拖到表格外或按 Escape 取消，不会提交排序。
 
 <DemoBlock source={tableDragHandleSource} mainFile="src/table-drag-handle.vue">
 
 <TableDragHandleDemo client:only="vue" />
+
+</DemoBlock>
+
+### 虚拟列表拖拽排序
+
+滚动到任意位置后，通过左侧锚点拖动行。示例在 `change` 回调中保存新的顺序。
+
+<DemoBlock source={tableVirtualDragSource} mainFile="src/table-virtual-drag.vue">
+
+<TableVirtualDragDemo client:only="vue" />
 
 </DemoBlock>
 

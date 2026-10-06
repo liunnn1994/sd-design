@@ -36,6 +36,12 @@ export type TreeContext = Readonly<{
    * roving tabindex 的活动节点 key（WAI-ARIA tree 键盘导航）：该节点 tabindex=0，其余 -1。
    */
   activeKey?: TreeNodeKey;
+  dragState?: {
+    sourceKey?: TreeNodeKey;
+    targetKey?: TreeNodeKey;
+    position: DropPosition;
+    allowed: boolean;
+  };
   onLoadMore?: (key: TreeNodeKey) => void;
   onCheck: (checked: boolean, key: TreeNodeKey, e?: Event) => void;
   onSelect: (key: TreeNodeKey, e: Event) => void;
