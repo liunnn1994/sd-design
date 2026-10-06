@@ -48,6 +48,28 @@ const mountGroup = (
 };
 
 describe('PanelGroup', () => {
+  it('commits the final pointer position when a quick drag ends between move events', () => {
+    const sizes = mountGroup();
+    cy.get('.sd-panel-separator-grip')
+      .first()
+      .then(($grip) => {
+        const grip = $grip[0]!;
+        for (const [type, clientX] of [
+          ['pointerdown', 400],
+          ['pointermove', 410],
+          ['pointerup', 520],
+        ] as const) {
+          grip.dispatchEvent(
+            new PointerEvent(type, { clientX, clientY: 150, pointerId: 1, bubbles: true }),
+          );
+        }
+      });
+    cy.then(() => expect(sizes.at(-1)).to.equal(320));
+    cy.get('.sd-panel').first().should('have.css', 'width', '320px');
+    cy.wait(400);
+    cy.get('.sd-panel').first().should('have.css', 'width', '320px');
+  });
+
   for (const orientation of ['horizontal', 'vertical'] as const) {
     it(`keeps the legacy resizebox-trigger appearance in ${orientation} groups`, () => {
       mountGroup({}, { style: 'width: 800px; height: 300px' }, { orientation });

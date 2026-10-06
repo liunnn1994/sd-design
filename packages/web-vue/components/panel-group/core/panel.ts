@@ -254,9 +254,13 @@ export const createPanel = (group: EngineGroup, initial: PanelOptions): PanelCon
       if (!session.collapsed) {
         options.onSizeChange?.(report(size.get()));
       }
-      if (size.get() !== target) {
-        fold(target, size.get());
-      }
+      // Vue commits v-model updates after the event handler. Reconcile only after
+      // that update, otherwise releasing the pointer animates toward the old size.
+      queueMicrotask(() => {
+        if (!state.dragging && size.get() !== target) {
+          fold(target, size.get());
+        }
+      });
     },
     cancel: () => {
       if (!state.dragging) {

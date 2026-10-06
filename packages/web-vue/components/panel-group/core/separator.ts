@@ -122,7 +122,9 @@ export const attachSeparator = (
     },
     pointerup: (event: PointerEvent) => {
       grips.mark('held', []);
-      if (dragging) {
+      if (dragging && pressed) {
+        const offset = { x: event.clientX - pressed.clientX, y: event.clientY - pressed.clientY };
+        each((target) => target.drag.move(offset));
         each((target) => target.drag.end());
         grips.invalidate();
         grips.mark('crossed', grips.at(event));
