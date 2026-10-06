@@ -397,20 +397,13 @@
     if (!item.disabled) setActiveKey();
   };
 
-  let styleDeclaration: CSSStyleDeclaration | undefined;
   const mirrorStyle = ref();
-  // ResizeObserver 的回调可能早于 onMounted 触发，此时 styleDeclaration 尚未赋值；
-  // 延迟初始化，避免 getSizeStyles 读到 undefined 抛错
   const syncMirrorStyles = () => {
-    if (!styleDeclaration && props.type === 'textarea') {
-      const textareaElement = (inputRef.value as { textareaRef?: HTMLElement } | undefined)
-        ?.textareaRef;
+    if (props.type === 'textarea') {
+      const textareaElement = inputRef.value?.$refs.textareaRef as HTMLTextAreaElement | undefined;
       if (textareaElement) {
-        styleDeclaration = window.getComputedStyle(textareaElement);
+        mirrorStyle.value = getSizeStyles(window.getComputedStyle(textareaElement));
       }
-    }
-    if (styleDeclaration) {
-      mirrorStyle.value = getSizeStyles(styleDeclaration);
     }
   };
   const handleResize = () => {
@@ -419,12 +412,14 @@
   onMounted(() => {
     syncMirrorStyles();
   });
+  watch(inputRef, syncMirrorStyles, { flush: 'post' });
   const mirrorRef = ref<HTMLElement>();
   watch(computedPopupVisible, (visible) => {
     if (props.type === 'textarea' && visible) {
       nextTick(() => {
-        const textareaElement = (inputRef.value as { textareaRef?: HTMLElement } | undefined)
-          ?.textareaRef;
+        const textareaElement = inputRef.value?.$refs.textareaRef as
+          | HTMLTextAreaElement
+          | undefined;
         if (textareaElement && textareaElement.scrollTop > 0)
           mirrorRef.value?.scrollTo(0, textareaElement.scrollTop);
       });
