@@ -328,8 +328,14 @@
 
   const handleKeyDown = (ev: KeyboardEvent) => {
     if (!isLastDialog()) return;
-    ev.stopPropagation();
-    ev.preventDefault();
+    const target = ev.target;
+    if (
+      ev.key !== KEYBOARD_KEY.ESC &&
+      target instanceof HTMLElement &&
+      (target.isContentEditable || target.closest('input, textarea, select'))
+    ) {
+      return;
+    }
 
     switch (ev.key) {
       case KEYBOARD_KEY.ESC:
@@ -351,8 +357,10 @@
         isIncludes('originalSize') && changeScale(1);
         break;
       default:
-        break;
+        return;
     }
+    ev.stopPropagation();
+    ev.preventDefault();
   };
 
   const onWheel = throttleByRaf((e: WheelEvent) => {
@@ -399,7 +407,9 @@
   }
 
   function onMaskClick(e: MouseEvent) {
-    refWrapper?.value?.focus();
+    if (!refWrapper.value?.contains(document.activeElement)) {
+      refWrapper.value?.focus();
+    }
     if (maskClosable.value && e.target === e.currentTarget) {
       close();
     }
