@@ -17,13 +17,13 @@
     align-items: center;
     justify-content: center;
     height: 300px;
-    background-color: var(--color-fill-2);
+    background-color: var(--sd-color-fill-2);
   }
 
   .demo-point {
     width: 200px;
     padding: 10px;
-    background-color: var(--color-bg-popup);
+    background-color: var(--sd-color-bg-popup);
     border-radius: 4px;
     box-shadow: 0 2px 8px 0 rgb(0 0 0 / 15%);
   }

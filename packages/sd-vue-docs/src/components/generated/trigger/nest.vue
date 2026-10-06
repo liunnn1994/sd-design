@@ -35,7 +35,7 @@
   .trigger-demo-nest {
     width: 200px;
     padding: 10px;
-    background-color: var(--color-bg-popup);
+    background-color: var(--sd-color-bg-popup);
     border-radius: 4px;
     box-shadow: 0 2px 8px 0 rgb(0 0 0 / 15%);
   }
