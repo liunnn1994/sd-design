@@ -2,9 +2,27 @@ import { h } from 'vue';
 
 import ConfigProvider from '../../config-provider';
 import enUS from '../../locale/lang/en-us';
-import DatePicker, { MonthPicker, RangePicker } from '../index';
+import DatePicker, { MonthPicker, RangePicker, WeekPicker } from '../index';
 
 describe('DatePicker provider defaults', () => {
+  it('inherits and updates the configured first weekday for WeekPicker', () => {
+    cy.mount(ConfigProvider, {
+      props: { datePicker: { dayStartOfWeek: 1 } },
+      slots: { default: () => h(WeekPicker, { hideTrigger: true }) },
+    });
+    cy.get('.sd-picker-week-list-item').eq(1).should('have.text', '一');
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ datePicker: { dayStartOfWeek: 2 } }));
+    cy.get('.sd-picker-week-list-item').eq(1).should('have.text', '二');
+  });
+
+  it('keeps an explicit WeekPicker weekday ahead of the provider default', () => {
+    cy.mount(ConfigProvider, {
+      props: { datePicker: { dayStartOfWeek: 1 } },
+      slots: { default: () => h(WeekPicker, { hideTrigger: true, dayStartOfWeek: 0 }) },
+    });
+    cy.get('.sd-picker-week-list-item').eq(1).should('have.text', '日');
+  });
+
   for (const range of [false, true]) {
     it(`uses and updates configured shortcuts for ${range ? 'ranges' : 'dates'}`, () => {
       cy.mount(ConfigProvider, {

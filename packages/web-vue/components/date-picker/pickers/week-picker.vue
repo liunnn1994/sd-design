@@ -1,5 +1,5 @@
 <template>
-  <Picker v-bind="{ ...props, ...$attrs }" mode="week">
+  <Picker v-bind="{ ...props, ...$attrs }" mode="week" :day-start-of-week="mergedDayStartOfWeek">
     <template v-for="(_, name) in $slots" #[name]="slotData">
       <slot :name="name" v-bind="slotData ?? {}" />
     </template>
@@ -7,10 +7,11 @@
 </template>
 
 <script setup lang="ts">
-  import type { PropType } from 'vue';
+  import { type PropType, toRef } from 'vue';
 
   import type { WeekStart } from '../interface';
 
+  import { useConfigProviderProp } from '../../_hooks/use-config-provider-prop';
   import Picker from '../picker.vue';
 
   defineOptions({
@@ -61,4 +62,12 @@
       default: 0,
     },
   });
+
+  const { mergedValue: mergedDayStartOfWeek } = useConfigProviderProp(
+    toRef(props, 'dayStartOfWeek'),
+    {
+      propNames: ['dayStartOfWeek', 'day-start-of-week'],
+      getGlobalValue: (config) => config?.datePicker?.dayStartOfWeek,
+    },
+  );
 </script>
