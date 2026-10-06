@@ -22,11 +22,13 @@ $anchor-item-inner-margin-left: global.$spacing-7;
 $anchor-title-padding-horizontal: global.$spacing-4;
 $anchor-title-padding-vertical: global.$spacing-2;
 $anchor-title-margin-bottom: global.$spacing-1;
+$anchor-title-margin-left_horizontal: global.$spacing-7;
 
 $anchor-color-title: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-2'));
 $anchor-color-title_hover: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
 $anchor-color-title_active: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
 $anchor-font-weight-title_hover: global.$font-weight-500;
+$anchor-font-weight-title_horizontal_hover: global.$font-weight-400;
 $anchor-font-weight-title_active: global.$font-weight-500;
 $anchor-color-bg-title_hover: var(string.unquote('#{global.$sd-cssvars-prefix}-color-fill-2'));
 $anchor-font-size-title: 14px;
@@ -63,6 +65,12 @@ $anchor-title-margin-bottom: theme-runtime.token(
   $anchor-title-margin-bottom,
   'spacing-1'
 );
+$anchor-title-margin-left_horizontal: theme-runtime.token(
+  'anchor',
+  'anchor-title-margin-left-horizontal',
+  $anchor-title-margin-left_horizontal,
+  'spacing-7'
+);
 $anchor-color-title: theme-runtime.token('anchor', 'anchor-color-title', $anchor-color-title);
 $anchor-color-title_hover: theme-runtime.token(
   'anchor',
@@ -79,6 +87,12 @@ $anchor-font-weight-title_hover: theme-runtime.token(
   'anchor-font-weight-title-hover',
   $anchor-font-weight-title_hover,
   'font-weight-500'
+);
+$anchor-font-weight-title_horizontal_hover: theme-runtime.token(
+  'anchor',
+  'anchor-font-weight-title-horizontal-hover',
+  $anchor-font-weight-title_horizontal_hover,
+  'font-weight-400'
 );
 $anchor-font-weight-title_active: theme-runtime.token(
   'anchor',

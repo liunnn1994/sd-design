@@ -1685,6 +1685,12 @@
           "dependencies": ["spacing-1"]
         },
         {
+          "key": "anchor-title-margin-left-horizontal",
+          "name": "anchor-title-margin-left_horizontal",
+          "value": "var(--spacing-7, 16px)",
+          "dependencies": ["spacing-7"]
+        },
+        {
           "key": "anchor-color-title",
           "name": "anchor-color-title",
           "value": "var(--sd-color-text-2)",
@@ -1707,6 +1713,12 @@
           "name": "anchor-font-weight-title_hover",
           "value": "var(--font-weight-500, 500)",
           "dependencies": ["font-weight-500"]
+        },
+        {
+          "key": "anchor-font-weight-title-horizontal-hover",
+          "name": "anchor-font-weight-title_horizontal_hover",
+          "value": "var(--font-weight-400, 400)",
+          "dependencies": ["font-weight-400"]
         },
         {
           "key": "anchor-font-weight-title-active",
