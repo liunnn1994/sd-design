@@ -36,7 +36,7 @@ describe('Table source review boundaries', () => {
         columns: [{ dataIndex: 'name', title: 'Name' }],
         data: [1, 2, 3, 4].map((key) => ({ key, name: `Row ${key}` })),
         pagination: { defaultCurrent: 2, defaultPageSize: 2 },
-        draggable: { type: 'handle' },
+        draggable: {},
         onChange: change,
       },
     });

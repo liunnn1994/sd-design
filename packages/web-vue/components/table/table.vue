@@ -1280,7 +1280,7 @@
     let dragHandle: TableOperationColumn | undefined;
     let expand: TableOperationColumn | undefined;
     let selection: TableOperationColumn | undefined;
-    if (props.draggable?.type === 'handle') {
+    if (props.draggable) {
       dragHandle = {
         name: 'drag-handle',
         title: props.draggable.title,
