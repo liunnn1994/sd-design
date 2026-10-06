@@ -27,11 +27,11 @@
               class="custom-checkbox-card"
               :class="{ 'custom-checkbox-card-checked': checked }"
             >
-              <div className="custom-checkbox-card-mask">
-                <div className="custom-checkbox-card-mask-dot" />
+              <div class="custom-checkbox-card-mask">
+                <div class="custom-checkbox-card-mask-dot" />
               </div>
               <div>
-                <div className="custom-checkbox-card-title"> Checkbox Card {{ item }} </div>
+                <div class="custom-checkbox-card-title"> Checkbox Card {{ item }} </div>
                 <sd-typography-text type="secondary"> this is a text </sd-typography-text>
               </div>
             </sd-space>
@@ -47,7 +47,7 @@
     box-sizing: border-box;
     width: 250px;
     padding: 10px 16px;
-    border: 1px solid var(--color-border-2);
+    border: 1px solid var(--sd-color-border-2);
     border-radius: 4px;
   }
 
@@ -58,7 +58,7 @@
     box-sizing: border-box;
     width: 14px;
     height: 14px;
-    border: 1px solid var(--color-border-2);
+    border: 1px solid var(--sd-color-border-2);
     border-radius: 2px;
   }
 
@@ -70,7 +70,7 @@
 
   .custom-checkbox-card-title {
     margin-bottom: 8px;
-    color: var(--color-text-1);
+    color: var(--sd-color-text-1);
     font-weight: bold;
     font-size: 14px;
   }
@@ -79,19 +79,19 @@
   .custom-checkbox-card-checked,
   .custom-checkbox-card:hover .custom-checkbox-card-mask,
   .custom-checkbox-card-checked .custom-checkbox-card-mask {
-    border-color: rgb(var(--primary-6));
+    border-color: rgb(var(--sd-primary-6));
   }
 
   .custom-checkbox-card-checked {
-    background-color: var(--color-primary-light-1);
+    background-color: var(--sd-color-primary-light-1);
   }
 
   .custom-checkbox-card:hover .custom-checkbox-card-title,
   .custom-checkbox-card-checked .custom-checkbox-card-title {
-    color: rgb(var(--primary-6));
+    color: rgb(var(--sd-primary-6));
   }
 
   .custom-checkbox-card-checked .custom-checkbox-card-mask-dot {
-    background-color: rgb(var(--primary-6));
+    background-color: rgb(var(--sd-primary-6));
   }
 </style>

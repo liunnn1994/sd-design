@@ -27,11 +27,11 @@
               class="custom-radio-card"
               :class="{ 'custom-radio-card-checked': checked }"
             >
-              <div className="custom-radio-card-mask">
-                <div className="custom-radio-card-mask-dot" />
+              <div class="custom-radio-card-mask">
+                <div class="custom-radio-card-mask-dot" />
               </div>
               <div>
-                <div className="custom-radio-card-title"> radio Card {{ item }} </div>
+                <div class="custom-radio-card-title"> radio Card {{ item }} </div>
                 <sd-typography-text type="secondary"> this is a text </sd-typography-text>
               </div>
             </sd-space>
@@ -47,7 +47,7 @@
     box-sizing: border-box;
     width: 250px;
     padding: 10px 16px;
-    border: 1px solid var(--color-border-2);
+    border: 1px solid var(--sd-color-border-2);
     border-radius: 4px;
   }
 
@@ -58,7 +58,7 @@
     box-sizing: border-box;
     width: 14px;
     height: 14px;
-    border: 1px solid var(--color-border-2);
+    border: 1px solid var(--sd-color-border-2);
     border-radius: 100%;
   }
 
@@ -70,7 +70,7 @@
 
   .custom-radio-card-title {
     margin-bottom: 8px;
-    color: var(--color-text-1);
+    color: var(--sd-color-text-1);
     font-weight: bold;
     font-size: 14px;
   }
@@ -79,19 +79,19 @@
   .custom-radio-card-checked,
   .custom-radio-card:hover .custom-radio-card-mask,
   .custom-radio-card-checked .custom-radio-card-mask {
-    border-color: rgb(var(--primary-6));
+    border-color: rgb(var(--sd-primary-6));
   }
 
   .custom-radio-card-checked {
-    background-color: var(--color-primary-light-1);
+    background-color: var(--sd-color-primary-light-1);
   }
 
   .custom-radio-card:hover .custom-radio-card-title,
   .custom-radio-card-checked .custom-radio-card-title {
-    color: rgb(var(--primary-6));
+    color: rgb(var(--sd-primary-6));
   }
 
   .custom-radio-card-checked .custom-radio-card-mask-dot {
-    background-color: rgb(var(--primary-6));
+    background-color: rgb(var(--sd-primary-6));
   }
 </style>
