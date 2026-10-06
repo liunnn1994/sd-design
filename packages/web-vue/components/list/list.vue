@@ -128,7 +128,7 @@
     useAttrs,
     useSlots,
   } from 'vue';
-  import type { CSSProperties, PropType, VNodeChild, VNode } from 'vue';
+  import type { ComponentPublicInstance, CSSProperties, PropType, VNodeChild, VNode } from 'vue';
 
   import { createReusableTemplate } from '@vueuse/core';
 
@@ -139,7 +139,6 @@
   import type { SpinProps } from '../spin';
 
   import VirtualList from '../_components/virtual-list';
-  import { useComponentRef } from '../_hooks/use-component-ref';
   import { useScrollbar } from '../_hooks/use-scrollbar';
   import { getPrefixCls } from '../_utils/global-config';
   import { isNumber } from '../_utils/is';
@@ -149,7 +148,7 @@
   import Empty from '../empty';
   import Grid from '../grid';
   import Pagination, { type PaginationProps } from '../pagination';
-  import Scrollbar, { type ScrollbarProps } from '../scrollbar';
+  import Scrollbar, { type ScrollbarInstance, type ScrollbarProps } from '../scrollbar';
   import Spin from '../spin';
   import { usePagination } from './use-pagination';
 
@@ -287,7 +286,7 @@
     ...configContext?.listSpinProps,
     ...props.spinProps,
   }));
-  const { componentRef, elementRef: listRef } = useComponentRef('containerRef');
+  const componentRef = ref<ScrollbarInstance>();
   const isVirtualList = computed(() => props.virtualListProps);
   const { scrollbarProps } = useScrollbar(toRef(props, 'scrollbar'));
   let previousScrollTop = 0;
@@ -301,9 +300,11 @@
   };
 
   onMounted(() => {
-    if (listRef.value) {
-      const { scrollTop, scrollHeight, offsetHeight } = listRef.value;
-      if (scrollHeight <= scrollTop + offsetHeight) emit('reachBottom');
+    const viewport = (virtualListRef.value?.$refs.viewportRef ??
+      componentRef.value?.elements()?.scrollOffsetElement) as HTMLElement | undefined;
+    if (viewport) {
+      const { scrollTop, scrollHeight, clientHeight } = viewport;
+      if (scrollHeight <= scrollTop + clientHeight) emit('reachBottom');
     }
   });
 
@@ -360,8 +361,10 @@
     `${prefixCls}-content`,
     { [`${prefixCls}-virtual`]: isVirtualList.value },
   ]);
-  const virtualListRef =
-    ref<import('vue-component-type-helpers').ComponentExposed<typeof VirtualList>>();
+  const virtualListRef = ref<
+    ComponentPublicInstance &
+      import('vue-component-type-helpers').ComponentExposed<typeof VirtualList>
+  >();
   const resolvedVirtualListProps = computed<VirtualListProps | undefined>(() => {
     if (!props.virtualListProps) return undefined;
     if (props.virtualListProps.height !== undefined) return props.virtualListProps;
