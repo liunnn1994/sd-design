@@ -26,7 +26,7 @@
     background: #11121b;
     border-radius: 16px;
   }
-  .voice-glow-card {
+  .voice-glow-interactive .voice-glow-card {
     min-width: 300px;
     padding: 24px;
     color: #fff;

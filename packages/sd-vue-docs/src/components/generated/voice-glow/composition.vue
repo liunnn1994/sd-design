@@ -16,7 +16,7 @@
     border-radius: 16px;
   }
 
-  .voice-glow-card {
+  .voice-glow-composition .voice-glow-card {
     display: grid;
     gap: 8px;
     min-width: 300px;
@@ -26,7 +26,7 @@
     border-radius: 16px;
   }
 
-  .voice-glow-card span {
+  .voice-glow-composition .voice-glow-card span {
     opacity: 0.7;
   }
 </style>

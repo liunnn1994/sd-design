@@ -51,9 +51,11 @@
 
   .voice-glow-card-dark {
     color: #fff;
+    background: #232432;
   }
 
   .voice-glow-card-light {
     color: #303242;
+    background: #fff;
   }
 </style>
