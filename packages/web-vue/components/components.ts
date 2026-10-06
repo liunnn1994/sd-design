@@ -56,6 +56,7 @@ declare module 'vue' {
     SdDivider: SDVue['Divider'];
     SdDrawer: SDVue['Drawer'];
     SdDropdown: SDVue['Dropdown'];
+    SdDropdownButton: SDVue['DropdownButton'];
     SdDoption: SDVue['Doption'];
     SdDgroup: SDVue['Dgroup'];
     SdDsubmenu: SDVue['Dsubmenu'];

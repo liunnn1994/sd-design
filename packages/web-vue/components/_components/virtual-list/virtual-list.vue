@@ -24,7 +24,6 @@
         :item-props="resolvedItemProps"
         :class="listClassNames"
         :style="listStyle"
-        @scroll="onVirtuaScroll"
         @scroll-end="onVirtuaScrollEnd"
       >
         <template #default="{ item, index }">
@@ -506,12 +505,6 @@
     if (bottom <= 0) {
       emit('reachBottom', ev);
     }
-  };
-
-  const onVirtuaScroll = () => {
-    // virtua reports the scroll offset; the user-facing `scroll` event is emitted
-    // from the native viewport scroll handler above, which preserves the Event
-    // payload that consumers (e.g. List) read from `event.target`.
   };
 
   const onVirtuaScrollEnd = () => {
