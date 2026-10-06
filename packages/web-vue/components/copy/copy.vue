@@ -2,7 +2,7 @@
   <Tooltip v-bind="mergedTooltipProps">
     <component
       :is="renderComponent"
-      v-bind="attrs"
+      v-bind="{ ...triggerProps, ...attrs }"
       :disabled="isDisabled"
       :class="componentClass"
       :aria-label="
@@ -28,6 +28,7 @@
   import type { CopyComponentType, CopyProps } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
+  import pick from '../_utils/pick';
   import Button from '../button';
   import IconCopy from '../icon/icon-copy';
   import Link from '../link';
@@ -48,6 +49,8 @@
     component: 'link',
     textInherit: true,
     successMessage: undefined,
+    ellipsis: undefined,
+    ellipsisTooltip: undefined,
   });
 
   const emit = defineEmits<{
@@ -72,6 +75,33 @@
   };
 
   const renderComponent = computed(() => componentMap[props.component]);
+  const triggerProps = computed(() =>
+    props.component === 'button'
+      ? pick(props, [
+          'type',
+          'shape',
+          'status',
+          'size',
+          'long',
+          'loading',
+          'loadingFixedWidth',
+          'htmlType',
+          'autofocus',
+          'href',
+        ])
+      : pick(props, [
+          'href',
+          'status',
+          'hoverable',
+          'icon',
+          'ellipsis',
+          'ellipsisLineClamp',
+          'ellipsisExpandTrigger',
+          'ellipsisTooltip',
+          'iconTooltip',
+          'loading',
+        ]),
+  );
   const componentClass = computed(() => [
     prefixCls,
     { [`${prefixCls}-inherit`]: props.component === 'link' && props.textInherit },
