@@ -190,7 +190,7 @@
   // 与 TypographyContent 的标签包裹顺序保持一致：外层为最后一个标签（mark 最外），
   // 自定义 mark 颜色通过内联 style 注入到 mark 标签上。
   const richHtml = computed(() =>
-    [...contentTags.value].reverse().reduce((html, tag) => {
+    contentTags.value.reduce((html, tag) => {
       const style = tag === 'mark' ? styleAttribute(markStyle.value) : '';
       return `<${tag}${style}>${html}</${tag}>`;
     }, escapeHtml(fullText.value)),
