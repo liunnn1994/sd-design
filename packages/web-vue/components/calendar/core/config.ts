@@ -502,12 +502,15 @@ export const useConfig = (
    * dayjs locale data (month/weekday names) and the library's SdLang
    * calendar section (UI labels).
    */
+  let textsLoadId = 0;
   const loadTexts = async (locale: string) => {
+    const loadId = ++textsLoadId;
     const effectiveLocale = locale || globalLocal.value || 'en-us';
     const weekStart = props.startWeekOnSunday ? 0 : 1;
 
     // 1. Initialize dayjs locale (loads locale data, sets weekStart).
     const dateLocale = await initializeDateLocale(effectiveLocale, weekStart);
+    if (loadId !== textsLoadId) return;
 
     // 2. Get calendar section from the library's locale messages.
     const calendarLang = props.locale
