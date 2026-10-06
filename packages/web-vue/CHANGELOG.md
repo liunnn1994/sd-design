@@ -1,3 +1,15 @@
+# [6.0.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.9.0...web-vue-v6.0.0) (2026-10-06)
+
+
+### Features
+
+* 🆕 整合Split组件和PanelGroup ([8105d50](https://github.com/liunnn1994/sd-design/commit/8105d50b4511e27d670bf53e0ef35526b83eff7e))
+
+
+### BREAKING CHANGES
+
+* Split组件已经移除
+
 # [5.9.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.8.7...web-vue-v5.9.0) (2026-10-06)
 
 
