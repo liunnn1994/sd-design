@@ -24,7 +24,15 @@
         <slot name="footer" />
       </div>
     </div>
-    <div v-if="closable" :class="`${prefixCls}-close-btn`" @click="handleClose">
+    <div
+      v-if="closable"
+      :class="`${prefixCls}-close-btn`"
+      role="button"
+      tabindex="0"
+      :aria-label="t('a11y.close')"
+      @click="handleClose"
+      @keydown="handleCloseKeydown"
+    >
       <slot name="closeIconElement">
         <a-icon-hover>
           <slot name="closeIcon">
@@ -43,11 +51,13 @@
   import AIconHover from '../_components/icon-hover.vue';
   import { MessageType } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
+  import { onActivate } from '../_utils/keyboard';
   import IconCheckCircleFill from '../icon/icon-check-circle-fill';
   import IconClose from '../icon/icon-close';
   import IconCloseCircleFill from '../icon/icon-close-circle-fill';
   import IconExclamationCircleFill from '../icon/icon-exclamation-circle-fill';
   import IconInfoCircleFill from '../icon/icon-info-circle-fill';
+  import { useI18n } from '../locale';
 
   defineOptions({ name: 'Notification' });
 
@@ -77,11 +87,13 @@
   const emit = defineEmits<{ close: [] }>();
 
   const prefixCls = getPrefixCls('notification');
+  const { t } = useI18n();
   let timer = 0;
 
   const handleClose = () => {
     emit('close');
   };
+  const handleCloseKeydown = onActivate(handleClose);
 
   onMounted(() => {
     if (props.duration > 0) {
