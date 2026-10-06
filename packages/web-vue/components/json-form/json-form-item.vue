@@ -201,7 +201,7 @@
       return schema.colProps;
     }
 
-    if (schema.span) {
+    if (schema.span !== undefined) {
       return { span: schema.span };
     }
 
