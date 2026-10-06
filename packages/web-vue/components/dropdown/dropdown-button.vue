@@ -10,6 +10,7 @@
       <slot />
     </Button>
     <Dropdown
+      :disabled="disabled"
       :popup-visible="computedPopupVisible"
       :trigger="trigger"
       :position="position"
