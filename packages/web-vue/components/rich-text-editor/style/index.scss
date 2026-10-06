@@ -125,6 +125,10 @@ $rich-text-editor-prefix-cls: string.unquote('#{theme.$prefix}-rich-text-editor'
     text-decoration: line-through;
   }
 
+  &-text-underline#{&}-text-strikethrough {
+    text-decoration: underline line-through;
+  }
+
   &-text-code {
     padding-inline: $rich-text-editor-code-padding;
     font-family: theme.$code-family;
