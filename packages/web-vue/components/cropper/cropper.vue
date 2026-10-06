@@ -240,8 +240,8 @@
     selection.$change(
       props.selectionX ?? 1,
       props.selectionY ?? 1,
-      props.selectionWidth ?? (scaleX > 1 ? renderedWidth : image.clientWidth) - 2,
-      props.selectionHeight ?? (scaleY > 1 ? renderedHeight : image.clientHeight) - 2,
+      props.selectionWidth ?? (scaleX > 1 ? renderedWidth : image.clientWidth * scaleX) - 2,
+      props.selectionHeight ?? (scaleY > 1 ? renderedHeight : image.clientHeight * scaleY) - 2,
     );
   }
 
