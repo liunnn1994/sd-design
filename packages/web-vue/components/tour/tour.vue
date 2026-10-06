@@ -35,10 +35,10 @@
           ref="popoverRef"
           :class="popoverClasses"
           :style="popoverStyle"
-          :layout="true"
-          :initial="motionState.initial"
+          :layout="mergedConfig.animate !== false"
+          :initial="mergedConfig.animate === false ? false : motionState.initial"
           :animate="motionState.animate"
-          :transition="motionState.transition"
+          :transition="mergedConfig.animate === false ? { duration: 0 } : motionState.transition"
         >
           <Button
             v-if="showCloseButton"
