@@ -58,7 +58,17 @@
   );
   // 一次分词，两处判断复用：适配用的安全文本与保留原节点用的原始 token。
   const rawTokens = computed(() => tokenizeHtml(node.content));
-  const safeTokens = computed(() => tokenizeHtml(sanitizeHtmlContent(node.content, policy.value)));
+  const safeTokens = computed(() => {
+    const content = sanitizeHtmlContent(node.content, policy.value);
+    // 上游分词器丢弃纯空白文本；清洗后的标签间空白转成实体，供 buildTree 还原。
+    return tokenizeHtml(
+      content.replace(
+        /(^|>)(\s+)(?=<|$)/g,
+        (_, prefix: string, whitespace: string) =>
+          prefix + Array.from(whitespace, (character) => `&#${character.charCodeAt(0)};`).join(''),
+      ),
+    );
+  });
   // 自定义标签及流式未完成 HTML 继续交给原节点，保留上游协议和 placeholder。
   const canAdapt = computed(
     () =>

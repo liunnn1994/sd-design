@@ -55,6 +55,12 @@
       '',
   );
   const lifecycle = useMarkstreamNodeLifecycle();
+  let pending: { key: string | number } | undefined;
+  const settlePending = (request = pending) => {
+    if (!request || request !== pending) return;
+    pending = undefined;
+    lifecycle?.markSettled(request.key);
+  };
   const slotProps = computed(() => ({
     node,
     displaySrc: src.value,
@@ -64,20 +70,26 @@
     lazy,
   }));
   watch(
-    () => [node.src, node.loading, fallbackSrc],
-    () => {
+    () => [node.src, node.loading, fallbackSrc, indexKey],
+    (_value, _previous, onCleanup) => {
       fallback.value = false;
       loaded.value = false;
       failed.value = !src.value;
-      if (src.value) lifecycle?.markPending(indexKey);
-      else lifecycle?.markSettled(indexKey);
+      if (src.value) {
+        const request = { key: indexKey };
+        pending = request;
+        lifecycle?.markPending(request.key);
+        onCleanup(() => settlePending(request));
+      }
     },
     { immediate: true },
   );
   const settle = async () => {
+    const request = pending;
     await nextTick();
-    if (root.value) lifecycle?.reportHeight(indexKey, root.value.offsetHeight);
-    lifecycle?.markSettled(indexKey);
+    if (!request || request !== pending) return;
+    if (root.value) lifecycle?.reportHeight(request.key, root.value.offsetHeight);
+    settlePending(request);
   };
   function handleLoad() {
     loaded.value = true;
@@ -96,5 +108,5 @@
   function handleClick(event: MouseEvent) {
     if (loaded.value) emit('click', [event, src.value]);
   }
-  onBeforeUnmount(() => lifecycle?.markSettled(indexKey));
+  onBeforeUnmount(() => settlePending());
 </script>
