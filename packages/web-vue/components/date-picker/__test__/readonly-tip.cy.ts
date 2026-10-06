@@ -1,6 +1,12 @@
 import DatePicker from '../index';
 
 describe('DatePicker readonly tip', () => {
+  it('preserves a custom readonly message', () => {
+    cy.mount(DatePicker, { props: { readonly: '日期由系统设置' } });
+    cy.get('.sd-picker input').trigger('keydown', { key: 'a' });
+    cy.get('.sd-tooltip-content').should('be.visible').and('contain', '日期由系统设置');
+  });
+
   it('shows a tooltip when typing into a readonly date-picker', () => {
     cy.mount(DatePicker, { props: { readonly: true } });
     cy.get('.sd-tooltip-content').should('not.exist');

@@ -36,7 +36,7 @@
           :visible="panelVisible"
           :error="error"
           :disabled="mergedDisabled"
-          :readonly="!inputEditable || disabledInput"
+          :readonly="readonly || !inputEditable || disabledInput"
           :allow-clear="mergedAllowClear && !readonly"
           :placeholder="computedPlaceholder"
           :fit-width="fitWidth"
