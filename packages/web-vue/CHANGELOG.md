@@ -1,3 +1,11 @@
+# [5.9.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.8.7...web-vue-v5.9.0) (2026-10-06)
+
+
+### Features
+
+* 🆕 色阶算法本地化 ([3d63538](https://github.com/liunnn1994/sd-design/commit/3d63538681cd9605284c3cffc3f862ce93f95eb1))
+* 🆕 迁移拖拽排序组件 ([b7120e8](https://github.com/liunnn1994/sd-design/commit/b7120e8c4b1a2436082645353d9a38ed8ad50b88))
+
 ## [5.8.7](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.8.6...web-vue-v5.8.7) (2026-10-06)
 
 
