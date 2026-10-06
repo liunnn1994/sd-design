@@ -13,12 +13,12 @@
         </div>
         <sd-divider />
         <sd-typography-paragraph>
-          我们正在构建内容发现与创作的新体验。面板可以拖拽伸缩，松手后尺寸即时同步。
+          我们正在构建内容发现与创作的新体验。面板可以拖拽伸缩，拖拽中尺寸实时同步。
         </sd-typography-paragraph>
       </sd-panel>
       <sd-panel class="sd:overflow-hidden sd:p-2">
         <sd-typography-paragraph>
-          右侧为填充面板（未设置 size），自动占据剩余空间。
+          右侧为填充面板（未设置 size/defaultSize），自动占据剩余空间。
         </sd-typography-paragraph>
       </sd-panel>
     </sd-panel-group>

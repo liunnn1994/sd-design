@@ -22,6 +22,8 @@ SD Design 是一个基于 Vue 3 的现代企业级组件库。本项目采用 pn
 
 文本与响应式原子项裁剪统一由 `vue-clamp` 提供；组件库同时原样导出 `LineClamp`、`RichLineClamp`、`InlineClamp`、`WrapClamp`，现有 `Ellipsis` 及各组件的 responsive 行为复用同一测量内核。
 
+面板分割统一使用 `PanelGroup`、`Panel` 与 `PanelSeparator`，原 `Split` 已移除。组件组支持受控/非受控尺寸、实时尺寸更新、拖拽生命周期事件、禁用调整、动态方向和自定义根标签；尺寸数值表示像素，百分比使用字符串。
+
 提交变更继续使用 `pnpm cz`，由 czg 加载 `commitlint.config.ts` 中的中文交互与提交规则。
 
 ## 🎯 导读与快速开始

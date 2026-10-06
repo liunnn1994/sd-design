@@ -123,10 +123,6 @@ export const docsSidebar = [
             label: '分割线 Divider',
           },
           {
-            slug: 'components/split',
-            label: '面板分割 Split',
-          },
-          {
             slug: 'components/panel-group',
             label: '面板组 PanelGroup',
           },

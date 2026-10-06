@@ -21,6 +21,9 @@ export interface PanelOptions {
   minSize?: PanelSize;
   onCollapsedChange?: (collapsed: boolean) => void;
   onSizeChange?: (size: PanelSize) => void;
+  onMoveStart?: (event: PointerEvent) => void;
+  onMoving?: (event: PointerEvent) => void;
+  onMoveEnd?: (event: PointerEvent) => void;
   size: PanelSize;
   transition?: PanelTransition;
 }
@@ -46,6 +49,7 @@ export interface PanelDrag {
 }
 
 export interface PanelController {
+  group: EngineGroup;
   attach: (element: HTMLElement) => () => void;
   bounds: () => { max: number; min: number };
   destroy: () => void;
@@ -131,6 +135,8 @@ export const createPanel = (group: EngineGroup, initial: PanelOptions): PanelCon
     sign: 1,
     start: 0,
     wasCollapsed: false,
+    reported: initial.size,
+    startSize: initial.size,
   };
 
   const patch = (next: Partial<PanelState>) => {
@@ -217,6 +223,12 @@ export const createPanel = (group: EngineGroup, initial: PanelOptions): PanelCon
     patch({ dragging: false });
   };
 
+  const reportChange = (value: PanelSize) => {
+    if (session.reported === value) return;
+    session.reported = value;
+    options.onSizeChange?.(value);
+  };
+
   const drag = {
     start: (cursor: string = axes.cursor) => {
       const collapsed = !!options.collapsed;
@@ -226,6 +238,8 @@ export const createPanel = (group: EngineGroup, initial: PanelOptions): PanelCon
         sign: growSign(),
         start: size.get(),
         wasCollapsed: collapsed,
+        reported: options.size,
+        startSize: options.size,
       });
       release();
       unlock = lockBody(cursor, drag.cancel);
@@ -245,6 +259,7 @@ export const createPanel = (group: EngineGroup, initial: PanelOptions): PanelCon
         content.jump(next);
       }
       session.collapsed = collapsed;
+      if (!collapsed) reportChange(report(next));
     },
     end: () => {
       if (!state.dragging) {
@@ -252,7 +267,7 @@ export const createPanel = (group: EngineGroup, initial: PanelOptions): PanelCon
       }
       stopDragging();
       if (!session.collapsed) {
-        options.onSizeChange?.(report(size.get()));
+        reportChange(report(size.get()));
       }
       // Vue commits v-model updates after the event handler. Reconcile only after
       // that update, otherwise releasing the pointer animates toward the old size.
@@ -268,6 +283,7 @@ export const createPanel = (group: EngineGroup, initial: PanelOptions): PanelCon
       }
       size.jump(session.start);
       content.jump(session.start);
+      reportChange(session.startSize);
       if (session.collapsed !== session.wasCollapsed) {
         options.onCollapsedChange?.(session.wasCollapsed);
       }
@@ -374,6 +390,7 @@ export const createPanel = (group: EngineGroup, initial: PanelOptions): PanelCon
   };
 
   const controller: PanelController = {
+    group,
     attach: (node) => {
       element = node;
       place();

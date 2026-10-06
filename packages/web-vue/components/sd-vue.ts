@@ -84,7 +84,6 @@ import Skeleton, { SkeletonLine, SkeletonShape } from './skeleton';
 import Slider from './slider';
 import Space from './space';
 import Spin from './spin';
-import Split from './split';
 import Statistic, { Countdown } from './statistic';
 import Steps, { Step } from './steps';
 import Switch from './switch';
@@ -212,7 +211,6 @@ const components: Record<string, Plugin> = {
   Panel,
   PanelSeparator,
   Trigger,
-  Split,
   Icon,
   Watermark,
   VerificationCode,

@@ -44,8 +44,8 @@
 
   const props = defineProps<{
     /**
-     * @zh 受控尺寸，像素或百分比字符串；不传时为填充面板，挂载后不切换面板类型
-     * @en Controlled size in px or percent; omit for a fill panel. Panel type is fixed at mount
+     * @zh 受控尺寸，像素或百分比字符串；size/defaultSize 均不传时为填充面板
+     * @en Controlled size in px or percent; omit size and defaultSize for a fill panel
      * @vModel
      */
     size?: PanelSize;
@@ -56,8 +56,8 @@
      */
     collapsed?: boolean;
     /**
-     * @zh 双击伸缩杆时恢复的尺寸，默认使用首次传入的 size
-     * @en Size restored on double-click, defaults to the initial size
+     * @zh 非受控初始尺寸及双击恢复尺寸，默认恢复首次传入的 size
+     * @en Initial uncontrolled size and double-click reset size, defaults to the initial size
      */
     defaultSize?: PanelSize;
     /**
@@ -94,8 +94,8 @@
 
   const emit = defineEmits<{
     /**
-     * @zh 面板尺寸变化（拖拽结束或键盘调整后触发）
-     * @en Emitted after drag or keyboard resize
+     * @zh 面板尺寸变化（拖拽中实时触发，取消拖拽时恢复）
+     * @en Emitted during dragging and keyboard resize; restored on drag cancellation
      */
     'update:size': [size: PanelSize];
     /**
@@ -103,6 +103,21 @@
      * @en Emitted when collapsed state changes
      */
     'update:collapsed': [collapsed: boolean];
+    /**
+     * @zh 开始拖拽之前触发
+     * @en Emitted before dragging starts
+     */
+    'moveStart': [event: PointerEvent];
+    /**
+     * @zh 拖拽时触发
+     * @en Emitted while dragging
+     */
+    'moving': [event: PointerEvent];
+    /**
+     * @zh 拖拽结束后触发
+     * @en Emitted after dragging ends
+     */
+    'moveEnd': [event: PointerEvent];
   }>();
 
   /**
@@ -122,26 +137,30 @@
   // 仅当消费方绑定 collapsed（v-model:collapsed 或监听 update:collapsed）时才上报折叠变化；
   // 与 vendor 一致：未绑定时拖拽越下限按 clamp 处理，不做折叠手势（否则手势折叠会被弹回）
   const hasCollapsedBinding = !!getCurrentInstance()?.vnode.props?.['onUpdate:collapsed'];
-  // 变体在挂载时确定（与 vendor 一致）：运行时补传 size 不切换变体
-  const sized = props.size !== undefined;
-
-  // 引擎控制器：仅“有尺寸面板”创建（与 vendor 一致），挂载后 attach。
-  const controller = sized
-    ? createPanel(group, {
-        size: (props.size ?? '100%') as PanelSize,
-        collapsed: props.collapsed,
-        defaultSize: props.defaultSize,
-        minSize: props.minSize,
-        maxSize: props.maxSize,
-        transition: props.transition,
-        onSizeChange: (value) => emit('update:size', value),
-        onCollapsedChange: hasCollapsedBinding
-          ? (value: boolean) => {
-              emit('update:collapsed', value);
-            }
-          : undefined,
-      })
-    : undefined;
+  // 未设置 size/defaultSize 的面板继续作为填充面板；变体在挂载时确定。
+  const sized = props.size !== undefined || props.defaultSize !== undefined;
+  const localSize = ref<PanelSize>(props.defaultSize ?? props.size ?? '50%');
+  const mergedSize = computed(() => props.size ?? localSize.value);
+  const onSizeChange = (value: PanelSize) => {
+    localSize.value = value;
+    emit('update:size', value);
+  };
+  const buildOptions = () => ({
+    size: mergedSize.value,
+    collapsed: props.collapsed,
+    defaultSize: props.defaultSize,
+    minSize: props.minSize,
+    maxSize: props.maxSize,
+    transition: props.transition,
+    onSizeChange,
+    onMoveStart: (event: PointerEvent) => emit('moveStart', event),
+    onMoving: (event: PointerEvent) => emit('moving', event),
+    onMoveEnd: (event: PointerEvent) => emit('moveEnd', event),
+    onCollapsedChange: hasCollapsedBinding
+      ? (value: boolean) => emit('update:collapsed', value)
+      : undefined,
+  });
+  const controller = sized ? createPanel(group, buildOptions()) : undefined;
 
   // 清理函数集合
   const unsubs: (() => void)[] = [];
@@ -251,14 +270,19 @@
 
   // 内容会因首次展开或 keepMounted=false 重新创建，需要重新绑定尺寸订阅。
   watch(
-    contentRef,
-    (el, _previous, onCleanup) => {
+    [contentRef, () => axes.extent],
+    ([el], _previous, onCleanup) => {
       if (!el || !controller) return;
       const applyContent = (value: number) => {
         el.style[axes.extent] = `${value}px`;
       };
       applyContent(controller.motion.content.get());
-      onCleanup(controller.motion.content.on('change', applyContent));
+      const stop = controller.motion.content.on('change', applyContent);
+      const extentProp = axes.extent;
+      onCleanup(() => {
+        stop();
+        el.style[extentProp] = '';
+      });
     },
     { flush: 'post' },
   );
@@ -286,21 +310,6 @@
     [axes.cross]: '100%',
     [axes.extent]: typeof group.fill.size === 'number' ? `${group.fill.size}px` : group.fill.size,
   }));
-  const buildOptions = () => ({
-    size: props.size as PanelSize,
-    collapsed: props.collapsed,
-    defaultSize: props.defaultSize,
-    minSize: props.minSize,
-    maxSize: props.maxSize,
-    transition: props.transition,
-    onSizeChange: (value: PanelSize) => emit('update:size', value),
-    onCollapsedChange: hasCollapsedBinding
-      ? (value: boolean) => {
-          emit('update:collapsed', value);
-        }
-      : undefined,
-  });
-
   let detach: (() => void) | undefined;
 
   onMounted(() => {
@@ -309,11 +318,9 @@
     }
     const el = wrapperRef.value;
     detach = controller.attach(el);
-    const extentProp = axes.extent;
-
     // 引擎 MotionValue → DOM：逐帧写入面板/内容尺寸（Vue 响应式不做逐帧绑定）
     const applyExtent = (v: number) => {
-      el.style[extentProp] = `${Math.abs(v)}px`;
+      el.style[axes.extent] = `${Math.abs(v)}px`;
     };
     applyExtent(controller.motion.size.get());
     unsubs.push(controller.motion.size.on('change', applyExtent));
@@ -322,10 +329,20 @@
     controller.sync(buildOptions(), true);
   });
 
+  watch(
+    () => axes.extent,
+    (extentProp, previous) => {
+      if (!controller || !wrapperRef.value) return;
+      wrapperRef.value.style[previous] = '';
+      wrapperRef.value.style[extentProp] = `${Math.abs(controller.motion.size.get())}px`;
+    },
+    { flush: 'post' },
+  );
+
   // props 变化 → 引擎 sync（拖拽中由引擎接管，watcher flush post 与 vendor 渲染后同步一致）
   watch(
     () => [
-      props.size,
+      mergedSize.value,
       props.collapsed,
       props.defaultSize,
       props.minSize,

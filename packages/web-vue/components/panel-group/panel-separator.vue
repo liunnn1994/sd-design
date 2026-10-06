@@ -1,6 +1,6 @@
 <template>
   <!-- 面板自带边缘杆（own）：绝对定位在面板边缘 -->
-  <div v-if="own" :class="slotClass" :style="ownStyle">
+  <div v-if="own" v-show="!disabled" :class="slotClass" :style="ownStyle">
     <div
       ref="gripRef"
       v-bind="$attrs"
@@ -20,7 +20,7 @@
     </div>
   </div>
   <!-- 独立 Separator：占位元素，两侧面板通过 group 协作 -->
-  <div v-else :class="slotClass" :style="slotStyle" data-sd-panels-separator>
+  <div v-else v-show="!disabled" :class="slotClass" :style="slotStyle" data-sd-panels-separator>
     <div
       ref="gripRef"
       v-bind="$attrs"
@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+  import { computed, onBeforeUnmount, ref, watch } from 'vue';
 
   import type { PanelController } from './core/panel';
 
@@ -93,15 +93,23 @@
     });
   }
 
-  onMounted(() => {
-    if (gripRef.value) {
-      detach = attachSeparator(gripRef.value, group, props.own);
-    }
+  const disabled = ref(group.disabled);
+  const unsubscribeDisabled = group.subscribe(() => {
+    disabled.value = group.disabled;
   });
+  watch(
+    [gripRef, disabled],
+    ([element, isDisabled]) => {
+      detach?.();
+      detach = element && !isDisabled ? attachSeparator(element, group, props.own) : undefined;
+    },
+    { flush: 'post' },
+  );
 
   onBeforeUnmount(() => {
     detach?.();
     unsubOwn?.();
+    unsubscribeDisabled();
   });
 
   const ariaLabel = computed(() => props.ariaLabel ?? t('a11y.resize'));
@@ -109,7 +117,11 @@
   const slotClass = computed(() => (props.own ? [`${prefixCls}-edge`] : [prefixCls]));
 
   const triggerCls = getPrefixCls('resizebox-trigger');
-  const gripClass = [`${prefixCls}-grip`, triggerCls, `${triggerCls}-${axes.separator}`];
+  const gripClass = computed(() => [
+    `${prefixCls}-grip`,
+    triggerCls,
+    `${triggerCls}-${axes.separator}`,
+  ]);
 
   // 边缘杆的绝对定位（逻辑属性，RTL 安全）：
   // state.end 表示填充面板在 end 侧，杆锚定在面板的 end 边缘。

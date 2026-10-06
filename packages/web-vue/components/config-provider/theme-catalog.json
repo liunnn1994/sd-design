@@ -12657,29 +12657,6 @@
       ]
     },
     {
-      "name": "split",
-      "tokens": [
-        {
-          "key": "split-trigger-color-background",
-          "name": "split-trigger-color-background",
-          "value": "var(--sd-color-neutral-3)",
-          "dependencies": ["sd-cssvars-prefix"]
-        },
-        {
-          "key": "split-trigger-size-icon-wrapper",
-          "name": "split-trigger-size-icon-wrapper",
-          "value": "6px",
-          "dependencies": []
-        },
-        {
-          "key": "split-trigger-color-icon",
-          "name": "split-trigger-color-icon",
-          "value": "var(--sd-color-text-1)",
-          "dependencies": ["sd-cssvars-prefix"]
-        }
-      ]
-    },
-    {
       "name": "statistic",
       "tokens": [
         {

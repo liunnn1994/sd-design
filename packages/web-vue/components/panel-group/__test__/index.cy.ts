@@ -186,7 +186,7 @@ describe('PanelGroup', () => {
     });
   });
 
-  it('resizes via pointer drag and emits update:size after drag end', () => {
+  it('resizes via pointer drag and emits update:size', () => {
     const sizes = mountGroup();
     cy.wait(450);
     cy.get('.sd-panel-separator-grip').then(($el) => {
@@ -370,7 +370,7 @@ describe('PanelGroup lifecycle and layout', () => {
       .trigger('pointerup', { clientX: 350, clientY: 100, pointerId: 1 });
     cy.get('.sd-panel').should('have.css', 'width', '200px');
     cy.then(() => {
-      expect(sizes).to.deep.equal([]);
+      expect(sizes).to.deep.equal([280, 200]);
     });
     cy.document().its('body.style.userSelect').should('not.equal', 'none');
   });

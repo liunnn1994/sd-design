@@ -145,7 +145,6 @@ declare module 'vue' {
     SdSpace: SDVue['Space'];
     SdSpin: SDVue['Spin'];
     SdThinkingOrb: SDVue['ThinkingOrb'];
-    SdSplit: SDVue['Split'];
     SdStatistic: SDVue['Statistic'];
     SdCountdown: SDVue['Countdown'];
     SdSteps: SDVue['Steps'];

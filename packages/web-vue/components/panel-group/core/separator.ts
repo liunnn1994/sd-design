@@ -1,4 +1,3 @@
-import type { Point } from './grips';
 import type { EngineGroup } from './group';
 import type { PanelController } from './panel';
 
@@ -21,7 +20,7 @@ export const attachSeparator = (
   let unregister = noop;
   let unwatch = noop;
   let partners: PanelController[] = [];
-  let pressed: Point | null = null;
+  let pressed: PointerEvent | null = null;
   let dragging = false;
   let dragged = false;
   let joint = false;
@@ -68,6 +67,7 @@ export const attachSeparator = (
       unregister = panel ? grips.register(element, panel) : noop;
       unwatch = panel ? panel.subscribe(render) : noop;
     }
+    if (pressed && (group.disabled || (dragging && !panel?.state.dragging))) cancel();
     render();
   };
 
@@ -85,9 +85,9 @@ export const attachSeparator = (
 
   const listeners = {
     pointerdown: (event: PointerEvent) => {
-      if (event.button > 0 || pressed) return;
+      if (group.disabled || event.button > 0 || pressed) return;
       dragged = false;
-      pressed = { clientX: event.clientX, clientY: event.clientY };
+      pressed = event;
       // 合成事件（如测试）没有活动指针时 setPointerCapture 会抛错
       try {
         element.setPointerCapture(event.pointerId);
@@ -96,8 +96,14 @@ export const attachSeparator = (
       }
       grips.invalidate();
       grips.mark('held', grips.at(event));
+      partners = grips.partners(grips.at(event), element);
+      each((target) => {
+        target.options.onMoveStart?.(event);
+        target.group.onMoveStart?.(event);
+      });
     },
     pointermove: (event: PointerEvent) => {
+      if (group.disabled) return;
       if (!pressed) {
         if (!resizing()) {
           grips.mark('crossed', grips.at(event));
@@ -115,19 +121,41 @@ export const attachSeparator = (
         }
         dragging = true;
         dragged = true;
-        partners = grips.partners(grips.at(pressed), element);
-        each((target) => target.drag.start(partners.length > 0 ? 'move' : undefined));
+        each((target) => {
+          if (!target.group.disabled) target.drag.start(partners.length > 0 ? 'move' : undefined);
+        });
       }
-      each((target) => target.drag.move(offset));
+      each((target) => {
+        if (target.group.disabled) {
+          target.drag.cancel();
+          return;
+        }
+        target.options.onMoving?.(event);
+        target.group.onMoving?.(event);
+        if (target.group.disabled) target.drag.cancel();
+        else target.drag.move(offset);
+      });
     },
     pointerup: (event: PointerEvent) => {
       grips.mark('held', []);
       if (dragging && pressed) {
         const offset = { x: event.clientX - pressed.clientX, y: event.clientY - pressed.clientY };
-        each((target) => target.drag.move(offset));
-        each((target) => target.drag.end());
+        each((target) => {
+          if (target.group.disabled) target.drag.cancel();
+          else target.drag.move(offset);
+        });
+        each((target) => {
+          if (target.group.disabled) target.drag.cancel();
+          else target.drag.end();
+        });
         grips.invalidate();
         grips.mark('crossed', grips.at(event));
+      }
+      if (pressed) {
+        each((target) => {
+          target.options.onMoveEnd?.(event);
+          target.group.onMoveEnd?.(event);
+        });
       }
       settle();
     },
@@ -140,13 +168,15 @@ export const attachSeparator = (
       }
     },
     dblclick: (event: MouseEvent) => {
-      if (!dragged) {
+      if (!group.disabled && !dragged) {
         for (const target of [panel, ...grips.partners(grips.at(event), element)]) {
           target?.reset();
         }
       }
     },
-    keydown: (event: KeyboardEvent) => panel?.resizeByKey(event),
+    keydown: (event: KeyboardEvent) => {
+      if (!group.disabled) panel?.resizeByKey(event);
+    },
   };
 
   const controller = new AbortController();

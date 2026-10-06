@@ -29,6 +29,8 @@ Trigger、Tooltip、Dropdown、Select、Tour 等锚点型悬浮层使用 `@float
 
 内容裁剪统一依赖 `vue-clamp`：可直接使用 `LineClamp`、`RichLineClamp`、`InlineClamp`、`WrapClamp`，`Ellipsis`、TagGroup、InputTag、Menu 等既有组件也共享这套测量实现。
 
+面板分割统一使用 `PanelGroup`、`Panel` 与 `PanelSeparator`，原 `Split` 已移除。组件组支持受控/非受控尺寸、实时尺寸更新、拖拽生命周期事件、禁用调整、动态方向和自定义根标签；尺寸数值表示像素，百分比使用字符串。
+
 ## 环境准备
 
 在开始之前，请确保你的本地环境满足以下要求：

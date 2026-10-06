@@ -664,8 +664,6 @@ export type {
   ThinkingOrbState,
   ThinkingOrbTheme,
 } from './thinking-orb';
-export { default as Split } from './split';
-export type { SplitInstance } from './split';
 export { default as Statistic, Countdown } from './statistic';
 export type { CountdownInstance, StatisticInstance } from './statistic';
 export { default as Steps, Step } from './steps';
