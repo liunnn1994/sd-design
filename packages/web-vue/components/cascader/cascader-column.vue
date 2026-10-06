@@ -2,7 +2,7 @@
   <div
     :class="[
       `${prefixCls}-panel-column`,
-      { [`${prefixCls}-panel-column-ellipsis`]: cascaderCtx.ellipsis !== false },
+      { [`${prefixCls}-panel-column-ellipsis`]: cascaderCtx?.ellipsis !== false },
     ]"
     :style="{ zIndex: totalLevel - level }"
     v-bind="$attrs"
@@ -100,7 +100,7 @@
 
   const prefixCls = getPrefixCls('cascader');
   const configCtx = inject(configProviderInjectionKey, undefined);
-  const cascaderCtx = inject(cascaderInjectionKey, {});
+  const cascaderCtx = inject(cascaderInjectionKey, undefined);
   const isVirtual = computed(() => Boolean(props.virtualListProps));
   const [DefineOption, ReuseOption] = createReusableTemplate<{
     item: CascaderOptionInfo;
