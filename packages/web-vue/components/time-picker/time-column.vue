@@ -102,6 +102,8 @@
 
     if (element) {
       refMap.value.set(item.value, element);
+    } else {
+      refMap.value.delete(item.value);
     }
   };
 
