@@ -16,7 +16,16 @@
 
 <script setup lang="ts">
   import type { CSSProperties, PropType, VNode } from 'vue';
-  import { computed, defineComponent, inject, provide, reactive, toRef } from 'vue';
+  import {
+    computed,
+    defineComponent,
+    inject,
+    provide,
+    reactive,
+    toRef,
+    shallowRef,
+    onBeforeUpdate,
+  } from 'vue';
 
   import type { TriggerProps } from '../trigger';
   import type { AvatarShape } from './interface';
@@ -82,6 +91,10 @@
   const slots = defineSlots<{
     default?: () => VNode[];
   }>();
+  const defaultSlot = shallowRef(slots.default);
+  onBeforeUpdate(() => {
+    defaultSlot.value = slots.default;
+  });
   const RenderVNodes = defineComponent({
     name: 'AvatarGroupRenderVNodes',
     props: {
@@ -98,7 +111,7 @@
   const avatarPrefixCls = getPrefixCls('avatar');
   const configCtx = inject(configProviderInjectionKey, undefined);
   const rtl = computed(() => configCtx?.rtl ?? false);
-  const children = computed(() => getAllElements(slots.default?.() ?? []));
+  const children = computed(() => getAllElements(defaultSlot.value?.() ?? []));
   const total = computed(() => children.value.length);
   const getVisibleAvatars = (children: VNode[]) =>
     props.maxCount > 0 ? children.slice(0, props.maxCount) : children;

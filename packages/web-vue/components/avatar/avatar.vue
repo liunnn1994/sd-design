@@ -59,6 +59,8 @@
     inject,
     useSlots,
     useAttrs,
+    shallowRef,
+    onBeforeUpdate,
   } from 'vue';
 
   import ResizeObserver from '../_components/resize-observer-v2';
@@ -124,6 +126,10 @@
    */
 
   const slots = useSlots();
+  const defaultSlot = shallowRef(slots.default);
+  onBeforeUpdate(() => {
+    defaultSlot.value = slots.default;
+  });
   const attrs = useAttrs();
 
   const props = defineProps({
@@ -194,7 +200,7 @@
   const mergedSize = computed(() => groupCtx?.size ?? props.size);
   const mergedAutoFixFontSize = computed(() => groupCtx?.autoFixFontSize ?? autoFixFontSize.value);
   const isImage = computed(() => {
-    const firstChild = getAllElements(slots.default?.() ?? [])[0];
+    const firstChild = getAllElements(defaultSlot.value?.() ?? [])[0];
     if (typeof firstChild?.type === 'object' || typeof firstChild?.type === 'function') {
       const tag = wrapperRef.value?.firstElementChild?.tagName;
       return tag === 'IMG' || tag === 'PICTURE';
