@@ -330,6 +330,17 @@
   let rectCacheTime = 0;
   const RECT_CACHE_DURATION = 16; // ~60fps
 
+  const clearHold = () => {
+    if (touch.holdTimer) clearTimeout(touch.holdTimer);
+    if (touch.touchAndDragTimer) clearTimeout(touch.touchAndDragTimer);
+    touch.holdTimer = null;
+    touch.touchAndDragTimer = null;
+    touch.holding = false;
+    document.removeEventListener('mouseup', clearHold);
+    document.removeEventListener('touchend', clearHold);
+    document.removeEventListener('touchcancel', clearHold);
+  };
+
   // On mousedown OR TOUCHSTART on the event.
   const onMousedown = (e: MouseEvent | TouchEvent) => {
     const domEvent = (e as TouchEvent).touches?.[0] || e; // Handle click or touch event.
@@ -357,6 +368,10 @@
 
     if (touch.fromResizer) handleEventResize(e, event, eventEl.value!);
 
+    if (touch.holdTimer) clearTimeout(touch.holdTimer);
+    document.addEventListener('mouseup', clearHold);
+    document.addEventListener('touchend', clearHold);
+    document.addEventListener('touchcancel', clearHold);
     touch.holdTimer = setTimeout(() => {
       touch.holding = true;
       // If there's an @event-hold external listener, call it after holding 1s.
@@ -369,9 +384,7 @@
 
   onBeforeUnmount(() => {
     // Clean up timers to prevent memory leaks.
-    if (touch.holdTimer) touch.holdTimer = clearTimeout(touch.holdTimer) as unknown as null;
-    if (touch.touchAndDragTimer)
-      touch.touchAndDragTimer = clearTimeout(touch.touchAndDragTimer) as unknown as null;
+    clearHold();
     if (clickTimeout) clickTimeout = clearTimeout(clickTimeout) as unknown as null;
 
     event._.unregister!();
