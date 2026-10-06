@@ -3,6 +3,7 @@
     <Trigger
       :class="`${prefixCls}-trigger`"
       auto-fit-popup-min-width
+      :auto-fit-popup-width="mergedTreeProps.ellipsis !== false"
       trigger="click"
       position="bl"
       :popup-offset="4"

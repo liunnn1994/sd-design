@@ -48,6 +48,10 @@ $cascader-prefix-cls: string.unquote('#{theme.$prefix}-cascader');
     max-height: 200px;
     background-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-bg-popup'));
 
+    &-ellipsis {
+      max-width: 240px;
+    }
+
     &-loading {
       display: inline-flex;
       align-items: center;
@@ -131,6 +135,7 @@ $cascader-prefix-cls: string.unquote('#{theme.$prefix}-cascader');
     position: relative;
     display: flex;
     box-sizing: border-box;
+    width: 100%;
     min-width: 100px;
     height: $cascader-size-item-height;
     color: $cascader-color-item-text;

@@ -1,5 +1,12 @@
 <template>
-  <div :class="`${prefixCls}-panel-column`" :style="{ zIndex: totalLevel - level }" v-bind="$attrs">
+  <div
+    :class="[
+      `${prefixCls}-panel-column`,
+      { [`${prefixCls}-panel-column-ellipsis`]: cascaderCtx.ellipsis !== false },
+    ]"
+    :style="{ zIndex: totalLevel - level }"
+    v-bind="$attrs"
+  >
     <DefineOption v-slot="{ item }">
       <CascaderOption
         :option="item"
@@ -61,6 +68,7 @@
   import Empty from '../empty';
   import Scrollbar from '../scrollbar';
   import CascaderOption from './cascader-option.vue';
+  import { cascaderInjectionKey } from './context';
 
   defineOptions({
     name: 'CascaderColumn',
@@ -92,6 +100,7 @@
 
   const prefixCls = getPrefixCls('cascader');
   const configCtx = inject(configProviderInjectionKey, undefined);
+  const cascaderCtx = inject(cascaderInjectionKey, {});
   const isVirtual = computed(() => Boolean(props.virtualListProps));
   const [DefineOption, ReuseOption] = createReusableTemplate<{
     item: CascaderOptionInfo;
