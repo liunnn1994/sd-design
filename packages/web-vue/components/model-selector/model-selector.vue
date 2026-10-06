@@ -225,7 +225,21 @@
   }
 
   function moveActive(offset: number) {
-    const enabledItems = navigableItems.value.filter((item) => !item.disabled);
+    const enabledItems = navigableItems.value
+      .filter((item) => !item.disabled)
+      .sort((a, b) => {
+        if (!a.element || !b.element) {
+          return 0;
+        }
+        const position = a.element.compareDocumentPosition(b.element);
+        if (position & Node.DOCUMENT_POSITION_FOLLOWING) {
+          return -1;
+        }
+        if (position & Node.DOCUMENT_POSITION_PRECEDING) {
+          return 1;
+        }
+        return 0;
+      });
     if (!enabledItems.length) {
       activeId.value = undefined;
       return;
