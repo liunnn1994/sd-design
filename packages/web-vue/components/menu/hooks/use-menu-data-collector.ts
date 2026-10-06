@@ -57,8 +57,8 @@ export default function useMenuDataCollector(props: {
       if (isReport) {
         if (type === 'popupMenu') {
           menuContext?.reportMenuData(data.value);
-        } else if (type === 'subMenu' && !isUndefined(key)) {
-          menuContext?.collectSubMenu(key, data.value, true);
+        } else if (type === 'subMenu' && !isUndefined(props.key)) {
+          menuContext?.collectSubMenu(props.key, data.value, true);
         }
       }
     },
