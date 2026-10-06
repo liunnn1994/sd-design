@@ -116,7 +116,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, toRef, useSlots, watch, type PropType } from 'vue';
+  import { computed, onBeforeUnmount, ref, toRef, useSlots, watch, type PropType } from 'vue';
 
   import NP from 'number-precision';
 
@@ -343,6 +343,7 @@
       repeatTimer = 0;
     }
   };
+  onBeforeUnmount(clearRepeatTimer);
   const getLegalValue = (value: number | undefined) => {
     if (isUndefined(value)) return undefined;
     if (isNumber(mergedPrecision.value)) value = NP.round(value, mergedPrecision.value);
