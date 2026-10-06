@@ -68,6 +68,8 @@ pnpm run check:ci
 
 ## 主题架构与在线编辑
 
+主题 seed 的明暗色阶由 SD Design 本地 TypeScript 算法生成，组件库及在线编辑器无需加载 Arco Design 包。
+
 文档站 `/guides/theme-editor/` 提供基础/高级、全局/组件主题编辑、明暗与紧凑、实时组件示例以及 JSON 导入、导出和复制。配置直接传给 `ConfigProvider` 的 `theme`。
 
 页面示例是可平移、缩放的业务工作台，使用组件库展示常用组件和语义状态，预览主题与文档站明暗模式独立。

@@ -133,6 +133,8 @@ Node 24 可直接运行 `node scripts/upgradeEngines.ts` 这类脚本。原生�
 
 新增组件时在 `components/<name>/style/token.scss` 中定义 Sass token，并添加对应 `src/components/generated/<name>/*.vue` 文档示例。运行 `pnpm --filter @sdata/web-vue run theme:generate`（常规开发启动、构建也会自动执行），组件和字段会进入编辑器。不要手改 token 文件的 `@generated runtime tokens` 区域或 `theme-catalog.json`。
 
+主题 seed 的明暗色阶由 SD Design 本地 TypeScript 算法生成，组件库及在线编辑器无需加载 Arco Design 包。
+
 导出的 JSON 可直接作为 `<sd-config-provider :theme="theme">` 的输入。主题的 `algorithm: ['dark', 'compact']` 也会随文件保存，不需要另存页面开关状态。
 
 内置预设支持明暗往返切换；`theme-mode` 同时控制背景语义和 seed 色板，compact 不改变继承模式。旧 JSON 中显式设置的浅色背景不会自动删除，可在高级模式重置对应 token 或重新选择预设。

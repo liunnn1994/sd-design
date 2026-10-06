@@ -1,9 +1,6 @@
-// The untyped dependency needs its declaration in source consumers' programs too.
-// oxlint-disable-next-line typescript/triple-slash-reference
-/// <reference path="./color-palette.d.ts" />
-import { generate } from '@arco-design/color';
-
 import type { SdThemeConfig, ThemeTokenMap } from './theme';
+
+import { generateThemePalette } from './color-palette';
 
 export interface SdThemeSeed {
   primary?: string;
@@ -23,9 +20,8 @@ export function deriveThemeTokens(theme: SdThemeConfig): ThemeTokenMap {
   for (const name of ['primary', 'success', 'warning', 'danger'] as const) {
     const color = seed[name];
     if (!color || !/^#[\da-f]{6}$/i.test(color)) continue;
-    const palette = generate(color, { list: true, dark, format: 'rgb' });
-    palette.forEach((value, index) => {
-      const channels = value.replace(/^rgba?\(|\)$/g, '');
+    const palette = generateThemePalette(color, dark);
+    palette.forEach((channels, index) => {
       tokens[`${name}-${index + 1}`] = channels;
       if (name === 'primary') tokens[`link-${index + 1}`] = channels;
     });

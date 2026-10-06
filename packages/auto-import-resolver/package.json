@@ -39,6 +39,7 @@
     "test:release": "node --test ./scripts/path-scoped-release.test.ts"
   },
   "devDependencies": {
+    "@sdata/web-vue": "workspace:*",
     "@semantic-release/changelog": "^7.0.0",
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/exec": "^7.1.0",

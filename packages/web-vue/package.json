@@ -107,7 +107,7 @@
   "scripts": {
     "style:sync": "node ./scripts/sync-markstream-style.ts",
     "theme:generate": "node ./scripts/theme-catalog.ts",
-    "test:theme": "node --test ./scripts/theme-catalog.test.ts && cypress run --quiet --component --browser chrome --spec components/config-provider/__test__/*.cy.ts",
+    "test:theme": "node --test ./scripts/theme-catalog.test.ts ./scripts/theme-palette.test.ts && cypress run --quiet --component --browser chrome --spec components/config-provider/__test__/*.cy.ts",
     "test:theme:e2e": "cypress run --quiet --browser chrome --config-file cypress.theme.config.ts",
     "predev": "pnpm run style:sync && pnpm run icongen",
     "dev": "vp run task:dev-component",
@@ -144,7 +144,6 @@
     "test:watermark:ssr": "node --test ./scripts/watermark-ssr.test.ts"
   },
   "dependencies": {
-    "@arco-design/color": "^0.4.0",
     "@chenglou/pretext": "^0.0.9",
     "@floating-ui/vue": "^2.0.1",
     "@lexical/code": "^0.52.0",

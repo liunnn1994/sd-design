@@ -344,13 +344,13 @@ importers:
 
   packages/auto-import-resolver:
     dependencies:
-      '@sdata/web-vue':
-        specifier: '*'
-        version: 4.7.2(@svta/cml-cta@1.0.6(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0))(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0)(@types/sortablejs@1.15.9)(@vueuse/core@15.0.0(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)))(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))
       vite:
         specifier: '*'
         version: 8.3.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.104.1)(yaml@2.9.1)
     devDependencies:
+      '@sdata/web-vue':
+        specifier: workspace:*
+        version: link:../web-vue
       '@semantic-release/changelog':
         specifier: ^7.0.0
         version: 7.0.0(semantic-release@25.0.9(supports-color@10.2.2)(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))
@@ -490,9 +490,6 @@ importers:
 
   packages/web-vue:
     dependencies:
-      '@arco-design/color':
-        specifier: ^0.4.0
-        version: 0.4.0
       '@chenglou/pretext':
         specifier: ^0.0.9
         version: 0.0.9
@@ -737,9 +734,6 @@ packages:
 
   '@antv/util@3.3.11':
     resolution: {integrity: sha512-FII08DFM4ABh2q5rPYdr0hMtKXRgeZazvXaFYCs7J7uTcWDHUhczab2qOCJLNDugoj8jFag1djb7wS9ehaRYBg==}
-
-  '@arco-design/color@0.4.0':
-    resolution: {integrity: sha512-s7p9MSwJgHeL8DwcATaXvWT3m2SigKpxx4JA1BGPHL4gfvaQsmQfrLBDpjOJFJuJ2jG2dMt3R3P8Pm9E65q18g==}
 
   '@astrojs/compiler-binding-android-arm64@0.5.1':
     resolution: {integrity: sha512-nMb2nMIJtcWLNH+fV75Enmi+jp4tIOYOfsv4XtpgdOWkqc9P4uSSdK5u1xb340AzrXo5V18SxLl/nc3vcqtamQ==}
@@ -1732,24 +1726,8 @@ packages:
       typescript:
         optional: true
 
-  '@lexical/clipboard@0.48.0':
-    resolution: {integrity: sha512-xO2trk6+yBl8XXa/VNe20kXczmPxFoWtUHjidbBLEtlGBj+mo63pJj6H5o/WlZsoMKmIOJxwxsn2ejrS8G0/7A==}
-    peerDependencies:
-      typescript: '>=5.2'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   '@lexical/clipboard@0.52.0':
     resolution: {integrity: sha512-SwUpKUEzTfl3dZlCXkYZN4CAU6AENzzuO3AtWCgbdtxG1HBnyUtMd6MP1XFUtYh0fhMGXw+QObzp+3+h0g3WTw==}
-    peerDependencies:
-      typescript: '>=5.2'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
-  '@lexical/code-core@0.48.0':
-    resolution: {integrity: sha512-+O1Ge06AuSo6+r8R2Xk6SkWG07H5/e4K/Scw9aqCM/BRjITxgvFTHTNvgQbaobCsP0uBJiwW1+ZGeWAWcBCY4w==}
     peerDependencies:
       typescript: '>=5.2'
     peerDependenciesMeta:
@@ -1764,32 +1742,8 @@ packages:
       typescript:
         optional: true
 
-  '@lexical/code-prism@0.48.0':
-    resolution: {integrity: sha512-Skb5zYhzYQSLrGlUq4HdVSNpIXjnuEHCu96mdf0GtumaLEma81o2d0/vBcLcE3a/XgVNRuy3Zcj8kp0C9bEx7Q==}
-    peerDependencies:
-      typescript: '>=5.2'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
-  '@lexical/code@0.48.0':
-    resolution: {integrity: sha512-jLC0ixACXF36r+FqCprjBmnhN/DNxNSB9sutk5G7FAqICdtBWKghm4VSjWjL/qJZ6Bco2vG5bxyjJJtxXv5WQA==}
-    peerDependencies:
-      typescript: '>=5.2'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   '@lexical/code@0.52.0':
     resolution: {integrity: sha512-pAARDF1XTvKn/FBxlFIMAiUYr0bE5EPCiSY5JZF6cOYG1xRN8GL2N9G+r0phhKdBc6LlMssA2AxuOABaP3tZqQ==}
-    peerDependencies:
-      typescript: '>=5.2'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
-  '@lexical/dragon@0.48.0':
-    resolution: {integrity: sha512-uPuu7fVca9vmL/Oz30CRZ7FIPIodwMrTgNsRmV8jE6Qd6a7RNiTW7r3+EhbhIdkLb/sjcWsYyOMyUR1TJAB0wQ==}
     peerDependencies:
       typescript: '>=5.2'
     peerDependenciesMeta:
@@ -1804,24 +1758,8 @@ packages:
       typescript:
         optional: true
 
-  '@lexical/extension@0.48.0':
-    resolution: {integrity: sha512-4uBObgz84mVbQWiumndmIhkuJL0ojHiMwFSvSUM/FCo1YMVIZvpI56blI0y+2Vix/oLui9EgVQSJjjWV4NAszw==}
-    peerDependencies:
-      typescript: '>=5.2'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   '@lexical/extension@0.52.0':
     resolution: {integrity: sha512-do7uvUxg6mJK0702XlD0Z8UMCtr1Yij4/WpJ7+GY5CL2jKVercMeeYBBEE7cWc/OXQJgzVx3ClNXC7XAHI6Fvw==}
-    peerDependencies:
-      typescript: '>=5.2'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
-  '@lexical/history@0.48.0':
-    resolution: {integrity: sha512-NllvUfO+u3mfi5uC8k2CodwdzeeopFFVtMZ/NMifzFbZFysdWi9m9mqfO46NrEA1rSFOydyefv6oMzC8ULXInA==}
     peerDependencies:
       typescript: '>=5.2'
     peerDependenciesMeta:
@@ -1836,24 +1774,8 @@ packages:
       typescript:
         optional: true
 
-  '@lexical/html@0.48.0':
-    resolution: {integrity: sha512-uBxlgKl4YgSNEgHJSshdBqtGDzruWdx1ewop+u6faT67qHUdP3P0cUXIrG6NToDWvsL6fzCstAbN76PMER1Pnw==}
-    peerDependencies:
-      typescript: '>=5.2'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   '@lexical/html@0.52.0':
     resolution: {integrity: sha512-lRyntwgHnISsUKZHh3T+g9qU1CwTOH5hlnc1UzWE7/RXrvtnSmJTTcJu+sfFdRCiBAlkiIhKuJBCCYu99LeI7Q==}
-    peerDependencies:
-      typescript: '>=5.2'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
-  '@lexical/internal@0.48.0':
-    resolution: {integrity: sha512-sRwg53K7N0ZQ7KNAvcCY38LSwGizbXP1zlR1lIojZp0GoqHWNvR+vL49t1wYXu1nXx3Osf4ilHHm+aGcwq5hTw==}
     peerDependencies:
       typescript: '>=5.2'
     peerDependenciesMeta:
@@ -1868,24 +1790,8 @@ packages:
       typescript:
         optional: true
 
-  '@lexical/link@0.48.0':
-    resolution: {integrity: sha512-E0UDmNLUXs/yMCnnE7hbFO0CvhWghmqa+qqPksFfzLkpMHdPpdS1yg59YEbYoNHLi/DXIu4cFRvpHIEuooxwNg==}
-    peerDependencies:
-      typescript: '>=5.2'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   '@lexical/link@0.52.0':
     resolution: {integrity: sha512-9hl/SxbkK5P0q1Rn4rTnaLHetTnf4zb+zgJjQwHAkqmeS561gLq34RcoO2i1zhibe8b6xk8gyhIe2cOpPeAC7w==}
-    peerDependencies:
-      typescript: '>=5.2'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
-  '@lexical/list@0.48.0':
-    resolution: {integrity: sha512-9Qe/Vur44v9F9enj55SUzf79FVsijcGOQug7SpiIU8ekLr7JNzcilKYBYcZ6etGEo7bqQHsYMHXeJcSBbCI2zA==}
     peerDependencies:
       typescript: '>=5.2'
     peerDependenciesMeta:
@@ -1900,24 +1806,8 @@ packages:
       typescript:
         optional: true
 
-  '@lexical/markdown@0.48.0':
-    resolution: {integrity: sha512-1WasBenW4bEsa5xtnycVo8G2hcxIqyYLn3/r98yD2Y+54ZyeFuIQfOeJYhIgCh4YkKpfqyrFwkMQwAOsQDqZjA==}
-    peerDependencies:
-      typescript: '>=5.2'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   '@lexical/markdown@0.52.0':
     resolution: {integrity: sha512-ntNi3SdjfcWoH7wi/D6rlO2Hw8MjDRkxuObAAQwJKLzJPvohNPKuzDoqM47uXNSs0XCS/HupI4mWShyrEZkDtA==}
-    peerDependencies:
-      typescript: '>=5.2'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
-  '@lexical/rich-text@0.48.0':
-    resolution: {integrity: sha512-QMXFnwCKAQ4yzxvx5FwmANcx3K+NaBkGTxAVD8s8pOKDD/U5rzDS1iIvhH6TLWaFp7VzvLmLB+Sl1Ie/RnkaDQ==}
     peerDependencies:
       typescript: '>=5.2'
     peerDependenciesMeta:
@@ -1932,14 +1822,6 @@ packages:
       typescript:
         optional: true
 
-  '@lexical/selection@0.48.0':
-    resolution: {integrity: sha512-Uc0wTrEtHcYK6z/aHHjkgH3vX/R4Bf8mO+qH3VbxfSAKYzNYktM0j+ZGdq5kIEL4frnw/9SulNCXlH7xpjuDgA==}
-    peerDependencies:
-      typescript: '>=5.2'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   '@lexical/selection@0.52.0':
     resolution: {integrity: sha512-O1hgwqUvoF/R2DxXIOJJvCqXxNM7kOWq1TBxqnbjT4TXNlDokEdpkO5EpetAWYWZj5UE2BUphfGUZAPQjvcUKQ==}
     peerDependencies:
@@ -1948,24 +1830,8 @@ packages:
       typescript:
         optional: true
 
-  '@lexical/text@0.48.0':
-    resolution: {integrity: sha512-ktTMRbsX4wKxdG2OpZCkrqtt8k9Vg/ZpWdukOQ0r1xPRtCuL1T+q91l7cy2ywIuCfMGYS0aoZGB4LdpUMe/H1g==}
-    peerDependencies:
-      typescript: '>=5.2'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   '@lexical/text@0.52.0':
     resolution: {integrity: sha512-TuXd6a4MO18rQwU0Bl8VHNzWGD4o5pHnf3NKXwTRynImpeMJ8BGumVC6r27cGbh0kgBkvmX8Sb4EEbBQC9BYnQ==}
-    peerDependencies:
-      typescript: '>=5.2'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
-  '@lexical/utils@0.48.0':
-    resolution: {integrity: sha512-W4k4P+y6jmRfna8+ad4X+iMd5h8es5PC3bUw5tbi7MRApxaaFG/0w+uJiZVSwbT2Q6JnA2xhBaqzPgt/Gn6djg==}
     peerDependencies:
       typescript: '>=5.2'
     peerDependenciesMeta:
@@ -2939,11 +2805,6 @@ packages:
   '@rolldown/pluginutils@1.0.1':
     resolution: {integrity: sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw==}
 
-  '@sdata/web-vue@4.7.2':
-    resolution: {integrity: sha512-X28H79eP1iPYnCN52PFoeSIzfRS7kSkjhKMxkQqhmFReSXsBjPAHTmFGa3gFwnE+rj8TUEXy5dcV5JEyQ3EwVw==}
-    peerDependencies:
-      vue: ^3.5.42
-
   '@sec-ant/readable-stream@0.4.1':
     resolution: {integrity: sha512-831qok9r2t8AlxLko40y2ebgSDhenenCatLVeW/uBtnHPyhHOvG0C7TvfgecV+wHzIm5KUICgzmVpWS+IMEAeg==}
 
@@ -3043,68 +2904,6 @@ packages:
   '@sindresorhus/merge-streams@4.0.0':
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
     engines: {node: '>=18'}
-
-  '@svta/cml-608@1.0.2':
-    resolution: {integrity: sha512-ZEJ68330gcLKfvVv6Qifr1HR7+GldDUxzkjqSbqRK7jHtHSLSV1JAyDwlYe8+C7ABuY1bp8MpgJ4/Gg+jl+pLQ==}
-    engines: {node: '>=20'}
-
-  '@svta/cml-cmcd@2.3.2':
-    resolution: {integrity: sha512-SKBBjLmci0WK8HMjuv+36tVIMktonoOoxsXblOFZmB+ePPV2zjRMTD+2ZmE/1VEPJkKHENyhSjSHgJyeOlvZ1A==}
-    engines: {node: '>=20'}
-    peerDependencies:
-      '@svta/cml-structured-field-values': 1.1.3
-      '@svta/cml-utils': 1.5.0
-
-  '@svta/cml-cmsd@1.0.6':
-    resolution: {integrity: sha512-LUORV6bb0TbU4rSC2HoPqUCix1igLrXkRQXWiIyJo2OMzb14kAK/1jsW0mzY6up6w1GrjKQcjc6OwqJdo/zd/g==}
-    engines: {node: '>=20'}
-    peerDependencies:
-      '@svta/cml-cta': 1.0.6
-      '@svta/cml-structured-field-values': 1.1.3
-      '@svta/cml-utils': 1.5.0
-
-  '@svta/cml-cta@1.0.6':
-    resolution: {integrity: sha512-l13/4myTX1EbRd38nY8J1umVY5UdR/nZO6CeKqVLXnMMIayg7/fu0TueZckjTA9Loal55MGK1xbHnXVjz7OUUw==}
-    engines: {node: '>=20'}
-    peerDependencies:
-      '@svta/cml-structured-field-values': 1.1.3
-      '@svta/cml-utils': 1.5.0
-
-  '@svta/cml-dash@1.0.6':
-    resolution: {integrity: sha512-4XtHYlPrzL/dRe/8XmRQoLnTo9S86tISgrl67eUqKl5MtNTpZBYTncuPrspslPZPZROBBWNrBuepYfYUtU9CKA==}
-    engines: {node: '>=20'}
-    peerDependencies:
-      '@svta/cml-utils': 1.5.0
-
-  '@svta/cml-id3@1.0.6':
-    resolution: {integrity: sha512-63j8gkAnPOmOBWlp0hIZPvsIioZttdbg6/TgwITqMYbSLYVJ+6QGa/UtIP0I84NsfstANw6QdCn7i8SS08kn1A==}
-    engines: {node: '>=20'}
-    peerDependencies:
-      '@svta/cml-utils': 1.5.0
-
-  '@svta/cml-request@1.0.12':
-    resolution: {integrity: sha512-4sJvnnoNpq58j2mCGP8k+MF6wVy/qa4gbt6kfT1dPIKmn3mPxw+JVfilhcWsUi+peK2yCZxOJJYyHj1cAcQE1w==}
-    engines: {node: '>=20'}
-    peerDependencies:
-      '@svta/cml-cmcd': 2.3.2
-      '@svta/cml-utils': 1.5.0
-      '@svta/cml-xml': 1.1.4
-
-  '@svta/cml-structured-field-values@1.1.3':
-    resolution: {integrity: sha512-XqLzQOTznz6kh/nsSh8dy1kV7GQjL4csG+2U5EvLGhAqNuNUczbVg5EAsDobKDVg8xhdthdXx2UuwM+ZHQCxSg==}
-    engines: {node: '>=20'}
-    peerDependencies:
-      '@svta/cml-utils': 1.5.0
-
-  '@svta/cml-utils@1.5.0':
-    resolution: {integrity: sha512-JMqclD7Akd+GSJiuaYNUHOP2wNtf/nauKeszlYeivSHfi0Lp3pmSW5PXDvJ2dO4aPmmSOQbF0ztTsW9Vcs2Whw==}
-    engines: {node: '>=20'}
-
-  '@svta/cml-xml@1.1.4':
-    resolution: {integrity: sha512-jbixqjiJIc16SGxylHwiOzO+DuhkGfuP+fJ9AHeVJKdFDKnabgfCDpnp6dvZpZnjMj4nHvzVtuUV7RISPIwYXw==}
-    engines: {node: '>=20'}
-    peerDependencies:
-      '@svta/cml-utils': 1.5.0
 
   '@tailwindcss/node@4.3.3':
     resolution: {integrity: sha512-/T8IKEsf9VTU6tLjgC7+sv2mOPtQxzE2jMw7u4Tt40Tx+QSZxpzh95/H6cMKoja9XuW7iMdLJYBB0o9G1CaAgg==}
@@ -3451,20 +3250,11 @@ packages:
   '@upsetjs/venn.js@2.0.0':
     resolution: {integrity: sha512-WbBhLrooyePuQ1VZxrJjtLvTc4NVfpOyKx0sKqioq9bX1C1m7Jgykkn8gLrtwumBioXIqam8DLxp88Adbue6Hw==}
 
-  '@videojs/core@10.0.0-beta.24':
-    resolution: {integrity: sha512-v18EkiyxNkLvCccZ3yPWO5J2OLWehTueNywhLFcLLltfLqO6OvKG2Gg2RUVYFcOEWS5e9CpUmrXOVAWUzYAuMw==}
-
   '@videojs/core@10.0.0-rc.2':
     resolution: {integrity: sha512-yr6DA5CXFIrQ22xM5k0fEEoX64znex0NvMO5mcagkg8s5BaD0zOGuhCOGI0IHs+LFx29HZWZeY9Cf3BHpL5m6A==}
 
-  '@videojs/element@10.0.0-beta.24':
-    resolution: {integrity: sha512-+sgzpj1JreLtxrGxKMHmJMRPVodbvXtuV5tUNG23URMrRdNJT4ey1ypG5ZoFL2klmpcd/kac7WBo+FZk+rWJRA==}
-
   '@videojs/element@10.0.0-rc.2':
     resolution: {integrity: sha512-uHvwK/Hsx1+NN8m8Sa6zYHH4aiyvnGJM4iZImhDKGHrE9pe3gWbViKHQqxpHWGVXOIgG+SJmcfvM0veqwBU04Q==}
-
-  '@videojs/html@10.0.0-beta.24':
-    resolution: {integrity: sha512-TQ9fN/nafhGVkCjLpWw3VWOhOdUfocN9geHOOPV19ux1Gj11vqT1bphPbK2UNQeZhfK5QQEIeuAY7tUZwD6Mdg==}
 
   '@videojs/html@10.0.0-rc.2':
     resolution: {integrity: sha512-ZVKg4OClXgSEKaCWzBgb5hOPMVAwj1/oqnlowmsCULmj1ePCcyQm27QkZMWUaXRqc/LbLYzIrwtIN3OMWy5oNw==}
@@ -3519,22 +3309,8 @@ packages:
   '@videojs/native-hls-video@10.0.0-rc.2':
     resolution: {integrity: sha512-euVa3CGPdAHa5xPxsEM6L3dz4aD9HzK3AsO+ede4x9bExJlEmWWQVLJQ+CpAQdbotoPMeVTiXI4/4Y3X2HuZag==}
 
-  '@videojs/spf@10.0.0-beta.24':
-    resolution: {integrity: sha512-ACTOHzhCoTJLndyX5lq+k7A3Q9gaJeEdtjgVfbYvV/F8OwEA1zT5gGJnG/bbHC81yI/w51b+YneB8pGJutUTjw==}
-
   '@videojs/spf@10.0.0-rc.2':
     resolution: {integrity: sha512-CLi/67WE7uluWYc27MxUIiYMYfAQS3erZUzLcQcn0ycuxlOo0+buNl2TgVaitZD99RS1vx0shB1eL5YoAeFTPg==}
-
-  '@videojs/store@10.0.0-beta.24':
-    resolution: {integrity: sha512-gFAozvxGTviFpKVwsrNAo2cNjTcwRDg/AwLs4Gft/XqxSggD7CxilZ9d6W1nTxAbcSMPvrySmnW8wuGtbbPyEw==}
-    peerDependencies:
-      '@videojs/element': 10.0.0-beta.24
-      react: ^18.0.0 || ^19.0.0
-    peerDependenciesMeta:
-      '@videojs/element':
-        optional: true
-      react:
-        optional: true
 
   '@videojs/store@10.0.0-rc.2':
     resolution: {integrity: sha512-F4Rh8tWFhEODwxdssyk5ucXwEcxga2lR3dSTD0aP2gHPv2/hv5EXavsbICYXyWZnn2dDaHK+4uYJpAJGxv+xZQ==}
@@ -3546,9 +3322,6 @@ packages:
         optional: true
       react:
         optional: true
-
-  '@videojs/utils@10.0.0-beta.24':
-    resolution: {integrity: sha512-sQvsawB1pQiYJxkGnrdxWrcfmEvjjmGSDcrt47OmI0FQx40GseO+QMzm3XvGuxmy6KOKneCfegHFBt+Ez0MKLw==}
 
   '@videojs/utils@10.0.0-rc.2':
     resolution: {integrity: sha512-4BKDIwxB6HWBp74nKBmP2ubOrPnCicC6CAaJBFRNQOrhFjOOy5wv74DV1ZKmNY4FFwaLxQH710+NEU5S3exGFg==}
@@ -4566,9 +4339,6 @@ packages:
     resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
     engines: {node: '>=6'}
 
-  codem-isoboxer@0.3.10:
-    resolution: {integrity: sha512-eNk3TRV+xQMJ1PEj0FQGY8KD4m0GPxT487XJ+Iftm7mVa9WpPFDMWqPt+46buiP5j5Wzqe5oMIhqBcAeKfygSA==}
-
   collapse-white-space@1.0.6:
     resolution: {integrity: sha512-jEovNnrhMuqyCcjfEJA56v0Xq8SkIoPKDyaHahwo3POf4qcSXqMYuwNcOTzp74vTsR9Tn08z4MxWqAhcekogkQ==}
 
@@ -4584,12 +4354,6 @@ packages:
 
   color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
-
-  color-string@1.9.1:
-    resolution: {integrity: sha512-shrVawQFojnZv6xM40anx4CkoDP+fZsw/ZerEMsW/pyzsRbElpsL/DBVW7q3ExxwusdNXI3lXpuhEZkzs8p5Eg==}
-
-  color@3.2.1:
-    resolution: {integrity: sha512-aBl7dZI9ENN6fUGC7mWpMTPNHmWUSNan9tuWN6ahh5ZLNk9baLJOnSMlrQkHcrfFgz2/RigjUVAjdx36VcemKA==}
 
   colord@2.10.0:
     resolution: {integrity: sha512-AidJptpBJmjTclAp9BkLwJi0T93fo5epJnbaZslpg6QVzpHjAiveF55mE9AcUJiGMqRHgMDY8soMsQtuNYMHfw==}
@@ -5001,10 +4765,6 @@ packages:
   dashdash@1.14.1:
     resolution: {integrity: sha512-jRFi8UDGo6j+odZiEpjazZaWqEal3w/basFjQHQEwVtZJGDpxbH1MeYluwCS8Xq5wmLJooDlMgvVarmWfGM44g==}
     engines: {node: '>=0.10'}
-
-  dashjs@5.2.1:
-    resolution: {integrity: sha512-axcJmLeJCTJMLUfQRErUJB1KOiU5iHF+DMLBc3FKeox1HPYtGUQlC6Xm5Mm6vhBUR3CHHLIPOqw0JDIqMtP+Dw==}
-    engines: {node: '>=20'}
 
   dayjs@1.11.23:
     resolution: {integrity: sha512-QDTCU0M0MxR3hQfnlDJfwekQiaanm1ubOD231u73WBckQ/fsamwRLiE2GBz6D3a/xF1NgfiDLJjXBa1hYOYTtQ==}
@@ -5734,9 +5494,6 @@ packages:
   highlight.js@10.7.3:
     resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
 
-  hls.js@1.7.3:
-    resolution: {integrity: sha512-MsPlx6yVW4Qv4C7mEVou4/gk/5cN2dVxOTnrNjPSmyH2f0Ln+/UkG10Ax1PE6OvrmTVPKgQYozTtBaPOuCzq7A==}
-
   hook-std@4.0.0:
     resolution: {integrity: sha512-IHI4bEVOt3vRUDJ+bFA9VUJlo7SzvFARPNLw75pqSmAOP2HmTWfFJtPvLBrDrlgjEYXY9zs7SFdHPQaJShkSCQ==}
     engines: {node: '>=20'}
@@ -5763,9 +5520,6 @@ packages:
   hosted-git-info@9.0.3:
     resolution: {integrity: sha512-Hc+ghLoSt6QaYZUv0WBiIvmMDZuZZ7oaDvdH8MbfOO4lOsxdXLEvuC6ePoGs9H1X9oCLyq6+NVN0MKqD+ydxyg==}
     engines: {node: ^20.17.0 || >=22.9.0}
-
-  html-entities@2.6.0:
-    resolution: {integrity: sha512-kig+rMn/QOVRvr7c86gQ8lWXq+Hkv6CbAH1hLu+RG338StTpE8Z0b44SDVaqVu7HGKf27frdmUYEs9hTUX/cLQ==}
 
   html-escaper@3.0.3:
     resolution: {integrity: sha512-RuMffC89BOWQoY0WKGpIhn5gX3iI54O6nRA0yC124NYVtzjmFWBIiFd8M0x+ZdX0P9R4lADg1mgP8C7PxGOWuQ==}
@@ -5851,9 +5605,6 @@ packages:
     resolution: {integrity: sha512-brTTsvFRt5C1gGHtPst/281UjPD5t9fBqbgoMPlVWy11ZLTPfu7HxK4ZYqO9H7o/yC9rSTCI85EaQ4OoY12qYw==}
     engines: {node: '>= 4'}
 
-  immediate@3.0.6:
-    resolution: {integrity: sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==}
-
   immutable@5.1.9:
     resolution: {integrity: sha512-m8nVez3rwrgmWxtLMt1ZYXB2Lv7OKYn/disyxAlSDYAlKSlFoPPfIAmAM/M5xqL4m4C/wAPw7S2/CNaUii1Hxg==}
 
@@ -5879,9 +5630,6 @@ packages:
   import-without-cache@0.4.1:
     resolution: {integrity: sha512-vXoV9PjKHEednCUu01e98TkImxy67e3BJXbTIOmIq4Hyzw3IAwYRcuPkfeTzJzwyyts4kjuA73x+pWJLc4f86A==}
     engines: {node: ^22.18.0 || >=24.0.0}
-
-  imsc@1.1.5:
-    resolution: {integrity: sha512-V8je+CGkcvGhgl2C1GlhqFFiUOIEdwXbXLiu1Fcubvvbo+g9inauqT3l0pNYXGoLPBj3jxtZz9t+wCopMkwadQ==}
 
   imurmurhash@0.1.4:
     resolution: {integrity: sha512-JmXMZ6wuvDmLiHEml9ykzqO6lwFbof0GG4IkcGaENdCRDDmMVnny7s5HsIgHCbaq0w2MyPhDqkhTUgS2LU2PHA==}
@@ -5955,9 +5703,6 @@ packages:
 
   is-arrayish@0.2.1:
     resolution: {integrity: sha512-zz06S8t0ozoDXMG+ube26zeCTNXcKIPJZJi8hBrF4idCLms4CG9QtK7qBl1boi5ODzFpjswb5JPmHCbMpjaYzg==}
-
-  is-arrayish@0.3.4:
-    resolution: {integrity: sha512-m6UrgzFVUYawGBh1dUsWR5M2Clqic9RVXC/9f8ceNlv2IcO9j9J/z8UoCLPqtsPBFNzEpfR3xftohbfqDx8EQA==}
 
   is-buffer@2.0.5:
     resolution: {integrity: sha512-i2R6zNFDwgEHJyQUtJEk0XFi1i0dPFn/oqjK3/vPCcDeJvW5NQ83V8QbicfF1SupOaB0h8ntgBC2YiE7dfyctQ==}
@@ -6257,14 +6002,6 @@ packages:
     resolution: {integrity: sha512-nvVPLpIHUxCUoRLrFqTgSxXJ614d8AgQoWl7zPe/2VadE8+1dpU3LBhowRuBAcuwruWtOdD8oYC9jDNJjXDPyA==}
     engines: {node: '>=0.10.0'}
 
-  lexical@0.48.0:
-    resolution: {integrity: sha512-KK4Tyr/cPsleoZ7XvhGRiRmcrZidSmoFUdIXK9nPubIifoC+80Dc5THyc4xtGKtsW24S1TsHzk5gmfBU+TxmEg==}
-    peerDependencies:
-      typescript: '>=5.2'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   lexical@0.52.0:
     resolution: {integrity: sha512-mePejqwCDaW0GR89IoofJTTlk/EiwwlGhbs1D8qOx/Iw6ieG5D3nh7PSPLv0Csia0UC58HpuV91DilJjqeAWSw==}
     peerDependencies:
@@ -6272,9 +6009,6 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
-
-  lie@3.1.1:
-    resolution: {integrity: sha512-RiNhHysUjhrDQntfYSfY4MU24coXXdEOgw9WGcKHNeEwffDYbF//u87M1EWaMGzuFoSbqW0C9C6lEEhDOAswfw==}
 
   lightningcss-android-arm64@1.32.0:
     resolution: {integrity: sha512-YK7/ClTt4kAK0vo6w3X+Pnm0D2cf2vPHbhOXdoNti1Ga0al1P4TBZhwjATvjNwLEBCnKvjJc2jQgHXH0NEwlAg==}
@@ -6455,9 +6189,6 @@ packages:
   local-pkg@1.2.1:
     resolution: {integrity: sha512-++gUqRDEvcnN6Zhqrr+y/CkVEHhlrR96vZn3nZZPYzMcBUyBtTKzB9NadClFIsIVSsu+3i9tfk/erqy9kAmt7Q==}
     engines: {node: '>=14'}
-
-  localforage@1.10.0:
-    resolution: {integrity: sha512-14/H1aX7hzBBmmh7sGPd+AOMkkIrHM3Z1PAyGgZigA1H1p5O5ANnMyWzvpAETtG68/dC4pC0ncy3+PPGzXZHPg==}
 
   locate-path@2.0.0:
     resolution: {integrity: sha512-NCI2kiDkyR7VeEKm27Kda/iQHyKJe1Bu0FlTbYp3CqJu+9IFe9bLyAjMxf5ZDDbEg+iMPzB5zYyUTSm8wVTKmA==}
@@ -6852,9 +6583,6 @@ packages:
 
   muggle-string@0.4.1:
     resolution: {integrity: sha512-VNTrAak/KhO2i8dqqnqnAHOa3cYBwXEZe9h+D5h/1ZqFSTEFHdM65lR7RoIqq3tBBYavsOXV84NoHXZ0AkPyqQ==}
-
-  mux-embed@5.18.1:
-    resolution: {integrity: sha512-ePsHjiEKY+FgrSBiMmaF+LOtTQSSBWv/1zqpREQFN96JE93xlsArT/MEi30yKOE06MgjOlL70YI750molu3y7g==}
 
   mz@2.7.0:
     resolution: {integrity: sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==}
@@ -7845,9 +7573,6 @@ packages:
   satteri@0.10.5:
     resolution: {integrity: sha512-Ao1LKpAEa9Wdg0otgbVKViZHEq9ebdXe4DMrp3s9vQAU0HNIuHnFEuMuOcm0ZIXyV0Yzxj91NvhLpvXZJO/5ZQ==}
 
-  sax@1.2.1:
-    resolution: {integrity: sha512-8I2a3LovHTOpm7NV5yOyO8IHqgVsfK4+UuySrXU8YXkSRX7k6hCV9b3HrkKCr3nMpgj+0bmocaJJWpvp1oc7ZA==}
-
   sax@1.6.1:
     resolution: {integrity: sha512-42tBVwLWnaQvW5zc4HbZrTuWccECCZfBi92FDuwtqxasH+JbPB3/FOKb1m222K42R4WxuxzzMsTswfzgtSu64Q==}
     engines: {node: '>=11.0.0'}
@@ -7941,9 +7666,6 @@ packages:
   simple-git-hooks@2.14.0:
     resolution: {integrity: sha512-kkTORPAuxQz2g1QUuN0J8yGWT28tjGBfPOdJ4xT7Vbeu30veKUZQIoID2qGgCDAakaQn59UeZJJ4cFGB8PVP2A==}
     hasBin: true
-
-  simple-swizzle@0.2.4:
-    resolution: {integrity: sha512-nAu1WFPQSMNr2Zn9PGSZK9AGn4t/y97lEm+MXTtUDwfP0ksAIX4nO+6ruD9Jwut4C49SB1Ws+fbXsm/yScWOHw==}
 
   sirv@3.0.2:
     resolution: {integrity: sha512-2wcC/oGxHis/BoHkkPwldgiPSYcpZK3JU28WoMVv55yHJgcZ8rlXvuG9iZggz+sU1d4bRgIGASwyWqjxu3FM0g==}
@@ -8735,26 +8457,6 @@ packages:
   vfile@6.0.3:
     resolution: {integrity: sha512-KzIbH/9tXat2u30jf+smMwFCsno4wHVdNmzFyL+T/L3UGqqk6JKfVqOFOZEpZSHADH1k40ab6NUIXZq422ov3Q==}
 
-  virtua@0.49.3:
-    resolution: {integrity: sha512-k1Yn988Vz/L40uDtEWPjfdVo15Suumh4tU4/z5Srs0elNcU9DgBskqdh3llpHyAlXrCeHWTfcclYvY1uU4MmIg==}
-    peerDependencies:
-      react: '>=16.14.0'
-      react-dom: '>=16.14.0'
-      solid-js: '>=1.0'
-      svelte: '>=5.0'
-      vue: '>=3.2'
-    peerDependenciesMeta:
-      react:
-        optional: true
-      react-dom:
-        optional: true
-      solid-js:
-        optional: true
-      svelte:
-        optional: true
-      vue:
-        optional: true
-
   virtua@0.52.5:
     resolution: {integrity: sha512-4iDmQK0IM9uOSY86cd9/llshH1f7j4TxioRn7y+XXc8NzuMPnr44Cea6dGt2AiYP9UZa5uAddkwCurP+jXGShw==}
     peerDependencies:
@@ -9216,10 +8918,6 @@ snapshots:
       fast-deep-equal: 3.1.3
       gl-matrix: 3.4.4
       tslib: 2.8.1
-
-  '@arco-design/color@0.4.0':
-    dependencies:
-      color: 3.2.1
 
   '@astrojs/compiler-binding-android-arm64@0.5.1':
     optional: true
@@ -10387,19 +10085,6 @@ snapshots:
     optionalDependencies:
       typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
 
-  '@lexical/clipboard@0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
-    dependencies:
-      '@lexical/extension': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/html': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/internal': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/list': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/selection': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/utils': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@types/trusted-types': 2.0.7
-      lexical: 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-    optionalDependencies:
-      typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
-
   '@lexical/clipboard@0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
     dependencies:
       '@lexical/extension': 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
@@ -10413,16 +10098,6 @@ snapshots:
     optionalDependencies:
       typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
 
-  '@lexical/code-core@0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
-    dependencies:
-      '@lexical/extension': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/html': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/internal': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/utils': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      lexical: 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-    optionalDependencies:
-      typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
-
   '@lexical/code-core@0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
     dependencies:
       '@lexical/extension': 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
@@ -10430,24 +10105,6 @@ snapshots:
       '@lexical/internal': 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
       '@lexical/utils': 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
       lexical: 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-    optionalDependencies:
-      typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
-
-  '@lexical/code-prism@0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
-    dependencies:
-      '@lexical/code-core': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/extension': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      lexical: 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      prismjs: 1.30.0
-    optionalDependencies:
-      typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
-
-  '@lexical/code@0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
-    dependencies:
-      '@lexical/code-core': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/code-prism': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/extension': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      lexical: 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
     optionalDependencies:
       typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
 
@@ -10459,26 +10116,10 @@ snapshots:
     optionalDependencies:
       typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
 
-  '@lexical/dragon@0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
-    dependencies:
-      '@lexical/extension': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      lexical: 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-    optionalDependencies:
-      typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
-
   '@lexical/dragon@0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
     dependencies:
       '@lexical/extension': 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
       lexical: 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-    optionalDependencies:
-      typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
-
-  '@lexical/extension@0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
-    dependencies:
-      '@lexical/internal': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/utils': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@preact/signals-core': 1.14.4
-      lexical: 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
     optionalDependencies:
       typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
 
@@ -10491,29 +10132,11 @@ snapshots:
     optionalDependencies:
       typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
 
-  '@lexical/history@0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
-    dependencies:
-      '@lexical/extension': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/utils': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      lexical: 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-    optionalDependencies:
-      typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
-
   '@lexical/history@0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
     dependencies:
       '@lexical/extension': 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
       '@lexical/utils': 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
       lexical: 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-    optionalDependencies:
-      typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
-
-  '@lexical/html@0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
-    dependencies:
-      '@lexical/extension': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/internal': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/selection': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/utils': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      lexical: 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
     optionalDependencies:
       typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
 
@@ -10527,21 +10150,7 @@ snapshots:
     optionalDependencies:
       typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
 
-  '@lexical/internal@0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
-    optionalDependencies:
-      typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
-
   '@lexical/internal@0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
-    optionalDependencies:
-      typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
-
-  '@lexical/link@0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
-    dependencies:
-      '@lexical/extension': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/html': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/internal': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/utils': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      lexical: 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
     optionalDependencies:
       typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
 
@@ -10556,16 +10165,6 @@ snapshots:
     optionalDependencies:
       typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
 
-  '@lexical/list@0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
-    dependencies:
-      '@lexical/extension': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/html': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/internal': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/utils': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      lexical: 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-    optionalDependencies:
-      typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
-
   '@lexical/list@0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
     dependencies:
       '@lexical/extension': 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
@@ -10573,20 +10172,6 @@ snapshots:
       '@lexical/internal': 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
       '@lexical/utils': 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
       lexical: 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-    optionalDependencies:
-      typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
-
-  '@lexical/markdown@0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
-    dependencies:
-      '@lexical/code-core': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/internal': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/link': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/list': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/rich-text': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/selection': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/text': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/utils': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      lexical: 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
     optionalDependencies:
       typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
 
@@ -10604,18 +10189,6 @@ snapshots:
     optionalDependencies:
       typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
 
-  '@lexical/rich-text@0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
-    dependencies:
-      '@lexical/clipboard': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/dragon': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/extension': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/html': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/selection': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/utils': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      lexical: 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-    optionalDependencies:
-      typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
-
   '@lexical/rich-text@0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
     dependencies:
       '@lexical/a11y': 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
@@ -10629,13 +10202,6 @@ snapshots:
     optionalDependencies:
       typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
 
-  '@lexical/selection@0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
-    dependencies:
-      '@lexical/internal': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      lexical: 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-    optionalDependencies:
-      typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
-
   '@lexical/selection@0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
     dependencies:
       '@lexical/internal': 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
@@ -10643,25 +10209,10 @@ snapshots:
     optionalDependencies:
       typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
 
-  '@lexical/text@0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
-    dependencies:
-      '@lexical/internal': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      lexical: 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-    optionalDependencies:
-      typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
-
   '@lexical/text@0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
     dependencies:
       '@lexical/internal': 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
       lexical: 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-    optionalDependencies:
-      typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
-
-  '@lexical/utils@0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)':
-    dependencies:
-      '@lexical/internal': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/selection': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      lexical: 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
     optionalDependencies:
       typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
 
@@ -11258,53 +10809,6 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.1': {}
 
-  '@sdata/web-vue@4.7.2(@svta/cml-cta@1.0.6(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0))(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0)(@types/sortablejs@1.15.9)(@vueuse/core@15.0.0(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)))(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))':
-    dependencies:
-      '@arco-design/color': 0.4.0
-      '@chenglou/pretext': 0.0.8
-      '@floating-ui/vue': 2.0.1(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))
-      '@lexical/code': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/history': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/html': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/link': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/list': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/markdown': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@lexical/rich-text': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      '@videojs/html': 10.0.0-beta.24(@svta/cml-cta@1.0.6(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0))(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0)
-      b-tween: 0.3.3
-      b-validate: 1.5.3
-      chroma-js: 3.2.0
-      compute-scroll-into-view: 3.1.1
-      copy-to-clipboard: 4.0.2
-      cropperjs: 2.2.0
-      dayjs: 1.11.23
-      es-toolkit: 1.52.0
-      lexical: 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      motion-v: 2.4.4(@vueuse/core@15.0.0(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)))(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))
-      number-precision: 1.6.0
-      overlayscrollbars: 2.16.0
-      pdfjs-dist: 6.3.289
-      qrcode: 1.5.4
-      recorder-core: 1.3.26070800
-      resize-observer-polyfill: 1.5.1
-      scroll-into-view-if-needed: 3.1.0
-      virtua: 0.49.3(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))
-      vue: 3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      vue-clamp: 1.7.1(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))
-      vue-draggable-plus: 0.6.1(@types/sortablejs@1.15.9)
-    transitivePeerDependencies:
-      - '@svta/cml-cta'
-      - '@svta/cml-structured-field-values'
-      - '@svta/cml-utils'
-      - '@types/sortablejs'
-      - '@vue/composition-api'
-      - '@vueuse/core'
-      - react
-      - react-dom
-      - solid-js
-      - svelte
-      - typescript
-
   '@sec-ant/readable-stream@0.4.1': {}
 
   '@semantic-release/changelog@7.0.0(semantic-release@25.0.9(supports-color@10.2.2)(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))':
@@ -11554,48 +11058,6 @@ snapshots:
   '@sindresorhus/is@4.6.0': {}
 
   '@sindresorhus/merge-streams@4.0.0': {}
-
-  '@svta/cml-608@1.0.2': {}
-
-  '@svta/cml-cmcd@2.3.2(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0)':
-    dependencies:
-      '@svta/cml-structured-field-values': 1.1.3(@svta/cml-utils@1.5.0)
-      '@svta/cml-utils': 1.5.0
-
-  '@svta/cml-cmsd@1.0.6(@svta/cml-cta@1.0.6(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0))(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0)':
-    dependencies:
-      '@svta/cml-cta': 1.0.6(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0)
-      '@svta/cml-structured-field-values': 1.1.3(@svta/cml-utils@1.5.0)
-      '@svta/cml-utils': 1.5.0
-
-  '@svta/cml-cta@1.0.6(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0)':
-    dependencies:
-      '@svta/cml-structured-field-values': 1.1.3(@svta/cml-utils@1.5.0)
-      '@svta/cml-utils': 1.5.0
-
-  '@svta/cml-dash@1.0.6(@svta/cml-utils@1.5.0)':
-    dependencies:
-      '@svta/cml-utils': 1.5.0
-
-  '@svta/cml-id3@1.0.6(@svta/cml-utils@1.5.0)':
-    dependencies:
-      '@svta/cml-utils': 1.5.0
-
-  '@svta/cml-request@1.0.12(@svta/cml-cmcd@2.3.2(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0)(@svta/cml-xml@1.1.4(@svta/cml-utils@1.5.0))':
-    dependencies:
-      '@svta/cml-cmcd': 2.3.2(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0)
-      '@svta/cml-utils': 1.5.0
-      '@svta/cml-xml': 1.1.4(@svta/cml-utils@1.5.0)
-
-  '@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0)':
-    dependencies:
-      '@svta/cml-utils': 1.5.0
-
-  '@svta/cml-utils@1.5.0': {}
-
-  '@svta/cml-xml@1.1.4(@svta/cml-utils@1.5.0)':
-    dependencies:
-      '@svta/cml-utils': 1.5.0
 
   '@tailwindcss/node@4.3.3':
     dependencies:
@@ -11933,21 +11395,6 @@ snapshots:
       d3-selection: 3.0.0
       d3-transition: 3.0.1(d3-selection@3.0.0)
 
-  '@videojs/core@10.0.0-beta.24(@svta/cml-cta@1.0.6(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0))(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0)(@videojs/element@10.0.0-beta.24)':
-    dependencies:
-      '@videojs/spf': 10.0.0-beta.24
-      '@videojs/store': 10.0.0-beta.24(@videojs/element@10.0.0-beta.24)
-      '@videojs/utils': 10.0.0-beta.24
-      dashjs: 5.2.1(@svta/cml-cta@1.0.6(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0))(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0)
-      hls.js: 1.7.3
-      mux-embed: 5.18.1
-    transitivePeerDependencies:
-      - '@svta/cml-cta'
-      - '@svta/cml-structured-field-values'
-      - '@svta/cml-utils'
-      - '@videojs/element'
-      - react
-
   '@videojs/core@10.0.0-rc.2(@videojs/element@10.0.0-rc.2)':
     dependencies:
       '@videojs/media': 10.0.0-rc.2
@@ -11957,26 +11404,9 @@ snapshots:
       - '@videojs/element'
       - react
 
-  '@videojs/element@10.0.0-beta.24':
-    dependencies:
-      '@lit/context': 1.1.6
-
   '@videojs/element@10.0.0-rc.2':
     dependencies:
       '@lit/context': 1.1.6
-
-  '@videojs/html@10.0.0-beta.24(@svta/cml-cta@1.0.6(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0))(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0)':
-    dependencies:
-      '@videojs/core': 10.0.0-beta.24(@svta/cml-cta@1.0.6(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0))(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0)(@videojs/element@10.0.0-beta.24)
-      '@videojs/element': 10.0.0-beta.24
-      '@videojs/spf': 10.0.0-beta.24
-      '@videojs/store': 10.0.0-beta.24(@videojs/element@10.0.0-beta.24)
-      '@videojs/utils': 10.0.0-beta.24
-    transitivePeerDependencies:
-      - '@svta/cml-cta'
-      - '@svta/cml-structured-field-values'
-      - '@svta/cml-utils'
-      - react
 
   '@videojs/html@10.0.0-rc.2':
     dependencies:
@@ -11999,30 +11429,17 @@ snapshots:
       '@videojs/media': 10.0.0-rc.2
       '@videojs/utils': 10.0.0-rc.2
 
-  '@videojs/spf@10.0.0-beta.24':
-    dependencies:
-      '@videojs/utils': 10.0.0-beta.24
-      signal-polyfill: 0.2.2
-
   '@videojs/spf@10.0.0-rc.2':
     dependencies:
       '@videojs/media': 10.0.0-rc.2
       '@videojs/utils': 10.0.0-rc.2
       signal-polyfill: 0.2.2
 
-  '@videojs/store@10.0.0-beta.24(@videojs/element@10.0.0-beta.24)':
-    dependencies:
-      '@videojs/utils': 10.0.0-beta.24
-    optionalDependencies:
-      '@videojs/element': 10.0.0-beta.24
-
   '@videojs/store@10.0.0-rc.2(@videojs/element@10.0.0-rc.2)':
     dependencies:
       '@videojs/utils': 10.0.0-rc.2
     optionalDependencies:
       '@videojs/element': 10.0.0-rc.2
-
-  '@videojs/utils@10.0.0-beta.24': {}
 
   '@videojs/utils@10.0.0-rc.2': {}
 
@@ -12068,18 +11485,6 @@ snapshots:
       - utf-8-validate
       - vite
 
-  '@vitest/browser-preview@5.0.1(vite@8.3.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.104.1)(yaml@2.9.1))(vitest@5.0.1)':
-    dependencies:
-      '@testing-library/dom': 10.4.2
-      '@testing-library/user-event': 14.6.7(@testing-library/dom@10.4.2)
-      '@vitest/browser': 5.0.1(vite@8.3.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.104.1)(yaml@2.9.1))(vitest@5.0.1)
-      vitest: 5.0.1(@types/node@26.6.3)(@vitest/browser-preview@5.0.1)(@vitest/ui@5.0.1)(vite@8.3.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.104.1)(yaml@2.9.1))
-    transitivePeerDependencies:
-      - bufferutil
-      - msw
-      - utf-8-validate
-      - vite
-
   '@vitest/browser@5.0.1(@voidzero-dev/vite-plus-core@1.0.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.104.1)(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)(yaml@2.9.1))(vitest@5.0.1)':
     dependencies:
       '@blazediff/core': 1.10.0
@@ -12098,24 +11503,6 @@ snapshots:
       - utf-8-validate
       - vite
 
-  '@vitest/browser@5.0.1(vite@8.3.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.104.1)(yaml@2.9.1))(vitest@5.0.1)':
-    dependencies:
-      '@blazediff/core': 1.10.0
-      '@vitest/mocker': 5.0.1(vite@8.3.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.104.1)(yaml@2.9.1))
-      '@vitest/ui': 5.0.1(vitest@5.0.1)
-      '@vitest/utils': 5.0.1
-      magic-string: 1.4.1
-      pngjs: 7.0.0
-      sirv: 3.0.2
-      tinyrainbow: 3.1.1
-      vitest: 5.0.1(@types/node@26.6.3)(@vitest/browser-preview@5.0.1)(@vitest/ui@5.0.1)(vite@8.3.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.104.1)(yaml@2.9.1))
-      ws: 8.21.3
-    transitivePeerDependencies:
-      - bufferutil
-      - msw
-      - utf-8-validate
-      - vite
-
   '@vitest/mocker@5.0.1(@voidzero-dev/vite-plus-core@1.0.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.104.1)(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)(yaml@2.9.1))':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
@@ -12124,15 +11511,6 @@ snapshots:
       magic-string: 1.4.1
     optionalDependencies:
       vite: '@voidzero-dev/vite-plus-core@1.0.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.104.1)(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)(yaml@2.9.1)'
-
-  '@vitest/mocker@5.0.1(vite@8.3.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.104.1)(yaml@2.9.1))':
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.31
-      '@vitest/spy': 5.0.1
-      estree-walker: 3.0.3
-      magic-string: 1.4.1
-    optionalDependencies:
-      vite: 8.3.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.104.1)(yaml@2.9.1)
 
   '@vitest/pretty-format@5.0.1':
     dependencies:
@@ -13071,8 +12449,6 @@ snapshots:
 
   clsx@2.1.1: {}
 
-  codem-isoboxer@0.3.10: {}
-
   collapse-white-space@1.0.6: {}
 
   color-convert@1.9.3:
@@ -13086,16 +12462,6 @@ snapshots:
   color-name@1.1.3: {}
 
   color-name@1.1.4: {}
-
-  color-string@1.9.1:
-    dependencies:
-      color-name: 1.1.4
-      simple-swizzle: 0.2.4
-
-  color@3.2.1:
-    dependencies:
-      color-convert: 1.9.3
-      color-string: 1.9.1
 
   colord@2.10.0: {}
 
@@ -13552,27 +12918,6 @@ snapshots:
   dashdash@1.14.1:
     dependencies:
       assert-plus: 1.0.0
-
-  dashjs@5.2.1(@svta/cml-cta@1.0.6(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0))(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0):
-    dependencies:
-      '@svta/cml-608': 1.0.2
-      '@svta/cml-cmcd': 2.3.2(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0)
-      '@svta/cml-cmsd': 1.0.6(@svta/cml-cta@1.0.6(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0))(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0)
-      '@svta/cml-dash': 1.0.6(@svta/cml-utils@1.5.0)
-      '@svta/cml-id3': 1.0.6(@svta/cml-utils@1.5.0)
-      '@svta/cml-request': 1.0.12(@svta/cml-cmcd@2.3.2(@svta/cml-structured-field-values@1.1.3(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0))(@svta/cml-utils@1.5.0)(@svta/cml-xml@1.1.4(@svta/cml-utils@1.5.0))
-      '@svta/cml-xml': 1.1.4(@svta/cml-utils@1.5.0)
-      bcp-47-match: 2.0.3
-      codem-isoboxer: 0.3.10
-      fast-deep-equal: 3.1.3
-      html-entities: 2.6.0
-      imsc: 1.1.5
-      localforage: 1.10.0
-      path-browserify: 1.0.1
-    transitivePeerDependencies:
-      - '@svta/cml-cta'
-      - '@svta/cml-structured-field-values'
-      - '@svta/cml-utils'
 
   dayjs@1.11.23: {}
 
@@ -14393,8 +13738,6 @@ snapshots:
 
   highlight.js@10.7.3: {}
 
-  hls.js@1.7.3: {}
-
   hook-std@4.0.0: {}
 
   hookable@5.5.3: {}
@@ -14414,8 +13757,6 @@ snapshots:
   hosted-git-info@9.0.3:
     dependencies:
       lru-cache: 11.5.3
-
-  html-entities@2.6.0: {}
 
   html-escaper@3.0.3: {}
 
@@ -14523,8 +13864,6 @@ snapshots:
 
   ignore@7.0.9: {}
 
-  immediate@3.0.6: {}
-
   immutable@5.1.9: {}
 
   import-fresh@2.0.0:
@@ -14556,10 +13895,6 @@ snapshots:
   import-meta-resolve@4.2.0: {}
 
   import-without-cache@0.4.1: {}
-
-  imsc@1.1.5:
-    dependencies:
-      sax: 1.2.1
 
   imurmurhash@0.1.4: {}
 
@@ -14611,8 +13946,6 @@ snapshots:
   is-any-array@3.0.0: {}
 
   is-arrayish@0.2.1: {}
-
-  is-arrayish@0.3.4: {}
 
   is-buffer@2.0.5: {}
 
@@ -14833,21 +14166,11 @@ snapshots:
 
   leven@2.1.0: {}
 
-  lexical@0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2):
-    dependencies:
-      '@lexical/internal': 0.48.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-    optionalDependencies:
-      typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
-
   lexical@0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2):
     dependencies:
       '@lexical/internal': 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
     optionalDependencies:
       typescript: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
-
-  lie@3.1.1:
-    dependencies:
-      immediate: 3.0.6
 
   lightningcss-android-arm64@1.32.0:
     optional: true
@@ -14990,10 +14313,6 @@ snapshots:
       mlly: 1.8.2
       pkg-types: 2.3.3
       quansync: 0.2.11
-
-  localforage@1.10.0:
-    dependencies:
-      lie: 3.1.1
 
   locate-path@2.0.0:
     dependencies:
@@ -15501,8 +14820,6 @@ snapshots:
   ms@2.1.3: {}
 
   muggle-string@0.4.1: {}
-
-  mux-embed@5.18.1: {}
 
   mz@2.7.0:
     dependencies:
@@ -16522,8 +15839,6 @@ snapshots:
       '@bruits/satteri-win32-arm64-msvc': 0.10.5
       '@bruits/satteri-win32-x64-msvc': 0.10.5
 
-  sax@1.2.1: {}
-
   sax@1.6.1: {}
 
   scroll-into-view-if-needed@3.1.0:
@@ -16705,10 +16020,6 @@ snapshots:
       pkg-conf: 2.1.0
 
   simple-git-hooks@2.14.0: {}
-
-  simple-swizzle@0.2.4:
-    dependencies:
-      is-arrayish: 0.3.4
 
   sirv@3.0.2:
     dependencies:
@@ -17496,10 +16807,6 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.3
 
-  virtua@0.49.3(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)):
-    optionalDependencies:
-      vue: 3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-
   virtua@0.52.5(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)):
     optionalDependencies:
       vue: 3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
@@ -17649,29 +16956,6 @@ snapshots:
     optionalDependencies:
       '@types/node': 26.6.3
       '@vitest/browser-preview': 5.0.1(@voidzero-dev/vite-plus-core@1.0.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.104.1)(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)(yaml@2.9.1))(vitest@5.0.1)
-      '@vitest/ui': 5.0.1(vitest@5.0.1)
-    transitivePeerDependencies:
-      - msw
-
-  vitest@5.0.1(@types/node@26.6.3)(@vitest/browser-preview@5.0.1)(@vitest/ui@5.0.1)(vite@8.3.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.104.1)(yaml@2.9.1)):
-    dependencies:
-      '@types/chai': 5.2.3
-      '@vitest/mocker': 5.0.1(vite@8.3.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.104.1)(yaml@2.9.1))
-      chai: 6.2.2
-      es-module-lexer: 2.3.2
-      expect-type: 1.4.0
-      magic-string: 1.4.1
-      obug: 2.2.1
-      picomatch: 4.0.7
-      std-env: 4.2.0
-      tinybench: 6.1.4
-      tinyexec: 1.3.0
-      tinyglobby: 0.2.17
-      vite: 8.3.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.104.1)(yaml@2.9.1)
-      why-is-node-running: 2.3.0
-    optionalDependencies:
-      '@types/node': 26.6.3
-      '@vitest/browser-preview': 5.0.1(vite@8.3.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.104.1)(yaml@2.9.1))(vitest@5.0.1)
       '@vitest/ui': 5.0.1(vitest@5.0.1)
     transitivePeerDependencies:
       - msw
