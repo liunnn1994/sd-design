@@ -28,10 +28,10 @@
         v-if="searchButton"
         type="primary"
         :class="`${prefixCls}-btn`"
-        :disabled="disabled"
         :size="mergedSize"
-        :loading="loading"
         v-bind="buttonProps"
+        :disabled="disabled || buttonProps?.disabled"
+        :loading="loading || buttonProps?.loading"
         @click="handleClick"
       >
         <template v-if="$slots['button-default'] || buttonText" #default>
