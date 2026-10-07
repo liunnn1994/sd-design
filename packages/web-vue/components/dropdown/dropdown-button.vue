@@ -3,8 +3,8 @@
     <Button
       :size="size"
       :type="type"
-      :disabled="disabled"
       v-bind="buttonProps"
+      :disabled="disabled || buttonProps?.disabled"
       @click="handleClick"
     >
       <slot />
