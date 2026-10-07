@@ -1,3 +1,11 @@
+## [6.0.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v6.0.0...web-vue-v6.0.1) (2026-10-07)
+
+
+### Bug Fixes
+
+* **dropdown:** 修复按钮属性覆盖整体禁用状态 ([ce1f0d4](https://github.com/liunnn1994/sd-design/commit/ce1f0d433b14e888ef579f233f46521f7887c0e1))
+* **input:** 修复搜索按钮禁用和加载状态被覆盖 ([8af6f06](https://github.com/liunnn1994/sd-design/commit/8af6f0696c0562dfc52aa0c576bab011b59398b6))
+
 # [6.0.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v5.9.0...web-vue-v6.0.0) (2026-10-06)
 
 
