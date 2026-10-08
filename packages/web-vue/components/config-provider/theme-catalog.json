@@ -15611,18 +15611,6 @@
           "name": "tour-button-padding-x",
           "value": "var(--spacing-4, 8px)",
           "dependencies": ["spacing-4"]
-        },
-        {
-          "key": "tour-z-index-overlay",
-          "name": "tour-z-index-overlay",
-          "value": "1000",
-          "dependencies": ["z-index-popup"]
-        },
-        {
-          "key": "tour-z-index-popover",
-          "name": "tour-z-index-popover",
-          "value": "1001",
-          "dependencies": ["z-index-drawer"]
         }
       ]
     },

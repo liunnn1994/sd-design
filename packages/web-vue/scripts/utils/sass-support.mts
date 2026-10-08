@@ -113,7 +113,11 @@ export function createSassStyleSupport({
   async function compileStyleEntry(absolutePath: string, filename: string) {
     const source = await fs.promises.readFile(absolutePath, 'utf8');
     const result = await sass.compileStringAsync(source, {
-      loadPaths: [path.resolve(componentsRoot, path.dirname(filename)), packageRoot],
+      loadPaths: [
+        path.resolve(componentsRoot, path.dirname(filename)),
+        packageRoot,
+        path.resolve(packageRoot, 'node_modules'),
+      ],
       importers: [sassImporter],
       style: 'expanded',
       url: pathToFileURL(absolutePath),

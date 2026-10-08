@@ -7,7 +7,6 @@ import InputMask from '../../input-mask';
 import JsonForm, { type JsonFormInstance } from '../../json-form';
 import ModelSelector, { ModelSelectorEmpty } from '../../model-selector';
 import QrCodeStatus from '../../qr-code/qr-code-status.vue';
-import Tour from '../../tour';
 import { addI18nMessages, useLocale } from '../index';
 import enUS from '../lang/en-us';
 import zhCN from '../lang/zh-cn';
@@ -154,35 +153,6 @@ describe('Previously omitted i18n messages', () => {
       locale.value = enUS;
     });
     cy.get('.sd-modal-title').should('contain.text', 'Create');
-  });
-
-  it('localizes Tour buttons while mounted', () => {
-    const locale = mountLocalized(() =>
-      h(
-        Tour,
-        {
-          defaultVisible: true,
-          steps: [
-            { element: '#i18n-tour-a', popover: { title: 'A' } },
-            { element: '#i18n-tour-b', popover: { title: 'B' } },
-          ],
-        },
-        () =>
-          h('div', [
-            h('button', { id: 'i18n-tour-a' }, 'A'),
-            h('button', { id: 'i18n-tour-b' }, 'B'),
-          ]),
-      ),
-    );
-    cy.get('.sd-tour-popover-next-btn').should('contain.text', 'Next').click();
-    cy.get('.sd-tour-popover-next-btn').should('contain.text', 'Done');
-    cy.get('.sd-tour-popover-prev-btn').should('contain.text', 'Previous');
-    cy.then(() => {
-      locale.value = zhCN;
-    });
-    cy.get('.sd-tour-popover-next-btn').should('contain.text', '完成');
-    cy.get('.sd-tour-popover-prev-btn').should('contain.text', '上一步');
-    cy.get('.sd-tour-popover-close-btn').click();
   });
 
   it('localizes the IP preset placeholder and preserves explicit placeholders', () => {

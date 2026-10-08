@@ -94,6 +94,7 @@ minimumReleaseAge: 10080
 # 任何 pnpm install 都会在全工作区重新解析时失败——已验证 lockfile、catalog 和
 # node_modules 三者会就此不一致，且与新增依赖无关。
 minimumReleaseAgeExclude:
+  - driver.js
   - oxlint
   - oxfmt
   - vite-plus

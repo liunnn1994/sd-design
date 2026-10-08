@@ -8,7 +8,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { build } from 'vite';
 import { renderToString } from 'vue/server-renderer';
 
-test('Tour renders on the server in hidden and visible states', async () => {
+test('Tour renders page content on the server without starting driver.js', async () => {
   const component = fileURLToPath(new URL('../components/tour/tour.vue', import.meta.url));
   const output = await mkdtemp(
     fileURLToPath(new URL('../node_modules/.tour-ssr-', import.meta.url)),
@@ -26,7 +26,7 @@ test('Tour renders on the server in hidden and visible states', async () => {
       },
     });
     const { default: Tour } = await import(pathToFileURL(`${output}/entry.js`).href);
-    for (const props of [{}, { defaultVisible: true }, { visible: true }]) {
+    for (const props of [{}, { animate: false, showProgress: true }]) {
       const errors: unknown[] = [];
       const app = createSSRApp({
         render: () =>

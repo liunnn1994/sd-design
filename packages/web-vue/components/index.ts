@@ -768,7 +768,10 @@ export type {
   TourPopover,
   TourProps,
   TourSide,
+  TourSlotProps,
   TourState,
+  TourStepHook,
+  TourPopoverDom,
   TourStep,
 } from './tour';
 export { default as Transfer } from './transfer';

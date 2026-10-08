@@ -1,6 +1,6 @@
 ---
 title: 漫游式引导 Tour
-description: 组件库内置实现的页面导览组件，支持插槽、组件化按钮和顶层配置定制。
+description: driver.js 的 Vue 封装，完整沿用原生配置和实例方法，并适配 SD Design 样式。
 ---
 
 import DemoBlock from '../../../../components/docs/DemoBlock.astro';
@@ -13,132 +13,229 @@ import tourControlledSource from '../../../../components/generated/tour/controll
 import TourNonModalDemo from '../../../../components/generated/tour/non-modal.vue';
 import tourNonModalSource from '../../../../components/generated/tour/non-modal.vue?raw';
 
-### 基本用法
+`Tour` 是 [driver.js](https://driverjs.com/docs/installation) 的无渲染 Vue 封装。高亮、遮罩、定位、键盘交互与步骤导航全部由 driver.js 实现，浮层和原生按钮通过组件库样式 token 适配。
 
-`Tour` 是一个无渲染包装组件，负责管理步骤状态、高亮区域、浮层定位和按钮流转。
+## 基本用法
+
+将 driver.js 的 `Config` 通过 `v-bind="config"` 或独立 props 传入。组件挂载后，通过 ref 的 `drive()` 启动；挂载本身不会自动启动。默认插槽仅承载页面内容。
 
 <DemoBlock source={tourBasicSource} mainFile="src/tour-basic.vue">
-
-<TourBasicDemo client:only="vue" />
-
+  <TourBasicDemo client:only="vue" />
 </DemoBlock>
 
-### 受控模式
+## 原生实例与生命周期回调
 
-通过 `visible`、`current` 以及对应的更新事件，可以把导览步骤完全交给业务状态控制。示例里把业务按钮放进当前高亮卡片，避免被遮罩挡住后无法点击。
+组件 ref 直接暴露 `Driver` 的全部方法，包括 `drive(index)`、`moveNext()`、`movePrevious()`、`moveTo(index)`、`highlight(step)`、`destroy()`、`refresh()`、`setConfig()`、`setSteps()` 和查询方法。方法的参数与返回值保持原生语义，`drive()` 返回 `void`。
 
-<DemoBlock source={tourControlledSource} mainFile="src/tour-controlled.vue">
+回调同样沿用上游签名 `(element, step, { config, state, driver, index })`，使用 `:on-highlighted` 或在配置对象中传入回调。回调中的 `driver` 就是原生实例。
 
-<TourControlledDemo client:only="vue" />
-
+<DemoBlock source={tourControlledSource} mainFile="src/tour-api.vue">
+  <TourControlledDemo client:only="vue" />
 </DemoBlock>
 
-### 按钮、插槽和自动布局动画
+## 自定义内容和按钮
 
-Tour 的行为配置已经直接平铺到组件顶层 props，同时支持 `buttonProps`，让前进、后退、完成、关闭按钮直接使用组件库里的 `Button` props。
+通过 `title`、`description`、`progress` 和 `footer` 作用域插槽，可直接传入 Vue 组件、响应式状态和事件处理。`footer` 插槽替换原生页脚，按钮可以直接使用组件库的 `Button`；使用 `driver.moveNext()`、`driver.movePrevious()`、`driver.destroy()` 等原生方法处理业务导航。
 
-`title`、`description`、`progress`、`footer` 以及各个按钮都支持 slot。示例里第一步展示组件化标题，第二步把描述区切换成更大的表格内容，popover 会通过 Motion 自动做平滑布局动画。
+示例使用 `Tag`、`Checkbox`、`Alert` 和 `Button` 组成浮层，勾选确认项后才能进入下一步。插槽保留父组件的 provide/inject 上下文，内容尺寸改变时会自动刷新 driver.js 定位。
 
-<DemoBlock source={tourButtonsSource} mainFile="src/tour-buttons.vue">
+```vue
+<sd-tour ref="tour" :steps="steps">
+  <template #description="{ step }">
+    <MyVueComponent :data="step.data" />
+  </template>
+  <template #footer="{ driver, index }">
+    <sd-button v-if="index === 0" type="primary" @click="driver.moveNext()">下一步</sd-button>
+    <sd-button v-else type="primary" @click="driver.destroy()">完成</sd-button>
+  </template>
+</sd-tour>
+```
 
-<TourButtonsDemo client:only="vue" />
+未提供对应插槽时，继续使用 driver.js 的原生内容和按钮。`onPopoverRender` 仍可用于底层 DOM 定制，但日常自定义内容无需拼接 HTML 或手动绑定 DOM 事件。
 
+覆盖原生 `onNextClick`、`onPrevClick`、`onCloseClick`、`onDoneClick` 或 `onDestroyStarted` 后，仍按 driver.js 的约定自行调用导航或销毁方法。自定义页脚按钮调用实例方法时，由插槽中的事件处理函数决定业务行为。
+
+<DemoBlock source={tourButtonsSource} mainFile="src/tour-custom.vue">
+  <TourButtonsDemo client:only="vue" />
 </DemoBlock>
 
-### 非模态导览
+## 单元素高亮
 
-通过调低遮罩透明度等 Tour 配置，可以做成保留页面上下文的轻量导览。
+无需配置 `steps`，直接调用 `highlight(step)`。`overlayOpacity` 仅改变遮罩透明度，页面交互规则仍遵循 driver.js。
 
-如果你的页面里还存在抽屉、弹窗、吸顶层或第三方浮层，可以通过 `zIndex` 直接声明 Tour 的层级基准值；遮罩会使用该值，浮层和高亮元素会使用该值加 `1`。未传时会跟随组件库统一的 popup/dialog 层级管理，而不是从固定的 `10000` 开始。
-
-<DemoBlock source={tourNonModalSource} mainFile="src/tour-non-modal.vue">
-
-<TourNonModalDemo client:only="vue" />
-
+<DemoBlock source={tourNonModalSource} mainFile="src/tour-highlight.vue">
+  <TourNonModalDemo client:only="vue" />
 </DemoBlock>
 
 ## API
 
 ### `<tour>` Props
 
+`TourProps` 与 `TourConfig` 均直接引用 driver.js 的 `Config`。下表完整列出当前 driver.js 1.9.0 的 36 个配置项，所有参数均为可选。参数名采用 Vue 模板中的 kebab-case；使用 `v-bind="config"` 时，配置对象使用对应的 camelCase 名称，例如 `overlayOpacity`。
+
+默认值按当前安装版本的实际行为列出。`-` 表示未设置；浮层配置可以由每一步的 `popover` 覆盖。上游配置参考仅作为补充资料，使用本组件无需跳转查询参数。
+
 | 参数名 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | :-: |
-| visible **(v-model)** | 导览是否可见 | `boolean` | `-` |
-| default-visible | 导览默认是否可见（非受控模式） | `boolean` | `false` |
-| current **(v-model)** | 当前步骤下标 | `number` | `-` |
-| default-current | 默认步骤下标（非受控模式） | `number` | `0` |
-| steps | 导览步骤配置 | `TourStep[]` | `[]` |
-| z-index | 导览层级基准值；遮罩使用该值，浮层和高亮元素使用该值加 `1` | `number` | `自动分配` |
-| animate | 是否启用过渡和 Motion 布局动画 | `boolean` | `true` |
-| allow-close | 是否允许显示并触发关闭行为 | `boolean` | `true` |
-| allow-keyboard-control | 是否启用键盘控制，支持 `Esc`、左右方向键 | `boolean` | `true` |
-| overlay-click-behavior | 点击遮罩时的行为，可关闭、前进一步或自定义 hook | `'close' \| 'nextStep' \| TourStepHook` | `'close'` |
+| steps | 导览步骤数组；调用 `drive()` 时按顺序展示，单元素 `highlight()` 无需配置 | `TourStep[]` | `-` |
+| animate | 是否启用高亮区域移动和遮罩、浮层的入场动画 | `boolean` | `true` |
+| duration | 动画时长，单位毫秒，仅在 `animate` 为 `true` 时生效 | `number` | `400` |
+| overlay-color | 遮罩颜色，支持 CSS 颜色值 | `string` | `'#000'` |
 | overlay-opacity | 遮罩透明度 | `number` | `0.7` |
-| overlay-color | 遮罩颜色 | `string` | `'#000'` |
-| smooth-scroll | 步骤切换时是否平滑滚动到目标元素 | `boolean` | `false` |
-| disable-active-interaction | 是否禁止当前高亮元素交互 | `boolean` | `false` |
+| smooth-scroll | 是否平滑滚动到高亮元素 | `boolean` | `false` |
+| allow-close | 是否允许通过遮罩、关闭按钮和 Escape 退出；设为 `false` 不影响代码调用 `destroy()` | `boolean` | `true` |
+| allow-scroll | 导览期间是否允许页面滚动；设为 `false` 时锁定 body 滚动 | `boolean` | `true` |
+| overlay-click-behavior | 点击遮罩时的行为：关闭、下一步、不处理或执行自定义回调 | `'close' \| 'nextStep' \| 'none' \| TourStepHook` | `'close'` |
+| stage-padding | 高亮元素与遮罩镂空边缘之间的距离，单位像素 | `number` | `10` |
+| stage-radius | 高亮区域的圆角半径，单位像素 | `number` | `5` |
+| disable-active-interaction | 是否禁止与当前高亮元素交互，可被步骤同名配置覆盖 | `boolean` | `false` |
+| advance-on-click | 点击高亮元素时执行下一步操作，仍会触发 `onNextClick` 或 `onDoneClick`；元素自身的点击行为保留，禁止交互时无效 | `boolean` | `false` |
+| skip-missing-element | 是否跳过指定了目标但目标不存在的步骤；未指定 `element` 的居中步骤不会被跳过 | `boolean` | `false` |
+| wait-for-element | 等待目标元素出现的最长时间，单位毫秒；超时后按 `skipMissingElement` 决定跳过或居中展示 | `number` | `0` |
+| allow-keyboard-control | 是否允许左右方向键导航和 Escape 关闭；隐藏或禁用的按钮不会被对应方向键触发 | `boolean` | `true` |
+| popover-class | 添加到浮层的自定义 CSS 类名 | `string` | `-` |
+| popover-offset | 浮层与高亮区域之间的距离，单位像素 | `number` | `10` |
+| show-buttons | 显示的按钮；导览默认显示前进、后退和关闭，单元素高亮默认不显示按钮 | `TourAllowedButton[]` | `['next', 'previous', 'close']`；单元素高亮为 `[]` |
+| disable-buttons | 禁用的按钮；导览第一步的后退按钮还会由 driver.js 自动禁用 | `TourAllowedButton[]` | `[]` |
 | show-progress | 是否显示步骤进度 | `boolean` | `false` |
-| stage-padding | 高亮区域额外留白 | `number` | `10` |
-| stage-radius | 高亮区域圆角 | `number` | `5` |
-| popover-offset | 浮层与目标元素之间的偏移量 | `number` | `10` |
-| floating-options | 原样传给 Floating UI `useFloating()` 的定位配置；单步配置优先于此配置 | `FloatingOptions` | `-` |
-| show-buttons | 默认显示哪些内置按钮 | `TourAllowedButton[]` | `['next', 'previous', 'close']` |
-| disable-buttons | 默认禁用哪些内置按钮 | `TourAllowedButton[]` | `[]` |
-| prev-btn-text | “上一步”按钮文案 | `string` | `'上一步'` |
-| next-btn-text | “下一步”按钮文案 | `string` | `'下一步'` |
-| done-btn-text | 最后一步“完成”按钮文案 | `string` | `'完成'` |
-| progress-text | 进度文案模板，支持 `{{current}}`、`{{total}}`、`{current}`、`{total}` | `string` | `'{{current}} / {{total}}'` |
-| popover-class | 额外挂载到浮层容器上的 class | `string` | `-` |
-| button-props | 内置按钮的组件库按钮 props | `TourButtonProps` | `-` |
-| on-highlight-started | 步骤高亮开始前触发 | `TourStepHook` | `-` |
-| on-highlighted | 步骤高亮完成后触发 | `TourStepHook` | `-` |
-| on-deselected | 当前步骤取消高亮时触发 | `TourStepHook` | `-` |
-| on-destroyed | 导览销毁完成后触发 | `TourStepHook` | `-` |
-| on-destroy-started | 请求销毁导览时触发，可用于接管关闭流程 | `TourStepHook` | `-` |
-| on-popover-render | 浮层内容渲染后触发，可拿到浮层 DOM 引用 | `TourPopoverRenderHook` | `-` |
-| on-next-click | 点击“下一步/完成”按钮时触发；提供时将接管默认前进行为 | `TourStepHook` | `-` |
-| on-prev-click | 点击“上一步”按钮时触发；提供时将接管默认回退行为 | `TourStepHook` | `-` |
-| on-close-click | 点击关闭按钮时触发；提供时将接管默认关闭行为 | `TourStepHook` | `-` |
+| progress-text | 进度模板，`{{current}}` 为从 1 开始的当前步骤，`{{total}}` 为总步骤数 | `string` | `'{{current}} of {{total}}'` |
+| next-btn-text | 下一步按钮文案 | `string` | `'Next'` |
+| prev-btn-text | 上一步按钮文案 | `string` | `'Previous'` |
+| done-btn-text | 最后一步的完成按钮文案 | `string` | `'Done'` |
+| close-btn-label | 关闭按钮的屏幕阅读器标签 | `string` | `'Close'` |
+| on-popover-render | 浮层渲染后触发，接收原生 DOM 引用，可定制浮层内容及按钮 | `(popover: TourPopoverDom, options: TourHookOptions) => void` | `-` |
+| on-highlight-started | 开始高亮步骤时触发，可被步骤同名回调覆盖 | `TourStepHook` | `-` |
+| on-highlighted | 步骤完成高亮时触发，可被步骤同名回调覆盖 | `TourStepHook` | `-` |
+| on-deselected | 当前步骤取消高亮时触发，可被步骤同名回调覆盖 | `TourStepHook` | `-` |
+| on-destroy-started | 用户请求退出时触发；配置后接管退出流程，需自行调用 `options.driver.destroy()` | `TourStepHook` | `-` |
+| on-destroyed | 导览销毁并清理后触发 | `TourStepHook` | `-` |
+| on-next-click | 点击下一步或触发对应导航时执行；配置后接管导航，需自行调用实例方法 | `TourStepHook` | `-` |
+| on-prev-click | 点击上一步或触发对应导航时执行；配置后接管导航，需自行调用实例方法 | `TourStepHook` | `-` |
+| on-close-click | 点击关闭按钮时执行；配置后接管关闭，需自行调用实例方法 | `TourStepHook` | `-` |
+| on-done-click | 点击最后一步的完成按钮时执行，优先于 `onNextClick`；配置后需自行调用 `destroy()` 完成清理 | `TourStepHook` | `-` |
 
-### `<tour>` Events
+配置回调使用 `:on-highlighted="handler"` 或配置对象中的 `onHighlighted` 传入，不是额外封装的 Vue 事件。`allow-close="false"` 应写为 `:allow-close="false"`，才能传入 Boolean 值。
 
-| 事件名         | 描述                   | 参数                                |
-| -------------- | ---------------------- | ----------------------------------- |
-| update:visible | 导览显隐状态变化时触发 | `visible: boolean`                  |
-| visible-change | 导览显隐状态变化时触发 | `visible: boolean`                  |
-| update:current | 当前步骤变化时触发     | `current: number`                   |
-| change         | 当前步骤变化时触发     | `current: number, previous: number` |
-| close          | 导览关闭时触发         | `current: number \| undefined`      |
+### `TourStep` 步骤配置
 
-### `<tour>` Exposes
+用于 `steps` 数组和实例的 `highlight(step)`。配置对象保留 driver.js 的 camelCase 字段名。
 
-| 名称          | 描述                     | 类型                                    |
-| ------------- | ------------------------ | --------------------------------------- |
-| drive         | 从指定步骤开始启动导览   | `(stepIndex?: number) => Promise<void>` |
-| moveNext      | 前进到下一步             | `() => void`                            |
-| movePrevious  | 回到上一步               | `() => void`                            |
-| moveTo        | 跳转到指定步骤           | `(stepIndex: number) => void`           |
-| highlight     | 高亮单个步骤             | `(step: TourStep) => void`              |
-| destroy       | 销毁当前导览             | `() => void`                            |
-| refresh       | 刷新浮层和高亮位置       | `() => void`                            |
-| isActive      | 当前导览是否处于激活状态 | `() => boolean`                         |
-| getController | 获取底层导览控制器       | `() => TourController \| null`          |
-| getState      | 获取底层导览状态         | `() => TourState \| undefined`          |
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| element | 目标选择器、DOM 元素或返回 DOM 元素的函数；未指定时居中展示。指定但找不到时根据等待、跳过配置处理 | `string \| Element \| (() => Element)` | `-` |
+| popover | 当前步骤的浮层内容、定位、按钮与回调配置 | `TourPopover` | `-` |
+| disableActiveInteraction | 当前步骤是否禁止与高亮元素交互 | `boolean` | 继承全局配置 |
+| advanceOnClick | 当前步骤是否在点击高亮元素后前进 | `boolean` | 继承全局配置 |
+| skipMissingElement | 当前步骤是否跳过不存在的目标 | `boolean` | 继承全局配置 |
+| waitForElement | 当前步骤等待目标出现的最长时间，单位毫秒 | `number` | 继承全局配置 |
+| data | 业务附加数据，可通过回调参数 `step.data` 读取 | `Record<string, any>` | `-` |
+| onHighlightStarted | 当前步骤开始高亮时触发，优先于全局同名回调 | `TourStepHook` | `-` |
+| onHighlighted | 当前步骤完成高亮时触发，优先于全局同名回调 | `TourStepHook` | `-` |
+| onDeselected | 当前步骤取消高亮时触发，优先于全局同名回调 | `TourStepHook` | `-` |
+
+### `TourPopover` 浮层配置
+
+用于 `TourStep.popover`。同名字段优先于全局配置；没有全局对应字段的标题、描述和定位字段使用下表默认值。
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| title | 浮层标题，支持来自可信来源的 HTML 字符串 | `string` | `-` |
+| description | 浮层描述，支持来自可信来源的 HTML 字符串 | `string` | `-` |
+| side | 浮层位于目标的哪一侧，空间不足时自动调整位置 | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` |
+| align | 浮层沿目标边缘的对齐方式 | `'start' \| 'center' \| 'end'` | `'start'` |
+| showButtons | 当前步骤显示的按钮 | `TourAllowedButton[]` | 继承全局配置；单元素高亮为 `[]` |
+| disableButtons | 当前步骤禁用的按钮 | `TourAllowedButton[]` | 继承全局配置 |
+| showProgress | 当前步骤是否显示进度 | `boolean` | 继承全局配置；单元素高亮为 `false` |
+| progressText | 当前步骤的进度模板 | `string` | 继承全局配置 |
+| nextBtnText | 当前步骤的下一步文案 | `string` | 继承全局配置 |
+| prevBtnText | 当前步骤的上一步文案 | `string` | 继承全局配置 |
+| doneBtnText | 当前步骤的完成文案 | `string` | 继承全局配置 |
+| closeBtnLabel | 当前步骤关闭按钮的屏幕阅读器标签 | `string` | 继承全局配置 |
+| popoverClass | 当前步骤的浮层自定义类名 | `string` | 继承全局配置 |
+| onPopoverRender | 当前步骤浮层渲染后触发，优先于全局同名回调 | `(popover: TourPopoverDom, options: TourHookOptions) => void` | `-` |
+| onNextClick | 当前步骤的下一步回调，优先于全局同名回调 | `TourStepHook` | `-` |
+| onPrevClick | 当前步骤的上一步回调，优先于全局同名回调 | `TourStepHook` | `-` |
+| onCloseClick | 当前步骤的关闭回调，优先于全局同名回调 | `TourStepHook` | `-` |
+| onDoneClick | 当前步骤的完成回调，优先于全局同名回调和下一步回调 | `TourStepHook` | `-` |
+
+### 回调参数与类型
+
+以下 `TourHookOptions` 为文档中的签名说明名称，不是组件库新增的类型导出。`TourStepHook` 与 `TourPopoverDom` 已从组件库导出，并直接引用上游类型。
+
+```ts
+import type { TourConfig, TourController, TourState, TourStep } from '@sdata/web-vue';
+
+type TourHookOptions = {
+  config: TourConfig;
+  state: TourState;
+  driver: TourController;
+  index: number | undefined;
+};
+
+type TourStepHook = (
+  element: Element | undefined,
+  step: TourStep,
+  options: TourHookOptions,
+) => void;
+
+type TourAllowedButton = 'next' | 'previous' | 'close';
+```
+
+| 参数名 | 描述 |
+| --- | --- |
+| element | 当前步骤的目标元素；未指定目标或使用居中展示时可能为 `undefined` |
+| step | 当前步骤配置，包含 `popover` 和业务 `data` |
+| options.config | 当前实例的原生配置 |
+| options.state | 当前实例的原生状态 |
+| options.driver | 原生实例，可直接调用导航、查询和销毁方法 |
+| options.index | 当前激活步骤的下标，从 0 开始；单元素高亮时为 `undefined`。切换步骤时，`onDeselected` 收到的下标对应新的激活步骤 |
+
+`onPopoverRender` 的第一个参数是 `TourPopoverDom`，包含以下原生节点引用：
+
+| 字段名         | 描述             | 类型                |
+| -------------- | ---------------- | ------------------- |
+| wrapper        | 浮层根节点       | `HTMLElement`       |
+| arrow          | 箭头节点         | `HTMLElement`       |
+| title          | 标题节点         | `HTMLElement`       |
+| description    | 描述节点         | `HTMLElement`       |
+| footer         | 页脚节点         | `HTMLElement`       |
+| progress       | 进度文字节点     | `HTMLElement`       |
+| previousButton | 上一步按钮       | `HTMLButtonElement` |
+| nextButton     | 下一步或完成按钮 | `HTMLButtonElement` |
+| closeButton    | 关闭按钮         | `HTMLButtonElement` |
+| footerButtons  | 页脚按钮容器     | `HTMLElement`       |
 
 ### `<tour>` Slots
 
-| 插槽名 | 描述 | 参数 |
-| --- | --- | --- |
-| title | 自定义标题区域，可传入任意组件 | `step`、`current`、`title`、`controller`、`state` |
-| description | 自定义描述区域，可传入任意组件 | `step`、`current`、`description`、`controller`、`state` |
-| progress | 自定义进度文案区域 | `step`、`current`、`total`、`text`、`controller`、`state` |
-| footer | 完整接管底部区域 | `step`、`current`、`isFirst`、`isLast`、`moveNext`、`movePrevious`、`close`、`controller`、`state` |
-| previous-button | 自定义“上一步”按钮内容 | `step`、`current`、`text`、`controller`、`state` |
-| next-button | 自定义“下一步/完成”按钮内容 | `step`、`current`、`isLast`、`text`、`controller`、`state` |
-| close-button | 自定义关闭按钮内容 | `step`、`current`、`controller`、`state` |
+| 插槽名  | 描述                                        | 参数 |
+| ------- | ------------------------------------------- | ---- |
+| default | 承载页面内容，不作为 driver.js 浮层内容渲染 | `-`  |
 
-### 类型说明
+所有浮层插槽共享以下作用域参数，组件库导出对应的 `TourSlotProps` 类型：
 
-`TourStep`、`TourConfig`、`TourController`、`TourState` 等类型均从组件库导出，可直接在业务侧复用。
+| 参数名  | 描述                                                | 类型                   |
+| ------- | --------------------------------------------------- | ---------------------- |
+| driver  | 当前原生实例，用于调用导航、查询和销毁方法          | `TourController`       |
+| step    | 当前步骤配置                                        | `TourStep`             |
+| index   | 当前步骤下标，从 0 开始；单元素高亮时为 `undefined` | `number \| undefined`  |
+| state   | 当前原生状态                                        | `TourState`            |
+| element | 当前高亮目标；居中展示时可能为 `undefined`          | `Element \| undefined` |
 
-其中 `TourConfig` 用于声明导览级别配置，`TourPopover` 也支持在单个步骤内覆盖按钮 props、标题/描述属性和 footer 属性。
+插槽优先于对应原生内容；`footer` 优先于 `progress`。步骤切换时插槽内容随当前步骤更新，销毁或卸载后清理 Vue 内容。Props 仍完整沿用 driver.js，插槽仅增加 Vue 内容组合能力。单元素 `highlight()` 若需要显示插槽浮层，应传入 `popover: {}`；未传入 `popover` 时仍遵循原生的仅高亮行为。
+
+### 配置更新与生命周期
+
+- 不额外设置中文默认值，按钮文案通过 `nextBtnText`、`prevBtnText`、`doneBtnText`、`closeBtnLabel` 和 `progressText` 配置。
+- 响应式 props 更新会调用原生 `setConfig()`；与原生一样，更新配置不会自动重新启动或跳转，必要时调用 `refresh()` 或 `drive()`。
+- 直接调用实例 `setConfig()` 的配置会在下一次 props 更新时被 props 配置替换，建议选择一种配置管理方式。
+- SSR 只渲染默认插槽，在客户端挂载后启动导览。组件卸载时调用原生 `destroy()` 清理浮层、遮罩与监听器；直接调用 `destroy()` 不经过 `onDestroyStarted` 的退出确认。
+
+### 样式
+
+全量样式已包含 driver.js 基础样式和 SD Design 适配。按需引入时使用 `@sdata/web-vue/es/tour/style/index.js`，无需额外导入 driver.js CSS。原生 `popoverClass` 可用于进一步定制。
+
+### 从旧版迁移
+
+这是一次破坏性 API 替换。删除 `visible` / `defaultVisible`、`current` / `defaultCurrent`、`zIndex`、`buttonProps`、`floatingOptions`、内容属性和全部旧事件；改用 ref 方法及 driver.js 回调。浮层内容通过本页列出的 Vue 插槽组合；旧的独立按钮插槽改为在 `footer` 中使用组件库按钮。
+
+旧 `getController()` 改为直接调用 ref 的原生方法；回调参数里的 `controller` 改为 `driver`。步骤目标、按钮配置、定位选项与状态结构以原生类型为准，例如 `side` 支持 `top`、`right`、`bottom`、`left`，缺失目标的处理由 driver.js 决定。

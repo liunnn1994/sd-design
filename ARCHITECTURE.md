@@ -78,7 +78,8 @@ flowchart TD
 - `components/index.ts`：按需导出入口。
 - `components/sd-vue.ts`：全量安装插件入口。
 - `components/clamp`：不增加包装 DOM，原样别名导出 `vue-clamp` 的四个裁剪原语；`Ellipsis` 和响应式标签/菜单等既有组件复用这些原语，不再维护独立测量算法。
-- `components/trigger` 与 `components/tour`：锚点型悬浮层统一通过 `@floating-ui/vue` 定位；各公开组件的 `floatingOptions` 类型直接继承上游 `UseFloatingOptions`，运行时不维护参数白名单。
+- `components/trigger`：锚点型悬浮层统一通过 `@floating-ui/vue` 定位；各公开组件的 `floatingOptions` 类型直接继承上游 `UseFloatingOptions`，运行时不维护参数白名单。
+- `components/tour`：driver.js 的无渲染 Vue 封装，props 与原生 `Config` 一致，ref 暴露完整 `Driver` API；高亮、定位和导航由上游实现，原生 DOM 使用组件库 token 适配样式，浮层内容通过 Vue 作用域插槽组合。
 - `components/markdown-render`：以精确锁定的 `markstream-vue@2.0.13` 为渲染内核的二次封装，承担流式解析、虚拟化调度和重节点渲染。节点映射与样式分层约定见「Markdown 渲染分层」。
 - `vite.config.ts`：定义模块构建、UMD 构建、样式构建和测试支持配置。
 - `scripts/build-dts.ts`：负责类型声明构建和复制。

@@ -24,8 +24,6 @@ $tour-gap-footer: global.$spacing-5;
 $tour-gap-buttons: global.$spacing-2;
 $tour-button-padding-y: global.$spacing-1;
 $tour-button-padding-x: global.$spacing-4;
-$tour-z-index-overlay: global.$z-index-popup;
-$tour-z-index-popover: global.$z-index-drawer;
 
 // @generated runtime tokens — pnpm theme:generate
 $tour-color-bg: theme-runtime.token('tour', 'tour-color-bg', $tour-color-bg);
@@ -88,5 +86,3 @@ $tour-button-padding-x: theme-runtime.token(
   $tour-button-padding-x,
   'spacing-4'
 );
-$tour-z-index-overlay: theme-runtime.token('tour', 'tour-z-index-overlay', $tour-z-index-overlay);
-$tour-z-index-popover: theme-runtime.token('tour', 'tour-z-index-popover', $tour-z-index-popover);
