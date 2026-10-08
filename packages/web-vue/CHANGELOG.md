@@ -1,3 +1,15 @@
+# [7.0.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v6.0.1...web-vue-v7.0.0) (2026-10-08)
+
+
+### Features
+
+* **Tour:** 🆕 把 Tour 组件的底层迁移到 driver.js ([71d18e8](https://github.com/liunnn1994/sd-design/commit/71d18e8abd8f4e63faea9d7a68c562335700f189))
+
+
+### BREAKING CHANGES
+
+* **Tour:** api 已变更，详见文档中的“从旧版迁移”
+
 ## [6.0.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v6.0.0...web-vue-v6.0.1) (2026-10-07)
 
 
