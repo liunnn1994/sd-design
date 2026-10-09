@@ -1,3 +1,10 @@
+# [7.1.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.0.0...web-vue-v7.1.0) (2026-10-09)
+
+
+### Features
+
+* 🆕 新增消息去重的功能 ([f1b213f](https://github.com/liunnn1994/sd-design/commit/f1b213fa8c2e8c7a3a6075fd3c2459ee7aa32274))
+
 # [7.0.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v6.0.1...web-vue-v7.0.0) (2026-10-08)
 
 
