@@ -98,6 +98,18 @@ export interface ConfigProviderTable {
   showEmptyTree?: boolean;
 }
 
+export interface ConfigProviderMessage {
+  deduplicate?: boolean;
+  /** 是否将消息类型纳入去重比较，默认 true */
+  deduplicateByType?: boolean;
+}
+
+export interface ConfigProviderNotification {
+  deduplicate?: boolean;
+  /** 是否将消息类型纳入去重比较，默认 true */
+  deduplicateByType?: boolean;
+}
+
 export interface ConfigProvider {
   slots: Slots;
   prefixCls?: string;
@@ -112,6 +124,8 @@ export interface ConfigProvider {
   exchangeTime?: boolean;
   rtl?: boolean;
   datePicker?: ConfigProviderDatePicker;
+  message?: ConfigProviderMessage;
+  notification?: ConfigProviderNotification;
   modal?: ConfigProviderModal;
   drawer?: ConfigProviderDrawer;
   pagination?: ConfigProviderPagination;

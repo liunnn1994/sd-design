@@ -42,6 +42,16 @@ export interface NotificationMethod {
 
 export interface NotificationConfig {
   /**
+   * @zh 是否去重；优先于 ConfigProvider，false 时允许重复弹出
+   * @en Whether to deduplicate; overrides ConfigProvider, false allows duplicates
+   */
+  deduplicate?: boolean;
+  /**
+   * @zh 是否将类型纳入去重比较，默认 true；优先于 ConfigProvider
+   * @en Whether to include type when deduplicating, defaults to true; overrides ConfigProvider
+   */
+  deduplicateByType?: boolean;
+  /**
    * @zh 内容
    * @en Content
    */
@@ -133,6 +143,7 @@ export interface NotificationReturn {
 }
 
 export interface NotificationItem {
+  timerVersion?: number;
   id: number | string;
   type: MessageType;
   content: RenderContent;

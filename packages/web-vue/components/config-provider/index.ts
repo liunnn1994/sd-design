@@ -23,6 +23,11 @@ export type {
   ThemeTokenValue,
 } from './theme';
 export type { JsonFormProviderConfig as ConfigProviderJsonFormConfig } from '../json-form';
-export type { ConfigProviderColorPicker, ConfigProviderTable } from './context';
+export type {
+  ConfigProviderColorPicker,
+  ConfigProviderTable,
+  ConfigProviderMessage,
+  ConfigProviderNotification,
+} from './context';
 
 export default ConfigProvider;

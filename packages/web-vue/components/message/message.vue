@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
   import type { PropType } from 'vue';
-  import { onMounted, onUnmounted, onUpdated } from 'vue';
+  import { onMounted, onUnmounted, onUpdated, watch } from 'vue';
 
   import AIconHover from '../_components/icon-hover.vue';
   import { MessageType } from '../_utils/constant';
@@ -67,6 +67,10 @@
     duration: {
       type: Number,
       default: 3000,
+    },
+    timerVersion: {
+      type: Number,
+      default: 0,
     },
     resetOnUpdate: {
       type: Boolean,
@@ -102,6 +106,14 @@
       timer = 0;
     }
   };
+
+  watch(
+    () => props.timerVersion,
+    () => {
+      clearTimer();
+      startTimer();
+    },
+  );
 
   onMounted(() => {
     startTimer();

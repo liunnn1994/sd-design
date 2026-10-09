@@ -4,6 +4,7 @@ import { createVNode, render, ref, reactive } from 'vue';
 import { MESSAGE_TYPES, MessageType } from '../_utils/constant';
 import { getOverlay } from '../_utils/dom';
 import { isFunction, isString, isUndefined } from '../_utils/is';
+import { configProviderInjectionKey, type ConfigProvider } from '../config-provider/context';
 import { MessageConfig, MessageItem, MessageMethod, MessagePosition } from './interface';
 import MessageList from './message-list.vue';
 
@@ -12,6 +13,8 @@ type _MessageConfig = MessageConfig & {
 };
 
 class MessageManger {
+  private readonly pool = new Set<MessageItem>();
+
   private readonly messageIds: Set<number | string>;
 
   private readonly messages: Ref<MessageItem[]>;
@@ -56,10 +59,28 @@ class MessageManger {
     }
     const message: MessageItem = reactive({ ...config, id });
     this.messages.value.push(message);
+    if (config.deduplicate) {
+      this.pool.add(message);
+    }
     this.messageIds.add(id);
     return {
       close: () => this.remove(id),
     };
+  };
+
+  reuse = (config: _MessageConfig) => {
+    for (const item of this.pool) {
+      if (
+        (!config.deduplicateByType || item.type === config.type) &&
+        item.content === config.content
+      ) {
+        if (!isUndefined(config.duration)) {
+          item.duration = config.duration;
+        }
+        item.timerVersion = (item.timerVersion ?? 0) + 1;
+        return { close: () => this.remove(item.id) };
+      }
+    }
   };
 
   update = (id: number | string, config: _MessageConfig) => {
@@ -67,6 +88,12 @@ class MessageManger {
       if (this.messages.value[i].id === id) {
         const resetOnUpdate = !isUndefined(config.duration);
         Object.assign(this.messages.value[i], { ...config, id, resetOnUpdate });
+        const updated = this.messages.value[i];
+        if (config.deduplicate) {
+          this.pool.add(updated);
+        } else {
+          this.pool.delete(updated);
+        }
         break;
       }
     }
@@ -81,6 +108,7 @@ class MessageManger {
       if (item.id === id) {
         this.messages.value.splice(i, 1);
         this.messageIds.delete(id);
+        this.pool.delete(item);
         if (isFunction(item.onClose)) {
           item.onClose(id);
         }
@@ -92,6 +120,7 @@ class MessageManger {
   clear = () => {
     this.messages.value.splice(0);
     this.messageIds.clear();
+    this.pool.clear();
   };
 
   destroy = () => {
@@ -122,12 +151,30 @@ const message = types.reduce((pre, value) => {
     if (isString(config)) {
       config = { content: config };
     }
-    const _config: _MessageConfig = { type: value, ...config };
+    const context = appContext ?? Message._context;
+    const provider = context?.provides[configProviderInjectionKey as symbol] as
+      | ConfigProvider
+      | undefined;
+    const _config: _MessageConfig = {
+      type: value,
+      ...config,
+      deduplicate: config.deduplicate ?? provider?.message?.deduplicate ?? false,
+      deduplicateByType: config.deduplicateByType ?? provider?.message?.deduplicateByType ?? true,
+    };
     const { position = 'top' } = _config;
-    if (messageInstance[position]?.isDisconnected()) {
-      messageInstance[position]?.clear();
-      messageInstance[position]?.destroy();
-      messageInstance[position] = undefined;
+    for (const instance of Object.values(messageInstance)) {
+      if (instance?.isDisconnected()) {
+        instance.clear();
+        instance.destroy();
+      }
+    }
+    if (_config.deduplicate && isUndefined(_config.id)) {
+      for (const instance of Object.values(messageInstance)) {
+        const reused = instance?.reuse(_config);
+        if (reused) {
+          return reused;
+        }
+      }
     }
     if (!messageInstance[position]) {
       messageInstance[position] = new MessageManger(_config, appContext);

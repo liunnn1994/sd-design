@@ -4,6 +4,7 @@ import { createVNode, render, reactive, ref } from 'vue';
 import { MESSAGE_TYPES, MessageType } from '../_utils/constant';
 import { getOverlay } from '../_utils/dom';
 import { isFunction, isString, isUndefined } from '../_utils/is';
+import { configProviderInjectionKey, type ConfigProvider } from '../config-provider/context';
 import {
   NotificationConfig,
   NotificationItem,
@@ -17,6 +18,8 @@ type _NotificationConfig = NotificationConfig & {
 };
 
 class NotificationManger {
+  private readonly pool = new Set<NotificationItem>();
+
   private readonly notificationIds: Set<number | string>;
 
   private readonly notifications: Ref<NotificationItem[]>;
@@ -61,11 +64,30 @@ class NotificationManger {
     }
     const notification: NotificationItem = reactive({ ...config, id });
     this.notifications.value.push(notification);
+    if (config.deduplicate) {
+      this.pool.add(notification);
+    }
     this.notificationIds.add(id);
 
     return {
       close: () => this.remove(id),
     };
+  };
+
+  reuse = (config: _NotificationConfig) => {
+    for (const item of this.pool) {
+      if (
+        (!config.deduplicateByType || item.type === config.type) &&
+        item.content === config.content &&
+        item.title === config.title
+      ) {
+        if (!isUndefined(config.duration)) {
+          item.duration = config.duration;
+        }
+        item.timerVersion = (item.timerVersion ?? 0) + 1;
+        return { close: () => this.remove(item.id) };
+      }
+    }
   };
 
   update = (id: number | string, config: _NotificationConfig) => {
@@ -81,6 +103,12 @@ class NotificationManger {
           id,
           resetOnUpdate,
         });
+        const updated = this.notifications.value[i];
+        if (config.deduplicate) {
+          this.pool.add(updated);
+        } else {
+          this.pool.delete(updated);
+        }
         break;
       }
     }
@@ -96,6 +124,7 @@ class NotificationManger {
       if (item.id === id) {
         this.notifications.value.splice(i, 1);
         this.notificationIds.delete(id);
+        this.pool.delete(item);
         if (isFunction(item.onClose)) {
           item.onClose(id);
         }
@@ -108,6 +137,7 @@ class NotificationManger {
   clear = () => {
     this.notifications.value.splice(0);
     this.notificationIds.clear();
+    this.pool.clear();
   };
 
   destroy = () => {
@@ -140,12 +170,31 @@ const notification = MESSAGE_TYPES.reduce((pre, value) => {
       config = { content: config };
     }
 
-    const _config: _NotificationConfig = { type: value, ...config };
+    const context = appContext ?? Notification._context;
+    const provider = context?.provides[configProviderInjectionKey as symbol] as
+      | ConfigProvider
+      | undefined;
+    const _config: _NotificationConfig = {
+      type: value,
+      ...config,
+      deduplicate: config.deduplicate ?? provider?.notification?.deduplicate ?? false,
+      deduplicateByType:
+        config.deduplicateByType ?? provider?.notification?.deduplicateByType ?? true,
+    };
     const { position = 'topRight' } = _config;
-    if (notificationInstance[position]?.isDisconnected()) {
-      notificationInstance[position]?.clear();
-      notificationInstance[position]?.destroy();
-      notificationInstance[position] = undefined;
+    for (const instance of Object.values(notificationInstance)) {
+      if (instance?.isDisconnected()) {
+        instance.clear();
+        instance.destroy();
+      }
+    }
+    if (_config.deduplicate && isUndefined(_config.id)) {
+      for (const instance of Object.values(notificationInstance)) {
+        const reused = instance?.reuse(_config);
+        if (reused) {
+          return reused;
+        }
+      }
     }
     if (!notificationInstance[position]) {
       notificationInstance[position] = new NotificationManger(_config, appContext);

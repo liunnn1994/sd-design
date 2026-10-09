@@ -121,6 +121,22 @@ const app = createApp(App);
 Notification._context = app._context;
 ```
 
+### 消息去重
+
+在 `ConfigProvider` 上设置 `notification={ deduplicate: true }` 并开启 `global`，可为全局调用启用去重，默认关闭。相同类型、相同标题和内容的重复调用会保留已有提示的位置，并重新开始关闭计时；关闭或清空后即可再次弹出。内容为渲染函数或 VNode 时按引用比较。Message 与 Notification 分别维护独立的池。
+
+```ts
+Notification.success({ content: '保存成功' });
+// 本次允许重复弹出
+Notification.success({ content: '保存成功', deduplicate: false });
+// 本次单独启用去重
+Notification.success({ content: '保存成功', deduplicate: true });
+```
+
+`deduplicateByType` 默认为 `true`，类型参与去重比较。设置为 `false` 后可合并不同类型的相同内容；Notification 仍比较标题。可在 ConfigProvider 对应配置中设置，也可单次传入覆盖；合并时保留已有提示的类型。
+
+导入调用时仍需按上文设置 `_context` 或传入 AppContext，才能读取 ConfigProvider 默认值。显式 `id` 的调用不参与跨位置去重：在指定位置新增通知，或更新该位置的相同 ID。不同位置的相同 ID 保持独立，可通过返回的 `close()` 独立关闭；`Notification.remove(id)` 会移除所有位置的该 ID。未指定 ID 的调用仍可跨位置复用已有通知。
+
 ### NotificationMethod
 
 | 参数名 | 描述 | 类型 | 默认值 |
@@ -136,6 +152,8 @@ Notification._context = app._context;
 
 | 参数名 | 描述 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | :-: | :-- |
+| deduplicateByType | 类型是否参与去重，单次调用优先于全局配置 | `boolean` | `true` |  |
+| deduplicate | 是否去重，单次调用优先于全局配置 | `boolean` | - |  |
 | content | 内容 | `RenderContent` | `-` |  |
 | title | 标题 | `RenderContent` | `-` |  |
 | icon | 图标 | `RenderFunction` | `-` |  |

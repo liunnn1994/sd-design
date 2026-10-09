@@ -26,6 +26,8 @@
     ConfigProviderDatePicker,
     ConfigProviderDrawer,
     type JsonFormProviderConfig,
+    ConfigProviderMessage,
+    ConfigProviderNotification,
     ConfigProviderModal,
     ConfigProviderPagination,
     ConfigProviderTable,
@@ -141,6 +143,20 @@
      */
     datePicker: {
       type: Object as PropType<ConfigProviderDatePicker>,
+    },
+    /**
+     * @zh Message 全局提示默认配置
+     * @en Default config for global messages
+     */
+    message: {
+      type: Object as PropType<ConfigProviderMessage>,
+    },
+    /**
+     * @zh Notification 全局通知默认配置
+     * @en Default config for global notifications
+     */
+    notification: {
+      type: Object as PropType<ConfigProviderNotification>,
     },
     /**
      * @zh Modal 组件默认配置
@@ -304,6 +320,8 @@
     exchangeTime,
     rtl,
     datePicker,
+    message,
+    notification,
     modal,
     drawer,
     pagination,
@@ -337,6 +355,8 @@
     exchangeTime,
     rtl,
     datePicker,
+    message,
+    notification,
     modal,
     drawer,
     pagination,

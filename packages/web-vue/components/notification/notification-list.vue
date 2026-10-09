@@ -16,6 +16,7 @@
       :closable="item.closable"
       :show-icon="item.showIcon"
       :reset-on-update="item.resetOnUpdate"
+      :timer-version="item.timerVersion"
       @close="emit('close', item.id)"
     >
       <component :is="getSlotFunction(item.title)" />

@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
   import type { PropType } from 'vue';
-  import { onMounted, onUnmounted, onUpdated } from 'vue';
+  import { onMounted, onUnmounted, onUpdated, watch } from 'vue';
 
   import AIconHover from '../_components/icon-hover.vue';
   import { MessageType } from '../_utils/constant';
@@ -78,6 +78,10 @@
       type: Number,
       default: 3000,
     },
+    timerVersion: {
+      type: Number,
+      default: 0,
+    },
     resetOnUpdate: {
       type: Boolean,
       default: false,
@@ -94,6 +98,19 @@
     emit('close');
   };
   const handleCloseKeydown = onActivate(handleClose);
+
+  watch(
+    () => props.timerVersion,
+    () => {
+      if (timer) {
+        window.clearTimeout(timer);
+        timer = 0;
+      }
+      if (props.duration > 0) {
+        timer = window.setTimeout(handleClose, props.duration);
+      }
+    },
+  );
 
   onMounted(() => {
     if (props.duration > 0) {

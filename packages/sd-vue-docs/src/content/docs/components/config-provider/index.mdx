@@ -27,6 +27,9 @@ import configProviderPaginationDefaultsSource from '../../../../components/gener
 import ConfigProviderSpinPropsDemo from '../../../../components/generated/config-provider/spin-props.vue';
 import configProviderSpinPropsSource from '../../../../components/generated/config-provider/spin-props.vue?raw';
 
+import DeduplicateDemo from '../../../../components/generated/config-provider/deduplicate.vue';
+import deduplicateSource from '../../../../components/generated/config-provider/deduplicate.vue?raw';
+
 ### 基本用法
 
 设置国际化语言的基本用法。
@@ -94,6 +97,24 @@ import configProviderSpinPropsSource from '../../../../components/generated/conf
 <DemoBlock source={configProviderThemeModeSource} mainFile="src/config-provider-theme-mode.vue">
 
 <ConfigProviderThemeModeDemo client:only="vue" />
+
+</DemoBlock>
+
+### Message / Notification 去重
+
+分别设置 `message` 和 `notification` 的 `deduplicate`，默认关闭。函数式调用需要开启 `global`，并通过对应应用的 `$message` / `$notification` 调用，或为导入的 Message / Notification 传入 AppContext（也可设置 `_context`）。
+
+```vue
+<sd-config-provider global :message="{ deduplicate: true }" :notification="{ deduplicate: true }">
+  <App />
+</sd-config-provider>
+```
+
+`deduplicateByType` 默认为 `true`，仅相同类型与内容会合并；Notification 还会比较标题。设置 `message` / `notification` 的 `deduplicateByType: false` 可忽略类型；单次调用可覆盖此设置，合并后保留已有提示的类型。重复调用重新开始关闭计时，关闭后移出池。单次传入 `deduplicate: false` 可继续弹出相同消息。
+
+<DemoBlock source={deduplicateSource} mainFile="src/config-provider-deduplicate.vue">
+
+<DeduplicateDemo client:only="vue" />
 
 </DemoBlock>
 
@@ -167,6 +188,8 @@ import configProviderSpinPropsSource from '../../../../components/generated/conf
 | exchange-time | 是否交换时间 | `boolean` | `true` | 2.48.0 |
 | rtl | 视图的表现形式是从右开始向左结束 | `boolean` | `false` |  |
 | date-picker | DatePicker 组件默认配置 | `ConfigProviderDatePicker` | `-` |  |
+| message | Message 默认配置 | `ConfigProviderMessage` | - |  |
+| notification | Notification 默认配置 | `ConfigProviderNotification` | - |  |
 | modal | Modal 组件默认配置 | `ConfigProviderModal` | `-` |  |
 | drawer | Drawer 组件默认配置 | `ConfigProviderDrawer` | `-` |  |
 | pagination | Pagination 组件默认配置 | `ConfigProviderPagination` | `-` |  |
