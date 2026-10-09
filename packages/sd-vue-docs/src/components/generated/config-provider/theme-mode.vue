@@ -49,7 +49,7 @@
   });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .theme-mode-demo {
     display: grid;
     gap: 12px;
@@ -57,8 +57,9 @@
 
   .theme-mode-demo__panel {
     padding: 16px;
-    border: 1px solid var(--color-border-2);
+    border: 1px solid var(--sd-color-border-2);
     border-radius: 12px;
-    background: var(--color-bg-2);
+    background: var(--sd-color-bg-2);
+    color: var(--sd-color-text-1);
   }
 </style>
