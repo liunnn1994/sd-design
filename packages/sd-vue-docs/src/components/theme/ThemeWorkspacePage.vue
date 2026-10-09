@@ -3,7 +3,7 @@
 
   import { computed, reactive, shallowRef } from 'vue';
 
-  defineProps<{ theme: SdThemeConfig; themeMode: 'light' | 'dark' }>();
+  defineProps<{ theme: SdThemeConfig; themeMode: 'light' | 'dark'; mobile?: boolean }>();
 
   const tab = shallowRef('tasks');
   const search = shallowRef('');
@@ -116,7 +116,12 @@
 </script>
 
 <template>
-  <sd-layout :has-sider="false" class="workspace-page" data-testid="workspace-page">
+  <sd-layout
+    :has-sider="false"
+    class="workspace-page"
+    :class="{ 'mobile-layout': mobile }"
+    data-testid="workspace-page"
+  >
     <sd-layout-header class="workspace-header" data-testid="workspace-header">
       <sd-space size="large"
         ><sd-avatar shape="square" :size="32">SD</sd-avatar
@@ -147,7 +152,12 @@
           ><sd-breadcrumb-item>工作空间</sd-breadcrumb-item
           ><sd-breadcrumb-item>产品交付</sd-breadcrumb-item></sd-breadcrumb
         >
-        <sd-page-header title="产品交付" subtitle="秋季版本 · 2026 年 9 月" :show-back="false">
+        <sd-page-header
+          class="workspace-title"
+          title="产品交付"
+          subtitle="秋季版本 · 2026 年 9 月"
+          :show-back="false"
+        >
           <template #extra
             ><sd-space
               ><sd-button disabled>归档项目</sd-button
@@ -223,6 +233,7 @@
               >
             </sd-space>
             <sd-table
+              :scroll="mobile ? { x: 760 } : undefined"
               :columns="columns"
               :data="filtered"
               :pagination="{ pageSize: 4 }"
@@ -328,7 +339,7 @@
           v-model:visible="dialog"
           title="新建交付任务"
           :footer="false"
-          :width="480"
+          :width="mobile ? 'calc(100vw - 32px)' : 480"
         >
           <sd-form :model="form" layout="vertical">
             <sd-form-item
@@ -358,7 +369,7 @@
           :render-to-body="false"
           v-model:visible="drawer"
           title="交付检查详情"
-          :width="420"
+          :width="mobile ? 'min(420px, calc(100vw - 16px))' : 420"
           :footer="false"
         >
           <sd-space direction="vertical" fill size="large"
@@ -425,5 +436,68 @@
     display: grid;
     grid-template-columns: 1.5fr 1fr;
     gap: 16px;
+  }
+
+  .mobile-layout {
+    overflow: hidden;
+    border: 1px solid var(--sd-color-border-2);
+    border-radius: var(--sd-border-radius-medium);
+  }
+
+  .mobile-layout .workspace-sidebar {
+    display: none;
+  }
+
+  .mobile-layout .workspace-header {
+    gap: 8px;
+    height: auto;
+    min-height: 64px;
+    padding: 12px;
+  }
+
+  .mobile-layout .workspace-header :deep(.sd-tag),
+  .mobile-layout .workspace-header > :last-child :deep(.sd-avatar) {
+    display: none;
+  }
+
+  .mobile-layout .workspace-content {
+    gap: 16px;
+    padding: 12px;
+  }
+
+  .mobile-layout .workspace-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .mobile-layout .workspace-bottom {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mobile-layout .workspace-title :deep(.sd-page-header-header),
+  .mobile-layout .workspace-title :deep(.sd-page-header-main) {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .mobile-layout .workspace-title :deep(.sd-page-header-divider) {
+    display: none;
+  }
+
+  .mobile-layout .workspace-title :deep(.sd-page-header-subtitle) {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .mobile-layout .workspace-title :deep(.sd-page-header-extra) {
+    margin-left: 0;
+  }
+
+  .mobile-layout .task-filters {
+    display: flex;
+  }
+
+  .mobile-layout .task-filters :deep(.sd-space-item:first-child) {
+    width: 100%;
   }
 </style>

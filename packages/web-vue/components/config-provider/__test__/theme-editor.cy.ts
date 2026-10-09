@@ -87,51 +87,118 @@ describe('主题架构与编辑器', () => {
     expect(parseThemeConfig('{}').valid).to.equal(true);
   });
 
-  it('通过基础、高级、组件编辑及 JSON 导入完成主题配置流程', () => {
-    cy.viewport(1440, 1000);
+  it('三步设计保留调整，预设圆角可覆盖，撤销与比较可用', () => {
+    cy.viewport(1440, 1024);
     cy.mount(ThemeEditor, { global: { stubs: { transition: false } } });
+    cy.get('[data-testid="workspace-page"]').should('be.visible');
+    cy.get('.editor-steps [aria-current="step"]').should('contain.text', '选择风格');
+    cy.contains('.preset-option', '品牌色').click();
+    cy.contains('button', '下一步：调整品牌').click();
+    cy.get('.preview-toolbar').contains('组件示例').click();
     cy.get('[data-testid="theme-demo"] .sd-btn-primary').first().should('be.visible');
-    cy.get('[data-testid="seed-primary"] input').clear().type('#ff0000').blur();
+    cy.contains('.radius-choice', '微圆').click();
     cy.get('[data-testid="theme-demo"] .sd-btn-primary')
       .first()
-      .should('have.css', 'background-color', 'rgb(255, 0, 0)');
-    cy.contains('button', '高级').click();
-    cy.get('[aria-label="主题范围"]').contains('button', '组件').click();
+      .should('have.css', 'border-radius', '4px');
+    cy.contains('.brand-colors button', '青色').click();
+    cy.get('[data-testid="theme-demo"] .sd-btn-primary')
+      .first()
+      .should('have.css', 'background-color', 'rgb(20, 184, 166)');
+    cy.contains('.toolbar-actions button', '撤销').click();
+    cy.get('[data-testid="theme-demo"] .sd-btn-primary')
+      .first()
+      .should('have.css', 'background-color', 'rgb(230, 57, 122)');
+    cy.contains('.toolbar-actions button', '重做').click();
+    cy.contains('.preview-toolbar button', '查看调整前').click();
+    cy.get('[data-testid="theme-demo"] .sd-btn-primary')
+      .first()
+      .should('have.css', 'background-color', 'rgb(230, 57, 122)');
+    cy.contains('.preview-toolbar button', '返回当前效果').click();
+    cy.get('[data-testid="theme-demo"] .sd-btn-primary')
+      .first()
+      .should('have.css', 'background-color', 'rgb(20, 184, 166)');
+    cy.get('.editor-steps').contains('.sd-steps-item', '选择风格').click();
+    cy.get('.editor-steps').contains('.sd-steps-item', '确认效果').click();
+    cy.get('input[aria-label="主题名称"]').clear().type('客户品牌主题').blur();
+    cy.contains('button', '下载主题文件').click();
+    cy.readFile('cypress/downloads/sd-theme.json').should((config) => {
+      expect(config.meta.name).to.equal('客户品牌主题');
+      expect(config.seed.primary).to.equal('#14b8a6');
+      expect(config.seed.radius).to.equal(4);
+      expect(config.tokens).not.to.have.property('border-radius-medium');
+    });
+    cy.contains('button', '继续调整').click();
+    cy.get('[data-testid="seed-primary"] input').should('have.value', '#14B8A6');
+    cy.screenshot('theme-guided-brand-desktop');
+    cy.viewport(390, 844);
+    cy.get('[data-testid="theme-editor"]').should('be.visible');
+    cy.document().should((document) =>
+      expect(document.documentElement.scrollWidth).to.be.at.most(390),
+    );
+    cy.screenshot('theme-guided-brand-mobile');
+  });
+
+  it('疏密同步控件和间距，深色模式跟随主题文件', () => {
+    cy.viewport(1440, 1024);
+    cy.mount(ThemeEditor, { global: { stubs: { transition: false } } });
+    cy.get('.editor-steps').contains('.sd-steps-item', '调整品牌').click();
+    cy.get('.preview-toolbar').contains('组件示例').click();
+    cy.get('[aria-label="界面疏密"]').contains('宽松').click();
+    cy.get('[data-testid="theme-demo"] .sd-btn-primary')
+      .first()
+      .should('have.css', 'height', '40px');
+    cy.get('[aria-label="预览明暗"]').contains('深色').click();
+    cy.get('[data-testid="theme-demo"]')
+      .closest('.sd-theme-provider')
+      .should('have.attr', 'sd-theme', 'dark');
+    cy.get('.editor-steps').contains('.sd-steps-item', '确认效果').click();
+    cy.contains('button', '下载主题文件').click();
+    cy.readFile('cypress/downloads/sd-theme.json').should((config) => {
+      expect(config.seed.controlHeight).to.equal(40);
+      expect(config.tokens['spacing-7']).to.equal('20px');
+      expect(config.algorithm).to.deep.equal(['dark']);
+    });
+  });
+
+  it('组件微调、JSON 校验与主题文件重新导入', () => {
+    cy.viewport(1440, 1024);
+    cy.mount(ThemeEditor, { global: { stubs: { transition: false } } });
+    cy.get('.editor-steps').contains('.sd-steps-item', '调整品牌').click();
+    cy.contains('.sd-collapse-item-header', '微调组件').click();
+    cy.get('[aria-label="微调对象"]').click();
+    cy.get('[role="option"]').contains('按钮').click();
     cy.get('input[aria-label="搜索 token"]').type('btn-border-radius');
     cy.get('input[aria-label="btn-border-radius"]').type('18px').blur();
     cy.get('[data-testid="theme-demo"] .sd-btn-primary')
       .first()
       .should('have.css', 'border-radius', '18px');
-    cy.get('[aria-label="重置 btn-border-radius"]').click();
+    cy.contains('button', '恢复跟随整体').click();
     cy.get('[data-testid="theme-demo"] .sd-btn-primary')
       .first()
       .should('not.have.css', 'border-radius', '18px');
-    cy.contains('button', '主题配置').click();
-    cy.get('[aria-label="主题 JSON"]')
+    cy.contains('.sd-collapse-item-header', '导入与更多选项').click();
+    cy.contains('button', '编辑主题文件').click();
+    cy.get('[aria-label="主题文件内容"]')
       .clear()
       .type('{invalid', { parseSpecialCharSequences: false });
-    cy.contains('button', '应用配置').click();
+    cy.contains('button', '应用文件').click();
     cy.get('[role="alert"]').should('contain.text', 'JSON 解析失败');
-    cy.get('[aria-label="主题 JSON"]')
+    cy.get('[aria-label="主题文件内容"]')
       .clear()
       .type(JSON.stringify({ seed: { primary: '#00ff00' }, algorithm: ['dark', 'compact'] }), {
         parseSpecialCharSequences: false,
       });
-    cy.contains('button', '应用配置').click();
+    cy.contains('button', '应用文件').click();
     cy.get('[data-testid="theme-demo"]')
       .closest('.sd-theme-provider')
       .should('have.attr', 'sd-theme', 'dark');
-    cy.contains('button', '导出').click();
-    cy.readFile('cypress/downloads/sd-theme.json').should('deep.include', {
-      algorithm: ['dark', 'compact'],
-    });
-    cy.contains('button', '重置全部').click();
+    cy.contains('button', '恢复默认主题').click();
     cy.get('[data-testid="theme-import"] input[type="file"]').selectFile(
       {
         contents: Cypress.Buffer.from(
           JSON.stringify({
             tokens: { primary6: '12,34,56' },
-            components: { button: { borderRadius: '16px' } },
+            components: { button: { 'btn-border-radius': '16px' } },
           }),
         ),
         fileName: 'import.json',
@@ -143,7 +210,9 @@ describe('主题架构与编辑器', () => {
       .first()
       .should('have.css', 'background-color', 'rgb(12, 34, 56)')
       .and('have.css', 'border-radius', '16px');
-    cy.get('[aria-label="组件主题"]').contains('button', 'input').first().click();
-    cy.get('[data-testid="theme-demo"] .sd-input-wrapper').should('exist');
+    cy.contains('button', '恢复跟随整体').click();
+    cy.get('[data-testid="theme-demo"] .sd-btn-primary')
+      .first()
+      .should('not.have.css', 'border-radius', '16px');
   });
 });

@@ -248,10 +248,14 @@
     margin: 8px 0;
   }
 
-  .value-input {
+  .token-value :deep(.value-input) {
     flex: 1;
     min-width: 0;
     font: 12px monospace;
+  }
+
+  .token-value :deep(.value-input input) {
+    font-family: monospace;
   }
 
   .color-trigger {

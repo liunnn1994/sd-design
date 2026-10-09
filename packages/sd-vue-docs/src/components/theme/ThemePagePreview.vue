@@ -3,12 +3,13 @@
 
   import ThemePreviewCanvas from './ThemePreviewCanvas.vue';
   import ThemeWorkspacePage from './ThemeWorkspacePage.vue';
-  defineProps<{ theme: SdThemeConfig; themeMode: 'light' | 'dark' }>();
+  defineProps<{ theme: SdThemeConfig; themeMode: 'light' | 'dark'; mobile?: boolean }>();
 </script>
 
 <template>
   <sd-config-provider :theme="theme" :theme-mode="themeMode">
-    <ThemePreviewCanvas
+    <ThemeWorkspacePage v-if="mobile" :theme="theme" :theme-mode="themeMode" mobile />
+    <ThemePreviewCanvas v-else
       ><ThemeWorkspacePage :theme="theme" :theme-mode="themeMode"
     /></ThemePreviewCanvas>
   </sd-config-provider>

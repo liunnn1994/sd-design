@@ -99,7 +99,7 @@
     background: var(--sd-color-bg-2);
   }
 
-  .canvas-help {
+  .preview-canvas :deep(.canvas-help) {
     display: block;
     padding: 12px;
     font-size: 12px;

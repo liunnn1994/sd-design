@@ -105,6 +105,43 @@ Scss 迁移后的组件样式优先消费 CSS variables。当前已经稳定使�
 
 使用 [在线主题编辑器](/guides/theme-editor/) 调整基础、全局和组件主题，查看真实文档示例并导出可直接使用的 JSON。
 
+### 主题文件接入
+
+编辑器下载的 JSON 可作为 `SdThemeConfig` 传入 `ConfigProvider`，也可重新导入编辑器继续调整。文件包含名称、基础设计参数、全局与组件级覆盖，以及当前明暗模式。
+
+```json
+{
+  "meta": {
+    "schemaVersion": 1,
+    "cssVarPrefix": "--",
+    "name": "Campaign Theme"
+  },
+  "tokens": {
+    "primary6": "230,57,122",
+    "colorBg2": "#fff8fb",
+    "borderRadiusMedium": "14px"
+  },
+  "components": {
+    "button": {
+      "borderRadius": "14px"
+    }
+  }
+}
+```
+
+导入失败时，编辑器保留当前主题。文件校验规则：
+
+- `meta.schemaVersion` 必须与文档站支持的版本一致。
+- 空对象表示默认主题；可提供 `seed`、`tokens`、`components` 和 `algorithm`。
+- token 值只能是字符串或数字，不支持嵌套对象。
+- `algorithm` 仅支持 `dark`、`compact`；基础色使用六位十六进制，尺寸为有效数字。
+
+### 编辑器字段与组件发现
+
+组件目录和字段由组件库的 `style/token.scss` 自动生成，预览自动发现文档 demo。新增或修改组件时遵循现有样式和 demo 约定，在正常文档开发启动或构建时重新生成目录，无需维护编辑器注册表。
+
+整体圆角、字号、疏密和主色调整会替换对应的全局覆盖，保留组件独立样式。疏密调整控件高度和基础间距，不改变所有布局间距。组件“恢复跟随整体”后使用整体主题设置。
+
 ## 迁移建议
 
 - 新项目直接使用 theme 对象，不再新增 Less modifyVars 覆盖

@@ -5,28 +5,58 @@ import { parseThemeConfig, type SdThemeConfig } from '@sdata/web-vue';
 import { canonicalConfig, editToken } from './editor-model';
 import { themePresets } from './theme-playground';
 
+interface EditorSnapshot {
+  theme: SdThemeConfig;
+  preset: string;
+  baseline: SdThemeConfig;
+}
+
 export function useThemeEditor() {
-  const theme = shallowRef<SdThemeConfig>(canonicalConfig({}));
-  const preset = shallowRef('custom');
+  const theme = shallowRef<SdThemeConfig>(canonicalConfig(themePresets[0].theme));
+  const preset = shallowRef(themePresets[0].key);
   const status = shallowRef('');
   const error = shallowRef('');
   const json = shallowRef('');
   const showJson = shallowRef(false);
+  const history = shallowRef<EditorSnapshot[]>([]);
+  const future = shallowRef<EditorSnapshot[]>([]);
+  const baseline = shallowRef<SdThemeConfig>(canonicalConfig(themePresets[0].theme));
+  const canUndo = computed(() => history.value.length > 0);
+  const canRedo = computed(() => future.value.length > 0);
   const serialized = computed(() => JSON.stringify(theme.value, null, 2));
-  const changes = computed(
-    () =>
-      Object.keys(theme.value.seed ?? {}).length +
-      Object.keys(theme.value.tokens ?? {}).length +
-      Object.values(theme.value.components ?? {}).reduce(
-        (sum, value) => sum + Object.keys(value).length,
-        0,
-      ),
-  );
+  function snapshot(): EditorSnapshot {
+    return { theme: theme.value, preset: preset.value, baseline: baseline.value };
+  }
+  function restore(value: EditorSnapshot) {
+    theme.value = value.theme;
+    preset.value = value.preset;
+    baseline.value = value.baseline;
+    status.value = '';
+    error.value = '';
+  }
   function update(next: SdThemeConfig) {
-    theme.value = canonicalConfig(next);
+    const canonical = canonicalConfig(next);
+    if (JSON.stringify(canonical) === JSON.stringify(theme.value)) return;
+    history.value = [...history.value, snapshot()];
+    future.value = [];
+    theme.value = canonical;
     preset.value = 'custom';
     status.value = '';
     error.value = '';
+  }
+  function undo() {
+    const previous = history.value.at(-1);
+    if (!previous) return;
+    future.value = [...future.value, snapshot()];
+    history.value = history.value.slice(0, -1);
+    restore(previous);
+  }
+  function redo() {
+    const next = future.value.at(-1);
+    if (!next) return;
+    history.value = [...history.value, snapshot()];
+    future.value = future.value.slice(0, -1);
+    restore(next);
   }
   function updateToken(key: string, value: string | undefined, component = '') {
     update(editToken(theme.value, key, value, component));
@@ -40,6 +70,7 @@ export function useThemeEditor() {
     if (!item) return;
     update(item.theme);
     preset.value = key;
+    baseline.value = canonicalConfig(item.theme);
   }
   function openJson() {
     json.value = serialized.value;
@@ -53,6 +84,7 @@ export function useThemeEditor() {
       return false;
     }
     update(result.data);
+    baseline.value = canonicalConfig(result.data);
     showJson.value = false;
     status.value = '主题配置已应用。';
     return true;
@@ -75,7 +107,7 @@ export function useThemeEditor() {
     link.click();
     link.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    status.value = '主题 JSON 已导出。';
+    status.value = '主题文件已下载，可交给实施人员，也可重新导入继续调整。';
   }
   async function copy() {
     try {
@@ -93,7 +125,11 @@ export function useThemeEditor() {
     json,
     showJson,
     serialized,
-    changes,
+    baseline,
+    canUndo,
+    canRedo,
+    undo,
+    redo,
     update,
     updateToken,
     reset,

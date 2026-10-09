@@ -1,6 +1,25 @@
 import { normalizeTheme, normalizeTokenKey, type SdThemeConfig } from '@sdata/web-vue';
 
 import catalog from '../../../../web-vue/components/config-provider/theme-catalog.json';
+import { docsSidebar } from '../../generated/docs-sidebar';
+
+interface SidebarItem {
+  label: string;
+  slug?: string;
+  items?: SidebarItem[];
+}
+const componentLabels = new Map<string, string>();
+function collectComponentLabels(items: SidebarItem[]) {
+  for (const item of items) {
+    if (item.slug?.startsWith('components/'))
+      componentLabels.set(item.slug.slice('components/'.length), item.label);
+    if (item.items) collectComponentLabels(item.items);
+  }
+}
+collectComponentLabels(docsSidebar);
+export function componentLabel(name: string) {
+  return componentLabels.get(name) ?? name;
+}
 
 export interface EditorToken {
   key: string;
