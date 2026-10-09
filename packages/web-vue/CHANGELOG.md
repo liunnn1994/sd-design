@@ -1,3 +1,10 @@
+# [7.2.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.1.0...web-vue-v7.2.0) (2026-10-09)
+
+
+### Features
+
+* 🆕 优化主题编辑器 ([e90433f](https://github.com/liunnn1994/sd-design/commit/e90433fc558931cd6412ec2dbd8ef8eaff64c338))
+
 # [7.1.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.0.0...web-vue-v7.1.0) (2026-10-09)
 
 
