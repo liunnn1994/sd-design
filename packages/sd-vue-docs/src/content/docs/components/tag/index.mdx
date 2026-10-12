@@ -99,6 +99,8 @@ import tagSizeSource from '../../../../components/generated/tag/size.vue?raw';
 
 ### 省略内容
 
+开启省略时，标签宽度不会超过父容器。在 Table 的有宽度约束的单元格中，长标签会自动省略，无需额外设置标签宽度或开启列的 `ellipsis`。
+
 默认内容区域内置 `sd-ellipsis`，默认开启单行省略；可以通过 `ellipsis` 关闭，也可以通过 `ellipsis-performant` 切换到高性能版本。在需要多行截断时，可配合 `ellipsis-line-clamp`、`ellipsis-expand-trigger` 和 `tooltip` 插槽控制省略行为。显式设置 `tooltip` 属性或 `tooltip` 插槽后，无论内容是否被省略，hover 时都会显示自定义提示；若 `ellipsis-tooltip` 被显式关闭（`false` 或 `disabled: true`），则不展示。
 
 <DemoBlock source={tagEllipsisSource} mainFile="src/tag-ellipsis.vue">
