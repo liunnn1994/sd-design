@@ -13,8 +13,8 @@ export type FilePreviewerMediaSkin = 'default' | 'minimal' | 'native' | false | 
 export type FilePreviewerMediaProps = Simplify<
   UnknownRecord & {
     /**
-     * @zh 媒体预览皮肤。设置为 `native` 或 `false` 时不渲染 Video.js Web Components
-     * @en Media preview skin. Set to `native` or `false` to avoid rendering Video.js Web Components
+     * @zh 媒体预览皮肤。`minimal` 使用 Video.js Neutral 皮肤；设置为 `native` 或 `false` 时不渲染 Video.js Web Components
+     * @en Media preview skin. `minimal` uses the Video.js Neutral skin; `native` or `false` avoids rendering Video.js Web Components
      */
     skin?: FilePreviewerMediaSkin;
     /**

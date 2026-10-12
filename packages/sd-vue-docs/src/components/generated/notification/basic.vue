@@ -1,17 +1,6 @@
 <template>
   <sd-space>
-    <sd-button
-      type="primary"
-      @click="
-        () =>
-          Notification.info({
-            title: 'Notification',
-            content: 'This is a notification!',
-          })
-      "
-    >
-      Open Notification
-    </sd-button>
+    <sd-button type="primary" @click="handleNotification"> Open Notification </sd-button>
     <sd-button @click="handleNotification"> Open Notification </sd-button>
   </sd-space>
 </template>

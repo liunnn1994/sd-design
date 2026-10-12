@@ -11,7 +11,7 @@ describe('FilePreviewer native to custom skin', () => {
       });
       cy.get(type).should('have.attr', 'controls');
       cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ mediaProps: { skin: 'minimal' } }));
-      cy.get(`${type}-minimal-skin`).should(($skin) => {
+      cy.get(`${type}-neutral-skin`).should(($skin) => {
         expect($skin[0].shadowRoot).not.to.equal(null);
         expect($skin[0].shadowRoot?.querySelector('media-play-button')).not.to.equal(null);
       });

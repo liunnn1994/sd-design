@@ -3,7 +3,7 @@
     class="sd:w-100"
     :length="9"
     :separator="(index) => ((index + 1) % 3 || index > 7 ? h('span') : h('span', '-'))"
-    @finish="(value) => Message.info(`Verification code: ${value}`)"
+    @finish="handleFinish"
   />
 </template>
 
@@ -11,4 +11,6 @@
   import { h } from 'vue';
 
   import { Message } from '@sdata/web-vue';
+
+  const handleFinish = (value: string) => Message.info(`Verification code: ${value}`);
 </script>

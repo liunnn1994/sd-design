@@ -20,27 +20,27 @@
     "docs:vendor:only": "node ./scripts/sync-vendor.ts"
   },
   "dependencies": {
-    "@antv/infographic": "0.2.20",
+    "@antv/infographic": "^0.2.20",
     "@astrojs/mdx": "^8.0.2",
-    "@astrojs/starlight": "^0.42.4",
+    "@astrojs/starlight": "^0.42.5",
     "@astrojs/vue": "^7.0.3",
     "@sdata/web-vue": "workspace:*",
     "@tailwindcss/vite": "^4.3.3",
-    "@terrastruct/d2": "0.1.33",
+    "@terrastruct/d2": "^0.1.33",
     "@vue/repl": "^4.7.2",
     "@vueuse/core": "catalog:",
     "astro": "^7.3.5",
-    "katex": "0.18.9",
-    "mermaid": "12.0.0",
-    "sharp": "^0.35.4",
-    "shiki": "^4.4.3",
+    "katex": "^0.19.0",
+    "mermaid": "^12.1.0",
+    "sharp": "^0.35.5",
+    "shiki": "^4.5.0",
     "tailwindcss": "^4.3.3",
     "unist-util-visit": "^5.1.0",
     "vite": "catalog:",
     "vue": "catalog:"
   },
   "devDependencies": {
-    "rolldown": "^1.2.9",
-    "vue-tsc": "^3.3.11"
+    "rolldown": "^1.2.12",
+    "vue-tsc": "^3.3.12"
   }
 }

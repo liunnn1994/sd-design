@@ -1,4 +1,4 @@
-import type { CSSProperties, InjectionKey, Ref, Slots } from 'vue';
+import type { CSSProperties, InjectionKey, PublicProps, Ref, Slots } from 'vue';
 
 export type { JsonFormProviderConfig } from '../json-form/types';
 import type { VirtualListProps } from '../_components/virtual-list/interface';
@@ -11,9 +11,11 @@ import type { SdLang } from '../locale/interface';
 import type { PaginationProps } from '../pagination';
 import type { PaginationSelectProps } from '../pagination/interface';
 import type { ScrollbarProps } from '../scrollbar';
-import type { SpinProps } from '../spin';
+import type { SpinProps as SpinOwnProps } from '../spin/interface';
 import type { TableBorder, TablePagePosition } from '../table/interface';
 import type { SDThemeNormalized, SdThemeMode } from './theme';
+
+type SpinProps = SpinOwnProps & PublicProps;
 
 export interface ConfigProviderModal {
   mask?: boolean;

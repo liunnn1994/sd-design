@@ -471,7 +471,7 @@
   );
   const mediaSkinTag = computed(() => {
     if (mediaSkin.value === 'minimal') {
-      return type.value === 'audio' ? 'audio-minimal-skin' : 'video-minimal-skin';
+      return type.value === 'audio' ? 'audio-neutral-skin' : 'video-neutral-skin';
     }
     if (mediaSkin.value && mediaSkin.value !== 'default') return String(mediaSkin.value);
     return type.value === 'audio' ? 'audio-skin' : 'video-skin';
@@ -658,7 +658,7 @@
         videoJsAudioPromise = import('@videojs/html/audio/player').then(() =>
           Promise.all([
             import('@videojs/html/audio/skin'),
-            import('@videojs/html/audio/minimal-skin'),
+            import('@videojs/html/audio/neutral-skin'),
           ]),
         );
       }
@@ -669,7 +669,7 @@
       videoJsVideoPromise = import('@videojs/html/video/player').then(() =>
         Promise.all([
           import('@videojs/html/video/skin'),
-          import('@videojs/html/video/minimal-skin'),
+          import('@videojs/html/video/neutral-skin'),
         ]),
       );
     }
