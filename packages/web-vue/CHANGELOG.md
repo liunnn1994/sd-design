@@ -1,3 +1,16 @@
+# [7.3.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.2.0...web-vue-v7.3.0) (2026-10-13)
+
+
+### Bug Fixes
+
+* 🐛 修复 tag 没有自动溢出的问题 ([04ba076](https://github.com/liunnn1994/sd-design/commit/04ba0765227b893e77fc9311a6bc2fbea499d2c8))
+
+
+### Features
+
+* 🆕 优化组件库视觉规范与交互反馈 ([05a8414](https://github.com/liunnn1994/sd-design/commit/05a84142deba64aa0791f3c1d7ecf81cbd9de36c))
+* 🆕 更新依赖 ([b8995b8](https://github.com/liunnn1994/sd-design/commit/b8995b85eab7e6a192c3a482933cc0db005c9ff5))
+
 # [7.2.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.1.0...web-vue-v7.2.0) (2026-10-09)
 
 
