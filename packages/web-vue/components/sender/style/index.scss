@@ -15,6 +15,11 @@ $sender-prefix-cls: string.unquote('#{theme.$prefix}-sender');
     border: $sender-border-width solid $sender-color-border-input;
     border-radius: $sender-border-radius;
     box-shadow: $sender-box-shadow;
+    transition: box-shadow $sender-motion-duration $sender-motion-easing;
+
+    &:focus-within:not(.#{$sender-prefix-cls}-disabled) {
+      box-shadow: $sender-box-shadow-focus;
+    }
   }
 
   &-voice-glow[data-voice-beam] {
@@ -354,6 +359,10 @@ $sender-prefix-cls: string.unquote('#{theme.$prefix}-sender');
 
 @media (prefers-reduced-motion: reduce) {
   .#{$sender-prefix-cls} {
+    &-main {
+      transition: none;
+    }
+
     &-loading-spinner,
     &-recording-bar {
       animation: none;

@@ -46,7 +46,7 @@
         :class="contentCls"
       >
         <div v-if="mounted" :class="`${prefixCls}-content-box`">
-          <slot />
+          <div :class="`${prefixCls}-content-body`"><slot /></div>
         </div>
       </div>
     </Transition>
@@ -186,18 +186,8 @@
   };
   let leaving = false;
   const transitionEvents: TransitionProps = {
-    onEnter: (element: Element) => {
-      (element as HTMLDivElement).style.height = `${element.scrollHeight}px`;
-    },
-    onAfterEnter: (element: Element) => {
-      (element as HTMLDivElement).style.height = 'auto';
-    },
-    onBeforeLeave: (element: Element) => {
+    onBeforeLeave: () => {
       leaving = true;
-      (element as HTMLDivElement).style.height = `${element.scrollHeight}px`;
-    },
-    onLeave: (element: Element) => {
-      (element as HTMLDivElement).style.height = '0';
     },
     onAfterLeave: () => {
       leaving = false;

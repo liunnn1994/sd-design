@@ -10,6 +10,7 @@ $number-flow-prefix-cls: string.unquote('#{theme.$prefix}-number-flow');
   line-height: 1;
   direction: ltr;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
   isolation: isolate;
 
   &-content,

@@ -21,14 +21,14 @@ describe('QrCode', () => {
     );
 
     cy.get('.sd-qr-code')
-      .should('have.css', 'background-color', 'rgb(35, 35, 36)')
+      .should('have.css', 'background-color', 'rgb(32, 32, 30)')
       .find('.sd-qr-code-cover')
       .should(($cover) => {
         const backgroundColor = getComputedStyle($cover[0]).backgroundColor;
         expect(backgroundColor).to.contain('0.88');
         expect(backgroundColor).not.to.equal('rgba(255, 255, 255, 0.88)');
       });
-    cy.get('.sd-qr-code-svg svg path').eq(0).should('have.attr', 'fill', '#232324');
+    cy.get('.sd-qr-code-svg svg path').eq(0).should('have.attr', 'fill', '#20201e');
     cy.get('.sd-qr-code-svg svg path').eq(1).should('have.attr', 'stroke', '#f6f6f6');
   });
 

@@ -20,12 +20,19 @@
   .paragraph-node {
     color: inherit;
     line-height: $markdown-render-line-height;
+    text-wrap: pretty;
+    word-break: normal;
     overflow-wrap: anywhere;
   }
 
   .#{theme.$prefix}-link {
     font-size: inherit;
     line-height: inherit;
+  }
+
+  .text-node {
+    word-break: normal;
+    overflow-wrap: anywhere;
   }
 
   .#{theme.$prefix}-typography {

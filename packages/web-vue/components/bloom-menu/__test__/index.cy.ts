@@ -105,8 +105,8 @@ describe('BloomMenu', () => {
       .and('have.attr', 'data-testid', 'bloom-menu-trigger')
       .and('have.attr', 'aria-label', 'Create item')
       .and('have.css', 'opacity', '0.99')
-      // size 等尺寸类不被默认样式压制(large 高度 36 而非默认 44)
-      .and('have.css', 'height', '36px')
+      // size 等尺寸类不被默认样式压制(large 高度 40 而非默认 44)
+      .and('have.css', 'height', '40px')
       .trigger('mouseenter', { force: true })
       .then(($trigger) => {
         const triggerRect = ($trigger[0] as HTMLElement).getBoundingClientRect();

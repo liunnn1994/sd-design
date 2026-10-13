@@ -22,11 +22,11 @@
     },
     {
       "key": "border-radius-small",
-      "value": "4px"
+      "value": "5px"
     },
     {
       "key": "border-radius-medium",
-      "value": "6px"
+      "value": "8px"
     },
     {
       "key": "border-radius-large",
@@ -122,7 +122,7 @@
     },
     {
       "key": "size-large",
-      "value": "36px"
+      "value": "40px"
     },
     {
       "key": "spacing-none",
@@ -218,7 +218,7 @@
     },
     {
       "key": "font-weight-500",
-      "value": "500"
+      "value": "var(--sd-font-weight-medium, 500)"
     },
     {
       "key": "color-primary-2",
@@ -243,6 +243,10 @@
     {
       "key": "color-primary-7",
       "value": "rgb(var(--sd-primary-7))"
+    },
+    {
+      "key": "color-primary-8",
+      "value": "rgb(var(--sd-primary-8))"
     },
     {
       "key": "color-success-3",
@@ -305,8 +309,16 @@
       "value": "rgb(var(--sd-link-6))"
     },
     {
+      "key": "color-link-7",
+      "value": "rgb(var(--sd-link-7))"
+    },
+    {
       "key": "color-text-1",
       "value": "var(--sd-color-neutral-10)"
+    },
+    {
+      "key": "color-text-3",
+      "value": "var(--sd-color-neutral-6)"
     },
     {
       "key": "color-text-4",
@@ -329,6 +341,26 @@
       "value": "var(--sd-color-neutral-4)"
     },
     {
+      "key": "font-weight-medium",
+      "value": "500"
+    },
+    {
+      "key": "font-weight-semibold",
+      "value": "600"
+    },
+    {
+      "key": "color-primary-on",
+      "value": "#0b0b0a"
+    },
+    {
+      "key": "color-primary-on-hover",
+      "value": "#0b0b0a"
+    },
+    {
+      "key": "color-primary-on-active",
+      "value": "#fff"
+    },
+    {
       "key": "color-white",
       "value": "#fff"
     },
@@ -346,7 +378,7 @@
     },
     {
       "key": "color-bg-1",
-      "value": "#f7f8fa"
+      "value": "#f5f5f3"
     },
     {
       "key": "color-bg-2",
@@ -354,11 +386,11 @@
     },
     {
       "key": "color-bg-3",
-      "value": "#f7f8fa"
+      "value": "#fcfcfb"
     },
     {
       "key": "color-bg-4",
-      "value": "#f2f3f5"
+      "value": "#f5f5f3"
     },
     {
       "key": "color-bg-5",
@@ -411,10 +443,6 @@
     {
       "key": "color-text-2",
       "value": "var(--sd-color-neutral-8)"
-    },
-    {
-      "key": "color-text-3",
-      "value": "var(--sd-color-neutral-6)"
     },
     {
       "key": "color-border-1",
@@ -558,7 +586,7 @@
     },
     {
       "key": "color-mask-bg",
-      "value": "rgba(29, 33, 41, 0.6)"
+      "value": "rgba(11, 11, 10, 0.6)"
     },
     {
       "key": "red-1",
@@ -1082,43 +1110,83 @@
     },
     {
       "key": "gray-1",
-      "value": "247, 248, 250"
+      "value": "252, 252, 251"
     },
     {
       "key": "gray-2",
-      "value": "242, 243, 245"
+      "value": "245, 245, 243"
     },
     {
       "key": "gray-3",
-      "value": "229, 230, 235"
+      "value": "222, 220, 214"
     },
     {
       "key": "gray-4",
-      "value": "201, 205, 212"
+      "value": "197, 195, 189"
     },
     {
       "key": "gray-5",
-      "value": "169, 174, 184"
+      "value": "164, 161, 155"
     },
     {
       "key": "gray-6",
-      "value": "134, 144, 156"
+      "value": "107, 104, 99"
     },
     {
       "key": "gray-7",
-      "value": "107, 119, 133"
+      "value": "80, 77, 72"
     },
     {
       "key": "gray-8",
-      "value": "78, 89, 105"
+      "value": "55, 54, 52"
     },
     {
       "key": "gray-9",
-      "value": "39, 46, 59"
+      "value": "32, 32, 30"
     },
     {
       "key": "gray-10",
-      "value": "29, 33, 41"
+      "value": "11, 11, 10"
+    },
+    {
+      "key": "clay-1",
+      "value": "251, 243, 239"
+    },
+    {
+      "key": "clay-2",
+      "value": "243, 224, 215"
+    },
+    {
+      "key": "clay-3",
+      "value": "237, 195, 177"
+    },
+    {
+      "key": "clay-4",
+      "value": "231, 165, 139"
+    },
+    {
+      "key": "clay-5",
+      "value": "204, 90, 54"
+    },
+    {
+      "key": "clay-6",
+      "value": "217, 119, 87"
+    },
+    {
+      "key": "clay-7",
+      "value": "183, 77, 44"
+    },
+    {
+      "key": "clay-8",
+      "value": "148, 61, 36"
+    },
+    {
+      "key": "clay-9",
+      "value": "109, 46, 28"
+    },
+    {
+      "key": "clay-10",
+      "value": "73, 31, 19"
     },
     {
       "key": "success-1",
@@ -1162,43 +1230,43 @@
     },
     {
       "key": "primary-1",
-      "value": "var(--sd-sdblue-1)"
+      "value": "var(--sd-clay-1)"
     },
     {
       "key": "primary-2",
-      "value": "var(--sd-sdblue-2)"
+      "value": "var(--sd-clay-2)"
     },
     {
       "key": "primary-3",
-      "value": "var(--sd-sdblue-3)"
+      "value": "var(--sd-clay-3)"
     },
     {
       "key": "primary-4",
-      "value": "var(--sd-sdblue-4)"
+      "value": "var(--sd-clay-4)"
     },
     {
       "key": "primary-5",
-      "value": "var(--sd-sdblue-5)"
+      "value": "var(--sd-clay-5)"
     },
     {
       "key": "primary-6",
-      "value": "var(--sd-sdblue-6)"
+      "value": "var(--sd-clay-6)"
     },
     {
       "key": "primary-7",
-      "value": "var(--sd-sdblue-7)"
+      "value": "var(--sd-clay-7)"
     },
     {
       "key": "primary-8",
-      "value": "var(--sd-sdblue-8)"
+      "value": "var(--sd-clay-8)"
     },
     {
       "key": "primary-9",
-      "value": "var(--sd-sdblue-9)"
+      "value": "var(--sd-clay-9)"
     },
     {
       "key": "primary-10",
-      "value": "var(--sd-sdblue-10)"
+      "value": "var(--sd-clay-10)"
     },
     {
       "key": "danger-1",
@@ -1394,7 +1462,7 @@
         {
           "key": "alert-font-weight-title",
           "name": "alert-font-weight-title",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -1711,7 +1779,7 @@
         {
           "key": "anchor-font-weight-title-hover",
           "name": "anchor-font-weight-title_hover",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -1723,7 +1791,7 @@
         {
           "key": "anchor-font-weight-title-active",
           "name": "anchor-font-weight-title_active",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -1735,8 +1803,8 @@
         {
           "key": "anchor-lineless-color-title-active",
           "name": "anchor-lineless-color-title_active",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "anchor-lineless-bg-title-active",
@@ -1747,7 +1815,7 @@
         {
           "key": "anchor-lineless-font-weight-title-active",
           "name": "anchor-lineless-font-weight-title_active",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         }
       ]
@@ -1800,7 +1868,7 @@
         {
           "key": "auto-complete-option-font-weight-selected",
           "name": "auto-complete-option-font-weight_selected",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -1913,7 +1981,7 @@
         {
           "key": "avatar-font-weight-text",
           "name": "avatar-font-weight-text",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -2157,7 +2225,7 @@
         {
           "key": "badge-font-count-weight",
           "name": "badge-font-count-weight",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -2353,7 +2421,7 @@
         {
           "key": "bloom-menu-font-weight",
           "name": "bloom-menu-font-weight",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -2489,7 +2557,7 @@
         {
           "key": "breadcrumb-font-weight-active",
           "name": "breadcrumb-font-weight_active",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -2530,8 +2598,8 @@
         {
           "key": "btn-border-radius",
           "name": "btn-border-radius",
-          "value": "var(--sd-border-radius-small)",
-          "dependencies": ["radius-small"]
+          "value": "var(--border-radius-small, var(--sd-border-radius-medium))",
+          "dependencies": ["radius-medium"]
         },
         {
           "key": "btn-color-loading-mask",
@@ -2543,24 +2611,24 @@
           "key": "btn-size-mini-radius",
           "name": "btn-size-mini-radius",
           "value": "var(--component-button-btn-border-radius, var(--component-button-border-radius, var(--sd-border-radius-small)))",
-          "dependencies": []
+          "dependencies": ["radius-small"]
         },
         {
           "key": "btn-size-small-radius",
           "name": "btn-size-small-radius",
           "value": "var(--component-button-btn-border-radius, var(--component-button-border-radius, var(--sd-border-radius-small)))",
-          "dependencies": []
+          "dependencies": ["radius-small"]
         },
         {
           "key": "btn-size-default-radius",
           "name": "btn-size-default-radius",
-          "value": "var(--component-button-btn-border-radius, var(--component-button-border-radius, var(--sd-border-radius-small)))",
+          "value": "var(--component-button-btn-border-radius, var(--component-button-border-radius, var(--border-radius-small, var(--sd-border-radius-medium))))",
           "dependencies": []
         },
         {
           "key": "btn-size-large-radius",
           "name": "btn-size-large-radius",
-          "value": "var(--component-button-btn-border-radius, var(--component-button-border-radius, var(--sd-border-radius-small)))",
+          "value": "var(--component-button-btn-border-radius, var(--component-button-border-radius, var(--border-radius-small, var(--sd-border-radius-medium))))",
           "dependencies": []
         },
         {
@@ -2584,7 +2652,7 @@
         {
           "key": "btn-size-large-height",
           "name": "btn-size-large-height",
-          "value": "var(--size-large, 36px)",
+          "value": "var(--size-large, 40px)",
           "dependencies": ["size-large"]
         },
         {
@@ -2710,8 +2778,8 @@
         {
           "key": "btn-outline-color-text",
           "name": "btn-outline-color-text",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "btn-outline-color-text-disabled",
@@ -2722,8 +2790,8 @@
         {
           "key": "btn-outline-color-text-hover",
           "name": "btn-outline-color-text_hover",
-          "value": "var(--color-primary-5, var(--sd-color-primary-5, rgb(var(--sd-primary-5))))",
-          "dependencies": ["color-primary-5"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "btn-outline-color-text-active",
@@ -3004,19 +3072,19 @@
         {
           "key": "btn-primary-color-text",
           "name": "btn-primary-color-text",
-          "value": "#fff",
+          "value": "var(--sd-color-primary-on)",
           "dependencies": []
         },
         {
           "key": "btn-primary-color-text-hover",
           "name": "btn-primary-color-text_hover",
-          "value": "#fff",
+          "value": "var(--sd-color-primary-on-hover)",
           "dependencies": []
         },
         {
           "key": "btn-primary-color-text-active",
           "name": "btn-primary-color-text_active",
-          "value": "#fff",
+          "value": "var(--sd-color-primary-on-active)",
           "dependencies": []
         },
         {
@@ -3880,8 +3948,8 @@
         {
           "key": "btn-text-color-text",
           "name": "btn-text-color-text",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "btn-text-color-text-disabled",
@@ -3892,14 +3960,14 @@
         {
           "key": "btn-text-color-text-hover",
           "name": "btn-text-color-text_hover",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "btn-text-color-text-active",
           "name": "btn-text-color-text_active",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-8, var(--sd-color-primary-8, rgb(var(--sd-primary-8))))",
+          "dependencies": ["color-primary-8"]
         },
         {
           "key": "btn-text-color-bg",
@@ -4174,7 +4242,7 @@
         {
           "key": "btn-size-medium-radius",
           "name": "btn-size-medium-radius",
-          "value": "var(--component-button-btn-size-default-radius, var(--component-button-size-default-radius, var(--component-button-btn-border-radius, var(--component-button-border-radius, var(--sd-border-radius-small)))))",
+          "value": "var(--component-button-btn-size-default-radius, var(--component-button-size-default-radius, var(--component-button-btn-border-radius, var(--component-button-border-radius, var(--border-radius-small, var(--sd-border-radius-medium))))))",
           "dependencies": []
         },
         {
@@ -4377,7 +4445,7 @@
         {
           "key": "card-font-weight-title",
           "name": "card-font-weight-title",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -4419,8 +4487,8 @@
         {
           "key": "card-color-title-extra",
           "name": "card-color-title-extra",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "card-color-body",
@@ -4645,7 +4713,7 @@
         {
           "key": "cascader-font-item-weight-active",
           "name": "cascader-font-item-weight_active",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -4931,7 +4999,7 @@
         {
           "key": "collapse-title-font-weight-active",
           "name": "collapse-title-font-weight_active",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -5074,7 +5142,7 @@
         {
           "key": "color-input-border-radius",
           "name": "color-input-border-radius",
-          "value": "var(--border-radius-small, 4px)",
+          "value": "var(--border-radius-small, 5px)",
           "dependencies": ["border-radius-small"]
         },
         {
@@ -5110,7 +5178,7 @@
         {
           "key": "color-panel-border-radius",
           "name": "color-panel-border-radius",
-          "value": "var(--border-radius-small, 4px)",
+          "value": "var(--border-radius-small, 5px)",
           "dependencies": ["border-radius-small"]
         },
         {
@@ -5312,7 +5380,7 @@
         {
           "key": "copy-border-radius",
           "name": "copy-border-radius",
-          "value": "var(--border-radius-small, 4px)",
+          "value": "var(--border-radius-small, 5px)",
           "dependencies": ["border-radius-small"]
         }
       ]
@@ -5335,7 +5403,7 @@
         {
           "key": "cropper-border-radius",
           "name": "cropper-border-radius",
-          "value": "var(--border-radius-medium, 6px)",
+          "value": "var(--border-radius-medium, 8px)",
           "dependencies": ["border-radius-medium"]
         },
         {
@@ -5460,7 +5528,7 @@
         {
           "key": "picker-cell-font-weight-in-view",
           "name": "picker-cell-font-weight-in-view",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -5496,7 +5564,7 @@
         {
           "key": "picker-color-text-cell-range-boundary",
           "name": "picker-color-text-cell-range-boundary",
-          "value": "var(--sd-color-white)",
+          "value": "var(--sd-color-primary-on)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
@@ -5544,7 +5612,7 @@
         {
           "key": "picker-panel-color-text-cell-selected",
           "name": "picker-panel-color-text-cell_selected",
-          "value": "var(--sd-color-white)",
+          "value": "var(--sd-color-primary-on)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
@@ -5735,13 +5803,13 @@
         {
           "key": "descriptions-font-weight-title",
           "name": "descriptions-font-weight-title",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
           "key": "descriptions-font-weight-text-label",
           "name": "descriptions-font-weight-text-label",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -5884,7 +5952,7 @@
         {
           "key": "divider-font-weight",
           "name": "divider-font-weight",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -5955,7 +6023,7 @@
         {
           "key": "drawer-font-header-weight",
           "name": "drawer-font-header-weight",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -6044,7 +6112,7 @@
         {
           "key": "dropdown-option-font-weight-selected",
           "name": "dropdown-option-font-weight_selected",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -6790,8 +6858,8 @@
         {
           "key": "form-color-tip-text-validating",
           "name": "form-color-tip-text_validating",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "form-color-tip-icon-text-validating",
@@ -6819,7 +6887,7 @@
         {
           "key": "image-font-weight-title",
           "name": "image-font-weight-title",
-          "value": "500",
+          "value": "var(--sd-font-weight-medium, 500)",
           "dependencies": []
         },
         {
@@ -7514,8 +7582,8 @@
         {
           "key": "input-border-radius",
           "name": "input-border-radius",
-          "value": "var(--sd-border-radius-small)",
-          "dependencies": ["radius-small"]
+          "value": "var(--border-radius-small, var(--sd-border-radius-medium))",
+          "dependencies": ["radius-medium"]
         },
         {
           "key": "input-color-border",
@@ -7830,7 +7898,7 @@
         {
           "key": "input-number-size-large-step-button-width",
           "name": "input-number-size-large-step-button-width",
-          "value": "var(--size-large, 36px)",
+          "value": "var(--size-large, 40px)",
           "dependencies": ["size-large"]
         },
         {
@@ -8158,7 +8226,7 @@
         {
           "key": "json-form-border-radius-control",
           "name": "json-form-border-radius-control",
-          "value": "var(--border-radius-medium, 6px)",
+          "value": "var(--border-radius-medium, 8px)",
           "dependencies": ["border-radius-medium"]
         }
       ]
@@ -8401,19 +8469,19 @@
         {
           "key": "link-color-text",
           "name": "link-color-text",
-          "value": "var(--color-link-6, var(--sd-color-link-6, rgb(var(--sd-link-6))))",
-          "dependencies": ["color-link-6"]
+          "value": "var(--color-link-7, var(--sd-color-link-7, rgb(var(--sd-link-7))))",
+          "dependencies": ["color-link-7"]
         },
         {
           "key": "link-color-text-hover",
           "name": "link-color-text_hover",
-          "value": "var(--component-link-link-color-text, var(--component-link-color-text, var(--color-link-6, var(--sd-color-link-6, rgb(var(--sd-link-6))))))",
+          "value": "var(--component-link-link-color-text, var(--component-link-color-text, var(--color-link-7, var(--sd-color-link-7, rgb(var(--sd-link-7))))))",
           "dependencies": []
         },
         {
           "key": "link-color-text-active",
           "name": "link-color-text_active",
-          "value": "var(--component-link-link-color-text, var(--component-link-color-text, var(--color-link-6, var(--sd-color-link-6, rgb(var(--sd-link-6))))))",
+          "value": "var(--component-link-link-color-text, var(--component-link-color-text, var(--color-link-7, var(--sd-color-link-7, rgb(var(--sd-link-7))))))",
           "dependencies": []
         },
         {
@@ -8604,7 +8672,7 @@
         {
           "key": "list-font-weight-header",
           "name": "list-font-weight-header",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -8688,7 +8756,7 @@
         {
           "key": "list-meta-font-weight-title",
           "name": "list-meta-font-weight-title",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -8819,7 +8887,7 @@
         {
           "key": "markdown-render-border-radius",
           "name": "markdown-render-border-radius",
-          "value": "var(--border-radius-medium, 6px)",
+          "value": "var(--border-radius-medium, 8px)",
           "dependencies": ["border-radius-medium"]
         }
       ]
@@ -8877,7 +8945,7 @@
         {
           "key": "menu-font-weight-item-selected",
           "name": "menu-font-weight-item-selected",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -8973,14 +9041,14 @@
         {
           "key": "menu-light-color-item-selected",
           "name": "menu-light-color-item_selected",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "menu-light-color-submenu-selected",
           "name": "menu-light-color-submenu_selected",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "menu-light-color-bg-submenu-selected-hover",
@@ -9009,8 +9077,8 @@
         {
           "key": "menu-light-color-icon-selected",
           "name": "menu-light-color-icon_selected",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "menu-light-color-icon-disabled",
@@ -10203,7 +10271,7 @@
         {
           "key": "pagination-size-large",
           "name": "pagination-size-large",
-          "value": "var(--size-large, 36px)",
+          "value": "var(--size-large, 40px)",
           "dependencies": ["size-large"]
         },
         {
@@ -10317,8 +10385,8 @@
         {
           "key": "pagination-color-item-text-active",
           "name": "pagination-color-item-text_active",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "pagination-color-item-text-disabled",
@@ -10389,8 +10457,8 @@
         {
           "key": "pagination-color-icon-arrow-text-hover",
           "name": "pagination-color-icon-arrow-text_hover",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "pagination-color-icon-arrow-text-disabled",
@@ -10431,8 +10499,8 @@
         {
           "key": "pagination-simple-color-icon-arrow-text-hover",
           "name": "pagination-simple-color-icon-arrow-text_hover",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "pagination-simple-color-icon-arrow-text-disabled",
@@ -11074,7 +11142,7 @@
         {
           "key": "qr-code-font-weight",
           "name": "qr-code-font-weight",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         }
       ]
@@ -11223,13 +11291,13 @@
         {
           "key": "radio-button-color-text-active",
           "name": "radio-button-color-text_active",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "radio-button-font-text-weight-active",
           "name": "radio-button-font-text-weight_active",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -11533,13 +11601,13 @@
         {
           "key": "regex-vis-font-weight",
           "name": "regex-vis-font-weight",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
           "key": "regex-vis-transition-duration",
           "name": "regex-vis-transition-duration",
-          "value": "0.1s",
+          "value": "0.06s",
           "dependencies": ["transition-duration-1"]
         }
       ]
@@ -11598,7 +11666,7 @@
         {
           "key": "result-font-title-weight",
           "name": "result-font-title-weight",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -11825,7 +11893,7 @@
         {
           "key": "rich-text-editor-motion-easing",
           "name": "rich-text-editor-motion-easing",
-          "value": "cubic-bezier(0.34, 0.69, 0.1, 1)",
+          "value": "cubic-bezier(0.165, 0.84, 0.44, 1)",
           "dependencies": ["transition-timing-function-standard"]
         }
       ]
@@ -11966,7 +12034,7 @@
         {
           "key": "select-popup-option-font-weight-selected",
           "name": "select-popup-option-font-weight_selected",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -12038,7 +12106,7 @@
         {
           "key": "select-popup-option-font-highlight-weight",
           "name": "select-popup-option-font-highlight-weight",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -12174,8 +12242,8 @@
         {
           "key": "sender-border-radius",
           "name": "sender-border-radius",
-          "value": "calc(var(--sd-border-radius-medium) * 2)",
-          "dependencies": ["radius-medium"]
+          "value": "20px",
+          "dependencies": []
         },
         {
           "key": "sender-slot-border-radius",
@@ -12228,14 +12296,14 @@
         {
           "key": "sender-color-primary",
           "name": "sender-color-primary",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "sender-color-primary-hover",
           "name": "sender-color-primary-hover",
-          "value": "var(--color-primary-5, var(--sd-color-primary-5, rgb(var(--sd-primary-5))))",
-          "dependencies": ["color-primary-5"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "sender-color-text",
@@ -12252,8 +12320,8 @@
         {
           "key": "sender-color-text-placeholder",
           "name": "sender-color-text-placeholder",
-          "value": "var(--color-text-4, var(--sd-color-text-4, var(--sd-color-neutral-4)))",
-          "dependencies": ["color-text-4"]
+          "value": "var(--color-text-3, var(--sd-color-text-3, var(--sd-color-neutral-6)))",
+          "dependencies": ["color-text-3"]
         },
         {
           "key": "sender-color-bg",
@@ -12324,14 +12392,20 @@
         {
           "key": "sender-box-shadow",
           "name": "sender-box-shadow",
-          "value": "0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02)",
-          "dependencies": []
+          "value": "0 4px 20px rgba(0, 0, 0, 0.035), inset 0 0 0 1px var(--sd-color-neutral-3)",
+          "dependencies": ["color-border-2"]
+        },
+        {
+          "key": "sender-box-shadow-focus",
+          "name": "sender-box-shadow-focus",
+          "value": "0 4px 20px rgba(0, 0, 0, 0.035), 0 0 0 2px var(--sd-color-neutral-6), inset 0 0 0 1px var(--sd-color-neutral-4)",
+          "dependencies": ["color-border-4", "color-border-3"]
         },
         {
           "key": "sender-motion-duration",
           "name": "sender-motion-duration",
-          "value": "0.3s",
-          "dependencies": ["transition-duration-3"]
+          "value": "0.2s",
+          "dependencies": ["transition-duration-2"]
         },
         {
           "key": "sender-motion-duration-fast",
@@ -12342,7 +12416,7 @@
         {
           "key": "sender-motion-easing",
           "name": "sender-motion-easing",
-          "value": "cubic-bezier(0.34, 0.69, 0.1, 1)",
+          "value": "cubic-bezier(0.165, 0.84, 0.44, 1)",
           "dependencies": ["transition-timing-function-standard"]
         }
       ]
@@ -12597,7 +12671,7 @@
         {
           "key": "spin-font-weight",
           "name": "spin-font-weight",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -12615,8 +12689,8 @@
         {
           "key": "spin-color-text",
           "name": "spin-color-text",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "spin-color-icon",
@@ -12698,7 +12772,7 @@
         {
           "key": "statistic-font-value-weight",
           "name": "statistic-font-value-weight",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -12787,7 +12861,7 @@
         {
           "key": "steps-circle-font-weight-item-title-active",
           "name": "steps-circle-font-weight-item-title_active",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -12859,7 +12933,7 @@
         {
           "key": "steps-circle-color-item-icon-text-process",
           "name": "steps-circle-color-item-icon-text_process",
-          "value": "var(--sd-color-white)",
+          "value": "var(--sd-color-primary-on)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
@@ -12895,8 +12969,8 @@
         {
           "key": "steps-circle-color-item-icon-text-finish",
           "name": "steps-circle-color-item-icon-text_finish",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "steps-circle-color-item-title-finish",
@@ -12979,7 +13053,7 @@
         {
           "key": "steps-dot-font-weight-item-title-active",
           "name": "steps-dot-font-weight-item-title_active",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -13117,7 +13191,7 @@
         {
           "key": "steps-arrow-font-weight-item-title-active",
           "name": "steps-arrow-font-weight-item-title_active",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -13135,13 +13209,13 @@
         {
           "key": "steps-arrow-color-item-title-process",
           "name": "steps-arrow-color-item-title_process",
-          "value": "var(--sd-color-white)",
+          "value": "var(--sd-color-primary-on)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
           "key": "steps-arrow-color-item-description-process",
           "name": "steps-arrow-color-item-description_process",
-          "value": "var(--sd-color-white)",
+          "value": "var(--sd-color-primary-on)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
@@ -13344,7 +13418,7 @@
         {
           "key": "switch-color-text-on",
           "name": "switch-color-text_on",
-          "value": "var(--sd-color-white)",
+          "value": "var(--sd-color-primary-on)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
@@ -13607,7 +13681,7 @@
         {
           "key": "table-font-weight-header-text",
           "name": "table-font-weight-header-text",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -14122,8 +14196,8 @@
         {
           "key": "tabs-color-title-text-active",
           "name": "tabs-color-title-text_active",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "tabs-color-title-text-hover",
@@ -14176,7 +14250,7 @@
         {
           "key": "tabs-line-font-title-text-weight-active",
           "name": "tabs-line-font-title-text-weight_active",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -14386,14 +14460,14 @@
         {
           "key": "tabs-capsule-padding-header-horizontal",
           "name": "tabs-capsule-padding-header-horizontal",
-          "value": "3px",
+          "value": "2px",
           "dependencies": []
         },
         {
           "key": "tabs-capsule-border-header-radius",
           "name": "tabs-capsule-border-header-radius",
-          "value": "var(--sd-border-radius-small)",
-          "dependencies": ["radius-small"]
+          "value": "9999px",
+          "dependencies": []
         },
         {
           "key": "tabs-capsule-color-title-bg",
@@ -14517,7 +14591,7 @@
         {
           "key": "tag-text-font-weight",
           "name": "tag-text-font-weight",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -15301,13 +15375,13 @@
         {
           "key": "timepicker-font-weight-cell",
           "name": "timepicker-font-weight-cell",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
           "key": "timepicker-font-weight-cell-active",
           "name": "timepicker-font-weight-cell_active",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         }
       ]
@@ -15537,7 +15611,7 @@
         {
           "key": "tour-color-primary-text",
           "name": "tour-color-primary-text",
-          "value": "var(--sd-color-white)",
+          "value": "var(--sd-color-primary-on)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
@@ -15686,7 +15760,7 @@
         {
           "key": "transfer-font-weight-header",
           "name": "transfer-font-weight-header",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -15865,8 +15939,8 @@
         {
           "key": "tree-color-title-text-active",
           "name": "tree-color-title-text_active",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "tree-color-title-text-disabled",
@@ -16114,7 +16188,7 @@
         {
           "key": "typography-heading-font-weight",
           "name": "typography-heading-font-weight",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -16126,8 +16200,8 @@
         {
           "key": "typography-text-color-text-primary",
           "name": "typography-text-color-text-primary",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "typography-text-color-text-secondary",
@@ -16168,7 +16242,7 @@
         {
           "key": "typography-text-font-weight-bold",
           "name": "typography-text-font-weight-bold",
-          "value": "var(--font-weight-500, 500)",
+          "value": "var(--font-weight-500, var(--sd-font-weight-medium, 500))",
           "dependencies": ["font-weight-500"]
         },
         {
@@ -16282,14 +16356,14 @@
         {
           "key": "typography-color-expand-text",
           "name": "typography-color-expand-text",
-          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
-          "dependencies": ["color-primary-6"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "typography-color-expand-text-hover",
           "name": "typography-color-expand-text_hover",
-          "value": "var(--color-primary-5, var(--sd-color-primary-5, rgb(var(--sd-primary-5))))",
-          "dependencies": ["color-primary-5"]
+          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
+          "dependencies": ["color-primary-7"]
         },
         {
           "key": "typography-color-blockquote-border-width",
@@ -16365,8 +16439,8 @@
         {
           "key": "upload-picture-border-radius",
           "name": "upload-picture-border-radius",
-          "value": "var(--sd-border-radius-small)",
-          "dependencies": ["radius-small"]
+          "value": "var(--sd-border-radius-large)",
+          "dependencies": ["radius-large"]
         },
         {
           "key": "upload-picture-border-width",

@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-  import type { CSSProperties, PropType } from 'vue';
+  import type { CSSProperties } from 'vue';
   import { computed, nextTick, onMounted, onUpdated, ref } from 'vue';
 
   import { Direction } from '../_utils/constant';
@@ -11,22 +11,24 @@
 
   defineOptions({ name: 'TabsNavInk' });
 
-  const props = defineProps({
-    activeTabRef: {
-      type: Object as PropType<HTMLElement>,
-    },
-    direction: {
-      type: String as PropType<Direction>,
-    },
-    disabled: Boolean,
-    animation: Boolean,
-  });
+  const props = defineProps<{
+    activeTabRef?: HTMLElement;
+    direction?: Direction;
+    disabled?: boolean;
+    animation?: boolean;
+    capsule?: boolean;
+  }>();
 
   const prefixCls = getPrefixCls('tabs-nav-ink');
   const position = ref(0);
   const size = ref(0);
 
   const style = computed<CSSProperties>(() => {
+    if (props.capsule) {
+      return props.direction === 'vertical'
+        ? { transform: `translateY(${position.value}px)`, height: `${size.value}px` }
+        : { transform: `translateX(${position.value}px)`, width: `${size.value}px` };
+    }
     if (props.direction === 'vertical') {
       return {
         top: `${position.value}px`,
@@ -66,6 +68,7 @@
     {
       [`${prefixCls}-animation`]: props.animation,
       [`${prefixCls}-disabled`]: props.disabled,
+      [`${prefixCls}-capsule`]: props.capsule,
     },
   ]);
 

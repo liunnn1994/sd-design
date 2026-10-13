@@ -329,6 +329,7 @@
           borderColor: 'var(--bloom-menu-source-border-color)',
           borderRadius: 'var(--bloom-menu-source-border-radius)',
           boxShadow: 'var(--bloom-menu-source-box-shadow)',
+          opacity: 0.98,
         },
   );
   const panelInitial = computed(() => ({
@@ -345,11 +346,17 @@
     boxShadow: 'var(--bloom-menu-panel-shadow)',
     opacity: 1,
   }));
-  const panelTarget = computed(() => (isOpen.value ? panelAnimate.value : panelCollapsed.value));
+  const panelTarget = computed(() =>
+    reducedMotion.value
+      ? { ...panelAnimate.value, opacity: isOpen.value ? 1 : 0 }
+      : isOpen.value
+        ? panelAnimate.value
+        : panelCollapsed.value,
+  );
   const morphTransition = computed<Transition>(() =>
     reducedMotion.value
       ? { duration: 0.15 }
-      : { type: 'spring', stiffness: 300, damping: 32, mass: 0.9 },
+      : { type: 'spring', stiffness: 320, damping: 28, mass: 0.9 },
   );
   const contentTransition = computed<Transition>(() => ({
     delay: isOpen.value && !reducedMotion.value ? 0.12 : 0,

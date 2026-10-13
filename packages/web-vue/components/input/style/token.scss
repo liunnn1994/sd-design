@@ -51,7 +51,7 @@ $input-color-shadow_error_focus: var(
 $input-size-shadow_error_focus: global.$shadow-distance-none;
 
 // 圆角
-$input-border-radius: global.$radius-small;
+$input-border-radius: var(--border-radius-small, #{global.$radius-medium});
 
 // 不同尺寸
 $input-size-default-height: global.$size-default;

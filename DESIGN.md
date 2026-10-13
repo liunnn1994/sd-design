@@ -1,32 +1,32 @@
 ---
 version: stable
 name: sd-design
-description: 面向现代中后台与工具型产品的 Vue 3 设计系统。视觉语言以字节跳动系产品的清晰、轻量、高效为基调，以业界成熟设计系统为风格参照，以 sd-design 当前实现为工程约束与颜色唯一事实源。
+description: 面向现代中后台与工具型产品的 Vue 3 设计系统。视觉语言参考本次提供的 Claude 设计规范，以温和层级、陶土强调、清晰排版与及时反馈为基调，以业界成熟设计系统为风格参照，以 sd-design 当前实现为工程约束与颜色唯一事实源。
 
 colors:
-  primary-1: '#E8F3FF'
-  primary-2: '#BEDAFF'
-  primary-3: '#94BFFF'
-  primary-4: '#6AA1FF'
-  primary-5: '#4080FF'
-  primary-6: '#165DFF'
-  primary-7: '#0E42D2'
-  primary-8: '#072CA6'
-  primary-9: '#031A79'
-  primary-10: '#000D4D'
+  primary-1: '#FBF3EF'
+  primary-2: '#F3E0D7'
+  primary-3: '#EDC3B1'
+  primary-4: '#E7A58B'
+  primary-5: '#CC5A36'
+  primary-6: '#D97757'
+  primary-7: '#B74D2C'
+  primary-8: '#943D24'
+  primary-9: '#6D2E1C'
+  primary-10: '#491F13'
   success-6: '#00B42A'
   warning-6: '#FF7D00'
   danger-6: '#F53F3F'
-  neutral-1: '#F7F8FA'
-  neutral-2: '#F2F3F5'
-  neutral-3: '#E5E6EB'
-  neutral-4: '#C9CDD4'
-  neutral-5: '#A9AEB8'
-  neutral-6: '#86909C'
-  neutral-7: '#6B7785'
-  neutral-8: '#4E5969'
-  neutral-9: '#272E3B'
-  neutral-10: '#1D2129'
+  neutral-1: '#FCFCFB'
+  neutral-2: '#F5F5F3'
+  neutral-3: '#DEDCD6'
+  neutral-4: '#C5C3BD'
+  neutral-5: '#A4A19B'
+  neutral-6: '#6B6863'
+  neutral-7: '#504D48'
+  neutral-8: '#373634'
+  neutral-9: '#20201E'
+  neutral-10: '#0B0B0A'
   white: '#FFFFFF'
   black: '#000000'
 
@@ -46,9 +46,9 @@ typography:
 
 rounded:
   none: 0
-  small: 2px
-  medium: 4px
-  large: 8px
+  small: 5px
+  medium: 8px
+  large: 10px
   circle: 50%
 
 spacing:
@@ -71,19 +71,19 @@ spacing:
 components:
   control-mini:
     height: 24px
-    radius: '{rounded.medium}'
+    radius: '{rounded.small}'
   control-small:
     height: 28px
-    radius: '{rounded.medium}'
+    radius: '{rounded.small}'
   control-medium:
     height: 32px
     radius: '{rounded.medium}'
   control-large:
-    height: 36px
+    height: 40px
     radius: '{rounded.medium}'
   primary-action:
     background: 'rgb(var(--sd-primary-6))'
-    foreground: '{colors.white}'
+    foreground: 'var(--sd-color-primary-on)'
     hover: 'rgb(var(--sd-primary-5))'
     active: 'rgb(var(--sd-primary-7))'
   surface:
@@ -121,14 +121,14 @@ sd-design 服务于现代中后台、数据工具和效率型产品。它追求�
 
 - 一屏只突出一个主要任务，主操作使用 primary，次操作使用 secondary、outline 或 text。
 - 通过标题、正文、辅助信息和分隔关系建立层级，不依赖大面积装饰色。
-- 同一语义在不同组件中保持一致：蓝色表示主操作和链接，绿色表示成功，橙色表示警告，红色表示危险或错误。
+- 同一语义在不同组件中保持一致：陶土色表示主操作，蓝色表示链接，绿色表示成功，橙色表示警告，红色表示危险或错误。
 - 文案直接描述动作或结果，避免脱离上下文的“确定”“知道了”。
 
 ### 3.2 轻量而不单薄
 
 - 优先使用留白、浅色填充和细边框组织内容。
 - 阴影只表达真实浮层关系，不用于普通卡片装饰。
-- 圆角克制，以 4px 为默认；大容器可使用 8px，小型结构可使用 2px。
+- 圆角以 8px 为标准；浮层使用 10px，小型结构使用 5px，Sender 使用 20px。
 - 颜色集中在关键动作、状态反馈和必要的视觉强调上。
 
 ### 3.3 高效且一致
@@ -195,10 +195,10 @@ sd-design 使用三层 token 思维：
 
 ### 5.2 品牌主色
 
-sd-design 的品牌主色是 `primary-6`：`#165DFF`，运行时写法为：
+sd-design 的品牌主色是 `primary-6`：`#D97757`，运行时写法为：
 
 ```scss
-color: rgb(var(--sd-primary-6));
+background-color: rgb(var(--sd-primary-6));
 ```
 
 交互状态遵循稳定的色阶关系：
@@ -221,7 +221,7 @@ color: rgb(var(--sd-primary-6));
 | 成功 | `--sd-success-6` | `#00B42A` | 成功结果、完成状态、正向反馈 |
 | 警告 | `--sd-warning-6` | `#FF7D00` | 风险提醒、需要关注但可继续   |
 | 危险 | `--sd-danger-6`  | `#F53F3F` | 错误、破坏性操作、失败状态   |
-| 链接 | `--sd-link-6`    | `#165DFF` | 文本链接与可导航内容         |
+| 链接 | `--sd-link-7`    | `#0E42D2` | 文本链接与可导航内容         |
 
 功能色必须表达语义，不能作为普通装饰。错误信息应同时包含明确文字；危险按钮仅用于不可逆或高风险动作。
 
@@ -298,7 +298,7 @@ sd-design 的标准控件高度为：
 | Mini   | 24px | 极紧凑表格内操作、密集工具条       |
 | Small  | 28px | 紧凑筛选区、次级操作               |
 | Medium | 32px | 默认表单和常规操作                 |
-| Large  | 36px | 重点表单、低密度页面、触控友好区域 |
+| Large  | 40px | 重点表单、低密度页面、触控友好区域 |
 
 同一操作区中的 Button、Input、Select、Cascader 和 DatePicker 应采用相同尺寸。不要用自定义 padding 模拟不存在的组件尺寸。
 
@@ -327,13 +327,13 @@ sd-design 的标准控件高度为：
 
 ### 8.1 圆角
 
-| Token                       | 值  | 场景                               |
-| --------------------------- | --- | ---------------------------------- |
-| `--sd-border-radius-none`   | 0   | 表格拼接、需要连续边界的结构       |
-| `--sd-border-radius-small`  | 2px | 小型内部结构、紧凑标记             |
-| `--sd-border-radius-medium` | 4px | 默认按钮、输入框、下拉项、卡片     |
-| `--sd-border-radius-large`  | 8px | Modal、Drawer 内的大容器、展示卡片 |
-| `--sd-border-radius-circle` | 50% | Avatar、圆形图标按钮、状态点       |
+| Token                       | 值   | 场景                               |
+| --------------------------- | ---- | ---------------------------------- |
+| `--sd-border-radius-none`   | 0    | 表格拼接、需要连续边界的结构       |
+| `--sd-border-radius-small`  | 5px  | 小型内部结构、紧凑标记             |
+| `--sd-border-radius-medium` | 8px  | 默认按钮、输入框、下拉项、卡片     |
+| `--sd-border-radius-large`  | 10px | Modal、Drawer 内的大容器、展示卡片 |
+| `--sd-border-radius-circle` | 50%  | Avatar、圆形图标按钮、状态点       |
 
 同一组件的外层与内层圆角要有包含关系。不要把所有组件改成胶囊形；胶囊只适用于语义明确的 Tag、筛选项或特殊按钮。
 
@@ -513,3 +513,7 @@ Hover 只服务于支持指针的环境。关键能力不能依赖 Hover 才能�
 - 组件样式：`packages/web-vue/components/<component>/style/index.scss`
 
 当本指南与代码不一致时，不应静默选择其中一方：先确认是文档滞后还是实现偏离，再以一个可验证的变更让两者重新一致。
+
+## 本次视觉规范落地
+
+本次以用户提供的 14 张规范图为视觉依据；组件对应关系、可读性调整和真实预览见 packages/sd-vue-docs/src/content/docs/design/guidelines.mdx。基础色板仍是唯一颜色来源，现有公共 props、事件和插槽契约保持稳定。

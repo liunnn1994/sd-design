@@ -8,6 +8,14 @@ import { normalizeTheme } from '../theme';
 import { parseThemeConfig } from '../theme-config';
 
 describe('主题架构与编辑器', () => {
+  beforeEach(() =>
+    cy.document().then((document) => {
+      for (const element of [document.body, document.documentElement]) {
+        for (const attribute of ['sd-theme', 'data-sd-theme', 'data-theme'])
+          element.removeAttribute(attribute);
+      }
+    }),
+  );
   it('仅覆盖 token 的容器持续跟随祖先明暗变化', () => {
     cy.mount(ConfigProvider, {
       props: { theme: { tokens: { primary6: '1,2,3' } } },
@@ -20,7 +28,7 @@ describe('主题架构与编辑器', () => {
     cy.get('.sd-theme-provider').should('not.have.attr', 'sd-theme');
     cy.get('.sd-theme-provider').should(($element) => {
       expect(getComputedStyle($element[0]).getPropertyValue('--sd-color-bg-2').trim()).to.equal(
-        '#232324',
+        '#20201e',
       );
     });
     cy.document().then((document) => document.body.removeAttribute('sd-theme'));

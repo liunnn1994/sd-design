@@ -10,7 +10,7 @@ $tour-color-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-popup'
 $tour-color-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
 $tour-color-description: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-2'));
 $tour-color-border: var(string.unquote('#{global.$sd-cssvars-prefix}-color-neutral-3'));
-$tour-color-primary-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-white'));
+$tour-color-primary-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-primary-on'));
 
 $tour-border-radius: global.$radius-medium;
 $tour-shadow: global.$shadow2-down;

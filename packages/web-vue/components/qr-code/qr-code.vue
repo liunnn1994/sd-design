@@ -287,14 +287,14 @@
       return props.color;
     }
 
-    return themeMode.value === 'dark' ? '#f6f6f6' : '#1d2129';
+    return themeMode.value === 'dark' ? '#f6f6f6' : '#0b0b0a';
   });
   const qrBgColor = computed(() => {
     if (props.bgColor !== 'transparent') {
       return props.bgColor;
     }
 
-    return themeMode.value === 'dark' ? '#232324' : '#ffffff';
+    return themeMode.value === 'dark' ? '#20201e' : '#ffffff';
   });
   const qrOptions = computed(() => ({
     errorCorrectionLevel: props.errorLevel,

@@ -9,6 +9,7 @@ $number-flow-prefix-cls: string.unquote('#{theme.$prefix}-number-flow');
   display: inline-block;
   color: $statistic-color-text;
   line-height: theme.$line-height-base;
+  font-variant-numeric: tabular-nums;
 
   &-title {
     margin-bottom: $statistic-margin-title-bottom;

@@ -135,7 +135,7 @@ $form-color-tip-text_warning: global.$color-warning-6;
 
 $form-color-tip-icon-text_warning: global.$color-warning-6;
 
-$form-color-tip-text_validating: global.$color-primary-6;
+$form-color-tip-text_validating: global.$color-primary-7;
 
 $form-color-tip-icon-text_validating: global.$color-primary-6;
 
@@ -469,7 +469,7 @@ $form-color-tip-text_validating: theme-runtime.token(
   'form',
   'form-color-tip-text-validating',
   $form-color-tip-text_validating,
-  'color-primary-6'
+  'color-primary-7'
 );
 $form-color-tip-icon-text_validating: theme-runtime.token(
   'form',

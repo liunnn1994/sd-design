@@ -547,14 +547,42 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
       border-radius: $tabs-capsule-border-header-radius;
     }
 
+    .#{$tabs-prefix-cls}-nav-ink-capsule {
+      top: $tabs-capsule-padding-header-vertical;
+      bottom: $tabs-capsule-padding-header-vertical;
+      left: 0;
+      height: auto;
+      background-color: $tabs-capsule-color-title-bg_active;
+      border-radius: $tabs-capsule-border-header-radius;
+      box-shadow: theme.$shadow1-down;
+      transition:
+        transform theme.$transition-duration-snap theme.$transition-timing-function-decelerate,
+        width theme.$transition-duration-snap theme.$transition-timing-function-decelerate;
+      pointer-events: none;
+
+      &:not(.#{$tabs-prefix-cls}-nav-ink-animation) {
+        transition: none;
+      }
+    }
+
+    &.#{$tabs-prefix-cls}-nav-vertical .#{$tabs-prefix-cls}-nav-ink-capsule {
+      top: 0;
+      right: $tabs-capsule-padding-header-horizontal;
+      left: $tabs-capsule-padding-header-horizontal;
+      width: auto;
+      transition-property: transform, height;
+    }
+
     .#{$tabs-prefix-cls}-tab {
       position: relative;
+      z-index: 1;
       padding: 0 $tabs-capsule-padding-title-horizontal - 2;
       font-size: $tabs-size-default-font-size_capsule;
       line-height: (
         $tabs-size-default-header-height_capsule - $tabs-capsule-padding-header-vertical * 2
       );
       background-color: $tabs-capsule-color-title-bg;
+      border-radius: $tabs-capsule-border-header-radius;
 
       &:hover {
         background-color: $tabs-capsule-color-title-bg_hover;
@@ -563,7 +591,8 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
       // 键盘焦点与 hover 保持同一视觉
       &:focus-visible {
         background-color: $tabs-capsule-color-title-bg_hover;
-        outline: none;
+        outline: 2px solid global.$color-primary-6;
+        outline-offset: -2px;
       }
 
       &-disabled:hover {
@@ -572,7 +601,11 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
 
       &-active,
       &-active:hover {
-        background-color: $tabs-capsule-color-title-bg_active;
+        background-color: transparent;
+
+        &:not(.#{$tabs-prefix-cls}-tab-disabled) {
+          color: global.$color-text-1;
+        }
 
         &::before,
         & + .#{$tabs-prefix-cls}-tab::before {
@@ -602,6 +635,12 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
         content: '';
       }
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .#{$tabs-prefix-cls}-nav-ink-capsule {
+    transition: none !important;
   }
 }
 

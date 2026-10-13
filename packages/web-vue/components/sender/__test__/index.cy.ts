@@ -105,7 +105,7 @@ describe('Sender', () => {
       }),
     );
 
-    cy.get('.sd-sender-main').should('have.css', 'background-color', 'rgb(35, 35, 36)');
+    cy.get('.sd-sender-main').should('have.css', 'background-color', 'rgb(32, 32, 30)');
     cy.get('.sd-sender-input-slot')
       .should('have.class', 'sd-rich-text-editor')
       .and('have.css', 'background-color', 'rgba(0, 0, 0, 0)');

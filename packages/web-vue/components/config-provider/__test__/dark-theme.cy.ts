@@ -98,13 +98,13 @@ describe('深色主题语义与继承', () => {
       }),
     );
     cy.document().then((document) => document.body.setAttribute('sd-theme', 'dark'));
-    cy.get('#dark-card').should('have.css', 'background-color', 'rgb(35, 35, 36)');
+    cy.get('#dark-card').should('have.css', 'background-color', 'rgb(32, 32, 30)');
     cy.get('#loading-button').should(($el) => {
-      expect(getComputedStyle($el[0], '::before').backgroundColor).to.equal('rgb(35, 35, 36)');
+      expect(getComputedStyle($el[0], '::before').backgroundColor).to.equal('rgb(32, 32, 30)');
     });
     cy.get('#dark-input').should('have.css', 'background-color', 'rgba(255, 255, 255, 0.08)');
     cy.get('#dark-select').click();
-    cy.get('.sd-select-dropdown').should('have.css', 'background-color', 'rgb(55, 55, 57)');
+    cy.get('.sd-select-dropdown').should('have.css', 'background-color', 'rgb(55, 54, 52)');
     cy.get('.sd-table-th').should('have.css', 'background-color', 'rgb(46, 46, 48)');
     cy.document().then((document) => document.body.removeAttribute('sd-theme'));
     cy.get('#dark-card').should('have.css', 'background-color', 'rgb(255, 255, 255)');

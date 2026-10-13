@@ -5,7 +5,7 @@ describe('Tree connection line sizes', () => {
     ['mini', 24],
     ['small', 28],
     ['medium', 32],
-    ['large', 36],
+    ['large', 40],
   ] as const) {
     it(`aligns the ${size} leaf and ancestor connection lines with the switcher`, () => {
       cy.mount(Tree, {

@@ -15,6 +15,66 @@ const panes3 =
   '<tab-pane key="3" title="Tab 3">Panel 3</tab-pane>';
 
 describe('Tabs', () => {
+  it('shows a visible inset keyboard focus indicator in capsule mode', () => {
+    cy.mount(Tabs, {
+      props: { type: 'capsule' },
+      global: { components: { TabPane } },
+      slots: { default: panes },
+    });
+    cy.get('.sd-tabs-tab')
+      .first()
+      .focus()
+      .should('have.css', 'outline-style', 'solid')
+      .and('have.css', 'outline-width', '2px')
+      .and('have.css', 'outline-offset', '-2px');
+  });
+
+  it('fits the capsule slider to variable-width tabs after activation and resizing', () => {
+    cy.mount(Tabs, {
+      props: { type: 'capsule', animation: true },
+      attrs: { style: 'width: 360px' },
+      global: { components: { TabPane } },
+      slots: {
+        default:
+          '<tab-pane key="1" title="对话">对话</tab-pane><tab-pane key="2" title="项目与工作区">项目</tab-pane>',
+      },
+    });
+    const aligned = () =>
+      cy.get('.sd-tabs-tab-active').then(($active) => {
+        cy.get('.sd-tabs-nav-ink-capsule').should(($slider) => {
+          const tab = $active[0].getBoundingClientRect();
+          const slider = $slider[0].getBoundingClientRect();
+          expect(slider.left).to.be.closeTo(tab.left, 0.5);
+          expect(slider.width).to.be.closeTo(tab.width, 0.5);
+          expect(slider.top).to.be.closeTo(tab.top, 0.5);
+          expect(slider.height).to.be.closeTo(tab.height, 0.5);
+        });
+      });
+    aligned();
+    cy.contains('.sd-tabs-tab', '项目与工作区').click();
+    aligned();
+    cy.get('.sd-tabs').invoke('css', 'width', '220px');
+    aligned();
+  });
+
+  it('fits the vertical capsule slider and respects animation=false', () => {
+    cy.mount(Tabs, {
+      props: { type: 'capsule', position: 'left', animation: false },
+      global: { components: { TabPane } },
+      slots: { default: panes },
+    });
+    cy.get('.sd-tabs-tab').eq(1).click();
+    cy.get('.sd-tabs-nav-ink-capsule').should('have.css', 'transition-duration', '0s');
+    cy.get('.sd-tabs-tab-active').then(($active) => {
+      cy.get('.sd-tabs-nav-ink-capsule').should(($slider) => {
+        const tab = $active[0].getBoundingClientRect();
+        const slider = $slider[0].getBoundingClientRect();
+        expect(slider.top).to.be.closeTo(tab.top, 0.5);
+        expect(slider.height).to.be.closeTo(tab.height, 0.5);
+      });
+    });
+  });
+
   it('emits change on tab click', () => {
     cy.mount(Tabs, { global: { components: { TabPane } }, slots: { default: panes } });
     cy.get('.sd-tabs-tab').eq(1).click();

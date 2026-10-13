@@ -45,7 +45,7 @@ $switch-color-bg_on_loading: var(
 );
 $switch-color-bg_off_loading: var(string.unquote('#{global.$sd-cssvars-prefix}-color-fill-2'));
 $switch-color-dot-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-white'));
-$switch-color-text_on: var(string.unquote('#{global.$sd-cssvars-prefix}-color-white'));
+$switch-color-text_on: var(string.unquote('#{global.$sd-cssvars-prefix}-color-primary-on'));
 $switch-color-text_off: var(string.unquote('#{global.$sd-cssvars-prefix}-color-white'));
 $switch-color-text_on_disabled: var(string.unquote('#{global.$sd-cssvars-prefix}-color-white'));
 $switch-color-text_off_disabled: var(string.unquote('#{global.$sd-cssvars-prefix}-color-white'));

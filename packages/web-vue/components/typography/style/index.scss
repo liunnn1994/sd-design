@@ -9,6 +9,8 @@ $typography-prefix-cls: string.unquote('#{theme.$prefix}-typography');
   color: $typography-color-text;
   line-height: $typography-paragraph-line-height;
   white-space: normal;
+  text-wrap: pretty;
+  word-break: normal;
   overflow-wrap: anywhere;
 
   // Title
@@ -22,6 +24,7 @@ $typography-prefix-cls: string.unquote('#{theme.$prefix}-typography');
       margin-top: $typography-heading-margin-top;
       margin-bottom: $typography-heading-margin-bottom;
       font-weight: $typography-heading-font-weight;
+      text-wrap: balance;
     }
 
     h1#{&} {

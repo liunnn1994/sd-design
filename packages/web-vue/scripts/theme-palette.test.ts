@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import path from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { build } from 'vite';
@@ -237,7 +238,7 @@ test('theme seeds retain their palettes in a standalone browser ESM module', asy
         formats: ['es'],
       },
       // Bare imports must remain external, as they do in the online editor.
-      rolldownOptions: { external: (id) => !id.startsWith('.') && !id.startsWith('/') },
+      rolldownOptions: { external: (id) => !id.startsWith('.') && !path.isAbsolute(id) },
     },
   });
   const bundle = Array.isArray(result) ? result[0] : result;
@@ -262,7 +263,32 @@ test('theme seeds retain their palettes in a standalone browser ESM module', asy
           `${color} ${name} dark=${isDark}`,
         );
       }
+      const luminance = (channels: string) => {
+        const linear = channels.split(',').map((channel) => {
+          const value = Number(channel) / 255;
+          return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+        });
+        return linear[0] * 0.2126 + linear[1] * 0.7152 + linear[2] * 0.0722;
+      };
+      for (const [state, index] of [
+        ['', 6],
+        ['-hover', 5],
+        ['-active', 7],
+      ] as const) {
+        const foreground = String(tokens[`color-primary-on${state}`]);
+        const foregroundChannels = foreground
+          .match(/[\da-f]{2}/gi)!
+          .map((hex) => parseInt(hex, 16))
+          .join(',');
+        const bg = luminance(String(tokens[`primary-${index}`]));
+        const fg = luminance(foregroundChannels);
+        assert.ok(
+          (Math.max(bg, fg) + 0.05) / (Math.min(bg, fg) + 0.05) >= 4.5,
+          `${color} ${state} dark=${isDark} must have readable button text`,
+        );
+      }
     }
   }
   assert.deepEqual(deriveThemeTokens({ seed: { primary: 'invalid' } }), {});
+  assert.equal(deriveThemeTokens({ seed: { controlHeight: 32 } })['size-large'], '40px');
 });

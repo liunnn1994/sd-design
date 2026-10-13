@@ -2,6 +2,17 @@
 @use '@style/theme/index.scss' as theme;
 
 #{theme.$sd-theme-tag} {
+  #{theme.$sd-cssvars-prefix}-font-weight-medium: var(--font-weight-medium, #{500});
+  #{theme.$sd-cssvars-prefix}-font-weight-semibold: var(--font-weight-semibold, #{600});
+  #{theme.$sd-cssvars-prefix}-color-primary-on: var(--color-primary-on, #{theme.$color-primary-on});
+  #{theme.$sd-cssvars-prefix}-color-primary-on-hover: var(
+    --color-primary-on-hover,
+    #{theme.$color-primary-on-hover}
+  );
+  #{theme.$sd-cssvars-prefix}-color-primary-on-active: var(
+    --color-primary-on-active,
+    #{theme.$color-primary-on-active}
+  );
   #{theme.$sd-cssvars-prefix}-color-white: var(--color-white, #{theme.$color-white});
   #{theme.$sd-cssvars-prefix}-color-black: var(--color-black, #{theme.$color-black});
   #{theme.$sd-cssvars-prefix}-color-border: var(--color-border, #{theme.$color-border});
@@ -202,6 +213,12 @@
 
 #{theme.$sd-theme-tag}[sd-theme='dark'],
 #{theme.$sd-theme-tag}[data-sd-theme='dark'] {
+  #{theme.$sd-cssvars-prefix}-color-primary-on-active: var(
+    --color-primary-on-active,
+    #{theme.$color-primary-on}
+  );
+  #{theme.$sd-cssvars-prefix}-font-weight-medium: var(--font-weight-medium, #{460});
+  #{theme.$sd-cssvars-prefix}-font-weight-semibold: var(--font-weight-semibold, #{560});
   #{theme.$sd-cssvars-prefix}-color-white: var(--color-white, #{theme.$dark-color-white});
   #{theme.$sd-cssvars-prefix}-color-black: var(--color-black, #{theme.$dark-color-black});
   #{theme.$sd-cssvars-prefix}-color-border: var(--color-border, #{theme.$dark-color-border});

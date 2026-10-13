@@ -39,8 +39,8 @@ describe('Collapse real transition lifecycle', () => {
       });
     cy.get('.collapse-slider-enter-active').should('not.exist');
     cy.get('.sd-collapse-item-content').should(($content) => {
-      expect($content[0].style.height).to.equal('auto');
       expect($content[0].getBoundingClientRect().height).to.be.greaterThan(0);
+      expect(getComputedStyle($content[0]).display).to.equal('grid');
     });
   });
 });

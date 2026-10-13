@@ -4,6 +4,22 @@
 
 $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
 
+@keyframes sd-upload-arrive {
+  from {
+    transform: translateX(8px);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .#{$upload-prefix-cls}-item {
+    animation: none !important;
+  }
+}
+
 .#{$upload-prefix-cls} {
   display: inline-block;
   max-width: 100%;
@@ -211,6 +227,8 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
     align-items: center;
     box-sizing: border-box;
     margin-top: $upload-text-item-margin-top;
+    animation: sd-upload-arrive theme.$transition-duration-2
+      theme.$transition-timing-function-standard;
 
     &-content {
       display: flex;

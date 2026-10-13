@@ -7,7 +7,7 @@
 $sender-font-size: global.$font-size-body-3;
 $sender-line-height: global.$line-height-base;
 $sender-border-width: global.$border-1;
-$sender-border-radius: calc(global.$radius-medium * 2);
+$sender-border-radius: 20px;
 $sender-slot-border-radius: global.$radius-medium;
 $sender-control-height: global.$size-default;
 
@@ -19,11 +19,11 @@ $sender-slot-gap: global.$spacing-2;
 $sender-skill-padding-inline: global.$spacing-4;
 $sender-skill-holder-width: global.$spacing-5;
 
-$sender-color-primary: global.$color-primary-6;
-$sender-color-primary-hover: global.$color-primary-5;
+$sender-color-primary: global.$color-primary-7;
+$sender-color-primary-hover: global.$color-primary-7;
 $sender-color-text: global.$color-text-1;
 $sender-color-text-disabled: global.$color-text-4;
-$sender-color-text-placeholder: global.$color-text-4;
+$sender-color-text-placeholder: global.$color-text-3;
 $sender-color-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-2'));
 $sender-color-bg-disabled: global.$color-fill-2;
 $sender-color-header-bg: global.$color-fill-2;
@@ -37,10 +37,13 @@ $sender-switch-checked-hover-bg: color-mix(in srgb, #{global.$color-primary-6} 1
 $sender-switch-unchecked-hover-bg: color-mix(in srgb, #{global.$color-fill-3} 4%, transparent);
 
 $sender-box-shadow:
-  0 1px 2px 0 rgb(0 0 0 / 3%),
-  0 1px 6px -1px rgb(0 0 0 / 2%),
-  0 2px 4px 0 rgb(0 0 0 / 2%);
-$sender-motion-duration: global.$transition-duration-3;
+  0 4px 20px rgb(0 0 0 / 3.5%),
+  inset 0 0 0 1px #{global.$color-border-2};
+$sender-box-shadow-focus:
+  0 4px 20px rgb(0 0 0 / 3.5%),
+  0 0 0 2px #{global.$color-border-4},
+  inset 0 0 0 1px #{global.$color-border-3};
+$sender-motion-duration: global.$transition-duration-2;
 $sender-motion-duration-fast: global.$transition-duration-2;
 $sender-motion-easing: global.$transition-timing-function-standard;
 
@@ -105,13 +108,13 @@ $sender-color-primary: theme-runtime.token(
   'sender',
   'sender-color-primary',
   $sender-color-primary,
-  'color-primary-6'
+  'color-primary-7'
 );
 $sender-color-primary-hover: theme-runtime.token(
   'sender',
   'sender-color-primary-hover',
   $sender-color-primary-hover,
-  'color-primary-5'
+  'color-primary-7'
 );
 $sender-color-text: theme-runtime.token(
   'sender',
@@ -129,7 +132,7 @@ $sender-color-text-placeholder: theme-runtime.token(
   'sender',
   'sender-color-text-placeholder',
   $sender-color-text-placeholder,
-  'color-text-4'
+  'color-text-3'
 );
 $sender-color-bg: theme-runtime.token('sender', 'sender-color-bg', $sender-color-bg);
 $sender-color-bg-disabled: theme-runtime.token(
@@ -186,6 +189,11 @@ $sender-switch-unchecked-hover-bg: theme-runtime.token(
   $sender-switch-unchecked-hover-bg
 );
 $sender-box-shadow: theme-runtime.token('sender', 'sender-box-shadow', $sender-box-shadow);
+$sender-box-shadow-focus: theme-runtime.token(
+  'sender',
+  'sender-box-shadow-focus',
+  $sender-box-shadow-focus
+);
 $sender-motion-duration: theme-runtime.token(
   'sender',
   'sender-motion-duration',

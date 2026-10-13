@@ -9,11 +9,11 @@
 
 $btn-font-weight: global.$font-weight-400;
 $btn-border-width: global.$border-1;
-$btn-border-radius: global.$radius-small;
+$btn-border-radius: var(--border-radius-small, #{global.$radius-medium});
 $btn-color-loading-mask: var(--sd-color-bg-2);
 
-$btn-size-mini-radius: $btn-border-radius;
-$btn-size-small-radius: $btn-border-radius;
+$btn-size-mini-radius: theme-runtime.token('button', 'btn-border-radius', global.$radius-small);
+$btn-size-small-radius: theme-runtime.token('button', 'btn-border-radius', global.$radius-small);
 $btn-size-default-radius: $btn-border-radius;
 $btn-size-large-radius: $btn-border-radius;
 
@@ -48,11 +48,11 @@ $btn-size-default-font-size: global.$font-size-body-3;
 $btn-size-large-font-size: global.$font-size-body-3;
 
 /***** Outline *****/
-$btn-outline-color-text: global.$color-primary-6;
+$btn-outline-color-text: global.$color-primary-7;
 $btn-outline-color-text_disabled: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-primary-light-3')
 );
-$btn-outline-color-text_hover: global.$color-primary-5;
+$btn-outline-color-text_hover: global.$color-primary-7;
 $btn-outline-color-text_active: global.$color-primary-7;
 $btn-outline-color-bg: global.$color-transparent;
 $btn-outline-color-bg_disabled: global.$color-transparent;
@@ -119,10 +119,10 @@ $btn-outline-color-border_success_active: global.$color-success-7;
 $btn-outline-border-style: global.$border-solid;
 
 /***** Primary *****/
-$btn-primary-color-text: #fff;
+$btn-primary-color-text: var(--sd-color-primary-on);
 $btn-primary-color-text_disabled: #fff;
-$btn-primary-color-text_hover: #fff;
-$btn-primary-color-text_active: #fff;
+$btn-primary-color-text_hover: var(--sd-color-primary-on-hover);
+$btn-primary-color-text_active: var(--sd-color-primary-on-active);
 $btn-primary-color-bg: global.$color-primary-6;
 $btn-primary-color-bg_disabled: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-primary-light-3')
@@ -388,12 +388,12 @@ $btn-dashed-color-border_success_active: var(
 $btn-dashed-border-style: global.$border-dashed;
 
 /***** Text *****/
-$btn-text-color-text: global.$color-primary-6;
+$btn-text-color-text: global.$color-primary-7;
 $btn-text-color-text_disabled: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-primary-light-3')
 );
-$btn-text-color-text_hover: global.$color-primary-6;
-$btn-text-color-text_active: global.$color-primary-6;
+$btn-text-color-text_hover: global.$color-primary-7;
+$btn-text-color-text_active: global.$color-primary-8;
 $btn-text-color-bg: global.$color-transparent;
 $btn-text-color-bg_disabled: global.$color-transparent;
 $btn-text-color-bg_hover: var(string.unquote('#{global.$sd-cssvars-prefix}-color-fill-2'));
@@ -484,8 +484,12 @@ $btn-color-loading-mask: theme-runtime.token(
   'btn-color-loading-mask',
   $btn-color-loading-mask
 );
-$btn-size-mini-radius: theme-runtime.token('button', 'btn-size-mini-radius', $btn-border-radius);
-$btn-size-small-radius: theme-runtime.token('button', 'btn-size-small-radius', $btn-border-radius);
+$btn-size-mini-radius: theme-runtime.token('button', 'btn-size-mini-radius', $btn-size-mini-radius);
+$btn-size-small-radius: theme-runtime.token(
+  'button',
+  'btn-size-small-radius',
+  $btn-size-small-radius
+);
 $btn-size-default-radius: theme-runtime.token(
   'button',
   'btn-size-default-radius',
@@ -628,7 +632,7 @@ $btn-outline-color-text: theme-runtime.token(
   'button',
   'btn-outline-color-text',
   $btn-outline-color-text,
-  'color-primary-6'
+  'color-primary-7'
 );
 $btn-outline-color-text_disabled: theme-runtime.token(
   'button',
@@ -639,7 +643,7 @@ $btn-outline-color-text_hover: theme-runtime.token(
   'button',
   'btn-outline-color-text-hover',
   $btn-outline-color-text_hover,
-  'color-primary-5'
+  'color-primary-7'
 );
 $btn-outline-color-text_active: theme-runtime.token(
   'button',
@@ -1705,7 +1709,7 @@ $btn-text-color-text: theme-runtime.token(
   'button',
   'btn-text-color-text',
   $btn-text-color-text,
-  'color-primary-6'
+  'color-primary-7'
 );
 $btn-text-color-text_disabled: theme-runtime.token(
   'button',
@@ -1716,13 +1720,13 @@ $btn-text-color-text_hover: theme-runtime.token(
   'button',
   'btn-text-color-text-hover',
   $btn-text-color-text_hover,
-  'color-primary-6'
+  'color-primary-7'
 );
 $btn-text-color-text_active: theme-runtime.token(
   'button',
   'btn-text-color-text-active',
   $btn-text-color-text_active,
-  'color-primary-6'
+  'color-primary-8'
 );
 $btn-text-color-bg: theme-runtime.token(
   'button',

@@ -16,16 +16,16 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     string.unquote('#{global.$sd-cssvars-prefix}-color-text-1')
   );
   #{$calendar-css-prefix}-contrast-color: var(
-    string.unquote('#{global.$sd-cssvars-prefix}-color-white')
+    string.unquote('#{global.$sd-cssvars-prefix}-color-primary-on')
   );
   #{$calendar-css-prefix}-border-color: var(
     string.unquote('#{global.$sd-cssvars-prefix}-color-neutral-3')
   );
   #{$calendar-css-prefix}-header-color: var(
-    string.unquote('#{global.$sd-cssvars-prefix}-color-white')
+    string.unquote('#{global.$sd-cssvars-prefix}-color-primary-on')
   );
   #{$calendar-css-prefix}-event-color: var(
-    string.unquote('#{global.$sd-cssvars-prefix}-color-white')
+    string.unquote('#{global.$sd-cssvars-prefix}-color-primary-on')
   );
   #{$calendar-css-prefix}-event-border-color: color-mix(
     in srgb,
@@ -51,7 +51,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
       string.unquote('#{global.$sd-cssvars-prefix}-color-white')
     );
     #{$calendar-css-prefix}-contrast-color: var(
-      string.unquote('#{global.$sd-cssvars-prefix}-color-text-1')
+      string.unquote('#{global.$sd-cssvars-prefix}-color-white')
     );
     #{$calendar-css-prefix}-border-color: color-mix(
       in srgb,

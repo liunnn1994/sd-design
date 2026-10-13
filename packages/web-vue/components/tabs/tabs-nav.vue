@@ -45,12 +45,13 @@
               <VNodeRenderer :content="tab.slots.title?.() ?? tab.title" />
             </TabsTab>
             <TabsNavInk
-              v-if="props.type === 'line' && activeTabRef"
+              v-if="['line', 'capsule'].includes(props.type) && activeTabRef"
               ref="inkRef"
               :active-tab-ref="activeTabRef"
               :direction="props.direction"
               :disabled="false"
               :animation="props.animation"
+              :capsule="props.type === 'capsule'"
             />
           </div>
         </ResizeObserver>

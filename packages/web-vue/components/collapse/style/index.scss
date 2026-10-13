@@ -130,6 +130,8 @@ $collapse-prefix-cls: string.unquote('#{theme.$prefix}-collapse');
 
     &-content {
       position: relative;
+      display: grid;
+      grid-template-rows: 1fr;
       padding-right: $collapse-title-padding-horizontal;
       padding-left: $collapse-title-padding-horizontal + $collapse-expand-icon-size-bg +
         $collapse-expand-icon-spacing-text;
@@ -138,12 +140,12 @@ $collapse-prefix-cls: string.unquote('#{theme.$prefix}-collapse');
       font-size: $collapse-content-font-size;
       background-color: $collapse-content-color-bg;
 
-      &-expanded {
-        display: block;
-        height: auto;
+      &-box {
+        min-height: 0;
+        overflow: hidden;
       }
 
-      &-box {
+      &-body {
         padding: $collapse-content-padding-vertical 0;
       }
     }
@@ -175,10 +177,11 @@ $collapse-prefix-cls: string.unquote('#{theme.$prefix}-collapse');
 
 .collapse-slider-enter-from,
 .collapse-slider-leave-to {
-  height: 0;
+  grid-template-rows: 0fr;
 }
 
 .collapse-slider-enter-active,
 .collapse-slider-leave-active {
-  transition: height theme.$transition-duration-2 theme.$transition-timing-function-standard;
+  transition: grid-template-rows theme.$transition-duration-2
+    theme.$transition-timing-function-standard;
 }

@@ -52,7 +52,7 @@
           .slice(1)
           .map((channel) => Math.min(255, Number(channel)).toString(16).padStart(2, '0'))
           .join('')}`
-      : '#165dff';
+      : '#d97757';
   }
   function pickColor(key: string, fallback: string, value: string) {
     // 调色板 token 在运行时经 rgb(var(--token)) 消费，覆写必须是通道格式；

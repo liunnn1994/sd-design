@@ -4,6 +4,27 @@ Cypress.on('uncaught:exception', (error) => {
   if (error.message.includes('ResizeObserver loop')) return false;
 });
 describe('文档站主题编辑器', () => {
+  it('设计指引中的真实预览支持首轮交互和窄屏布局', () => {
+    cy.viewport(1440, 1000);
+    cy.visit('/design/guidelines/');
+    cy.get('.design-foundations .sd-sender textarea', { timeout: 60000 }).type('检查首轮输入');
+    cy.get('.design-foundations .sd-sender textarea').should('have.value', '检查首轮输入');
+    cy.contains('.design-foundations .sd-tabs-tab', '项目').click();
+    cy.get('.design-foundations .sd-tabs-tab-active').should('contain.text', '项目');
+    cy.get('.design-foundations .sd-collapse-item-header').click();
+    cy.get('.design-foundations .sd-collapse-item-content').should('not.be.visible');
+    cy.get('.design-foundations .sd-collapse-item-header').click();
+    cy.get('.design-foundations .sd-collapse-item-content').should('be.visible');
+    cy.get('.design-foundations').screenshot('design-foundations-desktop');
+    cy.viewport(390, 844);
+    cy.get('.design-foundations').should(($preview) => {
+      const bounds = $preview[0].getBoundingClientRect();
+      expect(bounds.right).to.be.at.most(390);
+      expect($preview[0].scrollWidth).to.be.at.most($preview[0].clientWidth);
+    });
+    cy.get('.design-foundations').screenshot('design-foundations-mobile');
+  });
+
   it('画布说明、微调输入和文件弹窗的自定义样式生效', () => {
     cy.viewport(1440, 1000);
     cy.visit('/guides/theme-editor/');
@@ -135,10 +156,10 @@ describe('文档站主题编辑器', () => {
     cy.get('[data-testid="workspace-header"]').should(
       'have.css',
       'background-color',
-      'rgb(35, 35, 36)',
+      'rgb(32, 32, 30)',
     );
     cy.get('[data-testid="workspace-page"]').contains('button', '新建任务').click();
-    cy.get('.sd-modal:visible').should('have.css', 'background-color', 'rgb(42, 42, 43)');
+    cy.get('.sd-modal:visible').should('have.css', 'background-color', 'rgb(32, 32, 30)');
     cy.get('.sd-modal:visible').contains('button', '创建任务').click();
     cy.get('.sd-modal:visible').should('contain.text', '请输入任务名称');
     cy.get('input[aria-label="任务名称"]').type('画布内交付任务');
@@ -159,7 +180,7 @@ describe('文档站主题编辑器', () => {
     cy.get('[data-testid="workspace-header"]').contains('button', '消息').click();
     cy.get('.sd-drawer:visible')
       .should('contain.text', '交付检查详情')
-      .and('have.css', 'background-color', 'rgb(42, 42, 43)');
+      .and('have.css', 'background-color', 'rgb(32, 32, 30)');
     cy.get('.sd-drawer:visible .sd-drawer-close-btn').click();
     cy.get('[data-testid="canvas-transform"]')
       .invoke('attr', 'transform')
@@ -244,7 +265,7 @@ describe('文档站主题编辑器', () => {
     cy.get('#seed-radius').clear().blur();
     cy.get('[data-testid="theme-demo"] .sd-btn-primary')
       .first()
-      .should('have.css', 'border-radius', '4px');
+      .should('have.css', 'border-radius', '8px');
     cy.get('.editor-steps').contains('.sd-steps-item', '选择风格').click();
     cy.contains('.preset-option', '暗色').click();
     cy.get('.editor-steps').contains('.sd-steps-item', '调整品牌').click();

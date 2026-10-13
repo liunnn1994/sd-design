@@ -2,6 +2,20 @@ import type { SdThemeConfig, ThemeTokenMap } from './theme';
 
 import { generateThemePalette } from './color-palette';
 
+// 白色与近黑色中选取对比度较高者，保证自定义品牌色仍有可读的按钮文字。
+export function primaryForeground(channels: string): string {
+  const linear = channels.split(',').map((channel) => {
+    const value = Number(channel.trim()) / 255;
+    return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+  });
+  const luminance = linear[0] * 0.2126 + linear[1] * 0.7152 + linear[2] * 0.0722;
+  const whiteContrast = 1.05 / (luminance + 0.05);
+  const inkLuminance = ((11 / 255 + 0.055) / 1.055) ** 2.4 * 0.9278 + (10 / 255 / 12.92) * 0.0722;
+  const inkContrast = (luminance + 0.05) / (inkLuminance + 0.05);
+  if (whiteContrast >= inkContrast) return '#ffffff';
+  return inkContrast >= 4.5 ? '#0b0b0a' : '#000000';
+}
+
 export interface SdThemeSeed {
   primary?: string;
   success?: string;
@@ -25,6 +39,11 @@ export function deriveThemeTokens(theme: SdThemeConfig): ThemeTokenMap {
       tokens[`${name}-${index + 1}`] = channels;
       if (name === 'primary') tokens[`link-${index + 1}`] = channels;
     });
+    if (name === 'primary') {
+      tokens['color-primary-on'] = primaryForeground(palette[5]);
+      tokens['color-primary-on-hover'] = primaryForeground(palette[4]);
+      tokens['color-primary-on-active'] = primaryForeground(palette[6]);
+    }
   }
   if (seed.radius !== undefined) {
     tokens['border-radius-small'] = `${seed.radius}px`;
@@ -43,7 +62,7 @@ export function deriveThemeTokens(theme: SdThemeConfig): ThemeTokenMap {
       ['small', -4],
       ['default', 0],
       ['medium', 0],
-      ['large', 4],
+      ['large', 8],
     ] as const) {
       tokens[`size-${name}`] = `${base + delta}px`;
     }

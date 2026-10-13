@@ -17,6 +17,8 @@ import copyIconSource from '../../../../components/generated/copy/icon.vue?raw';
 
 默认使用链接样式作为触发器，点击后把 `content` 写入剪贴板。
 
+复制成功后，默认图标会显示勾选反馈 2.5 秒，悬停提示同步显示“复制成功”。再次复制会重新计时。自定义 `icon` 插槽和 `tooltip` 文案仍优先采用传入内容。
+
 <DemoBlock source={copyBasicSource} mainFile="src/copy-basic.vue">
 
 <CopyBasicDemo client:only="vue" />

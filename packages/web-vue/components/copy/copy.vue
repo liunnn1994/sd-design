@@ -12,7 +12,8 @@
     >
       <template #icon>
         <slot name="icon">
-          <IconCopy />
+          <IconCheck v-if="copied" :class="`${prefixCls}-feedback`" />
+          <IconCopy v-else />
         </slot>
       </template>
       <slot />
@@ -30,6 +31,7 @@
   import { getPrefixCls } from '../_utils/global-config';
   import pick from '../_utils/pick';
   import Button from '../button';
+  import IconCheck from '../icon/icon-check';
   import IconCopy from '../icon/icon-copy';
   import Link from '../link';
   import { useI18n } from '../locale';
@@ -69,6 +71,8 @@
   });
   const { t } = useI18n();
   const prefixCls = getPrefixCls('copy');
+  const copied = shallowRef(false);
+  let feedbackTimer: ReturnType<typeof setTimeout> | undefined;
   const componentMap: Record<CopyComponentType, typeof Link | typeof Button> = {
     link: Link,
     button: Button,
@@ -113,7 +117,9 @@
     return disabled === '' || disabled === true || disabled === 'true';
   });
   // 默认 tooltip/successMessage 走 locale，消费方显式传入时优先
-  const mergedTooltip = computed(() => props.tooltip ?? t('copy.copy'));
+  const mergedTooltip = computed(
+    () => props.tooltip ?? t(copied.value ? 'copy.copied' : 'copy.copy'),
+  );
   const mergedSuccessMessage = computed(() => props.successMessage ?? t('copy.copied'));
   const mergedTooltipProps = computed(() => ({
     ...props.tooltipProps,
@@ -123,6 +129,7 @@
   let disposed = false;
   onBeforeUnmount(() => {
     disposed = true;
+    clearTimeout(feedbackTimer);
   });
 
   async function handleCopy() {
@@ -139,6 +146,11 @@
       throw new Error('[sdCopy] failed to copy content to the clipboard');
     }
     Message.success(mergedSuccessMessage.value);
+    copied.value = true;
+    clearTimeout(feedbackTimer);
+    feedbackTimer = setTimeout(() => {
+      copied.value = false;
+    }, 2500);
     emit('copy', content);
   }
 </script>

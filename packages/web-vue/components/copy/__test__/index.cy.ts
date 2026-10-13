@@ -37,6 +37,24 @@ describe('Copy', () => {
     });
   });
 
+  it('shows local success feedback for 2.5 seconds and extends it after another copy', () => {
+    cy.clock();
+    cy.window().then((win) => {
+      Object.defineProperty(win, 'isSecureContext', { configurable: true, value: true });
+      cy.stub(win.navigator.clipboard, 'writeText').resolves(undefined);
+    });
+    cy.mount(Copy, { props: { content: '代码' } });
+    cy.get('.sd-copy').click();
+    cy.get('.sd-copy-feedback').should('exist');
+    cy.tick(2000);
+    cy.get('.sd-copy').click();
+    cy.tick(1000);
+    cy.get('.sd-copy-feedback').should('exist');
+    cy.tick(1500);
+    cy.get('.sd-copy-feedback').should('not.exist');
+    cy.get('.sd-icon-copy').should('exist');
+  });
+
   it('does not copy when the trigger is disabled', () => {
     cy.window().then((win) => {
       cy.stub(win.navigator.clipboard, 'writeText').resolves(undefined).as('writeText');

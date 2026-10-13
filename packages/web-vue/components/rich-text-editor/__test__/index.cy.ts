@@ -51,7 +51,7 @@ describe('RichTextEditor', () => {
     );
 
     cy.get('.sd-rich-text-editor')
-      .should('have.css', 'background-color', 'rgb(35, 35, 36)')
+      .should('have.css', 'background-color', 'rgb(32, 32, 30)')
       .and('have.css', 'color', 'rgb(246, 246, 246)');
   });
 

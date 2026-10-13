@@ -87,6 +87,7 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
 }
 
 .#{$table-prefix-cls} {
+  font-variant-numeric: tabular-nums;
   position: relative;
 
   &-column-handle {

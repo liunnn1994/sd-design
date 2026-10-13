@@ -46,7 +46,7 @@ $pagination-color-bg-item_active_disabled: var(
 
 $pagination-color-item-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-2'));
 $pagination-color-item-text_hover: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-2'));
-$pagination-color-item-text_active: global.$color-primary-6;
+$pagination-color-item-text_active: global.$color-primary-7;
 $pagination-color-item-text_disabled: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-text-4')
 );
@@ -66,7 +66,7 @@ $pagination-color-icon-arrow-bg_hover: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-fill-1')
 );
 $pagination-color-icon-arrow-bg_disabled: global.$color-transparent;
-$pagination-color-icon-arrow-text_hover: global.$color-primary-6;
+$pagination-color-icon-arrow-text_hover: global.$color-primary-7;
 $pagination-color-icon-arrow-text_disabled: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-text-4')
 );
@@ -81,7 +81,7 @@ $pagination-simple-color-icon-arrow-bg_hover: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-fill-1')
 );
 $pagination-simple-color-icon-arrow-bg_disabled: global.$color-transparent;
-$pagination-simple-color-icon-arrow-text_hover: global.$color-primary-6;
+$pagination-simple-color-icon-arrow-text_hover: global.$color-primary-7;
 $pagination-simple-color-icon-arrow-text_disabled: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-text-4')
 );
@@ -256,7 +256,7 @@ $pagination-color-item-text_active: theme-runtime.token(
   'pagination',
   'pagination-color-item-text-active',
   $pagination-color-item-text_active,
-  'color-primary-6'
+  'color-primary-7'
 );
 $pagination-color-item-text_disabled: theme-runtime.token(
   'pagination',
@@ -324,7 +324,7 @@ $pagination-color-icon-arrow-text_hover: theme-runtime.token(
   'pagination',
   'pagination-color-icon-arrow-text-hover',
   $pagination-color-icon-arrow-text_hover,
-  'color-primary-6'
+  'color-primary-7'
 );
 $pagination-color-icon-arrow-text_disabled: theme-runtime.token(
   'pagination',
@@ -363,7 +363,7 @@ $pagination-simple-color-icon-arrow-text_hover: theme-runtime.token(
   'pagination',
   'pagination-simple-color-icon-arrow-text-hover',
   $pagination-simple-color-icon-arrow-text_hover,
-  'color-primary-6'
+  'color-primary-7'
 );
 $pagination-simple-color-icon-arrow-text_disabled: theme-runtime.token(
   'pagination',

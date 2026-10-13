@@ -55,7 +55,7 @@ $card-color-border: var(string.unquote('#{global.$sd-cssvars-prefix}-color-neutr
 
 $card-color-title: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
 
-$card-color-title-extra: global.$color-primary-6;
+$card-color-title-extra: global.$color-primary-7;
 
 $card-color-body: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-2'));
 
@@ -203,7 +203,7 @@ $card-color-title-extra: theme-runtime.token(
   'card',
   'card-color-title-extra',
   $card-color-title-extra,
-  'color-primary-6'
+  'color-primary-7'
 );
 $card-color-body: theme-runtime.token('card', 'card-color-body', $card-color-body);
 $card-color-action: theme-runtime.token('card', 'card-color-action', $card-color-action);

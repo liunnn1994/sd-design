@@ -189,6 +189,8 @@
   $font-size: string.unquote('input-size-#{$size}-font-size');
   $line-height: string.unquote('input-size-#{$size}-line-height');
 
+  height: calc(token-var($height) - $input-border-width * 2);
+
   /* prettier-ignore */
   padding-top: calc((token-var($height) - $input-border-width * 2 - token-var($line-height) * token-var($font-size)) / 2);
 

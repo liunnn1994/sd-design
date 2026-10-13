@@ -34,7 +34,7 @@ $anchor-color-bg-title_hover: var(string.unquote('#{global.$sd-cssvars-prefix}-c
 $anchor-font-size-title: 14px;
 
 // Lineless
-$anchor-lineless-color-title_active: global.$color-primary-6;
+$anchor-lineless-color-title_active: global.$color-primary-7;
 $anchor-lineless-bg-title_active: var(string.unquote('#{global.$sd-cssvars-prefix}-color-fill-2'));
 $anchor-lineless-font-weight-title_active: global.$font-weight-500;
 
@@ -109,7 +109,7 @@ $anchor-lineless-color-title_active: theme-runtime.token(
   'anchor',
   'anchor-lineless-color-title-active',
   $anchor-lineless-color-title_active,
-  'color-primary-6'
+  'color-primary-7'
 );
 $anchor-lineless-bg-title_active: theme-runtime.token(
   'anchor',

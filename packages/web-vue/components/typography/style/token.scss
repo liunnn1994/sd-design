@@ -18,7 +18,7 @@ $typography-heading-font-weight: global.$font-weight-500;
 
 $typography-color-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
 
-$typography-text-color-text-primary: global.$color-primary-6;
+$typography-text-color-text-primary: global.$color-primary-7;
 $typography-text-color-text-secondary: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-text-2')
 );
@@ -61,8 +61,8 @@ $typography-color-bg-icon-edit_hover: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-fill-2')
 );
 
-$typography-color-expand-text: global.$color-primary-6;
-$typography-color-expand-text_hover: global.$color-primary-5;
+$typography-color-expand-text: global.$color-primary-7;
+$typography-color-expand-text_hover: global.$color-primary-7;
 
 $typography-color-blockquote-border-width: 2px;
 $typography-color-blockquote-border-left: var(
@@ -119,7 +119,7 @@ $typography-text-color-text-primary: theme-runtime.token(
   'typography',
   'typography-text-color-text-primary',
   $typography-text-color-text-primary,
-  'color-primary-6'
+  'color-primary-7'
 );
 $typography-text-color-text-secondary: theme-runtime.token(
   'typography',
@@ -258,13 +258,13 @@ $typography-color-expand-text: theme-runtime.token(
   'typography',
   'typography-color-expand-text',
   $typography-color-expand-text,
-  'color-primary-6'
+  'color-primary-7'
 );
 $typography-color-expand-text_hover: theme-runtime.token(
   'typography',
   'typography-color-expand-text-hover',
   $typography-color-expand-text_hover,
-  'color-primary-5'
+  'color-primary-7'
 );
 $typography-color-blockquote-border-width: theme-runtime.token(
   'typography',
