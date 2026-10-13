@@ -96,10 +96,15 @@ test('serves recovered APIs and valid clamp imports', async () => {
     assert.equal((await get('WrapClamp')).name, 'sd-wrap-clamp');
     const message = await get('Message');
     assert.equal(message.kind, 'service');
-    assert.equal(message.configCount, 9);
+    assert.equal(message.configCount, 11);
     assert.ok(message.methods.some((method: { name: string }) => method.name === 'success'));
     const notification = await get('Notification');
-    assert.equal(notification.configCount, 15);
+    assert.equal(notification.configCount, 17);
+    for (const api of [message, notification]) {
+      for (const name of ['deduplicate', 'deduplicateByType']) {
+        assert.ok(api.config.some((field: { name: string }) => field.name === name));
+      }
+    }
     assert.ok(
       notification.config.some((field: { name: string }) => field.name === 'resetOnUpdate'),
     );
