@@ -85,7 +85,7 @@ $tabs-padding-title-text-horizontal: global.$spacing-4;
 
 $tabs-color-title-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-2'));
 
-$tabs-color-title-text_active: global.$color-primary-7;
+$tabs-color-title-text_active: global.$color-primary-6;
 
 $tabs-color-title-text_hover: $tabs-color-title-text;
 
@@ -437,7 +437,7 @@ $tabs-color-title-text_active: theme-runtime.token(
   'tabs',
   'tabs-color-title-text-active',
   $tabs-color-title-text_active,
-  'color-primary-7'
+  'color-primary-6'
 );
 $tabs-color-title-text_hover: theme-runtime.token(
   'tabs',

@@ -42,8 +42,8 @@ export const THEME_SCHEMA_VERSION = 1;
 // Presets describe intent, not resolved light-mode palettes. Semantic surfaces
 // and status backgrounds stay owned by the component library's current mode.
 const PRESET_OPTIONS = {
-  default: { primary: '#d97757', radius: 8, medium: 8, large: 10, fontSize: 14, spacing: 16 },
-  dark: { primary: '#d97757', radius: 8, medium: 8, large: 10, fontSize: 14, spacing: 16 },
+  default: { primary: '#1476ff', radius: 8, medium: 8, large: 10, fontSize: 14, spacing: 16 },
+  dark: { primary: '#1476ff', radius: 8, medium: 8, large: 10, fontSize: 14, spacing: 16 },
   compact: { primary: '#2b6ed9', radius: 4, medium: 6, large: 10, fontSize: 13, spacing: 12 },
   brand: { primary: '#e6397a', radius: 10, medium: 14, large: 22, fontSize: 14, spacing: 18 },
   cyberpunk: { primary: '#8c31ff', radius: 12, medium: 18, large: 28, fontSize: 14, spacing: 18 },
@@ -80,7 +80,7 @@ export const themePresets: ThemePreset[] = [
   {
     key: 'default',
     name: '默认',
-    description: '延续组件库默认的陶土强调与温和表面层级，适合后台、工具与对话场景。',
+    description: '延续组件库原有的蓝色品牌语义，结合温和的灰阶层级，适合后台、工具与对话场景。',
     summary: '稳定、清晰、可直接落地。',
     mode: 'light',
     theme: buildPresetTheme('default', { name: 'Default' }),

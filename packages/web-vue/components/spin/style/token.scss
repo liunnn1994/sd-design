@@ -16,7 +16,7 @@ $spin-line-height: $line-height-base;
 
 $spin-margin-top-tip: global.$spacing-3;
 
-$spin-color-text: global.$color-primary-7;
+$spin-color-text: global.$color-primary-6;
 
 $spin-color-icon: global.$color-primary-6;
 
@@ -52,7 +52,7 @@ $spin-color-text: theme-runtime.token(
   'spin',
   'spin-color-text',
   $spin-color-text,
-  'color-primary-7'
+  'color-primary-6'
 );
 $spin-color-icon: theme-runtime.token(
   'spin',

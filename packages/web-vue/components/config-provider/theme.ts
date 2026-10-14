@@ -1,4 +1,4 @@
-import { deriveThemeTokens, primaryForeground, type SdThemeSeed } from './algorithms';
+import { deriveThemeTokens, type SdThemeSeed } from './algorithms';
 import { normalizeTokenKey } from './token-key';
 export { normalizeTokenKey } from './token-key';
 
@@ -131,19 +131,6 @@ export function normalizeTheme(theme?: SdThemeConfig): SDThemeNormalized {
 
   const themeTokens = normalizeTokenMap(theme.tokens ?? theme.token);
   const legacyRootTokens = collectLegacyRootTokens(theme);
-  const explicitTokens = { ...legacyRootTokens, ...themeTokens };
-  const tokens = { ...deriveThemeTokens(theme), ...explicitTokens };
-  for (const [state, index] of [
-    ['', 6],
-    ['-hover', 5],
-    ['-active', 7],
-  ] as const) {
-    const key = `color-primary-on${state}`;
-    const channels = String(tokens[`primary-${index}`] ?? '');
-    if (key in explicitTokens || !/^\d+\s*,\s*\d+\s*,\s*\d+$/.test(channels)) continue;
-    if (channels.split(',').every((value) => Number(value) <= 255))
-      tokens[key] = primaryForeground(channels);
-  }
 
   const meta = {
     name: theme.meta?.name,
@@ -154,7 +141,11 @@ export function normalizeTheme(theme?: SdThemeConfig): SDThemeNormalized {
   };
 
   return {
-    tokens,
+    tokens: {
+      ...deriveThemeTokens(theme),
+      ...legacyRootTokens,
+      ...themeTokens,
+    },
     components: normalizeComponentTokenMap(theme.components ?? theme.component),
     meta,
   };

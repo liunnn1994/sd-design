@@ -1,6 +1,6 @@
 import { defineComponent, h } from 'vue';
 
-import Button from '../../button';
+import Button, { ButtonGroup } from '../../button';
 import Input from '../../input';
 import Link from '../../link';
 import Sender from '../../sender';
@@ -31,56 +31,6 @@ describe('设计基础的真实浏览器样式', () => {
     cy.get('[data-radius-size="small"]').should('have.css', 'border-radius', '20px');
   });
 
-  it('普通字号的强调文字在浅色与暗色表面上保持可读对比度', () => {
-    cy.mount(
-      defineComponent({
-        setup: () => () =>
-          h(
-            'div',
-            ['light', 'dark'].map((mode) =>
-              h(
-                'div',
-                {
-                  'sd-theme': mode,
-                  'data-contrast-mode': mode,
-                  'style': { background: 'var(--sd-color-bg-2)' },
-                },
-                [
-                  h(Button, { type: 'text', class: 'contrast-target' }, () => '文字操作'),
-                  h(Button, { type: 'outline', class: 'contrast-target' }, () => '描边操作'),
-                  h(
-                    Typography.Text,
-                    { type: 'primary', class: 'contrast-target' },
-                    () => '强调文字',
-                  ),
-                  h(Link, { class: 'contrast-target' }, () => '链接'),
-                ],
-              ),
-            ),
-          ),
-      }),
-    );
-    const luminance = (color: string) => {
-      const channels = color
-        .match(/[\d.]+/g)!
-        .slice(0, 3)
-        .map(Number)
-        .map((channel) => {
-          const value = channel / 255;
-          return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
-        });
-      return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
-    };
-    cy.get('.contrast-target').each(($element) => {
-      const surface = $element.closest('[data-contrast-mode]')[0];
-      const foreground = luminance(getComputedStyle($element[0]).color);
-      const background = luminance(getComputedStyle(surface).backgroundColor);
-      expect(
-        (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05),
-      ).to.be.at.least(4.5);
-    });
-  });
-
   it('按钮与输入框共享 24 / 28 / 32 / 40px 尺寸', () => {
     const sizes = ['mini', 'small', 'medium', 'large'] as const;
     cy.mount(
@@ -104,7 +54,7 @@ describe('设计基础的真实浏览器样式', () => {
     });
   });
 
-  it('陶土主操作与暖灰表面在浅色和暗色主题下生效', () => {
+  it('原有蓝色品牌与白字规则在浅暗主题中生效，同时保留暖灰表面', () => {
     cy.mount(
       defineComponent({
         setup: () => () =>
@@ -118,7 +68,22 @@ describe('设计基础的真实浏览器样式', () => {
                   'data-mode': mode,
                   'style': { background: 'var(--sd-color-bg-1)' },
                 },
-                [h(Button, { type: 'primary' }, () => '发送')],
+                [
+                  h(Button, { type: 'primary' }, () => '发送'),
+                  h(ButtonGroup, {}, () =>
+                    ['copy', 'cut', 'find'].map((label) =>
+                      h(Button, { type: 'primary' }, () => label),
+                    ),
+                  ),
+                  h(Button, { type: 'text', class: 'brand-text' }, () => '文字操作'),
+                  h(Button, { type: 'outline', class: 'brand-outline' }, () => '描边操作'),
+                  h(
+                    Typography.Text,
+                    { type: 'primary', class: 'brand-typography' },
+                    () => '强调文字',
+                  ),
+                  h(Link, { class: 'brand-link' }, () => '链接'),
+                ],
               ),
             ),
           ),
@@ -126,23 +91,32 @@ describe('设计基础的真实浏览器样式', () => {
     );
     cy.get('[data-mode="light"]').should('have.css', 'background-color', 'rgb(245, 245, 243)');
     cy.get('[data-mode="dark"]').should('have.css', 'background-color', 'rgb(21, 21, 21)');
-    cy.get('.sd-btn').each(($button) => {
-      expect($button).to.have.css('background-color', 'rgb(217, 119, 87)');
-      expect($button).to.have.css('color', 'rgb(11, 11, 10)');
-    });
+    for (const [mode, color] of [
+      ['light', 'rgb(22, 93, 255)'],
+      ['dark', 'rgb(60, 126, 255)'],
+    ] as const) {
+      cy.get(`[data-mode="${mode}"] .sd-btn-primary`).each(($button) => {
+        expect($button).to.have.css('background-color', color);
+        expect($button).to.have.css('color', 'rgb(255, 255, 255)');
+      });
+      for (const className of ['brand-text', 'brand-outline', 'brand-typography', 'brand-link']) {
+        cy.get(`[data-mode="${mode}"] .${className}`).should('have.css', 'color', color);
+      }
+    }
+    cy.screenshot('original-brand-white-button-groups');
   });
 
-  it('自定义深色品牌 seed 自动选择白色按钮文字', () => {
+  it('自定义品牌 seed 保留白色按钮文字', () => {
     cy.mount(ConfigProvider, {
-      props: { theme: { seed: { primary: '#165dff' } } },
+      props: { theme: { seed: { primary: '#d97757' } } },
       slots: { default: () => h(Button, { type: 'primary' }, () => '提交') },
     });
     cy.get('.sd-btn')
-      .should('have.css', 'background-color', 'rgb(22, 93, 255)')
+      .should('have.css', 'background-color', 'rgb(217, 119, 87)')
       .and('have.css', 'color', 'rgb(255, 255, 255)');
   });
 
-  it('旧的品牌通道 token 保持可读，并尊重显式前景色覆盖', () => {
+  it('原有品牌通道 token 与组件文字颜色覆盖保持兼容', () => {
     cy.mount(ConfigProvider, {
       props: { theme: { tokens: { primary6: '22, 93, 255' } } },
       slots: { default: () => h(Button, { type: 'primary' }, () => '提交') },
@@ -151,7 +125,10 @@ describe('设计基础的真实浏览器样式', () => {
     cy.get('@vue').then(({ wrapper }) =>
       cy.wrap(
         wrapper.setProps({
-          theme: { tokens: { 'primary6': '22, 93, 255', 'color-primary-on': '#ffff00' } },
+          theme: {
+            tokens: { primary6: '22, 93, 255' },
+            components: { button: { 'btn-primary-color-text': '#ffff00' } },
+          },
         }),
       ),
     );

@@ -1,5 +1,4 @@
 @use '@style/theme/index.scss' as global;
-@use '@style/theme/runtime.scss' as theme-runtime;
 @use '@components/tour/style/token.scss' as *;
 @use '@components/button/style/token.scss' as button;
 @use 'driver.js/dist/driver.css';
@@ -77,12 +76,10 @@
 
 .driver-popover-next-btn:hover,
 .driver-popover-next-btn:focus {
-  color: theme-runtime.token('tour', 'tour-color-primary-text', var(--sd-color-primary-on-hover));
   background: button.$btn-primary-color-bg_hover;
 }
 
 .driver-popover-next-btn:active {
-  color: theme-runtime.token('tour', 'tour-color-primary-text', var(--sd-color-primary-on-active));
   background: button.$btn-primary-color-bg_active;
 }
 

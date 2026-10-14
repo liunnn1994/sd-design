@@ -40,15 +40,15 @@ $menu-light-color-bg-item_selected: var(
 $menu-light-color-bg-item_disabled: $menu-light-color-bg;
 $menu-light-color-item_default: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-2'));
 $menu-light-color-item_hover: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-2'));
-$menu-light-color-item_selected: global.$color-primary-7;
-$menu-light-color-submenu_selected: global.$color-primary-7;
+$menu-light-color-item_selected: global.$color-primary-6;
+$menu-light-color-submenu_selected: global.$color-primary-6;
 $menu-light-color-bg-submenu_selected_hover: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-fill-2')
 );
 $menu-light-color-item_disabled: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-4'));
 $menu-light-color-icon_default: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-3'));
 $menu-light-color-icon_hover: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-3'));
-$menu-light-color-icon_selected: global.$color-primary-7;
+$menu-light-color-icon_selected: global.$color-primary-6;
 $menu-light-color-icon_disabled: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-4'));
 $menu-light-color-group-title: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-3'));
 
@@ -231,13 +231,13 @@ $menu-light-color-item_selected: theme-runtime.token(
   'menu',
   'menu-light-color-item-selected',
   $menu-light-color-item_selected,
-  'color-primary-7'
+  'color-primary-6'
 );
 $menu-light-color-submenu_selected: theme-runtime.token(
   'menu',
   'menu-light-color-submenu-selected',
   $menu-light-color-submenu_selected,
-  'color-primary-7'
+  'color-primary-6'
 );
 $menu-light-color-bg-submenu_selected_hover: theme-runtime.token(
   'menu',
@@ -263,7 +263,7 @@ $menu-light-color-icon_selected: theme-runtime.token(
   'menu',
   'menu-light-color-icon-selected',
   $menu-light-color-icon_selected,
-  'color-primary-7'
+  'color-primary-6'
 );
 $menu-light-color-icon_disabled: theme-runtime.token(
   'menu',

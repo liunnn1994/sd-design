@@ -17,7 +17,7 @@ $link-padding-horizontal: global.$spacing-2;
 
 $link-line-height: $line-height-base;
 
-$link-color-text: global.$color-link-7;
+$link-color-text: global.$color-link-6;
 
 $link-color-text_hover: $link-color-text;
 
@@ -88,7 +88,7 @@ $link-padding-horizontal: theme-runtime.token(
   'spacing-2'
 );
 $link-line-height: theme-runtime.token('link', 'link-line-height', $line-height-base);
-$link-color-text: theme-runtime.token('link', 'link-color-text', $link-color-text, 'color-link-7');
+$link-color-text: theme-runtime.token('link', 'link-color-text', $link-color-text, 'color-link-6');
 $link-color-text_hover: theme-runtime.token('link', 'link-color-text-hover', $link-color-text);
 $link-color-text_active: theme-runtime.token('link', 'link-color-text-active', $link-color-text);
 $link-color-text_disabled: theme-runtime.token(

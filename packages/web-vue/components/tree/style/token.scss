@@ -11,7 +11,7 @@ $tree-color-title-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-t
 
 $tree-color-title-text_hover: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
 
-$tree-color-title-text_active: global.$color-primary-7;
+$tree-color-title-text_active: global.$color-primary-6;
 
 $tree-color-title-text_disabled: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-4'));
 
@@ -114,7 +114,7 @@ $tree-color-title-text_active: theme-runtime.token(
   'tree',
   'tree-color-title-text-active',
   $tree-color-title-text_active,
-  'color-primary-7'
+  'color-primary-6'
 );
 $tree-color-title-text_disabled: theme-runtime.token(
   'tree',

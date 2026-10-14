@@ -5,7 +5,6 @@
   const { theme } = defineProps<{ theme: SdThemeConfig }>();
   const emit = defineEmits<{ change: [theme: SdThemeConfig] }>();
   const colors = [
-    { label: '陶土', value: '#d97757' },
     { label: '蓝色', value: '#165dff' },
     { label: '青色', value: '#14b8a6' },
     { label: '紫色', value: '#8b5cf6' },
@@ -100,7 +99,7 @@
         <span>自定义</span>
         <sd-color-picker
           format="HEX"
-          :model-value="theme.seed?.primary ?? '#d97757'"
+          :model-value="theme.seed?.primary ?? '#165dff'"
           @change="set('primary', $event)"
         />
         <sd-button size="mini" @click="set('primary', undefined)">恢复默认</sd-button>

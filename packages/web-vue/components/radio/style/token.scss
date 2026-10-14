@@ -66,7 +66,7 @@ $radio-button-color-bg_active: var(string.unquote('#{global.$sd-cssvars-prefix}-
 
 $radio-button-color-bg_hover: $radio-button-color-bg_active;
 
-$radio-button-color-text_active: global.$color-primary-7;
+$radio-button-color-text_active: global.$color-primary-6;
 
 $radio-button-font-text-weight_active: global.$font-weight-500;
 
@@ -220,7 +220,7 @@ $radio-button-color-text_active: theme-runtime.token(
   'radio',
   'radio-button-color-text-active',
   $radio-button-color-text_active,
-  'color-primary-7'
+  'color-primary-6'
 );
 $radio-button-font-text-weight_active: theme-runtime.token(
   'radio',

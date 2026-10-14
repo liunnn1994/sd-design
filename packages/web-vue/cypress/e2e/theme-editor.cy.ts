@@ -9,6 +9,14 @@ describe('文档站主题编辑器', () => {
     cy.visit('/design/guidelines/');
     cy.get('.design-foundations .sd-sender textarea', { timeout: 60000 }).type('检查首轮输入');
     cy.get('.design-foundations .sd-sender textarea').should('have.value', '检查首轮输入');
+    cy.get('.design-foundations .sd-btn-primary').each(($button) => {
+      cy.wrap($button).should(($stable) => {
+        expect($stable).to.have.css('color', 'rgb(255, 255, 255)');
+        expect(['rgb(22, 93, 255)', 'rgb(60, 126, 255)']).to.include(
+          getComputedStyle($stable[0]).backgroundColor,
+        );
+      });
+    });
     cy.contains('.design-foundations .sd-tabs-tab', '项目').click();
     cy.get('.design-foundations .sd-tabs-tab-active').should('contain.text', '项目');
     cy.get('.design-foundations .sd-collapse-item-header').click();

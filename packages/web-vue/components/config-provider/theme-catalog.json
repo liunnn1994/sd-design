@@ -245,10 +245,6 @@
       "value": "rgb(var(--sd-primary-7))"
     },
     {
-      "key": "color-primary-8",
-      "value": "rgb(var(--sd-primary-8))"
-    },
-    {
       "key": "color-success-3",
       "value": "rgb(var(--sd-success-3))"
     },
@@ -309,10 +305,6 @@
       "value": "rgb(var(--sd-link-6))"
     },
     {
-      "key": "color-link-7",
-      "value": "rgb(var(--sd-link-7))"
-    },
-    {
       "key": "color-text-1",
       "value": "var(--sd-color-neutral-10)"
     },
@@ -347,18 +339,6 @@
     {
       "key": "font-weight-semibold",
       "value": "600"
-    },
-    {
-      "key": "color-primary-on",
-      "value": "#0b0b0a"
-    },
-    {
-      "key": "color-primary-on-hover",
-      "value": "#0b0b0a"
-    },
-    {
-      "key": "color-primary-on-active",
-      "value": "#fff"
     },
     {
       "key": "color-white",
@@ -1149,46 +1129,6 @@
       "value": "11, 11, 10"
     },
     {
-      "key": "clay-1",
-      "value": "251, 243, 239"
-    },
-    {
-      "key": "clay-2",
-      "value": "243, 224, 215"
-    },
-    {
-      "key": "clay-3",
-      "value": "237, 195, 177"
-    },
-    {
-      "key": "clay-4",
-      "value": "231, 165, 139"
-    },
-    {
-      "key": "clay-5",
-      "value": "204, 90, 54"
-    },
-    {
-      "key": "clay-6",
-      "value": "217, 119, 87"
-    },
-    {
-      "key": "clay-7",
-      "value": "183, 77, 44"
-    },
-    {
-      "key": "clay-8",
-      "value": "148, 61, 36"
-    },
-    {
-      "key": "clay-9",
-      "value": "109, 46, 28"
-    },
-    {
-      "key": "clay-10",
-      "value": "73, 31, 19"
-    },
-    {
       "key": "success-1",
       "value": "var(--sd-green-1)"
     },
@@ -1230,43 +1170,43 @@
     },
     {
       "key": "primary-1",
-      "value": "var(--sd-clay-1)"
+      "value": "var(--sd-sdblue-1)"
     },
     {
       "key": "primary-2",
-      "value": "var(--sd-clay-2)"
+      "value": "var(--sd-sdblue-2)"
     },
     {
       "key": "primary-3",
-      "value": "var(--sd-clay-3)"
+      "value": "var(--sd-sdblue-3)"
     },
     {
       "key": "primary-4",
-      "value": "var(--sd-clay-4)"
+      "value": "var(--sd-sdblue-4)"
     },
     {
       "key": "primary-5",
-      "value": "var(--sd-clay-5)"
+      "value": "var(--sd-sdblue-5)"
     },
     {
       "key": "primary-6",
-      "value": "var(--sd-clay-6)"
+      "value": "var(--sd-sdblue-6)"
     },
     {
       "key": "primary-7",
-      "value": "var(--sd-clay-7)"
+      "value": "var(--sd-sdblue-7)"
     },
     {
       "key": "primary-8",
-      "value": "var(--sd-clay-8)"
+      "value": "var(--sd-sdblue-8)"
     },
     {
       "key": "primary-9",
-      "value": "var(--sd-clay-9)"
+      "value": "var(--sd-sdblue-9)"
     },
     {
       "key": "primary-10",
-      "value": "var(--sd-clay-10)"
+      "value": "var(--sd-sdblue-10)"
     },
     {
       "key": "danger-1",
@@ -1803,8 +1743,8 @@
         {
           "key": "anchor-lineless-color-title-active",
           "name": "anchor-lineless-color-title_active",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "anchor-lineless-bg-title-active",
@@ -2778,8 +2718,8 @@
         {
           "key": "btn-outline-color-text",
           "name": "btn-outline-color-text",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "btn-outline-color-text-disabled",
@@ -2790,8 +2730,8 @@
         {
           "key": "btn-outline-color-text-hover",
           "name": "btn-outline-color-text_hover",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-5, var(--sd-color-primary-5, rgb(var(--sd-primary-5))))",
+          "dependencies": ["color-primary-5"]
         },
         {
           "key": "btn-outline-color-text-active",
@@ -3072,19 +3012,19 @@
         {
           "key": "btn-primary-color-text",
           "name": "btn-primary-color-text",
-          "value": "var(--sd-color-primary-on)",
+          "value": "#fff",
           "dependencies": []
         },
         {
           "key": "btn-primary-color-text-hover",
           "name": "btn-primary-color-text_hover",
-          "value": "var(--sd-color-primary-on-hover)",
+          "value": "#fff",
           "dependencies": []
         },
         {
           "key": "btn-primary-color-text-active",
           "name": "btn-primary-color-text_active",
-          "value": "var(--sd-color-primary-on-active)",
+          "value": "#fff",
           "dependencies": []
         },
         {
@@ -3948,8 +3888,8 @@
         {
           "key": "btn-text-color-text",
           "name": "btn-text-color-text",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "btn-text-color-text-disabled",
@@ -3960,14 +3900,14 @@
         {
           "key": "btn-text-color-text-hover",
           "name": "btn-text-color-text_hover",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "btn-text-color-text-active",
           "name": "btn-text-color-text_active",
-          "value": "var(--color-primary-8, var(--sd-color-primary-8, rgb(var(--sd-primary-8))))",
-          "dependencies": ["color-primary-8"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "btn-text-color-bg",
@@ -4487,8 +4427,8 @@
         {
           "key": "card-color-title-extra",
           "name": "card-color-title-extra",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "card-color-body",
@@ -5564,7 +5504,7 @@
         {
           "key": "picker-color-text-cell-range-boundary",
           "name": "picker-color-text-cell-range-boundary",
-          "value": "var(--sd-color-primary-on)",
+          "value": "var(--sd-color-white)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
@@ -5612,7 +5552,7 @@
         {
           "key": "picker-panel-color-text-cell-selected",
           "name": "picker-panel-color-text-cell_selected",
-          "value": "var(--sd-color-primary-on)",
+          "value": "var(--sd-color-white)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
@@ -6858,8 +6798,8 @@
         {
           "key": "form-color-tip-text-validating",
           "name": "form-color-tip-text_validating",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "form-color-tip-icon-text-validating",
@@ -8469,19 +8409,19 @@
         {
           "key": "link-color-text",
           "name": "link-color-text",
-          "value": "var(--color-link-7, var(--sd-color-link-7, rgb(var(--sd-link-7))))",
-          "dependencies": ["color-link-7"]
+          "value": "var(--color-link-6, var(--sd-color-link-6, rgb(var(--sd-link-6))))",
+          "dependencies": ["color-link-6"]
         },
         {
           "key": "link-color-text-hover",
           "name": "link-color-text_hover",
-          "value": "var(--component-link-link-color-text, var(--component-link-color-text, var(--color-link-7, var(--sd-color-link-7, rgb(var(--sd-link-7))))))",
+          "value": "var(--component-link-link-color-text, var(--component-link-color-text, var(--color-link-6, var(--sd-color-link-6, rgb(var(--sd-link-6))))))",
           "dependencies": []
         },
         {
           "key": "link-color-text-active",
           "name": "link-color-text_active",
-          "value": "var(--component-link-link-color-text, var(--component-link-color-text, var(--color-link-7, var(--sd-color-link-7, rgb(var(--sd-link-7))))))",
+          "value": "var(--component-link-link-color-text, var(--component-link-color-text, var(--color-link-6, var(--sd-color-link-6, rgb(var(--sd-link-6))))))",
           "dependencies": []
         },
         {
@@ -9041,14 +8981,14 @@
         {
           "key": "menu-light-color-item-selected",
           "name": "menu-light-color-item_selected",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "menu-light-color-submenu-selected",
           "name": "menu-light-color-submenu_selected",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "menu-light-color-bg-submenu-selected-hover",
@@ -9077,8 +9017,8 @@
         {
           "key": "menu-light-color-icon-selected",
           "name": "menu-light-color-icon_selected",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "menu-light-color-icon-disabled",
@@ -10385,8 +10325,8 @@
         {
           "key": "pagination-color-item-text-active",
           "name": "pagination-color-item-text_active",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "pagination-color-item-text-disabled",
@@ -10457,8 +10397,8 @@
         {
           "key": "pagination-color-icon-arrow-text-hover",
           "name": "pagination-color-icon-arrow-text_hover",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "pagination-color-icon-arrow-text-disabled",
@@ -10499,8 +10439,8 @@
         {
           "key": "pagination-simple-color-icon-arrow-text-hover",
           "name": "pagination-simple-color-icon-arrow-text_hover",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "pagination-simple-color-icon-arrow-text-disabled",
@@ -11291,8 +11231,8 @@
         {
           "key": "radio-button-color-text-active",
           "name": "radio-button-color-text_active",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "radio-button-font-text-weight-active",
@@ -12296,14 +12236,14 @@
         {
           "key": "sender-color-primary",
           "name": "sender-color-primary",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "sender-color-primary-hover",
           "name": "sender-color-primary-hover",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-5, var(--sd-color-primary-5, rgb(var(--sd-primary-5))))",
+          "dependencies": ["color-primary-5"]
         },
         {
           "key": "sender-color-text",
@@ -12689,8 +12629,8 @@
         {
           "key": "spin-color-text",
           "name": "spin-color-text",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "spin-color-icon",
@@ -12933,7 +12873,7 @@
         {
           "key": "steps-circle-color-item-icon-text-process",
           "name": "steps-circle-color-item-icon-text_process",
-          "value": "var(--sd-color-primary-on)",
+          "value": "var(--sd-color-white)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
@@ -12969,8 +12909,8 @@
         {
           "key": "steps-circle-color-item-icon-text-finish",
           "name": "steps-circle-color-item-icon-text_finish",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "steps-circle-color-item-title-finish",
@@ -13209,13 +13149,13 @@
         {
           "key": "steps-arrow-color-item-title-process",
           "name": "steps-arrow-color-item-title_process",
-          "value": "var(--sd-color-primary-on)",
+          "value": "var(--sd-color-white)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
           "key": "steps-arrow-color-item-description-process",
           "name": "steps-arrow-color-item-description_process",
-          "value": "var(--sd-color-primary-on)",
+          "value": "var(--sd-color-white)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
@@ -13418,7 +13358,7 @@
         {
           "key": "switch-color-text-on",
           "name": "switch-color-text_on",
-          "value": "var(--sd-color-primary-on)",
+          "value": "var(--sd-color-white)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
@@ -14196,8 +14136,8 @@
         {
           "key": "tabs-color-title-text-active",
           "name": "tabs-color-title-text_active",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "tabs-color-title-text-hover",
@@ -15611,7 +15551,7 @@
         {
           "key": "tour-color-primary-text",
           "name": "tour-color-primary-text",
-          "value": "var(--sd-color-primary-on)",
+          "value": "var(--sd-color-white)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
@@ -15939,8 +15879,8 @@
         {
           "key": "tree-color-title-text-active",
           "name": "tree-color-title-text_active",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "tree-color-title-text-disabled",
@@ -16200,8 +16140,8 @@
         {
           "key": "typography-text-color-text-primary",
           "name": "typography-text-color-text-primary",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "typography-text-color-text-secondary",
@@ -16356,14 +16296,14 @@
         {
           "key": "typography-color-expand-text",
           "name": "typography-color-expand-text",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-6, var(--sd-color-primary-6, rgb(var(--sd-primary-6))))",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "typography-color-expand-text-hover",
           "name": "typography-color-expand-text_hover",
-          "value": "var(--color-primary-7, var(--sd-color-primary-7, rgb(var(--sd-primary-7))))",
-          "dependencies": ["color-primary-7"]
+          "value": "var(--color-primary-5, var(--sd-color-primary-5, rgb(var(--sd-primary-5))))",
+          "dependencies": ["color-primary-5"]
         },
         {
           "key": "typography-color-blockquote-border-width",

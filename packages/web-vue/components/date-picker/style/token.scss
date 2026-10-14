@@ -43,7 +43,7 @@ $picker-color-bg-cell-in-range: var(
 );
 $picker-color-bg-cell-disabled: var(string.unquote('#{global.$sd-cssvars-prefix}-color-fill-1'));
 $picker-color-text-cell-range-boundary: var(
-  string.unquote('#{global.$sd-cssvars-prefix}-color-primary-on')
+  string.unquote('#{global.$sd-cssvars-prefix}-color-white')
 );
 $picker-color-bg-cell-range-boundary: global.$color-primary-6;
 $picker-color-bg-cell-hover-in-range: var(
@@ -62,7 +62,7 @@ $picker-panel-color-text-cell_hover: var(
 );
 $picker-panel-color-bg-cell_hover: var(string.unquote('#{global.$sd-cssvars-prefix}-color-fill-3'));
 $picker-panel-color-text-cell_selected: var(
-  string.unquote('#{global.$sd-cssvars-prefix}-color-primary-on')
+  string.unquote('#{global.$sd-cssvars-prefix}-color-white')
 );
 $picker-panel-color-bg-cell_selected: global.$color-primary-6;
 $picker-panel-color-current-time-dot: global.$color-primary-6;

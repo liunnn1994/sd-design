@@ -1,19 +1,19 @@
 ---
 version: stable
 name: sd-design
-description: 面向现代中后台与工具型产品的 Vue 3 设计系统。视觉语言参考本次提供的 Claude 设计规范，以温和层级、陶土强调、清晰排版与及时反馈为基调，以业界成熟设计系统为风格参照，以 sd-design 当前实现为工程约束与颜色唯一事实源。
+description: 面向现代中后台与工具型产品的 Vue 3 设计系统。保留既有品牌配色，参考本次提供的 Claude 设计规范优化灰阶、排版与交互反馈，以业界成熟设计系统为风格参照，以 sd-design 当前实现为工程约束与颜色唯一事实源。
 
 colors:
-  primary-1: '#FBF3EF'
-  primary-2: '#F3E0D7'
-  primary-3: '#EDC3B1'
-  primary-4: '#E7A58B'
-  primary-5: '#CC5A36'
-  primary-6: '#D97757'
-  primary-7: '#B74D2C'
-  primary-8: '#943D24'
-  primary-9: '#6D2E1C'
-  primary-10: '#491F13'
+  primary-1: '#E8F3FF'
+  primary-2: '#BEDAFF'
+  primary-3: '#94BFFF'
+  primary-4: '#6AA1FF'
+  primary-5: '#4080FF'
+  primary-6: '#165DFF'
+  primary-7: '#0E42D2'
+  primary-8: '#072CA6'
+  primary-9: '#031A79'
+  primary-10: '#000D4D'
   success-6: '#00B42A'
   warning-6: '#FF7D00'
   danger-6: '#F53F3F'
@@ -83,7 +83,7 @@ components:
     radius: '{rounded.medium}'
   primary-action:
     background: 'rgb(var(--sd-primary-6))'
-    foreground: 'var(--sd-color-primary-on)'
+    foreground: '{colors.white}'
     hover: 'rgb(var(--sd-primary-5))'
     active: 'rgb(var(--sd-primary-7))'
   surface:
@@ -121,7 +121,7 @@ sd-design 服务于现代中后台、数据工具和效率型产品。它追求�
 
 - 一屏只突出一个主要任务，主操作使用 primary，次操作使用 secondary、outline 或 text。
 - 通过标题、正文、辅助信息和分隔关系建立层级，不依赖大面积装饰色。
-- 同一语义在不同组件中保持一致：陶土色表示主操作，蓝色表示链接，绿色表示成功，橙色表示警告，红色表示危险或错误。
+- 同一语义在不同组件中保持一致：蓝色表示主操作和链接，绿色表示成功，橙色表示警告，红色表示危险或错误。
 - 文案直接描述动作或结果，避免脱离上下文的“确定”“知道了”。
 
 ### 3.2 轻量而不单薄
@@ -195,7 +195,7 @@ sd-design 使用三层 token 思维：
 
 ### 5.2 品牌主色
 
-sd-design 的品牌主色是 `primary-6`：`#D97757`，运行时写法为：
+sd-design 的品牌主色是 `primary-6`：`#165DFF`，运行时写法为：
 
 ```scss
 background-color: rgb(var(--sd-primary-6));
@@ -221,7 +221,7 @@ background-color: rgb(var(--sd-primary-6));
 | 成功 | `--sd-success-6` | `#00B42A` | 成功结果、完成状态、正向反馈 |
 | 警告 | `--sd-warning-6` | `#FF7D00` | 风险提醒、需要关注但可继续   |
 | 危险 | `--sd-danger-6`  | `#F53F3F` | 错误、破坏性操作、失败状态   |
-| 链接 | `--sd-link-7`    | `#0E42D2` | 文本链接与可导航内容         |
+| 链接 | `--sd-link-6`    | `#165DFF` | 文本链接与可导航内容         |
 
 功能色必须表达语义，不能作为普通装饰。错误信息应同时包含明确文字；危险按钮仅用于不可逆或高风险动作。
 
@@ -516,4 +516,4 @@ Hover 只服务于支持指针的环境。关键能力不能依赖 Hover 才能�
 
 ## 本次视觉规范落地
 
-本次以用户提供的 14 张规范图为视觉依据；组件对应关系、可读性调整和真实预览见 packages/sd-vue-docs/src/content/docs/design/guidelines.mdx。基础色板仍是唯一颜色来源，现有公共 props、事件和插槽契约保持稳定。
+本次采用用户提供规范中的灰阶层级、阴影、圆角、尺寸、排版与动效，保留既有品牌色与填充按钮白色文字；组件对应关系和真实预览见 packages/sd-vue-docs/src/content/docs/design/guidelines.mdx。基础色板仍是唯一颜色来源，现有公共 props、事件和插槽契约保持稳定。

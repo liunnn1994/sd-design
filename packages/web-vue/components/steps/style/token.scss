@@ -52,7 +52,7 @@ $steps-circle-color-item-description_wait: var(
 $steps-circle-color-item-bg_process: global.$color-primary-6;
 $steps-circle-color-item-border_process: global.$color-transparent;
 $steps-circle-color-item-icon-text_process: var(
-  string.unquote('#{global.$sd-cssvars-prefix}-color-primary-on')
+  string.unquote('#{global.$sd-cssvars-prefix}-color-white')
 );
 $steps-circle-color-item-tail_process: global.$color-primary-6;
 $steps-circle-color-item-title_process: var(
@@ -66,7 +66,7 @@ $steps-circle-color-item-bg_finish: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-primary-light-1')
 );
 $steps-circle-color-item-border_finish: global.$color-transparent;
-$steps-circle-color-item-icon-text_finish: global.$color-primary-7;
+$steps-circle-color-item-icon-text_finish: global.$color-primary-6;
 $steps-circle-color-item-title_finish: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-text-1')
 );
@@ -161,10 +161,10 @@ $steps-arrow-color-item-description_wait: var(
 
 $steps-arrow-color-item-bg_process: global.$color-primary-6;
 $steps-arrow-color-item-title_process: var(
-  string.unquote('#{global.$sd-cssvars-prefix}-color-primary-on')
+  string.unquote('#{global.$sd-cssvars-prefix}-color-white')
 );
 $steps-arrow-color-item-description_process: var(
-  string.unquote('#{global.$sd-cssvars-prefix}-color-primary-on')
+  string.unquote('#{global.$sd-cssvars-prefix}-color-white')
 );
 
 $steps-arrow-color-item-bg_finish: var(
@@ -350,7 +350,7 @@ $steps-circle-color-item-icon-text_finish: theme-runtime.token(
   'steps',
   'steps-circle-color-item-icon-text-finish',
   $steps-circle-color-item-icon-text_finish,
-  'color-primary-7'
+  'color-primary-6'
 );
 $steps-circle-color-item-title_finish: theme-runtime.token(
   'steps',

@@ -19,8 +19,8 @@ $sender-slot-gap: global.$spacing-2;
 $sender-skill-padding-inline: global.$spacing-4;
 $sender-skill-holder-width: global.$spacing-5;
 
-$sender-color-primary: global.$color-primary-7;
-$sender-color-primary-hover: global.$color-primary-7;
+$sender-color-primary: global.$color-primary-6;
+$sender-color-primary-hover: global.$color-primary-5;
 $sender-color-text: global.$color-text-1;
 $sender-color-text-disabled: global.$color-text-4;
 $sender-color-text-placeholder: global.$color-text-3;
@@ -108,13 +108,13 @@ $sender-color-primary: theme-runtime.token(
   'sender',
   'sender-color-primary',
   $sender-color-primary,
-  'color-primary-7'
+  'color-primary-6'
 );
 $sender-color-primary-hover: theme-runtime.token(
   'sender',
   'sender-color-primary-hover',
   $sender-color-primary-hover,
-  'color-primary-7'
+  'color-primary-5'
 );
 $sender-color-text: theme-runtime.token(
   'sender',

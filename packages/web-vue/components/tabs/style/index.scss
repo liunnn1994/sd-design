@@ -603,10 +603,6 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
       &-active:hover {
         background-color: transparent;
 
-        &:not(.#{$tabs-prefix-cls}-tab-disabled) {
-          color: global.$color-text-1;
-        }
-
         &::before,
         & + .#{$tabs-prefix-cls}-tab::before {
           opacity: 0;
