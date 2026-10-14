@@ -1,3 +1,10 @@
+## [7.3.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.3.0...web-vue-v7.3.1) (2026-10-14)
+
+
+### Bug Fixes
+
+* 🐛 恢复品牌配色与填充按钮白字，保留灰阶和交互优化 ([6b92698](https://github.com/liunnn1994/sd-design/commit/6b92698ea51caef1af87ca7059a2968a7d5bf8f2))
+
 # [7.3.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.2.0...web-vue-v7.3.0) (2026-10-13)
 
 
