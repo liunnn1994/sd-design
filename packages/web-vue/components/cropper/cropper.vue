@@ -108,6 +108,7 @@
 
   let cropperInstance: Cropper | null = null;
   let destroyed = false;
+  let selectionInitialized = true;
   let fittedImageElement: HTMLImageElement | null = null;
   let cropperConstructorPromise: Promise<typeof import('cropperjs').default> | null = null;
 
@@ -234,14 +235,14 @@
       return;
     }
 
-    const renderedWidth = naturalWidth * scaleX;
-    const renderedHeight = naturalHeight * scaleY;
+    const renderedWidth = (image.clientWidth || naturalWidth) * scaleX;
+    const renderedHeight = (image.clientHeight || naturalHeight) * scaleY;
 
     selection.$change(
       props.selectionX ?? 1,
       props.selectionY ?? 1,
-      props.selectionWidth ?? (scaleX > 1 ? renderedWidth : image.clientWidth * scaleX) - 2,
-      props.selectionHeight ?? (scaleY > 1 ? renderedHeight : image.clientHeight * scaleY) - 2,
+      props.selectionWidth ?? renderedWidth - 2,
+      props.selectionHeight ?? renderedHeight - 2,
     );
   }
 
@@ -270,6 +271,16 @@
 
   function bindSelectionEvents(selection: CropperSelection) {
     addTrackedListener(selection, 'change', (event) => {
+      // 异步默认居中不能通过 v-model 覆盖父组件提供的初始几何值。
+      if (
+        !selectionInitialized &&
+        (props.selectionX !== undefined ||
+          props.selectionY !== undefined ||
+          props.selectionWidth !== undefined ||
+          props.selectionHeight !== undefined)
+      ) {
+        return;
+      }
       const detail = (event as CustomEvent<CropperSelectionChangeDetail>).detail;
 
       emit('selection:change', detail);
@@ -419,15 +430,27 @@
         bindCanvasEvents(canvas);
       }
 
+      const image = getCropperImage();
+      selectionInitialized = !image;
       const selection = getCropperSelection();
       if (selection) {
         syncSelectionGeometry();
         bindSelectionEvents(selection);
       }
 
-      const image = getCropperImage();
       if (image) {
         bindImageEvents(image);
+        // Cropper 2.3 在图片就绪后异步初始化选区，再同步受控位置。
+        image
+          .$ready()
+          .catch(() => undefined)
+          .then(() =>
+            nextTick(() => {
+              if (destroyed) return;
+              selectionInitialized = true;
+              syncSelectionGeometry();
+            }),
+          );
       }
     });
   });

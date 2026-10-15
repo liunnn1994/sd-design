@@ -63,7 +63,7 @@
     "lint-staged": "lint-staged",
     "commitlint": "commitlint",
     "typecheck:scripts": "tsc -p tsconfig.scripts.json",
-    "typecheck:packages": "pnpm --filter @sdata/web-vue-mcp run typecheck && pnpm --filter @sdata/web-vue-auto-import-resolver exec tsc --noEmit",
+    "typecheck:packages": "pnpm --filter @sdata/web-vue-mcp run typecheck && pnpm --filter @sdata/web-vue-auto-import-resolver run typecheck",
     "typecheck:source": "node packages/web-vue/scripts/check-typescript-sources.ts"
   },
   "dependencies": {
@@ -102,6 +102,6 @@
     "pre-push": "pnpm run typecheck"
   },
   "engines": {
-    "node": "~24.21.0"
+    "node": "~24.22.0"
   }
 }

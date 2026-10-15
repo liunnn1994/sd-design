@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@antv/infographic": "^0.2.20",
-    "@astrojs/mdx": "^8.0.2",
+    "@astrojs/mdx": "^8.0.3",
     "@astrojs/starlight": "^0.42.5",
     "@astrojs/vue": "^7.0.3",
     "@sdata/web-vue": "workspace:*",
@@ -29,7 +29,7 @@
     "@terrastruct/d2": "^0.1.33",
     "@vue/repl": "^4.7.2",
     "@vueuse/core": "catalog:",
-    "astro": "^7.3.5",
+    "astro": "^7.3.7",
     "katex": "^0.19.0",
     "mermaid": "^12.1.0",
     "sharp": "^0.35.5",
@@ -40,7 +40,7 @@
     "vue": "catalog:"
   },
   "devDependencies": {
-    "rolldown": "^1.2.12",
+    "rolldown": "^1.2.13",
     "vue-tsc": "^3.3.12"
   }
 }

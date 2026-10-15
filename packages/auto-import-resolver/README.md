@@ -16,10 +16,10 @@ pnpm add -D @sdata/web-vue-auto-import-resolver unplugin-vue-components
 ## Vite（推荐）
 
 ```ts
-import { defineConfig } from 'vite';
+import { SdDesignResolver, createSdDesignVitePlugin } from '@sdata/web-vue-auto-import-resolver';
 import vue from '@vitejs/plugin-vue';
 import Components from 'unplugin-vue-components/vite';
-import { SdDesignResolver, createSdDesignVitePlugin } from '@sdata/web-vue-auto-import-resolver';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [
@@ -39,8 +39,8 @@ export default defineConfig({
 `createSdDesignVitePlugin()` 实际上就是在 `config` hook 里调用了 `createSdDesignScssImporter()` 并注入到 `css.preprocessorOptions.scss.importers`。如果你不想用 Vite 插件，或者需要在非 Vite 环境下使用，可以手动配置：
 
 ```ts
-import { defineConfig } from 'vite';
 import { createSdDesignScssImporter } from '@sdata/web-vue-auto-import-resolver';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   css: {

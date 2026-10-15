@@ -45,7 +45,9 @@ yarn add @sdata/web-vue
 
 ```typescript
 import { createApp } from 'vue';
+
 import SDVue from '@sdata/web-vue';
+
 import App from './App.vue';
 import '@sdata/web-vue/dist/sd.css';
 

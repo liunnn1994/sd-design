@@ -8,6 +8,7 @@ export default {
     'packages/web-vue/es/**',
     'packages/web-vue/components/markdown-render/style/*.css',
     'packages/web-vue/lib/**',
+    'packages/web-vue/tmp/**',
     '**/dist/**',
     'packages/web-vue/components/_components/input-label/style/token.less',
   ],

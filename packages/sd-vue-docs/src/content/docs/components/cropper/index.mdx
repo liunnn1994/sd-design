@@ -17,6 +17,8 @@ import cropperCoverModeSource from '../../../../components/generated/cropper/cov
 
 默认会在图片加载后自动把选区贴合到图片可见区域，适合快速给用户一个可调整的初始裁剪框。
 
+连续替换 `src` 时，选区会按最终图片的实际显示尺寸重新贴合。
+
 <DemoBlock source={cropperBasicSource} mainFile="src/cropper-basic.vue">
 
 <CropperBasicDemo client:only="vue" />
@@ -36,6 +38,8 @@ import cropperCoverModeSource from '../../../../components/generated/cropper/cov
 ### 受控选区
 
 通过多路 `v-model` 风格事件同步选区位置和尺寸，方便在表单、向导或服务端预览链路里持久化裁剪结果。
+
+图片加载完成后会保留传入的位置与尺寸，关闭 `fit-selection-to-image` 也不会改变受控值。
 
 <DemoBlock source={cropperControlledSource} mainFile="src/cropper-controlled.vue">
 

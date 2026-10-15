@@ -36,6 +36,7 @@
     "build:package": "tsdown && pnpm run build:postbuild",
     "build:postbuild": "node ./scripts/postbuild.ts",
     "dev:link": "pnpm link --global && npm link",
+    "typecheck": "tsc --noEmit",
     "test:release": "node --test ./scripts/path-scoped-release.test.ts"
   },
   "devDependencies": {

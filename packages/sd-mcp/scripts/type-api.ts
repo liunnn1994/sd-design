@@ -87,7 +87,10 @@ export async function readTypeApi(webVue: string, sources: { dirname: string; fi
       ? type.getText(ast)
       : `import('vue').ExtractPropTypes<typeof ${runtime!.getText(ast)}>`;
     component.queryFile = `${file}.__mcp.ts`;
-    virtualFiles.set(component.queryFile, `${script}\nexport type __McpProps = ${query};\n`);
+    virtualFiles.set(
+      component.queryFile.replaceAll('\\', '/'),
+      `${script}\nexport type __McpProps = ${query};\n`,
+    );
   }
   const files = await fg('components/**/*.ts', {
     cwd: webVue,
@@ -96,7 +99,10 @@ export async function readTypeApi(webVue: string, sources: { dirname: string; fi
   });
   const host = ts.createCompilerHost({});
   const read = host.readFile;
-  host.readFile = (file) => virtualFiles.get(file) ?? read(file);
+  const exists = host.fileExists;
+  // TypeScript may canonicalize Windows paths before requesting virtual files.
+  host.readFile = (file) => virtualFiles.get(file.replaceAll('\\', '/')) ?? read(file);
+  host.fileExists = (file) => virtualFiles.has(file.replaceAll('\\', '/')) || exists(file);
   const program = ts.createProgram(
     [...files, ...virtualFiles.keys()],
     {

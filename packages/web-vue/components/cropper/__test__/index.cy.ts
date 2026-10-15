@@ -384,6 +384,10 @@ describe('Cropper', () => {
       const image = $image[0] as HTMLElement & { $getTransform(): number[] };
       cy.stub(image, '$getTransform').returns([2, 0, 0, 2, 0, 0]);
       cy.stub(image as CropperImage, '$ready').resolves();
+      Object.defineProperties(image, {
+        clientWidth: { configurable: true, value: 100 },
+        clientHeight: { configurable: true, value: 50 },
+      });
     });
     cy.get('cropper-selection').then(($selection) => {
       cy.spy($selection[0], '$change').as('srcChangeFit');
