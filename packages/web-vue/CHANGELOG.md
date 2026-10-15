@@ -1,3 +1,10 @@
+## [7.3.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.3.1...web-vue-v7.3.2) (2026-10-15)
+
+
+### Bug Fixes
+
+* 🐛 更新依赖 ([c08f5ab](https://github.com/liunnn1994/sd-design/commit/c08f5abcd3bb5220d8259863b668089b05218961))
+
 ## [7.3.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.3.0...web-vue-v7.3.1) (2026-10-14)
 
 
