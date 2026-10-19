@@ -33,6 +33,19 @@ describe('Ellipsis', () => {
     cy.get('.sd-ellipsis').should('have.attr', 'title', overflowing);
   });
 
+  for (const tooltip of [false, { disabled: true }]) {
+    it(`suppresses native title with an explicit empty title (${JSON.stringify(tooltip)})`, () => {
+      cy.mount(Ellipsis, {
+        props: { tooltip, expandTrigger: 'click' },
+        attrs: { style: 'max-width: 80px;', title: '' },
+        slots: { default: overflowing },
+      });
+      cy.get('.sd-ellipsis[data-part="root"]')
+        .should('have.class', 'sd-ellipsis--expandable')
+        .and('have.attr', 'title', '');
+    });
+  }
+
   it('shows the tooltip only when the content is clamped', () => {
     cy.mount(Ellipsis, {
       props: { tooltip: { mouseEnterDelay: 0, mouseLeaveDelay: 0 } },

@@ -168,6 +168,21 @@
     void activate('focus');
   };
 
+  // 组合组件的原生控件保留焦点，仅把聚焦交互转交给省略提示。
+  let externallyFocused = false;
+  const setFocused = async (focused: boolean) => {
+    externallyFocused = focused;
+    if (focused) {
+      await activate();
+      await nextTick();
+      await ellipsisRef.value?.waitForMeasurement?.();
+    }
+    if (externallyFocused !== focused) return;
+    getActivatedTriggerElement()?.dispatchEvent(new FocusEvent(focused ? 'focusin' : 'focusout'));
+  };
+
+  defineExpose({ setFocused });
+
   const handleClick = (event: MouseEvent) => {
     const target = event.target;
     const interactive =

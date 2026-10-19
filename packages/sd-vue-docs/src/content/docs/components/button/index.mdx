@@ -22,6 +22,8 @@ import ButtonSizeDemo from '../../../../components/generated/button/size.vue';
 import buttonSizeSource from '../../../../components/generated/button/size.vue?raw';
 import ButtonStatusDemo from '../../../../components/generated/button/status.vue';
 import buttonStatusSource from '../../../../components/generated/button/status.vue?raw';
+import ButtonEllipsisDemo from '../../../../components/generated/button/ellipsis.vue';
+import buttonEllipsisSource from '../../../../components/generated/button/ellipsis.vue?raw';
 import ButtonTooltipDemo from '../../../../components/generated/button/tooltip.vue';
 import buttonTooltipSource from '../../../../components/generated/button/tooltip.vue?raw';
 
@@ -115,6 +117,18 @@ import buttonTooltipSource from '../../../../components/generated/button/tooltip
 
 </DemoBlock>
 
+### 省略内容
+
+与 Link 一致，默认内容开启单行省略，鼠标悬停在被省略的内容上时显示完整内容。通过 `:ellipsis="false"` 可关闭省略。
+
+可通过 `ellipsis-line-clamp` 配置行数、`ellipsis-expand-trigger="click"` 点击展开、`ellipsis-tooltip` 关闭或配置省略提示。多行或展开时需按内容设置按钮高度（例如 `height: auto`）。原有 `tooltip` 属性和插槽仍用于整个按钮的文字气泡，设置后会抑制省略提示，避免重复弹出。键盘聚焦按钮时也会展示省略提示，焦点仍保留在按钮上；省略提示的自定义内容通过 `ellipsis-tooltip` 插槽配置。
+
+<DemoBlock source={buttonEllipsisSource} mainFile="src/button-ellipsis.vue">
+
+<ButtonEllipsisDemo client:only="vue" />
+
+</DemoBlock>
+
 ### 文字提示
 
 通过 `tooltip` 属性可以为按钮添加文字气泡。传入字符串时作为气泡内容；传入对象时可完整继承 [Tooltip](/docs/components/tooltip) 组件的所有属性；也可以通过 `tooltip` 插槽自定义气泡内容。
@@ -136,6 +150,10 @@ import buttonTooltipSource from '../../../../components/generated/button/tooltip
 | status | 按钮的状态 | `'normal' \| 'warning' \| 'success' \| 'danger'` | `'normal'` |
 | size | 按钮的尺寸 | `'mini' \| 'small' \| 'medium' \| 'large'` | `'medium'` |
 | long | 按钮的宽度是否随容器自适应。 | `boolean` | `false` |
+| ellipsis | 是否开启默认内容省略 | `boolean` | `true` |
+| ellipsis-line-clamp | 默认内容省略的最大显示行数 | `number \| string` | `-` |
+| ellipsis-expand-trigger | 省略内容的展开触发方式 | `'click'` | `-` |
+| ellipsis-tooltip | 省略时是否展示提示，可传入 Tooltip 属性 | `boolean \| EllipsisTooltipProps` | `true` |
 | loading | 按钮是否为加载中状态 | `boolean` | `false` |
 | disabled | 按钮是否禁用 | `boolean` | `false` |
 | html-type | 设置 `button` 的原生 `type` 属性，可选值参考 [HTML标准](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type '_blank') | `HTMLButtonElement['type']` | `'button'` |
@@ -151,10 +169,11 @@ import buttonTooltipSource from '../../../../components/generated/button/tooltip
 
 ### `<button>` Slots
 
-| 插槽名  |                             描述                             | 参数 |
-| ------- | :----------------------------------------------------------: | ---- |
-| icon    |                             图标                             | -    |
-| tooltip | 自定义文字气泡内容，详见 [Tooltip](/docs/components/tooltip) | -    |
+| 插槽名           |                             描述                             | 参数 |
+| ---------------- | :----------------------------------------------------------: | ---- |
+| icon             |                             图标                             | -    |
+| ellipsis-tooltip |        自定义省略提示内容，仅在开启 `ellipsis` 时生效        | -    |
+| tooltip          | 自定义文字气泡内容，详见 [Tooltip](/docs/components/tooltip) | -    |
 
 ### `<button-group>` Props
 
