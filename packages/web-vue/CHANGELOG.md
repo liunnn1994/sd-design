@@ -1,3 +1,10 @@
+## [7.4.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.4.0...web-vue-v7.4.1) (2026-10-19)
+
+
+### Bug Fixes
+
+* 🐛 修复 tooltip 在丢失目标后的错误渲染 ([c019844](https://github.com/liunnn1994/sd-design/commit/c019844b315661fb642edce79e70193fbb9a9a13))
+
 # [7.4.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.3.2...web-vue-v7.4.0) (2026-10-19)
 
 
