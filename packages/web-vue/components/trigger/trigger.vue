@@ -246,6 +246,7 @@
     scrollToClose: false,
     scrollToCloseDistance: 0,
     escToClose: false,
+    ariaHasPopup: undefined,
     ariaDescribedbyPopup: false,
   });
   const emit = defineEmits<{
@@ -282,6 +283,10 @@
   let scrollPositions = new WeakMap<HTMLElement, [number, number]>();
   let windowScrollPosition: [number, number] | null = null;
   const computedVisible = computed(() => props.popupVisible ?? popupVisible.value);
+  const parentPopupHidden = computed(() =>
+    Boolean(firstElement.value && triggerCtx?.isPopupHidden(firstElement.value)),
+  );
+  const referenceHidden = ref(false);
   const pointReference: VirtualElement = {
     getBoundingClientRect: () => {
       const { left, top } = mousePosition.value;
@@ -406,6 +411,7 @@
     if (visible === computedVisible.value && delayTimer === 0) return;
     cleanDelayTimer();
     const update = () => {
+      if (visible && parentPopupHidden.value) return;
       popupVisible.value = visible;
       emit('update:popupVisible', visible);
       emit('popupVisibleChange', visible);
@@ -422,6 +428,41 @@
     }
   };
   watch([() => props.disabled, triggerMethods], cleanDelayTimer);
+  watch(
+    parentPopupHidden,
+    (hidden) => {
+      if (hidden) {
+        referenceHidden.value = true;
+        changeVisible(false);
+      }
+    },
+    { flush: 'sync' },
+  );
+  watch(
+    () => props.disabled,
+    (disabled) => {
+      if (disabled) changeVisible(false);
+    },
+  );
+  watch(
+    [computedVisible, firstElement, parentPopupHidden],
+    ([visible, element], _oldValue, onCleanup) => {
+      if (!visible) return;
+      const checkReference = () => {
+        if (!computedVisible.value) return;
+        referenceHidden.value =
+          parentPopupHidden.value || !element?.isConnected || element.getClientRects().length === 0;
+        if (referenceHidden.value) changeVisible(false);
+      };
+      checkReference();
+      if (!element) return;
+      // Hiding an ancestor (e.g. a dropdown) does not dispatch mouseleave.
+      const observer = new window.ResizeObserver(checkReference);
+      observer.observe(element);
+      onCleanup(() => observer.disconnect());
+    },
+    { flush: 'post' },
+  );
   const handleClick = (event: MouseEvent) => {
     triggerEventAttrs.onClick?.(event);
     if (props.disabled || (computedVisible.value && !props.clickToClose)) return;
@@ -509,6 +550,11 @@
   provide(
     triggerInjectionKey,
     reactive({
+      // Only popup descendants follow its visibility; trigger-slot children remain usable.
+      isPopupHidden: (element: HTMLElement): boolean =>
+        Boolean(
+          popupRef.value?.contains(element) && (!computedVisible.value || parentPopupHidden.value),
+        ) || Boolean(triggerCtx?.isPopupHidden(element)),
       onMouseenter: handleMouseEnterWithContext,
       onMouseleave: handleMouseLeaveWithContext,
       onContextmenu: handleChildContextmenu,
@@ -695,7 +741,9 @@
         'class': [`${prefixCls}-popup`, `${prefixCls}-position-${popupPosition.value}`],
         'style': {
           ...mergedPopupStyle.value,
-          ...(isPositioned.value ? {} : { visibility: 'hidden' }),
+          ...(isPositioned.value && !referenceHidden.value && !parentPopupHidden.value
+            ? {}
+            : { visibility: 'hidden' }),
           zIndex: zIndex.value,
           pointerEvents: isAnimation.value ? 'none' : undefined,
         },

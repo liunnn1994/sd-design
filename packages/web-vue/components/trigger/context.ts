@@ -1,6 +1,7 @@
 import type { ComponentPublicInstance, InjectionKey } from 'vue';
 
 export interface TriggerContext {
+  isPopupHidden: (element: HTMLElement) => boolean;
   onMouseenter: (ev: MouseEvent) => void;
   onMouseleave: (ev: MouseEvent) => void;
   onContextmenu: (ev: MouseEvent) => void;

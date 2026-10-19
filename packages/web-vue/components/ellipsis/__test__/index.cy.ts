@@ -203,12 +203,11 @@ describe('Ellipsis', () => {
     cy.get('.sd-ellipsis').should('have.class', 'sd-ellipsis--expandable');
     cy.get('.sd-ellipsis').trigger('mouseenter');
     cy.get('[role="tooltip"]').should('be.visible');
-    cy.get('.sd-ellipsis').trigger('mouseleave');
     cy.get('.sd-ellipsis').click();
     cy.get('.sd-ellipsis')
       .should('have.class', 'sd-ellipsis--expanded')
       .and('have.attr', 'aria-expanded', 'true');
-    // 注：tooltip 在展开后禁用，但隐藏依赖动画事件（本环境不可靠），不做断言
+    cy.get('[role="tooltip"]').should('not.be.visible');
   });
 
   it('renders custom tooltip slot content in the popup', () => {
