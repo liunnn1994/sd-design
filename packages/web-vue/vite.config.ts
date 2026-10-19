@@ -206,7 +206,7 @@ function createUmdBuildConfig(type: 'component' | 'icon', minify: boolean): User
       outDir: 'dist',
       emptyOutDir: false,
       sourcemap: !minify,
-      minify: minify ? 'esbuild' : false,
+      minify,
       reportCompressedSize: false,
       rollupOptions: {
         external: ['vue'],

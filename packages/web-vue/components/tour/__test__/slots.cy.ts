@@ -15,6 +15,25 @@ function instance(run: (tour: TourExpose) => void) {
 }
 
 describe('Tour Vue slots', () => {
+  it('renders slots inside a modal dialog and cleans them up on destroy', () => {
+    cy.mount(Tour, {
+      props: {
+        animate: false,
+        steps: [{ element: '#dialog-tour-target', popover: { title: '原生标题' } }],
+      },
+      slots: {
+        default: () => h('dialog', [h('button', { id: 'dialog-tour-target' }, '目标')]),
+        title: () => h('span', '对话框标题'),
+      },
+    });
+    cy.get('dialog').then(($dialog) => ($dialog[0] as HTMLDialogElement).showModal());
+    instance((tour) => tour.drive());
+    cy.get('dialog .driver-popover-title').should('have.text', '对话框标题');
+    instance((tour) => tour.destroy());
+    cy.get('.driver-popover').should('not.exist');
+    cy.get('dialog').then(($dialog) => ($dialog[0] as HTMLDialogElement).close());
+  });
+
   it('renders library buttons, preserves injection and reactive content, and cleans up on destroy', () => {
     const text = shallowRef('开始');
     const unmounted = cy.spy().as('slotUnmounted');

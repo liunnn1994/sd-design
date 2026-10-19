@@ -162,10 +162,10 @@
     "copy-to-clipboard": "^4.0.2",
     "cropperjs": "^2.3.0",
     "dayjs": "^1.11.23",
-    "driver.js": "^1.9.0",
+    "driver.js": "^1.10.2",
     "es-toolkit": "catalog:",
     "lexical": "^0.52.0",
-    "markstream-vue": "^2.0.16",
+    "markstream-vue": "^2.0.18",
     "motion-v": "^2.6.0",
     "number-precision": "^1.6.0",
     "overlayscrollbars": "^2.16.0",
@@ -175,10 +175,10 @@
     "resize-observer-polyfill": "^1.5.1",
     "scroll-into-view-if-needed": "^3.1.0",
     "type-fest": "catalog:",
-    "virtua": "^0.53.3",
+    "virtua": "^0.53.4",
     "vue": "catalog:",
     "vue-clamp": "^1.7.2",
-    "vue-component-type-helpers": "^3.3.12",
+    "vue-component-type-helpers": "^3.3.13",
     "vue-draggable-plus": "^0.6.1"
   },
   "devDependencies": {
@@ -206,7 +206,7 @@
     "vite": "catalog:",
     "vite-plus": "catalog:",
     "vue-docgen-api": "catalog:",
-    "vue-tsc": "^3.3.12"
+    "vue-tsc": "^3.3.13"
   },
   "peerDependencies": {
     "vue": "catalog:"
