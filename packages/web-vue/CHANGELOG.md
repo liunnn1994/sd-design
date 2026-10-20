@@ -1,3 +1,10 @@
+## [7.5.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.5.0...web-vue-v7.5.1) (2026-10-20)
+
+
+### Bug Fixes
+
+* 🐛 修复 ellipsis 不生效的问题 ([2426955](https://github.com/liunnn1994/sd-design/commit/24269555db34ae176f7bb7ebde74eb7d94bb5828))
+
 # [7.5.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.4.1...web-vue-v7.5.0) (2026-10-20)
 
 
