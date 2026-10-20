@@ -1,3 +1,10 @@
+## [7.6.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.6.0...web-vue-v7.6.1) (2026-10-20)
+
+
+### Bug Fixes
+
+* 🐛 修复在动画中错误的触发 ellipsis 的问题 ([268d521](https://github.com/liunnn1994/sd-design/commit/268d521b5d2e8e4c89ddca35cf420307db0f3873))
+
 # [7.6.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.5.1...web-vue-v7.6.0) (2026-10-20)
 
 
