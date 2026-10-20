@@ -1,3 +1,10 @@
+# [7.6.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.5.1...web-vue-v7.6.0) (2026-10-20)
+
+
+### Features
+
+* 🆕 优化 tooltip 超长内容边界 ([c5aa8c6](https://github.com/liunnn1994/sd-design/commit/c5aa8c6739479fcd622186323a05783d8e5a91f2))
+
 ## [7.5.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.5.0...web-vue-v7.5.1) (2026-10-20)
 
 
