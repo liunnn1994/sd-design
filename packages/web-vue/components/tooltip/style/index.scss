@@ -7,7 +7,11 @@
   }
 
   &-content {
-    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    max-width: min(350px, var(--sd-trigger-available-width, calc(100vw - 16px)));
+    max-height: var(--sd-trigger-available-height, calc(100vh - 16px));
     padding: $tooltip-padding-vertical $tooltip-padding-horizontal;
     color: $tooltip-color-text;
     font-size: $tooltip-font-size;
@@ -25,5 +29,23 @@
 
   &-popup-arrow {
     background-color: $tooltip-color-bg;
+  }
+
+  &-scrollbar {
+    display: flex;
+    min-width: 0;
+    height: auto;
+    min-height: 0;
+
+    > .#{theme.$prefix}-scrollbar-container {
+      flex: 1;
+      min-width: 0;
+      height: auto;
+      min-height: 0;
+    }
+  }
+
+  &.#{theme.$prefix}-trigger-popup &-popup-arrow {
+    border-radius: 0;
   }
 }

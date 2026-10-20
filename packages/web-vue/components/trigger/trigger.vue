@@ -70,7 +70,7 @@
     watch,
   } from 'vue';
 
-  import { arrow, autoUpdate, flip, offset, shift, useFloating } from '@floating-ui/vue';
+  import { arrow, autoUpdate, flip, offset, shift, size, useFloating } from '@floating-ui/vue';
   import { onClickOutside, useEventListener } from '@vueuse/core';
 
   import type { TriggerEvent, TriggerPosition } from '../_utils/constant';
@@ -144,6 +144,7 @@
     focusDelay?: number;
     autoFitPopupWidth?: boolean;
     autoFitPopupMinWidth?: boolean;
+    autoFitPopupSize?: boolean;
     autoFixPosition?: boolean;
     popupContainer?: string | HTMLElement;
     updateAtScroll?: boolean;
@@ -236,6 +237,7 @@
     focusDelay: 0,
     autoFitPopupWidth: false,
     autoFitPopupMinWidth: false,
+    autoFitPopupSize: false,
     autoFixPosition: true,
     updateAtScroll: false,
     autoFitTransformOrigin: false,
@@ -312,7 +314,25 @@
         fn: ({ x, y }) => ({ x: x + translate[0], y: y + translate[1] }),
       });
     }
-    if (props.autoFitPosition) middleware.push(flip(), shift());
+    const padding = props.autoFitPopupSize ? 8 : 0;
+    if (props.autoFitPosition) middleware.push(flip({ padding }), shift({ padding }));
+    if (props.autoFitPopupSize) {
+      middleware.push(
+        size({
+          padding,
+          apply({ availableWidth, availableHeight, elements }) {
+            elements.floating.style.setProperty(
+              '--sd-trigger-available-width',
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              '--sd-trigger-available-height',
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      );
+    }
     if (props.showArrow) middleware.push(arrow({ element: arrowRef }));
     return middleware;
   });
