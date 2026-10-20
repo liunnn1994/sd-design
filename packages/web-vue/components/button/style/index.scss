@@ -58,6 +58,7 @@ $token-var-aliases: (
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  max-width: 100%;
   font-weight: $btn-font-weight;
   line-height: theme.$line-height-base;
   white-space: nowrap;
