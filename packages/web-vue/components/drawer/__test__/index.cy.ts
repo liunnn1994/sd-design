@@ -391,7 +391,8 @@ describe('Drawer', () => {
       slots: baseSlots,
     });
     cy.get('.sd-drawer-footer .sd-btn').should('have.length', 1);
-    cy.get('.sd-drawer-footer .sd-btn').eq(0).should('have.text', 'Save');
+    // innerText 排除按钮聚焦后 Ellipsis 生成的隐藏测量文本。
+    cy.get('.sd-drawer-footer .sd-btn').eq(0).invoke('prop', 'innerText').should('equal', 'Save');
   });
 
   it('applies okLoading, okButtonProps and cancelButtonProps to footer buttons', () => {
@@ -425,8 +426,11 @@ describe('Drawer', () => {
       },
       slots: baseSlots,
     });
-    cy.get('.sd-drawer-footer .sd-btn').eq(0).should('have.text', 'Discard');
-    cy.get('.sd-drawer-footer .sd-btn').eq(1).should('have.text', 'Apply');
+    cy.get('.sd-drawer-footer .sd-btn')
+      .eq(0)
+      .invoke('prop', 'innerText')
+      .should('equal', 'Discard');
+    cy.get('.sd-drawer-footer .sd-btn').eq(1).invoke('prop', 'innerText').should('equal', 'Apply');
   });
 
   it('applies placement, width and height via direct props', () => {

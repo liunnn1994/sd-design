@@ -192,7 +192,8 @@ describe('BloomMenu', () => {
     });
 
     cy.get('.custom-trigger').should('have.text', '新建内容').click();
-    cy.get('.custom-item').should('have.length', 3);
+    // 聚焦菜单项后 Ellipsis 会生成隐藏测量副本，只统计可见的插槽内容。
+    cy.get('.custom-item:visible').should('have.length', 3);
 
     cy.mount(BloomMenu, {
       props: { items: [], defaultOpen: true },
@@ -337,14 +338,16 @@ describe('BloomMenu', () => {
       },
     });
     cy.get('.sd-bloom-menu-item-icon')
+      .not('[data-ellipsis-measure] *')
       .should('have.length', 2)
       .eq(0)
       .find('.slot-icon')
       .should('have.text', 'doc-0');
 
     cy.mount(BloomMenu, { props: { items: itemsWithIcon, defaultOpen: true } });
-    cy.get('.sd-bloom-menu-item-icon').should('have.length', 1);
-    cy.get('.inline-item-icon').should('have.length', 1);
+    // 空的自定义图标没有可见尺寸，按测量副本边界排除，而非按 :visible 过滤。
+    cy.get('.sd-bloom-menu-item-icon').not('[data-ellipsis-measure] *').should('have.length', 1);
+    cy.get('.inline-item-icon').not('[data-ellipsis-measure] *').should('have.length', 1);
   });
 
   it('moves focus to the first enabled item, or the close button when all are disabled', () => {
