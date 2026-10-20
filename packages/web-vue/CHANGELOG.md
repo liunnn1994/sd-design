@@ -1,3 +1,15 @@
+# [7.5.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.4.1...web-vue-v7.5.0) (2026-10-20)
+
+
+### Bug Fixes
+
+* 🐛 修复错误的测试用例 ([819f347](https://github.com/liunnn1994/sd-design/commit/819f347cdc3387661ec0c263a7f5f656fb31d892))
+
+
+### Features
+
+* 🆕 按钮添加 ellipsis 支持 ([f0d31f4](https://github.com/liunnn1994/sd-design/commit/f0d31f464aad451f11c75a8c08a2f5c4078a9aca))
+
 ## [7.4.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.4.0...web-vue-v7.4.1) (2026-10-19)
 
 
