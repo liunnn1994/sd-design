@@ -1,9 +1,39 @@
+import { h } from 'vue';
+
 import Ellipsis, { PerformantEllipsis } from '../index';
 
 const overflowing =
   'A design is a plan or specification for the construction of an object or system.';
 
 describe('Ellipsis', () => {
+  for (const scale of [0.94, 1.06]) {
+    for (const boxSizing of ['border-box', 'content-box']) {
+      for (const clamped of [false, true]) {
+        it(`measures ${clamped ? 'overflowing' : 'fitting'} content with ${boxSizing} at scale ${scale}`, () => {
+          cy.mount(() =>
+            h('div', { style: { transform: `scale(${scale})` } }, [
+              h(
+                Ellipsis,
+                {
+                  tooltip: false,
+                  style: { width: '80.25px', padding: '3.5px', border: '1.25px solid', boxSizing },
+                },
+                () => (clamped ? overflowing : '10'),
+              ),
+            ]),
+          );
+          cy.get('[data-ellipsis-measure]').should('exist');
+          if (clamped) {
+            cy.get('.sd-ellipsis[data-part="root"]').should('have.attr', 'title', overflowing);
+          } else {
+            cy.wait(250);
+            cy.get('.sd-ellipsis[data-part="root"]').should('not.have.attr', 'title');
+          }
+        });
+      }
+    }
+  }
+
   it('delegates single-line clamping to LineClamp', () => {
     cy.mount(Ellipsis, {
       attrs: { style: 'max-width: 120px;' },
