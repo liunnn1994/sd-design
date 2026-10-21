@@ -66,6 +66,10 @@ For multi-step tasks, state a brief plan:
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
+## Component Test Synchronization
+
+- When changing a component's behavior, API, or styles, update or add the related E2E and Cypress component tests in the same change, including shared tests that assert that component's behavior or styles. Keep assertions aligned with the intended behavior and run the affected tests before considering the change complete.
+
 ## typescript
 
 Type-checking runs on **typescript-native-bridge** (TNB) — a drop-in `typescript` package whose checker is tsgo (TypeScript 7, Go-native), behind the classic `typescript` API. It is pinned exactly in `pnpm-workspace.yaml` (both `catalog:` and `overrides:` — update both, exact version, no caret) and covers `vue-tsc`, `tsc`, and `build:dts`. Editors need `js/ts.tsdk.path` in `.vscode/settings.json` plus "TypeScript: Select TypeScript Version → Use Workspace Version".
