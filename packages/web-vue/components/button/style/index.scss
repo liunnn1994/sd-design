@@ -116,6 +116,17 @@ $token-var-aliases: (
   &-content {
     min-width: 0;
     color: inherit;
+
+    // 单行的富内容保持按钮的 flex 排列，兼顾懒激活前后的内容层。
+    // 纯文本保留 inline 格式，避免 flex 容器破坏 text-overflow。
+    &.#{theme.$prefix}-ellipsis--single-line {
+      &:not([data-part='root']):has(> *),
+      > .#{theme.$prefix}-ellipsis-content:has(> *) {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
   }
 
   &-icon {

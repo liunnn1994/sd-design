@@ -8,6 +8,37 @@ const text = '这是一段很长的按钮文字，需要在宽度不足时省略
 
 describe('Button ellipsis', () => {
   for (const href of [undefined, '#']) {
+    it(`keeps rich ${href ? 'anchor' : 'native'} content in one centered row before and after activation`, () => {
+      cy.mount(Button, {
+        props: { href },
+        slots: {
+          default: () => [
+            h(IconPlus, { class: 'slot-icon', style: 'width: 12px; height: 12px' }),
+            h('div', { class: 'slot-label', style: 'height: 20px; line-height: 20px' }, '新增项目'),
+          ],
+        },
+      });
+      const checkLayout = () => {
+        cy.get('.sd-btn-content').should(($content) => {
+          const icon = $content[0].querySelector('.slot-icon')!.getBoundingClientRect();
+          const label = $content[0].querySelector('.slot-label')!.getBoundingClientRect();
+          const button = $content.closest('.sd-btn')[0].getBoundingClientRect();
+          expect(icon.right).to.be.at.most(label.left + 1);
+          expect(
+            Math.abs(icon.top + icon.height / 2 - label.top - label.height / 2),
+          ).to.be.lessThan(1);
+          expect(label.top).to.be.at.least(button.top);
+          expect(label.bottom).to.be.at.most(button.bottom);
+        });
+      };
+      checkLayout();
+      cy.get('.sd-btn-content').trigger('mouseenter');
+      cy.get('[data-ellipsis-measure]').should('exist');
+      checkLayout();
+      cy.wait(250);
+      cy.get('[role="tooltip"]').should('not.exist');
+    });
+
     it(`shows and dismisses the ${href ? 'anchor' : 'native'} ellipsis tooltip on outer focus and blur`, () => {
       const onFocusin = cy.spy().as('focusin');
       const onFocusout = cy.spy().as('focusout');
