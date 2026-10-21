@@ -28,6 +28,7 @@ $sender-color-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-2'))
 $sender-color-bg-disabled: global.$color-fill-2;
 $sender-color-header-bg: global.$color-fill-2;
 $sender-color-border: global.$color-border-2;
+$sender-color-border-focus: color-mix(in srgb, #{global.$color-primary-6} 60%, transparent);
 $sender-color-border-input: color-mix(in srgb, #{global.$color-fill-3} 10%, transparent);
 $sender-color-bg-skill: color-mix(in srgb, #{global.$color-primary-6} 8%, transparent);
 $sender-color-bg-skill-hover: color-mix(in srgb, #{global.$color-primary-6} 15%, transparent);
@@ -36,13 +37,8 @@ $sender-switch-checked-bg: color-mix(in srgb, #{global.$color-primary-6} 8%, tra
 $sender-switch-checked-hover-bg: color-mix(in srgb, #{global.$color-primary-6} 10%, transparent);
 $sender-switch-unchecked-hover-bg: color-mix(in srgb, #{global.$color-fill-3} 4%, transparent);
 
-$sender-box-shadow:
-  0 4px 20px rgb(0 0 0 / 3.5%),
-  inset 0 0 0 1px #{global.$color-border-2};
-$sender-box-shadow-focus:
-  0 4px 20px rgb(0 0 0 / 3.5%),
-  0 0 0 2px #{global.$color-border-4},
-  inset 0 0 0 1px #{global.$color-border-3};
+$sender-box-shadow: 0 4px 20px rgb(0 0 0 / 3.5%);
+$sender-box-shadow-focus: 0 4px 20px color-mix(in srgb, #{global.$color-primary-6} 10%, transparent);
 $sender-motion-duration: global.$transition-duration-2;
 $sender-motion-duration-fast: global.$transition-duration-2;
 $sender-motion-easing: global.$transition-timing-function-standard;
@@ -152,6 +148,11 @@ $sender-color-border: theme-runtime.token(
   'sender-color-border',
   $sender-color-border,
   'color-border-2'
+);
+$sender-color-border-focus: theme-runtime.token(
+  'sender',
+  'sender-color-border-focus',
+  $sender-color-border-focus
 );
 $sender-color-border-input: theme-runtime.token(
   'sender',
