@@ -7,6 +7,7 @@ export default {
     'packages/sd-vue-docs/src/components/generated/**',
     'packages/web-vue/es/**',
     'packages/web-vue/components/markdown-render/style/*.css',
+    'packages/web-core/styles/tour/style/driver.css',
     'packages/web-vue/lib/**',
     'packages/web-vue/tmp/**',
     '**/dist/**',
