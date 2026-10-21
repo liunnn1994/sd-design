@@ -1,3 +1,15 @@
+# [7.7.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.6.1...web-vue-v7.7.0) (2026-10-21)
+
+
+### Bug Fixes
+
+* 🐛 修复按钮错误换行的问题 ([e79e381](https://github.com/liunnn1994/sd-design/commit/e79e381e1a61fed14a78b20d65784b2e58391416))
+
+
+### Features
+
+* 🆕 优化 sender 的边框 ([4f4ac4d](https://github.com/liunnn1994/sd-design/commit/4f4ac4d207eac88798465133857fb3f2a46d8648))
+
 ## [7.6.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.6.0...web-vue-v7.6.1) (2026-10-20)
 
 
