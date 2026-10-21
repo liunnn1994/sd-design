@@ -58,6 +58,19 @@ export function createPerformantEllipsisFoundation(state: PerformantEllipsisStat
     void activate('focus');
   };
 
+  // 组合组件的原生控件保留焦点，仅把聚焦交互转交给省略提示。
+  let externallyFocused = false;
+  const setFocused = async (focused: boolean) => {
+    externallyFocused = focused;
+    if (focused) {
+      await activate();
+      await state.afterRender();
+      await state.waitForMeasurement();
+    }
+    if (externallyFocused !== focused) return;
+    getActivatedTriggerElement()?.dispatchEvent(new FocusEvent(focused ? 'focusin' : 'focusout'));
+  };
+
   const handleClick = (event: MouseEvent) => {
     const target = event.target;
     const interactive =
@@ -67,5 +80,5 @@ export function createPerformantEllipsisFoundation(state: PerformantEllipsisStat
     const isInnerControl = interactive && interactive !== event.currentTarget;
     void activate(state.expandTrigger === 'click' && !isInnerControl ? 'click' : undefined);
   };
-  return { activate, replayInteraction, handleMouseenter, handleFocus, handleClick };
+  return { activate, replayInteraction, handleMouseenter, handleFocus, handleClick, setFocused };
 }

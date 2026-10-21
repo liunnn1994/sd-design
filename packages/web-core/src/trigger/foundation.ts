@@ -22,6 +22,7 @@ export interface TriggerAdapter {
   readonly methods: TriggerEvent[];
   readonly scrollToClose: boolean;
   readonly mounted: boolean;
+  readonly parentPopupHidden?: boolean;
   setVisible(visible: boolean): void;
   onVisible(visible: boolean): void;
   afterOpen(): void;
@@ -58,6 +59,7 @@ export function createTriggerFoundation(adapter: TriggerAdapter) {
     if (visible === adapter.visible && delayTimer === 0) return;
     cleanDelayTimer();
     const update = () => {
+      if (visible && adapter.parentPopupHidden) return;
       adapter.setVisible(visible);
       adapter.onVisible(visible);
       if (visible) adapter.afterOpen();

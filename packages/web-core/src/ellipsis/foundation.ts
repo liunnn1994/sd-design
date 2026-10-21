@@ -41,14 +41,17 @@ export function createEllipsisFoundation(state: EllipsisFoundationState) {
 
     if (nextHtml !== state.measurementHtml) state.measurementHtml = nextHtml;
     if (nextText !== state.text) state.text = nextText;
-    // 使用触发元素真实的 fractional 盒宽（clientWidth 会被取整）。若测量副本比
-    // 真实内容窄零点几像素，副本自身的 text-overflow: ellipsis 会把内部行盒撑大
-    // （如 "10" 16.03px 在 16px 副本中变成 "1…" 19.09px），scrollWidth 虚增，
-    // clamp 检测将误报“已截断”并弹出 tooltip（两位数字/字母内容的典型场景）。
-    const paddingBoxWidth =
-      triggerElement.getBoundingClientRect().width -
-      (parseFloat(computedStyle.borderLeftWidth) || 0) -
-      (parseFloat(computedStyle.borderRightWidth) || 0);
+    // 使用缩放前的 fractional 布局宽度：getBoundingClientRect 包含弹窗动画的
+    // transform，clientWidth 又会取整，两者都可能让测量副本误报截断。
+    const layoutWidth = parseFloat(computedStyle.width);
+    const paddingBoxWidth = Number.isFinite(layoutWidth)
+      ? layoutWidth +
+        (computedStyle.boxSizing === 'border-box'
+          ? -(parseFloat(computedStyle.borderLeftWidth) || 0) -
+            (parseFloat(computedStyle.borderRightWidth) || 0)
+          : (parseFloat(computedStyle.paddingLeft) || 0) +
+            (parseFloat(computedStyle.paddingRight) || 0))
+      : triggerElement.clientWidth;
     if (paddingBoxWidth !== state.measurementWidth) {
       state.measurementWidth = paddingBoxWidth;
     }

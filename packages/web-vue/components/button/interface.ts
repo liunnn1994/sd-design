@@ -1,3 +1,4 @@
+import type { EllipsisTooltipProps } from '../ellipsis';
 import type { TooltipProps } from '../tooltip';
 
 import { Size, Status, BorderShape } from '../_utils/constant';
@@ -9,6 +10,14 @@ export interface ButtonProps {
   status?: Status;
   size?: Size;
   long?: boolean;
+  /** 是否开启默认内容省略，默认 true */
+  ellipsis?: boolean;
+  /** 默认内容省略的最大显示行数 */
+  ellipsisLineClamp?: number | string;
+  /** 省略内容的展开触发方式 */
+  ellipsisExpandTrigger?: 'click';
+  /** 省略提示配置，默认 true */
+  ellipsisTooltip?: boolean | EllipsisTooltipProps;
   loading?: boolean;
   loadingFixedWidth?: boolean;
   disabled?: boolean;

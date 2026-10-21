@@ -119,5 +119,7 @@
     waitForMeasurement: () => ellipsisRef.value?.waitForMeasurement?.(),
     toggleExpanded: () => ellipsisRef.value?.toggleExpanded?.(),
   });
-  const { handleMouseenter, handleFocus, handleClick } = foundation;
+  const { handleMouseenter, handleFocus, handleClick, setFocused } = foundation;
+
+  defineExpose({ setFocused });
 </script>

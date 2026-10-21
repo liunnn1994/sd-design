@@ -1,6 +1,6 @@
 <template>
   <Trigger
-    :class="[prefixCls, { [`${prefixCls}-mouse-through`]: mouseThrough }]"
+    :class="[prefixCls, { [`${prefixCls}-mouse-through`]: mouseThrough && !overflowing }]"
     :trigger="['hover', 'focus']"
     :position="position"
     :popup-visible="computedPopupVisible"
@@ -15,18 +15,26 @@
     :floating-options="floatingOptions"
     animation-name="zoom-in-fade-out"
     auto-fit-transform-origin
+    auto-fit-popup-size
     role="tooltip"
     aria-describedby-popup
     @popup-visible-change="handlePopupVisibleChange"
   >
     <slot />
     <template #content>
-      <slot name="content">{{ content }}</slot>
+      <Scrollbar
+        :outer-class="`${prefixCls}-scrollbar`"
+        :events="{ initialized: updateOverflow, updated: updateOverflow }"
+      >
+        <slot name="content">{{ content }}</slot>
+      </Scrollbar>
     </template>
   </Trigger>
 </template>
 
 <script setup lang="ts">
+  import type { OverlayScrollbars } from 'overlayscrollbars';
+
   import { computed, CSSProperties, ref } from 'vue';
 
   import { createPopupWrapperFoundation } from '@sdata/web-core/trigger/compat-state';
@@ -34,6 +42,7 @@
   import type { TooltipProps } from './interface';
 
   import { getPrefixCls } from '../_utils/global-config';
+  import Scrollbar from '../scrollbar';
   import Trigger from '../trigger';
 
   defineOptions({ name: 'Tooltip' });
@@ -63,6 +72,11 @@
    */
 
   const prefixCls = getPrefixCls('tooltip');
+  const overflowing = ref(false);
+  const updateOverflow = (instance: OverlayScrollbars) => {
+    const { hasOverflow } = instance.state();
+    overflowing.value = hasOverflow.x || hasOverflow.y;
+  };
 
   const _popupVisible = ref(props.defaultPopupVisible);
   const foundation = createPopupWrapperFoundation(

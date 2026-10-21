@@ -1,4 +1,7 @@
 import assert from 'node:assert/strict';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 import test from 'node:test';
 
 import { discoverMetadata, selectAffectedSpecs } from './find-affected-cypress-specs.ts';
@@ -115,14 +118,28 @@ test('does not force a full run when only the selector script changes', () => {
   );
 });
 
-test('does not expand runtime dependents through type-only imports', () => {
+test('does not expand runtime dependents through type-only imports', (t) => {
+  // Keep the import graph independent of evolving component implementations.
+  const root = mkdtempSync(path.join(tmpdir(), 'affected-cypress-specs-'));
+  t.after(() => rmSync(root, { recursive: true, force: true }));
+  const sources = {
+    scrollbar: 'export default {};',
+    select: "import Scrollbar from '../scrollbar';",
+    table: "import Scrollbar from '@components/scrollbar';",
+    input: `import type { ScrollbarProps } from '../scrollbar';
+export type { ScrollbarProps } from '@components/scrollbar';`,
+  };
+  for (const [name, source] of Object.entries(sources)) {
+    const directory = path.join(root, 'components', name);
+    mkdirSync(path.join(directory, '__test__'), { recursive: true });
+    writeFileSync(path.join(directory, 'index.ts'), source);
+    writeFileSync(path.join(directory, '__test__', 'index.cy.ts'), '');
+  }
   const result = selectAffectedSpecs({
-    ...discoverMetadata(),
+    ...discoverMetadata(root),
     changedFiles: ['packages/web-vue/components/scrollbar/scrollbar.vue'],
   });
-  assert.equal(result.components.includes('select'), true);
-  assert.equal(result.components.includes('table'), true);
-  assert.equal(result.components.includes('input'), false);
+  assert.deepEqual(result.components, ['scrollbar', 'select', 'table']);
 });
 
 test('shared foundation, Sass and generation changes invalidate component consumers', () => {

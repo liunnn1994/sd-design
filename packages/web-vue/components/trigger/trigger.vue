@@ -70,7 +70,7 @@
     watch,
   } from 'vue';
 
-  import { arrow, autoUpdate, flip, offset, shift, useFloating } from '@floating-ui/vue';
+  import { arrow, autoUpdate, flip, offset, shift, size, useFloating } from '@floating-ui/vue';
   import { createTriggerFoundation } from '@sdata/web-core/trigger/foundation';
   import {
     toFloatingPlacement,
@@ -149,6 +149,7 @@
     focusDelay?: number;
     autoFitPopupWidth?: boolean;
     autoFitPopupMinWidth?: boolean;
+    autoFitPopupSize?: boolean;
     autoFixPosition?: boolean;
     popupContainer?: string | HTMLElement;
     updateAtScroll?: boolean;
@@ -185,6 +186,7 @@
     focusDelay: 0,
     autoFitPopupWidth: false,
     autoFitPopupMinWidth: false,
+    autoFitPopupSize: false,
     autoFixPosition: true,
     updateAtScroll: false,
     autoFitTransformOrigin: false,
@@ -195,6 +197,7 @@
     scrollToClose: false,
     scrollToCloseDistance: 0,
     escToClose: false,
+    ariaHasPopup: undefined,
     ariaDescribedbyPopup: false,
   });
   const emit = defineEmits<{
@@ -231,6 +234,10 @@
   let scrollPositions = new WeakMap<HTMLElement, [number, number]>();
   let windowScrollPosition: [number, number] | null = null;
   const computedVisible = computed(() => props.popupVisible ?? popupVisible.value);
+  const parentPopupHidden = computed(() =>
+    Boolean(firstElement.value && triggerCtx?.isPopupHidden(firstElement.value)),
+  );
+  const referenceHidden = ref(false);
   const pointReference: VirtualElement = {
     getBoundingClientRect: () => {
       const { left, top } = mousePosition.value;
@@ -256,7 +263,25 @@
         fn: ({ x, y }) => ({ x: x + translate[0], y: y + translate[1] }),
       });
     }
-    if (props.autoFitPosition) middleware.push(flip(), shift());
+    const padding = props.autoFitPopupSize ? 8 : 0;
+    if (props.autoFitPosition) middleware.push(flip({ padding }), shift({ padding }));
+    if (props.autoFitPopupSize) {
+      middleware.push(
+        size({
+          padding,
+          apply({ availableWidth, availableHeight, elements }) {
+            elements.floating.style.setProperty(
+              '--sd-trigger-available-width',
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              '--sd-trigger-available-height',
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      );
+    }
     if (props.showArrow) middleware.push(arrow({ element: arrowRef }));
     return middleware;
   });
@@ -353,6 +378,9 @@
     get scrollToClose() {
       return props.scrollToClose || Boolean(configCtx?.scrollToClose);
     },
+    get parentPopupHidden() {
+      return parentPopupHidden.value;
+    },
     get mounted() {
       return mounted.value;
     },
@@ -400,6 +428,41 @@
   const changeVisible = foundation.changeVisible;
   const cleanDelayTimer = foundation.cleanDelayTimer;
   watch([() => props.disabled, triggerMethods], cleanDelayTimer);
+  watch(
+    parentPopupHidden,
+    (hidden) => {
+      if (hidden) {
+        referenceHidden.value = true;
+        changeVisible(false);
+      }
+    },
+    { flush: 'sync' },
+  );
+  watch(
+    () => props.disabled,
+    (disabled) => {
+      if (disabled) changeVisible(false);
+    },
+  );
+  watch(
+    [computedVisible, firstElement, parentPopupHidden],
+    ([visible, element], _oldValue, onCleanup) => {
+      if (!visible) return;
+      const checkReference = () => {
+        if (!computedVisible.value) return;
+        referenceHidden.value =
+          parentPopupHidden.value || !element?.isConnected || element.getClientRects().length === 0;
+        if (referenceHidden.value) changeVisible(false);
+      };
+      checkReference();
+      if (!element) return;
+      // Hiding an ancestor (e.g. a dropdown) does not dispatch mouseleave.
+      const observer = new window.ResizeObserver(checkReference);
+      observer.observe(element);
+      onCleanup(() => observer.disconnect());
+    },
+    { flush: 'post' },
+  );
   const handleClick = foundation.click;
   const handleMouseEnter = foundation.mouseenter;
   const handleMouseLeave = foundation.mouseleave;
@@ -443,6 +506,11 @@
   provide(
     triggerInjectionKey,
     reactive({
+      // Only popup descendants follow its visibility; trigger-slot children remain usable.
+      isPopupHidden: (element: HTMLElement): boolean =>
+        Boolean(
+          popupRef.value?.contains(element) && (!computedVisible.value || parentPopupHidden.value),
+        ) || Boolean(triggerCtx?.isPopupHidden(element)),
       onMouseenter: handleMouseEnterWithContext,
       onMouseleave: handleMouseLeaveWithContext,
       onContextmenu: handleChildContextmenu,
@@ -593,7 +661,9 @@
         'class': [`${prefixCls}-popup`, `${prefixCls}-position-${popupPosition.value}`],
         'style': {
           ...mergedPopupStyle.value,
-          ...(isPositioned.value ? {} : { visibility: 'hidden' }),
+          ...(isPositioned.value && !referenceHidden.value && !parentPopupHidden.value
+            ? {}
+            : { visibility: 'hidden' }),
           zIndex: zIndex.value,
           pointerEvents: isAnimation.value ? 'none' : undefined,
         },

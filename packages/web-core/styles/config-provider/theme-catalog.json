@@ -12288,6 +12288,12 @@
           "dependencies": ["color-border-2"]
         },
         {
+          "key": "sender-color-border-focus",
+          "name": "sender-color-border-focus",
+          "value": "color-mix(in srgb, rgb(var(--sd-primary-6)) 60%, transparent)",
+          "dependencies": ["color-primary-6"]
+        },
+        {
           "key": "sender-color-border-input",
           "name": "sender-color-border-input",
           "value": "color-mix(in srgb, var(--sd-color-neutral-3) 10%, transparent)",
@@ -12332,14 +12338,14 @@
         {
           "key": "sender-box-shadow",
           "name": "sender-box-shadow",
-          "value": "0 4px 20px rgba(0, 0, 0, 0.035), inset 0 0 0 1px var(--sd-color-neutral-3)",
-          "dependencies": ["color-border-2"]
+          "value": "0 4px 20px rgba(0, 0, 0, 0.035)",
+          "dependencies": []
         },
         {
           "key": "sender-box-shadow-focus",
           "name": "sender-box-shadow-focus",
-          "value": "0 4px 20px rgba(0, 0, 0, 0.035), 0 0 0 2px var(--sd-color-neutral-6), inset 0 0 0 1px var(--sd-color-neutral-4)",
-          "dependencies": ["color-border-4", "color-border-3"]
+          "value": "0 4px 20px color-mix(in srgb, rgb(var(--sd-primary-6)) 10%, transparent)",
+          "dependencies": ["color-primary-6"]
         },
         {
           "key": "sender-motion-duration",

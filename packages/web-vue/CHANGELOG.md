@@ -1,3 +1,62 @@
+# [7.7.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.6.1...web-vue-v7.7.0) (2026-10-21)
+
+
+### Bug Fixes
+
+* 🐛 修复按钮错误换行的问题 ([e79e381](https://github.com/liunnn1994/sd-design/commit/e79e381e1a61fed14a78b20d65784b2e58391416))
+
+
+### Features
+
+* 🆕 优化 sender 的边框 ([4f4ac4d](https://github.com/liunnn1994/sd-design/commit/4f4ac4d207eac88798465133857fb3f2a46d8648))
+
+## [7.6.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.6.0...web-vue-v7.6.1) (2026-10-20)
+
+
+### Bug Fixes
+
+* 🐛 修复在动画中错误的触发 ellipsis 的问题 ([268d521](https://github.com/liunnn1994/sd-design/commit/268d521b5d2e8e4c89ddca35cf420307db0f3873))
+
+# [7.6.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.5.1...web-vue-v7.6.0) (2026-10-20)
+
+
+### Features
+
+* 🆕 优化 tooltip 超长内容边界 ([c5aa8c6](https://github.com/liunnn1994/sd-design/commit/c5aa8c6739479fcd622186323a05783d8e5a91f2))
+
+## [7.5.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.5.0...web-vue-v7.5.1) (2026-10-20)
+
+
+### Bug Fixes
+
+* 🐛 修复 ellipsis 不生效的问题 ([2426955](https://github.com/liunnn1994/sd-design/commit/24269555db34ae176f7bb7ebde74eb7d94bb5828))
+
+# [7.5.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.4.1...web-vue-v7.5.0) (2026-10-20)
+
+
+### Bug Fixes
+
+* 🐛 修复错误的测试用例 ([819f347](https://github.com/liunnn1994/sd-design/commit/819f347cdc3387661ec0c263a7f5f656fb31d892))
+
+
+### Features
+
+* 🆕 按钮添加 ellipsis 支持 ([f0d31f4](https://github.com/liunnn1994/sd-design/commit/f0d31f464aad451f11c75a8c08a2f5c4078a9aca))
+
+## [7.4.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.4.0...web-vue-v7.4.1) (2026-10-19)
+
+
+### Bug Fixes
+
+* 🐛 修复 tooltip 在丢失目标后的错误渲染 ([c019844](https://github.com/liunnn1994/sd-design/commit/c019844b315661fb642edce79e70193fbb9a9a13))
+
+# [7.4.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.3.2...web-vue-v7.4.0) (2026-10-19)
+
+
+### Features
+
+* 🆕 更新依赖 ([cc731bb](https://github.com/liunnn1994/sd-design/commit/cc731bba7729d15600e8941c9ae4c8307d188013))
+
 ## [7.3.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.3.1...web-vue-v7.3.2) (2026-10-15)
 
 

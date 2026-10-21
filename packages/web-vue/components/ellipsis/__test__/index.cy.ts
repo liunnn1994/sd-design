@@ -1,9 +1,39 @@
+import { h } from 'vue';
+
 import Ellipsis, { PerformantEllipsis } from '../index';
 
 const overflowing =
   'A design is a plan or specification for the construction of an object or system.';
 
 describe('Ellipsis', () => {
+  for (const scale of [0.94, 1.06]) {
+    for (const boxSizing of ['border-box', 'content-box']) {
+      for (const clamped of [false, true]) {
+        it(`measures ${clamped ? 'overflowing' : 'fitting'} content with ${boxSizing} at scale ${scale}`, () => {
+          cy.mount(() =>
+            h('div', { style: { transform: `scale(${scale})` } }, [
+              h(
+                Ellipsis,
+                {
+                  tooltip: false,
+                  style: { width: '80.25px', padding: '3.5px', border: '1.25px solid', boxSizing },
+                },
+                () => (clamped ? overflowing : '10'),
+              ),
+            ]),
+          );
+          cy.get('[data-ellipsis-measure]').should('exist');
+          if (clamped) {
+            cy.get('.sd-ellipsis[data-part="root"]').should('have.attr', 'title', overflowing);
+          } else {
+            cy.wait(250);
+            cy.get('.sd-ellipsis[data-part="root"]').should('not.have.attr', 'title');
+          }
+        });
+      }
+    }
+  }
+
   it('delegates single-line clamping to LineClamp', () => {
     cy.mount(Ellipsis, {
       attrs: { style: 'max-width: 120px;' },
@@ -32,6 +62,19 @@ describe('Ellipsis', () => {
     });
     cy.get('.sd-ellipsis').should('have.attr', 'title', overflowing);
   });
+
+  for (const tooltip of [false, { disabled: true }]) {
+    it(`suppresses native title with an explicit empty title (${JSON.stringify(tooltip)})`, () => {
+      cy.mount(Ellipsis, {
+        props: { tooltip, expandTrigger: 'click' },
+        attrs: { style: 'max-width: 80px;', title: '' },
+        slots: { default: overflowing },
+      });
+      cy.get('.sd-ellipsis[data-part="root"]')
+        .should('have.class', 'sd-ellipsis--expandable')
+        .and('have.attr', 'title', '');
+    });
+  }
 
   it('shows the tooltip only when the content is clamped', () => {
     cy.mount(Ellipsis, {
@@ -203,12 +246,11 @@ describe('Ellipsis', () => {
     cy.get('.sd-ellipsis').should('have.class', 'sd-ellipsis--expandable');
     cy.get('.sd-ellipsis').trigger('mouseenter');
     cy.get('[role="tooltip"]').should('be.visible');
-    cy.get('.sd-ellipsis').trigger('mouseleave');
     cy.get('.sd-ellipsis').click();
     cy.get('.sd-ellipsis')
       .should('have.class', 'sd-ellipsis--expanded')
       .and('have.attr', 'aria-expanded', 'true');
-    // 注：tooltip 在展开后禁用，但隐藏依赖动画事件（本环境不可靠），不做断言
+    cy.get('[role="tooltip"]').should('not.be.visible');
   });
 
   it('renders custom tooltip slot content in the popup', () => {

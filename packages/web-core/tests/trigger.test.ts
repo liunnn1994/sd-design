@@ -35,6 +35,7 @@ function setup() {
     mounted: false,
     animation: false,
     inside: false,
+    parentPopupHidden: false,
   };
   const events: unknown[][] = [];
   const timers = new Map<number, { callback: () => void; delay: number }>();
@@ -54,6 +55,9 @@ function setup() {
     },
     get scrollToClose() {
       return state.scroll;
+    },
+    get parentPopupHidden() {
+      return state.parentPopupHidden;
     },
     get mounted() {
       return state.mounted;
@@ -318,4 +322,19 @@ test('placement conversion and arrow geometry preserve legacy static-side preced
     } as HTMLElement),
     true,
   );
+});
+
+test('a hidden parent blocks immediate opening and a previously scheduled delayed opening', () => {
+  const s = setup();
+  s.foundation.changeVisible(true, 100);
+  s.state.parentPopupHidden = true;
+  s.timers.get(1)!.callback();
+  assert.equal(s.state.inner, false);
+  assert.deepEqual(s.events, []);
+  s.foundation.changeVisible(true);
+  assert.equal(s.state.inner, false);
+  assert.deepEqual(s.events, [['cancel', 1]]);
+  s.state.parentPopupHidden = false;
+  s.foundation.changeVisible(true);
+  assert.equal(s.state.inner, true);
 });

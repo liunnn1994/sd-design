@@ -145,6 +145,8 @@ export interface TriggerProps {
    * @en Whether the popup min-width matches the trigger
    */
   autoFitPopupMinWidth?: boolean;
+  /** Limit popup content using the available clipping-boundary dimensions. */
+  autoFitPopupSize?: boolean;
   /**
    * @zh 触发元素变化时是否自动修正浮层位置
    * @en Whether the popup position is corrected when the trigger resizes

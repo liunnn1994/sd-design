@@ -12,12 +12,15 @@ $sender-prefix-cls: string.unquote('#{theme.$prefix}-sender');
     width: 100%;
     overflow: hidden;
     background: $sender-color-bg;
-    border: $sender-border-width solid $sender-color-border-input;
+    border: $sender-border-width solid $sender-color-border;
     border-radius: $sender-border-radius;
     box-shadow: $sender-box-shadow;
-    transition: box-shadow $sender-motion-duration $sender-motion-easing;
+    transition:
+      border-color $sender-motion-duration $sender-motion-easing,
+      box-shadow $sender-motion-duration $sender-motion-easing;
 
     &:focus-within:not(.#{$sender-prefix-cls}-disabled) {
+      border-color: $sender-color-border-focus;
       box-shadow: $sender-box-shadow-focus;
     }
   }

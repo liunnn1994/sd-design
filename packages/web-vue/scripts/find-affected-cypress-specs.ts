@@ -6,7 +6,6 @@ import { fileURLToPath } from 'node:url';
 
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const repositoryRoot = path.resolve(packageRoot, '../..');
-const componentsRoot = path.join(packageRoot, 'components');
 const packagePrefix = 'packages/web-vue/';
 const globalInvalidators = [
   // Core subpath imports are outside this selector's component dependency graph.
@@ -114,10 +113,9 @@ export function selectAffectedSpecs({
   return { mode: specs.length ? 'affected' : 'none', components, specs };
 }
 
-export function discoverMetadata() {
-  const specFiles = fg
-    .sync('components/*/__test__/*.cy.ts', { cwd: packageRoot })
-    .map(normalizePath);
+export function discoverMetadata(root = packageRoot) {
+  const componentsRoot = path.join(root, 'components');
+  const specFiles = fg.sync('components/*/__test__/*.cy.ts', { cwd: root }).map(normalizePath);
   const componentSpecs = new Map<string, string[]>();
   for (const spec of specFiles) {
     const component = spec.split('/')[1];
@@ -125,7 +123,7 @@ export function discoverMetadata() {
   }
   const names = new Set(
     fg
-      .sync('components/*', { cwd: packageRoot, onlyDirectories: true })
+      .sync('components/*', { cwd: root, onlyDirectories: true })
       .map(normalizePath)
       .map((directory) => directory.split('/')[1])
       .filter((name) => !name.startsWith('_') && name !== 'style'),
@@ -135,7 +133,7 @@ export function discoverMetadata() {
   }
   const componentDependencies = new Map([...names].map((name) => [name, new Set<string>()]));
   const files = fg.sync('components/**/*.{js,ts,tsx,vue,scss}', {
-    cwd: packageRoot,
+    cwd: root,
     ignore: ['components/**/__test__/**'],
   });
   const importPattern = /(?:from\s+|import\s*\(|import\s+|@use\s+|@forward\s+)["']([^"']+)["']/g;
@@ -143,7 +141,7 @@ export function discoverMetadata() {
   for (const file of files) {
     const owner = normalizePath(file).split('/')[1];
     if (!names.has(owner)) continue;
-    const absoluteFile = path.join(packageRoot, file);
+    const absoluteFile = path.join(root, file);
     const source = readFileSync(absoluteFile, 'utf8').replace(typeOnlyImportPattern, '');
     for (const match of source.matchAll(importPattern)) {
       let dependency = null;

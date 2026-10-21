@@ -203,7 +203,7 @@ test('measurement clones content, excludes nested probes and preserves fractiona
       assert.equal(deep, true);
       return clone;
     },
-    getBoundingClientRect: () => ({ width: 18.28125 }),
+    getBoundingClientRect: () => ({ width: 9.140625 }),
   } as unknown as HTMLElement;
   Object.assign(window, {
     getComputedStyle: () => ({
@@ -211,6 +211,8 @@ test('measurement clones content, excludes nested probes and preserves fractiona
       paddingRight: '2px',
       paddingBottom: '3px',
       paddingLeft: '4px',
+      width: '18.28125px',
+      boxSizing: 'border-box',
       borderLeftWidth: '1.25px',
       borderRightWidth: '1px',
     }),
@@ -238,7 +240,8 @@ test('unchanged measurements do not republish reactive values and invalid border
     });
   state.triggerElement = {
     cloneNode: () => ({ querySelectorAll: () => [], innerHTML: 'same', textContent: 'same' }),
-    getBoundingClientRect: () => ({ width: 7.5 }),
+    clientWidth: 7,
+    getBoundingClientRect: () => ({ width: 3.75 }),
   } as unknown as HTMLElement;
   Object.assign(window, {
     getComputedStyle: () => ({
@@ -246,6 +249,8 @@ test('unchanged measurements do not republish reactive values and invalid border
       paddingRight: '0',
       paddingBottom: '0',
       paddingLeft: '0',
+      width: '7.5px',
+      boxSizing: 'content-box',
       borderLeftWidth: '',
       borderRightWidth: 'bad',
     }),
@@ -475,4 +480,60 @@ test('SSR construction and inert measurement need no native globals', (t) => {
   controller.syncMeasurement();
   assert.equal(controller.isExpandable(), false);
   assert.equal(controller.getNativeTitle(), undefined);
+});
+
+test('measurement uses padding-box layout width and clientWidth only when CSS width is unavailable', (t) => {
+  const { state, controller } = fixture(t);
+  state.triggerElement = {
+    cloneNode: () => ({ querySelectorAll: () => [], innerHTML: 'text', textContent: 'text' }),
+    clientWidth: 20,
+    getBoundingClientRect: () => ({ width: 10 }),
+  } as unknown as HTMLElement;
+  let width = '14.03125px';
+  Object.assign(window, {
+    getComputedStyle: () => ({
+      width,
+      boxSizing: 'content-box',
+      paddingTop: '0',
+      paddingRight: '2px',
+      paddingBottom: '0',
+      paddingLeft: '4px',
+    }),
+  });
+  controller.syncMeasurement();
+  assert.equal(state.measurementWidth, 20.03125);
+  width = 'auto';
+  controller.syncMeasurement();
+  assert.equal(state.measurementWidth, 20);
+});
+
+test('external focus preserves the native control and a blur cancels pending focus replay', async (t) => {
+  const { controller, root, measurement, reachMeasurement, renderGates } = performant(t);
+  globalValue(
+    t,
+    'FocusEvent',
+    class {
+      bubbles = false;
+      type: string;
+      constructor(type: string) {
+        this.type = type;
+      }
+    },
+  );
+  const pending = controller.setFocused(true);
+  await reachMeasurement();
+  await controller.setFocused(false);
+  measurement.resolve();
+  while (renderGates.length < 3) await Promise.resolve();
+  renderGates[2].resolve();
+  await pending;
+  assert.deepEqual(root.events, [['focusout', false]]);
+  const focus = controller.setFocused(true);
+  while (renderGates.length < 4) await Promise.resolve();
+  renderGates[3].resolve();
+  await focus;
+  assert.deepEqual(root.events, [
+    ['focusout', false],
+    ['focusin', false],
+  ]);
 });

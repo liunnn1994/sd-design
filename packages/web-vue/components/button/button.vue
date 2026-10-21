@@ -7,12 +7,28 @@
       :class="[cls, { [`${prefixCls}-only-icon`]: $slots.icon && !$slots.default }]"
       :href="mergedDisabled || loading ? undefined : href"
       @click="handleClick"
+      @focus="ellipsisRef?.setFocused(true)"
+      @blur="ellipsisRef?.setFocused(false)"
     >
       <span v-if="loading || $slots.icon" :class="`${prefixCls}-icon`">
         <icon-loading v-if="loading" spin />
         <slot v-else name="icon" />
       </span>
-      <slot v-if="!isTwoCNChar" />
+      <PerformantEllipsis
+        v-if="ellipsis && $slots.default"
+        ref="ellipsisRef"
+        :class="`${prefixCls}-content`"
+        :line-clamp="ellipsisLineClamp"
+        :expand-trigger="ellipsisExpandTrigger"
+        :tooltip="hasTooltip ? false : ellipsisTooltip"
+        :title="hasTooltip ? '' : undefined"
+      >
+        <slot />
+        <template v-if="$slots['ellipsis-tooltip']" #tooltip>
+          <slot name="ellipsis-tooltip" />
+        </template>
+      </PerformantEllipsis>
+      <slot v-else-if="!isTwoCNChar" />
       <span v-else><slot /></span>
       <span v-if="$slots['sr-only']" :class="`${prefixCls}-sr-only`">
         <slot name="sr-only" />
@@ -27,12 +43,28 @@
       :disabled="mergedDisabled"
       :autofocus="autofocus"
       @click="handleClick"
+      @focus="ellipsisRef?.setFocused(true)"
+      @blur="ellipsisRef?.setFocused(false)"
     >
       <span v-if="loading || $slots.icon" :class="`${prefixCls}-icon`">
         <icon-loading v-if="loading" :spin="true" />
         <slot v-else name="icon" />
       </span>
-      <slot v-if="!isTwoCNChar" />
+      <PerformantEllipsis
+        v-if="ellipsis && $slots.default"
+        ref="ellipsisRef"
+        :class="`${prefixCls}-content`"
+        :line-clamp="ellipsisLineClamp"
+        :expand-trigger="ellipsisExpandTrigger"
+        :tooltip="hasTooltip ? false : ellipsisTooltip"
+        :title="hasTooltip ? '' : undefined"
+      >
+        <slot />
+        <template v-if="$slots['ellipsis-tooltip']" #tooltip>
+          <slot name="ellipsis-tooltip" />
+        </template>
+      </PerformantEllipsis>
+      <slot v-else-if="!isTwoCNChar" />
       <span v-else><slot /></span>
       <span v-if="$slots['sr-only']" :class="`${prefixCls}-sr-only`">
         <slot name="sr-only" />
@@ -63,6 +95,7 @@
   import { createButtonTextFoundation } from '@sdata/web-core/button/text';
   import { createPressableFoundation } from '@sdata/web-core/interaction/pressable';
 
+  import type { EllipsisTooltipProps } from '../ellipsis';
   import type { TooltipProps } from '../tooltip';
 
   import { useFormItem } from '../_hooks/use-form-item';
@@ -71,6 +104,7 @@
   import { getPrefixCls } from '../_utils/global-config';
   import { isString } from '../_utils/is';
   import { configProviderInjectionKey } from '../config-provider/context';
+  import { PerformantEllipsis } from '../ellipsis';
   import IconLoading from '../icon/icon-loading';
   import Tooltip from '../tooltip';
   import { ButtonTypes } from './constants';
@@ -166,6 +200,29 @@
      */
     href: String,
     /**
+     * @zh 是否开启默认内容省略
+     * @en Whether to enable ellipsis for the default slot content
+     */
+    ellipsis: { type: Boolean, default: true },
+    /**
+     * @zh 默认内容省略的最大显示行数
+     * @en Maximum number of displayed lines for ellipsis content
+     */
+    ellipsisLineClamp: { type: [Number, String] as PropType<number | string>, default: undefined },
+    /**
+     * @zh 省略内容的展开触发方式
+     * @en Trigger mode for ellipsis expansion
+     */
+    ellipsisExpandTrigger: { type: String as PropType<'click'>, default: undefined },
+    /**
+     * @zh 省略时是否展示提示。可传入 Tooltip 属性。
+     * @en Whether to show a tooltip when ellipsis is active. Tooltip props are supported.
+     */
+    ellipsisTooltip: {
+      type: [Boolean, Object] as PropType<boolean | EllipsisTooltipProps>,
+      default: true,
+    },
+    /**
      * @zh 按钮的文字气泡配置。传入字符串时作为气泡内容；传入对象时可完整继承 Tooltip 的所有属性。
      * @en Tooltip configuration for the button. A string is used as the tooltip content; an object inherits all Tooltip props.
      */
@@ -187,6 +244,11 @@
    * @zh 图标
    * @en Icon
    * @slot icon
+   */
+  /**
+   * @zh 自定义省略提示内容
+   * @en Custom ellipsis tooltip content
+   * @slot ellipsis-tooltip
    */
   /**
    * @zh 仅供屏幕阅读器读取的按钮文本
@@ -241,6 +303,7 @@
   });
   const { mergedSize } = useSize(_mergedSize);
   const buttonRef = ref<HTMLAnchorElement | HTMLButtonElement>();
+  const ellipsisRef = ref<InstanceType<typeof PerformantEllipsis>>();
   const isTwoCNChar = ref(false);
 
   const { updateIsTwoCNChar } = createButtonTextFoundation(

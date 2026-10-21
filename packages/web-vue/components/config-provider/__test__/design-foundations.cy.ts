@@ -135,17 +135,26 @@ describe('设计基础的真实浏览器样式', () => {
     cy.get('.sd-btn').should('have.css', 'color', 'rgb(255, 255, 0)');
   });
 
-  it('Sender 使用 20px 圆角并在输入聚焦时显示双环', () => {
+  it('Sender 使用 20px 圆角并在输入聚焦时高亮边框与阴影', () => {
     cy.mount(Sender);
     cy.get('.sd-sender-main').should('have.css', 'border-radius', '20px');
+    cy.get('.sd-sender-main').invoke('css', 'transition', 'none');
     cy.get('.sd-sender-main').then(($main) => {
       const shadow = getComputedStyle($main[0]).boxShadow;
+      const borderColor = getComputedStyle($main[0]).borderTopColor;
       cy.get('textarea').focus();
       cy.get('.sd-sender-main').should(($focused) => {
-        const focusedShadow = getComputedStyle($focused[0]).boxShadow;
-        expect(focusedShadow).not.to.equal(shadow);
-        expect(focusedShadow).to.contain('inset');
+        const style = getComputedStyle($focused[0]);
+        expect(style.boxShadow).not.to.equal(shadow);
+        expect(style.boxShadow).to.contain('0px 4px 20px 0px');
+        expect(style.boxShadow).not.to.contain('inset');
+        expect(style.borderTopColor).not.to.equal(borderColor);
+        expect(style.borderTopWidth).to.equal('1px');
       });
+      cy.get('textarea').blur();
+      cy.get('.sd-sender-main')
+        .should('have.css', 'box-shadow', shadow)
+        .and('have.css', 'border-top-color', borderColor);
     });
   });
 

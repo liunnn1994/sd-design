@@ -58,6 +58,7 @@ $token-var-aliases: (
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  max-width: 100%;
   font-weight: $btn-font-weight;
   line-height: theme.$line-height-base;
   white-space: nowrap;
@@ -110,6 +111,26 @@ $token-var-aliases: (
   &.#{$btn-prefix-cls}-only-icon .#{$btn-prefix-cls}-icon {
     display: flex;
     justify-content: center;
+  }
+
+  &-content {
+    min-width: 0;
+    color: inherit;
+
+    // 单行的富内容保持按钮的 flex 排列，兼顾懒激活前后的内容层。
+    // 纯文本保留 inline 格式，避免 flex 容器破坏 text-overflow。
+    &.#{theme.$prefix}-ellipsis--single-line {
+      &:not([data-part='root']):has(> *),
+      > .#{theme.$prefix}-ellipsis-content:has(> *) {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  &-icon {
+    flex-shrink: 0;
   }
 
   &-sr-only {
