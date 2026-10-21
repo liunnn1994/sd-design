@@ -26,7 +26,7 @@
   import type { VNode } from 'vue';
   import { computed, nextTick, onBeforeUnmount, shallowRef, useSlots } from 'vue';
 
-  import { cloneDeep } from 'es-toolkit';
+  import { createBasicCrudModalFoundation } from '@sdata/web-core/basic-crud-table/modal';
 
   import type { JsonFormInstance } from '../json-form';
   import type { TableData } from '../table';
@@ -77,7 +77,6 @@
   const formRef = shallowRef<JsonFormInstance>();
   const type = shallowRef<'create' | 'edit'>('create');
   const editingRow = shallowRef<TableData>();
-  const initialModel = shallowRef<UnknownRecord>(cloneDeep(model.value));
 
   const { t } = useI18n();
 
@@ -91,64 +90,61 @@
   }));
   const formSlotNames = () =>
     Object.keys(slots).filter((name) => !['title', 'footer'].includes(name));
-  let openRequestId = 0;
-  onBeforeUnmount(() => {
-    openRequestId++;
-  });
-
-  async function open(row?: TableData) {
-    const requestId = ++openRequestId;
-    type.value = row ? 'edit' : 'create';
-    editingRow.value = row;
-    model.value = cloneDeep(initialModel.value);
-    if (row) {
-      try {
-        const detail = detailApi ? await detailApi(row) : cloneDeep({ ...row });
-        if (requestId !== openRequestId) return false;
-        model.value = valueTransformer ? valueTransformer(detail) : detail;
-      } catch (error) {
-        if (requestId === openRequestId) emit('error', error);
-        return false;
-      }
-    }
-    visible.value = true;
-    await nextTick();
-    if (requestId !== openRequestId) return false;
-    formRef.value?.clearValidate();
-    return true;
-  }
-
-  async function handleBeforeOk() {
-    const requestId = openRequestId;
-    try {
-      const errors = await formRef.value?.validate();
-      if (requestId !== openRequestId || errors) return false;
-      const context: BasicCrudTableModalSubmitContext<TableData> = {
-        type: type.value,
-        row: editingRow.value,
-        model: model.value,
-      };
-      if (beforeSubmit && (await beforeSubmit(context)) === false) return false;
-      if (requestId !== openRequestId) return false;
-      const api = type.value === 'create' ? createApi : updateApi;
-      const result = api ? await api(model.value) : undefined;
-      emit('success', result, context);
-      return true;
-    } catch (error) {
-      emit('error', error);
-      return false;
-    }
-  }
-
-  function handleClose() {
-    openRequestId++;
-    model.value = cloneDeep(initialModel.value);
-    editingRow.value = undefined;
-    type.value = 'create';
-    formRef.value?.resetFields();
-    formRef.value?.clearValidate();
-    emit('close');
-  }
-
+  const foundation = createBasicCrudModalFoundation<TableData>(
+    {
+      props: {
+        get createApi() {
+          return createApi;
+        },
+        get updateApi() {
+          return updateApi;
+        },
+        get detailApi() {
+          return detailApi;
+        },
+        get valueTransformer() {
+          return valueTransformer;
+        },
+        get beforeSubmit() {
+          return beforeSubmit;
+        },
+      },
+      get visible() {
+        return visible.value;
+      },
+      set visible(value) {
+        visible.value = value;
+      },
+      get model() {
+        return model.value;
+      },
+      set model(value) {
+        model.value = value;
+      },
+      get type() {
+        return type.value;
+      },
+      set type(value) {
+        type.value = value;
+      },
+      get editingRow() {
+        return editingRow.value;
+      },
+      set editingRow(value) {
+        editingRow.value = value;
+      },
+    },
+    {
+      afterRender: () => nextTick(),
+      validate: () => formRef.value?.validate(),
+      resetFields: () => formRef.value?.resetFields(),
+      clearValidate: () => formRef.value?.clearValidate(),
+      success: (result, context) => emit('success', result, context),
+      close: () => emit('close'),
+      error: (error) => emit('error', error),
+    },
+  );
+  const { open, handleBeforeOk, handleClose } = foundation;
+  onBeforeUnmount(foundation.dispose);
   defineExpose({ open, type: computed(() => type.value), formRef });
 </script>

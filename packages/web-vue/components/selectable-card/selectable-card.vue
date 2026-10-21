@@ -44,7 +44,12 @@
   import type { CSSProperties } from 'vue';
   import { computed, useId } from 'vue';
 
-  import type { SelectableCardProps, SelectableCardSizeValue } from './types';
+  import {
+    createSelectableCardFoundation,
+    toCssSize,
+  } from '@sdata/web-core/selectable-card/foundation';
+
+  import type { SelectableCardProps } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
 
@@ -125,11 +130,6 @@
     },
   ]);
 
-  function toCssSize(value: SelectableCardSizeValue | undefined, spacing = false) {
-    if (value === undefined) return undefined;
-    return typeof value === 'number' ? `${spacing ? value * 4 : value}px` : value;
-  }
-
   const rootStyle = computed<CSSProperties>(() => ({
     padding: toCssSize(padding, true),
     width: toCssSize(width),
@@ -137,21 +137,15 @@
     maxWidth: toCssSize(maxWidth),
   }));
 
-  function toggle() {
-    if (!isDisabled) emit('change', !isSelected);
-  }
-
-  function handleCardClick(event: MouseEvent) {
-    if (isDisabled) return;
-
-    const target = event.target as HTMLElement;
-    if (target.closest('a, button, input, label, select, textarea, [role="button"]')) return;
-
-    toggle();
-  }
-
-  function handleInputChange(event: Event) {
-    toggle();
-    (event.target as HTMLInputElement).checked = isSelected;
-  }
+  const { handleCardClick, handleInputChange } = createSelectableCardFoundation(
+    {
+      get disabled() {
+        return isDisabled;
+      },
+      get selected() {
+        return isSelected;
+      },
+    },
+    (selected) => emit('change', selected),
+  );
 </script>

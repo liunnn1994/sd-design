@@ -1,9 +1,9 @@
 <template>
   <DefineCharacterElement v-slot="{ index }">
     <template v-if="props.grading">
-      <IconFaceMehFill v-if="index > displayIndex" />
-      <IconFaceFrownFill v-else-if="displayIndex <= 2" />
-      <IconFaceMehFill v-else-if="displayIndex <= 3" />
+      <IconFaceMehFill v-if="foundation.getGradingFace(index) === 'inactive-meh'" />
+      <IconFaceFrownFill v-else-if="foundation.getGradingFace(index) === 'frown'" />
+      <IconFaceMehFill v-else-if="foundation.getGradingFace(index) === 'meh'" />
       <IconFaceSmileFill v-else />
     </template>
     <slot v-else name="character" :index="index">
@@ -60,15 +60,13 @@
   import { computed, ref, toRef, useAttrs, watch } from 'vue';
   import type { PropType } from 'vue';
 
+  import { createRateFoundation } from '@sdata/web-core/rate/foundation';
   import { createReusableTemplate } from '@vueuse/core';
-  import NP from 'number-precision';
 
   import { useAllowClear } from '../_hooks/use-allow-clear';
   import { useFormItem } from '../_hooks/use-form-item';
   import { useReadonlyTip, useReadonlyTipText } from '../_hooks/use-readonly-tip';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isNull, isObject, isString, isUndefined } from '../_utils/is';
-  import { KEYBOARD_KEY } from '../_utils/keyboard';
   import IconFaceFrownFill from '../icon/icon-face-frown-fill';
   import IconFaceMehFill from '../icon/icon-face-meh-fill';
   import IconFaceSmileFill from '../icon/icon-face-smile-fill';
@@ -191,33 +189,54 @@
   const animation = ref(false);
   const hoverIndex = ref(0);
 
-  watch(modelValue, (value) => {
-    if (isUndefined(value) || isNull(value)) innerValue.value = 0;
+  const foundation = createRateFoundation({
+    get options() {
+      return props;
+    },
+    get inner() {
+      return innerValue.value;
+    },
+    get value() {
+      return computedValue.value;
+    },
+    get display() {
+      return displayIndex.value;
+    },
+    get indices() {
+      return indexArray.value;
+    },
+    get colors() {
+      return customColor.value;
+    },
+    get hover() {
+      return hoverIndex.value;
+    },
+    get animation() {
+      return animation.value;
+    },
+    isDisabled: () => mergedDisabled.value,
+    isFormDisabled: () => formDisabled.value,
+    allowClear: () => mergedAllowClear.value,
+    setInner: (value) => {
+      innerValue.value = value;
+    },
+    setHover: (value) => {
+      hoverIndex.value = value;
+    },
+    setAnimation: (value) => {
+      animation.value = value;
+    },
+    onUpdate: (value) => emit('update:modelValue', value),
+    onChange: (value) => emit('change', value),
+    onHover: (value) => emit('hoverChange', value),
+    onFormChange: () => eventHandlers.value?.onChange?.(),
   });
-
-  const computedValue = computed(() => props.modelValue ?? innerValue.value);
-  const displayIndex = computed(() => {
-    const fixedValue = props.allowHalf
-      ? NP.times(NP.round(NP.divide(computedValue.value, 0.5), 0), 0.5)
-      : Math.round(computedValue.value);
-    return hoverIndex.value || fixedValue;
-  });
+  watch(modelValue, foundation.syncModel);
+  const computedValue = computed(foundation.getValue);
+  const displayIndex = computed(foundation.getDisplay);
   const mergedDisabled = computed(() => formDisabled.value || !!props.readonly);
-  const indexArray = computed<undefined[]>(() => [...Array(props.grading ? 5 : props.count)]);
-  const customColor = computed(() => {
-    if (isString(props.color)) return indexArray.value.map(() => props.color as string);
-    if (isObject(props.color)) {
-      const sortedKeys = Object.keys(props.color)
-        .map((key) => Number(key))
-        .sort((a, b) => b - a);
-      let threshold = sortedKeys.pop() ?? indexArray.value.length;
-      return indexArray.value.map((_, index) => {
-        if (index + 1 > threshold) threshold = sortedKeys.pop() ?? threshold;
-        return (props.color as Record<string, string>)[String(threshold)];
-      });
-    }
-    return undefined;
-  });
+  const indexArray = computed(foundation.getIndices);
+  const customColor = computed(foundation.getColors);
   const cls = computed(() => [
     prefixCls,
     {
@@ -226,104 +245,21 @@
     },
   ]);
 
-  const resetHoverIndex = () => {
-    if (hoverIndex.value) {
-      hoverIndex.value = 0;
-      emit('hoverChange', 0);
-    }
-  };
-
-  watch(mergedDisabled, (disabled) => {
-    if (disabled) resetHoverIndex();
-  });
-
-  const handleMouseEnter = (index: number, isHalf: boolean) => {
-    const nextHoverIndex = isHalf && props.allowHalf ? index + 0.5 : index + 1;
-    if (nextHoverIndex !== hoverIndex.value) {
-      hoverIndex.value = nextHoverIndex;
-      emit('hoverChange', nextHoverIndex);
-    }
-  };
-
-  const handleClick = (index: number, isHalf: boolean) => {
-    const nextValue = isHalf && props.allowHalf ? index + 0.5 : index + 1;
-    animation.value = true;
-    if (nextValue !== computedValue.value) {
-      innerValue.value = nextValue;
-      emit('update:modelValue', nextValue);
-      emit('change', nextValue);
-      eventHandlers.value?.onChange?.();
-    } else if (mergedAllowClear.value) {
-      innerValue.value = 0;
-      emit('update:modelValue', 0);
-      emit('change', 0);
-      eventHandlers.value?.onChange?.();
-    }
-  };
-
-  const handleAnimationEnd = (index: number) => {
-    if (animation.value && index + 1 >= computedValue.value - 1) animation.value = false;
-  };
-
-  const handleKeydown = (event: KeyboardEvent) => {
-    if (mergedDisabled.value) return;
-    const step = props.allowHalf ? 0.5 : 1;
-    let next = computedValue.value;
-    if (event.key === KEYBOARD_KEY.ARROW_RIGHT || event.key === KEYBOARD_KEY.ARROW_UP) {
-      next += step;
-    } else if (event.key === KEYBOARD_KEY.ARROW_LEFT || event.key === KEYBOARD_KEY.ARROW_DOWN) {
-      next -= step;
-    } else if (event.key === KEYBOARD_KEY.HOME) {
-      next = 0;
-    } else if (event.key === KEYBOARD_KEY.END) {
-      next = indexArray.value.length;
-    } else {
-      return;
-    }
-    event.preventDefault();
-    next = Math.max(0, Math.min(next, indexArray.value.length));
-    if (next !== computedValue.value) {
-      innerValue.value = next;
-      emit('update:modelValue', next);
-      emit('change', next);
-      eventHandlers.value?.onChange?.();
-    }
-  };
-
-  const getAriaProps = (index: number, isHalf = false) => {
-    const value = index + (isHalf ? 0.5 : 1);
-    return {
-      'role': 'radio',
-      'aria-checked': value === computedValue.value,
-      'aria-setsize': props.allowHalf ? indexArray.value.length * 2 : indexArray.value.length,
-      'aria-posinset': props.allowHalf ? index * 2 + (isHalf ? 1 : 2) : index + 1,
-    };
-  };
-
-  const getInteractionProps = (index: number, isHalf: boolean) =>
-    props.allowHalf ? getAriaProps(index, isHalf) : {};
-
+  const resetHoverIndex = foundation.resetHover;
+  watch(mergedDisabled, foundation.syncDisabled);
+  const handleAnimationEnd = foundation.animationEnd;
+  const handleKeydown = foundation.keydown;
+  const getAriaProps = foundation.getAriaProps;
+  const getInteractionProps = foundation.getInteractionProps;
+  const getCharacterColor = foundation.getCharacterColor;
   const getInteractionListeners = (index: number, isHalf: boolean) => {
-    if (!mergedDisabled.value) {
+    const mode = foundation.getInteractionMode();
+    if (mode === 'edit')
       return {
-        mouseenter: () => handleMouseEnter(index, isHalf),
-        click: () => handleClick(index, isHalf),
+        mouseenter: () => foundation.mouseEnter(index, isHalf),
+        click: () => foundation.click(index, isHalf),
       };
-    }
-    if (props.readonly && !formDisabled.value) return { click: showReadonlyTip };
+    if (mode === 'readonly-tip') return { click: showReadonlyTip };
     return {};
-  };
-
-  const getCharacterColor = (index: number, isHalf: boolean) => {
-    // 按每个字符自身的 index 取 customColor（per-index 阈值色表），
-    // 而非 parsedDisplayIndex（会让所有已填充字符都染上最后一档的颜色）。
-    if (
-      customColor.value &&
-      ((isHalf && props.allowHalf && index + 0.5 === displayIndex.value) ||
-        (!isHalf && index + 1 <= displayIndex.value))
-    ) {
-      return { color: customColor.value[index] };
-    }
-    return undefined;
   };
 </script>

@@ -145,6 +145,11 @@
     type StyleValue,
   } from 'vue';
 
+  import {
+    createInputTag,
+    getVisibleTagCount,
+    getDisplayTags,
+  } from '@sdata/web-core/input-tag/foundation';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { InputTagFieldNames, TagData, TagDataInfo } from './interface';
@@ -155,16 +160,10 @@
   import { useAllowClear } from '../_hooks/use-allow-clear';
   import { useFitWidth } from '../_hooks/use-fit-width';
   import { useFormItem } from '../_hooks/use-form-item';
-  import {
-    isReadonlyModificationKey,
-    useReadonlyTip,
-    useReadonlyTipText,
-  } from '../_hooks/use-readonly-tip';
+  import { useReadonlyTip, useReadonlyTipText } from '../_hooks/use-readonly-tip';
   import { useSize } from '../_hooks/use-size';
   import { INPUT_EVENTS, type Size } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isNull, isObject, isUndefined } from '../_utils/is';
-  import { Backspace, Enter } from '../_utils/keycode';
   import { omit } from '../_utils/omit';
   import pick from '../_utils/pick';
   import { WrapClamp } from '../clamp';
@@ -393,11 +392,6 @@
     measure: boolean;
   }>();
 
-  const retainInputValue = computed(() =>
-    isObject(props.retainInputValue)
-      ? { create: false, blur: false, ...props.retainInputValue }
-      : { create: props.retainInputValue, blur: props.retainInputValue },
-  );
   const mergedFocused = computed(() => props.focused || innerFocused.value);
   const isResponsiveMaxTagCount = computed(() => props.maxTagCount === 'responsive');
   let replacingInput = false;
@@ -431,90 +425,94 @@
     additionalWidth: 12,
   });
 
-  const updateInputValue = (value: string, event: Event) => {
-    innerInputValue.value = value;
-    emit('update:inputValue', value);
-    emit('inputValueChange', value, event);
-  };
-  const handleComposition = (event: CompositionEvent) => {
-    const { value } = event.target as HTMLInputElement;
-    if (event.type === 'compositionend') {
-      isComposition.value = false;
-      compositionValue.value = '';
-      updateInputValue(value, event);
-      nextTick(() => {
-        if (inputRef.value && computedInputValue.value !== inputRef.value.value) {
-          inputRef.value.value = computedInputValue.value;
-        }
-      });
-    } else {
-      isComposition.value = true;
-      compositionValue.value = computedInputValue.value + (event.data ?? '');
-    }
-  };
-  watch(
-    () => props.modelValue,
-    (value) => {
-      if (isUndefined(value) || isNull(value)) innerValue.value = [];
+  const foundation = createInputTag({
+    props,
+    get disabled() {
+      return mergedDisabled.value;
     },
-  );
-  const handleMousedown = (event: MouseEvent) => {
-    if (inputRef.value && event.target !== inputRef.value) {
-      event.preventDefault();
-      inputRef.value.focus();
-    }
-  };
-  const handleInput = (event: Event) => {
-    const { value } = event.target as HTMLInputElement;
-    if (!isComposition.value) {
-      updateInputValue(value, event);
-      nextTick(() => {
-        if (inputRef.value && computedInputValue.value !== inputRef.value.value) {
-          inputRef.value.value = computedInputValue.value;
-        }
-      });
-    }
-  };
-
-  const visibleTagCount = computed(() => {
-    if (typeof props.maxTagCount === 'number' && props.maxTagCount > 0) {
-      return Math.min(props.maxTagCount, valueData.value.length);
-    }
-    return valueData.value.length;
+    get value() {
+      return computedValue.value;
+    },
+    get inputValue() {
+      return computedInputValue.value;
+    },
+    get data() {
+      return valueData.value;
+    },
+    get renderedTagCount() {
+      return tags.value.length;
+    },
+    get replacingInput() {
+      return replacingInput;
+    },
+    get input() {
+      return inputRef.value;
+    },
+    get composition() {
+      return isComposition.value;
+    },
+    set composition(value) {
+      isComposition.value = value;
+    },
+    get compositionValue() {
+      return compositionValue.value;
+    },
+    set compositionValue(value) {
+      compositionValue.value = value;
+    },
+    get focused() {
+      return innerFocused.value;
+    },
+    set focused(value) {
+      innerFocused.value = value;
+    },
+    setInner(value) {
+      innerValue.value = value;
+    },
+    setInput(value) {
+      innerInputValue.value = value;
+    },
+    afterRender: (callback) => {
+      void nextTick(callback);
+    },
+    onInputUpdate: (value) => emit('update:inputValue', value),
+    onInputChange: (value, event) => emit('inputValueChange', value, event),
+    onUpdate: (value) => emit('update:modelValue', value),
+    onChange: (value, event) => emit('change', value, event),
+    onFormChange: (event) => eventHandlers.value?.onChange?.(event),
+    onRemove: (value, event) => emit('remove', value, event),
+    onClear: (event) => emit('clear', event),
+    onPressEnter: (value, event) => emit('pressEnter', value, event),
+    onFocus(event) {
+      emit('focus', event);
+      eventHandlers.value?.onFocus?.(event);
+    },
+    onBlur(event) {
+      emit('blur', event);
+      eventHandlers.value?.onBlur?.(event);
+    },
+    showReadonlyTip,
   });
+  const handleComposition = foundation.composition;
+  const handleMousedown = foundation.mousedown;
+  const handleInput = foundation.input;
+  const handleRemove = foundation.remove;
+  const handleClear = foundation.clear;
+  const handleFocus = foundation.focus;
+  const handleBlur = foundation.blur;
+  const handleKeyDown = foundation.keydown;
+  const isClosableTag = foundation.closable;
+  watch(() => props.modelValue, foundation.syncValue);
+  const visibleTagCount = computed(() =>
+    getVisibleTagCount(props.maxTagCount, valueData.value.length),
+  );
   const hiddenTagCount = computed(() =>
     Math.max(valueData.value.length - visibleTagCount.value, 0),
   );
   const isOverflowCounterTag = (index: number) =>
     hiddenTagCount.value > 0 && index === visibleTagCount.value;
-  const tags = computed(() => {
-    const visibleTags = valueData.value.slice(0, visibleTagCount.value);
-    if (!hiddenTagCount.value) return visibleTags;
-    const raw = { value: '__sd__more', label: `+${hiddenTagCount.value}`, closable: false };
-    return visibleTags.concat({ raw, ...raw });
-  });
-  const isClosableTag = (item: TagDataInfo) =>
-    !mergedDisabled.value && !props.readonly && Boolean(item.tagProps?.closable ?? item.closable);
+  const tags = computed(() => getDisplayTags(valueData.value, visibleTagCount.value));
   const getSlotData = (item: TagDataInfo) => item.raw as TagDataInfo['raw'] & TagDataInfo;
-  const updateValue = (value: (string | number | TagData)[], event: Event) => {
-    innerValue.value = value;
-    emit('update:modelValue', value);
-    emit('change', value, event);
-    eventHandlers.value?.onChange?.(event);
-  };
-  const handleRemove = (value: string | number, index: number, event: Event) => {
-    const item = valueData.value[index];
-    if (!item || !isClosableTag(item)) return;
-    updateValue(
-      computedValue.value?.filter((_, itemIndex) => itemIndex !== index),
-      event,
-    );
-    emit('remove', value, event);
-  };
-  const handleClear = (event: MouseEvent) => {
-    updateValue([], event);
-    emit('clear', event);
-  };
   const showClearBtn = computed(
     () =>
       !mergedDisabled.value &&
@@ -522,57 +520,6 @@
       mergedAllowClear.value &&
       Boolean(computedValue.value.length),
   );
-  const handlePressEnter = (event: KeyboardEvent) => {
-    if (!computedInputValue.value) return;
-    event.preventDefault();
-    if (
-      props.uniqueValue &&
-      valueData.value.some((item) => item.value === computedInputValue.value)
-    ) {
-      emit('pressEnter', computedInputValue.value, event);
-      return;
-    }
-    updateValue(computedValue.value.concat(computedInputValue.value), event);
-    emit('pressEnter', computedInputValue.value, event);
-    if (!retainInputValue.value.create) updateInputValue('', event);
-  };
-  const handleFocus = (event: FocusEvent) => {
-    innerFocused.value = true;
-    emit('focus', event);
-    eventHandlers.value?.onFocus?.(event);
-  };
-  const handleBlur = (event: FocusEvent) => {
-    innerFocused.value = false;
-    if (!replacingInput && !retainInputValue.value.blur && computedInputValue.value)
-      updateInputValue('', event);
-    emit('blur', event);
-    eventHandlers.value?.onBlur?.(event);
-  };
-  const getLastClosableIndex = () => {
-    for (let index = valueData.value.length - 1; index >= 0; index -= 1) {
-      if (isClosableTag(valueData.value[index])) return index;
-    }
-    return -1;
-  };
-  const handleKeyDown = (event: KeyboardEvent) => {
-    if (props.readonly && !mergedDisabled.value && isReadonlyModificationKey(event)) {
-      showReadonlyTip();
-    }
-    if (mergedDisabled.value || props.readonly) return;
-    const keyCode = event.key || event.code;
-    if (!isComposition.value && computedInputValue.value && keyCode === Enter.key) {
-      handlePressEnter(event);
-    }
-    if (
-      !isComposition.value &&
-      tags.value.length &&
-      !computedInputValue.value &&
-      keyCode === Backspace.key
-    ) {
-      const lastIndex = getLastClosableIndex();
-      if (lastIndex >= 0) handleRemove(valueData.value[lastIndex].value, lastIndex, event);
-    }
-  };
   const setInputWidth = (width: number) => {
     inputStyle.width = width > 12 ? `${width}px` : '12px';
   };
@@ -582,14 +529,8 @@
   onMounted(() => {
     if (mirrorRef.value) setInputWidth(mirrorRef.value.offsetWidth);
   });
-  watch(computedInputValue, (value) => {
-    if (inputRef.value && !isComposition.value && value !== inputRef.value.value) {
-      inputRef.value.value = value;
-    }
-  });
-  watch(inputRef, (input) => {
-    if (input) input.value = computedInputValue.value;
-  });
+  watch(computedInputValue, foundation.syncInput);
+  watch(inputRef, foundation.attachInput);
 
   const cls = computed(() => [
     prefixCls,

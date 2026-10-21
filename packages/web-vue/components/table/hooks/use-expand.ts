@@ -1,5 +1,7 @@
 import { computed, Ref, ref } from 'vue';
 
+import { createExpansionFoundation, getDefaultExpandedRowKeys } from '@sdata/web-core/table/expand';
+
 import type { BaseType, EmitFn2 } from '../../_utils/types';
 import type { TableData, TableExpandable } from '../interface';
 
@@ -22,57 +24,26 @@ export const useExpand = ({
     'expandedChange': (rowKeys: BaseType[]) => true;
   }>;
 }) => {
-  const getDefaultExpandedRowKeys = (): BaseType[] => {
-    if (defaultExpandedKeys.value) {
-      return defaultExpandedKeys.value;
-    }
-    if (expandable.value?.defaultExpandedRowKeys) {
-      return expandable.value.defaultExpandedRowKeys;
-    }
-    if (defaultExpandAllRows.value || expandable.value?.defaultExpandAllRows) {
-      return [...allRowKeys.value];
-    }
-    return [];
-  };
-
-  const _expandedRowKeys = ref(getDefaultExpandedRowKeys());
-
+  const _expandedRowKeys = ref(
+    getDefaultExpandedRowKeys({
+      defaultExpandedKeys: defaultExpandedKeys.value,
+      expandable: expandable.value,
+      defaultExpandAllRows: defaultExpandAllRows.value,
+      allRowKeys: allRowKeys.value,
+    }),
+  );
   const expandedRowKeys = computed(
     () => expandedKeys.value ?? expandable.value?.expandedRowKeys ?? _expandedRowKeys.value,
   );
-
-  const handleExpand = (rowKey: BaseType, record: TableData) => {
-    const isExpanded = expandedRowKeys.value.includes(rowKey);
-    const newExpandedRowKeys = isExpanded
-      ? expandedRowKeys.value.filter((key) => rowKey !== key)
-      : expandedRowKeys.value.concat(rowKey);
-    _expandedRowKeys.value = newExpandedRowKeys;
-    emit('expand', rowKey, record);
-    emit('expandedChange', newExpandedRowKeys);
-    emit('update:expandedKeys', newExpandedRowKeys);
-  };
-
-  const expand = (rowKey: BaseType | BaseType[], expanded = true) => {
-    const _rowKeys = ([] as BaseType[]).concat(rowKey);
-    const newExpandedRowKeys = expanded
-      ? Array.from(new Set(expandedRowKeys.value.concat(_rowKeys)))
-      : expandedRowKeys.value.filter((key) => !_rowKeys.includes(key));
-    _expandedRowKeys.value = newExpandedRowKeys;
-    emit('expandedChange', newExpandedRowKeys);
-    emit('update:expandedKeys', newExpandedRowKeys);
-  };
-
-  const expandAll = (expanded = true) => {
-    const newExpandedRowKeys = expanded ? [...allRowKeys.value] : [];
-    _expandedRowKeys.value = newExpandedRowKeys;
-    emit('expandedChange', newExpandedRowKeys);
-    emit('update:expandedKeys', newExpandedRowKeys);
-  };
-
-  return {
-    expandedRowKeys,
-    handleExpand,
-    expand,
-    expandAll,
-  };
+  const foundation = createExpansionFoundation<TableData>({
+    getExpandedKeys: () => expandedRowKeys.value,
+    getAllKeys: () => allRowKeys.value,
+    setExpandedKeys: (keys) => {
+      _expandedRowKeys.value = keys;
+    },
+    onExpand: (key, record) => emit('expand', key, record),
+    onExpandedChange: (keys) => emit('expandedChange', keys),
+    onUpdateExpandedKeys: (keys) => emit('update:expandedKeys', keys),
+  });
+  return { expandedRowKeys, ...foundation };
 };

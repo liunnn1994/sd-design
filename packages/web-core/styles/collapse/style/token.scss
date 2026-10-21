@@ -1,0 +1,203 @@
+@use '../../style/theme/runtime.scss' as theme-runtime;
+@use '../../style/theme/index.scss' as global;
+
+@forward '../../style/theme/index.scss';
+@forward '../../style/color/colors.scss' hide $sd-vars-prefix, $sd-cssvars-prefix;
+
+@use 'sass:string';
+@use '../../style/theme/index.scss' as *;
+
+$collapse-border-width: global.$border-1;
+
+$collapse-border-radius: global.$radius-medium;
+
+$collapse-color-border: var(string.unquote('#{global.$sd-cssvars-prefix}-color-neutral-3'));
+
+$collapse-line-height: 1.5715;
+
+$collapse-title-line-height: 24px;
+
+$collapse-title-border-width: global.$border-1;
+
+$collapse-title-color-border: var(string.unquote('#{global.$sd-cssvars-prefix}-color-neutral-3'));
+
+$collapse-title-font-size: global.$font-size-body-3;
+
+$collapse-title-padding-horizontal: 13px;
+
+$collapse-title-padding-vertical: global.$spacing-4;
+
+$collapse-title-color-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-2'));
+
+$collapse-title-color-bg_active: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-2'));
+
+$collapse-title-color-bg_disabled: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-2'));
+
+$collapse-title-color-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
+
+$collapse-title-color-text_disabled: var(
+  string.unquote('#{global.$sd-cssvars-prefix}-color-text-4')
+);
+
+$collapse-title-font-weight_active: global.$font-weight-500;
+
+$collapse-content-color-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
+
+$collapse-content-color-text_disabled: var(
+  string.unquote('#{global.$sd-cssvars-prefix}-color-text-4')
+);
+
+$collapse-content-font-size: global.$font-size-body-3;
+
+$collapse-content-padding-vertical: global.$spacing-4;
+
+$collapse-content-color-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-fill-1'));
+
+$collapse-expand-icon-size: 14px;
+
+$collapse-expand-icon-size-bg: global.$size-4;
+
+$collapse-expand-icon-spacing-text: 5px;
+
+$collapse-color-expand-icon: var(string.unquote('#{global.$sd-cssvars-prefix}-color-neutral-7'));
+
+$collapse-item-color-border: var(string.unquote('#{global.$sd-cssvars-prefix}-color-border-2'));
+
+$collapse-item-border-width: global.$border-1;
+
+$collapse-expand-icon-color-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-fill-2'));
+
+// @generated runtime tokens — pnpm theme:generate
+$collapse-border-width: theme-runtime.token(
+  'collapse',
+  'collapse-border-width',
+  $collapse-border-width,
+  'border-1'
+);
+$collapse-border-radius: theme-runtime.token(
+  'collapse',
+  'collapse-border-radius',
+  $collapse-border-radius
+);
+$collapse-color-border: theme-runtime.token(
+  'collapse',
+  'collapse-color-border',
+  $collapse-color-border
+);
+$collapse-line-height: theme-runtime.token(
+  'collapse',
+  'collapse-line-height',
+  $collapse-line-height
+);
+$collapse-title-line-height: theme-runtime.token(
+  'collapse',
+  'collapse-title-line-height',
+  $collapse-title-line-height
+);
+$collapse-title-border-width: theme-runtime.token(
+  'collapse',
+  'collapse-title-border-width',
+  $collapse-title-border-width,
+  'border-1'
+);
+$collapse-title-color-border: theme-runtime.token(
+  'collapse',
+  'collapse-title-color-border',
+  $collapse-title-color-border
+);
+$collapse-title-font-size: theme-runtime.token(
+  'collapse',
+  'collapse-title-font-size',
+  $collapse-title-font-size,
+  'font-size-body-3'
+);
+$collapse-title-padding-vertical: theme-runtime.token(
+  'collapse',
+  'collapse-title-padding-vertical',
+  $collapse-title-padding-vertical,
+  'spacing-4'
+);
+$collapse-title-color-bg: theme-runtime.token(
+  'collapse',
+  'collapse-title-color-bg',
+  $collapse-title-color-bg
+);
+$collapse-title-color-bg_active: theme-runtime.token(
+  'collapse',
+  'collapse-title-color-bg-active',
+  $collapse-title-color-bg_active
+);
+$collapse-title-color-bg_disabled: theme-runtime.token(
+  'collapse',
+  'collapse-title-color-bg-disabled',
+  $collapse-title-color-bg_disabled
+);
+$collapse-title-color-text: theme-runtime.token(
+  'collapse',
+  'collapse-title-color-text',
+  $collapse-title-color-text
+);
+$collapse-title-color-text_disabled: theme-runtime.token(
+  'collapse',
+  'collapse-title-color-text-disabled',
+  $collapse-title-color-text_disabled
+);
+$collapse-title-font-weight_active: theme-runtime.token(
+  'collapse',
+  'collapse-title-font-weight-active',
+  $collapse-title-font-weight_active,
+  'font-weight-500'
+);
+$collapse-content-color-text: theme-runtime.token(
+  'collapse',
+  'collapse-content-color-text',
+  $collapse-content-color-text
+);
+$collapse-content-color-text_disabled: theme-runtime.token(
+  'collapse',
+  'collapse-content-color-text-disabled',
+  $collapse-content-color-text_disabled
+);
+$collapse-content-font-size: theme-runtime.token(
+  'collapse',
+  'collapse-content-font-size',
+  $collapse-content-font-size,
+  'font-size-body-3'
+);
+$collapse-content-padding-vertical: theme-runtime.token(
+  'collapse',
+  'collapse-content-padding-vertical',
+  $collapse-content-padding-vertical,
+  'spacing-4'
+);
+$collapse-content-color-bg: theme-runtime.token(
+  'collapse',
+  'collapse-content-color-bg',
+  $collapse-content-color-bg
+);
+$collapse-expand-icon-size: theme-runtime.token(
+  'collapse',
+  'collapse-expand-icon-size',
+  $collapse-expand-icon-size
+);
+$collapse-color-expand-icon: theme-runtime.token(
+  'collapse',
+  'collapse-color-expand-icon',
+  $collapse-color-expand-icon
+);
+$collapse-item-color-border: theme-runtime.token(
+  'collapse',
+  'collapse-item-color-border',
+  $collapse-item-color-border
+);
+$collapse-item-border-width: theme-runtime.token(
+  'collapse',
+  'collapse-item-border-width',
+  $collapse-item-border-width,
+  'border-1'
+);
+$collapse-expand-icon-color-bg: theme-runtime.token(
+  'collapse',
+  'collapse-expand-icon-color-bg',
+  $collapse-expand-icon-color-bg
+);

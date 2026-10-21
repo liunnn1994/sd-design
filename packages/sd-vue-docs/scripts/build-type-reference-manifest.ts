@@ -136,6 +136,15 @@ async function resolveTypeDeclaration(
     );
   }
 
+  // Foundation forwarding modules retain the Vue API via export-star.
+  for (const match of source.matchAll(/export\s+(?:type\s+)?\*\s+from\s+['"]([^'"]+)['"]/g)) {
+    const declaration = await resolveTypeDeclaration(
+      await resolveModulePath(filePath, match[1]),
+      exportedName,
+      visited,
+    );
+    if (declaration) return declaration;
+  }
   return null;
 }
 
@@ -315,9 +324,17 @@ function consumeStringQuote(currentQuote: string, char: string, previousChar: st
 }
 
 async function resolveModulePath(fromFilePath: string, specifier: string) {
-  const resolvedBasePath = path.resolve(path.dirname(fromFilePath), specifier);
+  const resolvedBasePath = specifier.startsWith('@sdata/web-core/')
+    ? path.resolve(
+        import.meta.dirname,
+        '../../web-core/src',
+        specifier.slice('@sdata/web-core/'.length),
+      )
+    : path.resolve(path.dirname(fromFilePath), specifier);
+
   const candidatePaths = [
     resolvedBasePath,
+    resolvedBasePath.replace(/\.js$/, '.ts'),
     `${resolvedBasePath}.ts`,
     `${resolvedBasePath}.tsx`,
     path.resolve(resolvedBasePath, 'index.ts'),

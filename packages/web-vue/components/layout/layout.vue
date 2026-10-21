@@ -7,6 +7,8 @@
 <script setup lang="ts">
   import { computed, inject, onBeforeUpdate, provide, ref, shallowRef, useSlots } from 'vue';
 
+  import { createLayoutRegistry } from '@sdata/web-core/layout/layout';
+
   import { getPrefixCls } from '../_utils/global-config';
   import { configProviderInjectionKey } from '../config-provider/context';
   import { LayoutContextInjectionKey } from './context';
@@ -54,13 +56,13 @@
   ]);
 
   provide(LayoutContextInjectionKey, {
-    siderHook: {
-      addSider(id: string) {
-        siders.value = [...siders.value, id];
+    siderHook: createLayoutRegistry({
+      get siders() {
+        return siders.value;
       },
-      removeSider(id: string) {
-        siders.value = siders.value.filter((currentId) => currentId !== id);
+      set siders(value) {
+        siders.value = value;
       },
-    },
+    }),
   });
 </script>

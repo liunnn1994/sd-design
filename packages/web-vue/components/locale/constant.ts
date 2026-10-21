@@ -1,2 +1,1 @@
-export const DEFAULT_LOCALE = 'zh-CN';
-export const DEFAULT_LOCALE_KEY = DEFAULT_LOCALE.toLowerCase();
+export * from '@sdata/web-core/locale/constant';

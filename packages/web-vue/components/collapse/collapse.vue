@@ -8,8 +8,9 @@
   import type { PropType } from 'vue';
   import { computed, provide, reactive, ref, toRefs, useSlots } from 'vue';
 
+  import { createCollapseFoundation } from '@sdata/web-core/collapse/foundation';
+
   import { getPrefixCls } from '../_utils/global-config';
-  import { isArray } from '../_utils/is';
   import { collapseKey } from './context';
 
   const EXPAND_ICON_POSITIONS = ['left', 'right'] as const;
@@ -105,34 +106,29 @@
   const prefixCls = getPrefixCls('collapse');
 
   const _activeKey = ref(props.defaultActiveKey);
-  const computedActiveKeys = computed(() => {
-    const activeKey = props.activeKey ?? _activeKey.value;
-    if (!isArray(activeKey)) {
-      return [activeKey];
-    }
-    return activeKey;
+  const computedActiveKeys = computed(() => foundation.getKeys());
+  const foundation = createCollapseFoundation({
+    get value() {
+      return props.activeKey;
+    },
+    get inner() {
+      return _activeKey.value;
+    },
+    get keys() {
+      return computedActiveKeys.value;
+    },
+    get accordion() {
+      return props.accordion;
+    },
+    setInner(value) {
+      _activeKey.value = value;
+    },
+    onChange(value, event) {
+      emit('update:activeKey', value);
+      emit('change', value, event);
+    },
   });
-
-  const handleClick = (key: string | number, e: Event) => {
-    let newActiveKeys: (string | number)[] = [];
-    if (props.accordion) {
-      if (!computedActiveKeys.value.includes(key)) {
-        newActiveKeys = [key];
-      }
-      _activeKey.value = newActiveKeys;
-    } else {
-      newActiveKeys = [...computedActiveKeys.value];
-      const _index = newActiveKeys.indexOf(key);
-      if (_index > -1) {
-        newActiveKeys.splice(_index, 1);
-      } else {
-        newActiveKeys.push(key);
-      }
-      _activeKey.value = newActiveKeys;
-    }
-    emit('update:activeKey', newActiveKeys);
-    emit('change', newActiveKeys, e);
-  };
+  const handleClick = foundation.click;
 
   provide(
     collapseKey,

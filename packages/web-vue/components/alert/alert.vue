@@ -53,10 +53,11 @@
   import type { PropType } from 'vue';
   import { computed, ref } from 'vue';
 
+  import { createAlertFoundation } from '@sdata/web-core/alert/foundation';
+
   import IconHover from '../_components/icon-hover.vue';
   import { MessageType } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isActivationKey } from '../_utils/keyboard';
   import IconCheckCircleFill from '../icon/icon-check-circle-fill';
   import IconClose from '../icon/icon-close';
   import IconCloseCircleFill from '../icon/icon-close-circle-fill';
@@ -156,22 +157,18 @@
   const prefixCls = getPrefixCls('alert');
   const visible = ref(true);
 
-  const handleClose = (ev: Event) => {
-    visible.value = false;
-    emit('close', ev);
-  };
-
-  // role=button 需支持 Enter / Space 激活（关闭按钮键盘可达）
-  const onCloseKeydown = (ev: KeyboardEvent) => {
-    if (isActivationKey(ev)) {
-      ev.preventDefault();
-      handleClose(ev);
-    }
-  };
-
-  const handleAfterLeave = () => {
-    emit('afterClose');
-  };
+  const { handleClose, onCloseKeydown, handleAfterLeave } = createAlertFoundation(
+    {
+      get visible() {
+        return visible.value;
+      },
+      set visible(value) {
+        visible.value = value;
+      },
+    },
+    (ev) => emit('close', ev),
+    () => emit('afterClose'),
+  );
 
   const cls = computed(() => [
     prefixCls,

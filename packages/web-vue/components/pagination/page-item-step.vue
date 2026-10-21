@@ -18,12 +18,12 @@
 <script setup lang="ts">
   import { computed } from 'vue';
 
+  import { createStepPagerFoundation } from '@sdata/web-core/pagination/items';
+
   import { getPrefixCls } from '../_utils/global-config';
-  import { isActivationKey } from '../_utils/keyboard';
   import IconLeft from '../icon/icon-left';
   import IconRight from '../icon/icon-right';
   import { useI18n } from '../locale';
-  import { getLegalPage } from './utils';
 
   defineOptions({ name: 'StepPager' });
 
@@ -56,38 +56,32 @@
 
   const prefixCls = getPrefixCls('pagination-item');
   const isNext = props.type === 'next';
-  const mergedDisabled = computed(() => {
-    if (props.disabled) {
-      return props.disabled;
-    }
-    if (!props.pages) {
-      return true;
-    }
-    if (isNext && props.current === props.pages) {
-      return true;
-    }
-    return !isNext && props.current <= 1;
-  });
-  const nextPage = computed(() =>
-    getLegalPage(props.current + (isNext ? 1 : -1), {
-      min: 1,
-      max: props.pages,
-    }),
+  const foundation = createStepPagerFoundation(
+    {
+      get disabled() {
+        return props.disabled;
+      },
+      get pages() {
+        return props.pages;
+      },
+      get current() {
+        return props.current;
+      },
+      get isNext() {
+        return isNext;
+      },
+      get mergedDisabled(): boolean {
+        return mergedDisabled.value;
+      },
+      get nextPage(): number {
+        return nextPage.value;
+      },
+    },
+    (page) => emit('click', page),
   );
-
-  const handleClick = (e: MouseEvent) => {
-    if (!mergedDisabled.value) {
-      emit('click', nextPage.value);
-    }
-  };
-
-  const handleKeydown = (e: KeyboardEvent) => {
-    if (mergedDisabled.value) return;
-    if (isActivationKey(e)) {
-      e.preventDefault();
-      emit('click', nextPage.value);
-    }
-  };
+  const mergedDisabled = computed(foundation.getMergedDisabled);
+  const nextPage = computed(foundation.getNextPage);
+  const { handleClick, handleKeydown } = foundation;
 
   const cls = computed(() => [
     prefixCls,

@@ -29,6 +29,8 @@
 <script setup lang="ts">
   import { computed, CSSProperties, ref } from 'vue';
 
+  import { createPopupWrapperFoundation } from '@sdata/web-core/trigger/compat-state';
+
   import type { TooltipProps } from './interface';
 
   import { getPrefixCls } from '../_utils/global-config';
@@ -63,13 +65,24 @@
   const prefixCls = getPrefixCls('tooltip');
 
   const _popupVisible = ref(props.defaultPopupVisible);
-  const computedPopupVisible = computed(() => props.popupVisible ?? _popupVisible.value);
+  const foundation = createPopupWrapperFoundation(
+    {
+      get popupVisible() {
+        return props.popupVisible;
+      },
+      get localVisible() {
+        return _popupVisible.value;
+      },
+      set localVisible(value) {
+        _popupVisible.value = value;
+      },
+    },
+    (visible) => emit('update:popupVisible', visible),
+    (visible) => emit('popupVisibleChange', visible),
+  );
+  const computedPopupVisible = computed(foundation.getVisible);
 
-  const handlePopupVisibleChange = (visible: boolean) => {
-    _popupVisible.value = visible;
-    emit('update:popupVisible', visible);
-    emit('popupVisibleChange', visible);
-  };
+  const handlePopupVisibleChange = foundation.handlePopupVisibleChange;
 
   const contentCls = computed(() => [
     `${prefixCls}-content`,

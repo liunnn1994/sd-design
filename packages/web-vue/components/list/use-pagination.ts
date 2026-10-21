@@ -1,41 +1,40 @@
 import { computed, ref } from 'vue';
 
-import type { PaginationProps } from '../pagination/interface';
+import {
+  createLegacyPaginationFoundation,
+  getDefaultCurrent,
+  getDefaultPageSize,
+} from '@sdata/web-core/pagination/legacy';
 
-import { isObject } from '../_utils/is';
+import type { PaginationProps } from '../pagination/interface';
 
 export const usePagination = (
   props: { paginationProps?: PaginationProps },
   { emit }: { emit: (event: string, ...args: unknown[]) => void },
 ) => {
-  const _current = ref(
-    isObject(props.paginationProps) ? (props.paginationProps.defaultCurrent ?? 1) : 1,
-  );
-  const _pageSize = ref(
-    isObject(props.paginationProps) ? (props.paginationProps.defaultPageSize ?? 10) : 10,
-  );
-
-  const current = computed(() =>
-    isObject(props.paginationProps)
-      ? (props.paginationProps.current ?? _current.value)
-      : _current.value,
-  );
-
-  const pageSize = computed(() =>
-    isObject(props.paginationProps)
-      ? (props.paginationProps.pageSize ?? _pageSize.value)
-      : _pageSize.value,
-  );
-
-  const handlePageChange = (page: number) => {
-    _current.value = page;
-    emit('pageChange', page);
+  const paginationState = {
+    get pagination() {
+      return props.paginationProps;
+    },
+    get localCurrent() {
+      return _current.value;
+    },
+    set localCurrent(value) {
+      _current.value = value;
+    },
+    get localPageSize() {
+      return _pageSize.value;
+    },
+    set localPageSize(value) {
+      _pageSize.value = value;
+    },
   };
-
-  const handlePageSizeChange = (pageSize: number) => {
-    _pageSize.value = pageSize;
-    emit('pageSizeChange', pageSize);
-  };
+  const _current = ref(getDefaultCurrent(paginationState));
+  const _pageSize = ref(getDefaultPageSize(paginationState));
+  const foundation = createLegacyPaginationFoundation(paginationState, emit);
+  const current = computed(foundation.getCurrent);
+  const pageSize = computed(foundation.getPageSize);
+  const { handlePageChange, handlePageSizeChange } = foundation;
 
   return {
     current,

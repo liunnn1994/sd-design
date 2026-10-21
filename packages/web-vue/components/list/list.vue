@@ -130,6 +130,7 @@
   } from 'vue';
   import type { ComponentPublicInstance, CSSProperties, PropType, VNodeChild, VNode } from 'vue';
 
+  import { createListFoundation } from '@sdata/web-core/list/foundation';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type {
@@ -289,53 +290,54 @@
   const componentRef = ref<ScrollbarInstance>();
   const isVirtualList = computed(() => props.virtualListProps);
   const { scrollbarProps } = useScrollbar(toRef(props, 'scrollbar'));
-  let previousScrollTop = 0;
-
-  const handleScroll = (event: Event) => {
-    const { scrollTop, scrollHeight, offsetHeight } = event.target as HTMLElement;
-    const bottom = Math.floor(scrollHeight - (scrollTop + offsetHeight));
-    if (scrollTop > previousScrollTop && bottom <= props.bottomOffset) emit('reachBottom');
-    emit('scroll');
-    previousScrollTop = scrollTop;
-  };
+  const foundation = createListFoundation<TItem>(
+    {
+      get pagination() {
+        return props.paginationProps;
+      },
+      get current() {
+        return current.value;
+      },
+      get pageSize() {
+        return pageSize.value;
+      },
+      get bottomOffset() {
+        return props.bottomOffset;
+      },
+      get gridSpan() {
+        return props.gridProps?.span;
+      },
+      get gridRowSize(): number {
+        return gridRowSize.value;
+      },
+      get currentPageItems(): TItem[] {
+        return currentPageItems.value;
+      },
+    },
+    () => emit('scroll'),
+    () => emit('reachBottom'),
+  );
+  const { handleScroll } = foundation;
 
   onMounted(() => {
     const viewport = (virtualListRef.value?.$refs.viewportRef ??
       componentRef.value?.elements()?.scrollOffsetElement) as HTMLElement | undefined;
-    if (viewport) {
-      const { scrollTop, scrollHeight, clientHeight } = viewport;
-      if (scrollHeight <= scrollTop + clientHeight) emit('reachBottom');
-    }
+    foundation.checkInitialViewport(viewport);
   });
 
   const { current, pageSize, handlePageChange, handlePageSizeChange } = usePagination(props, {
     emit: emit as (event: string, ...args: unknown[]) => void,
   });
 
-  const getCurrentPageItems = (data: TItem[]) => {
-    if (!props.paginationProps) return data;
-    if (data.length > pageSize.value) {
-      const startIndex = (current.value - 1) * pageSize.value;
-      return data.slice(startIndex, startIndex + pageSize.value);
-    }
-    return data;
-  };
+  const { getCurrentPageItems } = foundation;
 
   const sourceItems = computed(() =>
     defaultSlot.value ? (getAllElements(defaultSlot.value()) as TItem[]) : (props.data ?? []),
   );
   const currentPageItems = computed(() => getCurrentPageItems(sourceItems.value));
   const virtualItems = computed(() => getCurrentPageItems(props.data ?? []));
-  const gridRowSize = computed(() => Math.max(1, Math.floor(24 / (props.gridProps?.span || 24))));
-  const gridRows = computed(() => {
-    const span = props.gridProps?.span;
-    if (!span) return [];
-    const rowSize = gridRowSize.value;
-    const rows: TItem[][] = [];
-    for (let index = 0; index < currentPageItems.value.length; index += rowSize)
-      rows.push(currentPageItems.value.slice(index, index + rowSize));
-    return rows;
-  });
+  const gridRowSize = computed(foundation.getGridRowSize);
+  const gridRows = computed(foundation.getGridRows);
   const gridColumnProps = computed(() => omit(props.gridProps ?? {}, ['gutter']));
   const paginationRestProps = computed(() =>
     omit(props.paginationProps ?? {}, ['current', 'pageSize', 'defaultCurrent', 'defaultPageSize']),

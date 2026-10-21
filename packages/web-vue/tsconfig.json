@@ -14,10 +14,10 @@
     "jsx": "preserve",
     "jsxImportSource": "vue",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "rootDir": ".",
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "types": ["node", "vite/client"]
+    "types": ["node", "vite/client"],
+    "rootDir": "../.."
   },
   "include": ["components/**/*", "icon/**/*", "*.d.ts", "vite.config.ts", "vitest.setup.ts"],
   "exclude": [

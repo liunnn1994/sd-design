@@ -55,8 +55,12 @@
 <script setup lang="ts">
   import { computed, type PropType } from 'vue';
 
+  import {
+    createTypographyOperations,
+    getTypographyShowExpand,
+  } from '@sdata/web-core/typography/operations';
+
   import { getPrefixCls } from '../_utils/global-config';
-  import { isActivationKey } from '../_utils/keyboard';
   import IconCheckCircleFill from '../icon/icon-check-circle-fill';
   import IconCopy from '../icon/icon-copy';
   import IconEdit from '../icon/icon-edit';
@@ -119,38 +123,15 @@
    */
 
   const prefixCls = getPrefixCls('typography');
-  const showExpand = computed(
-    () => props.forceRenderExpand || (props.expandable && props.isEllipsis),
+  const showExpand = computed(() =>
+    getTypographyShowExpand(props.forceRenderExpand, props.expandable, props.isEllipsis),
   );
   const { t } = useI18n();
 
-  function onEditClick() {
-    emit('edit');
-  }
-  function onCopyClick() {
-    emit('copy');
-  }
-  function onExpandClick() {
-    emit('expand');
-  }
-
-  // 三个 role=button 控件的键盘激活（图标/无 href 的 a 无原生按钮语义）
-  function onEditKeydown(ev: KeyboardEvent) {
-    if (isActivationKey(ev)) {
-      ev.preventDefault();
-      onEditClick();
-    }
-  }
-  function onCopyKeydown(ev: KeyboardEvent) {
-    if (isActivationKey(ev)) {
-      ev.preventDefault();
-      onCopyClick();
-    }
-  }
-  function onExpandKeydown(ev: KeyboardEvent) {
-    if (isActivationKey(ev)) {
-      ev.preventDefault();
-      onExpandClick();
-    }
-  }
+  const { onEditClick, onCopyClick, onExpandClick, onEditKeydown, onCopyKeydown, onExpandKeydown } =
+    createTypographyOperations({
+      edit: () => emit('edit'),
+      copy: () => emit('copy'),
+      expand: () => emit('expand'),
+    });
 </script>

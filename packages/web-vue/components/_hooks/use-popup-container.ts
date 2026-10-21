@@ -1,7 +1,6 @@
 import { toRefs, computed, ComputedRef } from 'vue';
 
-import { querySelector } from '../_utils/dom';
-import { isString } from '../_utils/is';
+import { resolvePopupContainer } from '@sdata/web-core/trigger/popup-container';
 
 interface PopupContainerProps {
   popupContainer: string | HTMLElement | undefined;
@@ -12,11 +11,15 @@ export default function usePopupContainer<T extends HTMLElement | undefined>(
 ) {
   const { popupContainer } = toRefs(props);
 
-  const container = computed(
-    () =>
-      (isString(popupContainer.value)
-        ? querySelector(popupContainer.value)
-        : popupContainer.value) || defaultPopupContainer,
+  const container = computed(() =>
+    resolvePopupContainer({
+      get popupContainer() {
+        return popupContainer.value;
+      },
+      get defaultContainer() {
+        return defaultPopupContainer;
+      },
+    }),
   );
 
   return container as ComputedRef<HTMLElement | T>;

@@ -110,6 +110,7 @@
 <script setup lang="ts">
   import { computed, ref, toRef, useAttrs, watch, type CSSProperties, type PropType } from 'vue';
 
+  import { createPaginationFoundation } from '@sdata/web-core/pagination/foundation';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { PageItemType, PaginationSelectProps } from './interface';
@@ -118,20 +119,12 @@
   import { useSize } from '../_hooks/use-size';
   import { Size } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isNumber } from '../_utils/is';
   import { useI18n } from '../locale';
   import EllipsisPager from './page-item-ellipsis.vue';
   import StepPager from './page-item-step.vue';
   import Pager from './page-item.vue';
   import PageJumper from './page-jumper.vue';
   import PageOptions from './page-options.vue';
-
-  interface PageDescriptor {
-    key: string | number;
-    type: PageItemType;
-    pageNumber?: number;
-    step?: number;
-  }
 
   defineOptions({ name: 'Pagination', inheritAttrs: false });
 
@@ -363,90 +356,52 @@
   const resolvedBufferSize = computed(() => mergedBufferSize.value ?? props.bufferSize);
   const pages = computed(() => Math.ceil(props.total / computedPageSize.value));
 
-  const handleClick = (page: number) => {
-    if (page !== computedCurrent.value && isNumber(page) && !props.disabled) {
-      innerCurrent.value = page;
-      emit('update:current', page);
-      emit('change', page);
-    }
-  };
-  const handlePageSizeChange = (pageSize: number) => {
-    const oldPageSize = computedPageSize.value;
-    innerPageSize.value = pageSize;
-    emit('update:pageSize', pageSize);
-    emit('pageSizeChange', pageSize);
-    // autoAdjust：保持当前页首项在新页长下仍可见（如 100 条每页 10 第 3 页 → 每页 20 时落到第 2 页）
-    if (
-      props.pageSize === undefined &&
-      mergedAutoAdjust.value &&
-      isNumber(computedCurrent.value) &&
-      oldPageSize !== pageSize &&
-      oldPageSize > 0
-    ) {
-      const firstItem = (computedCurrent.value - 1) * oldPageSize + 1;
-      const newCurrent = Math.floor((firstItem - 1) / pageSize) + 1;
-      if (newCurrent !== computedCurrent.value && newCurrent >= 1 && newCurrent <= pages.value) {
-        innerCurrent.value = newCurrent;
-        emit('update:current', newCurrent);
-        emit('change', newCurrent);
-      }
-    }
-  };
-
-  const pageList = computed<PageDescriptor[]>(() => {
-    const items: PageDescriptor[] = [];
-    const baseSize = resolvedBaseSize.value;
-    const bufferSize = resolvedBufferSize.value;
-    if (pages.value < baseSize + bufferSize * 2) {
-      for (let page = 1; page <= pages.value; page++)
-        items.push({ key: page, type: 'page', pageNumber: page });
-      return items;
-    }
-    let left = 1;
-    let right = pages.value;
-    let hasLeftEllipsis = false;
-    let hasRightEllipsis = false;
-    if (computedCurrent.value > 2 + bufferSize) {
-      hasLeftEllipsis = true;
-      left = Math.min(computedCurrent.value - bufferSize, pages.value - 2 * bufferSize);
-    }
-    if (computedCurrent.value < pages.value - (bufferSize + 1)) {
-      hasRightEllipsis = true;
-      right = Math.max(computedCurrent.value + bufferSize, 2 * bufferSize + 1);
-    }
-    if (hasLeftEllipsis) {
-      items.push({ key: 1, type: 'page', pageNumber: 1 });
-      items.push({ key: 'left-ellipsis-pager', type: 'more', step: -(bufferSize * 2 + 1) });
-    }
-    for (let page = left; page <= right; page++)
-      items.push({ key: page, type: 'page', pageNumber: page });
-    if (hasRightEllipsis) {
-      items.push({ key: 'right-ellipsis-pager', type: 'more', step: bufferSize * 2 + 1 });
-      items.push({ key: pages.value, type: 'page', pageNumber: pages.value });
-    }
-    return items;
-  });
-
-  // 非受控页大小已在 handlePageSizeChange 中调整；受控页大小与总页数在同一次检查中调整。
-  watch(
-    [computedPageSize, pages],
-    ([currentPageSize, currentPages], [previousPageSize, previousPages]) => {
-      if (!mergedAutoAdjust.value || computedCurrent.value <= 1) return;
-
-      let newCurrent = computedCurrent.value;
-      if (props.pageSize !== undefined && currentPageSize !== previousPageSize) {
-        const index = previousPageSize * (computedCurrent.value - 1) + 1;
-        newCurrent = Math.max(1, Math.min(Math.ceil(index / currentPageSize), currentPages));
-      } else if (currentPages !== previousPages && computedCurrent.value > currentPages) {
-        newCurrent = Math.max(currentPages, 1);
-      }
-      if (newCurrent !== computedCurrent.value) {
-        innerCurrent.value = newCurrent;
-        emit('update:current', newCurrent);
-        emit('change', newCurrent);
-      }
+  const foundation = createPaginationFoundation({
+    get current() {
+      return computedCurrent.value;
     },
-  );
+    get pageSize() {
+      return computedPageSize.value;
+    },
+    get controlledPageSize() {
+      return props.pageSize;
+    },
+    get pages() {
+      return pages.value;
+    },
+    get baseSize() {
+      return resolvedBaseSize.value;
+    },
+    get bufferSize() {
+      return resolvedBufferSize.value;
+    },
+    get autoAdjust() {
+      return mergedAutoAdjust.value;
+    },
+    get disabled() {
+      return props.disabled;
+    },
+    setCurrent: (value) => {
+      innerCurrent.value = value;
+    },
+    setPageSize: (value) => {
+      innerPageSize.value = value;
+    },
+    onCurrent: (value) => {
+      emit('update:current', value);
+      emit('change', value);
+    },
+    onPageSize: (value) => {
+      emit('update:pageSize', value);
+      emit('pageSizeChange', value);
+    },
+  });
+  const handleClick = foundation.change;
+  const handlePageSizeChange = foundation.changePageSize;
+  const pageList = computed(() => foundation.getPageList());
+  watch([computedPageSize, pages], ([size, count], [previousSize, previousCount]) => {
+    foundation.sync(size, count, previousSize, previousCount);
+  });
   const cls = computed(() => [
     prefixCls,
     `${prefixCls}-size-${mergedSize.value}`,

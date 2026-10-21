@@ -124,3 +124,13 @@ test('does not expand runtime dependents through type-only imports', () => {
   assert.equal(result.components.includes('table'), true);
   assert.equal(result.components.includes('input'), false);
 });
+
+test('shared foundation, Sass and generation changes invalidate component consumers', () => {
+  for (const file of [
+    'packages/web-core/src/table/query.ts',
+    'packages/web-core/styles/button/style/token.scss',
+    'packages/web-core/scripts/theme-catalog.ts',
+    'packages/web-core/package.json',
+  ])
+    assert.equal(select([file]).mode, 'all', file);
+});

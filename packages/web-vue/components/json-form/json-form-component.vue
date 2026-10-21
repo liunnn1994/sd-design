@@ -20,9 +20,15 @@
 <script lang="ts" setup>
   import { computed, onBeforeUpdate, shallowRef } from 'vue';
 
+  import {
+    resolveJsonFormComponent,
+    getJsonFormPlaceholder,
+    getJsonFormComponentProps,
+    filterJsonFormSlots,
+  } from '@sdata/web-core/json-form/field';
+
   import { useI18n } from '../locale';
   import { JSON_FORM_COMPONENT_TYPES, type JsonFormSchema } from './types';
-  import { mergeJsonFormClassName, shouldStretchJsonFormControl } from './utils';
 
   defineOptions({
     name: 'JsonFormComponent',
@@ -41,70 +47,18 @@
   });
   const modelValue = defineModel<unknown>();
 
-  const resolvedComponent = computed(() => {
-    return (
-      props.components[props.schema.type ?? JSON_FORM_COMPONENT_TYPES.input] ??
-      props.components.input
-    );
-  });
+  const resolvedComponent = computed(() =>
+    resolveJsonFormComponent(props.components, props.schema.type),
+  );
 
   const { t } = useI18n();
 
-  const defaultPlaceholder = computed(() => {
-    const type = props.schema.type ?? JSON_FORM_COMPONENT_TYPES.input;
-
-    if (
-      (
-        [
-          JSON_FORM_COMPONENT_TYPES.input,
-          JSON_FORM_COMPONENT_TYPES.inputMask,
-          JSON_FORM_COMPONENT_TYPES.inputSearch,
-          JSON_FORM_COMPONENT_TYPES.inputNumber,
-          JSON_FORM_COMPONENT_TYPES.inputPassword,
-          JSON_FORM_COMPONENT_TYPES.textarea,
-          JSON_FORM_COMPONENT_TYPES.autoComplete,
-          JSON_FORM_COMPONENT_TYPES.inputTag,
-          JSON_FORM_COMPONENT_TYPES.mention,
-        ] as string[]
-      ).includes(type)
-    ) {
-      return props.schema.label ? t('jsonForm.inputPlaceholder', props.schema.label) : undefined;
-    }
-
-    if (
-      (
-        [
-          JSON_FORM_COMPONENT_TYPES.select,
-          JSON_FORM_COMPONENT_TYPES.cascader,
-          JSON_FORM_COMPONENT_TYPES.treeSelect,
-          JSON_FORM_COMPONENT_TYPES.datePicker,
-          JSON_FORM_COMPONENT_TYPES.rangePicker,
-          JSON_FORM_COMPONENT_TYPES.timePicker,
-        ] as string[]
-      ).includes(type)
-    ) {
-      return props.schema.label ? t('jsonForm.selectPlaceholder', props.schema.label) : undefined;
-    }
-
-    return undefined;
-  });
-
-  const mergedComponentProps = computed(() => {
-    const componentProps = { ...props.schema.componentProps } as Record<string, unknown>;
-
-    if (componentProps.placeholder === undefined && defaultPlaceholder.value) {
-      componentProps.placeholder = defaultPlaceholder.value;
-    }
-
-    componentProps.class = mergeJsonFormClassName(
-      componentProps.class,
-      shouldStretchJsonFormControl(props.schema.type)
-        ? `${props.prefixCls}-control`
-        : `${props.prefixCls}-control--inline`,
-    );
-
-    return componentProps;
-  });
+  const defaultPlaceholder = computed(() =>
+    getJsonFormPlaceholder(props.schema.type, props.schema.label, t),
+  );
+  const mergedComponentProps = computed(() =>
+    getJsonFormComponentProps(props.schema, props.prefixCls, () => defaultPlaceholder.value),
+  );
 
   const showCheckboxLabel = computed(() => {
     return (
@@ -119,8 +73,7 @@
     return label ?? props.schema.label ?? '';
   });
 
-  const forwardedSlotNames = computed(() => {
-    const schemaSlotNames = new Set(Object.keys(props.schema.componentSlots ?? {}));
-    return slotNames.value.filter((name) => name !== 'default' && !schemaSlotNames.has(name));
-  });
+  const forwardedSlotNames = computed(() =>
+    filterJsonFormSlots(slotNames.value, ['default'], props.schema.componentSlots),
+  );
 </script>

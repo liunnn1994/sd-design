@@ -9,6 +9,8 @@ const repositoryRoot = path.resolve(packageRoot, '../..');
 const componentsRoot = path.join(packageRoot, 'components');
 const packagePrefix = 'packages/web-vue/';
 const globalInvalidators = [
+  // Core subpath imports are outside this selector's component dependency graph.
+  /^packages\/web-core\/(?:src\/|styles\/|scripts\/|package\.json$|tsconfig\.json$)/,
   /^package\.json$/,
   /^pnpm-(?:lock|workspace)\.yaml$/,
   /^packages\/web-vue\/(?:package\.json|cypress\.config\.ts|vite\.config\.ts)$/,

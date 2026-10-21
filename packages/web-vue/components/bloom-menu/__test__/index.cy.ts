@@ -407,6 +407,7 @@ describe('BloomMenu', () => {
     // 再次点击触发器仍可重新打开
     cy.get('[data-bloom-menu-trigger]').click();
     cy.get('[data-bloom-menu-panel]').should('be.visible');
+    cy.get('.sd-bloom-menu-item').not(':disabled').first().should('have.focus');
   });
 
   it('closes and restores focus when the header close prop is used as a direct event handler', () => {

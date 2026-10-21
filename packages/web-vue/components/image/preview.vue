@@ -85,13 +85,14 @@
     nextTick,
   } from 'vue';
 
+  import { createImagePreview } from '@sdata/web-core/image/preview';
+
   import useMergeState from '../_hooks/use-merge-state';
   import usePopupContainer from '../_hooks/use-popup-container';
   import usePopupManager from '../_hooks/use-popup-manager';
   import usePopupOverHidden from '../_hooks/use-popup-overflow-hidden';
   import { isServerRendering, off, on } from '../_utils/dom';
   import { getPrefixCls } from '../_utils/global-config';
-  import { KEYBOARD_KEY } from '../_utils/keyboard';
   import { throttleByRaf } from '../_utils/throttle-by-raf';
   import IconClose from '../icon/icon-close';
   import IconFullscreen from '../icon/icon-fullscreen';
@@ -106,9 +107,7 @@
   import useImageLoadStatus from './hooks/use-image-load-status';
   import PreviewArrow from './preview-arrow.vue';
   import PreviewToolbar from './preview-toolbar.vue';
-  import getScale, { getScaleByRate, minScale, maxScale } from './utils/get-scale';
-
-  const ROTATE_STEP = 90;
+  import { minScale, maxScale } from './utils/get-scale';
 
   defineOptions({ name: 'ImagePreview' });
 
@@ -307,73 +306,93 @@
   );
 
   const scaleValueVisible = ref(false);
-  let hideScaleTimer: ReturnType<typeof setTimeout> | null = null;
-  const showScaleValue = () => {
-    !scaleValueVisible.value && (scaleValueVisible.value = true);
-    hideScaleTimer && clearTimeout(hideScaleTimer);
-    hideScaleTimer = setTimeout(() => {
-      scaleValueVisible.value = false;
-    }, 1000);
-  };
-
-  usePopupOverHidden(reactive({ container, hidden: mergedVisible }));
-
-  function reset() {
-    rotate.value = 0;
-    scale.value = defaultScale.value;
-    resetTranslate();
-  }
-
-  const isIncludes = (action: string) => actionsLayout.value.includes(action);
-
-  const handleKeyDown = (ev: KeyboardEvent) => {
-    if (!isLastDialog()) return;
-    const target = ev.target;
-    if (
-      ev.key !== KEYBOARD_KEY.ESC &&
-      target instanceof HTMLElement &&
-      (target.isContentEditable || target.closest('input, textarea, select'))
-    ) {
-      return;
-    }
-
-    switch (ev.key) {
-      case KEYBOARD_KEY.ESC:
-        props.escToClose && close();
-        break;
-      case KEYBOARD_KEY.ARROW_LEFT:
-        props.groupArrowProps.onPrev && props.groupArrowProps.onPrev();
-        break;
-      case KEYBOARD_KEY.ARROW_RIGHT:
-        props.groupArrowProps.onNext && props.groupArrowProps.onNext();
-        break;
-      case KEYBOARD_KEY.ARROW_UP:
-        isIncludes('zoomIn') && handleScale('zoomIn');
-        break;
-      case KEYBOARD_KEY.ARROW_DOWN:
-        isIncludes('zoomOut') && handleScale('zoomOut');
-        break;
-      case KEYBOARD_KEY.SPACE:
-        isIncludes('originalSize') && changeScale(1);
-        break;
-      default:
-        return;
-    }
-    ev.stopPropagation();
-    ev.preventDefault();
-  };
-
-  const onWheel = throttleByRaf((e: WheelEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (!props.wheelZoom) return;
-
-    const delta = e.deltaY || e.deltaX;
-    const action = delta > 0 ? 'zoomOut' : 'zoomIn';
-    const newScale = getScaleByRate(scale.value, zoomRate.value, action);
-    changeScale(newScale);
+  const foundation = createImagePreview({
+    get visible() {
+      return mergedVisible.value;
+    },
+    get scale() {
+      return scale.value;
+    },
+    get rotate() {
+      return rotate.value;
+    },
+    get defaultScale() {
+      return defaultScale.value;
+    },
+    get zoomRate() {
+      return zoomRate.value;
+    },
+    get escToClose() {
+      return props.escToClose;
+    },
+    get wheelZoom() {
+      return props.wheelZoom;
+    },
+    get maskClosable() {
+      return maskClosable.value;
+    },
+    get actions() {
+      return actionsLayout.value;
+    },
+    get scaleValueVisible() {
+      return scaleValueVisible.value;
+    },
+    get arrows() {
+      return props.groupArrowProps;
+    },
+    isLastDialog,
+    isEditableTarget(event) {
+      const target = event.target;
+      return (
+        target instanceof HTMLElement &&
+        Boolean(target.isContentEditable || target.closest('input, textarea, select'))
+      );
+    },
+    setScale(value) {
+      scale.value = value;
+    },
+    setRotate(value) {
+      rotate.value = value;
+    },
+    setVisible,
+    setScaleValueVisible(value) {
+      scaleValueVisible.value = value;
+    },
+    setLoadStatus,
+    onClose() {
+      emit('close');
+    },
+    onVisibleChange(value) {
+      emit('update:visible', value);
+    },
+    resetTranslate,
+    focusAfterRender() {
+      void nextTick(() => refWrapper.value?.focus());
+    },
+    focusOnMaskClick() {
+      if (!refWrapper.value?.contains(document.activeElement)) refWrapper.value?.focus();
+    },
+    measure() {
+      return {
+        wrapper: refWrapper.value.getBoundingClientRect(),
+        image: refImage.value.getBoundingClientRect(),
+      };
+    },
+    schedule: (callback, delay) => setTimeout(callback, delay),
+    cancel: (handle) => clearTimeout(handle),
+    releasePopup,
   });
+  const handleKeyDown = foundation.keydown;
+  const onWheel = throttleByRaf(foundation.wheel);
+  const changeScale = foundation.changeScale;
+  const fullScreen = foundation.fullScreen;
+  const handleRotate = foundation.rotate;
+  const handleScale = foundation.scale;
+  const onMaskClick = foundation.maskClick;
+  const onCloseClick = foundation.close;
+  const onImgLoad = foundation.loaded;
+  const onImgError = foundation.error;
+  usePopupOverHidden(reactive({ container, hidden: mergedVisible }));
 
   watch(
     [mergedVisible, () => props.keyboard, container],
@@ -385,85 +404,8 @@
     { immediate: true },
   );
 
-  // Previews visible on mount also need their initial loading state and focus.
-  watch(
-    [src, mergedVisible],
-    () => {
-      if (mergedVisible.value) {
-        reset();
-        setLoadStatus('loading');
-        nextTick(() => refWrapper.value?.focus());
-      }
-    },
-    { immediate: true },
-  );
-
-  function close() {
-    if (mergedVisible.value) {
-      emit('close');
-      emit('update:visible', false);
-      setVisible(false);
-    }
-  }
-
-  function onMaskClick(e: MouseEvent) {
-    if (!refWrapper.value?.contains(document.activeElement)) {
-      refWrapper.value?.focus();
-    }
-    if (maskClosable.value && e.target === e.currentTarget) {
-      close();
-    }
-  }
-
-  function changeScale(newScale: number) {
-    if (scale.value !== newScale) {
-      scale.value = newScale;
-      showScaleValue();
-    }
-  }
-
-  function fullScreen() {
-    const wrapperRect = refWrapper.value.getBoundingClientRect();
-    const imgRect = refImage.value.getBoundingClientRect();
-    const newHeightScale = wrapperRect.height / (imgRect.height / scale.value);
-    const newWidthScale = wrapperRect.width / (imgRect.width / scale.value);
-    const newScale = Math.max(newHeightScale, newWidthScale);
-    changeScale(newScale);
-  }
-
-  function handleRotate(direction: 'clockwise' | 'counterclockwise') {
-    const isClockwise = direction === 'clockwise';
-    const newRotate = isClockwise
-      ? (rotate.value + ROTATE_STEP) % 360
-      : rotate.value === 0
-        ? 360 - ROTATE_STEP
-        : rotate.value - ROTATE_STEP;
-    rotate.value = newRotate;
-  }
-
-  function handleScale(action: 'zoomIn' | 'zoomOut') {
-    const newScale = getScale(scale.value, action);
-    changeScale(newScale);
-  }
-
-  onBeforeUnmount(() => {
-    // 缩放数值提示的隐藏定时器最长 1s，卸载后仍会触发
-    if (hideScaleTimer) {
-      clearTimeout(hideScaleTimer);
-      hideScaleTimer = null;
-    }
-    releasePopup();
-  });
-
-  const onCloseClick = close;
-
-  const onImgLoad = () => {
-    setLoadStatus('loaded');
-  };
-
-  const onImgError = () => {
-    setLoadStatus('error');
-  };
+  watch([src, mergedVisible], foundation.syncSource, { immediate: true });
+  onBeforeUnmount(foundation.dispose);
 
   const actions = computed(() => [
     /** 满屏 */

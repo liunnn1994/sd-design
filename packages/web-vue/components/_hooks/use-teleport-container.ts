@@ -1,6 +1,6 @@
 import { onMounted, Ref, ref, watch } from 'vue';
 
-import { getElement } from '../_utils/dom';
+import { createTeleportContainerFoundation } from '@sdata/web-core/trigger/teleport-container';
 
 export const useTeleportContainer = ({
   popupContainer,
@@ -16,30 +16,29 @@ export const useTeleportContainer = ({
   const teleportContainer = ref(popupContainer.value);
   const containerRef = ref<HTMLElement>();
 
-  const getContainer = () => {
-    const resolvedPopupContainer = popupContainer.value ?? undefined;
-    const element = getElement(resolvedPopupContainer);
-    const _teleportContainer = element ? resolvedPopupContainer : defaultContainer;
-    const _containerElement =
-      element ?? (documentContainer ? document.documentElement : getElement(defaultContainer));
-    if (_teleportContainer !== teleportContainer.value) {
-      teleportContainer.value = _teleportContainer;
-    }
-    if (_containerElement !== containerRef.value) {
-      containerRef.value = _containerElement;
-    }
-  };
-
-  onMounted(() => getContainer());
-
+  const foundation = createTeleportContainerFoundation(
+    {
+      get popupContainer() {
+        return popupContainer.value;
+      },
+      get teleportContainer() {
+        return teleportContainer.value;
+      },
+      set teleportContainer(value) {
+        teleportContainer.value = value;
+      },
+      get containerElement() {
+        return containerRef.value;
+      },
+      set containerElement(value) {
+        containerRef.value = value;
+      },
+    },
+    { defaultContainer, documentContainer },
+  );
+  onMounted(() => foundation.getContainer());
   watch([popupContainer, visible], ([nextPopupContainer, nextVisible]) => {
-    if (!nextVisible) {
-      return;
-    }
-
-    if (teleportContainer.value !== nextPopupContainer) {
-      getContainer();
-    }
+    foundation.sync(nextPopupContainer, nextVisible);
   });
 
   return {

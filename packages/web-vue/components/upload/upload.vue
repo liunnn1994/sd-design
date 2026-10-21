@@ -37,21 +37,25 @@
     type PropType,
   } from 'vue';
 
+  import {
+    getUploadAccept,
+    isUploadLimitReached,
+    isUploadButtonHidden,
+    getUploadPreviewUrls,
+    previewUploadFile,
+  } from '@sdata/web-core/upload/files';
+  import { createUploadFoundation } from '@sdata/web-core/upload/foundation';
+
   import type { CustomIcon, FileItem, ListType, RequestOption, UploadRequest } from './interfaces';
 
   import { useFormItem } from '../_hooks/use-form-item';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isBoolean, isFunction, isObject } from '../_utils/is';
   import { ImagePreviewGroup } from '../image';
   import { uploadInjectionKey } from './context';
   import UploadButton from './upload-button.vue';
   import UploadList from './upload-list.vue';
-  import { isImage, uploadRequest } from './utils';
 
   defineOptions({ name: 'Upload', inheritAttrs: false });
-
-  // 模块级自增计数：同一毫秒内多批选择的文件 uid 也不会冲突
-  let uidCounter = 0;
 
   const props = defineProps({
     fileList: { type: Array as PropType<FileItem[]>, default: undefined },
@@ -155,315 +159,59 @@
   const prefixCls = getPrefixCls('upload');
   const { mergedDisabled, eventHandlers } = useFormItem({ disabled });
   const innerFileList = ref<FileItem[]>([]);
-  const fileMap = new Map<string, FileItem>();
-  const previewUrls = new Set<string>();
-  const releasePreviewUrls = (retainedUrls: Set<string | undefined>) => {
-    for (const url of previewUrls) {
-      if (!retainedUrls.has(url)) {
-        URL.revokeObjectURL(url);
-        previewUrls.delete(url);
-      }
-    }
-  };
+  const foundation = createUploadFoundation({
+    options: props,
+    getFileList: () => innerFileList.value,
+    setFileList: (files) => {
+      innerFileList.value = files;
+    },
+    createFileItem: (file) => reactive(file),
+    getDisabled: () => mergedDisabled.value,
+    onUpdateList: (files) => emit('update:fileList', files),
+    onChange: (files, file) => emit('change', files, file),
+    onExceed: (files, selected) => emit('exceedLimit', files, selected),
+    onProgress: (file, event) => emit('progress', file, event),
+    onSuccess: (file) => emit('success', file),
+    onError: (file) => emit('error', file),
+    onFormChange: () => eventHandlers.value?.onChange?.(),
+  });
+  const { uploadFile, abort, submit, updateFile, uploadFiles, handleRemove } = foundation;
   watch(
     () => innerFileList.value.map((file) => file.url),
-    (urls) => releasePreviewUrls(new Set(urls)),
+    (urls) => foundation.releasePreviewUrls(new Set(urls)),
   );
-  interface UploadTask {
-    request?: UploadRequest;
-    cancelled: boolean;
-    releaseLock?: () => void;
-  }
-  const requestMap = new Map<string, UploadTask>();
-  let disposed = false;
-  let pendingFiles = 0;
-  const cancelRequest = (uid: string) => {
-    const task = requestMap.get(uid);
-    if (!task) return;
-    // 先使回调失效，abort 也可能同步触发自定义请求的回调。
-    requestMap.delete(uid);
-    task.cancelled = true;
-    try {
-      task.request?.abort?.();
-    } catch (error) {
-      // oxlint-disable-next-line no-console
-      console.error(error);
-    } finally {
-      task.releaseLock?.();
-    }
-  };
-  onBeforeUnmount(() => {
-    disposed = true;
-    releasePreviewUrls(new Set());
-    for (const uid of requestMap.keys()) cancelRequest(uid);
-  });
-  const isMax = computed(() => props.limit > 0 && innerFileList.value.length >= props.limit);
-
-  const checkFileList = (fileList?: FileItem[]) => {
-    fileMap.clear();
-    const nextFileList = fileList?.map((data, index) => {
-      const status = data.status ?? 'done';
-      const fileItem = reactive({
-        ...data,
-        uid: data.uid ?? `${Date.now()}${index}`,
-        status,
-        percent: data.percent ?? (['error', 'init'].includes(status) ? 0 : 1),
-      });
-      fileMap.set(fileItem.uid, fileItem);
-      return fileItem;
-    });
-    innerFileList.value = nextFileList ?? [];
-    for (const uid of requestMap.keys()) {
-      if (!fileMap.has(uid)) cancelRequest(uid);
-    }
-  };
-  checkFileList(props.defaultFileList);
+  onBeforeUnmount(foundation.dispose);
+  const isMax = computed(() => isUploadLimitReached(props.limit, innerFileList.value.length));
+  foundation.checkFileList(props.defaultFileList);
   watch(
     () => props.fileList,
-    (fileList) => {
-      if (fileList) checkFileList(fileList);
+    (files) => {
+      if (files) foundation.checkFileList(files);
     },
     { immediate: true, deep: true },
   );
 
-  const updateFileList = (file: FileItem) => {
-    emit('update:fileList', innerFileList.value);
-    emit('change', innerFileList.value, file);
-    eventHandlers.value?.onChange?.();
-  };
-  const updateFile = (id: string, file: File) => {
-    for (const item of innerFileList.value) {
-      if (item.uid === id) {
-        item.file = file;
-        updateFileList(item);
-        break;
-      }
-    }
-  };
-  const uploadFile = (fileItem: FileItem) => {
-    if (disposed || !fileMap.has(fileItem.uid) || requestMap.has(fileItem.uid)) return;
-    const task: UploadTask = { cancelled: false };
-    requestMap.set(fileItem.uid, task);
-    const isCurrent = () => !disposed && requestMap.get(fileItem.uid) === task;
-    const handleProgress = (percent: number, event?: ProgressEvent) => {
-      if (!isCurrent()) return;
-      const file = fileMap.get(fileItem.uid);
-      if (!file) return;
-      file.status = 'uploading';
-      file.percent = percent;
-      emit('progress', file, event);
-      updateFileList(file);
-    };
-    const handleSuccess = (response: unknown) => {
-      if (!isCurrent()) return;
-      const file = fileMap.get(fileItem.uid);
-      if (!file) return;
-      file.status = 'done';
-      file.percent = 1;
-      file.response = response;
-      try {
-        if (props.responseUrlKey) {
-          if (isFunction(props.responseUrlKey)) {
-            const url = props.responseUrlKey(file);
-            if (!isCurrent()) return;
-            file.url = url;
-          } else if (isObject(response) && response[props.responseUrlKey]) {
-            file.url = String(response[props.responseUrlKey]);
-          }
-        }
-      } catch (error) {
-        handleError(error);
-        return;
-      }
-      requestMap.delete(file.uid);
-      task.releaseLock?.();
-      emit('success', file);
-      updateFileList(file);
-    };
-    const handleError = (response: unknown) => {
-      if (!isCurrent()) return;
-      const file = fileMap.get(fileItem.uid);
-      if (!file) return;
-      file.status = 'error';
-      file.percent = 0;
-      file.response = response;
-      requestMap.delete(file.uid);
-      task.releaseLock?.();
-      emit('error', file);
-      updateFileList(file);
-    };
-    const option: RequestOption = {
-      fileItem,
-      action: props.action,
-      name: props.name,
-      data: props.data,
-      headers: props.headers,
-      withCredentials: props.withCredentials,
-      onProgress: handleProgress,
-      onSuccess: handleSuccess,
-      onError: handleError,
-    };
-    fileItem.status = 'uploading';
-    fileItem.percent = 0;
-    const startRequest = () => {
-      if (!isCurrent()) return;
-      try {
-        task.request = isFunction(props.customRequest)
-          ? props.customRequest(option)
-          : uploadRequest(option);
-        if (task.cancelled) task.request.abort?.();
-        if (isCurrent()) updateFileList(fileItem);
-      } catch (error) {
-        handleError(error);
-      }
-    };
-    try {
-      // 在本次上传开始时确定 key，后续 prop 变化不影响已持有的锁。
-      const key = isFunction(props.lockKey) ? props.lockKey(fileItem) : props.lockKey;
-      if (key === undefined) {
-        startRequest();
-        return;
-      }
-      if (!globalThis.navigator?.locks) {
-        handleError({ code: 'UPLOAD_LOCK_UNSUPPORTED', message: 'Web Locks API is unavailable' });
-        return;
-      }
-      void navigator.locks
-        .request(`sd-upload:${key}`, { ifAvailable: true }, (lock) => {
-          if (!isCurrent()) return;
-          if (!lock) {
-            handleError({
-              code: 'UPLOAD_LOCK_BUSY',
-              message: 'An upload with this lock key is already running',
-            });
-            return;
-          }
-          // 回调返回的 Promise 必须等到上传结束，否则浏览器会提前释放锁。
-          return new Promise<void>((resolve) => {
-            task.releaseLock = resolve;
-            startRequest();
-          });
-        })
-        .catch(handleError);
-      updateFileList(fileItem);
-    } catch (error) {
-      handleError(error);
-    }
-  };
-  const abort = (fileItem: FileItem) => {
-    const request = requestMap.get(fileItem.uid);
-    if (!request) return;
-    cancelRequest(fileItem.uid);
-    const file = fileMap.get(fileItem.uid);
-    if (file) {
-      file.status = 'error';
-      file.percent = 0;
-      // 取消上传视为错误结束，发出 error 事件让消费方感知取消
-      emit('error', file);
-      updateFileList(file);
-    }
-  };
-  const submit = (fileItem?: FileItem) => {
-    if (fileItem) {
-      const file = fileMap.get(fileItem.uid);
-      if (file) uploadFile(file);
-      return;
-    }
-    for (const item of innerFileList.value) {
-      if (item.status === 'init') uploadFile(item);
-    }
-  };
-  const initUpload = (file: File) => {
-    if (disposed) return;
-    if (props.limit > 0 && innerFileList.value.length >= props.limit) {
-      emit('exceedLimit', innerFileList.value, [file]);
-      return;
-    }
-    let uid: string;
-    do {
-      uid = `${Date.now()}-${uidCounter++}`;
-    } while (fileMap.has(uid));
-    const url = isImage(file) ? URL.createObjectURL(file) : undefined;
-    if (url) previewUrls.add(url);
-    const fileItem: FileItem = reactive({
-      uid,
-      file,
-      url,
-      name: file.name,
-      status: 'init',
-      percent: 0,
-    });
-    fileMap.set(uid, fileItem);
-    innerFileList.value = [...innerFileList.value, fileItem];
-    updateFileList(fileItem);
-    if (props.autoUpload) uploadFile(fileItem);
-  };
-  const uploadFiles = (files: File[]) => {
-    if (disposed) return;
-    if (props.limit > 0 && innerFileList.value.length + pendingFiles + files.length > props.limit) {
-      emit('exceedLimit', innerFileList.value, files);
-      return;
-    }
-    // 整批预占名额，异步校验和同步事件重入都不能突破 limit。
-    pendingFiles += files.length;
-    files.forEach(async (file) => {
-      let result: boolean | File = true;
-      try {
-        if (isFunction(props.onBeforeUpload)) result = await props.onBeforeUpload(file);
-      } catch (error) {
-        result = false;
-        // oxlint-disable-next-line no-console
-        console.error(error);
-      } finally {
-        pendingFiles -= 1;
-      }
-      if (result) initUpload(isBoolean(result) ? file : result);
-    });
-  };
-  const removeFile = (fileItem: FileItem) => {
-    if (disposed || !fileMap.has(fileItem.uid)) return;
-    fileMap.delete(fileItem.uid);
-    cancelRequest(fileItem.uid);
-    innerFileList.value = innerFileList.value.filter((item) => item.uid !== fileItem.uid);
-    updateFileList(fileItem);
-  };
-  const handleRemove = (fileItem: FileItem) => {
-    if (mergedDisabled.value) return;
-    if (isFunction(props.onBeforeRemove)) {
-      Promise.resolve(props.onBeforeRemove(fileItem))
-        .then((result) => {
-          if (result) removeFile(fileItem);
-        })
-        .catch((error) => {
-          // oxlint-disable-next-line no-console
-          console.error(error);
-        });
-    } else {
-      removeFile(fileItem);
-    }
-  };
-
   const imagePreviewVisible = ref(false);
   const imagePreviewCurrent = ref(0);
-  const imageList = computed(() =>
-    innerFileList.value.filter((item) => Boolean(item.url)).map((item) => item.url as string),
-  );
-  const handlePreview = (fileItem: FileItem) => {
-    if (props.imagePreview && fileItem.url) {
-      const current = imageList.value.indexOf(fileItem.url);
-      if (current > -1) {
-        imagePreviewCurrent.value = current;
-        imagePreviewVisible.value = true;
-      }
-    }
-    emit('preview', fileItem);
-  };
+  const imageList = computed(() => getUploadPreviewUrls(innerFileList.value));
   const handleImagePreviewChange = (current: number) => {
     imagePreviewCurrent.value = current;
   };
   const handleImagePreviewVisibleChange = (visible: boolean) => {
     imagePreviewVisible.value = visible;
   };
+  const previewAdapter = {
+    get enabled() {
+      return props.imagePreview;
+    },
+    get urls() {
+      return imageList.value;
+    },
+    setCurrent: handleImagePreviewChange,
+    setVisible: handleImagePreviewVisibleChange,
+    onPreview: (fileItem: FileItem) => emit('preview', fileItem),
+  };
+  const handlePreview = (fileItem: FileItem) => previewUploadFile(fileItem, previewAdapter);
 
   provide(
     uploadInjectionKey,
@@ -492,17 +240,9 @@
     }),
   );
 
-  const mergedAccept = computed(() => {
-    if (props.accept) return props.accept;
-    return props.listType === 'picture' || props.listType === 'picture-card'
-      ? 'image/*'
-      : undefined;
-  });
-  const hideUploadButton = computed(
-    () =>
-      !props.showUploadButton ||
-      (isMax.value &&
-        !(isObject(props.showUploadButton) && props.showUploadButton.showOnExceedLimit)),
+  const mergedAccept = computed(() => getUploadAccept(props.accept, props.listType));
+  const hideUploadButton = computed(() =>
+    isUploadButtonHidden(props.showUploadButton, isMax.value),
   );
   const uploadButtonProps = computed(() => ({
     disabled: mergedDisabled.value,

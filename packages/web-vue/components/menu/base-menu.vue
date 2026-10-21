@@ -31,6 +31,12 @@
     useSlots,
   } from 'vue';
 
+  import {
+    createMenuFoundation,
+    getMenuFocusTarget,
+    isMenuNavigationKey,
+  } from '@sdata/web-core/menu/foundation';
+
   import type { FloatingOptions } from '../_utils/floating';
 
   import useMergeState from '../_hooks/use-merge-state';
@@ -38,7 +44,6 @@
   import { useResponsive } from '../_hooks/use-responsive';
   import { getPrefixCls } from '../_utils/global-config';
   import { isNumber, isObject } from '../_utils/is';
-  import { KEYBOARD_KEY } from '../_utils/keyboard';
   import { omit } from '../_utils/omit';
   import IconMenuFold from '../icon/icon-menu-fold';
   import IconMenuUnfold from '../icon/icon-menu-unfold';
@@ -363,15 +368,29 @@
       !inTrigger.value &&
       showCollapseButton.value,
   );
-  const changeMergedCollapsed = (newVal: boolean, type: 'clickTrigger' | 'responsive') => {
-    if (newVal === mergedCollapsed.value) return;
-    setMergedCollapsed(newVal);
-    emit('update:collapsed', newVal);
-    emit('collapse', newVal, type);
-  };
-  const onCollapseBtnClick = () => {
-    changeMergedCollapsed(!mergedCollapsed.value, 'clickTrigger');
-  };
+  const foundation = createMenuFoundation({
+    get collapsed() {
+      return mergedCollapsed.value;
+    },
+    setCollapsed: setMergedCollapsed,
+    onCollapsed(value, reason) {
+      emit('update:collapsed', value);
+      emit('collapse', value, reason);
+    },
+    setSelected: setSelectedKeys,
+    onSelected(value, key) {
+      emit('update:selectedKeys', value);
+      emit('menu-item-click', key);
+    },
+    open,
+    setOpen: setMergedOpenKeys,
+    onOpen(value, key) {
+      emit('update:openKeys', value);
+      emit('sub-menu-click', key, value);
+    },
+  });
+  const changeMergedCollapsed = foundation.collapse;
+  const onCollapseBtnClick = foundation.toggleCollapse;
   useResponsive(breakpoint, (checked) => {
     changeMergedCollapsed(!checked, 'responsive');
   });
@@ -407,14 +426,7 @@
   // 在菜单容器内收集可聚焦的 menuitem（tabindex===0 即非禁用）按可视顺序移动焦点。
   // 加在容器级（事件冒泡），不动各 item 的 tabindex/Enter-Space，对 Tab 行为零回归。
   const onMenuKeydown = (e: KeyboardEvent) => {
-    const horizontal = mode.value === 'horizontal';
-    const forward = horizontal
-      ? e.key === KEYBOARD_KEY.ARROW_RIGHT
-      : e.key === KEYBOARD_KEY.ARROW_DOWN;
-    const backward = horizontal
-      ? e.key === KEYBOARD_KEY.ARROW_LEFT
-      : e.key === KEYBOARD_KEY.ARROW_UP;
-    if (!forward && !backward && e.key !== KEYBOARD_KEY.HOME && e.key !== KEYBOARD_KEY.END) return;
+    if (!isMenuNavigationKey(mode.value, e.key)) return;
     const container = e.currentTarget as HTMLElement;
     const items = Array.from(container.querySelectorAll<HTMLElement>('[role="menuitem"]')).filter(
       (el) =>
@@ -424,17 +436,8 @@
     const current = e.target as HTMLElement;
     const idx = items.indexOf(current);
     e.preventDefault();
-    let target: HTMLElement | undefined;
-    if (e.key === KEYBOARD_KEY.HOME) {
-      target = items[0];
-    } else if (e.key === KEYBOARD_KEY.END) {
-      target = items[items.length - 1];
-    } else if (forward) {
-      target = items[idx < 0 ? 0 : Math.min(idx + 1, items.length - 1)];
-    } else if (backward) {
-      target = items[idx < 0 ? 0 : Math.max(idx - 1, 0)];
-    }
-    target?.focus();
+    const target = getMenuFocusTarget(mode.value, e.key, idx, items.length);
+    if (target !== undefined) items[target]?.focus();
   };
 
   // provide MenuContext
@@ -457,17 +460,8 @@
     popupMaxHeight,
     expandIconDown,
     expandIconRight,
-    onMenuItemClick: (key: string) => {
-      setSelectedKeys([key]);
-      emit('update:selectedKeys', [key]);
-      emit('menu-item-click', key);
-    },
-    onSubMenuClick: (key: string, level: number) => {
-      const newOpenKeys = open(key, level);
-      setMergedOpenKeys(newOpenKeys);
-      emit('update:openKeys', newOpenKeys);
-      emit('sub-menu-click', key, newOpenKeys);
-    },
+    onMenuItemClick: foundation.select,
+    onSubMenuClick: foundation.open,
   });
   provide(MenuInjectionKey, menuContext);
 

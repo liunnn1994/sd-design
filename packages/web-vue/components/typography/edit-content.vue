@@ -14,6 +14,8 @@
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
 
+  import { createTypographyEditFoundation } from '@sdata/web-core/typography/edit';
+
   import { getPrefixCls } from '../_utils/global-config';
   import Input from '../input';
   import { useI18n } from '../locale';
@@ -39,29 +41,19 @@
   const classNames = [`${prefixCls}-edit-content`];
   const rootRef = ref<HTMLElement>();
 
-  function onChange(value: string) {
-    emit('update:text', value);
-    emit('change', value);
-  }
-
-  function onEnd() {
-    emit('end');
-  }
-
-  function onEnter(event: KeyboardEvent) {
-    if (!event.isComposing) onEnd();
-  }
-
-  onMounted(() => {
-    // SdInput 的 $el 非普通元素（条件根节点），不能直接 querySelector；改从包裹 div 取 input
-    const inputEl = rootRef.value?.querySelector('input');
-    if (!inputEl) return;
-
-    inputEl.focus();
-
-    const { length } = inputEl.value;
-    inputEl.setSelectionRange(length, length);
-  });
-
+  const foundation = createTypographyEditFoundation(
+    {
+      get rootElement() {
+        return rootRef.value;
+      },
+    },
+    {
+      update: (value) => emit('update:text', value),
+      change: (value) => emit('change', value),
+      end: () => emit('end'),
+    },
+  );
+  const { onChange, onEnd, onEnter } = foundation;
+  onMounted(foundation.focusInput);
   const onBlur = onEnd;
 </script>

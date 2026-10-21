@@ -1,5 +1,7 @@
 import { computed, type ComputedRef, type Ref, type VNode } from 'vue';
 
+import { resolveHasSider } from '@sdata/web-core/layout/layout';
+
 import { isFunction } from '../../_utils/is';
 
 const SIDER_COMPONENT_NAME = 'LayoutSider';
@@ -86,15 +88,11 @@ export function useHasSider(
   slotVNodes: ComputedRef<VNode[] | undefined>,
   hasSider: Ref<boolean | undefined>,
 ): ComputedRef<boolean> {
-  return computed(() => {
-    if (typeof hasSider.value === 'boolean') {
-      return hasSider.value;
-    }
-
-    if (siders.value.length > 0) {
-      return true;
-    }
-
-    return hasSiderInVNodes(slotVNodes.value);
-  });
+  return computed(() =>
+    resolveHasSider(
+      hasSider.value,
+      () => siders.value.length,
+      () => hasSiderInVNodes(slotVNodes.value),
+    ),
+  );
 }

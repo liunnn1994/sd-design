@@ -1,11 +1,11 @@
+import type { NotificationPosition, NoticeItem } from '@sdata/web-core/notice/types';
+
 import { AppContext, CSSProperties, RenderFunction } from 'vue';
 
 import { MessageType } from '../_utils/constant';
 import { ClassName, RenderContent } from '../_utils/types';
-
-export const NOTIFICATION_POSITION = ['topLeft', 'topRight', 'bottomLeft', 'bottomRight'] as const;
-
-export type NotificationPosition = (typeof NOTIFICATION_POSITION)[number];
+export { NOTIFICATION_POSITION } from '@sdata/web-core/notice/types';
+export type { NotificationPosition } from '@sdata/web-core/notice/types';
 
 export interface NotificationMethod {
   /**
@@ -142,11 +142,8 @@ export interface NotificationReturn {
   close: () => void;
 }
 
-export interface NotificationItem {
-  timerVersion?: number;
-  id: number | string;
+export interface NotificationItem extends NoticeItem<RenderContent> {
   type: MessageType;
-  content: RenderContent;
   style?: CSSProperties;
   class?: ClassName;
   title?: RenderContent;
@@ -154,9 +151,4 @@ export interface NotificationItem {
   footer?: RenderFunction;
   closeIcon?: RenderFunction;
   closeIconElement?: RenderFunction;
-  showIcon?: boolean;
-  closable?: boolean;
-  duration?: number;
-  resetOnUpdate?: boolean;
-  onClose?: (id: number | string) => void;
 }

@@ -197,6 +197,7 @@ export default async function generateWebTypes() {
   for (const item of components) {
     const doc = resolveComponent(
       await parseComponent(item, {
+        alias: { '@sdata/web-core': path.resolve('../web-core/src') },
         addScriptHandlers: [slotTagHandler],
       }),
     );

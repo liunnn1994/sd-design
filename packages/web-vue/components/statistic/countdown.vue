@@ -33,11 +33,14 @@
     watch,
   } from 'vue';
 
-  import dayjs from 'dayjs';
+  import {
+    createCountdown,
+    getCountdownDisplay,
+    getCountdownParts,
+  } from '@sdata/web-core/statistic/countdown';
 
   import { getPrefixCls } from '../_utils/global-config';
   import NumberFlow from '../number-flow';
-  import { getDateString } from './utils';
 
   defineOptions({ name: 'Countdown' });
 
@@ -114,92 +117,25 @@
   const prefixCls = getPrefixCls('statistic');
   const { start, value, now, format } = toRefs(props);
 
-  const displayValue = ref(
-    getDateString(
-      Math.max(dayjs(props.value).diff(dayjs(props.now), 'millisecond'), 0),
-      props.format,
-    ),
+  const displayValue = ref(getCountdownDisplay(props.value, props.now, props.format));
+  const displayParts = computed(() => getCountdownParts(displayValue.value));
+  const foundation = createCountdown({
+    props,
+    get display() {
+      return displayValue.value;
+    },
+    set display(value) {
+      displayValue.value = value;
+    },
+    now: () => Date.now(),
+    setInterval: (callback, delay) => window.setInterval(callback, delay),
+    clearInterval: (timer) => window.clearInterval(timer),
+    finish: () => emit('finish'),
+  });
+  watch([value, now, format], (_values, [previousDeadline]) =>
+    foundation.syncValue(previousDeadline),
   );
-  const displayParts = computed(() =>
-    displayValue.value
-      .split(/(\d+)/)
-      .flatMap((value) =>
-        value ? [{ type: /^\d+$/.test(value) ? 'number' : 'text', value }] : [],
-      ),
-  );
-
-  let finished = false;
-
-  watch([value, now, format], ([deadline], [previousDeadline]) => {
-    if (deadline !== previousDeadline) finished = false;
-    // start 为 false（暂停/未开始）时不覆盖当前展示值
-    if (!props.start) return;
-    const _value = getDateString(
-      Math.max(dayjs(props.value).diff(dayjs(props.now), 'millisecond'), 0),
-      props.format,
-    );
-    if (_value !== displayValue.value) {
-      displayValue.value = _value;
-    }
-    if (!timer.value && dayjs(props.value).valueOf() > Date.now()) {
-      startTimer();
-    }
-  });
-
-  const timer = ref(0);
-
-  const stopTimer = () => {
-    if (timer.value) {
-      window.clearInterval(timer.value);
-      timer.value = 0;
-    }
-  };
-
-  const finishCountdown = () => {
-    stopTimer();
-    displayValue.value = getDateString(0, props.format);
-    if (!finished) {
-      finished = true;
-      emit('finish');
-    }
-  };
-
-  const startTimer = () => {
-    if (dayjs(props.value).valueOf() <= Date.now()) {
-      finishCountdown();
-      return;
-    }
-
-    timer.value = window.setInterval(() => {
-      const _value = dayjs(props.value).diff(dayjs(), 'millisecond');
-      if (_value <= 0) {
-        finishCountdown();
-        return;
-      }
-      displayValue.value = getDateString(Math.max(_value, 0), props.format);
-    }, 1000 / 30);
-  };
-
-  onMounted(() => {
-    if (dayjs(props.value).valueOf() <= Date.now()) {
-      // 挂载时截止时间已过：不再启动计时，且 finish 只触发一次
-      finishCountdown();
-      return;
-    }
-    if (props.start) {
-      startTimer();
-    }
-  });
-
-  onBeforeUnmount(() => {
-    stopTimer();
-  });
-
-  watch(start, (value) => {
-    if (value && !timer.value) {
-      startTimer();
-    } else if (!value) {
-      stopTimer();
-    }
-  });
+  watch(start, foundation.syncStart);
+  onMounted(foundation.mount);
+  onBeforeUnmount(foundation.stop);
 </script>

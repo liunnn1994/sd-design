@@ -1,0 +1,405 @@
+export interface SDCalendarLang {
+  formatYear: string;
+  formatMonth: string;
+  today: string;
+  allDay: string;
+  noEvent: string;
+  deleteEvent: string;
+  createEvent: string;
+  view: {
+    month: string;
+    year: string;
+    week: string;
+    day: string;
+    days: string;
+    years: string;
+  };
+  month: {
+    long: {
+      January: string;
+      February: string;
+      March: string;
+      April: string;
+      May: string;
+      June: string;
+      July: string;
+      August: string;
+      September: string;
+      October: string;
+      November: string;
+      December: string;
+    };
+    short: {
+      January: string;
+      February: string;
+      March: string;
+      April: string;
+      May: string;
+      June: string;
+      July: string;
+      August: string;
+      September: string;
+      October: string;
+      November: string;
+      December: string;
+    };
+  };
+  week: {
+    long: {
+      self: string;
+      monday: string;
+      tuesday: string;
+      wednesday: string;
+      thursday: string;
+      friday: string;
+      saturday: string;
+      sunday: string;
+    };
+    short: {
+      self: string;
+      monday: string;
+      tuesday: string;
+      wednesday: string;
+      thursday: string;
+      friday: string;
+      saturday: string;
+      sunday: string;
+    };
+  };
+}
+
+export interface ValidateMessage {
+  [key: string]: unknown;
+  required: string;
+  type: {
+    string: string;
+    number: string;
+    boolean: string;
+    array: string;
+    object: string;
+    url: string;
+    email: string;
+    ip: string;
+  };
+  number: {
+    min: string;
+    max: string;
+    equal: string;
+    range: string;
+    positive: string;
+    negative: string;
+  };
+  array: {
+    length: string;
+    minLength: string;
+    maxLength: string;
+    includes: string;
+    deepEqual: string;
+    empty: string;
+  };
+  string: {
+    minLength: string;
+    maxLength: string;
+    length: string;
+    match: string;
+    uppercase: string;
+    lowercase: string;
+  };
+  object: {
+    deepEqual: string;
+    hasKeys: string;
+    empty: string;
+  };
+  boolean: {
+    true: string;
+    false: string;
+  };
+}
+
+export interface SdA11yLang {
+  close: string;
+  back: string;
+  backToTop: string;
+  clear: string;
+  remove: string;
+  preview: string;
+  retryUpload: string;
+  increase: string;
+  decrease: string;
+  resize: string;
+  editText: string;
+  pagination: string;
+  breadcrumb: string;
+  breadcrumbEllipsis: string;
+  anchorNav: string;
+  carousel: string;
+  steps: string;
+  addTab: string;
+  closeTab: string;
+  nextTabs: string;
+  prevTabs: string;
+  verificationCode: string;
+  rating: string;
+  toggleSidebar: string;
+  filePreview: string;
+  loading: string;
+  nextPage: string;
+  prevPage: string;
+  morePages: string;
+  prevSlide: string;
+  nextSlide: string;
+  moveSelectedRight: string;
+  moveSelectedLeft: string;
+  secretShow: string;
+  secretHide: string;
+  selectColor: string;
+  slideOf: string;
+  goToSlide: string;
+  characterOf: string;
+  qrCode: string;
+  bloomMenuClose: string;
+  bloomMenuEmpty: string;
+  thinkingOrb: {
+    working: string;
+    searching: string;
+    solving: string;
+    listening: string;
+    connecting: string;
+    weaving: string;
+    composing: string;
+    breathing: string;
+    shaping: string;
+  };
+}
+
+export interface SdLang {
+  locale: string;
+  readonlyTip?: string;
+  /**
+   * 后增的语言段一律可选：使用方自建的语言包升级后不必立刻补齐，
+   * 缺失的键由 useI18n 回退到默认语言包。
+   */
+  toolbar?: {
+    search: string;
+    reset: string;
+    expand: string;
+    collapse: string;
+  };
+  modelSelector?: {
+    title: string;
+    empty?: string;
+  };
+  qrCode?: {
+    expired: string;
+    scanned: string;
+    refresh: string;
+  };
+  jsonForm?: {
+    inputPlaceholder: string;
+    selectPlaceholder: string;
+    required: string;
+    requiredField: string;
+  };
+  basicCrudTable?: {
+    create: string;
+    createTitle: string;
+    edit: string;
+    delete: string;
+    actions: string;
+    deleteConfirm: string;
+    deleteNamedConfirm: string;
+  };
+  tour?: {
+    previous: string;
+    next: string;
+    done: string;
+  };
+  inputMask?: {
+    ipPlaceholder: string;
+  };
+  empty: {
+    description: string;
+  };
+  calendar: SDCalendarLang;
+  drawer: {
+    okText: string;
+    cancelText: string;
+  };
+  popconfirm: {
+    okText: string;
+    cancelText: string;
+  };
+  modal: {
+    okText: string;
+    cancelText: string;
+  };
+  pagination: {
+    goto: string;
+    page: string;
+    countPerPage: string;
+    total: string;
+  };
+  table: {
+    okText: string;
+    resetText: string;
+  };
+  upload: {
+    start: string;
+    cancel: string;
+    delete: string;
+    retry: string;
+    buttonText: string;
+    preview: string;
+    drag: string;
+    dragHover: string;
+    error: string;
+  };
+  datePicker: {
+    view: SDCalendarLang['view'];
+    month: SDCalendarLang['month'];
+    week: SDCalendarLang['week'];
+    yearFormat?: string;
+    monthFormat?: string;
+    placeholder: {
+      date: string;
+      week: string;
+      month: string;
+      year: string;
+      quarter: string;
+      time: string;
+    };
+    rangePlaceholder: {
+      date: [string, string];
+      week: [string, string];
+      month: [string, string];
+      year: [string, string];
+      quarter: [string, string];
+      time: [string, string];
+    };
+    selectTime: string;
+    today: string;
+    now: string;
+    ok: string;
+  };
+  image: {
+    loading: string;
+  };
+  filePreview: {
+    loadFailed: string;
+  };
+  imagePreview: {
+    fullScreen: string;
+    rotateRight: string;
+    rotateLeft: string;
+    zoomIn: string;
+    zoomOut: string;
+    originalSize: string;
+  };
+  typography: {
+    copied: string;
+    copy: string;
+    expand: string;
+    collapse: string;
+    edit: string;
+  };
+  copy: {
+    copy: string;
+    copied: string;
+  };
+
+  form?: {
+    validateMessages: ValidateMessage;
+  };
+  colorPicker: {
+    history: string;
+    preset: string;
+    empty: string;
+    addCurrent?: string;
+    angle?: string;
+    recent?: string;
+    swatches?: string;
+    monochrome?: string;
+    gradient?: string;
+  };
+  kvList: {
+    switchToList: string;
+    switchToBulk: string;
+    clear: string;
+    add: string;
+    bulkPlaceholder: string;
+    dragSort: string;
+    keyPlaceholder: string;
+    valuePlaceholder: string;
+    remove: string;
+  };
+  a11y: SdA11yLang;
+  sender: {
+    messageInput: string;
+    send: string;
+    stopGenerating: string;
+    removeSkill: string;
+    recording: string;
+    closeHeader: string;
+    speech: {
+      requestingPermission: string;
+      permissionDenied: string;
+      unsupported: string;
+      stop: string;
+      noMicrophone: string;
+      microphoneUnavailable: string;
+      noSpeech: string;
+      recognitionFailed: string;
+      start: string;
+    };
+  };
+  richTextEditor: {
+    ariaLabel: string;
+  };
+  regexVis: {
+    invalid: string;
+    inputLabel: string;
+    flagsLabel: string;
+    graphLabel: string;
+    placeholder: string;
+    empty: string;
+    stringStart: string;
+    stringEnd: string;
+    wordBoundary: string;
+    notWordBoundary: string;
+    namedGroup: string;
+    captureGroup: string;
+    nonCaptureGroup: string;
+    backReference: string;
+    backReferenceDescription: string;
+    positiveLookahead: string;
+    negativeLookahead: string;
+    positiveLookbehind: string;
+    negativeLookbehind: string;
+    branch: string;
+    root: string;
+    emptyBranch: string;
+    choiceBranches: string;
+    text: string;
+    charClass: string;
+    charRange: string;
+    oneOf: string;
+    noneOf: string;
+    anyCharacter: string;
+    anyDigit: string;
+    nonDigit: string;
+    anyAlphanumeric: string;
+    nonAlphanumeric: string;
+    whiteSpace: string;
+    nonWhiteSpace: string;
+    horizontalTab: string;
+    carriageReturn: string;
+    linefeed: string;
+    verticalTab: string;
+    formFeed: string;
+    backspace: string;
+    nul: string;
+    regexDescription: string;
+  };
+}
+
+export type SdI18nMessages = Record<string, SdLang>;

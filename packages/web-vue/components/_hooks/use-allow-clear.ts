@@ -1,5 +1,7 @@
 import { computed, getCurrentInstance, inject, onBeforeUpdate, Ref, shallowRef } from 'vue';
 
+import { resolveAllowClear } from '@sdata/web-core/config/prop-values';
+
 import { configProviderInjectionKey } from '../config-provider/context';
 
 const ALLOW_CLEAR_PROP_NAMES = ['allowClear', 'allow-clear'] as const;
@@ -27,17 +29,19 @@ export const useAllowClear = (
     );
   });
 
-  const mergedAllowClear = computed(() => {
-    if (hasAllowClearProp.value) {
-      return allowClear?.value;
-    }
-
-    if (configProviderCtx?.allowClear === true) {
-      return true;
-    }
-
-    return allowClear?.value;
-  });
+  const mergedAllowClear = computed(() =>
+    resolveAllowClear({
+      get hasLocalProp() {
+        return hasAllowClearProp.value;
+      },
+      get localValue() {
+        return allowClear?.value;
+      },
+      get globalValue() {
+        return configProviderCtx?.allowClear;
+      },
+    }),
+  );
 
   return {
     mergedAllowClear,

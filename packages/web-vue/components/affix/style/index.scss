@@ -1,9 +1,1 @@
-@use 'sass:string';
-@use '@style/theme/index.scss' as *;
-
-$affix-prefix-cls: string.unquote('#{$prefix}-affix');
-
-.#{$affix-prefix-cls} {
-  position: fixed;
-  z-index: $z-index-affix;
-}
+@forward '@sdata/web-core/styles/affix/style/index.scss';

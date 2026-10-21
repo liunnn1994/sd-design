@@ -27,6 +27,8 @@
 <script setup lang="ts">
   import { computed, nextTick, PropType, ref, watch } from 'vue';
 
+  import { createPageJumperFoundation, formatPageJumper } from '@sdata/web-core/pagination/jumper';
+
   import type { Size } from '../_utils/constant';
   import type { InputNumberValue } from '../input-number';
 
@@ -70,34 +72,24 @@
   // total=0 时 pages=0，min=1/max=0 是不可能区间；钳到至少 1，保证 jumper 始终可用
   const jumperMax = computed(() => Math.max(props.pages, 1));
 
-  const handleFormatter = (value: number) => {
-    const parseIntVal = parseInt(value.toString(), 10);
-    return Number.isNaN(parseIntVal) ? undefined : String(parseIntVal);
-  };
-
-  const handleChange = (value: InputNumberValue) => {
-    if (typeof value !== 'number') {
-      return;
-    }
-
-    emit('change', value);
-    nextTick(() => {
-      if (!props.simple) {
-        // InputNumber 的 modelValue watcher 对 undefined→undefined 是 no-op，输入框不会被清空；
-        // 置为 '' 会走 watcher 分支，确定性地重置输入框
-        inputValue.value = '';
-      }
-    });
-  };
-
-  watch(
-    () => props.current,
-    (value) => {
-      if (props.simple && value !== inputValue.value) {
-        inputValue.value = value;
-      }
+  const handleFormatter = formatPageJumper;
+  const foundation = createPageJumperFoundation({
+    get simple() {
+      return props.simple;
     },
-  );
+    get value() {
+      return inputValue.value;
+    },
+    setValue: (value) => {
+      inputValue.value = value;
+    },
+    onChange: (value) => emit('change', value),
+    defer: (callback) => {
+      void nextTick(callback);
+    },
+  });
+  const handleChange = foundation.change;
+  watch(() => props.current, foundation.sync);
 
   const cls = computed(() => [
     prefixCls,

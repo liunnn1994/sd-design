@@ -65,6 +65,7 @@
   import { computed, inject, ref, toRef, watch } from 'vue';
   import type { PropType } from 'vue';
 
+  import { createColorPicker, getColorPreviewStyle } from '@sdata/web-core/color-picker/foundation';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { FloatingOptions } from '../_utils/floating';
@@ -86,13 +87,7 @@
   import Tooltip from '../tooltip';
   import Trigger, { type TriggerProps } from '../trigger';
   import Panel from './panel.vue';
-  import {
-    formatColorState,
-    getColorBackground,
-    getColorObject,
-    normalizeFormat,
-    parseColorState,
-  } from './utils';
+  import { getColorObject, normalizeFormat, parseColorState } from './utils';
 
   defineOptions({ name: 'ColorPicker' });
 
@@ -294,82 +289,57 @@
   // 如果不在每次击键时同步更新受控值，打字会被下一次 keepControl 覆盖（表现为打字不可用）。
   // 输入事件里把草稿值并入受控值，下一次 keepControl 回写的就是用户敲入的文本。
   const inputDraft = ref<string | null>(null);
-  const triggerInputValue = computed(() => {
-    if (inputDraft.value !== null) {
+  const foundation = createColorPicker({
+    props,
+    get value() {
+      return mergedValue.value;
+    },
+    get format() {
+      return normalizedFormat.value;
+    },
+    get state() {
+      return colorState.value;
+    },
+    get draft() {
       return inputDraft.value;
-    }
-    if (!mergedValue.value) return '';
-    return formatColorState(colorState.value, normalizedFormat.value, mergedEnableAlpha.value);
+    },
+    set draft(value) {
+      inputDraft.value = value;
+    },
+    setInner(value) {
+      innerValue.value = value;
+    },
+    setRecent(value) {
+      innerRecentColors.value = value;
+    },
+    setPopup(value) {
+      innerPopupVisible.value = value;
+    },
+    onUpdate(value) {
+      emit('update:modelValue', value);
+    },
+    onChange(value, context) {
+      emit('change', value, context);
+    },
+    onClear(context) {
+      emit('clear', context);
+    },
+    onRecentChange(value) {
+      emit('recent-colors-change', value);
+    },
+    onPopupChange(value, display) {
+      emit('popup-visible-change', value, display);
+    },
   });
-  const previewStyle = computed<Record<string, string>>(() => {
-    const background = getColorBackground(colorState.value);
-    const style: Record<string, string> = {};
-    style[colorState.value.mode === 'linear-gradient' ? 'backgroundImage' : 'backgroundColor'] =
-      background;
-    return style;
-  });
-
-  const syncValue = (value: string) => {
-    if (props.modelValue === undefined) innerValue.value = value;
-    emit('update:modelValue', value);
-  };
-
-  const syncRecentColors = (value: string[]) => {
-    if (props.recentColors === undefined) innerRecentColors.value = value;
-    emit('recent-colors-change', value);
-  };
-
-  const emitChange = (value: string, trigger: ColorPickerChangeTrigger) => {
-    syncValue(value);
-    emit('change', value, {
-      color: getColorObject(parseColorState(value, props.colorModes)),
-      trigger,
-    });
-  };
-
-  const handleColorChange = (value: string, trigger: ColorPickerChangeTrigger) => {
-    if (!props.disabled && !props.readonly) emitChange(value, trigger);
-  };
-
-  const handleClear = (event: MouseEvent) => {
-    inputDraft.value = null;
-    syncValue('');
-    emit('clear', { e: event });
-    emit('change', '', {
-      color: getColorObject(parseColorState('', props.colorModes)),
-      trigger: 'clear',
-    });
-  };
-
-  // 只处理提交（blur/Enter）时的 change；空字符串的清除只走 @clear 一个通道，
-  // 否则 Input 的 change('') + clear 会各触发一次 handleClear，clear/change 双份 emit。
-  const handleTriggerInputChange = (value: string) => {
-    inputDraft.value = null;
-    if (!value) {
-      return;
-    }
-    const nextState = parseColorState(value, props.colorModes);
-    handleColorChange(
-      formatColorState(nextState, normalizedFormat.value, mergedEnableAlpha.value),
-      'input',
-    );
-  };
-
-  // keepControl 每次击键都会把受控值回写进 DOM——把敲入文本并入受控值（草稿），
-  // 这样下一次 keepControl 回写的就是用户敲入的文本，打字才不会被覆盖。
-  const handleTriggerInput = (value: string) => {
-    inputDraft.value = value;
-  };
-
-  // 外部值变化（含自身提交后的回写）时丢弃草稿，展示格式化后的颜色文本
-  watch(mergedValue, () => {
-    inputDraft.value = null;
-  });
-
-  const onPopupVisibleChange = (visible: boolean) => {
-    innerPopupVisible.value = visible;
-    emit('popup-visible-change', visible, triggerInputValue.value);
-  };
+  const triggerInputValue = computed(foundation.display);
+  const previewStyle = computed(() => getColorPreviewStyle(colorState.value));
+  const syncRecentColors = foundation.recent;
+  const handleColorChange = foundation.change;
+  const handleClear = foundation.clear;
+  const handleTriggerInputChange = foundation.commit;
+  const handleTriggerInput = foundation.input;
+  const onPopupVisibleChange = foundation.popup;
+  watch(mergedValue, foundation.syncValue);
 
   const handlePaletteBarChange = (context: { color: ColorObject }) => {
     emit('palette-bar-change', context);

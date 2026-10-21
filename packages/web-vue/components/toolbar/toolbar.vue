@@ -46,7 +46,7 @@
 <script lang="ts" setup>
   import { computed, inject, onBeforeUnmount, onMounted, ref } from 'vue';
 
-  import { cloneDeep, omit } from 'es-toolkit';
+  import { createToolbarFoundation } from '@sdata/web-core/toolbar/foundation';
 
   import type { JsonFormInstance, JsonFormProps, JsonFormSchema } from '../json-form';
   import type { ToolbarEmits, ToolbarModelValue, ToolbarProps } from './types';
@@ -116,17 +116,59 @@
   const bodyHeight = ref(0);
 
   // Snapshot the initial values so reset can restore them.
-  const initModel = Object.fromEntries(cloneDeep(Object.entries(modelValue.value ?? {})));
+  const foundation: ReturnType<typeof createToolbarFoundation<JsonFormSchema<string>>> =
+    createToolbarFoundation(
+      {
+        props: {
+          get schemas() {
+            return schemas;
+          },
+          get resetSkipKeys() {
+            return resetSkipKeys;
+          },
+          get allowExpand() {
+            return allowExpand;
+          },
+          get itemHeight() {
+            return itemHeight;
+          },
+        },
+        get modelValue() {
+          return modelValue.value;
+        },
+        set modelValue(value) {
+          modelValue.value = value;
+        },
+        get isExpand() {
+          return isExpand.value;
+        },
+        set isExpand(value) {
+          isExpand.value = value;
+        },
+        get isOverflow() {
+          return isOverflow.value;
+        },
+        set isOverflow(value) {
+          isOverflow.value = value;
+        },
+        get bodyHeight() {
+          return bodyHeight.value;
+        },
+        set bodyHeight(value) {
+          bodyHeight.value = value;
+        },
+      },
+      {
+        search: (value) => emit('search', value),
+        reset: () => emit('reset'),
+        clearValidate: () => formRef.value?.clearValidate(),
+      },
+    );
+  const { handleSearch, onEnter, reset, toggleExpand } = foundation;
 
   const { createResizeObserver, destroyResizeObserver } = useResizeObserver({
     elementRef: bodyRef,
-    onResize: (entry) => {
-      // scrollHeight reports the full content height even when clipped,
-      // so this stays correct in both collapsed and expanded states.
-      const fullHeight = entry.target.scrollHeight;
-      bodyHeight.value = fullHeight;
-      isOverflow.value = fullHeight > itemHeight;
-    },
+    onResize: foundation.measure,
   });
 
   onMounted(createResizeObserver);
@@ -134,39 +176,14 @@
 
   // Inject the CSS-grid column span so a schema item can occupy multiple columns.
   const resolvedSchemas = computed(
-    () =>
-      schemas.map((schema) => {
-        const span = typeof schema.span === 'number' && schema.span > 0 ? schema.span : 1;
-        const baseStyle =
-          (schema.formItemProps?.style as Record<string, unknown> | undefined) ?? {};
-        return {
-          ...schema,
-          formItemProps: {
-            ...schema.formItemProps,
-            style: { gridColumn: `span ${span}`, ...baseStyle },
-          },
-        };
-      }) as unknown as NonNullable<JsonFormProps['schemas']>,
+    () => foundation.getResolvedSchemas() as unknown as NonNullable<JsonFormProps['schemas']>,
   );
 
   // Only forward schema-derived slot names to JsonForm so this component's own
   // action slots are not leaked into the form.
-  const schemaSlotNames = computed(() => {
-    const names = new Set<string>();
-    const walk = (list: JsonFormSchema<string>[]) => {
-      for (const item of list) {
-        if (typeof item.slotName === 'string') names.add(item.slotName);
-        if (item.children?.length) walk(item.children);
-      }
-    };
-    walk(schemas);
-    return [...names];
-  });
+  const schemaSlotNames = computed(foundation.getSchemaSlotNames);
 
-  const bodyMaxHeight = computed(() => {
-    if (!allowExpand) return 'none';
-    return isExpand.value ? `${bodyHeight.value}px` : `${itemHeight}px`;
-  });
+  const bodyMaxHeight = computed(foundation.getBodyMaxHeight);
 
   const styleVars = computed(() => ({
     '--toolbar-item-height': `${itemHeight}px`,
@@ -184,49 +201,6 @@
       [`${prefixCls}-body--max-width`]: itemMaxWidth !== 'unset',
     },
   ]);
-
-  function handleSearch() {
-    emit('search', modelValue.value);
-  }
-
-  function onEnter(event: KeyboardEvent) {
-    if (event.isComposing || event.defaultPrevented) return;
-
-    const target = event.target;
-    if (
-      target instanceof Element &&
-      target.closest('button, a, textarea, [contenteditable="true"]')
-    ) {
-      return;
-    }
-
-    handleSearch();
-  }
-
-  function reset(emitReset: unknown = true) {
-    // Restore initial values (minus skipped keys), preserve skipped keys' current
-    // values, and drop any keys that were added after mount.
-    const next: ToolbarModelValue = Object.fromEntries(
-      cloneDeep(Object.entries(omit(initModel, resetSkipKeys))),
-    );
-    for (const key of resetSkipKeys) {
-      if (Object.hasOwn(modelValue.value, key)) {
-        Object.defineProperty(next, key, {
-          value: modelValue.value[key],
-          enumerable: true,
-          configurable: true,
-          writable: true,
-        });
-      }
-    }
-    modelValue.value = next;
-    formRef.value?.clearValidate();
-    if (emitReset) emit('reset');
-  }
-
-  function toggleExpand() {
-    isExpand.value = !isExpand.value;
-  }
 
   defineExpose({
     search: handleSearch,

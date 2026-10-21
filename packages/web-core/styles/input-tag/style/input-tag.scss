@@ -1,0 +1,202 @@
+@use '../../style/mixins/icon-hover.scss' as icon-hover;
+@use '../../style/theme/index.scss' as theme;
+@use 'sass:math';
+@use 'sass:string';
+@use 'sass:map';
+@use 'sass:meta';
+@use '../../style/mixins/index.scss' as *;
+@use '../../input/style/token.scss' as *;
+@use '../../input/style/input.scss' as *;
+@use '../../tag/style/token.scss' as token;
+@use '../../tag/style/index.scss' as *;
+@use './token.scss' as inputTagToken;
+@use './token.scss' as *;
+
+@function token-var($name, $fallback: null) {
+  $value: map.get(meta.module-variables('inputTagToken'), $name);
+
+  @if $value == null {
+    @return $fallback;
+  }
+
+  @return $value;
+}
+
+// Builds a `:not()` chain that matches tags carrying their own color
+// (a custom color or any built-in preset). input-tag's default tag
+// background/border/color are scoped to the inverse of this chain so
+// colored tags fully inherit their styling from the Tag component
+// instead of being overridden by the input-tag defaults.
+@function tag-color-not-chain() {
+  $chain: ':not(.#{$tag-prefix-cls}-custom-color)';
+
+  @each $name in $colors {
+    $chain: '#{$chain}:not(.#{$tag-prefix-cls}-#{$name})';
+  }
+
+  @return $chain;
+}
+
+@mixin input-tag-size($cls, $size) {
+  $font-size-token: string.unquote('input-tag-size-#{$size}-font-size');
+  $height-token: string.unquote('input-tag-size-#{$size}-height');
+  $tag-height-token: string.unquote('input-tag-size-#{$size}-tag-height');
+  $vertical-padding: math.div(token-var($height-token), 2) -
+    math.div(token-var($tag-height-token), 2) - $input-tag-border-width -
+    math.div($input-tag-tag-margin-vertical, 2);
+  $vertical-margin: math.div($input-tag-tag-margin-vertical, 2);
+
+  &.#{$cls}-size-#{$size} {
+    font-size: token-var($font-size-token);
+
+    .#{$cls}-inner {
+      padding-top: $vertical-padding;
+      padding-bottom: $vertical-padding;
+    }
+
+    .#{$cls}-tag,
+    .#{$cls}-input {
+      margin-top: $vertical-margin;
+      margin-bottom: $vertical-margin;
+      line-height: token-var($tag-height-token) - 2;
+      vertical-align: middle;
+    }
+
+    .#{$cls}-tag,
+    .#{$cls}-input {
+      height: auto;
+      min-height: token-var($tag-height-token);
+    }
+  }
+}
+
+@mixin input-tag-style($cls) {
+  @include input-wrapper-style($cls);
+
+  position: relative;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+
+  &.#{$cls}-fit-width {
+    width: fit-content;
+  }
+
+  &.#{$cls}-max-w-full {
+    max-width: 100%;
+  }
+
+  &.#{$cls}-has-tag {
+    padding-right: $input-tag-padding-horizontal;
+    padding-left: $input-tag-padding-horizontal;
+  }
+
+  &.#{$cls}-has-prefix {
+    padding-left: $input-padding-horizontal;
+  }
+
+  &.#{$cls}-has-suffix {
+    padding-right: $input-padding-horizontal;
+  }
+
+  .#{$cls}-inner {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    line-height: 0;
+
+    &.#{$cls}-nowrap {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    &.#{$cls}-inner-responsive {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+    }
+
+    .#{$cls}-tag {
+      display: inline-flex;
+      flex-shrink: 0;
+      align-items: center;
+      min-width: 0;
+      margin-right: $input-tag-tag-margin-right;
+      font-size: $input-tag-tag-font-size;
+      white-space: pre-wrap;
+      word-break: break-word;
+
+      &#{tag-color-not-chain()} {
+        color: $input-tag-color-text_default;
+        background-color: $input-tag-tag-color-bg;
+        border-color: $input-tag-tag-color-border;
+      }
+
+      .#{theme.$prefix}-icon-hover:hover::before {
+        background-color: $input-tag-tag-remove-icon-color-bg;
+      }
+
+      &.#{theme.$prefix}-tag-custom-color {
+        @include icon-hover.icon-hover-bg($tag-prefix-cls, token.$tag-custom-color-icon-bg_hover);
+      }
+
+      &.#{$cls}-tag-counter {
+        flex-shrink: 0;
+        white-space: nowrap;
+        word-break: normal;
+      }
+    }
+
+    .#{$cls}-input {
+      @include input-style();
+
+      box-sizing: border-box;
+
+      .#{$cls}-inner-responsive & {
+        flex: 0 0 auto;
+      }
+    }
+  }
+
+  .#{$cls}-mirror {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: pre;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  &.#{$cls}-focus {
+    .#{$cls}-tag {
+      &#{tag-color-not-chain()} {
+        background-color: $input-tag-tag-color-bg_focus;
+        border-color: $input-tag-tag-color-border_focus;
+      }
+
+      .#{theme.$prefix}-icon-hover:hover::before {
+        background-color: $input-tag-tag-remove-icon-color-bg_focus;
+      }
+    }
+  }
+
+  &.#{$cls}-disabled {
+    .#{$cls}-tag {
+      &#{tag-color-not-chain()} {
+        color: $input-tag-color-text_disabled;
+        background-color: $input-tag-tag-color-bg_disabled;
+        border-color: $input-tag-tag-color-border_disabled;
+      }
+    }
+  }
+
+  &.#{$cls}-readonly,
+  &.#{$cls}-disabled-input {
+    cursor: default;
+  }
+
+  @include input-tag-size($cls, mini);
+  @include input-tag-size($cls, medium);
+  @include input-tag-size($cls, small);
+  @include input-tag-size($cls, large);
+}

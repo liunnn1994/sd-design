@@ -32,6 +32,7 @@
 <script setup lang="ts">
   import { computed, PropType, toRefs } from 'vue';
 
+  import { getMonthRows } from '@sdata/web-core/date-picker/calendar';
   import { Dayjs } from 'dayjs';
 
   import type {
@@ -42,30 +43,10 @@
     IsSameTime,
   } from '../../interface';
 
-  import { dayjs } from '../../../_utils/date';
   import { getPrefixCls } from '../../../_utils/global-config';
   import useInjectDatePickerTransform from '../../hooks/use-inject-datepicker-transform';
-  import { newArray } from '../../utils';
   import PanelBody from '../body.vue';
   import PanelHeader, { HeaderLabelClickFunc } from '../header.vue';
-
-  const MONTH_LIST = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-  const CELL_COUNT = 12;
-  const ROW_COUNT = 4;
-  const COL_COUNT = 3;
 
   defineOptions({ name: 'MonthPanel' });
 
@@ -113,19 +94,7 @@
 
   const headerTitle = computed(() => headerValue.value.format('YYYY'));
 
-  const rows = computed(() => {
-    const year = headerValue.value.year();
-    const isAbbr = props.abbreviation ? 'short' : 'long';
-    const flatData = newArray<Cell>(CELL_COUNT).map((_, index) => ({
-      label: datePickerT(`datePicker.month.${isAbbr}.${MONTH_LIST[index]}`),
-      value: dayjs(`${year}-${index + 1}`, 'YYYY-M'),
-    }));
-    const rows = newArray(ROW_COUNT).map((_, index) =>
-      flatData.slice(index * COL_COUNT, (index + 1) * COL_COUNT),
-    );
-
-    return rows;
-  });
+  const rows = computed(() => getMonthRows(headerValue.value, props.abbreviation, datePickerT));
 
   const isSameTime: IsSameTime = (current, target) => current.isSame(target, 'month');
 

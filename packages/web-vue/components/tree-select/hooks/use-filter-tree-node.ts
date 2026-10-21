@@ -1,7 +1,8 @@
 import { computed, onBeforeUnmount, toRefs, watchEffect, ref } from 'vue';
 
+import { getFilteredTreeKeys, matchTreeNodeKey } from '@sdata/web-core/tree-select/filter';
+
 import { debounce } from '../../_utils/debounce';
-import { isUndefined } from '../../_utils/is';
 import { TreeFieldNames, Node, TreeNodeData, TreeNodeKey } from '../../tree/interface';
 import { FilterTreeNode } from '../interface';
 
@@ -23,8 +24,7 @@ export default function useFilterTreeNode(props: {
   const keyField = computed(() => (fieldNames.value?.key || 'key') as keyof TreeNodeData);
 
   const defaultFilterMethod = (keyword: string, node: TreeNodeData) => {
-    const key = node[keyField.value] as TreeNodeKey;
-    return !isUndefined(key) && String(key).indexOf(keyword) > -1;
+    return matchTreeNodeKey(node, keyword, keyField.value);
   };
 
   const filterMethod = computed(() => propFilterMethod?.value || defaultFilterMethod);
@@ -54,18 +54,7 @@ export default function useFilterTreeNode(props: {
 
   const updateFilteredKeysSet = debounce(
     (treeData: Node[], keyword: string, method: FilterTreeNode) => {
-      const hitNodes = treeData.filter((node) => method(keyword, node.treeNodeData));
-
-      const _keysSet = new Set<TreeNodeKey>();
-
-      hitNodes.forEach((node) => {
-        _keysSet.add(node.key);
-        node.pathParentKeys.forEach((_key) => {
-          _keysSet.add(_key);
-        });
-      });
-
-      filteredKeysSet.value = _keysSet;
+      filteredKeysSet.value = getFilteredTreeKeys(treeData, keyword, method);
     },
     100,
   );

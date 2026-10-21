@@ -1,13 +1,14 @@
 import type { App, AppContext } from 'vue';
 import { createVNode, nextTick, render } from 'vue';
 
+import { createModalInstance, createModalRegistry } from '@sdata/web-core/dialog/imperative';
+
 import type { SDOptions } from '../_utils/types';
 import type { ModalConfig, ModalGlobalConfig, ModalMethod, ModalUpdateConfig } from './interface';
 
 import { MESSAGE_TYPES } from '../_utils/constant';
 import { getOverlay } from '../_utils/dom';
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
-import { isFunction } from '../_utils/is';
 import { omit } from '../_utils/omit';
 import { getSlotFunction } from '../_utils/vue-utils';
 import _Modal from './modal.vue';
@@ -17,100 +18,27 @@ type ModalOpenMethod = Pick<
   'open' | 'confirm' | 'info' | 'success' | 'warning' | 'error'
 >;
 
-const defaultModalGlobalConfig: ModalGlobalConfig = {
-  simple: true,
-};
-
-let modalGlobalConfig: ModalGlobalConfig = {
-  ...defaultModalGlobalConfig,
-};
-
-const modalDestroyList: Array<() => void> = [];
-
-const setModalGlobalConfig = (config: ModalGlobalConfig) => {
-  modalGlobalConfig = {
-    ...modalGlobalConfig,
-    ...config,
-  };
-};
-
-const getModalGlobalConfig = () => modalGlobalConfig;
-
-const removeModalDestroyFn = (destroyFn: () => void) => {
-  const index = modalDestroyList.findIndex((item) => item === destroyFn);
-  if (index > -1) {
-    modalDestroyList.splice(index, 1);
-  }
-};
+const registry = createModalRegistry();
 
 const open = (config: ModalConfig, appContext?: AppContext) => {
   let container: HTMLElement | null = getOverlay('modal');
-  let closed = false;
-  let onCloseFired = false;
-
-  // onClose 恰好触发一次：ok/cancel/esc/mask/handle.close 等用户关闭路径都会经过 closeModal，
-  // 在关闭发起时兜底触发；close emit（动画结束）路径的 handleClose 不会重复触发；
-  // destroyAll 等直接卸载路径不触发 onClose
-  const fireOnClose = () => {
-    if (!onCloseFired) {
-      onCloseFired = true;
-      if (isFunction(config.onClose)) {
-        config.onClose();
+  const instance = createModalInstance({
+    callbacks: config,
+    setVisible(value) {
+      if (vm.component) vm.component.props.visible = value;
+    },
+    destroy() {
+      if (container) {
+        render(null, container);
+        if (container.parentNode) container.parentNode.removeChild(container);
       }
-    }
-  };
-
-  const destroyModal = () => {
-    if (closed) {
-      return;
-    }
-    closed = true;
-    if (container) {
-      render(null, container);
-      if (container.parentNode) {
-        container.parentNode.removeChild(container);
-      }
-    }
-    container = null;
-    removeModalDestroyFn(destroyModal);
-  };
-
-  const closeModal = () => {
-    if (closed) {
-      return;
-    }
-    if (vm.component) {
-      vm.component.props.visible = false;
-    }
-    fireOnClose();
-  };
-
-  const handleOk = () => {
-    closeModal();
-
-    if (isFunction(config.onOk)) {
-      config.onOk();
-    }
-  };
-
-  const handleCancel = () => {
-    closeModal();
-
-    if (isFunction(config.onCancel)) {
-      config.onCancel();
-    }
-  };
-
-  const handleClose = async () => {
-    // 组件 close emit（动画结束）路径：负责卸载并兜底触发 onClose
-    await nextTick();
-    destroyModal();
-    fireOnClose();
-  };
-
-  const handleReturnClose = () => {
-    closeModal();
-  };
+      container = null;
+    },
+    remove() {
+      registry.remove(instance.destroy);
+    },
+    afterRender: () => nextTick(),
+  });
 
   const handleUpdateConfig = (config: ModalUpdateConfig) => {
     if (vm.component) {
@@ -124,9 +52,9 @@ const open = (config: ModalConfig, appContext?: AppContext) => {
     visible: true,
     renderToBody: false,
     unmountOnClose: true,
-    onOk: handleOk,
-    onCancel: handleCancel,
-    onClose: handleClose,
+    onOk: instance.ok,
+    onCancel: instance.cancel,
+    onClose: instance.afterClose,
   };
 
   const vm = createVNode(
@@ -158,10 +86,10 @@ const open = (config: ModalConfig, appContext?: AppContext) => {
 
   render(vm, container);
   document.body.appendChild(container);
-  modalDestroyList.push(destroyModal);
+  registry.add(instance.destroy);
 
   return {
-    close: handleReturnClose,
+    close: instance.close,
     update: handleUpdateConfig,
   };
 };
@@ -169,7 +97,7 @@ const open = (config: ModalConfig, appContext?: AppContext) => {
 const modal: ModalOpenMethod = {
   open,
   confirm: (config: ModalConfig, appContext?: AppContext) => {
-    const { simple } = getModalGlobalConfig();
+    const { simple } = registry.config;
     const _config = { simple, messageType: 'warning', ...config };
 
     return open(_config, appContext);
@@ -177,7 +105,7 @@ const modal: ModalOpenMethod = {
   ...MESSAGE_TYPES.reduce(
     (pre, value) => {
       pre[value] = (config: ModalConfig, appContext?: AppContext) => {
-        const { simple } = getModalGlobalConfig();
+        const { simple } = registry.config;
         const _config = {
           simple,
           hideCancel: true,
@@ -193,15 +121,10 @@ const modal: ModalOpenMethod = {
 };
 
 const config = (config: ModalGlobalConfig) => {
-  setModalGlobalConfig(config);
+  registry.configure(config);
 };
 
-const destroyAll = () => {
-  while (modalDestroyList.length) {
-    const close = modalDestroyList.pop();
-    close?.();
-  }
-};
+const destroyAll = registry.destroyAll;
 
 const Modal = Object.assign(_Modal, {
   ...modal,

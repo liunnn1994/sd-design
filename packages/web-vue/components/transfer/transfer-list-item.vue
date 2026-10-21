@@ -43,6 +43,7 @@
 <script setup lang="ts">
   import { computed, inject, type PropType } from 'vue';
 
+  import { createTransferItemFoundation } from '@sdata/web-core/transfer/foundation';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { TransferItem } from './interface';
@@ -85,19 +86,17 @@
     },
   ]);
 
-  const handleClick = () => {
-    if (props.simple && !props.disabled) {
-      transferCtx?.moveTo([props.data.value], props.type === 'target' ? 'source' : 'target');
-    }
-  };
-
-  const handleChange = (value: unknown) => {
-    transferCtx?.onSelect(value as string[]);
-  };
-
-  const handleRemove = () => {
-    transferCtx?.moveTo([props.data.value], 'source');
-  };
+  const foundation = createTransferItemFoundation({
+    isSimple: () => props.simple,
+    isDisabled: () => props.disabled,
+    getValue: () => props.data.value,
+    getType: () => props.type,
+    moveTo: (values, target) => transferCtx?.moveTo(values, target),
+    onSelect: (value) => transferCtx?.onSelect(value),
+  });
+  const handleClick = foundation.click;
+  const handleChange = foundation.change;
+  const handleRemove = foundation.remove;
 
   const handleRemoveKeydown = (event: KeyboardEvent) => {
     if (isActivationKey(event)) {

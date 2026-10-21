@@ -44,6 +44,8 @@
 <script setup lang="ts">
   import { inject, onBeforeUnmount, shallowRef, watch } from 'vue';
 
+  import { createSenderHeader } from '@sdata/web-core/sender/controls';
+
   import type { SenderHeaderProps } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
@@ -71,60 +73,33 @@
   const context = inject(senderInjectionKey, undefined);
   const prefixCls = context?.prefixCls ?? getPrefixCls('sender');
   const headerCls = `${prefixCls}-header`;
-  const rendered = shallowRef(props.forceRender || props.open);
-
-  watch([() => props.open, () => props.forceRender], ([open, forceRender]) => {
-    if (open || forceRender) rendered.value = true;
-  });
-
-  const handleClose = () => {
-    const nextOpen = !props.open;
-    emit('update:open', nextOpen);
-    emit('openChange', nextOpen);
-  };
-
-  let frame: number | undefined;
-  const cancelFrame = () => {
-    if (frame !== undefined) cancelAnimationFrame(frame);
-    frame = undefined;
-  };
+  const rendered = shallowRef(false);
+  const foundation = createSenderHeader(
+    {
+      get props() {
+        return props;
+      },
+      get rendered() {
+        return rendered.value;
+      },
+      set rendered(value) {
+        rendered.value = value;
+      },
+    },
+    { update: (open) => emit('update:open', open), change: (open) => emit('openChange', open) },
+  );
+  watch([() => props.open, () => props.forceRender], ([open, forceRender]) =>
+    foundation.syncRendered(open, forceRender),
+  );
+  const {
+    close: handleClose,
+    cancelFrame,
+    beforeEnter: handleBeforeEnter,
+    enter: handleEnter,
+    afterEnter: handleAfterEnter,
+    beforeLeave: handleBeforeLeave,
+    leave: handleLeave,
+    afterLeave: handleAfterLeave,
+  } = foundation;
   onBeforeUnmount(cancelFrame);
-
-  const handleBeforeEnter = (element: Element) => {
-    cancelFrame();
-    const target = element as HTMLElement;
-    target.style.height = '0';
-    target.style.borderBottomColor = 'transparent';
-  };
-  const handleEnter = (element: Element) => {
-    const target = element as HTMLElement;
-    frame = requestAnimationFrame(() => {
-      frame = undefined;
-      target.style.height = `${target.scrollHeight}px`;
-      target.style.borderBottomColor = '';
-    });
-  };
-  const handleAfterEnter = (element: Element) => {
-    cancelFrame();
-    const target = element as HTMLElement;
-    target.style.height = 'auto';
-    target.style.borderBottomColor = '';
-  };
-  const handleBeforeLeave = (element: Element) => {
-    cancelFrame();
-    const target = element as HTMLElement;
-    target.style.height = `${target.scrollHeight}px`;
-  };
-  const handleLeave = (element: Element) => {
-    const target = element as HTMLElement;
-    frame = requestAnimationFrame(() => {
-      frame = undefined;
-      target.style.height = '0';
-      target.style.borderBottomColor = 'transparent';
-    });
-  };
-  const handleAfterLeave = () => {
-    cancelFrame();
-    if (!props.open && !props.forceRender) rendered.value = false;
-  };
 </script>

@@ -62,18 +62,7 @@
       data-testid="kv-list-bulk"
     />
 
-    <VueDraggable
-      v-else
-      v-model="rows"
-      :class="`${prefixCls}-rows`"
-      :animation="150"
-      :draggable="rowSelector"
-      :handle="handleSelector"
-      :disabled="disabled"
-      :ghost-class="`${prefixCls}-row--ghost`"
-      :chosen-class="`${prefixCls}-row--chosen`"
-      @update="commitRows"
-    >
+    <div v-else ref="rowsRoot" :class="`${prefixCls}-rows`">
       <KvListRow
         v-for="(item, index) in rows"
         :key="item.id"
@@ -96,14 +85,15 @@
           <slot name="row-actions" :item="{ key: item.key, value: item.value }" :index="index" />
         </template>
       </KvListRow>
-    </VueDraggable>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, watch } from 'vue';
+  import { computed, onBeforeUnmount, ref, watch } from 'vue';
 
-  import { VueDraggable } from 'vue-draggable-plus';
+  import { createListSort } from '@sdata/web-core/drag-sort/list';
+  import { createKvListFoundation } from '@sdata/web-core/kv-list/foundation';
 
   import type {
     KvListFieldSlotProps,
@@ -124,7 +114,6 @@
   import { useI18n } from '../locale';
   import Textarea from '../textarea';
   import KvListRow from './kv-list-row.vue';
-  import { isSameKvList, normalizeKvList, parseBulkKvList, stringifyKvList } from './utils';
 
   defineOptions({ name: 'KvList' });
 
@@ -179,112 +168,63 @@
   const bulkMode = ref(false);
   const bulkAvailable = computed(() => bulkEditable ?? type !== 'secret');
   const rows = ref<KvListWorkingItem[]>([]);
-  let id = 0;
-  let suppressedJsonUpdate: KvListItem[] | undefined;
+  const foundation = createKvListFoundation({
+    get rows() {
+      return rows.value;
+    },
+    set rows(value) {
+      rows.value = value;
+    },
+    get json() {
+      return jsonModel.value;
+    },
+    set json(value) {
+      jsonModel.value = value;
+    },
+    get bulk() {
+      return bulkModel.value;
+    },
+    set bulk(value) {
+      bulkModel.value = value;
+    },
+    get disabled() {
+      return disabled;
+    },
+  });
+  const { addItem, updateItem, removeItem, clearItems } = foundation;
 
-  function createWorkingItem(item: KvListItem): KvListWorkingItem {
-    return { id: id++, key: item.key, value: item.value };
-  }
+  const rowsRoot = ref<HTMLElement>();
+  let listSort: ReturnType<typeof createListSort> | undefined;
+  watch(
+    rowsRoot,
+    (element) => {
+      listSort?.destroy();
+      listSort = element
+        ? createListSort(element, {
+            draggable: rowSelector,
+            handle: handleSelector,
+            ghostClass: `${prefixCls}-row--ghost`,
+            chosenClass: `${prefixCls}-row--chosen`,
+            move: foundation.moveItem,
+          })
+        : undefined;
+      listSort?.setDisabled(disabled);
+    },
+    { flush: 'post' },
+  );
+  watch(
+    () => disabled,
+    (value) => listSort?.setDisabled(value),
+  );
+  onBeforeUnmount(() => listSort?.destroy());
 
-  function publicRows() {
-    return normalizeKvList(rows.value);
-  }
-
-  function replaceRows(items: readonly KvListItem[]) {
-    const normalizedItems = normalizeKvList(items);
-    rows.value =
-      normalizedItems.length > 0
-        ? normalizedItems.map(createWorkingItem)
-        : [createWorkingItem({ key: '', value: '' })];
-  }
-
-  function commitRows() {
-    const items = publicRows();
-    const bulk = stringifyKvList(items);
-
-    if (!isSameKvList(normalizeKvList(jsonModel.value), items)) {
-      jsonModel.value = items;
-    }
-    if (bulkModel.value !== bulk) {
-      bulkModel.value = bulk;
-    }
-  }
-
-  function addItem() {
-    if (disabled) return;
-    rows.value.push(createWorkingItem({ key: '', value: '' }));
-    // 空键行仍会被 normalizeKvList 过滤，commit 仅用于保持两个模型与行列表一致
-    commitRows();
-  }
-
-  function updateItem(index: number, item: KvListWorkingItem) {
-    if (disabled) return;
-    rows.value[index] = item;
-    commitRows();
-  }
-
-  function removeItem(index: number) {
-    if (disabled) return;
-    rows.value.splice(index, 1);
-    if (rows.value.length === 0) {
-      addItem();
-    }
-    commitRows();
-  }
-
-  function clearItems() {
-    if (disabled) return;
-    replaceRows([]);
-    commitRows();
-  }
-
-  const initialJson = normalizeKvList(jsonModel.value);
-  const initialBulk = parseBulkKvList(bulkModel.value);
-
-  if (initialJson.length > 0) {
-    replaceRows(initialJson);
-    bulkModel.value = stringifyKvList(initialJson);
-  } else if (initialBulk.length > 0) {
-    replaceRows(initialBulk);
-    jsonModel.value = initialBulk;
-  } else {
-    replaceRows([]);
-  }
+  foundation.initialize();
 
   watch(bulkAvailable, (available) => {
     if (!available) bulkMode.value = false;
   });
 
-  watch(
-    jsonModel,
-    (value) => {
-      const items = normalizeKvList(value);
+  watch(jsonModel, foundation.syncJson, { deep: true });
 
-      if (suppressedJsonUpdate && isSameKvList(items, suppressedJsonUpdate)) {
-        suppressedJsonUpdate = undefined;
-        return;
-      }
-      if (isSameKvList(items, publicRows())) return;
-
-      replaceRows(items);
-      const bulk = stringifyKvList(items);
-      if (bulkModel.value !== bulk) {
-        bulkModel.value = bulk;
-      }
-    },
-    { deep: true },
-  );
-
-  watch(bulkModel, (value) => {
-    if (value === stringifyKvList(publicRows())) return;
-
-    const items = parseBulkKvList(value);
-    if (isSameKvList(items, publicRows())) return;
-
-    replaceRows(items);
-    if (!isSameKvList(items, normalizeKvList(jsonModel.value))) {
-      suppressedJsonUpdate = items;
-      jsonModel.value = items;
-    }
-  });
+  watch(bulkModel, foundation.syncBulk);
 </script>

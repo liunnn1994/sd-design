@@ -17,6 +17,8 @@
 </template>
 
 <script setup lang="ts">
+  import type { RadioValue } from '@sdata/web-core/radio/types';
+
   import type { PropType, VNode } from 'vue';
   import {
     computed,
@@ -29,6 +31,9 @@
     watch,
   } from 'vue';
 
+  import { normalizeChoiceOptions } from '@sdata/web-core/_utils/choice-options';
+  import { createRadioGroupFoundation } from '@sdata/web-core/radio/foundation';
+
   import type { Direction, Size } from '../_utils/constant';
   import type { RadioType } from './context';
   import type { RadioOption } from './interface';
@@ -36,11 +41,9 @@
   import { useFormItem } from '../_hooks/use-form-item';
   import { useSize } from '../_hooks/use-size';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isFunction, isNull, isNumber, isString, isUndefined } from '../_utils/is';
+  import { isFunction } from '../_utils/is';
   import { radioGroupKey } from './context';
   import Radio from './radio.vue';
-
-  type RadioValue = string | number | boolean;
 
   defineOptions({ name: 'RadioGroup' });
 
@@ -143,18 +146,21 @@
   const { mergedSize } = useSize(formItemSize);
   const internalValue = ref(props.defaultValue);
   const changeCount = ref(0);
-  const computedValue = computed(() => props.modelValue ?? internalValue.value);
-  const options = computed(() =>
-    (props.options ?? []).map((option) => {
-      if (isString(option) || isNumber(option)) {
-        return {
-          label: option,
-          value: option,
-        } as RadioOption;
-      }
-      return option;
-    }),
-  );
+  const foundation = createRadioGroupFoundation<Event>({
+    getModel: () => props.modelValue,
+    getInternal: () => internalValue.value,
+    setInternal: (value) => {
+      internalValue.value = value;
+    },
+    incrementChangeCount: () => {
+      changeCount.value++;
+    },
+    onUpdate: (value) => emit('update:modelValue', value),
+    onChange: (value, event) => emit('change', value, event),
+    onFormChange: (event) => eventHandlers.value?.onChange?.(event),
+  });
+  const computedValue = computed(foundation.getValue);
+  const options = computed(() => normalizeChoiceOptions(props.options) as RadioOption[]);
   const cls = computed(() => [
     `${prefixCls}${props.type === 'button' ? '-button' : ''}`,
     `${prefixCls}-size-${mergedSize.value}`,
@@ -163,13 +169,7 @@
       [`${prefixCls}-disabled`]: mergedDisabled.value,
     },
   ]);
-  const handleChange = (value: RadioValue, event: Event) => {
-    changeCount.value++;
-    internalValue.value = value;
-    emit('update:modelValue', value);
-    emit('change', value, event);
-    eventHandlers.value?.onChange?.(event);
-  };
+  const handleChange = foundation.change;
 
   provide(
     radioGroupKey,
@@ -186,17 +186,6 @@
     }),
   );
 
-  watch(computedValue, (value) => {
-    if (internalValue.value !== value) {
-      internalValue.value = value;
-    }
-  });
-  watch(
-    () => props.modelValue,
-    (value) => {
-      if (isUndefined(value) || isNull(value)) {
-        internalValue.value = '';
-      }
-    },
-  );
+  watch(computedValue, foundation.syncValue);
+  watch(() => props.modelValue, foundation.syncModel);
 </script>

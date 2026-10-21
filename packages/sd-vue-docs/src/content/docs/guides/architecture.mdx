@@ -1,0 +1,221 @@
+---
+title: 跨框架技术方案
+description: 从组件交互拆解、分层架构与实际调用链理解 SD Design 的 Foundation / Adapter 设计。
+---
+
+import ArchitectureDiagram from '../../../components/docs/ArchitectureDiagram.astro';
+
+## 背景：哪些代码值得跨框架复用
+
+SD Design 的设计语言、视觉规范与交互规则，需要能够在不同前端框架中表达。选择 Vue 3 实现组件，并不意味着排序、校验、选值、日期运算等规则也必须依赖 Vue。
+
+一个事件处理函数通常会先读取 props 和状态，再进行计算与条件判断，最后写回状态、通知业务并更新界面。如果这些步骤都写在组件内部，移植到另一框架时，就需要同时重写交互规则和框架接线。复杂组件中的异步取消、受控回写、事件顺序也会随之被重新实现，容易产生行为差异。
+
+SD Design 采用 **Foundation / Adapter（F/A）分层**：把稳定的交互规则保存在共享 Core，把状态容器、事件通知、生命周期与视图表达留在框架包。当前实现由 `@sdata/web-core` 与 `@sdata/web-vue` 组成，业务继续通过 `@sdata/web-vue` 使用原生 Vue 组件。
+
+## 从 Select 的交互看分层依据
+
+拆分的单位是一次完整交互中的职责，而不是文件后缀或函数长度。以当前 Select 为例：
+
+| 交互场景 | 可复用的规则与过程 | Vue 需要连接的能力 |
+| --- | --- | --- |
+| 根据选项与值生成回显 | 值与 key 的映射、候选项数据、fallback 与额外选项处理 | 从 props、选项子组件与 computed 取得输入；通过模板和插槽展示 |
+| 输入搜索文本 | 判断文本是否变化，必要时打开浮层，更新输入，再决定是否搜索 | 读写输入与可见状态；以现有防抖时机通知 `search`；渲染输入和浮层 |
+| 选中一个选项 | 只读拦截、单选/多选分支、数量限制、选值转换与通知次序 | 写回内部值、触发 `update:modelValue` / `change`、连接表单、更新可见性 |
+| 删除或清空 | 按 key 删除；清空时保留禁用项对应的值；处理输入与通知 | 传递原事件、写回状态、更新标签及浮层 |
+
+这里的“打开浮层”也有两个职责：**什么时候打开**可以是共享交互规则，**如何响应式地显示、定位并渲染浮层**属于框架实现。不能因为最终会更新 DOM，就把整段交互都留在 Vue；也不能因为规则已经共享，就把 Vue 的 refs、VNode 或插槽搬进 Core。
+
+对应源码为 `packages/web-core/src/select/foundation.ts`、`options.ts` 与 `packages/web-vue/components/select/select.vue`。浮层定位与渲染继续通过 Vue 层的 Trigger 和框架专属依赖完成。
+
+## 架构：一个组件由哪些部分组成
+
+<ArchitectureDiagram />
+
+图中的两个包共同构成一个可用的 Vue 组件。**运行时依赖方向是 Vue 包依赖 Core；执行过程中，Foundation 又会调用由 Vue 注入的 Adapter 端口。** 端口回调不构成 Core 对 Vue 包的反向导入。
+
+### Foundation：决定交互如何进行
+
+Foundation 保存组件的计算、分支判断和动作组合。例如 Collapse 根据当前展开集合及手风琴模式计算下一组 key；Select 组织选值、输入、删除和清空流程；Table 与 Form 分别共享数据规则与字段校验调度。
+
+Foundation 不创建 Vue 的响应式对象，不解析 VNode，不执行 Vue 生命周期。它需要读取状态或产生外部效果时，调用注入的接口。接口只暴露当前组件真正需要的能力，例如 `getValueKeys()`、`setInner()`、`onChange()`，无需先为所有组件建立统一基类或通用状态仓库。
+
+### Adapter：实现 Foundation 所需的端口
+
+Adapter 同时有“契约”和“实现”两个含义：契约随共享逻辑定义在 Core，Vue 实现位于组件 setup 中。Foundation 只知道端口的名称、参数、结果和调用时序；Vue Adapter 决定它具体如何连接框架。
+
+| 端口类别 | Foundation 看到的能力 | Vue 实现的典型方式 |
+| --- | --- | --- |
+| 读取当前输入 | 获取 props、选值、禁用状态或派生集合 | getter 或函数读取 `props`、`ref.value`、`computed.value` |
+| 写回局部状态 | 提交内部值、加载状态或候选项集合 | 赋值给 ref / reactive 状态 |
+| 通知外部 | 触发模型更新、change 或表单回调 | `emit(...)`、调用注入的表单事件 |
+| 等待渲染 / 操作宿主 | 在 DOM 更新后聚焦、测量或恢复选区 | `nextTick`、元素引用、框架组件实例 |
+| 资源与生命周期 | 连接计时、观察、取消和销毁 | 挂载时接入，watch 失效或卸载时清理 |
+
+**读取端口应返回调用时的状态。** setup 时把 props 的值复制进普通对象，会让后续交互读取旧值；通过 getter 或回调连接，才能保留受控值、动态禁用等行为。Adapter 也不应重新实现一遍已经由 Foundation 决定的选择、校验或事件排序规则。
+
+### View：声明框架原生的界面
+
+View 与 Adapter 一起维护在 `@sdata/web-vue`。View 负责 DOM 结构、事件绑定、样式类、ARIA、VNode、插槽、Teleport 和 Transition；响应式状态变化后，由 Vue 更新界面。Foundation 不生成模板，也不负责比较虚拟 DOM。
+
+例如 CollapseItem 的标题声明 `role="button"`、`aria-expanded`、点击和键盘事件；展开内容使用 Vue Transition。共享逻辑决定是否切换、何时挂载或销毁内容，Vue 连接实际的事件目标、过渡回调和渲染结构。
+
+## 调用流程：用户操作与输入变化如何进入共享逻辑
+
+有两类入口需要考虑。用户操作由 DOM 事件进入组件，再交给 Foundation；外部输入与生命周期变化，则由 props、watch、挂载或卸载接线调用对应的同步、取消或清理方法。两类入口最终都遵循同一分工：
+
+| 阶段       | 执行位置                | 责任                                               |
+| ---------- | ----------------------- | -------------------------------------------------- |
+| 入口       | Vue View / 生命周期接线 | 取得当前事件或输入变化，调用对应共享方法           |
+| 读取与决策 | Foundation              | 通过端口读取最新状态，计算结果并决定动作顺序       |
+| 外部效果   | Adapter                 | 回写状态、通知业务、调度渲染后的任务或调用宿主能力 |
+| 视图更新   | Vue                     | 按最新 props / 响应式状态重新渲染                  |
+
+同一个 Foundation 方法可以调用多个 Adapter 方法，一个 Adapter 方法也可以被多个共享过程复用。因此，这不是固定的一次“函数 A 转发到函数 B”，而是**交互流程对所需能力的组合调用**。
+
+<ArchitectureDiagram kind="flow" />
+
+## 代码实例：Collapse 如何拆分
+
+以下片段取自当前源码。示例保留真实命名与执行次序，省略的只是与讲解无关的组件 props、样式和模板；它不是另一套简化组件实现。
+
+### 1. 在 Vue 中声明状态并连接 Adapter
+
+`packages/web-vue/components/collapse/collapse.vue` 初始化内部展开值，然后把实时状态访问与通知实现交给 Core：
+
+```ts
+const _activeKey = ref(props.defaultActiveKey);
+const computedActiveKeys = computed(() => foundation.getKeys());
+const foundation = createCollapseFoundation({
+  get value() {
+    return props.activeKey;
+  },
+  get inner() {
+    return _activeKey.value;
+  },
+  get keys() {
+    return computedActiveKeys.value;
+  },
+  get accordion() {
+    return props.accordion;
+  },
+  setInner(value) {
+    _activeKey.value = value;
+  },
+  onChange(value, event) {
+    emit('update:activeKey', value);
+    emit('change', value, event);
+  },
+});
+const handleClick = foundation.click;
+```
+
+这里创建 computed 时只声明求值函数，Foundation 创建时也不立即读取端口，所以可以连接稍后才会求值的派生状态。`ref`、`computed`、`emit` 都留在 Vue；Core 接收到的是普通 getter 和函数。
+
+Vue 通过 `provide(collapseKey, reactive(...))` 把 `activeKeys` 与 `handleClick` 等上下文提供给 CollapseItem。子项负责当前 DOM 的点击与键盘接入，随后调用这个处理入口；父组件不需要遍历模板中的每一个面板来重写切换规则。
+
+### 2. Foundation 通过契约访问状态
+
+`packages/web-core/src/collapse/foundation.ts` 的工厂参数定义了这组能力：
+
+```ts
+export function createCollapseFoundation(adapter: {
+  readonly value: CollapseValue | undefined;
+  readonly inner: CollapseValue;
+  readonly keys: CollapseKey[];
+  readonly accordion: boolean;
+  setInner(value: CollapseKey[]): void;
+  onChange(value: CollapseKey[], event: Event): void;
+}) {
+  // getKeys / click 的实现见下文
+}
+```
+
+`CollapseKey` 为 `string | number`，`CollapseValue` 为单个 key 或 key 数组。参数中的只读属性约束 Foundation 不直接修改状态；Vue 可以用 getter 实现它们。`Event` 是原生事件类型，并非 Vue 类型；当前调用原样保留事件身份。
+
+当前有效展开值由共享方法读取：
+
+```ts
+function getKeys() {
+  const value = adapter.value ?? adapter.inner;
+  return isArray(value) ? value : [value];
+}
+```
+
+`activeKey` 通过空值合并优先于内部状态，因此不能用“是否为真”判断受控值：空数组、空字符串、数字 key 都应按现有契约处理。
+
+### 3. Foundation 组合判断、写回与通知
+
+点击流程也在同一文件中，Vue 不重复计算下一组 key：
+
+```ts
+function click(key: CollapseKey, event: Event) {
+  let keys: CollapseKey[] = [];
+  if (adapter.accordion) {
+    if (!adapter.keys.includes(key)) keys = [key];
+    adapter.setInner(keys);
+  } else {
+    keys = [...adapter.keys];
+    const index = keys.indexOf(key);
+    if (index > -1) keys.splice(index, 1);
+    else keys.push(key);
+    adapter.setInner(keys);
+  }
+  adapter.onChange(keys, event);
+}
+```
+
+手风琴模式点击已展开项时得到空数组，点击其他项时得到单项数组；普通模式先复制集合，再增删指定 key。**先调用 `setInner`，再调用 `onChange`** 是当前实现的顺序；后者在 Adapter 内依次触发 `update:activeKey` 与 `change`。分层不应改变这个次序。
+
+### 4. 受控状态并非事件触发后就自动提交
+
+当前 Collapse 即使有 `activeKey` 也会写入内部值，但 `getKeys()` 始终优先读取当前受控输入。父级接受 `update:activeKey` 后，新的 prop 驱动显示；父级不接受，显示仍以原 prop 为准。非受控模式才使用内部 `_activeKey`。
+
+这说明共享逻辑可以发出“下一值”和通知，却不能假定父级已经接受。其他框架实现也要维持相同的状态优先级、事件顺序和拒绝回写行为，不能简单把通知等同于成功提交。
+
+### 5. 生命周期按组件需要接入
+
+CollapseItem 的共享工厂还管理内容挂载与离场状态。Vue 将真实过渡回调连接至 `beforeLeave`、`afterLeave`、`leaveCancelled`，并执行：
+
+```ts
+watch(mergedDestroyOnHide, foundation.syncDestroy, { flush: 'post' });
+watch(isActive, foundation.syncActive);
+```
+
+离场结束后是否销毁、离场被取消时如何恢复，是共享控制流程；watch 的 flush 时机与 Vue Transition 是框架接线。当前 Core 采用按组件需要返回方法的工厂，不要求每个组件都提供空的 `init()` / `destroy()`。拥有观察器、定时器或异步任务的控制器，则必须把释放与失效操作连接到实际生命周期。
+
+## Core 的共享范围与运行环境
+
+`@sdata/web-core` 不只是纯计算函数集合。它同时容纳组件 Foundation、共享类型、原生浏览器驱动及样式体系，需要进一步区分：
+
+| Core 内的能力 | 实际内容 | 环境边界 |
+| --- | --- | --- |
+| 规则与交互流程 | 数据转换、选值、校验、异步流程与状态决策 | 不依赖 Vue 响应式或组件实例；由输入与端口驱动 |
+| 原生驱动 | Clamp 测量、排序拖拽、观察器、媒体与 PDF 等 | 执行相关路径需要 DOM、元素或浏览器 SDK；通过端口接入宿主与调度 |
+| 样式与主题 | SCSS、Design Token、主题派生与共享组件样式 | 框架包复用视觉基础；Vue 继续提供既有全量与按需入口 |
+
+**模块常规导入不要求 DOM，不代表所有方法都能在服务端执行。** 实际测量、挂载、媒体与拖拽需要对应环境。框架专属的 Floating UI、motion-v、virtua/vue 接线仍在 Vue 层。跨框架能力由共享 Core 与独立原生框架适配实现，不增加整库的 Web Components 中间层。
+
+## 其他框架如何接入
+
+当前只有 Vue 适配包。React、Solid、Svelte 和原生适配是扩展方向，尚未提供可安装的对应组件包。
+
+移植一个组件时，复用其 Core 模块与样式，并完成三组对应关系：
+
+| 需要实现的部分 | 当前 Vue 实现 | 新框架必须保证的行为 |
+| --- | --- | --- |
+| View | template、VNode、插槽与 ARIA | 用原生语法表达 DOM、子内容、样式类与无障碍语义 |
+| State / Adapter | props、ref、computed、emit | 每次读取最新状态；保留受控优先级、值类型、通知次序和事件参数 |
+| Event / lifecycle | 事件绑定、watch、nextTick、过渡与卸载 | 将用户事件和外部输入接到相同流程；正确等待渲染、取消任务并释放资源 |
+
+以 Collapse 为例，另一个框架可以提供不同的内部状态容器和通知函数，但继续使用 `createCollapseFoundation` 的选择规则。视图、上下文传播及过渡仍需在该框架内实现和验证。迁移成本由“重复整套行为”减少为“实现端口与原生视图”，并不等于自动生成组件。
+
+## 兼容、验证与设计取舍
+
+业务继续使用 `@sdata/web-vue` 的组件、事件、插槽、实例、样式和旧深入口，无需直接组装 Foundation。Core 独立产出 ESM 与类型声明，Vue 通过 workspace 依赖消费；两包同版本协同构建，按 Core → Vue 的顺序发布。
+
+维护时分三层验证：共享测试验证规则与端口调用；框架浏览器测试验证 DOM、焦点、受控回写、异步取消、过渡与卸载；产物和业务消费验证导出、声明、样式入口与实际调用兼容。新框架需要复用行为契约，并补足自身的状态调度与视图测试。
+
+这套设计的收益是复杂交互可以集中修复，并让不同框架共享同一套规则。代价是需要明确端口边界、维护更多接线，并分别验证各框架的渲染时序。简单的 props 映射、类名组合或一次 DOM 绑定可以直接留在 Adapter；不应为了形式上的拆分制造只有一次转发的抽象。
+
+仓库根目录 `ARCHITECTURE.md` 说明构建及模块组织。组件使用方式见[快速上手](/guides/start/)。

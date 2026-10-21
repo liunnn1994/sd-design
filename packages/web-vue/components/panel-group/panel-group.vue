@@ -7,12 +7,12 @@
 <script lang="ts" setup>
   import { computed, onBeforeUpdate, onUpdated, ref, nextTick, watch } from 'vue';
 
+  import { setGroupDisabled, setGroupOrientation } from '@sdata/web-core/panel-group/foundation';
+
   import type { PanelTransition } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { injectParentPanelGroup, providePanelGroup } from './context';
-  import { AXES } from './core/axes';
-  import { grips } from './core/grips';
   import { createEngineGroup } from './core/group';
   import { reorder as reorderAnimation } from './core/reorder';
 
@@ -79,22 +79,14 @@
   watch(
     () => props.disabled,
     (disabled) => {
-      group.disabled = !!disabled;
-      if (group.disabled) {
-        for (const panel of group.panels.values()) panel.drag.cancel();
-      }
-      group.notify();
+      setGroupDisabled(group, disabled);
     },
     { immediate: true, flush: 'sync' },
   );
   watch(
     () => props.orientation ?? 'horizontal',
     async (orientation) => {
-      for (const panel of group.panels.values()) panel.drag.cancel();
-      Object.assign(group.axes, AXES[orientation]);
-      grips.invalidate();
-      await nextTick();
-      group.notify();
+      await setGroupOrientation(group, orientation, nextTick);
     },
   );
   providePanelGroup(group);

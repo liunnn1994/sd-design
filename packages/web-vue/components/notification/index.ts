@@ -1,9 +1,11 @@
-import type { App, AppContext, Ref } from 'vue';
+import type { App, AppContext } from 'vue';
 import { createVNode, render, reactive, ref } from 'vue';
+
+import { createNoticeQueue } from '@sdata/web-core/notice/queue';
+import { createNoticeService, resolveNoticeConfig } from '@sdata/web-core/notice/service';
 
 import { MESSAGE_TYPES, MessageType } from '../_utils/constant';
 import { getOverlay } from '../_utils/dom';
-import { isFunction, isString, isUndefined } from '../_utils/is';
 import { configProviderInjectionKey, type ConfigProvider } from '../config-provider/context';
 import {
   NotificationConfig,
@@ -17,204 +19,74 @@ type _NotificationConfig = NotificationConfig & {
   type: MessageType;
 };
 
-class NotificationManger {
-  private readonly pool = new Set<NotificationItem>();
-
-  private readonly notificationIds: Set<number | string>;
-
-  private readonly notifications: Ref<NotificationItem[]>;
-
-  private readonly position: NotificationPosition;
-
-  private container: HTMLElement | null;
-
-  private notificationCount = 0;
-
-  constructor(config: _NotificationConfig, appContext?: AppContext) {
-    const { position = 'topRight' } = config;
-    this.container = getOverlay('notification');
-    this.notificationIds = new Set();
-    this.notifications = ref([]);
-    this.position = position;
-
-    const vm = createVNode(NotificationList, {
-      notifications: this.notifications.value,
-      position,
-      onClose: this.remove,
-      onAfterClose: this.destroy,
-    });
-
-    if (appContext ?? Notification._context) {
-      vm.appContext = appContext ?? Notification._context;
-    }
-    render(vm, this.container);
-    document.body.appendChild(this.container);
-  }
-
-  add = (config: _NotificationConfig) => {
-    this.notificationCount++;
-    let id = config.id ?? `__sd_notification_${this.notificationCount}`;
-    if (isUndefined(config.id)) {
-      while (this.notificationIds.has(id)) {
-        id = `__sd_notification_${++this.notificationCount}`;
+const createManager = (config: _NotificationConfig, appContext?: AppContext) => {
+  const { position = 'topRight' } = config;
+  let container: HTMLElement | null = getOverlay('notification');
+  const notifications = ref<NotificationItem[]>([]);
+  const queue = createNoticeQueue<_NotificationConfig, NotificationItem>('notification', {
+    get items() {
+      return notifications.value;
+    },
+    get alive() {
+      return Boolean(container);
+    },
+    get connected() {
+      return Boolean(container?.isConnected);
+    },
+    create(item) {
+      return reactive(item);
+    },
+    destroy() {
+      if (container) {
+        render(null, container);
+        if (container.parentNode) container.parentNode.removeChild(container);
       }
-    }
-    if (this.notificationIds.has(id)) {
-      return this.update(id, config);
-    }
-    const notification: NotificationItem = reactive({ ...config, id });
-    this.notifications.value.push(notification);
-    if (config.deduplicate) {
-      this.pool.add(notification);
-    }
-    this.notificationIds.add(id);
+      container = null;
+    },
+    onDestroy() {
+      service.release(position);
+    },
+  });
+  const vm = createVNode(NotificationList, {
+    notifications: notifications.value,
+    position,
+    onClose: queue.remove,
+    onAfterClose: queue.destroy,
+  });
+  if (appContext ?? Notification._context) vm.appContext = appContext ?? Notification._context;
+  render(vm, container);
+  document.body.appendChild(container);
+  return queue;
+};
 
-    return {
-      close: () => this.remove(id),
-    };
-  };
-
-  reuse = (config: _NotificationConfig) => {
-    for (const item of this.pool) {
-      if (
-        (!config.deduplicateByType || item.type === config.type) &&
-        item.content === config.content &&
-        item.title === config.title
-      ) {
-        if (!isUndefined(config.duration)) {
-          item.duration = config.duration;
-        }
-        item.timerVersion = (item.timerVersion ?? 0) + 1;
-        return { close: () => this.remove(item.id) };
-      }
-    }
-  };
-
-  update = (id: number | string, config: _NotificationConfig) => {
-    for (let i = 0; i < this.notifications.value.length; i++) {
-      if (this.notifications.value[i].id === id) {
-        const item = this.notifications.value[i];
-        // 仅在本次更新配置与既有项都未显式设置 resetOnUpdate 时，才按 duration 推导默认值，
-        // 避免无 duration 的更新把用户显式设置的 resetOnUpdate 覆盖回 false
-        const resetOnUpdate =
-          config.resetOnUpdate ?? item.resetOnUpdate ?? !isUndefined(config.duration);
-        Object.assign(item, {
-          ...config,
-          id,
-          resetOnUpdate,
-        });
-        const updated = this.notifications.value[i];
-        if (config.deduplicate) {
-          this.pool.add(updated);
-        } else {
-          this.pool.delete(updated);
-        }
-        break;
-      }
-    }
-    return {
-      close: () => this.remove(id),
-    };
-  };
-
-  remove = (id: number | string) => {
-    for (let i = 0; i < this.notifications.value.length; i++) {
-      const item = this.notifications.value[i];
-
-      if (item.id === id) {
-        this.notifications.value.splice(i, 1);
-        this.notificationIds.delete(id);
-        this.pool.delete(item);
-        if (isFunction(item.onClose)) {
-          item.onClose(id);
-        }
-
-        break;
-      }
-    }
-  };
-
-  clear = () => {
-    this.notifications.value.splice(0);
-    this.notificationIds.clear();
-    this.pool.clear();
-  };
-
-  destroy = () => {
-    if (this.notifications.value.length === 0 && this.container) {
-      render(null, this.container);
-      // 容器可能已被外部移除（如 body 被替换），直接 removeChild 会抛 NotFoundError
-      if (this.container.parentNode) {
-        this.container.parentNode.removeChild(this.container);
-      }
-      this.container = null;
-      notificationInstance[this.position] = undefined;
-    }
-  };
-
-  isDisconnected = () => {
-    return !this.container || !this.container.isConnected;
-  };
-}
-
-const notificationInstance: {
-  topLeft?: NotificationManger;
-  topRight?: NotificationManger;
-  bottomLeft?: NotificationManger;
-  bottomRight?: NotificationManger;
-} = {};
+const service = createNoticeService<
+  NotificationPosition,
+  _NotificationConfig,
+  AppContext | undefined
+>({
+  defaultPosition: 'topRight',
+  create: createManager,
+});
 
 const notification = MESSAGE_TYPES.reduce((pre, value) => {
   pre[value] = (config, appContext?: AppContext) => {
-    if (isString(config)) {
-      config = { content: config };
-    }
-
     const context = appContext ?? Notification._context;
     const provider = context?.provides[configProviderInjectionKey as symbol] as
       | ConfigProvider
       | undefined;
-    const _config: _NotificationConfig = {
-      type: value,
-      ...config,
-      deduplicate: config.deduplicate ?? provider?.notification?.deduplicate ?? false,
-      deduplicateByType:
-        config.deduplicateByType ?? provider?.notification?.deduplicateByType ?? true,
-    };
-    const { position = 'topRight' } = _config;
-    for (const instance of Object.values(notificationInstance)) {
-      if (instance?.isDisconnected()) {
-        instance.clear();
-        instance.destroy();
-      }
-    }
-    if (_config.deduplicate && isUndefined(_config.id)) {
-      for (const instance of Object.values(notificationInstance)) {
-        const reused = instance?.reuse(_config);
-        if (reused) {
-          return reused;
-        }
-      }
-    }
-    if (!notificationInstance[position]) {
-      notificationInstance[position] = new NotificationManger(_config, appContext);
-    }
-    return notificationInstance[position]!.add(_config);
+    const resolved: _NotificationConfig = resolveNoticeConfig(
+      value,
+      config,
+      provider?.notification,
+    );
+    return service.open(resolved, appContext);
   };
   return pre;
 }, {} as NotificationMethod);
 
-notification.remove = (id: string) => {
-  Object.values(notificationInstance).forEach((item) => item?.remove(id));
-};
+notification.remove = service.remove;
 
-notification.clear = (position?: NotificationPosition) => {
-  if (position) {
-    notificationInstance[position]?.clear();
-  } else {
-    Object.values(notificationInstance).forEach((item) => item?.clear());
-  }
-};
+notification.clear = service.clear;
 
 const Notification = {
   ...notification,

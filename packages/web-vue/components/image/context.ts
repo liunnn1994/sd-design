@@ -1,9 +1,7 @@
-import { InjectionKey } from 'vue';
+import type { PreviewGroupContext } from '@sdata/web-core/image/types';
 
-export type PreviewGroupContext = Readonly<{
-  registerImageUrl: (id: number, url: string, canPreview: boolean) => () => void;
-  preview: (imageId: number) => void;
-}>;
+import { InjectionKey } from 'vue';
+export type { PreviewGroupContext } from '@sdata/web-core/image/types';
 
 export const PreviewGroupInjectionKey: InjectionKey<PreviewGroupContext> = Symbol(
   'PreviewGroupInjectionKey',

@@ -28,25 +28,15 @@
 <script setup lang="ts">
   import { getCurrentInstance, inject, computed, PropType } from 'vue';
 
-  import { Direction } from '../_utils/constant';
+  import {
+    getTimelineItemState,
+    getTimelineLineStyle,
+    getTimelineDotStyle,
+  } from '@sdata/web-core/timeline/foundation';
+
   import { getPrefixCls } from '../_utils/global-config';
   import { TimelineContext, timelineInjectionKey } from './context';
-  import { DotType, LineType, PositionType, ModeType } from './interface';
-
-  const getDefaultPosition = (
-    index: number,
-    mode: ModeType,
-    direction: Direction,
-    position?: string,
-  ) => {
-    let map = ['left', 'right'];
-    if (direction === 'horizontal') {
-      map = ['top', 'bottom'];
-    }
-    const res = mode === 'alternate' ? position || map[index % 2] : mode;
-
-    return map.indexOf(res) > -1 ? res : map[0];
-  };
+  import { DotType, LineType, PositionType } from './interface';
 
   defineOptions({ name: 'TimelineItem' });
 
@@ -116,54 +106,32 @@
   const instance = getCurrentInstance();
   const context = inject<Partial<TimelineContext>>(timelineInjectionKey, {});
 
-  const index = computed(() =>
-    props.pending
-      ? (context.items?.length ?? 0)
-      : (context.items?.indexOf(instance?.uid ?? -1) ?? -1),
+  const itemState = computed(() =>
+    getTimelineItemState(props.pending, instance?.uid ?? -1, context, props.position),
   );
-
-  const contextDirection = computed(() => {
-    return context?.direction ?? 'vertical';
-  });
-
-  const labelPosition = computed(() => {
-    return context?.labelPosition ?? 'same';
-  });
-
-  const cls = computed(() => {
-    const { items = [], reverse, labelPosition, mode = 'left' } = context;
-    const direction = contextDirection.value;
-    const computedPosition = getDefaultPosition(index.value, mode, direction, props.position);
-    return [
-      prefixCls,
-      {
-        [`${prefixCls}-${direction}-${computedPosition}`]: direction,
-        [`${prefixCls}-label-${labelPosition}`]: labelPosition,
-        [`${prefixCls}-last`]:
-          index.value === (reverse === true ? 0 : items.length - 1 + Number(context.hasPending)),
-      },
-    ];
-  });
+  const contextDirection = computed(() => itemState.value.direction);
+  const labelPosition = computed(() => context.labelPosition ?? 'same');
+  const cls = computed(() => [
+    prefixCls,
+    {
+      [`${prefixCls}-${itemState.value.direction}-${itemState.value.position}`]:
+        itemState.value.direction,
+      [`${prefixCls}-label-${context.labelPosition}`]: context.labelPosition,
+      [`${prefixCls}-last`]: itemState.value.last,
+    },
+  ]);
 
   const dotLineCls = computed(() => {
     return [`${prefixCls}-dot-line`, `${prefixCls}-dot-line-is-${contextDirection.value}`];
   });
 
-  const computedDotLineStyle = computed(() => {
-    const { direction } = context! || {};
-    return {
-      [direction === 'horizontal' ? 'borderTopStyle' : 'borderLeftStyle']: props.lineType,
-      ...(props.lineColor ? { borderColor: props.lineColor } : {}),
-    };
-  });
+  const computedDotLineStyle = computed(() =>
+    getTimelineLineStyle(context.direction, props.lineType, props.lineColor),
+  );
 
   const dotTypeCls = computed(() => {
     return [`${prefixCls}-dot`, `${prefixCls}-dot-${props.dotType}`];
   });
 
-  const computedDotStyle = computed(() => {
-    return {
-      [props.dotType === 'solid' ? 'backgroundColor' : 'borderColor']: props.dotColor,
-    };
-  });
+  const computedDotStyle = computed(() => getTimelineDotStyle(props.dotType, props.dotColor));
 </script>

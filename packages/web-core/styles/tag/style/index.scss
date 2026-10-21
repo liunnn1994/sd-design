@@ -1,0 +1,256 @@
+@use '../../style/mixins/icon-hover.scss' as icon-hover;
+@use '../../style/theme/index.scss' as theme;
+@use '../../style/theme/index.scss' as global;
+@use 'sass:string';
+@use 'sass:map';
+@use 'sass:meta';
+
+@forward './token.scss';
+
+@use '../../style/mixins/index.scss' as *;
+@use './token.scss' as token;
+@use './token.scss' as *;
+
+$tag-prefix-cls: string.unquote('#{theme.$prefix}-tag');
+
+$colors:
+  'red', 'orangered', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'sdblue', 'purple',
+  'pinkpurple', 'magenta', 'gray';
+
+@function _str-replace-all($string, $search, $replace) {
+  $index: string.index($string, $search);
+
+  @if not $index {
+    @return $string;
+  }
+
+  $before: string.slice($string, 1, $index - 1);
+  $after: string.slice($string, $index + string.length($search));
+
+  @return $before + $replace + _str-replace-all($after, $search, $replace);
+}
+
+@function token-var($name, $fallback: null) {
+  $vars: meta.module-variables('token');
+  $value: map.get($vars, $name);
+
+  @if $value == null {
+    // meta.module-variables() exposes token names normalized to hyphens, while
+    // the source looks them up with underscores (e.g. 'color-text_disabled').
+    // map.get() compares keys as exact strings, so normalize before retrying.
+    $value: map.get($vars, _str-replace-all($name, '_', '-'));
+  }
+
+  @if $value == null {
+    @return $fallback;
+  }
+
+  @return $value;
+}
+
+.#{$tag-prefix-cls} {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: $tag-size-default;
+  padding: $tag-padding-vertical $tag-padding-horizontal;
+  color: $tag-default-color-text;
+  font-weight: $tag-text-font-weight;
+  font-size: $tag-size-default-font-size;
+  line-height: $tag-size-default - $tag-border-width * 2 - $tag-padding-vertical * 2;
+  white-space: nowrap;
+  vertical-align: middle;
+  border: $tag-border-width $tag-border-type transparent;
+  border-radius: $tag-border-radius;
+
+  @include icon-hover.icon-hover($tag-prefix-cls, 12px, 16px);
+  @include icon-hover.icon-hover-bg($tag-prefix-cls, $tag-default-color-bg_hover);
+
+  &-checkable {
+    cursor: pointer;
+    transition:
+      background-color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+      border-color theme.$transition-duration-1 theme.$transition-timing-function-standard;
+  }
+
+  &-checkable:hover {
+    background-color: $tag-color-bg-not-checked_hover;
+  }
+
+  &-checked {
+    background-color: $tag-default-color-bg;
+    border-color: $tag-default-color-border;
+  }
+
+  &-checkable {
+    &.#{$tag-prefix-cls}-checked:hover {
+      background-color: $tag-default-color-bg_hover;
+      border-color: $tag-default-color-border_hover;
+    }
+  }
+
+  &-bordered,
+  &.#{$tag-prefix-cls}-checkable.#{$tag-prefix-cls}-checked.#{$tag-prefix-cls}-bordered:hover {
+    border-color: $tag-default-bordered-color-border;
+  }
+
+  // Size
+  &-size-small {
+    height: $tag-size-small;
+    font-size: $tag-size-small-font-size;
+    line-height: $tag-size-small - $tag-border-width * 2;
+  }
+
+  &-size-medium {
+    height: $tag-size-medium;
+    font-size: $tag-size-medium-font-size;
+    line-height: $tag-size-medium - $tag-border-width * 2;
+  }
+
+  &-size-large {
+    height: $tag-size-large;
+    font-size: $tag-size-large-font-size;
+    line-height: $tag-size-large - $tag-border-width * 2;
+  }
+
+  &-hide {
+    display: none;
+  }
+
+  &-loading {
+    cursor: default;
+    opacity: 0.8;
+  }
+
+  &-icon {
+    margin-right: $tag-icon-margin-right;
+    color: $tag-default-color-icon;
+  }
+
+  &-text {
+    min-width: 1em;
+    max-width: 100%;
+  }
+
+  &-ellipsis {
+    max-width: 100%;
+  }
+
+  &-ellipsis-line-clamp {
+    height: auto;
+  }
+
+  &-no-ellipsis {
+    min-width: fit-content;
+
+    .#{$tag-prefix-cls}-text {
+      min-width: fit-content;
+      max-width: none;
+    }
+  }
+
+  @each $value in $colors {
+    &.#{$tag-prefix-cls}-checked.#{$tag-prefix-cls}-#{$value} {
+      color: token-var('tag-#{$value}-color-text');
+      background-color: token-var('tag-#{$value}-color-bg');
+      border: $tag-border-width $tag-border-type token-var('tag-#{$value}-color-border');
+
+      @include icon-hover.icon-hover-bg(
+        $tag-prefix-cls,
+        token-var('tag-#{$value}-color-icon-bg_hover')
+      );
+    }
+
+    &.#{$tag-prefix-cls}-checkable.#{$tag-prefix-cls}-checked.#{$tag-prefix-cls}-#{$value}:hover {
+      background-color: token-var('tag-#{$value}-color-bg_hover');
+      border-color: token-var('tag-#{$value}-color-border_hover');
+    }
+
+    &.#{$tag-prefix-cls}-checked.#{$tag-prefix-cls}-#{$value}.#{$tag-prefix-cls}-bordered,
+    &.#{$tag-prefix-cls}-checked.#{$tag-prefix-cls}-#{$value}.#{$tag-prefix-cls}-bordered:hover {
+      border-color: token-var('tag-#{$value}-bordered-color-border');
+    }
+
+    &.#{$tag-prefix-cls}-checked.#{$tag-prefix-cls}-#{$value} &-icon,
+    &.#{$tag-prefix-cls}-checked.#{$tag-prefix-cls}-#{$value} &-close-btn,
+    &.#{$tag-prefix-cls}-checked.#{$tag-prefix-cls}-#{$value} &-loading-icon {
+      color: token-var('tag-#{$value}-color-icon');
+    }
+  }
+
+  &.#{$tag-prefix-cls}-custom-color {
+    color: var(--#{$tag-prefix-cls}-color, $tag-custom-color-text);
+    background-color: var(--#{$tag-prefix-cls}-bg-color, $tag-default-color-bg);
+
+    @include icon-hover.icon-hover-bg($tag-prefix-cls, $tag-custom-color-icon-bg_hover);
+  }
+
+  &.#{$tag-prefix-cls}-custom-color.#{$tag-prefix-cls}-checked {
+    color: var(--#{$tag-prefix-cls}-color, $tag-custom-color-text);
+    background-color: var(--#{$tag-prefix-cls}-bg-color, $tag-default-color-bg);
+  }
+
+  &.#{$tag-prefix-cls}-custom-color.#{$tag-prefix-cls}-bordered {
+    border-color: var(--#{$tag-prefix-cls}-border-color, $tag-default-bordered-color-border);
+  }
+
+  &-custom-color {
+    .#{$tag-prefix-cls}-icon,
+    .#{$tag-prefix-cls}-close-btn,
+    .#{$tag-prefix-cls}-loading-icon {
+      color: var(--#{$tag-prefix-cls}-color, $tag-custom-color-text);
+    }
+  }
+
+  & &-close-btn {
+    margin-left: 4px;
+    font-size: 12px;
+
+    > svg {
+      position: relative;
+    }
+  }
+
+  & &-loading-icon {
+    margin-left: 4px;
+    font-size: 12px;
+  }
+}
+
+#{global.$sd-theme-tag}[sd-theme='dark'] {
+  .#{$tag-prefix-cls}-checked {
+    color: rgb(255 255 255 / 90%);
+  }
+
+  @each $value in $colors {
+    .#{$tag-prefix-cls}-checked.#{$tag-prefix-cls}-#{$value} {
+      background-color: string.unquote('rgba(var(#{global.$sd-cssvars-prefix}-#{$value}-6), 0.2)');
+
+      @include icon-hover.icon-hover-bg(
+        $tag-prefix-cls,
+        string.unquote('rgba(var(#{global.$sd-cssvars-prefix}-#{$value}-6), 0.35)')
+      );
+    }
+
+    .#{$tag-prefix-cls}-checkable.#{$tag-prefix-cls}-checked.#{$tag-prefix-cls}-#{$value}:hover {
+      background-color: string.unquote('rgba(var(#{global.$sd-cssvars-prefix}-#{$value}-6), 0.35)');
+    }
+  }
+}
+
+.#{$tag-prefix-cls}-rtl {
+  direction: rtl;
+
+  .#{$tag-prefix-cls} {
+    &-icon {
+      margin-right: 0;
+      margin-left: $tag-icon-margin-right;
+    }
+
+    &-close-btn,
+    &-loading-icon {
+      margin-right: 4px;
+      margin-left: 0;
+    }
+  }
+}

@@ -3,7 +3,6 @@ import type { App } from 'vue';
 import type { SDOptions } from '../_utils/types';
 
 import { getComponentPrefix, setGlobalConfig } from '../_utils/global-config';
-import { continuous } from './continuous';
 import _NumberFlowGroup from './number-flow-group.vue';
 import _NumberFlow from './number-flow.vue';
 export { useCanAnimate } from './use-can-animate';
@@ -19,7 +18,8 @@ const NumberFlow = Object.assign(_NumberFlow, {
 
 const NumberFlowGroup = _NumberFlowGroup;
 
-export { NumberFlowGroup, continuous };
+export { NumberFlowGroup };
+export { continuous } from '@sdata/web-core/number-flow/continuous';
 export type NumberFlowInstance = InstanceType<typeof _NumberFlow>;
 export type NumberFlowGroupInstance = InstanceType<typeof _NumberFlowGroup>;
 export type {

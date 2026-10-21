@@ -1,44 +1,18 @@
 import { onBeforeUnmount, Ref, watch } from 'vue';
 
+import { createOverflowController } from '@sdata/web-core/popup/overflow';
+
 import { getScrollBarWidth, isScroll } from '../_utils/dom';
-import { acquireOverflowLock, releaseOverflowLock } from '../_utils/overflow-lock';
 
 export const useOverflow = (elementRef: Ref<HTMLElement | undefined>) => {
-  let lockedElement: HTMLElement | undefined;
-
-  const setOverflowHidden = () => {
-    const element = elementRef.value;
-    if (!element || lockedElement) return;
-    const scrollBarWidth = getScrollBarWidth(element);
-    const styles =
-      scrollBarWidth > 0 || isScroll(element)
-        ? {
-            overflow: 'hidden',
-            width: `${element.offsetWidth - scrollBarWidth}px`,
-            boxSizing: 'border-box',
-          }
-        : undefined;
-    if (acquireOverflowLock(element, styles)) lockedElement = element;
-  };
-
-  const resetOverflow = () => {
-    if (!lockedElement) return;
-    const element = lockedElement;
-    lockedElement = undefined;
-    releaseOverflowLock(element);
-  };
-
-  watch(elementRef, () => {
-    if (lockedElement) {
-      resetOverflow();
-      setOverflowHidden();
-    }
+  const controller = createOverflowController({
+    get element() {
+      return elementRef.value;
+    },
+    getScrollBarWidth,
+    isScroll,
   });
-
-  onBeforeUnmount(resetOverflow);
-
-  return {
-    setOverflowHidden,
-    resetOverflow,
-  };
+  watch(elementRef, controller.syncElement);
+  onBeforeUnmount(controller.reset);
+  return { setOverflowHidden: controller.lock, resetOverflow: controller.reset };
 };

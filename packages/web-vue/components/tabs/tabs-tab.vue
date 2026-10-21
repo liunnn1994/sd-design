@@ -29,11 +29,12 @@
   import type { PropType } from 'vue';
   import { computed, inject } from 'vue';
 
+  import { activateTab, activateTabKey } from '@sdata/web-core/tabs/foundation';
+
   import type { TabData } from './interface';
 
   import IconHover from '../_components/icon-hover.vue';
   import { getPrefixCls } from '../_utils/global-config';
-  import { KEYBOARD_KEY } from '../_utils/keyboard';
   import IconClose from '../icon/icon-close';
   import { useI18n } from '../locale';
   import { TabsContext, tabsInjectionKey } from './context';
@@ -60,21 +61,9 @@
   const tabsId = computed(() => tabsCtx.tabsId ?? '');
   const tabId = computed(() => `${tabsId.value}-${typeof props.tab.key}-${props.tab.key}-tab`);
   const panelId = computed(() => `${tabsId.value}-${typeof props.tab.key}-${props.tab.key}-panel`);
-  const handleClick = (e: Event) => {
-    if (!props.tab.disabled) {
-      emit('click', props.tab.key, e);
-    }
-  };
-
-  const onKeyDown = (ev: KeyboardEvent) => {
-    // Enter / Space 激活当前 tab；方向键与 Home/End 在 tablist（tabs-nav）层统一处理
-    if (ev.key === KEYBOARD_KEY.ENTER) {
-      handleClick(ev);
-    } else if (ev.key === KEYBOARD_KEY.SPACE) {
-      ev.preventDefault();
-      handleClick(ev);
-    }
-  };
+  const handleClick = (event: Event) =>
+    activateTab(props.tab, event, (key, event) => emit('click', key, event));
+  const onKeyDown = (event: KeyboardEvent) => activateTabKey(event, handleClick);
 
   const eventHandlers = computed(() => {
     return Object.assign(
@@ -83,11 +72,8 @@
     );
   });
 
-  const handleDelete = (e: Event) => {
-    if (!props.tab.disabled) {
-      emit('delete', props.tab.key, e);
-    }
-  };
+  const handleDelete = (event: Event) =>
+    activateTab(props.tab, event, (key, event) => emit('delete', key, event));
 
   const cls = computed(() => [
     prefixCls,

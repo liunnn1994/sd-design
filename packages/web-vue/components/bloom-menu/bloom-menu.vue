@@ -110,6 +110,7 @@
 
 <script lang="ts" setup>
   import type { Middleware } from '@floating-ui/vue';
+  import type { TriggerStyleSnapshot } from '@sdata/web-core/bloom-menu/types';
   import type { Transition } from 'motion-v';
   import type { Merge, UnknownRecord } from 'type-fest';
 
@@ -126,6 +127,10 @@
   } from 'vue';
 
   import { shift } from '@floating-ui/vue';
+  import {
+    createBloomMenuFoundation,
+    getBloomMenuInitialState,
+  } from '@sdata/web-core/bloom-menu/foundation';
   import { Motion, useReducedMotion } from 'motion-v';
 
   import type { FloatingOptions } from '../_utils/floating';
@@ -138,16 +143,6 @@
   import IconPlus from '../icon/icon-plus';
   import { useI18n } from '../locale';
   import Trigger from '../trigger';
-
-  interface TriggerStyleSnapshot {
-    width: number;
-    height: number;
-    backgroundColor: string;
-    borderColor: string;
-    borderRadius: string;
-    boxShadow: string;
-    color: string;
-  }
 
   type BloomMenuButtonProps = Merge<HTMLAttributes, ButtonInstance['$props']> & UnknownRecord;
 
@@ -266,36 +261,105 @@
   const slots = useSlots();
   const triggerButtonRef = useTemplateRef<ButtonInstance>('triggerButton');
   const panelRootRef = useTemplateRef<HTMLDivElement>('panelRoot');
-  const internalOpen = shallowRef(defaultOpen);
+  const initialState = getBloomMenuInitialState(modelValue, defaultOpen);
+  const internalOpen = shallowRef(initialState.internalOpen);
   // Keep the Trigger popup mounted until Motion finishes the closing morph.
-  const popupVisible = shallowRef(modelValue ?? defaultOpen);
+  const popupVisible = shallowRef(initialState.popupVisible);
   const reducedMotion = useReducedMotion();
-  const triggerStyle = shallowRef<TriggerStyleSnapshot>({
-    width: 144,
-    height: 44,
-    backgroundColor: 'transparent',
-    borderColor: 'transparent',
-    borderRadius: '16px',
-    boxShadow: 'none',
-    color: 'currentColor',
-  });
+  const triggerStyle = shallowRef<TriggerStyleSnapshot>(initialState.triggerStyle);
+  const foundation: ReturnType<typeof createBloomMenuFoundation<BloomMenuItem>> =
+    createBloomMenuFoundation(
+      {
+        props: {
+          get items() {
+            return items;
+          },
+          get columns() {
+            return columns;
+          },
+          get modelValue() {
+            return modelValue;
+          },
+          get offset() {
+            return offset;
+          },
+        },
+        prefixCls,
+        get buttonElement() {
+          return triggerButtonRef.value?.$el as HTMLElement | undefined;
+        },
+        get panelElement() {
+          return panelRootRef.value ?? undefined;
+        },
+        get hasCustomTrigger() {
+          return Boolean(slots.trigger);
+        },
+        get reducedMotion() {
+          return reducedMotion.value;
+        },
+        get normalizedColumns() {
+          return normalizedColumns.value;
+        },
+        get rowCount() {
+          return rowCount.value;
+        },
+        get isOpen() {
+          return isOpen.value;
+        },
+        get panelCollapsed() {
+          return panelCollapsed.value;
+        },
+        get panelAnimate() {
+          return panelAnimate.value;
+        },
+        get internalOpen() {
+          return internalOpen.value;
+        },
+        set internalOpen(value) {
+          internalOpen.value = value;
+        },
+        get popupVisible() {
+          return popupVisible.value;
+        },
+        set popupVisible(value) {
+          popupVisible.value = value;
+        },
+        get triggerStyle() {
+          return triggerStyle.value;
+        },
+        set triggerStyle(value) {
+          triggerStyle.value = value;
+        },
+      },
+      {
+        afterRender: (task) => {
+          void nextTick(task);
+        },
+        requestFrame: (task) => {
+          requestAnimationFrame(task);
+        },
+        update: (value) => emit('update:modelValue', value),
+        opened: () => emit('open'),
+        closed: () => emit('close'),
+        select: (item, index) => emit('select', item, index),
+      },
+    );
+  const {
+    captureTriggerStyle,
+    handlePopupVisibleChange,
+    open,
+    close,
+    closeHeaderSlot,
+    selectItem,
+    getItemInitial,
+    getItemTransition,
+  } = foundation;
 
-  const normalizedColumns = computed(() => Math.max(1, Math.floor(columns)));
-  const rowCount = computed(() => Math.max(1, Math.ceil(items.length / normalizedColumns.value)));
-  const isOpen = computed(() => modelValue ?? internalOpen.value);
+  const normalizedColumns = computed(foundation.getNormalizedColumns);
+  const rowCount = computed(foundation.getRowCount);
+  const isOpen = computed(foundation.getIsOpen);
   const rootClasses = computed(() => [prefixCls, { [`${prefixCls}-open`]: isOpen.value }]);
-  const centerMiddleware = computed<Middleware>(() => {
-    const left = offset?.left ?? 0;
-    const top = offset?.top ?? 0;
-    return {
-      name: 'bloomMenuCenter',
-      options: { left, top },
-      fn: ({ rects }) => ({
-        x: rects.reference.x + (rects.reference.width - rects.floating.width) / 2 + left,
-        y: rects.reference.y + (rects.reference.height - rects.floating.height) / 2 + top,
-      }),
-    };
-  });
+  const centerMiddleware = computed<Middleware>(foundation.getCenterMiddleware);
   const floatingOptions = computed<FloatingOptions>(() => ({
     placement: 'top',
     // shift 在中心定位之后执行,把面板收回视口内(修复原版会溢出屏幕的缺陷);
@@ -318,234 +382,31 @@
         '--bloom-menu-source-color': triggerStyle.value.color,
       }) as CSSProperties,
   );
-  const panelCollapsed = computed(() =>
-    reducedMotion.value
-      ? {}
-      : {
-          width: 'var(--bloom-menu-source-width)',
-          height: 'var(--bloom-menu-source-height)',
-          color: 'var(--bloom-menu-source-color)',
-          backgroundColor: 'var(--bloom-menu-source-background)',
-          borderColor: 'var(--bloom-menu-source-border-color)',
-          borderRadius: 'var(--bloom-menu-source-border-radius)',
-          boxShadow: 'var(--bloom-menu-source-box-shadow)',
-          opacity: 0.98,
-        },
-  );
-  const panelInitial = computed(() => ({
-    ...panelCollapsed.value,
-    opacity: reducedMotion.value ? 0 : 0.98,
-  }));
-  const panelAnimate = computed(() => ({
-    width: 'var(--bloom-menu-panel-width)',
-    height: 'auto',
-    color: 'var(--bloom-menu-panel-color)',
-    backgroundColor: 'var(--bloom-menu-panel-background)',
-    borderColor: 'var(--bloom-menu-panel-border-color)',
-    borderRadius: 'var(--bloom-menu-panel-border-radius)',
-    boxShadow: 'var(--bloom-menu-panel-shadow)',
-    opacity: 1,
-  }));
-  const panelTarget = computed(() =>
-    reducedMotion.value
-      ? { ...panelAnimate.value, opacity: isOpen.value ? 1 : 0 }
-      : isOpen.value
-        ? panelAnimate.value
-        : panelCollapsed.value,
-  );
-  const morphTransition = computed<Transition>(() =>
-    reducedMotion.value
-      ? { duration: 0.15 }
-      : { type: 'spring', stiffness: 320, damping: 28, mass: 0.9 },
-  );
-  const contentTransition = computed<Transition>(() => ({
-    delay: isOpen.value && !reducedMotion.value ? 0.12 : 0,
-    duration: reducedMotion.value ? 0.15 : isOpen.value ? 0.2 : 0.12,
-  }));
-  const gridInitial = computed(() =>
-    reducedMotion.value ? false : { clipPath: 'inset(45% 34% 45% 34%)' },
-  );
-  const gridTransition = computed<Transition>(() => ({
-    delay: reducedMotion.value ? 0 : 0.08,
-    duration: reducedMotion.value ? 0.15 : 0.45,
-    ease: [0.16, 1, 0.3, 1],
-  }));
-
-  function getTriggerElement(event?: Event): HTMLElement | undefined {
-    if (event?.currentTarget instanceof HTMLElement) return event.currentTarget;
-    const buttonEl = triggerButtonRef.value?.$el as HTMLElement | undefined;
-    if (!slots.trigger) return buttonEl;
-    // 自定义 trigger 插槽：morph 源取插槽根元素（实际可见的触发器），
-    // 而不是回退到硬编码的 144×44 默认快照
-    const slotRoot = buttonEl?.querySelector<HTMLElement>(
-      `:scope .${prefixCls}-trigger-content > *`,
-    );
-    return slotRoot ?? buttonEl;
-  }
-
-  function captureTriggerStyle(event?: Event) {
-    const element = getTriggerElement(event);
-    if (!element || typeof window === 'undefined') return;
-
-    const rect = element.getBoundingClientRect();
-    const style = window.getComputedStyle(element);
-    triggerStyle.value = {
-      width: rect.width,
-      height: rect.height,
-      backgroundColor: style.backgroundColor,
-      borderColor: style.borderColor,
-      borderRadius: style.borderRadius,
-      boxShadow: style.boxShadow,
-      color: style.color,
-    };
-  }
-
-  function setOpen(nextOpen: boolean) {
-    if (nextOpen === isOpen.value) return;
-    if (modelValue === undefined) internalOpen.value = nextOpen;
-    emit('update:modelValue', nextOpen);
-    if (nextOpen) emit('open');
-    else emit('close');
-  }
-
-  function handlePopupVisibleChange(visible: boolean) {
-    if (visible) {
-      // 受控开启被父级忽略后 popupVisible 可能被强制复位过，这里同步回来
-      window.clearTimeout(closeTimer);
-      captureTriggerStyle();
-      setOpen(true);
-      if (isOpen.value) popupVisible.value = true;
-    } else {
-      // popup 即将卸载,若焦点在面板内(Esc 关闭)则还给触发器,避免焦点丢失
-      if (
-        document.activeElement instanceof HTMLElement &&
-        panelRootRef.value?.contains(document.activeElement)
-      ) {
-        focusTrigger();
-      }
-      setOpen(false);
-      if (modelValue !== undefined && isOpen.value) {
-        // 强制受控开启：父级忽略 update:modelValue(false) 时 Trigger 已在关闭，
-        // 内部 popupVisible 必须同步复位，避免 Trigger 与内部弹层状态失同步
-        popupVisible.value = false;
-        window.clearTimeout(closeTimer);
-      }
-    }
-  }
-
-  let closeTimer = 0;
-
-  function schedulePopupHide() {
-    window.clearTimeout(closeTimer);
-    closeTimer = window.setTimeout(
-      () => {
-        if (!isOpen.value) popupVisible.value = false;
-      },
-      reducedMotion.value ? 150 : 450,
-    );
-  }
-
-  function open() {
-    captureTriggerStyle();
-    setOpen(true);
-  }
-
-  function focusTrigger() {
-    (triggerButtonRef.value?.$el as HTMLElement | undefined)?.focus();
-  }
-
-  function close(restoreFocus = false) {
-    setOpen(false);
-    if (restoreFocus) nextTick(focusTrigger);
-  }
-
-  // header 插槽的 close 需要稳定包装：直接把 close 传给 @click 时 MouseEvent
-  // 会漏进 restoreFocus 参数（truthy 恰好无害，但签名失真），这里固定为关闭并还焦点
-  function closeHeaderSlot() {
-    close(true);
-  }
-
-  function focusPanel(attempt = 0) {
-    nextTick(() => {
-      if (!isOpen.value || !popupVisible.value) return;
-      const firstItem = panelRootRef.value?.querySelector<HTMLButtonElement>(
-        `.${prefixCls}-item:not(:disabled)`,
-      );
-      const closeButton = panelRootRef.value?.querySelector<HTMLButtonElement>(
-        `.${prefixCls}-close`,
-      );
-      const target = firstItem ?? closeButton;
-
-      // defaultOpen 时 popup 挂在 ClientOnly 内尚未渲染;内容 Motion 从 opacity:0 淡入,
-      // opacity 为 0 时 motion 会置 visibility:hidden,此时 focus() 会静默失败。
-      // 两种情况都等就绪后再聚焦
-      if (!target || getComputedStyle(target).visibility === 'hidden') {
-        if (attempt < 30) requestAnimationFrame(() => focusPanel(attempt + 1));
-        return;
-      }
-      target.focus();
-    });
-  }
-
-  function selectItem(item: BloomMenuItem, index: number) {
-    if (item.disabled) return;
-    emit('select', item, index);
-    close(true);
-  }
+  const panelCollapsed = computed(foundation.getPanelCollapsed);
+  const panelInitial = computed(foundation.getPanelInitial);
+  const panelAnimate = computed(foundation.getPanelAnimate);
+  const panelTarget = computed(foundation.getPanelTarget);
+  const morphTransition = computed<Transition>(foundation.getMorphTransition);
+  const contentTransition = computed<Transition>(foundation.getContentTransition);
+  const gridInitial = computed(foundation.getGridInitial);
+  const gridTransition = computed<Transition>(foundation.getGridTransition);
 
   function getItemClasses(item: BloomMenuItem, index: number) {
-    const column = index % normalizedColumns.value;
-    const row = Math.floor(index / normalizedColumns.value);
+    const layout = foundation.getItemLayout(item, index);
 
     return [
       `${prefixCls}-item`,
       {
-        [`${prefixCls}-item-border-right`]: column < normalizedColumns.value - 1,
-        [`${prefixCls}-item-border-bottom`]: row < rowCount.value - 1,
-        [`${prefixCls}-item-disabled`]: item.disabled,
+        [`${prefixCls}-item-border-right`]: layout.borderRight,
+        [`${prefixCls}-item-border-bottom`]: layout.borderBottom,
+        [`${prefixCls}-item-disabled`]: layout.disabled,
       },
     ];
   }
 
-  function getItemInitial() {
-    return reducedMotion.value ? { opacity: 0 } : { opacity: 0, scale: 0.85, filter: 'blur(6px)' };
-  }
-
-  function getItemTransition(index: number): Transition {
-    const column = index % normalizedColumns.value;
-    const row = Math.floor(index / normalizedColumns.value);
-    const distance = Math.hypot(
-      column - (normalizedColumns.value - 1) / 2,
-      row - (rowCount.value - 1) / 2,
-    );
-
-    return {
-      delay: reducedMotion.value ? 0 : 0.1 + distance * 0.07,
-      type: 'spring',
-      stiffness: 440,
-      damping: 34,
-    };
-  }
-
   onMounted(captureTriggerStyle);
-  watch(
-    isOpen,
-    (openState) => {
-      if (typeof window === 'undefined') return;
-      if (!openState) {
-        schedulePopupHide();
-        return;
-      }
-      window.clearTimeout(closeTimer);
-      popupVisible.value = true;
-      captureTriggerStyle();
-      // 不依赖 Trigger 的 @show:animation-name 置空后其 Transition 的
-      // after-enter 不会触发,@show 永远不发出
-      focusPanel();
-    },
-    {
-      immediate: true,
-    },
-  );
-  onBeforeUnmount(() => window.clearTimeout(closeTimer));
+  watch(isOpen, foundation.syncOpen, {
+    immediate: true,
+  });
+  onBeforeUnmount(foundation.dispose);
 </script>

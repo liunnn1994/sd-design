@@ -93,3 +93,9 @@ KvList 用于编辑有序键值对，同时提供 JSON 数组和 Bulk 文本两�
 | value         | 自定义值字段             | `{ value, item, index, props, update }`         |
 | toolbar-extra | 工具栏尾部的扩展操作     | -                                               |
 | row-actions   | 每行删除按钮前的扩展操作 | `{ item: Readonly<KvListItem>, index: number }` |
+
+## 无框架规则
+
+`@sdata/web-core/kv-list/utils` 提供 `normalizeKvList`、`parseBulkKvList`、`stringifyKvList` 和 `isSameKvList`。`@sdata/web-core/kv-list/foundation` 的 `createKvListFoundation` 接收 `rows`、`json`、`bulk` 的读写端口和 `disabled` 读取端口；创建时不读取状态，调用 `initialize()` 后由适配器转发 `syncJson`、`syncBulk` 和编辑动作。
+
+Vue 用户继续使用原组件 API。输入组件、插槽、响应式模型、watch 和拖拽驱动的生命周期由 Vue 适配器管理。

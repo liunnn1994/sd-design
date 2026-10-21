@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import CleanCSS from 'clean-css';
 import { globSync } from 'glob';
+import { readFileSync } from 'node:fs';
 import { access, cp, mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -27,6 +28,19 @@ const { styleAliasEntries, compileStyleEntry } = createSassStyleSupport({
   packageRoot,
   componentsRoot,
   styleRoot: webVueStyleRoot,
+});
+
+// Explicit entries retain legacy re-exports and typed helper facades after extraction.
+const coreCompatibilityFiles = globSync('components/**/*.ts', {
+  cwd: packageRoot,
+  posix: true,
+}).filter((file) => {
+  const source = readFileSync(resolveFromRoot(file), 'utf8');
+  return (
+    /^export (?:\{[^}]*\}|\*) from '@sdata\/web-core\//m.test(source) ||
+    (/^import[\s\S]*?\bfrom ['"]@sdata\/web-core\//m.test(source) &&
+      /^export (?:default )?(?:async )?(?:const|function)\b/m.test(source))
+  );
 });
 
 const langFiles = globSync('components/locale/lang/*.ts', {
@@ -145,6 +159,7 @@ function createModuleBuildConfig(): UserConfig {
           'components/markdown-render/upstream.ts',
           ...globSync('components/markdown-render/compat/**/*.{ts,js}', { posix: true }),
           ...langFiles,
+          ...coreCompatibilityFiles,
         ],
         output: {
           format: 'es',

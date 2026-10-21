@@ -1,33 +1,15 @@
 import { computed, ref, toRefs, watchEffect, watch } from 'vue';
 
-import { isArray, isFunction, isObject } from '../../_utils/is';
-import { Key2TreeNode, TreeFieldNames, TreeNodeData, TreeNodeKey } from '../../tree/interface';
+import { createTreeSelectValues, getKeys } from '@sdata/web-core/tree-select/values';
+
+import {
+  Key2TreeNode,
+  TreeFieldNames,
+  TreeNodeData,
+  TreeNodeKey,
+  Node,
+} from '../../tree/interface';
 import { FallbackOption, LabelValue, TreeSelectValue } from '../interface';
-
-function isLabelValue(value: TreeNodeKey | LabelValue): value is LabelValue {
-  return isObject(value);
-}
-
-function isValidKey(key: TreeNodeKey) {
-  return key !== undefined && key !== null && key !== '';
-}
-
-function getKey(value: TreeNodeKey | LabelValue) {
-  return isLabelValue(value) ? value.value : value;
-}
-
-function getLabel(value: TreeNodeKey | LabelValue) {
-  return isLabelValue(value) ? value.label : undefined;
-}
-
-function isValidValue(value: TreeNodeKey | LabelValue) {
-  const key = getKey(value);
-  return isValidKey(key);
-}
-
-function getKeys(value: (TreeNodeKey | LabelValue)[]) {
-  return value.map(getKey).filter(isValidKey);
-}
 
 export default function useSelectedState(props: {
   defaultValue?: TreeSelectValue;
@@ -53,94 +35,15 @@ export default function useSelectedState(props: {
     separator,
   } = toRefs(props);
 
-  function getPathLabel(key: TreeNodeKey, node: ReturnType<Key2TreeNode['get']>) {
-    if (!showPath?.value || !node) {
-      return undefined;
-    }
-
-    const nodeDataTitle = (fieldNames?.value?.title || 'title') as keyof TreeNodeData;
-    const pathNodes = [...node.pathParentKeys, key]
-      .map((pathKey) => key2TreeNode.value.get(pathKey))
-      .filter((pathNode): pathNode is NonNullable<typeof pathNode> => Boolean(pathNode));
-
-    return pathNodes
-      .map((pathNode) => {
-        const pathLabel = pathNode.treeNodeData[nodeDataTitle];
-
-        if (typeof pathLabel === 'string' || typeof pathLabel === 'number') {
-          return String(pathLabel);
-        }
-
-        if (typeof pathNode.title === 'string' || typeof pathNode.title === 'number') {
-          return String(pathNode.title);
-        }
-
-        return String(pathNode.key);
-      })
-      .join(separator?.value ?? ' / ');
-  }
-
-  function normalizeValue(value: TreeSelectValue) {
-    const validValue = (isArray(value) ? value : [value]).filter(isValidValue);
-
-    return multiple?.value || treeCheckable?.value ? validValue : validValue.slice(0, 1);
-  }
-
-  function getLabelValues(value: (TreeNodeKey | LabelValue)[], originValue?: LabelValue[]) {
-    const res: LabelValue[] = [];
-    const validValue = value ? value.filter(isValidValue) : [];
-
-    if (validValue.length) {
-      const originValueMap = new Map<TreeNodeKey, LabelValue>();
-      originValue?.forEach((item) => {
-        originValueMap.set(item.value, item);
-      });
-
-      validValue.forEach((item) => {
-        const key = getKey(item);
-        const originValueItem = originValueMap.get(key);
-        const node = key2TreeNode.value.get(key);
-        let fallbackNodeData: TreeNodeData | null = null;
-        const nodeDataTitle = (fieldNames?.value?.title || 'title') as 'title';
-
-        if (!node) {
-          const fallbackResult = isFunction(fallbackOption?.value)
-            ? fallbackOption?.value(key)
-            : fallbackOption?.value;
-
-          if (fallbackResult === false) {
-            return;
-          }
-
-          if (isObject(fallbackResult)) {
-            fallbackNodeData = fallbackResult;
-          }
-        }
-
-        const fallbackLabel = fallbackNodeData?.[nodeDataTitle];
-        const label: LabelValue['label'] =
-          getLabel(item) ??
-          getPathLabel(key, node) ??
-          (typeof node?.title === 'string' || typeof node?.title === 'number'
-            ? node.title
-            : undefined) ??
-          originValueItem?.label ??
-          (typeof fallbackLabel === 'string' || typeof fallbackLabel === 'number'
-            ? fallbackLabel
-            : undefined) ??
-          key;
-
-        res.push({
-          ...(isLabelValue(item) ? item : {}),
-          ...originValueItem,
-          value: key,
-          label,
-        });
-      });
-    }
-
-    return res;
-  }
+  const { normalizeValue, getLabelValues } = createTreeSelectValues<TreeNodeData, Node>({
+    getNodes: () => key2TreeNode.value,
+    getShowPath: () => showPath?.value,
+    getFieldNames: () => fieldNames?.value,
+    getSeparator: () => separator?.value,
+    getMultiple: () => multiple?.value,
+    getCheckable: () => treeCheckable?.value,
+    getFallbackOption: () => fallbackOption?.value,
+  });
 
   const computedModelValueKeys = ref<TreeNodeKey[]>();
   const computedModelValue = ref<LabelValue[]>();

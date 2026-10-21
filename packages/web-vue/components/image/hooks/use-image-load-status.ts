@@ -1,13 +1,16 @@
+import type { ImageLoadStatus as ImageLoadStatusType } from '@sdata/web-core/image/types';
+
 import { computed, ref } from 'vue';
 
-type ImageLoadStatusType = 'beforeLoad' | 'loading' | 'error' | 'loaded';
+import { getImageLoadFlags } from '@sdata/web-core/image/foundation';
 
 export default function useImageLoadStatus(defaultValue?: ImageLoadStatusType) {
   const status = ref<ImageLoadStatusType>(defaultValue || 'beforeLoad');
-  const isBeforeLoad = computed(() => status.value === 'beforeLoad');
-  const isLoading = computed(() => status.value === 'loading');
-  const isError = computed(() => status.value === 'error');
-  const isLoaded = computed(() => status.value === 'loaded');
+  const flags = computed(() => getImageLoadFlags(status.value));
+  const isBeforeLoad = computed(() => flags.value.isBeforeLoad);
+  const isLoading = computed(() => flags.value.isLoading);
+  const isError = computed(() => flags.value.isError);
+  const isLoaded = computed(() => flags.value.isLoaded);
 
   return {
     status,

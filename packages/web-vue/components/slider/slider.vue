@@ -58,13 +58,16 @@
   import type { PropType, CSSProperties } from 'vue';
   import { computed, ref, toRef, toRefs, watch } from 'vue';
 
-  import NP from 'number-precision';
+  import {
+    getSliderInitialValues,
+    getSliderMarks,
+    getSliderBarStyle,
+  } from '@sdata/web-core/slider/data';
+  import { createSliderFoundation } from '@sdata/web-core/slider/foundation';
 
   import { useFormItem } from '../_hooks/use-form-item';
   import { Direction } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isArray, isUndefined } from '../_utils/is';
-  import { KEYBOARD_KEY } from '../_utils/keyboard';
   import SliderButton from './slider-button.vue';
   import SliderDots from './slider-dots.vue';
   import SliderInput from './slider-input.vue';
@@ -195,213 +198,52 @@
 
   const trackRef = ref<HTMLElement | null>(null);
   const trackRect = ref<DOMRect>();
-  const defaultValue = isUndefined(props.modelValue) ? props.defaultValue : props.modelValue;
-
-  const startValue = ref(isArray(defaultValue) ? defaultValue[0] : 0);
-
-  const endValue = ref(isArray(defaultValue) ? defaultValue[1] : defaultValue);
-
-  watch(modelValue!, (value) => {
-    if (isArray(value)) {
-      startValue.value = value[0] ?? props.min ?? 0;
-      endValue.value = value[1] ?? props.min ?? 0;
-    } else {
-      endValue.value = value ?? props.min ?? 0;
-    }
+  const [initialStart, initialEnd] = getSliderInitialValues(props.modelValue, props.defaultValue);
+  const startValue = ref(initialStart);
+  const endValue = ref(initialEnd);
+  const foundation = createSliderFoundation({
+    get options() {
+      return props;
+    },
+    get start() {
+      return startValue.value;
+    },
+    get end() {
+      return endValue.value;
+    },
+    get display() {
+      return computedValue.value;
+    },
+    get rect() {
+      return trackRect.value;
+    },
+    isDisabled: () => mergedDisabled.value,
+    setStart: (value) => {
+      startValue.value = value;
+    },
+    setEnd: (value) => {
+      endValue.value = value;
+    },
+    measure: () => {
+      if (trackRef.value) trackRect.value = trackRef.value.getBoundingClientRect();
+    },
+    onUpdate: (value) => emit('update:modelValue', value),
+    onChange: (value) => emit('change', value),
+    onFormChange: () => eventHandlers.value?.onChange?.(),
   });
-
-  const syncValue = () => {
-    const [start, end] = computedValue.value;
-    startValue.value = start;
-    endValue.value = end;
-  };
-
-  const handleChange = () => {
-    if (props.range) {
-      emit('update:modelValue', [startValue.value, endValue.value]);
-      emit('change', [startValue.value, endValue.value]);
-    } else {
-      emit('update:modelValue', endValue.value);
-      emit('change', endValue.value);
-    }
-    eventHandlers.value?.onChange?.();
-  };
-
-  const handleStartChange = (value?: number) => {
-    syncValue();
-    let next = value ?? props.min;
-    if (props.range && next > endValue.value) {
-      // showInput 输入 start > end：排序后整体更新，而不是发出倒序区间
-      const oldEnd = endValue.value;
-      endValue.value = next;
-      next = oldEnd;
-    }
-    startValue.value = next;
-    handleChange();
-  };
-
-  const handleEndChange = (value?: number) => {
-    syncValue();
-    let next = value ?? props.min;
-    if (props.range && next < startValue.value) {
-      next = startValue.value;
-      startValue.value = value ?? props.min;
-    }
-    endValue.value = next;
-    handleChange();
-  };
-
-  // 键盘：方向键按 step 增减，Home/End 到极值（range 时起点/终点互相夹紧）
-  const handleButtonKeydown = (which: 'start' | 'end', e: KeyboardEvent) => {
-    if (mergedDisabled.value) return;
-    syncValue();
-    const minV = props.min;
-    const maxV = props.max;
-    const current = which === 'start' ? startValue.value : endValue.value;
-    let next: number | undefined;
-    if (e.key === KEYBOARD_KEY.ARROW_RIGHT || e.key === KEYBOARD_KEY.ARROW_UP) {
-      next = NP.plus(current, props.step);
-    } else if (e.key === KEYBOARD_KEY.ARROW_LEFT || e.key === KEYBOARD_KEY.ARROW_DOWN) {
-      next = NP.minus(current, props.step);
-    } else if (e.key === KEYBOARD_KEY.HOME) {
-      next = minV;
-    } else if (e.key === KEYBOARD_KEY.END) {
-      next = maxV;
-    } else {
-      return;
-    }
-    e.preventDefault();
-    if (props.range) {
-      if (which === 'start') {
-        next = Math.max(minV, Math.min(next, NP.minus(endValue.value, props.step)));
-      } else {
-        next = Math.min(maxV, Math.max(NP.plus(startValue.value, props.step), next));
-      }
-    } else {
-      next = Math.max(minV, Math.min(next, maxV));
-    }
-    if (which === 'start') {
-      handleStartChange(next);
-    } else {
-      handleEndChange(next);
-    }
-  };
-
-  const computedValue = computed<[number, number]>(() => {
-    if (props.range) {
-      if (isArray(props.modelValue)) {
-        return props.modelValue;
-      }
-      return [startValue.value, props.modelValue ?? endValue.value];
-    }
-    if (isUndefined(props.modelValue)) {
-      return [props.min, endValue.value];
-    }
-    if (isArray(props.modelValue)) {
-      // 非 range 模式收到数组 modelValue 时取第一项，而不是静默丢弃
-      return [props.min ?? 0, props.modelValue[0] ?? endValue.value];
-    }
-    return [props.min ?? 0, props.modelValue];
-  });
-
-  // 标签数组
-  const markList = computed(() =>
-    Object.keys(props.marks || {}).map((index) => {
-      const key = Number(index);
-      return {
-        key,
-        content: props.marks?.[key] ?? '',
-        isActive: key >= computedValue.value[0] && key <= computedValue.value[1],
-      };
-    }),
-  );
-
+  watch(modelValue!, foundation.syncModel);
+  const computedValue = computed(foundation.getValue);
+  const markList = computed(() => getSliderMarks(props.marks, computedValue.value));
+  const handleStartChange = foundation.startChange;
+  const handleEndChange = foundation.endChange;
+  const handleButtonKeydown = foundation.keydown;
+  const handleMoveStart = foundation.moveStart;
+  const handleStartMoving = foundation.startMoving;
+  const handleEndMoving = foundation.endMoving;
+  const handleClick = foundation.click;
   const getBtnStyle = (value: number) =>
     getPositionStyle(getOffsetPercent(value, [props.min, props.max]), props.direction);
-
-  const handleMoveStart = () => {
-    if (trackRef.value) {
-      trackRect.value = trackRef.value.getBoundingClientRect();
-    }
-  };
-
-  // 通过坐标获取value值
-  function getValueByCoords(x: number, y: number): number {
-    if (!trackRect.value) {
-      return 0;
-    }
-    const { left, top, width, height } = trackRect.value;
-    const trackLength = props.direction === 'horizontal' ? width : height;
-    const stepLength = (trackLength * props.step) / (props.max - props.min);
-    let diff = props.direction === 'horizontal' ? x - left : top + height - y;
-    if (diff < 0) diff = 0;
-    if (diff > trackLength) diff = trackLength;
-
-    // 根据diff计算步数
-    const steps = Math.round(diff / stepLength);
-
-    return Math.min(
-      props.max,
-      Math.max(props.min, NP.plus(props.min, NP.times(steps, props.step))),
-    );
-  }
-
-  const handleEndMoving = (x: number, y: number) => {
-    syncValue();
-    endValue.value = getValueByCoords(x, y);
-    handleChange();
-  };
-
-  const handleClick = (e: MouseEvent) => {
-    if (mergedDisabled.value) {
-      return;
-    }
-
-    syncValue();
-    const { clientX, clientY } = e;
-
-    if (trackRef.value) {
-      trackRect.value = trackRef.value.getBoundingClientRect();
-    }
-
-    const value = getValueByCoords(clientX, clientY);
-
-    if (props.range) {
-      // range 模式：轨道点击移动距离点击位置最近的把手
-      const startDist = Math.abs(startValue.value - value);
-      const endDist = Math.abs(endValue.value - value);
-      if (startDist < endDist) {
-        startValue.value = value;
-      } else {
-        endValue.value = value;
-      }
-    } else {
-      endValue.value = value;
-    }
-
-    handleChange();
-  };
-
-  function getBarStyle([start, end]: [number, number]): CSSProperties {
-    if (start > end) {
-      [start, end] = [end, start];
-    }
-    return props.direction === 'vertical'
-      ? {
-          bottom: getOffsetPercent(start, [props.min, props.max]),
-          top: getOffsetPercent(props.max + props.min - end, [props.min, props.max]),
-        }
-      : {
-          left: getOffsetPercent(start, [props.min, props.max]),
-          right: getOffsetPercent(props.max + props.min - end, [props.min, props.max]),
-        };
-  }
-
-  const handleStartMoving = (x: number, y: number) => {
-    syncValue();
-    startValue.value = getValueByCoords(x, y);
-    handleChange();
-  };
+  const getBarStyle = (value: [number, number]): CSSProperties => getSliderBarStyle(value, props);
 
   const cls = computed(() => [
     prefixCls,

@@ -1,5 +1,1 @@
-import { isArray } from './is';
-
-export function toArray<T>(val: T | T[]): T[] {
-  return isArray(val) ? val : [val];
-}
+export * from '@sdata/web-core/_utils/to-array';

@@ -54,16 +54,24 @@
     watch,
   } from 'vue';
 
+  import {
+    createNumberFlow,
+    createNumberFlowDigits,
+    getHighestChangedPosition,
+    getNumberFlowStyles,
+    type NumberFlowPhase,
+  } from '@sdata/web-core/number-flow/foundation';
+  import {
+    getNumberFlowTrend,
+    parseDuration,
+    sanitizeValue,
+  } from '@sdata/web-core/number-flow/utils';
+
   import type { NumberFlowData } from './formatter';
-  import type {
-    NumberFlowDigitContext,
-    NumberFlowExposed,
-    NumberFlowProps,
-    NumberFlowValue,
-  } from './types';
+  import type { NumberFlowExposed, NumberFlowProps, NumberFlowValue } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import { formatNumberFlow, type NumberFlowPart } from './formatter';
+  import { formatNumberFlow } from './formatter';
   import { GROUP_KEY } from './group-key';
   import { useCanAnimate } from './use-can-animate';
 
@@ -75,7 +83,7 @@
     format,
     prefix,
     suffix,
-    trend = (oldValue: number, newValue: number) => Math.sign(newValue - oldValue),
+    trend,
     plugins,
     animated = true,
     transformTiming = () => ({ duration: 900, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }),
@@ -143,10 +151,8 @@
   const previousData = shallowRef(formatData(sanitizeValue(value)));
   const currentValue = computed(() => sanitizeValue(value));
   const currentData = computed(() => formatData(currentValue.value));
-  const animationPhase = shallowRef<'idle' | 'prepared' | 'animating'>('idle');
+  const animationPhase = shallowRef<NumberFlowPhase>('idle');
   const isAnimating = computed(() => animationPhase.value === 'animating');
-  let animationVersion = 0;
-  let finishTimer: ReturnType<typeof setTimeout> | undefined;
 
   const resolvedTransformTiming = computed<KeyframeAnimationOptions>(() =>
     typeof transformTiming === 'function' ? transformTiming() : transformTiming,
@@ -178,8 +184,9 @@
   });
   const canAnimate = computed(() => animated && motionCanAnimate.value);
 
+  // Resolve the default here: Vue treats Number | Function defaults as factories.
   const computedTrend = computed(() =>
-    typeof trend === 'function' ? trend(previousData.value.value, currentData.value.value) : trend,
+    getNumberFlowTrend(trend, previousData.value.value, currentData.value.value),
   );
 
   const classes = computed(() => [
@@ -192,193 +199,127 @@
     },
   ]);
 
-  function sanitizeDuration(duration: number) {
-    return Number.isFinite(duration) && duration >= 0 ? duration : 0;
-  }
-
-  /** 解析 duration，支持 '2s' / '500ms' 等字符串形式；非法值回退到 fallback */
-  function parseDuration(
-    duration: number | string | CSSNumericValue | undefined,
-    fallback: number,
-  ): number {
-    if (typeof duration === 'number') {
-      return Number.isFinite(duration) ? duration : fallback;
-    }
-    if (typeof duration === 'string') {
-      const match = /^(\d+(?:\.\d+)?)(ms|s)?$/i.exec(duration.trim());
-      if (match) {
-        const amount = Number.parseFloat(match[1]);
-        return (match[2] ?? '').toLowerCase() === 's' ? amount * 1000 : amount;
-      }
-    }
-    return fallback;
-  }
-
-  /** NaN 等非法数值统一回退为 0，避免渲染出 'NaN' */
-  function sanitizeValue(val: NumberFlowValue): number {
-    const numeric = typeof val === 'string' ? Number.parseFloat(val) : val;
-    return Number.isNaN(numeric) ? 0 : numeric;
-  }
-
-  function sanitizeEasing(easing: string) {
-    return /^[a-zA-Z0-9(),.\s+-]+$/.test(easing) ? easing : 'linear';
-  }
-
-  const dynamicStyles = computed(() => {
-    if (!styleScope.value) return '';
-    const rootSelector = `[data-number-flow-id="${styleScope.value}"]`;
-    const rules = [
-      `${rootSelector}{--sd-number-flow-duration:${sanitizeDuration(transformDuration.value)}ms;--sd-number-flow-easing:${sanitizeEasing(transformEasing.value)};--sd-number-flow-spin-duration:${sanitizeDuration(spinDuration.value)}ms;--sd-number-flow-spin-easing:${sanitizeEasing(spinEasing.value)};--sd-number-flow-opacity-duration:${sanitizeDuration(opacityDuration.value)}ms}`,
-    ];
-
-    currentData.value.parts.forEach((part, index) => {
-      if (part.digit === undefined) return;
-      const delta = getDigitDelta(part);
-      const distance = Math.abs(delta);
-      rules.push(
-        `${rootSelector} [data-number-flow-part="${index}"]{--sd-number-flow-start:${delta < 0 ? -distance : 0};--sd-number-flow-end:${delta > 0 ? -distance : 0}}`,
-      );
-    });
-
-    return rules.join('');
+  const highestChangedPosition = computed(() =>
+    getHighestChangedPosition(previousData.value, currentData.value),
+  );
+  const digitFoundation = createNumberFlowDigits({
+    get previous() {
+      return previousData.value;
+    },
+    get current() {
+      return currentData.value;
+    },
+    get phase() {
+      return animationPhase.value;
+    },
+    get trend() {
+      return computedTrend.value;
+    },
+    get highestChangedPosition() {
+      return highestChangedPosition.value;
+    },
+    get digits() {
+      return digits;
+    },
+    get plugins() {
+      return plugins;
+    },
   });
-
-  function getPreviousDigit(part: NumberFlowPart) {
-    return (
-      previousData.value.parts.find((candidate) => candidate.key === part.key)?.digit ?? part.digit!
-    );
-  }
-
-  const highestChangedPosition = computed(() => {
-    const previousDigits = new Map(
-      previousData.value.parts
-        .filter((part) => part.digit !== undefined)
-        .map((part) => [part.key, part] as const),
-    );
-    const changedPositions = currentData.value.parts.flatMap((part) => {
-      if (part.digit === undefined) return [];
-      const previous = previousDigits.get(part.key);
-      return previous?.digit === part.digit ? [] : [part.position ?? 0];
-    });
-
-    return changedPositions.length === 0 ? undefined : Math.max(...changedPositions);
+  const getDigitSequence = digitFoundation.sequence;
+  const dynamicStyles = computed(() =>
+    getNumberFlowStyles({
+      scope: styleScope.value,
+      get transformDuration() {
+        return transformDuration.value;
+      },
+      get transformEasing() {
+        return transformEasing.value;
+      },
+      get spinDuration() {
+        return spinDuration.value;
+      },
+      get spinEasing() {
+        return spinEasing.value;
+      },
+      get opacityDuration() {
+        return opacityDuration.value;
+      },
+      get parts() {
+        return currentData.value.parts;
+      },
+      delta: digitFoundation.delta,
+    }),
+  );
+  const foundation = createNumberFlow({
+    get previous() {
+      return previousData.value;
+    },
+    set previous(value) {
+      previousData.value = value;
+    },
+    get current() {
+      return currentData.value;
+    },
+    get phase() {
+      return animationPhase.value;
+    },
+    set phase(value) {
+      animationPhase.value = value;
+    },
+    get plugins() {
+      return plugins;
+    },
+    get trend() {
+      return computedTrend.value;
+    },
+    get canAnimate() {
+      return canAnimate.value;
+    },
+    get spinDuration() {
+      return spinDuration.value;
+    },
+    get transformDuration() {
+      return transformDuration.value;
+    },
+    get opacityDuration() {
+      return opacityDuration.value;
+    },
+    readLayout: () => {
+      rootRef.value?.getBoundingClientRect();
+    },
+    setTimer: (callback, delay) => setTimeout(callback, delay),
+    clearTimer: (timer) => clearTimeout(timer),
+    start: () => emit('animationsstart'),
+    finish: () => emit('animationsfinish'),
   });
-
-  function getDigitDelta(part: NumberFlowPart) {
-    const current = part.digit!;
-    const previous = getPreviousDigit(part);
-    const length = (digits?.[part.position ?? 0]?.max ?? 9) + 1;
-    const context: NumberFlowDigitContext = {
-      position: part.position ?? 0,
-      length,
-      trend: computedTrend.value,
-      highestChangedPosition: highestChangedPosition.value,
-    };
-
-    for (const plugin of plugins ?? []) {
-      const delta = plugin.getDelta?.(current, previous, context);
-      if (delta !== undefined) return delta;
-    }
-
-    const difference = current - previous;
-    if (computedTrend.value < 0 && current > previous) return current - length - previous;
-    if (computedTrend.value > 0 && current < previous) return length - previous + current;
-    return difference;
-  }
-
-  function getDigitSequence(part: NumberFlowPart) {
-    const current = part.digit!;
-    const previous = getPreviousDigit(part);
-    const delta = getDigitDelta(part);
-    if (animationPhase.value === 'idle' || delta === 0)
-      return [{ key: `current-${current}`, value: part.value }];
-
-    const length = (digits?.[part.position ?? 0]?.max ?? 9) + 1;
-    const start = delta > 0 ? previous : current;
-    return Array.from({ length: Math.abs(delta) + 1 }, (_, index) => ({
-      key: `step-${index}`,
-      value: currentData.value.digitCharacters[(start + index) % length],
-    }));
-  }
-
-  function finishAnimation(version = animationVersion) {
-    if (version !== animationVersion || animationPhase.value === 'idle') return;
-    clearTimeout(finishTimer);
-    finishTimer = undefined;
-    previousData.value = currentData.value;
-    animationPhase.value = 'idle';
-    emit('animationsfinish');
-  }
 
   // --- Group synchronization ---
   const group = inject(GROUP_KEY, undefined);
-
-  function prepareAnimation(oldData: NumberFlowData, data: NumberFlowData, force = false) {
-    const version = ++animationVersion;
-    clearTimeout(finishTimer);
-    finishTimer = undefined;
-    previousData.value = oldData;
-    plugins?.forEach((plugin) =>
-      plugin.onUpdate?.({
-        value: data.value,
-        previousValue: oldData.value,
-        trend: computedTrend.value,
-      }),
-    );
-
-    if (!canAnimate.value || (!force && data.value === oldData.value)) {
-      previousData.value = data;
-      animationPhase.value = 'idle';
-      return;
-    }
-
-    animationPhase.value = 'prepared';
-    return version;
-  }
-
-  function commitAnimationStart(version: number) {
-    if (version !== animationVersion || animationPhase.value !== 'prepared') return false;
-    rootRef.value?.getBoundingClientRect();
-    return true;
-  }
-
-  function startAnimation(version: number) {
-    if (version !== animationVersion || animationPhase.value !== 'prepared') return;
-    animationPhase.value = 'animating';
-    emit('animationsstart');
-    // 以三种动画中最长的时长兜底，避免数字滚动动画仍在进行时提前触发 finish
-    const finishDelay =
-      Math.max(spinDuration.value, transformDuration.value, opacityDuration.value) + 50;
-    finishTimer = setTimeout(() => finishAnimation(version), finishDelay);
-  }
 
   if (group) {
     const unregister = group.register({
       value: currentValue,
       // 不强制动画：仅当子项自身 value 变化时才参与本次动画
-      prepare: () => prepareAnimation(previousData.value, currentData.value),
-      commit: commitAnimationStart,
-      start: startAnimation,
+      prepare: () => foundation.prepare(previousData.value, currentData.value),
+      commit: foundation.commit,
+      start: foundation.start,
     });
     onBeforeUnmount(unregister);
   } else {
     watch(
       currentValue,
       async (data, oldData) => {
-        const version = prepareAnimation(formatData(oldData), formatData(data));
+        const version = foundation.prepare(formatData(oldData), formatData(data));
         if (version === undefined) return;
         await nextTick();
-        if (!commitAnimationStart(version)) return;
-        startAnimation(version);
+        if (!foundation.commit(version)) return;
+        foundation.start(version);
       },
       { flush: 'pre' },
     );
   }
 
-  onBeforeUnmount(() => {
-    animationVersion++;
-    clearTimeout(finishTimer);
-  });
+  onBeforeUnmount(foundation.dispose);
 
   defineExpose<NumberFlowExposed>({
     get el() {

@@ -9,6 +9,10 @@
 <script setup lang="ts">
   import { computed, PropType, toRefs, watchEffect } from 'vue';
 
+  import { getTransitionTreeNodes } from '@sdata/web-core/tree/query';
+
+  import type { Node, TreeNodeData } from './interface';
+
   import { getPrefixCls } from '../_utils/global-config';
   import BaseTreeNode from './base-node.vue';
   import ExpandTransition from './expand-transition.vue';
@@ -33,25 +37,15 @@
 
   const expanded = computed(() => treeContext.expandedKeys?.includes?.(nodeKey.value));
 
-  const visibleNodeList = computed(() => {
-    const expandedKeysSet = new Set(treeContext.expandedKeys || []);
-    const childNodeList = treeContext.flattenTreeData?.filter((node) => {
-      if (node.pathParentKeys?.includes(nodeKey.value)) {
-        return !treeContext.filterTreeNode || treeContext.filterTreeNode?.(node.treeNodeData);
-      }
-      return false;
-    });
-
-    return childNodeList?.filter((node) => {
-      if (expanded.value) {
-        // When expanding, only when each parent node is in expanded state will it be displayed by itself
-        return node.pathParentKeys?.every((_key) => expandedKeysSet.has(_key));
-      }
-      // When collapsed, only when all the parent nodes after the position corresponding to the nodeKey are in the expanded state, will they be displayed
-      const index = node.pathParentKeys.indexOf(nodeKey.value);
-      return node.pathParentKeys.slice(index + 1).every((_key) => expandedKeysSet.has(_key));
-    });
-  });
+  const visibleNodeList = computed(() =>
+    getTransitionTreeNodes<TreeNodeData, Node>({
+      nodes: treeContext.flattenTreeData,
+      nodeKey: nodeKey.value,
+      expandedKeys: treeContext.expandedKeys || [],
+      expanded: expanded.value,
+      filter: treeContext.filterTreeNode,
+    }),
+  );
 
   const show = computed(
     () => treeContext.currentExpandKeys?.includes(nodeKey.value) && visibleNodeList.value?.length,

@@ -48,6 +48,8 @@
   import type { PropType } from 'vue';
   import { onMounted, onUnmounted, onUpdated, watch } from 'vue';
 
+  import { createNoticeTimer } from '@sdata/web-core/notice/timer';
+
   import AIconHover from '../_components/icon-hover.vue';
   import { MessageType } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
@@ -92,47 +94,24 @@
 
   const prefixCls = getPrefixCls('notification');
   const { t } = useI18n();
-  let timer = 0;
-
-  const handleClose = () => {
-    emit('close');
-  };
-  const handleCloseKeydown = onActivate(handleClose);
-
-  watch(
-    () => props.timerVersion,
-    () => {
-      if (timer) {
-        window.clearTimeout(timer);
-        timer = 0;
-      }
-      if (props.duration > 0) {
-        timer = window.setTimeout(handleClose, props.duration);
-      }
+  const timer = createNoticeTimer({
+    get duration() {
+      return props.duration;
     },
-  );
-
-  onMounted(() => {
-    if (props.duration > 0) {
-      timer = window.setTimeout(handleClose, props.duration);
-    }
+    get resetOnUpdate() {
+      return props.resetOnUpdate;
+    },
+    resetOnHover: false,
+    schedule: (callback, duration) => window.setTimeout(callback, duration),
+    cancel: (handle) => window.clearTimeout(handle),
+    onClose() {
+      emit('close');
+    },
   });
-
-  onUpdated(() => {
-    if (props.resetOnUpdate) {
-      if (timer) {
-        window.clearTimeout(timer);
-        timer = 0;
-      }
-      if (props.duration > 0) {
-        timer = window.setTimeout(handleClose, props.duration);
-      }
-    }
-  });
-
-  onUnmounted(() => {
-    if (timer) {
-      window.clearTimeout(timer);
-    }
-  });
+  const handleClose = timer.close;
+  const handleCloseKeydown = onActivate(handleClose);
+  watch(() => props.timerVersion, timer.restart);
+  onMounted(timer.start);
+  onUpdated(timer.updated);
+  onUnmounted(timer.clear);
 </script>

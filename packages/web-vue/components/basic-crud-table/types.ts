@@ -1,3 +1,7 @@
+import type {
+  BasicCrudTableDataResult as CoreDataResult,
+  BasicCrudTableModalSubmitContext as CoreSubmitContext,
+} from '@sdata/web-core/basic-crud-table/types';
 import type { UnknownRecord } from 'type-fest';
 
 import type { ButtonProps } from '../button';
@@ -10,9 +14,7 @@ import type { ToolbarProps } from '../toolbar';
 
 export type MaybePromise<T> = T | Promise<T>;
 
-export type BasicCrudTableDataResult<TData extends TableData = TableData> =
-  | TData[]
-  | { data: TData[]; total?: number; count?: number; [key: string]: unknown };
+export type BasicCrudTableDataResult<TData extends TableData = TableData> = CoreDataResult<TData>;
 
 export type BasicCrudTableTableProps = Omit<
   TableInstance['$props'],
@@ -212,11 +214,8 @@ export interface BasicCrudTableProps<TRow extends TableData = TableData> {
   deleteNameKey?: string;
 }
 
-export type BasicCrudTableModalSubmitContext<TRow extends TableData = TableData> = {
-  type: 'create' | 'edit';
-  row?: TRow;
-  model: UnknownRecord;
-};
+export type BasicCrudTableModalSubmitContext<TRow extends TableData = TableData> =
+  CoreSubmitContext<TRow>;
 
 export type BasicCrudTableActionSlotProps<TRow extends TableData = TableData> = {
   record: TRow;
@@ -230,19 +229,7 @@ export type BasicCrudTableModalSlotProps<TRow extends TableData = TableData> = {
   model: UnknownRecord;
 };
 
-export type InferBasicCrudTableRowFromValue<TValue> = TValue extends readonly (infer TItem)[]
-  ? TItem
-  : TValue extends { data: infer TData }
-    ? InferBasicCrudTableRowFromValue<TData>
-    : TValue extends { results: infer TResults }
-      ? InferBasicCrudTableRowFromValue<TResults>
-      : never;
-
-type AwaitedReturn<T> = T extends (...args: never[]) => infer TResult ? Awaited<TResult> : never;
-
-export type InferBasicCrudTableRow<
-  TFetchTableApi,
-  TTableDataTransformer = undefined,
-> = TTableDataTransformer extends (...args: never[]) => unknown
-  ? InferBasicCrudTableRowFromValue<AwaitedReturn<TTableDataTransformer>>
-  : InferBasicCrudTableRowFromValue<AwaitedReturn<TFetchTableApi>>;
+export type {
+  InferBasicCrudTableRowFromValue,
+  InferBasicCrudTableRow,
+} from '@sdata/web-core/basic-crud-table/types';

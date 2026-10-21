@@ -100,6 +100,13 @@
     onBeforeUpdate,
   } from 'vue';
 
+  import { getSelectedHeaderValue } from '@sdata/web-core/date-picker/header';
+  import {
+    createDateRangeFoundation,
+    getDateRangeDisabled,
+    getDateRangeFocusedIndex,
+    getDateRangeNextIndex,
+  } from '@sdata/web-core/date-picker/range-foundation';
   import { Dayjs } from 'dayjs';
 
   import type { FloatingOptions } from '../_utils/floating';
@@ -111,25 +118,15 @@
   import useMergeState from '../_hooks/use-merge-state';
   import useState from '../_hooks/use-state';
   import { Size } from '../_utils/constant';
-  import {
-    getSortedDayjsArray,
-    getDayjsValue,
-    isValueChange,
-    dayjs,
-    getNow,
-    getDateValue,
-    initializeDateLocale,
-    toLocal,
-  } from '../_utils/date';
+  import { dayjs, getNow, getDateValue, initializeDateLocale, toLocal } from '../_utils/date';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isArray, isBoolean, isFunction } from '../_utils/is';
   import { omit } from '../_utils/omit';
   import pick from '../_utils/pick';
   import { configProviderInjectionKey } from '../config-provider/context';
   import IconCalendar from '../icon/icon-calendar';
   import { useI18n } from '../locale';
   import { TimePickerProps } from '../time-picker/interface';
-  import { getFormattedValue, isValidInputValue } from '../time-picker/utils';
+  import { getFormattedValue } from '../time-picker/utils';
   import Trigger, { TriggerProps } from '../trigger';
   import useFormat from './hooks/use-format';
   import useIsDisabledDate from './hooks/use-is-disabled-date';
@@ -140,7 +137,7 @@
   import { getReturnRangeValue } from './hooks/use-value-format';
   import { DisabledTimeProps, ShortcutType, CalendarValue, WeekStart } from './interface';
   import RangePickerPanel from './range-picker-panel.vue';
-  import { isCompleteRangeValue, isValidRangeValue, mergeValueWithTime } from './utils';
+  import { isCompleteRangeValue } from './utils';
 
   defineOptions({ name: 'RangePicker', inheritAttrs: false });
 
@@ -666,23 +663,11 @@
   );
   const fitWidthFallback = computed(() => `${Array.from(fitWidthFallbackText.value).length}ch`);
 
-  const disabledArray = computed(() => {
-    const disabled0 =
-      disabled.value === true ||
-      formDisabled.value ||
-      (isArray(disabled.value) && disabled.value[0] === true);
-    const disabled1 =
-      disabled.value === true ||
-      formDisabled.value ||
-      (isArray(disabled.value) && disabled.value[1] === true);
-    return [disabled0, disabled1];
-  });
+  const disabledArray = computed(() => getDateRangeDisabled(disabled.value, formDisabled.value));
 
   const triggerDisabled = computed(() => disabledArray.value[0] && disabledArray.value[1]);
 
-  function getFocusedIndex(cur = 0) {
-    return disabledArray.value[cur] ? cur ^ 1 : cur;
-  }
+  const getFocusedIndex = (current = 0) => getDateRangeFocusedIndex(disabledArray.value, current);
 
   const refInput = ref();
   const focusedIndex = ref(getFocusedIndex());
@@ -691,11 +676,9 @@
       focusedIndex.value = getFocusedIndex(focusedIndex.value);
     }
   });
-  const nextFocusedIndex = computed(() => {
-    const cur = focusedIndex.value;
-    const next = cur ^ 1;
-    return disabledArray.value[next] ? cur : next;
-  });
+  const nextFocusedIndex = computed(() =>
+    getDateRangeNextIndex(disabledArray.value, focusedIndex.value),
+  );
   const isNextDisabled = computed(() => disabledArray.value[focusedIndex.value ^ 1]);
   // 选中值
   const { value: selectedValue, setValue: setSelectedValue } = useRangePickerState(
@@ -753,13 +736,6 @@
     defaultPopupVisible.value,
     reactive({ value: popupVisible }),
   );
-  const setPanelVisible = (newVisible: boolean) => {
-    if (panelVisible.value !== newVisible) {
-      setLocalPanelVisible(newVisible);
-      emit('popup-visible-change', newVisible);
-      emit('update:popupVisible', newVisible);
-    }
-  };
 
   // headerValue is used to generate the content displayed on the panel
   const {
@@ -805,21 +781,17 @@
   }
 
   function onStartPanelHeaderSelect(date: Dayjs) {
-    let newStartValue = startHeaderValue.value;
-    newStartValue = newStartValue.set('year', date.year());
-    if (startHeaderMode.value === 'month') {
-      newStartValue = newStartValue.set('month', date.month());
-    }
+    const newStartValue = getSelectedHeaderValue(
+      startHeaderValue.value,
+      date,
+      startHeaderMode.value,
+    );
     setHeaderValue([newStartValue, endHeaderValue.value]);
     startHeaderMode.value = undefined;
   }
 
   function onEndPanelHeaderSelect(date: Dayjs) {
-    let newEndValue = endHeaderValue.value;
-    newEndValue = newEndValue.set('year', date.year());
-    if (endHeaderMode.value === 'month') {
-      newEndValue = newEndValue.set('month', date.month());
-    }
+    const newEndValue = getSelectedHeaderValue(endHeaderValue.value, date, endHeaderMode.value);
     setHeaderValue([startHeaderValue.value, newEndValue]);
     endHeaderMode.value = undefined;
   }
@@ -866,33 +838,10 @@
 
   watch(
     () => props.modelValue,
-    () => {
-      setProcessValue(undefined);
-      setPreviewValue(undefined);
-      setInputValue(undefined);
-      resetHeaderValue();
-    },
+    () => foundation.onModelChange(),
     { deep: true },
   );
-
-  watch(panelVisible, (newVisible) => {
-    startHeaderMode.value = undefined;
-    endHeaderMode.value = undefined;
-
-    setProcessValue(undefined);
-    setPreviewValue(undefined);
-    // open
-    if (newVisible) {
-      resetHeaderValue();
-      resetTimePickerValue();
-      focusedIndex.value = getFocusedIndex(focusedIndex.value);
-      nextTick(() => focusInput(focusedIndex.value));
-    }
-    // close
-    if (!newVisible) {
-      setInputValue(undefined);
-    }
-  });
+  watch(panelVisible, (visible) => foundation.onVisibilityChange(visible));
 
   watch(focusedIndex, () => {
     if (props.disabledInput) {
@@ -901,301 +850,133 @@
     }
   });
 
-  function emitChange(value: Array<Dayjs | undefined> | undefined, emitOk?: boolean) {
-    const localValue = value?.map((item) =>
-      item ? toLocal(item, utcOffset?.value, timezone?.value) : undefined,
-    );
-    const returnValue = value
-      ? getReturnRangeValue(value, returnValueFormat.value, utcOffset?.value, timezone?.value)
-      : undefined;
-    const formattedValue = getFormattedValue(localValue, parseValueFormat.value);
-    const dateValue = getDateValue(localValue);
-    if (isValueChange(value, selectedValue.value)) {
-      emit('update:modelValue', returnValue);
-      emit('change', returnValue, dateValue, formattedValue);
-      eventHandlers.value?.onChange?.();
-    }
-    if (emitOk) {
-      if (
-        Array.isArray(returnValue) &&
-        returnValue.every((item): item is CalendarValue => item !== undefined) &&
-        Array.isArray(dateValue) &&
-        dateValue.every((item): item is Date => item !== undefined) &&
-        Array.isArray(formattedValue) &&
-        formattedValue.every((item): item is string => item !== undefined)
-      ) {
-        emitRangeEvent('ok', returnValue, dateValue, formattedValue);
-      }
-    }
-  }
-
-  function getSortedDayjsArrayByExchangeTimeOrNot(newValue: Dayjs[]) {
-    let sortedValue = getSortedDayjsArray(newValue, fixedTime.value);
-    if (hasTime.value && !mergedExchangeTime.value && !fixedTime.value) {
-      sortedValue = [
-        getMergedOpValue(sortedValue[0], newValue[0]),
-        getMergedOpValue(sortedValue[1], newValue[1]),
-      ];
-    }
-    return sortedValue;
-  }
-
-  function changesDisabledEndpoint(value: Array<Dayjs | undefined> | undefined) {
-    return disabledArray.value.some(
-      (disabled, index) => disabled && isValueChange(value?.[index], selectedValue.value[index]),
-    );
-  }
-
-  function confirm(
-    value: Array<Dayjs | undefined> | undefined,
-    showPanel?: boolean,
-    emitOk?: boolean,
-  ) {
-    if (triggerDisabled.value || props.readonly) return;
-    let newValue = value ? [...value] : undefined;
-
-    if (isCompleteRangeValue(newValue)) {
-      newValue = getSortedDayjsArrayByExchangeTimeOrNot(newValue);
-    }
-
-    if (isDisabledDate(newValue?.[0], 'start') || isDisabledDate(newValue?.[1], 'end')) {
-      return;
-    }
-    if (changesDisabledEndpoint(newValue)) return;
-
-    emitChange(newValue, emitOk);
-    setSelectedValue(newValue || []);
-    setProcessValue(undefined);
-    setPreviewValue(undefined);
-    setInputValue(undefined);
-    startHeaderMode.value = undefined;
-    endHeaderMode.value = undefined;
-
-    if (isBoolean(showPanel)) {
-      setPanelVisible(showPanel);
-    }
-  }
-
-  function emitSelectEvent(value: Array<Dayjs | undefined>) {
-    const localValue = value.map((item) =>
-      item ? toLocal(item, utcOffset?.value, timezone?.value) : undefined,
-    );
-    const returnValue = getReturnRangeValue(
-      value,
-      returnValueFormat.value,
-      utcOffset?.value,
-      timezone?.value,
-    );
-    const formattedValue = getFormattedValue(localValue, parseValueFormat.value);
-    const dateValue = getDateValue(localValue);
-    emitRangeEvent('select', returnValue ?? [], dateValue ?? [], formattedValue ?? []);
-  }
-
-  function select(
-    value: Array<Dayjs | undefined>,
-    options?: {
-      emitSelect?: boolean;
-      updateHeader?: boolean;
-    },
-  ) {
-    if (triggerDisabled.value || props.readonly) return;
-    const { emitSelect = false, updateHeader = false } = options || {};
-
-    let newValue = [...value];
-    if (isCompleteRangeValue(newValue)) {
-      newValue = getSortedDayjsArrayByExchangeTimeOrNot(newValue);
-    }
-
-    if (changesDisabledEndpoint(newValue)) return;
-    setProcessValue(newValue);
-    setPreviewValue(undefined);
-    setInputValue(undefined);
-    startHeaderMode.value = undefined;
-    endHeaderMode.value = undefined;
-
-    if (emitSelect) {
-      emitSelectEvent(newValue);
-    }
-
-    if (updateHeader) {
-      resetHeaderValue();
-    }
-  }
-
-  function preview(
-    value: Array<Dayjs | undefined>,
-    options?: {
-      emitSelect?: boolean;
-      updateHeader?: boolean;
-    },
-  ) {
-    if (triggerDisabled.value || props.readonly) return;
-    const { updateHeader = false } = options || {};
-    if (changesDisabledEndpoint(value)) return;
-    setPreviewValue(value);
-    setInputValue(undefined);
-
-    if (updateHeader) {
-      resetHeaderValue();
-    }
-  }
-
-  function focusInput(index?: number) {
-    refInput.value && refInput.value.focus && refInput.value.focus(index);
-  }
-
-  function getMergedOpValue(date: Dayjs, time?: Dayjs) {
-    if (!hasTime.value) return date;
-    return mergeValueWithTime(getNow(utcOffset?.value, timezone?.value), date, time);
-  }
-
-  function onPanelVisibleChange(visible: boolean) {
-    setPanelVisible(visible);
-  }
-
-  function onPanelCellMouseEnter(date: Dayjs) {
-    if (
-      processValue.value &&
-      panelValue.value[nextFocusedIndex.value] &&
-      (!needConfirm.value || !isCompleteRangeValue(processValue.value))
-    ) {
-      const newValue = [...panelValue.value];
-      const mergedOpValue = getMergedOpValue(date, timePickerValue.value[focusedIndex.value]);
-      newValue[focusedIndex.value] = mergedOpValue;
-
-      preview(newValue);
-    }
-  }
-
-  function getValueToModify(isTime = false) {
-    if (isNextDisabled.value) return [...selectedValue.value];
-    if (processValue.value) {
-      return isTime || !isCompleteRangeValue(processValue.value) || !clearRangeOnReselect.value
-        ? [...processValue.value]
-        : [];
-    }
-    if (!isTime && !clearRangeOnReselect.value) {
-      return [...selectedValue.value];
-    }
-    return isTime ? [...selectedValue.value] : [];
-  }
-
-  function onPanelCellClick(date: Dayjs) {
-    if (triggerDisabled.value || props.readonly) return;
-    const newValue = getValueToModify();
-    const mergedOpValue = getMergedOpValue(date, timePickerValue.value[focusedIndex.value]);
-    newValue[focusedIndex.value] = mergedOpValue;
-
-    emitSelectEvent(newValue);
-    if (!needConfirm.value && isCompleteRangeValue(newValue)) {
-      confirm(newValue, false);
-    } else {
-      select(newValue);
-      if (!isCompleteRangeValue(newValue)) {
-        focusedIndex.value = nextFocusedIndex.value;
-      } else {
-        focusedIndex.value = 0;
-      }
-    }
-  }
-
-  function onTimePickerSelect(time: Dayjs, type: 'start' | 'end') {
-    if (triggerDisabled.value || props.readonly) return;
-    const updateIndex = type === 'start' ? 0 : 1;
-    const mergedOpValue = getMergedOpValue(timePickerValue.value[updateIndex], time);
-    const newTimeValue = [...timePickerValue.value];
-    newTimeValue[updateIndex] = mergedOpValue;
-    setTimePickerValue(newTimeValue);
-
-    const newValue = getValueToModify(true);
-    if (newValue[updateIndex]) {
-      newValue[updateIndex] = mergedOpValue;
-      select(newValue, { emitSelect: true });
-    }
-  }
-
   let clearShortcutPreviewTimer: ReturnType<typeof setTimeout> | undefined;
   onUnmounted(() => {
     clearTimeout(clearShortcutPreviewTimer);
   });
 
-  function onPanelShortcutMouseEnter(value: Array<Dayjs | undefined>) {
-    clearTimeout(clearShortcutPreviewTimer);
-    preview(value, { updateHeader: true });
+  function focusInput(index?: number) {
+    refInput.value && refInput.value.focus && refInput.value.focus(index);
   }
 
-  function onPanelShortcutMouseLeave() {
-    clearTimeout(clearShortcutPreviewTimer);
-    clearShortcutPreviewTimer = setTimeout(() => {
-      setPreviewValue(undefined);
-      setInputValue(undefined);
-      resetHeaderValue();
-    }, 100);
-  }
-
-  function onPanelShortcutClick(value: Array<Dayjs | undefined>, shortcut: ShortcutType) {
-    if (triggerDisabled.value || props.readonly) return;
-    emit('select-shortcut', shortcut);
-    confirm(value, false);
-  }
-
-  function onPanelConfirm() {
-    confirm(panelValue.value, false, true);
-  }
-
-  function onInputClear(e: Event) {
-    e.stopPropagation();
-    confirm(undefined);
-    emit('clear');
-  }
-
-  function onInputChange(e: Event) {
-    setPanelVisible(true);
-
-    const targetValue = (e.target as HTMLInputElement).value;
-
-    // TODO: Null value should be restored to the current value, invalid when deleted as a whole
-    if (!targetValue) {
-      setInputValue(undefined);
-      return;
-    }
-
-    const formattedPanelValue = getFormattedValue(panelValue.value, computedFormat.value) as Array<
-      string | undefined
-    >;
-
-    const newInputValue = isArray(inputValue.value)
-      ? [...inputValue.value]
-      : formattedPanelValue || [];
-
-    newInputValue[focusedIndex.value] = targetValue;
-
-    setInputValue(newInputValue);
-
-    if (!isValidInputValue(targetValue, computedFormat.value)) return;
-
-    const targetValueDayjs = getDayjsValue(
-      targetValue,
-      computedFormat.value,
-      utcOffset?.value,
-      timezone?.value,
-    ) as Dayjs;
-
-    if (isDisabledDate(targetValueDayjs, focusedIndex.value === 0 ? 'start' : 'end')) return;
-
-    const newValue = isArray(panelValue.value) ? [...panelValue.value] : [];
-    newValue[focusedIndex.value] = targetValueDayjs;
-
-    select(newValue, { updateHeader: true });
-  }
-
-  function onInputPressEnter() {
-    if (isValidRangeValue(panelValue.value)) {
-      confirm(panelValue.value, false);
-    } else {
-      focusedIndex.value = nextFocusedIndex.value;
-    }
-  }
+  const foundation = createDateRangeFoundation<ShortcutType>({
+    get selectedValue() {
+      return selectedValue.value;
+    },
+    get processValue() {
+      return processValue.value;
+    },
+    get panelValue() {
+      return panelValue.value;
+    },
+    get inputValue() {
+      return inputValue.value;
+    },
+    get timeValue() {
+      return timePickerValue.value;
+    },
+    get focusedIndex() {
+      return focusedIndex.value;
+    },
+    get nextFocusedIndex() {
+      return nextFocusedIndex.value;
+    },
+    get isNextDisabled() {
+      return isNextDisabled.value;
+    },
+    get disabled() {
+      return triggerDisabled.value;
+    },
+    get disabledInputs() {
+      return disabledArray.value;
+    },
+    get needConfirm() {
+      return !!needConfirm.value;
+    },
+    get hasTime() {
+      return !!hasTime.value;
+    },
+    get exchangeTime() {
+      return mergedExchangeTime.value;
+    },
+    get fixedTime() {
+      return fixedTime.value;
+    },
+    get clearRangeOnReselect() {
+      return clearRangeOnReselect.value;
+    },
+    get returnFormat() {
+      return returnValueFormat.value;
+    },
+    get parseFormat() {
+      return parseValueFormat.value;
+    },
+    get format() {
+      return computedFormat.value;
+    },
+    get utcOffset() {
+      return utcOffset?.value;
+    },
+    get timezone() {
+      return timezone?.value;
+    },
+    get readonly() {
+      return !!props.readonly;
+    },
+    get visible() {
+      return panelVisible.value;
+    },
+    setSelectedValue,
+    setProcessValue,
+    setPreviewValue,
+    setInputValue,
+    setTimePickerValue,
+    setFocusedIndex: (index) => {
+      focusedIndex.value = index;
+    },
+    resetHeaderModes: () => {
+      startHeaderMode.value = undefined;
+      endHeaderMode.value = undefined;
+    },
+    resetHeaderValue,
+    isDisabledDate,
+    resetTimeValue: resetTimePickerValue,
+    focusInput,
+    afterRender: (task) => {
+      nextTick(task);
+    },
+    setVisible: setLocalPanelVisible,
+    onUpdateValue: (value) => emit('update:modelValue', value),
+    onChange: (value, date, formatted) => emit('change', value, date, formatted),
+    onOk: (value, date, formatted) => emitRangeEvent('ok', value, date, formatted),
+    onSelect: (value, date, formatted) => emitRangeEvent('select', value, date, formatted),
+    onShortcut: (shortcut) => emit('select-shortcut', shortcut),
+    onClear: () => emit('clear'),
+    onFormChange: () => eventHandlers.value?.onChange?.(),
+    onPopupChange: (visible) => emit('popup-visible-change', visible),
+    onUpdatePopup: (visible) => emit('update:popupVisible', visible),
+    cancelPreviewClear: () => clearTimeout(clearShortcutPreviewTimer),
+    schedulePreviewClear: (task) => {
+      clearShortcutPreviewTimer = setTimeout(task, 100);
+    },
+  });
+  const {
+    onPanelVisibleChange,
+    onPanelCellMouseEnter,
+    onPanelCellClick,
+    onTimePickerSelect,
+    onPanelShortcutMouseEnter,
+    onPanelShortcutMouseLeave,
+    onPanelShortcutClick,
+    onPanelConfirm,
+    onInputPressEnter,
+  } = foundation;
+  const onInputChange = (event: Event) =>
+    foundation.onInputChange((event.target as HTMLInputElement).value);
+  const onInputClear = (event: Event) => {
+    event.stopPropagation();
+    foundation.onInputClear();
+  };
 
   const computedTimePickerProps = computed(() => ({
     format: computedFormat.value,

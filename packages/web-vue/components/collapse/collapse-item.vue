@@ -57,12 +57,15 @@
   import type { TransitionProps, VNode } from 'vue';
   import { computed, getCurrentInstance, inject, ref, watch } from 'vue';
 
+  import {
+    createCollapseItemFoundation,
+    normalizeCollapseKey,
+  } from '@sdata/web-core/collapse/foundation';
+
   import type { CollapseContext } from './context';
 
   import IconHover from '../_components/icon-hover.vue';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isNumber } from '../_utils/is';
-  import { isActivationKey } from '../_utils/keyboard';
   import IconCaretLeft from '../icon/icon-caret-left';
   import IconCaretRight from '../icon/icon-caret-right';
   import { collapseKey } from './context';
@@ -125,10 +128,7 @@
   const instance = getCurrentInstance();
   const prefixCls = getPrefixCls('collapse-item');
   const collapseCtx = inject<Partial<CollapseContext>>(collapseKey, {});
-  const key =
-    instance && isNumber(instance.vnode.key)
-      ? instance.vnode.key
-      : String(instance?.vnode.key ?? '');
+  const key = normalizeCollapseKey(instance?.vnode.key);
   const isActive = computed(() => collapseCtx.activeKeys?.includes(key));
   const mergedDestroyOnHide = computed(() => collapseCtx.destroyOnHide || props.destroyOnHide);
   const mergedShowExpandIcon = computed(() => collapseCtx.showExpandIcon ?? props.showExpandIcon);
@@ -169,49 +169,40 @@
       disabled: props.disabled,
       position: expandIconPosition.value,
     });
-  const handleClick = (event: MouseEvent) => {
-    if (!props.disabled) {
+  const foundation = createCollapseItemFoundation({
+    get disabled() {
+      return props.disabled;
+    },
+    get active() {
+      return isActive.value;
+    },
+    get destroy() {
+      return mergedDestroyOnHide.value;
+    },
+    get mounted() {
+      return mounted.value;
+    },
+    setMounted(value) {
+      mounted.value = value;
+    },
+    onClick(event) {
       collapseCtx.handleClick?.(key, event);
-    }
-  };
-  const handleKeydown = (event: KeyboardEvent) => {
-    if (props.disabled) return;
-    const target = event.target as HTMLElement | null;
-    if (target?.closest('input, textarea, select, button, a[href], [contenteditable="true"]'))
-      return;
-    if (isActivationKey(event)) {
-      event.preventDefault();
-      collapseCtx.handleClick?.(key, event);
-    }
-  };
-  let leaving = false;
-  const transitionEvents: TransitionProps = {
-    onBeforeLeave: () => {
-      leaving = true;
     },
-    onAfterLeave: () => {
-      leaving = false;
-      if (mergedDestroyOnHide.value) {
-        mounted.value = false;
-      }
+    isInteractiveTarget(event) {
+      return Boolean(
+        (event.target as HTMLElement | null)?.closest(
+          'input, textarea, select, button, a[href], [contenteditable="true"]',
+        ),
+      );
     },
-    onLeaveCancelled: () => {
-      leaving = false;
-    },
-  };
-
-  watch(
-    mergedDestroyOnHide,
-    (destroy) => {
-      if (!destroy) mounted.value = true;
-      else if (!isActive.value && !leaving) mounted.value = false;
-    },
-    { flush: 'post' },
-  );
-
-  watch(isActive, (active) => {
-    if (active && !mounted.value) {
-      mounted.value = true;
-    }
   });
+  const handleClick = foundation.click;
+  const handleKeydown = foundation.keydown;
+  const transitionEvents: TransitionProps = {
+    onBeforeLeave: foundation.beforeLeave,
+    onAfterLeave: foundation.afterLeave,
+    onLeaveCancelled: foundation.leaveCancelled,
+  };
+  watch(mergedDestroyOnHide, foundation.syncDestroy, { flush: 'post' });
+  watch(isActive, foundation.syncActive);
 </script>

@@ -36,6 +36,8 @@
 <script setup lang="ts">
   import { computed, getCurrentInstance, inject, onBeforeUpdate, shallowRef, watch } from 'vue';
 
+  import { createSenderSwitch } from '@sdata/web-core/sender/controls';
+
   import type { SenderSwitchProps } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
@@ -68,22 +70,30 @@
       Object.hasOwn(vnodeProps.value ?? {}, 'modelValue') ||
       Object.hasOwn(vnodeProps.value ?? {}, 'model-value'),
   );
-  const mergedChecked = computed(() =>
-    controlled.value ? Boolean(props.modelValue) : innerChecked.value,
-  );
-
-  watch(
-    () => props.defaultValue,
-    (value) => {
-      if (!controlled.value) innerChecked.value = value;
+  const foundation = createSenderSwitch(
+    {
+      get props() {
+        return props;
+      },
+      get controlled() {
+        return controlled.value;
+      },
+      get checked(): boolean {
+        return mergedChecked.value;
+      },
+      get innerChecked() {
+        return innerChecked.value;
+      },
+      set innerChecked(value) {
+        innerChecked.value = value;
+      },
+    },
+    {
+      update: (value) => emit('update:modelValue', value),
+      change: (value) => emit('change', value),
     },
   );
-
-  const handleChange = () => {
-    if (props.disabled || props.loading) return;
-    const nextChecked = !mergedChecked.value;
-    if (!controlled.value) innerChecked.value = nextChecked;
-    emit('update:modelValue', nextChecked);
-    emit('change', nextChecked);
-  };
+  const mergedChecked = computed(foundation.checked);
+  watch(() => props.defaultValue, foundation.syncDefault);
+  const handleChange = foundation.change;
 </script>

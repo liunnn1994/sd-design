@@ -1,5 +1,7 @@
 import { computed, getCurrentInstance, inject, onBeforeUpdate, Ref, shallowRef } from 'vue';
 
+import { resolveDropdownVirtualList } from '@sdata/web-core/config/prop-values';
+
 import type { VirtualListProps } from '../_components/virtual-list/interface';
 
 import { configProviderInjectionKey } from '../config-provider/context';
@@ -26,15 +28,19 @@ export const useDropdownVirtualListProps = (
     return DROPDOWN_VIRTUAL_LIST_PROP_NAMES.some((propName) => Object.hasOwn(rawProps, propName));
   });
 
-  const mergedDropdownVirtualListProps = computed(() => {
-    const localVirtualListProps = virtualListProps?.value;
-
-    if (hasVirtualListProp.value || localVirtualListProps !== undefined) {
-      return localVirtualListProps;
-    }
-
-    return configProviderCtx?.virtualListProps ?? localVirtualListProps;
-  });
+  const mergedDropdownVirtualListProps = computed(() =>
+    resolveDropdownVirtualList({
+      get hasLocalProp() {
+        return hasVirtualListProp.value;
+      },
+      get localValue() {
+        return virtualListProps?.value;
+      },
+      get globalValue() {
+        return configProviderCtx?.virtualListProps;
+      },
+    }),
+  );
 
   return {
     mergedDropdownVirtualListProps,

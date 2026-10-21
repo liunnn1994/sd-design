@@ -52,6 +52,8 @@
 <script setup lang="ts">
   import { ref, toRef, type PropType } from 'vue';
 
+  import { createInputSearchFoundation } from '@sdata/web-core/input-search/foundation';
+
   import type { Size } from '../_utils/constant';
   import type { ButtonProps } from '../button';
 
@@ -134,12 +136,14 @@
   const { mergedSize } = useSize(toRef(props, 'size'));
   const inputRef = ref<InstanceType<typeof Input>>();
 
-  const handleClick = (event: MouseEvent) => {
-    const input = inputRef.value?.inputRef;
-    if (input && !input.disabled) {
-      emit('search', input.value, event);
-    }
-  };
+  const { handleClick } = createInputSearchFoundation(
+    {
+      get input() {
+        return inputRef.value?.inputRef;
+      },
+    },
+    (value, event) => emit('search', value, event),
+  );
 
   const focus = () => {
     inputRef.value?.focus();

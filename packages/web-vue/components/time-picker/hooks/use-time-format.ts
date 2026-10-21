@@ -5,6 +5,8 @@
 
 import { computed, toRefs } from 'vue';
 
+import { resolveTimeFormat } from '@sdata/web-core/time-picker/values';
+
 import { getColumnsFromFormat } from '../utils';
 
 interface FormatProps {
@@ -16,13 +18,9 @@ interface FormatProps {
 export default function useTimeFormat(props: FormatProps) {
   const { format: propFormat, use12Hours: propUse12Hours, defaultFormat } = toRefs(props);
 
-  const format = computed(() => {
-    let res = propFormat?.value || defaultFormat?.value;
-    if (!res || !getColumnsFromFormat(res).list.length) {
-      res = propUse12Hours?.value ? 'hh:mm:ss a' : 'HH:mm:ss';
-    }
-    return res;
-  });
+  const format = computed(() =>
+    resolveTimeFormat(propFormat?.value, defaultFormat?.value, propUse12Hours?.value),
+  );
 
   const configFromFormat = computed(() => getColumnsFromFormat(format.value));
   const list = computed(() => configFromFormat.value.list);

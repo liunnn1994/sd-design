@@ -1,46 +1,35 @@
 import { Ref, ref } from 'vue';
 
+import {
+  WATERMARK_THEME_TOKEN,
+  getWatermarkTheme,
+  handleWatermarkThemeMutations,
+  type WatermarkTheme,
+} from '@sdata/web-core/watermark/theme';
+
 import { useMutationObserver } from './use-mutation-observer';
 
-const THEME_TOKEN = 'sd-theme';
-const Theme = {
-  Dark: 'dark' as const,
-  Light: 'light' as const,
-};
-
 export const useTheme = (callback?: () => void) => {
-  const theme: Ref<(typeof Theme)[keyof typeof Theme]> = ref(Theme.Light);
+  const theme: Ref<WatermarkTheme> = ref('light');
 
-  const setTheme = (value: (typeof Theme)[keyof typeof Theme]) => {
+  const setTheme = (value: WatermarkTheme) => {
     theme.value = value;
-  };
-
-  const getTheme = (element: HTMLElement) => {
-    return element.getAttribute(THEME_TOKEN) === Theme.Dark ? Theme.Dark : Theme.Light;
   };
 
   const body = typeof document === 'undefined' ? undefined : document.body;
   useMutationObserver(
     body,
-    (mutations) => {
-      for (const mutation of mutations) {
-        if (mutation.type === 'attributes' && mutation.attributeName === THEME_TOKEN) {
-          setTheme(getTheme(mutation.target as HTMLElement));
-          callback?.();
-          break;
-        }
-      }
-    },
+    (mutations) => handleWatermarkThemeMutations(mutations, setTheme, callback),
     {
       attributes: true,
-      attributeFilter: [THEME_TOKEN],
+      attributeFilter: [WATERMARK_THEME_TOKEN],
       subtree: false,
       childList: false,
       characterData: false,
     },
   );
 
-  if (body) setTheme(getTheme(body));
+  if (body) setTheme(getWatermarkTheme(body));
 
   return {
     theme,

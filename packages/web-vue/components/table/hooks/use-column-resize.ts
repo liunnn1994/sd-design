@@ -1,6 +1,7 @@
 import { onBeforeUnmount, reactive, ref, Ref } from 'vue';
 
-import { off, on } from '../../_utils/dom';
+import { createColumnResizeFoundation } from '@sdata/web-core/table/column-resize';
+
 import { EmitFn2 } from '../../_utils/types';
 
 export const useColumnResize = (
@@ -10,39 +11,25 @@ export const useColumnResize = (
   const resizingColumn = ref('');
   const columnWidth = reactive<Record<string, number>>(Object.create(null));
 
-  const handleThMouseDown = (dataIndex: string, ev: MouseEvent) => {
-    ev.preventDefault();
-
-    resizingColumn.value = dataIndex;
-    on(window, 'mousemove', handleThMouseMoving);
-    on(window, 'mouseup', handleThMouseUp);
-    on(window, 'contextmenu', handleThMouseUp);
-  };
-
-  const handleThMouseUp = () => {
-    resizingColumn.value = '';
-    off(window, 'mousemove', handleThMouseMoving);
-    off(window, 'mouseup', handleThMouseUp);
-    off(window, 'contextmenu', handleThMouseUp);
-  };
-
-  onBeforeUnmount(() => {
-    if (resizingColumn.value) handleThMouseUp();
-  });
-
-  const handleThMouseMoving = (ev: MouseEvent) => {
-    const element = thRefs.value[resizingColumn.value];
-    if (element) {
-      const { clientX } = ev;
-      const { x } = element.getBoundingClientRect();
-      let width = Math.ceil(clientX - x);
-      if (width < 40) {
-        width = 40;
-      }
-      columnWidth[resizingColumn.value] = width;
-      emit('columnResize', resizingColumn.value, width);
-    }
-  };
+  const foundation = createColumnResizeFoundation(
+    {
+      get thElements() {
+        return thRefs.value;
+      },
+      get resizingColumn() {
+        return resizingColumn.value;
+      },
+      set resizingColumn(value) {
+        resizingColumn.value = value;
+      },
+      get columnWidth() {
+        return columnWidth;
+      },
+    },
+    emit,
+  );
+  const { handleThMouseDown, handleThMouseUp } = foundation;
+  onBeforeUnmount(foundation.dispose);
 
   return {
     resizingColumn,

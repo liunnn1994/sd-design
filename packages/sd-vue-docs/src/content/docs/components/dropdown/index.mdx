@@ -241,3 +241,7 @@ import dropdownTriggerSource from '../../../../components/generated/dropdown/tri
 | ------- | :------: | ----------------------- |
 | icon    | 按钮图标 | popupVisible: `boolean` |
 | content |   内容   | -                       |
+
+## 无框架规则
+
+选择通知、选后关闭与选项回调由 `@sdata/web-core/dropdown/foundation` 提供。`dropdown/panel` 通过列表、焦点及动画帧端口处理菜单导航、初始焦点重试、滚动通知和高度规则。Vue 保留 Trigger、注入、Ref、computed、nextTick 和生命周期注册；hover 打开不自动抢焦点。

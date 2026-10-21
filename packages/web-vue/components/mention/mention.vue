@@ -123,6 +123,7 @@
   import { computed, nextTick, onMounted, ref, toRef, useAttrs, useSlots, watch } from 'vue';
   import type { ComponentPublicInstance, PropType } from 'vue';
 
+  import { createMention, getEmptyMeasureInfo } from '@sdata/web-core/mention/foundation';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { FloatingOptions } from '../_utils/floating';
@@ -138,7 +139,6 @@
   import { useAllowClear } from '../_hooks/use-allow-clear';
   import { useFormItem } from '../_hooks/use-form-item';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isNull, isUndefined } from '../_utils/is';
   import SdInput from '../input';
   import { useSelect } from '../select/hooks/use-select';
   import SelectDropdown from '../select/select-dropdown.vue';
@@ -146,7 +146,6 @@
   import SdTextarea from '../textarea';
   import { getSizeStyles } from '../textarea/utils';
   import Trigger from '../trigger';
-  import { getLastMeasureIndex, getTextBeforeSelection, isValidSearch } from './utils';
 
   defineOptions({ name: 'Mention', inheritAttrs: false });
 
@@ -298,16 +297,10 @@
   const optionRefs = ref<Record<string, HTMLElement>>({});
   const innerValue = ref(props.defaultValue);
   const computedValue = computed(() => props.modelValue ?? innerValue.value);
-  watch(toRef(props, 'modelValue'), (value) => {
-    if (isUndefined(value) || isNull(value)) innerValue.value = '';
-  });
   const computedValueKeys = computed(() =>
     computedValue.value ? [getKeyFromValue(computedValue.value)] : [],
   );
-  const measureInfo = ref<MeasureInfo>({ measuring: false, location: -1, prefix: '', text: '' });
-  const resetMeasureInfo = () => {
-    measureInfo.value = { measuring: false, location: -1, prefix: '', text: '' };
-  };
+  const measureInfo = ref<MeasureInfo>(getEmptyMeasureInfo());
   const inputRef = ref<InstanceType<typeof SdInput> | InstanceType<typeof SdTextarea>>();
   const measureText = computed(() => measureInfo.value.text);
   const filterOption = toRef(props, 'filterOption');
@@ -321,54 +314,38 @@
       validOptionInfos.value.length > 0,
   );
 
-  const handleInput = (value: string, event: Event) => {
-    if (props.readonly) return;
-    const text = getTextBeforeSelection(event.target as HTMLInputElement);
-    const lastMeasure = getLastMeasureIndex(text, props.prefix);
-    if (lastMeasure.location > -1) {
-      const textAfterPrefix = text.slice(lastMeasure.location + lastMeasure.prefix.length);
-      if (isValidSearch(textAfterPrefix, props.split)) {
-        innerPopupVisible.value = true;
-        measureInfo.value = { measuring: true, text: textAfterPrefix, ...lastMeasure };
-        emit('search', textAfterPrefix, lastMeasure.prefix);
-      } else if (measureInfo.value.location > -1) resetMeasureInfo();
-    } else if (measureInfo.value.location > -1) resetMeasureInfo();
-    innerValue.value = value;
-    emit('update:modelValue', value);
-    emit('change', value);
-    eventHandlers.value?.onChange?.();
-  };
-  const handleClear = (event: Event) => {
-    innerValue.value = '';
-    resetMeasureInfo();
-    innerPopupVisible.value = false;
-    emit('update:modelValue', '');
-    emit('change', '');
-    eventHandlers.value?.onChange?.();
-    emit('clear', event);
-  };
-  const handlePopupVisibleChange = (visible: boolean) => {
-    innerPopupVisible.value = visible;
-  };
-  const handleSelect = (key: string, _event: Event) => {
-    const { value } = optionInfoMap.get(key) ?? {};
-    const measureStart = measureInfo.value.location;
-    const measureEnd = measureStart + measureInfo.value.text.length;
-    // tail 从「前缀 + 搜索文本」整体之后开始，不能假定前缀长度为 1，
-    // 否则 prefix="##" 时尾部文本会重复进入值
-    let head = computedValue.value.slice(0, measureStart);
-    let tail = computedValue.value.slice(measureEnd + measureInfo.value.prefix.length);
-    head += !head || head.endsWith(props.split) || head.endsWith('\n') ? '' : props.split;
-    tail =
-      (!tail || tail.startsWith(props.split) || tail.startsWith('\n') ? '' : props.split) + tail;
-    const nextValue = `${head}${measureInfo.value.prefix}${value}${tail}`;
-    innerValue.value = nextValue;
-    emit('select', value as string | number | Record<string, unknown> | undefined);
-    emit('update:modelValue', nextValue);
-    emit('change', nextValue);
-    resetMeasureInfo();
-    eventHandlers.value?.onChange?.();
-  };
+  const foundation = createMention({
+    props,
+    get value() {
+      return computedValue.value;
+    },
+    get options() {
+      return optionInfoMap;
+    },
+    get measure() {
+      return measureInfo.value;
+    },
+    set measure(value) {
+      measureInfo.value = value;
+    },
+    setInner(value) {
+      innerValue.value = value;
+    },
+    setPopup(value) {
+      innerPopupVisible.value = value;
+    },
+    onSearch: (value, prefix) => emit('search', value, prefix),
+    onUpdate: (value) => emit('update:modelValue', value),
+    onChange: (value) => emit('change', value),
+    onFormChange: () => eventHandlers.value?.onChange?.(),
+    onSelect: (value) => emit('select', value),
+    onClear: (event) => emit('clear', event),
+  });
+  watch(toRef(props, 'modelValue'), foundation.syncValue);
+  const handleInput = foundation.input;
+  const handleClear = foundation.clear;
+  const handlePopupVisibleChange = foundation.popup;
+  const handleSelect = foundation.select;
 
   const { optionInfoMap, validOptionInfos, activeKey, setActiveKey, handleKeyDown } = useSelect({
     options: toRef(props, 'data'),

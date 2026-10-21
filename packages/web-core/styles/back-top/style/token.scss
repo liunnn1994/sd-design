@@ -1,0 +1,87 @@
+@use '../../style/theme/runtime.scss' as theme-runtime;
+@use '../../style/theme/index.scss' as global;
+
+@forward '../../style/theme/index.scss';
+@forward '../../style/color/colors.scss' hide $sd-vars-prefix, $sd-cssvars-prefix;
+
+@use 'sass:string';
+@use '../../style/theme/index.scss' as *;
+
+$backtop-margin-bottom: global.$spacing-9;
+
+$backtop-margin-right: global.$spacing-9;
+
+$backtop-button-size-width: global.$size-10;
+
+$backtop-button-size-font: global.$font-size-body-1;
+
+$backtop-button-size-icon: 14px;
+
+$backtop-button-color-bg: global.$color-primary-6;
+
+$backtop-button-color-bg_hover: global.$color-primary-5;
+
+$backtop-button-color-focus-ring: global.$color-primary-3;
+
+$backtop-button-border-radius: global.$radius-circle;
+
+$backtop-button-color-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-white'));
+
+// @generated runtime tokens — pnpm theme:generate
+$backtop-margin-bottom: theme-runtime.token(
+  'back-top',
+  'backtop-margin-bottom',
+  $backtop-margin-bottom,
+  'spacing-9'
+);
+$backtop-margin-right: theme-runtime.token(
+  'back-top',
+  'backtop-margin-right',
+  $backtop-margin-right,
+  'spacing-9'
+);
+$backtop-button-size-width: theme-runtime.token(
+  'back-top',
+  'backtop-button-size-width',
+  $backtop-button-size-width,
+  'size-10'
+);
+$backtop-button-size-font: theme-runtime.token(
+  'back-top',
+  'backtop-button-size-font',
+  $backtop-button-size-font,
+  'font-size-body-1'
+);
+$backtop-button-size-icon: theme-runtime.token(
+  'back-top',
+  'backtop-button-size-icon',
+  $backtop-button-size-icon
+);
+$backtop-button-color-bg: theme-runtime.token(
+  'back-top',
+  'backtop-button-color-bg',
+  $backtop-button-color-bg,
+  'color-primary-6'
+);
+$backtop-button-color-bg_hover: theme-runtime.token(
+  'back-top',
+  'backtop-button-color-bg-hover',
+  $backtop-button-color-bg_hover,
+  'color-primary-5'
+);
+$backtop-button-color-focus-ring: theme-runtime.token(
+  'back-top',
+  'backtop-button-color-focus-ring',
+  $backtop-button-color-focus-ring,
+  'color-primary-3'
+);
+$backtop-button-border-radius: theme-runtime.token(
+  'back-top',
+  'backtop-button-border-radius',
+  $backtop-button-border-radius
+);
+$backtop-button-color-text: theme-runtime.token(
+  'back-top',
+  'backtop-button-color-text',
+  $backtop-button-color-text
+);

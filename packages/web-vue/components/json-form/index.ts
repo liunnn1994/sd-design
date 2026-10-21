@@ -33,6 +33,7 @@ export type {
   JsonFormProviderConfig,
   JsonFormSchema,
 } from './types';
-export { A2UI_0_9_1, defineJsonFormComponents, defineJsonFormSchemas } from './types';
+export { A2UI_0_9_1 } from '@sdata/web-core/json-form/types';
+export { defineJsonFormComponents, defineJsonFormSchemas } from './types';
 
 export default JsonForm;

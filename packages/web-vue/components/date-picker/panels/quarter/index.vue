@@ -32,6 +32,7 @@
 <script setup lang="ts">
   import { computed, PropType, toRefs } from 'vue';
 
+  import { getQuarterRows } from '@sdata/web-core/date-picker/calendar';
   import { Dayjs } from 'dayjs';
 
   import type {
@@ -42,9 +43,7 @@
     IsSameTime,
   } from '../../interface';
 
-  import { dayjs } from '../../../_utils/date';
   import { getPrefixCls } from '../../../_utils/global-config';
-  import { padStart } from '../../../_utils/pad';
   import PanelBody from '../body.vue';
   import PanelHeader, { HeaderLabelClickFunc } from '../header.vue';
 
@@ -88,15 +87,7 @@
 
   const headerTitle = computed(() => headerValue.value.format('YYYY'));
 
-  const rows = computed<Cell[][]>(() => {
-    const year = headerValue.value.year();
-    return [
-      [1, 2, 3, 4].map((q) => ({
-        label: `Q${q}`,
-        value: dayjs(`${year}-${padStart((q - 1) * 3 + 1, 2, '0')}-01`),
-      })),
-    ];
-  });
+  const rows = computed(() => getQuarterRows(headerValue.value));
 
   const isSameTime: IsSameTime = (current, target) =>
     current.isSame(target, 'month') ||

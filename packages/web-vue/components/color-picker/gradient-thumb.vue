@@ -21,6 +21,7 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue';
 
+  import { createGradientThumb } from '@sdata/web-core/color-picker/control';
   import { useDraggable } from '@vueuse/core';
 
   import type { GradientColorPoint } from './interface';
@@ -40,7 +41,12 @@
   }>();
 
   const thumbRef = ref<HTMLElement>();
-  const shouldIgnoreClick = ref(false);
+  const thumb = createGradientThumb({
+    props,
+    schedule: (callback) => {
+      window.setTimeout(callback, 0);
+    },
+  });
 
   useDraggable(thumbRef, {
     axis: 'x',
@@ -48,29 +54,11 @@
     disabled: computed(() => props.disabled),
     preventDefault: true,
     stopPropagation: true,
-    onStart: () => {
-      props.onSelect?.();
-      shouldIgnoreClick.value = false;
-    },
-    onMove: (_, event) => {
-      shouldIgnoreClick.value = true;
-      props.onMove?.(event.clientX);
-    },
-    onEnd: () => {
-      window.setTimeout(() => {
-        shouldIgnoreClick.value = false;
-      }, 0);
-    },
+    onStart: thumb.start,
+    onMove: (_, event) => thumb.move(event.clientX),
+    onEnd: thumb.end,
   });
 
-  const handleClick = (event: MouseEvent) => {
-    event.stopPropagation();
-    if (props.disabled) return;
-    if (!shouldIgnoreClick.value) props.onSelect?.();
-  };
-
-  const handleKeyDown = (event: KeyboardEvent) => {
-    if (props.disabled) return;
-    if (event.key === 'Delete' || event.key === 'Backspace') props.onRemove?.();
-  };
+  const handleClick = thumb.click;
+  const handleKeyDown = thumb.keydown;
 </script>

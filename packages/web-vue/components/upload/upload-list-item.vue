@@ -92,6 +92,7 @@
 <script setup lang="ts">
   import { computed, inject, toRef, type PropType, type VNodeChild } from 'vue';
 
+  import { getUploadFileKind } from '@sdata/web-core/upload/files';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { FileItem, ListType } from './interfaces';
@@ -135,27 +136,16 @@
   const VNodeRenderer = ({ content }: { content: VNodeChild }) => content;
   const customFileIcon = computed(() => uploadCtx?.customIcon?.fileIcon?.(file.value));
   const customFileName = computed(() => uploadCtx?.customIcon?.fileName?.(file.value));
-  const fileIconComponent = computed(() => {
-    let type = '';
-    if (file.value.file?.type) {
-      type = file.value.file.type;
-    } else {
-      const extension = file.value.name?.split('.').pop() ?? '';
-      if (['png', 'jpg', 'jpeg', 'bmp', 'gif', 'webp'].includes(extension)) {
-        type = 'image';
-      } else if (['mp4', 'm2v', 'mkv', 'm4v', 'mov'].includes(extension)) {
-        type = 'video';
-      } else if (['mp3', 'wav', 'wmv', 'm4a', 'acc', 'flac'].includes(extension)) {
-        type = 'audio';
-      }
-    }
-
-    if (type.includes('image')) return IconFileImage;
-    if (type.includes('pdf')) return IconFilePdf;
-    if (type.includes('audio')) return IconFileAudio;
-    if (type.includes('video')) return IconFileVideo;
-    return IconFile;
-  });
+  const fileIconComponent = computed(
+    () =>
+      ({
+        image: IconFileImage,
+        pdf: IconFilePdf,
+        audio: IconFileAudio,
+        video: IconFileVideo,
+        file: IconFile,
+      })[getUploadFileKind(file.value)],
+  );
 
   function onRemoveKeydown(event: KeyboardEvent) {
     if (isActivationKey(event)) {

@@ -94,6 +94,13 @@
 <script lang="ts" setup>
   import { computed, onBeforeUpdate, shallowRef, useSlots } from 'vue';
 
+  import {
+    getJsonFormRules,
+    getJsonFormColProps,
+    filterJsonFormSlots,
+  } from '@sdata/web-core/json-form/field';
+  import { createJsonFormFieldFoundation } from '@sdata/web-core/json-form/foundation';
+
   import { FormItem } from '../form';
   import { Col, Row } from '../grid';
   import { useI18n } from '../locale';
@@ -104,7 +111,6 @@
     type JsonFormModel,
     type JsonFormSchema,
   } from './types';
-  import { getJsonFormValue, parseJsonFormPath, setJsonFormValue } from './utils';
 
   defineOptions({
     name: 'JsonFormItem',
@@ -139,72 +145,29 @@
     slotNames.value = Object.keys(slots);
   });
 
-  const normalizedField = computed(() => {
-    if (props.adapter !== 'a2ui-0.9.1') return props.schema.field;
-    const segments = parseJsonFormPath(props.schema.field, props.adapter);
-    if (segments.some((segment) => !segment || /[.[\]]/.test(segment))) {
-      return segments
-        .map((segment) => `["${segment.replaceAll('\\', '\\\\').replaceAll('"', '\\"')}"]`)
-        .join('');
-    }
-    return segments.join('.');
-  });
-
-  const fieldModel = computed({
-    get() {
-      return getJsonFormValue(props.modelValue, props.schema.field, props.adapter);
+  const fieldFoundation = createJsonFormFieldFoundation({
+    get model() {
+      return props.modelValue;
     },
-    set(value) {
-      // 就地变更共享的 model 对象（非受控/单向 prop 的状态载体），再以新引用
-      // emit update:modelValue 供受控 v-model（不可变更新）的父组件消费。
-      // 不用 defineModel：其 localValue 缓存会让"只传 prop 不传监听"的用法
-      // 在首次赋值后与调用方对象脱钩（后续变更写进内部克隆）。
-      setJsonFormValue(props.modelValue, props.schema.field, value, props.adapter);
-      emit('update:modelValue', { ...props.modelValue });
+    get field() {
+      return props.schema.field;
     },
+    get adapter() {
+      return props.adapter;
+    },
+    onUpdate: (value) => emit('update:modelValue', value),
   });
+  const normalizedField = computed(fieldFoundation.getNormalizedField);
+  const fieldModel = computed({ get: fieldFoundation.getValue, set: fieldFoundation.setValue });
 
   const { t } = useI18n();
 
-  const resolvedRules = computed(() => {
-    if (props.schema.formItemRules) {
-      return props.schema.formItemRules;
-    }
-
-    if (props.schema.required) {
-      return [
-        {
-          required: true,
-          message: props.schema.label
-            ? t('jsonForm.requiredField', props.schema.label)
-            : t('jsonForm.required'),
-        },
-      ];
-    }
-
-    return undefined;
-  });
-
-  const forwardedSlotNames = computed(() => {
-    return slotNames.value.filter((name) => name !== props.schema.slotName);
-  });
-
-  const componentForwardedSlotNames = computed(() => {
-    const schemaSlotNames = new Set(Object.keys(props.schema.componentSlots ?? {}));
-    return slotNames.value.filter(
-      (name) => name !== props.schema.slotName && !schemaSlotNames.has(name),
-    );
-  });
-
-  const resolveColProps = (schema: JsonFormSchema<string>) => {
-    if (schema.colProps) {
-      return schema.colProps;
-    }
-
-    if (schema.span !== undefined) {
-      return { span: schema.span };
-    }
-
-    return undefined;
-  };
+  const resolvedRules = computed(() => getJsonFormRules(props.schema, t));
+  const forwardedSlotNames = computed(() =>
+    filterJsonFormSlots(slotNames.value, [props.schema.slotName]),
+  );
+  const componentForwardedSlotNames = computed(() =>
+    filterJsonFormSlots(slotNames.value, [props.schema.slotName], props.schema.componentSlots),
+  );
+  const resolveColProps = (schema: JsonFormSchema<string>) => getJsonFormColProps(schema);
 </script>

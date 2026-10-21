@@ -1,0 +1,376 @@
+@use '../../style/theme/index.scss' as theme;
+@use '../../style/theme/index.scss' as global;
+@use 'sass:string';
+@use 'sass:map';
+@use 'sass:meta';
+@use './token.scss' as token;
+@use './token.scss' as *;
+
+$btn-prefix-cls: string.unquote('#{theme.$prefix}-btn');
+
+$token-var-aliases: (
+  'size-mini': $btn-size-mini-height,
+  'size-small': $btn-size-small-height,
+  'size-medium': $btn-size-medium-height,
+  'size-large': $btn-size-large-height,
+);
+
+@function _str-replace-all($string, $search, $replace) {
+  $index: string.index($string, $search);
+
+  @if not $index {
+    @return $string;
+  }
+
+  $before: string.slice($string, 1, $index - 1);
+  $after: string.slice($string, $index + string.length($search));
+
+  @return $before + $replace + _str-replace-all($after, $search, $replace);
+}
+
+@function token-var($name, $fallback: null) {
+  $value: map.get($token-var-aliases, $name);
+
+  @if $value == null {
+    // Sass treats - and _ as equivalent in identifiers, so the suffixed tokens
+    // (e.g. $btn-primary-color-text_disabled) resolve fine as variables. But
+    // meta.module-variables() exposes their names normalized to hyphens, and
+    // map.get() compares keys as exact strings — so an underscored lookup key
+    // misses and the declaration is silently dropped. Normalize the key to match.
+    $vars: meta.module-variables(token);
+    $value: map.get($vars, $name);
+
+    @if $value == null {
+      $value: map.get($vars, _str-replace-all($name, '_', '-'));
+    }
+  }
+
+  @if $value == null {
+    @return $fallback;
+  }
+
+  @return $value;
+}
+
+.#{$btn-prefix-cls} {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  font-weight: $btn-font-weight;
+  line-height: theme.$line-height-base;
+  white-space: nowrap;
+  outline: none;
+  cursor: pointer;
+  // 状态切换只过渡颜色与按压形变；box-shadow（聚焦环）保持即时切换以保证可见性
+  transition:
+    color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+    background-color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+    border-color theme.$transition-duration-1 theme.$transition-timing-function-standard,
+    transform theme.$transition-duration-1 theme.$transition-timing-function-standard;
+  appearance: none;
+  user-select: none;
+
+  > a:only-child {
+    color: currentcolor;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &-long {
+    display: flex;
+    width: 100%;
+  }
+
+  &-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+
+    &:not([href]) {
+      color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-text-4'));
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    &.#{$btn-prefix-cls}-only-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: top;
+    }
+  }
+
+  &.#{$btn-prefix-cls}-only-icon .#{$btn-prefix-cls}-icon {
+    display: flex;
+    justify-content: center;
+  }
+
+  &-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    border: 0;
+    clip-path: inset(50%);
+  }
+
+  &-loading {
+    position: relative;
+    cursor: default;
+
+    &::before {
+      position: absolute;
+      inset: -1px;
+      z-index: 1;
+      display: block;
+      background: $btn-color-loading-mask;
+      border-radius: inherit;
+      opacity: 0.4;
+      transition: opacity theme.$transition-duration-1 theme.$transition-timing-function-standard;
+      content: '';
+      pointer-events: none;
+    }
+  }
+
+  &-two-chinese-chars > *:not(svg) {
+    margin-right: -0.3em;
+    letter-spacing: 0.3em;
+  }
+}
+
+@mixin btn-type-normal($type) {
+  color: token-var('btn-#{$type}-color-text');
+  background-color: token-var('btn-#{$type}-color-bg');
+  border: $btn-size-default-border-width token-var('btn-#{$type}-border-style')
+    token-var('btn-#{$type}-color-border');
+}
+
+@mixin btn-type($type) {
+  .#{$btn-prefix-cls}-#{$type},
+  .#{$btn-prefix-cls}-#{$type}[type='button'],
+  .#{$btn-prefix-cls}-#{$type}[type='submit'] {
+    @include btn-type-normal($type);
+
+    &:hover {
+      color: token-var('btn-#{$type}-color-text_hover');
+      background-color: token-var('btn-#{$type}-color-bg_hover');
+      border-color: token-var('btn-#{$type}-color-border_hover');
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 0 $btn-box-shadow-radius token-var('btn-#{$type}-color-box-shadow');
+    }
+
+    &:active {
+      color: token-var('btn-#{$type}-color-text_active');
+      background-color: token-var('btn-#{$type}-color-bg_active');
+      border-color: token-var('btn-#{$type}-color-border_active');
+    }
+
+    &.#{$btn-prefix-cls}-loading {
+      @include btn-type-normal($type);
+    }
+
+    &.#{$btn-prefix-cls}-disabled {
+      color: token-var('btn-#{$type}-color-text_disabled');
+      background-color: token-var('btn-#{$type}-color-bg_disabled');
+      border-color: token-var('btn-#{$type}-color-border_disabled');
+      cursor: not-allowed;
+    }
+  }
+}
+
+@mixin btn-status-normal($type, $status) {
+  color: token-var('btn-#{$type}-color-text_#{$status}');
+  background-color: token-var('btn-#{$type}-color-bg_#{$status}');
+  border-color: token-var('btn-#{$type}-color-border_#{$status}');
+}
+
+@mixin btn-status($type, $status) {
+  .#{$btn-prefix-cls}-#{$type}.#{$btn-prefix-cls}-status-#{$status} {
+    @include btn-status-normal($type, $status);
+
+    &:hover {
+      color: token-var('btn-#{$type}-color-text_#{$status}_hover');
+      background-color: token-var('btn-#{$type}-color-bg_#{$status}_hover');
+      border-color: token-var('btn-#{$type}-color-border_#{$status}_hover');
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 0 $btn-box-shadow-radius token-var('btn-color-box-shadow_#{$status}');
+    }
+
+    &:active {
+      color: token-var('btn-#{$type}-color-text_#{$status}_active');
+      background-color: token-var('btn-#{$type}-color-bg_#{$status}_active');
+      border-color: token-var('btn-#{$type}-color-border_#{$status}_active');
+    }
+
+    &.#{$btn-prefix-cls}-loading {
+      @include btn-status-normal($type, $status);
+    }
+
+    &.#{$btn-prefix-cls}-disabled {
+      color: token-var('btn-#{$type}-color-text_#{$status}_disabled');
+      background-color: token-var('btn-#{$type}-color-bg_#{$status}_disabled');
+      border-color: token-var('btn-#{$type}-color-border_#{$status}_disabled');
+    }
+  }
+}
+
+@mixin btn-size($size) {
+  $size-type: string.unquote('size-#{$size}');
+  $size-height: string.unquote('btn-size-#{$size}-height');
+  $bsp: string.unquote('btn-#{$size-type}-padding-horizontal');
+  $bsf: string.unquote('btn-#{$size-type}-font-size');
+  $bss: string.unquote('btn-#{$size-type}-icon-spacing');
+
+  .#{$btn-prefix-cls}-#{$size-type} {
+    height: token-var($size-height);
+    padding: 0 token-var($bsp);
+    font-size: token-var($bsf);
+    border-radius: token-var('btn-#{$size-type}-radius');
+
+    &:not(.#{$btn-prefix-cls}-only-icon) .#{$btn-prefix-cls}-icon {
+      margin-right: token-var('btn-#{$size-type}-icon-spacing');
+    }
+
+    svg {
+      vertical-align: token-var('btn-#{$size-type}-icon-vertical-align');
+    }
+  }
+
+  .#{$btn-prefix-cls}-#{$size-type}.#{$btn-prefix-cls}-loading-fixed-width.#{$btn-prefix-cls}-loading {
+    padding-right: calc(token-var($bsp) - (token-var($bsf) + token-var($bss)) * 0.5);
+    padding-left: calc(token-var($bsp) - (token-var($bsf) + token-var($bss)) * 0.5);
+  }
+
+  .#{$btn-prefix-cls}-#{$size-type}.#{$btn-prefix-cls}-only-icon {
+    width: token-var($size-type);
+    height: token-var($size-type);
+    padding: 0;
+  }
+
+  .#{$btn-prefix-cls}-#{$size-type}.#{$btn-prefix-cls}-shape-circle {
+    width: token-var($size-type);
+    height: token-var($size-type);
+    padding: 0;
+    text-align: center;
+    border-radius: global.$radius-circle;
+  }
+
+  .#{$btn-prefix-cls}-#{$size-type}.#{$btn-prefix-cls}-shape-round {
+    border-radius: calc(token-var($size-type) * 0.5);
+  }
+}
+
+@include btn-type(outline);
+@include btn-status(outline, warning);
+@include btn-status(outline, danger);
+@include btn-status(outline, success);
+@include btn-type(primary);
+@include btn-status(primary, warning);
+@include btn-status(primary, danger);
+@include btn-status(primary, success);
+@include btn-type(secondary);
+@include btn-status(secondary, warning);
+@include btn-status(secondary, danger);
+@include btn-status(secondary, success);
+@include btn-type(dashed);
+@include btn-status(dashed, warning);
+@include btn-status(dashed, danger);
+@include btn-status(dashed, success);
+@include btn-type(text);
+@include btn-status(text, warning);
+@include btn-status(text, danger);
+@include btn-status(text, success);
+@include btn-size(mini);
+@include btn-size(small);
+@include btn-size(medium);
+@include btn-size(large);
+
+// 按钮组样式
+.#{$btn-prefix-cls}-group {
+  display: inline-flex;
+  align-items: center;
+
+  .#{$btn-prefix-cls}-outline:not(:first-child),
+  .#{$btn-prefix-cls}-dashed:not(:first-child) {
+    margin-left: -1px;
+  }
+
+  .#{$btn-prefix-cls}-primary:not(:last-child) {
+    border-right: 1px solid $btn-primary-color-bg_hover;
+  }
+
+  .#{$btn-prefix-cls}-secondary:not(:last-child) {
+    border-right: 1px solid $btn-secondary-color-bg_hover;
+  }
+
+  .#{$btn-prefix-cls}-status-warning:not(:last-child) {
+    border-right: 1px solid $btn-primary-color-bg_warning_hover;
+  }
+
+  .#{$btn-prefix-cls}-status-danger:not(:last-child) {
+    border-right: 1px solid $btn-primary-color-bg_danger_hover;
+  }
+
+  .#{$btn-prefix-cls}-status-success:not(:last-child) {
+    border-right: 1px solid $btn-primary-color-bg_success_hover;
+  }
+
+  .#{$btn-prefix-cls}-outline,
+  .#{$btn-prefix-cls}-dashed {
+    &:hover,
+    &:active {
+      z-index: 2;
+    }
+  }
+
+  // 按钮组是连体控件，单个按钮按压形变会与相邻按钮产生缝隙，故禁用形变
+  .#{$btn-prefix-cls}:active {
+    transform: none;
+  }
+
+  .#{$btn-prefix-cls}:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .#{$btn-prefix-cls}:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .#{$btn-prefix-cls}:not(:first-child):not(:last-child) {
+    border-radius: 0;
+  }
+}
+
+#{global.$sd-theme-tag}[sd-theme='dark'] {
+  .#{$btn-prefix-cls}-primary.#{$btn-prefix-cls}-disabled {
+    color: rgb(255 255 255 / 30%);
+  }
+}
+
+// 减少动态偏好：去掉按压形变（位移），保留颜色过渡（有助于理解状态）；
+// 放慢加载图标旋转，避免快速循环带来的不适，但仍可表达加载态
+@media (prefers-reduced-motion: reduce) {
+  .#{$btn-prefix-cls}:active {
+    transform: none;
+  }
+
+  .#{$btn-prefix-cls} .#{theme.$prefix}-icon-loading {
+    animation-duration: 3s;
+  }
+}

@@ -1,36 +1,12 @@
+import type { UseReadonlyTipOptions } from '@sdata/web-core/text-input/readonly';
+
 import { computed, onBeforeUnmount, ref, Ref } from 'vue';
 
+import { createReadonlyTip } from '@sdata/web-core/text-input/readonly';
+
 import { useI18n } from '../locale';
-
-const DEFAULT_DURATION = 2000;
-
-/**
- * @zh 判断按键是否会修改输入框的值，用于在只读状态下提示用户
- * @en Whether the keystroke would modify the input value, used to prompt the user in readonly state
- * @param e
- */
-export const isReadonlyModificationKey = (e: KeyboardEvent): boolean => {
-  const { key, ctrlKey, metaKey, altKey } = e;
-  // 粘贴 / 剪切属于修改意图
-  if ((ctrlKey || metaKey) && (key === 'v' || key === 'V' || key === 'x' || key === 'X')) {
-    return true;
-  }
-  // 其余 Ctrl / Meta / Alt 组合（复制、全选等）在只读下允许，不提示
-  if (ctrlKey || metaKey || altKey) {
-    return false;
-  }
-  // 可见字符或退格 / 删除
-  return key.length === 1 || key === 'Backspace' || key === 'Delete';
-};
-
-export interface UseReadonlyTipOptions {
-  /**
-   * @zh 自动隐藏时长（毫秒）
-   * @en Auto-hide duration (ms)
-   * @defaultValue 2000
-   */
-  duration?: number;
-}
+export { isReadonlyModificationKey } from '@sdata/web-core/text-input/readonly';
+export type { UseReadonlyTipOptions } from '@sdata/web-core/text-input/readonly';
 
 /**
  * @zh 只读模式提示。在用户尝试修改只读组件时短暂显示 tooltip，每次新的修改尝试都会重置隐藏计时器。
@@ -45,32 +21,19 @@ export const useReadonlyTip = (
   disabled: Ref<boolean>,
   options?: UseReadonlyTipOptions,
 ) => {
-  const duration = options?.duration ?? DEFAULT_DURATION;
   const tipVisible = ref(false);
-  let timer: ReturnType<typeof setTimeout> | null = null;
-
-  const hide = () => {
-    if (timer) {
-      clearTimeout(timer);
-      timer = null;
-    }
-    tipVisible.value = false;
-  };
-
-  const show = () => {
-    if (!readonly.value || disabled.value) {
-      return;
-    }
-    // 每次调用都重置隐藏计时器
-    if (timer) {
-      clearTimeout(timer);
-    }
-    tipVisible.value = true;
-    timer = setTimeout(() => {
-      tipVisible.value = false;
-      timer = null;
-    }, duration);
-  };
+  const { show, hide } = createReadonlyTip({
+    get readonly() {
+      return readonly.value;
+    },
+    get disabled() {
+      return disabled.value;
+    },
+    duration: options?.duration,
+    setVisible(value) {
+      tipVisible.value = value;
+    },
+  });
 
   onBeforeUnmount(hide);
 

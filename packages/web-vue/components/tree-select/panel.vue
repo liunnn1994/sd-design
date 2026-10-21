@@ -17,6 +17,8 @@
 <script setup lang="ts">
   import { computed, ref, toRef, type PropType, type Slots } from 'vue';
 
+  import { createTreeSelectPanelFoundation } from '@sdata/web-core/tree-select/panel';
+
   import type { ScrollbarProps } from '../scrollbar';
   import type { TreeNodeKey, TreeProps } from '../tree/interface';
 
@@ -62,11 +64,23 @@
   const prefixCls = getPrefixCls('tree-select');
   const refTree = ref<TreeInstance>();
 
+  const foundation = createTreeSelectPanelFoundation(
+    {
+      get showCheckable() {
+        return props.showCheckable;
+      },
+      get selectedKeys() {
+        return props.selectedKeys;
+      },
+      get tree() {
+        return refTree.value;
+      },
+    },
+    (value) => emit('change', value),
+  );
   const computedTreeProps = computed<Partial<TreeComponentProps>>(() => ({
     ...(props.treeProps as Partial<TreeComponentProps>),
-    disableSelectActionOnly: true,
-    checkedKeys: props.showCheckable ? props.selectedKeys : [],
-    selectedKeys: props.showCheckable ? [] : props.selectedKeys,
+    ...foundation.getSelectionProps(),
   }));
 
   const treeWrapperClassName = computed(() => [
@@ -74,17 +88,6 @@
     computedTreeProps.value.virtualListProps && `${prefixCls}-tree-wrapper-virtual`,
   ]);
 
-  const onSelect: NonNullable<TreeProps['onSelect']> = (newValue, event) => {
-    if (props.showCheckable) {
-      if (newValue[0] !== undefined && event.e) {
-        refTree.value?.toggleCheck?.(newValue[0], event.e);
-      }
-    } else {
-      emit('change', newValue);
-    }
-  };
-
-  const onCheck: NonNullable<TreeProps['onCheck']> = (newValue) => {
-    emit('change', newValue);
-  };
+  const onSelect: NonNullable<TreeProps['onSelect']> = foundation.onSelect;
+  const onCheck: NonNullable<TreeProps['onCheck']> = foundation.onCheck;
 </script>

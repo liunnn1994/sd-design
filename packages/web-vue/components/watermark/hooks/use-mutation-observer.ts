@@ -1,10 +1,10 @@
+import type { MutationObserverOptions } from '@sdata/web-core/watermark/observer';
+
 import { unref, watch, getCurrentScope, onScopeDispose, Ref, ComponentPublicInstance } from 'vue';
 
-export const defaultWindow = typeof window !== 'undefined' ? window : undefined;
-
-export interface MutationObserverOptions extends MutationObserverInit {
-  window?: Window;
-}
+import { createWatermarkObserver } from '@sdata/web-core/watermark/observer';
+export { defaultWindow } from '@sdata/web-core/watermark/observer';
+export type { MutationObserverOptions } from '@sdata/web-core/watermark/observer';
 
 export type MaybeRef<T> = T | Ref<T>;
 export type MaybeElement = HTMLElement | SVGElement | ComponentPublicInstance | undefined | null;
@@ -33,41 +33,22 @@ export function useMutationObserver(
   callback: MutationCallback,
   options: MutationObserverOptions = {},
 ) {
-  const { window = defaultWindow, ...mutationOptions } = options;
-  const isSupported = window && 'MutationObserver' in window;
-  let observer: MutationObserver | undefined;
-
-  const cleanup = () => {
-    if (observer) {
-      observer.disconnect();
-      observer = undefined;
-    }
-  };
-
+  const observer = createWatermarkObserver(callback, options);
   const stopWatch = watch(
     () => unrefElement(target),
-    (el) => {
-      cleanup();
-
-      if (isSupported && window && el) {
-        observer = new (
-          window as Window & Pick<typeof globalThis, 'MutationObserver'>
-        ).MutationObserver(callback);
-        observer.observe(el, mutationOptions);
-      }
-    },
+    (el) => observer.observe(el),
     { immediate: true },
   );
 
   const stop = () => {
-    cleanup();
+    observer.stop();
     stopWatch();
   };
 
   tryOnScopeDispose(stop);
 
   return {
-    isSupported,
+    isSupported: observer.isSupported,
     stop,
   };
 }

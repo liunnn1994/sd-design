@@ -1,8 +1,9 @@
 import { reactive, toRefs, Ref, ref, watch, computed } from 'vue';
 
+import { createTimePickerValueFoundation } from '@sdata/web-core/date-picker/time-value';
 import { Dayjs } from 'dayjs';
 
-import { getDayjsValue, getNow } from '../../_utils/date';
+import { getDayjsValue } from '../../_utils/date';
 import useTimeFormat from '../../time-picker/hooks/use-time-format';
 import { TimePickerProps, TimeValue } from '../../time-picker/interface';
 
@@ -29,19 +30,23 @@ export default function useTimePickerValue(
     getDayjsValue(timePickerProps?.value?.defaultValue as TimeValue | undefined, format.value),
   );
 
-  const getDefaultValue = () => selectedValue?.value || defaultTimePickerValue.value || getNow();
+  const { getDefaultValue, setTimePickerValue, resetTimePickerValue } =
+    createTimePickerValueFoundation({
+      get selectedValue() {
+        return selectedValue?.value;
+      },
+      get defaultValue() {
+        return defaultTimePickerValue.value;
+      },
+      get value() {
+        return timePickerValue.value;
+      },
+      set value(value) {
+        timePickerValue.value = value;
+      },
+    });
 
   const timePickerValue = ref(getDefaultValue());
-
-  function setTimePickerValue(val: Dayjs | undefined) {
-    if (val) {
-      timePickerValue.value = val;
-    }
-  }
-
-  function resetTimePickerValue() {
-    timePickerValue.value = getDefaultValue();
-  }
 
   watch(selectedValue, (newVal) => {
     setTimePickerValue(newVal);

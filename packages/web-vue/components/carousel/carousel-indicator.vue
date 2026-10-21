@@ -26,6 +26,11 @@
   import type { PropType } from 'vue';
   import { computed } from 'vue';
 
+  import {
+    createCarouselIndicator,
+    getCarouselSliderStyle,
+  } from '@sdata/web-core/carousel/indicator';
+
   import type {
     CarouselIndicatorPosition,
     CarouselIndicatorType,
@@ -33,7 +38,6 @@
   } from './interface';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import { isActivationKey } from '../_utils/keyboard';
   import { useI18n } from '../locale';
 
   defineOptions({ name: 'Indicator' });
@@ -69,32 +73,9 @@
 
   const prefixCls = getPrefixCls('carousel-indicator');
 
-  const onClick = (event: MouseEvent) => {
-    event.preventDefault();
-    if (props.type === 'slider') {
-      const x = event.offsetX;
-      const width = (event.currentTarget as HTMLElement).clientWidth;
-      if (event.target === event.currentTarget) {
-        const index = Math.floor((x / width) * props.count);
-        index !== props.activeIndex && emit('select', index);
-      }
-    } else {
-      const index = Number.parseInt(
-        (event.target as HTMLElement).getAttribute('data-index') ?? '',
-        10,
-      );
-      if (!Number.isNaN(index) && index !== props.activeIndex) {
-        emit('select', index);
-      }
-    }
-  };
-
-  const onItemKeydown = (event: KeyboardEvent, index: number) => {
-    if (isActivationKey(event) && index !== props.activeIndex) {
-      event.preventDefault();
-      emit('select', index);
-    }
-  };
+  const foundation = createCarouselIndicator({ props, onSelect: (index) => emit('select', index) });
+  const onClick = foundation.click;
+  const onItemKeydown = foundation.keydown;
 
   const eventHandlers = computed(() => {
     return props.trigger === 'click' ? { onClick } : { onMouseover: onClick };
@@ -106,8 +87,5 @@
     `${prefixCls}-${props.position}`,
   ]);
 
-  const sliderStyle = computed(() => {
-    const step = 100 / props.count;
-    return { width: `${step}%`, left: `${props.activeIndex * step}%` };
-  });
+  const sliderStyle = computed(() => getCarouselSliderStyle(props.count, props.activeIndex));
 </script>

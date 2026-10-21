@@ -64,26 +64,21 @@
   import type { CSSProperties, PropType } from 'vue';
   import { computed, inject, onBeforeUpdate, ref, useSlots } from 'vue';
 
-  import chroma from 'chroma-js';
+  import { createTagFoundation } from '@sdata/web-core/tag/foundation';
   import { isNil } from 'es-toolkit/compat';
 
   import type { EllipsisTooltipProps } from '../ellipsis';
-  import type { TagColor } from './interface';
 
   import IconHover from '../_components/icon-hover.vue';
   import { useSize } from '../_hooks/use-size';
-  import { isGradientString, extractColorsFromGradient } from '../_utils/color';
   import { Size } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isObject } from '../_utils/is';
-  import { isActivationKey } from '../_utils/keyboard';
   import { configProviderInjectionKey } from '../config-provider/context';
   import Ellipsis, { PerformantEllipsis } from '../ellipsis';
   import IconClose from '../icon/icon-close';
   import IconLoading from '../icon/icon-loading';
   import { useI18n } from '../locale';
   import Tooltip from '../tooltip';
-  import { TAG_COLORS } from './interface';
 
   const props = defineProps({
     /**
@@ -278,156 +273,115 @@
 
   const _visible = ref(props.defaultVisible);
   const _checked = ref(props.defaultChecked);
+  const foundation: ReturnType<typeof createTagFoundation<EllipsisTooltipProps, Size>> =
+    createTagFoundation(
+      {
+        props,
+        get visible() {
+          return _visible.value;
+        },
+        set visible(value) {
+          _visible.value = value;
+        },
+        get checked() {
+          return _checked.value;
+        },
+        set checked(value) {
+          _checked.value = value;
+        },
+        get size() {
+          return _mergedSize.value;
+        },
+        get isBuiltInColor() {
+          return isBuiltInColor.value;
+        },
+        get isCustomColor() {
+          return isCustomColor.value;
+        },
+        get resolvedColor() {
+          return resolvedColor.value;
+        },
+        get isGradientColor() {
+          return isGradientColor.value;
+        },
+        get resolvedBackgroundColor() {
+          return resolvedBackgroundColor.value;
+        },
+        get autoTextColor() {
+          return autoTextColor.value;
+        },
+        get finalTextColor() {
+          return finalTextColor.value;
+        },
+        get colorAlpha() {
+          return colorAlpha.value;
+        },
+        get finalBackgroundAlpha() {
+          return finalBackgroundAlpha.value;
+        },
+        get computedChecked() {
+          return computedChecked.value;
+        },
+        get resolvedEllipsis() {
+          return resolvedEllipsis.value;
+        },
+        get shouldRenderEllipsis() {
+          return shouldRenderEllipsis.value;
+        },
+        get hasCustomTooltip() {
+          return hasCustomTooltip.value;
+        },
+        get hasDefaultSlot() {
+          return hasDefaultSlot.value;
+        },
+        get hasTooltipSlot() {
+          return hasTooltipSlot.value;
+        },
+      },
+      {
+        updateVisible: (value) => emit('update:visible', value),
+        updateChecked: (value) => emit('update:checked', value),
+        close: (event) => emit('close', event),
+        check: (value, event) => emit('check', value, event),
+      },
+    );
+  const { handleClose, handleCloseKeydown, handleClick, handleTagKeydown } = foundation;
 
   // ---- 内置/自定义颜色判断 ----
-  const isBuiltInColor = computed(
-    () => props.color && TAG_COLORS.includes(props.color as TagColor),
-  );
-  const isCustomColor = computed(
-    () => props.color && !TAG_COLORS.includes(props.color as TagColor),
-  );
+  const isBuiltInColor = computed(foundation.getIsBuiltInColor);
+  const isCustomColor = computed(foundation.getIsCustomColor);
 
   // ---- 自定义颜色处理 ----
   // 通过 DOM 解析 CSS 颜色值为标准 rgb 格式
-  const resolvedColor = computed(() => {
-    if (!isCustomColor.value || isGradientString(props.color)) return props.color;
-    try {
-      const dom = document.createElement('div');
-      dom.style.color = props.color as string;
-      document.body.appendChild(dom);
-      const computedColor = window.getComputedStyle(dom).color;
-      document.body.removeChild(dom);
-      return computedColor;
-    } catch {
-      return props.color;
-    }
-  });
+  const resolvedColor = computed(foundation.getResolvedColor);
 
   // 是否为渐变颜色
-  const isGradientColor = computed(() => isGradientString(resolvedColor.value));
+  const isGradientColor = computed(foundation.getIsGradientColor);
 
   // 背景颜色（自定义颜色时使用）
-  const resolvedBackgroundColor = computed(() => {
-    if (isBuiltInColor.value) {
-      return undefined;
-    }
-    return resolvedColor.value;
-  });
+  const resolvedBackgroundColor = computed(foundation.getResolvedBackgroundColor);
 
   // 自动计算文字颜色
-  const autoTextColor = computed(() => {
-    // 如果是内置颜色，不需要自动计算
-    if (isBuiltInColor.value) {
-      return undefined;
-    }
-    if (!resolvedColor.value) {
-      return undefined;
-    }
-
-    try {
-      const rawColor = resolvedColor.value as string;
-      // 获取背景色 chroma 对象
-      const bg = isGradientColor.value
-        ? chroma.average(extractColorsFromGradient(rawColor), 'rgb')
-        : chroma(rawColor);
-
-      // 与白色的对比度
-      const contrastWhite = chroma.contrast(bg, 'white');
-
-      // WCAG AA 标准对比度至少 4.5:1，背景深时使用白色文字
-      if (contrastWhite >= 4.5) {
-        return '#FFFFFF';
-      }
-
-      // 获取背景的 HSL
-      const [h, s] = bg.hsl();
-
-      // 背景是灰色系（饱和度低），直接返回深黑色
-      if (isNaN(h) || s < 0.02) {
-        return '#1D2129';
-      }
-
-      // 色相 H：冷色调(Blue/Cyan)向顺时针偏移
-      let targetH = h;
-      if (h >= 130 && h <= 200) {
-        targetH += 10;
-      }
-
-      // 饱和度 S：保持较高
-      const targetS = Math.min(s + 0.4, 0.9);
-
-      // 亮度 L：从 0.5 向下寻找满足对比度 2.0 的值
-      let bestL = 0.15;
-      for (let curL = 0.5; curL >= 0.1; curL -= 0.01) {
-        const tempColor = chroma.hsl(targetH, targetS, curL);
-        if (chroma.contrast(bg, tempColor) >= 2.0) {
-          bestL = curL;
-          break;
-        }
-      }
-
-      const colorfulDark = chroma.hsl(targetH, targetS, bestL);
-      const contrastDark = chroma.contrast(bg, colorfulDark);
-
-      // 白色对比度更好时用白色
-      if (contrastWhite > contrastDark) {
-        return '#FFFFFF';
-      }
-
-      // 兜底：对比度仍然极低时返回深黑色
-      if (contrastDark < 2.0) {
-        return '#1D2129';
-      }
-
-      return colorfulDark.css();
-    } catch {
-      return '#FFFFFF';
-    }
-  });
+  const autoTextColor = computed(foundation.getAutoTextColor);
 
   // 最终文字颜色：用户指定的 textColor 优先
-  const finalTextColor = computed(() => props.textColor ?? autoTextColor.value);
+  const finalTextColor = computed(foundation.getFinalTextColor);
 
   // 自定义颜色自带的透明度（仅对纯色生效；颜色不透明时返回 undefined 以便回退到默认值）
-  const colorAlpha = computed(() => {
-    if (!isCustomColor.value || !resolvedColor.value || isGradientColor.value) {
-      return undefined;
-    }
-    try {
-      const alpha = chroma(resolvedColor.value as string).alpha();
-      return alpha < 1 ? alpha : undefined;
-    } catch {
-      return undefined;
-    }
-  });
+  const colorAlpha = computed(foundation.getColorAlpha);
 
   // 背景透明度的处理：
   // - bordered 未显式传入时为完全不透明
   // - 显式传入 backgroundAlpha 时使用该值
   // - 否则使用颜色自带的透明度；颜色不透明时回退到默认 0.8
-  const finalBackgroundAlpha = computed(() => {
-    if (isNil(props.bordered)) {
-      return 1;
-    }
-    if (!isNil(props.backgroundAlpha)) {
-      return props.backgroundAlpha;
-    }
-    return isNil(colorAlpha.value) ? 0.8 : colorAlpha.value;
-  });
+  const finalBackgroundAlpha = computed(foundation.getFinalBackgroundAlpha);
 
   // ---- 可见性 / 选中状态 ----
-  const computedVisible = computed(() => props.visible ?? _visible.value);
-  const computedChecked = computed(() =>
-    props.checkable ? (props.checked ?? _checked.value) : true,
-  );
+  const computedVisible = computed(foundation.getComputedVisible);
+  const computedChecked = computed(foundation.getComputedChecked);
 
   // ---- 尺寸 ----
-  const mergedSize = computed(() => {
-    if (_mergedSize.value === 'mini') {
-      return 'small';
-    }
-    return _mergedSize.value;
-  });
+  const mergedSize = computed(foundation.getMergedSize);
 
   // ---- Ellipsis ----
   const hasDefaultSlot = ref(Boolean(slots.default));
@@ -436,40 +390,24 @@
     hasDefaultSlot.value = Boolean(slots.default);
     hasTooltipSlot.value = Boolean(slots.tooltip);
   });
-  const resolvedEllipsis = computed(() => props.ellipsis ?? props.nowrap ?? true);
-  const shouldRenderEllipsis = computed(() => resolvedEllipsis.value && hasDefaultSlot.value);
-  const hasLineClampEllipsis = computed(
-    () => shouldRenderEllipsis.value && props.ellipsisLineClamp !== undefined,
-  );
+  const resolvedEllipsis = computed(foundation.getResolvedEllipsis);
+  const shouldRenderEllipsis = computed(foundation.getShouldRenderEllipsis);
+  const hasLineClampEllipsis = computed(foundation.getHasLineClampEllipsis);
   const ellipsisComponent = computed(() =>
     props.ellipsisPerformant ? PerformantEllipsis : Ellipsis,
   );
 
   // ---- Tooltip ----
   // 显式传入 tooltip 属性或 tooltip 插槽时，无论内容是否被省略，hover 都展示提示
-  const hasCustomTooltip = computed(() => Boolean(props.tooltip) || hasTooltipSlot.value);
+  const hasCustomTooltip = computed(foundation.getHasCustomTooltip);
   // 自定义提示内容时，让 Ellipsis 的提示常显（always）；ellipsis-tooltip 显式关闭
   // （false 或 disabled: true）时尊重该配置，不展示提示
-  const mergedEllipsisTooltip = computed<boolean | EllipsisTooltipProps>(() => {
-    if (!hasCustomTooltip.value) {
-      return props.ellipsisTooltip;
-    }
-    if (props.ellipsisTooltip === false) {
-      return false;
-    }
-    const config: EllipsisTooltipProps = isObject(props.ellipsisTooltip)
-      ? { ...props.ellipsisTooltip }
-      : {};
-    config.always = true;
-    return config;
-  });
+  const mergedEllipsisTooltip = computed<boolean | EllipsisTooltipProps>(
+    foundation.getMergedEllipsisTooltip,
+  );
   // 非省略渲染路径的自定义提示：转发给 Tooltip 的绑定（always 非 Tooltip 属性，剔除；
   // disabled 原样透传以尊重显式关闭）
-  const tooltipBindings = computed(() => {
-    if (!isObject(props.ellipsisTooltip)) return {};
-    const { always: _always, ...rest } = props.ellipsisTooltip;
-    return rest;
-  });
+  const tooltipBindings = computed(foundation.getTooltipBindings);
 
   // ---- RTL ----
   const rtl = computed(() => configCtx?.rtl ?? false);
@@ -503,15 +441,7 @@
       }
 
       // 背景颜色（带透明度）
-      try {
-        const bgColor = isGradientColor.value
-          ? chroma.average(extractColorsFromGradient(resolvedColor.value as string), 'rgb')
-          : chroma(resolvedColor.value as string);
-
-        styleObj['--sd-tag-bg-color'] = bgColor.alpha(finalBackgroundAlpha.value).css();
-      } catch {
-        styleObj['--sd-tag-bg-color'] = resolvedColor.value;
-      }
+      styleObj['--sd-tag-bg-color'] = foundation.getBackgroundColor();
 
       // 边框颜色
       if (!isNil(props.bordered)) {
@@ -522,37 +452,4 @@
     }
     return undefined;
   });
-
-  // ---- 事件处理 ----
-  const handleClose = (ev: MouseEvent | KeyboardEvent) => {
-    _visible.value = false;
-    emit('update:visible', false);
-    emit('close', ev);
-  };
-
-  const handleCloseKeydown = (ev: KeyboardEvent) => {
-    if (ev.key !== 'Enter' && ev.key !== ' ') {
-      return;
-    }
-    ev.preventDefault();
-    handleClose(ev);
-  };
-
-  const handleClick = (ev: MouseEvent | KeyboardEvent) => {
-    if (props.checkable) {
-      const newChecked = !computedChecked.value;
-      _checked.value = newChecked;
-      emit('update:checked', newChecked);
-      emit('check', newChecked, ev);
-    }
-  };
-
-  // 可勾选标签：键盘 Enter/Space 切换（role=button）
-  const handleTagKeydown = (ev: KeyboardEvent) => {
-    if (!props.checkable) return;
-    if (isActivationKey(ev)) {
-      ev.preventDefault();
-      handleClick(ev);
-    }
-  };
 </script>

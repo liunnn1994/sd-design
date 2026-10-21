@@ -1,0 +1,89 @@
+export type SelectOptionValue = string | number | boolean | Record<string, unknown>;
+
+export type SelectModelValue = SelectOptionValue | SelectOptionValue[] | null | undefined;
+
+export interface SelectTriggerSlotProps {
+  value: SelectModelValue;
+  displayValue: string | string[];
+  inputValue: string;
+  selectedOptions: SelectOptionData[];
+  popupVisible: boolean;
+  disabled: boolean;
+  loading: boolean;
+  multiple: boolean;
+}
+
+export interface OptionValueWithKey {
+  value: SelectOptionValue;
+  key: string;
+}
+
+export interface SelectFieldNames {
+  value?: string;
+  label?: string;
+  children?: string;
+  disabled?: string;
+  tagProps?: string;
+}
+
+export interface SelectOptionData {
+  /**
+   * @zh 选项值
+   * @en Option value
+   */
+  value?: SelectOptionValue;
+  /**
+   * @zh 选项内容
+   * @en Option label
+   */
+  label?: string;
+  /**
+   * @zh 是否禁用
+   * @en Whether the option is disabled
+   */
+  disabled?: boolean;
+  /**
+   * @zh 多选标签透传属性
+   * @en Extra props for rendered tags
+   */
+  tagProps?: Record<string, unknown>;
+  [other: string]: unknown;
+}
+
+export interface SelectOptionGroup {
+  /**
+   * @zh 是否为分组
+   * @en Whether the item is a group
+   */
+  isGroup: true;
+  /**
+   * @zh 分组标题
+   * @en Group label
+   */
+  label: string;
+  /**
+   * @zh 分组选项
+   * @en Group options
+   */
+  options: SelectOption[];
+  [other: string]: unknown;
+}
+
+export type SelectOption = string | number | boolean | SelectOptionData | SelectOptionGroup;
+
+export interface SelectOptionInfo extends SelectOptionData {
+  raw: SelectOptionData;
+  key: string;
+  index?: number;
+  origin: 'options' | 'extraOptions';
+  value: SelectOptionValue;
+  label: string;
+}
+
+export interface SelectOptionGroupInfo extends SelectOptionGroup {
+  key: string;
+  options: (SelectOptionInfo | SelectOptionGroupInfo)[];
+}
+
+export type FilterOption = boolean | ((inputValue: string, option: SelectOptionData) => boolean);
+export type SelectFallbackOption = (value: SelectOptionValue) => SelectOptionData;

@@ -15,8 +15,10 @@
 <script setup lang="ts">
   import { computed, PropType } from 'vue';
 
+  import { createPageOptionsFoundation } from '@sdata/web-core/pagination/items';
+
   import type { Size } from '../_utils/constant';
-  import type { SelectModelValue, SelectOption } from '../select/interface';
+  import type { SelectOption } from '../select/interface';
   import type { PaginationSelectProps } from './interface';
 
   import { getPrefixCls } from '../_utils/global-config';
@@ -47,19 +49,12 @@
 
   const prefixCls = getPrefixCls('pagination-options');
   const { t } = useI18n();
-  const modelValue = computed<number | undefined>(() => props.pageSize ?? undefined);
-  const options = computed<SelectOption[]>(() =>
-    props.sizeOptions.map((value) => ({
-      value,
-      label: `${value} ${t('pagination.countPerPage')}`,
-    })),
+  const foundation = createPageOptionsFoundation(
+    props,
+    () => t('pagination.countPerPage'),
+    (value) => emit('change', value),
   );
-
-  const handleChange = (value: SelectModelValue) => {
-    if (typeof value !== 'number') {
-      return;
-    }
-
-    emit('change', value);
-  };
+  const modelValue = computed<number | undefined>(foundation.getModelValue);
+  const options = computed<SelectOption[]>(foundation.getOptions);
+  const { handleChange } = foundation;
 </script>

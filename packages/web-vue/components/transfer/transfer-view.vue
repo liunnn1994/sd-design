@@ -78,6 +78,8 @@
 <script setup lang="ts">
   import { computed, inject, PropType, ref } from 'vue';
 
+  import { createTransferViewFoundation } from '@sdata/web-core/transfer/foundation';
+
   import IconHover from '../_components/icon-hover.vue';
   import { getPrefixCls } from '../_utils/global-config';
   import Checkbox from '../checkbox';
@@ -129,45 +131,22 @@
   const filter = ref('');
   const transferCtx = inject(transferInjectionKey, undefined);
 
-  const checked = computed(
-    () =>
-      props.dataInfo.validSelected.length > 0 &&
-      props.dataInfo.validSelected.length === props.dataInfo.allValidValues.length,
-  );
-  const indeterminate = computed(
-    () =>
-      props.dataInfo.validSelected.length > 0 &&
-      props.dataInfo.validSelected.length < props.dataInfo.allValidValues.length,
-  );
-
-  const handleSelectAllChange = (value: boolean | (string | number | boolean)[]) => {
-    if (props.disabled) return;
-    const checked = Boolean(value);
-    if (checked) {
-      // 全选时与已选项合并去重，避免 select/update:selected 载荷出现重复 key
-      transferCtx?.onSelect([...new Set([...props.selected, ...props.dataInfo.allValidValues])]);
-    } else {
-      transferCtx?.onSelect(
-        props.selected.filter((value) => !props.dataInfo.allValidValues.includes(value)),
-      );
-    }
-  };
-
-  const filteredData = computed(() =>
-    props.dataInfo.data.filter((item) => {
-      if (filter.value) {
-        return item.label.includes(filter.value);
-      }
-      return true;
-    }),
-  );
+  const foundation = createTransferViewFoundation({
+    getDataInfo: () => props.dataInfo,
+    getSelected: () => props.selected,
+    getFilter: () => filter.value,
+    isDisabled: () => props.disabled,
+    onSelect: (value) => transferCtx?.onSelect(value),
+    moveTo: (values, target) => transferCtx?.moveTo(values, target),
+  });
+  const checked = computed(foundation.isChecked);
+  const indeterminate = computed(foundation.isIndeterminate);
+  const handleSelectAllChange = foundation.selectAll;
+  const filteredData = computed(foundation.getFilteredData);
 
   const handleSearch = (value: string) => {
     emit('search', value, props.type!);
   };
 
-  const handleClear = () => {
-    if (props.disabled) return;
-    transferCtx?.moveTo(props.dataInfo.allValidValues, 'source');
-  };
+  const handleClear = foundation.clear;
 </script>

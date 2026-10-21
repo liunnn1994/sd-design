@@ -129,6 +129,10 @@
     useSlots,
   } from 'vue';
 
+  import { createConfirmationFoundation } from '@sdata/web-core/dialog/confirmation';
+  import { createDialogFoundation, createDialogMask } from '@sdata/web-core/dialog/foundation';
+  import { applyModalLayout } from '@sdata/web-core/dialog/layout';
+
   import type { EllipsisTooltipProps } from '../ellipsis';
 
   import ClientOnly from '../_components/client-only.vue';
@@ -141,8 +145,7 @@
   import { MessageType } from '../_utils/constant';
   import { getElement, off, on } from '../_utils/dom';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isBoolean, isFunction, isNumber, isPromise, isUndefined } from '../_utils/is';
-  import { KEYBOARD_KEY, onActivate } from '../_utils/keyboard';
+  import { onActivate } from '../_utils/keyboard';
   import SdButton, { ButtonProps } from '../button';
   import Ellipsis from '../ellipsis';
   import IconCheckCircleFill from '../icon/icon-check-circle-fill';
@@ -634,11 +637,7 @@
 
   let globalKeyDownListener = false;
 
-  const handleGlobalKeyDown = (ev: KeyboardEvent) => {
-    if (mergedEscToClose.value && ev.key === KEYBOARD_KEY.ESC && isLastDialog()) {
-      handleCancel(ev);
-    }
-  };
+  const handleGlobalKeyDown = (ev: KeyboardEvent) => dialog.escape(ev);
 
   const addGlobalKeyDownListener = () => {
     if (mergedEscToClose.value && !globalKeyDownListener) {
@@ -652,9 +651,6 @@
     off(document.documentElement, 'keydown', handleGlobalKeyDown);
   };
 
-  // Used to ignore closed Promises
-  let promiseNumber = 0;
-
   const { position, handleMoveDown } = useDraggable({
     wrapperRef,
     modalRef,
@@ -662,150 +658,105 @@
     alignCenter: mergedAlignCenterBoolean,
   });
 
-  const invalidatePendingOk = () => {
-    promiseNumber++;
-    if (_okLoading.value) {
-      _okLoading.value = false;
-    }
-  };
-
-  const close = () => {
-    invalidatePendingOk();
-    _visible.value = false;
-    emit('update:visible', false);
-  };
-
-  const handleOk = async (e: Event) => {
-    const currentPromiseNumber = promiseNumber;
-    const closed = await new Promise<boolean>((resolve) => {
-      try {
-        if (isFunction(props.onBeforeOk)) {
-          const result = props.onBeforeOk((closed = true) => resolve(closed));
-          if (isPromise(result) || !isBoolean(result)) {
-            _okLoading.value = true;
-          }
-          if (isPromise(result)) {
-            result.then(
-              (value) => resolve(value ?? true),
-              () => resolve(false),
-            );
-          } else if (isBoolean(result)) {
-            resolve(result);
-          }
-        } else {
-          resolve(true);
-        }
-      } catch {
-        resolve(false);
-      }
-    });
-
-    if (currentPromiseNumber === promiseNumber) {
-      if (closed) {
-        emit('ok', e);
-        close();
-      } else if (_okLoading.value) {
-        _okLoading.value = false;
-      }
-    }
-  };
-
-  const handleCancel = (e: Event) => {
-    // 仅当 onBeforeCancel 显式返回 false 时阻止取消，返回 void/true 均继续关闭
-    if (isFunction(props.onBeforeCancel) && props.onBeforeCancel() === false) {
-      return;
-    }
-    emit('cancel', e);
-    close();
-  };
+  const confirmation = createConfirmationFoundation<[Event]>({
+    callbacks: props,
+    get loading() {
+      return _okLoading.value;
+    },
+    setLoading(value) {
+      _okLoading.value = value;
+    },
+    setVisible(value) {
+      _visible.value = value;
+    },
+    onVisibleChange(value) {
+      emit('update:visible', value);
+    },
+    onOk(event) {
+      emit('ok', event);
+    },
+    onCancel(event) {
+      emit('cancel', event);
+    },
+  });
+  const handleOk = confirmation.ok;
+  const handleCancel = confirmation.cancel;
 
   const handleCancelKeydown = onActivate(handleCancel);
 
-  const currentIsMask = ref(false);
-
-  const handleMaskMouseDown = (ev: Event) => {
-    if (ev.target === maskRef.value || ev.target === wrapperRef.value) {
-      currentIsMask.value = true;
-    }
-  };
-
-  const handleMaskClick = (e: Event) => {
-    // 遮罩自身作为 click 目标（如程序化 click()）无需 mousedown 前置也可关闭；
-    // 其余情况要求 mousedown 同样发生在遮罩区域，避免拖拽标题栏结束时误关
-    if (e.target !== maskRef.value && !currentIsMask.value) {
-      return;
-    }
-    if (mergedMask.value && mergedMaskClosable.value) {
-      handleCancel(e);
-    }
-    currentIsMask.value = false;
-  };
-
-  const handleOpen = () => {
-    if (computedVisible.value) {
-      emit('open');
-    }
-  };
-
-  const handleClose = () => {
-    if (!computedVisible.value) {
-      if (mergedDraggable.value) {
-        position.value = undefined;
-      }
-
-      mounted.value = false;
-      resetOverflow();
-      emit('close');
-    }
-  };
+  const maskFoundation = createDialogMask({
+    get mask() {
+      return mergedMask.value;
+    },
+    get closable() {
+      return mergedMaskClosable.value;
+    },
+    isMaskTarget: (event) => event.target === maskRef.value,
+    isWrapperTarget: (event) => event.target === wrapperRef.value,
+    cancel: handleCancel,
+  });
+  const handleMaskMouseDown = maskFoundation.down;
+  const handleMaskClick = maskFoundation.click;
 
   const { setOverflowHidden, resetOverflow } = useOverflow(containerRef);
 
+  const dialog = createDialogFoundation({
+    get visible() {
+      return computedVisible.value;
+    },
+    get inner() {
+      return _visible.value;
+    },
+    get escToClose() {
+      return mergedEscToClose.value;
+    },
+    setInner(value) {
+      _visible.value = value;
+    },
+    setMounted(value) {
+      mounted.value = value;
+    },
+    isLastDialog,
+    cancel: handleCancel,
+    invalidate: confirmation.invalidate,
+    onBeforeOpen() {
+      emit('beforeOpen');
+    },
+    onBeforeClose() {
+      emit('beforeClose');
+    },
+    onOpen() {
+      emit('open');
+    },
+    onClose() {
+      emit('close');
+    },
+    beforeOpening() {
+      maskFoundation.reset();
+    },
+    beforeClosed() {
+      if (mergedDraggable.value) position.value = undefined;
+    },
+    lockOverflow: setOverflowHidden,
+    resetOverflow,
+    addKeyListener: addGlobalKeyDownListener,
+    removeKeyListener: removeGlobalKeyDownListener,
+    activateFocus() {
+      void nextTick(() => activateFocusTrap());
+    },
+    deactivateFocus: deactivateFocusTrap,
+    releasePopup,
+  });
+  const handleOpen = dialog.opened;
+  const handleClose = dialog.closed;
+
   onMounted(() => {
     containerRef.value = getElement(props.popupContainer);
-    if (computedVisible.value) {
-      setOverflowHidden();
-      if (mergedEscToClose.value) {
-        addGlobalKeyDownListener();
-      }
-      nextTick(() => activateFocusTrap());
-    }
+    dialog.mount();
   });
-
-  onBeforeUnmount(() => {
-    invalidatePendingOk();
-    releasePopup();
-    resetOverflow();
-    removeGlobalKeyDownListener();
-  });
-
-  watch(computedVisible, (value: boolean) => {
-    if (_visible.value !== value) {
-      _visible.value = value;
-    }
-    if (value) {
-      emit('beforeOpen');
-      mounted.value = true;
-      currentIsMask.value = false;
-      setOverflowHidden();
-      addGlobalKeyDownListener();
-      // 等待 v-show 生效后激活焦点陷阱（确定性触发，不依赖 CSS 过渡的 after-enter）
-      nextTick(() => activateFocusTrap());
-    } else {
-      invalidatePendingOk();
-      emit('beforeClose');
-      removeGlobalKeyDownListener();
-      deactivateFocusTrap();
-    }
-  });
-
-  watch(mergedEscToClose, (enabled) => {
-    if (enabled && computedVisible.value) {
-      addGlobalKeyDownListener();
-    } else {
-      removeGlobalKeyDownListener();
-    }
-  });
+  onBeforeUnmount(dialog.dispose);
+  watch(computedVisible, dialog.syncVisible);
+  watch(mergedEscToClose, dialog.syncEsc);
 
   watch(fullscreen, () => {
     if (position.value) {
@@ -842,17 +793,12 @@
     const style: CSSProperties = {
       ...props.modalStyle,
     };
-    // 修复设置width属性后，全屏无法生效的问题
-    if (mergedWidth.value && !props.fullscreen) {
-      style.width = isNumber(mergedWidth.value) ? `${mergedWidth.value}px` : mergedWidth.value;
-    }
-    if (!mergedAlignCenterBoolean.value && !isUndefined(mergedTop.value)) {
-      style.top = isNumber(mergedTop.value) ? `${mergedTop.value}px` : mergedTop.value;
-    }
-    if (position.value) {
-      style.transform = `translate(${position.value[0]}px, ${position.value[1]}px)`;
-    }
-
-    return style;
+    return applyModalLayout(style, {
+      width: mergedWidth.value,
+      fullscreen: props.fullscreen,
+      alignCenter: mergedAlignCenterBoolean.value,
+      top: mergedTop.value,
+      position: position.value,
+    });
   });
 </script>

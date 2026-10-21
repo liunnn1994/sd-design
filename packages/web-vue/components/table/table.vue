@@ -24,6 +24,22 @@
     mergeProps as _mergeProps,
   } from 'vue';
 
+  import {
+    collectRawKeys,
+    collectRowKeys,
+    filterRows,
+    getRecordKey,
+    getSummaryData as summarizeRows,
+    pageRows,
+    processRows,
+    reorderRows,
+    sortRows,
+    wrapRows,
+  } from '@sdata/web-core/table/data';
+  import { createTableDragFoundation } from '@sdata/web-core/table/drag';
+  import { createTableChangeFoundation } from '@sdata/web-core/table/interaction';
+  import { getTableFixedColumns, getTableOperations } from '@sdata/web-core/table/layout';
+
   import type {
     ScrollIntoViewOptions,
     VirtualListProps,
@@ -53,17 +69,8 @@
   import useDragSort from '../_hooks/use-drag-sort';
   import { useScrollbar } from '../_hooks/use-scrollbar';
   import { debounce } from '../_utils/debounce';
-  import { getValueByPath, setValueByPath } from '../_utils/get-value-by-path';
   import { getPrefixCls } from '../_utils/global-config';
-  import {
-    isArray,
-    isFunction,
-    isNull,
-    isNumber,
-    isObject,
-    isString,
-    isUndefined,
-  } from '../_utils/is';
+  import { isFunction, isNumber, isObject, isString } from '../_utils/is';
   import { omit } from '../_utils/omit';
   import { configProviderInjectionKey } from '../config-provider/context';
   import Empty from '../empty';
@@ -87,22 +94,13 @@
   import Th from './table-th.vue';
   import Thead from './table-thead.vue';
   import Tr from './table-tr.vue';
-  import {
-    getGroupColumns,
-    getTableGridTemplate,
-    mapArrayWithChildren,
-    mapRawTableData,
-  } from './utils';
+  import { getGroupColumns, getTableGridTemplate, mapRawTableData } from './utils';
   function _isSlot(s: unknown) {
     return (
       typeof s === 'function' ||
       (Object.prototype.toString.call(s) === '[object Object]' && !_isVNode(s))
     );
   }
-  const getRecordKey = (
-    record: TableData,
-    rowKey: string | ((record: TableData) => BaseType),
-  ): BaseType => (isFunction(rowKey) ? rowKey(record) : (record[rowKey] as BaseType));
   const DEFAULT_BORDERED = {
     wrapper: true,
     cell: false,
@@ -832,28 +830,28 @@
   const hasRightFixedColumn = ref(false);
   const hasLeftFixedDataColumns = ref(false);
   watchEffect(() => {
-    let _hasLeftFixedColumn = false;
-    let _hasRightFixedColumn = false;
-    let _hasLeftFixedDataColumns = false;
-    if (props.rowSelection?.fixed || props.expandable?.fixed || props.draggable?.fixed) {
-      _hasLeftFixedColumn = true;
+    const fixed = getTableFixedColumns({
+      get rowSelection() {
+        return props.rowSelection;
+      },
+      get expandable() {
+        return props.expandable;
+      },
+      get draggable() {
+        return props.draggable;
+      },
+      get columns() {
+        return dataColumns.value;
+      },
+    });
+    if (fixed.left !== hasLeftFixedColumn.value) {
+      hasLeftFixedColumn.value = fixed.left;
     }
-    for (const column of dataColumns.value) {
-      if (column.fixed === 'left') {
-        _hasLeftFixedColumn = true;
-        _hasLeftFixedDataColumns = true;
-      } else if (column.fixed === 'right') {
-        _hasRightFixedColumn = true;
-      }
+    if (fixed.right !== hasRightFixedColumn.value) {
+      hasRightFixedColumn.value = fixed.right;
     }
-    if (_hasLeftFixedColumn !== hasLeftFixedColumn.value) {
-      hasLeftFixedColumn.value = _hasLeftFixedColumn;
-    }
-    if (_hasRightFixedColumn !== hasRightFixedColumn.value) {
-      hasRightFixedColumn.value = _hasRightFixedColumn;
-    }
-    if (_hasLeftFixedDataColumns !== hasLeftFixedDataColumns.value) {
-      hasLeftFixedDataColumns.value = _hasLeftFixedDataColumns;
+    if (fixed.leftData !== hasLeftFixedDataColumns.value) {
+      hasLeftFixedDataColumns.value = fixed.leftData;
     }
   });
   const hasEllipsis = computed(() => {
@@ -864,35 +862,53 @@
     }
     return false;
   });
-  const handleChange = (type: 'pagination' | 'sorter' | 'filter' | 'drag') => {
-    const extra: TableChangeExtra = {
-      type,
-      page: page.value,
-      pageSize: pageSize.value,
-      sorter: computedSorter.value,
-      filters: computedFilters.value,
-      dragTarget: type === 'drag' ? dragState.data : undefined,
-    };
-    emit('change', flattenRawData.value, extra, sortedData.value);
-  };
-  const handleFilterChange = (dataIndex: string, filteredValues: string[]) => {
-    _filters.value = {
-      ...computedFilters.value,
-      [dataIndex]: filteredValues,
-    };
-    emit('filterChange', dataIndex, filteredValues);
-    handleChange('filter');
-  };
-  const handleSorterChange = (dataIndex: string, direction: 'ascend' | 'descend' | '') => {
-    _sorter.value = direction
-      ? {
-          field: dataIndex,
-          direction,
-        }
-      : undefined;
-    emit('sorterChange', dataIndex, direction);
-    handleChange('sorter');
-  };
+  const tableChange = createTableChangeFoundation<TableData, TableDataWithRaw>(
+    {
+      get page() {
+        return page.value;
+      },
+      get pageSize() {
+        return pageSize.value;
+      },
+      get sorter() {
+        return computedSorter.value;
+      },
+      get filters() {
+        return computedFilters.value;
+      },
+      get dragTarget() {
+        return dragState.data;
+      },
+      get rawData() {
+        return flattenRawData.value;
+      },
+      get sortedData() {
+        return sortedData.value;
+      },
+      get onlyCurrent() {
+        return onlyCurrent.value;
+      },
+    },
+    {
+      setFilters: (filters) => {
+        _filters.value = filters;
+      },
+      setSorter: (sorter) => {
+        _sorter.value = sorter;
+      },
+      onFilterChange: (field, values) => emit('filterChange', field, values),
+      onSorterChange: (field, direction) => emit('sorterChange', field, direction),
+      onChange: (data, extra, current) => emit('change', data, extra, current),
+      changePage: (value) => handlePageChange(value),
+      changePageSize: (value) => handlePageSizeChange(value),
+      clearSelected: () => clearSelected(),
+    },
+  );
+  const {
+    change: handleChange,
+    filter: handleFilterChange,
+    sort: handleSorterChange,
+  } = tableChange;
   const { _filters, computedFilters, resetFilters, clearFilters } = useFilter({
     columns: dataColumns,
     onFilterChange: handleFilterChange,
@@ -901,49 +917,9 @@
     columns: dataColumns,
     onSorterChange: handleSorterChange,
   });
-  const allRowKeys = computed(() => {
-    const allRowKeys: BaseType[] = [];
-    const travelData = (data: TableData[]) => {
-      if (isArray(data) && data.length > 0) {
-        for (const record of data) {
-          allRowKeys.push(getRecordKey(record, rowKey.value));
-          if (record.children) {
-            travelData(record.children);
-          }
-        }
-      }
-    };
-    travelData(props.data);
-    return allRowKeys;
-  });
-  const currentAllRowKeys = computed(() => {
-    const keys: BaseType[] = [];
-    const travel = (data: TableDataWithRaw[]) => {
-      for (const record of data) {
-        keys.push(record.key);
-        if (record.children) {
-          travel(record.children);
-        }
-      }
-    };
-    travel(flattenData.value);
-    return keys;
-  });
-  const currentAllEnabledRowKeys = computed(() => {
-    const keys: BaseType[] = [];
-    const travel = (data: TableDataWithRaw[]) => {
-      for (const record of data) {
-        if (!record.disabled) {
-          keys.push(record.key);
-        }
-        if (record.children) {
-          travel(record.children);
-        }
-      }
-    };
-    travel(flattenData.value);
-    return keys;
-  });
+  const allRowKeys = computed(() => collectRawKeys(props.data, rowKey.value));
+  const currentAllRowKeys = computed(() => collectRowKeys(flattenData.value));
+  const currentAllEnabledRowKeys = computed(() => collectRowKeys(flattenData.value, true));
   const {
     selectedRowKeys,
     currentSelectedRowKeys,
@@ -975,19 +951,6 @@
       lazyLoadData.set(record.key, children);
     }
   };
-  const isValidRecord = (record: TableDataWithRaw) => {
-    for (const field of Object.keys(computedFilters.value)) {
-      const filteredValues = computedFilters.value[field];
-      const column = dataColumnMap.get(field);
-      if (column && column.filterable?.filter && filteredValues.length > 0) {
-        const result = column.filterable?.filter(filteredValues, record.raw);
-        if (!result) {
-          return result;
-        }
-      }
-    }
-    return true;
-  };
   const dragRoot = ref<HTMLElement>();
   const dragState = reactive({
     dragging: false,
@@ -997,223 +960,56 @@
     targetPath: [] as number[],
     data: {} as TableData,
   });
-  const recordAtPath = (path: number[]) => {
-    let records = sortedData.value;
-    let record: TableDataWithRaw | undefined;
-    for (const index of path) {
-      record = records[index];
-      records = record?.children ?? [];
-    }
-    return record;
-  };
+  const tableDrag = createTableDragFoundation<TableDataWithRaw>(dragState, {
+    get draggable() {
+      return props.draggable;
+    },
+    get sortedData() {
+      return sortedData.value;
+    },
+    onChange: () => handleChange('drag'),
+  });
   useDragSort(dragRoot, {
     draggable: '[data-table-drag-path]',
     handle: `.${prefixCls}-drag-handle`,
     onStart(item) {
-      const path: number[] = JSON.parse(item.dataset.tableDragPath!);
-      const record = recordAtPath(path);
-      if (!props.draggable || !record) return;
-      dragState.dragging = true;
-      dragState.sourceKey = record.key;
-      dragState.sourcePath = path;
-      dragState.targetPath = [];
-      dragState.data = record.raw;
+      tableDrag.start(JSON.parse(item.dataset.tableDragPath!));
     },
     onOver(item) {
-      const path: number[] = item ? JSON.parse(item.dataset.tableDragPath!) : [];
-      const source = dragState.sourcePath;
-      dragState.targetPath =
-        path.length === source.length &&
-        path.slice(0, -1).toString() === source.slice(0, -1).toString()
-          ? path
-          : [];
+      tableDrag.over(item ? JSON.parse(item.dataset.tableDragPath!) : []);
     },
     onEnd(_event, cancelled) {
-      if (
-        !cancelled &&
-        props.draggable &&
-        dragState.dragging &&
-        dragState.targetPath.length &&
-        dragState.targetPath.toString() !== dragState.sourcePath.toString()
-      ) {
-        dragState.committing = true;
-        handleChange('drag');
-      }
-      dragState.committing = false;
-      dragState.dragging = false;
-      dragState.sourceKey = undefined;
-      dragState.sourcePath = [];
-      dragState.targetPath = [];
-      dragState.data = {};
+      tableDrag.end(cancelled);
     },
   });
-  const processedData = computed(() => {
-    const travel = (data: TableData[]) => {
-      const result: TableDataWithRaw[] = [];
-      for (const _record of data) {
-        const record: TableDataWithRaw = {
-          raw: _record,
-          key: getRecordKey(_record, props.rowKey),
-          disabled: _record.disabled,
-          expand: _record.expand,
-          isLeaf: _record.isLeaf,
-        };
-        if (_record.children) {
-          record.isLeaf = false;
-          record.children = travel(_record.children);
-        } else if (props.loadMore && !_record.isLeaf) {
-          record.isLeaf = false;
-          if (lazyLoadData.has(record.key)) {
-            record.children = travel(lazyLoadData.get(record.key)!);
-          }
-        } else {
-          record.isLeaf = true;
-        }
-        record.hasSubtree = Boolean(
-          record.children
-            ? props.hideExpandButtonOnEmpty
-              ? record.children.length > 0
-              : true
-            : props.loadMore && !record.isLeaf,
-        );
-        result.push(record);
-      }
-      return result;
-    };
-    return travel(props.data ?? []);
-  });
-  const validData = computed(() => {
-    const travel = (data: TableDataWithRaw[]) =>
-      data.filter((record) => {
-        if (isValidRecord(record)) {
-          if (record.children) {
-            record.children = travel(record.children);
-          }
-          return true;
-        }
-        return false;
-      });
-    return Object.keys(computedFilters.value).length > 0
-      ? travel(mapArrayWithChildren(processedData.value))
-      : processedData.value;
-  });
+  const processedData = computed(() =>
+    processRows(props.data ?? [], {
+      rowKey: props.rowKey,
+      loadMore: Boolean(props.loadMore),
+      hideExpandButtonOnEmpty: props.hideExpandButtonOnEmpty,
+      lazyLoadData,
+    }),
+  );
+  const validData = computed(() =>
+    filterRows(processedData.value, computedFilters.value, dataColumnMap),
+  );
   const sortedData = computed(() => {
-    const data = mapArrayWithChildren(validData.value);
-    if (data.length > 0) {
-      if (computedSorter.value?.field) {
-        const column = dataColumnMap.get(computedSorter.value.field);
-        if (column && column.sortable?.sorter !== true) {
-          const { field, direction } = computedSorter.value;
-          data.sort((a, b) => {
-            const valueA = getValueByPath(a.raw, field);
-            const valueB = getValueByPath(b.raw, field);
-            if (column.sortable?.sorter && isFunction(column.sortable.sorter)) {
-              return column.sortable.sorter(a.raw, b.raw, {
-                dataIndex: field,
-                direction,
-              });
-            }
-            if (valueA === undefined || valueB === undefined) {
-              return 0;
-            }
-            const result = valueA === valueB ? 0 : valueA > valueB ? 1 : -1;
-            return direction === 'descend' ? -result : result;
-          });
-        }
-      }
-      const { sourcePath, targetPath } = dragState;
-      // drag row to another row
-      if (
-        dragState.committing &&
-        targetPath.length &&
-        targetPath.toString() !== sourcePath.toString()
-      ) {
-        // same level drag
-        if (
-          sourcePath.length === targetPath.length &&
-          sourcePath.slice(0, -1).toString() === targetPath.slice(0, -1).toString()
-        ) {
-          let children = data;
-          for (let i = 0; i < sourcePath.length; i++) {
-            const sourceIndex = sourcePath[i];
-            const isLast = i >= sourcePath.length - 1;
-            if (isLast) {
-              const sourceChild = children[sourceIndex];
-              const targetIndex = targetPath[i];
-              if (targetIndex > sourceIndex) {
-                // move down
-                children.splice(targetIndex + 1, 0, sourceChild);
-                children.splice(sourceIndex, 1);
-              } else {
-                // move up
-                children.splice(targetIndex, 0, sourceChild);
-                children.splice(sourceIndex + 1, 1);
-              }
-            } else {
-              children = children[sourceIndex].children ?? [];
-            }
-          }
-        }
-      }
-    }
-    return data;
+    const data = sortRows(validData.value, computedSorter.value, dataColumnMap);
+    return dragState.committing
+      ? reorderRows(data, dragState.sourcePath, dragState.targetPath)
+      : data;
   });
   const { page, pageSize, handlePageChange, handlePageSizeChange } = usePagination(props, emit);
   const onlyCurrent = computed(() => rowSelection.value?.onlyCurrent ?? false);
-  watch(page, (cur, pre) => {
-    if (cur !== pre && onlyCurrent.value) {
-      clearSelected();
-    }
-  });
-  const flattenData = computed(() => {
-    if (props.pagination && sortedData.value.length > pageSize.value) {
-      return sortedData.value.slice((page.value - 1) * pageSize.value, page.value * pageSize.value);
-    }
-    return sortedData.value;
-  });
+  watch(page, tableChange.pageStateChanged);
+  const flattenData = computed(() =>
+    pageRows(sortedData.value, page.value, pageSize.value, Boolean(props.pagination)),
+  );
   const flattenRawData = computed(() => mapRawTableData(flattenData.value));
-  const getSummaryData = () => {
-    return dataColumns.value.reduce(
-      (per, column, index) => {
-        if (column.dataIndex) {
-          if (index === 0) {
-            setValueByPath(per, column.dataIndex, props.summaryText, {
-              addPath: true,
-            });
-          } else {
-            let count = 0;
-            let isNotNumber = false;
-            flattenData.value.forEach((data) => {
-              if (column.dataIndex) {
-                const _number = getValueByPath(data.raw, column.dataIndex);
-                if (isNumber(_number)) {
-                  count += _number;
-                } else if (!isUndefined(_number) && !isNull(_number)) {
-                  isNotNumber = true;
-                }
-              }
-            });
-            setValueByPath(per, column.dataIndex, isNotNumber ? '' : count, {
-              addPath: true,
-            });
-          }
-        }
-        return per;
-      },
-      {} as Record<string, unknown>,
-    );
-  };
-  const getTableDataWithRaw = (data?: TableData[]): TableDataWithRaw[] => {
-    if (data && data.length > 0) {
-      return data.map((raw) => {
-        return {
-          raw,
-          key: getRecordKey(raw, props.rowKey),
-        };
-      });
-    }
-    return [];
-  };
+  const getSummaryData = () =>
+    summarizeRows(dataColumns.value, flattenData.value, props.summaryText);
+  const getTableDataWithRaw = (data?: TableData[]): TableDataWithRaw[] =>
+    wrapRows(data, props.rowKey);
   const summaryData = computed(() => {
     if (props.summary) {
       if (isFunction(props.summary)) {
@@ -1323,55 +1119,31 @@
   const handleHeaderClick = (column: TableColumnData, ev: Event) => {
     emit('headerClick', column, ev);
   };
-  const operations = computed(() => {
-    const operations: TableOperationColumn[] = [];
-    const hasFixedColumn = hasLeftFixedColumn.value || hasRightFixedColumn.value;
-    let dragHandle: TableOperationColumn | undefined;
-    let expand: TableOperationColumn | undefined;
-    let selection: TableOperationColumn | undefined;
-    if (props.draggable) {
-      dragHandle = {
-        name: 'drag-handle',
-        title: props.draggable.title,
-        width: props.draggable.width,
-        fixed: props.draggable.fixed || hasFixedColumn,
-      };
-      operations.push(dragHandle);
-    }
-    if (props.expandable) {
-      expand = {
-        name: 'expand',
-        title: props.expandable.title,
-        width: props.expandable.width,
-        fixed: props.expandable.fixed || hasFixedColumn,
-      };
-      operations.push(expand);
-    }
-    if (props.rowSelection) {
-      selection = {
-        name: props.rowSelection.type === 'radio' ? 'selection-radio' : 'selection-checkbox',
-        title: props.rowSelection.title,
-        width: props.rowSelection.width,
-        fixed: props.rowSelection.fixed || hasFixedColumn,
-      };
-      operations.push(selection);
-    }
-    if (
-      !hasLeftFixedDataColumns.value &&
-      operations.length > 0 &&
-      operations[operations.length - 1].fixed
-    ) {
-      operations[operations.length - 1].isLastLeftFixed = true;
-    }
-    const operationsFn = props.components?.operations;
-    return isFunction(operationsFn)
-      ? operationsFn({
-          dragHandle,
-          expand,
-          selection,
-        })
-      : operations;
-  });
+  const operations = computed<TableOperationColumn[]>(() =>
+    getTableOperations<TableOperationColumn['title']>({
+      get hasLeftFixedColumn() {
+        return hasLeftFixedColumn.value;
+      },
+      get hasRightFixedColumn() {
+        return hasRightFixedColumn.value;
+      },
+      get hasLeftFixedDataColumns() {
+        return hasLeftFixedDataColumns.value;
+      },
+      get draggable() {
+        return props.draggable;
+      },
+      get expandable() {
+        return props.expandable;
+      },
+      get rowSelection() {
+        return props.rowSelection;
+      },
+      get operations() {
+        return props.components?.operations;
+      },
+    }),
+  );
   const tableGridTemplate = computed(() =>
     getTableGridTemplate(dataColumns.value, operations.value, columnWidth),
   );
@@ -2275,14 +2047,8 @@
               total: validData.value.length,
               current: page.value,
               pageSize: pageSize.value,
-              onChange: (page: number) => {
-                handlePageChange(page);
-                handleChange('pagination');
-              },
-              onPageSizeChange: (pageSize: number) => {
-                handlePageSizeChange(pageSize);
-                handleChange('pagination');
-              },
+              onChange: tableChange.page,
+              onPageSizeChange: tableChange.pageSize,
             },
             paginationProps,
           ),

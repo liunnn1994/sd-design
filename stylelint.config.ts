@@ -51,7 +51,10 @@ export default {
   rules: {
     // 保留 rational-order 的分组排序能力，
     // 但由当前项目安装的 stylelint-order 执行，规避旧插件崩溃问题。
-    'order/properties-order': createRationalOrder(),
+    'order/properties-order': [
+      { groupName: 'Reset', properties: ['all'] },
+      ...createRationalOrder(),
+    ],
     'declaration-block-single-line-max-declarations': null,
     'declaration-property-value-keyword-no-deprecated': null,
     'font-family-no-duplicate-names': null,

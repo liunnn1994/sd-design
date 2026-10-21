@@ -84,6 +84,13 @@
     useSlots,
   } from 'vue';
 
+  import {
+    createTransferFoundation,
+    getTransferDataInfo,
+  } from '@sdata/web-core/transfer/foundation';
+
+  import type { TransferItem } from './interface';
+
   import { useFormItem } from '../_hooks/use-form-item';
   import { getPrefixCls } from '../_utils/global-config';
   import SdButton from '../button';
@@ -91,7 +98,6 @@
   import IconRight from '../icon/icon-right';
   import { useI18n } from '../locale';
   import { transferInjectionKey } from './context';
-  import { DataInfo, TransferItem } from './interface';
   import TransferView from './transfer-view.vue';
 
   defineOptions({ name: 'Transfer' });
@@ -314,82 +320,29 @@
   const sourceTitle = computed(() => props.title?.[0]);
   const targetTitle = computed(() => props.title?.[1]);
 
-  const dataInfo = computed(() => {
-    const sourceInfo: DataInfo = {
-      data: [],
-      allValidValues: [],
-      selected: [],
-      validSelected: [],
-    };
-
-    const targetInfo: DataInfo = {
-      data: [],
-      allValidValues: [],
-      selected: [],
-      validSelected: [],
-    };
-
-    for (const item of props.data) {
-      if (computedTarget.value.includes(item.value)) {
-        targetInfo.data.push(item);
-        if (!item.disabled) {
-          targetInfo.allValidValues.push(item.value);
-        }
-        if (computedSelected.value.includes(item.value)) {
-          targetInfo.selected.push(item.value);
-          if (!item.disabled) {
-            targetInfo.validSelected.push(item.value);
-          }
-        }
-      } else {
-        sourceInfo.data.push(item);
-        if (!item.disabled) {
-          sourceInfo.allValidValues.push(item.value);
-        }
-        if (computedSelected.value.includes(item.value)) {
-          sourceInfo.selected.push(item.value);
-          if (!item.disabled) {
-            sourceInfo.validSelected.push(item.value);
-          }
-        }
-      }
-    }
-
-    return {
-      sourceInfo,
-      targetInfo,
-    };
+  const dataInfo = computed(() =>
+    getTransferDataInfo(props.data, computedTarget.value, computedSelected.value),
+  );
+  const foundation = createTransferFoundation({
+    getTarget: () => computedTarget.value,
+    getDataInfo: () => dataInfo.value,
+    setTarget: (value) => {
+      _target.value = value;
+    },
+    setSelected: (value) => {
+      _selected.value = value;
+    },
+    onUpdateTarget: (value) => emit('update:modelValue', value),
+    onChange: (value) => emit('change', value),
+    onFormChange: () => eventHandlers.value?.onChange?.(),
+    onUpdateSelected: (value) => emit('update:selected', value),
+    onSelect: (value) => emit('select', value),
+    onSearch: (value, type) => emit('search', value, type),
   });
-
-  const handleSearch = (value: string, type: 'target' | 'source') => {
-    emit('search', value, type);
-  };
-
-  const moveTo = (values: string[], target: 'target' | 'source') => {
-    const newTarget =
-      target === 'target'
-        ? [...computedTarget.value, ...values]
-        : computedTarget.value.filter((value) => !values.includes(value));
-    handleSelect(dataInfo.value[target === 'target' ? 'targetInfo' : 'sourceInfo'].selected);
-    _target.value = newTarget;
-    emit('update:modelValue', newTarget);
-    emit('change', newTarget);
-    eventHandlers.value?.onChange?.();
-  };
-
-  const handleClick = (target: 'target' | 'source') => {
-    const values =
-      target === 'target'
-        ? dataInfo.value.sourceInfo.validSelected
-        : dataInfo.value.targetInfo.validSelected;
-    moveTo(values, target);
-  };
-
-  const handleSelect = (values: string[]) => {
-    _selected.value = values;
-    emit('update:selected', values);
-    emit('select', values);
-  };
+  const handleSearch = foundation.search;
+  const moveTo = foundation.moveTo;
+  const handleClick = foundation.moveSelected;
+  const handleSelect = foundation.select;
 
   provide(
     transferInjectionKey,

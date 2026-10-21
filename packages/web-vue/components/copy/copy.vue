@@ -24,7 +24,8 @@
 <script setup lang="ts">
   import { computed, onBeforeUnmount, onBeforeUpdate, shallowRef, useAttrs, useSlots } from 'vue';
 
-  import copy from 'copy-to-clipboard';
+  import copy from '@sdata/web-core/clipboard';
+  import { createCopyFoundation, getCopyDisabled } from '@sdata/web-core/copy/foundation';
 
   import type { CopyComponentType, CopyProps } from './types';
 
@@ -72,7 +73,6 @@
   const { t } = useI18n();
   const prefixCls = getPrefixCls('copy');
   const copied = shallowRef(false);
-  let feedbackTimer: ReturnType<typeof setTimeout> | undefined;
   const componentMap: Record<CopyComponentType, typeof Link | typeof Button> = {
     link: Link,
     button: Button,
@@ -114,7 +114,7 @@
     const disabled =
       (props as CopyProps & { disabled?: boolean | string }).disabled ?? attrs.disabled;
 
-    return disabled === '' || disabled === true || disabled === 'true';
+    return getCopyDisabled(disabled);
   });
   // 默认 tooltip/successMessage 走 locale，消费方显式传入时优先
   const mergedTooltip = computed(
@@ -126,31 +126,25 @@
     content: props.tooltipProps?.content ?? mergedTooltip.value,
   }));
 
-  let disposed = false;
-  onBeforeUnmount(() => {
-    disposed = true;
-    clearTimeout(feedbackTimer);
-  });
-
-  async function handleCopy() {
-    if (isDisabled.value || !props.content) {
-      return;
-    }
-
-    // copy-to-clipboard 在所有 fallback（clipboard API → execCommand → prompt）
-    // 都失败时 resolve false：这里把失败抛出来，而不是静默提示"复制成功"
-    const content = props.content;
-    const success = await copy(content, props.clipboardProps);
-    if (disposed) return;
-    if (!success) {
-      throw new Error('[sdCopy] failed to copy content to the clipboard');
-    }
-    Message.success(mergedSuccessMessage.value);
-    copied.value = true;
-    clearTimeout(feedbackTimer);
-    feedbackTimer = setTimeout(() => {
-      copied.value = false;
-    }, 2500);
-    emit('copy', content);
-  }
+  const foundation = createCopyFoundation(
+    {
+      props,
+      get isDisabled() {
+        return isDisabled.value;
+      },
+      get copied() {
+        return copied.value;
+      },
+      set copied(value) {
+        copied.value = value;
+      },
+    },
+    {
+      copy,
+      success: () => Message.success(mergedSuccessMessage.value),
+      copied: (content) => emit('copy', content),
+    },
+  );
+  const { handleCopy } = foundation;
+  onBeforeUnmount(foundation.dispose);
 </script>

@@ -28,6 +28,8 @@
   } from 'vue';
   import type { VNode } from 'vue';
 
+  import { hasTimelinePending } from '@sdata/web-core/timeline/foundation';
+
   import type { SpinProps } from '../spin';
   import type { LabelPositionType, ModeType } from './interface';
 
@@ -110,9 +112,9 @@
     ...spinProps,
   }));
   const prefixCls = getPrefixCls('timeline');
-  const hasPending = ref(Boolean(pending || slots.pending));
+  const hasPending = ref(hasTimelinePending(pending, slots.pending));
   onBeforeUpdate(() => {
-    hasPending.value = Boolean(pending || slots.pending);
+    hasPending.value = hasTimelinePending(pending, slots.pending);
   });
   const { children, components, getComponents } = useChildrenComponents('TimelineItem');
 

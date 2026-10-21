@@ -7,28 +7,19 @@
 <script setup lang="ts">
   import { computed, inject, PropType } from 'vue';
 
+  import {
+    getAllowableFlexValue,
+    getGridColumnClassNames,
+    getGridColumnPadding,
+  } from '@sdata/web-core/grid/column';
+
   import { getPrefixCls } from '../_utils/global-config';
-  import { isNull, isNumber, isObject, isString, isUndefined } from '../_utils/is';
   import pick from '../_utils/pick';
   import { responsiveArray } from '../_utils/responsive-observe';
   import { RowContextInjectionKey } from './context';
   import { useResponsiveState } from './hook/use-responsive-state';
   import { useResponsiveValue } from './hook/use-responsive-value';
   import { FlexType, ColResponsiveConfig } from './interface';
-
-  function getAllowableFlexValue(flexValue: FlexType | undefined) {
-    if (
-      (isString(flexValue) &&
-        (['initial', 'auto', 'none'].includes(flexValue) || /^\d+$/.test(flexValue))) ||
-      isNumber(flexValue)
-    ) {
-      return flexValue;
-    }
-    if (isString(flexValue) && /^\d+(px|em|rem|%)$/.test(flexValue)) {
-      return `0 0 ${flexValue}`;
-    }
-    return undefined;
-  }
 
   defineOptions({ name: 'Col' });
 
@@ -110,75 +101,13 @@
   const prefixCls = getPrefixCls('col');
   const rowContext = inject(RowContextInjectionKey, {});
 
-  // 数字断点值 0 是合法配置（如 xs={0} 隐藏列），必须用显式 undefined/null 判断而非 falsy 守卫
-  const hasBreakpointValue = (value: unknown): boolean => !isUndefined(value) && !isNull(value);
-
   const flexValue = computed(() => getAllowableFlexValue(props.flex));
-  const mergeClassName = computed(() => {
-    const { div } = rowContext;
-    const { span, offset, order, xs, sm, md, lg, xl, xxl } = props;
-    const result = {
-      [`${prefixCls}`]: !div,
-      [`${prefixCls}-order-${order}`]: order,
-      [`${prefixCls}-${span}`]:
-        !div &&
-        !hasBreakpointValue(xs) &&
-        !hasBreakpointValue(sm) &&
-        !hasBreakpointValue(md) &&
-        !hasBreakpointValue(lg) &&
-        !hasBreakpointValue(xl) &&
-        !hasBreakpointValue(xxl),
-      [`${prefixCls}-offset-${offset}`]: offset && offset > 0,
-    };
-
-    const screenList: {
-      [key: string]: number | ColResponsiveConfig | undefined;
-    } = { xs, sm, md, lg, xl, xxl };
-
-    Object.keys(screenList).forEach((screen) => {
-      const screenValue = screenList[screen];
-      if (hasBreakpointValue(screenValue) && isNumber(screenValue)) {
-        result[`${prefixCls}-${screen}-${screenValue}`] = true;
-      } else if (hasBreakpointValue(screenValue) && isObject(screenValue)) {
-        result[`${prefixCls}-${screen}-${screenValue.span}`] = screenValue.span;
-        result[`${prefixCls}-${screen}-offset-${screenValue.offset}`] = hasBreakpointValue(
-          screenValue.offset,
-        );
-        result[`${prefixCls}-${screen}-order-${screenValue.order}`] = hasBreakpointValue(
-          screenValue.order,
-        );
-      }
-    });
-
-    return result;
-  });
+  const mergeClassName = computed(() => getGridColumnClassNames(prefixCls, props, rowContext));
   const classNames = computed(() => {
     if (rowContext.div) return undefined;
     return flexValue.value !== undefined ? prefixCls : mergeClassName.value;
   });
-  const paddingStyles = computed(() => {
-    const { gutter, div } = rowContext;
-    const result: {
-      paddingLeft?: string;
-      paddingRight?: string;
-      paddingTop?: string;
-      paddingBottom?: string;
-    } = {};
-    if (Array.isArray(gutter) && !div) {
-      const paddingHorizontal = (gutter[0] && gutter[0] / 2) || 0;
-      const paddingVertical = (gutter[1] && gutter[1] / 2) || 0;
-      if (paddingHorizontal) {
-        result.paddingLeft = `${paddingHorizontal}px`;
-        result.paddingRight = `${paddingHorizontal}px`;
-      }
-      if (paddingVertical) {
-        result.paddingTop = `${paddingVertical}px`;
-        result.paddingBottom = `${paddingVertical}px`;
-      }
-    }
-
-    return result;
-  });
+  const paddingStyles = computed(() => getGridColumnPadding(rowContext));
   const flexStyles = computed<{ flex?: FlexType }>(() =>
     flexValue.value !== undefined ? { flex: flexValue.value } : {},
   );

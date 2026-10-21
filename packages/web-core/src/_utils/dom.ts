@@ -1,0 +1,121 @@
+import { isString } from './is.js';
+
+export const NOOP = () => {
+  return undefined;
+};
+
+export const isServerRendering = (() => {
+  try {
+    return !(typeof window !== 'undefined' && document !== undefined);
+  } catch {
+    return true;
+  }
+})();
+
+type DOMEventTarget = HTMLElement | Window;
+type DOMEventMap<T extends DOMEventTarget> = T extends Window
+  ? WindowEventMap
+  : HTMLElementEventMap;
+
+export const on = (() => {
+  if (isServerRendering) {
+    return NOOP;
+  }
+  return <T extends DOMEventTarget, K extends Extract<keyof DOMEventMap<T>, string>>(
+    element: T,
+    event: K,
+    handler: (ev: DOMEventMap<T>[K]) => void,
+    options: boolean | AddEventListenerOptions = false,
+  ) => {
+    element.addEventListener(event, handler as EventListenerOrEventListenerObject, options);
+  };
+})();
+
+export const off = (() => {
+  if (isServerRendering) {
+    return NOOP;
+  }
+  return <T extends DOMEventTarget, K extends Extract<keyof DOMEventMap<T>, string>>(
+    element: T,
+    type: K,
+    handler: (ev: DOMEventMap<T>[K]) => void,
+    options: boolean | EventListenerOptions = false,
+  ) => {
+    element.removeEventListener(type, handler as EventListenerOrEventListenerObject, options);
+  };
+})();
+
+export const contains = (root: Node | null | undefined, ele: Node | null) => {
+  if (!root || !ele) {
+    return false;
+  }
+  let node: Node | null = ele;
+  while (node) {
+    if (node === root) {
+      return true;
+    }
+    node = node.parentNode;
+  }
+  return false;
+};
+
+export const OVERLAY_TYPES = ['modal', 'message', 'notification', 'drawer'] as const;
+
+export const getOverlay = (type: (typeof OVERLAY_TYPES)[number]) => {
+  const popper = document.createElement('div');
+  popper.setAttribute('class', `sd-overlay sd-overlay-${type}`);
+  return popper;
+};
+
+export const querySelector = (selectors: string, container?: Document | HTMLElement) => {
+  if (isServerRendering) {
+    return NOOP();
+  }
+  return (container ?? document).querySelector<HTMLElement>(selectors) ?? undefined;
+};
+
+export const getElement = (
+  target: string | HTMLElement | undefined,
+  container?: Document | HTMLElement,
+): HTMLElement | undefined => {
+  if (isString(target)) {
+    const selector =
+      target.startsWith('#') && !isServerRendering ? `#${CSS.escape(target.slice(1))}` : target;
+    return querySelector(selector, container);
+  }
+  return target;
+};
+
+/**
+ * Get the relative distance between two DOMs
+ * @param target
+ * @param relative
+ */
+export const getRelativeRect = (target: HTMLElement, relative: HTMLElement) => {
+  const targetRect = target.getBoundingClientRect();
+  const relativeRect = relative.getBoundingClientRect();
+
+  return {
+    top: targetRect.top - relativeRect.top,
+    bottom: relativeRect.bottom - targetRect.bottom,
+    left: targetRect.left - relativeRect.left,
+    right: relativeRect.right - targetRect.right,
+    width: targetRect.width,
+    height: targetRect.height,
+  };
+};
+
+export const isScroll = (element: HTMLElement) => {
+  return element.tagName === 'BODY'
+    ? document.documentElement.scrollHeight > window.innerHeight
+    : element.scrollHeight > element.offsetHeight;
+};
+
+export const getScrollBarWidth = (element: HTMLElement) => {
+  // BODY 用 documentElement.clientWidth（视口宽度扣掉滚动条），不能用 scrollWidth：
+  // 页面出现横向溢出时 scrollWidth 会大于视口宽度，算出来是负数，
+  // use-overflow 会用 offsetWidth - 负数 把容器宽度撑大。
+  return element.tagName === 'BODY'
+    ? Math.max(0, window.innerWidth - document.documentElement.clientWidth)
+    : element.offsetWidth - element.clientWidth;
+};

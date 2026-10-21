@@ -8,7 +8,11 @@
         ]"
         :style="contentStyle"
       >
-        <VNodeRenderer :content="getChildren()" />
+        <VNodeRenderer
+          :content="getChildren()"
+          @vue:mounted="getComponents"
+          @vue:updated="getComponents"
+        />
       </div>
     </div>
   </DefineContent>
@@ -41,6 +45,7 @@
 </template>
 
 <script setup lang="ts">
+  import type { ComputedRef } from 'vue';
   import {
     computed,
     getCurrentInstance,
@@ -56,6 +61,7 @@
     type VNodeChild,
   } from 'vue';
 
+  import { createTabsFoundation } from '@sdata/web-core/tabs/foundation';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { Direction, Size } from '../_utils/constant';
@@ -72,7 +78,6 @@
   import { useScrollbar } from '../_hooks/use-scrollbar';
   import { useSize } from '../_hooks/use-size';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isUndefined } from '../_utils/is';
   import { configProviderInjectionKey } from '../config-provider/context';
   import { tabsInjectionKey } from './context';
   import TabsNav from './tabs-nav.vue';
@@ -272,25 +277,56 @@
   const mergedDirection = computed(() =>
     ['left', 'right'].includes(mergedPosition.value) ? 'vertical' : 'horizontal',
   );
-  const { children, components } = useChildrenComponents('TabPane');
+  const { children, components, getComponents } = useChildrenComponents('TabPane');
   const tabMap = reactive(new Map<number, TabData>());
-  const sortedTabs = computed(() => {
-    const tabData: TabData[] = [];
-    components.value.forEach((id) => {
-      const tab = tabMap.get(id);
-      if (tab) tabData.push(tab);
-    });
-    return tabData;
-  });
-  const tabKeys = computed(() => sortedTabs.value.map((item) => item.key));
   const innerActiveKey = ref(props.defaultActiveKey);
-  const computedActiveKey = computed(() => {
-    const activeKey = props.activeKey ?? innerActiveKey.value;
-    return isUndefined(activeKey) ? tabKeys.value[0] : activeKey;
-  });
-  const activeIndex = computed(() => {
-    const index = tabKeys.value.indexOf(computedActiveKey.value);
-    return index === -1 ? 0 : index;
+  const sortedTabs: ComputedRef<TabData[]> = computed<TabData[]>(() => foundation.getSorted());
+  const tabKeys: ComputedRef<(string | number)[]> = computed<(string | number)[]>(() =>
+    sortedTabs.value.map((item) => item.key),
+  );
+  const computedActiveKey: ComputedRef<string | number> = computed<string | number>(() =>
+    foundation.getActive(),
+  );
+  const activeIndex = computed<number>(() => foundation.getActiveIndex());
+  const foundation = createTabsFoundation<TabData>({
+    registry: tabMap,
+    get order() {
+      return components.value;
+    },
+    get keys() {
+      return tabKeys.value;
+    },
+    get value() {
+      return props.activeKey;
+    },
+    get inner() {
+      return innerActiveKey.value;
+    },
+    get active() {
+      return computedActiveKey.value;
+    },
+    get autoSwitch() {
+      return props.autoSwitch;
+    },
+    setInner(value) {
+      innerActiveKey.value = value;
+    },
+    onChange(value) {
+      emit('update:activeKey', value);
+      emit('change', value);
+    },
+    onClick(key, event) {
+      emit('tabClick', key, event);
+    },
+    onAdd(event) {
+      emit('add', event);
+    },
+    onDelete(key, event) {
+      emit('delete', key, event);
+    },
+    defer(callback) {
+      void nextTick(callback);
+    },
   });
   const configContext = inject(configProviderInjectionKey, undefined);
   const rtl = computed(() => configContext?.rtl ?? false);
@@ -304,12 +340,8 @@
     props.fullHeight && props.scrollbar !== false ? scrollbarProps.value : false,
   );
 
-  const addItem = (id: number, data: TabData) => {
-    tabMap.set(id, data);
-  };
-  const removeItem = (id: number) => {
-    tabMap.delete(id);
-  };
+  const addItem = foundation.register;
+  const removeItem = foundation.unregister;
 
   provide(
     tabsInjectionKey,
@@ -325,24 +357,9 @@
     }),
   );
 
-  const handleChange = (key: string | number) => {
-    if (key !== computedActiveKey.value) {
-      innerActiveKey.value = key;
-      emit('update:activeKey', key);
-      emit('change', key);
-    }
-  };
-  const handleClick = (key: string | number, event: Event) => {
-    handleChange(key);
-    emit('tabClick', key, event);
-  };
-  const handleAdd = (event: Event) => {
-    emit('add', event);
-    if (props.autoSwitch) {
-      nextTick(() => handleChange(tabKeys.value[tabKeys.value.length - 1]));
-    }
-  };
-  const handleDelete = (key: string | number, event: Event) => emit('delete', key, event);
+  const handleClick = foundation.click;
+  const handleAdd = foundation.add;
+  const handleDelete = foundation.remove;
 
   const cls = computed(() => [
     prefixCls,

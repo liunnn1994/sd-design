@@ -7,12 +7,7 @@
           [`${prefixCls}-disabled`]: !onPrev,
         },
       ]"
-      @click="
-        (e) => {
-          e.preventDefault();
-          onPrev && onPrev();
-        }
-      "
+      @click="onPrevClick"
     >
       <icon-left />
     </div>
@@ -23,25 +18,22 @@
           [`${prefixCls}-disabled`]: !onNext,
         },
       ]"
-      @click="
-        (e) => {
-          e.preventDefault();
-          onNext && onNext();
-        }
-      "
+      @click="onNextClick"
     >
       <icon-right />
     </div>
   </div>
 </template>
 <script setup lang="ts">
+  import { activatePreviewArrow } from '@sdata/web-core/image/foundation';
+
   import { getPrefixCls } from '../_utils/global-config';
   import IconLeft from '../icon/icon-left';
   import IconRight from '../icon/icon-right';
 
   defineOptions({ name: 'ImagePreviewArrow' });
 
-  defineProps({
+  const props = defineProps({
     onPrev: {
       type: Function,
     },
@@ -50,5 +42,9 @@
     },
   });
 
+  const onPrevClick = (event: MouseEvent) =>
+    activatePreviewArrow(event, props.onPrev ? () => props.onPrev?.() : undefined);
+  const onNextClick = (event: MouseEvent) =>
+    activatePreviewArrow(event, props.onNext ? () => props.onNext?.() : undefined);
   const prefixCls = getPrefixCls('image-preview-arrow');
 </script>

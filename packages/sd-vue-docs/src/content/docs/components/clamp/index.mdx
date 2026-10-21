@@ -1,6 +1,6 @@
 ---
 title: 内容裁剪 Clamp
-description: 原样提供 vue-clamp 的文本、富文本、单行字符串与原子项响应式裁剪能力。
+description: 提供文本、富文本、单行字符串与原子项响应式裁剪能力。
 ---
 
 import DemoBlock from '../../../../components/docs/DemoBlock.astro';
@@ -13,7 +13,7 @@ import clampExpandSource from '../../../../components/generated/clamp/expand.vue
 import ClampRichWrapDemo from '../../../../components/generated/clamp/rich-wrap.vue';
 import clampRichWrapSource from '../../../../components/generated/clamp/rich-wrap.vue?raw';
 
-Clamp 是 [`vue-clamp`](https://vue-clamp.void.app/) 的组件别名组，不增加包装 DOM，也不改写上游属性、事件、插槽与实例方法。通过全量安装可使用 `sd-line-clamp`、`sd-rich-line-clamp`、`sd-inline-clamp` 和 `sd-wrap-clamp`；按需引入时使用 `LineClamp`、`RichLineClamp`、`InlineClamp` 和 `WrapClamp`。
+Clamp 提供四种裁剪组件，保留既有属性、事件、插槽与实例方法，不增加包装 DOM。通过全量安装可使用 `sd-line-clamp`、`sd-rich-line-clamp`、`sd-inline-clamp` 和 `sd-wrap-clamp`；按需引入时使用 `LineClamp`、`RichLineClamp`、`InlineClamp` 和 `WrapClamp`。
 
 ### 纯文本多行裁剪
 
@@ -49,7 +49,7 @@ Clamp 是 [`vue-clamp`](https://vue-clamp.void.app/) 的组件别名组，不增
 
 ## API
 
-四个组件完整沿用 `vue-clamp` 的 API，包括全部 Props、Events、Slots、实例方法与 TypeScript 类型。请以 [vue-clamp 官方文档](https://vue-clamp.void.app/) 为准。
+四个组件保持与此前封装的 `vue-clamp` 1.7.2 相同的 Props、Events、Slots、实例方法与 TypeScript 类型；可继续参考 [对应上游 API 文档](https://vue-clamp.void.app/)。
 
 需要渲染不可信富文本时，必须先在业务侧完成清洗，再传给 `RichLineClamp` 的 `html` 属性。
 

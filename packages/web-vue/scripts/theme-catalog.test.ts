@@ -9,9 +9,13 @@ import { generateThemeCatalog } from './theme-catalog.ts';
 test('新增组件从样式声明自动进入主题目录，重复生成结果稳定', async () => {
   const temporary = await fs.mkdtemp(path.join(os.tmpdir(), 'sd-theme-catalog-'));
   try {
-    await fs.cp(new URL('../components/style/', import.meta.url), path.join(temporary, 'style'), {
-      recursive: true,
-    });
+    await fs.cp(
+      new URL('../../web-core/styles/style/', import.meta.url),
+      path.join(temporary, 'style'),
+      {
+        recursive: true,
+      },
+    );
     await fs.mkdir(path.join(temporary, 'config-provider'));
     await fs.mkdir(path.join(temporary, 'future-widget/style'), { recursive: true });
     const tokenPath = path.join(temporary, 'future-widget/style/token.scss');

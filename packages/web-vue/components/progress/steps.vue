@@ -3,7 +3,7 @@
     role="progressbar"
     aria-valuemin="0"
     aria-valuemax="100"
-    :aria-valuenow="NP.times(percent, 100)"
+    :aria-valuenow="percentValue"
     :class="`${prefixCls}-wrapper`"
   >
     <div :class="prefixCls" :style="{ height: `${mergedStrokeWidth}px` }">
@@ -31,7 +31,11 @@
 <script setup lang="ts">
   import { computed, PropType, type CSSProperties } from 'vue';
 
-  import NP from 'number-precision';
+  import {
+    createProgressStepsFoundation,
+    getProgressPercent,
+    getProgressText,
+  } from '@sdata/web-core/progress/foundation';
 
   import { getPrefixCls } from '../_utils/global-config';
   import IconExclamationCircleFill from '../icon/icon-exclamation-circle-fill';
@@ -69,18 +73,10 @@
   });
 
   const prefixCls = getPrefixCls('progress-steps');
-  const activeColor = computed(() => (typeof props.color === 'string' ? props.color : undefined));
-
-  const mergedStrokeWidth = computed(() => props.strokeWidth ?? (props.size === 'small' ? 8 : 4));
-
-  const stepList = computed(() =>
-    [...Array(props.steps)].map((_, index) => {
-      return props.percent > 0 && props.percent > (1 / props.steps) * index;
-    }),
-  );
-
-  const text = computed(() => `${NP.times(props.percent, 100)}%`);
-  const getStepStyle = (active: boolean): CSSProperties => ({
-    backgroundColor: active ? activeColor.value : props.trackColor,
-  });
+  const foundation = createProgressStepsFoundation(props);
+  const mergedStrokeWidth = computed(foundation.getStrokeWidth);
+  const stepList = computed(foundation.getSteps);
+  const percentValue = computed(() => getProgressPercent(props.percent));
+  const text = computed(() => getProgressText(props.percent));
+  const getStepStyle = (active: boolean): CSSProperties => foundation.getStepStyle(active);
 </script>

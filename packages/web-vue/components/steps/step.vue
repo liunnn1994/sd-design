@@ -45,9 +45,10 @@
     ref,
   } from 'vue';
 
+  import { createStep } from '@sdata/web-core/steps/foundation';
+
   import { useIndex } from '../_hooks/use-index';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isActivationKey } from '../_utils/keyboard';
   import IconCheck from '../icon/icon-check';
   import IconClose from '../icon/icon-close';
   import { stepsInjectionKey } from './context';
@@ -120,13 +121,15 @@
   });
   const stepNumber = computed(() => computedIndex.value + 1);
 
-  const computedStatus = computed(
-    () => props.status ?? stepsCtx?.getStatus(stepNumber.value) ?? 'process',
-  );
-
-  const nextStepError = computed(
-    () => stepsCtx?.errorSteps.includes(stepNumber.value + 1) ?? false,
-  );
+  const foundation = createStep({
+    props,
+    context: stepsCtx,
+    get step() {
+      return stepNumber.value;
+    },
+  });
+  const computedStatus = computed(foundation.status);
+  const nextStepError = computed(foundation.nextError);
 
   if (instance) {
     stepsCtx?.addItem(
@@ -144,25 +147,9 @@
     }
   });
 
-  const showTail = computed(
-    () =>
-      !stepsCtx?.lineLess &&
-      (stepsCtx?.labelPlacement === 'vertical' || stepsCtx?.direction === 'vertical'),
-  );
-
-  const handleClick = (ev: Event) => {
-    if (!props.disabled) {
-      stepsCtx?.onClick(stepNumber.value, ev);
-    }
-  };
-
-  // 可点击切换时，键盘 Enter/Space 也能切换
-  const onKeydown = (ev: KeyboardEvent) => {
-    if (stepsCtx?.changeable && !props.disabled && isActivationKey(ev)) {
-      ev.preventDefault();
-      stepsCtx?.onClick(stepNumber.value, ev);
-    }
-  };
+  const showTail = computed(foundation.showTail);
+  const handleClick = foundation.click;
+  const onKeydown = foundation.keydown;
 
   const cls = computed(() => [
     prefixCls,

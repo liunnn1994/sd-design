@@ -62,14 +62,16 @@
     PropType,
     provide,
     reactive,
-    ref,
     toRef,
     toRefs,
     watch,
   } from 'vue';
 
-  import { Schema } from 'b-validate';
-  import { cloneDeep } from 'es-toolkit';
+  import {
+    createFieldFoundation,
+    createValidationEventHandlers,
+    mergeFieldRules,
+  } from '@sdata/web-core/form/field';
 
   import { getValueByPath, setValueByPath } from '../_utils/get-value-by-path';
   import { getPrefixCls } from '../_utils/global-config';
@@ -78,13 +80,7 @@
   import { FormContext, formInjectionKey, FormItemInfo, formItemInjectionKey } from './context';
   import FormItemLabel from './form-item-label.vue';
   import FormItemMessage from './form-item-message.vue';
-  import {
-    FieldData,
-    FieldRule,
-    ValidateStatus,
-    ValidateTrigger,
-    FormItemEventHandler,
-  } from './interface';
+  import { FieldRule, ValidateStatus, ValidateTrigger } from './interface';
   import { getFinalValidateMessage, getFinalValidateStatus, getFormElementId } from './utils';
 
   defineOptions({ name: 'FormItem' });
@@ -355,34 +351,19 @@
     ...props.labelAttrs,
   }));
 
-  // 记录初始值，用于重置表单
-  let initialValue = cloneDeep(getValueByPath(formCtx.model, props.field));
-
   const formValidateStatus = reactive<Record<string, ValidateStatus | ''>>({});
   const validateMessage = reactive<Record<string, string>>({});
   const finalStatus = computed(() => getFinalValidateStatus(formValidateStatus));
   const finalMessage = computed(() => getFinalValidateMessage(validateMessage));
-  // 用于重置表单时，不触发校验
-  const validateDisabled = ref(false);
-  let validationId = 0;
-
   const fieldValue = computed(() => getValueByPath(formCtx.model, props.field));
 
   const computedDisabled = computed(() => Boolean(props.disabled ?? formCtx?.disabled));
   const computedValidateStatus = computed(() => props.validateStatus ?? finalStatus.value);
   const isError = computed(() => computedValidateStatus.value === 'error');
 
-  const mergedRules = computed(() => {
-    const baseRules = ([] as FieldRule[]).concat(
-      props.rules ?? formCtx?.rules?.[props.field] ?? [],
-    );
-    const hasRequiredRule = baseRules.some((item) => item.required);
-
-    if (props.required && !hasRequiredRule) {
-      return ([{ required: true }] as FieldRule[]).concat(baseRules);
-    }
-    return baseRules;
-  });
+  const mergedRules = computed(() =>
+    mergeFieldRules(props.rules, formCtx?.rules?.[props.field], props.required),
+  );
 
   const isRequired = computed(() => mergedRules.value.some((item) => item.required));
 
@@ -404,124 +385,30 @@
     props.feedback && computedValidateStatus.value ? computedValidateStatus.value : undefined,
   );
 
-  const validateField = (): Promise<import('./interface').ValidatedError | undefined> => {
-    if (validateDisabled.value) {
-      return Promise.resolve(undefined);
-    }
-    const currentValidationId = ++validationId;
-
-    const rules = mergedRules.value;
-    if (!field.value || rules.length === 0) {
-      if (finalStatus.value) {
-        clearValidate();
-      }
-      return Promise.resolve(undefined);
-    }
-
-    const _field = field.value;
-    const _label = props.label;
-    const _value = fieldValue.value;
-    updateValidateState(_field, {
-      status: '',
-      message: '',
-    });
-
-    const schema = new Schema(
-      {
-        [_field]: rules.map(({ ...rule }) => {
-          if (rule.validator) {
-            const validator = rule.validator;
-            rule.validator = async (value, callback) => {
-              try {
-                await validator(value, callback);
-              } catch (error) {
-                callback(
-                  error instanceof Error && error.message
-                    ? error.message
-                    : String(error) || 'Error',
-                );
-              }
-            };
-          }
-          if (!rule.type && !rule.validator) {
-            rule.type = 'string';
-          }
-          return rule;
-        }),
-      },
-      {
-        ignoreEmptyString: true,
-        validateMessages: i18nMessage.value.form?.validateMessages,
-      },
-    );
-
-    return new Promise((resolve) => {
-      schema.validate(
-        { [_field]: _value },
-        (
-          err:
-            | Record<
-                string,
-                { value: unknown; type: string; requiredError?: boolean; message?: string }
-              >
-            | undefined,
-        ) => {
-          const hasError = Boolean(err?.[_field]);
-          if (currentValidationId === validationId) {
-            updateValidateState(_field, {
-              status: hasError ? 'error' : '',
-              message: err?.[_field]?.message ?? '',
-            });
-          }
-
-          const error = hasError
-            ? {
-                label: _label,
-                field: _field,
-                value: err![_field].value,
-                type: err![_field].type,
-                isRequiredError: Boolean(err![_field].requiredError),
-                message: err![_field].message ?? '',
-              }
-            : undefined;
-
-          resolve(error);
-        },
-      );
-    });
-  };
-
+  const foundation = createFieldFoundation({
+    getField: () => field.value,
+    getLabel: () => props.label,
+    getValue: (name) =>
+      name === undefined ? fieldValue.value : getValueByPath(formCtx.model, name),
+    setValue: (value) => {
+      if (formCtx?.model && field.value) setValueByPath(formCtx.model, field.value, value);
+    },
+    getRules: () => mergedRules.value,
+    getStatus: () => finalStatus.value,
+    getMessages: () => i18nMessage.value.form?.validateMessages,
+    updateState: updateValidateState,
+    defer: (callback) => {
+      nextTick(callback);
+    },
+    register: () => formCtx.addField?.(formItemInfo),
+    unregister: () => formCtx.removeField?.(formItemInfo),
+  });
+  const { validate: validateField, clearValidate, setField, resetField } = foundation;
   const validateTriggers = computed(() => ([] as ValidateTrigger[]).concat(props.validateTrigger));
-
   const eventHandlers = computed(() =>
-    validateTriggers.value.reduce((event, trigger) => {
-      switch (trigger) {
-        case 'change':
-          event.onChange = () => {
-            validateField();
-          };
-          return event;
-        case 'input':
-          event.onInput = () => {
-            nextTick(() => {
-              validateField();
-            });
-          };
-          return event;
-        case 'focus':
-          event.onFocus = () => {
-            validateField();
-          };
-          return event;
-        case 'blur':
-          event.onBlur = () => {
-            validateField();
-          };
-          return event;
-        default:
-          return event;
-      }
-    }, {} as FormItemEventHandler),
+    createValidationEventHandlers(validateTriggers.value, validateField, (callback) => {
+      nextTick(callback);
+    }),
   );
 
   provide(
@@ -537,49 +424,6 @@
     }),
   );
 
-  const clearValidate = () => {
-    validationId++;
-    if (field.value) {
-      updateValidateState(field.value, {
-        status: '',
-        message: '',
-      });
-    }
-  };
-
-  const setField = (data: FieldData) => {
-    if (field.value) {
-      validationId++;
-      validateDisabled.value = true;
-      if ('value' in data && formCtx?.model && field.value) {
-        setValueByPath(formCtx.model, field.value, data.value);
-      }
-
-      if (data.status || data.message) {
-        updateValidateState(field.value, {
-          status: data.status ?? '',
-          message: data.message ?? '',
-        });
-      }
-
-      nextTick(() => {
-        validateDisabled.value = false;
-      });
-    }
-  };
-
-  const resetField = () => {
-    clearValidate();
-    validateDisabled.value = true;
-    if (formCtx?.model && field.value) {
-      setValueByPath(formCtx.model, field.value, cloneDeep(initialValue));
-    }
-
-    nextTick(() => {
-      validateDisabled.value = false;
-    });
-  };
-
   const formItemInfo: FormItemInfo = reactive({
     field,
     disabled: computedDisabled,
@@ -590,31 +434,9 @@
     setField,
   });
 
-  onMounted(() => {
-    if (formItemInfo.field) {
-      formCtx.addField?.(formItemInfo);
-    }
-  });
-
-  watch(field, (nextField, previousField) => {
-    validationId++;
-    if (previousField) {
-      updateValidateState(previousField, { status: '', message: '' });
-    }
-    initialValue = cloneDeep(getValueByPath(formCtx.model, nextField));
-    if (!previousField && nextField) {
-      formCtx.addField?.(formItemInfo);
-    } else if (previousField && !nextField) {
-      formCtx.removeField?.(formItemInfo);
-    }
-  });
-
-  onBeforeUnmount(() => {
-    clearValidate();
-    if (formItemInfo.field) {
-      formCtx.removeField?.(formItemInfo);
-    }
-  });
+  onMounted(foundation.mount);
+  watch(field, foundation.changeField);
+  onBeforeUnmount(foundation.unmount);
 
   const cls = computed(() => [
     prefixCls,

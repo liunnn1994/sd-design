@@ -7,6 +7,8 @@
 <script setup lang="ts">
   import { computed, PropType, provide, reactive, ref, toRefs } from 'vue';
 
+  import { createSteps } from '@sdata/web-core/steps/foundation';
+
   import { Direction } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
   import { useI18n } from '../locale';
@@ -113,57 +115,31 @@
   const _current = ref(props.defaultCurrent);
   const computedCurrent = computed(() => props.current ?? _current.value);
 
-  const direction = computed(() =>
-    ['navigation', 'arrow'].includes(props.type) ? 'horizontal' : props.direction,
-  );
-
-  const labelPlacement = computed(() => {
-    if (props.type === 'dot') {
-      return direction.value === 'vertical' ? 'horizontal' : 'vertical';
-    }
-    if (props.type === 'navigation') {
-      return 'horizontal';
-    }
-    return props.labelPlacement;
-  });
-
-  const getStatus = (step: number): StepStatus => {
-    if (step < computedCurrent.value) {
-      return 'finish';
-    }
-    if (step > computedCurrent.value) {
-      return 'wait';
-    }
-    return props.status;
-  };
-
-  const handleClick = (step: number, e: Event) => {
-    if (props.changeable) {
-      _current.value = step;
-      emit('update:current', step);
-      emit('change', step, e);
-    }
-  };
-
   const stepMap = reactive(new Map<number, StepData>());
-  const errorSteps = computed(() =>
-    Array.from(stepMap.values())
-      .filter((item) => item.status === 'error')
-      .map((item) => item.step),
-  );
-
-  const addItem = (step: number, data: StepData) => {
-    stepMap.set(step, data);
-  };
-
-  const removeItem = (step: number) => {
-    stepMap.delete(step);
-  };
+  const foundation = createSteps({
+    props,
+    get current() {
+      return computedCurrent.value;
+    },
+    registry: stepMap,
+    setInner(value) {
+      _current.value = value;
+    },
+    onUpdate: (step) => emit('update:current', step),
+    onChange: (step, event) => emit('change', step, event),
+  });
+  const computedDirection = computed(foundation.direction);
+  const computedLabelPlacement = computed(foundation.labelPlacement);
+  const getStatus = foundation.status;
+  const handleClick = foundation.click;
+  const errorSteps = computed(foundation.errors);
+  const addItem = foundation.add;
+  const removeItem = foundation.remove;
 
   const cls = computed(() => [
     prefixCls,
-    `${prefixCls}-${direction.value}`,
-    `${prefixCls}-label-${labelPlacement.value}`,
+    `${prefixCls}-${computedDirection.value}`,
+    `${prefixCls}-label-${computedLabelPlacement.value}`,
     `${prefixCls}-mode-${type.value}`,
     {
       [`${prefixCls}-changeable`]: props.changeable,
@@ -176,8 +152,8 @@
     stepsInjectionKey,
     reactive({
       type,
-      direction,
-      labelPlacement,
+      direction: computedDirection,
+      labelPlacement: computedLabelPlacement,
       lineLess,
       current: computedCurrent,
       errorSteps,

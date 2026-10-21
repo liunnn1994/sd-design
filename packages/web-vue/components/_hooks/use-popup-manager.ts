@@ -1,52 +1,9 @@
+import type { PopupType } from '@sdata/web-core/popup/manager';
+
 import { onMounted, onBeforeUnmount, readonly, Ref, ref, watch } from 'vue';
 
-import {
-  MESSAGE_STACK_BASE_Z_INDEX,
-  POPUP_STACK_BASE_Z_INDEX,
-  Z_INDEX_STEP,
-} from '../style/theme/z-index';
-
-export type PopupType = 'popup' | 'dialog' | 'message';
-
-class PopupManager {
-  private popupStack = {
-    popup: new Set<number>(),
-    dialog: new Set<number>(),
-    message: new Set<number>(),
-  };
-
-  private getNextZIndex = (type: PopupType) => {
-    const popupZIndex = Array.from(this.popupStack.popup).pop() || POPUP_STACK_BASE_Z_INDEX;
-    const current =
-      type === 'message' ? Math.max(popupZIndex, MESSAGE_STACK_BASE_Z_INDEX) : popupZIndex;
-    return current + Z_INDEX_STEP;
-  };
-
-  public add = (type: PopupType) => {
-    const zIndex = this.getNextZIndex(type);
-    this.popupStack[type].add(zIndex);
-    if (type !== 'popup') {
-      this.popupStack.popup.add(zIndex);
-    }
-    return zIndex;
-  };
-
-  public delete = (zIndex: number, type: PopupType) => {
-    this.popupStack[type].delete(zIndex);
-    if (type !== 'popup') {
-      this.popupStack.popup.delete(zIndex);
-    }
-  };
-
-  public isLastDialog = (zIndex: number) => {
-    if (this.popupStack.dialog.size > 1) {
-      return zIndex === Array.from(this.popupStack.dialog).pop();
-    }
-    return true;
-  };
-}
-
-const popupManager = new PopupManager();
+import { createPopupEntry } from '@sdata/web-core/popup/manager';
+export type { PopupType } from '@sdata/web-core/popup/manager';
 
 export default function usePopupManager(
   type: PopupType,
@@ -59,26 +16,14 @@ export default function usePopupManager(
   } = {},
 ) {
   const zIndex = ref(0);
-  let opened = false;
-
-  const open = () => {
-    if (opened) return;
-    opened = true;
-    zIndex.value = popupManager.add(type);
-  };
-
-  const close = () => {
-    if (!opened) return;
-    opened = false;
-    popupManager.delete(zIndex.value, type);
-  };
-
-  const isLastDialog = () => {
-    if (type === 'dialog') {
-      return popupManager.isLastDialog(zIndex.value);
-    }
-    return false;
-  };
+  const { open, close, isLastDialog } = createPopupEntry(type, {
+    get zIndex() {
+      return zIndex.value;
+    },
+    setZIndex(value) {
+      zIndex.value = value;
+    },
+  });
 
   watch(
     () => visible?.value,

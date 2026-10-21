@@ -110,6 +110,12 @@ describe('Trigger robustness', () => {
   }
   for (const target of ['window', 'ancestor']) {
     it(`does not emit for queued ${target} scroll after unmount`, () => {
+      cy.window().then((win) => {
+        win.scrollTo(0, 0);
+        return new Promise<void>((resolve) => {
+          win.requestAnimationFrame(() => win.requestAnimationFrame(() => resolve()));
+        });
+      });
       const change = cy.spy().as('change');
       cy.mount({
         setup: () => () =>

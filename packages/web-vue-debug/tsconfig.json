@@ -21,11 +21,6 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["node", "vite/client"]
   },
-  "include": [
-    "src/**/*",
-    "vite.config.ts",
-    "../web-vue/global.d.ts",
-    "../web-vue/components/shims.d.ts"
-  ],
+  "include": ["src/**/*", "vite.config.ts", "../web-vue/global.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

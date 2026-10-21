@@ -20,6 +20,13 @@ export async function readTypeApi(webVue: string, sources: { dirname: string; fi
     exportName: string;
     sourceFile?: string;
     queryFile?: string;
+    models?: {
+      name: string;
+      type: string;
+      default: string;
+      documentation: string;
+      description: ReturnType<typeof extractDescription>;
+    }[];
   }[] = [];
   for (const statement of barrel.statements) {
     if (
@@ -52,6 +59,8 @@ export async function readTypeApi(webVue: string, sources: { dirname: string; fi
     const ast = parse(file, script);
     let name: string | undefined;
     let props: ts.CallExpression | undefined;
+    let emits: ts.CallExpression | undefined;
+    const models: NonNullable<(typeof components)[number]['models']> = [];
     const visit = (node: ts.Node) => {
       if (ts.isCallExpression(node) && ts.isIdentifier(node.expression)) {
         if (
@@ -66,6 +75,39 @@ export async function readTypeApi(webVue: string, sources: { dirname: string; fi
             name = option.initializer.text;
         }
         if (node.expression.text === 'defineProps') props = node;
+        if (node.expression.text === 'defineEmits') emits = node;
+        if (node.expression.text === 'defineModel') {
+          const first = node.arguments[0];
+          const named = first && ts.isStringLiteral(first);
+          const options = node.arguments[named ? 1 : 0];
+          const value =
+            options && ts.isObjectLiteralExpression(options)
+              ? options.properties.find((entry) => entry.name?.getText(ast) === 'default')
+              : undefined;
+          let statement: ts.Node = node;
+          while (statement.parent && !ts.isVariableStatement(statement))
+            statement = statement.parent;
+          const documentation = (ts.getLeadingCommentRanges(script, statement.pos) ?? [])
+            .map((range) => script.slice(range.pos, range.end))
+            .filter((comment) => comment.startsWith('/**'))
+            .join('\n');
+          models.push({
+            name: named ? first.text : 'modelValue',
+            type: node.typeArguments?.[0]?.getText(ast) ?? 'unknown',
+            default: value && ts.isPropertyAssignment(value) ? value.initializer.getText(ast) : '',
+            documentation,
+            description: extractDescription(
+              ts.getJSDocTags(statement).map((tag) => ({
+                title: tag.tagName.text,
+                description:
+                  typeof tag.comment === 'string'
+                    ? tag.comment
+                    : tag.comment?.map((part) => part.text).join(''),
+              })),
+              'description',
+            ),
+          });
+        }
       }
       ts.forEachChild(node, visit);
     };
@@ -77,19 +119,27 @@ export async function readTypeApi(webVue: string, sources: { dirname: string; fi
     );
     if (!component) continue;
     component.sourceFile = file;
+    component.models = models;
     if (!props) continue;
     const call = props as ts.CallExpression;
     const type = call.typeArguments?.[0];
     const runtime = call.arguments[0];
     // Inline runtime objects are already handled by docgen. Imported objects need the checker.
     if (!type && (!runtime || !ts.isIdentifier(runtime))) continue;
-    const query = type
+    const propsQuery = type
       ? type.getText(ast)
       : `import('vue').ExtractPropTypes<typeof ${runtime!.getText(ast)}>`;
+    const query = [
+      models.length ? `(${propsQuery})` : propsQuery,
+      ...models.map(
+        (model) => `{ ${model.documentation}\n${JSON.stringify(model.name)}?: ${model.type} }`,
+      ),
+    ].join(' & ');
+    const emitsType = (emits as ts.CallExpression | undefined)?.typeArguments?.[0]?.getText(ast);
     component.queryFile = `${file}.__mcp.ts`;
     virtualFiles.set(
       component.queryFile.replaceAll('\\', '/'),
-      `${script}\nexport type __McpProps = ${query};\n`,
+      `${script}\nexport type __McpProps = ${query};\n${emitsType ? `export type __McpEmits = ${emitsType};` : ''}\n`,
     );
   }
   const files = await fg('components/**/*.ts', {
@@ -223,6 +273,22 @@ export async function readTypeApi(webVue: string, sources: { dirname: string; fi
       slots: [],
       events: [],
     };
+    for (const model of component.models ?? []) {
+      const prop = api.props.find((entry) => entry.name === kebab(model.name));
+      if (prop) {
+        prop.default = model.default;
+        if (model.description.zh || model.description.en) prop.description = model.description;
+      }
+      api.events.push({ name: `update:${model.name}`, description: { zh: '', en: '' } });
+    }
+    const emitsSymbol =
+      component.queryFile &&
+      exportsOf(component.queryFile).find((entry) => entry.name === '__McpEmits');
+    if (emitsSymbol) {
+      api.events.push(
+        ...fieldsOf(emitsSymbol, true).map(({ name, description }) => ({ name, description })),
+      );
+    }
     if (config && methods) {
       api.config = fieldsOf(config, true);
       api.methods = fieldsOf(methods, true);

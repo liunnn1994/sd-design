@@ -37,7 +37,7 @@ export type LevelContext = Readonly<{
   level: number;
 }>;
 
-export type MenuMapType = Map<string, string[]>;
+export type { MenuMapType } from '@sdata/web-core/menu/types';
 
 export const DataCollectorInjectionKey: InjectionKey<DataCollectorContext> = Symbol(
   'DataCollectorInjectionKey',

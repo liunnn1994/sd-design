@@ -43,7 +43,7 @@
           v-if="Boolean(props.maxLength) && props.showWordLimit"
           :class="`${prefixCls}-word-limit`"
         >
-          {{ valueLength }}/{{ maxLength }}
+          {{ valueLength }}/{{ inputMaxLength }}
         </span>
         <slot name="suffix" />
         <FeedbackIcon v-if="feedback" :type="feedback" />
@@ -79,6 +79,7 @@
   } from 'vue';
   import type { PropType, StyleValue } from 'vue';
 
+  import { createTextInputFoundation } from '@sdata/web-core/text-input/foundation';
   import { createReusableTemplate } from '@vueuse/core';
 
   import FeedbackIcon from '../_components/feedback-icon.vue';
@@ -95,10 +96,7 @@
   import { useSize } from '../_hooks/use-size';
   import { INPUT_EVENTS, Size } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
-  import { countGraphemes, sliceGraphemes } from '../_utils/grapheme';
-  import { isFunction, isNull, isObject, isUndefined } from '../_utils/is';
   import { isActivationKey } from '../_utils/keyboard';
-  import { Enter } from '../_utils/keycode';
   import { omit } from '../_utils/omit';
   import pick from '../_utils/pick';
   import IconClose from '../icon/icon-close';
@@ -312,11 +310,6 @@
   const readonlyTipText = useReadonlyTipText(toRef(props, 'readonly'));
   const innerValue = ref(props.defaultValue);
   const computedValue = computed(() => props.modelValue ?? innerValue.value);
-  let previousValue = computedValue.value;
-
-  watch(toRef(props, 'modelValue'), (value) => {
-    if (isUndefined(value) || isNull(value)) innerValue.value = '';
-  });
 
   const focused = ref(false);
   const showClearBtn = computed(
@@ -328,75 +321,17 @@
   );
   const isComposition = ref(false);
   const compositionValue = ref('');
-  const fitWidthText = computed(() => {
-    const value = compositionValue.value || computedValue.value;
-    const displayValue = props.type === 'password' ? '•'.repeat(Array.from(value).length) : value;
-    return displayValue || props.placeholder;
-  });
-  const { fitWidthStyle, fitWidthValue } = useFitWidth({
-    fitWidth: () => props.fitWidth,
-    text: fitWidthText,
-    fallbackWidth: () => props.fitWidthFallback,
-    target: inputRef,
-  });
-  const getValueLength = (value: string) =>
-    isFunction(props.wordLength) ? props.wordLength(value) : countGraphemes(value);
-  const valueLength = computed(() => getValueLength(computedValue.value));
-  const maxLength = computed(() =>
-    isObject(props.maxLength) ? props.maxLength.length : props.maxLength,
-  );
-  const maxLengthErrorOnly = computed(
-    () => isObject(props.maxLength) && Boolean(props.maxLength.errorOnly),
-  );
-  const mergedError = computed(
-    () =>
-      formError.value ||
-      Boolean(
-        isObject(props.maxLength) &&
-        props.maxLength.errorOnly &&
-        valueLength.value > maxLength.value,
-      ),
-  );
-  const defaultMaxLength = computed(() => Math.floor(maxLength.value / getValueLength('a')));
+  const valueLength = computed(() => foundation.getLength(computedValue.value));
+  const inputMaxLength = computed(() => foundation.getMaxLength());
+  const maxLengthErrorOnly = computed(() => foundation.getErrorOnly());
+  const defaultMaxLength = computed(() => foundation.getSliceLength());
+  const mergedError = computed(() => formError.value || foundation.getLengthError());
 
-  const updateValue = (nextValue: string) => {
-    if (
-      maxLength.value &&
-      !maxLengthErrorOnly.value &&
-      getValueLength(nextValue) > maxLength.value
-    ) {
-      if (isFunction(props.wordSlice)) nextValue = props.wordSlice(nextValue, maxLength.value);
-      else if (isFunction(props.wordLength)) nextValue = nextValue.slice(0, defaultMaxLength.value);
-      else nextValue = sliceGraphemes(nextValue, defaultMaxLength.value);
-    }
-    innerValue.value = nextValue;
-    emit('update:modelValue', nextValue);
-    return nextValue;
-  };
   const handleMousedown = (event: MouseEvent) => {
     if (inputRef.value && event.target !== inputRef.value) {
       event.preventDefault();
       inputRef.value.focus();
     }
-  };
-  const emitChange = (value: string, event: Event) => {
-    if (value !== previousValue) {
-      previousValue = value;
-      emit('change', value, event);
-      eventHandlers.value?.onChange?.(event);
-    }
-  };
-  const handleFocus = (event: FocusEvent) => {
-    previousValue = computedValue.value;
-    focused.value = true;
-    emit('focus', event);
-    eventHandlers.value?.onFocus?.(event);
-  };
-  const handleBlur = (event: FocusEvent) => {
-    focused.value = false;
-    emitChange(computedValue.value, event);
-    emit('blur', event);
-    eventHandlers.value?.onBlur?.(event);
   };
   const keepControl = () => {
     recordCursor();
@@ -407,54 +342,95 @@
       }
     });
   };
+  const foundation = createTextInputFoundation(
+    {
+      get options() {
+        return props;
+      },
+      get value() {
+        return computedValue.value;
+      },
+      get valueLength() {
+        return valueLength.value;
+      },
+      get maxLength() {
+        return inputMaxLength.value;
+      },
+      get errorOnly() {
+        return maxLengthErrorOnly.value;
+      },
+      get sliceLength() {
+        return defaultMaxLength.value;
+      },
+      get composing() {
+        return isComposition.value;
+      },
+      setInner: (value) => {
+        innerValue.value = value;
+      },
+      setComposing: (value) => {
+        isComposition.value = value;
+      },
+      setFocused: (value) => {
+        focused.value = value;
+      },
+      setCompositionValue: (value) => {
+        compositionValue.value = value;
+      },
+      keepControl,
+      onUpdate: (value) => emit('update:modelValue', value),
+      onInput: (value, event) => {
+        emit('input', value, event);
+        eventHandlers.value?.onInput?.(event);
+      },
+      onChange: (value, event) => {
+        emit('change', value, event);
+        eventHandlers.value?.onChange?.(event);
+      },
+      onFocus: (event) => {
+        emit('focus', event);
+        eventHandlers.value?.onFocus?.(event);
+      },
+      onBlur: (event) => {
+        emit('blur', event);
+        eventHandlers.value?.onBlur?.(event);
+      },
+      onClear: (event) => emit('clear', event),
+      onEnter: (event) => {
+        emit('pressEnter', event);
+      },
+    },
+    'input',
+  );
+  const fitWidthText = computed(() =>
+    foundation.getFitWidthText(
+      compositionValue.value,
+      props.type === 'password',
+      props.placeholder,
+    ),
+  );
+  const { fitWidthStyle, fitWidthValue } = useFitWidth({
+    fitWidth: () => props.fitWidth,
+    text: fitWidthText,
+    fallbackWidth: () => props.fitWidthFallback,
+    target: inputRef,
+  });
+  watch(toRef(props, 'modelValue'), foundation.syncModel);
+  const handleFocus = foundation.focus;
+  const handleBlur = foundation.blur;
+  const handleClear = foundation.clear;
   const handleComposition = (event: CompositionEvent) => {
     const { value, selectionStart, selectionEnd } = event.target as HTMLInputElement;
-    if (event.type === 'compositionend') {
-      isComposition.value = false;
-      compositionValue.value = '';
-      if (
-        maxLength.value &&
-        !maxLengthErrorOnly.value &&
-        valueLength.value >= maxLength.value &&
-        getValueLength(value) > maxLength.value &&
-        selectionStart === selectionEnd
-      ) {
-        keepControl();
-        return;
-      }
-      const nextValue = updateValue(value);
-      emit('input', nextValue, event);
-      eventHandlers.value?.onInput?.(event);
-      keepControl();
-    } else {
-      isComposition.value = true;
-      compositionValue.value = computedValue.value + (event.data ?? '');
-    }
+    foundation.composition(value, event, selectionStart, selectionEnd);
   };
   const handleInput = (event: Event) => {
-    const { value } = event.target as HTMLInputElement;
-    if (!isComposition.value) {
-      if (
-        maxLength.value &&
-        !maxLengthErrorOnly.value &&
-        valueLength.value >= maxLength.value &&
-        getValueLength(value) > maxLength.value &&
-        (event as InputEvent).inputType === 'insertText'
-      ) {
-        keepControl();
-        return;
-      }
-      const nextValue = updateValue(value);
-      emit('input', nextValue, event);
-      eventHandlers.value?.onInput?.(event);
-      keepControl();
-    }
+    foundation.input(
+      (event.target as HTMLInputElement).value,
+      (event as InputEvent).inputType,
+      event,
+    );
   };
-  const handleClear = (event: MouseEvent) => {
-    updateValue('');
-    emitChange('', event);
-    emit('clear', event);
-  };
+
   const handleClearKeydown = (event: KeyboardEvent) => {
     if (isActivationKey(event)) {
       event.preventDefault();
@@ -464,11 +440,7 @@
   const handleKeyDown = (event: KeyboardEvent) => {
     if (props.readonly && !mergedDisabled.value && isReadonlyModificationKey(event))
       showReadonlyTip();
-    const keyCode = event.key || event.code;
-    if (!isComposition.value && keyCode === Enter.key) {
-      emitChange(computedValue.value, event);
-      emit('pressEnter', event);
-    }
+    foundation.keydown(event);
   };
 
   const hasOuter = computed(() =>

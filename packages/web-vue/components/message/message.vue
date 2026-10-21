@@ -37,6 +37,8 @@
   import type { PropType } from 'vue';
   import { onMounted, onUnmounted, onUpdated, watch } from 'vue';
 
+  import { createNoticeTimer } from '@sdata/web-core/notice/timer';
+
   import AIconHover from '../_components/icon-hover.vue';
   import { MessageType } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
@@ -86,61 +88,28 @@
 
   const prefixCls = getPrefixCls('message');
   const { t } = useI18n();
-  let timer = 0;
-  let hovered = false;
-
-  const handleClose = () => {
-    emit('close');
-  };
-  const handleCloseKeydown = onActivate(handleClose);
-
-  const startTimer = () => {
-    if (props.duration > 0 && !(props.resetOnHover && hovered)) {
-      timer = window.setTimeout(handleClose, props.duration);
-    }
-  };
-
-  const clearTimer = () => {
-    if (timer) {
-      window.clearTimeout(timer);
-      timer = 0;
-    }
-  };
-
-  watch(
-    () => props.timerVersion,
-    () => {
-      clearTimer();
-      startTimer();
+  const timer = createNoticeTimer({
+    get duration() {
+      return props.duration;
     },
-  );
-
-  onMounted(() => {
-    startTimer();
+    get resetOnUpdate() {
+      return props.resetOnUpdate;
+    },
+    get resetOnHover() {
+      return props.resetOnHover;
+    },
+    schedule: (callback, duration) => window.setTimeout(callback, duration),
+    cancel: (handle) => window.clearTimeout(handle),
+    onClose() {
+      emit('close');
+    },
   });
-
-  onUpdated(() => {
-    if (props.resetOnUpdate) {
-      clearTimer();
-      startTimer();
-    }
-  });
-
-  onUnmounted(() => {
-    clearTimer();
-  });
-
-  const handleMouseEnter = () => {
-    hovered = true;
-    if (props.resetOnHover) {
-      clearTimer();
-    }
-  };
-
-  const handleMouseLeave = () => {
-    hovered = false;
-    if (props.resetOnHover) {
-      startTimer();
-    }
-  };
+  const handleClose = timer.close;
+  const handleCloseKeydown = onActivate(handleClose);
+  watch(() => props.timerVersion, timer.restart);
+  onMounted(timer.start);
+  onUpdated(timer.updated);
+  onUnmounted(timer.clear);
+  const handleMouseEnter = timer.enter;
+  const handleMouseLeave = timer.leave;
 </script>

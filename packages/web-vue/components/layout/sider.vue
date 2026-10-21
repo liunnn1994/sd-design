@@ -126,13 +126,14 @@
     type PropType,
   } from 'vue';
 
+  import { createSiderFoundation, toSiderWidth } from '@sdata/web-core/layout/sider';
+
   import type { SiderBreakpoint } from '../_utils/responsive-observe';
   import type { CollapseType, SiderTemporaryDrawerProps } from './interface';
 
   import { useScrollbar } from '../_hooks/use-scrollbar';
   import { useThemeMode } from '../_hooks/use-theme-mode';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isActivationKey } from '../_utils/keyboard';
   import { configProviderInjectionKey } from '../config-provider/context';
   import Drawer from '../drawer';
   import IconLeft from '../icon/icon-left';
@@ -297,99 +298,63 @@
 
   const prefixCls = getPrefixCls('layout-sider');
 
-  const dimensionMaxMap: Record<string, string> = {
-    xs: '479.98px',
-    sm: '575.98px',
-    md: '767.98px',
-    lg: '991.98px',
-    xl: '1199.98px',
-    xxl: '1599.98px',
-    xxxl: '1839.98px',
-  };
-
-  const isNumeric = (val: unknown): boolean =>
-    !Number.isNaN(Number.parseFloat(val as string)) && Number.isFinite(Number(val));
-
-  const toSiderWidth = (val: number | string): string =>
-    isNumeric(val) ? `${val}px` : String(val);
-
-  // ============================ Controlled ============================
-  const isControlled = computed(() => props.collapsed !== undefined);
-  const collapsedState = ref(props.collapsed ?? props.defaultCollapsed);
-
-  watch(
-    () => props.collapsed,
-    (val) => {
-      if (val !== undefined) {
-        collapsedState.value = val;
-      }
+  const collapsedState = ref(false);
+  const below = ref(false);
+  const isHovering = ref(false);
+  const foundation = createSiderFoundation(
+    {
+      props,
+      get controlled() {
+        return isControlled.value;
+      },
+      get mergedCollapsed() {
+        return mergedCollapsed.value;
+      },
+      get railHoverEnabled() {
+        return railHoverEnabled.value;
+      },
+      get railExpanded() {
+        return isRailExpanded.value;
+      },
+      get hasZeroWidth() {
+        return hasZeroWidth.value;
+      },
+      get collapsed() {
+        return collapsedState.value;
+      },
+      set collapsed(value) {
+        collapsedState.value = value;
+      },
+      get below() {
+        return below.value;
+      },
+      set below(value) {
+        below.value = value;
+      },
+      get hovering() {
+        return isHovering.value;
+      },
+      set hovering(value) {
+        isHovering.value = value;
+      },
+    },
+    {
+      collapse: (value, type) => emit('collapse', value, type),
+      breakpoint: (broken) => emit('breakpoint', broken),
+      rail: (rail) => emit('update:rail', rail),
     },
   );
-
-  const mergedCollapsed = computed(() =>
-    isControlled.value ? props.collapsed! : collapsedState.value,
-  );
-
-  const handleSetCollapsed = (value: boolean, type: CollapseType) => {
-    if (!isControlled.value) {
-      collapsedState.value = value;
-    }
-    emit('collapse', value, type);
-  };
-
-  const toggle = () => {
-    handleSetCollapsed(!mergedCollapsed.value, 'clickTrigger');
-  };
-
-  // role=button 的折叠触发器：键盘 Enter/Space 切换
-  const handleTriggerKeydown = (ev: KeyboardEvent) => {
-    if (isActivationKey(ev)) {
-      ev.preventDefault();
-      toggle();
-    }
-  };
-
-  // ============================ Responsive ============================
-  const below = ref(false);
-
-  const setupResponsive = () => {
-    const { breakpoint } = props;
-    if (typeof window === 'undefined' || !window.matchMedia || !breakpoint) {
-      return;
-    }
-
-    const max = dimensionMaxMap[breakpoint];
-    if (!max) {
-      return;
-    }
-
-    const mql = window.matchMedia(`screen and (max-width: ${max})`);
-    const handler = (m: MediaQueryListEvent | MediaQueryList) => {
-      below.value = m.matches;
-      emit('breakpoint', m.matches);
-
-      if (mergedCollapsed.value !== m.matches) {
-        handleSetCollapsed(m.matches, 'responsive');
-      }
-    };
-
-    if (typeof mql.addEventListener === 'function') {
-      mql.addEventListener('change', handler as (e: MediaQueryListEvent) => void);
-    } else if (typeof mql.addListener === 'function') {
-      mql.addListener(handler as (e: MediaQueryListEvent) => void);
-    }
-
-    handler(mql);
-
-    return () => {
-      below.value = false;
-      if (typeof mql.removeEventListener === 'function') {
-        mql.removeEventListener('change', handler as (e: MediaQueryListEvent) => void);
-      } else if (typeof mql.removeListener === 'function') {
-        mql.removeListener(handler as (e: MediaQueryListEvent) => void);
-      }
-    };
-  };
+  const isControlled = computed(() => foundation.controlled);
+  const mergedCollapsed = computed(() => foundation.mergedCollapsed);
+  const {
+    toggle,
+    handleTriggerKeydown,
+    setupResponsive,
+    onMouseEnter,
+    onMouseLeave,
+    onDrawerVisibleChange,
+  } = foundation;
+  watch(() => props.collapsed, foundation.syncCollapsed);
 
   let cleanupResponsive: (() => void) | undefined;
 
@@ -449,46 +414,17 @@
   // ============================ Rail ============================
   // rail 与 collapsed 相互独立：rail 常驻窄轨（仅图标），collapsed 仍是受控折叠。
   // expand-on-hover 仅在 rail 模式下生效：悬停时临时展开到 width 并覆盖在内容上方（overlay），移出收回。
-  const isHovering = ref(false);
-  const railHoverEnabled = computed(() => props.rail && props.expandOnHover);
-  const isRailExpanded = computed(() => railHoverEnabled.value && isHovering.value);
-
-  const onMouseEnter = () => {
-    if (railHoverEnabled.value) {
-      isHovering.value = true;
-      emit('update:rail', false);
-    }
-  };
-
-  const onMouseLeave = () => {
-    if (railHoverEnabled.value) {
-      isHovering.value = false;
-      emit('update:rail', true);
-    }
-  };
-
-  watch(railHoverEnabled, (val) => {
-    if (!val) {
-      isHovering.value = false;
-    }
-  });
-
-  // 实际渲染宽度：rail 悬停展开用 width；rail 常驻用 railWidth；否则按 collapsed 决定。
-  const rawWidth = computed(() => {
-    if (props.rail) return isRailExpanded.value ? props.width : props.railWidth;
-    return mergedCollapsed.value ? props.collapsedWidth : props.width;
-  });
+  const railHoverEnabled = computed(() => foundation.railHoverEnabled);
+  const isRailExpanded = computed(() => foundation.railExpanded);
+  watch(railHoverEnabled, foundation.syncRailHover);
+  const rawWidth = computed(() => foundation.rawWidth);
   const siderWidth = computed(() => toSiderWidth(rawWidth.value));
 
   // rail 常驻占位宽度（流内占位不随 hover 变化 → overlay 的关键）。
   const railReservedWidth = computed(() => toSiderWidth(props.railWidth));
 
-  const hasZeroWidth = computed(() => Number.parseFloat(String(props.collapsedWidth || 0)) === 0);
-
-  const renderTrigger = computed(() => {
-    if (props.temporary) return !props.hideTrigger;
-    return (props.collapsible || (below.value && hasZeroWidth.value)) && !props.hideTrigger;
-  });
+  const hasZeroWidth = computed(() => foundation.hasZeroWidth);
+  const renderTrigger = computed(() => foundation.renderTrigger);
 
   // ============================ Scrollbar ============================
   const { scrollbarProps } = useScrollbar(toRef(props, 'scrollbar'));
@@ -562,22 +498,12 @@
     ...props.drawerProps,
   }));
 
-  // Drawer 的 visible 由 collapsed 反向派生；关闭（点遮罩/ESC/取消）时回写 collapsed=true，
-  // 复用现有的受控/非受控与 collapse 事件链路，type 用独立的 'mask' 以区分点击触发器。
-  const onDrawerVisibleChange = (visible: boolean) => {
-    if (visible !== !mergedCollapsed.value) {
-      handleSetCollapsed(!visible, 'mask');
-    }
-  };
-
   // ============================ Context ============================
   // rail 常驻态对后代（如 Menu）也应只显图标；hover 展开时临时恢复文字。
   // siderRailWidth 让 Menu 在 rail 态把折叠宽度对齐到 railWidth，避免图标偏移不居中。
   // Menu 的 collapsedWidth 仅接受数字，故仅透传数字型 railWidth。
-  const mergedSiderRail = computed(() => !!props.rail && !isRailExpanded.value);
-  const siderRailWidthValue = computed(() =>
-    props.rail && typeof props.railWidth === 'number' ? props.railWidth : undefined,
-  );
+  const mergedSiderRail = computed(() => foundation.siderRail);
+  const siderRailWidthValue = computed(() => foundation.siderRailWidth);
   const siderContext = reactive<{
     siderCollapsed: boolean;
     siderRail: boolean;

@@ -98,6 +98,10 @@
     type VNodeChild,
   } from 'vue';
 
+  import {
+    groupDescriptions,
+    resolveDescriptionAlign,
+  } from '@sdata/web-core/descriptions/foundation';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { Size, TextAlign } from '../_utils/constant';
@@ -106,7 +110,7 @@
 
   import { useSize } from '../_hooks/use-size';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isFunction, isObject } from '../_utils/is';
+  import { isFunction } from '../_utils/is';
   import { getAllElements, isSlotsChildren } from '../_utils/vue-utils';
   import { useResponsiveState } from '../grid/hook/use-responsive-state';
 
@@ -203,12 +207,8 @@
     item: DescData | VNode;
     index: number;
   }>();
-  const labelAlign = computed(
-    () => (isObject(props.align) ? props.align.label : props.align) ?? 'left',
-  );
-  const valueAlign = computed(
-    () => (isObject(props.align) ? props.align.value : props.align) ?? 'left',
-  );
+  const labelAlign = computed(() => resolveDescriptionAlign(props.align, 'label'));
+  const valueAlign = computed(() => resolveDescriptionAlign(props.align, 'value'));
   const mergedLabelStyle = computed<CSSProperties>(() => ({
     textAlign: labelAlign.value,
     ...props.labelStyle,
@@ -228,32 +228,12 @@
     },
   ]);
 
-  function getGroupedData(data: (DescData | VNode)[]) {
-    const result: RenderData[][] = [];
-    let currentRow: RenderData[] = [];
-    let currentSpan = 0;
-
-    function addRow() {
-      if (!currentRow.length) return;
-      currentRow[currentRow.length - 1].span += computedColumn.value - currentSpan;
-      result.push(currentRow);
-    }
-
-    data.forEach((item, index) => {
-      const itemSpan = Math.min(
-        (isVNode(item) ? item.props?.span : item.span) ?? 1,
-        computedColumn.value,
-      );
-      if (currentSpan + itemSpan > computedColumn.value) {
-        addRow();
-        currentRow = [];
-        currentSpan = 0;
-      }
-      currentRow.push({ data: item, span: itemSpan, index });
-      currentSpan += itemSpan;
-    });
-    addRow();
-    return result;
+  function getGroupedData(data: (DescData | VNode)[]): RenderData[][] {
+    return groupDescriptions(
+      data,
+      (item) => (isVNode(item) ? item.props?.span : item.span),
+      () => computedColumn.value,
+    );
   }
 
   function displayGroupedData() {

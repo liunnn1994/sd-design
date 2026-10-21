@@ -17,6 +17,8 @@
 </template>
 
 <script setup lang="ts">
+  import { createModelSelectorTriggerFoundation } from '@sdata/web-core/model-selector/trigger';
+
   import { getPrefixCls } from '../_utils/global-config';
   import TriggerElement from './model-selector-trigger-element.vue';
   import { useModelSelectorContext } from './use-model-selector-context';
@@ -47,12 +49,12 @@
   const prefixCls = getPrefixCls('model-selector-trigger');
   const context = useModelSelectorContext('ModelSelectorTrigger');
 
-  function handleClick(event: MouseEvent) {
-    if (disabled) {
-      event.preventDefault();
-      return;
-    }
-
-    context.setVisible(!context.visible.value);
-  }
+  const { handleClick } = createModelSelectorTriggerFoundation(
+    {
+      get disabled() {
+        return disabled;
+      },
+    },
+    context,
+  );
 </script>

@@ -5,8 +5,10 @@ visual effect. Children whose value did not change stay idle. */
 <script setup lang="ts">
   import { nextTick, provide, watch } from 'vue';
 
+  import { createNumberFlowGroup } from '@sdata/web-core/number-flow/group';
+
   import { getPrefixCls } from '../_utils/global-config';
-  import { GROUP_KEY, type GroupChild } from './group-key';
+  import { GROUP_KEY } from './group-key';
 
   defineOptions({ name: 'NumberFlowGroup' });
 
@@ -18,46 +20,17 @@ visual effect. Children whose value did not change stay idle. */
     default(): unknown;
   }>();
 
-  const children = new Set<GroupChild>();
-  let updating = false;
-  let pending = false;
-
-  async function animateChildren() {
-    if (updating) {
-      pending = true;
-      return;
-    }
-
-    updating = true;
-    try {
-      do {
-        pending = false;
-        const preparedChildren = [...children].flatMap((child) => {
-          const version = child.prepare();
-          return version === undefined ? [] : [{ child, version }];
-        });
-        if (preparedChildren.length === 0) continue;
-
-        await nextTick();
-        const committedChildren = preparedChildren.filter(({ child, version }) =>
-          child.commit(version),
-        );
-        committedChildren.forEach(({ child, version }) => child.start(version));
-      } while (pending);
-    } finally {
-      updating = false;
-    }
-  }
+  const foundation = createNumberFlowGroup({ afterRender: () => nextTick() });
 
   provide(GROUP_KEY, {
     register(child) {
-      children.add(child);
+      const unregister = foundation.register(child);
 
-      const stopWatch = watch(child.value, animateChildren, { flush: 'pre' });
+      const stopWatch = watch(child.value, foundation.animate, { flush: 'pre' });
 
       return () => {
         stopWatch();
-        children.delete(child);
+        unregister();
       };
     },
   });

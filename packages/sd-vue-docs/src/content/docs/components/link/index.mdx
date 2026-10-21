@@ -120,3 +120,7 @@ import linkStatusSource from '../../../../components/generated/link/status.vue?r
 | default | 链接正文内容                                   |
 | icon    | 自定义图标内容                                 |
 | tooltip | 自定义省略提示内容，仅在开启 `ellipsis` 时生效 |
+
+## 无框架规则
+
+点击守卫使用 `@sdata/web-core/interaction/pressable`，禁用或加载时阻止默认动作，其他状态透传原事件。Vue 继续管理插槽、图标与省略内容。

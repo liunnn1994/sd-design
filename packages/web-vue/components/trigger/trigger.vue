@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-  import type { Middleware, Placement, ReferenceElement, VirtualElement } from '@floating-ui/vue';
+  import type { Middleware, ReferenceElement, VirtualElement } from '@floating-ui/vue';
   import type { Simplify } from 'type-fest';
 
   import type { ComponentPublicInstance, CSSProperties, Ref, VNodeChild } from 'vue';
@@ -71,6 +71,12 @@
   } from 'vue';
 
   import { arrow, autoUpdate, flip, offset, shift, useFloating } from '@floating-ui/vue';
+  import { createTriggerFoundation } from '@sdata/web-core/trigger/foundation';
+  import {
+    toFloatingPlacement,
+    fromFloatingPlacement,
+    getArrowFloatingStyle,
+  } from '@sdata/web-core/trigger/position';
   import { onClickOutside, useEventListener } from '@vueuse/core';
 
   import type { TriggerEvent, TriggerPosition } from '../_utils/constant';
@@ -88,7 +94,6 @@
   import { off, on } from '../_utils/dom';
   import { createFloatingOptions } from '../_utils/floating';
   import { getPrefixCls } from '../_utils/global-config';
-  import { KEYBOARD_KEY } from '../_utils/keyboard';
   import { omit } from '../_utils/omit';
   import { throttleByRaf } from '../_utils/throttle-by-raf';
   import { isEmptyChildren, mergeFirstChild } from '../_utils/vue-utils';
@@ -158,62 +163,6 @@
     escToClose?: boolean;
     ariaHasPopup?: boolean | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
     ariaDescribedbyPopup?: boolean;
-  };
-
-  const toFloatingPlacement = (position: TriggerPosition): Placement => {
-    const map: Record<TriggerPosition, Placement> = {
-      top: 'top',
-      tl: 'top-start',
-      tr: 'top-end',
-      bottom: 'bottom',
-      bl: 'bottom-start',
-      br: 'bottom-end',
-      left: 'left',
-      lt: 'left-start',
-      lb: 'left-end',
-      right: 'right',
-      rt: 'right-start',
-      rb: 'right-end',
-    };
-    return map[position];
-  };
-  const fromFloatingPlacement = (placement: Placement): TriggerPosition => {
-    const map: Record<Placement, TriggerPosition> = {
-      'top': 'top',
-      'top-start': 'tl',
-      'top-end': 'tr',
-      'bottom': 'bottom',
-      'bottom-start': 'bl',
-      'bottom-end': 'br',
-      'left': 'left',
-      'left-start': 'lt',
-      'left-end': 'lb',
-      'right': 'right',
-      'right-start': 'rt',
-      'right-end': 'rb',
-    };
-    return map[placement];
-  };
-  const getArrowFloatingStyle = (
-    placement: Placement,
-    data: { x?: number; y?: number } | undefined,
-    customStyle: CSSProperties | undefined,
-  ): CSSProperties => {
-    const side = placement.split('-')[0] as 'top' | 'right' | 'bottom' | 'left';
-    const staticSide = { top: 'bottom', right: 'left', bottom: 'top', left: 'right' }[side];
-    const transforms = {
-      top: 'translateY(50%) rotate(45deg)',
-      right: 'translateX(-50%) rotate(45deg)',
-      bottom: 'translateY(-50%) rotate(45deg)',
-      left: 'translateX(50%) rotate(45deg)',
-    };
-    return {
-      ...customStyle,
-      left: data?.x == null ? undefined : `${data.x}px`,
-      top: data?.y == null ? undefined : `${data.y}px`,
-      [staticSide]: 0,
-      transform: transforms[side],
-    };
   };
 
   defineOptions({ name: 'Trigger', inheritAttrs: false });
@@ -348,9 +297,10 @@
       ? { transformOrigin: getTransformOrigin(popupPosition.value) }
       : {},
   );
-  const arrowStyle = computed<CSSProperties>(() =>
-    getArrowFloatingStyle(floatingPlacement.value, middlewareData.value.arrow, props.arrowStyle),
-  );
+  const arrowStyle = computed<CSSProperties>(() => ({
+    ...props.arrowStyle,
+    ...getArrowFloatingStyle(floatingPlacement.value, middlewareData.value.arrow),
+  }));
   watch(
     floatingPlacement,
     (placement) => {
@@ -389,91 +339,80 @@
   watch([computedVisible, zIndex, mergedPopupContainer], syncThemePopupContainerZIndex, {
     immediate: true,
   });
-  let delayTimer = 0;
   let windowListener = false;
-  const cleanDelayTimer = () => {
-    if (delayTimer) {
-      window.clearTimeout(delayTimer);
-      delayTimer = 0;
-    }
-  };
-  const updateMousePosition = (event: MouseEvent) => {
-    if (props.alignPoint) {
-      mousePosition.value = { top: event.clientY, left: event.clientX };
-    }
-  };
-  const changeVisible = (visible: boolean, delay?: number) => {
-    if (visible === computedVisible.value && delayTimer === 0) return;
-    cleanDelayTimer();
-    const update = () => {
-      popupVisible.value = visible;
-      emit('update:popupVisible', visible);
-      emit('popupVisibleChange', visible);
-      if (visible) nextTick(updateFloatingPosition);
-    };
-    if (!visible) {
+  const foundation = createTriggerFoundation({
+    get options() {
+      return props;
+    },
+    get visible() {
+      return computedVisible.value;
+    },
+    get methods() {
+      return triggerMethods.value;
+    },
+    get scrollToClose() {
+      return props.scrollToClose || Boolean(configCtx?.scrollToClose);
+    },
+    get mounted() {
+      return mounted.value;
+    },
+    setVisible: (value) => {
+      popupVisible.value = value;
+    },
+    onVisible: (value) => {
+      emit('update:popupVisible', value);
+      emit('popupVisibleChange', value);
+    },
+    afterOpen: () => {
+      void nextTick(updateFloatingPosition);
+    },
+    resetScroll: () => {
       scrollPositions = new WeakMap();
       windowScrollPosition = null;
-    }
-    if (delay) {
-      if (visible !== computedVisible.value) delayTimer = window.setTimeout(update, delay);
-    } else {
-      update();
-    }
-  };
+    },
+    setMousePosition: (top, left) => {
+      mousePosition.value = { top, left };
+    },
+    setTimer: (callback, delay) => window.setTimeout(callback, delay),
+    clearTimer: (timer) => window.clearTimeout(timer),
+    onNativeClick: (event) => triggerEventAttrs.onClick?.(event),
+    onNativeMouseenter: (event) => triggerEventAttrs.onMouseenter?.(event),
+    onNativeMouseleave: (event) => triggerEventAttrs.onMouseleave?.(event),
+    onNativeFocusin: (event) => triggerEventAttrs.onFocusin?.(event),
+    onNativeFocusout: (event) => triggerEventAttrs.onFocusout?.(event),
+    onNativeContextmenu: (event) => triggerEventAttrs.onContextmenu?.(event),
+    isInsidePopupOrChildren: (event) => {
+      const target = event.target as HTMLElement;
+      return Boolean(
+        popupRef.value?.contains(target) ||
+        getChildElements().some((element) => element.contains(target)),
+      );
+    },
+    setAnimation: (value) => {
+      isAnimation.value = value;
+    },
+    setMounted: (value) => {
+      mounted.value = value;
+    },
+    onShow: () => emit('show'),
+    onHide: () => emit('hide'),
+  });
+  const changeVisible = foundation.changeVisible;
+  const cleanDelayTimer = foundation.cleanDelayTimer;
   watch([() => props.disabled, triggerMethods], cleanDelayTimer);
-  const handleClick = (event: MouseEvent) => {
-    triggerEventAttrs.onClick?.(event);
-    if (props.disabled || (computedVisible.value && !props.clickToClose)) return;
-    if (triggerMethods.value.includes('click')) {
-      updateMousePosition(event);
-      changeVisible(!computedVisible.value);
-    } else if (triggerMethods.value.includes('contextMenu') && computedVisible.value) {
-      changeVisible(false);
-    }
-  };
-  const handleMouseEnter = (event: MouseEvent) => {
-    triggerEventAttrs.onMouseenter?.(event);
-    if (props.disabled || !triggerMethods.value.includes('hover')) return;
-    updateMousePosition(event);
-    changeVisible(true, props.mouseEnterDelay);
-  };
+  const handleClick = foundation.click;
+  const handleMouseEnter = foundation.mouseenter;
+  const handleMouseLeave = foundation.mouseleave;
+  const handleFocusin = foundation.focusin;
+  const handleFocusout = foundation.focusout;
+  const handleContextmenu = foundation.contextmenu;
   const handleMouseEnterWithContext = (event: MouseEvent) => {
     triggerCtx?.onMouseenter(event);
     handleMouseEnter(event);
   };
-  const handleMouseLeave = (event: MouseEvent) => {
-    triggerEventAttrs.onMouseleave?.(event);
-    if (props.disabled || !triggerMethods.value.includes('hover')) return;
-    changeVisible(false, props.mouseLeaveDelay);
-  };
   const handleMouseLeaveWithContext = (event: MouseEvent) => {
     triggerCtx?.onMouseleave(event);
     handleMouseLeave(event);
-  };
-  const handleFocusin = (event: FocusEvent) => {
-    triggerEventAttrs.onFocusin?.(event);
-    if (!props.disabled && triggerMethods.value.includes('focus')) {
-      changeVisible(true, props.focusDelay);
-    }
-  };
-  const handleFocusout = (event: FocusEvent) => {
-    triggerEventAttrs.onFocusout?.(event);
-    if (!props.disabled && triggerMethods.value.includes('focus') && props.blurToClose) {
-      changeVisible(false);
-    }
-  };
-  const handleContextmenu = (event: MouseEvent) => {
-    triggerEventAttrs.onContextmenu?.(event);
-    if (
-      props.disabled ||
-      !triggerMethods.value.includes('contextMenu') ||
-      (computedVisible.value && !props.clickToClose)
-    )
-      return;
-    updateMousePosition(event);
-    changeVisible(!computedVisible.value);
-    event.preventDefault();
   };
 
   const getChildElements = () => {
@@ -487,12 +426,7 @@
   };
   const handleChildContextmenu = (event: MouseEvent) => {
     triggerCtx?.onContextmenu(event);
-    if (!props.clickOutsideToClose || !computedVisible.value) return;
-    if (!triggerMethods.value.includes('contextMenu')) return;
-    const target = event.target as HTMLElement;
-    if (popupRef.value?.contains(target)) return;
-    if (getChildElements().some((element) => element.contains(target))) return;
-    changeVisible(false);
+    foundation.outsideContextmenu(event);
   };
   const handleContextmenuWithContext = (event: MouseEvent) => {
     triggerCtx?.onContextmenu(event);
@@ -524,37 +458,14 @@
       : [firstElement.value]),
     ...getChildElements(),
   ];
-  onClickOutside(
-    popupRef,
-    () => {
-      if (props.clickOutsideToClose && computedVisible.value) changeVisible(false);
-    },
-    { ignore: getOutsideIgnoreElements },
-  );
-  const handleOutsideContextmenu = (event: MouseEvent) => {
-    if (!props.clickOutsideToClose || !computedVisible.value) return;
-    if (!triggerMethods.value.includes('contextMenu')) return;
-    const target = event.target as HTMLElement;
-    if (popupRef.value?.contains(target)) return;
-    if (getChildElements().some((element) => element.contains(target))) return;
-    changeVisible(false);
-  };
+  onClickOutside(popupRef, foundation.outsideClick, { ignore: getOutsideIgnoreElements });
+  const handleOutsideContextmenu = foundation.outsideContextmenu;
   const documentRef = computed(() => (typeof document === 'undefined' ? undefined : document));
   useEventListener(documentRef, 'contextmenu', handleOutsideContextmenu, { capture: true });
-  useEventListener(documentRef, 'keydown', (event: KeyboardEvent) => {
-    if (props.escToClose && computedVisible.value && event.key === KEYBOARD_KEY.ESC) {
-      changeVisible(false);
-    }
-  });
-  const isExceedThreshold = (oldPosition: [number, number], element: HTMLElement) => {
-    const [scrollTop, scrollLeft] = oldPosition;
-    return (
-      Math.abs(element.scrollTop - scrollTop) >= props.scrollToCloseDistance ||
-      Math.abs(element.scrollLeft - scrollLeft) >= props.scrollToCloseDistance
-    );
-  };
+  useEventListener(documentRef, 'keydown', foundation.keydown);
+  const isExceedThreshold = foundation.isExceedThreshold;
   const handleScroll = throttleByRaf((event: Event) => {
-    if (computedVisible.value && (props.scrollToClose || configCtx?.scrollToClose)) {
+    if (foundation.shouldListenForScroll(computedVisible.value)) {
       const element = event.target as HTMLElement;
       const position = scrollPositions.get(element);
       if (position && isExceedThreshold(position, element)) changeVisible(false);
@@ -565,7 +476,7 @@
     windowListener = false;
   };
   const updateWindowScrollListener = (visible: boolean) => {
-    if (visible && (props.scrollToClose || configCtx?.scrollToClose)) {
+    if (foundation.shouldListenForScroll(visible)) {
       if (!windowListener) {
         const element = document.documentElement;
         windowScrollPosition = [element.scrollTop, element.scrollLeft];
@@ -592,9 +503,7 @@
     handleResize();
     emit('resize');
   };
-  const handlePopupMouseDown = (event: Event) => {
-    if (props.preventFocus) event.preventDefault();
-  };
+  const handlePopupMouseDown = foundation.popupMouseDown;
   watch(
     popupRef,
     (element, _oldElement, onCleanup) => {
@@ -660,20 +569,9 @@
     }
   });
   const isAnimation = ref(false);
-  const onAnimationStart = () => {
-    isAnimation.value = true;
-  };
-  const handleShow = () => {
-    isAnimation.value = false;
-    if (computedVisible.value) emit('show');
-  };
-  const handleHide = () => {
-    isAnimation.value = false;
-    if (!computedVisible.value) {
-      mounted.value = false;
-      emit('hide');
-    }
-  };
+  const onAnimationStart = foundation.animationStart;
+  const handleShow = foundation.show;
+  const handleHide = foundation.hide;
   const getTriggerChildren = () => {
     children.value = slots.default?.() ?? [];
     mergeFirstChild(children.value, {
@@ -704,7 +602,5 @@
       popupAttrs.value,
     ),
   );
-  const shouldRenderPopup = computed(
-    () => (!props.unmountOnClose || computedVisible.value || mounted.value) && !hidePopup.value,
-  );
+  const shouldRenderPopup = computed(() => foundation.shouldRenderPopup(hidePopup.value));
 </script>

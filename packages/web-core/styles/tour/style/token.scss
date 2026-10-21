@@ -1,0 +1,88 @@
+@use '../../style/theme/runtime.scss' as theme-runtime;
+@use '../../style/theme/index.scss' as global;
+
+@forward '../../style/theme/index.scss';
+@forward '../../style/color/colors.scss' hide $sd-vars-prefix, $sd-cssvars-prefix;
+
+@use 'sass:string';
+
+$tour-color-bg: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-popup'));
+$tour-color-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-1'));
+$tour-color-description: var(string.unquote('#{global.$sd-cssvars-prefix}-color-text-2'));
+$tour-color-border: var(string.unquote('#{global.$sd-cssvars-prefix}-color-neutral-3'));
+$tour-color-primary-text: var(string.unquote('#{global.$sd-cssvars-prefix}-color-white'));
+
+$tour-border-radius: global.$radius-medium;
+$tour-shadow: global.$shadow2-down;
+$tour-font-size-title: global.$font-size-title-1;
+$tour-font-size-body: global.$font-size-body-3;
+$tour-font-size-progress: global.$font-size-body-1;
+$tour-padding-vertical: global.$spacing-6;
+$tour-padding-horizontal: global.$spacing-7;
+$tour-gap-title: global.$spacing-2;
+$tour-gap-footer: global.$spacing-5;
+$tour-gap-buttons: global.$spacing-2;
+$tour-button-padding-y: global.$spacing-1;
+$tour-button-padding-x: global.$spacing-4;
+
+// @generated runtime tokens — pnpm theme:generate
+$tour-color-bg: theme-runtime.token('tour', 'tour-color-bg', $tour-color-bg);
+$tour-color-text: theme-runtime.token('tour', 'tour-color-text', $tour-color-text);
+$tour-color-description: theme-runtime.token(
+  'tour',
+  'tour-color-description',
+  $tour-color-description
+);
+$tour-color-border: theme-runtime.token('tour', 'tour-color-border', $tour-color-border);
+$tour-color-primary-text: theme-runtime.token(
+  'tour',
+  'tour-color-primary-text',
+  $tour-color-primary-text
+);
+$tour-border-radius: theme-runtime.token('tour', 'tour-border-radius', $tour-border-radius);
+$tour-shadow: theme-runtime.token('tour', 'tour-shadow', $tour-shadow);
+$tour-font-size-title: theme-runtime.token(
+  'tour',
+  'tour-font-size-title',
+  $tour-font-size-title,
+  'font-size-title-1'
+);
+$tour-font-size-body: theme-runtime.token(
+  'tour',
+  'tour-font-size-body',
+  $tour-font-size-body,
+  'font-size-body-3'
+);
+$tour-font-size-progress: theme-runtime.token(
+  'tour',
+  'tour-font-size-progress',
+  $tour-font-size-progress,
+  'font-size-body-1'
+);
+$tour-padding-vertical: theme-runtime.token(
+  'tour',
+  'tour-padding-vertical',
+  $tour-padding-vertical,
+  'spacing-6'
+);
+$tour-padding-horizontal: theme-runtime.token(
+  'tour',
+  'tour-padding-horizontal',
+  $tour-padding-horizontal,
+  'spacing-7'
+);
+$tour-gap-title: theme-runtime.token('tour', 'tour-gap-title', $tour-gap-title, 'spacing-2');
+$tour-gap-footer: theme-runtime.token('tour', 'tour-gap-footer', $tour-gap-footer, 'spacing-5');
+$tour-gap-buttons: theme-runtime.token('tour', 'tour-gap-buttons', $tour-gap-buttons, 'spacing-2');
+$tour-button-padding-y: theme-runtime.token(
+  'tour',
+  'tour-button-padding-y',
+  $tour-button-padding-y,
+  'spacing-1'
+);
+$tour-button-padding-x: theme-runtime.token(
+  'tour',
+  'tour-button-padding-x',
+  $tour-button-padding-x,
+  'spacing-4'
+);

@@ -1,17 +1,13 @@
-import type * as VueClamp from 'vue-clamp';
-
 import type { App, Component } from 'vue';
 
-import {
-  InlineClamp as _InlineClamp,
-  LineClamp as _LineClamp,
-  RichLineClamp as _RichLineClamp,
-  WrapClamp as _WrapClamp,
-} from 'vue-clamp';
-
 import type { SDOptions, SFCWithInstall } from '../_utils/types';
+import type * as VueClamp from './public-types';
 
 import { getComponentPrefix, setGlobalConfig } from '../_utils/global-config';
+import _InlineClamp from './inline/InlineClamp.vue';
+import _LineClamp from './line/LineClamp.vue';
+import _RichLineClamp from './rich-line/RichLineClamp.vue';
+import _WrapClamp from './wrap/WrapClamp.vue';
 
 function withInstall<T extends object>(component: T, name: string) {
   return Object.assign(component, {
@@ -30,7 +26,7 @@ export const WrapClamp = withInstall(_WrapClamp, 'WrapClamp');
 export type LineClampInstance = InstanceType<typeof _LineClamp>;
 export type RichLineClampInstance = InstanceType<typeof _RichLineClamp>;
 export type InlineClampInstance = InstanceType<typeof _InlineClamp>;
-export type WrapClampInstance = import('vue-clamp').WrapClampExposed;
+export type WrapClampInstance = VueClamp.WrapClampExposed;
 
 export type ClampBoundary = VueClamp.ClampBoundary;
 export type ClampLength = VueClamp.ClampLength;

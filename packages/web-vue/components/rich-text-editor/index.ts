@@ -5,7 +5,9 @@ import type { SDOptions } from '../_utils/types';
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _RichTextEditor from './rich-text-editor.vue';
 
-const RichTextEditor = Object.assign(_RichTextEditor, {
+const RichTextEditor: typeof _RichTextEditor & {
+  install: (app: App, options?: SDOptions) => void;
+} = Object.assign(_RichTextEditor, {
   install: (app: App, options?: SDOptions) => {
     setGlobalConfig(app, options);
     const componentPrefix = getComponentPrefix(options);
@@ -17,7 +19,7 @@ export {
   $createInlineComponentNode,
   $isInlineComponentNode,
   InlineComponentNode,
-} from './nodes/inline-component-node';
+} from '@sdata/web-core/rich-text-editor/nodes/inline-component-node';
 export {
   RICH_TEXT_EDITOR_BUILT_IN_NODE_NAMES,
   RICH_TEXT_EDITOR_JSON_FORM_NODE_NAMES,

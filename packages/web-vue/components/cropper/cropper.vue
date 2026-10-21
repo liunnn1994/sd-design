@@ -5,23 +5,12 @@
 </template>
 
 <script setup lang="ts">
-  import type Cropper from 'cropperjs';
-  import type { CropperCanvas, CropperImage, CropperSelection } from 'cropperjs';
-  import type { UnknownRecord } from 'type-fest';
-
   import type { CSSProperties } from 'vue';
   import { computed, nextTick, onBeforeUnmount, onMounted, ref, useAttrs, watch } from 'vue';
 
-  import { isNumber, isString } from 'es-toolkit';
+  import { createCropper, getCropperRootStyle } from '@sdata/web-core/cropper/foundation';
 
-  import type {
-    CropperCanvasProps,
-    CropperExpose,
-    CropperImageProps,
-    CropperProps,
-    CropperSelectionChangeDetail,
-    CropperSelectionProps,
-  } from './interface';
+  import type { CropperExpose, CropperProps, CropperSelectionChangeDetail } from './interface';
 
   import { getPrefixCls } from '../_utils/global-config';
 
@@ -98,425 +87,49 @@
     'image:transform': [detail: { matrix: number[]; oldMatrix: number[] }];
   }>();
 
-  type CropperEventListener = (event: Event) => void;
-  type TrackedHandler = { el: Element; event: string; fn: CropperEventListener };
-
   const attrs = useAttrs();
   const prefixCls = getPrefixCls('cropper');
   const imgRef = ref<HTMLImageElement>();
-  const trackedHandlers: TrackedHandler[] = [];
-
-  let cropperInstance: Cropper | null = null;
-  let destroyed = false;
-  let selectionInitialized = true;
-  let fittedImageElement: HTMLImageElement | null = null;
-  let cropperConstructorPromise: Promise<typeof import('cropperjs').default> | null = null;
-
-  function loadCropperConstructor() {
-    if (!cropperConstructorPromise) {
-      cropperConstructorPromise = import('cropperjs').then((module) => module.default);
-    }
-
-    return cropperConstructorPromise;
-  }
-
-  const resolveSize = (value: number | string) => {
-    if (isNumber(value)) {
-      return `${value}px`;
-    }
-    if (isString(value)) {
-      return value;
-    }
-    return '100%';
-  };
-
   const rootClass = computed(() => [prefixCls]);
-  const rootStyle = computed<CSSProperties>(() => ({
-    '--sd-cropper-width': resolveSize(props.width),
-    '--sd-cropper-height': resolveSize(props.height),
-  }));
-
-  function addTrackedListener(el: Element, event: string, fn: CropperEventListener) {
-    el.addEventListener(event, fn);
-    trackedHandlers.push({ el, event, fn });
-  }
-
-  function removeTrackedListener(el: Element, event: string, fn: CropperEventListener) {
-    const index = trackedHandlers.findIndex(
-      (handler) => handler.el === el && handler.event === event && handler.fn === fn,
-    );
-    if (index === -1) {
-      return;
-    }
-    trackedHandlers.splice(index, 1);
-    el.removeEventListener(event, fn);
-  }
-
-  function toKebabCase(key: string) {
-    return key.replace(/([A-Z])/g, '-$1').toLowerCase();
-  }
-
-  const originalAttributes = new WeakMap<Element, Map<string, string | null>>();
-
-  function syncPropsToElement(el: Element | null | undefined, propsObject: UnknownRecord) {
-    if (!el) {
-      return;
-    }
-
-    let originals = originalAttributes.get(el);
-    if (!originals) {
-      originals = new Map();
-      originalAttributes.set(el, originals);
-    }
-    for (const [key, original] of originals) {
-      if (Object.hasOwn(propsObject, key)) continue;
-      const attrName = toKebabCase(key);
-      if (original === null) el.removeAttribute(attrName);
-      else el.setAttribute(attrName, original);
-      originals.delete(key);
-    }
-
-    for (const [key, value] of Object.entries(propsObject)) {
-      const attrName = toKebabCase(key);
-      if (!originals.has(key)) originals.set(key, el.getAttribute(attrName));
-
-      if (value === undefined || value === null || value === false) {
-        el.removeAttribute(attrName);
-        continue;
-      }
-
-      if (value === true) {
-        el.setAttribute(attrName, '');
-        continue;
-      }
-
-      el.setAttribute(attrName, String(value));
-    }
-  }
-
-  function getCropperCanvas() {
-    return cropperInstance?.getCropperCanvas() ?? null;
-  }
-
-  function getCropperImage() {
-    return cropperInstance?.getCropperImage() ?? null;
-  }
-
-  function getCropperSelection() {
-    return cropperInstance?.getCropperSelection() ?? null;
-  }
-
-  function getCropperSelections() {
-    return cropperInstance?.getCropperSelections() ?? null;
-  }
-
-  function alignSelectionToImage() {
-    if (!props.fitSelectionToImage) return;
-    const image = getCropperImage();
-    const selection = getCropperSelection();
-    const imageElement = imgRef.value;
-
-    if (!image || !selection || !imageElement) {
-      return;
-    }
-
-    const naturalWidth = imageElement.naturalWidth;
-    const naturalHeight = imageElement.naturalHeight;
-
-    if (!naturalWidth || !naturalHeight) {
-      return;
-    }
-
-    const matrix = image.$getTransform();
-    const scaleX = matrix[0] ?? 0;
-    const scaleY = matrix[3] ?? 0;
-
-    if (!scaleX || !scaleY) {
-      return;
-    }
-
-    const renderedWidth = (image.clientWidth || naturalWidth) * scaleX;
-    const renderedHeight = (image.clientHeight || naturalHeight) * scaleY;
-
-    selection.$change(
-      props.selectionX ?? 1,
-      props.selectionY ?? 1,
-      props.selectionWidth ?? renderedWidth - 2,
-      props.selectionHeight ?? renderedHeight - 2,
-    );
-  }
-
-  function bindCanvasEvents(canvas: CropperCanvas) {
-    const canvasEventNames = ['action', 'actionstart', 'actionmove', 'actionend'] as const;
-
-    for (const eventName of canvasEventNames) {
-      addTrackedListener(canvas, eventName, (event) => {
-        const detail = (event as CustomEvent).detail;
-
-        if (eventName === 'action') {
-          emit('canvas:action', detail);
-        }
-        if (eventName === 'actionstart') {
-          emit('canvas:actionstart', detail);
-        }
-        if (eventName === 'actionmove') {
-          emit('canvas:actionmove', detail);
-        }
-        if (eventName === 'actionend') {
-          emit('canvas:actionend', detail);
-        }
-      });
-    }
-  }
-
-  function bindSelectionEvents(selection: CropperSelection) {
-    addTrackedListener(selection, 'change', (event) => {
-      // 异步默认居中不能通过 v-model 覆盖父组件提供的初始几何值。
-      if (
-        !selectionInitialized &&
-        (props.selectionX !== undefined ||
-          props.selectionY !== undefined ||
-          props.selectionWidth !== undefined ||
-          props.selectionHeight !== undefined)
-      ) {
-        return;
-      }
-      const detail = (event as CustomEvent<CropperSelectionChangeDetail>).detail;
-
-      emit('selection:change', detail);
-      emit('update:selectionX', detail.x);
-      emit('update:selectionY', detail.y);
-      emit('update:selectionWidth', detail.width);
-      emit('update:selectionHeight', detail.height);
-    });
-  }
-
-  function bindImageEvents(image: CropperImage) {
-    addTrackedListener(image, 'transform', (event) => {
-      emit(
-        'image:transform',
-        (event as CustomEvent).detail as { matrix: number[]; oldMatrix: number[] },
-      );
-    });
-
-    if (!props.fitSelectionToImage) {
-      return;
-    }
-
-    scheduleAlignOnLoad();
-  }
-
-  // fitSelectionToImage：等待原始 img 加载完成后重新对齐选区。
-  // 监听走 addTrackedListener，destroy() 会统一移除；触发一次后自移除，避免重复堆积。
-  function scheduleAlignOnLoad() {
-    if (destroyed || !props.fitSelectionToImage) {
-      return;
-    }
-
-    const imageElement = imgRef.value;
-    if (!imageElement) {
-      return;
-    }
-
-    const align = () => {
-      const image = getCropperImage();
-      if (!image) return;
-      image.$ready().then(
-        (loadedImage) => {
-          if (destroyed) return;
-          if (loadedImage && fittedImageElement !== loadedImage) {
-            fittedImageElement = loadedImage;
-            // 已解码的图片可能先完成 $ready，随后 load 才更新 Cropper 的尺寸和变换。
-            addTrackedListener(loadedImage, 'load', () => {
-              nextTick(() => alignSelectionToImage());
-            });
-          }
-          nextTick(() => alignSelectionToImage());
-        },
-        () => undefined,
-      );
-    };
-
-    if (imageElement.complete && imageElement.naturalWidth > 0) {
-      align();
-      return;
-    }
-
-    const onLoad: CropperEventListener = () => {
-      removeTrackedListener(imageElement, 'load', onLoad);
-      align();
-    };
-
-    addTrackedListener(imageElement, 'load', onLoad);
-  }
-
-  function syncChildProps() {
-    syncPropsToElement(
-      getCropperCanvas(),
-      props.canvasProps as CropperCanvasProps as UnknownRecord,
-    );
-    syncPropsToElement(getCropperImage(), props.imageProps as CropperImageProps as UnknownRecord);
-    syncPropsToElement(
-      getCropperSelection(),
-      props.selectionProps as CropperSelectionProps as UnknownRecord,
-    );
-  }
-
-  function syncSelectionGeometry() {
-    const { selectionX: x, selectionY: y, selectionWidth: width, selectionHeight: height } = props;
-
-    if (x === undefined && y === undefined && width === undefined && height === undefined) {
-      return;
-    }
-
-    const selection = getCropperSelection();
-    if (!selection) {
-      return;
-    }
-
-    const nextX = x ?? selection.x;
-    const nextY = y ?? selection.y;
-    const nextWidth = width ?? selection.width;
-    const nextHeight = height ?? selection.height;
-
-    if (typeof selection.$change !== 'function') {
-      selection.x = nextX;
-      selection.y = nextY;
-      selection.width = nextWidth;
-      selection.height = nextHeight;
-      if (typeof selection.$render === 'function') {
-        selection.$render();
-      }
-      return;
-    }
-
-    selection.$change(nextX, nextY, nextWidth, nextHeight);
-  }
-
-  function destroy() {
-    destroyed = true;
-    for (const { el, event, fn } of trackedHandlers) {
-      el.removeEventListener(event, fn);
-    }
-
-    trackedHandlers.length = 0;
-    cropperInstance?.destroy();
-    cropperInstance = null;
-  }
-
-  onMounted(async () => {
-    if (!imgRef.value) {
-      return;
-    }
-
-    const CropperConstructor = await loadCropperConstructor();
-    const imageElement = imgRef.value;
-    if (destroyed || !imageElement) {
-      return;
-    }
-
-    const options: ConstructorParameters<typeof CropperConstructor>[1] = {};
-    if (props.template !== undefined) {
-      options.template = props.template;
-    }
-
-    cropperInstance = new CropperConstructor(imageElement, options);
-
-    nextTick(() => {
-      syncChildProps();
-
-      const canvas = getCropperCanvas();
-      if (canvas) {
-        bindCanvasEvents(canvas);
-      }
-
-      const image = getCropperImage();
-      selectionInitialized = !image;
-      const selection = getCropperSelection();
-      if (selection) {
-        syncSelectionGeometry();
-        bindSelectionEvents(selection);
-      }
-
-      if (image) {
-        bindImageEvents(image);
-        // Cropper 2.3 在图片就绪后异步初始化选区，再同步受控位置。
-        image
-          .$ready()
-          .catch(() => undefined)
-          .then(() =>
-            nextTick(() => {
-              if (destroyed) return;
-              selectionInitialized = true;
-              syncSelectionGeometry();
-            }),
-          );
-      }
-    });
-  });
-
-  onBeforeUnmount(() => {
-    destroy();
-  });
-
-  watch(() => props.fitSelectionToImage, scheduleAlignOnLoad, { flush: 'post' });
-
-  watch(
-    () => props.src,
-    (value) => {
-      const cropperImage = getCropperImage();
-
-      if (cropperImage) {
-        (cropperImage as unknown as HTMLImageElement).src = value ?? '';
-      } else if (imgRef.value) {
-        imgRef.value.src = value ?? '';
-      }
-
-      // 换图后重新执行 fitSelectionToImage 对齐：等 DOM 换上新的 src，
-      // 新图加载完成后再对齐
-      nextTick(() => scheduleAlignOnLoad());
+  const rootStyle = computed<CSSProperties>(() => getCropperRootStyle(props.width, props.height));
+  const foundation = createCropper({
+    props,
+    get imageElement() {
+      return imgRef.value;
     },
-  );
-
+    afterRender: (callback) => nextTick(callback),
+    selectionChange: (detail) => emit('selection:change', detail),
+    updateSelectionX: (value) => emit('update:selectionX', value),
+    updateSelectionY: (value) => emit('update:selectionY', value),
+    updateSelectionWidth: (value) => emit('update:selectionWidth', value),
+    updateSelectionHeight: (value) => emit('update:selectionHeight', value),
+    imageTransform: (detail) => emit('image:transform', detail),
+    canvasEvents: {
+      action: (detail) => emit('canvas:action', detail),
+      actionstart: (detail) => emit('canvas:actionstart', detail),
+      actionmove: (detail) => emit('canvas:actionmove', detail),
+      actionend: (detail) => emit('canvas:actionend', detail),
+    },
+  });
+  onMounted(foundation.mount);
+  onBeforeUnmount(foundation.destroy);
+  watch(() => props.fitSelectionToImage, foundation.scheduleAlignOnLoad, { flush: 'post' });
+  watch(() => props.src, foundation.syncSource);
   watch(
     () => props.canvasProps,
-    () => {
-      nextTick(() => {
-        syncPropsToElement(
-          getCropperCanvas(),
-          props.canvasProps as CropperCanvasProps as UnknownRecord,
-        );
-      });
-    },
+    () => nextTick(foundation.syncCanvasProps),
     { deep: true },
   );
-
   watch(
     () => props.imageProps,
-    () => {
-      nextTick(() => {
-        syncPropsToElement(
-          getCropperImage(),
-          props.imageProps as CropperImageProps as UnknownRecord,
-        );
-      });
-    },
+    () => nextTick(foundation.syncImageProps),
     { deep: true },
   );
-
   watch(
     () => props.selectionProps,
-    () => {
-      nextTick(() => {
-        syncPropsToElement(
-          getCropperSelection(),
-          props.selectionProps as CropperSelectionProps as UnknownRecord,
-        );
-      });
-    },
+    () => nextTick(foundation.syncSelectionProps),
     { deep: true },
   );
-
   watch(
     [
       () => props.selectionX,
@@ -525,20 +138,16 @@
       () => props.selectionHeight,
     ],
     ([x, y, width, height]) => {
-      if (x === undefined && y === undefined && width === undefined && height === undefined) {
-        return;
-      }
-
-      nextTick(syncSelectionGeometry);
+      if (x === undefined && y === undefined && width === undefined && height === undefined) return;
+      nextTick(foundation.syncSelectionGeometry);
     },
   );
-
   defineExpose<CropperExpose>({
-    getInstance: () => cropperInstance,
-    getCropperCanvas,
-    getCropperImage,
-    getCropperSelection,
-    getCropperSelections,
-    destroy,
+    getInstance: foundation.getInstance,
+    getCropperCanvas: foundation.getCropperCanvas,
+    getCropperImage: foundation.getCropperImage,
+    getCropperSelection: foundation.getCropperSelection,
+    getCropperSelections: foundation.getCropperSelections,
+    destroy: foundation.destroy,
   });
 </script>

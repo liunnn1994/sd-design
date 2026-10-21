@@ -49,6 +49,7 @@
 
   import {
     type CSSProperties,
+    type StyleValue,
     type PropType,
     computed,
     nextTick,
@@ -58,28 +59,17 @@
     watch,
   } from 'vue';
 
+  import { createVirtualListFoundation } from '@sdata/web-core/virtual-list/foundation';
   import {
-    OverlayScrollbars,
     type OverlayScrollbars as OverlayScrollbarsInstance,
     type PartialOptions as OverlayScrollbarsPartialOptions,
   } from 'overlayscrollbars';
   import { Virtualizer, type VirtualizerHandle } from 'virtua/vue';
 
   import type { ScrollbarProps } from '../../scrollbar';
-  import type {
-    ClassValue,
-    ItemSizeValue,
-    ScrollAlign,
-    ScrollOptions,
-    ScrollToOptions,
-    VirtualItemKey,
-    VirtualListRef,
-  } from './interface';
+  import type { ClassValue, ItemSizeValue, VirtualItemKey, VirtualListRef } from './interface';
 
   import { getPrefixCls } from '../../_utils/global-config';
-  import { isString } from '../../_utils/is';
-
-  type ListAlign = 'auto' | 'top' | 'bottom' | ScrollAlign;
 
   defineOptions({ name: 'VirtualList' });
 
@@ -207,22 +197,81 @@
   const osInstanceRef = ref<OverlayScrollbarsInstance | null>(null);
   const overlayViewportReadyRef = ref(false);
 
-  const resolvedItems = computed(() => props.items ?? []);
+  const foundation: ReturnType<
+    typeof createVirtualListFoundation<TItem, CacheSnapshot, StyleValue>
+  > = createVirtualListFoundation<TItem, CacheSnapshot, StyleValue>(
+    {
+      props,
+      get items() {
+        return resolvedItems.value;
+      },
+      get horizontal() {
+        return isHorizontal.value;
+      },
+      get scrollbarProps() {
+        return resolvedScrollbarProps.value;
+      },
+      get itemSizeHint() {
+        return itemSizeHint.value;
+      },
+      get minItemSizeValue() {
+        return minItemSizeValue.value;
+      },
+      get overlayOptions() {
+        return resolvedOverlayOptions.value;
+      },
+      get host() {
+        return scrollbarHostRef.value;
+      },
+      get viewport() {
+        return viewportRef.value;
+      },
+      get virtualizer() {
+        return virtuaRef.value;
+      },
+      get instance() {
+        return osInstanceRef.value;
+      },
+      set instance(value) {
+        osInstanceRef.value = value;
+      },
+      get overlayReady() {
+        return overlayViewportReadyRef.value;
+      },
+      set overlayReady(value) {
+        overlayViewportReadyRef.value = value;
+      },
+    },
+    {
+      afterRender: () => nextTick(),
+      scroll: (event) => emit('scroll', event),
+      reachBottom: (event) => emit('reachBottom', event),
+      scrollEnd: () => emit('scrollEnd'),
+    },
+  );
+  const {
+    destroyOverlayScrollbar,
+    initOverlayScrollbar,
+    onScroll,
+    onVirtuaScrollEnd,
+    scrollToItem,
+    scrollToPosition,
+    findItemIndex,
+    getItemOffset,
+    getItemSize,
+    cacheSnapshot,
+    restoreCache,
+    updateVisibleItems,
+    scrollToBottom,
+    forceUpdate,
+    getDynamicItemSize,
+    scrollTo,
+  } = foundation;
+  const resolvedItems = computed(foundation.getResolvedItems);
   const isEmpty = computed(() => resolvedItems.value.length === 0);
-  const isHorizontal = computed(() => props.direction === 'horizontal');
+  const isHorizontal = computed(foundation.getIsHorizontal);
 
-  const resolvedScrollbarProps = computed<ScrollbarProps>(() => {
-    if (typeof props.scrollbar === 'boolean') {
-      return {
-        type: 'embed',
-      };
-    }
-
-    return {
-      type: 'embed',
-      ...props.scrollbar,
-    };
-  });
+  const resolvedScrollbarProps = computed<ScrollbarProps>(foundation.getResolvedScrollbarProps);
 
   const hostClassNames = computed(() => [
     prefixCls,
@@ -249,68 +298,15 @@
     return typeof props.height === 'number' ? `${props.height}px` : props.height;
   });
 
-  const resolveSizeValue = (value: number | string | null | undefined) => {
-    if (typeof value === 'number') {
-      return value > 0 ? value : undefined;
-    }
-
-    if (typeof value === 'string') {
-      const parsed = Number.parseFloat(value);
-      return parsed > 0 ? parsed : undefined;
-    }
-
-    return undefined;
-  };
-
-  const formatSizeValue = (value: number | string | null | undefined) => {
-    if (typeof value === 'number') {
-      return value > 0 ? `${value}px` : undefined;
-    }
-
-    if (typeof value === 'string') {
-      return resolveSizeValue(value) === undefined ? undefined : value;
-    }
-
-    return undefined;
-  };
-
   // virtua only accepts itemSize as the unmeasured-item size hint. The component
   // keeps estimatedSize/minItemSize as compatibility props and maps them here.
-  const itemSizeHint = computed(() => {
-    const itemSize = resolveSizeValue(
-      typeof props.itemSize === 'number' || typeof props.itemSize === 'string'
-        ? props.itemSize
-        : undefined,
-    );
-    if (itemSize !== undefined) {
-      return itemSize;
-    }
+  const itemSizeHint = computed(foundation.getItemSizeHint);
 
-    return props.estimatedSize ?? resolveSizeValue(props.minItemSize);
-  });
+  const fixedItemSizeValue = computed(foundation.getFixedItemSizeValue);
 
-  const fixedItemSizeValue = computed(() => {
-    if (!props.fixedSize) {
-      return undefined;
-    }
+  const minItemSizeValue = computed(foundation.getMinItemSizeValue);
 
-    return formatSizeValue(
-      typeof props.itemSize === 'number' || typeof props.itemSize === 'string'
-        ? props.itemSize
-        : undefined,
-    );
-  });
-
-  const minItemSizeValue = computed(() => formatSizeValue(props.minItemSize));
-
-  const virtualizerKey = computed(() =>
-    [
-      isHorizontal.value ? 'horizontal' : 'vertical',
-      props.fixedSize ? 'fixed' : 'dynamic',
-      itemSizeHint.value ?? 'auto',
-      minItemSizeValue.value ?? 'none',
-    ].join(':'),
-  );
+  const virtualizerKey = computed(foundation.getVirtualizerKey);
 
   const resolvedBuffer = computed(() => props.buffer);
 
@@ -384,77 +380,9 @@
     return style;
   });
 
-  const resolvedOverlayOptions = computed<OverlayScrollbarsPartialOptions>(() => {
-    const scrollbarProps = resolvedScrollbarProps.value;
-    const overlayOptions = scrollbarProps.overlayOptions ?? {};
-    const isTrackType = scrollbarProps.type === 'track';
-
-    return {
-      ...overlayOptions,
-      paddingAbsolute: scrollbarProps.paddingAbsolute ?? overlayOptions.paddingAbsolute,
-      showNativeOverlaidScrollbars:
-        scrollbarProps.showNativeOverlaidScrollbars ?? overlayOptions.showNativeOverlaidScrollbars,
-      update: (scrollbarProps.updateOptions ??
-        overlayOptions.update) as OverlayScrollbarsPartialOptions['update'],
-      overflow: {
-        x: 'scroll',
-        y: 'scroll',
-        ...overlayOptions.overflow,
-        ...scrollbarProps.overflow,
-      },
-      scrollbars: {
-        theme: isTrackType ? 'sd-scrollbar-theme-track' : 'sd-scrollbar-theme-embed',
-        visibility: isTrackType ? 'visible' : 'auto',
-        autoHide: isTrackType ? 'never' : 'leave',
-        autoHideSuspend: true,
-        clickScroll: 'instant',
-        ...overlayOptions.scrollbars,
-        ...scrollbarProps.scrollbars,
-      },
-    };
-  });
-
-  const resolveOSInstance = () => {
-    const instance = osInstanceRef.value;
-    if (!instance || instance.state().destroyed) {
-      return null;
-    }
-    return instance;
-  };
-
-  const destroyOverlayScrollbar = () => {
-    overlayViewportReadyRef.value = false;
-    osInstanceRef.value?.destroy();
-    osInstanceRef.value = null;
-  };
-
-  const initOverlayScrollbar = async (waitForDom = true) => {
-    destroyOverlayScrollbar();
-
-    if (waitForDom) {
-      await nextTick();
-    }
-
-    const host = scrollbarHostRef.value;
-    const viewport = viewportRef.value;
-    if (!host || !viewport) {
-      return;
-    }
-
-    osInstanceRef.value = OverlayScrollbars(
-      {
-        target: host,
-        elements: {
-          viewport,
-          padding: false,
-          content: false,
-        },
-      },
-      resolvedOverlayOptions.value,
-    );
-
-    overlayViewportReadyRef.value = true;
-  };
+  const resolvedOverlayOptions = computed<OverlayScrollbarsPartialOptions>(
+    foundation.getResolvedOverlayOptions,
+  );
 
   onMounted(() => {
     void initOverlayScrollbar(false);
@@ -464,176 +392,9 @@
     destroyOverlayScrollbar();
   });
 
-  watch(
-    [resolvedOverlayOptions],
-    async () => {
-      await nextTick();
+  watch([resolvedOverlayOptions], foundation.syncOverlayOptions, { deep: true });
 
-      const osInstance = resolveOSInstance();
-      if (!osInstance) {
-        await initOverlayScrollbar(true);
-        return;
-      }
-
-      osInstance.options(resolvedOverlayOptions.value);
-      osInstance.update(true);
-    },
-    { deep: true },
-  );
-
-  watch(
-    () => resolvedItems.value,
-    async () => {
-      await nextTick();
-      resolveOSInstance()?.update(true);
-    },
-    { deep: true },
-  );
-
-  const getRemainingScroll = (target: HTMLElement) =>
-    isHorizontal.value
-      ? target.scrollWidth - (target.scrollLeft + target.clientWidth)
-      : target.scrollHeight - (target.scrollTop + target.clientHeight);
-
-  const onScroll = (ev: Event) => {
-    emit('scroll', ev);
-    const target = ev.target as HTMLElement | undefined;
-    if (!target) {
-      return;
-    }
-    const bottom = Math.floor(getRemainingScroll(target));
-    if (bottom <= 0) {
-      emit('reachBottom', ev);
-    }
-  };
-
-  const onVirtuaScrollEnd = () => {
-    emit('scrollEnd');
-    const osInstance = resolveOSInstance();
-    const target =
-      (osInstance?.elements().scrollOffsetElement as HTMLElement | undefined) ??
-      (osInstance?.elements().viewport as HTMLElement | undefined) ??
-      viewportRef.value;
-    if (!target) {
-      return;
-    }
-    if (Math.floor(getRemainingScroll(target)) <= 0) {
-      emit('reachBottom', new Event('scroll'));
-    }
-  };
-
-  const normalizeAlign = (align: ListAlign | undefined): ScrollAlign | undefined => {
-    if (!align || align === 'auto') {
-      return 'nearest';
-    }
-    if (align === 'top') {
-      return 'start';
-    }
-    if (align === 'bottom') {
-      return 'end';
-    }
-    return align;
-  };
-
-  const getItemKey = (item: unknown, index: number): VirtualItemKey => {
-    const keyField = props.keyField;
-
-    if (typeof keyField === 'function') {
-      return keyField(item, index);
-    }
-
-    if (item && typeof item === 'object' && isString(keyField)) {
-      return ((item as Record<string, unknown>)[keyField] ?? index) as VirtualItemKey;
-    }
-
-    return index;
-  };
-
-  const findIndexByKey = (key: VirtualItemKey) => {
-    return resolvedItems.value.findIndex((item, index) => getItemKey(item, index) === key);
-  };
-
-  const getVirtua = () => virtuaRef.value;
-
-  const scrollToItem = (index: number, options?: ScrollToOptions) => {
-    getVirtua()?.scrollToIndex(index, {
-      align: normalizeAlign(options?.align),
-      smooth: options?.smooth,
-      offset: options?.offset,
-    });
-  };
-
-  const scrollToPosition = (position: number, options?: ScrollToOptions) => {
-    const viewport = viewportRef.value;
-    if (!viewport) {
-      return;
-    }
-
-    if (options?.smooth) {
-      viewport.scrollTo({ [isHorizontal.value ? 'left' : 'top']: position, behavior: 'smooth' });
-      return;
-    }
-
-    if (isHorizontal.value) viewport.scrollLeft = position;
-    else viewport.scrollTop = position;
-  };
-
-  const findItemIndex = (offset: number) => getVirtua()?.findItemIndex(offset) ?? -1;
-
-  const getItemOffset = (index: number) => getVirtua()?.getItemOffset(index) ?? 0;
-
-  const getItemSize = (index: number) => getVirtua()?.getItemSize(index) ?? 0;
-
-  const cacheSnapshot = () => getVirtua()?.cache;
-
-  // virtua restores cache only through the `cache` prop on mount, so there is no
-  // imperative restore at runtime. Kept for API compatibility (no internal caller).
-  const restoreCache = () => false;
-
-  // virtua re-measures and re-renders the visible range automatically. Kept for
-  // API compatibility (no internal caller).
-  const updateVisibleItems = () => {};
-
-  const scrollToBottom = () => {
-    const handle = getVirtua();
-    if (!handle) {
-      return;
-    }
-    handle.scrollTo(handle.scrollSize);
-  };
-
-  // virtua measures item sizes continuously, so a manual force update is a no-op.
-  // Kept for API compatibility (no internal caller).
-  const forceUpdate = () => {};
-
-  const getDynamicItemSize = (_item: unknown, index?: number) => {
-    if (typeof index !== 'number') {
-      return 0;
-    }
-    return getItemSize(index);
-  };
-
-  const scrollTo = (options: ScrollOptions) => {
-    if (typeof options === 'number') {
-      scrollToPosition(options);
-      return;
-    }
-
-    let index = options.index;
-    if (typeof index !== 'number' && options.key !== undefined) {
-      index = findIndexByKey(options.key);
-    }
-
-    if (typeof index !== 'number' || index < 0) {
-      return;
-    }
-
-    scrollToItem(index, {
-      align: normalizeAlign(options.align),
-      smooth: options.smooth,
-      offset: options.offset,
-    });
-  };
+  watch(() => resolvedItems.value, foundation.syncItems, { deep: true });
 
   defineExpose({
     scrollToItem,
@@ -652,23 +413,5 @@
 </script>
 
 <style lang="scss">
-  .sd-virtual-list {
-    width: 100%;
-    height: 100%;
-    min-height: 0;
-    overflow: hidden;
-
-    &-scrollbar {
-      width: 100%;
-      height: 100%;
-      min-height: 0;
-      overflow: hidden;
-    }
-
-    &-scroller {
-      width: 100%;
-      height: 100%;
-      min-height: 0;
-    }
-  }
+  @use '@sdata/web-core/styles/_components/virtual-list/style/layout.scss';
 </style>

@@ -41,39 +41,14 @@
 <script setup lang="ts">
   import { computed, inject } from 'vue';
 
+  import { createCalendarSurfaceRules } from '@sdata/web-core/calendar/surfaces';
+
   import { calendarInjectionKey } from '../context';
 
   const calendar = inject(calendarInjectionKey)!;
-  const { config, texts, view } = calendar;
+  const { config, view } = calendar;
   const prefixCls = calendar.prefixCls;
 
-  const timeCells = computed(() => {
-    const cells = [];
-    const noon = 12 * 60;
-
-    for (let i = config.timeFrom; i < config.timeTo; i += config.timeStep) {
-      const isLastCell = i + config.timeStep > config.timeTo;
-      const hours = ~~(i / 60); // 0 to 23.
-      const mins = i % 60;
-      const amPm = texts[i < noon ? 'am' : 'pm'];
-
-      let cellHeight = null;
-      // If last cell, check if the cell is full or truncated.
-      // E.g. timeStep = 1h, timeTo = 19h30. -> The last cell will be --${prefixCls}-time-cell-size * 0.5%.
-      if (isLastCell) {
-        const percentageOfFullCell = (config.timeTo - i) / config.timeStep;
-        cellHeight = `calc(var(--${prefixCls}-time-cell-size) * ${percentageOfFullCell})`;
-      }
-
-      cells.push({
-        minutesSum: i, // The sum of hours + minutes in minutes.
-        hours,
-        minutes: mins,
-        formatted12: `${!(hours % 12) ? 12 : hours % 12}${mins ? `:${mins.toString().padStart(2, '0')}` : ''}${amPm}`,
-        formatted24: `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`,
-        height: cellHeight,
-      });
-    }
-    return cells;
-  });
+  const rules = createCalendarSurfaceRules(calendar, { isDark: false, hasTimeColumn: false });
+  const timeCells = computed(rules.timeCells);
 </script>

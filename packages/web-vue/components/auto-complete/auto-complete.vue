@@ -106,6 +106,10 @@
   import { computed, ref, toRef, useAttrs, useSlots, watch } from 'vue';
   import type { ComponentPublicInstance, PropType } from 'vue';
 
+  import {
+    createAutoComplete,
+    getAutoCompleteFilter,
+  } from '@sdata/web-core/auto-complete/foundation';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { VirtualListProps } from '../_components/virtual-list/interface';
@@ -123,7 +127,6 @@
   import { useDropdownVirtualListProps } from '../_hooks/use-dropdown-virtual-list-props';
   import { useFormItem } from '../_hooks/use-form-item';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isFunction, isNull, isUndefined } from '../_utils/is';
   import { resolveDropdownVirtualListProps } from '../_utils/virtual-dropdown';
   import Ellipsis from '../ellipsis';
   import SdInput from '../input';
@@ -289,19 +292,12 @@
   const inputRef = ref<InstanceType<typeof SdInput>>();
   const computedValue = computed(() => props.modelValue ?? innerValue.value);
 
-  watch(toRef(props, 'modelValue'), (value) => {
-    if (isUndefined(value) || isNull(value)) innerValue.value = '';
-  });
-
   const computedValueKeys = computed(() =>
     computedValue.value ? [getKeyFromValue(computedValue.value)] : [],
   );
   const dropdownRef = ref();
   const optionRefs = ref<Record<string, HTMLElement>>({});
   const innerPopupVisible = ref(false);
-  watch([mergedDisabled, () => props.readonly], ([disabled, readonly]) => {
-    if (disabled || readonly) innerPopupVisible.value = false;
-  });
   const computedPopupVisible = computed(
     () => innerPopupVisible.value && validOptionInfos.value.length > 0,
   );
@@ -318,44 +314,39 @@
     ),
   );
 
-  const handlePopupVisibleChange = (popupVisible: boolean) => {
-    if (popupVisible && (props.readonly || mergedDisabled.value)) return;
-    innerPopupVisible.value = popupVisible;
-  };
-  const strictFilterOption = (inputValue: string, option: SelectOptionData) =>
-    // 与非 strict 路径对齐：非 strict 基于归一化后的 optionInfo.label 匹配
-    // （缺 label 时回退到 value 的字符串形式），strict 同样基于该归一化 label
-    // 做大小写敏感匹配，避免字符串/数字或缺 label 的数据一输入就被过滤成空
-    Boolean(String(option.label ?? option.value ?? '').includes(inputValue));
-  const mergedFilterOption = computed(() => {
-    if (isFunction(props.filterOption)) return props.filterOption;
-    if (props.filterOption && props.strict) return strictFilterOption;
-    return props.filterOption;
+  const foundation = createAutoComplete({
+    get readonly() {
+      return props.readonly;
+    },
+    get disabled() {
+      return mergedDisabled.value;
+    },
+    get options() {
+      return optionInfoMap;
+    },
+    setInner(value) {
+      innerValue.value = value;
+    },
+    setPopup(value) {
+      innerPopupVisible.value = value;
+    },
+    onUpdate: (value) => emit('update:modelValue', value),
+    onChange: (value) => emit('change', value),
+    onFormChange: () => eventHandlers.value?.onChange?.(),
+    onSelect: (value) => emit('select', value),
+    onSearch: (value) => emit('search', value),
+    onClear: (event) => emit('clear', event),
+    blur: () => inputRef.value?.blur(),
   });
-  const handleChange = (value: string) => {
-    innerValue.value = value;
-    emit('update:modelValue', value);
-    emit('change', value);
-    eventHandlers.value?.onChange?.();
-  };
-  const handleClear = (event: Event) => {
-    innerValue.value = '';
-    emit('update:modelValue', '');
-    emit('change', '');
-    eventHandlers.value?.onChange?.();
-    emit('clear', event);
-  };
-  const handleSelect = (key: string, _event: Event) => {
-    if (props.readonly || mergedDisabled.value) return;
-    const value = String(optionInfoMap.get(key)?.value ?? '');
-    emit('select', value);
-    handleChange(value);
-    inputRef.value?.blur();
-  };
-  const handleInputValueChange = (value: string) => {
-    emit('search', value);
-    handleChange(value);
-  };
+  watch(toRef(props, 'modelValue'), foundation.syncValue);
+  watch([mergedDisabled, () => props.readonly], foundation.syncDisabled);
+  const mergedFilterOption = computed(() =>
+    getAutoCompleteFilter(props.filterOption, props.strict),
+  );
+  const handlePopupVisibleChange = foundation.popup;
+  const handleClear = foundation.clear;
+  const handleSelect = foundation.select;
+  const handleInputValueChange = foundation.input;
   const handleDropdownScroll = (event: Event) => emit('dropdownScroll', event);
   const handleDropdownReachBottom = (event: Event) => emit('dropdownReachBottom', event);
 

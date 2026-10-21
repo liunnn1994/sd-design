@@ -53,18 +53,39 @@
 <script setup lang="ts">
   import { computed, inject, onBeforeUnmount, onMounted, ref } from 'vue';
 
+  import { createCalendarBodyController } from '@sdata/web-core/calendar/surface-interaction';
+  import { createCalendarSurfaceRules } from '@sdata/web-core/calendar/surfaces';
+
   import { calendarInjectionKey } from '../context';
-  import { percentageToMinutes, pxToPercentage } from '../utils/conversions';
   import VueCalCell from './cell.vue';
 
   const calendar = inject(calendarInjectionKey)!;
-  const { view, config, dateUtils, touch: globalTouchState, eventsManager } = calendar;
+  const { view, config, eventsManager } = calendar;
   const prefixCls = calendar.prefixCls;
 
   const bodyEl = ref<HTMLElement | null>(null);
   const cursorXPercent = ref<number | null>(null);
   const cursorYPercent = ref<number | null>(null);
 
+  const cursor = {
+    get x() {
+      return cursorXPercent.value;
+    },
+    set x(value: number | null) {
+      cursorXPercent.value = value;
+    },
+    get y() {
+      return cursorYPercent.value;
+    },
+    set y(value: number | null) {
+      cursorYPercent.value = value;
+    },
+  };
+  const rules = createCalendarSurfaceRules(
+    calendar,
+    { isDark: false, hasTimeColumn: false },
+    cursor,
+  );
   // Use resizing state from events composable.
   const { resizeState } = eventsManager;
 
@@ -72,87 +93,17 @@
   // and frozen with the animated container when leaving in a vue transition, for a successful smooth
   // transition. In other terms, there can be 2 sd-calendar__scrollable elements that are animated with
   // different values of these CSS variables at the same time. Beautiful :)
-  const bodyStyles = computed(() => ({
-    [`--${prefixCls}-grid-columns`]: view.cols,
-    [`--${prefixCls}-grid-rows`]: view.rows,
-    [`--${prefixCls}-body-max-height`]: config.time
-      ? `${(config.timeCellHeight * (config.timeTo - config.timeFrom)) / config.timeStep}px`
-      : undefined,
-  }));
+  const bodyStyles = computed(rules.bodyStyles);
 
   // Computes the time at the current cursor position.
-  const timeAtCursor = computed(() => {
-    const isHzl = config.horizontal;
-    const cursorPercent = isHzl ? cursorXPercent.value : cursorYPercent.value;
-    if (cursorPercent === null) return { style: {}, time: '' };
-    const time = dateUtils.formatTime(
-      percentageToMinutes(cursorPercent, config),
-      config.twelveHour ? 'h:mm{am}' : 'HH:mm',
-    );
-    return {
-      style: { [isHzl ? 'left' : 'top']: `${cursorPercent}%` },
-      time,
-    };
+  const timeAtCursor = computed(rules.timeAtCursor);
+
+  const controller = createCalendarBodyController(calendar, cursor, {
+    get element() {
+      return bodyEl.value;
+    },
+    resizeState,
   });
-
-  const onBodyMousemove = (e: MouseEvent | TouchEvent) => {
-    if (view.isMonth || view.isYear || view.isYears) return;
-
-    // When resizing an event horizontally, update the current hovered cell from the body element,
-    // so there is only one event listener and no need for cell coordinates calculation.
-    const needsResizeCellUpdate = globalTouchState.isResizingEvent && config.editableEvents.resizeX;
-
-    // Skip all DOM work when nothing needs updating (common case when timeAtCursor is off).
-    if (!config.timeAtCursor && !needsResizeCellUpdate) return;
-
-    const domEvent = (e as TouchEvent).touches?.[0] || e; // Handle click or touch event.
-    const { clientX, clientY } = domEvent;
-
-    if (needsResizeCellUpdate)
-      resizeState.cellEl = getCellUnderMouse(clientX, clientY) as HTMLElement | null;
-
-    if (config.timeAtCursor && bodyEl.value) {
-      const { top, left } = bodyEl.value.getBoundingClientRect();
-      if (config.horizontal)
-        cursorXPercent.value = ((clientX - left) * 100) / bodyEl.value.clientWidth;
-      else cursorYPercent.value = pxToPercentage(clientY - top, bodyEl.value);
-    }
-  };
-
-  const onBodyMouseleave = () => {
-    cursorXPercent.value = null;
-    cursorYPercent.value = null;
-  };
-
-  /**
-   * Get the cell element that the mouse is currently over.
-   *
-   * @param {number} mouseX - The mouse X position in document coordinates
-   * @param {number} mouseY - The mouse Y position in document coordinates
-   * @returns {HTMLElement|null} - The cell element or null if not over a cell
-   */
-  const getCellUnderMouse = (mouseX: number, mouseY: number) => {
-    // Use elementFromPoint for better performance as it's optimized by the browser.
-    const element = document.elementFromPoint(mouseX, mouseY);
-    // Check if the element or its parent is a cell.
-    return element?.closest(`.${prefixCls}__cell`) || null;
-  };
-
-  onMounted(() => {
-    if (bodyEl.value) {
-      bodyEl.value.addEventListener('mousemove', onBodyMousemove);
-      bodyEl.value.addEventListener('touchmove', onBodyMousemove);
-      bodyEl.value.addEventListener('mouseleave', onBodyMouseleave);
-      bodyEl.value.addEventListener('touchend', onBodyMouseleave);
-    }
-  });
-
-  onBeforeUnmount(() => {
-    if (bodyEl.value) {
-      bodyEl.value.removeEventListener('mousemove', onBodyMousemove);
-      bodyEl.value.removeEventListener('touchmove', onBodyMousemove);
-      bodyEl.value.removeEventListener('mouseleave', onBodyMouseleave);
-      bodyEl.value.removeEventListener('touchend', onBodyMouseleave);
-    }
-  });
+  onMounted(controller.mount);
+  onBeforeUnmount(controller.dispose);
 </script>

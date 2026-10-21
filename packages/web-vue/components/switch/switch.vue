@@ -54,10 +54,11 @@
     onBeforeUpdate,
   } from 'vue';
 
+  import { createSwitchFoundation } from '@sdata/web-core/switch/foundation';
+
   import { useFormItem } from '../_hooks/use-form-item';
   import { useSize } from '../_hooks/use-size';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isFunction, isNull, isUndefined } from '../_utils/is';
   import IconLoading from '../icon/icon-loading';
 
   defineOptions({ name: 'Switch' });
@@ -236,9 +237,6 @@
   });
 
   const _checked = ref(props.defaultChecked ? props.checkedValue : props.uncheckedValue);
-  const computedCheck = computed<boolean>(
-    () => (props.modelValue ?? _checked.value) === props.checkedValue,
-  );
   const beforeChangeLoading = ref(false);
   const autoChangeLoading = ref(false);
   const rawProps = shallowRef(instance?.vnode.props);
@@ -255,59 +253,34 @@
     () => beforeChangeLoading.value || props.loading || autoChangeLoading.value,
   );
 
-  watch(
-    modelValue!,
-    () => {
-      autoChangeLoading.value = false;
+  const foundation = createSwitchFoundation<Event>({
+    getCheckedValue: () => props.checkedValue,
+    getUncheckedValue: () => props.uncheckedValue,
+    getModel: () => props.modelValue,
+    getInternal: () => _checked.value,
+    setInternal: (value) => {
+      _checked.value = value;
     },
-    {
-      flush: 'post',
+    isDisabled: () => mergedDisabled.value,
+    isLoading: () => computedLoading.value,
+    isAutoLoading: () => props.autoLoading,
+    hasLoadingProp: () => hasLoadingProp.value,
+    hasModelProp: () => hasModelValueProp.value,
+    getBeforeChange: () => props.beforeChange,
+    setBeforeLoading: (value) => {
+      beforeChangeLoading.value = value;
     },
-  );
-
-  watch(
-    [() => props.autoLoading, hasLoadingProp, hasModelValueProp],
-    ([autoLoading, hasLoading, hasModelValue]) => {
-      if (!autoLoading || hasLoading || !hasModelValue) autoChangeLoading.value = false;
+    setAutoLoading: (value) => {
+      autoChangeLoading.value = value;
     },
-  );
-
-  const handleChange = (checked: boolean, ev: Event) => {
-    _checked.value = checked ? props.checkedValue : props.uncheckedValue;
-
-    if (props.autoLoading && !hasLoadingProp.value && hasModelValueProp.value) {
-      autoChangeLoading.value = true;
-    }
-
-    emit('update:modelValue', _checked.value);
-    emit('change', _checked.value, ev);
-    eventHandlers.value?.onChange?.(ev);
-  };
-
-  const handleClick = async (ev: Event) => {
-    if (computedLoading.value || mergedDisabled.value) {
-      return;
-    }
-    const checked = !computedCheck.value;
-    const checkedValue = checked ? props.checkedValue : props.uncheckedValue;
-    const shouldChange = props.beforeChange;
-
-    if (isFunction(shouldChange)) {
-      beforeChangeLoading.value = true;
-      try {
-        const result = await shouldChange(checkedValue);
-        if ((result ?? true) && !mergedDisabled.value) {
-          handleChange(checked, ev);
-        }
-      } catch {
-        // 拒绝视为“阻止切换”（与 drawer 的 onBeforeOk 语义一致）：不翻转状态。
-      } finally {
-        beforeChangeLoading.value = false;
-      }
-    } else {
-      handleChange(checked, ev);
-    }
-  };
+    onUpdate: (value) => emit('update:modelValue', value),
+    onChange: (value, event) => emit('change', value, event),
+    onFormChange: (event) => eventHandlers.value?.onChange?.(event),
+  });
+  const computedCheck = computed(foundation.isChecked);
+  watch(modelValue!, foundation.resetAutoLoading, { flush: 'post' });
+  watch([() => props.autoLoading, hasLoadingProp, hasModelValueProp], foundation.syncAutoLoading);
+  const handleClick = foundation.click;
 
   const handleFocus = (ev: FocusEvent) => {
     emit('focus', ev);
@@ -319,11 +292,7 @@
     eventHandlers.value?.onBlur?.(ev);
   };
 
-  watch(modelValue!, (value) => {
-    if (isUndefined(value) || isNull(value)) {
-      _checked.value = props.uncheckedValue;
-    }
-  });
+  watch(modelValue!, foundation.syncModel);
 
   const cls = computed(() => [
     prefixCls,

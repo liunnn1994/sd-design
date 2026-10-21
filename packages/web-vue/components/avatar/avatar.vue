@@ -63,40 +63,20 @@
     onBeforeUpdate,
   } from 'vue';
 
+  import {
+    createAvatarFoundation,
+    getAvatarTriggerIconStyle,
+  } from '@sdata/web-core/avatar/foundation';
+
   import ResizeObserver from '../_components/resize-observer-v2';
   import { useIndex } from '../_hooks/use-index';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isNumber } from '../_utils/is';
   import { getAllElements } from '../_utils/vue-utils';
   import { configProviderInjectionKey } from '../config-provider/context';
   import IconImageClose from '../icon/icon-image-close';
   import IconLoading from '../icon/icon-loading';
   import { avatarGroupInjectionKey } from './context';
   import { AvatarShape, AvatarTriggerType, ObjectFit } from './interface';
-
-  const useTriggerIconStyle = ({
-    triggerType,
-    inlineStyle = {},
-    triggerIconStyle = {},
-  }: {
-    triggerType: AvatarTriggerType;
-    inlineStyle?: CSSProperties;
-    triggerIconStyle?: CSSProperties;
-  }): CSSProperties => {
-    let addon: CSSProperties = {};
-    if (
-      triggerType === 'button' &&
-      (!triggerIconStyle || (triggerIconStyle && !triggerIconStyle.color)) &&
-      inlineStyle &&
-      inlineStyle.backgroundColor
-    ) {
-      addon = { color: inlineStyle.backgroundColor };
-    }
-    return {
-      ...triggerIconStyle,
-      ...addon,
-    };
-  };
 
   defineOptions({ name: 'Avatar' });
 
@@ -187,7 +167,7 @@
     },
   });
 
-  const { shape, autoFixFontSize, triggerType, triggerIconStyle } = toRefs(props);
+  const { triggerType, triggerIconStyle } = toRefs(props);
   const prefixCls = getPrefixCls('avatar');
   const groupCtx = inject(avatarGroupInjectionKey, undefined);
   const configCtx = inject(configProviderInjectionKey, undefined);
@@ -195,10 +175,61 @@
 
   const itemRef = ref<HTMLDivElement>();
   const wrapperRef = ref<HTMLElement>();
+  const foundation: ReturnType<typeof createAvatarFoundation> = createAvatarFoundation(
+    {
+      props,
+      get group() {
+        return groupCtx;
+      },
+      get itemElement() {
+        return itemRef.value;
+      },
+      get wrapperElement() {
+        return wrapperRef.value;
+      },
+      get mergedSize() {
+        return mergedSize.value;
+      },
+      get mergedAutoFixFontSize() {
+        return mergedAutoFixFontSize.value;
+      },
+      get isImage() {
+        return isImage.value;
+      },
+      get index() {
+        return index.value;
+      },
+      get rtl() {
+        return rtl.value;
+      },
+      get hasError() {
+        return hasError.value;
+      },
+      set hasError(value) {
+        hasError.value = value;
+      },
+      get isLoaded() {
+        return isLoaded.value;
+      },
+      set isLoaded(value) {
+        isLoaded.value = value;
+      },
+    },
+    {
+      afterRender: (task) => {
+        void nextTick(task);
+      },
+      click: (event) => emit('click', event),
+      load: () => emit('load'),
+      error: () => emit('error'),
+    },
+  );
+  const { autoFixFontSizeHandler, onClick, handleResize, handleImgLoad, handleImgError } =
+    foundation;
 
-  const mergedShape = computed(() => groupCtx?.shape ?? shape.value);
-  const mergedSize = computed(() => groupCtx?.size ?? props.size);
-  const mergedAutoFixFontSize = computed(() => groupCtx?.autoFixFontSize ?? autoFixFontSize.value);
+  const mergedShape = computed(foundation.getMergedShape);
+  const mergedSize = computed(foundation.getMergedSize);
+  const mergedAutoFixFontSize = computed(foundation.getMergedAutoFixFontSize);
   const isImage = computed(() => {
     const firstChild = getAllElements(defaultSlot.value?.() ?? [])[0];
     if (typeof firstChild?.type === 'object' || typeof firstChild?.type === 'function') {
@@ -211,13 +242,7 @@
   const hasError = ref(false);
   const isLoaded = ref(false);
 
-  watch(
-    () => props.imageUrl,
-    () => {
-      hasError.value = false;
-      isLoaded.value = false;
-    },
-  );
+  watch(() => props.imageUrl, foundation.resetImageState);
 
   const index = groupCtx
     ? useIndex({
@@ -226,49 +251,15 @@
       }).computedIndex
     : ref(-1);
 
-  const outerStyle = computed(() => {
-    const style: CSSProperties = isNumber(mergedSize.value)
-      ? {
-          width: `${mergedSize.value}px`,
-          height: `${mergedSize.value}px`,
-          fontSize: `${mergedSize.value / 2}px`,
-        }
-      : {};
-    if (groupCtx) {
-      style.zIndex = groupCtx.zIndexAscend ? index.value + 1 : groupCtx.total - index.value;
-      const margin = index.value !== 0 ? `-${(mergedSize.value ?? 40) / 4}px` : '0';
-      style.marginLeft = rtl.value ? '0' : margin;
-      style.marginRight = rtl.value ? margin : undefined;
-    }
-
-    return style;
-  });
+  const outerStyle = computed(foundation.getOuterStyle);
 
   const computedTriggerIconStyle = computed(() =>
-    useTriggerIconStyle({
+    getAvatarTriggerIconStyle({
       triggerIconStyle: triggerIconStyle?.value,
       inlineStyle: attrs.style as CSSProperties,
       triggerType: triggerType.value,
     }),
   );
-
-  const autoFixFontSizeHandler = () => {
-    nextTick(() => {
-      if (!wrapperRef.value || !itemRef.value) {
-        return;
-      }
-      if (isImage.value || props.imageUrl || !mergedAutoFixFontSize.value) {
-        wrapperRef.value.style.transform = '';
-        return;
-      }
-      const textWidth = wrapperRef.value.clientWidth;
-      const avatarWidth = mergedSize.value ?? itemRef.value.offsetWidth;
-
-      const scale = avatarWidth / (textWidth + 8);
-      wrapperRef.value.style.transform =
-        avatarWidth && scale < 1 ? `scale(${scale}) translateX(-50%)` : '';
-    });
-  };
 
   onMounted(autoFixFontSizeHandler);
   onUpdated(autoFixFontSizeHandler);
@@ -279,23 +270,4 @@
   const wrapperCls = computed(() =>
     isImage.value || props.imageUrl ? `${prefixCls}-image` : `${prefixCls}-text`,
   );
-
-  const onClick = (e: MouseEvent) => {
-    emit('click', e);
-  };
-
-  const handleResize = () => {
-    if (mergedAutoFixFontSize.value) {
-      autoFixFontSizeHandler();
-    }
-  };
-
-  const handleImgLoad = () => {
-    isLoaded.value = true;
-    emit('load');
-  };
-  const handleImgError = () => {
-    hasError.value = true;
-    emit('error');
-  };
 </script>

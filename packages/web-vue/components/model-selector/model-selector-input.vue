@@ -18,6 +18,8 @@
 <script setup lang="ts">
   import { computed, watch } from 'vue';
 
+  import { createModelSelectorInputFoundation } from '@sdata/web-core/model-selector/input';
+
   import { getPrefixCls } from '../_utils/global-config';
   import IconSearch from '../icon/icon-search';
   import Input from '../input';
@@ -44,59 +46,39 @@
 
   const context = useModelSelectorContext('ModelSelectorInput');
   const prefixCls = getPrefixCls('model-selector-input');
-  const mergedValue = computed(() => props.modelValue ?? context.query.value);
-  const mergedInputAttrs = computed(() => ({
-    ...props.inputAttrs,
-    'type': 'search',
-    'role': 'combobox',
-    'autocomplete': 'off',
-    'aria-controls': context.listId,
-    'aria-expanded': context.visible.value,
-    'aria-activedescendant': context.activeDescendant.value,
-  }));
-
-  function handleInput(value: string) {
-    context.query.value = value;
-    emit('update:modelValue', value);
-  }
-
-  // 外部 v-model 也必须驱动 context.query，让过滤与受控值保持一致
-  watch(
-    () => props.modelValue,
-    (value) => {
-      if (value !== undefined) {
+  const foundation = createModelSelectorInputFoundation(
+    {
+      get modelValue() {
+        return props.modelValue;
+      },
+      get query() {
+        return context.query.value;
+      },
+      set query(value) {
         context.query.value = value;
-      }
+      },
+      get inputAttrs() {
+        return props.inputAttrs;
+      },
+      get listId() {
+        return context.listId;
+      },
+      get visible() {
+        return context.visible.value;
+      },
+      get activeDescendant() {
+        return context.activeDescendant.value;
+      },
     },
-    { immediate: true },
+    {
+      update: (value) => emit('update:modelValue', value),
+      moveActive: context.moveActive,
+      selectActive: context.selectActive,
+      setVisible: context.setVisible,
+    },
   );
-
-  function handleKeydown(event: KeyboardEvent) {
-    if (event.isComposing) {
-      return;
-    }
-    if (event.key === 'ArrowDown') {
-      event.preventDefault();
-      context.moveActive(1);
-      return;
-    }
-
-    if (event.key === 'ArrowUp') {
-      event.preventDefault();
-      context.moveActive(-1);
-      return;
-    }
-
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      context.selectActive(event);
-      return;
-    }
-
-    if (event.key === 'Escape') {
-      event.preventDefault();
-      event.stopPropagation();
-      context.setVisible(false);
-    }
-  }
+  const mergedValue = computed(() => foundation.getMergedValue());
+  const mergedInputAttrs = computed(() => foundation.getInputAttrs());
+  const { handleInput, handleKeydown } = foundation;
+  watch(() => props.modelValue, foundation.syncModelValue, { immediate: true });
 </script>

@@ -1,33 +1,22 @@
-import { onUnmounted, Ref, isRef, computed, onMounted, watch } from 'vue';
+import { onMounted, onUnmounted, computed, isRef, watch, type Ref } from 'vue';
 
-import ResponsiveObserve, { type ScreenMap, SiderBreakpoint } from '../_utils/responsive-observe';
+import { createResponsiveSubscription } from '@sdata/web-core/_utils/responsive';
 
+import type { SiderBreakpoint } from '../_utils/responsive-observe';
 export function useResponsive(
   breakpoint: SiderBreakpoint | undefined | Ref<SiderBreakpoint | undefined>,
   callback: (checked: boolean) => void,
 ) {
   const resultBreakpoint = computed(() => (isRef(breakpoint) ? breakpoint.value : breakpoint));
-  // Subscription Responsive
-  let subscribeToken = '';
-  let latestScreens: ScreenMap = {};
-  onMounted(() => {
-    subscribeToken = ResponsiveObserve.subscribe((screens, breakpointChecked) => {
-      latestScreens = screens;
-      if (!resultBreakpoint.value) return;
-      if (!breakpointChecked || breakpointChecked === resultBreakpoint.value) {
-        callback(!!screens[resultBreakpoint.value]);
-      }
-    });
-  });
-  watch(resultBreakpoint, (nextBreakpoint) => {
-    if (subscribeToken && nextBreakpoint) {
-      callback(!!latestScreens[nextBreakpoint]);
-    }
-  });
-  // Unsubscribe
-  onUnmounted(() => {
-    if (subscribeToken) {
-      ResponsiveObserve.unsubscribe(subscribeToken);
-    }
-  });
+  const subscription = createResponsiveSubscription(
+    {
+      get breakpoint() {
+        return resultBreakpoint.value;
+      },
+    },
+    callback,
+  );
+  onMounted(subscription.mount);
+  watch(resultBreakpoint, subscription.refresh);
+  onUnmounted(subscription.dispose);
 }

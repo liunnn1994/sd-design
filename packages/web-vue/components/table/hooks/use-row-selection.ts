@@ -1,12 +1,12 @@
 import type { Ref } from 'vue';
 import { computed, ref } from 'vue';
 
+import { createRowSelectionFoundation } from '@sdata/web-core/table/selection';
+
 import type { BaseType, EmitFn2 } from '../../_utils/types';
 import type { TableDataWithRaw, TableRowSelection } from '../interface';
 
-import { union } from '../../_utils/array';
 import { TableData } from '../interface';
-import { getLeafKeys } from '../utils';
 
 export const useRowSelection = ({
   selectedKeys,
@@ -39,73 +39,27 @@ export const useRowSelection = ({
     selectedRowKeys.value.filter((key) => currentAllRowKeys.value.includes(key)),
   );
 
-  const handleSelectAll = (checked: boolean) => {
-    const newKeys = union(selectedRowKeys.value, currentAllEnabledRowKeys.value, !checked);
-    _selectedRowKeys.value = newKeys;
-
-    emit('selectAll', checked);
-    emit('selectionChange', newKeys);
-    emit('update:selectedKeys', newKeys);
-  };
-
-  const handleSelect = (checked: boolean, record: TableDataWithRaw) => {
-    const selectedAllRowKeys = isRadio.value
-      ? [record.key]
-      : union(selectedRowKeys.value, [record.key], !checked);
-    _selectedRowKeys.value = selectedAllRowKeys;
-    emit('select', selectedAllRowKeys, record.key, record.raw);
-    emit('selectionChange', selectedAllRowKeys);
-    emit('update:selectedKeys', selectedAllRowKeys);
-  };
-
-  const handleSelectAllLeafs = (record: TableDataWithRaw, checked: boolean) => {
-    const newKeys = union(
-      selectedRowKeys.value,
-      getLeafKeys(record).filter((key) => currentAllEnabledRowKeys.value.includes(key)),
-      !checked,
-    );
-    _selectedRowKeys.value = newKeys;
-    emit('select', newKeys, record.key, record.raw);
-    emit('selectionChange', newKeys);
-    emit('update:selectedKeys', newKeys);
-  };
-
-  const select = (rowKey: BaseType | BaseType[], checked = true) => {
-    const _rowKeys = ([] as BaseType[]).concat(rowKey);
-    const newSelectedRowKeys = isRadio.value
-      ? checked
-        ? _rowKeys
-        : selectedRowKeys.value.filter((key) => !_rowKeys.includes(key))
-      : union(selectedRowKeys.value, _rowKeys, !checked);
-    _selectedRowKeys.value = newSelectedRowKeys;
-    emit('selectionChange', newSelectedRowKeys);
-    emit('update:selectedKeys', newSelectedRowKeys);
-  };
-
-  const selectAll = (checked = true) => {
-    const newKeys = union(selectedRowKeys.value, currentAllEnabledRowKeys.value, !checked);
-    _selectedRowKeys.value = newKeys;
-
-    emit('selectionChange', newKeys);
-    emit('update:selectedKeys', newKeys);
-  };
-
-  const clearSelected = () => {
-    _selectedRowKeys.value = [];
-
-    emit('selectionChange', []);
-    emit('update:selectedKeys', []);
-  };
+  const foundation = createRowSelectionFoundation<TableData>({
+    getSelectedKeys: () => selectedRowKeys.value,
+    getEnabledKeys: () => currentAllEnabledRowKeys.value,
+    isRadio: () => isRadio.value,
+    setSelectedKeys: (keys) => {
+      _selectedRowKeys.value = keys;
+    },
+    onSelectAll: (checked) => emit('selectAll', checked),
+    onSelect: (keys, key, record) => emit('select', keys, key, record),
+    onSelectionChange: (keys) => emit('selectionChange', keys),
+    onUpdateSelectedKeys: (keys) => emit('update:selectedKeys', keys),
+  });
 
   return {
     isRadio,
     selectedRowKeys,
     currentSelectedRowKeys,
-    handleSelectAll,
-    handleSelect,
-    handleSelectAllLeafs,
-    select,
-    selectAll,
-    clearSelected,
+    ...foundation,
+    handleSelect: (checked: boolean, record: TableDataWithRaw) =>
+      foundation.handleSelect(checked, record),
+    handleSelectAllLeafs: (record: TableDataWithRaw, checked: boolean) =>
+      foundation.handleSelectAllLeafs(record, checked),
   };
 };

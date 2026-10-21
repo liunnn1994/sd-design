@@ -1,5 +1,7 @@
 import { computed, getCurrentInstance, inject, onBeforeUpdate, Ref, shallowRef } from 'vue';
 
+import { resolveAllowSearch } from '@sdata/web-core/config/prop-values';
+
 import { configProviderInjectionKey } from '../config-provider/context';
 
 const ALLOW_SEARCH_PROP_NAMES = ['allowSearch', 'allow-search'] as const;
@@ -41,21 +43,28 @@ export const useAllowSearch = <T>(
     return options.compatPropNames.some((propName) => Object.hasOwn(rawProps, propName));
   });
 
-  const mergedAllowSearch = computed<T | undefined>(() => {
-    if (hasAllowSearchProp.value) {
-      return allowSearch?.value;
-    }
-
-    if (hasCompatProp.value) {
-      return options.getCompatValue?.();
-    }
-
-    if (configProviderCtx?.allowSearch === true) {
-      return true as T;
-    }
-
-    return options.getDefaultValue?.() ?? allowSearch?.value;
-  });
+  const mergedAllowSearch = computed<T | undefined>(() =>
+    resolveAllowSearch({
+      get hasLocalProp() {
+        return hasAllowSearchProp.value;
+      },
+      get hasCompatProp() {
+        return hasCompatProp.value;
+      },
+      get localValue() {
+        return allowSearch?.value;
+      },
+      get compatValue() {
+        return options.getCompatValue?.();
+      },
+      get globalValue() {
+        return configProviderCtx?.allowSearch;
+      },
+      get defaultValue() {
+        return options.getDefaultValue?.();
+      },
+    }),
+  );
 
   return {
     mergedAllowSearch,

@@ -1,8 +1,7 @@
 import { Ref } from 'vue';
 
-import ResizeObserver from 'resize-observer-polyfill';
-
 import { isFunction } from '../_utils/is';
+import { createResizeObserverController } from '../_utils/resize-observer';
 
 export const useResizeObserver = ({
   elementRef,
@@ -11,23 +10,11 @@ export const useResizeObserver = ({
   elementRef: Ref<HTMLElement | undefined>;
   onResize: (entry: ResizeObserverEntry) => void;
 }) => {
-  let resizeObserver: ResizeObserver | null;
-
-  const createResizeObserver = () => {
-    if (!elementRef.value) return;
-    resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => {
-      const entry = entries[0];
-      isFunction(onResize) && onResize(entry);
-    });
-    resizeObserver.observe(elementRef.value);
-  };
-
-  const destroyResizeObserver = () => {
-    if (resizeObserver) {
-      resizeObserver.disconnect();
-      resizeObserver = null;
-    }
-  };
+  const observer = createResizeObserverController((entry) => {
+    isFunction(onResize) && onResize(entry);
+  });
+  const createResizeObserver = () => observer.observe(elementRef.value);
+  const destroyResizeObserver = observer.disconnect;
 
   return {
     createResizeObserver,

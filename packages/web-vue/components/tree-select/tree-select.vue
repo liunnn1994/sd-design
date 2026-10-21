@@ -140,6 +140,16 @@
     inject,
   } from 'vue';
 
+  import { createTreeSelectFoundation } from '@sdata/web-core/tree-select/foundation';
+  import { createTreeSelectInteraction } from '@sdata/web-core/tree-select/interaction';
+  import {
+    isTreeSelectSelectable,
+    getTreeSelectViewValues,
+    getTreeSelectTriggerValue,
+    getTreeSelectDisplayValue,
+    getTreeSelectSelectedOptions,
+  } from '@sdata/web-core/tree-select/presentation';
+
   import type { FloatingOptions } from '../_utils/floating';
   import type { SpinProps } from '../spin';
 
@@ -154,7 +164,7 @@
   import { useReadonlyTip, useReadonlyTipText } from '../_hooks/use-readonly-tip';
   import { Size } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isUndefined, isFunction, isObject } from '../_utils/is';
+  import { isObject } from '../_utils/is';
   import pickSubCompSlots from '../_utils/pick-sub-comp-slots';
   import { Data } from '../_utils/types';
   import { resolveDropdownVirtualListProps } from '../_utils/virtual-dropdown';
@@ -165,8 +175,6 @@
   import Tooltip from '../tooltip';
   import useTreeData from '../tree/hooks/use-tree-data';
   import { TreeFieldNames, TreeNodeData, TreeProps, TreeNodeKey, Node } from '../tree/interface';
-  import { isNodeSelectable } from '../tree/utils';
-  import { getCheckedStateByCheck, isNodeCheckable } from '../tree/utils/check-utils';
   import Trigger, { TriggerProps } from '../trigger';
   import useFilterTreeNode from './hooks/use-filter-tree-node';
   import useSelectedState from './hooks/use-selected-state';
@@ -766,9 +774,7 @@
   });
   const isMultiple = computed(() => multiple.value || mergedTreeCheckable.value);
   const isSelectable = (node: TreeNodeData, info: { level: number; isLeaf: boolean }) => {
-    if (selectable.value === 'leaf') return info.isLeaf;
-    if (isFunction(selectable.value)) return selectable.value(node, info);
-    return selectable.value ?? false;
+    return isTreeSelectSelectable(selectable, node, info);
   };
   const isCheckable = computed(() => (mergedTreeCheckable.value ? isSelectable : false));
   const retainInputValue = computed(
@@ -805,80 +811,50 @@
     }),
   );
 
-  function isNodeClosable(node: Node) {
-    return mergedTreeCheckable.value ? isNodeCheckable(node) : isNodeSelectable(node);
-  }
-
-  const selectViewValue = computed(() => {
-    if (isUndefined(selectedValue.value)) {
-      return [];
-    }
-    if (isMultiple.value && !mergedDisabled.value) {
-      return selectedValue.value.map((i) => {
-        const node = key2TreeNode.value.get(i.value);
-        return {
-          ...i,
-          option: node?.treeNodeData,
-          closable: !node || isNodeClosable(node),
-        };
-      }) as SelectViewValue[];
-    }
-    return selectedValue.value.map((i) => {
-      const node = key2TreeNode.value.get(i.value);
-      return {
-        ...i,
-        option: node?.treeNodeData,
-      };
-    }) as SelectViewValue[];
-  });
-  const triggerValue = computed<TreeSelectValue | undefined>(() => {
-    const values = labelInValue.value ? selectedValue.value : selectedKeys.value;
-    return isMultiple.value ? values : values?.[0];
-  });
-  const triggerDisplayValue = computed(() => {
-    const labels = selectViewValue.value.map((item) => String(item.label));
-    return isMultiple.value ? labels : (labels[0] ?? '');
-  });
-  const triggerSelectedOptions = computed(() =>
-    selectViewValue.value
-      .map((item) => item.option)
-      .filter((option): option is TreeNodeData => Boolean(option)),
-  );
-
-  const setSelectedKeys = (newVal: TreeNodeKey[]) => {
-    setLocalSelectedKeys(newVal);
-
-    nextTick(() => {
-      const forEmitValue =
-        (labelInValue.value ? localSelectedValue.value : localSelectedKeys.value) || [];
-
-      const emitValue = isMultiple.value ? forEmitValue : forEmitValue[0];
-
-      emit('update:modelValue', emitValue);
-      emit('change', emitValue);
-      eventHandlers.value?.onChange?.();
-    });
+  const presentationState = {
+    get selectedValues() {
+      return selectedValue.value;
+    },
+    get selectedKeys() {
+      return selectedKeys.value;
+    },
+    get labelInValue() {
+      return labelInValue.value;
+    },
+    get multiple() {
+      return isMultiple.value;
+    },
+    get disabled() {
+      return mergedDisabled.value;
+    },
+    get nodes() {
+      return key2TreeNode.value;
+    },
+    isNodeClosable: (node: Node) => treeSelectFoundation.isNodeClosable(node),
   };
+  const selectViewValue = computed(
+    () => getTreeSelectViewValues(presentationState) as SelectViewValue[],
+  );
+  const triggerValue = computed<TreeSelectValue | undefined>(() =>
+    getTreeSelectTriggerValue(presentationState),
+  );
+  const triggerDisplayValue = computed(() =>
+    getTreeSelectDisplayValue({
+      get values() {
+        return selectViewValue.value;
+      },
+      get multiple() {
+        return isMultiple.value;
+      },
+    }),
+  );
+  const triggerSelectedOptions = computed(() =>
+    getTreeSelectSelectedOptions<TreeNodeData>(selectViewValue.value),
+  );
 
   const _inputValue = ref(props.defaultInputValue);
   const computedInputValue = computed(() => props.inputValue ?? _inputValue.value);
   const searchValue = computedInputValue;
-
-  const updateInputValue = (inputValue: string) => {
-    _inputValue.value = inputValue;
-    emit('update:inputValue', inputValue);
-    emit('inputValueChange', inputValue);
-  };
-
-  const handleInputValueChange = (inputValue: string) => {
-    if (inputValue !== computedInputValue.value) {
-      setPanelVisible(true);
-      updateInputValue(inputValue);
-      if (mergedAllowSearch.value) {
-        emit('search', inputValue);
-      }
-    }
-  };
 
   const [panelVisible, setLocalPanelVisible] = useMergeState(
     defaultPopupVisible!.value ?? defaultShow!.value ?? false,
@@ -886,25 +862,49 @@
       value: computed(() => popupVisible!.value ?? show!.value),
     }),
   );
-  const _setPanelVisible = (visible: boolean) => {
-    if (visible !== panelVisible.value) {
-      setLocalPanelVisible(visible);
-      emit('popup-visible-change', visible);
-      emit('update:popupVisible', visible);
-      emit('showChange', visible);
-      emit('update:show', visible);
-    }
-
-    if (!visible) {
-      refSelectView.value && refSelectView.value.blur && refSelectView.value.blur();
-    }
-  };
-
   const { tipVisible, show: showReadonlyTip } = useReadonlyTip(
     toRef(props, 'readonly'),
     mergedDisabled,
   );
   const readonlyTipText = useReadonlyTipText(toRef(props, 'readonly'));
+  const { updateInputValue, handleInputValueChange, setPanelVisible } = createTreeSelectInteraction(
+    {
+      get inputValue() {
+        return computedInputValue.value;
+      },
+      get panelVisible() {
+        return panelVisible.value;
+      },
+      get readonly() {
+        return props.readonly;
+      },
+      get disabled() {
+        return mergedDisabled.value;
+      },
+      get allowSearch() {
+        return mergedAllowSearch.value;
+      },
+    },
+    {
+      setInputValue: (value) => {
+        _inputValue.value = value;
+      },
+      setPanelVisible: setLocalPanelVisible,
+      showReadonlyTip,
+      blur: () => {
+        refSelectView.value && refSelectView.value.blur && refSelectView.value.blur();
+      },
+      events: {
+        updateInputValue: (value) => emit('update:inputValue', value),
+        inputValueChange: (value) => emit('inputValueChange', value),
+        search: (value) => emit('search', value),
+        popupVisibleChange: (visible) => emit('popup-visible-change', visible),
+        updatePopupVisible: (visible) => emit('update:popupVisible', visible),
+        showChange: (visible) => emit('showChange', visible),
+        updateShow: (visible) => emit('update:show', visible),
+      },
+    },
+  );
 
   // combobox 语义落到触发器 <input>（经 SelectView inputAttrs）：role + 开合 + popup 类型 + 自动补全
   // tree-select 弹层内是 Tree（已有 roving tabindex + 方向键导航 + role=tree/treeitem），选项经焦点朗读
@@ -914,14 +914,6 @@
     'aria-haspopup': 'tree',
     'aria-autocomplete': mergedAllowSearch.value ? 'list' : 'none',
   }));
-
-  const setPanelVisible = (visible: boolean) => {
-    if (visible && props.readonly && !mergedDisabled.value) {
-      showReadonlyTip();
-      return;
-    }
-    _setPanelVisible(visible);
-  };
 
   const { isEmptyFilterResult, filterTreeNode: computedFilterTreeNode } = useFilterTreeNode(
     reactive({
@@ -971,51 +963,38 @@
     return nextTriggerProps;
   });
 
-  const onBlur = () => {
-    if (!retainInputValue.value && computedInputValue.value) {
-      updateInputValue('');
-    }
-  };
-
+  const treeSelectFoundation = createTreeSelectFoundation<TreeNodeData, Node>({
+    getNodes: () => key2TreeNode.value,
+    getDisabled: () => mergedDisabled.value,
+    getReadonly: () => !!props.readonly,
+    getMultiple: () => isMultiple.value,
+    getCheckable: () => mergedTreeCheckable.value,
+    getCheckStrictly: () => treeCheckStrictly.value,
+    getLabelInValue: () => labelInValue.value,
+    getSelectedKeys: () => selectedKeys.value,
+    getLocalKeys: () => localSelectedKeys.value,
+    getLocalValues: () => localSelectedValue.value,
+    getInputValue: () => computedInputValue.value,
+    getRetainInput: () => retainInputValue.value,
+    setLocalKeys: setLocalSelectedKeys,
+    setPanelVisible,
+    updateInputValue,
+    afterRender: (task) => {
+      void nextTick(task);
+    },
+    onFormChange: () => eventHandlers.value?.onChange?.(),
+    events: {
+      updateValue: (value) => emit('update:modelValue', value),
+      change: (value) => emit('change', value),
+      clear: () => emit('clear'),
+    },
+  });
+  const {
+    blur: onBlur,
+    select: onSelectChange,
+    clear: onInnerClear,
+    remove: onItemRemove,
+  } = treeSelectFoundation;
   const onSearchValueChange = handleInputValueChange;
-
-  const onSelectChange = (newVal: TreeNodeKey[]) => {
-    if (mergedDisabled.value || props.readonly) return;
-    setSelectedKeys(newVal);
-    if (!retainInputValue.value && computedInputValue.value) {
-      updateInputValue('');
-    }
-
-    if (!isMultiple.value) {
-      setPanelVisible(false);
-    }
-  };
-
   const onVisibleChange = setPanelVisible;
-
-  const onInnerClear = () => {
-    if (mergedDisabled.value || props.readonly) return;
-    setSelectedKeys([]);
-    emit('clear');
-  };
-
-  const onItemRemove = (id: string) => {
-    if (mergedDisabled.value || props.readonly) return;
-    const node = key2TreeNode.value.get(id);
-    if (mergedTreeCheckable.value && node) {
-      if (isNodeClosable(node)) {
-        const [newVal] = getCheckedStateByCheck({
-          node,
-          checked: false,
-          checkedKeys: selectedKeys.value,
-          indeterminateKeys: [],
-          checkStrictly: treeCheckStrictly.value,
-        });
-        setSelectedKeys(newVal);
-      }
-    } else {
-      const newVal = selectedKeys.value.filter((i) => i !== id);
-      setSelectedKeys(newVal);
-    }
-  };
 </script>

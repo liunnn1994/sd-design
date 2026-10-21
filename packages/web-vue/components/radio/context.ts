@@ -1,9 +1,10 @@
+import type { RadioType } from '@sdata/web-core/radio/types';
+
 import type { InjectionKey, Slots } from 'vue';
 
 import type { Size } from '../_utils/constant';
-
-export const RADIO_TYPES = ['radio', 'button'] as const;
-export type RadioType = (typeof RADIO_TYPES)[number];
+export { RADIO_TYPES } from '@sdata/web-core/radio/types';
+export type { RadioType } from '@sdata/web-core/radio/types';
 
 export interface RadioGroupContext {
   name: 'SDRadioGroup';

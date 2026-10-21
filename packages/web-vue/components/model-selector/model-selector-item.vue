@@ -34,7 +34,7 @@
     watch,
   } from 'vue';
 
-  import type { ModelSelectorItemData } from './types';
+  import { createModelSelectorItemFoundation } from '@sdata/web-core/model-selector/item';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { modelSelectorGroupInjectionKey } from './context';
@@ -99,67 +99,40 @@
   const id = Symbol(`model-selector-item-${uid}`);
   const domId = `${context.listId}-item-${uid}`;
   const itemRef = useTemplateRef<HTMLElement>('item');
-  // label 未通过 prop 提供时读取渲染文本；slot 文本是纯 DOM 变更（不经 Vue 响应式），
-  // 用 MutationObserver 触发重算，保证过滤始终拿到最新的渲染文本。
   const domTextVersion = shallowRef(0);
-  let labelObserver: MutationObserver | undefined;
-
-  const renderedLabel = computed(() => {
-    void domTextVersion.value;
-    return props.label || itemRef.value?.textContent?.trim() || props.value;
-  });
-
-  function updateRenderedLabel() {
-    const nextLabel = props.label || itemRef.value?.textContent?.trim() || props.value;
-    if (nextLabel !== renderedLabel.value) {
-      domTextVersion.value += 1;
-    }
-  }
-  onMounted(() => {
-    if (itemRef.value && typeof MutationObserver === 'function') {
-      labelObserver = new MutationObserver(updateRenderedLabel);
-      labelObserver.observe(itemRef.value, {
-        childList: true,
-        characterData: true,
-        subtree: true,
-      });
-    }
-  });
-
-  onBeforeUnmount(() => {
-    labelObserver?.disconnect();
-    labelObserver = undefined;
-  });
-
+  const foundation: ReturnType<typeof createModelSelectorItemFoundation> =
+    createModelSelectorItemFoundation(
+      {
+        props,
+        get element() {
+          return itemRef.value;
+        },
+        get renderedLabel(): string {
+          return renderedLabel.value;
+        },
+        get groupId() {
+          return groupContext?.id;
+        },
+        id,
+        domId,
+        get domTextVersion() {
+          return domTextVersion.value;
+        },
+        set domTextVersion(value) {
+          domTextVersion.value = value;
+        },
+      },
+      { select: (value, event) => emit('select', value, event), selectItem: context.selectItem },
+    );
+  const renderedLabel = computed(() => foundation.getRenderedLabel());
+  const { getItemData, handleSelect } = foundation;
+  onMounted(foundation.startLabelObserver);
+  onBeforeUnmount(foundation.stopLabelObserver);
   const isActive = computed(() => context.activeId.value === id);
   const isVisible = computed(() => {
     void context.itemsVersion.value;
     return context.getVisibleItems(groupContext?.id).some((item) => item.id === id);
   });
-
-  function getItemData(): ModelSelectorItemData {
-    return {
-      disabled: props.disabled,
-      domId,
-      element: itemRef.value ?? undefined,
-      groupId: groupContext?.id,
-      id,
-      keywords: props.keywords,
-      label: renderedLabel.value,
-      select: handleSelect,
-      shortcut: props.shortcut.trim() || undefined,
-      value: props.value,
-    };
-  }
-
-  function handleSelect(event: Event) {
-    if (props.disabled) {
-      return;
-    }
-
-    emit('select', props.value, event);
-    context.selectItem(getItemData(), event);
-  }
 
   onMounted(() => context.registerItem(getItemData()));
   onBeforeUnmount(() => context.unregisterItem(id));

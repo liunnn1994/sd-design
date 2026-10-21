@@ -1,5 +1,6 @@
 import { computed, toRefs, watch } from 'vue';
 
+import { getInitialDateValue } from '@sdata/web-core/date-picker/values';
 import { Dayjs } from 'dayjs';
 
 import useState from '../../_hooks/use-state';
@@ -28,11 +29,7 @@ export default function usePickerState(props: PickerStateProps) {
 
   // Selected value maintained internally: dayjs
   const [localValue, setLocalValue] = useState<Dayjs | undefined>(
-    !isUndefined(computedModelValue.value)
-      ? computedModelValue.value
-      : !isUndefined(computedDefaultValue.value)
-        ? computedDefaultValue.value
-        : undefined,
+    getInitialDateValue(computedModelValue.value, () => computedDefaultValue.value, undefined),
   );
 
   watch(computedModelValue, () => {

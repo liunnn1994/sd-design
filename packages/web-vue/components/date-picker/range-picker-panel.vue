@@ -140,6 +140,7 @@
 <script setup lang="ts">
   import { computed, PropType, reactive, ref, toRefs, watch } from 'vue';
 
+  import { getRangeDateShortcutValue } from '@sdata/web-core/date-picker/values';
   import { Dayjs } from 'dayjs';
 
   import type {
@@ -148,12 +149,10 @@
     Mode,
     RangeDisabledTime,
     RangeDisabledDate,
-    CalendarValue,
     WeekStart,
     StartHeaderProps,
   } from './interface';
 
-  import { getDayjsValue } from '../_utils/date';
   import { isArray, isFunction } from '../_utils/is';
   import DatePanel from './panels/date/index.vue';
   import PanelFooter from './panels/footer.vue';
@@ -162,7 +161,6 @@
   import PanelShortcuts from './panels/shortcuts.vue';
   import WeekPanel from './panels/week/index.vue';
   import YearPanel from './panels/year/index.vue';
-  import { normalizeRangeValue } from './utils';
 
   defineOptions({ name: 'DateRangePikerPanel' });
 
@@ -313,16 +311,8 @@
     }
   });
 
-  function getShortcutValue(shortcut: ShortcutType) {
-    return getDayjsValue(
-      normalizeRangeValue(
-        isFunction(shortcut.value) ? shortcut.value() : shortcut.value,
-      ) as CalendarValue[],
-      shortcut.format || format.value,
-      utcOffset?.value,
-      timezone?.value,
-    );
-  }
+  const getShortcutValue = (shortcut: ShortcutType) =>
+    getRangeDateShortcutValue(shortcut, format.value, utcOffset?.value, timezone?.value);
 
   function onShortcutClick(shortcut: ShortcutType) {
     emit('shortcut-click', getShortcutValue(shortcut), shortcut);

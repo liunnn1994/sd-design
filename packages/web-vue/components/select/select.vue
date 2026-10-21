@@ -128,6 +128,9 @@
     useSlots,
   } from 'vue';
 
+  import { createSelectFoundation } from '@sdata/web-core/select/foundation';
+  import { DEFAULT_FIELD_NAMES } from '@sdata/web-core/select/options';
+  import { getValueObjects, hasExtraValueChanges } from '@sdata/web-core/select/values';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { SelectViewValue } from '../_components/select-view/interface';
@@ -157,17 +160,7 @@
   import { useTrigger } from '../_hooks/use-trigger';
   import { debounce } from '../_utils/debounce';
   import { getPrefixCls } from '../_utils/global-config';
-  import {
-    isArray,
-    isEmptyObject,
-    isFunction,
-    isNull,
-    isNumber,
-    isObject,
-    isString,
-    isBoolean,
-    isUndefined,
-  } from '../_utils/is';
+  import { isNull, isObject, isUndefined } from '../_utils/is';
   import { resolveDropdownVirtualListProps } from '../_utils/virtual-dropdown';
   import Checkbox from '../checkbox';
   import { configProviderInjectionKey } from '../config-provider/context';
@@ -176,15 +169,7 @@
   import Trigger, { type TriggerProps } from '../trigger';
   import { useSelect } from './hooks/use-select';
   import SelectDropdown from './select-dropdown.vue';
-  import { getKeyFromValue, hasEmptyStringKey, isGroupOptionInfo, isValidOption } from './utils';
-
-  const DEFAULT_FIELD_NAMES: Required<SelectFieldNames> = {
-    value: 'value',
-    label: 'label',
-    children: 'children',
-    disabled: 'disabled',
-    tagProps: 'tagProps',
-  };
+  import { isGroupOptionInfo, isValidOption } from './utils';
 
   const DEFAULT_SELECT_VIRTUAL_ITEM_SIZE = 36;
 
@@ -529,23 +514,7 @@
   const _value = ref<SelectModelValue>(props.defaultValue);
   const computedValueObjects = computed<OptionValueWithKey[]>(() => {
     const mergedValue = props.modelValue !== undefined ? props.modelValue : _value.value;
-    const valueArray: SelectOptionValue[] = [];
-
-    if (isArray(mergedValue)) {
-      valueArray.push(...mergedValue);
-    } else if (
-      mergedValue ||
-      isNumber(mergedValue) ||
-      isString(mergedValue) ||
-      isBoolean(mergedValue)
-    ) {
-      valueArray.push(mergedValue);
-    }
-
-    return valueArray.map((item) => ({
-      value: item,
-      key: getKeyFromValue(item, props.valueKey),
-    }));
+    return getValueObjects(mergedValue, props.valueKey);
   });
 
   watch(
@@ -564,92 +533,49 @@
   }));
 
   const selectedOptionMap = ref<Record<string, unknown>>({});
-  const getRawOptionFromValueKeys = (valueKeys: string[]) => {
-    const optionMap: Record<string, unknown> = {};
-
-    valueKeys.forEach((key) => {
-      optionMap[key] = optionInfoMap.get(key);
-    });
-
-    return optionMap;
-  };
-
-  const updateSelectedOption = (valueKeys: string[]) => {
-    selectedOptionMap.value = getRawOptionFromValueKeys(valueKeys);
-  };
-
-  const getFallBackOption = (value: SelectOptionValue): SelectOptionData => {
-    if (isFunction(props.fallbackOption)) {
-      return props.fallbackOption(value);
-    }
-
-    return {
-      [mergedFieldNames.value.value]: value,
-      [mergedFieldNames.value.label]: String(isObject(value) ? value[valueKey.value] : value),
-    };
-  };
-
-  const shouldAppendExtraValue = (
-    keyArray: string[],
-    optionKey: string,
-    optionValue: SelectOptionValue,
-  ) => {
-    if (keyArray.includes(optionKey) || optionValue === '') {
-      return false;
-    }
-
-    const optionInfo = optionInfoMap.get(optionKey);
-    return !optionInfo || optionInfo.origin === 'extraOptions';
-  };
-
-  const appendExtraValue = (
-    valueArray: OptionValueWithKey[],
-    keyArray: string[],
-    option: OptionValueWithKey,
-  ) => {
-    valueArray.push(option);
-    keyArray.push(option.key);
-  };
-
-  const getExtraValueData = (): OptionValueWithKey[] => {
-    const valueArray: OptionValueWithKey[] = [];
-    const keyArray: string[] = [];
-
-    if (props.allowCreate || props.fallbackOption) {
-      for (const item of computedValueObjects.value) {
-        if (shouldAppendExtraValue(keyArray, item.key, item.value)) {
-          appendExtraValue(valueArray, keyArray, item);
-        }
-      }
-    }
-
-    if (props.allowCreate && computedInputValue.value) {
-      const createdOption = {
-        value: computedInputValue.value,
-        key: getKeyFromValue(computedInputValue.value),
-      };
-
-      if (shouldAppendExtraValue(keyArray, createdOption.key, createdOption.value)) {
-        appendExtraValue(valueArray, keyArray, createdOption);
-      }
-    }
-
-    return valueArray;
-  };
+  const selectFoundation = createSelectFoundation<Event>({
+    getOptions: () => optionInfoMap,
+    getMultiple: () => props.multiple,
+    getReadonly: () => !!props.readonly,
+    getLimit: () => props.limit,
+    getValueKey: () => props.valueKey,
+    getFieldNames: () => mergedFieldNames.value,
+    getAllowCreate: () => props.allowCreate,
+    getFallbackOption: () => props.fallbackOption,
+    getInputValue: () => computedInputValue.value,
+    getValueObjects: () => computedValueObjects.value,
+    getValueKeys: () => computedValueKeys.value,
+    getEnabledKeys: () => enabledOptionKeys.value,
+    getPopupVisible: () => computedPopupVisible.value,
+    getRetainInput: () => retainInputValue.value,
+    getAllowSearch: () => !!mergedAllowSearch.value,
+    getSelectedOptions: () => selectedOptionMap.value,
+    setSelectedOptions: (options) => {
+      selectedOptionMap.value = options;
+    },
+    setValue: (value) => {
+      _value.value = value;
+    },
+    setInputValue: (value) => {
+      _inputValue.value = value;
+    },
+    setPopupVisible: handlePopupVisibleChange,
+    search: (value) => handleSearch(value),
+    onFormChange: () => eventHandlers.value?.onChange?.(),
+    events: {
+      updateValue: (value) => emit('update:modelValue', value),
+      change: (value) => emit('change', value),
+      updateInput: (value) => emit('update:inputValue', value),
+      inputChange: (value) => emit('inputValueChange', value),
+      exceedLimit: (value, event) => emit('exceedLimit', value, event),
+      remove: (value) => emit('remove', value),
+      clear: (event) => emit('clear', event),
+    },
+  });
+  const getExtraValueData = selectFoundation.getExtraValueData;
 
   const extraValueObjects = ref<OptionValueWithKey[]>([]);
-  const extraOptions = computed<SelectOptionData[]>(() =>
-    extraValueObjects.value.map((item) => {
-      let optionInfo = getFallBackOption(item.value);
-      const extraOptionRawInfo = selectedOptionMap.value[item.key];
-
-      if (!isUndefined(extraOptionRawInfo) && !isEmptyObject(extraOptionRawInfo)) {
-        optionInfo = { ...optionInfo, ...(extraOptionRawInfo as Record<string, unknown>) };
-      }
-
-      return optionInfo;
-    }),
-  );
+  const extraOptions = computed(() => selectFoundation.getExtraOptions(extraValueObjects.value));
 
   const componentScope = getCurrentScope();
   nextTick(() => {
@@ -657,20 +583,8 @@
     componentScope.run(() => {
       watchEffect(() => {
         const valueData = getExtraValueData();
-        if (valueData.length !== extraValueObjects.value.length) {
+        if (hasExtraValueChanges(valueData, extraValueObjects.value, toRaw))
           extraValueObjects.value = valueData;
-          return;
-        }
-
-        for (let index = 0; index < valueData.length; index += 1) {
-          if (
-            valueData[index].key !== extraValueObjects.value[index]?.key ||
-            toRaw(valueData[index].value) !== toRaw(extraValueObjects.value[index]?.value)
-          ) {
-            extraValueObjects.value = valueData;
-            break;
-          }
-        }
       });
     });
   });
@@ -678,117 +592,18 @@
   const _inputValue = ref(props.defaultInputValue);
   const computedInputValue = computed(() => props.inputValue ?? _inputValue.value);
 
-  watch(computedPopupVisible, (visible) => {
-    if (!visible && !retainInputValue.value && computedInputValue.value) {
-      updateInputValue('');
-    }
-  });
-
-  const getValueFromValueKeys = (valueKeys: string[]): SelectModelValue => {
-    if (!props.multiple) {
-      return (
-        optionInfoMap.get(valueKeys[0])?.value ??
-        (hasEmptyStringKey(optionInfoMap) ? (undefined as unknown as string) : '')
-      );
-    }
-
-    return valueKeys.map((key) => optionInfoMap.get(key)?.value ?? '');
-  };
-
-  const updateValue = (valueKeys: string[]) => {
-    const nextValue = getValueFromValueKeys(valueKeys);
-    _value.value = nextValue;
-    emit('update:modelValue', nextValue);
-    emit('change', nextValue);
-    eventHandlers.value?.onChange?.();
-    updateSelectedOption(valueKeys);
-  };
-
-  const updateInputValue = (inputValue: string) => {
-    _inputValue.value = inputValue;
-    emit('update:inputValue', inputValue);
-    emit('inputValueChange', inputValue);
-  };
-
-  const handleMultipleSelect = (key: string, ev: Event) => {
-    if (!computedValueKeys.value.includes(key)) {
-      if (enabledOptionKeys.value.includes(key)) {
-        if (props.limit > 0 && computedValueKeys.value.length >= props.limit) {
-          const info = optionInfoMap.get(key);
-          emit('exceedLimit', info?.value, ev);
-        } else {
-          updateValue(computedValueKeys.value.concat(key));
-        }
-      }
-    } else {
-      updateValue(computedValueKeys.value.filter((valueKeyItem) => valueKeyItem !== key));
-    }
-
-    if (!retainInputValue.value) {
-      updateInputValue('');
-    }
-  };
-
-  const handleSingleSelect = (key: string) => {
-    if (key !== computedValueKeys.value[0]) {
-      updateValue([key]);
-    }
-
-    if (retainInputValue.value) {
-      const optionInfo = optionInfoMap.get(key);
-      if (optionInfo) {
-        updateInputValue(optionInfo.label);
-      }
-    }
-
-    handlePopupVisibleChange(false);
-  };
-
-  const handleSelect = (key: string, ev: Event) => {
-    if (props.readonly) return;
-    if (props.multiple) {
-      handleMultipleSelect(key, ev);
-      return;
-    }
-
-    handleSingleSelect(key);
-  };
+  watch(computedPopupVisible, selectFoundation.popupChanged);
+  const { handleSelect } = selectFoundation;
 
   const handleSearch = debounce((value: string) => {
     emit('search', value);
   }, props.searchDelay);
   onBeforeUnmount(handleSearch.cancel);
 
-  const handleInputValueChange = (inputValue: string) => {
-    if (inputValue === computedInputValue.value) {
-      return;
-    }
-
-    if (!computedPopupVisible.value) {
-      handlePopupVisibleChange(true);
-    }
-
-    updateInputValue(inputValue);
-
-    if (mergedAllowSearch.value) {
-      handleSearch(inputValue);
-    }
-  };
-
-  const handleRemove = (key: string) => {
-    if (props.readonly) return;
-    const optionInfo = optionInfoMap.get(key);
-    updateValue(computedValueKeys.value.filter((currentKey) => currentKey !== key));
-    emit('remove', optionInfo?.value);
-  };
-
+  const { handleInputValueChange, handleRemove } = selectFoundation;
   const handleClear = (event: Event) => {
     event.stopPropagation();
-    if (props.readonly) return;
-    const newKeys = computedValueKeys.value.filter((key) => optionInfoMap.get(key)?.disabled);
-    updateValue(newKeys);
-    updateInputValue('');
-    emit('clear', event);
+    selectFoundation.handleClear(event);
   };
 
   const handleDropdownScroll = (event: Event) => {

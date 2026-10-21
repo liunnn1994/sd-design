@@ -53,7 +53,6 @@
             :outer-class="[`${prefixCls}__scrollable`, scrollableElClasses]"
             :class="`${prefixCls}__scrollable-content`"
             ref="scrollbarRef"
-            @scroll="onScrollableScroll"
           >
             <TimeColumn v-if="hasTimeColumn">
               <template v-if="$slots['time-cell']" #time-cell="params">
@@ -147,6 +146,9 @@
     useTemplateRef,
   } from 'vue';
 
+  import { createCalendarRootController } from '@sdata/web-core/calendar/surface-interaction';
+  import { createCalendarSurfaceRules } from '@sdata/web-core/calendar/surfaces';
+
   import { useThemeMode } from '../../_hooks/use-theme-mode';
   import { getPrefixCls } from '../../_utils/global-config';
   import Scrollbar from '../../scrollbar';
@@ -192,103 +194,49 @@
     uid: useId(),
     prefixCls,
   });
-  const { config, view, dateUtils, touch: touchState } = calendar;
+  const { config, view } = calendar;
   const themeMode = useThemeMode(calendarEl);
   const isDark = computed(() => themeMode.value === 'dark');
 
-  const syncCalendarPrefixedClasses = (rootEl: HTMLElement | null) => {
-    if (!rootEl) return;
-
-    const matchCalendarPrefix = (cls: string) => {
-      const matched = cls.match(/^(.+?-calendar)(?=--|__)/);
-      return matched ? matched[1] : null;
-    };
-
-    const syncElement = (el: Element) => {
-      if (!(el instanceof Element) || !el.classList?.length) return;
-
-      for (const cls of el.classList) {
-        const classPrefix = matchCalendarPrefix(cls);
-        if (!classPrefix || classPrefix === prefixCls) continue;
-
-        const prefixed = `${prefixCls}${cls.slice(classPrefix.length)}`;
-        if (prefixed && !el.classList.contains(prefixed)) el.classList.add(prefixed);
-      }
-    };
-
-    syncElement(rootEl);
-    rootEl.querySelectorAll('[class]').forEach(syncElement);
-  };
-  const hasTimeColumn = computed(() => config.time && (view.isDay || view.isDays || view.isWeek));
-
-  const weekNumbers = computed(() => {
-    return Array(view.rows)
-      .fill(0)
-      .map((v, i) => {
-        return dateUtils.getWeek(dateUtils.addDays(view.firstCellDate, 7 * i));
-      });
+  const rules: ReturnType<typeof createCalendarSurfaceRules> = createCalendarSurfaceRules(
+    calendar,
+    {
+      get isDark() {
+        return isDark.value;
+      },
+      get hasTimeColumn(): boolean {
+        return hasTimeColumn.value;
+      },
+    },
+  );
+  const rootController = createCalendarRootController(prefixCls, {
+    get element() {
+      return calendarEl.value;
+    },
   });
+  const hasTimeColumn = computed(rules.hasTimeColumn);
 
-  const wrapperClasses = computed(() => ({
-    [`${prefixCls}--ready`]: config.ready,
-    [`${prefixCls}--${config.theme}-theme`]: config.theme,
-    [`${prefixCls}--${config.size}`]: true,
-    [`${prefixCls}--date-picker`]: config.datePicker,
-    [`${prefixCls}--dark`]: isDark.value,
-    [`${prefixCls}--light`]: !isDark.value,
-    [`${prefixCls}--${view.id}-view`]: true,
-    [`${prefixCls}--view-has-time`]: hasTimeColumn.value,
-    [`${prefixCls}--timeless`]: !config.time,
-    [`${prefixCls}--dragging-cell`]: touchState.isDraggingCell,
-    [`${prefixCls}--dragging-event`]: touchState.isDraggingEvent,
-    [`${prefixCls}--resizing-event`]: touchState.isResizingEvent,
-    [`${prefixCls}--has-schedules`]: config.schedules?.length,
-    [`${prefixCls}--horizontal`]: config.horizontal,
-  }));
+  const weekNumbers = computed(rules.weekNumbers);
 
-  const wrapperStyles = computed(() => ({
-    [`--${prefixCls}-time-cell-size`]: config.timeCellHeight && `${config.timeCellHeight}px`,
-    [`--${prefixCls}-schedules-count`]: config.schedules?.length ?? 0,
-  }));
+  const wrapperClasses = computed(rules.wrapperClasses);
 
-  const scrollableElClasses = computed(() => ({
-    [`${prefixCls}__scrollable--row`]: hasTimeColumn.value || (config.weekNumbers && view.isMonth),
-    // Keep the states inside the Vue transition wrapper for smooth CSS transitions.
-    [`${prefixCls}__scrollable--${view.id}-view`]: true,
-    [`${prefixCls}__scrollable--has-schedules`]: config.schedules?.length,
-    [`${prefixCls}__scrollable--no-schedules`]: !config.schedules?.length,
-    [`${prefixCls}__scrollable--horizontal`]: config.horizontal,
-    [`${prefixCls}__scrollable--no-all-day-bar`]: !config.allDayEvents,
-    [`${prefixCls}__scrollable--has-all-day-bar`]: config.allDayEvents,
-  }));
+  const wrapperStyles = computed(rules.wrapperStyles);
 
-  const contextMenuHandler = (e: Event) => {
-    if ((e.target as HTMLElement)?.closest(`.${prefixCls}__cell, [class$="__cell"]`))
-      e.preventDefault();
-  };
-
-  const onScrollableScroll = (_ev: Event) => {
-    // Scroll events are handled internally by overlayscrollbars.
-    // This handler is exposed for potential custom scroll behavior.
-  };
+  const scrollableElClasses = computed(rules.scrollableElClasses);
 
   onMounted(async () => {
     // If touch device, prevent contextmenu on the cell so we can scroll on the cell on touch devices
     // or create an event on long press.
-    if (typeof window !== 'undefined' && window.hasOwnProperty('ontouchstart')) {
-      calendarEl.value?.addEventListener('contextmenu', contextMenuHandler);
-    }
+    rootController.mount();
 
     await nextTick();
-    syncCalendarPrefixedClasses(calendarEl.value);
+    rootController.sync();
 
     config.ready = true;
     emit('ready', { config, view });
   });
 
-  onBeforeUnmount(() => {
-    calendarEl?.value?.removeEventListener('contextmenu', contextMenuHandler);
-  });
+  onBeforeUnmount(rootController.dispose);
 
   // Share the calendar object across all the Vue components.
   provide(calendarInjectionKey, calendar);

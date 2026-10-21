@@ -1,0 +1,79 @@
+{
+  "name": "@sdata/web-core",
+  "version": "7.3.2",
+  "description": "Framework-independent foundations for SD Design",
+  "license": "AGPL-3.0-only",
+  "files": [
+    "dist",
+    "styles",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "./styles/**",
+    "./dist/sender/recorder-base.js",
+    "./dist/sender/recorder-engine.js"
+  ],
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.js"
+    },
+    "./package.json": "./package.json",
+    "./styles/*": "./styles/*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "pnpm run build && node --test tests/*.test.ts",
+    "theme:generate": "node ./scripts/theme-catalog.ts"
+  },
+  "dependencies": {
+    "@chenglou/pretext": "^0.0.9",
+    "@lexical/code": "^0.52.0",
+    "@lexical/history": "^0.52.0",
+    "@lexical/html": "^0.52.0",
+    "@lexical/link": "^0.52.0",
+    "@lexical/list": "^0.52.0",
+    "@lexical/markdown": "^0.52.0",
+    "@lexical/rich-text": "^0.52.0",
+    "@types/qrcode": "^1.5.6",
+    "@videojs/html": "^10.1.0",
+    "b-tween": "^0.3.3",
+    "b-validate": "^1.5.3",
+    "chroma-js": "^3.2.0",
+    "compute-scroll-into-view": "^3.1.1",
+    "copy-to-clipboard": "^4.0.2",
+    "cropperjs": "^2.3.0",
+    "csstype": "^3.2.3",
+    "dayjs": "^1.11.23",
+    "driver.js": "^1.10.2",
+    "es-toolkit": "catalog:",
+    "lexical": "^0.52.0",
+    "number-precision": "^1.6.0",
+    "overlayscrollbars": "^2.16.0",
+    "pdfjs-dist": "^6.4.299",
+    "qrcode": "^1.5.4",
+    "recorder-core": "^1.3.26070800",
+    "resize-observer-polyfill": "^1.5.1",
+    "sortablejs": "^1.15.7",
+    "stream-markdown-parser": "1.2.19",
+    "type-fest": "catalog:"
+  },
+  "devDependencies": {
+    "@types/chroma-js": "^3.1.2",
+    "@types/node": "~26.6.5",
+    "@types/sortablejs": "^1.15.9",
+    "oxfmt": "catalog:",
+    "sass": "^1.105.1",
+    "typescript": "catalog:"
+  }
+}

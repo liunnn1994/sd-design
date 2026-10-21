@@ -95,6 +95,7 @@
     onBeforeUpdate,
   } from 'vue';
 
+  import { createDatePickerFoundation } from '@sdata/web-core/date-picker/foundation';
   import { Dayjs } from 'dayjs';
 
   import type { FloatingOptions } from '../_utils/floating';
@@ -106,23 +107,15 @@
   import useMergeState from '../_hooks/use-merge-state';
   import useState from '../_hooks/use-state';
   import { Size } from '../_utils/constant';
-  import {
-    dayjs,
-    getDayjsValue,
-    getNow,
-    isValueChange,
-    getDateValue,
-    initializeDateLocale,
-    toLocal,
-  } from '../_utils/date';
+  import { dayjs, getNow, getDateValue, initializeDateLocale, toLocal } from '../_utils/date';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isFunction, isBoolean } from '../_utils/is';
+  import { isFunction } from '../_utils/is';
   import { omit } from '../_utils/omit';
   import pick from '../_utils/pick';
   import IconCalendar from '../icon/icon-calendar';
   import { useI18n } from '../locale';
   import { TimePickerProps } from '../time-picker/interface';
-  import { getFormattedValue, isValidInputValue } from '../time-picker/utils';
+  import { getFormattedValue } from '../time-picker/utils';
   import Trigger, { TriggerProps } from '../trigger';
   import useFormat from './hooks/use-format';
   import useHeaderValue from './hooks/use-header-value';
@@ -139,7 +132,6 @@
     WeekStart,
   } from './interface';
   import PickerPanel from './picker-panel.vue';
-  import { mergeValueWithTime } from './utils';
 
   /**
    * @displayName Common
@@ -721,13 +713,6 @@
     defaultPopupVisible.value,
     reactive({ value: popupVisible }),
   );
-  const setPanelVisible = (newVisible: boolean) => {
-    if (panelVisible.value !== newVisible) {
-      setLocalPanelVisible(newVisible);
-      emit('popup-visible-change', newVisible);
-      emit('update:popupVisible', newVisible);
-    }
-  };
 
   // 生成当前面板内容
   const { headerValue, setHeaderValue, headerOperations, resetHeaderValue } = useHeaderValue(
@@ -763,195 +748,83 @@
 
   watch(
     () => props.modelValue,
-    () => {
-      setProcessValue(undefined);
-      setPreviewValue(undefined);
-      setInputValue(undefined);
-    },
+    () => foundation.onModelChange(),
   );
-
-  watch(panelVisible, (newVisible) => {
-    setProcessValue(undefined);
-    setPreviewValue(undefined);
-    headerMode.value = undefined;
-
-    // open
-    if (newVisible) {
-      resetHeaderValue();
-      resetTimePickerValue();
-    }
-
-    // close
-    if (!newVisible) {
-      setInputValue(undefined);
-    }
-  });
-
-  function emitChange(value: Dayjs | undefined, emitOk?: boolean) {
-    const localValue = value ? toLocal(value, utcOffset?.value, timezone?.value) : undefined;
-    const returnValue = value ? getReturnValue(value) : undefined;
-    const formattedValue = getFormattedValue(localValue, parseValueFormat.value);
-    const dateValue = getDateValue(localValue);
-    if (isValueChange(value, selectedValue.value)) {
-      emit('update:modelValue', returnValue);
-      emit('change', returnValue, dateValue, formattedValue);
-      eventHandlers.value?.onChange?.();
-    }
-
-    if (emitOk) {
-      emit('ok', returnValue, dateValue, formattedValue);
-    }
-  }
-
-  function confirm(value: Dayjs | undefined, showPanel?: boolean, emitOk?: boolean) {
-    if (mergedDisabled.value || props.readonly || isDisabledDate(value)) {
-      return;
-    }
-
-    emitChange(value, emitOk);
-    setSelectedValue(value);
-    setProcessValue(undefined);
-    setPreviewValue(undefined);
-    setInputValue(undefined);
-    headerMode.value = undefined;
-    if (isBoolean(showPanel)) {
-      setPanelVisible(showPanel);
-    }
-  }
-
-  function select(value: Dayjs | undefined, emitSelect?: boolean) {
-    if (mergedDisabled.value || props.readonly) return;
-    setProcessValue(value);
-    setPreviewValue(undefined);
-    setInputValue(undefined);
-    headerMode.value = undefined;
-
-    if (emitSelect) {
-      const returnValue = value ? getReturnValue(value) : undefined;
-      const localValue = value ? toLocal(value, utcOffset?.value, timezone?.value) : undefined;
-      const formattedValue = getFormattedValue(localValue, parseValueFormat.value);
-      const dateValue = getDateValue(localValue);
-      emit('select', returnValue, dateValue, formattedValue);
-    }
-  }
-
-  function getMergedOpValue(date: Dayjs, time?: Dayjs) {
-    if (!isDateTime.value && !timePickerProps?.value) return date;
-    return mergeValueWithTime(getNow(utcOffset?.value, timezone?.value), date, time);
-  }
-
-  function onPanelVisibleChange(visible: boolean) {
-    if (mergedDisabled.value) return;
-    setPanelVisible(visible);
-  }
-
-  function onInputClear(e: Event) {
-    e.stopPropagation();
-    confirm(undefined);
-    emit('clear');
-  }
-
-  function onInputBlur() {
-    eventHandlers.value?.onBlur?.();
-  }
-
-  function onInputChange(e: Event) {
-    setPanelVisible(true);
-
-    const targetValue = (e.target as HTMLInputElement).value;
-    setInputValue(targetValue);
-
-    if (!isValidInputValue(targetValue, computedFormat.value)) return;
-
-    const newValue = getDayjsValue(
-      targetValue,
-      computedFormat.value,
-      utcOffset?.value,
-      timezone?.value,
-    ) as Dayjs;
-
-    if (isDisabledDate(newValue)) return;
-
-    if (needConfirm.value) {
-      select(newValue);
-    } else {
-      confirm(newValue, true);
-    }
-  }
-
-  function onInputPressEnter() {
-    confirm(panelValue.value, false);
-  }
-
-  function onPanelSelect(value: Dayjs) {
-    if (needConfirm.value) {
-      select(value, true);
-    } else {
-      confirm(value, false);
-    }
-  }
-
-  function onPanelCellClick(value: Dayjs) {
-    const newValue = getMergedOpValue(value, timePickerValue.value);
-    onPanelSelect(newValue);
-  }
-
-  function onTimePickerSelect(time: Dayjs) {
-    const newValue = getMergedOpValue(panelValue.value || getNow(), time);
-    onPanelSelect(newValue);
-  }
-
-  function onPanelConfirm() {
-    confirm(panelValue.value, false, true);
-  }
+  watch(panelVisible, (visible) => foundation.onVisibilityChange(visible));
 
   let clearPreviewTimer: ReturnType<typeof setTimeout> | undefined;
   onUnmounted(() => {
     clearTimeout(clearPreviewTimer);
   });
 
-  function onPanelShortcutMouseEnter(value: Dayjs) {
-    if (mergedDisabled.value || props.readonly) return;
-    clearTimeout(clearPreviewTimer);
-    setPreviewValue(value);
-    setInputValue(undefined);
+  function onInputBlur() {
+    eventHandlers.value?.onBlur?.();
   }
 
-  function onPanelShortcutMouseLeave() {
-    clearTimeout(clearPreviewTimer);
-    clearPreviewTimer = setTimeout(() => {
-      setPreviewValue(undefined);
-    }, 100);
-  }
-
-  function onPanelShortcutClick(value: Dayjs, shortcut: ShortcutType) {
-    if (mergedDisabled.value || props.readonly) return;
-    emit('select-shortcut', shortcut);
-    confirm(value, false);
-  }
-
-  function onPanelHeaderLabelClick(type: 'year' | 'month') {
-    headerMode.value = type;
-  }
-
-  function onMonthHeaderClick() {
-    headerMode.value = 'year';
-  }
-
-  function onPanelHeaderSelect(date: Dayjs) {
-    let newValue = headerValue.value;
-    newValue = newValue.set('year', date.year());
-    if (headerMode.value === 'month') {
-      newValue = newValue.set('month', date.month());
-    }
-    setHeaderValue(newValue);
-    if (mode.value === 'quarter' || mode.value === 'month') {
-      // 季度选择器特殊处理，月份选完后关闭headerMode
-      headerMode.value = undefined;
-      return;
-    }
-    headerMode.value = headerMode.value === 'year' ? 'month' : undefined; // 年选择完后选择月
-  }
+  const foundation = createDatePickerFoundation<ShortcutType>({
+    getSelectedValue: () => selectedValue.value,
+    getPanelValue: () => panelValue.value,
+    getHeaderValue: () => headerValue.value,
+    getTimeValue: () => timePickerValue.value,
+    getFormat: () => computedFormat.value,
+    getParseFormat: () => parseValueFormat.value,
+    getReturnFormat: () => returnValueFormat.value,
+    getUtcOffset: () => utcOffset?.value,
+    getTimezone: () => timezone?.value,
+    getMode: () => mode.value,
+    getHeaderMode: () => headerMode.value,
+    getVisible: () => panelVisible.value,
+    getDisabled: () => mergedDisabled.value,
+    getReadonly: () => !!props.readonly,
+    getIsDateTime: () => isDateTime.value,
+    getHasTimePickerProps: () => !!timePickerProps?.value,
+    getNeedConfirm: () => !!needConfirm.value,
+    setSelectedValue,
+    setProcessValue,
+    setPreviewValue,
+    setInputValue,
+    setHeaderValue,
+    setHeaderMode: (value) => {
+      headerMode.value = value;
+    },
+    setVisible: setLocalPanelVisible,
+    isDisabledDate,
+    resetHeaderValue,
+    resetTimeValue: resetTimePickerValue,
+    onUpdateValue: (value) => emit('update:modelValue', value),
+    onChange: (value, date, formatted) => emit('change', value, date, formatted),
+    onSelect: (value, date, formatted) => emit('select', value, date, formatted),
+    onOk: (value, date, formatted) => emit('ok', value, date, formatted),
+    onClear: () => emit('clear'),
+    onShortcut: (shortcut) => emit('select-shortcut', shortcut),
+    onFormChange: () => eventHandlers.value?.onChange?.(),
+    onPopupChange: (visible) => emit('popup-visible-change', visible),
+    onUpdatePopup: (visible) => emit('update:popupVisible', visible),
+    cancelPreviewClear: () => clearTimeout(clearPreviewTimer),
+    schedulePreviewClear: (task) => {
+      clearPreviewTimer = setTimeout(task, 100);
+    },
+  });
+  const {
+    onPanelVisibleChange,
+    onInputPressEnter,
+    onPanelCellClick,
+    onTimePickerSelect,
+    onPanelConfirm,
+    onPanelSelect,
+    onPanelShortcutMouseEnter,
+    onPanelShortcutMouseLeave,
+    onPanelShortcutClick,
+    onPanelHeaderLabelClick,
+    onMonthHeaderClick,
+    onPanelHeaderSelect,
+  } = foundation;
+  const onInputChange = (event: Event) =>
+    foundation.onInputChange((event.target as HTMLInputElement).value);
+  const onInputClear = (event: Event) => {
+    event.stopPropagation();
+    foundation.onInputClear();
+  };
 
   const computedTimePickerProps = computed(() => ({
     format: computedFormat.value,

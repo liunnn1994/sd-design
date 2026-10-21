@@ -15,13 +15,13 @@
 
   import { computed, onBeforeUnmount, onMounted, PropType, ref, StyleValue, watch } from 'vue';
 
+  import { createScrollbar } from '@sdata/web-core/scrollbar/foundation';
+  import { normalizeScrollbarStyle, getScrollbarOptions } from '@sdata/web-core/scrollbar/options';
   import { useResizeObserver } from '@vueuse/core';
-  import { OverlayScrollbars } from 'overlayscrollbars';
 
   import type { ScrollbarEventListener, ScrollbarPlugin, ScrollbarProps } from './interface';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import { isObject } from '../_utils/is';
 
   defineOptions({ name: 'Scrollbar', inheritAttrs: false });
 
@@ -141,254 +141,66 @@
   const removeExternalListenersRef = ref<(() => void) | null>(null);
   const autoSizeStyleRef = ref<Record<string, string>>({});
 
-  const normalizeStyleValue = (styleValue: StyleValue | undefined) => {
-    if (!styleValue) {
-      return {} as Record<string, unknown>;
-    }
-
-    if (Array.isArray(styleValue)) {
-      return styleValue.reduce<Record<string, unknown>>((accumulator, item) => {
-        Object.assign(accumulator, normalizeStyleValue(item));
-        return accumulator;
-      }, {});
-    }
-
-    if (typeof styleValue === 'string') {
-      return {} as Record<string, unknown>;
-    }
-
-    return styleValue;
-  };
-
-  const normalizedOuterStyle = computed(() => normalizeStyleValue(props.outerStyle));
-
-  const parseComputedPx = (value: string) => {
-    if (!value || value === 'none') {
-      return null;
-    }
-
-    const parsedValue = Number.parseFloat(value);
-    return Number.isFinite(parsedValue) ? parsedValue : null;
-  };
-
-  const updateAutoSizeStyle = () => {
-    const outerElement = outerRef.value;
-    const containerElement = containerRef.value;
-
-    if (!outerElement || !containerElement) {
-      autoSizeStyleRef.value = {};
-      return;
-    }
-
-    const scrollElement = getScrollOffsetElement() ?? containerElement;
-    const nextStyle: Record<string, string> = {};
-    const styleObject = normalizedOuterStyle.value;
-    const computedStyle = window.getComputedStyle(outerElement);
-    const hasExplicitHeight = 'height' in styleObject || 'blockSize' in styleObject;
-    const hasExplicitWidth = 'width' in styleObject || 'inlineSize' in styleObject;
-
-    if (!hasExplicitHeight && ('maxHeight' in styleObject || 'maxBlockSize' in styleObject)) {
-      const maxHeight = parseComputedPx(computedStyle.maxHeight);
-
-      if (maxHeight !== null) {
-        nextStyle.height = `${Math.min(scrollElement.scrollHeight, maxHeight)}px`;
-      }
-    }
-
-    if (!hasExplicitWidth && ('maxWidth' in styleObject || 'maxInlineSize' in styleObject)) {
-      const maxWidth = parseComputedPx(computedStyle.maxWidth);
-
-      if (maxWidth !== null) {
-        nextStyle.width = `${Math.min(scrollElement.scrollWidth, maxWidth)}px`;
-      }
-    }
-
-    autoSizeStyleRef.value = nextStyle;
-    resolveOSInstance()?.update(true);
-  };
-
-  const resolveOSInstance = () => {
-    const osInstance = osInstanceRef.value;
-    if (!osInstance || osInstance.state().destroyed) {
-      return null;
-    }
-    return osInstance;
-  };
-
-  const getScrollOffsetElement = () => {
-    const osInstance = resolveOSInstance();
-    if (!osInstance) {
-      return null;
-    }
-    return osInstance.elements().scrollOffsetElement ?? null;
-  };
-
-  const normalizeUpdateOptions = (update: ScrollbarProps['updateOptions']) => {
-    if (!update?.debounce || !isObject(update.debounce) || Array.isArray(update.debounce)) {
-      return update;
-    }
-
-    return {
-      ...update,
-      debounce: {
-        mutation: update.debounce.mutation ?? 0,
-        resize: update.debounce.resize ?? 0,
-        event: update.debounce.event ?? 0,
-        env: update.debounce.env ?? 0,
-      },
-    };
-  };
-
-  const mergedOptions = computed(() => {
-    const optionProps = props.overlayOptions ?? {};
-    const isTrackType = props.type === 'track';
-    let visibility: 'hidden' | 'visible' | 'auto' = 'auto';
-    if (props.hide) {
-      visibility = 'hidden';
-    } else if (isTrackType) {
-      visibility = 'visible';
-    }
-    const autoHide = props.hide || isTrackType ? 'never' : 'leave';
-
-    const mergedOverflow = {
-      x: 'scroll',
-      y: 'scroll',
-      ...optionProps.overflow,
-      ...props.overflow,
-    };
-
-    if (props.disableHorizontal) {
-      mergedOverflow.x = 'hidden';
-    }
-    if (props.disableVertical) {
-      mergedOverflow.y = 'hidden';
-    }
-
-    return {
-      ...optionProps,
-      paddingAbsolute: props.paddingAbsolute ?? optionProps.paddingAbsolute,
-      showNativeOverlaidScrollbars:
-        props.showNativeOverlaidScrollbars ?? optionProps.showNativeOverlaidScrollbars,
-      update: normalizeUpdateOptions(props.updateOptions ?? optionProps.update),
-      overflow: mergedOverflow,
-      scrollbars: {
-        theme: props.type === 'track' ? `${prefixCls}-theme-track` : `${prefixCls}-theme-embed`,
-        visibility,
-        autoHide,
-        autoHideSuspend: false,
-        clickScroll: 'instant',
-        ...optionProps.scrollbars,
-        ...props.scrollbars,
-      },
-    };
+  const normalizedOuterStyle = computed(() => normalizeScrollbarStyle(props.outerStyle));
+  const mergedOptions = computed(() => getScrollbarOptions(props, prefixCls));
+  const foundation = createScrollbar({
+    props,
+    get outer() {
+      return outerRef.value;
+    },
+    get container() {
+      return containerRef.value;
+    },
+    get normalizedStyle() {
+      return normalizedOuterStyle.value;
+    },
+    get mergedOptions() {
+      return mergedOptions.value;
+    },
+    get instance() {
+      return osInstanceRef.value;
+    },
+    set instance(value) {
+      osInstanceRef.value = value;
+    },
+    get removeListeners() {
+      return removeExternalListenersRef.value;
+    },
+    set removeListeners(value) {
+      removeExternalListenersRef.value = value;
+    },
+    get autoSizeStyle() {
+      return autoSizeStyleRef.value;
+    },
+    set autoSizeStyle(value) {
+      autoSizeStyleRef.value = value;
+    },
+    readComputedStyle: (element) => window.getComputedStyle(element),
+    scroll: (event) => emit('scroll', event),
   });
-
-  const bindExternalListeners = (eventListeners?: EventListeners) => {
-    removeExternalListenersRef.value?.();
-    removeExternalListenersRef.value = null;
-
-    const osInstance = resolveOSInstance();
-    if (!osInstance || !eventListeners) {
-      return;
-    }
-
-    removeExternalListenersRef.value = osInstance.on(eventListeners);
-  };
-
   const outerStyle = computed(() => [props.outerStyle, autoSizeStyleRef.value]);
-
   const cls = computed(() => [`${prefixCls}`, `${prefixCls}-type-${props.type}`, props.outerClass]);
-
-  const initScrollbar = () => {
-    if (!containerRef.value) {
-      return;
-    }
-
-    osInstanceRef.value = OverlayScrollbars(
-      containerRef.value,
-      mergedOptions.value as Parameters<typeof OverlayScrollbars>[1],
-      {
-        initialized: (instance) => {
-          const listeners = props.events?.initialized;
-          if (Array.isArray(listeners)) {
-            listeners.forEach((listener) => listener(instance));
-          } else {
-            listeners?.(instance);
-          }
-        },
-        scroll: (_instance, event) => {
-          emit('scroll', event);
-        },
-      },
-    );
-
-    bindExternalListeners(props.events);
-  };
-
-  onMounted(() => {
-    initScrollbar();
-    updateAutoSizeStyle();
-  });
-
-  useResizeObserver(containerRef, () => {
-    updateAutoSizeStyle();
-  });
-
-  useResizeObserver(outerRef, () => {
-    updateAutoSizeStyle();
-  });
-
-  watch(normalizedOuterStyle, updateAutoSizeStyle, { deep: true, flush: 'post' });
-
-  watch(
-    mergedOptions,
-    (options) => {
-      const osInstance = resolveOSInstance();
-      if (!osInstance) {
-        return;
-      }
-      osInstance.options(options as Parameters<typeof osInstance.options>[0]);
-    },
-    { deep: true },
-  );
-
-  watch(
-    () => props.events,
-    (eventListeners) => {
-      bindExternalListeners(eventListeners);
-    },
-    { deep: true },
-  );
-
-  onBeforeUnmount(() => {
-    removeExternalListenersRef.value?.();
-    removeExternalListenersRef.value = null;
-    osInstanceRef.value?.destroy();
-    osInstanceRef.value = null;
-  });
+  onMounted(foundation.mount);
+  useResizeObserver(containerRef, foundation.updateAutoSizeStyle);
+  useResizeObserver(outerRef, foundation.updateAutoSizeStyle);
+  watch(normalizedOuterStyle, foundation.updateAutoSizeStyle, { deep: true, flush: 'post' });
+  watch(mergedOptions, foundation.syncOptions, { deep: true });
+  watch(() => props.events, foundation.bindExternalListeners, { deep: true });
+  onBeforeUnmount(foundation.dispose);
 
   /**
    * @zh 获取底层 OverlayScrollbars 实例。
    * @en Get underlying OverlayScrollbars instance.
    */
   function getOSInstance() {
-    return resolveOSInstance();
+    return foundation.getOSInstance();
   }
   /**
    * @zh 获取或更新底层 options。
    * @en Get or set OverlayScrollbars options.
    */
   function options(newOptions?: ScrollbarProps['overlayOptions'], pure?: boolean) {
-    const osInstance = getOSInstance();
-    if (!osInstance) {
-      return undefined;
-    }
-
-    if (typeof newOptions === 'undefined') {
-      return osInstance.options();
-    }
-
-    return osInstance.options(newOptions as Parameters<typeof osInstance.options>[0], pure);
+    return foundation.options(newOptions, pure);
   }
   /**
    * @zh 绑定底层 OverlayScrollbars 事件。
@@ -401,26 +213,7 @@
       | ScrollbarEventListener<keyof EventListenerArgs>[]
       | boolean,
   ) {
-    const osInstance = getOSInstance();
-    if (!osInstance) {
-      return undefined;
-    }
-
-    if (isObject(nameOrListeners)) {
-      return osInstance.on(
-        nameOrListeners as EventListeners,
-        listenerOrPure as boolean | undefined,
-      );
-    }
-
-    if (Array.isArray(listenerOrPure)) {
-      return osInstance.on(nameOrListeners, listenerOrPure);
-    }
-
-    return osInstance.on(
-      nameOrListeners,
-      listenerOrPure as ScrollbarEventListener<keyof EventListenerArgs>,
-    );
+    return foundation.on(nameOrListeners, listenerOrPure);
   }
   /**
    * @zh 解绑底层 OverlayScrollbars 事件。
@@ -432,64 +225,49 @@
       | ScrollbarEventListener<keyof EventListenerArgs>
       | ScrollbarEventListener<keyof EventListenerArgs>[],
   ) {
-    const osInstance = getOSInstance();
-    if (!osInstance) {
-      return;
-    }
-
-    if (Array.isArray(listener)) {
-      osInstance.off(name, listener);
-      return;
-    }
-
-    osInstance.off(name, listener);
+    return foundation.off(name, listener);
   }
   /**
    * @zh 强制更新底层实例。
    * @en Force instance update.
    */
   function update(force?: boolean) {
-    return getOSInstance()?.update(force) ?? false;
+    return foundation.update(force);
   }
   /**
    * @zh 设置底层实例休眠状态。
    * @en Toggle sleeping state.
    */
   function sleep(sleeping: boolean) {
-    getOSInstance()?.sleep(sleeping);
+    return foundation.sleep(sleeping);
   }
   /**
    * @zh 获取底层状态。
    * @en Get underlying state.
    */
   function state() {
-    return getOSInstance()?.state();
+    return foundation.state();
   }
   /**
    * @zh 获取底层生成的元素引用。
    * @en Get generated elements.
    */
   function elements() {
-    return getOSInstance()?.elements();
+    return foundation.elements();
   }
   /**
    * @zh 获取底层插件实例。
    * @en Get plugin instance.
    */
   function plugin(osPlugin: ScrollbarPlugin) {
-    return getOSInstance()?.plugin(osPlugin);
+    return foundation.plugin(osPlugin);
   }
   /**
    * @zh 销毁底层实例。
    * @en Destroy underlying instance.
    */
   function destroy() {
-    const osInstance = getOSInstance();
-    if (!osInstance) {
-      return;
-    }
-
-    osInstance.destroy();
+    return foundation.destroy();
   }
   /**
    * @zh 滚动
@@ -507,47 +285,7 @@
         },
     y?: number,
   ) {
-    const scrollOffsetElement = getScrollOffsetElement();
-    if (!scrollOffsetElement || !('scrollTop' in scrollOffsetElement)) {
-      return;
-    }
-
-    const canUseNativeScrollTo = typeof scrollOffsetElement.scrollTo === 'function';
-
-    if (isObject(options)) {
-      if (canUseNativeScrollTo) {
-        scrollOffsetElement.scrollTo(options);
-        return;
-      }
-
-      if (typeof options.top === 'number') {
-        scrollOffsetElement.scrollTop = options.top;
-      }
-      if (typeof options.left === 'number') {
-        scrollOffsetElement.scrollLeft = options.left;
-      }
-
-      return;
-    }
-
-    if (typeof options !== 'number' && typeof y !== 'number') {
-      return;
-    }
-
-    if (canUseNativeScrollTo) {
-      scrollOffsetElement.scrollTo(
-        typeof options === 'number' ? options : scrollOffsetElement.scrollLeft,
-        typeof y === 'number' ? y : scrollOffsetElement.scrollTop,
-      );
-      return;
-    }
-
-    if (typeof options === 'number') {
-      scrollOffsetElement.scrollLeft = options;
-    }
-    if (typeof y === 'number') {
-      scrollOffsetElement.scrollTop = y;
-    }
+    return foundation.scrollTo(options, y);
   }
   /**
    * @zh 纵向滚动
@@ -557,18 +295,7 @@
    * @version 2.40.0
    */
   function scrollTop(top: number) {
-    const scrollOffsetElement = getScrollOffsetElement();
-    if (!scrollOffsetElement || !('scrollTop' in scrollOffsetElement)) {
-      return;
-    }
-
-    if (typeof scrollOffsetElement.scrollTo === 'function') {
-      scrollOffsetElement.scrollTo({
-        top,
-      });
-    } else {
-      scrollOffsetElement.scrollTop = top;
-    }
+    return foundation.scrollTop(top);
   }
   /**
    * @zh 横向滚动
@@ -578,18 +305,7 @@
    * @version 2.40.0
    */
   function scrollLeft(left: number) {
-    const scrollOffsetElement = getScrollOffsetElement();
-    if (!scrollOffsetElement || !('scrollLeft' in scrollOffsetElement)) {
-      return;
-    }
-
-    if (typeof scrollOffsetElement.scrollTo === 'function') {
-      scrollOffsetElement.scrollTo({
-        left,
-      });
-    } else {
-      scrollOffsetElement.scrollLeft = left;
-    }
+    return foundation.scrollLeft(left);
   }
 
   defineExpose({

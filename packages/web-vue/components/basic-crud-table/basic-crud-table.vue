@@ -124,9 +124,13 @@
     useSlots,
   } from 'vue';
 
-  import { isFunction, isNil, isString, omitBy } from 'es-toolkit';
+  import {
+    createBasicCrudTableFoundation,
+    resolvePaginationNumber as resolveInitialPagination,
+  } from '@sdata/web-core/basic-crud-table/foundation';
+  import { isFunction } from 'es-toolkit';
 
-  import type { TableChangeExtra, TableData } from '../table';
+  import type { TableData } from '../table';
   import type { ToolbarInstance, ToolbarModelValue } from '../toolbar';
   import type {
     BasicCrudTableActionSlotProps,
@@ -207,10 +211,30 @@
     error: [error: unknown];
   }>();
 
+  /**
+   * @zh 表格加载状态
+   * @en Table loading state
+   */
   const loading = defineModel<boolean>('loading', { default: false });
+  /**
+   * @zh 工具栏筛选数据
+   * @en Toolbar filter data
+   */
   const toolbarModel = defineModel<ToolbarModelValue>('toolbarModel', { default: () => ({}) });
+  /**
+   * @zh 当前表格数据
+   * @en Current table data
+   */
   const tableData = defineModel<TableData[]>('tableData', { default: () => [] });
+  /**
+   * @zh 弹窗表单数据
+   * @en Modal form data
+   */
   const modalModel = defineModel<UnknownRecord>('modalModel', { default: () => ({}) });
+  /**
+   * @zh 弹窗是否可见
+   * @en Whether the modal is visible
+   */
   const modalVisible = defineModel<boolean>('modalVisible', { default: false });
 
   const slots = useSlots();
@@ -273,13 +297,6 @@
   const resolvedTableScroll = computed(() =>
     fullHeight ? { ...tableProps.scroll, y: '100%' } : tableProps.scroll,
   );
-  const params = computed(() => ({
-    current: current.value,
-    pageSize: pageSize.value,
-    ...sorter.value,
-    ...toolbarModel.value,
-  }));
-
   onMounted(() => {
     if (fetchTableOnMounted) void handleFetchData();
   });
@@ -301,90 +318,13 @@
     initial: 'defaultCurrent' | 'defaultPageSize',
     fallback: number,
   ) {
-    const pagination = tableProps.pagination;
-    if (typeof pagination === 'object') {
-      const localValue = pagination[controlled] ?? pagination[initial];
-      if (localValue !== undefined) return Number(localValue);
-    }
-    if (initial === 'defaultPageSize') {
-      return Number(configProvider?.pagination?.defaultPageSize ?? fallback);
-    }
-    return fallback;
-  }
-  function isObjectResult(
-    value: unknown,
-  ): value is Exclude<BasicCrudTableDataResult<TableData>, TableData[]> {
-    return (
-      !!value && typeof value === 'object' && Array.isArray((value as { data?: unknown }).data)
+    return resolveInitialPagination(
+      tableProps.pagination,
+      configProvider?.pagination?.defaultPageSize,
+      controlled,
+      initial,
+      fallback,
     );
-  }
-  let fetchRequestId = 0;
-  onBeforeUnmount(() => {
-    fetchRequestId++;
-    deleteContentRequestId++;
-  });
-
-  async function handleFetchData(fetchParams: UnknownRecord = params.value) {
-    if (isNil(fetchTableApi)) return;
-    const requestId = ++fetchRequestId;
-    loading.value = true;
-    try {
-      const requestParams = fetchExcludeEmptyValues
-        ? omitBy(fetchParams, (value) => value === '' || value === null || value === undefined)
-        : fetchParams;
-      const response = await fetchTableApi(requestParams);
-      if (requestId !== fetchRequestId) return;
-      const result = isFunction(tableDataTransformer)
-        ? await tableDataTransformer(response)
-        : (response as BasicCrudTableDataResult<TableData>);
-      if (requestId !== fetchRequestId) return;
-      fetchData.value = response;
-      if (Array.isArray(result)) {
-        tableData.value = result;
-        total.value = result.length;
-      } else if (isObjectResult(result)) {
-        tableData.value = result.data;
-        total.value = result.total ?? result.count ?? result.data.length;
-      } else return;
-      emit('tableFetched', tableData.value, result);
-    } catch (error) {
-      if (requestId === fetchRequestId) emit('error', error);
-    } finally {
-      if (requestId === fetchRequestId) loading.value = false;
-    }
-  }
-  async function handleSearch() {
-    current.value = 1;
-    await handleFetchData();
-    emit('search', toolbarModel.value);
-  }
-  async function handleReset() {
-    current.value = 1;
-    sorter.value = {};
-    // 等待工具栏 v-model 同步：Toolbar.reset 先改 modelValue 再 emit 'reset'，
-    // defineModel 的 update 是 flush:'pre' 异步触发，不等待会用旧筛选值请求。
-    await nextTick();
-    await handleFetchData();
-    emit('reset');
-  }
-
-  /** 仅重置工具栏筛选项，不触发列表请求。 */
-  function resetToolbar() {
-    toolbarRef.value?.reset(false);
-  }
-
-  /** 重置工具栏筛选、分页与排序，并重新请求列表。 */
-  async function reset() {
-    resetToolbar();
-    await handleReset();
-  }
-
-  function handleCreate() {
-    if (openCreateModal) void modalRef.value?.open();
-    emit('create');
-  }
-  async function handleEdit(row: TableData, context?: unknown) {
-    if (await modalRef.value?.open(row)) emit('edit', row, context);
   }
   const customDeleteConfirmContent = ref<string>();
   const pendingDeleteRow = shallowRef<TableData>();
@@ -395,75 +335,127 @@
       ? t('basicCrudTable.deleteNamedConfirm', String(name))
       : t('basicCrudTable.deleteConfirm');
   });
-  let deleteContentRequestId = 0;
-
-  function resolveDeleteContent(row: TableData): string | Promise<string> | undefined {
-    if (isString(deleteContent)) return deleteContent;
-    if (isFunction(deleteContent)) return deleteContent(row);
-    return undefined;
-  }
-
-  async function handleDeletePopupChange(visible: boolean, row: TableData) {
-    if (!visible) {
-      if (pendingDeleteRow.value === row) {
-        pendingDeleteRow.value = undefined;
-        deleteContentRequestId++;
-      }
-      return;
-    }
-    pendingDeleteRow.value = row;
-    const requestId = ++deleteContentRequestId;
-    customDeleteConfirmContent.value = undefined;
-    try {
-      const content = await resolveDeleteContent(row);
-      if (requestId === deleteContentRequestId) customDeleteConfirmContent.value = content;
-    } catch (error) {
-      if (requestId === deleteContentRequestId) emit('error', error);
-    }
-  }
-
-  async function executeDelete(row: TableData, context?: unknown): Promise<boolean> {
-    try {
-      if (beforeDelete && (await beforeDelete(row)) === false) return false;
-      emit('delete', row, context);
-      if (deleteApi) await deleteApi(row);
-      await handleFetchData();
-      return true;
-    } catch (error) {
-      emit('error', error);
-      return false;
-    }
-  }
-
-  async function handleModalSuccess(
-    result: unknown,
-    context: BasicCrudTableModalSubmitContext<TableData>,
-  ) {
-    await handleFetchData();
-    emit('modalSuccess', result, context);
-  }
-  async function handlePageChange(value: number) {
-    current.value = value;
-    await handleFetchData();
-  }
-  async function handlePageSizeChange(value: number) {
-    pageSize.value = value;
-    current.value = 1;
-    await handleFetchData();
-  }
-  async function handleTableChange(_data: TableData[], extra: TableChangeExtra) {
-    if (extra.type !== 'sorter') return;
-    sorter.value =
-      extra.sorter?.field && extra.sorter.direction
-        ? {
-            sort_by:
-              extra.sorter.direction === 'descend' ? `-${extra.sorter.field}` : extra.sorter.field,
-          }
-        : {};
-    current.value = 1;
-    await handleFetchData();
-  }
-
+  const foundation: ReturnType<typeof createBasicCrudTableFoundation<TableData>> =
+    createBasicCrudTableFoundation<TableData>(
+      {
+        props: {
+          get fetchTableApi() {
+            return fetchTableApi;
+          },
+          get tableDataTransformer() {
+            return tableDataTransformer;
+          },
+          get fetchExcludeEmptyValues() {
+            return fetchExcludeEmptyValues;
+          },
+          get openCreateModal() {
+            return openCreateModal;
+          },
+          get deleteContent() {
+            return deleteContent;
+          },
+          get deleteApi() {
+            return deleteApi;
+          },
+          get beforeDelete() {
+            return beforeDelete;
+          },
+        },
+        get loading() {
+          return loading.value;
+        },
+        set loading(value) {
+          loading.value = value;
+        },
+        get toolbarModel() {
+          return toolbarModel.value;
+        },
+        get params(): UnknownRecord {
+          return params.value;
+        },
+        set toolbarModel(value) {
+          toolbarModel.value = value;
+        },
+        get tableData() {
+          return tableData.value;
+        },
+        set tableData(value) {
+          tableData.value = value;
+        },
+        get current() {
+          return current.value;
+        },
+        set current(value) {
+          current.value = value;
+        },
+        get pageSize() {
+          return pageSize.value;
+        },
+        set pageSize(value) {
+          pageSize.value = value;
+        },
+        get total() {
+          return total.value;
+        },
+        set total(value) {
+          total.value = value;
+        },
+        get sorter() {
+          return sorter.value;
+        },
+        set sorter(value) {
+          sorter.value = value;
+        },
+        get fetchData() {
+          return fetchData.value;
+        },
+        set fetchData(value) {
+          fetchData.value = value;
+        },
+        get customDeleteConfirmContent() {
+          return customDeleteConfirmContent.value;
+        },
+        set customDeleteConfirmContent(value) {
+          customDeleteConfirmContent.value = value;
+        },
+        get pendingDeleteRow() {
+          return pendingDeleteRow.value;
+        },
+        set pendingDeleteRow(value) {
+          pendingDeleteRow.value = value;
+        },
+      },
+      {
+        create: () => emit('create'),
+        edit: (row, context) => emit('edit', row, context),
+        delete: (row, context) => emit('delete', row, context),
+        reset: () => emit('reset'),
+        search: (params) => emit('search', params),
+        tableFetched: (rows, result) => emit('tableFetched', rows, result),
+        modalSuccess: (result, context) => emit('modalSuccess', result, context),
+        error: (error) => emit('error', error),
+        afterRender: () => nextTick(),
+        resetToolbar: () => toolbarRef.value?.reset(false),
+        openModal: (row) => modalRef.value?.open(row),
+      },
+    );
+  const params = computed(() => foundation.getParams());
+  const {
+    handleFetchData,
+    handleSearch,
+    handleReset,
+    resetToolbar,
+    reset,
+    handleCreate,
+    handleEdit,
+    handleDeletePopupChange,
+    executeDelete,
+    handleModalSuccess,
+    handlePageChange,
+    handlePageSizeChange,
+    handleTableChange,
+  } = foundation;
+  onBeforeUnmount(foundation.dispose);
   defineExpose({
     fetchTableData: handleFetchData,
     search: handleSearch,

@@ -351,3 +351,7 @@ Tree 会透出节点标题区域的基础 DOM 事件，并补充 VueUse 的长�
 | buffer | 额外渲染缓冲区（像素） | `number` | `200` |  |
 
 其余参数与暴露方法可参考 [LLMs.txt](/llms_txt/)。
+
+## 节点与单元格规则
+
+`@sdata/web-core/tree/node` 提供节点状态/点击动作派生及加载、展开、勾选、选择和键盘通知顺序。Vue 保留节点 Ref、computed、拖拽状态、手势 SDK、插槽和 VNode。缺少上下文数组时的 undefined、点击后读取当前策略与回调 receiver 保持兼容。

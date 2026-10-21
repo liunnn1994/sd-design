@@ -98,6 +98,8 @@ export default defineConfig({
       bundler: 'vite',
       viteConfig: {
         resolve: { alias: resolveAlias },
+        // Discover this lazy Markdown dependency before a spec can be reloaded mid-interaction.
+        optimizeDeps: { include: ['markstream-vue > @antv/infographic'] },
         // Feature flags required by the full `vue.esm-bundler` build.
         define: {
           __VUE_OPTIONS_API__: 'true',

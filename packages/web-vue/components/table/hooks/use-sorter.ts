@@ -1,9 +1,10 @@
 import type { Ref } from 'vue';
 import { computed, ref, watch } from 'vue';
 
+import { createSorterFoundation, getDefaultSorter } from '@sdata/web-core/table/query';
+
 import type { Sorter, TableColumnData } from '../interface';
 
-import { isString } from '../../_utils/is';
 import { isEqual } from '../../_utils/is-equal';
 
 export const useSorter = ({
@@ -24,67 +25,20 @@ export const useSorter = ({
     },
   );
 
-  const computedSorter = computed<Sorter | undefined>(() => {
-    for (const item of columns.value) {
-      if (item.dataIndex && item.sortable) {
-        // Take the first existing collation
-        const direction = isString(item.sortable.sortOrder)
-          ? item.sortable.sortOrder
-          : _sorter.value?.field === item.dataIndex
-            ? _sorter.value.direction
-            : '';
-        if (direction) {
-          return {
-            field: item.dataIndex,
-            direction,
-          };
-        }
-      }
-    }
-    return undefined;
+  const foundation = createSorterFoundation({
+    getColumns: () => columns.value,
+    getState: () => _sorter.value,
+    setState: (value) => {
+      _sorter.value = value;
+    },
+    onSorterChange,
   });
-
-  const resetSorters = () => {
-    let sorter: Sorter | undefined;
-    for (const item of columns.value) {
-      if (item.dataIndex && item.sortable) {
-        if (!sorter && item.sortable.defaultSortOrder) {
-          sorter = {
-            field: item.dataIndex,
-            direction: item.sortable.defaultSortOrder,
-          };
-        }
-        onSorterChange(item.dataIndex, item.sortable.defaultSortOrder ?? '');
-      }
-    }
-    _sorter.value = sorter;
-  };
-
-  const clearSorters = () => {
-    for (const item of columns.value) {
-      if (item.dataIndex && item.sortable) {
-        onSorterChange(item.dataIndex, '');
-      }
-    }
-  };
+  const computedSorter = computed<Sorter | undefined>(() => foundation.getValue());
 
   return {
     _sorter,
     computedSorter,
-    resetSorters,
-    clearSorters,
+    resetSorters: foundation.resetSorters,
+    clearSorters: foundation.clearSorters,
   };
-};
-
-const getDefaultSorter = (columns: TableColumnData[]): Sorter | undefined => {
-  for (const item of columns) {
-    // get first enabled sorter
-    if (item.dataIndex && item.sortable?.defaultSortOrder) {
-      return {
-        field: item.dataIndex,
-        direction: item.sortable.defaultSortOrder,
-      };
-    }
-  }
-  return undefined;
 };

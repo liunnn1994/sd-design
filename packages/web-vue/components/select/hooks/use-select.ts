@@ -1,6 +1,8 @@
 import type { ComponentPublicInstance, Ref } from 'vue';
 import { nextTick, provide, reactive, ref, watch } from 'vue';
 
+import { createSelectNavigation } from '@sdata/web-core/select/navigation';
+
 import { VirtualListRef } from '../../_components/virtual-list/interface';
 import { getRelativeRect } from '../../_utils/dom';
 import { KEYBOARD_KEY, getKeyDownHandler } from '../../_utils/keyboard';
@@ -61,33 +63,8 @@ export const useSelect = ({
 
   const activeKey = ref<string | undefined>();
 
-  watch(enabledOptionKeys, (enabledKeys) => {
-    if (!activeKey.value || !enabledKeys.includes(activeKey.value)) {
-      // oxlint-disable-next-line prefer-destructuring
-      activeKey.value = enabledKeys[0];
-    }
-  });
-
   const setActiveKey = (key?: string) => {
     activeKey.value = key;
-  };
-
-  const getNextActiveKey = (direction: 'up' | 'down') => {
-    const _length = enabledOptionKeys.value.length;
-    if (_length === 0) {
-      return undefined;
-    }
-
-    if (!activeKey.value) {
-      if (direction === 'down') {
-        return enabledOptionKeys.value[0];
-      }
-      return enabledOptionKeys.value[_length - 1];
-    }
-
-    const activeIndex = enabledOptionKeys.value.indexOf(activeKey.value);
-    const nextIndex = (_length + activeIndex + (direction === 'up' ? -1 : 1)) % _length;
-    return enabledOptionKeys.value[nextIndex];
   };
 
   const scrollIntoView = (key: string) => {
@@ -114,85 +91,40 @@ export const useSelect = ({
     }
   };
 
-  // Handling when the drop-down box is displayed/hide
+  const navigation = createSelectNavigation<Event>({
+    getEnabledKeys: () => enabledOptionKeys.value,
+    getActiveKey: () => activeKey.value,
+    getValueKeys: () => valueKeys.value,
+    getDefaultActiveFirst: () => defaultActiveFirstOption?.value,
+    getLoading: () => loading?.value,
+    getPopupVisible: () => popupVisible.value,
+    getEnterToOpen: () => enterToOpen,
+    setActiveKey,
+    scrollIntoView,
+    select: onSelect,
+    setPopupVisible: onPopupVisibleChange,
+    afterRender: (task) => {
+      void nextTick(task);
+    },
+  });
+  watch(enabledOptionKeys, navigation.enabledKeysChanged);
   watch(
     popupVisible,
     (visible) => {
-      if (visible) {
-        // get last value key
-        const current = valueKeys.value[valueKeys.value.length - 1];
-        let _activeKey =
-          (defaultActiveFirstOption?.value ?? true) ? enabledOptionKeys.value[0] : undefined;
-        if (enabledOptionKeys.value.includes(current)) {
-          _activeKey = current;
-        }
-        if (_activeKey !== activeKey.value) {
-          activeKey.value = _activeKey;
-        }
-        // Execute scrollIntoView after the pop-up animation ends, otherwise unnecessary scrolling will occur
-        nextTick(() => {
-          if (activeKey.value) {
-            scrollIntoView(activeKey.value);
-          }
-        });
-      }
+      if (visible) navigation.opened();
     },
     { immediate: true },
   );
-
+  const getNextActiveKey = navigation.getNextActiveKey;
   const handleKeyDown = getKeyDownHandler(
     new Map([
       [
         KEYBOARD_KEY.ENTER,
-        (e: Event) => {
-          if (!loading?.value && !(e as KeyboardEvent).isComposing) {
-            if (popupVisible.value) {
-              if (activeKey.value) {
-                onSelect(activeKey.value, e);
-                e.preventDefault();
-              }
-            } else if (enterToOpen) {
-              onPopupVisibleChange(true);
-              e.preventDefault();
-            }
-          }
-        },
+        (e: Event) => navigation.keydown('Enter', e, (e as KeyboardEvent).isComposing),
       ],
-      [
-        KEYBOARD_KEY.ESC,
-        (e: Event) => {
-          if (popupVisible.value) {
-            onPopupVisibleChange(false);
-            e.preventDefault();
-          }
-        },
-      ],
-      [
-        KEYBOARD_KEY.ARROW_DOWN,
-        (e: Event) => {
-          if (popupVisible.value) {
-            const next = getNextActiveKey('down');
-            if (next) {
-              activeKey.value = next;
-              scrollIntoView(next);
-            }
-            e.preventDefault();
-          }
-        },
-      ],
-      [
-        KEYBOARD_KEY.ARROW_UP,
-        (e: Event) => {
-          if (popupVisible.value) {
-            const next = getNextActiveKey('up');
-            if (next) {
-              activeKey.value = next;
-              scrollIntoView(next);
-            }
-            e.preventDefault();
-          }
-        },
-      ],
+      [KEYBOARD_KEY.ESC, (e: Event) => navigation.keydown('Escape', e)],
+      [KEYBOARD_KEY.ARROW_DOWN, (e: Event) => navigation.keydown('ArrowDown', e)],
+      [KEYBOARD_KEY.ARROW_UP, (e: Event) => navigation.keydown('ArrowUp', e)],
     ]),
   );
 

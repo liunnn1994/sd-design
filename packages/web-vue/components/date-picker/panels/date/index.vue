@@ -75,6 +75,7 @@
 <script setup lang="ts">
   import { computed, PropType, reactive, toRefs } from 'vue';
 
+  import { getDateRows, getDateWeekList } from '@sdata/web-core/date-picker/calendar';
   import { Dayjs } from 'dayjs';
 
   import type { PanelProps, TimePickerProps } from '../../../time-picker/interface';
@@ -90,27 +91,15 @@
   } from '../../interface';
 
   import useMergeState from '../../../_hooks/use-merge-state';
-  import { getDateValue, getNow, methods } from '../../../_utils/date';
+  import { getDateValue, getNow } from '../../../_utils/date';
   import { getPrefixCls } from '../../../_utils/global-config';
   import IconCalendar from '../../../icon/icon-calendar';
   import IconClockCircle from '../../../icon/icon-clock-circle';
   import TimePanel from '../../../time-picker/panel.vue';
   import useDatePickerTransform from '../../hooks/use-inject-datepicker-transform';
-  import { newArray } from '../../utils';
   import PanelBody from '../body.vue';
   import PanelHeader, { HeaderLabelClickFunc } from '../header.vue';
   import PanelWeekList from '../week-list.vue';
-
-  const ROW_COUNT = 6;
-  const COL_COUNT = 7;
-  const CELL_COUNT = ROW_COUNT * COL_COUNT;
-
-  function getCellData(time: Dayjs) {
-    return {
-      label: time.date(),
-      value: time,
-    };
-  }
 
   defineOptions({ name: 'DatePanel' });
 
@@ -256,48 +245,19 @@
     ...disabledTimeProps.value,
   }));
 
-  const weekList = computed(() => {
-    const list = [0, 1, 2, 3, 4, 5, 6];
-    const index = Math.max(dayStartOfWeek.value % 7, 0);
-    return [...list.slice(index), ...list.slice(0, index)];
-  });
+  const weekList = computed(() => getDateWeekList(dayStartOfWeek.value));
 
   const mergedWeekList = computed(() => (isWeek.value ? [-1, ...weekList.value] : weekList.value));
 
-  const rows = computed(() => {
-    const startDate = methods.startOf(headerValue.value, 'month');
-    const startDay = startDate.day();
-    const days = startDate.daysInMonth();
-    const startIndex = weekList.value.indexOf(startDay);
-    const flatData = newArray<Cell>(CELL_COUNT);
-
-    for (let i = 0; i < flatData.length; i++) {
-      flatData[i] = {
-        ...getCellData(methods.add(startDate, i - startIndex, 'day')),
-        isPrev: i < startIndex,
-        isNext: i > startIndex + days - 1,
-        classNames:
-          hideNotInViewDates.value && (i < startIndex || i > startIndex + days - 1)
-            ? `${pickerPrefixCls}-cell-hidden`
-            : undefined,
-      };
-    }
-
-    const rows = newArray(ROW_COUNT).map((_, index) => {
-      const row = flatData.slice(index * COL_COUNT, (index + 1) * COL_COUNT);
-      if (isWeek.value) {
-        // 取第一个作为周 cell 的值
-        const valueOfWeek = row[0].value;
-        row.unshift({
-          label: valueOfWeek.week(),
-          value: valueOfWeek,
-        });
-      }
-      return row;
-    });
-
-    return rows;
-  });
+  const rows = computed(() =>
+    getDateRows({
+      headerValue: headerValue.value,
+      weekList: weekList.value,
+      isWeek: isWeek.value,
+      hideNotInViewDates: hideNotInViewDates.value,
+      prefixCls: pickerPrefixCls,
+    }),
+  );
 
   const mergedIsSameTime = computed(
     () =>

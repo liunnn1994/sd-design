@@ -12,20 +12,26 @@ export default {
     [
       '@semantic-release/changelog',
       {
-        changelogFile: 'CHANGELOG.md',
+        changelogFile: 'packages/web-vue/CHANGELOG.md',
       },
     ],
     [
       '@semantic-release/exec',
       {
-        prepareCmd: 'node ./scripts/prepare-release-package.ts ${nextRelease.version}',
-        publishCmd: 'pnpm publish --no-git-checks --access public',
+        prepareCmd:
+          'node packages/web-vue/scripts/prepare-release-package.ts ${nextRelease.version}',
+        publishCmd:
+          'pnpm publish --recursive --filter @sdata/web-core --filter @sdata/web-vue --sort --workspace-concurrency 1 --no-git-checks --access public',
       },
     ],
     [
       '@semantic-release/git',
       {
-        assets: ['CHANGELOG.md', 'package.json'],
+        assets: [
+          'packages/web-vue/CHANGELOG.md',
+          'packages/web-core/package.json',
+          'packages/web-vue/package.json',
+        ],
         message: 'chore(release): ${nextRelease.version} [skip ci]',
       },
     ],

@@ -1,7 +1,8 @@
 import { toRefs, ref, watchEffect, computed } from 'vue';
 
+import { createCheckedStateFoundation } from '@sdata/web-core/tree/checked-state';
+
 import { TreeNodeKey, Key2TreeNode } from '../interface';
-import { getCheckedStateByInitKeys } from '../utils/check-utils';
 
 export default function useCheckedState(props: {
   defaultCheckedKeys: TreeNodeKey[] | undefined;
@@ -26,58 +27,61 @@ export default function useCheckedState(props: {
   const computedCheckedKeys = ref<TreeNodeKey[]>();
   const computedIndeterminateKeys = ref<TreeNodeKey[]>();
 
-  const getStateByKeys = (keys: TreeNodeKey[]) => {
-    return getCheckedStateByInitKeys({
-      initCheckedKeys: keys,
-      key2TreeNode: key2TreeNode.value,
-      checkStrictly: checkStrictly.value,
-      onlyCheckLeaf: onlyCheckLeaf.value,
-    });
-  };
-
-  const init = (keys: TreeNodeKey[]) => {
-    const initState = getStateByKeys(keys);
-    [localCheckedKeys.value, localIndeterminateKeys.value] = initState;
-  };
-
-  init(propCheckedKeys.value || defaultCheckedKeys?.value || []);
-
-  watchEffect(() => {
-    if (propCheckedKeys.value) {
-      [computedCheckedKeys.value, computedIndeterminateKeys.value] = getStateByKeys(
-        propCheckedKeys.value,
-      );
-    } else if (isInitialized.value) {
-      computedCheckedKeys.value = undefined;
-      computedIndeterminateKeys.value = undefined;
-      localCheckedKeys.value = [];
-      localIndeterminateKeys.value = [];
-    }
-    if (!isInitialized.value) {
-      isInitialized.value = true;
-    }
-  });
-
-  return {
-    checkedKeys: computed(() => computedCheckedKeys.value || localCheckedKeys.value),
-    indeterminateKeys: computed(() => {
-      if (checkStrictly.value && halfCheckedKeys.value) {
-        return halfCheckedKeys.value;
-      }
-      return computedIndeterminateKeys.value || localIndeterminateKeys.value;
-    }),
-    setCheckedState(
-      newCheckedKeys: TreeNodeKey[],
-      newIndeterminateKeys: TreeNodeKey[],
-      reinitialize = false,
-    ) {
-      if (reinitialize) {
-        init(newCheckedKeys);
-      } else {
-        localCheckedKeys.value = newCheckedKeys;
-        localIndeterminateKeys.value = newIndeterminateKeys;
-      }
-      return [localCheckedKeys.value, localIndeterminateKeys.value];
+  const foundation = createCheckedStateFoundation({
+    get defaultCheckedKeys() {
+      return defaultCheckedKeys?.value;
     },
+    get checkedKeys() {
+      return propCheckedKeys.value;
+    },
+    get halfCheckedKeys() {
+      return halfCheckedKeys.value;
+    },
+    get key2TreeNode() {
+      return key2TreeNode.value;
+    },
+    get checkStrictly() {
+      return checkStrictly.value;
+    },
+    get onlyCheckLeaf() {
+      return onlyCheckLeaf.value;
+    },
+    get isInitialized() {
+      return isInitialized.value;
+    },
+    set isInitialized(value) {
+      isInitialized.value = value;
+    },
+    get localCheckedKeys() {
+      return localCheckedKeys.value;
+    },
+    set localCheckedKeys(value) {
+      localCheckedKeys.value = value;
+    },
+    get localIndeterminateKeys() {
+      return localIndeterminateKeys.value;
+    },
+    set localIndeterminateKeys(value) {
+      localIndeterminateKeys.value = value;
+    },
+    get computedCheckedKeys() {
+      return computedCheckedKeys.value;
+    },
+    set computedCheckedKeys(value) {
+      computedCheckedKeys.value = value;
+    },
+    get computedIndeterminateKeys() {
+      return computedIndeterminateKeys.value;
+    },
+    set computedIndeterminateKeys(value) {
+      computedIndeterminateKeys.value = value;
+    },
+  });
+  foundation.initialize();
+  watchEffect(foundation.sync);
+  return {
+    checkedKeys: computed(foundation.getCheckedKeys),
+    indeterminateKeys: computed(foundation.getIndeterminateKeys),
+    setCheckedState: foundation.setCheckedState,
   };
 }

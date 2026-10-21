@@ -48,6 +48,12 @@
     type VNodeChild,
   } from 'vue';
 
+  import {
+    createCarousel,
+    getCarouselAutoPlay,
+    getCarouselIndexes,
+  } from '@sdata/web-core/carousel/foundation';
+
   import type {
     CarouselArrowType,
     CarouselAutoPlayConfig,
@@ -59,17 +65,10 @@
   import { useChildrenComponents } from '../_hooks/use-children-components';
   import { Direction } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isNumber, isObject } from '../_utils/is';
-  import { KEYBOARD_KEY } from '../_utils/keyboard';
   import { useI18n } from '../locale';
   import CarouselArrow from './carousel-arrow.vue';
   import CarouselIndicator from './carousel-indicator.vue';
   import { carouselInjectionKey } from './context';
-
-  const DEFAULT_AUTO_PLAY = {
-    interval: 3000,
-    hoverToPause: true,
-  };
 
   const VNodeRenderer = (_props: { content?: VNodeChild }) => _props.content;
 
@@ -194,33 +193,56 @@
   const isPause = ref(false);
   const previousIndex = ref<number>();
   const slideDirection = ref<'positive' | 'negative'>();
-  const computedAutoPlay = computed<CarouselAutoPlayConfig>(() => {
-    if (isObject(props.autoPlay)) return { ...DEFAULT_AUTO_PLAY, ...props.autoPlay };
-    return props.autoPlay ? DEFAULT_AUTO_PLAY : {};
-  });
-  let intervalTimer = 0;
-  let animationTimer = 0;
+  const computedAutoPlay = computed(() => getCarouselAutoPlay(props.autoPlay));
   const { children, components } = useChildrenComponents('CarouselItem');
   const innerIndex = ref(props.defaultCurrent - 1);
-
-  // Sync innerIndex from controlled current so the slideTo dedupe matches the display;
-  // without this, a controlled carousel that never writes back re-emits identical change events.
-  watch([() => props.current, () => components.value.length], ([val, count]) => {
-    if (count > 0) {
-      innerIndex.value = getValidIndex(isNumber(val) ? val - 1 : innerIndex.value, count);
-    }
+  const mergedIndexes = computed(() =>
+    getCarouselIndexes(props.current, innerIndex.value, components.value.length),
+  );
+  const foundation = createCarousel({
+    props,
+    get count() {
+      return components.value.length;
+    },
+    get indexes() {
+      return mergedIndexes.value;
+    },
+    get autoPlay() {
+      return computedAutoPlay.value;
+    },
+    get innerIndex() {
+      return innerIndex.value;
+    },
+    set innerIndex(value) {
+      innerIndex.value = value;
+    },
+    get previousIndex() {
+      return previousIndex.value;
+    },
+    set previousIndex(value) {
+      previousIndex.value = value;
+    },
+    get slideDirection() {
+      return slideDirection.value;
+    },
+    set slideDirection(value) {
+      slideDirection.value = value;
+    },
+    get paused() {
+      return isPause.value;
+    },
+    set paused(value) {
+      isPause.value = value;
+    },
+    setInterval: (callback, delay) => window.setInterval(callback, delay),
+    clearInterval: (timer) => window.clearInterval(timer),
+    setTimeout: (callback, delay) => window.setTimeout(callback, delay),
+    clearTimeout: (timer) => window.clearTimeout(timer),
+    onUpdate: (index) => emit('update:current', index),
+    onChange: (index, previous, manual) => emit('change', index, previous, manual),
   });
-  const mergedIndexes = computed(() => {
-    const childrenLength = components.value.length;
-    const mergedIndex = isNumber(props.current)
-      ? getValidIndex(props.current - 1, childrenLength)
-      : innerIndex.value;
-    return {
-      mergedIndex,
-      mergedPrevIndex: getValidIndex(mergedIndex - 1, childrenLength),
-      mergedNextIndex: getValidIndex(mergedIndex + 1, childrenLength),
-    };
-  });
+  watch([() => props.current, () => components.value.length], foundation.syncIndex);
+  const slideTo = foundation.slideTo;
 
   const carouselContext = reactive({
     items: components,
@@ -234,109 +256,13 @@
   });
   provide(carouselInjectionKey, carouselContext);
 
-  // interval 与动画锁分开管理：watchEffect 依赖 mergedIndexes（含 innerIndex），
-  // 每次 slide 后都会重跑；若在此清除 animationTimer 会把 pending 的解锁 setTimeout
-  // 一并取消，导致动画锁永远无法释放、后续切换全部被丢弃。
-  const clearIntervalTimer = () => {
-    if (intervalTimer) {
-      window.clearInterval(intervalTimer);
-      intervalTimer = 0;
-    }
-  };
-
-  const clearAnimationTimer = () => {
-    if (animationTimer) {
-      window.clearTimeout(animationTimer);
-      animationTimer = 0;
-    }
-  };
-
-  watchEffect(() => {
-    const { interval } = computedAutoPlay.value || {};
-    const { mergedNextIndex } = mergedIndexes.value;
-    const paused = computedAutoPlay.value.hoverToPause && isPause.value;
-    const shouldInterval = components.value.length > 1 && !paused && Boolean(interval);
-    clearIntervalTimer();
-    if (shouldInterval) {
-      intervalTimer = window.setInterval(() => slideTo({ targetIndex: mergedNextIndex }), interval);
-    }
-  });
-
-  onBeforeUnmount(() => {
-    clearIntervalTimer();
-    clearAnimationTimer();
-  });
-
-  function getValidIndex(index: number, length: number): number {
-    const indexNumber = +index;
-    return length > 0 && Number.isFinite(indexNumber)
-      ? ((Math.trunc(indexNumber) % length) + length) % length
-      : 0;
-  }
-
-  function slideTo({
-    targetIndex,
-    isNegative = false,
-    isManual = false,
-  }: {
-    targetIndex: number;
-    isNegative?: boolean;
-    isManual?: boolean;
-  }) {
-    // animationTimer lock is always cleared by setTimeout/onBeforeUnmount.
-    // Dedupe against innerIndex: no duplicate identical change when controlled current is not written back.
-    if (components.value.length > 1 && !animationTimer && targetIndex !== innerIndex.value) {
-      previousIndex.value = mergedIndexes.value.mergedIndex;
-      innerIndex.value = targetIndex;
-      slideDirection.value = isNegative ? 'negative' : 'positive';
-      animationTimer = window.setTimeout(() => {
-        animationTimer = 0;
-      }, props.moveSpeed);
-      emit('update:current', innerIndex.value + 1);
-      emit('change', innerIndex.value + 1, previousIndex.value + 1, isManual);
-    }
-  }
-
-  const onPreviousClick = () =>
-    slideTo({
-      targetIndex: mergedIndexes.value.mergedPrevIndex,
-      isNegative: true,
-      isManual: true,
-    });
-  const onNextClick = () =>
-    slideTo({ targetIndex: mergedIndexes.value.mergedNextIndex, isManual: true });
-  const onSelect = (index: number) => {
-    const count = components.value.length;
-    if (!count) return;
-    // Shortest-path direction: last->first indicator jump is a forward wrap (not negative).
-    const forwardDistance = (index - mergedIndexes.value.mergedIndex + count) % count;
-    slideTo({
-      targetIndex: index,
-      isNegative: forwardDistance * 2 > count,
-      isManual: true,
-    });
-  };
-
-  const onKeydown = (event: KeyboardEvent) => {
-    const target = event.target as HTMLElement | null;
-    if (target?.closest('input, textarea, select, [contenteditable="true"]')) return;
-    if (event.key === KEYBOARD_KEY.ARROW_RIGHT || event.key === KEYBOARD_KEY.ARROW_DOWN) {
-      event.preventDefault();
-      onNextClick();
-    } else if (event.key === KEYBOARD_KEY.ARROW_LEFT || event.key === KEYBOARD_KEY.ARROW_UP) {
-      event.preventDefault();
-      onPreviousClick();
-    }
-  };
-
-  const eventListeners = {
-    mouseenter: () => {
-      isPause.value = true;
-    },
-    mouseleave: () => {
-      isPause.value = false;
-    },
-  };
+  watchEffect(foundation.syncAutoPlay);
+  onBeforeUnmount(foundation.dispose);
+  const onPreviousClick = foundation.prev;
+  const onNextClick = foundation.next;
+  const onSelect = foundation.select;
+  const onKeydown = foundation.keydown;
+  const eventListeners = { mouseenter: foundation.enter, mouseleave: foundation.leave };
   const hasIndicator = computed(
     () => props.indicatorType !== 'never' && components.value.length > 1,
   );
@@ -373,11 +299,7 @@
    * @zh 切换到指定 slide（从 1 开始，与 current/change 的序号一致）
    * @en Go to the given slide (1-based, consistent with current/change)
    */
-  const goTo = (index: number) => {
-    const count = components.value.length;
-    if (!count) return;
-    onSelect(getValidIndex(index - 1, count));
-  };
+  const goTo = (index: number) => foundation.goTo(index);
 
   defineExpose({ prev, next, goTo });
 </script>

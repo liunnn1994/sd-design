@@ -1,4 +1,4 @@
-import type { Options as ClipboardOptions } from 'copy-to-clipboard';
+import type { ClipboardOptions } from '@sdata/web-core/clipboard';
 
 import type { ButtonProps } from '../button';
 import type { LinkProps } from '../link';

@@ -1,6 +1,6 @@
 <template>
   <span :class="cls">
-    <DefineAction v-slot="{ action, className, label }">
+    <DefineAction v-slot="{ action, className, label, $slots: actionSlots }">
       <span
         :class="[uploadCtx?.iconCls, `${uploadCtx?.iconCls}-${className}`]"
         role="button"
@@ -9,7 +9,8 @@
         @click="action"
         @keydown="onActionKeydown($event, action)"
       >
-        <slot />
+        <slot v-if="$slots.default" />
+        <component :is="actionSlots.default" v-else />
       </span>
     </DefineAction>
     <UploadProgress v-if="file.status === 'uploading'" :file="file" list-type="picture-card" />
@@ -109,12 +110,12 @@
 <script setup lang="ts">
   import { computed, inject, toRef, type PropType } from 'vue';
 
+  import { onActivate } from '@sdata/web-core/_utils/keyboard';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { FileItem } from './interfaces';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import { isActivationKey } from '../_utils/keyboard';
   import IconDelete from '../icon/icon-delete';
   import IconEye from '../icon/icon-eye';
   import IconImageClose from '../icon/icon-image-close';
@@ -158,9 +159,10 @@
 
   // 图标按钮（span）键盘激活
   const onActionKeydown = (event: KeyboardEvent, action: (() => void) | undefined) => {
-    if (action && isActivationKey(event)) {
-      event.preventDefault();
-      action();
+    if (action) {
+      onActivate(() => {
+        action();
+      })(event);
     }
   };
 </script>

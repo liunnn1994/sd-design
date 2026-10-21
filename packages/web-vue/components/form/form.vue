@@ -7,12 +7,12 @@
 <script setup lang="ts">
   import { computed, PropType, provide, reactive, toRefs, ref } from 'vue';
 
-  import { cloneDeep } from 'es-toolkit';
+  import { createFormFoundation } from '@sdata/web-core/form/foundation';
 
   import { useSize } from '../_hooks/use-size';
   import { Size } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isArray, isFunction, isBoolean } from '../_utils/is';
+  import { isBoolean } from '../_utils/is';
   import { FormItemInfo, formInjectionKey } from './context';
   import { FieldData, FieldRule, ValidatedError } from './interface';
   import { getFormElementId } from './utils';
@@ -175,31 +175,27 @@
 
   const autoLabelWidth = computed(() => props.layout === 'horizontal' && props.autoLabelWidth);
 
-  const fields: FormItemInfo[] = [];
+  const {
+    fields,
+    addField,
+    removeField,
+    setFields,
+    resetFields,
+    clearValidate,
+    validate,
+    validateField,
+    submit: handleSubmit,
+  } = createFormFoundation<FormItemInfo>({
+    getModel: () => model.value,
+    shouldScrollToError: () => Boolean(props.scrollToFirstError),
+    scrollToError: (field) => scrollToFirstError(field),
+    onSubmitFailed: (values, errors, event) => emit('submitFailed', { values, errors }, event),
+    onSubmitSuccess: (values, event) => emit('submitSuccess', values, event),
+    onSubmit: (values, errors, event) => emit('submit', { values, errors }, event),
+  });
 
   const labelWidth = reactive<Record<string, number>>({});
   const maxLabelWidth = computed(() => Math.max(...Object.values(labelWidth)));
-
-  const addField = (formItemInfo: FormItemInfo) => {
-    if (formItemInfo && formItemInfo.field) {
-      fields.push(formItemInfo);
-    }
-  };
-
-  const removeField = (formItemInfo: FormItemInfo) => {
-    const index = fields.indexOf(formItemInfo);
-    if (index !== -1) {
-      fields.splice(index, 1);
-    }
-  };
-
-  const setFields = (data: Record<string, FieldData>) => {
-    fields.forEach((field) => {
-      if (data[field.field]) {
-        field.setField(data[field.field]);
-      }
-    });
-  };
 
   const setLabelWidth = (width: number, uid?: number) => {
     if (uid && labelWidth[uid] !== width) {
@@ -211,24 +207,6 @@
     if (uid) {
       delete labelWidth[uid];
     }
-  };
-
-  const resetFields = (field?: string | string[]) => {
-    const _fields = field ? ([] as string[]).concat(field) : [];
-    fields.forEach((field) => {
-      if (_fields.length === 0 || _fields.includes(field.field)) {
-        field.resetField();
-      }
-    });
-  };
-
-  const clearValidate = (field?: string | string[]) => {
-    const _fields = field ? ([] as string[]).concat(field) : [];
-    fields.forEach((field) => {
-      if (_fields.length === 0 || _fields.includes(field.field)) {
-        field.clearValidate();
-      }
-    });
   };
 
   const scrollToField = (field: string, options?: ScrollIntoViewOptions) => {
@@ -247,97 +225,6 @@
   const scrollToFirstError = (field: string) => {
     const options = !isBoolean(props.scrollToFirstError) ? props.scrollToFirstError : undefined;
     scrollToField(field, options);
-  };
-
-  const validate = (
-    callback?: (errors: undefined | Record<string, ValidatedError>) => void,
-  ): Promise<undefined | Record<string, ValidatedError>> => {
-    const list: Promise<ValidatedError | undefined>[] = [];
-
-    fields.forEach((field) => {
-      list.push(field.validate());
-    });
-
-    return Promise.all(list).then((result) => {
-      const errors: Record<string, ValidatedError> = {};
-      let hasError = false;
-      result.forEach((item) => {
-        if (item) {
-          hasError = true;
-          errors[item.field] = item;
-        }
-      });
-
-      if (hasError && props.scrollToFirstError) {
-        scrollToFirstError(Object.keys(errors)[0]);
-      }
-
-      if (isFunction(callback)) {
-        callback(hasError ? errors : undefined);
-      }
-
-      return hasError ? errors : undefined;
-    });
-  };
-
-  const validateField = (
-    field: string | string[],
-    callback?: (errors: undefined | Record<string, ValidatedError>) => void,
-  ) => {
-    const list: Promise<ValidatedError | undefined>[] = [];
-
-    for (const ctx of fields) {
-      if ((isArray(field) && field.includes(ctx.field)) || field === ctx.field) {
-        list.push(ctx.validate());
-      }
-    }
-
-    return Promise.all(list).then((result) => {
-      const errors: Record<string, ValidatedError> = {};
-      let hasError = false;
-      result.forEach((item) => {
-        if (item) {
-          hasError = true;
-          errors[item.field] = item;
-        }
-      });
-
-      if (hasError && props.scrollToFirstError) {
-        scrollToFirstError(Object.keys(errors)[0]);
-      }
-
-      if (isFunction(callback)) {
-        callback(hasError ? errors : undefined);
-      }
-
-      return hasError ? errors : undefined;
-    });
-  };
-
-  const handleSubmit = (e: Event) => {
-    const values = cloneDeep(model.value);
-    const list: Promise<ValidatedError | undefined>[] = [];
-    fields.forEach((field) => {
-      list.push(field.validate());
-    });
-
-    Promise.all(list).then((result) => {
-      const errors: Record<string, ValidatedError> = {};
-      let hasError = false;
-      result.forEach((item) => {
-        if (item) {
-          hasError = true;
-          errors[item.field] = item;
-        }
-      });
-      if (hasError) {
-        props.scrollToFirstError && scrollToFirstError(Object.keys(errors)[0]);
-        emit('submitFailed', { values, errors }, e);
-      } else {
-        emit('submitSuccess', values, e);
-      }
-      emit('submit', { values, errors: hasError ? errors : undefined }, e);
-    });
   };
 
   provide(

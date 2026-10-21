@@ -37,6 +37,8 @@
   import type { PropType } from 'vue';
   import { computed, CSSProperties, ref, toRefs } from 'vue';
 
+  import { createPopupWrapperFoundation } from '@sdata/web-core/trigger/compat-state';
+
   import type { TriggerEvent, TriggerPosition } from '../_utils/constant';
   import type { FloatingOptions } from '../_utils/floating';
 
@@ -161,17 +163,28 @@
 
   const prefixCls = getPrefixCls('popover');
   const _popupVisible = ref(props.defaultPopupVisible);
-  const computedPopupVisible = computed(() => props.popupVisible ?? _popupVisible.value);
+  const foundation = createPopupWrapperFoundation(
+    {
+      get popupVisible() {
+        return props.popupVisible;
+      },
+      get localVisible() {
+        return _popupVisible.value;
+      },
+      set localVisible(value) {
+        _popupVisible.value = value;
+      },
+    },
+    (visible) => emit('update:popupVisible', visible),
+    (visible) => emit('popupVisibleChange', visible),
+  );
+  const computedPopupVisible = computed(foundation.getVisible);
   const { scrollbar } = toRefs(props);
   const { scrollbarProps } = useScrollbar(scrollbar);
   // scrollbar: false 时不渲染内嵌 Scrollbar，直接渲染内容（同 Card 的原生滚动意图）
   const isScrollbarEnabled = computed(() => scrollbar.value !== false);
 
-  const handlePopupVisibleChange = (visible: boolean) => {
-    _popupVisible.value = visible;
-    emit('update:popupVisible', visible);
-    emit('popupVisibleChange', visible);
-  };
+  const handlePopupVisibleChange = foundation.handlePopupVisibleChange;
 
   const contentCls = computed(() => [`${prefixCls}-popup-content`, props.contentClass]);
 

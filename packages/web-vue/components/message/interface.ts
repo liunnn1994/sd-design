@@ -1,11 +1,11 @@
+import type { MessagePosition, NoticeItem } from '@sdata/web-core/notice/types';
+
 import { AppContext, RenderFunction } from 'vue';
 
 import { MessageType } from '../_utils/constant';
 import { RenderContent } from '../_utils/types';
-
-export const MESSAGE_POSITION = ['top', 'bottom'] as const;
-
-export type MessagePosition = (typeof MESSAGE_POSITION)[number];
+export { MESSAGE_POSITION } from '@sdata/web-core/notice/types';
+export type { MessagePosition } from '@sdata/web-core/notice/types';
 
 export interface MessageMethod {
   /**
@@ -115,16 +115,8 @@ export interface MessageReturn {
   close: () => void;
 }
 
-export interface MessageItem {
-  timerVersion?: number;
-  id: number | string;
-  content: RenderContent;
+export interface MessageItem extends Omit<NoticeItem<RenderContent>, 'title'> {
   type?: MessageType | 'loading' | 'normal';
   icon?: RenderFunction;
-  showIcon?: boolean;
-  closable?: boolean;
-  duration?: number;
-  resetOnUpdate?: boolean;
-  onClose?: (id: number | string) => void;
   resetOnHover?: boolean;
 }

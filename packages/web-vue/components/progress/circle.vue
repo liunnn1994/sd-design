@@ -3,7 +3,7 @@
     role="progressbar"
     aria-valuemin="0"
     aria-valuemax="100"
-    :aria-valuenow="NP.times(percent, 100)"
+    :aria-valuenow="percentValue"
     :class="`${prefixCls}-wrapper`"
     :style="{ width: `${mergedWidth}px`, height: `${mergedWidth}px` }"
   >
@@ -56,27 +56,16 @@
 <script setup lang="ts">
   import { computed, PropType, useId, type CSSProperties } from 'vue';
 
-  import NP from 'number-precision';
+  import {
+    createProgressCircleFoundation,
+    getProgressPercent,
+    getProgressText,
+  } from '@sdata/web-core/progress/foundation';
 
   import { SIZES } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isObject } from '../_utils/is';
   import IconCheck from '../icon/icon-check';
   import IconExclamation from '../icon/icon-exclamation';
-
-  const DEFAULT_WIDTH = {
-    mini: 16,
-    small: 48,
-    medium: 64,
-    large: 80,
-  };
-
-  const DEFAULT_STROKE_WIDTH = {
-    mini: 4,
-    small: 3,
-    medium: 4,
-    large: 4,
-  };
 
   defineOptions({ name: 'ProgressCircle' });
 
@@ -119,49 +108,18 @@
 
   const prefixCls = getPrefixCls('progress-circle');
 
-  const isLinearGradient = computed(() => isObject(props.color));
-  const gradientStops = computed<[string, string][]>(() => {
-    if (!isObject(props.color)) {
-      return [];
-    }
-
-    return Object.entries(props.color).map(([offset, stopColor]) => [offset, String(stopColor)]);
-  });
-  const solidColor = computed(() => (typeof props.color === 'string' ? props.color : undefined));
-
-  const mergedWidth = computed(() => {
-    return props.width ?? DEFAULT_WIDTH[props.size];
-  });
-
-  const mergedStrokeWidth = computed(
-    () =>
-      props.strokeWidth ??
-      (props.size === 'mini' ? mergedWidth.value / 2 : DEFAULT_STROKE_WIDTH[props.size]),
-  );
-
-  const mergedPathStrokeWidth = computed(
-    () =>
-      props.pathStrokeWidth ??
-      (props.size === 'mini' ? mergedStrokeWidth.value : Math.max(2, mergedStrokeWidth.value - 2)),
-  );
-
-  const radius = computed(() => (mergedWidth.value - mergedStrokeWidth.value) / 2);
-  const perimeter = computed(() => Math.PI * 2 * radius.value);
-  const center = computed(() => mergedWidth.value / 2);
-
   const linearGradientId = `${prefixCls}-linear-gradient-${useId()}`;
-
-  const text = computed(() => `${NP.times(props.percent, 100)}%`);
-  const iconStyle = computed<CSSProperties>(() => ({
-    fontSize: mergedWidth.value - 2,
-    color: solidColor.value,
-  }));
-  const trackStyle = computed<CSSProperties>(() => ({
-    stroke: props.trackColor,
-  }));
-  const circleStyle = computed<CSSProperties>(() => ({
-    stroke: isLinearGradient.value ? `url(#${linearGradientId})` : solidColor.value,
-    strokeDasharray: perimeter.value,
-    strokeDashoffset: (props.percent >= 1 ? 0 : 1 - props.percent) * perimeter.value,
-  }));
+  const foundation = createProgressCircleFoundation(props, () => linearGradientId);
+  const isLinearGradient = computed(foundation.isLinearGradient);
+  const gradientStops = computed(foundation.getGradientStops);
+  const mergedWidth = computed(foundation.getWidth);
+  const mergedStrokeWidth = computed(foundation.getStrokeWidth);
+  const mergedPathStrokeWidth = computed(foundation.getPathStrokeWidth);
+  const radius = computed(foundation.getRadius);
+  const center = computed(foundation.getCenter);
+  const percentValue = computed(() => getProgressPercent(props.percent));
+  const text = computed(() => getProgressText(props.percent));
+  const iconStyle = computed<CSSProperties>(foundation.getIconStyle);
+  const trackStyle = computed<CSSProperties>(foundation.getTrackStyle);
+  const circleStyle = computed<CSSProperties>(foundation.getCircleStyle);
 </script>

@@ -196,3 +196,7 @@ import { MODEL_SELECTOR_PROVIDERS } from '@sdata/web-vue';
 | height | Logo 高度 | `number \| string` | `16` |
 
 其余属性会透传给原生 `img`。
+
+## 框架无关触发规则
+
+web-core/model-selector/trigger 管理触发器的禁用取消与可见性切换。Vue 保留上下文注入、受控模型和自定义触发元素，slot 的 open/close 方法及既有 API 保持。

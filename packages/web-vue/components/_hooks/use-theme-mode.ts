@@ -1,10 +1,11 @@
+import type { ThemeMode } from '@sdata/web-core/config-provider/theme-mode';
+
 import { type Ref, ref, watch } from 'vue';
 
+import { createThemeModeFoundation, THEME_ATTR } from '@sdata/web-core/config-provider/theme-mode';
+
 import { useMutationObserver } from '../watermark/hooks/use-mutation-observer';
-
-const THEME_ATTR = 'sd-theme';
-
-export type ThemeMode = 'light' | 'dark';
+export type { ThemeMode } from '@sdata/web-core/config-provider/theme-mode';
 
 /**
  * Detects the current theme mode from the nearest ancestor with `[sd-theme]`
@@ -19,14 +20,18 @@ export function useThemeMode<T extends HTMLElement = HTMLElement>(
 ): Ref<ThemeMode> {
   const themeMode = ref<ThemeMode>('light');
 
-  const resolveTheme = () => {
-    if (typeof document === 'undefined') return;
-    const el = target.value;
-    if (!el) return;
-    const ancestor = el.closest<HTMLElement>(`[${THEME_ATTR}]`);
-    themeMode.value = ancestor?.getAttribute(THEME_ATTR) === 'dark' ? 'dark' : 'light';
-  };
-
+  const foundation = createThemeModeFoundation({
+    get target() {
+      return target.value;
+    },
+    get mode() {
+      return themeMode.value;
+    },
+    set mode(value) {
+      themeMode.value = value;
+    },
+  });
+  const { resolveTheme } = foundation;
   // Resolve when the element mounts / changes.
   watch(target, resolveTheme, { immediate: true });
 
@@ -34,14 +39,7 @@ export function useThemeMode<T extends HTMLElement = HTMLElement>(
   // and ancestor ThemeProvider mutations are caught.
   useMutationObserver(
     typeof document !== 'undefined' ? document.documentElement : undefined,
-    (mutations) => {
-      for (const mutation of mutations) {
-        if (mutation.type === 'attributes' && mutation.attributeName === THEME_ATTR) {
-          resolveTheme();
-          break;
-        }
-      }
-    },
+    foundation.handleMutations,
     { attributes: true, attributeFilter: [THEME_ATTR], subtree: true },
   );
 

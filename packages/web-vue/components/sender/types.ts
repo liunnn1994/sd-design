@@ -1,28 +1,44 @@
-import type { UnknownRecord } from 'type-fest';
+import type {
+  SenderSubmitType,
+  SenderInsertPosition,
+  SenderSuffixPlacement,
+  SenderSemanticType,
+  SenderSlotConfigBase,
+  SenderTextSlotConfig,
+  SenderInputSlotConfig,
+  SenderSelectSlotConfig,
+  SenderTagSlotConfig,
+  SenderContentSlotConfig,
+  SenderCustomSlotState,
+  SenderFocusOptions,
+} from '@sdata/web-core/sender/types';
+export type {
+  SenderSubmitType,
+  SenderInsertPosition,
+  SenderSuffixPlacement,
+  SenderSemanticType,
+  SenderSlotConfigBase,
+  SenderTextSlotConfig,
+  SenderInputSlotConfig,
+  SenderSelectSlotConfig,
+  SenderTagSlotConfig,
+  SenderContentSlotConfig,
+  SenderCustomSlotState,
+  SenderFocusOptions,
+  SenderActionContext,
+} from '@sdata/web-core/sender/types';
+import type { SenderAllowSpeech } from '@sdata/web-core/sender/recorder';
+export type { SenderAllowSpeech } from '@sdata/web-core/sender/recorder';
 
 import type { CSSProperties, Component, VNodeChild } from 'vue';
 
 import type { TooltipProps } from '../tooltip';
 import type { VoiceGlowProps } from '../voice-glow';
-import type { RecorderCore, RecorderCoreInstance, RecorderCoreOptions } from './recorder-core';
-
-export type SenderSubmitType = 'enter' | 'shiftEnter';
-export type SenderInsertPosition = 'start' | 'end' | 'cursor';
-export type SenderSuffixPlacement = 'content' | 'footer';
-export type SenderSemanticType =
-  | 'root'
-  | 'prefix'
-  | 'input'
-  | 'suffix'
-  | 'footer'
-  | 'switch'
-  | 'content';
+import type { RecorderCore, RecorderCoreInstance } from './recorder-core';
 
 export interface SenderComponents {
   input?: Component;
 }
-
-export type SenderAllowSpeech = boolean | RecorderCoreOptions | UnknownRecord;
 
 export interface SenderSkillClosableConfig {
   closeIcon?: VNodeChild;
@@ -35,61 +51,6 @@ export interface SenderSkill {
   value: string;
   tooltip?: string | TooltipProps;
   closable?: boolean | SenderSkillClosableConfig;
-}
-
-export interface SenderSlotConfigBase {
-  type: 'text' | 'input' | 'select' | 'tag' | 'custom' | 'content';
-  formatResult?: (value: unknown) => string;
-}
-
-export interface SenderTextSlotConfig extends SenderSlotConfigBase {
-  type: 'text';
-  value?: string;
-  editable?: boolean;
-  placeholder?: string;
-  key?: string;
-}
-
-export interface SenderInputSlotConfig extends SenderSlotConfigBase {
-  type: 'input';
-  key: string;
-  props?: {
-    defaultValue?: string | number;
-    placeholder?: string;
-  };
-}
-
-export interface SenderSelectSlotConfig extends SenderSlotConfigBase {
-  type: 'select';
-  key: string;
-  props?: {
-    defaultValue?: string;
-    options: string[];
-    placeholder?: string;
-  };
-}
-
-export interface SenderTagSlotConfig extends SenderSlotConfigBase {
-  type: 'tag';
-  key: string;
-  props?: {
-    label: string | number;
-    value?: string;
-  };
-}
-
-export interface SenderContentSlotConfig extends SenderSlotConfigBase {
-  type: 'content';
-  key: string;
-  props?: {
-    defaultValue?: unknown;
-    placeholder?: string;
-  };
-}
-
-export interface SenderCustomSlotState {
-  disabled?: boolean;
-  readonly?: boolean;
 }
 
 export type SenderCustomSlotRender = (
@@ -125,12 +86,6 @@ export interface SenderValue {
   skill?: SenderSkill;
 }
 
-export interface SenderFocusOptions {
-  preventScroll?: boolean;
-  cursor?: 'start' | 'end' | 'all' | 'slot';
-  key?: string;
-}
-
 export interface SenderRef {
   readonly Recorder: RecorderCore;
   readonly recorder: RecorderCoreInstance | null;
@@ -147,19 +102,6 @@ export interface SenderRef {
   ) => void;
   clear: () => void;
   getValue: () => SenderValue;
-}
-
-export interface SenderActionContext {
-  send: () => void;
-  clear: () => void;
-  cancel: () => void;
-  speech: () => void;
-  submitDisabled: boolean;
-  clearDisabled: boolean;
-  cancelDisabled: boolean;
-  speechDisabled: boolean;
-  recording: boolean;
-  loading: boolean;
 }
 
 export interface SenderProps {

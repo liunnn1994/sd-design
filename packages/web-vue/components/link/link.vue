@@ -33,6 +33,8 @@
 <script setup lang="ts">
   import { computed, onBeforeUpdate, reactive, useSlots } from 'vue';
 
+  import { createPressableFoundation } from '@sdata/web-core/interaction/pressable';
+
   import type { LinkProps } from './interface';
 
   import { getPrefixCls } from '../_utils/global-config';
@@ -78,13 +80,17 @@
   const resolvedHoverable = computed(() => props.hoverable ?? hasDefaultSlot.value);
   const shouldRenderEllipsis = computed(() => props.ellipsis && hasDefaultSlot.value);
 
-  const handleClick = (ev: MouseEvent) => {
-    if (props.disabled || props.loading) {
-      ev.preventDefault();
-      return;
-    }
-    emit('click', ev);
-  };
+  const { handleClick } = createPressableFoundation<MouseEvent>(
+    {
+      get disabled() {
+        return props.disabled;
+      },
+      get loading() {
+        return props.loading;
+      },
+    },
+    (ev) => emit('click', ev),
+  );
 
   const cls = computed(() => [
     prefixCls,

@@ -39,7 +39,13 @@
   import type { PropType, StyleValue, VNodeChild } from 'vue';
   import { computed, defineComponent, inject, nextTick, ref, useTemplateRef, watch } from 'vue';
 
-  import QRCode from 'qrcode';
+  import {
+    createQrCode,
+    mergeQrCodeValue,
+    getQrCodeIconStyle,
+    getQrCodeStyle,
+    getQrCodeOptions,
+  } from '@sdata/web-core/qr-code/foundation';
 
   import type { SpinProps } from '../spin';
   import type {
@@ -232,34 +238,17 @@
   const themeMode = useThemeMode(rootRef);
   const canvasRef = ref<HTMLCanvasElement>();
   const svgMarkup = ref('');
-  let renderGeneration = 0;
 
   const handleRefresh = () => {
     emit('refresh');
   };
 
-  const mergedValue = computed(() => {
-    if (Array.isArray(props.value)) {
-      return props.value.join('\n');
-    }
-
-    return props.value ?? '';
-  });
-
+  const mergedValue = computed(() => mergeQrCodeValue(props.value));
   const hasValue = computed(() => Boolean(mergedValue.value));
   const inactiveStatus = computed(() =>
     props.status === 'active' ? null : (props.status as QrCodeInactiveStatus),
   );
-  const iconWidth = computed(() =>
-    typeof props.iconSize === 'number' ? props.iconSize : props.iconSize.width,
-  );
-  const iconHeight = computed(() =>
-    typeof props.iconSize === 'number' ? props.iconSize : props.iconSize.height,
-  );
-  const iconStyle = computed<StyleValue>(() => ({
-    width: `${iconWidth.value}px`,
-    height: `${iconHeight.value}px`,
-  }));
+  const iconStyle = computed<StyleValue>(() => getQrCodeIconStyle(props.iconSize));
   const customStatusNode = computed(() => {
     if (!inactiveStatus.value || !props.statusRender) {
       return null;
@@ -277,101 +266,27 @@
       [`${prefixCls}-has-status`]: Boolean(inactiveStatus.value),
     },
   ]);
-  const rootStyle = computed<StyleValue>(() => ({
-    width: `${props.size}px`,
-    height: `${props.size}px`,
-    backgroundColor: props.bgColor === 'transparent' ? undefined : props.bgColor,
-  }));
-  const qrColor = computed(() => {
-    if (props.color) {
-      return props.color;
-    }
-
-    return themeMode.value === 'dark' ? '#f6f6f6' : '#0b0b0a';
-  });
-  const qrBgColor = computed(() => {
-    if (props.bgColor !== 'transparent') {
-      return props.bgColor;
-    }
-
-    return themeMode.value === 'dark' ? '#20201e' : '#ffffff';
-  });
-  const qrOptions = computed(() => ({
-    errorCorrectionLevel: props.errorLevel,
-    margin: props.marginSize,
-    width: props.size,
-    boostLevel: props.boostLevel,
-    color: {
-      dark: qrColor.value,
-      light: qrBgColor.value,
+  const rootStyle = computed<StyleValue>(() => getQrCodeStyle(props.size, props.bgColor));
+  const qrOptions = computed(() => getQrCodeOptions(props, themeMode.value));
+  const foundation = createQrCode({
+    get value() {
+      return mergedValue.value;
     },
-  }));
-
-  const renderCanvas = async (generation: number) => {
-    const targetCanvas = canvasRef.value;
-    if (!targetCanvas || !hasValue.value) {
-      return;
-    }
-
-    try {
-      const nextCanvas = document.createElement('canvas');
-      await QRCode.toCanvas(nextCanvas, mergedValue.value, { ...qrOptions.value });
-      if (
-        generation !== renderGeneration ||
-        canvasRef.value !== targetCanvas ||
-        props.type !== 'canvas' ||
-        !hasValue.value
-      ) {
-        return;
-      }
-      targetCanvas.width = nextCanvas.width;
-      targetCanvas.height = nextCanvas.height;
-      targetCanvas.getContext('2d')?.drawImage(nextCanvas, 0, 0);
-    } catch {
-      // noop
-    }
-  };
-
-  const renderSvg = async (generation: number) => {
-    if (!hasValue.value) {
-      svgMarkup.value = '';
-      return;
-    }
-
-    try {
-      const markup = await QRCode.toString(mergedValue.value, {
-        ...qrOptions.value,
-        type: 'svg',
-      });
-      if (generation === renderGeneration && props.type === 'svg' && hasValue.value) {
-        svgMarkup.value = markup;
-      }
-    } catch {
-      if (generation === renderGeneration) {
-        svgMarkup.value = '';
-      }
-    }
-  };
-
-  const renderCode = async () => {
-    const generation = ++renderGeneration;
-    if (!hasValue.value) {
-      svgMarkup.value = '';
-      return;
-    }
-
-    await nextTick();
-    if (generation !== renderGeneration) {
-      return;
-    }
-
-    if (props.type === 'canvas') {
-      await renderCanvas(generation);
-      return;
-    }
-
-    await renderSvg(generation);
-  };
+    get type() {
+      return props.type;
+    },
+    get options() {
+      return qrOptions.value;
+    },
+    get canvas() {
+      return canvasRef.value;
+    },
+    nextRender: nextTick,
+    createCanvas: () => document.createElement('canvas'),
+    setSvg: (markup) => {
+      svgMarkup.value = markup;
+    },
+  });
 
   watch(
     () => [
@@ -386,7 +301,7 @@
       themeMode.value,
     ],
     () => {
-      void renderCode();
+      void foundation.render();
     },
     {
       immediate: true,

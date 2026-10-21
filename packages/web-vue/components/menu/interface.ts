@@ -1,3 +1,5 @@
+import type { MenuTheme, MenuMode, PopupMenuMaxHeightType } from '@sdata/web-core/menu/types';
+
 import { StyleValue } from 'vue';
 
 import type { FloatingOptions } from '../_utils/floating';
@@ -6,17 +8,14 @@ import { Breakpoint } from '../_utils/responsive-observe';
 import { Data } from '../_utils/types';
 import { EllipsisTooltipProps } from '../ellipsis';
 import { TriggerProps } from '../trigger';
-
-export type MenuTheme = 'light' | 'dark';
-
-export type MenuMode = 'vertical' | 'horizontal' | 'pop' | 'popButton';
-
-export interface SubMenuChildDataType {
-  key: string;
-  children?: SubMenuChildDataType[];
-}
-
-export type PopupMenuMaxHeightType = boolean | number;
+export type {
+  MenuTheme,
+  MenuMode,
+  PopupMenuMaxHeightType,
+  SubMenuChildDataType,
+  MenuDataItem,
+  MenuData,
+} from '@sdata/web-core/menu/types';
 
 export interface MenuEllipsisProps {
   lineClamp?: number | string;
@@ -162,10 +161,3 @@ export interface SubMenuPopProps {
   isChildrenSelected: boolean;
   popupMaxHeight: PopupMenuMaxHeightType | undefined;
 }
-
-export interface MenuDataItem {
-  key: string;
-  children?: MenuData;
-}
-
-export type MenuData = MenuDataItem[];

@@ -159,6 +159,12 @@
 <script setup lang="ts">
   import { computed, nextTick, ref, watch, type CSSProperties, type PropType } from 'vue';
 
+  import {
+    createColorPanel,
+    getColorSectionList,
+    getColorFormatOptions,
+    type ColorSectionTrigger,
+  } from '@sdata/web-core/color-picker/panel';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { TriggerProps } from '../trigger';
@@ -169,14 +175,12 @@
     ColorObject,
     ColorPickerChangeTrigger,
     ColorValueState,
-    GradientColorPoint,
-    HSVA,
     RecentColorsValue,
   } from './interface';
 
   import { getPrefixCls } from '../_utils/global-config';
   import Input, { InputGroup } from '../input';
-  import InputNumber, { type InputNumberValue } from '../input-number';
+  import InputNumber from '../input-number';
   import { useI18n } from '../locale';
   import Radio from '../radio';
   import Select from '../select';
@@ -184,81 +188,19 @@
   import GradientThumb from './gradient-thumb.vue';
   import Palette from './palette.vue';
   import {
-    TD_COLOR_USED_COLORS_MAX_SIZE,
-    addGradientColor,
     formatColor,
-    formatColorState,
-    getActiveGradientPoint,
     getColorBackground,
-    getColorObject,
-    getDefaultColorState,
-    getDefaultGradientState,
-    getFormatInputs,
     getGradientThumbBackground,
     getLinearGradientString,
     normalizeFormat,
     parseColorState,
-    parseFormatInputValues,
-    removeGradientColor,
-    round,
-    setActiveColorHsva,
-    setGradientColors,
-    setGradientDegree,
-    setGradientSelectedPoint,
   } from './utils';
-
-  type ColorSectionTrigger = 'recent' | 'preset';
 
   const modeOptions = computed(() => [
     { value: 'monochrome', label: t('colorPicker.monochrome') },
     { value: 'linear-gradient', label: t('colorPicker.gradient') },
   ]);
   const RadioGroup = Radio.Group;
-  const clampPercent = (value: number) => Math.min(100, Math.max(0, value));
-  const getGradientPointComparableColor = (point: GradientColorPoint) =>
-    formatColor(point.hsva, 'CSS', true);
-
-  const matchGradientPoint = (
-    previousPoints: GradientColorPoint[],
-    nextPoint: GradientColorPoint,
-    usedIds: Set<string>,
-  ) => {
-    const availablePoints = previousPoints.filter((point) => !usedIds.has(point.id));
-    if (!availablePoints.length) return undefined;
-    const nextColor = getGradientPointComparableColor(nextPoint);
-    const sameColorPoints = availablePoints.filter(
-      (point) => getGradientPointComparableColor(point) === nextColor,
-    );
-    const candidates = sameColorPoints.length ? sameColorPoints : availablePoints;
-    return candidates.reduce<GradientColorPoint | undefined>((closestPoint, point) => {
-      if (!closestPoint) return point;
-      return Math.abs(point.left - nextPoint.left) < Math.abs(closestPoint.left - nextPoint.left)
-        ? point
-        : closestPoint;
-    }, undefined);
-  };
-
-  const reconcileGradientState = (previousState: ColorValueState, nextState: ColorValueState) => {
-    if (previousState.mode !== 'linear-gradient' || nextState.mode !== 'linear-gradient') {
-      return nextState;
-    }
-    const usedIds = new Set<string>();
-    const nextColors = nextState.gradientColors.map((point) => {
-      const matchedPoint = matchGradientPoint(previousState.gradientColors, point, usedIds);
-      if (!matchedPoint) return point;
-      usedIds.add(matchedPoint.id);
-      return { ...point, id: matchedPoint.id } satisfies GradientColorPoint;
-    });
-    const selectedPoint =
-      nextColors.find((point) => point.id === previousState.gradientSelectedId) || nextColors[0];
-    return {
-      ...nextState,
-      gradientColors: nextColors,
-      gradientSelectedId: selectedPoint?.id || '',
-      hsva: selectedPoint?.hsva || nextState.hsva,
-    } satisfies ColorValueState;
-  };
-
   defineOptions({ name: 'Panel' });
 
   const props = defineProps({
@@ -300,211 +242,64 @@
   const colorState = ref<ColorValueState>(parseColorState(props.value, props.colorModes));
   const selectedFormat = ref<ColorFormat>(normalizeFormat(props.format, props.enableAlpha));
   const formatDrafts = ref<string[]>([]);
-  const activeHsva = computed(
-    () => getActiveGradientPoint(colorState.value)?.hsva || colorState.value.hsva,
-  );
-  const syncDrafts = () => {
-    formatDrafts.value = getFormatInputs(activeHsva.value, selectedFormat.value, props.enableAlpha);
-  };
-
-  watch(
-    () => [props.value, props.colorModes] as const,
-    () => {
-      colorState.value = reconcileGradientState(
-        colorState.value,
-        parseColorState(props.value, props.colorModes),
-      );
-      syncDrafts();
+  const foundation = createColorPanel({
+    props,
+    get state() {
+      return colorState.value;
     },
-    { deep: true },
-  );
-  watch(
-    () => [props.format, props.enableAlpha] as const,
-    () => {
-      selectedFormat.value = normalizeFormat(props.format, props.enableAlpha);
-      syncDrafts();
+    set state(value) {
+      colorState.value = value;
     },
-  );
-  syncDrafts();
-
-  const formatOptions = computed(() => {
-    const base: Array<{ value: ColorFormat; label: string }> = [
-      { value: 'HEX', label: 'HEX' },
-      { value: 'RGB', label: 'RGB' },
-      { value: 'HSL', label: 'HSL' },
-      { value: 'HSV', label: 'HSV' },
-      { value: 'CMYK', label: 'CMYK' },
-      { value: 'CSS', label: 'CSS' },
-    ];
-    return props.enableAlpha
-      ? [
-          { value: 'HEX8' as const, label: 'HEX8' },
-          { value: 'RGBA' as const, label: 'RGBA' },
-          { value: 'HSLA' as const, label: 'HSLA' },
-          { value: 'HSVA' as const, label: 'HSVA' },
-          ...base,
-        ]
-      : base;
+    get format() {
+      return selectedFormat.value;
+    },
+    set format(value) {
+      selectedFormat.value = value;
+    },
+    get drafts() {
+      return formatDrafts.value;
+    },
+    set drafts(value) {
+      formatDrafts.value = value;
+    },
+    afterRender: (callback) => {
+      void nextTick(callback);
+    },
+    trackRect: () => (sliderRef.value || gradientShellRef.value)?.getBoundingClientRect(),
+    isTrackTarget: (event) =>
+      event.target === sliderRef.value || event.target === gradientShellRef.value,
   });
+  const activeHsva = computed(foundation.active);
+  const syncDrafts = foundation.syncDrafts;
+  watch(() => [props.value, props.colorModes] as const, foundation.syncValue, { deep: true });
+  watch(() => [props.format, props.enableAlpha] as const, foundation.syncFormat);
+  syncDrafts();
+  const formatOptions = computed(() => getColorFormatOptions(props.enableAlpha));
   const previewColor = computed(() => getColorBackground(colorState.value));
   const previewStyle = computed<CSSProperties>(() =>
     colorState.value.mode === 'linear-gradient'
       ? { backgroundImage: previewColor.value }
       : { backgroundColor: previewColor.value },
   );
-  const colorModel = computed<Color>(() => {
-    const colorObject = getColorObject(colorState.value);
-    return {
-      hsv: { h: activeHsva.value.h, s: activeHsva.value.s, v: activeHsva.value.v },
-      rgb: { r: colorObject.red, g: colorObject.green, b: colorObject.blue },
-      hex: colorObject.hex.replace('#', ''),
-    };
-  });
-  const recentColorList = computed(() => {
-    if (!Array.isArray(props.recentColors)) return undefined;
-    const onlyGradient = props.colorModes.length === 1 && props.colorModes[0] === 'linear-gradient';
-    return onlyGradient
-      ? props.recentColors.filter((item) => item.startsWith('linear-gradient('))
-      : props.recentColors;
-  });
-  const swatchColorList = computed(() => {
-    if (!Array.isArray(props.swatchColors)) return undefined;
-    const onlyGradient = props.colorModes.length === 1 && props.colorModes[0] === 'linear-gradient';
-    return onlyGradient
-      ? props.swatchColors.filter((item) => item.startsWith('linear-gradient('))
-      : props.swatchColors;
-  });
-
-  const emitStateChange = (
-    nextState: ColorValueState,
-    trigger: ColorPickerChangeTrigger,
-    notifyPaletteBar?: boolean,
-  ) => {
-    if (props.disabled) return;
-    colorState.value = nextState;
-    syncDrafts();
-    props.onChange?.(formatColorState(nextState, selectedFormat.value, props.enableAlpha), trigger);
-    if (notifyPaletteBar) props.onPaletteBarChange?.({ color: getColorObject(nextState) });
-    nextTick(() => {
-      const acceptedState = parseColorState(props.value, props.colorModes);
-      if (
-        formatColorState(colorState.value, selectedFormat.value, props.enableAlpha) ===
-        formatColorState(acceptedState, selectedFormat.value, props.enableAlpha)
-      )
-        return;
-      colorState.value = reconcileGradientState(colorState.value, acceptedState);
-      syncDrafts();
-    });
-  };
-  const handleHsvaChange = (
-    nextHsva: HSVA,
-    trigger: ColorPickerChangeTrigger,
-    notifyPaletteBar?: boolean,
-  ) => emitStateChange(setActiveColorHsva(colorState.value, nextHsva), trigger, notifyPaletteBar);
-  const handleModeChange = (mode: string | number | boolean) => {
-    if (props.disabled || typeof mode !== 'string' || mode === colorState.value.mode) return;
-    if (mode === 'linear-gradient') {
-      emitStateChange(getDefaultGradientState(formatColor(activeHsva.value, 'CSS', true)), 'input');
-      return;
-    }
-    emitStateChange(
-      { ...getDefaultColorState(), mode: 'monochrome', hsva: activeHsva.value },
-      'input',
-    );
-  };
-  const updateDraft = (index: number, value: string) => {
-    const nextDrafts = [...formatDrafts.value];
-    nextDrafts[index] = value;
-    formatDrafts.value = nextDrafts;
-  };
-  const commitDrafts = (index: number) => {
-    const drafts = [...formatDrafts.value];
-    if (index === 1 && normalizeFormat(selectedFormat.value, props.enableAlpha) === 'HEX8') {
-      drafts[0] = drafts[0].slice(0, 6);
-    }
-    handleHsvaChange(
-      parseFormatInputValues(drafts, selectedFormat.value, props.enableAlpha),
-      'input',
-    );
-  };
-  const getThumbTrackRect = () =>
-    (sliderRef.value || gradientShellRef.value)?.getBoundingClientRect();
-  const updateThumbLeft = (pointId: string, clientX: number) => {
-    const rect = getThumbTrackRect();
-    if (!rect) return;
-    const nextLeft = clampPercent(((clientX - rect.left) / rect.width) * 100);
-    const gradientColors = colorState.value.gradientColors.map((point) =>
-      point.id === pointId ? { ...point, left: round(nextLeft, 2) } : point,
-    );
-    emitStateChange(setGradientColors(colorState.value, gradientColors), 'input');
-  };
-  const handleGradientBarClick = (event: MouseEvent) => {
-    if (
-      props.disabled ||
-      !props.enableMultipleGradient ||
-      colorState.value.mode !== 'linear-gradient'
-    )
-      return;
-    if (event.target !== sliderRef.value && event.target !== gradientShellRef.value) return;
-    const slider = sliderRef.value || gradientShellRef.value;
-    if (!slider) return;
-    const rect = slider.getBoundingClientRect();
-    const left = clampPercent(((event.clientX - rect.left) / rect.width) * 100);
-    emitStateChange(addGradientColor(colorState.value, left), 'input');
-  };
-  const handleGradientBarKeyDown = (event: KeyboardEvent) => {
-    if (
-      (event.key === 'Enter' || event.key === ' ') &&
-      !props.disabled &&
-      props.enableMultipleGradient
-    ) {
-      event.preventDefault();
-      emitStateChange(addGradientColor(colorState.value, 50), 'input');
-    }
-  };
-  const handleThumbSelect = (pointId: string) => {
-    if (colorState.value.gradientSelectedId !== pointId) {
-      emitStateChange(setGradientSelectedPoint(colorState.value, pointId), 'input');
-    }
-  };
-  const handleThumbRemove = (pointId: string) => {
-    if (colorState.value.gradientColors.length > 2) {
-      emitStateChange(removeGradientColor(colorState.value, pointId), 'input');
-    }
-  };
-  const handleDegreeChange = (value: InputNumberValue) => {
-    if (typeof value === 'number') {
-      emitStateChange(setGradientDegree(colorState.value, value), 'input');
-    }
-  };
-  const handlePaletteChange = (s: number, v: number) =>
-    handleHsvaChange({ ...activeHsva.value, s, v }, 'palette-saturation-brightness');
-  const handleHueChange = (h: number) =>
-    handleHsvaChange({ ...activeHsva.value, h }, 'palette-hue-bar', true);
-  const handleAlphaChange = (a: number) =>
-    handleHsvaChange({ ...activeHsva.value, a }, 'palette-alpha-bar', true);
-  const handleFormatChange = (value: unknown) => {
-    if (typeof value !== 'string') return;
-    selectedFormat.value = value as ColorFormat;
-    syncDrafts();
-  };
-  const addRecentColor = () => {
-    if (props.disabled) return;
-    if (props.recentColors === null || props.recentColors === false) return;
-    const currentValue = formatColorState(
-      colorState.value,
-      selectedFormat.value,
-      props.enableAlpha,
-    );
-    const next = [...(recentColorList.value || [])];
-    const index = next.indexOf(currentValue);
-    if (index !== -1) next.splice(index, 1);
-    next.unshift(currentValue);
-    if (next.length > TD_COLOR_USED_COLORS_MAX_SIZE) next.length = TD_COLOR_USED_COLORS_MAX_SIZE;
-    props.onRecentColorsChange?.(next);
-  };
-  const getColorBlockStyle = (value: string): CSSProperties =>
-    value.startsWith('linear-gradient(') ? { backgroundImage: value } : { backgroundColor: value };
-  const selectColorBlock = (value: string, trigger: ColorSectionTrigger) =>
-    emitStateChange(parseColorState(value, props.colorModes), trigger);
+  const colorModel = computed<Color>(foundation.colorModel);
+  const recentColorList = computed(() => getColorSectionList(props.recentColors, props.colorModes));
+  const swatchColorList = computed(() => getColorSectionList(props.swatchColors, props.colorModes));
+  const {
+    handleModeChange,
+    updateDraft,
+    commitDrafts,
+    updateThumbLeft,
+    handleGradientBarClick,
+    handleGradientBarKeyDown,
+    handleThumbSelect,
+    handleThumbRemove,
+    handleDegreeChange,
+    handlePaletteChange,
+    handleHueChange,
+    handleAlphaChange,
+    handleFormatChange,
+    addRecentColor,
+    getColorBlockStyle,
+    selectColorBlock,
+  } = foundation;
 </script>

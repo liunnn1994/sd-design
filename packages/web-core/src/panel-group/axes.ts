@@ -1,0 +1,38 @@
+// 面板组的轴向配置。horizontal 按行排列，vertical 按列排列。
+// 移植自 vendor/motion-panels 的 core/axes.ts。
+export const AXES = {
+  horizontal: {
+    axis: 'Inline',
+    client: 'clientWidth',
+    cross: 'height',
+    crossAxis: 'Inline',
+    cursor: 'col-resize',
+    direction: 'row',
+    edge: 'left',
+    extent: 'width',
+    grow: 'ArrowRight',
+    point: 'x',
+    separator: 'vertical',
+    shrink: 'ArrowLeft',
+  },
+  vertical: {
+    axis: 'Block',
+    client: 'clientHeight',
+    cross: 'width',
+    crossAxis: 'Block',
+    cursor: 'row-resize',
+    direction: 'column',
+    edge: 'top',
+    extent: 'height',
+    grow: 'ArrowDown',
+    point: 'y',
+    separator: 'horizontal',
+    shrink: 'ArrowUp',
+  },
+} as const;
+
+export type Orientation = keyof typeof AXES;
+
+export type Axes = (typeof AXES)[Orientation];
+
+export type Side = 'end' | 'start';

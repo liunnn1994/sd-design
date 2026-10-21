@@ -129,3 +129,7 @@ import alertTypeSource from '../../../../components/generated/alert/type.vue?raw
 | title         |   标题   | -    |        |
 | action        |  操作项  | -    |        |
 | close-element | 关闭元素 | -    | 2.36.0 |
+
+## 无框架规则
+
+关闭、键盘激活与关闭后通知规则由 `@sdata/web-core/alert/foundation` 提供。Vue 持有可见性 Ref 并在动画完成时转发 after-leave；先隐藏再通知 close 的顺序保持。

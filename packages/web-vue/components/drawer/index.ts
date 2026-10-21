@@ -1,11 +1,12 @@
 import type { App, AppContext } from 'vue';
 import { createVNode, nextTick, render } from 'vue';
 
+import { createDrawerInstance } from '@sdata/web-core/dialog/imperative';
+
 import type { DrawerConfig, DrawerMethod, DrawerUpdateConfig } from './interface';
 
 import { getOverlay } from '../_utils/dom';
 import { getComponentPrefix, setGlobalConfig } from '../_utils/global-config';
-import { isFunction } from '../_utils/is';
 import { omit } from '../_utils/omit';
 import { SDOptions } from '../_utils/types';
 import { getSlotFunction } from '../_utils/vue-utils';
@@ -14,44 +15,20 @@ import _Drawer from './drawer.vue';
 const open = (config: DrawerConfig, appContext?: AppContext) => {
   let container: HTMLElement | null = getOverlay('drawer');
 
-  const handleOk = () => {
-    if (vm.component) {
-      vm.component.props.visible = false;
-    }
-
-    if (isFunction(config.onOk)) {
-      config.onOk();
-    }
-  };
-
-  const handleCancel = () => {
-    if (vm.component) {
-      vm.component.props.visible = false;
-    }
-
-    if (isFunction(config.onCancel)) {
-      config.onCancel();
-    }
-  };
-
-  const handleClose = async () => {
-    await nextTick();
-    if (container) {
-      render(null, container);
-      document.body.removeChild(container);
-    }
-    container = null;
-
-    if (isFunction(config.onClose)) {
-      config.onClose();
-    }
-  };
-
-  const handleReturnClose = () => {
-    if (vm.component) {
-      vm.component.props.visible = false;
-    }
-  };
+  const instance = createDrawerInstance({
+    callbacks: config,
+    setVisible(value) {
+      if (vm.component) vm.component.props.visible = value;
+    },
+    destroy() {
+      if (container) {
+        render(null, container);
+        document.body.removeChild(container);
+      }
+      container = null;
+    },
+    afterRender: () => nextTick(),
+  });
 
   const handleUpdateConfig = (config: DrawerUpdateConfig) => {
     if (vm.component) {
@@ -65,9 +42,9 @@ const open = (config: DrawerConfig, appContext?: AppContext) => {
     visible: true,
     renderToBody: false,
     unmountOnClose: true,
-    onOk: handleOk,
-    onCancel: handleCancel,
-    onClose: handleClose,
+    onOk: instance.ok,
+    onCancel: instance.cancel,
+    onClose: instance.afterClose,
   };
 
   const vm = createVNode(
@@ -103,7 +80,7 @@ const open = (config: DrawerConfig, appContext?: AppContext) => {
   document.body.appendChild(container);
 
   return {
-    close: handleReturnClose,
+    close: instance.close,
     update: handleUpdateConfig,
   };
 };

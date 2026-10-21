@@ -86,6 +86,7 @@
   import type { ComponentPublicInstance, VNode } from 'vue';
   import { computed, ref, toRef, watch } from 'vue';
 
+  import { createSelectViewFocus } from '@sdata/web-core/select/view-focus';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { Size } from '../../_utils/constant';
@@ -203,17 +204,13 @@
   };
   const handleRemove = (tag: string | number) => emit('remove', tag as string);
   const handleClear = (event: MouseEvent) => emit('clear', event);
-  const focus = () => inputRef.value?.focus();
-  const blur = () => inputRef.value?.blur();
-
-  watch(
-    () => props.opened,
-    (opened) => {
-      if (!opened && inputRef.value?.isSameNode(document.activeElement)) {
-        inputRef.value.blur();
-      }
+  const { focus, blur, syncOpened } = createSelectViewFocus({
+    get input() {
+      return inputRef.value;
     },
-  );
+  });
+
+  watch(() => props.opened, syncOpened);
 
   defineExpose({ inputRef, focus, blur });
 </script>

@@ -94,7 +94,7 @@
   import type { Component } from 'vue';
   import { computed, nextTick, PropType, reactive, ref, toRefs, watch } from 'vue';
 
-  import { Dayjs } from 'dayjs';
+  import { createTimePickerFoundation } from '@sdata/web-core/time-picker/foundation';
 
   import type { FloatingOptions } from '../_utils/floating';
 
@@ -105,7 +105,7 @@
   import useMergeState from '../_hooks/use-merge-state';
   import useState from '../_hooks/use-state';
   import { Size } from '../_utils/constant';
-  import { dayjs, getSortedDayjsArray, isValueChange, getDateValue } from '../_utils/date';
+  import { dayjs, getDateValue } from '../_utils/date';
   import { getPrefixCls } from '../_utils/global-config';
   import { isArray, isUndefined } from '../_utils/is';
   import IconClockCircle from '../icon/icon-clock-circle';
@@ -116,7 +116,7 @@
   import useTimeState from './hooks/use-time-state';
   import Panel from './panel.vue';
   import RangePanel from './range-panel.vue';
-  import { getFormattedValue, isValidInputValue, isValidRangeValue } from './utils';
+  import { getFormattedValue } from './utils';
 
   defineOptions({ name: 'TimePicker', inheritAttrs: false });
 
@@ -446,13 +446,6 @@
     defaultPopupVisible.value,
     reactive({ value: popupVisible }),
   );
-  const setPanelVisible = (newVisible: boolean) => {
-    if (newVisible !== panelVisible.value) {
-      setLocalVisible(newVisible);
-      emit('popup-visible-change', newVisible);
-      emit('update:popupVisible', newVisible);
-    }
-  };
   const { t } = useI18n();
 
   // 当前焦点所在的 input
@@ -483,160 +476,54 @@
     }),
   );
 
-  function emitChange(value: Dayjs | Array<Dayjs | undefined> | undefined) {
-    if (isValueChange(value, computedValue.value)) {
-      const formattedValue = getFormattedValue(value, computedFormat.value);
-      const dateValue = getDateValue(value);
-      emit('update:modelValue', formattedValue);
-      emit('change', formattedValue, dateValue);
-      eventHandlers.value?.onChange?.();
-    }
-  }
-
-  function confirm(value: Dayjs | Array<Dayjs | undefined> | undefined, showPanel: boolean) {
-    if (mergedDisabled.value || props.readonly || isDisabledTime(value)) return;
-
-    let newValue = value;
-
-    if (isArray(value)) {
-      const now = dayjs();
-      newValue = value.map((item) => {
-        if (item) {
-          item = item.year(now.year());
-          item = item.month(now.month());
-          item = item.date(now.date());
-        }
-        return item;
-      });
-      if (isValidRangeValue(newValue)) {
-        newValue = getSortedDayjsArray(newValue as Dayjs[]);
-      }
-      if (newValue?.length === 0) {
-        newValue = undefined;
-      }
-    }
-
-    emitChange(newValue);
-    setValue(newValue);
-
-    if (showPanel !== panelVisible.value) {
-      setPanelVisible(showPanel);
-    }
-  }
-
-  function select(value: Dayjs | Array<Dayjs | undefined>, showPanel: boolean) {
-    setPanelValue(value);
-
-    if (showPanel !== panelVisible.value) {
-      setPanelVisible(showPanel);
-    }
-  }
-
   function focusInput(index?: number) {
     refInput.value && refInput.value.focus && refInput.value.focus(index);
   }
 
-  function onPanelVisibleChange(newVisible: boolean) {
-    if (mergedDisabled.value) return;
-    setPanelVisible(newVisible);
-
-    if (newVisible) {
-      nextTick(() => {
-        focusInput(focusedInputIndex.value);
-      });
-    }
-  }
-
-  function onPanelSelect(value: Dayjs | Array<Dayjs | undefined>) {
-    // 先触发 select 事件
-    const formattedValue = getFormattedValue(value, computedFormat.value) as
-      | string
-      | Array<string | undefined>;
-    const dateValue = getDateValue(value) as Date | Array<Date | undefined>;
-    emit('select', formattedValue, dateValue);
-
-    if (disableConfirm.value && (!isRange.value || isValidRangeValue(value))) {
-      confirm(value, true);
-    } else {
-      select(value, true);
-      setInputValue(undefined);
-    }
-  }
-
-  function onPanelConfirm(value: Dayjs | Dayjs[]) {
-    confirm(value, false);
-  }
-
-  function onInputPressEnter() {
-    confirm(panelValue.value || computedValue.value, false);
-  }
-
-  function onRangeInputPressEnter() {
-    if (isValidRangeValue(panelValue.value)) {
-      confirm(panelValue.value, false);
-    } else {
-      const newFocusedInputIndex = (focusedInputIndex.value + 1) % 2;
-      setFocusedInputIndex(newFocusedInputIndex);
-      focusInput(newFocusedInputIndex);
-    }
-  }
-
-  function onInputChange(e: Event) {
-    setPanelVisible(true);
-
-    const targetValue = (e.target as HTMLInputElement).value;
-    setInputValue(targetValue);
-
-    if (!isValidInputValue(targetValue, computedFormat.value)) return;
-
-    const newValue = dayjs(targetValue, computedFormat.value);
-
-    if (isDisabledTime(newValue)) return;
-
-    if (disableConfirm.value) {
-      confirm(newValue, true);
-    } else {
-      select(newValue, true);
-    }
-  }
-
-  function onRangeInputChange(e: Event) {
-    setPanelVisible(true);
-
-    const targetValue = (e.target as HTMLInputElement).value;
-    const newInputValue = isArray(inputValue.value)
-      ? [...inputValue.value]
-      : (isArray(panelValue.value) &&
-          (getFormattedValue(panelValue.value, computedFormat.value) as Array<
-            string | undefined
-          >)) ||
-        [];
-    newInputValue[focusedInputIndex.value] = targetValue;
-
-    setInputValue(newInputValue);
-
-    if (!isValidInputValue(targetValue, computedFormat.value)) return;
-
-    const targetValueDayjs = dayjs(targetValue, computedFormat.value);
-
-    if (isDisabledTime(targetValueDayjs)) return;
-
-    const newValue = isArray(panelValue.value) ? [...panelValue.value] : [];
-    newValue[focusedInputIndex.value] = targetValueDayjs;
-
-    if (disableConfirm.value && isValidRangeValue(newValue)) {
-      confirm(newValue, true);
-    } else {
-      select(newValue, true);
-    }
-  }
-
-  function onClear(e: Event) {
-    e.stopPropagation();
-    setPanelValue(undefined);
-    confirm(undefined, isRange.value);
-    emit('clear');
-  }
+  const foundation = createTimePickerFoundation({
+    getValue: () => computedValue.value,
+    getPanelValue: () => panelValue.value,
+    getInputValue: () => inputValue.value,
+    getFormat: () => computedFormat.value,
+    getVisible: () => panelVisible.value,
+    getDisabled: () => mergedDisabled.value,
+    getReadonly: () => !!props.readonly,
+    getDisableConfirm: () => disableConfirm.value,
+    getRange: () => isRange.value,
+    getFocusedIndex: () => focusedInputIndex.value,
+    setValue,
+    setPanelValue,
+    setInputValue,
+    setVisible: setLocalVisible,
+    setFocusedInputIndex,
+    isDisabledTime,
+    onUpdateValue: (value) => emit('update:modelValue', value),
+    onChange: (value, date) => emit('change', value, date),
+    onSelect: (value, date) => emit('select', value, date),
+    onFormChange: () => eventHandlers.value?.onChange?.(),
+    onClear: () => emit('clear'),
+    onPopupChange: (visible) => emit('popup-visible-change', visible),
+    onUpdatePopup: (visible) => emit('update:popupVisible', visible),
+    focusInput,
+    afterRender: (task) => {
+      nextTick(task);
+    },
+  });
+  const {
+    onPanelVisibleChange,
+    onPanelSelect,
+    onPanelConfirm,
+    onInputPressEnter,
+    onRangeInputPressEnter,
+  } = foundation;
+  const onInputChange = (event: Event) =>
+    foundation.onInputChange((event.target as HTMLInputElement).value);
+  const onRangeInputChange = (event: Event) =>
+    foundation.onRangeInputChange((event.target as HTMLInputElement).value);
+  const onClear = (event: Event) => {
+    event.stopPropagation();
+    foundation.onClear();
+  };
 
   // 1. 每次打开关闭重新赋值 panelValue
   watch(panelVisible, (curVal, preVal) => {

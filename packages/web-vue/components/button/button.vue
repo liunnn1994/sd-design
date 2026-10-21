@@ -60,6 +60,9 @@
     useSlots,
   } from 'vue';
 
+  import { createButtonTextFoundation } from '@sdata/web-core/button/text';
+  import { createPressableFoundation } from '@sdata/web-core/interaction/pressable';
+
   import type { TooltipProps } from '../tooltip';
 
   import { useFormItem } from '../_hooks/use-form-item';
@@ -72,8 +75,6 @@
   import Tooltip from '../tooltip';
   import { ButtonTypes } from './constants';
   import { buttonGroupInjectionKey } from './context';
-
-  const regexTwoCNChar = /^[一-龥]{2}$/;
 
   defineOptions({ name: 'Button', inheritAttrs: false });
 
@@ -242,21 +243,20 @@
   const buttonRef = ref<HTMLAnchorElement | HTMLButtonElement>();
   const isTwoCNChar = ref(false);
 
-  const updateIsTwoCNChar = () => {
-    if (!autoInsertSpaceInButton.value) {
-      if (isTwoCNChar.value) {
-        isTwoCNChar.value = false;
-      }
-      return;
-    }
-
-    const textContent = buttonRef.value?.textContent?.replace(/\s/g, '') ?? '';
-    const value = regexTwoCNChar.test(textContent);
-
-    if (value !== isTwoCNChar.value) {
-      isTwoCNChar.value = value;
-    }
-  };
+  const { updateIsTwoCNChar } = createButtonTextFoundation(
+    {
+      get autoInsertSpace() {
+        return autoInsertSpaceInButton.value;
+      },
+      get isTwoCNChar() {
+        return isTwoCNChar.value;
+      },
+      set isTwoCNChar(value) {
+        isTwoCNChar.value = value;
+      },
+    },
+    () => buttonRef.value?.textContent,
+  );
 
   onMounted(updateIsTwoCNChar);
   onUpdated(updateIsTwoCNChar);
@@ -277,12 +277,15 @@
     },
   ]);
 
-  const handleClick = (ev: MouseEvent) => {
-    // 使用 mergedDisabled：表单/按钮组注入的禁用同样需要拦截（原生 a 链接无 disabled 属性兜底）
-    if (mergedDisabled.value || props.loading) {
-      ev.preventDefault();
-      return;
-    }
-    emit('click', ev);
-  };
+  const { handleClick } = createPressableFoundation<MouseEvent>(
+    {
+      get disabled() {
+        return mergedDisabled.value;
+      },
+      get loading() {
+        return props.loading;
+      },
+    },
+    (ev) => emit('click', ev),
+  );
 </script>

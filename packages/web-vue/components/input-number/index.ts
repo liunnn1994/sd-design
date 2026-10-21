@@ -5,15 +5,13 @@ import type { SDOptions } from '../_utils/types';
 import { setGlobalConfig, getComponentPrefix } from '../_utils/global-config';
 import _InputNumber from './input-number.vue';
 
-export type InputNumberValue = string | number | null | undefined;
-export type InputNumberFormatter = (value: string | number | null | undefined) => string;
-export type InputNumberParser = (value: string) => string | number;
-export type InputNumberChangeHandler = (value: InputNumberValue, event: Event) => void;
-export type InputNumberInputHandler = (
-  value: InputNumberValue,
-  inputValue: string,
-  event: Event,
-) => void;
+export type {
+  InputNumberValue,
+  InputNumberFormatter,
+  InputNumberParser,
+  InputNumberChangeHandler,
+  InputNumberInputHandler,
+} from '@sdata/web-core/input-number/types';
 
 const InputNumber = Object.assign(_InputNumber, {
   install: (app: App, options?: SDOptions) => {

@@ -1,6 +1,11 @@
 import { computed, ref } from 'vue';
 
-import { isObject } from '../../_utils/is';
+import {
+  createLegacyPaginationFoundation,
+  getDefaultCurrent,
+  getDefaultPageSize,
+} from '@sdata/web-core/pagination/legacy';
+
 import { TableProps } from '../interface';
 
 export const usePagination = (
@@ -10,25 +15,29 @@ export const usePagination = (
     (event: 'pageSizeChange', value: number): void;
   },
 ) => {
-  const _page = ref(isObject(props.pagination) ? (props.pagination.defaultCurrent ?? 1) : 1);
-  const _pageSize = ref(isObject(props.pagination) ? (props.pagination.defaultPageSize ?? 10) : 10);
-
-  const pageSize = computed(() =>
-    isObject(props.pagination) ? (props.pagination.pageSize ?? _pageSize.value) : _pageSize.value,
-  );
-  const page = computed(() =>
-    isObject(props.pagination) ? (props.pagination.current ?? _page.value) : _page.value,
-  );
-
-  const handlePageChange = (page: number) => {
-    _page.value = page;
-    emit('pageChange', page);
+  const paginationState = {
+    get pagination() {
+      return props.pagination;
+    },
+    get localCurrent() {
+      return _page.value;
+    },
+    set localCurrent(value) {
+      _page.value = value;
+    },
+    get localPageSize() {
+      return _pageSize.value;
+    },
+    set localPageSize(value) {
+      _pageSize.value = value;
+    },
   };
-
-  const handlePageSizeChange = (pageSize: number) => {
-    _pageSize.value = pageSize;
-    emit('pageSizeChange', pageSize);
-  };
+  const _page = ref(getDefaultCurrent(paginationState));
+  const _pageSize = ref(getDefaultPageSize(paginationState));
+  const foundation = createLegacyPaginationFoundation(paginationState, emit);
+  const pageSize = computed(foundation.getPageSize);
+  const page = computed(foundation.getCurrent);
+  const { handlePageChange, handlePageSizeChange } = foundation;
 
   return {
     page,

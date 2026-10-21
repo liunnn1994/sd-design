@@ -35,6 +35,14 @@
     useSlots,
   } from 'vue';
 
+  import { createTreeDragFoundation } from '@sdata/web-core/tree/drag';
+  import { createTreeFoundation } from '@sdata/web-core/tree/foundation';
+  import { getActiveTreeKey, getTreeKeyAction } from '@sdata/web-core/tree/keyboard';
+  import {
+    getDefaultExpandedKeys as getInitialExpandedKeys,
+    getVisibleTreeNodes,
+  } from '@sdata/web-core/tree/query';
+
   import type {
     VirtualListProps,
     ScrollIntoViewOptions,
@@ -59,14 +67,11 @@
   import useMergeState from '../_hooks/use-merge-state';
   import usePickSlots from '../_hooks/use-pick-slots';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isArray, isFunction, isUndefined } from '../_utils/is';
-  import { KEYBOARD_KEY } from '../_utils/keyboard';
+  import { isUndefined } from '../_utils/is';
   import { TreeInjectionKey } from './context';
   import useCheckedState from './hooks/use-checked-state';
   import useTreeData from './hooks/use-tree-data';
   import TreeNode from './node.vue';
-  import { isLeafNode, isNodeExpandable, isNodeSelectable } from './utils';
-  import { getCheckedStateByCheck, isNodeCheckable } from './utils/check-utils';
 
   const TREE_VIRTUAL_ITEM_SIZE = {
     mini: 24,
@@ -659,6 +664,19 @@
     position: 0 as DropPosition,
     allowed: false,
   });
+  const treeDrag = createTreeDragFoundation<TreeNodeData, Node, DragEvent>({
+    state: dragState,
+    dragNode,
+    getNodes: () => key2TreeNode.value,
+    allowDrop: allowDrop!,
+    events: {
+      start: (event, node) => emit('dragStart', event, node),
+      end: (event, node) => emit('dragEnd', event, node),
+      over: (event, node) => emit('dragOver', event, node),
+      leave: (event, node) => emit('dragLeave', event, node),
+      drop: (data) => emit('drop', data),
+    },
+  });
   function nodeFromElement(item: HTMLElement) {
     const key = item.dataset.keyType === 'number' ? Number(item.dataset.key) : item.dataset.key!;
     return key2TreeNode.value.get(key);
@@ -667,81 +685,39 @@
     draggable: '[data-tree-draggable]',
     handle: `.${getPrefixCls('tree-node')}-title-draggable`,
     onStart(item, event) {
-      const node = nodeFromElement(item);
-      if (!node) return;
-      dragState.sourceKey = node.key;
-      treeContext.onDragStart(node.key, event);
+      treeDrag.start(nodeFromElement(item), event);
     },
     onOver(item, event) {
       const node = item ? nodeFromElement(item) : undefined;
-      if (dragState.targetKey !== undefined && dragState.targetKey !== node?.key) {
-        treeContext.onDragLeave(dragState.targetKey, event);
-      }
-      dragState.targetKey = node?.key;
-      dragState.allowed = false;
-      if (!node || !dragNode.value || !item) return;
-      const title = item.querySelector(`.${getPrefixCls('tree-node')}-title`);
-      const rect = (title ?? item).getBoundingClientRect();
-      const offset = event.clientY - rect.top;
-      dragState.position = offset < rect.height / 4 ? -1 : offset > (rect.height * 3) / 4 ? 1 : 0;
-      dragState.allowed =
-        node.key !== dragNode.value.key &&
-        !node.pathParentKeys.includes(dragNode.value.key) &&
-        treeContext.allowDrop(node.key, dragState.position);
-      treeContext.onDragOver(node.key, event);
+      treeDrag.over(
+        node,
+        event,
+        item
+          ? () => {
+              const title = item.querySelector(`.${getPrefixCls('tree-node')}-title`);
+              const rect = (title ?? item).getBoundingClientRect();
+              return { offset: event.clientY - rect.top, height: rect.height };
+            }
+          : undefined,
+      );
     },
     onEnd(event, cancelled) {
-      if (!cancelled && dragState.allowed && dragState.targetKey !== undefined) {
-        treeContext.onDrop(dragState.targetKey, dragState.position, event);
-      }
-      if (dragState.targetKey !== undefined) treeContext.onDragLeave(dragState.targetKey, event);
-      if (dragState.sourceKey !== undefined) treeContext.onDragEnd(dragState.sourceKey, event);
-      dragState.sourceKey = undefined;
-      dragState.targetKey = undefined;
-      dragState.allowed = false;
-      dragState.position = 0;
+      treeDrag.end(event, cancelled);
     },
   });
 
   function getDefaultExpandedKeys() {
-    if (defaultExpandedKeys?.value) {
-      const expandedKeysSet = new Set<TreeNodeKey>([]);
-      defaultExpandedKeys.value.forEach((_key) => {
-        if (expandedKeysSet.has(_key)) return;
-
-        const node = key2TreeNode.value.get(_key);
-        if (!node) return;
-
-        [...(autoExpandParent.value ? node.pathParentKeys : []), _key].forEach((_key) =>
-          expandedKeysSet.add(_key),
-        );
-      });
-      return [...expandedKeysSet];
-    }
-    if (defaultExpandAll.value) {
-      return flattenTreeData.value
-        .filter((node) => node.children && node.children.length)
-        .map((node) => node.key);
-    }
-    if (defaultExpandSelected.value || defaultExpandChecked.value) {
-      const expandedKeysSet = new Set<TreeNodeKey>([]);
-      const addToExpandKeysSet = (keys: TreeNodeKey[]) => {
-        keys.forEach((key) => {
-          const node = key2TreeNode.value.get(key);
-          if (!node) return;
-
-          (node.pathParentKeys || []).forEach((k) => expandedKeysSet.add(k));
-        });
-      };
-      if (defaultExpandSelected.value) {
-        addToExpandKeysSet(mergedSelectedKeys.value);
-      }
-      if (defaultExpandChecked.value) {
-        addToExpandKeysSet(mergedCheckedKeys.value);
-      }
-      return [...expandedKeysSet];
-    }
-    return [];
+    return getInitialExpandedKeys({
+      nodes: flattenTreeData.value,
+      key2TreeNode: key2TreeNode.value,
+      defaultExpandedKeys: defaultExpandedKeys?.value,
+      autoExpandParent: autoExpandParent.value,
+      defaultExpandAll: defaultExpandAll.value,
+      defaultExpandSelected: defaultExpandSelected.value,
+      defaultExpandChecked: defaultExpandChecked.value,
+      selectedKeys: mergedSelectedKeys.value,
+      checkedKeys: mergedCheckedKeys.value,
+    });
   }
 
   const [mergedExpandedKeys, setExpandState] = useMergeState<TreeNodeKey[]>(
@@ -764,56 +740,21 @@
 
   const currentExpandKeys = ref<TreeNodeKey[]>([]);
 
-  const visibleTreeNodeList = computed(() => {
-    const expandedKeysSet = new Set(mergedExpandedKeys.value);
-    const currentExpandKeysSet = new Set(currentExpandKeys.value);
-
-    const filteredNodeList = flattenTreeData.value.filter((node) => {
-      const passFilter =
-        !filterTreeNode || !filterTreeNode.value || filterTreeNode?.value(node.treeNodeData);
-
-      if (!passFilter) return false;
-
-      const isRoot = isUndefined(node.parentKey);
-
-      const isVisibleNode = node.pathParentKeys?.every(
-        (_key) => expandedKeysSet.has(_key) && !currentExpandKeysSet.has(_key),
-      );
-
-      return isRoot || isVisibleNode;
-    });
-
-    const uniqueNodeList: Node[] = [];
-    const seenNodeKeys = new Set<TreeNodeKey>();
-
-    filteredNodeList.forEach((node) => {
-      if (seenNodeKeys.has(node.key)) {
-        return;
-      }
-
-      seenNodeKeys.add(node.key);
-      uniqueNodeList.push(node);
-    });
-
-    return uniqueNodeList;
-  });
+  const visibleTreeNodeList = computed(() =>
+    getVisibleTreeNodes<TreeNodeData, Node>({
+      nodes: flattenTreeData.value,
+      expandedKeys: mergedExpandedKeys.value,
+      expandingKeys: currentExpandKeys.value,
+      filter: filterTreeNode?.value,
+    }),
+  );
 
   // ============ 键盘导航（WAI-ARIA tree，roving tabindex） ============
   // 活动节点：默认选中节点或首个可见节点；用户用方向键后跟踪当前焦点。
   const activeKey = ref<TreeNodeKey | undefined>(undefined);
-  const effectiveActiveKey = computed<TreeNodeKey | undefined>(() => {
-    if (
-      activeKey.value !== undefined &&
-      visibleTreeNodeList.value.some((node) => node.key === activeKey.value)
-    ) {
-      return activeKey.value;
-    }
-    const selected = mergedSelectedKeys.value.find((k) =>
-      visibleTreeNodeList.value.some((node) => node.key === k),
-    );
-    if (selected !== undefined) return selected;
-    return visibleTreeNodeList.value[0]?.key;
-  });
+  const effectiveActiveKey = computed(() =>
+    getActiveTreeKey(activeKey.value, mergedSelectedKeys.value, visibleTreeNodeList.value),
+  );
 
   let pendingFocusKey: TreeNodeKey | undefined;
 
@@ -836,317 +777,78 @@
   }
 
   function onNodeKeydown(key: TreeNodeKey, e: KeyboardEvent) {
-    const list = visibleTreeNodeList.value;
-    const idx = list.findIndex((n) => n.key === key);
-    if (idx === -1) return;
-    const node = list[idx];
-    const hasChildren = !node.isLeaf && Boolean(node.children?.length);
-    const isExpanded = mergedExpandedKeys.value.includes(key);
-
-    switch (e.key) {
-      case KEYBOARD_KEY.ARROW_DOWN:
-        e.preventDefault();
-        if (list[idx + 1]) focusNodeKey(list[idx + 1].key);
+    const action = getTreeKeyAction({
+      key,
+      eventKey: e.key,
+      visibleNodes: visibleTreeNodeList.value,
+      expandedKeys: mergedExpandedKeys.value,
+      canLoadMore: !!onLoadMore.value,
+    });
+    if (!action) return;
+    e.preventDefault();
+    switch (action.type) {
+      case 'focus':
+        focusNodeKey(action.key);
         break;
-      case KEYBOARD_KEY.ARROW_UP:
-        e.preventDefault();
-        if (list[idx - 1]) focusNodeKey(list[idx - 1].key);
+      case 'load':
+        void onLoadMore.value?.(action.key);
         break;
-      case KEYBOARD_KEY.HOME:
-        e.preventDefault();
-        if (list[0]) focusNodeKey(list[0].key);
+      case 'expand':
+        onExpand(action.expanded, action.key, e);
         break;
-      case KEYBOARD_KEY.END:
-        e.preventDefault();
-        if (list.length) focusNodeKey(list[list.length - 1].key);
+      case 'check':
+        onCheck(!mergedCheckedKeys.value.includes(action.key), action.key, e);
         break;
-      case KEYBOARD_KEY.ARROW_RIGHT:
-        e.preventDefault();
-        if (!node.isLeaf && !isExpanded) {
-          if (!node.children?.length && onLoadMore.value) {
-            void onLoadMore.value(key);
-          } else {
-            onExpand(true, key, e);
-          }
-        } else if (hasChildren && isExpanded) {
-          // 展开态：移到首个子节点（直接取结构，避免依赖受展开动画影响的可见列表）
-          const firstChild = node.children?.[0];
-          if (firstChild) focusNodeKey(firstChild.key);
-        }
-        break;
-      case KEYBOARD_KEY.ARROW_LEFT:
-        e.preventDefault();
-        if (hasChildren && isExpanded) {
-          onExpand(false, key, e);
-        } else {
-          // 折叠/叶子：移到父节点（pathParentKeys 末位即直接父节点）
-          const parents = node.pathParentKeys;
-          if (parents.length) focusNodeKey(parents[parents.length - 1]);
-        }
-        break;
-      case KEYBOARD_KEY.ENTER:
-      case KEYBOARD_KEY.SPACE:
-        if (node.checkable && !node.disableCheckbox && !node.disabled) {
-          e.preventDefault();
-          // checkbox 已移出 Tab 序列（tabindex=-1），由 treeitem 统一操作：Space 切换勾选
-          onCheck(!mergedCheckedKeys.value.includes(key), key, e);
-          break;
-        }
-        if (node.selectable && !node.disabled) {
-          e.preventDefault();
-          onSelect(key, e);
-        }
+      case 'select':
+        onSelect(action.key, e);
         break;
     }
   }
 
-  function getPublicCheckedKeys(
-    rawCheckedKeys: TreeNodeKey[],
-    rawCheckedStrategy = checkedStrategy.value,
-  ) {
-    let publicCheckedKeys = [...rawCheckedKeys];
-    if (rawCheckedStrategy === 'parent') {
-      publicCheckedKeys = rawCheckedKeys.filter((_key) => {
-        const item = key2TreeNode.value.get(_key);
-        return item && !(!isUndefined(item.parentKey) && rawCheckedKeys.includes(item.parentKey));
-      });
-    } else if (rawCheckedStrategy === 'child') {
-      publicCheckedKeys = rawCheckedKeys.filter((_key) => {
-        return !key2TreeNode.value.get(_key)?.children?.length;
-      });
-    }
-    return publicCheckedKeys;
-  }
-
-  function getNodes(keys: TreeNodeKey[]) {
-    return keys
-      .map((key) => key2TreeNode.value.get(key)?.treeNodeData || undefined)
-      .filter(Boolean);
-  }
-
-  function emitCheckEvent(options: {
-    targetKey?: TreeNodeKey;
-    targetChecked?: boolean;
-    newCheckedKeys: TreeNodeKey[];
-    newIndeterminateKeys: TreeNodeKey[];
-    event?: Event;
-  }) {
-    const { targetKey, targetChecked, newCheckedKeys, newIndeterminateKeys, event } = options;
-    const targetNode = isUndefined(targetKey) ? undefined : key2TreeNode.value.get(targetKey);
-    const publicCheckedKeys = getPublicCheckedKeys(newCheckedKeys);
-    emit('update:checkedKeys', publicCheckedKeys);
-    emit('update:halfCheckedKeys', newIndeterminateKeys);
-    emit('check', publicCheckedKeys, {
-      checked: targetChecked,
-      node: targetNode?.treeNodeData,
-      checkedNodes: getNodes(publicCheckedKeys) as TreeNodeData[],
-      halfCheckedKeys: newIndeterminateKeys,
-      halfCheckedNodes: getNodes(newIndeterminateKeys) as TreeNodeData[],
-      e: event,
-    });
-  }
-
-  function emitSelectEvent(options: {
-    targetKey?: TreeNodeKey;
-    targetSelected?: boolean;
-    newSelectedKeys: TreeNodeKey[];
-    event?: Event;
-  }) {
-    const { targetKey, targetSelected, newSelectedKeys, event } = options;
-    const targetNode = isUndefined(targetKey) ? undefined : key2TreeNode.value.get(targetKey);
-    emit('update:selectedKeys', newSelectedKeys);
-    emit('select', newSelectedKeys, {
-      selected: targetSelected,
-      node: targetNode?.treeNodeData,
-      selectedNodes: getNodes(newSelectedKeys) as TreeNodeData[],
-      e: event,
-    });
-  }
-
-  function emitExpandEvent(options: {
-    targetKey?: TreeNodeKey;
-    targetExpanded?: boolean;
-    newExpandedKeys: TreeNodeKey[];
-    event?: Event;
-  }) {
-    const { targetKey, targetExpanded, newExpandedKeys, event } = options;
-    const targetNode = isUndefined(targetKey) ? undefined : key2TreeNode.value.get(targetKey);
-    emit('expand', newExpandedKeys, {
-      expanded: targetExpanded,
-      node: targetNode?.treeNodeData,
-      expandedNodes: getNodes(newExpandedKeys) as TreeNodeData[],
-      e: event,
-    });
-    emit('update:expandedKeys', newExpandedKeys);
-  }
-
-  function setCheckedKeys(keys: TreeNodeKey[]) {
-    const [newCheckedKeys, newIndeterminateKeys] = setCheckedState(keys, [], true);
-    emitCheckEvent({ newCheckedKeys, newIndeterminateKeys });
-  }
-
-  function setSelectedKeys(keys: TreeNodeKey[]) {
-    let newSelectedKeys = keys;
-    if (!multiple.value && keys.length > 1) {
-      newSelectedKeys = [keys[0]];
-    }
-    setMergedSelectedKeys(newSelectedKeys);
-    emitSelectEvent({
-      newSelectedKeys,
-    });
-  }
-
-  function setExpandedKeys(keys: TreeNodeKey[]) {
-    currentExpandKeys.value = [];
-    setExpandState(keys);
-    emitExpandEvent({ newExpandedKeys: keys });
-  }
-
-  function checkNodes(keys: TreeNodeKey[], checked: boolean, targetKey?: TreeNodeKey) {
-    if (!keys.length) return;
-    let newCheckedKeys = [...mergedCheckedKeys.value];
-    let newIndeterminateKeys = [...indeterminateKeys.value];
-    keys.forEach((key) => {
-      const node = key2TreeNode.value.get(key);
-      if (node) {
-        [newCheckedKeys, newIndeterminateKeys] = getCheckedStateByCheck({
-          node,
-          checked,
-          checkedKeys: [...newCheckedKeys],
-          indeterminateKeys: [...newIndeterminateKeys],
-          checkStrictly: checkStrictly.value,
-        });
-      }
-    });
-    setCheckedState(newCheckedKeys, newIndeterminateKeys);
-    emitCheckEvent({
-      targetKey,
-      targetChecked: isUndefined(targetKey) ? undefined : checked,
-      newCheckedKeys,
-      newIndeterminateKeys,
-    });
-  }
-
-  function selectNodes(keys: TreeNodeKey[], selected: boolean, targetKey?: TreeNodeKey) {
-    if (!keys.length) return;
-
-    let newSelectedKeys: TreeNodeKey[];
-
-    if (multiple.value) {
-      const selectedKeysSet = new Set(mergedSelectedKeys.value);
-      keys.forEach((key) => {
-        selected ? selectedKeysSet.add(key) : selectedKeysSet.delete(key);
-      });
-      newSelectedKeys = [...selectedKeysSet];
-    } else {
-      newSelectedKeys = selected ? [keys[0]] : [];
-    }
-
-    setMergedSelectedKeys(newSelectedKeys);
-    emitSelectEvent({
-      targetKey,
-      targetSelected: isUndefined(targetKey) ? undefined : selected,
-      newSelectedKeys,
-    });
-  }
-
-  function expandNodes(keys: TreeNodeKey[], expanded: boolean, targetKey?: TreeNodeKey) {
-    const expandedKeysSet = new Set(mergedExpandedKeys.value);
-
-    keys.forEach((key) => {
-      expanded ? expandedKeysSet.add(key) : expandedKeysSet.delete(key);
-      onExpandEnd(key);
-    });
-    const newExpandedKeys = [...expandedKeysSet];
-
-    setExpandState(newExpandedKeys);
-    emitExpandEvent({
-      targetKey,
-      targetExpanded: isUndefined(targetKey) ? undefined : expanded,
-      newExpandedKeys,
-    });
-  }
-
-  function onCheck(checked: boolean, key: TreeNodeKey, e?: Event) {
-    const node = key2TreeNode.value.get(key);
-    if (!node) return;
-
-    const [newCheckedKeys, newIndeterminateKeys] = getCheckedStateByCheck({
-      node,
-      checked,
-      checkedKeys: mergedCheckedKeys.value,
-      indeterminateKeys: indeterminateKeys.value,
-      checkStrictly: checkStrictly.value,
-    });
-
-    setCheckedState(newCheckedKeys, newIndeterminateKeys);
-    emitCheckEvent({
-      targetKey: key,
-      targetChecked: checked,
-      newCheckedKeys,
-      newIndeterminateKeys,
-      event: e,
-    });
-  }
-
-  function onSelect(key: TreeNodeKey, e: Event) {
-    const node = key2TreeNode.value.get(key);
-    if (!node) return;
-
-    let newSelectedKeys: TreeNodeKey[];
-    let selected: boolean;
-
-    if (multiple.value) {
-      const selectedKeysSet = new Set(mergedSelectedKeys.value);
-      selected = !selectedKeysSet.has(key);
-
-      selected ? selectedKeysSet.add(key) : selectedKeysSet.delete(key);
-      newSelectedKeys = [...selectedKeysSet];
-    } else {
-      selected = true;
-      newSelectedKeys = [key];
-    }
-
-    setMergedSelectedKeys(newSelectedKeys);
-    emitSelectEvent({
-      targetKey: key,
-      targetSelected: selected,
-      newSelectedKeys,
-      event: e,
-    });
-  }
-
-  function onExpand(expanded: boolean, key: TreeNodeKey, e?: Event) {
-    // 如果当前 key 节点正在展开/收起，不执行操作。
-    if (currentExpandKeys.value.includes(key)) return;
-
-    const node = key2TreeNode.value.get(key);
-    if (!node) return;
-
-    const expandedKeysSet = new Set(mergedExpandedKeys.value);
-
-    expanded ? expandedKeysSet.add(key) : expandedKeysSet.delete(key);
-    const newExpandedKeys = [...expandedKeysSet];
-
-    setExpandState(newExpandedKeys);
-    if (enableVirtualExpandAnimation.value) {
-      currentExpandKeys.value.push(key);
-    }
-
-    emitExpandEvent({
-      targetKey: key,
-      targetExpanded: expanded,
-      newExpandedKeys,
-      event: e,
-    });
-  }
-
-  function onExpandEnd(key: TreeNodeKey) {
-    const index = currentExpandKeys.value.indexOf(key);
-    if (index > -1) {
-      currentExpandKeys.value.splice(index, 1);
-    }
-  }
+  const treeFoundation = createTreeFoundation<TreeNodeData, Node, Event>({
+    getNodes: () => key2TreeNode.value,
+    getSelectedKeys: () => mergedSelectedKeys.value,
+    getCheckedKeys: () => mergedCheckedKeys.value,
+    getIndeterminateKeys: () => indeterminateKeys.value,
+    getExpandedKeys: () => mergedExpandedKeys.value,
+    getExpandingKeys: () => currentExpandKeys.value,
+    getLoadingKeys: () => loadingKeys.value,
+    getMultiple: () => multiple.value,
+    getCheckStrictly: () => checkStrictly.value,
+    getCheckedStrategy: () => checkedStrategy.value,
+    getAnimateExpand: () => enableVirtualExpandAnimation.value,
+    getLoadMore: () => loadMore?.value,
+    setSelectedKeys: setMergedSelectedKeys,
+    setCheckedState,
+    setExpandedKeys: setExpandState,
+    setExpandingKeys: (keys) => {
+      currentExpandKeys.value = keys;
+    },
+    setLoadingKeys: (keys) => {
+      loadingKeys.value = keys;
+    },
+    onLoadError: (error) => {
+      // oxlint-disable-next-line no-console
+      console.error('[tree]load data error: ', error);
+    },
+    events: {
+      updateSelected: (keys) => emit('update:selectedKeys', keys),
+      select: (keys, data) => emit('select', keys, data),
+      updateChecked: (keys) => emit('update:checkedKeys', keys),
+      updateHalfChecked: (keys) => emit('update:halfCheckedKeys', keys),
+      check: (keys, data) => emit('check', keys, data),
+      updateExpanded: (keys) => emit('update:expandedKeys', keys),
+      expand: (keys, data) => emit('expand', keys, data),
+    },
+  });
+  const {
+    nodes: getNodes,
+    publicCheckedKeys: getPublicCheckedKeys,
+    check: onCheck,
+    select: onSelect,
+    expand: onExpand,
+    endExpand: onExpandEnd,
+  } = treeFoundation;
 
   function onNodeEvent(eventName: TreeNodeDomEventName, key: TreeNodeKey, event: Event) {
     const node = key2TreeNode.value.get(key);
@@ -1258,31 +960,7 @@
   }
 
   const onLoadMore = computed(() =>
-    loadMore?.value
-      ? async (key: TreeNodeKey) => {
-          if (!isFunction(loadMore.value) || loadingKeys.value.includes(key)) return;
-
-          const node = key2TreeNode.value.get(key);
-          if (!node) return;
-
-          const { treeNodeData } = node;
-
-          loadingKeys.value = [...new Set([...loadingKeys.value, key])];
-
-          try {
-            await loadMore.value(treeNodeData);
-            loadingKeys.value = loadingKeys.value.filter((v) => v !== key);
-            onExpand(true, key);
-            if (mergedCheckedKeys.value.includes(key)) {
-              onCheck(true, key);
-            }
-          } catch (err) {
-            loadingKeys.value = loadingKeys.value.filter((v) => v !== key);
-            // oxlint-disable-next-line no-console
-            console.error('[tree]load data error: ', err);
-          }
-        }
-      : undefined,
+    loadMore?.value ? (key: TreeNodeKey) => treeFoundation.loadMore(key) : undefined,
   );
 
   const treeContext = reactive({
@@ -1314,68 +992,18 @@
     onNodeKeydown,
     onNodeLongPress,
     onNodeSwipe,
-    allowDrop(key: TreeNodeKey, dropPosition: DropPosition) {
-      const node = key2TreeNode.value.get(key);
-      if (node && isFunction(allowDrop!.value)) {
-        return !!allowDrop!.value({
-          dropNode: node.treeNodeData,
-          dropPosition,
-        });
-      }
-      return true;
-    },
-    onDragStart(key: TreeNodeKey, e: DragEvent) {
-      const node = key2TreeNode.value.get(key);
-      dragNode.value = node;
-      if (node) {
-        emit('dragStart', e, node.treeNodeData);
-      }
-    },
-    onDragEnd(key: TreeNodeKey, e: DragEvent) {
-      const node = key2TreeNode.value.get(key);
-      dragNode.value = undefined;
-      if (node) {
-        emit('dragEnd', e, node.treeNodeData);
-      }
-    },
-    onDragOver(key: TreeNodeKey, e: DragEvent) {
-      const node = key2TreeNode.value.get(key);
-      if (node) {
-        emit('dragOver', e, node.treeNodeData);
-      }
-    },
-    onDragLeave(key: TreeNodeKey, e: DragEvent) {
-      const node = key2TreeNode.value.get(key);
-      if (node) {
-        emit('dragLeave', e, node.treeNodeData);
-      }
-    },
-    onDrop(key: TreeNodeKey, dropPosition: number, e: DragEvent) {
-      const node = key2TreeNode.value.get(key);
-      if (
-        dragNode.value &&
-        node &&
-        !(node.key === dragNode.value.key || node.pathParentKeys.includes(dragNode.value.key))
-      ) {
-        emit('drop', {
-          e,
-          dragNode: dragNode.value.treeNodeData,
-          dropNode: node.treeNodeData,
-          dropPosition,
-        });
-      }
-    },
+    allowDrop: treeDrag.allowDrop,
+    onDragStart: treeDrag.onDragStart,
+    onDragEnd: treeDrag.onDragEnd,
+    onDragOver: treeDrag.onDragOver,
+    onDragLeave: treeDrag.onDragLeave,
+    onDrop: treeDrag.onDrop,
   });
 
   provide(TreeInjectionKey, treeContext as import('./context').TreeContext);
 
   function toggleCheck(key: TreeNodeKey, e?: Event) {
-    const { key2TreeNode, onCheck, checkedKeys } = treeContext;
-    const checked = !checkedKeys.includes(key);
-    const node = key2TreeNode.get(key);
-    if (node && isNodeCheckable(node)) {
-      onCheck(checked, key, e);
-    }
+    treeFoundation.toggleCheck(key, e);
   }
   /**
    * @zh 虚拟列表滚动某个元素
@@ -1443,14 +1071,7 @@
    * @version 2.20.0
    */
   function checkAll(checked = true) {
-    const { key2TreeNode } = treeContext;
-    const newKeys = checked
-      ? [...key2TreeNode.keys()].filter((key) => {
-          const node = key2TreeNode.get(key);
-          return node && isNodeCheckable(node);
-        })
-      : [];
-    setCheckedKeys(newKeys);
+    treeFoundation.checkAll(checked);
   }
   /**
    * @zh 设置指定节点的复选框状态
@@ -1462,15 +1083,7 @@
    * @version 2.20.0，onlyCheckLeaf from 2.21.0
    */
   function checkNode(key: TreeNodeKey | TreeNodeKey[], checked = true, onlyCheckLeaf = false) {
-    const { key2TreeNode } = treeContext;
-    const isBatch = isArray(key);
-    const keys = (isBatch ? key : [key]).filter((key) => {
-      const node = key2TreeNode.get(key);
-      return (
-        node && isNodeCheckable(node) && (checkStrictly.value || !onlyCheckLeaf || isLeafNode(node)) // onlyCheckLeaf 仅在 checkStrictly 为 false 的时候有效
-      );
-    });
-    checkNodes(keys, checked, isBatch ? undefined : key);
+    treeFoundation.checkNode(key, checked, onlyCheckLeaf);
   }
   /**
    * @zh 设置全部节点的选中状态
@@ -1480,15 +1093,7 @@
    * @version 2.20.0
    */
   function selectAll(selected = true) {
-    const { key2TreeNode } = treeContext;
-    const newKeys = selected
-      ? [...key2TreeNode.keys()].filter((key) => {
-          const node = key2TreeNode.get(key);
-          return node && isNodeSelectable(node);
-        })
-      : [];
-
-    setSelectedKeys(newKeys);
+    treeFoundation.selectAll(selected);
   }
   /**
    * @zh 设置指定节点的选中状态
@@ -1499,13 +1104,7 @@
    * @version 2.20.0
    */
   function selectNode(key: TreeNodeKey | TreeNodeKey[], selected = true) {
-    const { key2TreeNode } = treeContext;
-    const isBatch = isArray(key);
-    const keys = (isBatch ? key : [key]).filter((key) => {
-      const node = key2TreeNode.get(key);
-      return node && isNodeSelectable(node);
-    });
-    selectNodes(keys, selected, isBatch ? undefined : key);
+    treeFoundation.selectNode(key, selected);
   }
   /**
    * @zh 设置全部节点的展开状态
@@ -1515,15 +1114,7 @@
    * @version 2.20.0
    */
   function expandAll(expanded = true) {
-    const { key2TreeNode } = treeContext;
-    const newKeys = expanded
-      ? [...key2TreeNode.keys()].filter((key) => {
-          const node = key2TreeNode.get(key);
-          return node && isNodeExpandable(node);
-        })
-      : [];
-
-    setExpandedKeys(newKeys);
+    treeFoundation.expandAll(expanded);
   }
   /**
    * @zh 设置指定节点的展开状态
@@ -1534,13 +1125,7 @@
    * @version 2.20.0
    */
   function expandNode(key: TreeNodeKey | TreeNodeKey[], expanded = true) {
-    const { key2TreeNode } = treeContext;
-    const isBatch = isArray(key);
-    const keys = (isBatch ? key : [key]).filter((key) => {
-      const node = key2TreeNode.get(key);
-      return node && isNodeExpandable(node);
-    });
-    expandNodes(keys, expanded, isBatch ? undefined : key);
+    treeFoundation.expandNode(key, expanded);
   }
 
   defineExpose({

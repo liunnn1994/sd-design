@@ -14,13 +14,17 @@
     watch,
   } from 'vue';
 
+  import {
+    createThinkingOrbFoundation,
+    resolveThinkingOrbSize,
+    resolveThinkingOrbDark,
+  } from '@sdata/web-core/thinking-orb/foundation';
+
   import type { ThinkingOrbProps } from './types';
 
   import { useThemeMode } from '../_hooks/use-theme-mode';
   import { getPrefixCls } from '../_utils/global-config';
   import { useI18n } from '../locale';
-  import { MODE_DRAWS } from './engine/registry';
-  import { resolvePreset } from './presets';
 
   defineOptions({ name: 'ThinkingOrb', inheritAttrs: false });
 
@@ -39,12 +43,10 @@
   const prefixCls = getPrefixCls('thinking-orb');
   const { t } = useI18n();
 
-  const isDark = computed(() =>
-    theme === 'auto' ? inheritedTheme.value === 'dark' : theme === 'dark',
-  );
+  const isDark = computed(() => resolveThinkingOrbDark(theme, () => inheritedTheme.value));
   // Only 20 and 64 carry tuned presets; clamp any other value to 64 so a JS
   // caller can't crash resolvePreset by passing an unrecognised size.
-  const resolvedSize = computed(() => (size === 20 || size === 64 ? size : 64));
+  const resolvedSize = computed(() => resolveThinkingOrbSize(size));
   const canvasAttrs = computed(() =>
     mergeProps(
       {
@@ -62,98 +64,35 @@
     ),
   );
 
-  let stopRenderer: (() => void) | undefined;
-  let stopReducedMotion: (() => void) | undefined;
-
-  function setupRenderer() {
-    stopRenderer?.();
-    stopRenderer = undefined;
-
-    const canvas = canvasRef.value;
-    if (!canvas) return;
-
-    // A deterministic phase used whenever the orb is static: reduced-motion
-    // users, and the single frame drawn while paused. Without this a paused
-    // orb would freeze on a non-deterministic wall-clock snapshot.
-    const representativePhase = 0.6;
-    const sz = resolvedSize.value;
-
-    const dpr = Math.min(2, window.devicePixelRatio || 1);
-    canvas.width = Math.round(sz * dpr);
-    canvas.height = Math.round(sz * dpr);
-
-    const context = canvas.getContext('2d');
-    if (!context) return;
-
-    const { mode, speed: presetSpeed, opts } = resolvePreset(state, sz);
-    const draw = MODE_DRAWS[mode];
-    const effectiveSpeed = presetSpeed * speed;
-
-    const drawFrame = (time: number) => {
-      context.setTransform(dpr, 0, 0, dpr, 0, 0);
-      context.clearRect(0, 0, sz, sz);
-      draw(context, sz, time, isDark.value, opts);
-    };
-
-    if (reducedMotion.value) {
-      drawFrame(representativePhase);
-      return;
-    }
-
-    let animationFrame = 0;
-    let running = false;
-    let visible = true;
-
-    const loop = () => {
-      drawFrame((performance.now() / 1000) * effectiveSpeed);
-      if (running) animationFrame = requestAnimationFrame(loop);
-    };
-    const start = () => {
-      if (running || paused || document.visibilityState === 'hidden') return;
-      running = true;
-      animationFrame = requestAnimationFrame(loop);
-    };
-    const stop = () => {
-      running = false;
-      cancelAnimationFrame(animationFrame);
-    };
-
-    drawFrame(paused ? representativePhase : (performance.now() / 1000) * effectiveSpeed);
-
-    const observer =
-      typeof IntersectionObserver === 'undefined'
-        ? undefined
-        : new IntersectionObserver(([entry]) => {
-            visible = entry?.isIntersecting ?? false;
-            if (visible && document.visibilityState !== 'hidden') start();
-            else stop();
-          });
-    observer?.observe(canvas);
-
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'hidden') stop();
-      else if (visible) start();
-    };
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    if (!observer) start();
-
-    stopRenderer = () => {
-      stop();
-      observer?.disconnect();
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }
-
-  function setupReducedMotion() {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const update = () => {
-      reducedMotion.value = mediaQuery.matches;
-    };
-    update();
-    mediaQuery.addEventListener('change', update);
-    stopReducedMotion = () => mediaQuery.removeEventListener('change', update);
-  }
-
+  const foundation = createThinkingOrbFoundation({
+    props: {
+      get state() {
+        return state;
+      },
+      get speed() {
+        return speed;
+      },
+      get paused() {
+        return paused;
+      },
+    },
+    get canvas() {
+      return canvasRef.value;
+    },
+    get resolvedSize() {
+      return resolvedSize.value;
+    },
+    get isDark() {
+      return isDark.value;
+    },
+    get reducedMotion() {
+      return reducedMotion.value;
+    },
+    set reducedMotion(value) {
+      reducedMotion.value = value;
+    },
+  });
+  const { setupRenderer, setupReducedMotion } = foundation;
   watch(
     [() => state, resolvedSize, () => speed, () => paused, isDark, reducedMotion],
     setupRenderer,
@@ -167,8 +106,5 @@
     setupRenderer();
   });
 
-  onUnmounted(() => {
-    stopRenderer?.();
-    stopReducedMotion?.();
-  });
+  onUnmounted(foundation.dispose);
 </script>

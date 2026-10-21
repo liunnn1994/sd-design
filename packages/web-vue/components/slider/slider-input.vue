@@ -27,6 +27,8 @@
 <script setup lang="ts">
   import { PropType } from 'vue';
 
+  import { getSliderInputValue } from '@sdata/web-core/slider/data';
+
   import type { InputNumberValue } from '../input-number';
 
   import { getPrefixCls } from '../_utils/global-config';
@@ -59,10 +61,10 @@
   const emit = defineEmits<{ startChange: [_value?: number]; endChange: [_value?: number] }>();
 
   const handleStartChange = (value: InputNumberValue) => {
-    emit('startChange', value == null ? undefined : Number(value));
+    emit('startChange', getSliderInputValue(value));
   };
   const handleEndChange = (value: InputNumberValue) => {
-    emit('endChange', value == null ? undefined : Number(value));
+    emit('endChange', getSliderInputValue(value));
   };
 
   const prefixCls = getPrefixCls('slider');

@@ -13,22 +13,12 @@
 
 <script setup lang="ts">
   import type { CSSProperties, PropType, Ref } from 'vue';
-  import { toRefs, ref, watch, watchEffect, computed, onMounted } from 'vue';
+  import { ref, watch, watchEffect, computed, onMounted, onBeforeUnmount } from 'vue';
+
+  import { createAffix } from '@sdata/web-core/affix/foundation';
 
   import ResizeObserver from '../_components/resize-observer.vue';
-  import { on, off, getElement } from '../_utils/dom';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isWindow, isUndefined } from '../_utils/is';
-  import { throttleByRaf } from '../_utils/throttle-by-raf';
-
-  function getTargetRect(target: HTMLElement | Window) {
-    return isWindow(target)
-      ? {
-          top: 0,
-          bottom: window.innerHeight,
-        }
-      : target.getBoundingClientRect();
-  }
 
   defineOptions({ name: 'Affix' });
 
@@ -74,7 +64,6 @@
   });
 
   const prefixCls = getPrefixCls('affix');
-  const { target, targetContainer } = toRefs(props);
   const wrapperRef = ref<HTMLElement>();
   const contentRef = ref<HTMLElement>();
   const targetRef = ref<HTMLElement | Window>();
@@ -83,100 +72,51 @@
   const fixedStyles: Ref<CSSProperties> = ref({});
   const classNames = computed(() => ({ [prefixCls]: isFixed.value }));
 
-  const updatePositionThrottle = throttleByRaf(() => {
-    if (!wrapperRef.value || !targetRef.value) return;
-
-    const { offsetTop, offsetBottom } = props;
-    const offsetType = isUndefined(offsetBottom) ? 'top' : 'bottom';
-    const wrapperRect = wrapperRef.value.getBoundingClientRect();
-    const targetRect = getTargetRect(targetRef.value);
-    let newIsFixed = false;
-    let newFixedStyles = {};
-    const newPlaceholderStyles: CSSProperties = {
-      width: `${wrapperRef.value.offsetWidth}px`,
-      height: `${isFixed.value && contentRef.value ? contentRef.value.offsetHeight : wrapperRef.value.offsetHeight}px`,
-    };
-
-    if (offsetType === 'top') {
-      newIsFixed = wrapperRect.top - targetRect.top < (offsetTop || 0);
-      newFixedStyles = newIsFixed
-        ? {
-            position: 'fixed',
-            top: `${targetRect.top + (offsetTop || 0)}px`,
-          }
-        : {};
-    } else {
-      newIsFixed = targetRect.bottom - wrapperRect.bottom < (offsetBottom || 0);
-      newFixedStyles = newIsFixed
-        ? {
-            position: 'fixed',
-            bottom: `${window.innerHeight - targetRect.bottom + (offsetBottom || 0)}px`,
-          }
-        : {};
-    }
-
-    // update isFixed
-    if (newIsFixed !== isFixed.value) {
-      isFixed.value = newIsFixed;
-      emit('change', newIsFixed);
-    }
-    // update placeholderStyles
-    placeholderStyles.value = newPlaceholderStyles;
-    // update fixedStyles
-    fixedStyles.value = {
-      ...newFixedStyles,
-      ...(newIsFixed ? { width: newPlaceholderStyles.width } : {}),
-    };
+  const foundation = createAffix({
+    props,
+    get wrapper() {
+      return wrapperRef.value;
+    },
+    get content() {
+      return contentRef.value;
+    },
+    get fixed() {
+      return isFixed.value;
+    },
+    get target() {
+      return targetRef.value;
+    },
+    set target(value) {
+      targetRef.value = value;
+    },
+    setFixed(value) {
+      isFixed.value = value;
+    },
+    onChange: (value) => emit('change', value),
+    setPlaceholder(value) {
+      placeholderStyles.value = value;
+    },
+    setStyle(value) {
+      fixedStyles.value = value;
+    },
   });
-
+  const updatePositionThrottle = foundation.update;
   watch(() => [props.offsetTop, props.offsetBottom], updatePositionThrottle);
   watch(
     () => props.target,
     () => updatePositionThrottle(),
     { flush: 'post' },
   );
-
   onMounted(() => {
-    // Binding of scroll events inside the scroll container
     watchEffect((onInvalidate) => {
-      const element =
-        (target && target.value !== window && getElement(target.value as string | HTMLElement)) ||
-        window;
-
-      targetRef.value = element;
-
-      if (element) {
-        on(element, 'scroll', updatePositionThrottle);
-        on(element, 'resize', updatePositionThrottle);
-
-        onInvalidate(() => {
-          off(element, 'scroll', updatePositionThrottle);
-          off(element, 'resize', updatePositionThrottle);
-        });
-      }
+      onInvalidate(foundation.bindTarget());
     });
-
-    // When the scroll container is not a window, you need to bind the outer scroll event of the scroll container to update the position
     watchEffect((onInvalidate) => {
-      if (!targetRef.value) return;
-
-      const container =
-        (targetContainer &&
-          targetContainer.value !== window &&
-          getElement(targetContainer.value as string | HTMLElement)) ||
-        window;
-
-      if (container) {
-        on(container, 'scroll', updatePositionThrottle);
-        on(container, 'resize', updatePositionThrottle);
-
-        onInvalidate(() => {
-          off(container, 'scroll', updatePositionThrottle);
-          off(container, 'resize', updatePositionThrottle);
-        });
-      }
+      const dispose = foundation.bindContainer();
+      if (dispose) onInvalidate(dispose);
     });
   });
+  onBeforeUnmount(foundation.dispose);
 
   /**
    * @zh 更新位置

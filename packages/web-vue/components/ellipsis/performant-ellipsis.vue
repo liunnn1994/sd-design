@@ -34,6 +34,9 @@
   import type { CSSProperties, PropType } from 'vue';
   import { computed, nextTick, shallowRef } from 'vue';
 
+  import { resolveEllipsisMaxLines, getEllipsisRootStyle } from '@sdata/web-core/ellipsis/data';
+  import { createPerformantEllipsisFoundation } from '@sdata/web-core/ellipsis/performant';
+
   import type { EllipsisTooltipProps } from './interface';
 
   import { getPrefixCls } from '../_utils/global-config';
@@ -84,11 +87,7 @@
 
   const isLineClamp = computed(() => props.lineClamp !== undefined);
   const componentTag = computed(() => (isLineClamp.value ? 'div' : 'span'));
-  const maxLines = computed(() => {
-    if (props.lineClamp === undefined) return 1;
-    const value = Number(props.lineClamp);
-    return Number.isFinite(value) && value > 0 ? value : 1;
-  });
+  const maxLines = computed(() => resolveEllipsisMaxLines(props.lineClamp));
 
   const rootCls = computed(() => [
     prefixCls,
@@ -99,82 +98,26 @@
     },
   ]);
 
-  const rootStyle = computed<CSSProperties>(() => {
-    if (isLineClamp.value) {
-      return {
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        display: '-webkit-box',
-        whiteSpace: 'normal',
-        WebkitLineClamp: String(maxLines.value),
-        WebkitBoxOrient: 'vertical',
-      };
-    }
+  const rootStyle = computed<CSSProperties>(() =>
+    getEllipsisRootStyle(isLineClamp.value, false, () => maxLines.value),
+  );
 
-    return {
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap',
-    };
+  const foundation = createPerformantEllipsisFoundation({
+    get activated() {
+      return activated.value;
+    },
+    set activated(value) {
+      activated.value = value;
+    },
+    get expandTrigger() {
+      return props.expandTrigger;
+    },
+    get triggerElement() {
+      return ellipsisRef.value?.triggerElement;
+    },
+    afterRender: nextTick,
+    waitForMeasurement: () => ellipsisRef.value?.waitForMeasurement?.(),
+    toggleExpanded: () => ellipsisRef.value?.toggleExpanded?.(),
   });
-
-  const getActivatedTriggerElement = () => ellipsisRef.value?.triggerElement;
-
-  const replayInteraction = (type?: 'hover' | 'focus' | 'click') => {
-    const triggerElement = getActivatedTriggerElement();
-    if (!triggerElement || !type) {
-      return;
-    }
-
-    if (type === 'hover') {
-      triggerElement.dispatchEvent(new MouseEvent('mouseenter', { bubbles: false }));
-      triggerElement.dispatchEvent(new MouseEvent('mousemove', { bubbles: true }));
-      return;
-    }
-
-    if (type === 'focus') {
-      triggerElement.focus();
-      return;
-    }
-
-    ellipsisRef.value?.toggleExpanded?.();
-  };
-
-  const activate = async (interactionType?: 'hover' | 'focus' | 'click') => {
-    if (activated.value) {
-      return;
-    }
-
-    activated.value = true;
-    await nextTick();
-    await nextTick();
-    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-
-    // 等 RichLineClamp 首次测量稳定（带真实内容的 clampchange 到达）后再回放交互，
-    // 否则 hover 的 tooltip / click 的展开判定会读到未就绪的 clamp 状态。
-    const measurement = ellipsisRef.value?.waitForMeasurement?.();
-    if (measurement) {
-      await measurement;
-    }
-
-    replayInteraction(interactionType);
-  };
-
-  const handleMouseenter = () => {
-    void activate('hover');
-  };
-
-  const handleFocus = () => {
-    void activate('focus');
-  };
-
-  const handleClick = (event: MouseEvent) => {
-    const target = event.target;
-    const interactive =
-      target instanceof Element
-        ? target.closest('a,button,input,textarea,select,[role="button"]')
-        : null;
-    const isInnerControl = interactive && interactive !== event.currentTarget;
-    void activate(props.expandTrigger === 'click' && !isInnerControl ? 'click' : undefined);
-  };
+  const { handleMouseenter, handleFocus, handleClick } = foundation;
 </script>

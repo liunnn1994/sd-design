@@ -7,8 +7,7 @@ import _RadioGroup from './radio-group.vue';
 import _Radio from './radio.vue';
 
 export type { RadioOption } from './interface';
-export type RadioValue = string | number | boolean;
-export type RadioGroupChangeHandler = (value: RadioValue) => void;
+export type { RadioValue, RadioGroupChangeHandler } from '@sdata/web-core/radio/types';
 
 const Radio = Object.assign(_Radio, {
   Group: _RadioGroup,

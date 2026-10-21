@@ -22,6 +22,8 @@
 <script setup lang="ts">
   import { computed, inject, ref } from 'vue';
 
+  import { createDropdownOptionFoundation } from '@sdata/web-core/dropdown/foundation';
+
   import { getPrefixCls } from '../_utils/global-config';
   import { dropdownInjectionKey } from './context';
 
@@ -67,12 +69,21 @@
 
   const dropdownCtx = !props.uninjectContext ? inject(dropdownInjectionKey, undefined) : undefined;
 
-  const handleClick = (ev: MouseEvent) => {
-    if (!props.disabled) {
-      emit('click', ev);
-      dropdownCtx?.onOptionClick(props.value ?? liRef.value?.textContent ?? undefined, ev);
-    }
-  };
+  const { handleClick } = createDropdownOptionFoundation(
+    {
+      get disabled() {
+        return props.disabled;
+      },
+      get value() {
+        return props.value;
+      },
+      get context() {
+        return dropdownCtx;
+      },
+    },
+    () => liRef.value?.textContent,
+    (ev) => emit('click', ev),
+  );
 
   const cls = computed(() => [
     prefixCls,

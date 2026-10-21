@@ -1,0 +1,12 @@
+@use './token.scss';
+
+$border-beam-prefix-cls: 'sd-border-beam';
+
+// BorderBeam 的动态 CSS 由 JS 生成并注入 document.head
+// 此 SCSS 文件仅提供 wrapper 结构类
+// 动画、渐变、mask 等视觉效果全部由 border-beam/styles.ts 生成
+
+.#{$border-beam-prefix-cls} {
+  position: relative;
+  display: inline-flex;
+}

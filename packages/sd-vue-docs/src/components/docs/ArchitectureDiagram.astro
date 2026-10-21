@@ -1,0 +1,86 @@
+---
+interface Props {
+  kind?: 'architecture' | 'flow';
+}
+const { kind = 'architecture' } = Astro.props;
+const isFlow = kind === 'flow';
+const description = isFlow
+  ? 'Collapse 从标题事件进入共享 Foundation，经 Adapter 读取状态、写回并通知，最后由 Vue 重新渲染。'
+  : 'Vue 包内 View、响应式状态与 Adapter 连接 Core Foundation；Core 同时提供原生驱动和共享样式。其他框架适配为扩展方向。';
+---
+
+<figure class="fa-diagram" data-kind={kind}>
+  <div class="fa-diagram__scroll" tabindex="0" role="region" aria-label="跨框架架构图，可横向滚动">
+    <div class="fa-diagram__canvas" style={`--diagram-height: ${isFlow ? 720 : 808}px`} role="img" aria-label={description}></div>
+  </div>
+  <figcaption>{isFlow ? '图 2 · Collapse 的实际调用链。Foundation 决定动作次序，Adapter 执行状态读写与通知，Vue 负责渲染。' : '图 1 · SD Design 的组件内部结构、包边界与复用范围。编号表示事件进入到视图更新的闭环。'}</figcaption>
+</figure>
+
+<script>
+  import { Infographic } from '@antv/infographic';
+  import './fa-infographic';
+
+  function initArchitectureDiagram() {
+    document.querySelectorAll<HTMLElement>('.fa-diagram__canvas').forEach((container) => {
+      if (container.dataset.rendered) return;
+      container.dataset.rendered = 'true';
+      const infographic = new Infographic({
+        container,
+        width: '100%',
+        height: '100%',
+        padding: 8,
+        svg: { style: { width: '100%', height: '100%', display: 'block' } },
+        design: {
+          item: 'simple',
+          structure: container.closest('figure')?.dataset.kind === 'flow'
+            ? 'sd-fa-collapse-flow'
+            : 'sd-fa-architecture',
+        },
+        editable: false,
+        data: { items: [{ label: 'SD Design F/A' }] },
+        themeConfig: { colorPrimary: '#165DFF', palette: ['#165DFF'] },
+      });
+      const render = () => {
+        infographic.update({
+          theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light',
+        });
+      };
+      render();
+      const observer = new MutationObserver(render);
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme'],
+      });
+      document.addEventListener('astro:before-swap', () => {
+        observer.disconnect();
+        infographic.destroy();
+      }, { once: true });
+    });
+  }
+
+  initArchitectureDiagram();
+  document.addEventListener('astro:page-load', initArchitectureDiagram);
+</script>
+
+<style lang="scss">
+  .fa-diagram {
+    margin: 1.5rem 0;
+
+    &__scroll {
+      overflow-x: auto;
+      border: 1px solid var(--sl-color-hairline);
+      border-radius: 0.5rem;
+    }
+
+    &__canvas {
+      min-width: 760px;
+      height: var(--diagram-height);
+    }
+
+    figcaption {
+      margin-top: 0.75rem;
+      color: var(--sl-color-gray-2);
+      font-size: 0.875rem;
+    }
+  }
+</style>

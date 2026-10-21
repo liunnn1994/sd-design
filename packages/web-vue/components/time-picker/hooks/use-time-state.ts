@@ -1,10 +1,15 @@
 import { computed, toRefs, watch } from 'vue';
 
+import {
+  getEmptyTimeValue,
+  getInitialTimeValue,
+  normalizeTimeValue,
+} from '@sdata/web-core/time-picker/state';
 import { Dayjs } from 'dayjs';
 
 import useState from '../../_hooks/use-state';
 import { getDayjsValue } from '../../_utils/date';
-import { isArray, isUndefined } from '../../_utils/is';
+import { isUndefined } from '../../_utils/is';
 import { TimeValue } from '../interface';
 
 export default function useTimeState(props: {
@@ -15,45 +20,25 @@ export default function useTimeState(props: {
 }) {
   const { modelValue, defaultValue, format, isRange } = toRefs(props);
 
-  function getLocalEmptyValue(): Dayjs[] | undefined {
-    return isRange.value ? [] : undefined;
-  }
-
-  function normalizeValue(time: TimeValue | TimeValue[] | undefined) {
-    if (isUndefined(time)) {
-      return undefined;
-    }
-
-    if (isRange.value) {
-      return isArray(time) ? time : [time, undefined];
-    }
-
-    return time;
-  }
-
   // 转为 dayjs 的 modelValue
   const computedModelValue = computed(() => {
-    const time = normalizeValue(modelValue.value);
+    const time = normalizeTimeValue(modelValue.value, isRange.value);
     return getDayjsValue(time, format.value);
   });
 
   // 转为 dayjs 的 defaultValue
   const computedDefaultValue = computed(() => {
-    const time = normalizeValue(defaultValue.value);
+    const time = normalizeTimeValue(defaultValue.value, isRange.value);
     return getDayjsValue(time, format.value);
   });
 
   const [localValue, setLocalValue] = useState<Dayjs | Array<Dayjs | undefined> | undefined>(
-    !isUndefined(computedModelValue.value)
-      ? computedModelValue.value
-      : !isUndefined(computedDefaultValue.value)
-        ? computedDefaultValue.value
-        : getLocalEmptyValue(),
+    getInitialTimeValue(computedModelValue.value, () => computedDefaultValue.value, isRange.value),
   );
 
   watch(computedModelValue, () => {
     if (isUndefined(computedModelValue.value)) {
-      setLocalValue(getLocalEmptyValue());
+      setLocalValue(getEmptyTimeValue(isRange.value));
     }
   });
 

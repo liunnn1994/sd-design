@@ -25,6 +25,11 @@
 <script setup lang="ts">
   import { computed, getCurrentInstance, onBeforeUpdate, shallowRef } from 'vue';
 
+  import {
+    getModelSelectorVisible,
+    updateModelSelectorVisible,
+  } from '@sdata/web-core/model-selector/foundation';
+
   import ModelSelectorContent from './model-selector-content.vue';
   import ModelSelector from './model-selector.vue';
 
@@ -107,12 +112,26 @@
     hasVisibleProp.value = Object.hasOwn(instance.vnode.props ?? {}, 'visible');
   });
   const mergedVisible = computed(() =>
-    hasVisibleProp.value ? Boolean(visibleModel.value) : innerVisible.value,
+    getModelSelectorVisible(hasVisibleProp.value, visibleModel.value, innerVisible.value),
   );
 
   function handleVisibleUpdate(value: boolean | undefined) {
-    const nextVisible = Boolean(value);
-    innerVisible.value = nextVisible;
-    visibleModel.value = nextVisible;
+    updateModelSelectorVisible(
+      {
+        get innerVisible() {
+          return innerVisible.value;
+        },
+        set innerVisible(next) {
+          innerVisible.value = next;
+        },
+        get visibleModel() {
+          return visibleModel.value;
+        },
+        set visibleModel(next) {
+          visibleModel.value = next;
+        },
+      },
+      value,
+    );
   }
 </script>

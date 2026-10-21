@@ -28,8 +28,9 @@
 <script setup lang="ts">
   import { computed } from 'vue';
 
+  import { onActivate } from '@sdata/web-core/_utils/keyboard';
+
   import { getPrefixCls } from '../_utils/global-config';
-  import { isActivationKey } from '../_utils/keyboard';
   import IconDown from '../icon/icon-down';
   import IconLeft from '../icon/icon-left';
   import IconRight from '../icon/icon-right';
@@ -67,14 +68,13 @@
   };
 
   const onKeydown = (e: KeyboardEvent, which: 'previous' | 'next') => {
-    if (isActivationKey(e)) {
-      e.preventDefault();
+    onActivate((e) => {
       if (which === 'previous') {
         emit('previousClick', e);
       } else {
         emit('nextClick', e);
       }
-    }
+    })(e);
   };
 
   const cls = computed(() => [

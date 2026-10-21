@@ -1,5 +1,5 @@
 <template>
-  <DefineDisplay>
+  <DefineDisplay v-slot="{ content }">
     <RichLineClamp
       v-if="props.ellipsis"
       v-bind="rootAttrs"
@@ -17,7 +17,7 @@
       </template>
     </RichLineClamp>
     <component v-else :is="props.component" v-bind="rootAttrs" :class="classNames">
-      <TypographyContent :content="getChildren()" :tags="contentTags" :mark-style="markStyle" />
+      <TypographyContent :content="content" :tags="contentTags" :mark-style="markStyle" />
       <TypographyOperations v-bind="getOperationsProps()" />
     </component>
   </DefineDisplay>
@@ -35,15 +35,15 @@
     :disabled="!isEllipsis"
   >
     <template #content>{{ fullText }}</template>
-    <ReuseDisplay />
+    <ReuseDisplay :content="props.ellipsis ? undefined : getChildren()" />
   </component>
-  <ReuseDisplay v-else />
+  <ReuseDisplay v-else :content="props.ellipsis ? undefined : getChildren()" />
 </template>
 
 <script setup lang="ts">
-  import type { Options as ClipboardOptions } from 'copy-to-clipboard';
+  import type { ClipboardOptions } from '@sdata/web-core/clipboard';
 
-  import type { AppContext, ComponentInternalInstance, PropType } from 'vue';
+  import type { AppContext, ComponentInternalInstance, PropType, VNode } from 'vue';
   import {
     computed,
     getCurrentInstance,
@@ -57,15 +57,21 @@
     useSlots,
   } from 'vue';
 
+  import copy from '@sdata/web-core/clipboard';
+  import {
+    normalizeTypographyEllipsis,
+    getTypographyContentTags,
+    getTypographyMarkStyle,
+    getTypographyRichHtml,
+  } from '@sdata/web-core/typography/data';
+  import { createTypographyFoundation } from '@sdata/web-core/typography/foundation';
   import { createReusableTemplate } from '@vueuse/core';
-  import copy from 'copy-to-clipboard';
 
   import type { BaseProps, EllipsisConfig, EllipsisInternalConfig } from './interface';
 
   import useMergeState from '../_hooks/use-merge-state';
   import { getPrefixCls } from '../_utils/global-config';
   import { isObject } from '../_utils/is';
-  import { omit } from '../_utils/omit';
   import { RichLineClamp } from '../clamp';
   import Popover from '../popover';
   import Tooltip from '../tooltip';
@@ -78,23 +84,11 @@
     component: keyof HTMLElementTagNameMap;
   }
 
-  const normalizeEllipsisConfig = (config: EllipsisConfig): EllipsisInternalConfig => {
-    const showTooltip = Boolean(config.showTooltip);
-    const TooltipComponent =
-      isObject(config.showTooltip) && config.showTooltip.type === 'popover' ? Popover : Tooltip;
-    const tooltipProps = (isObject(config.showTooltip) && config.showTooltip.props) || {};
-    return {
-      rows: 1,
-      suffix: '',
-      ellipsisStr: '...',
-      expandable: false,
-      ...omit(config, ['showTooltip']),
-      showTooltip,
-      TooltipComponent,
-      tooltipProps,
-    };
-  };
-
+  const normalizeEllipsisConfig = (config: EllipsisConfig): EllipsisInternalConfig =>
+    normalizeTypographyEllipsis<EllipsisInternalConfig['TooltipComponent']>(config, {
+      popover: Popover,
+      tooltip: Tooltip,
+    });
   defineOptions({ name: 'TypographyBase', inheritAttrs: false });
 
   const props = defineProps({
@@ -133,7 +127,9 @@
   const slots = useSlots();
   const instance = getCurrentInstance() as ComponentInternalInstance & Pick<AppContext, 'provides'>;
   const textAppContext = { ...instance.appContext, provides: instance.provides };
-  const [DefineDisplay, ReuseDisplay] = createReusableTemplate();
+  const [DefineDisplay, ReuseDisplay] = createReusableTemplate<{ content: VNode[] | undefined }>({
+    props: { content: Array as PropType<VNode[]> },
+  });
   const prefixCls = getPrefixCls('typography');
   const classNames = computed(() => [
     prefixCls,
@@ -146,125 +142,81 @@
     props.defaultEditing,
     reactive({ value: toRef(props, 'editing') }),
   );
-  const mergeEditing = computed(() => props.editable && editing.value);
-  const editTextValue = computed(() => props.editText ?? fullText.value);
+
   const ellipsisConfig = computed(() =>
     normalizeEllipsisConfig((isObject(props.ellipsis) && props.ellipsis) || {}),
   );
-  const rootAttrs = computed(() => ({
-    ...(props.ellipsis && isEllipsis.value && !expanded.value && !ellipsisConfig.value.showTooltip
-      ? { title: fullText.value }
-      : {}),
-    ...attrs,
-  }));
-  const contentTags = computed(() => {
-    const tags: (keyof HTMLElementTagNameMap)[] = [];
-    if (props.bold) tags.push('b');
-    if (props.underline) tags.push('u');
-    if (props.delete) tags.push('del');
-    if (props.code) tags.push('code');
-    if (props.mark) tags.push('mark');
-    return tags;
-  });
-  const markStyle = computed<Record<string, string>>(() => {
-    const style: Record<string, string> = {};
-    if (isObject(props.mark) && props.mark.color) style.backgroundColor = props.mark.color;
-    return style;
-  });
-  const escapeHtml = (value: string) =>
-    value
-      .replaceAll('&', '&amp;')
-      .replaceAll('<', '&lt;')
-      .replaceAll('>', '&gt;')
-      .replaceAll('"', '&quot;');
-  const styleAttribute = (style?: Record<string, string>) => {
-    const text = style
-      ? Object.entries(style)
-          .map(
-            ([name, value]) => `${name.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)}:${value}`,
-          )
-          .join(';')
-      : '';
-    return text ? ` style="${escapeHtml(text)}"` : '';
-  };
-  // 与 TypographyContent 的标签包裹顺序保持一致：外层为最后一个标签（mark 最外），
-  // 自定义 mark 颜色通过内联 style 注入到 mark 标签上。
+  const contentTags = computed(() => getTypographyContentTags(props));
+  const markStyle = computed(() => getTypographyMarkStyle(props));
   const richHtml = computed(() =>
-    contentTags.value.reduce((html, tag) => {
-      const style = tag === 'mark' ? styleAttribute(markStyle.value) : '';
-      return `<${tag}${style}>${html}</${tag}>`;
-    }, escapeHtml(fullText.value)),
+    getTypographyRichHtml(contentTags.value, markStyle.value, fullText.value),
   );
-
   const getChildren = () => slots.default?.() || [];
-  const updateFullText = () => {
-    if (props.ellipsis || props.copyable || props.editable) {
-      const nextFullText = getInnerText(getChildren(), textAppContext);
-      if (fullText.value !== nextFullText) {
-        fullText.value = nextFullText;
-      }
-    }
-  };
-  const handleClampChange = (value: boolean) => {
-    if (isEllipsis.value !== value) {
-      isEllipsis.value = value;
-      emit('ellipsis', value);
-    }
-  };
-  const onEditStart = () => {
-    emit('update:editing', true);
-    emit('editStart');
-    setEditing(true);
-  };
-  const handleEditContentChange = (text: string) => {
-    if (text !== editTextValue.value) {
-      emit('update:editText', text);
-      emit('change', text);
-    }
-  };
-  const onEditEnd = () => {
-    if (!editing.value) return;
-    emit('update:editing', false);
-    emit('editEnd');
-    setEditing(false);
-  };
   const isCopied = shallowRef(false);
-  let copyTimer: ReturnType<typeof setTimeout> | null = null;
-  const onCopyClick = () => {
-    if (props.copyText === undefined) updateFullText();
-    const text = props.copyText ?? fullText.value;
-    copy(text, props.clipboardProps);
-    isCopied.value = true;
-    emit('copy', text);
-    // copyDelay 内连点时先清掉上一个 timer，避免被上一次提前复位
-    if (copyTimer) clearTimeout(copyTimer);
-    copyTimer = setTimeout(() => (isCopied.value = false), props.copyDelay);
-  };
-  const onExpandClick = () => {
-    expanded.value = !expanded.value;
-    emit('expand', expanded.value);
-  };
-  const getOperationsProps = () => ({
-    editable: props.editable,
-    copyable: props.copyable,
-    expandable: ellipsisConfig.value.expandable,
-    isCopied: isCopied.value,
-    isEllipsis: isEllipsis.value,
-    expanded: expanded.value,
-    forceRenderExpand: Boolean(props.ellipsis) && expanded.value,
-    editTooltipProps: props.editTooltipProps,
-    copyTooltipProps: props.copyTooltipProps,
-    onEdit: onEditStart,
-    onCopy: onCopyClick,
-    onExpand: onExpandClick,
-    copyTooltip: slots['copy-tooltip'],
-    copyIcon: slots['copy-icon'],
-    expandNode: slots['expand-node'],
-  });
-
+  const foundation: ReturnType<typeof createTypographyFoundation<import('vue').Slot>> =
+    createTypographyFoundation(
+      {
+        props,
+        slots,
+        get fullText() {
+          return fullText.value;
+        },
+        set fullText(value) {
+          fullText.value = value;
+        },
+        get isEllipsis() {
+          return isEllipsis.value;
+        },
+        set isEllipsis(value) {
+          isEllipsis.value = value;
+        },
+        get expanded() {
+          return expanded.value;
+        },
+        set expanded(value) {
+          expanded.value = value;
+        },
+        get isCopied() {
+          return isCopied.value;
+        },
+        set isCopied(value) {
+          isCopied.value = value;
+        },
+        get editing() {
+          return editing.value;
+        },
+        get editTextValue() {
+          return editTextValue.value;
+        },
+        get ellipsisConfig() {
+          return ellipsisConfig.value;
+        },
+      },
+      {
+        getInnerText: () => getInnerText(getChildren(), textAppContext),
+        copy,
+        setEditing,
+        updateEditing: (value) => emit('update:editing', value),
+        editStart: () => emit('editStart'),
+        updateEditText: (text) => emit('update:editText', text),
+        change: (text) => emit('change', text),
+        editEnd: () => emit('editEnd'),
+        copied: (text) => emit('copy', text),
+        ellipsis: (value) => emit('ellipsis', value),
+        expand: (value) => emit('expand', value),
+      },
+    );
+  const mergeEditing = computed(() => foundation.getMergeEditing());
+  const editTextValue = computed(() => foundation.getEditTextValue(props.editText));
+  const rootAttrs = computed(() => foundation.getRootAttrs(attrs));
+  const {
+    updateFullText,
+    handleClampChange,
+    handleEditContentChange,
+    onEditEnd,
+    getOperationsProps,
+  } = foundation;
   onMounted(updateFullText);
   onUpdated(updateFullText);
-  onUnmounted(() => {
-    if (copyTimer) clearTimeout(copyTimer);
-  });
+  onUnmounted(foundation.dispose);
 </script>

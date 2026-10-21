@@ -1,3 +1,5 @@
+import type { TreeSelectValue } from '@sdata/web-core/tree-select/types';
+
 import { CSSProperties } from 'vue';
 
 import type { FitWidthProps } from '../_hooks/use-fit-width';
@@ -14,12 +16,7 @@ import {
 } from '../tree/interface';
 import { TriggerProps } from '../trigger';
 
-export interface LabelValue {
-  value: TreeNodeKey;
-  label: string | number;
-}
-
-export type TreeSelectValue = TreeNodeKey | TreeNodeKey[] | LabelValue | LabelValue[];
+export type { LabelValue, TreeSelectValue } from '@sdata/web-core/tree-select/types';
 
 export interface TreeSelectTriggerSlotProps {
   value: TreeSelectValue | undefined;

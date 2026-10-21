@@ -1,6 +1,1 @@
-export interface MeasureInfo {
-  measuring: boolean;
-  location: number;
-  prefix: string;
-  text: string;
-}
+export type { MeasureInfo } from '@sdata/web-core/mention/types';

@@ -8,15 +8,14 @@ import {
   type MaybeRefOrGetter,
 } from 'vue';
 
+import { createSenderRecorder, type UseRecorderOptions } from '@sdata/web-core/sender/recorder';
+
 import type { SenderAllowSpeech } from './types';
 
 import { useI18n } from '../locale';
 import Recorder from './recorder-core';
 
-export interface UseRecorderOptions {
-  onStop?: (blob: Blob, duration: number, mime: string) => void;
-  onError?: (message: string, isUserNotAllow: boolean) => void;
-}
+export type { UseRecorderOptions } from '@sdata/web-core/sender/recorder';
 
 export function useRecorder(
   allowSpeech: MaybeRefOrGetter<SenderAllowSpeech | undefined>,
@@ -32,133 +31,71 @@ export function useRecorder(
   const permissionDenied = shallowRef(false);
   const captureError = shallowRef<string>();
   const recorder = shallowRef<ReturnType<typeof Recorder>>();
-  let mounted = false;
-  let supportChecked = false;
-  let disposed = false;
-
-  const available = computed(
-    () => Boolean(config.value) && supported.value && !permissionDenied.value,
-  );
-  const statusText = computed(() => {
-    if (requesting.value) return t('sender.speech.requestingPermission');
-    if (permissionDenied.value) return t('sender.speech.permissionDenied');
-    if (captureError.value) return t('sender.speech.microphoneUnavailable');
-    if (!supported.value) return t('sender.speech.unsupported');
-    if (recording.value) return t('sender.speech.stop');
-    return t('sender.speech.start');
-  });
-
-  const close = () => {
-    recorder.value?.close();
-    recorder.value = undefined;
-    recording.value = false;
-    level.value = 0;
-    requesting.value = false;
-    stopping.value = false;
-  };
-
-  const stop = () => {
-    const current = recorder.value;
-    if (!current || !recording.value || requesting.value || stopping.value) return;
-    stopping.value = true;
-    const finish = () => {
-      recording.value = false;
-      level.value = 0;
-      requesting.value = false;
-      stopping.value = false;
-      recorder.value = undefined;
-    };
-    current.stop(
-      (blob: Blob, duration: number, mime: string) => {
-        if (disposed || recorder.value !== current) return;
-        options.onStop?.(blob, duration, mime);
-        finish();
+  const controller = createSenderRecorder(
+    {
+      get config() {
+        return config.value;
       },
-      (message: string) => {
-        if (disposed || recorder.value !== current) return;
-        options.onError?.(message, false);
-        finish();
+      get available(): boolean {
+        return available.value;
       },
-      true,
-    );
-  };
-
-  const start = () => {
-    if (!available.value || requesting.value || recording.value || stopping.value) return;
-    requesting.value = true;
-    permissionDenied.value = false;
-    captureError.value = undefined;
-    const recorderOptions: Record<string, unknown> =
-      config.value && typeof config.value === 'object'
-        ? (config.value as Record<string, unknown>)
-        : {};
-    const originalOnProcess =
-      typeof recorderOptions.onProcess === 'function'
-        ? (recorderOptions.onProcess as (...args: unknown[]) => void)
-        : undefined;
-    const current = Recorder({
-      ...recorderOptions,
-      onProcess: function (this: unknown, ...args: unknown[]) {
-        const power = args[1];
-        if (typeof power === 'number') level.value = Math.min(1, Math.max(0, power / 100));
-        return originalOnProcess?.apply(this, args);
+      get supported() {
+        return supported.value;
       },
-    });
-    recorder.value = current;
-    current.open(
-      () => {
-        // open 进行中若被 close（禁用/卸载）或被新的 start 取代，recorder.value 已不再是 current，
-        // 此时视为过期：关闭实例但不切换状态，避免禁用后仍开始录音。
-        if (disposed || recorder.value !== current) {
-          current.close();
-          return;
-        }
-        current.start();
-        recording.value = true;
-        requesting.value = false;
+      set supported(value) {
+        supported.value = value;
       },
-      (message: string, isUserNotAllow: boolean) => {
-        current.close();
-        if (disposed || recorder.value !== current) return;
-        recorder.value = undefined;
-        permissionDenied.value = isUserNotAllow;
-        if (!isUserNotAllow) captureError.value = message;
-        recording.value = false;
-        requesting.value = false;
-        options.onError?.(message, isUserNotAllow);
+      get recording() {
+        return recording.value;
       },
-    );
-  };
-
-  const trigger = () => {
-    if (recording.value) stop();
-    else start();
-  };
-
-  const checkSupport = () => {
-    if (supportChecked) return;
-    supportChecked = true;
-    supported.value = Recorder.Support();
-  };
-
-  onMounted(() => {
-    mounted = true;
-    if (config.value) checkSupport();
-  });
-
-  watch(
-    () => Boolean(config.value),
-    (enabled) => {
-      if (enabled && mounted) checkSupport();
-      else if (!enabled) close();
+      set recording(value) {
+        recording.value = value;
+      },
+      get level() {
+        return level.value;
+      },
+      set level(value) {
+        level.value = value;
+      },
+      get requesting() {
+        return requesting.value;
+      },
+      set requesting(value) {
+        requesting.value = value;
+      },
+      get stopping() {
+        return stopping.value;
+      },
+      set stopping(value) {
+        stopping.value = value;
+      },
+      get permissionDenied() {
+        return permissionDenied.value;
+      },
+      set permissionDenied(value) {
+        permissionDenied.value = value;
+      },
+      get captureError() {
+        return captureError.value;
+      },
+      set captureError(value) {
+        captureError.value = value;
+      },
+      get recorder() {
+        return recorder.value;
+      },
+      set recorder(value) {
+        recorder.value = value;
+      },
     },
+    Recorder,
+    options,
   );
-
-  onBeforeUnmount(() => {
-    disposed = true;
-    close();
-  });
-
+  const available = computed(controller.available);
+  const statusText = computed(() => t(controller.statusKey()));
+  onMounted(controller.mount);
+  watch(() => Boolean(config.value), controller.syncEnabled);
+  onBeforeUnmount(controller.dispose);
   return {
     Recorder,
     available,
@@ -168,6 +105,6 @@ export function useRecorder(
     requesting,
     stopping,
     statusText,
-    trigger,
+    trigger: controller.trigger,
   };
 }

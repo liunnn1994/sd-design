@@ -93,3 +93,7 @@ SelectableCard 用于在有限数量的方案中进行选择。组件采用受�
 | value       | 主要值               |
 | description | 描述                 |
 | actions     | 按钮、标签等操作内容 |
+
+## 无框架规则
+
+选择请求、交互子元素过滤和原生 checkbox 恢复由 `@sdata/web-core/selectable-card/foundation` 提供；同模块导出 `toCssSize`，数字 padding 按四单位换算。Vue 继续持有受控 props、ID、插槽与样式计算；change 后读取当前受控值恢复 checkbox。

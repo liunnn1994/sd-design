@@ -36,6 +36,8 @@
 <script setup lang="ts">
   import { computed, inject, type PropType, type VNode, type VNodeChild } from 'vue';
 
+  import { createTableOperationFoundation } from '@sdata/web-core/table/cell';
+
   import type { BaseType } from '../_utils/types';
   import type { TableContext } from './context';
   import type { TableDataWithRaw, TableOperationColumn } from './interface';
@@ -45,13 +47,7 @@
   import IconDragDotVertical from '../icon/icon-drag-dot-vertical';
   import Radio from '../radio';
   import { tableInjectionKey } from './context';
-  import {
-    getGridSpanStyle,
-    getLeafKeys,
-    getOperationFixedCls,
-    getOperationStyle,
-    getSelectionStatus,
-  } from './utils';
+  import { getGridSpanStyle, getOperationFixedCls, getOperationStyle } from './utils';
 
   defineOptions({ name: 'OperationTd' });
 
@@ -115,30 +111,23 @@
     ...getOperationFixedCls(prefixCls, props.operationColumn),
   ]);
 
-  const leafKeys = computed(() =>
-    getLeafKeys(props.record).filter(
-      (key) => tableCtx.currentAllEnabledRowKeys?.includes(key) ?? true,
-    ),
-  );
-  const selectionStatus = computed(() =>
-    getSelectionStatus(tableCtx.currentSelectedRowKeys ?? [], leafKeys.value),
-  );
-  const isTreeSelection = computed(() => !tableCtx.checkStrictly && !props.record.isLeaf);
-  const checkboxValue = computed(() =>
-    isTreeSelection.value
-      ? selectionStatus.value.checked
-      : (props.selectedRowKeys?.includes(props.record.key) ?? false),
-  );
+  const foundation = createTableOperationFoundation(props, tableCtx, {
+    get leafKeys(): Array<string | number> {
+      return leafKeys.value;
+    },
+    get selectionStatus(): { checked: boolean; indeterminate: boolean } {
+      return selectionStatus.value;
+    },
+    get isTreeSelection(): boolean {
+      return isTreeSelection.value;
+    },
+  });
+  const leafKeys = computed(foundation.getEnabledLeafKeys);
+  const selectionStatus = computed(foundation.getCurrentSelectionStatus);
+  const isTreeSelection = computed(foundation.getIsTreeSelection);
+  const checkboxValue = computed(foundation.getCheckboxValue);
 
-  const handleCheckboxChange = (checked: unknown) => {
-    if (isTreeSelection.value) {
-      tableCtx.onSelectAllLeafs?.(props.record, checked as boolean);
-    } else {
-      tableCtx.onSelect?.(checked as boolean, props.record);
-    }
-  };
+  const handleCheckboxChange = foundation.handleCheckboxChange;
 
-  const handleRadioChange = (checked: unknown) => {
-    tableCtx.onSelect?.(checked as boolean, props.record);
-  };
+  const handleRadioChange = foundation.handleRadioChange;
 </script>

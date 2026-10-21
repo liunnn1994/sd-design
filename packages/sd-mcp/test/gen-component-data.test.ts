@@ -3,6 +3,31 @@ import test from 'node:test';
 
 import { buildApiMap, getComponentSources } from '../scripts/gen-component-data.ts';
 
+test('RichTextEditor retains shared engine emits and local Vue props in generated metadata', async () => {
+  const api = (await buildApiMap()).get('components/rich-text-editor')?.get('sd-rich-text-editor');
+  assert.ok(api);
+  for (const name of [
+    'update:model-value',
+    'change',
+    'update',
+    'ready',
+    'focus',
+    'blur',
+    'error',
+  ]) {
+    assert.ok(
+      api.events.some((event) => event.name === name),
+      `missing RichTextEditor event: ${name}`,
+    );
+  }
+  for (const name of ['model-value', 'default-value', 'history-max-depth', 'transformers']) {
+    assert.ok(
+      api.props.some((prop) => prop.name === name),
+      `missing RichTextEditor prop: ${name}`,
+    );
+  }
+});
+
 test('components sharing a displayName keep their own API', async () => {
   const map = await buildApiMap();
 
@@ -87,6 +112,11 @@ test('clamp variants expose their own props, slots and generic-component events'
   const wrap = clamp.get('sd-wrap-clamp');
   assert.ok(line && rich && inline && wrap);
   assert.ok(line.props.some((prop) => prop.name === 'text'));
+  for (const component of [line, rich, wrap]) {
+    assert.equal(component.props.find((prop) => prop.name === 'expanded')?.default, 'false');
+    assert.ok(component.events.some((event) => event.name === 'update:expanded'));
+    assert.ok(component.events.some((event) => event.name === 'clampchange'));
+  }
   assert.ok(rich.props.some((prop) => prop.name === 'html'));
   assert.ok(!rich.props.some((prop) => prop.name === 'text'));
   assert.ok(inline.props.some((prop) => prop.name === 'split'));
@@ -146,6 +176,8 @@ test('discovers new public contracts without component names or file paths in a 
         type Settings = { active?: boolean };
         defineOptions({ name: 'LivePanel' });
         defineProps<Settings>();
+        defineModel<string>('selected', { default: 'today' });
+        defineEmits<{ save: [value: string] }>();
       </script>`,
       'components/toast-service/index.ts': `export interface ToastServiceConfig { duration?: number; }
         export interface ToastServiceMethod { notify(config: ToastServiceConfig): void; }
@@ -181,6 +213,14 @@ test('discovers new public contracts without component names or file paths in a 
     assert.equal(apis.get('viewport')?.events[0].name, 'resize');
     assert.equal(apis.get('clip-label')?.props[0].name, 'text');
     assert.equal(apis.get('live-panel')?.props[0].type, 'boolean | undefined');
+    assert.equal(
+      apis.get('live-panel')?.props.find((prop) => prop.name === 'selected')?.default,
+      "'today'",
+    );
+    assert.deepEqual(
+      apis.get('live-panel')?.events.map((event) => event.name),
+      ['update:selected', 'save'],
+    );
   } finally {
     await rm(root, { recursive: true, force: true });
   }
@@ -209,7 +249,7 @@ test('components recovered from type contracts are fully documented', async () =
 });
 
 test('third-party contracts stay visible even though they carry no docs', async () => {
-  // markstream-vue / vue-clamp 的类型在仓库内没有声明处，只能保持原样
+  // 渲染引擎契约与本地适配的 Clamp 变体即使没有字段注释也应保持可发现。
   const map = await buildApiMap();
   for (const tag of ['sd-markdown-render', 'sd-line-clamp', 'sd-wrap-clamp']) {
     let found = false;

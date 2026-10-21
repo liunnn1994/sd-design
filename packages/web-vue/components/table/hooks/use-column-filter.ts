@@ -1,11 +1,10 @@
 import type { Ref } from 'vue';
 import { computed, ref, watch } from 'vue';
 
+import { createColumnFilterFoundation } from '@sdata/web-core/table/column-filter';
+
 import type { TableContext } from '../context';
 import type { TableColumnData } from '../interface';
-
-import { isArray } from '../../_utils/is';
-import { isEqual } from '../../_utils/is-equal';
 
 export const useColumnFilter = ({
   column,
@@ -14,54 +13,43 @@ export const useColumnFilter = ({
   column: Ref<TableColumnData>;
   tableCtx: Partial<TableContext>;
 }) => {
-  const filterValue = computed(() => {
-    if (column.value.dataIndex && tableCtx.filters?.[column.value.dataIndex]) {
-      return tableCtx.filters[column.value.dataIndex];
-    }
-    return [];
-  });
-
-  const filterPopupVisible = ref(false);
-  const isFilterActive = computed(() => filterValue.value.length > 0);
-  const isMultipleFilter = computed(() => Boolean(column.value.filterable?.multiple));
-  const columnFilterValue = ref<string[]>(filterValue.value);
-
-  watch(filterValue, (value) => {
-    if (isArray(value) && !isEqual(value, columnFilterValue.value)) {
+  const foundation = createColumnFilterFoundation({
+    get column() {
+      return column.value;
+    },
+    get context() {
+      return tableCtx;
+    },
+    get filterValue() {
+      return filterValue.value;
+    },
+    get filterPopupVisible() {
+      return filterPopupVisible.value;
+    },
+    set filterPopupVisible(value) {
+      filterPopupVisible.value = value;
+    },
+    get columnFilterValue() {
+      return columnFilterValue.value;
+    },
+    set columnFilterValue(value) {
       columnFilterValue.value = value;
-    }
+    },
   });
-
-  const handleFilterPopupVisibleChange = (value: boolean) => {
-    filterPopupVisible.value = value;
-  };
-
-  const setFilterValue = (filterValue: string[]) => {
-    columnFilterValue.value = filterValue;
-  };
-
-  const handleCheckboxFilterChange = (values: string[]) => {
-    setFilterValue(values);
-  };
-
-  const handleRadioFilterChange = (value: string) => {
-    setFilterValue([value]);
-  };
-
-  const handleFilterConfirm = (ev: Event) => {
-    if (column.value.dataIndex) {
-      tableCtx.onFilterChange?.(column.value.dataIndex, columnFilterValue.value, ev);
-    }
-    handleFilterPopupVisibleChange(false);
-  };
-
-  const handleFilterReset = (ev: Event) => {
-    setFilterValue([]);
-    if (column.value.dataIndex) {
-      tableCtx.onFilterChange?.(column.value.dataIndex, columnFilterValue.value, ev);
-    }
-    handleFilterPopupVisibleChange(false);
-  };
+  const filterValue = computed(foundation.getFilterValue);
+  const filterPopupVisible = ref(false);
+  const isFilterActive = computed(foundation.isFilterActive);
+  const isMultipleFilter = computed(foundation.isMultipleFilter);
+  const columnFilterValue = ref<string[]>(filterValue.value);
+  watch(filterValue, foundation.syncFilterValue);
+  const {
+    handleFilterPopupVisibleChange,
+    setFilterValue,
+    handleCheckboxFilterChange,
+    handleRadioFilterChange,
+    handleFilterConfirm,
+    handleFilterReset,
+  } = foundation;
 
   return {
     filterPopupVisible,

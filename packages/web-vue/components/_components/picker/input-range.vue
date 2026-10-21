@@ -53,6 +53,7 @@
 <script setup lang="ts">
   import { computed, PropType, ref, toRef, toRefs, useSlots } from 'vue';
 
+  import { createPickerRangeInputFoundation } from '@sdata/web-core/picker/input';
   import { Dayjs } from 'dayjs';
 
   import { useFitWidth } from '../../_hooks/use-fit-width';
@@ -64,7 +65,6 @@
   } from '../../_hooks/use-readonly-tip';
   import { useSize } from '../../_hooks/use-size';
   import { getPrefixCls } from '../../_utils/global-config';
-  import { isArray, isDayjs, isFunction, isNumber, isUndefined } from '../../_utils/is';
   import IconClose from '../../icon/icon-close';
   import Tooltip from '../../tooltip';
   import FeedbackIcon from '../feedback-icon.vue';
@@ -136,7 +136,7 @@
 
   const slots = useSlots();
 
-  const { error, focused, disabled, size, value, format, focusedIndex, inputValue } = toRefs(props);
+  const { error, focused, size, focusedIndex } = toRefs(props);
   const {
     mergedSize: _mergedSize,
     mergedDisabled,
@@ -154,12 +154,32 @@
   const refInput0 = ref<HTMLInputElement>();
   const refInput1 = ref<HTMLInputElement>();
 
-  const getDisabled = (index: number): boolean => {
-    if (mergedDisabled.value) {
+  const foundation = createPickerRangeInputFoundation({
+    get mergedDisabled() {
       return mergedDisabled.value;
-    }
-    return isArray(disabled.value) ? disabled.value[index] : disabled.value;
-  };
+    },
+    get disabled() {
+      return props.disabled;
+    },
+    get focusedIndex() {
+      return props.focusedIndex;
+    },
+    get inputValue() {
+      return props.inputValue;
+    },
+    get value() {
+      return props.value;
+    },
+    get format() {
+      return props.format;
+    },
+    get inputs() {
+      return [refInput0.value, refInput1.value] as const;
+    },
+    emitFocusedIndexChange: (index) => emit('focused-index-change', index),
+    emitUpdateFocusedIndex: (index) => emit('update:focusedIndex', index),
+  });
+  const { getDisabled, getDisplayValue, changeFocusedInput, focus, blur } = foundation;
   const disabled0 = computed(() => getDisabled(0));
   const disabled1 = computed(() => getDisabled(1));
 
@@ -188,19 +208,6 @@
     ];
   }
 
-  function getDisplayValue(index: number) {
-    if (inputValue?.value) {
-      return inputValue?.value?.[index];
-    }
-    const targetValue = value?.value?.[index];
-    if (targetValue && isDayjs(targetValue)) {
-      return isFunction(format.value)
-        ? format.value(targetValue)
-        : targetValue.format(format.value);
-    }
-    return undefined;
-  }
-
   const displayValue0 = computed(() => getDisplayValue(0));
   const displayValue1 = computed(() => getDisplayValue(1));
   const { fitWidthStyle: fitWidthStyle0, fitWidthValue } = useFitWidth({
@@ -225,11 +232,6 @@
       : undefined,
   );
 
-  function changeFocusedInput(index: number) {
-    emit('focused-index-change', index);
-    emit('update:focusedIndex', index);
-  }
-
   function onChange(e: Event) {
     e.stopPropagation();
     emit('change', e);
@@ -251,20 +253,6 @@
 
   function onClear(e: Event) {
     emit('clear', e);
-  }
-
-  function focus(index?: number) {
-    const targetIndex = isNumber(index) ? index : focusedIndex!.value;
-    const targetElement = targetIndex === 0 ? refInput0.value : refInput1.value;
-    !isUndefined(targetIndex) &&
-      !getDisabled(targetIndex) &&
-      targetElement &&
-      targetElement.focus &&
-      targetElement.focus();
-  }
-  function blur() {
-    const targetElement = focusedIndex!.value === 0 ? refInput0.value : refInput1.value;
-    targetElement && targetElement.blur && targetElement.blur();
   }
 
   defineExpose({ focus, blur });

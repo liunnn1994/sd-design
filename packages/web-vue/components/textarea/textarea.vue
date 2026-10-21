@@ -59,6 +59,8 @@
     watch,
   } from 'vue';
 
+  import { createTextInputFoundation } from '@sdata/web-core/text-input/foundation';
+
   import IconHover from '../_components/icon-hover.vue';
   import ResizeObserver from '../_components/resize-observer.vue';
   import { useAllowClear } from '../_hooks/use-allow-clear';
@@ -72,8 +74,7 @@
   } from '../_hooks/use-readonly-tip';
   import { INPUT_EVENTS } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
-  import { countGraphemes, sliceGraphemes } from '../_utils/grapheme';
-  import { isFunction, isNull, isObject, isUndefined } from '../_utils/is';
+  import { isObject } from '../_utils/is';
   import { isActivationKey } from '../_utils/keyboard';
   import { omit } from '../_utils/omit';
   import pick from '../_utils/pick';
@@ -281,41 +282,10 @@
       : undefined,
   );
 
-  watch(modelValue!, (value) => {
-    if (isUndefined(value) || isNull(value)) {
-      _value.value = '';
-    }
-  });
-
-  const maxLengthErrorOnly = computed(
-    () => isObject(props.maxLength) && Boolean(props.maxLength.errorOnly),
-  );
-
-  const computedMaxLength = computed(() => {
-    if (isObject(props.maxLength)) {
-      return props.maxLength.length;
-    }
-    return props.maxLength;
-  });
-
-  const getValueLength = (value: string) => {
-    if (isFunction(props.wordLength)) {
-      return props.wordLength(value);
-    }
-    return countGraphemes(value);
-  };
-
-  const valueLength = computed(() => getValueLength(computedValue.value));
-
-  const mergedError = computed(
-    () =>
-      _mergedError.value ||
-      Boolean(
-        computedMaxLength.value &&
-        maxLengthErrorOnly.value &&
-        valueLength.value > computedMaxLength.value,
-      ),
-  );
+  const maxLengthErrorOnly = computed(() => foundation.getErrorOnly());
+  const computedMaxLength = computed(() => foundation.getMaxLength());
+  const valueLength = computed(() => foundation.getLength(computedValue.value));
+  const mergedError = computed(() => _mergedError.value || foundation.getLengthError());
 
   const isScroll = ref(false);
 
@@ -340,105 +310,82 @@
     });
   };
 
-  const updateValue = (value: string, inner = true) => {
-    if (
-      computedMaxLength.value &&
-      !maxLengthErrorOnly.value &&
-      getValueLength(value) > computedMaxLength.value
-    ) {
-      if (isFunction(props.wordSlice)) {
-        value = props.wordSlice(value, computedMaxLength.value);
-      } else if (isFunction(props.wordLength)) {
-        value = value.slice(0, computedMaxLength.value);
-      } else {
-        value = sliceGraphemes(value, computedMaxLength.value);
-      }
-    }
-
-    _value.value = value;
-    if (inner) {
-      emit('update:modelValue', value);
-    }
-
-    keepControl();
-    return value;
+  const foundation = createTextInputFoundation(
+    {
+      get options() {
+        return props;
+      },
+      get value() {
+        return computedValue.value;
+      },
+      get valueLength() {
+        return valueLength.value;
+      },
+      get maxLength() {
+        return computedMaxLength.value;
+      },
+      get errorOnly() {
+        return maxLengthErrorOnly.value;
+      },
+      get sliceLength() {
+        return computedMaxLength.value;
+      },
+      get composing() {
+        return isComposition.value;
+      },
+      setInner: (value) => {
+        _value.value = value;
+      },
+      setComposing: (value) => {
+        isComposition.value = value;
+      },
+      setFocused: (value) => {
+        focused.value = value;
+      },
+      setCompositionValue: (value) => {
+        void value;
+      },
+      keepControl,
+      onUpdate: (value) => emit('update:modelValue', value),
+      onInput: (value, event) => {
+        emit('input', value, event);
+        eventHandlers.value?.onInput?.(event);
+      },
+      onChange: (value, event) => {
+        emit('change', value, event);
+        eventHandlers.value?.onChange?.(event);
+      },
+      onFocus: (event) => {
+        emit('focus', event);
+        eventHandlers.value?.onFocus?.(event);
+      },
+      onBlur: (event) => {
+        emit('blur', event);
+        eventHandlers.value?.onBlur?.(event);
+      },
+      onClear: (event) => emit('clear', event),
+      onEnter: (event) => {
+        void event;
+      },
+    },
+    'textarea',
+  );
+  watch(modelValue!, foundation.syncModel);
+  const handleFocus = foundation.focus;
+  const handleBlur = foundation.blur;
+  const handleClear = foundation.clear;
+  const handleComposition = (event: CompositionEvent) => {
+    const { value, selectionStart, selectionEnd } = event.target as HTMLInputElement;
+    foundation.composition(value, event, selectionStart, selectionEnd);
+  };
+  const handleInput = (event: Event) => {
+    foundation.input(
+      (event.target as HTMLInputElement).value,
+      (event as InputEvent).inputType,
+      event,
+    );
   };
 
-  let preValue = computedValue.value;
-  const emitChange = (value: string, ev: Event) => {
-    if (value !== preValue) {
-      preValue = value;
-      emit('change', value, ev);
-      eventHandlers.value?.onChange?.(ev);
-    }
-  };
-
-  const handleFocus = (ev: FocusEvent) => {
-    focused.value = true;
-    preValue = computedValue.value;
-    emit('focus', ev);
-    eventHandlers.value?.onFocus?.(ev);
-  };
-
-  const handleBlur = (ev: FocusEvent) => {
-    focused.value = false;
-    emit('blur', ev);
-    eventHandlers.value?.onBlur?.(ev);
-    emitChange(computedValue.value, ev);
-  };
-
-  const handleComposition = (e: CompositionEvent) => {
-    const { value } = e.target as HTMLInputElement;
-
-    if (e.type === 'compositionend') {
-      isComposition.value = false;
-
-      if (
-        computedMaxLength.value &&
-        !maxLengthErrorOnly.value &&
-        valueLength.value >= computedMaxLength.value &&
-        getValueLength(value) > computedMaxLength.value
-      ) {
-        keepControl();
-        return;
-      }
-
-      const nextValue = updateValue(value);
-      emit('input', nextValue, e);
-      eventHandlers.value?.onInput?.(e);
-    } else {
-      isComposition.value = true;
-    }
-  };
-
-  const handleInput = (e: InputEvent) => {
-    const { value } = e.target as HTMLInputElement;
-
-    if (!isComposition.value) {
-      if (
-        computedMaxLength.value &&
-        !maxLengthErrorOnly.value &&
-        valueLength.value >= computedMaxLength.value &&
-        getValueLength(value) > computedMaxLength.value &&
-        e.inputType === 'insertText'
-      ) {
-        keepControl();
-        return;
-      }
-
-      const nextValue = updateValue(value);
-      emit('input', nextValue, e);
-      eventHandlers.value?.onInput?.(e);
-    }
-  };
-
-  const handleClear = (ev: MouseEvent) => {
-    updateValue('');
-    emitChange('', ev);
-    emit('clear', ev);
-  };
-
-  // 清除按钮（role=button，图标无原生按钮语义）：Enter/Space 触发
   const handleClearKeydown = (ev: KeyboardEvent) => {
     if (isActivationKey(ev)) {
       ev.preventDefault();
@@ -457,7 +404,7 @@
     () => modelValue!.value,
     (value: string | undefined) => {
       if (value !== computedValue.value) {
-        updateValue(value ?? '', false);
+        foundation.updateValue(value ?? '', false);
       }
     },
   );

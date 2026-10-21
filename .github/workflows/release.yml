@@ -10,6 +10,7 @@ on:
       - package.json
       - pnpm-lock.yaml
       - pnpm-workspace.yaml
+      - packages/web-core/**
       - packages/web-vue/**
   workflow_dispatch:
 
@@ -22,7 +23,7 @@ permissions:
 concurrency:
   # 独立 concurrency 组：不与其它 release workflow 共享。共享组会在一次 push 同时触发
   # 多个 release workflow 时无差别取消其中一个 pending run（曾导致 mcp / resolver 漏发版）。
-  # 仅 web-vue 会把 CHANGELOG.md / package.json 的发布提交写回 main。
+  # 仅此 workflow 同步 Core/Vue 版本并把清单及 Vue CHANGELOG 的发布提交写回 main。
   group: release-web-vue-${{ github.ref }}
   cancel-in-progress: false
 
@@ -35,6 +36,9 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
+
+      - name: Sync with latest main before validation
+        run: git pull --rebase origin main
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -53,9 +57,15 @@ jobs:
       - name: Typecheck
         run: pnpm run typecheck
 
+      - name: Validate shared foundations and compatibility
+        run: pnpm run test:foundations
+
       - name: Validate affected-specs selector
         working-directory: packages/web-vue
         run: pnpm run test:affected:unit
+
+      - name: Validate coordinated Core and Vue releases
+        run: node --test packages/web-vue/scripts/release-packages.test.ts
 
       - name: Select affected component tests
         id: affected-tests
@@ -83,17 +93,13 @@ jobs:
           NODE_OPTIONS: '--max-old-space-size=6144'
         run: pnpm --filter @sdata/web-vue run build
 
-      - name: Sync with latest main before release
-        run: git pull --rebase origin main
-
       - name: Release web-vue
-        working-directory: packages/web-vue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # semantic-release 的 git push 不应被本地开发者用的 pre-push 钩子拦截
           # （该钩子会跑全量 typecheck，CI 发布时可能因缺少某些构建产物而中断发布）
           SKIP_SIMPLE_GIT_HOOKS: '1'
-        run: pnpm exec semantic-release
+        run: node packages/web-vue/node_modules/semantic-release/bin/semantic-release.js --extends ./packages/web-vue/release.config.ts
 
       - name: Show error
         if: failure()

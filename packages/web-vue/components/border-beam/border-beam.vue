@@ -130,6 +130,8 @@
 <script lang="ts" setup>
   import { ref, computed, watch, onMounted, onUnmounted, nextTick, shallowRef } from 'vue';
 
+  import { createBorderBeamFoundation } from '@sdata/web-core/border-beam/foundation';
+
   import type {
     BorderBeamTheme,
     BorderBeamSize,
@@ -142,8 +144,6 @@
   import { useBeamPreferences } from '../_hooks/use-beam-preferences';
   import { getPrefixCls } from '../_utils/global-config';
   import { nextInstanceId } from './instance-id';
-  import { registerPulseInstance } from './pulseDriver';
-  import { sizePresets, sizeThemePresets, generateBeamCSS, getPulseDriverConfig } from './styles';
 
   defineOptions({ name: 'BorderBeam' });
 
@@ -254,15 +254,11 @@
   // ── System theme detection ──────────────────────────────────────────────────
   const { systemTheme, reducedMotion } = useBeamPreferences();
 
-  function resolveTheme(theme: BorderBeamTheme, sysTheme: 'dark' | 'light'): 'dark' | 'light' {
-    return theme === 'auto' ? sysTheme : theme;
-  }
-
   // ── DOM ref ─────────────────────────────────────────────────────────────────
   const wrapperRef = ref<HTMLDivElement | null>(null);
 
   // ── Internal state ──────────────────────────────────────────────────────────
-  const isActive = ref(props.active);
+  const isActive = ref(false);
   const isFading = ref(false);
   const isVisible = ref(true);
   const detectedRadius = ref<number | null>(null);
@@ -273,451 +269,159 @@
   const flowRadius = shallowRef(0);
   const flowBox = shallowRef({ width: 1, height: 1 });
   const flowSeed = shallowRef(1);
-  let flowTimer: number | null = null;
-
-  // ── Flow entrance state ──────────────────────────────────────────────────────
-  function clearFlowTimer() {
-    if (!flowTimer) return;
-    window.clearTimeout(flowTimer);
-    flowTimer = null;
-  }
-
-  function finishFlow() {
-    clearFlowTimer();
-    isFlowing.value = false;
-
-    // Reconcile to the `active` prop once the one-shot entrance is done. The
-    // `active` watcher only fires on prop *changes*, so a steady `active=false`
-    // would otherwise leave the beam stuck on after `flowFrom` forced it active.
-    // With this, a controlled `active=false` fades the border out (and reduced-
-    // motion users skip straight to hidden).
-    if (!props.active && isActive.value && !isFading.value) {
-      if (shouldReduceMotion()) {
-        isActive.value = false;
-      } else {
-        isFading.value = true;
-      }
-    }
-  }
-
-  function resolveFlowPoint(
-    coordinate: BorderBeamFlowCoordinate | undefined,
-    rect: DOMRect,
-  ): BorderBeamFlowPoint {
-    const value = coordinate ?? 'top-right';
-
-    if (typeof value !== 'string') {
-      return { x: value.x, y: value.y };
-    }
-
-    switch (value) {
-      case 'top-left':
-        return { x: 0, y: 0 };
-      case 'bottom-left':
-        return { x: 0, y: rect.height };
-      case 'bottom-right':
-        return { x: rect.width, y: rect.height };
-      case 'center':
-        return { x: rect.width / 2, y: rect.height / 2 };
-      case 'top-right':
-      default:
-        return { x: rect.width, y: 0 };
-    }
-  }
-
-  function getFlowRadius(point: BorderBeamFlowPoint, rect: DOMRect): number {
-    return (
-      Math.max(
-        Math.hypot(point.x, point.y),
-        Math.hypot(rect.width - point.x, point.y),
-        Math.hypot(point.x, rect.height - point.y),
-        Math.hypot(rect.width - point.x, rect.height - point.y),
-      ) + 48
-    );
-  }
-
-  function getFlowSeed(point: BorderBeamFlowPoint): number {
-    return Math.max(1, Math.round((point.x * 3 + point.y * 5 + flowKey.value * 17) % 997));
-  }
-
-  const flowDisplacement = computed(() => Math.max(8, Math.min(24, flowRadius.value * 0.07)));
-  const flowColors = computed(() => {
-    const isDark = resolvedTheme.value === 'dark';
-    const variants = {
-      colorful: isDark
-        ? { accent: '#65d8ff', edge: '#b060ff' }
-        : { accent: '#2785ff', edge: '#8d50d8' },
-      mono: isDark
-        ? { accent: '#f4f4f0', edge: '#b7bbb8' }
-        : { accent: '#4b5250', edge: '#8a908d' },
-      ocean: isDark
-        ? { accent: '#68c8ff', edge: '#7a77ff' }
-        : { accent: '#2c76d8', edge: '#6356c8' },
-      sunset: isDark
-        ? { accent: '#ffb25f', edge: '#ff646f' }
-        : { accent: '#dd6b22', edge: '#c84450' },
-    }[props.colorVariant];
-
-    return {
-      core: isDark ? '#f8fdff' : '#ffffff',
-      mist: isDark ? '#b9f2ff' : '#e9fbff',
-      specular: isDark ? 'rgba(255, 255, 255, 0.5)' : 'rgba(255, 255, 255, 0.38)',
-      front: variants.accent,
-      ...variants,
-    };
-  });
-
-  function shouldReduceMotion() {
-    return (
-      typeof window !== 'undefined' &&
-      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-    );
-  }
-
-  function flowFrom(coordinate?: BorderBeamFlowCoordinate) {
-    const el = wrapperRef.value;
-    if (!el) return;
-
-    const rect = el.getBoundingClientRect();
-    const point = resolveFlowPoint(coordinate, rect);
-
-    flowKey.value += 1;
-    flowBox.value = { width: Math.max(1, rect.width), height: Math.max(1, rect.height) };
-    flowPoint.value = point;
-    flowRadius.value = getFlowRadius(point, rect);
-    flowSeed.value = getFlowSeed(point);
-    isActive.value = true;
-    isFading.value = false;
-
-    if (shouldReduceMotion()) {
-      finishFlow();
-      return;
-    }
-
-    clearFlowTimer();
-    isFlowing.value = true;
-    flowTimer = window.setTimeout(finishFlow, 760);
-  }
-
-  function handleFlowAnimationEnd() {
-    finishFlow();
-  }
-
+  const foundation = createBorderBeamFoundation(
+    {
+      id,
+      props,
+      get wrapper() {
+        return wrapperRef.value;
+      },
+      get isActive() {
+        return isActive.value;
+      },
+      set isActive(value) {
+        isActive.value = value;
+      },
+      get isFading() {
+        return isFading.value;
+      },
+      set isFading(value) {
+        isFading.value = value;
+      },
+      get isVisible() {
+        return isVisible.value;
+      },
+      set isVisible(value) {
+        isVisible.value = value;
+      },
+      get detectedRadius() {
+        return detectedRadius.value;
+      },
+      set detectedRadius(value) {
+        detectedRadius.value = value;
+      },
+      get pulseGlowScale() {
+        return pulseGlowScale.value;
+      },
+      set pulseGlowScale(value) {
+        pulseGlowScale.value = value;
+      },
+      get isFlowing() {
+        return isFlowing.value;
+      },
+      set isFlowing(value) {
+        isFlowing.value = value;
+      },
+      get flowKey() {
+        return flowKey.value;
+      },
+      set flowKey(value) {
+        flowKey.value = value;
+      },
+      get flowPoint() {
+        return flowPoint.value;
+      },
+      set flowPoint(value) {
+        flowPoint.value = value;
+      },
+      get flowRadius() {
+        return flowRadius.value;
+      },
+      set flowRadius(value) {
+        flowRadius.value = value;
+      },
+      get flowBox() {
+        return flowBox.value;
+      },
+      set flowBox(value) {
+        flowBox.value = value;
+      },
+      get flowSeed() {
+        return flowSeed.value;
+      },
+      set flowSeed(value) {
+        flowSeed.value = value;
+      },
+      get systemTheme() {
+        return systemTheme.value;
+      },
+      get resolvedTheme() {
+        return resolvedTheme.value;
+      },
+      get themeConfig() {
+        return themeConfig.value;
+      },
+      get sizeConfig() {
+        return sizeConfig.value;
+      },
+      get isPulse() {
+        return isPulse.value;
+      },
+      get finalBorderRadius() {
+        return finalBorderRadius.value;
+      },
+      get finalDuration() {
+        return finalDuration.value;
+      },
+      get finalSaturation() {
+        return finalSaturation.value;
+      },
+      get finalBrightness() {
+        return finalBrightness.value;
+      },
+      get finalHueRange() {
+        return finalHueRange.value;
+      },
+      get finalStaticColors() {
+        return finalStaticColors.value;
+      },
+      get cssStyles() {
+        return cssStyles.value;
+      },
+      get driverConfig() {
+        return driverConfig.value;
+      },
+    },
+    {
+      afterRender: (task) => {
+        void nextTick(task);
+      },
+      activate: () => emit('activate'),
+      deactivate: () => emit('deactivate'),
+    },
+  );
+  const { flowFrom, handleFlowAnimationEnd, handleAnimationEnd } = foundation;
+  const flowDisplacement = computed(foundation.getFlowDisplacement);
+  const flowColors = computed(foundation.getFlowColors);
   defineExpose<BorderBeamExposed>({
     flowFrom,
   });
-
-  let mutationObserver: MutationObserver | null = null;
-
-  // 插槽根元素：跳过组件内部的 bloom/flow 装饰节点，避免无插槽内容时
-  // 测量到内部 bloom div
-  function getSlotElement(): HTMLElement | null {
-    const el = wrapperRef.value;
-    if (!el) return null;
-    for (const child of Array.from(el.children)) {
-      if (child.hasAttribute('data-beam-bloom') || child.hasAttribute('data-beam-flow')) continue;
-      return child as HTMLElement;
-    }
-    return null;
-  }
-
-  onMounted(() => {
-    let observedChild: HTMLElement | null = null;
-    const detect = () => {
-      const child = getSlotElement();
-      if (child !== observedChild && mutationObserver && wrapperRef.value) {
-        mutationObserver.disconnect();
-        mutationObserver.observe(wrapperRef.value, { childList: true });
-        if (child)
-          mutationObserver.observe(child, {
-            attributes: true,
-            attributeFilter: ['class', 'style'],
-          });
-        observedChild = child;
-        setupPulseGlowScale();
-      }
-      if (!child) {
-        detectedRadius.value = null;
-        return;
-      }
-      const computed = getComputedStyle(child);
-      const raw = parseFloat(computed.borderTopLeftRadius);
-      if (!isNaN(raw) && raw >= 0) {
-        detectedRadius.value = raw;
-      }
-    };
-
-    nextTick(() => {
-      const el = wrapperRef.value;
-      if (!el) return;
-      mutationObserver = new MutationObserver(detect);
-      mutationObserver.observe(el, {
-        childList: true,
-      });
-      detect();
-    });
-  });
-
-  // ── IntersectionObserver for offscreen pausing ──────────────────────────────
-  let intersectionCleanup: (() => void) | null = null;
-
-  onMounted(() => {
-    const el = wrapperRef.value;
-    if (!el || typeof IntersectionObserver === 'undefined') return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) isVisible.value = entry.isIntersecting;
-      },
-      { rootMargin: '256px' },
-    );
-
-    observer.observe(el);
-    intersectionCleanup = () => observer.disconnect();
-  });
-
-  onUnmounted(() => {
-    clearFlowTimer();
-    mutationObserver?.disconnect();
-  });
-
-  // ── Active / fading state management ────────────────────────────────────────
-  watch(
-    () => props.active,
-    (active) => {
-      if (active) {
-        isActive.value = true;
-        isFading.value = false;
-      } else if (!active && isActive.value && !isFading.value) {
-        if (shouldReduceMotion()) {
-          isActive.value = false;
-          emit('deactivate');
-        } else isFading.value = true;
-      }
-    },
-  );
-
-  onUnmounted(() => {
-    intersectionCleanup?.();
-  });
-
-  // ── Pulse-outside glow geometry ─────────────────────────────────────────────
-  let resizeObserverCleanup: (() => void) | null = null;
-  let resizeGeneration = 0;
-
-  function setupPulseGlowScale() {
-    const generation = ++resizeGeneration;
-    resizeObserverCleanup?.();
-    resizeObserverCleanup = null;
-
-    if (props.size !== 'pulse-outside') {
-      pulseGlowScale.value = { x: 1, y: 1 };
-      return;
-    }
-
-    const el = wrapperRef.value;
-    if (!el) return;
-
-    const REF_WIDTH = 350;
-    const REF_HEIGHT = 140;
-    const MIN_SCALE = 0.35;
-    const MAX_SCALE = 4;
-    const clamp = (value: number) => Math.max(MIN_SCALE, Math.min(MAX_SCALE, value));
-
-    const measure = () => {
-      const child = getSlotElement();
-      if (!child) {
-        pulseGlowScale.value = { x: 1, y: 1 };
-        return;
-      }
-      const rect = child.getBoundingClientRect();
-      if (!rect.width || !rect.height) return;
-      const x = +clamp(rect.width / REF_WIDTH).toFixed(3);
-      const y = +clamp(rect.height / REF_HEIGHT).toFixed(3);
-      if (pulseGlowScale.value.x !== x || pulseGlowScale.value.y !== y) {
-        pulseGlowScale.value = { x, y };
-      }
-    };
-
-    nextTick(() => {
-      if (generation !== resizeGeneration || !wrapperRef.value) return;
-      measure();
-      if (typeof ResizeObserver === 'undefined') return;
-      const child = getSlotElement();
-      if (!child) return;
-      const ro = new ResizeObserver(measure);
-      ro.observe(child);
-      resizeObserverCleanup = () => ro.disconnect();
-    });
-  }
-
-  watch(
-    () => props.size,
-    () => setupPulseGlowScale(),
-  );
-  onMounted(() => setupPulseGlowScale());
-  onUnmounted(() => {
-    resizeGeneration++;
-    resizeObserverCleanup?.();
-  });
-
-  // ── Animation end handler ───────────────────────────────────────────────────
-  function handleAnimationEnd(e: AnimationEvent) {
-    // 伪元素动画结束事件不参与 activate/deactivate 判定
-    if (e.pseudoElement) return;
-    // 只匹配本实例的 fade 动画名（精确匹配），插槽内元素自己的 fade-in-up
-    // 等动画不再误触
-    const animationName = e.animationName || '';
-    if (animationName === `beam-fade-out-${id}`) {
-      isActive.value = false;
-      isFading.value = false;
-      emit('deactivate');
-    } else if (animationName === `beam-fade-in-${id}`) {
-      emit('activate');
-    }
-  }
-
-  // ── Computed derived values ─────────────────────────────────────────────────
-  const resolvedTheme = computed(() => resolveTheme(props.theme, systemTheme.value));
-  const themeConfig = computed(() => sizeThemePresets[props.size][resolvedTheme.value]);
-  const sizeConfig = computed(() => sizePresets[props.size]);
-  const isPulse = computed(() => props.size === 'pulse-inner' || props.size === 'pulse-outside');
-
-  const finalBorderRadius = computed(
-    () => props.borderRadius ?? detectedRadius.value ?? sizeConfig.value.borderRadius,
-  );
-
-  function getDefaultDuration(size: BorderBeamSize, isPulse: boolean): number {
-    if (size === 'line') return 3.1;
-    if (isPulse) return 2.3;
-    return 1.96;
-  }
-
-  const finalDuration = computed(
-    () => props.duration ?? getDefaultDuration(props.size, isPulse.value),
-  );
-  const finalSaturation = computed(() => props.saturation ?? themeConfig.value.saturation);
-  const finalBrightness = computed(() => props.brightness ?? themeConfig.value.brightness ?? 1.3);
-  const finalHueRange = computed(() =>
-    props.size === 'line' ? Math.min(props.hueRange, 13) : props.hueRange,
-  );
-  const finalStaticColors = computed(() =>
-    props.colorVariant === 'mono' ? true : props.staticColors,
-  );
-
-  // ── Generate CSS ────────────────────────────────────────────────────────────
-  const cssStyles = computed(() =>
-    generateBeamCSS({
-      id,
-      borderRadius: finalBorderRadius.value,
-      borderWidth: sizeConfig.value.borderWidth,
-      duration: finalDuration.value,
-      strokeOpacity: themeConfig.value.strokeOpacity,
-      innerOpacity: themeConfig.value.innerOpacity,
-      bloomOpacity: themeConfig.value.bloomOpacity,
-      innerShadow: themeConfig.value.innerShadow,
-      size: props.size,
-      colorVariant: props.colorVariant,
-      staticColors: finalStaticColors.value,
-      brightness: finalBrightness.value,
-      saturation: finalSaturation.value,
-      hueRange: finalHueRange.value,
-      theme: resolvedTheme.value,
-      hairlineOpacity: themeConfig.value.hairlineOpacity,
-    }),
-  );
-
-  // ── Inject CSS into document head ───────────────────────────────────────────
-  let styleEl: HTMLStyleElement | null = null;
-
-  function ensureStyleEl(): HTMLStyleElement {
-    if (!styleEl) {
-      styleEl = document.createElement('style');
-      styleEl.setAttribute('data-beam-style', id);
-      document.head.appendChild(styleEl);
-    }
-    return styleEl;
-  }
-
-  onMounted(() => {
-    ensureStyleEl().textContent = cssStyles.value;
-  });
-
-  watch(cssStyles, (css) => {
-    ensureStyleEl().textContent = css;
-  });
-
-  onUnmounted(() => {
-    styleEl?.remove();
-    styleEl = null;
-  });
-
-  // ── Pulse driver ────────────────────────────────────────────────────────────
-  const driverConfig = computed(() =>
-    isPulse.value
-      ? getPulseDriverConfig(
-          props.size,
-          resolvedTheme.value,
-          finalDuration.value,
-          finalHueRange.value,
-          finalStaticColors.value,
-          id,
-        )
-      : null,
-  );
-
-  let unregisterPulse: (() => void) | null = null;
-
-  function syncPulseDriver() {
-    if (unregisterPulse) {
-      unregisterPulse();
-      unregisterPulse = null;
-    }
-
-    if (!driverConfig.value) return;
-    if (!(isActive.value || isFading.value) || !isVisible.value) return;
-
-    const el = wrapperRef.value;
-    if (!el) return;
-
-    if (
-      typeof window !== 'undefined' &&
-      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-    ) {
-      return;
-    }
-
-    unregisterPulse = registerPulseInstance(el, driverConfig.value);
-  }
-
-  onMounted(() => syncPulseDriver());
-  watch([driverConfig, isActive, isFading, isVisible, reducedMotion], () => syncPulseDriver());
-  watch(reducedMotion, (reduce) => {
-    if (!reduce) return;
-    if (isFlowing.value) finishFlow();
-    if (isFading.value) {
-      isActive.value = false;
-      isFading.value = false;
-      emit('deactivate');
-    }
-  });
-
-  onUnmounted(() => {
-    if (unregisterPulse) {
-      unregisterPulse();
-      unregisterPulse = null;
-    }
-  });
-
-  // ── Merged inline style (CSS custom properties) ─────────────────────────────
-  const mergedStyle = computed(() => ({
-    '--beam-strength': Math.max(0, Math.min(1, props.strength)),
-    '--beam-density': Math.max(0.1, props.density),
-    '--beam-flow-x': `${flowPoint.value.x}px`,
-    '--beam-flow-y': `${flowPoint.value.y}px`,
-    '--beam-flow-radius': `${flowRadius.value}px`,
-    ...(props.size === 'pulse-outside'
-      ? { '--pulse-glow-sx': pulseGlowScale.value.x, '--pulse-glow-sy': pulseGlowScale.value.y }
-      : {}),
-  }));
+  onMounted(foundation.mountRadius);
+  onMounted(foundation.mountIntersection);
+  onUnmounted(foundation.disposeFlow);
+  watch(() => props.active, foundation.syncActive);
+  onUnmounted(foundation.disposeIntersection);
+  watch(() => props.size, foundation.syncSize);
+  onMounted(foundation.mountScale);
+  onUnmounted(foundation.disposeScale);
+  const resolvedTheme = computed(foundation.getResolvedTheme);
+  const themeConfig = computed(foundation.getThemeConfig);
+  const sizeConfig = computed(foundation.getSizeConfig);
+  const isPulse = computed(foundation.getIsPulse);
+  const finalBorderRadius = computed(foundation.getFinalBorderRadius);
+  const finalDuration = computed(foundation.getFinalDuration);
+  const finalSaturation = computed(foundation.getFinalSaturation);
+  const finalBrightness = computed(foundation.getFinalBrightness);
+  const finalHueRange = computed(foundation.getFinalHueRange);
+  const finalStaticColors = computed(foundation.getFinalStaticColors);
+  const cssStyles = computed(foundation.getCssStyles);
+  onMounted(foundation.mountStyle);
+  watch(cssStyles, foundation.syncCss);
+  onUnmounted(foundation.disposeStyle);
+  const driverConfig = computed(foundation.getDriverConfig);
+  onMounted(foundation.mountPulse);
+  watch([driverConfig, isActive, isFading, isVisible, reducedMotion], foundation.syncPulse);
+  watch(reducedMotion, foundation.syncReducedMotion);
+  onUnmounted(foundation.disposePulse);
+  const mergedStyle = computed(foundation.getMergedStyle);
 </script>

@@ -6,6 +6,8 @@
   import type { CSSProperties } from 'vue';
   import { computed, nextTick, onMounted, onUpdated, ref } from 'vue';
 
+  import { getTabsInkStyle } from '@sdata/web-core/tabs/navigation';
+
   import { Direction } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
 
@@ -23,23 +25,9 @@
   const position = ref(0);
   const size = ref(0);
 
-  const style = computed<CSSProperties>(() => {
-    if (props.capsule) {
-      return props.direction === 'vertical'
-        ? { transform: `translateY(${position.value}px)`, height: `${size.value}px` }
-        : { transform: `translateX(${position.value}px)`, width: `${size.value}px` };
-    }
-    if (props.direction === 'vertical') {
-      return {
-        top: `${position.value}px`,
-        height: `${size.value}px`,
-      };
-    }
-    return {
-      left: `${position.value}px`,
-      width: `${size.value}px`,
-    };
-  });
+  const style = computed<CSSProperties>(() =>
+    getTabsInkStyle(props.capsule, props.direction, position.value, size.value),
+  );
 
   const getInkStyle = () => {
     const _activeTabRef = props.activeTabRef;

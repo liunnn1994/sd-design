@@ -15,7 +15,6 @@
     ".astro/types.d.ts",
     "src/**/*",
     "../web-vue/global.d.ts",
-    "../web-vue/components/shims.d.ts",
     "../web-vue/components/components.ts",
     "astro.config.ts"
   ],

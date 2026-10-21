@@ -226,7 +226,10 @@ export const buildApiMap = async () => {
     try {
       const contract = [...typeApi.entries()].find(([, api]) => api.sourceFile === file);
       const doc = resolveComponent(
-        await parseComponent(file, { addScriptHandlers: [slotTagHandler] }),
+        await parseComponent(file, {
+          alias: { '@sdata/web-core': path.join(ROOT, 'web-core/src') },
+          addScriptHandlers: [slotTagHandler],
+        }),
         Boolean(contract),
       );
       if (doc.name) group.set(doc.name, doc);
@@ -271,11 +274,16 @@ export const buildApiMap = async () => {
     props.push(
       ...(parsed?.props.filter((prop) => !props.some((entry) => entry.name === prop.name)) ?? []),
     );
+    // Public barrel order defines a group's primary export, independent of source traversal order.
+    group.delete(tag);
     group.set(tag, {
       ...api,
       name: tag,
       props,
-      events: parsed?.events ?? api.events,
+      events: [
+        ...(parsed?.events ?? []),
+        ...api.events.filter((event) => !parsed?.events.some((entry) => entry.name === event.name)),
+      ],
       slots: parsed?.slots ?? api.slots,
     });
     map.set(dirname, group);

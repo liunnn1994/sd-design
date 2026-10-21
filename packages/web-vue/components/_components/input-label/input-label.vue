@@ -22,7 +22,7 @@
     <span :class="valueCls" :style="valueStyle">
       <Ellipsis v-if="modelValue" :style="{ width: '100%' }">
         <slot v-if="$slots.default" :data="modelValue" />
-        <template v-else>{{ formatLabel() }}</template>
+        <template v-else>{{ getFormattedLabel() }}</template>
       </Ellipsis>
     </span>
     <span v-if="$slots.suffix" :class="`${prefixCls}-suffix`">
@@ -34,6 +34,8 @@
 <script setup lang="ts">
   import type { StyleValue, VNode } from 'vue';
   import { computed, toRef, useAttrs } from 'vue';
+
+  import { createInputLabelFoundation } from '@sdata/web-core/input-label/foundation';
 
   import type { Size } from '../../_utils/constant';
   import type { EmitFn } from '../../_utils/types';
@@ -123,17 +125,18 @@
     eventHandlers,
   });
   const mergedFocused = computed(() => props.focused ?? internalFocused.value);
-  const showInput = computed(
-    () => (props.enabledInput && internalFocused.value) || !props.modelValue,
-  );
-  const formatLabel = () =>
-    props.modelValue ? (props.formatLabel?.(props.modelValue) ?? props.modelValue.label) : '';
-  const mergedPlaceholder = computed(() =>
-    props.enabledInput && props.modelValue ? formatLabel() : props.placeholder,
-  );
-  const fitWidthText = computed(
-    () => computedInputValue.value || formatLabel() || props.placeholder,
-  );
+  const foundation = createInputLabelFoundation(props, {
+    get focused() {
+      return internalFocused.value;
+    },
+    get inputValue() {
+      return computedInputValue.value;
+    },
+  });
+  const showInput = computed(foundation.getShowInput);
+  const getFormattedLabel = foundation.formatLabel;
+  const mergedPlaceholder = computed(foundation.getPlaceholder);
+  const fitWidthText = computed(foundation.getFitWidthText);
   const { fitWidthStyle, fitWidthValue } = useFitWidth({
     fitWidth: () => props.fitWidth,
     text: fitWidthText,

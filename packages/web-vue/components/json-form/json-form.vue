@@ -43,18 +43,15 @@
     watch,
   } from 'vue';
 
+  import { createJsonFormFoundation } from '@sdata/web-core/json-form/foundation';
+
   import type { FormInstance } from '../form';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { configProviderInjectionKey } from '../config-provider/context';
   import DefaultForm from '../form/form.vue';
   import JsonFormItem from './json-form-item.vue';
-  import {
-    JSON_FORM_ADAPTERS,
-    type JsonFormModel,
-    type JsonFormProps,
-    type JsonFormSchema,
-  } from './types';
+  import { type JsonFormModel, type JsonFormProps, type JsonFormSchema } from './types';
   import { resolveJsonFormComponents, translateA2UI_0_9_1ToJsonFormSchemas } from './utils';
 
   defineOptions({
@@ -88,47 +85,29 @@
   });
   const prefixCls = getPrefixCls('json-form');
 
-  watch(
-    () => props.model,
-    (value) => {
-      if (value && props.modelValue === undefined) {
-        internalModel.value = reactive(value);
-      }
+  const foundation = createJsonFormFoundation<JsonFormSchema<string>>({
+    getControlledModel: () => props.modelValue,
+    getInternalModel: () => internalModel.value,
+    setInternalModel: (model) => {
+      internalModel.value = model;
     },
-    {
-      immediate: true,
-    },
-  );
-
-  const workingModel = computed(() => {
-    return props.modelValue ?? internalModel.value;
+    wrapModel: reactive,
+    getAdapter: () => props.adapter,
+    getGlobalAdapter: () => configProvider?.jsonForm?.adapter,
+    getSchemas: () => props.schemas,
+    translate: translateA2UI_0_9_1ToJsonFormSchemas,
+    onUpdate: (value) => emit('update:modelValue', value),
   });
-
-  // JsonFormItem 就地变更 model 后会以新引用 emit update:modelValue：
-  // 受控（v-model / :model-value）时转发给父组件；非受控（model prop）时忽略，
-  // 变更已经由共享的 reactive 代理就地生效。不用 defineModel：其 localValue
-  // 缓存会让"只传 prop 不传监听"的用法在首次赋值后与调用方对象脱钩。
-  const handleWorkingModelUpdate = (value: JsonFormModel) => {
-    if (props.modelValue !== undefined) {
-      emit('update:modelValue', value);
-    }
-  };
-
-  const resolvedAdapter = computed(() => {
-    return props.adapter ?? configProvider?.jsonForm?.adapter ?? JSON_FORM_ADAPTERS.default;
-  });
+  watch(() => props.model, foundation.syncModel, { immediate: true });
+  const workingModel = computed(foundation.getWorkingModel);
+  const handleWorkingModelUpdate = foundation.publish;
+  const resolvedAdapter = computed(foundation.getAdapter);
 
   const resolvedComponents = computed(() => {
     return resolveJsonFormComponents(configProvider?.jsonForm?.components);
   });
 
-  const normalizedSchemas = computed(() => {
-    if (resolvedAdapter.value === JSON_FORM_ADAPTERS.a2ui_0_9_1) {
-      return translateA2UI_0_9_1ToJsonFormSchemas(props.schemas as never[], workingModel.value);
-    }
-
-    return props.schemas as JsonFormSchema<string>[];
-  });
+  const normalizedSchemas = computed(foundation.getSchemas);
 
   const customComponent = computed<Component | string>(() => {
     return props.component ?? DefaultForm;

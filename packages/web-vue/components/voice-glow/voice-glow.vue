@@ -62,15 +62,16 @@
 <script setup lang="ts">
   import { computed, onBeforeUnmount, onMounted, shallowRef, watch, watchEffect } from 'vue';
 
+  import {
+    createVoiceGlowFoundation,
+    supportsVoiceCanvasFilter,
+  } from '@sdata/web-core/voice-glow/foundation';
+
   import type { VoiceGlowProps } from './types';
 
   import { useBeamPreferences } from '../_hooks/use-beam-preferences';
   import { getPrefixCls } from '../_utils/global-config';
-  import { toTriple } from './color';
   import { nextInstanceId } from './instance-id';
-  import { resolveVoiceDefaults, resolveVoiceStyle } from './presets';
-  import { generateVoiceBeamCSS, themePresets } from './styles';
-  import { registerVoiceInstance, type VoiceDriverConfig } from './voiceDriver';
 
   defineOptions({ name: 'VoiceGlow', inheritAttrs: false });
 
@@ -113,200 +114,106 @@
   const prefixCls = getPrefixCls('voice-glow');
   const id = `vg-${nextInstanceId()}`;
   const wrapperRef = shallowRef<HTMLElement>();
-  const isActive = shallowRef(props.active);
+  const isActive = shallowRef(false);
   const isFading = shallowRef(false);
   const { systemTheme, reducedMotion } = useBeamPreferences();
   const detectedRadius = shallowRef(16);
-  const canvasFilter =
-    typeof document === 'undefined' ||
-    typeof document.createElement('canvas').getContext('2d')?.filter === 'string';
-  const resolvedTheme = computed(() => (props.theme === 'auto' ? systemTheme.value : props.theme));
-  const defaults = computed(() => resolveVoiceDefaults(props.type, resolvedTheme.value));
-  const palette = computed(() => themePresets[resolvedTheme.value]);
-  const typeStyle = computed(() => resolveVoiceStyle(props.type, resolvedTheme.value));
-  const scale = computed(() => Math.max(0.05, props.scale ?? defaults.value.scale));
-  const geometry = computed(() => {
-    const result = { ...defaults.value };
-    for (const key of Object.keys(result) as (keyof typeof result)[]) {
-      const override = props[key];
-      if (typeof override === 'number') result[key] = override;
-    }
-    return result;
-  });
-  const coreLight = computed(() => Math.max(0, Math.min(3, geometry.value.coreLight)));
-  const distortion = computed(() => geometry.value.distortion);
-  const distortionDetail = computed(() => geometry.value.distortionDetail / scale.value);
-  const radius = computed(() => props.borderRadius ?? detectedRadius.value);
-  const bandColors = computed(() => {
-    const defaults =
-      resolvedTheme.value === 'dark'
-        ? {
-            core: '255, 255, 255',
-            above: '255, 70, 80',
-            mid: '90, 255, 150',
-            below: '80, 140, 255',
-          }
-        : {
-            core: '197, 139, 255',
-            above: '255, 122, 182',
-            mid: '126, 196, 255',
-            below: '45, 255, 171',
-          };
-    return {
-      core: toTriple(props.bandColors?.core ?? '') ?? defaults.core,
-      above: toTriple(props.bandColors?.above ?? '') ?? defaults.above,
-      mid: toTriple(props.bandColors?.mid ?? '') ?? defaults.mid,
-      below: toTriple(props.bandColors?.below ?? '') ?? defaults.below,
-    };
-  });
-  const css = computed(() => {
-    const g = geometry.value;
-    return (
-      generateVoiceBeamCSS({
-        id,
-        borderRadius: radius.value,
-        borderWidth: 1,
-        strokeOpacity: palette.value.strokeOpacity * g.strokeOpacity,
-        innerOpacity: palette.value.innerOpacity * g.innerOpacity,
-        bloomOpacity: palette.value.bloomOpacity * g.bloomOpacity,
-        innerShadow: palette.value.innerShadow,
-        colorVariant: props.colorVariant,
-        colors: props.colors,
-        brightness: props.brightness ?? typeStyle.value.brightness ?? palette.value.brightness,
-        saturation: props.saturation ?? typeStyle.value.saturation ?? palette.value.saturation,
-        theme: resolvedTheme.value,
-        hueBase: palette.value.hueBase,
-        glowSize: g.glowSize * scale.value,
-        glowWidth: g.glowWidth * scale.value,
-        glowHeight: g.glowHeight * scale.value,
-        strokeScale: g.strokeScale,
-        innerScale: g.innerScale,
-        innerHeight: g.innerHeight,
-        bloomScale: g.bloomScale,
-        bloomHeight: g.bloomHeight,
-        coreSize: g.coreSize * scale.value,
-        coreLight: coreLight.value,
-        coreLightWidth: g.coreLightWidth,
-        coreLightHeight: g.coreLightHeight,
-        rangeWidth: g.rangeWidth * scale.value,
-        rangeHeight: g.rangeHeight * scale.value,
-        softness: g.softness,
-        distortion: distortion.value > 0,
-        scale: scale.value,
-      }) + (props.css ? `\n${props.css.replaceAll('{id}', id)}` : '')
-    );
-  });
-  const driverConfig = computed<VoiceDriverConfig>(() => {
-    const g = geometry.value;
-    const sc = scale.value;
-    return {
+  const canvasFilter = supportsVoiceCanvasFilter();
+  const foundation = createVoiceGlowFoundation(
+    {
       id,
-      sensitivity: props.sensitivity,
-      threshold: props.threshold,
-      attack: props.attack,
-      release: props.release,
-      idle: g.idle,
-      breatheDuration: props.breatheDuration,
-      reach: g.reach,
-      spread: g.spread,
-      bands: props.bands,
-      flow: g.flow * sc,
-      lobeSpacing: g.lobeSpacing * sc,
-      bend: g.bend * sc,
-      bandStrength: g.bandStrength,
-      bandWidth: g.bandWidth * sc,
-      bandPosition: g.bandPosition,
-      bandCurve: g.bandCurve,
-      bandSpread: g.bandSpread,
-      bandSkew: g.bandSkew,
-      bandOffset: g.bandOffset * sc,
-      bandTail: g.bandTail,
-      bandTailPosition: g.bandTailPosition,
-      bandTailCurve: g.bandTailCurve,
-      bandTailOverflow: g.bandTailOverflow * sc,
-      bandAberration: g.bandAberration,
-      rangeWidth: g.rangeWidth * sc,
-      rangeHeight: g.rangeHeight * sc,
-      theme: resolvedTheme.value,
-      bandColors: bandColors.value,
-      distortion: distortion.value,
-      coreLight: coreLight.value,
-      scale: sc,
-      radius: radius.value,
-      processing: props.processing,
-      processingDuration: g.processingDuration,
-      processingLevel: g.processingLevel,
-      processingEase: props.processingEase,
-      processingTravel: g.processingTravel,
-      processingCurve: g.processingCurve,
-      cornerFollow: g.cornerFollow,
-      hueRange: props.hueRange ?? palette.value.hueRange ?? 24,
-      hueDuration: props.hueDuration ?? palette.value.hueDuration ?? 12,
-      staticColors: props.colorVariant === 'mono' || props.staticColors,
-      reducedMotion: reducedMotion.value,
-      paused: props.paused,
-    };
-  });
-
-  watch(
-    () => props.active,
-    (active) => {
-      if (active) {
-        isActive.value = true;
-        isFading.value = false;
-      } else if (isActive.value) {
-        isFading.value = true;
-      }
+      props,
+      get wrapper() {
+        return wrapperRef.value;
+      },
+      get isActive() {
+        return isActive.value;
+      },
+      set isActive(value) {
+        isActive.value = value;
+      },
+      get isFading() {
+        return isFading.value;
+      },
+      set isFading(value) {
+        isFading.value = value;
+      },
+      get detectedRadius() {
+        return detectedRadius.value;
+      },
+      set detectedRadius(value) {
+        detectedRadius.value = value;
+      },
+      get systemTheme() {
+        return systemTheme.value;
+      },
+      get reducedMotion() {
+        return reducedMotion.value;
+      },
+      get resolvedTheme() {
+        return resolvedTheme.value;
+      },
+      get defaults() {
+        return defaults.value;
+      },
+      get palette() {
+        return palette.value;
+      },
+      get typeStyle() {
+        return typeStyle.value;
+      },
+      get scale() {
+        return scale.value;
+      },
+      get geometry() {
+        return geometry.value;
+      },
+      get coreLight() {
+        return coreLight.value;
+      },
+      get distortion() {
+        return distortion.value;
+      },
+      get distortionDetail() {
+        return distortionDetail.value;
+      },
+      get radius() {
+        return radius.value;
+      },
+      get bandColors() {
+        return bandColors.value;
+      },
+      get css() {
+        return css.value;
+      },
+      get driverConfig() {
+        return driverConfig.value;
+      },
+    },
+    {
+      level: (value) => emit('level', value),
+      activate: () => emit('activate'),
+      deactivate: () => emit('deactivate'),
     },
   );
-  const handleAnimationEnd = (event: AnimationEvent) => {
-    if (event.target !== wrapperRef.value || event.pseudoElement) return;
-    if (event.animationName === `vb-fade-in-${id}`) {
-      emit('activate');
-    }
-    if (event.animationName === `vb-fade-out-${id}`) {
-      isActive.value = false;
-      isFading.value = false;
-      emit('deactivate');
-    }
-  };
-
-  onMounted(() => {
-    const host = wrapperRef.value;
-    if (!host) return;
-    const child = host.firstElementChild;
-    const radiusSource = child?.hasAttribute('data-voice-beam-bloom') ? host.parentElement : child;
-    if (radiusSource) {
-      detectedRadius.value = parseFloat(getComputedStyle(radiusSource).borderTopLeftRadius) || 16;
-    }
-  });
-
-  watchEffect(
-    (onCleanup) => {
-      if (!wrapperRef.value || !(isActive.value || isFading.value)) return;
-      const cleanup = registerVoiceInstance(
-        wrapperRef.value,
-        driverConfig.value,
-        {
-          stream: props.stream,
-          getLevel: () => (typeof props.level === 'function' ? props.level() : props.level),
-        },
-        (level) => {
-          emit('level', level);
-        },
-      );
-      onCleanup(cleanup);
-    },
-    { flush: 'post' },
-  );
-  let styleElement: HTMLStyleElement | undefined;
-  watch(css, (value) => {
-    if (styleElement) styleElement.textContent = value;
-  });
-  onMounted(() => {
-    styleElement = document.createElement('style');
-    styleElement.textContent = css.value;
-    wrapperRef.value?.before(styleElement);
-  });
-  onBeforeUnmount(() => styleElement?.remove());
+  const resolvedTheme = computed(foundation.getResolvedTheme);
+  const defaults = computed(foundation.getDefaults);
+  const palette = computed(foundation.getPalette);
+  const typeStyle = computed(foundation.getTypeStyle);
+  const scale = computed(foundation.getScale);
+  const geometry = computed(foundation.getGeometry);
+  const coreLight = computed(foundation.getCoreLight);
+  const distortion = computed(foundation.getDistortion);
+  const distortionDetail = computed(foundation.getDistortionDetail);
+  const radius = computed(foundation.getRadius);
+  const bandColors = computed(foundation.getBandColors);
+  const css = computed(foundation.getCss);
+  const driverConfig = computed(foundation.getDriverConfig);
+  watch(() => props.active, foundation.syncActive);
+  const { handleAnimationEnd } = foundation;
+  onMounted(foundation.mountRadius);
+  watchEffect(foundation.connectDriver, { flush: 'post' });
+  watch(css, foundation.syncCss);
+  onMounted(foundation.mountStyle);
+  onBeforeUnmount(foundation.disposeStyle);
 </script>

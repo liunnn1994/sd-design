@@ -1,6 +1,8 @@
 import type { Ref } from 'vue';
 import { computed, ref, watch } from 'vue';
 
+import { createFilterFoundation, getDefaultFilters } from '@sdata/web-core/table/query';
+
 import type { Filters, TableColumnData } from '../interface';
 
 import { isEqual } from '../../_utils/is-equal';
@@ -23,65 +25,20 @@ export const useFilter = ({
     },
   );
 
-  const computedFilters = computed<Filters>(() => {
-    const filters: Filters = Object.create(null);
-    for (const item of columns.value) {
-      if (item.dataIndex) {
-        const value = item.filterable?.filteredValue ?? _filters.value[item.dataIndex];
-        if (value) {
-          filters[item.dataIndex] = value;
-        }
-      }
-    }
-    return filters;
+  const foundation = createFilterFoundation({
+    getColumns: () => columns.value,
+    getState: () => _filters.value,
+    setState: (value) => {
+      _filters.value = value;
+    },
+    onFilterChange,
   });
-
-  const resetFilters = (dataIndex?: string | string[]) => {
-    const _dataIndex = dataIndex ? ([] as string[]).concat(dataIndex) : [];
-
-    const filters: Filters = _dataIndex.length > 0 ? { ..._filters.value } : Object.create(null);
-    for (const item of columns.value) {
-      if (item.dataIndex && item.filterable) {
-        if (_dataIndex.length === 0 || _dataIndex.includes(item.dataIndex)) {
-          const filteredValue = item.filterable.defaultFilteredValue ?? [];
-          filters[item.dataIndex] = filteredValue;
-          onFilterChange(item.dataIndex, filteredValue);
-        }
-      }
-    }
-    _filters.value = filters;
-  };
-
-  const clearFilters = (dataIndex?: string | string[]) => {
-    const _dataIndex = dataIndex ? ([] as string[]).concat(dataIndex) : [];
-
-    const filters: Filters = _dataIndex.length > 0 ? { ..._filters.value } : Object.create(null);
-    for (const item of columns.value) {
-      if (item.dataIndex && item.filterable) {
-        if (_dataIndex.length === 0 || _dataIndex.includes(item.dataIndex)) {
-          const filteredValue: string[] = [];
-          filters[item.dataIndex] = filteredValue;
-          onFilterChange(item.dataIndex, filteredValue);
-        }
-      }
-    }
-    _filters.value = filters;
-  };
+  const computedFilters = computed<Filters>(() => foundation.getValues());
 
   return {
     _filters,
     computedFilters,
-    resetFilters,
-    clearFilters,
+    resetFilters: foundation.resetFilters,
+    clearFilters: foundation.clearFilters,
   };
-};
-
-const getDefaultFilters = (columns: TableColumnData[]) => {
-  const filters: Filters = Object.create(null);
-  for (const item of columns) {
-    if (item.dataIndex && item.filterable?.defaultFilteredValue) {
-      filters[item.dataIndex] = item.filterable.defaultFilteredValue;
-    }
-  }
-  return filters;
 };

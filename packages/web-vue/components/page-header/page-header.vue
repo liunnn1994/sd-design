@@ -46,9 +46,10 @@
 <script setup lang="ts">
   import { useSlots } from 'vue';
 
+  import { onActivate } from '@sdata/web-core/_utils/keyboard';
+
   import AIconHover from '../_components/icon-hover.vue';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isActivationKey } from '../_utils/keyboard';
   import IconLeft from '../icon/icon-left';
   import { useI18n } from '../locale';
 
@@ -119,12 +120,7 @@
   };
 
   // role=button 的返回键：键盘 Enter/Space 触发（图标按钮无原生按钮语义）
-  const handleBackKeydown = (ev: KeyboardEvent) => {
-    if (isActivationKey(ev)) {
-      ev.preventDefault();
-      handleBack(ev);
-    }
-  };
+  const handleBackKeydown = onActivate(handleBack);
 
   const getCls = () => [
     prefixCls,

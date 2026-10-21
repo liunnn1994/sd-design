@@ -31,6 +31,8 @@
 <script setup lang="ts">
   import { computed, inject, ref, type PropType, type VNode, type VNodeChild } from 'vue';
 
+  import { createTableCellLoadingFoundation } from '@sdata/web-core/table/cell';
+
   import type { TableContext } from './context';
   import type {
     TableColumnData,
@@ -201,21 +203,19 @@
     return slots.td?.(cellData.value)[0] ?? 'div';
   }
 
-  function handleClick(event: Event) {
-    if (
-      !isLoading.value &&
-      isFunction(tableCtx.loadMore) &&
-      !props.record?.isLeaf &&
-      !props.record?.children
-    ) {
-      isLoading.value = true;
-      new Promise<TableData[] | undefined>((resolve) => {
-        tableCtx.loadMore?.(props.record.raw, resolve);
-      }).then((children) => {
-        tableCtx.addLazyLoadData?.(children, props.record);
-        isLoading.value = false;
-      });
-    }
-    event.stopPropagation();
-  }
+  const loadingFoundation = createTableCellLoadingFoundation<TableData, TableDataWithRaw>(
+    {
+      get isLoading() {
+        return isLoading.value;
+      },
+      set isLoading(value) {
+        isLoading.value = value;
+      },
+      get record() {
+        return props.record;
+      },
+    },
+    tableCtx,
+  );
+  const { handleClick } = loadingFoundation;
 </script>

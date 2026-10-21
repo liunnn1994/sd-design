@@ -24,7 +24,10 @@ export type {
   InputMaskState,
   InputMaskToken,
 } from './types';
-export { defaultInputMaskFormatChars, formatInputMask } from './mask-engine';
+export {
+  defaultInputMaskFormatChars,
+  formatInputMask,
+} from '@sdata/web-core/input-mask/mask-engine';
 export { inputMaskPresets } from './presets';
 
 export default InputMask;

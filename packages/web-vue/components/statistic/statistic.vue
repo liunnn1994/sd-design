@@ -39,7 +39,12 @@
 <script setup lang="ts">
   import { computed, CSSProperties, nextTick, onMounted, PropType, shallowRef, watch } from 'vue';
 
-  import dayjs from 'dayjs';
+  import {
+    createStatistic,
+    getStatisticInitialValue,
+    getStatisticNumberFormat,
+    formatStatisticDate,
+  } from '@sdata/web-core/statistic/foundation';
 
   import type { NumberFlowFormat } from '../number-flow';
 
@@ -164,36 +169,22 @@
 
   const prefixCls = getPrefixCls('statistic');
   const showPlaceholder = computed(() => isUndefined(props.value));
-  const displayValue = shallowRef<number | Date | undefined>(
-    props.animation && props.valueFrom !== undefined ? props.valueFrom : props.value,
+  const displayValue = shallowRef(getStatisticInitialValue(props));
+  const numberFormat = computed<NumberFlowFormat>(() =>
+    getStatisticNumberFormat(props.precision, props.showGroupSeparator),
   );
-  const numberFormat = computed<NumberFlowFormat>(() => ({
-    minimumFractionDigits: props.precision,
-    maximumFractionDigits: props.precision,
-    useGrouping: props.showGroupSeparator,
-  }));
-  const formattedDateValue = computed(() =>
-    props.format ? dayjs(displayValue.value).format(props.format) : displayValue.value,
-  );
-
-  onMounted(async () => {
-    if (props.animation && props.start && props.valueFrom !== undefined) {
-      await nextTick();
-      displayValue.value = props.value;
-    }
-  });
-
-  watch(
-    () => props.start,
-    (value) => {
-      if (value) displayValue.value = props.value;
+  const formattedDateValue = computed(() => formatStatisticDate(displayValue.value, props.format));
+  const foundation = createStatistic({
+    props,
+    get display() {
+      return displayValue.value;
     },
-  );
-
-  watch(
-    () => props.value,
-    (value) => {
+    set display(value) {
       displayValue.value = value;
     },
-  );
+    afterRender: () => nextTick(),
+  });
+  onMounted(foundation.mount);
+  watch(() => props.start, foundation.syncStart);
+  watch(() => props.value, foundation.syncValue);
 </script>

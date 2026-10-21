@@ -1,0 +1,1 @@
+export { OverlayScrollbars } from 'overlayscrollbars';

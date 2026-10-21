@@ -36,6 +36,8 @@
 <script setup lang="ts">
   import { PropType, provide, reactive, toRefs } from 'vue';
 
+  import { createDropdownFoundation } from '@sdata/web-core/dropdown/foundation';
+
   import type { FloatingOptions } from '../_utils/floating';
 
   import { useTrigger } from '../_hooks/use-trigger';
@@ -187,13 +189,15 @@
     emit: emitVisibleChange,
   });
 
-  const handleOptionClick = (
-    value: string | number | Record<string, unknown> | undefined,
-    ev: Event,
-  ) => {
-    emit('select', value, ev);
-    props.hideOnSelect && handlePopupVisibleChange(false);
-  };
+  const { handleOptionClick } = createDropdownFoundation(
+    {
+      get hideOnSelect() {
+        return props.hideOnSelect;
+      },
+    },
+    (value, ev) => emit('select', value, ev),
+    handlePopupVisibleChange,
+  );
 
   // 面板的 isEmpty / scroll / reachBottom 通过 Dropdown 本体透出
   const handlePanelScroll = (ev: Event) => {

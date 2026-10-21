@@ -101,6 +101,10 @@
     watch,
   } from 'vue';
 
+  import { createConfirmationFoundation } from '@sdata/web-core/dialog/confirmation';
+  import { createDialogFoundation, clickDrawerMask } from '@sdata/web-core/dialog/foundation';
+  import { applyDrawerLayout } from '@sdata/web-core/dialog/layout';
+
   import type { EllipsisTooltipProps } from '../ellipsis';
 
   import ClientOnly from '../_components/client-only.vue';
@@ -112,8 +116,7 @@
   import { useTeleportContainer } from '../_hooks/use-teleport-container';
   import { off, on } from '../_utils/dom';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isBoolean, isFunction, isNumber, isPromise } from '../_utils/is';
-  import { KEYBOARD_KEY, onActivate } from '../_utils/keyboard';
+  import { onActivate } from '../_utils/keyboard';
   import SdButton, { ButtonProps } from '../button';
   import Ellipsis from '../ellipsis';
   import IconClose from '../icon/icon-close';
@@ -503,11 +506,7 @@
 
   let globalKeyDownListener = false;
 
-  const handleGlobalKeyDown = (ev: KeyboardEvent) => {
-    if (mergedEscToClose.value && ev.key === KEYBOARD_KEY.ESC && isLastDialog()) {
-      handleCancel(ev);
-    }
-  };
+  const handleGlobalKeyDown = (ev: KeyboardEvent) => dialog.escape(ev);
 
   const addGlobalKeyDownListener = () => {
     if (mergedEscToClose.value && !globalKeyDownListener) {
@@ -534,145 +533,100 @@
     return containerRef?.value === document.body;
   });
 
-  // Used to ignore closed Promises
-  let promiseNumber = 0;
-
-  const invalidatePendingOk = () => {
-    promiseNumber++;
-    if (_okLoading.value) {
-      _okLoading.value = false;
-    }
-  };
-
-  const close = () => {
-    invalidatePendingOk();
-    _visible.value = false;
-    emit('update:visible', false);
-  };
-
-  const handleOk = async (e: Event) => {
-    const currentPromiseNumber = promiseNumber;
-    const closed = await new Promise<boolean>((resolve) => {
-      try {
-        if (isFunction(props.onBeforeOk)) {
-          const result = props.onBeforeOk((closed = true) => resolve(closed));
-          if (isPromise(result) || !isBoolean(result)) {
-            _okLoading.value = true;
-          }
-          if (isPromise(result)) {
-            result.then(
-              (value) => resolve(value ?? true),
-              () => resolve(false),
-            );
-          } else if (isBoolean(result)) {
-            resolve(result);
-          }
-        } else {
-          resolve(true);
-        }
-      } catch {
-        resolve(false);
-      }
-    });
-
-    if (currentPromiseNumber === promiseNumber) {
-      if (closed) {
-        emit('ok', e);
-        close();
-      } else if (_okLoading.value) {
-        _okLoading.value = false;
-      }
-    }
-  };
-
-  const handleCancel = (e: Event) => {
-    // 仅当 onBeforeCancel 显式返回 false 时阻止取消，返回 void/true 均继续关闭
-    if (isFunction(props.onBeforeCancel) && props.onBeforeCancel() === false) {
-      return;
-    }
-    emit('cancel', e);
-    close();
-  };
+  const confirmation = createConfirmationFoundation<[Event]>({
+    callbacks: props,
+    get loading() {
+      return _okLoading.value;
+    },
+    setLoading(value) {
+      _okLoading.value = value;
+    },
+    setVisible(value) {
+      _visible.value = value;
+    },
+    onVisibleChange(value) {
+      emit('update:visible', value);
+    },
+    onOk(event) {
+      emit('ok', event);
+    },
+    onCancel(event) {
+      emit('cancel', event);
+    },
+  });
+  const handleOk = confirmation.ok;
+  const handleCancel = confirmation.cancel;
 
   const handleCancelKeydown = onActivate(handleCancel);
 
-  const handleMask = (e: Event) => {
-    if (mergedMaskClosable.value) {
-      handleCancel(e);
-    }
-  };
-
-  const handleOpen = () => {
-    if (computedVisible.value) {
-      emit('open');
-    }
-  };
-
-  const handleClose = () => {
-    if (!computedVisible.value) {
-      mounted.value = false;
-      resetOverflow();
-      emit('close');
-    }
-  };
+  const handleMask = (event: Event) =>
+    clickDrawerMask(mergedMaskClosable.value, event, handleCancel);
 
   const { setOverflowHidden, resetOverflow } = useOverflow(containerRef);
 
-  onMounted(() => {
-    if (computedVisible.value) {
-      mounted.value = true;
-      setOverflowHidden();
-      if (mergedEscToClose.value) {
-        addGlobalKeyDownListener();
-      }
-      nextTick(() => activateFocusTrap());
-    }
-  });
-
-  onBeforeUnmount(() => {
-    invalidatePendingOk();
-    releasePopup();
-    resetOverflow();
-    removeGlobalKeyDownListener();
-  });
-
-  watch(computedVisible, (visible) => {
-    if (_visible.value !== visible) {
-      _visible.value = visible;
-    }
-    if (visible) {
+  const dialog = createDialogFoundation({
+    get visible() {
+      return computedVisible.value;
+    },
+    get inner() {
+      return _visible.value;
+    },
+    get escToClose() {
+      return mergedEscToClose.value;
+    },
+    setInner(value) {
+      _visible.value = value;
+    },
+    setMounted(value) {
+      mounted.value = value;
+    },
+    isLastDialog,
+    cancel: handleCancel,
+    invalidate: confirmation.invalidate,
+    onBeforeOpen() {
       emit('beforeOpen');
-      mounted.value = true;
-      setOverflowHidden();
-      addGlobalKeyDownListener();
-      // 等待 v-show 生效后激活焦点陷阱（确定性触发，不依赖 CSS 过渡的 after-enter）
-      nextTick(() => activateFocusTrap());
-    } else {
-      invalidatePendingOk();
+    },
+    onBeforeClose() {
       emit('beforeClose');
-      removeGlobalKeyDownListener();
-      deactivateFocusTrap();
-    }
+    },
+    onOpen() {
+      emit('open');
+    },
+    onClose() {
+      emit('close');
+    },
+    beforeOpening() {},
+    beforeClosed() {},
+    lockOverflow: setOverflowHidden,
+    resetOverflow,
+    addKeyListener: addGlobalKeyDownListener,
+    removeKeyListener: removeGlobalKeyDownListener,
+    activateFocus() {
+      void nextTick(() => activateFocusTrap());
+    },
+    deactivateFocus: deactivateFocusTrap,
+    releasePopup,
   });
+  const handleOpen = dialog.opened;
+  const handleClose = dialog.closed;
 
-  watch(mergedEscToClose, (enabled) => {
-    if (enabled && computedVisible.value) {
-      addGlobalKeyDownListener();
-    } else {
-      removeGlobalKeyDownListener();
-    }
+  onMounted(() => {
+    dialog.mount();
   });
+  onBeforeUnmount(dialog.dispose);
+  watch(computedVisible, dialog.syncVisible);
+  watch(mergedEscToClose, dialog.syncEsc);
 
   const style = computed(() => {
     const style: CSSProperties = {
       [mergedPlacement.value as string]: 0,
       ...props.drawerStyle,
     };
-    if (['right', 'left'].includes(mergedPlacement.value as string)) {
-      style.width = isNumber(mergedWidth.value) ? `${mergedWidth.value}px` : mergedWidth.value;
-    } else {
-      style.height = isNumber(mergedHeight.value) ? `${mergedHeight.value}px` : mergedHeight.value;
-    }
-    return style;
+    return applyDrawerLayout(
+      style,
+      mergedPlacement.value as string,
+      mergedWidth.value,
+      mergedHeight.value,
+    );
   });
 </script>

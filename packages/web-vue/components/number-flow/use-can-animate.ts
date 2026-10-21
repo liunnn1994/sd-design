@@ -1,5 +1,7 @@
 import { computed, onMounted, shallowRef, toValue, watchEffect, type MaybeRefOrGetter } from 'vue';
 
+import { observeNumberFlowMotion } from '@sdata/web-core/number-flow/motion';
+
 /**
  * SSR-safe composable that returns whether number-flow animations can run.
  * Respects `prefers-reduced-motion` and listens for changes.
@@ -21,15 +23,11 @@ export function useCanAnimate({
 
   watchEffect((onCleanup) => {
     if (!toValue(respectMotionPreference)) return;
-    const onChange = ({ matches }: MediaQueryListEvent) => {
-      reducedMotion.value = matches;
-    };
-    const query = mediaQuery.value;
-    if (query) reducedMotion.value = query.matches;
-    query?.addEventListener('change', onChange);
-    onCleanup(() => {
-      query?.removeEventListener('change', onChange);
-    });
+    onCleanup(
+      observeNumberFlowMotion(mediaQuery.value, (matches) => {
+        reducedMotion.value = matches;
+      }),
+    );
   });
 
   return computed(

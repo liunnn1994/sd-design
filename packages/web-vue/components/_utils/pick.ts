@@ -1,14 +1,2 @@
-// pick item from object
-// oxlint-disable-next-line @typescript-eslint/ban-types
-export default function pick<T extends object, K extends keyof T>(
-  obj: T,
-  keys: Array<K>,
-): Pick<T, K> {
-  const clone = {} as Pick<T, K>;
-  keys.forEach((key) => {
-    if (key in obj) {
-      clone[key] = obj[key];
-    }
-  });
-  return clone;
-}
+export * from '@sdata/web-core/_utils/pick';
+export { default } from '@sdata/web-core/_utils/pick';

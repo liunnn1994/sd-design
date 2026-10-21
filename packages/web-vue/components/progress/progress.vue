@@ -36,8 +36,8 @@
     <progress-circle
       v-else
       :type="type"
-      :stroke-width="type === 'line' ? strokeWidth || 4 : strokeWidth"
-      :path-stroke-width="type === 'line' ? strokeWidth || 4 : strokeWidth"
+      :stroke-width="circleStrokeWidth"
+      :path-stroke-width="circleStrokeWidth"
       :width="circleWidth"
       :percent="percent"
       :color="color"
@@ -56,15 +56,14 @@
 <script setup lang="ts">
   import { computed, toRefs, PropType } from 'vue';
 
+  import { createProgressFoundation, type ProgressType } from '@sdata/web-core/progress/foundation';
+
   import { useSize } from '../_hooks/use-size';
   import { Size, Status } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
   import ProgressCircle from './circle.vue';
   import ProgressLine from './line.vue';
   import ProgressSteps from './steps.vue';
-
-  const PROGRESS_TYPES = ['line', 'circle'] as const;
-  type ProgressType = (typeof PROGRESS_TYPES)[number];
 
   defineOptions({ name: 'Progress' });
 
@@ -166,11 +165,11 @@
 
   const prefixCls = getPrefixCls('progress');
   const { size } = toRefs(props);
-  const circleWidth = computed(() => (typeof props.width === 'number' ? props.width : undefined));
-  const type = computed(() => (props.steps > 0 ? 'steps' : props.type));
-  const computedStatus = computed(() => {
-    return props.status || (props.percent >= 1 ? 'success' : 'normal');
-  });
+  const foundation = createProgressFoundation(props);
+  const circleWidth = computed(foundation.getCircleWidth);
+  const circleStrokeWidth = computed(foundation.getCircleStrokeWidth);
+  const type = computed(foundation.getType);
+  const computedStatus = computed(foundation.getStatus);
   const { mergedSize } = useSize(size);
 
   const cls = computed(() => [

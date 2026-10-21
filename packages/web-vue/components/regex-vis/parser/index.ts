@@ -1,2 +1,1 @@
-export type * from './ast';
-export { default as parseRegex } from './parse';
+export * from '@sdata/web-core/regex-vis/parser/index';

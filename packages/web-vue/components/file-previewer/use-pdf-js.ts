@@ -1,18 +1,14 @@
-import type {
-  PDFDocumentLoadingTask,
-  PDFDocumentProxy,
-  PDFPageProxy,
-  RenderTask,
-} from 'pdfjs-dist';
+import type { PDFDocumentProxy } from '@sdata/web-core/file-previewer/pdf';
 
 import type { ShallowRef } from 'vue';
 import { shallowRef } from 'vue';
 
+import { createPdfController } from '@sdata/web-core/file-previewer/pdf';
+import { loadPdfModule, resolvePdfWorker } from '@sdata/web-core/file-previewer/pdf-loader';
+
 import type { FilePreviewerPdfProps, FilePreviewerStatus } from './types';
 
 import { isServerRendering } from '../_utils/dom';
-
-type PdfJsModule = typeof import('pdfjs-dist');
 
 export interface UsePdfJsContext {
   src: () => string;
@@ -32,57 +28,12 @@ export interface UsePdfJsReturn {
   destroy: () => Promise<void>;
 }
 
-// pdf.js is large, so it is lazily imported on first use and shared across instances.
-let pdfModulePromise: Promise<PdfJsModule> | undefined;
-function loadPdfModule(): Promise<PdfJsModule> {
-  if (!pdfModulePromise) pdfModulePromise = import('pdfjs-dist');
-  return pdfModulePromise;
-}
-
-// Loads the worker module so it assigns globalThis.pdfjsWorker, enabling pdf.js
-// main-thread (fake worker) rendering. Used when `worker: false` or when no worker
-// URL can be resolved.
-let mainThreadWorkerPromise: Promise<void> | undefined;
-function ensureMainThreadWorker(): Promise<void> {
-  if (!mainThreadWorkerPromise) {
-    mainThreadWorkerPromise = import('pdfjs-dist/build/pdf.worker.min.mjs').then(() => undefined);
-  }
-  return mainThreadWorkerPromise;
-}
-
-// 默认走 Worker：pdf.js worker 已打包进组件库，默认从本库引入（适用于内网/离线）。
-// 通过独立模块的动态 import，使内联的 worker data URL 仅在 PDF 预览时按需加载。
-// 如需改用 CDN 或自托管，通过 pdfProps.workerSrc 覆盖即可。
 let bundledWorkerSrcPromise: Promise<string> | undefined;
 function defaultWorkerSrc(): Promise<string> {
   if (!bundledWorkerSrcPromise) {
     bundledWorkerSrcPromise = import('./pdfjs-worker-url').then((module) => module.default);
   }
   return bundledWorkerSrcPromise;
-}
-
-async function resolveWorker(props: FilePreviewerPdfProps): Promise<string | undefined> {
-  // GlobalWorkerOptions 是全局单例；按优先级配置：显式关闭 > workerPort > workerSrc > 默认打包 Worker。
-  if (props.worker === false) {
-    await ensureMainThreadWorker();
-    return;
-  }
-  if (props.workerPort) {
-    return;
-  }
-  if (props.workerSrc) {
-    return props.workerSrc;
-  }
-  return defaultWorkerSrc();
-}
-
-function isCancelledError(error: unknown): boolean {
-  return (
-    error !== null &&
-    typeof error === 'object' &&
-    'name' in error &&
-    (error as { name: unknown }).name === 'RenderingCancelledException'
-  );
 }
 
 /**
@@ -93,164 +44,31 @@ export function usePdfJs(context: UsePdfJsContext): UsePdfJsReturn {
   const doc = shallowRef<PDFDocumentProxy | null>(null);
   const numPages = shallowRef(0);
   const page = shallowRef(1);
-
-  let loadingTask: PDFDocumentLoadingTask | null = null;
-  let renderTask: RenderTask | null = null;
-  let activePage: PDFPageProxy | null = null;
-  let loadId = 0;
-  let renderId = 0;
-
-  async function load(): Promise<void> {
-    const url = context.src();
-    if (isServerRendering) return;
-    if (!url) {
-      await destroy();
-      return;
-    }
-
-    const currentId = ++loadId;
-    context.onStatus('loading');
-    try {
-      const pdfjs = await loadPdfModule();
-      if (currentId !== loadId) return;
-
-      const props = context.pdfProps() ?? {};
-      const workerSrc = await resolveWorker(props);
-      if (currentId !== loadId) return;
-
-      await releaseResources();
-      if (currentId !== loadId) return;
-
-      pdfjs.GlobalWorkerOptions.workerPort =
-        props.worker === false ? null : (props.workerPort ?? null);
-      if (workerSrc) pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
-      loadingTask = pdfjs.getDocument({ url, ...props.documentParams });
-      const pdfDoc = await loadingTask.promise;
-      if (currentId !== loadId) {
-        // A newer load started; the previous loadingTask was already destroyed by it.
-        return;
-      }
-
-      doc.value = pdfDoc;
-      numPages.value = pdfDoc.numPages;
-      page.value = Math.min(Math.max(props.page ?? 1, 1), pdfDoc.numPages);
-      context.onStatus('loaded');
-      props.onDocumentLoad?.(pdfDoc);
-    } catch {
-      if (currentId !== loadId) return;
-      context.onStatus('error');
-    }
-  }
-
-  async function render(canvas: HTMLCanvasElement, pageNumber = page.value): Promise<void> {
-    const pdfDoc = doc.value;
-    if (!pdfDoc) return;
-    const documentId = loadId;
-    const currentRenderId = ++renderId;
-
-    const props = context.pdfProps() ?? {};
-    const scale = props.scale ?? 1;
-    const rotation = props.rotation ?? 0;
-    const target = Math.min(Math.max(pageNumber, 1), numPages.value || 1);
-    if (target !== page.value) page.value = target;
-
-    if (renderTask) {
-      try {
-        renderTask.cancel();
-      } catch {
-        /* ignore */
-      }
-    }
-    if (activePage) {
-      try {
-        activePage.cleanup();
-      } catch {
-        /* ignore */
-      }
-    }
-
-    try {
-      const pdfPage = await pdfDoc.getPage(target);
-      if (documentId !== loadId || doc.value !== pdfDoc || currentRenderId !== renderId) return;
-      activePage = pdfPage;
-      const viewport = pdfPage.getViewport({ scale, rotation });
-      if (!canvas.getContext('2d')) return;
-
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = Math.floor(viewport.width * dpr);
-      canvas.height = Math.floor(viewport.height * dpr);
-      canvas.style.width = `${Math.floor(viewport.width)}px`;
-      canvas.style.height = `${Math.floor(viewport.height)}px`;
-
-      const renderParams = {
-        canvas,
-        viewport,
-        ...(dpr !== 1 ? { transform: [dpr, 0, 0, dpr, 0, 0] } : {}),
-        ...props.renderParams,
-      };
-      const task = pdfPage.render(renderParams);
-      renderTask = task;
-      try {
-        await task.promise;
-      } finally {
-        if (renderTask === task) renderTask = null;
-      }
-    } catch (error) {
-      if (documentId === loadId && currentRenderId === renderId && !isCancelledError(error)) {
-        context.onStatus('error');
-      }
-    }
-  }
-
-  function goto(next: number): void {
-    if (!doc.value || numPages.value === 0) return;
-    page.value = Math.min(Math.max(next, 1), numPages.value);
-  }
-
-  function prev(): void {
-    goto(page.value - 1);
-  }
-
-  function next(): void {
-    goto(page.value + 1);
-  }
-
-  async function destroy(): Promise<void> {
-    loadId++;
-    await releaseResources();
-  }
-
-  async function releaseResources(): Promise<void> {
-    renderId++;
-    if (renderTask) {
-      try {
-        renderTask.cancel();
-      } catch {
-        /* ignore */
-      }
-      renderTask = null;
-    }
-    if (activePage) {
-      try {
-        activePage.cleanup();
-      } catch {
-        /* ignore */
-      }
-      activePage = null;
-    }
-    const task = loadingTask;
-    loadingTask = null;
-    doc.value = null;
-    numPages.value = 0;
-    page.value = 1;
-    if (task) {
-      try {
-        await task.destroy();
-      } catch {
-        /* ignore */
-      }
-    }
-  }
-
-  return { doc, numPages, page, goto, prev, next, render, load, destroy };
+  const controller = createPdfController(context, {
+    get doc() {
+      return doc.value;
+    },
+    get numPages() {
+      return numPages.value;
+    },
+    get page() {
+      return page.value;
+    },
+    isServer: isServerRendering,
+    get pixelRatio() {
+      return window.devicePixelRatio;
+    },
+    setDoc(value) {
+      doc.value = value;
+    },
+    setNumPages(value) {
+      numPages.value = value;
+    },
+    setPage(value) {
+      page.value = value;
+    },
+    loadModule: loadPdfModule,
+    resolveWorker: (props) => resolvePdfWorker(props, defaultWorkerSrc),
+  });
+  return { doc, numPages, page, ...controller };
 }

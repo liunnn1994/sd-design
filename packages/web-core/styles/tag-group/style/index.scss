@@ -1,0 +1,83 @@
+@use '../../style/theme/index.scss' as theme;
+@use 'sass:string';
+
+@forward './token.scss';
+
+@use './token.scss' as *;
+
+$tag-group-prefix-cls: string.unquote('#{theme.$prefix}-tag-group');
+$tag-prefix-cls: string.unquote('#{theme.$prefix}-tag');
+$link-prefix-cls: string.unquote('#{theme.$prefix}-link');
+
+.#{$tag-group-prefix-cls} {
+  position: relative;
+  display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
+  vertical-align: middle;
+
+  &-responsive {
+    display: block;
+    width: 100%;
+  }
+
+  &-inner,
+  &-popover {
+    display: inline-flex;
+    gap: $tag-group-gap;
+    align-items: center;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &-responsive &-inner {
+    display: flex;
+    width: 100%;
+  }
+
+  // WrapClamp 在根节点内注入一层 [data-part='content'] 包裹，gap 需要作用到这一层
+  &-inner[data-part='content'],
+  &-inner [data-part='content'] {
+    display: inline-flex;
+    gap: $tag-group-gap;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  &-popover {
+    flex-wrap: wrap;
+    max-width: $tag-group-popover-max-width;
+  }
+
+  &-item {
+    display: inline-flex;
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  &-item-counter > .#{$tag-prefix-cls} {
+    cursor: pointer;
+  }
+
+  &-item-content {
+    max-width: 100%;
+  }
+
+  &-counter-content {
+    max-width: 100%;
+  }
+
+  &-item-content > .#{$tag-prefix-cls},
+  &-counter-content > .#{$tag-prefix-cls},
+  &-item-content > .#{$link-prefix-cls},
+  &-counter-content > .#{$link-prefix-cls},
+  &-item-content > a,
+  &-counter-content > a,
+  &-item-content > span,
+  &-counter-content > span {
+    max-width: 100%;
+  }
+}

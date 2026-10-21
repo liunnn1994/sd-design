@@ -8,7 +8,7 @@ import _Steps from './steps.vue';
 
 export type { StepData, StepStatus, StepsType } from './interface';
 
-export type StepsChangeHandler = (step: number, event: Event) => void;
+export type { StepsChangeHandler } from '@sdata/web-core/steps/types';
 
 const Steps = Object.assign(_Steps, {
   Step: _StepsStep,

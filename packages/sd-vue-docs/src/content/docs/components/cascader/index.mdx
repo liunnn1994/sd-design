@@ -341,3 +341,7 @@ import cascaderVirtualSource from '../../../../components/generated/cascader/vir
 | tagProps | 多选标签透传属性   | `TagProps`                                    |   `-`   | 2.8.0 |
 | children | 下一级选项         | `CascaderOption[]`                            |   `-`   |       |
 | isLeaf   | 是否为叶子节点     | `boolean`                                     | `false` |       |
+
+## 选项交互规则
+
+`@sdata/web-core/cascader/option` 的 `createCascaderOptionFoundation` 提供选项加载状态、严格/层级勾选、路径标签及鼠标/checkbox/radio 交互规则。适配器提供实时选项、模式、checked 状态和可选上下文回调；加载在路径更新前调用，checkbox 在路径更新后读取当前勾选值。Vue 保留 option Ref、computed 缓存、控件、插槽与原组件 API。

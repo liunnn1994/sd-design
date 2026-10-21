@@ -1,8 +1,9 @@
 import { ref, reactive, inject, computed } from 'vue';
 
+import { createLocaleRegistry, createLocaleTranslator } from '@sdata/web-core/locale/foundation';
+
 import type { SdI18nMessages, SdLang } from './interface';
 
-import { isString, isObject, isArray } from '../_utils/is';
 import { configProviderInjectionKey } from '../config-provider/context';
 import { DEFAULT_LOCALE } from './constant';
 import zhCN from './lang/zh-cn';
@@ -11,6 +12,23 @@ export { DEFAULT_LOCALE, DEFAULT_LOCALE_KEY } from './constant';
 
 const LOCALE = ref(DEFAULT_LOCALE);
 const I18N_MESSAGES = reactive(new Map<string, SdLang>([[DEFAULT_LOCALE, zhCN]]));
+const registry = createLocaleRegistry(
+  {
+    get messages() {
+      return I18N_MESSAGES;
+    },
+    get locale() {
+      return LOCALE.value;
+    },
+    set locale(value) {
+      LOCALE.value = value;
+    },
+  },
+  (message) => {
+    // oxlint-disable-next-line no-console
+    console.warn(message);
+  },
+);
 
 /**
  * 添加地区语言包。添加过后的语言包可以通过 `useLocale` 使用
@@ -23,11 +41,7 @@ export const addI18nMessages = (
     overwrite?: boolean;
   },
 ) => {
-  for (const key of Object.keys(messages)) {
-    if (!I18N_MESSAGES.has(key) || options?.overwrite) {
-      I18N_MESSAGES.set(key, messages[key]);
-    }
-  }
+  registry.addI18nMessages(messages, options);
 };
 
 /**
@@ -35,61 +49,30 @@ export const addI18nMessages = (
  * @param locale
  */
 export const useLocale = (locale: string) => {
-  if (!I18N_MESSAGES.has(locale)) {
-    // oxlint-disable-next-line no-console
-    console.warn(`use ${locale} failed! Please add ${locale} first`);
-    return;
-  }
-  LOCALE.value = locale;
+  registry.useLocale(locale);
 };
 
 /**
  * 获取当前的地区语言
  */
 export const getLocale = () => {
-  return LOCALE.value;
+  return registry.getLocale();
 };
 
 // 仅内部使用
 export const useI18n = () => {
   const configProvider = inject(configProviderInjectionKey, undefined);
-  const i18nMessage = computed<SdLang>(
-    () =>
-      configProvider?.locale ??
-      I18N_MESSAGES.get(LOCALE.value) ??
-      I18N_MESSAGES.get(DEFAULT_LOCALE)!,
-  );
+  const i18nMessage = computed<SdLang>(() => registry.getMessage(configProvider?.locale));
   const locale = computed(() => i18nMessage.value.locale);
 
-  const resolveKey = (message: unknown, keyArray: string[]): string | undefined => {
-    let temp: unknown = message;
-
-    for (const keyItem of keyArray) {
-      temp = isObject(temp) ? temp[keyItem] : isArray(temp) ? temp[Number(keyItem)] : undefined;
-    }
-
-    return isString(temp) ? temp : undefined;
-  };
-
-  const transform = (key: string, ...args: unknown[]): string => {
-    const keyArray = key.split('.');
-    // 使用方自建语言包可能不含组件后续新增的键（例如先接入、后升级），
-    // 此时不能把原始 key 渲染到界面上，先回退到默认语言包。
-    const text =
-      resolveKey(i18nMessage.value, keyArray) ??
-      resolveKey(I18N_MESSAGES.get(DEFAULT_LOCALE), keyArray);
-
-    if (text === undefined) {
-      return key;
-    }
-
-    if (args.length > 0) {
-      return text.replace(/{(\d+)}/g, (sub, index) => String(args[index] ?? sub));
-    }
-
-    return text;
-  };
-
+  const transform = createLocaleTranslator({
+    get message() {
+      return i18nMessage.value;
+    },
+    get fallback() {
+      return I18N_MESSAGES.get(DEFAULT_LOCALE);
+    },
+  });
   return {
     i18nMessage,
     locale,

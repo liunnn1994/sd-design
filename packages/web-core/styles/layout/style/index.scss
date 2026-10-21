@@ -1,0 +1,233 @@
+@use '../../style/theme/index.scss' as theme;
+@use 'sass:string';
+@use './token.scss' as *;
+
+$layout-prefix-cls: string.unquote('#{theme.$prefix}-layout');
+$btn-text-prefix-cls: string.unquote('#{theme.$prefix}-btn-text');
+$sider-prefix-cls: string.unquote('#{theme.$prefix}-layout-sider');
+$text-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-text-1'));
+
+.#{$layout-prefix-cls} {
+  display: flex;
+  flex: auto;
+  flex-direction: column;
+
+  /* fix firefox can't set height smaller than content on flex item */
+  min-height: 0;
+  background: $layout-body-bg;
+
+  &,
+  & * {
+    box-sizing: border-box;
+  }
+
+  &#{&}-has-sider {
+    position: relative;
+    flex-direction: row;
+
+    > .#{$layout-prefix-cls},
+    > .#{$layout-prefix-cls}-content {
+      width: 0;
+    }
+  }
+
+  .#{$layout-prefix-cls}-header,
+  .#{$layout-prefix-cls}-footer {
+    flex: 0 0 auto;
+  }
+
+  // RTL
+  &-rtl {
+    direction: rtl;
+  }
+}
+
+// ==================== Header ====================
+.#{$layout-prefix-cls}-header {
+  height: $layout-header-height;
+  padding: $layout-header-padding;
+  color: $layout-header-color;
+  line-height: $layout-header-height;
+  background: $layout-header-bg;
+
+  .#{$btn-text-prefix-cls} {
+    color: $layout-header-color;
+  }
+}
+
+// ==================== Footer ====================
+.#{$layout-prefix-cls}-footer {
+  padding: $layout-footer-padding;
+  color: $text-color;
+  font-size: $layout-font-size;
+  background: $layout-footer-bg;
+}
+
+// =================== Content ===================
+.#{$layout-prefix-cls}-content {
+  flex: auto;
+
+  // fix firefox can't set height smaller than content on flex item
+  min-height: 0;
+  color: $text-color;
+}
+
+// =================== Sider ===================
+.#{$sider-prefix-cls} {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  // fix firefox can't set width smaller than content on flex item
+  min-width: 0;
+  background: $layout-sider-bg;
+  // 与 Menu 的展开/收起过渡保持一致（同时长 + standard 缓动），避免同步收缩时出现割裂感
+  transition:
+    all $layout-motion-duration-mid theme.$transition-timing-function-standard,
+    background 0s;
+
+  &-has-trigger {
+    padding-bottom: $layout-sider-trigger-height;
+  }
+
+  &-right {
+    order: 1;
+  }
+
+  // Fixed region outside the scroll area (e.g. brand / logo).
+  &-header {
+    flex: none;
+  }
+
+  // Scroll region fills the remaining height. `min-height: 0` lets it shrink
+  // below its content so the inner scrollbar can scroll.
+  &-children {
+    flex: 1;
+    min-height: 0;
+  }
+
+  &-children-scroll {
+    overflow: hidden auto;
+  }
+
+  &-zero-width &-children {
+    overflow: hidden;
+  }
+
+  &-trigger {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    height: $layout-sider-trigger-height;
+    color: $layout-sider-trigger-color;
+    line-height: $layout-sider-trigger-height;
+    text-align: center;
+    cursor: pointer;
+    transition:
+      color $layout-motion-duration-mid theme.$transition-timing-function-standard,
+      background-color $layout-motion-duration-mid theme.$transition-timing-function-standard;
+  }
+
+  &-zero-width-trigger {
+    position: absolute;
+    top: $layout-header-height;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $layout-sider-zero-trigger-width;
+    height: $layout-sider-zero-trigger-height;
+    color: $layout-sider-trigger-color;
+    font-size: $layout-sider-zero-trigger-font-size;
+    background: $layout-sider-bg;
+    border-radius: 0 $layout-radius-lg $layout-radius-lg 0;
+    cursor: pointer;
+    transition: background-color $layout-motion-duration-slow ease;
+    inset-inline-end: -$layout-sider-zero-trigger-width;
+
+    &::after {
+      position: absolute;
+      inset: 0;
+      background: transparent;
+      transition: background-color $layout-motion-duration-slow ease;
+      content: '';
+    }
+
+    &:hover::after {
+      background: rgb(255 255 255 / 20%);
+    }
+
+    &-right {
+      inset-inline-start: calc(-1 * $layout-sider-zero-trigger-width);
+      border-radius: $layout-radius-lg 0 0 $layout-radius-lg;
+    }
+  }
+
+  // Light
+  &-light {
+    background: $layout-light-sider-bg;
+
+    .#{$sider-prefix-cls}-trigger {
+      color: $layout-light-trigger-color;
+      background: $layout-light-trigger-bg;
+    }
+
+    .#{$sider-prefix-cls}-zero-width-trigger {
+      color: $layout-light-trigger-color;
+      background: $layout-light-trigger-bg;
+      border: 1px solid $layout-body-bg;
+      border-inline-start: 0;
+    }
+  }
+
+  // Temporary: aside 退化为触发器宿主，菜单内容交给 Drawer 渲染。
+  &-temporary {
+    flex: 0 0 auto;
+    width: auto;
+    background: transparent;
+  }
+
+  &-temporary-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: $layout-sider-zero-trigger-width;
+    height: $layout-sider-zero-trigger-width;
+    color: $text-color;
+    font-size: $layout-sider-zero-trigger-font-size;
+    border-radius: $layout-radius-lg;
+    cursor: pointer;
+    transition: background-color $layout-motion-duration-mid ease;
+
+    &:hover {
+      background: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-fill-2'));
+    }
+  }
+
+  // Rail：aside 常驻窄轨态。aside 流内占位恒为 railWidth，且必须 overflow: visible，
+  // 否则 hover 时内部 absolute overlay 会被裁掉、无法覆盖到相邻内容上方。
+  &-rail {
+    overflow: visible;
+  }
+
+  // Rail 内容 overlay 容器：承载 header/children/trigger。始终保持绝对定位（脱离文档流，
+  // 不推动右侧内容），宽度在内联 style 上随 hover 在 railWidth ↔ 全宽之间切换。
+  // 这里补 width 过渡 → 平滑展开/收回；过渡只作用于浮层自身宽度，不触发相邻内容重排。
+  &-rail-overlay {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    overflow: hidden;
+    background: inherit;
+    transition:
+      width $layout-motion-duration-mid theme.$transition-timing-function-standard,
+      box-shadow $layout-motion-duration-mid theme.$transition-timing-function-standard;
+  }
+
+  // Rail 悬停展开覆盖态（作用于 overlay）：全宽浮于内容上方，
+  // 宽度由内联 style 给定，这里补 z-index 与阴影以区分浮层与底图。
+  &-rail-expand {
+    z-index: $layout-sider-rail-expand-z-index;
+    box-shadow: var(string.unquote('#{theme.$sd-cssvars-prefix}-shadow2-center'));
+  }
+}

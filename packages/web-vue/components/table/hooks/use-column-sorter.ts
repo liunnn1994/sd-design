@@ -1,6 +1,8 @@
 import type { Ref } from 'vue';
 import { computed } from 'vue';
 
+import { createColumnSorterFoundation } from '@sdata/web-core/table/column-sorter';
+
 import type { TableContext } from '../context';
 import type { TableColumnData } from '../interface';
 
@@ -11,35 +13,30 @@ export const useColumnSorter = ({
   column: Ref<TableColumnData>;
   tableCtx: Partial<TableContext>;
 }) => {
-  const sortOrder = computed(() => {
-    if (column.value.dataIndex && column.value.dataIndex === tableCtx.sorter?.field) {
-      return tableCtx.sorter.direction;
-    }
-    return undefined;
+  const foundation = createColumnSorterFoundation({
+    get column() {
+      return column.value;
+    },
+    get context() {
+      return tableCtx;
+    },
+    get sortOrder() {
+      return sortOrder.value;
+    },
+    get sortDirections() {
+      return sortDirections.value;
+    },
+    get nextSortOrder() {
+      return nextSortOrder.value;
+    },
   });
-
-  const sortDirections = computed(() => column.value?.sortable?.sortDirections ?? []);
-
-  const hasSorter = computed(() => sortDirections.value.length > 0);
-
-  const hasAscendBtn = computed(() => sortDirections.value.includes('ascend'));
-  const hasDescendBtn = computed(() => sortDirections.value.includes('descend'));
-
-  const nextSortOrder = computed(() => {
-    if (!sortOrder.value) {
-      return sortDirections.value[0] ?? '';
-    }
-    if (sortOrder.value === sortDirections.value[0]) {
-      return sortDirections.value[1] ?? '';
-    }
-    return '';
-  });
-
-  const handleClickSorter = (ev: Event) => {
-    if (column.value.dataIndex) {
-      tableCtx.onSorterChange?.(column.value.dataIndex, nextSortOrder.value, ev);
-    }
-  };
+  const sortOrder = computed(foundation.getSortOrder);
+  const sortDirections = computed(foundation.getSortDirections);
+  const hasSorter = computed(foundation.hasSorter);
+  const hasAscendBtn = computed(foundation.hasAscendBtn);
+  const hasDescendBtn = computed(foundation.hasDescendBtn);
+  const nextSortOrder = computed(foundation.getNextSortOrder);
+  const { handleClickSorter } = foundation;
 
   return {
     sortOrder,

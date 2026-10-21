@@ -347,14 +347,11 @@ importers:
         specifier: ^3.3.13
         version: 3.3.13(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
 
-  packages/web-vue:
+  packages/web-core:
     dependencies:
       '@chenglou/pretext':
         specifier: ^0.0.9
         version: 0.0.9
-      '@floating-ui/vue':
-        specifier: ^2.0.1
-        version: 2.0.1(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))
       '@lexical/code':
         specifier: ^0.52.0
         version: 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
@@ -376,12 +373,12 @@ importers:
       '@lexical/rich-text':
         specifier: ^0.52.0
         version: 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
+      '@types/qrcode':
+        specifier: ^1.5.6
+        version: 1.5.6
       '@videojs/html':
         specifier: ^10.1.0
         version: 10.1.0(react@19.3.0)
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 15.0.0(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))
       b-tween:
         specifier: ^0.3.3
         version: 0.3.3
@@ -400,6 +397,9 @@ importers:
       cropperjs:
         specifier: ^2.3.0
         version: 2.3.0
+      csstype:
+        specifier: ^3.2.3
+        version: 3.2.3
       dayjs:
         specifier: ^1.11.23
         version: 1.11.23
@@ -412,12 +412,6 @@ importers:
       lexical:
         specifier: ^0.52.0
         version: 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      markstream-vue:
-        specifier: ^2.0.18
-        version: 2.0.18(@antv/infographic@0.2.20)(@terrastruct/d2@0.1.33)(katex@0.18.10)(mermaid@12.1.0)(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))
-      motion-v:
-        specifier: ^2.6.0
-        version: 2.6.0(@vueuse/core@15.0.0(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)))(react@19.3.0)(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))
       number-precision:
         specifier: ^1.6.0
         version: 1.6.0
@@ -436,6 +430,73 @@ importers:
       resize-observer-polyfill:
         specifier: ^1.5.1
         version: 1.5.1
+      sortablejs:
+        specifier: ^1.15.7
+        version: 1.15.7
+      stream-markdown-parser:
+        specifier: 1.2.19
+        version: 1.2.19
+      type-fest:
+        specifier: 'catalog:'
+        version: 5.10.0
+    devDependencies:
+      '@types/chroma-js':
+        specifier: ^3.1.2
+        version: 3.1.2
+      '@types/node':
+        specifier: ~26.6.5
+        version: 26.6.5
+      '@types/sortablejs':
+        specifier: ^1.15.9
+        version: 1.15.9
+      oxfmt:
+        specifier: 'catalog:'
+        version: 0.73.0(@astrojs/compiler-rs@0.5.1)(vite-plus@1.3.0(@astrojs/compiler-rs@0.5.1)(@types/node@26.6.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))(@vue/language-core@3.3.13)(jiti@2.7.0)(sass@1.105.1)(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)(vue-tsc@3.3.13(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))(yaml@2.9.1))
+      sass:
+        specifier: ^1.105.1
+        version: 1.105.1
+      typescript:
+        specifier: npm:typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
+        version: typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2
+
+  packages/web-vue:
+    dependencies:
+      '@floating-ui/vue':
+        specifier: ^2.0.1
+        version: 2.0.1(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))
+      '@sdata/web-core':
+        specifier: workspace:^
+        version: link:../web-core
+      '@vueuse/core':
+        specifier: 'catalog:'
+        version: 15.0.0(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))
+      cropperjs:
+        specifier: ^2.3.0
+        version: 2.3.0
+      dayjs:
+        specifier: ^1.11.23
+        version: 1.11.23
+      driver.js:
+        specifier: ^1.10.2
+        version: 1.10.2
+      es-toolkit:
+        specifier: 'catalog:'
+        version: 1.52.0
+      lexical:
+        specifier: ^0.52.0
+        version: 0.52.0(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
+      markstream-vue:
+        specifier: 2.0.18
+        version: 2.0.18(@antv/infographic@0.2.20)(@terrastruct/d2@0.1.33)(katex@0.18.10)(mermaid@12.1.0)(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))
+      motion-v:
+        specifier: ^2.6.0
+        version: 2.6.0(@vueuse/core@15.0.0(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)))(react@19.3.0)(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))
+      overlayscrollbars:
+        specifier: ^2.16.0
+        version: 2.16.0
+      pdfjs-dist:
+        specifier: ^6.4.299
+        version: 6.4.299
       scroll-into-view-if-needed:
         specifier: ^3.1.0
         version: 3.1.0
@@ -448,15 +509,9 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-      vue-clamp:
-        specifier: ^1.7.2
-        version: 1.7.2(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))
       vue-component-type-helpers:
         specifier: ^3.3.13
         version: 3.3.13
-      vue-draggable-plus:
-        specifier: ^0.6.1
-        version: 0.6.1(@types/sortablejs@1.15.9)
     devDependencies:
       '@babel/types':
         specifier: ^8.0.6
@@ -479,9 +534,6 @@ importers:
       '@semantic-release/release-notes-generator':
         specifier: ^14.1.1
         version: 14.1.1(semantic-release@25.0.9(supports-color@8.1.1)(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))(supports-color@8.1.1)
-      '@types/chroma-js':
-        specifier: ^3.1.2
-        version: 3.1.2
       '@types/clean-css':
         specifier: ^4.2.11
         version: 4.2.11
@@ -509,6 +561,9 @@ importers:
       glob:
         specifier: ^13.0.6
         version: 13.0.6
+      qrcode:
+        specifier: ^1.5.4
+        version: 1.5.4
       sass:
         specifier: ^1.105.1
         version: 1.105.1
@@ -6940,6 +6995,9 @@ packages:
     resolution: {integrity: sha512-j7WyPdf0CJoutMzMoPLF/bVXHtKZIT9Rb4eGeEbWw8X2t5oirjPgpL+OpaENZrILYaXqYwnVH+qgUwVbl+pUJQ==}
     engines: {node: '>= 18'}
 
+  sortablejs@1.15.7:
+    resolution: {integrity: sha512-Kk8wLQPlS+yi1ZEf48a4+fzHa4yxjC30M/Sr2AnQu+f/MPwvvX9XjZ6OWejiz8crBsLwSq8GHqaxaET7u6ux0A==}
+
   source-map-js@1.2.2:
     resolution: {integrity: sha512-KGj/8Y43x35aZVDtt+J4mK1hoLGHULMYfSkODJNQjNDC3oW1PqPoxMwo0pLUsWM/UEGzON/NxeHywEfNXNP3Vw==}
     engines: {node: '>=0.10.0'}
@@ -7841,11 +7899,6 @@ packages:
   vscode-uri@3.2.0:
     resolution: {integrity: sha512-m2gXo3bn0G1kT9InzMf07fTbqMbGtyckj3bH5ktLO+1Ssv+yiATZ4dhwaQv9UZWxJh6E9IFGnQyjgWVDWVBDrg==}
 
-  vue-clamp@1.7.2:
-    resolution: {integrity: sha512-xp/R5WvKoehFmwPwapJ7MWmP9l+PX1II56O7M589dXh3oeiuR0hNN62Kv0iM+4Ks3f2dd+FopV0JmYoRMxRiHw==}
-    peerDependencies:
-      vue: ^3.5.0
-
   vue-component-type-helpers@3.3.13:
     resolution: {integrity: sha512-02KCxSmKDhIITjKyJ4QT5csP6L0WoRborLqY/34a40+S9uvMvdNgMV0yVjO3p2Gkz3ZoPmFz/0JsGHacwJYTxw==}
 
@@ -7853,15 +7906,6 @@ packages:
     resolution: {integrity: sha512-n9ENAcs+40awPZMsas7STqjkZiVlIjxIKgiJr5rSohDP0/JCrD9VtlzNojafsA1MChm/hz2h3PDtUedx3lbgfA==}
     peerDependencies:
       vue: '>=2'
-
-  vue-draggable-plus@0.6.1:
-    resolution: {integrity: sha512-FbtQ/fuoixiOfTZzG3yoPl4JAo9HJXRHmBQZFB9x2NYCh6pq0TomHf7g5MUmpaDYv+LU2n6BPq2YN9sBO+FbIg==}
-    peerDependencies:
-      '@types/sortablejs': ^1.15.0
-      '@vue/composition-api': '*'
-    peerDependenciesMeta:
-      '@vue/composition-api':
-        optional: true
 
   vue-inbrowser-compiler-independent-utils@4.71.1:
     resolution: {integrity: sha512-K3wt3iVmNGaFEOUR4JIThQRWfqokxLfnPslD41FDZB2ajXp789+wCqJyGYlIFsvEQ2P61PInw6/ph5iiqg51gg==}
@@ -14929,6 +14973,8 @@ snapshots:
 
   smol-toml@1.9.1: {}
 
+  sortablejs@1.15.7: {}
+
   source-map-js@1.2.2: {}
 
   source-map@0.6.1: {}
@@ -15842,11 +15888,6 @@ snapshots:
 
   vscode-uri@3.2.0: {}
 
-  vue-clamp@1.7.2(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)):
-    dependencies:
-      '@chenglou/pretext': 0.0.9
-      vue: 3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
-
   vue-component-type-helpers@3.3.13: {}
 
   vue-docgen-api@4.79.2(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)):
@@ -15864,10 +15905,6 @@ snapshots:
       ts-map: 1.0.3
       vue: 3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)
       vue-inbrowser-compiler-independent-utils: 4.71.1(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))
-
-  vue-draggable-plus@0.6.1(@types/sortablejs@1.15.9):
-    dependencies:
-      '@types/sortablejs': 1.15.9
 
   vue-inbrowser-compiler-independent-utils@4.71.1(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)):
     dependencies:

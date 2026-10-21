@@ -1,17 +1,11 @@
 import type { Ref } from 'vue';
 import { computed, reactive, ref, watch } from 'vue';
 
+import { DEFAULT_FIELD_NAMES, syncOptionInfoMap } from '@sdata/web-core/select/options';
+
 import type { FilterOption, SelectOption, SelectOptionInfo, SelectFieldNames } from '../interface';
 
 import { getOptionInfos, getValidOptions, isValidOption } from '../utils';
-
-const DEFAULT_FIELD_NAMES = {
-  value: 'value',
-  label: 'label',
-  children: 'children',
-  disabled: 'disabled',
-  tagProps: 'tagProps',
-};
 
 export const useOptions = ({
   options,
@@ -70,20 +64,11 @@ export const useOptions = ({
   watch(
     [options ?? ref([]), extraOptions ?? ref([]), valueKey ?? ref('value'), mergedFieldNames],
     () => {
-      optionInfoMap.clear();
-
-      propOptionData.value.optionInfoMap.forEach((info) => {
-        if (!optionInfoMap.has(info.key)) {
-          info.index = optionInfoMap.size;
-          optionInfoMap.set(info.key, info);
-        }
-      });
-      extraOptionData.value.optionInfoMap.forEach((info) => {
-        if (!optionInfoMap.has(info.key)) {
-          info.index = optionInfoMap.size;
-          optionInfoMap.set(info.key, info);
-        }
-      });
+      syncOptionInfoMap(
+        optionInfoMap,
+        propOptionData.value.optionInfoMap,
+        extraOptionData.value.optionInfoMap,
+      );
     },
     { immediate: true, deep: true },
   );

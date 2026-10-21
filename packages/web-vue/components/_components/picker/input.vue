@@ -38,6 +38,7 @@
 <script setup lang="ts">
   import { computed, PropType, ref, toRef, toRefs, useSlots } from 'vue';
 
+  import { resolvePickerInputValue } from '@sdata/web-core/picker/input';
   import { Dayjs } from 'dayjs';
 
   import { useFitWidth } from '../../_hooks/use-fit-width';
@@ -49,7 +50,6 @@
   } from '../../_hooks/use-readonly-tip';
   import { useSize } from '../../_hooks/use-size';
   import { getPrefixCls } from '../../_utils/global-config';
-  import { isDayjs, isFunction } from '../../_utils/is';
   import IconClose from '../../icon/icon-close';
   import Tooltip from '../../tooltip';
   import FeedbackIcon from '../feedback-icon.vue';
@@ -113,7 +113,7 @@
 
   const slots = useSlots();
 
-  const { error, focused, disabled, size, value, format, inputValue } = toRefs(props);
+  const { error, focused, disabled, size } = toRefs(props);
   const {
     mergedSize: _mergedSize,
     mergedDisabled,
@@ -142,15 +142,7 @@
       [`${prefixCls}-max-w-full`]: props.maxWFull,
     },
   ]);
-  const displayValue = computed(() => {
-    if (inputValue?.value !== undefined) return inputValue.value;
-    if (value?.value && isDayjs(value.value)) {
-      return isFunction(format.value)
-        ? format.value(value.value)
-        : value.value.format(format.value);
-    }
-    return undefined;
-  });
+  const displayValue = computed(() => resolvePickerInputValue(props));
 
   const refInput = ref<HTMLInputElement>();
   const { fitWidthStyle, fitWidthValue } = useFitWidth({

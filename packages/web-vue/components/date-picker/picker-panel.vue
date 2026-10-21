@@ -82,14 +82,13 @@
 <script setup lang="ts">
   import { computed, PropType, reactive, toRefs, watch } from 'vue';
 
+  import { getDateShortcutValue } from '@sdata/web-core/date-picker/values';
   import { Dayjs } from 'dayjs';
 
-  import { getDayjsValue, getNow } from '../_utils/date';
-  import { isFunction } from '../_utils/is';
+  import { getNow } from '../_utils/date';
   import { TimePickerProps } from '../time-picker/interface';
   import useHeaderValue from './hooks/use-header-value';
   import {
-    CalendarValue,
     DisabledDate,
     DisabledTime,
     HeaderIcons,
@@ -275,15 +274,8 @@
     { immediate: true },
   );
 
-  function getShortcutValue(shortcut: ShortcutType) {
-    const { value } = shortcut;
-    return getDayjsValue(
-      (isFunction(value) ? value() : value) as CalendarValue,
-      shortcut.format || format.value,
-      utcOffset?.value,
-      timezone?.value,
-    );
-  }
+  const getShortcutValue = (shortcut: ShortcutType) =>
+    getDateShortcutValue(shortcut, format.value, utcOffset?.value, timezone?.value);
 
   function onShortcutClick(shortcut: ShortcutType) {
     emit('shortcut-click', getShortcutValue(shortcut), shortcut);

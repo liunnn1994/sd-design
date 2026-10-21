@@ -38,6 +38,8 @@
     type VNode,
   } from 'vue';
 
+  import { syncTabPane } from '@sdata/web-core/tabs/foundation';
+
   import { getPrefixCls } from '../_utils/global-config';
   import Scrollbar, { type ScrollbarProps } from '../scrollbar';
   import { TabsContext, tabsInjectionKey } from './context';
@@ -147,15 +149,11 @@
     }
   });
 
-  watch(active, (active) => {
-    if (active) {
-      if (!mounted.value) {
-        mounted.value = true;
-      }
-    } else if (props.destroyOnHide || tabsCtx.destroyOnHide) {
-      mounted.value = false;
-    }
-  });
+  watch(active, (active) =>
+    syncTabPane(active, props.destroyOnHide || tabsCtx.destroyOnHide, mounted.value, (value) => {
+      mounted.value = value;
+    }),
+  );
 
   onUpdated(() => {
     data.slots = { ...slots };

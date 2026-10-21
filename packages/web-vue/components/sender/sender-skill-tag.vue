@@ -28,6 +28,11 @@
   import type { VNode } from 'vue';
   import { computed } from 'vue';
 
+  import {
+    isSenderSkillCloseDisabled,
+    resolveSenderSkillTooltip,
+    createSenderSkillTag,
+  } from '@sdata/web-core/sender/controls';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { SenderSkill } from './types';
@@ -56,28 +61,10 @@
   const prefixCls = getPrefixCls('sender');
   const closeClass = computed(() => [
     `${prefixCls}-skill-tag-close`,
-    {
-      [`${prefixCls}-skill-tag-close-disabled`]:
-        props.disabled ||
-        props.readonly ||
-        (typeof props.skill.closable === 'object' && props.skill.closable.disabled),
-    },
+    { [`${prefixCls}-skill-tag-close-disabled`]: isSenderSkillCloseDisabled(props) },
   ]);
-  const tooltipProps = computed(() =>
-    typeof props.skill.tooltip === 'string'
-      ? { content: props.skill.tooltip }
-      : props.skill.tooltip,
+  const tooltipProps = computed(() => resolveSenderSkillTooltip(props.skill));
+  const { remove: handleRemove, keydown: handleRemoveKeydown } = createSenderSkillTag((event) =>
+    emit('remove', event),
   );
-
-  function handleRemove(event: Event) {
-    event.stopPropagation();
-    emit('remove', event);
-  }
-
-  function handleRemoveKeydown(event: KeyboardEvent) {
-    if (event.key !== 'Enter' && event.key !== ' ') return;
-    event.preventDefault();
-    event.stopPropagation();
-    emit('remove', event);
-  }
 </script>

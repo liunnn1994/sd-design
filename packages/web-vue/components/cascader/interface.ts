@@ -1,4 +1,16 @@
-import { BaseType, FieldString } from '../_utils/types';
+import type {
+  CascaderOptionValue,
+  CascaderPathValue,
+  CascaderSingleValue,
+  CascaderModelValue,
+} from '@sdata/web-core/cascader/types';
+export type {
+  CascaderOptionValue,
+  CascaderPathValue,
+  CascaderSingleValue,
+  CascaderModelValue,
+  CascaderFieldNames,
+} from '@sdata/web-core/cascader/types';
 import { TagProps } from '../tag';
 
 export type CascaderLazyLoadOptions = Record<
@@ -6,13 +18,6 @@ export type CascaderLazyLoadOptions = Record<
   { source: CascaderOption; children: CascaderOption[] }
 >;
 
-export type CascaderOptionValue = BaseType | Record<string, unknown>;
-
-export type CascaderPathValue = CascaderOptionValue[];
-
-export type CascaderSingleValue = CascaderOptionValue | CascaderPathValue;
-
-export type CascaderModelValue = CascaderSingleValue | CascaderSingleValue[] | undefined;
 export type CascaderFallback = (value: CascaderSingleValue) => string;
 export type CascaderFormatLabel = (options: CascaderOption[]) => string;
 export type CascaderLoadMore = (
@@ -57,8 +62,6 @@ export interface CascaderOption {
 
   [other: string]: unknown;
 }
-
-export type CascaderFieldNames = FieldString<CascaderOption>;
 
 export interface CascaderOptionWithTotal extends CascaderOption {
   children?: CascaderOptionWithTotal[];

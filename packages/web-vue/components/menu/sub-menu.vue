@@ -37,6 +37,8 @@
     type PropType,
   } from 'vue';
 
+  import { isMenuPopup, hasMenuSelectedDescendant } from '@sdata/web-core/menu/foundation';
+
   import IconDown from '../icon/icon-down';
   import IconRight from '../icon/icon-right';
   import useLevel from './hooks/use-level';
@@ -95,32 +97,28 @@
   const expandIconDown = toRef(menuContext, 'expandIconDown');
   const expandIconRight = toRef(menuContext, 'expandIconRight');
 
-  const computedPopup = computed(() => {
-    const { mode, collapsed, inTrigger } = menuContext;
-    const forcePopup = !!(typeof props.popup === 'function'
-      ? props.popup(level.value)
-      : props.popup);
-    return forcePopup || collapsed || inTrigger || mode !== 'vertical';
-  });
+  const computedPopup = computed(() =>
+    isMenuPopup(
+      typeof props.popup === 'function' ? props.popup.bind(props) : props.popup,
+      level.value,
+      menuContext.collapsed,
+      menuContext.inTrigger,
+      menuContext.mode,
+    ),
+  );
 
   const { subMenuKeys, menuItemKeys } = useMenuDataCollector({
     key: key.value,
     type: 'subMenu',
   });
 
-  const isChildrenSelected = computed(() => {
-    const selectedKeys = menuContext.selectedKeys || [];
-    const checkSelected = (menuKeys: string[]) => {
-      for (const selectedKey of selectedKeys) {
-        if (menuKeys.includes(selectedKey)) {
-          return true;
-        }
-      }
-      return false;
-    };
-
-    return checkSelected(subMenuKeys.value) || checkSelected(menuItemKeys.value);
-  });
+  const isChildrenSelected = computed(() =>
+    hasMenuSelectedDescendant(
+      menuContext.selectedKeys || [],
+      subMenuKeys.value,
+      menuItemKeys.value,
+    ),
+  );
 
   const forwardedSlotNames = computed(() =>
     slotNames.value.filter((name) => name !== 'expand-icon-down' && name !== 'expand-icon-right'),

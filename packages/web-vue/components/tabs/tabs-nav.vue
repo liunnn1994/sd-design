@@ -88,6 +88,12 @@
     type VNodeChild,
   } from 'vue';
 
+  import { getTabNavigationTarget } from '@sdata/web-core/tabs/foundation';
+  import {
+    createTabsNavigation,
+    getTabMarginSide,
+    getTabTargetOffset,
+  } from '@sdata/web-core/tabs/navigation';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { Direction } from '../_utils/constant';
@@ -97,8 +103,7 @@
   import ResizeObserver from '../_components/resize-observer.vue';
   import { off, on } from '../_utils/dom';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isNumber, isUndefined } from '../_utils/is';
-  import { KEYBOARD_KEY } from '../_utils/keyboard';
+  import { isUndefined } from '../_utils/is';
   import { configProviderInjectionKey } from '../config-provider/context';
   import IconPlus from '../icon/icon-plus';
   import { useI18n } from '../locale';
@@ -209,21 +214,41 @@
       : listRef.value.offsetWidth > wrapperRef.value.offsetWidth;
   };
 
-  const getSize = () => {
-    isScroll.value = isOverflow();
-    if (isScroll.value) {
-      wrapperLength.value = getWrapperLength();
-      maxOffset.value = getMaxOffset();
-      if (offset.value > maxOffset.value) offset.value = maxOffset.value;
-    } else {
-      offset.value = 0;
-    }
-  };
-
-  const setOffset = (nextOffset: number) => {
-    if (!wrapperRef.value || !listRef.value || nextOffset < 0) nextOffset = 0;
-    offset.value = Math.min(nextOffset, maxOffset.value);
-  };
+  const navigation = createTabsNavigation({
+    get offset() {
+      return offset.value;
+    },
+    get max() {
+      return maxOffset.value;
+    },
+    get scrolling() {
+      return isScroll.value;
+    },
+    get wrapperLength() {
+      return wrapperLength.value;
+    },
+    get rtl() {
+      return isRtlHorizontal.value;
+    },
+    hasElements: () => Boolean(wrapperRef.value && listRef.value),
+    measureOverflow: isOverflow,
+    measureWrapper: getWrapperLength,
+    measureMax: getMaxOffset,
+    setOffset(value) {
+      offset.value = value;
+    },
+    setScrolling(value) {
+      isScroll.value = value;
+    },
+    setWrapperLength(value) {
+      wrapperLength.value = value;
+    },
+    setMax(value) {
+      maxOffset.value = value;
+    },
+  });
+  const getSize = navigation.measure;
+  const setOffset = navigation.setOffset;
 
   const setActiveTabOffset = () => {
     if (!activeTabRef.value || !wrapperRef.value || !isScroll.value) return;
@@ -239,89 +264,43 @@
     } else {
       tabPosition = isHorizontal ? activeTabRef.value.offsetLeft : activeTabRef.value.offsetTop;
     }
-    const marginSide = isHorizontal
-      ? isRtlHorizontal.value
-        ? props.scrollPosition === 'end'
-          ? 'marginLeft'
-          : 'marginRight'
-        : props.scrollPosition === 'end'
-          ? 'marginRight'
-          : 'marginLeft'
-      : props.scrollPosition === 'end'
-        ? 'marginBottom'
-        : 'marginTop';
+    const marginSide = getTabMarginSide(isHorizontal, isRtlHorizontal.value, props.scrollPosition);
     const tabStyle = window.getComputedStyle(activeTabRef.value);
     const tabMargin = parseFloat(tabStyle[marginSide]) || 0;
-    let targetOffset = 0;
-    switch (props.scrollPosition) {
-      case 'auto':
-        if (tabPosition < offset.value) targetOffset = tabPosition - tabMargin;
-        else if (tabPosition + tabSize > offset.value + wrapperSize)
-          targetOffset = tabPosition + tabSize - wrapperSize + tabMargin;
-        else targetOffset = offset.value;
-        break;
-      case 'center':
-        targetOffset = tabPosition + (tabSize - wrapperSize + tabMargin) / 2;
-        break;
-      case 'start':
-        targetOffset = tabPosition - tabMargin;
-        break;
-      case 'end':
-        targetOffset = tabPosition + tabSize - wrapperSize + tabMargin;
-        break;
-      default:
-        if (isNumber(props.scrollPosition)) targetOffset = tabPosition - props.scrollPosition;
-    }
-    setOffset(targetOffset);
+    setOffset(
+      getTabTargetOffset(
+        props.scrollPosition,
+        offset.value,
+        tabPosition,
+        tabSize,
+        wrapperSize,
+        tabMargin,
+      ),
+    );
   };
 
-  const handleWheel = (event: WheelEvent) => {
-    if (!isScroll.value) return;
-    event.preventDefault();
-    const { deltaX, deltaY } = event;
-    setOffset(offset.value + (Math.abs(deltaX) > Math.abs(deltaY) ? deltaX : deltaY));
-  };
+  const handleWheel = navigation.wheel;
   const handleClick = (key: string | number, event: Event) => emit('click', key, event);
   const handleDelete = (key: string | number, event: Event) => {
     emit('delete', key, event);
   };
-  const handleButtonClick = (type: string) => {
-    const scrollDirection = (type === 'previous') !== isRtlHorizontal.value ? -1 : 1;
-    setOffset(offset.value + scrollDirection * wrapperLength.value);
-  };
+  const handleButtonClick = navigation.button;
   const focusAndActivate = (key: string | number, event: KeyboardEvent) => {
     const element = tabsRef.value.get(key);
     if (element instanceof HTMLElement) element.focus();
     emit('click', key, event);
   };
   const handleListKeydown = (event: KeyboardEvent) => {
-    const enabled = props.tabs.filter((tab) => !tab.disabled);
-    if (!enabled.length) return;
-    const length = enabled.length;
-    const currentIndex = Math.max(
-      0,
-      enabled.findIndex((tab) => tab.key === props.activeKey),
+    const target = getTabNavigationTarget(
+      props.tabs,
+      props.activeKey,
+      props.direction,
+      isRtlHorizontal.value,
+      event.key,
     );
-    let nextIndex = currentIndex;
-    const { key } = event;
-    if (props.direction === 'vertical') {
-      if (key === KEYBOARD_KEY.ARROW_DOWN) nextIndex = currentIndex + 1;
-      else if (key === KEYBOARD_KEY.ARROW_UP) nextIndex = currentIndex - 1;
-      else if (key === KEYBOARD_KEY.HOME) nextIndex = 0;
-      else if (key === KEYBOARD_KEY.END) nextIndex = length - 1;
-      else return;
-    } else {
-      if (key === KEYBOARD_KEY.ARROW_RIGHT)
-        nextIndex = isRtlHorizontal.value ? currentIndex - 1 : currentIndex + 1;
-      else if (key === KEYBOARD_KEY.ARROW_LEFT)
-        nextIndex = isRtlHorizontal.value ? currentIndex + 1 : currentIndex - 1;
-      else if (key === KEYBOARD_KEY.HOME) nextIndex = 0;
-      else if (key === KEYBOARD_KEY.END) nextIndex = length - 1;
-      else return;
-    }
+    if (!target) return;
     event.preventDefault();
-    nextIndex = ((nextIndex % length) + length) % length;
-    focusAndActivate(enabled[nextIndex].key, event);
+    focusAndActivate(target.key, event);
   };
 
   const handleResize = () => {

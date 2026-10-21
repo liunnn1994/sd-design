@@ -105,16 +105,14 @@
 <script setup lang="ts">
   import { computed } from 'vue';
 
+  import {
+    createTagGroupFoundation,
+    OVERFLOW_COUNTER_VALUE,
+  } from '@sdata/web-core/tag-group/foundation';
   import { createReusableTemplate } from '@vueuse/core';
-  import { isFunction, isString } from 'es-toolkit';
-  import { isNumber } from 'es-toolkit/compat';
 
-  import type {
-    TagGroupObjectOption,
-    TagGroupOption,
-    TagGroupOptionLabel,
-    TagGroupProps,
-  } from './interface';
+  import type { EllipsisTooltipProps } from '../ellipsis';
+  import type { TagGroupObjectOption, TagGroupProps } from './interface';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { WrapClamp } from '../clamp';
@@ -130,9 +128,7 @@
     raw: TagGroupObjectOption;
     itemProps: Record<string, unknown>;
   };
-  type OptionFieldRecord = Record<string, unknown>;
 
-  const OVERFLOW_COUNTER_VALUE = '__sd_tag_group_more__';
   const props = withDefaults(defineProps<TagGroupProps>(), {
     maxCount: 'responsive',
     options: () => [],
@@ -157,66 +153,26 @@
     },
   ]);
 
-  function resolveOptionField<T extends keyof TagGroupObjectOption>(
-    option: TagGroupObjectOption,
-    field: string,
-    fallbackField: T,
-  ) {
-    const optionRecord = option as OptionFieldRecord;
-    return (optionRecord[field] ?? option[fallbackField]) as TagGroupObjectOption[T];
-  }
-  function normalizeItemProps(
-    option: TagGroupObjectOption,
-    labelField: string,
-    valueField: string,
-  ) {
-    if (
-      option.itemProps &&
-      typeof option.itemProps === 'object' &&
-      !Array.isArray(option.itemProps)
-    ) {
-      return option.itemProps;
-    }
-    return Object.fromEntries(
-      Object.entries(option as OptionFieldRecord).filter(
-        ([key]) => key !== labelField && key !== valueField && key !== 'itemProps',
-      ),
-    );
-  }
-  function normalizeOption(option: TagGroupOption, index: number): NormalizedTagGroupOption {
-    const { label = 'label', value = 'value' } = props.fieldNames;
-    if (isString(option) || isNumber(option)) {
-      return {
-        key: `${String(option)}-${index}`,
-        label: option,
-        value: option,
-        raw: { label: option, value: option },
-        itemProps: {},
-      };
-    }
-    const normalizedLabel = resolveOptionField(option, label, 'label') as TagGroupOptionLabel;
-    const normalizedValue = resolveOptionField(option, value, 'value') as string | number;
-    return {
-      key: `${String(normalizedValue)}-${index}`,
-      label: isFunction(normalizedLabel) ? normalizedLabel() : normalizedLabel,
-      value: normalizedValue,
-      raw: { ...option, label: normalizedLabel, value: normalizedValue },
-      itemProps: normalizeItemProps(option, label, value),
-    };
-  }
-  const normalizedOptions = computed(() =>
-    props.options.map((option, index) => normalizeOption(option, index)),
-  );
-  const visibleCount = computed(() => {
-    if (typeof props.maxCount === 'number' && props.maxCount > 0) {
-      return Math.min(props.maxCount, normalizedOptions.value.length);
-    }
-    return normalizedOptions.value.length;
+  const foundation = createTagGroupFoundation<EllipsisTooltipProps>({
+    get options() {
+      return props.options;
+    },
+    get fieldNames() {
+      return props.fieldNames;
+    },
+    get maxCount() {
+      return props.maxCount;
+    },
+    get normalizedOptions(): NormalizedTagGroupOption[] {
+      return normalizedOptions.value;
+    },
+    get visibleCount(): number {
+      return visibleCount.value;
+    },
   });
-  const visibleOptions = computed(() => normalizedOptions.value.slice(0, visibleCount.value));
-  const hiddenOptions = computed(() => normalizedOptions.value.slice(visibleCount.value));
-  const resolveOptionLabel = (option: NormalizedTagGroupOption) => {
-    const label = option.raw.label;
-    return isFunction(label) ? label() : option.label;
-  };
+  const normalizedOptions = computed<NormalizedTagGroupOption[]>(foundation.getNormalizedOptions);
+  const visibleCount = computed(foundation.getVisibleCount);
+  const visibleOptions = computed(foundation.getVisibleOptions);
+  const hiddenOptions = computed(foundation.getHiddenOptions);
+  const { resolveOptionLabel } = foundation;
 </script>

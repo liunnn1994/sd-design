@@ -1,12 +1,11 @@
+import type { NumberFlowGroupChild } from '@sdata/web-core/number-flow/group';
+
 import type { ComputedRef, InjectionKey } from 'vue';
 
 import type { NumberFlowValue } from './types';
 
-export interface GroupChild {
+export interface GroupChild extends NumberFlowGroupChild {
   value: ComputedRef<NumberFlowValue>;
-  prepare: () => number | undefined;
-  commit: (version: number) => boolean;
-  start: (version: number) => void;
 }
 
 export const GROUP_KEY: InjectionKey<{

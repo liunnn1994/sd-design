@@ -4,76 +4,16 @@
 
 <script setup lang="ts">
   import { computed, getCurrentInstance, onBeforeUpdate, provide, shallowRef, watch } from 'vue';
-  import type { Ref } from 'vue';
 
+  import {
+    createModelSelectorFoundation,
+    getModelSelectorVisible,
+  } from '@sdata/web-core/model-selector/foundation';
   import { DefaultMagicKeysAliasMap, useMagicKeys } from '@vueuse/core';
 
   import type { ModelSelectorItemData } from './types';
 
   import { modelSelectorInjectionKey } from './context';
-
-  const SHORTCUT_MODIFIER_KEYS = new Set(['alt', 'control', 'meta', 'shift']);
-
-  // 常见命名键别名（vueuse useMagicKeys 原生支持之外的常用写法）
-  const NAMED_KEY_ALIASES: Record<string, string> = {
-    cmd: 'meta',
-    command: 'meta',
-    ctrl: 'control',
-    option: 'alt',
-    esc: 'escape',
-    del: 'delete',
-    ins: 'insert',
-    return: 'enter',
-    spacebar: 'space',
-  };
-
-  // 仅按 “+” 切分：键名本身可能包含 “-”/“_”（如 “-”、“page_up”），
-  // 旧实现按 [+_-] 切分会把这类键名切碎而无法表达。
-  function getShortcutKeys(shortcut: string) {
-    return shortcut
-      .toLocaleLowerCase()
-      .split('+')
-      .map((part) => part.trim())
-      .filter(Boolean)
-      .map((key) => {
-        const namedKey = NAMED_KEY_ALIASES[key] ?? key;
-        const normalizedKey = /^\d$/.test(key) ? `digit${key}` : namedKey;
-        return DefaultMagicKeysAliasMap[normalizedKey] ?? normalizedKey;
-      });
-  }
-
-  function isShortcutPressed(
-    shortcut: string,
-    event: KeyboardEvent,
-    currentKeys: ReadonlySet<string>,
-  ) {
-    const eventCode = event.code.toLocaleLowerCase();
-    const eventKey = event.key.toLocaleLowerCase();
-    const shortcutKeys = getShortcutKeys(shortcut);
-    const isTriggerEvent = shortcutKeys.some(
-      (key) => !SHORTCUT_MODIFIER_KEYS.has(key) && (key === eventCode || key === eventKey),
-    );
-
-    return (
-      isTriggerEvent &&
-      shortcutKeys.every((key) => {
-        if (key === 'alt') {
-          return event.altKey;
-        }
-        if (key === 'control') {
-          return event.ctrlKey;
-        }
-        if (key === 'meta') {
-          return event.metaKey;
-        }
-        if (key === 'shift') {
-          return event.shiftKey;
-        }
-
-        return key === eventCode || key === eventKey || currentKeys.has(key);
-      })
-    );
-  }
 
   defineOptions({ name: 'ModelSelector' });
 
@@ -126,176 +66,106 @@
     hasVisibleProp.value = Object.hasOwn(instance.vnode.props ?? {}, 'visible');
   });
   const mergedVisible = computed(() =>
-    hasVisibleProp.value ? Boolean(visibleModel.value) : innerVisible.value,
+    getModelSelectorVisible(hasVisibleProp.value, visibleModel.value, innerVisible.value),
   );
   const query = shallowRef('');
   const activeId = shallowRef<symbol>();
   const itemsVersion = shallowRef(0);
-  const items = new Map<symbol, ModelSelectorItemData>();
-  const groups = new Map<symbol, Ref<boolean>>();
   const listId = `sd-model-selector-list-${instance.uid}`;
 
-  const normalizedQuery = computed(() => query.value.trim().toLocaleLowerCase());
-
-  function isItemVisible(item: ModelSelectorItemData) {
-    const search = normalizedQuery.value;
-    if (!search) {
-      return true;
-    }
-
-    return [item.value, item.label, ...item.keywords].some((text) =>
-      text.toLocaleLowerCase().includes(search),
+  const foundation: ReturnType<typeof createModelSelectorFoundation> =
+    createModelSelectorFoundation(
+      {
+        props: {
+          get closeOnSelect() {
+            return closeOnSelect;
+          },
+          get resetQueryOnClose() {
+            return resetQueryOnClose;
+          },
+        },
+        get innerVisible() {
+          return innerVisible.value;
+        },
+        set innerVisible(value) {
+          innerVisible.value = value;
+        },
+        get visibleModel() {
+          return visibleModel.value;
+        },
+        set visibleModel(value) {
+          visibleModel.value = value;
+        },
+        get query() {
+          return query.value;
+        },
+        set query(value) {
+          query.value = value;
+        },
+        get activeId() {
+          return activeId.value;
+        },
+        set activeId(value) {
+          activeId.value = value;
+        },
+        get itemsVersion() {
+          return itemsVersion.value;
+        },
+        set itemsVersion(value) {
+          itemsVersion.value = value;
+        },
+        get mergedVisible(): boolean {
+          return mergedVisible.value;
+        },
+        get normalizedQuery(): string {
+          return normalizedQuery.value;
+        },
+        get visibleItems(): ModelSelectorItemData[] {
+          return visibleItems.value;
+        },
+        get navigableItems(): ModelSelectorItemData[] {
+          return navigableItems.value;
+        },
+      },
+      {
+        keyAliases: DefaultMagicKeysAliasMap,
+        get currentKeys(): ReadonlySet<string> {
+          return magicKeys.current;
+        },
+        visibleChange: (value) => emit('visibleChange', value),
+        select: (value, event) => emit('select', value, event),
+      },
     );
-  }
-
-  function getVisibleItems(groupId?: symbol) {
-    void itemsVersion.value;
-    return [...items.values()].filter(
-      (item) => (groupId === undefined || item.groupId === groupId) && isItemVisible(item),
-    );
-  }
-
+  const {
+    getVisibleItems,
+    setVisible,
+    registerItem,
+    registerGroup,
+    unregisterGroup,
+    updateItem,
+    unregisterItem,
+    setActive,
+    moveActive,
+    selectItem,
+    selectActive,
+    syncQuery,
+    syncNavigableItems,
+    syncVisible,
+  } = foundation;
+  const normalizedQuery = computed(() => foundation.getNormalizedQuery());
   const visibleItems = computed(() => getVisibleItems());
-  const navigableItems = computed(() =>
-    visibleItems.value.filter((item) => !item.groupId || groups.get(item.groupId)?.value !== false),
-  );
+  const navigableItems = computed(() => foundation.getNavigableItems());
   const visibleItemCount = computed(() => visibleItems.value.length);
-  const activeDescendant = computed(() =>
-    activeId.value ? items.get(activeId.value)?.domId : undefined,
-  );
+  const activeDescendant = computed(() => foundation.getActiveDescendant());
   const magicKeys = useMagicKeys({
     passive: false,
     onEventFired(event) {
-      if (event.type !== 'keydown' || event.repeat || !mergedVisible.value) {
-        return;
-      }
-
-      const item = navigableItems.value.find(
-        ({ disabled, shortcut }) =>
-          !disabled && shortcut && isShortcutPressed(shortcut, event, magicKeys.current),
-      );
-      if (!item) {
-        return;
-      }
-
-      event.preventDefault();
-      event.stopPropagation();
-      item.select(event);
+      foundation.handleShortcut(event);
     },
   });
-
-  function setVisible(value: boolean) {
-    if (mergedVisible.value === value) {
-      return;
-    }
-
-    innerVisible.value = value;
-    visibleModel.value = value;
-    emit('visibleChange', value);
-  }
-
-  function registerItem(item: ModelSelectorItemData) {
-    items.set(item.id, item);
-    itemsVersion.value += 1;
-  }
-
-  function registerGroup(id: symbol, expanded: Ref<boolean>) {
-    groups.set(id, expanded);
-  }
-
-  function unregisterGroup(id: symbol) {
-    groups.delete(id);
-  }
-
-  function updateItem(item: ModelSelectorItemData) {
-    items.set(item.id, item);
-    itemsVersion.value += 1;
-  }
-
-  function unregisterItem(id: symbol) {
-    items.delete(id);
-    if (activeId.value === id) {
-      activeId.value = undefined;
-    }
-    itemsVersion.value += 1;
-  }
-
-  function setActive(id?: symbol) {
-    activeId.value = id;
-  }
-
-  function moveActive(offset: number) {
-    const enabledItems = navigableItems.value
-      .filter((item) => !item.disabled)
-      .sort((a, b) => {
-        if (!a.element || !b.element) {
-          return 0;
-        }
-        const position = a.element.compareDocumentPosition(b.element);
-        if (position & Node.DOCUMENT_POSITION_FOLLOWING) {
-          return -1;
-        }
-        if (position & Node.DOCUMENT_POSITION_PRECEDING) {
-          return 1;
-        }
-        return 0;
-      });
-    if (!enabledItems.length) {
-      activeId.value = undefined;
-      return;
-    }
-
-    const currentIndex = enabledItems.findIndex((item) => item.id === activeId.value);
-    const nextIndex =
-      currentIndex === -1
-        ? offset > 0
-          ? 0
-          : enabledItems.length - 1
-        : (currentIndex + offset + enabledItems.length) % enabledItems.length;
-    const nextItem = enabledItems[nextIndex];
-    activeId.value = nextItem.id;
-    nextItem.element?.scrollIntoView({ block: 'nearest' });
-  }
-
-  function selectItem(item: ModelSelectorItemData, event: Event) {
-    if (item.disabled) {
-      return;
-    }
-
-    emit('select', item.value, event);
-    if (closeOnSelect) {
-      setVisible(false);
-    }
-  }
-
-  function selectActive(event: Event) {
-    if (!activeId.value) {
-      return;
-    }
-
-    const item = navigableItems.value.find((item) => item.id === activeId.value);
-    if (item) {
-      item.select(event);
-    }
-  }
-
-  watch(query, () => {
-    activeId.value = navigableItems.value.find((item) => !item.disabled)?.id;
-  });
-
-  watch(navigableItems, (availableItems) => {
-    if (activeId.value && !availableItems.some((item) => item.id === activeId.value)) {
-      activeId.value = availableItems.find((item) => !item.disabled)?.id;
-    }
-  });
-
-  watch(mergedVisible, (visible) => {
-    if (!visible && resetQueryOnClose) {
-      query.value = '';
-      activeId.value = undefined;
-    }
-  });
-
+  watch(query, syncQuery);
+  watch(navigableItems, syncNavigableItems);
+  watch(mergedVisible, syncVisible);
   provide(modelSelectorInjectionKey, {
     activeDescendant,
     activeId,

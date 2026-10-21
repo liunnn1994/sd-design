@@ -70,6 +70,11 @@
 <script setup lang="ts">
   import { computed, PropType, reactive, ref, toRefs, watch } from 'vue';
 
+  import {
+    getSelectedTimeHour,
+    getSelectedTimeAmpm,
+    getSelectedTime,
+  } from '@sdata/web-core/time-picker/panel';
   import { Dayjs } from 'dayjs';
 
   import type { PanelProps } from './interface';
@@ -170,20 +175,12 @@
     setSelectedValue(value?.value);
   });
 
-  const selectedHour = computed(() => {
-    const _hour = selectedValue.value?.hour();
-    if (isUndefined(_hour) || !computedUse12Hours.value) return _hour;
-    // Use 12-hour clock
-    if (_hour > 12) return _hour - 12;
-    if (_hour === 0) return 12;
-    return _hour;
-  });
+  const selectedHour = computed(() =>
+    getSelectedTimeHour(selectedValue.value, computedUse12Hours.value),
+  );
   const selectedMinute = computed(() => selectedValue.value?.minute());
   const selectedSecond = computed(() => selectedValue.value?.second());
-  const selectedAmpm = computed(() => {
-    const _hour = selectedValue.value?.hour();
-    return !isUndefined(_hour) && _hour >= 12 ? 'pm' : 'am';
-  });
+  const selectedAmpm = computed(() => getSelectedTimeAmpm(selectedValue.value));
 
   const { hours, minutes, seconds, ampmList } = useTimeList(
     reactive({
@@ -223,36 +220,7 @@
 
   // 选中谁就更新谁
   function onSelect(value: number | string, type: 'hour' | 'minute' | 'second' | 'ampm' = 'hour') {
-    let newValue;
-    const hour = selectedHour.value || '00';
-    const minute = selectedMinute.value || '00';
-    const second = selectedSecond.value || '00';
-    const ampm = selectedAmpm.value || 'am';
-
-    switch (type) {
-      case 'hour':
-        newValue = `${value}:${minute}:${second}`;
-        break;
-      case 'minute':
-        newValue = `${hour}:${value}:${second}`;
-        break;
-      case 'second':
-        newValue = `${hour}:${minute}:${value}`;
-        break;
-      case 'ampm':
-        newValue = `${hour}:${minute}:${second} ${value}`;
-        break;
-    }
-
-    let valueFormat = 'HH:mm:ss';
-    if (computedUse12Hours.value) {
-      valueFormat = 'HH:mm:ss a';
-      if (type !== 'ampm') {
-        newValue = `${newValue} ${ampm}`;
-      }
-    }
-
-    newValue = dayjs(newValue, valueFormat);
+    const newValue = getSelectedTime(selectedValue.value, value, type, computedUse12Hours.value);
     emitSelect(newValue);
   }
 

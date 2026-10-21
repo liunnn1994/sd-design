@@ -73,6 +73,7 @@
   import type { VNode } from 'vue';
   import { computed, inject, onBeforeUpdate, ref, watchEffect } from 'vue';
 
+  import { createBreadcrumbItemFoundation } from '@sdata/web-core/breadcrumb/foundation';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { DropDownProps } from '../dropdown';
@@ -148,23 +149,10 @@
   };
   watchEffect(syncDroplist);
   onBeforeUpdate(syncDroplist);
-  const show = computed(() => {
-    if (breadcrumbCtx && breadcrumbCtx.needHide) {
-      if (props.index > 1 && props.index <= breadcrumbCtx.total - breadcrumbCtx.maxCount) {
-        return false;
-      }
-    }
-    return true;
-  });
-  const displayMore = computed(() => {
-    if (breadcrumbCtx && breadcrumbCtx.needHide) {
-      return props.index === 1;
-    }
-    return false;
-  });
-  const showSeparator = computed(() =>
-    breadcrumbCtx ? props.index < breadcrumbCtx.total - 1 : false,
-  );
+  const foundation = createBreadcrumbItemFoundation(props, breadcrumbCtx);
+  const show = computed(foundation.getShow);
+  const displayMore = computed(foundation.getDisplayMore);
+  const showSeparator = computed(foundation.getShowSeparator);
 
   const handleVisibleChange = (visible: boolean) => {
     dropdownVisible.value = visible;

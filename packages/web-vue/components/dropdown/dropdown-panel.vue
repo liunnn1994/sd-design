@@ -50,9 +50,9 @@
     ref,
   } from 'vue';
 
+  import { createDropdownPanelFoundation } from '@sdata/web-core/dropdown/panel';
+
   import { getPrefixCls } from '../_utils/global-config';
-  import { isNumber } from '../_utils/is';
-  import { KEYBOARD_KEY } from '../_utils/keyboard';
   import { EmitType } from '../_utils/types';
   import Empty from '../empty';
   import Scrollbar from '../scrollbar';
@@ -94,107 +94,38 @@
   const dropdownCtx = inject<Partial<DropdownContext>>(dropdownInjectionKey, {});
   const listRef = ref<HTMLElement>();
 
-  const handleScroll = (e: Event) => {
-    const { scrollTop, scrollHeight, offsetHeight } = e.target as HTMLElement;
-    const bottom = scrollHeight - (scrollTop + offsetHeight);
-    if (bottom <= props.bottomOffset) {
-      emit('reachBottom', e);
-    }
-    emit('scroll', e);
-  };
-
-  // 菜单键盘导航：方向键 / Home / End 在 menuitem 间移动，Enter/Space 激活
-  const getMenuitems = (): HTMLElement[] => {
-    if (!listRef.value) return [];
-    return Array.from(listRef.value.querySelectorAll<HTMLElement>('[role="menuitem"]')).filter(
-      (el) => el.getAttribute('aria-disabled') !== 'true',
-    );
-  };
-
-  const focusMenuitem = (dir: 'next' | 'prev' | 'first' | 'last') => {
-    const items = getMenuitems();
-    if (items.length === 0) return;
-    const current = items.findIndex((el) => el === document.activeElement);
-    let target = 0;
-    if (dir === 'first') target = 0;
-    else if (dir === 'last') target = items.length - 1;
-    else if (dir === 'next') target = current < 0 ? 0 : (current + 1) % items.length;
-    else target = current <= 0 ? items.length - 1 : current - 1;
-    items[target]?.focus();
-  };
-
-  const handleKeydown = (ev: KeyboardEvent) => {
-    const target = ev.target;
-    if (
-      target instanceof HTMLElement &&
-      (target.isContentEditable || target.closest('input, textarea, select'))
-    ) {
-      return;
-    }
-    switch (ev.key) {
-      case KEYBOARD_KEY.ARROW_DOWN:
-        ev.preventDefault();
-        focusMenuitem('next');
-        break;
-      case KEYBOARD_KEY.ARROW_UP:
-        ev.preventDefault();
-        focusMenuitem('prev');
-        break;
-      case KEYBOARD_KEY.HOME:
-        ev.preventDefault();
-        focusMenuitem('first');
-        break;
-      case KEYBOARD_KEY.END:
-        ev.preventDefault();
-        focusMenuitem('last');
-        break;
-      case KEYBOARD_KEY.ENTER:
-      case KEYBOARD_KEY.SPACE:
-        ev.preventDefault();
-        if (document.activeElement instanceof HTMLElement) {
-          document.activeElement.click();
-        }
-        break;
-    }
-  };
-
-  // hover 触发时不自动聚焦首项（避免抢焦点）；其余触发（click/contextMenu/键盘）按 menu 模式聚焦首项
-  const isHoverTrigger = computed(() => {
-    const trigger = props.trigger;
-    return Array.isArray(trigger) ? trigger.includes('hover') : trigger === 'hover';
-  });
-
-  let focusFrame = 0;
-  onBeforeUnmount(() => cancelAnimationFrame(focusFrame));
-
-  onMounted(() => {
-    // 面板随弹出层挂载即打开：把焦点放进首个可操作项，键盘用户立即可用。
-    // 但 hover 触发属于被动展开（鼠标移入），不应抢走键盘焦点/触发滚动，故跳过。
-    if (isHoverTrigger.value) return;
-    const focusFirst = () => {
-      const items = getMenuitems();
-      const target = items[0] ?? listRef.value;
-      if (!target) return;
-      target.focus();
-      if (document.activeElement !== target) {
-        focusFrame = requestAnimationFrame(focusFirst);
-      }
-    };
-    nextTick(focusFirst);
-  });
-
-  const style = computed<CSSProperties | undefined>(() => {
-    if (isNumber(dropdownCtx.popupMaxHeight)) {
-      return {
-        maxHeight: `${dropdownCtx.popupMaxHeight}px`,
-      };
-    }
-    if (!dropdownCtx.popupMaxHeight) {
-      return {
-        maxHeight: 'none',
-        overflowY: 'hidden',
-      };
-    }
-    return undefined;
-  });
+  const foundation = createDropdownPanelFoundation(
+    {
+      get list() {
+        return listRef.value;
+      },
+      get bottomOffset() {
+        return props.bottomOffset;
+      },
+      get trigger() {
+        return props.trigger;
+      },
+      get isHoverTrigger(): boolean {
+        return isHoverTrigger.value;
+      },
+      get popupMaxHeight() {
+        return dropdownCtx.popupMaxHeight;
+      },
+    },
+    {
+      get activeElement() {
+        return document.activeElement;
+      },
+      isElement: (value): value is HTMLElement => value instanceof HTMLElement,
+      requestFrame: (callback) => requestAnimationFrame(callback),
+      cancelFrame: (frame) => cancelAnimationFrame(frame),
+    },
+    (event) => emit('scroll', event),
+    (event) => emit('reachBottom', event),
+  );
+  const { handleScroll, handleKeydown } = foundation;
+  const isHoverTrigger = computed(foundation.getIsHoverTrigger);
+  onBeforeUnmount(foundation.destroy);
+  onMounted(() => foundation.focusOnMount(nextTick));
+  const style = computed<CSSProperties | undefined>(foundation.getStyle);
 </script>

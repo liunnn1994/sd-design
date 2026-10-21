@@ -10,14 +10,14 @@
 </template>
 
 <script setup lang="ts">
-  import { CSSProperties, PropType, computed, onMounted, ref, shallowRef, toRef, watch } from 'vue';
+  import { PropType, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue';
+
+  import { createWatermark } from '@sdata/web-core/watermark/foundation';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import { isArray } from '../_utils/is';
   import { useMutationObserver } from './hooks/use-mutation-observer';
   import { useTheme } from './hooks/use-theme';
   import { WatermarkFont } from './interface';
-  import { styleToString, canvasToGray } from './utils';
 
   defineOptions({
     name: 'Watermark',
@@ -133,203 +133,29 @@
       default: true,
     },
   });
-  const width = toRef(props, 'width');
-  const height = toRef(props, 'height');
-  const image = toRef(props, 'image');
-  const rotate = toRef(props, 'rotate');
-  const alpha = toRef(props, 'alpha');
-  const grayscale = toRef(props, 'grayscale');
   const prefixCls = getPrefixCls('watermark');
   const ratio = typeof window === 'undefined' ? 1 : window.devicePixelRatio || 1;
   const containerRef = shallowRef<HTMLDivElement>();
-  const watermarkMap = ref(new Map<HTMLDivElement, HTMLDivElement>());
-
-  // Text content and style related
-  const fontSize = computed(() => props.font?.fontSize ?? 16);
-  const fontWeight = computed(() => props.font?.fontWeight ?? 'normal');
-  const fontStyle = computed(() => props.font?.fontStyle ?? 'normal');
-  const fontFamily = computed(() => props.font?.fontFamily ?? 'sans-serif');
-  const textAlign = computed(() => props.font?.textAlign ?? 'center');
-  const contents = computed(() => (isArray(props.content) ? props.content : [props.content]));
-  const color = computed(
-    () =>
-      props.font?.color ??
-      (theme.value === 'dark' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.15)'),
-  );
-
-  // Watermark position related
-  const gapX = computed(() => props.gap?.[0] ?? 90);
-  const gapY = computed(() => props.gap?.[1] ?? 90);
-  const gapXCenter = computed(() => gapX.value / 2);
-  const gapYCenter = computed(() => gapY.value / 2);
-  const offsetLeft = computed(() => props.offset?.[0] ?? gapXCenter.value);
-  const offsetTop = computed(() => props.offset?.[1] ?? gapYCenter.value);
-  const markStyle = computed(() => {
-    const left = offsetLeft.value - gapXCenter.value;
-    const top = offsetTop.value - gapYCenter.value;
-    return {
-      position: 'absolute',
-      left: left > 0 ? `${left}px` : 0,
-      top: top > 0 ? `${top}px` : 0,
-      width: left > 0 ? `calc(100% - ${left}px)` : '100%',
-      height: top > 0 ? `calc(100% - ${top}px)` : '100%',
-      pointerEvents: 'none',
-      backgroundRepeat: props.repeat ? 'repeat' : 'no-repeat',
-      backgroundPosition: `${left > 0 ? 0 : left}px ${top > 0 ? 0 : top}px`,
-      zIndex: props.zIndex ?? 6,
-    } as CSSProperties;
+  const foundation = createWatermark({
+    props,
+    ratio,
+    get container() {
+      return containerRef.value;
+    },
+    get theme() {
+      return theme.value;
+    },
   });
-  const isStaggered = computed(() => props.repeat && props.staggered);
-  let renderId = 0;
-
-  const appendWatermark = (base64: string, width: number) => {
-    if (containerRef.value) {
-      const watermarkEle = watermarkMap.value.get(containerRef.value);
-
-      if (watermarkEle) {
-        if (containerRef.value.contains(watermarkEle)) {
-          containerRef.value.removeChild(watermarkEle);
-        }
-        watermarkMap.value.delete(containerRef.value);
-      }
-      const newWatermarkEle = document.createElement('div');
-      newWatermarkEle.setAttribute(
-        'style',
-        styleToString({
-          ...markStyle.value,
-          backgroundImage: `url('${base64}')`,
-          backgroundSize: `${width}px`,
-        }),
-      );
-      containerRef.value?.append(newWatermarkEle);
-      watermarkMap.value.set(containerRef.value, newWatermarkEle);
-    }
-  };
-
-  const getMarkSize = (ctx: CanvasRenderingContext2D) => {
-    let defaultWidth = 120;
-    let defaultHeight = 28;
-    if (!image.value && contents.value.length && ctx.measureText) {
-      // 测量字体需与绘制字体一致（含 fontStyle/fontWeight），否则粗体/斜体会贴边裁切
-      ctx.font = `${fontStyle.value} normal ${fontWeight.value} ${fontSize.value}px ${fontFamily.value}`;
-      const widths = contents.value.map((item) => ctx.measureText(item!).width);
-      defaultWidth = Math.ceil(Math.max(...widths));
-      defaultHeight = fontSize.value * contents.value.length + (contents.value.length - 1) * 3;
-    }
-    return [width.value ?? defaultWidth, height.value ?? defaultHeight] as const;
-  };
-
-  const renderWatermark = () => {
-    const currentRenderId = ++renderId;
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const [markWidth, markheight] = getMarkSize(ctx);
-    const realMarkWidth = markWidth * ratio;
-    const realMarkHeight = markheight * ratio;
-    const canvasWidth = (gapX.value + markWidth) * ratio;
-    const canvasHeight = (gapY.value + markheight) * ratio;
-    const drawX = (gapX.value / 2) * ratio;
-    const drawY = (gapY.value / 2) * ratio;
-    const rotateX = canvasWidth / 2;
-    const rotateY = canvasHeight / 2;
-    const baseSize = isStaggered.value ? 2 : 1;
-    const fillWidth = (gapX.value + markWidth) * baseSize;
-
-    canvas.width = canvasWidth * baseSize;
-    canvas.height = canvasHeight * baseSize;
-    ctx.globalAlpha = alpha.value;
-    ctx.save();
-    ctx.translate(rotateX, rotateY);
-    ctx.rotate((Math.PI / 180) * rotate.value);
-    ctx.translate(-rotateX, -rotateY);
-
-    const drawImage = () => {
-      ctx.restore();
-      if (isStaggered.value) {
-        ctx.globalAlpha = 1;
-        ctx.drawImage(
-          canvas,
-          0,
-          0,
-          canvasWidth,
-          canvasHeight,
-          canvasWidth,
-          canvasHeight,
-          canvasWidth,
-          canvasHeight,
-        );
-      }
-      if (grayscale.value) {
-        // 跨域图片（未带 CORS 头）会让 canvas 被污染，getImageData 抛 SecurityError；
-        // 此时回退为绘制未灰阶的原图，而不是在 img.onload 内抛出未捕获异常
-        try {
-          canvasToGray(canvas);
-        } catch {
-          // noop
-        }
-      }
-      appendWatermark(canvas.toDataURL(), fillWidth);
-    };
-
-    if (image.value) {
-      const img = new Image();
-      img.onload = () => {
-        if (currentRenderId !== renderId) return;
-        ctx.drawImage(img, drawX, drawY, realMarkWidth, realMarkHeight);
-        drawImage();
-      };
-      img.crossOrigin = 'anonymous';
-      img.referrerPolicy = 'no-referrer';
-      img.src = image.value;
-    } else {
-      const mergedFontSize = Number(fontSize.value) * ratio;
-      ctx.font = `${fontStyle.value} normal ${fontWeight.value} ${mergedFontSize}px/${markheight}px ${fontFamily.value}`;
-      ctx.fillStyle = color.value;
-      ctx.textAlign = textAlign.value;
-      ctx.textBaseline = 'top';
-      const textX =
-        textAlign.value === 'left' || textAlign.value === 'start'
-          ? 0
-          : textAlign.value === 'right' || textAlign.value === 'end'
-            ? realMarkWidth
-            : realMarkWidth / 2;
-      ctx.translate(textX, 0);
-      contents.value?.forEach((item, index) => {
-        ctx.fillText(item ?? '', drawX, drawY + index * (mergedFontSize + 3 * ratio));
-      });
-      drawImage();
-    }
-  };
-
-  const isWatermarkEle = (ele: Node) =>
-    Array.from(watermarkMap.value.values()).some((watermark) => watermark === ele);
-
-  const handleMutations = (mutations: MutationRecord[]) => {
-    if (!props.antiTamper) return;
-    for (const mutation of mutations) {
-      const isRemoved = Array.from(mutation.removedNodes).some((node) => isWatermarkEle(node));
-      const isModified = mutation.type === 'attributes' && isWatermarkEle(mutation.target);
-
-      if (isRemoved || isModified) {
-        renderWatermark();
-        break;
-      }
-    }
-  };
-
-  const { theme } = useTheme(renderWatermark);
-
+  const { theme } = useTheme(foundation.render);
   onMounted(() => {
-    renderWatermark();
-    useMutationObserver(containerRef.value, handleMutations, {
+    foundation.render();
+    useMutationObserver(containerRef.value, foundation.mutations, {
       attributes: true,
       childList: true,
       characterData: true,
       subtree: true,
     });
   });
-
-  watch(props, renderWatermark, { deep: true, flush: 'post' });
+  onBeforeUnmount(foundation.dispose);
+  watch(props, foundation.render, { deep: true, flush: 'post' });
 </script>

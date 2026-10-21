@@ -1,0 +1,303 @@
+import 'dayjs/plugin/advancedFormat.js';
+import 'dayjs/plugin/customParseFormat.js';
+import 'dayjs/plugin/isBetween.js';
+import 'dayjs/plugin/isoWeek.js';
+import 'dayjs/plugin/quarterOfYear.js';
+import 'dayjs/plugin/timezone.js';
+import 'dayjs/plugin/utc.js';
+import 'dayjs/plugin/weekOfYear.js';
+import 'dayjs/plugin/weekYear.js';
+import originDayjs, { Dayjs, OpUnitType, UnitType, PluginFunc, ConfigType } from 'dayjs';
+import AdvancedFormat from 'dayjs/plugin/advancedFormat.js';
+import customParseFormat from 'dayjs/plugin/customParseFormat.js';
+import isBetween from 'dayjs/plugin/isBetween.js';
+import isoWeek from 'dayjs/plugin/isoWeek.js';
+import QuarterOfYear from 'dayjs/plugin/quarterOfYear.js';
+import timezone from 'dayjs/plugin/timezone.js';
+import utc from 'dayjs/plugin/utc.js';
+import weekOfYear from 'dayjs/plugin/weekOfYear.js';
+import weekYear from 'dayjs/plugin/weekYear.js';
+
+import { DEFAULT_LOCALE_KEY } from '../locale/constant.js';
+import { isDayjs, isArray, isQuarter } from './is.js';
+
+const localeLoaders: Record<string, () => Promise<unknown>> = {
+  [DEFAULT_LOCALE_KEY]: () => import('dayjs/locale/zh-cn.js'),
+};
+
+const loadedLocales = new Set<string>();
+
+// Day.js does not expose its constructor configuration or $utils hook in public types.
+interface DayjsConfig {
+  date?: ConfigType;
+  args?: IArguments;
+}
+interface DayjsInternals extends Dayjs {
+  $utils(): { i: (value: unknown) => boolean };
+}
+const overwriteIsDayjs: PluginFunc = (_, DayjsConstructor, dayjs) => {
+  const PrivateDayjs = DayjsConstructor as unknown as {
+    new (config: DayjsConfig): DayjsInternals;
+    prototype: DayjsInternals;
+  };
+  dayjs = function (date: ConfigType, c?: DayjsConfig) {
+    if (isDayjs(date)) return date.clone();
+    const cfg = typeof c === 'object' ? c : {};
+    cfg.date = date;
+    cfg.args = arguments;
+    return new PrivateDayjs(cfg);
+  } as unknown as typeof originDayjs;
+
+  const proto = PrivateDayjs.prototype;
+  const old$Utils = proto.$utils;
+  proto.$utils = () => {
+    const newUtils = old$Utils();
+    newUtils.i = isDayjs;
+    return newUtils;
+  };
+  dayjs.isDayjs = isDayjs;
+};
+
+originDayjs.extend(overwriteIsDayjs);
+originDayjs.extend(customParseFormat);
+originDayjs.extend(isBetween);
+originDayjs.extend(weekOfYear);
+originDayjs.extend(isoWeek);
+originDayjs.extend(AdvancedFormat);
+originDayjs.extend(weekYear);
+originDayjs.extend(QuarterOfYear);
+originDayjs.extend(utc);
+originDayjs.extend(timezone);
+
+export const dayjs = originDayjs;
+
+const DAYJS_LOCALE_MAP: Record<string, string> = {
+  'en': 'en',
+  'en-us': 'en',
+  [DEFAULT_LOCALE_KEY]: DEFAULT_LOCALE_KEY,
+};
+
+export const methods = {
+  add(time: Dayjs, value: number, unit: UnitType) {
+    return time.add(value, unit);
+  },
+  subtract(time: Dayjs, value: number, unit: UnitType) {
+    return time.subtract(value, unit);
+  },
+  startOf(time: Dayjs, unit: OpUnitType) {
+    return time.startOf(unit);
+  },
+  /**
+   * Similar to `startOf`, returns start date of a week; used in week pickers
+   * @param time Selected date
+   * @param weekStart Start day of a week
+   * @returns Start date of the week containing the selected date
+   */
+  startOfWeek(time: Dayjs, weekStart: number) {
+    const currentDay = time.day();
+    let startOfWeek = time.subtract(currentDay - weekStart, 'day');
+    if (startOfWeek.isAfter(time)) {
+      startOfWeek = startOfWeek.subtract(7, 'day');
+    }
+    return startOfWeek;
+  },
+  endOf(time: Dayjs, unit: OpUnitType) {
+    return time.endOf(unit);
+  },
+  set(time: Dayjs, unit: UnitType, value: number) {
+    return time.set(unit, value);
+  },
+  isSameWeek(date1: Dayjs, date2: Dayjs, weekStart: number) {
+    // Compare week start dates so the year is included.
+    const getWeek = (date: Dayjs) => {
+      const day = date.day();
+      const diff = day - weekStart + (day < weekStart ? 7 : 0);
+      return date.subtract(diff, 'day').format('YYYY-MM-DD');
+    };
+    return getWeek(date1) === getWeek(date2);
+  },
+};
+
+export function getNow(utcOffset?: number, timezone?: string) {
+  const now = dayjs();
+  if (utcOffset !== undefined) {
+    return now.utcOffset(utcOffset);
+  }
+  if (timezone) {
+    return now.tz(timezone);
+  }
+  return now;
+}
+
+export function toLocal(date: Dayjs, utcOffset?: number, timezone?: string): Dayjs {
+  if (utcOffset !== undefined) {
+    return date.utcOffset(utcOffset);
+  }
+  if (timezone) {
+    return date.tz(timezone);
+  }
+  return date;
+}
+
+export function getSortedDayjsArray(values: Dayjs[], _fixedTime?: boolean) {
+  return [...values].sort((a, b) => a.valueOf() - b.valueOf());
+}
+
+export function isValueChange(
+  prevValue: Dayjs | (Dayjs | undefined)[] | undefined,
+  currentValue: Dayjs | (Dayjs | undefined)[] | undefined,
+) {
+  const isDifference = (value1: Dayjs | undefined, value2: Dayjs | undefined) => {
+    if (value1 === undefined && value2 === undefined) {
+      return false;
+    }
+
+    if ((value1 && !value2) || (!value1 && value2)) {
+      return true;
+    }
+
+    return value1?.valueOf() !== value2?.valueOf();
+  };
+
+  if (currentValue === undefined && prevValue === undefined) {
+    return false;
+  }
+
+  if (isArray(currentValue) && isArray(prevValue)) {
+    return (
+      isDifference(currentValue[0], prevValue[0]) || isDifference(currentValue[1], prevValue[1])
+    );
+  }
+
+  if (!isArray(currentValue) && !isArray(prevValue)) {
+    return isDifference(currentValue, prevValue);
+  }
+
+  return true;
+}
+
+type DateValue = Date | string | number;
+
+export function getDayjsValue(
+  time: DateValue,
+  format: string,
+  utcOffset?: number,
+  timezone?: string,
+): Dayjs;
+export function getDayjsValue(
+  time: DateValue | undefined,
+  format: string,
+  utcOffset?: number,
+  timezone?: string,
+): Dayjs | undefined;
+export function getDayjsValue(
+  time: DateValue[],
+  format: string,
+  utcOffset?: number,
+  timezone?: string,
+): Dayjs[];
+export function getDayjsValue(
+  time: DateValue[] | undefined,
+  format: string,
+  utcOffset?: number,
+  timezone?: string,
+): Dayjs[] | undefined;
+export function getDayjsValue(
+  time: (DateValue | undefined)[],
+  format: string,
+  utcOffset?: number,
+  timezone?: string,
+): (Dayjs | undefined)[];
+export function getDayjsValue(
+  time: (DateValue | undefined)[] | undefined,
+  format: string,
+  utcOffset?: number,
+  timezone?: string,
+): (Dayjs | undefined)[] | undefined;
+export function getDayjsValue(
+  time: DateValue | (DateValue | undefined)[] | undefined,
+  format: string,
+  utcOffset?: number,
+  timezone?: string,
+): Dayjs | (Dayjs | undefined)[] | undefined;
+export function getDayjsValue(
+  time: DateValue | DateValue[] | (DateValue | undefined)[] | undefined,
+  format: string,
+  utcOffset?: number,
+  timezone?: string,
+) {
+  const parseQuarterToMonth = (value: string) => {
+    const reg = /(Q1)|(Q2)|(Q3)|(Q4)/;
+    const quarter: Record<string, string> = {
+      Q1: '01',
+      Q2: '04',
+      Q3: '07',
+      Q4: '10',
+    };
+    const [q] = reg.exec(value) ?? [];
+    return q ? value.replace(reg, quarter[q]) : value;
+  };
+
+  const formatValue = (value: Date | string | number | undefined) => {
+    if (!value && value !== 0) return undefined;
+
+    if (typeof value === 'string') {
+      if (isQuarter(format)) {
+        return dayjs(parseQuarterToMonth(value), format.replace(/\[Q]Q/, 'MM'));
+      }
+
+      if (dayjs(value, format).isValid()) {
+        return dayjs(value, format);
+      }
+    }
+
+    return dayjs(value);
+  };
+
+  if (isArray(time)) {
+    return time.map((t) => {
+      const parsed = formatValue(t);
+      return parsed ? toLocal(parsed, utcOffset, timezone) : parsed;
+    });
+  }
+  const parsed = formatValue(time);
+  return parsed ? toLocal(parsed, utcOffset, timezone) : parsed;
+}
+
+export function getDateValue(value: Dayjs): Date;
+export function getDateValue(value: Dayjs | undefined): Date | undefined;
+export function getDateValue(value: Dayjs[]): Date[];
+export function getDateValue(value: (Dayjs | undefined)[]): (Date | undefined)[];
+export function getDateValue(
+  value: (Dayjs | undefined)[] | undefined,
+): (Date | undefined)[] | undefined;
+export function getDateValue(value: Dayjs | (Dayjs | undefined)[]): Date | (Date | undefined)[];
+export function getDateValue(
+  value: Dayjs | (Dayjs | undefined)[] | undefined,
+): Date | (Date | undefined)[] | undefined;
+export function getDateValue(value: Dayjs | Dayjs[] | (Dayjs | undefined)[] | undefined) {
+  const formatValue = (t: Dayjs | undefined) => (t ? t.toDate() : undefined);
+
+  if (isArray(value)) {
+    return value.map(formatValue);
+  }
+
+  return formatValue(value);
+}
+
+export async function initializeDateLocale(localeName: string, weekStart: number) {
+  const normalizedLocale = localeName.toLowerCase();
+  const dayjsLocaleName = DAYJS_LOCALE_MAP[normalizedLocale] ?? DEFAULT_LOCALE_KEY;
+
+  if (dayjsLocaleName !== 'en' && !loadedLocales.has(dayjsLocaleName)) {
+    const loader = localeLoaders[dayjsLocaleName];
+    if (loader) {
+      await loader();
+    }
+    loadedLocales.add(dayjsLocaleName);
+  }
+
+  const baseLocale = dayjs.Ls[dayjsLocaleName] ?? dayjs.Ls.en;
+  dayjs.locale({ ...baseLocale, name: dayjsLocaleName, weekStart });
+  return dayjsLocaleName;
+}

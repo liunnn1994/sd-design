@@ -237,8 +237,12 @@ test('theme seeds retain their palettes in a standalone browser ESM module', asy
         ),
         formats: ['es'],
       },
-      // Bare imports must remain external, as they do in the online editor.
-      rolldownOptions: { external: (id) => !id.startsWith('.') && !path.isAbsolute(id) },
+      // Bundle the shared foundation, as docs vendor dependency bundling does.
+      // Any other runtime dependency still violates the standalone palette contract.
+      rolldownOptions: {
+        external: (id) =>
+          !id.startsWith('.') && !path.isAbsolute(id) && !id.startsWith('@sdata/web-core/'),
+      },
     },
   });
   const bundle = Array.isArray(result) ? result[0] : result;

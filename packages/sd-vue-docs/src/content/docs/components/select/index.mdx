@@ -422,3 +422,7 @@ type FilterOption = boolean | ((inputValue: string, option: SelectOptionData) =>
 ```vue
 <sd-select :trigger-props="{ updateAtScroll: true }"></sd-select>
 ```
+
+## 框架无关规则
+
+SelectDropdown 的触底阈值判断与 reachBottom → scroll 通知顺序由 web-core/select/dropdown 管理。Vue 保留 Scrollbar 实例、原生滚动节点与插槽；原 Event 作为两项通知的参数，不增加方向历史。

@@ -61,10 +61,13 @@
   import { computed, inject } from 'vue';
   import type { CSSProperties } from 'vue';
 
+  import { getBadgeCount, getBadgeDotStyle, getBadgeStyle } from '@sdata/web-core/badge/foundation';
+
+  import type { ColorType, BadgeStatus } from './constants';
+
   import { getPrefixCls } from '../_utils/global-config';
   import { configProviderInjectionKey } from '../config-provider/context';
   import NumberFlow from '../number-flow';
-  import { COLORS, type ColorType, type BadgeStatus } from './constants';
 
   defineOptions({
     name: 'Badge',
@@ -145,8 +148,9 @@
   const prefixCls = getPrefixCls('badge');
   const configCtx = inject(configProviderInjectionKey, undefined);
   const rtl = computed(() => configCtx?.rtl ?? false);
-  const hasCount = computed(() => count != null);
-  const countValue = computed(() => Math.max(Number(count) || 0, 0));
+  const countState = computed(() => getBadgeCount(count, maxCount));
+  const hasCount = computed(() => countState.value.hasCount);
+  const countValue = computed(() => countState.value.value);
 
   const wrapperClassName = () => [
     prefixCls,
@@ -157,28 +161,10 @@
     },
   ];
 
-  const computedDotStyle = computed<CSSProperties>(() => {
-    const style = { ...dotStyle };
-    const [leftOffset, topOffset] = offset;
-    // RTL 下水平偏移镜像到 margin-left
-    const horizontalMargin = rtl.value ? 'marginLeft' : 'marginRight';
-
-    if (leftOffset) {
-      style[horizontalMargin] = `${-leftOffset}px`;
-    }
-    if (topOffset) {
-      style.marginTop = `${topOffset}px`;
-    }
-
-    return style;
-  });
-
-  const mergedStyle = computed<CSSProperties>(() => ({
-    ...(!color || COLORS.includes(color as ColorType) ? {} : { backgroundColor: color }),
-    ...computedDotStyle.value,
-  }));
-
-  const isCountOverflow = computed(() => Boolean(maxCount && countValue.value > maxCount));
-  const displayCount = computed(() => (isCountOverflow.value ? maxCount : countValue.value));
-  const displaySuffix = computed(() => (isCountOverflow.value ? '+' : undefined));
+  const computedDotStyle = computed<CSSProperties>(() =>
+    getBadgeDotStyle(dotStyle, offset, rtl.value),
+  );
+  const mergedStyle = computed<CSSProperties>(() => getBadgeStyle(color, computedDotStyle.value));
+  const displayCount = computed(() => countState.value.display);
+  const displaySuffix = computed(() => countState.value.suffix);
 </script>

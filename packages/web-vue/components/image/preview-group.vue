@@ -18,7 +18,11 @@
   </ImagePreview>
 </template>
 <script setup lang="ts">
+  import type { PreviewImage } from '@sdata/web-core/image/types';
+
   import { PropType, reactive, toRefs, provide, computed, ref } from 'vue';
+
+  import { createImagePreviewGroup, getPreviewSourceMap } from '@sdata/web-core/image/group';
 
   import useMergeState from '../_hooks/use-merge-state';
   import { isArray, isUndefined } from '../_utils/is';
@@ -156,39 +160,14 @@
       value: visible,
     }),
   );
-  const setVisible = (newVisible: boolean) => {
-    if (newVisible !== mergedVisible.value) {
-      emit('visible-change', newVisible);
-      emit('update:visible', newVisible);
-      setLocalVisible(newVisible);
-    }
-  };
+  const propImageUrlMap = computed(() => getPreviewSourceMap(srcList?.value));
 
-  const propImageUrlMap = computed(
-    () =>
-      new Map(
-        isArray(srcList?.value)
-          ? srcList?.value.map((url, index) => [index, { url, canPreview: true }])
-          : [],
-      ),
-  );
-
-  const registeredImages = ref(new Map<number, { url: string; canPreview: boolean }>());
+  const registeredImages = ref(new Map<number, PreviewImage>());
   const imageUrlMap = computed(() =>
     isArray(srcList?.value) ? propImageUrlMap.value : registeredImages.value,
   );
 
   const imageIdList = computed(() => Array.from(imageUrlMap.value.keys()));
-
-  const imageCount = computed(() => imageIdList.value.length);
-
-  function registerImageUrl(id: number, url: string, canPreview: boolean) {
-    registeredImages.value.set(id, { url, canPreview });
-
-    return function unRegisterPreviewUrl() {
-      registeredImages.value.delete(id);
-    };
-  }
 
   const [currentIndex, setLocalCurrentIndex] = useMergeState(
     defaultCurrent.value,
@@ -196,66 +175,54 @@
       value: current,
     }),
   );
-  const setCurrentIndex = (index: number) => {
-    if (index !== currentIndex.value) {
-      emit('change', index);
-      emit('update:current', index);
-      setLocalCurrentIndex(index);
-    }
-  };
-
+  const foundation = createImagePreviewGroup({
+    get sources() {
+      return srcList?.value;
+    },
+    get registered() {
+      return registeredImages.value;
+    },
+    get images() {
+      return imageUrlMap.value;
+    },
+    get ids() {
+      return imageIdList.value;
+    },
+    get index() {
+      return currentIndex.value;
+    },
+    get visible() {
+      return mergedVisible.value;
+    },
+    get infinite() {
+      return infinite.value;
+    },
+    setVisible: setLocalVisible,
+    onVisibleChange(value) {
+      emit('visible-change', value);
+      emit('update:visible', value);
+    },
+    setIndex: setLocalCurrentIndex,
+    onIndexChange(value) {
+      emit('change', value);
+      emit('update:current', value);
+    },
+  });
+  const registerImageUrl = foundation.register;
+  const setCurrentIndex = foundation.index;
   const currentId = computed(() => imageIdList.value[currentIndex.value]);
-  const setCurrentId = (nextId: number) => {
-    const nextIndex = imageIdList.value.indexOf(nextId);
-    if (nextIndex !== currentIndex.value) {
-      setCurrentIndex(nextIndex);
-    }
-  };
-
   const currentUrl = computed(() => imageUrlMap.value.get(currentId.value)?.url);
 
   provide<PreviewGroupContext>(
     PreviewGroupInjectionKey,
     reactive({
       registerImageUrl,
-      preview: (imageId: number) => {
-        setVisible(true);
-        if (!isArray(srcList?.value)) setCurrentId(imageId);
-      },
+      preview: foundation.preview,
     }),
   );
 
-  const nextIndex = computed(() => {
-    const findNext = (start: number, end: number) => {
-      for (let i = start; i <= end; i++) {
-        const id = imageIdList.value[i];
-        if (imageUrlMap.value.get(id)?.canPreview) {
-          return i;
-        }
-      }
-      return undefined;
-    };
-
-    const next = findNext(currentIndex.value + 1, imageCount.value - 1);
-    return isUndefined(next) && infinite.value ? findNext(0, currentIndex.value - 1) : next;
-  });
-
-  const prevIndex = computed(() => {
-    const findPrev = (start: number, end: number) => {
-      for (let i = start; i >= end; i--) {
-        const id = imageIdList.value[i];
-        if (imageUrlMap.value.get(id)?.canPreview) {
-          return i;
-        }
-      }
-      return undefined;
-    };
-
-    const prev = findPrev(currentIndex.value - 1, 0);
-    return isUndefined(prev) && infinite.value
-      ? findPrev(imageCount.value - 1, currentIndex.value + 1)
-      : prev;
-  });
+  const nextIndex = computed(foundation.next);
+  const prevIndex = computed(foundation.prev);
 
   const onPrev = computed(() =>
     !isUndefined(prevIndex.value)
@@ -273,9 +240,7 @@
       : undefined,
   );
 
-  function onClose() {
-    setVisible(false);
-  }
+  const onClose = foundation.close;
 
   const groupArrowProps = reactive({
     onPrev,

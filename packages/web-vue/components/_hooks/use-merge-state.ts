@@ -1,6 +1,10 @@
 import { Ref, toRefs, computed, watch, ComputedRef } from 'vue';
 
-import { isUndefined } from '../_utils/is';
+import {
+  resolveLegacyMergedValue,
+  syncLegacyMergedValue,
+} from '@sdata/web-core/state/legacy-merge';
+
 import useState from './use-state';
 
 export default function useMergeState<T, E = T | undefined>(
@@ -9,13 +13,29 @@ export default function useMergeState<T, E = T | undefined>(
 ): [ComputedRef<T>, (val: E) => void, Ref<T>] {
   const { value } = toRefs(props);
   const [localValue, setLocalValue] = useState(
-    !isUndefined(value.value) ? value.value : defaultValue,
+    resolveLegacyMergedValue({
+      get value() {
+        return value.value;
+      },
+      get fallback() {
+        return defaultValue;
+      },
+    }),
   );
   watch(value, (newVal) => {
-    isUndefined(newVal) && setLocalValue(undefined);
+    syncLegacyMergedValue(newVal, () => setLocalValue(undefined));
   });
 
-  const mergeValue = computed(() => (!isUndefined(value.value) ? value.value : localValue.value));
+  const mergeValue = computed(() =>
+    resolveLegacyMergedValue({
+      get value() {
+        return value.value;
+      },
+      get fallback() {
+        return localValue.value;
+      },
+    }),
+  );
 
   return [mergeValue, setLocalValue, localValue];
 }

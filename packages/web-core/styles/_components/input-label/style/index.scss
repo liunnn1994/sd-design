@@ -1,0 +1,9 @@
+@use 'sass:string';
+@use '../../../style/theme/index.scss' as *;
+@use './input-label.scss' as *;
+
+$input-label-prefix-cls: string.unquote('#{$prefix}-input-label');
+
+.#{$input-label-prefix-cls} {
+  @include input-label-style($input-label-prefix-cls);
+}

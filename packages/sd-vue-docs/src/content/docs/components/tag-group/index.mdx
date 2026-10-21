@@ -93,3 +93,7 @@ import tagGroupResponsiveSource from '../../../../components/generated/tag-group
 | label | 自定义默认标签内部的文本内容 | data: `TagGroupOption` |
 | item | 自定义普通项渲染 | data: `TagGroupOption`<br />label: `string \| number`<br />value: `string \| number`<br />index: `number`<br />itemClass: `ClassValue`<br />itemStyle: `CSSProperties \| undefined`<br />isOverflow: `boolean`<br />measure: `boolean` |
 | counter | 自定义折叠计数器渲染 | label: `string`<br />value: `string`<br />hiddenCount: `number`<br />measure: `boolean`<br />counterClass: `ClassValue` |
+
+## 无框架规则
+
+归一化、字段映射、标签函数调用和数量切分由 `@sdata/web-core/tag-group/foundation` 提供，纯模型位于 `tag-group/types`。Vue 保留公开选项类型、computed 缓存、插槽及 WrapClamp/Popover 布局；标签函数仍会在归一化和实际标签渲染时分别调用。

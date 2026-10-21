@@ -1,33 +1,9 @@
-import { FieldString } from '../_utils/types';
-import { TagProps } from '../tag';
+import type { TagData as CoreTagData } from '@sdata/web-core/input-tag/types';
 
-export interface TagData {
-  /**
-   * @zh 标签值
-   * @en Tag value
-   */
-  value?: string | number;
-  /**
-   * @zh 标签内容
-   * @en Tag content
-   */
-  label?: string;
-  /**
-   * @zh 是否可关闭
-   * @en Whether to close
-   */
-  closable?: boolean;
-  /**
-   * @zh 标签属性
-   * @en Tag props
-   */
-  tagProps?: TagProps;
-
-  [other: string]: unknown;
-}
-
+import type { FieldString } from '../_utils/types';
+import type { TagProps } from '../tag';
+export interface TagData extends CoreTagData<TagProps> {}
 export type InputTagFieldNames = FieldString<TagData>;
-
 export interface TagDataInfo extends TagData {
   raw: Record<string, unknown>;
   value: string | number;

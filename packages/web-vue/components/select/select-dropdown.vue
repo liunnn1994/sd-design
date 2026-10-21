@@ -33,6 +33,8 @@
   import type { PropType } from 'vue';
   import { computed, toRefs, inject, ref, useSlots } from 'vue';
 
+  import { createSelectDropdownFoundation } from '@sdata/web-core/select/dropdown';
+
   import type { EmitType } from '../_utils/types';
   import type { ScrollbarInstance } from '../scrollbar';
   import type { SpinProps } from '../spin';
@@ -91,14 +93,11 @@
 
   defineExpose({ wrapperRef });
 
-  const handleScroll = (e: Event) => {
-    const { scrollTop, scrollHeight, offsetHeight } = e.target as HTMLElement;
-    const bottom = scrollHeight - (scrollTop + offsetHeight);
-    if (bottom <= props.bottomOffset) {
-      emit('reachBottom', e);
-    }
-    emit('scroll', e);
-  };
+  const { handleScroll } = createSelectDropdownFoundation(
+    props,
+    (event) => emit('scroll', event),
+    (event) => emit('reachBottom', event),
+  );
 
   const cls = () => [
     prefixCls,

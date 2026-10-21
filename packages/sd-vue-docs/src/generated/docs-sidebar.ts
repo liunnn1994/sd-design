@@ -11,6 +11,10 @@ export const docsSidebar = [
         label: '快速上手',
       },
       {
+        slug: 'guides/architecture',
+        label: '跨框架技术方案',
+      },
+      {
         slug: 'guides/faq',
         label: '常见问题',
       },

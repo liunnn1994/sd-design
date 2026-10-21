@@ -251,3 +251,11 @@ Checkbox、CheckboxGroup、Radio、RadioGroup、Rate、Switch、Slider、Transfe
 | 事件名 | 描述               | 参数                                  |
 | ------ | ------------------ | ------------------------------------- |
 | search | 单击搜索按钮时触发 | value: `string`<br />ev: `MouseEvent` |
+
+## 无框架规则
+
+`@sdata/web-core/input-password/foundation` 提供 `createInputPasswordFoundation`。状态端口 `masked=true` 表示密码掩码，`false` 表示明文；`setMasked`/`toggle` 保持 visibility-change → update:visibility → 本地回退状态的顺序。Vue 继续使用既有 visibility/defaultVisibility API、合并状态和 focus/blur。
+
+## 框架无关派生规则
+
+web-core/input-search/foundation 通过实际输入状态判断是否允许搜索；web-core/input-label/foundation 管理标签格式化 fallback、输入显示、placeholder 和 fit-width 文本。Vue 保留输入节点、Form 注入、响应式缓存、测量与渲染。标签格式化的 receiver、空字符串和 nullish 语义保持。

@@ -1,16 +1,5 @@
-import { InjectionKey } from 'vue';
+import type { TimelineState } from '@sdata/web-core/timeline/foundation';
 
-import type { ModeType, LabelPositionType } from './interface';
-
-import { Direction } from '../_utils/constant';
-
-export interface TimelineContext {
-  items: number[];
-  direction: Direction;
-  reverse: boolean;
-  labelPosition: LabelPositionType;
-  mode: ModeType;
-  hasPending: boolean;
-}
-
+import type { InjectionKey } from 'vue';
+export interface TimelineContext extends TimelineState {}
 export const timelineInjectionKey: InjectionKey<TimelineContext> = Symbol('SDTimeline');

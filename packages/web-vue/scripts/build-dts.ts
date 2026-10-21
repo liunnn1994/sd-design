@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import { cp, mkdir, readdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
+import { access, cp, mkdir, readdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const packageRoot = path.resolve(import.meta.dirname, '..');
@@ -10,11 +10,35 @@ await rm(resolveFromRoot('.temp-types'), { recursive: true, force: true });
 
 try {
   await runVueTsc();
+  await renameVueDeclarations(resolveFromRoot('.temp-types', 'components'));
+  await verifyVueDeclarations(
+    resolveFromRoot('components'),
+    resolveFromRoot('.temp-types', 'components'),
+  );
   await moveDirectoryContents(resolveFromRoot('.temp-types', 'components'), resolveFromRoot('es'));
-  await renameVueDeclarations(resolveFromRoot('es'));
   await linkAmbientDeclarations();
 } finally {
   await rm(resolveFromRoot('.temp-types'), { recursive: true, force: true });
+}
+
+async function verifyVueDeclarations(sourceDir: string, declarationDir: string): Promise<void> {
+  for (const entry of await readdir(sourceDir, { withFileTypes: true })) {
+    if (entry.isDirectory()) {
+      if (!['__test__', '__tests__', '__demo__'].includes(entry.name)) {
+        await verifyVueDeclarations(
+          path.resolve(sourceDir, entry.name),
+          path.resolve(declarationDir, entry.name),
+        );
+      }
+    } else if (entry.name.endsWith('.vue')) {
+      const declaration = path.resolve(declarationDir, `${entry.name}.d.ts`);
+      try {
+        await access(declaration);
+      } catch {
+        throw new Error(`Missing Vue declaration: ${path.relative(packageRoot, declaration)}`);
+      }
+    }
+  }
 }
 
 // vue-tsc 3.x 会把 SFC 声明输出为 `foo.vue.d.vue.ts`,该命名无法被任何消费方的

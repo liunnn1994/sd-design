@@ -18,8 +18,9 @@
   import type { PropType, CSSProperties } from 'vue';
   import { computed } from 'vue';
 
+  import { createPagerFoundation } from '@sdata/web-core/pagination/items';
+
   import { getPrefixCls } from '../_utils/global-config';
-  import { isActivationKey } from '../_utils/keyboard';
 
   defineOptions({ name: 'Pager' });
 
@@ -45,22 +46,9 @@
   const emit = defineEmits<{ click: [_pageNumber: number, _e: Event] }>();
 
   const prefixCls = getPrefixCls('pagination-item');
-  const isActive = computed(() => props.current === props.pageNumber);
-
-  const activate = (e: Event) => {
-    if (!props.disabled) {
-      emit('click', props.pageNumber!, e);
-    }
-  };
-  const handleClick = (e: MouseEvent) => activate(e);
-  const handleKeydown = (e: KeyboardEvent) => {
-    if (props.disabled) return;
-    // li 默认不可键盘操作：补 Enter / Space 激活
-    if (isActivationKey(e)) {
-      e.preventDefault();
-      activate(e);
-    }
-  };
+  const foundation = createPagerFoundation(props, (page, event) => emit('click', page, event));
+  const isActive = computed(foundation.getIsActive);
+  const { handleClick, handleKeydown } = foundation;
 
   const cls = computed(() => [
     prefixCls,

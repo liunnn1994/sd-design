@@ -26,6 +26,7 @@
 <script setup lang="ts">
   import { useSlots } from 'vue';
 
+  import { activatePreviewAction } from '@sdata/web-core/image/foundation';
   import { createReusableTemplate } from '@vueuse/core';
 
   import { getPrefixCls } from '../_utils/global-config';
@@ -58,7 +59,7 @@
 
   const emit = defineEmits<{ click: [event: MouseEvent] }>();
   const onClick = (event: MouseEvent) => {
-    if (!props.disabled) emit('click', event);
+    activatePreviewAction(props.disabled, event, (event) => emit('click', event));
   };
 
   const slots = useSlots();

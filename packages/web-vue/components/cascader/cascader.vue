@@ -126,12 +126,23 @@
     watch,
   } from 'vue';
 
+  import { DEFAULT_FIELD_NAMES } from '@sdata/web-core/cascader/data';
+  import { createCascaderFoundation } from '@sdata/web-core/cascader/foundation';
+  import { createCascaderInteraction } from '@sdata/web-core/cascader/interaction';
+  import { createCascaderKeyboard } from '@sdata/web-core/cascader/keyboard';
+  import {
+    getDefaultCascaderValue as getDefaultValue,
+    getCascaderValueMap,
+    filterCascaderOptions,
+    getCascaderViewValues,
+  } from '@sdata/web-core/cascader/values';
+
+  import type { TagProps } from '../tag';
   import type {
     CascaderLazyLoadOptions,
     CascaderModelValue,
     CascaderOption,
     CascaderOptionInfo,
-    CascaderSingleValue,
   } from './interface';
   import type { CascaderEmits, CascaderProps } from './types';
 
@@ -142,7 +153,7 @@
   import { useFormItem } from '../_hooks/use-form-item';
   import { useReadonlyTip, useReadonlyTipText } from '../_hooks/use-readonly-tip';
   import { useTrigger } from '../_hooks/use-trigger';
-  import { isArray, isFunction, isNull, isUndefined } from '../_utils/is';
+  import { isNull, isUndefined } from '../_utils/is';
   import { KEYBOARD_KEY, getKeyDownHandler } from '../_utils/keyboard';
   import { BaseType } from '../_utils/types';
   import { resolveDropdownVirtualListProps } from '../_utils/virtual-dropdown';
@@ -154,15 +165,7 @@
   import { cascaderInjectionKey } from './context';
   import { useLazyLoad } from './hooks/use-lazy-load';
   import { useSelectedPath } from './hooks/use-selected-path';
-  import {
-    getCheckedStatus,
-    getLeafOptionInfos,
-    getLeafOptionKeys,
-    getOptionInfos,
-    getOptionLabel,
-    getValidValues,
-    getValueKey,
-  } from './utils';
+  import { getOptionInfos } from './utils';
 
   defineOptions({
     name: 'Cascader',
@@ -207,18 +210,6 @@
   const configCtx = inject(configProviderInjectionKey, undefined);
 
   const DEFAULT_CASCADER_VIRTUAL_ITEM_SIZE = 36;
-
-  const getDefaultValue = (multiple: boolean, pathMode: boolean): CascaderModelValue => {
-    if (multiple) {
-      return [];
-    }
-
-    if (pathMode) {
-      return undefined;
-    }
-
-    return '';
-  };
 
   const {
     options,
@@ -371,15 +362,6 @@
 
   const { loadOption, isLoading } = useLazyLoad(loadMore, optionMap, addLazyLoadOptions);
 
-  const DEFAULT_FIELD_NAMES = {
-    value: 'value',
-    label: 'label',
-    disabled: 'disabled',
-    children: 'children',
-    tagProps: 'tagProps',
-    isLeaf: 'isLeaf',
-  };
-
   const mergedFieldNames = computed(() => ({
     ...DEFAULT_FIELD_NAMES,
     ...props.fieldNames,
@@ -412,21 +394,14 @@
     },
   );
 
-  const computedValueMap = computed(() => {
-    const values = getValidValues(props.modelValue ?? _value.value, {
+  const computedValueMap = computed(() =>
+    getCascaderValueMap(props.modelValue ?? _value.value, {
       multiple: props.multiple,
       pathMode: props.pathMode,
-    });
-    return new Map<string, CascaderSingleValue>(
-      values.map((value) => [
-        getValueKey(value, {
-          valueKey: props.valueKey,
-          leafOptionValueMap,
-        }),
-        value,
-      ]),
-    );
-  });
+      valueKey: props.valueKey,
+      leafOptionValueMap,
+    }),
+  );
 
   const computedInputValue = computed(() => props.inputValue ?? _inputValue.value);
   const { mergedDropdownVirtualListProps } = useDropdownVirtualListProps(
@@ -441,117 +416,38 @@
     );
   });
 
-  const getFilteredStatus = (label: string) => {
-    return label?.toLocaleLowerCase().includes(computedInputValue.value?.toLocaleLowerCase());
-  };
+  const filteredLeafOptions = computed(() =>
+    filterCascaderOptions(
+      props.checkStrictly ? Array.from(optionMap.values()) : Array.from(leafOptionSet),
+      computedInputValue.value,
+      props.checkStrictly,
+      props.filterOption,
+    ),
+  );
 
-  const filteredLeafOptions = computed(() => {
-    const options = props.checkStrictly
-      ? Array.from(optionMap.values())
-      : Array.from(leafOptionSet);
-
-    return options.filter((item) => {
-      if (isFunction(props.filterOption)) {
-        return props.filterOption(computedInputValue.value, item.raw);
-      }
-
-      if (props.checkStrictly) {
-        return getFilteredStatus(item.label);
-      }
-
-      return item.path?.find((leaf) => getFilteredStatus(leaf.label));
-    });
-  });
-
-  const updateValue = (values: CascaderSingleValue[]) => {
-    const value: CascaderModelValue = props.multiple ? values : (values[0] ?? '');
-    if (values.length === 0) {
-      setSelectedPath();
-      setActiveKey();
-    }
-
-    _value.value = value;
-    emit('update:modelValue', value);
-    emit('change', value);
-    eventHandlers.value?.onChange?.();
-  };
-
-  watch([multiple, pathMode], () => {
-    const values: CascaderSingleValue[] = [];
-    computedValueMap.value.forEach((value, key) => {
-      const option = leafOptionMap.get(key);
-      if (option) {
-        values.push(pathMode.value ? option.pathValue : option.value);
-      }
-    });
-    updateValue(values);
-  });
-
-  const handleRemove = (key: string) => {
-    if (props.readonly) {
+  const cascaderFoundation = createCascaderFoundation<TagProps>({
+    getMultiple: () => props.multiple,
+    getPathMode: () => props.pathMode,
+    getCheckStrictly: () => props.checkStrictly,
+    getReadonly: () => !!props.readonly,
+    getValueMap: () => computedValueMap.value,
+    getLeafOptions: () => leafOptionMap,
+    setValue: (value) => {
+      _value.value = value;
+    },
+    setSelectedPath: (key) => setSelectedPath(key),
+    setActiveKey: (key) => setActiveKey(key),
+    onReadonly: () => {
       showReadonlyTip();
-      return;
-    }
-    if (props.multiple) {
-      const option = leafOptionMap.get(key);
-      if (option) {
-        selectMultiple(option, false);
-      } else {
-        const values: CascaderSingleValue[] = [];
-        computedValueMap.value.forEach((value, _key) => {
-          if (_key !== key) {
-            values.push(value);
-          }
-        });
-        updateValue(values);
-      }
-    }
-  };
-
-  const selectSingle = (option: CascaderOptionInfo) => {
-    updateValue([props.pathMode ? option.pathValue : option.value]);
-    handlePopupVisibleChange(false);
-  };
-
-  const selectMultiple = (option: CascaderOptionInfo, checked: boolean) => {
-    if (checked) {
-      const leafOptionInfos = props.checkStrictly ? [option] : getLeafOptionInfos(option);
-
-      updateValue([
-        ...computedValueMap.value.values(),
-        ...leafOptionInfos
-          .filter((item) => !computedValueMap.value.has(item.key))
-          .map((item) => {
-            return props.pathMode ? item.pathValue : item.value;
-          }),
-      ]);
-    } else {
-      const leafOptionKeys = props.checkStrictly ? [option.key] : getLeafOptionKeys(option);
-      const values: CascaderSingleValue[] = [];
-      computedValueMap.value.forEach((value, key) => {
-        if (!leafOptionKeys.includes(key)) {
-          values.push(value);
-        }
-      });
-      updateValue(values);
-    }
-
-    handleInputValueChange('', 'optionChecked');
-  };
-
-  const handleClickOption = (option: CascaderOptionInfo, checked?: boolean) => {
-    if (props.readonly) {
-      showReadonlyTip();
-      return;
-    }
-    if (option.disabled || option.selectionDisabled) return;
-    if (!props.multiple && !props.checkStrictly && !option.isLeaf) return;
-    if (props.multiple) {
-      selectMultiple(option, checked ?? true);
-    } else {
-      selectSingle(option);
-    }
-  };
+    },
+    updateValue: (value) => emit('update:modelValue', value),
+    change: (value) => emit('change', value),
+    onFormChange: () => eventHandlers.value?.onChange?.(),
+    afterSingleSelect: () => handlePopupVisibleChange(false),
+    afterMultipleSelect: () => handleInputValueChange('', 'optionChecked'),
+  });
+  const { click: handleClickOption, remove: handleRemove } = cascaderFoundation;
+  watch([multiple, pathMode], cascaderFoundation.modeChanged);
 
   let searchTimer: ReturnType<typeof setTimeout> | undefined;
   const handleSearch = (value: string) => {
@@ -563,61 +459,29 @@
   };
   onBeforeUnmount(() => clearTimeout(searchTimer));
 
-  const handleInputValueChange = (value: string, reason: string): void => {
-    if (value !== computedInputValue.value) {
-      if (reason === 'manual' && !computedPopupVisible.value) {
-        handlePopupVisibleChange(true);
-      }
-
+  const interaction = createCascaderInteraction<TagProps>({
+    getInputValue: () => computedInputValue.value,
+    getPopupVisible: () => computedPopupVisible.value,
+    getAllowSearch: () => !!mergedAllowSearch.value,
+    getValues: () => computedValueMap.value,
+    getLeafOptions: () => leafOptionMap,
+    getActiveKey: () => activeKey.value,
+    setInputValue: (value) => {
       _inputValue.value = value;
-      emit('inputValueChange', value);
-
-      if (mergedAllowSearch.value) {
-        handleSearch(value);
-      }
-    }
-  };
-
-  watch(computedPopupVisible, (value) => {
-    if (value) {
-      if (computedValueMap.value.size > 0) {
-        const keys = Array.from(computedValueMap.value.keys());
-        const lastKey = keys[keys.length - 1];
-        const option = leafOptionMap.get(lastKey);
-        if (option && option.key !== activeKey.value) {
-          setSelectedPath(option.key);
-          setActiveKey(option.key);
-        }
-      }
-    } else {
-      if (computedValueMap.value.size === 0) {
-        setSelectedPath();
-        setActiveKey();
-      }
-      handleInputValueChange('', 'optionListHide');
-    }
+    },
+    setPopupVisible: handlePopupVisibleChange,
+    setSelectedPath: (key) => setSelectedPath(key),
+    setActiveKey: (key) => setActiveKey(key),
+    clearSelection: cascaderFoundation.clear,
+    inputChange: (value) => emit('inputValueChange', value),
+    search: handleSearch,
+    clear: () => emit('clear'),
   });
-
-  const handleClear = (e: MouseEvent) => {
-    e.stopPropagation();
-    if (props.readonly) {
-      showReadonlyTip();
-      return;
-    }
-    if (props.multiple) {
-      const newValues: CascaderSingleValue[] = [];
-      computedValueMap.value.forEach((_value, key) => {
-        const option = leafOptionMap.get(key);
-        if (option?.disabled) {
-          newValues.push(props.pathMode ? option.pathValue : option.value);
-        }
-      });
-      updateValue(newValues);
-    } else {
-      updateValue([]);
-    }
-    handleInputValueChange('', 'manual');
-    emit('clear');
+  const handleInputValueChange = interaction.inputChange;
+  watch(computedPopupVisible, interaction.popupChanged);
+  const handleClear = (event: MouseEvent) => {
+    event.stopPropagation();
+    interaction.clear();
   };
 
   const showSearchPanel = computed(
@@ -664,121 +528,39 @@
     }),
   );
 
+  const cascaderKeydown = createCascaderKeyboard<TagProps>({
+    getPopupVisible: () => computedPopupVisible.value,
+    getActiveOption: () => activeOption.value,
+    getCheckStrictly: () => props.checkStrictly,
+    getValues: () => computedValueMap.value,
+    getSearchPanel: () => showSearchPanel.value,
+    next: getNextActiveNode,
+    load: loadOption,
+    select: handleClickOption,
+    setSelectedPath,
+    setActiveKey,
+    setPopupVisible: handlePopupVisibleChange,
+  });
   const handleKeyDown = getKeyDownHandler(
     new Map([
-      [
-        KEYBOARD_KEY.ENTER,
-        (_ev: Event) => {
-          if (computedPopupVisible.value) {
-            if (activeOption.value && !activeOption.value.disabled) {
-              let checked: boolean;
-              if (props.checkStrictly || activeOption.value.isLeaf) {
-                checked = !computedValueMap.value.has(activeOption.value.key);
-              } else {
-                checked = !getCheckedStatus(activeOption.value, computedValueMap.value).checked;
-              }
-              loadOption(activeOption.value);
-              setSelectedPath(activeOption.value.key);
-              handleClickOption(activeOption.value, checked);
-            }
-          } else {
-            handlePopupVisibleChange(true);
-          }
-        },
-      ],
-      [
-        KEYBOARD_KEY.ESC,
-        (_ev: Event) => {
-          handlePopupVisibleChange(false);
-        },
-      ],
-      [
-        KEYBOARD_KEY.ARROW_DOWN,
-        (ev: Event) => {
-          ev.preventDefault();
-          const activeNode = getNextActiveNode('next');
-          setActiveKey(activeNode?.key);
-        },
-      ],
-      [
-        KEYBOARD_KEY.ARROW_UP,
-        (ev: Event) => {
-          ev.preventDefault();
-          const activeNode = getNextActiveNode('preview');
-          setActiveKey(activeNode?.key);
-        },
-      ],
-      [
-        KEYBOARD_KEY.ARROW_RIGHT,
-        (ev: Event) => {
-          if (!showSearchPanel.value) {
-            ev.preventDefault();
-            if (activeOption.value && !activeOption.value.disabled) {
-              loadOption(activeOption.value);
-              setSelectedPath(activeOption.value.key);
-              if (activeOption.value.children) {
-                setActiveKey(activeOption.value.children.find((option) => !option.disabled)?.key);
-              }
-            }
-          }
-        },
-      ],
-      [
-        KEYBOARD_KEY.ARROW_LEFT,
-        (ev: Event) => {
-          if (!showSearchPanel.value) {
-            ev.preventDefault();
-            if (activeOption.value?.parent) {
-              setSelectedPath(activeOption.value.parent.key);
-              setActiveKey(activeOption.value.parent.key);
-            }
-          }
-        },
-      ],
+      [KEYBOARD_KEY.ENTER, (event: Event) => cascaderKeydown('Enter', event)],
+      [KEYBOARD_KEY.ESC, (event: Event) => cascaderKeydown('Escape', event)],
+      [KEYBOARD_KEY.ARROW_DOWN, (event: Event) => cascaderKeydown('ArrowDown', event)],
+      [KEYBOARD_KEY.ARROW_UP, (event: Event) => cascaderKeydown('ArrowUp', event)],
+      [KEYBOARD_KEY.ARROW_RIGHT, (event: Event) => cascaderKeydown('ArrowRight', event)],
+      [KEYBOARD_KEY.ARROW_LEFT, (event: Event) => cascaderKeydown('ArrowLeft', event)],
     ]),
   );
 
-  const selectViewValue = computed(() => {
-    const result: Array<{
-      value: string;
-      label: string;
-      closable: boolean;
-      tagProps?: CascaderOption['tagProps'];
-    }> = [];
-    computedValueMap.value.forEach((value, key) => {
-      const option = leafOptionMap.get(key);
-      if (option) {
-        result.push({
-          value: key,
-          label:
-            props.formatLabel?.(option.path.map((item) => item.raw)) ??
-            getOptionLabel(option, {
-              showPath: props.showPath,
-              separator: props.separator,
-            }),
-          closable: !option.disabled,
-          tagProps: option.tagProps,
-        });
-      } else if (props.fallback) {
-        let label: string;
-        if (isFunction(props.fallback)) {
-          label = props.fallback(value);
-        } else if (isArray(value)) {
-          label = props.showPath
-            ? value.map((item) => String(item)).join(props.separator)
-            : String(value[value.length - 1] ?? '');
-        } else {
-          label = String(value);
-        }
-        result.push({
-          value: key,
-          label,
-          closable: true,
-        });
-      }
-    });
-    return result;
-  });
+  const selectViewValue = computed(() =>
+    getCascaderViewValues(computedValueMap.value, leafOptionMap, {
+      showPath: props.showPath,
+      separator: props.separator,
+      formatLabel: props.formatLabel,
+      fallback: props.fallback,
+    }),
+  );
+
   const triggerValue = computed<CascaderModelValue>(() => {
     const values = Array.from(computedValueMap.value.values());
     return props.multiple ? values : (values[0] ?? '');

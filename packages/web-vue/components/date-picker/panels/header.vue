@@ -48,6 +48,7 @@
 <script setup lang="ts">
   import { computed, PropType } from 'vue';
 
+  import { createDatePanelHeaderLabels } from '@sdata/web-core/date-picker/header';
   import { Dayjs } from 'dayjs';
 
   import { isFunction } from '../../_utils/is';
@@ -105,25 +106,14 @@
   }>();
 
   const datePickerT = useDatePickerTransform();
-  const getLocaleFormat = (key: string, defaultFormat: string) => {
-    const format = datePickerT(key);
-    return typeof format === 'string' && format !== key ? format : defaultFormat;
-  };
+  const labels = createDatePanelHeaderLabels(props, datePickerT);
 
   const showPrev = computed(() => isFunction(props.onPrev));
   const showSuperPrev = computed(() => isFunction(props.onSuperPrev));
   const showNext = computed(() => isFunction(props.onNext));
   const showSuperNext = computed(() => isFunction(props.onSuperNext));
-  const year = computed(() =>
-    ['date', 'quarter', 'month', 'week'].includes(props.mode) && props.value
-      ? props.value.format(getLocaleFormat('datePicker.yearFormat', 'YYYY'))
-      : '',
-  );
-  const month = computed(() =>
-    ['date', 'week'].includes(props.mode) && props.value
-      ? props.value.format(getLocaleFormat('datePicker.monthFormat', 'MM'))
-      : '',
-  );
+  const year = computed(labels.getYear);
+  const month = computed(labels.getMonth);
   const getIconClassName = (show?: boolean) => [
     `${props.prefixCls}-header-icon`,
     {

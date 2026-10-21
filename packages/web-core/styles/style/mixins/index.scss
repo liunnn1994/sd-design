@@ -1,0 +1,15 @@
+@forward './icon-hover.scss';
+
+@use './icon-hover.scss' as *;
+
+@mixin fixed-width($width) {
+  width: $width;
+  min-width: $width;
+  max-width: $width;
+}
+
+@mixin text-ellipsis() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

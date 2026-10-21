@@ -1,15 +1,1 @@
-@use 'sass:meta';
-
-@function sd-token-var($token-name, $fallback: null, $prefix: '--') {
-  $token-key: '#{$token-name}';
-
-  @if meta.type-of($token-name) == 'string' {
-    $token-key: $token-name;
-  }
-
-  @if $fallback == null {
-    @return var(#{$prefix}#{$token-key});
-  }
-
-  @return var(#{$prefix}#{$token-key}, #{$fallback});
-}
+@forward '@sdata/web-core/styles/style/theme/_functions.scss';

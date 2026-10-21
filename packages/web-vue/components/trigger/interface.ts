@@ -1,3 +1,5 @@
+import type { TriggerPopupTranslate } from '@sdata/web-core/trigger/position';
+
 import { CSSProperties } from 'vue';
 
 import type { FloatingOptions } from '../_utils/floating';
@@ -5,9 +7,7 @@ import type { ClassName } from '../_utils/types';
 
 import { TriggerEvent, TriggerPosition } from '../_utils/constant';
 
-export type TriggerPopupTranslate =
-  | [number, number]
-  | { [key in TriggerPosition]?: [number, number] };
+export type { TriggerPopupTranslate } from '@sdata/web-core/trigger/position';
 
 export interface TriggerProps {
   /**

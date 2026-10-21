@@ -37,18 +37,19 @@
 </template>
 
 <script setup lang="ts">
+  import type { RadioValue } from '@sdata/web-core/radio/types';
+
   import type { VNode } from 'vue';
   import { computed, inject, nextTick, ref, toRef, watch } from 'vue';
+
+  import { createRadioFoundation } from '@sdata/web-core/radio/foundation';
 
   import type { RadioType } from './context';
 
   import IconHover from '../_components/icon-hover.vue';
   import { useFormItem } from '../_hooks/use-form-item';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isNull, isUndefined } from '../_utils/is';
   import { radioGroupKey } from './context';
-
-  type RadioValue = string | number | boolean;
 
   defineOptions({ name: 'Radio' });
 
@@ -125,15 +126,27 @@
   const isGroup = computed(() => radioGroupCtx?.name === 'SDRadioGroup');
   const mergedType = computed(() => radioGroupCtx?.type ?? props.type);
   const mergedDisabled = computed(() => radioGroupCtx?.disabled || formItemDisabled.value);
-  const computedChecked = computed(() => {
-    if (isGroup.value) {
-      return radioGroupCtx?.value === resolvedValue.value;
-    }
-    if (!isUndefined(props.modelValue)) {
-      return props.modelValue === resolvedValue.value;
-    }
-    return internalChecked.value;
+  const foundation = createRadioFoundation<Event>({
+    isGroup: () => isGroup.value,
+    getGroupValue: () => radioGroupCtx?.value,
+    getModel: () => props.modelValue,
+    getInternalChecked: () => internalChecked.value,
+    getResolvedValue: () => resolvedValue.value,
+    setInternalChecked: (value) => {
+      internalChecked.value = value;
+    },
+    onGroupChange: (value, event) => radioGroupCtx?.handleChange(value, event),
+    onUpdate: (value) => emit('update:modelValue', value),
+    onChange: (value, event) => emit('change', value, event),
+    onFormChange: (event) => eventHandlers.value?.onChange?.(event),
+    afterChange: () =>
+      nextTick(() => {
+        if (inputRef.value && inputRef.value.checked !== computedChecked.value) {
+          inputRef.value.checked = computedChecked.value;
+        }
+      }),
   });
+  const computedChecked = computed(foundation.isChecked);
   const cls = computed(() => [
     mergedType.value === 'button' ? `${prefixCls}-button` : prefixCls,
     {
@@ -155,31 +168,9 @@
   const handleClick = (event: Event) => {
     event.stopPropagation();
   };
-  const handleChange = (event: Event) => {
-    internalChecked.value = true;
-    if (isGroup.value) {
-      radioGroupCtx?.handleChange(resolvedValue.value, event);
-    } else {
-      emit('update:modelValue', resolvedValue.value);
-      emit('change', resolvedValue.value, event);
-      eventHandlers.value?.onChange?.(event);
-    }
+  const handleChange = foundation.change;
 
-    nextTick(() => {
-      if (inputRef.value && inputRef.value.checked !== computedChecked.value) {
-        inputRef.value.checked = computedChecked.value;
-      }
-    });
-  };
-
-  watch(
-    () => props.modelValue,
-    (value) => {
-      if (isUndefined(value) || isNull(value)) {
-        internalChecked.value = false;
-      }
-    },
-  );
+  watch(() => props.modelValue, foundation.syncModel);
   watch(
     [computedChecked, () => radioGroupCtx?.changeCount],
     ([value]) => {

@@ -52,10 +52,14 @@
 </template>
 
 <script setup lang="ts">
+  import type { CascaderOptionCheckedStatus } from '@sdata/web-core/cascader/option';
+
   import { computed, inject, toRef, type PropType } from 'vue';
 
+  import { createCascaderOptionFoundation } from '@sdata/web-core/cascader/option';
   import { createReusableTemplate } from '@vueuse/core';
 
+  import type { TagProps } from '../tag';
   import type { CascaderOptionInfo } from './interface';
 
   import { getPrefixCls } from '../_utils/global-config';
@@ -65,7 +69,6 @@
   import IconRight from '../icon/icon-right';
   import Radio from '../radio';
   import { type CascaderContext, cascaderInjectionKey } from './context';
-  import { getCheckedStatus, getOptionLabel } from './utils';
 
   defineOptions({
     name: 'CascaderOption',
@@ -87,7 +90,24 @@
   const option = toRef(props, 'option');
   const prefixCls = getPrefixCls('cascader-option');
   const cascaderCtx = inject<Partial<CascaderContext>>(cascaderInjectionKey, {});
-  const isLoading = computed(() => cascaderCtx.isLoading?.(option.value) ?? false);
+  const foundation = createCascaderOptionFoundation<TagProps>(
+    {
+      get option() {
+        return option.value;
+      },
+      get checkStrictly() {
+        return props.checkStrictly;
+      },
+      get multiple() {
+        return props.multiple;
+      },
+      get checkedStatus(): CascaderOptionCheckedStatus {
+        return checkedStatus.value;
+      },
+    },
+    cascaderCtx,
+  );
+  const isLoading = computed(foundation.getIsLoading);
   const [DefineEllipsis, ReuseEllipsis] = createReusableTemplate<{ label: string }>();
   const cls = computed(() => [
     prefixCls,
@@ -96,59 +116,14 @@
       [`${prefixCls}-disabled`]: option.value.disabled,
     },
   ]);
-  const checkedStatus = computed(() => {
-    if (props.checkStrictly) {
-      return {
-        checked: cascaderCtx.valueMap?.has(option.value.key),
-        indeterminate: false,
-      };
-    }
-    return getCheckedStatus(option.value, cascaderCtx.valueMap);
-  });
-  const pathOptionLabel = computed(
-    () =>
-      cascaderCtx.formatLabel?.(option.value.path.map((item) => item.raw)) ??
-      getOptionLabel(option.value, { separator: cascaderCtx.separator }),
-  );
+  const checkedStatus = computed(foundation.getCheckedStatus);
+  const pathOptionLabel = computed(foundation.getPathOptionLabel);
 
-  function handlePathChange() {
-    cascaderCtx.loadOption?.(option.value);
-    cascaderCtx.setSelectedPath?.(option.value.key);
-  }
-
-  function handleMouseenter() {
-    if (option.value.disabled) return;
-    cascaderCtx.setActiveKey?.(option.value.key);
-    if (cascaderCtx.expandTrigger === 'hover') {
-      handlePathChange();
-    }
-  }
-
-  function handleMouseleave() {
-    if (!option.value.disabled) {
-      cascaderCtx.setActiveKey?.();
-    }
-  }
-
-  function handleClick() {
-    if (option.value.disabled) return;
-    if (cascaderCtx.expandTrigger !== 'hover') {
-      handlePathChange();
-    }
-    if (option.value.isLeaf && !props.multiple) {
-      cascaderCtx.onClickOption?.(option.value);
-    }
-  }
-
-  function handleCheckboxChange(_value: unknown, event: Event) {
-    event.stopPropagation();
-    handlePathChange();
-    cascaderCtx.onClickOption?.(option.value, !checkedStatus.value.checked);
-  }
-
-  function handleRadioChange(_value: unknown, event: Event) {
-    event.stopPropagation();
-    handlePathChange();
-    cascaderCtx.onClickOption?.(option.value, true);
-  }
+  const {
+    handleMouseenter,
+    handleMouseleave,
+    handleClick,
+    handleCheckboxChange,
+    handleRadioChange,
+  } = foundation;
 </script>

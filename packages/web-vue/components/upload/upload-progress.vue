@@ -83,10 +83,11 @@
 <script setup lang="ts">
   import { inject, type PropType } from 'vue';
 
+  import { onActivate } from '@sdata/web-core/_utils/keyboard';
+
   import type { FileItem, ListType } from './interfaces';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import { isActivationKey } from '../_utils/keyboard';
   import IconCheck from '../icon/icon-check';
   import IconPause from '../icon/icon-pause';
   import IconPlayArrowFill from '../icon/icon-play-arrow-fill';
@@ -114,9 +115,8 @@
   const { t } = useI18n();
   const uploadCtx = inject(uploadInjectionKey, undefined);
   const onActionKeydown = (event: KeyboardEvent, action: () => void) => {
-    if (isActivationKey(event)) {
-      event.preventDefault();
+    onActivate(() => {
       action();
-    }
+    })(event);
   };
 </script>

@@ -32,12 +32,19 @@
 <script lang="ts" setup>
   import { computed, getCurrentInstance, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 
+  import {
+    createPanelContentAnimation,
+    isPanelPresent,
+    isPanelContentMounted,
+    getPanelContentPose,
+    getPanelPoseTransition,
+  } from '@sdata/web-core/panel-group/foundation';
+
   import type { PanelFold, PanelPose, PanelSize, PanelSlotProps, PanelTransition } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { usePanelGroup } from './context';
   import { createPanel } from './core/panel';
-  import { cssEasing, timing } from './core/transition';
   import PanelSeparator from './panel-separator.vue';
 
   defineOptions({ name: 'Panel', inheritAttrs: false });
@@ -186,11 +193,13 @@
   const state = panelState;
 
   // 内容是否“在场”：折叠且不在拖拽/折叠动画中视为不在场（与 vendor present 一致）
-  const present = computed(
-    () =>
-      !props.collapsed ||
-      state.value.dragging ||
-      (props.fold?.hidden === undefined && state.value.folding),
+  const present = computed(() =>
+    isPanelPresent(
+      props.collapsed,
+      state.value.dragging,
+      state.value.folding,
+      props.fold?.hidden !== undefined,
+    ),
   );
 
   // keepMounted 默认 true：内容首次在场后保持挂载
@@ -201,62 +210,36 @@
     }
   });
   const contentMounted = computed(() =>
-    props.keepMounted === false ? present.value : wasPresent.value || present.value,
+    isPanelContentMounted(props.keepMounted, present.value, wasPresent.value),
   );
 
   // 折叠姿态样式：不在场（且配置了 hidden 姿态）时应用 hidden，否则应用 shown
   const contentPose = computed<PanelPose | undefined>(() =>
-    present.value || !props.fold?.hidden ? props.fold?.shown : props.fold?.hidden,
+    getPanelContentPose(present.value, props.fold),
   );
 
   // 姿态过渡：内容层的 CSS transition（仅 transform/opacity，宽度由引擎逐帧写入）
-  const poseTransition = computed(() => {
-    const duration = props.transition?.duration ?? 250;
-    const easing = cssEasing(props.transition);
-    return {
-      transition: `transform ${duration}ms ${easing}, opacity ${duration}ms ${easing}`,
-    };
-  });
+  const poseTransition = computed(() => getPanelPoseTransition(props.transition));
   const contentStyle = computed(() => [
     { [axes.cross]: '100%' },
     poseTransition.value,
     contentPose.value,
   ]);
 
-  const contentAnimations = new Map<Element, Animation>();
-  const cancelContent = (el: Element) => {
-    contentAnimations.get(el)?.cancel();
-    contentAnimations.delete(el);
-  };
-  const animateContent = (el: Element, done: () => void, entering: boolean) => {
-    cancelContent(el);
-    if (props.keepMounted !== false || !props.fold?.hidden) {
-      done();
-      return;
-    }
-    const shown = {
-      opacity: props.fold.shown?.opacity ?? 1,
-      transform: props.fold.shown?.transform ?? 'none',
-    };
-    const hidden = {
-      opacity: props.fold.hidden.opacity ?? shown.opacity,
-      transform: props.fold.hidden.transform ?? shown.transform,
-    };
-    const animation = el.animate(entering ? [hidden, shown] : [shown, hidden], {
-      duration: timing(props.transition).duration,
-      easing: cssEasing(props.transition),
-    });
-    contentAnimations.set(el, animation);
-    animation.finished.then(
-      () => {
-        contentAnimations.delete(el);
-        done();
-      },
-      () => {},
-    );
-  };
-  const enterContent = (el: Element, done: () => void) => animateContent(el, done, true);
-  const leaveContent = (el: Element, done: () => void) => animateContent(el, done, false);
+  const contentAnimation = createPanelContentAnimation({
+    get keepMounted() {
+      return props.keepMounted;
+    },
+    get fold() {
+      return props.fold;
+    },
+    get transition() {
+      return props.transition;
+    },
+  });
+  const cancelContent = contentAnimation.cancel;
+  const enterContent = (el: Element, done: () => void) => contentAnimation.animate(el, done, true);
+  const leaveContent = (el: Element, done: () => void) => contentAnimation.animate(el, done, false);
 
   // 插槽参数
   const slotProps = computed<PanelSlotProps>(() => ({
@@ -356,7 +339,7 @@
   );
 
   onBeforeUnmount(() => {
-    for (const el of contentAnimations.keys()) cancelContent(el);
+    contentAnimation.dispose();
     detach?.();
     detach = undefined;
     for (const fn of [...unsubs].reverse()) {

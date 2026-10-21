@@ -27,6 +27,8 @@
     onBeforeUpdate,
   } from 'vue';
 
+  import { createAvatarGroupFoundation } from '@sdata/web-core/avatar/group';
+
   import type { TriggerProps } from '../trigger';
   import type { AvatarShape } from './interface';
 
@@ -113,10 +115,7 @@
   const rtl = computed(() => configCtx?.rtl ?? false);
   const children = computed(() => getAllElements(defaultSlot.value?.() ?? []));
   const total = computed(() => children.value.length);
-  const getVisibleAvatars = (children: VNode[]) =>
-    props.maxCount > 0 ? children.slice(0, props.maxCount) : children;
-  const getOverflowAvatars = (children: VNode[]) =>
-    props.maxCount > 0 ? children.slice(props.maxCount) : [];
+  const { getVisibleAvatars, getOverflowAvatars } = createAvatarGroupFoundation(props);
 
   provide(
     avatarGroupInjectionKey,

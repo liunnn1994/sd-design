@@ -1,5 +1,1 @@
-@use '@style/theme/index.scss' as *;
-@use '@components/image/style/token.scss' as *;
-@use '@components/image/style/trigger.scss' as *;
-@use '@components/image/style/image.scss' as *;
-@use '@components/image/style/preview.scss' as *;
+@forward '@sdata/web-core/styles/image/style/index.scss';

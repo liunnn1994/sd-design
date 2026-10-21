@@ -1,0 +1,95 @@
+@use 'sass:math';
+@use 'sass:string';
+@use 'sass:map';
+@use 'sass:meta';
+@use '../../../style/mixins/index.scss' as *;
+@use '../../../input/style/token.scss' as inputToken;
+@use '../../../input/style/token.scss' as *;
+@use '../../../input/style/input.scss' as *;
+
+@function token-var($name, $fallback: null) {
+  $value: map.get(meta.module-variables('inputToken'), $name);
+
+  @if $value == null {
+    @return $fallback;
+  }
+
+  @return $value;
+}
+
+@mixin input-label-hide-input-element() {
+  // A div with width: 0 can also cause line breaks to cause the input box to be stretched, and to separate it from the standard document flow
+  position: absolute;
+  // Need to hide the input while ensuring that it can be focused by the Tab key
+  // So don't use display: none / visibility: hidden
+  width: 0 !important;
+}
+
+@mixin input-label-size($cls, $size) {
+  $height: string.unquote('input-size-#{$size}-height');
+
+  &.#{$cls}-size-#{$size} .#{$cls}-input,
+  &.#{$cls}-size-#{$size} .#{$cls}-value {
+    @include input-size($size);
+  }
+
+  &.#{$cls}-size-#{$size} .#{$cls}-value {
+    min-height: math.round(token-var($height) - $input-border-width * 2);
+  }
+}
+
+@mixin input-label-style($cls) {
+  &.#{$cls}-search {
+    cursor: text;
+
+    & .#{$cls}-value {
+      pointer-events: none;
+    }
+  }
+
+  @include input-wrapper-style($cls);
+
+  cursor: pointer;
+
+  &.#{$cls}-fit-width {
+    width: fit-content;
+  }
+
+  &.#{$cls}-max-w-full {
+    max-width: 100%;
+  }
+
+  .#{$cls}-input {
+    @include input-style();
+
+    &-hidden {
+      @include input-label-hide-input-element();
+    }
+  }
+
+  .#{$cls}-value {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+
+    @include text-ellipsis();
+
+    // Fix the style problem that the height of the outer div of the select layer exceeds 4px when the value is an empty string.
+    &::after {
+      font-size: 0;
+      line-height: 0;
+      visibility: hidden;
+      content: '.';
+    }
+
+    &-hidden {
+      display: none;
+    }
+  }
+
+  @include input-label-size($cls, mini);
+  @include input-label-size($cls, medium);
+  @include input-label-size($cls, small);
+  @include input-label-size($cls, large);
+}

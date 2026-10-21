@@ -97,8 +97,13 @@
 <script setup lang="ts">
   import { computed, ref, toRefs } from 'vue';
 
+  import {
+    activatePopupMenu,
+    selectPopupMenuItem,
+    getMenuPopupMaxHeight,
+  } from '@sdata/web-core/menu/foundation';
+
   import { getPrefixCls } from '../_utils/global-config';
-  import { isNumber } from '../_utils/is';
   import { omit } from '../_utils/omit';
   import Ellipsis from '../ellipsis';
   import Trigger, { type TriggerProps } from '../trigger';
@@ -167,19 +172,25 @@
       ]) as Partial<TriggerProps>,
   );
 
-  const popupMenuStyles = computed(() => {
-    const maxHeight = popupMaxHeight!.value ?? menuContext.popupMaxHeight;
-    if (isNumber(maxHeight)) return { maxHeight: `${maxHeight}px` };
-    return maxHeight ? {} : { maxHeight: 'unset' };
-  });
-  const onClick = () => {
-    onSubMenuClick && onSubMenuClick(key.value, level.value);
-    selectable.value && contextMenuItemClick && contextMenuItemClick(key.value);
+  const popupMenuStyles = computed(() =>
+    getMenuPopupMaxHeight(popupMaxHeight!.value ?? menuContext.popupMaxHeight),
+  );
+  const popupActivation = {
+    get key() {
+      return key.value;
+    },
+    get level() {
+      return level.value;
+    },
+    get selectable() {
+      return selectable.value;
+    },
+    onSubmenu: onSubMenuClick,
+    onSelect: contextMenuItemClick,
   };
-  const onMenuItemClick = (key: string) => {
-    contextMenuItemClick && contextMenuItemClick(key);
-    setPopVisible(false);
-  };
+  const onClick = () => activatePopupMenu(popupActivation);
+  const onMenuItemClick = (key: string) =>
+    selectPopupMenuItem(key, contextMenuItemClick, setPopVisible);
   const onVisibleChange = (visible: boolean) => {
     setPopVisible(visible);
   };

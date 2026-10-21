@@ -165,6 +165,19 @@
     watch,
   } from 'vue';
 
+  import {
+    createFilePreviewer,
+    shouldRenderFile,
+    shouldUseImagePreview,
+  } from '@sdata/web-core/file-previewer/foundation';
+  import {
+    createMediaLoader,
+    isVideoJsMediaSkin,
+    getMediaSkinTag,
+    mergeFileMediaProps,
+    mergeFileImageProps,
+  } from '@sdata/web-core/file-previewer/media';
+
   import type {
     FilePreviewerContentSlotProps,
     FilePreviewerImageProps,
@@ -182,7 +195,6 @@
   import usePopupOverHidden from '../_hooks/use-popup-overflow-hidden';
   import { isServerRendering } from '../_utils/dom';
   import { getPrefixCls } from '../_utils/global-config';
-  import { KEYBOARD_KEY } from '../_utils/keyboard';
   import IconClose from '../icon/icon-close';
   import IconLoading from '../icon/icon-loading';
   import Image from '../image';
@@ -383,18 +395,13 @@
   const wrapperRef = shallowRef<HTMLElement>();
   const status = shallowRef<FilePreviewerStatus>('beforeLoad');
   const requestId = shallowRef(0);
-  let videoJsVideoPromise: Promise<unknown> | undefined;
-  let videoJsAudioPromise: Promise<unknown> | undefined;
+  const ensureMedia = createMediaLoader();
 
   const localVisible = shallowRef(defaultVisible.value);
   const mergedVisible = computed(() => visible?.value ?? localVisible.value);
-  const shouldRender = computed(() => !fullscreen.value || mergedVisible.value);
-  const useImagePreview = computed(
-    () =>
-      type.value === 'image' &&
-      fullscreen.value &&
-      !previewSlots.value.includes('content') &&
-      !previewSlots.value.includes('image'),
+  const shouldRender = computed(() => shouldRenderFile(fullscreen.value, mergedVisible.value));
+  const useImagePreview = computed(() =>
+    shouldUseImagePreview(type.value, fullscreen.value, previewSlots.value),
   );
 
   const container = usePopupContainer(
@@ -441,41 +448,22 @@
     onError: onLoadError,
   }));
 
-  const mergedImageProps = computed<FilePreviewerImageProps>(() => {
-    const userProps = imageProps?.value ?? {};
-    return {
-      alt: title?.value || '',
-      ...userProps,
+  const mergedImageProps = computed<FilePreviewerImageProps>(() =>
+    mergeFileImageProps(imageProps?.value ?? {}, {
+      title: title?.value,
       src: currentSrc.value,
       renderToBody: renderToBody.value,
-      previewProps: {
-        maskClosable: maskClosable.value,
-        closable: closable.value,
-        popupContainer: popupContainer?.value,
-        escToClose: escToClose.value,
-        ...userProps.previewProps,
-      },
-      onLoad: (event: Event) => {
-        callEventHandler(userProps.onLoad, event);
-        onPreviewLoad();
-      },
-      onError: (event: Event) => {
-        callEventHandler(userProps.onError, event);
-        onLoadError();
-      },
-    };
-  });
-  const mediaSkin = computed(() => mediaProps?.value?.skin ?? 'default');
-  const useVideoJsMediaSkin = computed(
-    () => mediaSkin.value !== false && mediaSkin.value !== 'native',
+      maskClosable: maskClosable.value,
+      closable: closable.value,
+      popupContainer: popupContainer?.value,
+      escToClose: escToClose.value,
+      onLoad: onPreviewLoad,
+      onError: onLoadError,
+    }),
   );
-  const mediaSkinTag = computed(() => {
-    if (mediaSkin.value === 'minimal') {
-      return type.value === 'audio' ? 'audio-neutral-skin' : 'video-neutral-skin';
-    }
-    if (mediaSkin.value && mediaSkin.value !== 'default') return String(mediaSkin.value);
-    return type.value === 'audio' ? 'audio-skin' : 'video-skin';
-  });
+  const mediaSkin = computed(() => mediaProps?.value?.skin ?? 'default');
+  const useVideoJsMediaSkin = computed(() => isVideoJsMediaSkin(mediaSkin.value));
+  const mediaSkinTag = computed(() => getMediaSkinTag(type.value, mediaSkin.value));
   const mediaPlayerTag = computed(() => (type.value === 'audio' ? 'audio-player' : 'video-player'));
   const mediaSkinClassNames = computed(() => [
     `${prefixCls}-media-skin`,
@@ -483,33 +471,22 @@
   ]);
   const mediaPlayerProps = computed(() => mediaProps?.value?.playerProps ?? {});
   const mediaSkinProps = computed(() => mediaProps?.value?.skinProps ?? {});
-  const mergedMediaProps = computed<FilePreviewerMediaProps>(() => {
-    const currentRequestId = requestId.value;
-    const userProps = { ...mediaProps?.value };
-    const { onLoadedData, onError } = userProps;
-    delete userProps.skin;
-    delete userProps.playerProps;
-    delete userProps.skinProps;
-    delete userProps.onLoadedData;
-    delete userProps.onError;
-
-    return {
-      ...(useVideoJsMediaSkin.value ? undefined : { controls: true }),
-      ...(type.value === 'video' ? { playsinline: true } : undefined),
-      ...userProps,
-      src: currentSrc.value,
-      onLoadeddata: (event: Event) => {
-        if (currentRequestId !== requestId.value) return;
-        callEventHandler(onLoadedData, event);
-        onPreviewLoad();
+  const mergedMediaProps = computed<FilePreviewerMediaProps>(() =>
+    mergeFileMediaProps(
+      mediaProps?.value,
+      currentSrc.value,
+      type.value,
+      useVideoJsMediaSkin.value,
+      requestId.value,
+      {
+        get requestId() {
+          return requestId.value;
+        },
+        onLoad: onPreviewLoad,
+        onError: onLoadError,
       },
-      onError: (event: Event) => {
-        if (currentRequestId !== requestId.value) return;
-        callEventHandler(onError, event);
-        onLoadError();
-      },
-    };
-  });
+    ),
+  );
   const {
     doc: pdfDoc,
     numPages: pdfNumPages,
@@ -594,98 +571,75 @@
     void destroyPdf();
   });
 
-  function resetPreviewState() {
-    status.value = 'beforeLoad';
-  }
-
-  function setVisible(nextVisible: boolean) {
-    if (nextVisible !== mergedVisible.value) {
-      emit('visible-change', nextVisible);
-      emit('update:visible', nextVisible);
-      localVisible.value = nextVisible;
-    }
-  }
-
+  const foundation = createFilePreviewer({
+    get visible() {
+      return mergedVisible.value;
+    },
+    get fullscreen() {
+      return fullscreen.value;
+    },
+    get escToClose() {
+      return escToClose.value;
+    },
+    get maskClosable() {
+      return maskClosable.value;
+    },
+    get type() {
+      return type.value;
+    },
+    get shouldRender() {
+      return shouldRender.value;
+    },
+    get slots() {
+      return previewSlots.value;
+    },
+    get withMediaSkin() {
+      return useVideoJsMediaSkin.value;
+    },
+    get requestId() {
+      return requestId.value;
+    },
+    isServer: isServerRendering,
+    setRequestId(value) {
+      requestId.value = value;
+    },
+    setVisible(value) {
+      localVisible.value = value;
+    },
+    setStatus(value) {
+      status.value = value;
+    },
+    onClose() {
+      emit('close');
+    },
+    onVisibleChange(value) {
+      emit('visible-change', value);
+      emit('update:visible', value);
+    },
+    destroyPdf,
+    loadPdf,
+    ensureMedia: () => ensureMedia(type.value),
+    focusAfterRender() {
+      void nextTick(() => wrapperRef.value?.focus());
+    },
+  });
   function close() {
-    // 与 fullscreen 相同的守卫：已经不可见时不再重复 emit close（inline 模式下 close
-    // 只通过 slot/defineExpose 触发，无守卫时重复调用会多次 emit）
-    if (!mergedVisible.value) return;
-    emit('close');
-    setVisible(false);
+    foundation.close();
   }
-
   function onMaskClick() {
-    if (maskClosable.value) close();
+    foundation.maskClick();
   }
-
-  function onImagePreviewVisibleChange(nextVisible: boolean) {
-    if (!nextVisible && mergedVisible.value) emit('close');
-    setVisible(nextVisible);
+  function onImagePreviewVisibleChange(value: boolean) {
+    foundation.imageVisibleChange(value);
   }
-
   function onKeyDown(event: KeyboardEvent) {
-    if (fullscreen.value && escToClose.value && event.key === KEYBOARD_KEY.ESC) {
-      event.stopPropagation();
-      close();
-    }
+    foundation.keydown(event);
   }
-
   function onPreviewLoad() {
-    status.value = 'loaded';
+    foundation.loaded();
   }
-
   function onLoadError() {
-    status.value = 'error';
-  }
-
-  function callEventHandler(handler: unknown, event: Event) {
-    if (Array.isArray(handler)) {
-      handler.forEach((item) => callEventHandler(item, event));
-      return;
-    }
-    if (typeof handler === 'function') handler(event);
-  }
-
-  async function ensureVideoJsHtml() {
-    if (typeof Element === 'undefined' && typeof window !== 'undefined' && window.Element) {
-      Object.defineProperty(globalThis, 'Element', {
-        configurable: true,
-        value: window.Element,
-      });
-    }
-    if (type.value === 'audio') {
-      if (!videoJsAudioPromise) {
-        videoJsAudioPromise = import('@videojs/html/audio/player').then(() =>
-          Promise.all([
-            import('@videojs/html/audio/skin'),
-            import('@videojs/html/audio/neutral-skin'),
-          ]),
-        );
-      }
-      await videoJsAudioPromise;
-      return;
-    }
-    if (!videoJsVideoPromise) {
-      videoJsVideoPromise = import('@videojs/html/video/player').then(() =>
-        Promise.all([
-          import('@videojs/html/video/skin'),
-          import('@videojs/html/video/neutral-skin'),
-        ]),
-      );
-    }
-    await videoJsVideoPromise;
-  }
-
-  async function prepareMedia(currentRequestId: number) {
-    status.value = 'loading';
-    try {
-      if (!isServerRendering) await ensureVideoJsHtml();
-      if (currentRequestId !== requestId.value) return;
-      status.value = 'loaded';
-    } catch {
-      if (currentRequestId !== requestId.value) return;
-      status.value = 'error';
-    }
+    foundation.error();
   }
 
   watch(
@@ -696,47 +650,7 @@
       previewSlots,
       () => (type.value === 'video' || type.value === 'audio') && useVideoJsMediaSkin.value,
     ],
-    () => {
-      requestId.value += 1;
-      if (!shouldRender.value || type.value !== 'pdf' || previewSlots.value.includes('content')) {
-        void destroyPdf();
-      }
-      if (!shouldRender.value) return;
-
-      resetPreviewState();
-      if (fullscreen.value) void nextTick(() => wrapperRef.value?.focus());
-
-      if (previewSlots.value.includes('content')) {
-        status.value = 'loaded';
-        return;
-      }
-
-      const currentRequestId = requestId.value;
-      if (type.value === 'pdf') {
-        void loadPdf();
-        return;
-      }
-
-      if (type.value === 'video' || type.value === 'audio') {
-        if (useVideoJsMediaSkin.value) {
-          void prepareMedia(currentRequestId);
-          return;
-        }
-        if (hasTypeSlot.value) {
-          status.value = 'loaded';
-          return;
-        }
-        status.value = 'loading';
-        return;
-      }
-
-      if (hasTypeSlot.value) {
-        status.value = 'loaded';
-        return;
-      }
-
-      status.value = 'loading';
-    },
+    foundation.syncPreview,
     { immediate: true },
   );
 

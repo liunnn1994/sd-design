@@ -147,18 +147,17 @@
 <script setup lang="ts">
   import { computed, PropType, toRefs, VNode, reactive, ref, useSlots } from 'vue';
 
+  import { createTreeNodeFoundation } from '@sdata/web-core/tree/node';
   import { onLongPress, useSwipe } from '@vueuse/core';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import { isFunction } from '../_utils/is';
-  import { toArray } from '../_utils/to-array';
   import Checkbox from '../checkbox';
   import Ellipsis, { PerformantEllipsis } from '../ellipsis';
   import IconDragDotVertical from '../icon/icon-drag-dot-vertical';
   import useDraggable from './hooks/use-draggable';
   import useNodeKey from './hooks/use-node-key';
   import useTreeContext from './hooks/use-tree-context';
-  import { Node, TreeNodeDomEventName, TreeNodeSwipeDirection } from './interface';
+  import { Node, TreeNodeSwipeDirection } from './interface';
   import NodeSwitcher from './node-switcher.vue';
 
   defineOptions({ name: 'BaseTreeNode' });
@@ -230,10 +229,36 @@
   const node = computed(() => treeContext.key2TreeNode?.get(key.value) as Node);
   const treeNodeData = computed(() => node.value.treeNodeData);
   const children = computed(() => node.value.children);
-  const actionOnNodeClick = computed(() => {
-    const action = treeContext.treeProps?.actionOnNodeClick;
-    return action ? toArray(action) : [];
-  });
+  const foundation = createTreeNodeFoundation(
+    {
+      get key() {
+        return key.value;
+      },
+      get isLeaf() {
+        return isLeaf.value;
+      },
+      get children() {
+        return children.value;
+      },
+      get expanded(): boolean | undefined {
+        return expanded.value;
+      },
+      get disableCheckbox() {
+        return disableCheckbox.value;
+      },
+      get disabled() {
+        return disabled.value;
+      },
+      get selectable() {
+        return selectable.value;
+      },
+      get actionOnNodeClick(): readonly string[] {
+        return actionOnNodeClick.value;
+      },
+    },
+    treeContext,
+  );
+  const actionOnNodeClick = computed(foundation.getActionOnNodeClick);
 
   const showSwitcher = computed(() => treeContext.treeProps?.switcher !== false);
 
@@ -289,15 +314,15 @@
     },
   ]);
 
-  const checked = computed(() => treeContext.checkedKeys?.includes?.(key.value));
+  const checked = computed(foundation.getChecked);
 
-  const indeterminate = computed(() => treeContext.indeterminateKeys?.includes?.(key.value));
+  const indeterminate = computed(foundation.getIndeterminate);
 
-  const selected = computed(() => treeContext.selectedKeys?.includes?.(key.value));
+  const selected = computed(foundation.getSelected);
 
-  const expanded = computed(() => treeContext.expandedKeys?.includes?.(key.value));
+  const expanded = computed(foundation.getExpanded);
 
-  const loading = computed(() => treeContext.loadingKeys?.includes?.(key.value));
+  const loading = computed(foundation.getLoading);
 
   const treeDragIcon = computed(() => treeContext.dragIcon);
 
@@ -325,14 +350,7 @@
     },
   ]);
 
-  function onSwitcherClick(e: Event) {
-    if (isLeaf.value) return;
-    if (!children.value?.length && isFunction(treeContext.onLoadMore)) {
-      treeContext.onLoadMore(key.value);
-    } else {
-      treeContext?.onExpand?.(!expanded.value, key.value, e);
-    }
-  }
+  const { onSwitcherClick } = foundation;
 
   const nodeStatus = reactive({
     loading,
@@ -364,31 +382,5 @@
 
   const nodekey = key;
 
-  function onCheckboxChange(value: boolean | (string | number | boolean)[], e: Event) {
-    if (disableCheckbox.value || disabled.value) {
-      return;
-    }
-
-    if (Array.isArray(value)) {
-      return;
-    }
-
-    treeContext.onCheck?.(value, key.value, e);
-  }
-  function onTitleClick(e: Event) {
-    onNodeDomEvent('click', e);
-    if (actionOnNodeClick.value.includes('expand')) {
-      onSwitcherClick(e);
-    }
-    if (!selectable.value || disabled.value) return;
-    treeContext.onSelect?.(key.value, e);
-  }
-  function onNodeDomEvent(eventName: TreeNodeDomEventName, e: Event) {
-    treeContext.onNodeEvent?.(eventName, key.value, e);
-  }
-  // treeitem 级键盘事件：保留对外 nodeKeydown 事件 + WAI-ARIA tree 方向键导航
-  function onTreeitemKeydown(e: KeyboardEvent) {
-    onNodeDomEvent('keydown', e);
-    treeContext.onNodeKeydown?.(key.value, e);
-  }
+  const { onCheckboxChange, onTitleClick, onNodeDomEvent, onTreeitemKeydown } = foundation;
 </script>

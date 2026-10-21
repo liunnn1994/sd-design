@@ -64,13 +64,13 @@
 <script setup lang="ts">
   import { computed, PropType, reactive, toRefs } from 'vue';
 
+  import { createDatePanelBodyFoundation } from '@sdata/web-core/date-picker/panel-body';
   import { Dayjs } from 'dayjs';
 
   import type { Cell, DisabledDate, IsSameTime, Mode } from '../interface';
 
   import { getDateValue } from '../../_utils/date';
   import useCellClassName from '../hooks/use-cell-class-name';
-  import { isDisabledDate } from '../utils';
 
   defineOptions({ name: 'PanelBody' });
 
@@ -125,34 +125,34 @@
     }),
   );
 
-  const isCellDisabled = (cellData: Cell) =>
-    isDisabledDate(cellData.value, disabledDate?.value, mode?.value);
-
-  const isCellSelected = (cellData: Cell) =>
-    Boolean(value?.value && isSameTime?.value && isSameTime.value(cellData.value, value.value));
-
-  const isWeek = computed(() => mode?.value === 'week');
-
-  const isHiddenNotInViewCell = (cellData: Cell) =>
-    props.hideNotInViewDates && (cellData.isPrev || cellData.isNext);
-
-  const getCellClassNameFn = (cellData: Cell) => {
-    const disabled = isCellDisabled(cellData);
-    return getCellClassName(cellData, disabled);
-  };
-  const onCellClick = (cellData: Cell) => {
-    const disabled = isCellDisabled(cellData) || isHiddenNotInViewCell(cellData);
-    if (disabled) return;
-    emit('cell-click', cellData);
-  };
-  const onCellMouseEnter = (cellData: Cell) => {
-    const disabled = isCellDisabled(cellData) || isHiddenNotInViewCell(cellData);
-    if (disabled) return;
-    emit('cell-mouse-enter', cellData);
-  };
-  const onCellMouseLeave = (cellData: Cell) => {
-    const disabled = isCellDisabled(cellData) || isHiddenNotInViewCell(cellData);
-    if (disabled) return;
-    emit('cell-mouse-enter', cellData);
-  };
+  const foundation = createDatePanelBodyFoundation(
+    {
+      get value() {
+        return value?.value;
+      },
+      get disabledDate() {
+        return disabledDate?.value;
+      },
+      get mode() {
+        return mode?.value;
+      },
+      get hideNotInViewDates() {
+        return props.hideNotInViewDates;
+      },
+    },
+    isSameTime,
+    getCellClassName,
+    (cell) => emit('cell-click', cell),
+    (cell) => emit('cell-mouse-enter', cell),
+  );
+  const {
+    isCellDisabled,
+    isCellSelected,
+    isHiddenNotInViewCell,
+    getCellClassNameFn,
+    onCellClick,
+    onCellMouseEnter,
+    onCellMouseLeave,
+  } = foundation;
+  const isWeek = computed(foundation.getIsWeek);
 </script>

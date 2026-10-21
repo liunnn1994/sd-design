@@ -41,6 +41,11 @@
     watch,
   } from 'vue';
 
+  import {
+    createModelSelectorGroupFoundation,
+    getModelSelectorGroupInitialExpanded,
+  } from '@sdata/web-core/model-selector/group';
+
   import { getPrefixCls } from '../_utils/global-config';
   import IconRight from '../icon/icon-right';
   import { modelSelectorGroupInjectionKey } from './context';
@@ -63,30 +68,39 @@
   const id = Symbol(`model-selector-group-${uid}`);
   const headingId = `${context.listId}-group-${uid}`;
   const contentId = `${headingId}-content`;
-  const expanded = shallowRef(heading || slots.heading ? context.defaultExpanded : true);
+  const expanded = shallowRef(
+    getModelSelectorGroupInitialExpanded(heading || slots.heading, context.defaultExpanded),
+  );
   const searchExpanded = shallowRef<boolean>();
-  const isSearching = computed(() => context.query.value.trim().length > 0);
-  const isExpanded = computed(() =>
-    isSearching.value ? (searchExpanded.value ?? true) : expanded.value,
-  );
+  const foundation: ReturnType<typeof createModelSelectorGroupFoundation> =
+    createModelSelectorGroupFoundation({
+      get query() {
+        return context.query.value;
+      },
+      get isSearching(): boolean {
+        return isSearching.value;
+      },
+      get isExpanded(): boolean {
+        return isExpanded.value;
+      },
+      get expanded() {
+        return expanded.value;
+      },
+      set expanded(value) {
+        expanded.value = value;
+      },
+      get searchExpanded() {
+        return searchExpanded.value;
+      },
+      set searchExpanded(value) {
+        searchExpanded.value = value;
+      },
+    });
+  const isSearching = computed(() => foundation.getIsSearching());
+  const isExpanded = computed(() => foundation.getIsExpanded());
   const hasVisibleItems = computed(() => context.getVisibleItems(id).length > 0);
-
-  function toggleExpanded() {
-    if (isSearching.value) {
-      searchExpanded.value = !isExpanded.value;
-    } else {
-      expanded.value = !expanded.value;
-    }
-  }
-
-  watch(
-    () => context.query.value.trim(),
-    () => {
-      searchExpanded.value = undefined;
-    },
-    { flush: 'sync' },
-  );
-
+  const { toggleExpanded } = foundation;
+  watch(() => context.query.value.trim(), foundation.syncQuery, { flush: 'sync' });
   context.registerGroup(id, isExpanded);
   onBeforeUnmount(() => context.unregisterGroup(id));
   provide(modelSelectorGroupInjectionKey, { id });

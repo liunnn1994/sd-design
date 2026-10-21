@@ -1,17 +1,13 @@
+import type { RegexVisFlag, RegexVisError } from '@sdata/web-core/regex-vis/types';
+
 import type { VNodeChild } from 'vue';
-
-import type { Flag, Node as ParserNode, RegexError as ParserError } from './parser/ast';
-
-export type RegexVisFlag = Flag;
-export type RegexVisNode = ParserNode;
-export type RegexVisError = ParserError;
-
-export type RegexVisTranslate = (key: string, ...args: unknown[]) => string;
-
-export type RegexVisSelectInfo = {
-  node: RegexVisNode;
-  label: string;
-};
+export type {
+  RegexVisFlag,
+  RegexVisNode,
+  RegexVisError,
+  RegexVisTranslate,
+  RegexVisSelectInfo,
+} from '@sdata/web-core/regex-vis/types';
 
 export type RegexVisProps = {
   /**

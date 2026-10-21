@@ -104,19 +104,16 @@
 <script setup lang="ts">
   import { computed, inject } from 'vue';
 
+  import { createCalendarSurfaceRules } from '@sdata/web-core/calendar/surfaces';
+
   import type { CalendarTexts } from '../types';
 
   import { calendarInjectionKey } from '../context';
 
   const calendar = inject(calendarInjectionKey)!;
   const { view, config } = calendar;
+  const rules = createCalendarSurfaceRules(calendar, { isDark: false, hasTimeColumn: false });
   const prefixCls = calendar.prefixCls;
 
-  const onTitleClick = () => {
-    if (config.clickToNavigate) view.broader();
-  };
-
-  const titleEventHandlers = computed(() =>
-    config.clickToNavigate ? { click: onTitleClick } : {},
-  );
+  const titleEventHandlers = computed(rules.titleEventHandlers);
 </script>

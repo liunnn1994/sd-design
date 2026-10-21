@@ -142,3 +142,5 @@ import typographyTitleSource from '../../../../components/generated/typography/t
 | ellipsisStr | 省略号 | `string` | `'...'` |  |
 | suffix | 后缀 | `string` | `-` |  |
 | showTooltip | 配置省略时的弹出框 | `boolean    \| { type: 'tooltip' \| 'popover'; props: Record<string, any> }` | `false` |  |
+
+默认插槽的 VNode 数据更新会刷新排版内容，并保留带 key 的子节点身份与输入焦点。纯文本与省略模式继续使用原有 props、slots 和公开方法。

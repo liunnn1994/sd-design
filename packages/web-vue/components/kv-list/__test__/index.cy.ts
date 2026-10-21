@@ -1,10 +1,9 @@
 import { defineComponent, ref } from 'vue';
 import type { Ref } from 'vue';
 
-import { VueDraggable } from 'vue-draggable-plus';
-
 import type { KvListItem, KvListType } from '../types';
 
+import { startDrag, moveDrag } from '../../../cypress/support/drag-sort';
 import { configProviderInjectionKey } from '../../config-provider/context';
 import Input from '../../input';
 import enUS from '../../locale/lang/en-us';
@@ -201,7 +200,7 @@ describe('KvList', () => {
     cy.contains('button', '清空键值对').should('be.disabled');
   });
 
-  it('syncs both models when vue-draggable-plus updates row order', () => {
+  it('syncs both models after dragging a row', () => {
     cy.mount(
       createHarness({
         initialJson: [
@@ -211,12 +210,15 @@ describe('KvList', () => {
       }),
     );
 
-    cy.get('@vue').then(({ wrapper }) => {
-      const draggable = wrapper.findComponent(VueDraggable);
-      const rows = draggable.props('modelValue');
-      draggable.vm.$emit('update:modelValue', [...rows].reverse());
-      draggable.vm.$emit('update');
-    });
+    startDrag('[data-testid="kv-list-row"]:first-child .sd-kv-list-drag-handle');
+    moveDrag('[data-testid="kv-list-row"]:nth-child(2)', 0.95, false);
+    // Wait for Sortable's scheduled fallback hit testing before release.
+    cy.get('.sd-kv-list-rows > [data-testid="kv-list-row"] input')
+      .first()
+      .should('have.value', 'second');
+    cy.document().trigger('pointerup', { eventConstructor: 'PointerEvent', pointerType: 'mouse' });
+    cy.document().trigger('mouseup', { eventConstructor: 'MouseEvent' });
+    cy.get('.sortable-fallback').should('not.exist');
     cy.get('[data-testid="bulk-model"]').should('have.text', 'second: 2\nfirst: 1');
   });
 

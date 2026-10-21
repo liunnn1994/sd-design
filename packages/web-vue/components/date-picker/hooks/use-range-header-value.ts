@@ -1,10 +1,16 @@
 import { computed, nextTick, reactive, toRefs } from 'vue';
 
+import {
+  fixRangeHeaders,
+  sortSelectedRangeHeaders,
+  canShortenRangeHeaders,
+  rangeHeaderOperationKeys,
+  setDateRangeHeader,
+} from '@sdata/web-core/date-picker/header';
 import { Dayjs } from 'dayjs';
 
-import { getSortedDayjsArray, methods } from '../../_utils/date';
 import pick from '../../_utils/pick';
-import { CalendarValue, HeaderOperations, Mode } from '../interface';
+import { CalendarValue, Mode } from '../interface';
 import useHeaderValue from './use-header-value';
 import usePanelSpan from './use-panel-span';
 
@@ -34,12 +40,6 @@ export default function useRangeHeaderValue(props: RangeHeaderValueProps) {
     timezone,
     onChange,
   } = toRefs(props);
-
-  const isDateOrWeek = computed(() => ['date', 'week'].includes(mode.value));
-
-  const unit = computed(() => (isDateOrWeek.value ? 'M' : 'y'));
-
-  const isSame = (current: Dayjs, target: Dayjs) => current.isSame(target, unit.value);
 
   const { span, superSpan } = usePanelSpan(
     reactive({
@@ -99,41 +99,23 @@ export default function useRangeHeaderValue(props: RangeHeaderValueProps) {
     }),
   );
 
-  const setHeaderValue = (newVal: Dayjs[]) => {
-    const isSameStartValue = isSame(startHeaderValue.value, newVal[0]);
-    const isSameEndValue = isSame(endHeaderValue.value, newVal[1]);
-
-    setStartHeaderValue(newVal[0], false);
-    setEndHeaderValue(newVal[1], false);
-
-    if (!isSameStartValue || !isSameEndValue) {
-      onChange?.value && onChange?.value(newVal);
-    }
+  const headerAdapter = {
+    get mode() {
+      return mode.value;
+    },
+    get start() {
+      return startHeaderValue.value;
+    },
+    get end() {
+      return endHeaderValue.value;
+    },
+    setStart: setStartHeaderValue,
+    setEnd: setEndHeaderValue,
+    onChange: emitChange,
   };
-
-  function getFixedValue(values: Dayjs[]) {
-    // oxlint-disable-next-line prefer-const
-    let [header0, header1] = getSortedDayjsArray(values);
-
-    const nextHeader = methods.add(header0, span.value, 'M');
-
-    if (header1.isBefore(nextHeader, unit.value)) {
-      header1 = nextHeader;
-    }
-
-    return [header0, header1];
-  }
-
-  function getFormSelectedValue() {
-    let selected0 = selectedValue.value?.[0];
-    let selected1 = selectedValue.value?.[1];
-
-    if (selected0 && selected1) {
-      [selected0, selected1] = getSortedDayjsArray([selected0, selected1]);
-    }
-
-    return [selected0, selected1];
-  }
+  const setHeaderValue = (value: Dayjs[]) => setDateRangeHeader(headerAdapter, value);
+  const getFixedValue = (values: Dayjs[]) => fixRangeHeaders(values, span.value, mode.value);
+  const getFormSelectedValue = () => sortSelectedRangeHeaders(selectedValue.value);
 
   // 1. 目前为此，在非受控情况下，start 和 end 的值是一样的，所以需要 fix 一下
   // 2. 附加 selectedValue 处理
@@ -163,30 +145,28 @@ export default function useRangeHeaderValue(props: RangeHeaderValueProps) {
   /** ************* 以下为操作 ****************** */
 
   const canShortenMonth = computed(() =>
-    methods.add(startHeaderValue.value, span.value, 'M').isBefore(endHeaderValue.value, unit.value),
+    canShortenRangeHeaders(startHeaderValue.value, endHeaderValue.value, span.value, mode.value),
   );
-
   const canShortenYear = computed(() =>
-    methods
-      .add(startHeaderValue.value, superSpan.value, 'M')
-      .isBefore(endHeaderValue.value, unit.value),
+    canShortenRangeHeaders(
+      startHeaderValue.value,
+      endHeaderValue.value,
+      superSpan.value,
+      mode.value,
+    ),
   );
-
-  const computedStartHeaderOperations = computed(() => {
-    const operations: Array<keyof HeaderOperations> = ['onSuperPrev'];
-    if (isDateOrWeek.value) operations.push('onPrev');
-    if (canShortenMonth.value && isDateOrWeek.value) operations.push('onNext');
-    if (canShortenYear.value) operations.push('onSuperNext');
-    return pick(startHeaderOperations.value, operations);
-  });
-
-  const computedEndHeaderOperations = computed(() => {
-    const operations: Array<keyof HeaderOperations> = ['onSuperNext'];
-    if (isDateOrWeek.value) operations.push('onNext');
-    if (canShortenMonth.value && isDateOrWeek.value) operations.push('onPrev');
-    if (canShortenYear.value) operations.push('onSuperPrev');
-    return pick(endHeaderOperations.value, operations);
-  });
+  const computedStartHeaderOperations = computed(() =>
+    pick(
+      startHeaderOperations.value,
+      rangeHeaderOperationKeys(mode.value, canShortenMonth.value, canShortenYear.value, false),
+    ),
+  );
+  const computedEndHeaderOperations = computed(() =>
+    pick(
+      endHeaderOperations.value,
+      rangeHeaderOperationKeys(mode.value, canShortenMonth.value, canShortenYear.value, true),
+    ),
+  );
 
   return {
     startHeaderValue,

@@ -24,16 +24,14 @@
     watchPostEffect,
   } from 'vue';
 
-  import { compute as computeScrollIntoView } from 'compute-scroll-into-view';
+  import { createAnchor } from '@sdata/web-core/anchor/foundation';
 
-  import { getElement, off, on } from '../_utils/dom';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isNumber, isWindow } from '../_utils/is';
-  import { throttleByRaf } from '../_utils/throttle-by-raf';
+  import { isNumber } from '../_utils/is';
   import Affix from '../affix';
   import { useI18n } from '../locale';
   import { anchorInjectionKey } from './context';
-  import { slide, BOUNDARY_POSITIONS, type BoundaryPosition } from './utils';
+  import { BOUNDARY_POSITIONS, type BoundaryPosition } from './utils';
 
   const DIRECTIONS = ['vertical', 'horizontal'] as const;
   type Direction = (typeof DIRECTIONS)[number];
@@ -157,181 +155,53 @@
   const links = reactive<Record<string, HTMLElement>>({});
   const currentLink = ref('');
   const isScrolling = ref(false);
-  let cancelScroll: (() => void) | undefined;
 
   const scrollContainerEle = ref<HTMLElement | Window>();
   const containerEle = ref<HTMLElement>();
 
-  const addLink = (hash: string, node: HTMLElement) => {
-    if (!hash) return;
-    links[hash] = node;
-  };
-
-  const removeLink = (hash: string) => {
-    delete links[hash];
-  };
-
-  const handleClick = (e: MouseEvent, hash?: string) => {
-    if (!props.changeHash) {
-      e.preventDefault();
-    }
-    // select 的第二参数是上一个 hash，必须在 currentLink 更新前捕获
-    const preHash = currentLink.value;
-    if (hash) {
-      scrollIntoView(hash);
-      handleAnchorChange(hash);
-    }
-    emit('select', hash, preHash);
-  };
-
-  const scrollIntoView = (hash: string) => {
-    cancelScroll?.();
-    isScrolling.value = false;
-    try {
-      const element = getElement(hash, containerEle.value) ?? getElement(hash);
-      if (!element) return;
-      let block: BoundaryPosition;
-      let diff = 0;
-      if (isNumber(props.boundary)) {
-        block = 'start';
-        diff = props.boundary;
-      } else {
-        block = props.boundary;
-      }
-
-      const actions = computeScrollIntoView(element, { block });
-      if (!actions.length) return;
-      const { el, top } = actions[0];
-      const targetTop = top - diff;
-      isScrolling.value = true;
-      cancelScroll = slide(
-        el as HTMLElement,
-        targetTop,
-        () => {
-          isScrolling.value = false;
-        },
-        props.smooth,
-      );
-    } catch (e) {
-      // oxlint-disable-next-line no-console
-      console.error(e);
-    }
-  };
-
-  const handleScroll = throttleByRaf(() => {
-    if (isScrolling.value) return;
-    const element = getFirstInViewportEle();
-    if (element && element.id) {
-      const hash = `#${element.id}`;
-      handleAnchorChange(hash);
-    }
-  });
-
-  const handleAnchorChange = (hash: string) => {
-    if (hash !== currentLink.value) {
-      currentLink.value = hash;
-      nextTick(() => {
-        emit('change', hash);
-      });
-    }
-  };
-
-  const getFirstInViewportEle = (): HTMLElement | undefined => {
-    if (!scrollContainerEle.value || !containerEle.value) {
-      return undefined;
-    }
-
-    const boundary = isNumber(props.boundary) ? props.boundary : 0;
-    const containerRect = containerEle.value.getBoundingClientRect();
-    const targetOffset = isNumber(props.targetOffset)
-      ? props.targetOffset
-      : containerRect.height / 2;
-
-    for (const hash of Object.keys(links)) {
-      const element = getElement(hash, containerEle.value) ?? getElement(hash);
-      if (element) {
-        const { top } = element.getBoundingClientRect();
-        const offsetTop = isWindow(scrollContainerEle.value)
-          ? top - boundary
-          : top - containerRect.top - boundary;
-        if (offsetTop >= 0 && offsetTop <= targetOffset) {
-          return element;
-        }
-      }
-    }
-    return undefined;
-  };
-
-  watchPostEffect(() => {
-    const link = links[currentLink.value];
-    if (!props.lineLess && link && lineSliderRef.value) {
-      lineSliderRef.value.style.top = `${link.offsetTop}px`;
-    }
-  });
-
-  const bindScrollEvent = () => {
-    if (scrollContainerEle.value) {
-      on(scrollContainerEle.value, 'scroll', handleScroll);
-    }
-  };
-
-  const unbindScrollEvent = () => {
-    if (scrollContainerEle.value) {
-      off(scrollContainerEle.value, 'scroll', handleScroll);
-    }
-  };
-
-  const getContainer = () => {
-    if (props.scrollContainer) {
-      scrollContainerEle.value = isWindow(props.scrollContainer)
-        ? window
-        : getElement(props.scrollContainer);
-      containerEle.value = isWindow(props.scrollContainer)
-        ? document.documentElement
-        : getElement(props.scrollContainer);
-    } else {
-      scrollContainerEle.value = window;
-      containerEle.value = document.documentElement;
-    }
-  };
-
-  watch(
-    () => props.scrollContainer,
-    () => {
-      cancelScroll?.();
-      isScrolling.value = false;
-      unbindScrollEvent();
-      getContainer();
-      bindScrollEvent();
-      handleScroll();
+  const foundation = createAnchor({
+    props,
+    links,
+    get line() {
+      return lineSliderRef.value;
     },
-    { flush: 'post' },
-  );
-
-  onMounted(() => {
-    getContainer();
-
-    let hash = window.location.hash;
-    try {
-      hash = decodeURIComponent(hash);
-    } catch {
-      // 含未编码百分号的 hash 无法解码，保留原值以匹配元素 ID。
-    }
-    if (hash) {
-      scrollIntoView(hash);
-      handleAnchorChange(hash);
-    } else {
-      handleScroll();
-    }
-
-    bindScrollEvent();
+    get current() {
+      return currentLink.value;
+    },
+    set current(value) {
+      currentLink.value = value;
+    },
+    get scrolling() {
+      return isScrolling.value;
+    },
+    set scrolling(value) {
+      isScrolling.value = value;
+    },
+    get scrollContainer() {
+      return scrollContainerEle.value;
+    },
+    set scrollContainer(value) {
+      scrollContainerEle.value = value;
+    },
+    get container() {
+      return containerEle.value;
+    },
+    set container(value) {
+      containerEle.value = value;
+    },
+    afterRender: (callback) => {
+      void nextTick(callback);
+    },
+    onChange: (hash) => emit('change', hash),
+    onSelect: (hash, previous) => emit('select', hash, previous),
   });
-
-  onBeforeUnmount(() => {
-    cancelScroll?.();
-    handleScroll.cancel();
-    unbindScrollEvent();
-  });
+  const addLink = foundation.addLink;
+  const removeLink = foundation.removeLink;
+  const handleClick = foundation.click;
+  watchPostEffect(foundation.syncLine);
+  watch(() => props.scrollContainer, foundation.containerChanged, { flush: 'post' });
+  onMounted(foundation.mount);
+  onBeforeUnmount(foundation.dispose);
 
   provide(
     anchorInjectionKey,

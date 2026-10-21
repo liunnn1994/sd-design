@@ -34,11 +34,14 @@
     type VNodeChild,
   } from 'vue';
 
+  import {
+    createVerificationCode,
+    getVerificationCells,
+  } from '@sdata/web-core/verification-code/foundation';
+
   import type { Size } from '../_utils/constant';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import { isExist, isFunction, isString, isUndefined } from '../_utils/is';
-  import { ArrowLeft, ArrowRight, Backspace } from '../_utils/keycode';
   import SdInput from '../input';
   import { useI18n } from '../locale';
 
@@ -152,23 +155,36 @@
       [`${prefixInputCls}-size-${props.size}`]: props.size,
     },
   ]);
-  const filledValue = computed(() => {
-    const newValue = String(mergedValue.value).split('');
-    return Array.from({ length: props.length }, (_, index) =>
-      isExist(newValue[index]) ? String(newValue[index]) : '',
-    );
-  });
+  const filledValue = computed(() => getVerificationCells(mergedValue.value, props.length));
   const innerValue = ref(filledValue.value.slice());
-  // 克隆：避免 innerValue 与 filledValue 的 computed 缓存数组同引用，
-  // 否则输入的原地修改会污染缓存，受控还原时取到的是已输入的脏数组。
-  // （watcher 与 keepControl 中的赋值同理。）
-
-  watch([mergedValue, () => props.length], ([value], [previousValue]) => {
-    innerValue.value =
-      props.modelValue === undefined && value === previousValue
-        ? filledValue.value.map((_, index) => innerValue.value[index] ?? '')
-        : filledValue.value.slice();
+  const foundation = createVerificationCode({
+    props,
+    get filled() {
+      return filledValue.value;
+    },
+    get cells() {
+      return inputRefList.value;
+    },
+    get activeElement() {
+      return document.activeElement;
+    },
+    get inner() {
+      return innerValue.value;
+    },
+    set inner(value) {
+      innerValue.value = value;
+    },
+    afterRender: (callback) => {
+      void nextTick(callback);
+    },
+    onUpdate: (value) => emit('update:modelValue', value),
+    onChange: (value) => emit('change', value),
+    onFinish: (value) => emit('finish', value),
+    onInput: (value, index, event) => emit('input', value, index, event),
   });
+  watch([mergedValue, () => props.length], ([value], [previous]) =>
+    foundation.syncValue(value, previous),
+  );
 
   function setInputRef(element: Element | ComponentPublicInstance | null, index: number) {
     if (element) {
@@ -178,131 +194,13 @@
     }
   }
 
-  function updateValue() {
-    const value = innerValue.value.join('').trim();
-    const prevModelValue = props.modelValue;
-    emit('update:modelValue', value);
-    emit('change', value);
-    if (value.length === props.length) {
-      emit('finish', value);
-    }
-    focusFirstEmptyInput();
-    // 受控用法（父组件传了 modelValue 却未回写 update:modelValue）时输入不留存：
-    // 仿 Input 的 keepControl，在 nextTick 校验 prop 是否被写回，未写回则按 props 还原。
-    nextTick(() => keepControl(prevModelValue));
-  }
-
-  function keepControl(prevModelValue: string | undefined) {
-    if (props.modelValue === undefined || props.modelValue !== prevModelValue) return;
-    // 注意必须克隆：innerValue 初始化时与 filledValue 的缓存数组同引用，
-    // 原地修改（输入）会污染 computed 缓存，直接取值会拿到已输入的数组。
-    const restored = filledValue.value.slice();
-    innerValue.value = restored;
-    // innerValue 还原后格子组件的 model-value prop 不变，Vue 不会重补丁其内部 input DOM，
-    // 需通过 SdInput 暴露的 inputRef 手动还原 DOM。
-    inputRefList.value.forEach((cell, index) => {
-      const inputEl = cell?.inputRef;
-      if (inputEl && inputEl.value !== restored[index]) {
-        inputEl.value = restored[index];
-      }
-    });
-  }
-
-  function handleFocus(index: number) {
-    inputRefList.value[index]?.focus();
-  }
-
-  function focusFirstEmptyInput(index?: number) {
-    const values = innerValue.value;
-    if (!isUndefined(index) && values[index]) return;
-    const firstEmpty = values.findIndex((value) => !value);
-    handleFocus(firstEmpty === -1 ? values.length - 1 : firstEmpty);
-  }
-
-  function handleCursorToEnd(event: MouseEvent, index: number) {
-    if (!innerValue.value[index]) return;
-    const target = event.target as HTMLInputElement;
-    if (!target?.setSelectionRange) return;
-    event.preventDefault();
-    target.focus();
-    const end = target.value.length;
-    target.setSelectionRange(end, end);
-  }
-
-  function handlePaste(event: ClipboardEvent, index: number) {
-    if (props.readonly || props.disabled) return;
-    event.preventDefault();
-    const text = event.clipboardData?.getData('text');
-    if (!text) return;
-
-    text.split('').forEach((originalCharacter, offset) => {
-      let character = originalCharacter;
-      if (index + offset >= props.length) return;
-
-      if (isFunction(props.formatter)) {
-        const result = props.formatter(character, index + offset, innerValue.value.join(''));
-        if (result === false) {
-          index -= 1;
-          return;
-        }
-        if (isString(result)) {
-          character = result.charAt(0);
-        }
-      }
-
-      innerValue.value[index + offset] = character;
-    });
-    updateValue();
-  }
-
-  function handleKeydown(index: number, event: KeyboardEvent) {
-    const keyCode = event.code || event.key;
-    if (
-      keyCode === Backspace.code &&
-      !innerValue.value[index] &&
-      !props.readonly &&
-      !props.disabled
-    ) {
-      event.preventDefault();
-      innerValue.value[Math.max(index - 1, 0)] = '';
-      updateValue();
-    } else if (keyCode === ArrowLeft.code && index > 0) {
-      event.preventDefault();
-      handleFocus(index - 1);
-    } else if (keyCode === ArrowRight.code && innerValue.value[index] && index < props.length - 1) {
-      event.preventDefault();
-      handleFocus(index + 1);
-    }
-  }
-
-  function handleInput(index: number, value: string, event: Event) {
-    const trimmed = (value || '').trim();
-    let character = trimmed.charAt(trimmed.length - 1);
-    emit('input', character, index, event);
-
-    if (isFunction(props.formatter)) {
-      const result = props.formatter(character, index, innerValue.value.join(''));
-      if (result === false) return;
-      if (isString(result)) {
-        character = result.charAt(0);
-      }
-    }
-
-    innerValue.value[index] = character;
-    updateValue();
-  }
-
-  function focus() {
-    focusFirstEmptyInput();
-  }
-
-  function blur() {
-    const active = document.activeElement;
-    const cell = inputRefList.value.find((cell) => cell?.inputRef === active);
-    if (cell) {
-      cell.blur();
-    }
-  }
+  const focusFirstEmptyInput = foundation.focusEmpty;
+  const handleCursorToEnd = foundation.cursorToEnd;
+  const handlePaste = foundation.paste;
+  const handleKeydown = foundation.keydown;
+  const handleInput = foundation.input;
+  const focus = () => foundation.focus();
+  const blur = () => foundation.blur();
 
   defineExpose({ focus, blur });
 </script>

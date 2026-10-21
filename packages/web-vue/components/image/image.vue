@@ -79,12 +79,16 @@
     onBeforeUpdate,
   } from 'vue';
 
+  import {
+    createImageFoundation,
+    getImageFooterVisibility,
+  } from '@sdata/web-core/image/foundation';
+
   import type { ImagePreviewProps } from './interface';
 
   import useMergeState from '../_hooks/use-merge-state';
   import { isServerRendering } from '../_utils/dom';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isBoolean } from '../_utils/is';
   import { omit } from '../_utils/omit';
   import IconImageClose from '../icon/icon-image-close';
   import IconLoading from '../icon/icon-loading';
@@ -309,13 +313,15 @@
 
   const wrapperStyles = computed<StyleValue[]>(() => [sizeStyle.value, attrs.style as StyleValue]);
 
-  const showFooter = computed(() => {
-    if (!(title?.value || description?.value || hasExtra.value)) {
-      return false;
-    }
-    if (isBoolean(hideFooter.value)) return !hideFooter.value && isLoaded.value;
-    return hideFooter.value === 'never';
-  });
+  const showFooter = computed(() =>
+    getImageFooterVisibility(
+      title?.value,
+      description?.value,
+      hasExtra.value,
+      hideFooter.value,
+      isLoaded.value,
+    ),
+  );
 
   const imgProps = computed(() => omit(attrs, ['class', 'style']));
 
@@ -328,17 +334,32 @@
 
   const mergePreview = computed(() => !groupContext?.preview && preview.value);
 
+  const imageId = getCurrentInstance()!.uid;
+  const foundation = createImageFoundation({
+    get src() {
+      return src?.value;
+    },
+    get preview() {
+      return preview.value;
+    },
+    get groupPreview() {
+      return Boolean(groupContext?.preview);
+    },
+    id: imageId,
+    setLoadStatus,
+    previewGroup(id) {
+      groupContext?.preview(id);
+    },
+    onPreviewVisibleChange(value) {
+      emit('preview-visible-change', value);
+      emit('update:previewVisible', value);
+    },
+    setPreviewVisible,
+  });
   watchEffect(() => {
     if (isServerRendering || !refImg.value) return;
-    // Without a src, keep the image in the beforeLoad state.
-    if (!src?.value) {
-      setLoadStatus('beforeLoad');
-      return;
-    }
-    setLoadStatus('loading');
+    foundation.syncSource();
   });
-
-  const imageId = getCurrentInstance()!.uid;
   let unregisterImage: (() => void) | undefined;
   watchEffect(() => {
     unregisterImage = groupContext?.registerImageUrl?.(
@@ -349,32 +370,10 @@
   });
   onBeforeUnmount(() => unregisterImage?.());
 
-  function onImgLoaded() {
-    if (!src?.value) return;
-    setLoadStatus('loaded');
-  }
-
-  function onImgLoadError() {
-    if (!src?.value) return;
-    setLoadStatus('error');
-  }
-
-  function onImgClick() {
-    if (!preview.value) return;
-    if (groupContext?.preview) {
-      groupContext.preview(imageId);
-    } else {
-      emit('preview-visible-change', true);
-      emit('update:previewVisible', true);
-      setPreviewVisible(true);
-    }
-  }
-
-  function onPreviewClose() {
-    emit('preview-visible-change', false);
-    emit('update:previewVisible', false);
-    setPreviewVisible(false);
-  }
+  const onImgLoaded = foundation.loaded;
+  const onImgLoadError = foundation.error;
+  const onImgClick = foundation.click;
+  const onPreviewClose = foundation.close;
 
   const imgStyle = sizeStyle;
 

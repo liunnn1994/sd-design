@@ -1,3 +1,1 @@
-let instanceCounter = 0;
-
-export const nextInstanceId = () => ++instanceCounter;
+export * from '@sdata/web-core/voice-glow/instance-id';

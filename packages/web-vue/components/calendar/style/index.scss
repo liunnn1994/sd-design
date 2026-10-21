@@ -1,9 +1,1 @@
-@use './token.scss';
-@use '../index.scss' as *;
-@use '../default-theme.scss' as *;
-@use './header.scss' as *;
-@use './body.scss' as *;
-@use './headings-bar.scss' as *;
-@use './time-column.scss' as *;
-@use './cell.scss' as *;
-@use './event.scss' as *;
+@forward '@sdata/web-core/styles/calendar/style/index.scss';

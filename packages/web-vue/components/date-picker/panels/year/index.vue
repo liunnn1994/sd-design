@@ -29,6 +29,7 @@
 <script setup lang="ts">
   import { computed, PropType, toRefs } from 'vue';
 
+  import { getYearRows, getYearHeaderTitle } from '@sdata/web-core/date-picker/calendar';
   import { Dayjs } from 'dayjs';
 
   import type {
@@ -39,17 +40,9 @@
     IsSameTime,
   } from '../../interface';
 
-  import { dayjs } from '../../../_utils/date';
   import { getPrefixCls } from '../../../_utils/global-config';
-  import { newArray } from '../../utils';
   import PanelBody from '../body.vue';
   import PanelHeader from '../header.vue';
-
-  const ROW_COUNT = 4;
-  const COL_COUNT = 3;
-  const CELL_COUNT = ROW_COUNT * COL_COUNT;
-  const SPAN = 10;
-  const MIN_YEAR = 0;
 
   defineOptions({ name: 'YearPanel' });
 
@@ -86,33 +79,9 @@
   const prefixCls = computed(() => getPrefixCls('panel-year'));
   const pickerPrefixCls = getPrefixCls('picker');
 
-  const rows = computed(() => {
-    const currentYear = Math.max(headerValue.value.year(), MIN_YEAR);
-    const baseYear = Math.floor(currentYear / SPAN) * SPAN;
-    const startYear = Math.max(baseYear - 1, MIN_YEAR);
+  const rows = computed(() => getYearRows(headerValue.value));
 
-    const flatData = newArray<Cell>(CELL_COUNT).map((_, index) => {
-      const year = startYear + index;
-      return {
-        label: year,
-        value: dayjs(`${year}`, 'YYYY'),
-        isPrev: year < baseYear,
-        isNext: year > baseYear + SPAN - 1,
-      };
-    });
-
-    const rows = newArray(ROW_COUNT).map((_, index) =>
-      flatData.slice(index * COL_COUNT, (index + 1) * COL_COUNT),
-    );
-
-    return rows;
-  });
-
-  const headerTitle = computed(() => {
-    const currentYear = Math.max(headerValue.value.year(), MIN_YEAR);
-    const baseYear = Math.floor(currentYear / SPAN) * SPAN;
-    return `${baseYear}-${baseYear + SPAN - 1}`;
-  });
+  const headerTitle = computed(() => getYearHeaderTitle(headerValue.value));
 
   const isSameTime: IsSameTime = (current, target) => current.isSame(target, 'year');
 

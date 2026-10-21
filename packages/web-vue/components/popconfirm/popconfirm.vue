@@ -55,11 +55,12 @@
   import type { PropType } from 'vue';
   import { computed, CSSProperties, ref, watch } from 'vue';
 
+  import { createConfirmationFoundation } from '@sdata/web-core/dialog/confirmation';
+
   import type { MessageType, TriggerPosition } from '../_utils/constant';
   import type { FloatingOptions } from '../_utils/floating';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import { isBoolean, isFunction, isPromise } from '../_utils/is';
   import { ClassName } from '../_utils/types';
   import SdButton, { ButtonProps } from '../button';
   import IconCheckCircleFill from '../icon/icon-check-circle-fill';
@@ -239,79 +240,34 @@
   const _okLoading = ref(false);
   const mergedOkLoading = computed(() => props.okLoading || _okLoading.value);
 
-  // Used to ignore closed Promises
-  let promiseNumber = 0;
-
-  watch(computedPopupVisible, (visible) => {
-    if (!visible) {
-      promiseNumber++;
-      _okLoading.value = false;
-    }
+  const confirmation = createConfirmationFoundation<[]>({
+    callbacks: props,
+    get loading() {
+      return _okLoading.value;
+    },
+    setLoading(value) {
+      _okLoading.value = value;
+    },
+    setVisible(value) {
+      _popupVisible.value = value;
+    },
+    onVisibleChange(value) {
+      emit('update:popupVisible', value);
+      emit('popupVisibleChange', value);
+    },
+    onOk() {
+      emit('ok');
+    },
+    onCancel() {
+      emit('cancel');
+    },
   });
-
-  const close = () => {
-    promiseNumber++;
-    if (_okLoading.value) {
-      _okLoading.value = false;
-    }
-    _popupVisible.value = false;
-    emit('update:popupVisible', false);
-    emit('popupVisibleChange', false);
-  };
-
-  const handlePopupVisibleChange = (visible: boolean) => {
-    if (!visible) {
-      close();
-    } else {
-      _popupVisible.value = visible;
-      emit('update:popupVisible', visible);
-      emit('popupVisibleChange', visible);
-    }
-  };
-
-  const handleOk = async () => {
-    const currentPromiseNumber = promiseNumber;
-    const closed = await new Promise<boolean>((resolve) => {
-      try {
-        if (isFunction(props.onBeforeOk)) {
-          const result = props.onBeforeOk((closed = true) => resolve(closed));
-          if (isPromise(result) || !isBoolean(result)) {
-            _okLoading.value = true;
-          }
-          if (isPromise(result)) {
-            result.then(
-              (value) => resolve(value ?? true),
-              () => resolve(false),
-            );
-          } else if (isBoolean(result)) {
-            resolve(result);
-          }
-        } else {
-          resolve(true);
-        }
-      } catch {
-        resolve(false);
-      }
-    });
-
-    if (currentPromiseNumber === promiseNumber) {
-      if (closed) {
-        emit('ok');
-        close();
-      } else if (_okLoading.value) {
-        _okLoading.value = false;
-      }
-    }
-  };
-
-  const handleCancel = () => {
-    // 仅当 onBeforeCancel 显式返回 false 时阻止取消，返回 void/true 均继续关闭
-    if (isFunction(props.onBeforeCancel) && props.onBeforeCancel() === false) {
-      return;
-    }
-    emit('cancel');
-    close();
-  };
+  watch(computedPopupVisible, (visible) => {
+    if (!visible) confirmation.invalidate();
+  });
+  const handlePopupVisibleChange = confirmation.changeVisible;
+  const handleOk = confirmation.ok;
+  const handleCancel = confirmation.cancel;
 
   const contentCls = computed(() => [`${prefixCls}-popup-content`, props.contentClass]);
 

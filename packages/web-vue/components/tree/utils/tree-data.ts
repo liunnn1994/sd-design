@@ -1,6 +1,7 @@
-import { isFunction, isUndefined } from '../../_utils/is';
-import { omit } from '../../_utils/omit';
-import { TreeNodeData, TreeNodeKey, Node, TreeFieldNames, CheckableType } from '../interface';
+import { generateTreeData as generateSharedTreeData } from '@sdata/web-core/tree/data';
+
+import type { CheckableType, Node, TreeFieldNames, TreeNodeData, TreeNodeKey } from '../interface';
+export { generateKey } from '@sdata/web-core/tree/data';
 
 interface TreeProps {
   fieldNames?: TreeFieldNames;
@@ -12,160 +13,9 @@ interface TreeProps {
   draggable: boolean;
 }
 
-interface NodeOptions {
-  treeNodeData: TreeNodeData;
-  treeProps: TreeProps;
-  keyCache: WeakMap<TreeNodeData, TreeNodeKey[]>;
-  keyIndex: number;
-  parentNode?: Node;
-  isTail?: boolean;
-}
-
-export const generateKey = (() => {
-  let i = 0;
-
-  return () => {
-    i += 1;
-    return `__sd_tree${i}`;
-  };
-})();
-
-function getBoolean(val1: boolean | undefined, val2: boolean | undefined) {
-  return !!(isUndefined(val1) ? val2 : val1);
-}
-
-function mapObject<K, T extends Record<string, unknown>>(
-  obj: T,
-  nameMap?: Partial<Record<keyof K, string>>,
-): K {
-  const _obj: Record<string, unknown> = { ...obj };
-
-  if (nameMap) {
-    const names = Object.keys(nameMap);
-    names.forEach((name) => {
-      const sourceName = nameMap[name as keyof typeof nameMap] as keyof T;
-
-      if (sourceName !== name) {
-        _obj[name] = obj[sourceName];
-        delete _obj[sourceName as string];
-      }
-    });
-  }
-
-  return _obj as K;
-}
-
-function getEnableResult({
-  subEnable,
-  superEnable,
-  isLeaf,
-  treeNodeData,
-  level,
-}: {
-  subEnable: boolean | undefined;
-  superEnable: CheckableType | undefined;
-  isLeaf: boolean;
-  level: number;
-  treeNodeData: TreeNodeData;
-}) {
-  if (!isUndefined(subEnable)) return subEnable;
-  if (isFunction(superEnable)) {
-    return superEnable(treeNodeData, { isLeaf, level });
-  }
-  return superEnable ?? false;
-}
-
-function generateNode(options: NodeOptions): Node {
-  const { treeNodeData, parentNode, isTail = true, treeProps, keyCache, keyIndex } = options;
-  const { fieldNames } = treeProps || {};
-
-  const mapTreeNodeData = mapObject<TreeNodeData, TreeNodeData>(treeNodeData, fieldNames);
-  const isLeaf = treeProps.loadMore ? !!mapTreeNodeData.isLeaf : !mapTreeNodeData.children?.length;
-  const level = parentNode ? parentNode.level + 1 : 0;
-
-  const cachedKeys = keyCache.get(treeNodeData) ?? [];
-  const key = mapTreeNodeData.key ?? cachedKeys[keyIndex] ?? generateKey();
-  if (isUndefined(mapTreeNodeData.key)) {
-    cachedKeys[keyIndex] = key;
-    keyCache.set(treeNodeData, cachedKeys);
-  }
-
-  const treeNodeProps = {
-    ...omit(mapTreeNodeData, ['children']),
-    key,
-    selectable: getEnableResult({
-      subEnable: mapTreeNodeData.selectable,
-      superEnable: treeProps?.selectable,
-      isLeaf,
-      level,
-      treeNodeData,
-    }),
-    disabled: !!mapTreeNodeData.disabled,
-    disableCheckbox: !!mapTreeNodeData.disableCheckbox,
-    checkable: getEnableResult({
-      subEnable: mapTreeNodeData.checkable,
-      superEnable: treeProps?.checkable,
-      isLeaf,
-      level,
-      treeNodeData,
-    }),
-    isLeaf,
-    isTail,
-    blockNode: !!treeProps?.blockNode,
-    showLine: !!treeProps?.showLine,
-    level,
-    // showLine 模式下是否显示缩进线。
-    // 如果父节点是其所在层级的最后一个节点，那么所有的子节点（包括孙子节点等）在父节点所在层级的缩进格都不显示缩进线。
-    lineless: parentNode ? [...parentNode.lineless, parentNode.isTail] : [],
-    draggable: getBoolean(mapTreeNodeData.draggable, treeProps?.draggable),
-  };
-
-  const node = {
-    ...treeNodeProps,
-    treeNodeProps,
-    treeNodeData,
-    parent: parentNode,
-    parentKey: parentNode?.key,
-    pathParentKeys: parentNode ? [...parentNode.pathParentKeys, parentNode.key] : [],
-  };
-
-  return node;
-}
-
-export function generateTreeData(
+// Preserve the concrete signatures of the existing Vue deep import.
+export const generateTreeData: (
   treeData: TreeNodeData[],
   treeProps: TreeProps,
-  keyCache = new WeakMap<TreeNodeData, TreeNodeKey[]>(),
-) {
-  const nodeOccurrences = new WeakMap<TreeNodeData, number>();
-  function preOrder(tree: TreeNodeData[] | undefined, parentNode?: Node) {
-    if (!tree) return undefined;
-
-    const { fieldNames } = treeProps;
-    const nodes: Node[] = [];
-    tree.forEach((treeNodeData, index) => {
-      const keyIndex = nodeOccurrences.get(treeNodeData) ?? 0;
-      nodeOccurrences.set(treeNodeData, keyIndex + 1);
-      const node = generateNode({
-        treeNodeData,
-        treeProps,
-        keyCache,
-        keyIndex,
-        parentNode,
-        isTail: index === tree.length - 1,
-      });
-
-      node.children = preOrder(
-        treeNodeData[
-          (fieldNames?.children || 'children') as keyof TreeNodeData
-        ] as TreeNodeData['children'],
-        node,
-      );
-      nodes.push(node);
-    });
-
-    return nodes;
-  }
-
-  return preOrder(treeData) as Node[];
-}
+  keyCache?: WeakMap<TreeNodeData, TreeNodeKey[]>,
+) => Node[] = generateSharedTreeData;

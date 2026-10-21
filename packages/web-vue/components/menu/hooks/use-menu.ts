@@ -1,18 +1,12 @@
 import { computed, getCurrentInstance, ComputedRef } from 'vue';
 
-const generateId = (() => {
-  let i = 0;
-  return (prefix = '') => {
-    i += 1;
-    return `${prefix}${i}`;
-  };
-})();
+import { generateMenuId } from '@sdata/web-core/menu/foundation';
 
 export default function useMenu(): {
   key: ComputedRef<string>;
 } {
   const instance = getCurrentInstance();
-  const key = computed(() => (instance?.vnode.key as string | null) ?? generateId('__sd_menu'));
+  const key = computed(() => (instance?.vnode.key as string | null) ?? generateMenuId('__sd_menu'));
 
   return {
     key,

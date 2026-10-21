@@ -21,16 +21,20 @@
   import type { PropType, VNode } from 'vue';
   import { computed, defineComponent, provide, reactive, ref, toRef, watch } from 'vue';
 
+  import { normalizeChoiceOptions } from '@sdata/web-core/_utils/choice-options';
+  import {
+    createCheckboxGroupFoundation,
+    type CheckboxValue,
+  } from '@sdata/web-core/checkbox/foundation';
+
   import type { Direction } from '../_utils/constant';
   import type { CheckboxOption } from './interface';
 
   import { useFormItem } from '../_hooks/use-form-item';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isArray, isFunction, isNumber, isString } from '../_utils/is';
+  import { isFunction } from '../_utils/is';
   import Checkbox from './checkbox.vue';
   import { checkboxGroupKey } from './context';
-
-  type CheckboxValue = string | number | boolean;
 
   defineOptions({ name: 'CheckboxGroup' });
 
@@ -120,31 +124,23 @@
     disabled: toRef(props, 'disabled'),
   });
   const internalValue = ref(props.defaultValue);
-  const computedValue = computed(() =>
-    isArray(props.modelValue) ? props.modelValue : internalValue.value,
-  );
-  const isMaxed = computed(() =>
-    props.max === undefined ? false : computedValue.value.length >= props.max,
-  );
-  const options = computed(() =>
-    (props.options ?? []).map((option) => {
-      if (isString(option) || isNumber(option)) {
-        return {
-          label: option,
-          value: option,
-        } as CheckboxOption;
-      }
-      return option;
-    }),
-  );
+  const foundation = createCheckboxGroupFoundation<Event>({
+    getModel: () => props.modelValue,
+    getInternal: () => internalValue.value,
+    getMax: () => props.max,
+    setInternal: (value) => {
+      internalValue.value = value;
+    },
+    onUpdate: (value) => emit('update:modelValue', value),
+    onChange: (value, event) => emit('change', value, event),
+    onFormChange: (event) => eventHandlers.value?.onChange?.(event),
+  });
+  const computedValue = computed(foundation.getValue);
+  const isMaxed = computed(foundation.isMaxed);
+  const options = computed(() => normalizeChoiceOptions(props.options) as CheckboxOption[]);
   const cls = computed(() => [prefixCls, `${prefixCls}-direction-${props.direction}`]);
-  const isChecked = (option: CheckboxOption) => computedValue.value.includes(option.value);
-  const handleChange = (value: CheckboxValue[], event: Event) => {
-    internalValue.value = value;
-    emit('update:modelValue', value);
-    emit('change', value, event);
-    eventHandlers.value?.onChange?.(event);
-  };
+  const isChecked = (option: CheckboxOption) => foundation.isChecked(option.value);
+  const handleChange = foundation.change;
 
   provide(
     checkboxGroupKey,
@@ -158,10 +154,5 @@
     }),
   );
 
-  watch(
-    () => props.modelValue,
-    (value) => {
-      internalValue.value = isArray(value) ? [...value] : [];
-    },
-  );
+  watch(() => props.modelValue, foundation.syncModel);
 </script>

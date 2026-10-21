@@ -1,13 +1,5 @@
-import { InjectionKey } from 'vue';
+import type { AvatarGroupContext } from '@sdata/web-core/avatar/types';
 
-import { AvatarShape } from './interface';
-
-export interface AvatarGroupContext {
-  size: number | undefined;
-  shape: AvatarShape;
-  autoFixFontSize: boolean;
-  zIndexAscend: boolean;
-  total: number;
-}
-
+import type { InjectionKey } from 'vue';
+export type { AvatarGroupContext } from '@sdata/web-core/avatar/types';
 export const avatarGroupInjectionKey: InjectionKey<AvatarGroupContext> = Symbol('SDAvatarGroup');

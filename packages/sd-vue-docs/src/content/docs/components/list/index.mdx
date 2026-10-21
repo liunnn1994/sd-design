@@ -201,3 +201,7 @@ import listVirtualListSource from '../../../../components/generated/list/virtual
 | buffer | 额外渲染缓冲区（像素） | `number` | `200` |  |
 
 其余参数与暴露方法可参考 [LLMs.txt](/llms_txt/)。
+
+## 无框架规则
+
+`@sdata/web-core/list/foundation` 提供分页切片、网格分组、方向敏感触底通知和首次视口触底判断。Vue 保留分页 Ref、插槽/VNode、滚动视口查找和虚拟列表生命周期；scroll/reachBottom 仍不带事件载荷。

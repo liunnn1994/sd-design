@@ -1,11 +1,1 @@
-@use 'sass:string';
-@use '@style/theme/index.scss' as *;
-
-$auto-tooltip-prefix-cls: string.unquote('#{$prefix}-auto-tooltip');
-
-.#{$auto-tooltip-prefix-cls} {
-  display: block;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
+@forward '@sdata/web-core/styles/_components/auto-tooltip/style/index.scss';

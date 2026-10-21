@@ -3,9 +3,8 @@ import { CSSProperties } from 'vue';
 import { Size } from '../_utils/constant';
 import { SelectProps } from '../select';
 
-export const PAGE_ITEM_TYPES = ['page', 'more', 'previous', 'next'] as const;
-
-export type PageItemType = (typeof PAGE_ITEM_TYPES)[number];
+export { PAGE_ITEM_TYPES } from '@sdata/web-core/pagination/types';
+export type { PageItemType } from '@sdata/web-core/pagination/types';
 
 export type PaginationSelectProps = Omit<SelectProps, 'value' | 'modelValue' | 'defaultValue'>;
 

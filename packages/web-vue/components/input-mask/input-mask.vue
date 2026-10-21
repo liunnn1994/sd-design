@@ -36,19 +36,14 @@
 <script lang="ts" setup>
   import { computed, nextTick, onBeforeUnmount, onMounted, ref, useAttrs, watch } from 'vue';
 
+  import { createInputMaskFoundation } from '@sdata/web-core/input-mask/foundation';
+
   import type { InputInstance } from '../input';
-  import type {
-    InputMaskPattern,
-    InputMaskProps,
-    InputMaskSelection,
-    InputMaskState,
-  } from './types';
+  import type { InputMaskProps, InputMaskSelection } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import { splitGraphemes } from '../_utils/grapheme';
   import Input from '../input';
   import { useI18n } from '../locale';
-  import { formatInputMask, resolveDeletion, stripMaskPlaceholders } from './mask-engine';
   import { inputMaskPresets } from './presets';
 
   defineOptions({ name: 'InputMask', inheritAttrs: false });
@@ -139,55 +134,89 @@
   const lastSelection = ref<InputMaskSelection | null>(null);
   const complete = ref(false);
 
-  const presetDefinition = computed(() =>
-    props.preset ? inputMaskPresets[props.preset] : undefined,
+  const foundation: ReturnType<typeof createInputMaskFoundation> = createInputMaskFoundation(
+    {
+      props,
+      presets: inputMaskPresets,
+      get inputElement() {
+        return inputComponentRef.value?.inputRef as HTMLInputElement | undefined;
+      },
+      get focused() {
+        return focused.value;
+      },
+      set focused(value) {
+        focused.value = value;
+      },
+      get lastSelection() {
+        return lastSelection.value;
+      },
+      set lastSelection(value) {
+        lastSelection.value = value;
+      },
+      get complete() {
+        return complete.value;
+      },
+      set complete(value) {
+        complete.value = value;
+      },
+      get innerValue() {
+        return innerValue.value;
+      },
+      set innerValue(value) {
+        innerValue.value = value;
+      },
+      get presetDefinition() {
+        return presetDefinition.value;
+      },
+      get effectiveMask() {
+        return effectiveMask.value;
+      },
+      get effectiveFormatChars() {
+        return effectiveFormatChars.value;
+      },
+      get effectiveMaskChar() {
+        return effectiveMaskChar.value;
+      },
+      get hasValue() {
+        return hasValue.value;
+      },
+    },
+    {
+      update: (value) => emit('update:modelValue', value),
+      complete: (value) => emit('complete', value),
+      input: (value, event) => emit('input', value, event),
+      change: (value, event) => emit('change', value, event),
+      pressEnter: (event) => emit('pressEnter', event),
+      clear: (event) => emit('clear', event),
+      focus: (event) => emit('focus', event),
+      blur: (event) => emit('blur', event),
+      afterRender: (task) => {
+        void nextTick(task);
+      },
+    },
   );
-  const effectiveMask = computed<InputMaskPattern | undefined>(
-    () => props.mask ?? presetDefinition.value?.mask,
-  );
-  const effectiveFormatChars = computed(() => ({
-    ...presetDefinition.value?.formatChars,
-    ...props.formatChars,
-  }));
-  const effectiveMaskChar = computed(() => {
-    if (props.maskChar === null) return null;
-    return splitGraphemes(props.maskChar)[0] ?? '_';
-  });
+  const {
+    getInputElement,
+    handleModelUpdate,
+    handleInput,
+    handleChange,
+    handlePressEnter,
+    handleClear,
+    handleFocus,
+    handleBlur,
+  } = foundation;
+  const presetDefinition = computed(foundation.getPresetDefinition);
+  const effectiveMask = computed(foundation.getEffectiveMask);
+  const effectiveFormatChars = computed(foundation.getEffectiveFormatChars);
+  const effectiveMaskChar = computed(foundation.getEffectiveMaskChar);
   // A fixed mask or preset manages its own length, so Input's maxLength/showWordLimit
   // would truncate the raw value mid-format and break masking. Ignore them in that case.
-  const lengthManaged = computed(() => Boolean(effectiveMask.value) || Boolean(props.preset));
+  const lengthManaged = computed(foundation.getLengthManaged);
 
-  const normalizePresetValue = (value: string, previousValue: string) => {
-    const preset = presetDefinition.value;
-    if (!preset || effectiveMask.value) return value;
-    const normalized = preset.normalize?.(value) ?? value;
-    return preset.accepts?.(normalized) === false ? previousValue : normalized;
-  };
+  const innerValue = ref('');
+  foundation.initialize();
 
-  const applyNormalization = (value: string): { value: string; complete: boolean } => {
-    if (effectiveMask.value) {
-      const result = formatInputMask(value, null, effectiveMask.value, {
-        maskChar: effectiveMaskChar.value,
-        showMask: Boolean(value),
-        formatChars: effectiveFormatChars.value,
-      });
-      return { value: result.value, complete: result.complete };
-    }
-    return { value: normalizePresetValue(value, ''), complete: false };
-  };
-
-  const normalizeStoredValue = (value: string) => applyNormalization(value).value;
-
-  const innerValue = ref(normalizeStoredValue(props.modelValue ?? props.defaultValue));
-
-  const displayValue = computed(() => {
-    if (!effectiveMask.value) return innerValue.value;
-    return formatInputMask(innerValue.value, null, effectiveMask.value, {
-      maskChar: effectiveMaskChar.value,
-      showMask: focused.value || props.alwaysShowMask || hasValue.value,
-      formatChars: effectiveFormatChars.value,
-    }).value;
-  });
+  const displayValue = computed(foundation.getDisplayValue);
 
   const { t } = useI18n();
 
@@ -196,198 +225,21 @@
       props.placeholder ??
       (props.preset === 'ip' ? t('inputMask.ipPlaceholder') : presetDefinition.value?.placeholder),
   );
-  const mergedInputAttrs = computed(() => {
-    const result: Record<string, unknown> = { ...props.inputAttrs };
-    if (result.inputmode === undefined && presetDefinition.value?.inputMode) {
-      result.inputmode = presetDefinition.value.inputMode;
-    }
-    if (props.preset) {
-      result['data-mask-preset'] = props.preset;
-    }
-    return result;
-  });
+  const mergedInputAttrs = computed(foundation.getMergedInputAttrs);
   const forwardedAttrs = computed(() => ({
     ...attrs,
     class: [prefixCls, attrs.class],
   }));
 
-  const getInputElement = () => inputComponentRef.value?.inputRef as HTMLInputElement | undefined;
+  const hasValue = computed(foundation.getHasValue);
 
-  const syncComplete = (value: string, nextComplete: boolean) => {
-    if (nextComplete && !complete.value) emit('complete', value);
-    complete.value = nextComplete;
-  };
+  onMounted(foundation.mount);
+  onBeforeUnmount(foundation.dispose);
 
-  // The committed value must not contain maskChar placeholders: emit only the
-  // filled editable characters plus literals (aligned with react-input-mask),
-  // while innerValue keeps the placeholder-filled form for display/cursor math.
-  const toCommittedValue = (value: string) => {
-    if (!effectiveMask.value) return value;
-    return stripMaskPlaceholders(value, effectiveMask.value, {
-      maskChar: effectiveMaskChar.value,
-      formatChars: effectiveFormatChars.value,
-    });
-  };
-
-  const hasValue = computed(() => Boolean(toCommittedValue(innerValue.value)));
-
-  const commitValue = (rawValue: string) => {
-    const input = getInputElement();
-    const rawCursor = input?.selectionStart ?? rawValue.length;
-    const previousState: InputMaskState = {
-      value: innerValue.value,
-      selection: lastSelection.value,
-    };
-    let nextState: InputMaskState;
-    let nextComplete = false;
-
-    if (effectiveMask.value) {
-      const deletion = lastSelection.value
-        ? resolveDeletion(
-            innerValue.value,
-            lastSelection.value,
-            rawValue,
-            rawCursor,
-            effectiveMask.value,
-            effectiveFormatChars.value,
-            effectiveMaskChar.value,
-          )
-        : null;
-
-      if (deletion) {
-        nextState = {
-          value: deletion.value,
-          selection: { start: deletion.cursor, end: deletion.cursor },
-        };
-        nextComplete = deletion.complete;
-      } else {
-        const result = formatInputMask(rawValue, rawCursor, effectiveMask.value, {
-          maskChar: effectiveMaskChar.value,
-          showMask: focused.value || props.alwaysShowMask || Boolean(rawValue),
-          formatChars: effectiveFormatChars.value,
-        });
-        nextState = { value: result.value, selection: result.selection };
-        nextComplete = result.complete;
-      }
-    } else {
-      const value = normalizePresetValue(rawValue, innerValue.value);
-      // A rejected mid-string insertion (or one whose characters the preset
-      // normalization strips) leaves the raw cursor one slot past the removed
-      // character; without the -1 correction the restored cursor drifts.
-      const rejectedInsertion =
-        value === innerValue.value && rawValue.length === innerValue.value.length + 1;
-      const cursor =
-        rawCursor === rawValue.length
-          ? value.length
-          : Math.min(Math.max(rawCursor - (rejectedInsertion ? 1 : 0), 0), value.length);
-      nextState = { value, selection: { start: cursor, end: cursor } };
-    }
-
-    nextState = props.beforeMaskedValueChange?.(nextState, previousState) ?? nextState;
-    if (props.beforeMaskedValueChange) {
-      nextComplete = applyNormalization(nextState.value).complete;
-    }
-    innerValue.value = nextState.value;
-    lastSelection.value = nextState.selection;
-    const committedValue = toCommittedValue(nextState.value);
-    emit('update:modelValue', committedValue);
-    syncComplete(committedValue, nextComplete);
-
-    nextTick(() => {
-      // Nested nextTick: the underlying Input's keepControl() (registered after
-      // this callback) rewrites the DOM value and re-derives the cursor when the
-      // committed value differs from the raw DOM text; the selection must be
-      // applied after that restore or it is overwritten.
-      nextTick(() => {
-        const element = getInputElement();
-        if (focused.value && element && nextState.selection) {
-          element.setSelectionRange(nextState.selection.start, nextState.selection.end);
-        }
-      });
-    });
-  };
-
-  const handleModelUpdate = (value: string) => commitValue(value);
-  const handleInput = (_value: string, event: Event) => emit('input', innerValue.value, event);
-  const handleChange = (_value: string, event: Event) => emit('change', innerValue.value, event);
-  const handlePressEnter = (event: KeyboardEvent) => emit('pressEnter', event);
-  const handleClear = (event: MouseEvent) => emit('clear', event);
-  const handleFocus = (event: FocusEvent) => {
-    focused.value = true;
-    emit('focus', event);
-  };
-  const handleBlur = (event: FocusEvent) => {
-    focused.value = false;
-    emit('blur', event);
-  };
-
-  // Track the real DOM selection so backspace/delete can tell where the user was
-  // before the keystroke. `lastSelection` is otherwise only updated on commit,
-  // which goes stale when the cursor is moved by click or arrow keys without input.
-  // keyup/mouseup fire synchronously and reliably for keyboard/mouse moves; the
-  // document-level `selectionchange` is a catch-all for programmatic changes.
-  const trackedEvents: Array<keyof HTMLElementEventMap> = ['keyup', 'mouseup', 'select'];
-  const updateSelectionFromDom = () => {
-    const el = getInputElement();
-    if (!el || document.activeElement !== el) return;
-    const start = el.selectionStart;
-    const end = el.selectionEnd;
-    if (start !== null && end !== null) {
-      lastSelection.value = { start, end };
-    }
-  };
-  onMounted(() => {
-    const input = getInputElement();
-    if (input) {
-      trackedEvents.forEach((event) => input.addEventListener(event, updateSelectionFromDom));
-    }
-    document.addEventListener('selectionchange', updateSelectionFromDom);
-
-    // Establish the initial complete state: a fully-filled initial modelValue
-    // mounts as complete (the modelValue watcher below is not immediate).
-    if (effectiveMask.value) {
-      const { complete: initialComplete } = applyNormalization(innerValue.value);
-      syncComplete(toCommittedValue(innerValue.value), initialComplete);
-    }
-  });
-  onBeforeUnmount(() => {
-    const input = getInputElement();
-    if (input) {
-      trackedEvents.forEach((event) => input.removeEventListener(event, updateSelectionFromDom));
-    }
-    document.removeEventListener('selectionchange', updateSelectionFromDom);
-  });
-
-  watch(
-    () => props.modelValue,
-    (value) => {
-      // Treat undefined (and null) as a reset request instead of early-returning.
-      const { value: next, complete: nextComplete } = applyNormalization(value ?? '');
-      innerValue.value = next;
-      // Echo the normalized value back so a parent that passed a raw string (or
-      // null/undefined) stays in sync with the masked representation. The echo
-      // and the complete payload use the placeholder-free committed form.
-      if (next !== value) emit('update:modelValue', toCommittedValue(next));
-      syncComplete(toCommittedValue(next), nextComplete);
-    },
-  );
+  watch(() => props.modelValue, foundation.syncModel);
   watch(
     [effectiveMask, presetDefinition, effectiveMaskChar, effectiveFormatChars],
-    (_, [oldMask, , oldMaskChar, oldFormatChars]) => {
-      const value = oldMask
-        ? stripMaskPlaceholders(innerValue.value, oldMask, {
-            maskChar: oldMaskChar,
-            formatChars: oldFormatChars,
-          })
-        : innerValue.value;
-      const { value: next, complete: nextComplete } = applyNormalization(value);
-      const changed = next !== innerValue.value;
-      innerValue.value = next;
-      // The component changed its own template, so propagate the re-normalized
-      // value to keep v-model in sync (otherwise switching mask/preset can desync).
-      if (changed) emit('update:modelValue', toCommittedValue(next));
-      syncComplete(toCommittedValue(next), nextComplete);
-    },
+    foundation.syncMask,
   );
 
   defineExpose({

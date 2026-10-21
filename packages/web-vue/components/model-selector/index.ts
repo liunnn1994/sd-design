@@ -78,7 +78,7 @@ export type {
   ModelSelectorKnownProvider,
   ModelSelectorProvider,
 } from './types';
-export { MODEL_SELECTOR_PROVIDERS } from './types';
+export { MODEL_SELECTOR_PROVIDERS } from '@sdata/web-core/model-selector/types';
 
 export {
   _ModelSelectorContent as ModelSelectorContent,

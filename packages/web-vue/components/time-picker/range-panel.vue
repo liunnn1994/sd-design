@@ -11,11 +11,11 @@
 
   import { computed, type PropType, ref, watch } from 'vue';
 
+  import { createTimeRangePanel } from '@sdata/web-core/time-picker/panel';
+
   import type { RangePanelProps } from './interface';
 
-  import { isUndefined } from '../_utils/is';
   import Panel from './panel.vue';
-  import { isValidRangeValue } from './utils';
 
   defineOptions({
     name: 'TimePickerRangePanel',
@@ -49,20 +49,15 @@
 
   const displayValue = computed(() => props.value?.[localDisplayIndex.value]);
 
-  const onSelect = (selectedValue: Dayjs) => {
-    const newValue = isUndefined(props.value) ? [] : [...props.value];
-    newValue[localDisplayIndex.value] = selectedValue;
-    emit('select', newValue);
-  };
-
-  const onConfirm = () => {
-    if (!isValidRangeValue(props.value)) {
-      const newIndex = (localDisplayIndex.value + 1) % 2;
-      localDisplayIndex.value = newIndex;
-      emit('display-index-change', newIndex);
-      emit('update:displayIndex', newIndex);
-    } else {
-      emit('confirm', props.value);
-    }
-  };
+  const { select: onSelect, confirm: onConfirm } = createTimeRangePanel({
+    getValue: () => props.value,
+    getIndex: () => localDisplayIndex.value,
+    setIndex: (index) => {
+      localDisplayIndex.value = index;
+    },
+    onSelect: (value) => emit('select', value),
+    onConfirm: (value) => emit('confirm', value),
+    onIndexChange: (index) => emit('display-index-change', index),
+    onUpdateIndex: (index) => emit('update:displayIndex', index),
+  });
 </script>

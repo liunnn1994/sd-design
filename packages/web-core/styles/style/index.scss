@@ -1,0 +1,11 @@
+@use './normalize.scss' as *;
+@use './icon.scss' as *;
+@use './animation/index.scss' as *;
+@use './theme/index.scss' as *;
+@use './theme/css-variables.scss' as *;
+@use './color/css-variables.scss' as *;
+
+body {
+  font-size: $font-size-body;
+  font-family: $font-family;
+}

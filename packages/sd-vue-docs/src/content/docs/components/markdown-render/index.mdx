@@ -220,3 +220,13 @@ setInfographicLoader(() => import('@antv/infographic'));
 **代码块工具栏无法通过 `MarkdownRender` 定制。** 锁定版本的根渲染器不提供任何插槽，上游也不把 `header-left` / `header-center` / `header-right` 传给节点组件——插槽只存在于 `CodeBlockNode` 自身。因此复制、折叠、展开、预览和字号控制保持上游原控件（用 SD token 统一外观）。需要自定义头部时，请整体替换 `code_block` 节点组件（见「覆盖节点与嵌入 SD 组件」），并自行保留上述动作；`SdMarkdownRender` 不会转发节点级插槽。
 
 原始 HTML 的未完成节点、自定义业务标签和 escape 内容继续交给上游 HTML 节点。适配不执行 HTML 内联事件，不自动增加信任标签，不切换到 trusted，也不覆盖调用方解析 hooks。
+
+## 自有节点的共享规则
+
+图片节点的 source/fallback、load/error/click、pending 请求身份与异步结算规则由 `web-core/markdown/image` 管理。Vue 提供原始生命周期对象、`nextTick`、节点高度和响应式缓存；上游 renderer、插槽和事件协议保持原样。
+
+`web-core/markdown/html` 负责策略优先级、HTML 适配条件、空白 token 保留、token 建树和宿主标签判断；VNode 到 SD 组件的映射继续留在 Vue。`web-core/markdown/html-entities` 共享原来的惰性实体工具和双次还原行为，旧深入口继续转发同一函数。
+
+Core 显式依赖 `stream-markdown-parser@1.2.19`，与当前 `markstream-vue@2.0.18` 使用的解析器版本一致。升级上游时须同时复核解析器版本与函数/可变标签 Set 的共享身份，保持 sanitizer 行为和 HTML 策略一致。
+
+Vue adapter 同时将 markstream-vue 固定为 2.0.18；两项版本成对复核和升级，避免消费项目自动解析到另一组 parser 行为。

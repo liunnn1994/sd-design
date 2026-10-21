@@ -56,10 +56,10 @@
 <script setup lang="ts">
   import { computed, onBeforeUpdate, onMounted, onUnmounted, ref, useSlots, watch } from 'vue';
 
+  import { activateMenuItem, activateMenuItemKey } from '@sdata/web-core/menu/foundation';
   import { createReusableTemplate } from '@vueuse/core';
   import scrollIntoView from 'scroll-into-view-if-needed';
 
-  import { isActivationKey } from '../_utils/keyboard';
   import { omit } from '../_utils/omit';
   import Ellipsis from '../ellipsis';
   import Tooltip from '../tooltip';
@@ -134,18 +134,14 @@
     }
   };
 
-  const onClick = (event: MouseEvent) => {
-    if (props.disabled) return;
-    menuContext.onMenuItemClick?.(key.value);
-    emit('click', event);
-  };
-
-  const onKeydown = (event: KeyboardEvent) => {
-    if (isActivationKey(event)) {
-      event.preventDefault();
-      onClick(event as unknown as MouseEvent);
-    }
-  };
+  const onClick = (event: MouseEvent) =>
+    activateMenuItem(
+      event,
+      props.disabled,
+      () => menuContext.onMenuItemClick?.(key.value),
+      (event) => emit('click', event),
+    );
+  const onKeydown = (event: KeyboardEvent) => activateMenuItemKey(event, onClick);
 
   let timer: ReturnType<typeof setTimeout>;
   onMounted(() => {

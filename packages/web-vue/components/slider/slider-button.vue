@@ -26,10 +26,11 @@
 <script setup lang="ts">
   import { computed, onBeforeUnmount, PropType, ref, watch } from 'vue';
 
+  import { createSliderDragFoundation } from '@sdata/web-core/slider/drag';
+
   import type { TriggerPosition } from '../_utils/constant';
 
   import { DIRECTIONS } from '../_utils/constant';
-  import { off, on } from '../_utils/dom';
   import { getPrefixCls } from '../_utils/global-config';
   import Tooltip from '../tooltip';
 
@@ -81,49 +82,18 @@
     }
   };
 
-  const handleMouseDown = (e: MouseEvent | TouchEvent) => {
-    if (props.disabled) {
-      return;
-    }
-    e.preventDefault();
-
-    isDragging.value = true;
-    on(window, 'mousemove', handleMouseMove);
-    on(window, 'touchmove', handleMouseMove);
-    on(window, 'mouseup', handleMouseUp);
-    on(window, 'contextmenu', handleMouseUp);
-    on(window, 'touchend', handleMouseUp);
-    on(window, 'touchcancel', handleMouseUp);
-    emit('movestart');
-  };
-
-  const handleMouseMove = (e: MouseEvent | TouchEvent) => {
-    let clientX: number;
-    let clientY: number;
-    if (e.type.startsWith('touch')) {
-      clientY = (e as TouchEvent).touches[0].clientY;
-      clientX = (e as TouchEvent).touches[0].clientX;
-    } else {
-      clientY = (e as MouseEvent).clientY;
-      clientX = (e as MouseEvent).clientX;
-    }
-    emit('moving', clientX, clientY);
-  };
-
-  const cleanupDragging = () => {
-    isDragging.value = false;
-    off(window, 'mousemove', handleMouseMove);
-    off(window, 'touchmove', handleMouseMove);
-    off(window, 'mouseup', handleMouseUp);
-    off(window, 'contextmenu', handleMouseUp);
-    off(window, 'touchend', handleMouseUp);
-    off(window, 'touchcancel', handleMouseUp);
-  };
-
-  const handleMouseUp = () => {
-    cleanupDragging();
-    emit('moveend');
-  };
+  const drag = createSliderDragFoundation({
+    getTarget: () => window,
+    isDisabled: () => props.disabled,
+    setDragging: (value) => {
+      isDragging.value = value;
+    },
+    onStart: () => emit('movestart'),
+    onMove: (x, y) => emit('moving', x, y),
+    onEnd: () => emit('moveend'),
+  });
+  const handleMouseDown = drag.start;
+  const cleanupDragging = drag.cleanup;
 
   watch(
     () => props.disabled,

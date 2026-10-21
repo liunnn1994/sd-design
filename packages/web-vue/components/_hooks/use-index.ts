@@ -1,7 +1,7 @@
 import type { Ref } from 'vue';
 import { computed, onMounted, onUpdated, ref, watch } from 'vue';
 
-import { isUndefined } from '../_utils/is';
+import { createItemIndex } from '@sdata/web-core/_utils/item-index';
 
 export const useIndex = ({
   itemRef,
@@ -19,55 +19,39 @@ export const useIndex = ({
 
   const parent = ref<HTMLElement>();
 
-  const getParent = () => {
-    let parent = itemRef.value?.parentElement ?? undefined;
-    if (parentClassName) {
-      while (parent && !parent.classList.contains(parentClassName)) {
-        parent = parent.parentElement ?? undefined;
-      }
-    }
-    return parent;
-  };
-
-  const getIndex = () => {
-    if (isUndefined(index?.value) && parent.value && itemRef.value) {
-      const items = Array.from(parent.value.querySelectorAll(selector)).filter(
-        (item) => !parentClassName || item.closest(`.${parentClassName}`) === parent.value,
-      );
-      const index = items.indexOf(itemRef.value);
-      if (index !== _index.value) {
-        _index.value = index;
-      }
-    }
-  };
-
-  watch(itemRef, () => {
-    if (itemRef.value && !parent.value) {
-      parent.value = getParent();
-    }
+  const foundation = createItemIndex({
+    get item() {
+      return itemRef.value;
+    },
+    selector,
+    get explicit() {
+      return index?.value;
+    },
+    parentClassName,
+    get value() {
+      return _index.value;
+    },
+    get parent() {
+      return parent.value;
+    },
+    set parent(value) {
+      parent.value = value;
+    },
+    setValue(value) {
+      _index.value = value;
+    },
   });
-
+  watch(itemRef, foundation.syncItem);
   watch(
     parent,
     (element, _, onCleanup) => {
-      if (!element) return;
-      const observer = new MutationObserver(getIndex);
-      observer.observe(element, { childList: true, subtree: true });
-      onCleanup(() => observer.disconnect());
+      const cleanup = foundation.observe(element);
+      if (cleanup) onCleanup(cleanup);
     },
     { flush: 'post' },
   );
-
-  onMounted(() => {
-    if (itemRef.value) {
-      parent.value = getParent();
-    }
-    getIndex();
-  });
-  onUpdated(() => {
-    parent.value = getParent();
-    getIndex();
-  });
+  onMounted(foundation.mount);
+  onUpdated(foundation.updated);
 
   return {
     computedIndex,

@@ -34,6 +34,8 @@
 <script setup lang="ts">
   import { reactive, ref, toRefs } from 'vue';
 
+  import { createInputPasswordFoundation } from '@sdata/web-core/input-password/foundation';
+
   import AIconHover from '../_components/icon-hover.vue';
   import useMergeState from '../_hooks/use-merge-state';
   import { getPrefixCls } from '../_utils/global-config';
@@ -104,10 +106,6 @@
   // NOTE: `visibility`/`mergedVisible` use inverted naming:
   // true = masked (type="password"), false = plaintext. This is documented in
   // the prop JSDoc; the tests in input/__test__/index.cy.ts pin this behavior.
-  const handleInvisible = () => {
-    setVisible(!mergedVisible.value);
-  };
-
   const [mergedVisible, setLocalVisible] = useMergeState(
     defaultVisibility.value,
     reactive({
@@ -115,13 +113,17 @@
     }),
   );
 
-  const setVisible = (newVisible: boolean) => {
-    if (newVisible !== mergedVisible.value) {
-      emit('visibility-change', newVisible);
-      emit('update:visibility', newVisible);
-      setLocalVisible(newVisible);
-    }
-  };
+  const foundation = createInputPasswordFoundation(
+    {
+      get masked() {
+        return mergedVisible.value;
+      },
+    },
+    (masked) => emit('visibility-change', masked),
+    (masked) => emit('update:visibility', masked),
+    setLocalVisible,
+  );
+  const handleInvisible = foundation.toggle;
 
   const focus = () => {
     (inputRef.value as HTMLInputElement)?.focus();

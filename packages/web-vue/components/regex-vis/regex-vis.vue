@@ -148,6 +148,8 @@
 <script setup lang="ts">
   import { computed, shallowRef, watch } from 'vue';
 
+  import { createRegexVisFoundation } from '@sdata/web-core/regex-vis/foundation';
+
   import type { RegexVisDiagram, RegexVisGraphNode } from './layout';
   import type {
     RegexVisError,
@@ -161,10 +163,6 @@
   import CheckboxGroup from '../checkbox/checkbox-group.vue';
   import Input from '../input/input.vue';
   import { useI18n } from '../locale';
-  import { createRegexVisDiagram } from './layout';
-  import { parseRegex } from './parser';
-
-  type CheckboxValue = string | number | boolean;
 
   defineOptions({ name: 'RegexVis' });
 
@@ -207,23 +205,43 @@
     { label: 'u', value: 'u' },
     { label: 'y', value: 'y' },
   ];
-  const supportedFlags = new Set<RegexVisFlag>(['d', 'g', 'i', 'm', 's', 'u', 'y']);
+  const foundation = createRegexVisFoundation(
+    {
+      get modelValue() {
+        return modelValue.value;
+      },
+      set modelValue(value) {
+        modelValue.value = value;
+      },
+      get flags() {
+        return flagsModel.value;
+      },
+      set flags(value) {
+        flagsModel.value = value;
+      },
+      get selectedId() {
+        return selectedId.value;
+      },
+      set selectedId(value) {
+        selectedId.value = value;
+      },
+      get selectable() {
+        return selectable;
+      },
+      get parseResult() {
+        return parseResult.value;
+      },
+    },
+    t,
+    (info) => emit('select', info),
+  );
 
   // 校验随当前标志一起进行（u 模式等 flag 相关语法才能通过）；字面量形式（/.../flags）的标志来自表达式本身。
   // 切换标志会重新解析，但节点 id 按解析顺序确定生成，可视图结构不变、选中态得以保留
-  const parseResult = computed(() => parseRegex(modelValue.value, { flags: flagsModel.value }));
-  const parseError = computed<RegexVisError | undefined>(() =>
-    parseResult.value.type === 'error' ? parseResult.value : undefined,
-  );
-  const effectiveFlags = computed(() =>
-    parseResult.value.type === 'regex' && parseResult.value.literal
-      ? parseResult.value.flags
-      : flagsModel.value,
-  );
-  const diagram = computed<RegexVisDiagram | undefined>(() => {
-    if (parseResult.value.type === 'error' || !modelValue.value) return undefined;
-    return createRegexVisDiagram(parseResult.value.body, t);
-  });
+  const parseResult = computed(foundation.getParseResult);
+  const parseError = computed<RegexVisError | undefined>(foundation.getParseError);
+  const effectiveFlags = computed(foundation.getEffectiveFlags);
+  const diagram = computed<RegexVisDiagram | undefined>(foundation.getDiagram);
   const placeholderText = computed(() => placeholder ?? t('regexVis.placeholder'));
   const emptyStateText = computed(() => emptyText ?? t('regexVis.empty'));
   const ariaLabelText = computed(() => ariaLabel ?? t('regexVis.graphLabel'));
@@ -244,44 +262,9 @@
     },
   ];
 
-  const isRegexVisFlag = (value: CheckboxValue): value is RegexVisFlag =>
-    typeof value === 'string' && supportedFlags.has(value as RegexVisFlag);
-
-  const updateFlags = (value: CheckboxValue[]) => {
-    const flags = value.filter(isRegexVisFlag);
-    flagsModel.value = flags;
-    if (parseResult.value.type === 'regex' && parseResult.value.literal) {
-      const literalEnd = modelValue.value.lastIndexOf('/');
-      modelValue.value = `${modelValue.value.slice(0, literalEnd + 1)}${flags.join('')}`;
-    }
-  };
-
-  const selectNode = (node: RegexVisGraphNode) => {
-    if (!selectable) return;
-    selectedId.value = node.id;
-    emit('select', { node: node.node, label: node.label });
-  };
+  const { updateFlags, selectNode } = foundation;
 
   watch(parseError, (error) => emit('error', error), { immediate: true });
-  watch(
-    () =>
-      parseResult.value.type === 'regex' && parseResult.value.literal
-        ? parseResult.value.flags
-        : undefined,
-    (flags) => {
-      if (
-        flags &&
-        (flags.length !== flagsModel.value.length ||
-          flags.some((flag, index) => flag !== flagsModel.value[index]))
-      ) {
-        flagsModel.value = [...flags];
-      }
-    },
-    { immediate: true },
-  );
-  watch(diagram, (nextDiagram) => {
-    if (selectedId.value && !nextDiagram?.nodes.some((node) => node.id === selectedId.value)) {
-      selectedId.value = undefined;
-    }
-  });
+  watch(foundation.getLiteralFlags, foundation.syncLiteralFlags, { immediate: true });
+  watch(diagram, foundation.syncDiagram);
 </script>

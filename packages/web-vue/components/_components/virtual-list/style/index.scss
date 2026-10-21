@@ -1,3 +1,1 @@
-// virtua renders the virtual list with inline styles and does not ship a CSS
-// file, so this entry no longer imports any third-party stylesheet. The file is
-// kept because `components/index.scss` still `@use`s it.
+@forward '@sdata/web-core/styles/_components/virtual-list/style/index.scss';

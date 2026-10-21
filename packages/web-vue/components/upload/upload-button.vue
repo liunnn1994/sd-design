@@ -1,6 +1,5 @@
 <template>
   <span
-    ref="dropRef"
     :class="cls"
     @click="handleClick"
     @dragenter="setDragEnterCount('add')"
@@ -56,13 +55,13 @@
 <script setup lang="ts">
   import { computed, ref, type PropType } from 'vue';
 
+  import { createUploadInput } from '@sdata/web-core/upload/input';
+
   import { getPrefixCls } from '../_utils/global-config';
-  import { isFunction, isPromise } from '../_utils/is';
   import Button from '../button';
   import IconPlus from '../icon/icon-plus';
   import IconUpload from '../icon/icon-upload';
   import { useI18n } from '../locale';
-  import { getFiles, loopDirectory } from './utils';
 
   defineOptions({
     name: 'UploadButton',
@@ -102,7 +101,6 @@
   const { t } = useI18n();
   const isDragging = ref(false);
   const inputRef = ref<HTMLInputElement | null>(null);
-  const dropRef = ref<HTMLElement | null>(null);
   const dragEnterCount = ref(0); // the number of times ondragenter was triggered
   const cls = computed(() => [
     prefixCls,
@@ -114,70 +112,23 @@
     },
   ]);
 
-  function setDragEnterCount(type: 'subtract' | 'add' | 'reset') {
-    if (type === 'subtract') {
-      dragEnterCount.value -= 1;
-    } else if (type === 'add') {
-      dragEnterCount.value += 1;
-    } else {
-      dragEnterCount.value = 0;
-    }
-  }
-
-  function handleClick(event: Event) {
-    if (props.disabled) return;
-    if (isFunction(props.onButtonClick)) {
-      const result = props.onButtonClick(event);
-      if (isPromise<FileList>(result)) {
-        result.then((files) => {
-          props.uploadFiles(getFiles(files));
-        });
-        return;
-      }
-    }
-    inputRef.value?.click();
-  }
-
-  function handleInputChange(event: Event) {
-    const target = event.target as HTMLInputElement;
-    if (target.files) {
-      props.uploadFiles(getFiles(target.files));
-    }
-
-    target.value = '';
-  }
-
-  function handleDrop(event: DragEvent) {
-    event.preventDefault();
-    isDragging.value = false;
-    setDragEnterCount('reset');
-    if (props.disabled) {
-      return;
-    }
-
-    if (props.directory && event.dataTransfer?.items) {
-      loopDirectory(event.dataTransfer.items, props.accept, (files) => {
-        props.uploadFiles(files);
-      });
-    } else {
-      const files = getFiles(event.dataTransfer?.files, props.accept);
-      props.uploadFiles(props.multiple ? files : files.slice(0, 1));
-    }
-  }
-
-  function handleDragLeave(event: DragEvent) {
-    event.preventDefault();
-    setDragEnterCount('subtract');
-    if (dragEnterCount.value === 0) {
-      isDragging.value = false;
-      setDragEnterCount('reset');
-    }
-  }
-
-  function handleDragOver(event: DragEvent) {
-    event.preventDefault();
-    if (!props.disabled && !isDragging.value) {
-      isDragging.value = true;
-    }
-  }
+  const {
+    setDragEnterCount,
+    handleClick,
+    handleInputChange,
+    handleDrop,
+    handleDragLeave,
+    handleDragOver,
+  } = createUploadInput({
+    options: props,
+    getDragging: () => isDragging.value,
+    setDragging: (value) => {
+      isDragging.value = value;
+    },
+    getDragEnterCount: () => dragEnterCount.value,
+    setDragEnterCount: (value) => {
+      dragEnterCount.value = value;
+    },
+    clickInput: () => inputRef.value?.click(),
+  });
 </script>

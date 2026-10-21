@@ -1,18 +1,13 @@
+import type { SpecialHoursInput } from '@sdata/web-core/calendar/types';
+
 import type { ExtractPropTypes, PropType } from 'vue';
 
-import type { CalendarEventInput, CalendarSchedule, SpecialHoursRange } from '../types';
+import { minutesInADay } from '@sdata/web-core/calendar/constants';
 
-export type SpecialHoursInput = Record<
-  string,
-  | SpecialHoursRange
-  | SpecialHoursRange[]
-  | {
-      default?: SpecialHoursRange | SpecialHoursRange[];
-      schedules?: Record<string, SpecialHoursRange | SpecialHoursRange[]>;
-    }
->;
+import type { CalendarEventInput, CalendarSchedule } from '../types';
+export type { SpecialHoursInput } from '@sdata/web-core/calendar/types';
 
-export const minutesInADay = 24 * 60; // Don't do the maths every time.
+export { minutesInADay } from '@sdata/web-core/calendar/constants';
 
 export const props = {
   /**

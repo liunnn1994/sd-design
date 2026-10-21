@@ -1,3 +1,8 @@
+import type {
+  DescItemData as CoreDescItemData,
+  RenderData as CoreRenderData,
+} from '@sdata/web-core/descriptions/types';
+
 import { RenderFunction, VNode } from 'vue';
 
 export interface DescData {
@@ -19,15 +24,8 @@ export interface DescData {
   span?: number;
 }
 
-export type DescLayout = 'horizontal' | 'vertical' | 'inline-horizontal' | 'inline-vertical';
+export type { DescLayout } from '@sdata/web-core/descriptions/types';
 
-export interface DescItemData {
-  index: number;
-  span: number;
-}
+export interface DescItemData extends CoreDescItemData {}
 
-export interface RenderData {
-  data: DescData | VNode;
-  span: number;
-  index: number;
-}
+export interface RenderData extends CoreRenderData<DescData | VNode> {}

@@ -30,6 +30,11 @@
     watchEffect,
   } from 'vue';
 
+  import {
+    getBreadcrumbNeedHide,
+    getBreadcrumbRouteEntries,
+  } from '@sdata/web-core/breadcrumb/foundation';
+
   import type { BreadcrumbRoute } from './interface';
 
   import { getPrefixCls } from '../_utils/global-config';
@@ -101,7 +106,16 @@
   const total = ref(0);
   const maxCount = toRef(props, 'maxCount');
   const separator = toRef(props, 'separator');
-  const needHide = computed(() => maxCount.value > 0 && total.value > maxCount.value + 1);
+  const needHide = computed(() =>
+    getBreadcrumbNeedHide({
+      get maxCount() {
+        return maxCount.value;
+      },
+      get total() {
+        return total.value;
+      },
+    }),
+  );
 
   provide(
     breadcrumbInjectKey,
@@ -122,24 +136,7 @@
   watchEffect(syncRouteTotal);
   onBeforeUpdate(syncRouteTotal);
 
-  const routeEntries = computed(() => {
-    if (!props.routes?.length) {
-      return [];
-    }
-
-    const paths: string[] = [];
-    return props.routes.map((route, index, origin) => {
-      paths.push((route.path || '').replace(/^\//, ''));
-      const currentPaths = [...paths];
-      return {
-        route,
-        index,
-        paths: currentPaths,
-        last: index === origin.length - 1,
-        href: props.customUrl?.(currentPaths) ?? `#/${currentPaths.join('/').replace(/^\//, '')}`,
-      };
-    });
-  });
+  const routeEntries = computed(() => getBreadcrumbRouteEntries(props));
 
   const RenderChildren = () => {
     const children = getAllElements(slots.default?.() ?? []);

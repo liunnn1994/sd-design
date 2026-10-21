@@ -1,9 +1,1 @@
-@use 'sass:meta';
-
-@mixin sd-emit-theme-vars($tokens, $prefix: '--') {
-  @if meta.type-of($tokens) == 'map' {
-    @each $token, $value in $tokens {
-      #{$prefix}#{$token}: #{$value};
-    }
-  }
-}
+@forward '@sdata/web-core/styles/style/theme/_mixins.scss';

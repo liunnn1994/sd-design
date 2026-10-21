@@ -467,3 +467,7 @@ import datePickerYearSource from '../../../../components/generated/date-picker/y
 ### 关于 `locale` 字段
 
 可以使用组件库提供的语言包配置 `locale` 字段。
+
+## 节点与单元格规则
+
+`@sdata/web-core/date-picker/panel-body` 提供单元格禁用/选择/隐藏与事件守卫；`date-picker/cell-range` 提供范围排序和端点规则，computed 缓存仍在 Vue。比较函数使用结构化 value cell 保持原调用 receiver；单元格 mouseleave 沿用原 cell-mouse-enter 通知，不更改现有预览协议。

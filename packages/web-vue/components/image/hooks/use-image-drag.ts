@@ -1,7 +1,6 @@
 import { nextTick, ref, toRefs, watch, watchEffect } from 'vue';
 
-import { isServerRendering, off, on } from '../../_utils/dom';
-import getFixTranslate from '../utils/get-fix-translate';
+import { createImageDrag } from '@sdata/web-core/image/drag';
 
 interface ImageDragProps {
   wrapperEl: HTMLElement;
@@ -16,85 +15,29 @@ export default function useImageDrag(props: ImageDragProps) {
 
   const moving = ref(false);
 
-  let startPageX = 0;
-  let startPageY = 0;
-  let startTranslate = [0, 0];
-
-  // Check and correct the offset
-  const checkAndFixTranslate = () => {
-    if (!wrapperEl.value || !imageEl.value) return;
-    const wrapperRect = wrapperEl.value.getBoundingClientRect();
-    const imgRect = imageEl.value.getBoundingClientRect();
-    const [x, y] = getFixTranslate(
-      wrapperRect,
-      imgRect,
-      translate.value[0],
-      translate.value[1],
-      scale.value,
-    );
-    if (x !== translate.value[0] || y !== translate.value[1]) {
-      translate.value = [x, y];
-    }
-  };
-
-  // Picture is moving: calculate and update displacement
-  const onMoving = (e: MouseEvent) => {
-    e.preventDefault && e.preventDefault();
-    const nextX = startTranslate[0] + (e.pageX - startPageX) / scale.value;
-    const nextY = startTranslate[1] + (e.pageY - startPageY) / scale.value;
-    translate.value = [nextX, nextY];
-  };
-
-  // Picture ends moving
-  const onMoveEnd = (e: MouseEvent) => {
-    e.preventDefault && e.preventDefault();
-    moving.value = false;
-    checkAndFixTranslate();
-    offEvents();
-  };
-
-  // Grab the picture and start moving: record the initial data
-  const onMoveStart = (e: MouseEvent) => {
-    if (e.target !== e.currentTarget || e.button !== 0) return;
-    e.preventDefault && e.preventDefault();
-    moving.value = true;
-
-    startPageX = e.pageX;
-    startPageY = e.pageY;
-    startTranslate = [...translate.value];
-
-    on(window, 'mousemove', onMoving as EventListener, false);
-    on(window, 'mouseup', onMoveEnd as EventListener, false);
-  };
-
-  function offEvents() {
-    if (isServerRendering) return;
-    off(window, 'mousemove', onMoving as EventListener, false);
-    off(window, 'mouseup', onMoveEnd as EventListener, false);
-  }
-
-  // Initialization, each time the image changes will be re-initialized
-  watchEffect((onInvalidate) => {
-    const image = imageEl.value;
-    image && on(image, 'mousedown', onMoveStart as EventListener);
-
-    onInvalidate(() => {
-      image && off(image, 'mousedown', onMoveStart as EventListener);
-      offEvents();
-      moving.value = false;
-    });
-  });
-
-  // scale to correct the offset
-  watch([scale], () => {
-    nextTick(() => checkAndFixTranslate());
-  });
-
-  return {
-    translate,
-    moving,
-    resetTranslate() {
-      translate.value = [0, 0];
+  const drag = createImageDrag({
+    get wrapper() {
+      return wrapperEl.value;
     },
-  };
+    get image() {
+      return imageEl.value;
+    },
+    get scale() {
+      return scale.value;
+    },
+    get translate() {
+      return translate.value;
+    },
+    setTranslate(value) {
+      translate.value = value;
+    },
+    setMoving(value) {
+      moving.value = value;
+    },
+  });
+  watchEffect((onInvalidate) => onInvalidate(drag.connect(imageEl.value)));
+  watch([scale], () => {
+    void nextTick(drag.fix);
+  });
+  return { translate, moving, resetTranslate: drag.resetTranslate };
 }

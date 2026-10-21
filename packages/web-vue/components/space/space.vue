@@ -15,8 +15,9 @@
   import { Comment, computed, inject } from 'vue';
   import type { CSSProperties, VNode } from 'vue';
 
+  import { getSpaceAlign, getSpaceStyle } from '@sdata/web-core/space/foundation';
+
   import { getPrefixCls } from '../_utils/global-config';
-  import { isArray, isNumber } from '../_utils/is';
   import { getAllElements } from '../_utils/vue-utils';
   import { configProviderInjectionKey } from '../config-provider/context';
 
@@ -84,7 +85,16 @@
   const VNodeRenderer = ({ content }: { content: VNode }) => content;
   const configCtx = inject(configProviderInjectionKey, undefined);
   const rtl = computed(() => configCtx?.rtl ?? false);
-  const mergedAlign = computed(() => align ?? (direction === 'horizontal' ? 'center' : ''));
+  const mergedAlign = computed(() =>
+    getSpaceAlign({
+      get align() {
+        return align;
+      },
+      get direction() {
+        return direction;
+      },
+    }),
+  );
 
   const classes = computed(() => [
     prefixCls,
@@ -97,34 +107,13 @@
     },
   ]);
 
-  function getSize(value: SpaceSize) {
-    if (isNumber(value)) {
-      return value;
-    }
-
-    switch (value) {
-      case 'mini':
-        return 4;
-      case 'small':
-        return 8;
-      case 'medium':
-        return 16;
-      case 'large':
-        return 24;
-      default:
-        return 8;
-    }
-  }
-
-  const spaceStyle = computed<CSSProperties>(() => {
-    const sizeArray = isArray(size) ? size : [size, size];
-    const [columnGap, rowGap] = sizeArray.map(getSize);
-
-    return {
-      columnGap: `${columnGap}px`,
-      rowGap: `${rowGap}px`,
-    };
-  });
+  const spaceStyle = computed<CSSProperties>(() =>
+    getSpaceStyle({
+      get size() {
+        return size;
+      },
+    }),
+  );
 
   function getItems(): SpaceItem[] {
     return getAllElements(slots.default?.(), true)

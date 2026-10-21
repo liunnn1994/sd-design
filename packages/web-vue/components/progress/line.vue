@@ -3,7 +3,7 @@
     role="progressbar"
     aria-valuemin="0"
     aria-valuemax="100"
-    :aria-valuenow="NP.times(percent, 100)"
+    :aria-valuenow="percentValue"
     :class="`${prefixCls}-wrapper`"
   >
     <div :class="prefixCls" :style="style">
@@ -25,36 +25,15 @@
 <script setup lang="ts">
   import { computed, PropType } from 'vue';
 
-  import NP from 'number-precision';
+  import {
+    createProgressLineFoundation,
+    getProgressPercent,
+    getProgressText,
+  } from '@sdata/web-core/progress/foundation';
 
   import { Status } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isObject } from '../_utils/is';
   import IconExclamationCircleFill from '../icon/icon-exclamation-circle-fill';
-
-  const DEFAULT_STROKE_WIDTH = {
-    small: 3,
-    medium: 4,
-    large: 8,
-  };
-
-  const getBackground = (color?: string | Record<string, string>) => {
-    if (!color) {
-      return undefined;
-    }
-
-    if (isObject(color)) {
-      const val = Object.keys(color)
-        .map((key) => `${color[key]} ${key}`)
-        .join(',');
-      return {
-        backgroundImage: `linear-gradient(to right, ${val})`,
-      };
-    }
-    return {
-      backgroundColor: color,
-    };
-  };
 
   defineOptions({ name: 'ProgressLine' });
 
@@ -95,18 +74,9 @@
 
   const prefixCls = getPrefixCls('progress-line');
 
-  const strokeWidth = computed(() => props.strokeWidth ?? DEFAULT_STROKE_WIDTH[props.size]);
-
-  const text = computed(() => `${NP.times(props.percent, 100)}%`);
-
-  const style = computed(() => ({
-    width: typeof props.width === 'number' ? `${props.width}px` : props.width,
-    height: `${strokeWidth.value}px`,
-    backgroundColor: props.trackColor,
-  }));
-
-  const barStyle = computed(() => ({
-    width: `${props.percent * 100}%`,
-    ...getBackground(props.color),
-  }));
+  const foundation = createProgressLineFoundation(props);
+  const percentValue = computed(() => getProgressPercent(props.percent));
+  const text = computed(() => getProgressText(props.percent));
+  const style = computed(foundation.getStyle);
+  const barStyle = computed(foundation.getBarStyle);
 </script>

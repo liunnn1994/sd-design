@@ -26,7 +26,7 @@ const Sender: typeof _Sender & {
 
 export const SenderHeader = _SenderHeader;
 export const SenderSwitch = _SenderSwitch;
-export { default as RecorderCore } from './recorder-core';
+export { default as RecorderCore } from '@sdata/web-core/sender/recorder-engine';
 export type {
   RecorderCore as RecorderCoreConstructor,
   RecorderCoreInstance,

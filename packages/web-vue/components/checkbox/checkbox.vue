@@ -39,15 +39,20 @@
   import type { VNode } from 'vue';
   import { computed, inject, nextTick, ref, toRef, watch } from 'vue';
 
+  import {
+    createCheckboxFoundation,
+    getCheckboxChecked,
+    getCheckboxDisabled,
+    type CheckboxValue,
+    type CheckboxModelValue,
+  } from '@sdata/web-core/checkbox/foundation';
+
   import IconHover from '../_components/icon-hover.vue';
   import { useFormItem } from '../_hooks/use-form-item';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isArray, isNull, isUndefined } from '../_utils/is';
+  import { isArray } from '../_utils/is';
   import { checkboxGroupKey } from './context';
   import IconCheck from './icon-check.vue';
-
-  type CheckboxValue = string | number | boolean;
-  type CheckboxModelValue = boolean | CheckboxValue[];
 
   defineOptions({ name: 'Checkbox' });
 
@@ -142,17 +147,35 @@
   const computedValue = computed(() =>
     isGroup ? checkboxGroupCtx?.computedValue : (props.modelValue ?? internalChecked.value),
   );
+  const foundation = createCheckboxFoundation<Event>({
+    getValue: () => computedValue.value,
+    getResolvedValue: () => resolvedValue.value,
+    isGroup: () => isGroup,
+    setInternalChecked: (value) => {
+      internalChecked.value = value;
+    },
+    onGroupChange: (value, event) => checkboxGroupCtx?.handleChange(value, event),
+    onUpdate: (value) => emit('update:modelValue', value),
+    onChange: (value, event) => emit('change', value, event),
+    onFormChange: (event) => eventHandlers.value?.onChange?.(event),
+    afterChange: () =>
+      nextTick(() => {
+        if (checkboxRef.value) checkboxRef.value.indeterminate = props.indeterminate;
+        if (checkboxRef.value && checkboxRef.value.checked !== computedChecked.value) {
+          checkboxRef.value.checked = computedChecked.value;
+        }
+      }),
+  });
   const computedChecked = computed<boolean>(() =>
-    isArray(computedValue.value)
-      ? computedValue.value.includes(resolvedValue.value)
-      : computedValue.value,
+    getCheckboxChecked(computedValue.value, resolvedValue.value)!,
   );
-  const mergedDisabled = computed(
-    () =>
-      checkboxGroupCtx?.disabled ||
-      formItemDisabled.value ||
-      (!computedChecked.value && checkboxGroupCtx?.isMaxed) ||
-      false,
+  const mergedDisabled = computed(() =>
+    getCheckboxDisabled(
+      checkboxGroupCtx?.disabled,
+      formItemDisabled.value,
+      computedChecked.value,
+      checkboxGroupCtx?.isMaxed,
+    ),
   );
   const cls = computed(() => [
     prefixCls,
@@ -170,36 +193,8 @@
   const handleClick = (event: Event) => {
     event.stopPropagation();
   };
-  const handleChange = (event: Event) => {
-    const { checked } = event.target as HTMLInputElement;
-    let newValue: CheckboxModelValue = checked;
-
-    if (isArray(computedValue.value)) {
-      const values = new Set(computedValue.value);
-      if (checked) {
-        values.add(resolvedValue.value);
-      } else {
-        values.delete(resolvedValue.value);
-      }
-      newValue = Array.from(values);
-    }
-
-    internalChecked.value = checked;
-    if (isGroup && isArray(newValue)) {
-      checkboxGroupCtx?.handleChange(newValue, event);
-    } else {
-      emit('update:modelValue', newValue);
-      emit('change', newValue, event);
-      eventHandlers.value?.onChange?.(event);
-    }
-
-    nextTick(() => {
-      if (checkboxRef.value) checkboxRef.value.indeterminate = props.indeterminate;
-      if (checkboxRef.value && checkboxRef.value.checked !== computedChecked.value) {
-        checkboxRef.value.checked = computedChecked.value;
-      }
-    });
-  };
+  const handleChange = (event: Event) =>
+    foundation.change((event.target as HTMLInputElement).checked, event);
   const handleFocus = (event: FocusEvent) => {
     eventHandlers.value?.onFocus?.(event);
   };
@@ -207,14 +202,7 @@
     eventHandlers.value?.onBlur?.(event);
   };
 
-  watch(
-    () => props.modelValue,
-    (value) => {
-      if (isUndefined(value) || isNull(value)) {
-        internalChecked.value = false;
-      }
-    },
-  );
+  watch(() => props.modelValue, foundation.syncModel);
   watch(computedValue, (value) => {
     const checked = isArray(value) ? value.includes(resolvedValue.value) : value;
     if (internalChecked.value !== checked) {

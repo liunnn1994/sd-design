@@ -1,0 +1,61 @@
+@use '../color/colors.scss';
+@use 'sass:string';
+
+@forward './global.scss';
+@forward './component.scss';
+
+@use './global.scss' as *;
+@use './component.scss' as *;
+
+colors.$sd-vars-prefix: string.unquote('sd');
+colors.$sd-cssvars-prefix: string.unquote('--sd');
+
+$sd-theme-tag: ':where(body, [sd-theme], [data-sd-theme])';
+$sd-vars-prefix: string.unquote('sd');
+$sd-cssvars-prefix: string.unquote('--sd');
+
+$prefix: sd;
+
+$font-family:
+  // Apple HIG「Deference」：优先系统字体（SF Pro / PingFang），宿主再按需提供 inter
+    -apple-system, blinkmacsystemfont, 'inter', 'PingFang SC', 'Hiragino Sans GB', 'noto sans',
+    'Microsoft YaHei', 'Helvetica Neue', helvetica, arial, sans-serif;
+
+$code-family: consolas, menlo;
+
+// global font size
+$font-size-body: 14px;
+$font-size: $font-size-body;
+
+$transition-duration-1: 0.06s;
+$transition-duration-2: 0.2s;
+$transition-duration-3: 0.3s;
+$transition-duration-4: 0.3s;
+$transition-duration-5: 0.45s;
+$transition-duration-loading: 1s;
+$transition-duration-snap: 0.12s;
+
+// 线性
+$transition-timing-function-linear: cubic-bezier(0, 0, 1, 1);
+// 标准
+$transition-timing-function-standard: cubic-bezier(0.165, 0.84, 0.44, 1);
+// 过冲
+$transition-timing-function-overshoot: cubic-bezier(0.34, 1.3, 0.64, 1);
+// 减速
+$transition-timing-function-decelerate: cubic-bezier(0.32, 0.72, 0, 1);
+// 加速
+$transition-timing-function-accelerate: cubic-bezier(0.26, 0, 0.6, 0.2);
+
+$z-index-popup-base: 1000;
+$z-index-affix: $z-index-popup-base - 1; // 999
+$z-index-popup: $z-index-popup-base; // 1000
+$z-index-drawer: $z-index-popup-base + 1; // 1001
+$z-index-modal: $z-index-drawer; // 1001
+$z-index-message: $z-index-popup-base + 3; // 1003
+$z-index-notification: $z-index-popup-base + 3; // 1003
+$z-index-image-preview: $z-index-modal; // 1001
+
+$line-height-base: 1.5715;
+
+// 与 select / dropdown 等弹层统一使用二层阴影，保持「Depth」一致
+$popup-box-shadow-base: $shadow2-down;

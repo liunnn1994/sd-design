@@ -1,5 +1,1 @@
-export type AvatarShape = 'circle' | 'square';
-
-export type AvatarTriggerType = 'button' | 'mask';
-
-export type ObjectFit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down';
+export type { AvatarShape, AvatarTriggerType, ObjectFit } from '@sdata/web-core/avatar/types';

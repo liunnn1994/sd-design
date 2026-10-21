@@ -22,6 +22,7 @@
 <script setup lang="ts">
   import { computed, inject, type PropType } from 'vue';
 
+  import { getTableHeaderCheckboxStatus } from '@sdata/web-core/table/cell';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { TableContext } from './context';
@@ -61,29 +62,7 @@
   const tableCtx = inject<Partial<TableContext>>(tableInjectionKey, {});
   const [DefineTitle, ReuseTitle] = createReusableTemplate();
 
-  const checkboxStatus = computed(() => {
-    let checked = false;
-    let indeterminate = false;
-
-    const currentSelectedEnabledRowKeys =
-      tableCtx.currentSelectedRowKeys?.filter(
-        (key) => tableCtx.currentAllEnabledRowKeys?.includes(key) ?? true,
-      ) ?? [];
-
-    const selectedNumber = currentSelectedEnabledRowKeys.length;
-    const totalEnabledNumber = tableCtx.currentAllEnabledRowKeys?.length ?? 0;
-    if (selectedNumber > 0) {
-      if (selectedNumber >= totalEnabledNumber) {
-        checked = true;
-      } else {
-        indeterminate = true;
-      }
-    }
-    return {
-      checked,
-      indeterminate,
-    };
-  });
+  const checkboxStatus = computed(() => getTableHeaderCheckboxStatus(tableCtx));
 
   const style = computed(() => ({
     ...getOperationStyle(props.operationColumn, props.operations),
