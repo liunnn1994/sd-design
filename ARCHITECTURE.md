@@ -352,7 +352,7 @@ ColorPicker 的纯类型、颜色/渐变算法、输入提交与清空事件、�
 
 Carousel Foundation 持有索引归一化、受控请求去重、切换方向、事件顺序、自动播放和独立动画锁的生命周期；Adapter 提供可读写状态、派生索引与原生计时器，watch/watchEffect 负责触发同步。core 同时提供指示器点击/键盘选择及 item 过渡状态/样式计算。Vue 继续收集 VNode/组件 UID、提供原 injection context、翻译标签与渲染类名，公开索引和命令仍为 1 起始，内部索引保持 0 起始。
 
-Tour 的无框架 driver.js 引擎依赖、原生类型别名、undefined 配置过滤和插槽作用域数据属于 core。浮层控制器管理 observer 断开函数、同一浮层去重、slot 宿主清空/显示、footer/progress 优先级、RAF 合帧与原生过渡等待，卸载按断开/cancel/destroy 次序清理。Vue 直接暴露原 Driver 实例，以 Teleport 渲染插槽，通过 Adapter 提供观察器和 RAF，不改写原生步骤级/全局回调。driver.js 的基础 CSS 以当前版本副本随 core 样式发布，避免 Sass 消费者依赖包解析 importer；副本与安装资产有等价门禁和原 MIT 授权。Vue 的宏与公开声明直接引用原生 Config/Driver，保留 driver.js 直接依赖；当前 TNB/Volar 经跨包类型别名会漏出 SFC 声明，门禁逐文件检查声明存在和路径可移植性，运行时仍统一从 core 引擎入口加载。
+Tour 的无框架 driver.js 引擎依赖、原生类型别名、undefined 配置过滤和插槽作用域数据属于 core。浮层控制器管理 observer 断开函数、同一浮层去重、slot 宿主清空/显示、footer/progress 优先级、RAF 合帧与原生过渡等待，卸载按断开/cancel/destroy 次序清理。Vue 直接暴露原 Driver 实例，以 Teleport 渲染插槽，通过 Adapter 提供观察器和 RAF，不改写原生步骤级/全局回调。driver.js 的基础 CSS 由 Vue 的 Tour SCSS 入口直接引用安装依赖中的 `driver.js/dist/driver.css`，先于 core 的主题覆盖加载；按需 CSS 和完整 CSS 构建均包含它，core 不维护上游副本。Vue 的宏与公开声明直接引用原生 Config/Driver，保留 driver.js 直接依赖；当前 TNB/Volar 经跨包类型别名会漏出 SFC 声明，门禁逐文件检查声明存在和路径可移植性，运行时仍统一从 core 引擎入口加载。
 
 Anchor Foundation 负责 link 注册、容器解析/监听、注册顺序的视口命中、hash 解码、动画取消及 select/延后 change 顺序。Affix 共享顶/底阈值与占位/固定样式计算，控制器管理目标/外层监听与 RAF；Vue watchEffect 保持每次绑定的失效清理，卸载取消排队帧。BackTop 共享容器/显示阈值、减少动态效果偏好、补间和停止规则。TimePicker 的逐元素 WeakMap/RAF/补间取消也迁入 core，原 utils 深路径转发同一个函数。b-tween 与 compute-scroll-into-view 运行时依赖归 core；前者的无类型 SDK 用内部类型适配层封装，发布声明不引用私有 ambient shim。Vue 侧旧 shim 及 docs/debug 的引用已移除，DOM 工具旧路径转发 canonical core 模块。
 

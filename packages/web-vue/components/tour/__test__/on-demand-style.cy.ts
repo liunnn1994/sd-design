@@ -27,6 +27,8 @@ describe('Tour on-demand styles', () => {
       ({ wrapper }) => (wrapper.vm as TourExpose).drive(),
     );
     cy.get('.driver-popover').should('have.css', 'position', 'fixed');
+    cy.get('.driver-popover').should('have.css', 'box-sizing', 'border-box');
+    cy.get('.driver-popover').should('have.css', 'min-width', '250px');
     cy.get('.driver-popover-next-btn').should('have.css', 'height', '28px');
     cy.get('.driver-popover').invoke('css', '--component-tour-color-bg', 'rgb(20, 30, 40)');
     cy.get('.driver-popover').should('have.css', 'background-color', 'rgb(20, 30, 40)');

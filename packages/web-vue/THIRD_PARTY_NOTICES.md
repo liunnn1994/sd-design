@@ -29,7 +29,7 @@ SOFTWARE.
 
 ## Driver.js Tour stylesheet
 
-The Tour foundation includes the stylesheet from driver.js 1.10.2 (`dist/driver.css`), formatted without behavioral changes. The stylesheet is shipped locally so the shared Sass entry compiles without a package importer. Upgrade it together with the driver.js engine and verify CSS equivalence with the upstream package.
+The Vue Tour stylesheet imports `driver.js/dist/driver.css` directly from the installed driver.js dependency. Vue style builds include this stylesheet before the shared Tour theme overrides; no copy of the upstream stylesheet is maintained in core.
 
 ```text
 The MIT License

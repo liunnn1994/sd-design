@@ -114,6 +114,8 @@ pnpm run check:ci
 
 `packages/web-core`（`@sdata/web-core`）承载无框架的规则与计算；`packages/web-vue` 保留 Vue 的视图、响应式、生命周期、上下文与插槽。现有 `@sdata/web-vue` 包名、导出入口与旧工具深路径继续可用，业务项目无需直接导入 core。React 等适配包尚未实现。
 
+Tour 的 Vue 样式入口直接引用 `driver.js/dist/driver.css`，再加载 core 主题覆盖；按需与完整 CSS 均包含上游样式，core 不维护第三方 CSS 副本。
+
 主题派生、日期计算、输入掩码、十进制运算、正则解析、公共数据工具、共享拖拽驱动及共享 SCSS/token 由 Core 提供；Table 的行数据、布局、筛选/排序/选择、展开和合并规则，以及 Form 的字段/校验调度均接入 Foundation。Clamp 的文本搜索、富文本处理、原子项流布局和多行测量控制器也归 Core 管理，Vue 保留视图与生命周期。其他框架适配包尚未实现。
 
 Tree 的数据建模、可见/过渡节点、键盘导航决策、勾选/选择/展开和懒加载流程，以及 TreeSelect 的标签、fallback、搜索与选择提交规则也归 core 管理。Vue 的图标/插槽类型、焦点/滚动、过渡组件、响应式监听与渲染时机留在适配层。

@@ -207,6 +207,8 @@ pnpm --filter @sdata/web-vue run test:model-selector:production
 
 共享样式可通过 `@sdata/web-core/styles/index.scss` 或具体组件子路径使用；Vue 消费者继续使用原 CSS/SCSS 入口。直接维护共享样式时可运行 `mise exec -- pnpm --filter @sdata/web-core run theme:generate`；Vue 的常规主题生成还会同步旧的目录 JSON。`mise exec -- pnpm run test:foundations` 覆盖核心行为、独立 Sass 编译、Vue 样式兼容和在线编辑器类型参考。
 
+Tour 的 Driver 基础样式由 Vue 样式入口直接从 `driver.js` 依赖加载，使用 Vue 的按需或完整样式入口即可。直接使用 core 的 Tour SCSS 时，需由框架适配层先加载 `driver.js/dist/driver.css`，再加载 core 主题样式。
+
 Form 与 Table 的共享业务规则分别维护在 `packages/web-core/src/form` 和 `packages/web-core/src/table`。Vue Adapter 只负责把 props/refs、事件、nextTick、生命周期和 DOM 操作接到这些规则；自定义插槽与 Vue RenderFunction 留在 Vue 类型和视图中，core 将渲染内容当作不透明数据传递。修改这些规则时先运行 `test:foundations`，再在图标/元数据生成完成后运行对应浏览器回归，避免测试与源文件生成相互干扰。
 
 Tree/TreeSelect 的规则位于 core 的 `src/tree` 与 `src/tree-select`；Vue 旧 Tree 工具深入口保留具体 Vue 类型签名。Tree 通过 Adapter 读取受控状态并提交动画/加载状态，TreeSelect 通过 Adapter 的渲染完成回调提交模型与表单事件；修改时需同时验证 Tree 与 TreeSelect，尤其是虚拟键盘导航、懒加载后的勾选、路径标签及清空事件顺序。

@@ -58,7 +58,6 @@
     "graphify-*",
     "**/CHANGELOG.md",
     "packages/web-vue/components/markdown-render/style/*.css",
-    "packages/web-core/styles/tour/style/driver.css",
     "packages/sd-vue-docs/.astro/**",
   ],
 }

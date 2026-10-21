@@ -23,3 +23,19 @@ test('legacy Vue Sass paths retain the shared CSS', async () => {
     assert.equal(legacy, shared, entry);
   }
 });
+
+test('Tour and full Vue styles include upstream Driver CSS before the shared theme', async () => {
+  const upstream = await sass.compileAsync(
+    fileURLToPath(import.meta.resolve('driver.js/dist/driver.css')),
+  );
+  for (const entry of ['tour/style/index.scss', 'index.scss']) {
+    const css = await support.compileStyleEntry(path.join(componentsRoot, entry), entry);
+    const upstreamIndex = css.indexOf(upstream.css);
+    assert.ok(upstreamIndex >= 0, `${entry} must include the installed Driver stylesheet`);
+    assert.ok(
+      css.lastIndexOf('.driver-popover {') >= upstreamIndex + upstream.css.length,
+      `${entry} must apply the shared Tour theme after Driver defaults`,
+    );
+    assert.match(css, /--component-tour-color-bg/);
+  }
+});
