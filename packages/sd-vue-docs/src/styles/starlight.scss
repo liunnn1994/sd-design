@@ -1,0 +1,153 @@
+@use '@style/theme/index.scss' as theme;
+
+:root {
+  --sl-font: #{theme.$font-family};
+  --sl-font-mono: #{theme.$code-family}, monospace;
+  --sl-content-width: 64rem;
+  --sl-sidebar-width: 18rem;
+  --sl-text-body: 1rem;
+  --sl-text-h1: 2rem;
+  --sl-text-h2: 1.5rem;
+  --sl-text-h3: 1.25rem;
+  --sl-line-height: 1.75;
+  --sl-border-radius-large: 8px;
+}
+
+// SD theme variables live on body. Resolve the bridge here so it follows
+// sd-theme switching, including pages without a hydrated Vue demo.
+body {
+  --sl-color-white: var(--sd-color-text-1);
+  --sl-color-gray-1: var(--sd-color-text-1);
+  --sl-color-gray-2: var(--sd-color-text-2);
+  --sl-color-gray-3: var(--sd-color-text-3);
+  --sl-color-gray-4: var(--sd-color-border-3);
+  --sl-color-gray-5: var(--sd-color-border-2);
+  --sl-color-gray-6: var(--sd-color-fill-2);
+  --sl-color-gray-7: var(--sd-color-fill-1);
+  --sl-color-black: var(--sd-color-bg-2);
+  --sl-color-accent-low: var(--sd-color-primary-light-1);
+  --sl-color-accent: rgb(var(--sd-primary-6));
+  --sl-color-accent-high: rgb(var(--sd-primary-7));
+  --sl-color-text: var(--sd-color-text-2);
+  --sl-color-text-accent: rgb(var(--sd-link-6));
+  --sl-color-text-invert: var(--sd-color-white);
+  --sl-color-bg-accent: rgb(var(--sd-primary-6));
+  --sl-color-bg: var(--sd-color-bg-2);
+  --sl-color-bg-nav: var(--sd-color-bg-2);
+  --sl-color-bg-sidebar: var(--sd-color-bg-2);
+  --sl-color-bg-inline-code: var(--sd-color-fill-2);
+  --sl-color-hairline-light: var(--sd-color-border-1);
+  --sl-color-hairline: var(--sd-color-border-2);
+
+  color: var(--sl-color-text);
+  font-family: var(--sl-font);
+  background: var(--sl-color-bg);
+}
+
+.site-title {
+  color: var(--sd-color-text-1);
+  font-weight: 600;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.sidebar-content {
+  font-size: 14px;
+
+  summary {
+    padding-block: 6px;
+  }
+
+  .large {
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  a {
+    padding: 6px 10px;
+    color: var(--sd-color-text-2);
+    line-height: 1.5;
+    border-radius: 5px;
+  }
+
+  a:hover {
+    background: var(--sd-color-fill-2);
+  }
+
+  a[aria-current='page'] {
+    color: var(--sl-color-accent-high);
+    font-weight: 600;
+    background: var(--sd-color-primary-light-1);
+  }
+}
+
+starlight-toc {
+  a {
+    color: var(--sd-color-text-3);
+    border-radius: 5px;
+  }
+
+  a[aria-current='true'] {
+    color: var(--sl-color-accent-high);
+    font-weight: 600;
+  }
+}
+
+.content-panel h1,
+.sl-markdown-content :is(h2, h3, h4) {
+  color: var(--sd-color-text-1);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.sl-markdown-content {
+  > :is(p, ul, ol) {
+    max-width: 75ch;
+  }
+
+  > table {
+    font-size: 14px;
+
+    th {
+      color: var(--sd-color-text-1);
+      font-weight: 600;
+      background: var(--sd-color-fill-1);
+    }
+
+    :is(th, td) {
+      padding: 12px 16px;
+      border-color: var(--sd-color-border-1);
+    }
+  }
+}
+
+// Keep docs controls distinct from the live component examples.
+site-search button[data-open-modal],
+.pagination-links a {
+  border-color: var(--sd-color-border-2);
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+site-search button[data-open-modal]:hover,
+.pagination-links a:hover {
+  background: var(--sd-color-primary-light-1);
+  border-color: var(--sl-color-accent-high);
+}
+
+.sidebar-content a:focus-visible,
+starlight-toc a:focus-visible,
+site-search button:focus-visible,
+.pagination-links a:focus-visible {
+  outline: 2px solid rgb(var(--sd-primary-6));
+  outline-offset: 2px;
+}
+
+@media (width < 50rem) {
+  :root {
+    --sl-text-h1: 1.75rem;
+    --sl-text-h2: 1.375rem;
+    --sl-text-h3: 1.125rem;
+  }
+}

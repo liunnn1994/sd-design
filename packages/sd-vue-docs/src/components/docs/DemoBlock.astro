@@ -36,18 +36,15 @@ const { source, mainFile } = Astro.props;
   .demo-block {
     overflow: hidden;
     border: 1px solid var(--sl-color-gray-5);
-    border-radius: 1rem;
+    border-radius: 8px;
     background: var(--sl-color-bg);
-    box-shadow: 0 18px 50px rgb(15 23 42 / 0.05);
   }
 
   .demo-block__preview {
     position: relative;
     padding: 1.5rem;
     border-bottom: 1px solid var(--sl-color-gray-5);
-    background:
-      linear-gradient(180deg, rgb(255 255 255 / 0.75), rgb(248 250 252 / 0.95)),
-      var(--sl-color-bg);
+    background: var(--sd-color-bg-2);
   }
 
   .demo-block__preview-content {
@@ -70,12 +67,12 @@ const { source, mainFile } = Astro.props;
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: 1rem;
+    border-radius: 8px;
     background: linear-gradient(
       90deg,
-      rgb(148 163 184 / 0.08),
-      rgb(255 255 255 / 0.45),
-      rgb(148 163 184 / 0.08)
+      var(--sd-color-fill-1),
+      var(--sd-color-fill-2),
+      var(--sd-color-fill-1)
     );
     background-size: 200% 100%;
     animation: demo-block-preview-shimmer 1.2s linear infinite;
@@ -85,13 +82,13 @@ const { source, mainFile } = Astro.props;
     display: block;
     height: 0.875rem;
     border-radius: 999px;
-    background: rgb(148 163 184 / 0.2);
+    background: var(--sd-color-fill-3);
   }
 
   .demo-block__preview-skeleton-bar--hero {
     width: min(16rem, 88%);
     height: 3.75rem;
-    border-radius: 1rem;
+    border-radius: 8px;
   }
 
   .demo-block__preview-skeleton-bar--wide {
@@ -125,29 +122,6 @@ const { source, mainFile } = Astro.props;
     opacity: 0;
   }
 
-  :root[data-theme="dark"] .demo-block {
-    box-shadow: none;
-  }
-
-  :root[data-theme="dark"] .demo-block__preview {
-    background:
-      linear-gradient(180deg, rgb(15 23 42 / 0.3), rgb(15 23 42 / 0.6)),
-      var(--sl-color-bg);
-  }
-
-  :root[data-theme="dark"] .demo-block__preview-skeleton::before {
-    background: linear-gradient(
-      90deg,
-      rgb(51 65 85 / 0.18),
-      rgb(148 163 184 / 0.2),
-      rgb(51 65 85 / 0.18)
-    );
-  }
-
-  :root[data-theme="dark"] .demo-block__preview-skeleton-bar {
-    background: rgb(148 163 184 / 0.16);
-  }
-
   @keyframes demo-block-preview-shimmer {
     from {
       background-position: 200% 0;
@@ -155,6 +129,15 @@ const { source, mainFile } = Astro.props;
 
     to {
       background-position: -200% 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .demo-block__preview-skeleton {
+      transition: none;
+    }
+
+    .demo-block__preview-skeleton::before {
+      animation: none;
     }
   }
 </style>

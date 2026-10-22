@@ -655,15 +655,26 @@
   }
 
   .demo-editor__button {
+    min-height: 32px;
     margin-left: auto;
-    padding: 0.1rem 0.5rem;
-    color: white;
+    padding: 0 12px;
+    color: var(--sd-color-text-2);
     font: inherit;
-    font-size: smaller;
-    background: var(--sl-color-accent);
+    font-size: 14px;
+    background: var(--sd-color-fill-2);
     border: 0;
-    border-radius: 999px;
+    border-radius: 8px;
     cursor: pointer;
+  }
+
+  .demo-editor__button:hover {
+    color: rgb(var(--sd-primary-6));
+    background: var(--sd-color-primary-light-1);
+  }
+
+  .demo-editor__button:focus-visible {
+    outline: 2px solid rgb(var(--sd-primary-6));
+    outline-offset: 2px;
   }
 
   .demo-editor__panel {
@@ -676,7 +687,7 @@
   }
 
   .demo-editor__state--error {
-    color: #d92d20;
+    color: rgb(var(--sd-danger-6));
   }
 
   .demo-editor__panel :deep(.vue-repl) {

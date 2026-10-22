@@ -15,6 +15,7 @@ const themeBridgeScript = String.raw`
 (() => {
   const applyTheme = () => {
     const isDark = document.documentElement.dataset.theme === 'dark';
+    document.documentElement.setAttribute('data-sd-theme', isDark ? 'dark' : 'light');
 
     if (isDark) {
       document.body.setAttribute('sd-theme', 'dark');
@@ -25,6 +26,7 @@ const themeBridgeScript = String.raw`
   };
 
   const start = () => {
+    document.documentElement.classList.add('sd-design-system-scrollbar');
     applyTheme();
 
     const observer = new MutationObserver(applyTheme);
@@ -153,7 +155,11 @@ export default defineConfig({
       components: {
         MarkdownContent: './src/components/starlight/MarkdownContent.astro',
       },
-      customCss: ['./src/styles/site.css'],
+      customCss: [
+        './src/styles/sd-vue.scss',
+        './src/styles/site.css',
+        './src/styles/starlight.scss',
+      ],
       head: [
         {
           tag: 'link',
