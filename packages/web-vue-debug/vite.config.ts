@@ -13,7 +13,7 @@ const virtualStyleId = 'virtual:web-vue-source-styles.css';
 const resolvedVirtualStyleId = `\0${virtualStyleId}`;
 
 const { styleAliasEntries, compileStyleEntry } = createSassStyleSupport({
-  packageRoot: projectRoot,
+  packageRoot: resolve(webVueComponentsRoot, '..'),
   componentsRoot: webVueComponentsRoot,
   styleRoot: webVueStyleRoot,
 });

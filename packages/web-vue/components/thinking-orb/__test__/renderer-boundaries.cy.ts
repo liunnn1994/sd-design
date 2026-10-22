@@ -9,7 +9,7 @@ describe('ThinkingOrb renderer boundaries', () => {
     cy.document().then((doc) => {
       const canvas = doc.createElement('canvas');
       const context = canvas.getContext('2d')!;
-      const arc = cy.spy(context, 'arc');
+      const arc = cy.spy(context, 'arc').log(false);
       for (const state of Object.keys(STATE_TO_MODE) as ThinkingOrbState[]) {
         for (const size of [20, 64] as const) {
           const { mode, opts } = resolvePreset(state, size);
@@ -22,9 +22,7 @@ describe('ThinkingOrb renderer boundaries', () => {
         }
       }
       expect(arc.callCount).to.be.greaterThan(0);
-      for (const call of arc.getCalls()) {
-        expect(call.args.every(Number.isFinite)).to.equal(true);
-      }
+      expect(arc.getCalls().every((call) => call.args.every(Number.isFinite))).to.equal(true);
     });
   });
 

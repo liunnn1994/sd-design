@@ -3,6 +3,7 @@ import path from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import * as sass from 'sass';
+import { loadConfigFromFile } from 'vite';
 
 import { createSassStyleSupport } from './utils/sass-support.mts';
 
@@ -38,4 +39,27 @@ test('Tour and full Vue styles include upstream Driver CSS before the shared the
     );
     assert.match(css, /--component-tour-color-bg/);
   }
+});
+
+test('debug app compiles full source styles with the component package dependencies', async () => {
+  const loaded = await loadConfigFromFile(
+    { command: 'build', mode: 'production' },
+    path.resolve(packageRoot, '../web-vue-debug/vite.config.ts'),
+  );
+  const plugin = loaded?.config.plugins
+    ?.flat()
+    .find(
+      (plugin) =>
+        plugin &&
+        typeof plugin === 'object' &&
+        'name' in plugin &&
+        plugin.name === 'web-vue-source-style',
+    );
+  assert.ok(plugin && typeof plugin === 'object' && 'load' in plugin);
+  assert.equal(typeof plugin.load, 'function');
+  const load = plugin.load as (id: string) => Promise<string | null>;
+  const css = await load('\0virtual:web-vue-source-styles.css');
+  assert.ok(css);
+  assert.match(css, /\.driver-overlay/);
+  assert.match(css, /--component-tour-color-bg/);
 });
