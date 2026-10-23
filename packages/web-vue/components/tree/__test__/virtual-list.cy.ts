@@ -37,10 +37,14 @@ describe('Tree virtual list', () => {
   });
 
   it('expands a parent node in a virtual tree', () => {
-    cy.mount(Tree, { props: { data: treeOptions, virtualListProps: {} } });
+    cy.mount(Tree, {
+      props: { data: treeOptions, virtualListProps: {}, defaultExpandAll: false },
+    });
     flush();
-    cy.get('.sd-tree-node-switcher').first().click({ force: true });
+    cy.get('[data-key="option-0-0"]').should('not.exist');
+    cy.get('[data-key="parent-0"] .sd-tree-node-switcher-icon').click();
     flush();
-    cy.get('.sd-tree-node').should('have.length.greaterThan', 1);
+    cy.get('[data-key="option-0-0"]').should('exist');
+    cy.get('[data-key="parent-0"]').should('have.attr', 'aria-expanded', 'true');
   });
 });
