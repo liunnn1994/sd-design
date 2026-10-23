@@ -9,7 +9,11 @@ export default defineConfig({
   viewportHeight: 1100,
   e2e: {
     baseUrl: 'http://localhost:4321',
-    specPattern: ['cypress/e2e/theme-editor.cy.ts', 'cypress/e2e/docs-styles.cy.ts'],
+    specPattern: [
+      'cypress/e2e/theme-editor.cy.ts',
+      'cypress/e2e/docs-styles.cy.ts',
+      'cypress/e2e/home.cy.ts',
+    ],
     supportFile: false,
     setupNodeEvents(on) {
       // This standalone route spec has no module imports. Strip its types only;

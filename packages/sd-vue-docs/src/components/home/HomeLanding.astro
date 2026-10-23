@@ -1,59 +1,21 @@
 ---
-import HomeComponentsShowcase from "./HomeComponentsShowcase.vue";
-import HomeDesignLinks from "./HomeDesignLinks.astro";
-import HomeHero from "./HomeHero.astro";
-import HomeSection from "./HomeSection.astro";
-import HomeThemePreview from "./HomeThemePreview.vue";
+import HomeHero from './HomeHero.astro';
+import HomeAIExamples from './HomeAIExamples.vue';
+import HomePreviewGrid from './HomePreviewGrid.vue';
+import HomeSection from './HomeSection.astro';
+import HomeThemePreview from './HomeThemePreview.vue';
 ---
-
 <div class="home-landing not-content">
   <HomeHero />
-
-  <HomeSection
-    id="components"
-    title="组件丰富，选用自如"
-    description="从录入、展示到反馈与导航，直接在首页里查看 SD Design 组件的真实渲染效果。"
-    background="var(--sl-color-bg-nav)"
-  >
-    <HomeComponentsShowcase client:load />
-  </HomeSection>
-
-  <HomeSection
-    id="theme"
-    title="主题切换，实时预览"
-    description="在主题预览模块内独立切换并查看反馈，不影响外部组件展示与全局文档主题。"
-    background="var(--sl-color-bg-nav)"
-  >
-    <HomeThemePreview client:load />
-  </HomeSection>
-
-  <HomeSection
-    id="design"
-    title="设计语言与研发框架"
-    description="先接入现有组件文档，并预留设计价值观与设计指引页面入口，方便后续逐步补齐。"
-    background="linear-gradient(180deg, color-mix(in srgb, var(--sl-color-accent-low) 52%, transparent), color-mix(in srgb, var(--sl-color-accent-low) 18%, transparent))"
-  >
-    <HomeDesignLinks />
-  </HomeSection>
+  <HomeSection id="ai-examples" title="从输入，到回答。" description="" href="/mcp/" linkLabel="接入 MCP"><HomeAIExamples client:visible /></HomeSection>
+  <HomeSection id="components" title="先动手，再开始。" description="输入、选择、切换，直接试试真实组件。" href="/components/" linkLabel="全部组件"><HomePreviewGrid client:load /></HomeSection>
+  <HomeSection id="theme" title="同一套组件，你的风格。" description="切换预设，查看控件与页面如何一起变化。" href="/guides/theme-editor/" linkLabel="打开主题编辑器"><HomeThemePreview client:visible /></HomeSection>
+  <footer class="home-landing__footer"><span>SD Design · 为 AI 而生</span><a href="/guides/start/">把想法变成界面 →</a></footer>
 </div>
+<style lang="scss">
+  .home-landing { max-width: 1120px; margin-inline: auto; padding-bottom: 32px; }
+  :global(.main-pane) .home-landing.not-content { margin-block: 0; margin-inline: auto; }
+  .home-landing__footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; padding-block: 24px; color: var(--sd-color-text-3); font-size: 13px; border-top: 1px solid var(--sd-color-border-1); }
+  .home-landing__footer a { color: var(--sd-color-text-2); text-decoration: none; }
 
-<style>
-  .home-landing {
-    display: grid;
-    gap: clamp(2.5rem, 5vw, 4.5rem);
-    padding-bottom: clamp(2rem, 4vw, 4rem);
-  }
-
-  :global(.main-pane) .home-landing {
-    margin-block: 0;
-  }
-
-  .home-landing :global(.home-section__inner) {
-    max-width: var(--sl-content-width);
-    margin-inline: auto;
-  }
-
-  .home-landing :global(#components .home-section__inner) {
-    max-width: min(calc(var(--sl-content-width) * 2), 100%);
-  }
 </style>

@@ -81,6 +81,7 @@ import Select from './select';
 import SelectableCard from './selectable-card';
 import Sender, { SenderHeader, SenderSwitch } from './sender';
 import Skeleton, { SkeletonLine, SkeletonShape } from './skeleton';
+import SkeletonReveal from './skeleton-reveal';
 import Slider from './slider';
 import Space from './space';
 import Spin from './spin';
@@ -204,6 +205,7 @@ const components: Record<string, Plugin> = {
   Anchor,
   BackTop,
   BorderBeam,
+  SkeletonReveal,
   BloomMenu,
   ConfigProvider,
   ThemeProvider,

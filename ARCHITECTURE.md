@@ -86,6 +86,8 @@ flowchart TD
 
 ### Vue 适配与组件库生产层
 
+SkeletonReveal 的 `web-core/src/skeleton-reveal` 负责有界轮廓测量、几何计算、播放状态及交互、尺寸、可见性中断，原生监听器与观察器随 Foundation 释放。Adapter 通过 getter/setter 提供状态与元素，通过 `afterRender`、`animate` 端口接入渲染和动画驱动；Vue 负责响应式、生命周期、SVG 模板及 motion-v 接线。共享 SCSS/token 位于 `web-core/styles/skeleton-reveal/style`，Vue 旧路径仅 `@forward`。
+
 `packages/web-vue` 消费 Core 并负责生成可发布、可类型检查、可文档消费的 Vue 组件库产物。现有组件、插槽、事件、实例和深导入契约继续由该包承载；未来框架包不依赖它。
 
 - `components/index.ts`：按需导出入口。

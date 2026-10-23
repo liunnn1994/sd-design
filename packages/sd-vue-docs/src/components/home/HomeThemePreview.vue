@@ -75,139 +75,125 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .theme-preview {
     display: grid;
-    grid-template-columns: 16rem minmax(0, 1fr);
-    gap: 1rem;
-    min-width: 0;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 32px;
   }
 
   .theme-preview__aside,
   .theme-preview__surface {
     min-width: 0;
-    border-radius: 1.5rem;
   }
 
   .theme-preview__aside {
     display: grid;
-    gap: 0.75rem;
+    gap: 8px;
     align-content: start;
-    padding: 1rem;
-    background: color-mix(in srgb, var(--sl-color-bg) 84%, transparent);
-    border: 1px solid rgb(20 118 255 / 12%);
-    box-shadow: 0 16px 40px rgb(15 23 42 / 5%);
   }
 
   .theme-preview__option {
     display: grid;
-    gap: 0.35rem;
-    padding: 0.95rem 1rem;
-    color: inherit;
+    gap: 6px;
+    padding: 16px;
+    color: var(--sd-color-text-1);
     text-align: left;
     background: transparent;
     border: 1px solid transparent;
-    border-radius: 1rem;
+    border-radius: 8px;
     cursor: pointer;
     transition:
-      border-color 180ms ease,
-      background 180ms ease,
-      transform 180ms ease;
+      background 160ms ease-out,
+      border-color 160ms ease-out;
   }
 
   .theme-preview__option strong {
-    font-size: 1rem;
+    font-size: 14px;
   }
 
   .theme-preview__option span,
   .theme-preview__option small {
-    color: var(--sl-text-3);
+    color: var(--sd-color-text-2);
+    font-size: 12px;
     line-height: 1.6;
   }
 
-  .theme-preview__option:hover,
+  .theme-preview__option:hover {
+    background: var(--sd-color-fill-1);
+  }
+
   .theme-preview__option.is-active {
-    background: color-mix(in srgb, var(--sl-color-accent-low) 56%, transparent);
-    border-color: color-mix(in srgb, var(--sl-color-accent) 32%, transparent);
-    transform: translateY(-1px);
+    background: var(--sd-color-primary-light-1);
+    border-color: var(--sd-color-border-2);
+  }
+
+  .theme-preview__option:focus-visible {
+    outline: 2px solid rgb(var(--sd-primary-6));
+    outline-offset: 2px;
   }
 
   .theme-preview__doc-links {
-    display: grid;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
+    margin-top: 16px;
+    padding-inline: 16px;
   }
 
   .theme-preview__doc-links a {
-    color: var(--sl-color-accent-high);
-    font-weight: 600;
+    color: rgb(var(--sd-primary-7));
+    font-size: 13px;
     text-decoration: none;
   }
 
   .theme-preview__surface {
     display: grid;
-    gap: 1rem;
-    padding: 1rem;
+    gap: 24px;
+    padding: 24px;
     color: var(--home-preview-text);
-    background:
-      radial-gradient(
-        circle at top right,
-        color-mix(in srgb, var(--home-preview-accent) 14%, transparent),
-        transparent 34%
-      ),
-      linear-gradient(
-        180deg,
-        color-mix(in srgb, var(--home-preview-surface) 94%, transparent),
-        color-mix(in srgb, var(--home-preview-surface-elevated) 96%, transparent)
-      );
-    border: 1px solid color-mix(in srgb, var(--home-preview-border) 72%, transparent);
-    box-shadow: 0 18px 44px color-mix(in srgb, var(--home-preview-accent) 12%, transparent);
+    background: var(--home-preview-surface);
+    border: 1px solid var(--home-preview-border);
+    border-radius: 12px;
   }
 
   .theme-preview__summary {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 16px;
     justify-content: space-between;
-  }
-
-  .theme-preview__summary > div {
-    color: var(--home-preview-text);
-  }
-
-  .theme-preview__eyebrow {
-    margin: 0 0 0.4rem;
-    color: var(--home-preview-accent);
-    font-weight: 700;
-    font-size: 0.78rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
   }
 
   .theme-preview__summary h3 {
     margin: 0;
-    font-size: 1.45rem;
+    font-weight: 600;
+    font-size: 20px;
   }
 
   .theme-preview__summary p {
-    margin: 0.45rem 0 0;
+    margin: 8px 0 0;
     color: var(--home-preview-text-muted);
+    font-size: 13px;
     line-height: 1.75;
   }
 
   .theme-preview__summary .theme-preview__eyebrow {
+    margin: 0 0 8px;
     color: var(--home-preview-accent);
+    font-size: 12px;
   }
 
-  :root[data-theme='dark'] .theme-preview__aside {
-    background: rgb(255 255 255 / 3%);
-    border-color: rgb(255 255 255 / 10%);
-    box-shadow: 0 18px 44px rgb(0 0 0 / 22%);
-  }
-
-  @media (width <= 900px) {
+  @media (width < 50rem) {
     .theme-preview {
       grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .theme-preview__surface {
+      padding: 16px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme-preview__option {
+      transition: none;
     }
   }
 </style>

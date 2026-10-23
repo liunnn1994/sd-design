@@ -135,6 +135,7 @@ export default defineConfig({
     sdDocsLlmsIntegration(),
     starlight({
       title: 'SD Design',
+      logo: { src: './public/logo-icon.png', alt: '', replacesTitle: true },
       description: 'SD Design 组件文档站。',
       favicon: '/favicon.ico',
       defaultLocale: 'root',

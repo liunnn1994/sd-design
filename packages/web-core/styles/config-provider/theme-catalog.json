@@ -12433,6 +12433,23 @@
       ]
     },
     {
+      "name": "skeleton-reveal",
+      "tokens": [
+        {
+          "key": "skeleton-reveal-stroke",
+          "name": "skeleton-reveal-stroke",
+          "value": "var(--color-text-3, var(--sd-color-text-3, var(--sd-color-neutral-6)))",
+          "dependencies": ["color-text-3"]
+        },
+        {
+          "key": "skeleton-reveal-stroke-width",
+          "name": "skeleton-reveal-stroke-width",
+          "value": "1px",
+          "dependencies": []
+        }
+      ]
+    },
+    {
       "name": "slider",
       "tokens": [
         {

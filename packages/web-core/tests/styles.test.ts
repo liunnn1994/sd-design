@@ -11,6 +11,9 @@ test('shared Sass compiles without a framework package or source aliases', async
   assert.match(result.css, /\.sd-btn/);
   assert.match(result.css, /\.sd-table/);
   assert.match(result.css, /--component-button-/);
+  assert.match(result.css, /\.sd-skeleton-reveal/);
+  assert.match(result.css, /--component-skeleton-reveal-skeleton-reveal-stroke/);
+  assert.match(result.css, /--component-skeleton-reveal-skeleton-reveal-stroke-width/);
   for (const file of (await readdir(styles, { recursive: true })).filter((name) =>
     name.endsWith('.scss'),
   )) {

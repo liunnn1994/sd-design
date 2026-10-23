@@ -16,7 +16,12 @@ const support = createSassStyleSupport({
 });
 
 test('legacy Vue Sass paths retain the shared CSS', async () => {
-  for (const entry of ['button/style/index.scss', 'table/style/index.scss', 'style/index.scss']) {
+  for (const entry of [
+    'button/style/index.scss',
+    'table/style/index.scss',
+    'style/index.scss',
+    'skeleton-reveal/style/index.scss',
+  ]) {
     const oldPath = path.join(componentsRoot, entry);
     const sharedPath = fileURLToPath(new URL(`../../web-core/styles/${entry}`, import.meta.url));
     const legacy = await support.compileStyleEntry(oldPath, entry);

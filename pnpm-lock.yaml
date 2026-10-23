@@ -321,6 +321,9 @@ importers:
       mermaid:
         specifier: ^12.1.0
         version: 12.1.0
+      motion-v:
+        specifier: ^2.6.0
+        version: 2.6.0(@vueuse/core@15.0.0(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2)))(react@19.3.0)(vue@3.5.43(typescript-native-bridge@6.0.3-bridge.18.tsgo.7.0.2))
       sharp:
         specifier: ^0.35.5
         version: 0.35.5(@types/node@26.6.5)

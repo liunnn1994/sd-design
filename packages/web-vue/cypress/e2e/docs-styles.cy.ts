@@ -76,8 +76,8 @@ describe('文档站与 SD Design 样式一致性', () => {
     });
     cy.get('.sl-menu-button').click();
     cy.get('.sidebar-content').should('be.visible');
-    cy.contains('.sidebar-content a', '设计指引').click();
-    cy.location('pathname').should('equal', '/design/guidelines/');
+    cy.contains('.sidebar-content a', '定制主题').click();
+    cy.location('pathname').should('equal', '/guides/theme/');
     cy.screenshot('docs-style-mobile', { capture: 'viewport' });
   });
 });

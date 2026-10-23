@@ -16,6 +16,7 @@ declare module 'vue' {
     SdAvatarGroup: SDVue['AvatarGroup'];
     SdBackTop: SDVue['BackTop'];
     SdBorderBeam: SDVue['BorderBeam'];
+    SdSkeletonReveal: SDVue['SkeletonReveal'];
     SdBloomMenu: SDVue['BloomMenu'];
     SdBadge: SDVue['Badge'];
     SdBasicCrudTable: SDVue['BasicCrudTable'];

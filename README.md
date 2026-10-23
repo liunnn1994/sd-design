@@ -22,6 +22,8 @@ SD Design 以共享 Foundation 与独立框架 Adapter/View 分层组织企业�
 
 文本与响应式原子项裁剪共用 `@sdata/web-core` 的测量、搜索缓存和收敛控制器；Vue 层保留状态容器、渲染提交调度、VNode/插槽及 `LineClamp`、`RichLineClamp`、`InlineClamp`、`WrapClamp` 的既有 API，现有 `Ellipsis` 及各组件的 responsive 行为继续复用同一实现。
 
+SkeletonReveal 的轮廓测量、播放与中断规则由 Core Foundation 共享，通过端口连接元素、状态、渲染调度和动画；Vue 保留 SVG 模板与 motion-v 接线。轮廓颜色和宽度使用 Core 共享主题 token，可在主题编辑器中调整。
+
 面板分割统一使用 `PanelGroup`、`Panel` 与 `PanelSeparator`，原 `Split` 已移除。组件组支持受控/非受控尺寸、实时尺寸更新、拖拽生命周期事件、禁用调整、动态方向和自定义根标签；尺寸数值表示像素，百分比使用字符串。
 
 提交变更继续使用 `pnpm cz`，由 czg 加载 `commitlint.config.ts` 中的中文交互与提交规则。

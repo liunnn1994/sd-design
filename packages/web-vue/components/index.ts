@@ -30,6 +30,12 @@ export type { AvatarInstance, AvatarGroupInstance } from './avatar';
 export { default as BackTop } from './back-top';
 export type { BackTopInstance } from './back-top';
 export { default as BorderBeam } from './border-beam';
+export { default as SkeletonReveal } from './skeleton-reveal';
+export type {
+  SkeletonRevealInstance,
+  SkeletonRevealProps,
+  SkeletonRevealExposed,
+} from './skeleton-reveal';
 export { default as VoiceGlow } from './voice-glow';
 export type {
   VoiceGlowInstance,

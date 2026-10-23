@@ -21,16 +21,8 @@ export const docsSidebar = [
     ],
   },
   {
-    label: '设计与主题',
+    label: '主题',
     items: [
-      {
-        slug: 'design/values',
-        label: '设计价值观',
-      },
-      {
-        slug: 'design/guidelines',
-        label: '设计指引',
-      },
       {
         slug: 'guides/theme',
         label: '定制主题',
@@ -501,6 +493,7 @@ export const docsSidebar = [
             slug: 'components/thinking-orb',
             label: '思考球 ThinkingOrb',
           },
+          { slug: 'components/skeleton-reveal', label: '线框入场 SkeletonReveal' },
           {
             slug: 'components/border-beam',
             label: '边框光束 BorderBeam',

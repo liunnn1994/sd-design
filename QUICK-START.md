@@ -141,6 +141,8 @@ Node 24 可直接运行 `node scripts/upgradeEngines.ts` 这类脚本。原生�
 
 主题 seed 的明暗色阶由 SD Design 本地 TypeScript 算法生成，组件库及在线编辑器无需加载 Arco Design 包。
 
+例如 SkeletonReveal 的 `skeleton-reveal-stroke`、`skeleton-reveal-stroke-width` 定义在 Core，共享样式通过运行时 token 消费覆盖值。其测量和播放规则也放在 Core，Vue 只连接响应式状态、渲染提交与 motion-v；新增框架适配器可复用同一 Foundation。
+
 导出的 JSON 可直接作为 `<sd-config-provider :theme="theme">` 的输入。主题的 `algorithm: ['dark', 'compact']` 也会随文件保存，不需要另存页面开关状态。
 
 内置预设支持明暗往返切换；`theme-mode` 同时控制背景语义和 seed 色板，compact 不改变继承模式。旧 JSON 中显式设置的浅色背景不会自动删除，可在高级模式重置对应 token 或重新选择预设。

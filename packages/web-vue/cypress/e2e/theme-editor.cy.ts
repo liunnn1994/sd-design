@@ -4,35 +4,33 @@ Cypress.on('uncaught:exception', (error) => {
   if (error.message.includes('ResizeObserver loop')) return false;
 });
 describe('文档站主题编辑器', () => {
-  it('设计指引中的真实预览支持首轮交互和窄屏布局', () => {
+  it('SkeletonReveal 可发现且轮廓 token 作用于真实示例', () => {
     cy.viewport(1440, 1000);
-    cy.visit('/design/guidelines/');
-    cy.get('.design-foundations .sd-sender textarea', { timeout: 60000 }).type('检查首轮输入');
-    cy.get('.design-foundations .sd-sender textarea').should('have.value', '检查首轮输入');
-    cy.get('.design-foundations .sd-btn-primary').each(($button) => {
-      cy.wrap($button).should(($stable) => {
-        expect($stable).to.have.css('color', 'rgb(255, 255, 255)');
-        expect(['rgb(22, 93, 255)', 'rgb(60, 126, 255)']).to.include(
-          getComputedStyle($stable[0]).backgroundColor,
-        );
-      });
-    });
-    cy.contains('.design-foundations .sd-tabs-tab', '项目').click();
-    cy.get('.design-foundations .sd-tabs-tab-active').should('contain.text', '项目');
-    cy.get('.design-foundations .sd-collapse-item-header').click();
-    cy.get('.design-foundations .sd-collapse-item-content').should('not.be.visible');
-    cy.get('.design-foundations .sd-collapse-item-header').click();
-    cy.get('.design-foundations .sd-collapse-item-content').should('be.visible');
-    cy.get('.design-foundations').screenshot('design-foundations-desktop');
-    cy.viewport(390, 844);
-    cy.get('.design-foundations').should(($preview) => {
-      const bounds = $preview[0].getBoundingClientRect();
-      expect(bounds.right).to.be.at.most(390);
-      expect($preview[0].scrollWidth).to.be.at.most($preview[0].clientWidth);
-    });
-    cy.get('.design-foundations').screenshot('design-foundations-mobile');
+    cy.visit('/guides/theme-editor/');
+    cy.get('[data-testid="theme-editor"]', { timeout: 60000 }).should('be.visible');
+    cy.get('.editor-steps').contains('.sd-steps-item', '调整品牌').click();
+    cy.contains('.sd-collapse-item-header', '微调组件').click();
+    cy.get('input[aria-label="搜索组件"]').type('skeleton-reveal');
+    cy.get('[aria-label="微调对象"]').click();
+    cy.get('[role="option"]:visible').contains('SkeletonReveal').click();
+    cy.get(
+      '.token-row[data-token="skeleton-reveal-stroke"] input[aria-label="skeleton-reveal-stroke"]',
+    )
+      .clear()
+      .type('#123456')
+      .blur();
+    cy.get('input[aria-label="skeleton-reveal-stroke-width"]').clear().type('8').blur();
+    cy.get('[aria-label="组件示例"]').click();
+    cy.get('[role="option"]:visible').contains('duration').click();
+    cy.get('[data-testid="theme-demo"]').contains('button', '播放较慢的入场').click();
+    cy.get('[data-testid="theme-demo"] .sd-skeleton-reveal-overlay > rect')
+      .first()
+      .should('have.css', 'stroke', 'rgb(18, 52, 86)')
+      .and('have.css', 'stroke-width', '8px');
+    cy.get('[data-testid="theme-demo"] [data-reveal-draw]')
+      .first()
+      .should('have.css', 'stroke-width', '8px');
   });
-
   it('画布说明、微调输入和文件弹窗的自定义样式生效', () => {
     cy.viewport(1440, 1000);
     cy.visit('/guides/theme-editor/');

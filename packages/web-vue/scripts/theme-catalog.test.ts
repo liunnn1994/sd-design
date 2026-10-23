@@ -6,6 +6,25 @@ import { test } from 'node:test';
 
 import { generateThemeCatalog } from './theme-catalog.ts';
 
+test('SkeletonReveal 从 Core 进入两份主题目录', async () => {
+  const paths = [
+    '../../web-core/styles/config-provider/theme-catalog.json',
+    '../components/config-provider/theme-catalog.json',
+  ];
+  for (const file of paths) {
+    const catalog = JSON.parse(await fs.readFile(new URL(file, import.meta.url), 'utf8'));
+    const component = catalog.components.find(
+      (item: { name: string }) => item.name === 'skeleton-reveal',
+    );
+    assert.deepEqual(
+      component.tokens.map((token: { key: string }) => token.key),
+      ['skeleton-reveal-stroke', 'skeleton-reveal-stroke-width'],
+    );
+    assert.deepEqual(component.tokens[0].dependencies, ['color-text-3']);
+    assert.equal(component.tokens[1].value, '1px');
+  }
+});
+
 test('新增组件从样式声明自动进入主题目录，重复生成结果稳定', async () => {
   const temporary = await fs.mkdtemp(path.join(os.tmpdir(), 'sd-theme-catalog-'));
   try {
