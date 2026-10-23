@@ -80,6 +80,21 @@ test('Calendar indexes normalized events without replacing caller objects or met
   assert.deepEqual(state.manager.eventsIndex.byDate['2026-10-19'], [event._.id]);
 });
 
+test('disposed Calendar event managers ignore delayed event creation', (t) => {
+  const previousDocument = Object.getOwnPropertyDescriptor(globalThis, 'document');
+  Object.defineProperty(globalThis, 'document', { configurable: true, value: new EventTarget() });
+  t.after(() => {
+    if (previousDocument) Object.defineProperty(globalThis, 'document', previousDocument);
+    else Reflect.deleteProperty(globalThis, 'document');
+  });
+  const state = fixture();
+  state.cleanup.forEach((cleanup) => cleanup());
+  const result = state.manager.createEvent({ start: date('09:00'), end: date('10:00') });
+  assert.equal(result, undefined);
+  assert.deepEqual(state.host.config.events, []);
+  assert.deepEqual(state.emitted, []);
+});
+
 test('Calendar reindexes replacements of the same length and retains old event identity only while present', () => {
   const state = fixture([{ start: date('09:00'), end: date('10:00') }]);
   const old = state.host.config.events[0];

@@ -281,6 +281,7 @@ export const createCalendarEvents = (
 
   // Create a new event and add it to the events list.
   const createEvent = (newEvent: CalendarEventInput): CalendarEvent | undefined => {
+    if (disposed) return;
     if (!newEvent.start || !newEvent.end) {
       console.error('Calendar: Cannot create an event without valid start and end dates.');
       return;

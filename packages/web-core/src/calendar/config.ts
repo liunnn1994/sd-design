@@ -123,7 +123,13 @@ export function createCalendarConfigRules<Schedule extends CalendarScheduleInput
       weekDays[7] = true;
     }
     if (props.hideWeekdays?.length)
-      props.hideWeekdays.forEach((day) => (weekDays[weekdaysMap[day]] = true));
+      props.hideWeekdays.forEach((day) => {
+        if (Object.hasOwn(weekdaysMap, day)) weekDays[weekdaysMap[day]] = true;
+      });
+    if (Object.keys(weekDays).length === 7) {
+      console.warn('Calendar: Cannot hide every weekday. Falling back to visible weekdays.');
+      return {};
+    }
 
     return weekDays;
   };
@@ -150,7 +156,7 @@ export function createCalendarConfigRules<Schedule extends CalendarScheduleInput
       if (Array.isArray(views)) {
         availViews = views.reduce(
           (obj, view) => {
-            if (typeof view === 'string' && defaults.availableViews[view])
+            if (typeof view === 'string' && Object.hasOwn(defaults.availableViews, view))
               obj[view] = defaults.availableViews[view];
             else invalidViews++;
             return obj;
@@ -160,6 +166,10 @@ export function createCalendarConfigRules<Schedule extends CalendarScheduleInput
       } else if (typeof views === 'object') {
         availViews = Object.entries(views).reduce(
           (obj, [id, size]) => {
+            if (!Object.hasOwn(defaults.availableViews, id)) {
+              invalidViews++;
+              return obj;
+            }
             const { cols, rows } = defaults.availableViews[id];
             obj[id] = { cols: size.cols || cols, rows: size.rows || rows };
             return obj;

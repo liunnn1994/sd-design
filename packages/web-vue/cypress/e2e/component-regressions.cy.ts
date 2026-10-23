@@ -26,6 +26,13 @@ describe('Documentation component regressions', () => {
         cy.tick(1200);
         cy.get('@calendar').should('not.have.class', 'sd-calendar--dragging-cell');
         cy.get('@calendar').find('.sd-calendar__event').should('have.length', initialCount);
+        cy.get('@calendar')
+          .find('.sd-calendar__title')
+          .invoke('text')
+          .then((title) => {
+            cy.get('@calendar').find('.sd-calendar__nav--next').click();
+            cy.get('@calendar').find('.sd-calendar__title').should('not.have.text', title);
+          });
       });
   });
 

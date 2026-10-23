@@ -113,6 +113,27 @@ test('custom sizes keep zero fallback and do not flip explicit horizontal layout
   });
 });
 
+test('invalid object view keys are ignored with the same fallback as invalid view lists', (t) => {
+  t.mock.method(console, 'warn', () => {});
+  const { props, rules } = setup({ views: { bogus: {}, day: { rows: 2 } } });
+  assert.deepEqual(rules.availableViews(), { day: { cols: 1, rows: 2 } });
+  props.views = { bogus: {} };
+  assert.deepEqual(rules.availableViews(), defaults.availableViews);
+  props.views = ['toString', 'day'];
+  assert.deepEqual(Object.keys(rules.availableViews()), ['day']);
+});
+
+test('hiding every weekday falls back to visible days while invalid weekday names are ignored', (t) => {
+  const warning = t.mock.method(console, 'warn', () => {});
+  const { props, rules } = setup({
+    hideWeekdays: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
+  });
+  assert.deepEqual(rules.hideWeekdays(), {});
+  assert.equal(warning.mock.callCount(), 1);
+  props.hideWeekdays = ['mon', 'bogus', 'toString'];
+  assert.deepEqual(rules.hideWeekdays(), { 1: true });
+});
+
 test('hidden weekdays retain Monday=1/Sunday=7 and weekend derivation', () => {
   const { props, rules } = setup({ hideWeekdays: ['mon', 'sat', 'sun'] });
   assert.deepEqual(rules.hideWeekdays(), { 1: true, 6: true, 7: true });

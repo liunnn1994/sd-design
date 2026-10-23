@@ -2,6 +2,26 @@ import './real-transitions';
 import Calendar from '../index';
 
 describe('Calendar reactive date boundaries', () => {
+  it('renders valid object views while ignoring unknown view keys', () => {
+    cy.mount(Calendar, {
+      props: { view: 'day', viewDate: '2025-01-08', views: { bogus: {}, day: {} } },
+    });
+    cy.get('.sd-calendar--day-view .sd-calendar__cell').should('have.length', 1);
+  });
+
+  it('keeps the calendar usable when every weekday is hidden', () => {
+    cy.mount(Calendar, {
+      props: {
+        view: 'days',
+        viewDate: '2025-01-08',
+        hideWeekdays: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
+      },
+    });
+    cy.get('.sd-calendar--days-view .sd-calendar__cell').should('have.length', 10);
+    cy.get('.sd-calendar__nav--next').click();
+    cy.get('.sd-calendar--days-view .sd-calendar__cell').should('have.length', 10);
+  });
+
   it('navigates after viewDate changes to another valid date string', () => {
     cy.mount(Calendar, { props: { view: 'month', viewDate: '2025-01-08', locale: 'en-us' } });
     cy.get('.sd-calendar__title').should('contain.text', 'January 2025');
