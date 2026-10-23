@@ -1,4 +1,28 @@
 describe('Documentation component regressions', () => {
+  it('restores the PanelGroup demo size after canceling a drag', () => {
+    cy.visit('/components/panel-group/');
+    cy.get('.single-panel-demo > .sd-panel-group > .sd-panel', { timeout: 15000 })
+      .as('widthPanel')
+      .should('have.css', 'width', '500px');
+    cy.get('@widthPanel')
+      .children('.sd-panel-separator-edge')
+      .find('.sd-panel-separator-grip')
+      .then(($grip) => {
+        const rect = $grip[0].getBoundingClientRect();
+        const point = {
+          clientX: rect.left + rect.width / 2,
+          clientY: rect.top + rect.height / 2,
+          pointerId: 1,
+          button: 0,
+        };
+        cy.wrap($grip).trigger('pointerdown', point);
+        cy.wrap($grip).trigger('pointermove', { ...point, clientX: point.clientX - 60 });
+        cy.get('@widthPanel').should('have.css', 'width', '440px');
+        cy.wrap($grip).trigger('pointercancel', point);
+      });
+    cy.get('@widthPanel').should('have.css', 'width', '500px');
+  });
+
   it('switches the ThemeProvider demo mode without changing the page mode', () => {
     cy.visit('/components/theme-provider/');
     cy.get('.theme-provider-demo', { timeout: 15000 }).first().as('themeDemo');

@@ -398,3 +398,30 @@ test('PanelGroup controlled drag honors the host target committed before settlin
     detach();
     panel.destroy();
   }));
+
+test('PanelGroup disposal cancels queued drag settling without clipping the remaining fill panel', () =>
+  withDom(async (node, group) => {
+    const panel = createPanel(group, { size: 200 }, { createMotionValue: motion });
+    const detach = panel.attach(node);
+    panel.drag.start();
+    panel.drag.move({ x: 100, y: 0 });
+    panel.drag.end();
+    detach();
+    panel.destroy();
+    await Promise.resolve();
+    assert.equal(group.fill.size, '100%');
+    assert.equal(panel.state.folding, false);
+    assert.equal(panel.motion.size.get(), 300);
+  }));
+
+test('PanelGroup disposal cancels a queued initial expansion', () =>
+  withDom(async (node, group) => {
+    const panel = createPanel(group, { size: 200, collapsed: true }, { createMotionValue: motion });
+    const detach = panel.attach(node);
+    panel.sync({ size: 200, collapsed: false }, true);
+    detach();
+    panel.destroy();
+    await Promise.resolve();
+    assert.equal(panel.motion.size.get(), 0);
+    assert.equal(group.fill.size, '100%');
+  }));

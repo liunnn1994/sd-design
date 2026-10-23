@@ -106,6 +106,7 @@ export const createPanel = (
 
   let element: HTMLElement | null = null;
   let options: PanelOptions = initial;
+  let disposed = false;
 
   const extent = () => element?.parentElement?.[axes.client] ?? 0;
   const measure = () => {
@@ -198,6 +199,7 @@ export const createPanel = (
       content.jump(to);
     }
     const start = () => {
+      if (disposed) return;
       // 内容宽度跟随目标宽度展开；收起时内容宽度不动，靠裁剪隐藏
       if (!closed && to > 0) {
         content.animate(to, timing());
@@ -277,7 +279,7 @@ export const createPanel = (
       // The host commits controlled updates after the event handler. Reconcile only after
       // that update, otherwise releasing the pointer animates toward the old size.
       queueMicrotask(() => {
-        if (!state.dragging && size.get() !== target) {
+        if (!disposed && !state.dragging && size.get() !== target) {
           fold(target, size.get());
         }
       });
@@ -421,6 +423,7 @@ export const createPanel = (
     },
     bounds,
     destroy: () => {
+      disposed = true;
       release();
       size.stop();
       content.stop();
