@@ -15,7 +15,7 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .#{$upload-prefix-cls}-item {
+  .#{$upload-prefix-cls}-list-item {
     animation: none !important;
   }
 }
