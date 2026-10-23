@@ -15,6 +15,7 @@ export default defineConfig({
       'cypress/e2e/home.cy.ts',
       'cypress/e2e/home-local-chat.cy.ts',
       'cypress/e2e/home-workbench.cy.ts',
+      'cypress/e2e/home-entrance.cy.ts',
     ],
     supportFile: false,
     setupNodeEvents(on) {
