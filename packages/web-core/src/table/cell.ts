@@ -17,6 +17,11 @@ export function createTableCellLoadingFoundation<Raw, Row extends TableCellRecor
   state: TableCellLoadingState<Row>,
   tableCtx: TableCellLoadingContext<Raw, Row>,
 ) {
+  let generation = 0;
+  function reset() {
+    generation++;
+    state.isLoading = false;
+  }
   function handleClick(event: Event) {
     if (
       !state.isLoading &&
@@ -25,16 +30,19 @@ export function createTableCellLoadingFoundation<Raw, Row extends TableCellRecor
       !state.record?.children
     ) {
       state.isLoading = true;
+      const record = state.record;
+      const request = ++generation;
       new Promise<Raw[] | undefined>((resolve) => {
-        tableCtx.loadMore?.(state.record.raw, resolve);
+        tableCtx.loadMore?.(record.raw, resolve);
       }).then((children) => {
-        tableCtx.addLazyLoadData?.(children, state.record);
+        if (request !== generation) return;
+        if (state.record.raw === record.raw) tableCtx.addLazyLoadData?.(children, record);
         state.isLoading = false;
       });
     }
     event.stopPropagation();
   }
-  return { handleClick };
+  return { handleClick, reset };
 }
 export interface TableSelectionContext<Row> {
   readonly currentSelectedRowKeys?: RowKey[] | undefined;

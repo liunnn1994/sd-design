@@ -1,4 +1,24 @@
 describe('Documentation component regressions', () => {
+  it('loads tree children in the Table documentation demo', () => {
+    cy.visit('/components/table/');
+    cy.contains('h3', '子树懒加载').scrollIntoView();
+    cy.contains('h3', '子树懒加载')
+      .closest('.sl-heading-wrapper')
+      .nextAll('.demo-block')
+      .first()
+      .scrollIntoView()
+      .as('lazyTable');
+    cy.get('@lazyTable').find('.sd-table', { timeout: 15000 }).should('exist');
+    cy.get('@lazyTable')
+      .find('.sd-table-tbody [role="row"]')
+      .eq(1)
+      .find('.sd-table-expand-btn')
+      .click();
+    cy.get('@lazyTable').find('.sd-icon-loading').should('exist');
+    cy.get('@lazyTable').find('.sd-table-tbody [role="row"]').should('have.length', 7);
+    cy.get('@lazyTable').find('.sd-icon-loading').should('not.exist');
+  });
+
   it('selects a node in the TreeSelect documentation demo', () => {
     cy.visit('/components/tree-select/');
     cy.get('.sd-select-view', { timeout: 15000 }).first().as('treeSelect').click();

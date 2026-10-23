@@ -36,7 +36,7 @@ test('Table cell ports accept explicit undefined getters in strict declaration c
   );
 });
 
-test('Table cell deduplicates pending loads, retains receiver and settles into the current record', async () => {
+test('Table cell deduplicates pending loads and discards children after record replacement', async () => {
   const first = { raw: { key: 'first' } },
     second = { raw: { key: 'second' } },
     state = { isLoading: false, record: first },
@@ -70,8 +70,42 @@ test('Table cell deduplicates pending loads, retains receiver and settles into t
   assert.equal(state.isLoading, true);
   await tick();
   assert.equal(state.isLoading, false);
-  assert.deepEqual(trace, [['load', first.raw], 'stop', 'stop', ['add', children, second]]);
+  assert.deepEqual(trace, [['load', first.raw], 'stop', 'stop']);
 });
+test('Table cell reset invalidates old requests without settling a replacement request', async () => {
+  const state = { isLoading: false, record: { raw: { key: 'first' } } };
+  const completions: Array<(children?: Array<{ key: string }>) => void> = [];
+  const added: unknown[] = [];
+  const context = {
+    loadMore(_raw: { key: string }, done: (children?: Array<{ key: string }>) => void) {
+      completions.push(done);
+    },
+    addLazyLoadData(children: Array<{ key: string }> | undefined, record: typeof state.record) {
+      assert.equal(this, context);
+      added.push([children, record]);
+    },
+  };
+  const api = createTableCellLoadingFoundation(state, context);
+  const event = { stopPropagation() {} } as Event;
+  api.handleClick(event);
+  api.reset();
+  state.record = { raw: { key: 'second' } };
+  api.handleClick(event);
+  completions[0]([{ key: 'stale' }]);
+  await tick();
+  assert.equal(state.isLoading, true);
+  assert.deepEqual(added, []);
+  completions[1]([{ key: 'fresh' }]);
+  await tick();
+  assert.equal(state.isLoading, false);
+  assert.deepEqual(added, [[[{ key: 'fresh' }], state.record]]);
+  api.handleClick(event);
+  api.reset();
+  completions[2]([{ key: 'after-unmount' }]);
+  await tick();
+  assert.equal(added.length, 1);
+});
+
 for (const kind of ['loading', 'missing-loader', 'leaf', 'children', 'empty-children'] as const) {
   test(`Table cell skips load for ${kind} and still stops native propagation`, () => {
     let reads = 0,
@@ -156,11 +190,11 @@ test('Table cell keeps loader/getter and optional settlement argument evaluation
       trace.push('stop');
     },
   } as Event);
-  assert.deepEqual(trace, ['loader', 'record', 'record', 'loader', 'record', 'call', 'stop']);
+  assert.deepEqual(trace, ['loader', 'record', 'record', 'record', 'loader', 'call', 'stop']);
   trace.length = 0;
   finish([1]);
   await tick();
-  assert.deepEqual(trace, ['add']);
+  assert.deepEqual(trace, ['record', 'add']);
   assert.equal(state.isLoading, false);
 });
 for (const phase of ['load', 'add'] as const) {

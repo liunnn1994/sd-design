@@ -29,7 +29,16 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, inject, ref, type PropType, type VNode, type VNodeChild } from 'vue';
+  import {
+    computed,
+    inject,
+    onBeforeUnmount,
+    ref,
+    watch,
+    type PropType,
+    type VNode,
+    type VNodeChild,
+  } from 'vue';
 
   import { createTableCellLoadingFoundation } from '@sdata/web-core/table/cell';
 
@@ -218,4 +227,6 @@
     tableCtx,
   );
   const { handleClick } = loadingFoundation;
+  watch(() => props.record.raw, loadingFoundation.reset, { flush: 'sync' });
+  onBeforeUnmount(loadingFoundation.reset);
 </script>

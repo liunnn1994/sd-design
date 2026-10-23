@@ -3,6 +3,31 @@ import { defineComponent, h, ref } from 'vue';
 import Table from '../index';
 
 describe('Table lazy loading and slots', () => {
+  it('does not attach a previous request to a replacement row with the same key', () => {
+    let finish: (children?: import('../interface').TableData[]) => void;
+    cy.mount(Table, {
+      props: {
+        data: [{ key: 'parent', name: 'Old parent' }],
+        columns: [{ dataIndex: 'name' }],
+        pagination: false,
+        loadMore: (_record, done) => {
+          finish = done;
+        },
+      },
+    });
+    cy.get('.sd-table-expand-btn').click();
+    cy.get('.sd-icon-loading').should('exist');
+    cy.get('@vue').then(({ wrapper }) =>
+      wrapper.setProps({
+        data: [{ key: 'parent', name: 'New parent' }],
+      }),
+    );
+    cy.get('.sd-table-tbody').should('contain.text', 'New parent');
+    cy.then(() => finish!([{ key: 'stale-child', name: 'Stale child', isLeaf: true }]));
+    cy.get('.sd-icon-loading').should('not.exist');
+    cy.get('.sd-table-tbody').should('not.contain.text', 'Stale child');
+  });
+
   it('does not start another load while a row is already loading', () => {
     const load = cy.spy().as('load');
     cy.mount(Table, {

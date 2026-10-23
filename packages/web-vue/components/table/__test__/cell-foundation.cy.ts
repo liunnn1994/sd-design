@@ -7,7 +7,34 @@ import Table from '../index';
 import Td from '../table-td.vue';
 
 describe('Table cell foundation adapters', () => {
-  it('deduplicates pending loads and supplies the current record on delayed completion', () => {
+  it('discards a pending load when the cell unmounts', () => {
+    let finish: (children?: TableData[]) => void;
+    const add = cy.spy().as('addAfterUnmount');
+    cy.mount(Td, {
+      props: {
+        record: { key: 'parent', raw: { key: 'parent' } },
+        showExpandBtn: true,
+        renderExpandBtn: () => h('button', { class: 'unmount-load' }, 'Load'),
+      },
+      global: {
+        provide: {
+          [tableInjectionKey as symbol]: {
+            loadMore: (_record: TableData, done: typeof finish) => {
+              finish = done;
+            },
+            addLazyLoadData: add,
+          },
+        },
+      },
+    });
+    cy.get('.unmount-load').click();
+    cy.get('.sd-icon-loading').should('exist');
+    cy.get('@vue').then(({ wrapper }) => wrapper.unmount());
+    cy.then(() => finish!([{ key: 'late-child' }]));
+    cy.get('@addAfterUnmount').should('not.have.been.called');
+  });
+
+  it('deduplicates pending loads and discards completion after record replacement', () => {
     const record = ref<TableDataWithRaw>({ key: 'old', raw: { key: 'old', name: 'Old' } });
     let finish: (children?: TableData[]) => void;
     const load = cy
@@ -42,12 +69,7 @@ describe('Table cell foundation adapters', () => {
     });
     cy.get('.sd-icon-loading').should('not.exist');
     cy.get('.sd-table-td-content').should('have.text', 'New');
-    cy.get('@add').should(() => {
-      expect(add.callCount).to.equal(1);
-      expect(add.firstCall.args[0]).to.deep.equal([{ key: 'child' }]);
-      expect(add.firstCall.args[1]).to.equal(record.value);
-      expect(add.firstCall.thisValue).to.equal(context);
-    });
+    cy.get('@add').should('not.have.been.called');
   });
 
   it('keeps rejected tree checkbox selection and header status until controlled keys update', () => {
