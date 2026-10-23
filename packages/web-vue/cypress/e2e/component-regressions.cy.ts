@@ -1,4 +1,21 @@
 describe('Documentation component regressions', () => {
+  it('keeps the Affix button fixed while the documentation page scrolls', () => {
+    cy.visit('/components/affix/');
+    cy.contains('button', 'Affix Top', { timeout: 15000 })
+      .should('be.visible')
+      .then(($button) => {
+        const top = $button[0].getBoundingClientRect().top;
+        cy.window().then((win) => win.scrollBy(0, top + 100));
+      });
+    cy.contains('button', 'Affix Top')
+      .parent()
+      .should('have.class', 'sd-affix')
+      .and('have.css', 'position', 'fixed')
+      .and('have.css', 'top', '0px');
+    cy.window().then((win) => win.scrollTo(0, 0));
+    cy.contains('button', 'Affix Top').parent().should('not.have.class', 'sd-affix');
+  });
+
   it('constrains scrollbar demo height', () => {
     cy.visit('/components/scrollbar/');
     cy.get('.sd-scrollbar-container', { timeout: 15000 })

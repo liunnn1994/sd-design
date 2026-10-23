@@ -199,6 +199,33 @@ test('scroll foundations preserve native geometry, state and cleanup contracts',
     },
   );
 
+  await t.test('Affix shared window bindings detach independently', () => {
+    for (const binding of ['target', 'container'] as const) {
+      const f = createAffix({
+        props: { offsetTop: 0 },
+        wrapper: undefined,
+        content: undefined,
+        fixed: false,
+        target: undefined,
+        setFixed() {},
+        onChange() {},
+        setPlaceholder() {},
+        setStyle() {},
+      });
+      const stopTarget = f.bindTarget();
+      const stopContainer = f.bindContainer()!;
+      if (binding === 'target') stopTarget();
+      else stopContainer();
+      win.dispatchEvent(new Event('scroll'));
+      assert.equal(frames.size, 1, `removing ${binding} must preserve the other binding`);
+      f.dispose();
+      if (binding === 'target') stopContainer();
+      else stopTarget();
+      win.dispatchEvent(new Event('scroll'));
+      assert.equal(frames.size, 0);
+    }
+  });
+
   function anchor() {
     const container = new Element();
     container.rect = { ...container.rect, top: 100, bottom: 300, height: 200 };

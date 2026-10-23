@@ -168,6 +168,28 @@ describe('Affix Behavior', () => {
     });
   });
 
+  it('keeps listening to window scroll after changing the outer container', () => {
+    cy.mount(Affix, { slots: { default: '<div>affix</div>' } });
+    cy.get('.sd-affix').should('not.exist');
+    cy.get('@vue').then(({ wrapper }) =>
+      cy.wrap(wrapper.setProps({ targetContainer: document.body })),
+    );
+    cy.window().then(
+      (win) =>
+        new Cypress.Promise<void>((resolve) => {
+          win.requestAnimationFrame(() => win.requestAnimationFrame(() => resolve()));
+        }),
+    );
+    cy.then(() => {
+      rect.top = -100;
+    });
+    scrollWindow();
+    cy.get('.sd-affix').should('exist');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')).to.deep.equal([[true]]);
+    });
+  });
+
   it('should fix relative to a custom target and listen to its scroll events', () => {
     cy.document().then((doc) => {
       const targetEl = doc.createElement('div');

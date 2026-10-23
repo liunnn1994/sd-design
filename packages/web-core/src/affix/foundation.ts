@@ -83,11 +83,12 @@ export function createAffix(adapter: {
     adapter.setStyle(result.style);
   });
   function bind(element: HTMLElement | Window) {
-    on(element, 'scroll', update);
-    on(element, 'resize', update);
+    const listener = () => update();
+    on(element, 'scroll', listener);
+    on(element, 'resize', listener);
     return () => {
-      off(element, 'scroll', update);
-      off(element, 'resize', update);
+      off(element, 'scroll', listener);
+      off(element, 'resize', listener);
     };
   }
   return {
