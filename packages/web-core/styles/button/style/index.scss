@@ -121,6 +121,7 @@ $token-var-aliases: (
     // 纯文本保留 inline 格式，避免 flex 容器破坏 text-overflow。
     &.#{theme.$prefix}-ellipsis--single-line {
       &:not([data-part='root']):has(> *),
+      &[data-part='root']:has(> .#{theme.$prefix}-ellipsis-content > *),
       > .#{theme.$prefix}-ellipsis-content:has(> *) {
         display: inline-flex;
         align-items: center;

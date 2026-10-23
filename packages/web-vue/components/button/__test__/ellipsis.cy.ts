@@ -39,6 +39,24 @@ describe('Button ellipsis', () => {
       cy.get('[role="tooltip"]').should('not.exist');
     });
 
+    it(`keeps a lone default-slot icon centered after ${href ? 'anchor' : 'native'} focus`, () => {
+      cy.mount(Button, { props: { href, shape: 'circle' }, slots: { default: () => h(IconPlus) } });
+      const checkCenter = () =>
+        cy.get('.sd-btn').should(($button) => {
+          const button = $button[0].getBoundingClientRect();
+          const icon = $button[0].querySelector('svg')!.getBoundingClientRect();
+          expect(
+            Math.abs(icon.top + icon.height / 2 - button.top - button.height / 2),
+          ).to.be.lessThan(1);
+        });
+      checkCenter();
+      cy.get('.sd-btn').focus();
+      cy.get('[data-ellipsis-measure]').should('exist');
+      checkCenter();
+      cy.get('.sd-btn').blur();
+      checkCenter();
+    });
+
     it(`shows and dismisses the ${href ? 'anchor' : 'native'} ellipsis tooltip on outer focus and blur`, () => {
       const onFocusin = cy.spy().as('focusin');
       const onFocusout = cy.spy().as('focusout');
