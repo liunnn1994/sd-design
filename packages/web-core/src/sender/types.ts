@@ -64,6 +64,8 @@ export interface SenderContentSlotConfig extends SenderSlotConfigBase {
 }
 
 export interface SenderCustomSlotState {
+  /** Remove this custom slot from the editor. Disabled and readonly slots are preserved. */
+  remove?: () => void;
   disabled?: boolean;
   readonly?: boolean;
 }

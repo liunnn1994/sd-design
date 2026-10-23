@@ -67,6 +67,7 @@ export interface SenderCustomSlotConfig extends SenderSlotConfigBase {
     defaultValue?: unknown;
     [key: string]: unknown;
   };
+  /** Custom slot renderer. Use state.remove() to remove the slot without replacing surrounding text. */
   customRender?: SenderCustomSlotRender;
 }
 

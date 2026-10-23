@@ -936,3 +936,33 @@ describe('SenderSwitch', () => {
     cy.contains('button', '深度思考').should('exist');
   });
 });
+
+describe('Sender custom slot removal', () => {
+  for (const locked of [false, true]) {
+    it(`customRender can remove its runtime slot unless readonly=${locked}`, () => {
+      cy.mount(Sender, {
+        props: { slotConfig: [{ type: 'text', value: 'before ' }], readonly: locked },
+      });
+      cy.get('@vue').then(({ wrapper }) => {
+        (wrapper.vm as unknown as SenderInstance).insert(
+          [
+            {
+              type: 'custom',
+              key: 'file',
+              props: { defaultValue: 'guide.pdf' },
+              customRender: (_value, _change, state) =>
+                h('button', { class: 'remove-file', onClick: state.remove }, 'guide.pdf'),
+            },
+          ],
+          'end',
+        );
+      });
+      cy.get('.remove-file').click();
+      cy.get('.remove-file').should(locked ? 'exist' : 'not.exist');
+      cy.get('@vue').then(({ wrapper }) =>
+        wrapper.setProps({ slotConfig: [{ type: 'text', value: 'after ' }] }),
+      );
+      cy.get('.remove-file').should(locked ? 'exist' : 'not.exist');
+    });
+  }
+});

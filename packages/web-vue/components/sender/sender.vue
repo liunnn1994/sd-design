@@ -151,6 +151,7 @@
               :item="getCustomConfig(slotProps.node.key)!"
               :disabled="slotProps.disabled"
               :readonly="slotProps.readonly"
+              :remove="slotProps.remove"
               @change="updateCustomSlot(slotProps.update, $event)"
             />
           </template>
@@ -316,6 +317,7 @@
       },
       disabled: Boolean,
       readonly: Boolean,
+      remove: { type: Function as PropType<() => void>, required: true },
     },
     emits: {
       change: (_value: unknown) => true,
@@ -325,7 +327,13 @@
         renderProps.renderer(
           renderProps.value,
           (value) => emitCustomChange('change', value),
-          { disabled: renderProps.disabled, readonly: renderProps.readonly },
+          {
+            disabled: renderProps.disabled,
+            readonly: renderProps.readonly,
+            remove: () => {
+              if (!renderProps.disabled && !renderProps.readonly) renderProps.remove();
+            },
+          },
           renderProps.item,
         );
     },

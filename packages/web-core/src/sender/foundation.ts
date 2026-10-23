@@ -129,6 +129,10 @@ export function createSenderFoundation<
   const handleSlotEditorChange = () => {
     if (!state.editorReady) return;
     const content = state.editor?.getContent() ?? [];
+    const keys = new Set(content.flatMap((item) => (typeof item === 'string' ? [] : [item.key])));
+    state.runtimeConfig = state.runtimeConfig.filter(
+      (config) => !config.key || keys.has(config.key),
+    );
     if (
       state.activeSkill &&
       !content.some((item) => typeof item !== 'string' && item.name === 'senderSkill')
