@@ -10,7 +10,7 @@ await rm(resolveFromRoot('.temp-types'), { recursive: true, force: true });
 
 try {
   await runVueTsc();
-  await renameVueDeclarations(resolveFromRoot('.temp-types', 'components'));
+  await normalizeVueDeclarations(resolveFromRoot('.temp-types', 'components'));
   await verifyVueDeclarations(
     resolveFromRoot('components'),
     resolveFromRoot('.temp-types', 'components'),
@@ -44,13 +44,26 @@ async function verifyVueDeclarations(sourceDir: string, declarationDir: string):
 // vue-tsc 3.x 会把 SFC 声明输出为 `foo.vue.d.vue.ts`,该命名无法被任何消费方的
 // TypeScript 模块解析命中(标准探测只找 `foo.vue.d.ts`,`allowArbitraryExtensions`
 // 只找 `foo.d.vue.ts`),统一改回 `foo.vue.d.ts`。
-async function renameVueDeclarations(rootDir: string): Promise<void> {
+async function normalizeVueDeclarations(rootDir: string): Promise<void> {
   for (const entry of await readdir(rootDir, { withFileTypes: true })) {
     const entryPath = path.resolve(rootDir, entry.name);
 
     if (entry.isDirectory()) {
-      await renameVueDeclarations(entryPath);
+      await normalizeVueDeclarations(entryPath);
       continue;
+    }
+
+    if (entry.name.endsWith('.ts')) {
+      const declaration = await readFile(entryPath, 'utf8');
+      // Inferred component constructors expand Vue's local component map to this
+      // augmentable interface. A mapped copy preserves its members while satisfying
+      // Vue's Record<string, Component> constraint without adding a global index signature.
+      let normalized = declaration;
+      for (const name of ['GlobalComponents', 'GlobalDirectives']) {
+        const reference = `import("vue").${name}`;
+        normalized = normalized.replaceAll(reference, `Pick<${reference}, keyof ${reference}>`);
+      }
+      if (normalized !== declaration) await writeFile(entryPath, normalized);
     }
 
     if (entry.name.endsWith('.d.vue.ts')) {

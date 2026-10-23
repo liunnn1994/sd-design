@@ -45,8 +45,6 @@
 </template>
 
 <script setup lang="ts" generic="TItem">
-  import type { CacheSnapshot } from 'virtua';
-
   import {
     type CSSProperties,
     type StyleValue,
@@ -130,7 +128,7 @@
     typeField: String,
     buffer: Number,
     shift: Boolean,
-    cache: Object as PropType<CacheSnapshot>,
+    cache: Object as PropType<VirtualizerHandle['cache']>,
     prerender: Number,
     emitUpdate: Boolean,
     disableTransform: Boolean,
@@ -198,8 +196,8 @@
   const overlayViewportReadyRef = ref(false);
 
   const foundation: ReturnType<
-    typeof createVirtualListFoundation<TItem, CacheSnapshot, StyleValue>
-  > = createVirtualListFoundation<TItem, CacheSnapshot, StyleValue>(
+    typeof createVirtualListFoundation<TItem, VirtualizerHandle['cache'], StyleValue>
+  > = createVirtualListFoundation<TItem, VirtualizerHandle['cache'], StyleValue>(
     {
       props,
       get items() {

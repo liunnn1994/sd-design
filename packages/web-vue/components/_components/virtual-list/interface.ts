@@ -18,11 +18,13 @@ export type {
   ScrollIntoViewOptions,
   ScrollOptions,
 } from '@sdata/web-core/virtual-list/types';
-import type { CacheSnapshot } from 'virtua';
+import type { VirtualizerHandle } from 'virtua/vue';
 
 import type { CSSProperties, VNode } from 'vue';
 
 import type { ScrollbarProps } from '../../scrollbar';
+
+type CacheSnapshot = VirtualizerHandle['cache'];
 
 export type ItemSlot = (props: { item: unknown; index: number }) => VNode[];
 

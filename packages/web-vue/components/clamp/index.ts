@@ -1,4 +1,4 @@
-import type { App, Component } from 'vue';
+import type { App, Component, ComponentPublicInstance } from 'vue';
 
 import type { SDOptions, SFCWithInstall } from '../_utils/types';
 import type * as VueClamp from './public-types';
@@ -21,7 +21,18 @@ function withInstall<T extends object>(component: T, name: string) {
 export const LineClamp = withInstall(_LineClamp, 'LineClamp');
 export const RichLineClamp = withInstall(_RichLineClamp, 'RichLineClamp');
 export const InlineClamp = withInstall(_InlineClamp, 'InlineClamp');
-export const WrapClamp = withInstall(_WrapClamp, 'WrapClamp');
+// Generic SFC call signatures with required slots are not assignable to Vue's
+// Component constraint. Preserve that signature and expose the instance contract
+// for component registration and declarations that include GlobalComponents.
+export const WrapClamp = withInstall(_WrapClamp, 'WrapClamp') as SFCWithInstall<
+  typeof _WrapClamp & {
+    new <T = unknown>(
+      props: VueClamp.WrapClampProps<T>,
+    ): ComponentPublicInstance<VueClamp.WrapClampProps<T>, VueClamp.WrapClampExposed> & {
+      $slots: VueClamp.WrapClampSlots<T>;
+    };
+  }
+>;
 
 export type LineClampInstance = InstanceType<typeof _LineClamp>;
 export type RichLineClampInstance = InstanceType<typeof _RichLineClamp>;
