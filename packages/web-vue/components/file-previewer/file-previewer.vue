@@ -506,7 +506,6 @@
   });
   const pdfCanvasRef = shallowRef<HTMLCanvasElement>();
 
-  const hasTypeSlot = computed(() => previewSlots.value.includes(type.value));
   const pdfSlotProps = computed<FilePreviewerPdfSlotProps>(() => ({
     src: currentSrc.value,
     status: status.value,
