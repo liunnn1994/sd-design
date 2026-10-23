@@ -4,6 +4,10 @@ describe('Documentation component regressions', () => {
     cy.get('.sd-model-selector-trigger', { timeout: 15000 }).first().as('modelTrigger').click();
     cy.contains('.sd-model-selector-item:visible', 'Claude Sonnet').click();
     cy.contains('.demo-row > span', '当前模型：Claude Sonnet').should('be.visible');
+    cy.get('@modelTrigger')
+      .find('.sd-ellipsis-content')
+      .first()
+      .should('have.text', 'Claude Sonnet');
   });
 
   it('selects an option from the Select documentation demo', () => {

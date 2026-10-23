@@ -1,6 +1,9 @@
 <template>
   <ResizeObserver v-if="props.autoFixPosition" @resize="onTargetResize">
-    <VNodeRenderer :content="getTriggerChildren()" />
+    <!-- 回调读取动态插槽，避免观察器将其视为稳定内容而跳过更新。 -->
+    <template #[triggerSlotName]>
+      <VNodeRenderer :content="getTriggerChildren()" />
+    </template>
   </ResizeObserver>
   <VNodeRenderer v-else :content="getTriggerChildren()" />
 
@@ -208,6 +211,7 @@
     'resize': [];
   }>();
   const VNodeRenderer = ({ content }: { content: VNodeChild }) => content;
+  const triggerSlotName = 'default';
 
   const attrs = useAttrs();
   const slots = useSlots();
