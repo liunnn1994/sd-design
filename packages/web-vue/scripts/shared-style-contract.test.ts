@@ -15,6 +15,15 @@ const support = createSassStyleSupport({
   styleRoot: path.join(componentsRoot, 'style'),
 });
 
+test('published Sass entry compiles without repository aliases', async () => {
+  const result = await sass.compileAsync(path.join(componentsRoot, 'index.scss'), {
+    loadPaths: [path.join(packageRoot, 'node_modules')],
+  });
+  assert.match(result.css, /\.sd-btn/);
+  assert.match(result.css, /\.sd-markdown-render/);
+  assert.match(result.css, /\.driver-overlay/);
+});
+
 test('legacy Vue Sass paths retain the shared CSS', async () => {
   for (const entry of [
     'button/style/index.scss',

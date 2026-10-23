@@ -1,5 +1,5 @@
 @use 'driver.js/dist/driver.css';
-@use '@style/theme/index.scss' as global;
-@use '@components/tour/style/token.scss' as *;
-@use '@components/button/style/token.scss' as button;
+@use '../../style/theme/index.scss' as global;
+@use './token.scss' as *;
+@use '../../button/style/token.scss' as button;
 @forward '@sdata/web-core/styles/tour/style/index.scss';
