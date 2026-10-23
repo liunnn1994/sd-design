@@ -37,10 +37,11 @@ describe('Transfer', () => {
     cy.get('.sd-transfer-list-item-remove-btn').should('have.attr', 'aria-label', '移除');
     // Enter 触发移除
     cy.get('.sd-transfer-list-item-remove-btn').trigger('keydown', { key: 'Enter' });
+    cy.get('.sd-transfer-view-target .sd-transfer-list-item').should('not.exist');
     cy.get('@vue').should(({ wrapper }) => {
       // 移除后 target 应为空（change 最后一次把 option1 移回 source）
       const changes = wrapper.emitted('change');
-      expect(changes).to.not.equal(undefined);
+      expect(changes).to.deep.equal([[['option1']], [[]]]);
     });
   });
 
