@@ -113,15 +113,15 @@ export default defineConfig({
       ],
     },
     optimizeDeps: {
-      exclude: ['@vue/repl'],
+      // pdf.js is already ESM. Keep its lazy imports out of the optimizer so
+      // pre-bundling cannot invalidate URLs retained by hydrated islands.
+      exclude: ['@vue/repl', 'pdfjs-dist'],
       // Pre-bundle lazy renderers before the first demo opens. Discovering these
       // on demand invalidates URLs already held by hydrated Vue islands.
       include: [
         '@mlc-ai/web-llm',
         ...dayjsLocaleDependencies,
         '@sdata/web-vue > cropperjs',
-        '@sdata/web-vue > pdfjs-dist',
-        '@sdata/web-vue > pdfjs-dist/build/pdf.worker.min.mjs',
         '@sdata/web-vue > @videojs/html/audio/player',
         '@sdata/web-vue > @videojs/html/audio/skin',
         '@sdata/web-vue > @videojs/html/audio/neutral-skin',

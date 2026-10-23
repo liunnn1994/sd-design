@@ -1,208 +1,178 @@
 <script setup lang="ts">
   import type { SenderSlotConfig } from '@sdata/web-vue';
 
-  import { computed, shallowRef, useTemplateRef } from 'vue';
+  import { computed, h, shallowRef, useTemplateRef } from 'vue';
 
-  import { Sender, SkeletonReveal } from '@sdata/web-vue';
+  import {
+    Button,
+    Dropdown,
+    Doption,
+    Dgroup,
+    Sender,
+    SkeletonReveal,
+    Tag,
+    Space,
+  } from '@sdata/web-vue';
+  import { IconPlus, IconDown, IconArrowUp, IconRefresh } from '@sdata/web-vue/es/icon/index.js';
 
-  const scenarios = [
-    {
-      name: '数据分析',
-      role: '数据助手',
-      verb: '分析',
-      subject: '销售数据',
-      choices: ['销售数据', '用户增长', '渠道转化'],
-      detail: '最近 30 天',
-      suffix: '，找出值得关注的变化。',
-    },
-    {
-      name: '内容创作',
-      role: '写作助手',
-      verb: '为',
-      subject: '产品发布',
-      choices: ['产品发布', '社交媒体', '团队周报'],
-      detail: '简洁、有感染力',
-      suffix: '，写一份内容草稿。',
-    },
-    {
-      name: '界面搭建',
-      role: '界面助手',
-      verb: '构建',
-      subject: 'AI 对话界面',
-      choices: ['AI 对话界面', '数据工作台', '知识库'],
-      detail: '清晰、轻量',
-      suffix: '，整理界面需要的组件。',
-    },
-  ];
-  const active = shallowRef(0);
-  const scenario = computed(() => scenarios[active.value]!);
-  const skill = computed(() => ({ title: scenario.value.role, value: scenario.value.name }));
-  const submitted = shallowRef('');
+  import HomeFileLinks from './HomeFileLinks.vue';
+
+  const context = shallowRef('AI 对话界面');
+  const mode = shallowRef('Agent');
   const reveal = useTemplateRef('reveal');
+  const sender = useTemplateRef('sender');
+  const fileInput = useTemplateRef<HTMLInputElement>('fileInput');
+  const scenes = ['AI 对话界面', '数据工作台', '知识库'];
   const slots = computed<SenderSlotConfig[]>(() => [
-    { type: 'text', value: `${scenario.value.verb} ` },
+    { type: 'text', value: '用 SD Design 构建 ' },
     {
       type: 'select',
-      key: 'subject',
-      props: { options: scenario.value.choices, defaultValue: scenario.value.subject },
+      key: `scene-${context.value}`,
+      props: {
+        options: scenes,
+        defaultValue: scenes.includes(context.value) ? context.value : 'AI 对话界面',
+      },
     },
-    { type: 'text', value: '，' },
+    { type: 'text', value: '，要求 ' },
     {
       type: 'input',
       key: 'detail',
-      props: { defaultValue: scenario.value.detail, placeholder: '补充要求' },
+      props: { defaultValue: '清晰、轻量', placeholder: '补充要求' },
     },
-    { type: 'text', value: scenario.value.suffix },
-    { type: 'tag', key: 'format', props: { label: '结构化输出', value: ' 以结构化方式输出' } },
+    { type: 'text', value: '，参考 ' },
+    {
+      type: 'custom',
+      key: 'example-logo',
+      props: { defaultValue: 'android-chrome-192x192.png' },
+      customRender: (_value, _change, state) =>
+        h(HomeFileLinks, {
+          source: { name: 'android-chrome-192x192.png', url: '/android-chrome-192x192.png' },
+          type: 'image',
+          onRemove: state.remove,
+        }),
+    },
+    { type: 'text', value: '。' },
   ]);
-  function select(index: number) {
-    active.value = index;
-    submitted.value = '';
+  function addContext(action: unknown) {
+    if (action === 'file') fileInput.value?.click();
+    if (action === 'library') context.value = 'SD Design';
+  }
+  function selectMode(next: unknown) {
+    if (next === 'Agent' || next === 'Ask') mode.value = next;
+  }
+  function addFiles(incoming: FileList) {
+    const additions = Array.from(incoming).flatMap<SenderSlotConfig>((source) => {
+      const type = source.type.startsWith('image/')
+        ? 'image'
+        : source.type.startsWith('video/')
+          ? 'video'
+          : source.type.startsWith('audio/')
+            ? 'audio'
+            : source.type === 'application/pdf' || /\.pdf$/i.test(source.name)
+              ? 'pdf'
+              : /\.(md|markdown)$/i.test(source.name) || source.type === 'text/markdown'
+                ? 'markdown'
+                : undefined;
+      if (!type) return [];
+      return [
+        {
+          type: 'custom',
+          key: `file-${crypto.randomUUID()}`,
+          props: { defaultValue: source.name },
+          customRender: (_value, _onChange, state) =>
+            h(HomeFileLinks, { source, type, onRemove: state.remove }),
+        },
+      ];
+    });
+    if (additions.length) sender.value?.insert(additions, 'cursor');
+  }
+  function chooseFile(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files) addFiles(input.files);
+    input.value = '';
   }
 </script>
 <template>
   <div class="home-workbench">
-    <div class="home-workbench__tabs" role="group" aria-label="选择 AI 示例">
-      <button
-        v-for="(item, index) in scenarios"
-        :key="item.name"
-        type="button"
-        :aria-pressed="active === index"
-        @click="select(index)"
-        ><span aria-hidden="true">{{ ['◈', '✎', '▦'][index] }}</span
-        >{{ item.name }}</button
-      >
-    </div>
     <SkeletonReveal ref="reveal">
-      <div class="home-workbench__body">
-        <div class="home-workbench__conversation">
-          <div class="home-workbench__identity"
-            ><span aria-hidden="true">✳</span><strong>SD Assistant</strong></div
-          >
-          <Sender
-            :key="active"
-            :slot-config="slots"
-            :skill="skill"
-            :auto-size="{ minRows: 2, maxRows: 5 }"
-            @submit="submitted = $event"
-          />
-          <p v-if="submitted" class="home-workbench__result" role="status">{{ submitted }}</p>
-        </div>
-      </div>
+      <Sender
+        ref="sender"
+        :slot-config="slots"
+        placeholder="描述你想构建的组件或界面…"
+        suffix-placement="footer"
+        :auto-size="{ minRows: 2, maxRows: 5 }"
+        @paste-file="addFiles"
+      >
+        <template #footer>
+          <Space :size="8">
+            <Dropdown trigger="click" position="bl" @select="addContext">
+              <Button shape="circle" type="outline" aria-label="添加内容"><IconPlus /></Button>
+              <template #content>
+                <Doption value="file">添加文件</Doption>
+                <Doption value="library">添加组件库</Doption>
+              </template>
+            </Dropdown>
+            <Tag v-if="context" class="home-workbench__context" closable @close="context = ''">{{
+              context
+            }}</Tag>
+          </Space>
+        </template>
+        <template #suffix="{ actions }">
+          <Space :size="8">
+            <Dropdown trigger="click" position="br" :popup-max-height="false" @select="selectMode">
+              <Button type="outline" aria-label="选择工作方式">{{ mode }} <IconDown /></Button>
+              <template #content>
+                <Dgroup title="工作方式"
+                  ><Doption value="Agent">Agent</Doption><Doption value="Ask">Ask</Doption></Dgroup
+                >
+                <Dgroup title="构建方式"
+                  ><Doption>Vue 3</Doption><Doption disabled>React · 即将到来</Doption></Dgroup
+                >
+              </template>
+            </Dropdown>
+            <Button
+              type="primary"
+              shape="circle"
+              :disabled="actions.submitDisabled"
+              aria-label="发送需求"
+              @click="actions.send()"
+              ><IconArrowUp
+            /></Button>
+          </Space>
+        </template>
+      </Sender>
     </SkeletonReveal>
-    <div class="home-workbench__caption"
-      ><button type="button" @click="reveal?.replay()">重播入场 ↻</button></div
-    >
+    <input
+      ref="fileInput"
+      class="home-workbench__file"
+      type="file"
+      multiple
+      accept="image/*,video/*,audio/*,application/pdf,.md,.markdown,text/markdown"
+      aria-label="选择参考文件"
+      @change="chooseFile"
+    />
+    <div class="home-workbench__below">
+      <Button type="text" shape="circle" aria-label="重播入场" @click="reveal?.replay()"
+        ><IconRefresh
+      /></Button>
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>
   .home-workbench {
+    min-width: 0;
     text-align: left;
+  }
 
-    &__tabs {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      padding: 12px 18px;
-      background: var(--sd-color-fill-1);
-      border: 1px solid var(--sd-color-border-2);
-      border-bottom: 0;
-      border-radius: 14px 14px 0 0;
-    }
+  .home-workbench__file {
+    display: none;
+  }
 
-    &__tabs button {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      padding: 9px 12px;
-      color: var(--sd-color-text-2);
-      font: inherit;
-      font-size: 13px;
-      background: transparent;
-      border: 0;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    &__tabs button[aria-pressed='true'] {
-      color: rgb(var(--sd-primary-7));
-      background: var(--sd-color-primary-light-1);
-    }
-
-    &__body {
-      background: var(--sd-color-bg-2);
-      border: 1px solid var(--sd-color-border-2);
-      border-radius: 0 0 14px 14px;
-    }
-
-    &__conversation {
-      min-width: 0;
-      padding: 30px;
-    }
-
-    &__identity {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 20px;
-      font-size: 13px;
-    }
-
-    &__identity > span:first-child {
-      display: grid;
-      place-items: center;
-      width: 32px;
-      height: 32px;
-      color: rgb(var(--sd-primary-6));
-      font-size: 26px;
-    }
-
-    &__result {
-      margin-top: 20px;
-      padding: 12px 16px;
-      overflow-wrap: anywhere;
-      background: var(--sd-color-fill-1);
-      border-radius: 8px;
-    }
-
-    &__caption {
-      display: flex;
-      gap: 12px;
-      justify-content: flex-end;
-      margin-top: 12px;
-      color: var(--sd-color-text-3);
-      font-size: 12px;
-    }
-
-    &__caption button {
-      flex-shrink: 0;
-      padding: 0;
-      color: inherit;
-      font: inherit;
-      background: transparent;
-      border: 0;
-      cursor: pointer;
-    }
-
-    button:focus-visible {
-      outline: 2px solid rgb(var(--sd-primary-6));
-      outline-offset: 3px;
-    }
-
-    @media (width < 50rem) {
-      &__conversation {
-        padding: 22px 16px;
-      }
-
-      &__tabs {
-        gap: 2px;
-        padding: 10px 6px;
-      }
-
-      &__tabs button {
-        gap: 5px;
-        padding: 8px;
-      }
-    }
+  .home-workbench__below {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 8px;
   }
 </style>

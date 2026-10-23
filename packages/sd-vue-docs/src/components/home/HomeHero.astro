@@ -1,4 +1,5 @@
 ---
+import { Button } from '@sdata/web-vue';
 import { docsSidebar } from '../../generated/docs-sidebar';
 import HomeAIWorkbench from './HomeAIWorkbench.vue';
 import HomeFramework from './HomeFramework.vue';
@@ -13,8 +14,8 @@ const components = collect(docsSidebar);
     <p class="home-hero__description" data-home-enter>从一句提问，到完整的产品体验。<br class="home-hero__mobile-break" /> {components.length} 个可组合组件，让你专注创造下一种可能。</p>
     <HomeFramework client:load />
     <div class="home-hero__actions" data-home-enter>
-      <a class="home-hero__primary" href="/guides/start/">开始使用 <span aria-hidden="true">↗</span></a>
-      <a href="/components/">浏览组件 <span aria-hidden="true">→</span></a>
+      <Button type="primary" href="/guides/start/">开始使用</Button>
+      <Button href="/components/">浏览组件</Button>
     </div>
   </div>
   <div class="home-hero__workbench"><HomeAIWorkbench client:load /></div>
@@ -48,16 +49,11 @@ const components = collect(docsSidebar);
     &__description { margin: 24px 0 0; color: var(--sd-color-text-2); font-size: 16px; line-height: 1.8; }
     &__mobile-break { display: none; }
     &__actions { display: flex; align-items: center; justify-content: center; gap: 24px; margin-top: 28px; }
-    &__actions a { display: inline-flex; align-items: center; gap: 20px; color: var(--sd-color-text-1); font-size: 14px; text-decoration: none; }
-    &__actions a span { transition: transform 160ms ease-out; }
-    &__actions a:hover span { transform: translate(2px, -1px); }
-    &__actions .home-hero__primary { padding: 12px 18px; color: var(--sd-color-white); background: rgb(var(--sd-primary-6)); border-radius: 8px; }
-    &__workbench { max-width: 1000px; margin: 36px auto 0; text-align: left; }
+    &__workbench { max-width: 820px; margin: 36px auto 0; text-align: left; }
     &__shortcuts { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 28px; margin-top: 24px; }
     &__shortcuts a { color: var(--sd-color-text-3); font-size: 13px; text-decoration: none; }
     &__shortcuts a:hover { color: rgb(var(--sd-primary-7)); }
-    a:focus-visible { outline: 2px solid rgb(var(--sd-primary-6)); outline-offset: 4px; }
+    &__shortcuts a:focus-visible { outline: 2px solid rgb(var(--sd-primary-6)); outline-offset: 4px; }
   }
   @media (width < 50rem) { .home-hero { padding: 40px 4px; } .home-hero__mobile-break { display: block; } .home-hero__shortcuts { gap: 12px 20px; } }
-  @media (prefers-reduced-motion: reduce) { .home-hero__actions a span { transition: none; } }
 </style>

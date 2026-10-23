@@ -14,7 +14,13 @@ const heroScreenshot = {
 };
 
 describe('首页与线框入场', () => {
-  it('中央词槽示例可以编辑、发送与切换场景', () => {
+  beforeEach(() => {
+    cy.on('window:before:load', (win) => {
+      Object.defineProperty(win.navigator, 'gpu', { configurable: true, value: undefined });
+    });
+  });
+
+  it('中央输入面板可以输入、发送并操作上下文和 Agent 菜单', () => {
     cy.viewport(1440, 1000);
     cy.visit('/');
     cy.get('#home-title').should('contain.text', '到好用的界面');
@@ -36,28 +42,27 @@ describe('首页与线框入场', () => {
     cy.get('a[href*="/design/"]').should('not.exist');
     cy.get('.home-workbench .sd-skeleton-reveal', { timeout: 60000 }).should('exist');
     cy.get('.home-hero__workbench astro-island', { timeout: 60000 }).should('not.have.attr', 'ssr');
-    cy.contains('button', '重播入场').click();
+    cy.get('.home-workbench [aria-label="重播入场"]').click();
     cy.get('.home-workbench [data-state="drawing"]').should('exist');
     cy.get('.home-workbench [data-reveal-draw]').should('have.length.at.most', 24);
     cy.get('.home-workbench [data-rich-text-component-key="detail"] input')
-      .clear()
-      .type('最近 7 天');
+      .should('have.attr', 'placeholder', '补充要求')
+      .type('构建一个 AI 对话界面');
     cy.get('.home-workbench .sd-skeleton-reveal-overlay').should('not.exist');
-    cy.get('.home-workbench .sd-sender-actions-btn').click();
-    cy.get('.home-workbench__result').should('contain.text', '最近 7 天');
-    cy.get('.home-workbench__inspector').should('not.exist');
-    cy.get('.home-workbench__conversation').should(($example) => {
-      const parent = $example[0].parentElement!;
-      expect($example[0].getBoundingClientRect().width).to.be.closeTo(parent.clientWidth, 1);
-    });
-    cy.contains('.home-workbench__tabs button', '内容创作').click();
-    cy.get('.home-workbench .sd-sender-skill-tag').should('contain.text', '写作助手');
-    cy.get('.home-workbench [data-rich-text-component-key="detail"] input').should(
-      'have.value',
-      '简洁、有感染力',
+    cy.get('.home-workbench [aria-label="发送需求"]').click();
+    cy.get('.home-workbench__result').should('not.exist');
+    cy.get('.home-workbench [aria-label="添加内容"]').click();
+    cy.contains('[role="menuitem"]', '添加技能').should('not.exist');
+    cy.contains('[role="menuitem"]', '添加组件库').click();
+    cy.get('.home-workbench .sd-sender').should('contain.text', 'SD Design');
+    cy.get('.home-workbench [aria-label="选择工作方式"]').click();
+    cy.contains('[role="menuitem"]', 'Ask').click();
+    cy.get('.home-workbench [aria-label="选择工作方式"]').should('contain.text', 'Ask');
+    cy.get('.home-workbench__suggestions').should('not.exist');
+    cy.get('.home-workbench [contenteditable="true"]').should(
+      'contain.text',
+      'android-chrome-192x192.png',
     );
-    cy.contains('.home-workbench__tabs button', '界面搭建').click();
-    cy.get('.home-workbench .sd-sender-skill-tag').should('contain.text', '界面助手');
     cy.get('.home-workbench__result').should('not.exist');
   });
 
@@ -97,7 +102,7 @@ describe('首页与线框入场', () => {
     cy.visit('/');
     cy.get('.home-workbench .sd-skeleton-reveal', { timeout: 60000 }).should('exist');
     cy.get('.home-hero__workbench astro-island', { timeout: 60000 }).should('not.have.attr', 'ssr');
-    cy.contains('button', '重播入场').click();
+    cy.get('.home-workbench [aria-label="重播入场"]').click();
     cy.window()
       .then(
         (win) =>
@@ -147,14 +152,15 @@ describe('首页与线框入场', () => {
     });
     cy.get('.home-workbench .sd-sender', { timeout: 60000 }).should('be.visible');
     cy.get('.home-hero__workbench astro-island', { timeout: 60000 }).should('not.have.attr', 'ssr');
-    cy.contains('button', '重播入场').click();
+    cy.get('.home-workbench [aria-label="重播入场"]').click();
     cy.get('.home-workbench .sd-skeleton-reveal-overlay').should('not.exist');
     cy.get('.home-framework button').should('not.exist');
     cy.get('.home-framework__window').should('contain.text', 'Vue');
-    cy.get('.home-workbench [data-rich-text-component-key="detail"] input').clear();
-    cy.get('[data-rich-text-component-key="detail"] input').type('今天');
-    cy.get('.home-workbench .sd-sender-actions-btn').click();
-    cy.get('.home-workbench__result').should('contain.text', '今天');
+    cy.get('.home-workbench [data-rich-text-component-key="detail"] input').type(
+      '今天整理界面需求',
+    );
+    cy.get('.home-workbench [aria-label="发送需求"]').click();
+    cy.get('.home-workbench__result').should('not.exist');
   });
 
   it('框架文字自动循环切换，标签颜色区分状态', () => {
@@ -184,22 +190,28 @@ describe('首页与线框入场', () => {
     cy.viewport(1440, 1000);
     cy.visit('/', {
       onBeforeLoad(win) {
-        Object.defineProperty(win, 'LanguageModel', { configurable: true, value: undefined });
+        Object.defineProperty(win.navigator, 'gpu', { configurable: true, value: undefined });
       },
     });
     cy.get('#ai-examples').scrollIntoView();
     cy.get('#ai-examples astro-island', { timeout: 60000 }).should('not.have.attr', 'ssr');
     cy.get('.home-ai-examples article').should('have.length', 3);
     cy.get('.home-input-example [data-rich-text-component-key="topic"] input').clear();
-    cy.get('.home-input-example [data-rich-text-component-key="topic"] input').type('迭代计划');
+    cy.get('.home-input-example [data-rich-text-component-key="topic"] input').type(
+      'MarkdownRender',
+    );
     cy.get('.home-input-example .sd-sender-actions-btn').click();
-    cy.get('.home-input-example [role="log"] .user').last().should('contain.text', '迭代计划');
+    cy.get('.home-input-example [role="log"] .user')
+      .last()
+      .should('contain.text', 'MarkdownRender');
     cy.get('.home-input-example [role="log"] li').should('have.length', 4);
     cy.get('.home-input-example [role="textbox"]').should('have.text', '');
     cy.get('.home-input-example .sd-sender-actions-btn').should('be.disabled');
-    cy.get('.home-input-example [role="textbox"]').type('补充发布渠道');
+    cy.get('.home-input-example [role="textbox"]').type('MarkdownRender 有什么用？');
     cy.get('.home-input-example .sd-sender-actions-btn').click();
-    cy.get('.home-input-example [role="log"] .user').last().should('contain.text', '补充发布渠道');
+    cy.get('.home-input-example [role="log"] .user')
+      .last()
+      .should('contain.text', 'MarkdownRender 有什么用？');
     cy.get('.home-input-example [role="textbox"]').should('have.text', '');
     cy.get('.home-input-example .sd-scrollbar').should('exist');
     cy.get('.home-content-example .sd-timeline-item').should('have.length', 3);
@@ -227,43 +239,6 @@ describe('首页与线框入场', () => {
     cy.get('#ai-examples').scrollIntoView();
     cy.document().should((doc) => expect(doc.documentElement.scrollWidth).to.be.at.most(390));
     cy.get('.home-content-example').should('contain.text', '发布进度');
-  });
-
-  it('浏览器 AI 回复由 MarkdownRender 渲染并保持滚动到底部', () => {
-    cy.viewport(1200, 1000);
-    cy.visit('/', {
-      onBeforeLoad(win) {
-        Object.defineProperty(win, 'LanguageModel', {
-          configurable: true,
-          value: {
-            availability: async () => 'available',
-            create: async () => ({
-              prompt: async () =>
-                '**发布摘要**\n\n- 提炼三个更新亮点\n- 准备发布文案与渠道\n- 收集反馈，持续改进',
-              destroy() {},
-            }),
-          },
-        });
-      },
-    });
-    cy.get('#ai-examples').scrollIntoView();
-    cy.get('.home-input-example__heading', { timeout: 60000 }).should('contain.text', '浏览器 AI');
-    cy.get('.home-input-example .sd-sender-actions-btn').click();
-    cy.get('.home-input-example .assistant')
-      .last()
-      .find('.sd-markdown-render strong')
-      .should('have.text', '发布摘要');
-    cy.get('.home-input-example .assistant').last().find('li').should('have.length', 3);
-    cy.get('.home-input-example [data-overlayscrollbars-viewport]').should(($viewport) => {
-      const viewport = $viewport[0];
-      expect(viewport.scrollHeight - viewport.clientHeight - viewport.scrollTop).to.be.lessThan(3);
-    });
-    cy.get('.home-feedback-example .sd-skeleton-reveal').should(
-      'have.attr',
-      'data-state',
-      'complete',
-    );
-    cy.get('#ai-examples').screenshot('chat-markdown-preview', heroScreenshot);
   });
 
   it('组合内容示例无需刷新即可连续重播', () => {

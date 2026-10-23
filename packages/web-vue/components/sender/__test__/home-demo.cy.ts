@@ -268,25 +268,93 @@ describe('首页框架切换', () => {
 });
 import HomeAIWorkbench from '../../../../sd-vue-docs/src/components/home/HomeAIWorkbench.vue';
 
-describe('首页 AI 词槽示例', () => {
-  it('编辑词槽后发送结构化内容，切换场景重置输入', () => {
+function createTestPdf() {
+  const objects = [
+    '<< /Type /Catalog /Pages 2 0 R >>',
+    '<< /Type /Pages /Kids [3 0 R 4 0 R] /Count 2 >>',
+    '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 100 100] /Resources <<>> /Contents 5 0 R >>',
+    '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 100 100] /Resources <<>> /Contents 6 0 R >>',
+    '<< /Length 0 >>\nstream\n\nendstream',
+    '<< /Length 0 >>\nstream\n\nendstream',
+  ];
+  let pdf = '%PDF-1.4\n';
+  const offsets = objects.map((object, index) => {
+    const offset = pdf.length;
+    pdf += `${index + 1} 0 obj\n${object}\nendobj\n`;
+    return offset;
+  });
+  const xrefOffset = pdf.length;
+  pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+  pdf += offsets.map((offset) => `${String(offset).padStart(10, '0')} 00000 n \n`).join('');
+  pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+  return new TextEncoder().encode(pdf);
+}
+
+describe('首页输入面板', () => {
+  it('词槽可编辑，默认组件按钮可以发送', () => {
     cy.mount(HomeAIWorkbench);
-    cy.get('.home-workbench')
-      .should('not.contain.text', '可交互示例')
-      .and('not.contain.text', '无需连接模型');
-    cy.get('[data-rich-text-component-key="detail"] input').clear();
-    cy.get('[data-rich-text-component-key="detail"] input').type('最近 7 天');
-    cy.get('.sd-sender-actions-btn').click();
-    cy.get('.home-workbench__result').should('contain.text', '最近 7 天');
-    cy.get('.home-workbench__inspector').should('not.exist');
-    cy.contains('button', '内容创作').click();
-    cy.get('.sd-sender-skill-tag').should('contain.text', '写作助手');
-    cy.get('[data-rich-text-component-key="detail"] input').should('have.value', '简洁、有感染力');
+    cy.get('[data-rich-text-component-key="detail"] input').clear().type('可搜索的组件目录');
+    cy.get('[aria-label="发送需求"]').should('not.have.class', 'sd-btn-size-large').click();
     cy.get('.home-workbench__result').should('not.exist');
-    cy.contains('button', '界面搭建').click();
-    cy.get('.sd-sender-skill-tag').should('contain.text', '界面助手');
-    cy.get('.sd-sender-actions-btn').click();
-    cy.get('.home-workbench__result').should('contain.text', 'AI 对话界面');
+    cy.get('[aria-label="添加内容"]').click();
+    cy.contains('[role="menuitem"]', '添加技能').should('not.exist');
+    cy.contains('[role="menuitem"]', '添加组件库').click();
+    cy.get('.home-workbench .sd-sender').should('contain.text', 'SD Design');
+  });
+
+  it('粘贴图片、视频和 PDF 显示链接，悬停使用文件预览，移除释放 URL', () => {
+    cy.mount(HomeAIWorkbench, { global: { stubs: { transition: false } } });
+    cy.window().then((win) => cy.spy(win.URL, 'revokeObjectURL').as('revoke'));
+    cy.get('.home-workbench [contenteditable="true"]').then(($editor) => {
+      const data = new DataTransfer();
+      data.items.add(new File(['image'], 'reference.png', { type: 'image/png' }));
+      data.items.add(new File(['video'], 'demo.mp4', { type: 'video/mp4' }));
+      data.items.add(new File(['# Sender\n\n文件预览'], 'readme.md', { type: 'text/markdown' }));
+      data.items.add(new File([createTestPdf()], 'guide.pdf', { type: 'application/pdf' }));
+      $editor[0].dispatchEvent(
+        new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData: data }),
+      );
+    });
+    cy.get('.home-workbench [contenteditable="true"] .home-file-links a').should('have.length', 5);
+    cy.get('.home-workbench .sd-sender-header').should('not.exist');
+    cy.contains('.home-file-links a', 'reference.png').focus();
+    cy.get('.home-file-links__preview .sd-file-previewer').should('be.visible');
+    cy.get('.home-file-links__preview img')
+      .should('have.attr', 'src')
+      .and('match', /^blob:/);
+    cy.contains('.home-file-links a', 'reference.png').blur();
+    cy.get('.home-file-links__preview--image').should('not.exist');
+    cy.contains('.home-file-links a', 'demo.mp4').focus();
+    cy.get('.home-file-links__preview video').should('exist');
+    cy.contains('.home-file-links a', 'demo.mp4').blur();
+    cy.get('.home-file-links__preview--video').should('not.exist');
+    cy.contains('.home-file-links a', 'guide.pdf').focus();
+    cy.get('.home-file-links__preview canvas', { timeout: 20000 }).should('be.visible');
+    cy.get('[aria-label="移除 guide.pdf"]').click();
+    cy.get('.home-file-links a').should('have.length', 4);
+    cy.contains('.home-file-links a', 'readme.md').focus();
+    cy.get('.home-file-links__preview .sd-markdown-render h1').should('have.text', 'Sender');
+    cy.get('@revoke').should('have.been.calledOnce');
+    cy.contains('.home-file-links a', 'readme.md').blur();
+    cy.get('.home-file-links__preview').should('not.exist');
+    cy.get('[aria-label="添加内容"]').click();
+    cy.contains('[role="menuitem"]', '添加组件库').click();
+    cy.contains('.home-file-links a', 'guide.pdf').should('not.exist');
+  });
+
+  it('默认 logo 词槽在手机尺寸不溢出', () => {
+    cy.viewport(390, 700);
+    cy.mount(HomeAIWorkbench);
+    cy.get('.home-workbench__suggestions').should('not.exist');
+    cy.get('.home-workbench [contenteditable="true"]').should(
+      'contain.text',
+      'android-chrome-192x192.png',
+    );
+    cy.document().should((doc) => expect(doc.documentElement.scrollWidth).to.be.at.most(390));
+    cy.get('[aria-label="选择工作方式"]').click();
+    cy.contains('[role="menuitem"]', 'Ask').click();
+    cy.get('[aria-label="发送需求"]').click();
+    cy.get('.home-workbench__result').should('not.exist');
   });
 });
 
