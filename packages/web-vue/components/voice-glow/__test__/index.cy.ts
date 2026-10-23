@@ -66,10 +66,15 @@ describe('VoiceGlow', () => {
     cy.mount(VoiceGlow, { props: { level: 0.8, idle: 0 } });
     cy.get('.sd-voice-glow').should(($element) => {
       const id = $element.attr('data-voice-beam');
-      expect(Number($element[0].style.getPropertyValue(`--vb-glow-${id}`))).to.be.greaterThan(0);
+      expect(Number($element[0].style.getPropertyValue(`--vb-level-${id}`))).to.be.greaterThan(0.5);
     });
     cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ level: 0 })));
-    cy.get('.sd-voice-glow').should('exist');
+    cy.get('.sd-voice-glow').should(($element) => {
+      const id = $element.attr('data-voice-beam');
+      const level = $element[0].style.getPropertyValue(`--vb-level-${id}`);
+      expect(level).not.to.equal('');
+      expect(Number(level)).to.be.lessThan(0.1);
+    });
   });
 
   it('analyses a live audio stream', () => {
