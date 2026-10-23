@@ -1,8 +1,53 @@
 import { h, nextTick, reactive, ref } from 'vue';
 
+import Form from '../../form';
 import Select from '../index';
 
 describe('Select robustness', () => {
+  it('blocks options while its Form is disabled and accepts selection after enabling', () => {
+    const disabled = ref(true);
+    const change = cy.spy().as('formDisabledChange');
+    cy.mount({
+      setup: () => () =>
+        h(Form, { model: {}, disabled: disabled.value }, () =>
+          h(Form.Item, {}, () =>
+            h(Select, { popupVisible: true, options: ['One', 'Two'], onChange: change }),
+          ),
+        ),
+    });
+    cy.get('input').should('be.disabled');
+    cy.contains('.sd-select-option', 'Two').should('be.visible').click();
+    cy.get('@formDisabledChange').should('not.have.been.called');
+    cy.then(() => {
+      disabled.value = false;
+    });
+    cy.get('input').should('not.be.disabled');
+    cy.contains('.sd-select-option', 'Two').click();
+    cy.get('@formDisabledChange').should('have.been.calledOnceWith', 'Two');
+  });
+
+  for (const multiple of [false, true]) {
+    it(`blocks selection in a controlled open popup while disabled, multiple=${multiple}`, () => {
+      const change = cy.spy().as('disabledChange');
+      cy.mount(Select, {
+        props: {
+          disabled: true,
+          popupVisible: true,
+          multiple,
+          defaultValue: multiple ? ['One'] : 'One',
+          options: ['One', 'Two'],
+          onChange: change,
+        },
+      });
+      cy.get('input').should('be.disabled');
+      cy.contains('.sd-select-option', 'Two').should('be.visible').click();
+      cy.get('@disabledChange').should('not.have.been.called');
+      cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ disabled: false }));
+      cy.contains('.sd-select-option', 'Two').click();
+      cy.get('@disabledChange').should('have.been.calledOnce');
+    });
+  }
+
   it('treats an initial controlled null as empty', () => {
     cy.mount(Select, { props: { modelValue: null, defaultValue: 'Old', options: ['Old'] } });
     cy.get('.sd-select-view-value').should('not.contain.text', 'Old');

@@ -536,7 +536,7 @@
   const selectFoundation = createSelectFoundation<Event>({
     getOptions: () => optionInfoMap,
     getMultiple: () => props.multiple,
-    getReadonly: () => !!props.readonly,
+    getReadonly: () => !!props.readonly || mergedDisabled.value,
     getLimit: () => props.limit,
     getValueKey: () => props.valueKey,
     getFieldNames: () => mergedFieldNames.value,

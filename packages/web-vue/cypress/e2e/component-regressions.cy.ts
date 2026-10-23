@@ -1,4 +1,12 @@
 describe('Documentation component regressions', () => {
+  it('selects an option from the Select documentation demo', () => {
+    cy.visit('/components/select/');
+    cy.get('.sd-select', { timeout: 15000 }).first().as('select');
+    cy.get('@select').click();
+    cy.contains('.sd-select-option:visible', 'Shanghai').click();
+    cy.get('@select').find('.sd-select-view-value').should('contain.text', 'Shanghai');
+  });
+
   it('keeps KvList row edits and its JSON model synchronized', () => {
     cy.visit('/components/kv-list/');
     cy.get('.sd-kv-list', { timeout: 15000 }).first().as('kvList');
