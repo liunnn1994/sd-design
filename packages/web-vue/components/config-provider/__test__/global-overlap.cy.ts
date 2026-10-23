@@ -10,6 +10,43 @@ describe('ThemeProvider overlapping global scopes', () => {
     });
   });
 
+  for (const tokenFirst of [false, true]) {
+    it(`restores the ambient mode with a token-only provider mounted ${tokenFirst ? 'first' : 'last'}`, () => {
+      cy.document().then((document) => document.body.setAttribute('sd-theme', 'light'));
+      cy.mount(
+        defineComponent({
+          setup() {
+            const showMode = ref(true);
+            const tokens = () =>
+              h(ThemeProvider, { global: true, theme: { tokens: { primary6: '1,2,3' } } });
+            const mode = () =>
+              showMode.value ? h(ThemeProvider, { global: true, themeMode: 'dark' }) : null;
+            return () =>
+              h('div', [
+                h(
+                  'button',
+                  {
+                    onClick: () => {
+                      showMode.value = false;
+                    },
+                  },
+                  'Remove mode',
+                ),
+                ...(tokenFirst ? [tokens(), mode()] : [mode(), tokens()]),
+              ]);
+          },
+        }),
+      );
+      cy.get('body').should('have.attr', 'sd-theme', 'dark');
+      cy.contains('button', 'Remove mode').click();
+      cy.get('body')
+        .should('have.attr', 'sd-theme', 'light')
+        .and(($body) => {
+          expect($body[0].style.getPropertyValue('--primary-6')).to.equal('1,2,3');
+        });
+    });
+  }
+
   for (const firstRemoved of ['first', 'second'] as const) {
     it(`restores the remaining provider when removing ${firstRemoved} first`, () => {
       cy.document().then((document) => {

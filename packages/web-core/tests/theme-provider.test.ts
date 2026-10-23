@@ -351,6 +351,31 @@ test('token-only global owners follow external mode changes and restore their or
   assert.equal(target.getAttribute('sd-theme'), 'light');
   assert.equal(target.style.getPropertyValue('--success-6'), '');
 });
+
+test('removing the last explicit global mode restores the ambient mode for token-only owners', () => {
+  for (const mode of [null, 'light', 'dark'] as const) {
+    for (const tokenFirst of [false, true]) {
+      const target = new Target();
+      if (mode) target.setAttribute('sd-theme', mode);
+      const tokens = Symbol(),
+        explicit = Symbol();
+      const addTokens = () =>
+        applyGlobalTheme(target.element, tokens, normalizeTheme({ tokens: { primary6: '1,2,3' } }));
+      if (tokenFirst) addTokens();
+      applyGlobalTheme(
+        target.element,
+        explicit,
+        normalizeTheme(),
+        mode === 'dark' ? 'light' : 'dark',
+      );
+      if (!tokenFirst) addTokens();
+      releaseGlobalTheme(target.element, explicit);
+      assert.equal(target.getAttribute('sd-theme'), mode);
+      assert.equal(target.style.getPropertyValue('--primary-6'), '1,2,3');
+      releaseGlobalTheme(target.element, tokens);
+    }
+  }
+});
 test('SSR factory, sync and disposal require no document or MutationObserver', (t) => {
   globalValue(t, 'document', undefined);
   globalValue(t, 'MutationObserver', undefined);

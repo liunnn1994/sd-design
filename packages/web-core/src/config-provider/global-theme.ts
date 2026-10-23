@@ -7,6 +7,8 @@ interface GlobalThemeLayer {
 
 interface GlobalThemeTarget {
   mode: string | null;
+  ambientMode: string | null;
+  renderedMode: string | null;
   variables: Map<string, { value: string; priority: string }>;
   layers: Map<symbol, GlobalThemeLayer>;
 }
@@ -20,9 +22,10 @@ function render(target: HTMLElement, state: GlobalThemeTarget) {
     Object.assign(variables, layer.variables);
     if (layer.mode !== undefined) declared = layer.mode;
   }
-  // 有 layer 显式声明模式时用声明的值；有 layer 但都未声明时跟随目标当前的
-  // sd-theme（外部可能运行时修改，mode 基线只用于全部释放后的还原）。
-  const mode = declared ?? (state.layers.size ? target.getAttribute('sd-theme') : state.mode);
+  const currentMode = target.getAttribute('sd-theme');
+  if (currentMode !== state.renderedMode) state.ambientMode = currentMode;
+  // 没有显式模式的 layer 跟随外部模式，不能继承已释放 layer 留下的模式。
+  const mode = declared ?? (state.layers.size ? state.ambientMode : state.mode);
   for (const [key, original] of state.variables) {
     if (variables[key] !== undefined) {
       target.style.setProperty(key, variables[key]);
@@ -39,6 +42,7 @@ function render(target: HTMLElement, state: GlobalThemeTarget) {
   } else if (target.getAttribute('sd-theme') !== mode) {
     target.setAttribute('sd-theme', mode);
   }
+  state.renderedMode = mode;
 }
 
 export function applyGlobalTheme(
@@ -49,7 +53,14 @@ export function applyGlobalTheme(
 ) {
   let state = targets.get(target);
   if (!state) {
-    state = { mode: target.getAttribute('sd-theme'), variables: new Map(), layers: new Map() };
+    const mode = target.getAttribute('sd-theme');
+    state = {
+      mode,
+      ambientMode: mode,
+      renderedMode: mode,
+      variables: new Map(),
+      layers: new Map(),
+    };
     targets.set(target, state);
   }
   const variables = getThemeCSSVariables(theme);

@@ -1,4 +1,19 @@
 describe('Documentation component regressions', () => {
+  it('switches the ThemeProvider demo mode without changing the page mode', () => {
+    cy.visit('/components/theme-provider/');
+    cy.get('.theme-provider-demo', { timeout: 15000 }).first().as('themeDemo');
+    cy.get('body')
+      .invoke('attr', 'sd-theme')
+      .then((pageMode) => {
+        for (const mode of ['light', 'dark']) {
+          cy.get('@themeDemo')
+            .contains('.sd-radio-button', mode === 'light' ? 'Light' : 'Dark')
+            .click();
+          cy.get('@themeDemo').find('.sd-theme-provider').should('have.attr', 'sd-theme', mode);
+          cy.get('body').should(($body) => expect($body.attr('sd-theme')).to.equal(pageMode));
+        }
+      });
+  });
   it('clears a canceled Calendar touch drag without creating an event', () => {
     cy.visit('/components/calendar/');
     cy.get('.sd-calendar', { timeout: 15000 }).first().as('calendar');
