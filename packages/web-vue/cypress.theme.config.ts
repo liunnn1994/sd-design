@@ -13,6 +13,7 @@ export default defineConfig({
       'cypress/e2e/theme-editor.cy.ts',
       'cypress/e2e/docs-styles.cy.ts',
       'cypress/e2e/home.cy.ts',
+      'cypress/e2e/home-local-chat.cy.ts',
       'cypress/e2e/home-workbench.cy.ts',
     ],
     supportFile: false,

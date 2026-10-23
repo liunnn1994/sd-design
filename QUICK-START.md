@@ -390,3 +390,9 @@ Tooltip/Popover 的共享模型可通过 compatTrigger.createPopupWrapperFoundat
 Clamp 的完整控制器位于 Core 的 `clamp/inline/foundation`、`clamp/line/foundation`、`clamp/rich-line/foundation`、`clamp/wrap/foundation`，也可从根命名空间 `clampInline`、`clampLine`、`clampRichLine`、`clampWrap` 访问。适配器提供普通 value cell、实时属性 getter 和渲染/测量调度端口；Vue 组件原有 props、插槽、事件和 expand/collapse/toggle 方法保持不变。
 
 Table 根规则可通过 `tableInteraction`、`tableDrag` 与既有 `tableLayout` 命名空间调用；Tree 拖放使用 `treeDrag`。TreeSelect 的输入/浮层和选择投影分别使用 `treeSelectInteraction`、`treeSelectPresentation`，并继续复用 `treeSelect` 的选择提交。Upload 预览使用 `uploadFiles.getUploadPreviewUrls`、`uploadFiles.previewUploadFile`。输入为普通状态/getter 和通知端口，不要求 Vue。保留回调顺序与异常传播，不要在适配器额外发送相同事件或添加拖放 finally 清理。
+
+## 首页模型演示
+
+进入文档站首页即自动加载 WebLLM 微型模型，Sender 示例通过 mini 尺寸的 Progress 显示加载进度，完成后隐藏。需要支持 WebGPU 与 shader-f16 的浏览器，以及可访问 ModelScope 和 jsDelivr 的网络。首次下载约 85 MB，浏览器缓存可复用；无需配置 Google 浏览器 AI、服务端模型或 API Key。默认输入询问 Sender 的用途，也可改为 MarkdownRender、Progress 等组件；背景来自本站 `/llms/llms.txt`，文档未提供的信息不会作为预置知识。停止按钮会终止推理 Worker，下一次发送重新加载缓存中的模型。
+
+相关验证：`mise exec -- node packages/web-vue/node_modules/cypress/bin/cypress run --project packages/web-vue --component --browser chrome --spec packages/web-vue/components/sender/__test__/home-demo.cy.ts`；`cypress/e2e/home-local-chat.cy.ts` 另含真实模型下载与生成测试，需要上述网络及 GPU 条件。

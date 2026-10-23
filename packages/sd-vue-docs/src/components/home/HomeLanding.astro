@@ -7,7 +7,7 @@ import HomeThemePreview from './HomeThemePreview.vue';
 ---
 <div class="home-landing not-content">
   <HomeHero />
-  <HomeSection id="ai-examples" title="从输入，到回答。" description="" href="/mcp/" linkLabel="接入 MCP"><HomeAIExamples client:visible /></HomeSection>
+  <HomeSection id="ai-examples" title="从输入，到回答。" description="" href="/mcp/" linkLabel="接入 MCP"><HomeAIExamples client:load /></HomeSection>
   <HomeSection id="components" title="先动手，再开始。" description="输入、选择、切换，直接试试真实组件。" href="/components/" linkLabel="全部组件"><HomePreviewGrid client:load /></HomeSection>
   <HomeSection id="theme" title="同一套组件，你的风格。" description="切换预设，查看控件与页面如何一起变化。" href="/guides/theme-editor/" linkLabel="打开主题编辑器"><HomeThemePreview client:visible /></HomeSection>
   <footer class="home-landing__footer"><span>SD Design · 为 AI 而生</span><a href="/guides/start/">把想法变成界面 →</a></footer>

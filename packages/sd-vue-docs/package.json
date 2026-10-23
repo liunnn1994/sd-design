@@ -24,6 +24,7 @@
     "@astrojs/mdx": "^8.0.3",
     "@astrojs/starlight": "^0.42.6",
     "@astrojs/vue": "^7.0.3",
+    "@mlc-ai/web-llm": "^0.2.86",
     "@sdata/web-vue": "workspace:*",
     "@tailwindcss/vite": "^4.3.3",
     "@terrastruct/d2": "^0.1.33",

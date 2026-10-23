@@ -291,3 +291,9 @@ Table 单元格懒加载与操作列选择派生/路由位于 Core table/cell；
 Tooltip/Popover 的可见性回退由 Core trigger/compat-state 共享，保留重复通知及受控释放后的本地请求。Vue 继续维护初始 ref、computed 和原事件映射，公开用法不变。
 
 Table 根组件的查询/分页通知、同级拖放提交与固定/操作列规则由 Core table/interaction、table/drag 和 table/layout 共享；Tree 的拖放判定与事件清理由 tree/drag 共享。TreeSelect 的输入/可见性事件与选择投影位于 tree-select/interaction、tree-select/presentation；Upload 的预览 URL、索引和通知顺序位于 upload/files。Vue 保留原受控状态接线、DOM 测量、组件实例、插槽与渲染，公开组件 API 不变。
+
+## 首页本地 AI 示例
+
+首页 Sender 示例使用 WebLLM 0.2.86，在 Web Worker 中通过 WebGPU 运行 SmolLM2-135M-Instruct 的 4-bit 模型。首页客户端挂载后自动从 ModelScope 获取固定版本的权重和分词器，匹配的 WASM 从 jsDelivr 获取，下载总量约 85 MB；浏览器缓存后续复用。模型资源不经过本站服务器，聊天内容只用于本机推理。助手启动时读取本站 `/llms/llms.txt`，每轮按问题选取相关条目和文档链接注入上下文，演示组件用途问答。微型模型不保证中文回答质量，也不将文档索引当作完整 API 文档。
+
+入口为 `packages/sd-vue-docs/src/components/home/useBrowserChat.ts` 和 `local-chat.worker.ts`。不支持 WebGPU 时明确显示示例对话；下载或推理失败、停止、120 秒超时都会恢复输入，不自动回源本站或切换云端推理。公共镜像的可用性不由本站保证。

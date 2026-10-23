@@ -4,11 +4,11 @@
 
   import { nextTick, shallowRef, useTemplateRef, watch } from 'vue';
 
-  import { Sender, Scrollbar, MarkdownRender } from '@sdata/web-vue';
+  import { Sender, Scrollbar, MarkdownRender, Progress } from '@sdata/web-vue';
 
   import { useBrowserChat } from './useBrowserChat';
 
-  const { messages, busy, checking, status, error, send, stop } = useBrowserChat();
+  const { messages, busy, replying, preparing, progress, error, send, stop } = useBrowserChat();
   const scrollbar = useTemplateRef<ScrollbarInstance>('scrollbar');
   const sender = useTemplateRef<SenderInstance>('sender');
   const following = shallowRef(true);
@@ -34,23 +34,29 @@
     { flush: 'post' },
   );
   const slots: SenderSlotConfig[] = [
-    { type: 'text', value: '帮我整理 ' },
-    { type: 'input', key: 'topic', props: { defaultValue: '产品发布', placeholder: '主题' } },
-    { type: 'text', value: ' 的重点。' },
+    { type: 'text', value: '介绍一下 ' },
+    { type: 'input', key: 'topic', props: { defaultValue: 'Sender', placeholder: '组件名称' } },
+    { type: 'text', value: ' 的用途。' },
   ];
   function submit(value: string) {
-    if (busy.value || checking.value || !value.trim()) return;
-    sender.value?.clear();
+    if (replying.value || !value.trim()) return;
     following.value = true;
     void send(value);
+    sender.value?.clear();
   }
 </script>
 <template>
   <div class="home-input-example">
     <div class="home-input-example__heading"
-      ><img src="/logo-icon.png" alt="" width="22" height="22" /><strong>产品助手</strong
-      ><span>{{ status }}</span></div
-    >
+      ><img src="/logo-icon.png" alt="" width="22" height="22" /><strong>组件助手</strong
+      ><Progress
+        v-if="preparing"
+        class="home-input-example__progress"
+        size="mini"
+        :percent="progress"
+        :show-text="false"
+        aria-label="模型加载进度"
+    /></div>
     <Scrollbar ref="scrollbar" :outer-style="{ height: '240px' }" @scroll="trackScroll"
       ><ol class="home-input-example__messages" role="log" aria-label="对话记录" aria-live="polite"
         ><li v-for="(message, index) in messages" :key="index" :class="message.role"
@@ -72,17 +78,17 @@
           ><span v-if="message.role === 'user'" class="home-input-example__avatar" aria-label="你"
             >你</span
           ></li
-        ><li v-if="busy" class="assistant"
-          ><p class="home-input-example__bubble">{{ status }}</p></li
+        ><li v-if="busy && !preparing" class="assistant"
+          ><p class="home-input-example__bubble">正在回复…</p></li
         ></ol
       ></Scrollbar
     >
     <Sender
       ref="sender"
       :slot-config="slots"
+      placeholder="输入组件问题，例如：如何使用 Sender？"
       :auto-size="{ minRows: 2, maxRows: 3 }"
-      :loading="busy"
-      :disabled="checking"
+      :loading="replying"
       @submit="submit"
       @cancel="stop"
     />
@@ -112,10 +118,8 @@
     font-weight: 500;
   }
 
-  .home-input-example__heading > span {
+  .home-input-example__progress {
     margin-left: auto;
-    color: rgb(var(--sd-success-6));
-    font-size: 11px;
   }
 
   .home-input-example__messages {

@@ -499,3 +499,9 @@ Clamp 的四个 Foundation 还管理测量内核之外的完整流程：Inline �
 tree/drag 持有四分之一高度位置判定、自身/后代拒绝与 start/over/drop/leave/end 顺序；Vue 提供延迟 DOM 几何读取和普通状态 cell，事件载荷保留原节点。tree-select/interaction 不建立第二套受控状态，只通过实时 getter 和写入端口执行输入去重、只读提示、四个可见性别名及关闭时 blur；原选择提交仍使用 tree-select/foundation。tree-select/presentation 管理叶节点/回调选择策略、closable/option、标量与数组及标签投影，回调 cell 保持原 receiver。upload/files 在匹配预览 URL 后先写 current、visible，再通知 preview；无匹配或未启用仍保留原 preview 通知。
 
 原生视图适配可以包含 DOM 代码：Menu 从真实可见 menuitem 收集焦点候选并调用 Core 导航决策；overflow-wrap 将 DOM 宽度与 margin 交给 Core 计算；Tabs 读取 offset、RTL 原生滚动和 computed style 后调用 Core 的 margin/目标偏移规则。Trigger 的 Vue watcher 管理窗口/祖先监听注册、每个实际滚动节点的起始坐标和生命周期取消，阈值与是否关闭的策略由 Core trigger/foundation 决定。这些节点与生命周期绑定不要求另造状态模型；不能以分支或 Core import 数量代替边界审核。
+
+## 文档站本地模型边界
+
+首页聊天属于 `sd-vue-docs` 的演示业务，不进入 web-core 或 web-vue 的公共组件 API。`useBrowserChat.ts` 管理对话、加载进度、错误和取消；`local-chat.worker.ts` 通过 WebLLM Worker 协议执行 GPU 推理，避免模型运算阻塞 Vue 页面。Sender 与 MarkdownRender 保持原有输入和展示职责。助手读取本站 `/llms/llms.txt`，用关键词匹配选取相关条目（最多三个、1000 字符），随每轮问题注入系统提示词；初始示例也进入对话上下文，避免将完整索引塞入 2K 模型窗口。
+
+WebLLM 版本、4-bit 模型权重 revision 与匹配 WASM revision 固定；浏览器分别直连 ModelScope 与 jsDelivr 并缓存资源，站点不托管权重，也不代理模型流量。只有静态模型资源出站下载，输入与推理留在本机。不支持 WebGPU 时显示标记清晰的示例对话；真实推理失败不生成伪造回复，取消、卸载与超时会终止 Worker。

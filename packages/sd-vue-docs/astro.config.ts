@@ -117,6 +117,7 @@ export default defineConfig({
       // Pre-bundle lazy renderers before the first demo opens. Discovering these
       // on demand invalidates URLs already held by hydrated Vue islands.
       include: [
+        '@mlc-ai/web-llm',
         ...dayjsLocaleDependencies,
         '@sdata/web-vue > cropperjs',
         '@sdata/web-vue > pdfjs-dist',
