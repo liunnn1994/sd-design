@@ -125,7 +125,10 @@ test('reorder copies the collection and preserves working object identities', ()
 });
 
 test('disabled gates edit actions while external synchronization remains active', () => {
-  const { state, api } = subject([{ key: 'a', value: '1' }]);
+  const { state, api } = subject([
+    { key: 'a', value: '1' },
+    { key: 'b', value: '2' },
+  ]);
   api.initialize();
   Object.defineProperty(state, 'disabled', { value: true });
   const rows = state.rows;
@@ -133,7 +136,12 @@ test('disabled gates edit actions while external synchronization remains active'
   api.updateItem(0, { id: 100, key: 'x', value: 'x' });
   api.removeItem(0);
   api.clearItems();
+  api.moveItem(0, 1);
   assert.equal(state.rows, rows);
+  assert.deepEqual(
+    state.json.map((item) => item.key),
+    ['a', 'b'],
+  );
   api.syncBulk('b: 2');
   assert.equal(state.rows[0]?.key, 'b');
   api.syncJson([{ key: 'c', value: '3' }]);

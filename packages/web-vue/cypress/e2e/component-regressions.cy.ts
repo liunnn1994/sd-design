@@ -1,4 +1,12 @@
 describe('Documentation component regressions', () => {
+  it('keeps KvList row edits and its JSON model synchronized', () => {
+    cy.visit('/components/kv-list/');
+    cy.get('.sd-kv-list', { timeout: 15000 }).first().as('kvList');
+    cy.get('@kvList').find('.sd-kv-list-value input').first().type('-review');
+    cy.get('@kvList').parent().find('pre').should('contain.text', 'cn-north-review');
+    cy.get('@kvList').find('.sd-kv-list-key input').first().should('have.value', 'region');
+  });
+
   it('restores the PanelGroup demo size after canceling a drag', () => {
     cy.visit('/components/panel-group/');
     cy.get('.single-panel-demo > .sd-panel-group > .sd-panel', { timeout: 15000 })

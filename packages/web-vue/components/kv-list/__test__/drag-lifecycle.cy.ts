@@ -1,8 +1,43 @@
 import { defineComponent, ref } from 'vue';
 
+import { startDrag, moveDrag } from '../../../cypress/support/drag-sort';
 import KvList from '../index';
 
 describe('KvList drag lifecycle', () => {
+  it('rejects a pending reorder if disabled before pointer release', () => {
+    const disabled = ref(false);
+    const json = ref([
+      { key: 'first', value: '1' },
+      { key: 'second', value: '2' },
+    ]);
+    cy.mount(
+      defineComponent({
+        components: { KvList },
+        setup: () => ({ disabled, json }),
+        template: '<KvList v-model:json="json" :disabled="disabled" />',
+      }),
+    );
+    startDrag('.sd-kv-list-drag-handle');
+    moveDrag('.sd-kv-list-rows > .sd-kv-list-row', 0.95, false);
+    cy.get('.sd-kv-list-rows > .sd-kv-list-row')
+      .last()
+      .find('input')
+      .first()
+      .should('have.value', 'first');
+    cy.then(() => {
+      disabled.value = true;
+    });
+    cy.get('.sd-kv-list-key input').should('be.disabled');
+    cy.document().trigger('pointerup', { eventConstructor: 'PointerEvent', pointerType: 'mouse' });
+    cy.get('.sortable-fallback').should('not.exist');
+    cy.then(() => expect(json.value.map((item) => item.key)).to.deep.equal(['first', 'second']));
+    cy.get('.sd-kv-list-rows > .sd-kv-list-row')
+      .first()
+      .find('input')
+      .first()
+      .should('have.value', 'first');
+  });
+
   it('reorders through DOM drag events and edits and removes the moved row', () => {
     cy.mount(
       defineComponent({

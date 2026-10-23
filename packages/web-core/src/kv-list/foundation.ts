@@ -84,6 +84,7 @@ export function createKvListFoundation(state: KvListState) {
     }
   }
   function moveItem(from: number, to: number) {
+    if (state.disabled) return;
     const next = [...state.rows];
     next.splice(to, 0, ...next.splice(from, 1));
     state.rows = next;
