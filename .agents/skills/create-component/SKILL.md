@@ -1,6 +1,6 @@
 ---
 name: create-component
-description: 为 SD Design Vue 组件库新增或重构组件的完整工作流。只要用户提到“新增组件”“补一个组件”“给组件库加文档/测试/样式”“按现有规范实现一个 web-vue 组件”“补齐组件导出、单测、demo、文档”“把内部组件整理成正式组件”就应触发，即使用户只显式提到其中一部分。必须覆盖源码、样式 token、导出入口、测试、文档页和验证步骤，而不是只写单个 .vue 文件或只改一个局部文件。
+description: 按 SD Design 的 Foundation + Adapter 架构新增或重构正式组件，覆盖 web-core 共享逻辑与样式、web-vue 适配与视图、公共入口、测试、demo 和文档。用于新增组件、内部组件公共化或补齐组件交付链路；局部修复只采用相关步骤。
 ---
 
 # Create Component
@@ -9,13 +9,53 @@ description: 为 SD Design Vue 组件库新增或重构组件的完整工作流�
 
 目标包和目录是固定的：
 
-- 组件源码放在 `packages/web-vue/components/<component-name>/`
+- 无框架逻辑和共享类型放在 `packages/web-core/src/<component-name>/`
+- 共享 SCSS/token 放在 `packages/web-core/styles/<component-name>/style/`
+- Vue Adapter + View 放在 `packages/web-vue/components/<component-name>/`
 - 文档页放在 `packages/sd-vue-docs/src/content/docs/components/<component-name>/index.mdx`
 - 文档站的 `src/components/generated/` 默认先视为生成目录，但必须先核实它在当前仓库里是否真的由脚本生成、是否受版本控制、是否实际作为 demo 测试输入
 
 在这个仓库里，组件实现风格优先服从现有组件库约定，而不是通用 Vue 最佳实践的默认答案。
 
 目标不是“能跑”，而是“达到组件库可合并、可维护、可发布的基线”。
+
+## Foundation + Adapter 架构
+
+按讨论 `01a15204-3974-7192-9a96-33ee802231af` 确定的分层实现组件：
+
+```text
+共享设计 token / SCSS（web-core/styles）
+共享 Foundation：规则、计算、交互流程、数据契约（web-core/src）
+    ├── Vue Adapter + View（web-vue，当前实现）
+    ├── React Adapter + View（未来按需实现）
+    ├── Solid Adapter + View（未来按需实现）
+    ├── Svelte Adapter + View（未来按需实现）
+    └── 原生 DOM Adapter + View（未来按需实现）
+```
+
+跨框架复用以 Foundation 和共享样式为边界，不引入 Stencil、Lit 或 Web Components 作为必要依赖。本次组件任务不默认创建其它框架包；原生端可以提供命令式创建、更新、订阅和销毁接口，也不要求 Custom Elements。
+
+### 职责边界
+
+| 层 | 应承担的职责 | 不应放入的内容 |
+| --- | --- | --- |
+| Foundation | 状态转换、数据处理、校验、选择/展开规则、键盘交互流程、共享类型 | Vue Ref/computed/watch、VNode、插槽、provide/inject、框架生命周期 |
+| 原生浏览器驱动（Core） | DOM 测量、观察器、原生监听器与计时器，通过端口接收元素和调度能力 | 模块导入时访问 DOM、依赖 Vue 组件实例或框架渲染器 |
+| Adapter（Vue） | 响应式状态、props 回写、emit、上下文、生命周期、渲染后调度与框架专属依赖接线 | 重复实现应由 Foundation 维护的规则和算法 |
+| View（Vue） | 模板、slot、VNode、Teleport、Transition、DOM 与可访问性属性绑定 | 独立维护另一套共享业务状态机 |
+| 共享样式 | 设计 token、组件 SCSS、主题变量与目录生成输入 | 在 Vue 包复制一份 token 或组件样式实现 |
+
+- Foundation 通过普通数据、getter/setter、回调端口与 Adapter 协作。可变输入使用实时 getter，避免只复制初始化值；状态由哪层持有应沿用现有契约，不重复维护两份真源。
+- 保持受控/非受控语义、缓存与对象身份、事件顺序及受控回写时机。不能在父级尚未回写时把受控值当作已提交。
+- 浏览器能力通过元素、`afterRender`、动画或计时端口接入；监听器、观察器、定时器与异步任务必须随生命周期释放，避免卸载后的回调继续更新状态。
+- Core 不反向导入 web-vue。Vue 通过 `@sdata/web-core/<component-name>/foundation` 等包入口消费，不跨包引用 `src`；Core 内部 ESM 导入沿用 `.js` 扩展名。
+- Table 自定义单元格、Form 上下文、Select 自定义内容等由各框架正常渲染。共享数据与交互规则，不设计统一 VNode/slot 桥接协议。
+- `@floating-ui/vue`、`motion-v`、`virtua/vue` 等框架专属接线留在 Vue；可独立于框架运行的驱动才归入 Core。
+- 纯展示组件可只有 View 和共享样式，不为凑目录创建空 Foundation；有共享行为时，不能仅把 Vue hook 改名为 Foundation。
+
+### 开始实现前
+
+先列清该组件的共享规则、浏览器驱动、Adapter 与 View 各自负责什么，再选择已完成分层的相邻组件作参考。重构时先盘点现有 props、事件、slot、实例方法、深导入和测试；跨框架分层本身不授权废弃、删除或改名现有 API。只有任务明确要求迁移时才实施对应兼容方案。
 
 ## 顶层约束
 
@@ -64,7 +104,7 @@ description: 为 SD Design Vue 组件库新增或重构组件的完整工作流�
 - 不要只看 DemoEditor / 在线 REPL 里是否可用；凡是文档 demo 依赖浮层、裁剪、懒激活、首次 hover/focus/click 或容器尺寸，必须同时确认 `DemoBlock` 预览里的第一轮交互也有可见效果。
 - 文档页里的 `*Source` 变量默认应直接使用对应 demo 文件的 `.vue?raw` 导入，不要在 MDX 里再手写一份重复源码字符串。
 - 根目录下的 `vendor` 文件夹默认视为“外部依赖的本地化产物”，里面的内容仅供参考，不要默认它们在当前任务里就是需要维护的输入或输出。要实现的是把它们的能力内化到组件库源码里，而不是给组件库加外部运行时依赖。
-- 如果是迁移组件，则删除所有公开的 rendered API，改成废弃警告，保持组件可用但不可访问；改用 Vue 的 Slot 替代所有可组合能力；保持现有事件和 props 的语义不变，但不再保证它们的实现细节；在文档页里说明这是一个废弃组件，并引导用户迁移到新的组件上；如果组件库里还有其它组件依赖它，优先先改这些依赖组件去掉对它的直接引用，再改它自己。
+- 如果任务明确要求迁移或废弃 API，先确认替代入口、库内调用方和兼容方式，再同步文档与测试；不要把 F/A 分层重构自动视为废弃组件或删除 render API 的授权。
 
 执行结束前，至少自查一次：源码、样式、导出、测试、文档、验证 6 个面是否都已覆盖。
 
@@ -161,13 +201,13 @@ description: 为 SD Design Vue 组件库新增或重构组件的完整工作流�
 1. 相邻组件是否在同目录下存在多变体文件。
 2. `components/index.ts` 的导出写法。
 3. `components/sd-vue.ts` 的注册写法。
-4. `__test__/index.test.ts` 的断言风格。
-5. `__test__/demo.test.ts` 是否接统一 demo 测试脚本。
+4. `__test__/index.cy.ts` 的断言风格。
+5. `__test__/demo.cy.ts` 是否接统一 demo 测试脚本。
 6. docs 页是直接维护 MDX，还是依赖额外生成步骤。
 7. 当前仓库真实存在的验证脚本名。
 8. 是否存在 `components/components.ts` 这类全局组件类型声明文件需要同步。
 9. 是否存在 `components/index.scss` 这类根样式聚合入口需要同步。
-10. 根样式聚合入口当前使用的 import 写法是什么；在本仓库中，现有 `@import url('./foo/style/index.scss');` 写法应视为有效约定，不要擅自去掉 `url()` 或改写路径分隔符。
+10. 根样式聚合入口当前使用的 `@use` 写法，以及 Vue 样式向 Core 转发的路径；保持现有前缀、路径和深入口兼容。
 11. 当前仓库的组件文档发现入口是否还需要同步 `packages/sd-vue-docs/src/content/docs/components/index.mdx` 和 `packages/sd-vue-docs/src/generated/docs-sidebar.ts`。
 
 如果终端历史、缓存文件、生成目录和 `package.json` 脚本信息互相冲突，以源码中的当前事实为准，优先级通常是：
@@ -231,12 +271,14 @@ description: 为 SD Design Vue 组件库新增或重构组件的完整工作流�
 
 ## 先看参考组件
 
+同时查看 `web-core/src/<name>/foundation.ts`、Core 测试、`web-core/styles/<name>/style/` 与 Vue 适配调用链。可用 `collapse` 理解 getter/setter 与事件接线，用 `skeleton-reveal` 理解浏览器驱动端口和生命周期；参考分层职责，不照搬旧 props 写法。
+
 开始实现前，至少快速对照一个现有组件。优先找一个复杂度接近的组件，确认这些点：
 
 - `packages/web-vue/components/<name>/<name>.vue` 的组织方式
 - `index.ts` 的安装导出模式
 - `style/index.scss`、`style/token.scss`、`style/index.ts` 的拆分方式
-- `__test__/index.test.ts` 和 `__test__/demo.test.ts` 的测试粒度
+- `__test__/index.cy.ts` 和 `__test__/demo.cy.ts` 的测试粒度
 - `packages/sd-vue-docs/src/content/docs/components/<name>/index.mdx` 的文档结构
 - `packages/web-vue/components/index.ts` 和 `packages/web-vue/components/sd-vue.ts` 的总入口同步方式
 - `packages/web-vue/components/components.ts` 是否还需要同步全局组件声明
@@ -256,27 +298,35 @@ description: 为 SD Design Vue 组件库新增或重构组件的完整工作流�
 
 ## 组件目录结构
 
-默认按这个结构创建：
+按组件实际职责创建下列文件；没有共享行为时不需要 `foundation.ts`，共享类型也只在需要时独立拆分。
 
 ```text
+packages/web-core/
+├── src/<component-name>/
+│   ├── foundation.ts
+│   └── types.ts
+├── styles/<component-name>/style/
+│   ├── index.scss
+│   └── token.scss
+└── tests/<component-name>-foundation.test.ts
+
 packages/web-vue/components/<component-name>/
-├── <component-name>.vue
-├── index.ts
+├── <component-name>.vue           # Adapter + View
+├── index.ts                      # 公共导出与安装
+├── types.ts                      # Vue 专属公共类型（按需）
 ├── __test__/
-│   ├── index.test.ts
-│   └── demo.test.ts
+│   ├── index.cy.ts
+│   └── demo.cy.ts
 └── style/
-		├── index.scss
-		├── index.ts
-		└── token.scss
+    ├── index.ts                  # 运行时样式入口
+    ├── index.scss                # @forward 共享样式
+    └── token.scss                # @forward 共享 token
 ```
 
-说明：
-
-- `__test__/__snapshots__/` 是测试生成产物，通常不手建
-- 如果组件有子组件，可以在同目录增加子组件文件或子目录，但主入口仍保持清晰
-- 不要把文档示例直接塞进组件目录；文档页放在 docs 包
-- 如果是组件组或多形态组件，可以有额外 `.vue` 文件，例如 `progress/circle.vue`、`progress/line.vue`，但仍要保留一个清晰的主入口和统一测试策略
+- Core 新增公共能力时，检查 `packages/web-core/src/index.ts` 的命名空间导出及 `package.json` 的深入口映射，不默认暴露私有端口。
+- Vue 公共入口保留安装、类型、组件与深导入契约；旧工具/类型路径需要兼容时用转导出，避免复制实现。
+- 组件组或多形态组件可以增加子组件，仍保持清晰的主入口和组合测试。
+- 文档示例放在 docs 包，按真实脚本确认维护源，不放入组件目录。
 
 ## 必做文件
 
@@ -314,7 +364,7 @@ API 设计时还要额外检查：
 
 如果组件是纯展示组件，避免无意义的响应式状态。
 
-如果组件需要复杂逻辑，拆出内部工具或 hooks，但不要把公共 API 藏进难追踪的私有抽象。
+如果组件需要复杂逻辑，将共享规则和原生驱动放入 Core，Vue 只保留框架适配；不要用 Vue hooks 承载另一套应共享的规则。
 
 实现时优先做到“相邻组件可读性一致”，而不是把文件写成抽象程度过高的范式样板。
 
@@ -359,42 +409,33 @@ export default Component;
 - 子导出顺序与 docs 叙述顺序基本一致
 - 类型导出不要遗漏子组件实例或公共类型
 
-### 3. 样式 token 文件
+### 3. 共享样式 token
 
-路径：`packages/web-vue/components/<component-name>/style/token.scss`
+维护源：`packages/web-core/styles/<component-name>/style/token.scss`。
 
-职责：
+- 使用 SCSS `$<component-name>-...` 变量，优先复用 `web-core/styles/style/theme` 的基础 token；命名区分背景、文本、边框与状态。
+- 按相邻 Core 组件使用 `@use` / `@forward`，不使用 Less 的 `@xxx`、`@{prefix}` 或 `@import url(...)` 模板。
+- Vue 的 `components/<component-name>/style/token.scss` 只保留兼容转发：
 
-- 定义组件级 token
-- 从 `../../style/theme/index.scss` 引入基础设计 token
-- 把尺寸、字号、圆角、颜色、间距等收敛成变量
+```scss
+@forward '@sdata/web-core/styles/<component-name>/style/token.scss';
+```
 
-要求：
+主题生成器 `packages/web-core/scripts/theme-catalog.ts` 默认扫描 `web-core/styles`。只在 Vue 新建 token 不会进入共享目录生成链路。通过 Vue 的 `theme:generate` 入口运行 Core 生成与 Vue 元数据同步，不手改生成的 theme catalog 或变量文件。
 
-- 不要把大量魔法值直接写进 `index.scss`
-- 状态色、文本色、背景色、边框色尽量拆开
-- token 命名加组件前缀，如 `@alert-color-close-icon`
-- 优先复用全局设计 token，不要在组件 token 层重新发明基础色板或间距体系
-- token 命名尽量语义化，不要写成 `@xxx-color-1` 这类无法读懂的名字
+### 4. 共享样式实现与兼容入口
 
-### 4. 样式实现文件
+维护源：`packages/web-core/styles/<component-name>/style/index.scss`。
 
-路径：`packages/web-vue/components/<component-name>/style/index.scss`
+- 消费同目录 token 与共享主题/mixins，使用 SCSS 插值形成 BEM 类名。
+- 类名与 Vue 模板一致，保持现有前缀、主题作用域与 CSS 变量行为。
+- Vue 的 `components/<component-name>/style/index.scss` 只转发共享实现：
 
-职责：
+```scss
+@forward '@sdata/web-core/styles/<component-name>/style/index.scss';
+```
 
-- `@import url('./token.scss');`
-- 定义组件 BEM 风格 class
-- 通过 `@{prefix}-<component-name>` 形成最终类名
-
-要求：
-
-- 结构类、状态类、子元素类命名清晰
-- 先写根容器，再写修饰符和子元素
-- 只在这里消费 token，不重复定义语义变量
-- 与组件模板中的 class 名一一对应
-- 状态修饰和结构元素分层清晰，不要把选择器写成难维护的深层嵌套
-- 优先保持与同类组件相似的 class 组织方式
+新增 token 或改动样式时，检查主题编辑器可发现性、变量生成、共享样式契约，以及浏览器中的主题切换效果。
 
 ### 5. 样式入口文件
 
@@ -426,7 +467,7 @@ import './index.scss';
 
 ## 必做总入口同步
 
-新增公共组件后，至少同步下面两个入口。
+新增公共组件后，检查以下 Vue 入口，以及上述 Core 导出和共享样式入口。
 
 ### 1. 命名导出入口
 
@@ -469,87 +510,54 @@ import './index.scss';
 
 在当前仓库里，这个文件也是手工维护入口。新增公共组件样式后，通常还需要补：
 
-- `@import url('./<component-name>/style/index.scss');`
+- 沿用现有 `@use '@components/<component-name>/style/index.scss' as *;` 写法接入 Vue 兼容入口。
 
 额外约束：
 
 - 只做最小改动，新增当前组件自己的样式入口即可
 - 保持文件现有风格，不要顺手批量改写其它 import
-- 如果现有写法是 `@import url('./...');`，就继续沿用，不要把它改成别的形式
+- 共享实现维护在 Core；这里接入组件入口，不复制样式或重写其它组件的导入
 - 不要因为本地工具或操作系统差异去改路径分隔符；以仓库文件当前风格为准
 
-## 测试要求
+## 分层测试要求
 
-组件至少补两类测试：行为测试和 demo 快照测试。
+改变组件行为、API 或样式时，同步更新相关 Cypress 组件测试、E2E 与共享断言，并运行受影响用例。快照或元素存在断言不能替代关键行为验证。
 
-如果是组件组或函数式 API，再额外补一类“组合调用”测试，避免只验证静态渲染。
+### 1. Foundation 与原生驱动
 
-测试质量要求：
+路径：`packages/web-core/tests/<component-name>-foundation.test.ts`，使用 Node 内置测试运行器，参考相邻 Core 测试。
 
-- 每个关键公共能力至少有一个非快照断言
-- 不要用“存在即可”断言替代语义行为验证
-- 不要只测 happy path
-- 对有状态切换的组件，至少测一次状态前后变化
-- 对事件，至少测是否触发以及触发时机或参数之一
+- 使用普通数据和端口测试规则、状态转换、边界与禁用行为，不依赖 Vue。
+- 涉及受控状态时，验证输入变化后读取到最新值、父级拒绝/延迟回写、状态与事件通知顺序。
+- 涉及驱动时，验证释放、取消和卸载后回调；真实布局与浏览器交互仍由浏览器测试覆盖。
+- Core 模块导入不能依赖全局 DOM；涉及 SSR 或公开深入口的改动，补相应导入与产物契约验证。
 
-### 1. 行为测试
+### 2. Vue Adapter + View
 
-路径：`packages/web-vue/components/<component-name>/__test__/index.test.ts`
+路径：`packages/web-vue/components/<component-name>/__test__/index.cy.ts`，使用 Cypress 的 `cy.mount`，沿用当前组件测试配置。
 
-优先覆盖：
+覆盖实际公共契约：props、事件参数和时机、slot、状态切换、受控回写、键盘与焦点、组合上下文，以及按需的卸载清理。Foundation 测试不能替代这些框架接线测试。
 
-- 关键 props 生效
-- 关键 events 触发
-- slots 渲染
-- class 状态切换
-- 控制逻辑或边界行为
+组件组或服务式能力额外验证主子组件协作、函数调用与销毁入口。共享测试若断言了受影响组件的行为或样式，也必须一起更新。
 
-写法约定：
+### 3. 文档 demo 与真实页面
 
-- 使用 `@vue/test-utils` 的 `mount`
-- 测试描述简洁明确
-- 断言以用户可观察行为为主，不要过度绑定内部实现
-- 不要为了凑覆盖率测试无意义的私有细节
-
-建议至少有这些 case：
-
-- 默认渲染
-- 一到两个核心 props
-- 一个事件
-- 一个 slot 或内容插槽
-- 一个边界条件
-
-有下面这些情况时，应再加测试：
-
-- 受控/非受控双模式
-- props 联动
-- 子组件注册或上下文协作
-- 异步关闭、延迟渲染、销毁卸载
-- 可访问性交互，例如键盘触发或 aria 状态
-
-### 2. demo 测试
-
-路径：`packages/web-vue/components/<component-name>/__test__/demo.test.ts`
-
-固定模式通常是：
+路径：`packages/web-vue/components/<component-name>/__test__/demo.cy.ts`，参考当前模式：
 
 ```ts
-import demoTest from '../../../scripts/demo-test';
+import type { Component } from 'vue';
+import { runDemoTests } from '../../../cypress/support/demo-test';
 
-demoTest('<component-name>');
+const demos = import.meta.glob<{ default: Component }>(
+  '../../../../sd-vue-docs/src/components/generated/<component-name>/*.vue',
+);
+
+runDemoTests('<component-name>', demos, () => {
+  // 在具体 demo 中验证该组件的关键可观察行为。
+});
 ```
 
-作用：
-
-- 自动挂载 docs 包里生成的 demo 组件
-- 对 demo HTML 做快照校验
-
-注意：
-
-- 这依赖 docs 包里的生成 demo 文件存在
-- `__snapshots__` 由测试生成，不要手写
-
-如果 demo 组件来源不明，先查 `scripts/demo-test` 和 docs 目录引用链路，再决定是否需要额外同步步骤。
+确认 demo 文件真实参与测试；按场景增加行为断言，不能把空回调当作验证完成。文档中的浮层、裁剪、首次交互和主题必须在真实 `DemoBlock` 容器中验证；组件挂载通过不能推导文档页面或在线编辑器可用。未来新增其它框架适配时，各适配需独立验证行为、可访问性和样式一致性。
 
 ## 文档要求
 
@@ -575,7 +583,7 @@ description: 一句话描述组件用途。
 
 import DemoBlock from '../../../../components/docs/DemoBlock.astro';
 import XxxBasicDemo from '../../../../components/generated/<component-name>/basic.vue';
-export const xxxBasicSource = '...';
+import xxxBasicSource from '../../../../components/generated/<component-name>/basic.vue?raw';
 
 ### 基本用法
 
@@ -633,7 +641,7 @@ export const xxxBasicSource = '...';
 当前仓库还要额外注意：
 
 - 如果 `package.json` 里不存在 `docs:generate-demos` 或 `generate-demos` 一类脚本，就不要因为终端历史里出现过类似命令而把它当真
-- 如果 `scripts/demo-test` 直接从 `packages/sd-vue-docs/src/components/generated/<component-name>/*.vue` 加载 demo，而这些文件又已经受版本控制，那么它们在当前仓库里应视为需要维护的输入文件，而不是可以忽略的纯产物
+- 如果 `cypress/support/demo-test` 与组件的 `demo.cy.ts` 直接从 `packages/sd-vue-docs/src/components/generated/<component-name>/*.vue` 加载 demo，而这些文件又已经受版本控制，那么它们在当前仓库里应视为需要维护的输入文件，而不是可以忽略的纯产物
 - 结论必须以当前源码和脚本为准，不以历史命令名为准
 - 当前已确认存在的 docs 相关脚本包括：`docs:prepare`、`docs:vendor`、`docs:vendor:only`、`dev`、`dev:serve`、`build`、`build:site`、`preview`
 - 对文档 demo 来说，`DemoEditor` 能运行不等于 `DemoBlock` 预览可用；如果组件有 tooltip / popover / teleported popup / overflow 裁剪 / 懒激活切换，必须按文档预览容器的真实约束检查一遍
@@ -664,67 +672,39 @@ demo 不是越多越好，优先覆盖使用者最关心的能力。默认至少
 
 按这个顺序推进，避免返工：
 
-1. 先判断组件形态。
-2. 定义组件 API。
-3. 选择参考组件。
-4. 创建组件目录骨架。
-5. 实现 `<component-name>.vue` 或相关变体组件。
-6. 补 `index.ts` 安装导出。
-7. 补 `style/token.scss`、`style/index.scss`、`style/index.ts`。
-8. 更新 `packages/web-vue/components/index.ts`。
-9. 更新 `packages/web-vue/components/sd-vue.ts`。
-10. 更新 `packages/web-vue/components/components.ts`。
-11. 更新 `packages/web-vue/components/index.scss`。
-12. 写 `__test__/index.test.ts`。
-13. 写 `__test__/demo.test.ts`。
-14. 写 `packages/sd-vue-docs/src/content/docs/components/<component-name>/index.mdx`。
-15. 同步 `packages/sd-vue-docs/src/content/docs/components/index.mdx` 和 `packages/sd-vue-docs/src/generated/docs-sidebar.ts`，确保组件在文档导航中可发现。
-16. 核实 demo 相关链路是否需要额外同步，以及 `generated/<component-name>` 是否需要补 demo 源文件。
-17. 如果 demo 有浮层、裁剪、懒激活或首次交互逻辑，额外确认 `DemoBlock` 预览里的第一轮交互不是“无效果”。
-18. 运行验证命令。
-19. 修复和本次改动直接相关的错误。
-
-不要跳过第 1 步和第 3 步。很多返工都来自先写实现、后发现组件形态判断错了。
-
-如果是重构现有组件，开始改之前先补一件事：
-
-16. 先盘点现有组件实际对外契约，再决定哪些要保留、兼容或迁移。
+1. 盘点现有 API 与组件形态，划分 Foundation、驱动、Adapter、View 和共享样式；选择已分层的参考组件。
+2. 定义共享数据/端口契约与 Vue 公共 API；重构保留既有可观察行为和深导入契约。
+3. 实现 Core 规则、类型与必要的原生驱动，补 Foundation 测试并检查导出。
+4. 实现 Vue Adapter + View，接入响应式、生命周期、上下文、事件和框架依赖。
+5. 在 Core 实现 SCSS/token，在 Vue 保留样式转发和运行时入口，接入根样式入口与主题生成链路。
+6. 同步 Vue 命名导出、插件安装、全局组件类型和必要的兼容入口。
+7. 补 Cypress 行为与 demo 测试，同步受影响的共享测试和 E2E。
+8. 补 MDX、demo 源文件、组件总览和导航入口，确认 `DemoBlock` 第一轮交互与主题表现。
+9. 运行受影响检查、构建与浏览器验证，修复本次引入的问题并明确未验证范围。
 
 ## 验证命令
 
-优先使用仓库中已经验证存在的命令：
+使用仓库 `.mise.toml` 固定的工具链；运行前核实当前脚本与测试文件。以下从仓库根执行，测试路径按当前组件替换：
 
-```bash
-pnpm --filter @sdata/web-vue test
-pnpm --filter @sdata/web-vue run build:module
-pnpm --filter @sd-design/sd-vue-docs run docs:vendor
-pnpm --filter @sd-design/sd-vue-docs run build
-pnpm --filter @sd-design/sd-vue-docs run dev
+```powershell
+mise exec -- pnpm --filter @sdata/web-core run build
+mise exec -- node --test packages/web-core/tests/<component-name>-foundation.test.ts
+mise exec -- pnpm --filter @sdata/web-vue run icongen
+mise exec -- pnpm --filter @sdata/web-vue exec cypress run --quiet --component --browser chrome --spec "components/<component-name>/__test__/*.cy.ts"
+mise exec -- pnpm run typecheck
+mise exec -- pnpm run test:styles
+mise exec -- pnpm --filter @sdata/web-vue run build
+mise exec -- pnpm --filter @sdata/web-vue run test:foundation-exports
+mise exec -- pnpm --filter @sd-design/sd-vue-docs run docs:vendor:only
+mise exec -- pnpm --filter @sd-design/sd-vue-docs run build:site
 ```
 
-验证目标：
-
-- 组件测试通过
-- 组件可正常构建为模块产物
-- 文档站能拿到最新组件产物和 vendor 依赖
-- 文档页能在开发环境正常打开
-
-如果只需要快速验证，也至少跑组件测试；如果改了文档或样式入口，补跑 docs 相关命令。
-
-更严格的验证顺序建议：
-
-1. 先跑与当前组件直接相关的测试
-2. 再跑 `@sdata/web-vue` 级别测试
-3. 再跑模块构建
-4. 再跑 docs vendor 或 docs build，验证文档侧接入
-5. 如需人工联调，再跑 docs dev / dev:serve
-
-如果某条验证因为仓库基线问题失败，要区分：
-
-- 是本次改动引入的问题
-- 还是仓库已有问题
-
-不要把仓库历史遗留问题误写成当前改动失败。
+- 先跑受影响 Core / Cypress / E2E 用例，再按变更范围扩大检查；不存在 Foundation 时不运行占位测试路径。
+- 样式或 token 变化需运行 `test:styles` 和主题相关浏览器用例。`icongen` 经 `theme:generate` 准备 Core 与主题生成文件，检查生成差异是否与本次变更一致。
+- 正式组件需验证类型、模块/样式/声明产物、Core 依赖与必要的旧深入口；只跑 `build:module` 不能证明完整发布链路。
+- 文档变更需同步最新 vendor、构建站点并打开真实页面验证交互。需启动时使用根目录 `dev` 或核实后的 docs 开发入口；构建成功不等于浏览器验证通过。
+- 要求“整体流程”或发布验收时，按当前根脚本覆盖安装、静态/类型检查、完整构建、组件测试、打包消费和 docs E2E。
+- 检查失败时区分本次引入与基线问题，记录实际执行的检查与未覆盖范围，不把模拟端口测试当作真实浏览器或其它框架验证。
 
 ## 发布级检查
 
@@ -743,11 +723,12 @@ pnpm --filter @sd-design/sd-vue-docs run dev
 
 只有同时满足下面条件，才算组件真正完成：
 
-- 组件源码可读且 API 清晰
-- 样式 token 与样式入口齐全
+- Foundation、原生驱动与 Vue Adapter/View 职责明确，Core 不依赖 Vue
+- 组件源码可读且 API 清晰，重构保留约定的兼容入口与行为
+- 共享 SCSS/token 位于 Core，Vue 样式转发、根入口与主题生成链路齐全
 - 公共导出入口已同步
 - 插件安装入口已同步
-- 行为测试已补齐
+- Core 规则/端口测试与 Vue Cypress 行为测试按职责补齐，受影响 E2E 和共享测试已同步
 - demo 测试已补齐
 - 文档页已补齐
 - 文档总览页和侧边栏等发现入口已补齐
@@ -771,7 +752,10 @@ pnpm --filter @sd-design/sd-vue-docs run dev
 - 忘了 `packages/web-vue/components/index.scss` 的根样式入口
 - 样式写进组件里，却没补 `style/index.ts`
 - token 没抽出来，导致 `index.scss` 堆满魔法值
-- 只写功能测试，没写 `demo.test.ts`
+- 只写功能测试，没写 `demo.cy.ts`
+- 共享逻辑仍依赖 Vue，或在多个 Adapter 中重复实现规则
+- token 只放在 Vue，遗漏 Core 主题扫描与生成链路
+- 只测 Foundation，漏掉受控回写、slot、上下文和生命周期接线
 - 只写 MDX 页面，没有核实 generated demo 到底是不是当前仓库里的手工源
 - 文档写了 props，却漏了 events 或 slots
 - 使用不存在的仓库脚本名
