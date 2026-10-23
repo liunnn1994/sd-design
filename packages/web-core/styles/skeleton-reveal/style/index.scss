@@ -1,0 +1,38 @@
+@use '../../style/theme/index.scss' as theme;
+@use './token.scss' as *;
+
+@layer sd-design {
+  .#{theme.$prefix}-skeleton-reveal {
+    position: relative;
+    min-width: 0;
+
+    &-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+
+      [data-reveal-draw] {
+        stroke-width: max(5px, $skeleton-reveal-stroke-width);
+      }
+
+      > rect {
+        fill: none;
+        stroke: $skeleton-reveal-stroke;
+        stroke-width: $skeleton-reveal-stroke-width;
+        stroke-dasharray: 2 5;
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .#{theme.$prefix}-skeleton-reveal-overlay {
+      display: none;
+    }
+    .#{theme.$prefix}-skeleton-reveal-content {
+      opacity: 1 !important;
+    }
+  }
+}

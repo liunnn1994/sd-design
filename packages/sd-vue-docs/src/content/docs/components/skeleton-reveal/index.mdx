@@ -1,0 +1,89 @@
+---
+title: 线框入场 SkeletonReveal
+description: 将真实内容的控件轮廓绘制为虚线，再交叠揭示内容的入场过渡。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import Basic from '../../../../components/generated/skeleton-reveal/basic.vue';
+import basicSource from '../../../../components/generated/skeleton-reveal/basic.vue?raw';
+import Duration from '../../../../components/generated/skeleton-reveal/duration.vue';
+import durationSource from '../../../../components/generated/skeleton-reveal/duration.vue?raw';
+import Interactive from '../../../../components/generated/skeleton-reveal/interactive.vue';
+import interactiveSource from '../../../../components/generated/skeleton-reveal/interactive.vue?raw';
+import Composition from '../../../../components/generated/skeleton-reveal/composition.vue';
+import compositionSource from '../../../../components/generated/skeleton-reveal/composition.vue?raw';
+
+在首次展示表单、卡片或工具界面时，先绘制虚线轮廓，再让真实内容交叠淡入。它是一段有限的入场过渡，不表示网络加载进度。
+
+### 基本用法
+
+进入视口后自动播放一次。真实内容保留在原位置，不会因覆盖层改变布局。
+
+<DemoBlock source={basicSource} mainFile="src/skeleton-reveal-basic.vue">
+  <Basic client:only="vue" />
+</DemoBlock>
+
+### 自定义时长
+
+`duration` 的单位为毫秒，设置为 `0` 可直接显示内容。自动播放关闭时，可通过实例方法主动重播。
+
+<DemoBlock source={durationSource} mainFile="src/skeleton-reveal-duration.vue">
+  <Duration client:only="vue" />
+</DemoBlock>
+
+### 随时开始操作
+
+点击、按键或聚焦内容都会立即跳过，输入和焦点不受影响。`finish()` 也可以直接结束入场。
+
+<DemoBlock source={interactiveSource} mainFile="src/skeleton-reveal-interactive.vue">
+  <Interactive client:only="vue" />
+</DemoBlock>
+
+### 组合内容
+
+使用默认插槽放入现有组件。线框根据真实 DOM 生成，无需再维护一份骨架布局。
+
+<DemoBlock source={compositionSource} mainFile="src/skeleton-reveal-composition.vue">
+  <Composition client:only="vue" />
+</DemoBlock>
+
+## API
+
+### Props
+
+| 参数     | 说明                                   | 类型    | 默认值 |
+| -------- | -------------------------------------- | ------- | ------ |
+| duration | 总时长（毫秒），0 直接显示，上限 10000 | number  | 1600   |
+| autoplay | 首次进入视口时自动播放                 | boolean | true   |
+| disabled | 禁用入场效果                           | boolean | false  |
+
+### Events
+
+| 事件   | 说明                                     |
+| ------ | ---------------------------------------- |
+| finish | 正在播放的动画自然结束或被跳过时触发一次 |
+
+### Slots
+
+| 插槽    | 说明             |
+| ------- | ---------------- |
+| default | 要展示的真实内容 |
+
+### Methods
+
+| 方法     | 说明                                 |
+| -------- | ------------------------------------ |
+| replay() | 重新测量并播放，返回 `Promise<void>` |
+| finish() | 停止动画并立即显示内容               |
+
+## 主题
+
+通过 `ConfigProvider` 的 `theme.components['skeleton-reveal']` 覆盖 `skeleton-reveal-stroke`（轮廓颜色）和 `skeleton-reveal-stroke-width`（描边宽度，默认 `1px`）。也支持 `stroke`、`strokeWidth` 简写，可在主题编辑器中直接预览。
+
+## 性能与可访问性
+
+每次播放最多测量 24 个轮廓，只在开始时读取布局；播放期间不逐帧更新 Vue 状态，不循环运行。虚线绘制只重绘局部 SVG，内容采用 opacity 淡入。动画结束后移除 SVG 并停止动画实例。
+
+内容尺寸变化、页面隐藏、元素离开视口、组件卸载或用户开始交互都会结束当前动画。系统启用“减少动态效果”时直接显示内容；关闭 JavaScript 时仍保留服务端渲染的内容。覆盖层对辅助技术隐藏，不拦截点击，也不创建额外的可聚焦节点。
+
+适合尺寸稳定的卡片和表单，避免一次包裹整页或依赖持续变化的异步内容。跨站 iframe、Canvas、Shadow DOM 内部结构不会被递归解析。

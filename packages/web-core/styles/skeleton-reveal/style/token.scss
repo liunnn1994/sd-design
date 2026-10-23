@@ -1,0 +1,20 @@
+@use '../../style/theme/runtime.scss' as theme-runtime;
+@use '../../style/theme/index.scss' as global;
+
+@forward '../../style/theme/index.scss';
+
+$skeleton-reveal-stroke: global.$color-text-3;
+$skeleton-reveal-stroke-width: 1px;
+
+// @generated runtime tokens — pnpm theme:generate
+$skeleton-reveal-stroke: theme-runtime.token(
+  'skeleton-reveal',
+  'skeleton-reveal-stroke',
+  $skeleton-reveal-stroke,
+  'color-text-3'
+);
+$skeleton-reveal-stroke-width: theme-runtime.token(
+  'skeleton-reveal',
+  'skeleton-reveal-stroke-width',
+  $skeleton-reveal-stroke-width
+);
