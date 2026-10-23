@@ -11,7 +11,8 @@ describe('文档示例编辑器样式', () => {
         target.process ??= {};
         target.process.env ??= {};
       });
-      cy.then(async () => {
+      // The cold import includes Monaco; keep its loading budget separate from UI assertions.
+      cy.then({ timeout: 30000 }, async () => {
         const { default: DemoEditor } =
           await import('../../../../sd-vue-docs/src/components/docs/DemoEditor.vue');
         return DemoEditor;
