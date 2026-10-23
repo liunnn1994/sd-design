@@ -1,4 +1,13 @@
 describe('Documentation component regressions', () => {
+  it('selects a node in the TreeSelect documentation demo', () => {
+    cy.visit('/components/tree-select/');
+    cy.get('.sd-select-view', { timeout: 15000 }).first().as('treeSelect').click();
+    cy.get(
+      '.sd-tree-select-popup:visible .sd-tree-node[data-key="node3"] .sd-tree-node-title',
+    ).click();
+    cy.get('@treeSelect').find('.sd-select-view-value').should('contain.text', 'Trunk2');
+  });
+
   it('selects a model in the ModelSelector documentation demo', () => {
     cy.visit('/components/model-selector/');
     cy.get('.sd-model-selector-trigger', { timeout: 15000 }).first().as('modelTrigger').click();

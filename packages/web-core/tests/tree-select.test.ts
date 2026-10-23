@@ -228,3 +228,13 @@ test('readonly and disabled guards reject edits; checked tag removal follows lin
   actions.blur();
   assert.equal(local.input, 'query');
 });
+
+test('numeric key zero removal preserves linked checks for the remaining sibling', () => {
+  const { actions, local, state, scheduled } = controllerFixture();
+  state.checkable = true;
+  state.multiple = true;
+  local.keys = ['root', 0, 'leaf'];
+  actions.remove(0);
+  assert.deepEqual(local.keys, ['leaf']);
+  assert.equal(scheduled.length, 1);
+});

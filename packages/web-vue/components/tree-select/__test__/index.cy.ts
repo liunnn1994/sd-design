@@ -32,6 +32,24 @@ const checkNode = (key: string) =>
   cy.get(`.sd-tree-node[data-key="${key}"] .sd-checkbox-target`).first().click({ force: true });
 
 describe('TreeSelect', () => {
+  it('removes numeric key zero from checked tags without removing its sibling', () => {
+    cy.mount(TreeSelect, {
+      props: {
+        treeCheckable: true,
+        defaultValue: [0, 1],
+        data: [
+          { key: 0, title: 'Zero' },
+          { key: 1, title: 'One' },
+        ],
+      },
+    });
+    cy.get('.sd-select-view-tag').first().find('.sd-tag-close-btn').click({ force: true });
+    cy.get('.sd-select-view-tag').should('have.length', 1).and('contain.text', 'One');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('change')?.[0]).to.deep.equal([[1]]);
+    });
+  });
+
   it('opens the tree from a custom trigger slot', () => {
     cy.mount(TreeSelect, {
       props: { options, fieldNames, defaultValue: '0-0' },

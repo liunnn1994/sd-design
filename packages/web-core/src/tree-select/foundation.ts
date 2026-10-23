@@ -61,7 +61,7 @@ export function createTreeSelectFoundation<T, N extends TreeStateNode<T>>(
     setSelectedKeys([]);
     adapter.events.clear();
   }
-  function remove(id: string) {
+  function remove(id: TreeNodeKey) {
     if (adapter.getDisabled() || adapter.getReadonly()) return;
     const node = adapter.getNodes().get(id);
     if (adapter.getCheckable() && node) {
