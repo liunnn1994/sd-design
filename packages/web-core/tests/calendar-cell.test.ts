@@ -463,6 +463,45 @@ test('cell movement after touch delay prevents scrolling and creates event', asy
   assert.equal(state.config.events.length, 1);
 });
 
+test('cell scrolling before the hold delay detaches the touch gesture listeners', async (t) => {
+  const state = gesture(t);
+  const removed = t.mock.method(state.document, 'removeEventListener');
+  state.listeners.touchstart(pointer('touchstart'));
+  state.document.dispatchEvent(pointer('touchmove', 30, 220));
+  await settle();
+  for (const type of ['touchmove', 'touchend', 'touchcancel']) {
+    assert.ok(
+      removed.mock.calls.some((call) => call.arguments[0] === type),
+      `${type} removed`,
+    );
+  }
+});
+
+for (const dragging of [false, true]) {
+  test(`cell touch cancellation clears ${dragging ? 'an active drag' : 'a pending hold'} without creating an event`, async (t) => {
+    const state = gesture(t);
+    const hold = t.mock.fn();
+    state.config.eventListeners.cell.hold = hold;
+    state.rebind();
+    state.listeners.touchstart(pointer('touchstart'));
+    if (dragging) {
+      t.mock.timers.tick(500);
+      state.document.dispatchEvent(pointer('touchmove', 30, 220));
+      assert.equal(state.host.touch.isDraggingCell, true);
+    }
+    state.document.dispatchEvent(pointer('touchcancel'));
+    await settle();
+    t.mock.timers.tick(1200);
+    state.document.dispatchEvent(pointer('touchmove', 30, 320));
+    assert.equal(hold.mock.callCount(), 0);
+    assert.equal(state.host.touch.isDraggingCell, false);
+    assert.equal(state.touch.dragging, false);
+    assert.equal(state.touch.canTouchAndDrag, null);
+    assert.equal(state.config.events.length, 0);
+    assert.equal(state.vibrate.mock.callCount(), 0);
+  });
+}
+
 for (const accepted of [true, false]) {
   test(`cell async creation preserves its proposal and pending state on ${accepted ? 'approval' : 'rejection'}`, async (t) => {
     const state = gesture(t);

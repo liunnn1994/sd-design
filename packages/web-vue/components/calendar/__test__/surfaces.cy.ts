@@ -3,38 +3,49 @@ import Calendar from '../index';
 
 describe('Calendar surface adapters', () => {
   for (const horizontal of [false, true]) {
-    it(`resizes the all-day bar in ${horizontal ? 'horizontal' : 'vertical'} layout using real CSS units`, () => {
-      cy.mount(Calendar, {
-        props: { view: 'day', viewDate: '2026-10-19', allDayEvents: true, horizontal },
-        attrs: { style: 'height:600px;--sd-calendar-all-day-bar-size:2rem' },
+    for (const release of ['mouseup', 'touchcancel']) {
+      it(`resizes the all-day bar in ${horizontal ? 'horizontal' : 'vertical'} layout and stops on ${release}`, () => {
+        cy.mount(Calendar, {
+          props: { view: 'day', viewDate: '2026-10-19', allDayEvents: true, horizontal },
+          attrs: { style: 'height:600px;--sd-calendar-all-day-bar-size:2rem' },
+        });
+        let initial: number;
+        cy.document().then((doc) => {
+          initial =
+            Number.parseFloat(doc.defaultView!.getComputedStyle(doc.documentElement).fontSize) * 2;
+        });
+        cy.get('.sd-calendar__all-day-resizer').trigger(
+          release === 'mouseup' ? 'mousedown' : 'touchstart',
+          {
+            clientX: 100,
+            clientY: 100,
+            force: true,
+            touches: [{ clientX: 100, clientY: 100 }],
+          },
+        );
+        cy.document().trigger(release === 'mouseup' ? 'mousemove' : 'touchmove', {
+          clientX: horizontal ? 145 : 100,
+          clientY: horizontal ? 100 : 145,
+          touches: [{ clientX: horizontal ? 145 : 100, clientY: horizontal ? 100 : 145 }],
+        });
+        cy.get('.sd-calendar').should(($root) =>
+          expect(
+            ($root[0] as HTMLElement).style.getPropertyValue('--sd-calendar-all-day-bar-size'),
+          ).to.equal(`${initial + 45}px`),
+        );
+        cy.document().trigger(release);
+        cy.document().trigger(release === 'mouseup' ? 'mousemove' : 'touchmove', {
+          clientX: 200,
+          clientY: 200,
+          touches: [{ clientX: 200, clientY: 200 }],
+        });
+        cy.get('.sd-calendar').should(($root) =>
+          expect(
+            ($root[0] as HTMLElement).style.getPropertyValue('--sd-calendar-all-day-bar-size'),
+          ).to.equal(`${initial + 45}px`),
+        );
       });
-      let initial: number;
-      cy.document().then((doc) => {
-        initial =
-          Number.parseFloat(doc.defaultView!.getComputedStyle(doc.documentElement).fontSize) * 2;
-      });
-      cy.get('.sd-calendar__all-day-resizer').trigger('mousedown', {
-        clientX: 100,
-        clientY: 100,
-        force: true,
-      });
-      cy.document().trigger('mousemove', {
-        clientX: horizontal ? 145 : 100,
-        clientY: horizontal ? 100 : 145,
-      });
-      cy.get('.sd-calendar').should(($root) =>
-        expect(
-          ($root[0] as HTMLElement).style.getPropertyValue('--sd-calendar-all-day-bar-size'),
-        ).to.equal(`${initial + 45}px`),
-      );
-      cy.document().trigger('mouseup');
-      cy.document().trigger('mousemove', { clientX: 200, clientY: 200 });
-      cy.get('.sd-calendar').should(($root) =>
-        expect(
-          ($root[0] as HTMLElement).style.getPropertyValue('--sd-calendar-all-day-bar-size'),
-        ).to.equal(`${initial + 45}px`),
-      );
-    });
+    }
   }
 
   it('tracks the body cursor and removes its label on leave', () => {

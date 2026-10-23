@@ -908,6 +908,7 @@ export const createCalendarEvents = (
     document.removeEventListener('touchmove', onDocumentMousemove);
     document.removeEventListener('mouseup', onDocumentMouseup);
     document.removeEventListener('touchend', onDocumentMouseup);
+    document.removeEventListener('touchcancel', cleanupResize);
 
     // Reset resizing state.
     calendar.touch.isResizingEvent = false;
@@ -984,6 +985,8 @@ export const createCalendarEvents = (
         onDocumentMouseup,
         { once: true },
       );
+      if (e.type === 'touchstart')
+        document.addEventListener('touchcancel', cleanupResize, { once: true });
     }
   };
 

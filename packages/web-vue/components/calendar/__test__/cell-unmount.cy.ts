@@ -2,6 +2,48 @@ import './real-transitions';
 import Calendar from '../index';
 
 describe('Calendar cell gesture lifecycle', () => {
+  for (const dragging of [false, true]) {
+    it(`cancels ${dragging ? 'a touch drag' : 'a pending touch hold'} without creating an event`, () => {
+      const onCellHold = cy.spy();
+      const onCellDrag = cy.spy();
+      const onEventCreate = cy.spy();
+      cy.mount(Calendar, {
+        props: {
+          view: 'day',
+          viewDate: '2025-01-08',
+          editableEvents: { create: true },
+          onEventCreate,
+        },
+        attrs: { onCellHold, onCellDrag, style: 'height: 600px' },
+      });
+      cy.clock(undefined, ['setTimeout', 'clearTimeout']);
+      cy.get('.sd-calendar__cell')
+        .first()
+        .then(($cell) => {
+          const rect = $cell[0].getBoundingClientRect();
+          cy.wrap($cell).trigger('touchstart', {
+            force: true,
+            touches: [{ target: $cell[0], clientX: rect.left + 20, clientY: rect.top + 40 }],
+          });
+          if (dragging) {
+            cy.tick(500);
+            cy.document().trigger('touchmove', {
+              touches: [{ target: $cell[0], clientX: rect.left + 20, clientY: rect.top + 120 }],
+            });
+            cy.get('.sd-calendar').should('have.class', 'sd-calendar--dragging-cell');
+          }
+        });
+      cy.document().trigger('touchcancel');
+      cy.tick(1200);
+      cy.wrap(onCellHold).should('not.have.been.called');
+      cy.get('.sd-calendar').should('not.have.class', 'sd-calendar--dragging-cell');
+      cy.document().trigger('touchmove', { touches: [{ clientX: 100, clientY: 200 }] });
+      cy.wrap(onCellDrag).should('have.callCount', dragging ? 1 : 0);
+      cy.wrap(onEventCreate).should('not.have.been.called');
+      cy.get('.sd-calendar__event').should('not.exist');
+    });
+  }
+
   it('removes document gesture handlers and hold timers when unmounted', () => {
     const onCellHold = cy.spy();
     const onCellDrag = cy.spy();

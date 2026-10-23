@@ -1,4 +1,34 @@
 describe('Documentation component regressions', () => {
+  it('clears a canceled Calendar touch drag without creating an event', () => {
+    cy.visit('/components/calendar/');
+    cy.get('.sd-calendar', { timeout: 15000 }).first().as('calendar');
+    cy.get('@calendar')
+      .find('.sd-calendar__event')
+      .its('length')
+      .then((initialCount) => {
+        cy.clock(undefined, ['setTimeout', 'clearTimeout']);
+        cy.get('@calendar')
+          .find('.sd-calendar__cell')
+          .first()
+          .then(($cell) => {
+            const rect = $cell[0].getBoundingClientRect();
+            cy.wrap($cell).trigger('touchstart', {
+              force: true,
+              touches: [{ target: $cell[0], clientX: rect.left + 20, clientY: rect.top + 40 }],
+            });
+            cy.tick(500);
+            cy.document().trigger('touchmove', {
+              touches: [{ target: $cell[0], clientX: rect.left + 20, clientY: rect.top + 120 }],
+            });
+          });
+        cy.get('@calendar').should('have.class', 'sd-calendar--dragging-cell');
+        cy.document().trigger('touchcancel');
+        cy.tick(1200);
+        cy.get('@calendar').should('not.have.class', 'sd-calendar--dragging-cell');
+        cy.get('@calendar').find('.sd-calendar__event').should('have.length', initialCount);
+      });
+  });
+
   it('keeps the Affix button fixed while the documentation page scrolls', () => {
     cy.visit('/components/affix/');
     cy.contains('button', 'Affix Top', { timeout: 15000 })

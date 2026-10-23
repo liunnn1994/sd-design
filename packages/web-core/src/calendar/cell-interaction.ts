@@ -88,6 +88,7 @@ export function createCalendarCellInteraction(
       passive: !isTouchEvent,
     });
     document.addEventListener(isTouchEvent ? 'touchend' : 'mouseup', onDocMouseup, { once: true });
+    if (isTouchEvent) document.addEventListener('touchcancel', onDocMouseup, { once: true });
 
     touch.holdTimer = setTimeout(() => {
       touch.holding = true;
@@ -155,11 +156,13 @@ export function createCalendarCellInteraction(
     adapter.listeners.drag?.({ e, cell: adapter.info, cursor: adapter.cursor, view });
   };
   const onDocMouseup = async (e: MouseEvent | TouchEvent) => {
-    const isTouchEvent = e.type === 'touchend';
+    const isTouchEvent = e.type.startsWith('touch');
     document.removeEventListener(
       isTouchEvent ? 'touchmove' : 'mousemove',
       onDocMousemove as EventListener,
     );
+    document.removeEventListener(isTouchEvent ? 'touchend' : 'mouseup', onDocMouseup);
+    if (isTouchEvent) document.removeEventListener('touchcancel', onDocMouseup);
 
     // Clean up touch and drag timer
     if (touch.touchAndDragTimer) {
@@ -177,7 +180,7 @@ export function createCalendarCellInteraction(
       });
       globalTouchState.isDraggingCell = false; // Add a CSS class on wrapper while dragging.
 
-      if (config.editableEvents.create && touch.canTouchAndDrag) {
+      if (config.editableEvents.create && touch.canTouchAndDrag && e.type !== 'touchcancel') {
         adapter.awaitingEventCreation = true;
         await createEventIfAllowed(e);
         adapter.awaitingEventCreation = false;
@@ -340,6 +343,7 @@ export function createCalendarCellInteraction(
     document.removeEventListener('touchmove', onDocMousemove);
     document.removeEventListener('mouseup', onDocMouseup);
     document.removeEventListener('touchend', onDocMouseup);
+    document.removeEventListener('touchcancel', onDocMouseup);
     if (touch.holdTimer) clearTimeout(touch.holdTimer);
     if (touch.touchAndDragTimer) clearTimeout(touch.touchAndDragTimer);
     if (touch.dragging) globalTouchState.isDraggingCell = false;

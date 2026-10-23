@@ -19,6 +19,7 @@ export function createCalendarAllDayResizer(
         document.removeEventListener('mouseup', allDayResizer.cleanup);
         document.removeEventListener('touchmove', allDayResizer.handleTouchMove);
         document.removeEventListener('touchend', allDayResizer.cleanup);
+        document.removeEventListener('touchcancel', allDayResizer.cleanup);
       }
       allDayResizer.isResizing = false;
     },
@@ -50,6 +51,7 @@ export function createCalendarAllDayResizer(
       document.addEventListener('mouseup', allDayResizer.cleanup);
       document.addEventListener('touchmove', allDayResizer.handleTouchMove, { passive: false });
       document.addEventListener('touchend', allDayResizer.cleanup);
+      document.addEventListener('touchcancel', allDayResizer.cleanup);
     },
 
     // Update height/width based on mouse/touch movement.

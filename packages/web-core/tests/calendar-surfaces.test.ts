@@ -464,6 +464,19 @@ test('all-day resizer keeps the 20px minimum and original zero-size baseline', (
   controller.cleanup();
 });
 
+test('all-day touch cancellation stops resizing and releases movement listeners', (t) => {
+  const { controller, document, root } = resizeFixture(t);
+  controller.handleTouchStart({
+    touches: [{ clientX: 100, clientY: 100 }],
+  } as unknown as TouchEvent);
+  document.dispatchEvent(move('touchmove', 100, 145));
+  const size = root.styleValues.get('--test-calendar-all-day-bar-size');
+  document.dispatchEvent(new Event('touchcancel'));
+  assert.equal(controller.isResizing, false);
+  document.dispatchEvent(move('touchmove', 100, 200));
+  assert.equal(root.styleValues.get('--test-calendar-all-day-bar-size'), size);
+});
+
 test('all-day resizer disposal removes active listeners and its measurement element', (t) => {
   const state = resizeFixture(t);
   state.controller.startResize(0, 100);

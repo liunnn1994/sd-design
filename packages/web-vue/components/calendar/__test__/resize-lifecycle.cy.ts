@@ -2,6 +2,44 @@ import './real-transitions';
 import Calendar from '../index';
 
 describe('Calendar resize lifecycle', () => {
+  it('ignores pending resize approval after the touch gesture is canceled', () => {
+    let resolveResize!: (accepted: boolean) => void;
+    const approveResize = cy.stub().returns(
+      new Promise<boolean>((resolve) => {
+        resolveResize = resolve;
+      }),
+    );
+    const endResize = cy.spy();
+    cy.mount(Calendar, {
+      attrs: { style: 'height: 600px' },
+      props: {
+        view: 'day',
+        viewDate: '2025-01-08',
+        editableEvents: true,
+        onEventResize: approveResize,
+        onEventResizeEnd: endResize,
+        events: [{ start: '2025-01-08 10:00', end: '2025-01-08 11:00', title: 'Cancel resize' }],
+      },
+    });
+    cy.get('.sd-calendar__event-resizer').then(($resizer) => {
+      const element = $resizer[0];
+      const rect = element.getBoundingClientRect();
+      const point = { target: element, clientX: rect.left + rect.width / 2, clientY: rect.top };
+      cy.wrap($resizer).trigger('touchstart', { force: true, touches: [point] });
+      cy.document().trigger('touchmove', { touches: [{ ...point, clientY: rect.top + 60 }] });
+    });
+    cy.wrap(approveResize).should('have.been.calledOnce');
+    cy.get('.sd-calendar').should('have.class', 'sd-calendar--resizing-event');
+    cy.document().trigger('touchcancel');
+    cy.get('.sd-calendar').should('not.have.class', 'sd-calendar--resizing-event');
+    cy.then(() => {
+      resolveResize(true);
+      return Cypress.Promise.delay(0);
+    });
+    cy.get('.sd-calendar__event-end').should('contain.text', '11:00');
+    cy.wrap(endResize).should('not.have.been.called');
+  });
+
   it('keeps the latest accepted position when move approvals arrive out of order', () => {
     const approvals: Array<(accepted: boolean) => void> = [];
     const approveResize = cy
