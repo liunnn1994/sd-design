@@ -356,27 +356,6 @@ describe('Cropper', () => {
     });
   });
 
-  it('assigns controlled selection geometry directly when $change is unavailable', () => {
-    cy.mount(Cropper, { props: { src: imageSrc, fitSelectionToImage: false } });
-
-    cy.get('cropper-selection').then(($selection) => {
-      cy.spy($selection[0], '$render').as('selectionRender');
-      Object.defineProperty($selection[0], '$change', {
-        configurable: true,
-        value: undefined,
-      });
-
-      getWrapper().then((wrapper) => wrapper.setProps({ selectionX: 44 }));
-    });
-
-    cy.get('cropper-selection').should(($selection) => {
-      const selection = $selection[0] as HTMLElement & { x: number };
-      expect(selection.x).to.equal(44);
-    });
-    // 无 $change 的回退路径要补一次 $render，让 cropperjs 重绘选区
-    cy.get('@selectionRender').should('have.been.called');
-  });
-
   it('re-runs fitSelectionToImage alignment after src changes', () => {
     cy.mount(Cropper);
 

@@ -287,6 +287,7 @@ test('cropper partial controlled geometry preserves remaining values and support
     [f.selection.x, f.selection.y, f.selection.width, f.selection.height],
     [10, 20, 42, 80],
   );
+  // Keep this fallback isolated: real CropperSelection setters asynchronously call $change.
   Reflect.deleteProperty(f.selection, '$change');
   f.props.selectionY = 9;
   f.controller.syncSelectionGeometry();
