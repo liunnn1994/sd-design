@@ -68,7 +68,7 @@
   } from '@sdata/web-core/number-flow/utils';
 
   import type { NumberFlowData } from './formatter';
-  import type { NumberFlowExposed, NumberFlowProps, NumberFlowValue } from './types';
+  import type { NumberFlowExposed, NumberFlowProps } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
   import { formatNumberFlow } from './formatter';
