@@ -6,6 +6,10 @@
     position: relative;
     min-width: 0;
 
+    &[data-state='idle'][data-autoplay='true'] > .#{theme.$prefix}-skeleton-reveal-content {
+      opacity: 0;
+    }
+
     &-overlay {
       position: absolute;
       inset: 0;

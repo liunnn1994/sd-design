@@ -101,6 +101,7 @@ export function createSkeletonRevealFoundation(adapter: SkeletonRevealAdapter) {
     const document = root?.ownerDocument;
     const view = document?.defaultView;
     if (disposed || !root || !document || !view) return;
+    syncOptions();
     const onVisibilityChange = () => {
       if (document.hidden) finish();
     };

@@ -23,6 +23,19 @@ const replay = () =>
   });
 
 describe('SkeletonReveal', () => {
+  it('自动播放等待进入视口时内容不可见，进入后播放完成', () => {
+    cy.mount(SkeletonReveal, {
+      props: { autoplay: true, duration: 600, style: 'margin-top:2000px' },
+      slots: { default: () => h('button', '展示组件') },
+    });
+    cy.get('.sd-skeleton-reveal').should('have.attr', 'data-state', 'idle');
+    cy.get('.sd-skeleton-reveal-content').should('have.css', 'opacity', '0');
+    cy.get('.sd-skeleton-reveal').scrollIntoView();
+    cy.get('.sd-skeleton-reveal').should('have.attr', 'data-state', 'drawing');
+    cy.get('.sd-skeleton-reveal').should('have.attr', 'data-state', 'complete');
+    cy.get('.sd-skeleton-reveal-content').should('have.css', 'opacity', '1');
+  });
+
   afterEach(() =>
     cy.then(() =>
       Cypress.automation('remote:debugger:protocol', {
@@ -168,5 +181,19 @@ describe('SkeletonReveal', () => {
       .should('have.css', 'stroke', 'rgb(0, 170, 102)')
       .and('have.css', 'stroke-width', '2px');
     cy.get('[data-reveal-draw]').should('have.css', 'stroke-width', '5px');
+  });
+});
+
+describe('SkeletonReveal hydration outline', () => {
+  it('renders the idle outline before autoplay and removes it once drawing starts', () => {
+    mount({ autoplay: true, style: 'margin-top: 2000px' });
+    cy.get('.sd-skeleton-reveal').should('have.attr', 'data-state', 'idle');
+    cy.get('[data-reveal-initial] rect').should(($rect) => {
+      expect(getComputedStyle($rect[0]).strokeDasharray).not.to.equal('none');
+    });
+    cy.get('.sd-skeleton-reveal-content').should('have.css', 'opacity', '0');
+    cy.get('.sd-skeleton-reveal').scrollIntoView();
+    cy.get('[data-reveal-initial]').should('not.exist');
+    cy.get('.sd-skeleton-reveal').should('have.attr', 'data-state', 'complete');
   });
 });

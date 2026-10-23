@@ -1,6 +1,20 @@
 <template>
-  <div ref="root" :class="prefixCls" :data-state="state">
+  <div
+    ref="root"
+    :class="prefixCls"
+    :data-state="state"
+    :data-autoplay="autoplay && !disabled && duration > 0"
+  >
     <div ref="content" :class="`${prefixCls}-content`"><slot /></div>
+    <svg
+      v-if="state === 'idle' && autoplay && !disabled && duration > 0"
+      :class="`${prefixCls}-overlay`"
+      data-reveal-initial
+      aria-hidden="true"
+      focusable="false"
+    >
+      <rect width="100%" height="100%" />
+    </svg>
     <svg
       v-if="shapes.length"
       ref="overlay"

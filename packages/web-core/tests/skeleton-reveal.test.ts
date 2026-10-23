@@ -130,6 +130,17 @@ test('geometry is relative to content and measures no more than 24 outlines', ()
   assert.equal(measureSkeletonReveal(body as unknown as HTMLElement), undefined);
 });
 
+test('connecting with reduced motion reveals pending content before any intersection', () => {
+  const f = fixture();
+  Object.defineProperty(f.adapter, 'reducedMotion', { value: true });
+  f.body.style.opacity = '0';
+  f.foundation.connect();
+  assert.equal(f.adapter.state, 'complete');
+  assert.equal(f.body.style.opacity, '1');
+  assert.equal(f.calls.length, 0);
+  f.foundation.dispose();
+});
+
 test('playback uses the animation port, preserves timings, and releases every effect on completion', async () => {
   const f = fixture();
   await f.foundation.replay();
