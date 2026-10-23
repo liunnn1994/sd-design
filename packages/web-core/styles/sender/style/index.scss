@@ -152,7 +152,9 @@ $sender-prefix-cls: string.unquote('#{theme.$prefix}-sender');
     padding-inline: $sender-padding-inline;
 
     &-content {
+      display: flex;
       flex: auto;
+      align-items: center;
       min-width: 0;
     }
 
@@ -234,7 +236,9 @@ $sender-prefix-cls: string.unquote('#{theme.$prefix}-sender');
     }
 
     .sd-rich-text-editor-component {
+      margin-block: $sender-slot-gap;
       margin-inline: $sender-slot-gap;
+      vertical-align: baseline;
     }
 
     .sd-rich-text-editor-component-control {

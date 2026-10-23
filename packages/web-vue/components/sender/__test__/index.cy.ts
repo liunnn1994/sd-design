@@ -937,6 +937,27 @@ describe('SenderSwitch', () => {
   });
 });
 
+describe('Sender wrapped slot spacing', () => {
+  it('separates controls on consecutive wrapped lines', () => {
+    cy.mount(Sender, {
+      props: {
+        style: { width: '240px' },
+        slotConfig: Array.from({ length: 6 }, (_, index) => ({
+          type: 'select' as const,
+          key: `scene-${index}`,
+          props: { options: ['AI 对话界面'], defaultValue: 'AI 对话界面' },
+        })),
+      },
+    });
+    cy.get('.sd-rich-text-editor-component').should(($controls) => {
+      const rects = [...$controls].map((control) => control.getBoundingClientRect());
+      const nextLine = rects.find((rect) => rect.top > rects[0].bottom);
+      expect(nextLine, 'slots wrap').not.to.equal(undefined);
+      expect(nextLine!.top - rects[0].bottom).to.be.at.least(4);
+    });
+  });
+});
+
 describe('Sender custom slot removal', () => {
   for (const locked of [false, true]) {
     it(`customRender can remove its runtime slot unless readonly=${locked}`, () => {
@@ -965,4 +986,41 @@ describe('Sender custom slot removal', () => {
       cy.get('.remove-file').should(locked ? 'exist' : 'not.exist');
     });
   }
+});
+
+describe('Sender inline text alignment', () => {
+  it('aligns the text baseline of controls and plain text', () => {
+    cy.viewport(1000, 600);
+    cy.mount(Sender, {
+      props: {
+        style: { width: '900px' },
+        slotConfig: [
+          { type: 'text', value: '用 SD Design 构建 ' },
+          {
+            type: 'select',
+            key: 'scene',
+            props: { options: ['AI 对话界面'], defaultValue: 'AI 对话界面' },
+          },
+          { type: 'text', value: '，要求 ' },
+          { type: 'input', key: 'detail', props: { defaultValue: '清晰、轻量' } },
+        ],
+      },
+    });
+    cy.get('.sd-sender [contenteditable="true"]').should(($editor) => {
+      const doc = $editor[0].ownerDocument;
+      const walker = doc.createTreeWalker($editor[0], NodeFilter.SHOW_TEXT);
+      const tops: number[] = [];
+      while (walker.nextNode()) {
+        if (walker.currentNode.parentElement?.closest('[aria-hidden="true"]')) continue;
+        if (!/用 SD Design 构建|AI 对话界面|，要求/.test(walker.currentNode.textContent || ''))
+          continue;
+        const range = doc.createRange();
+        range.selectNodeContents(walker.currentNode);
+        const rect = range.getBoundingClientRect();
+        if (rect.height) tops.push(rect.top);
+      }
+      expect(tops.length).to.be.at.least(3);
+      expect(Math.max(...tops) - Math.min(...tops), 'text tops').to.be.at.most(1);
+    });
+  });
 });
