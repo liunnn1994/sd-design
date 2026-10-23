@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
   import type { TransitionProps, VNode } from 'vue';
-  import { computed, getCurrentInstance, inject, ref, watch } from 'vue';
+  import { computed, getCurrentInstance, inject, ref, useId, watch } from 'vue';
 
   import {
     createCollapseItemFoundation,
@@ -136,8 +136,9 @@
   const expandIconPosition = computed<'left' | 'right'>(
     () => (collapseCtx.expandIconPosition as 'left' | 'right' | undefined) ?? 'left',
   );
-  const headerId = `${prefixCls}-${instance?.uid}-header`;
-  const contentId = `${prefixCls}-${instance?.uid}-content`;
+  const id = useId();
+  const headerId = `${prefixCls}-${id}-header`;
+  const contentId = `${prefixCls}-${id}-content`;
   const cls = computed(() => [
     prefixCls,
     {

@@ -48,7 +48,7 @@
   import type { ComputedRef } from 'vue';
   import {
     computed,
-    getCurrentInstance,
+    useId,
     inject,
     nextTick,
     provide,
@@ -271,7 +271,7 @@
   const slots = useSlots();
   const [DefineContent, ReuseContent] = createReusableTemplate();
   const prefixCls = getPrefixCls('tabs');
-  const tabsId = `${prefixCls}-${getCurrentInstance()!.uid}`;
+  const tabsId = `${prefixCls}-${useId()}`;
   const { mergedSize } = useSize(toRef(props, 'size'));
   const mergedPosition = computed(() => (props.direction === 'vertical' ? 'left' : props.position));
   const mergedDirection = computed(() =>
