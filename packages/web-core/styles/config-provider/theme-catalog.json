@@ -9717,6 +9717,101 @@
       ]
     },
     {
+      "name": "model-selector",
+      "tokens": [
+        {
+          "key": "model-selector-color-bg",
+          "name": "model-selector-color-bg",
+          "value": "var(--sd-color-bg-popup)",
+          "dependencies": ["sd-cssvars-prefix"]
+        },
+        {
+          "key": "model-selector-color-border",
+          "name": "model-selector-color-border",
+          "value": "var(--sd-color-fill-3)",
+          "dependencies": ["sd-cssvars-prefix"]
+        },
+        {
+          "key": "model-selector-color-text",
+          "name": "model-selector-color-text",
+          "value": "var(--sd-color-text-1)",
+          "dependencies": ["sd-cssvars-prefix"]
+        },
+        {
+          "key": "model-selector-color-text-secondary",
+          "name": "model-selector-color-text-secondary",
+          "value": "var(--sd-color-text-3)",
+          "dependencies": ["sd-cssvars-prefix"]
+        },
+        {
+          "key": "model-selector-color-text-disabled",
+          "name": "model-selector-color-text-disabled",
+          "value": "var(--sd-color-text-4)",
+          "dependencies": ["sd-cssvars-prefix"]
+        },
+        {
+          "key": "model-selector-color-fill-hover",
+          "name": "model-selector-color-fill-hover",
+          "value": "var(--sd-color-fill-2)",
+          "dependencies": ["sd-cssvars-prefix"]
+        },
+        {
+          "key": "model-selector-border-radius",
+          "name": "model-selector-border-radius",
+          "value": "var(--sd-border-radius-medium)",
+          "dependencies": ["radius-medium"]
+        },
+        {
+          "key": "model-selector-item-height",
+          "name": "model-selector-item-height",
+          "value": "var(--size-10, 40px)",
+          "dependencies": ["size-10"]
+        },
+        {
+          "key": "model-selector-list-max-height",
+          "name": "model-selector-list-max-height",
+          "value": "400px",
+          "dependencies": ["size-50"]
+        },
+        {
+          "key": "model-selector-list-viewport-offset",
+          "name": "model-selector-list-viewport-offset",
+          "value": "var(--size-40, 160px)",
+          "dependencies": ["size-40"]
+        },
+        {
+          "key": "model-selector-padding",
+          "name": "model-selector-padding",
+          "value": "var(--spacing-3, 6px)",
+          "dependencies": ["spacing-3"]
+        },
+        {
+          "key": "model-selector-padding-horizontal",
+          "name": "model-selector-padding-horizontal",
+          "value": "var(--spacing-6, 12px)",
+          "dependencies": ["spacing-6"]
+        },
+        {
+          "key": "model-selector-gap",
+          "name": "model-selector-gap",
+          "value": "var(--spacing-4, 8px)",
+          "dependencies": ["spacing-4"]
+        },
+        {
+          "key": "model-selector-font-size",
+          "name": "model-selector-font-size",
+          "value": "var(--font-size-body-3, 14px)",
+          "dependencies": ["font-size-body-3"]
+        },
+        {
+          "key": "model-selector-font-size-secondary",
+          "name": "model-selector-font-size-secondary",
+          "value": "var(--font-size-body-1, 12px)",
+          "dependencies": ["font-size-body-1"]
+        }
+      ]
+    },
+    {
       "name": "notification",
       "tokens": [
         {

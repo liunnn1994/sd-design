@@ -6,6 +6,22 @@ import { test } from 'node:test';
 
 import { generateThemeCatalog } from './theme-catalog.ts';
 
+test('ModelSelector 的组件名不会被误判为选择器配置', async () => {
+  for (const file of [
+    '../../web-core/styles/config-provider/theme-catalog.json',
+    '../components/config-provider/theme-catalog.json',
+  ]) {
+    const catalog = JSON.parse(await fs.readFile(new URL(file, import.meta.url), 'utf8'));
+    const component = catalog.components.find(
+      (item: { name: string }) => item.name === 'model-selector',
+    );
+    assert.ok(component);
+    assert.ok(
+      component.tokens.some((token: { key: string }) => token.key === 'model-selector-item-height'),
+    );
+  }
+});
+
 test('SkeletonReveal 从 Core 进入两份主题目录', async () => {
   const paths = [
     '../../web-core/styles/config-provider/theme-catalog.json',

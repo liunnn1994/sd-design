@@ -1,3 +1,4 @@
+@use '../../style/theme/runtime.scss' as theme-runtime;
 @use '../../style/theme/index.scss' as global;
 @use 'sass:string';
 
@@ -22,3 +23,87 @@ $model-selector-padding-horizontal: global.$spacing-6;
 $model-selector-gap: global.$spacing-4;
 $model-selector-font-size: global.$font-size-body-3;
 $model-selector-font-size-secondary: global.$font-size-body-1;
+
+// @generated runtime tokens — pnpm theme:generate
+$model-selector-color-bg: theme-runtime.token(
+  'model-selector',
+  'model-selector-color-bg',
+  $model-selector-color-bg
+);
+$model-selector-color-border: theme-runtime.token(
+  'model-selector',
+  'model-selector-color-border',
+  $model-selector-color-border
+);
+$model-selector-color-text: theme-runtime.token(
+  'model-selector',
+  'model-selector-color-text',
+  $model-selector-color-text
+);
+$model-selector-color-text-secondary: theme-runtime.token(
+  'model-selector',
+  'model-selector-color-text-secondary',
+  $model-selector-color-text-secondary
+);
+$model-selector-color-text-disabled: theme-runtime.token(
+  'model-selector',
+  'model-selector-color-text-disabled',
+  $model-selector-color-text-disabled
+);
+$model-selector-color-fill-hover: theme-runtime.token(
+  'model-selector',
+  'model-selector-color-fill-hover',
+  $model-selector-color-fill-hover
+);
+$model-selector-border-radius: theme-runtime.token(
+  'model-selector',
+  'model-selector-border-radius',
+  $model-selector-border-radius
+);
+$model-selector-item-height: theme-runtime.token(
+  'model-selector',
+  'model-selector-item-height',
+  $model-selector-item-height,
+  'size-10'
+);
+$model-selector-list-max-height: theme-runtime.token(
+  'model-selector',
+  'model-selector-list-max-height',
+  $model-selector-list-max-height
+);
+$model-selector-list-viewport-offset: theme-runtime.token(
+  'model-selector',
+  'model-selector-list-viewport-offset',
+  $model-selector-list-viewport-offset,
+  'size-40'
+);
+$model-selector-padding: theme-runtime.token(
+  'model-selector',
+  'model-selector-padding',
+  $model-selector-padding,
+  'spacing-3'
+);
+$model-selector-padding-horizontal: theme-runtime.token(
+  'model-selector',
+  'model-selector-padding-horizontal',
+  $model-selector-padding-horizontal,
+  'spacing-6'
+);
+$model-selector-gap: theme-runtime.token(
+  'model-selector',
+  'model-selector-gap',
+  $model-selector-gap,
+  'spacing-4'
+);
+$model-selector-font-size: theme-runtime.token(
+  'model-selector',
+  'model-selector-font-size',
+  $model-selector-font-size,
+  'font-size-body-3'
+);
+$model-selector-font-size-secondary: theme-runtime.token(
+  'model-selector',
+  'model-selector-font-size-secondary',
+  $model-selector-font-size-secondary,
+  'font-size-body-1'
+);

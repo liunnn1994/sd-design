@@ -96,7 +96,9 @@ export async function generateThemeCatalog(root = sharedStylesRoot) {
     const declarationsByName = new Map(declarations(source).map((token) => [token.name, token]));
     const tokens = [...declarationsByName.values()].filter(
       ({ name, value }) =>
-        !/prefix|selector/.test(name) &&
+        !/prefix|selector/.test(
+          name.startsWith(`${entry.name}-`) ? name.slice(entry.name.length + 1) : name,
+        ) &&
         !value.startsWith('(') &&
         !/^(true|false|null)$/.test(value) &&
         !compileTime.has(normalize(name)) &&

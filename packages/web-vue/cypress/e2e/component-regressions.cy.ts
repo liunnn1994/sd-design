@@ -1,4 +1,11 @@
 describe('Documentation component regressions', () => {
+  it('selects a model in the ModelSelector documentation demo', () => {
+    cy.visit('/components/model-selector/');
+    cy.get('.sd-model-selector-trigger', { timeout: 15000 }).first().as('modelTrigger').click();
+    cy.contains('.sd-model-selector-item:visible', 'Claude Sonnet').click();
+    cy.contains('.demo-row > span', '当前模型：Claude Sonnet').should('be.visible');
+  });
+
   it('selects an option from the Select documentation demo', () => {
     cy.visit('/components/select/');
     cy.get('.sd-select', { timeout: 15000 }).first().as('select');
