@@ -383,17 +383,20 @@ describe('Typography', () => {
   });
 
   it('keeps the copied state across rapid re-copy within copyDelay', () => {
+    cy.clock(undefined, ['setTimeout', 'clearTimeout']);
     cy.mount(Paragraph, {
       props: { copyable: true, copyDelay: 200 },
       slots: { default: 'my text' },
     });
     cy.get('.sd-typography-operation-copy').click({ force: true });
     cy.get('.sd-typography-operation-copied').should('exist');
-    cy.wait(120);
-    cy.get('.sd-typography-operation-copy').click({ force: true });
+    cy.tick(120);
+    cy.get('.sd-typography-operation-copied').click({ force: true });
     // 若未先 clearTimeout 旧 timer，第一次的 timer 会提前复位 copied 状态
-    cy.wait(120);
+    cy.tick(120);
     cy.get('.sd-typography-operation-copied').should('exist');
+    cy.tick(80);
+    cy.get('.sd-typography-operation-copy').should('exist');
   });
 
   it('Typography wrapper renders an article root', () => {
