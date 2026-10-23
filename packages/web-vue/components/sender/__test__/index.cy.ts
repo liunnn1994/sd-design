@@ -539,7 +539,7 @@ describe('Sender', () => {
       expect((wrapper.vm as unknown as SenderInstance).getValue().value).to.equal('请简洁地');
     });
     cy.get('[role="button"][aria-label="移除技能"]').click();
-    cy.get('.sd-sender-skill').should('not.exist');
+    cy.get('.sd-sender-skill-tag').should('not.exist');
   });
 
   for (const [keyName, key] of [
