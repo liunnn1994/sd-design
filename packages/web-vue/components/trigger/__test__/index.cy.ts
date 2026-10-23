@@ -142,11 +142,20 @@ describe('Trigger', () => {
     cy.then(() => {
       expect(outerVisibleChanges.at(-1)).to.equal(true);
     });
+    cy.get('#outer-menu').should('be.visible');
     cy.get('.node').then(($el) => {
       $el[0].dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, cancelable: true }));
     });
     cy.then(() => {
       expect(innerVisibleChanges.at(-1)).to.equal(true);
+    });
+    cy.get('#inner-menu').should('be.visible');
+    cy.get('.blank').click();
+    cy.get('#inner-menu').should('not.be.visible');
+    cy.get('body').find('#outer-menu:visible').should('not.exist');
+    cy.then(() => {
+      expect(innerVisibleChanges.at(-1)).to.equal(false);
+      expect(outerVisibleChanges.at(-1)).to.equal(false);
     });
   });
 
