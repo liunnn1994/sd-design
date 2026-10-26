@@ -1,4 +1,25 @@
 describe('文档站与 SD Design 样式一致性', () => {
+  it('Anchor 固钉示例滚动后保持不透明且覆盖后续示例', () => {
+    cy.viewport(1440, 1000);
+    cy.visit('/components/anchor/');
+    cy.get('starlight-theme-select select:visible').select('light');
+    cy.get('.demo-block').first().scrollIntoView();
+    cy.get('.demo-block').first().find('.sd-anchor', { timeout: 60000 }).should('exist');
+    cy.get('.demo-block')
+      .eq(1)
+      .scrollIntoView({ offset: { top: -100, left: 0 } });
+    cy.get('.demo-block').first().find('.sd-affix').should('have.css', 'position', 'fixed');
+    cy.get('.demo-block')
+      .first()
+      .find('.sd-anchor')
+      .should(($anchor) => {
+        const anchor = $anchor[0];
+        expect(getComputedStyle(anchor).backgroundColor).to.equal('rgb(255, 255, 255)');
+        const rect = anchor.getBoundingClientRect();
+        const top = anchor.ownerDocument.elementFromPoint(rect.left + 40, rect.top + 25);
+        expect(anchor.contains(top)).to.equal(true);
+      });
+  });
   for (const route of ['/guides/theme-editor/', '/components/layout/']) {
     it(`${route} 示例样式不会覆盖文档页头`, () => {
       cy.viewport(1440, 1000);

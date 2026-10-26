@@ -1,6 +1,6 @@
 <template>
   <sd-affix :offsetTop="80">
-    <sd-anchor :style="{ backgroundColor: `var(${getCssVarToken('--color-bg-1')})` }">
+    <sd-anchor class="anchor-affix-surface">
       <sd-anchor-link href="#basic">Basic</sd-anchor-link>
       <sd-anchor-link href="#line-less">LineLess Mode</sd-anchor-link>
       <sd-anchor-link href="#affix">
@@ -14,6 +14,8 @@
   </sd-affix>
 </template>
 
-<script setup lang="ts">
-  import { getCssVarToken } from '@sdata/web-vue';
-</script>
+<style scoped lang="scss">
+  .anchor-affix-surface :deep(.sd-anchor) {
+    background: var(--sd-color-bg-2);
+  }
+</style>
