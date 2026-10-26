@@ -1,11 +1,6 @@
 <template>
   <sd-space>
-    <sd-cascader
-      :options="options"
-      class="sd:w-80"
-      placeholder="Please select ..."
-      :load-more="loadMore"
-    />
+    <sd-cascader :options="options" class="sd:w-80" placeholder="请选择…" :load-more="loadMore" />
   </sd-space>
 </template>
 
@@ -15,35 +10,35 @@
   const options: CascaderOption[] = [
     {
       value: 'beijing',
-      label: 'Beijing',
+      label: '北京',
       children: [
         {
           value: 'chaoyang',
-          label: 'ChaoYang',
+          label: '朝阳区',
         },
         {
           value: 'haidian',
-          label: 'Haidian',
+          label: '海淀区',
           isLeaf: true,
         },
         {
           value: 'dongcheng',
-          label: 'Dongcheng',
+          label: '东城区',
           isLeaf: true,
         },
         {
           value: 'xicheng',
-          label: 'Xicheng',
+          label: '西城区',
         },
       ],
     },
     {
       value: 'shanghai',
-      label: 'Shanghai',
+      label: '上海',
       children: [
         {
           value: 'huangpu',
-          label: 'Huangpu',
+          label: '黄浦区',
           isLeaf: true,
         },
       ],
@@ -54,12 +49,12 @@
       const nodes = [
         {
           value: `${option.value}-option1`,
-          label: `${option.label}-Option1`,
+          label: `${option.label}-选项 1`,
           isLeaf: true,
         },
         {
           value: `${option.value}-option2`,
-          label: `${option.label}-Option2`,
+          label: `${option.label}-选项 2`,
           isLeaf: true,
         },
       ];

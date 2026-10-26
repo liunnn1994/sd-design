@@ -1,10 +1,10 @@
 <template>
   <div class="sd:mb-5">
     <sd-radio-group v-model="size" type="button">
-      <sd-radio value="mini">mini</sd-radio>
-      <sd-radio value="small">small</sd-radio>
-      <sd-radio value="medium">medium</sd-radio>
-      <sd-radio value="large">large</sd-radio>
+      <sd-radio value="mini">迷你</sd-radio>
+      <sd-radio value="small">小</sd-radio>
+      <sd-radio value="medium">中</sd-radio>
+      <sd-radio value="large">大</sd-radio>
     </sd-radio-group>
   </div>
   <sd-tree class="sd:mr-5" :blockNode="true" :checkable="true" :size="size" :data="treeData" />
@@ -16,29 +16,29 @@
 
   const treeData: TreeNodeData[] = [
     {
-      title: 'Trunk 0-0',
+      title: '主干节点 0-0',
       key: '0-0',
       children: [
         {
-          title: 'Branch 0-0-0',
+          title: '分支 0-0-0',
           key: '0-0-0',
           children: [
             {
-              title: 'Leaf',
+              title: '叶子节点',
               key: '0-0-0-0',
             },
             {
-              title: 'Leaf',
+              title: '叶子节点',
               key: '0-0-0-1',
             },
           ],
         },
         {
-          title: 'Branch 0-0-1',
+          title: '分支 0-0-1',
           key: '0-0-1',
           children: [
             {
-              title: 'Leaf',
+              title: '叶子节点',
               key: '0-0-1-0',
             },
           ],

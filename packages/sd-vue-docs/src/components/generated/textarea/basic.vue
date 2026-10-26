@@ -1,3 +1,3 @@
 <template>
-  <sd-textarea placeholder="Please enter something" allow-clear />
+  <sd-textarea placeholder="请输入内容" allow-clear />
 </template>

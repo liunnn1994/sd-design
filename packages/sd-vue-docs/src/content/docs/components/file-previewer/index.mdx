@@ -91,7 +91,7 @@ import filePreviewerPdfSlotSource from '../../../../components/generated/file-pr
 
 ## API
 
-### `<file-previewer>` Props
+### `<file-previewer>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | :-: |
@@ -110,14 +110,14 @@ import filePreviewerPdfSlotSource from '../../../../components/generated/file-pr
 | media-props | 视频和音频预览器参数。`skin` 可设置为 `'default'`、`'minimal'`、`'native'` 或 `false`，`playerProps` 透传给 `video-player`，`skinProps` 透传给 skin Web Component，其余字段透传给内部 `video` / `audio` 元素 | `Record<string, unknown>` | `-` |
 | pdf-props | PDF 预览器参数。`worker` 默认 `true` 走 Worker（默认使用打包进本库的 worker，离线可用），设为 `false` 退回主线程；`workerSrc` / `workerPort` 自定义 worker（如 CDN）；`scale` / `rotation` / `page` 控制渲染；`documentParams` / `renderParams` 透传给 pdf.js；`onDocumentLoad` 接收文档代理 | `Record<string, unknown>` | `-` |
 
-### `<file-previewer>` Events
+### `<file-previewer>` 事件
 
 | 事件名         | 描述         | 参数               |
 | -------------- | ------------ | ------------------ |
 | close          | 关闭事件     | -                  |
 | visible-change | 可见状态变化 | visible: `boolean` |
 
-### `<file-previewer>` Slots
+### `<file-previewer>` 插槽
 
 | 插槽名 | 描述 | 参数 |
 | --- | --- | --- |

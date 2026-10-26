@@ -25,10 +25,10 @@
     value: string;
     variant: SelectableCardVariant;
   }> = [
-    { label: '描边', value: 'Outline', color: 'sdblue', variant: 'outline' },
+    { label: '描边', value: '描边', color: 'sdblue', variant: 'outline' },
     { label: '柔和', value: 'Soft', color: 'green', variant: 'soft' },
     { label: '填充', value: 'Filled', color: 'purple', variant: 'filled' },
-    { label: '警示', value: 'Warning', color: 'orange', variant: 'soft' },
-    { label: '危险', value: 'Danger', color: 'red', variant: 'filled' },
+    { label: '警示', value: '警告', color: 'orange', variant: 'soft' },
+    { label: '危险', value: '危险', color: 'red', variant: 'filled' },
   ];
 </script>

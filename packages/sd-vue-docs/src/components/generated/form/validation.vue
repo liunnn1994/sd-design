@@ -1,118 +1,109 @@
 <template>
   <sd-form ref="formRef" :size="form.size" :model="form" class="sd:w-150" @submit="handleSubmit">
-    <sd-form-item field="size" label="Form Size">
+    <sd-form-item field="size" label="表单尺寸">
       <sd-radio-group v-model="form.size" type="button">
-        <sd-radio value="mini">Mini</sd-radio>
-        <sd-radio value="small">Small</sd-radio>
-        <sd-radio value="medium">Medium</sd-radio>
-        <sd-radio value="large">Large</sd-radio>
+        <sd-radio value="mini">迷你</sd-radio>
+        <sd-radio value="small">小</sd-radio>
+        <sd-radio value="medium">中</sd-radio>
+        <sd-radio value="large">大</sd-radio>
       </sd-radio-group>
     </sd-form-item>
     <sd-form-item
       field="name"
-      label="Username"
+      label="用户名"
       :rules="[
-        { required: true, message: 'name is required' },
-        { minLength: 5, message: 'must be greater than 5 characters' },
+        { required: true, message: '请输入姓名' },
+        { minLength: 5, message: '长度必须大于 5 个字符' },
       ]"
       :validate-trigger="['change', 'input']"
     >
-      <sd-input v-model="form.name" placeholder="please enter your username..." />
+      <sd-input v-model="form.name" placeholder="请输入用户名…" />
     </sd-form-item>
     <sd-form-item
       field="age"
-      label="Age"
+      label="年龄"
       :rules="[
-        { required: true, message: 'age is required' },
-        { type: 'number', max: 200, message: 'age is max than 200' },
+        { required: true, message: '请输入年龄' },
+        { type: 'number', max: 200, message: '年龄不能超过 200 岁' },
       ]"
     >
-      <sd-input-number v-model="form.age" placeholder="please enter your age..." />
+      <sd-input-number v-model="form.age" placeholder="请输入年龄…" />
     </sd-form-item>
     <sd-form-item
       field="section"
-      label="Section"
-      :rules="[{ match: /section one/, message: 'must select one' }]"
+      label="区块"
+      :rules="[{ match: /section one/, message: '请选择一项' }]"
     >
       <sd-select
         v-model="form.section"
-        placeholder="Please select ..."
+        placeholder="请选择…"
         allow-clear
         :options="sectionOptions"
       />
     </sd-form-item>
     <sd-form-item
       field="province"
-      label="Province"
-      :rules="[{ required: true, message: 'province is required' }]"
+      label="省份"
+      :rules="[{ required: true, message: '请选择省份' }]"
     >
-      <sd-cascader
-        v-model="form.province"
-        :options="options"
-        placeholder="Please select ..."
-        allow-clear
-      />
+      <sd-cascader v-model="form.province" :options="options" placeholder="请选择…" allow-clear />
     </sd-form-item>
     <sd-form-item
       field="options"
-      label="Options"
-      :rules="[{ type: 'array', minLength: 2, message: 'must select greater than two options' }]"
+      label="选项"
+      :rules="[{ type: 'array', minLength: 2, message: '请选择至少三个选项' }]"
     >
       <sd-checkbox-group v-model="form.options">
-        <sd-checkbox value="option one">Section One</sd-checkbox>
-        <sd-checkbox value="option two">Option Two</sd-checkbox>
-        <sd-checkbox value="option three">Option Three</sd-checkbox>
-        <sd-checkbox value="option four">Option Four</sd-checkbox>
+        <sd-checkbox value="option one">第一区块</sd-checkbox>
+        <sd-checkbox value="option two">选项二</sd-checkbox>
+        <sd-checkbox value="option three">选项三</sd-checkbox>
+        <sd-checkbox value="option four">选项四</sd-checkbox>
       </sd-checkbox-group>
     </sd-form-item>
-    <sd-form-item field="date" label="Date">
-      <sd-date-picker v-model="form.date" placeholder="Please select ..." />
+    <sd-form-item field="date" label="日期">
+      <sd-date-picker v-model="form.date" placeholder="请选择…" />
     </sd-form-item>
-    <sd-form-item field="time" label="Time">
-      <sd-time-picker v-model="form.time" placeholder="Please select ..." />
+    <sd-form-item field="time" label="时间">
+      <sd-time-picker v-model="form.time" placeholder="请选择…" />
     </sd-form-item>
-    <sd-form-item
-      field="radio"
-      label="Radio"
-      :rules="[{ match: /one/, message: 'must select one' }]"
-    >
+    <sd-form-item field="radio" label="单选框" :rules="[{ match: /one/, message: '请选择一项' }]">
       <sd-radio-group v-model="form.radio">
-        <sd-radio value="radio one">Radio One</sd-radio>
-        <sd-radio value="radio two">Radio Two</sd-radio>
+        <sd-radio value="单选项一">单选项一</sd-radio>
+        <sd-radio value="radio two">单选项二</sd-radio>
       </sd-radio-group>
     </sd-form-item>
     <sd-form-item
       field="slider"
-      label="Slider"
-      :rules="[{ type: 'number', min: 5, message: 'slider is min than 5' }]"
+      label="滑动输入条"
+      :rules="[{ type: 'number', min: 5, message: '滑动输入值不能小于 5' }]"
     >
       <sd-slider v-model="form.slider" :max="10" />
     </sd-form-item>
-    <sd-form-item field="score" label="Score">
+    <sd-form-item field="score" label="得分">
       <sd-rate v-model="form.score" allow-clear />
     </sd-form-item>
     <sd-form-item
       field="switch"
-      label="Switch"
-      :rules="[{ type: 'boolean', true: true, message: 'must be true' }]"
+      label="开关"
+      :rules="[{ type: 'boolean', true: true, message: '必须勾选' }]"
     >
       <sd-switch v-model="form.switch" />
     </sd-form-item>
-    <sd-form-item field="multiSelect" label="Multiple Select">
+    <sd-form-item field="multiSelect" label="多选">
       <sd-select
         v-model="form.multiSelect"
-        placeholder="Please select ..."
+        placeholder="请选择…"
         multiple
         :options="sectionOptions"
       />
     </sd-form-item>
-    <sd-form-item field="treeSelect" label="Tree Select">
-      <sd-tree-select :data="treeData" v-model="form.treeSelect" placeholder="Please select ..." />
+    <sd-form-item field="treeSelect" label="树选择器">
+      <sd-tree-select :data="treeData" v-model="form.treeSelect" placeholder="请选择…" />
     </sd-form-item>
     <sd-form-item>
       <sd-space>
-        <sd-button html-type="submit">Submit</sd-button>
-        <sd-button @click="formRef?.resetFields()">Reset</sd-button>
+        <sd-button html-type="submit">提交</sd-button>
+        <sd-button @click="formRef?.resetFields()">重置</sd-button>
       </sd-space>
     </sd-form-item>
   </sd-form>
@@ -143,53 +134,53 @@
     options: [],
     date: '',
     time: '',
-    radio: 'radio one',
+    radio: '单选项一',
     slider: 5,
     score: 5,
     switch: false,
-    multiSelect: ['section one'],
+    multiSelect: ['第一区块'],
     treeSelect: '',
   });
   const options = [
     {
       value: 'beijing',
-      label: 'Beijing',
+      label: '北京',
       children: [
         {
           value: 'chaoyang',
-          label: 'ChaoYang',
+          label: '朝阳区',
           children: [
             {
               value: 'datunli',
-              label: 'Datunli',
+              label: '大屯里',
             },
           ],
         },
         {
           value: 'haidian',
-          label: 'Haidian',
+          label: '海淀区',
         },
         {
           value: 'dongcheng',
-          label: 'Dongcheng',
+          label: '东城区',
         },
         {
           value: 'xicheng',
-          label: 'XiCheng',
+          label: '西城区',
         },
       ],
     },
     {
       value: 'shanghai',
-      label: 'Shanghai',
+      label: '上海',
       children: [
         {
           value: 'shanghaishi',
-          label: 'Shanghai',
+          label: '上海',
           children: [
             {
               value: 'huangpu',
-              label: 'Huangpu',
+              label: '黄浦区',
             },
           ],
         },
@@ -199,34 +190,34 @@
   const treeData = [
     {
       key: 'node1',
-      title: 'Node1',
+      title: '节点 1',
       children: [
         {
           key: 'node2',
-          title: 'Node2',
+          title: '节点 2',
         },
       ],
     },
     {
       key: 'node3',
-      title: 'Node3',
+      title: '节点 3',
       children: [
         {
           key: 'node4',
-          title: 'Node4',
+          title: '节点 4',
         },
         {
           key: 'node5',
-          title: 'Node5',
+          title: '节点 5',
         },
       ],
     },
   ];
 
   const sectionOptions = [
-    { value: 'section one', label: 'Section One' },
-    { value: 'section two', label: 'Section Two' },
-    { value: 'section three', label: 'Section Three' },
+    { value: '第一区块', label: '第一区块' },
+    { value: '第二区块', label: '第二区块' },
+    { value: '第三区块', label: '第三区块' },
   ];
   const formRef = ref<FormInstance | null>(null);
 </script>

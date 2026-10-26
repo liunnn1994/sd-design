@@ -3,20 +3,20 @@
     <div class="frame-body">
       <div class="frame-aside">
         <sd-steps :current="current" direction="vertical">
-          <sd-step>Succeeded</sd-step>
-          <sd-step>Processing</sd-step>
-          <sd-step>Pending</sd-step>
+          <sd-step>已成功</sd-step>
+          <sd-step>处理中</sd-step>
+          <sd-step>等待中</sd-step>
         </sd-steps>
       </div>
       <div class="frame-main">
-        <div class="main-content">The content of this step.</div>
+        <div class="main-content">当前步骤的内容。</div>
         <div class="main-bottom">
           <sd-button :disabled="current === 1" @click="onPrev">
             <icon-left />
-            Back
+            返回
           </sd-button>
           <sd-button :disabled="current === 3" @click="onNext">
-            Next
+            下一步
             <icon-right />
           </sd-button>
         </div>

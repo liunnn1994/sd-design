@@ -1,10 +1,5 @@
 <template>
-  <sd-cascader
-    :options="options"
-    :field-names="fieldNames"
-    class="sd:w-80"
-    placeholder="Please select ..."
-  />
+  <sd-cascader :options="options" :field-names="fieldNames" class="sd:w-80" placeholder="请选择…" />
 </template>
 
 <script setup lang="ts">
@@ -14,37 +9,37 @@
   const options = reactive([
     {
       city: 'beijing',
-      text: 'Beijing',
+      text: '北京',
       children: [
         {
           city: 'chaoyang',
-          text: 'ChaoYang',
+          text: '朝阳区',
           children: [
             {
               city: 'datunli',
-              text: 'Datunli',
+              text: '大屯里',
             },
           ],
         },
         {
           city: 'haidian',
-          text: 'Haidian',
+          text: '海淀区',
         },
         {
           city: 'dongcheng',
-          text: 'Dongcheng',
+          text: '东城区',
         },
         {
           city: 'xicheng',
-          text: 'Xicheng',
+          text: '西城区',
           children: [
             {
               city: 'jinrongjie',
-              text: 'Jinrongjie',
+              text: '金融街',
             },
             {
               city: 'tianqiao',
-              text: 'Tianqiao',
+              text: '天桥',
             },
           ],
         },
@@ -52,11 +47,11 @@
     },
     {
       city: 'shanghai',
-      text: 'Shanghai',
+      text: '上海',
       children: [
         {
           city: 'huangpu',
-          text: 'Huangpu',
+          text: '黄浦区',
         },
       ],
     },

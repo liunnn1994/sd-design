@@ -2,7 +2,7 @@ import { defineComponent } from 'vue';
 
 import Mention from '../index';
 
-const data = ['Bytedance', 'Bytedesign', 'Bytenumner'];
+const data = ['SData', 'SDesign', 'SNumber'];
 
 describe('Mention', () => {
   it('renders the dropdown on @', () => {
@@ -27,26 +27,26 @@ describe('Mention', () => {
     cy.get('input').focus();
     cy.get('input').type('@');
     cy.get('input').type('{downarrow}');
-    cy.get('.sd-select-option-active').should('contain.text', 'Bytedesign');
+    cy.get('.sd-select-option-active').should('contain.text', 'SDesign');
     cy.get('input').type('{uparrow}');
-    cy.get('.sd-select-option-active').should('contain.text', 'Bytedance');
+    cy.get('.sd-select-option-active').should('contain.text', 'SData');
     cy.get('input').type('{enter}');
     cy.get('@vue').should(({ wrapper }) => {
-      expect(wrapper.emitted('change')?.[1]).to.deep.equal(['@Bytedance']);
+      expect(wrapper.emitted('change')?.[1]).to.deep.equal(['@SData']);
     });
   });
 
   it('emits update:modelValue, change and search while typing a prefix', () => {
     cy.mount(Mention, { props: { data } });
     cy.get('input').focus();
-    cy.get('input').type('@by');
+    cy.get('input').type('@sd');
     cy.get('@vue').should(({ wrapper }) => {
-      expect(wrapper.emitted('update:modelValue')).to.deep.equal([['@'], ['@b'], ['@by']]);
-      expect(wrapper.emitted('change')).to.deep.equal([['@'], ['@b'], ['@by']]);
+      expect(wrapper.emitted('update:modelValue')).to.deep.equal([['@'], ['@s'], ['@sd']]);
+      expect(wrapper.emitted('change')).to.deep.equal([['@'], ['@s'], ['@sd']]);
       expect(wrapper.emitted('search')).to.deep.equal([
         ['', '@'],
-        ['b', '@'],
-        ['by', '@'],
+        ['s', '@'],
+        ['sd', '@'],
       ]);
     });
   });
@@ -56,7 +56,7 @@ describe('Mention', () => {
     cy.get('input').focus();
     cy.get('input').type('@design');
     cy.get('.sd-select-option').should('have.length', 1);
-    cy.get('.sd-select-option').should('contain.text', 'Bytedesign');
+    cy.get('.sd-select-option').should('contain.text', 'SDesign');
   });
 
   it('selects an option with a mouse click and emits select/change', () => {
@@ -65,9 +65,9 @@ describe('Mention', () => {
     cy.get('input').type('@');
     cy.get('.sd-select-option').eq(1).click();
     cy.get('@vue').should(({ wrapper }) => {
-      expect(wrapper.emitted('select')).to.deep.equal([['Bytedesign']]);
+      expect(wrapper.emitted('select')).to.deep.equal([['SDesign']]);
       const changes = wrapper.emitted('change') ?? [];
-      expect(changes[1]).to.deep.equal(['@Bytedesign']);
+      expect(changes[1]).to.deep.equal(['@SDesign']);
     });
   });
 
@@ -121,7 +121,7 @@ describe('Mention', () => {
 
   it('clears the value via allow-clear and emits clear/change', () => {
     cy.mount(Mention, { props: { allowClear: true } });
-    cy.get('input').type('@by');
+    cy.get('input').type('@sd');
     cy.get('.sd-input-clear-btn').click({ force: true });
     cy.get('input').should('have.value', '');
     cy.get('@vue').should(({ wrapper }) => {
@@ -133,11 +133,11 @@ describe('Mention', () => {
   });
 
   it('keeps modelValue as the source of truth and emits update:modelValue on input', () => {
-    cy.mount(Mention, { props: { data, modelValue: '@Bytedance' } });
-    cy.get('input').should('have.value', '@Bytedance');
+    cy.mount(Mention, { props: { data, modelValue: '@SData' } });
+    cy.get('input').should('have.value', '@SData');
     cy.get('input').type('x');
     cy.get('@vue').should(({ wrapper }) => {
-      expect(wrapper.emitted('update:modelValue')).to.deep.equal([['@Bytedancex']]);
+      expect(wrapper.emitted('update:modelValue')).to.deep.equal([['@SDatax']]);
     });
   });
 
@@ -156,7 +156,7 @@ describe('Mention', () => {
     cy.get('input').focus();
     cy.get('input').type('#de');
     cy.get('.sd-select-option').should('have.length', 1);
-    cy.get('.sd-select-option').should('contain.text', 'Bytedesign');
+    cy.get('.sd-select-option').should('contain.text', 'SDesign');
     cy.get('@vue').should(({ wrapper }) => {
       const searchEvents = wrapper.emitted('search') ?? [];
       const lastSearch = searchEvents.at(-1);
@@ -167,21 +167,21 @@ describe('Mention', () => {
   it('does not duplicate the tail text when selecting with a multi-character prefix', () => {
     cy.mount(Mention, { props: { data, prefix: '##' } });
     cy.get('input').focus();
-    cy.get('input').type('##by');
+    cy.get('input').type('##sd');
     cy.get('.sd-select-option').should('exist');
     cy.get('input').type('{enter}');
     cy.get('@vue').should(({ wrapper }) => {
       const changes = wrapper.emitted('change') ?? [];
       const lastChange = changes.at(-1);
-      // tail 需要按 prefix 长度截取，'##by' 选中后不能残留 'y'
-      expect(lastChange).to.deep.equal(['##Bytedance']);
+      // tail 需要按 prefix 长度截取，'##sd' 选中后不能残留 'd'
+      expect(lastChange).to.deep.equal(['##SData']);
     });
   });
 
   it('shows all options when filterOption is false', () => {
     cy.mount(Mention, { props: { data, filterOption: false } });
     cy.get('input').focus();
-    // '@design' 默认过滤后只命中 Bytedesign；关闭过滤后应显示全部选项
+    // '@design' 默认过滤后只命中 SDesign；关闭过滤后应显示全部选项
     cy.get('input').type('@design');
     cy.get('.sd-select-option').should('have.length', 3);
   });
@@ -211,7 +211,7 @@ describe('Mention', () => {
     cy.get('textarea').type('{enter}');
     cy.get('@vue').should(({ wrapper }) => {
       const changes = wrapper.emitted('change') ?? [];
-      expect(changes[1]).to.deep.equal(['@Bytedance']);
+      expect(changes[1]).to.deep.equal(['@SData']);
     });
   });
 });

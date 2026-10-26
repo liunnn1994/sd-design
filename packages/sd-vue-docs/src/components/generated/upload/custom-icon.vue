@@ -2,11 +2,11 @@
   <div>
     <div class="sd:mb-5">
       <sd-space>
-        <span>Type: </span>
+        <span>类型： </span>
         <sd-radio-group v-model="type">
-          <sd-radio value="text">text</sd-radio>
-          <sd-radio value="picture">picture</sd-radio>
-          <sd-radio value="picture-card">picture-card</sd-radio>
+          <sd-radio value="text">文本</sd-radio>
+          <sd-radio value="picture">图片</sd-radio>
+          <sd-radio value="picture-card">图片卡片</sd-radio>
         </sd-radio-group>
       </sd-space>
     </div>

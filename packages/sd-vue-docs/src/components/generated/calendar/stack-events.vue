@@ -17,19 +17,19 @@
     {
       start: '2025-01-08 11:30',
       end: '2025-01-08 14:00',
-      title: 'Dentist Appt.',
+      title: '牙医预约',
       class: 'health',
     },
     {
       start: '2025-01-08 12:00',
       end: '2025-01-08 14:00',
-      title: 'Event 1',
+      title: '事件 1',
       class: 'leisure',
     },
     {
       start: '2025-01-08 12:00',
       end: '2025-01-08 14:00',
-      title: 'Event 2',
+      title: '事件 2',
       class: 'sport',
     },
   ];

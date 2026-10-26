@@ -1,8 +1,8 @@
 <template>
   <sd-layout class="layout-top-demo">
-    <sd-layout-header>Header</sd-layout-header>
-    <sd-layout-content>Content</sd-layout-content>
-    <sd-layout-footer>Footer</sd-layout-footer>
+    <sd-layout-header>页头</sd-layout-header>
+    <sd-layout-content>内容</sd-layout-content>
+    <sd-layout-footer>页脚</sd-layout-footer>
   </sd-layout>
 </template>
 

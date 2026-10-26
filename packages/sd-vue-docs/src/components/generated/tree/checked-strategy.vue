@@ -14,7 +14,7 @@
   </sd-radio-group>
   <br />
   <sd-typography-text class="sd:my-6 sd:inline-block">
-    Current: {{ checkedKeys?.join(' , ') }}
+    当前项： {{ checkedKeys?.join(' , ') }}
   </sd-typography-text>
   <br />
   <sd-tree
@@ -31,19 +31,19 @@
 
   const treeData: TreeNodeData[] = [
     {
-      title: 'Trunk 0-0',
+      title: '主干节点 0-0',
       key: '0-0',
       children: [
         {
-          title: 'Leaf',
+          title: '叶子节点',
           key: '0-0-1',
         },
         {
-          title: 'Branch 0-0-2',
+          title: '分支 0-0-2',
           key: '0-0-2',
           children: [
             {
-              title: 'Leaf',
+              title: '叶子节点',
               key: '0-0-2-1',
             },
           ],
@@ -51,25 +51,25 @@
       ],
     },
     {
-      title: 'Trunk 0-1',
+      title: '主干节点 0-1',
       key: '0-1',
       children: [
         {
-          title: 'Branch 0-1-1',
+          title: '分支 0-1-1',
           key: '0-1-1',
           children: [
             {
-              title: 'Leaf',
+              title: '叶子节点',
               key: '0-1-1-1',
             },
             {
-              title: 'Leaf',
+              title: '叶子节点',
               key: '0-1-1-2',
             },
           ],
         },
         {
-          title: 'Leaf',
+          title: '叶子节点',
           key: '0-1-2',
         },
       ],
@@ -79,15 +79,15 @@
   const strategyOptions: Array<{ value: CheckedStrategy; label: string }> = [
     {
       value: 'all',
-      label: 'show all',
+      label: '显示全部',
     },
     {
       value: 'parent',
-      label: 'show parent',
+      label: '显示父节点',
     },
     {
       value: 'child',
-      label: 'show child',
+      label: '显示子节点',
     },
   ];
 

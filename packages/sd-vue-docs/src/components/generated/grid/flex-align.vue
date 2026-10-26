@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Arrange top</p>
+    <p>顶部对齐</p>
     <sd-row class="grid-demo sd:text-white" align="start">
       <sd-col :span="6" class="sd:bg-[#4096ff]">
         <div>col - 6</div>
@@ -15,7 +15,7 @@
         <div>col - 6</div>
       </sd-col>
     </sd-row>
-    <p>Arrange center</p>
+    <p>居中对齐</p>
     <sd-row class="grid-demo sd:text-white" align="center">
       <sd-col :span="6" class="sd:bg-[#4096ff]">
         <div>col - 6</div>
@@ -30,7 +30,7 @@
         <div>col - 6</div>
       </sd-col>
     </sd-row>
-    <p>Arrange bottom</p>
+    <p>底部对齐</p>
     <sd-row class="grid-demo sd:text-white" align="end">
       <sd-col :span="6" class="sd:bg-[#4096ff]">
         <div>col - 6</div>

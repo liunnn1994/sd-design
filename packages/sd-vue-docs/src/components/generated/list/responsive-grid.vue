@@ -18,39 +18,39 @@
 <script setup lang="ts">
   const dataSource = [
     {
-      title: 'Platform',
+      title: '平台',
       data: ['iOS', 'Android', 'Web'],
     },
     {
-      title: 'Framework',
+      title: '框架',
       data: ['Angular', 'Vue', 'React'],
     },
     {
-      title: 'Language',
+      title: '语言',
       data: ['C++', 'JavaScript', 'Python'],
     },
     {
-      title: 'Component',
-      data: ['Button', 'Breadcrumb', 'Transfer'],
+      title: '组件',
+      data: ['按钮', '面包屑', '穿梭框'],
     },
     {
-      title: 'Design',
+      title: '设计',
       data: ['Figma', 'Sketch', 'Adobe XD'],
     },
     {
-      title: 'Plugin',
+      title: '插件',
       data: ['Edu Tools', 'BashSupport', 'GitToolBox'],
     },
     {
-      title: 'Platform',
+      title: '平台',
       data: ['iOS', 'Android', 'Web'],
     },
     {
-      title: 'Framework',
+      title: '框架',
       data: ['Angular', 'Vue', 'React'],
     },
     {
-      title: 'Language',
+      title: '语言',
       data: ['C++', 'JavaScript', 'Python'],
     },
   ];

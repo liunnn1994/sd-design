@@ -1,10 +1,10 @@
 <template>
   <div class="sd:mb-5">
     <sd-radio-group v-model="size" type="button">
-      <sd-radio value="mini">mini</sd-radio>
-      <sd-radio value="small">small</sd-radio>
-      <sd-radio value="medium">medium</sd-radio>
-      <sd-radio value="large">large</sd-radio>
+      <sd-radio value="mini">迷你</sd-radio>
+      <sd-radio value="small">小</sd-radio>
+      <sd-radio value="medium">中</sd-radio>
+      <sd-radio value="large">大</sd-radio>
     </sd-radio-group>
   </div>
   <sd-time-picker class="sd:w-48.5" :size="size" />

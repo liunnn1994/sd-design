@@ -318,8 +318,8 @@ describe('首页中央输入面板', () => {
     cy.contains('[role="menuitem"]', 'React').should('have.attr', 'aria-disabled', 'true');
     cy.contains('[role="menuitem"]', 'Vue 3').should('be.visible');
     captureWorkbench('workbench-agent-light');
-    cy.contains('[role="menuitem"]', 'Ask').click();
-    cy.get('.home-workbench [aria-label="选择工作方式"]').should('contain.text', 'Ask');
+    cy.contains('[role="menuitem"]', '提问').click();
+    cy.get('.home-workbench [aria-label="选择工作方式"]').should('contain.text', '提问');
     cy.get('starlight-theme-select select:visible').select('dark');
     cy.get('html').should('have.attr', 'data-sd-theme', 'dark');
     cy.get('.home-workbench [aria-label="选择工作方式"]').click();

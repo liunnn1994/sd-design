@@ -1,7 +1,7 @@
 <template>
   <sd-space direction="vertical" size="large" fill>
     <sd-space>
-      <sd-switch v-model="alignLeft" /> <span>Filter icon align left: {{ alignLeft }}</span>
+      <sd-switch v-model="alignLeft" /> <span>筛选图标左对齐： {{ alignLeft }}</span>
     </sd-space>
     <sd-table
       :columns="columns"
@@ -17,9 +17,9 @@
   import { reactive, ref } from 'vue';
   const alignLeft = ref(false);
   const columns: TableColumnData[] = [
-    { title: 'Name', dataIndex: 'name', sortable: { sortDirections: ['ascend', 'descend'] } },
+    { title: '姓名', dataIndex: 'name', sortable: { sortDirections: ['ascend', 'descend'] } },
     {
-      title: 'Salary',
+      title: '薪资',
       dataIndex: 'salary',
       sortable: { sortDirections: ['ascend'] },
       filterable: {
@@ -32,52 +32,52 @@
       },
     },
     {
-      title: 'Address',
+      title: '地址',
       dataIndex: 'address',
       filterable: {
         filters: [
-          { text: 'London', value: 'London' },
-          { text: 'Paris', value: 'Paris' },
+          { text: '伦敦', value: '伦敦' },
+          { text: '巴黎', value: '巴黎' },
         ],
         filter: (value, row) => String(row.address).includes(String(value)),
       },
     },
-    { title: 'Email', dataIndex: 'email' },
+    { title: '电子邮箱', dataIndex: 'email' },
   ];
   const data = reactive<TableData[]>([
     {
       key: '1',
-      name: 'Jane Doe',
+      name: '王芳',
       salary: 23000,
-      address: '32 Park Road, London',
+      address: '示例路 32 号',
       email: 'jane.doe@example.com',
     },
     {
       key: '2',
-      name: 'Alisa Ross',
+      name: '张晓',
       salary: 25000,
-      address: '35 Park Road, London',
+      address: '示例路 35 号',
       email: 'alisa.ross@example.com',
     },
     {
       key: '3',
-      name: 'Kevin Sandra',
+      name: '赵晨',
       salary: 22000,
-      address: '31 Park Road, London',
+      address: '示例路 31 号',
       email: 'kevin.sandra@example.com',
     },
     {
       key: '4',
-      name: 'Ed Hellen',
+      name: '李明',
       salary: 17000,
-      address: '42 Park Road, London',
+      address: '示例路 42 号',
       email: 'ed.hellen@example.com',
     },
     {
       key: '5',
-      name: 'William Smith',
+      name: '陈宇',
       salary: 27000,
-      address: '62 Park Road, London',
+      address: '示例路 62 号',
       email: 'william.smith@example.com',
     },
   ]);

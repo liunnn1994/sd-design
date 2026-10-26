@@ -5,45 +5,45 @@
   >
     <sd-row :gutter="20" class="sd:mb-5">
       <sd-col :span="8">
-        <sd-card title="SD Card" :bordered="false" class="sd:w-full">
+        <sd-card title="SD 卡片" :bordered="false" class="sd:w-full">
           <template #extra>
-            <sd-link>More</sd-link>
+            <sd-link>更多</sd-link>
           </template>
-          Card content
+          卡片内容
         </sd-card>
       </sd-col>
       <sd-col :span="8">
-        <sd-card title="SD Card" :bordered="false" class="sd:w-full">
+        <sd-card title="SD 卡片" :bordered="false" class="sd:w-full">
           <template #extra>
-            <sd-link>More</sd-link>
+            <sd-link>更多</sd-link>
           </template>
-          Card content
+          卡片内容
         </sd-card>
       </sd-col>
       <sd-col :span="8">
-        <sd-card title="SD Card" :bordered="false" class="sd:w-full">
+        <sd-card title="SD 卡片" :bordered="false" class="sd:w-full">
           <template #extra>
-            <sd-link>More</sd-link>
+            <sd-link>更多</sd-link>
           </template>
-          Card content
+          卡片内容
         </sd-card>
       </sd-col>
     </sd-row>
     <sd-row :gutter="20">
       <sd-col :span="16">
-        <sd-card title="SD Card" :bordered="false" class="sd:w-full">
+        <sd-card title="SD 卡片" :bordered="false" class="sd:w-full">
           <template #extra>
-            <sd-link>More</sd-link>
+            <sd-link>更多</sd-link>
           </template>
-          Card content
+          卡片内容
         </sd-card>
       </sd-col>
       <sd-col :span="8">
-        <sd-card title="SD Card" :bordered="false" class="sd:w-full">
+        <sd-card title="SD 卡片" :bordered="false" class="sd:w-full">
           <template #extra>
-            <sd-link>More</sd-link>
+            <sd-link>更多</sd-link>
           </template>
-          Card content
+          卡片内容
         </sd-card>
       </sd-col>
     </sd-row>

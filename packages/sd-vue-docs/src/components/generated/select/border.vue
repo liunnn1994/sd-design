@@ -1,15 +1,10 @@
 <template>
   <sd-space direction="vertical" size="large">
+    <sd-select class="sd:w-full" placeholder="请选择…" :bordered="false" :options="options" />
     <sd-select
-      class="sd:w-full"
-      placeholder="Please select ..."
-      :bordered="false"
-      :options="options"
-    />
-    <sd-select
-      :default-value="['Beijing', 'Shanghai']"
+      :default-value="['北京', '上海']"
       class="sd:w-90"
-      placeholder="Please select ..."
+      placeholder="请选择…"
       multiple
       :bordered="false"
       :options="borderOptions"
@@ -18,13 +13,13 @@
 </template>
 
 <script setup lang="ts">
-  const options = ['Beijing', 'Shanghai', 'Guangzhou', { label: 'Disabled', disabled: true }];
+  const options = ['北京', '上海', '广州', { label: '禁用', disabled: true }];
   const borderOptions = [
-    'Beijing',
-    { label: 'Shanghai', value: 'Shanghai', tagProps: { color: 'red' } },
-    'Guangzhou',
-    { label: 'Disabled', value: 'Disabled', disabled: true },
-    'Shenzhen',
-    'Wuhan',
+    '北京',
+    { label: '上海', value: '上海', tagProps: { color: 'red' } },
+    '广州',
+    { label: '禁用', value: '禁用', disabled: true },
+    '深圳',
+    '武汉',
   ];
 </script>

@@ -1,8 +1,8 @@
 <template>
   <div class="sd:w-90">
     <sd-radio-group v-model="preset" type="button" class="sd:mb-3">
-      <sd-radio value="default">default fixed</sd-radio>
-      <sd-radio value="explicit">explicit itemSize</sd-radio>
+      <sd-radio value="default">默认固定行高</sd-radio>
+      <sd-radio value="explicit">显式指定项尺寸</sd-radio>
     </sd-radio-group>
 
     <div class="sd:mb-3 sd:text-[var(--color-text-2)] sd:text-xs sd:leading-[1.5]">
@@ -12,7 +12,7 @@
     <sd-cascader
       :options="options"
       class="sd:w-full"
-      placeholder="Please select ..."
+      placeholder="请选择…"
       allow-search
       :trigger-props="{ popupStyle: { maxHeight: '220px' } }"
       :virtual-list-props="virtualListProps"
@@ -29,8 +29,8 @@
 
   const helperText = computed(() => {
     return preset.value === 'default'
-      ? "The large second-level columns use Cascader's new default fixed-height virtualization."
-      : 'Explicit itemSize: 36 is helpful when you want to standardize multiple cascader panels.';
+      ? '第二级的大量选项使用级联选择器默认的固定行高虚拟滚动。'
+      : '需要统一多个级联面板时，可显式设置 itemSize: 36。';
   });
 
   const virtualListProps = computed(() => {
@@ -42,40 +42,40 @@
       .fill(null)
       .map((_, index) => ({
         value: `${prefix}-${index}`,
-        label: `${prefix} option ${index}`,
+        label: `${prefix} 选项 ${index}`,
       }));
   };
 
   const options: CascaderOption[] = [
     {
       value: 'beijing',
-      label: 'Beijing',
+      label: '北京',
       children: [
         {
           value: 'chaoyang',
-          label: 'Chaoyang',
-          children: createLeafOptions('Chaoyang', 1200),
+          label: '朝阳区',
+          children: createLeafOptions('朝阳区', 1200),
         },
         {
           value: 'haidian',
-          label: 'Haidian',
-          children: createLeafOptions('Haidian', 800),
+          label: '海淀区',
+          children: createLeafOptions('海淀区', 800),
         },
       ],
     },
     {
       value: 'shanghai',
-      label: 'Shanghai',
+      label: '上海',
       children: [
         {
           value: 'pudong',
-          label: 'Pudong',
-          children: createLeafOptions('Pudong', 1500),
+          label: '浦东新区',
+          children: createLeafOptions('浦东新区', 1500),
         },
         {
           value: 'minhang',
-          label: 'Minhang',
-          children: createLeafOptions('Minhang', 900),
+          label: '闵行区',
+          children: createLeafOptions('闵行区', 900),
         },
       ],
     },

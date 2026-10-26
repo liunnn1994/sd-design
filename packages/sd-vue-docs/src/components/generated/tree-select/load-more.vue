@@ -2,7 +2,7 @@
   <sd-tree-select
     :data="treeData"
     :load-more="loadMore"
-    placeholder="Please select ..."
+    placeholder="请选择…"
     class="sd:w-75"
   ></sd-tree-select>
 </template>
@@ -14,27 +14,27 @@
   const defaultTreeData = [
     {
       key: 'node1',
-      title: 'node1',
+      title: '节点 1',
       disabled: true,
       children: [
         {
           key: 'node2',
-          title: 'node2',
+          title: '节点 2',
         },
       ],
     },
     {
       key: 'node3',
-      title: 'node3',
+      title: '节点 3',
       children: [
         {
           key: 'node4',
-          title: 'node4',
+          title: '节点 4',
           isLeaf: true,
         },
         {
           key: 'node5',
-          title: 'node5',
+          title: '节点 5',
           isLeaf: true,
         },
       ],

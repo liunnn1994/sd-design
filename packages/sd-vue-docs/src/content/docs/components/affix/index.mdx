@@ -67,7 +67,7 @@ import affixTopSource from '../../../../components/generated/affix/top.vue?raw';
 
 ## API
 
-### `<affix>` Props
+### `<affix>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | :-: |
@@ -76,13 +76,13 @@ import affixTopSource from '../../../../components/generated/affix/top.vue?raw';
 | target | 滚动容器，默认是 `window` | `string \| HTMLElement \| Window` | `-` |
 | target-container | `target`的外层滚动元素，默认是 `window`。`Affix `将会监听该元素的滚动事件，并实时更新固钉的位置。主要是为了解决 `target` 属性指定为非 `window` 元素时，如果外层元素滚动，可能会导致固钉跑出容器问题 | `string \| HTMLElement \| Window` | `-` |
 
-### `<affix>` Events
+### `<affix>` 事件
 
 | 事件名 | 描述                   | 参数             |
 | ------ | ---------------------- | ---------------- |
 | change | 固定状态发生改变时触发 | fixed: `boolean` |
 
-### `<affix>` Methods
+### `<affix>` 方法
 
 | 方法名         | 描述     | 参数 | 返回值 |
 | -------------- | -------- | ---- | ------ |

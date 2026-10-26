@@ -3,7 +3,7 @@
     <sd-switch v-model="visibility" />
     <sd-input-password
       v-model:visibility="visibility"
-      placeholder="Please enter something"
+      placeholder="请输入内容"
       class="sd:w-80"
       :defaultVisibility="false"
       allow-clear

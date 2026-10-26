@@ -1,16 +1,13 @@
 <template>
-  <sd-button @click="handleClick">Open Drawer</sd-button>
+  <sd-button @click="handleClick">打开抽屉</sd-button>
   <sd-drawer
     v-model:visible="visible"
     @before-ok="handleBeforeOk"
     @cancel="handleCancel"
     unmountOnClose
   >
-    <template #title> Title </template>
-    <div
-      >You can customize modal body text by the current situation. This modal will be closed
-      immediately once you press the OK button.</div
-    >
+    <template #title> 标题 </template>
+    <div>您可以根据实际场景自定义对话框内容。点击确认按钮后，对话框将立即关闭。</div>
   </sd-drawer>
 </template>
 

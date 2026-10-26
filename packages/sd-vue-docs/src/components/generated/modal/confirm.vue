@@ -1,5 +1,5 @@
 <template>
-  <sd-button type="primary" @click="handleClick">Confirm</sd-button>
+  <sd-button type="primary" @click="handleClick">确认</sd-button>
 </template>
 
 <script setup lang="ts">
@@ -9,9 +9,8 @@
 
   const handleClick = () => {
     Modal.confirm({
-      title: 'Confirm deletion',
-      content:
-        'Are you sure you want to delete the 3 selected items? Once you press the delete button, the items will be deleted immediately. You can’t undo this action.',
+      title: '确认删除',
+      content: '确定要删除所选的 3 个项目吗？点击删除按钮后，项目将立即删除，此操作无法撤销。',
       okButtonProps: {
         status: 'danger',
       },

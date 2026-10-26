@@ -1,12 +1,12 @@
 <template>
   <div class="sd:mb-6">
-    <sd-button type="primary" @click="onClick">toggle</sd-button>
+    <sd-button type="primary" @click="onClick">切换</sd-button>
   </div>
   <sd-tree-select
     :popupVisible="popupVisible"
     :allow-clear="true"
     :data="treeData"
-    placeholder="Please select ..."
+    placeholder="请选择…"
     class="sd:w-75"
   ></sd-tree-select>
 </template>
@@ -18,25 +18,25 @@
   const treeData: TreeNodeData[] = [
     {
       key: 'node1',
-      title: 'Trunk',
+      title: '主干节点',
       children: [
         {
           key: 'node2',
-          title: 'Leaf',
+          title: '叶子节点',
         },
       ],
     },
     {
       key: 'node3',
-      title: 'Trunk2',
+      title: '主干节点 2',
       children: [
         {
           key: 'node4',
-          title: 'Leaf',
+          title: '叶子节点',
         },
         {
           key: 'node5',
-          title: 'Leaf',
+          title: '叶子节点',
         },
       ],
     },

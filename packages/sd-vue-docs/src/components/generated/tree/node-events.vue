@@ -16,11 +16,11 @@
 
   const treeData: TreeNodeData[] = [
     {
-      title: 'Trunk 0-0',
+      title: '主干节点 0-0',
       key: '0-0',
       children: [
         {
-          title: 'Leaf 0-0-1',
+          title: '叶子节点 0-0-1',
           key: '0-0-1',
         },
       ],

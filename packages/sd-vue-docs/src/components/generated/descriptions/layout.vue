@@ -1,30 +1,30 @@
 <template>
   <sd-radio-group type="button" v-model="size">
-    <sd-radio value="mini">mini</sd-radio>
-    <sd-radio value="small">small</sd-radio>
-    <sd-radio value="medium">medium</sd-radio>
-    <sd-radio value="large">large</sd-radio>
+    <sd-radio value="mini">迷你</sd-radio>
+    <sd-radio value="small">小</sd-radio>
+    <sd-radio value="medium">中</sd-radio>
+    <sd-radio value="large">大</sd-radio>
   </sd-radio-group>
   <div class="sd:mt-5 sd:grid sd:gap-6">
-    <sd-descriptions :data="data" :size="size" title="User Info (horizontal)" bordered />
+    <sd-descriptions :data="data" :size="size" title="用户信息（水平）" bordered />
     <sd-descriptions
       :data="data"
       :size="size"
-      title="User Info (inline-horizontal)"
+      title="用户信息（行内水平）"
       layout="inline-horizontal"
       bordered
     />
     <sd-descriptions
       :data="data"
       :size="size"
-      title="User Info (vertical)"
+      title="用户信息（垂直）"
       layout="vertical"
       bordered
     />
     <sd-descriptions
       :data="data"
       :size="size"
-      title="User Info (inline-vertical)"
+      title="用户信息（行内垂直）"
       layout="inline-vertical"
       bordered
     />
@@ -40,24 +40,24 @@
 
   const data: DescData[] = [
     {
-      label: 'Name',
-      value: 'Socrates',
+      label: '姓名',
+      value: '苏格拉底',
     },
     {
-      label: 'Mobile',
+      label: '手机',
       value: '123-1234-1234',
     },
     {
-      label: 'Residence',
-      value: 'Beijing',
+      label: '居住地',
+      value: '北京',
     },
     {
-      label: 'Hometown',
-      value: 'Beijing',
+      label: '家乡',
+      value: '北京',
     },
     {
-      label: 'Address',
-      value: 'Yingdu Building, Zhichun Road, Beijing',
+      label: '地址',
+      value: '北京市知春路示例大厦',
     },
   ];
 </script>

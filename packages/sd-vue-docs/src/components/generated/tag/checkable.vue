@@ -1,7 +1,7 @@
 <template>
   <sd-space>
-    <sd-tag checkable>Awesome</sd-tag>
-    <sd-tag checkable color="red" :default-checked="true">Toutiao</sd-tag>
-    <sd-tag checkable color="sdblue" :default-checked="true">Lark</sd-tag>
+    <sd-tag checkable>太棒了</sd-tag>
+    <sd-tag checkable color="red" :default-checked="true">示例资讯</sd-tag>
+    <sd-tag checkable color="sdblue" :default-checked="true">协作平台</sd-tag>
   </sd-space>
 </template>

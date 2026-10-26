@@ -26,23 +26,23 @@
   const data = ref([
     {
       key: '1',
-      title: 'Tab 1',
-      content: 'Content of Tab Panel 1',
+      title: '标签页 1',
+      content: '标签页面板内容 1',
     },
     {
       key: '2',
-      title: 'Tab 2',
-      content: 'Content of Tab Panel 2',
+      title: '标签页 2',
+      content: '标签页面板内容 2',
     },
     {
       key: '3',
-      title: 'Tab 3',
-      content: 'Content of Tab Panel 3',
+      title: '标签页 3',
+      content: '标签页面板内容 3',
     },
     {
       key: '4',
-      title: 'Tab 4',
-      content: 'Content of Tab Panel 4',
+      title: '标签页 4',
+      content: '标签页面板内容 4',
     },
   ]);
 
@@ -50,8 +50,8 @@
     const number = count++;
     data.value = data.value.concat({
       key: `${number}`,
-      title: `New Tab ${number}`,
-      content: `Content of New Tab Panel ${number}`,
+      title: `新标签页 ${number}`,
+      content: `新标签页面板内容 ${number}`,
     });
   };
   const handleDelete = (key: string | number) => {

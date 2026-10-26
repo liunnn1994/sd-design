@@ -5,7 +5,7 @@
       width="400"
       height="300"
       src="some-error.png"
-      alt="This is a picture of humans eating ice cream. The humans on the screen are very happy just now. The ice cream is green, it seems to be flavored with matcha. The gender of the human is unknown. It has very long hair and the human hair is brown."
+      alt="画面中的人正在开心地吃着冰淇淋。冰淇淋呈绿色，似乎是抹茶口味。人物留着棕色长发。"
     />
   </sd-space>
 </template>

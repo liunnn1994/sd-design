@@ -17,8 +17,8 @@ runDemoTests('radio', demos, () => {
 describe('<radio> interactive demos', () => {
   it('checks a standalone radio', () => {
     cy.mount(BasicDemo);
-    cy.contains('.sd-radio', 'Radio').click();
-    cy.contains('.sd-radio', 'Radio').find('input').should('be.checked');
+    cy.contains('.sd-radio', '单选框').click();
+    cy.contains('.sd-radio', '单选框').find('input').should('be.checked');
   });
 
   it('keeps a controlled radio checked', () => {
@@ -29,8 +29,8 @@ describe('<radio> interactive demos', () => {
 
   it('selects a button radio option', () => {
     cy.mount(ButtonDemo);
-    cy.contains('.sd-radio-button', 'Shanghai').click();
-    cy.contains('.sd-radio-button', 'Shanghai').find('input').should('be.checked');
+    cy.contains('.sd-radio-button', '上海').click();
+    cy.contains('.sd-radio-button', '上海').find('input').should('be.checked');
   });
 
   it('selects a radio group option', () => {

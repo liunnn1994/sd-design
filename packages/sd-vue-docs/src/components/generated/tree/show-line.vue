@@ -16,33 +16,33 @@
 
   const treeData: TreeNodeData[] = [
     {
-      title: 'Trunk 1',
+      title: '主干节点 1',
       key: '0-0',
       children: [
         {
-          title: 'Trunk 1-0',
+          title: '主干节点 1-0',
           key: '0-0-0',
           children: [
-            { title: 'leaf', key: '0-0-0-0' },
+            { title: '叶子节点', key: '0-0-0-0' },
             {
-              title: 'leaf',
+              title: '叶子节点',
               key: '0-0-0-1',
-              children: [{ title: 'leaf', key: '0-0-0-1-0' }],
+              children: [{ title: '叶子节点', key: '0-0-0-1-0' }],
             },
-            { title: 'leaf', key: '0-0-0-2' },
+            { title: '叶子节点', key: '0-0-0-2' },
           ],
         },
         {
-          title: 'Trunk 1-1',
+          title: '主干节点 1-1',
           key: '0-0-1',
         },
         {
-          title: 'Trunk 1-2',
+          title: '主干节点 1-2',
           key: '0-0-2',
           children: [
-            { title: 'leaf', key: '0-0-2-0' },
+            { title: '叶子节点', key: '0-0-2-0' },
             {
-              title: 'leaf',
+              title: '叶子节点',
               key: '0-0-2-1',
             },
           ],
@@ -50,19 +50,19 @@
       ],
     },
     {
-      title: 'Trunk 2',
+      title: '主干节点 2',
       key: '0-1',
     },
     {
-      title: 'Trunk 3',
+      title: '主干节点 3',
       key: '0-2',
       children: [
         {
-          title: 'Trunk 3-0',
+          title: '主干节点 3-0',
           key: '0-2-0',
           children: [
-            { title: 'leaf', key: '0-2-0-0' },
-            { title: 'leaf', key: '0-2-0-1' },
+            { title: '叶子节点', key: '0-2-0-0' },
+            { title: '叶子节点', key: '0-2-0-1' },
           ],
         },
       ],

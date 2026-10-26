@@ -1,5 +1,5 @@
 <template>
-  <sd-button @click="handleClick">Open Modal</sd-button>
+  <sd-button @click="handleClick">打开对话框</sd-button>
 </template>
 
 <script setup lang="ts">
@@ -11,22 +11,22 @@
     setup() {
       const onClick = () => {
         Modal.info({
-          title: 'Info Title',
-          content: 'This is an nest info message',
+          title: '提示标题',
+          content: '这是一条嵌套提示消息',
         });
       };
 
       return () =>
         h('div', { class: 'info-modal-content' }, [
-          h('span', { style: 'margin-bottom: 10px;' }, 'This is an info message'),
-          h(Button, { size: 'mini', onClick }, 'Open Nest Modal'),
+          h('span', { style: 'margin-bottom: 10px;' }, '这是一条提示消息'),
+          h(Button, { size: 'mini', onClick }, '打开嵌套对话框'),
         ]);
     },
   };
 
   const handleClick = () => {
     Modal.info({
-      title: 'Info Title',
+      title: '提示标题',
       content: () => h(ModalContent),
     });
   };

@@ -30,7 +30,7 @@
     }
   };
   const dataSpanMethod: TableSpanMethod = ({ record, column }: TableSpanMethodContext) => {
-    if (record.name === 'Alisa Ross' && 'dataIndex' in column && column.dataIndex === 'salary') {
+    if (record.name === '张晓' && 'dataIndex' in column && column.dataIndex === 'salary') {
       return { rowspan: 2 };
     }
   };
@@ -43,45 +43,45 @@
     }
   };
   const columns: TableColumnData[] = [
-    { title: 'Name', dataIndex: 'name' },
-    { title: 'Salary', dataIndex: 'salary' },
-    { title: 'Address', dataIndex: 'address' },
-    { title: 'Email', dataIndex: 'email' },
+    { title: '姓名', dataIndex: 'name' },
+    { title: '薪资', dataIndex: 'salary' },
+    { title: '地址', dataIndex: 'address' },
+    { title: '电子邮箱', dataIndex: 'email' },
   ];
   const data: TableData[] = [
     {
       key: '1',
-      name: 'Jane Doe',
+      name: '王芳',
       salary: 23000,
-      address: '32 Park Road, London',
+      address: '示例路 32 号',
       email: 'jane.doe@example.com',
     },
     {
       key: '2',
-      name: 'Alisa Ross',
+      name: '张晓',
       salary: 25000,
-      address: '35 Park Road, London',
+      address: '示例路 35 号',
       email: 'alisa.ross@example.com',
     },
     {
       key: '3',
-      name: 'Kevin Sandra',
+      name: '赵晨',
       salary: 22000,
-      address: '31 Park Road, London',
+      address: '示例路 31 号',
       email: 'kevin.sandra@example.com',
     },
     {
       key: '4',
-      name: 'Ed Hellen',
+      name: '李明',
       salary: 17000,
-      address: '42 Park Road, London',
+      address: '示例路 42 号',
       email: 'ed.hellen@example.com',
     },
     {
       key: '5',
-      name: 'William Smith',
+      name: '陈宇',
       salary: 27000,
-      address: '62 Park Road, London',
+      address: '示例路 62 号',
       email: 'william.smith@example.com',
     },
   ];

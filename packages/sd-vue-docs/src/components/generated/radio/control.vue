@@ -1,16 +1,16 @@
 <template>
   <sd-space size="large">
     <sd-radio v-model="checked1">v-model</sd-radio>
-    <sd-radio :model-value="true">binding "true"</sd-radio>
-    <sd-radio :model-value="checked2">binding value2</sd-radio>
-    <sd-radio :default-checked="true">uncontrolled state</sd-radio>
+    <sd-radio :model-value="true">绑定布尔值 true</sd-radio>
+    <sd-radio :model-value="checked2">绑定值 2</sd-radio>
+    <sd-radio :default-checked="true">非受控状态</sd-radio>
   </sd-space>
   <div class="sd:mt-5">
     <sd-space size="large">
       <sd-button type="primary" @click="handleSetCheck">
         {{ checked2 ? 'uncheck' : 'check' }} value2
       </sd-button>
-      <sd-button @click="handleReset"> reset all </sd-button>
+      <sd-button @click="handleReset"> 全部重置 </sd-button>
     </sd-space>
   </div>
 </template>

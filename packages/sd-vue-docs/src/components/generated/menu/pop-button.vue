@@ -19,11 +19,11 @@
         >
           <sd-menu-item key="1">
             <template #icon><IconBug></IconBug></template>
-            Bugs
+            问题
           </sd-menu-item>
           <sd-menu-item key="2">
             <template #icon><IconBulb></IconBulb></template>
-            Ideas
+            想法
           </sd-menu-item>
         </sd-menu>
       </template>
@@ -48,11 +48,11 @@
         >
           <sd-menu-item key="1">
             <template #icon><IconBug></IconBug></template>
-            Bugs
+            问题
           </sd-menu-item>
           <sd-menu-item key="2">
             <template #icon><IconBulb></IconBulb></template>
-            Ideas
+            想法
           </sd-menu-item>
         </sd-menu>
       </template>

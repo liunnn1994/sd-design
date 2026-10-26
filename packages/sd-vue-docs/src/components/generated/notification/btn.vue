@@ -1,5 +1,5 @@
 <template>
-  <sd-button type="primary" @click="handleNotification"> Open Notification </sd-button>
+  <sd-button type="primary" @click="handleNotification"> 打开通知 </sd-button>
 </template>
 
 <script setup lang="ts">
@@ -11,20 +11,20 @@
     const id = `${Date.now()}`;
     const closeNotification = Notification.info({
       id,
-      title: 'Notification',
-      content: 'This is a notification!',
+      title: '通知',
+      content: '这是一条通知！',
       duration: 0,
       footer: () =>
         h(Space, null, () => [
           h(
             Button,
             { type: 'secondary', size: 'small', onClick: () => Notification.remove(id) },
-            () => 'Cancel',
+            () => '取消',
           ),
           h(
             Button,
             { type: 'primary', size: 'small', onClick: () => closeNotification.close() },
-            () => 'Ok',
+            () => '确认',
           ),
         ]),
     });

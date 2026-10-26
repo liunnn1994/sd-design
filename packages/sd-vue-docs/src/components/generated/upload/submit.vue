@@ -3,9 +3,9 @@
     <sd-upload action="/" :auto-upload="false" ref="uploadRef" @change="onChange" multiple>
       <template #upload-button>
         <sd-space>
-          <sd-button> select file</sd-button>
-          <sd-button type="primary" @click="submit"> start upload</sd-button>
-          <sd-button type="primary" @click="submitOne"> only upload one </sd-button>
+          <sd-button> 选择文件</sd-button>
+          <sd-button type="primary" @click="submit"> 开始上传</sd-button>
+          <sd-button type="primary" @click="submitOne"> 仅上传一个文件 </sd-button>
         </sd-space>
       </template>
     </sd-upload>

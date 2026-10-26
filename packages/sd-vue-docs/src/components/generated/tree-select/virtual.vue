@@ -15,7 +15,7 @@
     for (let i = 0; i < 10; i += 1) {
       const key = `${path}-${i}`;
       const treeNode: TreeNodeData = {
-        title: `Node ${key}`,
+        title: `节点 ${key}`,
         key,
       };
 
@@ -66,10 +66,10 @@
 <template>
   <div class="sd:w-90">
     <sd-radio-group v-model="size" type="button" class="sd:mb-3">
-      <sd-radio value="mini">mini</sd-radio>
-      <sd-radio value="small">small</sd-radio>
-      <sd-radio value="medium">medium</sd-radio>
-      <sd-radio value="large">large</sd-radio>
+      <sd-radio value="mini">迷你</sd-radio>
+      <sd-radio value="small">小</sd-radio>
+      <sd-radio value="medium">中</sd-radio>
+      <sd-radio value="large">大</sd-radio>
     </sd-radio-group>
 
     <sd-radio-group v-model="mode" type="button" class="sd:mb-3">

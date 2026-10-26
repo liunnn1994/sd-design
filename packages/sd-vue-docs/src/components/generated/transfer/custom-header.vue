@@ -4,7 +4,7 @@
       #source-title="{ countTotal, countSelected, checked, indeterminate, onSelectAllChange }"
     >
       <div class="sd:flex sd:items-center sd:justify-between sd:pr-2">
-        Source Title {{ countSelected }}-{{ countTotal }}
+        源列表标题 {{ countSelected }}-{{ countTotal }}
         <sd-checkbox
           :model-value="checked"
           :indeterminate="indeterminate"
@@ -15,7 +15,7 @@
 
     <template #target-title="{ countTotal, countSelected, onClear }">
       <div class="sd:flex sd:items-center sd:justify-between sd:pr-2">
-        Target Title {{ countSelected }}-{{ countTotal }}
+        目标列表标题 {{ countSelected }}-{{ countTotal }}
         <IconDelete @click="onClear" />
       </div>
     </template>
@@ -29,7 +29,7 @@
     .fill(undefined)
     .map((_, index) => ({
       value: `option${index + 1}`,
-      label: `Option ${index + 1}`,
+      label: `选项 ${index + 1}`,
     }));
 
   const value = ['option1', 'option3', 'option5'];

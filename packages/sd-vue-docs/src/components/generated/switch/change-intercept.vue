@@ -26,7 +26,7 @@
   const handleChangeIntercept3 = async (newValue: string | number | boolean) => {
     await new Promise((_, reject) =>
       setTimeout(() => {
-        Message.error('OH, Something went wrong');
+        Message.error('操作失败，请重试');
         reject();
       }, 1000),
     );

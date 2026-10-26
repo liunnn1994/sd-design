@@ -13,13 +13,13 @@
 <script setup lang="ts">
   import { ref } from 'vue';
 
-  const value1 = ref(['Plain 1']);
-  const plainOptions = ['Plain 1', 'Plain 2', 'Plain 3'];
+  const value1 = ref(['普通选项 1']);
+  const plainOptions = ['普通选项 1', '普通选项 2', '普通选项 3'];
 
   const value2 = ref(['1']);
   const options = [
-    { label: 'Option 1', value: '1' },
-    { label: 'Option 2', value: '2' },
-    { label: 'Option 3', value: '3', disabled: true },
+    { label: '选项 1', value: '1' },
+    { label: '选项 2', value: '2' },
+    { label: '选项 3', value: '3', disabled: true },
   ];
 </script>

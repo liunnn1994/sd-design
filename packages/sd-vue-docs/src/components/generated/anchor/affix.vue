@@ -4,11 +4,11 @@
   const id = `anchor-affix-${useId()}`;
   const content = ref<HTMLElement>();
   const sections = [
-    { key: 'basic', title: 'Basic' },
-    { key: 'line-less', title: 'LineLess Mode' },
-    { key: 'affix', title: 'Affix' },
-    { key: 'boundary', title: 'Scroll Boundary' },
-    { key: 'hash', title: 'Hash mode' },
+    { key: 'basic', title: '基础' },
+    { key: 'line-less', title: '无线模式' },
+    { key: 'affix', title: '固钉' },
+    { key: 'boundary', title: '滚动边界' },
+    { key: 'hash', title: '哈希模式' },
   ];
 </script>
 
@@ -23,13 +23,13 @@
   >
     <sd-affix :target="content" :offsetTop="0">
       <sd-anchor :scroll-container="content">
-        <sd-anchor-link :href="`#${id}-basic`">Basic</sd-anchor-link>
-        <sd-anchor-link :href="`#${id}-line-less`">LineLess Mode</sd-anchor-link>
+        <sd-anchor-link :href="`#${id}-basic`">基础</sd-anchor-link>
+        <sd-anchor-link :href="`#${id}-line-less`">无线模式</sd-anchor-link>
         <sd-anchor-link :href="`#${id}-affix`">
-          Affix
+          固钉
           <template #sublist>
-            <sd-anchor-link :href="`#${id}-boundary`">Scroll Boundary</sd-anchor-link>
-            <sd-anchor-link :href="`#${id}-hash`">Hash mode</sd-anchor-link>
+            <sd-anchor-link :href="`#${id}-boundary`">滚动边界</sd-anchor-link>
+            <sd-anchor-link :href="`#${id}-hash`">哈希模式</sd-anchor-link>
           </template>
         </sd-anchor-link>
       </sd-anchor>

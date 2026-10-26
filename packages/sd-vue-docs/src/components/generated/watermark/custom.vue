@@ -39,7 +39,7 @@
           </sd-form-item>
         </sd-col>
         <sd-col :span="6">
-          <sd-form-item label="staggered">
+          <sd-form-item label="交错">
             <sd-switch v-model="form.staggered" />
           </sd-form-item>
         </sd-col>
@@ -47,26 +47,16 @@
     </sd-form>
     <sd-watermark content="sd.design" v-bind="form">
       <div class="sd:box-border sd:w-full sd:border sd:border-[#e5e6eb]">
-        <sd-typography-title :heading="5"> Design system </sd-typography-title>
+        <sd-typography-title :heading="5"> 设计系统 </sd-typography-title>
         <sd-typography>
           <sd-typography-paragraph>
-            A design is a plan or specification for the construction of an object or system or for
-            the implementation of an activity or process, or the result of that plan or
-            specification in the form of a prototype, product or process. The verb to design
-            expresses the process of developing a design.
+            设计是为构建对象、系统或开展活动而制定的计划与规范，也可以指由此产生的原型、产品或流程。设计的过程就是将想法逐步转化为可用方案的过程。
           </sd-typography-paragraph>
           <sd-typography-paragraph>
-            A design is a plan or specification for the construction of an object or system or for
-            the implementation of an activity or process, or the result of that plan or
-            specification in the form of a prototype, product or process. The verb to design
-            expresses the process of developing a design.
+            设计是为构建对象、系统或开展活动而制定的计划与规范，也可以指由此产生的原型、产品或流程。设计的过程就是将想法逐步转化为可用方案的过程。
           </sd-typography-paragraph>
         </sd-typography>
-        <img
-          alt="watermark demo"
-          class="sd:relative sd:z-[7]"
-          src="https://picsum.photos/1200/480"
-        />
+        <img alt="水印示例" class="sd:relative sd:z-[7]" src="https://picsum.photos/1200/480" />
       </div>
     </sd-watermark>
   </div>

@@ -1,12 +1,12 @@
 <template>
   <sd-space size="large">
     <sd-switch>
-      <template #checked> ON </template>
-      <template #unchecked> OFF </template>
+      <template #checked> 开 </template>
+      <template #unchecked> 关 </template>
     </sd-switch>
     <sd-switch type="round">
-      <template #checked> ON </template>
-      <template #unchecked> OFF </template>
+      <template #checked> 开 </template>
+      <template #unchecked> 关 </template>
     </sd-switch>
   </sd-space>
 </template>

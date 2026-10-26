@@ -1,7 +1,7 @@
 <template>
   <sd-space direction="vertical" size="large" class="sd:w-full">
     <sd-space>
-      <span>Animation</span>
+      <span>动画</span>
       <sd-switch v-model="animation" />
     </sd-space>
     <sd-skeleton :animation="animation">

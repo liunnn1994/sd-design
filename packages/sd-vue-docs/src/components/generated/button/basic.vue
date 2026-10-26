@@ -1,9 +1,9 @@
 <template>
   <sd-space>
-    <sd-button type="primary">Primary</sd-button>
-    <sd-button>Secondary</sd-button>
-    <sd-button type="dashed">Dashed</sd-button>
-    <sd-button type="outline">Outline</sd-button>
-    <sd-button type="text">Text</sd-button>
+    <sd-button type="primary">主要</sd-button>
+    <sd-button>次要</sd-button>
+    <sd-button type="dashed">虚线</sd-button>
+    <sd-button type="outline">描边</sd-button>
+    <sd-button type="text">文本</sd-button>
   </sd-space>
 </template>

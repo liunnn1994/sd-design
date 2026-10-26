@@ -24,7 +24,7 @@
       </template>
     </sd-avatar>
     <sd-avatar trigger-type="mask">
-      <img alt="avatar" src="https://picsum.photos/1000/1000" />
+      <img alt="头像" src="https://picsum.photos/1000/1000" />
       <template #trigger-icon>
         <IconEdit />
       </template>
@@ -37,6 +37,6 @@
   import { IconCamera, IconEdit, IconUser } from '@sdata/web-vue/es/icon/index.js';
 
   function toast() {
-    Message.info('Uploading...');
+    Message.info('上传中…');
   }
 </script>

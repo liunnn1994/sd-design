@@ -1,18 +1,18 @@
 <template>
   <sd-space class="sd:mb-5">
     <sd-switch v-model="disabled" />
-    Disabled: {{ disabled }}
+    禁用： {{ disabled }}
   </sd-space>
   <Form :model="form" :disabled="disabled" class="sd:w-150">
     <FormItem
       field="name"
-      label="Username"
+      label="用户名"
       :rules="[
-        { required: true, message: 'name is required' },
-        { minLength: 5, message: 'must be greater than 5 characters' },
+        { required: true, message: '请输入姓名' },
+        { minLength: 5, message: '长度必须大于 5 个字符' },
       ]"
     >
-      <MyInput v-model="form.name" placeholder="please enter your username..." />
+      <MyInput v-model="form.name" placeholder="请输入用户名…" />
     </FormItem>
   </Form>
 </template>

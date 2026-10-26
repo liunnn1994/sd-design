@@ -1,7 +1,7 @@
 <template>
   <sd-space>
     <sd-trigger position="top" auto-fit-position :unmount-on-close="false">
-      <span>Hover Me</span>
+      <span>悬停此处</span>
       <template #content>
         <div class="demo-basic">
           <sd-empty />
@@ -9,7 +9,7 @@
       </template>
     </sd-trigger>
     <sd-trigger trigger="click" :unmount-on-close="false">
-      <sd-button>Click Me</sd-button>
+      <sd-button>点击我</sd-button>
       <template #content>
         <div class="demo-basic">
           <sd-empty />
@@ -17,7 +17,7 @@
       </template>
     </sd-trigger>
     <sd-trigger trigger="focus">
-      <sd-input placeholder="Focus on me" />
+      <sd-input placeholder="聚焦此处" />
       <template #content>
         <div class="demo-basic">
           <sd-empty />

@@ -1,5 +1,5 @@
 <template>
-  <sd-watermark content="acro.design" grayscale image="">
+  <sd-watermark content="SD Design" grayscale image="">
     <div class="sd:w-full sd:h-75" />
   </sd-watermark>
 </template>

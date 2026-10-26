@@ -4,7 +4,7 @@
     <sd-radio value="native">浏览器原生 title</sd-radio>
   </sd-radio-group>
   <div class="sd:mt-5">
-    <sd-button @click="handleClick">Open Modal</sd-button>
+    <sd-button @click="handleClick">打开对话框</sd-button>
   </div>
   <sd-modal
     width="360"
@@ -16,10 +16,7 @@
     <template #title>
       这是一个非常非常非常长的对话框标题，用来演示标题过长时的省略效果与提示模式切换
     </template>
-    <div>
-      You can customize modal body text by the current situation. This modal will be closed
-      immediately once you press the OK button.
-    </div>
+    <div> 您可以根据实际场景自定义对话框内容。点击确认按钮后，对话框将立即关闭。 </div>
   </sd-modal>
 </template>
 

@@ -4,7 +4,7 @@
     :options="options"
     :field-names="fieldNames"
     class="sd:w-80"
-    placeholder="Please select ..."
+    placeholder="请选择…"
   />
 </template>
 
@@ -16,19 +16,19 @@
   const options = reactive([
     {
       city: 'bj',
-      text: 'Beijing',
+      text: '北京',
     },
     {
       city: 'sh',
-      text: 'Shanghai',
+      text: '上海',
     },
     {
       city: 'gz',
-      text: 'Guangzhou',
+      text: '广州',
     },
     {
       city: 'cd',
-      text: 'Chengdu',
+      text: '成都',
     },
   ]);
 </script>

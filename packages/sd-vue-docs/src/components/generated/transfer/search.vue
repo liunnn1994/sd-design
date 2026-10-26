@@ -4,10 +4,10 @@
     :data="data"
     :default-value="value"
     :source-input-search-props="{
-      placeholder: 'source item search',
+      placeholder: '搜索源列表',
     }"
     :target-input-search-props="{
-      placeholder: 'target item search',
+      placeholder: '搜索目标列表',
     }"
   />
 </template>
@@ -17,7 +17,7 @@
     .fill(undefined)
     .map((_, index) => ({
       value: `option${index + 1}`,
-      label: `Option ${index + 1}`,
+      label: `选项 ${index + 1}`,
     }));
   const value = ['option1', 'option3', 'option5'];
 </script>

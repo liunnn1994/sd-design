@@ -1,6 +1,6 @@
 <template>
   <sd-input-number
-    placeholder="Please Enter"
+    placeholder="请输入"
     class="input-demo sd:w-80"
     :default-value="12000"
     :min="0"

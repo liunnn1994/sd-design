@@ -7,42 +7,42 @@
       <sd-menu theme="dark" :default-selected-keys="['1']">
         <sd-menu-item key="1">
           <template #icon><icon-home /></template>
-          <span>nav 1</span>
+          <span>导航 1</span>
         </sd-menu-item>
         <sd-menu-item key="2">
           <template #icon><icon-user /></template>
-          <span>nav 2</span>
+          <span>导航 2</span>
         </sd-menu-item>
         <sd-menu-item key="3">
           <template #icon><icon-dashboard /></template>
-          <span>nav 3</span>
+          <span>导航 3</span>
         </sd-menu-item>
         <sd-menu-item key="4">
           <template #icon><icon-calendar /></template>
-          <span>nav 4</span>
+          <span>导航 4</span>
         </sd-menu-item>
         <sd-menu-item key="5">
           <template #icon><icon-email /></template>
-          <span>nav 5</span>
+          <span>导航 5</span>
         </sd-menu-item>
         <sd-menu-item key="6">
           <template #icon><icon-notification /></template>
-          <span>nav 6</span>
+          <span>导航 6</span>
         </sd-menu-item>
         <sd-menu-item key="7">
           <template #icon><icon-cloud /></template>
-          <span>nav 7</span>
+          <span>导航 7</span>
         </sd-menu-item>
         <sd-menu-item key="8">
           <template #icon><icon-settings /></template>
-          <span>nav 8</span>
+          <span>导航 8</span>
         </sd-menu-item>
       </sd-menu>
     </sd-layout-sider>
     <sd-layout>
-      <sd-layout-header>Header</sd-layout-header>
-      <sd-layout-content>Content</sd-layout-content>
-      <sd-layout-footer>Footer</sd-layout-footer>
+      <sd-layout-header>页头</sd-layout-header>
+      <sd-layout-content>内容</sd-layout-content>
+      <sd-layout-footer>页脚</sd-layout-footer>
     </sd-layout>
   </sd-layout>
 </template>

@@ -11,10 +11,10 @@
           }"
         />
       </sd-menu-item>
-      <sd-menu-item key="1">Home</sd-menu-item>
-      <sd-menu-item key="2">Solution</sd-menu-item>
-      <sd-menu-item key="3">Cloud Service</sd-menu-item>
-      <sd-menu-item key="4">Cooperation</sd-menu-item>
+      <sd-menu-item key="1">首页</sd-menu-item>
+      <sd-menu-item key="2">解决方案</sd-menu-item>
+      <sd-menu-item key="3">云服务</sd-menu-item>
+      <sd-menu-item key="4">协作</sd-menu-item>
     </sd-menu>
   </div>
 </template>

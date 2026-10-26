@@ -1,5 +1,5 @@
 <template>
-  <sd-button type="primary" @click="onClick">Click me to preview image</sd-button>
+  <sd-button type="primary" @click="onClick">点击预览图片</sd-button>
   <sd-image-preview
     src="https://picsum.photos/id/10/1000/1000?t=image-demo-8"
     v-model:visible="visible"

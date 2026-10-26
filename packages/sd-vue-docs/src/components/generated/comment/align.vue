@@ -1,5 +1,5 @@
 <template>
-  <sd-comment author="Balzac" datetime="1 hour" align="right">
+  <sd-comment author="巴尔扎克" datetime="1 hour" align="right">
     <template #actions>
       <span class="action" key="heart" @click="onLikeChange">
         <span v-if="like">
@@ -19,18 +19,16 @@
         </span>
         {{ 3 + (star ? 1 : 0) }}
       </span>
-      <span class="action" key="reply"> <IconMessage /> Reply </span>
+      <span class="action" key="reply"> <IconMessage /> 回复 </span>
     </template>
     <template #avatar>
       <sd-avatar>
-        <img alt="avatar" src="https://picsum.photos/1000/1000" />
+        <img alt="头像" src="https://picsum.photos/1000/1000" />
       </sd-avatar>
     </template>
     <template #content>
       <div>
-        A design is a plan or specification for the construction of an object or system or for the
-        implementation of an activity or process, or the result of that plan or specification in the
-        form of a prototype, product or process.
+        设计是为构建对象、系统或开展活动而制定的计划与规范，也可以指由此产生的原型、产品或流程。设计的过程就是将想法逐步转化为可用方案的过程。
       </div>
     </template>
   </sd-comment>

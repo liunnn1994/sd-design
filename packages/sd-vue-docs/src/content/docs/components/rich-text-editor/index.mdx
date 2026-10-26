@@ -168,7 +168,7 @@ const unregister = editor?.registerUpdateListener(({ editorState }) => {
 
 ## API
 
-### Props
+### 属性
 
 | 参数名 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | :-: |
@@ -189,7 +189,7 @@ const unregister = editor?.registerUpdateListener(({ editorState }) => {
 | class-names | 语义化节点类名 | `Partial<Record<RichTextEditorSemanticType, string>>` | - |
 | styles | 语义化节点样式 | `Partial<Record<RichTextEditorSemanticType, CSSProperties>>` | - |
 
-### Events
+### 事件
 
 | 事件名             | 描述                              | 参数                                   |
 | ------------------ | --------------------------------- | -------------------------------------- |
@@ -201,14 +201,14 @@ const unregister = editor?.registerUpdateListener(({ editorState }) => {
 | blur               | 编辑区失去焦点                    | `event: FocusEvent`                    |
 | error              | 初始化、解析或运行错误            | `error: Error`                         |
 
-### Slots
+### 插槽
 
 | 插槽名 | 描述 | 参数 |
 | --- | --- | --- |
 | placeholder | 自定义空内容提示 | - |
 | node-_name_ | 渲染指定名称的自定义组件节点 | `{ nodeKey, node, disabled, readonly, update, remove, editor }` |
 
-### Methods
+### 方法
 
 | 方法或属性                    | 描述                                        |
 | ----------------------------- | ------------------------------------------- |

@@ -129,7 +129,7 @@ import deepNestedSource from '../../../../components/generated/panel-group/deep-
 
 ## API
 
-### PanelGroup Props
+### PanelGroup 属性
 
 | 参数名      | 描述                       | 类型                         |     默认值     |
 | ----------- | -------------------------- | ---------------------------- | :------------: |
@@ -139,7 +139,7 @@ import deepNestedSource from '../../../../components/generated/panel-group/deep-
 | reorder     | 面板重排时是否播放位移动画 | `boolean`                    |     `true`     |
 | transition  | 重排动画的过渡配置（毫秒） | `PanelTransition`            |      `-`       |
 
-### Panel Props
+### Panel 属性
 
 | 参数名 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | :-: |
@@ -159,7 +159,7 @@ import deepNestedSource from '../../../../components/generated/panel-group/deep-
 
 `duration` 为毫秒；`easing` 为 cubic-bezier 四元组。设置 `type: 'spring'` 可启用弹簧尺寸动画，支持 `bounce`、`stiffness`、`damping` 和 `mass`。设置 `duration: 0` 可关闭动画。系统启用“减少动态效果”时，尺寸和内容动画会关闭。重排和内容的 `opacity` / `transform` 使用 `duration`、`easing`；弹簧配置作用于面板尺寸。
 
-### Panel Events
+### Panel 事件
 
 | 事件名 | 描述 | 参数 |
 | --- | --- | --- |
@@ -176,25 +176,25 @@ import deepNestedSource from '../../../../components/generated/panel-group/deep-
 
 在 `Panel` 上监听单个面板，在 `PanelGroup` 上监听本组面板。`PointerEvent` 继承 `MouseEvent`，同时保留鼠标坐标和触摸/笔指针信息。取消拖拽会恢复起始尺寸，不触发 `move-end`。
 
-### Panel Slots
+### Panel 插槽
 
 | 插槽名  | 描述     | 参数                                                          |
 | ------- | -------- | ------------------------------------------------------------- |
 | default | 面板内容 | collapsed: `boolean`，dragging: `boolean`，folding: `boolean` |
 
-### PanelSeparator Props
+### PanelSeparator 属性
 
 | 参数名     | 描述               | 类型     |    默认值    |
 | ---------- | ------------------ | -------- | :----------: |
 | aria-label | 伸缩杆的无障碍标签 | `string` | `'调整大小'` |
 
-### PanelSeparator Slots
+### PanelSeparator 插槽
 
 | 插槽名  | 描述             | 参数 |
 | ------- | ---------------- | ---- |
 | default | 自定义伸缩杆内容 | `-`  |
 
-### PanelGroup Slots
+### PanelGroup 插槽
 
 | 插槽名  | 描述                             |
 | ------- | -------------------------------- |

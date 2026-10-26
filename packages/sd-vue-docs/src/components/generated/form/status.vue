@@ -1,67 +1,67 @@
 <template>
   <sd-space direction="vertical" size="large">
     <sd-radio-group v-model="status" type="button">
-      <sd-radio value="validating">validating</sd-radio>
-      <sd-radio value="success">success</sd-radio>
-      <sd-radio value="error">error</sd-radio>
-      <sd-radio value="warning">warning</sd-radio>
+      <sd-radio value="validating">校验中</sd-radio>
+      <sd-radio value="success">成功</sd-radio>
+      <sd-radio value="error">错误</sd-radio>
+      <sd-radio value="warning">警告</sd-radio>
     </sd-radio-group>
     <sd-radio-group v-model="size" type="button">
-      <sd-radio value="mini">mini</sd-radio>
-      <sd-radio value="small">small</sd-radio>
-      <sd-radio value="medium">medium</sd-radio>
-      <sd-radio value="large">large</sd-radio>
+      <sd-radio value="mini">迷你</sd-radio>
+      <sd-radio value="small">小</sd-radio>
+      <sd-radio value="medium">中</sd-radio>
+      <sd-radio value="large">大</sd-radio>
     </sd-radio-group>
   </sd-space>
   <sd-form :model="form" class="sd:w-150 sd:mt-5" :size="size">
     <sd-form-item
       field="name"
-      label="Username"
-      help="This is custom message"
-      extra="This is extra text"
+      label="用户名"
+      help="这是自定义提示"
+      extra="这是补充说明"
       :validate-status="status"
       feedback
     >
-      <sd-input v-model="form.name" placeholder="please enter your username..." />
+      <sd-input v-model="form.name" placeholder="请输入用户名…" />
     </sd-form-item>
     <sd-form-item
       field="post"
-      label="Post"
-      help="This is custom message"
-      extra="This is extra text"
+      label="岗位"
+      help="这是自定义提示"
+      extra="这是补充说明"
       :validate-status="status"
       feedback
     >
-      <sd-input-number v-model="form.post" placeholder="please enter your post..." />
+      <sd-input-number v-model="form.post" placeholder="请输入岗位…" />
     </sd-form-item>
     <sd-form-item
       field="tags"
-      label="Tags"
-      help="This is custom message"
-      extra="This is extra text"
+      label="标签"
+      help="这是自定义提示"
+      extra="这是补充说明"
       :validate-status="status"
       feedback
     >
-      <sd-input-tag v-model="form.tags" placeholder="please enter your post..." />
+      <sd-input-tag v-model="form.tags" placeholder="请输入岗位…" />
     </sd-form-item>
     <sd-form-item
       field="section"
-      label="Section"
-      :rules="[{ match: /section one/, message: 'must select one' }]"
+      label="区块"
+      :rules="[{ match: /section one/, message: '请选择一项' }]"
       :validate-status="status"
       feedback
     >
-      <sd-select v-model="form.section" placeholder="Please select ..." :options="sectionOptions" />
+      <sd-select v-model="form.section" placeholder="请选择…" :options="sectionOptions" />
     </sd-form-item>
-    <sd-form-item label="DateRange" :validate-status="status" feedback>
+    <sd-form-item label="日期范围" :validate-status="status" feedback>
       <sd-range-picker></sd-range-picker>
     </sd-form-item>
 
-    <sd-form-item field="date" label="Date" :validate-status="status" feedback>
+    <sd-form-item field="date" label="日期" :validate-status="status" feedback>
       <sd-date-picker></sd-date-picker>
     </sd-form-item>
 
-    <sd-form-item field="time" label="Time" :validate-status="status" feedback>
+    <sd-form-item field="time" label="时间" :validate-status="status" feedback>
       <sd-time-picker></sd-time-picker>
     </sd-form-item>
   </sd-form>
@@ -81,8 +81,8 @@
     section: '',
   });
   const sectionOptions = [
-    { value: 'section one', label: 'Section One' },
-    { value: 'section two', label: 'Section Two' },
-    { value: 'section three', label: 'Section Three' },
+    { value: '第一区块', label: '第一区块' },
+    { value: '第二区块', label: '第二区块' },
+    { value: '第三区块', label: '第三区块' },
   ];
 </script>

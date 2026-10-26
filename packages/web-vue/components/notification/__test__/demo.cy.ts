@@ -12,7 +12,7 @@ runDemoTests('notification', demos, (demoName) => {
   if (demoName === 'basic') {
     Notification.clear();
     cy.get('.sd-btn').first().click();
-    cy.get('.sd-notification').should('contain.text', 'This is a notification!');
+    cy.get('.sd-notification').should('contain.text', '这是一条通知！');
     return;
   }
   cy.get('.sd-btn, button, [class*="sd-"]').should('exist');

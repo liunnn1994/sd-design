@@ -1,22 +1,22 @@
 <template>
   <sd-form :model="form" class="sd:w-150">
-    <sd-form-item field="name" label="Username" validate-trigger="input" required>
-      <sd-input v-model="form.name" placeholder="please enter your username..." />
+    <sd-form-item field="name" label="用户名" validate-trigger="input" required>
+      <sd-input v-model="form.name" placeholder="请输入用户名…" />
       <template #extra>
-        <div>Used to login</div>
+        <div>用于登录</div>
       </template>
     </sd-form-item>
-    <sd-form-item field="post" label="Post" validate-trigger="input" required>
-      <sd-input v-model="form.post" placeholder="please enter your post..." />
+    <sd-form-item field="post" label="岗位" validate-trigger="input" required>
+      <sd-input v-model="form.post" placeholder="请输入岗位…" />
       <template #extra>
-        <div>Used to login</div>
+        <div>用于登录</div>
       </template>
       <template #help>
-        <div>Custom valitae message</div>
+        <div>自定义校验提示</div>
       </template>
     </sd-form-item>
     <sd-form-item field="isRead">
-      <sd-checkbox v-model="form.isRead"> I have read the manual </sd-checkbox>
+      <sd-checkbox v-model="form.isRead"> 我已阅读使用手册 </sd-checkbox>
     </sd-form-item>
   </sd-form>
   {{ form }}

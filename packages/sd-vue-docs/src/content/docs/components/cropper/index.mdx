@@ -59,7 +59,7 @@ import cropperCoverModeSource from '../../../../components/generated/cropper/cov
 
 ## API
 
-### `<cropper>` Props
+### `<cropper>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | :-: |
@@ -110,7 +110,7 @@ import cropperCoverModeSource from '../../../../components/generated/cropper/cov
 | outlined             | 是否显示轮廓                 | `boolean` | `false` |
 | precise              | 是否保留坐标和尺寸的小数精度 | `boolean` | `false` |
 
-### `<cropper>` Events
+### `<cropper>` 事件
 
 | 事件名 | 描述 | 参数 |
 | --- | --- | --- |
@@ -125,7 +125,7 @@ import cropperCoverModeSource from '../../../../components/generated/cropper/cov
 | canvas:actionend | 指针抬起时触发 | `detail: unknown` |
 | image:transform | 图片变换矩阵变化时触发 | `detail: { matrix: number[]; oldMatrix: number[] }` |
 
-### `<cropper>` Methods
+### `<cropper>` 方法
 
 通过组件 `ref` 可调用以下实例方法：
 
@@ -138,6 +138,6 @@ import cropperCoverModeSource from '../../../../components/generated/cropper/cov
 | getCropperSelections | 获取全部 `CropperSelection` 元素 | `CropperSelection[] \| null` |
 | destroy              | 销毁当前实例                     | `void`                       |
 
-### `<cropper>` Slots
+### `<cropper>` 插槽
 
 当前组件不提供具名插槽，推荐通过 `template` 和底层 props 组合来调整 cropperjs 的内部行为。

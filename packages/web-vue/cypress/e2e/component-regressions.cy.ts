@@ -25,7 +25,7 @@ describe('Documentation component regressions', () => {
     cy.get(
       '.sd-tree-select-popup:visible .sd-tree-node[data-key="node3"] .sd-tree-node-title',
     ).click();
-    cy.get('@treeSelect').find('.sd-select-view-value').should('contain.text', 'Trunk2');
+    cy.get('@treeSelect').find('.sd-select-view-value').should('contain.text', '主干节点 2');
   });
 
   it('selects a model in the ModelSelector documentation demo', () => {
@@ -43,8 +43,8 @@ describe('Documentation component regressions', () => {
     cy.visit('/components/select/');
     cy.get('.sd-select', { timeout: 15000 }).first().as('select');
     cy.get('@select').click();
-    cy.contains('.sd-select-option:visible', 'Shanghai').click();
-    cy.get('@select').find('.sd-select-view-value').should('contain.text', 'Shanghai');
+    cy.contains('.sd-select-option:visible', '上海').click();
+    cy.get('@select').find('.sd-select-view-value').should('contain.text', '上海');
   });
 
   it('keeps KvList row edits and its JSON model synchronized', () => {
@@ -87,7 +87,7 @@ describe('Documentation component regressions', () => {
       .then((pageMode) => {
         for (const mode of ['light', 'dark']) {
           cy.get('@themeDemo')
-            .contains('.sd-radio-button', mode === 'light' ? 'Light' : 'Dark')
+            .contains('.sd-radio-button', mode === 'light' ? '浅色' : '深色')
             .click();
           cy.get('@themeDemo').find('.sd-theme-provider').should('have.attr', 'sd-theme', mode);
           cy.get('body').should(($body) => expect($body.attr('sd-theme')).to.equal(pageMode));
@@ -133,19 +133,19 @@ describe('Documentation component regressions', () => {
 
   it('keeps the Affix button fixed while the documentation page scrolls', () => {
     cy.visit('/components/affix/');
-    cy.contains('button', 'Affix Top', { timeout: 15000 })
+    cy.contains('button', '固定到顶部', { timeout: 15000 })
       .should('be.visible')
       .then(($button) => {
         const top = $button[0].getBoundingClientRect().top;
         cy.window().then((win) => win.scrollBy(0, top + 100));
       });
-    cy.contains('button', 'Affix Top')
+    cy.contains('button', '固定到顶部')
       .parent()
       .should('have.class', 'sd-affix')
       .and('have.css', 'position', 'fixed')
       .and('have.css', 'top', '0px');
     cy.window().then((win) => win.scrollTo(0, 0));
-    cy.contains('button', 'Affix Top').parent().should('not.have.class', 'sd-affix');
+    cy.contains('button', '固定到顶部').parent().should('not.have.class', 'sd-affix');
   });
 
   it('constrains scrollbar demo height', () => {
@@ -225,14 +225,14 @@ describe('Documentation component regressions', () => {
     it(`aligns the ${component} position examples`, () => {
       cy.visit(`/components/${component}/`);
       cy.contains('h2, h3', component === 'tooltip' ? '位置' : '弹出位置').scrollIntoView();
-      cy.contains('button', /^TOP$/)
+      cy.contains('button', /^上方$/)
         .should('be.visible')
         .then(($top) => {
           const y = $top[0].getBoundingClientRect().top;
-          cy.contains('button', /^TL$/).should(($left) =>
+          cy.contains('button', /^左上$/).should(($left) =>
             expect($left[0].getBoundingClientRect().top).to.equal(y),
           );
-          cy.contains('button', /^TR$/).should(($right) =>
+          cy.contains('button', /^右上$/).should(($right) =>
             expect($right[0].getBoundingClientRect().top).to.equal(y),
           );
         });
@@ -254,10 +254,10 @@ describe('Documentation component regressions', () => {
   it('gives Trigger content an opaque background', () => {
     cy.visit('/components/trigger/');
     cy.contains('h2, h3', '基本用法').scrollIntoView();
-    cy.contains('span', 'Hover Me')
+    cy.contains('span', '悬停此处')
       .closest('.sd-space')
       .within(() => {
-        cy.contains('button', 'Click Me').click();
+        cy.contains('button', '点击我').click();
       });
     cy.get('.sd-trigger-popup .demo-basic')
       .filter(':visible')

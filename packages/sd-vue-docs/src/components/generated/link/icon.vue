@@ -2,8 +2,8 @@
   <div class="sd:grid sd:gap-4">
     <div>
       <sd-space>
-        <sd-link href="#" icon>Link</sd-link>
-        <sd-link href="#" disabled icon>Link</sd-link>
+        <sd-link href="#" icon>链接</sd-link>
+        <sd-link href="#" disabled icon>链接</sd-link>
       </sd-space>
     </div>
     <div>
@@ -12,13 +12,13 @@
           <template #icon>
             <icon-edit />
           </template>
-          Link
+          链接
         </sd-link>
         <sd-link href="#" disabled>
           <template #icon>
             <icon-edit />
           </template>
-          Link
+          链接
         </sd-link>
       </sd-space>
     </div>

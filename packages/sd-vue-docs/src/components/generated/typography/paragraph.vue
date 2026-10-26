@@ -1,38 +1,20 @@
 <template>
   <sd-typography>
-    <sd-typography-title :heading="5">Default</sd-typography-title>
+    <sd-typography-title :heading="5">默认</sd-typography-title>
     <sd-typography-paragraph>
-      A design is a plan or specification for the construction of an object or system or for the
-      implementation of an activity or process, or the result of that plan or specification in the
-      form of a prototype, product or process. The verb to design expresses the process of
-      developing a design. In some cases, the direct construction of an object without an explicit
-      prior plan (such as in craftwork, some engineering, coding, and graphic design) may also be
-      considered to be a design activity.
+      设计是为构建对象、系统或开展活动而制定的计划与规范，也可以指由此产生的原型、产品或流程。设计需要满足目标与约束，综合考虑美观、功能和成本，并与使用环境相适应。建筑蓝图、工程图纸和业务流程都是常见的设计成果。
     </sd-typography-paragraph>
-    <sd-typography-title :heading="5">Secondary</sd-typography-title>
+    <sd-typography-title :heading="5">次要</sd-typography-title>
     <sd-typography-paragraph type="secondary">
-      A design is a plan or specification for the construction of an object or system or for the
-      implementation of an activity or process, or the result of that plan or specification in the
-      form of a prototype, product or process. The verb to design expresses the process of
-      developing a design. In some cases, the direct construction of an object without an explicit
-      prior plan (such as in craftwork, some engineering, coding, and graphic design) may also be
-      considered to be a design activity.
+      设计是为构建对象、系统或开展活动而制定的计划与规范，也可以指由此产生的原型、产品或流程。设计需要满足目标与约束，综合考虑美观、功能和成本，并与使用环境相适应。建筑蓝图、工程图纸和业务流程都是常见的设计成果。
     </sd-typography-paragraph>
-    <sd-typography-title :heading="5">Spacing default</sd-typography-title>
+    <sd-typography-title :heading="5">默认间距</sd-typography-title>
     <sd-typography-paragraph>
-      A design is a plan or specification for the construction of an object or system or for the
-      implementation of an activity or process, or the result of that plan or specification in the
-      form of a prototype, product or process. The verb to design expresses the process of
-      developing a design. In some cases, the direct construction of an object without an explicit
-      prior plan (such as in craftwork, some engineering, coding, and graphic design) may also be
-      considered to be a design activity.
+      设计是为构建对象、系统或开展活动而制定的计划与规范，也可以指由此产生的原型、产品或流程。设计需要满足目标与约束，综合考虑美观、功能和成本，并与使用环境相适应。建筑蓝图、工程图纸和业务流程都是常见的设计成果。
     </sd-typography-paragraph>
-    <sd-typography-title :heading="5">Spacing close</sd-typography-title>
+    <sd-typography-title :heading="5">紧凑间距</sd-typography-title>
     <sd-typography-paragraph type="secondary" spacing="close">
-      A design is a plan or specification for the construction of an object or system or for the
-      implementation of an activity or process, or the result of that plan or specification in the
-      form of a prototype, product or process. The verb to design expresses the process of
-      developing a design.
+      设计是为构建对象、系统或开展活动而制定的计划与规范，也可以指由此产生的原型、产品或流程。设计的过程就是将想法逐步转化为可用方案的过程。
     </sd-typography-paragraph>
   </sd-typography>
 </template>

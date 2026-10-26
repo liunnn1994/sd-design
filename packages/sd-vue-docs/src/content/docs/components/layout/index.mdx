@@ -107,19 +107,19 @@ import layoutRailSource from '../../../../components/generated/layout/rail.vue?r
 
 ## API
 
-### `<layout>` Props
+### `<layout>` 属性
 
 | 参数名    | 描述                                       | 类型      | 默认值  | 版本 |
 | --------- | ------------------------------------------ | --------- | :-----: | :--- |
 | has-sider | 是否包含 Sider，设为布尔值时会覆盖自动检测 | `boolean` | `false` |      |
 
-### `<layout>` Slots
+### `<layout>` 插槽
 
 | 插槽名  | 描述                                                      | 参数 |
 | ------- | --------------------------------------------------------- | ---- |
 | default | 布局内容，通常嵌套 `Header`、`Sider`、`Content`、`Footer` | -    |
 
-### `<layout-sider>` Props
+### `<layout-sider>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | :-: | :-- |
@@ -140,7 +140,7 @@ import layoutRailSource from '../../../../components/generated/layout/rail.vue?r
 | expand-on-hover | 窄轨模式下悬停 `Sider` 时临时展开到 `width`（覆盖在内容上方，不推动内容），移出后收回。仅 `rail=true` 时生效 | `boolean` | `false` |  |
 | drawer-props | `temporary` 模式下透传给 `Drawer` 的配置（仅 `temporary=true` 时生效）。已排除 `visible`/`defaultVisible`/`width`/`footer` 等与 `Sider` 语义冲突的字段 | `SiderTemporaryDrawerProps` | `-` |  |
 
-### `<layout-sider>` Events
+### `<layout-sider>` 事件
 
 | 事件名 | 描述 | 参数 |
 | --- | --- | --- |
@@ -148,7 +148,7 @@ import layoutRailSource from '../../../../components/generated/layout/rail.vue?r
 | breakpoint | 响应式断点命中状态变化时触发 | broken: `boolean` |
 | update:rail | 窄轨悬停展开/收回时触发（`false` 展开，`true` 收回）。仅 `rail` + `expand-on-hover` 时触发 | rail: `boolean` |
 
-### `<layout-sider>` Slots
+### `<layout-sider>` 插槽
 
 | 插槽名  | 描述                                         | 参数 |
 | ------- | -------------------------------------------- | ---- |

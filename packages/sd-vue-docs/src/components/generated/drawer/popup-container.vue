@@ -4,15 +4,12 @@
       id="parentNode"
       class="sd:relative sd:h-[300px] sd:w-full sd:overflow-hidden sd:bg-[var(--color-fill-2)] sd:text-center sd:leading-[300px]"
     >
-      <sd-button type="primary" @click="handleClick">Open Drawer</sd-button>
+      <sd-button type="primary" @click="handleClick">打开抽屉</sd-button>
     </div>
   </div>
   <sd-drawer popup-container="#parentNode" :visible="visible" @ok="handleOk" @cancel="handleCancel">
-    <template #title> Title </template>
-    <div
-      >You can customize modal body text by the current situation. This modal will be closed
-      immediately once you press the OK button.</div
-    >
+    <template #title> 标题 </template>
+    <div>您可以根据实际场景自定义对话框内容。点击确认按钮后，对话框将立即关闭。</div>
   </sd-drawer>
 </template>
 

@@ -6,29 +6,29 @@
 
   const treeData: TreeNodeData[] = [
     {
-      title: 'Trunk 0-0',
+      title: '主干节点 0-0',
       key: '0-0',
       children: [
         {
-          title: 'Branch 0-0-0',
+          title: '分支 0-0-0',
           key: '0-0-0',
           children: [
             {
-              title: 'Leaf',
+              title: '叶子节点',
               key: '0-0-0-0',
             },
             {
-              title: 'Leaf',
+              title: '叶子节点',
               key: '0-0-0-1',
             },
           ],
         },
         {
-          title: 'Branch 0-0-1',
+          title: '分支 0-0-1',
           key: '0-0-1',
           children: [
             {
-              title: 'Leaf',
+              title: '叶子节点',
               key: '0-0-1-0',
             },
           ],

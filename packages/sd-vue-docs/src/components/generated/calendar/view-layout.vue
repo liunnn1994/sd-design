@@ -188,14 +188,14 @@
   const currentLocale = ref('zh-cn');
   const locales = [
     { label: '中文 (zh-cn)', value: 'zh-cn' },
-    { label: 'English (en)', value: 'en' },
+    { label: '英语（en）', value: 'en' },
   ];
 
   // ---------- 暗色模式 ----------
   const themeMode = ref<'light' | 'dark'>('dark');
   const themeModeOptions = [
-    { label: 'Light', value: 'light' },
-    { label: 'Dark', value: 'dark' },
+    { label: '浅色', value: 'light' },
+    { label: '深色', value: 'dark' },
   ];
 
   // ---------- 共享数据 ----------

@@ -1,14 +1,14 @@
 <template>
   <sd-space>
-    <sd-button type="primary" loading>Primary</sd-button>
-    <sd-button loading>Default</sd-button>
-    <sd-button type="dashed" loading>Dashed</sd-button>
-    <sd-button type="primary" :loading="loading1" @click="handleClick1">Click Me</sd-button>
+    <sd-button type="primary" loading>主要</sd-button>
+    <sd-button loading>默认</sd-button>
+    <sd-button type="dashed" loading>虚线</sd-button>
+    <sd-button type="primary" :loading="loading1" @click="handleClick1">点击我</sd-button>
     <sd-button type="primary" :loading="loading2" @click="handleClick2">
       <template #icon>
         <icon-plus />
       </template>
-      Click Me
+      点击我
     </sd-button>
   </sd-space>
 </template>

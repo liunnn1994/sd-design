@@ -1,7 +1,7 @@
 <template>
   <sd-space>
     <sd-trigger>
-      <sd-button>BOTTOM</sd-button>
+      <sd-button>下方</sd-button>
       <template #content>
         <div class="trigger-demo-translate">
           <sd-empty />
@@ -9,7 +9,7 @@
       </template>
     </sd-trigger>
     <sd-trigger :popup-translate="[100, 20]">
-      <sd-button>BOTTOM OFFSET[100, 20]</sd-button>
+      <sd-button>下方偏移 [100, 20]</sd-button>
       <template #content>
         <div class="trigger-demo-translate">
           <sd-empty />
@@ -17,7 +17,7 @@
       </template>
     </sd-trigger>
     <sd-trigger :popup-translate="[-100, 20]">
-      <sd-button>BOTTOM OFFSET[-100, 20]</sd-button>
+      <sd-button>下方偏移 [-100, 20]</sd-button>
       <template #content>
         <div class="trigger-demo-translate">
           <sd-empty />

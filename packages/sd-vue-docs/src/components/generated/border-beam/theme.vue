@@ -5,12 +5,12 @@
       <sd-space :size="20">
         <sd-border-beam theme="dark">
           <div style="padding: 14px 22px; background: #1a1a2e; border-radius: 16px; color: #e0e0e0"
-            >dark</div
+            >深色</div
           >
         </sd-border-beam>
         <sd-border-beam theme="auto">
           <div style="padding: 14px 22px; background: #1a1a2e; border-radius: 16px; color: #e0e0e0"
-            >auto</div
+            >自动</div
           >
         </sd-border-beam>
       </sd-space>
@@ -20,12 +20,12 @@
       <sd-space :size="20">
         <sd-border-beam theme="light">
           <div style="padding: 14px 22px; background: #fff; border-radius: 16px; color: #333"
-            >light</div
+            >浅色</div
           >
         </sd-border-beam>
         <sd-border-beam theme="auto">
           <div style="padding: 14px 22px; background: #fff; border-radius: 16px; color: #333"
-            >auto</div
+            >自动</div
           >
         </sd-border-beam>
       </sd-space>

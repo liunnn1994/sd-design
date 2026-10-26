@@ -9,14 +9,14 @@
       <div class="theme-provider-demo__panel">
         <sd-space direction="vertical" fill>
           <sd-alert type="success">
-            <template #title>Standalone ThemeProvider</template>
+            <template #title>独立主题提供器</template>
             该区域仅受 ThemeProvider 子树影响，不依赖 ConfigProvider。
           </sd-alert>
 
           <sd-space wrap>
-            <sd-button type="primary">Primary</sd-button>
-            <sd-button status="success">Success</sd-button>
-            <sd-button type="secondary">Secondary</sd-button>
+            <sd-button type="primary">主要</sd-button>
+            <sd-button status="success">成功</sd-button>
+            <sd-button type="secondary">次要</sd-button>
           </sd-space>
 
           <sd-input placeholder="检查局部主题下组件可读性" allow-clear />
@@ -31,8 +31,8 @@
 
   const themeMode = ref<'light' | 'dark'>('dark');
   const themeModeOptions = [
-    { label: 'Light', value: 'light' },
-    { label: 'Dark', value: 'dark' },
+    { label: '浅色', value: 'light' },
+    { label: '深色', value: 'dark' },
   ];
 
   const theme = computed(() => {

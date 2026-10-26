@@ -11,15 +11,18 @@ const demos = import.meta.glob<{ default: Component }>(
 runDemoTests('message', demos, (demoName) => {
   Message.clear();
   if (demoName === 'type') {
-    const types = ['info', 'success', 'warning', 'error', 'normal', 'normal', 'loading'];
-    types.forEach((type, index) => {
+    const messages = [
+      '这是一条提示消息！',
+      '操作成功！',
+      '请注意检查操作内容！',
+      '这是一条错误消息！',
+      '这是一条普通消息！',
+      '这是一条普通消息！',
+      '正在加载，请稍候…',
+    ];
+    messages.forEach((message, index) => {
       cy.get('.sd-btn').eq(index).click();
-      cy.get('.sd-message')
-        .last()
-        .should(
-          'contain.text',
-          `This is ${type === 'info' || type === 'error' ? 'an' : 'a'} ${type} message!`,
-        );
+      cy.get('.sd-message').last().should('contain.text', message);
     });
     return;
   }

@@ -2,7 +2,7 @@
   <div class="sd:flex sd:flex-wrap sd:gap-6">
     <div class="sd:flex sd:flex-col sd:items-center sd:gap-3">
       <div class="sd:text-sm" :style="{ color: `var(${getCssVarToken('--color-text-2')})` }"
-        >Canvas</div
+        >画布</div
       >
       <sd-qr-code :value="value" type="canvas" />
     </div>

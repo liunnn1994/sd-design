@@ -142,7 +142,7 @@ import tabsTypeSource from '../../../../components/generated/tabs/type.vue?raw';
 
 ## API
 
-### `<tabs>` Props
+### `<tabs>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | :-: | :-- |
@@ -166,7 +166,7 @@ import tabsTypeSource from '../../../../components/generated/tabs/type.vue?raw';
 | trigger | 触发方式 | `'hover' \| 'click'` | `'click'` | 2.34.0 |
 | scroll-position | 被选中 tab 的滚动位置，默认 auto 即会将 activeTab 滚动到可见区域，但不会特意做位置调整 | `'start' \| 'end' \| 'center' \| 'auto' \| number` | `'auto'` |  |
 
-### `<tabs>` Events
+### `<tabs>` 事件
 
 | 事件名    | 描述                   | 参数                    |
 | --------- | ---------------------- | ----------------------- |
@@ -175,13 +175,13 @@ import tabsTypeSource from '../../../../components/generated/tabs/type.vue?raw';
 | add       | 用户点击增加按钮时触发 | -                       |
 | delete    | 用户点击删除按钮时触发 | key: `string \| number` |
 
-### `<tabs>` Slots
+### `<tabs>` 插槽
 
 | 插槽名 |      描述      | 参数 |
 | ------ | :------------: | ---- |
 | extra  | 选项卡额外内容 | -    |
 
-### `<tab-pane>` Props
+### `<tab-pane>` 属性
 
 | 参数名          | 描述                                       | 类型      | 默认值  | 版本   |
 | --------------- | ------------------------------------------ | --------- | :-----: | :----- |
@@ -190,7 +190,7 @@ import tabsTypeSource from '../../../../components/generated/tabs/type.vue?raw';
 | closable        | 是否允许关闭此选项卡（仅在可编辑模式生效） | `boolean` | `true`  |        |
 | destroy-on-hide | 是否在不显示标签时销毁内容                 | `boolean` | `false` | 2.27.0 |
 
-### `<tab-pane>` Slots
+### `<tab-pane>` 插槽
 
 | 插槽名 |    描述    | 参数 |
 | ------ | :--------: | ---- |

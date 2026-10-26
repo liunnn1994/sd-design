@@ -19,19 +19,19 @@
 
   const treeData = ref<TreeNodeData[]>([
     {
-      title: 'Trunk',
+      title: '主干节点',
       key: '0-0',
       children: [
         {
-          title: 'Leaf',
+          title: '叶子节点',
           key: '0-0-1',
         },
         {
-          title: 'Branch',
+          title: '分支',
           key: '0-0-2',
           children: [
             {
-              title: 'Leaf',
+              title: '叶子节点',
               key: '0-0-2-1',
             },
           ],
@@ -39,25 +39,25 @@
       ],
     },
     {
-      title: 'Trunk',
+      title: '主干节点',
       key: '0-1',
       children: [
         {
-          title: 'Branch',
+          title: '分支',
           key: '0-1-1',
           children: [
             {
-              title: 'Leaf',
+              title: '叶子节点',
               key: '0-1-1-1',
             },
             {
-              title: 'Leaf',
+              title: '叶子节点',
               key: '0-1-1-2',
             },
           ],
         },
         {
-          title: 'Leaf',
+          title: '叶子节点',
           key: '0-1-2',
         },
       ],
@@ -67,7 +67,7 @@
   function onIconClick(nodeData: TreeNodeData) {
     const children = nodeData.children || [];
     children.push({
-      title: 'new tree node',
+      title: '新树节点',
       key: `${nodeData.key}-${children.length + 1}`,
     });
     nodeData.children = children;

@@ -7,18 +7,14 @@
     </template>
     <template #cover>
       <div class="sd:h-51 sd:overflow-hidden">
-        <img
-          class="sd:w-full sd:-translate-y-5"
-          alt="dessert"
-          src="https://picsum.photos/1260/840"
-        />
+        <img class="sd:w-full sd:-translate-y-5" alt="甜点" src="https://picsum.photos/1260/840" />
       </div>
     </template>
-    <sd-card-meta title="Card Title" description="This is the description">
+    <sd-card-meta title="卡片标题" description="这里是描述内容">
       <template #avatar>
         <div class="sd:flex sd:items-center sd:text-[#1d2129]">
           <sd-avatar :size="24" class="sd:mr-2"> A </sd-avatar>
-          <sd-typography-text>Username</sd-typography-text>
+          <sd-typography-text>用户名</sd-typography-text>
         </div>
       </template>
     </sd-card-meta>

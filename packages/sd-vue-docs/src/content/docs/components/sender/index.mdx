@@ -163,7 +163,7 @@ Sender 已注册 recorder-core 包内提供的全部格式编码器和扩展，�
 
 ## API
 
-### `<sender>` Props
+### `<sender>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | :-: |
@@ -185,7 +185,7 @@ Sender 已注册 recorder-core 包内提供的全部格式编码器和扩展，�
 | class-names | 语义化节点类名 | `Partial<Record<SenderSemanticType, string>>` | - |
 | styles | 语义化节点样式 | `Partial<Record<SenderSemanticType, CSSProperties>>` | - |
 
-### `<sender>` Events
+### `<sender>` 事件
 
 | 事件名             | 描述                     | 参数                              |
 | ------------------ | ------------------------ | --------------------------------- |
@@ -198,7 +198,7 @@ Sender 已注册 recorder-core 包内提供的全部格式编码器和扩展，�
 | focus              | 输入区获取焦点           | `event: FocusEvent`               |
 | blur               | 输入区失去焦点           | `event: FocusEvent`               |
 
-### `<sender>` Slots
+### `<sender>` 插槽
 
 | 插槽名 | 描述 | 参数 |
 | --- | --- | --- |
@@ -212,7 +212,7 @@ Sender 已注册 recorder-core 包内提供的全部格式编码器和扩展，�
 
 `actions` 包含 `send`、`clear`、`cancel`、`speech` 以及对应的禁用状态、`recording` 和 `loading`。
 
-### `<sender>` Methods
+### `<sender>` 方法
 
 | 方法名 | 描述 |
 | --- | --- |
@@ -238,7 +238,7 @@ Sender 已注册 recorder-core 包内提供的全部格式编码器和扩展，�
 
 所有非 `text` 词槽都需要唯一 `key`；所有类型都可以通过 `formatResult(value)` 格式化最终结果。词槽配置是 Sender 的兼容适配层，编辑状态与 DOM 行为以 `RichTextEditor` 为唯一实现。
 
-### `<sender-header>` Props / Events
+### `<sender-header>` Props / 事件
 
 | 参数名       | 描述                   | 类型         | 默认值  |
 | ------------ | ---------------------- | ------------ | :-----: |
@@ -249,7 +249,7 @@ Sender 已注册 recorder-core 包内提供的全部格式编码器和扩展，�
 
 关闭按钮触发 `update:open` 和 `open-change`。
 
-### `<sender-switch>` Props / Events / Slots
+### `<sender-switch>` Props / Events / 插槽
 
 | 参数名        | 描述         | 类型      | 默认值  |
 | ------------- | ------------ | --------- | :-----: |

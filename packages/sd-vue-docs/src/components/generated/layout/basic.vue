@@ -1,35 +1,35 @@
 <template>
   <div class="layout-basic-demo">
     <sd-layout class="layout-basic-item">
-      <sd-layout-header>Header</sd-layout-header>
-      <sd-layout-content>Content</sd-layout-content>
-      <sd-layout-footer>Footer</sd-layout-footer>
+      <sd-layout-header>页头</sd-layout-header>
+      <sd-layout-content>内容</sd-layout-content>
+      <sd-layout-footer>页脚</sd-layout-footer>
     </sd-layout>
 
     <sd-layout class="layout-basic-item">
-      <sd-layout-header>Header</sd-layout-header>
+      <sd-layout-header>页头</sd-layout-header>
       <sd-layout>
-        <sd-layout-sider width="25%">Sider</sd-layout-sider>
-        <sd-layout-content>Content</sd-layout-content>
+        <sd-layout-sider width="25%">侧边栏</sd-layout-sider>
+        <sd-layout-content>内容</sd-layout-content>
       </sd-layout>
-      <sd-layout-footer>Footer</sd-layout-footer>
+      <sd-layout-footer>页脚</sd-layout-footer>
     </sd-layout>
 
     <sd-layout class="layout-basic-item">
-      <sd-layout-header>Header</sd-layout-header>
+      <sd-layout-header>页头</sd-layout-header>
       <sd-layout>
-        <sd-layout-content>Content</sd-layout-content>
-        <sd-layout-sider width="25%">Sider</sd-layout-sider>
+        <sd-layout-content>内容</sd-layout-content>
+        <sd-layout-sider width="25%">侧边栏</sd-layout-sider>
       </sd-layout>
-      <sd-layout-footer>Footer</sd-layout-footer>
+      <sd-layout-footer>页脚</sd-layout-footer>
     </sd-layout>
 
     <sd-layout class="layout-basic-item">
-      <sd-layout-sider width="25%">Sider</sd-layout-sider>
+      <sd-layout-sider width="25%">侧边栏</sd-layout-sider>
       <sd-layout>
-        <sd-layout-header>Header</sd-layout-header>
-        <sd-layout-content>Content</sd-layout-content>
-        <sd-layout-footer>Footer</sd-layout-footer>
+        <sd-layout-header>页头</sd-layout-header>
+        <sd-layout-content>内容</sd-layout-content>
+        <sd-layout-footer>页脚</sd-layout-footer>
       </sd-layout>
     </sd-layout>
   </div>

@@ -1,7 +1,7 @@
 <template>
   <sd-space>
-    <sd-button type="primary">Square</sd-button>
-    <sd-button type="primary" shape="round">Round</sd-button>
+    <sd-button type="primary">方形</sd-button>
+    <sd-button type="primary" shape="round">圆角</sd-button>
     <sd-button type="primary">
       <template #icon>
         <icon-plus />

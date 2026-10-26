@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Arrange left</p>
+    <p>左对齐</p>
     <sd-row class="grid-demo sd:text-white" justify="start">
       <sd-col :span="4" class="sd:bg-[#4096ff]">
         <div>col - 4</div>
@@ -15,7 +15,7 @@
         <div>col - 4</div>
       </sd-col>
     </sd-row>
-    <p>Arrange center</p>
+    <p>居中对齐</p>
     <sd-row class="grid-demo sd:text-white" justify="center">
       <sd-col :span="4" class="sd:bg-[#4096ff]">
         <div>col - 4</div>
@@ -30,7 +30,7 @@
         <div>col - 4</div>
       </sd-col>
     </sd-row>
-    <p>Arrange right</p>
+    <p>右对齐</p>
     <sd-row class="grid-demo sd:text-white" justify="end">
       <sd-col :span="4" class="sd:bg-[#4096ff]">
         <div>col - 4</div>
@@ -45,7 +45,7 @@
         <div>col - 4</div>
       </sd-col>
     </sd-row>
-    <p>Space around</p>
+    <p>两侧均分</p>
     <sd-row class="grid-demo sd:text-white" justify="space-around">
       <sd-col :span="4" class="sd:bg-[#4096ff]">
         <div>col - 4</div>
@@ -60,7 +60,7 @@
         <div>col - 4</div>
       </sd-col>
     </sd-row>
-    <p>Space between</p>
+    <p>两端对齐</p>
     <sd-row class="grid-demo sd:text-white" justify="space-between">
       <sd-col :span="4" class="sd:bg-[#4096ff]">
         <div>col - 4</div>

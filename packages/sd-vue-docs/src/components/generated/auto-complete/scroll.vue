@@ -2,7 +2,7 @@
   <sd-auto-complete
     :data="data"
     class="sd:w-90"
-    placeholder="please enter something"
+    placeholder="请输入内容"
     @dropdown-scroll="handleScroll"
     @dropdown-reach-bottom="handleReachBottom"
   />

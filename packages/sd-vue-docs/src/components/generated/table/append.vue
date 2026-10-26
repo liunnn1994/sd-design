@@ -16,19 +16,19 @@
 
   import { reactive } from 'vue';
   const columns: TableColumnData[] = [
-    { title: 'Name', dataIndex: 'name' },
-    { title: 'Salary', dataIndex: 'salary' },
-    { title: 'Address', dataIndex: 'address' },
+    { title: '姓名', dataIndex: 'name' },
+    { title: '薪资', dataIndex: 'salary' },
+    { title: '地址', dataIndex: 'address' },
   ];
   const data = reactive<TableData[]>([
-    { key: '1', name: 'Jane Doe', salary: 23000, address: '32 Park Road, London' },
-    { key: '2', name: 'Alisa Ross', salary: 25000, address: '35 Park Road, London' },
-    { key: '3', name: 'Kevin Sandra', salary: 22000, address: '31 Park Road, London' },
+    { key: '1', name: '王芳', salary: 23000, address: '示例路 32 号' },
+    { key: '2', name: '张晓', salary: 25000, address: '示例路 35 号' },
+    { key: '3', name: '赵晨', salary: 22000, address: '示例路 31 号' },
   ]);
   const appendRecord = () => {
     data.push({
       key: String(data.length + 1),
-      name: `New Staff ${data.length + 1}`,
+      name: `新员工 ${data.length + 1}`,
       salary: 20000 + data.length * 1000,
       address: `${40 + data.length} Park Road, London`,
     });

@@ -1,10 +1,10 @@
 <template>
   <sd-space class="wrapper" direction="vertical">
-    <sd-button type="primary" long>Primary</sd-button>
-    <sd-button long>Default</sd-button>
-    <sd-button type="dashed" long>Dashed</sd-button>
-    <sd-button type="outline" long>Outline</sd-button>
-    <sd-button type="text" long>Text</sd-button>
+    <sd-button type="primary" long>主要</sd-button>
+    <sd-button long>默认</sd-button>
+    <sd-button type="dashed" long>虚线</sd-button>
+    <sd-button type="outline" long>描边</sd-button>
+    <sd-button type="text" long>文本</sd-button>
   </sd-space>
 </template>
 

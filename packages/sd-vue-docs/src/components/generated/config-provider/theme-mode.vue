@@ -9,14 +9,14 @@
       <div class="theme-mode-demo__panel">
         <sd-space direction="vertical" fill>
           <sd-alert type="success">
-            <template #title>Scoped ThemeProvider</template>
+            <template #title>局部主题提供器</template>
             这个区域只受当前 ConfigProvider 的局部主题影响，不依赖文档站 body 的主题。
           </sd-alert>
 
           <sd-space wrap>
-            <sd-button type="primary">Primary</sd-button>
-            <sd-button status="success">Success</sd-button>
-            <sd-button type="secondary">Secondary</sd-button>
+            <sd-button type="primary">主要</sd-button>
+            <sd-button status="success">成功</sd-button>
+            <sd-button type="secondary">次要</sd-button>
           </sd-space>
 
           <sd-input placeholder="检查 text/fill/primary 相关 token" allow-clear />
@@ -31,8 +31,8 @@
 
   const themeMode = ref<'light' | 'dark'>('dark');
   const themeModeOptions = [
-    { label: 'Light', value: 'light' },
-    { label: 'Dark', value: 'dark' },
+    { label: '浅色', value: 'light' },
+    { label: '深色', value: 'dark' },
   ];
 
   const theme = computed(() => {

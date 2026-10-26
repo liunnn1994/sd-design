@@ -16,7 +16,7 @@ runDemoTests('verification-code', demos, (demoName) => {
         .eq(index)
         .type(String(index + 1));
     }
-    cy.get('.sd-message').should('contain.text', 'Verification code: 123456789');
+    cy.get('.sd-message').should('contain.text', '验证码：123456789');
     return;
   }
   cy.get('[class*="sd-"]').should('exist');

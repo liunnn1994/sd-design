@@ -10,7 +10,7 @@
         <icon-delete />
       </template>
       <!-- Use the default slot to avoid extra spaces -->
-      <template #default>Delete</template>
+      <template #default>删除</template>
     </sd-button>
   </sd-space>
 </template>

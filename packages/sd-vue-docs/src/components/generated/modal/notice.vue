@@ -1,9 +1,9 @@
 <template>
   <sd-space>
-    <sd-button @click="handleClickInfo">Info</sd-button>
-    <sd-button @click="handleClickSuccess" status="success">Success</sd-button>
-    <sd-button @click="handleClickWarning" status="warning">Warning</sd-button>
-    <sd-button @click="handleClickError" status="danger">Error</sd-button>
+    <sd-button @click="handleClickInfo">信息</sd-button>
+    <sd-button @click="handleClickSuccess" status="success">成功</sd-button>
+    <sd-button @click="handleClickWarning" status="warning">警告</sd-button>
+    <sd-button @click="handleClickError" status="danger">错误</sd-button>
   </sd-space>
 </template>
 
@@ -12,29 +12,26 @@
 
   const handleClickInfo = () => {
     Modal.info({
-      title: 'Info Notification',
-      content:
-        'This is an info description which directly indicates a neutral informative change or action.',
+      title: '提示通知',
+      content: '这是一条信息说明，用于告知相关变更或操作。',
     });
   };
   const handleClickSuccess = () => {
     Modal.success({
-      title: 'Success Notification',
-      content: 'This is a success notification',
+      title: '成功通知',
+      content: '这是一条成功通知',
     });
   };
   const handleClickWarning = () => {
     Modal.warning({
-      title: 'Warning Notification',
-      content:
-        'This is a warning description which directly indicates a warning that might need attention.',
+      title: '警告通知',
+      content: '这是一条警告说明，提示您关注可能存在的问题。',
     });
   };
   const handleClickError = () => {
     Modal.error({
-      title: 'Error Notification',
-      content:
-        'This is an error description which directly indicates a dangerous or potentially negative action.',
+      title: '错误通知',
+      content: '这是一条错误说明，提示操作存在危险或可能造成不良影响。',
     });
   };
 </script>

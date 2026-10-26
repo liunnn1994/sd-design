@@ -1,6 +1,6 @@
 <template>
   <sd-typography>
-    <sd-typography-paragraph copyable> Click the icon to copy this text. </sd-typography-paragraph>
+    <sd-typography-paragraph copyable> 点击图标复制这段文字。 </sd-typography-paragraph>
     <sd-typography-paragraph editable v-model:editText="str">
       {{ str }}
     </sd-typography-paragraph>
@@ -9,5 +9,5 @@
 <script setup lang="ts">
   import { ref } from 'vue';
 
-  const str = ref('Click the icon to edit this text.');
+  const str = ref('点击图标编辑这段文字。');
 </script>

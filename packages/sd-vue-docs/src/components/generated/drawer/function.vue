@@ -1,5 +1,5 @@
 <template>
-  <sd-button type="primary" @click="handleClick">Open Drawer</sd-button>
+  <sd-button type="primary" @click="handleClick">打开抽屉</sd-button>
 </template>
 
 <script setup lang="ts">
@@ -7,8 +7,8 @@
 
   const handleClick = () => {
     Drawer.open({
-      title: 'Info Title',
-      content: 'This is an info message',
+      title: '提示标题',
+      content: '这是一条提示消息',
       width: 340,
     });
   };

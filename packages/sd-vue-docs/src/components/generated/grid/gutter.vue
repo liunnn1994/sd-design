@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Horizontal</p>
+    <p>水平</p>
     <sd-row class="grid-demo sd:text-white" :gutter="24">
       <sd-col :span="12">
         <div class="sd:bg-[#4096ff]">col - 12</div>
@@ -9,7 +9,7 @@
         <div class="sd:bg-[#0958d9]">col - 12</div>
       </sd-col>
     </sd-row>
-    <p>Responsive</p>
+    <p>响应式</p>
     <sd-row class="grid-demo sd:text-white" :gutter="{ md: 8, lg: 24, xl: 32 }">
       <sd-col :span="6">
         <div class="sd:bg-[#4096ff]">col - 6</div>
@@ -24,7 +24,7 @@
         <div class="sd:bg-[#0958d9]">col - 6</div>
       </sd-col>
     </sd-row>
-    <p>Horizontal and Vertical</p>
+    <p>水平和垂直</p>
     <sd-row class="grid-demo sd:text-white" :gutter="[24, 12]">
       <sd-col :span="6">
         <div class="sd:bg-[#4096ff]">col - 6</div>

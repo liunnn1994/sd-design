@@ -1,25 +1,25 @@
 <template>
   <sd-collapse>
-    <sd-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="1">
+    <sd-collapse-item header="示例数据有限公司" key="1">
       <template #extra>
         <icon-copy />
       </template>
-      <div>Beijing Toutiao Technology Co., Ltd.</div>
-      <div>Beijing Toutiao Technology Co., Ltd.</div>
+      <div>示例数据有限公司</div>
+      <div>示例数据有限公司</div>
     </sd-collapse-item>
-    <sd-collapse-item header="Beijing Toutiao Technology Co., Ltd." :key="2">
+    <sd-collapse-item header="示例数据有限公司" :key="2">
       <template #extra>
-        <sd-button type="primary" size="mini" @click.stop="sayHello">hello</sd-button>
+        <sd-button type="primary" size="mini" @click.stop="sayHello">你好</sd-button>
       </template>
-      <div>Beijing Toutiao Technology Co., Ltd.</div>
-      <div>Beijing Toutiao Technology Co., Ltd.</div>
+      <div>示例数据有限公司</div>
+      <div>示例数据有限公司</div>
     </sd-collapse-item>
-    <sd-collapse-item header="Beijing Toutiao Technology Co., Ltd." key="3">
+    <sd-collapse-item header="示例数据有限公司" key="3">
       <template #extra>
-        <sd-tag size="small">city</sd-tag>
+        <sd-tag size="small">城市</sd-tag>
       </template>
-      <div>Beijing Toutiao Technology Co., Ltd.</div>
-      <div>Beijing Toutiao Technology Co., Ltd.</div>
+      <div>示例数据有限公司</div>
+      <div>示例数据有限公司</div>
     </sd-collapse-item>
   </sd-collapse>
 </template>

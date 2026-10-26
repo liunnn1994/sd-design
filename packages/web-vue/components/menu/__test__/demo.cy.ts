@@ -40,7 +40,7 @@ runDemoTests('menu', demos, (demoName) => {
           );
         }
       });
-    cy.contains('.sd-menu-overflow-wrap > .sd-menu-item:visible', 'Home').should('exist');
+    cy.contains('.sd-menu-overflow-wrap > .sd-menu-item:visible', '首页').should('exist');
   }
 
   if (demoName === 'horizontal') {

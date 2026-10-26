@@ -1,7 +1,7 @@
 <template>
   <sd-trigger trigger="click" align-point>
     <div class="demo-point-trigger">
-      <div>Click Me</div>
+      <div>点击我</div>
     </div>
     <template #content>
       <div class="demo-point">

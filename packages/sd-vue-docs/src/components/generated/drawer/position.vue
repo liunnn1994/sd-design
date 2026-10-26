@@ -1,12 +1,12 @@
 <template>
   <sd-radio-group v-model="position">
-    <sd-radio value="top">Top</sd-radio>
-    <sd-radio value="right">Right</sd-radio>
-    <sd-radio value="bottom">Bottom</sd-radio>
-    <sd-radio value="left">Left</sd-radio>
+    <sd-radio value="top">顶部</sd-radio>
+    <sd-radio value="right">右侧</sd-radio>
+    <sd-radio value="bottom">底部</sd-radio>
+    <sd-radio value="left">左侧</sd-radio>
   </sd-radio-group>
   <div class="sd:mt-5">
-    <sd-button type="primary" @click="handleClick">Open Drawer</sd-button>
+    <sd-button type="primary" @click="handleClick">打开抽屉</sd-button>
   </div>
   <sd-drawer
     :width="340"
@@ -17,11 +17,8 @@
     @cancel="handleCancel"
     unmountOnClose
   >
-    <template #title> Title </template>
-    <div
-      >You can customize modal body text by the current situation. This modal will be closed
-      immediately once you press the OK button.</div
-    >
+    <template #title> 标题 </template>
+    <div>您可以根据实际场景自定义对话框内容。点击确认按钮后，对话框将立即关闭。</div>
   </sd-drawer>
 </template>
 

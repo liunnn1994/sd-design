@@ -1,16 +1,16 @@
 <template>
-  <sd-button @click="handleClick">Open Form Modal</sd-button>
+  <sd-button @click="handleClick">打开表单对话框</sd-button>
   <sd-modal
     v-model:visible="visible"
-    title="Modal Form"
+    title="弹窗表单"
     @cancel="handleCancel"
     @before-ok="handleBeforeOk"
   >
     <sd-form :model="form">
-      <sd-form-item field="name" label="Name">
+      <sd-form-item field="name" label="姓名">
         <sd-input v-model="form.name" />
       </sd-form-item>
-      <sd-form-item field="post" label="Post">
+      <sd-form-item field="post" label="岗位">
         <sd-select v-model="form.post" :options="postOptions" />
       </sd-form-item>
     </sd-form>
@@ -27,10 +27,10 @@
   });
 
   const postOptions = [
-    { value: 'post1', label: 'Post1' },
-    { value: 'post2', label: 'Post2' },
-    { value: 'post3', label: 'Post3' },
-    { value: 'post4', label: 'Post4' },
+    { value: 'post1', label: '岗位 1' },
+    { value: 'post2', label: '岗位 2' },
+    { value: 'post3', label: '岗位 3' },
+    { value: 'post4', label: '岗位 4' },
   ];
 
   const handleClick = () => {

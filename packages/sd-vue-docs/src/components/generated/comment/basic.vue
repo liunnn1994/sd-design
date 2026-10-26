@@ -1,5 +1,5 @@
 <template>
-  <sd-comment author="Socrates" content="Comment body content." datetime="1 hour">
+  <sd-comment author="苏格拉底" content="评论正文内容。" datetime="1 hour">
     <template #actions>
       <span class="action" key="heart" @click="onLikeChange">
         <span v-if="like">
@@ -19,11 +19,11 @@
         </span>
         {{ 3 + (star ? 1 : 0) }}
       </span>
-      <span class="action" key="reply"> <IconMessage /> Reply </span>
+      <span class="action" key="reply"> <IconMessage /> 回复 </span>
     </template>
     <template #avatar>
       <sd-avatar>
-        <img alt="avatar" src="https://picsum.photos/1000/1000" />
+        <img alt="头像" src="https://picsum.photos/1000/1000" />
       </sd-avatar>
     </template>
   </sd-comment>

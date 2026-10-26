@@ -1,10 +1,5 @@
 <template>
-  <sd-auto-complete
-    :data="data"
-    @search="handleSearch"
-    class="sd:w-90"
-    placeholder="please enter something"
-  />
+  <sd-auto-complete :data="data" @search="handleSearch" class="sd:w-90" placeholder="请输入内容" />
 </template>
 
 <script setup lang="ts">

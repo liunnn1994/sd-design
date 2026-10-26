@@ -2,8 +2,8 @@
   <sd-tree-select
     :data="treeData"
     :label-in-value="true"
-    :default-value="{ value: 'node2', label: 'Leaf' }"
-    placeholder="Please select ..."
+    :default-value="{ value: 'node2', label: '叶子节点' }"
+    placeholder="请选择…"
     class="sd:w-75"
     @change="onChange"
   ></sd-tree-select>
@@ -19,27 +19,27 @@
     {
       key: 'node1',
       icon: () => h(IconCalendar),
-      title: 'Trunk',
+      title: '主干节点',
       disabled: true,
       children: [
         {
           key: 'node2',
-          title: 'Leaf',
+          title: '叶子节点',
         },
       ],
     },
     {
       key: 'node3',
-      title: 'Trunk2',
+      title: '主干节点 2',
       icon: () => h(IconCalendar),
       children: [
         {
           key: 'node4',
-          title: 'Leaf',
+          title: '叶子节点',
         },
         {
           key: 'node5',
-          title: 'Leaf',
+          title: '叶子节点',
         },
       ],
     },

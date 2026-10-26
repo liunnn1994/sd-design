@@ -1,52 +1,45 @@
 <template>
   <sd-typography class="sd:-mt-10">
-    <sd-typography-title> Design system </sd-typography-title>
+    <sd-typography-title> 设计系统 </sd-typography-title>
     <sd-typography-paragraph>
-      A design is a plan or specification for the construction of an object or system or for the
-      implementation of an activity or process, or the result of that plan or specification in the
-      form of a prototype, product or process. The verb to design expresses the process of
-      developing a design.
+      设计是为构建对象、系统或开展活动而制定的计划与规范，也可以指由此产生的原型、产品或流程。设计的过程就是将想法逐步转化为可用方案的过程。
     </sd-typography-paragraph>
     <sd-typography-paragraph>
-      In some cases, the direct construction of an object without an explicit prior plan (such as in
-      craftwork, some engineering, coding, and graphic design) may also be considered
-      <sd-typography-text bold>to be a design activity.</sd-typography-text>
+      在某些情况下，未经明确规划而直接进行创作，例如手工制作、工程实践、编程和平面设计，也可以
+      <sd-typography-text bold>视为设计活动。</sd-typography-text>
     </sd-typography-paragraph>
     <sd-typography-title :heading="2">SD Design</sd-typography-title>
     <sd-typography-paragraph>
-      The SD Design component library defines a set of default particle variables, and a custom
-      theme is to <sd-typography-text mark>customize</sd-typography-text> and
-      <sd-typography-text underline>overwrite</sd-typography-text> this variable list.
+      SD Design 组件库提供了一组默认的样式变量，您可以
+      <sd-typography-text mark>自定义</sd-typography-text> 和
+      <sd-typography-text underline>覆盖</sd-typography-text> 这些变量，创建适合业务的主题。
     </sd-typography-paragraph>
     <sd-typography-paragraph blockquote>
-      A design is a plan or specification for the construction of an object or system or for the
-      implementation of an activity or process, or the result of that plan or specification in the
-      form of a <sd-typography-text code>prototype</sd-typography-text>,
-      <sd-typography-text code>product</sd-typography-text> or
-      <sd-typography-text code>process</sd-typography-text>. The verb to design expresses the
-      process of developing a design.
+      设计是为构建对象、系统或开展活动而制定的计划与规范，也可以指由此产生的原型、产品或流程。设计的过程就是将想法逐步转化为可用方案的过程。
+      <sd-typography-text code>原型</sd-typography-text>,
+      <sd-typography-text code>产品</sd-typography-text> 或
+      <sd-typography-text code>流程</sd-typography-text>。设计这一动词描述了形成设计方案的过程。
     </sd-typography-paragraph>
     <sd-typography-paragraph mark underline delete
-      >A design is a plan or specification for the construction of an object or system or for the
-      implementation of an activity or process.</sd-typography-paragraph
+      >设计是为构建对象、系统或开展活动而制定的计划与规范，也可以指由此产生的原型、产品或流程。设计的过程就是将想法逐步转化为可用方案的过程。</sd-typography-paragraph
     >
     <sd-typography-paragraph>
       <ul>
         <li>
-          Architectural blueprints
+          建筑蓝图
           <ul>
-            <li>Architectural blueprints</li>
+            <li>建筑蓝图</li>
           </ul>
         </li>
-        <li>Engineering drawings</li>
-        <li>Business processes</li>
+        <li>工程图纸</li>
+        <li>业务流程</li>
       </ul>
     </sd-typography-paragraph>
     <sd-typography-paragraph>
       <ol>
-        <li>Architectural blueprints</li>
-        <li>Engineering drawings</li>
-        <li>Business processes</li>
+        <li>建筑蓝图</li>
+        <li>工程图纸</li>
+        <li>业务流程</li>
       </ol>
     </sd-typography-paragraph>
   </sd-typography>

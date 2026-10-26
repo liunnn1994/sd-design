@@ -1,3 +1,3 @@
 <template>
-  <sd-cascader :options="[]" class="sd:w-80" placeholder="Please select ..." loading />
+  <sd-cascader :options="[]" class="sd:w-80" placeholder="请选择…" loading />
 </template>

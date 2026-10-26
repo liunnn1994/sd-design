@@ -26,7 +26,7 @@
       <template #icon>
         <icon-plus />
       </template>
-      Add Tag
+      添加标签
     </sd-tag>
   </sd-space>
 </template>
@@ -36,7 +36,7 @@
 
   import { ref, nextTick } from 'vue';
 
-  const tags = ref(['Tag 1', 'Tag 2', 'Tag 3']);
+  const tags = ref(['标签 1', '标签 2', '标签 3']);
   const inputRef = ref<InputInstance | null>(null);
   const showInput = ref(false);
   const inputVal = ref('');

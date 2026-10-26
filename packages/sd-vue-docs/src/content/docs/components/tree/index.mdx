@@ -227,7 +227,7 @@ Tree 会透出节点标题区域的基础 DOM 事件，并补充 VueUse 的长�
 
 ## API
 
-### `<tree>` Props
+### `<tree>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | :-: | :-- |
@@ -262,7 +262,7 @@ Tree 会透出节点标题区域的基础 DOM 事件，并补充 VueUse 的长�
 | ellipsis | 是否使用 Ellipsis 组件渲染节点标题。传入 `performant-ellipsis` 时使用高性能省略实现 | `boolean \| 'performant-ellipsis'` | `false` |  |
 | action-on-node-click | 点击节点的时候触发的动作 | `'expand'` | `-` | 2.27.0 |
 
-### `<tree>` Events
+### `<tree>` 事件
 
 | 事件名 | 描述 | 参数 |
 | --- | --- | --- |
@@ -282,7 +282,7 @@ Tree 会透出节点标题区域的基础 DOM 事件，并补充 VueUse 的长�
 | node-long-press | 节点标题区域触发 VueUse 长按时触发 | node: `TreeNodeData`<br />event: `PointerEvent` |
 | node-swipe-start / node-swipe / node-swipe-end | 节点标题区域触发 VueUse 滑动时触发 | node: `TreeNodeData`<br />event: `TouchEvent`<br />data: `{ direction: 'up' \| 'down' \| 'left' \| 'right' \| 'none' }` |
 
-### `<tree>` Methods
+### `<tree>` 方法
 
 | 方法名 | 描述 | 参数 | 返回值 | 版本 |
 | --- | --- | --- | --- | :-- |
@@ -298,7 +298,7 @@ Tree 会透出节点标题区域的基础 DOM 事件，并补充 VueUse 的长�
 | expandAll | 设置全部节点的展开状态 | expanded: `boolean` | - | 2.20.0 |
 | expandNode | 设置指定节点的展开状态 | key: `TreeNodeKey \| TreeNodeKey[]`<br />expanded: `boolean` | - | 2.20.0 |
 
-### `<tree>` Slots
+### `<tree>` 插槽
 
 | 插槽名        |        描述        | 参数                 | 版本   |
 | ------------- | :----------------: | -------------------- | :----- |

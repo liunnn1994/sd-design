@@ -8,12 +8,12 @@
 <script setup lang="ts">
   import { ref, watch } from 'vue';
 
-  const province = ref('Sichuan');
-  const city = ref('Chengdu');
+  const province = ref('四川');
+  const city = ref('成都');
   const data: Record<string, string[]> = {
-    Beijing: ['Haidian', 'Chaoyang', 'Changping'],
-    Sichuan: ['Chengdu', 'Mianyang', 'Aba'],
-    Guangdong: ['Guangzhou', 'Shenzhen', 'Shantou'],
+    Beijing: ['海淀区', '朝阳区', '昌平区'],
+    Sichuan: ['成都', '绵阳', '阿坝'],
+    Guangdong: ['广州', '深圳', '汕头'],
   };
 
   watch(province, () => {

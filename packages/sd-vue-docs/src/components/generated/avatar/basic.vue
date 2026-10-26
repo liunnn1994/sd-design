@@ -5,9 +5,9 @@
       <IconUser />
     </sd-avatar>
     <sd-avatar class="sd:bg-[#14a9f8]">SD</sd-avatar>
-    <sd-avatar class="sd:bg-[#00d0b6]">Design</sd-avatar>
+    <sd-avatar class="sd:bg-[#00d0b6]">设计</sd-avatar>
     <sd-avatar>
-      <img alt="avatar" src="https://picsum.photos/1000/1000" />
+      <img alt="头像" src="https://picsum.photos/1000/1000" />
     </sd-avatar>
   </sd-space>
 </template>

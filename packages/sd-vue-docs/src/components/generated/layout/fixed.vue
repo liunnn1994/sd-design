@@ -1,27 +1,27 @@
 <template>
   <sd-layout class="layout-fixed-demo">
-    <sd-layout-header class="header">Header</sd-layout-header>
+    <sd-layout-header class="header">页头</sd-layout-header>
     <sd-layout class="body">
       <sd-layout-sider class="sider" collapsible>
         <div class="logo" />
         <sd-menu :default-selected-keys="['1']">
           <sd-menu-item key="1">
             <template #icon><icon-user /></template>
-            <span>nav 1</span>
+            <span>导航 1</span>
           </sd-menu-item>
           <sd-menu-item key="2">
             <template #icon><icon-video-camera /></template>
-            <span>nav 2</span>
+            <span>导航 2</span>
           </sd-menu-item>
           <sd-menu-item key="3">
             <template #icon><icon-upload /></template>
-            <span>nav 3</span>
+            <span>导航 3</span>
           </sd-menu-item>
         </sd-menu>
       </sd-layout-sider>
-      <sd-layout-content class="content">Content</sd-layout-content>
+      <sd-layout-content class="content">内容</sd-layout-content>
     </sd-layout>
-    <sd-layout-footer class="footer">Footer</sd-layout-footer>
+    <sd-layout-footer class="footer">页脚</sd-layout-footer>
   </sd-layout>
 </template>
 

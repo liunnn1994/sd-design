@@ -1,8 +1,8 @@
 <template>
   <div class="sd:w-160">
     <sd-radio-group v-model="mode" type="button" class="sd:mb-3">
-      <sd-radio value="dynamic">dynamic rows</sd-radio>
-      <sd-radio value="fixed">fixed rows</sd-radio>
+      <sd-radio value="dynamic">动态行高</sd-radio>
+      <sd-radio value="fixed">固定行高</sd-radio>
     </sd-radio-group>
 
     <div class="sd:mb-3 sd:text-[var(--color-text-2)] sd:text-xs sd:leading-[1.5]">
@@ -38,8 +38,8 @@
 
   const helperText = computed(() => {
     return mode.value === 'dynamic'
-      ? 'List defaults naturally fit variable-height content. This mode uses minItemSize: 72 so longer descriptions can grow.'
-      : 'Use itemSize: 72 when every row should stay visually uniform and you do not need live height measurement.';
+      ? '列表默认适应动态行高。此模式设置 minItemSize: 72，使较长描述可以自然撑开。'
+      : '所有行需要保持相同高度且无需实时测量时，可设置 itemSize: 72。';
   });
 
   const virtualListProps = computed(() => {
@@ -56,13 +56,11 @@
     .fill(null)
     .map((_, index) => {
       const prefix = `0${(index % 26) + 10}`.slice(-2);
-      const shortDescription = `(${index}) Fixed rows keep the same visual rhythm.`;
+      const shortDescription = `(${index}) 固定行高使列表保持一致的视觉节奏。`;
       const longDescription = [
-        `(${index}) Dynamic rows keep richer content readable without forcing every card to the same height.`,
-        index % 3 === 0
-          ? 'This item includes extra context to make the height difference obvious while scrolling.'
-          : '',
-        index % 5 === 0 ? 'It also simulates secondary metadata and longer summaries.' : '',
+        `(${index}) 动态行高让丰富内容保持可读，无需强制所有卡片使用相同高度。`,
+        index % 3 === 0 ? '此项包含更多说明，便于滚动时观察行高差异。' : '',
+        index % 5 === 0 ? '同时模拟辅助信息和更长的摘要。' : '',
       ]
         .filter(Boolean)
         .join(' ');
@@ -70,7 +68,7 @@
       return {
         key: `list-${index}`,
         prefix,
-        title: `Virtual list item ${index}`,
+        title: `虚拟列表项目 ${index}`,
         shortDescription,
         longDescription,
       };

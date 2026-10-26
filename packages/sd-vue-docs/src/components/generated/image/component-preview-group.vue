@@ -1,5 +1,5 @@
 <template>
-  <sd-button type="primary" @click="onClick">Click me to preview multiple image</sd-button>
+  <sd-button type="primary" @click="onClick">点击预览多张图片</sd-button>
   <sd-image-preview-group
     v-model:visible="visible"
     v-model:current="current"

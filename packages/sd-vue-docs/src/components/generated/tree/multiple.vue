@@ -8,10 +8,10 @@
       }
     "
   >
-    multiple
+    多选
   </sd-checkbox>
   <br />
-  <sd-typography-text> Current: {{ selectedKeys?.join(' , ') }} </sd-typography-text>
+  <sd-typography-text> 当前项： {{ selectedKeys?.join(' , ') }} </sd-typography-text>
   <br />
   <sd-tree v-model:selected-keys="selectedKeys" :multiple="multiple" :data="treeData" />
 </template>
@@ -24,19 +24,19 @@
   const multiple = ref(true);
   const treeData: TreeNodeData[] = [
     {
-      title: 'Trunk 0-0',
+      title: '主干节点 0-0',
       key: '0-0',
       children: [
         {
-          title: 'Leaf',
+          title: '叶子节点',
           key: '0-0-1',
         },
         {
-          title: 'Branch 0-0-2',
+          title: '分支 0-0-2',
           key: '0-0-2',
           children: [
             {
-              title: 'Leaf',
+              title: '叶子节点',
               key: '0-0-2-1',
             },
           ],
@@ -44,25 +44,25 @@
       ],
     },
     {
-      title: 'Trunk 0-1',
+      title: '主干节点 0-1',
       key: '0-1',
       children: [
         {
-          title: 'Branch 0-1-1',
+          title: '分支 0-1-1',
           key: '0-1-1',
           children: [
             {
-              title: 'Leaf',
+              title: '叶子节点',
               key: '0-1-1-1',
             },
             {
-              title: 'Leaf',
+              title: '叶子节点',
               key: '0-1-1-2',
             },
           ],
         },
         {
-          title: 'Leaf',
+          title: '叶子节点',
           key: '0-1-2',
         },
       ],

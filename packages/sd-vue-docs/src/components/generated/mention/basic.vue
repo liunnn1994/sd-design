@@ -2,14 +2,14 @@
   <sd-space direction="vertical" size="large" class="sd:w-full">
     <sd-mention
       v-model="value"
-      :data="['Bytedance', 'Bytedesign', 'Bytenumner']"
-      placeholder="enter something"
+      :data="['研发团队', '设计团队', '产品团队']"
+      placeholder="请输入内容"
     />
     <sd-mention
       v-model="text"
-      :data="['Bytedance', 'Bytedesign', 'Bytenumner']"
+      :data="['研发团队', '设计团队', '产品团队']"
       type="textarea"
-      placeholder="enter something"
+      placeholder="请输入内容"
     />
   </sd-space>
 </template>

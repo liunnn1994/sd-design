@@ -193,7 +193,7 @@ import uploadUploadListSource from '../../../../components/generated/upload/uplo
 
 ## API
 
-### `<upload>` Props
+### `<upload>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | :-: | :-- |
@@ -232,7 +232,7 @@ import uploadUploadListSource from '../../../../components/generated/upload/uplo
 | on-before-remove | 移除文件前触发 | `(fileItem: FileItem) => Promise<boolean>` | `-` |  |
 | on-button-click | 点击上传按钮触发（如果返回 Promise 则会关闭默认 input 上传） | `(event: Event) => Promise<FileList> \| void` | `-` |  |
 
-### `<upload>` Events
+### `<upload>` 事件
 
 | 事件名       | 描述                         | 参数                                             |
 | ------------ | ---------------------------- | ------------------------------------------------ |
@@ -243,7 +243,7 @@ import uploadUploadListSource from '../../../../components/generated/upload/uplo
 | success      | 上传成功时触发               | fileItem: `FileItem`                             |
 | error        | 上传失败时触发               | fileItem: `FileItem`                             |
 
-### `<upload>` Methods
+### `<upload>` 方法
 
 | 方法名     | 描述                             | 参数                           | 返回值 | 版本   |
 | ---------- | -------------------------------- | ------------------------------ | ------ | :----- |
@@ -252,7 +252,7 @@ import uploadUploadListSource from '../../../../components/generated/upload/uplo
 | updateFile | 更新文件                         | id: `string`<br />file: `File` | -      |        |
 | upload     | 上传文件                         | files: `File[]`                | -      | 2.41.0 |
 
-### `<upload>` Slots
+### `<upload>` 插槽
 
 | 插槽名        |       描述       | 参数                                      | 版本   |
 | ------------- | :--------------: | ----------------------------------------- | :----- |

@@ -12,6 +12,14 @@ runDemoTests('mention', demos, () => {
 });
 
 describe('<mention> basic demo', () => {
+  it('selects a Chinese team name with the keyboard', () => {
+    cy.mount(BasicDemo);
+    cy.get('input').first().should('have.attr', 'placeholder', '请输入内容').type('@');
+    cy.get('.sd-select-option').should('have.length', 3);
+    cy.get('.sd-select-option').first().should('contain.text', '研发团队');
+    cy.get('input').first().type('{enter}').should('have.value', '@研发团队');
+  });
+
   it('keeps the same focused input after typing', () => {
     cy.mount(BasicDemo);
     cy.get('input')

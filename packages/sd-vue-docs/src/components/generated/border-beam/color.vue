@@ -5,22 +5,22 @@
       <sd-space :size="16">
         <sd-border-beam color-variant="colorful">
           <div style="padding: 14px 22px; background: #1a1a2e; border-radius: 16px; color: #e0e0e0"
-            >colorful</div
+            >多彩</div
           >
         </sd-border-beam>
         <sd-border-beam color-variant="mono">
           <div style="padding: 14px 22px; background: #1a1a2e; border-radius: 16px; color: #e0e0e0"
-            >mono</div
+            >单色</div
           >
         </sd-border-beam>
         <sd-border-beam color-variant="ocean">
           <div style="padding: 14px 22px; background: #1a1a2e; border-radius: 16px; color: #e0e0e0"
-            >ocean</div
+            >海洋</div
           >
         </sd-border-beam>
         <sd-border-beam color-variant="sunset">
           <div style="padding: 14px 22px; background: #1a1a2e; border-radius: 16px; color: #e0e0e0"
-            >sunset</div
+            >日落</div
           >
         </sd-border-beam>
       </sd-space>
@@ -30,22 +30,22 @@
       <sd-space :size="16">
         <sd-border-beam color-variant="colorful" theme="light">
           <div style="padding: 14px 22px; background: #fff; border-radius: 16px; color: #333"
-            >colorful</div
+            >多彩</div
           >
         </sd-border-beam>
         <sd-border-beam color-variant="mono" theme="light">
           <div style="padding: 14px 22px; background: #fff; border-radius: 16px; color: #333"
-            >mono</div
+            >单色</div
           >
         </sd-border-beam>
         <sd-border-beam color-variant="ocean" theme="light">
           <div style="padding: 14px 22px; background: #fff; border-radius: 16px; color: #333"
-            >ocean</div
+            >海洋</div
           >
         </sd-border-beam>
         <sd-border-beam color-variant="sunset" theme="light">
           <div style="padding: 14px 22px; background: #fff; border-radius: 16px; color: #333"
-            >sunset</div
+            >日落</div
           >
         </sd-border-beam>
       </sd-space>

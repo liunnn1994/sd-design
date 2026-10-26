@@ -28,14 +28,14 @@
           }}</Button
           ><Button>保存草稿</Button></Space
         ></div
-      ><a href="/components/button/"><strong>按钮</strong><span>Button ↗</span></a></article
+      ><a href="/components/button/"><strong>按钮</strong><span>按钮 ↗</span></a></article
     >
     <article
       ><div class="home-previews__stage"
         ><div class="home-previews__field"
           ><label for="home-preview-name">项目名称</label
           ><Input id="home-preview-name" v-model="name" allow-clear /></div></div
-      ><a href="/components/input/"><strong>输入框</strong><span>Input ↗</span></a></article
+      ><a href="/components/input/"><strong>输入框</strong><span>输入框 ↗</span></a></article
     >
     <article
       ><div class="home-previews__stage"
@@ -44,14 +44,14 @@
             enabled ? '通知已开启' : '通知已关闭'
           }}</span></Space
         ></div
-      ><a href="/components/switch/"><strong>开关</strong><span>Switch ↗</span></a></article
+      ><a href="/components/switch/"><strong>开关</strong><span>开关 ↗</span></a></article
     >
     <article
       ><div class="home-previews__stage"
         ><div class="home-previews__rating"
           ><Rate v-model="rating" allow-half /><Tag color="blue">{{ rating }} / 5</Tag></div
         ></div
-      ><a href="/components/rate/"><strong>评分</strong><span>Rate ↗</span></a></article
+      ><a href="/components/rate/"><strong>评分</strong><span>评分 ↗</span></a></article
     >
     <article
       ><div class="home-previews__stage"
@@ -59,7 +59,7 @@
           ><TabPane key="overview" title="总览">所有内容，井然有序。</TabPane
           ><TabPane key="activity" title="动态">新的想法，正在发生。</TabPane></Tabs
         ></div
-      ><a href="/components/tabs/"><strong>标签页</strong><span>Tabs ↗</span></a></article
+      ><a href="/components/tabs/"><strong>标签页</strong><span>标签页 ↗</span></a></article
     >
     <article
       ><div class="home-previews__stage"
@@ -68,7 +68,7 @@
             >把次要信息留到需要时。</CollapseItem
           ></Collapse
         ></div
-      ><a href="/components/collapse/"><strong>折叠面板</strong><span>Collapse ↗</span></a></article
+      ><a href="/components/collapse/"><strong>折叠面板</strong><span>折叠面板 ↗</span></a></article
     >
   </div>
 </template>

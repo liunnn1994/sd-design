@@ -175,7 +175,7 @@ import formValidation2Source from '../../../../components/generated/form/validat
 
 ## API
 
-### `<form>` Props
+### `<form>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | :-: | :-- |
@@ -191,7 +191,7 @@ import formValidation2Source from '../../../../components/generated/form/validat
 | id | 表单 `id` 属性和表单控件 `id` 前缀 | `string` | `-` |  |
 | scroll-to-first-error | 验证失败后滚动到第一个错误字段 | `boolean` | `false` | 2.51.0 |
 
-### `<form>` Events
+### `<form>` 事件
 
 | 事件名 | 描述 | 参数 |
 | --- | --- | --- |
@@ -199,7 +199,7 @@ import formValidation2Source from '../../../../components/generated/form/validat
 | submit-success | 验证成功时触发 | values: `Record<string, any>`<br />ev: `Event` |
 | submit-failed | 验证失败时触发 | data: `{values: Record<string, any>; errors: Record<string, ValidatedError>}`<br />ev: `Event` |
 
-### `<form>` Methods
+### `<form>` 方法
 
 | 方法名 | 描述 | 参数 | 返回值 | 版本 |
 | --- | --- | --- | --- | :-- |
@@ -210,7 +210,7 @@ import formValidation2Source from '../../../../components/generated/form/validat
 | setFields | 设置表单项的值和状态 | data: `Record<string, FieldData>` | - |  |
 | scrollToField | 滚动到指定表单项 | field: `string` | - | 2.51.0 |
 
-### `<form-item>` Props
+### `<form-item>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | :-: | :-- |
@@ -243,7 +243,7 @@ import formValidation2Source from '../../../../components/generated/form/validat
 | label-component | 表单项标签渲染的元素 | `string` | `'label'` | 2.22.0 |
 | label-attrs | 表单项元素的属性 | `object` | `-` | 2.22.0 |
 
-### `<form-item>` Slots
+### `<form-item>` 插槽
 
 | 插槽名 |   描述   | 参数 |
 | ------ | :------: | ---- |
@@ -251,7 +251,7 @@ import formValidation2Source from '../../../../components/generated/form/validat
 | help   | 帮助信息 | -    |
 | extra  | 额外内容 | -    |
 
-## Type
+## 类型说明
 
 ### FieldRule
 
@@ -323,7 +323,7 @@ const useFormItem = (data: {
 };
 ```
 
-## FAQ
+## 常见问题
 
 ### 关于 `form-item` 的 `field` 属性
 

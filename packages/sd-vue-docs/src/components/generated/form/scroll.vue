@@ -1,10 +1,8 @@
 <template>
   <sd-space>
-    <sd-button @click="formRef && formRef.validate()">Submit</sd-button>
-    <sd-button @click="formRef && formRef.resetFields()">Reset</sd-button>
-    <sd-button @click="formRef && formRef.scrollToField('name19')"
-      >Scroll to the last field</sd-button
-    >
+    <sd-button @click="formRef && formRef.validate()">提交</sd-button>
+    <sd-button @click="formRef && formRef.resetFields()">重置</sd-button>
+    <sd-button @click="formRef && formRef.scrollToField('name19')">滚动到最后一个字段</sd-button>
   </sd-space>
   <sd-form
     ref="formRef"
@@ -16,7 +14,7 @@
       <sd-form-item
         :field="fieldName"
         :label="'user' + index"
-        :rules="[{ required: true, message: 'Name is required' }]"
+        :rules="[{ required: true, message: '请输入姓名' }]"
       >
         <sd-input v-model="form[fieldName]" />
       </sd-form-item>

@@ -56,8 +56,8 @@ describe('首页与线框入场', () => {
     cy.contains('[role="menuitem"]', '添加组件库').click();
     cy.get('.home-workbench .sd-sender').should('contain.text', 'SD Design');
     cy.get('.home-workbench [aria-label="选择工作方式"]').click();
-    cy.contains('[role="menuitem"]', 'Ask').click();
-    cy.get('.home-workbench [aria-label="选择工作方式"]').should('contain.text', 'Ask');
+    cy.contains('[role="menuitem"]', '提问').click();
+    cy.get('.home-workbench [aria-label="选择工作方式"]').should('contain.text', '提问');
     cy.get('.home-workbench__suggestions').should('not.exist');
     cy.get('.home-workbench [contenteditable="true"]').should(
       'contain.text',

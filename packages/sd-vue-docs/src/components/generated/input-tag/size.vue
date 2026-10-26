@@ -1,15 +1,15 @@
 <template>
   <sd-space direction="vertical" size="large">
     <sd-radio-group type="button" v-model="size">
-      <sd-radio value="mini">mini</sd-radio>
-      <sd-radio value="small">small</sd-radio>
-      <sd-radio value="medium">medium</sd-radio>
-      <sd-radio value="large">large</sd-radio>
+      <sd-radio value="mini">迷你</sd-radio>
+      <sd-radio value="small">小</sd-radio>
+      <sd-radio value="medium">中</sd-radio>
+      <sd-radio value="large">大</sd-radio>
     </sd-radio-group>
     <sd-input-tag
       :default-value="['one']"
       class="sd:w-80"
-      placeholder="Please enter something"
+      placeholder="请输入内容"
       :size="size"
       allow-clear
     />

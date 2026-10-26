@@ -17,50 +17,50 @@
 
   const shortcuts = [
     {
-      label: 'yesterday',
+      label: '昨天',
       value: () => dayjs().subtract(1, 'day').toDate(),
     },
     {
-      label: 'today',
+      label: '今天',
       value: () => dayjs().toDate(),
     },
     {
-      label: 'a week later',
+      label: '一周后',
       value: () => dayjs().add(1, 'week').toDate(),
     },
     {
-      label: 'a month later',
+      label: '一个月后',
       value: () => dayjs().add(1, 'month').toDate(),
     },
     {
-      label: '2 months later',
+      label: '两个月后',
       value: () => dayjs().add(2, 'month').toDate(),
     },
   ];
 
   const rangeShortcuts = [
     {
-      label: 'next 2 days',
+      label: '未来两天',
       value: () => [dayjs().toDate(), dayjs().add(2, 'day').toDate()],
     },
     {
-      label: 'next 7 days',
+      label: '未来七天',
       value: () => [dayjs().toDate(), dayjs().add(1, 'week').toDate()],
     },
     {
-      label: 'next 30 days',
+      label: '未来三十天',
       value: () => [dayjs().toDate(), dayjs().add(1, 'month').toDate()],
     },
     {
-      label: 'next 6 months',
+      label: '未来六个月',
       value: () => [dayjs().toDate(), dayjs().add(6, 'month').toDate()],
     },
     {
-      label: 'next 12 months',
+      label: '未来十二个月',
       value: () => [dayjs().toDate(), dayjs().add(1, 'year').toDate()],
     },
     {
-      label: 'next 10 years',
+      label: '未来十年',
       value: () => [dayjs().toDate(), dayjs().add(10, 'year').toDate()],
     },
   ];

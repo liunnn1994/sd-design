@@ -1,13 +1,8 @@
 <template>
-  <sd-auto-complete
-    :data="data"
-    @search="handleSearch"
-    class="sd:w-90"
-    placeholder="please enter something"
-  >
+  <sd-auto-complete :data="data" @search="handleSearch" class="sd:w-90" placeholder="请输入内容">
     <template #footer>
       <div class="sd:py-1.5 sd:text-center">
-        <sd-button>Click Me</sd-button>
+        <sd-button>点击我</sd-button>
       </div>
     </template>
   </sd-auto-complete>

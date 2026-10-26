@@ -1,19 +1,19 @@
 <template>
   <sd-space direction="vertical" size="large">
-    <sd-select class="sd:w-80" placeholder="Please select ..." :options="cityOptions" />
-    <sd-select class="sd:w-80" placeholder="Please select ..." :options="boolOptions" />
+    <sd-select class="sd:w-80" placeholder="请选择…" :options="cityOptions" />
+    <sd-select class="sd:w-80" placeholder="请选择…" :options="boolOptions" />
     <sd-select
-      defaultValue="Beijing"
+      defaultValue="北京"
       class="sd:w-80"
-      placeholder="Please select ..."
+      placeholder="请选择…"
       disabled
       :options="cityOptions"
     />
-    <sd-select v-model="value" class="sd:w-80" placeholder="Please select ..." :options="data" />
-    <div>Select Value: {{ value }}</div>
+    <sd-select v-model="value" class="sd:w-80" placeholder="请选择…" :options="data" />
+    <div>选中值： {{ value }}</div>
     <sd-select
       class="sd:w-40"
-      placeholder="Select"
+      placeholder="选择框"
       :trigger-props="{ autoFitPopupMinWidth: true }"
       :options="longOptions"
     />
@@ -23,38 +23,38 @@
 <script setup lang="ts">
   import { ref } from 'vue';
 
-  const cityOptions = ['Beijing', 'Shanghai', 'Guangzhou', { label: 'Disabled', disabled: true }];
+  const cityOptions = ['北京', '上海', '广州', { label: '禁用', disabled: true }];
   const boolOptions = [
     { value: true, label: '是' },
     { value: false, label: '否' },
   ];
   const longOptions = [
-    'Beijing-Beijing-Beijing',
-    'Shanghai',
-    'Guangzhou',
-    { label: 'Disabled', value: 'Disabled', disabled: true },
+    '北京—北京—北京',
+    '上海',
+    '广州',
+    { label: '禁用', value: '禁用', disabled: true },
   ];
 
   const value = ref();
   const data = [
     {
       value: 'beijing',
-      label: 'Beijing',
+      label: '北京',
       other: 'extra',
     },
     {
       value: 'shanghai',
-      label: 'Shanghai',
+      label: '上海',
       other: 'extra',
     },
     {
       value: 'guangzhou',
-      label: 'Guangzhou',
+      label: '广州',
       other: 'extra',
     },
     {
       value: 'chengdu',
-      label: 'Chengdu',
+      label: '成都',
       other: 'extra',
     },
   ];

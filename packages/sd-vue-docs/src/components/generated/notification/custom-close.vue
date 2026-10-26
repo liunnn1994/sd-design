@@ -1,9 +1,7 @@
 <template>
   <sd-space>
-    <sd-button type="primary" @click="handleNotification"> Open Notification </sd-button>
-    <sd-button type="primary" status="danger" @click="handleNotification2">
-      Open Notification
-    </sd-button>
+    <sd-button type="primary" @click="handleNotification"> 打开通知 </sd-button>
+    <sd-button type="primary" status="danger" @click="handleNotification2"> 打开通知 </sd-button>
   </sd-space>
 </template>
 
@@ -15,8 +13,8 @@
 
   function handleNotification() {
     Notification.info({
-      title: 'Notification',
-      content: 'This is a notification!',
+      title: '通知',
+      content: '这是一条通知！',
       closable: true,
       closeIcon: () => h(IconCloseCircle),
     });
@@ -24,10 +22,10 @@
 
   function handleNotification2() {
     Notification.error({
-      title: 'Notification',
-      content: 'This is a notification!',
+      title: '通知',
+      content: '这是一条通知！',
       closable: true,
-      closeIconElement: () => h(Button, { size: 'mini' }, () => 'Close'),
+      closeIconElement: () => h(Button, { size: 'mini' }, () => '关闭'),
     });
   }
 </script>

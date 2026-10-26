@@ -5,14 +5,14 @@
     :rowGap="16"
     class="grid-demo-grid sd:text-white"
   >
-    <sd-grid-item class="demo-item sd:bg-[#4096ff]">item</sd-grid-item>
-    <sd-grid-item class="demo-item sd:bg-[#0958d9]">item</sd-grid-item>
-    <sd-grid-item class="demo-item sd:bg-[#4096ff]">item</sd-grid-item>
-    <sd-grid-item class="demo-item sd:bg-[#0958d9]">item</sd-grid-item>
-    <sd-grid-item class="demo-item sd:bg-[#4096ff]">item</sd-grid-item>
-    <sd-grid-item class="demo-item sd:bg-[#0958d9]">item</sd-grid-item>
+    <sd-grid-item class="demo-item sd:bg-[#4096ff]">项目</sd-grid-item>
+    <sd-grid-item class="demo-item sd:bg-[#0958d9]">项目</sd-grid-item>
+    <sd-grid-item class="demo-item sd:bg-[#4096ff]">项目</sd-grid-item>
+    <sd-grid-item class="demo-item sd:bg-[#0958d9]">项目</sd-grid-item>
+    <sd-grid-item class="demo-item sd:bg-[#4096ff]">项目</sd-grid-item>
+    <sd-grid-item class="demo-item sd:bg-[#0958d9]">项目</sd-grid-item>
     <sd-grid-item class="demo-item sd:bg-[#4096ff]" :span="{ xl: 4, xxl: 6 }" suffix>
-      suffix
+      后缀
     </sd-grid-item>
   </sd-grid>
 </template>

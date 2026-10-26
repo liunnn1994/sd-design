@@ -117,7 +117,7 @@ import listVirtualListSource from '../../../../components/generated/list/virtual
 
 ## API
 
-### `<list>` Props
+### `<list>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | :-: | :-- |
@@ -135,7 +135,7 @@ import listVirtualListSource from '../../../../components/generated/list/virtual
 | virtual-list-props | 传递虚拟列表属性，传入此参数以开启虚拟滚动 | `VirtualListProps` | `-` |  |
 | scrollbar | 是否开启虚拟滚动条 | `boolean \| ScrollbarProps` | `true` | 2.38.0 |
 
-### `<list>` Events
+### `<list>` 事件
 
 | 事件名           | 描述                           | 参数               |
 | ---------------- | ------------------------------ | ------------------ |
@@ -144,13 +144,13 @@ import listVirtualListSource from '../../../../components/generated/list/virtual
 | page-change      | 表格分页发生改变时触发         | page: `number`     |
 | page-size-change | 表格每页数据数量发生改变时触发 | pageSize: `number` |
 
-### `<list>` Methods
+### `<list>` 方法
 
 | 方法名 | 描述 | 参数 | 返回值 |
 | --- | --- | --- | --- |
 | scrollIntoView | 虚拟滚动到某个元素 | options: `{ index?: number; key?: number \| string; align: 'auto' \| 'top' \| 'bottom'}` | - |
 
-### `<list>` Slots
+### `<list>` 插槽
 
 | 插槽名         |               描述               | 参数                             | 版本   |
 | -------------- | :------------------------------: | -------------------------------- | :----- |
@@ -160,13 +160,13 @@ import listVirtualListSource from '../../../../components/generated/list/virtual
 | footer         |             底部信息             | -                                |        |
 | header         |             头部信息             | -                                |        |
 
-### `<list-item>` Props
+### `<list-item>` 属性
 
 | 参数名        | 描述           | 类型        |     默认值     |
 | ------------- | -------------- | ----------- | :------------: |
 | action-layout | 操作组排列方向 | `Direction` | `'horizontal'` |
 
-### `<list-item>` Slots
+### `<list-item>` 插槽
 
 | 插槽名  |   描述   | 参数 |
 | ------- | :------: | ---- |
@@ -174,14 +174,14 @@ import listVirtualListSource from '../../../../components/generated/list/virtual
 | extra   | 额外内容 | -    |
 | actions |  操作组  | -    |
 
-### `<list-item-meta>` Props
+### `<list-item-meta>` 属性
 
 | 参数名      | 描述     | 类型     | 默认值 |
 | ----------- | -------- | -------- | :----: |
 | title       | 标题     | `string` |  `-`   |
 | description | 描述内容 | `string` |  `-`   |
 
-### `<list-item-meta>` Slots
+### `<list-item-meta>` 插槽
 
 | 插槽名      |   描述   | 参数 |
 | ----------- | :------: | ---- |

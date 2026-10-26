@@ -1,10 +1,10 @@
 <template>
   <sd-space direction="vertical" size="large">
     <sd-form :model="data" layout="inline">
-      <sd-form-item label="Step" field="step">
+      <sd-form-item label="步骤" field="step">
         <sd-input-number class="sd:w-25" v-model="data.step" />
       </sd-form-item>
-      <sd-form-item label="Show steps" field="showTicks">
+      <sd-form-item label="显示步骤" field="showTicks">
         <sd-switch v-model="data.showTicks" />
       </sd-form-item>
     </sd-form>

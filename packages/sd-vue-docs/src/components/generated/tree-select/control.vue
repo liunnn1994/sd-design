@@ -2,7 +2,7 @@
   <sd-tree-select
     :data="treeData"
     v-model="selected"
-    placeholder="Please select ..."
+    placeholder="请选择…"
     class="sd:w-75"
   ></sd-tree-select>
 </template>
@@ -17,27 +17,27 @@
     {
       key: 'node1',
       icon: () => h(IconCalendar),
-      title: 'Trunk',
+      title: '主干节点',
       disabled: true,
       children: [
         {
           key: 'node2',
-          title: 'Leaf',
+          title: '叶子节点',
         },
       ],
     },
     {
       key: 'node3',
-      title: 'Trunk2',
+      title: '主干节点 2',
       icon: () => h(IconCalendar),
       children: [
         {
           key: 'node4',
-          title: 'Leaf',
+          title: '叶子节点',
         },
         {
           key: 'node5',
-          title: 'Leaf',
+          title: '叶子节点',
         },
       ],
     },

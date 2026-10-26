@@ -13,7 +13,7 @@
     .map((_, index) => {
       return {
         value: `option${index + 1}`,
-        label: `Option ${index + 1}`,
+        label: `选项 ${index + 1}`,
         disabled: index === 1,
       };
     });

@@ -1,3 +1,3 @@
 <template>
-  <sd-checkbox value="1">Option 1</sd-checkbox>
+  <sd-checkbox value="1">选项 1</sd-checkbox>
 </template>

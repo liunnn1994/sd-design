@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { ref } from 'vue';
 
-  const value = ref('Beijing');
-  const options = ['Beijing', 'Shanghai', 'Guangzhou', 'Chengdu'];
+  const value = ref('北京');
+  const options = ['北京', '上海', '广州', '成都'];
 </script>
 
 <template>

@@ -2,17 +2,17 @@
   <sd-radio-group default-value="1">
     <sd-radio value="1">
       <template #radio="{ checked }">
-        <sd-tag :checked="checked" checkable>This is a tag radio 1</sd-tag>
+        <sd-tag :checked="checked" checkable>单选标签 1</sd-tag>
       </template>
     </sd-radio>
     <sd-radio value="2">
       <template #radio="{ checked }">
-        <sd-tag :checked="checked" checkable>This is a tag radio 2</sd-tag>
+        <sd-tag :checked="checked" checkable>单选标签 2</sd-tag>
       </template>
     </sd-radio>
     <sd-radio value="3">
       <template #radio="{ checked }">
-        <sd-tag :checked="checked" checkable>This is a tag radio 3</sd-tag>
+        <sd-tag :checked="checked" checkable>单选标签 3</sd-tag>
       </template>
     </sd-radio>
   </sd-radio-group>
@@ -31,8 +31,8 @@
                 <div class="custom-radio-card-mask-dot" />
               </div>
               <div>
-                <div class="custom-radio-card-title"> radio Card {{ item }} </div>
-                <sd-typography-text type="secondary"> this is a text </sd-typography-text>
+                <div class="custom-radio-card-title"> 卡片单选框 {{ item }} </div>
+                <sd-typography-text type="secondary"> 这是一段文本 </sd-typography-text>
               </div>
             </sd-space>
           </template>

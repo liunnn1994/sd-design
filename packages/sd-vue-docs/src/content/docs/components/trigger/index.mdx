@@ -95,7 +95,7 @@ import triggerTriggersSource from '../../../../components/generated/trigger/trig
 
 ## API
 
-### `<trigger>` Props
+### `<trigger>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | :-: | :-- |
@@ -136,7 +136,7 @@ import triggerTriggersSource from '../../../../components/generated/trigger/trig
 | scroll-to-close | 是否在滚动时关闭弹出框 | `boolean` | `false` | 2.46.0 |
 | scroll-to-close-distance | 滚动阈值，当滚动距离超过该值时触发关闭 | `number` | `0` |  |
 
-### `<trigger>` Events
+### `<trigger>` 事件
 
 | 事件名               | 描述                         | 参数               | 版本   |
 | -------------------- | ---------------------------- | ------------------ | :----- |
@@ -144,19 +144,19 @@ import triggerTriggersSource from '../../../../components/generated/trigger/trig
 | show                 | 弹出框显示后（动画结束）触发 | -                  | 2.18.0 |
 | hide                 | 弹出框隐藏后（动画结束）触发 | -                  | 2.18.0 |
 
-### `<trigger>` Slots
+### `<trigger>` 插槽
 
 | 插槽名  |    描述    | 参数 |
 | ------- | :--------: | ---- |
 | content | 弹出框内容 | -    |
 
-## Type
+## 类型说明
 
 ```ts
 type TriggerPopupTranslate = [number, number] | { [key in TriggerPosition]?: [number, number] };
 ```
 
-## FAQ
+## 常见问题
 
 ### 关于弹出框的挂载位置
 

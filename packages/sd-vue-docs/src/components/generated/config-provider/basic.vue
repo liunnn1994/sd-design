@@ -7,8 +7,8 @@
     <sd-space :size="20" class="sd:mb-5">
       <sd-range-picker class="sd:w-75" />
       <sd-time-picker type="time-range" class="sd:w-75" />
-      <sd-popconfirm content="Are you sure you want to delete?">
-        <sd-button type="primary">Popconfirm</sd-button>
+      <sd-popconfirm content="确定要删除吗？">
+        <sd-button type="primary">气泡确认框</sd-button>
       </sd-popconfirm>
     </sd-space>
   </sd-config-provider>

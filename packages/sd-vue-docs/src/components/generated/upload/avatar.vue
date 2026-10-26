@@ -14,7 +14,7 @@
           }`"
         >
           <div class="sd-upload-list-picture custom-upload-avatar" v-if="file && file.url">
-            <img :src="file.url" alt="upload preview" />
+            <img :src="file.url" alt="上传预览" />
             <div class="sd-upload-list-picture-mask">
               <IconEdit />
             </div>
@@ -29,7 +29,7 @@
           <div class="sd-upload-picture-card" v-else>
             <div class="sd-upload-picture-card-text">
               <IconPlus />
-              <div class="sd:mt-2.5 sd:font-semibold">Upload</div>
+              <div class="sd:mt-2.5 sd:font-semibold">上传</div>
             </div>
           </div>
         </div>

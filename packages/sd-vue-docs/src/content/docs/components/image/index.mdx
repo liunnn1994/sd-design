@@ -139,7 +139,7 @@ import imageProgressiveLoaderSource from '../../../../components/generated/image
 
 ## API
 
-### `<image>` Props
+### `<image>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | :-: | :-- |
@@ -159,13 +159,13 @@ import imageProgressiveLoaderSource from '../../../../components/generated/image
 | preview-props | 预览的配置项（所有选项都是可选的） [ImagePreviewProps](#image-preview%20Props) | `ImagePreviewProps` | `-` |  |
 | footer-class | 底部显示区域的类名 | `string\|array\|object` | `-` | 2.23.0 |
 
-### `<image>` Events
+### `<image>` 事件
 
 | 事件名                 | 描述                 | 参数               |
 | ---------------------- | -------------------- | ------------------ |
 | preview-visible-change | 预览的打开和关闭事件 | visible: `boolean` |
 
-### `<image>` Slots
+### `<image>` 插槽
 
 | 插槽名     |         描述         | 参数 |
 | ---------- | :------------------: | ---- |
@@ -174,7 +174,7 @@ import imageProgressiveLoaderSource from '../../../../components/generated/image
 | loader     |  自定义加载状态效果  | -    |
 | extra      |     底部额外内容     | -    |
 
-### `<image-preview>` Props
+### `<image-preview>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | :-: |
@@ -191,19 +191,19 @@ import imageProgressiveLoaderSource from '../../../../components/generated/image
 | default-scale | 默认缩放比 | `number` | `1` |
 | zoom-rate | 缩放速率，仅对滚动缩放生效 | `number` | `1.1` |
 
-### `<image-preview>` Events
+### `<image-preview>` 事件
 
 | 事件名 | 描述     | 参数 |
 | ------ | -------- | ---- |
 | close  | 关闭事件 | -    |
 
-### `<image-preview>` Slots
+### `<image-preview>` 插槽
 
 | 插槽名  |        描述        | 参数 | 版本   |
 | ------- | :----------------: | ---- | :----- |
 | actions | 自定义额外的操作项 | -    | 2.17.0 |
 
-### `<image-preview-group>` Props
+### `<image-preview-group>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | :-: |
@@ -218,14 +218,14 @@ import imageProgressiveLoaderSource from '../../../../components/generated/image
 | actions-layout | 控制条的布局 | `string[]` | `[  'fullScreen',  'rotateRight',  'rotateLeft',  'zoomIn',  'zoomOut',  'originalSize',]` |
 | popup-container | 设置弹出框的挂载点，同 `teleport` 的 `to`，缺省值是 document.body | `string \| HTMLElement` | `-` |
 
-### `<image-preview-group>` Events
+### `<image-preview-group>` 事件
 
 | 事件名         | 描述             | 参数               |
 | -------------- | ---------------- | ------------------ |
 | change         | 切换图片         | index: `number`    |
 | visible-change | 预览的打开和关闭 | visible: `boolean` |
 
-### `<image-preview-group>` Slots
+### `<image-preview-group>` 插槽
 
 | 插槽名  |        描述        | 参数 | 版本   |
 | ------- | :----------------: | ---- | :----- |
@@ -238,7 +238,7 @@ import imageProgressiveLoaderSource from '../../../../components/generated/image
 | name     | 名称     | `string`  |   `-`   |
 | disabled | 是否禁用 | `boolean` | `false` |
 
-## FAQ
+## 常见问题
 
 ### 关于 `image-preview` 的属性说明
 

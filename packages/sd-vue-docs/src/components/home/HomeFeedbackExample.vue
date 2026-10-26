@@ -22,7 +22,7 @@
     <SkeletonReveal ref="reveal" :duration="2000">
       <div class="home-feedback-example__answer">
         <div class="home-feedback-example__identity"
-          ><img src="/logo-icon.png" alt="" width="24" height="24" /><strong>SD Assistant</strong
+          ><img src="/logo-icon.png" alt="" width="24" height="24" /><strong>SD 助手</strong
           ><Tag color="green" size="small">已生成</Tag></div
         >
         <h3>产品发布计划已就绪</h3>

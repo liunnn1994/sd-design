@@ -14,26 +14,26 @@
 
   const treeData: TreeNodeData[] = [
     {
-      title: 'Trunk',
+      title: '主干节点',
       key: 'node1',
       children: [
         {
-          title: 'Leaf',
+          title: '叶子节点',
           key: 'node2',
         },
       ],
     },
     {
-      title: 'Trunk',
+      title: '主干节点',
       key: 'node3',
       children: [
         {
-          title: 'Leaf',
+          title: '叶子节点',
           key: 'node4',
           icon: () => h(IconDriveFile),
         },
         {
-          title: 'Leaf',
+          title: '叶子节点',
           key: 'node5',
           icon: () => h(IconDriveFile),
         },

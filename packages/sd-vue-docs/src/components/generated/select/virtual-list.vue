@@ -12,7 +12,7 @@
     <sd-select
       class="sd:w-full"
       :options="options"
-      placeholder="Please select ..."
+      placeholder="请选择…"
       :trigger-props="{ popupStyle: { maxHeight: '220px' } }"
       :virtual-list-props="virtualListProps"
     />

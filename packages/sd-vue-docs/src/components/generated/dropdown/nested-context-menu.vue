@@ -4,7 +4,7 @@
       <div class="dropdown-nested-context-menu-hint">右键空白区域打开外层菜单</div>
       <sd-dropdown trigger="contextMenu" alignPoint position="bl">
         <div class="dropdown-nested-context-menu-node" @contextmenu.stop>
-          <span class="dropdown-nested-context-menu-icon">File</span>
+          <span class="dropdown-nested-context-menu-icon">文件</span>
           README.md
         </div>
         <template #content>

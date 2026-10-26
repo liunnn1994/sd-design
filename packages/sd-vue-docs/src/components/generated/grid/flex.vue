@@ -4,7 +4,7 @@
       <div>100px</div>
     </sd-col>
     <sd-col flex="auto" class="sd:bg-[#0958d9]">
-      <div>auto</div>
+      <div>自动</div>
     </sd-col>
   </sd-row>
   <sd-row class="grid-demo sd:mb-4 sd:text-white">
@@ -12,7 +12,7 @@
       <div>100px</div>
     </sd-col>
     <sd-col flex="auto" class="sd:bg-[#0958d9]">
-      <div>auto</div>
+      <div>自动</div>
     </sd-col>
     <sd-col flex="100px" class="sd:bg-[#4096ff]">
       <div>100px</div>

@@ -23,19 +23,19 @@
 
   const originTreeData = [
     {
-      title: 'Trunk 0-0',
+      title: '主干节点 0-0',
       key: '0-0',
       children: [
         {
-          title: 'Branch 0-0-1',
+          title: '分支 0-0-1',
           key: '0-0-1',
           children: [
             {
-              title: 'Leaf 0-0-1-1',
+              title: '叶子节点 0-0-1-1',
               key: '0-0-1-1',
             },
             {
-              title: 'Leaf 0-0-1-2',
+              title: '叶子节点 0-0-1-2',
               key: '0-0-1-2',
             },
           ],
@@ -43,25 +43,25 @@
       ],
     },
     {
-      title: 'Trunk 0-1',
+      title: '主干节点 0-1',
       key: '0-1',
       children: [
         {
-          title: 'Branch 0-1-1',
+          title: '分支 0-1-1',
           key: '0-1-1',
           children: [
             {
-              title: 'Leaf 0-1-1-0',
+              title: '叶子节点 0-1-1-0',
               key: '0-1-1-0',
             },
           ],
         },
         {
-          title: 'Branch 0-1-2',
+          title: '分支 0-1-2',
           key: '0-1-2',
           children: [
             {
-              title: 'Leaf 0-1-2-0',
+              title: '叶子节点 0-1-2-0',
               key: '0-1-2-0',
             },
           ],

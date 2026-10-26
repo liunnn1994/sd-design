@@ -3,7 +3,7 @@
     :options="options"
     default-value="datunli"
     class="sd:w-80"
-    placeholder="Please select ..."
+    placeholder="请选择…"
     :format-label="format"
   />
 </template>
@@ -14,37 +14,37 @@
   const options: CascaderOption[] = [
     {
       value: 'beijing',
-      label: 'Beijing',
+      label: '北京',
       children: [
         {
           value: 'chaoyang',
-          label: 'ChaoYang',
+          label: '朝阳区',
           children: [
             {
               value: 'datunli',
-              label: 'Datunli',
+              label: '大屯里',
             },
           ],
         },
         {
           value: 'haidian',
-          label: 'Haidian',
+          label: '海淀区',
         },
         {
           value: 'dongcheng',
-          label: 'Dongcheng',
+          label: '东城区',
         },
         {
           value: 'xicheng',
-          label: 'Xicheng',
+          label: '西城区',
           children: [
             {
               value: 'jinrongjie',
-              label: 'Jinrongjie',
+              label: '金融街',
             },
             {
               value: 'tianqiao',
-              label: 'Tianqiao',
+              label: '天桥',
             },
           ],
         },
@@ -52,11 +52,11 @@
     },
     {
       value: 'shanghai',
-      label: 'Shanghai',
+      label: '上海',
       children: [
         {
           value: 'huangpu',
-          label: 'Huangpu',
+          label: '黄浦区',
         },
       ],
     },

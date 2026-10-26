@@ -13,7 +13,7 @@
 <script setup lang="ts">
   const src = 'https://picsum.photos/id/10/1000/1000?t=image-demo-3';
 
-  const title = 'A user’s avatar';
+  const title = '用户头像';
 
-  const description = 'Present by SD Design';
+  const description = '由 SD Design 提供';
 </script>

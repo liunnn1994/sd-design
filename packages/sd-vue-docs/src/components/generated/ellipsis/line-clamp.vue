@@ -1,7 +1,5 @@
 <template>
   <sd-ellipsis :line-clamp="2" style="width: min(100%, 16rem)">
-    A design is a plan or specification for the construction of an object or system or for the
-    implementation of an activity or process, or the result of that plan or specification in the
-    form of a prototype, product or process.
+    设计是为构建对象、系统或开展活动而制定的计划与规范，也可以指由此产生的原型、产品或流程。设计的过程就是将想法逐步转化为可用方案的过程。
   </sd-ellipsis>
 </template>

@@ -1,8 +1,8 @@
 <template>
   <sd-image
     src="https://picsum.photos/id/10/1000/1000?t=image-demo-10"
-    title="A user’s avatar"
-    description="Present by SD Design"
+    title="用户头像"
+    description="由 SD Design 提供"
     width="260"
     class="sd:mr-[67px] sd:align-top"
     :preview-visible="visible1"
@@ -24,7 +24,7 @@
           ><icon-eye
         /></span>
         <span class="action" @click="onDownLoad"><icon-download /></span>
-        <sd-tooltip content="A user’s avatar">
+        <sd-tooltip content="用户头像">
           <span class="action"><icon-info-circle /></span>
         </sd-tooltip>
       </div>
@@ -32,8 +32,8 @@
   </sd-image>
   <sd-image
     src="https://picsum.photos/id/10/1000/1000?t=image-demo-11"
-    title="A user’s avatar"
-    description="Present by SD Design"
+    title="用户头像"
+    description="由 SD Design 提供"
     width="260"
     footer-position="outer"
     :preview-visible="visible2"
@@ -55,7 +55,7 @@
           ><icon-eye
         /></span>
         <span class="action" @click="onDownLoad"><icon-download /></span>
-        <sd-tooltip content="A user’s avatar">
+        <sd-tooltip content="用户头像">
           <span class="action"><icon-info-circle /></span>
         </sd-tooltip>
       </div>

@@ -1,12 +1,12 @@
 <template>
   <sd-popconfirm :on-before-ok="handleBeforeOk">
-    <sd-button>Click To Show</sd-button>
+    <sd-button>点击显示</sd-button>
     <template #content>
       <sd-form :model="form">
-        <sd-form-item label="Name">
+        <sd-form-item label="姓名">
           <sd-input />
         </sd-form-item>
-        <sd-form-item label="Post">
+        <sd-form-item label="岗位">
           <sd-input />
         </sd-form-item>
       </sd-form>

@@ -12,5 +12,5 @@
 
   import { Message } from '@sdata/web-vue';
 
-  const handleFinish = (value: string) => Message.info(`Verification code: ${value}`);
+  const handleFinish = (value: string) => Message.info(`验证码：${value}`);
 </script>

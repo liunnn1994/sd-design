@@ -6,9 +6,9 @@
       class="sd:mb-2.5"
       :modelValue="indicatorType"
     >
-      <sd-radio value="dot">dot</sd-radio>
-      <sd-radio value="line">line</sd-radio>
-      <sd-radio value="slider">slider</sd-radio>
+      <sd-radio value="dot">圆点</sd-radio>
+      <sd-radio value="line">线形</sd-radio>
+      <sd-radio value="slider">滑条</sd-radio>
     </sd-radio-group>
     <sd-radio-group
       type="button"
@@ -16,11 +16,11 @@
       class="sd:mb-5"
       :modelValue="indicatorPosition"
     >
-      <sd-radio value="left">left</sd-radio>
-      <sd-radio value="right">right</sd-radio>
-      <sd-radio value="top">top</sd-radio>
-      <sd-radio value="bottom">bottom</sd-radio>
-      <sd-radio value="outer">outer</sd-radio>
+      <sd-radio value="left">左侧</sd-radio>
+      <sd-radio value="right">右侧</sd-radio>
+      <sd-radio value="top">上方</sd-radio>
+      <sd-radio value="bottom">下方</sd-radio>
+      <sd-radio value="outer">外侧</sd-radio>
     </sd-radio-group>
     <sd-carousel
       :indicator-type="indicatorType"
@@ -29,7 +29,7 @@
       class="sd:w-150 sd:h-60"
     >
       <sd-carousel-item v-for="image in images">
-        <img :src="image" alt="carousel" class="sd:w-full" />
+        <img :src="image" alt="走马灯" class="sd:w-full" />
       </sd-carousel-item>
     </sd-carousel>
   </sd-space>

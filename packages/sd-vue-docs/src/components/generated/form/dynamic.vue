@@ -1,7 +1,7 @@
 <template>
   <sd-form :model="form" class="sd:w-150">
-    <sd-form-item field="name" label="Username">
-      <sd-input v-model="form.name" placeholder="please enter your username..." />
+    <sd-form-item field="name" label="用户名">
+      <sd-input v-model="form.name" placeholder="请输入用户名…" />
     </sd-form-item>
     <sd-form-item
       v-for="(post, index) of form.posts"
@@ -9,12 +9,12 @@
       :label="`Post-${index}`"
       :key="index"
     >
-      <sd-input v-model="post.value" placeholder="please enter your post..." />
-      <sd-button @click="handleDelete(index)" class="sd:ml-2.5">Delete</sd-button>
+      <sd-input v-model="post.value" placeholder="请输入岗位…" />
+      <sd-button @click="handleDelete(index)" class="sd:ml-2.5">删除</sd-button>
     </sd-form-item>
   </sd-form>
   <div>
-    <sd-button @click="handleAdd">Add Post</sd-button>
+    <sd-button @click="handleAdd">添加岗位</sd-button>
   </div>
   {{ form }}
 </template>

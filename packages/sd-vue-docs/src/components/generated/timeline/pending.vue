@@ -23,18 +23,16 @@
       :checked="!!pendingProps.hasPendingDot"
       @change="(v) => onChange({ hasPendingDot: Boolean(v) })"
     >
-      custom pendingDot
+      自定义等待图标
     </sd-checkbox>
   </sd-row>
   <sd-timeline v-bind="pendingProps">
     <template v-if="pendingProps.hasPendingDot" #dot>
       <IconFire class="sd:text-[#e70a0a]" />
     </template>
-    <sd-timeline-item label="2017-03-10" dotColor="#52C419"> The first milestone </sd-timeline-item>
-    <sd-timeline-item label="2018-05-12" dotColor="#F5222D">
-      The second milestone
-    </sd-timeline-item>
-    <sd-timeline-item label="2020-09-30">The third milestone</sd-timeline-item>
+    <sd-timeline-item label="2017-03-10" dotColor="#52C419"> 第一个里程碑 </sd-timeline-item>
+    <sd-timeline-item label="2018-05-12" dotColor="#F5222D"> 第二个里程碑 </sd-timeline-item>
+    <sd-timeline-item label="2020-09-30">第三个里程碑</sd-timeline-item>
   </sd-timeline>
 </template>
 

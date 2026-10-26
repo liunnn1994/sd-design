@@ -1,5 +1,5 @@
 <template>
-  <sd-button type="primary" @click="handleNotification"> Open Notification </sd-button>
+  <sd-button type="primary" @click="handleNotification"> 打开通知 </sd-button>
 </template>
 
 <script setup lang="ts">
@@ -7,8 +7,8 @@
 
   const handleNotification = () => {
     Notification.info({
-      title: 'Notification',
-      content: 'This is a notification!',
+      title: '通知',
+      content: '这是一条通知！',
       closable: true,
       style: { width: '500px' },
     });

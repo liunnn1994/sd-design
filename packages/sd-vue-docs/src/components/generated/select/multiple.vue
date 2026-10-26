@@ -1,21 +1,21 @@
 <template>
   <div class="sd:mb-2.5">
     <sd-switch v-model="scrollbar" />
-    Virtual Scrollbar
+    虚拟滚动条
   </div>
   <sd-space direction="vertical" size="large">
     <sd-select
-      :default-value="['Beijing', 'Shanghai']"
+      :default-value="['北京', '上海']"
       class="sd:w-90"
-      placeholder="Please select ..."
+      placeholder="请选择…"
       multiple
       :scrollbar="scrollbar"
       :options="options"
     />
     <sd-select
-      :default-value="['Beijing', 'Shanghai', 'Guangzhou']"
+      :default-value="['北京', '上海', '广州']"
       class="sd:w-90"
-      placeholder="Please select ..."
+      placeholder="请选择…"
       multiple
       :max-tag-count="2"
       allow-clear
@@ -23,9 +23,9 @@
       :options="options"
     />
     <sd-select
-      :default-value="['Beijing', 'Shanghai']"
+      :default-value="['北京', '上海']"
       class="sd:w-90"
-      placeholder="Please select ..."
+      placeholder="请选择…"
       multiple
       :limit="2"
       :scrollbar="scrollbar"
@@ -39,11 +39,11 @@
 
   const scrollbar = ref(true);
   const options = [
-    'Beijing',
-    { label: 'Shanghai', value: 'Shanghai', tagProps: { color: 'red' } },
-    'Guangzhou',
-    { label: 'Disabled', value: 'Disabled', disabled: true },
-    'Shenzhen',
-    'Wuhan',
+    '北京',
+    { label: '上海', value: '上海', tagProps: { color: 'red' } },
+    '广州',
+    { label: '禁用', value: '禁用', disabled: true },
+    '深圳',
+    '武汉',
   ];
 </script>

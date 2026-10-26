@@ -1,5 +1,5 @@
 <template>
-  <sd-button type="primary" @click="handleNotification"> Open Notification </sd-button>
+  <sd-button type="primary" @click="handleNotification"> 打开通知 </sd-button>
 </template>
 
 <script setup lang="ts">
@@ -8,16 +8,16 @@
   const handleNotification = () => {
     Notification.warning({
       id: 'your_id',
-      title: 'Ready to update',
-      content: 'Will update after 2 seconds...',
+      title: '准备更新',
+      content: '将在 2 秒后更新…',
       duration: 0,
     });
 
     setTimeout(() => {
       Notification.success({
         id: 'your_id',
-        title: 'Success',
-        content: 'Update success!',
+        title: '成功',
+        content: '更新成功！',
         duration: 3000,
       });
     }, 2000);

@@ -1,10 +1,10 @@
 <template>
   <sd-space>
-    <sd-button type="primary" @click="showInfo"> Info </sd-button>
-    <sd-button type="primary" status="success" @click="showSuccess"> Success </sd-button>
-    <sd-button type="primary" status="warning" @click="showWarning"> Warning </sd-button>
-    <sd-button type="primary" status="danger" @click="showError"> Error </sd-button>
-    <sd-button type="secondary" @click="showNormal"> Normal </sd-button>
+    <sd-button type="primary" @click="showInfo"> 信息 </sd-button>
+    <sd-button type="primary" status="success" @click="showSuccess"> 成功 </sd-button>
+    <sd-button type="primary" status="warning" @click="showWarning"> 警告 </sd-button>
+    <sd-button type="primary" status="danger" @click="showError"> 错误 </sd-button>
+    <sd-button type="secondary" @click="showNormal"> 常规 </sd-button>
   </sd-space>
 </template>
 
@@ -27,13 +27,13 @@
   const instance = getCurrentInstance();
   const proxy = instance?.proxy as NotificationProxy | undefined;
 
-  const showInfo = () => proxy?.$notification?.info('This is an info message!');
-  const showSuccess = () => proxy?.$notification?.success('This is a success message!');
-  const showWarning = () => proxy?.$notification?.warning('This is a warning message!');
-  const showError = () => proxy?.$notification?.error('This is an error message!');
+  const showInfo = () => proxy?.$notification?.info('这是一条提示消息！');
+  const showSuccess = () => proxy?.$notification?.success('操作成功！');
+  const showWarning = () => proxy?.$notification?.warning('请注意检查操作内容！');
+  const showError = () => proxy?.$notification?.error('这是一条错误消息！');
   const showNormal = () =>
     proxy?.$notification?.info({
-      content: 'This is an error message!',
+      content: '这是一条错误消息！',
       showIcon: false,
     });
 </script>

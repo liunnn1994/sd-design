@@ -1,27 +1,27 @@
 <template>
   <sd-space size="large">
     <sd-dropdown-button>
-      Publish
+      发布
       <template #content>
-        <sd-doption>Save now</sd-doption>
-        <sd-doption>Save and Publish</sd-doption>
+        <sd-doption>立即保存</sd-doption>
+        <sd-doption>保存并发布</sd-doption>
       </template>
     </sd-dropdown-button>
     <sd-dropdown-button disabled>
-      Disabled
+      禁用
       <template #content>
-        <sd-doption>Save now</sd-doption>
-        <sd-doption>Save and Publish</sd-doption>
+        <sd-doption>立即保存</sd-doption>
+        <sd-doption>保存并发布</sd-doption>
       </template>
     </sd-dropdown-button>
     <sd-dropdown-button>
-      Publish
+      发布
       <template #icon>
         <icon-down />
       </template>
       <template #content>
-        <sd-doption>Save now</sd-doption>
-        <sd-doption>Save and Publish</sd-doption>
+        <sd-doption>立即保存</sd-doption>
+        <sd-doption>保存并发布</sd-doption>
       </template>
     </sd-dropdown-button>
   </sd-space>

@@ -20,7 +20,7 @@ describe('<popconfirm> async demo', () => {
     });
 
     cy.mount(AsyncDemo);
-    cy.contains('button', 'Click To Show').click();
+    cy.contains('button', '点击显示').click();
     cy.get('.sd-popconfirm-popup-content').should('be.visible');
     cy.get('.sd-popconfirm-popup-content button').last().click();
     cy.get('.sd-popconfirm-popup-content .sd-btn-loading').should('exist');

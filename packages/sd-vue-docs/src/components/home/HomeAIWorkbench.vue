@@ -120,10 +120,13 @@
         <template #suffix="{ actions }">
           <Space :size="8">
             <Dropdown trigger="click" position="br" :popup-max-height="false" @select="selectMode">
-              <Button type="outline" aria-label="选择工作方式">{{ mode }} <IconDown /></Button>
+              <Button type="outline" aria-label="选择工作方式"
+                >{{ mode === 'Agent' ? '智能体' : '提问' }} <IconDown
+              /></Button>
               <template #content>
                 <Dgroup title="工作方式"
-                  ><Doption value="Agent">Agent</Doption><Doption value="Ask">Ask</Doption></Dgroup
+                  ><Doption value="Agent">智能体</Doption
+                  ><Doption value="Ask">提问</Doption></Dgroup
                 >
                 <Dgroup title="构建方式"
                   ><Doption>Vue 3</Doption><Doption disabled>React · 即将到来</Doption></Dgroup

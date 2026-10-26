@@ -91,7 +91,7 @@ import breadcrumbSizeSource from '../../../../components/generated/breadcrumb/si
 
 ## API
 
-### `<breadcrumb>` Props
+### `<breadcrumb>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | :-: | :-- |
@@ -100,7 +100,7 @@ import breadcrumbSizeSource from '../../../../components/generated/breadcrumb/si
 | separator | 分隔符文字 | `string\|number` | `-` | 2.36.0 |
 | custom-url | 自定义链接地址 | `(paths: string[]) => string` | `-` | 2.36.0 |
 
-### `<breadcrumb>` Slots
+### `<breadcrumb>` 插槽
 
 | 插槽名 | 描述 | 参数 | 版本 |
 | --- | :-: | --- | :-- |
@@ -108,7 +108,7 @@ import breadcrumbSizeSource from '../../../../components/generated/breadcrumb/si
 | item-render | routes 设置时生效，自定义渲染面包屑 | route: `BreadcrumbRoute`<br />routes: `BreadcrumbRoute[]`<br />paths: `string[]` | 2.36.0 |
 | separator | 自定义分隔符 | - |  |
 
-### `<breadcrumb-item>` Props
+### `<breadcrumb-item>` 属性
 
 | 参数名         | 描述         | 类型                          | 默认值 | 版本   |
 | -------------- | ------------ | ----------------------------- | :----: | :----- |
@@ -116,7 +116,7 @@ import breadcrumbSizeSource from '../../../../components/generated/breadcrumb/si
 | droplist       | 下拉菜单内容 | `BreadcrumbRoute['children']` |  `-`   | 2.36.0 |
 | dropdown-props | 下拉菜单属性 | `DropDownProps`               |  `-`   | 2.36.0 |
 
-### `<breadcrumb-item>` Slots
+### `<breadcrumb-item>` 插槽
 
 | 插槽名    |      描述      | 参数 | 版本   |
 | --------- | :------------: | ---- | :----- |
@@ -131,6 +131,6 @@ import breadcrumbSizeSource from '../../../../components/generated/breadcrumb/si
 | path     | 跳转路径 (`a`标签的`href`) | `string`                                    |  `-`   |
 | children | 下拉菜单展示项             | `{    label: string;    path: string;  }[]` |  `-`   |
 
-## Tips
+## 提示
 
 同名的自定义插槽优先级是高于属性的

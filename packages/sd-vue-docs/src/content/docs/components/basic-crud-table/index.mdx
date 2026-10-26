@@ -79,7 +79,7 @@ import modalSource from '../../../../components/generated/basic-crud-table/modal
 
 ## API
 
-### Props
+### 属性
 
 | 参数名 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -110,7 +110,7 @@ import modalSource from '../../../../components/generated/basic-crud-table/modal
 | value-transformer | 编辑详情回填时对详情数据的转换 | `(detail) => model` | - |
 | table-data-transformer | 列表响应转换，支持异步 | `(res) => DataResult \| Promise<DataResult>` | - |
 
-### Models
+### 双向绑定
 
 | 模型名        | 描述              | 类型                      | 默认值  |
 | ------------- | ----------------- | ------------------------- | ------- |
@@ -120,7 +120,7 @@ import modalSource from '../../../../components/generated/basic-crud-table/modal
 | modal-model   | 创建/编辑表单数据 | `Record<string, unknown>` | `{}`    |
 | modal-visible | 创建/编辑弹窗显隐 | `boolean`                 | `false` |
 
-### Events
+### 事件
 
 | 事件名                      | 描述                       | 参数                  |
 | --------------------------- | -------------------------- | --------------------- |
@@ -130,7 +130,7 @@ import modalSource from '../../../../components/generated/basic-crud-table/modal
 | modal-success / modal-close | 弹窗提交成功或关闭         | `result, context` / - |
 | error                       | 请求、详情、提交或删除失败 | `error`               |
 
-### Slots
+### 插槽
 
 | 插槽名 | 描述 | 参数 |
 | --- | --- | --- |
@@ -145,7 +145,7 @@ import modalSource from '../../../../components/generated/basic-crud-table/modal
 | modal\_\_title / modal\_\_footer | 自定义弹窗标题或页脚 | `{ type, row, model }` |
 | modal\_\_表单插槽名 | 透传到弹窗 JsonForm | JsonForm 参数与 CRUD 上下文 |
 
-### Methods
+### 方法
 
 通过 `ref` 调用组件暴露的方法：
 

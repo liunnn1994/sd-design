@@ -1,7 +1,7 @@
 <template>
   <div class="sd:grid sd:gap-4">
     <sd-statistic
-      title="User Growth Rate"
+      title="用户增长率"
       :value="50.52"
       :precision="2"
       :value-from="0"
@@ -13,7 +13,7 @@
       </template>
       <template #suffix>%</template>
     </sd-statistic>
-    <sd-button @click="start = true">Start</sd-button>
+    <sd-button @click="start = true">开始</sd-button>
   </div>
 </template>
 

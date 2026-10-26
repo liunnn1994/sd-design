@@ -90,7 +90,7 @@ import inputMaskSlotsSource from '../../../../components/generated/input-mask/sl
 
 ## API
 
-### `<input-mask>` Props
+### `<input-mask>` 属性
 
 除下表外，还支持 `Input` 的 `size`、`allow-clear`、`disabled`、`readonly`、`error`、`placeholder`、`fit-width`、`max-w-full`、`word-length`、`word-slice`、`input-attrs`、`prepend` 和 `append`。
 
@@ -111,7 +111,7 @@ import inputMaskSlotsSource from '../../../../components/generated/input-mask/sl
 
 :::note `before-masked-value-change` 的签名是 `(nextState, previousState)`，**不**包含 react-input-mask 的 `enteredString` 与 `config`。本组件采用「整体重排」引擎，不追踪每次输入的插入字符串；如需针对「刚输入的字符」做判断，请在回调中比较 `previousState.value` 与 `nextState.value`。:::
 
-### Events
+### 事件
 
 | 事件名             | 描述                                 | 参数                            |
 | ------------------ | ------------------------------------ | ------------------------------- |
@@ -126,7 +126,7 @@ import inputMaskSlotsSource from '../../../../components/generated/input-mask/sl
 
 `complete` 只用于固定位置 mask。SemVer、URL 等变长模板没有唯一“输入完成”时刻，应在表单提交或失焦时执行最终校验。
 
-### Slots
+### 插槽
 
 | 插槽名  | 描述             |
 | ------- | ---------------- |
@@ -135,7 +135,7 @@ import inputMaskSlotsSource from '../../../../components/generated/input-mask/sl
 | prepend | 输入框外前置标签 |
 | append  | 输入框外后置标签 |
 
-### Methods
+### 方法
 
 | 方法名 | 描述                 | 参数 |
 | ------ | -------------------- | ---- |

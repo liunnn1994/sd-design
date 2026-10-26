@@ -1,12 +1,12 @@
 <template>
   <sd-space>
-    <sd-link loading>Link</sd-link>
-    <sd-link :loading="loading1" @click="handleClick1">Link</sd-link>
+    <sd-link loading>链接</sd-link>
+    <sd-link :loading="loading1" @click="handleClick1">链接</sd-link>
     <sd-link :loading="loading2" @click="handleClick2">
       <template #icon>
         <icon-edit />
       </template>
-      Link
+      链接
     </sd-link>
   </sd-space>
 </template>

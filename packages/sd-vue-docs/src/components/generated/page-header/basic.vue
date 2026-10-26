@@ -7,8 +7,8 @@
     >
       <template #extra>
         <sd-space>
-          <sd-button>Cancel</sd-button>
-          <sd-button type="primary">Save</sd-button>
+          <sd-button>取消</sd-button>
+          <sd-button type="primary">保存</sd-button>
         </sd-space>
       </template>
     </sd-page-header>

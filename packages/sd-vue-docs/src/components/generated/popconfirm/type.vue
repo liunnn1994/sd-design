@@ -1,16 +1,16 @@
 <template>
   <sd-space>
-    <sd-popconfirm content="Are you sure you want to delete?" type="info">
-      <sd-button>Click To Delete</sd-button>
+    <sd-popconfirm content="确定要删除吗？" type="info">
+      <sd-button>点击删除</sd-button>
     </sd-popconfirm>
-    <sd-popconfirm content="Are you sure you want to delete?" type="success">
-      <sd-button>Click To Delete</sd-button>
+    <sd-popconfirm content="确定要删除吗？" type="success">
+      <sd-button>点击删除</sd-button>
     </sd-popconfirm>
-    <sd-popconfirm content="Are you sure you want to delete?" type="warning">
-      <sd-button>Click To Delete</sd-button>
+    <sd-popconfirm content="确定要删除吗？" type="warning">
+      <sd-button>点击删除</sd-button>
     </sd-popconfirm>
-    <sd-popconfirm content="Are you sure you want to delete?" type="error">
-      <sd-button>Click To Delete</sd-button>
+    <sd-popconfirm content="确定要删除吗？" type="error">
+      <sd-button>点击删除</sd-button>
     </sd-popconfirm>
   </sd-space>
 </template>

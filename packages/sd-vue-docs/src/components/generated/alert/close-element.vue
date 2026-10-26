@@ -5,13 +5,13 @@
         <template #close-element>
           <icon-close-circle />
         </template>
-        This is an info alert.
+        这是一条信息提示。
       </sd-alert>
     </sd-col>
     <sd-col :span="12">
       <sd-alert closable>
-        <template #close-element> Close </template>
-        This is an info alert.
+        <template #close-element> 关闭 </template>
+        这是一条信息提示。
       </sd-alert>
     </sd-col>
   </sd-row>

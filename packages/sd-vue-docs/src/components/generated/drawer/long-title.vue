@@ -4,7 +4,7 @@
     <sd-radio value="native">浏览器原生 title</sd-radio>
   </sd-radio-group>
   <div class="sd:mt-5">
-    <sd-button type="primary" @click="handleClick">Open Drawer</sd-button>
+    <sd-button type="primary" @click="handleClick">打开抽屉</sd-button>
   </div>
   <sd-drawer
     :width="340"
@@ -17,10 +17,7 @@
     <template #title>
       这是一个非常非常非常长的抽屉标题，用来演示标题过长时的省略效果与提示模式切换
     </template>
-    <div>
-      You can customize drawer body text by the current situation. This drawer will be closed
-      immediately once you press the OK button.
-    </div>
+    <div> 您可以根据实际场景自定义抽屉内容。点击确认按钮后，抽屉将立即关闭。 </div>
   </sd-drawer>
 </template>
 

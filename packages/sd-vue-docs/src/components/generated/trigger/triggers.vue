@@ -1,6 +1,6 @@
 <template>
   <sd-trigger :trigger="['click', 'hover', 'focus']">
-    <sd-input placeholder="Click/Hover/Focus on me" />
+    <sd-input placeholder="点击、悬停或聚焦此处" />
     <template #content>
       <div class="demo-trigger">
         <sd-empty />

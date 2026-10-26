@@ -1,8 +1,8 @@
 <template>
   <sd-space direction="vertical" size="large">
-    <sd-descriptions :data="data" title="User Info" align="right" />
-    <sd-descriptions :data="data" title="User Info" :align="{ label: 'right' }" />
-    <sd-descriptions :data="data" title="User Info" layout="inline-vertical" />
+    <sd-descriptions :data="data" title="用户信息" align="right" />
+    <sd-descriptions :data="data" title="用户信息" :align="{ label: 'right' }" />
+    <sd-descriptions :data="data" title="用户信息" layout="inline-vertical" />
   </sd-space>
 </template>
 
@@ -11,24 +11,24 @@
 
   const data: DescData[] = [
     {
-      label: 'Name',
-      value: 'Socrates',
+      label: '姓名',
+      value: '苏格拉底',
     },
     {
-      label: 'Mobile',
+      label: '手机',
       value: '123-1234-1234',
     },
     {
-      label: 'Residence',
-      value: 'Beijing',
+      label: '居住地',
+      value: '北京',
     },
     {
-      label: 'Hometown',
-      value: 'Beijing',
+      label: '家乡',
+      value: '北京',
     },
     {
-      label: 'Address',
-      value: 'Yingdu Building, Zhichun Road, Beijing',
+      label: '地址',
+      value: '北京市知春路示例大厦',
     },
   ];
 </script>

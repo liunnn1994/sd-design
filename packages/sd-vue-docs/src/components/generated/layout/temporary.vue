@@ -11,22 +11,22 @@
       <sd-menu :default-selected-keys="['1']">
         <sd-menu-item key="1">
           <template #icon><icon-user /></template>
-          <span>nav 1</span>
+          <span>导航 1</span>
         </sd-menu-item>
         <sd-menu-item key="2">
           <template #icon><icon-video-camera /></template>
-          <span>nav 2</span>
+          <span>导航 2</span>
         </sd-menu-item>
         <sd-menu-item key="3">
           <template #icon><icon-upload /></template>
-          <span>nav 3</span>
+          <span>导航 3</span>
         </sd-menu-item>
       </sd-menu>
     </sd-layout-sider>
     <sd-layout>
-      <sd-layout-header>Header</sd-layout-header>
-      <sd-layout-content>Content</sd-layout-content>
-      <sd-layout-footer>Footer</sd-layout-footer>
+      <sd-layout-header>页头</sd-layout-header>
+      <sd-layout-content>内容</sd-layout-content>
+      <sd-layout-footer>页脚</sd-layout-footer>
     </sd-layout>
   </sd-layout>
 </template>

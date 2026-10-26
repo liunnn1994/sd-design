@@ -1,25 +1,22 @@
 <template>
-  <sd-checkbox-group v-model="custom" :options="['hide header', 'hide footer', 'hide cancel']" />
+  <sd-checkbox-group v-model="custom" :options="['隐藏页头', '隐藏页脚', '隐藏取消按钮']" />
   <div class="sd:mt-5">
-    <sd-button type="primary" @click="handleClick">Open Drawer</sd-button>
+    <sd-button type="primary" @click="handleClick">打开抽屉</sd-button>
   </div>
   <sd-drawer
     :width="340"
-    :header="!custom.includes('hide header')"
-    :footer="!custom.includes('hide footer')"
-    :hide-cancel="custom.includes('hide cancel')"
+    :header="!custom.includes('隐藏页头')"
+    :footer="!custom.includes('隐藏页脚')"
+    :hide-cancel="custom.includes('隐藏取消按钮')"
     :visible="visible"
     @ok="handleOk"
     @cancel="handleCancel"
     unmountOnClose
   >
     <template #header>
-      <span>Header and title</span>
+      <span>页头和标题</span>
     </template>
-    <div>
-      You can customize modal body text by the current situation. This modal will be closed
-      immediately once you press the OK button.
-    </div>
+    <div> 您可以根据实际场景自定义对话框内容。点击确认按钮后，对话框将立即关闭。 </div>
   </sd-drawer>
 </template>
 
@@ -27,7 +24,7 @@
   import { ref } from 'vue';
 
   const visible = ref(false);
-  const custom = ref<Array<'hide header' | 'hide footer' | 'hide cancel'>>([]);
+  const custom = ref<Array<'隐藏页头' | '隐藏页脚' | '隐藏取消按钮'>>([]);
 
   const handleClick = () => {
     visible.value = true;

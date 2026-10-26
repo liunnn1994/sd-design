@@ -3,15 +3,15 @@
     <sd-date-picker
       :shortcuts="[
         {
-          label: '2 hours later',
+          label: '两小时后',
           value: () => dayjs().add(2, 'hour').toDate(),
         },
         {
-          label: 'a week later',
+          label: '一周后',
           value: () => dayjs().add(1, 'week').toDate(),
         },
         {
-          label: 'a month later',
+          label: '一个月后',
           value: () => dayjs().add(1, 'month').toDate(),
         },
       ]"
@@ -22,15 +22,15 @@
     <sd-month-picker
       :shortcuts="[
         {
-          label: 'last month',
+          label: '上个月',
           value: () => dayjs().subtract(1, 'month').toDate(),
         },
         {
-          label: 'six months later',
+          label: '六个月后',
           value: () => dayjs().add(6, 'month').toDate(),
         },
         {
-          label: 'two years later',
+          label: '两年后',
           value: () => dayjs().add(2, 'year').toDate(),
         },
       ]"
@@ -40,15 +40,15 @@
     <sd-range-picker
       :shortcuts="[
         {
-          label: 'next 7 days',
+          label: '未来七天',
           value: () => [dayjs().toDate(), dayjs().add(1, 'week').toDate()],
         },
         {
-          label: 'next 30 days',
+          label: '未来三十天',
           value: () => [dayjs().toDate(), dayjs().add(1, 'month').toDate()],
         },
         {
-          label: 'next 365 days',
+          label: '未来一年',
           value: () => [dayjs().toDate(), dayjs().add(1, 'year').toDate()],
         },
       ]"
@@ -59,15 +59,15 @@
       mode="month"
       :shortcuts="[
         {
-          label: 'next 6 months',
+          label: '未来六个月',
           value: () => [dayjs().toDate(), dayjs().add(6, 'month').toDate()],
         },
         {
-          label: 'next 12 months',
+          label: '未来十二个月',
           value: () => [dayjs().toDate(), dayjs().add(1, 'year').toDate()],
         },
         {
-          label: 'next 10 years',
+          label: '未来十年',
           value: () => [dayjs().toDate(), dayjs().add(10, 'year').toDate()],
         },
       ]"

@@ -2,17 +2,17 @@
   <sd-checkbox-group :default-value="['1']">
     <sd-checkbox value="1">
       <template #checkbox="{ checked }">
-        <sd-tag :checked="checked" checkable>This is a tag checkbox 1</sd-tag>
+        <sd-tag :checked="checked" checkable>多选标签 1</sd-tag>
       </template>
     </sd-checkbox>
     <sd-checkbox value="2">
       <template #checkbox="{ checked }">
-        <sd-tag :checked="checked" checkable>This is a tag checkbox 2</sd-tag>
+        <sd-tag :checked="checked" checkable>多选标签 2</sd-tag>
       </template>
     </sd-checkbox>
     <sd-checkbox value="3">
       <template #checkbox="{ checked }">
-        <sd-tag :checked="checked" checkable>This is a tag checkbox 3</sd-tag>
+        <sd-tag :checked="checked" checkable>多选标签 3</sd-tag>
       </template>
     </sd-checkbox>
   </sd-checkbox-group>
@@ -31,8 +31,8 @@
                 <div class="custom-checkbox-card-mask-dot" />
               </div>
               <div>
-                <div class="custom-checkbox-card-title"> Checkbox Card {{ item }} </div>
-                <sd-typography-text type="secondary"> this is a text </sd-typography-text>
+                <div class="custom-checkbox-card-title"> 卡片多选框 {{ item }} </div>
+                <sd-typography-text type="secondary"> 这是一段文本 </sd-typography-text>
               </div>
             </sd-space>
           </template>

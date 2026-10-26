@@ -1,21 +1,21 @@
 <template>
   <sd-trigger trigger="click">
-    <sd-button>Click Me</sd-button>
+    <sd-button>点击我</sd-button>
     <template #content>
       <div class="trigger-demo-nest">
         <sd-empty />
         <sd-trigger position="right">
-          <sd-button>Hover Me</sd-button>
+          <sd-button>悬停此处</sd-button>
           <template #content>
             <div class="trigger-demo-nest">
               <sd-empty />
               <sd-trigger trigger="click" position="right">
-                <sd-button>Click Me</sd-button>
+                <sd-button>点击我</sd-button>
                 <template #content>
                   <div class="trigger-demo-nest">
                     <sd-empty />
                     <sd-trigger position="right">
-                      <sd-button>Hover Me</sd-button>
+                      <sd-button>悬停此处</sd-button>
                       <template #content>
                         <sd-empty class="trigger-demo-nest" />
                       </template>

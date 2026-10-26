@@ -8,5 +8,5 @@
   import { Message } from '@sdata/web-vue';
 
   const value = ref('654321');
-  const onFinish = (value: string) => Message.info(`Verification code: ${value}`);
+  const onFinish = (value: string) => Message.info(`验证码：${value}`);
 </script>

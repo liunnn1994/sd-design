@@ -63,7 +63,7 @@ import toolbarActionsSource from '../../../../components/generated/toolbar/actio
 
 ## API
 
-### `<toolbar>` Props
+### `<toolbar>` 属性
 
 | 参数名             | 描述                           | 类型               | 默认值  |
 | ------------------ | ------------------------------ | ------------------ | :-----: |
@@ -86,14 +86,14 @@ import toolbarActionsSource from '../../../../components/generated/toolbar/actio
 | show-border-bottom | 是否显示底部分隔线             | `boolean`          | `true`  |
 | reset-skip-keys    | 重置时需要保留当前值的字段名   | `string[]`         |  `[]`   |
 
-### `<toolbar>` Events
+### `<toolbar>` 事件
 
 | 事件名 | 描述                                       | 参数             |
 | ------ | ------------------------------------------ | ---------------- |
 | search | 点击查询按钮、按下回车或调用 `search()` 时 | `params: object` |
 | reset  | 点击重置按钮或调用 `reset()` 时            | -                |
 
-### `<toolbar>` Slots
+### `<toolbar>` 插槽
 
 | 插槽名         | 描述                                     | 参数                |
 | -------------- | ---------------------------------------- | ------------------- |
@@ -104,7 +104,7 @@ import toolbarActionsSource from '../../../../components/generated/toolbar/actio
 | expand-icon    | 自定义展开/收起图标                      | -                   |
 | _slotName_     | 与 schema 中 `slotName` 同名的自定义内容 | `{ record, value }` |
 
-### `<toolbar>` Methods
+### `<toolbar>` 方法
 
 通过 ref 可以调用以下方法。
 

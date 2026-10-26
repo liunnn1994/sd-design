@@ -1,6 +1,6 @@
 <template>
   <sd-affix :offsetBottom="80" @change="onChange">
-    <sd-button type="primary">80px to affix bottom</sd-button>
+    <sd-button type="primary">距底部 80px 时固定</sd-button>
   </sd-affix>
 </template>
 <script setup lang="ts">

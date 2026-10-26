@@ -1,7 +1,7 @@
 <template>
   <sd-space direction="vertical" size="large">
-    <sd-input-tag :default-value="['test']" class="sd:w-80" placeholder="Please Enter" disabled />
-    <sd-input-tag :default-value="['test']" class="sd:w-80" placeholder="Please Enter" readonly />
-    <sd-input-tag :default-value="['test']" class="sd:w-80" placeholder="Please Enter" error />
+    <sd-input-tag :default-value="['test']" class="sd:w-80" placeholder="请输入" disabled />
+    <sd-input-tag :default-value="['test']" class="sd:w-80" placeholder="请输入" readonly />
+    <sd-input-tag :default-value="['test']" class="sd:w-80" placeholder="请输入" error />
   </sd-space>
 </template>

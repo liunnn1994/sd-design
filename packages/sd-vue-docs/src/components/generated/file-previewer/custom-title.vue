@@ -6,7 +6,7 @@
     src="https://developer.mozilla.org/shared-assets/audio/t-rex-roar.mp3"
   >
     <template #title>
-      <sd-space size="mini">自定义标题 <sd-tag color="blue">Audio</sd-tag></sd-space>
+      <sd-space size="mini">自定义标题 <sd-tag color="blue">音频</sd-tag></sd-space>
     </template>
   </sd-file-previewer>
 </template>

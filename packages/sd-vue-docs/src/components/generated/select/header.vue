@@ -1,9 +1,9 @@
 <template>
   <sd-space>
     <sd-select
-      :default-value="'Beijing'"
+      :default-value="'北京'"
       class="sd:w-90"
-      placeholder="Please select ..."
+      placeholder="请选择…"
       multiple
       :options="options"
     >
@@ -15,9 +15,9 @@
     </sd-select>
 
     <sd-select
-      :default-value="'Beijing'"
+      :default-value="'北京'"
       class="sd:w-90"
-      placeholder="Please select ..."
+      placeholder="请选择…"
       multiple
       show-header-on-empty
       :options="options"
@@ -33,11 +33,11 @@
 
 <script setup lang="ts">
   const options = [
-    'Beijing',
-    'Shanghai',
-    'Guangzhou',
-    { label: 'Disabled', value: 'Disabled', disabled: true },
-    'Shenzhen',
-    'Wuhan',
+    '北京',
+    '上海',
+    '广州',
+    { label: '禁用', value: '禁用', disabled: true },
+    '深圳',
+    '武汉',
   ];
 </script>

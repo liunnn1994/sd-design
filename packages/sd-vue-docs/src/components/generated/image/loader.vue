@@ -8,7 +8,7 @@
         }
       "
     >
-      reload
+      重新加载
     </sd-button>
   </div>
   <sd-image

@@ -1,9 +1,9 @@
 <template>
   <div class="demo">
-    <h4>HTTP Header</h4>
+    <h4>HTTP 请求头</h4>
     <KvList v-model:json="headers" v-model:bulk="headerBulk" type="http-header" />
 
-    <h4>Secret</h4>
+    <h4>密钥</h4>
     <KvList v-model:json="secrets" v-model:bulk="secretBulk" type="secret" />
   </div>
 </template>

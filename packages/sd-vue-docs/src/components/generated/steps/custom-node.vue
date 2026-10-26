@@ -1,26 +1,26 @@
 <template>
   <div>
     <sd-steps changeable label-placement="vertical" :current="current" @change="setCurrent">
-      <sd-step description="This is a description">
-        Succeeded
+      <sd-step description="这是一段描述">
+        已成功
         <template v-slot:node="slotProps">
-          <sd-popover content="step tip" :popup-visible="current === 1">
+          <sd-popover content="步骤提示" :popup-visible="current === 1">
             <span>{{ slotProps.step }}</span>
           </sd-popover>
         </template>
       </sd-step>
-      <sd-step description="This is a description">
-        Processing Succeeded
+      <sd-step description="这是一段描述">
+        处理成功
         <template v-slot:node="slotProps">
-          <sd-popover content="step tip" :popup-visible="current === 2">
+          <sd-popover content="步骤提示" :popup-visible="current === 2">
             <span>{{ slotProps.step }}</span>
           </sd-popover>
         </template>
       </sd-step>
-      <sd-step description="This is a description"
-        >Pending
+      <sd-step description="这是一段描述"
+        >等待中
         <template v-slot:node="slotProps">
-          <sd-popover content="step tip" :popup-visible="current === 3">
+          <sd-popover content="步骤提示" :popup-visible="current === 3">
             <span>{{ slotProps.step }}</span>
           </sd-popover>
         </template>
@@ -30,10 +30,10 @@
       <sd-space size="large">
         <sd-button type="secondary" :disabled="current <= 1" @click="onPrev">
           <IconLeft />
-          Back
+          返回
         </sd-button>
         <sd-button type="primary" :disabled="current >= 3" @click="onNext">
-          Next
+          下一步
           <IconRight />
         </sd-button>
       </sd-space>

@@ -6,16 +6,15 @@
 <template>
   <div class="home-ai-examples">
     <article
-      ><header><span>01 / 输入</span><a href="/components/sender/">Sender ↗</a></header
+      ><header><span>01 / 输入</span><a href="/components/sender/">发送器 ↗</a></header
       ><div class="home-ai-examples__stage"><HomeInputExample /></div
     ></article>
     <article
-      ><header><span>02 / 呈现</span><a href="/components/timeline/">Timeline ↗</a></header
+      ><header><span>02 / 呈现</span><a href="/components/timeline/">时间轴 ↗</a></header
       ><div class="home-ai-examples__stage"><HomeContentExample /></div
     ></article>
     <article
-      ><header
-        ><span>03 / 反馈</span><a href="/components/skeleton-reveal/">SkeletonReveal ↗</a></header
+      ><header><span>03 / 反馈</span><a href="/components/skeleton-reveal/">骨架过渡 ↗</a></header
       ><div class="home-ai-examples__stage"><HomeFeedbackExample /></div
     ></article>
   </div>

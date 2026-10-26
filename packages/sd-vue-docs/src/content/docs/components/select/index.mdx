@@ -249,7 +249,7 @@ import selectVirtualListSource from '../../../../components/generated/select/vir
 
 ## API
 
-### `<select>` Props
+### `<select>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | :-: | :-- |
@@ -292,7 +292,7 @@ import selectVirtualListSource from '../../../../components/generated/select/vir
 | show-footer-on-empty | 空状态时是否显示footer | `boolean` | `false` |  |
 | tag-nowrap | 标签内容不换行 | `boolean` | `false` | 2.56.1 |
 
-### `<select>` Events
+### `<select>` 事件
 
 | 事件名 | 描述 | 参数 | 版本 |
 | --- | --- | --- | :-- |
@@ -306,7 +306,7 @@ import selectVirtualListSource from '../../../../components/generated/select/vir
 | dropdown-reach-bottom | 下拉菜单滚动到底部时触发 | - |  |
 | exceed-limit | 多选超出限制时触发 | value: `string \| number \| boolean \| Record<string, unknown> \| undefined`<br />ev: `Event` | 2.18.0 |
 
-### `<select>` Slots
+### `<select>` 插槽
 
 | 插槽名       |         描述         | 参数                     | 版本   |
 | ------------ | :------------------: | ------------------------ | :----- |
@@ -322,7 +322,7 @@ import selectVirtualListSource from '../../../../components/generated/select/vir
 | option       |       选项内容       | data: `SelectOptionData` |        |
 | empty        | 选项为空时的显示内容 | -                        |        |
 
-### Type
+### 类型说明
 
 ```ts
 /**
@@ -367,7 +367,7 @@ type FilterOption = boolean | ((inputValue: string, option: SelectOptionData) =>
 
 其余参数与暴露方法可参考 [LLMs.txt](/llms_txt/)。
 
-## FAQ
+## 常见问题
 
 ### 使用 `Object` 格式作为选项的值
 

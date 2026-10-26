@@ -35,11 +35,11 @@
   <sd-space direction="vertical" fill>
     <sd-space>
       <sd-button size="small" @click="scrollToCenter">scrollTo</sd-button>
-      <sd-button size="small" @click="syncState">state</sd-button>
-      <sd-button size="small" @click="forceUpdate">update</sd-button>
+      <sd-button size="small" @click="syncState">状态</sd-button>
+      <sd-button size="small" @click="forceUpdate">更新</sd-button>
     </sd-space>
 
-    <div class="sd:text-[var(--color-text-3)]">status: {{ statusText }}</div>
+    <div class="sd:text-[var(--color-text-3)]">状态： {{ statusText }}</div>
 
     <sd-scrollbar ref="scrollbarRef" class="sd:h-55 sd:overflow-auto">
       <div

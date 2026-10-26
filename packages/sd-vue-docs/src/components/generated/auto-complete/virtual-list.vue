@@ -13,7 +13,7 @@
       :data="data"
       @search="handleSearch"
       class="sd:w-full"
-      placeholder="Type sd or design"
+      placeholder="输入 sd 或 design"
       :trigger-props="{ popupStyle: { maxHeight: '220px' } }"
       :virtual-list-props="virtualListProps"
     />

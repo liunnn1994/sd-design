@@ -3,28 +3,28 @@
     <template #empty="scope">
       <sd-empty
         v-if="scope?.component === 'cascader'"
-        description="cascader no data!"
+        description="暂无级联选项"
         in-config-provider
       >
       </sd-empty>
       <sd-empty
         v-else-if="scope?.component === 'select'"
-        description="select no data!"
+        description="暂无选项"
         in-config-provider
       ></sd-empty>
       <sd-empty
         v-else-if="scope?.component === 'tree-select'"
-        description="tree-select no data!"
+        description="暂无树选项"
         in-config-provider
       ></sd-empty>
       <sd-empty
         v-else-if="scope?.component === 'list'"
-        description="list no data!"
+        description="暂无列表数据"
         in-config-provider
       ></sd-empty>
       <sd-empty
         v-else-if="scope?.component === 'table'"
-        description="table no data!"
+        description="暂无表格数据"
         in-config-provider
       ></sd-empty>
       <div v-else class="my-empty">
@@ -32,11 +32,11 @@
       </div>
     </template>
     <sd-space direction="vertical" fill>
-      <sd-cascader :options="[]" placeholder="cascader" allow-search />
-      <sd-select placeholder="select" allow-search />
-      <sd-tree-select placeholder="tree-select" />
+      <sd-cascader :options="[]" placeholder="级联选择" allow-search />
+      <sd-select placeholder="选择框" allow-search />
+      <sd-tree-select placeholder="树选择器" />
       <sd-list>
-        <template #header> Empty List </template>
+        <template #header> 暂无列表数据 </template>
       </sd-list>
       <sd-table :columns="columns" :data="[]" />
       <sd-empty></sd-empty>
@@ -49,19 +49,19 @@
 
   const columns = [
     {
-      title: 'Name',
+      title: '姓名',
       dataIndex: 'name',
     },
     {
-      title: 'Salary',
+      title: '薪资',
       dataIndex: 'salary',
     },
     {
-      title: 'Address',
+      title: '地址',
       dataIndex: 'address',
     },
     {
-      title: 'Email',
+      title: '电子邮箱',
       dataIndex: 'email',
     },
   ];

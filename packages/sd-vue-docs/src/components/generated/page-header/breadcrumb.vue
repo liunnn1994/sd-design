@@ -8,15 +8,15 @@
     >
       <template #breadcrumb>
         <sd-breadcrumb>
-          <sd-breadcrumb-item>Home</sd-breadcrumb-item>
-          <sd-breadcrumb-item>Channel</sd-breadcrumb-item>
-          <sd-breadcrumb-item>News</sd-breadcrumb-item>
+          <sd-breadcrumb-item>首页</sd-breadcrumb-item>
+          <sd-breadcrumb-item>渠道</sd-breadcrumb-item>
+          <sd-breadcrumb-item>新闻</sd-breadcrumb-item>
         </sd-breadcrumb>
       </template>
       <template #extra>
         <sd-space>
-          <sd-button>Cancel</sd-button>
-          <sd-button type="primary">Save</sd-button>
+          <sd-button>取消</sd-button>
+          <sd-button type="primary">保存</sd-button>
         </sd-space>
       </template>
     </sd-page-header>

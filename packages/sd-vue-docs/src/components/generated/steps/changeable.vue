@@ -1,21 +1,21 @@
 <template>
   <div class="sd:grid sd:gap-4">
     <sd-steps changeable :current="current" @change="setCurrent">
-      <sd-step description="This is a description">Succeeded</sd-step>
-      <sd-step description="This is a description">Processing</sd-step>
-      <sd-step description="This is a description">Pending</sd-step>
+      <sd-step description="这是一段描述">已成功</sd-step>
+      <sd-step description="这是一段描述">处理中</sd-step>
+      <sd-step description="这是一段描述">等待中</sd-step>
     </sd-steps>
     <div
       class="sd:w-full sd:h-50 sd:text-center"
       :style="{ backgroundColor: `var(${getCssVarToken('--color-bg-2')})`, color: '#c2c7cc' }"
     >
-      <div class="sd:leading-40">Step{{ current }} Content</div>
+      <div class="sd:leading-40">步骤{{ current }} 内容</div>
       <sd-space size="large">
         <sd-button type="secondary" :disabled="current <= 1" @click="onPrev">
-          <IconLeft /> Back
+          <IconLeft /> 返回
         </sd-button>
         <sd-button type="primary" :disabled="current >= 3" @click="onNext">
-          Next <IconRight />
+          下一步 <IconRight />
         </sd-button>
       </sd-space>
     </div>

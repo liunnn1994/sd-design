@@ -1,6 +1,5 @@
 <template>
   <sd-performant-ellipsis style="width: min(100%, 12rem)">
-    In large lists, performant ellipsis avoids eagerly wiring tooltip and resize logic until the
-    user actually interacts with the truncated content.
+    在大型列表中，高性能文本省略会在用户与截断内容交互时，才启用提示和尺寸监听逻辑。
   </sd-performant-ellipsis>
 </template>

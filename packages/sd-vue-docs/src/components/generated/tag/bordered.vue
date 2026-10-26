@@ -1,6 +1,6 @@
 <template>
   <sd-space wrap>
-    <sd-tag bordered>default</sd-tag>
+    <sd-tag bordered>默认</sd-tag>
     <sd-tag v-for="(color, index) of colors" :key="index" :color="color" bordered>{{
       color
     }}</sd-tag>

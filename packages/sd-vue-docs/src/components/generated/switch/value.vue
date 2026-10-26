@@ -1,7 +1,7 @@
 <template>
   <sd-space direction="vertical" size="large">
     <sd-switch v-model="value" checked-value="yes" unchecked-value="no" />
-    <div>Current Value: {{ value }}</div>
+    <div>当前值： {{ value }}</div>
   </sd-space>
 </template>
 

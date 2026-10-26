@@ -5,5 +5,5 @@
 <script setup lang="ts">
   import { Message } from '@sdata/web-vue';
 
-  const onFinish = (value: string) => Message.info(`Verification code: ${value}`);
+  const onFinish = (value: string) => Message.info(`验证码：${value}`);
 </script>

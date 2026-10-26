@@ -1,40 +1,40 @@
 <template>
   <sd-comment
-    author="Socrates"
+    author="苏格拉底"
     avatar="https://picsum.photos/1000/1000"
-    content="Comment body content."
+    content="评论正文内容。"
     datetime="1 hour"
   >
     <template #actions>
-      <span class="action"> <IconMessage /> Reply </span>
+      <span class="action"> <IconMessage /> 回复 </span>
     </template>
     <sd-comment
-      author="Balzac"
+      author="巴尔扎克"
       avatar="https://picsum.photos/1000/1000"
-      content="Comment body content."
+      content="评论正文内容。"
       datetime="1 hour"
     >
       <template #actions>
-        <span class="action"> <IconMessage /> Reply </span>
+        <span class="action"> <IconMessage /> 回复 </span>
       </template>
       <sd-comment
-        author="Austen"
+        author="奥斯汀"
         avatar="https://picsum.photos/1000/1000"
-        content="Reply content"
+        content="回复内容"
         datetime="1 hour"
       >
         <template #actions>
-          <span class="action"> <IconMessage /> Reply </span>
+          <span class="action"> <IconMessage /> 回复 </span>
         </template>
       </sd-comment>
       <sd-comment
-        author="Plato"
+        author="柏拉图"
         avatar="https://picsum.photos/1000/1000"
-        content="Reply content"
+        content="回复内容"
         datetime="1 hour"
       >
         <template #actions>
-          <span class="action"> <IconMessage /> Reply </span>
+          <span class="action"> <IconMessage /> 回复 </span>
         </template>
       </sd-comment>
     </sd-comment>

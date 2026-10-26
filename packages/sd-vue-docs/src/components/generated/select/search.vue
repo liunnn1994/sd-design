@@ -1,9 +1,9 @@
 <template>
   <sd-space direction="vertical" size="large">
-    <sd-select class="sd:w-80" placeholder="Please select ..." allow-search :options="options" />
+    <sd-select class="sd:w-80" placeholder="请选择…" allow-search :options="options" />
     <sd-select
       class="sd:w-80"
-      placeholder="Please select ..."
+      placeholder="请选择…"
       :allow-search="{ retainInputValue: true }"
       :options="options"
     />
@@ -11,7 +11,7 @@
       :options="remoteOptions"
       class="sd:w-80"
       :loading="loading"
-      placeholder="Please select ..."
+      placeholder="请选择…"
       multiple
       @search="handleSearch"
     />
@@ -22,15 +22,15 @@
   import { ref } from 'vue';
 
   const options = [
-    'Beijing',
-    'Shanghai',
-    'Guangzhou',
-    { label: 'Disabled', value: 'Disabled', disabled: true },
-    'Shenzhen',
-    'Chengdu',
-    'Wuhan',
+    '北京',
+    '上海',
+    '广州',
+    { label: '禁用', value: '禁用', disabled: true },
+    '深圳',
+    '成都',
+    '武汉',
   ];
-  const remoteOptions = ref(['Option1', 'Option2', 'Option3']);
+  const remoteOptions = ref(['选项 1', '选项 2', '选项 3']);
   const loading = ref(false);
 
   const handleSearch = (value: string) => {

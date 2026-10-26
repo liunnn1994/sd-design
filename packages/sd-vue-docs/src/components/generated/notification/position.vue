@@ -1,9 +1,9 @@
 <template>
   <sd-space>
-    <sd-button type="primary" @click="handleNotification"> Top Right </sd-button>
-    <sd-button type="primary" @click="handleNotificationTopLeft"> Top Left </sd-button>
-    <sd-button type="primary" @click="handleNotificationBottomRight"> Bottom Right </sd-button>
-    <sd-button type="primary" @click="handleNotificationBottomLeft"> Bottom Left </sd-button>
+    <sd-button type="primary" @click="handleNotification"> 右上 </sd-button>
+    <sd-button type="primary" @click="handleNotificationTopLeft"> 左上 </sd-button>
+    <sd-button type="primary" @click="handleNotificationBottomRight"> 右下 </sd-button>
+    <sd-button type="primary" @click="handleNotificationBottomLeft"> 左下 </sd-button>
   </sd-space>
 </template>
 
@@ -12,31 +12,31 @@
 
   const handleNotification = () => {
     Notification.info({
-      title: 'Title',
-      content: 'This is a Notification!',
+      title: '标题',
+      content: '这是一条通知！',
     });
   };
 
   const handleNotificationTopLeft = () => {
     Notification.info({
-      title: 'Title',
-      content: 'This is a Notification!',
+      title: '标题',
+      content: '这是一条通知！',
       position: 'topLeft',
     });
   };
 
   const handleNotificationBottomRight = () => {
     Notification.info({
-      title: 'Title',
-      content: 'This is a Notification!',
+      title: '标题',
+      content: '这是一条通知！',
       position: 'bottomRight',
     });
   };
 
   const handleNotificationBottomLeft = () => {
     Notification.info({
-      title: 'Title',
-      content: 'This is a Notification!',
+      title: '标题',
+      content: '这是一条通知！',
       position: 'bottomLeft',
     });
   };

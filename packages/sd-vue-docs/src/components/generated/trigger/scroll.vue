@@ -2,7 +2,7 @@
   <div class="sd:h-25 sd:overflow-y-scroll">
     <div class="sd:h-50">
       <sd-trigger trigger="click" update-at-scroll>
-        <sd-button class="sd:mt-20">Click Me</sd-button>
+        <sd-button class="sd:mt-20">点击我</sd-button>
         <template #content>
           <div class="demo-basic">
             <sd-empty />

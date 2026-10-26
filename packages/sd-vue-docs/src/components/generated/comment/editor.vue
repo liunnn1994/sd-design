@@ -1,24 +1,21 @@
 <template>
   <sd-comment
     align="right"
-    author="Balzac"
+    author="巴尔扎克"
     avatar="https://picsum.photos/1000/1000"
-    content="A design is a plan or specification for the construction of an object
-          or system or for the implementation of an activity or process, or the
-          result of that plan or specification in the form of a prototype,
-          product or process."
+    content="设计是为构建对象、系统或开展活动而制定的计划与规范，也可以指由此产生的原型、产品或流程。设计需要满足目标与约束，综合考虑美观、功能和成本，并与使用环境相适应。建筑蓝图、工程图纸和业务流程都是常见的设计成果。"
     datetime="1 hour"
   >
     <template #actions>
-      <span class="action"> <IconMessage /> Reply </span>
+      <span class="action"> <IconMessage /> 回复 </span>
     </template>
     <sd-comment align="right" avatar="https://picsum.photos/1000/1000">
       <template #actions>
-        <sd-button key="0" type="secondary"> Cancel </sd-button>
-        <sd-button key="1" type="primary"> Reply </sd-button>
+        <sd-button key="0" type="secondary"> 取消 </sd-button>
+        <sd-button key="1" type="primary"> 回复 </sd-button>
       </template>
       <template #content>
-        <sd-input placeholder="Here is you content." />
+        <sd-input placeholder="这里是自定义内容。" />
       </template>
     </sd-comment>
   </sd-comment>

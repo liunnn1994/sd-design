@@ -1,13 +1,13 @@
 <template>
   <sd-timeline>
     <sd-timeline-item>
-      Code Review
+      代码审查
       <template #label>
         <sd-tag>
           <template #icon>
             <icon-check-circle-fill />
           </template>
-          Passed
+          已通过
         </sd-tag>
       </template>
     </sd-timeline-item>

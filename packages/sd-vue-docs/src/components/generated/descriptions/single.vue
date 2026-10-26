@@ -1,11 +1,11 @@
 <template>
   <sd-radio-group type="button" v-model="size">
-    <sd-radio value="mini">mini</sd-radio>
-    <sd-radio value="small">small</sd-radio>
-    <sd-radio value="medium">medium</sd-radio>
-    <sd-radio value="large">large</sd-radio>
+    <sd-radio value="mini">迷你</sd-radio>
+    <sd-radio value="small">小</sd-radio>
+    <sd-radio value="medium">中</sd-radio>
+    <sd-radio value="large">大</sd-radio>
   </sd-radio-group>
-  <sd-descriptions class="sd:mt-5" :data="data" :size="size" title="User Info" :column="1" />
+  <sd-descriptions class="sd:mt-5" :data="data" :size="size" title="用户信息" :column="1" />
 </template>
 
 <script setup lang="ts">
@@ -17,24 +17,24 @@
 
   const data: DescData[] = [
     {
-      label: 'Name',
-      value: 'Socrates',
+      label: '姓名',
+      value: '苏格拉底',
     },
     {
-      label: 'Mobile',
+      label: '手机',
       value: '123-1234-1234',
     },
     {
-      label: 'Residence',
-      value: 'Beijing',
+      label: '居住地',
+      value: '北京',
     },
     {
-      label: 'Hometown',
-      value: 'Beijing',
+      label: '家乡',
+      value: '北京',
     },
     {
-      label: 'Address',
-      value: 'Yingdu Building, Zhichun Road, Beijing',
+      label: '地址',
+      value: '北京市知春路示例大厦',
     },
   ];
 </script>

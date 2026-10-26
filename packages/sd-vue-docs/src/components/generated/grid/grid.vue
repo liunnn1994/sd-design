@@ -10,14 +10,14 @@
     class="grid-demo-grid sd:text-white"
     :collapsed="collapsed"
   >
-    <sd-grid-item class="demo-item sd:bg-[#4096ff]">item</sd-grid-item>
-    <sd-grid-item class="demo-item sd:bg-[#0958d9]">item</sd-grid-item>
-    <sd-grid-item class="demo-item sd:bg-[#4096ff]">item</sd-grid-item>
+    <sd-grid-item class="demo-item sd:bg-[#4096ff]">项目</sd-grid-item>
+    <sd-grid-item class="demo-item sd:bg-[#0958d9]">项目</sd-grid-item>
+    <sd-grid-item class="demo-item sd:bg-[#4096ff]">项目</sd-grid-item>
     <sd-grid-item class="demo-item sd:bg-[#0958d9]" :offset="1">item | offset - 1</sd-grid-item>
-    <sd-grid-item class="demo-item sd:bg-[#4096ff]">item</sd-grid-item>
+    <sd-grid-item class="demo-item sd:bg-[#4096ff]">项目</sd-grid-item>
     <sd-grid-item class="demo-item sd:bg-[#0958d9]" :span="3">item | span - 3</sd-grid-item>
-    <sd-grid-item class="demo-item sd:bg-[#4096ff]">item</sd-grid-item>
-    <sd-grid-item class="demo-item sd:bg-[#0958d9]">item</sd-grid-item>
+    <sd-grid-item class="demo-item sd:bg-[#4096ff]">项目</sd-grid-item>
+    <sd-grid-item class="demo-item sd:bg-[#0958d9]">项目</sd-grid-item>
     <sd-grid-item class="demo-item sd:bg-[#4096ff]" suffix #="{ overflow }">
       suffix | overflow: {{ overflow }}
     </sd-grid-item>

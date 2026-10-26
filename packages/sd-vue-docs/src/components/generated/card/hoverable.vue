@@ -1,18 +1,18 @@
 <template>
   <div class="sd:flex">
-    <sd-card class="sd:w-90" title="SD Card" hoverable>
+    <sd-card class="sd:w-90" title="SD 卡片" hoverable>
       <template #extra>
-        <sd-link>More</sd-link>
+        <sd-link>更多</sd-link>
       </template>
-      Card content <br />
-      Card content
+      卡片内容 <br />
+      卡片内容
     </sd-card>
-    <sd-card class="card-demo" title="Custom hover style" hoverable>
+    <sd-card class="card-demo" title="自定义悬停样式" hoverable>
       <template #extra>
-        <sd-link>More</sd-link>
+        <sd-link>更多</sd-link>
       </template>
-      Card content <br />
-      Card content
+      卡片内容 <br />
+      卡片内容
     </sd-card>
   </div>
 </template>

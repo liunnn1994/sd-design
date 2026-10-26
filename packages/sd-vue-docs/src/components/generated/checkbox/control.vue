@@ -1,9 +1,9 @@
 <template>
   <sd-space size="large">
     <sd-checkbox v-model="checked1">v-model</sd-checkbox>
-    <sd-checkbox :model-value="true">binding value</sd-checkbox>
-    <sd-checkbox :model-value="checked2">binding value2</sd-checkbox>
-    <sd-checkbox :default-checked="true">uncontrolled state</sd-checkbox>
+    <sd-checkbox :model-value="true">绑定值</sd-checkbox>
+    <sd-checkbox :model-value="checked2">绑定值 2</sd-checkbox>
+    <sd-checkbox :default-checked="true">非受控状态</sd-checkbox>
   </sd-space>
   <div class="sd:mt-5">
     <sd-button type="primary" @click="handleSetCheck">

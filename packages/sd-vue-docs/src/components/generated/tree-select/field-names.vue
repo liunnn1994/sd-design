@@ -7,7 +7,7 @@
       children: 'items',
     }"
     :data="treeData"
-    placeholder="Please select ..."
+    placeholder="请选择…"
     class="sd:w-75"
   ></sd-tree-select>
 </template>
@@ -16,24 +16,24 @@
 
   const treeData: TreeNodeData[] = [
     {
-      label: 'Trunk 0-0',
+      label: '主干节点 0-0',
       value: '0-0',
       items: [
         {
-          label: 'Branch 0-0-2',
+          label: '分支 0-0-2',
           value: '0-0-2',
           selectable: false,
           items: [
             {
-              label: 'Leaf',
+              label: '叶子节点',
               value: '0-0-2-1',
               items: [
                 {
-                  label: 'Leaf 0-0-2',
+                  label: '叶子节点 0-0-2',
                   value: '0-0-2-1-0',
                   items: [
                     {
-                      label: 'Leaf',
+                      label: '叶子节点',
                       value: '0-0-2-1-0-0',
                     },
                   ],
@@ -45,15 +45,15 @@
       ],
     },
     {
-      label: 'Trunk 0-1',
+      label: '主干节点 0-1',
       value: '0-1',
       items: [
         {
-          label: 'Branch 0-1-1',
+          label: '分支 0-1-1',
           value: '0-1-1',
           items: [
             {
-              label: 'Leaf',
+              label: '叶子节点',
               value: '0-1-1-0',
             },
           ],

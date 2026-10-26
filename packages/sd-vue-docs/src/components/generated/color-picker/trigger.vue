@@ -1,8 +1,8 @@
 <template>
   <sd-space direction="vertical">
     <sd-switch v-model="triggerProps.popupVisible">
-      <template #checked> ON </template>
-      <template #unchecked>OFF</template>
+      <template #checked> 开 </template>
+      <template #unchecked>关</template>
     </sd-switch>
     <sd-color-picker defaultValue="#165DFF" :trigger-props="triggerProps" />
   </sd-space>

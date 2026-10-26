@@ -327,7 +327,7 @@ import tableVirtualListSource from '../../../../components/generated/table/virtu
 
 ## API
 
-### `<table>` Props
+### `<table>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | :-: | :-- |
@@ -369,7 +369,7 @@ import tableVirtualListSource from '../../../../components/generated/table/virtu
 | scrollbar | 是否开启虚拟滚动条 | `boolean \| ScrollbarProps` | `true` | 2.38.0 |
 | show-empty-tree | 是否展示空子树 | `boolean` | `false` | 2.51.0 |
 
-### `<table>` Events
+### `<table>` 事件
 
 | 事件名 | 描述 | 参数 | 版本 |
 | --- | --- | --- | :-- |
@@ -394,7 +394,7 @@ import tableVirtualListSource from '../../../../components/generated/table/virtu
 | row-contextmenu | 右击行数据时触发 | record: `TableData`<br />ev: `Event` |  |
 | cell-contextmenu | 右击单元格时触发 | record: `TableData`<br />column: `TableColumnData`<br />ev: `Event` |  |
 
-### `<table>` Methods
+### `<table>` 方法
 
 | 方法名 | 描述 | 参数 | 返回值 | 版本 |
 | --- | --- | --- | --- | :-- |
@@ -408,7 +408,7 @@ import tableVirtualListSource from '../../../../components/generated/table/virtu
 | clearSorters | 清空列的排序 | - | - | 2.31.0 |
 | scrollIntoView | 虚拟滚动到指定行 | options: `{ index?: number; key?: string \| number; align?: ScrollIntoViewOptions['align']; }` | - |  |
 
-### `<table>` Slots
+### `<table>` 插槽
 
 | 插槽名 | 描述 | 参数 | 版本 |
 | --- | :-: | --- | :-- |
@@ -428,7 +428,7 @@ import tableVirtualListSource from '../../../../components/generated/table/virtu
 | expand-icon | 展开行图标 | expanded: `boolean`<br />record: `TableData` |  |
 | columns | 表格列定义。启用时会屏蔽 columns 属性 | - |  |
 
-### `<table-column>` Props
+### `<table-column>` 属性
 
 | 参数名 | 描述 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | :-: | :-- |
@@ -452,7 +452,7 @@ import tableVirtualListSource from '../../../../components/generated/table/virtu
 | index | 用于手动指定选项的 index。2.26.0 版本后不再需要手动指定 | `number` | `-` | 2.20.2 |
 | tooltip | 在省略时是否显示文字提示 | `boolean\|object` | `false` | 2.26.0 |
 
-### `<table-column>` Slots
+### `<table-column>` 插槽
 
 | 插槽名 | 描述 | 参数 | 版本 |
 | --- | :-: | --- | :-- |
@@ -461,7 +461,7 @@ import tableVirtualListSource from '../../../../components/generated/table/virtu
 | title | 标题 | - |  |
 | cell | 单元格 | record: `TableData`<br />column: `TableColumnData`<br />rowIndex: `number` |  |
 
-## Type
+## 类型说明
 
 ```ts
 type Filters = Record<string, string[]>;
@@ -603,7 +603,7 @@ type Sorter = { filed: string; direction: 'ascend' | 'descend' } | Record<string
 | buffer | 额外渲染缓冲区，语义与底层 scroller 一致。 | `number` | `200` |  |
 | keyField | 用于提取每行唯一键，默认跟随表格行 `key`。 | `string \| ((item, index) => string \| number)` | `'key'` |  |
 
-## FAQ
+## 常见问题
 
 ### 1. 关于元素插槽的使用
 

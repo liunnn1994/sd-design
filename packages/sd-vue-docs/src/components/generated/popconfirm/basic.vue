@@ -1,5 +1,5 @@
 <template>
-  <sd-popconfirm content="Are you sure you want to delete?">
-    <sd-button>Click To Delete</sd-button>
+  <sd-popconfirm content="确定要删除吗？">
+    <sd-button>点击删除</sd-button>
   </sd-popconfirm>
 </template>

@@ -3,28 +3,28 @@
     <sd-menu class="menu-demo__pop-menu" mode="pop" showCollapseButton>
       <sd-menu-item key="1">
         <template #icon><icon-apps></icon-apps></template>
-        Navigation 1
+        导航 1
       </sd-menu-item>
       <sd-sub-menu key="2">
         <template #icon><icon-bug></icon-bug></template>
-        <template #title>Navigation 2</template>
-        <sd-menu-item key="2_0">Beijing</sd-menu-item>
-        <sd-menu-item key="2_1">Shanghai</sd-menu-item>
-        <sd-menu-item key="2_2">Guangzhou</sd-menu-item>
+        <template #title>导航 2</template>
+        <sd-menu-item key="2_0">北京</sd-menu-item>
+        <sd-menu-item key="2_1">上海</sd-menu-item>
+        <sd-menu-item key="2_2">广州</sd-menu-item>
       </sd-sub-menu>
       <sd-sub-menu key="3">
         <template #icon><icon-bulb></icon-bulb></template>
-        <template #title>Navigation 3</template>
-        <sd-menu-item key="3_0">Wuhan</sd-menu-item>
-        <sd-menu-item key="3_1">Chengdu</sd-menu-item>
+        <template #title>导航 3</template>
+        <sd-menu-item key="3_0">武汉</sd-menu-item>
+        <sd-menu-item key="3_1">成都</sd-menu-item>
       </sd-sub-menu>
       <sd-menu-item key="4">
         <template #icon><icon-safe></icon-safe></template>
-        Navigation 4
+        导航 4
       </sd-menu-item>
       <sd-menu-item key="5">
         <template #icon><icon-fire></icon-fire></template>
-        Navigation 5
+        导航 5
       </sd-menu-item>
     </sd-menu>
   </div>

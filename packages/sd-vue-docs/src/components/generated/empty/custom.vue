@@ -3,7 +3,7 @@
     <template #image>
       <icon-exclamation-circle-fill />
     </template>
-    No data, please reload!
+    暂无数据，请重新加载！
   </sd-empty>
 </template>
 

@@ -1,8 +1,8 @@
 <template>
-  <sd-result status="500" subtitle="This page isn’t working.">
+  <sd-result status="500" subtitle="页面暂时无法使用。">
     <template #extra>
       <sd-space>
-        <sd-button type="primary">Back</sd-button>
+        <sd-button type="primary">返回</sd-button>
       </sd-space>
     </template>
   </sd-result>

@@ -1,12 +1,12 @@
 <template>
   <sd-space direction="vertical">
     <sd-checkbox :model-value="checkedAll" :indeterminate="indeterminate" @change="handleChangeAll"
-      >Check All
+      >全选
     </sd-checkbox>
     <sd-checkbox-group v-model="data" @change="handleChange">
-      <sd-checkbox value="1">Option 1</sd-checkbox>
-      <sd-checkbox value="2">Option 2</sd-checkbox>
-      <sd-checkbox value="3">Option 3</sd-checkbox>
+      <sd-checkbox value="1">选项 1</sd-checkbox>
+      <sd-checkbox value="2">选项 2</sd-checkbox>
+      <sd-checkbox value="3">选项 3</sd-checkbox>
     </sd-checkbox-group>
   </sd-space>
 </template>

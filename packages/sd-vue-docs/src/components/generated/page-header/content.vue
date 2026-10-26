@@ -6,36 +6,26 @@
     >
       <template #breadcrumb>
         <sd-breadcrumb>
-          <sd-breadcrumb-item>Home</sd-breadcrumb-item>
-          <sd-breadcrumb-item>Channel</sd-breadcrumb-item>
-          <sd-breadcrumb-item>News</sd-breadcrumb-item>
+          <sd-breadcrumb-item>首页</sd-breadcrumb-item>
+          <sd-breadcrumb-item>渠道</sd-breadcrumb-item>
+          <sd-breadcrumb-item>新闻</sd-breadcrumb-item>
         </sd-breadcrumb>
       </template>
       <template #subtitle>
         <sd-space>
           <span>SD Design Vue</span>
-          <sd-tag color="red" size="small">Default</sd-tag>
+          <sd-tag color="red" size="small">默认</sd-tag>
         </sd-space>
       </template>
       <template #extra>
         <sd-space>
-          <sd-button>Cancel</sd-button>
-          <sd-button type="primary">Save</sd-button>
+          <sd-button>取消</sd-button>
+          <sd-button type="primary">保存</sd-button>
         </sd-space>
       </template>
-      <p> For other uses, see Design </p>
+      <p> 其他用法请参阅设计 </p>
       <p>
-        A design is a plan or specification for the construction of an object or system or for the
-        implementation of an activity or process, or the result of that plan or specification in the
-        form of a prototype, product or process. The verb to design expresses the process of
-        developing a design. In some cases, the direct construction of an object without an explicit
-        prior plan (such as in craftwork, some engineering, coding, and graphic design) may also be
-        considered to be a design activity. The design usually has to satisfy certain goals and
-        constraints, may take into account aesthetic, functional, economic, or socio-political
-        considerations, and is expected to interact with a certain environment. Major examples of
-        designs include architectural blueprints,engineering drawings, business processes, circuit
-        diagrams, and sewing patterns.Major examples of designs include architectural
-        blueprints,engineering drawings, business processes, circuit diagrams, and sewing patterns.
+        设计是为构建对象、系统或开展活动而制定的计划与规范，也可以指由此产生的原型、产品或流程。设计需要满足目标与约束，综合考虑美观、功能和成本，并与使用环境相适应。建筑蓝图、工程图纸和业务流程都是常见的设计成果。
       </p>
     </sd-page-header>
   </div>

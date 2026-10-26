@@ -17,15 +17,15 @@
   const routes = ref([
     {
       path: '/',
-      label: 'Home',
+      label: '首页',
     },
     {
       path: '/channel',
-      label: 'Channel',
+      label: '渠道',
     },
     {
       path: '/news',
-      label: 'News',
+      label: '新闻',
     },
   ]);
 </script>

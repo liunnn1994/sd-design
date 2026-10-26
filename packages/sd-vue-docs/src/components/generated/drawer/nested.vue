@@ -1,12 +1,11 @@
 <template>
-  <sd-button type="primary" @click="handleClick">Open Drawer</sd-button>
+  <sd-button type="primary" @click="handleClick">打开抽屉</sd-button>
   <sd-drawer :visible="visible" :width="500" @ok="handleOk" @cancel="handleCancel" unmountOnClose>
-    <template #title> Title </template>
+    <template #title> 标题 </template>
     <div class="sd:mb-5"
-      >You can customize modal body text by the current situation. This modal will be closed
-      immediately once you press the OK button.</div
+      >您可以根据实际场景自定义对话框内容。点击确认按钮后，对话框将立即关闭。</div
     >
-    <sd-button type="primary" @click="handleNestedClick">Open Nested Drawer</sd-button>
+    <sd-button type="primary" @click="handleNestedClick">打开嵌套抽屉</sd-button>
   </sd-drawer>
   <sd-drawer
     :visible="nestedVisible"
@@ -14,11 +13,8 @@
     @cancel="handleNestedCancel"
     unmountOnClose
   >
-    <template #title> Title </template>
-    <div
-      >You can customize modal body text by the current situation. This modal will be closed
-      immediately once you press the OK button.</div
-    >
+    <template #title> 标题 </template>
+    <div>您可以根据实际场景自定义对话框内容。点击确认按钮后，对话框将立即关闭。</div>
   </sd-drawer>
 </template>
 

@@ -10,7 +10,7 @@
         <template #actions>
           <span><icon-heart />83</span>
           <span><icon-star />{{ item.index }}</span>
-          <span><icon-message />Reply</span>
+          <span><icon-message />回复</span>
         </template>
         <template #extra>
           <div className="image-area">
@@ -20,7 +20,7 @@
         <sd-list-item-meta :title="item.title" :description="item.description">
           <template #avatar>
             <sd-avatar shape="square">
-              <img alt="avatar" :src="item.avatar" />
+              <img alt="头像" :src="item.avatar" />
             </sd-avatar>
           </template>
         </sd-list-item-meta>
@@ -32,7 +32,7 @@
 <script setup lang="ts">
   import { reactive } from 'vue';
 
-  const names = ['Socrates', 'Balzac', 'Plato'];
+  const names = ['苏格拉底', '巴尔扎克', '柏拉图'];
   const avatarSrc = [
     '//picsum.photos/1000/1000',
     '//picsum.photos/1000/1000',
@@ -49,7 +49,7 @@
       avatar: avatarSrc[index % avatarSrc.length],
       title: names[index % names.length],
       description:
-        'Beijing ByteDance Technology Co., Ltd. is an enterprise located in China. ByteDance has products such as TikTok, Toutiao, volcano video and Douyin (the Chinese version of TikTok).',
+        '示例科技有限公司专注于数据分析与应用开发，通过统一的设计语言和组件，帮助团队构建高效、易用的产品。',
       imageSrc: imageSrc[index % imageSrc.length],
     };
   });

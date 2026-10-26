@@ -1,11 +1,6 @@
 <template>
   <sd-space direction="vertical" size="large">
-    <sd-auto-complete
-      :data="data"
-      @search="handleSearch"
-      class="sd:w-90"
-      placeholder="please enter something"
-    >
+    <sd-auto-complete :data="data" @search="handleSearch" class="sd:w-90" placeholder="请输入内容">
       <template #prefix>
         <icon-user />
       </template>
@@ -14,7 +9,7 @@
       :data="data"
       @search="handleSearch"
       class="sd:w-90"
-      placeholder="please enter something"
+      placeholder="请输入内容"
       allow-clear
     >
       <template #suffix>

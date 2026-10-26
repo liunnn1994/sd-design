@@ -1,3 +1,3 @@
 <template>
-  <sd-tag loading>Loading</sd-tag>
+  <sd-tag loading>加载中</sd-tag>
 </template>

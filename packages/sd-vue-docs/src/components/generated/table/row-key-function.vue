@@ -29,35 +29,35 @@
   const selectedKeys = ref(['EMP-1002']);
   const expandedKeys = ref(['EMP-1001']);
   const columns: TableColumnData[] = [
-    { title: 'Employee', dataIndex: 'name' },
-    { title: 'Department', dataIndex: 'department' },
-    { title: 'Email', dataIndex: 'email' },
+    { title: '员工', dataIndex: 'name' },
+    { title: '部门', dataIndex: 'department' },
+    { title: '电子邮箱', dataIndex: 'email' },
   ];
   const data = reactive<TableData[]>([
     {
       id: 'EMP-1001',
-      name: 'Jane Doe',
-      department: 'Design',
+      name: '王芳',
+      department: '设计',
       email: 'jane.doe@example.com',
       expand: '负责组件规范与设计令牌维护。',
     },
     {
       id: 'EMP-1002',
-      name: 'Alisa Ross',
+      name: '张晓',
       department: 'Frontend',
       email: 'alisa.ross@example.com',
       expand: '负责表格、列表等数据展示组件。',
     },
     {
       id: 'EMP-1003',
-      name: 'Kevin Sandra',
+      name: '赵晨',
       department: 'QA',
       email: 'kevin.sandra@example.com',
       expand: '负责文档站与组件回归验证。',
     },
   ]);
   const rowSelection = reactive<TableRowSelection>({ type: 'checkbox', showCheckedAll: true });
-  const expandable = reactive<TableExpandable>({ title: 'Details', width: 88 });
+  const expandable = reactive<TableExpandable>({ title: '详情', width: 88 });
   const getRowKey: TableRowKey = (record: TableData) => String(record.id ?? '');
 </script>
 <style scoped>

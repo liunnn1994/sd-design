@@ -1,3 +1,3 @@
 <template>
-  <sd-alert>This is an info alert.</sd-alert>
+  <sd-alert>这是一条信息提示。</sd-alert>
 </template>

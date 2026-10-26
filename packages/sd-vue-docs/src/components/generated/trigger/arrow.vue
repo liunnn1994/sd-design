@@ -1,7 +1,7 @@
 <template>
   <sd-space>
     <sd-trigger trigger="click">
-      <sd-button>Click Me</sd-button>
+      <sd-button>点击我</sd-button>
       <template #content>
         <div class="demo-arrow">
           <sd-empty />
@@ -9,7 +9,7 @@
       </template>
     </sd-trigger>
     <sd-trigger trigger="click" show-arrow>
-      <sd-button>Click Me (Arrow)</sd-button>
+      <sd-button>点击我（带箭头）</sd-button>
       <template #content>
         <div class="demo-arrow">
           <sd-empty />

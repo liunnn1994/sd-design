@@ -6,8 +6,8 @@
     </sd-switch>
     <sd-config-provider :rtl="rtlType">
       <sd-tabs :default-active-key="2" class="sd:mb-5">
-        <sd-tab-pane v-for="i in 36" :key="i" :title="`Tab ${i}`">
-          Content of Tab Panel {{ i }}
+        <sd-tab-pane v-for="i in 36" :key="i" :title="`标签页 ${i}`">
+          标签页面板内容 {{ i }}
         </sd-tab-pane>
       </sd-tabs>
       <sd-space :direction="'vertical'" class="sd:w-full">
@@ -24,9 +24,9 @@
             </template>
             <sd-avatar shape="square" />
           </sd-badge>
-          <sd-tag :color="'red'" closable>red</sd-tag>
-          <sd-tag :color="'blue'" closable>blue</sd-tag>
-          <sd-tag :color="'green'" closable>green</sd-tag>
+          <sd-tag :color="'red'" closable>红色</sd-tag>
+          <sd-tag :color="'blue'" closable>蓝色</sd-tag>
+          <sd-tag :color="'green'" closable>绿色</sd-tag>
         </sd-space>
       </sd-space>
     </sd-config-provider>

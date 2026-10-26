@@ -1,5 +1,5 @@
 <template>
-  <sd-button @click="handleClick">Info Message</sd-button>
+  <sd-button @click="handleClick">提示消息</sd-button>
 </template>
 
 <script setup lang="ts">
@@ -10,7 +10,7 @@
 
   function handleClick() {
     Message.info({
-      content: 'This is an info message!',
+      content: '这是一条提示消息！',
       icon: () => h(IconFaceSmileFill),
     });
   }
