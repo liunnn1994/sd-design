@@ -111,6 +111,9 @@ test('clamp variants expose their own props, slots and generic-component events'
   const inline = clamp.get('sd-inline-clamp');
   const wrap = clamp.get('sd-wrap-clamp');
   assert.ok(line && rich && inline && wrap);
+  for (const component of [line, rich, inline, wrap]) {
+    assert.equal(component.props.find((prop) => prop.name === 'as')?.type, 'string | undefined');
+  }
   assert.ok(line.props.some((prop) => prop.name === 'text'));
   for (const component of [line, rich, wrap]) {
     assert.equal(component.props.find((prop) => prop.name === 'expanded')?.default, 'false');
