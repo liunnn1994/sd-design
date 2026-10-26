@@ -30,6 +30,15 @@ $input-prefix-cls: string.unquote('#{theme.$prefix}-input');
 
   &.#{$input-prefix-cls}-fit-width {
     width: fit-content;
+
+    @supports (field-sizing: content) {
+      > .#{$input-prefix-cls}[data-fit-width-content] {
+        // Override the inherited measured width so the browser sizes the text.
+        #{theme.$sd-cssvars-prefix}-fit-width: auto;
+
+        field-sizing: content;
+      }
+    }
   }
 
   &.#{$input-prefix-cls}-max-w-full {

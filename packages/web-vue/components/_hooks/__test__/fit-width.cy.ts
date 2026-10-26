@@ -141,6 +141,50 @@ const measuredCases: Array<FitWidthCase & { variableSelector?: string }> = [
 ];
 
 describe('fit width public component support', () => {
+  it('keeps the default width after clearing native content sizing', () => {
+    cy.mount(InputSearch, { props: { fitWidth: true, defaultValue: '123456789' } });
+    cy.get('input').should('have.attr', 'data-fit-width-content');
+    cy.get('input').clear();
+    cy.get('input').should('not.have.attr', 'data-fit-width-content');
+    cy.get('input').should(($input) => {
+      expect($input[0].getBoundingClientRect().width).to.be.greaterThan(20);
+    });
+  });
+  for (const [name, component, value] of [
+    ['Input', Input, '989416569666667'],
+    ['InputNumber', InputNumber, 9.89416569666667e21],
+    ['InputSearch', InputSearch, '1521452啊实打实大大手动2299'],
+    ['AutoComplete', AutoComplete, '宽度随229999当前选项变化'],
+    ['Mention', Mention, '@阿三大9+99苏打'],
+    ['DatePicker', DatePicker, '2026-07-26'],
+    ['RangePicker', RangePicker, ['2026-07-01', '2026-07-26']],
+    ['TimePicker', TimePicker, '12:34:56'],
+  ] as const) {
+    it(`${name} fits the actual rendered numeric text`, () => {
+      cy.mount(component, { props: { fitWidth: true, defaultValue: value } });
+      cy.get('input').should(($inputs) => {
+        for (const input of $inputs.toArray() as HTMLInputElement[]) {
+          if (!input.value) continue;
+          const style = getComputedStyle(input);
+          const probe = input.ownerDocument.createElement('span');
+          probe.style.cssText = `position:absolute;white-space:pre;font:${style.font};letter-spacing:${style.letterSpacing}`;
+          probe.textContent = input.value;
+          input.ownerDocument.body.append(probe);
+          const textWidth = probe.getBoundingClientRect().width;
+          probe.remove();
+          const contentWidth =
+            input.getBoundingClientRect().width -
+            parseFloat(style.paddingLeft) -
+            parseFloat(style.paddingRight) -
+            parseFloat(style.borderLeftWidth) -
+            parseFloat(style.borderRightWidth);
+          expect(contentWidth, `${input.value} using ${style.font}`).to.be.at.least(
+            textWidth - 0.5,
+          );
+        }
+      });
+    });
+  }
   for (const item of cases) {
     it(`${item.name} forwards fitWidth and defaults maxWFull to true`, () => {
       cy.mount(item.component, {

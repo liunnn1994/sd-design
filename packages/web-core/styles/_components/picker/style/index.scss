@@ -23,6 +23,16 @@
 
   &.#{theme.$prefix}-picker-fit-width {
     width: fit-content;
+
+    .#{theme.$prefix}-picker-input {
+      // Keep the leading gap outside the measured text width.
+      box-sizing: content-box;
+      padding-left: 8px;
+
+      input {
+        padding-left: 0;
+      }
+    }
   }
 
   &.#{theme.$prefix}-picker-max-w-full {

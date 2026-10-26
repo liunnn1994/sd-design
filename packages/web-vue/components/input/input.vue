@@ -13,6 +13,7 @@
         :value="computedValue"
         :type="props.type"
         :placeholder="props.placeholder"
+        :data-fit-width-content="props.fitWidth && fitWidthText ? '' : undefined"
         :readonly="!!props.readonly"
         :disabled="mergedDisabled"
         @input="handleInput"

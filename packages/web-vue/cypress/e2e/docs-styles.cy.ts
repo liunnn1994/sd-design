@@ -1,4 +1,40 @@
 describe('文档站与 SD Design 样式一致性', () => {
+  it('内容自适应宽度完整显示数字、混合文本和日期时间', () => {
+    cy.viewport(1440, 1000);
+    cy.visit('/components/input/');
+    cy.contains('h3', '内容自适应宽度').scrollIntoView();
+    cy.get('.fit-width-demo', { timeout: 60000 }).should('exist');
+    for (const name of ['InputSearch', 'AutoComplete', 'Mention']) {
+      cy.contains('.fit-width-demo label', name)
+        .next()
+        .find('input')
+        .clear()
+        .type('1521452阿三大9+99苏打2299');
+    }
+    cy.get('.fit-width-demo-grid input').should(($inputs) => {
+      for (const input of $inputs.toArray() as HTMLInputElement[]) {
+        if (!input.value || input.type === 'password') continue;
+        const style = getComputedStyle(input);
+        const probe = input.ownerDocument.createElement('span');
+        probe.style.cssText = `position:absolute;white-space:pre;font:${style.font};letter-spacing:${style.letterSpacing}`;
+        probe.textContent = input.value;
+        input.ownerDocument.body.append(probe);
+        const textWidth = probe.getBoundingClientRect().width;
+        probe.remove();
+        const contentWidth =
+          input.getBoundingClientRect().width -
+          parseFloat(style.paddingLeft) -
+          parseFloat(style.paddingRight) -
+          parseFloat(style.borderLeftWidth) -
+          parseFloat(style.borderRightWidth);
+        expect(contentWidth, input.value).to.be.at.least(textWidth - 0.5);
+      }
+    });
+    cy.get('.fit-width-demo-limit').should(($container) => {
+      const container = $container[0];
+      expect(container.scrollWidth).to.be.at.most(container.clientWidth);
+    });
+  });
   it('Anchor 固钉示例滚动后保持不透明且覆盖后续示例', () => {
     cy.viewport(1440, 1000);
     cy.visit('/components/anchor/');
