@@ -1,0 +1,5 @@
+{
+  "extends": "../../tsconfig.scripts.json",
+  "include": ["scripts/foundation-exports.test.ts", "scripts/package-types.test.ts"],
+  "exclude": []
+}

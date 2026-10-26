@@ -10,17 +10,17 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `6cec5831`
+- Built from commit: `0140ed71`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## God Nodes (most connected - your core abstractions)
 
 ## Surprising Connections (you probably didn't know these)
-- `Migrate Generated Demos to Script Setup + Tailwind` --modifies--> `Generated Demo Components`  [INFERRED]
-   →   _Bridges community 10 → community 3_
 - `local-theme-provider-runtime spec` --uses--> `ConfigProvider theme object`  [INFERRED]
    →   _Bridges community 0 → community 2_
+- `Migrate Generated Demos to Script Setup + Tailwind` --modifies--> `Generated Demo Components`  [INFERRED]
+   →   _Bridges community 10 → community 3_
 
 ## Import Cycles
 - None detected.

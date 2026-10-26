@@ -21,5 +21,6 @@
     "stylelint.config.ts",
     "packages/*/scripts/**/*.mts",
     "packages/*/release.config.ts"
-  ]
+  ],
+  "exclude": ["packages/web-vue/scripts/foundation-exports.test.ts"]
 }

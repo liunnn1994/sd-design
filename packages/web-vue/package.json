@@ -136,7 +136,7 @@
     "test:model-selector:production": "node --test ./scripts/model-selector-trigger-element.test.ts",
     "test:affected": "node ./scripts/find-affected-cypress-specs.ts",
     "test:affected:unit": "node --test ./scripts/find-affected-cypress-specs.test.ts",
-    "test:foundation-exports": "node --test ./scripts/foundation-exports.test.ts ./scripts/package-types.test.ts",
+    "test:foundation-exports": "tsc -p tsconfig.package-tests.json && node --test ./scripts/foundation-exports.test.ts ./scripts/package-types.test.ts",
     "test:headed": "cypress run --quiet --component --browser chrome --headed",
     "cypress:open": "cypress open --component",
     "cypress:run": "cypress run --quiet --component --browser chrome",
