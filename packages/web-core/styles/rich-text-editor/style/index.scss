@@ -140,7 +140,7 @@ $rich-text-editor-prefix-cls: string.unquote('#{theme.$prefix}-rich-text-editor'
     display: inline-flex;
     gap: $rich-text-editor-component-gap;
     align-items: center;
-    margin-inline: $rich-text-editor-component-gap;
+    padding-inline: $rich-text-editor-component-gap;
     vertical-align: middle;
   }
 

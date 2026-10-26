@@ -1,4 +1,38 @@
 describe('文档站与 SD Design 样式一致性', () => {
+  it('RichTextEditor 组件节点与光标后的文字保持间距', () => {
+    cy.viewport(1440, 1000);
+    cy.visit('/components/rich-text-editor/');
+    cy.get('.demo-block')
+      .eq(2)
+      .scrollIntoView({ offset: { top: -100, left: 0 } });
+    cy.get('.demo-block')
+      .eq(2)
+      .within(() => {
+        cy.contains('button', '插入 Input', { timeout: 60000 }).click();
+        cy.contains('button', '插入 Select').click();
+        cy.get('[data-rich-text-component="select"]').should(($host) => {
+          const host = $host[0];
+          const control = host.querySelector('.sd-select-view')!;
+          expect(
+            host.getBoundingClientRect().right - control.getBoundingClientRect().right,
+          ).to.be.at.least(4);
+        });
+        cy.get('.sd-rich-text-editor-content').type('{moveToEnd}x');
+        cy.get('.sd-rich-text-editor-content').should(($content) => {
+          const content = $content[0];
+          const control = content.querySelector(
+            '[data-rich-text-component="select"] .sd-select-view',
+          )!;
+          const text = content.querySelector('p')!.lastChild!;
+          const range = content.ownerDocument.createRange();
+          range.selectNodeContents(text);
+          expect(text.textContent).to.equal('x');
+          expect(
+            range.getBoundingClientRect().left - control.getBoundingClientRect().right,
+          ).to.be.at.least(4);
+        });
+      });
+  });
   it('Anchor 的所有示例链接都能滚动到各自的目标', () => {
     cy.viewport(1440, 1000);
     cy.visit('/components/anchor/');
