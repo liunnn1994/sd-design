@@ -48,19 +48,19 @@
     border-radius: 8px;
   }
 
-  .header {
+  .layout-custom-trigger-demo .header {
     height: 64px;
     padding: 0;
     background: #fff;
   }
 
-  .trigger {
+  .layout-custom-trigger-demo .trigger {
     width: 64px;
     height: 64px;
     font-size: 16px;
   }
 
-  .content {
+  .layout-custom-trigger-demo .content {
     min-height: 280px;
     margin: 24px 16px;
     padding: 24px;
@@ -69,7 +69,7 @@
     border-radius: 8px;
   }
 
-  .logo {
+  .layout-custom-trigger-demo .logo {
     height: 32px;
     margin: 16px;
     background: rgb(255 255 255 / 30%);

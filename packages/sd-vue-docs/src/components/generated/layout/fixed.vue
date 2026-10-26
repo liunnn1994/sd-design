@@ -32,7 +32,7 @@
     border-radius: 8px;
   }
 
-  .header {
+  .layout-fixed-demo .header {
     position: sticky;
     top: 0;
     z-index: 1;
@@ -44,29 +44,29 @@
     padding-inline: 48px;
   }
 
-  .body {
+  .layout-fixed-demo .body {
     flex: none;
     min-height: 480px;
   }
 
-  .sider {
+  .layout-fixed-demo .sider {
     text-align: center;
     background: var(--sd-color-fill-1);
   }
 
-  .content {
+  .layout-fixed-demo .content {
     min-height: 120px;
     line-height: 120px;
     text-align: center;
     background: var(--sd-color-fill-4);
   }
 
-  .footer {
+  .layout-fixed-demo .footer {
     text-align: center;
     background: var(--sd-color-fill-3);
   }
 
-  .logo {
+  .layout-fixed-demo .logo {
     height: 32px;
     margin: 16px;
     background: rgb(0 0 0 / 30%);

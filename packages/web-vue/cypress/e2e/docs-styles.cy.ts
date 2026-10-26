@@ -1,4 +1,39 @@
 describe('文档站与 SD Design 样式一致性', () => {
+  for (const route of ['/guides/theme-editor/', '/components/layout/']) {
+    it(`${route} 示例样式不会覆盖文档页头`, () => {
+      cy.viewport(1440, 1000);
+      cy.visit(route);
+      cy.get('starlight-theme-select select:visible').select('light');
+      const assertHeader = () => {
+        cy.get('header.header')
+          .should('have.css', 'position', 'fixed')
+          .and('have.css', 'background-color', 'rgb(255, 255, 255)');
+        cy.get('header.header > .header').should('have.css', 'display', 'grid');
+      };
+      if (route.includes('theme-editor')) {
+        cy.get('[data-testid=theme-editor]', { timeout: 60000 }).should('be.visible');
+      } else {
+        cy.get('.demo-block').first().scrollIntoView();
+        cy.get('.layout-basic-item', { timeout: 60000 }).should('exist');
+        cy.scrollTo('top');
+      }
+      assertHeader();
+      if (route.includes('layout')) {
+        cy.contains('h3', '窄轨（Rail）').scrollIntoView();
+        cy.get('.layout-rail-demo', { timeout: 60000 }).should('be.visible');
+        cy.scrollTo('top');
+        assertHeader();
+        cy.contains('h3', '固定布局').scrollIntoView();
+        cy.get('.layout-fixed-demo .header', { timeout: 60000 }).should(
+          'have.css',
+          'position',
+          'sticky',
+        );
+        cy.scrollTo('top');
+        assertHeader();
+      }
+    });
+  }
   for (const mode of ['light', 'dark']) {
     it(`${mode} 模式统一文档外壳和真实组件示例`, () => {
       cy.viewport(1440, 1000);
