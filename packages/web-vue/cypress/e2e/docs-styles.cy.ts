@@ -1,4 +1,34 @@
 describe('文档站与 SD Design 样式一致性', () => {
+  it('Anchor 的所有示例链接都能滚动到各自的目标', () => {
+    cy.viewport(1440, 1000);
+    cy.visit('/components/anchor/');
+    for (const [index, name] of ['affix', 'basic', 'boundary', 'hash', 'line-less'].entries()) {
+      cy.get('.demo-block').eq(index).scrollIntoView();
+      cy.get(`[data-anchor-demo="${name}"]`, { timeout: 60000 }).should('exist');
+      cy.get(`[data-anchor-demo="${name}"] .sd-anchor-link`).each(($link) => {
+        const hash = $link.attr('href')!;
+        cy.location('hash').then((previousHash) => {
+          cy.wrap($link).click();
+          cy.get(
+            `[data-anchor-demo="${name}"][data-anchor-content], [data-anchor-demo="${name}"] [data-anchor-content]`,
+          ).should(($content) => {
+            const content = $content[0];
+            const target = content.ownerDocument.getElementById(hash.slice(1))!;
+            expect(content.contains(target)).to.equal(true);
+            const rect = target.getBoundingClientRect();
+            const bounds = content.getBoundingClientRect();
+            expect(rect.top).to.be.at.least(bounds.top - 2);
+            expect(rect.top).to.be.lessThan(bounds.bottom);
+          });
+          cy.location('hash').should('equal', name === 'hash' ? previousHash : hash);
+        });
+      });
+    }
+    cy.get('[data-anchor-content] [id]').then(($targets) => {
+      const ids = $targets.toArray().map((target) => target.id);
+      expect(new Set(ids).size).to.equal(ids.length);
+    });
+  });
   it('内容自适应宽度完整显示数字、混合文本和日期时间', () => {
     cy.viewport(1440, 1000);
     cy.visit('/components/input/');
@@ -35,15 +65,15 @@ describe('文档站与 SD Design 样式一致性', () => {
       expect(container.scrollWidth).to.be.at.most(container.clientWidth);
     });
   });
-  it('Anchor 固钉示例滚动后保持不透明且覆盖后续示例', () => {
+  it('Anchor 固钉示例在容器滚动后保持不透明', () => {
     cy.viewport(1440, 1000);
     cy.visit('/components/anchor/');
     cy.get('starlight-theme-select select:visible').select('light');
-    cy.get('.demo-block').first().scrollIntoView();
-    cy.get('.demo-block').first().find('.sd-anchor', { timeout: 60000 }).should('exist');
     cy.get('.demo-block')
-      .eq(1)
+      .first()
       .scrollIntoView({ offset: { top: -100, left: 0 } });
+    cy.get('.demo-block').first().find('.sd-anchor', { timeout: 60000 }).should('exist');
+    cy.get('[data-anchor-demo="affix"]').scrollTo(0, 300);
     cy.get('.demo-block').first().find('.sd-affix').should('have.css', 'position', 'fixed');
     cy.get('.demo-block')
       .first()
