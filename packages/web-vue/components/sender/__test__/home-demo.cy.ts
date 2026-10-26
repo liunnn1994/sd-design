@@ -352,7 +352,8 @@ describe('首页输入面板', () => {
     );
     cy.document().should((doc) => expect(doc.documentElement.scrollWidth).to.be.at.most(390));
     cy.get('[aria-label="选择工作方式"]').click();
-    cy.contains('[role="menuitem"]', 'Ask').click();
+    cy.contains('[role="menuitem"]', '提问').click();
+    cy.get('[aria-label="选择工作方式"]').should('contain.text', '提问');
     cy.get('[aria-label="发送需求"]').click();
     cy.get('.home-workbench__result').should('not.exist');
   });

@@ -102,11 +102,14 @@ describe('SkeletonReveal', () => {
   });
 
   it('快速重播和尺寸变化不会留下不可见内容', () => {
-    mount({ duration: 8000 });
+    mount({ duration: 8000, style: 'width: 360px' });
     replay();
     replay();
     cy.get('.sd-skeleton-reveal').should('have.attr', 'data-state', 'drawing');
-    cy.get('form').invoke('css', 'width', '260px');
+    // Resize the observed container; changing a child need not change its parent's size.
+    cy.get('.sd-skeleton-reveal').invoke('css', 'width', '260px');
+    cy.get('.sd-skeleton-reveal').should('have.css', 'width', '260px');
+    cy.get('.sd-skeleton-reveal').should('have.attr', 'data-state', 'complete');
     cy.get('.sd-skeleton-reveal-overlay').should('not.exist');
     cy.get('.sd-skeleton-reveal-content').should('have.css', 'opacity', '1');
   });
