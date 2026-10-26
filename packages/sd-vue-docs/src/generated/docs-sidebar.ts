@@ -439,6 +439,7 @@ export const docsSidebar = [
             slug: 'components/skeleton',
             label: '骨架屏 Skeleton',
           },
+          { slug: 'components/skeleton-reveal', label: '线框入场 SkeletonReveal' },
           {
             slug: 'components/spin',
             label: '加载中 Spin',
@@ -493,7 +494,6 @@ export const docsSidebar = [
             slug: 'components/thinking-orb',
             label: '思考球 ThinkingOrb',
           },
-          { slug: 'components/skeleton-reveal', label: '线框入场 SkeletonReveal' },
           {
             slug: 'components/border-beam',
             label: '边框光束 BorderBeam',
