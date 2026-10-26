@@ -12,7 +12,7 @@
       <sd-verification-code v-model="form.code" class="sd:w-75" @finish="onFinish" />
     </sd-form-item>
     <sd-form-item>
-      <sd-button class="sd:w-15" type="primary" size="large" htmlType="submit">Submit</sd-button>
+      <sd-button type="primary" size="large" htmlType="submit">Submit</sd-button>
     </sd-form-item>
   </sd-form>
 </template>
