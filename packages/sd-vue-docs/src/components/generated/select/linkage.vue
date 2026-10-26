@@ -11,9 +11,9 @@
   const province = ref('四川');
   const city = ref('成都');
   const data: Record<string, string[]> = {
-    Beijing: ['海淀区', '朝阳区', '昌平区'],
-    Sichuan: ['成都', '绵阳', '阿坝'],
-    Guangdong: ['广州', '深圳', '汕头'],
+    北京: ['海淀区', '朝阳区', '昌平区'],
+    四川: ['成都', '绵阳', '阿坝'],
+    广东: ['广州', '深圳', '汕头'],
   };
 
   watch(province, () => {

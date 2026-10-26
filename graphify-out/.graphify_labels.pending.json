@@ -1,0 +1,18 @@
+{
+  "0": "upgrade-style-architecture",
+  "1": "Component Size System",
+  "4": "Arco Design Migration",
+  "5": "component-library-tooling capability",
+  "6": "Controlled/Uncontrolled Pattern",
+  "9": "Naive UI Migration",
+  "14": "Trigger Component",
+  "16": "Virtual List",
+  "18": "docs-tooling-simplification capability",
+  "19": "LLMs.txt Standard",
+  "20": "useFormItem Hook",
+  "21": "Netlify docs deploy",
+  "22": "OpenSpec CLI",
+  "23": "Astro/Starlight",
+  "25": "Global Method Pattern",
+  "26": "workspace-package-workflows capability"
+}

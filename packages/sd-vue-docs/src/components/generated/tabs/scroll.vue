@@ -33,7 +33,7 @@
 
   const position = ref<TabsPosition>('top');
   const scrollPosition = ref<ScrollPosition>('auto');
-  const activeKey = ref('标签页 1');
+  const activeKey = ref('Tab1');
   const tabs = Array.from({ length: 30 }, (v, i) => {
     return {
       key: `Tab${i + 1}`,
