@@ -1,4 +1,4 @@
-# Graph Report - fa  (2026-10-26)
+# Graph Report - sd-design  (2026-10-27)
 
 ## Corpus Check
 - 0 files · ~0 words
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `0140ed71`
+- Built from commit: `3f671564`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

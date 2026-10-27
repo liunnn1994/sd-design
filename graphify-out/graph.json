@@ -497,7 +497,7 @@
       "community": 11,
       "community_name": "polish skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "20-item systematic polish checklist covering alignment, spacing, typography, states, transitions, copy, icons, forms, errors, loading, touch targets, contrast, keyboard nav, focus, console errors, layout shift, browser support, reduced motion, code quality.",
       "file_path": "skills/polish/SKILL.md",
       "file_type": "concept",
@@ -515,7 +515,7 @@
       "community": 11,
       "community_name": "polish skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Before marking done: use it yourself, test on real devices, get fresh eyes review, compare to design, check all states (not just happy path).",
       "file_path": "skills/polish/SKILL.md",
       "file_type": "concept",
@@ -532,7 +532,7 @@
       "community": 11,
       "community_name": "polish skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Every interactive element needs: default, hover, focus, active, disabled, loading, error, success states. Missing states create confusion.",
       "file_path": "skills/polish/SKILL.md",
       "file_type": "concept",
@@ -549,7 +549,7 @@
       "community": 11,
       "community_name": "polish skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Final quality pass before shipping — fixes alignment, spacing, consistency, typography, color, interaction states, micro-interactions, copy, icons, forms, edge cases, responsiveness, performance, and code quality issues.",
       "file_path": "skills/polish/SKILL.md",
       "file_type": "document",
@@ -568,7 +568,7 @@
       "community": 11,
       "community_name": "polish skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Polish is the last step, not the first. Review functional completeness, known issues, quality bar, and ship timeline before polishing. Never polish incomplete work.",
       "file_path": "skills/polish/SKILL.md",
       "file_type": "concept",
@@ -585,7 +585,7 @@
       "community": 11,
       "community_name": "polish skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Polish requires frontend-design skill for design principles, anti-patterns, and Context Gathering Protocol. Also gathers quality bar (MVP vs flagship).",
       "file_path": "skills/polish/SKILL.md",
       "file_type": "concept",
@@ -602,7 +602,7 @@
       "community": 11,
       "community_name": "polish skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Ten systematic polish dimensions: visual alignment/spacing, typography refinement, color/contrast, interaction states, micro-interactions/transitions, content/copy, icons/images, forms/inputs, edge cases/error states, responsiveness, performance, code quality.",
       "file_path": "skills/polish/SKILL.md",
       "file_type": "concept",
@@ -620,7 +620,7 @@
       "community": 12,
       "community_name": "quieter skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Five systematic refinement dimensions: color (desaturate, soften, reduce variety, neutral dominance), visual weight (font weights, hierarchy, white space), simplification (remove decorative elements, simplify shapes, reduce layering), motion (shorter distances, gentler easing, remove decorative animations), composition (reduce scale jumps, align to grid, even spacing).",
       "file_path": "skills/quieter/SKILL.md",
       "file_type": "concept",
@@ -637,7 +637,7 @@
       "community": 12,
       "community_name": "quieter skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Identifies six intensity sources: color saturation, contrast extremes, visual weight, animation excess, complexity, and scale. Understands context (purpose, audience, what works, core message) before refining.",
       "file_path": "skills/quieter/SKILL.md",
       "file_type": "concept",
@@ -654,7 +654,7 @@
       "community": 12,
       "community_name": "quieter skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Quieter means refined, sophisticated, easier on the eyes — not boring or generic. Great quiet design is harder than bold design; subtlety requires precision. Quiet design is confident design that doesn't need to shout.",
       "file_path": "skills/quieter/SKILL.md",
       "file_type": "concept",
@@ -671,7 +671,7 @@
       "community": 12,
       "community_name": "quieter skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Quieter requires frontend-design skill for design principles, anti-patterns, and Context Gathering Protocol.",
       "file_path": "skills/quieter/SKILL.md",
       "file_type": "concept",
@@ -688,7 +688,7 @@
       "community": 12,
       "community_name": "quieter skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Tone down overly bold or visually aggressive designs — reduces color saturation, contrast extremes, visual weight, animation excess, and complexity while maintaining design quality and impact.",
       "file_path": "skills/quieter/SKILL.md",
       "file_type": "document",
@@ -707,7 +707,7 @@
       "community": 13,
       "community_name": "typeset skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "App UIs use fixed rem-based type scale with optional 1-2 breakpoints for spatial predictability. Marketing/content pages use fluid clamp() sizing for headings/display text but fixed body text. Never use px for font sizes.",
       "file_path": "skills/typeset/SKILL.md",
       "file_type": "concept",
@@ -725,7 +725,7 @@
       "community": 13,
       "community_name": "typeset skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Assesses five dimensions: font choices (defaults, brand fit, too many families), hierarchy (distinguishable levels, size contrast, weight contrast), sizing/scale (consistent scale, body 16px+, fixed rem vs fluid clamp), readability (line length 45-75ch, line-height, contrast), consistency (same elements styled same way).",
       "file_path": "skills/typeset/SKILL.md",
       "file_type": "concept",
@@ -743,7 +743,7 @@
       "community": 13,
       "community_name": "typeset skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Five improvement dimensions: font selection (brand personality, pairing with contrast, font-display swap), hierarchy (5-size scale, consistent ratio 1.25-1.5, combine size+weight+color+space), readability (max-width in ch, line-height by context, min 16px body), details (tabular-nums, letter-spacing, semantic token names, OpenType features), weight consistency (3-4 weights max, clear roles).",
       "file_path": "skills/typeset/SKILL.md",
       "file_type": "concept",
@@ -761,7 +761,7 @@
       "community": 13,
       "community_name": "typeset skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Improve typography by fixing font choices, hierarchy, sizing, weight consistency, and readability — turning default-looking text into intentional, well-crafted type.",
       "file_path": "skills/typeset/SKILL.md",
       "file_type": "document",
@@ -779,7 +779,7 @@
       "community": 13,
       "community_name": "typeset skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Typeset requires frontend-design skill for design principles, anti-patterns, Context Gathering Protocol, and the typography reference (reference/typography.md).",
       "file_path": "skills/typeset/SKILL.md",
       "file_type": "concept",
@@ -1341,7 +1341,7 @@
       "community": 8,
       "community_name": "overdrive skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Assesses four interface types: visual/marketing (sensory wow), functional UI (feel wow), performance-critical (invisible speed), data-heavy (fluidity). Technique must serve experience.",
       "file_path": "skills/overdrive/SKILL.md",
       "file_type": "concept",
@@ -1358,7 +1358,7 @@
       "community": 8,
       "community_name": "overdrive skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Every technique must degrade gracefully. Uses @supports for CSS features, feature detection for JS APIs (WebGPU→WebGL2→CSS fallback). Experience without enhancement must still be good.",
       "file_path": "skills/overdrive/SKILL.md",
       "file_type": "concept",
@@ -1376,7 +1376,7 @@
       "community": 8,
       "community_name": "overdrive skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Five verification tests: wow test (reaction), removal test (diminished?), device test (phone/tablet/Chromebook), accessibility test (reduced motion), context test (brand fit).",
       "file_path": "skills/overdrive/SKILL.md",
       "file_type": "concept",
@@ -1394,7 +1394,7 @@
       "community": 8,
       "community_name": "overdrive skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Organized toolkit: cinematic transitions (View Transitions API, spring physics), scroll-driven animations, beyond-CSS rendering (WebGL, WebGPU, Canvas, SVG filters), live data (virtual scrolling, GPU charts), custom property animation (@property, Web Animations API), performance (Web Workers, OffscreenCanvas, WASM), device interaction (Web Audio, Device APIs).",
       "file_path": "skills/overdrive/SKILL.md",
       "file_type": "concept",
@@ -1414,7 +1414,7 @@
       "community": 8,
       "community_name": "overdrive skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Overdrive mandates proposing 2-3 different technical directions with trade-offs (browser support, performance, complexity) and calling AskUserQuestionTool before writing any code.",
       "file_path": "skills/overdrive/SKILL.md",
       "file_type": "concept",
@@ -1431,7 +1431,7 @@
       "community": 8,
       "community_name": "overdrive skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Overdrive requires frontend-design skill for design principles, anti-patterns, and Context Gathering Protocol. If no design context exists, teach-impeccable must be run first.",
       "file_path": "skills/overdrive/SKILL.md",
       "file_type": "concept",
@@ -1448,7 +1448,7 @@
       "community": 8,
       "community_name": "overdrive skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Push interfaces past conventional limits with technically ambitious implementations — shaders, 60fps virtual tables, spring physics, scroll-driven reveals, cinematic transitions, WebGL/WebGPU rendering, and high-performance data handling.",
       "file_path": "skills/overdrive/SKILL.md",
       "file_type": "document",
@@ -1469,7 +1469,7 @@
       "community": 8,
       "community_name": "overdrive skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Target 60fps (simplify below 50). Respect prefers-reduced-motion always. Lazy-initialize heavy resources. Pause off-screen rendering. Test on mid-range devices.",
       "file_path": "skills/overdrive/SKILL.md",
       "file_type": "concept",
@@ -1487,7 +1487,7 @@
       "community": 8,
       "community_name": "overdrive skill",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "description": "Technically ambitious effects require active browser automation preview, visual verification, and multiple rounds of refinement — gap between 'works' and 'extraordinary' is closed through visual iteration.",
       "file_path": "skills/overdrive/SKILL.md",
       "file_type": "concept",
@@ -1506,7 +1506,7 @@
       "relation": "is source for",
       "_origin": "semantic",
       "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -1515,7 +1515,7 @@
       "relation": "manages",
       "_origin": "semantic",
       "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -1524,7 +1524,7 @@
       "relation": "populates",
       "_origin": "semantic",
       "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2172,7 +2172,7 @@
       "relation": "embodies",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2181,7 +2181,7 @@
       "relation": "includes",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2190,7 +2190,7 @@
       "relation": "includes",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2199,7 +2199,7 @@
       "relation": "mandates",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2208,7 +2208,7 @@
       "relation": "mandates",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2217,7 +2217,7 @@
       "relation": "provides",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2226,7 +2226,7 @@
       "relation": "provides",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2235,7 +2235,7 @@
       "relation": "requires",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2244,7 +2244,7 @@
       "relation": "requires",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2253,7 +2253,7 @@
       "relation": "requires",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2262,7 +2262,7 @@
       "relation": "requires",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2271,7 +2271,7 @@
       "relation": "requires",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2280,7 +2280,7 @@
       "relation": "requires",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2289,7 +2289,7 @@
       "relation": "requires",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2298,7 +2298,7 @@
       "relation": "requires_workflow",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2307,7 +2307,7 @@
       "relation": "uses",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2316,7 +2316,7 @@
       "relation": "uses",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2325,7 +2325,7 @@
       "relation": "uses",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2334,7 +2334,7 @@
       "relation": "uses",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2343,7 +2343,7 @@
       "relation": "uses",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2352,7 +2352,7 @@
       "relation": "uses",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     },
     {
@@ -2361,10 +2361,10 @@
       "relation": "uses_verification",
       "_origin": "semantic",
       "confidence": "INFERRED",
-      "confidence_score": 1.0,
+      "confidence_score": 1,
       "source_file": ""
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "0140ed715bbb2b82d402371d6162e7c34f824faf"
+  "built_at_commit": "3f67156499031cdae72d6180bdb20dff334680c9"
 }
