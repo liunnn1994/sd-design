@@ -1,4 +1,39 @@
 describe('液态玻璃标志文档预览', () => {
+  it('调参示例将现代 CSS 颜色正确传入玻璃着色器', () => {
+    cy.viewport(1440, 1000);
+    cy.visit('/components/liquid-glass-logo/');
+    cy.get('.demo-block').eq(5).scrollIntoView();
+    cy.get('.liquid-glass-playground .sd-liquid-glass-logo', { timeout: 60000 }).should(
+      'have.attr',
+      'data-liquid-glass-ready',
+    );
+    cy.get('.liquid-glass-playground canvas').then(($canvas) => {
+      const gl = ($canvas[0] as HTMLCanvasElement).getContext('webgl2')!;
+      const useProgram = cy.spy(gl, 'useProgram');
+      cy.contains('summary', '颜色').scrollIntoView().click();
+      for (const [label, color] of [
+        ['底板颜色', 'color(srgb 1 0 0)'],
+        ['背景颜色', 'oklch(0.95 0 0)'],
+      ]) {
+        cy.contains('.sd-form-item', label)
+          .find('input')
+          .scrollIntoView()
+          .clear()
+          .type(color)
+          .blur();
+      }
+      cy.wrap(null).should(() => {
+        const program = useProgram
+          .getCalls()
+          .find((call) => gl.getUniformLocation(call.args[0]!, 'uTile'))?.args[0];
+        expect(program).to.not.equal(undefined);
+        const tile = gl.getUniform(program!, gl.getUniformLocation(program!, 'uTile'));
+        expect(Array.from(tile)).to.deep.equal([1, 0, 0]);
+        expect(gl.getUniform(program!, gl.getUniformLocation(program!, 'uPageLight'))).to.equal(1);
+      });
+    });
+  });
+
   it('默认跟随文档主题切换，显式浅色示例保持浅色', () => {
     cy.viewport(1440, 1000);
     cy.visit('/components/liquid-glass-logo/');
@@ -30,6 +65,10 @@ describe('液态玻璃标志文档预览', () => {
     cy.get('.liquid-glass-playground .sd-liquid-glass-logo')
       .should('have.attr', 'data-liquid-glass-theme', 'light')
       .and('have.css', 'background-color', 'rgb(226, 226, 229)');
+    cy.get('.type-reference-token').first().scrollIntoView().trigger('mouseenter');
+    cy.get('.type-reference-token__popup pre.shiki').should('have.class', 'github-light');
+    cy.get('starlight-theme-select select:visible').select('dark');
+    cy.get('.type-reference-token__popup pre.shiki').should('have.class', 'github-dark');
   });
   it('DemoBlock 首次进入可见、播放控制与主题配色可用', () => {
     cy.viewport(1440, 1000);

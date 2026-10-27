@@ -113,9 +113,9 @@ export default defineConfig({
       ],
     },
     optimizeDeps: {
-      // pdf.js is already ESM. Keep its lazy imports out of the optimizer so
+      // pdf.js and Shiki are already ESM. Keep their lazy imports out of the optimizer so
       // pre-bundling cannot invalidate URLs retained by hydrated islands.
-      exclude: ['@vue/repl', 'pdfjs-dist'],
+      exclude: ['@vue/repl', 'pdfjs-dist', 'shiki'],
       // Pre-bundle lazy renderers before the first demo opens. Discovering these
       // on demand invalidates URLs already held by hydrated Vue islands.
       include: [

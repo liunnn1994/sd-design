@@ -22,6 +22,57 @@ const pixels = (canvas: HTMLCanvasElement) => {
 };
 
 describe('LiquidGlassLogo', () => {
+  it('自然结束后 seek 恢复播放，暂停时 seek 保持暂停', () => {
+    cy.mount(LiquidGlassLogo, { props: { ending: 'logo', speed: 4, maxDpr: 1 } });
+    cy.get(root).should('have.attr', 'data-liquid-glass-ready');
+    cy.get(`${root} canvas`).then(($canvas) => {
+      const gl = ($canvas[0] as HTMLCanvasElement).getContext('webgl2')!;
+      const program = gl.getParameter(gl.CURRENT_PROGRAM) as WebGLProgram;
+      const time = gl.getUniformLocation(program, 'uTime');
+      cy.wrap(null).should(() => {
+        expect(Number(gl.getUniform(program, time))).to.be.closeTo(1.8, 0.0001);
+      });
+      cy.get('@vue').then(({ wrapper }) => wrapper.vm.seek(0.5));
+      cy.wrap(null).should(() => {
+        expect(Number(gl.getUniform(program, time))).to.be.greaterThan(0.6);
+      });
+      cy.get('@vue').then(({ wrapper }) => {
+        wrapper.vm.pause();
+        wrapper.vm.seek(0.5);
+      });
+      cy.wait(150).then(() => {
+        expect(Number(gl.getUniform(program, time))).to.equal(0.5);
+      });
+    });
+  });
+
+  it('将现代 CSS 颜色转换为 sRGB 底板与背景光照', () => {
+    cy.mount(LiquidGlassLogo, { props: { paused: true, maxDpr: 1 } });
+    cy.get(root).should('have.attr', 'data-liquid-glass-ready');
+    for (const [color, expected] of [
+      ['color(srgb 1 0 0)', [1, 0, 0]],
+      ['color(srgb 0.25 0.5 0.75)', [64 / 255, 128 / 255, 191 / 255]],
+      ['oklch(1 0 0)', [1, 1, 1]],
+      ['rgba(255, 0, 0, 0.5)', [1, 0, 0]],
+    ] as const) {
+      cy.get('@vue').then(({ wrapper }) =>
+        wrapper.setProps({ tileColor: color, background: 'oklch(0.95 0 0)' }),
+      );
+      cy.get(`${root} canvas`).then(($canvas) => {
+        const gl = ($canvas[0] as HTMLCanvasElement).getContext('webgl2')!;
+        const useProgram = cy.spy(gl, 'useProgram');
+        cy.get('@vue').then(({ wrapper }) => {
+          wrapper.vm.seek(0.5);
+          const program = useProgram.firstCall.args[0]!;
+          const tile = gl.getUniform(program, gl.getUniformLocation(program, 'uTile'));
+          expected.forEach((value, index) => expect(tile[index]).to.be.closeTo(value, 1 / 255));
+          expect(gl.getUniform(program, gl.getUniformLocation(program, 'uPageLight'))).to.equal(1);
+          useProgram.restore();
+        });
+      });
+    }
+  });
+
   it('Pretext 测量保留中英文、空格、字重、拉伸与字间距', () => {
     cy.document().then((document) => {
       for (const text of [' Design', 'Hello  世界', 'AV fi']) {

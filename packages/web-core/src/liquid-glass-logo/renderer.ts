@@ -273,16 +273,15 @@ function rasterText(mark: HTMLImageElement | null, tuning: LiquidGlassLogoTuning
 }
 
 function parseColor(value: string): [number, number, number] {
-  const probe = document.createElement('canvas').getContext('2d')!;
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 1;
+  const probe = canvas.getContext('2d', { willReadFrequently: true })!;
   probe.fillStyle = '#000';
   probe.fillStyle = value;
-  const hex = String(probe.fillStyle);
-  if (hex.startsWith('#')) {
-    const n = parseInt(hex.slice(1, 7), 16);
-    return [(n >> 16) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
-  }
-  const parts = hex.match(/[\d.]+/g)?.map(Number) ?? [0, 0, 0];
-  return [parts[0] / 255, parts[1] / 255, parts[2] / 255];
+  probe.fillRect(0, 0, 1, 1);
+  // Pixel readback converts all supported CSS color spaces to sRGB.
+  const [red, green, blue] = probe.getImageData(0, 0, 1, 1).data;
+  return [red / 255, green / 255, blue / 255];
 }
 
 export type LiquidGlassLogoRenderer = {
@@ -694,6 +693,7 @@ export function createLiquidGlassLogoRenderer(
       clock = Number.isFinite(seconds) ? Math.max(0, Math.min(3600, seconds)) : 0;
       last = 0;
       draw();
+      request();
     },
     pause() {
       playing = false;
