@@ -54,11 +54,6 @@ jobs:
           pnpm -v
           pnpm run install:ci
 
-      - name: Check npm package bootstrap requirements
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: node packages/web-vue/scripts/check-release-registry.ts
-
       - name: Typecheck
         run: pnpm run typecheck
 
@@ -101,8 +96,6 @@ jobs:
       - name: Release web-vue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # 首次创建 Core 包需要 token；两包配置 Trusted Publisher 后可移除此 secret。
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           # semantic-release 的 git push 不应被本地开发者用的 pre-push 钩子拦截
           # （该钩子会跑全量 typecheck，CI 发布时可能因缺少某些构建产物而中断发布）
           SKIP_SIMPLE_GIT_HOOKS: '1'
