@@ -53,6 +53,7 @@ import JsonForm from './json-form';
 import KvList from './kv-list';
 import Layout, { LayoutHeader, LayoutContent, LayoutFooter, LayoutSider } from './layout';
 import Link from './link';
+import LiquidGlassLogo from './liquid-glass-logo';
 import List, { ListItem, ListItemMeta } from './list';
 import { addI18nMessages, useLocale, getLocale } from './locale';
 import MarkdownRender from './markdown-render';
@@ -206,6 +207,7 @@ const components: Record<string, Plugin> = {
   BackTop,
   BorderBeam,
   SkeletonReveal,
+  LiquidGlassLogo,
   BloomMenu,
   ConfigProvider,
   ThemeProvider,

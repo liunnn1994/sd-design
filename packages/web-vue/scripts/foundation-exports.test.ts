@@ -1,6 +1,26 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
+test('LiquidGlassLogo 发布入口保留 Core 预设身份，SSR 无需 DOM', async () => {
+  const { renderToString } = await import('vue/server-renderer');
+  const { h } = await import('vue');
+  const root = await import('../es/index.js');
+  const entry = await import('../es/liquid-glass-logo/index.js');
+  const shared = await import('@sdata/web-core/liquid-glass-logo/foundation');
+  assert.equal(root.LiquidGlassLogo, entry.default);
+  assert.equal(root.liquidGlassLogoDefaults, shared.liquidGlassLogoDefaults);
+  const html = await renderToString(
+    h(entry.default, { ending: 'wordmark', text: '苏打设计', paused: true }),
+  );
+  assert.match(html, /aria-label="苏打设计"/);
+  assert.match(html, /<canvas/);
+  const themedHtml = await renderToString(
+    h(root.ConfigProvider, { themeMode: 'dark' }, { default: () => h(entry.default) }),
+  );
+  assert.match(themedHtml, /data-liquid-glass-theme="dark"/);
+  assert.equal(typeof entry.default.install, 'function');
+});
+
 test('ThinkingOrb keeps all engine facades, preset identity and the Vue theme hook contract', async () => {
   const { readFile } = await import('node:fs/promises');
   const root = await import('../es/index.js');

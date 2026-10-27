@@ -10,13 +10,23 @@ test('built declarations pass strict consumer checking and preserve generic clam
   const directory = await mkdtemp(path.join(packageRoot, 'node_modules', '.package-types-'));
   const source = `
 <script setup lang="ts">
-import { WrapClamp } from '../../es/index.js';
+import { WrapClamp, LiquidGlassLogo } from '../../es/index.js';
+import type { LiquidGlassLogoInstance, LiquidGlassLogoProps, LiquidGlassLogoTuning } from '../../es/index.js';
 import type { VirtualListRef } from '../../es/_components/virtual-list/interface.js';
 import '../../es/button/style/index.js';
 declare const virtualList: VirtualListRef;
 virtualList.restoreCache(virtualList.cacheSnapshot());
+declare const glass: LiquidGlassLogoInstance;
+const glassProps: LiquidGlassLogoProps = { ending: 'wordmark', theme: 'auto', logo: '/brand.svg', paused: true, autoWidth: true };
+declare const tuning: LiquidGlassLogoTuning;
+glass.seek(1.8);
+glass.replay();
+glass.pause();
+glass.play();
 </script>
 <template>
+  <LiquidGlassLogo v-bind="glassProps" :depth="tuning.depth"><template #fallback>苏打</template></LiquidGlassLogo>
+  <SdLiquidGlassLogo ending="logo" :height="320" />
   <WrapClamp :items="[{ id: 1, label: 'One' }]" item-key="id">
     <template #item="{ item }">{{ item.label.toUpperCase() }}</template>
   </WrapClamp>

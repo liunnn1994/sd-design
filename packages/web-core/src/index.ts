@@ -308,3 +308,5 @@ export * as clampRichLine from './clamp/rich-line/foundation.js';
 export * as clampWrap from './clamp/wrap/foundation.js';
 
 export * as skeletonReveal from './skeleton-reveal/foundation.js';
+
+export * as liquidGlassLogo from './liquid-glass-logo/foundation.js';

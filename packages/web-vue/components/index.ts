@@ -855,3 +855,18 @@ export { useFormItem } from './_hooks/use-form-item';
 // utils
 export { getCssVarToken } from './_utils/global-config';
 // components.d.ts
+
+export {
+  default as LiquidGlassLogo,
+  liquidGlassLogoDefaults,
+  liquidGlassLogoDuration,
+  liquidGlassLogoThemes,
+  liquidGlassLogoNoteLogo,
+  liquidGlassLogoReferenceMark,
+} from './liquid-glass-logo';
+export type {
+  LiquidGlassLogoInstance,
+  LiquidGlassLogoProps,
+  LiquidGlassLogoExposed,
+  LiquidGlassLogoTuning,
+} from './liquid-glass-logo';

@@ -1,0 +1,13 @@
+@use '../../style/theme/runtime.scss' as theme-runtime;
+@use '../../style/theme/index.scss' as global;
+
+@forward '../../style/theme/index.scss';
+
+$liquid-glass-logo-height: 32px;
+
+// @generated runtime tokens — pnpm theme:generate
+$liquid-glass-logo-height: theme-runtime.token(
+  'liquid-glass-logo',
+  'liquid-glass-logo-height',
+  $liquid-glass-logo-height
+);

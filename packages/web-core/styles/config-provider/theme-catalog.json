@@ -8553,6 +8553,17 @@
       ]
     },
     {
+      "name": "liquid-glass-logo",
+      "tokens": [
+        {
+          "key": "liquid-glass-logo-height",
+          "name": "liquid-glass-logo-height",
+          "value": "32px",
+          "dependencies": []
+        }
+      ]
+    },
+    {
       "name": "list",
       "tokens": [
         {

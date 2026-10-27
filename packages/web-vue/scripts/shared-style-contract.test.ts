@@ -30,6 +30,7 @@ test('legacy Vue Sass paths retain the shared CSS', async () => {
     'table/style/index.scss',
     'style/index.scss',
     'skeleton-reveal/style/index.scss',
+    'liquid-glass-logo/style/index.scss',
   ]) {
     const oldPath = path.join(componentsRoot, entry);
     const sharedPath = fileURLToPath(new URL(`../../web-core/styles/${entry}`, import.meta.url));
