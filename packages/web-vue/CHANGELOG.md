@@ -1,3 +1,10 @@
+## [7.8.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.8.1...web-vue-v7.8.2) (2026-10-27)
+
+
+### Bug Fixes
+
+* 🐛 修复 core 发布失败的问题 ([4ee2984](https://github.com/liunnn1994/sd-design/commit/4ee29848558575e03ae56ee438367526c6206df6))
+
 ## [7.8.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.8.0...web-vue-v7.8.1) (2026-10-27)
 
 
