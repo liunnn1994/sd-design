@@ -440,6 +440,7 @@ export const docsSidebar = [
             label: '骨架屏 Skeleton',
           },
           { slug: 'components/skeleton-reveal', label: '线框入场 SkeletonReveal' },
+          { slug: 'components/liquid-glass-logo', label: '液态玻璃标志 LiquidGlassLogo' },
           {
             slug: 'components/spin',
             label: '加载中 Spin',

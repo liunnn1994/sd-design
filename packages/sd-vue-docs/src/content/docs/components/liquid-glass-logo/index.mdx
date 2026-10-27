@@ -1,0 +1,150 @@
+---
+title: 液态玻璃标志 LiquidGlassLogo
+description: 通过玻璃折射揭示品牌标志与字标，适合品牌展示和欢迎页。
+---
+
+import DemoBlock from '../../../../components/docs/DemoBlock.astro';
+import Basic from '../../../../components/generated/liquid-glass-logo/basic.vue';
+import basicSource from '../../../../components/generated/liquid-glass-logo/basic.vue?raw';
+import Wordmark from '../../../../components/generated/liquid-glass-logo/wordmark.vue';
+import wordmarkSource from '../../../../components/generated/liquid-glass-logo/wordmark.vue?raw';
+import Interactive from '../../../../components/generated/liquid-glass-logo/interactive.vue';
+import interactiveSource from '../../../../components/generated/liquid-glass-logo/interactive.vue?raw';
+import Composition from '../../../../components/generated/liquid-glass-logo/composition.vue';
+import compositionSource from '../../../../components/generated/liquid-glass-logo/composition.vue?raw';
+import Large from '../../../../components/generated/liquid-glass-logo/large.vue';
+import largeSource from '../../../../components/generated/liquid-glass-logo/large.vue?raw';
+import Playground from '../../../../components/generated/liquid-glass-logo/playground.vue';
+import playgroundSource from '../../../../components/generated/liquid-glass-logo/playground.vue?raw';
+
+示例使用 SD Design 的官方 Logo 与品牌名称，通过 `logo-color="original"` 保留 Logo 原色。实际使用时可替换为自己的透明背景 SVG 或 PNG 标志。组件通过 WebGL2 渲染，离开视口时暂停计时；系统开启减少动态效果时直接显示最终状态。图片需允许跨域读取，容器宽度自适应，默认高度为 32px，不限制最小高度。
+
+各示例均提供重播入口，可重复查看动画。蓝色按钮表示主要播放操作，暂停与恢复默认值使用警告态，继续播放使用成功态。
+
+### 基本用法
+
+在 `PageHeader` 的标题区域使用默认 32px 高度展示“图标 + Design”，图标与文字都由 `LiquidGlassLogo` 渲染。`auto-width` 默认开启，使用 Pretext 根据文字、字体、字间距与图标比例自动计算宽度，无需写死像素值。进入预览后自动播放入场动画，完成后停留在最终字标。使用 `aria-label` 设置可访问名称。
+
+需要完整背景区域时，设置 `:auto-width="false"` 可铺满父容器。显式 CSS `width` 优先于自动宽度；字体加载、文本、图标或高度变化后会重新测量。
+
+<DemoBlock source={basicSource} mainFile="src/liquid-glass-logo-basic.vue">
+  <Basic client:only="vue" />
+</DemoBlock>
+
+### 揭示字标
+
+`ending="wordmark"` 在玻璃消散后显示字标。`mark="logo"` 复用标志图片，空字符串隐藏字标前的图案。默认跟随组件库主题或浏览器偏好，并响应主题切换。可显式设置 light / dark 固定配色；显式传入的颜色始终优先。此例固定为浅色以展示变体。
+
+<DemoBlock source={wordmarkSource} mainFile="src/liquid-glass-logo-wordmark.vue">
+  <Wordmark client:only="vue" />
+</DemoBlock>
+
+### 播放控制
+
+`paused` 控制暂停，实例方法支持重播、继续和跳转。时间单位为秒，`speed` 为倍率；字标动画总长 3.3 秒，标志模式为 1.8 秒。跳转不会改变暂停状态。
+
+<DemoBlock source={interactiveSource} mainFile="src/liquid-glass-logo-interactive.vue">
+  <Interactive client:only="vue" />
+</DemoBlock>
+
+### 背景与替代内容
+
+背景图会关闭不透明底板。使用 `fallback` 插槽替换 WebGL2 不可用或上下文丢失时的静态内容；未传插槽时显示原始标志或字标。
+
+<DemoBlock source={compositionSource} mainFile="src/liquid-glass-logo-composition.vue">
+  <Composition client:only="vue" />
+</DemoBlock>
+
+### 256px 展示
+
+通过 `height` 设置展示高度。下面使用 256px，适合需要更大展示空间的品牌区域；也可以指定小于 32px 的高度。
+
+<DemoBlock source={largeSource} mainFile="src/liquid-glass-logo-large.vue">
+  <Large client:only="vue" />
+</DemoBlock>
+
+### 上传 Logo 并调整参数
+
+使用 `Upload` 选择本地 Logo，文件仅在浏览器中预览，不会上传到服务器。右侧使用 `JsonForm` 分组调整内容、尺寸、字标、光学、颜色与背景参数，数值输入配置了对应的范围与步长。
+
+默认暂停在 0.9 秒，方便对比玻璃效果。拖动时间轴可查看不同阶段，点击“重播预览”查看完整动画，点击“恢复默认值”回到官方 Logo 和初始参数。配色主题默认“跟随主题”；选择深色或浅色时使用对应配套颜色，切回自动模式会清除颜色覆盖。Logo 原色模式保留。
+
+<DemoBlock source={playgroundSource} mainFile="src/liquid-glass-logo-playground.vue">
+  <Playground client:only="vue" />
+</DemoBlock>
+
+## API
+
+### 属性
+
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| logo | 标志图片地址 | string | 内置音符 SVG |
+| mark | 字标前的图片，logo 复用标志，空字符串隐藏 | string | 内置图案 |
+| text | 字标文字 | string | music |
+| ending | 动画结束内容 | 'logo' / 'wordmark' | logo |
+| theme | 配色主题；auto 继承最近的组件库主题，没有配置时使用页面明暗模式或浏览器偏好 | 'auto' / 'dark' / 'light' | auto |
+| height | 容器高度，数字单位为像素，无最小高度限制 | number / string | 32px |
+| autoWidth | 使用 Pretext 自动计算宽度；关闭后铺满容器，显式 CSS width 优先 | boolean | true |
+| logoSize | 拟合前底板边长，24–1024 | number | 256 |
+| logoScale | 标志占底板比例，0.1–1 | number | 0.72 |
+| finalLogoScale | 最终标志缩放，0.1–1 | number | 1 |
+| tile | 显示图标底板，背景图存在时强制关闭 | boolean | true |
+| fontSize | 字标字号，8–400 | number | 64 |
+| fontFamily | 字标字体 | string | 系统无衬线字体 |
+| fontWeight | 字重，100–1000 | number | 850 |
+| fontStretch | Canvas 字体拉伸关键字 | string | expanded |
+| letterSpacing | 字间距，单位 em，-0.3–1 | number | -0.01 |
+| markGap | 图案与文字间距，单位 em，0–2 | number | 0.12 |
+| logoColor | 标志颜色，original 保留原色 | string | 跟随主题 |
+| textColor | 字标颜色 | string | 跟随主题 |
+| tileColor | 底板颜色 | string | 跟随主题 |
+| background | 背景颜色，使用浏览器可解析的颜色 | string | 跟随主题 |
+| logoRelief | 标志浮雕强度，0–1 | number | 1 |
+| depth | 玻璃光学深度，0–6 | number | 1.2 |
+| dispersion | 色散强度，0–4 | number | 1 |
+| relief | 背面折射强度，0–3 | number | 1 |
+| caustics | 焦散亮度，0–4 | number | 1 |
+| highlights | 反射强度，0–4 | number | 1 |
+| bloom | 边缘辉光，0–2 | number | 0.55 |
+| dropSize | 字标透镜初始比例，0.05–1.5 | number | 0.32 |
+| dropStrength | 透镜曲率强度，0–4 | number | 1 |
+| echoTint | 外缘染色比例，0–1 | number | 0.5 |
+| innerWallFocus | 内壁聚焦程度，0–1 | number | 0 |
+| decay | 次级玻璃环衰减时间，秒，0.1–10 | number | 1.4 |
+| speed | 速度倍率，0.1–4 | number | 1 |
+| loop | 循环播放 | boolean | false |
+| loopDelay | 循环间隔，秒，0–30 | number | 1.6 |
+| paused | 暂停动画，实例 play/pause 可临时覆盖，后续 props 更新以 paused 为准 | boolean | false |
+| maxDpr | 最大渲染像素比，0.5–4 | number | 2 |
+| backgroundImage | 覆盖容器的背景图片地址 | string | — |
+| backgroundX / backgroundY | 背景偏移百分比，-100–100 | number | 0 |
+| backgroundScale | 背景缩放，1–3 | number | 1 |
+| backgroundTint | 背景遮罩颜色 | string | #000000 |
+| backgroundTintOpacity | 背景遮罩透明度，0–1 | number | 0 |
+
+### 事件
+
+| 事件  | 说明                                                      | 参数  |
+| ----- | --------------------------------------------------------- | ----- |
+| ready | 首帧纹理加载并绘制就绪，每次挂载触发一次                  | —     |
+| error | WebGL2 不可用、渲染初始化失败或上下文丢失，切换到静态内容 | Error |
+
+### 插槽
+
+| 名称     | 说明                                     |
+| -------- | ---------------------------------------- |
+| fallback | 渲染不可用时的替代内容，放置静态品牌内容 |
+
+### 实例方法
+
+| 方法   | 说明                                           | 参数            |
+| ------ | ---------------------------------------------- | --------------- |
+| replay | 从头重播，保留暂停状态                         | —               |
+| seek   | 跳转到指定时间，非有限值恢复为 0，上限 3600 秒 | seconds: number |
+| pause  | 暂停                                           | —               |
+| play   | 继续播放                                       | —               |
+
+### 导出
+
+导出 `LiquidGlassLogo`、`LiquidGlassLogoInstance`、`LiquidGlassLogoProps`、`LiquidGlassLogoExposed` 和 `LiquidGlassLogoTuning`。预设数据通过 `liquidGlassLogoDefaults`、`liquidGlassLogoThemes`、`liquidGlassLogoDuration`、`liquidGlassLogoNoteLogo` 和 `liquidGlassLogoReferenceMark` 获取。React 的 `className` 使用 Vue 标准 `class` 属性替代。
