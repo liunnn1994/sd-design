@@ -1,12 +1,31 @@
 import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { copyFile, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { copyFile, glob, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test, { type TestContext } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 import releaseConfig from '../release.config.ts';
+
+test('all publishable workspace packages declare the repository required by npm provenance', async (t) => {
+  const root = fileURLToPath(new URL('../../../', import.meta.url));
+  let publishedPackages = 0;
+  for await (const packagePath of glob('packages/*/package.json', { cwd: root })) {
+    const manifest = JSON.parse(await readFile(path.join(root, packagePath), 'utf8'));
+    if (manifest.private === true) continue;
+    publishedPackages++;
+    await t.test(manifest.name, () => {
+      assert.equal(manifest.repository?.type, 'git', `${manifest.name}: repository.type`);
+      assert.equal(
+        manifest.repository?.url,
+        'git+https://github.com/liunnn1994/sd-design.git',
+        `${manifest.name}: repository.url must match the GitHub Actions provenance`,
+      );
+    });
+  }
+  assert.ok(publishedPackages > 0, 'Must discover publishable workspace packages');
+});
 
 async function fixture(t: TestContext) {
   const root = await mkdtemp(path.join(tmpdir(), 'sd-foundation-release-'));

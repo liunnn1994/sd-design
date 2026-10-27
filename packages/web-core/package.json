@@ -3,6 +3,11 @@
   "version": "7.8.1",
   "description": "Framework-independent foundations for SD Design",
   "license": "AGPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liunnn1994/sd-design.git",
+    "directory": "packages/web-core"
+  },
   "files": [
     "dist",
     "styles",
