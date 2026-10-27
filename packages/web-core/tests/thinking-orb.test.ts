@@ -461,6 +461,7 @@ test('theme mutation batch resolves once only for a matching attribute', (t) => 
   f.handleMutations([
     { type: 'childList', attributeName: 'sd-theme' },
     { type: 'attributes', attributeName: 'class' },
+    { type: 'attributes', attributeName: 'data-theme' },
   ] as MutationRecord[]);
   assert.equal(reads, 0);
   f.handleMutations([
@@ -469,6 +470,29 @@ test('theme mutation batch resolves once only for a matching attribute', (t) => 
   ] as MutationRecord[]);
   assert.equal(reads, 1);
   assert.equal(state.mode, 'light');
+});
+test('theme resolution supports an opt-in reactive fallback without overriding sd-theme', (t) => {
+  globalValue(t, 'document', {});
+  let inherited: string | null = null;
+  let fallback: ThemeMode = 'dark';
+  const state = {
+    target: {
+      closest: () => (inherited === null ? null : { getAttribute: () => inherited }),
+    } as unknown as HTMLElement,
+    mode: 'light' as ThemeMode,
+    get fallbackMode() {
+      return fallback;
+    },
+  };
+  const f = createThemeModeFoundation(state);
+  f.resolveTheme();
+  assert.equal(state.mode, 'dark');
+  fallback = 'light';
+  f.handleMutations([{ type: 'attributes', attributeName: 'data-theme' }] as MutationRecord[]);
+  assert.equal(state.mode, 'light');
+  inherited = 'dark';
+  f.resolveTheme();
+  assert.equal(state.mode, 'dark');
 });
 test('theme driver is inert without document even if a target could resolve', (t) => {
   globalValue(t, 'document', undefined);
