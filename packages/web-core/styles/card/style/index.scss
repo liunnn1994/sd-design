@@ -22,6 +22,7 @@ $card-prefix-cls: string.unquote('#{theme.$prefix}-card');
 .#{$card-prefix-cls} {
   position: relative;
   background: $card-color-bg;
+  corner-shape: theme.$corner-shape;
   border-radius: $card-border-radius-no-border;
   transition: box-shadow theme.$transition-duration-2 theme.$transition-timing-function-standard;
 
@@ -188,9 +189,11 @@ $card-prefix-cls: string.unquote('#{theme.$prefix}-card');
 
   &-bordered {
     border: $card-border-width solid $card-color-border;
+    corner-shape: theme.$corner-shape;
     border-radius: $card-border-radius;
 
     .#{$card-prefix-cls}-cover {
+      corner-shape: theme.$corner-shape;
       border-radius: $card-border-radius $card-border-radius 0 0;
     }
   }

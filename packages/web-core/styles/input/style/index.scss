@@ -93,12 +93,16 @@ $input-prefix-cls: string.unquote('#{theme.$prefix}-input');
   }
 
   > :first-child {
+    corner-top-left-shape: theme.$corner-shape;
     border-top-left-radius: $input-border-radius;
+    corner-bottom-left-shape: theme.$corner-shape;
     border-bottom-left-radius: $input-border-radius;
   }
 
   > :last-child {
+    corner-top-right-shape: theme.$corner-shape;
     border-top-right-radius: $input-border-radius;
+    corner-bottom-right-shape: theme.$corner-shape;
     border-bottom-right-radius: $input-border-radius;
   }
 

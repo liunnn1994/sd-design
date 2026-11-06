@@ -272,6 +272,7 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
         inset: 0 (-$tabs-padding-title-text-horizontal);
         z-index: -1;
         background-color: $tabs-line-color-title-bg;
+        corner-shape: theme.$corner-shape;
         border-radius: $tabs-line-border-radius;
         opacity: 1;
         transition:
@@ -362,10 +363,12 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
 
     &:last-child {
       border-right: $tabs-card-border-width solid $tabs-card-color-title-border;
+      corner-top-right-shape: theme.$corner-shape;
       border-top-right-radius: $tabs-card-border-radius;
     }
 
     &:first-child {
+      corner-top-left-shape: theme.$corner-shape;
       border-top-left-radius: $tabs-card-border-radius;
     }
 
@@ -391,6 +394,7 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
     margin-left: $tabs-card-gutter-spacing-horizontal;
     background-color: $tabs-card-gutter-color-title-bg;
     border-right: $tabs-card-border-width solid $tabs-card-color-title-border;
+    corner-shape: theme.$corner-shape;
     border-radius: $tabs-card-border-radius $tabs-card-border-radius 0 0;
 
     &:hover,
@@ -504,6 +508,7 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
       padding-left: $tabs-rounded-padding-title-horizontal;
       font-size: $tabs-size-default-font-size_rounded;
       background-color: $tabs-rounded-color-title-bg;
+      corner-shape: round;
       border-radius: $tabs-size-default-header-height_rounded;
 
       &:hover {
@@ -544,6 +549,7 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
       padding: $tabs-capsule-padding-header-vertical $tabs-capsule-padding-header-horizontal;
       line-height: 1;
       background-color: $tabs-capsule-color-header-bg;
+      corner-shape: round;
       border-radius: $tabs-capsule-border-header-radius;
     }
 
@@ -553,6 +559,7 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
       left: 0;
       height: auto;
       background-color: $tabs-capsule-color-title-bg_active;
+      corner-shape: round;
       border-radius: $tabs-capsule-border-header-radius;
       box-shadow: theme.$shadow1-down;
       transition:
@@ -582,6 +589,7 @@ $tabs-prefix-cls: string.unquote('#{theme.$prefix}-tabs');
         $tabs-size-default-header-height_capsule - $tabs-capsule-padding-header-vertical * 2
       );
       background-color: $tabs-capsule-color-title-bg;
+      corner-shape: round;
       border-radius: $tabs-capsule-border-header-radius;
 
       &:hover {

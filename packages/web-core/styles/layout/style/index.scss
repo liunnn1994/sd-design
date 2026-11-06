@@ -140,6 +140,7 @@ $text-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-text-1'));
     color: $layout-sider-trigger-color;
     font-size: $layout-sider-zero-trigger-font-size;
     background: $layout-sider-bg;
+    corner-shape: theme.$corner-shape;
     border-radius: 0 $layout-radius-lg $layout-radius-lg 0;
     cursor: pointer;
     transition: background-color $layout-motion-duration-slow ease;
@@ -159,6 +160,7 @@ $text-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-text-1'));
 
     &-right {
       inset-inline-start: calc(-1 * $layout-sider-zero-trigger-width);
+      corner-shape: theme.$corner-shape;
       border-radius: $layout-radius-lg 0 0 $layout-radius-lg;
     }
   }
@@ -195,6 +197,7 @@ $text-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-text-1'));
     height: $layout-sider-zero-trigger-width;
     color: $text-color;
     font-size: $layout-sider-zero-trigger-font-size;
+    corner-shape: theme.$corner-shape;
     border-radius: $layout-radius-lg;
     cursor: pointer;
     transition: background-color $layout-motion-duration-mid ease;

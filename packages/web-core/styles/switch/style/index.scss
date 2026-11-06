@@ -46,6 +46,7 @@ $switch-size-small-line-gap: (($switch-size-small - $switch-line-size-dot-small)
   vertical-align: middle;
   background-color: $switch-color-bg_off;
   border: none;
+  corner-shape: round;
   border-radius: ($switch-size-default * 0.5);
   outline: none;
   cursor: pointer;
@@ -64,6 +65,7 @@ $switch-size-small-line-gap: (($switch-size-small - $switch-line-size-dot-small)
     color: $switch-color-dot-icon_off;
     font-size: 12px;
     background-color: $switch-color-dot-bg;
+    corner-shape: round;
     border-radius: 50%;
     // 滑块位移依赖 left（相对父级定位），暂保留 left 过渡；颜色同步过渡
     transition:
@@ -169,6 +171,7 @@ $switch-size-small-line-gap: (($switch-size-small - $switch-line-size-dot-small)
     left: $switch-size-small-gap;
     width: $switch-size-dot-small;
     height: $switch-size-dot-small;
+    corner-shape: round;
     border-radius: ($switch-size-small * 0.5);
 
     &-icon {
@@ -188,10 +191,12 @@ $switch-size-small-line-gap: (($switch-size-small - $switch-line-size-dot-small)
 .#{$switch-prefix-cls} {
   &-type-round {
     min-width: $switch-round-default-width;
+    corner-shape: theme.$corner-shape;
     border-radius: global.$radius-small;
   }
 
   &-type-round &-handle {
+    corner-shape: theme.$corner-shape;
     border-radius: 2px;
   }
 
@@ -199,10 +204,12 @@ $switch-size-small-line-gap: (($switch-size-small - $switch-line-size-dot-small)
     min-width: $switch-round-small-width;
     height: $switch-size-small;
     line-height: $switch-size-small;
+    corner-shape: theme.$corner-shape;
     border-radius: 2px;
   }
 
   &-type-round#{&}-small &-handle {
+    corner-shape: theme.$corner-shape;
     border-radius: 1px;
   }
 }
@@ -219,6 +226,7 @@ $switch-size-small-line-gap: (($switch-size-small - $switch-line-size-dot-small)
       width: 100%;
       height: $switch-line-height-bg-line;
       background-color: $switch-color-bg_off;
+      corner-shape: round;
       border-radius: ($switch-line-height-bg-line * 0.5);
       transition: background-color theme.$transition-duration-2
         theme.$transition-timing-function-standard;
@@ -232,6 +240,7 @@ $switch-size-small-line-gap: (($switch-size-small - $switch-line-size-dot-small)
     width: $switch-line-size-dot-default;
     height: $switch-line-size-dot-default;
     background-color: $switch-color-dot-bg;
+    corner-shape: round;
     border-radius: ($switch-line-size-dot-default * 0.5);
     box-shadow: 0 1px 3px $switch-line-color-dot-shadow;
   }
@@ -309,6 +318,7 @@ $switch-size-small-line-gap: (($switch-size-small - $switch-line-size-dot-small)
     top: $switch-size-small-line-gap;
     width: $switch-line-size-dot-small;
     height: $switch-line-size-dot-small;
+    corner-shape: round;
     border-radius: ($switch-size-small * 0.5);
 
     &-icon {

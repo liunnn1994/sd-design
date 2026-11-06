@@ -15,6 +15,7 @@ $time-picker-prefix-cls: string.unquote('#{theme.$prefix}-timepicker');
     overflow: hidden;
     background-color: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-popup'));
     border: 1px solid $timepicker-color-border;
+    corner-shape: theme.$corner-shape;
     border-radius: $timepicker-wrapper-border-radius;
     box-shadow: theme.$popup-box-shadow-base;
   }

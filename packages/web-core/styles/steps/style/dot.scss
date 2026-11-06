@@ -34,6 +34,7 @@ $steps-dot-vertical-item-dot-margin-top-active: $steps-dot-vertical-item-dot-mar
     width: $steps-dot-size-item-icon;
     height: $steps-dot-size-item-icon;
     vertical-align: top;
+    corner-shape: round;
     border-radius: $steps-dot-border-radius-item-icon;
   }
 

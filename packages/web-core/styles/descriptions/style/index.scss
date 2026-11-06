@@ -129,6 +129,7 @@ $descriptions-prefix-cls: string.unquote('#{theme.$prefix}-descriptions');
   &-border &-body {
     overflow: hidden;
     border: $descriptions-border-width $descriptions-border-style $descriptions-color-border;
+    corner-shape: theme.$corner-shape;
     border-radius: $descriptions-border-radius;
   }
 

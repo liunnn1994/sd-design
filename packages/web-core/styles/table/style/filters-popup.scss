@@ -10,6 +10,7 @@ $table-prefix-cls: string.unquote('#{theme.$prefix}-table');
     min-width: $table-popup-min-width;
     background: $table-color-bg-filters-popup;
     border: 1px solid $table-color-border-filters-popup;
+    corner-shape: theme.$corner-shape;
     border-radius: $table-popup-border-radius;
     box-shadow: theme.$shadow1-down;
   }

@@ -19,6 +19,7 @@
     text-align: left;
     overflow-wrap: break-word;
     background-color: $tooltip-color-bg;
+    corner-shape: theme.$corner-shape;
     border-radius: $tooltip-border-radius;
   }
 

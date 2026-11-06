@@ -63,6 +63,7 @@ $result-prefix-cls: string.unquote('#{theme.$prefix}-result');
       width: $result-size-icon-wrapper;
       height: $result-size-icon-wrapper;
       margin: 0 auto;
+      corner-shape: round;
       border-radius: 50%;
     }
 

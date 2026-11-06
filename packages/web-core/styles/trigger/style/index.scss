@@ -31,6 +31,7 @@ $trigger-prefix-cls: string.unquote('#{theme.$prefix}-trigger');
   &-popup[trigger-placement='tr'] &-arrow {
     border-top: none;
     border-left: none;
+    corner-bottom-right-shape: theme.$corner-shape;
     border-bottom-right-radius: $trigger-border-arrow-radius;
   }
 
@@ -39,6 +40,7 @@ $trigger-prefix-cls: string.unquote('#{theme.$prefix}-trigger');
   &-popup[trigger-placement='br'] &-arrow {
     border-right: none;
     border-bottom: none;
+    corner-top-left-shape: theme.$corner-shape;
     border-top-left-radius: $trigger-border-arrow-radius;
   }
 
@@ -47,6 +49,7 @@ $trigger-prefix-cls: string.unquote('#{theme.$prefix}-trigger');
   &-popup[trigger-placement='lb'] &-arrow {
     border-bottom: none;
     border-left: none;
+    corner-top-right-shape: theme.$corner-shape;
     border-top-right-radius: $trigger-border-arrow-radius;
   }
 
@@ -55,6 +58,7 @@ $trigger-prefix-cls: string.unquote('#{theme.$prefix}-trigger');
   &-popup[trigger-placement='rb'] &-arrow {
     border-top: none;
     border-right: none;
+    corner-bottom-left-shape: theme.$corner-shape;
     border-bottom-left-radius: $trigger-border-arrow-radius;
   }
 }

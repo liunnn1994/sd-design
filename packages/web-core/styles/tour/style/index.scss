@@ -8,6 +8,7 @@
   font-family: global.$font-family;
   background-color: $tour-color-bg;
   border: global.$border-1 solid $tour-color-border;
+  corner-shape: global.$corner-shape;
   border-radius: $tour-border-radius;
   box-shadow: $tour-shadow;
 }
@@ -57,6 +58,7 @@
   font-size: $tour-font-size-body;
   background: global.$color-fill-2;
   border: button.$btn-border-width solid transparent;
+  corner-shape: global.$corner-shape;
   border-radius: button.$btn-border-radius;
 }
 
@@ -86,6 +88,7 @@
   top: global.$spacing-2;
   right: global.$spacing-2;
   color: $tour-color-description;
+  corner-shape: global.$corner-shape;
   border-radius: button.$btn-border-radius;
 }
 

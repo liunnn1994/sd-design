@@ -34,6 +34,9 @@ $border-radius-medium: 8px;
 $border-radius-large: 10px;
 $border-radius-circle: 50%;
 
+// Keep circles and pills round; smooth only ordinary convex corners.
+$corner-shape: var(--sd-corner-shape, squircle);
+
 /******** shadow distance *******/
 
 $shadow-distance-none: 0;

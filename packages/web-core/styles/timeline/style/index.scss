@@ -68,6 +68,7 @@ $timeline-item-prefix-cls: string.unquote('#{theme.$prefix}-timeline-item');
     height: $timeline-dot-size-width;
     margin-top: -50%;
     color: $timeline-color-dot-bg;
+    corner-shape: round;
     border-radius: $timeline-dot-border-radius;
 
     &-solid {

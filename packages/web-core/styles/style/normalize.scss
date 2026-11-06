@@ -273,6 +273,7 @@
           #{$sd-cssvars-prefix}-scrollbar-thumb-color,
           #{sb.$scrollbar-thumb-bar-bg_color}
         );
+        corner-shape: $corner-shape;
         border-radius: var(
           #{$sd-cssvars-prefix}-scrollbar-thumb-radius,
           #{sb.$scrollbar-thumb-bar-border_radius}

@@ -14,6 +14,7 @@ $popover-prefix-cls: string.unquote('#{theme.$prefix}-popover');
     line-height: theme.$line-height-base;
     background-color: $popup-color-content-bg;
     border: global.$border-1 solid $popup-color-border;
+    corner-shape: theme.$corner-shape;
     border-radius: $popup-border-radius;
     box-shadow: $popup-shadow;
   }

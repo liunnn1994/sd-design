@@ -69,6 +69,7 @@ $token-vars: map.merge(meta.module-variables('dropdownToken'), meta.module-varia
   @include applyStyleToItem() {
     position: relative;
     box-sizing: border-box;
+    corner-shape: theme.$corner-shape;
     border-radius: $menu-border-radius;
     cursor: pointer;
 
@@ -429,6 +430,7 @@ $token-vars: map.merge(meta.module-variables('dropdownToken'), meta.module-varia
       margin-bottom: $menu-pop-button-margin-bottom;
       line-height: $menu-pop-button-size;
       border: 1px solid $menu-pop-button-border-color;
+      corner-shape: round;
       border-radius: 50%;
       box-shadow: $menu-pop-button-box-shadow;
     }
@@ -490,6 +492,7 @@ $token-vars: map.merge(meta.module-variables('dropdownToken'), meta.module-varia
     justify-content: center;
     width: $menu-width-collapse-button;
     height: $menu-height-collapse-button;
+    corner-shape: theme.$corner-shape;
     border-radius: $menu-border-radius-collapse-button;
     cursor: pointer;
   }
@@ -557,6 +560,7 @@ $token-vars: map.merge(meta.module-variables('dropdownToken'), meta.module-varia
   overflow: auto;
   background-color: $dropdown-color-bg;
   border: 1px solid $dropdown-color-border;
+  corner-shape: theme.$corner-shape;
   border-radius: $dropdown-border-radius;
   box-shadow: $dropdown-box-shadow;
 

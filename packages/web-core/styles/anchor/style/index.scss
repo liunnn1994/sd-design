@@ -65,6 +65,7 @@ $anchor-prefix-cls: string.unquote('#{theme.$prefix}-anchor');
       white-space: nowrap;
       text-decoration: none;
       text-overflow: ellipsis;
+      corner-shape: theme.$corner-shape;
       border-radius: $anchor-border-radius-title-hover;
       cursor: pointer;
 

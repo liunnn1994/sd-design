@@ -14,6 +14,7 @@ $picker-prefix-cls: string.unquote('#{theme.$prefix}-picker');
   overflow: hidden;
   background-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-bg-popup'));
   border: 1px solid $picker-panel-color-border;
+  corner-shape: theme.$corner-shape;
   border-radius: $picker-container-border-radius;
   box-shadow: theme.$popup-box-shadow-base;
 
@@ -87,6 +88,7 @@ $picker-prefix-cls: string.unquote('#{theme.$prefix}-picker');
       line-height: 24px;
       text-align: center;
       background-color: $picker-color-bg-switch-icon;
+      corner-shape: round;
       border-radius: 50%;
       transition: background-color theme.$transition-duration-1
         theme.$transition-timing-function-standard;
@@ -103,6 +105,7 @@ $picker-prefix-cls: string.unquote('#{theme.$prefix}-picker');
 
     &-label {
       padding: 2px;
+      corner-shape: theme.$corner-shape;
       border-radius: 2px;
       cursor: pointer;
       transition: background-color theme.$transition-duration-1;
@@ -160,6 +163,7 @@ $picker-prefix-cls: string.unquote('#{theme.$prefix}-picker');
     font-size: 14px;
     line-height: $picker-panel-cell-circle-height;
     text-align: center;
+    corner-shape: round;
     border-radius: $picker-panel-border-radius-cell_selected;
     cursor: pointer;
   }
@@ -200,6 +204,7 @@ $picker-prefix-cls: string.unquote('#{theme.$prefix}-picker');
       height: 4px;
       margin-left: -2px;
       background-color: $picker-panel-color-current-time-dot;
+      corner-shape: round;
       border-radius: 50%;
       content: '';
     }
@@ -210,12 +215,16 @@ $picker-prefix-cls: string.unquote('#{theme.$prefix}-picker');
   }
 
   &-cell-range-start &-date {
+    corner-top-left-shape: theme.$corner-shape;
     border-top-left-radius: $picker-panel-cell-boundary-border-radius;
+    corner-bottom-left-shape: theme.$corner-shape;
     border-bottom-left-radius: $picker-panel-cell-boundary-border-radius;
   }
 
   &-cell-range-end &-date {
+    corner-top-right-shape: theme.$corner-shape;
     border-top-right-radius: $picker-panel-cell-boundary-border-radius;
+    corner-bottom-right-shape: theme.$corner-shape;
     border-bottom-right-radius: $picker-panel-cell-boundary-border-radius;
   }
 
@@ -227,6 +236,7 @@ $picker-prefix-cls: string.unquote('#{theme.$prefix}-picker');
   &-cell-range-end &-date-value {
     color: $picker-color-text-cell-range-boundary;
     background-color: $picker-color-bg-cell-range-boundary;
+    corner-shape: round;
     border-radius: $picker-panel-border-radius-cell_selected;
   }
 
@@ -235,11 +245,13 @@ $picker-prefix-cls: string.unquote('#{theme.$prefix}-picker');
   }
 
   &-cell-hover-range-start &-date {
+    corner-shape: theme.$corner-shape;
     border-radius: $picker-panel-cell-boundary-border-radius 0 0
       $picker-panel-cell-boundary-border-radius;
   }
 
   &-cell-hover-range-end &-date {
+    corner-shape: theme.$corner-shape;
     border-radius: 0 $picker-panel-cell-boundary-border-radius
       $picker-panel-cell-boundary-border-radius 0;
   }
@@ -248,6 +260,7 @@ $picker-prefix-cls: string.unquote('#{theme.$prefix}-picker');
   &-cell-hover-range-end &-date-value {
     color: $picker-color-text-cell-hover-range-boundary;
     background-color: $picker-color-bg-cell-hover-range-boundary;
+    corner-shape: round;
     border-radius: 50%;
   }
 

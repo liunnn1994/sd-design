@@ -16,6 +16,7 @@ $transfer-prefix-cls: string.unquote('#{theme.$prefix}-transfer');
     width: $transfer-width;
     height: $transfer-height;
     border: $transfer-border-width solid $transfer-border-color;
+    corner-shape: theme.$corner-shape;
     border-radius: $transfer-border-radius;
 
     &-search {
@@ -225,6 +226,7 @@ $transfer-prefix-cls: string.unquote('#{theme.$prefix}-transfer');
       left: 0;
       display: block;
       height: $transfer-item-draggable-height-gap;
+      corner-shape: round;
       border-radius: ($transfer-item-draggable-height-gap * 0.5);
       content: '';
     }

@@ -14,6 +14,7 @@ $cropper-prefix-cls: string.unquote('#{theme.$prefix}-cropper');
   overflow: hidden;
   background-color: $cropper-background-color;
   border: 1px solid $cropper-border-color;
+  corner-shape: theme.$corner-shape;
   border-radius: $cropper-border-radius;
 
   &-source-image {

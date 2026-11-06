@@ -21,6 +21,7 @@ $dot-prefix-cls: string.unquote('#{theme.$prefix}-dot-loading');
     width: $spin-dot-size-width;
     height: $spin-dot-size-width;
     background-color: $spin-dot-color-icon_default;
+    corner-shape: round;
     border-radius: global.$radius-circle;
     transform: translateX(-50%) scale(0);
     animation: $dot-prefix-cls 2s theme.$transition-timing-function-linear infinite forwards;

@@ -11,6 +11,7 @@ $input-number-prefix-cls: string.unquote('#{theme.$prefix}-input-number');
   position: relative;
   box-sizing: border-box;
   width: 100%;
+  corner-shape: theme.$corner-shape;
   border-radius: $input-number-border-radius;
 
   @mixin transition() {
@@ -75,6 +76,7 @@ $input-number-prefix-cls: string.unquote('#{theme.$prefix}-input-number');
       bottom: 4px;
       width: 18px;
       overflow: hidden;
+      corner-shape: theme.$corner-shape;
       border-radius: $input-number-step-layer-border-radius;
       opacity: 0;
 

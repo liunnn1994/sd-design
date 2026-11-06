@@ -109,6 +109,7 @@ $tabs-prefix-cls-vertical: string.unquote('#{$tabs-prefix-cls}-vertical');
     border-bottom-color: global.$color-transparent;
 
     &:first-child {
+      corner-top-left-shape: theme.$corner-shape;
       border-top-left-radius: $tabs-card-border-radius;
     }
 
@@ -120,6 +121,7 @@ $tabs-prefix-cls-vertical: string.unquote('#{$tabs-prefix-cls}-vertical');
 
     &:last-child {
       border-bottom: $tabs-card-border-width solid $tabs-card-color-title-border;
+      corner-bottom-left-shape: theme.$corner-shape;
       border-bottom-left-radius: $tabs-card-border-radius;
     }
   }
@@ -127,6 +129,7 @@ $tabs-prefix-cls-vertical: string.unquote('#{$tabs-prefix-cls}-vertical');
   &-nav-vertical#{&}-nav-type-card-gutter &-tab {
     position: relative;
     margin-left: 0;
+    corner-shape: theme.$corner-shape;
     border-radius: $tabs-card-border-radius 0 0 $tabs-card-border-radius;
 
     &:not(:first-of-type) {

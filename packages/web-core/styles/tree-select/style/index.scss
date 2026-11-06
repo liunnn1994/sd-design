@@ -13,6 +13,7 @@ $tree-select-prefix-cls: string.unquote('#{theme.$prefix}-tree-select');
     padding: $tree-select-padding-popup-vertical 0;
     background-color: var(string.unquote('#{global.$sd-cssvars-prefix}-color-bg-popup'));
     border: 1px solid selectToken.$select-popup-color-border;
+    corner-shape: theme.$corner-shape;
     border-radius: selectToken.$select-popup-border-radius;
     box-shadow: selectToken.$select-popup-box-shadow;
 

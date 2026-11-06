@@ -28,6 +28,7 @@ $comment-prefix-cls: string.unquote('#{theme.$prefix}-comment');
     > img {
       width: $comment-size-avatar-width;
       height: $comment-size-avatar-width;
+      corner-shape: round;
       border-radius: global.$radius-circle;
     }
   }

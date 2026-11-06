@@ -44,6 +44,7 @@ $select-prefix-cls: string.unquote('#{theme.$prefix}-select');
     padding: $auto-complete-popup-padding-vertical 0;
     background-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-bg-popup'));
     border: 1px solid $auto-complete-popup-color-border;
+    corner-shape: theme.$corner-shape;
     border-radius: $auto-complete-popup-border-radius;
     box-shadow: $auto-complete-popup-box-shadow;
 

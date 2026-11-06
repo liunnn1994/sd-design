@@ -15,6 +15,7 @@ $alert-prefix-cls: string.unquote('#{theme.$prefix}-alert');
   font-size: $alert-font-size-text-content;
   line-height: $alert-line-height;
   text-align: left;
+  corner-shape: theme.$corner-shape;
   border-radius: $alert-border-radius;
 
   &-with-title {

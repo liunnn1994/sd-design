@@ -13,6 +13,7 @@ $rich-text-editor-prefix-cls: string.unquote('#{theme.$prefix}-rich-text-editor'
   line-height: $rich-text-editor-line-height;
   background: $rich-text-editor-color-background;
   border: $rich-text-editor-border-width solid $rich-text-editor-color-border;
+  corner-shape: theme.$corner-shape;
   border-radius: $rich-text-editor-border-radius;
   transition:
     border-color $rich-text-editor-motion-duration $rich-text-editor-motion-easing,
@@ -106,6 +107,7 @@ $rich-text-editor-prefix-cls: string.unquote('#{theme.$prefix}-rich-text-editor'
     font-family: theme.$code-family;
     white-space: pre;
     background: $rich-text-editor-color-code-background;
+    corner-shape: theme.$corner-shape;
     border-radius: $rich-text-editor-border-radius;
   }
 
@@ -133,6 +135,7 @@ $rich-text-editor-prefix-cls: string.unquote('#{theme.$prefix}-rich-text-editor'
     padding-inline: $rich-text-editor-code-padding;
     font-family: theme.$code-family;
     background: $rich-text-editor-color-code-background;
+    corner-shape: theme.$corner-shape;
     border-radius: $rich-text-editor-border-radius;
   }
 
@@ -145,6 +148,7 @@ $rich-text-editor-prefix-cls: string.unquote('#{theme.$prefix}-rich-text-editor'
   }
 
   &-component-selected {
+    corner-shape: theme.$corner-shape;
     border-radius: $rich-text-editor-border-radius;
     outline: 2px solid $rich-text-editor-color-border-focus;
     outline-offset: 1px;
@@ -186,6 +190,7 @@ $rich-text-editor-prefix-cls: string.unquote('#{theme.$prefix}-rich-text-editor'
     min-height: 1.5em;
     padding-inline: $rich-text-editor-code-padding;
     background: $rich-text-editor-color-component-background;
+    corner-shape: theme.$corner-shape;
     border-radius: $rich-text-editor-border-radius;
   }
 }

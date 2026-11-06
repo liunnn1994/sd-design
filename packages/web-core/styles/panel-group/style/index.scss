@@ -74,6 +74,7 @@ $panel-separator-prefix-cls: string.unquote('#{theme.$prefix}-panel-separator');
   }
 
   &:focus-visible {
+    corner-shape: theme.$corner-shape;
     border-radius: 4px;
     box-shadow: $panel-separator-focus-ring;
   }

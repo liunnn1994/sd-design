@@ -30,6 +30,7 @@ $calendar-css-prefix: string.unquote('--#{theme.$prefix}-calendar');
     padding: 0 3px;
     font-size: 0.7rem;
     letter-spacing: -0.04em;
+    corner-shape: round;
     border-radius: 99em;
     transform: translateY(-50%);
     backdrop-filter: blur(10px);

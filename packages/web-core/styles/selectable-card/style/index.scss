@@ -20,6 +20,7 @@ $colors:
   color: $selectable-card-color-value;
   background: $selectable-card-color-bg;
   border: $selectable-card-border-width solid $selectable-card-color-border;
+  corner-shape: theme.$corner-shape;
   border-radius: $selectable-card-border-radius;
   cursor: pointer;
   transition:
@@ -31,6 +32,7 @@ $colors:
   &::after {
     position: absolute;
     background: transparent;
+    corner-shape: inherit;
     border-radius: inherit;
     transition: background theme.$transition-duration-2 theme.$transition-timing-function-standard;
     content: '';

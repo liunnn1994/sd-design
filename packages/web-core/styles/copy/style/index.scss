@@ -5,6 +5,7 @@
 $copy-prefix-cls: string.unquote('#{theme.$prefix}-copy');
 
 .#{$copy-prefix-cls} {
+  corner-shape: theme.$corner-shape;
   border-radius: $copy-border-radius;
 
   &-feedback {

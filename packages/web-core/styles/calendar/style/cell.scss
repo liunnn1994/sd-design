@@ -145,6 +145,7 @@ $calendar-css-prefix: string.unquote('--#{theme.$prefix}-calendar');
   font-size: 11px;
   line-height: 1;
   background-color: theme.$color-primary-6;
+  corner-shape: theme.$corner-shape;
   border-radius: 4px;
 
   .#{$calendar-prefix-cls}--horizontal & {

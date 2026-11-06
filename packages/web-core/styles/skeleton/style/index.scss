@@ -9,9 +9,11 @@ $skeleton-prefix-cls: string.unquote('#{theme.$prefix}-skeleton');
     width: $skeleton-size-image_default;
     height: $skeleton-size-image_default;
     background-color: $skeleton-color-bg-base;
+    corner-shape: theme.$corner-shape;
     border-radius: $skeleton-radius-image-border;
 
     &-circle {
+      corner-shape: round;
       border-radius: 50%;
     }
 

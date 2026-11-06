@@ -10,6 +10,7 @@ $dropdown-prefix-cls: string.unquote('#{theme.$prefix}-dropdown');
   padding: $dropdown-padding-vertical 0;
   background-color: $dropdown-color-bg;
   border: 1px solid $dropdown-color-border;
+  corner-shape: theme.$corner-shape;
   border-radius: $dropdown-border-radius;
   box-shadow: $dropdown-box-shadow;
 

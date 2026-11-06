@@ -71,6 +71,7 @@ $modal-prefix-cls: string.unquote('#{theme.$prefix}-modal');
   white-space: initial;
   text-align: left;
   background-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-bg-3'));
+  corner-shape: theme.$corner-shape;
   border-radius: $modal-border-radius;
 
   &-draggable {

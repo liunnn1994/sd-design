@@ -32,6 +32,7 @@ $breadcrumb-prefix-cls: string.unquote('#{theme.$prefix}-breadcrumb');
       color: $breadcrumb-color-link-text;
       text-decoration: none;
       background-color: $breadcrumb-color-bg;
+      corner-shape: theme.$corner-shape;
       border-radius: $breadcrumb-border-text-radius_hover;
 
       &:hover {

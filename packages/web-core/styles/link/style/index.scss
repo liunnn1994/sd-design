@@ -15,6 +15,7 @@ $link-prefix-cls: string.unquote('#{theme.$prefix}-link');
   line-height: $link-line-height;
   text-decoration: none;
   background-color: global.$color-transparent;
+  corner-shape: theme.$corner-shape;
   border-radius: $link-border-radius;
   cursor: pointer;
   transition:

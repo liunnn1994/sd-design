@@ -13,6 +13,7 @@ $sender-prefix-cls: string.unquote('#{theme.$prefix}-sender');
     overflow: hidden;
     background: $sender-color-bg;
     border: $sender-border-width solid $sender-color-border;
+    corner-shape: theme.$corner-shape;
     border-radius: $sender-border-radius;
     box-shadow: $sender-box-shadow;
     transition:
@@ -176,6 +177,7 @@ $sender-prefix-cls: string.unquote('#{theme.$prefix}-sender');
       font-size: $sender-font-size;
       line-height: $sender-line-height;
       background: $sender-color-header-bg;
+      corner-shape: theme.$corner-shape;
       border-radius: $sender-border-radius $sender-border-radius 0 0;
     }
 
@@ -290,6 +292,7 @@ $sender-prefix-cls: string.unquote('#{theme.$prefix}-sender');
       color: $sender-color-primary;
       font-weight: theme.$font-weight-500;
       background: $sender-color-bg-skill;
+      corner-shape: theme.$corner-shape;
       border-radius: $sender-slot-border-radius;
       cursor: pointer;
       transition: background-color $sender-motion-duration-fast $sender-motion-easing;

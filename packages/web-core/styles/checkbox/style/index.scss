@@ -52,6 +52,7 @@
     height: $checkbox-mask-height;
     background-color: $checkbox-mask-color-bg;
     border: $checkbox-mask-border-width $checkbox-mask-border-style $checkbox-mask-color-border;
+    corner-shape: theme.$corner-shape;
     border-radius: $checkbox-mask-border-radius;
     user-select: none;
 
@@ -64,6 +65,7 @@
       width: $checkbox-color-indeterminate-icon-width;
       height: $checkbox-color-indeterminate-icon-height;
       background: $checkbox-color-indeterminate-icon;
+      corner-shape: theme.$corner-shape;
       border-radius: 0.5px;
       transform: translateX(-50%) translateY(-50%) scale(0);
       content: '';

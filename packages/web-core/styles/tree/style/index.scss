@@ -99,6 +99,7 @@ $tree-node-prefix-cls: string.unquote('#{theme.$prefix}-tree-node');
     width: $tree-showline-size-switcher-icon;
     height: $tree-showline-size-switcher-icon;
     background: $tree-showline-color-plus-icon-bg;
+    corner-shape: theme.$corner-shape;
     border-radius: $tree-showline-border-plus-icon-radius;
     cursor: pointer;
 
@@ -113,6 +114,7 @@ $tree-node-prefix-cls: string.unquote('#{theme.$prefix}-tree-node');
       margin-left: -($tree-showline-size-plus-icon-width * 0.5);
       color: $tree-color-switcher-icon;
       background-color: $tree-color-switcher-icon;
+      corner-shape: theme.$corner-shape;
       border-radius: 0.5px;
       content: '';
     }
@@ -129,6 +131,7 @@ $tree-node-prefix-cls: string.unquote('#{theme.$prefix}-tree-node');
     margin-left: -($tree-showline-size-plus-icon-stroke * 0.5);
     color: $tree-color-switcher-icon;
     background-color: $tree-color-switcher-icon;
+    corner-shape: theme.$corner-shape;
     border-radius: 0.5px;
     content: '';
   }
@@ -257,6 +260,7 @@ $tree-node-prefix-cls: string.unquote('#{theme.$prefix}-tree-node');
     padding-right: $tree-padding-title-horizontal;
     padding-left: $tree-padding-title-horizontal;
     font-size: $tree-size-default-font-size;
+    corner-shape: theme.$corner-shape;
     border-radius: $tree-node-border-radius;
 
     &:hover {
@@ -275,6 +279,7 @@ $tree-node-prefix-cls: string.unquote('#{theme.$prefix}-tree-node');
       left: 0;
       display: block;
       height: $tree-draggable-size-gap-height;
+      corner-shape: round;
       border-radius: ($tree-draggable-size-gap-height * 0.5);
       content: '';
     }

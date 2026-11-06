@@ -39,6 +39,7 @@ $badge-prefix-cls: string.unquote('#{theme.$prefix}-badge');
     box-sizing: border-box;
     overflow: hidden;
     text-align: center;
+    corner-shape: round;
     border-radius: $badge-size-count-height;
     transform: translate(50%, -50%);
     transform-origin: 100% 0%;
@@ -74,6 +75,7 @@ $badge-prefix-cls: string.unquote('#{theme.$prefix}-badge');
     width: $badge-size-dot-width;
     height: $badge-size-dot-width;
     background-color: $badge-color-count-bg;
+    corner-shape: round;
     border-radius: global.$radius-circle;
     box-shadow: 0 0 0 2px var(string.unquote('#{theme.$sd-cssvars-prefix}-color-bg-2'));
   }
@@ -98,6 +100,7 @@ $badge-prefix-cls: string.unquote('#{theme.$prefix}-badge');
     display: inline-block;
     width: $badge-size-dot-width;
     height: $badge-size-dot-width;
+    corner-shape: round;
     border-radius: global.$radius-circle;
   }
 

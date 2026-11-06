@@ -13,12 +13,14 @@ $model-selector-prefix-cls: string.unquote('#{theme.$prefix}-model-selector');
   color: $model-selector-color-text;
   font-size: $model-selector-font-size;
   background: $model-selector-color-bg;
+  corner-shape: theme.$corner-shape;
   border-radius: $model-selector-border-radius;
 
   &-modal {
     padding: 0;
     overflow: hidden;
     border: 1px solid $model-selector-color-border;
+    corner-shape: theme.$corner-shape;
     border-radius: $model-selector-border-radius;
   }
 
@@ -132,6 +134,7 @@ $model-selector-prefix-cls: string.unquote('#{theme.$prefix}-model-selector');
     box-sizing: border-box;
     min-height: $model-selector-item-height;
     padding: 0 $model-selector-padding-horizontal;
+    corner-shape: theme.$corner-shape;
     border-radius: $model-selector-border-radius;
     cursor: pointer;
     user-select: none;
@@ -194,6 +197,7 @@ $model-selector-prefix-cls: string.unquote('#{theme.$prefix}-model-selector');
       padding: 1px;
       background: $model-selector-color-bg;
       border: 1px solid $model-selector-color-border;
+      corner-shape: round;
       border-radius: 50%;
 
       & + .#{$model-selector-prefix-cls}-logo {

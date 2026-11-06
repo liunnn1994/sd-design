@@ -26,6 +26,7 @@ $list-prefix-cls: string.unquote('#{theme.$prefix}-list');
   color: $list-color-text;
   font-size: $list-font-size;
   line-height: $list-line-height;
+  corner-shape: theme.$corner-shape;
   border-radius: $list-border-radius;
 
   &-wrapper {

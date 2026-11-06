@@ -20,20 +20,24 @@ $avatar-prefix-cls: string.unquote('#{theme.$prefix}-avatar');
   background-color: $avatar-color-bg;
 
   &-circle {
+    corner-shape: round;
     border-radius: $avatar-circle-border-radius;
   }
 
   &-circle &-image {
     overflow: hidden;
+    corner-shape: round;
     border-radius: $avatar-circle-border-radius;
   }
 
   &-square {
+    corner-shape: theme.$corner-shape;
     border-radius: $avatar-square-border-radius;
   }
 
   &-square &-image {
     overflow: hidden;
+    corner-shape: theme.$corner-shape;
     border-radius: $avatar-square-border-radius;
   }
 
@@ -79,6 +83,7 @@ $avatar-prefix-cls: string.unquote('#{theme.$prefix}-avatar');
     line-height: $avatar-size-trigger-button;
     text-align: center;
     background-color: $avatar-color-trigger-button-bg;
+    corner-shape: round;
     border-radius: $avatar-border-trigger-button-radius;
     transition: background-color theme.$transition-duration-1
       theme.$transition-timing-function-standard;
@@ -101,12 +106,14 @@ $avatar-prefix-cls: string.unquote('#{theme.$prefix}-avatar');
       colors.$gray-10 $avatar-opacity-trigger-mask-bg,
       transparent
     );
+    corner-shape: theme.$corner-shape;
     border-radius: $avatar-square-border-radius;
     opacity: 0;
     transition: opacity theme.$transition-duration-1 theme.$transition-timing-function-standard;
   }
 
   &-circle &-trigger-icon-mask {
+    corner-shape: round;
     border-radius: $avatar-circle-border-radius;
   }
 

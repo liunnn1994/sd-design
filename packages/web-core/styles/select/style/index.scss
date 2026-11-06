@@ -10,6 +10,7 @@ $select-prefix-cls: string.unquote('#{theme.$prefix}-select');
   padding: $select-popup-padding-vertical 0;
   background-color: $select-popup-color-bg;
   border: 1px solid $select-popup-color-border;
+  corner-shape: theme.$corner-shape;
   border-radius: $select-popup-border-radius;
   box-shadow: $select-popup-box-shadow;
 

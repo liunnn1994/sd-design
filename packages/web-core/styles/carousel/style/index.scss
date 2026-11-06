@@ -234,6 +234,7 @@ $carousel-prefix-cls: string.unquote('#{theme.$prefix}-carousel');
       left: 50%;
       padding: $carousel-indicator-outer-padding;
       background-color: $carousel-indicator-outer-color-bg;
+      corner-shape: round;
       border-radius: $carousel-indicator-outer-border-radius;
       transform: translateX(-50%);
 
@@ -273,6 +274,7 @@ $carousel-prefix-cls: string.unquote('#{theme.$prefix}-carousel');
     &-item {
       display: inline-block;
       background-color: $carousel-indicator-color_default;
+      corner-shape: round;
       border-radius: $carousel-indicator-border-radius;
       cursor: pointer;
 
@@ -286,6 +288,7 @@ $carousel-prefix-cls: string.unquote('#{theme.$prefix}-carousel');
       .#{$carousel-prefix-cls}-indicator-item {
         width: $carousel-indicator-dot-size;
         height: $carousel-indicator-dot-size;
+        corner-shape: round;
         border-radius: 50%;
 
         &:not(:last-child) {
@@ -309,6 +312,7 @@ $carousel-prefix-cls: string.unquote('#{theme.$prefix}-carousel');
       width: $carousel-indicator-slider-size-width;
       height: $carousel-indicator-slider-size-height;
       background-color: $carousel-indicator-color_default;
+      corner-shape: round;
       border-radius: $carousel-indicator-border-radius;
       cursor: pointer;
 
@@ -332,6 +336,7 @@ $carousel-prefix-cls: string.unquote('#{theme.$prefix}-carousel');
       height: $carousel-arrow-size;
       color: $carousel-arrow-color-icon;
       background-color: $carousel-arrow-color-bg;
+      corner-shape: round;
       border-radius: 50%;
       cursor: pointer;
 

@@ -11,6 +11,7 @@ $regex-vis-prefix-cls: string.unquote('#{theme.$prefix}-regex-vis');
   font-size: $regex-vis-font-size;
   background: $regex-vis-color-bg;
   border: $regex-vis-border-width theme.$border-solid $regex-vis-color-border;
+  corner-shape: theme.$corner-shape;
   border-radius: $regex-vis-border-radius;
 
   &-controls {
@@ -162,6 +163,7 @@ $regex-vis-prefix-cls: string.unquote('#{theme.$prefix}-regex-vis');
     padding: $regex-vis-padding;
     color: $regex-vis-color-error;
     background: $regex-vis-color-error-bg;
+    corner-shape: theme.$corner-shape;
     border-radius: $regex-vis-node-border-radius;
   }
 

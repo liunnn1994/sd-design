@@ -14,6 +14,7 @@ $qr-code-prefix-cls: string.unquote('#{theme.$prefix}-qr-code');
   overflow: hidden;
   background-color: $qr-code-color-bg;
   border: theme.$border-1 theme.$border-solid $qr-code-color-border;
+  corner-shape: theme.$corner-shape;
   border-radius: $qr-code-border-radius;
 
   &-borderless {
@@ -47,6 +48,7 @@ $qr-code-prefix-cls: string.unquote('#{theme.$prefix}-qr-code');
     justify-content: center;
     padding: $qr-code-icon-padding;
     background-color: $qr-code-color-bg;
+    corner-shape: theme.$corner-shape;
     border-radius: $qr-code-border-radius;
     transform: translate(-50%, -50%);
 

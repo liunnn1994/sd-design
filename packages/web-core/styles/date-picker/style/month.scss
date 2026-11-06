@@ -20,6 +20,7 @@ $year-panel-prefix-cls: string.unquote('#{theme.$prefix}-panel-year');
 
   .#{theme.$prefix}-picker-date-value {
     width: 100%;
+    corner-shape: theme.$corner-shape;
     border-radius: $picker-panel-cell-boundary-border-radius;
   }
 
@@ -29,6 +30,7 @@ $year-panel-prefix-cls: string.unquote('#{theme.$prefix}-panel-year');
       .#{theme.$prefix}-picker-cell-week
     )
     .#{theme.$prefix}-picker-date-value:hover {
+    corner-shape: theme.$corner-shape;
     border-radius: $picker-panel-cell-boundary-border-radius;
   }
 }

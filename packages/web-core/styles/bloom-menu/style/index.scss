@@ -23,6 +23,8 @@ $bloom-menu-prefix-cls: string.unquote('#{theme.$prefix}-bloom-menu');
   }
 
   &-panel {
+    corner-shape: theme.$corner-shape;
+
     --bloom-menu-panel-width: #{$bloom-menu-panel-width};
     --bloom-menu-panel-color: #{$bloom-menu-text-color};
     --bloom-menu-panel-background: #{$bloom-menu-background};

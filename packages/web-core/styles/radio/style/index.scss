@@ -49,6 +49,7 @@ $radio-prefix-cls: string.unquote('#{theme.$prefix}-radio');
     height: $radio-layout-height;
     line-height: $radio-layout-height;
     border: $radio-border-width solid $radio-color-border;
+    corner-shape: round;
     border-radius: $radio-border-radius;
 
     &::after {
@@ -60,6 +61,7 @@ $radio-prefix-cls: string.unquote('#{theme.$prefix}-radio');
       width: $radio-layout-height - $radio-border-width * 2;
       height: $radio-layout-height - $radio-border-width * 2;
       background-color: $radio-color-bg;
+      corner-shape: round;
       border-radius: $radio-border-radius;
       transform: scale(1);
       transition: transform theme.$transition-duration-3 theme.$transition-timing-function-overshoot;
@@ -148,6 +150,7 @@ $radio-prefix-cls: string.unquote('#{theme.$prefix}-radio');
     padding: ($radio-button-spacing * 0.5);
     line-height: $radio-size-default-height - $radio-button-spacing * 2;
     background-color: $radio-group-button-color-bg;
+    corner-shape: theme.$corner-shape;
     border-radius: $radio-button-bg-border-radius;
   }
 }
@@ -160,6 +163,7 @@ $radio-prefix-cls: string.unquote('#{theme.$prefix}-radio');
   font-size: $radio-font-text-size;
   line-height: $radio-size-default-height - $radio-button-spacing * 2;
   background-color: $radio-button-color-bg;
+  corner-shape: theme.$corner-shape;
   border-radius: $radio-button-border-radius;
   cursor: pointer;
   transition:

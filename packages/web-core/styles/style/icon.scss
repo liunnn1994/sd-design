@@ -52,6 +52,7 @@
     display: block;
     box-sizing: border-box;
     background-color: global.$color-transparent;
+    corner-shape: round;
     border-radius: component.$icon-hover-border-radius;
     transition: background-color $transition-duration-1 $transition-timing-function-standard;
     content: '';

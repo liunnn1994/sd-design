@@ -156,6 +156,7 @@ $token-var-aliases: (
       z-index: 1;
       display: block;
       background: $btn-color-loading-mask;
+      corner-shape: inherit;
       border-radius: inherit;
       opacity: 0.4;
       transition: opacity theme.$transition-duration-1 theme.$transition-timing-function-standard;
@@ -261,6 +262,7 @@ $token-var-aliases: (
     height: token-var($size-height);
     padding: 0 token-var($bsp);
     font-size: token-var($bsf);
+    corner-shape: theme.$corner-shape;
     border-radius: token-var('btn-#{$size-type}-radius');
 
     &:not(.#{$btn-prefix-cls}-only-icon) .#{$btn-prefix-cls}-icon {
@@ -288,10 +290,12 @@ $token-var-aliases: (
     height: token-var($size-type);
     padding: 0;
     text-align: center;
+    corner-shape: round;
     border-radius: global.$radius-circle;
   }
 
   .#{$btn-prefix-cls}-#{$size-type}.#{$btn-prefix-cls}-shape-round {
+    corner-shape: round;
     border-radius: calc(token-var($size-type) * 0.5);
   }
 }

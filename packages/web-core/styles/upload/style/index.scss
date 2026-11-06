@@ -50,6 +50,7 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
     text-align: center;
     background: $upload-picture-color-bg;
     border: $upload-picture-border-width $upload-picture-border-style $upload-picture-color-border;
+    corner-shape: theme.$corner-shape;
     border-radius: $upload-picture-border-radius;
     transition:
       color theme.$transition-duration-1 theme.$transition-timing-function-standard,
@@ -70,6 +71,7 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
     text-align: center;
     background-color: $upload-drag-color-bg;
     border: $upload-drag-border-width $upload-drag-border-style $upload-drag-color-border;
+    corner-shape: theme.$corner-shape;
     border-radius: $upload-drag-border-radius;
     transition:
       color theme.$transition-duration-2 ease,
@@ -243,6 +245,7 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
       overflow: hidden;
       font-size: $upload-text-item-font-size;
       background-color: $upload-text-item-color-bg;
+      corner-shape: theme.$corner-shape;
       border-radius: $upload-text-item-border-radius;
       transition: background-color theme.$transition-duration-1
         theme.$transition-timing-function-standard;
@@ -384,6 +387,7 @@ $upload-prefix-cls: string.unquote('#{theme.$prefix}-upload');
     line-height: $upload-picture-item-size-width;
     text-align: center;
     vertical-align: top;
+    corner-shape: theme.$corner-shape;
     border-radius: $upload-picture-item-border-radius;
 
     img {

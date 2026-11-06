@@ -18,6 +18,7 @@ $backtop-prefix-cls: string.unquote('#{theme.$prefix}-back-top');
     text-align: center;
     background-color: $backtop-button-color-bg;
     border: none;
+    corner-shape: round;
     border-radius: $backtop-button-border-radius;
     outline: none;
     cursor: pointer;

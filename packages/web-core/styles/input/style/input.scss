@@ -48,6 +48,7 @@
   font-size: $input-size-default-font-size;
   background-color: $input-color-bg;
   border: $input-border-width solid $input-color-border;
+  corner-shape: theme.$corner-shape;
   border-radius: $input-border-radius;
   cursor: text;
   transition:

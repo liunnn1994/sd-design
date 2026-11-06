@@ -46,6 +46,7 @@ $slider-prefix: string.unquote('#{theme.$prefix}-slider');
       width: 100%;
       height: $slider-size-road-width;
       background-color: $slider-color-road-bg;
+      corner-shape: round;
       border-radius: $slider-size-road-width;
       transform: translateY(-50%);
       content: '';
@@ -116,6 +117,7 @@ $slider-prefix: string.unquote('#{theme.$prefix}-slider');
     top: 50%;
     height: $slider-size-road-width;
     background-color: $slider-color-bar-bg;
+    corner-shape: round;
     border-radius: $slider-size-road-width;
     transform: translateY(-50%);
 
@@ -147,6 +149,7 @@ $slider-prefix: string.unquote('#{theme.$prefix}-slider');
       height: $slider-size-button-width;
       background: $slider-color-button-bg;
       border: $slider-border-size-button solid $slider-color-button-border;
+      corner-shape: round;
       border-radius: 50%;
       transition:
         transform theme.$transition-duration-3 theme.$transition-timing-function-overshoot,
@@ -216,6 +219,7 @@ $slider-prefix: string.unquote('#{theme.$prefix}-slider');
         height: $slider-size-dot-width;
         background-color: $slider-color-dot-bg;
         border: $slider-border-size-dot solid $slider-color-road-bg;
+        corner-shape: round;
         border-radius: 50%;
 
         &-active {

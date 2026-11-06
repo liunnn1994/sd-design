@@ -55,6 +55,7 @@ $calendar-css-prefix: string.unquote('--#{theme.$prefix}-calendar');
     font-weight: normal;
     font-size: 0.8em;
     background: color-mix(in srgb, var(#{$calendar-css-prefix}-base-color) 15%, transparent);
+    corner-shape: theme.$corner-shape;
     border-radius: 4px;
   }
 }

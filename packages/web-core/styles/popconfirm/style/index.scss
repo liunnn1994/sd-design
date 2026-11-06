@@ -15,6 +15,7 @@ $popconfirm-prefix-cls: string.unquote('#{theme.$prefix}-popconfirm');
     line-height: theme.$line-height-base;
     background-color: $popconfirm-color-content-bg;
     border: global.$border-1 solid $popconfirm-color-border;
+    corner-shape: theme.$corner-shape;
     border-radius: $popconfirm-border-radius;
     box-shadow: $popconfirm-shadow;
 

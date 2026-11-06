@@ -42,6 +42,7 @@ $message-prefix-cls: string.unquote('#{theme.$prefix}-message');
   list-style: none;
   background-color: $message-normal-color-bg;
   border: $message-border-width $message-border-style $message-normal-color-border;
+  corner-shape: theme.$corner-shape;
   border-radius: $message-border-radius;
   box-shadow: global.$shadow2-down;
   transition:

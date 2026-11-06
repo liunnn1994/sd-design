@@ -37,11 +37,15 @@ $picker-prefix-cls: string.unquote('#{theme.$prefix}-picker');
     &:nth-child(2) {
       .#{$picker-prefix-cls}-date {
         padding-left: 4px;
+        corner-top-left-shape: theme.$corner-shape;
         border-top-left-radius: $picker-panel-cell-boundary-border-radius;
+        corner-bottom-left-shape: theme.$corner-shape;
         border-bottom-left-radius: $picker-panel-cell-boundary-border-radius;
 
         .#{$picker-prefix-cls}-date-value {
+          corner-top-left-shape: theme.$corner-shape;
           border-top-left-radius: $picker-panel-cell-border-radius;
+          corner-bottom-left-shape: theme.$corner-shape;
           border-bottom-left-radius: $picker-panel-cell-border-radius;
         }
       }
@@ -50,11 +54,15 @@ $picker-prefix-cls: string.unquote('#{theme.$prefix}-picker');
     &:nth-child(8) {
       .#{$picker-prefix-cls}-date {
         padding-right: 4px;
+        corner-top-right-shape: theme.$corner-shape;
         border-top-right-radius: $picker-panel-cell-boundary-border-radius;
+        corner-bottom-right-shape: theme.$corner-shape;
         border-bottom-right-radius: $picker-panel-cell-boundary-border-radius;
 
         .#{$picker-prefix-cls}-date-value {
+          corner-top-right-shape: theme.$corner-shape;
           border-top-right-radius: $picker-panel-cell-border-radius;
+          corner-bottom-right-shape: theme.$corner-shape;
           border-bottom-right-radius: $picker-panel-cell-border-radius;
         }
       }

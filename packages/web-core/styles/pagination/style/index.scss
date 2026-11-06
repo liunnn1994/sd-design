@@ -82,6 +82,7 @@
     list-style: none;
     background-color: $pagination-color-bg-item;
     border: $pagination-border-width solid $pagination-color-item-border;
+    corner-shape: theme.$corner-shape;
     border-radius: $pagination-item-border-radius;
     outline: 0;
     cursor: pointer;

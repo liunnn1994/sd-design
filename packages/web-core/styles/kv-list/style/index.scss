@@ -9,6 +9,7 @@ $kv-list-prefix-cls: string.unquote('#{theme.$prefix}-kv-list');
   overflow: hidden;
   background: $kv-list-color-bg;
   border: $kv-list-border-width solid $kv-list-color-border;
+  corner-shape: theme.$corner-shape;
   border-radius: $kv-list-border-radius;
 
   &-toolbar {

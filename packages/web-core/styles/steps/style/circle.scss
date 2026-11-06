@@ -45,6 +45,7 @@ $steps-size-small-item-icon-margin-left: ($steps-label-vertical-content-width * 
     font-size: $steps-size-default-font-size-icon;
     line-height: $steps-size-default - 2;
     text-align: center;
+    corner-shape: round;
     border-radius: $steps-circle-border-radius-item-icon;
   }
 

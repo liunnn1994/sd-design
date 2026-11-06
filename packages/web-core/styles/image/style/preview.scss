@@ -84,6 +84,7 @@ $preview-prefix-cls: string.unquote('#{$prefix}-image-preview');
     align-items: flex-start;
     padding: $image-preview-spacing-toolbar-vertical $image-preview-spacing-toolbar-horizontal;
     background-color: $image-preview-color-toolbar-bg;
+    corner-shape: $corner-shape;
     border-radius: $image-preview-radius-toolbar;
     transform: translateX(-50%);
 
@@ -93,6 +94,7 @@ $preview-prefix-cls: string.unquote('#{$prefix}-image-preview');
       color: $image-preview-color-action-text;
       font-size: $image-preview-font-size-action;
       background-color: $image-preview-color-action-bg;
+      corner-shape: $corner-shape;
       border-radius: $image-preview-radius-action;
       cursor: pointer;
 
@@ -135,6 +137,7 @@ $preview-prefix-cls: string.unquote('#{$prefix}-image-preview');
     color: $image-preview-color-loading-text;
     font-size: $image-preview-font-size-loading;
     background-color: $image-preview-color-loading-bg;
+    corner-shape: $corner-shape;
     border-radius: $image-preview-radius-loading;
 
     @include center();
@@ -154,6 +157,7 @@ $preview-prefix-cls: string.unquote('#{$prefix}-image-preview');
     line-height: $image-preview-size-close-btn-width;
     text-align: center;
     background: $image-preview-color-close-btn-bg;
+    corner-shape: round;
     border-radius: 50%;
     cursor: pointer;
   }
@@ -170,6 +174,7 @@ $preview-prefix-cls: string.unquote('#{$prefix}-image-preview');
       height: $image-preview-arrow-size;
       color: $image-preview-arrow-color-icon;
       background-color: $image-preview-arrow-color-bg;
+      corner-shape: round;
       border-radius: 50%;
       cursor: pointer;
 

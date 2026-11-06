@@ -7,10 +7,12 @@ $image-prefix-cls: string.unquote('#{$prefix}-image');
 .#{$image-prefix-cls} {
   position: relative;
   display: inline-block;
+  corner-shape: $corner-shape;
   border-radius: $image-radius;
 
   &-img {
     vertical-align: middle;
+    corner-shape: inherit;
     border-radius: inherit;
   }
 
@@ -56,7 +58,9 @@ $image-prefix-cls: string.unquote('#{$prefix}-image');
       padding: $image-padding-footer_inner_vertical $image-padding-footer_inner_horizontal;
       color: $image-color-footer_inner-text;
       background: $image-color-footer_inner-bg;
+      corner-bottom-right-shape: $corner-shape;
       border-bottom-right-radius: $image-radius;
+      corner-bottom-left-shape: $corner-shape;
       border-bottom-left-radius: $image-radius;
     }
 

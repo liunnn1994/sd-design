@@ -9,6 +9,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
   position: relative;
   height: var(#{$calendar-css-prefix}-height);
   color: var(#{$calendar-css-prefix}-base-color);
+  corner-shape: global.$corner-shape;
   border-radius: var(#{$calendar-css-prefix}-border-radius);
 
   &.#{$calendar-prefix-cls}--dragging-event,
@@ -30,7 +31,9 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
   // ------------------------------------------------------
   .#{$calendar-prefix-cls}__header {
     color: var(#{$calendar-css-prefix}-header-color);
+    corner-top-left-shape: global.$corner-shape;
     border-top-left-radius: var(#{$calendar-css-prefix}-border-radius);
+    corner-top-right-shape: global.$corner-shape;
     border-top-right-radius: var(#{$calendar-css-prefix}-border-radius);
   }
 
@@ -70,6 +73,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     align-self: center;
     padding: 2px 12px;
     border: 1px solid transparent;
+    corner-shape: global.$corner-shape;
     border-radius: 4px;
     transition: 0.3s;
 
@@ -120,6 +124,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
   .#{$calendar-prefix-cls}__nav--next {
     width: 2em;
     aspect-ratio: 1;
+    corner-shape: round;
     border-radius: 99em;
 
     &:dir(rtl) {
@@ -147,12 +152,16 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     );
     border: 1px solid var(#{$calendar-css-prefix}-border-color);
     border-top: none;
+    corner-bottom-right-shape: global.$corner-shape;
     border-bottom-right-radius: var(#{$calendar-css-prefix}-border-radius);
+    corner-bottom-left-shape: global.$corner-shape;
     border-bottom-left-radius: var(#{$calendar-css-prefix}-border-radius);
 
     // If the header is hidden apply the border radius all around.
     &:first-child {
+      corner-top-left-shape: global.$corner-shape;
       border-top-left-radius: var(#{$calendar-css-prefix}-border-radius);
+      corner-top-right-shape: global.$corner-shape;
       border-top-right-radius: var(#{$calendar-css-prefix}-border-radius);
     }
   }
@@ -215,6 +224,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     color: color-mix(in srgb, var(#{$calendar-css-prefix}-base-color) 70%, transparent);
     font-size: 0.8em;
     background-color: color-mix(in srgb, var(#{$calendar-css-prefix}-base-color) 8%, transparent);
+    corner-shape: global.$corner-shape;
     border-radius: 4px;
     aspect-ratio: 1;
   }
@@ -253,6 +263,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
       letter-spacing: -0.1em;
       text-indent: -0.15em;
       background: color-mix(in srgb, var(#{$calendar-css-prefix}-base-color) 15%, transparent);
+      corner-shape: round;
       border-radius: 99em;
       aspect-ratio: 1;
     }
@@ -391,6 +402,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
         var(#{$calendar-css-prefix}-primary-color) 25%,
         transparent
       );
+      corner-shape: round;
       border-radius: 99em;
       aspect-ratio: 1;
     }
@@ -514,6 +526,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     padding: 2px 4px;
     font-size: 10px;
     line-height: 1;
+    corner-shape: round;
     border-radius: 99em;
     transform: translate(-50%, -50%);
     backdrop-filter: blur(8px);
@@ -530,6 +543,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     line-height: 1;
     background-color: var(#{$calendar-css-prefix}-primary-extra-color);
     border: 1px solid var(#{$calendar-css-prefix}-event-border-color);
+    corner-shape: global.$corner-shape;
     border-radius: 4px;
 
     &--background {
@@ -588,7 +602,9 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     }
 
     &-resizer {
+      corner-bottom-right-shape: inherit;
       border-bottom-right-radius: inherit;
+      corner-bottom-left-shape: inherit;
       border-bottom-left-radius: inherit;
       // Over border (so there's no risk of triggering the event drag instead).
       inset: auto -1px -1px;
@@ -605,6 +621,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
       background-color: #{global.$color-danger-6};
       border: 1px solid
         color-mix(in srgb, var(#{$calendar-css-prefix}-contrast-color) 50%, transparent);
+      corner-shape: round;
       border-radius: 99em;
       cursor: pointer;
       aspect-ratio: 1;
@@ -617,6 +634,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
         left: 20%;
         height: 2px;
         background-color: var(#{$calendar-css-prefix}-event-color);
+        corner-shape: round;
         border-radius: 99em;
         content: '';
       }
@@ -775,7 +793,9 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
       height: 90%;
 
       &-resizer {
+        corner-top-right-shape: inherit;
         border-top-right-radius: inherit;
+        corner-bottom-right-shape: inherit;
         border-bottom-right-radius: inherit;
         border-bottom-left-radius: 0;
         inset: -1px -1px -1px auto;
@@ -896,6 +916,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     .#{$calendar-prefix-cls}__cell {
       font-weight: bold;
       font-size: 1em;
+      corner-shape: round;
       border-radius: 99em;
       box-shadow: none;
       aspect-ratio: 1;

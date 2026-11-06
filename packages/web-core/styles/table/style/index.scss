@@ -37,6 +37,7 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
   line-height: $table-size-expand-button;
   background-color: $table-color-bg-expand-icon;
   border: $table-border-expand-icon-width solid $table-color-expand-icon-border;
+  corner-shape: theme.$corner-shape;
   border-radius: $table-border-radius-expand-button;
   outline: none;
   cursor: pointer;
@@ -109,6 +110,7 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
       width: 2px;
       height: 0;
       background-color: $table-color-border;
+      corner-shape: theme.$corner-shape;
       border-radius: 1px;
       transform: translate(-50%, -50%);
       transition:
@@ -142,6 +144,7 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
 
   // footer
   &-footer {
+    corner-shape: theme.$corner-shape;
     border-radius: 0 0 $table-border-radius $table-border-radius;
   }
 
@@ -337,6 +340,7 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
   &-editable-row {
     .#{$table-prefix-cls}-cell-wrap-value {
       border: $table-border-width solid $table-color-editable-body-cell-border;
+      corner-shape: theme.$corner-shape;
       border-radius: $table-border-radius;
       cursor: pointer;
       transition: border-color theme.$transition-duration-1
@@ -586,11 +590,13 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
   /* ---- Table sorter, filter, checkbox, radio (End) ---- */
   &-container {
     position: relative;
+    corner-shape: theme.$corner-shape;
     border-radius: $table-border-radius $table-border-radius 0 0;
   }
 
   &-header {
     flex-shrink: 0;
+    corner-shape: theme.$corner-shape;
     border-radius: $table-border-radius $table-border-radius 0 0;
   }
 
@@ -633,12 +639,14 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
     &::before {
       top: 0;
       left: 0;
+      corner-top-left-shape: theme.$corner-shape;
       border-top-left-radius: $table-border-radius;
     }
 
     &::after {
       top: 0;
       right: 0;
+      corner-top-right-shape: theme.$corner-shape;
       border-top-right-radius: $table-border-radius;
     }
 
@@ -823,6 +831,7 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
       left: 0;
       height: 2px;
       background-color: global.$color-primary-6;
+      corner-shape: theme.$corner-shape;
       border-radius: 1px;
       content: '';
       pointer-events: none;

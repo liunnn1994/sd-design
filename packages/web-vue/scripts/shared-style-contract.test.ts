@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
+import scss from 'postcss-scss';
 import * as sass from 'sass';
 import { loadConfigFromFile } from 'vite';
 
@@ -13,6 +14,28 @@ const support = createSassStyleSupport({
   packageRoot,
   componentsRoot,
   styleRoot: path.join(componentsRoot, 'style'),
+});
+
+test('shared rounded rules define matching corner shapes without changing their radii', async () => {
+  const result = await sass.compileAsync(
+    fileURLToPath(new URL('../../web-core/styles/index.scss', import.meta.url)),
+  );
+  let checked = 0;
+  scss.parse(result.css).walkDecls(/^border(?:-[\w-]+)?-radius$/, (decl) => {
+    if (/^0(?:px)?$/.test(decl.value)) return;
+    const property =
+      decl.prop === 'border-radius'
+        ? 'corner-shape'
+        : decl.prop.replace('border-', 'corner-').replace('-radius', '-shape');
+    const siblings = decl.parent?.nodes ?? [];
+    assert.ok(
+      siblings.some((node) => node.type === 'decl' && node.prop === property),
+      `${decl.parent?.toString()} must define ${property}`,
+    );
+    checked++;
+  });
+  assert.ok(checked > 200);
+  assert.match(result.css, /corner-shape: var\(--sd-corner-shape, squircle\)/);
 });
 
 test('published Sass entry compiles without repository aliases', async () => {

@@ -23,22 +23,30 @@ $input-prefix-cls: string.unquote('#{theme.$prefix}-input');
 
     &:first-child,
     &:first-child .#{$input-prefix-cls}-group > *:first-child {
+      corner-top-left-shape: theme.$corner-shape;
       border-top-left-radius: $input-group-border-radius_compact;
+      corner-bottom-left-shape: theme.$corner-shape;
       border-bottom-left-radius: $input-group-border-radius_compact;
 
       .#{theme.$prefix}-select-view {
+        corner-top-left-shape: theme.$corner-shape;
         border-top-left-radius: $input-group-border-radius_compact;
+        corner-bottom-left-shape: theme.$corner-shape;
         border-bottom-left-radius: $input-group-border-radius_compact;
       }
     }
 
     &:last-child,
     &:last-child .#{$input-prefix-cls}-outer > *:last-child {
+      corner-top-right-shape: theme.$corner-shape;
       border-top-right-radius: $input-group-border-radius_compact;
+      corner-bottom-right-shape: theme.$corner-shape;
       border-bottom-right-radius: $input-group-border-radius_compact;
 
       .#{theme.$prefix}-select-view {
+        corner-top-right-shape: theme.$corner-shape;
         border-top-right-radius: $input-group-border-radius_compact;
+        corner-bottom-right-shape: theme.$corner-shape;
         border-bottom-right-radius: $input-group-border-radius_compact;
       }
     }
