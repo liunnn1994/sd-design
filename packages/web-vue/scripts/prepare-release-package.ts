@@ -2,32 +2,21 @@ import type { PackageJson } from 'type-fest';
 
 import { readFile, writeFile } from 'node:fs/promises';
 
-const nextVersion = process.argv[2];
-
-if (!nextVersion) {
-  throw new Error('Missing release version argument.');
+const [name, nextVersion] = process.argv.slice(2);
+if (!['web-core', 'web-vue', 'web-react'].includes(name) || !nextVersion) {
+  throw new Error('Expected a release package (web-core, web-vue, web-react) and version.');
 }
 
-const vueUrl = new URL('../package.json', import.meta.url);
-const coreUrl = new URL('../../web-core/package.json', import.meta.url);
-const [vueSource, coreSource] = await Promise.all([
-  readFile(vueUrl, 'utf8'),
-  readFile(coreUrl, 'utf8'),
-]);
-const vue: PackageJson = JSON.parse(vueSource);
-const core: PackageJson = JSON.parse(coreSource);
-
+const url = new URL(`../../${name}/package.json`, import.meta.url);
+const manifest: PackageJson = JSON.parse(await readFile(url, 'utf8'));
 if (
-  vue.name !== '@sdata/web-vue' ||
-  core.name !== '@sdata/web-core' ||
-  vue.dependencies?.['@sdata/web-core'] !== 'workspace:^'
+  manifest.name !== `@sdata/${name}` ||
+  (name !== 'web-core' &&
+    !['workspace:^', 'workspace:*'].includes(manifest.dependencies?.['@sdata/web-core'] ?? ''))
 ) {
-  throw new Error('Core and Vue releases require the @sdata/web-core workspace:^ dependency.');
+  throw new Error('Unexpected package name or missing Core workspace dependency.');
 }
 
-core.version = nextVersion;
-vue.version = nextVersion;
-await writeFile(coreUrl, `${JSON.stringify(core, null, 2)}\n`);
-await writeFile(vueUrl, `${JSON.stringify(vue, null, 2)}\n`);
-
-process.stdout.write(`Prepared ${core.name} and ${vue.name}@${nextVersion}\n`);
+manifest.version = nextVersion;
+await writeFile(url, `${JSON.stringify(manifest, null, 2)}\n`);
+process.stdout.write(`Prepared ${manifest.name}@${nextVersion}\n`);

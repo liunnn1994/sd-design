@@ -4,8 +4,18 @@ export default {
   // 避免共享 `v${version}` 导致对方的 tag 被本包误判为「最后一次发布」而跳过发布。
   tagFormat: 'mcp-v${version}',
   plugins: [
-    '@semantic-release/commit-analyzer',
-    '@semantic-release/release-notes-generator',
+    [
+      '../web-vue/scripts/path-scoped-release.ts',
+      {
+        paths: [
+          'packages/sd-mcp/',
+          'packages/web-core/src/',
+          'packages/web-vue/components/',
+          'packages/sd-vue-docs/src/generated/docs-sidebar.ts',
+          'packages/sd-vue-docs/src/content/docs/components/',
+        ],
+      },
+    ],
     [
       '@semantic-release/exec',
       {

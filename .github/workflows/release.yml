@@ -1,4 +1,4 @@
-name: Release web-vue
+name: Release Core, Vue and React
 
 on:
   push:
@@ -12,7 +12,13 @@ on:
       - pnpm-workspace.yaml
       - packages/web-core/**
       - packages/web-vue/**
+      - packages/web-react/**
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Preview versions and release notes without publishing
+        type: boolean
+        default: true
 
 permissions:
   id-token: write
@@ -23,7 +29,7 @@ permissions:
 concurrency:
   # 独立 concurrency 组：不与其它 release workflow 共享。共享组会在一次 push 同时触发
   # 多个 release workflow 时无差别取消其中一个 pending run（曾导致 mcp / resolver 漏发版）。
-  # 仅此 workflow 同步 Core/Vue 版本并把清单及 Vue CHANGELOG 的发布提交写回 main。
+  # 三个包在同一流程内按依赖顺序独立判断版本，避免跨 workflow 的依赖发布竞争。
   group: release-web-vue-${{ github.ref }}
   cancel-in-progress: false
 
@@ -64,8 +70,11 @@ jobs:
         working-directory: packages/web-vue
         run: pnpm run test:affected:unit
 
-      - name: Validate coordinated Core and Vue releases
+      - name: Validate independent package releases
         run: node --test packages/web-vue/scripts/release-packages.test.ts
+
+      - name: Test React adapters
+        run: pnpm --filter @sdata/web-react test
 
       - name: Select affected component tests
         id: affected-tests
@@ -91,15 +100,24 @@ jobs:
       - name: Build release package
         env:
           NODE_OPTIONS: '--max-old-space-size=6144'
-        run: pnpm --filter @sdata/web-vue run build
+        run: |
+          pnpm --filter @sdata/web-vue run build
+          pnpm --filter @sdata/web-react run build
 
-      - name: Release web-vue
+      - name: Release changed packages in dependency order
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
           # semantic-release 的 git push 不应被本地开发者用的 pre-push 钩子拦截
           # （该钩子会跑全量 typecheck，CI 发布时可能因缺少某些构建产物而中断发布）
           SKIP_SIMPLE_GIT_HOOKS: '1'
-        run: node packages/web-vue/node_modules/semantic-release/bin/semantic-release.js --extends ./packages/web-vue/release.config.ts
+        run: |
+          node packages/web-vue/scripts/bootstrap-core-release.ts
+          args=()
+          if [ "$RELEASE_DRY_RUN" = "true" ]; then args+=(--dry-run); fi
+          for package in web-core web-vue web-react; do
+            node packages/web-vue/node_modules/semantic-release/bin/semantic-release.js --extends ./packages/$package/release.config.ts "${args[@]}"
+          done
 
       - name: Show error
         if: failure()

@@ -205,9 +205,9 @@ pnpm --filter @sdata/web-vue run test:model-selector:production
 - `mise exec -- pnpm run typecheck`：工作区类型检查（含 core）。
 - `mise exec -- pnpm run test:component`：核心测试与 Vue 浏览器组件测试。
 
-消费者安装和使用 `@sdata/web-vue`；发布时 `workspace:^` 会转换为对应 Core 版本依赖，两个包都必须发布。
+消费者安装和使用 `@sdata/web-vue` 或 `@sdata/web-react`；打包时 `workspace:^` / `workspace:*` 分别转换为对应 Core 的版本范围 / 精确版本。Core、Vue、React 无需保持相同版本。
 
-`release.yml` 同时监听 Core/Vue 变更。发布准备脚本先校验工作区依赖，再同步两包版本；流程从仓库根目录加载 Vue 的 semantic-release 配置，串行发布 Core→Vue，并记录两份清单和 Vue CHANGELOG。不要从 Vue 子目录直接运行该配置。维护发布脚本后，可先运行 `mise exec -- node --test packages/web-vue/scripts/release-packages.test.ts`；该命令只在临时目录改写文件，不执行发布。
+`release.yml` 监听三个包，从仓库根目录依次加载各自的 semantic-release 配置，串行判断 Core→Vue→React。各包使用独立 tag、清单版本和 CHANGELOG；仅修改共享 catalog 或锁文件时，按引用及锁定依赖识别受影响包；Core 的发布级别向两个适配包传播，Vue/React 的修改不会反向影响 Core 或另一个适配包。首次迁移将已发布的 Core/Vue 联合 tag 映射为同一提交上的 Core tag；React 没有正式 tag 时从 `1.0.0` 开始。Actions 手动运行默认开启 `dry_run`，只预览版本和发布说明。维护发布脚本后运行 `mise exec -- node --test packages/web-vue/scripts/release-packages.test.ts`；测试在临时仓库运行真实 semantic-release dry-run（跳过 GitHub 鉴权）以及本地准备、提交和 tag 流程，不发布 npm 包，也不推送到项目远端。
 
 共享样式可通过 `@sdata/web-core/styles/index.scss` 或具体组件子路径使用；Vue 消费者继续使用原 CSS/SCSS 入口。直接维护共享样式时可运行 `mise exec -- pnpm --filter @sdata/web-core run theme:generate`；Vue 的常规主题生成还会同步旧的目录 JSON。`mise exec -- pnpm run test:foundations` 覆盖核心行为、独立 Sass 编译、Vue 样式兼容和在线编辑器类型参考。
 
